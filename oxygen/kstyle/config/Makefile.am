@@ -9,4 +9,4 @@ kstyle_plastik_config_la_METASOURCES = AUTO
 
 
 messages:
-	$(XGETTEXT) *.cpp *.h -o $(podir)/kstyle_plastik_config.po
+	$(XGETTEXT) *.cpp *.h -o $(podir)/kstyle_plastik_config.pot
