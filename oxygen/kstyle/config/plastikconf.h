@@ -52,12 +52,34 @@ protected slots:
 protected:
 	//We store settings directly in widgets to
 	//avoid the hassle of sync'ing things
+// 	QCheckBox*       scrollBarLines;
 	QCheckBox* animateProgressBar;
 	QCheckBox* drawToolBarSeparator;
+	QCheckBox*       drawToolBarItemSeparator;
+// 	QCheckBox*       drawFocusRect;
+	QCheckBox*       drawTriangularExpander;
+	QCheckBox*       inputFocusHighlight;
+	QCheckBox*       customOverHighlightColor;
+	KColorButton*    overHighlightColor;
+	QCheckBox*       customFocusHighlightColor;
+	KColorButton*    focusHighlightColor;
+	QCheckBox*       customCheckMarkColor;
+	KColorButton*    checkMarkColor;
 
 	//Original settings, for accurate dirtiness tracking
+// 	bool       origScrollBarLines;
 	bool       origAnimProgressBar;
 	bool       origDrawToolBarSeparator;
+	bool       origDrawToolBarItemSeparator;
+// 	bool       origDrawFocusRect;
+	bool       origDrawTriangularExpander;
+	bool       origInputFocusHighlight;
+	bool       origCustomOverHighlightColor;
+	QColor     origOverHighlightColor;
+	bool       origCustomFocusHighlightColor;
+	QColor     origFocusHighlightColor;
+	bool       origCustomCheckMarkColor;
+	QColor     origCheckMarkColor;
 };
 
 #endif
