@@ -27,7 +27,6 @@ DEALINGS IN THE SOFTWARE.
 #include <qcheckbox.h>
 #include <qlayout.h>
 #include <qsettings.h>
-#include <kdialog.h>
 #include <kglobal.h>
 #include <klocale.h>
 
@@ -37,6 +36,7 @@ extern "C"
 {
 	QWidget* allocate_kstyle_config(QWidget* parent)
 	{
+		KGlobal::locale()->insertCatalogue("kstyle_plastik_config");
 		return new PlastikStyleConfig(parent);
 	}
 }
@@ -62,7 +62,6 @@ PlastikStyleConfig::PlastikStyleConfig(QWidget* parent): QWidget(parent)
 
 PlastikStyleConfig::~PlastikStyleConfig()
 {
-	KGlobal::locale()->removeCatalogue("kstyle_plastik_config");
 }
 
 
