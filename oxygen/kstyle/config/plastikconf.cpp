@@ -57,7 +57,7 @@ PlastikStyleConfig::PlastikStyleConfig(QWidget* parent): QWidget(parent)
 	drawToolBarItemSeparator = new QCheckBox(i18n("Draw toolbar item separators"), this);
 // 	drawFocusRect = new QCheckBox(i18n("Draw focus rectangles"), this);
 	drawTriangularExpander = new QCheckBox(i18n("Triangular tree expander"), this);
-	inputFocusHighlight = new QCheckBox(i18n("Highlight focussed text input fields"), this);
+	inputFocusHighlight = new QCheckBox(i18n("Highlight focused text input fields"), this);
 
     customFocusHighlightColor = new QCheckBox(i18n("Custom text input highlight color"), this);
     QHBox *hbox1 = new QHBox(this);
