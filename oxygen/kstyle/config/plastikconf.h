@@ -53,9 +53,11 @@ protected:
 	//We store settings directly in widgets to
 	//avoid the hassle of sync'ing things
 	QCheckBox* animateProgressBar;
+	QCheckBox* drawToolBarSeparator;
 
 	//Original settings, for accurate dirtiness tracking
 	bool       origAnimProgressBar;
+	bool       origDrawToolBarSeparator;
 };
 
 #endif

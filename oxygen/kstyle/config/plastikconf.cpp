@@ -48,16 +48,20 @@ PlastikStyleConfig::PlastikStyleConfig(QWidget* parent): QWidget(parent)
 	KGlobal::locale()->insertCatalogue("kstyle_plastik_config");
 
 	animateProgressBar = new QCheckBox(i18n("Animate progress bars"), this);
+	drawToolBarSeparator = new QCheckBox(i18n("Draw toolbar separator"), this);
 
-	//layout->add(highlightLineEdits);
 	layout->add(animateProgressBar);
+	layout->add(drawToolBarSeparator);
 	layout->addStretch(1);
 
 	QSettings s;
 	origAnimProgressBar = s.readBoolEntry("/plastikstyle/Settings/animateProgressBar", false);
 	animateProgressBar->setChecked(origAnimProgressBar);
+	origDrawToolBarSeparator = s.readBoolEntry("/plastikstyle/Settings/drawToolBarSeparator", true);
+	drawToolBarSeparator->setChecked(origDrawToolBarSeparator);
 
 	connect(animateProgressBar, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+	connect(drawToolBarSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
 }
 
 PlastikStyleConfig::~PlastikStyleConfig()
@@ -69,17 +73,20 @@ void PlastikStyleConfig::save()
 {
 	QSettings s;
 	s.writeEntry("/plastikstyle/Settings/animateProgressBar", animateProgressBar->isChecked());
+	s.writeEntry("/plastikstyle/Settings/drawToolBarSeparator", drawToolBarSeparator->isChecked());
 }
 
 void PlastikStyleConfig::defaults()
 {
 	animateProgressBar->setChecked(false);
+	drawToolBarSeparator->setChecked(true);
 	//updateChanged would be done by setChecked already
 }
 
 void PlastikStyleConfig::updateChanged()
 {
-	if ( (animateProgressBar->isChecked() == origAnimProgressBar) )
+	if ( (animateProgressBar->isChecked() == origAnimProgressBar) &&
+	      (drawToolBarSeparator->isChecked() == origDrawToolBarSeparator) )
 		emit changed(false);
 	else
 		emit changed(true);
