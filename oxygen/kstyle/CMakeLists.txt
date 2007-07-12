@@ -10,7 +10,7 @@ add_subdirectory( config )
 set(oxygen_PART_SRCS oxygen.cpp misc.cpp )
 
 
-kde4_add_plugin(oxygen ${plastik_PART_SRCS})
+kde4_add_plugin(oxygen ${oxygen_PART_SRCS})
 
 target_link_libraries(oxygen  ${KDE4_KDECORE_LIBS} kdefx )
 
