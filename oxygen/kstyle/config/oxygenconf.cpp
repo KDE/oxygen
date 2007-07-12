@@ -24,7 +24,7 @@ DEALINGS IN THE SOFTWARE.
 
 */
 
-#include "plastikconf.h"
+#include "oxygenconf.h"
 
 #ifndef QT3_SUPPORT
 #define QT3_SUPPORT
@@ -44,11 +44,11 @@ extern "C"
 	KDE_EXPORT QWidget* allocate_kstyle_config(QWidget* parent)
 	{
 		KGlobal::locale()->insertCatalog("kstyle_config");
-		return new PlastikStyleConfig(parent);
+		return new OxygenStyleConfig(parent);
 	}
 }
 
-PlastikStyleConfig::PlastikStyleConfig(QWidget* parent): QWidget(parent)
+OxygenStyleConfig::PlastikStyleConfig(QWidget* parent): QWidget(parent)
 {
 	//Should have no margins here, the dialog provides them
 	QVBoxLayout* layout = new QVBoxLayout(this);
@@ -96,31 +96,31 @@ PlastikStyleConfig::PlastikStyleConfig(QWidget* parent): QWidget(parent)
 	layout->addStretch(1);
 
 	QSettings s;
-// 	origScrollBarLines = s.value("/plastikstyle/Settings/scrollBarLines", false).toBool();
+// 	origScrollBarLines = s.value("/oxygenstyle/Settings/scrollBarLines", false).toBool();
 // 	scrollBarLines->setChecked(origScrollBarLines);
-	origAnimProgressBar = s.value("/plastikstyle/Settings/animateProgressBar", true).toBool();
+	origAnimProgressBar = s.value("/oxygenstyle/Settings/animateProgressBar", true).toBool();
 	animateProgressBar->setChecked(origAnimProgressBar);
-	origDrawToolBarSeparator = s.value("/plastikstyle/Settings/drawToolBarSeparator", true).toBool();
+	origDrawToolBarSeparator = s.value("/oxygenstyle/Settings/drawToolBarSeparator", true).toBool();
 	drawToolBarSeparator->setChecked(origDrawToolBarSeparator);
-	origDrawToolBarItemSeparator = s.value("/plastikstyle/Settings/drawToolBarItemSeparator", true).toBool();
+	origDrawToolBarItemSeparator = s.value("/oxygenstyle/Settings/drawToolBarItemSeparator", true).toBool();
 	drawToolBarItemSeparator->setChecked(origDrawToolBarItemSeparator);
-// 	origDrawFocusRect = s.value("/plastikstyle/Settings/drawFocusRect", true).toBool();
+// 	origDrawFocusRect = s.value("/oxygenstyle/Settings/drawFocusRect", true).toBool();
 // 	drawFocusRect->setChecked(origDrawFocusRect);
-	origDrawTriangularExpander = s.value("/plastikstyle/Settings/drawTriangularExpander", false).toBool();
+	origDrawTriangularExpander = s.value("/oxygenstyle/Settings/drawTriangularExpander", false).toBool();
 	drawTriangularExpander->setChecked(origDrawTriangularExpander);
-	origInputFocusHighlight = s.value("/plastikstyle/Settings/inputFocusHighlight", true).toBool();
+	origInputFocusHighlight = s.value("/oxygenstyle/Settings/inputFocusHighlight", true).toBool();
 	inputFocusHighlight->setChecked(origInputFocusHighlight);
-	origCustomOverHighlightColor = s.value("/plastikstyle/Settings/customOverHighlightColor", false).toBool();
+	origCustomOverHighlightColor = s.value("/oxygenstyle/Settings/customOverHighlightColor", false).toBool();
 	customOverHighlightColor->setChecked(origCustomOverHighlightColor);
-	origOverHighlightColor = s.value("/plastikstyle/Settings/overHighlightColor", "black").toString();
+	origOverHighlightColor = s.value("/oxygenstyle/Settings/overHighlightColor", "black").toString();
 	overHighlightColor->setColor(origOverHighlightColor);
-	origCustomFocusHighlightColor = s.value("/plastikstyle/Settings/customFocusHighlightColor", false).toBool();
+	origCustomFocusHighlightColor = s.value("/oxygenstyle/Settings/customFocusHighlightColor", false).toBool();
 	customFocusHighlightColor->setChecked(origCustomFocusHighlightColor);
-	origFocusHighlightColor = s.value("/plastikstyle/Settings/focusHighlightColor", "black").toString();
+	origFocusHighlightColor = s.value("/oxygenstyle/Settings/focusHighlightColor", "black").toString();
 	focusHighlightColor->setColor(origFocusHighlightColor);
-	origCustomCheckMarkColor = s.value("/plastikstyle/Settings/customCheckMarkColor", false).toBool();
+	origCustomCheckMarkColor = s.value("/oxygenstyle/Settings/customCheckMarkColor", false).toBool();
 	customCheckMarkColor->setChecked(origCustomCheckMarkColor);
-	origCheckMarkColor = s.value("/plastikstyle/Settings/checkMarkColor", "black").toString();
+	origCheckMarkColor = s.value("/oxygenstyle/Settings/checkMarkColor", "black").toString();
 	checkMarkColor->setColor(origCheckMarkColor);
 
 // 	connect(scrollBarLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
@@ -150,30 +150,30 @@ PlastikStyleConfig::PlastikStyleConfig(QWidget* parent): QWidget(parent)
 	 checkMarkColor->setEnabled(false);
 }
 
-PlastikStyleConfig::~PlastikStyleConfig()
+OxygenStyleConfig::~PlastikStyleConfig()
 {
 }
 
 
-void PlastikStyleConfig::save()
+void OxygenStyleConfig::save()
 {
 	QSettings s;
-// 	s.writeEntry("/plastikstyle/Settings/scrollBarLines", scrollBarLines->isChecked());
-	s.setValue("/plastikstyle/Settings/animateProgressBar", animateProgressBar->isChecked());
-	s.setValue("/plastikstyle/Settings/drawToolBarSeparator", drawToolBarSeparator->isChecked());
-	s.setValue("/plastikstyle/Settings/drawToolBarItemSeparator", drawToolBarItemSeparator->isChecked());
-// 	s.writeEntry("/plastikstyle/Settings/drawFocusRect", drawFocusRect->isChecked());
-	s.setValue("/plastikstyle/Settings/drawTriangularExpander", drawTriangularExpander->isChecked());
-	s.setValue("/plastikstyle/Settings/inputFocusHighlight", inputFocusHighlight->isChecked());
-	s.setValue("/plastikstyle/Settings/customOverHighlightColor", customOverHighlightColor->isChecked());
-	s.setValue("/plastikstyle/Settings/overHighlightColor", QColor(overHighlightColor->color()).name());
-	s.setValue("/plastikstyle/Settings/customFocusHighlightColor", customFocusHighlightColor->isChecked());
-	s.setValue("/plastikstyle/Settings/focusHighlightColor", QColor(focusHighlightColor->color()).name());
-	s.setValue("/plastikstyle/Settings/customCheckMarkColor", customCheckMarkColor->isChecked());
-	s.setValue("/plastikstyle/Settings/checkMarkColor", QColor(checkMarkColor->color()).name());
+// 	s.writeEntry("/oxygenstyle/Settings/scrollBarLines", scrollBarLines->isChecked());
+	s.setValue("/oxygenstyle/Settings/animateProgressBar", animateProgressBar->isChecked());
+	s.setValue("/oxygenstyle/Settings/drawToolBarSeparator", drawToolBarSeparator->isChecked());
+	s.setValue("/oxygenstyle/Settings/drawToolBarItemSeparator", drawToolBarItemSeparator->isChecked());
+// 	s.writeEntry("/oxygenstyle/Settings/drawFocusRect", drawFocusRect->isChecked());
+	s.setValue("/oxygenstyle/Settings/drawTriangularExpander", drawTriangularExpander->isChecked());
+	s.setValue("/oxygenstyle/Settings/inputFocusHighlight", inputFocusHighlight->isChecked());
+	s.setValue("/oxygenstyle/Settings/customOverHighlightColor", customOverHighlightColor->isChecked());
+	s.setValue("/oxygenstyle/Settings/overHighlightColor", QColor(overHighlightColor->color()).name());
+	s.setValue("/oxygenstyle/Settings/customFocusHighlightColor", customFocusHighlightColor->isChecked());
+	s.setValue("/oxygenstyle/Settings/focusHighlightColor", QColor(focusHighlightColor->color()).name());
+	s.setValue("/oxygenstyle/Settings/customCheckMarkColor", customCheckMarkColor->isChecked());
+	s.setValue("/oxygenstyle/Settings/checkMarkColor", QColor(checkMarkColor->color()).name());
 }
 
-void PlastikStyleConfig::defaults()
+void OxygenStyleConfig::defaults()
 {
 // 	scrollBarLines->setChecked(false);
 	animateProgressBar->setChecked(true);
@@ -191,7 +191,7 @@ void PlastikStyleConfig::defaults()
 	//updateChanged would be done by setChecked already
 }
 
-void PlastikStyleConfig::updateChanged()
+void OxygenStyleConfig::updateChanged()
 {
 	if ( customOverHighlightColor->isChecked() )
 	 overHighlightColor->setEnabled(true);
@@ -225,4 +225,4 @@ void PlastikStyleConfig::updateChanged()
 		emit changed(true);
 }
 
-#include "plastikconf.moc"
+#include "oxygenconf.moc"

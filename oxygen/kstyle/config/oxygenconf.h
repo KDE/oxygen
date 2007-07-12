@@ -36,12 +36,12 @@ DEALINGS IN THE SOFTWARE.
 class QCheckBox;
 class KColorButton;
 
-class PlastikStyleConfig: public QWidget
+class OxygenStyleConfig: public QWidget
 {
 	Q_OBJECT
 public:
-	PlastikStyleConfig(QWidget* parent);
-	~PlastikStyleConfig();
+	OxygenStyleConfig(QWidget* parent);
+	~OxygenStyleConfig();
 
 	//This signal and the next two slots are the plugin
 	//page interface
