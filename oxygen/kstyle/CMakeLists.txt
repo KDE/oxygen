@@ -1,52 +1,26 @@
-project(oxygen)
 
-add_subdirectory( config )
+project(kstyle-oxygen)
 
-if(X11_Xrender_FOUND)
-   add_subdirectory( picturepusher )
-endif(X11_Xrender_FOUND)
-
-include(${QT_USE_FILE})
-
-set( oxygen_SRCS
-     oxygen.cpp
-     tileset.cpp
-     stylehint.cpp
-     sizefromcontents.cpp
-     qsubcmetrics.cpp
-     pixelmetric.cpp
-     stdpix.cpp
-     drawcomplexcontrol.cpp
-     drawcontrol.cpp
-     drawprimitive.cpp
-     oxrender.cpp
-     gradients.cpp
-     styleanimator.cpp
-     visualframe.cpp
-   )
+add_subdirectory( config ) 
 
 
-kde4_moc_headers(oxygen eventkiller.h)
-kde4_add_plugin(oxygen ${oxygen_SRCS})
 
-target_link_libraries( oxygen
-                       ${QT_QT3SUPPORT_LIBRARY}
-                       ${QT_QTCORE_LIBRARY}
-                       ${QT_QTGUI_LIBRARY}
-		       ${X11_LIBRARIES}
-)
+########### next target ###############
 
-if(X11_Xrender_FOUND)
-    target_link_libraries(oxygen ${X11_Xrender_LIB} )
-endif(X11_Xrender_FOUND)
-
-if(X11_XTest_FOUND)
-      target_link_libraries(oxygen ${X11_XTest_LIB} )
-endif(X11_XTest_FOUND)
+set(oxygen_PART_SRCS oxygen.cpp misc.cpp )
 
 
-install( TARGETS oxygen DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/ )
+kde4_add_plugin(oxygen ${plastik_PART_SRCS})
+
+target_link_libraries(oxygen  ${KDE4_KDECORE_LIBS} kdefx )
+
+install(TARGETS oxygen  DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/ )
+
 
 ########### install files ###############
 
-install( FILES oxygen.themerc DESTINATION  ${DATA_INSTALL_DIR}/kstyle/themes )
+install( FILES oxygen.themerc  DESTINATION  ${DATA_INSTALL_DIR}/kstyle/themes )
+
+
+
+
