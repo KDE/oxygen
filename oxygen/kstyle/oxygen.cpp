@@ -58,7 +58,7 @@
 
 #include "misc.h"
 
-K_EXPORT_STYLE("Oxygen", PlastikStyle)
+K_EXPORT_STYLE("Oxygen", OxygenStyle)
 
 // some bitmaps for the radio button so it's easier to handle the circle stuff...
 // 13x13
@@ -113,7 +113,7 @@ static const unsigned char radiomark_light_bits[] = {
    0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 
-OxygenStyle::PlastikStyle() :
+OxygenStyle::OxygenStyle() :
 //     kickerMode(false),
 //     kornMode(false),
     flatMode(false)
@@ -237,7 +237,7 @@ void OxygenStyle::updateProgressPos()
 }
 
 
-OxygenStyle::~PlastikStyle()
+OxygenStyle::~OxygenStyle()
 {
     delete pixmapCache;
 }

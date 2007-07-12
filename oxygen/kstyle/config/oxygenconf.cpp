@@ -48,7 +48,7 @@ extern "C"
 	}
 }
 
-OxygenStyleConfig::PlastikStyleConfig(QWidget* parent): QWidget(parent)
+OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
 {
 	//Should have no margins here, the dialog provides them
 	QVBoxLayout* layout = new QVBoxLayout(this);
@@ -150,7 +150,7 @@ OxygenStyleConfig::PlastikStyleConfig(QWidget* parent): QWidget(parent)
 	 checkMarkColor->setEnabled(false);
 }
 
-OxygenStyleConfig::~PlastikStyleConfig()
+OxygenStyleConfig::~OxygenStyleConfig()
 {
 }
 
