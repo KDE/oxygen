@@ -1,4 +1,8 @@
 /* Oxygen widget style for KDE 4
+   Copyright (C) 2007 Casper Boemann <cbr@boemann.dk>
+
+    based on the plastik style which is:
+
    Copyright (C) 2003-2005 Sandro Giessl <sandro@giessl.com>
 
    based on the KDE style "dotNET":
@@ -55,6 +59,7 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QSplitter>
 #include <QtGui/QToolBar>
+#include <QtGui/QLinearGradient>
 
 #include "misc.h"
 
@@ -111,6 +116,118 @@ static const unsigned char radiomark_dark_bits[] = {
 static const unsigned char radiomark_light_bits[] = {
    0x00, 0x00, 0x00, 0x00, 0x38, 0x00, 0x0c, 0x00, 0x04, 0x00, 0x04, 0x00,
    0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+
+class TileCache
+{
+    private:
+        TileCache();
+
+    public:
+        ~TileCache() {}
+        static TileCache *instance();
+
+        QPixmap verticalGradient(const QColor &color, int height);
+        QPixmap horizontalGradient(const QColor &color, int width);
+        QPixmap radialGradient(const QColor &color, int width);
+
+    private:
+        static TileCache *s_instance;
+        QCache<quint64, QPixmap> m_cache;
+};
+
+TileCache *TileCache::s_instance = 0;
+
+TileCache::TileCache()
+{
+    m_cache.setMaxCost(64);
+}
+
+TileCache *TileCache::instance()
+{
+    if (!s_instance)
+        s_instance = new TileCache;
+
+    return s_instance;
+}
+
+QPixmap TileCache::verticalGradient(const QColor &color, int height)
+{
+    quint64 key = (quint64(color.rgba()) << 32) | height | 0x8000;
+    QPixmap *pixmap = m_cache.object(key);
+
+    if (!pixmap)
+    {
+        pixmap = new QPixmap(32, height);
+
+        QLinearGradient gradient(0, 0, 0, height);
+        gradient.setColorAt(0, color.lighter(110));
+        gradient.setColorAt(1, color.darker(110));
+
+        QPainter p(pixmap);
+        p.setCompositionMode(QPainter::CompositionMode_Source);
+        p.fillRect(pixmap->rect(), gradient);
+
+        m_cache.insert(key, pixmap);
+    }
+
+    return *pixmap;
+}
+
+QPixmap TileCache::horizontalGradient(const QColor &color, int width)
+{
+    quint64 key = (quint64(color.rgba()) << 32) | width | 0x4000;
+    QPixmap *pixmap = m_cache.object(key);
+
+    if (!pixmap)
+    {
+        pixmap = new QPixmap(width, 32);
+        QLinearGradient gradient(0, 0, width, 0);
+        gradient.setColorAt(0, color.lighter(110));
+        gradient.setColorAt(1, color.darker(110));
+
+        QPainter p(pixmap);
+        p.setCompositionMode(QPainter::CompositionMode_Source);
+        p.fillRect(pixmap->rect(), gradient);
+
+        // set the alpha of the entire pixmap to 50%
+        p.end(); // needed for setAlphaChannel() to work
+        QPixmap alpha(width, 32);
+        alpha.fill(QColor(128,128,128));
+        pixmap->setAlphaChannel(alpha);
+
+        m_cache.insert(key, pixmap);
+    }
+
+    return *pixmap;
+}
+
+QPixmap TileCache::radialGradient(const QColor &color, int width)
+{
+    quint64 key = (quint64(color.rgba()) << 32) | width | 0xb000;
+    QPixmap *pixmap = m_cache.object(key);
+
+    if (!pixmap)
+    {
+        width /= 2;
+        pixmap = new QPixmap(width, 64);
+        pixmap->fill(QColor(0,0,0,0));
+        QColor radialColor = color.lighter(120);
+        radialColor.setAlpha(255);
+        QRadialGradient gradient(64, 0, 64);
+        gradient.setColorAt(0.4, radialColor);
+        radialColor.setAlpha(0);
+        gradient.setColorAt(1, radialColor);
+
+        QPainter p(pixmap);
+        p.scale(width/128.0,1);
+        p.fillRect(pixmap->rect(), gradient);
+
+        m_cache.insert(key, pixmap);
+    }
+
+    return *pixmap;
+}
 
 
 OxygenStyle::OxygenStyle() :
@@ -240,6 +357,36 @@ void OxygenStyle::updateProgressPos()
 OxygenStyle::~OxygenStyle()
 {
     delete pixmapCache;
+}
+
+
+void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option,
+                                QPainter *painter, const QWidget *widget) const
+{
+    switch (element)
+    {
+        case PE_Widget:
+        {
+            if (!widget || !widget->isWindow())
+                return;
+
+            QColor color = option->palette.color(widget->backgroundRole());
+
+            QPixmap tile = TileCache::instance()->verticalGradient(color, option->rect.height());
+            painter->drawTiledPixmap(option->rect, tile);
+
+            tile = TileCache::instance()->horizontalGradient(color, option->rect.width());
+            painter->drawTiledPixmap(option->rect, tile);
+
+            tile = TileCache::instance()->radialGradient(color, option->rect.width());
+            QRect radialRect = QRect(0, 0, option->rect.width(), 64);
+            painter->drawPixmap(radialRect, tile);
+            break;
+        }
+
+        default:
+            KStyle::drawPrimitive(element, option, painter, widget);
+    }
 }
 
 
@@ -444,13 +591,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case MenuBar::EmptyArea:
                 {
-                    p->fillRect(r, pal.window());
-
-                    if ( _drawToolBarSeparator ) {
-                        p->setPen( getColor(pal, PanelDark) );
-                        p->drawLine( r.left(), r.bottom(), r.right(), r.bottom() );
-                    }
-
                     return;
                 }
             }
@@ -1566,28 +1706,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     return;
                 }
-
-                case ToolBar::PanelHor:
-                {
-                    if ( _drawToolBarSeparator ) {
-                        p->setPen( getColor(pal, PanelLight) );
-                        p->drawLine( r.left(), r.top(), r.right(), r.top() );
-                        p->setPen( getColor(pal, PanelDark) );
-                        p->drawLine( r.left(), r.bottom(), r.right(), r.bottom() );
-                    }
-                    return;
-                }
-                case ToolBar::PanelVert:
-                {
-                    p->fillRect(r, pal.window());
-                    if ( _drawToolBarSeparator ) {
-                        p->setPen( getColor(pal, PanelLight) );
-                        p->drawLine( r.left(), r.top(), r.left(), r.bottom() );
-                        p->setPen( getColor(pal, PanelDark) );
-                        p->drawLine( r.right(), r.top(), r.right(), r.bottom() );
-                    }
-                    return;
-                }
             }
         }
         break;
@@ -1702,6 +1820,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
 void OxygenStyle::polish(QWidget* widget)
 {
+    if (widget->isWindow())
+        widget->setAttribute(Qt::WA_StyledBackground);
+
     if( _animateProgressBar && qobject_cast<QProgressBar*>(widget) )
     {
         widget->installEventFilter(this);

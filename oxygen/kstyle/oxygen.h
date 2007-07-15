@@ -61,6 +61,9 @@ public:
     OxygenStyle();
     virtual ~OxygenStyle();
 
+    virtual void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
+                               QPainter *painter, const QWidget *widget) const;
+
     virtual void drawKStylePrimitive(WidgetType widgetType, int primitive,
                                      const QStyleOption* opt,
                                      const QRect &r, const QPalette &pal, State flags,
