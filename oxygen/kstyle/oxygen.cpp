@@ -59,6 +59,7 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QSplitter>
 #include <QtGui/QToolBar>
+#include <QtGui/QScrollBar>
 #include <QtGui/QLinearGradient>
 
 #include "misc.h"
@@ -182,6 +183,7 @@ QPixmap TileCache::horizontalGradient(const QColor &color, int width)
     if (!pixmap)
     {
         pixmap = new QPixmap(width, 32);
+        pixmap->fill(Qt::transparent);
         QLinearGradient gradient(0, 0, width, 0);
         gradient.setColorAt(0, color.lighter(110));
         gradient.setColorAt(1, color.darker(110));
@@ -189,12 +191,8 @@ QPixmap TileCache::horizontalGradient(const QColor &color, int width)
         QPainter p(pixmap);
         p.setCompositionMode(QPainter::CompositionMode_Source);
         p.fillRect(pixmap->rect(), gradient);
-
-        // set the alpha of the entire pixmap to 50%
-        p.end(); // needed for setAlphaChannel() to work
-        QPixmap alpha(width, 32);
-        alpha.fill(QColor(128,128,128));
-        pixmap->setAlphaChannel(alpha);
+        p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+        p.fillRect(pixmap->rect(), QColor(0,0,0,128));
 
         m_cache.insert(key, pixmap);
     }
@@ -302,7 +300,6 @@ OxygenStyle::OxygenStyle() :
     settings.beginGroup("/oxygenstyle/Settings");
     _scrollBarLines = settings.value("/scrollBarLines", false).toBool();
     _animateProgressBar = settings.value("/animateProgressBar", true).toBool();
-    _drawToolBarSeparator = settings.value("/drawToolBarSeparator", true).toBool();
     _drawToolBarItemSeparator = settings.value("/drawToolBarItemSeparator", true).toBool();
     _drawFocusRect = settings.value("/drawFocusRect", true).toBool();
     _drawTriangularExpander = settings.value("/drawTriangularExpander", false).toBool();
@@ -853,43 +850,18 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ScrollBar::GrooveAreaHor:
                 {
                     bool hor = flags & State_Horizontal;
-                    bool on = flags&State_On;
-                    bool down = flags&State_Sunken;
 
-                    // TODO: double buffering still needed?
-                    // draw double buffered to avoid flickr...
-                    QPixmap buffer;
                     if(hor) {
-                        buffer = QPixmap(2, r.height() );
+                        p->setPen(pal.color( QPalette::Background ).dark(106));
+                        p->drawLine(r.left(), r.top(), r.right(), r.top());
+                        p->setPen(pal.color( QPalette::Background ).light(106));
+                        p->drawLine(r.left(), r.bottom(), r.right(), r.bottom());
                     } else {
-                        buffer = QPixmap(r.width(), 2 );
+                        p->setPen(pal.color( QPalette::Background ).dark(106));
+                        p->drawLine(r.left(), r.top(), r.left(), r.bottom());
+                        p->setPen(pal.color( QPalette::Background ).light(106));
+                        p->drawLine(r.right(), r.top(), r.right(), r.bottom());
                     }
-                    QRect br(buffer.rect() );
-                    QPainter bp(&buffer);
-
-                    if (on || down) {
-                        bp.fillRect(br, QBrush(pal.mid().color().dark()));
-                    } else {
-                        if(hor) {
-                            bp.setPen(pal.color( QPalette::Background ).dark(106));
-                            bp.drawLine(br.left(), br.top(), br.right(), br.top());
-                            bp.setPen(pal.color( QPalette::Background ).light(106));
-                            bp.drawLine(br.left(), br.bottom(), br.right(), br.bottom());
-                            bp.fillRect(br.left(), br.top()+1, br.width(), br.height()-2,pal.color( QPalette::Background ));
-                        } else {
-                            bp.setPen(pal.color( QPalette::Background ).dark(106));
-                            bp.drawLine(br.left(), br.top(), br.left(), br.bottom());
-                            bp.setPen(pal.color( QPalette::Background ).light(106));
-                            bp.drawLine(br.right(), br.top(), br.right(), br.bottom());
-                            bp.fillRect(br.left()+1, br.top(), br.width()-2, br.height(),pal.color( QPalette::Background ));
-                        }
-                    }
-
-                    bp.fillRect(br, QBrush(pal.color(QPalette::Background).light(), Qt::Dense4Pattern));
-
-                    bp.end();
-
-                    p->drawTiledPixmap(r, buffer, QPoint(0, r.top()%2));
 
                     return;
                 }
@@ -2829,6 +2801,9 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
     switch (hint) {
         case SH_Menu_SubMenuPopupDelay:
             return 96; // Motif-like delay...
+
+        case SH_ScrollView_FrameOnlyAroundContents:
+            return true;
 
         default:
             return KStyle::styleHint(hint, option, widget, returnData);

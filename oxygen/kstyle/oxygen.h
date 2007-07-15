@@ -209,7 +209,6 @@ private:
     int _contrast;
     bool _scrollBarLines;
     bool _animateProgressBar;
-    bool _drawToolBarSeparator;
     bool _drawToolBarItemSeparator;
     bool _drawFocusRect;
     bool _drawTriangularExpander;
