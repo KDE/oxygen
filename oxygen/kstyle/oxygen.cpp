@@ -213,7 +213,7 @@ QPixmap TileCache::radialGradient(const QColor &color, int width)
         QColor radialColor = color.lighter(120);
         radialColor.setAlpha(255);
         QRadialGradient gradient(64, 0, 64);
-        gradient.setColorAt(0.4, radialColor);
+        gradient.setColorAt(0, radialColor);
         radialColor.setAlpha(0);
         gradient.setColorAt(1, radialColor);
 
@@ -1825,6 +1825,11 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setBackgroundRole(QPalette::Background);
     }
 
+    if (qobject_cast<QScrollBar*>(widget))
+    {
+        widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
+    }
+
     KStyle::polish(widget);
 }
 
@@ -1850,6 +1855,11 @@ void OxygenStyle::unpolish(QWidget* widget)
         || (widget && qobject_cast<QToolBar *>(widget->parent())) )
     {
         widget->setBackgroundRole(QPalette::Button);
+    }
+
+    if (qobject_cast<QScrollBar*>(widget))
+    {
+        widget->setAttribute(Qt::WA_OpaquePaintEvent);
     }
 
     KStyle::unpolish(widget);
