@@ -891,35 +891,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             // set contour-like color for the case _scrollBarLines is set and we paint lines instead of dots.
                     p->setPen(alphaBlendColors(pal.color(QPalette::Background), surface.dark(enabled?140:120), 50) );
 
-                    const int d = 4;
-                    int n = ((horizontal?r.width():r.height())-8)/d;
-                    if(n>5) n=5;
-                    if(!horizontal) {
-                        for(int j = 0; j < n; j++) {
-                            int yPos = r.center().y()-(n*d)/2+d*j+1;
-                            if(_scrollBarLines)
-                                p->drawLine(r.x()+1, yPos, r.right()-1, yPos);
-                            else
-                            {
-                                for(int k = 3; k <= 13; k+=4) {
-                                    renderDot(p, QPoint(k, yPos), surface, false, true );
-                                }
-                            }
-                        }
-                    } else {
-                        for(int j = 0; j < n; j++) {
-                            int xPos = r.center().x()-(n*d)/2+d*j+1;
-                            if(_scrollBarLines)
-                                p->drawLine(xPos, r.y()+1, xPos, r.bottom()-1);
-                            else
-                            {
-                                for(int k = 3; k <= 13; k+=4) {
-                                    renderDot(p, QPoint(xPos, k), surface, false, true );
-                                }
-                            }
-                        }
-                    }
-
                     return;
                 }
 
@@ -1005,14 +976,14 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         if (w > 4) {
                             int xcenter = r.width()/2;
                             for(int k = 2*r.height()/10; k < 8*r.height()/10; k+=5) {
-                                renderDot(p, QPoint(xcenter-1, k), color, false, true);
+                                renderDot(p, QPointF(xcenter-1, k), color);
                             }
                         }
                     } else {
                         if (h > 4) {
                             int ycenter = r.height()/2;
                             for(int k = 2*r.width()/10; k < 8*r.width()/10; k+=5) {
-                                renderDot(p, QPoint(k, ycenter-1), color, false, true);
+                                renderDot(p, QPointF(k, ycenter-1), color);
                             }
                         }
                     }
@@ -1089,8 +1060,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         renderSurface(p, QRect(xcenter-4, ycenter-5, 9, 13),
                                       pal.color(QPalette::Background), surface, getColor(pal,MouseOverHighlight),
                                     _contrast+3, surfaceFlags);
-                        renderDot(p, QPoint(xcenter-3, ycenter-3), surface, false, true );
-                        renderDot(p, QPoint(xcenter+2,   ycenter-3), surface, false, true );
+                        renderDot(p, QPointF(xcenter-3, ycenter-3), surface);
+                        renderDot(p, QPointF(xcenter+2,   ycenter-3), surface);
                         p->setClipping(false);
                     } else {
                         renderContour(p, QRect(xcenter-6, ycenter-5, 10, 11),
@@ -1140,8 +1111,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         renderSurface(p, QRect(xcenter-5, ycenter-4, 13, 9),
                                       pal.color(QPalette::Background), surface, getColor(pal,MouseOverHighlight),
                                     _contrast+3, surfaceFlags);
-                        renderDot(p, QPoint(xcenter-3, ycenter-3), surface, false, true );
-                        renderDot(p, QPoint(xcenter-3,   ycenter+2), surface, false, true );
+                        renderDot(p, QPoint(xcenter-3, ycenter-3), surface);
+                        renderDot(p, QPoint(xcenter-3,   ycenter+2), surface);
                         p->setClipping(false);
                     }
 
@@ -1633,9 +1604,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         int center = r.left()+r.width()/2;
                         for(int j = r.top()+2; j <= r.bottom()-3; j+=3) {
                             if(counter%2 == 0) {
-                                renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background), true, true);
+                                renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background));
                             } else {
-                                renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background), true, true);
+                                renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background));
                             }
                             counter++;
                         }
@@ -1648,9 +1619,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         int center = r.top()+r.height()/2;
                         for(int j = r.left()+2; j <= r.right()-3; j+=3) {
                             if(counter%2 == 0) {
-                                renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background), true, true);
+                                renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background));
                             } else {
-                                renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background), true, true);
+                                renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background));
                             }
                             counter++;
                         }
@@ -2387,24 +2358,14 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     }
 }
 
-void OxygenStyle::renderDot(QPainter *p,
-                             const QPoint &point,
-                             const QColor &baseColor,
-                             const bool thick,
-                             const bool sunken) const
+void OxygenStyle::renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const
 {
-    const QColor topColor = alphaBlendColors(baseColor, sunken?baseColor.dark(130):baseColor.light(150), 70);
-    const QColor bottomColor = alphaBlendColors(baseColor, sunken?baseColor.light(150):baseColor.dark(130), 70);
-    p->setPen(topColor );
-    p->drawLine(point.x(), point.y(), point.x()+1, point.y());
-    p->drawPoint(point.x(), point.y()+1);
-    p->setPen(bottomColor );
-    if(thick) {
-        p->drawLine(point.x()+1, point.y()+2, point.x()+2, point.y()+2);
-        p->drawPoint(point.x()+2, point.y()+1);
-    } else {
-        p->drawPoint(point.x()+1, point.y()+1);
-    }
+    const qreal diameter = 2.5;
+    p->setRenderHint(QPainter::Antialiasing);
+    p->setPen(Qt::NoPen);
+    p->setBrush(QColor(0, 0, 0, 66));
+    p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
+    p->setRenderHint(QPainter::Antialiasing, false);
 }
 
 void OxygenStyle::renderGradient(QPainter *painter,

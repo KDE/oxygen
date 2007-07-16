@@ -171,11 +171,7 @@ protected:
                      const bool sunken = true,
                      const bool focusHighlight = false) const;
 
-    void renderDot(QPainter *p,
-                   const QPoint &point,
-                   const QColor &baseColor,
-                   const bool thick = false,
-                   const bool sunken = false) const;
+    void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
     void renderGradient(QPainter *p,
                         const QRect &r,
