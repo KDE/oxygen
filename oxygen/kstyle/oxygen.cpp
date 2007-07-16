@@ -421,11 +421,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case PushButton::DefaultButtonFrame:
                 {
-                    uint contourFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|
-                            Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight;
-                    if(!enabled) contourFlags|=Is_Disabled;
-                    renderContour(p, r, pal.color(QPalette::Background), pal.color(QPalette::Background).dark(120), contourFlags);
-
                     return;
                 }
             }
@@ -778,8 +773,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
         case WT_ScrollBar:
         {
-            bool down = (flags & State_Sunken);
-
             switch (primitive)
             {
                 case ScrollBar::DoubleButtonHor:
@@ -1855,7 +1848,6 @@ void OxygenStyle::renderContour(QPainter *p,
     const bool drawTop = flags&Draw_Top;
     const bool drawBottom = flags&Draw_Bottom;
     const bool disabled = flags&Is_Disabled;
-    const bool alphaBlend = flags&Draw_AlphaBlend;
 
     QColor contourColor;
     if (disabled) {
@@ -2360,6 +2352,7 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
 
 void OxygenStyle::renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const
 {
+    Q_UNUSED(baseColor)
     const qreal diameter = 2.5;
     p->setRenderHint(QPainter::Antialiasing);
     p->setPen(Qt::NoPen);
