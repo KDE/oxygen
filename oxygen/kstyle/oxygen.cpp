@@ -129,7 +129,6 @@ class TileCache
         static TileCache *instance();
 
         QPixmap verticalGradient(const QColor &color, int height);
-        QPixmap horizontalGradient(const QColor &color, int width);
         QPixmap radialGradient(const QColor &color, int width);
 
     private:
@@ -162,37 +161,12 @@ QPixmap TileCache::verticalGradient(const QColor &color, int height)
         pixmap = new QPixmap(32, height);
 
         QLinearGradient gradient(0, 0, 0, height);
-        gradient.setColorAt(0, color.lighter(110));
-        gradient.setColorAt(1, color.darker(110));
+        gradient.setColorAt(0, color.lighter(115));
+        gradient.setColorAt(1, color);
 
         QPainter p(pixmap);
         p.setCompositionMode(QPainter::CompositionMode_Source);
         p.fillRect(pixmap->rect(), gradient);
-
-        m_cache.insert(key, pixmap);
-    }
-
-    return *pixmap;
-}
-
-QPixmap TileCache::horizontalGradient(const QColor &color, int width)
-{
-    quint64 key = (quint64(color.rgba()) << 32) | width | 0x4000;
-    QPixmap *pixmap = m_cache.object(key);
-
-    if (!pixmap)
-    {
-        pixmap = new QPixmap(width, 32);
-        pixmap->fill(Qt::transparent);
-        QLinearGradient gradient(0, 0, width, 0);
-        gradient.setColorAt(0, color.lighter(110));
-        gradient.setColorAt(1, color.darker(110));
-
-        QPainter p(pixmap);
-        p.setCompositionMode(QPainter::CompositionMode_Source);
-        p.fillRect(pixmap->rect(), gradient);
-        p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        p.fillRect(pixmap->rect(), QColor(0,0,0,128));
 
         m_cache.insert(key, pixmap);
     }
@@ -210,10 +184,14 @@ QPixmap TileCache::radialGradient(const QColor &color, int width)
         width /= 2;
         pixmap = new QPixmap(width, 64);
         pixmap->fill(QColor(0,0,0,0));
-        QColor radialColor = color.lighter(120);
+        QColor radialColor = color.lighter(140);
         radialColor.setAlpha(255);
         QRadialGradient gradient(64, 0, 64);
         gradient.setColorAt(0, radialColor);
+        radialColor.setAlpha(101);
+        gradient.setColorAt(0.5, radialColor);
+        radialColor.setAlpha(37);
+        gradient.setColorAt(0.75, radialColor);
         radialColor.setAlpha(0);
         gradient.setColorAt(1, radialColor);
 
@@ -368,15 +346,18 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
                 return;
 
             QColor color = option->palette.color(widget->backgroundRole());
+            int splitY = qMin(300, 3*option->rect.height()/4);
 
-            QPixmap tile = TileCache::instance()->verticalGradient(color, option->rect.height());
-            painter->drawTiledPixmap(option->rect, tile);
+            QRect upperRect = QRect(0, 0, option->rect.width(), splitY);
+            QPixmap tile = TileCache::instance()->verticalGradient(color, splitY);
+            painter->drawTiledPixmap(upperRect, tile);
 
-            tile = TileCache::instance()->horizontalGradient(color, option->rect.width());
-            painter->drawTiledPixmap(option->rect, tile);
+            QRect lowerRect = QRect(0,splitY, option->rect.width(), option->rect.height() - splitY);
+            painter->fillRect(lowerRect, color);
 
-            tile = TileCache::instance()->radialGradient(color, option->rect.width());
-            QRect radialRect = QRect(0, 0, option->rect.width(), 64);
+            int radialW = qMin(600, option->rect.width());
+            tile = TileCache::instance()->radialGradient(color, radialW);
+            QRect radialRect = QRect((option->rect.width() - radialW) / 2, 0, radialW, 64);
             painter->drawPixmap(radialRect, tile);
             break;
         }
