@@ -62,7 +62,7 @@
 #include <QtGui/QScrollBar>
 #include <QtGui/QLinearGradient>
 
-#include "misc.h"
+#include "helper.h"
 
 K_EXPORT_STYLE("Oxygen", OxygenStyle)
 
@@ -161,8 +161,9 @@ QPixmap TileCache::verticalGradient(const QColor &color, int height)
         pixmap = new QPixmap(32, height);
 
         QLinearGradient gradient(0, 0, 0, height);
-        gradient.setColorAt(0, color.lighter(115));
-        gradient.setColorAt(1, color);
+        gradient.setColorAt(0.0, OxygenHelper::backgroundTopColor(color));
+        gradient.setColorAt(0.5, color);
+        gradient.setColorAt(1.0, OxygenHelper::backgroundBottomColor(color));
 
         QPainter p(pixmap);
         p.setCompositionMode(QPainter::CompositionMode_Source);
@@ -184,7 +185,7 @@ QPixmap TileCache::radialGradient(const QColor &color, int width)
         width /= 2;
         pixmap = new QPixmap(width, 64);
         pixmap->fill(QColor(0,0,0,0));
-        QColor radialColor = color.lighter(140);
+        QColor radialColor = OxygenHelper::backgroundRadialColor(color);
         radialColor.setAlpha(255);
         QRadialGradient gradient(64, 0, 64);
         gradient.setColorAt(0, radialColor);
@@ -353,7 +354,7 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
             painter->drawTiledPixmap(upperRect, tile);
 
             QRect lowerRect = QRect(0,splitY, option->rect.width(), option->rect.height() - splitY);
-            painter->fillRect(lowerRect, color);
+            painter->fillRect(lowerRect, OxygenHelper::backgroundBottomColor(color));
 
             int radialW = qMin(600, option->rect.width());
             tile = TileCache::instance()->radialGradient(color, radialW);

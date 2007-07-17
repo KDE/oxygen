@@ -1,5 +1,5 @@
 /*
- * Copyright 2003, Sandro Giessl <ceebx@users.sourceforge.net>
+ * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -16,11 +16,21 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef __MISC_H
-#define __MISC_H
+#ifndef __HELPER_H
+#define __HELPER_H
 
 #include <QtGui/QColor>
 
+// alphaBlendColors Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
+// DEPRECATED
 QColor alphaBlendColors(const QColor &backgroundColor, const QColor &foregroundColor, const int alpha);
 
-#endif // __MISC_H
+class OxygenHelper
+{
+public:
+    static QColor backgroundRadialColor(const QColor &color);
+    static QColor backgroundTopColor(const QColor &color);
+    static QColor backgroundBottomColor(const QColor &color);
+};
+
+#endif // __HELPER_H

@@ -1,5 +1,5 @@
 /*
- * Copyright 2003, Sandro Giessl <ceebx@users.sourceforge.net>
+ * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -16,10 +16,14 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "misc.h"
+#include "helper.h"
 
 #include <QtGui/QColor>
 
+#include <KColorScheme>
+
+// alphaBlendColors Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
+// DEPRECATED (use KColorUtils::mix to the extent we still need such a critter)
 QColor alphaBlendColors(const QColor &bgColor, const QColor &fgColor, const int a)
 {
 
@@ -36,4 +40,19 @@ QColor alphaBlendColors(const QColor &bgColor, const QColor &fgColor, const int 
                                   qBlue(rgb_b)*inv_alpha/255 + qBlue(rgb)*alpha/255) );
 
     return result;
+}
+
+QColor OxygenHelper::backgroundRadialColor(const QColor &color)
+{
+    return KColorScheme::shade(color, KColorScheme::LightShade, 0.7/*FIXME*/);
+}
+
+QColor OxygenHelper::backgroundTopColor(const QColor &color)
+{
+    return KColorScheme::shade(color, KColorScheme::MidlightShade, 0.7/*FIXME*/);
+}
+
+QColor OxygenHelper::backgroundBottomColor(const QColor &color)
+{
+    return KColorScheme::shade(color, KColorScheme::MidShade, 0.7/*FIXME*/ * -0.6);
 }
