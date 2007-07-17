@@ -4,5 +4,7 @@ Name[vi]=Oxy
 Name[xx]=xxOxygenxx
 ConfigPage=kstyle_oxygen_config
 Comment=Styling of the next generation desktop
+Comment[nl]=Stijl van de desktop van de volgende generatie
+Comment[sv]=Stil för nästa generations skrivbord
 [KDE]
 WidgetStyle=Oxygen
