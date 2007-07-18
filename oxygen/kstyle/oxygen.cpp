@@ -62,7 +62,11 @@
 #include <QtGui/QScrollBar>
 #include <QtGui/QLinearGradient>
 
+#include <KColorUtils>
+#include <KColorScheme>
+
 #include "helper.h"
+#include "tileset.h"
 
 K_EXPORT_STYLE("Oxygen", OxygenStyle)
 
@@ -130,10 +134,13 @@ class TileCache
 
         QPixmap verticalGradient(const QColor &color, int height);
         QPixmap radialGradient(const QColor &color, int width);
+        TileSet *hole(const QColor &color);
+        TileSet *holeFocused(const QColor &color);
 
     private:
         static TileCache *s_instance;
         QCache<quint64, QPixmap> m_cache;
+        QCache<quint64, TileSet> m_setCache;
 };
 
 TileCache *TileCache::s_instance = 0;
@@ -206,6 +213,114 @@ QPixmap TileCache::radialGradient(const QColor &color, int width)
     return *pixmap;
 }
 
+TileSet *TileCache::hole(const QColor &surroundColor)
+{
+    quint64 key = (quint64(surroundColor.rgba()) << 32) | 0x1;
+    TileSet *tileSet = m_setCache.object(key);
+
+    if (!tileSet)
+    {
+        QImage tmpImg(9, 9, QImage::Format_ARGB32);
+        QLinearGradient lg; QGradientStops stops;
+        QPainter p;
+
+        tmpImg.fill(Qt::transparent);
+
+        p.begin(&tmpImg);
+        p.setPen(Qt::NoPen);
+        p.setRenderHint(QPainter::Antialiasing);
+        p.scale(1.25, 1.0);
+        QRadialGradient rg = QRadialGradient(4.5*0.8, 4.5, 5.0, 4.5*0.8, 4.5+1.3);
+        stops.clear();
+        stops << QGradientStop( 0.4, QColor(0,0,0, 0) )
+           << QGradientStop( 0.58, QColor(0,0,0, 20) )
+           << QGradientStop( 0.75, QColor(0,0,0, 53) )
+           << QGradientStop( 0.88, QColor(0,0,0, 100) )
+           << QGradientStop( 1, QColor(0,0,0, 150 ) );
+        rg.setStops(stops);
+        p.setBrush(rg);
+        p.setClipRect(0,0,9,8);
+        p.drawRoundRect(QRectF(0,0, 9*0.8, 9),80,80);
+        p.resetTransform();
+
+        // draw white edge at bottom
+        p.setClipRect(0,7,9,2);
+        p.setBrush(Qt::NoBrush);
+        p.setPen( KColorUtils::shade(surroundColor, 0.3));
+        p.drawRoundRect(QRectF(0.5, 0.5, 8, 8),80,80);
+        p.setPen(Qt::NoPen);
+        p.end();
+
+        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
+
+        m_setCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+TileSet *TileCache::holeFocused(const QColor &surroundColor)
+{
+    quint64 key = (quint64(surroundColor.rgba()) << 32) | 0x2;
+    TileSet *tileSet = m_setCache.object(key);
+
+    if (!tileSet)
+    {
+        QImage tmpImg(9, 9, QImage::Format_ARGB32);
+        QLinearGradient lg; QGradientStops stops;
+        QPainter p;
+
+        tmpImg.fill(Qt::transparent);
+
+        p.begin(&tmpImg);
+        p.setPen(Qt::NoPen);
+        p.setRenderHint(QPainter::Antialiasing);
+        p.scale(1.25, 1.0);
+        QRadialGradient rg = QRadialGradient(4.5*0.8, 4.5, 5.0, 4.5*0.8, 4.5+1.3);
+        stops.clear();
+        stops << QGradientStop( 0.4, QColor(0,0,0, 0) )
+           << QGradientStop( 0.58, QColor(0,0,0, 20) )
+           << QGradientStop( 0.75, QColor(0,0,0, 53) )
+           << QGradientStop( 0.88, QColor(0,0,0, 100) )
+           << QGradientStop( 1, QColor(0,0,0, 150 ) );
+        rg.setStops(stops);
+        p.setBrush(rg);
+        p.setClipRect(0,0,9,8);
+        p.drawRoundRect(QRectF(0,0, 9*0.8, 9),80,80);
+        p.resetTransform();
+
+        rg = QRadialGradient(4.5, 4.5, 5.0, 4.5, 4.5);
+        stops.clear();
+//        QColor color = KColorScheme::decoration(KColorScheme::FocusColor).color();
+        QColor color (50,50,200);
+        color.setAlpha(0);
+        stops << QGradientStop(0, color);
+        color.setAlpha(30);
+        stops  << QGradientStop(0.40, color);
+        color.setAlpha(110);
+        stops  << QGradientStop(0.65, color);
+        color.setAlpha(170);
+        stops  << QGradientStop(0.75, color);
+        color.setAlpha(0);
+        stops  << QGradientStop(0.78, color);
+        rg.setStops(stops);
+        p.setBrush(rg);
+        p.setClipRect(0,0,9,9);
+        p.drawRoundRect(QRectF(0,0, 9, 9),80,80);
+
+        // draw white edge at bottom
+        p.setClipRect(0,7,9,2);
+        p.setBrush(Qt::NoBrush);
+        p.setPen( KColorUtils::shade(surroundColor, 0.3));
+        p.drawRoundRect(QRectF(0.5, 0.5, 8, 8),80,80);
+        p.setPen(Qt::NoPen);
+        p.end();
+
+        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
+
+        m_setCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
 
 OxygenStyle::OxygenStyle() :
 //     kickerMode(false),
@@ -254,20 +369,20 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 2);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonWidth, 2+16+1);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonSpacing, 1);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Left, 2);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 1);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 1);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 1);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonSpacing, 0);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Left, 0);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 3);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 3);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 3);
 
     setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 2);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 2+16+1);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 1);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 1);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 1);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 0);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 3);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 3);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 3);
 
-    setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 1);
+    setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemMargin, 0);
 
@@ -299,6 +414,7 @@ OxygenStyle::OxygenStyle() :
         animationTimer = new QTimer( this );
         connect( animationTimer, SIGNAL(timeout()), this, SLOT(updateProgressPos()) );
     }
+
 }
 
 
@@ -440,7 +556,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     QColor bg = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background); // background
 
-                    renderContour(p, r, pal.color(QPalette::Background), getColor(pal, ButtonContour, enabled) );
                     p->setPen(bg.dark(105) );
                     p->drawLine(r.left()+2, r.top()+1, r.right()-2, r.top()+1 );
                     p->drawLine(r.left()+1, r.top()+2, r.left()+1, r.bottom()-2);
@@ -456,10 +571,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ProgressBar::BusyIndicator:
                 {
-                    renderContour( p, r/*QRect( r.x()+progress, r.y(), barWidth, r.height() )*/,
-                                   bg, fg.dark(160),
-                                   Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Round_UpperRight|
-                                           Round_BottomRight|Round_UpperLeft|Round_BottomLeft );
                     renderSurface(p, QRect( r.x()+/*progress+*/1, r.y()+1, r.width()-2, r.height()-2 ),
                                   bg, fg, pal.color(QPalette::Highlight),
                                   2*(_contrast/3),
@@ -474,11 +585,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     QRect Rcontour = r;
                     QRect Rsurface(Rcontour.left()+1, Rcontour.top()+1, Rcontour.width()-2, Rcontour.height()-2);
-
-                    renderContour(p, Rcontour,
-                                  bg, fg.dark(160),
-                                  reverseLayout ? Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Round_UpperLeft|Round_BottomLeft
-                        : Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Round_UpperRight|Round_BottomRight);
 
                     QRegion mask(Rsurface);
                     if(reverseLayout) {
@@ -597,8 +703,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
-                    renderContour(p, r, pal.color(QPalette::Background), pal.color(QPalette::Background).dark(200),
-                          Draw_Left|Draw_Right|Draw_Top|Draw_Bottom);
+                    //FIXME CBR renderContour(p, r, pal.color(QPalette::Background), pal.color(QPalette::Background).dark(200),                          Draw_Left|Draw_Right|Draw_Top|Draw_Bottom);
                     return;
                 }
 
@@ -697,9 +802,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
-                    renderContour(p, r, pal.color( QPalette::Background ),
-                                  pal.color( QPalette::Background ).dark(160),
-                                  Draw_Left|Draw_Right|Draw_Top|Draw_Bottom);
+                    //FIXME CBRrenderContour(p, r, pal.color( QPalette::Background ),                                  pal.color( QPalette::Background ).dark(160),                                  Draw_Left|Draw_Right|Draw_Top|Draw_Bottom);
 
                     return;
                 }
@@ -713,10 +816,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
-                    renderContour(p, r, pal.color( QPalette::Background ),
-                                  pal.color( QPalette::Background ).dark(160),
-                                  Draw_Left|Draw_Right|Draw_Top|Draw_Bottom);
-
                     return;
                 }
             }
@@ -786,8 +885,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     contourFlags |= /*Round_UpperLeft|Round_BottomLeft|*/Is_Horizontal;
                     surfaceFlags |= /*Round_UpperLeft|Round_BottomLeft|*/Is_Horizontal;
 
-                    renderContour(p, r, pal.color( QPalette::Background ), getColor(pal, ButtonContour),
-                            contourFlags);
                     renderSurface(p, QRect(r.left()+1, r.top()+1, r.width()-2, r.height()-2),
                                   pal.color( QPalette::Background ), pal.color(QPalette::Button), getColor(pal,MouseOverHighlight), _contrast+3,
                             surfaceFlags);
@@ -812,8 +909,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 //                     contourFlags |= Round_BottomLeft|Round_BottomRight;
 //                     surfaceFlags |= Round_BottomLeft|Round_BottomRight;
 
-                    renderContour(p, r, pal.color( QPalette::Background ), getColor(pal, ButtonContour),
-                                  contourFlags);
                     renderSurface(p, QRect(r.left()+1, r.top()+1, r.width()-2, r.height()-2),
                                   pal.color( QPalette::Background ), pal.color(QPalette::Button), getColor(pal,MouseOverHighlight), _contrast+3,
                                   surfaceFlags);
@@ -849,11 +944,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     const WidgetState s = enabled?(down?IsPressed:IsEnabled):IsDisabled;
                     const QColor surface = getColor(pal, DragButtonSurface, s);
-
-                    uint contourFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
-                    if(!enabled) contourFlags|=Is_Disabled;
-                    renderContour(p, r, pal.color(QPalette::Background), getColor(pal, DragButtonContour, s),
-                                  contourFlags);
 
                     uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
                     if(horizontal) surfaceFlags|=Is_Horizontal;
@@ -946,6 +1036,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int h = r.height();
 
                     QColor color = (mouseOver)?pal.color(QPalette::Background).light(100+_contrast):pal.color(QPalette::Background);
+                    color = QColor(Qt::red);
                     p->fillRect(r, color);
                     if (flags & State_Horizontal) {
                         if (w > 4) {
@@ -988,10 +1079,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int ycenter = (r.top()+r.bottom()) / 2;
 
                     if (horizontal) {
-                        renderContour(p, QRect(xcenter-5, ycenter-6, 11, 10),
-                                      pal.color(QPalette::Background), contour,
-                                    Draw_Left|Draw_Right|Draw_Top|Round_UpperLeft|Round_UpperRight);
-
                         // manual contour: vertex
                         p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 50) );
                         p->drawPoint(xcenter-5+1, ycenter+4);
@@ -1039,10 +1126,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         renderDot(p, QPointF(xcenter+2,   ycenter-3), surface);
                         p->setClipping(false);
                     } else {
-                        renderContour(p, QRect(xcenter-6, ycenter-5, 10, 11),
-                                      pal.color(QPalette::Background), contour,
-                                    Draw_Left|Draw_Top|Draw_Bottom|Round_UpperLeft|Round_BottomLeft);
-
                         // manual contour: vertex
                         p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 50) );
                         p->drawPoint(xcenter+4, ycenter-5+1);
@@ -1102,14 +1185,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     if (horizontal) {
                         int center = r.y()+r.height()/2;
-                        renderContour(p, QRect(r.left(), center-2, r.width(), 4),
-                                      pal.color( QPalette::Background ), pal.color( QPalette::Background ).dark(enabled?150:130),
-                                    Draw_Left|Draw_Right|Draw_Top|Draw_Bottom);
+                        renderHole(p, QRect(r.left(), center-2, r.width(), 4));
                     } else {
                         int center = r.x()+r.width()/2;
-                        renderContour(p, QRect(center-2, r.top(), 4, r.height()),
-                                      pal.color( QPalette::Background ), pal.color( QPalette::Background ).dark(enabled?150:130),
-                                    Draw_Left|Draw_Right|Draw_Top|Draw_Bottom);
+                        renderHole(p, QRect(center-2, r.top(), 4, r.height()));
                     }
 
                     return;
@@ -1121,139 +1200,26 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
         case WT_SpinBox:
         {
-//             const Q3SpinWidget *sw = dynamic_cast<const Q3SpinWidget *>(widget);
-//             SFlags sflags = flags;
-//             PrimitiveElement pe;
-
             bool hasFocus = flags & State_HasFocus;
 
-            const QColor buttonColor = enabled?pal.color(QPalette::Button):pal.color(QPalette::Background);
             const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
 
             switch (primitive)
             {
                 case Generic::Frame:
                 {
-                    QRect editField = subControlRect(CC_SpinBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_SpinBoxEditField, widget);
-
-                    // contour
-                    const bool heightDividable = ((r.height()%2) == 0);
-                    if (_inputFocusHighlight && hasFocus && enabled)
-                    {
-                        QRect editFrame = r;
-                        QRect buttonFrame = r;
-
-                        uint editFlags = 0;
-                        uint buttonFlags = 0;
-
-                        // Hightlight only the part of the contour next to the control buttons
-                        if (reverseLayout)
-                        {
-                            // querySubControlMetrics doesn't work right for reverse Layout
-                            int dx = r.right() - editField.right();
-                            editFrame.setLeft(editFrame.left() + dx);
-                            buttonFrame.setRight(editFrame.left() - 1);
-                            editFlags |= Draw_Right|Draw_Top|Draw_Bottom|Round_UpperRight|Round_BottomRight;
-                            buttonFlags |= Draw_Left|Draw_Top|Draw_Bottom|Round_UpperLeft|Round_BottomLeft;
-                        }
-                        else
-                        {
-                            editFrame.setRight(editField.right());
-                            buttonFrame.setLeft(editField.right() + 1);
-
-                            editFlags |= Draw_Left|Draw_Top|Draw_Bottom|Round_UpperLeft|Round_BottomLeft;
-                            buttonFlags |= Draw_Right|Draw_Top|Draw_Bottom|Round_UpperRight|Round_BottomRight;
-                        }
-                        renderContour(p, editFrame, pal.color(QPalette::Background), pal.color(QPalette::Highlight), editFlags);
-                        renderContour(p, buttonFrame, pal.color(QPalette::Background),
-                                    getColor(pal, ButtonContour, enabled), buttonFlags);
-                    }
-                    else
-                    {
-                        renderContour(p, subControlRect(CC_SpinBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_SpinBoxFrame, widget),
-                                      pal.color(QPalette::Background), getColor(pal, ButtonContour, enabled) );
-                    }
-                    p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal, ButtonContour, enabled), 50) );
-                    p->drawLine(reverseLayout?editField.left()-2:editField.right()+2, r.top()+1,
-                                reverseLayout?editField.left()-2:editField.right()+2, r.bottom()-1);
-                    p->drawLine(reverseLayout?r.left()+1:editField.right()+2+1, r.top()+1+(r.height()-2)/2,
-                                reverseLayout?editField.right()-2-1:r.right()-1, r.top()+1+(r.height()-2)/2);
-                    if(heightDividable)
-                        p->drawLine(reverseLayout?r.left()+1:editField.right()+2+1, r.top()+1+(r.height()-2)/2-1,
-                                    reverseLayout?editField.right()-2-1:r.right()-1, r.top()+1+(r.height()-2)/2-1);
-
-                    // thin frame around the input area
-                    const QRect Rcontent = subControlRect(CC_SpinBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_SpinBoxEditField, widget).adjusted(-1,-1,1,1);
-                    if (_inputFocusHighlight && hasFocus && enabled)
-                    {
-                        p->setPen( getColor(pal,FocusHighlight).dark(130) );
-                    }
-                    else
-                    {
-                        p->setPen(inputColor.dark(130) );
-                    }
-                    p->drawLine(Rcontent.left(), reverseLayout?Rcontent.top():Rcontent.top()+1,
-                            Rcontent.left(), reverseLayout?Rcontent.bottom():Rcontent.bottom()-1 );
-                    p->drawLine(Rcontent.left()+1, Rcontent.top(),
-                            reverseLayout?Rcontent.right()-1:Rcontent.right(), Rcontent.top() );
-                    if (_inputFocusHighlight && hasFocus && enabled)
-                    {
-                        p->setPen( getColor(pal,FocusHighlight).light(130) );
-                    }
-                    else
-                    {
-                        p->setPen(inputColor.light(130) );
-                    }
-                    p->drawLine(Rcontent.left()+1, Rcontent.bottom(), Rcontent.right()-1, Rcontent.bottom() );
-                    p->drawLine(Rcontent.right(), Rcontent.top()+1,
-                            Rcontent.right(), reverseLayout?Rcontent.bottom()-1:Rcontent.bottom() );
-
+                    p->fillRect(opt->rect.adjusted(1,1,-1,-1), inputColor );
+                    renderHole(p, r, hasFocus, mouseOver);
                     return;
                 }
-
+                case SpinBox::EditField:
+                case SpinBox::ButtonArea:
                 case SpinBox::UpButton:
-                {
-                    QRect upRect = subControlRect(CC_SpinBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_SpinBoxUp, widget);
-
-                    uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
-                    if(reverseLayout) {
-                        surfaceFlags |= Round_UpperLeft;
-                    } else {
-                        surfaceFlags |= Round_UpperRight;
-                    }
-                    if (mouseOver) {
-                        surfaceFlags |= Is_Highlight;
-                        surfaceFlags |= Highlight_Top|Highlight_Left|Highlight_Right;
-                    }
-                    if (flags & State_Sunken) surfaceFlags|=Is_Sunken;
-                    if(!enabled) surfaceFlags|=Is_Disabled;
-                    renderSurface(p, upRect, pal.color(QPalette::Background), buttonColor, getColor(pal,MouseOverHighlight),
-                                _contrast, surfaceFlags);
-
-                    return;
-                }
-
                 case SpinBox::DownButton:
                 {
-                    QRect downRect = subControlRect(CC_SpinBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_SpinBoxDown, widget);
-
-                    uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
-                    if(reverseLayout) {
-                        surfaceFlags |= Round_BottomLeft;
-                    } else {
-                        surfaceFlags |= Round_BottomRight;
-                    }
-                    if (mouseOver) {
-                        surfaceFlags |= Is_Highlight;
-                        surfaceFlags |= Highlight_Bottom|Highlight_Left|Highlight_Right;
-                    }
-                    if (flags & State_Sunken) surfaceFlags|=Is_Sunken;
-                    if(!enabled) surfaceFlags|=Is_Disabled;
-                    renderSurface(p, downRect, pal.color(QPalette::Background), buttonColor, getColor(pal,MouseOverHighlight),
-                                  _contrast, surfaceFlags);
-
                     return;
                 }
+
             }
 
         }
@@ -1268,7 +1234,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             bool hasFocus = flags & State_HasFocus;
 
             const QColor buttonColor = enabled?pal.color(QPalette::Button):pal.color(QPalette::Background);
-            const QColor inputColor = enabled?(editable?pal.color(QPalette::Base):pal.color(QPalette::Button) ):pal.color(QPalette::Background);
+            const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Background);
             QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
 
             switch (primitive)
@@ -1278,54 +1244,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     // TODO: pressed state
 
                     uint contourFlags = 0;
-//                     if( khtmlWidgets.contains(cb) )
-//                         contourFlags |= Draw_AlphaBlend;
 
-                    if (_inputFocusHighlight && hasFocus && editable && enabled)
-                    {
-                        QRect editFrame = r;
-                        QRect buttonFrame = r;
-
-                        uint editFlags = contourFlags;
-                        uint buttonFlags = contourFlags;
-
-                        // Hightlight only the part of the contour next to the control button
-                        if (reverseLayout)
-                        {
-                            // querySubControlMetrics doesn't work right for reverse Layout
-                            int dx = r.right() - editField.right();
-                            editFrame.setLeft(editFrame.left() + dx);
-                            buttonFrame.setRight(editFrame.left() - 1);
-                            editFlags |= Draw_Right|Draw_Top|Draw_Bottom|Round_UpperRight|Round_BottomRight;
-                            buttonFlags |= Draw_Left|Draw_Top|Draw_Bottom|Round_UpperLeft|Round_BottomLeft;
-                        }
-                        else
-                        {
-                            editFrame.setRight(editField.right());
-                            buttonFrame.setLeft(editField.right() + 1);
-
-                            editFlags |= Draw_Left|Draw_Top|Draw_Bottom|Round_UpperLeft|Round_BottomLeft;
-                            buttonFlags |= Draw_Right|Draw_Top|Draw_Bottom|Round_UpperRight|Round_BottomRight;
-                        }
-                        renderContour(p, editFrame, pal.color(QPalette::Background),  getColor(pal,FocusHighlight,enabled), editFlags);
-                        renderContour(p, buttonFrame, pal.color(QPalette::Background),
-                                    getColor(pal, ButtonContour, enabled), buttonFlags);
-                    }
-                    else
-                    {
-                        contourFlags |= Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|
-                            Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight;
-                        renderContour(p, r, pal.color(QPalette::Background), getColor(pal, ButtonContour, enabled), contourFlags);
-                    }
-                    //extend the contour: between input and handler...
-                    p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal, ButtonContour, enabled), 50) );
-                    if(reverseLayout) {
-                        p->drawLine(editField.left()-2, r.top()+1, editField.left()-2, r.bottom()-1);
-                    } else {
-                        p->drawLine(editField.right()+2, r.top()+1, editField.right()+2, r.bottom()-1);
-                    }
-
-                    QRect Rsurface = editField.adjusted(-1,-1,1,1);
                     if(!editable) {
                         int surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
                         if(reverseLayout) {
@@ -1338,38 +1257,21 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             surfaceFlags |= Is_Highlight;
                             surfaceFlags |= Highlight_Top|Highlight_Bottom;
                         }
-                        renderSurface(p, Rsurface,
+                        renderSurface(p, r,
                                     pal.color(QPalette::Background), buttonColor, getColor(pal,MouseOverHighlight), enabled?_contrast+3:(_contrast/2),
                                     surfaceFlags);
                     } else {
-                        // thin frame around the input area
-                        if (_inputFocusHighlight && hasFocus && editable && enabled)
-                        {
-                            p->setPen( getColor(pal,FocusHighlight).dark(130) );
-                        }
-                        else
-                        {
-                            p->setPen(inputColor.dark(130) );
-                        }
-                        p->drawLine(Rsurface.x(), reverseLayout?Rsurface.y():Rsurface.y()+1,
-                                Rsurface.x(), reverseLayout?Rsurface.bottom():Rsurface.bottom()-1);
-                        p->drawLine(Rsurface.x()+1, Rsurface.y(),
-                                reverseLayout?Rsurface.right()-1:Rsurface.right(), Rsurface.y() );
-                        if (_inputFocusHighlight && hasFocus && editable && enabled)
-                        {
-                            p->setPen( getColor(pal,FocusHighlight).light(130) );
-                        }
-                        else
-                        {
-                            p->setPen(inputColor.light(130) );
-                        }
-                        p->drawLine(reverseLayout?Rsurface.x():Rsurface.x()+1, Rsurface.bottom(),
-                                reverseLayout?Rsurface.right()-1:Rsurface.right(), Rsurface.bottom() );
-                        p->drawLine(Rsurface.right(), Rsurface.top()+1,
-                                Rsurface.right(), Rsurface.bottom()-1 );
-
                         // input area
-                        p->fillRect(editField, inputColor );
+                        p->fillRect(r.adjusted(1,1,-1,-1), inputColor );
+
+                        if (_inputFocusHighlight && hasFocus && enabled)
+                        {
+                            renderHole(p, r, true, mouseOver);
+                        }
+                        else
+                        {
+                            renderHole(p, r);
+                        }
                     }
 
                     return;
@@ -1383,22 +1285,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ComboBox::Button:
                 {
-                    uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
-                    if(reverseLayout) {
-                        surfaceFlags |= Round_UpperLeft|Round_BottomLeft;
-                    } else {
-                        surfaceFlags |= Round_UpperRight|Round_BottomRight;
-                    }
-
-                    if (mouseOver) {
-                        surfaceFlags |= Is_Highlight;
-                        if(editable) surfaceFlags |= Highlight_Left|Highlight_Right;
-                        surfaceFlags |= Highlight_Top|Highlight_Bottom;
-                    }
-                    renderSurface(p, r,
-                                pal.color(QPalette::Background), buttonColor, getColor(pal,MouseOverHighlight), enabled?_contrast+3:(_contrast/2),
-                                surfaceFlags);
-
                     return;
                 }
             }
@@ -1420,8 +1306,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         if (isFirst)
                             contourFlags |= Draw_Left;
                         if(!enabled) contourFlags|=Is_Disabled;
-                        renderContour(p, r, pal.color(QPalette::Background), getColor(pal,ButtonContour),
-                                        contourFlags);
+                        //renderContour(p, r, pal.color(QPalette::Background), getColor(pal,ButtonContour),                                        contourFlags);
 
                         uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
                         if(!enabled) surfaceFlags|=Is_Disabled;
@@ -1464,8 +1349,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int centerx = r.x() + r.width()/2;
                     int centery = r.y() + r.height()/2;
 
-                    renderContour(p, r, pal.color(QPalette::Base), pal.dark().color(), Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight );
-
                     p->setPen( pal.text().color() );
                     if(!_drawTriangularExpander)
                     {
@@ -1498,54 +1381,33 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     const bool isEnabled = flags & State_Enabled;
                     const bool hasFocus = flags & State_HasFocus;
 
-                    uint contourFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|
-                            Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight;
-
                     if ( _inputFocusHighlight && hasFocus && !isReadOnly && isEnabled)
                     {
-                        renderContour(p, r, pal.color(QPalette::Background),
-                                    getColor(pal,FocusHighlight,enabled), contourFlags );
+                        renderHole(p, r, true, mouseOver);
                     }
                     else
                     {
-                        renderContour(p, r, pal.color(QPalette::Background),
-                                    getColor(pal, ButtonContour, enabled), contourFlags );
+                        renderHole(p, r, false, mouseOver);
                     }
-                    const QColor contentColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
-                    if (_inputFocusHighlight && hasFocus && !isReadOnly && isEnabled)
-                    {
-                        p->setPen( getColor(pal,FocusHighlight).dark(130) );
-                    }
-                    else
-                    {
-                        p->setPen(contentColor.dark(130) );
-                    }
-                    p->drawLine(r.left()+1, r.top()+2, r.left()+1, r.bottom()-2 );
-                    p->drawLine(r.left()+2, r.top()+1, r.right()-2, r.top()+1 );
-                    if (_inputFocusHighlight && hasFocus && !isReadOnly && isEnabled)
-                    {
-                        p->setPen( getColor(pal,FocusHighlight).light(130) );
-                    }
-                    else
-                    {
-                    p->setPen(contentColor.light(130) );
-                    }
-                    p->drawLine(r.left()+2, r.bottom()-1, r.right()-2, r.bottom()-1 );
-                    p->drawLine(r.right()-1, r.top()+2, r.right()-1, r.bottom()-2 );
-
                     return;
                 }
 
                 case LineEdit::Panel:
                 {
+                    const QColor inputColor =
+                                enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
+
                     if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>(opt))
                     {
                         const int lineWidth(panel->lineWidth);
-                        p->fillRect(r.adjusted(lineWidth, lineWidth, -lineWidth, -lineWidth),
-                                    pal.base());
 
                         if (lineWidth > 0)
+                        {
+                            p->fillRect(r.adjusted(lineWidth,lineWidth,-lineWidth,-lineWidth), inputColor);
                             drawPrimitive(PE_FrameLineEdit, panel, p, widget);
+                        }
+                        else
+                            p->fillRect(r.adjusted(2,2,-2,-2), inputColor);
                     }
                 }
             }
@@ -1720,7 +1582,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             // QFrame, Qt item views, etc.: sunken..
             bool focusHighlight = flags&State_HasFocus/* && flags&State_Enabled*/;
             if (flags & State_Sunken) {
-                renderPanel(p, r, pal, true, true, focusHighlight);
+                renderHole(p, r, focusHighlight);
             } else if (flags & State_Raised) {
                 renderPanel(p, r, pal, true, false, focusHighlight);
             } else {
@@ -1764,7 +1626,7 @@ void OxygenStyle::polish(QWidget* widget)
     }
 
     if (qobject_cast<QMenuBar*>(widget)
-        || (widget && widget->inherits("Q3ToolBar"))
+        || widget->inherits("Q3ToolBar")
         || qobject_cast<QToolBar*>(widget)
         || (widget && qobject_cast<QToolBar *>(widget->parent())) )
     {
@@ -1816,127 +1678,15 @@ void OxygenStyle::progressBarDestroyed(QObject* obj)
     progAnimWidgets.remove(static_cast<QWidget*>(obj));
 }
 
-void OxygenStyle::renderContour(QPainter *p,
-                                const QRect &r,
-                                const QColor &backgroundColor,
-                                const QColor &contour,
-                                const uint flags) const
+void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover) const
 {
     if((r.width() <= 0)||(r.height() <= 0))
         return;
 
-    const bool drawLeft = flags&Draw_Left;
-    const bool drawRight = flags&Draw_Right;
-    const bool drawTop = flags&Draw_Top;
-    const bool drawBottom = flags&Draw_Bottom;
-    const bool disabled = flags&Is_Disabled;
-
-    QColor contourColor;
-    if (disabled) {
-        contourColor = backgroundColor.dark(150);
-    } else {
-        contourColor = contour;
-    }
-
-// sides
-    contourColor.setAlphaF(0.8);
-    p->setPen( contourColor );
-    if(drawLeft)
-        p->drawLine(r.left(), drawTop?r.top()+2:r.top(), r.left(), drawBottom?r.bottom()-2:r.bottom());
-    if(drawRight)
-        p->drawLine(r.right(), drawTop?r.top()+2:r.top(), r.right(), drawBottom?r.bottom()-2:r.bottom());
-    if(drawTop)
-        p->drawLine(drawLeft?r.left()+2:r.left(), r.top(), drawRight?r.right()-2:r.right(), r.top());
-    if(drawBottom)
-        p->drawLine(drawLeft?r.left()+2:r.left(), r.bottom(), drawRight?r.right()-2:r.right(), r.bottom());
-
-// edges
-    // first part...
-    if(drawLeft && drawTop) {
-        switch(flags&Round_UpperLeft) {
-            case false:
-                p->drawPoint(r.left()+1, r.top());
-                p->drawPoint(r.left(), r.top()+1);
-                break;
-            default:
-                p->drawPoint(r.left()+1, r.top()+1);
-        }
-    }
-    if(drawLeft && drawBottom) {
-        switch(flags&Round_BottomLeft) {
-            case false:
-                p->drawPoint(r.left()+1, r.bottom());
-                p->drawPoint(r.left(), r.bottom()-1);
-                break;
-            default:
-                p->drawPoint(r.left()+1, r.bottom()-1);
-        }
-    }
-    if(drawRight && drawTop) {
-        switch(flags&Round_UpperRight) {
-            case false:
-                p->drawPoint(r.right()-1, r.top());
-                p->drawPoint(r.right(), r.top()+1);
-                break;
-            default:
-                p->drawPoint(r.right()-1, r.top()+1);
-        }
-    }
-    if(drawRight && drawBottom) {
-        switch(flags&Round_BottomRight) {
-            case false:
-                p->drawPoint(r.right()-1, r.bottom());
-                p->drawPoint(r.right(), r.bottom()-1);
-                break;
-            default:
-                p->drawPoint(r.right()-1, r.bottom()-1);
-        }
-    }
-
-    // third part... anti-aliasing...
-    contourColor.setAlphaF(0.4);
-    p->setPen( contourColor );
-
-    if(drawLeft && drawTop) {
-        switch(flags&Round_UpperLeft) {
-            case false:
-                p->drawPoint(r.left(),r.top() );
-            default:
-                p->drawPoint(r.left()+1,r.top() );
-                p->drawPoint(r.left(),r.top()+1 );
-        }
-    }
-    if(drawLeft && drawBottom) {
-        switch(flags&Round_BottomLeft) {
-            case false:
-                p->drawPoint(r.left(),r.bottom() );
-                break;
-            default:
-                p->drawPoint(r.left()+1,r.bottom());
-                p->drawPoint(r.left(),r.bottom()-1);
-        }
-    }
-    if(drawRight && drawTop) {
-        switch(flags&Round_UpperRight) {
-            case false:
-                p->drawPoint(r.right(),r.top());
-                break;
-            default:
-                p->drawPoint(r.right()-1,r.top());
-                p->drawPoint(r.right(),r.top()+1);
-        }
-    }
-    if(drawRight && drawBottom) {
-        switch(flags&Round_BottomRight) {
-            case false:
-                p->drawPoint(r.right(),r.bottom());
-                break;
-            default:
-                p->drawPoint(r.right()-1,r.bottom());
-                p->drawPoint(r.right(),r.bottom()-1);
-        }
-    }
-
+    if(focus || hover)
+        TileCache::instance()->holeFocused(QColor(Qt::white))->render(r, p);
+    else
+        TileCache::instance()->hole(QColor(Qt::white))->render(r, p);
 }
 
 
@@ -2141,16 +1891,11 @@ void OxygenStyle::renderButton(QPainter *p,
     }
 
     if (!flatMode) {
-        contourFlags |= Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight;
         surfaceFlags |= Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight;
 
-        renderContour(p, r, pal.color(QPalette::Background), getColor(pal,ButtonContour),
-                    contourFlags);
         renderSurface(p, QRect(r.left()+1, r.top()+1, r.width()-2, r.height()-2),
                       pal.color(QPalette::Background), pal.color(QPalette::Button), getColor(pal,MouseOverHighlight), _contrast, surfaceFlags);
     } else {
-        renderContour(p, r, pal.color(QPalette::Background), pal.color(QPalette::Button).dark(105+_contrast*3),
-                      contourFlags);
         renderSurface(p, QRect(r.left()+1, r.top()+1, r.width()-2, r.height()-2),
                       pal.color(QPalette::Background), pal.color(QPalette::Button), getColor(pal,MouseOverHighlight), _contrast/2, surfaceFlags);
 
@@ -2168,14 +1913,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     int s = qMin(rect.width(), rect.height());
     QRect r = centerRect(rect, s, s);
 
-    uint contourFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
-    if(!enabled) {
-        contourFlags |= Is_Disabled;
-    }
-    renderContour(p, r, pal.color(QPalette::Background), getColor(pal, ButtonContour),
-                  contourFlags);
-
-                // surface
+    // surface
     uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
     if(!enabled) {
         surfaceFlags |= Is_Disabled;
@@ -2447,17 +2185,6 @@ void OxygenStyle::renderPanel(QPainter *p,
     r.getRect(&x,&y,&w,&h);
     r.getCoords(&x, &y, &x2, &y2);
 
-    if ( focusHighlight )
-    {
-        renderContour(p, r, pal.color(QPalette::Background),
-                      getColor(pal,FocusHighlight) );
-    }
-    else
-    {
-        renderContour(p, r, pal.color(QPalette::Background),
-                      getColor(pal, PanelContour) );
-    }
-
         if(pseudo3d) {
             QColor dark = focusHighlight ?
                     getColor(pal,FocusHighlight).dark(130) : getColor(pal, PanelDark);
@@ -2521,16 +2248,6 @@ void OxygenStyle::renderTab(QPainter *p,
         const QRect Rs(Rc.x()+1, bottom?Rc.y():Rc.y()+1, Rc.width()-2, Rc.height()-1); // the resulting surface
         // the area where the fake border shoudl appear
         const QRect Rb(r.x(), bottom?r.top():Rc.bottom()+1, r.width(), r.height()-Rc.height() );
-
-        uint contourFlags = Draw_Left|Draw_Right;
-        if(!bottom) {
-            contourFlags |= Draw_Top|Round_UpperLeft|Round_UpperRight;
-        } else {
-            contourFlags |= Draw_Bottom|Round_BottomLeft|Round_BottomRight;
-        }
-        renderContour(p, Rc,
-                      pal.color(QPalette::Background), getColor(pal,PanelContour),
-                      contourFlags);
 
         // surface
         if(!bottom) {
@@ -2652,9 +2369,7 @@ void OxygenStyle::renderTab(QPainter *p,
                 contourFlags = Draw_Right|Draw_Bottom;
             }
         }
-        renderContour(p, Rc,
-                        pal.color( QPalette::Background ), getColor(pal, ButtonContour),
-                        contourFlags);
+//FIXME CBR        renderContour(p, Rc,                        pal.color( QPalette::Background ), getColor(pal, ButtonContour),                        contourFlags);
 
         uint surfaceFlags = Is_Horizontal;
         if(mouseOver) {

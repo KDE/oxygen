@@ -44,6 +44,8 @@
 #include <QtGui/QStyleOption>
 #include <QtCore/QCache>
 
+#include "tileset.h"
+
 #define u_arrow -4,1, 2,1, -3,0, 1,0, -2,-1, 0,-1, -1,-2
 #define d_arrow -4,-2, 2,-2, -3,-1, 1,-1, -2,0, 0,0, -1,1
 #define l_arrow 0,-3, 0,3,-1,-2,-1,2,-2,-1,-2,1,-3,0
@@ -131,13 +133,15 @@ protected:
         Round_BottomRight =  0x00010000,
         Draw_AlphaBlend =    0x00020000
     };
-
+/*
     void renderContour(QPainter *p,
                        const QRect &r,
                        const QColor &backgroundColor,
                        const QColor &contourColor,
                        const uint flags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|
                                Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight) const;
+*/
+    void renderHole(QPainter *p, const QRect &r, bool focus=false, bool hover=false) const;
 
     void renderSurface(QPainter *p,
                         const QRect &r,
@@ -220,6 +224,8 @@ private:
     QMap<QWidget*, int> progAnimWidgets;
     // For progress bar animation
     QTimer *animationTimer;
+
+    TileSet *m_holeTileSet;
 
     // pixmap cache.
     enum CacheEntryType {
