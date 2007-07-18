@@ -62,6 +62,8 @@
 #include <QtGui/QScrollBar>
 #include <QtGui/QLinearGradient>
 
+#include <KGlobal>
+#include <KComponentData>
 #include <KColorUtils>
 #include <KColorScheme>
 
@@ -69,6 +71,9 @@
 #include "tileset.h"
 
 K_EXPORT_STYLE("Oxygen", OxygenStyle)
+
+K_GLOBAL_STATIC_WITH_ARGS(KComponentData, globalComponentData,
+                          ("Oxygen", 0, KComponentData::SkipMainComponentRegistration))
 
 // some bitmaps for the radio button so it's easier to handle the circle stuff...
 // 13x13
@@ -135,7 +140,7 @@ class TileCache
         QPixmap verticalGradient(const QColor &color, int height);
         QPixmap radialGradient(const QColor &color, int width);
         TileSet *hole(const QColor &color);
-        TileSet *holeFocused(const QColor &color);
+        TileSet *holeFocused(const QColor &color, QColor glowColor);
 
     private:
         static TileCache *s_instance;
@@ -258,8 +263,12 @@ TileSet *TileCache::hole(const QColor &surroundColor)
     return tileSet;
 }
 
-TileSet *TileCache::holeFocused(const QColor &surroundColor)
+TileSet *TileCache::holeFocused(const QColor &surroundColor, QColor glowColor)
 {
+    // FIXME need to figure out to what extent we need to care about glowColor
+    // for the key as well, might be enough just to stash the color set in the
+    // key since glow color should only change when the system scheme is
+    // changed by the user
     quint64 key = (quint64(surroundColor.rgba()) << 32) | 0x2;
     TileSet *tileSet = m_setCache.object(key);
 
@@ -290,18 +299,16 @@ TileSet *TileCache::holeFocused(const QColor &surroundColor)
 
         rg = QRadialGradient(4.5, 4.5, 5.0, 4.5, 4.5);
         stops.clear();
-//        QColor color = KColorScheme::decoration(KColorScheme::FocusColor).color();
-        QColor color (50,50,200);
-        color.setAlpha(0);
-        stops << QGradientStop(0, color);
-        color.setAlpha(30);
-        stops  << QGradientStop(0.40, color);
-        color.setAlpha(110);
-        stops  << QGradientStop(0.65, color);
-        color.setAlpha(170);
-        stops  << QGradientStop(0.75, color);
-        color.setAlpha(0);
-        stops  << QGradientStop(0.78, color);
+        glowColor.setAlpha(0);
+        stops << QGradientStop(0, glowColor);
+        glowColor.setAlpha(30);
+        stops  << QGradientStop(0.40, glowColor);
+        glowColor.setAlpha(110);
+        stops  << QGradientStop(0.65, glowColor);
+        glowColor.setAlpha(170);
+        stops  << QGradientStop(0.75, glowColor);
+        glowColor.setAlpha(0);
+        stops  << QGradientStop(0.78, glowColor);
         rg.setStops(stops);
         p.setBrush(rg);
         p.setClipRect(0,0,9,9);
@@ -328,6 +335,16 @@ OxygenStyle::OxygenStyle() :
     flatMode(false)
 {
     setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
+
+    // Use KGlobal::config if available, otherwise we must create our own
+    // KComponentData (e.g. for Qt-only applications)
+    if (KGlobal::hasMainComponent()) {
+        _config = KGlobal::config();
+    }
+    else {
+        KComponentData *kcd = globalComponentData;
+        _config = kcd->config();
+    }
 
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, 0);
@@ -398,12 +415,15 @@ OxygenStyle::OxygenStyle() :
     _drawFocusRect = settings.value("/drawFocusRect", true).toBool();
     _drawTriangularExpander = settings.value("/drawTriangularExpander", false).toBool();
     _inputFocusHighlight = settings.value("/inputFocusHighlight", true).toBool();
-    _customOverHighlightColor = settings.value("/customOverHighlightColor", false).toBool();
-    _overHighlightColor.setNamedColor( settings.value("/overHighlightColor", "black").toString() );
-    _customFocusHighlightColor = settings.value("/customFocusHighlightColor", false).toBool();
-    _focusHighlightColor.setNamedColor( settings.value("/focusHighlightColor", "black").toString() );
     _customCheckMarkColor = settings.value("/customCheckMarkColor", false).toBool();
     _checkMarkColor.setNamedColor( settings.value("/checkMarkColor", "black").toString() );
+    // FIXME below this line to be deleted (and can we not use QSettings? KConfig* is safe now)
+    _customOverHighlightColor = true;
+    _customFocusHighlightColor = true;
+    // do next two lines in polish()?
+    KColorScheme schemeView( KColorScheme::View, _config );
+    _viewHoverColor = _overHighlightColor = schemeView.decoration( KColorScheme::HoverColor ).color();
+    _viewFocusColor = _focusHighlightColor = schemeView.decoration( KColorScheme::FocusColor ).color();
     settings.endGroup();
 
     // setup pixmap cache...
@@ -1683,10 +1703,16 @@ void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover
     if((r.width() <= 0)||(r.height() <= 0))
         return;
 
-    if(focus || hover)
-        TileCache::instance()->holeFocused(QColor(Qt::white))->render(r, p);
+    TileSet *tile;
+    QColor base = QColor(Qt::white);
+    // for holes, focus takes precedence over hover (other way around for buttons)
+    if (focus)
+        tile = TileCache::instance()->holeFocused(base, _viewFocusColor);
+    else if (hover)
+        tile = TileCache::instance()->holeFocused(base, _viewHoverColor);
     else
-        TileCache::instance()->hole(QColor(Qt::white))->render(r, p);
+        tile = TileCache::instance()->hole(base);
+    tile->render(r, p);
 }
 
 

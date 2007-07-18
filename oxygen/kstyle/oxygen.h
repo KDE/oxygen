@@ -39,7 +39,9 @@
 #ifndef __PLASTIK_H
 #define __PLASTIK_H
 
-#include <kstyle.h>
+#include <KStyle>
+#include <KSharedConfig>
+
 #include <QtGui/QBitmap>
 #include <QtGui/QStyleOption>
 #include <QtCore/QCache>
@@ -206,19 +208,23 @@ protected Q_SLOTS:
 private:
     mutable bool flatMode;
 
-    int _contrast;
+    int _contrast; // FIXME should be qreal, from KGlobalSettings::contrastF()
     bool _scrollBarLines;
     bool _animateProgressBar;
     bool _drawToolBarItemSeparator;
     bool _drawFocusRect;
     bool _drawTriangularExpander;
     bool _inputFocusHighlight;
-    bool _customOverHighlightColor;
-    bool _customFocusHighlightColor;
+    bool _customOverHighlightColor; // FIXME REMOVE ME
+    bool _customFocusHighlightColor; // FIXME REMOVE ME
     bool _customCheckMarkColor;
-    QColor _overHighlightColor;
-    QColor _focusHighlightColor;
+    QColor _overHighlightColor; // FIXME REMOVE ME
+    QColor _focusHighlightColor; // FIXME REMOVE ME
     QColor _checkMarkColor;
+    // FIXME remove this line, new (correct) stuff below this point
+    KSharedConfigPtr _config;
+    QColor _viewFocusColor;
+    QColor _viewHoverColor;
 
     //Animation support.
     QMap<QWidget*, int> progAnimWidgets;
