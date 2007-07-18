@@ -1764,7 +1764,7 @@ void OxygenStyle::polish(QWidget* widget)
     }
 
     if (qobject_cast<QMenuBar*>(widget)
-        || widget->inherits("Q3ToolBar")
+        || (widget && widget->inherits("Q3ToolBar"))
         || qobject_cast<QToolBar*>(widget)
         || (widget && qobject_cast<QToolBar *>(widget->parent())) )
     {
