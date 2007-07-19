@@ -60,10 +60,9 @@
 #include <QtGui/QSplitter>
 #include <QtGui/QToolBar>
 #include <QtGui/QScrollBar>
-#include <QtGui/QLinearGradient>
 
 #include <KGlobal>
-#include <KComponentData>
+#include <KSharedConfig>
 #include <KColorUtils>
 #include <KColorScheme>
 
@@ -72,8 +71,7 @@
 
 K_EXPORT_STYLE("Oxygen", OxygenStyle)
 
-K_GLOBAL_STATIC_WITH_ARGS(KComponentData, globalComponentData,
-                          ("Oxygen", 0, KComponentData::SkipMainComponentRegistration))
+K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("OxygenStyle"))
 
 // some bitmaps for the radio button so it's easier to handle the circle stuff...
 // 13x13
@@ -128,223 +126,15 @@ static const unsigned char radiomark_light_bits[] = {
    0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 
-class TileCache
-{
-    private:
-        TileCache();
-
-    public:
-        ~TileCache() {}
-        static TileCache *instance();
-
-        QPixmap verticalGradient(const QColor &color, int height);
-        QPixmap radialGradient(const QColor &color, int width);
-        TileSet *hole(const QColor &color);
-        TileSet *holeFocused(const QColor &color, QColor glowColor);
-
-    private:
-        static TileCache *s_instance;
-        QCache<quint64, QPixmap> m_cache;
-        QCache<quint64, TileSet> m_setCache;
-};
-
-TileCache *TileCache::s_instance = 0;
-
-TileCache::TileCache()
-{
-    m_cache.setMaxCost(64);
-}
-
-TileCache *TileCache::instance()
-{
-    if (!s_instance)
-        s_instance = new TileCache;
-
-    return s_instance;
-}
-
-QPixmap TileCache::verticalGradient(const QColor &color, int height)
-{
-    quint64 key = (quint64(color.rgba()) << 32) | height | 0x8000;
-    QPixmap *pixmap = m_cache.object(key);
-
-    if (!pixmap)
-    {
-        pixmap = new QPixmap(32, height);
-
-        QLinearGradient gradient(0, 0, 0, height);
-        gradient.setColorAt(0.0, OxygenHelper::backgroundTopColor(color));
-        gradient.setColorAt(0.5, color);
-        gradient.setColorAt(1.0, OxygenHelper::backgroundBottomColor(color));
-
-        QPainter p(pixmap);
-        p.setCompositionMode(QPainter::CompositionMode_Source);
-        p.fillRect(pixmap->rect(), gradient);
-
-        m_cache.insert(key, pixmap);
-    }
-
-    return *pixmap;
-}
-
-QPixmap TileCache::radialGradient(const QColor &color, int width)
-{
-    quint64 key = (quint64(color.rgba()) << 32) | width | 0xb000;
-    QPixmap *pixmap = m_cache.object(key);
-
-    if (!pixmap)
-    {
-        width /= 2;
-        pixmap = new QPixmap(width, 64);
-        pixmap->fill(QColor(0,0,0,0));
-        QColor radialColor = OxygenHelper::backgroundRadialColor(color);
-        radialColor.setAlpha(255);
-        QRadialGradient gradient(64, 0, 64);
-        gradient.setColorAt(0, radialColor);
-        radialColor.setAlpha(101);
-        gradient.setColorAt(0.5, radialColor);
-        radialColor.setAlpha(37);
-        gradient.setColorAt(0.75, radialColor);
-        radialColor.setAlpha(0);
-        gradient.setColorAt(1, radialColor);
-
-        QPainter p(pixmap);
-        p.scale(width/128.0,1);
-        p.fillRect(pixmap->rect(), gradient);
-
-        m_cache.insert(key, pixmap);
-    }
-
-    return *pixmap;
-}
-
-TileSet *TileCache::hole(const QColor &surroundColor)
-{
-    quint64 key = (quint64(surroundColor.rgba()) << 32) | 0x1;
-    TileSet *tileSet = m_setCache.object(key);
-
-    if (!tileSet)
-    {
-        QImage tmpImg(9, 9, QImage::Format_ARGB32);
-        QLinearGradient lg; QGradientStops stops;
-        QPainter p;
-
-        tmpImg.fill(Qt::transparent);
-
-        p.begin(&tmpImg);
-        p.setPen(Qt::NoPen);
-        p.setRenderHint(QPainter::Antialiasing);
-        p.scale(1.25, 1.0);
-        QRadialGradient rg = QRadialGradient(4.5*0.8, 4.5, 5.0, 4.5*0.8, 4.5+1.3);
-        stops.clear();
-        stops << QGradientStop( 0.4, QColor(0,0,0, 0) )
-           << QGradientStop( 0.58, QColor(0,0,0, 20) )
-           << QGradientStop( 0.75, QColor(0,0,0, 53) )
-           << QGradientStop( 0.88, QColor(0,0,0, 100) )
-           << QGradientStop( 1, QColor(0,0,0, 150 ) );
-        rg.setStops(stops);
-        p.setBrush(rg);
-        p.setClipRect(0,0,9,8);
-        p.drawRoundRect(QRectF(0,0, 9*0.8, 9),80,80);
-        p.resetTransform();
-
-        // draw white edge at bottom
-        p.setClipRect(0,7,9,2);
-        p.setBrush(Qt::NoBrush);
-        p.setPen( KColorUtils::shade(surroundColor, 0.3));
-        p.drawRoundRect(QRectF(0.5, 0.5, 8, 8),80,80);
-        p.setPen(Qt::NoPen);
-        p.end();
-
-        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
-
-        m_setCache.insert(key, tileSet);
-    }
-    return tileSet;
-}
-
-TileSet *TileCache::holeFocused(const QColor &surroundColor, QColor glowColor)
-{
-    // FIXME need to figure out to what extent we need to care about glowColor
-    // for the key as well, might be enough just to stash the color set in the
-    // key since glow color should only change when the system scheme is
-    // changed by the user
-    quint64 key = (quint64(surroundColor.rgba()) << 32) | 0x2;
-    TileSet *tileSet = m_setCache.object(key);
-
-    if (!tileSet)
-    {
-        QImage tmpImg(9, 9, QImage::Format_ARGB32);
-        QLinearGradient lg; QGradientStops stops;
-        QPainter p;
-
-        tmpImg.fill(Qt::transparent);
-
-        p.begin(&tmpImg);
-        p.setPen(Qt::NoPen);
-        p.setRenderHint(QPainter::Antialiasing);
-        p.scale(1.25, 1.0);
-        QRadialGradient rg = QRadialGradient(4.5*0.8, 4.5, 5.0, 4.5*0.8, 4.5+1.3);
-        stops.clear();
-        stops << QGradientStop( 0.4, QColor(0,0,0, 0) )
-           << QGradientStop( 0.58, QColor(0,0,0, 20) )
-           << QGradientStop( 0.75, QColor(0,0,0, 53) )
-           << QGradientStop( 0.88, QColor(0,0,0, 100) )
-           << QGradientStop( 1, QColor(0,0,0, 150 ) );
-        rg.setStops(stops);
-        p.setBrush(rg);
-        p.setClipRect(0,0,9,8);
-        p.drawRoundRect(QRectF(0,0, 9*0.8, 9),80,80);
-        p.resetTransform();
-
-        rg = QRadialGradient(4.5, 4.5, 5.0, 4.5, 4.5);
-        stops.clear();
-        glowColor.setAlpha(0);
-        stops << QGradientStop(0, glowColor);
-        glowColor.setAlpha(30);
-        stops  << QGradientStop(0.40, glowColor);
-        glowColor.setAlpha(110);
-        stops  << QGradientStop(0.65, glowColor);
-        glowColor.setAlpha(170);
-        stops  << QGradientStop(0.75, glowColor);
-        glowColor.setAlpha(0);
-        stops  << QGradientStop(0.78, glowColor);
-        rg.setStops(stops);
-        p.setBrush(rg);
-        p.setClipRect(0,0,9,9);
-        p.drawRoundRect(QRectF(0,0, 9, 9),80,80);
-
-        // draw white edge at bottom
-        p.setClipRect(0,7,9,2);
-        p.setBrush(Qt::NoBrush);
-        p.setPen( KColorUtils::shade(surroundColor, 0.3));
-        p.drawRoundRect(QRectF(0.5, 0.5, 8, 8),80,80);
-        p.setPen(Qt::NoPen);
-        p.end();
-
-        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
-
-        m_setCache.insert(key, tileSet);
-    }
-    return tileSet;
-}
-
 OxygenStyle::OxygenStyle() :
 //     kickerMode(false),
 //     kornMode(false),
-    flatMode(false)
+    flatMode(false),
+    _helper(*globalHelper)
 {
-    setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
+    _config = _helper.config();
 
-    // Use KGlobal::config if available, otherwise we must create our own
-    // KComponentData (e.g. for Qt-only applications)
-    if (KGlobal::hasMainComponent()) {
-        _config = KGlobal::config();
-    }
-    else {
-        KComponentData *kcd = globalComponentData;
-        _config = kcd->config();
-    }
+    setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
 
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, 0);
@@ -407,6 +197,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    3);
 
     QSettings settings;
+    // TODO get from KGlobalSettings::contrastF or expose in OxygenHelper
     _contrast = settings.value("/Qt/KDE/contrast", 6).toInt();
     settings.beginGroup("/oxygenstyle/Settings");
     _scrollBarLines = settings.value("/scrollBarLines", false).toBool();
@@ -486,14 +277,14 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
             int splitY = qMin(300, 3*option->rect.height()/4);
 
             QRect upperRect = QRect(0, 0, option->rect.width(), splitY);
-            QPixmap tile = TileCache::instance()->verticalGradient(color, splitY);
+            QPixmap tile = _helper.verticalGradient(color, splitY);
             painter->drawTiledPixmap(upperRect, tile);
 
             QRect lowerRect = QRect(0,splitY, option->rect.width(), option->rect.height() - splitY);
-            painter->fillRect(lowerRect, OxygenHelper::backgroundBottomColor(color));
+            painter->fillRect(lowerRect, _helper.backgroundBottomColor(color));
 
             int radialW = qMin(600, option->rect.width());
-            tile = TileCache::instance()->radialGradient(color, radialW);
+            tile = _helper.radialGradient(color, radialW);
             QRect radialRect = QRect((option->rect.width() - radialW) / 2, 0, radialW, 64);
             painter->drawPixmap(radialRect, tile);
             break;
@@ -1707,11 +1498,11 @@ void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover
     QColor base = QColor(Qt::white);
     // for holes, focus takes precedence over hover (other way around for buttons)
     if (focus)
-        tile = TileCache::instance()->holeFocused(base, _viewFocusColor);
+        tile = _helper.holeFocused(base, _viewFocusColor);
     else if (hover)
-        tile = TileCache::instance()->holeFocused(base, _viewHoverColor);
+        tile = _helper.holeFocused(base, _viewHoverColor);
     else
-        tile = TileCache::instance()->hole(base);
+        tile = _helper.hole(base);
     tile->render(r, p);
 }
 

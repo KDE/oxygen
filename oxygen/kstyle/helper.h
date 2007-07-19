@@ -1,5 +1,6 @@
 /*
  * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
+ * Copyright 2007 Casper Boemann <cbr@boemann.dk>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -16,21 +17,23 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef __HELPER_H
-#define __HELPER_H
+#ifndef __OXYGEN_STYLE_HELPER_H
+#define __OXYGEN_STYLE_HELPER_H
 
-#include <QtGui/QColor>
+#include "lib/helper.h"
+#include "tileset.h"
 
-// alphaBlendColors Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
-// DEPRECATED
-QColor alphaBlendColors(const QColor &backgroundColor, const QColor &foregroundColor, const int alpha);
-
-class OxygenHelper
+class OxygenStyleHelper : public OxygenHelper
 {
 public:
-    static QColor backgroundRadialColor(const QColor &color);
-    static QColor backgroundTopColor(const QColor &color);
-    static QColor backgroundBottomColor(const QColor &color);
+    explicit OxygenStyleHelper(const QByteArray &componentName);
+    virtual ~OxygenStyleHelper() {}
+
+    TileSet *hole(const QColor &color);
+    TileSet *holeFocused(const QColor &color, QColor glowColor);
+
+protected:
+    QCache<quint64, TileSet> m_setCache;
 };
 
-#endif // __HELPER_H
+#endif // __OXYGEN_STYLE_HELPER_H

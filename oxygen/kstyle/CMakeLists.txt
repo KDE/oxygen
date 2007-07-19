@@ -7,7 +7,7 @@ add_subdirectory( config )
 
 ########### next target ###############
 
-set(oxygen_PART_SRCS oxygen.cpp helper.cpp tileset.cpp)
+set(oxygen_PART_SRCS lib/helper.cpp helper.cpp oxygen.cpp tileset.cpp)
 
 
 kde4_add_plugin(oxygen ${oxygen_PART_SRCS})
