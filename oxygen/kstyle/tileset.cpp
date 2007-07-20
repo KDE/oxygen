@@ -1,5 +1,6 @@
 /* Oxygen widget style for KDE 4
    Copyright (C) 2006-2007 Thomas Luebking <thomas.luebking@web.de>
+   Copyright (C) 2007 Casper Boemann <cbr@boemann.dk>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -20,18 +21,6 @@
 #include <cmath>
 
 #include "tileset.h"
-
-static bool isEmpty(const QPixmap &pix)
-{
-   if (!pix.hasAlpha()) return false;
-   QImage img =  pix.toImage();
-   uint *data = ( uint * ) img.bits();
-   int total = img.width() * img.height();
-   for ( int current = 0 ; current < total ; ++current )
-      if (qAlpha(data[ current ]))
-         return false;
-   return true;
-}
 
 TileSet::TileSet(const QPixmap &pix, int xOff, int yOff, int width, int height, int rx, int ry)
 {
@@ -55,145 +44,104 @@ TileSet::TileSet(const QPixmap &pix, int xOff, int yOff, int width, int height, 
 #define initPixmap(_SECTION_,_WIDTH_,_HEIGHT_)\
    pixmap[_SECTION_] = QPixmap(_WIDTH_, _HEIGHT_);\
    pixmap[_SECTION_].fill(Qt::transparent); p.begin(&pixmap[_SECTION_])
-      
-#define finishPixmap(_SECTION_)\
-   p.end();\
-   if (isEmpty(pixmap[_SECTION_]))\
-      pixmap[_SECTION_] = QPixmap()
 
     initPixmap(TopLeft, xOff, yOff);
     p.drawPixmap(0, 0, pix, 0, 0, xOff, yOff);
-    finishPixmap(TopLeft);
+    p.end();
 
     initPixmap(TopMid, amount*width, yOff);
     for (i = 0; i < amount; i++)
          p.drawPixmap(i*width, 0, pix, xOff, 0, width, yOff);
-    finishPixmap(TopMid);
+    p.end();
 
     initPixmap(TopRight, rOff, yOff);
     p.drawPixmap(0, 0, pix, xOff+width, 0, rOff, yOff);
-    finishPixmap(TopRight);
+    p.end();
 
     //----------------------------------
     initPixmap(MidLeft, xOff, amount2*height);
     for (i = 0; i < amount2; i++)
          p.drawPixmap(0, i*height, pix, 0, yOff, xOff, height);
-    finishPixmap(MidLeft);
+    p.end();
 
     initPixmap(MidMid, amount*width, amount2*height);
     for (i = 0; i < amount; i++)
          for (int j = 0; j < amount2; j++)
               p.drawPixmap(i*width, j*height, pix, xOff, yOff, width, height);
-    finishPixmap(MidMid);
+    p.end();
 
     initPixmap(MidRight, rOff, amount2*height);
     for (i = 0; i < amount2; i++)
          p.drawPixmap(0, i*height, pix, xOff+width, yOff, rOff, height);
-    finishPixmap(MidRight);
+    p.end();
 
     //----------------------------------
     initPixmap(BtmLeft, xOff, bOff);
     p.drawPixmap(0, 0, pix, 0, yOff+height, xOff, bOff);
-    finishPixmap(BtmLeft);
+    p.end();
 
     initPixmap(BtmMid, amount*width, bOff);
     for (i = 0; i < amount; i++)
          p.drawPixmap(i*width, 0, pix, xOff, yOff+height, width, bOff);
-    finishPixmap(BtmMid);
+    p.end();
 
     initPixmap(BtmRight, rOff, bOff);
     p.drawPixmap(0, 0, pix, xOff+width, yOff+height, rOff, bOff);
-    finishPixmap(BtmRight);
+    p.end();
 }
 
 void TileSet::render(const QRect &r, QPainter *p, PosFlags pf) const
 {
-#define PIXMAP(_TILE_) pixmap[_TILE_]
-#define DRAW_PIXMAP p->drawPixmap
-#define DRAW_TILED_PIXMAP p->drawTiledPixmap
+    int xOff, yOff, midw, midh;
 
-    int rOff = 0, xOff, yOff, w, h;
-    
-    r.getRect(&xOff, &yOff, &w, &h);
+    r.getRect(&xOff, &yOff, &midw, &midh);
     int tlh = height(TopLeft), blh = height(BtmLeft),
         trh = height(TopRight), brh = height(BtmLeft),
         tlw = width(TopLeft), blw = width(BtmLeft),
         trw = width(TopRight), brw = width(BtmRight);
-    
-    if (pf & Left)
-    {
-        w -= width(TopLeft);
-        xOff += width(TopLeft);
-        if (pf & (Top | Bottom) && tlh + blh > r.height()) // vertical edge overlap
-        {
-            tlh = (tlh*r.height())/(tlh+blh);
-            blh = r.height() - tlh;
-        }
-    }
-    if (pf & Right)
-    {
-        w -= width(TopRight);
-        if (matches(Top | Bottom, pf) && trh + brh > r.height()) // vertical edge overlap
-        {
-            trh = (trh*r.height())/(trh+brh);
-            brh = r.height() - trh;
-        }
-    }
-    
-    if (pf & Top)
-    {
-        if (matches(Left | Right, pf) && w < 0) // horizontal edge overlap
-        {
-            tlw = tlw*r.width()/(tlw+trw);
-            trw = r.width() - tlw;
-        }
-        rOff = r.right()-trw+1;
-        yOff += tlh;
-        h -= tlh;
-        if (pf & Left) // upper left
-            DRAW_PIXMAP(r.x(),r.y(),PIXMAP(TopLeft), 0, 0, tlw, tlh);
-        if (pf & Right) // upper right
-            DRAW_PIXMAP(rOff, r.y(), PIXMAP(TopRight), width(TopRight)-trw, 0,
-                        trw, trh);
-        
-        // upper line
-        if (w > 0 && !pixmap[TopMid].isNull())
-            DRAW_TILED_PIXMAP(xOff, r.y(), w, tlh/*height(TopMid)*/, PIXMAP(TopMid));
-    }
-    if (pf & Bottom)
-    {
-        if (matches(Left | Right, pf) && w < 0) // horizontal edge overlap
-        {
-            blw = (blw*r.width())/(blw+brw);
-            brw = r.width() - blw;
-        }
-        rOff = r.right()-brw+1;
-        int bOff = r.bottom()-blh+1;
-        h -= blh;
-        if (pf & Left) // lower left
-            DRAW_PIXMAP(r.x(), bOff, PIXMAP(BtmLeft), 0, height(BtmLeft)-blh,
-                        blw, blh);
-        if (pf & Right) // lower right
-            DRAW_PIXMAP(rOff, bOff, PIXMAP(BtmRight), width(BtmRight)-brw,
-                        height(BtmRight)-brh, brw, brh);
-        
-        // lower line
-        if (w > 0 && !pixmap[BtmMid].isNull())
-            DRAW_TILED_PIXMAP(xOff, bOff, w, height(BtmMid), PIXMAP(BtmMid));
-    }
-    
-    if (h > 0)
-    {
-        if ((pf & Center) && (w > 0)) // center part
-            DRAW_TILED_PIXMAP(xOff, yOff, w, h, pixmap[MidMid]);
-        if (pf & Left && !pixmap[MidLeft].isNull()) // left line
-            DRAW_TILED_PIXMAP(r.x(), yOff, width(MidLeft), h, PIXMAP(MidLeft));
-        rOff = r.right()-width(MidRight)+1;
-        if (pf & Right && !pixmap[MidRight].isNull()) // right line
-            DRAW_TILED_PIXMAP(rOff, yOff, width(MidRight), h, PIXMAP(MidRight));
-    }
 
-#undef PIXMAP
-#undef DRAW_PIXMAP
-#undef DRAW_TILED_PIXMAP
+    // Figure out how much space we have for the middle part and fix corner sizes at the same time
+    if(pf & Top)
+        midh -= tlh;
+    else
+        tlh = trh = 0;
+    if(pf & Bottom)
+        midh -= brh;
+    else
+        blh = brh = 0;
+    if(pf & Left)
+        midw -= tlw;
+    else
+        tlw = blw = 0;
+    if(pf & Right)
+        midw -= brw;
+    else
+        trw = brw = 0;
+
+    p->setClipRect(r);
+    // Paint the corners
+    if((pf & Top) && (pf & Left))
+        p->drawPixmap(r.x(), r.y(), pixmap[TopLeft], 0, 0, tlw, tlh);
+    if((pf & Top) && (pf & Right))
+        p->drawPixmap(r.right()-trw+1, r.y(), pixmap[TopRight], 0, 0, trw, trh);
+    if((pf & Bottom) && (pf & Left))
+        p->drawPixmap(r.x(), r.bottom()-blh+1, pixmap[BtmLeft], 0, 0, blw, blh);
+    if((pf & Bottom) && (pf & Right))
+        p->drawPixmap(r.right()-trw+1, r.bottom()-brh+1, pixmap[BtmRight], 0, 0, brw, brh);
+
+    //Paint the sides
+    if(pf & Top && midw >0)
+        p->drawTiledPixmap(r.x()+trw, r.y(), midw, tlh, pixmap[TopMid], 0, 0);
+    if(pf & Bottom && midw >0)
+        p->drawTiledPixmap(r.x()+trw, r.bottom()-blh+1, midw, blh, pixmap[BtmMid], 0, 0);
+    if(pf & Left && midh >0)
+        p->drawTiledPixmap(r.x(), r.y()+tlh, tlw, midh, pixmap[MidLeft], 0, 0);
+    if(pf & Right && midh >0)
+        p->drawTiledPixmap(r.right()-trw+1, r.y()+trh, trw, midh, pixmap[MidRight], 0, 0);
+
+    //Paint the center
+    if(pf & Center && midw>0 && midh>0)
+        p->drawTiledPixmap(r.x()+trw, r.y()+trh, midw, midh, pixmap[MidMid], 0, 0);
+
+    p->setClipping(false);
 }

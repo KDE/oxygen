@@ -30,11 +30,7 @@ public:
    TileSet(const QPixmap &pix, int xOff, int yOff, int width, int height, int rx = 0, int ry = 0);
    TileSet(){}
 
-   enum Section
-   { // DON'T CHANGE THE ORDER FOR NO REASON, i misuse them on the masks...
-      TopLeft = 0, TopRight, BtmLeft, BtmRight,
-      TopMid, BtmMid, MidLeft, MidMid, MidRight
-   };
+    /// Flags for what part to render. They can be |'ed together. To paint corners you specify two sides
    enum Position
    {
       Top = 0x1, Left=0x2, Bottom=0x4, Right=0x8,
@@ -42,18 +38,23 @@ public:
    };
 
    typedef uint PosFlags;
-
    void render(const QRect &rect, QPainter *p, PosFlags pf = Ring) const;
    QRect rect(const QRect &rect, PosFlags pf) const;
-   inline int width(Section sect) const {return pixmap[sect].width();}
-   inline int height(Section sect) const {return pixmap[sect].height();}
-   inline bool isQBitmap() const {return _isBitmap;}
 
 protected:
 
     inline static bool matches(PosFlags This, PosFlags That){return (This & That) == This;}
-   QPixmap pixmap[9];
+    QPixmap pixmap[9];
+
 private:
+   enum Section
+   {
+      TopLeft = 0, TopRight, BtmLeft, BtmRight,
+      TopMid, BtmMid, MidLeft, MidMid, MidRight
+   };
+   inline int width(Section sect) const {return pixmap[sect].width();}
+   inline int height(Section sect) const {return pixmap[sect].height();}
+
    int rxf, ryf;
    bool _isBitmap;
 };

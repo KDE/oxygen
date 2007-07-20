@@ -55,14 +55,14 @@ TileSet *OxygenStyleHelper::hole(const QColor &surroundColor)
         rg.setStops(stops);
         p.setBrush(rg);
         p.setClipRect(0,0,9,8);
-        p.drawRoundRect(QRectF(0,0, 9*0.8, 9),80,80);
+        p.drawRoundRect(QRectF(0,0, 9*0.8, 9),90,90);
         p.resetTransform();
 
         // draw white edge at bottom
         p.setClipRect(0,7,9,2);
         p.setBrush(Qt::NoBrush);
         p.setPen( KColorUtils::shade(surroundColor, 0.3));
-        p.drawRoundRect(QRectF(0.5, 0.5, 8, 8),80,80);
+        p.drawRoundRect(QRectF(0.5, 0.5, 8, 8),90,90);
         p.setPen(Qt::NoPen);
         p.end();
 
@@ -104,7 +104,7 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &surroundColor, QColor glow
         rg.setStops(stops);
         p.setBrush(rg);
         p.setClipRect(0,0,9,8);
-        p.drawRoundRect(QRectF(0,0, 9*0.8, 9),80,80);
+        p.drawRoundRect(QRectF(0,0, 9*0.8, 9),90,90);
         p.resetTransform();
 
         rg = QRadialGradient(4.5, 4.5, 5.0, 4.5, 4.5);
@@ -122,19 +122,73 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &surroundColor, QColor glow
         rg.setStops(stops);
         p.setBrush(rg);
         p.setClipRect(0,0,9,9);
-        p.drawRoundRect(QRectF(0,0, 9, 9),80,80);
+        p.drawRoundRect(QRectF(0,0, 9, 9),90,90);
 
         // draw white edge at bottom
         p.setClipRect(0,7,9,2);
         p.setBrush(Qt::NoBrush);
         p.setPen( KColorUtils::shade(surroundColor, 0.3));
-        p.drawRoundRect(QRectF(0.5, 0.5, 8, 8),80,80);
+        p.drawRoundRect(QRectF(0.5, 0.5, 8, 8),90,90);
         p.setPen(Qt::NoPen);
         p.end();
 
         tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
 
         m_setCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+TileSet *OxygenStyleHelper::verticalScrollBar(const QColor &color, const QRect &orgR)
+{
+    int width = orgR.width();
+    int height = orgR.height();
+    int offsetSize = int(1.5 * width);
+    int offset = orgR.top() % (3*width);
+
+    quint64 key = (quint64(color.rgba()) << 32) | (width<<20) | (height<<10) | offset;
+    TileSet *tileSet = m_verticalScrollBarCache.object(key);
+    if (!tileSet)
+    {
+        QPixmap tmpPixmap(width, height);
+        tmpPixmap.fill(Qt::transparent);
+
+        QPainter p(&tmpPixmap);
+        QRect r(0, 0, width, height);
+        p.setPen(Qt::NoPen);
+        p.setRenderHint(QPainter::Antialiasing);
+
+        QLinearGradient lg(QPointF(0, 0),QPointF(width*0.6, 0));
+        lg.setColorAt(0, color.lighter(140));
+        lg.setColorAt(1, color);
+        p.setBrush(lg);
+        p.drawRoundRect(r, 90*9/width,90*9/height);
+
+        lg = QLinearGradient (QPointF(0, 0),QPointF(width, 0));
+        QColor tmpColor(28,255,28);
+        tmpColor.setAlpha(0);
+        lg.setColorAt(0, tmpColor);
+        tmpColor.setAlpha(128);
+        lg.setColorAt(1, tmpColor);
+        p.setBrush(lg);
+        p.drawRoundRect(QRectF(0.48*width, 0, 0.52*width, height), int(90*9/(width*0.52)),90*9/height);
+//Not ported below
+
+        lg = QLinearGradient(QPointF(width/2, -offset),QPointF(width, -offset+offsetSize));
+        lg.setSpread(QGradient::ReflectSpread);
+        tmpColor = color.darker(130);
+        tmpColor.setAlpha(110);
+        lg.setColorAt(0.0, tmpColor);
+        tmpColor.setAlpha(30);
+        lg.setColorAt(0.6, tmpColor);
+        tmpColor.setAlpha(0);
+        lg.setColorAt(1.0, tmpColor);
+        p.setBrush(lg);
+        p.drawRoundRect(r, 90*9/width, 90*9/height);
+
+        tileSet = new TileSet(tmpPixmap, 1, 1, width-2, height-2);
+
+        m_verticalScrollBarCache.insert(key, tileSet);
     }
     return tileSet;
 }

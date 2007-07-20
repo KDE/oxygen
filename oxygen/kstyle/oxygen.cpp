@@ -57,7 +57,6 @@
 #include <QtGui/QProgressBar>
 #include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
-#include <QtGui/QSplitter>
 #include <QtGui/QToolBar>
 #include <QtGui/QScrollBar>
 
@@ -137,7 +136,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
 
     // TODO: change this when double buttons are implemented
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, 0);
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 1);
@@ -617,6 +616,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     return;
                 }
+
+               case DockWidget::SeparatorHandle:
+                    if (flags&State_Horizontal)
+                        drawKStylePrimitive(WT_Splitter, Splitter::HandleVert, opt, r, pal, flags, p, widget);
+                    else
+                        drawKStylePrimitive(WT_Splitter, Splitter::HandleHor, opt, r, pal, flags, p, widget);
+                    return;
             }
         }
         break;
@@ -669,104 +675,54 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case ScrollBar::DoubleButtonHor:
                 {
-                    // TODO
+                    renderHole(p, QRect(r.left(),0, 3, r.height()), false,false, TileSet::Top | TileSet::Right | TileSet::Bottom);
+                    return;
                 }
                 break;
 
                 case ScrollBar::DoubleButtonVert:
                 {
-                    // TODO
+                    renderHole(p, QRect(0,r.top(), r.width(), 3), false,false, TileSet::Bottom | TileSet::Left | TileSet::Right);
+                    return;
                 }
                 break;
 
                 case ScrollBar::SingleButtonHor:
                 {
-                    bool down = flags&State_Sunken;
-
-                    uint contourFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
-                    uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
-
-                    if(down) surfaceFlags|=Is_Sunken;
-                    if(!enabled) {
-                        contourFlags|=Is_Disabled;
-                        surfaceFlags|=Is_Disabled;
-                    }
-
-                    // TODO: round buttons. need to find out if it's an addPage or subPage button for that...
-                    contourFlags |= /*Round_UpperLeft|Round_BottomLeft|*/Is_Horizontal;
-                    surfaceFlags |= /*Round_UpperLeft|Round_BottomLeft|*/Is_Horizontal;
-
-                    renderSurface(p, QRect(r.left()+1, r.top()+1, r.width()-2, r.height()-2),
-                                  pal.color( QPalette::Background ), pal.color(QPalette::Button), getColor(pal,MouseOverHighlight), _contrast+3,
-                            surfaceFlags);
+                    renderHole(p, QRect(r.right()-2,0, 3, r.height()), false,false, TileSet::Top | TileSet::Left | TileSet::Bottom);
                     return;
                 }
                 break;
 
                 case ScrollBar::SingleButtonVert:
                 {
-                    bool down = flags&State_Sunken;
-
-                    uint contourFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
-                    uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
-
-                    if(down) surfaceFlags|=Is_Sunken;
-                    if(!enabled) {
-                        contourFlags|=Is_Disabled;
-                        surfaceFlags|=Is_Disabled;
-                    }
-
-                    // TODO: round buttons. need to find out if it's an addPage or subPage button for that...
-//                     contourFlags |= Round_BottomLeft|Round_BottomRight;
-//                     surfaceFlags |= Round_BottomLeft|Round_BottomRight;
-
-                    renderSurface(p, QRect(r.left()+1, r.top()+1, r.width()-2, r.height()-2),
-                                  pal.color( QPalette::Background ), pal.color(QPalette::Button), getColor(pal,MouseOverHighlight), _contrast+3,
-                                  surfaceFlags);
+                    renderHole(p, QRect(0,r.bottom()-2, r.width(), 3), false,false, TileSet::Top | TileSet::Left | TileSet::Right);
                     return;
                 }
                 break;
 
                 case ScrollBar::GrooveAreaVert:
+                {
+                    renderHole(p, r, false,false, TileSet::Left | TileSet::Right);
+                    return;
+                }
                 case ScrollBar::GrooveAreaHor:
                 {
-                    bool hor = flags & State_Horizontal;
-
-                    if(hor) {
-                        p->setPen(pal.color( QPalette::Background ).dark(106));
-                        p->drawLine(r.left(), r.top(), r.right(), r.top());
-                        p->setPen(pal.color( QPalette::Background ).light(106));
-                        p->drawLine(r.left(), r.bottom(), r.right(), r.bottom());
-                    } else {
-                        p->setPen(pal.color( QPalette::Background ).dark(106));
-                        p->drawLine(r.left(), r.top(), r.left(), r.bottom());
-                        p->setPen(pal.color( QPalette::Background ).light(106));
-                        p->drawLine(r.right(), r.top(), r.right(), r.bottom());
-                    }
-
+                    renderHole(p, r, false,false, TileSet::Top | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::SliderVert:
+                {
+                    renderHole(p, r, false,false, TileSet::Left | TileSet::Right);
+                    _helper.verticalScrollBar(QColor(0,116,0), r.adjusted(1,0,-1,0))->render(r.adjusted(1,0,-1,0), p, TileSet::Full);
+                    return;
+                }
+
                 case ScrollBar::SliderHor:
                 {
-                    bool down = (flags & State_Sunken);
-                    bool horizontal = (flags & State_Horizontal);
-
-                    const WidgetState s = enabled?(down?IsPressed:IsEnabled):IsDisabled;
-                    const QColor surface = getColor(pal, DragButtonSurface, s);
-
-                    uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
-                    if(horizontal) surfaceFlags|=Is_Horizontal;
-                    if(!enabled) surfaceFlags|=Is_Disabled;
-                    if(r.height() >= 4)
-                        renderSurface(p, QRect(r.left()+1, r.top()+1, r.width()-2, r.height()-2),
-                                      pal.color( QPalette::Background ), surface, pal.color( QPalette::Background ),
-                                      _contrast+3, surfaceFlags);
-
-            // set contour-like color for the case _scrollBarLines is set and we paint lines instead of dots.
-                    p->setPen(alphaBlendColors(pal.color(QPalette::Background), surface.dark(enabled?140:120), 50) );
-
+                    renderHole(p, r, false,false, TileSet::Top | TileSet::Bottom);
+                    p->fillRect(r.adjusted(2, 2, -2, -2), QColor(Qt::red));
                     return;
                 }
 
@@ -841,30 +797,31 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             switch (primitive)
             {
                 case Splitter::HandleHor:
+                {
+                    int h = r.height();
+                    QColor color = pal.color(QPalette::Background);
+
+                    int ngroups = qMax(1,h / 250);
+                    int center = (h - (ngroups-1) * 250) /2 + r.top();
+                    for(int k = 0; k < ngroups; k++, center += 250) {
+                        renderDot(p, QPointF(r.left()+3, center-5), color);
+                        renderDot(p, QPointF(r.left()+3, center), color);
+                        renderDot(p, QPointF(r.left()+3, center+5), color);
+                    }
+                    return;
+                }
                 case Splitter::HandleVert:
                 {
                     int w = r.width();
-                    int h = r.height();
+                    QColor color = pal.color(QPalette::Background);
 
-                    QColor color = (mouseOver)?pal.color(QPalette::Background).light(100+_contrast):pal.color(QPalette::Background);
-                    color = QColor(Qt::red);
-                    p->fillRect(r, color);
-                    if (flags & State_Horizontal) {
-                        if (w > 4) {
-                            int xcenter = r.width()/2;
-                            for(int k = 2*r.height()/10; k < 8*r.height()/10; k+=5) {
-                                renderDot(p, QPointF(xcenter-1, k), color);
-                            }
-                        }
-                    } else {
-                        if (h > 4) {
-                            int ycenter = r.height()/2;
-                            for(int k = 2*r.width()/10; k < 8*r.width()/10; k+=5) {
-                                renderDot(p, QPointF(k, ycenter-1), color);
-                            }
-                        }
+                    int ngroups = qMax(1, w / 250);
+                    int center = (w - (ngroups-1) * 250) /2 + r.left();
+                    for(int k = 0; k < ngroups; k++, center += 250) {
+                        renderDot(p, QPointF(center-5, r.top()+3), color);
+                        renderDot(p, QPointF(center, r.top()+3), color);
+                        renderDot(p, QPointF(center+5, r.top()+3), color);
                     }
-
                     return;
                 }
             }
@@ -1053,9 +1010,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case Generic::Frame:
                 {
                     // TODO: pressed state
-
-                    uint contourFlags = 0;
-
                     if(!editable) {
                         int surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
                         if(reverseLayout) {
@@ -1430,7 +1384,6 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QAbstractSpinBox*>(widget)
         || qobject_cast<QCheckBox*>(widget)
         || qobject_cast<QRadioButton*>(widget)
-        || qobject_cast<QSplitterHandle*>(widget)
         || qobject_cast<QTabBar*>(widget)
         ) {
         widget->setAttribute(Qt::WA_Hover);
@@ -1463,7 +1416,6 @@ void OxygenStyle::unpolish(QWidget* widget)
         || qobject_cast<QComboBox*>(widget)
         || qobject_cast<QAbstractSpinBox*>(widget)
         || qobject_cast<QCheckBox*>(widget)
-        || qobject_cast<QSplitterHandle*>(widget)
         || qobject_cast<QRadioButton*>(widget)) {
         widget->setAttribute(Qt::WA_Hover, false);
     }
@@ -1489,7 +1441,7 @@ void OxygenStyle::progressBarDestroyed(QObject* obj)
     progAnimWidgets.remove(static_cast<QWidget*>(obj));
 }
 
-void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover) const
+void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover, TileSet::PosFlags posFlags) const
 {
     if((r.width() <= 0)||(r.height() <= 0))
         return;
@@ -1503,7 +1455,7 @@ void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover
         tile = _helper.holeFocused(base, _viewHoverColor);
     else
         tile = _helper.hole(base);
-    tile->render(r, p);
+    tile->render(r, p, posFlags);
 }
 
 

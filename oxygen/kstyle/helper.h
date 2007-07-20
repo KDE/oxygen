@@ -31,9 +31,11 @@ public:
 
     TileSet *hole(const QColor &color);
     TileSet *holeFocused(const QColor &color, QColor glowColor);
+    TileSet *verticalScrollBar(const QColor &color, const QRect &r);
 
 protected:
     QCache<quint64, TileSet> m_setCache;
+    QCache<quint64, TileSet> m_verticalScrollBarCache;
 };
 
 #endif // __OXYGEN_STYLE_HELPER_H

@@ -143,7 +143,11 @@ protected:
                        const uint flags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|
                                Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight) const;
 */
-    void renderHole(QPainter *p, const QRect &r, bool focus=false, bool hover=false) const;
+    void renderHole(QPainter *p,
+                        const QRect &r,
+                        bool focus=false,
+                        bool hover=false,
+                        TileSet::PosFlags posFlags = TileSet::Ring) const;
 
     void renderSurface(QPainter *p,
                         const QRect &r,
