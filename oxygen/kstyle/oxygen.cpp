@@ -674,48 +674,60 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             switch (primitive)
             {
                 case ScrollBar::DoubleButtonHor:
-                {
-                    renderHole(p, QRect(r.left(),0, 3, r.height()), false,false, TileSet::Top | TileSet::Right | TileSet::Bottom);
-                    return;
-                }
-                break;
-
                 case ScrollBar::DoubleButtonVert:
-                {
-                    renderHole(p, QRect(0,r.top(), r.width(), 3), false,false, TileSet::Bottom | TileSet::Left | TileSet::Right);
-                    return;
-                }
                 break;
 
                 case ScrollBar::SingleButtonHor:
-                {
-                    renderHole(p, QRect(r.right()-2,0, 3, r.height()), false,false, TileSet::Top | TileSet::Left | TileSet::Bottom);
-                    return;
-                }
                 break;
 
                 case ScrollBar::SingleButtonVert:
-                {
-                    renderHole(p, QRect(0,r.bottom()-2, r.width(), 3), false,false, TileSet::Top | TileSet::Left | TileSet::Right);
-                    return;
-                }
+                    renderHole(p, QRect(0,r.bottom()+1,r.width(),3), false,false, TileSet::Top | TileSet::Left | TileSet::Right);
                 break;
 
-                case ScrollBar::GrooveAreaVert:
+                case ScrollBar::GrooveAreaVertTop:
                 {
-                    renderHole(p, r, false,false, TileSet::Left | TileSet::Right);
+                    renderHole(p, r.adjusted(0,3,0,3), false,false, TileSet::Left | TileSet::Right);
                     return;
                 }
-                case ScrollBar::GrooveAreaHor:
+
+                case ScrollBar::GrooveAreaVertBottom:
                 {
-                    renderHole(p, r, false,false, TileSet::Top | TileSet::Bottom);
+                    renderHole(p, r.adjusted(0,-3,0,0), false,false, TileSet::Left | TileSet::Bottom | TileSet::Right);
+                    return;
+                }
+
+                case ScrollBar::GrooveAreaHorLeft:
+                {
+                    renderHole(p, r, false,false, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    return;
+                }
+
+                case ScrollBar::GrooveAreaHorRight:
+                {
+                    renderHole(p, r, false,false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::SliderVert:
                 {
-                    renderHole(p, r, false,false, TileSet::Left | TileSet::Right);
-                    _helper.verticalScrollBar(QColor(0,116,0), r.adjusted(1,0,-1,0))->render(r.adjusted(1,0,-1,0), p, TileSet::Full);
+                    renderHole(p, r.adjusted(0,3,0,-3), false,false, TileSet::Left | TileSet::Right);
+
+                    int offset = r.top()/2; // divide by 2 to make the "lightplay" move half speed of the handle
+                    if(r.height()-2 <= 32)
+                        _helper.verticalScrollBar(QColor(0,116,0), r.width()-2,
+                                    r.height()-2, offset)->render(r.adjusted(1,1,-1,-1 ), p, TileSet::Full);
+                    else
+                    {
+                        // When the handle is 32 pixels high or more then we paint it in two parts
+                        // This is needed since the middle part is tiled and that doesn't work nice with lightplay
+                        // So to fix this we paint the bottom part with a modified offset
+                        _helper.verticalScrollBar(QColor(0,116,0), r.width()-2,
+                                    64, offset)->render(r.adjusted(1,1,-1,-1-16 ), p, TileSet::Top | TileSet::Left
+                                    | TileSet::Right | TileSet::Center);
+                        _helper.verticalScrollBar(QColor(0,116,0), r.width()-2, 64, offset+r.height())
+                                    ->render(QRect(r.left()+1,r.bottom()-16,r.width()-2,16), p, TileSet::Left
+                                    | TileSet::Right | TileSet::Bottom);
+                    }
                     return;
                 }
 

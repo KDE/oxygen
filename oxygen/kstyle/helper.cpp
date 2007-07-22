@@ -139,14 +139,16 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &surroundColor, QColor glow
     return tileSet;
 }
 
-TileSet *OxygenStyleHelper::verticalScrollBar(const QColor &color, const QRect &orgR)
+TileSet *OxygenStyleHelper::verticalScrollBar(const QColor &color, int width, int height, int offset)
 {
-    int width = orgR.width();
-    int height = orgR.height();
-    int offsetSize = int(1.5 * width);
-    int offset = orgR.top() % (3*width);
+    int offsetSize = 32; // hardcoded
 
-    quint64 key = (quint64(color.rgba()) << 32) | (width<<20) | (height<<10) | offset;
+    offset = offset % (offsetSize);
+
+    if(height > 32)
+        height = 64;
+
+    quint64 key = (quint64(color.rgba()) << 32) | (width<<22) | (height<<10) | offset;
     TileSet *tileSet = m_verticalScrollBarCache.object(key);
     if (!tileSet)
     {
@@ -172,9 +174,11 @@ TileSet *OxygenStyleHelper::verticalScrollBar(const QColor &color, const QRect &
         lg.setColorAt(1, tmpColor);
         p.setBrush(lg);
         p.drawRoundRect(QRectF(0.48*width, 0, 0.52*width, height), int(90*9/(width*0.52)),90*9/height);
-//Not ported below
 
-        lg = QLinearGradient(QPointF(width/2, -offset),QPointF(width, -offset+offsetSize));
+        //The rolling gradient
+        // Since we want to tile every 32 pixels we need to compute a gradient that does that and
+        // that also has a slope of 3/2 (the value the artist wants)
+        lg = QLinearGradient(QPointF(0, -offset),QPointF(offsetSize*6.0/26, -offset+offsetSize*9.0/26));
         lg.setSpread(QGradient::ReflectSpread);
         tmpColor = color.darker(130);
         tmpColor.setAlpha(110);
@@ -186,7 +190,36 @@ TileSet *OxygenStyleHelper::verticalScrollBar(const QColor &color, const QRect &
         p.setBrush(lg);
         p.drawRoundRect(r, 90*9/width, 90*9/height);
 
-        tileSet = new TileSet(tmpPixmap, 1, 1, width-2, height-2);
+        //the outline needs to 
+        lg = QLinearGradient(QPointF(0, 0), QPointF(0,height));
+        tmpColor = color.darker(130);
+        tmpColor.setAlpha(255);
+        lg.setColorAt(0.0, tmpColor);
+        tmpColor.setAlpha(60);
+        lg.setColorAt(0.15, tmpColor);
+        tmpColor.setAlpha(0);
+        lg.setColorAt(.25, tmpColor);
+        lg.setColorAt(0.75, tmpColor);
+        tmpColor.setAlpha(60);
+        lg.setColorAt(0.85, tmpColor);
+         tmpColor.setAlpha(255);
+        lg.setColorAt(1.0, tmpColor);
+        p.setBrush(lg);
+        p.drawRoundRect(r, 90*9/width, 90*9/height);
+
+        lg = QLinearGradient(QPointF(0, 0), QPointF(0,height));
+        lg.setColorAt(0.0, QColor(255,255,255,180));
+        lg.setColorAt(0.1, QColor(0,0,0,100));
+        lg.setColorAt(0.9, QColor(0,0,0,100));
+        lg.setColorAt(0.9, QColor(0,0,0,100));
+        p.setBrush(Qt::NoBrush);
+        p.setPen(QPen(lg,2));
+        p.drawRoundRect(r.adjusted(0, 0.5,0, -0.5), 90*9/width, 90*9/height);
+
+        if(height < 32)
+            tileSet = new TileSet(tmpPixmap, 1, 1, width-2, height-2);
+        else
+            tileSet = new TileSet(tmpPixmap, 1, 16, width-2, 32);
 
         m_verticalScrollBarCache.insert(key, tileSet);
     }

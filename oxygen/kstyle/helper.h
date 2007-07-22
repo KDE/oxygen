@@ -31,7 +31,7 @@ public:
 
     TileSet *hole(const QColor &color);
     TileSet *holeFocused(const QColor &color, QColor glowColor);
-    TileSet *verticalScrollBar(const QColor &color, const QRect &r);
+    TileSet *verticalScrollBar(const QColor &color, int width, int height, int offset);
 
 protected:
     QCache<quint64, TileSet> m_setCache;
