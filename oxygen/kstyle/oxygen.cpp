@@ -59,6 +59,7 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QToolBar>
 #include <QtGui/QScrollBar>
+#include <QtGui/QGroupBox>
 
 #include <KGlobal>
 #include <KSharedConfig>
@@ -140,19 +141,19 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 1);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 4);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 4);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 6);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 6);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 3);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Left, 2);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 2);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Top, 2);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Bot, 2);
-    setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftHorizontal, 1);
-    setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftVertical,   1);
+    setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftHorizontal, 0);
+    setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftVertical,   0);
 
     setWidgetLayoutProp(WT_Splitter, Splitter::Width, 6);
 
-    setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 13);
+    setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 23);
     setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 13);
 
     setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 6);
@@ -167,8 +168,9 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ProgressBar, ProgressBar::BusyIndicatorSize, 10);
 
     setWidgetLayoutProp(WT_TabBar, TabBar::TabOverlap, 1);
+    setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 8);
 
-    setWidgetLayoutProp(WT_TabWidget, TabWidget::ContentsMargin, 2);
+    setWidgetLayoutProp(WT_TabWidget, TabWidget::ContentsMargin, 6);
 
     setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 20/*15*/);
     setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 11);
@@ -181,7 +183,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 3);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 3);
 
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 2);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 3);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 2+16+1);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 3);
@@ -192,8 +194,10 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemMargin, 0);
 
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 4);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 6);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    3);
+
+    setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 5);
 
     QSettings settings;
     // TODO get from KGlobalSettings::contrastF or expose in OxygenHelper
@@ -205,8 +209,6 @@ OxygenStyle::OxygenStyle() :
     _drawFocusRect = settings.value("/drawFocusRect", true).toBool();
     _drawTriangularExpander = settings.value("/drawTriangularExpander", false).toBool();
     _inputFocusHighlight = settings.value("/inputFocusHighlight", true).toBool();
-    _customCheckMarkColor = settings.value("/customCheckMarkColor", false).toBool();
-    _checkMarkColor.setNamedColor( settings.value("/checkMarkColor", "black").toString() );
     // FIXME below this line to be deleted (and can we not use QSettings? KConfig* is safe now)
     _customOverHighlightColor = true;
     _customFocusHighlightColor = true;
@@ -269,9 +271,10 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
     {
         case PE_Widget:
         {
-            if (!widget || !widget->isWindow())
+            if (!widget)
                 return;
 
+            if (widget->isWindow()) {
             QColor color = option->palette.color(widget->backgroundRole());
             int splitY = qMin(300, 3*option->rect.height()/4);
 
@@ -286,6 +289,12 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
             tile = _helper.radialGradient(color, radialW);
             QRect radialRect = QRect((option->rect.width() - radialW) / 2, 0, radialW, 64);
             painter->drawPixmap(radialRect, tile);
+            }
+
+            if (qobject_cast<const QGroupBox*>(widget)) {
+                //painter->fillRect(option->rect, QColor(Qt::blue));
+            }
+
             break;
         }
 
@@ -317,13 +326,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case PushButton::Panel:
                 {
                     bool sunken   = (flags & State_On) || (flags & State_Sunken);
+                    bool hasFocus = flags & State_HasFocus;
 
-                    renderButton(p, r, pal, sunken,
-                                 mouseOver/*,
-                                         bool horizontal,
-                                         bool enabled,
-                                         bool khtmlMode*/);
-
+                    renderSlab(p, r, sunken, hasFocus, mouseOver);
                     return;
                 }
 
@@ -574,13 +579,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case MenuItem::CheckOn:
                 {
-                    renderCheckBox(p, r, pal, enabled, mouseOver, CheckBox::CheckOn);
+                    renderCheckBox(p, r, pal, enabled, false, mouseOver, CheckBox::CheckOn);
                     return;
                 }
 
                 case MenuItem::CheckOff:
                 {
-                    renderCheckBox(p, r, pal, enabled, mouseOver, CheckBox::CheckOff);
+                    renderCheckBox(p, r, pal, enabled, false, mouseOver, CheckBox::CheckOff);
                     return;
                 }
 
@@ -647,7 +652,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case CheckBox::CheckOff:
                 case CheckBox::CheckTriState:
                 {
-                    renderCheckBox(p, r, pal, enabled, mouseOver, primitive);
+                    bool hasFocus = flags & State_HasFocus;
+
+                    renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive);
                     return;
                 }
             }
@@ -746,31 +753,30 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         case WT_TabBar:
         {
             const QStyleOptionTab* tabOpt = qstyleoption_cast<const QStyleOptionTab*>(opt);
-            if (!tabOpt) break;
 
             switch (primitive)
             {
                 case TabBar::NorthTab:
                 case TabBar::SouthTab:
                 {
+                    if (!tabOpt) break;
+
                     QStyleOptionTab::TabPosition pos = tabOpt->position;
                     bool bottom = primitive == TabBar::SouthTab;
                     bool cornerWidget = reverseLayout ?
                             (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget) :
                             (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget);
 
-                    // TODO kstyle helper for triangular tabs...? TabOpt...?
-                    bool triangular = (tabOpt->shape==QTabBar::TriangularNorth) ||
-                            (tabOpt->shape==QTabBar::TriangularSouth);
-
                     // TODO: tab painting needs a lot of work in order to handle east and west tabs.
-                    renderTab(p, r, pal, mouseOver, flags&State_Selected, bottom, pos, triangular, cornerWidget, reverseLayout);
+                    renderTab(p, r, pal, mouseOver, flags&State_Selected, bottom, pos, false, cornerWidget, reverseLayout);
 
                     return;
                 }
+                case TabBar::BaseFrame:
+                    //p->fillRect(r,QColor(Qt::red));
+                    return;
 
-                // TODO: TabBar::EastTab, TabBar::WestTab, TabBar::BaseFrame, TabBar::ScrollButton
-
+                // TODO: TabBar::EastTab, TabBar::WestTab, TabBar::ScrollButton
             }
 
         }
@@ -782,8 +788,40 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
-                    renderPanel(p, r, pal, true, flags&State_Sunken);
-                    return;
+                    const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>(opt);
+                    int w = tabOpt->tabBarSize.width();
+                    int lw = tabOpt->leftCornerWidgetSize.width();
+                    //int h = tabOpt->tabBarSize.height();
+                    switch(tabOpt->shape)
+                    {
+                        case QTabBar::RoundedNorth:
+                        case QTabBar::TriangularNorth:
+                            renderSlab(p, r.adjusted(0,8,0,0), false, false, false,
+                                    TileSet::Left | TileSet::Bottom | TileSet::Right);
+                            if(reverseLayout)
+                            {
+                                // Left and right widgets are placed right and left when in reverse mode
+                                renderSlab(p, QRect(0, r.y(),r.width() - w - lw,8), false, false, false,
+                                        TileSet::Left | TileSet::Top);
+
+                                if (lw > 0)
+                                    renderSlab(p, QRect(r.right() - lw, r.y(), lw, 8), false, false, false,
+                                        TileSet::Top | TileSet::Right);
+                            }
+                            else
+                            {
+                                if (lw > 0)
+                                    renderSlab(p, QRect(0, r.y(), lw, 8), false, false, false, 
+                                        TileSet::Left | TileSet::Top);
+
+                                renderSlab(p, QRect(w+lw, r.y(), r.width() - w - lw, 8), false, false, false,
+                                        TileSet::Top | TileSet::Right);
+                            }
+                            return;
+
+                        default:
+                            return;
+                    }
                 }
 
             }
@@ -847,113 +885,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case Slider::HandleHor:
                 case Slider::HandleVert:
                 {
-
-                    bool horizontal = primitive == Slider::HandleHor;
-
-                    const bool pressed = (flags&State_Sunken);
-                    const WidgetState s = enabled?(pressed?IsPressed:IsEnabled):IsDisabled;
-                    const QColor contour = getColor(pal,DragButtonContour,s),
-                                surface = getColor(pal,DragButtonSurface,s);
-
-                    int xcenter = (r.left()+r.right()) / 2;
-                    int ycenter = (r.top()+r.bottom()) / 2;
-
-                    if (horizontal) {
-                        // manual contour: vertex
-                        p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 50) );
-                        p->drawPoint(xcenter-5+1, ycenter+4);
-                        p->drawPoint(xcenter+5-1, ycenter+4);
-                        p->drawPoint(xcenter-5+2, ycenter+5);
-                        p->drawPoint(xcenter+5-2, ycenter+5);
-                        p->drawPoint(xcenter-5+3, ycenter+6);
-                        p->drawPoint(xcenter+5-3, ycenter+6);
-                        p->drawPoint(xcenter-5+4, ycenter+7);
-                        p->drawPoint(xcenter+5-4, ycenter+7);
-                        // anti-aliasing of the contour... sort of. :)
-                        p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 80) );
-                        p->drawPoint(xcenter, ycenter+8);
-                        p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 150) );
-                        p->drawPoint(xcenter-5, ycenter+4);
-                        p->drawPoint(xcenter+5, ycenter+4);
-                        p->drawPoint(xcenter-5+1, ycenter+5);
-                        p->drawPoint(xcenter+5-1, ycenter+5);
-                        p->drawPoint(xcenter-5+2, ycenter+6);
-                        p->drawPoint(xcenter+5-2, ycenter+6);
-                        p->drawPoint(xcenter-5+3, ycenter+7);
-                        p->drawPoint(xcenter+5-3, ycenter+7);
-                        p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 190) );
-                        p->drawPoint(xcenter-5+4, ycenter+8);
-                        p->drawPoint(xcenter+5-4, ycenter+8);
-
-
-                        QRegion mask(xcenter-4, ycenter-5, 9, 13);
-                        mask -= QRegion(xcenter-4, ycenter+4, 1, 4);
-                        mask -= QRegion(xcenter-3, ycenter+5, 1, 3);
-                        mask -= QRegion(xcenter-2, ycenter+6, 1, 2);
-                        mask -= QRegion(xcenter-1, ycenter+7, 1, 1);
-                        mask -= QRegion(xcenter+1, ycenter+7, 1, 1);
-                        mask -= QRegion(xcenter+2, ycenter+6, 1, 2);
-                        mask -= QRegion(xcenter+3, ycenter+5, 1, 3);
-                        mask -= QRegion(xcenter+4, ycenter+4, 1, 4);
-                        p->setClipRegion(mask);
-                        uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Round_UpperLeft|Round_UpperRight|Is_Horizontal;
-                        if(!enabled)
-                            surfaceFlags |= Is_Disabled;
-                        renderSurface(p, QRect(xcenter-4, ycenter-5, 9, 13),
-                                      pal.color(QPalette::Background), surface, getColor(pal,MouseOverHighlight),
-                                    _contrast+3, surfaceFlags);
-                        renderDot(p, QPointF(xcenter-3, ycenter-3), surface);
-                        renderDot(p, QPointF(xcenter+2,   ycenter-3), surface);
-                        p->setClipping(false);
-                    } else {
-                        // manual contour: vertex
-                        p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 50) );
-                        p->drawPoint(xcenter+4, ycenter-5+1);
-                        p->drawPoint(xcenter+4, ycenter+5-1);
-                        p->drawPoint(xcenter+5, ycenter-5+2);
-                        p->drawPoint(xcenter+5, ycenter+5-2);
-                        p->drawPoint(xcenter+6, ycenter-5+3);
-                        p->drawPoint(xcenter+6, ycenter+5-3);
-                        p->drawPoint(xcenter+7, ycenter-5+4);
-                        p->drawPoint(xcenter+7, ycenter+5-4);
-                        // anti-aliasing. ...sort of :)
-                        p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 80) );
-                        p->drawPoint(xcenter+8, ycenter);
-                        p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 150) );
-                        p->drawPoint(xcenter+4, ycenter-5);
-                        p->drawPoint(xcenter+4, ycenter+5);
-                        p->drawPoint(xcenter+5, ycenter-5+1);
-                        p->drawPoint(xcenter+5, ycenter+5-1);
-                        p->drawPoint(xcenter+6, ycenter-5+2);
-                        p->drawPoint(xcenter+6, ycenter+5-2);
-                        p->drawPoint(xcenter+7, ycenter-5+3);
-                        p->drawPoint(xcenter+7, ycenter+5-3);
-                        p->setPen(alphaBlendColors(pal.color(QPalette::Background), contour, 190) );
-                        p->drawPoint(xcenter+8, ycenter-5+4);
-                        p->drawPoint(xcenter+8, ycenter+5-4);
-
-                        QRegion mask(xcenter-5, ycenter-4, 13, 9);
-                        mask -= QRegion(xcenter+4, ycenter-4, 4, 1);
-                        mask -= QRegion(xcenter+5, ycenter-3, 3, 1);
-                        mask -= QRegion(xcenter+6, ycenter-2, 2, 1);
-                        mask -= QRegion(xcenter+7, ycenter-1, 1, 1);
-                        mask -= QRegion(xcenter+7, ycenter+1, 1, 1);
-                        mask -= QRegion(xcenter+6, ycenter+2, 2, 1);
-                        mask -= QRegion(xcenter+5, ycenter+3, 3, 1);
-                        mask -= QRegion(xcenter+4, ycenter+4, 4, 1);
-                        p->setClipRegion(mask);
-                        uint surfaceFlags = Draw_Left|Draw_Top|Draw_Bottom|Round_UpperLeft|Round_BottomLeft|
-                                        Round_UpperRight|Is_Horizontal;
-                        if(!enabled)
-                            surfaceFlags |= Is_Disabled;
-                        renderSurface(p, QRect(xcenter-5, ycenter-4, 13, 9),
-                                      pal.color(QPalette::Background), surface, getColor(pal,MouseOverHighlight),
-                                    _contrast+3, surfaceFlags);
-                        renderDot(p, QPoint(xcenter-3, ycenter-3), surface);
-                        renderDot(p, QPoint(xcenter-3,   ycenter+2), surface);
-                        p->setClipping(false);
-                    }
-
+                    renderSlab(p, r);
                     return;
                 }
 
@@ -1023,20 +955,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     // TODO: pressed state
                     if(!editable) {
-                        int surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
-                        if(reverseLayout) {
-                            surfaceFlags |= Round_UpperRight|Round_BottomRight;
-                        } else {
-                            surfaceFlags |= Round_UpperLeft|Round_BottomLeft;
-                        }
-
-                        if (mouseOver) {
-                            surfaceFlags |= Is_Highlight;
-                            surfaceFlags |= Highlight_Top|Highlight_Bottom;
-                        }
-                        renderSurface(p, r,
-                                    pal.color(QPalette::Background), buttonColor, getColor(pal,MouseOverHighlight), enabled?_contrast+3:(_contrast/2),
-                                    surfaceFlags);
+                        renderSlab(p, r, false, hasFocus, mouseOver);
                     } else {
                         // input area
                         p->fillRect(r.adjusted(1,1,-1,-1), inputColor );
@@ -1198,8 +1117,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
-                    renderPanel(p, r, pal, false);
-
+                    renderSlab(p, r.adjusted(0,0,0,-8), false, false, false,
+                            TileSet::Left | TileSet::Top | TileSet::Right);
+                    p->fillRect(QRect(5, r.bottom()-7, r.width()-10, 1), QColor(0,0,0,2));
+                    p->fillRect(QRect(5, r.bottom()-6, r.width()-10, 6), QColor(0,0,0,5));
+                    p->fillRect(QRect(5, r.bottom(), r.width()-10, 1), QColor(0,0,0,2));
+                    _helper.slope(QColor(255,255,255))->render(QRect(0, r.bottom()-7, r.width(), 8), p, TileSet::Left | TileSet::Right);
                     return;
                 }
             }
@@ -1250,14 +1173,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             int center = r.left()+r.width()/2;
                             p->setPen( getColor(pal, PanelDark) );
                             p->drawLine( center-1, r.top()+3, center-1, r.bottom()-3 );
-                            p->setPen( getColor(pal, PanelLight) );
-                            p->drawLine( center, r.top()+3, center, r.bottom()-3 );
                         } else {
                             int center = r.top()+r.height()/2;
                             p->setPen( getColor(pal, PanelDark) );
                             p->drawLine( r.x()+3, center-1, r.right()-3, center-1 );
-                            p->setPen( getColor(pal, PanelLight) );
-                            p->drawLine( r.x()+3, center, r.right()-3, center );
                         }
                     }
 
@@ -1368,6 +1287,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
             return;
         }
+
+        case Generic::FocusIndicator:
+            return;
+
+        default:
+            break;
     }
 
     // default fallback
@@ -1378,6 +1303,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 void OxygenStyle::polish(QWidget* widget)
 {
     if (widget->isWindow())
+        widget->setAttribute(Qt::WA_StyledBackground);
+
+    if (qobject_cast<const QGroupBox*>(widget))
         widget->setAttribute(Qt::WA_StyledBackground);
 
     if( _animateProgressBar && qobject_cast<QProgressBar*>(widget) )
@@ -1451,6 +1379,26 @@ void OxygenStyle::unpolish(QWidget* widget)
 void OxygenStyle::progressBarDestroyed(QObject* obj)
 {
     progAnimWidgets.remove(static_cast<QWidget*>(obj));
+}
+
+void OxygenStyle::renderSlab(QPainter *p, const QRect &r, bool sunken, bool focus, bool hover, TileSet::PosFlags posFlags) const
+{
+    if((r.width() <= 0)||(r.height() <= 0))
+        return;
+
+    TileSet *tile;
+    QColor base = QColor(Qt::white);
+    // for slabs, hover takes precedence over focus (other way around for holes)
+    // but in any case if the button is sunken we don't show focus nor hover
+    if(sunken)
+        tile = _helper.slabSunken(base);
+    else if (hover)
+        tile = _helper.slabFocused(base, _viewHoverColor);
+    else if (focus)
+        tile = _helper.slabFocused(base, _viewFocusColor);
+    else
+        tile = _helper.slab(base);
+    tile->render(r, p, posFlags);
 }
 
 void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover, TileSet::PosFlags posFlags) const
@@ -1687,79 +1635,39 @@ void OxygenStyle::renderButton(QPainter *p,
 }
 
 void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette &pal,
-                                  bool enabled, bool mouseOver, int primitive) const
+                                  bool enabled, bool hasFocus, bool mouseOver, int primitive) const
 {
     QColor contentColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
 
     int s = qMin(rect.width(), rect.height());
     QRect r = centerRect(rect, s, s);
 
-    // surface
-    uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
-    if(!enabled) {
-        surfaceFlags |= Is_Disabled;
-    } else if(mouseOver) {
-        contentColor = alphaBlendColors(contentColor, getColor(pal,MouseOverHighlight), 240);
-        surfaceFlags |= Is_Highlight;
-        surfaceFlags |= Highlight_Left|Highlight_Right|
-                Highlight_Top|Highlight_Bottom;
+    renderSlab(p, r, false, hasFocus, mouseOver);
+
+    // check mark
+    double x = r.center().x() - 3.5, y = r.center().y() - 2.5;
+
+    QPen pen(pal.color(QPalette::Text), 2.0);
+    if (primitive == CheckBox::CheckTriState) {
+        QVector<qreal> dashes;
+        dashes << 1.0 << 2;
+        pen.setWidthF(1.3);
+        pen.setDashPattern(dashes);
     }
-    renderSurface(p, QRect(r.x()+1, r.y()+1, r.width()-2, r.height()-2),
-                  pal.color(QPalette::Background), contentColor, getColor(pal,MouseOverHighlight), enabled?_contrast+3:(_contrast/2), surfaceFlags);
 
-            // check mark
-    QColor checkmarkColor = enabled?getColor(pal,CheckMark):pal.color(QPalette::Background);
-            // TODO: check mouse pressed Style_Down equivalent for kstyle4
-    if(false/*flags & Style_Down*/) {
-        checkmarkColor = alphaBlendColors(contentColor, checkmarkColor, 150);
-    }
-    int x = r.center().x() - 4, y = r.center().y() - 4;
-
-    QBitmap bmp;
-
-    switch (primitive)
+    if (primitive != CheckBox::CheckOff)
     {
-        case CheckBox::CheckOn:
-        {
-            bmp = QBitmap::fromData(QSize( CHECKMARKSIZE, CHECKMARKSIZE ), checkmark_dark_bits);
-            bmp.setMask(bmp);
-            p->setPen(alphaBlendColors(contentColor, checkmarkColor.dark(150), 50) );
-            p->drawPixmap(x, y, bmp);
-            bmp = QBitmap::fromData(QSize( CHECKMARKSIZE, CHECKMARKSIZE ), checkmark_light_bits);
-            bmp.setMask(bmp);
-            p->setPen(alphaBlendColors(contentColor, checkmarkColor.dark(125), 50) );
-            p->drawPixmap(x, y, bmp);
-            bmp = QBitmap::fromData(QSize( CHECKMARKSIZE, CHECKMARKSIZE ), checkmark_aa_bits);
-            bmp.setMask(bmp);
-            p->setPen(alphaBlendColors(contentColor, checkmarkColor.dark(150), 150) );
-            p->drawPixmap(x, y, bmp);
-
-            return;
-        }
-
-        case CheckBox::CheckOff:
-        {
-                    // empty
-            return;
-        }
-
-        case CheckBox::CheckTriState:
-        {
-            bmp = QBitmap::fromData(QSize( CHECKMARKSIZE, CHECKMARKSIZE ), checkmark_tristate_bits);
-            bmp.setMask(bmp);
-            p->setPen(alphaBlendColors(contentColor, checkmarkColor.dark(150), 50) );
-            p->drawPixmap(x, y, bmp);
-
-            return;
-        }
+        p->setRenderHint(QPainter::Antialiasing);
+        p->setPen(pen);
+        p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
+        p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
+        p->setRenderHint(QPainter::Antialiasing, false);
     }
 }
 
 void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
                                         bool enabled, bool mouseOver, int prim) const
 {
-
-
     int x = r.x();
     int y = r.y();
 
@@ -2004,236 +1912,36 @@ void OxygenStyle::renderTab(QPainter *p,
     const bool isLast = pos == QStyleOptionTab::End /*(pos == Last)*/;
     const bool isSingle = pos == QStyleOptionTab::OnlyOneTab /*(pos == Single)*/;
 
-    if (selected) {
-    // is selected
-
     // the top part of the tab which is nearly the same for all positions
-        QRect Rc; // contour
-        if (!bottom) {
-            if (isFirst && !cornerWidget && !reverseLayout) {
-                Rc = QRect(r.x(), r.y(), r.width()-1, r.height()-3);
-            } else if (isFirst && !cornerWidget && reverseLayout) {
-                Rc = QRect(r.x()+1, r.y(), r.width()-1, r.height()-3);
-            } else {
-                Rc = QRect(r.x()+1, r.y(), r.width()-2, r.height()-3);
-            }
-        } else {
-            if (isFirst && !cornerWidget && !reverseLayout) {
-                Rc = QRect(r.x(), r.y()+3, r.width()-1, r.height()-3);
-            } else if (isFirst && !cornerWidget && reverseLayout) {
-                Rc = QRect(r.x()+1, r.y()+3, r.width()-1, r.height()-3);
-            } else {
-                Rc = QRect(r.x()+1, r.y()+3, r.width()-2, r.height()-3);
-            }
-        }
-        const QRect Rs(Rc.x()+1, bottom?Rc.y():Rc.y()+1, Rc.width()-2, Rc.height()-1); // the resulting surface
-        // the area where the fake border shoudl appear
-        const QRect Rb(r.x(), bottom?r.top():Rc.bottom()+1, r.width(), r.height()-Rc.height() );
+    QRect Rc = r.adjusted(0,0,0,-8); // contour
 
-        // surface
-        if(!bottom) {
-            p->setPen(getColor(pal,PanelLight) );
-            p->drawLine(Rs.x()+1, Rs.y(), Rs.right()-1, Rs.y() );
-            renderGradient(p, QRect(Rs.x(), Rs.y()+1, 1, Rs.height()-1),
-                           getColor(pal,PanelLight), getColor(pal,PanelLight2));
-            renderGradient(p, QRect(Rs.right(), Rs.y()+1, 1, Rs.height()-1),
-                            getColor(pal,PanelDark), getColor(pal,PanelDark2));
-        } else {
-            p->setPen(alphaBlendColors(pal.color(QPalette::Background), pal.color(QPalette::Background).dark(160), 100) );
-            p->drawLine(Rs.x()+1, Rs.bottom(), Rs.right()-1, Rs.bottom() );
-            renderGradient(p, QRect(Rs.x(), Rs.y(), 1, Rs.height()-1),
-                            getColor(pal,PanelLight), getColor(pal,PanelLight2));
-            renderGradient(p, QRect(Rs.right(), Rs.y(), 1, Rs.height()-1),
-                            getColor(pal,PanelDark), getColor(pal,PanelDark2));
-        }
+    // the area where the fake border should appear
+    const QRect Rb(r.x(), bottom?r.top():Rc.bottom()+1, r.width(), r.height()-Rc.height() );
 
-    // some "position specific" paintings...
-        // draw parts of the inactive tabs around...
-        if(!isSingle) {
-            p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal, ButtonContour), 50) );
-            if( (!isFirst&&!reverseLayout) || (!isLast&&reverseLayout) ) {
-                p->drawPoint(r.left(), bottom?(triangular?r.bottom()-2:r.bottom()-3):(triangular?r.top()+2:r.top()+3) );
-                renderSurface(p, QRect(r.left(), bottom?r.top()+3:(triangular?r.top()+3:r.top()+4), 1, (triangular?r.height()-6:r.height()-7) ),
-                            pal.color( QPalette::Background ), pal.color( QPalette::Button ), getColor(pal,MouseOverHighlight), _contrast,
-                            Draw_Top|Draw_Bottom|Is_Horizontal);
-            }
-            if( (!isLast&&!reverseLayout) || (!isFirst&&reverseLayout) ) {
-                p->drawPoint(r.right(), bottom?(triangular?r.bottom()-2:r.bottom()-3):(triangular?r.top()+2:r.top()+3) );
-                renderSurface(p, QRect(r.right(), bottom?r.top()+3:(triangular?r.top()+3:r.top()+4), 1, (triangular?r.height()-6:r.height()-7) ),
-                            pal.color( QPalette::Background ), pal.color( QPalette::Button ), getColor(pal,MouseOverHighlight), _contrast,
-                            Draw_Top|Draw_Bottom|Is_Horizontal);
-            }
-        }
-        // left connection from the panel border to the tab. :)
+    if (selected) {
+        renderSlab(p, Rc, false, false, false, TileSet::Left | TileSet::Top | TileSet::Right);
+
+        // some "position specific" paintings...
+        // First draw the left connection from the panel border to the tab
         if(isFirst && !reverseLayout && !cornerWidget) {
-            p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-            p->drawLine(Rb.x(), Rb.y(), Rb.x(), Rb.bottom() );
-            p->setPen(getColor(pal,PanelLight) );
-            p->drawLine(Rb.x()+1, Rb.y(), Rb.x()+1, Rb.bottom() );
-        } else if(isFirst && reverseLayout && !cornerWidget) {
-            p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-            p->drawLine(Rb.right(), Rb.y(), Rb.right(), Rb.bottom() );
-            p->setPen(getColor(pal,PanelDark) );
-            p->drawLine(Rb.right()-1, Rb.y(), Rb.right()-1, Rb.bottom() );
-        }
-        // rounded connections to the panel...
-        if(!bottom) {
-            // left
-            if( (!isFirst && !reverseLayout) || (reverseLayout) || (isFirst && !reverseLayout && cornerWidget) ) {
-                p->setPen( alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-                p->drawPoint(Rb.x(), Rb.y());
-                p->setPen( alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.x(), Rb.y()+1);
-                p->drawPoint(Rb.x()+1, Rb.y());
-            }
-            // right
-            if( (!reverseLayout) || (!isFirst && reverseLayout) || (isFirst && reverseLayout && cornerWidget) ) {
-                p->setPen( alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-                p->drawPoint(Rb.right(), Rb.y());
-                p->setPen( alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.right(), Rb.y()+1);
-                p->drawPoint(Rb.right()-1, Rb.y());
-            }
-        } else {
-            // left
-            if( (!isFirst && !reverseLayout) || (reverseLayout) || (isFirst && !reverseLayout && cornerWidget) ) {
-                p->setPen( alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-                p->drawPoint(Rb.x(), Rb.bottom());
-                p->setPen( alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.x(), Rb.bottom()-1);
-                p->drawPoint(Rb.x()+1, Rb.bottom());
-            }
-            // right
-            if( (!reverseLayout) || (!isFirst && reverseLayout) || (isFirst && reverseLayout && cornerWidget) ) {
-                p->setPen( alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-                p->drawPoint(Rb.right(), Rb.bottom());
-                p->setPen( alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.right(), Rb.bottom()-1);
-                p->drawPoint(Rb.right()-1, Rb.bottom());
-            }
-        }
+            renderSlab(p, Rb, false, false, false, TileSet::Left);
+        } else
+            renderHole(p, QRect(Rb.left(), Rb.top(),4,5), false, false, TileSet::Right | TileSet::Bottom);
+
+        // Now draw the right connection from the panel border to the tab
+        if(isFirst && reverseLayout && !cornerWidget) {
+            renderSlab(p, Rb, false, false, false, TileSet::Right);
+        } else
+            renderHole(p, QRect(Rb.right()-3, Rb.top(),3,5), false, false, TileSet::Left | TileSet::Bottom);
 
     } else {
     // inactive tabs
-
-    // the top part of the tab which is nearly the same for all positions
-        QRect Rc; // contour
-        if (isFirst&&reverseLayout ) {
-            Rc = QRect(r.x()+1, (bottom?r.y()+2:(triangular?r.y()+2:r.y()+3)), r.width()-2, (triangular?r.height()-4:r.height()-5) );
-        } else {
-            Rc = QRect(r.x()+1, (bottom?r.y()+2:(triangular?r.y()+2:r.y()+3)), r.width()-1, (triangular?r.height()-4:r.height()-5) );
-        }
-        QRect Rs; // the resulting surface
-        if ( (isFirst&&!reverseLayout) || (isLast&&reverseLayout) ) {
-            Rs = QRect(Rc.x()+1, bottom?Rc.y():Rc.y()+1, Rc.width()-2, Rc.height()-1);
-        } else {
-            Rs = QRect(Rc.x(), bottom?Rc.y():Rc.y()+1, Rc.width()-1, Rc.height()-1);
-        }
-        // the area where the fake border shoudl appear
-        const QRect Rb(r.x(), bottom?r.y():Rc.bottom()+1, r.width(), 2 );
-
-        uint contourFlags;
-        if(!bottom) {
-            if ( (isFirst&&!reverseLayout) || (isLast&&reverseLayout) ) {
-                contourFlags = Draw_Left|Draw_Right|Draw_Top|Round_UpperLeft;
-            } else if ( (isLast&&!reverseLayout) || (isFirst&&reverseLayout) ) {
-                contourFlags = Draw_Right|Draw_Top|Round_UpperRight;
-            } else {
-                contourFlags = Draw_Right|Draw_Top;
-            }
-        } else {
-            if ( (isFirst&&!reverseLayout) || (isLast&&reverseLayout) ) {
-                contourFlags = Draw_Left|Draw_Right|Draw_Bottom|Round_BottomLeft;
-            } else if ( (isLast&&!reverseLayout) || (isFirst&&reverseLayout) ) {
-                contourFlags = Draw_Right|Draw_Bottom|Round_BottomRight;
-            } else {
-                contourFlags = Draw_Right|Draw_Bottom;
-            }
-        }
-//FIXME CBR        renderContour(p, Rc,                        pal.color( QPalette::Background ), getColor(pal, ButtonContour),                        contourFlags);
-
-        uint surfaceFlags = Is_Horizontal;
-        if(mouseOver) {
-            surfaceFlags |= (bottom?Highlight_Bottom:Highlight_Top);
-            surfaceFlags |= Is_Highlight;
-        }
-        if ( (isFirst&&!reverseLayout) || (isLast&&reverseLayout) ) {
-            if(!bottom)
-                surfaceFlags |= Draw_Left|Draw_Top|Draw_Bottom|Round_UpperLeft;
-            else
-                surfaceFlags |= Draw_Left|Draw_Top|Draw_Bottom|Round_BottomLeft;
-        } else if ( (isLast&&!reverseLayout) || (isFirst&&reverseLayout) ) {
-            if(!bottom)
-                surfaceFlags |= Draw_Right|Draw_Top|Draw_Bottom|Round_UpperRight;
-            else
-                surfaceFlags |= Draw_Right|Draw_Top|Draw_Bottom|Round_BottomRight;
-        } else {
-            surfaceFlags |= Draw_Top|Draw_Bottom;
-        }
-        renderSurface(p, Rs,
-                        pal.color(QPalette::Background), pal.color( QPalette::Button ), getColor(pal,MouseOverHighlight), _contrast,
-                        surfaceFlags);
-
-    // some "position specific" paintings...
-        // fake parts of the panel border
-        if(!bottom) {
-            p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-            p->drawLine(Rb.x(), Rb.y(), ((isLast&&!reverseLayout)||(isFirst&&reverseLayout&&cornerWidget))?Rb.right():Rb.right()-1, Rb.y());
-            p->setPen(getColor(pal,PanelLight) );
-            p->drawLine(Rb.x(), Rb.y()+1, ((isLast&&!reverseLayout)||(isFirst&&reverseLayout&&cornerWidget))?Rb.right():Rb.right()-1, Rb.y()+1 );
-        } else {
-            p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-            p->drawLine(Rb.x(), Rb.bottom(), ((isLast&&!reverseLayout)||(isFirst&&reverseLayout&&cornerWidget))?Rb.right():Rb.right()-1, Rb.bottom());
-            p->setPen(getColor(pal,PanelDark) );
-            p->drawLine(Rb.x(), Rb.bottom()-1, ((isLast&&!reverseLayout)||(isFirst&&reverseLayout&&cornerWidget))?Rb.right():Rb.right()-1, Rb.bottom()-1 );
-        }
-        // fake the panel border edge for tabs which are aligned left-most
-        // (i.e. only if there is no widget in the corner of the tabwidget!)
-        if(isFirst&&!reverseLayout&&!cornerWidget)
-        // normal layout
-        {
-            if (!bottom) {
-                p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-                p->drawPoint(Rb.x()+1, Rb.y()+1 );
-                p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.x(), Rb.y()+1 );
-                p->setPen(pal.color(QPalette::Background) );
-                p->drawPoint(Rb.x(), Rb.y() );
-                p->setPen(alphaBlendColors( alphaBlendColors(pal.color(QPalette::Background), getColor(pal, ButtonContour), 50), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.x()+1, Rb.y() );
-            } else {
-                p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-                p->drawPoint(Rb.x()+1, Rb.bottom()-1 );
-                p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.x(), Rb.bottom()-1 );
-                p->setPen(pal.color(QPalette::Background) );
-                p->drawPoint(Rb.x(), Rb.bottom() );
-                p->setPen(alphaBlendColors( alphaBlendColors(pal.color(QPalette::Background), getColor(pal, ButtonContour), 50), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.x()+1, Rb.bottom() );
-            }
-        } else if(isFirst&&reverseLayout&&!cornerWidget)
-        // reverse layout
-        {
-            if (!bottom) {
-                p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-                p->drawPoint(Rb.right()-1, Rb.y()+1 );
-                p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.right(), Rb.y()+1 );
-                p->setPen(pal.color(QPalette::Background) );
-                p->drawPoint(Rb.right(), Rb.y() );
-                p->setPen(alphaBlendColors( alphaBlendColors(pal.color(QPalette::Background), getColor(pal, ButtonContour), 50), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.right()-1, Rb.y() );
-            } else {
-                p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 50) );
-                p->drawPoint(Rb.right()-1, Rb.bottom()-1 );
-                p->setPen(alphaBlendColors(pal.color(QPalette::Background), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.right(), Rb.bottom()-1 );
-                p->setPen(pal.color(QPalette::Background) );
-                p->drawPoint(Rb.right(), Rb.bottom() );
-                p->setPen(alphaBlendColors( alphaBlendColors(pal.color(QPalette::Background), getColor(pal, ButtonContour), 50), getColor(pal,PanelContour), 150) );
-                p->drawPoint(Rb.right()-1, Rb.bottom() );
-            }
-        }
+        uint posFlag = TileSet::Top;
+        if(isFirst && !reverseLayout && !cornerWidget)
+            posFlag |= TileSet::Left;
+        if(isFirst && reverseLayout && !cornerWidget)
+            posFlag |= TileSet::Right;
+        renderSlab(p, QRect(Rb.left(), Rb.y(), Rb.width(), 8), false, false, false, posFlag);
     }
 }
 
@@ -2329,10 +2037,7 @@ QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, const Widge
             else
                 return pal.color( QPalette::Highlight );
         case CheckMark:
-            if( _customCheckMarkColor )
-                return _checkMarkColor;
-            else
-                return pal.color( QPalette::Foreground );
+            return pal.color( QPalette::Foreground );
         default:
             return pal.color(QPalette::Background);
     }

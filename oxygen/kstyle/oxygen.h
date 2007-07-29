@@ -143,6 +143,13 @@ protected:
                        const uint flags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|
                                Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight) const;
 */
+    void renderSlab(QPainter *p,
+                        const QRect &r,
+                        bool sunken=false,
+                        bool focus=false,
+                        bool hover=false,
+                        TileSet::PosFlags posFlags = TileSet::Ring) const;
+
     void renderHole(QPainter *p,
                         const QRect &r,
                         bool focus=false,
@@ -170,7 +177,7 @@ protected:
 
     // TODO: cleanup helper methods...
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
-                        bool enabled, bool mouseOver, int checkPrimitive) const;
+                        bool enabled, bool hasFocus, bool mouseOver, int checkPrimitive) const;
     void renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
                            bool enabled, bool mouseOver, int radioPrimitive) const;
 
@@ -221,10 +228,8 @@ private:
     bool _inputFocusHighlight;
     bool _customOverHighlightColor; // FIXME REMOVE ME
     bool _customFocusHighlightColor; // FIXME REMOVE ME
-    bool _customCheckMarkColor;
     QColor _overHighlightColor; // FIXME REMOVE ME
     QColor _focusHighlightColor; // FIXME REMOVE ME
-    QColor _checkMarkColor;
     // FIXME remove this line, new (correct) stuff below this point
     OxygenStyleHelper &_helper;
     KSharedConfigPtr _config;

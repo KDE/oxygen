@@ -131,9 +131,9 @@ void TileSet::render(const QRect &r, QPainter *p, PosFlags pf) const
 
     //Paint the sides
     if(pf & Top && midw >0)
-        p->drawTiledPixmap(r.x()+trw, r.y(), midw, tlh, pixmap[TopMid], 0, 0);
+        p->drawTiledPixmap(r.x()+tlw, r.y(), midw, tlh, pixmap[TopMid], 0, 0);
     if(pf & Bottom && midw >0)
-        p->drawTiledPixmap(r.x()+trw, r.bottom()-blh+1, midw, blh, pixmap[BtmMid], 0, 0);
+        p->drawTiledPixmap(r.x()+tlw, r.bottom()-blh+1, midw, blh, pixmap[BtmMid], 0, 0);
     if(pf & Left && midh >0)
         p->drawTiledPixmap(r.x(), r.y()+tlh, tlw, midh, pixmap[MidLeft], 0, 0);
     if(pf & Right && midh >0)

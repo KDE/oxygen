@@ -29,12 +29,20 @@ public:
     explicit OxygenStyleHelper(const QByteArray &componentName);
     virtual ~OxygenStyleHelper() {}
 
+    TileSet *slab(const QColor &color);
+    TileSet *slabFocused(const QColor &color, QColor glowColor);
+    TileSet *slabSunken(const QColor &color);
+    TileSet *slope(const QColor &surroundColor);
     TileSet *hole(const QColor &color);
     TileSet *holeFocused(const QColor &color, QColor glowColor);
     TileSet *verticalScrollBar(const QColor &color, int width, int height, int offset);
 
 protected:
     QCache<quint64, TileSet> m_setCache;
+    QCache<quint64, TileSet> m_slabCache;
+    QCache<quint64, TileSet> m_slabFocusedCache;
+    QCache<quint64, TileSet> m_slabSunkenCache;
+    QCache<quint64, TileSet> m_slopeCache;
     QCache<quint64, TileSet> m_verticalScrollBarCache;
 };
 
