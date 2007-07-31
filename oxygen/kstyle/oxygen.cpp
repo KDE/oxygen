@@ -156,7 +156,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_Splitter, Splitter::Width, 6);
 
     setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 23);
-    setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 13);
+    setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 23);
 
     setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 6);
 
@@ -1305,173 +1305,6 @@ void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover
     tile->render(r, p, posFlags);
 }
 
-
-void OxygenStyle::renderSurface(QPainter *p,
-                                 const QRect &r,
-                                 const QColor &backgroundColor,
-                                 const QColor &buttonColor,
-                                 const QColor &highlightColor,
-                                 int intensity,
-                                 const uint flags) const
-{
-    if((r.width() <= 0)||(r.height() <= 0))
-        return;
-
-    const bool disabled = flags&Is_Disabled;
-
-    const bool drawLeft = flags&Draw_Left;
-    const bool drawRight = flags&Draw_Right;
-    const bool drawTop = flags&Draw_Top;
-    const bool drawBottom = flags&Draw_Bottom;
-    const bool roundUpperLeft = flags&Round_UpperLeft;
-    const bool roundUpperRight = flags&Round_UpperRight;
-    const bool roundBottomLeft = flags&Round_BottomLeft;
-    const bool roundBottomRight = flags&Round_BottomRight;
-    const bool sunken = flags&Is_Sunken;
-    const bool horizontal = flags&Is_Horizontal;
-    bool highlight = false,
-        highlightLeft = false,
-        highlightRight = false,
-        highlightTop = false,
-        highlightBottom = false;
-    // only highlight if not sunken & not disabled...
-    if(!sunken && !disabled) {
-        highlight = (flags&Is_Highlight);
-        highlightLeft = (flags&Highlight_Left);
-        highlightRight = (flags&Highlight_Right);
-        highlightTop = (flags&Highlight_Top);
-        highlightBottom = (flags&Highlight_Bottom);
-    }
-
-    QColor baseColor = alphaBlendColors(backgroundColor, disabled?backgroundColor:buttonColor, 10);
-    if (disabled) {
-        intensity = 2;
-    } else if (highlight) {
-        // blend this _slightly_ with the background
-        baseColor = alphaBlendColors(baseColor, highlightColor, 240);
-    } else if (sunken) {
-        // enforce a common sunken-style...
-        baseColor = baseColor.dark(110+intensity);
-        intensity = _contrast/2;
-    }
-// some often needed colors...
-    // 1 more intensive than 2 and 3.
-    const QColor colorTop1 = alphaBlendColors(baseColor,
-                    sunken?baseColor.dark(100+intensity*2):baseColor.light(100+intensity*2), 80);
-    const QColor colorTop2 = alphaBlendColors(baseColor,
-                    sunken?baseColor.dark(100+intensity):baseColor.light(100+intensity), 80);
-    const QColor colorBottom1 = alphaBlendColors(baseColor,
-                        sunken?baseColor.light(100+intensity*2):baseColor.dark(100+intensity*2), 80);
-    const QColor colorBottom2 = alphaBlendColors(baseColor,
-                        sunken?baseColor.light(100+intensity):baseColor.dark(100+intensity), 80);
-
-// sides
-    if (drawLeft) {
-        if (horizontal) {
-            int height = r.height();
-            if (roundUpperLeft || !drawTop) height--;
-            if (roundBottomLeft || !drawBottom) height--;
-            renderGradient(p, QRect(r.left(), (roundUpperLeft&&drawTop)?r.top()+1:r.top(), 1, height),
-                            colorTop1, baseColor);
-        } else {
-            p->setPen(colorTop1 );
-            p->drawLine(r.left(), (roundUpperLeft&&drawTop)?r.top()+1:r.top(),
-                        r.left(), (roundBottomLeft&&drawBottom)?r.bottom()-1:r.bottom() );
-        }
-    }
-    if (drawRight) {
-        if (horizontal) {
-            int height = r.height();
-            // TODO: there's still a bogus in it: when edge4 is Thick
-            //       and we don't whant to draw the Top, we have a unpainted area
-            if (roundUpperRight || !drawTop) height--;
-            if (roundBottomRight || !drawBottom) height--;
-            renderGradient(p, QRect(r.right(), (roundUpperRight&&drawTop)?r.top()+1:r.top(), 1, height),
-                            baseColor, colorBottom1);
-        } else {
-            p->setPen(colorBottom1 );
-            p->drawLine(r.right(), (roundUpperRight&&drawTop)?r.top()+1:r.top(),
-                        r.right(), (roundBottomRight&&drawBottom)?r.bottom()-1:r.bottom() );
-        }
-    }
-    if (drawTop) {
-        if (horizontal) {
-            p->setPen(colorTop1 );
-            p->drawLine((roundUpperLeft&&drawLeft)?r.left()+1:r.left(), r.top(),
-                        (roundUpperRight&&drawRight)?r.right()-1:r.right(), r.top() );
-        } else {
-            int width = r.width();
-            if (roundUpperLeft || !drawLeft) width--;
-            if (roundUpperRight || !drawRight) width--;
-            renderGradient(p, QRect((roundUpperLeft&&drawLeft)?r.left()+1:r.left(), r.top(), width, 1),
-                            colorTop1, colorTop2);
-        }
-    }
-    if (drawBottom) {
-        if (horizontal) {
-            p->setPen(colorBottom1 );
-            p->drawLine((roundBottomLeft&&drawLeft)?r.left()+1:r.left(), r.bottom(),
-                        (roundBottomRight&&drawRight)?r.right()-1:r.right(), r.bottom() );
-        } else {
-            int width = r.width();
-            if (roundBottomLeft || !drawLeft) width--;
-            if (roundBottomRight || !drawRight) width--;
-            renderGradient(p, QRect((roundBottomLeft&&drawLeft)?r.left()+1:r.left(), r.bottom(), width, 1),
-                            colorBottom2, colorBottom1);
-        }
-    }
-
-// button area...
-    int width = r.width();
-    int height = r.height();
-    if (drawLeft) width--;
-    if (drawRight) width--;
-    if (drawTop) height--;
-    if (drawBottom) height--;
-    renderGradient(p, QRect(drawLeft?r.left()+1:r.left(), drawTop?r.top()+1:r.top(), width, height),
-                    colorTop2, colorBottom2, horizontal);
-
-
-// highlighting...
-    QColor hl = highlightColor;
-    hl.setAlphaF(0.6);
-    p->setPen(hl);
-    if(highlightTop) {
-        p->drawLine((roundUpperLeft&&drawLeft)?r.left()+1:r.left(), r.top(),
-                    (roundUpperRight&&drawRight)?r.right()-1:r.right(), r.top() );
-    }
-    if(highlightBottom) {
-        p->drawLine((roundBottomLeft&&drawLeft)?r.left()+1:r.left(), r.bottom(),
-                    (roundBottomRight&&drawRight)?r.right()-1:r.right(), r.bottom() );
-    }
-    if(highlightLeft) {
-        p->drawLine(r.left(), (roundUpperLeft&&drawTop)?r.top()+1:r.top(),
-                    r.left(), (roundBottomLeft&&drawBottom)?r.bottom()-1:r.bottom() );
-    }
-    if(highlightRight) {
-        p->drawLine(r.right(), (roundUpperRight&&drawTop)?r.top()+1:r.top(),
-                    r.right(), (roundBottomRight&&drawBottom)?r.bottom()-1:r.bottom() );
-    }
-    hl.setAlphaF(0.3);
-    p->setPen(hl);
-    if(highlightTop) {
-        p->drawLine(highlightLeft?r.left()+1:r.left(), r.top()+1,
-                    highlightRight?r.right()-1:r.right(), r.top()+1 );
-    }
-    if(highlightBottom) {
-        p->drawLine(highlightLeft?r.left()+1:r.left(), r.bottom()-1,
-                    highlightRight?r.right()-1:r.right(), r.bottom()-1 );
-    }
-    if(highlightLeft) {
-        p->drawLine(r.left()+1, highlightTop?r.top()+1:r.top(),
-                    r.left()+1, highlightBottom?r.bottom()-1:r.bottom() );
-    }
-    if(highlightRight) {
-        p->drawLine(r.right()-1, highlightTop?r.top()+1:r.top(),
-                    r.right()-1, highlightBottom?r.bottom()-1:r.bottom() );
-    }
-}
-
 void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette &pal,
                                   bool enabled, bool hasFocus, bool mouseOver, int primitive) const
 {
@@ -1508,86 +1341,24 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
 {
     int x = r.x();
     int y = r.y();
+    int s = qMin(r.width(), r.height());
 
-    const QColor contourColor = getColor(pal, ButtonContour, enabled);
-    QColor contentColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
+    p->drawPixmap(x, y, *_helper.roundButton(pal.color(QPalette::Background), s));
 
-    QBitmap bmp;
-    bmp = QBitmap::fromData(QSize( 13, 13 ), radiobutton_mask_bits);
-            // first the surface...
-    uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
-    if(!enabled) {
-        surfaceFlags |= Is_Disabled;
-    } else if (mouseOver) {
-        contentColor = alphaBlendColors(contentColor, getColor(pal,MouseOverHighlight), 240);
-    }
-    p->setClipRegion(bmp);
-    renderSurface(p, r,
-                  pal.color(QPalette::Background), contentColor, getColor(pal,MouseOverHighlight), enabled?_contrast+3:(_contrast/2), surfaceFlags);
-    p->setClipping(false);
-
-            // ...then contour, anti-alias, mouseOver...
-            // contour
-    bmp = QBitmap::fromData(QSize( 13, 13 ), radiobutton_contour_bits);
-    bmp.setMask(bmp);
-    p->setPen(alphaBlendColors(pal.color(QPalette::Background), contourColor, 50) );
-    p->drawPixmap(x, y, bmp);
-            // anti-alias outside
-    bmp = QBitmap::fromData(QSize( 13, 13 ), radiobutton_aa_outside_bits);
-    bmp.setMask(bmp);
-    p->setPen(alphaBlendColors(pal.color(QPalette::Background), contourColor, 150) );
-    p->drawPixmap(x, y, bmp);
-            // highlighting...
+    // highlighting...
     if(mouseOver) {
-        bmp = QBitmap::fromData(QSize( 13, 13 ), radiobutton_highlight1_bits);
-        bmp.setMask(bmp);
-        p->setPen(alphaBlendColors(contentColor, getColor(pal,MouseOverHighlight), 80) );
-        p->drawPixmap(x, y, bmp);
-        bmp = QBitmap::fromData(QSize( 13, 13 ), radiobutton_highlight2_bits);
-        bmp.setMask(bmp);
-        p->setPen(alphaBlendColors(contentColor, getColor(pal,MouseOverHighlight), 150) );
-        p->drawPixmap(x, y, bmp);
-    }
-            // anti-alias inside, "above" the higlighting!
-    bmp = QBitmap::fromData(QSize( 13, 13 ), radiobutton_aa_inside_bits);
-    bmp.setMask(bmp);
-    if(mouseOver) {
-        p->setPen(alphaBlendColors(getColor(pal,MouseOverHighlight), contourColor, 180) );
-    } else {
-        p->setPen(alphaBlendColors(contentColor, contourColor, 180) );
-    }
-    p->drawPixmap(x, y, bmp);
-
-
-    QColor checkmarkColor = enabled?getColor(pal,CheckMark):pal.color(QPalette::Background);
-            // TODO: implement pressed state with Style_Down equivalent
-    if(false /*flags & Style_Down*/) {
-        checkmarkColor = alphaBlendColors(contentColor, checkmarkColor, 150);
     }
 
-            // draw the radio mark
+    // draw the radio mark
     switch (prim)
     {
         case RadioButton::RadioOn:
         {
-            bmp = QBitmap::fromData(QSize( CHECKMARKSIZE, CHECKMARKSIZE ), radiomark_dark_bits);
-            bmp.setMask(bmp);
-            p->setPen(alphaBlendColors(contentColor, checkmarkColor.dark(150), 50) );
-            p->drawPixmap(x+2, y+2, bmp);
-            bmp = QBitmap::fromData(QSize( CHECKMARKSIZE, CHECKMARKSIZE ), radiomark_light_bits);
-            bmp.setMask(bmp);
-            p->setPen(alphaBlendColors(contentColor, checkmarkColor.dark(125), 50) );
-            p->drawPixmap(x+2, y+2, bmp);
-            bmp = QBitmap::fromData(QSize( CHECKMARKSIZE, CHECKMARKSIZE ), radiomark_aa_bits);
-            bmp.setMask(bmp);
-            p->setPen(alphaBlendColors(contentColor, checkmarkColor.dark(150), 150) );
-            p->drawPixmap(x+2, y+2, bmp);
-
             return;
         }
         case RadioButton::RadioOff:
         {
-                // empty
+            // empty
             return;
         }
 
@@ -1606,99 +1377,6 @@ void OxygenStyle::renderDot(QPainter *p, const QPointF &point, const QColor &bas
     p->setBrush(QColor(0, 0, 0, 66));
     p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
     p->setRenderHint(QPainter::Antialiasing, false);
-}
-
-void OxygenStyle::renderGradient(QPainter *painter,
-                                  const QRect &rect,
-                                  const QColor &c1,
-                                  const QColor &c2,
-                                  bool horizontal) const
-{
-    if((rect.width() <= 0)||(rect.height() <= 0))
-        return;
-
-    // generate a quite unique key for this surface.
-    CacheEntry search(cGradientTile,
-                      horizontal ? 0 : rect.width(),
-                      horizontal ? rect.height() : 0,
-                      c1.rgb(), c2.rgb(), horizontal );
-    int key = search.key();
-
-    CacheEntry *cacheEntry;
-    if( (cacheEntry = pixmapCache->object(key)) ) {
-        if( search == *cacheEntry ) { // match! we can draw now...
-            if(cacheEntry->pixmap) {
-                painter->drawTiledPixmap(rect, *(cacheEntry->pixmap) );
-            }
-            return;
-        } else {
-            // Remove old entry in case of a conflict!
-            // This shouldn't happen very often, see comment in CacheEntry.
-            pixmapCache->remove(key);
-        }
-    }
-
-    // there wasn't anything matching in the cache, create the pixmap now...
-    QPixmap *result = new QPixmap(horizontal ? 10 : rect.width(),
-                                  horizontal ? rect.height() : 10);
-    QPainter p(result);
-
-    int r_w = result->rect().width();
-    int r_h = result->rect().height();
-    int r_x, r_y, r_x2, r_y2;
-    result->rect().getCoords(&r_x, &r_y, &r_x2, &r_y2);
-
-    int rDiff, gDiff, bDiff;
-    int rc, gc, bc;
-
-    register int x, y;
-
-    rDiff = ( c2.red())   - (rc = c1.red());
-    gDiff = ( c2.green()) - (gc = c1.green());
-    bDiff = ( c2.blue())  - (bc = c1.blue());
-
-    register int rl = rc << 16;
-    register int gl = gc << 16;
-    register int bl = bc << 16;
-
-    int rdelta = ((1<<16) / (horizontal ? r_h : r_w)) * rDiff;
-    int gdelta = ((1<<16) / (horizontal ? r_h : r_w)) * gDiff;
-    int bdelta = ((1<<16) / (horizontal ? r_h : r_w)) * bDiff;
-
-    // these for-loops could be merged, but the if's in the inner loop
-    // would make it slow
-    if(horizontal) {
-        for ( y = 0; y < r_h; y++ ) {
-            rl += rdelta;
-            gl += gdelta;
-            bl += bdelta;
-
-            p.setPen(QColor(rl>>16, gl>>16, bl>>16));
-            p.drawLine(r_x, r_y+y, r_x2, r_y+y);
-        }
-    } else {
-        for( x = 0; x < r_w; x++) {
-            rl += rdelta;
-            gl += gdelta;
-            bl += bdelta;
-
-            p.setPen(QColor(rl>>16, gl>>16, bl>>16));
-            p.drawLine(r_x+x, r_y, r_x+x, r_y2);
-        }
-    }
-
-    p.end();
-
-    // draw the result...
-    painter->drawTiledPixmap(rect, *result);
-
-    // insert into cache using the previously created key.
-    CacheEntry *toAdd = new CacheEntry(search);
-    toAdd->pixmap = result;
-    bool insertOk = pixmapCache->insert( key, toAdd, result->width()*result->height()*result->depth()/8 );
-
-    if(!insertOk)
-        delete result;
 }
 
 void OxygenStyle::renderPanel(QPainter *p,

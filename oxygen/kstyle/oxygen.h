@@ -115,36 +115,6 @@ protected:
         IsDisabled
     };
 
-    // the only way i see to provide all these options
-    // to renderContour/renderSurface...
-    enum SurfaceFlags {
-        Draw_Left =          0x00000001,
-        Draw_Right =         0x00000002,
-        Draw_Top =           0x00000004,
-        Draw_Bottom =        0x00000008,
-        Highlight_Left =     0x00000010, // surface
-        Highlight_Right =    0x00000020, // surface
-        Highlight_Top =      0x00000040, // surface
-        Highlight_Bottom =   0x00000080, // surface
-        Is_Sunken =          0x00000100, // surface
-        Is_Horizontal =      0x00000200, // surface
-        Is_Highlight =       0x00000400, // surface
-        Is_Default =         0x00000800, // surface
-        Is_Disabled =        0x00001000,
-        Round_UpperLeft =    0x00002000,
-        Round_UpperRight =   0x00004000,
-        Round_BottomLeft =   0x00008000,
-        Round_BottomRight =  0x00010000,
-        Draw_AlphaBlend =    0x00020000
-    };
-/*
-    void renderContour(QPainter *p,
-                       const QRect &r,
-                       const QColor &backgroundColor,
-                       const QColor &contourColor,
-                       const uint flags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|
-                               Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight) const;
-*/
     void renderSlab(QPainter *p,
                         const QRect &r,
                         bool sunken=false,
@@ -157,16 +127,6 @@ protected:
                         bool focus=false,
                         bool hover=false,
                         TileSet::PosFlags posFlags = TileSet::Ring) const;
-
-    void renderSurface(QPainter *p,
-                        const QRect &r,
-                        const QColor &backgroundColor,
-                        const QColor &buttonColor,
-                        const QColor &highlightColor,
-                        int intensity = 5,
-                        const uint flags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|
-                                Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight|
-                                Is_Horizontal) const;
 
     // TODO: cleanup helper methods...
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
@@ -182,12 +142,6 @@ protected:
                      const bool focusHighlight = false) const;
 
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
-
-    void renderGradient(QPainter *p,
-                        const QRect &r,
-                        const QColor &c1,
-                        const QColor &c2,
-                        bool horizontal = true) const;
 
     void renderTab(QPainter *p,
                    const QRect &r,
