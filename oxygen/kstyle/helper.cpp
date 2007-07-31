@@ -99,9 +99,9 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &surroundColor, QColor glow
         QRadialGradient rg = QRadialGradient(8.5, 8.5, 8.5, 8.5, 8.5);
         QColor tmpColor = glowColor;
         glowColor.setAlpha(0);
-        rg.setColorAt(0.49, glowColor);
+        rg.setColorAt(4.5/8.5 - 0.01, glowColor);
         glowColor.setAlpha(180);
-        rg.setColorAt(0.5, glowColor);
+        rg.setColorAt(4.5/8.5, glowColor);
         glowColor.setAlpha(0);
         rg.setColorAt(1.0, glowColor);
         p.setBrush(rg);

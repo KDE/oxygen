@@ -80,6 +80,8 @@ public:
 
     virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
                           const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
+    virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option,
+                                SubControl subControl, const QWidget* widget) const;
 
 protected:
     enum TabPosition
@@ -165,15 +167,6 @@ protected:
                         const uint flags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|
                                 Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight|
                                 Is_Horizontal) const;
-
-    void renderButton(QPainter *p,
-                      const QRect &r,
-                      const QPalette &pal,
-                      bool sunken = false,
-                      bool mouseOver = false,
-                      bool horizontal = true,
-                      bool enabled = true,
-                      bool khtmlMode = false) const;
 
     // TODO: cleanup helper methods...
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,

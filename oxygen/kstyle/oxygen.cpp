@@ -141,8 +141,10 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 1);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 6);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 6);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 16);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 16);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 1);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 1);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 3);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Left, 2);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 2);
@@ -184,11 +186,11 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 3);
 
     setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 3);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 2+16+1);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 0);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 3);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 3);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 3);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 5);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 4);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 2);
 
     setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
@@ -348,7 +350,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     bool sunken   = (flags & State_On) || (flags & State_Sunken) || (flags & State_Selected);
 
-                    renderButton(p, r, pal, sunken, mouseOver);
+//                    renderButton(p, r, pal, sunken, mouseOver);
 
                     return;
                 }
@@ -386,94 +388,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ProgressBar::BusyIndicator:
                 {
-                    renderSurface(p, QRect( r.x()+/*progress+*/1, r.y()+1, r.width()-2, r.height()-2 ),
-                                  bg, fg, pal.color(QPalette::Highlight),
-                                  2*(_contrast/3),
-                                  Draw_Right|Draw_Left|Draw_Top|Draw_Bottom|
-                                          Round_UpperRight|Round_BottomRight|
-                                          Round_UpperLeft|Round_BottomLeft|Is_Horizontal);
-
                     return;
                 }
 
                 case ProgressBar::Indicator:
                 {
-                    QRect Rcontour = r;
-                    QRect Rsurface(Rcontour.left()+1, Rcontour.top()+1, Rcontour.width()-2, Rcontour.height()-2);
-
-                    QRegion mask(Rsurface);
-                    if(reverseLayout) {
-                        mask -= QRegion(Rsurface.left(), Rsurface.top(), 1, 1);
-                        mask -= QRegion(Rsurface.left(), Rsurface.bottom(), 1, 1);
-                    } else {
-                        mask -= QRegion(Rsurface.right(), Rsurface.top(), 1, 1);
-                        mask -= QRegion(Rsurface.right(), Rsurface.bottom(), 1, 1);
-                    }
-                    p->setClipRegion(mask);
-                    int counter = 0;
-                    QPixmap surfaceTile(21, r.height()-2);
-                    QPainter surfacePainter(&surfaceTile);
-                    // - 21 pixel -
-                    //  __________
-                    // |    `    `| <- 3
-                    // | 1   | 2  |
-                    // |____,____,| <- 3
-                    // 1 = light, 11 pixel, 1 pixel overlapping with 2
-                    // 2 = dark, 11 pixel, 1 pixel overlapping with 3
-                    // 3 = light edges
-                    const int tileHeight = surfaceTile.height();
-                    // 3
-                    renderSurface(&surfacePainter,
-                                    QRect(20, 0, 11, tileHeight),
-                                    fg.light(105), fg, pal.color(QPalette::Highlight), 2*(_contrast/3),
-                                    reverseLayout ? Draw_Right|Draw_Left|Draw_Top|Draw_Bottom|
-                                            Round_UpperLeft|Round_BottomLeft|Is_Horizontal
-                                    : Draw_Right|Draw_Left|Draw_Top|Draw_Bottom|
-                                            Round_UpperRight|Round_BottomRight|Is_Horizontal);
-                    // 2
-                    renderSurface(&surfacePainter,
-                                    QRect(10, 0, 11, tileHeight),
-                                    fg, fg.light(105), pal.color(QPalette::Highlight), 2*(_contrast/3),
-                                    reverseLayout ? Draw_Right|Draw_Left|Draw_Top|Draw_Bottom|
-                                            Round_UpperLeft|Round_BottomLeft|Is_Horizontal
-                                    : Draw_Right|Draw_Left|Draw_Top|Draw_Bottom|
-                                            Round_UpperRight|Round_BottomRight|Is_Horizontal);
-                    // 1
-                    renderSurface(&surfacePainter,
-                                    QRect(0, 0, 11, tileHeight),
-                                    fg.light(105), fg, pal.color(QPalette::Highlight), 2*(_contrast/3),
-                                    reverseLayout ? Draw_Right|Draw_Left|Draw_Top|Draw_Bottom|
-                                            Round_UpperLeft|Round_BottomLeft|Is_Horizontal
-                                    : Draw_Right|Draw_Left|Draw_Top|Draw_Bottom|
-                                            Round_UpperRight|Round_BottomRight|Is_Horizontal);
-
-                    surfacePainter.end();
-                    int staticShift = 0;
-                    int animShift = 0;
-                    if (!_animateProgressBar) {
-                        staticShift = (reverseLayout ? Rsurface.left() : Rsurface.right()) % 40 - 40;
-                    } else {
-                        // find the animation Offset for the current Widget
-                        QWidget* nonConstWidget = const_cast<QWidget*>(widget);
-                        QMap<QWidget*, int>::const_iterator iter = progAnimWidgets.find(nonConstWidget);
-                        if (iter != progAnimWidgets.end())
-                            animShift = iter.value();
-                    }
-                    while((counter*10) < (Rsurface.width()+20)) {
-                        counter++;
-                        if (reverseLayout) {
-                            // from right to left, overlap 1 pixel with the previously drawn tile
-                            p->drawPixmap(Rsurface.right()-counter*20-animShift+40+staticShift, r.top()+1,
-                                        surfaceTile);
-                        } else {
-                            // from left to right, overlap 1 pixel with the previously drawn tile
-                            p->drawPixmap(Rsurface.left()+counter*20+animShift-40+staticShift, r.top()+1,
-                                        surfaceTile);
-                        }
-                    }
-
-                    p->setClipping(false);
-
                     return;
                 }
             }
@@ -503,7 +422,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     bool down = flags & State_Sunken;
 
                     if (active && focused) {
-                        renderButton(p, r, pal, down, mouseOver, true);
+//                        renderButton(p, r, pal, down, mouseOver, true);
                     }
 
                     return;
@@ -561,8 +480,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case MenuItem::ItemIndicator:
                 {
                     if (enabled) {
-                        renderSurface(p, r, pal.color(QPalette::Background), pal.color(QPalette::Highlight), pal.color(QPalette::Highlight),
-                                _contrast+3, Draw_Top|Draw_Bottom|Is_Horizontal);
+                        p->fillRect(r, pal.color(QPalette::Highlight));
                     }
                     else {
                         drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
@@ -604,7 +522,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case MenuItem::CheckIcon:
                 {
                     // TODO
-                    renderButton(p, r, pal, true /*sunken*/);
                     return;
                 }
             }
@@ -801,8 +718,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             if(reverseLayout)
                             {
                                 // Left and right widgets are placed right and left when in reverse mode
-                                renderSlab(p, QRect(0, r.y(),r.width() - w - lw,8), false, false, false,
+
+                                if (w+lw >0)
+                                    renderSlab(p, QRect(0, r.y(), r.width() - w - lw, 8), false, false, false,
                                         TileSet::Left | TileSet::Top);
+                                else
+                                    renderSlab(p, QRect(0, r.y(), r.width(), 8), false, false, false,
+                                            TileSet::Left | TileSet::Top | TileSet::Right);
 
                                 if (lw > 0)
                                     renderSlab(p, QRect(r.right() - lw, r.y(), lw, 8), false, false, false,
@@ -814,8 +736,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                     renderSlab(p, QRect(0, r.y(), lw, 8), false, false, false, 
                                         TileSet::Left | TileSet::Top);
 
-                                renderSlab(p, QRect(w+lw, r.y(), r.width() - w - lw, 8), false, false, false,
-                                        TileSet::Top | TileSet::Right);
+                                if (w+lw >0)
+                                    renderSlab(p, QRect(w+lw, r.y(), r.width() - w - lw, 8), false, false, false,
+                                            TileSet::Top | TileSet::Right);
+                                else
+                                    renderSlab(p, QRect(0, r.y(), r.width(), 8), false, false, false,
+                                            TileSet::Left | TileSet::Top | TileSet::Right);
+
                             }
                             return;
 
@@ -998,25 +925,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     if (const QStyleOptionHeader *header = qstyleoption_cast<const QStyleOptionHeader *>(opt)) {
                         bool isFirst = (primitive==Header::SectionHor)&&(header->position == QStyleOptionHeader::Beginning);
 
-                        uint contourFlags = Draw_Right|Draw_Top|Draw_Bottom;
-                        if (isFirst)
-                            contourFlags |= Draw_Left;
-                        if(!enabled) contourFlags|=Is_Disabled;
-                        //renderContour(p, r, pal.color(QPalette::Background), getColor(pal,ButtonContour),                                        contourFlags);
-
-                        uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom|Is_Horizontal;
-                        if(!enabled) surfaceFlags|=Is_Disabled;
-                        else {
-                            if(flags&State_On || flags&State_Sunken) surfaceFlags|=Is_Sunken;
-                            else {
-                                if(mouseOver) {
-                                    surfaceFlags|=Is_Highlight|Highlight_Top|Highlight_Bottom;
-                                }
-                            }
-                        }
-                        renderSurface(p, QRect(isFirst?r.left()+1:r.left(), r.top()+1, isFirst?r.width()-2:r.width()-1, r.height()-2),
-                                    pal.color(QPalette::Background), pal.color(QPalette::Button), getColor(pal,MouseOverHighlight), _contrast,
-                                        surfaceFlags);
+                        p->setPen(pal.color(QPalette::Button));
+                        p->drawRect(QRect(isFirst?r.left()+1:r.left(), r.top()+1, isFirst?r.width()-2:r.width()-1, r.height()-2));
                     }
 
                     return;
@@ -1192,8 +1102,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case ToolButton::Panel:
                 {
-                    renderButton(p, r, pal, flags&State_Sunken||flags&State_On,
-                                 false, true, flags&State_Enabled);
+//                    renderButton(p, r, pal, flags&State_Sunken||flags&State_On,
+ //                                false, true, flags&State_Enabled);
 
                     return;
                 }
@@ -1207,66 +1117,42 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
     // Arrows
     if (primitive >= Generic::ArrowUp && primitive <= Generic::ArrowLeft) {
-        QPolygon a;
+        QPolygonF a;
 
         switch (primitive) {
             case Generic::ArrowUp: {
-                a.setPoints(7, u_arrow);
+                a.clear();
+                a << QPointF(0, -3.5) << QPointF(4.5, 3.5) << QPointF(-4.5, 3.5);
                 break;
             }
             case Generic::ArrowDown: {
-                a.setPoints(7, d_arrow);
+                a.clear();
+                a << QPointF(0, 3.5) << QPointF(4.5, -3.5) << QPointF(-4.5, -3.5);
                 break;
             }
             case Generic::ArrowLeft: {
-                a.setPoints(7, l_arrow);
+                a.clear();
+                a << QPointF(-3.5, 0) << QPointF(3.5, -4.5) << QPointF(3.5, 4.5);
                 break;
             }
             case Generic::ArrowRight: {
-                a.setPoints(7, r_arrow);
+                a.clear();
+                a << QPointF(3.5, 0) << QPointF(-3.5, -4.5) << QPointF(-3.5, 4.5);
                 break;
             }
-//                         default: {
-//                             if (flags & Style_Up) {
-//                                 a.setPoints(7, u_arrow);
-//                             } else {
-//                                 a.setPoints(7, d_arrow);
-//                             }
-//                         }
         }
 
-                const QMatrix oldMatrix( p->matrix() );
-
-//                     if (flags & Style_Down) {
-//                         p->translate(pixelMetric(PM_ButtonShiftHorizontal),
-//                                         pixelMetric(PM_ButtonShiftVertical));
-//                     }
-
         a.translate((r.x()+r.width()/2), (r.y()+r.height()/2));
-//                     // extra-pixel-shift, correcting some visual tics...
-//                     switch(pe) {
-//                         case Generic::ArrowLeft:
-//                         case Generic::ArrowRight:
-//                             a.translate(0, -1);
-//                             break;
-//                         case PE_SpinWidgetUp:
-//                         case PE_SpinWidgetDown:
-//                             a.translate(+1, 0);
-//                             break;
-//                         default:
-//                             a.translate(0, 0);
-//                     }
-
         KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
         QColor               arrowColor = colorOpt->color.color(pal);
 
-        p->setPen(arrowColor);
-
-        p->drawLines(a.constData(), 3);
-        p->drawPoint(a[6]);
-
-        p->setMatrix( oldMatrix );
-
+        QPen oldPen(p->pen()); // important to save the pen as combobox assumes we don't touch
+        p->setPen(Qt::NoPen);
+        p->setBrush(arrowColor);
+        p->setRenderHint(QPainter::Antialiasing);
+        p->drawPolygon(a);
+        p->setRenderHint(QPainter::Antialiasing, false);
+        p->setPen(oldPen);
         return;
     }
 
@@ -1289,6 +1175,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         }
 
         case Generic::FocusIndicator:
+            // we don't want the stippled focus indicator in oxygen
             return;
 
         default:
@@ -1583,55 +1470,6 @@ void OxygenStyle::renderSurface(QPainter *p,
         p->drawLine(r.right()-1, highlightTop?r.top()+1:r.top(),
                     r.right()-1, highlightBottom?r.bottom()-1:r.bottom() );
     }
-}
-
-void OxygenStyle::renderButton(QPainter *p,
-                               const QRect &r,
-                               const QPalette &pal,
-                               bool sunken,
-                               bool mouseOver,
-                               bool horizontal,
-                               bool enabled,
-                               bool khtmlMode) const
-{
-    const QPen oldPen( p->pen() );
-
-    uint contourFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
-    if(!enabled) contourFlags|=Is_Disabled;
-    if(khtmlMode) contourFlags|=Draw_AlphaBlend;
-
-    uint surfaceFlags = Draw_Left|Draw_Right|Draw_Top|Draw_Bottom;
-    if(horizontal) surfaceFlags|=Is_Horizontal;
-    if(!enabled) surfaceFlags|=Is_Disabled;
-    else {
-        if(sunken) surfaceFlags|=Is_Sunken;
-        else {
-            if(mouseOver) {
-                surfaceFlags|=Is_Highlight;
-                if(horizontal) {
-                    surfaceFlags|=Highlight_Top;
-                    surfaceFlags|=Highlight_Bottom;
-                } else {
-                    surfaceFlags|=Highlight_Left;
-                    surfaceFlags|=Highlight_Right;
-                }
-            }
-        }
-    }
-
-    if (!flatMode) {
-        surfaceFlags |= Round_UpperLeft|Round_UpperRight|Round_BottomLeft|Round_BottomRight;
-
-        renderSurface(p, QRect(r.left()+1, r.top()+1, r.width()-2, r.height()-2),
-                      pal.color(QPalette::Background), pal.color(QPalette::Button), getColor(pal,MouseOverHighlight), _contrast, surfaceFlags);
-    } else {
-        renderSurface(p, QRect(r.left()+1, r.top()+1, r.width()-2, r.height()-2),
-                      pal.color(QPalette::Background), pal.color(QPalette::Button), getColor(pal,MouseOverHighlight), _contrast/2, surfaceFlags);
-
-        flatMode = false;
-    }
-
-    p->setPen(oldPen);
 }
 
 void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette &pal,
@@ -1941,7 +1779,7 @@ void OxygenStyle::renderTab(QPainter *p,
             posFlag |= TileSet::Left;
         if(isFirst && reverseLayout && !cornerWidget)
             posFlag |= TileSet::Right;
-        renderSlab(p, QRect(Rb.left(), Rb.y(), Rb.width(), 8), false, false, false, posFlag);
+        renderSlab(p, QRect(Rb.left(), Rb.y(), Rb.width(), 8), false, false, mouseOver, posFlag);
     }
 }
 
@@ -1958,6 +1796,45 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
         default:
             return KStyle::styleHint(hint, option, widget, returnData);
     }
+}
+
+QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComplex* option,
+                                SubControl subControl, const QWidget* widget) const
+{
+    QRect r = option->rect;
+
+    switch (control)
+    {
+        case CC_GroupBox:
+            switch (subControl)
+            {
+                case SC_GroupBoxFrame:
+                    return r;
+
+                case SC_GroupBoxLabel:
+                    return r.adjusted(0,8,0,0);
+
+                default:
+                    break;
+            }
+
+        case CC_ComboBox:
+            switch (subControl)
+            {
+                case SC_ComboBoxEditField:
+                    if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
+                        if(!cb->editable)
+                            return KStyle::subControlRect(control, option, subControl, widget).adjusted(3,0,0,0);
+                    break;
+
+                default:
+                    break;
+            }
+        default:
+            break;
+    }
+
+    return KStyle::subControlRect(control, option, subControl, widget);
 }
 
 bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
