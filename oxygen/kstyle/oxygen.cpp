@@ -733,7 +733,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             else
                             {
                                 if (lw > 0)
-                                    renderSlab(p, QRect(0, r.y(), lw, 8), false, false, false, 
+                                    renderSlab(p, QRect(0, r.y(), lw, 8), false, false, false,
                                         TileSet::Left | TileSet::Top);
 
                                 if (w+lw >0)
@@ -1343,7 +1343,7 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     int y = r.y();
     int s = qMin(r.width(), r.height());
 
-    p->drawPixmap(x, y, *_helper.roundButton(pal.color(QPalette::Background), s));
+    p->drawPixmap(x, y, _helper.roundButton(pal.color(QPalette::Button), s));
 
     // highlighting...
     if(mouseOver) {
