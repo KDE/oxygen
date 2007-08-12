@@ -288,9 +288,10 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
             painter->fillRect(lowerRect, _helper.backgroundBottomColor(color));
 
             int radialW = qMin(600, option->rect.width());
+            int frameH = widget->geometry().y() - widget->y();
             tile = _helper.radialGradient(color, radialW);
-            QRect radialRect = QRect((option->rect.width() - radialW) / 2, 0, radialW, 64);
-            painter->drawPixmap(radialRect, tile);
+            QRect radialRect = QRect((option->rect.width() - radialW) / 2, 0, radialW, 64-frameH);
+            painter->drawPixmap(radialRect, tile, QRect(0, frameH, radialW, 64-frameH));
             }
 
             if (qobject_cast<const QGroupBox*>(widget)) {
