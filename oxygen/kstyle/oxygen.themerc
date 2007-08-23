@@ -8,5 +8,9 @@ Name[pa]=ਆਕਸੀਜਨ
 Name[sl]=Kisik
 ConfigPage=kstyle_oxygen_config
 Comment=Styling of the next generation desktop
+Comment[nds]=Stil för den kamen Schriefdisch
+Comment[pt]=O estilo do ambiente de trabalho da próxima geração
+Comment[pt_BR]=O estilo do ambiente de trabalho da próxima geração
+Comment[zh_TW]=下一代桌面的樣式
 [KDE]
 WidgetStyle=Oxygen
