@@ -26,6 +26,8 @@
 
 #include <QtGui/QPainter>
 
+#include <math.h>
+
 // alphaBlendColors Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
 // DEPRECATED (use KColorUtils::mix to the extent we still need such a critter)
 QColor alphaBlendColors(const QColor &bgColor, const QColor &fgColor, const int a)
@@ -58,7 +60,6 @@ OxygenHelper::OxygenHelper(const QByteArray &componentName)
     _bgcontrast = 0.1;// // shouldn't use contrast for this _contrast; // TODO get style setting
 
     m_backgroundCache.setMaxCost(64);
-    m_roundCache.setMaxCost(64);
 }
 
 KSharedConfigPtr OxygenHelper::config() const
@@ -70,6 +71,12 @@ bool OxygenHelper::lowThreshold(const QColor &color)
 {
     QColor darker = KColorScheme::shade(color, KColorScheme::MidShade, 0.5);
     return KColorUtils::luma(darker) > KColorUtils::luma(color);
+}
+
+QColor OxygenHelper::alphaColor(QColor color, double alpha)
+{
+    color.setAlphaF(alpha);
+    return color;
 }
 
 QColor OxygenHelper::backgroundRadialColor(const QColor &color) const
@@ -103,7 +110,28 @@ QColor OxygenHelper::calcLightColor(const QColor &color)
 
 QColor OxygenHelper::calcDarkColor(const QColor &color)
 {
-    return KColorScheme::shade(color, KColorScheme::MidShade, _contrast);
+    if (lowThreshold(color))
+        return KColorUtils::mix(calcLightColor(color), color, 0.2 + 0.8 * _contrast);
+    else
+        return KColorScheme::shade(color, KColorScheme::MidShade, _contrast);
+}
+
+QColor OxygenHelper::calcShadowColor(const QColor &color)
+{
+    return KColorScheme::shade(color, KColorScheme::ShadowShade, _contrast);
+}
+
+QColor OxygenHelper::backgroundColor(const QColor &color, int height, int y)
+{
+    double h = height * 0.5;
+    if (y > height>>1) {
+        double a = double(y) / h;
+        return KColorUtils::mix(backgroundTopColor(color), color, a);
+    }
+    else {
+        double a = (double(y) - h) / h;
+        return KColorUtils::mix(color, backgroundBottomColor(color), a);
+    }
 }
 
 QPixmap OxygenHelper::verticalGradient(const QColor &color, int height)
@@ -161,73 +189,32 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width)
     return *pixmap;
 }
 
-QPixmap OxygenHelper::roundButton(const QColor &color, int size)
+void OxygenHelper::drawShadow(QPainter &p, const QColor &color, int size)
 {
-    quint64 key = (quint64(color.rgba()) << 32) | size;
-    QPixmap *pixmap = m_roundCache.object(key);
+    int m = size>>1;
 
-    if (!pixmap)
-    {
-        pixmap = new QPixmap(size, size);
-        pixmap->fill(QColor(0,0,0,0));
-
-        QPainter p(pixmap);
-        p.setRenderHints(QPainter::Antialiasing);
-        p.setPen(Qt::NoPen);
-        p.setWindow(0,0,20,20);
-
-        // shadow
-        QRadialGradient shadowGradient(10, 11, 9, 10, 12);
-        shadowGradient.setColorAt(0.0, QColor(0,0,0,80));
-        shadowGradient.setColorAt(1.0, QColor(0,0,0,0));
-        p.setBrush(shadowGradient);
-        p.drawEllipse(QRectF(0, 0, 20, 20));
-
-        // outline
-        QRadialGradient edgeGradient(10, 10, 9, 10, 10);
-        edgeGradient.setColorAt(0.0, QColor(0,0,0,60));
-        edgeGradient.setColorAt(0.9, QColor(0,0,0,20));
-        edgeGradient.setColorAt(1.0, QColor(0,0,0,0));
-        p.setBrush(edgeGradient);
-        p.drawEllipse(QRectF(0, 0, 20, 20));
-
-        // base (for anti-shadow)
-        p.setBrush(color);
-        p.drawEllipse(QRectF(2.4,2.4,15.2,15.2));
-
-        // bevel
-        QColor light = calcLightColor(color);
-        QColor dark = calcDarkColor(color);
-        qreal y = KColorUtils::luma(color);
-        qreal yl = KColorUtils::luma(light);
-        qreal yd = KColorUtils::luma(light);
-        QLinearGradient bevelGradient(0, 0, 0, 18);
-        bevelGradient.setColorAt(0.45, light);
-        bevelGradient.setColorAt(0.65, dark);
-        if (y < yl && y > yd) // no middle when color is very light/dark
-            bevelGradient.setColorAt(0.55, color);
-        p.setBrush(QBrush(bevelGradient));
-        p.drawEllipse(QRectF(2.4,2.4,15.2,15.0));
-
-        // inside mask
-        QRadialGradient maskGradient(10,10,7.4,10,10);
-        maskGradient.setColorAt(0.75, QColor(0,0,0,0));
-        maskGradient.setColorAt(0.90, QColor(0,0,0,140));
-        maskGradient.setColorAt(1.00, QColor(0,0,0,255));
-        p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        p.setBrush(maskGradient);
-        p.drawRect(0,0,20,20);
-
-        // inside
-        QLinearGradient innerGradient(0, 0, 0, 20);
-        innerGradient.setColorAt(0.0, color);
-        innerGradient.setColorAt(1.0, calcLightColor(color));
-        p.setCompositionMode(QPainter::CompositionMode_DestinationOver);
-        p.setBrush(innerGradient);
-        p.drawEllipse(QRectF(2.5,2.5,15.0,14.8));
-
-        m_roundCache.insert(key, pixmap);
+    const double offset = 0.8;
+    double k0 = (double(m) - 4.0) / double(m);
+    QRadialGradient shadowGradient(m, m+offset, m, m, m+offset);
+    for (int i = 0; i < 8; i++) { // sinusoidal gradient
+        double k1 = k0 * double(8 - i) * 0.125 + double(i) * 0.125;
+        double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
+        shadowGradient.setColorAt(k1, alphaColor(color, a));
     }
+    shadowGradient.setColorAt(1.0, alphaColor(color, 0.0));
+    p.setBrush(shadowGradient);
+    p.drawEllipse(QRectF(0, offset, size, size+offset));
+}
 
-    return *pixmap;
+QLinearGradient OxygenHelper::decoGradient(const QRect &r, const QColor &color)
+{
+    QColor light = KColorUtils::lighten(color, _contrast * 0.4);
+    QColor dark = KColorUtils::darken(color, _contrast * 0.4);
+
+    QLinearGradient gradient(r.topLeft(), r.bottomLeft());
+    gradient.setColorAt(0.15, dark);
+    gradient.setColorAt(0.50, color);
+    gradient.setColorAt(0.85, light);
+
+    return gradient;
 }

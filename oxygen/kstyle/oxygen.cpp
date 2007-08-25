@@ -1275,7 +1275,7 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, bool sunken, bool focu
         return;
 
     TileSet *tile;
-    QColor base = QColor(Qt::white);
+    QColor base = QColor(Qt::white); // FIXME -- wrong!
     // for slabs, hover takes precedence over focus (other way around for holes)
     // but in any case if the button is sunken we don't show focus nor hover
     if(sunken)
@@ -1295,7 +1295,7 @@ void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover
         return;
 
     TileSet *tile;
-    QColor base = QColor(Qt::white);
+    QColor base = QColor(Qt::white); // FIXME -- wrong!
     // for holes, focus takes precedence over hover (other way around for buttons)
     if (focus)
         tile = _helper.holeFocused(base, _viewFocusColor);
@@ -1340,11 +1340,12 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
                                         bool enabled, bool mouseOver, int prim) const
 {
-    int x = r.x();
-    int y = r.y();
-    int s = qMin(r.width(), r.height());
+    QRect r2(r.x() + r.width()/2 - 9, r.y() + r.height()/2 - 9, 18, 20);
+    int x = r2.x();
+    int y = r2.y();
 
-    p->drawPixmap(x, y, _helper.roundButton(pal.color(QPalette::Button), s));
+    QPixmap slabPixmap = _helper.roundSlab(pal.color(QPalette::Button), 18, 0.0);
+    p->drawPixmap(x, y+1, slabPixmap);
 
     // highlighting...
     if(mouseOver) {
@@ -1355,6 +1356,15 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     {
         case RadioButton::RadioOn:
         {
+            double dx = r2.width() * 0.5 - 3.0;
+            double dy = r2.height() * 0.5 - 3.0;
+            QColor fore = pal.color(QPalette::ButtonText);
+            p->save();
+            p->setRenderHints(QPainter::Antialiasing);
+            p->setPen(Qt::NoPen);
+            p->setBrush(_helper.decoGradient(r, fore));
+            p->drawEllipse(QRectF(r2).adjusted(dx, dy, -dx, -dy));
+            p->restore();
             return;
         }
         case RadioButton::RadioOff:

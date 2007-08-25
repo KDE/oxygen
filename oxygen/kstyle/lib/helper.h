@@ -26,6 +26,7 @@
 
 #include <QtGui/QColor>
 #include <QtGui/QPixmap>
+#include <QtGui/QLinearGradient>
 #include <QtCore/QCache>
 
 // alphaBlendColors Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
@@ -42,16 +43,24 @@ public:
     KSharedConfigPtr config() const;
 
     static bool lowThreshold(const QColor &color);
+    QColor alphaColor(QColor color, double alpha);
+
+    QColor calcLightColor(const QColor &color);
+    QColor calcDarkColor(const QColor &color);
+    QColor calcShadowColor(const QColor &color);
+
+    QColor backgroundColor(const QColor &color, int height, int y);
+
     QColor backgroundRadialColor(const QColor &color) const;
     QColor backgroundTopColor(const QColor &color) const;
     QColor backgroundBottomColor(const QColor &color) const;
-    QColor calcLightColor(const QColor &color);
-    QColor calcDarkColor(const QColor &color);
 
     QPixmap verticalGradient(const QColor &color, int height);
     QPixmap radialGradient(const QColor &color, int width);
 
-    QPixmap roundButton(const QColor &color, int size);
+    void drawShadow(QPainter &p, const QColor &color, int size);
+
+    QLinearGradient decoGradient(const QRect &r, const QColor &color);
 
 protected:
     KComponentData _componentData;
@@ -60,7 +69,6 @@ protected:
     qreal _bgcontrast;
 
     QCache<quint64, QPixmap> m_backgroundCache;
-    QCache<quint64, QPixmap> m_roundCache;
 };
 
 #endif // __OXYGEN_HELPER_H

@@ -27,6 +27,61 @@
 OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
     : OxygenHelper(componentName)
 {
+    m_roundSlabCache.setMaxCost(64);
+}
+
+QPixmap OxygenStyleHelper::roundSlab(const QColor &color, int size, double shade)
+{
+    quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+    QPixmap *pixmap = m_roundSlabCache.object(key);
+
+    if (!pixmap)
+    {
+        pixmap = new QPixmap(size, int(double(size)*10.0/9.0));
+        pixmap->fill(QColor(0,0,0,0));
+
+        QPainter p(pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(0,0,18,20);
+
+        QColor base = KColorUtils::shade(color, shade);
+        QColor light = KColorUtils::shade(calcLightColor(color), shade);
+        QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+
+        // shadow
+        drawShadow(p, calcShadowColor(color), 18);
+
+        // bevel, part 1
+        qreal y = KColorUtils::luma(base);
+        qreal yl = KColorUtils::luma(light);
+        qreal yd = KColorUtils::luma(light);
+        QLinearGradient bevelGradient1(0, 9, 0, 16);
+        bevelGradient1.setColorAt(0.0, light);
+        bevelGradient1.setColorAt(0.9, dark);
+        if (y < yl && y > yd) // no middle when color is very light/dark
+            bevelGradient1.setColorAt(0.5, base);
+        p.setBrush(bevelGradient1);
+        p.drawEllipse(QRectF(2.0,2.0,14.0,14.0));
+
+        // bevel, part 2
+        QLinearGradient bevelGradient2(0, 6, 0, 26);
+        bevelGradient2.setColorAt(0.0, light);
+        bevelGradient2.setColorAt(0.9, base);
+        p.setBrush(bevelGradient2);
+        p.drawEllipse(QRectF(2.6,2.6,12.8,12.8));
+
+        // inside
+        QLinearGradient innerGradient(-12, 0, 0, 18);
+        innerGradient.setColorAt(0.0, light);
+        innerGradient.setColorAt(1.0, base);
+        p.setBrush(innerGradient);
+        p.drawEllipse(QRectF(3.4,3.4,11.2,11.2));
+
+        m_roundSlabCache.insert(key, pixmap);
+    }
+
+    return *pixmap;
 }
 
 TileSet *OxygenStyleHelper::slab(const QColor &surroundColor)
