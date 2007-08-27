@@ -24,8 +24,8 @@ DEALINGS IN THE SOFTWARE.
 
 */
 
-#ifndef PLASTIK_CONF_H
-#define PLASTIK_CONF_H
+#ifndef OXYGENCONF_H
+#define OXYGENCONF_H
 
 #ifndef QT3_SUPPORT
 #define QT3_SUPPORT
@@ -89,4 +89,4 @@ protected:
 	QColor     origCheckMarkColor;
 };
 
-#endif
+#endif // OXYGENCONF_H

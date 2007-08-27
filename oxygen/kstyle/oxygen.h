@@ -36,8 +36,8 @@
    Boston, MA 02110-1301, USA.
  */
 
-#ifndef __PLASTIK_H
-#define __PLASTIK_H
+#ifndef __OXYGEN_H
+#define __OXYGEN_H
 
 #include <kstyle.h>
 #include <ksharedconfig.h>
@@ -247,7 +247,6 @@ private:
     QCache<int, CacheEntry> *pixmapCache;
 };
 
-#endif // __PLASTIK_H
+#endif // __OXYGEN_H
 
 // kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;
-
