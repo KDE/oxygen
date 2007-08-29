@@ -141,7 +141,7 @@ void TileSet::render(const QRect &r, QPainter *p, PosFlags pf) const
 
     //Paint the center
     if(pf & Center && midw>0 && midh>0)
-        p->drawTiledPixmap(r.x()+trw, r.y()+trh, midw, midh, pixmap[MidMid], 0, 0);
+        p->drawTiledPixmap(r.x()+tlw, r.y()+trh, midw, midh, pixmap[MidMid], 0, 0);
 
     p->setClipping(false);
 }
