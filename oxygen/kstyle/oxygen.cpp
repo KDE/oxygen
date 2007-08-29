@@ -623,7 +623,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::GrooveAreaHorLeft:
                 {
-                    renderHole(p, r, false,false, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    renderHole(p, r.adjusted(0,0,3,0), false,false, TileSet::Top | TileSet::Left | TileSet::Bottom);
                     return;
                 }
 
@@ -658,8 +658,24 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::SliderHor:
                 {
-                    renderHole(p, r, false,false, TileSet::Top | TileSet::Bottom);
-                    p->fillRect(r.adjusted(2, 2, -2, -2), QColor(Qt::red));
+                    renderHole(p, r.adjusted(3,0,-3,0), false,false, TileSet::Top | TileSet::Bottom);
+
+                    int offset = r.left()/2; // divide by 2 to make the "lightplay" move half speed of the handle
+                    if(r.width()-2 <= 32)
+                        _helper.horizontalScrollBar(QColor(0,116,0), r.width()-2,
+                                    r.height()-2, offset)->render(r.adjusted(1,1,-1,-1 ), p, TileSet::Full);
+                    else
+                    {
+                        // When the handle is 32 pixels high or more then we paint it in two parts
+                        // This is needed since the middle part is tiled and that doesn't work nice with lightplay
+                        // So to fix this we paint the bottom part with a modified offset
+                        _helper.horizontalScrollBar(QColor(0,116,0), 64, r.height()-2,
+                                    offset)->render(r.adjusted(1,1,-1-16,-1), p, TileSet::Top | TileSet::Left
+                                    | TileSet::Bottom | TileSet::Center);
+                        _helper.horizontalScrollBar(QColor(0,116,0), 64, r.height()-2, offset+r.width())
+                                    ->render(QRect(r.right()-16,r.top()+1,16, r.height()-2), p, TileSet::Top
+                                    | TileSet::Right | TileSet::Bottom);
+                    }
                     return;
                 }
 

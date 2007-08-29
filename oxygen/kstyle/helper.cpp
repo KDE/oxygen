@@ -157,6 +157,8 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &surroundColor, QColor glow
         rg.setColorAt(4.5/8.5 - 0.01, glowColor);
         glowColor.setAlpha(180);
         rg.setColorAt(4.5/8.5, glowColor);
+        glowColor.setAlpha(70);
+        rg.setColorAt(6.5/8.5, glowColor);
         glowColor.setAlpha(0);
         rg.setColorAt(1.0, glowColor);
         p.setBrush(rg);
@@ -418,6 +420,93 @@ TileSet *OxygenStyleHelper::verticalScrollBar(const QColor &color, int width, in
             tileSet = new TileSet(tmpPixmap, 1, 16, width-2, 32);
 
         m_verticalScrollBarCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+TileSet *OxygenStyleHelper::horizontalScrollBar(const QColor &color, int width, int height, int offset)
+{
+    int offsetSize = 32; // hardcoded
+
+    offset = offset % (offsetSize);
+
+    if(width > 32)
+        width = 64;
+
+    quint64 key = (quint64(color.rgba()) << 32) | (width<<22) | (height<<10) | offset;
+    TileSet *tileSet = m_horizontalScrollBarCache.object(key);
+    if (!tileSet)
+    {
+        QPixmap tmpPixmap(width, height);
+        tmpPixmap.fill(Qt::transparent);
+
+        QPainter p(&tmpPixmap);
+        QRectF r(0, 0, width, height);
+        p.setPen(Qt::NoPen);
+        p.setRenderHint(QPainter::Antialiasing);
+
+        QLinearGradient lg(QPointF(0, 0),QPointF(0, height*0.6));
+        lg.setColorAt(0, color.lighter(140));
+        lg.setColorAt(1, color);
+        p.setBrush(lg);
+        p.drawRoundRect(r, 90*9/width,90*9/height);
+
+        lg = QLinearGradient (QPointF(0, 0),QPointF(0, height));
+        QColor tmpColor(28,255,28);
+        tmpColor.setAlpha(0);
+        lg.setColorAt(0, tmpColor);
+        tmpColor.setAlpha(128);
+        lg.setColorAt(1, tmpColor);
+        p.setBrush(lg);
+        p.drawRoundRect(QRectF(0, 0.48*height, width, 0.52*height), int(90*9/width),90*9/(height*0.52));
+
+        //The rolling gradient
+        // Since we want to tile every 32 pixels we need to compute a gradient that does that and
+        // that also has a slope of 3/2 (the value the artist wants)
+        lg = QLinearGradient(QPointF(-offset, 0),QPointF(-offset+offsetSize*9.0/26, offsetSize*6.0/26));
+        lg.setSpread(QGradient::ReflectSpread);
+        tmpColor = color.darker(130);
+        tmpColor.setAlpha(110);
+        lg.setColorAt(0.0, tmpColor);
+        tmpColor.setAlpha(30);
+        lg.setColorAt(0.6, tmpColor);
+        tmpColor.setAlpha(0);
+        lg.setColorAt(1.0, tmpColor);
+        p.setBrush(lg);
+        p.drawRoundRect(r, 90*9/width, 90*9/height);
+
+        //the outline needs to
+        lg = QLinearGradient(QPointF(0, 0), QPointF(width,0));
+        tmpColor = color.darker(130);
+        tmpColor.setAlpha(255);
+        lg.setColorAt(0.0, tmpColor);
+        tmpColor.setAlpha(60);
+        lg.setColorAt(0.15, tmpColor);
+        tmpColor.setAlpha(0);
+        lg.setColorAt(.25, tmpColor);
+        lg.setColorAt(0.75, tmpColor);
+        tmpColor.setAlpha(60);
+        lg.setColorAt(0.85, tmpColor);
+        tmpColor.setAlpha(255);
+        lg.setColorAt(1.0, tmpColor);
+        p.setBrush(lg);
+        p.drawRoundRect(r, 90*9/width, 90*9/height);
+
+        lg = QLinearGradient(QPointF(0, 0), QPointF(width,0));
+        lg.setColorAt(0.0, QColor(255,255,255,180));
+        lg.setColorAt(0.1, QColor(0,0,0,100));
+        lg.setColorAt(0.9, QColor(0,0,0,100));
+        lg.setColorAt(0.9, QColor(0,0,0,100));
+        p.setBrush(Qt::NoBrush);
+        p.setPen(QPen(lg,2));
+        //p.drawRoundRect(r.adjusted(0, 0.5, 0, -0.5), 90*9/width, 90*9/height);
+
+        if(width < 32)
+            tileSet = new TileSet(tmpPixmap, 1, 1, width-2, height-2);
+        else
+            tileSet = new TileSet(tmpPixmap, 16, 1, 32, height-2);
+
+        m_horizontalScrollBarCache.insert(key, tileSet);
     }
     return tileSet;
 }

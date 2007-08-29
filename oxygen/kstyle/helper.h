@@ -41,6 +41,7 @@ public:
     TileSet *holeFocused(const QColor &color, QColor glowColor);
 
     TileSet *verticalScrollBar(const QColor &color, int width, int height, int offset);
+    TileSet *horizontalScrollBar(const QColor &color, int width, int height, int offset);
 
 protected:
     QCache<quint64, QPixmap> m_roundSlabCache;
@@ -50,6 +51,7 @@ protected:
     QCache<quint64, TileSet> m_slabSunkenCache;
     QCache<quint64, TileSet> m_slopeCache;
     QCache<quint64, TileSet> m_verticalScrollBarCache;
+    QCache<quint64, TileSet> m_horizontalScrollBarCache;
 };
 
 #endif // __OXYGEN_STYLE_HELPER_H
