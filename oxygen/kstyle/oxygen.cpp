@@ -629,7 +629,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::GrooveAreaHorRight:
                 {
-                    renderHole(p, r, false,false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
+                    renderHole(p, r.adjusted(-3,0,0,0), false,false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
                     return;
                 }
 

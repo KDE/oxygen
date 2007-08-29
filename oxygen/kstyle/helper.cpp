@@ -492,14 +492,16 @@ TileSet *OxygenStyleHelper::horizontalScrollBar(const QColor &color, int width, 
         p.setBrush(lg);
         p.drawRoundRect(r, 90*9/width, 90*9/height);
 
-        lg = QLinearGradient(QPointF(0, 0), QPointF(width,0));
-        lg.setColorAt(0.0, QColor(255,255,255,180));
-        lg.setColorAt(0.1, QColor(0,0,0,100));
-        lg.setColorAt(0.9, QColor(0,0,0,100));
-        lg.setColorAt(0.9, QColor(0,0,0,100));
+        lg = QLinearGradient(QPointF(0, 0), QPointF(0,height));
+        lg.setColorAt(0.49, QColor(255,255,255,150));
+        lg.setColorAt(0.51, QColor(0,0,0,100));
         p.setBrush(Qt::NoBrush);
         p.setPen(QPen(lg,2));
-        //p.drawRoundRect(r.adjusted(0, 0.5, 0, -0.5), 90*9/width, 90*9/height);
+        p.drawRoundRect(r.adjusted(-1, 2.5, 1, -2.5), 90*9/width, 90*9/height);
+
+        p.setPen(QColor(0,0,0,180));
+        p.drawLine(QPointF(5, 1), QPointF(r.right()-5, 1));
+        p.drawLine(QPointF(5, r.bottom()-1), QPointF(r.right()-5, r.bottom()-1));
 
         if(width < 32)
             tileSet = new TileSet(tmpPixmap, 1, 1, width-2, height-2);
