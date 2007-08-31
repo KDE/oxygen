@@ -1,6 +1,5 @@
 [Misc]
 Name=Oxygen
-Name[bg]=Ogle
 Name[csb]=Krziseń
 Name[km]=អុកស៊ីសែន
 Name[ne]=अक्सिजन
@@ -8,11 +7,13 @@ Name[pa]=ਆਕਸੀਜਨ
 Name[sl]=Kisik
 ConfigPage=kstyle_oxygen_config
 Comment=Styling of the next generation desktop
+Comment[be]=Стыль працоўных сталоў наступнага пакалення
+Comment[bg]=Стил за следващото поколение работни плотове
 Comment[ja]=次世代デスクトップのスタイル
 Comment[km]=ការ​រចនា​ផ្ទៃ​តុ​ជំនាន់​បន្ទាប់​
 Comment[nds]=Stil för den kamen Schriefdisch
 Comment[pt]=O estilo do ambiente de trabalho da próxima geração
-Comment[pt_BR]=O estilo do ambiente de trabalho da próxima geração
+Comment[pt_BR]=O estilo da próxima geração de área de trabalho
 Comment[sv]=Stil för nästa generations skrivbord
 Comment[zh_TW]=下一代桌面的樣式
 [KDE]
