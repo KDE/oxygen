@@ -215,7 +215,7 @@ OxygenStyle::OxygenStyle() :
     _customOverHighlightColor = true;
     _customFocusHighlightColor = true;
     // do next two lines in polish()?
-    KColorScheme schemeView( KColorScheme::View, _config );
+    KColorScheme schemeView( QPalette::Active, KColorScheme::View, _config );
     _viewHoverColor = _overHighlightColor = schemeView.decoration( KColorScheme::HoverColor ).color();
     _viewFocusColor = _focusHighlightColor = schemeView.decoration( KColorScheme::FocusColor ).color();
     settings.endGroup();
