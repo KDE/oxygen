@@ -126,6 +126,98 @@ static const unsigned char radiomark_light_bits[] = {
    0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 
+//BEGIN KStatefulBrush
+// TODO - move this class to kdelibs
+
+class KStatefulBrushPrivate : public QBrush // for now, just be a QColor
+{
+    public:
+        KStatefulBrushPrivate() : QBrush() {}
+        KStatefulBrushPrivate(const QBrush &brush) : QBrush(brush) {} // not explicit
+};
+
+class KStatefulBrush
+{
+    public:
+        explicit KStatefulBrush(KColorScheme::ColorSet, KColorScheme::ForegroundRole, KSharedConfigPtr = KSharedConfigPtr());
+        explicit KStatefulBrush(KColorScheme::ColorSet, KColorScheme::BackgroundRole, KSharedConfigPtr = KSharedConfigPtr());
+        explicit KStatefulBrush(KColorScheme::ColorSet, KColorScheme::DecorationRole, KSharedConfigPtr = KSharedConfigPtr());
+        KStatefulBrush(const KStatefulBrush&);
+        ~KStatefulBrush();
+
+        QBrush brush(QPalette::ColorGroup) const;
+        QBrush brush(const QPalette&) const;
+        QBrush brush(const QWidget*) const;
+    private:
+        KStatefulBrushPrivate *d;
+};
+
+KStatefulBrush::KStatefulBrush(KColorScheme::ColorSet set, KColorScheme::ForegroundRole role,
+                               KSharedConfigPtr config)
+{
+    d = new KStatefulBrushPrivate[3];
+    d[0] = KColorScheme(QPalette::Active,   set, config).foreground(role);
+    d[1] = KColorScheme(QPalette::Disabled, set, config).foreground(role);
+    d[2] = KColorScheme(QPalette::Inactive, set, config).foreground(role);
+}
+
+KStatefulBrush::KStatefulBrush(KColorScheme::ColorSet set, KColorScheme::BackgroundRole role,
+                               KSharedConfigPtr config)
+{
+    d = new KStatefulBrushPrivate[3];
+    d[0] = KColorScheme(QPalette::Active,   set, config).background(role);
+    d[1] = KColorScheme(QPalette::Disabled, set, config).background(role);
+    d[2] = KColorScheme(QPalette::Inactive, set, config).background(role);
+}
+
+KStatefulBrush::KStatefulBrush(KColorScheme::ColorSet set, KColorScheme::DecorationRole role,
+                               KSharedConfigPtr config)
+{
+    d = new KStatefulBrushPrivate[3];
+    d[0] = KColorScheme(QPalette::Active,   set, config).decoration(role);
+    d[1] = KColorScheme(QPalette::Disabled, set, config).decoration(role);
+    d[2] = KColorScheme(QPalette::Inactive, set, config).decoration(role);
+}
+
+KStatefulBrush::KStatefulBrush(const KStatefulBrush &other)
+{
+    d = new KStatefulBrushPrivate[3];
+    d[0] = other.d[0];
+    d[1] = other.d[1];
+    d[2] = other.d[2];
+}
+
+KStatefulBrush::~KStatefulBrush()
+{
+    delete[] d;
+}
+
+QBrush KStatefulBrush::brush(QPalette::ColorGroup state) const
+{
+    switch (state) {
+        case QPalette::Inactive:
+            return d[2];
+        case QPalette::Disabled:
+            return d[1];
+        default:
+            return d[0];
+    }
+}
+
+QBrush KStatefulBrush::brush(const QPalette &pal) const
+{
+    return brush(pal.currentColorGroup());
+}
+
+QBrush KStatefulBrush::brush(const QWidget *widget) const
+{
+    if (widget)
+        return brush(widget->palette());
+    else
+        return QBrush();
+}
+//END KStatefulBrush
+
 OxygenStyle::OxygenStyle() :
 //     kickerMode(false),
 //     kornMode(false),
@@ -211,14 +303,14 @@ OxygenStyle::OxygenStyle() :
     _drawFocusRect = settings.value("/drawFocusRect", true).toBool();
     _drawTriangularExpander = settings.value("/drawTriangularExpander", false).toBool();
     _inputFocusHighlight = settings.value("/inputFocusHighlight", true).toBool();
+    settings.endGroup();
+
     // FIXME below this line to be deleted (and can we not use QSettings? KConfig* is safe now)
     _customOverHighlightColor = true;
     _customFocusHighlightColor = true;
     // do next two lines in polish()?
-    KColorScheme schemeView( QPalette::Active, KColorScheme::View, _config );
-    _viewHoverColor = _overHighlightColor = schemeView.decoration( KColorScheme::HoverColor ).color();
-    _viewFocusColor = _focusHighlightColor = schemeView.decoration( KColorScheme::FocusColor ).color();
-    settings.endGroup();
+    _viewFocusBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
+    _viewHoverBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _config );
 
     // setup pixmap cache...
     pixmapCache = new QCache<int, CacheEntry>(327680);
@@ -263,6 +355,8 @@ void OxygenStyle::updateProgressPos()
 OxygenStyle::~OxygenStyle()
 {
     delete pixmapCache;
+    delete _viewFocusBrushes;
+    delete _viewHoverBrushes;
 }
 
 
@@ -1297,9 +1391,9 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, bool sunken, bool focu
     if(sunken)
         tile = _helper.slabSunken(base);
     else if (hover)
-        tile = _helper.slabFocused(base, _viewHoverColor);
+        tile = _helper.slabFocused(base, _viewHoverBrushes->brush(QPalette::Active).color()); // FIXME need state
     else if (focus)
-        tile = _helper.slabFocused(base, _viewFocusColor);
+        tile = _helper.slabFocused(base, _viewFocusBrushes->brush(QPalette::Active).color()); // FIXME need state
     else
         tile = _helper.slab(base);
     tile->render(r, p, posFlags);
@@ -1314,9 +1408,9 @@ void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover
     QColor base = QColor(Qt::white); // FIXME -- wrong!
     // for holes, focus takes precedence over hover (other way around for buttons)
     if (focus)
-        tile = _helper.holeFocused(base, _viewFocusColor);
+        tile = _helper.holeFocused(base, _viewFocusBrushes->brush(QPalette::Active).color()); // FIXME need state
     else if (hover)
-        tile = _helper.holeFocused(base, _viewHoverColor);
+        tile = _helper.holeFocused(base, _viewHoverBrushes->brush(QPalette::Active).color()); // FIXME need state
     else
         tile = _helper.hole(base);
     tile->render(r, p, posFlags);

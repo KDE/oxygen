@@ -57,6 +57,9 @@
 
 class QTimer;
 
+// TODO - redundant when moved to kdelibs
+class KStatefulBrush;
+
 class OxygenStyle : public KStyle
 {
     Q_OBJECT
@@ -180,8 +183,8 @@ private:
     // FIXME remove this line, new (correct) stuff below this point
     OxygenStyleHelper &_helper;
     KSharedConfigPtr _config;
-    QColor _viewFocusColor;
-    QColor _viewHoverColor;
+    KStatefulBrush *_viewFocusBrushes;
+    KStatefulBrush *_viewHoverBrushes;
 
     //Animation support.
     QMap<QWidget*, int> progAnimWidgets;
