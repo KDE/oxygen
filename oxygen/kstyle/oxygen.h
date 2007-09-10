@@ -39,8 +39,9 @@
 #ifndef __OXYGEN_H
 #define __OXYGEN_H
 
-#include <kstyle.h>
-#include <ksharedconfig.h>
+#include <KStyle>
+#include <KColorScheme>
+#include <KSharedConfig>
 
 #include <QtGui/QBitmap>
 #include <QtGui/QStyleOption>
@@ -56,9 +57,6 @@
 #define QCOORDARRLEN(x) sizeof(x)/(sizeof(QCOORD)*2)
 
 class QTimer;
-
-// TODO - redundant when moved to kdelibs
-class KStatefulBrush;
 
 class OxygenStyle : public KStyle
 {

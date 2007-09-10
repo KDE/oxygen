@@ -61,10 +61,8 @@
 #include <QtGui/QScrollBar>
 #include <QtGui/QGroupBox>
 
-#include <kglobal.h>
-#include <ksharedconfig.h>
-#include <kcolorutils.h>
-#include <kcolorscheme.h>
+#include <KGlobal>
+#include <KColorUtils>
 
 #include "helper.h"
 #include "tileset.h"
@@ -124,99 +122,6 @@ static const unsigned char radiomark_dark_bits[] = {
 static const unsigned char radiomark_light_bits[] = {
    0x00, 0x00, 0x00, 0x00, 0x38, 0x00, 0x0c, 0x00, 0x04, 0x00, 0x04, 0x00,
    0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-
-//BEGIN KStatefulBrush
-// TODO - move this class to kdelibs
-
-class KStatefulBrushPrivate : public QBrush // for now, just be a QColor
-{
-    public:
-        KStatefulBrushPrivate() : QBrush() {}
-        KStatefulBrushPrivate(const QBrush &brush) : QBrush(brush) {} // not explicit
-};
-
-class KStatefulBrush
-{
-    public:
-        explicit KStatefulBrush(KColorScheme::ColorSet, KColorScheme::ForegroundRole, KSharedConfigPtr = KSharedConfigPtr());
-        explicit KStatefulBrush(KColorScheme::ColorSet, KColorScheme::BackgroundRole, KSharedConfigPtr = KSharedConfigPtr());
-        explicit KStatefulBrush(KColorScheme::ColorSet, KColorScheme::DecorationRole, KSharedConfigPtr = KSharedConfigPtr());
-        KStatefulBrush(const KStatefulBrush&);
-        ~KStatefulBrush();
-
-        QBrush brush(QPalette::ColorGroup) const;
-        QBrush brush(const QPalette&) const;
-        QBrush brush(const QWidget*) const;
-    private:
-        KStatefulBrushPrivate *d;
-};
-
-KStatefulBrush::KStatefulBrush(KColorScheme::ColorSet set, KColorScheme::ForegroundRole role,
-                               KSharedConfigPtr config)
-{
-    d = new KStatefulBrushPrivate[3];
-    d[0] = KColorScheme(QPalette::Active,   set, config).foreground(role);
-    d[1] = KColorScheme(QPalette::Disabled, set, config).foreground(role);
-    d[2] = KColorScheme(QPalette::Inactive, set, config).foreground(role);
-}
-
-KStatefulBrush::KStatefulBrush(KColorScheme::ColorSet set, KColorScheme::BackgroundRole role,
-                               KSharedConfigPtr config)
-{
-    d = new KStatefulBrushPrivate[3];
-    d[0] = KColorScheme(QPalette::Active,   set, config).background(role);
-    d[1] = KColorScheme(QPalette::Disabled, set, config).background(role);
-    d[2] = KColorScheme(QPalette::Inactive, set, config).background(role);
-}
-
-KStatefulBrush::KStatefulBrush(KColorScheme::ColorSet set, KColorScheme::DecorationRole role,
-                               KSharedConfigPtr config)
-{
-    d = new KStatefulBrushPrivate[3];
-    d[0] = KColorScheme(QPalette::Active,   set, config).decoration(role);
-    d[1] = KColorScheme(QPalette::Disabled, set, config).decoration(role);
-    d[2] = KColorScheme(QPalette::Inactive, set, config).decoration(role);
-}
-
-KStatefulBrush::KStatefulBrush(const KStatefulBrush &other)
-{
-    d = new KStatefulBrushPrivate[3];
-    d[0] = other.d[0];
-    d[1] = other.d[1];
-    d[2] = other.d[2];
-}
-
-KStatefulBrush::~KStatefulBrush()
-{
-    delete[] d;
-}
-
-QBrush KStatefulBrush::brush(QPalette::ColorGroup state) const
-{
-    switch (state) {
-        case QPalette::Inactive:
-            return d[2];
-        case QPalette::Disabled:
-            return d[1];
-        default:
-            return d[0];
-    }
-}
-
-QBrush KStatefulBrush::brush(const QPalette &pal) const
-{
-    return brush(pal.currentColorGroup());
-}
-
-QBrush KStatefulBrush::brush(const QWidget *widget) const
-{
-    if (widget)
-        return brush(widget->palette());
-    else
-        return QBrush();
-}
-//END KStatefulBrush
 
 OxygenStyle::OxygenStyle() :
 //     kickerMode(false),
