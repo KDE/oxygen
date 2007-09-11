@@ -168,6 +168,10 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_TabBar, TabBar::TabOverlap, 1);
     setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 8);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, 16);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 16);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, 2);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, 2);
 
     setWidgetLayoutProp(WT_TabWidget, TabWidget::ContentsMargin, 6);
 
@@ -182,7 +186,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 3);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 3);
 
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 3);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 6);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 5);
@@ -605,36 +609,36 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 break;
 
                 case ScrollBar::SingleButtonVert:
-                    renderHole(p, QRect(0,r.bottom()+1,r.width(),3), false,false, TileSet::Top | TileSet::Left | TileSet::Right);
+                    renderHole(p, QRect(0,r.bottom()+1,r.width(),3), false, false, TileSet::Top | TileSet::Left | TileSet::Right);
                 break;
 
                 case ScrollBar::GrooveAreaVertTop:
                 {
-                    renderHole(p, r.adjusted(0,3,0,3), false,false, TileSet::Left | TileSet::Right);
+                    renderHole(p, r.adjusted(0,3,0,3), false, false, TileSet::Left | TileSet::Right);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaVertBottom:
                 {
-                    renderHole(p, r.adjusted(0,-3,0,0), false,false, TileSet::Left | TileSet::Bottom | TileSet::Right);
+                    renderHole(p, r.adjusted(0,-3,0,0), false, false, TileSet::Left | TileSet::Bottom | TileSet::Right);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorLeft:
                 {
-                    renderHole(p, r.adjusted(0,0,3,0), false,false, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    renderHole(p, r.adjusted(0,0,3,0), false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorRight:
                 {
-                    renderHole(p, r.adjusted(-3,0,0,0), false,false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
+                    renderHole(p, r.adjusted(-3,0,0,0), false, false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::SliderVert:
                 {
-                    renderHole(p, r.adjusted(0,3,0,-3), false,false, TileSet::Left | TileSet::Right);
+                    renderHole(p, r.adjusted(0,3,0,-3), false, false, TileSet::Left | TileSet::Right);
 
                     int offset = r.top()/2; // divide by 2 to make the "lightplay" move half speed of the handle
                     if(r.height()-2 <= 32)
@@ -657,7 +661,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::SliderHor:
                 {
-                    renderHole(p, r.adjusted(3,0,-3,0), false,false, TileSet::Top | TileSet::Bottom);
+                    renderHole(p, r.adjusted(3,0,-3,0), false, false, TileSet::Top | TileSet::Bottom);
 
                     int offset = r.left()/2; // divide by 2 to make the "lightplay" move half speed of the handle
                     if(r.width()-2 <= 32)
