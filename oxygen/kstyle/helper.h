@@ -23,32 +23,41 @@
 #include "lib/helper.h"
 #include "tileset.h"
 
+class SlabCache {
+public:
+    SlabCache() {}
+    ~SlabCache() {}
+
+    QCache<quint64, QPixmap> m_roundSlabCache;
+    QCache<quint64, TileSet> m_slabCache;
+};
+
 class OxygenStyleHelper : public OxygenHelper
 {
 public:
     explicit OxygenStyleHelper(const QByteArray &componentName);
     virtual ~OxygenStyleHelper() {}
 
-    QPixmap  roundSlab(const QColor &color, int size, double shade);
+    QPixmap  roundSlab(const QColor&, double shade, int size = 6);
 
-    TileSet *slab(const QColor &color);
-    TileSet *slabFocused(const QColor &color, QColor glowColor);
-    TileSet *slabSunken(const QColor &color);
+    TileSet *slab(const QColor&, double shade, int size = 6);
+    TileSet *slabFocused(const QColor&, QColor glow, double shade, int size = 6);
+    TileSet *slabSunken(const QColor&, double shade, int size = 6);
 
-    TileSet *slope(const QColor &surroundColor);
+    TileSet *slope(const QColor&, double shade, int size = 6);
 
-    TileSet *hole(const QColor &color);
-    TileSet *holeFocused(const QColor &color, QColor glowColor);
+    TileSet *hole(const QColor&);
+    TileSet *holeFocused(const QColor&, QColor glow);
 
-    TileSet *verticalScrollBar(const QColor &color, int width, int height, int offset);
-    TileSet *horizontalScrollBar(const QColor &color, int width, int height, int offset);
+    TileSet *verticalScrollBar(const QColor&, int width, int height, int offset);
+    TileSet *horizontalScrollBar(const QColor&, int width, int height, int offset);
 
 protected:
-    QCache<quint64, QPixmap> m_roundSlabCache;
-    QCache<quint64, TileSet> m_setCache;
-    QCache<quint64, TileSet> m_slabCache;
-    QCache<quint64, TileSet> m_slabFocusedCache;
+    SlabCache* slabCache(const QColor&);
+
+    QCache<quint64, SlabCache> m_slabCache;
     QCache<quint64, TileSet> m_slabSunkenCache;
+    QCache<quint64, TileSet> m_holeCache;
     QCache<quint64, TileSet> m_slopeCache;
     QCache<quint64, TileSet> m_verticalScrollBarCache;
     QCache<quint64, TileSet> m_horizontalScrollBarCache;

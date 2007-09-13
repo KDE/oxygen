@@ -64,6 +64,8 @@
 #include <KGlobal>
 #include <KColorUtils>
 
+#include <math.h>
+
 #include "helper.h"
 #include "tileset.h"
 
@@ -175,8 +177,8 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_TabWidget, TabWidget::ContentsMargin, 6);
 
-    setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 20/*15*/);
-    setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 11);
+    setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 23);
+    setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 15);
 
     setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 2);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonWidth, 2+16+1);
@@ -318,24 +320,33 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                        const QWidget* widget,
                                        KStyle::Option* kOpt) const
 {
+    StyleOptions opts = 0;
     const bool reverseLayout = opt->direction == Qt::RightToLeft;
 
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
 
+    // Who is turning on clipping?! I don't know, but some operations seem to
+    // ignore that it is turned off (specifically, drawRoundRect with a
+    // gradient brush, as in renderSlab), so turn it off *and* force the clip
+    // region to something innocuous
+    p->setClipRect(r);
+    p->setClipping(false);
+
     switch (widgetType)
     {
-
         case WT_PushButton:
         {
             switch (primitive)
             {
                 case PushButton::Panel:
                 {
-                    bool sunken   = (flags & State_On) || (flags & State_Sunken);
-                    bool hasFocus = flags & State_HasFocus;
+                    if ((flags & State_On) || (flags & State_Sunken))
+                        opts |= Sunken;
+                    if (flags & State_HasFocus)
+                        opts |= Focus;
 
-                    renderSlab(p, r, sunken, hasFocus, mouseOver);
+                    renderSlab(p, r, pal.color(QPalette::Button), opts);
                     return;
                 }
 
@@ -353,7 +364,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case ToolBoxTab::Panel:
                 {
-                    bool sunken   = (flags & State_On) || (flags & State_Sunken) || (flags & State_Selected);
+//                    bool sunken   = (flags & State_On) || (flags & State_Sunken) || (flags & State_Selected);
 
 //                    renderButton(p, r, pal, sunken, mouseOver);
 
@@ -424,7 +435,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     bool active  = flags & State_Selected;
                     bool focused = flags & State_HasFocus;
-                    bool down = flags & State_Sunken;
+//                     bool down = flags & State_Sunken;
 
                     if (active && focused) {
 //                        renderButton(p, r, pal, down, mouseOver, true);
@@ -726,6 +737,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
+                    // FIXME!!
                     const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>(opt);
                     int w = tabOpt->tabBarSize.width();
                     int lw = tabOpt->leftCornerWidgetSize.width();
@@ -734,34 +746,34 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     {
                         case QTabBar::RoundedNorth:
                         case QTabBar::TriangularNorth:
-                            renderSlab(p, r.adjusted(0,8,0,0), false, false, false,
-                                    TileSet::Left | TileSet::Bottom | TileSet::Right);
+                            renderSlab(p, r, pal.color(QPalette::Window), NoFill,
+                                       TileSet::Left | TileSet::Bottom | TileSet::Right);
                             if(reverseLayout)
                             {
                                 // Left and right widgets are placed right and left when in reverse mode
 
                                 if (w+lw >0)
-                                    renderSlab(p, QRect(0, r.y(), r.width() - w - lw, 8), false, false, false,
+                                    renderSlab(p, QRect(0, r.y(), r.width() - w - lw, 8), pal.color(QPalette::Window), NoFill,
                                         TileSet::Left | TileSet::Top);
                                 else
-                                    renderSlab(p, QRect(0, r.y(), r.width(), 8), false, false, false,
+                                    renderSlab(p, QRect(0, r.y(), r.width(), 8), pal.color(QPalette::Window), NoFill,
                                             TileSet::Left | TileSet::Top | TileSet::Right);
 
                                 if (lw > 0)
-                                    renderSlab(p, QRect(r.right() - lw, r.y(), lw, 8), false, false, false,
+                                    renderSlab(p, QRect(r.right() - lw, r.y(), lw, 8), pal.color(QPalette::Window), NoFill,
                                         TileSet::Top | TileSet::Right);
                             }
                             else
                             {
                                 if (lw > 0)
-                                    renderSlab(p, QRect(0, r.y(), lw, 8), false, false, false,
+                                    renderSlab(p, QRect(0, r.y(), lw, 8), pal.color(QPalette::Window), NoFill,
                                         TileSet::Left | TileSet::Top);
 
                                 if (w+lw >0)
-                                    renderSlab(p, QRect(w+lw, r.y(), r.width() - w - lw, 8), false, false, false,
+                                    renderSlab(p, QRect(w+lw, r.y(), r.width() - w - lw, 8), pal.color(QPalette::Window), NoFill,
                                             TileSet::Top | TileSet::Right);
                                 else
-                                    renderSlab(p, QRect(0, r.y(), r.width(), 8), false, false, false,
+                                    renderSlab(p, QRect(0, r.y(), r.width(), 8), pal.color(QPalette::Window), NoFill,
                                             TileSet::Left | TileSet::Top | TileSet::Right);
 
                             }
@@ -828,12 +840,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
         case WT_Slider:
         {
+            // TODO
             switch (primitive)
             {
                 case Slider::HandleHor:
                 case Slider::HandleVert:
                 {
-                    renderSlab(p, r);
+                    renderSlab(p, r.adjusted(1,0,-1,0), pal.color(QPalette::Button));
                     return;
                 }
 
@@ -892,6 +905,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 editable = cb->editable;
 
             bool hasFocus = flags & State_HasFocus;
+            StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
+            if (mouseOver) opts |= Hover;
 
             const QColor buttonColor = enabled?pal.color(QPalette::Button):pal.color(QPalette::Background);
             const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Background);
@@ -903,7 +918,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     // TODO: pressed state
                     if(!editable) {
-                        renderSlab(p, r, false, hasFocus, mouseOver);
+                        renderSlab(p, r, pal.color(QPalette::Button), opts);
                     } else {
                         // input area
                         p->fillRect(r.adjusted(1,1,-1,-1), inputColor );
@@ -1048,12 +1063,33 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
-                    renderSlab(p, r.adjusted(0,0,0,-8), false, false, false,
-                            TileSet::Left | TileSet::Top | TileSet::Right);
-                    p->fillRect(QRect(5, r.bottom()-7, r.width()-10, 1), QColor(0,0,0,2));
-                    p->fillRect(QRect(5, r.bottom()-6, r.width()-10, 6), QColor(0,0,0,5));
-                    p->fillRect(QRect(5, r.bottom(), r.width()-10, 1), QColor(0,0,0,2));
-                    _helper.slope(QColor(255,255,255))->render(QRect(0, r.bottom()-7, r.width(), 8), p, TileSet::Left | TileSet::Right);
+                    QColor color = pal.color(QPalette::Window);
+
+                    p->save();
+                    p->setClipRect(r.adjusted(0,0,0,-16));
+                    p->setRenderHint(QPainter::Antialiasing);
+                    p->setPen(Qt::NoPen);
+
+                    int s1 = 3; //size/4;
+                    int s2 = 4; //s1 + (int)ceil(double(size)*2.0/14.0);
+                    int rx = 500 / (r.width() - (2*s1)); //(50*size) / rect.width();
+                    int ry = 500 / (r.height() - (s1+s2)); //(50*size) / rect.height();
+                    QRect fr = r.adjusted(s1, s1, -s1, -s2);
+
+                    QLinearGradient innerGradient(0, fr.top() - fr.height(), 0, fr.bottom()*2-32);
+                    QColor light = _helper.calcLightColor(color); //KColorUtils::shade(calcLightColor(color), shade));
+                    light.setAlphaF(0.4);
+                    innerGradient.setColorAt(0.0, light);
+                    color.setAlphaF(0.4);
+                    innerGradient.setColorAt(1.0, color);
+                    p->setBrush(innerGradient);
+                    p->drawRoundRect(fr, rx, ry);
+
+                    p->restore();
+
+                    TileSet *slopeTileSet = _helper.slope(pal.color(QPalette::Window), 0.0);
+                    slopeTileSet->render(r, p);
+
                     return;
                 }
             }
@@ -1289,24 +1325,46 @@ void OxygenStyle::progressBarDestroyed(QObject* obj)
     progAnimWidgets.remove(static_cast<QWidget*>(obj));
 }
 
-void OxygenStyle::renderSlab(QPainter *p, const QRect &r, bool sunken, bool focus, bool hover, TileSet::Tiles posFlags) const
+void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, StyleOptions opts, TileSet::Tiles tiles) const
 {
-    if((r.width() <= 0)||(r.height() <= 0))
+    if ((r.width() <= 0) || (r.height() <= 0))
         return;
 
     TileSet *tile;
-    QColor base = QColor(Qt::white); // FIXME -- wrong!
+
+    // fill
+    if (!(opts & NoFill))
+    {
+        int s1 = 3; //size/4;
+        int s2 = 4; //s1 + (int)ceil(double(size)*2.0/14.0);
+        int rx = 500 / (r.width() - (2*s1)); //(50*size) / rect.width();
+        int ry = 500 / (r.height() - (s1+s2)); //(50*size) / rect.height();
+
+        p->save();
+        p->setRenderHint(QPainter::Antialiasing);
+        p->setPen(Qt::NoPen);
+
+        QLinearGradient innerGradient(0, r.top() - r.height(), 0, r.bottom());
+        innerGradient.setColorAt(0.0, _helper.calcLightColor(color)); //KColorUtils::shade(calcLightColor(color), shade));
+        innerGradient.setColorAt(1.0, color);
+        p->setBrush(innerGradient);
+        p->drawRoundRect(r.adjusted(s1, s1, -s1, -s2), rx, ry);
+
+        p->restore();
+    }
+
+    // edges
     // for slabs, hover takes precedence over focus (other way around for holes)
     // but in any case if the button is sunken we don't show focus nor hover
-    if(sunken)
-        tile = _helper.slabSunken(base);
-    else if (hover)
-        tile = _helper.slabFocused(base, _viewHoverBrushes->brush(QPalette::Active).color()); // FIXME need state
-    else if (focus)
-        tile = _helper.slabFocused(base, _viewFocusBrushes->brush(QPalette::Active).color()); // FIXME need state
+    if (opts & Sunken)
+        tile = _helper.slabSunken(color, 0.0);
+    else if (opts & Hover)
+        tile = _helper.slabFocused(color, _viewHoverBrushes->brush(QPalette::Active).color(), 0.0); // FIXME need state
+    else if (opts & Focus)
+        tile = _helper.slabFocused(color, _viewFocusBrushes->brush(QPalette::Active).color(), 0.0); // FIXME need state
     else
-        tile = _helper.slab(base);
-    tile->render(r, p, posFlags);
+        tile = _helper.slab(color, 0.0);
+    tile->render(r, p, tiles);
 }
 
 void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover, TileSet::Tiles posFlags) const
@@ -1326,18 +1384,21 @@ void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover
     tile->render(r, p, posFlags);
 }
 
+// TODO take StyleOptions instead of ugly bools
 void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette &pal,
                                   bool enabled, bool hasFocus, bool mouseOver, int primitive) const
 {
-    QColor contentColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
-
     int s = qMin(rect.width(), rect.height());
-    QRect r = centerRect(rect, s, s);
+    QRect r = centerRect(rect, s-2, s);
 
-    renderSlab(p, r, false, hasFocus, mouseOver);
+    StyleOptions opts;
+    if (hasFocus) opts |= Focus;
+    if (mouseOver) opts |= Hover;
+
+    renderSlab(p, r, pal.color(QPalette::Button), opts);
 
     // check mark
-    double x = r.center().x() - 3.5, y = r.center().y() - 2.5;
+    double x = r.center().x() - 3.5, y = r.center().y() - 3.5;
 
     QPen pen(pal.color(QPalette::Text), 2.0);
     if (primitive == CheckBox::CheckTriState) {
@@ -1364,7 +1425,7 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     int x = r2.x();
     int y = r2.y();
 
-    QPixmap slabPixmap = _helper.roundSlab(pal.color(QPalette::Button), 18, 0.0);
+    QPixmap slabPixmap = _helper.roundSlab(pal.color(QPalette::Button), 0.0);
     p->drawPixmap(x, y+1, slabPixmap);
 
     // highlighting...
@@ -1465,19 +1526,20 @@ void OxygenStyle::renderTab(QPainter *p,
     // the area where the fake border should appear
     const QRect Rb(r.x(), bottom?r.top():Rc.bottom()+1, r.width(), r.height()-Rc.height() );
 
+    // FIXME - maybe going to redo tabs, also are broken ATM
     if (selected) {
-        renderSlab(p, Rc, false, false, false, TileSet::Left | TileSet::Top | TileSet::Right);
+        renderSlab(p, Rc, pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top | TileSet::Right);
 
         // some "position specific" paintings...
         // First draw the left connection from the panel border to the tab
         if(isFirst && !reverseLayout && !cornerWidget) {
-            renderSlab(p, Rb, false, false, false, TileSet::Left);
+            renderSlab(p, Rb, pal.color(QPalette::Window), NoFill, TileSet::Left);
         } else
             renderHole(p, QRect(Rb.left(), Rb.top(),4,5), false, false, TileSet::Right | TileSet::Bottom);
 
         // Now draw the right connection from the panel border to the tab
         if(isFirst && reverseLayout && !cornerWidget) {
-            renderSlab(p, Rb, false, false, false, TileSet::Right);
+            renderSlab(p, Rb, pal.color(QPalette::Window), NoFill, TileSet::Right);
         } else
             renderHole(p, QRect(Rb.right()-3, Rb.top(),3,5), false, false, TileSet::Left | TileSet::Bottom);
 
@@ -1488,7 +1550,8 @@ void OxygenStyle::renderTab(QPainter *p,
             posFlag |= TileSet::Left;
         if(isFirst && reverseLayout && !cornerWidget)
             posFlag |= TileSet::Right;
-        renderSlab(p, QRect(Rb.left(), Rb.y(), Rb.width(), 8), false, false, mouseOver, posFlag);
+        renderSlab(p, QRect(Rb.left(), Rb.y(), Rb.width(), 8), pal.color(QPalette::Window), NoFill, posFlag);
+        // TODO mouseover effects
     }
 }
 
@@ -1565,15 +1628,14 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
 QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, const bool enabled)const
 {
-    return getColor(pal, t, enabled?IsEnabled:IsDisabled);
+    return getColor(pal, t, enabled?0:Disabled);
 }
 
-QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, const WidgetState s)const
+QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, StyleOptions s)const
 {
-    const bool enabled = (s != IsDisabled) &&
-            ((s == IsEnabled) || (s == IsPressed) || (s == IsHighlighted));
-    const bool pressed = (s == IsPressed);
-    const bool highlighted = (s == IsHighlighted);
+    const bool enabled = !(s & Disabled);
+    const bool pressed = (s & Sunken);
+    const bool highlighted = (s & Hover);
     switch(t) {
         case ButtonContour:
             return enabled ? pal.color(QPalette::Button).dark(130+_contrast*8)

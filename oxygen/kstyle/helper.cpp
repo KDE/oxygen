@@ -19,25 +19,41 @@
 
 #include "helper.h"
 
-#include <kcolorutils.h>
+#include <KColorUtils>
 
 #include <QtGui/QPainter>
 #include <QtGui/QLinearGradient>
 
+#include <math.h>
+
 OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
     : OxygenHelper(componentName)
 {
-    m_roundSlabCache.setMaxCost(64);
 }
 
-QPixmap OxygenStyleHelper::roundSlab(const QColor &color, int size, double shade)
+SlabCache* OxygenStyleHelper::slabCache(const QColor &color)
 {
-    quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
-    QPixmap *pixmap = m_roundSlabCache.object(key);
+    quint64 key = (quint64(color.rgba()) << 32);
+    SlabCache *cache = m_slabCache.object(key);
+
+    if (!cache)
+    {
+        cache = new SlabCache;
+        m_slabCache.insert(key, cache);
+    }
+
+    return cache;
+}
+
+QPixmap OxygenStyleHelper::roundSlab(const QColor &color, double shade, int size)
+{
+    SlabCache *cache = slabCache(color);
+    quint64 key = (int)(256.0 * shade) << 24 | size;
+    QPixmap *pixmap = cache->m_roundSlabCache.object(key);
 
     if (!pixmap)
     {
-        pixmap = new QPixmap(size, int(double(size)*10.0/9.0));
+        pixmap = new QPixmap(size*3, int(double(size*3)*10.0/9.0));
         pixmap->fill(QColor(0,0,0,0));
 
         QPainter p(pixmap);
@@ -78,103 +94,116 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, int size, double shade
         p.setBrush(innerGradient);
         p.drawEllipse(QRectF(3.4,3.4,11.2,11.2));
 
-        m_roundSlabCache.insert(key, pixmap);
+        p.end();
+
+        cache->m_roundSlabCache.insert(key, pixmap);
     }
 
     return *pixmap;
 }
 
-TileSet *OxygenStyleHelper::slab(const QColor &surroundColor)
+TileSet *OxygenStyleHelper::slab(const QColor &color, double shade, int size)
 {
-    quint64 key = (quint64(surroundColor.rgba()) << 32);
-    TileSet *tileSet = m_slabCache.object(key);
+    SlabCache *cache = slabCache(color);
+    quint64 key = (int)(256.0 * shade) << 24 | size;
+    TileSet *tileSet = cache->m_slabCache.object(key);
 
     if (!tileSet)
     {
-        QImage tmpImg(17, 17, QImage::Format_ARGB32);
-        QGradientStops stops;
-        QPainter p;
+        QPixmap pixmap(size*2, (int)ceil(double(size*2)*14.0/12.0));
+        pixmap.fill(QColor(0,0,0,0));
 
-        tmpImg.fill(Qt::transparent);
-
-        p.begin(&tmpImg);
+        QPainter p(&pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setRenderHint(QPainter::Antialiasing);
-        p.scale(0.875, 1.0);
-        QRadialGradient rg = QRadialGradient(8.5*1.1428, 8.5+1, 8.5, 8.5*1.1428, 8.5+3.2);//4.7);
-        stops.clear();
-        stops << QGradientStop( 0, QColor(0,0,0, 135) )
-           << QGradientStop( 0.20, QColor(0,0,0, 75) )
-          << QGradientStop( 0.65, QColor(0,0,0, 20) )
-           << QGradientStop( 1, QColor(0,0,0, 0 ) );
-        rg.setStops(stops);
-        p.setBrush(rg);
-        p.setClipRect(0,2,17,15);
-        p.drawEllipse(QRectF(0,0, 17*1.1428, 17));
-        p.resetTransform();
+        p.setWindow(0,0,12,14);
 
-        // draw white edge
-        p.setCompositionMode(QPainter::CompositionMode_Source);
-        p.setBrush(Qt::transparent);
-        QLinearGradient lg(QPointF(0, 4.5),QPointF(0, 13));
-        lg.setColorAt(0.0, KColorUtils::shade(surroundColor, 0.3));
-        QColor tmpColor = surroundColor;
-        tmpColor.setAlpha(0);
-        lg.setColorAt(1.0, tmpColor);
-        p.setPen(QPen(lg,1));
-        p.drawEllipse(QRectF(4.5, 4.5, 8, 8));
+        QColor base = KColorUtils::shade(color, shade);
+        QColor light = KColorUtils::shade(calcLightColor(color), shade);
+        QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+
+        // shadow
+        drawShadow(p, calcShadowColor(color), 12);
+
+        // bevel, part 1
+        qreal y = KColorUtils::luma(base);
+        qreal yl = KColorUtils::luma(light);
+        qreal yd = KColorUtils::luma(light);
+        QLinearGradient bevelGradient1(0, 6, 0, 10);
+        bevelGradient1.setColorAt(0.0, light);
+        bevelGradient1.setColorAt(0.9, dark);
+        if (y < yl && y > yd) // no middle when color is very light/dark
+            bevelGradient1.setColorAt(0.5, base);
+        p.setBrush(bevelGradient1);
+        p.drawEllipse(QRectF(2.0,2.0,8.0,8.0));
+
+        // bevel, part 2
+        QLinearGradient bevelGradient2(0, 5, 0, 18);
+        bevelGradient2.setColorAt(0.0, light);
+        bevelGradient2.setColorAt(0.9, base);
+        p.setBrush(bevelGradient2);
+        p.drawEllipse(QRectF(2.6,2.6,6.8,6.8));
+
+        // inside mask
+        p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+        p.setBrush(QBrush(Qt::black));
+        p.drawEllipse(QRectF(3.4,3.4,5.2,5.2));
+
         p.end();
 
-        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 8, 8, 1, 1);
+        tileSet = new TileSet(pixmap, size-1, size, 2, 1);
 
-        m_slabCache.insert(key, tileSet);
+        cache->m_slabCache.insert(key, tileSet);
     }
     return tileSet;
 }
 
-TileSet *OxygenStyleHelper::slabFocused(const QColor &surroundColor, QColor glowColor)
+TileSet *OxygenStyleHelper::slabFocused(const QColor &color, QColor glow, double shade, int size)
 {
-    quint64 key = (quint64(surroundColor.rgba()) << 32) | quint64(glowColor.rgba());
-    TileSet *tileSet = m_slabFocusedCache.object(key);
+    SlabCache *cache = slabCache(color);
+    quint64 key = (quint64(glow.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+    TileSet *tileSet = cache->m_slabCache.object(key);
 
     if (!tileSet)
     {
-        QImage tmpImg(17, 17, QImage::Format_ARGB32);
-        QGradientStops stops;
-        QPainter p;
+        QPixmap pixmap(size*2, (int)ceil(double(size*2)*14.0/12.0));
+        pixmap.fill(QColor(0,0,0,0));
 
-        tmpImg.fill(Qt::transparent);
-
-        TileSet *slabTileSet = slab(surroundColor);
-
-        p.begin(&tmpImg);
-        slabTileSet->render(QRect(0,0,17,17), &p);
+        QPainter p(&pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setRenderHint(QPainter::Antialiasing);
+        p.setWindow(0,0,12,14);
+
+        TileSet *slabTileSet = slab(color, shade, size);
+
+        // slab
+        slabTileSet->render(QRect(0,0,12,14), &p);
+
+        // glow
         QRadialGradient rg = QRadialGradient(8.5, 8.5, 8.5, 8.5, 8.5);
-        QColor tmpColor = glowColor;
-        glowColor.setAlpha(0);
-        rg.setColorAt(4.5/8.5 - 0.01, glowColor);
-        glowColor.setAlpha(180);
-        rg.setColorAt(4.5/8.5, glowColor);
-        glowColor.setAlpha(70);
-        rg.setColorAt(6.5/8.5, glowColor);
-        glowColor.setAlpha(0);
-        rg.setColorAt(1.0, glowColor);
+        glow.setAlpha(0);
+        rg.setColorAt(4.5/8.5 - 0.01, glow);
+        glow.setAlpha(180);
+        rg.setColorAt(4.5/8.5, glow);
+        glow.setAlpha(70);
+        rg.setColorAt(6.5/8.5, glow);
+        glow.setAlpha(0);
+        rg.setColorAt(1.0, glow);
         p.setBrush(rg);
         p.drawEllipse(QRectF(0, 0, 17, 17));
+
         p.end();
 
-        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 8, 8, 1, 1);
+        tileSet = new TileSet(pixmap, size-1, size, 2, 1);
 
-        m_slabFocusedCache.insert(key, tileSet);
+        cache->m_slabCache.insert(key, tileSet);
     }
     return tileSet;
 }
 
-TileSet *OxygenStyleHelper::slabSunken(const QColor &surroundColor)
+TileSet *OxygenStyleHelper::slabSunken(const QColor &color, double shade, int size)
 {
-    quint64 key = (quint64(surroundColor.rgba()) << 32);
+    quint64 key = (quint64(color.rgba()) << 32);
     TileSet *tileSet = m_slabSunkenCache.object(key);
 
     if (!tileSet)
@@ -185,6 +214,7 @@ TileSet *OxygenStyleHelper::slabSunken(const QColor &surroundColor)
 
         tmpImg.fill(Qt::transparent);
 
+        // TODO
         p.begin(&tmpImg);
         p.setPen(Qt::NoPen);
         p.setBrush(Qt::black);
@@ -199,28 +229,48 @@ TileSet *OxygenStyleHelper::slabSunken(const QColor &surroundColor)
     return tileSet;
 }
 
-TileSet *OxygenStyleHelper::slope(const QColor &surroundColor)
+TileSet *OxygenStyleHelper::slope(const QColor &color, double shade, int size)
 {
-    quint64 key = (quint64(surroundColor.rgba()) << 32);
+    quint64 key = (quint64(color.rgba()) << 32);
     TileSet *tileSet = m_slopeCache.object(key);
 
     if (!tileSet)
     {
-        QImage tmpImg(24, 24, QImage::Format_ARGB32);
-        QPainter p;
+        QPixmap pixmap(size*4, size*4);
+        pixmap.fill(QColor(0,0,0,0));
 
-        tmpImg.fill(Qt::transparent);
+        QPainter p(&pixmap);
+        p.setPen(Qt::NoPen);
 
-        p.begin(&tmpImg);
-        TileSet *slabTileSet = slab(surroundColor);
+        // edges
+        TileSet *slabTileSet = slab(color, shade, size);
+        slabTileSet->render(QRect(0, 0, size*4, size*5), &p,
+                            TileSet::Left | TileSet::Right | TileSet::Top);
 
-        for (int i=8;i<16;i++)
-        {
-            p.setOpacity((16-i)/8.0);
-            slabTileSet->render(QRect(0,i,24,1), &p, TileSet::Left | TileSet::Right);
-        }
+        p.setWindow(0,0,24,24);
 
-        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 8, 8, 8, 8);
+        // bottom
+        QColor base = color;
+        QColor light = calcLightColor(color); //KColorUtils::shade(calcLightColor(color), shade));
+        QLinearGradient fillGradient(0, -24, 0, 24);
+        light.setAlphaF(0.4);
+        fillGradient.setColorAt(0.0, light);
+        base.setAlphaF(0.4);
+        fillGradient.setColorAt(1.0, base);
+        p.setBrush(fillGradient);
+        p.setCompositionMode(QPainter::CompositionMode_DestinationOver);
+        p.drawRect(2, 8, 20, 16);
+
+        // fade bottom
+        QLinearGradient maskGradient(0, 6, 0, 24);
+        maskGradient.setColorAt(0.0, QColor(0, 0, 0, 255));
+        maskGradient.setColorAt(1.0, QColor(0, 0, 0, 0));
+
+        p.setBrush(maskGradient);
+        p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+        p.drawRect(0, 8, 24, 16);
+
+        tileSet = new TileSet(pixmap, size, size, size*2, 2);
         m_slopeCache.insert(key, tileSet);
     }
     return tileSet;
@@ -229,7 +279,7 @@ TileSet *OxygenStyleHelper::slope(const QColor &surroundColor)
 TileSet *OxygenStyleHelper::hole(const QColor &surroundColor)
 {
     quint64 key = (quint64(surroundColor.rgba()) << 32);
-    TileSet *tileSet = m_setCache.object(key);
+    TileSet *tileSet = m_holeCache.object(key);
 
     if (!tileSet)
     {
@@ -266,19 +316,15 @@ TileSet *OxygenStyleHelper::hole(const QColor &surroundColor)
 
         tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
 
-        m_setCache.insert(key, tileSet);
+        m_holeCache.insert(key, tileSet);
     }
     return tileSet;
 }
 
 TileSet *OxygenStyleHelper::holeFocused(const QColor &surroundColor, QColor glowColor)
 {
-    // FIXME need to figure out to what extent we need to care about glowColor
-    // for the key as well, might be enough just to stash the color set in the
-    // key since glow color should only change when the system scheme is
-    // changed by the user
     quint64 key = (quint64(surroundColor.rgba()) << 32) | quint64(glowColor.rgba());
-    TileSet *tileSet = m_setCache.object(key);
+    TileSet *tileSet = m_holeCache.object(key);
 
     if (!tileSet)
     {
@@ -332,7 +378,7 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &surroundColor, QColor glow
 
         tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
 
-        m_setCache.insert(key, tileSet);
+        m_holeCache.insert(key, tileSet);
     }
     return tileSet;
 }

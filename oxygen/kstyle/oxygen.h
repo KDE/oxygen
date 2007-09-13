@@ -84,6 +84,17 @@ public:
     virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option,
                                 SubControl subControl, const QWidget* widget) const;
 
+public:
+    enum StyleOption
+    {
+        Sunken = 0x1,
+        Focus = 0x2,
+        Hover = 0x4,
+        Disabled = 0x8,
+        NoFill = 0x10
+    };
+    Q_DECLARE_FLAGS(StyleOptions, StyleOption)
+
 protected:
     enum TabPosition
     {
@@ -108,20 +119,8 @@ protected:
         CheckMark
     };
 
-    enum WidgetState
-    {
-        IsEnabled,
-        IsPressed,     // implies IsEnabled
-        IsHighlighted, // implies IsEnabled
-        IsDisabled
-    };
-
-    void renderSlab(QPainter *p,
-                        const QRect &r,
-                        bool sunken=false,
-                        bool focus=false,
-                        bool hover=false,
-                        TileSet::Tiles posFlags = TileSet::Ring) const;
+    void renderSlab(QPainter*, const QRect&, const QColor&, StyleOptions = 0,
+                    TileSet::Tiles tiles = TileSet::Ring) const;
 
     void renderHole(QPainter *p,
                         const QRect &r,
@@ -163,7 +162,7 @@ protected Q_SLOTS:
     void progressBarDestroyed(QObject* bar);
 
     inline QColor getColor(const QPalette &pal, const ColorType t, const bool enabled = true)const;
-    inline QColor getColor(const QPalette &pal, const ColorType t, const WidgetState s)const;
+    inline QColor getColor(const QPalette &pal, const ColorType t, const StyleOptions s)const;
 private:
     mutable bool flatMode;
 
@@ -247,6 +246,8 @@ private:
     };
     QCache<int, CacheEntry> *pixmapCache;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(OxygenStyle::StyleOptions)
 
 #endif // __OXYGEN_H
 

@@ -37,7 +37,7 @@ public:
     */
     TileSet(const QPixmap&, int w1, int h1, int w2, int h2);
 
-    TileSet() {}
+    TileSet() : _empty(true) {}
     TileSet(const TileSet&);
 
     virtual ~TileSet() {}
@@ -71,6 +71,8 @@ public:
 
 protected:
     void initPixmap(int s, const QPixmap&, int w, int h, const QRect &region);
+
+    bool _empty;
     QPixmap _pixmap[9];
     int _w1, _w3, _h1, _h3;
 };
