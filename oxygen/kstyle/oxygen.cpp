@@ -218,6 +218,7 @@ OxygenStyle::OxygenStyle() :
     _customOverHighlightColor = true;
     _customFocusHighlightColor = true;
     // do next two lines in polish()?
+    // FIXME we need more than just view brushes, need Window (button?) at least
     _viewFocusBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
     _viewHoverBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _config );
 
