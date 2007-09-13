@@ -1,147 +1,109 @@
-/* Oxygen widget style for KDE 4
-   Copyright (C) 2006-2007 Thomas Luebking <thomas.luebking@web.de>
-   Copyright (C) 2007 Casper Boemann <cbr@boemann.dk>
-
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License version 2 as published by the Free Software Foundation.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.
+/*
+ * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License version 2 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public License
+ * along with this library; see the file COPYING.LIB.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
-#include <QPainter>
-#include <cmath>
+#include <QtGui/QPainter>
 
 #include "tileset.h"
 
-TileSet::TileSet(const QPixmap &pix, int xOff, int yOff, int width, int height, int rx, int ry)
+void TileSet::initPixmap(int s, const QPixmap &pix, int w, int h, const QRect &region)
 {
-    if (pix.isNull())
-    {
-        _isBitmap = false;
-        return;
+    if (w != region.width() || h != region.height()) {
+        QPixmap tile = pix.copy(region);
+        _pixmap[s] = QPixmap(w, h);
+        _pixmap[s].fill(QColor(0,0,0,0));
+        QPainter p(&_pixmap[s]);
+        p.drawTiledPixmap(0, 0, w, h, tile);
     }
-    _isBitmap = pix.isQBitmap();
-    rxf = pix.width()*rx;
-    ryf = pix.height()*ry;
-    
-    int rOff = pix.width() - xOff - width;
-    int bOff = pix.height() - yOff - height;
-    int amount = 32/width+1;
-    int amount2 = 32/height+1;
-    int i;
-    
-    QPainter p;
-   
-#define initPixmap(_SECTION_,_WIDTH_,_HEIGHT_)\
-   pixmap[_SECTION_] = QPixmap(_WIDTH_, _HEIGHT_);\
-   pixmap[_SECTION_].fill(Qt::transparent); p.begin(&pixmap[_SECTION_])
-
-    initPixmap(TopLeft, xOff, yOff);
-    p.drawPixmap(0, 0, pix, 0, 0, xOff, yOff);
-    p.end();
-
-    initPixmap(TopMid, amount*width, yOff);
-    for (i = 0; i < amount; i++)
-         p.drawPixmap(i*width, 0, pix, xOff, 0, width, yOff);
-    p.end();
-
-    initPixmap(TopRight, rOff, yOff);
-    p.drawPixmap(0, 0, pix, xOff+width, 0, rOff, yOff);
-    p.end();
-
-    //----------------------------------
-    initPixmap(MidLeft, xOff, amount2*height);
-    for (i = 0; i < amount2; i++)
-         p.drawPixmap(0, i*height, pix, 0, yOff, xOff, height);
-    p.end();
-
-    initPixmap(MidMid, amount*width, amount2*height);
-    for (i = 0; i < amount; i++)
-         for (int j = 0; j < amount2; j++)
-              p.drawPixmap(i*width, j*height, pix, xOff, yOff, width, height);
-    p.end();
-
-    initPixmap(MidRight, rOff, amount2*height);
-    for (i = 0; i < amount2; i++)
-         p.drawPixmap(0, i*height, pix, xOff+width, yOff, rOff, height);
-    p.end();
-
-    //----------------------------------
-    initPixmap(BtmLeft, xOff, bOff);
-    p.drawPixmap(0, 0, pix, 0, yOff+height, xOff, bOff);
-    p.end();
-
-    initPixmap(BtmMid, amount*width, bOff);
-    for (i = 0; i < amount; i++)
-         p.drawPixmap(i*width, 0, pix, xOff, yOff+height, width, bOff);
-    p.end();
-
-    initPixmap(BtmRight, rOff, bOff);
-    p.drawPixmap(0, 0, pix, xOff+width, yOff+height, rOff, bOff);
-    p.end();
+    else {
+        _pixmap[s] = pix.copy(region);
+    }
 }
 
-void TileSet::render(const QRect &r, QPainter *p, PosFlags pf) const
+TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w2, int h2)
+    : _w1(w1), _h1(h1)
 {
-    int xOff, yOff, midw, midh;
+    if (pix.isNull())
+        return;
 
-    r.getRect(&xOff, &yOff, &midw, &midh);
-    int tlh = height(TopLeft), blh = height(BtmLeft),
-        trh = height(TopRight), brh = height(BtmLeft),
-        tlw = width(TopLeft), blw = width(BtmLeft),
-        trw = width(TopRight), brw = width(BtmRight);
+    _w3 = pix.width() - (w1 + w2);
+    _h3 = pix.height() - (h1 + h2);
+    int w = w2; while (w < 32) w += w2;
+    int h = h2; while (h < 32) h += h2;
 
-    // Figure out how much space we have for the middle part and fix corner sizes at the same time
-    if(pf & Top)
-        midh -= tlh;
-    else
-        tlh = trh = 0;
-    if(pf & Bottom)
-        midh -= brh;
-    else
-        blh = brh = 0;
-    if(pf & Left)
-        midw -= tlw;
-    else
-        tlw = blw = 0;
-    if(pf & Right)
-        midw -= brw;
-    else
-        trw = brw = 0;
+    initPixmap(0, pix, _w1, _h1, QRect(0,      0,      _w1, _h1));
+    initPixmap(1, pix,  w,  _h1, QRect(_w1,    0,       w2, _h1));
+    initPixmap(2, pix, _w3, _h1, QRect(_w1+w2, 0,      _w3, _h1));
+    initPixmap(3, pix, _w1,  h,  QRect(0,      _h1,    _w1,  h2));
+    initPixmap(4, pix,  w,   h,  QRect(_w1,    _h1,     w2,  h2));
+    initPixmap(5, pix, _w3,  h,  QRect(_w1+w2, _h1,    _w3,  h2));
+    initPixmap(6, pix, _w1, _h3, QRect(0,      _h1+h2, _w1, _h3));
+    initPixmap(7, pix,  w,  _h3, QRect(_w1,    _h1+h2,  w2, _h3));
+    initPixmap(8, pix, _w3, _h3, QRect(_w1+w2, _h1+h2, _w3, _h3));
+}
 
-    p->setClipRect(r);
-    // Paint the corners
-    if((pf & Top) && (pf & Left))
-        p->drawPixmap(r.x(), r.y(), pixmap[TopLeft], 0, 0, tlw, tlh);
-    if((pf & Top) && (pf & Right))
-        p->drawPixmap(r.right()-trw+1, r.y(), pixmap[TopRight], 0, 0, trw, trh);
-    if((pf & Bottom) && (pf & Left))
-        p->drawPixmap(r.x(), r.bottom()-blh+1, pixmap[BtmLeft], 0, 0, blw, blh);
-    if((pf & Bottom) && (pf & Right))
-        p->drawPixmap(r.right()-trw+1, r.bottom()-brh+1, pixmap[BtmRight], 0, 0, brw, brh);
+TileSet::TileSet(const TileSet &other)
+    : _w1(other._w1), _w3(other._w3), _h1(other._h1), _h3(other._h3)
+{
+    for (int i=0; i<9; i++) {
+        _pixmap[i] = other._pixmap[i];
+    }
+}
 
-    //Paint the sides
-    if(pf & Top && midw >0)
-        p->drawTiledPixmap(r.x()+tlw, r.y(), midw, tlh, pixmap[TopMid], 0, 0);
-    if(pf & Bottom && midw >0)
-        p->drawTiledPixmap(r.x()+tlw, r.bottom()-blh+1, midw, blh, pixmap[BtmMid], 0, 0);
-    if(pf & Left && midh >0)
-        p->drawTiledPixmap(r.x(), r.y()+tlh, tlw, midh, pixmap[MidLeft], 0, 0);
-    if(pf & Right && midh >0)
-        p->drawTiledPixmap(r.right()-trw+1, r.y()+trh, trw, midh, pixmap[MidRight], 0, 0);
+TileSet& TileSet::operator=(const TileSet &other)
+{
+    _w1 = other._w1;
+    _w3 = other._w3;
+    _h1 = other._h1;
+    _h3 = other._h3;
+    for (int i=0; i<9; i++) {
+        _pixmap[i] = other._pixmap[i];
+    }
+    return *this;
+}
 
-    //Paint the center
-    if(pf & Center && midw>0 && midh>0)
-        p->drawTiledPixmap(r.x()+tlw, r.y()+trh, midw, midh, pixmap[MidMid], 0, 0);
+inline bool bits(TileSet::Tiles flags, TileSet::Tiles testFlags)
+{
+    return (flags & testFlags) == testFlags;
+}
 
-    p->setClipping(false);
+void TileSet::render(const QRect &r, QPainter *p, Tiles t) const
+{
+    if (_pixmap[0].isNull())
+        return;
+
+    int x0, y0, w, h;
+    r.getRect(&x0, &y0, &w, &h);
+    w -= _w1 + _w3;
+    h -= _h1 + _h3;
+    int x1 = x0 + _w1;
+    int x2 = x1 + w;
+    int y1 = y0 + _h1;
+    int y2 = y1 + h;
+
+    if (bits(t,    Top|Left))  p->drawPixmap(x0, y0, _pixmap[0]);
+    if (bits(t,    Top|Right)) p->drawPixmap(x2, y0, _pixmap[2]);
+    if (bits(t, Bottom|Left))  p->drawPixmap(x0, y2, _pixmap[6]);
+    if (bits(t, Bottom|Right)) p->drawPixmap(x2, y2, _pixmap[8]);
+
+    if (t & Top)    p->drawTiledPixmap(x1, y0, w, _h1, _pixmap[1]);
+    if (t & Bottom) p->drawTiledPixmap(x1, y2, w, _h3, _pixmap[7]);
+    if (t & Left)   p->drawTiledPixmap(x0, y1, _w1, h, _pixmap[3]);
+    if (t & Right)  p->drawTiledPixmap(x2, y1, _w3, h, _pixmap[5]);
+
+    if (t & Center) p->drawTiledPixmap(x1, y1, w, h, _pixmap[4]);
 }

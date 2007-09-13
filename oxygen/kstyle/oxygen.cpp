@@ -1289,7 +1289,7 @@ void OxygenStyle::progressBarDestroyed(QObject* obj)
     progAnimWidgets.remove(static_cast<QWidget*>(obj));
 }
 
-void OxygenStyle::renderSlab(QPainter *p, const QRect &r, bool sunken, bool focus, bool hover, TileSet::PosFlags posFlags) const
+void OxygenStyle::renderSlab(QPainter *p, const QRect &r, bool sunken, bool focus, bool hover, TileSet::Tiles posFlags) const
 {
     if((r.width() <= 0)||(r.height() <= 0))
         return;
@@ -1309,7 +1309,7 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, bool sunken, bool focu
     tile->render(r, p, posFlags);
 }
 
-void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover, TileSet::PosFlags posFlags) const
+void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover, TileSet::Tiles posFlags) const
 {
     if((r.width() <= 0)||(r.height() <= 0))
         return;
@@ -1483,7 +1483,7 @@ void OxygenStyle::renderTab(QPainter *p,
 
     } else {
     // inactive tabs
-        uint posFlag = TileSet::Top;
+        TileSet::Tiles posFlag = TileSet::Top;
         if(isFirst && !reverseLayout && !cornerWidget)
             posFlag |= TileSet::Left;
         if(isFirst && reverseLayout && !cornerWidget)

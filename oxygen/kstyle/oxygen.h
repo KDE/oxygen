@@ -121,13 +121,13 @@ protected:
                         bool sunken=false,
                         bool focus=false,
                         bool hover=false,
-                        TileSet::PosFlags posFlags = TileSet::Ring) const;
+                        TileSet::Tiles posFlags = TileSet::Ring) const;
 
     void renderHole(QPainter *p,
                         const QRect &r,
                         bool focus=false,
                         bool hover=false,
-                        TileSet::PosFlags posFlags = TileSet::Ring) const;
+                        TileSet::Tiles posFlags = TileSet::Ring) const;
 
     // TODO: cleanup helper methods...
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
