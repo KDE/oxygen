@@ -1628,7 +1628,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
 QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, const bool enabled)const
 {
-    return getColor(pal, t, enabled?0:Disabled);
+    return getColor(pal, t, StyleOptions(enabled?0:Disabled));
 }
 
 QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, StyleOptions s)const
