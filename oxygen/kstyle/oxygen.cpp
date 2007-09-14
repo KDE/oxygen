@@ -662,7 +662,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         // This is needed since the middle part is tiled and that doesn't work nice with lightplay
                         // So to fix this we paint the bottom part with a modified offset
                         _helper.verticalScrollBar(QColor(0,116,0), r.width()-2,
-                                    64, offset)->render(r.adjusted(1,1,-1,-1-16 ), p, TileSet::Top | TileSet::Left
+                                    64, offset)->render(r.adjusted(1,1,-1,-1 ), p, TileSet::Top | TileSet::Left
                                     | TileSet::Right | TileSet::Center);
                         _helper.verticalScrollBar(QColor(0,116,0), r.width()-2, 64, offset+r.height())
                                     ->render(QRect(r.left()+1,r.bottom()-16,r.width()-2,16), p, TileSet::Left
@@ -685,7 +685,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         // This is needed since the middle part is tiled and that doesn't work nice with lightplay
                         // So to fix this we paint the bottom part with a modified offset
                         _helper.horizontalScrollBar(QColor(0,116,0), 64, r.height()-2,
-                                    offset)->render(r.adjusted(1,1,-1-16,-1), p, TileSet::Top | TileSet::Left
+                                    offset)->render(r.adjusted(1,1,-1,-1), p, TileSet::Top | TileSet::Left
                                     | TileSet::Bottom | TileSet::Center);
                         _helper.horizontalScrollBar(QColor(0,116,0), 64, r.height()-2, offset+r.width())
                                     ->render(QRect(r.right()-16,r.top()+1,16, r.height()-2), p, TileSet::Top
