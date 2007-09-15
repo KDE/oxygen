@@ -83,6 +83,8 @@ public:
                           const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
     virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option,
                                 SubControl subControl, const QWidget* widget) const;
+    QSize sizeFromContents ( ContentsType type, const QStyleOption * option,
+                            const QSize & contentsSize, const QWidget * widget = 0 ) const;
 
 public:
     enum StyleOption
@@ -137,7 +139,7 @@ protected:
     void renderPanel(QPainter *p,
                      const QRect &r,
                      const QPalette &pal,
-                     const bool pseudo3d = true,
+                     const bool raised = true,
                      const bool sunken = true,
                      const bool focusHighlight = false) const;
 

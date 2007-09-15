@@ -188,12 +188,9 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 3);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 3);
 
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 6);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 5);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 4);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 2);
 
     setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
@@ -1476,7 +1473,7 @@ void OxygenStyle::renderDot(QPainter *p, const QPointF &point, const QColor &bas
 void OxygenStyle::renderPanel(QPainter *p,
                               const QRect &r,
                               const QPalette &pal,
-                              const bool pseudo3d,
+                              const bool raised,
                               const bool sunken,
                               const bool focusHighlight) const
 {
@@ -1484,7 +1481,7 @@ void OxygenStyle::renderPanel(QPainter *p,
     r.getRect(&x,&y,&w,&h);
     r.getCoords(&x, &y, &x2, &y2);
 
-        if(pseudo3d) {
+        if(raised) {
             QColor dark = focusHighlight ?
                     getColor(pal,FocusHighlight).dark(130) : getColor(pal, PanelDark);
             QColor light = focusHighlight ?
@@ -1513,7 +1510,7 @@ void OxygenStyle::renderTab(QPainter *p,
                             bool mouseOver,
                             const bool selected,
                             const bool bottom,
-                            const QStyleOptionTab::TabPosition pos/*const TabPosition pos*/,
+                            const QStyleOptionTab::TabPosition pos,
                             const bool triangular,
                             const bool cornerWidget,
                             const bool reverseLayout) const
@@ -1693,5 +1690,19 @@ QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, StyleOption
     }
 }
 
-// kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;
+QSize OxygenStyle::sizeFromContents ( ContentsType ct, const QStyleOption * option, const QSize & contentsSize, const QWidget * widget ) const
+{
+    switch ( ct ) {
+    case CT_ComboBox:
+        if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
+            int margin = cb->frame ? 6 : 0;
+            int hgt = contentsSize.height() + 2*margin - (cb->editable ? 7 : 0);
+            return QSize(contentsSize.width(), hgt);
+        }
+        break;
+   default:
+        return KStyle::sizeFromContents( ct, option, contentsSize, widget );
+   }
+}
 
+// kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;
