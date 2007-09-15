@@ -335,6 +335,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         opts |= Sunken;
                     if (flags & State_HasFocus)
                         opts |= Focus;
+                    if (enabled && (flags & State_MouseOver))
+                        opts |= Hover;
 
                     renderSlab(p, r, pal.color(QPalette::Button), opts);
                     return;
@@ -1156,11 +1158,14 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     if((flags & State_Sunken) || (flags & State_On) )
                     {
                         renderHole(p, r, hasFocus, mouseOver);
-                    } else if (hasFocus || mouseOver)
-                        p->drawRect(r.adjusted(0,0,-1,-1));
-//                    renderButton(p, r, pal, flags&State_Sunken||flags&State_On,
- //                                false, true, flags&State_Enabled);
+                    }
+                    else if (hasFocus || mouseOver)
+                    {
+                        TileSet *tile;
 
+                        tile = _helper.slitFocused(_viewHoverBrushes->brush(QPalette::Active).color()); // FIXME need state
+                        tile->render(r, p);
+                    }
                     return;
                 }
             }

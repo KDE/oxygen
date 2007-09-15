@@ -356,13 +356,13 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &surroundColor, QColor glow
         glowColor.setAlpha(0);
         stops << QGradientStop(0, glowColor);
         glowColor.setAlpha(30);
-        stops  << QGradientStop(0.40, glowColor);
+        stops  << QGradientStop(0.30, glowColor);
         glowColor.setAlpha(110);
-        stops  << QGradientStop(0.65, glowColor);
+        stops  << QGradientStop(0.55, glowColor);
         glowColor.setAlpha(170);
-        stops  << QGradientStop(0.75, glowColor);
+        stops  << QGradientStop(0.65, glowColor);
         glowColor.setAlpha(0);
-        stops  << QGradientStop(0.78, glowColor);
+        stops  << QGradientStop(0.70, glowColor);
         rg.setStops(stops);
         p.setBrush(rg);
         p.setClipRect(0,0,9,9);
@@ -379,6 +379,37 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &surroundColor, QColor glow
         tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
 
         m_holeCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
+{
+    quint64 key = (quint64(glowColor.rgba()) << 32);
+    TileSet *tileSet = m_slitCache.object(key);
+
+    if (!tileSet)
+    {
+        QImage tmpImg(9, 9, QImage::Format_ARGB32);
+        QPainter p;
+
+        tmpImg.fill(Qt::transparent);
+
+        p.begin(&tmpImg);
+        p.setPen(Qt::NoPen);
+        p.setRenderHint(QPainter::Antialiasing);
+        QRadialGradient rg = QRadialGradient(4.5, 4.5, 4.5, 4.5, 4.5);
+        QColor tmpColor = glowColor;
+        rg.setColorAt(0.75, tmpColor);
+        tmpColor.setAlpha(0);
+        rg.setColorAt(0.9, tmpColor);
+        rg.setColorAt(0.6, tmpColor);
+        p.setBrush(rg);
+        p.drawEllipse(QRectF(0,0, 9, 9));
+
+        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
+
+        m_slitCache.insert(key, tileSet);
     }
     return tileSet;
 }
@@ -509,7 +540,7 @@ TileSet *OxygenStyleHelper::horizontalScrollBar(const QColor &color, int width, 
         tmpColor.setAlpha(128);
         lg.setColorAt(1, tmpColor);
         p.setBrush(lg);
-        p.drawRoundRect(QRectF(0, 0.48*height, width, 0.52*height), int(90*9/width),90*9/(height*0.52));
+        p.drawRoundRect(QRectF(0, 0.48*height, width, 0.52*height), int(90*9/width),int(90*9/(height*0.52)));
 
         //The rolling gradient
         // Since we want to tile every 32 pixels we need to compute a gradient that does that and
