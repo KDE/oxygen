@@ -326,13 +326,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
 
-    // Who is turning on clipping?! I don't know, but some operations seem to
-    // ignore that it is turned off (specifically, drawRoundRect with a
-    // gradient brush, as in renderSlab), so turn it off *and* force the clip
-    // region to something innocuous
-    p->setClipRect(r);
-    p->setClipping(false);
-
     switch (widgetType)
     {
         case WT_PushButton:
@@ -501,7 +494,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     else {
                         drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
                     }
-
                     return;
                 }
 
@@ -1066,7 +1058,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QColor color = pal.color(QPalette::Window);
 
                     p->save();
-                    p->setClipRect(r.adjusted(0,0,0,-16));
+                    // Who is turning on clipping?! I don't know, but some operations seem to
+                    // ignore that it is turned off (specifically, drawRoundRect with a
+                    // gradient brush), so set a clipregion to something innocuous
+                    p->setClipRect(r);
                     p->setRenderHint(QPainter::Antialiasing);
                     p->setPen(Qt::NoPen);
 
@@ -1074,7 +1069,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int s2 = 4; //s1 + (int)ceil(double(size)*2.0/14.0);
                     int rx = 500 / (r.width() - (2*s1)); //(50*size) / rect.width();
                     int ry = 500 / (r.height() - (s1+s2)); //(50*size) / rect.height();
-                    QRect fr = r.adjusted(s1, s1, -s1, -s2);
+                    QRect fr = r.adjusted(s1, s1, -s1, -s2-16);
 
                     QLinearGradient innerGradient(0, fr.top() - fr.height(), 0, fr.bottom()*2-32);
                     QColor light = _helper.calcLightColor(color); //KColorUtils::shade(calcLightColor(color), shade));
@@ -1085,10 +1080,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     p->setBrush(innerGradient);
                     p->drawRoundRect(fr, rx, ry);
 
-                    p->restore();
-
                     TileSet *slopeTileSet = _helper.slope(pal.color(QPalette::Window), 0.0);
                     slopeTileSet->render(r, p);
+
+                    p->restore();
 
                     return;
                 }
@@ -1159,6 +1154,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case ToolButton::Panel:
                 {
+                    bool hasFocus = flags & State_HasFocus;
+
+                    if((flags & State_Sunken) || (flags & State_On) )
+                    {
+                        renderHole(p, r, hasFocus, mouseOver);
+                    } else if (hasFocus || mouseOver)
+                        p->drawRect(r.adjusted(0,0,-1,-1));
 //                    renderButton(p, r, pal, flags&State_Sunken||flags&State_On,
  //                                false, true, flags&State_Enabled);
 
