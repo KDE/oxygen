@@ -221,7 +221,8 @@ QLinearGradient OxygenHelper::decoGradient(const QRect &r, const QColor &color)
 
     return gradient;
 }
-QPixmap OxygenWindecoHelper::windecoButton(const QColor &color, int size)
+
+QPixmap OxygenHelper::windecoButton(const QColor &color, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32) | size;
     QPixmap *pixmap = m_windecoButtonCache.object(key);
