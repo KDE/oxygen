@@ -60,6 +60,7 @@ OxygenHelper::OxygenHelper(const QByteArray &componentName)
     _bgcontrast = 0.3;// // shouldn't use contrast for this _contrast; // TODO get style setting
 
     m_backgroundCache.setMaxCost(64);
+    m_windecoButtonCache.setMaxCost(64);
 }
 
 KSharedConfigPtr OxygenHelper::config() const
@@ -219,4 +220,67 @@ QLinearGradient OxygenHelper::decoGradient(const QRect &r, const QColor &color)
     gradient.setColorAt(0.85, light);
 
     return gradient;
+}
+QPixmap OxygenWindecoHelper::windecoButton(const QColor &color, int size)
+{
+    quint64 key = (quint64(color.rgba()) << 32) | size;
+    QPixmap *pixmap = m_windecoButtonCache.object(key);
+
+    if (!pixmap)
+    {
+        pixmap = new QPixmap(size, (int)ceil(double(size)*10.0/9.0));
+        pixmap->fill(QColor(0,0,0,0));
+
+        QPainter p(pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(0,0,18,20);
+
+        QColor light = calcLightColor(color);
+        QColor dark = calcDarkColor(color);
+
+        // shadow
+        drawShadow(p, calcShadowColor(color), 18);
+
+        // bevel
+        qreal y = KColorUtils::luma(color);
+        qreal yl = KColorUtils::luma(light);
+        qreal yd = KColorUtils::luma(light);
+        QLinearGradient bevelGradient(0, 0, 0, 18);
+        bevelGradient.setColorAt(0.45, light);
+        bevelGradient.setColorAt(0.80, dark);
+        if (y < yl && y > yd) // no middle when color is very light/dark
+            bevelGradient.setColorAt(0.55, color);
+        p.setBrush(QBrush(bevelGradient));
+        p.drawEllipse(QRectF(2.0,2.0,14.0,14.0));
+
+        // inside mask
+        QRadialGradient maskGradient(9,9,7,9,9);
+        maskGradient.setColorAt(0.70, QColor(0,0,0,0));
+        maskGradient.setColorAt(0.85, QColor(0,0,0,140));
+        maskGradient.setColorAt(0.95, QColor(0,0,0,255));
+        p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+        p.setBrush(maskGradient);
+        p.drawRect(0,0,20,20);
+
+        // inside
+        QLinearGradient innerGradient(0, 3, 0, 15);
+        innerGradient.setColorAt(0.0, color);
+        innerGradient.setColorAt(1.0, light);
+        p.setCompositionMode(QPainter::CompositionMode_DestinationOver);
+        p.setBrush(innerGradient);
+        p.drawEllipse(QRectF(2.0,2.0,14.0,14.0));
+
+        // anti-shadow
+        QRadialGradient highlightGradient(9,8.5,8,9,8.5);
+        highlightGradient.setColorAt(0.85, alphaColor(light, 0.0));
+        highlightGradient.setColorAt(1.00, light);
+        p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        p.setBrush(highlightGradient);
+        p.drawEllipse(QRectF(2.0,2.0,14.0,14.0));
+
+        m_windecoButtonCache.insert(key, pixmap);
+    }
+
+    return *pixmap;
 }

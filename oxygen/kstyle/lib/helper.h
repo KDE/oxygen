@@ -62,6 +62,8 @@ public:
 
     QLinearGradient decoGradient(const QRect &r, const QColor &color);
 
+    QPixmap windecoButton(const QColor &color, int size);
+
 protected:
     KComponentData _componentData;
     KSharedConfigPtr _config;
@@ -69,6 +71,7 @@ protected:
     qreal _bgcontrast;
 
     QCache<quint64, QPixmap> m_backgroundCache;
+    QCache<quint64, QPixmap> m_windecoButtonCache;
 };
 
 #endif // __OXYGEN_HELPER_H
