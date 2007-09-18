@@ -1057,10 +1057,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QColor color = pal.color(QPalette::Window);
 
                     p->save();
-                    // Who is turning on clipping?! I don't know, but some operations seem to
-                    // ignore that it is turned off (specifically, drawRoundRect with a
-                    // gradient brush), so set a clipregion to something innocuous
-                    p->setClipRect(r);
                     p->setRenderHint(QPainter::Antialiasing);
                     p->setPen(Qt::NoPen);
 
@@ -1068,18 +1064,20 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int s2 = 4; //s1 + (int)ceil(double(size)*2.0/14.0);
                     int rx = 500 / (r.width() - (2*s1)); //(50*size) / rect.width();
                     int ry = 500 / (r.height() - (s1+s2)); //(50*size) / rect.height();
-                    QRect fr = r.adjusted(s1, s1, -s1, -s2-16);
+                    QRect fr = r.adjusted(s1, s1, -s1, -s2);
 
-                    QLinearGradient innerGradient(0, fr.top() - fr.height(), 0, fr.bottom()*2-32);
+                    QLinearGradient innerGradient(0, fr.top() - fr.height(), 0, fr.bottom()+fr.height());
                     QColor light = _helper.calcLightColor(color); //KColorUtils::shade(calcLightColor(color), shade));
                     light.setAlphaF(0.4);
                     innerGradient.setColorAt(0.0, light);
                     color.setAlphaF(0.4);
                     innerGradient.setColorAt(1.0, color);
                     p->setBrush(innerGradient);
+                    p->setClipRect(fr.adjusted(0, 0, 0, -12));
                     p->drawRoundRect(fr, rx, ry);
 
                     TileSet *slopeTileSet = _helper.slope(pal.color(QPalette::Window), 0.0);
+                    p->setClipping(false);
                     slopeTileSet->render(r, p);
 
                     p->restore();
