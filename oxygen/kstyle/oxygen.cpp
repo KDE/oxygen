@@ -1692,16 +1692,15 @@ QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, StyleOption
 QSize OxygenStyle::sizeFromContents ( ContentsType ct, const QStyleOption * option, const QSize & contentsSize, const QWidget * widget ) const
 {
     switch ( ct ) {
-    case CT_ComboBox:
-        if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
-            int margin = cb->frame ? 6 : 0;
-            int hgt = contentsSize.height() + 2*margin - (cb->editable ? 7 : 0);
-            return QSize(contentsSize.width(), hgt);
-        }
-        break;
-   default:
-        return KStyle::sizeFromContents( ct, option, contentsSize, widget );
+        case CT_ComboBox:
+            if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
+                int margin = cb->frame ? 6 : 0;
+                int hgt = contentsSize.height() + 2*margin - (cb->editable ? 7 : 0);
+                return QSize(contentsSize.width(), hgt);
+            }
+            break;
    }
+   return KStyle::sizeFromContents( ct, option, contentsSize, widget );
 }
 
 // kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;
