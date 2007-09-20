@@ -20,9 +20,9 @@
 
 #include "helper.h"
 
-#include <kglobalsettings.h>
-#include <kcolorutils.h>
-#include <kcolorscheme.h>
+#include <KGlobalSettings>
+#include <KColorUtils>
+#include <KColorScheme>
 
 #include <QtGui/QPainter>
 
