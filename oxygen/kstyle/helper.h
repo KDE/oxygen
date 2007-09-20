@@ -51,8 +51,8 @@ public:
 
     TileSet *slitFocused(const QColor&);
 
-    TileSet *verticalScrollBar(const QColor&, int width, int height, int offset);
-    TileSet *horizontalScrollBar(const QColor&, int width, int height, int offset);
+    TileSet *verticalScrollBar(const QColor&, int width, int offset);
+    TileSet *horizontalScrollBar(const QColor&, int width, int offset);
 
 protected:
     SlabCache* slabCache(const QColor&);

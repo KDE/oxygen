@@ -138,6 +138,7 @@ OxygenStyle::OxygenStyle() :
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 14);
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 1);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 16);
@@ -612,76 +613,71 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 break;
 
                 case ScrollBar::SingleButtonVert:
-                    renderHole(p, QRect(0,r.bottom()+1,r.width(),3), false, false, TileSet::Top | TileSet::Left | TileSet::Right);
                 break;
 
                 case ScrollBar::GrooveAreaVertTop:
                 {
-                    renderHole(p, r.adjusted(0,3,0,3), false, false, TileSet::Left | TileSet::Right);
+                    renderHole(p, r.adjusted(0,2,0,10), false, false, TileSet::Top | TileSet::Left | TileSet::Right);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaVertBottom:
                 {
-                    renderHole(p, r.adjusted(0,-3,0,0), false, false, TileSet::Left | TileSet::Bottom | TileSet::Right);
+                    renderHole(p, r.adjusted(0,-5,0,0), false, false, TileSet::Left | TileSet::Bottom | TileSet::Right);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorLeft:
                 {
-                    renderHole(p, r.adjusted(0,0,3,0), false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    renderHole(p, r.adjusted(2,0,8,0), false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorRight:
                 {
-                    renderHole(p, r.adjusted(-3,0,0,0), false, false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
+                    renderHole(p, r.adjusted(-6,0,0,0), false, false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::SliderVert:
                 {
-                    renderHole(p, r.adjusted(0,3,0,-3), false, false, TileSet::Left | TileSet::Right);
+                    QRect rect = r.adjusted(0,2,0,1);
 
-                    int offset = r.top()/2; // divide by 2 to make the "lightplay" move half speed of the handle
-                    if(r.height()-2 <= 32)
-                        _helper.verticalScrollBar(QColor(0,116,0), r.width()-2,
-                                    r.height()-2, offset)->render(r.adjusted(1,1,-1,-1 ), p, TileSet::Full);
-                    else
-                    {
-                        // When the handle is 32 pixels high or more then we paint it in two parts
-                        // This is needed since the middle part is tiled and that doesn't work nice with lightplay
-                        // So to fix this we paint the bottom part with a modified offset
-                        _helper.verticalScrollBar(QColor(0,116,0), r.width()-2,
-                                    64, offset)->render(r.adjusted(1,1,-1,-1 ), p, TileSet::Top | TileSet::Left
-                                    | TileSet::Right | TileSet::Center);
-                        _helper.verticalScrollBar(QColor(0,116,0), r.width()-2, 64, offset+r.height())
-                                    ->render(QRect(r.left()+1,r.bottom()-16,r.width()-2,16), p, TileSet::Left
-                                    | TileSet::Right | TileSet::Bottom);
-                    }
+                    int offset = rect.top()/2; // divide by 2 to make the "lightplay" move half speed of the handle
+                    int remainder = qMin(16, rect.height()/2);
+
+                    // Draw the handle in two parts, the top, and the bottom with calculated offset
+                    TileSet *tiles1 = _helper.verticalScrollBar(Qt::darkGreen, rect.width(), offset);
+                    TileSet *tiles2 = _helper.verticalScrollBar(Qt::darkGreen, rect.width(), offset+rect.height());
+
+                    p->save();
+                    p->setClipRect(rect.adjusted(0,0,0,-remainder-1));
+                    tiles1->render(rect, p, TileSet::Top | TileSet::Horizontal);
+                    p->setClipRect( QRect(rect.left(), rect.bottom()-remainder, rect.width(), remainder));
+                    tiles2->render( QRect(rect.left(), rect.bottom()-32, rect.width(),32),
+                                    p, TileSet::Bottom | TileSet::Horizontal);
+                    p->restore();
                     return;
                 }
 
                 case ScrollBar::SliderHor:
                 {
-                    renderHole(p, r.adjusted(3,0,-3,0), false, false, TileSet::Top | TileSet::Bottom);
+                    QRect rect = r.adjusted(2,0,1,0);
 
                     int offset = r.left()/2; // divide by 2 to make the "lightplay" move half speed of the handle
-                    if(r.width()-2 <= 32)
-                        _helper.horizontalScrollBar(QColor(0,116,0), r.width()-2,
-                                    r.height()-2, offset)->render(r.adjusted(1,1,-1,-1 ), p, TileSet::Full);
-                    else
-                    {
-                        // When the handle is 32 pixels high or more then we paint it in two parts
-                        // This is needed since the middle part is tiled and that doesn't work nice with lightplay
-                        // So to fix this we paint the bottom part with a modified offset
-                        _helper.horizontalScrollBar(QColor(0,116,0), 64, r.height()-2,
-                                    offset)->render(r.adjusted(1,1,-1,-1), p, TileSet::Top | TileSet::Left
-                                    | TileSet::Bottom | TileSet::Center);
-                        _helper.horizontalScrollBar(QColor(0,116,0), 64, r.height()-2, offset+r.width())
-                                    ->render(QRect(r.right()-16,r.top()+1,16, r.height()-2), p, TileSet::Top
-                                    | TileSet::Right | TileSet::Bottom);
-                    }
+                    int remainder = qMin(16, rect.width()/2);
+
+                    // Draw the handle in two parts, the top, and the bottom with calculated offset
+                    TileSet *tiles1 = _helper.horizontalScrollBar(Qt::darkGreen, rect.height(), offset);
+                    TileSet *tiles2 = _helper.horizontalScrollBar(Qt::darkGreen, rect.height(), offset+rect.width());
+
+                    p->save();
+                    p->setClipRect(rect.adjusted(0,0,-remainder-1,0));
+                    tiles1->render(rect, p, TileSet::Left | TileSet::Vertical);
+                    p->setClipRect( QRect(rect.right()-remainder, rect.top(), remainder, rect.height()) );
+                    tiles2->render( QRect(rect.right()-32, rect.top(), 32, rect.height()),
+                                    p, TileSet::Right | TileSet::Vertical);
+                    p->restore();
                     return;
                 }
 

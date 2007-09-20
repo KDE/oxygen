@@ -57,6 +57,8 @@ public:
         Bottom = 0x4,
         Center = 0x10,
         Ring = 0x0f,
+        Horizontal = 0x1a,
+        Vertical = 0x15,
         Full = 0x1f
     };
     Q_DECLARE_FLAGS(Tiles, Tile)
