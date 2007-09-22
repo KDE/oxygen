@@ -623,32 +623,33 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::GrooveAreaVertBottom:
                 {
-                    renderHole(p, r.adjusted(0,-5,0,0), false, false, TileSet::Left | TileSet::Bottom | TileSet::Right);
+                    renderHole(p, r.adjusted(0,-8,0,0), false, false, TileSet::Left | TileSet::Bottom | TileSet::Right);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorLeft:
                 {
-                    renderHole(p, r.adjusted(2,0,8,0), false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    renderHole(p, r.adjusted(2,0,10,0), false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorRight:
                 {
-                    renderHole(p, r.adjusted(-6,0,0,0), false, false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
+                    renderHole(p, r.adjusted(-8,0,0,0), false, false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::SliderVert:
                 {
+                    QColor color = pal.color(QPalette::Button);//_viewHoverBrushes->brush(pal).color();
                     QRect rect = r.adjusted(0,2,0,1);
 
                     int offset = rect.top()/2; // divide by 2 to make the "lightplay" move half speed of the handle
-                    int remainder = qMin(16, rect.height()/2);
+                    int remainder = qMin(12, rect.height()/2);
 
                     // Draw the handle in two parts, the top, and the bottom with calculated offset
-                    TileSet *tiles1 = _helper.verticalScrollBar(Qt::darkGreen, rect.width(), offset);
-                    TileSet *tiles2 = _helper.verticalScrollBar(Qt::darkGreen, rect.width(), offset+rect.height());
+                    TileSet *tiles1 = _helper.verticalScrollBar(color, rect.width(), offset);
+                    TileSet *tiles2 = _helper.verticalScrollBar(color, rect.width(), offset+(rect.height()+7)*3);
 
                     p->save();
                     p->setClipRect(rect.adjusted(0,0,0,-remainder-1));
@@ -662,14 +663,15 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::SliderHor:
                 {
+                    QColor color = pal.color(QPalette::Button);//_viewHoverBrushes->brush(pal).color();
                     QRect rect = r.adjusted(2,0,1,0);
 
                     int offset = r.left()/2; // divide by 2 to make the "lightplay" move half speed of the handle
                     int remainder = qMin(16, rect.width()/2);
 
                     // Draw the handle in two parts, the top, and the bottom with calculated offset
-                    TileSet *tiles1 = _helper.horizontalScrollBar(Qt::darkGreen, rect.height(), offset);
-                    TileSet *tiles2 = _helper.horizontalScrollBar(Qt::darkGreen, rect.height(), offset+rect.width());
+                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), offset);
+                    TileSet *tiles2 = _helper.horizontalScrollBar(color, rect.height(), offset+rect.width());
 
                     p->save();
                     p->setClipRect(rect.adjusted(0,0,-remainder-1,0));
