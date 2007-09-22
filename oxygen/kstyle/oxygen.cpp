@@ -1337,8 +1337,15 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
     {
         int s1 = 3; //size/4;
         int s2 = 4; //s1 + (int)ceil(double(size)*2.0/14.0);
-        int rx = 500 / (r.width() - (2*s1)); //(50*size) / rect.width();
-        int ry = 500 / (r.height() - (s1+s2)); //(50*size) / rect.height();
+        int rx = 25;
+        int ry = 25;
+        //These two lines cannot work, and they actually cause numeric
+        //exceptions here because the divisor becomes zero sometimes.
+        //I don't know what you want to do, but you need a formula
+        //that doesn't give infinite or negative values for some inputs.
+        //--ahartmetz
+        //int rx = 500 / (r.width() - (2*s1)); //(50*size) / rect.width();
+        //int ry = 500 / (r.height() - (s1+s2)); //(50*size) / rect.height();
 
         p->save();
         p->setRenderHint(QPainter::Antialiasing);
