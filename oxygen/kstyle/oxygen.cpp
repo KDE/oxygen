@@ -133,12 +133,18 @@ OxygenStyle::OxygenStyle() :
 {
     _config = _helper.config();
 
+    // FIXME we need more than just view brushes, need Window (button?) at least
+    _viewFocusBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
+    _viewHoverBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _config );
+
     setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
 
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 14);
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 1);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 16);
@@ -218,10 +224,6 @@ OxygenStyle::OxygenStyle() :
     _customOverHighlightColor = true;
     _customFocusHighlightColor = true;
     // do next two lines in polish()?
-    // FIXME we need more than just view brushes, need Window (button?) at least
-    _viewFocusBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
-    _viewHoverBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _config );
-
     // setup pixmap cache...
     pixmapCache = new QCache<int, CacheEntry>(327680);
 
@@ -642,6 +644,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ScrollBar::SliderVert:
                 {
                     QColor color = pal.color(QPalette::Button);//_viewHoverBrushes->brush(pal).color();
+                    if(mouseOver || (flags & State_Sunken))
+                        color = _viewHoverBrushes->brush(pal).color();
                     QRect rect = r.adjusted(0,2,0,1);
 
                     int offset = rect.top()/2; // divide by 2 to make the "lightplay" move half speed of the handle
@@ -664,6 +668,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ScrollBar::SliderHor:
                 {
                     QColor color = pal.color(QPalette::Button);//_viewHoverBrushes->brush(pal).color();
+                    if(mouseOver || (flags & State_Sunken))
+                        color = _viewHoverBrushes->brush(pal).color();
                     QRect rect = r.adjusted(2,0,1,0);
 
                     int offset = r.left()/2; // divide by 2 to make the "lightplay" move half speed of the handle
@@ -1269,6 +1275,7 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QCheckBox*>(widget)
         || qobject_cast<QRadioButton*>(widget)
         || qobject_cast<QTabBar*>(widget)
+        || qobject_cast<QScrollBar*>(widget)
         ) {
         widget->setAttribute(Qt::WA_Hover);
     }
@@ -1300,7 +1307,9 @@ void OxygenStyle::unpolish(QWidget* widget)
         || qobject_cast<QComboBox*>(widget)
         || qobject_cast<QAbstractSpinBox*>(widget)
         || qobject_cast<QCheckBox*>(widget)
-        || qobject_cast<QRadioButton*>(widget)) {
+        || qobject_cast<QRadioButton*>(widget)
+        || qobject_cast<QScrollBar*>(widget)
+    ) {
         widget->setAttribute(Qt::WA_Hover, false);
     }
 
