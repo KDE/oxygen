@@ -653,7 +653,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     // Draw the handle in two parts, the top, and the bottom with calculated offset
                     TileSet *tiles1 = _helper.verticalScrollBar(color, rect.width(), offset);
-                    TileSet *tiles2 = _helper.verticalScrollBar(color, rect.width(), offset+(rect.height()+7)*3);
+                    TileSet *tiles2 = _helper.verticalScrollBar(color, rect.width(), offset+rect.height()+8);
 
                     p->save();
                     p->setClipRect(rect.adjusted(0,0,0,-remainder-1));
@@ -673,11 +673,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QRect rect = r.adjusted(2,0,1,0);
 
                     int offset = r.left()/2; // divide by 2 to make the "lightplay" move half speed of the handle
-                    int remainder = qMin(16, rect.width()/2);
+                    int remainder = qMin(12, rect.width()/2);
 
                     // Draw the handle in two parts, the top, and the bottom with calculated offset
                     TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), offset);
-                    TileSet *tiles2 = _helper.horizontalScrollBar(color, rect.height(), offset+rect.width());
+                    TileSet *tiles2 = _helper.horizontalScrollBar(color, rect.height(), offset+rect.width()+8);
 
                     p->save();
                     p->setClipRect(rect.adjusted(0,0,-remainder-1,0));
