@@ -167,18 +167,19 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, QColor glow, double
 
     if (!tileSet)
     {
-        QPixmap pixmap(size*2, (int)ceil(double(size*2)*14.0/12.0));
+        int s = size+2; // ### wrong, but don't care for the moment
+        QPixmap pixmap(s*2,s*2);
         pixmap.fill(QColor(0,0,0,0));
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setWindow(0,0,12,14);
+        p.setWindow(0,0,16,16);
 
         TileSet *slabTileSet = slab(color, shade, size);
 
         // slab
-        slabTileSet->render(QRect(0,0,12,14), &p);
+        slabTileSet->render(QRect(2,2,12,14), &p);
 
         // glow
         QRadialGradient rg = QRadialGradient(8.5, 8.5, 8.5, 8.5, 8.5);
@@ -195,7 +196,7 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, QColor glow, double
 
         p.end();
 
-        tileSet = new TileSet(pixmap, size-1, size, 2, 1);
+        tileSet = new TileSet(pixmap, s-1, s, 2, 1);
 
         cache->m_slabCache.insert(key, tileSet);
     }
