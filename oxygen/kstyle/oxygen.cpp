@@ -112,7 +112,7 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_Splitter, Splitter::Width, 6);
 
-    setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 23);
+    setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 25);
     setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 23);
 
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
@@ -1431,7 +1431,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
                                   bool enabled, bool hasFocus, bool mouseOver, int primitive) const
 {
     int s = qMin(rect.width(), rect.height());
-    QRect r = centerRect(rect, s-2, s);
+    QRect r = centerRect(rect, s, s);
 
     StyleOptions opts;
     if (hasFocus) opts |= Focus;
@@ -1440,7 +1440,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     renderSlab(p, r, pal.color(QPalette::Button), opts);
 
     // check mark
-    double x = r.center().x() - 3.5, y = r.center().y() - 3.5;
+    double x = r.center().x() - 3.5, y = r.center().y() - 2.5;
 
     QPen pen(pal.color(QPalette::Text), 2.0);
     if (primitive == CheckBox::CheckTriState) {
@@ -1463,15 +1463,19 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
                                         bool enabled, bool mouseOver, int prim) const
 {
-    QRect r2(r.x() + r.width()/2 - 9, r.y() + r.height()/2 - 9, 18, 20);
+    QRect r2(r.x() + r.width()/2 - 11, r.y() + r.height()/2 - 12, 22, 22);
     int x = r2.x();
     int y = r2.y();
 
-    QPixmap slabPixmap = _helper.roundSlab(pal.color(QPalette::Button), 0.0);
-    p->drawPixmap(x, y+1, slabPixmap);
-
-    // highlighting...
-    if(mouseOver) {
+    if(mouseOver)
+    {
+        QPixmap slabPixmap = _helper.roundSlabFocused(pal.color(QPalette::Button),_viewHoverBrushes->brush(QPalette::Active).color(), 0.0);
+        p->drawPixmap(x, y+1, slabPixmap);
+    }
+    else
+    {
+        QPixmap slabPixmap = _helper.roundSlab(pal.color(QPalette::Button), 0.0);
+        p->drawPixmap(x+2, y+3, slabPixmap);
     }
 
     // draw the radio mark
@@ -1486,7 +1490,7 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
             p->setRenderHints(QPainter::Antialiasing);
             p->setPen(Qt::NoPen);
             p->setBrush(_helper.decoGradient(r, fore));
-            p->drawEllipse(QRectF(r2).adjusted(dx, dy, -dx, -dy));
+            p->drawEllipse(QRectF(r2).adjusted(dx, dy+1, -dx, -dy+1));
             p->restore();
             return;
         }

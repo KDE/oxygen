@@ -103,6 +103,47 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, double shade, int size
     return *pixmap;
 }
 
+QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, QColor glow, double shade, int size)
+{
+    SlabCache *cache = slabCache(color);
+    quint64 key = (quint64(glow.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+    QPixmap *pixmap = cache->m_roundSlabCache.object(key);
+
+    if (!pixmap)
+    {
+        pixmap = new QPixmap(size*3+4, int(double(size*3)*10.0/9.0)+2);
+        pixmap->fill(QColor(0,0,0,0));
+
+        QPainter p(pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(0,0,22,22);
+
+        QPixmap slabPixmap = roundSlab(color, shade, size);
+
+        // slab
+        p.drawPixmap(2, 2, slabPixmap);
+
+        // glow
+        QRadialGradient rg = QRadialGradient(11, 11, 11, 11, 11.0);
+        glow.setAlpha(0);
+        rg.setColorAt(7.5/11.0 - 0.01, glow);
+        glow.setAlpha(180);
+        rg.setColorAt(7.5/11.0, glow);
+        glow.setAlpha(70);
+        rg.setColorAt(9.0/11.0, glow);
+        glow.setAlpha(0);
+        rg.setColorAt(1.0, glow);
+        p.setBrush(rg);
+        p.drawEllipse(QRectF(0, 0, 23, 23));
+
+        p.end();
+
+        cache->m_roundSlabCache.insert(key, pixmap);
+    }
+    return *pixmap;
+}
+
 TileSet *OxygenStyleHelper::slab(const QColor &color, double shade, int size)
 {
     SlabCache *cache = slabCache(color);

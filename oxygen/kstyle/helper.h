@@ -39,6 +39,7 @@ public:
     virtual ~OxygenStyleHelper() {}
 
     QPixmap  roundSlab(const QColor&, double shade, int size = 6);
+    QPixmap  roundSlabFocused(const QColor&, QColor glow, double shade, int size = 6);
 
     TileSet *slab(const QColor&, double shade, int size = 6);
     TileSet *slabFocused(const QColor&, QColor glow, double shade, int size = 6);
