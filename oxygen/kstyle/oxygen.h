@@ -159,6 +159,7 @@ protected:
     bool eventFilter(QObject *, QEvent *);
 
 protected Q_SLOTS:
+    virtual QIcon standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option, const QWidget *widget) const;
     //Animation slots.
     void updateProgressPos();
     void progressBarDestroyed(QObject* bar);

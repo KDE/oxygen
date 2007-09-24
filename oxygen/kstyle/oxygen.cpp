@@ -60,6 +60,8 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QScrollBar>
 #include <QtGui/QGroupBox>
+#include <QtGui/QDockWidget>
+#include <QStyleOptionDockWidget>
 
 #include <KGlobal>
 #include <KColorUtils>
@@ -72,58 +74,6 @@
 K_EXPORT_STYLE("Oxygen", OxygenStyle)
 
 K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("OxygenStyle"))
-
-// some bitmaps for the radio button so it's easier to handle the circle stuff...
-// 13x13
-static const unsigned char radiobutton_mask_bits[] = {
-   0xf8, 0x03, 0xfc, 0x07, 0xfe, 0x0f, 0xff, 0x1f, 0xff, 0x1f, 0xff, 0x1f,
-   0xff, 0x1f, 0xff, 0x1f, 0xff, 0x1f, 0xff, 0x1f, 0xfe, 0x0f, 0xfc, 0x07,
-   0xf8, 0x03};
-static const unsigned char radiobutton_contour_bits[] = {
-   0xf0, 0x01, 0x0c, 0x06, 0x02, 0x08, 0x02, 0x08, 0x01, 0x10, 0x01, 0x10,
-   0x01, 0x10, 0x01, 0x10, 0x01, 0x10, 0x02, 0x08, 0x02, 0x08, 0x0c, 0x06,
-   0xf0, 0x01};
-static const unsigned char radiobutton_aa_inside_bits[] = {
-   0x00, 0x00, 0x10, 0x01, 0x04, 0x04, 0x00, 0x00, 0x02, 0x08, 0x00, 0x00,
-   0x00, 0x00, 0x00, 0x00, 0x02, 0x08, 0x00, 0x00, 0x04, 0x04, 0x10, 0x01,
-   0x00, 0x00};
-static const unsigned char radiobutton_aa_outside_bits[] = {
-   0x08, 0x02, 0x00, 0x00, 0x00, 0x00, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00,
-   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x10, 0x00, 0x00, 0x00, 0x00,
-   0x08, 0x02};
-static const unsigned char radiobutton_highlight1_bits[] = {
-   0x00, 0x00, 0xf0, 0x01, 0x1c, 0x07, 0x04, 0x04, 0x06, 0x0c, 0x02, 0x08,
-   0x02, 0x08, 0x02, 0x08, 0x06, 0x0c, 0x04, 0x04, 0x1c, 0x07, 0xf0, 0x01,
-   0x00, 0x00};
-static const unsigned char radiobutton_highlight2_bits[] = {
-   0x00, 0x00, 0x00, 0x00, 0xe0, 0x00, 0x18, 0x03, 0x08, 0x02, 0x04, 0x04,
-   0x04, 0x04, 0x04, 0x04, 0x08, 0x02, 0x18, 0x03, 0xe0, 0x00, 0x00, 0x00,
-   0x00, 0x00};
-// check mark
-const uint CHECKMARKSIZE = 9; // 9x9
-static const unsigned char checkmark_aa_bits[] = {
-   0x45, 0x01, 0x28, 0x00, 0x11, 0x01, 0x82, 0x00, 0x44, 0x00, 0x82, 0x00,
-   0x11, 0x01, 0x28, 0x00, 0x45, 0x01};
-static const unsigned char checkmark_dark_bits[] = {
-   0x82, 0x00, 0x45, 0x01, 0xaa, 0x00, 0x54, 0x00, 0x28, 0x00, 0x74, 0x00,
-   0xea, 0x00, 0xc5, 0x01, 0x82, 0x00};
-static const unsigned char checkmark_light_bits[] = {
-   0x00, 0xfe, 0x82, 0xfe, 0x44, 0xfe, 0x28, 0xfe, 0x10, 0xfe, 0x08, 0xfe,
-   0x04, 0xfe, 0x02, 0xfe, 0x00, 0xfe};
-static const unsigned char checkmark_tristate_bits[] = {
-   0x00, 0x00, 0xff, 0x01, 0x00, 0x00, 0xff, 0x01, 0x00, 0x00, 0xff, 0x01,
-   0x00, 0x00, 0xff, 0x01, 0x00, 0x00};
-// radio mark
-const uint RADIOMARKSIZE = 9; // 9x9
-static const unsigned char radiomark_aa_bits[] = {
-   0x00, 0x00, 0x44, 0x00, 0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-   0x82, 0x00, 0x44, 0x00, 0x00, 0x00};
-static const unsigned char radiomark_dark_bits[] = {
-   0x00, 0x00, 0x38, 0x00, 0x44, 0x00, 0xf2, 0x00, 0xfa, 0x00, 0xfa, 0x00,
-   0x7c, 0x00, 0x38, 0x00, 0x00, 0x00};
-static const unsigned char radiomark_light_bits[] = {
-   0x00, 0x00, 0x00, 0x00, 0x38, 0x00, 0x0c, 0x00, 0x04, 0x00, 0x04, 0x00,
-   0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 OxygenStyle::OxygenStyle() :
 //     kickerMode(false),
@@ -164,6 +114,10 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 23);
     setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 23);
+
+    setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
+    setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 1);
+    setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 2);
 
     setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 6);
 
@@ -542,14 +496,65 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         {
             switch (primitive)
             {
+//                case Generic::Text:
                 case Generic::Frame:
                 {
-                    //FIXME CBRrenderContour(p, r, pal.color( QPalette::Background ),                                  pal.color( QPalette::Background ).dark(160),                                  Draw_Left|Draw_Right|Draw_Top|Draw_Bottom);
+                    // shadows of the frame
+                    int x,y,w,h;
 
+                    r.getRect(&x, &y, &w, &h);
+
+                    p->setBrush(Qt::NoBrush);
+                    QLinearGradient lg(0, 0, 0, 10);
+                    QGradientStops stops;
+                    stops << QGradientStop( 0, QColor(255,255,255, 110) )
+                        << QGradientStop( 1, QColor(128,128,128, 60) );
+                    lg.setStops(stops);
+                    p->setPen(QPen(QBrush(lg),1));
+                    p->drawLine(QPointF(6.3, 0.5), QPointF(w-6.3, 0.5));
+                    p->drawArc(QRectF(0.5, 0.5, 9.5, 9.5),90*16, 90*16);
+                    p->drawArc(QRectF(w-9.5-0.5, 0.5, 9.5, 9.5), 0, 90*16);
+
+                    p->setPen(QColor(128,128,128, 60));
+                    p->drawLine(QPointF(0.5, 6.3), QPointF(0.5, h-6.3));
+                    p->drawLine(QPointF(w-0.5, 6.3), QPointF(w-0.5, h-6.3));
+
+                    lg = QLinearGradient(0, h-10, 0, h);
+                    stops.clear();
+                    stops << QGradientStop( 0, QColor(128,128,128, 60) )
+                        << QGradientStop( 1, QColor(0,0,0, 50) );
+                    lg.setStops(stops);
+                    p->setPen(QPen(QBrush(lg),1));
+                    p->drawArc(QRectF(0.5, h-9.5-0.5, 9.5, 9.5),180*16, 90*16);
+                    p->drawArc(QRectF(w-9.5-0.5, h-9.5-0.5, 9.5, 9.5), 270*16, 90*16);
+                    p->drawLine(QPointF(6.3, h-0.5), QPointF(w-6.3, h-0.5));
                     return;
                 }
 
-               case DockWidget::SeparatorHandle:
+                case DockWidget::TitlePanel:
+                {
+                    const QStyleOptionDockWidget* dwOpt = ::qstyleoption_cast<const QStyleOptionDockWidget*>(opt);
+                    const QDockWidget *dw = qobject_cast<const QDockWidget*>(widget);
+                    if (!dwOpt) return;
+                    if (dw->isFloating()) return;
+
+                    int x,y,w,h;
+
+                    dw->rect().getRect(&x, &y, &w, &h);
+                    h--;
+                    p->setPen(QColor(0,0,0, 30));
+                    p->drawLine(QPointF(6.3, 0.5), QPointF(w-6.3, 0.5));
+                    p->drawArc(QRectF(0.5, 0.5, 9.5, 9.5),90*16, 90*16);
+                    p->drawArc(QRectF(w-9.5-0.5, 0.5, 9.5, 9.5), 0, 90*16);
+                    p->drawLine(QPointF(0.5, 6.3), QPointF(0.5, h-6.3));
+                    p->drawLine(QPointF(w-0.5, 6.3), QPointF(w-0.5, h-6.3));
+                    p->drawArc(QRectF(0.5, h-9.5-0.5, 9.5, 9.5),180*16, 90*16);
+                    p->drawArc(QRectF(w-9.5-0.5, h-9.5-0.5, 9.5, 9.5), 270*16, 90*16);
+                    p->drawLine(QPointF(6.3, h-0.5), QPointF(w-6.3, h-0.5));
+                    return;
+                }
+
+                case DockWidget::SeparatorHandle:
                     if (flags&State_Horizontal)
                         drawKStylePrimitive(WT_Splitter, Splitter::HandleVert, opt, r, pal, flags, p, widget);
                     else
@@ -790,6 +795,28 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case Generic::Frame:
                 {
                     renderPanel(p, r, pal, true, flags&State_Sunken);
+                    return;
+                }
+
+                case Window::TitlePanel:
+                    p->fillRect(r, QColor(Qt::green) );
+                    return;
+
+                case Window::ButtonMin:
+                case Window::ButtonMax:
+                case Window::ButtonRestore:
+                case Window::ButtonClose:
+                case Window::ButtonShade:
+                case Window::ButtonUnshade:
+                case Window::ButtonHelp:
+                {
+                    KStyle::TitleButtonOption* tbkOpts =
+                            extractOption<KStyle::TitleButtonOption*>(kOpt);
+                    State bflags = flags;
+                    bflags &= ~State_Sunken;
+                    if (tbkOpts->active)
+                        bflags |= State_Sunken;
+                    drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, opt, r, pal, bflags, p, widget);
                     return;
                 }
 
@@ -1374,7 +1401,11 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
     else if (opts & Focus)
         tile = _helper.slabFocused(color, _viewFocusBrushes->brush(QPalette::Active).color(), 0.0); // FIXME need state
     else
+    {
         tile = _helper.slab(color, 0.0);
+        tile->render(r.adjusted(2,2,-2,0), p, tiles);
+        return;
+    }
     tile->render(r, p, tiles);
 }
 
@@ -1711,9 +1742,27 @@ QSize OxygenStyle::sizeFromContents ( ContentsType ct, const QStyleOption * opti
                 int hgt = contentsSize.height() + 2*margin - (cb->editable ? 7 : 0);
                 return QSize(contentsSize.width(), hgt);
             }
+            else
+                return KStyle::sizeFromContents( ct, option, contentsSize, widget );
             break;
+
+        default:
+            return KStyle::sizeFromContents( ct, option, contentsSize, widget );
    }
-   return KStyle::sizeFromContents( ct, option, contentsSize, widget );
 }
 
+
+QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option,
+                                               const QWidget *widget) const
+{
+   switch (standardIcon) {
+        case SP_TitleBarNormalButton:
+        case SP_DockWidgetCloseButton:
+        {
+            return QIcon(_helper.windecoButton(QColor(Qt::green), 20));
+        }
+        default:
+            return KStyle::standardPixmap(standardIcon, option, widget);
+    }
+}
 // kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;
