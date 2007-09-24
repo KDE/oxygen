@@ -133,6 +133,7 @@ OxygenStyle::OxygenStyle() :
 {
     _config = _helper.config();
 
+    // do next two lines in polish()?
     // FIXME we need more than just view brushes, need Window (button?) at least
     _viewFocusBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
     _viewHoverBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _config );
@@ -223,7 +224,6 @@ OxygenStyle::OxygenStyle() :
     // FIXME below this line to be deleted (and can we not use QSettings? KConfig* is safe now)
     _customOverHighlightColor = true;
     _customFocusHighlightColor = true;
-    // do next two lines in polish()?
     // setup pixmap cache...
     pixmapCache = new QCache<int, CacheEntry>(327680);
 
@@ -644,7 +644,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ScrollBar::SliderVert:
                 {
                     QColor color = pal.color(QPalette::Button);//_viewHoverBrushes->brush(pal).color();
-                    if(mouseOver || (flags & State_Sunken))
+                    if (mouseOver || (flags & State_Sunken)) // TODO not when disabled ((flags & State_Enabled) doesn't work?)
                         color = _viewHoverBrushes->brush(pal).color();
                     QRect rect = r.adjusted(0,2,0,1);
 
@@ -668,7 +668,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ScrollBar::SliderHor:
                 {
                     QColor color = pal.color(QPalette::Button);//_viewHoverBrushes->brush(pal).color();
-                    if(mouseOver || (flags & State_Sunken))
+                    if (mouseOver || (flags & State_Sunken)) // TODO not when disabled ((flags & State_Enabled) doesn't work?)
                         color = _viewHoverBrushes->brush(pal).color();
                     QRect rect = r.adjusted(2,0,1,0);
 
