@@ -68,6 +68,23 @@ KSharedConfigPtr OxygenHelper::config() const
     return _config;
 }
 
+void OxygenHelper::reloadConfig()
+{
+    double old_contrast = _contrast;
+
+    _config->reparseConfiguration();
+    _contrast = KGlobalSettings::contrastF(_config);
+
+    if (_contrast != old_contrast)
+        invalidateCaches(); // contrast changed, invalidate our caches
+}
+
+void OxygenHelper::invalidateCaches()
+{
+    m_backgroundCache.clear();
+    m_windecoButtonCache.clear();
+}
+
 bool OxygenHelper::lowThreshold(const QColor &color)
 {
     QColor darker = KColorScheme::shade(color, KColorScheme::MidShade, 0.5);

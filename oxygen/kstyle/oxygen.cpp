@@ -63,7 +63,10 @@
 #include <QtGui/QDockWidget>
 #include <QStyleOptionDockWidget>
 
+#include <QtDBus/QtDBus>
+
 #include <KGlobal>
+#include <KGlobalSettings>
 #include <KColorUtils>
 
 #include <math.h>
@@ -83,10 +86,17 @@ OxygenStyle::OxygenStyle() :
 {
     _config = _helper.config();
 
-    // do next two lines in polish()?
-    // FIXME we need more than just view brushes, need Window (button?) at least
-    _viewFocusBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
-    _viewHoverBrushes = new KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _config );
+    // connect to KGlobalSettings signals so we will be notified when the
+    // system palette (in particular, the contrast) is changed
+    QDBusConnection::sessionBus().connect( QString(), "/KGlobalSettings",
+                                           "org.kde.KGlobalSettings",
+                                           "notifyChange", this,
+                                           SLOT(globalSettingsChange(int,int))
+                                         );
+
+    // call the slot directly; this initial call will set up things that also
+    // need to be reset when the system palette changes
+    globalSettingsChange(KGlobalSettings::PaletteChanged, 0);
 
     setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
 
@@ -221,8 +231,6 @@ void OxygenStyle::updateProgressPos()
 OxygenStyle::~OxygenStyle()
 {
     delete pixmapCache;
-    delete _viewFocusBrushes;
-    delete _viewHoverBrushes;
 }
 
 
@@ -648,9 +656,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::SliderVert:
                 {
-                    QColor color = pal.color(QPalette::Button);//_viewHoverBrushes->brush(pal).color();
+                    QColor color = pal.color(QPalette::Button);
                     if (mouseOver || (flags & State_Sunken)) // TODO not when disabled ((flags & State_Enabled) doesn't work?)
-                        color = _viewHoverBrushes->brush(pal).color();
+                        color = _viewHoverBrush.brush(pal).color();
                     QRect rect = r.adjusted(0,2,0,1);
 
                     int offset = rect.top()/2; // divide by 2 to make the "lightplay" move half speed of the handle
@@ -672,9 +680,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::SliderHor:
                 {
-                    QColor color = pal.color(QPalette::Button);//_viewHoverBrushes->brush(pal).color();
+                    QColor color = pal.color(QPalette::Button);
                     if (mouseOver || (flags & State_Sunken)) // TODO not when disabled ((flags & State_Enabled) doesn't work?)
-                        color = _viewHoverBrushes->brush(pal).color();
+                        color = _viewHoverBrush.brush(pal).color();
                     QRect rect = r.adjusted(2,0,1,0);
 
                     int offset = r.left()/2; // divide by 2 to make the "lightplay" move half speed of the handle
@@ -1192,7 +1200,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     {
                         TileSet *tile;
 
-                        tile = _helper.slitFocused(_viewHoverBrushes->brush(QPalette::Active).color()); // FIXME need state
+                        tile = _helper.slitFocused(_viewHoverBrush.brush(QPalette::Active).color()); // FIXME need state
                         tile->render(r, p);
                     }
                     return;
@@ -1361,6 +1369,15 @@ void OxygenStyle::progressBarDestroyed(QObject* obj)
     progAnimWidgets.remove(static_cast<QWidget*>(obj));
 }
 
+void OxygenStyle::globalSettingsChange(int type, int arg)
+{
+    if (type == KGlobalSettings::PaletteChanged) {
+        _helper.reloadConfig();
+        _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
+        _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _config );
+    }
+}
+
 void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, StyleOptions opts, TileSet::Tiles tiles) const
 {
     if ((r.width() <= 0) || (r.height() <= 0))
@@ -1397,9 +1414,9 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
     if (opts & Sunken)
         tile = _helper.slabSunken(color, 0.0);
     else if (opts & Hover)
-        tile = _helper.slabFocused(color, _viewHoverBrushes->brush(QPalette::Active).color(), 0.0); // FIXME need state
+        tile = _helper.slabFocused(color, _viewHoverBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
     else if (opts & Focus)
-        tile = _helper.slabFocused(color, _viewFocusBrushes->brush(QPalette::Active).color(), 0.0); // FIXME need state
+        tile = _helper.slabFocused(color, _viewFocusBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
     else
     {
         tile = _helper.slab(color, 0.0);
@@ -1418,9 +1435,9 @@ void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover
     QColor base = QColor(Qt::white); // FIXME -- wrong!
     // for holes, focus takes precedence over hover (other way around for buttons)
     if (focus)
-        tile = _helper.holeFocused(base, _viewFocusBrushes->brush(QPalette::Active).color()); // FIXME need state
+        tile = _helper.holeFocused(base, _viewFocusBrush.brush(QPalette::Active).color()); // FIXME need state
     else if (hover)
-        tile = _helper.holeFocused(base, _viewHoverBrushes->brush(QPalette::Active).color()); // FIXME need state
+        tile = _helper.holeFocused(base, _viewHoverBrush.brush(QPalette::Active).color()); // FIXME need state
     else
         tile = _helper.hole(base);
     tile->render(r, p, posFlags);
@@ -1467,9 +1484,10 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     int x = r2.x();
     int y = r2.y();
 
+    // TODO focus?
     if(mouseOver)
     {
-        QPixmap slabPixmap = _helper.roundSlabFocused(pal.color(QPalette::Button),_viewHoverBrushes->brush(QPalette::Active).color(), 0.0);
+        QPixmap slabPixmap = _helper.roundSlabFocused(pal.color(QPalette::Button),_viewHoverBrush.brush(QPalette::Active).color(), 0.0);
         p->drawPixmap(x, y+1, slabPixmap);
     }
     else

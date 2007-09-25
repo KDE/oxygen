@@ -32,6 +32,18 @@ OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
 {
 }
 
+void OxygenStyleHelper::invalidateCaches()
+{
+    m_slabCache.clear();
+    m_slabSunkenCache.clear();
+    m_holeCache.clear();
+    m_slopeCache.clear();
+    m_slitCache.clear();
+    m_verticalScrollBarCache.clear();
+    m_horizontalScrollBarCache.clear();
+    OxygenHelper::invalidateCaches();
+}
+
 SlabCache* OxygenStyleHelper::slabCache(const QColor &color)
 {
     quint64 key = (quint64(color.rgba()) << 32);

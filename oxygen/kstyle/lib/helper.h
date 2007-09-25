@@ -41,6 +41,8 @@ public:
     virtual ~OxygenHelper() {}
 
     KSharedConfigPtr config() const;
+    void reloadConfig();
+    virtual void invalidateCaches();
 
     static bool lowThreshold(const QColor &color);
     QColor alphaColor(QColor color, double alpha);

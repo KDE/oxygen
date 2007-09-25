@@ -38,6 +38,8 @@ public:
     explicit OxygenStyleHelper(const QByteArray &componentName);
     virtual ~OxygenStyleHelper() {}
 
+    virtual void invalidateCaches();
+
     QPixmap  roundSlab(const QColor&, double shade, int size = 6);
     QPixmap  roundSlabFocused(const QColor&, QColor glow, double shade, int size = 6);
 

@@ -163,6 +163,8 @@ protected Q_SLOTS:
     //Animation slots.
     void updateProgressPos();
     void progressBarDestroyed(QObject* bar);
+    //For KGlobalSettings notifications
+    void globalSettingsChange(int type, int arg);
 
     inline QColor getColor(const QPalette &pal, const ColorType t, const bool enabled = true)const;
     inline QColor getColor(const QPalette &pal, const ColorType t, const StyleOptions s)const;
@@ -183,8 +185,8 @@ private:
     // FIXME remove this line, new (correct) stuff below this point
     OxygenStyleHelper &_helper;
     KSharedConfigPtr _config;
-    KStatefulBrush *_viewFocusBrushes;
-    KStatefulBrush *_viewHoverBrushes;
+    KStatefulBrush _viewFocusBrush;
+    KStatefulBrush _viewHoverBrush;
 
     //Animation support.
     QMap<QWidget*, int> progAnimWidgets;
