@@ -110,13 +110,13 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 1);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 16);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 16);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 1);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 1);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 3);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Left, 2);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 2);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Top, 2);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Bot, 2);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 3);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 3);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 2);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Left, 1);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 1);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Top, 1);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Bot, 1);
     setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftHorizontal, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftVertical,   0);
 
@@ -149,8 +149,8 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_TabWidget, TabWidget::ContentsMargin, 6);
 
-    setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 23);
-    setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 15);
+    setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 25);
+    setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 19);
 
     setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 2);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonWidth, 2+16+1);
@@ -876,7 +876,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case Slider::HandleHor:
                 case Slider::HandleVert:
                 {
-                    renderSlab(p, r.adjusted(1,0,-1,0), pal.color(QPalette::Button));
+                    renderSlab(p, r, pal.color(QPalette::Button));
                     return;
                 }
 
@@ -888,10 +888,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     if (horizontal) {
                         int center = r.y()+r.height()/2;
-                        renderHole(p, QRect(r.left(), center-2, r.width(), 4));
+                        renderHole(p, QRect(r.left()+4, center-2, r.width()-8, 5));
                     } else {
                         int center = r.x()+r.width()/2;
-                        renderHole(p, QRect(center-2, r.top(), 4, r.height()));
+                        renderHole(p, QRect(center-2, r.top()+4, 5, r.height()-8));
                     }
 
                     return;
