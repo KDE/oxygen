@@ -1629,6 +1629,9 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
         case SH_ScrollView_FrameOnlyAroundContents:
             return true;
 
+        case SH_ItemView_ShowDecorationSelected:
+            return true;
+
         default:
             return KStyle::styleHint(hint, option, widget, returnData);
     }
