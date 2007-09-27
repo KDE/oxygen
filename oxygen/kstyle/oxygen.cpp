@@ -844,9 +844,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int ngroups = qMax(1,h / 250);
                     int center = (h - (ngroups-1) * 250) /2 + r.top();
                     for(int k = 0; k < ngroups; k++, center += 250) {
-                        renderDot(p, QPointF(r.left()+3, center-5), color);
+                        renderDot(p, QPointF(r.left()+3, center-3), color);
                         renderDot(p, QPointF(r.left()+3, center), color);
-                        renderDot(p, QPointF(r.left()+3, center+5), color);
+                        renderDot(p, QPointF(r.left()+3, center+3), color);
                     }
                     return;
                 }
@@ -858,9 +858,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int ngroups = qMax(1, w / 250);
                     int center = (w - (ngroups-1) * 250) /2 + r.left();
                     for(int k = 0; k < ngroups; k++, center += 250) {
-                        renderDot(p, QPointF(center-5, r.top()+3), color);
+                        renderDot(p, QPointF(center-3, r.top()+3), color);
                         renderDot(p, QPointF(center, r.top()+3), color);
-                        renderDot(p, QPointF(center+5, r.top()+3), color);
+                        renderDot(p, QPointF(center+3, r.top()+3), color);
                     }
                     return;
                 }
@@ -1527,7 +1527,7 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
 void OxygenStyle::renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const
 {
     Q_UNUSED(baseColor)
-    const qreal diameter = 2.5;
+    const qreal diameter = 1.8;
     p->setRenderHint(QPainter::Antialiasing);
     p->setPen(Qt::NoPen);
     p->setBrush(QColor(0, 0, 0, 66));
