@@ -211,11 +211,11 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width)
 
 void OxygenHelper::drawShadow(QPainter &p, const QColor &color, int size) const
 {
-    int m = (size-2)>>1;
+    double m = double(size-2)*0.5;
 
     const double offset = 0.8;
-    double k0 = double(m-4) / double(m);
-    QRadialGradient shadowGradient(m+1, m+offset+1, m);
+    double k0 = (m-4.0) / m;
+    QRadialGradient shadowGradient(m+1.0, m+offset+1.0, m);
     for (int i = 0; i < 8; i++) { // sinusoidal gradient
         double k1 = (k0 * double(8 - i) + double(i)) * 0.125;
         double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;

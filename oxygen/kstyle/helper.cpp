@@ -191,11 +191,11 @@ void OxygenStyleHelper::drawSlab(QPainter &p, const QColor &color, double shade)
 void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
                                           int pad, int size, double fuzz) const
 {
-    int m = size>>1;
+    double m = double(size)*0.5;
 
     const double offset = 0.8;
-    double k0 = double(m-2) / double(m+2);
-    QRadialGradient shadowGradient(pad+m, pad+m+offset, m+2);
+    double k0 = (m-2.0) / double(m+2.0);
+    QRadialGradient shadowGradient(pad+m, pad+m+offset, m+2.0);
     for (int i = 0; i < 8; i++) { // sinusoidal gradient
         double k1 = (double(8 - i) + k0 * double(i)) * 0.125;
         double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
