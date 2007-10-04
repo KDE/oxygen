@@ -206,6 +206,16 @@ void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
     p.drawEllipse(QRectF(pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0));
 }
 
+void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
+{
+    int s = int(floor(double(size)*4.0/7.0));
+    QRect r = rect.adjusted(s, s, -s, -s);
+    int rx = (86*size) / r.width(); // 86 = 2*(7-4)/7
+    int ry = (86*size) / r.height();
+
+    p.drawRoundRect(r, rx, ry);
+}
+
 TileSet *OxygenStyleHelper::slab(const QColor &color, double shade, int size)
 {
     SlabCache *cache = slabCache(color);
@@ -387,28 +397,28 @@ TileSet *OxygenStyleHelper::slope(const QColor &color, double shade, int size)
         slabTileSet->render(QRect(0, 0, size*4, size*5), &p,
                             TileSet::Left | TileSet::Right | TileSet::Top);
 
-        p.setWindow(0,0,24,24);
+        p.setWindow(0,0,28,28);
 
         // bottom
         QColor base = color;
-        QColor light = calcLightColor(color); //KColorUtils::shade(calcLightColor(color), shade));
-        QLinearGradient fillGradient(0, -24, 0, 24);
+        QColor light = KColorUtils::shade(calcLightColor(color), shade);
+        QLinearGradient fillGradient(0, -28, 0, 28);
         light.setAlphaF(0.4);
         fillGradient.setColorAt(0.0, light);
         base.setAlphaF(0.4);
         fillGradient.setColorAt(1.0, base);
         p.setBrush(fillGradient);
         p.setCompositionMode(QPainter::CompositionMode_DestinationOver);
-        p.drawRect(2, 8, 20, 16);
+        p.drawRect(3, 9, 22, 17);
 
         // fade bottom
-        QLinearGradient maskGradient(0, 6, 0, 24);
+        QLinearGradient maskGradient(0, 7, 0, 28);
         maskGradient.setColorAt(0.0, QColor(0, 0, 0, 255));
         maskGradient.setColorAt(1.0, QColor(0, 0, 0, 0));
 
         p.setBrush(maskGradient);
         p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        p.drawRect(0, 8, 24, 16);
+        p.drawRect(0, 9, 28, 19);
 
         tileSet = new TileSet(pixmap, size, size, size*2, 2);
         m_slopeCache.insert(key, tileSet);

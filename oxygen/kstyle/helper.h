@@ -40,16 +40,18 @@ public:
 
     virtual void invalidateCaches();
 
+    static void fillSlab(QPainter&, const QRect&, int size = 7);
+
     QPixmap  roundSlab(const QColor&, double shade, int size = 7);
     QPixmap  roundSlabFocused(const QColor&, QColor glow, double shade, int size = 7);
 
-    // TODO - need to rebase slope, windecobutton to size=7
+    // TODO - need to rebase windecobutton, scrollbars to size=7
     TileSet *slab(const QColor&, double shade, int size = 7);
     TileSet *slabFocused(const QColor&, QColor glow, double shade, int size = 7);
     TileSet *slabSunken(const QColor&, double shade, int size = 7);
     TileSet *slabInverted(const QColor&, double shade, int size = 7);
 
-    TileSet *slope(const QColor&, double shade, int size = 6);
+    TileSet *slope(const QColor&, double shade, int size = 7);
 
     TileSet *hole(const QColor&);
     TileSet *holeFocused(const QColor&, QColor glow);

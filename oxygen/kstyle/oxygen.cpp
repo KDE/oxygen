@@ -103,7 +103,7 @@ OxygenStyle::OxygenStyle() :
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 14);
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 14); // size*2
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
 
@@ -1099,21 +1099,15 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     p->setRenderHint(QPainter::Antialiasing);
                     p->setPen(Qt::NoPen);
 
-                    int s1 = 3; //size/4;
-                    int s2 = 4; //s1 + (int)ceil(double(size)*2.0/14.0);
-                    int rx = 500 / (r.width() - (2*s1)); //(50*size) / rect.width();
-                    int ry = 500 / (r.height() - (s1+s2)); //(50*size) / rect.height();
-                    QRect fr = r.adjusted(s1, s1, -s1, -s2);
-
-                    QLinearGradient innerGradient(0, fr.top() - fr.height(), 0, fr.bottom()+fr.height());
+                    QLinearGradient innerGradient(0, r.top()-r.height()+12, 0, r.bottom()+r.height()-19);
                     QColor light = _helper.calcLightColor(color); //KColorUtils::shade(calcLightColor(color), shade));
                     light.setAlphaF(0.4);
                     innerGradient.setColorAt(0.0, light);
                     color.setAlphaF(0.4);
                     innerGradient.setColorAt(1.0, color);
                     p->setBrush(innerGradient);
-                    p->setClipRect(fr.adjusted(0, 0, 0, -12));
-                    p->drawRoundRect(fr, rx, ry);
+                    p->setClipRect(r.adjusted(0, 0, 0, -19));
+                    _helper.fillSlab(*p, r);
 
                     TileSet *slopeTileSet = _helper.slope(pal.color(QPalette::Window), 0.0);
                     p->setClipping(false);
