@@ -263,7 +263,7 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, int size)
         // bevel
         qreal y = KColorUtils::luma(color);
         qreal yl = KColorUtils::luma(light);
-        qreal yd = KColorUtils::luma(light);
+        qreal yd = KColorUtils::luma(dark);
         QLinearGradient bevelGradient(0, 0, 0, 18);
         bevelGradient.setColorAt(0.45, light);
         bevelGradient.setColorAt(0.80, dark);
