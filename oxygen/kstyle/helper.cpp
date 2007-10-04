@@ -73,40 +73,40 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, double shade, int size
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setWindow(0,0,20,20); // TODO - rebase to 21,21
+        p.setWindow(0,0,21,21);
 
         QColor base = KColorUtils::shade(color, shade);
         QColor light = KColorUtils::shade(calcLightColor(color), shade);
         QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
 
         // shadow
-        drawShadow(p, calcShadowColor(color), 20);
+        drawShadow(p, calcShadowColor(color), 21);
 
         // bevel, part 1
         qreal y = KColorUtils::luma(base);
         qreal yl = KColorUtils::luma(light);
         qreal yd = KColorUtils::luma(dark);
-        QLinearGradient bevelGradient1(0, 10, 0, 17);
+        QLinearGradient bevelGradient1(0, 10, 0, 18);
         bevelGradient1.setColorAt(0.0, light);
         bevelGradient1.setColorAt(0.9, dark);
         if (y < yl && y > yd) // no middle when color is very light/dark
             bevelGradient1.setColorAt(0.5, base);
         p.setBrush(bevelGradient1);
-        p.drawEllipse(QRectF(3.0,3.0,14.0,14.0));
+        p.drawEllipse(QRectF(3.0,3.0,15.0,15.0));
 
         // bevel, part 2
-        QLinearGradient bevelGradient2(0, 7, 0, 27);
+        QLinearGradient bevelGradient2(0, 7, 0, 28);
         bevelGradient2.setColorAt(0.0, light);
         bevelGradient2.setColorAt(0.9, base);
         p.setBrush(bevelGradient2);
-        p.drawEllipse(QRectF(3.6,3.6,12.8,12.8));
+        p.drawEllipse(QRectF(3.6,3.6,13.8,13.8));
 
         // inside
-        QLinearGradient innerGradient(0, -17, 0, 19);
+        QLinearGradient innerGradient(0, -17, 0, 20);
         innerGradient.setColorAt(0.0, light);
         innerGradient.setColorAt(1.0, base);
         p.setBrush(innerGradient);
-        p.drawEllipse(QRectF(4.4,4.4,11.2,11.2));
+        p.drawEllipse(QRectF(4.4,4.4,12.2,12.2));
 
         p.end();
 
