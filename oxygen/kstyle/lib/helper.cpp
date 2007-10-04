@@ -123,12 +123,12 @@ QColor OxygenHelper::backgroundBottomColor(const QColor &color) const
     return KColorUtils::shade(color, (my - by) * _bgcontrast);
 }
 
-QColor OxygenHelper::calcLightColor(const QColor &color)
+QColor OxygenHelper::calcLightColor(const QColor &color) const
 {
     return KColorScheme::shade(color, KColorScheme::LightShade, _contrast);
 }
 
-QColor OxygenHelper::calcDarkColor(const QColor &color)
+QColor OxygenHelper::calcDarkColor(const QColor &color) const
 {
     if (lowThreshold(color))
         return KColorUtils::mix(calcLightColor(color), color, 0.2 + 0.8 * _contrast);
@@ -136,7 +136,7 @@ QColor OxygenHelper::calcDarkColor(const QColor &color)
         return KColorScheme::shade(color, KColorScheme::MidShade, _contrast);
 }
 
-QColor OxygenHelper::calcShadowColor(const QColor &color)
+QColor OxygenHelper::calcShadowColor(const QColor &color) const
 {
     return KColorScheme::shade(color, KColorScheme::ShadowShade, _contrast);
 }
@@ -209,21 +209,21 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width)
     return *pixmap;
 }
 
-void OxygenHelper::drawShadow(QPainter &p, const QColor &color, int size)
+void OxygenHelper::drawShadow(QPainter &p, const QColor &color, int size) const
 {
-    int m = size>>1;
+    int m = (size-2)>>1;
 
     const double offset = 0.8;
-    double k0 = (double(m) - 4.0) / double(m);
-    QRadialGradient shadowGradient(m, m+offset, m, m, m+offset);
+    double k0 = double(m-4) / double(m);
+    QRadialGradient shadowGradient(m+1, m+offset+1, m);
     for (int i = 0; i < 8; i++) { // sinusoidal gradient
-        double k1 = k0 * double(8 - i) * 0.125 + double(i) * 0.125;
+        double k1 = (k0 * double(8 - i) + double(i)) * 0.125;
         double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
         shadowGradient.setColorAt(k1, alphaColor(color, a));
     }
     shadowGradient.setColorAt(1.0, alphaColor(color, 0.0));
     p.setBrush(shadowGradient);
-    p.drawEllipse(QRectF(0, offset, size, size+offset));
+    p.drawEllipse(QRectF(0, 0, size, size));
 }
 
 QLinearGradient OxygenHelper::decoGradient(const QRect &r, const QColor &color)

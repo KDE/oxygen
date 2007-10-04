@@ -36,6 +36,7 @@ void OxygenStyleHelper::invalidateCaches()
 {
     m_slabCache.clear();
     m_slabSunkenCache.clear();
+    m_slabInvertedCache.clear();
     m_holeCache.clear();
     m_slopeCache.clear();
     m_slitCache.clear();
@@ -66,46 +67,46 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, double shade, int size
 
     if (!pixmap)
     {
-        pixmap = new QPixmap(size*3, int(double(size*3)*10.0/9.0));
+        pixmap = new QPixmap(size*3, size*3);
         pixmap->fill(QColor(0,0,0,0));
 
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setWindow(0,0,18,20);
+        p.setWindow(0,0,20,20); // TODO - rebase to 21,21
 
         QColor base = KColorUtils::shade(color, shade);
         QColor light = KColorUtils::shade(calcLightColor(color), shade);
         QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
 
         // shadow
-        drawShadow(p, calcShadowColor(color), 18);
+        drawShadow(p, calcShadowColor(color), 20);
 
         // bevel, part 1
         qreal y = KColorUtils::luma(base);
         qreal yl = KColorUtils::luma(light);
         qreal yd = KColorUtils::luma(light);
-        QLinearGradient bevelGradient1(0, 9, 0, 16);
+        QLinearGradient bevelGradient1(0, 10, 0, 17);
         bevelGradient1.setColorAt(0.0, light);
         bevelGradient1.setColorAt(0.9, dark);
         if (y < yl && y > yd) // no middle when color is very light/dark
             bevelGradient1.setColorAt(0.5, base);
         p.setBrush(bevelGradient1);
-        p.drawEllipse(QRectF(2.0,2.0,14.0,14.0));
+        p.drawEllipse(QRectF(3.0,3.0,14.0,14.0));
 
         // bevel, part 2
-        QLinearGradient bevelGradient2(0, 6, 0, 26);
+        QLinearGradient bevelGradient2(0, 7, 0, 27);
         bevelGradient2.setColorAt(0.0, light);
         bevelGradient2.setColorAt(0.9, base);
         p.setBrush(bevelGradient2);
-        p.drawEllipse(QRectF(2.6,2.6,12.8,12.8));
+        p.drawEllipse(QRectF(3.6,3.6,12.8,12.8));
 
         // inside
-        QLinearGradient innerGradient(-12, 0, 0, 18);
+        QLinearGradient innerGradient(0, -17, 0, 19);
         innerGradient.setColorAt(0.0, light);
         innerGradient.setColorAt(1.0, base);
         p.setBrush(innerGradient);
-        p.drawEllipse(QRectF(3.4,3.4,11.2,11.2));
+        p.drawEllipse(QRectF(4.4,4.4,11.2,11.2));
 
         p.end();
 
@@ -156,6 +157,55 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, QColor glow, do
     return *pixmap;
 }
 
+void OxygenStyleHelper::drawSlab(QPainter &p, const QColor &color, double shade) const
+{
+    QColor base = KColorUtils::shade(color, shade);
+    QColor light = KColorUtils::shade(calcLightColor(color), shade);
+    QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+
+    // bevel, part 1
+    qreal y = KColorUtils::luma(base);
+    qreal yl = KColorUtils::luma(light);
+    qreal yd = KColorUtils::luma(dark);
+    QLinearGradient bevelGradient1(0, 7, 0, 11);
+    bevelGradient1.setColorAt(0.0, light);
+    bevelGradient1.setColorAt(0.9, dark);
+    if (y < yl && y > yd) // no middle when color is very light/dark
+        bevelGradient1.setColorAt(0.5, base);
+    p.setBrush(bevelGradient1);
+    p.drawEllipse(QRectF(3.0,3.0,8.0,8.0));
+
+    // bevel, part 2
+    QLinearGradient bevelGradient2(0, 6, 0, 19);
+    bevelGradient2.setColorAt(0.0, light);
+    bevelGradient2.setColorAt(0.9, base);
+    p.setBrush(bevelGradient2);
+    p.drawEllipse(QRectF(3.6,3.6,6.8,6.8));
+
+    // inside mask
+    p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+    p.setBrush(QBrush(Qt::black));
+    p.drawEllipse(QRectF(4.4,4.4,5.2,5.2));
+}
+
+void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
+                                          int pad, int size, double fuzz) const
+{
+    int m = size>>1;
+
+    const double offset = 0.8;
+    double k0 = double(m-2) / double(m+2);
+    QRadialGradient shadowGradient(pad+m, pad+m+offset, m+2);
+    for (int i = 0; i < 8; i++) { // sinusoidal gradient
+        double k1 = (double(8 - i) + k0 * double(i)) * 0.125;
+        double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
+        shadowGradient.setColorAt(k1, alphaColor(color, a));
+    }
+    shadowGradient.setColorAt(1.0, color);
+    p.setBrush(shadowGradient);
+    p.drawEllipse(QRectF(pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0));
+}
+
 TileSet *OxygenStyleHelper::slab(const QColor &color, double shade, int size)
 {
     SlabCache *cache = slabCache(color);
@@ -164,44 +214,19 @@ TileSet *OxygenStyleHelper::slab(const QColor &color, double shade, int size)
 
     if (!tileSet)
     {
-        QPixmap pixmap(size*2, (int)ceil(double(size*2)*14.0/12.0));
+        QPixmap pixmap(size*2, size*2);
         pixmap.fill(QColor(0,0,0,0));
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setWindow(0,0,12,14);
-
-        QColor base = KColorUtils::shade(color, shade);
-        QColor light = KColorUtils::shade(calcLightColor(color), shade);
-        QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+        p.setWindow(0,0,14,14);
 
         // shadow
-        drawShadow(p, calcShadowColor(color), 12);
+        drawShadow(p, calcShadowColor(color), 14);
 
-        // bevel, part 1
-        qreal y = KColorUtils::luma(base);
-        qreal yl = KColorUtils::luma(light);
-        qreal yd = KColorUtils::luma(light);
-        QLinearGradient bevelGradient1(0, 6, 0, 10);
-        bevelGradient1.setColorAt(0.0, light);
-        bevelGradient1.setColorAt(0.9, dark);
-        if (y < yl && y > yd) // no middle when color is very light/dark
-            bevelGradient1.setColorAt(0.5, base);
-        p.setBrush(bevelGradient1);
-        p.drawEllipse(QRectF(2.0,2.0,8.0,8.0));
-
-        // bevel, part 2
-        QLinearGradient bevelGradient2(0, 5, 0, 18);
-        bevelGradient2.setColorAt(0.0, light);
-        bevelGradient2.setColorAt(0.9, base);
-        p.setBrush(bevelGradient2);
-        p.drawEllipse(QRectF(2.6,2.6,6.8,6.8));
-
-        // inside mask
-        p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-        p.setBrush(QBrush(Qt::black));
-        p.drawEllipse(QRectF(3.4,3.4,5.2,5.2));
+        // slab
+        drawSlab(p, color, shade);
 
         p.end();
 
@@ -232,7 +257,7 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, QColor glow, double
         TileSet *slabTileSet = slab(color, shade, size);
 
         // slab
-        slabTileSet->render(QRect(2,2,12,14), &p);
+        slabTileSet->render(QRect(2,2,14,14), &p);
 
         // glow
         QRadialGradient rg = QRadialGradient(8.5, 8.5, 8.5, 8.5, 8.5);
@@ -263,23 +288,82 @@ TileSet *OxygenStyleHelper::slabSunken(const QColor &color, double shade, int si
 
     if (!tileSet)
     {
-        QImage tmpImg(17, 17, QImage::Format_ARGB32);
-        QGradientStops stops;
-        QPainter p;
+        QPixmap pixmap(size*2, size*2);
+        pixmap.fill(QColor(0,0,0,0));
 
-        tmpImg.fill(Qt::transparent);
-
-        // TODO
-        p.begin(&tmpImg);
+        QPainter p(&pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setBrush(Qt::black);
-        p.setRenderHint(QPainter::Antialiasing);
-        p.drawEllipse(QRectF(4.5, 4.5, 8, 8));
+        p.setWindow(0,0,14,14);
+
+        // slab
+        drawSlab(p, color, shade);
+
+        // shadow
+        p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        drawInverseShadow(p, calcShadowColor(color), 3, 8, 0.0);
+
         p.end();
 
-        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 8, 8, 1, 1);
+        tileSet = new TileSet(pixmap, size-1, size, 2, 1);
 
         m_slabSunkenCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+TileSet *OxygenStyleHelper::slabInverted(const QColor &color, double shade, int size)
+{
+    quint64 key = (quint64(color.rgba()) << 32);
+    TileSet *tileSet = m_slabInvertedCache.object(key);
+
+    if (!tileSet)
+    {
+        QPixmap pixmap(size*2, size*2);
+        pixmap.fill(QColor(0,0,0,0));
+
+        QPainter p(&pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(0,0,14,14);
+
+        QColor base = KColorUtils::shade(color, shade);
+        QColor light = KColorUtils::shade(calcLightColor(color), shade);
+        QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+
+        // bevel, part 2
+        QLinearGradient bevelGradient2(0, 8, 0, -8);
+        bevelGradient2.setColorAt(0.0, light);
+        bevelGradient2.setColorAt(0.9, base);
+        p.setBrush(bevelGradient2);
+        p.drawEllipse(QRectF(2.6,2.6,8.8,8.8));
+
+        // bevel, part 1
+        qreal y = KColorUtils::luma(base);
+        qreal yl = KColorUtils::luma(light);
+        qreal yd = KColorUtils::luma(light);
+        QLinearGradient bevelGradient1(0, 7, 0, 4);
+        bevelGradient1.setColorAt(0.0, light);
+        bevelGradient1.setColorAt(0.9, dark);
+        if (y < yl && y > yd) // no middle when color is very light/dark
+            bevelGradient1.setColorAt(0.5, base);
+        p.setBrush(bevelGradient1);
+        p.drawEllipse(QRectF(3.4,3.4,7.2,7.2));
+
+        // inside mask
+        p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+        p.setBrush(QBrush(Qt::black));
+        p.drawEllipse(QRectF(4.0,4.0,6.0,6.0));
+
+        // shadow
+        p.setCompositionMode(QPainter::CompositionMode_DestinationOver);
+        drawInverseShadow(p, calcShadowColor(color), 4, 6, 0.5);
+
+        p.end();
+
+        tileSet = new TileSet(pixmap, size-1, size, 2, 1);
+
+        m_slabInvertedCache.insert(key, tileSet);
     }
     return tileSet;
 }
@@ -291,6 +375,7 @@ TileSet *OxygenStyleHelper::slope(const QColor &color, double shade, int size)
 
     if (!tileSet)
     {
+        // TODO - rebase??
         QPixmap pixmap(size*4, size*4);
         pixmap.fill(QColor(0,0,0,0));
 

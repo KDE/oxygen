@@ -40,12 +40,14 @@ public:
 
     virtual void invalidateCaches();
 
-    QPixmap  roundSlab(const QColor&, double shade, int size = 6);
-    QPixmap  roundSlabFocused(const QColor&, QColor glow, double shade, int size = 6);
+    QPixmap  roundSlab(const QColor&, double shade, int size = 7);
+    QPixmap  roundSlabFocused(const QColor&, QColor glow, double shade, int size = 7);
 
-    TileSet *slab(const QColor&, double shade, int size = 6);
-    TileSet *slabFocused(const QColor&, QColor glow, double shade, int size = 6);
-    TileSet *slabSunken(const QColor&, double shade, int size = 6);
+    // TODO - need to rebase slope, windecobutton to size=7
+    TileSet *slab(const QColor&, double shade, int size = 7);
+    TileSet *slabFocused(const QColor&, QColor glow, double shade, int size = 7);
+    TileSet *slabSunken(const QColor&, double shade, int size = 7);
+    TileSet *slabInverted(const QColor&, double shade, int size = 7);
 
     TileSet *slope(const QColor&, double shade, int size = 6);
 
@@ -60,8 +62,12 @@ public:
 protected:
     SlabCache* slabCache(const QColor&);
 
+    void drawInverseShadow(QPainter&, const QColor&, int pad, int size, double fuzz) const;
+    void drawSlab(QPainter&, const QColor&, double shade) const;
+
     QCache<quint64, SlabCache> m_slabCache;
     QCache<quint64, TileSet> m_slabSunkenCache;
+    QCache<quint64, TileSet> m_slabInvertedCache;
     QCache<quint64, TileSet> m_holeCache;
     QCache<quint64, TileSet> m_slopeCache;
     QCache<quint64, TileSet> m_slitCache;

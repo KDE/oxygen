@@ -45,11 +45,12 @@ public:
     virtual void invalidateCaches();
 
     static bool lowThreshold(const QColor &color);
-    QColor alphaColor(QColor color, double alpha);
 
-    QColor calcLightColor(const QColor &color);
-    QColor calcDarkColor(const QColor &color);
-    QColor calcShadowColor(const QColor &color);
+    static QColor alphaColor(QColor color, double alpha);
+
+    QColor calcLightColor(const QColor &color) const;
+    QColor calcDarkColor(const QColor &color) const;
+    QColor calcShadowColor(const QColor &color) const;
 
     QColor backgroundColor(const QColor &color, int height, int y);
 
@@ -60,13 +61,13 @@ public:
     QPixmap verticalGradient(const QColor &color, int height);
     QPixmap radialGradient(const QColor &color, int width);
 
-    void drawShadow(QPainter &p, const QColor &color, int size);
-
     QLinearGradient decoGradient(const QRect &r, const QColor &color);
 
     QPixmap windecoButton(const QColor &color, int size);
 
 protected:
+    void drawShadow(QPainter&, const QColor&, int size) const;
+
     KComponentData _componentData;
     KSharedConfigPtr _config;
     qreal _contrast;

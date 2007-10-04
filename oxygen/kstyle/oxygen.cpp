@@ -1420,7 +1420,7 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
     else
     {
         tile = _helper.slab(color, 0.0);
-        tile->render(r.adjusted(2,2,-2,0), p, tiles);
+        tile->render(r.adjusted(1,1,-1,-1), p, tiles);
         return;
     }
     tile->render(r, p, tiles);
