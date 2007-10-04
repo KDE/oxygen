@@ -351,7 +351,7 @@ TileSet *OxygenStyleHelper::slabInverted(const QColor &color, double shade, int 
         // bevel, part 1
         qreal y = KColorUtils::luma(base);
         qreal yl = KColorUtils::luma(light);
-        qreal yd = KColorUtils::luma(light);
+        qreal yd = KColorUtils::luma(dark);
         QLinearGradient bevelGradient1(0, 7, 0, 4);
         bevelGradient1.setColorAt(0.0, light);
         bevelGradient1.setColorAt(0.9, dark);
