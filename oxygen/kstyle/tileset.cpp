@@ -56,6 +56,28 @@ TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w2, int h2)
     initPixmap(8, pix, _w3, _h3, QRect(_w1+w2, _h1+h2, _w3, _h3));
 }
 
+TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w3, int h3, int x1, int y1, int w2, int h2)
+    : _w1(w1), _h1(h1), _w3(w3), _h3(h3)
+{
+    if (pix.isNull())
+        return;
+
+    int x2 = pix.width() - _w3;
+    int y2 = pix.height() - _h3;
+    int w = w2; while (w < 32) w += w2;
+    int h = h2; while (h < 32) h += h2;
+
+    initPixmap(0, pix, _w1, _h1, QRect(0,  0,  _w1, _h1));
+    initPixmap(1, pix,  w,  _h1, QRect(x1, 0,   w2, _h1));
+    initPixmap(2, pix, _w3, _h1, QRect(x2, 0,  _w3, _h1));
+    initPixmap(3, pix, _w1,  h,  QRect(0,  y1, _w1,  h2));
+    initPixmap(4, pix,  w,   h,  QRect(x1, y1,  w2,  h2));
+    initPixmap(5, pix, _w3,  h,  QRect(x2, y1, _w3,  h2));
+    initPixmap(6, pix, _w1, _h3, QRect(0,  y2, _w1, _h3));
+    initPixmap(7, pix,  w,  _h3, QRect(x1, y2,  w2, _h3));
+    initPixmap(8, pix, _w3, _h3, QRect(x2, y2, _w3, _h3));
+}
+
 TileSet::TileSet(const TileSet &other)
     : _w1(other._w1), _w3(other._w3), _h1(other._h1), _h3(other._h3)
 {

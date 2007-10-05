@@ -240,7 +240,7 @@ TileSet *OxygenStyleHelper::slab(const QColor &color, double shade, int size)
 
         p.end();
 
-        tileSet = new TileSet(pixmap, size-1, size, 2, 1);
+        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
 
         cache->m_slabCache.insert(key, tileSet);
     }
@@ -315,7 +315,7 @@ TileSet *OxygenStyleHelper::slabSunken(const QColor &color, double shade, int si
 
         p.end();
 
-        tileSet = new TileSet(pixmap, size-1, size, 2, 1);
+        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
 
         m_slabSunkenCache.insert(key, tileSet);
     }
@@ -371,7 +371,7 @@ TileSet *OxygenStyleHelper::slabInverted(const QColor &color, double shade, int 
 
         p.end();
 
-        tileSet = new TileSet(pixmap, size-1, size, 2, 1);
+        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
 
         m_slabInvertedCache.insert(key, tileSet);
     }
