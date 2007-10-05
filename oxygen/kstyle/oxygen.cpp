@@ -123,7 +123,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_Splitter, Splitter::Width, 6);
 
     setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 25);
-    setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 23);
+    setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 25);
 
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 1);
@@ -1474,7 +1474,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
                                         bool enabled, bool mouseOver, int prim) const
 {
-    QRect r2(r.x() + r.width()/2 - 11, r.y() + r.height()/2 - 12, 22, 22);
+    QRect r2(r.x() + (r.width()-21)/2, r.y() + (r.height()-21)/2, 21, 21);
     int x = r2.x();
     int y = r2.y();
 
@@ -1482,12 +1482,12 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     if(mouseOver)
     {
         QPixmap slabPixmap = _helper.roundSlabFocused(pal.color(QPalette::Button),_viewHoverBrush.brush(QPalette::Active).color(), 0.0);
-        p->drawPixmap(x, y+1, slabPixmap);
+        p->drawPixmap(x-1, y-1, slabPixmap);
     }
     else
     {
         QPixmap slabPixmap = _helper.roundSlab(pal.color(QPalette::Button), 0.0);
-        p->drawPixmap(x+2, y+3, slabPixmap);
+        p->drawPixmap(x, y, slabPixmap);
     }
 
     // draw the radio mark
@@ -1495,14 +1495,15 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     {
         case RadioButton::RadioOn:
         {
-            double dx = r2.width() * 0.5 - 3.0;
-            double dy = r2.height() * 0.5 - 3.0;
+            const double radius = 3.0;
+            double dx = r2.width() * 0.5 - radius;
+            double dy = r2.height() * 0.5 - radius;
             QColor fore = pal.color(QPalette::ButtonText);
             p->save();
             p->setRenderHints(QPainter::Antialiasing);
             p->setPen(Qt::NoPen);
             p->setBrush(_helper.decoGradient(r, fore));
-            p->drawEllipse(QRectF(r2).adjusted(dx, dy+1, -dx, -dy+1));
+            p->drawEllipse(QRectF(r2).adjusted(dx, dy, -dx, -dy));
             p->restore();
             return;
         }
