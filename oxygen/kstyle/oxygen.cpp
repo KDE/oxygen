@@ -1772,7 +1772,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         case SP_TitleBarNormalButton:
         case SP_DockWidgetCloseButton:
         {
-            return QIcon(_helper.windecoButton(QColor(Qt::green), 20));
+            return QIcon(_helper.windecoButton(QColor(Qt::green)));
         }
         default:
             return KStyle::standardPixmap(standardIcon, option, widget);

@@ -63,7 +63,7 @@ public:
 
     QLinearGradient decoGradient(const QRect &r, const QColor &color);
 
-    QPixmap windecoButton(const QColor &color, int size);
+    QPixmap windecoButton(const QColor &color, int size = 7);
 
 protected:
     void drawShadow(QPainter&, const QColor&, int size) const;
