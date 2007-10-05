@@ -1382,13 +1382,6 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
     // fill
     if (!(opts & NoFill))
     {
-        int s1 = 3; //size/4;
-        int s2 = 4; //s1 + (int)ceil(double(size)*2.0/14.0);
-        // Bigger than 100% might be "right" but itsn't valid (also make sure
-        // we don't divide by zero). Thanks go to ahartmetz for the report
-        int rx = 500 / qMax(r.width() - (2*s1), 5); //(50*size) / rect.width();
-        int ry = 500 / qMax(r.height() - (s1+s2), 5); //(50*size) / rect.height();
-
         p->save();
         p->setRenderHint(QPainter::Antialiasing);
         p->setPen(Qt::NoPen);
@@ -1397,7 +1390,7 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
         innerGradient.setColorAt(0.0, _helper.calcLightColor(color)); //KColorUtils::shade(calcLightColor(color), shade));
         innerGradient.setColorAt(1.0, color);
         p->setBrush(innerGradient);
-        p->drawRoundRect(r.adjusted(s1, s1, -s1, -s2), rx, ry);
+        _helper.fillSlab(*p, r.adjusted(1,1,-1,-1));
 
         p->restore();
     }
