@@ -1475,7 +1475,7 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     if(mouseOver)
     {
         QPixmap slabPixmap = _helper.roundSlabFocused(pal.color(QPalette::Button),_viewHoverBrush.brush(QPalette::Active).color(), 0.0);
-        p->drawPixmap(x-1, y-1, slabPixmap);
+        p->drawPixmap(x-2, y-2, slabPixmap);
     }
     else
     {

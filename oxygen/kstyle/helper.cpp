@@ -135,7 +135,7 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, QColor glow, do
         QPixmap slabPixmap = roundSlab(color, shade, size);
 
         // slab
-        p.drawPixmap(2, 2, slabPixmap);
+        p.drawPixmap(1, 1, slabPixmap);
 
         // glow
         QRadialGradient rg = QRadialGradient(11, 11, 11, 11, 11.0);
