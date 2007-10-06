@@ -141,7 +141,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ProgressBar, ProgressBar::BusyIndicatorSize, 10);
 
     setWidgetLayoutProp(WT_TabBar, TabBar::TabOverlap, 1);
-    setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 8);
+    setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 9);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, 16);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 16);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, 2);
@@ -761,32 +761,78 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 // Left and right widgets are placed right and left when in reverse mode
 
                                 if (w+lw >0)
-                                    renderSlab(p, QRect(0, r.y(), r.width() - w - lw, 8), pal.color(QPalette::Window), NoFill,
-                                        TileSet::Left | TileSet::Top);
+                                    renderSlab(p, QRect(0, r.y(), r.width() - w - lw+9, 9),
+                                        pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
                                 else
-                                    renderSlab(p, QRect(0, r.y(), r.width(), 8), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(0, r.y(), r.width(), 9), pal.color(QPalette::Window), NoFill,
                                             TileSet::Left | TileSet::Top | TileSet::Right);
 
                                 if (lw > 0)
-                                    renderSlab(p, QRect(r.right() - lw, r.y(), lw, 8), pal.color(QPalette::Window), NoFill,
-                                        TileSet::Top | TileSet::Right);
+                                    renderSlab(p, QRect(r.right() - lw-9, r.y(), lw+9, 9),
+                                             pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
                             }
                             else
                             {
                                 if (lw > 0)
-                                    renderSlab(p, QRect(0, r.y(), lw, 8), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(0, r.y(), lw+9, 9), pal.color(QPalette::Window), NoFill,
                                         TileSet::Left | TileSet::Top);
 
                                 if (w+lw >0)
-                                    renderSlab(p, QRect(w+lw, r.y(), r.width() - w - lw, 8), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(w+lw-9, r.y(), r.width() - w - lw+9, 9), pal.color(QPalette::Window), NoFill,
                                             TileSet::Top | TileSet::Right);
                                 else
-                                    renderSlab(p, QRect(0, r.y(), r.width(), 8), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(0, r.y(), r.width(), 9), pal.color(QPalette::Window), NoFill,
                                             TileSet::Left | TileSet::Top | TileSet::Right);
 
                             }
                             return;
 
+                        case QTabBar::RoundedSouth:
+                        case QTabBar::TriangularSouth:
+                            renderSlab(p, r, pal.color(QPalette::Window), NoFill,
+                                       TileSet::Left | TileSet::Top | TileSet::Right);
+                            if(reverseLayout)
+                            {
+                                // Left and right widgets are placed right and left when in reverse mode
+
+                                if (w+lw >0)
+                                    renderSlab(p, QRect(0, r.bottom()-9, r.width() - w - lw + 9, 9), 
+                                        pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
+                                else
+                                    renderSlab(p, QRect(0, r.bottom()-9, r.width(), 9), pal.color(QPalette::Window),
+                                        NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
+
+                                if (lw > 0)
+                                    renderSlab(p, QRect(r.right() - lw-9, r.bottom()-9, lw+9, 9),
+                                        pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
+                            }
+                            else
+                            {
+                                if (lw > 0)
+                                    renderSlab(p, QRect(0, r.bottom()-9, lw+9, 9),
+                                            pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
+
+                                if (w+lw >0)
+                                    renderSlab(p, QRect(w+lw-9, r.bottom()-9, r.width() - w - lw+9, 9),
+                                            pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
+                                else
+                                    renderSlab(p, QRect(0, r.bottom()-9, r.width(), 9), pal.color(QPalette::Window),
+                                        NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
+
+                            }
+                            return;
+
+                        case QTabBar::RoundedWest:
+                        case QTabBar::TriangularWest:
+                            renderSlab(p, r, pal.color(QPalette::Window), NoFill,
+                                       TileSet::Top | TileSet::Right | TileSet::Bottom);
+                            return;
+
+                        case QTabBar::RoundedEast:
+                        case QTabBar::TriangularEast:
+                            renderSlab(p, r, pal.color(QPalette::Window), NoFill,
+                                       TileSet::Top | TileSet::Left | TileSet::Bottom);
+                            return;
                         default:
                             return;
                     }
@@ -1390,7 +1436,7 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
         innerGradient.setColorAt(0.0, _helper.calcLightColor(color)); //KColorUtils::shade(calcLightColor(color), shade));
         innerGradient.setColorAt(1.0, color);
         p->setBrush(innerGradient);
-        _helper.fillSlab(*p, r.adjusted(1,1,-1,-1));
+        _helper.fillSlab(*p, r.adjusted(2,2,-2,-2));
 
         p->restore();
     }
@@ -1407,7 +1453,7 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
     else
     {
         tile = _helper.slab(color, 0.0);
-        tile->render(r.adjusted(1,1,-1,-1), p, tiles);
+        tile->render(r.adjusted(2,2,-2,-2), p, tiles);
         return;
     }
     tile->render(r, p, tiles);
@@ -1572,37 +1618,59 @@ void OxygenStyle::renderTab(QPainter *p,
     const bool isLast = pos == QStyleOptionTab::End /*(pos == Last)*/;
     const bool isSingle = pos == QStyleOptionTab::OnlyOneTab /*(pos == Single)*/;
 
-    // the top part of the tab which is nearly the same for all positions
-    QRect Rc = r.adjusted(0,0,0,-8); // contour
+    // the tab part of the tab - ie subtracted the fairing to the frame
+    QRect Rc = bottom ? r.adjusted(0,9,0,0) : r.adjusted(0,0,0,-9);
 
-    // the area where the fake border should appear
+    // the area where the fairing should appear
     const QRect Rb(r.x(), bottom?r.top():Rc.bottom()+1, r.width(), r.height()-Rc.height() );
 
     // FIXME - maybe going to redo tabs, also are broken ATM
     if (selected) {
-        renderSlab(p, Rc, pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top | TileSet::Right);
+        if(bottom)
+            renderSlab(p, Rc.adjusted(0,-9,0,0), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left | TileSet::Right);
+        else
+            renderSlab(p, Rc.adjusted(0,0,0,9), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Right);
 
         // some "position specific" paintings...
         // First draw the left connection from the panel border to the tab
         if(isFirst && !reverseLayout && !cornerWidget) {
-            renderSlab(p, Rb, pal.color(QPalette::Window), NoFill, TileSet::Left);
-        } else
-            renderHole(p, QRect(Rb.left(), Rb.top(),4,5), false, false, TileSet::Right | TileSet::Bottom);
+            renderSlab(p, Rb.adjusted(0,-9,0,9), pal.color(QPalette::Window), NoFill, TileSet::Left);
+        } else {
+//            renderHole(p, QRect(Rb.left(), Rb.top(),4,5), false, false, TileSet::Right | TileSet::Bottom);
+            TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
+            if(bottom)
+                tile->render(QRect(Rb.left()-7, Rb.top()-1,16,17), p, TileSet::Right | TileSet::Top);
+            else
+                tile->render(QRect(Rb.left()-7, Rb.top()-7,16,16), p, TileSet::Right | TileSet::Bottom);
+        }
 
         // Now draw the right connection from the panel border to the tab
         if(isFirst && reverseLayout && !cornerWidget) {
-            renderSlab(p, Rb, pal.color(QPalette::Window), NoFill, TileSet::Right);
-        } else
-            renderHole(p, QRect(Rb.right()-3, Rb.top(),3,5), false, false, TileSet::Left | TileSet::Bottom);
-
+            renderSlab(p, Rb.adjusted(0,-9,0,9), pal.color(QPalette::Window), NoFill, TileSet::Right);
+        } else {
+            TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
+            //renderHole(p, QRect(Rb.right()-3, Rb.top(),3,5), false, false, TileSet::Left | TileSet::Bottom);
+            if(bottom)
+                tile->render(QRect(Rb.right()-8, Rb.top()-1,16,17), p, TileSet::Left | TileSet::Top);
+            else
+                tile->render(QRect(Rb.right()-8, Rb.top()-7,16,16), p, TileSet::Left | TileSet::Bottom);
+        }
     } else {
-    // inactive tabs
-        TileSet::Tiles posFlag = TileSet::Top;
+        // inactive tabs
+        TileSet::Tiles posFlag = bottom?TileSet::Bottom:TileSet::Top;
+        QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 8);
+
         if(isFirst && !reverseLayout && !cornerWidget)
             posFlag |= TileSet::Left;
+        else
+            Ractual.adjust(-8,0,0,0); //9 minus one because we have 1px overlap
+
         if(isFirst && reverseLayout && !cornerWidget)
             posFlag |= TileSet::Right;
-        renderSlab(p, QRect(Rb.left(), Rb.y(), Rb.width(), 8), pal.color(QPalette::Window), NoFill, posFlag);
+        else
+            Ractual.adjust(0,0,8,0); //9 minus one because we have 1px overlap
+
+        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
         // TODO mouseover effects
     }
 }

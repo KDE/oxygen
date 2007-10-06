@@ -124,31 +124,31 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, QColor glow, do
 
     if (!pixmap)
     {
-        pixmap = new QPixmap(size*3+4, int(double(size*3)*10.0/9.0)+2);
+        pixmap = new QPixmap(size*3+4, size*3+4);
         pixmap->fill(QColor(0,0,0,0));
 
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setWindow(0,0,22,22);
+        p.setWindow(0,0,25,25);
 
         QPixmap slabPixmap = roundSlab(color, shade, size);
 
         // slab
-        p.drawPixmap(1, 1, slabPixmap);
+        p.drawPixmap(2, 2, slabPixmap);
 
         // glow
-        QRadialGradient rg = QRadialGradient(11, 11, 11, 11, 11.0);
+        QRadialGradient rg = QRadialGradient(12.5, 12.5, 12.5, 12.5, 12.5);
         glow.setAlpha(0);
-        rg.setColorAt(7.5/11.0 - 0.01, glow);
+        rg.setColorAt(7.5/12.5 - 0.01, glow);
         glow.setAlpha(180);
-        rg.setColorAt(7.5/11.0, glow);
+        rg.setColorAt(7.5/12.5, glow);
         glow.setAlpha(70);
-        rg.setColorAt(9.0/11.0, glow);
+        rg.setColorAt(9.0/12.5, glow);
         glow.setAlpha(0);
         rg.setColorAt(1.0, glow);
         p.setBrush(rg);
-        p.drawEllipse(QRectF(0, 0, 23, 23));
+        p.drawEllipse(QRectF(0, 0, 25, 25));
 
         p.end();
 
@@ -262,7 +262,7 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, QColor glow, double
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setWindow(0,0,16,16);
+        p.setWindow(0,0,18,18);
 
         TileSet *slabTileSet = slab(color, shade, size);
 
@@ -270,17 +270,17 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, QColor glow, double
         slabTileSet->render(QRect(2,2,14,14), &p);
 
         // glow
-        QRadialGradient rg = QRadialGradient(8.5, 8.5, 8.5, 8.5, 8.5);
+        QRadialGradient rg = QRadialGradient(9.0, 9.0, 9.0, 9.0, 9.0);
         glow.setAlpha(0);
-        rg.setColorAt(4.5/8.5 - 0.01, glow);
+        rg.setColorAt(4.5/9.0 - 0.01, glow);
         glow.setAlpha(180);
-        rg.setColorAt(4.5/8.5, glow);
+        rg.setColorAt(4.5/9.0, glow);
         glow.setAlpha(70);
-        rg.setColorAt(6.5/8.5, glow);
+        rg.setColorAt(6.5/9.0, glow);
         glow.setAlpha(0);
         rg.setColorAt(1.0, glow);
         p.setBrush(rg);
-        p.drawEllipse(QRectF(0, 0, 17, 17));
+        p.drawEllipse(QRectF(0, 0, 18, 18));
 
         p.end();
 
