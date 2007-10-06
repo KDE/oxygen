@@ -201,7 +201,7 @@ void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
         double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
         shadowGradient.setColorAt(k1, alphaColor(color, a));
     }
-    shadowGradient.setColorAt(1.0, color);
+    shadowGradient.setColorAt(k0, alphaColor(color, 0.0));
     p.setBrush(shadowGradient);
     p.drawEllipse(QRectF(pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0));
 }
