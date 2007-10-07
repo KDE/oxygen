@@ -142,8 +142,8 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_TabBar, TabBar::TabOverlap, 1);
     setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 9);
-    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, 16);
-    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 16);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, 8);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 8);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, 2);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, 2);
 
