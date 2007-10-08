@@ -50,6 +50,7 @@
 #include <QtCore/QEvent>
 #include <QtCore/QSettings>
 #include <QtGui/QStyleOption>
+#include <QtGui/QApplication>
 
 #include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
@@ -1839,11 +1840,11 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
     // get button color (unfortunately option and widget might not be set)
     QColor buttonColor;
     if (option)
-        butonColor = option->palette.button().color();
+        buttonColor = option->palette.button().color();
     else if (widget)
         buttonColor = widget->palette().button().color();
-    else if (QApplication::instance()) // might not have a QApplication
-        buttonColor = QApplication::instance()->palette().button().color();
+    else if (qApp) // might not have a QApplication
+        buttonColor = qApp->palette().button().color();
     else // KCS is always safe
         buttonColor = KColorScheme(QPalette::Active, KColorScheme::Button,
                                    _config).background().color();
