@@ -77,6 +77,7 @@ public:
                                      Option* kOpt = 0) const;
 
     virtual void polish(QWidget* widget);
+    virtual void polish(QPalette &palette);
     virtual void unpolish(QWidget* widget);
 
     virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
@@ -182,11 +183,13 @@ private:
     bool _customFocusHighlightColor; // FIXME REMOVE ME
     QColor _overHighlightColor; // FIXME REMOVE ME
     QColor _focusHighlightColor; // FIXME REMOVE ME
-    // FIXME remove this line, new (correct) stuff below this point
+
+    // global colors
     OxygenStyleHelper &_helper;
     KSharedConfigPtr _config;
     KStatefulBrush _viewFocusBrush;
     KStatefulBrush _viewHoverBrush;
+    QBrush _buttonBrush;
 
     //Animation support.
     QMap<QWidget*, int> progAnimWidgets;

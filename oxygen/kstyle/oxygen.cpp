@@ -98,6 +98,8 @@ OxygenStyle::OxygenStyle() :
     // need to be reset when the system palette changes
     globalSettingsChange(KGlobalSettings::PaletteChanged, 0);
 
+    _buttonBrush = KColorScheme(QPalette::Active, KColorScheme::Button, _config).background();
+
     setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
 
     // TODO: change this when double buttons are implemented
@@ -796,7 +798,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 // Left and right widgets are placed right and left when in reverse mode
 
                                 if (w+lw >0)
-                                    renderSlab(p, QRect(0, r.bottom()-9, r.width() - w - lw + 9, 9), 
+                                    renderSlab(p, QRect(0, r.bottom()-9, r.width() - w - lw + 9, 9),
                                         pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
                                 else
                                     renderSlab(p, QRect(0, r.bottom()-9, r.width(), 9), pal.color(QPalette::Window),
@@ -1369,6 +1371,11 @@ void OxygenStyle::polish(QWidget* widget)
     }
 
     KStyle::polish(widget);
+}
+
+void OxygenStyle::polish(QPalette &palette)
+{
+    _buttonBrush = palette.button();
 }
 
 void OxygenStyle::unpolish(QWidget* widget)
