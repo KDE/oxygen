@@ -1845,9 +1845,35 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
 {
    switch (standardIcon) {
         case SP_TitleBarNormalButton:
+        {
+            QPixmap pm = _helper.windecoButton(_buttonBrush.color(),6);
+            QPainter painter(&pm);
+            painter.setRenderHints(QPainter::Antialiasing);
+            painter.setBrush(Qt::NoBrush);
+            QLinearGradient lg(0, 6, 0, 12);
+            lg.setColorAt(0.45, QColor(0,0,0,150));
+            lg.setColorAt(0.80, QColor(0,0,0,80));
+            painter.setPen(QPen(lg,2));
+            painter.drawLine(6,9,12,9);
+
+            return QIcon(pm);
+        }
+
+        case SP_TitleBarCloseButton:
         case SP_DockWidgetCloseButton:
         {
-            return QIcon(_helper.windecoButton(QColor(Qt::green)));
+            QPixmap pm = _helper.windecoButton(_buttonBrush.color(),6);
+            QPainter painter(&pm);
+            painter.setRenderHints(QPainter::Antialiasing);
+            painter.setBrush(Qt::NoBrush);
+            QLinearGradient lg(0, 6, 0, 12);
+            lg.setColorAt(0.45, QColor(0,0,0,150));
+            lg.setColorAt(0.80, QColor(0,0,0,80));
+            painter.setPen(QPen(lg,2));
+            painter.drawLine(6,6,12,12);
+            painter.drawLine(12,6,6,12);
+
+            return QIcon(pm);
         }
         default:
             return KStyle::standardPixmap(standardIcon, option, widget);
