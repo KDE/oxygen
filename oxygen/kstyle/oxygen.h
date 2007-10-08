@@ -77,7 +77,6 @@ public:
                                      Option* kOpt = 0) const;
 
     virtual void polish(QWidget* widget);
-    virtual void polish(QPalette &palette);
     virtual void unpolish(QWidget* widget);
 
     virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
@@ -189,7 +188,6 @@ private:
     KSharedConfigPtr _config;
     KStatefulBrush _viewFocusBrush;
     KStatefulBrush _viewHoverBrush;
-    QBrush _buttonBrush;
 
     //Animation support.
     QMap<QWidget*, int> progAnimWidgets;

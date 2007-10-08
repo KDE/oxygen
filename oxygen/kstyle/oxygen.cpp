@@ -98,8 +98,6 @@ OxygenStyle::OxygenStyle() :
     // need to be reset when the system palette changes
     globalSettingsChange(KGlobalSettings::PaletteChanged, 0);
 
-    _buttonBrush = KColorScheme(QPalette::Active, KColorScheme::Button, _config).background();
-
     setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
 
     // TODO: change this when double buttons are implemented
@@ -1373,11 +1371,6 @@ void OxygenStyle::polish(QWidget* widget)
     KStyle::polish(widget);
 }
 
-void OxygenStyle::polish(QPalette &palette)
-{
-    _buttonBrush = palette.button();
-}
-
 void OxygenStyle::unpolish(QWidget* widget)
 {
     if ( qobject_cast<QProgressBar*>(widget) )
@@ -1843,10 +1836,22 @@ QSize OxygenStyle::sizeFromContents ( ContentsType ct, const QStyleOption * opti
 QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option,
                                                const QWidget *widget) const
 {
-   switch (standardIcon) {
+    // get button color (unfortunately option and widget might not be set)
+    QColor buttonColor;
+    if (option)
+        butonColor = option->palette.button().color();
+    else if (widget)
+        buttonColor = widget->palette().button().color();
+    else if (QApplication::instance()) // might not have a QApplication
+        buttonColor = QApplication::instance()->palette().button().color();
+    else // KCS is always safe
+        buttonColor = KColorScheme(QPalette::Active, KColorScheme::Button,
+                                   _config).background().color();
+
+    switch (standardIcon) {
         case SP_TitleBarNormalButton:
         {
-            QPixmap pm = _helper.windecoButton(_buttonBrush.color(),6);
+            QPixmap pm = _helper.windecoButton(buttonColor,6);
             QPainter painter(&pm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
@@ -1862,7 +1867,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         case SP_TitleBarCloseButton:
         case SP_DockWidgetCloseButton:
         {
-            QPixmap pm = _helper.windecoButton(_buttonBrush.color(),6);
+            QPixmap pm = _helper.windecoButton(buttonColor,6);
             QPainter painter(&pm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
