@@ -210,8 +210,11 @@ void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
 {
     int s = int(floor(double(size)*4.0/7.0));
     QRect r = rect.adjusted(s, s, -s, -s);
-    int rx = (86*size) / r.width(); // 86 = 2*(7-4)/7
-    int ry = (86*size) / r.height();
+    int w = r.width(), h = r.height();
+    if (w <= 0 || h <= 0)
+        return;
+    int rx = (86*size) / w; // 86 = 2*(7-4)/7
+    int ry = (86*size) / h;
 
     p.drawRoundRect(r, rx, ry);
 }
