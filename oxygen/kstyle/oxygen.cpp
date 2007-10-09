@@ -1822,7 +1822,7 @@ QSize OxygenStyle::sizeFromContents ( ContentsType ct, const QStyleOption * opti
             if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
                 int margin = cb->frame ? 6 : 0;
                 int hgt = contentsSize.height() + 2*margin - (cb->editable ? 7 : 0);
-                return QSize(contentsSize.width(), hgt);
+                return QSize(contentsSize.width() + 37, hgt);
             }
             else
                 return KStyle::sizeFromContents( ct, option, contentsSize, widget );
