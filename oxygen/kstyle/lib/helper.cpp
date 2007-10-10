@@ -228,8 +228,8 @@ void OxygenHelper::drawShadow(QPainter &p, const QColor &color, int size) const
 
 QLinearGradient OxygenHelper::decoGradient(const QRect &r, const QColor &color)
 {
-    QColor light = KColorScheme::shade(color, KColorScheme::MidlightShade, _contrast);
-    QColor dark = KColorScheme::shade(color, KColorScheme::MidShade, _contrast);
+    QColor light = KColorScheme::shade(color, KColorScheme::LightShade, _contrast * 0.7);
+    QColor dark = KColorScheme::shade(color, KColorScheme::DarkShade, _contrast * 0.7);
     double y = KColorUtils::luma(color);
     double yd = KColorUtils::luma(dark);
     double yl = KColorUtils::luma(light);
