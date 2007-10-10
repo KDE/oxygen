@@ -228,13 +228,29 @@ void OxygenHelper::drawShadow(QPainter &p, const QColor &color, int size) const
 
 QLinearGradient OxygenHelper::decoGradient(const QRect &r, const QColor &color)
 {
-    QColor light = KColorUtils::lighten(color, _contrast * 0.4);
-    QColor dark = KColorUtils::darken(color, _contrast * 0.4);
+    QColor light = KColorScheme::shade(color, KColorScheme::MidlightShade, _contrast);
+    QColor dark = KColorScheme::shade(color, KColorScheme::MidShade, _contrast);
+    double y = KColorUtils::luma(color);
+    double yd = KColorUtils::luma(dark);
+    double yl = KColorUtils::luma(light);
 
     QLinearGradient gradient(r.topLeft(), r.bottomLeft());
-    gradient.setColorAt(0.15, dark);
-    gradient.setColorAt(0.50, color);
-    gradient.setColorAt(0.85, light);
+    if (yd > y)
+    {
+        gradient.setColorAt(0.2, color);
+        gradient.setColorAt(0.8, dark);
+    }
+    else if (yl < y)
+    {
+        gradient.setColorAt(0.2, light);
+        gradient.setColorAt(0.8, color);
+    }
+    else
+    {
+        gradient.setColorAt(0.2, dark);
+        gradient.setColorAt(0.5, color);
+        gradient.setColorAt(0.8, light);
+    }
 
     return gradient;
 }
