@@ -164,7 +164,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 3);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 0);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 5);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 8);
 
     setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
