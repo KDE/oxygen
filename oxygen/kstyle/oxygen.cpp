@@ -161,6 +161,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 3);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 3);
 
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 3);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 5);
