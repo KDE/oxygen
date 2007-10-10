@@ -1538,11 +1538,10 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
             const double radius = 3.0;
             double dx = r2.width() * 0.5 - radius;
             double dy = r2.height() * 0.5 - radius;
-            QColor fore = pal.color(QPalette::ButtonText);
             p->save();
             p->setRenderHints(QPainter::Antialiasing);
             p->setPen(Qt::NoPen);
-            p->setBrush(_helper.decoGradient(r2.adjusted(2,2,-2,-2), fore));
+            p->setBrush(_helper.decoGradient(r2.adjusted(2,2,-2,-2), pal.color(QPalette::ButtonText)));
             p->drawEllipse(QRectF(r2).adjusted(dx, dy, -dx, -dy));
             p->restore();
             return;
