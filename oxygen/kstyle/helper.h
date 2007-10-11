@@ -47,7 +47,7 @@ public:
 
     // TODO - need to rebase scrollbars to size=7
     TileSet *slab(const QColor&, double shade, int size = 7);
-    TileSet *slabFocused(const QColor&, QColor glow, double shade, int size = 7);
+    TileSet *slabFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
     TileSet *slabSunken(const QColor&, double shade, int size = 7);
     TileSet *slabInverted(const QColor&, double shade, int size = 7);
 
@@ -66,6 +66,7 @@ protected:
 
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, double fuzz) const;
     void drawSlab(QPainter&, const QColor&, double shade) const;
+    static QPixmap glow(const QColor&, int rsize, int vsize);
 
     QCache<quint64, SlabCache> m_slabCache;
     QCache<quint64, TileSet> m_slabSunkenCache;

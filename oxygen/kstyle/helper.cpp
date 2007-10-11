@@ -206,6 +206,43 @@ void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
     p.drawEllipse(QRectF(pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0));
 }
 
+QPixmap OxygenStyleHelper::glow(const QColor &color, int rsize, int vsize)
+{
+    QPixmap pixmap(rsize, rsize);
+    pixmap.fill(QColor(0,0,0,0));
+
+    QPainter p(&pixmap);
+    p.setRenderHints(QPainter::Antialiasing);
+    p.setPen(Qt::NoPen);
+    p.setWindow(0,0,vsize,vsize);
+
+    QRectF r(0, 0, vsize, vsize);
+    double m = double(vsize)*0.5;
+
+    const double width = 5.0;
+    double k0 = (m-width) / m;
+    QRadialGradient glowGradient(m, m, m+0.3);
+    for (int i = 0; i < 8; i++) { // sinusoidal gradient
+        double k1 = (k0 * double(8 - i) + double(i)) * 0.125;
+        double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
+        glowGradient.setColorAt(k1, alphaColor(color, a));
+    }
+    glowGradient.setColorAt(1.0, alphaColor(color, 0.0));
+
+    // glow
+    p.setBrush(glowGradient);
+    p.drawEllipse(r);
+
+    // mask
+    p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+    p.setBrush(QBrush(Qt::black));
+    p.drawEllipse(r.adjusted(width, width, -width, -width));
+
+    p.end();
+
+    return pixmap;
+}
+
 void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
 {
     int s = int(floor(double(size)*4.0/7.0));
@@ -250,10 +287,10 @@ TileSet *OxygenStyleHelper::slab(const QColor &color, double shade, int size)
     return tileSet;
 }
 
-TileSet *OxygenStyleHelper::slabFocused(const QColor &color, QColor glow, double shade, int size)
+TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowColor, double shade, int size)
 {
     SlabCache *cache = slabCache(color);
-    quint64 key = (quint64(glow.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+    quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
     TileSet *tileSet = cache->m_slabCache.object(key);
 
     if (!tileSet)
@@ -273,17 +310,8 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, QColor glow, double
         slabTileSet->render(QRect(0,0,14,14), &p);
 
         // glow
-        QRadialGradient rg = QRadialGradient(7.0, 7.0, 7.0, 7.0, 7.0);
-        glow.setAlpha(0);
-        rg.setColorAt(4.5/7.0 - 0.01, glow);
-        glow.setAlpha(180);
-        rg.setColorAt(4.5/7.0, glow);
-        glow.setAlpha(70);
-        rg.setColorAt(6.5/7.0, glow);
-        glow.setAlpha(0);
-        rg.setColorAt(1.0, glow);
-        p.setBrush(rg);
-        p.drawEllipse(QRectF(0, 0, 18, 18));
+        QPixmap gp = glow(glowColor, s*2, 18);
+        p.drawPixmap(0, 0, gp);
 
         p.end();
 
