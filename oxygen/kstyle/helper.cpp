@@ -132,9 +132,8 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
         p.setPen(Qt::NoPen);
         p.setWindow(0,0,21,21);
 
-        QPixmap slabPixmap = roundSlab(color, shade, size);
-
         // slab
+        QPixmap slabPixmap = roundSlab(color, shade, size);
         p.drawPixmap(0, 0, slabPixmap);
 
         // glow
@@ -211,11 +210,12 @@ QPixmap OxygenStyleHelper::glow(const QColor &color, int rsize, int vsize)
     double m = double(vsize)*0.5;
 
     const double width = 3.0;
-    double k0 = (m-width) / m;
+    const double fuzz = 0.2;
+    double k0 = (m-width+0.5) / m;
     QRadialGradient glowGradient(m, m, m);
-    for (int i = 0; i < 8; i++) { // sinusoidal gradient
+    for (int i = 0; i < 8; i++) { // inverse parabolic gradient
         double k1 = (k0 * double(8 - i) + double(i)) * 0.125;
-        double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.5;
+        double a = 1.0 - sqrt(i * 0.125);
         glowGradient.setColorAt(k1, alphaColor(color, a));
     }
     glowGradient.setColorAt(1.0, alphaColor(color, 0.0));
@@ -227,7 +227,7 @@ QPixmap OxygenStyleHelper::glow(const QColor &color, int rsize, int vsize)
     // mask
     p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
     p.setBrush(QBrush(Qt::black));
-    p.drawEllipse(r.adjusted(width, width, -width, -width));
+    p.drawEllipse(r.adjusted(width+fuzz, width+fuzz, -width-fuzz, -width-fuzz));
 
     p.end();
 
