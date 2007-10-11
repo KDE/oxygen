@@ -81,10 +81,9 @@ public:
 
     virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
                           const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
+    virtual int pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const;
     virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option,
                                 SubControl subControl, const QWidget* widget) const;
-    QSize sizeFromContents ( ContentsType type, const QStyleOption * option,
-                            const QSize & contentsSize, const QWidget * widget = 0 ) const;
 
 public:
     enum StyleOption

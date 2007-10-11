@@ -61,6 +61,7 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QScrollBar>
 #include <QtGui/QGroupBox>
+#include <QtGui/QLineEdit>
 #include <QtGui/QDockWidget>
 #include <QStyleOptionDockWidget>
 
@@ -101,6 +102,8 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
 
+//    setWidgetLayoutProp(WT_LineEdit, LineEdit::FrameWidth, 5);
+
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
@@ -108,22 +111,22 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
 
-    setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 1);
+    setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 16);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 16);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 3);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 3);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 2);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Left, 1);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 1);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Top, 1);
-    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Bot, 1);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 1);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 0);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 0);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Left, 0);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 0);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Top, 0);
+    setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Bot, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftHorizontal, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftVertical,   0);
 
     setWidgetLayoutProp(WT_Splitter, Splitter::Width, 6);
 
-    setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 25);
+    setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 23);
     setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 25);
 
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
@@ -142,7 +145,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ProgressBar, ProgressBar::BusyIndicatorSize, 10);
 
     setWidgetLayoutProp(WT_TabBar, TabBar::TabOverlap, 1);
-    setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 9);
+    setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 7);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, 8);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 8);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, 2);
@@ -153,18 +156,28 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 25);
     setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 19);
 
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 2);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonWidth, 2+16+1);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 6);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Left, 3);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Top, -2);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Bot, -1);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonSpacing, 0);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Left, 0);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 3);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 3);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 3);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Left, 2);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 7);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 5);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 5);
 
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 3);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 6);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Left, 3);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Top, -1);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Bot, -1);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 0);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 8);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 7);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 5);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 5);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::FocusMargin, 0);
 
     setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
@@ -763,27 +776,27 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 // Left and right widgets are placed right and left when in reverse mode
 
                                 if (w+lw >0)
-                                    renderSlab(p, QRect(0, r.y(), r.width() - w - lw+9, 9),
+                                    renderSlab(p, QRect(0, r.y(), r.width() - w - lw+7, 7),
                                         pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
                                 else
-                                    renderSlab(p, QRect(0, r.y(), r.width(), 9), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(0, r.y(), r.width(), 7), pal.color(QPalette::Window), NoFill,
                                             TileSet::Left | TileSet::Top | TileSet::Right);
 
                                 if (lw > 0)
-                                    renderSlab(p, QRect(r.right() - lw-9, r.y(), lw+9, 9),
+                                    renderSlab(p, QRect(r.right() - lw-7, r.y(), lw+7, 7),
                                              pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
                             }
                             else
                             {
                                 if (lw > 0)
-                                    renderSlab(p, QRect(0, r.y(), lw+9, 9), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(0, r.y(), lw+7, 7), pal.color(QPalette::Window), NoFill,
                                         TileSet::Left | TileSet::Top);
 
                                 if (w+lw >0)
-                                    renderSlab(p, QRect(w+lw-9, r.y(), r.width() - w - lw+9, 9), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(w+lw-7, r.y(), r.width() - w - lw+7, 7), pal.color(QPalette::Window), NoFill,
                                             TileSet::Top | TileSet::Right);
                                 else
-                                    renderSlab(p, QRect(0, r.y(), r.width(), 9), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(0, r.y(), r.width(), 7), pal.color(QPalette::Window), NoFill,
                                             TileSet::Left | TileSet::Top | TileSet::Right);
 
                             }
@@ -798,27 +811,27 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 // Left and right widgets are placed right and left when in reverse mode
 
                                 if (w+lw >0)
-                                    renderSlab(p, QRect(0, r.bottom()-9, r.width() - w - lw + 9, 9),
+                                    renderSlab(p, QRect(0, r.bottom()-7, r.width() - w - lw + 7, 7),
                                         pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
                                 else
-                                    renderSlab(p, QRect(0, r.bottom()-9, r.width(), 9), pal.color(QPalette::Window),
+                                    renderSlab(p, QRect(0, r.bottom()-7, r.width(), 7), pal.color(QPalette::Window),
                                         NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
 
                                 if (lw > 0)
-                                    renderSlab(p, QRect(r.right() - lw-9, r.bottom()-9, lw+9, 9),
+                                    renderSlab(p, QRect(r.right() - lw-7, r.bottom()-7, lw+7, 7),
                                         pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
                             }
                             else
                             {
                                 if (lw > 0)
-                                    renderSlab(p, QRect(0, r.bottom()-9, lw+9, 9),
+                                    renderSlab(p, QRect(0, r.bottom()-7, lw+7, 7),
                                             pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
 
                                 if (w+lw >0)
-                                    renderSlab(p, QRect(w+lw-9, r.bottom()-9, r.width() - w - lw+9, 9),
+                                    renderSlab(p, QRect(w+lw-7, r.bottom()-7, r.width() - w - lw+7, 7),
                                             pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
                                 else
-                                    renderSlab(p, QRect(0, r.bottom()-9, r.width(), 9), pal.color(QPalette::Window),
+                                    renderSlab(p, QRect(0, r.bottom()-7, r.width(), 7), pal.color(QPalette::Window),
                                         NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
 
                             }
@@ -959,8 +972,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
-                    p->fillRect(opt->rect.adjusted(1,1,-1,-1), inputColor );
-                    renderHole(p, r, hasFocus, mouseOver);
+                    QRect fr = r.adjusted(2,2,-2,-2);
+                    p->fillRect(fr.adjusted(1,1,-1,-1), inputColor );
+                    renderHole(p, fr, hasFocus, mouseOver);
                     return;
                 }
                 case SpinBox::EditField:
@@ -998,16 +1012,17 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     if(!editable) {
                         renderSlab(p, r, pal.color(QPalette::Button), opts);
                     } else {
+                        QRect fr = r.adjusted(2,2,-2,-2);
                         // input area
-                        p->fillRect(r.adjusted(1,1,-1,-1), inputColor );
+                        p->fillRect(fr.adjusted(1,1,-1,-1), inputColor );
 
                         if (_inputFocusHighlight && hasFocus && enabled)
                         {
-                            renderHole(p, r, true, mouseOver);
+                            renderHole(p, fr, true, mouseOver);
                         }
                         else
                         {
-                            renderHole(p, r);
+                            renderHole(p, fr, false, mouseOver);
                         }
                     }
 
@@ -1103,11 +1118,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     if ( _inputFocusHighlight && hasFocus && !isReadOnly && isEnabled)
                     {
-                        renderHole(p, r, true, mouseOver);
+                        renderHole(p, r.adjusted(2,2,-2,-3), true, mouseOver);
                     }
                     else
                     {
-                        renderHole(p, r, false, mouseOver);
+                        renderHole(p, r.adjusted(2,2,-2,-3), false, mouseOver);
                     }
                     return;
                 }
@@ -1123,11 +1138,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                         if (lineWidth > 0)
                         {
-                            p->fillRect(r.adjusted(lineWidth,lineWidth,-lineWidth,-lineWidth), inputColor);
+                            p->fillRect(r.adjusted(-2,-2,2,1).adjusted(lineWidth,lineWidth,-lineWidth,-lineWidth), inputColor);
                             drawPrimitive(PE_FrameLineEdit, panel, p, widget);
                         }
                         else
-                            p->fillRect(r.adjusted(2,2,-2,-2), inputColor);
+                            p->fillRect(r.adjusted(2,2,-2,-1), inputColor);
                     }
                 }
             }
@@ -1262,27 +1277,27 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         switch (primitive) {
             case Generic::ArrowUp: {
                 a.clear();
-                a << QPointF(0, -3.5) << QPointF(4.5, 3.5) << QPointF(-4.5, 3.5);
+                a << QPointF(0, -4) << QPointF(5, 4) << QPointF(-5, 4);
                 break;
             }
             case Generic::ArrowDown: {
                 a.clear();
-                a << QPointF(0, 3.5) << QPointF(4.5, -3.5) << QPointF(-4.5, -3.5);
-                break;
+                a << QPointF(0, 4) << QPointF(5, -4) << QPointF(-5, -4);
+              break;
             }
             case Generic::ArrowLeft: {
                 a.clear();
-                a << QPointF(-3.5, 0) << QPointF(3.5, -4.5) << QPointF(3.5, 4.5);
+                a << QPointF(-4, 0) << QPointF(4, -5) << QPointF(4, 5);
                 break;
             }
             case Generic::ArrowRight: {
                 a.clear();
-                a << QPointF(3.5, 0) << QPointF(-3.5, -4.5) << QPointF(-3.5, 4.5);
+                a << QPointF(4, 0) << QPointF(-4, -5) << QPointF(-4, 5);
                 break;
             }
         }
 
-        a.translate((r.x()+r.width()/2), (r.y()+r.height()/2));
+        a.translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
         KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
         QColor               arrowColor = colorOpt->color.color(pal);
 
@@ -1438,7 +1453,7 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
         innerGradient.setColorAt(0.0, _helper.calcLightColor(color)); //KColorUtils::shade(calcLightColor(color), shade));
         innerGradient.setColorAt(1.0, color);
         p->setBrush(innerGradient);
-        _helper.fillSlab(*p, r.adjusted(2,2,-2,-2));
+        _helper.fillSlab(*p, r);
 
         p->restore();
     }
@@ -1455,7 +1470,7 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
     else
     {
         tile = _helper.slab(color, 0.0);
-        tile->render(r.adjusted(2,2,-2,-2), p, tiles);
+        tile->render(r, p, tiles);
         return;
     }
     tile->render(r, p, tiles);
@@ -1620,7 +1635,7 @@ void OxygenStyle::renderTab(QPainter *p,
     const bool isSingle = pos == QStyleOptionTab::OnlyOneTab /*(pos == Single)*/;
 
     // the tab part of the tab - ie subtracted the fairing to the frame
-    QRect Rc = bottom ? r.adjusted(0,9,0,0) : r.adjusted(0,0,0,-9);
+    QRect Rc = bottom ? r.adjusted(0,6,0,0) : r.adjusted(0,0,0,-7);
 
     // the area where the fairing should appear
     const QRect Rb(r.x(), bottom?r.top():Rc.bottom()+1, r.width(), r.height()-Rc.height() );
@@ -1628,48 +1643,48 @@ void OxygenStyle::renderTab(QPainter *p,
     // FIXME - maybe going to redo tabs, also are broken ATM
     if (selected) {
         if(bottom)
-            renderSlab(p, Rc.adjusted(0,-9,0,0), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left | TileSet::Right);
+            renderSlab(p, Rc.adjusted(0,-7,0,0), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left | TileSet::Right);
         else
-            renderSlab(p, Rc.adjusted(0,0,0,9), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Right);
+            renderSlab(p, Rc.adjusted(0,0,0,7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Right);
 
         // some "position specific" paintings...
         // First draw the left connection from the panel border to the tab
         if(isFirst && !reverseLayout && !cornerWidget) {
-            renderSlab(p, Rb.adjusted(0,-9,0,9), pal.color(QPalette::Window), NoFill, TileSet::Left);
+            renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Left);
         } else {
 //            renderHole(p, QRect(Rb.left(), Rb.top(),4,5), false, false, TileSet::Right | TileSet::Bottom);
             TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
             if(bottom)
-                tile->render(QRect(Rb.left()-7, Rb.top()-1,16,17), p, TileSet::Right | TileSet::Top);
+                tile->render(QRect(Rb.left()-5, Rb.top()-1,12,13), p, TileSet::Right | TileSet::Top);
             else
-                tile->render(QRect(Rb.left()-7, Rb.top()-7,16,16), p, TileSet::Right | TileSet::Bottom);
+                tile->render(QRect(Rb.left()-5, Rb.top()-5,12,12), p, TileSet::Right | TileSet::Bottom);
         }
 
         // Now draw the right connection from the panel border to the tab
         if(isFirst && reverseLayout && !cornerWidget) {
-            renderSlab(p, Rb.adjusted(0,-9,0,9), pal.color(QPalette::Window), NoFill, TileSet::Right);
+            renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Right);
         } else {
             TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
             //renderHole(p, QRect(Rb.right()-3, Rb.top(),3,5), false, false, TileSet::Left | TileSet::Bottom);
             if(bottom)
-                tile->render(QRect(Rb.right()-8, Rb.top()-1,16,17), p, TileSet::Left | TileSet::Top);
+                tile->render(QRect(Rb.right()-6, Rb.top()-1,12,13), p, TileSet::Left | TileSet::Top);
             else
-                tile->render(QRect(Rb.right()-8, Rb.top()-7,16,16), p, TileSet::Left | TileSet::Bottom);
+                tile->render(QRect(Rb.right()-6, Rb.top()-5,12,12), p, TileSet::Left | TileSet::Bottom);
         }
     } else {
         // inactive tabs
         TileSet::Tiles posFlag = bottom?TileSet::Bottom:TileSet::Top;
-        QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 8);
+        QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 6);
 
         if(isFirst && !reverseLayout && !cornerWidget)
             posFlag |= TileSet::Left;
         else
-            Ractual.adjust(-8,0,0,0); //9 minus one because we have 1px overlap
+            Ractual.adjust(-6,0,0,0); //7 minus one because we have 1px overlap
 
         if(isFirst && reverseLayout && !cornerWidget)
             posFlag |= TileSet::Right;
         else
-            Ractual.adjust(0,0,8,0); //9 minus one because we have 1px overlap
+            Ractual.adjust(0,0,6,0); //7 minus one because we have 1px overlap
 
         renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
         // TODO mouseover effects
@@ -1694,6 +1709,27 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
     }
 }
 
+int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const
+{
+    switch(m) {
+        case PM_DefaultTopLevelMargin:
+            return 11;
+
+        case PM_DefaultChildMargin:
+            return 4; // qcommon is 9;
+
+        case PM_DefaultLayoutSpacing:
+            return 4; // qcommon is 6
+
+        case PM_DefaultFrameWidth:
+            if (qobject_cast<const QLineEdit*>(widget))
+                return 5;
+            //else fall through
+        default:
+            return KStyle::pixelMetric(m,opt,widget);
+    }
+}
+
 QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComplex* option,
                                 SubControl subControl, const QWidget* widget) const
 {
@@ -1709,19 +1745,6 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
 
                 case SC_GroupBoxLabel:
                     return r.adjusted(0,8,0,0);
-
-                default:
-                    break;
-            }
-
-        case CC_ComboBox:
-            switch (subControl)
-            {
-                case SC_ComboBoxEditField:
-                    if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
-                        if(!cb->editable)
-                            return KStyle::subControlRect(control, option, subControl, widget).adjusted(3,0,0,0);
-                    break;
 
                 default:
                     break;
@@ -1815,25 +1838,6 @@ QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, StyleOption
     }
 }
 
-QSize OxygenStyle::sizeFromContents ( ContentsType ct, const QStyleOption * option, const QSize & contentsSize, const QWidget * widget ) const
-{
-    switch ( ct ) {
-        case CT_ComboBox:
-            if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
-                int margin = cb->frame ? 6 : 0;
-                int hgt = contentsSize.height() + 2*margin - (cb->editable ? 7 : 0);
-                return QSize(contentsSize.width() + 37, hgt);
-            }
-            else
-                return KStyle::sizeFromContents( ct, option, contentsSize, widget );
-            break;
-
-        default:
-            return KStyle::sizeFromContents( ct, option, contentsSize, widget );
-   }
-}
-
-
 QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option,
                                                const QWidget *widget) const
 {
@@ -1860,7 +1864,9 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             lg.setColorAt(0.45, QColor(0,0,0,150));
             lg.setColorAt(0.80, QColor(0,0,0,80));
             painter.setPen(QPen(lg,2));
-            painter.drawLine(6,9,12,9);
+            painter.setBrush(lg);
+            QPoint points[4] = {QPoint(9, 6), QPoint(12, 9), QPoint(9, 12), QPoint(6, 9)};
+            painter.drawPolygon(points, 4);
 
             return QIcon(pm);
         }

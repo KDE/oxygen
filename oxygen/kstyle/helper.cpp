@@ -258,28 +258,28 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, QColor glow, double
 
     if (!tileSet)
     {
-        int s = size+2; // ### wrong, but don't care for the moment
+        int s = size; // ### wrong, but don't care for the moment
         QPixmap pixmap(s*2,s*2);
         pixmap.fill(QColor(0,0,0,0));
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setWindow(0,0,18,18);
+        p.setWindow(0,0,14,14);
 
         TileSet *slabTileSet = slab(color, shade, size);
 
         // slab
-        slabTileSet->render(QRect(2,2,14,14), &p);
+        slabTileSet->render(QRect(0,0,14,14), &p);
 
         // glow
-        QRadialGradient rg = QRadialGradient(9.0, 9.0, 9.0, 9.0, 9.0);
+        QRadialGradient rg = QRadialGradient(7.0, 7.0, 7.0, 7.0, 7.0);
         glow.setAlpha(0);
-        rg.setColorAt(4.5/9.0 - 0.01, glow);
+        rg.setColorAt(4.5/7.0 - 0.01, glow);
         glow.setAlpha(180);
-        rg.setColorAt(4.5/9.0, glow);
+        rg.setColorAt(4.5/7.0, glow);
         glow.setAlpha(70);
-        rg.setColorAt(6.5/9.0, glow);
+        rg.setColorAt(6.5/7.0, glow);
         glow.setAlpha(0);
         rg.setColorAt(1.0, glow);
         p.setBrush(rg);
