@@ -43,7 +43,7 @@ public:
     static void fillSlab(QPainter&, const QRect&, int size = 7);
 
     QPixmap  roundSlab(const QColor&, double shade, int size = 7);
-    QPixmap  roundSlabFocused(const QColor&, QColor glow, double shade, int size = 7);
+    QPixmap  roundSlabFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
 
     // TODO - need to rebase scrollbars to size=7
     TileSet *slab(const QColor&, double shade, int size = 7);

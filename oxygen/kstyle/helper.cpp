@@ -116,39 +116,30 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, double shade, int size
     return *pixmap;
 }
 
-QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, QColor glow, double shade, int size)
+QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &glowColor, double shade, int size)
 {
     SlabCache *cache = slabCache(color);
-    quint64 key = (quint64(glow.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+    quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
     QPixmap *pixmap = cache->m_roundSlabCache.object(key);
 
     if (!pixmap)
     {
-        pixmap = new QPixmap(size*3+4, size*3+4);
+        pixmap = new QPixmap(size*3, size*3);
         pixmap->fill(QColor(0,0,0,0));
 
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setWindow(0,0,25,25);
+        p.setWindow(0,0,21,21);
 
         QPixmap slabPixmap = roundSlab(color, shade, size);
 
         // slab
-        p.drawPixmap(2, 2, slabPixmap);
+        p.drawPixmap(0, 0, slabPixmap);
 
         // glow
-        QRadialGradient rg = QRadialGradient(12.5, 12.5, 12.5, 12.5, 12.5);
-        glow.setAlpha(0);
-        rg.setColorAt(7.5/12.5 - 0.01, glow);
-        glow.setAlpha(180);
-        rg.setColorAt(7.5/12.5, glow);
-        glow.setAlpha(70);
-        rg.setColorAt(9.0/12.5, glow);
-        glow.setAlpha(0);
-        rg.setColorAt(1.0, glow);
-        p.setBrush(rg);
-        p.drawEllipse(QRectF(0, 0, 25, 25));
+        QPixmap gp = glow(glowColor, size*3, 21);
+        p.drawPixmap(0, 0, gp);
 
         p.end();
 
@@ -219,7 +210,7 @@ QPixmap OxygenStyleHelper::glow(const QColor &color, int rsize, int vsize)
     QRectF r(0, 0, vsize, vsize);
     double m = double(vsize)*0.5;
 
-    const double width = 4.0;
+    const double width = 3.0;
     double k0 = (m-width) / m;
     QRadialGradient glowGradient(m, m, m);
     for (int i = 0; i < 8; i++) { // sinusoidal gradient
@@ -295,8 +286,7 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowC
 
     if (!tileSet)
     {
-        int s = size; // ### wrong, but don't care for the moment
-        QPixmap pixmap(s*2,s*2);
+        QPixmap pixmap(size*2,size*2);
         pixmap.fill(QColor(0,0,0,0));
 
         QPainter p(&pixmap);
@@ -310,12 +300,12 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowC
         slabTileSet->render(QRect(0,0,14,14), &p);
 
         // glow
-        QPixmap gp = glow(glowColor, s*2, 18);
+        QPixmap gp = glow(glowColor, size*2, 14);
         p.drawPixmap(0, 0, gp);
 
         p.end();
 
-        tileSet = new TileSet(pixmap, s-1, s, 2, 1);
+        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
 
         cache->m_slabCache.insert(key, tileSet);
     }
