@@ -219,12 +219,12 @@ QPixmap OxygenStyleHelper::glow(const QColor &color, int rsize, int vsize)
     QRectF r(0, 0, vsize, vsize);
     double m = double(vsize)*0.5;
 
-    const double width = 5.0;
+    const double width = 4.0;
     double k0 = (m-width) / m;
-    QRadialGradient glowGradient(m, m, m+0.3);
+    QRadialGradient glowGradient(m, m, m);
     for (int i = 0; i < 8; i++) { // sinusoidal gradient
         double k1 = (k0 * double(8 - i) + double(i)) * 0.125;
-        double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
+        double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.5;
         glowGradient.setColorAt(k1, alphaColor(color, a));
     }
     glowGradient.setColorAt(1.0, alphaColor(color, 0.0));
