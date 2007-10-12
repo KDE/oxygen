@@ -277,10 +277,6 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
             painter->drawPixmap(radialRect, tile, QRect(0, frameH, radialW, 64-frameH));
             }
 
-            if (qobject_cast<const QGroupBox*>(widget)) {
-                //painter->fillRect(option->rect, QColor(Qt::blue));
-            }
-
             break;
         }
 
@@ -937,7 +933,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case Slider::HandleHor:
                 case Slider::HandleVert:
                 {
-                    renderSlab(p, r, pal.color(QPalette::Button));
+                    StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
+                    if (const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt))
+                        if(slider->activeSubControls & SC_SliderHandle)
+                            if (mouseOver) opts |= Hover;
+
+                    renderSlab(p, r, pal.color(QPalette::Button), opts);
                     return;
                 }
 
@@ -1368,6 +1369,7 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QRadioButton*>(widget)
         || qobject_cast<QTabBar*>(widget)
         || qobject_cast<QScrollBar*>(widget)
+        || qobject_cast<QSlider*>(widget)
         ) {
         widget->setAttribute(Qt::WA_Hover);
     }
@@ -1401,6 +1403,7 @@ void OxygenStyle::unpolish(QWidget* widget)
         || qobject_cast<QCheckBox*>(widget)
         || qobject_cast<QRadioButton*>(widget)
         || qobject_cast<QScrollBar*>(widget)
+        || qobject_cast<QSlider*>(widget)
     ) {
         widget->setAttribute(Qt::WA_Hover, false);
     }
