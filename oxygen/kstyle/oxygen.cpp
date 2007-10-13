@@ -1691,6 +1691,25 @@ void OxygenStyle::renderTab(QPainter *p,
         }
     } else {
         // inactive tabs
+        int x,y,w,h;
+        r.adjusted(0,4,0,0).getRect(&x, &y, &w, &h);
+        p->setPen(QColor(0,0,0, 30));
+        if(isFirst && !reverseLayout) {
+            p->drawArc(QRectF(x+2.5, y+0.5, 9.5, 9.5),90*16, 90*16);
+            if(!cornerWidget)
+                p->drawLine(QPointF(x+2.5, y+6.3), QPointF(x+2.5, y+h-0.5));
+            else
+                p->drawLine(QPointF(x+0.5, y+6.3), QPointF(x+0.5, y+h-6.3));
+            p->drawLine(QPointF(x+8.8, y+0.5), QPointF(x+w-0.5, y+0.5));
+        } else  if(isFirst && reverseLayout && !cornerWidget) {
+            p->drawArc(QRectF(x+w-9.5-0.5, y+0.5, 9.5, 9.5), 0, 90*16);
+            p->drawLine(QPointF(x+w-0.5, y+6.3), QPointF(x+w-0.5, y+h-6.3));
+            p->drawLine(QPointF(x+6.3, y+0.5), QPointF(x+w-6.3, y+0.5));
+        } else {
+            p->drawLine(QPointF(x+0.5, y+0.5), QPointF(x+0.5, y+h-6.3));
+            p->drawLine(QPointF(x+0.5, y+0.5), QPointF(x+w-0.5, y+0.5));
+        }
+
         TileSet::Tiles posFlag = bottom?TileSet::Bottom:TileSet::Top;
         QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 6);
 
@@ -1705,6 +1724,7 @@ void OxygenStyle::renderTab(QPainter *p,
             Ractual.adjust(0,0,6,0); //7 minus one because we have 1px overlap
 
         renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
+
         // TODO mouseover effects
     }
 }
