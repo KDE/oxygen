@@ -355,28 +355,43 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case ProgressBar::Groove:
                 {
-                    QColor bg = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background); // background
+                    QColor color = pal.color(QPalette::Button);
+                    QRect rect = r.adjusted(2,0,-2,0);
 
-                    p->setPen(bg.dark(105) );
-                    p->drawLine(r.left()+2, r.top()+1, r.right()-2, r.top()+1 );
-                    p->drawLine(r.left()+1, r.top()+2, r.left()+1, r.bottom()-2);
-                    p->setPen(bg.light(105) );
-                    p->drawLine(r.left()+2, r.bottom()-1, r.right()-2, r.bottom()-1 );
-                    p->drawLine(r.right()-1, r.top()+2, r.right()-1, r.bottom()-2);
+                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), r.width());
 
-            // fill background
-                    p->fillRect(r.adjusted(2,2,-2,-2), bg );
-
+                    p->save();
+                    p->setClipRect(rect.adjusted(-32,0,32,0));
+                    tiles1->render(rect, p, TileSet::Left | TileSet::Vertical | TileSet::Right);
+                    p->restore();
                     return;
                 }
 
                 case ProgressBar::BusyIndicator:
                 {
+                    QColor color = _viewHoverBrush.brush(pal).color();
+                    QRect rect = r.adjusted(0,-2,0,2);
+
+                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), r.width());
+
+                    p->save();
+                    p->setClipRect(rect.adjusted(-32,0,32,0));
+                    tiles1->render(rect, p, TileSet::Left | TileSet::Vertical | TileSet::Right);
+                    p->restore();
                     return;
                 }
 
                 case ProgressBar::Indicator:
                 {
+                    QColor color = _viewHoverBrush.brush(pal).color();
+                    QRect rect = r.adjusted(0,-2,2+r.width() / 300,2); // right pos: hackish, but neccessary...
+
+                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), r.width());
+
+                    p->save();
+                    p->setClipRect(rect.adjusted(-32,0,32,0));
+                    tiles1->render(rect, p, TileSet::Left | TileSet::Vertical | TileSet::Right);
+                    p->restore();
                     return;
                 }
             }
