@@ -1762,7 +1762,17 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                     return r;
 
                 case SC_GroupBoxLabel:
-                    return r.adjusted(0,8,0,0);
+                {
+                    if (const QStyleOptionGroupBox *gbOpt = qstyleoption_cast<const QStyleOptionGroupBox *>(option)) {
+                        QFontMetrics fontMetrics = gbOpt->fontMetrics;
+                        int h = fontMetrics.height();
+                        int tw = fontMetrics.size(Qt::TextShowMnemonic, gbOpt->text + QLatin1Char('  ')).width();
+                        r.setHeight(h);
+                        r.moveTop(8);
+
+                        return alignedRect(gbOpt->direction, Qt::AlignHCenter, QSize(tw, h), r);
+                    }
+                }
 
                 default:
                     break;
