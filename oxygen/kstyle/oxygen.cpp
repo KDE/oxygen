@@ -1360,8 +1360,15 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
 void OxygenStyle::polish(QWidget* widget)
 {
-    if (widget->isWindow())
-        widget->setAttribute(Qt::WA_StyledBackground);
+    switch (widget->windowFlags() & Qt::WindowType_Mask) {
+        case Qt::Window:
+        case Qt::Dialog:
+        case Qt::Popup:
+            widget->setAttribute(Qt::WA_StyledBackground);
+        case Qt::Tool: // this we exclude as it is used for dragging of icons etc
+        default:
+            break;
+    }
 
     if (qobject_cast<const QGroupBox*>(widget))
         widget->setAttribute(Qt::WA_StyledBackground);
