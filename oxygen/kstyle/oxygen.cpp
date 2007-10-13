@@ -107,7 +107,7 @@ OxygenStyle::OxygenStyle() :
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 14); // size*2
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 15); // size*2+1
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
 
@@ -1293,22 +1293,22 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         switch (primitive) {
             case Generic::ArrowUp: {
                 a.clear();
-                a << QPointF(0, -4) << QPointF(5, 4) << QPointF(-5, 4);
+                a << QPointF(0.5, -4) << QPointF(5, 4) << QPointF(-4, 4);
                 break;
             }
             case Generic::ArrowDown: {
                 a.clear();
-                a << QPointF(0, 4) << QPointF(5, -4) << QPointF(-5, -4);
+                a << QPointF(0.5, 4) << QPointF(5, -4) << QPointF(-4, -4);
               break;
             }
             case Generic::ArrowLeft: {
                 a.clear();
-                a << QPointF(-4, 0) << QPointF(4, -5) << QPointF(4, 5);
+                a << QPointF(-4, 0.5) << QPointF(4, -4) << QPointF(4, 5);
                 break;
             }
             case Generic::ArrowRight: {
                 a.clear();
-                a << QPointF(4, 0) << QPointF(-4, -5) << QPointF(-4, 5);
+                a << QPointF(4, 0.5) << QPointF(-4, -4) << QPointF(-4, 5);
                 break;
             }
         }
