@@ -203,8 +203,6 @@ OxygenStyle::OxygenStyle() :
     // FIXME below this line to be deleted (and can we not use QSettings? KConfig* is safe now)
     _customOverHighlightColor = true;
     _customFocusHighlightColor = true;
-    // setup pixmap cache...
-    pixmapCache = new QCache<int, CacheEntry>(327680);
 
     if ( _animateProgressBar )
     {
@@ -245,7 +243,6 @@ void OxygenStyle::updateProgressPos()
 
 OxygenStyle::~OxygenStyle()
 {
-    delete pixmapCache;
 }
 
 

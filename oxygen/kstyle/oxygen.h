@@ -194,62 +194,6 @@ private:
     QTimer *animationTimer;
 
     TileSet *m_holeTileSet;
-
-    // pixmap cache.
-    enum CacheEntryType {
-        cSurface,
-        cGradientTile,
-        cAlphaDot
-    };
-    struct CacheEntry
-    {
-        CacheEntryType type;
-        int width;
-        int height;
-        QRgb c1Rgb;
-        QRgb c2Rgb;
-        bool horizontal;
-
-        QPixmap* pixmap;
-
-        CacheEntry(CacheEntryType t, int w, int h, QRgb c1, QRgb c2 = 0,
-                   bool hor = false, QPixmap* p = 0 ):
-            type(t), width(w), height(h), c1Rgb(c1), c2Rgb(c2), horizontal(hor), pixmap(p)
-        {}
-
-        ~CacheEntry()
-        {
-            delete pixmap;
-        }
-
-        int key()
-        {
-            // create an int key from the properties which is used to refer to entries in the QIntCache.
-            // the result may not be 100% correct as we don't have so much space in one integer -- use
-            // == operator after find to make sure we got the right one. :)
-            return (horizontal ? 1 : 0) ^ (type<<1) ^ (width<<5) ^ (height<<10) ^ (c1Rgb<<19) ^ (c2Rgb<<22);
-        }
-
-        bool operator == (const CacheEntry& other)
-        {
-            bool match = (type == other.type) &&
-                        (width   == other.width) &&
-                        (height == other.height) &&
-                        (c1Rgb == other.c1Rgb) &&
-                        (c1Rgb == other.c1Rgb) &&
-                        (horizontal == other.horizontal);
-//             if(!match) {
-//                 qDebug("operator ==: CacheEntries don't match!");
-//                 qDebug("width: %d\t\tother width: %d", width, other.width);
-//                 qDebug("height: %d\t\tother height: %d", height, other.height);
-//                 qDebug("fgRgb: %d\t\tother fgRgb: %d", fgRgb, other.fgRgb);
-//                 qDebug("bgRgb: %d\t\tother bgRgb: %d", bgRgb, other.bgRgb);
-//                 qDebug("surfaceFlags: %d\t\tother surfaceFlags: %d", surfaceFlags, other.surfaceFlags);
-//             }
-            return match;
-        }
-    };
-    QCache<int, CacheEntry> *pixmapCache;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(OxygenStyle::StyleOptions)
