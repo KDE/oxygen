@@ -135,13 +135,6 @@ protected:
     void renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
                            bool enabled, bool mouseOver, int radioPrimitive) const;
 
-    void renderPanel(QPainter *p,
-                     const QRect &r,
-                     const QPalette &pal,
-                     const bool raised = true,
-                     const bool sunken = true,
-                     const bool focusHighlight = false) const;
-
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
     void renderTab(QPainter *p,
@@ -150,10 +143,8 @@ protected:
                    bool mouseOver,
                    const bool selected,
                    const bool bottom,
-                   const QStyleOptionTab::TabPosition pos /*const TabPosition pos = Middle*/,
-                   const bool triangular = false,
-                   const bool cornerWidget = false,
-                   const bool reverseLayout = false) const;
+                   const QStyleOptionTabV2 *tabOpt,
+                   const bool reverseLayout) const;
 
     bool eventFilter(QObject *, QEvent *);
 

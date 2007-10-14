@@ -732,7 +732,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
         case WT_TabBar:
         {
-            const QStyleOptionTab* tabOpt = qstyleoption_cast<const QStyleOptionTab*>(opt);
+            const QStyleOptionTabV2* tabOpt = qstyleoption_cast<const QStyleOptionTabV2*>(opt);
 
             switch (primitive)
             {
@@ -743,12 +743,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     QStyleOptionTab::TabPosition pos = tabOpt->position;
                     bool bottom = primitive == TabBar::SouthTab;
-                    bool cornerWidget = reverseLayout ?
-                            (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget) :
-                            (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget);
 
                     // TODO: tab painting needs a lot of work in order to handle east and west tabs.
-                    renderTab(p, r, pal, mouseOver, flags&State_Selected, bottom, pos, false, cornerWidget, reverseLayout);
+                    renderTab(p, r, pal, mouseOver, flags&State_Selected, bottom, tabOpt,
+reverseLayout);
 
                     return;
                 }
@@ -871,7 +869,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
-                    renderPanel(p, r, pal, true, flags&State_Sunken);
                     return;
                 }
 
@@ -1333,13 +1330,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             bool focusHighlight = flags&State_HasFocus/* && flags&State_Enabled*/;
             if (flags & State_Sunken) {
                 renderHole(p, r, focusHighlight);
-            } else if (flags & State_Raised) {
-                renderPanel(p, r, pal, true, false, focusHighlight);
-            } else {
-                renderPanel(p, r, pal, false);
-            }
-
-            return;
+            } else
+                break; // do the default thing
         }
 
         case Generic::FocusIndicator:
@@ -1607,54 +1599,39 @@ void OxygenStyle::renderDot(QPainter *p, const QPointF &point, const QColor &bas
     p->setRenderHint(QPainter::Antialiasing, false);
 }
 
-void OxygenStyle::renderPanel(QPainter *p,
-                              const QRect &r,
-                              const QPalette &pal,
-                              const bool raised,
-                              const bool sunken,
-                              const bool focusHighlight) const
-{
-    int x, x2, y, y2, w, h;
-    r.getRect(&x,&y,&w,&h);
-    r.getCoords(&x, &y, &x2, &y2);
-
-        if(raised) {
-            QColor dark = focusHighlight ?
-                    getColor(pal,FocusHighlight).dark(130) : getColor(pal, PanelDark);
-            QColor light = focusHighlight ?
-                    getColor(pal,FocusHighlight).light(130) : getColor(pal, PanelLight);
-            if (sunken) {
-                p->setPen(dark);
-            } else {
-                p->setPen(light);
-            }
-            p->drawLine(r.left()+2, r.top()+1, r.right()-2, r.top()+1);
-            p->drawLine(r.left()+1, r.top()+2, r.left()+1, r.bottom()-2);
-            if (sunken) {
-                p->setPen(light);
-            } else {
-                p->setPen(dark);
-            }
-            p->drawLine(r.left()+2, r.bottom()-1, r.right()-2, r.bottom()-1);
-            p->drawLine(r.right()-1, r.top()+2, r.right()-1, r.bottom()-2);
-        }
-}
-
-
 void OxygenStyle::renderTab(QPainter *p,
                             const QRect &r,
                             const QPalette &pal,
                             bool mouseOver,
                             const bool selected,
                             const bool bottom,
-                            const QStyleOptionTab::TabPosition pos,
-                            const bool triangular,
-                            const bool cornerWidget,
+                            const QStyleOptionTabV2 *tabOpt,
                             const bool reverseLayout) const
 {
+    const QStyleOptionTab::TabPosition pos = tabOpt->position;
+    const bool cornerWidget = reverseLayout ?
+                            (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget) :
+                            (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget);
     const bool isFirst = pos == QStyleOptionTab::Beginning || pos == QStyleOptionTab::OnlyOneTab/* (pos == First) || (pos == Single)*/;
     const bool isLast = pos == QStyleOptionTab::End /*(pos == Last)*/;
     const bool isSingle = pos == QStyleOptionTab::OnlyOneTab /*(pos == Single)*/;
+    const bool isLeftOfSelected =  reverseLayout ?
+                            (tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected) :
+                            (tabOpt->selectedPosition == QStyleOptionTab::NextIsSelected);
+    const bool isRightOfSelected =  reverseLayout ?
+                            (tabOpt->selectedPosition == QStyleOptionTab::NextIsSelected) :
+                            (tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected);
+    const bool isLeftMost =  (reverseLayout ?
+                            (tabOpt->position == QStyleOptionTab::End) :
+                            (tabOpt->position == QStyleOptionTab::Beginning)) ||
+                                tabOpt->position == QStyleOptionTab::OnlyOneTab;
+    const bool isRightMost =  reverseLayout ?
+                            (tabOpt->position == QStyleOptionTab::Beginning) :
+                            (tabOpt->position == QStyleOptionTab::End) ||
+                                tabOpt->position == QStyleOptionTab::OnlyOneTab;
+    const bool isFrameAligned =  reverseLayout ?
+                            (isRightMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget)) :
+                            (isLeftMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget));
 
     // the tab part of the tab - ie subtracted the fairing to the frame
     QRect Rc = bottom ? r.adjusted(0,6,0,0) : r.adjusted(0,0,0,-7);
@@ -1698,22 +1675,32 @@ void OxygenStyle::renderTab(QPainter *p,
         int x,y,w,h;
         r.adjusted(0,4,0,0).getRect(&x, &y, &w, &h);
         p->setPen(QColor(0,0,0, 30));
-        if(isFirst && !reverseLayout) {
-            p->drawArc(QRectF(x+2.5, y+0.5, 9.5, 9.5),90*16, 90*16);
-            if(!cornerWidget)
-                p->drawLine(QPointF(x+2.5, y+6.3), QPointF(x+2.5, y+h-0.5));
-            else
-                p->drawLine(QPointF(x+0.5, y+6.3), QPointF(x+0.5, y+h-6.3));
-            p->drawLine(QPointF(x+8.8, y+0.5), QPointF(x+w-0.5, y+0.5));
-        } else  if(isFirst && reverseLayout && !cornerWidget) {
-            p->drawArc(QRectF(x+w-9.5-0.5, y+0.5, 9.5, 9.5), 0, 90*16);
-            p->drawLine(QPointF(x+w-0.5, y+6.3), QPointF(x+w-0.5, y+h-6.3));
-            p->drawLine(QPointF(x+6.3, y+0.5), QPointF(x+w-6.3, y+0.5));
-        } else {
-            p->drawLine(QPointF(x+0.5, y+0.5), QPointF(x+0.5, y+h-6.3));
-            p->drawLine(QPointF(x+0.5, y+0.5), QPointF(x+w-0.5, y+0.5));
+        if (!bottom) {
+            if(isLeftMost) {
+                p->drawArc(QRectF(x+2.5, y+0.5, 9.5, 9.5),90*16, 90*16);
+                if(isFrameAligned)
+                    p->drawLine(QPointF(x+2.5, y+6.3), QPointF(x+2.5, y+h-0.5));
+                else
+                    p->drawLine(QPointF(x+0.5, y+6.3), QPointF(x+0.5, y+h-6.3));
+                p->drawLine(QPointF(x+8.8, y+0.5), QPointF(x+w+2.5, y+0.5));
+                if(!isLeftOfSelected)
+                    p->drawLine(QPointF(x+w-0.5, y+1.5), QPointF(x+w-0.5, y+h-6.3));
+                p->fillRect(x-0.5, y+1.5, w-1 , h-5,QColor(0,0,0,10));
+            } else  if(isRightMost) {
+                p->drawArc(QRectF(x+w-9.5-2.5, y+0.5, 9.5, 9.5), 0, 90*16);
+                if(isFrameAligned)
+                    p->drawLine(QPointF(x+w-2.5, y+6.3), QPointF(x+w-2.5, y+h+0.5));
+                else
+                    p->drawLine(QPointF(x+w-2.5, y+6.3), QPointF(x+w-2.5, y+h-6.3));
+                p->drawLine(QPointF(isRightOfSelected ? x -0.5 : x+3.5+1, y+0.5), QPointF(x+w-8.8, y+0.5));
+                p->fillRect(x-0.5, y+1.5, w-1 , h-5,QColor(0,0,0,10));
+            } else {
+                p->drawLine(QPointF(isRightOfSelected ? x -0.5 : x+3.5+1, y+0.5), QPointF(x+w+2.5, y+0.5));
+                if(!isLeftOfSelected)
+                    p->drawLine(QPointF(x+w-0.5, y+1.5), QPointF(x+w-0.5, y+h-6.3));
+                p->fillRect(x-0.5, y+1.5, w-1 , h-5,QColor(0,0,0,10));
+            }
         }
-
         TileSet::Tiles posFlag = bottom?TileSet::Bottom:TileSet::Top;
         QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 6);
 
@@ -1727,7 +1714,10 @@ void OxygenStyle::renderTab(QPainter *p,
         else
             Ractual.adjust(0,0,6,0); //7 minus one because we have 1px overlap
 
-        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
+        if (mouseOver)
+            renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover, posFlag);
+        else
+            renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
 
         // TODO mouseover effects
     }
