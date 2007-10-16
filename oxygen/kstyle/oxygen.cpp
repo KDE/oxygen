@@ -1609,7 +1609,10 @@ void OxygenStyle::renderTab(QPainter *p,
                             const bool reverseLayout) const
 {
     const QStyleOptionTab::TabPosition pos = tabOpt->position;
-    const bool cornerWidget = reverseLayout ?
+    const bool leftCornerWidget = reverseLayout ?
+                            (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget) :
+                            (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget);
+    const bool rightCornerWidget = reverseLayout ?
                             (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget) :
                             (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget);
     const bool isFirst = pos == QStyleOptionTab::Beginning || pos == QStyleOptionTab::OnlyOneTab/* (pos == First) || (pos == Single)*/;
@@ -1648,7 +1651,7 @@ void OxygenStyle::renderTab(QPainter *p,
 
         // some "position specific" paintings...
         // First draw the left connection from the panel border to the tab
-        if(isFirst && !reverseLayout && !cornerWidget) {
+        if(isFirst && !reverseLayout && !leftCornerWidget) {
             renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Left);
         } else {
 //            renderHole(p, QRect(Rb.left(), Rb.top(),4,5), false, false, TileSet::Right | TileSet::Bottom);
@@ -1660,7 +1663,7 @@ void OxygenStyle::renderTab(QPainter *p,
         }
 
         // Now draw the right connection from the panel border to the tab
-        if(isFirst && reverseLayout && !cornerWidget) {
+        if(isFirst && reverseLayout && !rightCornerWidget) {
             renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Right);
         } else {
             TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
@@ -1704,12 +1707,12 @@ void OxygenStyle::renderTab(QPainter *p,
         TileSet::Tiles posFlag = bottom?TileSet::Bottom:TileSet::Top;
         QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 6);
 
-        if(isFirst && !reverseLayout && !cornerWidget)
+        if(isLeftMost && isFrameAligned)
             posFlag |= TileSet::Left;
         else
             Ractual.adjust(-6,0,0,0); //7 minus one because we have 1px overlap
 
-        if(isFirst && reverseLayout && !cornerWidget)
+        if(isRightMost && isFrameAligned)
             posFlag |= TileSet::Right;
         else
             Ractual.adjust(0,0,6,0); //7 minus one because we have 1px overlap
