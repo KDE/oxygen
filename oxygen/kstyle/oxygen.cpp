@@ -1064,8 +1064,20 @@ reverseLayout);
                     if (const QStyleOptionHeader *header = qstyleoption_cast<const QStyleOptionHeader *>(opt)) {
                         bool isFirst = (primitive==Header::SectionHor)&&(header->position == QStyleOptionHeader::Beginning);
 
-                        p->setPen(pal.color(QPalette::Button));
-                        p->drawRect(QRect(isFirst?r.left()+1:r.left(), r.top()+1, isFirst?r.width()-2:r.width()-1, r.height()-2));
+                        p->setPen(pal.color(QPalette::Text));
+
+                        QColor color = pal.color(QPalette::Button);
+                        p->fillRect(r, color);
+                        if(primitive == Header::SectionHor) {
+                            if(header->section != 0 || isFirst) {
+                                int center = r.center().y();
+                                renderDot(p, QPointF(r.right()-1, center-3), color);
+                                renderDot(p, QPointF(r.right()-1, center), color);
+                                renderDot(p, QPointF(r.right()-1, center+3), color);
+                            }
+                        }
+                        else
+                            p->drawLine(r.bottomLeft(),r.bottomRight());
                     }
 
                     return;
