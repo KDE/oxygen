@@ -58,6 +58,7 @@
 #include <QtGui/QProgressBar>
 #include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
+#include <QtGui/QToolButton>
 #include <QtGui/QToolBar>
 #include <QtGui/QScrollBar>
 #include <QtGui/QGroupBox>
@@ -134,6 +135,11 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 2);
 
     setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 6);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin,        0);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Left,  6);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Right, 6);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Top, 0);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Bot, 4);
 
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin, 3);
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin+Left, 3);
@@ -183,8 +189,8 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemMargin, 0);
 
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 6);
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    3);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 4);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    0);
 
     setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 5);
 
@@ -1279,8 +1285,11 @@ reverseLayout);
                     {
                         TileSet *tile;
 
-                        tile = _helper.slitFocused(_viewHoverBrush.brush(QPalette::Active).color()); // FIXME need state
-                        tile->render(r, p);
+                        if(mouseOver)
+                            tile = _helper.slitFocused(_viewHoverBrush.brush(QPalette::Active).color());
+                        else
+                             tile = _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color());
+                       tile->render(r, p);
                     }
                     return;
                 }
@@ -1393,6 +1402,7 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QTabBar*>(widget)
         || qobject_cast<QScrollBar*>(widget)
         || qobject_cast<QSlider*>(widget)
+        || qobject_cast<QToolButton*>(widget)
         ) {
         widget->setAttribute(Qt::WA_Hover);
     }
@@ -1776,6 +1786,33 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
             return KStyle::pixelMetric(m,opt,widget);
     }
 }
+
+
+QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const
+{
+    switch(type)
+    {
+        case CT_ToolButton:
+        {
+            // We want to avoid super-skiny buttons, for things like "up" when icons + text
+            // For this, we would like to make width >= height.
+            // However, once we get here, QToolButton may have already put in the menu area 
+            // (PM_MenuButtonIndicator) into the width. So we may have to take it out, fix things 
+            // up, and add it back in. So much for class-independent rendering...
+            QSize size = contentsSize;
+
+            if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
+                if ((!tbOpt->icon.isNull()) && (!tbOpt->text.isEmpty()) && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon)
+                    size.setHeight(size.height()-9);
+            }
+            return KStyle::sizeFromContents(type, option, size, widget);
+        }
+        default:
+            break;
+    }
+    return KStyle::sizeFromContents(type, option, contentsSize, widget);
+}
+
 
 QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComplex* option,
                                 SubControl subControl, const QWidget* widget) const
