@@ -169,9 +169,9 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonSpacing, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Left, 2);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 7);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 9);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 5);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 5);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 4);
 
     setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 6);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Left, 3);
@@ -180,9 +180,9 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 7);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 5);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 5);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 9);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 7);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 3);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::FocusMargin, 0);
 
     setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
@@ -1308,22 +1308,26 @@ reverseLayout);
         switch (primitive) {
             case Generic::ArrowUp: {
                 a.clear();
-                a << QPointF(0.5, -4) << QPointF(5, 4) << QPointF(-4, 4);
+                //a << QPointF(0.5, -4) << QPointF(5, 4) << QPointF(-4, 4);
+                a << QPointF( -3,2.5) << QPointF(0.5, -1.5) << QPointF(4,2.5);
                 break;
             }
             case Generic::ArrowDown: {
                 a.clear();
-                a << QPointF(0.5, 4) << QPointF(5, -4) << QPointF(-4, -4);
+                //a << QPointF(0.5, 4) << QPointF(5, -4) << QPointF(-4, -4);
+                a << QPointF( -3,-2.5) << QPointF(0.5, 1.5) << QPointF(4,-2.5);
               break;
             }
             case Generic::ArrowLeft: {
                 a.clear();
-                a << QPointF(-4, 0.5) << QPointF(4, -4) << QPointF(4, 5);
+//                a << QPointF(-4, 0.5) << QPointF(4, -4) << QPointF(4, 5);
+                a << QPointF(2.5,-3) << QPointF(-1.5, 0.5) << QPointF(2.5,4);
                 break;
             }
             case Generic::ArrowRight: {
                 a.clear();
-                a << QPointF(4, 0.5) << QPointF(-4, -4) << QPointF(-4, 5);
+                //a << QPointF(4, 0.5) << QPointF(-4, -4) << QPointF(-4, 5);
+                a << QPointF(-2.5,-3) << QPointF(1.5, 0.5) << QPointF(-2.5,4);
                 break;
             }
         }
@@ -1333,10 +1337,11 @@ reverseLayout);
         QColor               arrowColor = colorOpt->color.color(pal);
 
         QPen oldPen(p->pen()); // important to save the pen as combobox assumes we don't touch
-        p->setPen(Qt::NoPen);
-        p->setBrush(arrowColor);
+        //p->setPen(Qt::NoPen);
+        //p->setBrush(arrowColor);
+    p->setPen(QPen(arrowColor, 2.2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         p->setRenderHint(QPainter::Antialiasing);
-        p->drawPolygon(a);
+        p->drawPolyline(a);
         p->setRenderHint(QPainter::Antialiasing, false);
         p->setPen(oldPen);
         return;
@@ -1574,7 +1579,7 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     if(mouseOver)
     {
         QPixmap slabPixmap = _helper.roundSlabFocused(pal.color(QPalette::Button),_viewHoverBrush.brush(QPalette::Active).color(), 0.0);
-        p->drawPixmap(x, y, slabPixmap);
+
     }
     else
     {
