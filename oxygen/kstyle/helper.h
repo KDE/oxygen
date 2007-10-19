@@ -66,7 +66,6 @@ protected:
 
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, double fuzz) const;
     void drawSlab(QPainter&, const QColor&, double shade) const;
-    static QPixmap glow(const QColor&, int rsize, int vsize);
 
     QCache<quint64, SlabCache> m_slabCache;
     QCache<quint64, TileSet> m_slabSunkenCache;

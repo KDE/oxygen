@@ -67,6 +67,7 @@ public:
 
 protected:
     void drawShadow(QPainter&, const QColor&, int size) const;
+    static QPixmap glow(const QColor&, int rsize, int vsize);
 
     KComponentData _componentData;
     KSharedConfigPtr _config;
