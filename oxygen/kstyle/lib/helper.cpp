@@ -333,8 +333,8 @@ QPixmap OxygenHelper::glow(const QColor &color, int rsize, int vsize)
     double m = double(vsize)*0.5;
 
     const double width = 3.0;
-    const double fuzz = 0.2;
-    double k0 = (m-width+0.5) / m;
+    const double bias = 0.9; // TODO should depend on rsize, vsize
+    double k0 = (m-width+bias) / m;
     QRadialGradient glowGradient(m, m, m);
     for (int i = 0; i < 8; i++) { // inverse parabolic gradient
         double k1 = (k0 * double(8 - i) + double(i)) * 0.125;
@@ -350,7 +350,7 @@ QPixmap OxygenHelper::glow(const QColor &color, int rsize, int vsize)
     // mask
     p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
     p.setBrush(QBrush(Qt::black));
-    p.drawEllipse(r.adjusted(width+fuzz, width+fuzz, -width-fuzz, -width-fuzz));
+    p.drawEllipse(r.adjusted(width, width, -width, -width));
 
     p.end();
 
