@@ -27,6 +27,8 @@
 
 #include <math.h>
 
+const double _slabThickness = 0.2;
+
 OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
     : OxygenHelper(componentName)
 {
@@ -95,18 +97,22 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, double shade, int size
         p.drawEllipse(QRectF(3.0,3.0,15.0,15.0));
 
         // bevel, part 2
-        QLinearGradient bevelGradient2(0, 7, 0, 28);
-        bevelGradient2.setColorAt(0.0, light);
-        bevelGradient2.setColorAt(0.9, base);
-        p.setBrush(bevelGradient2);
-        p.drawEllipse(QRectF(3.6,3.6,13.8,13.8));
+        if (_slabThickness > 0.0) {
+            QLinearGradient bevelGradient2(0, 7, 0, 28);
+            bevelGradient2.setColorAt(0.0, light);
+            bevelGradient2.setColorAt(0.9, base);
+            p.setBrush(bevelGradient2);
+            p.drawEllipse(QRectF(3.6,3.6,13.8,13.8));
+        }
 
         // inside
         QLinearGradient innerGradient(0, -17, 0, 20);
         innerGradient.setColorAt(0.0, light);
         innerGradient.setColorAt(1.0, base);
         p.setBrush(innerGradient);
-        p.drawEllipse(QRectF(4.4,4.4,12.2,12.2));
+        double ic = 3.6 + _slabThickness;
+        double is = 13.8 - (2.0*_slabThickness);
+        p.drawEllipse(QRectF(ic, ic, is, is));
 
         p.end();
 
@@ -166,16 +172,20 @@ void OxygenStyleHelper::drawSlab(QPainter &p, const QColor &color, double shade)
     p.drawEllipse(QRectF(3.0,3.0,8.0,8.0));
 
     // bevel, part 2
-    QLinearGradient bevelGradient2(0, 6, 0, 19);
-    bevelGradient2.setColorAt(0.0, light);
-    bevelGradient2.setColorAt(0.9, base);
-    p.setBrush(bevelGradient2);
-    p.drawEllipse(QRectF(3.6,3.6,6.8,6.8));
+    if (_slabThickness > 0.0) {
+        QLinearGradient bevelGradient2(0, 6, 0, 19);
+        bevelGradient2.setColorAt(0.0, light);
+        bevelGradient2.setColorAt(0.9, base);
+        p.setBrush(bevelGradient2);
+        p.drawEllipse(QRectF(3.6,3.6,6.8,6.8));
+    }
 
     // inside mask
     p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
     p.setBrush(QBrush(Qt::black));
-    p.drawEllipse(QRectF(4.4,4.4,5.2,5.2));
+    double ic = 3.6 + _slabThickness;
+    double is = 6.8 - (2.0*_slabThickness);
+    p.drawEllipse(QRectF(ic, ic, is, is));
 }
 
 void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
@@ -199,8 +209,9 @@ void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
 
 void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
 {
-    int s = int(floor(double(size)*4.0/7.0));
-    QRect r = rect.adjusted(s, s, -s, -s);
+    double s = double(size) * (3.6 + (0.5 * _slabThickness)) / 7.0;
+    QRectF r = rect;
+    r.adjust(s, s, -s, -s);
     int w = r.width(), h = r.height();
     if (w <= 0 || h <= 0)
         return;
