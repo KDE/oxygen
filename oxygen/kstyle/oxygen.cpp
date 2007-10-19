@@ -498,25 +498,25 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case MenuItem::CheckOn:
                 {
-                    renderCheckBox(p, r, pal, enabled, false, mouseOver, CheckBox::CheckOn);
+                    renderCheckBox(p, r, pal, enabled, false, mouseOver, CheckBox::CheckOn, false);
                     return;
                 }
 
                 case MenuItem::CheckOff:
                 {
-                    renderCheckBox(p, r, pal, enabled, false, mouseOver, CheckBox::CheckOff);
+                    renderCheckBox(p, r, pal, enabled, false, mouseOver, CheckBox::CheckOff, false);
                     return;
                 }
 
                 case MenuItem::RadioOn:
                 {
-                    renderRadioButton(p, r, pal, enabled, mouseOver, RadioButton::RadioOn);
+                    renderRadioButton(p, r, pal, enabled, mouseOver, RadioButton::RadioOn, false);
                     return;
                 }
 
                 case MenuItem::RadioOff:
                 {
-                    renderRadioButton(p, r, pal, enabled, mouseOver, RadioButton::RadioOff);
+                    renderRadioButton(p, r, pal, enabled, mouseOver, RadioButton::RadioOff, false);
                     return;
                 }
 
@@ -1530,7 +1530,8 @@ void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover
 
 // TODO take StyleOptions instead of ugly bools
 void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette &pal,
-                                  bool enabled, bool hasFocus, bool mouseOver, int primitive) const
+                                  bool enabled, bool hasFocus, bool mouseOver, int primitive,
+                                   bool drawButton) const
 {
     int s = qMin(rect.width(), rect.height());
     QRect r = centerRect(rect, s, s);
@@ -1539,7 +1540,8 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     if (hasFocus) opts |= Focus;
     if (mouseOver) opts |= Hover;
 
-    renderSlab(p, r, pal.color(QPalette::Button), opts);
+    if(drawButton)
+        renderSlab(p, r, pal.color(QPalette::Button), opts);
 
     // check mark
     double x = r.center().x() - 3.5, y = r.center().y() - 2.5;
@@ -1563,7 +1565,8 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 }
 
 void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
-                                        bool enabled, bool mouseOver, int prim) const
+                                        bool enabled, bool mouseOver, int prim,
+                                   bool drawButton) const
 {
     QRect r2(r.x() + (r.width()-21)/2, r.y() + (r.height()-21)/2, 21, 21);
     int x = r2.x();
@@ -1573,12 +1576,14 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     if(mouseOver)
     {
         QPixmap slabPixmap = _helper.roundSlabFocused(pal.color(QPalette::Button),_viewHoverBrush.brush(QPalette::Active).color(), 0.0);
-        p->drawPixmap(x, y, slabPixmap);
+        if(drawButton)
+            p->drawPixmap(x, y, slabPixmap);
     }
     else
     {
         QPixmap slabPixmap = _helper.roundSlab(pal.color(QPalette::Button), 0.0);
-        p->drawPixmap(x, y, slabPixmap);
+        if(drawButton)
+            p->drawPixmap(x, y, slabPixmap);
     }
 
     // draw the radio mark

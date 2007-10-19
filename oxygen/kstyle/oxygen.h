@@ -131,9 +131,11 @@ protected:
 
     // TODO: cleanup helper methods...
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
-                        bool enabled, bool hasFocus, bool mouseOver, int checkPrimitive) const;
+                        bool enabled, bool hasFocus, bool mouseOver, int checkPrimitive,
+                                   bool drawButton=true) const;
     void renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
-                           bool enabled, bool mouseOver, int radioPrimitive) const;
+                           bool enabled, bool mouseOver, int radioPrimitive,
+                                   bool drawButton=true) const;
 
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
