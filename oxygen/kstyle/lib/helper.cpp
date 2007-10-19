@@ -356,3 +356,33 @@ QPixmap OxygenHelper::glow(const QColor &color, int rsize, int vsize)
 
     return pixmap;
 }
+
+QPixmap OxygenHelper::windecoButtonFocused(const QColor &color, const QColor &glowColor, int size)
+{
+    quint64 key = (quint64(glowColor.rgba()) << 32) | size;
+    QPixmap *pixmap = m_windecoButtonCache.object(key);
+
+    if (!pixmap)
+    {
+        pixmap = new QPixmap(size*3, size*3);
+        pixmap->fill(QColor(0,0,0,0));
+
+        QPainter p(pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(0,0,21,21);
+
+        // slab
+        QPixmap slabPixmap = windecoButton(color, size);
+        p.drawPixmap(0, 0, slabPixmap);
+
+        // glow
+        QPixmap gp = glow(glowColor, size*3, 21);
+        p.drawPixmap(0, 0, gp);
+
+        p.end();
+
+        m_windecoButtonCache.insert(key, pixmap);
+    }
+    return *pixmap;
+}
