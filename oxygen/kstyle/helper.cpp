@@ -212,12 +212,12 @@ void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
     double s = double(size) * (3.6 + (0.5 * _slabThickness)) / 7.0;
     QRectF r = rect;
     r.adjust(s, s, -s, -s);
-    int w = r.width(), h = r.height();
+    double w = r.width(), h = r.height();
     if (w <= 0 || h <= 0)
         return;
-    int ra = floor(2.0 * (7.0 - (3.6 + (0.5 * _slabThickness))) / 7.0);
-    int rx = (ra*size) / w;
-    int ry = (ra*size) / h;
+    double ra = 2.0 * (7.0 - (3.6 + (0.5 * _slabThickness))) / 7.0;
+    int rx = (int)floor((ra*size) / w);
+    int ry = (int)floor((ra*size) / h);
 
     p.drawRoundRect(r, rx, ry);
 }
