@@ -108,7 +108,7 @@ OxygenStyle::OxygenStyle() :
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 13); // size*2+1
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 13); // size*2-1
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::SingleButtonHeight, 14);
@@ -1802,8 +1802,8 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
         {
             // We want to avoid super-skiny buttons, for things like "up" when icons + text
             // For this, we would like to make width >= height.
-            // However, once we get here, QToolButton may have already put in the menu area 
-            // (PM_MenuButtonIndicator) into the width. So we may have to take it out, fix things 
+            // However, once we get here, QToolButton may have already put in the menu area
+            // (PM_MenuButtonIndicator) into the width. So we may have to take it out, fix things
             // up, and add it back in. So much for class-independent rendering...
             QSize size = contentsSize;
 
