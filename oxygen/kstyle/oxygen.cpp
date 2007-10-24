@@ -108,7 +108,7 @@ OxygenStyle::OxygenStyle() :
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 13); // size*2-1
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 15); // size*2+1
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::SingleButtonHeight, 14);
@@ -652,40 +652,50 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             switch (primitive)
             {
                 case ScrollBar::DoubleButtonHor:
+                    renderHole(p, pal.color(QPalette::Window), QRect(r.left()-5, 0, 5, r.height()),
+                               false, false, TileSet::Top | TileSet::Bottom | TileSet::Right);
+                    break;
+
                 case ScrollBar::DoubleButtonVert:
-                break;
+                    renderHole(p, pal.color(QPalette::Window), QRect(0, r.top()-5, r.width(), 5),
+                               false, false, TileSet::Left | TileSet::Bottom | TileSet::Right);
+                    break;
 
                 case ScrollBar::SingleButtonHor:
-                break;
+                    renderHole(p, pal.color(QPalette::Window), QRect(r.right()+3, 0, 5, r.height()),
+                               false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    break;
 
                 case ScrollBar::SingleButtonVert:
-                break;
+                    renderHole(p, pal.color(QPalette::Window), QRect(0, r.bottom()+3, r.width(), 5),
+                               false, false, TileSet::Top | TileSet::Left | TileSet::Right);
+                    break;
 
                 case ScrollBar::GrooveAreaVertTop:
                 {
-                    renderHole(p, pal.color(QPalette::Window), r.adjusted(0,2,0,10), false, false,
-                               TileSet::Top | TileSet::Left | TileSet::Right);
+                    renderHole(p, pal.color(QPalette::Window), r.adjusted(0,2,0,12),
+                               false, false, TileSet::Left | TileSet::Right);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaVertBottom:
                 {
-                    renderHole(p, pal.color(QPalette::Window), r.adjusted(0,-8,0,0), false, false,
-                               TileSet::Left | TileSet::Bottom | TileSet::Right);
+                    renderHole(p, pal.color(QPalette::Window), r.adjusted(0,-10,0,0), false, false,
+                               TileSet::Left | TileSet::Right);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorLeft:
                 {
-                    renderHole(p, pal.color(QPalette::Window), r.adjusted(2,0,10,0), false, false,
-                               TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    renderHole(p, pal.color(QPalette::Window), r.adjusted(2,0,12,0), false, false,
+                               TileSet::Top | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorRight:
                 {
-                    renderHole(p, pal.color(QPalette::Window), r.adjusted(-8,0,0,0), false, false,
-                               TileSet::Top | TileSet:: Right | TileSet::Bottom);
+                    renderHole(p, pal.color(QPalette::Window), r.adjusted(-10,0,0,0), false, false,
+                               TileSet::Top | TileSet::Bottom);
                     return;
                 }
 
@@ -694,7 +704,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QColor color = pal.color(QPalette::Button);
                     if (mouseOver || (flags & State_Sunken)) // TODO not when disabled ((flags & State_Enabled) doesn't work?)
                         color = _viewHoverBrush.brush(pal).color();
-                    QRect rect = r.adjusted(0,2,0,1);
+                    QRect rect = r.adjusted(1,3,-1,0);
+
+                    renderHole(p, pal.color(QPalette::Window), rect.adjusted(-1,-1,1,0), false, false,
+                               TileSet::Left | TileSet::Right);
 
                     int offset = rect.top()/2; // divide by 2 to make the "lightplay" move half speed of the handle
                     int remainder = qMin(12, rect.height()/2);
@@ -718,7 +731,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QColor color = pal.color(QPalette::Button);
                     if (mouseOver || (flags & State_Sunken)) // TODO not when disabled ((flags & State_Enabled) doesn't work?)
                         color = _viewHoverBrush.brush(pal).color();
-                    QRect rect = r.adjusted(2,0,1,0);
+                    QRect rect = r.adjusted(3,1,0,-1);
+
+                    renderHole(p, pal.color(QPalette::Window), rect.adjusted(-1,-1,0,1), false, false,
+                               TileSet::Top | TileSet::Bottom);
 
                     int offset = r.left()/2; // divide by 2 to make the "lightplay" move half speed of the handle
                     int remainder = qMin(12, rect.width()/2);
