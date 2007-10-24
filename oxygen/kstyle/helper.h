@@ -40,6 +40,8 @@ public:
 
     virtual void invalidateCaches();
 
+    QColor calcMidColor(const QColor &color) const;
+
     static void fillSlab(QPainter&, const QRect&, int size = 7);
 
     QPixmap  roundSlab(const QColor&, double shade, int size = 7);
@@ -53,8 +55,8 @@ public:
 
     TileSet *slope(const QColor&, double shade, int size = 7);
 
-    TileSet *hole(const QColor&);
-    TileSet *holeFocused(const QColor&, QColor glow);
+    TileSet *hole(const QColor&, double shade, int size = 7);
+    TileSet *holeFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
 
     TileSet *slitFocused(const QColor&);
 
@@ -65,6 +67,8 @@ protected:
     SlabCache* slabCache(const QColor&);
 
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, double fuzz) const;
+    void drawInverseGlow(QPainter&, const QColor&, int pad, int size) const;
+    void drawHole(QPainter &p, const QColor&, double shade) const;
     void drawSlab(QPainter&, const QColor&, double shade) const;
 
     static const double _slabThickness = 0.8;

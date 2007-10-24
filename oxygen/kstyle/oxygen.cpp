@@ -663,25 +663,29 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::GrooveAreaVertTop:
                 {
-                    renderHole(p, r.adjusted(0,2,0,10), false, false, TileSet::Top | TileSet::Left | TileSet::Right);
+                    renderHole(p, pal.color(QPalette::Window), r.adjusted(0,2,0,10), false, false,
+                               TileSet::Top | TileSet::Left | TileSet::Right);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaVertBottom:
                 {
-                    renderHole(p, r.adjusted(0,-8,0,0), false, false, TileSet::Left | TileSet::Bottom | TileSet::Right);
+                    renderHole(p, pal.color(QPalette::Window), r.adjusted(0,-8,0,0), false, false,
+                               TileSet::Left | TileSet::Bottom | TileSet::Right);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorLeft:
                 {
-                    renderHole(p, r.adjusted(2,0,10,0), false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    renderHole(p, pal.color(QPalette::Window), r.adjusted(2,0,10,0), false, false,
+                               TileSet::Top | TileSet::Left | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorRight:
                 {
-                    renderHole(p, r.adjusted(-8,0,0,0), false, false, TileSet::Top | TileSet:: Right | TileSet::Bottom);
+                    renderHole(p, pal.color(QPalette::Window), r.adjusted(-8,0,0,0), false, false,
+                               TileSet::Top | TileSet:: Right | TileSet::Bottom);
                     return;
                 }
 
@@ -967,10 +971,10 @@ reverseLayout);
 
                     if (horizontal) {
                         int center = r.y()+r.height()/2;
-                        renderHole(p, QRect(r.left()+4, center-2, r.width()-8, 5));
+                        renderHole(p, pal.color(QPalette::Window), QRect(r.left()+4, center-2, r.width()-8, 5));
                     } else {
                         int center = r.x()+r.width()/2;
-                        renderHole(p, QRect(center-2, r.top()+4, 5, r.height()-8));
+                        renderHole(p, pal.color(QPalette::Window), QRect(center-2, r.top()+4, 5, r.height()-8));
                     }
 
                     return;
@@ -992,7 +996,8 @@ reverseLayout);
                 {
                     QRect fr = r.adjusted(2,2,-2,-2);
                     p->fillRect(fr.adjusted(1,1,-1,-1), inputColor );
-                    renderHole(p, fr, hasFocus, mouseOver);
+                    // TODO use widget background role?
+                    renderHole(p, pal.color(QPalette::Window), fr, hasFocus, mouseOver);
                     return;
                 }
                 case SpinBox::EditField:
@@ -1036,11 +1041,11 @@ reverseLayout);
 
                         if (_inputFocusHighlight && hasFocus && enabled)
                         {
-                            renderHole(p, fr, true, mouseOver);
+                            renderHole(p, pal.color(QPalette::Base), fr, true, mouseOver);
                         }
                         else
                         {
-                            renderHole(p, fr, false, mouseOver);
+                            renderHole(p, pal.color(QPalette::Base), fr, false, mouseOver);
                         }
                     }
 
@@ -1148,11 +1153,11 @@ reverseLayout);
 
                     if ( _inputFocusHighlight && hasFocus && !isReadOnly && isEnabled)
                     {
-                        renderHole(p, r.adjusted(2,2,-2,-3), true, mouseOver);
+                        renderHole(p, pal.color(QPalette::Base), r.adjusted(2,2,-2,-3), true, mouseOver);
                     }
                     else
                     {
-                        renderHole(p, r.adjusted(2,2,-2,-3), false, mouseOver);
+                        renderHole(p, pal.color(QPalette::Base), r.adjusted(2,2,-2,-3), false, mouseOver);
                     }
                     return;
                 }
@@ -1281,7 +1286,7 @@ reverseLayout);
 
                     if((flags & State_Sunken) || (flags & State_On) )
                     {
-                        renderHole(p, r, hasFocus, mouseOver);
+                        renderHole(p, pal.color(QPalette::Window), r, hasFocus, mouseOver);
                     }
                     else if (hasFocus || mouseOver)
                     {
@@ -1351,7 +1356,8 @@ reverseLayout);
             // QFrame, Qt item views, etc.: sunken..
             bool focusHighlight = flags&State_HasFocus/* && flags&State_Enabled*/;
             if (flags & State_Sunken) {
-                renderHole(p, r, focusHighlight);
+                // TODO use widget background role?
+                renderHole(p, pal.color(QPalette::Window), r, focusHighlight);
             } else
                 break; // do the default thing
         }
@@ -1513,20 +1519,19 @@ void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, S
     tile->render(r, p, tiles);
 }
 
-void OxygenStyle::renderHole(QPainter *p, const QRect &r, bool focus, bool hover, TileSet::Tiles posFlags) const
+void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bool focus, bool hover, TileSet::Tiles posFlags) const
 {
     if((r.width() <= 0)||(r.height() <= 0))
         return;
 
     TileSet *tile;
-    QColor base = QColor(Qt::white); // FIXME -- wrong!
     // for holes, focus takes precedence over hover (other way around for buttons)
     if (focus)
-        tile = _helper.holeFocused(base, _viewFocusBrush.brush(QPalette::Active).color()); // FIXME need state
+        tile = _helper.holeFocused(base, _viewFocusBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
     else if (hover)
-        tile = _helper.holeFocused(base, _viewHoverBrush.brush(QPalette::Active).color()); // FIXME need state
+        tile = _helper.holeFocused(base, _viewHoverBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
     else
-        tile = _helper.hole(base);
+        tile = _helper.hole(base, 0.0);
     tile->render(r, p, posFlags);
 }
 

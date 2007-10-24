@@ -123,19 +123,16 @@ protected:
     void renderSlab(QPainter*, const QRect&, const QColor&, StyleOptions = 0,
                     TileSet::Tiles tiles = TileSet::Ring) const;
 
-    void renderHole(QPainter *p,
-                        const QRect &r,
-                        bool focus=false,
-                        bool hover=false,
-                        TileSet::Tiles posFlags = TileSet::Ring) const;
+    void renderHole(QPainter *p, const QColor&, const QRect &r,
+                    bool focus=false, bool hover=false,
+                    TileSet::Tiles posFlags = TileSet::Ring) const;
 
-    // TODO: cleanup helper methods...
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
-                        bool enabled, bool hasFocus, bool mouseOver, int checkPrimitive,
-                                   bool drawButton=true) const;
+                        bool enabled, bool hasFocus, bool mouseOver,
+                        int checkPrimitive, bool drawButton=true) const;
     void renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
                            bool enabled, bool mouseOver, int radioPrimitive,
-                                   bool drawButton=true) const;
+                           bool drawButton=true) const;
 
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
