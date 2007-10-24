@@ -1173,11 +1173,22 @@ reverseLayout);
 
                         if (lineWidth > 0)
                         {
-                            p->fillRect(r.adjusted(-2,-2,2,1).adjusted(lineWidth,lineWidth,-lineWidth,-lineWidth), inputColor);
+                            int lw = lineWidth - 5;
+
+                            p->save();
+                            p->setRenderHint(QPainter::Antialiasing);
+                            p->setPen(Qt::NoPen);
+                            p->setBrush(inputColor);
+
+                            _helper.fillHole(*p, r.adjusted(lw,lw,-lw,-lw-1));
                             drawPrimitive(PE_FrameLineEdit, panel, p, widget);
+
+                            p->restore();
                         }
                         else
+                        {
                             p->fillRect(r.adjusted(2,2,-2,-1), inputColor);
+                        }
                     }
                 }
             }

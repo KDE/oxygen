@@ -43,6 +43,7 @@ public:
     QColor calcMidColor(const QColor &color) const;
 
     static void fillSlab(QPainter&, const QRect&, int size = 7);
+    static void fillHole(QPainter&, const QRect&, int size = 7);
 
     QPixmap  roundSlab(const QColor&, double shade, int size = 7);
     QPixmap  roundSlabFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
