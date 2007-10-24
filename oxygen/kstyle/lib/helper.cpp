@@ -28,7 +28,7 @@
 
 #include <math.h>
 
-const double _shadowGain = 1.5; // keep in sync with oxygen/helper.cpp
+const double OxygenHelper::_shadowGain = 1.5; // keep in sync with oxygen/helper.cpp
 
 // NOTE: OxygenStyleHelper needs to use a KConfig from its own KComponentData
 // Since the ctor order causes a SEGV if we try to pass in a KConfig here from

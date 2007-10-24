@@ -66,7 +66,7 @@ protected:
     void drawShadow(QPainter&, const QColor&, int size) const;
     static QPixmap glow(const QColor&, int rsize, int vsize);
 
-    static const double _shadowGain = 1.5;
+    static const double _shadowGain;
 
     KComponentData _componentData;
     KSharedConfigPtr _config;

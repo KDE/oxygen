@@ -28,6 +28,8 @@
 
 #include <math.h>
 
+const double OxygenStyleHelper::_slabThickness = 0.8;
+
 OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
     : OxygenHelper(componentName)
 {
