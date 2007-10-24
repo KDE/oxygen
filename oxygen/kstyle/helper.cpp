@@ -271,7 +271,7 @@ void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
     double w = r.width(), h = r.height();
     if (w <= 0 || h <= 0)
         return;
-    double ra = 2.0 * (7.0 - (3.6 + (0.5 * _slabThickness))) / 7.0;
+    double ra = 200.0 * (7.0 - (3.6 + (0.5 * _slabThickness))) / 7.0;
     int rx = (int)floor((ra*size) / w);
     int ry = (int)floor((ra*size) / h);
 
