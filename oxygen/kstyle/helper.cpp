@@ -27,8 +27,6 @@
 
 #include <math.h>
 
-const double _slabThickness = 0.8;
-
 OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
     : OxygenHelper(componentName)
 {
@@ -199,7 +197,7 @@ void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
     for (int i = 0; i < 8; i++) { // sinusoidal gradient
         double k1 = (double(8 - i) + k0 * double(i)) * 0.125;
         double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
-        shadowGradient.setColorAt(k1, alphaColor(color, a));
+        shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
     }
     shadowGradient.setColorAt(k0, alphaColor(color, 0.0));
     p.setBrush(shadowGradient);

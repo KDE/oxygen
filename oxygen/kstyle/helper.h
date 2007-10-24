@@ -67,6 +67,8 @@ protected:
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, double fuzz) const;
     void drawSlab(QPainter&, const QColor&, double shade) const;
 
+    static const double _slabThickness = 0.8;
+
     QCache<quint64, SlabCache> m_slabCache;
     QCache<quint64, TileSet> m_slabSunkenCache;
     QCache<quint64, TileSet> m_slabInvertedCache;

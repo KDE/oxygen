@@ -28,6 +28,8 @@
 
 #include <math.h>
 
+const double _shadowGain = 1.5; // keep in sync with oxygen/helper.cpp
+
 // alphaBlendColors Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
 // DEPRECATED (use KColorUtils::mix to the extent we still need such a critter)
 QColor alphaBlendColors(const QColor &bgColor, const QColor &fgColor, const int a)
@@ -93,7 +95,9 @@ bool OxygenHelper::lowThreshold(const QColor &color)
 
 QColor OxygenHelper::alphaColor(QColor color, double alpha)
 {
-    color.setAlphaF(alpha);
+    if (alpha >= 1.0)
+        return color;
+    color.setAlphaF(qMax(0.0, alpha) * color.alphaF());
     return color;
 }
 
@@ -219,7 +223,7 @@ void OxygenHelper::drawShadow(QPainter &p, const QColor &color, int size) const
     for (int i = 0; i < 8; i++) { // sinusoidal gradient
         double k1 = (k0 * double(8 - i) + double(i)) * 0.125;
         double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
-        shadowGradient.setColorAt(k1, alphaColor(color, a));
+        shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
     }
     shadowGradient.setColorAt(1.0, alphaColor(color, 0.0));
     p.setBrush(shadowGradient);
