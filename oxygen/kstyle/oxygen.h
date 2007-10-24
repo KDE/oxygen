@@ -158,8 +158,6 @@ protected Q_SLOTS:
     //For KGlobalSettings notifications
     void globalSettingsChange(int type, int arg);
 
-    inline QColor getColor(const QPalette &pal, const ColorType t, const bool enabled = true)const;
-    inline QColor getColor(const QPalette &pal, const ColorType t, const StyleOptions s)const;
 private:
     mutable bool flatMode;
 

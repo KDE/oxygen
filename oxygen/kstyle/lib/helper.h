@@ -29,10 +29,6 @@
 #include <QtGui/QLinearGradient>
 #include <QtCore/QCache>
 
-// alphaBlendColors Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
-// DEPRECATED
-QColor alphaBlendColors(const QColor &backgroundColor, const QColor &foregroundColor, const int alpha);
-
 // WARNING - OxygenHelper must be a K_GLOBAL_STATIC!
 class OxygenHelper
 {

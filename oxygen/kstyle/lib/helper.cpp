@@ -30,26 +30,6 @@
 
 const double _shadowGain = 1.5; // keep in sync with oxygen/helper.cpp
 
-// alphaBlendColors Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
-// DEPRECATED (use KColorUtils::mix to the extent we still need such a critter)
-QColor alphaBlendColors(const QColor &bgColor, const QColor &fgColor, const int a)
-{
-
-    // normal button...
-    QRgb rgb = bgColor.rgb();
-    QRgb rgb_b = fgColor.rgb();
-    int alpha = a;
-    if(alpha>255) alpha = 255;
-    if(alpha<0) alpha = 0;
-    int inv_alpha = 255 - alpha;
-
-    QColor result  = QColor( qRgb(qRed(rgb_b)*inv_alpha/255 + qRed(rgb)*alpha/255,
-                                  qGreen(rgb_b)*inv_alpha/255 + qGreen(rgb)*alpha/255,
-                                  qBlue(rgb_b)*inv_alpha/255 + qBlue(rgb)*alpha/255) );
-
-    return result;
-}
-
 // NOTE: OxygenStyleHelper needs to use a KConfig from its own KComponentData
 // Since the ctor order causes a SEGV if we try to pass in a KConfig here from
 // a KComponentData constructed in the OxygenStyleHelper ctor, we'll just keep

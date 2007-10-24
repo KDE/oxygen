@@ -1254,13 +1254,13 @@ reverseLayout);
                 case ToolBar::Separator:
                 {
                     if(_drawToolBarItemSeparator) {
+                        // TODO leftover from plastik, probably should be redone
+                        p->setPen(_helper.calcDarkColor(pal.color(QPalette::Background)));
                         if(flags & State_Horizontal) {
                             int center = r.left()+r.width()/2;
-                            p->setPen( getColor(pal, PanelDark) );
                             p->drawLine( center-1, r.top()+3, center-1, r.bottom()-3 );
                         } else {
                             int center = r.top()+r.height()/2;
-                            p->setPen( getColor(pal, PanelDark) );
                             p->drawLine( r.x()+3, center-1, r.right()-3, center-1 );
                         }
                     }
@@ -1871,71 +1871,6 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     }
 
     return false;
-}
-
-QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, const bool enabled)const
-{
-    return getColor(pal, t, StyleOptions(enabled?0:Disabled));
-}
-
-QColor OxygenStyle::getColor(const QPalette &pal, const ColorType t, StyleOptions s)const
-{
-    const bool enabled = !(s & Disabled);
-    const bool pressed = (s & Sunken);
-    const bool highlighted = (s & Hover);
-    switch(t) {
-        case ButtonContour:
-            return enabled ? pal.color(QPalette::Button).dark(130+_contrast*8)
-            : pal.color(QPalette::Background).dark(120+_contrast*8);
-        case DragButtonContour: {
-            if(enabled) {
-                if(pressed)
-                    return pal.color(QPalette::Button).dark(130+_contrast*6); // bright
-                else if(highlighted)
-                    return pal.color(QPalette::Button).dark(130+_contrast*9); // dark
-                else
-                    return pal.color(QPalette::Button).dark(130+_contrast*8); // normal
-            } else {
-                return pal.color(QPalette::Background).dark(120+_contrast*8);
-            }
-        }
-        case DragButtonSurface: {
-            if(enabled) {
-                if(pressed)
-                    return pal.color(QPalette::Button).dark(100-_contrast);  // bright
-                else if(highlighted)
-                    return pal.color(QPalette::Button).light(100+_contrast); // dark
-                else
-                    return pal.color(QPalette::Button);                      // normal
-            } else {
-                return pal.color(QPalette::Background);
-            }
-        }
-        case PanelContour:
-            return pal.color(QPalette::Background).dark(160+_contrast*8);
-        case PanelDark:
-            return alphaBlendColors(pal.color(QPalette::Background), pal.color(QPalette::Background).dark(120+_contrast*5), 110);
-        case PanelDark2:
-            return alphaBlendColors(pal.color(QPalette::Background), pal.color(QPalette::Background).dark(110+_contrast*5), 110);
-        case PanelLight:
-            return alphaBlendColors(pal.color(QPalette::Background), pal.color(QPalette::Background).light(120+_contrast*5), 110);
-        case PanelLight2:
-            return alphaBlendColors(pal.color(QPalette::Background), pal.color(QPalette::Background).light(110+_contrast*5), 110);
-        case MouseOverHighlight:
-            if( _customOverHighlightColor )
-                return _overHighlightColor;
-            else
-                return pal.color( QPalette::Highlight );
-        case FocusHighlight:
-            if( _customFocusHighlightColor )
-                return _focusHighlightColor;
-            else
-                return pal.color( QPalette::Highlight );
-        case CheckMark:
-            return pal.color( QPalette::Foreground );
-        default:
-            return pal.color(QPalette::Background);
-    }
 }
 
 QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option,
