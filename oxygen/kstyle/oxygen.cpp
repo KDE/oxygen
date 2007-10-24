@@ -1843,7 +1843,7 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                     if (const QStyleOptionGroupBox *gbOpt = qstyleoption_cast<const QStyleOptionGroupBox *>(option)) {
                         QFontMetrics fontMetrics = gbOpt->fontMetrics;
                         int h = fontMetrics.height();
-                        int tw = fontMetrics.size(Qt::TextShowMnemonic, gbOpt->text + QLatin1Char('  ')).width();
+                        int tw = fontMetrics.size(Qt::TextShowMnemonic, gbOpt->text + QLatin1String("  ")).width();
                         r.setHeight(h);
                         r.moveTop(8);
 
