@@ -29,6 +29,8 @@
 #include <QtGui/QLinearGradient>
 #include <QtCore/QCache>
 
+#define _glowBias 0.9 // not likely to be configurable
+
 // WARNING - OxygenHelper must be a K_GLOBAL_STATIC!
 class OxygenHelper
 {
@@ -64,7 +66,7 @@ public:
 
 protected:
     void drawShadow(QPainter&, const QColor&, int size) const;
-    static QPixmap glow(const QColor&, int rsize, int vsize);
+    static QPixmap glow(const QColor&, int size, int rsize);
 
     static const double _shadowGain;
 

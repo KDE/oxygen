@@ -149,7 +149,7 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
         p.drawPixmap(0, 0, slabPixmap);
 
         // glow
-        QPixmap gp = glow(glowColor, size*3, 21);
+        QPixmap gp = glow(glowColor, 21, size*3);
         p.drawPixmap(0, 0, gp);
 
         p.end();
@@ -244,13 +244,13 @@ void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
 }
 
 void OxygenStyleHelper::drawInverseGlow(QPainter &p, const QColor &color,
-                                        int pad, int size) const
+                                        int pad, int size, int rsize) const
 {
     QRectF r(pad, pad, size, size);
     double m = double(size)*0.5;
 
     const double width = 3.0;
-    const double bias = 0.5;
+    const double bias = _glowBias * 7.0 / double(rsize);
     double k0 = (m-width) / (m-bias);
     QRadialGradient glowGradient(pad+m, pad+m, m-bias);
     for (int i = 0; i < 8; i++) { // inverse parabolic gradient
@@ -346,7 +346,7 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowC
         slabTileSet->render(QRect(0,0,14,14), &p);
 
         // glow
-        QPixmap gp = glow(glowColor, size*2, 14);
+        QPixmap gp = glow(glowColor, 14, size*2);
         p.drawPixmap(0, 0, gp);
 
         p.end();
@@ -557,7 +557,7 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &color, const QColor &glowC
         p.setWindow(2,2,10,10);
 
         // glow
-        drawInverseGlow(p, glowColor, 3, 8);
+        drawInverseGlow(p, glowColor, 3, 8, size);
 
         p.end();
 

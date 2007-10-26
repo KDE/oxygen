@@ -68,7 +68,7 @@ protected:
     SlabCache* slabCache(const QColor&);
 
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, double fuzz) const;
-    void drawInverseGlow(QPainter&, const QColor&, int pad, int size) const;
+    void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
     void drawHole(QPainter &p, const QColor&, double shade) const;
     void drawSlab(QPainter&, const QColor&, double shade) const;
 

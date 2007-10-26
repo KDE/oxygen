@@ -303,7 +303,7 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, int size)
     return *pixmap;
 }
 
-QPixmap OxygenHelper::glow(const QColor &color, int rsize, int vsize)
+QPixmap OxygenHelper::glow(const QColor &color, int size, int rsize)
 {
     QPixmap pixmap(rsize, rsize);
     pixmap.fill(QColor(0,0,0,0));
@@ -311,13 +311,13 @@ QPixmap OxygenHelper::glow(const QColor &color, int rsize, int vsize)
     QPainter p(&pixmap);
     p.setRenderHints(QPainter::Antialiasing);
     p.setPen(Qt::NoPen);
-    p.setWindow(0,0,vsize,vsize);
+    p.setWindow(0,0,size,size);
 
-    QRectF r(0, 0, vsize, vsize);
-    double m = double(vsize)*0.5;
+    QRectF r(0, 0, size, size);
+    double m = double(size)*0.5;
 
     const double width = 3.0;
-    const double bias = 0.9; // TODO should depend on rsize, vsize
+    const double bias = _glowBias * double(size) / double(rsize);
     double k0 = (m-width+bias) / m;
     QRadialGradient glowGradient(m, m, m);
     for (int i = 0; i < 8; i++) { // inverse parabolic gradient
@@ -361,7 +361,7 @@ QPixmap OxygenHelper::windecoButtonFocused(const QColor &color, const QColor &gl
         p.drawPixmap(0, 0, slabPixmap);
 
         // glow
-        QPixmap gp = glow(glowColor, size*3, 21);
+        QPixmap gp = glow(glowColor, 21, size*3);
         p.drawPixmap(0, 0, gp);
 
         p.end();
