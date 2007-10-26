@@ -129,7 +129,7 @@ protected:
 
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
                         bool enabled, bool hasFocus, bool mouseOver,
-                        int checkPrimitive, bool drawButton=true) const;
+                        int checkPrimitive, bool sunken=false) const;
     void renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
                            bool enabled, bool mouseOver, int radioPrimitive,
                            bool drawButton=true) const;

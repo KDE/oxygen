@@ -46,6 +46,7 @@ void OxygenStyleHelper::invalidateCaches()
     m_slabSunkenCache.clear();
     m_slabInvertedCache.clear();
     m_holeCache.clear();
+    m_holeFlatCache.clear();
     m_slopeCache.clear();
     m_slitCache.clear();
     m_verticalScrollBarCache.clear();
@@ -529,6 +530,39 @@ TileSet *OxygenStyleHelper::hole(const QColor &color, double shade, int size)
         tileSet = new TileSet(pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1);
 
         m_holeCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+TileSet *OxygenStyleHelper::holeFlat(const QColor &color, double shade, int size)
+{
+    quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+    TileSet *tileSet = m_holeFlatCache.object(key);
+
+    if (!tileSet)
+    {
+        int rsize = (int)ceil(double(size) * 5.0/7.0);
+        QPixmap pixmap(rsize*2, rsize*2);
+        pixmap.fill(QColor(0,0,0,0));
+
+        QPainter p(&pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(2,2,10,10);
+
+        // hole
+        drawHole(p, color, shade);
+
+        // hole mask
+        p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+        p.setBrush(Qt::black);
+        p.drawEllipse(3,3,8,8);
+
+        p.end();
+
+        tileSet = new TileSet(pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1);
+
+        m_holeFlatCache.insert(key, tileSet);
     }
     return tileSet;
 }

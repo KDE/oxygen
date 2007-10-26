@@ -500,25 +500,25 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case MenuItem::CheckOn:
                 {
-                    renderCheckBox(p, r, pal, enabled, false, mouseOver, CheckBox::CheckOn, false);
+                    renderCheckBox(p, r.adjusted(-2,-3,3,3), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
                     return;
                 }
 
                 case MenuItem::CheckOff:
                 {
-                    renderCheckBox(p, r, pal, enabled, false, mouseOver, CheckBox::CheckOff, false);
+                    renderCheckBox(p, r.adjusted(-2,-3,3,3), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
                     return;
                 }
 
                 case MenuItem::RadioOn:
                 {
-                    renderRadioButton(p, r, pal, enabled, mouseOver, RadioButton::RadioOn, false);
+                    renderRadioButton(p, r, pal, enabled, mouseOver, RadioButton::RadioOn, true);
                     return;
                 }
 
                 case MenuItem::RadioOff:
                 {
-                    renderRadioButton(p, r, pal, enabled, mouseOver, RadioButton::RadioOff, false);
+                    renderRadioButton(p, r, pal, enabled, mouseOver, RadioButton::RadioOff, true);
                     return;
                 }
 
@@ -1564,8 +1564,8 @@ void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bo
 
 // TODO take StyleOptions instead of ugly bools
 void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette &pal,
-                                  bool enabled, bool hasFocus, bool mouseOver, int primitive,
-                                   bool drawButton) const
+                                 bool enabled, bool hasFocus, bool mouseOver, int primitive,
+                                 bool sunken) const
 {
     int s = qMin(rect.width(), rect.height());
     QRect r = centerRect(rect, s, s);
@@ -1574,8 +1574,25 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     if (hasFocus) opts |= Focus;
     if (mouseOver) opts |= Hover;
 
-    if(drawButton)
+    if(sunken)
+    {
+        QColor color = pal.color(QPalette::Window);
+
+        p->save();
+        p->setRenderHint(QPainter::Antialiasing);
+        p->setPen(Qt::NoPen);
+
+        p->setBrush(color);
+        _helper.fillHole(*p, r.adjusted(-2,-2,2,2));
+
+        p->restore();
+
+        _helper.holeFlat(color, 0.0)->render(r, p);
+    }
+    else
+    {
         renderSlab(p, r, pal.color(QPalette::Button), opts);
+    }
 
     // check mark
     double x = r.center().x() - 3.5, y = r.center().y() - 2.5;

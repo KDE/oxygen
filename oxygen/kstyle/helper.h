@@ -57,6 +57,7 @@ public:
     TileSet *slope(const QColor&, double shade, int size = 7);
 
     TileSet *hole(const QColor&, double shade, int size = 7);
+    TileSet *holeFlat(const QColor&, double shade, int size = 7);
     TileSet *holeFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
 
     TileSet *slitFocused(const QColor&);
@@ -78,6 +79,7 @@ protected:
     QCache<quint64, TileSet> m_slabSunkenCache;
     QCache<quint64, TileSet> m_slabInvertedCache;
     QCache<quint64, TileSet> m_holeCache;
+    QCache<quint64, TileSet> m_holeFlatCache;
     QCache<quint64, TileSet> m_slopeCache;
     QCache<quint64, TileSet> m_slitCache;
     QCache<quint64, TileSet> m_verticalScrollBarCache;
