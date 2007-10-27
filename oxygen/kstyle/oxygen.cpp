@@ -1011,9 +1011,16 @@ reverseLayout);
                 case Generic::Frame:
                 {
                     QRect fr = r.adjusted(2,2,-2,-2);
-                    p->fillRect(fr.adjusted(1,1,-1,-1), inputColor );
+                     p->save();
+                     p->setRenderHint(QPainter::Antialiasing);
+                     p->setPen(Qt::NoPen);
+                     p->setBrush(inputColor);
+
+                     _helper.fillHole(*p, r);
+
+                     p->restore();
                     // TODO use widget background role?
-                    renderHole(p, pal.color(QPalette::Window), fr, hasFocus, mouseOver);
+                    renderHole(p, inputColor, fr, hasFocus, mouseOver);
                     return;
                 }
                 case SpinBox::EditField:
@@ -1053,15 +1060,22 @@ reverseLayout);
                     } else {
                         QRect fr = r.adjusted(2,2,-2,-2);
                         // input area
-                        p->fillRect(fr.adjusted(1,1,-1,-1), inputColor );
+                        p->save();
+                        p->setRenderHint(QPainter::Antialiasing);
+                        p->setPen(Qt::NoPen);
+                        p->setBrush(inputColor);
+
+                        _helper.fillHole(*p, r.adjusted(0,0,0,-1));
+
+                        p->restore();
 
                         if (_inputFocusHighlight && hasFocus && enabled)
                         {
-                            renderHole(p, pal.color(QPalette::Base), fr, true, mouseOver);
+                            renderHole(p, inputColor, fr, true, mouseOver);
                         }
                         else
                         {
-                            renderHole(p, pal.color(QPalette::Base), fr, false, mouseOver);
+                            renderHole(p, inputColor, fr, false, mouseOver);
                         }
                     }
 
@@ -1166,14 +1180,16 @@ reverseLayout);
                     const bool isReadOnly = flags & State_ReadOnly;
                     const bool isEnabled = flags & State_Enabled;
                     const bool hasFocus = flags & State_HasFocus;
+                    const QColor inputColor =
+                                enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
 
                     if ( _inputFocusHighlight && hasFocus && !isReadOnly && isEnabled)
                     {
-                        renderHole(p, pal.color(QPalette::Base), r.adjusted(2,2,-2,-3), true, mouseOver);
+                        renderHole(p, inputColor, r.adjusted(2,2,-2,-3), true, mouseOver);
                     }
                     else
                     {
-                        renderHole(p, pal.color(QPalette::Base), r.adjusted(2,2,-2,-3), false, mouseOver);
+                        renderHole(p, inputColor, r.adjusted(2,2,-2,-3), false, mouseOver);
                     }
                     return;
                 }
