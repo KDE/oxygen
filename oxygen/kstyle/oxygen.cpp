@@ -103,8 +103,6 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
 
-//    setWidgetLayoutProp(WT_LineEdit, LineEdit::FrameWidth, 5);
-
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
@@ -183,7 +181,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 9);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 7);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 6);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 3);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::FocusMargin, 0);
 
