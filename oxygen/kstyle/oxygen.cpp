@@ -1611,7 +1611,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     // check mark
     double x = r.center().x() - 3.5, y = r.center().y() - 2.5;
 
-    QPen pen(pal.color(QPalette::Text), 2.0);
+    QPen pen(pal.color(QPalette::Text), 2.2);
     if (primitive == CheckBox::CheckTriState) {
         QVector<qreal> dashes;
         dashes << 1.0 << 2;
@@ -1622,9 +1622,13 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     if (primitive != CheckBox::CheckOff)
     {
         p->setRenderHint(QPainter::Antialiasing);
+        QRect r2(rect.x() + (rect.width()-21)/2, r.y() + (rect.height()-21)/2, 21, 21);
+        pen.setBrush(_helper.decoGradient(rect.adjusted(2,2,-2,-2), pal.color(QPalette::ButtonText)));
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setJoinStyle(Qt::RoundJoin);
         p->setPen(pen);
-        p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
-        p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
+        p->drawLine(QPointF(x+8, y-1), QPointF(x,y+7));
+        p->drawLine(QPointF(x+8, y+7), QPointF(x,y-1));
         p->setRenderHint(QPainter::Antialiasing, false);
     }
 }
