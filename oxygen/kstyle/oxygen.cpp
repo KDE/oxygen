@@ -1611,24 +1611,35 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     // check mark
     double x = r.center().x() - 3.5, y = r.center().y() - 2.5;
 
-    QPen pen(pal.color(QPalette::Text), 2.2);
-    if (primitive == CheckBox::CheckTriState) {
-        QVector<qreal> dashes;
-        dashes << 1.0 << 2;
-        pen.setWidthF(1.3);
-        pen.setDashPattern(dashes);
-    }
-
     if (primitive != CheckBox::CheckOff)
     {
-        p->setRenderHint(QPainter::Antialiasing);
         QRect r2(rect.x() + (rect.width()-21)/2, r.y() + (rect.height()-21)/2, 21, 21);
-        pen.setBrush(_helper.decoGradient(rect.adjusted(2,2,-2,-2), pal.color(QPalette::ButtonText)));
+        QBrush brush = _helper.decoGradient(rect.adjusted(2,2,-2,-2), pal.color(QPalette::ButtonText));
+        QPen pen(brush, 2.2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+
         pen.setCapStyle(Qt::RoundCap);
-        pen.setJoinStyle(Qt::RoundJoin);
+        if (primitive == CheckBox::CheckTriState) {
+#if 1 // check
+            QVector<qreal> dashes;
+            dashes << 1.0 << 2.0;
+            pen.setWidthF(1.3);
+            pen.setDashPattern(dashes);
+#else // 'X'
+            QVector<qreal> dashes;
+            dashes << 0.4 << 2.0;
+            pen.setDashPattern(dashes);
+#endif
+        }
+
+        p->setRenderHint(QPainter::Antialiasing);
         p->setPen(pen);
+#if 1 // check
+        p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
+        p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
+#else // 'X'
         p->drawLine(QPointF(x+8, y-1), QPointF(x,y+7));
         p->drawLine(QPointF(x+8, y+7), QPointF(x,y-1));
+#endif
         p->setRenderHint(QPainter::Antialiasing, false);
     }
 }
