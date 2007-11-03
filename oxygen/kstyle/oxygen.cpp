@@ -572,6 +572,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     const QStyleOptionDockWidget* dwOpt = ::qstyleoption_cast<const QStyleOptionDockWidget*>(opt);
                     const QDockWidget *dw = qobject_cast<const QDockWidget*>(widget);
+                    if (!dw) return; // widget is not even guarenteed to be non-NULL, let alone for it to be a QDockWidget
                     if (!dwOpt) return;
                     if (dw->isFloating()) return;
 
