@@ -221,6 +221,7 @@ OxygenStyle::OxygenStyle() :
 
 void OxygenStyle::updateProgressPos()
 {
+    return;
     QProgressBar* pb;
     //Update the registered progressbars.
     QMap<QWidget*, int>::iterator iter;
@@ -389,7 +390,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QColor color = _viewHoverBrush.brush(pal).color();
                     QRect rect = r.adjusted(0,-2,2+r.width() / 300,2); // right pos: hackish, but neccessary...
 
-                    int staticShift = 0;
                     int animShift = 0;
                     if (_animateProgressBar) {
                         // find the animation Offset for the current Widget
