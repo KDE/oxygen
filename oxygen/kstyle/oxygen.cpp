@@ -236,7 +236,7 @@ void OxygenStyle::updateProgressPos()
              pb->value() != pb->maximum() )
         {
             // update animation Offset of the current Widget
-            iter.value() = (iter.value() + 1) % 20;
+            iter.value() = (iter.value() + 1) % 32;
             iter.key()->update();
         }
         if (iter.key()->isVisible())
@@ -389,7 +389,16 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QColor color = _viewHoverBrush.brush(pal).color();
                     QRect rect = r.adjusted(0,-2,2+r.width() / 300,2); // right pos: hackish, but neccessary...
 
-                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), r.width());
+                    int staticShift = 0;
+                    int animShift = 0;
+                    if (_animateProgressBar) {
+                        // find the animation Offset for the current Widget
+                        QWidget* nonConstWidget = const_cast<QWidget*>(widget);
+                        QMap<QWidget*, int>::const_iterator iter = progAnimWidgets.find(nonConstWidget);
+                        if (iter != progAnimWidgets.end())
+                            animShift = iter.value();
+                    }
+                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), r.width()-animShift);
 
                     p->save();
                     p->setClipRect(rect.adjusted(-32,0,32,0));
@@ -1614,7 +1623,6 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 
     if (primitive != CheckBox::CheckOff)
     {
-        QRect r2(rect.x() + (rect.width()-21)/2, r.y() + (rect.height()-21)/2, 21, 21);
         QBrush brush = _helper.decoGradient(rect.adjusted(2,2,-2,-2), pal.color(QPalette::ButtonText));
         QPen pen(brush, 2.2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 
@@ -1638,8 +1646,8 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
         p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
         p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
 #else // 'X'
-        p->drawLine(QPointF(x+8, y-1), QPointF(x,y+7));
-        p->drawLine(QPointF(x+8, y+7), QPointF(x,y-1));
+        p->drawLine(QPointF(x+7, y), QPointF(x+1,y+6));
+        p->drawLine(QPointF(x+7, y+6), QPointF(x+1,y));
 #endif
         p->setRenderHint(QPainter::Antialiasing, false);
     }
@@ -1817,12 +1825,12 @@ void OxygenStyle::renderTab(QPainter *p,
         if(isLeftMost && isFrameAligned)
             posFlag |= TileSet::Left;
         else
-            Ractual.adjust(-6,0,0,0); //7 minus one because we have 1px overlap
+            Ractual.adjust(-7,0,0,0); // fixme: hovering rightmost tab causes green artifact
 
         if(isRightMost && isFrameAligned)
             posFlag |= TileSet::Right;
         else
-            Ractual.adjust(0,0,6,0); //7 minus one because we have 1px overlap
+            Ractual.adjust(0,0,7,0); // fixme: hovering rightmost tab causes green artifact
 
         if (mouseOver)
             renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover, posFlag);
