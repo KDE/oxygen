@@ -135,16 +135,16 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 0);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 2);
 
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 6);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 0);
     setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin,        0);
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Left,  6);
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Right, 6);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Left,  0);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Right, 0);
     setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Top, 0);
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Bot, 4);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Bot, 3);
 
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin, 3);
-    setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin+Left, 3);
-    setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin+Right, 3);
+    setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin+Left, 5);
+    setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin+Right, 5);
 
     setWidgetLayoutProp(WT_MenuItem, MenuItem::CheckAlongsideIcon, 1);
     setWidgetLayoutProp(WT_MenuItem, MenuItem::CheckWidth, 13);
