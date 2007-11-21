@@ -71,6 +71,7 @@
 #include <KGlobal>
 #include <KGlobalSettings>
 #include <KColorUtils>
+#include <kdebug.h>
 
 #include <math.h>
 
@@ -131,7 +132,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 25);
 
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
-    setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 1);
+    setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 0);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 2);
 
     setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 6);
@@ -542,10 +543,67 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         {
             switch (primitive)
             {
-//                case Generic::Text:
+                case Generic::Text:
+                {
+                    const QStyleOptionDockWidget* dwOpt = ::qstyleoption_cast<const QStyleOptionDockWidget*>(opt);
+                    if (!dwOpt) return;
+                    const QStyleOptionDockWidgetV2 *v2 = qstyleoption_cast<const QStyleOptionDockWidgetV2*>(opt);
+                    bool verticalTitleBar = v2 ? v2->verticalTitleBar : false;
+
+                    QRect btnr = subElementRect(dwOpt->floatable ? SE_DockWidgetFloatButton : SE_DockWidgetCloseButton, opt, widget);
+                    int fw = widgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, opt, widget);
+                    QRect r = dwOpt->rect.adjusted(fw, fw, -fw, -fw);
+                    if (verticalTitleBar)
+                        r.setY(btnr.y()+btnr.height());
+                    else if(reverseLayout)
+                    {
+                        r.setLeft(btnr.x()+btnr.width());
+                        r.adjust(0,0,-4,0);
+                    }
+                    else
+                    {
+                        r.setRight(btnr.x());
+                        r.adjust(4,0,0,0);
+                    }
+
+                    QString title = dwOpt->title;
+                    QString tmpTitle = title;
+                    if(tmpTitle.contains("&"))
+                    {
+                        int pos = tmpTitle.indexOf("&");
+                        if(!(tmpTitle.size()-1 > pos && tmpTitle.at(pos+1) == QChar('&')))
+                            tmpTitle.remove(pos, 1);
+                    }
+                    int tw = dwOpt->fontMetrics.width(tmpTitle);
+                    int th = dwOpt->fontMetrics.height();
+                    int width = verticalTitleBar ? r.height() : r.width();
+                    if (width < tw)
+                        title = dwOpt->fontMetrics.elidedText(title, Qt::ElideRight, width, Qt::TextShowMnemonic);
+
+                    if (verticalTitleBar)
+                    {
+                        QRect br(dwOpt->fontMetrics.boundingRect(title));
+                        QImage textImage(br.size(), QImage::Format_ARGB32_Premultiplied);
+                        textImage.fill(Qt::transparent);
+                        QPainter painter(&textImage);
+                        drawItemText(&painter, QRect(0, 0, br.width(), br.height()), Qt::AlignLeft|Qt::AlignTop|Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title, QPalette::WindowText);
+                        painter.end();
+                        textImage = textImage.transformed(QMatrix().rotate(-90));
+
+                        int y = width < tw ? r.y()+r.height()-textImage.height() : r.y()+(r.height()-tw)/2;
+                        p->drawPixmap(r.x()+(r.width()-th)/2, y, QPixmap::fromImage(textImage));
+                    }
+                    else
+                    {
+                        drawItemText(p, r, (reverseLayout ? Qt::AlignRight : Qt::AlignLeft) | Qt::AlignVCenter
+                        | Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title,
+                        QPalette::WindowText);
+                    }
+                    return;
+                }
                 case Generic::Frame:
                 {
-                    // shadows of the frame
+                    // shadows of the frame (only happens when floating)
                     int x,y,w,h;
 
                     r.getRect(&x, &y, &w, &h);
@@ -579,25 +637,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case DockWidget::TitlePanel:
                 {
-                    const QStyleOptionDockWidget* dwOpt = ::qstyleoption_cast<const QStyleOptionDockWidget*>(opt);
-                    const QDockWidget *dw = qobject_cast<const QDockWidget*>(widget);
-                    if (!dw) return; // widget is not even guarenteed to be non-NULL, let alone for it to be a QDockWidget
-                    if (!dwOpt) return;
-                    if (dw->isFloating()) return;
-
-                    int x,y,w,h;
-
-                    dw->rect().getRect(&x, &y, &w, &h);
-                    h--;
-                    p->setPen(QColor(0,0,0, 30));
-                    p->drawLine(QPointF(6.3, 0.5), QPointF(w-6.3, 0.5));
-                    p->drawArc(QRectF(0.5, 0.5, 9.5, 9.5),90*16, 90*16);
-                    p->drawArc(QRectF(w-9.5-0.5, 0.5, 9.5, 9.5), 0, 90*16);
-                    p->drawLine(QPointF(0.5, 6.3), QPointF(0.5, h-6.3));
-                    p->drawLine(QPointF(w-0.5, 6.3), QPointF(w-0.5, h-6.3));
-                    p->drawArc(QRectF(0.5, h-9.5-0.5, 9.5, 9.5),180*16, 90*16);
-                    p->drawArc(QRectF(w-9.5-0.5, h-9.5-0.5, 9.5, 9.5), 270*16, 90*16);
-                    p->drawLine(QPointF(6.3, h-0.5), QPointF(w-6.3, h-0.5));
+                    // The frame is draw in the eventfilter
+                    // This is because when a dockwidget has a titlebarwidget, then we can not
+                    //  paint on the dockwidget prober here
                     return;
                 }
 
@@ -1428,6 +1470,8 @@ reverseLayout);
 
 void OxygenStyle::polish(QWidget* widget)
 {
+    if (!widget) return;
+
     switch (widget->windowFlags() & Qt::WindowType_Mask) {
         case Qt::Window:
         case Qt::Dialog:
@@ -1466,9 +1510,9 @@ void OxygenStyle::polish(QWidget* widget)
     }
 
     if (qobject_cast<QMenuBar*>(widget)
-        || (widget && widget->inherits("Q3ToolBar"))
+        || widget->inherits("Q3ToolBar")
         || qobject_cast<QToolBar*>(widget)
-        || (widget && qobject_cast<QToolBar *>(widget->parent())) )
+        || qobject_cast<QToolBar *>(widget->parent()) )
     {
         widget->setBackgroundRole(QPalette::Background);
     }
@@ -1476,6 +1520,11 @@ void OxygenStyle::polish(QWidget* widget)
     if (qobject_cast<QScrollBar*>(widget))
     {
         widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
+    }
+    else if (qobject_cast<QDockWidget*>(widget))
+    {
+        widget->setContentsMargins(2,1,2,2);
+        widget->installEventFilter(this);
     }
 
     KStyle::polish(widget);
@@ -1510,6 +1559,10 @@ void OxygenStyle::unpolish(QWidget* widget)
     if (qobject_cast<QScrollBar*>(widget))
     {
         widget->setAttribute(Qt::WA_OpaquePaintEvent);
+    }
+    else if (qobject_cast<QDockWidget*>(widget))
+    {
+        widget->setContentsMargins(0,0,0,0);
     }
 
     KStyle::unpolish(widget);
@@ -1954,6 +2007,32 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         if ((ev->type() == QEvent::Show) && !animationTimer->isActive())
         {
             animationTimer->start( 50 );
+        }
+    }
+
+    if (QDockWidget*dw = qobject_cast<QDockWidget*>(obj))
+    {
+        if (ev->type() == QEvent::Paint)
+        {
+            if(dw->isFloating())
+                return false;
+
+            int x,y,w,h;
+
+            dw->rect().getRect(&x, &y, &w, &h);
+
+            h--;
+            QPainter p(dw);
+            p.setPen(QColor(0,0,0, 30));
+            p.drawLine(QPointF(6.3, 0.5), QPointF(w-6.3, 0.5));
+            p.drawArc(QRectF(0.5, 0.5, 9.5, 9.5),90*16, 90*16);
+            p.drawArc(QRectF(w-9.5-0.5, 0.5, 9.5, 9.5), 0, 90*16);
+            p.drawLine(QPointF(0.5, 6.3), QPointF(0.5, h-6.3));
+            p.drawLine(QPointF(w-0.5, 6.3), QPointF(w-0.5, h-6.3));
+            p.drawArc(QRectF(0.5, h-9.5-0.5, 9.5, 9.5),180*16, 90*16);
+            p.drawArc(QRectF(w-9.5-0.5, h-9.5-0.5, 9.5, 9.5), 270*16, 90*16);
+            p.drawLine(QPointF(6.3, h-0.5), QPointF(w-6.3, h-0.5));
+            return false;
         }
     }
 
