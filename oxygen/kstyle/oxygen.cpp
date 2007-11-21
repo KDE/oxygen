@@ -1968,27 +1968,46 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
     switch (control)
     {
         case CC_GroupBox:
+        {
+            const QStyleOptionGroupBox *gbOpt = qstyleoption_cast<const QStyleOptionGroupBox *>(option);
+            if (!gbOpt)
+                break;
+
             switch (subControl)
             {
                 case SC_GroupBoxFrame:
                     return r;
-
+                case SC_GroupBoxContents:
+                {
+                    int th = gbOpt->fontMetrics.height() + 8;
+                    QRect cr = subElementRect(SE_CheckBoxIndicator, option, widget);
+                    int fw = widgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, option, widget);
+                    return r.adjusted(fw, fw + qMax(th, cr.height()), -fw, -fw);
+                }
+                case SC_GroupBoxCheckBox:
                 case SC_GroupBoxLabel:
                 {
-                    if (const QStyleOptionGroupBox *gbOpt = qstyleoption_cast<const QStyleOptionGroupBox *>(option)) {
-                        QFontMetrics fontMetrics = gbOpt->fontMetrics;
-                        int h = fontMetrics.height();
-                        int tw = fontMetrics.size(Qt::TextShowMnemonic, gbOpt->text + QLatin1String("  ")).width();
-                        r.setHeight(h);
-                        r.moveTop(8);
-
-                        return alignedRect(gbOpt->direction, Qt::AlignHCenter, QSize(tw, h), r);
+                    QFontMetrics fontMetrics = gbOpt->fontMetrics;
+                    int h = fontMetrics.height();
+                    int tw = fontMetrics.size(Qt::TextShowMnemonic, gbOpt->text + QLatin1String("  ")).width();
+                    r.setHeight(h);
+                    r.moveTop(8);
+                    QRect cr;
+                    if(gbOpt->subControls & QStyle::SC_GroupBoxCheckBox)
+                    {
+                        cr = subElementRect(SE_CheckBoxIndicator, option, widget);
+                        QRect gcr((gbOpt->rect.width() - tw -cr.width())/2 , (h-cr.height())/2+r.y(), cr.width(), cr.height());
+                        if(subControl == SC_GroupBoxCheckBox)
+                            return visualRect(option->direction, option->rect, gcr);
                     }
+                    r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
+                    return visualRect(option->direction, option->rect, r);
                 }
-
                 default:
                     break;
             }
+            break;
+        }
         default:
             break;
     }
