@@ -291,6 +291,31 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
 }
 
 
+void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const
+{
+    switch (element)
+    {
+        case CE_RubberBand:
+        {
+            if (const QStyleOptionRubberBand *rbOpt = qstyleoption_cast<const QStyleOptionRubberBand *>(option))
+            {
+                p->save();
+                QColor color = rbOpt->palette.color(QPalette::Highlight);
+                color.setAlpha(50);
+                p->setBrush(color);
+                color = KColorUtils::mix(color, rbOpt->palette.color(QPalette::Active, QPalette::WindowText));
+                p->setPen(color);
+                p->setClipRegion(rbOpt->rect);
+                p->drawRect(rbOpt->rect.adjusted(0,0,-1,-1));
+                p->restore();
+            }
+            break;
+        }
+        default:
+            KStyle::drawControl(element, option, p, widget);
+    }
+}
+
 void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                        const QStyleOption* opt,
                                        const QRect &r, const QPalette &pal,
@@ -1907,6 +1932,15 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
         case SH_ItemView_ShowDecorationSelected:
             return true;
 
+        case SH_RubberBand_Mask:
+        {
+            const QStyleOptionRubberBand *opt = qstyleoption_cast<const QStyleOptionRubberBand *>(option);
+            if (!opt)
+                return true;
+            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>(returnData))
+                mask->region = option->rect;
+            return true;
+        }
         default:
             return KStyle::styleHint(hint, option, widget, returnData);
     }

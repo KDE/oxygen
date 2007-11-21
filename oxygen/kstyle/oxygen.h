@@ -69,6 +69,8 @@ public:
     virtual void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
                                QPainter *painter, const QWidget *widget) const;
 
+    virtual void drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const;
+
     virtual void drawKStylePrimitive(WidgetType widgetType, int primitive,
                                      const QStyleOption* opt,
                                      const QRect &r, const QPalette &pal, State flags,
