@@ -1,7 +1,7 @@
 [Misc]
 Name=Oxygen
 Name[csb]=Krziseń
-Name[eo]=Oksigen
+Name[es]=Oxígeno
 Name[kk]=Оттегі
 Name[km]=អុកស៊ីហ្សែន
 Name[ne]=अक्सिजन
@@ -18,6 +18,8 @@ Comment[bg]=Стил за следващото поколение работни
 Comment[ca]=Estil de la propera generació d'escriptori
 Comment[de]=Das KDE-Design der nächsten Generation
 Comment[el]=Μορφή της νέας γενιάς επιφάνειας εργασίας
+Comment[eo]=Stilo de la tabulo de sekva generacio
+Comment[es]=Estilo de la siguiente generación de escritorios
 Comment[et]=Uue põlvkonna töölaua stiil
 Comment[hu]=Új generációs stílus
 Comment[it]=Stile per il desktop della prossima generazione
