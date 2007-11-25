@@ -65,6 +65,7 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QDockWidget>
 #include <QStyleOptionDockWidget>
+#include <QPaintEvent>
 
 #include <QtDBus/QtDBus>
 
@@ -252,44 +253,6 @@ void OxygenStyle::updateProgressPos()
 OxygenStyle::~OxygenStyle()
 {
 }
-
-
-void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option,
-                                QPainter *painter, const QWidget *widget) const
-{
-    switch (element)
-    {
-        case PE_Widget:
-        {
-            if (!widget)
-                return;
-
-            if (widget->isWindow()) {
-            QColor color = option->palette.color(widget->backgroundRole());
-            int splitY = qMin(300, 3*option->rect.height()/4);
-
-            QRect upperRect = QRect(0, 0, option->rect.width(), splitY);
-            QPixmap tile = _helper.verticalGradient(color, splitY);
-            painter->drawTiledPixmap(upperRect, tile);
-
-            QRect lowerRect = QRect(0,splitY, option->rect.width(), option->rect.height() - splitY);
-            painter->fillRect(lowerRect, _helper.backgroundBottomColor(color));
-
-            int radialW = qMin(600, option->rect.width());
-            int frameH = widget->geometry().y() - widget->y();
-            tile = _helper.radialGradient(color, radialW);
-            QRect radialRect = QRect((option->rect.width() - radialW) / 2, 0, radialW, 64-frameH);
-            painter->drawPixmap(radialRect, tile, QRect(0, frameH, radialW, 64-frameH));
-            }
-
-            break;
-        }
-
-        default:
-            KStyle::drawPrimitive(element, option, painter, widget);
-    }
-}
-
 
 void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const
 {
@@ -1501,14 +1464,12 @@ void OxygenStyle::polish(QWidget* widget)
         case Qt::Window:
         case Qt::Dialog:
         case Qt::Popup:
-            widget->setAttribute(Qt::WA_StyledBackground);
+            widget->installEventFilter(this);
+            break;
         case Qt::Tool: // this we exclude as it is used for dragging of icons etc
         default:
             break;
     }
-
-    if (qobject_cast<const QGroupBox*>(widget))
-        widget->setAttribute(Qt::WA_StyledBackground);
 
     if( _animateProgressBar && qobject_cast<QProgressBar*>(widget) )
     {
@@ -2063,6 +2024,18 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         }
     }
 
+    if (static_cast<QWidget*>(obj)->isWindow()) {
+        if (ev->type() == QEvent::Paint)
+        {
+            QWidget *widget = static_cast<QWidget*>(obj);
+            QPainter p(widget);
+            QPaintEvent *e = (QPaintEvent*)ev;
+            p.setClipRegion(e->region());
+            renderWindowBackground(&p, e->rect(), widget);
+        }
+        return false;
+    }
+
     if (QDockWidget*dw = qobject_cast<QDockWidget*>(obj))
     {
         if (ev->type() == QEvent::Paint)
@@ -2145,4 +2118,28 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             return KStyle::standardPixmap(standardIcon, option, widget);
     }
 }
+
+void OxygenStyle::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget) const
+{
+    QRect r = widget->rect();
+    QColor color = widget->palette().color(widget->backgroundRole());
+    int splitY = qMin(300, 3*r.height()/4);
+
+    QRect upperRect = QRect(0, 0, r.width(), splitY);
+    QPixmap tile = _helper.verticalGradient(color, splitY);
+    p->drawTiledPixmap(upperRect, tile);
+
+    QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
+    p->fillRect(lowerRect, _helper.backgroundBottomColor(color));
+
+    int radialW = qMin(600, r.width());
+    int frameH = widget->geometry().y() - widget->y();
+    QRect radialRect = QRect((r.width() - radialW) / 2, 0, radialW, 64-frameH);
+    if (clipRect.intersects(radialRect))
+    {
+        tile = _helper.radialGradient(color, radialW);
+        p->drawPixmap(radialRect, tile, QRect(0, frameH, radialW, 64-frameH));
+    }
+}
+
 // kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;

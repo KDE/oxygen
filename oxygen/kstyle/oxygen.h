@@ -66,9 +66,6 @@ public:
     OxygenStyle();
     virtual ~OxygenStyle();
 
-    virtual void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
-                               QPainter *painter, const QWidget *widget) const;
-
     virtual void drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const;
 
     virtual void drawKStylePrimitive(WidgetType widgetType, int primitive,
@@ -146,6 +143,8 @@ protected:
                    const bool bottom,
                    const QStyleOptionTabV2 *tabOpt,
                    const bool reverseLayout) const;
+
+    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget) const;
 
     bool eventFilter(QObject *, QEvent *);
 
