@@ -2028,7 +2028,11 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         if (ev->type() == QEvent::Paint)
         {
             QWidget *widget = static_cast<QWidget*>(obj);
-            if (widget->autoFillBackground()) {
+            QBrush brush = widget->palette().brush(widget->backgroundRole());
+            // don't use our background if the app requested something else,
+            // e.g. a pixmap
+            // TODO - draw our light effects over an arbitrary fill?
+            if (brush.style() == Qt::SolidPattern) {
                 QPainter p(widget);
                 QPaintEvent *e = (QPaintEvent*)ev;
                 p.setClipRegion(e->region());
