@@ -2028,10 +2028,12 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         if (ev->type() == QEvent::Paint)
         {
             QWidget *widget = static_cast<QWidget*>(obj);
-            QPainter p(widget);
-            QPaintEvent *e = (QPaintEvent*)ev;
-            p.setClipRegion(e->region());
-            renderWindowBackground(&p, e->rect(), widget);
+            if (widget->autoFillBackground()) {
+                QPainter p(widget);
+                QPaintEvent *e = (QPaintEvent*)ev;
+                p.setClipRegion(e->region());
+                renderWindowBackground(&p, e->rect(), widget);
+            }
         }
         return false;
     }
