@@ -626,14 +626,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     {
                         QRect br(dwOpt->fontMetrics.boundingRect(title));
                         QImage textImage(br.size(), QImage::Format_ARGB32_Premultiplied);
-                        textImage.fill(Qt::transparent);
+                        textImage.fill(0x00000000);
                         QPainter painter(&textImage);
                         drawItemText(&painter, QRect(0, 0, br.width(), br.height()), Qt::AlignLeft|Qt::AlignTop|Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title, QPalette::WindowText);
                         painter.end();
                         textImage = textImage.transformed(QMatrix().rotate(-90));
 
-                        int y = width < tw ? r.y()+r.height()-textImage.height() : r.y()+(r.height()-tw)/2;
-                        p->drawPixmap(r.x()+(r.width()-th)/2, y, QPixmap::fromImage(textImage));
+                        p->drawPixmap(r.x()+(r.width()-th)/2, r.y()+r.height()-textImage.height(), QPixmap::fromImage(textImage));
                     }
                     else
                     {
