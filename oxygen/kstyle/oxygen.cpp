@@ -60,6 +60,7 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QToolButton>
 #include <QtGui/QToolBar>
+#include <QtGui/QToolBox>
 #include <QtGui/QScrollBar>
 #include <QtGui/QGroupBox>
 #include <QtGui/QLineEdit>
@@ -1499,12 +1500,20 @@ void OxygenStyle::polish(QWidget* widget)
     if (qobject_cast<QMenuBar*>(widget)
         || widget->inherits("Q3ToolBar")
         || qobject_cast<QToolBar*>(widget)
-        || qobject_cast<QToolBar *>(widget->parent()) )
+        || qobject_cast<QToolBar *>(widget->parent())
+        || qobject_cast<QToolBox*>(widget))
     {
-        widget->setBackgroundRole(QPalette::Background);
+        widget->setBackgroundRole(QPalette::NoRole);
     }
-
-    if (qobject_cast<QScrollBar*>(widget))
+/*
+    if (qobject_cast<QToolBox *>(widget->parent()))
+    {
+        widget->setBackgroundRole(QPalette::NoRole);
+        widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
+        widget->setAutoFillBackground(false);
+    }
+*/
+    if (qobject_cast<QScrollBar*>(widget) )
     {
         widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
     }
@@ -1538,7 +1547,8 @@ void OxygenStyle::unpolish(QWidget* widget)
     if (qobject_cast<QMenuBar*>(widget)
         || (widget && widget->inherits("Q3ToolBar"))
         || qobject_cast<QToolBar*>(widget)
-        || (widget && qobject_cast<QToolBar *>(widget->parent())) )
+        || (widget && qobject_cast<QToolBar *>(widget->parent()))
+        || qobject_cast<QToolBox*>(widget))
     {
         widget->setBackgroundRole(QPalette::Button);
     }
@@ -2033,7 +2043,8 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             // don't use our background if the app requested something else,
             // e.g. a pixmap
             // TODO - draw our light effects over an arbitrary fill?
-            if (brush.style() == Qt::SolidPattern) {
+            if (brush.style() == Qt::SolidPattern &&
+                     !widget->testAttribute(Qt::WA_NoSystemBackground)) {
                 QPainter p(widget);
                 QPaintEvent *e = (QPaintEvent*)ev;
                 p.setClipRegion(e->region());
