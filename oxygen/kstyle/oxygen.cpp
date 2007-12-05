@@ -67,6 +67,7 @@
 #include <QtGui/QDockWidget>
 #include <QStyleOptionDockWidget>
 #include <QPaintEvent>
+#include <QToolBox>
 
 #include <QtDBus/QtDBus>
 
@@ -197,6 +198,8 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 5);
 
+    setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, 5);
+
     QSettings settings;
     // TODO get from KGlobalSettings::contrastF or expose in OxygenHelper
     _contrast = settings.value("/Qt/KDE/contrast", 6).toInt();
@@ -326,11 +329,60 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case ToolBoxTab::Panel:
                 {
-//                    bool sunken   = (flags & State_On) || (flags & State_Sunken) || (flags & State_Selected);
-            QCommonStyle::drawControl(CE_ToolBoxTabShape, opt, p, widget);
+                    const QStyleOptionToolBox *option = qstyleoption_cast<const QStyleOptionToolBox *>(opt);
+                    if(!(option && widget)) return;
 
-//                    renderButton(p, r, pal, sunken, mouseOver);
+                    const QStyleOptionToolBoxV2 *v2 = qstyleoption_cast<const QStyleOptionToolBoxV2 *>(opt);
+                    bool enabled = option->state & State_Enabled;
+                    QPixmap pm = option->icon.pixmap(pixelMetric(QStyle::PM_SmallIconSize, option, widget),
+                                                 enabled ? QIcon::Normal : QIcon::Disabled);
+                    int cm = widgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, opt, widget);
+                    QRect cr = r.adjusted(cm,2,-50-cm,0);
 
+                    if(!pm.isNull() && cr.width() >= pm.width())
+                    {
+                        QRect pr(cr.x(), cr.y()+(cr.height()-pm.height())/2, pm.width(), pm.height());
+                        pr = visualRect(option->direction, cr, pr);
+                        p->drawPixmap(pr.x(), pr.y(), pm);
+                        cr.adjust(pm.width()+4, 0, reverseLayout ? -(pm.width()+4) : 0, 0);
+                    }
+                    QString txt = option->fontMetrics.elidedText(option->text, Qt::ElideRight, cr.width()-pm.width());
+                    int alignment = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic;
+
+                    p->save();
+                    if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning)
+                    {
+                        p->restore();
+                        return;
+                    }
+
+                    QColor color = widget->palette().color(QPalette::Window); // option returns a wrong color
+                    QColor light = _helper.calcLightColor(color);
+                    QColor dark = _helper.calcDarkColor(color);
+
+                    QPainterPath path;
+                    path.moveTo(r.x()+r.width()-52, r.y());
+                    int y = r.height()*15/100;
+                    path.cubicTo(QPointF(r.x()+r.width()-50+8, r.y()), QPointF(r.x()+r.width()-50+10, r.y()+y), QPointF(r.x()+r.width()-50+10, r.y()+y));
+                    path.lineTo(r.x()+r.width()-18-9, r.y()+r.height()-y);
+                    path.cubicTo(QPointF(r.x()+r.width()-18-9, r.y()+r.height()-y), QPointF(r.x()+r.width()-19-6, r.y()+r.height()-1-0.3), QPointF(r.x()+r.width()-19, r.y()+r.height()-1-0.3));
+
+                    p->setRenderHint(QPainter::Antialiasing, true);
+                    p->translate(0,1);
+                    p->setPen(light);
+                    p->drawPath(path);
+                    p->translate(0,-1);
+                    p->setPen(dark);
+                    p->drawPath(path);
+
+                    p->setRenderHint(QPainter::Antialiasing, false);
+                    p->drawLine(r.x(), r.y(), r.x()+r.width()-50+1, r.y());
+                    p->drawLine(r.x()+r.width()-20, r.y()+r.height()-2, r.x()+r.width(), r.y()+r.height()-2);
+                    p->setPen(light);
+                    p->drawLine(r.x(), r.y()+1, r.x()+r.width()-50, r.y()+1);
+                    p->drawLine(r.x()+r.width()-20, r.y()+r.height()-1, r.x()+r.width(), r.y()+r.height()-1);
+
+                    p->restore();
                     return;
                 }
             }
@@ -1522,6 +1574,12 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setContentsMargins(2,1,2,2);
         widget->installEventFilter(this);
     }
+    else if (qobject_cast<QToolBox*>(widget))
+    {
+        widget->setBackgroundRole(QPalette::Window);
+        widget->setContentsMargins(5,5,5,5);
+        widget->installEventFilter(this);
+    }
 
     KStyle::polish(widget);
 }
@@ -1560,6 +1618,12 @@ void OxygenStyle::unpolish(QWidget* widget)
     else if (qobject_cast<QDockWidget*>(widget))
     {
         widget->setContentsMargins(0,0,0,0);
+    }
+    else if (qobject_cast<QToolBox*>(widget))
+    {
+        widget->setBackgroundRole(QPalette::Button);
+        widget->setContentsMargins(0,0,0,0);
+        widget->removeEventFilter(this);
     }
 
     KStyle::unpolish(widget);
@@ -2078,6 +2142,21 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             p.drawLine(QPointF(6.3, h-0.5), QPointF(w-6.3, h-0.5));
             return false;
         }
+    }
+
+    if (QToolBox *tb = qobject_cast<QToolBox*>(obj))
+    {
+        if (ev->type() == QEvent::Paint)
+        {
+            QRect r = tb->rect();
+            StyleOptions opts = NoFill;
+
+            QPainter p(tb);
+            p.setClipRegion(((QPaintEvent*)ev)->region());
+            renderSlab(&p, r, tb->palette().color(QPalette::Button), opts);
+            return false;
+        }
+        return false;
     }
 
     return false;
