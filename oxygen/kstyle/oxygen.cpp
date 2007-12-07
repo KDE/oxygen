@@ -1516,9 +1516,9 @@ void OxygenStyle::polish(QWidget* widget)
     switch (widget->windowFlags() & Qt::WindowType_Mask) {
         case Qt::Window:
         case Qt::Dialog:
-        case Qt::Popup:
             widget->installEventFilter(this);
             break;
+        case Qt::Popup: // we currently don't want gradients on menus etc
         case Qt::Tool: // this we exclude as it is used for dragging of icons etc
         default:
             break;
