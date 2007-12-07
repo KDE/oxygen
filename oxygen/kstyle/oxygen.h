@@ -45,6 +45,7 @@
 
 #include <QtGui/QBitmap>
 #include <QtGui/QStyleOption>
+#include <QTabBar>
 
 #include "helper.h"
 #include "tileset.h"
@@ -57,6 +58,14 @@
 #define QCOORDARRLEN(x) sizeof(x)/(sizeof(QCOORD)*2)
 
 class QTimer;
+
+class OTabBar : public QTabBar
+{
+    friend class OxygenStyle;
+public:
+    OTabBar(QWidget *parent) : QTabBar(parent) {}
+};
+
 
 class OxygenStyle : public KStyle
 {
@@ -74,6 +83,8 @@ public:
                                      QPainter* p,
                                      const QWidget* widget = 0,
                                      Option* kOpt = 0) const;
+
+    virtual QRect subElementRect(SubElement sr, const QStyleOption *opt, const QWidget *widget) const;
 
     virtual void polish(QWidget* widget);
     virtual void unpolish(QWidget* widget);
@@ -140,7 +151,6 @@ protected:
                    const QPalette &pal,
                    bool mouseOver,
                    const bool selected,
-                   const bool bottom,
                    const QStyleOptionTabV2 *tabOpt,
                    const bool reverseLayout) const;
 
