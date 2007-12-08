@@ -205,7 +205,7 @@ OxygenStyle::OxygenStyle() :
     // TODO get from KGlobalSettings::contrastF or expose in OxygenHelper
     _contrast = settings.value("/Qt/KDE/contrast", 6).toInt();
     settings.beginGroup("/oxygenstyle/Settings");
-    _animateProgressBar = settings.value("/animateProgressBar", true).toBool();
+    _animateProgressBar = settings.value("/animateProgressBar", false).toBool();
     _drawToolBarItemSeparator = settings.value("/drawToolBarItemSeparator", true).toBool();
     _drawTriangularExpander = settings.value("/drawTriangularExpander", false).toBool();
     settings.endGroup();
@@ -221,7 +221,6 @@ OxygenStyle::OxygenStyle() :
 
 void OxygenStyle::updateProgressPos()
 {
-    return;
     QProgressBar* pb;
     //Update the registered progressbars.
     QMap<QWidget*, int>::iterator iter;
@@ -237,8 +236,8 @@ void OxygenStyle::updateProgressPos()
              pb->value() != pb->maximum() )
         {
             // update animation Offset of the current Widget
-            iter.value() = (iter.value() + 1) % 32;
-            iter.key()->update();
+            //iter.value() = (iter.value() + 1) % 32;
+            // dont' update right now      iter.key()->update();
         }
         if (iter.key()->isVisible())
             visible = true;
@@ -1799,6 +1798,7 @@ void OxygenStyle::unpolish(QWidget* widget)
 void OxygenStyle::progressBarDestroyed(QObject* obj)
 {
     progAnimWidgets.remove(static_cast<QWidget*>(obj));
+    //the timer updates will stop next time if this was the last visible one
 }
 
 void OxygenStyle::globalSettingsChange(int type, int arg)
