@@ -170,16 +170,9 @@ private:
     mutable bool flatMode;
 
     int _contrast; // FIXME should be qreal, from KGlobalSettings::contrastF()
-    bool _scrollBarLines;
     bool _animateProgressBar;
     bool _drawToolBarItemSeparator;
-    bool _drawFocusRect;
     bool _drawTriangularExpander;
-    bool _inputFocusHighlight;
-    bool _customOverHighlightColor; // FIXME REMOVE ME
-    bool _customFocusHighlightColor; // FIXME REMOVE ME
-    QColor _overHighlightColor; // FIXME REMOVE ME
-    QColor _focusHighlightColor; // FIXME REMOVE ME
 
     // global colors
     OxygenStyleHelper &_helper;

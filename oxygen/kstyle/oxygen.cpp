@@ -205,17 +205,10 @@ OxygenStyle::OxygenStyle() :
     // TODO get from KGlobalSettings::contrastF or expose in OxygenHelper
     _contrast = settings.value("/Qt/KDE/contrast", 6).toInt();
     settings.beginGroup("/oxygenstyle/Settings");
-    _scrollBarLines = settings.value("/scrollBarLines", false).toBool();
     _animateProgressBar = settings.value("/animateProgressBar", true).toBool();
     _drawToolBarItemSeparator = settings.value("/drawToolBarItemSeparator", true).toBool();
-    _drawFocusRect = settings.value("/drawFocusRect", true).toBool();
     _drawTriangularExpander = settings.value("/drawTriangularExpander", false).toBool();
-    _inputFocusHighlight = settings.value("/inputFocusHighlight", true).toBool();
     settings.endGroup();
-
-    // FIXME below this line to be deleted (and can we not use QSettings? KConfig* is safe now)
-    _customOverHighlightColor = true;
-    _customFocusHighlightColor = true;
 
     if ( _animateProgressBar )
     {
@@ -1318,7 +1311,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                         p->restore();
 
-                        if (_inputFocusHighlight && hasFocus && enabled)
+                        if (hasFocus && enabled)
                         {
                             renderHole(p, inputColor, fr, true, mouseOver);
                         }
@@ -1432,7 +1425,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     const QColor inputColor =
                                 enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
 
-                    if ( _inputFocusHighlight && hasFocus && !isReadOnly && isEnabled)
+                    if (hasFocus && !isReadOnly && isEnabled)
                     {
                         renderHole(p, inputColor, r.adjusted(2,2,-2,-3), true, mouseOver);
                     }
