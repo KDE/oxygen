@@ -340,8 +340,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         p->drawPixmap(pr.x(), pr.y(), pm);
                         cr.adjust(pm.width()+4, 0, reverseLayout ? -(pm.width()+4) : 0, 0);
                     }
-                    QString txt = option->fontMetrics.elidedText(option->text, Qt::ElideRight, cr.width()-pm.width());
-                    int alignment = Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic;
 
                     p->save();
                     if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning)
@@ -1716,19 +1714,11 @@ void OxygenStyle::polish(QWidget* widget)
     if (qobject_cast<QMenuBar*>(widget)
         || widget->inherits("Q3ToolBar")
         || qobject_cast<QToolBar*>(widget)
-        || qobject_cast<QToolBar *>(widget->parent())
-        || qobject_cast<QToolBox*>(widget))
+        || qobject_cast<QToolBar *>(widget->parent()))
     {
         widget->setBackgroundRole(QPalette::NoRole);
     }
-/*
-    if (qobject_cast<QToolBox *>(widget->parent()))
-    {
-        widget->setBackgroundRole(QPalette::NoRole);
-        widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
-        widget->setAutoFillBackground(false);
-    }
-*/
+
     if (qobject_cast<QScrollBar*>(widget) )
     {
         widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
@@ -1740,9 +1730,16 @@ void OxygenStyle::polish(QWidget* widget)
     }
     else if (qobject_cast<QToolBox*>(widget))
     {
-        widget->setBackgroundRole(QPalette::Window);
+        widget->setBackgroundRole(QPalette::NoRole);
+        widget->setAutoFillBackground(false);
         widget->setContentsMargins(5,5,5,5);
         widget->installEventFilter(this);
+    }
+    else if (widget->parentWidget() && widget->parentWidget()->parentWidget() && qobject_cast<QToolBox*>(widget->parentWidget()->parentWidget()->parentWidget()))
+    {
+        widget->setBackgroundRole(QPalette::NoRole);
+        widget->setAutoFillBackground(false);
+        widget->parentWidget()->setAutoFillBackground(false);
     }
     else if (qobject_cast<QTabBar*>(widget))
     {
