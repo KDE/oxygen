@@ -191,6 +191,37 @@ void OxygenStyleHelper::drawHole(QPainter &p, const QColor &color, double shade)
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
 }
 
+void OxygenStyleHelper::drawGroove(QPainter &p, const QColor &color, double shade) const
+{
+    QColor base = KColorUtils::shade(color, shade);
+    QColor light = KColorUtils::shade(calcLightColor(color), shade);
+    QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+    QColor mid = KColorUtils::shade(calcMidColor(color), shade);
+
+    // bevel
+    qreal y = KColorUtils::luma(base);
+    qreal yl = KColorUtils::luma(light);
+    qreal yd = KColorUtils::luma(dark);
+    QLinearGradient bevelGradient1(0, 2, 0, 8);
+    bevelGradient1.setColorAt(0.2, dark);
+    bevelGradient1.setColorAt(0.5, mid);
+    bevelGradient1.setColorAt(1.0, light);
+    if (y < yl && y > yd) // no middle when color is very light/dark
+        bevelGradient1.setColorAt(0.7, base);
+    p.setBrush(bevelGradient1);
+    p.drawEllipse(2,2,6,6);
+
+    // mask
+    QRadialGradient maskGradient(5,5,3);
+    maskGradient.setColorAt(0.8, QColor(0,0,0,255));
+    maskGradient.setColorAt(0.9, QColor(0,0,0,140));
+    maskGradient.setColorAt(1.00, QColor(0,0,0,0));
+    p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+    p.setBrush(maskGradient);
+    p.drawRect(0,0,10,10);
+    p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+}
+
 void OxygenStyleHelper::drawSlab(QPainter &p, const QColor &color, double shade) const
 {
     QColor base = KColorUtils::shade(color, shade);
@@ -598,6 +629,43 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &color, const QColor &glowC
         tileSet = new TileSet(pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1);
 
         m_holeCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+TileSet *OxygenStyleHelper::groove(const QColor &color, double shade, int size)
+{
+    quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+    TileSet *tileSet = m_grooveCache.object(key);
+
+    if (!tileSet)
+    {
+        int rsize = (int)ceil(double(size) * 3.0/7.0);
+        QPixmap pixmap(rsize*2, rsize*2);
+        pixmap.fill(QColor(0,0,0,0));
+
+        QPainter p(&pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(2,2,6,6);
+
+        // hole
+        drawGroove(p, color, shade);
+
+        // hole mask
+        p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+        p.setBrush(Qt::black);
+        p.drawEllipse(4,4,2,2);
+
+        // shadow
+        p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        drawInverseShadow(p, calcShadowColor(color), 3, 4, 0.0);
+
+        p.end();
+
+        tileSet = new TileSet(pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1);
+
+        m_grooveCache.insert(key, tileSet);
     }
     return tileSet;
 }

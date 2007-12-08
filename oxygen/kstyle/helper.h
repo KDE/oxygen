@@ -60,10 +60,13 @@ public:
     TileSet *holeFlat(const QColor&, double shade, int size = 7);
     TileSet *holeFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
 
+    TileSet *groove(const QColor&, double shade, int size = 7);
+
     TileSet *slitFocused(const QColor&);
 
     TileSet *verticalScrollBar(const QColor&, int width, int offset, int size = 6);
     TileSet *horizontalScrollBar(const QColor&, int width, int offset, int size = 6);
+    void drawGroove(QPainter &p, const QColor&, double shade) const;
 
 protected:
     SlabCache* slabCache(const QColor&);
@@ -81,6 +84,7 @@ protected:
     QCache<quint64, TileSet> m_holeCache;
     QCache<quint64, TileSet> m_holeFlatCache;
     QCache<quint64, TileSet> m_slopeCache;
+    QCache<quint64, TileSet> m_grooveCache;
     QCache<quint64, TileSet> m_slitCache;
     QCache<quint64, TileSet> m_verticalScrollBarCache;
     QCache<quint64, TileSet> m_horizontalScrollBarCache;

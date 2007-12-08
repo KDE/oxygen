@@ -1226,10 +1226,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     if (horizontal) {
                         int center = r.y()+r.height()/2;
-                        renderHole(p, pal.color(QPalette::Window), QRect(r.left()+4, center-2, r.width()-8, 5));
+                        _helper.groove(pal.color(QPalette::Window), 0.0)->render(
+                                    QRect(r.left()+4, center-2, r.width()-8, 5), p);
                     } else {
                         int center = r.x()+r.width()/2;
-                        renderHole(p, pal.color(QPalette::Window), QRect(center-2, r.top()+4, 5, r.height()-8));
+                        _helper.groove(pal.color(QPalette::Window), 0.0)->render(
+                                    QRect(center-2, r.top()+4, 5, r.height()-8), p);
+
                     }
 
                     return;
