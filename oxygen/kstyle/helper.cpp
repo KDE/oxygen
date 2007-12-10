@@ -687,12 +687,13 @@ TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
         p.setRenderHint(QPainter::Antialiasing);
         QRadialGradient rg = QRadialGradient(4.5, 4.5, 4.5, 4.5, 4.5);
         QColor tmpColor = glowColor;
+        tmpColor.setAlpha(180);
         rg.setColorAt(0.75, tmpColor);
         tmpColor.setAlpha(0);
-        rg.setColorAt(0.9, tmpColor);
-        rg.setColorAt(0.6, tmpColor);
+        rg.setColorAt(0.90, tmpColor);
+        rg.setColorAt(0.4, tmpColor);
         p.setBrush(rg);
-        p.drawEllipse(QRectF(0,0, 9, 9));
+        p.drawEllipse(QRectF(0, 0, 9, 9));
 
         tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
 
