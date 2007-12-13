@@ -435,7 +435,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), r.width()-animShift);
 
                     p->save();
-                    p->setClipRect(rect.adjusted(-32,0,32,0));
+                    //p->setClipRect(rect.adjusted(-32,0,32,0));
+                    /* HACK - make progress bars with a few percent progress look less broken. */
+                    p->setClipRect(rect.adjusted(1,0,0,0));
                     tiles1->render(rect, p, TileSet::Left | TileSet::Vertical | TileSet::Right);
                     p->restore();
                     return;
