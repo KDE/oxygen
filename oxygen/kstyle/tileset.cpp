@@ -79,7 +79,7 @@ TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w3, int h3, int x1, int
 }
 
 TileSet::TileSet(const TileSet &other)
-    : _w1(other._w1), _w3(other._w3), _h1(other._h1), _h3(other._h3)
+    : _w1(other._w1), _h1(other._h1), _w3(other._w3), _h3(other._h3)
 {
     for (int i=0; i<9; i++) {
         _pixmap[i] = other._pixmap[i];
