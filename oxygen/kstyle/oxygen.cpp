@@ -554,7 +554,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case Menu::Background:
                 {
-                    p->fillRect( r, pal.color(QPalette::Background).light( 105 ) );
+                    //Not used anymore as we have installed an eventfilter instead
+//                    p->fillRect( r, pal.color(QPalette::Background).light( 105 ) );
                     return;
                 }
 
@@ -1813,6 +1814,12 @@ void OxygenStyle::polish(QWidget* widget)
     {
         widget->installEventFilter(this);
     }
+    else if (qobject_cast<QMenu*>(widget))
+    {
+        widget->setAttribute(Qt::WA_PaintOnScreen, true);
+        widget->setAttribute(Qt::WA_NoSystemBackground, true);
+        widget->installEventFilter(this);
+    }
     KStyle::polish(widget);
 }
 
@@ -1859,6 +1866,12 @@ void OxygenStyle::unpolish(QWidget* widget)
     }
     else if (qobject_cast<QTabBar*>(widget))
     {
+        widget->removeEventFilter(this);
+    }
+    else if (qobject_cast<QMenu*>(widget))
+    {
+        widget->setAttribute(Qt::WA_PaintOnScreen, false);
+        widget->setAttribute(Qt::WA_NoSystemBackground, false);
         widget->removeEventFilter(this);
     }
     KStyle::unpolish(widget);
@@ -2744,6 +2757,32 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         if ((ev->type() == QEvent::Show) && !animationTimer->isActive())
         {
             animationTimer->start( 50 );
+        }
+    }
+
+    if (QMenu *m = qobject_cast<QMenu*>(obj))
+    {
+        switch(ev->type()) {
+        case QEvent::Show:
+        case QEvent::Resize: {
+            int x, y, w, h;
+            m->rect().getRect(&x, &y, &w, &h);
+            QRegion reg(x+3, y, w-6, h);
+            reg += QRegion(x, y+3, w, h-6);
+            reg += QRegion(x+2, y+1, w-4, h-2);
+            reg += QRegion(x+1, y+2, w-2, h-4);
+            if(m->mask() != reg)
+                m->setMask(reg);
+            return false;
+        }
+        case QEvent::Paint: {
+            // ### remove this if the frame leaves no holes
+            QPainter p(m);
+            p.fillRect(m->rect(), m->palette().color(QPalette::Background));
+            return false;
+        }
+        default:
+            return false;
         }
     }
 
