@@ -2954,7 +2954,7 @@ void OxygenStyle::renderWindowBackground(QPainter *p, const QRect &clipRect, con
     p->fillRect(lowerRect, _helper.backgroundBottomColor(color));
 
     int radialW = qMin(600, r.width());
-    int frameH = widget->geometry().y() - widget->y();
+    int frameH = 32; // on first paint the frame may not have been done yet, so just fixate it
     QRect radialRect = QRect((r.width() - radialW) / 2, 0, radialW, 64-frameH);
     if (clipRect.intersects(radialRect))
     {

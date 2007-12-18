@@ -169,7 +169,7 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width)
 
     if (!pixmap)
     {
-        width /= 2;
+//        width /= 2;
         pixmap = new QPixmap(width, 64);
         pixmap->fill(QColor(0,0,0,0));
         QColor radialColor = backgroundRadialColor(color);
@@ -185,7 +185,7 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width)
 
         QPainter p(pixmap);
         p.scale(width/128.0,1);
-        p.fillRect(pixmap->rect(), gradient);
+        p.fillRect(QRect(0,0,128,64), gradient);
 
         m_backgroundCache.insert(key, pixmap);
     }
