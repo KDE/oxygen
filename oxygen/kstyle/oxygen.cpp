@@ -138,7 +138,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 0);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 2);
 
-    setWidgetLayoutProp(WT_Menu, Menu::FrameWidth, 3);
+    setWidgetLayoutProp(WT_Menu, Menu::FrameWidth, 5);
     setWidgetLayoutProp(WT_Menu, Menu::Margin,     4);
 
     setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 0);
@@ -469,10 +469,27 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     bool active  = flags & State_Selected;
                     bool focused = flags & State_HasFocus;
-//                     bool down = flags & State_Sunken;
+                     bool submenuOpen = flags & State_Sunken;
 
-                    if (active && focused) {
-//                        renderButton(p, r, pal, down, mouseOver, true);
+                    if (active) {
+//p->fillRect(r,pal.color(QPalette::Highlight));
+                        QColor color;
+                        if(submenuOpen)
+                             color = pal.color(QPalette::Window);
+                        else
+                             color = pal.color(QPalette::Highlight);
+                        color.setAlpha(128);
+
+                        p->save();
+                        p->setRenderHint(QPainter::Antialiasing);
+                        p->setPen(Qt::NoPen);
+
+                        p->setBrush(color);
+                        _helper.fillHole(*p, r.adjusted(-2,-2,2,2));
+
+                        p->restore();
+
+                        _helper.holeFlat(color, 0.0)->render(r, p);
                     }
 
                     return;
@@ -554,8 +571,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case Menu::Background:
                 {
-                    //Not used anymore as we have installed an eventfilter instead
-//                    p->fillRect( r, pal.color(QPalette::Background).light( 105 ) );
+                    p->fillRect( r, pal.color(QPalette::Background));
                     return;
                 }
 
@@ -592,7 +608,19 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case MenuItem::ItemIndicator:
                 {
                     if (enabled) {
-                        p->fillRect(r, pal.color(QPalette::Highlight));
+                        QColor color = pal.color(QPalette::Highlight);
+                        color.setAlpha(128);
+
+                        p->save();
+                        p->setRenderHint(QPainter::Antialiasing);
+                        p->setPen(Qt::NoPen);
+
+                        p->setBrush(color);
+                        _helper.fillHole(*p, r.adjusted(-2,-2,2,2));
+
+                        p->restore();
+
+                        _helper.holeFlat(color, 0.0)->render(r, p);
                     }
                     else {
                         drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
@@ -1816,8 +1844,6 @@ void OxygenStyle::polish(QWidget* widget)
     }
     else if (qobject_cast<QMenu*>(widget))
     {
-        widget->setAttribute(Qt::WA_PaintOnScreen, true);
-        widget->setAttribute(Qt::WA_NoSystemBackground, true);
         widget->installEventFilter(this);
     }
     KStyle::polish(widget);
@@ -2767,18 +2793,12 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         case QEvent::Resize: {
             int x, y, w, h;
             m->rect().getRect(&x, &y, &w, &h);
-            QRegion reg(x+3, y, w-6, h);
-            reg += QRegion(x, y+3, w, h-6);
+            QRegion reg(x+4, y, w-8, h);
+            reg += QRegion(x, y+4, w, h-8);
             reg += QRegion(x+2, y+1, w-4, h-2);
             reg += QRegion(x+1, y+2, w-2, h-4);
             if(m->mask() != reg)
                 m->setMask(reg);
-            return false;
-        }
-        case QEvent::Paint: {
-            // ### remove this if the frame leaves no holes
-            QPainter p(m);
-            p.fillRect(m->rect(), m->palette().color(QPalette::Background));
             return false;
         }
         default:
