@@ -41,113 +41,42 @@ DEALINGS IN THE SOFTWARE.
 
 extern "C"
 {
-	KDE_EXPORT QWidget* allocate_kstyle_config(QWidget* parent)
-	{
-		KGlobal::locale()->insertCatalog("kstyle_config");
-		return new OxygenStyleConfig(parent);
-	}
+    KDE_EXPORT QWidget* allocate_kstyle_config(QWidget* parent)
+    {
+        KGlobal::locale()->insertCatalog("kstyle_config");
+        return new OxygenStyleConfig(parent);
+    }
 }
 
 OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
 {
-	//Should have no margins here, the dialog provides them
-	QVBoxLayout* layout = new QVBoxLayout(this);
+    //Should have no margins here, the dialog provides them
+    QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(0);
 
-	KGlobal::locale()->insertCatalog("kstyle_config");
+    KGlobal::locale()->insertCatalog("kstyle_config");
 
-// 	scrollBarLines = new QCheckBox(i18n("Scrollbar handle lines"), this);
-	animateProgressBar = new QCheckBox(i18n("Animate progress bars"), this);
-	drawToolBarSeparator = new QCheckBox(i18n("Draw toolbar separator"), this);
-	drawToolBarItemSeparator = new QCheckBox(i18n("Draw toolbar item separators"), this);
-// 	drawFocusRect = new QCheckBox(i18n("Draw focus rectangles"), this);
-	drawTriangularExpander = new QCheckBox(i18n("Triangular tree expander"), this);
-	inputFocusHighlight = new QCheckBox(i18n("Highlight focused text input fields"), this);
+    //animateProgressBar = new QCheckBox(i18n("Animate progress bars"), this);
+    drawToolBarItemSeparator = new QCheckBox(i18n("Draw toolbar item separators"), this);
+    drawTriangularExpander = new QCheckBox(i18n("Triangular tree expander"), this);
 
-    customFocusHighlightColor = new QCheckBox(i18n("Custom text input highlight color:"), this);
-    KHBox *hbox1 = new KHBox(this);
-    hbox1->layout()->addItem(new QSpacerItem(20, 0, QSizePolicy::Fixed, QSizePolicy::Minimum) );
-    focusHighlightColor = new KColorButton(hbox1);
+    //layout->addWidget(animateProgressBar);
+    layout->addWidget(drawToolBarItemSeparator);
+    layout->addWidget(drawTriangularExpander);
+    layout->addStretch(1);
 
-    customOverHighlightColor = new QCheckBox(i18n("Custom mouseover highlight color:"), this);
-    KHBox *hbox2 = new KHBox(this);
-    hbox2->layout()->addItem(new QSpacerItem(20, 0, QSizePolicy::Fixed, QSizePolicy::Minimum) );
-    overHighlightColor = new KColorButton(hbox2);
+    QSettings s;
+    //origAnimProgressBar = s.value("/oxygenstyle/Settings/animateProgressBar", true).toBool();
+    //animateProgressBar->setChecked(origAnimProgressBar);
+    origDrawToolBarItemSeparator = s.value("/oxygenstyle/Settings/drawToolBarItemSeparator", true).toBool();
+    drawToolBarItemSeparator->setChecked(origDrawToolBarItemSeparator);
+    origDrawTriangularExpander = s.value("/oxygenstyle/Settings/drawTriangularExpander", false).toBool();
+    drawTriangularExpander->setChecked(origDrawTriangularExpander);
 
-    customCheckMarkColor = new QCheckBox(i18n("Custom checkmark color:"), this);
-    KHBox *hbox3 = new KHBox(this);
-    hbox3->layout()->addItem(new QSpacerItem(20, 0, QSizePolicy::Fixed, QSizePolicy::Minimum) );
-    checkMarkColor = new KColorButton(hbox3);
-
-// 	layout->addWidget(scrollBarLines);
-	layout->addWidget(animateProgressBar);
-	layout->addWidget(drawToolBarSeparator);
-	layout->addWidget(drawToolBarItemSeparator);
-// 	layout->addWidget(drawFocusRect);
-	layout->addWidget(drawTriangularExpander);
-	layout->addWidget(inputFocusHighlight);
-    layout->addWidget(customFocusHighlightColor);
-	layout->addWidget(hbox1);
-    layout->addWidget(customOverHighlightColor);
-    layout->addWidget(hbox2);
-	layout->addWidget(customCheckMarkColor);
-	layout->addWidget(hbox3);
-	layout->addStretch(1);
-
-	QSettings s;
-// 	origScrollBarLines = s.value("/oxygenstyle/Settings/scrollBarLines", false).toBool();
-// 	scrollBarLines->setChecked(origScrollBarLines);
-	origAnimProgressBar = s.value("/oxygenstyle/Settings/animateProgressBar", true).toBool();
-	animateProgressBar->setChecked(origAnimProgressBar);
-	origDrawToolBarSeparator = s.value("/oxygenstyle/Settings/drawToolBarSeparator", true).toBool();
-	drawToolBarSeparator->setChecked(origDrawToolBarSeparator);
-	origDrawToolBarItemSeparator = s.value("/oxygenstyle/Settings/drawToolBarItemSeparator", true).toBool();
-	drawToolBarItemSeparator->setChecked(origDrawToolBarItemSeparator);
-// 	origDrawFocusRect = s.value("/oxygenstyle/Settings/drawFocusRect", true).toBool();
-// 	drawFocusRect->setChecked(origDrawFocusRect);
-	origDrawTriangularExpander = s.value("/oxygenstyle/Settings/drawTriangularExpander", false).toBool();
-	drawTriangularExpander->setChecked(origDrawTriangularExpander);
-	origInputFocusHighlight = s.value("/oxygenstyle/Settings/inputFocusHighlight", true).toBool();
-	inputFocusHighlight->setChecked(origInputFocusHighlight);
-	origCustomOverHighlightColor = s.value("/oxygenstyle/Settings/customOverHighlightColor", false).toBool();
-	customOverHighlightColor->setChecked(origCustomOverHighlightColor);
-	origOverHighlightColor = s.value("/oxygenstyle/Settings/overHighlightColor", "black").toString();
-	overHighlightColor->setColor(origOverHighlightColor);
-	origCustomFocusHighlightColor = s.value("/oxygenstyle/Settings/customFocusHighlightColor", false).toBool();
-	customFocusHighlightColor->setChecked(origCustomFocusHighlightColor);
-	origFocusHighlightColor = s.value("/oxygenstyle/Settings/focusHighlightColor", "black").toString();
-	focusHighlightColor->setColor(origFocusHighlightColor);
-	origCustomCheckMarkColor = s.value("/oxygenstyle/Settings/customCheckMarkColor", false).toBool();
-	customCheckMarkColor->setChecked(origCustomCheckMarkColor);
-	origCheckMarkColor = s.value("/oxygenstyle/Settings/checkMarkColor", "black").toString();
-	checkMarkColor->setColor(origCheckMarkColor);
-
-// 	connect(scrollBarLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-	connect(animateProgressBar, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-	connect(drawToolBarSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-	connect(drawToolBarItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-// 	connect(drawFocusRect, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-	connect(drawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-	connect(inputFocusHighlight, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-	connect(customOverHighlightColor, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-	connect(overHighlightColor, SIGNAL( changed(const QColor&) ), SLOT( updateChanged() ) );
-	connect(customFocusHighlightColor, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-	connect(focusHighlightColor, SIGNAL( changed(const QColor&) ), SLOT( updateChanged() ) );
-	connect(customCheckMarkColor, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-	connect(checkMarkColor, SIGNAL( changed(const QColor&) ), SLOT( updateChanged() ) );
-	if ( customOverHighlightColor->isChecked() )
-	 overHighlightColor->setEnabled(true);
-	else
-	 overHighlightColor->setEnabled(false);
-	if ( customFocusHighlightColor->isChecked() )
-	 focusHighlightColor->setEnabled(true);
-	else
-	 focusHighlightColor->setEnabled(false);
-	if ( customCheckMarkColor->isChecked() )
-	 checkMarkColor->setEnabled(true);
-	else
-	 checkMarkColor->setEnabled(false);
+    //connect(animateProgressBar, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect(drawToolBarItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect(drawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
 }
 
 OxygenStyleConfig::~OxygenStyleConfig()
@@ -157,72 +86,30 @@ OxygenStyleConfig::~OxygenStyleConfig()
 
 void OxygenStyleConfig::save()
 {
-	QSettings s;
-// 	s.writeEntry("/oxygenstyle/Settings/scrollBarLines", scrollBarLines->isChecked());
-	s.setValue("/oxygenstyle/Settings/animateProgressBar", animateProgressBar->isChecked());
-	s.setValue("/oxygenstyle/Settings/drawToolBarSeparator", drawToolBarSeparator->isChecked());
-	s.setValue("/oxygenstyle/Settings/drawToolBarItemSeparator", drawToolBarItemSeparator->isChecked());
-// 	s.writeEntry("/oxygenstyle/Settings/drawFocusRect", drawFocusRect->isChecked());
-	s.setValue("/oxygenstyle/Settings/drawTriangularExpander", drawTriangularExpander->isChecked());
-	s.setValue("/oxygenstyle/Settings/inputFocusHighlight", inputFocusHighlight->isChecked());
-	s.setValue("/oxygenstyle/Settings/customOverHighlightColor", customOverHighlightColor->isChecked());
-	s.setValue("/oxygenstyle/Settings/overHighlightColor", QColor(overHighlightColor->color()).name());
-	s.setValue("/oxygenstyle/Settings/customFocusHighlightColor", customFocusHighlightColor->isChecked());
-	s.setValue("/oxygenstyle/Settings/focusHighlightColor", QColor(focusHighlightColor->color()).name());
-	s.setValue("/oxygenstyle/Settings/customCheckMarkColor", customCheckMarkColor->isChecked());
-	s.setValue("/oxygenstyle/Settings/checkMarkColor", QColor(checkMarkColor->color()).name());
+    QSettings s;
+    //s.setValue("/oxygenstyle/Settings/animateProgressBar", animateProgressBar->isChecked());
+    s.setValue("/oxygenstyle/Settings/drawToolBarItemSeparator", drawToolBarItemSeparator->isChecked());
+    s.setValue("/oxygenstyle/Settings/drawTriangularExpander", drawTriangularExpander->isChecked());
 }
 
 void OxygenStyleConfig::defaults()
 {
-// 	scrollBarLines->setChecked(false);
-	animateProgressBar->setChecked(true);
-	drawToolBarSeparator->setChecked(true);
-	drawToolBarItemSeparator->setChecked(true);
-// 	drawFocusRect->setChecked(true);
-	drawTriangularExpander->setChecked(false);
-	inputFocusHighlight->setChecked(true);
-	customOverHighlightColor->setChecked(false);
-	overHighlightColor->setColor("black");
-	customFocusHighlightColor->setChecked(false);
-	focusHighlightColor->setColor("black");
-	customCheckMarkColor->setChecked(false);
-	checkMarkColor->setColor("black");
-	//updateChanged would be done by setChecked already
+//    animateProgressBar->setChecked(true);
+    drawToolBarItemSeparator->setChecked(true);
+    drawTriangularExpander->setChecked(false);
+    //updateChanged would be done by setChecked already
 }
 
 void OxygenStyleConfig::updateChanged()
 {
-	if ( customOverHighlightColor->isChecked() )
-	 overHighlightColor->setEnabled(true);
-	else
-	 overHighlightColor->setEnabled(false);
-	if ( customFocusHighlightColor->isChecked() )
-	 focusHighlightColor->setEnabled(true);
-	else
-	 focusHighlightColor->setEnabled(false);
-	if ( customCheckMarkColor->isChecked() )
-	 checkMarkColor->setEnabled(true);
-	else
-	 checkMarkColor->setEnabled(false);
-
-	if (/*(scrollBarLines->isChecked() == origScrollBarLines) &&*/
-	     (animateProgressBar->isChecked() == origAnimProgressBar) &&
-	      (drawToolBarSeparator->isChecked() == origDrawToolBarSeparator) &&
-	       (drawToolBarItemSeparator->isChecked() == origDrawToolBarItemSeparator) &&
-// 	        (drawFocusRect->isChecked() == origDrawFocusRect) &&
-		  (drawTriangularExpander->isChecked() == origDrawTriangularExpander) &&
-		   (inputFocusHighlight->isChecked() == origInputFocusHighlight) &&
-		    (customOverHighlightColor->isChecked() == origCustomOverHighlightColor) &&
-		     (overHighlightColor->color() == origOverHighlightColor) &&
-		      (customFocusHighlightColor->isChecked() == origCustomFocusHighlightColor) &&
-		       (focusHighlightColor->color() == origFocusHighlightColor) &&
-			(customCheckMarkColor->isChecked() == origCustomCheckMarkColor) &&
-			 (checkMarkColor->color() == origCheckMarkColor)
-		    )
-		emit changed(false);
-	else
-		emit changed(true);
+    if (
+        //(animateProgressBar->isChecked() == origAnimProgressBar) &&
+        (drawToolBarItemSeparator->isChecked() == origDrawToolBarItemSeparator) &&
+        (drawTriangularExpander->isChecked() == origDrawTriangularExpander)
+        )
+        emit changed(false);
+    else
+        emit changed(true);
 }
 
 #include "oxygenconf.moc"
