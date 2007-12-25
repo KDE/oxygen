@@ -681,35 +681,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 }
                 case Generic::Frame:
                 {
-                    // shadows of the frame (only happens when floating)
-                    int x,y,w,h;
-
-                    r.getRect(&x, &y, &w, &h);
-
-                    p->setBrush(Qt::NoBrush);
-                    QLinearGradient lg(0, 0, 0, 10);
-                    QGradientStops stops;
-                    stops << QGradientStop( 0, QColor(255,255,255, 110) )
-                        << QGradientStop( 1, QColor(128,128,128, 60) );
-                    lg.setStops(stops);
-                    p->setPen(QPen(QBrush(lg),1));
-                    p->drawLine(QPointF(6.3, 0.5), QPointF(w-6.3, 0.5));
-                    p->drawArc(QRectF(0.5, 0.5, 9.5, 9.5),90*16, 90*16);
-                    p->drawArc(QRectF(w-9.5-0.5, 0.5, 9.5, 9.5), 0, 90*16);
-
-                    p->setPen(QColor(128,128,128, 60));
-                    p->drawLine(QPointF(0.5, 6.3), QPointF(0.5, h-6.3));
-                    p->drawLine(QPointF(w-0.5, 6.3), QPointF(w-0.5, h-6.3));
-
-                    lg = QLinearGradient(0, h-10, 0, h);
-                    stops.clear();
-                    stops << QGradientStop( 0, QColor(128,128,128, 60) )
-                        << QGradientStop( 1, QColor(0,0,0, 50) );
-                    lg.setStops(stops);
-                    p->setPen(QPen(QBrush(lg),1));
-                    p->drawArc(QRectF(0.5, h-9.5-0.5, 9.5, 9.5),180*16, 90*16);
-                    p->drawArc(QRectF(w-9.5-0.5, h-9.5-0.5, 9.5, 9.5), 270*16, 90*16);
-                    p->drawLine(QPointF(6.3, h-0.5), QPointF(w-6.3, h-0.5));
+                    _helper.drawFloatFrame(p, r, pal.window().color());
                     return;
                 }
 
@@ -1815,6 +1787,7 @@ void OxygenStyle::polish(QWidget* widget)
     }
     else if (qobject_cast<QDockWidget*>(widget))
     {
+        widget->dumpObjectTree();
         widget->setContentsMargins(2,1,2,2);
         widget->installEventFilter(this);
     }
@@ -2840,6 +2813,18 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
     if (QDockWidget*dw = qobject_cast<QDockWidget*>(obj))
     {
+        if (ev->type() == QEvent::Show || ev->type() == QEvent::Resize)
+        {
+            int x, y, w, h;
+            dw->rect().getRect(&x, &y, &w, &h);
+            QRegion reg(x+4, y, w-8, h);
+            reg += QRegion(x, y+4, w, h-8);
+            reg += QRegion(x+2, y+1, w-4, h-2);
+            reg += QRegion(x+1, y+2, w-2, h-4);
+            if(dw->mask() != reg)
+                dw->setMask(reg);
+            return false;
+        }
         if (ev->type() == QEvent::Paint)
         {
             if(dw->isFloating())
