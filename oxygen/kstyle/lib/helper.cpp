@@ -370,3 +370,69 @@ QPixmap OxygenHelper::windecoButtonFocused(const QColor &color, const QColor &gl
     }
     return *pixmap;
 }
+
+void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &color) const
+{
+    p->setRenderHint(QPainter::Antialiasing);
+    QRect frame = r;
+    frame.adjust(1,1,-1,-1);
+    int x,y,w,h;
+    frame.getRect(&x, &y, &w, &h);
+
+    QColor light = calcLightColor(backgroundTopColor(color));
+    QColor dark = calcDarkColor(color);
+
+    p->setBrush(Qt::NoBrush);
+
+    if (0) { // TODO make option
+        QColor shadow = calcShadowColor(color); // wrong, use kwin shadow color
+        p->setPen(alphaColor(shadow, 0.1));
+        p->drawLine(QPointF(x+4, y-0.5), QPointF(x+w-4, y-0.5));
+        p->drawArc(QRectF(x-0.5, y-0.5, 11, 11),90*16, 90*16);
+        p->drawArc(QRectF(x+w-11+0.5, y-0.5, 11, 11), 0, 90*16);
+        p->setPen(alphaColor(shadow, 0.3));
+        p->drawLine(QPointF(x-0.5, y+4), QPointF(x-0.5, y+h));
+        p->drawLine(QPointF(x+w+0.5, y+4), QPointF(x+w+0.5, y+h));
+        p->setPen(alphaColor(shadow, 0.4));
+        p->drawArc(QRectF(0.5, y+h-11+0.5, 11, 11),180*16, 90*16);
+        p->drawArc(QRectF(x+w-11+0.5, y+h-11+0.5, 11, 11),270*16, 90*16);
+        p->setPen(alphaColor(shadow, 0.55));
+        p->drawLine(QPointF(x+4, y+h+0.5), QPointF(x+w-4, y+h+0.5));
+    }
+    else if (1) { // TODO make option
+        QColor shadow = KColorUtils::darken(color, 0.0, 0.0); // fully desaturate
+        p->setPen(KColorUtils::darken(shadow, 0.1));
+        p->drawLine(QPointF(x+4, y-0.5), QPointF(x+w-4, y-0.5));
+        p->drawArc(QRectF(x-0.5, y-0.5, 11, 11),90*16, 90*16);
+        p->drawArc(QRectF(x+w-11+0.5, y-0.5, 11, 11), 0, 90*16);
+        p->setPen(KColorUtils::darken(shadow, 0.3));
+        p->drawLine(QPointF(x-0.5, y+4), QPointF(x-0.5, y+h-4));
+        p->drawLine(QPointF(x+w+0.5, y+4), QPointF(x+w+0.5, y+h-4));
+        p->setPen(KColorUtils::darken(shadow, 0.4));
+        p->drawArc(QRectF(0.5, y+h-11+0.5, 11, 11),180*16, 90*16);
+        p->drawArc(QRectF(x+w-11+0.5, y+h-11+0.5, 11, 11),270*16, 90*16);
+        p->setPen(KColorUtils::darken(shadow, 0.55));
+        p->drawLine(QPointF(x+4, y+h+0.5), QPointF(x+w-4, y+h+0.5));
+    }
+
+    p->setPen(QPen(light, 1.2));
+    p->drawLine(QPointF(x+4, y+0.6), QPointF(x+w-4, y+0.6));
+    QLinearGradient lg = QLinearGradient(0.0, 1.5, 0.0, 4.5);
+    lg.setColorAt(0, light);
+    light = calcLightColor(backgroundBottomColor(color));
+    lg.setColorAt(1, light);
+    p->setPen(QPen(lg, 1.2));
+    p->drawArc(QRectF(x+0.6, y+0.6, 9, 9),90*16, 90*16);
+    p->drawArc(QRectF(x+w-9-0.6, y+0.6, 9, 9), 0, 90*16);
+    p->drawLine(QPointF(x+0.6, y+4), QPointF(x+0.6, y+h-4));
+    p->drawLine(QPointF(x+w-0.6, y+4), QPointF(x+w-0.6, y+h-4));
+
+    lg = QLinearGradient(0.0, y+h-4.5, 0.0, y+h-0.5);
+    lg.setColorAt(0, light);
+    lg.setColorAt(1, dark);
+    p->setPen(QPen(lg, 1.2));
+    p->drawArc(QRectF(x+0.6, y+h-9-0.6, 9, 9),180*16, 90*16);
+    p->drawArc(QRectF(x+w-9-0.6, y+h-9-0.6, 9, 9), 270*16, 90*16);
+    p->drawLine(QPointF(x+4, y+h-0.6), QPointF(x+w-4, y+h-0.6));
+    return;
+}

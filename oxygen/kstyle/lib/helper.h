@@ -64,6 +64,8 @@ public:
     QPixmap windecoButton(const QColor &color, int size = 7);
     QPixmap windecoButtonFocused(const QColor &color, const QColor &glowColor, int size);
 
+    void drawFloatFrame(QPainter *p, const QRect r, const QColor &color) const;
+
 protected:
     void drawShadow(QPainter&, const QColor&, int size) const;
     static QPixmap glow(const QColor&, int size, int rsize);
