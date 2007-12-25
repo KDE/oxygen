@@ -59,11 +59,11 @@
 
 class QTimer;
 
-class OTabBar : public QTabBar
+class OWidget : public QWidget
 {
     friend class OxygenStyle;
 public:
-    OTabBar(QWidget *parent) : QTabBar(parent) {}
+    OWidget(QWidget *parent) : QWidget(parent) {}
 };
 
 

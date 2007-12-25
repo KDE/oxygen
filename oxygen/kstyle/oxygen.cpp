@@ -68,6 +68,7 @@
 #include <QStyleOptionDockWidget>
 #include <QPaintEvent>
 #include <QToolBox>
+#include <QAbstractScrollArea>
 
 #include <QtDBus/QtDBus>
 
@@ -1365,11 +1366,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                      p->setPen(Qt::NoPen);
                      p->setBrush(inputColor);
 
-                     _helper.fillHole(*p, r);
+                     p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
 
                      p->restore();
                     // TODO use widget background role?
-                    renderHole(p, inputColor, fr, hasFocus, mouseOver);
+                    renderHole(p, pal.color(QPalette::Window), fr, hasFocus, mouseOver);
                     return;
                 }
                 case SpinBox::EditField:
@@ -1414,17 +1415,17 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         p->setPen(Qt::NoPen);
                         p->setBrush(inputColor);
 
-                        _helper.fillHole(*p, r.adjusted(0,0,0,-1));
+                        p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
 
                         p->restore();
 
                         if (hasFocus && enabled)
                         {
-                            renderHole(p, inputColor, fr, true, mouseOver);
+                            renderHole(p, pal.color(QPalette::Window), fr, true, mouseOver);
                         }
                         else
                         {
-                            renderHole(p, inputColor, fr, false, mouseOver);
+                            renderHole(p, pal.color(QPalette::Window), fr, false, mouseOver);
                         }
                     }
 
@@ -1529,9 +1530,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     const bool isReadOnly = flags & State_ReadOnly;
                     const bool isEnabled = flags & State_Enabled;
                     const bool hasFocus = flags & State_HasFocus;
-                    const QColor inputColor =
-                                enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
-
+                    const QColor inputColor =  pal.color(QPalette::Window);
                     if (hasFocus && !isReadOnly && isEnabled)
                     {
                         renderHole(p, inputColor, r.adjusted(2,2,-2,-3), true, mouseOver);
@@ -1561,7 +1560,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             p->setPen(Qt::NoPen);
                             p->setBrush(inputColor);
 
-                            _helper.fillHole(*p, r.adjusted(lw,lw,-lw,-lw-1));
+                            p->fillRect(r.adjusted(5,5,-5,-5), inputColor);
                             drawPrimitive(PE_FrameLineEdit, panel, p, widget);
 
                             p->restore();
@@ -1762,7 +1761,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             // QFrame, Qt item views, etc.: sunken..
             bool focusHighlight = flags&State_HasFocus/* && flags&State_Enabled*/;
             if (flags & State_Sunken) {
-                // TODO use widget background role?
+                // TODO use widget background role? - probably not
+                //renderHole(p, pal.color(widget->backgroundRole()), r, focusHighlight);
                 renderHole(p, pal.color(QPalette::Window), r, focusHighlight);
             } else
                 break; // do the default thing
@@ -2534,6 +2534,8 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
         case PM_DefaultFrameWidth:
             if (qobject_cast<const QLineEdit*>(widget))
                 return 5;
+            if (qobject_cast<const QFrame*>(widget))
+                return 3;
             //else fall through
         default:
             return KStyle::pixelMetric(m,opt,widget);
@@ -2903,7 +2905,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             pm.fill(Qt::transparent);
 
             QPainter::setRedirected(tb, &pm);
-            ((OTabBar*)tb)->paintEvent((QPaintEvent*)ev);
+            ((OWidget*)tb)->paintEvent((QPaintEvent*)ev);
             QPainter::restoreRedirected(tb);
 
             QPainter p(tb);
