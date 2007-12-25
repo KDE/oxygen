@@ -1068,8 +1068,54 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     return;
                 }
                 case TabBar::BaseFrame:
-                    //p->fillRect(r,QColor(Qt::red));
+                {
+                   const QStyleOptionTabBarBase* tabOpt = qstyleoption_cast<const QStyleOptionTabBarBase*>(opt);
+
+                    switch(tabOpt->shape)
+                    {
+                        case QTabBar::RoundedNorth:
+                        case QTabBar::TriangularNorth:
+                        {
+                            if (r.left() < tabOpt->tabBarRect.left())
+                            {
+                                QRect fr = r;
+                                fr.setRight(tabOpt->tabBarRect.left());
+                                fr.adjust(-7,0,7,-1);
+                                renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
+                            }
+                            if (tabOpt->tabBarRect.right() < r.right())
+                            {
+                                QRect fr = r;
+                                fr.setLeft(tabOpt->tabBarRect.right());
+                                fr.adjust(-7,0,7,-1);
+                                renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
+                            }
+                            return;
+                        }
+                        case QTabBar::RoundedSouth:
+                        case QTabBar::TriangularSouth:
+                        {
+                            if (r.left() < tabOpt->tabBarRect.left())
+                            {
+                                QRect fr = r;
+                                fr.setRight(tabOpt->tabBarRect.left());
+                                fr.adjust(-7,0,7,-1);
+                                renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
+                            }
+                            if (tabOpt->tabBarRect.right() < r.right())
+                            {
+                                QRect fr = r;
+                                fr.setLeft(tabOpt->tabBarRect.right());
+                                fr.adjust(-6,0,7,-1);
+                                renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
+                            }
+                            return;
+                        }
+                        default:
+                            break;
+                    }
                     return;
+                }
             }
 
         }
