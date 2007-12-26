@@ -87,6 +87,7 @@ K_EXPORT_STYLE("Oxygen", OxygenStyle)
 K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("OxygenStyle"))
 
 OxygenStyle::OxygenStyle() :
+    KStyle(),
 //     kickerMode(false),
 //     kornMode(false),
     flatMode(false),
