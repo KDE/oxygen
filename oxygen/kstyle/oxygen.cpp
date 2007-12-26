@@ -1628,9 +1628,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case ToolButton::Panel:
                 {
-                    if(widget && dynamic_cast<QTabBar*>(widget->parentWidget()))
+                    const QToolButton* t=dynamic_cast<const QToolButton*>(widget);
+                    if (t && t->autoRaise()==false)
                     {
-
                         StyleOptions opts = 0;
                         if ((flags & State_On) || (flags & State_Sunken))
                             opts |= Sunken;
