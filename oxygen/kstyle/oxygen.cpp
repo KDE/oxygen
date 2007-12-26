@@ -1805,10 +1805,6 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAutoFillBackground(false);
         widget->parentWidget()->setAutoFillBackground(false);
     }
-    else if (qobject_cast<QTabBar*>(widget))
-    {
-        widget->installEventFilter(this);
-    }
     else if (qobject_cast<QMenu*>(widget))
     {
         widget->installEventFilter(this);
@@ -1855,10 +1851,6 @@ void OxygenStyle::unpolish(QWidget* widget)
     {
         widget->setBackgroundRole(QPalette::Button);
         widget->setContentsMargins(0,0,0,0);
-        widget->removeEventFilter(this);
-    }
-    else if (qobject_cast<QTabBar*>(widget))
-    {
         widget->removeEventFilter(this);
     }
     else if (qobject_cast<QMenu*>(widget))
@@ -2864,24 +2856,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         }
         return false;
     }
-    if (QTabBar *tb = qobject_cast<QTabBar*>(obj))
-    {
-        if (ev->type() ==QEvent::Paint)
-        {
-            QPixmap pm(tb->size());
-            pm.fill(Qt::transparent);
-
-            QPainter::setRedirected(tb, &pm);
-            ((OWidget*)tb)->paintEvent((QPaintEvent*)ev);
-            QPainter::restoreRedirected(tb);
-
-            QPainter p(tb);
-            p.drawPixmap(0, 0, pm);
-
-            return true;
-        }
-        return false;
-    }
+ 
     return false;
 }
 
