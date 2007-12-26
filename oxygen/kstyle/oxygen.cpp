@@ -148,7 +148,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Left,  0);
     setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Right, 0);
     setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Top, 0);
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Bot, 3);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Bot, 2);
 
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin, 3);
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin+Left, 5);
@@ -197,7 +197,7 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
-    setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemMargin, 0);
+    setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemMargin, 2);
 
     setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 4);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    0);
@@ -1777,15 +1777,19 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAttribute(Qt::WA_Hover);
     }
 
-    if (qobject_cast<QMenuBar*>(widget)
-        || widget->inherits("Q3ToolBar")
+    if (qobject_cast<QMenuBar*>(widget))
+    {
+        widget->setBackgroundRole(QPalette::NoRole);
+    }
+    else if (widget->inherits("Q3ToolBar")
         || qobject_cast<QToolBar*>(widget)
         || qobject_cast<QToolBar *>(widget->parent()))
     {
         widget->setBackgroundRole(QPalette::NoRole);
+        widget->setContentsMargins(0,0,0,2);
+        widget->installEventFilter(this);
     }
-
-    if (qobject_cast<QScrollBar*>(widget) )
+    else if (qobject_cast<QScrollBar*>(widget) )
     {
         widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
     }
@@ -2747,6 +2751,26 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         if ((ev->type() == QEvent::Show) && !animationTimer->isActive())
         {
             animationTimer->start( 50 );
+        }
+    }
+
+    if (QToolBar *t = qobject_cast<QToolBar*>(obj))
+    {
+        switch(ev->type()) {
+            case QEvent::Show:
+            case QEvent::Resize: {
+                int x, y, w, h;
+                t->rect().getRect(&x, &y, &w, &h);
+                QRegion reg(x+4, y, w-8, h);
+                reg += QRegion(x, y+4, w, h-8);
+                reg += QRegion(x+2, y+1, w-4, h-2);
+                reg += QRegion(x+1, y+2, w-2, h-4);
+                if(t->mask() != reg)
+                    t->setMask(reg);
+                return false;
+            }
+            default:
+                return false;
         }
     }
 
