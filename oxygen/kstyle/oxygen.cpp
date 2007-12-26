@@ -1664,6 +1664,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         }
         break;
 
+        case WT_Limit: //max value for the enum, only here to silence the compiler
+        case WT_Generic: // handled below since the primitives arevalid for all WT_ types
+            break;
     }
 
 
@@ -2878,36 +2881,37 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
     switch (standardIcon) {
         case SP_TitleBarNormalButton:
         {
-            QPixmap pm = _helper.windecoButton(buttonColor,6);
-            QPainter painter(&pm);
+            QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
+            realpm.fill(QColor(0,0,0,0));
+            QPixmap pm = _helper.windecoButton(buttonColor, 5);
+            QPainter painter(&realpm);
+            painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
-            QLinearGradient lg(0, 6, 0, 12);
-            lg.setColorAt(0.45, QColor(0,0,0,150));
-            lg.setColorAt(0.80, QColor(0,0,0,80));
-            painter.setPen(QPen(lg,2));
-            painter.setBrush(lg);
-            QPoint points[4] = {QPoint(9, 6), QPoint(12, 9), QPoint(9, 12), QPoint(6, 9)};
+            QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
+            painter.setPen(QPen(lg,1.4));
+            QPointF points[4] = {QPointF(8.5, 6), QPointF(11, 8.5), QPointF(8.5, 11), QPointF(6, 8.5)};
             painter.drawPolygon(points, 4);
 
-            return QIcon(pm);
+            return QIcon(realpm);
         }
 
         case SP_TitleBarCloseButton:
         case SP_DockWidgetCloseButton:
         {
-            QPixmap pm = _helper.windecoButton(buttonColor,6);
-            QPainter painter(&pm);
+            QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
+            realpm.fill(QColor(0,0,0,0));
+            QPixmap pm = _helper.windecoButton(buttonColor,5);
+            QPainter painter(&realpm);
+            painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
-            QLinearGradient lg(0, 6, 0, 12);
-            lg.setColorAt(0.45, QColor(0,0,0,150));
-            lg.setColorAt(0.80, QColor(0,0,0,80));
-            painter.setPen(QPen(lg,2));
-            painter.drawLine(6,6,12,12);
-            painter.drawLine(12,6,6,12);
+            QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
+            painter.setPen(QPen(lg,1.4));
+            painter.drawLine(6.5,6.5,11,11);
+            painter.drawLine(11,6.5,6.5,11);
 
-            return QIcon(pm);
+            return QIcon(realpm);
         }
         default:
             return KStyle::standardPixmap(standardIcon, option, widget);
