@@ -156,7 +156,7 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_MenuItem, MenuItem::CheckAlongsideIcon, 1);
     setWidgetLayoutProp(WT_MenuItem, MenuItem::CheckWidth, 13);
-    setWidgetLayoutProp(WT_MenuItem, MenuItem::MinHeight,  18);
+    setWidgetLayoutProp(WT_MenuItem, MenuItem::MinHeight,  20);
 
     setWidgetLayoutProp(WT_ProgressBar, ProgressBar::BusyIndicatorSize, 10);
 
