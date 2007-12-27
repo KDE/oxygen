@@ -1,31 +1,16 @@
 /* Oxygen widget style for KDE 4
    Copyright (C) 2007 Casper Boemann <cbr@boemann.dk>
-
-    based on the plastik style which is:
-
    Copyright (C) 2003-2005 Sandro Giessl <sandro@giessl.com>
-
-   based on the KDE style "dotNET":
-
-   Copyright (C) 2001-2002, Chris Lee <clee@kde.org>
-                            Carsten Pfeiffer <pfeiffer@kde.org>
-                            Karol Szwed <gallium@kde.org>
-   Drawing routines completely reimplemented from KDE3 HighColor, which was
-   originally based on some stuff from the KDE2 HighColor.
-
-   based on drawing routines of the style "Keramik":
-
-   Copyright (c) 2002 Malte Starostik <malte@kde.org>
-             (c) 2002,2003 Maksim Orlovich <mo002j@mail.rochester.edu>
-   based on the KDE3 HighColor Style
-   Copyright (C) 2001-2002 Karol Szwed      <gallium@kde.org>
-             (C) 2001-2002 Fredrik Höglund  <fredrik@kde.org>
-   Drawing routines adapted from the KDE2 HCStyle,
-   Copyright (C) 2000 Daniel M. Duley       <mosfet@kde.org>
-             (C) 2000 Dirk Mueller          <mueller@kde.org>
-             (C) 2001 Martijn Klingens      <klingens@kde.org>
-   Progressbar code based on KStyle,
+   Copyright (C) 2001-2002 Chris Lee <clee@kde.org>
+   Copyright (C) 2001-2002 Carsten Pfeiffer <pfeiffer@kde.org>
    Copyright (C) 2001-2002 Karol Szwed <gallium@kde.org>
+   Copyright (c) 2002 Malte Starostik <malte@kde.org>
+   Copyright (C) 2002,2003 Maksim Orlovich <mo002j@mail.rochester.edu>
+   Copyright (C) 2001-2002 Karol Szwed      <gallium@kde.org>
+   Copyright (C) 2001-2002 Fredrik Höglund  <fredrik@kde.org>
+   Copyright (C) 2000 Daniel M. Duley       <mosfet@kde.org>
+   Copyright (C) 2000 Dirk Mueller          <mueller@kde.org>
+   Copyright (C) 2001 Martijn Klingens      <klingens@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -683,7 +668,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 }
                 case Generic::Frame:
                 {
-                    _helper.drawFloatFrame(p, r, pal.window().color());
+                    // Don't do anything here as it interferes with custom titlewidgets
                     return;
                 }
 
@@ -2829,7 +2814,6 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                 renderWindowBackground(&p, e->rect(), widget);
             }
         }
-        return false;
     }
 
     if (QDockWidget*dw = qobject_cast<QDockWidget*>(obj))
@@ -2848,15 +2832,18 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         }
         if (ev->type() == QEvent::Paint)
         {
-            if(dw->isFloating())
+            QPainter p(dw);
+            if(dw->isWindow())
+            {
+                _helper.drawFloatFrame(&p, dw->rect(), dw->palette().color(QPalette::Window));
                 return false;
+            }
 
             int x,y,w,h;
 
             dw->rect().getRect(&x, &y, &w, &h);
 
             h--;
-            QPainter p(dw);
             p.setPen(QColor(0,0,0, 30));
             p.drawLine(QPointF(6.3, 0.5), QPointF(w-6.3, 0.5));
             p.drawArc(QRectF(0.5, 0.5, 9.5, 9.5),90*16, 90*16);
