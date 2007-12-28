@@ -589,6 +589,10 @@ TileSet *OxygenStyleHelper::holeFlat(const QColor &color, double shade, int size
         p.setBrush(Qt::black);
         p.drawEllipse(3,3,8,8);
 
+        // shadow
+        p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        drawInverseShadow(p, alphaColor(calcShadowColor(color), 0.3), 3, 8, 0.0);
+
         p.end();
 
         tileSet = new TileSet(pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1);
