@@ -2474,7 +2474,7 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
         case PM_DefaultFrameWidth:
             if (qobject_cast<const QLineEdit*>(widget))
                 return 5;
-            if (qobject_cast<const QFrame*>(widget))
+            if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget))
                 return 3;
             //else fall through
         default:
