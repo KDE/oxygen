@@ -140,7 +140,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin+Right, 5);
 
     setWidgetLayoutProp(WT_MenuItem, MenuItem::CheckAlongsideIcon, 1);
-    setWidgetLayoutProp(WT_MenuItem, MenuItem::CheckWidth, 13);
+    setWidgetLayoutProp(WT_MenuItem, MenuItem::CheckWidth, 16);
     setWidgetLayoutProp(WT_MenuItem, MenuItem::MinHeight,  20);
 
     setWidgetLayoutProp(WT_ProgressBar, ProgressBar::BusyIndicatorSize, 10);
@@ -463,8 +463,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         if(submenuOpen)
                              color = pal.color(QPalette::Highlight);
                         else
-                             color = _viewHoverBrush.brush(pal).color();
-                        color.setAlpha(160);
+                             color = KColorUtils::mix(_viewHoverBrush.brush(pal).color(), pal.color(QPalette::Window));
 
                         p->save();
                         p->setRenderHint(QPainter::Antialiasing);
@@ -475,7 +474,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                         p->restore();
 
-                        _helper.holeFlat(pal.color(QPalette::Window), 0.0)->render(r.adjusted(2,2,-2,-2), p);
+                        _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p);
                     }
 
                     return;
@@ -537,18 +536,16 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         pm.fill(Qt::transparent);
                         QPainter pp(&pm);
                         QRect rr(QPoint(0,0), r.size());
-                        rr.adjust(0,0,4,0); //make it a bit wider so the roundedness doesn't show
 
                         QColor color;
                         color = pal.color(QPalette::Highlight);
-                        color.setAlpha(160);
                         pp.setRenderHint(QPainter::Antialiasing);
                         pp.setPen(Qt::NoPen);
 
                         pp.setBrush(color);
-                        _helper.fillHole(pp, rr);
+                        _helper.fillHole(pp, rr.adjusted(-1,-1,1,1));
 
-                        _helper.holeFlat(pal.color(QPalette::Window), 0.0)->render(rr.adjusted(2,2,-2,-2), &pp);
+                        _helper.holeFlat(color, 0.0)->render(rr.adjusted(2,2,-2,-2), &pp);
 
                         QRect maskr(rr.width()-40, 0, 40,rr.height());
                         QLinearGradient gradient(maskr.left(), 0, maskr.right()-4, 0);
@@ -558,7 +555,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
                         pp.drawRect(maskr);
 
-                        p->drawPixmap(r.adjusted(-3,0,-3,0), pm);
+                        p->drawPixmap(r, pm);
                     }
                     else {
                         drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
@@ -574,13 +571,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case MenuItem::CheckOn:
                 {
-                    renderCheckBox(p, r.adjusted(-1,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
+                    renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
                     return;
                 }
 
                 case MenuItem::CheckOff:
                 {
-                    renderCheckBox(p, r.adjusted(-1,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
+                    renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
                     return;
                 }
 
@@ -2871,7 +2868,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         }
         return false;
     }
- 
+
     return false;
 }
 
