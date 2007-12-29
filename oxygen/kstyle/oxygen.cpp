@@ -467,7 +467,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
                         }
                         else {
-                            color = KColorUtils::tint(color, _viewHoverBrush.brush(pal).color());
+                            if (0) // TODO make option
+                                color = KColorUtils::tint(color, _viewHoverBrush.brush(pal).color(), 0.6);
+                            else
+                                color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
                         }
 
                         p->save();
