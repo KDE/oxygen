@@ -607,6 +607,15 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     return;
                 }
 
+                case Generic::ArrowRight:
+                case Generic::ArrowLeft:
+                {
+                    // always draw in window text color due to fade-out
+                    extractOption<KStyle::ColorOption*>(kOpt)->color = QPalette::WindowText;
+                    // fall through to lower handler
+                    break;
+                }
+
                 case MenuItem::CheckColumn:
                 {
                     // empty
