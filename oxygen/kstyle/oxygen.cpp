@@ -459,11 +459,16 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                      bool submenuOpen = flags & State_Sunken;
 
                     if (active) {
-                        QColor color;
-                        if(submenuOpen)
-                             color = pal.color(QPalette::Highlight);
-                        else
-                             color = KColorUtils::mix(_viewHoverBrush.brush(pal).color(), pal.color(QPalette::Window));
+                        QColor color = pal.color(QPalette::Window);
+                        if(submenuOpen) {
+                            if (0) // TODO make option
+                                color = pal.color(QPalette::Highlight);
+                            else
+                                color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
+                        }
+                        else {
+                            color = KColorUtils::tint(color, _viewHoverBrush.brush(pal).color());
+                        }
 
                         p->save();
                         p->setRenderHint(QPainter::Antialiasing);
@@ -476,6 +481,22 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                         _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p);
                     }
+
+                    return;
+                }
+
+                case Generic::Text:
+                {
+                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+
+                    QPen   old = p->pen();
+                    if (0 && flags & State_Sunken) // TODO make option
+                        p->setPen(pal.color(QPalette::HighlightedText));
+                    else
+                        p->setPen(pal.color(QPalette::WindowText));
+                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
+                                 textOpts->text);
+                    p->setPen(old);
 
                     return;
                 }
@@ -537,13 +558,16 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         QPainter pp(&pm);
                         QRect rr(QPoint(0,0), r.size());
 
-                        QColor color;
-                        color = pal.color(QPalette::Highlight);
+                        QColor color = pal.color(QPalette::Window);
+                        if (0) // TODO make option
+                            color = pal.color(QPalette::Highlight);
+                        else
+                            color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
                         pp.setRenderHint(QPainter::Antialiasing);
                         pp.setPen(Qt::NoPen);
 
                         pp.setBrush(color);
-                        _helper.fillHole(pp, rr.adjusted(-1,-1,1,1));
+                        _helper.fillHole(pp, rr);
 
                         _helper.holeFlat(color, 0.0)->render(rr.adjusted(2,2,-2,-2), &pp);
 
@@ -560,6 +584,23 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     else {
                         drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
                     }
+
+                    return;
+                }
+
+                case Generic::Text:
+                {
+                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+
+                    QPen   old = p->pen();
+                    if (0 && flags & State_Selected) // TODO make option
+                        p->setPen(pal.color(QPalette::HighlightedText));
+                    else
+                        p->setPen(pal.color(QPalette::WindowText));
+                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
+                                 textOpts->text);
+                    p->setPen(old);
+
                     return;
                 }
 
