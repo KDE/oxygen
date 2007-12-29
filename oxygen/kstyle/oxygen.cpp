@@ -1838,7 +1838,6 @@ void OxygenStyle::polish(QWidget* widget)
     }
     else if (qobject_cast<QDockWidget*>(widget))
     {
-        widget->dumpObjectTree();
         widget->setContentsMargins(2,1,2,2);
         widget->installEventFilter(this);
     }
