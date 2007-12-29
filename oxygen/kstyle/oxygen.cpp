@@ -1763,14 +1763,22 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         }
 
         case Generic::FocusIndicator:
-            if(qobject_cast<const QAbstractItemView*>(widget) && opt && (opt->state & QStyle::State_Item) && !(opt->state & QStyle::State_Selected))
+        {
+            const QAbstractItemView *aiv = qobject_cast<const QAbstractItemView*>(widget);
+            if (aiv && opt && (opt->state & QStyle::State_Item)
+                         && (aiv->selectionMode() != QAbstractItemView::SingleSelection))
             {
-                QColor focusColor = _viewFocusBrush.brush(QPalette::Active).color();
-                focusColor.setAlpha(160);
-                p->fillRect(r,focusColor);
+                QPen pen(_viewFocusBrush.brush(QPalette::Active).color());
+                pen.setWidth(0);
+                pen.setStyle(Qt::DotLine);
+                p->setPen(pal.color(QPalette::Base));
+                p->drawRect(r.adjusted(0,0,-1,-1));
+                p->setPen(pen);
+                p->drawRect(r.adjusted(0,0,-1,-1));
             }
             // we don't want the stippled focus indicator in oxygen
             return;
+        }
 
         default:
             break;
