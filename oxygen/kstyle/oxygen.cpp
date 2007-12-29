@@ -54,6 +54,7 @@
 #include <QPaintEvent>
 #include <QToolBox>
 #include <QAbstractScrollArea>
+#include <QAbstractItemView>
 
 #include <QtDBus/QtDBus>
 
@@ -1762,6 +1763,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         }
 
         case Generic::FocusIndicator:
+            if(qobject_cast<const QAbstractItemView*>(widget) && opt && (opt->state & QStyle::State_Item) && !(opt->state & QStyle::State_Selected))
+            {
+                QColor focusColor = _viewFocusBrush.brush(QPalette::Active).color();
+                focusColor.setAlpha(160);
+                p->fillRect(r,focusColor);
+            }
             // we don't want the stippled focus indicator in oxygen
             return;
 
