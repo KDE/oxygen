@@ -457,22 +457,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case MenuBarItem::Panel:
                 {
                     bool active  = flags & State_Selected;
-                     bool submenuOpen = flags & State_Sunken;
 
                     if (active) {
                         QColor color = pal.color(QPalette::Window);
-                        if(submenuOpen) {
-                            if (0) // TODO make option
-                                color = pal.color(QPalette::Highlight);
-                            else
-                                color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
-                        }
-                        else {
-                            if (0) // TODO make option
-                                color = KColorUtils::tint(color, _viewHoverBrush.brush(pal).color(), 0.6);
-                            else
-                                color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
-                        }
+                        if (1) // TODO make option
+                            color = _helper.calcDarkColor(color);
+                        else
+                            color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
 
                         p->save();
                         p->setRenderHint(QPainter::Antialiasing);
@@ -546,11 +537,31 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case MenuItem::Separator:
                 {
-                    p->setPen( pal.mid().color() );
-                    p->drawLine( r.x()+5, r.y() /*+ 1*/, r.right()-5, r.y() );
-                    p->setPen( pal.color( QPalette::Light ) );
-                    p->drawLine( r.x()+5, r.y() + 1, r.right()-5 , r.y() + 1 );
+                    QColor color = pal.color(QPalette::Window);
+                    QColor light = _helper.calcLightColor(color);
+                    QColor dark = _helper.calcDarkColor(color);
+                    dark.setAlpha(120);
+                        p->setRenderHint(QPainter::Antialiasing);
 
+                    QLinearGradient lg(r.x(),0,r.right(),0);
+                    lg.setColorAt(0.5, dark);
+                    dark.setAlpha(0);
+                    lg.setColorAt(0.0, dark);
+                    lg.setColorAt(1.0, dark);
+                    p->setPen(QPen(lg,1));
+
+                    p->drawLine(QPointF(r.x(), r.y()+0.5),
+                                            QPointF(r.right(), r.y()+0.5));
+
+                    lg = QLinearGradient(r.x(), 0, r.right(),0);
+                    lg.setColorAt(0.5, light);
+                    light.setAlpha(0);
+                    lg.setColorAt(0.0, light);
+                    lg.setColorAt(1.0, light);
+                    p->setPen(QPen(lg,1));
+
+                    p->drawLine(QPointF(r.x(), r.y()+1.5),
+                                        QPointF(r.right(), r.y()+1.5));
                     return;
                 }
 
@@ -563,8 +574,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         QRect rr(QPoint(0,0), r.size());
 
                         QColor color = pal.color(QPalette::Window);
-                        if (0) // TODO make option
-                            color = pal.color(QPalette::Highlight);
+                        if (1) // TODO make option
+                            color = _helper.calcDarkColor(color);
                         else
                             color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
                         pp.setRenderHint(QPainter::Antialiasing);
