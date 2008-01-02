@@ -169,10 +169,14 @@ protected Q_SLOTS:
 private:
     mutable bool flatMode;
 
-    int _contrast; // FIXME should be qreal, from KGlobalSettings::contrastF()
     bool _animateProgressBar;
     bool _drawToolBarItemSeparator;
     bool _drawTriangularExpander;
+    enum {
+        MM_DARK = 0,
+        MM_SUBTLE = 1,
+        MM_STRONG = 2
+    } _menuHighlightMode;
 
     // global colors
     OxygenStyleHelper &_helper;

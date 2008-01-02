@@ -60,6 +60,7 @@
 
 #include <KGlobal>
 #include <KGlobalSettings>
+#include <KConfigGroup>
 #include <KColorUtils>
 #include <kdebug.h>
 
@@ -193,14 +194,23 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, 5);
 
-    QSettings settings;
-    // TODO get from KGlobalSettings::contrastF or expose in OxygenHelper
-    _contrast = settings.value("/Qt/KDE/contrast", 6).toInt();
-    settings.beginGroup("/oxygenstyle/Settings");
-    _animateProgressBar = settings.value("/animateProgressBar", false).toBool();
-    _drawToolBarItemSeparator = settings.value("/drawToolBarItemSeparator", true).toBool();
-    _drawTriangularExpander = settings.value("/drawTriangularExpander", false).toBool();
-    settings.endGroup();
+    KConfig config("oxygenrc");
+    KConfigGroup cfg = config.group("Style");
+    int mm = cfg.readEntry("MenuHighlight", (int)MM_DARK);
+    printf("mm = %i\n", mm);
+    switch (cfg.readEntry("MenuHighlight", (int)MM_DARK)) {
+        case MM_STRONG:
+            _menuHighlightMode = MM_STRONG;
+            break;
+        case MM_SUBTLE:
+            _menuHighlightMode = MM_SUBTLE;
+            break;
+        default:
+            _menuHighlightMode = MM_DARK;
+    }
+    _animateProgressBar = cfg.readEntry("AnimateProgressBar", false);
+    _drawToolBarItemSeparator = cfg.readEntry("DrawToolBarItemSeparator", true);
+    _drawTriangularExpander = cfg.readEntry("DrawTriangularExpander", false);
 
     if ( _animateProgressBar )
     {
@@ -460,10 +470,23 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     if (active) {
                         QColor color = pal.color(QPalette::Window);
-                        if (1) // TODO make option
+                        if (_menuHighlightMode != MM_DARK) {
+                            if(flags & State_Sunken) {
+                                if (_menuHighlightMode == MM_STRONG)
+                                    color = pal.color(QPalette::Highlight);
+                                else
+                                    color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
+                            }
+                            else {
+                                if (_menuHighlightMode == MM_STRONG)
+                                    color = KColorUtils::tint(color, _viewHoverBrush.brush(pal).color());
+                                else
+                                    color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
+                            }
+                        }
+                        else {
                             color = _helper.calcDarkColor(color);
-                        else
-                            color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
+                        }
 
                         p->save();
                         p->setRenderHint(QPainter::Antialiasing);
@@ -485,7 +508,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
 
                     QPen   old = p->pen();
-                    if (0 && flags & State_Sunken) // TODO make option
+                    if (_menuHighlightMode == MM_STRONG && flags & State_Sunken)
                         p->setPen(pal.color(QPalette::HighlightedText));
                     else
                         p->setPen(pal.color(QPalette::WindowText));
@@ -574,10 +597,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         QRect rr(QPoint(0,0), r.size());
 
                         QColor color = pal.color(QPalette::Window);
-                        if (1) // TODO make option
-                            color = _helper.calcDarkColor(color);
-                        else
+                        if (_menuHighlightMode == MM_STRONG)
+                            color = pal.color(QPalette::Highlight);
+                        else if (_menuHighlightMode == MM_SUBTLE)
                             color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
+                        else
+                            color = _helper.calcDarkColor(color);
                         pp.setRenderHint(QPainter::Antialiasing);
                         pp.setPen(Qt::NoPen);
 
@@ -608,7 +633,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
 
                     QPen   old = p->pen();
-                    if (0 && flags & State_Selected) // TODO make option
+                    if (_menuHighlightMode == MM_STRONG && flags & State_Selected)
                         p->setPen(pal.color(QPalette::HighlightedText));
                     else
                         p->setPen(pal.color(QPalette::WindowText));
