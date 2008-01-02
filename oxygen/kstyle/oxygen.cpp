@@ -197,7 +197,6 @@ OxygenStyle::OxygenStyle() :
     KConfig config("oxygenrc");
     KConfigGroup cfg = config.group("Style");
     int mm = cfg.readEntry("MenuHighlight", (int)MM_DARK);
-    printf("mm = %i\n", mm);
     switch (cfg.readEntry("MenuHighlight", (int)MM_DARK)) {
         case MM_STRONG:
             _menuHighlightMode = MM_STRONG;
