@@ -205,6 +205,7 @@ OxygenStyle::OxygenStyle() :
         default:
             _menuHighlightMode = MM_DARK;
     }
+    _checkCheck = (cfg.readEntry("CheckStyle", 0) == 0);
     _animateProgressBar = cfg.readEntry("AnimateProgressBar", false);
     _drawToolBarItemSeparator = cfg.readEntry("DrawToolBarItemSeparator", true);
     _drawTriangularExpander = cfg.readEntry("DrawTriangularExpander", false);
@@ -2067,27 +2068,27 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 
         pen.setCapStyle(Qt::RoundCap);
         if (primitive == CheckBox::CheckTriState) {
-#if 1 // check
             QVector<qreal> dashes;
-            dashes << 1.0 << 2.0;
-            pen.setWidthF(1.3);
+            if (_checkCheck) {
+                dashes << 1.0 << 2.0;
+                pen.setWidthF(1.3);
+            }
+            else {
+                dashes << 0.4 << 2.0;
+            }
             pen.setDashPattern(dashes);
-#else // 'X'
-            QVector<qreal> dashes;
-            dashes << 0.4 << 2.0;
-            pen.setDashPattern(dashes);
-#endif
         }
 
         p->setRenderHint(QPainter::Antialiasing);
         p->setPen(pen);
-#if 1 // check
-        p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
-        p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
-#else // 'X'
-        p->drawLine(QPointF(x+7, y), QPointF(x+1,y+6));
-        p->drawLine(QPointF(x+7, y+6), QPointF(x+1,y));
-#endif
+        if (_checkCheck) {
+            p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
+            p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
+        }
+        else {
+            p->drawLine(QPointF(x+7, y), QPointF(x+1,y+6));
+            p->drawLine(QPointF(x+7, y+6), QPointF(x+1,y));
+        }
         p->setRenderHint(QPainter::Antialiasing, false);
     }
 }
