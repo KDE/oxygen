@@ -71,7 +71,7 @@
 
 K_EXPORT_STYLE("Oxygen", OxygenStyle)
 
-K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("OxygenStyle"))
+K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("oxygen"))
 
 OxygenStyle::OxygenStyle() :
     KStyle(),
@@ -194,9 +194,7 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, 5);
 
-    KConfig config("oxygenrc");
-    KConfigGroup cfg = config.group("Style");
-    int mm = cfg.readEntry("MenuHighlight", (int)MM_DARK);
+    KConfigGroup cfg(_config, "Style");
     switch (cfg.readEntry("MenuHighlight", (int)MM_DARK)) {
         case MM_STRONG:
             _menuHighlightMode = MM_STRONG;
