@@ -2194,6 +2194,8 @@ void OxygenStyle::renderTab(QPainter *p,
     const bool isFrameAligned =  reverseLayout && !(westAlignment || eastAlignment) ?
         (isRightMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget)) :
         (isLeftMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget));
+    const QColor midColor = _helper.alphaColor(_helper.calcDarkColor(pal.color(QPalette::Window)), 0.4);
+    const QColor darkColor = _helper.alphaColor(_helper.calcDarkColor(pal.color(QPalette::Window)), 0.6);
 
     if(northAlignment || southAlignment) {
         // the tab part of the tab - ie subtracted the fairing to the frame
@@ -2208,24 +2210,24 @@ void OxygenStyle::renderTab(QPainter *p,
             r.getRect(&x, &y, &w, &h);
             // parts of the adjacent tabs
             if(!isSingle && ((!reverseLayout && !isFirst) || (reverseLayout && !isLast))) {
-                p->setPen(QColor(0,0,0, 30));
+                p->setPen(darkColor);
                 if(southAlignment) {
-                    p->fillRect(r.x(), r.y()+5, 2 , r.height()-10,QColor(0,0,0,10));
+                    p->fillRect(r.x(), r.y()+5, 2, r.height()-10, midColor);
                     p->drawLine(QPointF(x, y+h-6), QPointF(x+2, y+h-6));
                 }
                 else {
-                    p->fillRect(r.x(), r.y()+5, 2 , r.height()-8,QColor(0,0,0,10));
+                    p->fillRect(r.x(), r.y()+5, 2, r.height()-8, midColor);
                     p->drawLine(QPointF(x, y+5), QPointF(x+2, y+5));
                 }
             }
             if(!isSingle && ((!reverseLayout && !isLast) || (reverseLayout && !isFirst))) {
-                p->setPen(QColor(0,0,0, 30));
+                p->setPen(darkColor);
                 if(southAlignment) {
-                    p->fillRect(r.x()+r.width()-2, r.y()+5, 1 , r.height()-10,QColor(0,0,0,10));
+                    p->fillRect(r.x()+r.width()-2, r.y()+5, 1, r.height()-10, midColor);
                     p->drawLine(QPointF(x+w-3, y+h-6), QPointF(x+w-1, y+h-6));
                 }
                 else {
-                    p->fillRect(r.x()+r.width()-2, r.y()+5, 1 , r.height()-8,QColor(0,0,0,10));
+                    p->fillRect(r.x()+r.width()-2, r.y()+5, 1, r.height()-8, midColor);
                     p->drawLine(QPointF(x+w-3, y+5), QPointF(x+w-1, y+5));
                 }
             }
@@ -2261,7 +2263,7 @@ void OxygenStyle::renderTab(QPainter *p,
         } else {
             // inactive tabs
             int x,y,w,h;
-            p->setPen(QColor(0,0,0, 30));
+            p->setPen(darkColor);
 
             if (!southAlignment) {
                 r.adjusted(0,4,0,0).getRect(&x, &y, &w, &h);
@@ -2275,7 +2277,7 @@ void OxygenStyle::renderTab(QPainter *p,
                     p->drawLine(QPointF(x+8.8, y+0.5), QPointF(x+w-1, y+0.5));
                     if(!isLeftOfSelected)
                         p->drawLine(QPointF(x+w-0.5, y+1.5), QPointF(x+w-0.5, y+h-6.3));
-                    p->fillRect(x+2, y+1, w-2 , h-5,QColor(0,0,0,10));
+                    p->fillRect(x+2, y+1, w-2, h-5, midColor);
                 } else  if(isRightMost) {
                     p->drawArc(QRectF(x+w-9.5-2.5, y+0.5, 9.5, 9.5), 0, 90*16);
                     if(isFrameAligned)
@@ -2284,13 +2286,13 @@ void OxygenStyle::renderTab(QPainter *p,
                         p->drawLine(QPointF(x+w-2.5, y+6.3), QPointF(x+w-2.5, y+h-6.3));
                     // topline
                     p->drawLine(QPointF(x, y+0.5), QPointF(x+w-8.8, y+0.5));
-                    p->fillRect(x-1, y+1, w-1 , h-5,QColor(0,0,0,10));
+                    p->fillRect(x-1, y+1, w-1, h-5, midColor);
                 } else {
                     // topline
                     p->drawLine(QPointF(x, y+0.5), QPointF(x+w-1, y+0.5));
                     if(!isLeftOfSelected)
                         p->drawLine(QPointF(x+w-0.5, y+1.5), QPointF(x+w-0.5, y+h-6.3));
-                    p->fillRect(x-1, y+1, w-1+2 , h-5,QColor(0,0,0,10));
+                    p->fillRect(x-1, y+1, w-1+2, h-5, midColor);
                 }
             }
             else { // southAlignment
@@ -2305,7 +2307,7 @@ void OxygenStyle::renderTab(QPainter *p,
                     p->drawLine(QPointF(x+8.8, y+h), QPointF(x+w-1, y+h));
                     if(!isLeftOfSelected)
                         p->drawLine(QPointF(x+w-0.5, y+2+1.5), QPointF(x+w-0.5, y+h-1));
-                    p->fillRect(x+2, y+5, w-2 , h-4,QColor(0,0,0,10));
+                    p->fillRect(x+2, y+5, w-2, h-4, midColor);
                 } else  if(isRightMost) {
                     p->drawArc(QRectF(x+w-9.5-2.5, y+h+0.2-9.5, 9.5, 9.5), 270*16, 90*16);
                     if(isFrameAligned) // in reverseLayout mode
@@ -2314,13 +2316,13 @@ void OxygenStyle::renderTab(QPainter *p,
                         p->drawLine(QPointF(x+w-2.5, y+2+1.5), QPointF(x+w-2.5, y+h-6.3));
                     // bottomline
                     p->drawLine(QPointF(x, y+h), QPointF(x+w-8.8, y+h));
-                    p->fillRect(x-1, y+5, w-1 , h-4,QColor(0,0,0,10));
+                    p->fillRect(x-1, y+5, w-1, h-4, midColor);
                 } else {
                     // bottomline
                     p->drawLine(QPointF(x, y+h), QPointF(x+w-1, y+h));
                     if(!isLeftOfSelected)
                         p->drawLine(QPointF(x+w-0.5, y+2+1.5), QPointF(x+w-0.5, y+h-1));
-                    p->fillRect(x-1, y+5, w-1+2 , h-4,QColor(0,0,0,10));
+                    p->fillRect(x-1, y+5, w-1+2, h-4, midColor);
                 }
 
 
@@ -2380,24 +2382,24 @@ void OxygenStyle::renderTab(QPainter *p,
 
             // parts of the adjacent tabs
             if(!isSingle && ((!reverseLayout && !isFirst) || (reverseLayout && !isFirst))) {
-                p->setPen(QColor(0,0,0, 30));
+                p->setPen(darkColor);
                 if(eastAlignment) {
-                    p->fillRect(x+5, y, w-10 , 2,QColor(0,0,0,10));
+                    p->fillRect(x+5, y, w-10, 2, midColor);
                     p->drawLine(QPointF(x+w-5-1, y), QPointF(x+w-5-1, y+2));
                 }
                 else {
-                    p->fillRect(x+5, y, w-10 , 2,QColor(0,0,0,10));
+                    p->fillRect(x+5, y, w-10, 2, midColor);
                     p->drawLine(QPointF(x+5, y), QPointF(x+5, y+2));
                 }
             }
             if(!isSingle && ((!reverseLayout && !isLast) || (reverseLayout && !isLast))) {
-                p->setPen(QColor(0,0,0, 30));
+                p->setPen(darkColor);
                 if(eastAlignment) {
-                    p->fillRect(x+5, y+h-2, w-10 , 2,QColor(0,0,0,10));
+                    p->fillRect(x+5, y+h-2, w-10, 2, midColor);
                     p->drawLine(QPointF(x+w-5-1, y+h-2), QPointF(x+w-5-1, y+h-1));
                 }
                 else {
-                    p->fillRect(x+5, y+h-2, w-10 , 2,QColor(0,0,0,10));
+                    p->fillRect(x+5, y+h-2, w-10, 2, midColor);
                     p->drawLine(QPointF(x+5, y+h-2-1), QPointF(x+5, y+h-1));
                 }
             }
@@ -2430,7 +2432,7 @@ void OxygenStyle::renderTab(QPainter *p,
         else {
             // inactive tabs
             int x,y,w,h;
-            p->setPen(QColor(0,0,0, 30));
+            p->setPen(darkColor);
 
             if (westAlignment) {
                 Rc.adjusted(5,0,2,0).getRect(&x, &y, &w, &h);
@@ -2446,7 +2448,7 @@ void OxygenStyle::renderTab(QPainter *p,
                     // separator
                     if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
                         p->drawLine(QPointF(x+1.5, y+h-1), QPointF(x+w-0.5, y+h-1));
-                    p->fillRect(x, y+2, w , h-2, QColor(0,0,0,10));
+                    p->fillRect(x, y+2, w, h-2, midColor);
                 } else  if(isRightMost) { // at bottom
                     p->drawArc(QRectF(x+0.5, y+h-0.5-9.5, 9.5, 9.5), 180*16, 90*16);
                     if(isFrameAligned)
@@ -2455,13 +2457,13 @@ void OxygenStyle::renderTab(QPainter *p,
                         p->drawLine(QPointF(x-4+9.5, y+h-1), QPointF(x+w-1, y+h-1));
                     // leftline
                     p->drawLine(QPointF(x, y), QPointF(x, y+h+3-9.5));
-                    p->fillRect(x, y, w, h, QColor(0,0,0,10));
+                    p->fillRect(x, y, w, h, midColor);
                 } else {
                     // leftline
                     p->drawLine(QPointF(x, y), QPointF(x, y+h-1));
                     if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
                         p->drawLine(QPointF(x+1.5, y+h-1), QPointF(x+w-0.5, y+h-1));
-                    p->fillRect(x, y, w, h, QColor(0,0,0,10));
+                    p->fillRect(x, y, w, h, midColor);
                 }
             }
             else { // eastAlignment
@@ -2479,7 +2481,7 @@ void OxygenStyle::renderTab(QPainter *p,
                     // separator
                     if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
                         p->drawLine(QPointF(x+0.5, y+h-1), QPointF(x+w-1.5, y+h-1));
-                    p->fillRect(x, y+2, w , h-2, QColor(0,0,0,10));
+                    p->fillRect(x, y+2, w, h-2, midColor);
                 } else  if(isRightMost) { // at bottom
                     p->drawArc(QRectF(x+w-9.5-0.5, y+h-0.5-9.5, 9.5, 9.5), 270*16, 90*16);
                     if(isFrameAligned) // in reverseLayout mode
@@ -2488,13 +2490,13 @@ void OxygenStyle::renderTab(QPainter *p,
                         p->drawLine(QPointF(x+0.5, y+h-1), QPointF(x+w+4-9.5, y+h-1));
                     // rightline
                     p->drawLine(QPointF(x+w-1, y), QPointF(x+w-1, y+h+3-9.5));
-                    p->fillRect(x, y, w, h, QColor(0,0,0,10));
+                    p->fillRect(x, y, w, h, midColor);
                 } else {
                     // rightline
                     p->drawLine(QPointF(x+w-1, y), QPointF(x+w-1, y+h-1));
                     if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
                         p->drawLine(QPointF(x+0.5, y+h-1), QPointF(x+w-1.5, y+h-1));
-                    p->fillRect(x, y, w, h, QColor(0,0,0,10));
+                    p->fillRect(x, y, w, h, midColor);
                 }
 
             }
