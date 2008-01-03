@@ -1,101 +1,52 @@
 
 install( FILES
-    KDE_Beep.ogg  
-    KDE_Beep_Car.ogg  
-    KDE_Beep_Classic.ogg  
-    KDE_Beep_Connect.ogg  
-    KDE_Beep_Digital_1.ogg 
-    KDE_Beep_Digital_2.ogg  
-    KDE_Beep_Double.ogg  
-    KDE_Beep_Harsh.ogg  
-    KDE_Beep_Phone_1.ogg  
-    KDE_Beep_Phone_2.ogg  
-    KDE_Bottles.ogg  
-    KDE_Chimes_1.ogg  
-    KDE_Chimes_2.ogg  
-    KDE_Chimes_3.ogg  
-    KDE_Click_1.ogg  
-    KDE_Click_2.ogg  
-    KDE_Click_3.ogg  
-    KDE_Desktop_1.ogg  
-    KDE_Desktop_2.ogg  
-    KDE_Desktop_3.ogg  
-    KDE_Desktop_4.ogg  
-    KDE_Desktop_5.ogg  
-    KDE_Desktop_6.ogg  
-    KDE_Desktop_7.ogg  
-    KDE_Desktop_8.ogg  
-    KDE_Dialog_Appear.ogg 
-    KDE_Dialog_Disappear.ogg 
-    KDE_Door.ogg  	
-    KDE_Drum_Break.ogg 
-    KDE_Error_1.ogg  
-    KDE_Error_2.ogg  
-    KDE_Error_3.ogg  
-    KDE_Event_1.ogg  
-    KDE_Event_2.ogg  
-    KDE_Event_3.ogg  
-    KDE_Event_4.ogg  
-    KDE_Event_5.ogg  
-    KDE_Glass_Break.ogg  
-    KDE_Keyboard_Key_1.ogg  
-    KDE_Logout_1.ogg  
-    KDE_Logout_2.ogg  
-    KDE_Logout_3.ogg  
-    KDE_Pop.ogg  
-    KDE_Star_Ship_1.ogg  
-    KDE_Startup_1.ogg  
-    KDE_Startup_2.ogg  
-    KDE_Startup_3.ogg  
-    KDE_TypeWriter_Bell.ogg  
-    KDE_TypeWriter_End_Of_Line.ogg 
-    KDE_TypeWriter_Key_1.ogg  
-    KDE_TypeWriter_Key_2.ogg  
-    KDE_TypeWriter_Reload.ogg  
-    KDE_TypeWriter_Scroll.ogg  
-    KDE_Warp.ogg  
-    KDE_Water_Drop.ogg  
-    KDE_Window_Close.ogg  
-    KDE_Window_DeIconify.ogg  
-    KDE_Window_Hide.ogg  
-    KDE_Window_Iconify.ogg  
-    KDE_Window_Open.ogg  
-    KDE_Window_Shade_Down.ogg  
-    KDE_Window_Shade_Up.ogg  
-    KDE_Window_Sticky.ogg  
-    KDE_Window_UnHide.ogg  
-    KDE_Window_UnSticky.ogg 
-    sys.error.ogg
-    commercial.ogg
-    usb_in.ogg
-    error.ogg
-    sys.list.end.ogg
-    question.ogg
-    LogOut.ogg
-    sys.list.multiple.match.ogg
-    message.ogg
-    sys.list.no.match.ogg
-    sys-log-in.ogg
-    sys.print.error.ogg
-    LogOn.ogg
-    usb_out.ogg
-    sys.app.error.ogg
-    sys.app.error.serious.ogg
-    sys.app.error.serious.very.ogg
-    sys.app.special.ogg
-    sys.end.list.ogg
-    sys.error.critial.ogg
-    sys.error.print.ogg
-    sys.file.open.foes.ogg
-    sys.list.match.multiple.ogg
-    sys.list.match.no.ogg
-    sys.log.in.ogg
-    sys.log.out.ogg
-    sys.message.ogg
-    sys.question.ogg
-    sys.trash.emptied.ogg
-    sys.warning.ogg
-    DESTINATION  ${SOUND_INSTALL_DIR} )
+KDE_Event_Error_Critial.ogg
+KDE_Event_Error.ogg
+KDE_Event_Error_Printing.ogg
+KDE_Event_Error_Serious.ogg
+KDE_Event_Error_VerySerious.ogg
+KDE_Event_File_Open_Foes.ogg
+KDE_Event_List_End.ogg
+KDE_Event_List_Multiple_Match.ogg
+KDE_Event_List_NoMatch.ogg
+KDE_Event_Message.ogg
+KDE_Event_Question.ogg
+KDE_Event_Special.ogg
+KDE_Im_Cant_Connect.ogg
+KDE_Im_Connection_lost.ogg
+KDE_Im_Contact_in.ogg
+KDE_Im_Contact_out.ogg
+KDE_Im_Error_on_Connection.ogg
+KDE_Im_Highlight_Msg.ogg
+KDE_Im_Internal_Error.ogg
+KDE_Im_Irc_Event.ogg
+KDE_Im_Low_Priority_Message.ogg
+KDE_Im_Message_In.ogg
+KDE_Im_Message_Out.ogg
+KDE_Im_Network_Problems.ogg
+KDE_Im_New_Mail.ogg
+KDE_Im_Nudge.ogg
+KDE_Im_User_Auth.ogg
+KDE_K3B_Finish_Error.ogg
+KDE_K3B_Finish_Success.ogg
+KDE_K3B_Insert_Medium.ogg
+KDE_Sys_Log_in_Long.ogg
+KDE_Sys_Log_In.ogg
+KDE_Sys_Log_in_Short.ogg
+KDE_Sys_Log_Out.ogg
+KDE_Sys_Trash_Wmptied.ogg
+KDE_Sys_Warning.ogg
+KDE_Window_All_Desktops_Not.ogg
+KDE_Window_All_Desktops.ogg
+KDE_Window_Close.ogg
+KDE_Window_Dhade_Up.ogg
+KDE_Window_Maximize.ogg
+KDE_Window_Minimize.ogg
+KDE_Window_Move.ogg
+KDE_Window_Move_Stop.ogg
+KDE_Window_Shade_Down.ogg
+
+   DESTINATION  ${SOUND_INSTALL_DIR} )
 
 
 
