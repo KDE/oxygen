@@ -605,11 +605,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case MenuItem::ItemIndicator:
                 {
                     if (enabled) {
-                        QRect r2 = (_menuHighlightMode == MM_DARK ? r : r.adjusted(0,0,0,-1));
-                        QRect rr(QPoint(0,0), r2.size());
-                        QPixmap pm(rr.size());
+                        QPixmap pm(r.size());
                         pm.fill(Qt::transparent);
                         QPainter pp(&pm);
+                        QRect rr(QPoint(0,0), r.size());
 
                         QColor color = pal.color(QPalette::Window);
                         if (_menuHighlightMode == MM_STRONG)
@@ -634,7 +633,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
                         pp.drawRect(maskr);
 
-                        p->drawPixmap(r2, pm);
+                        p->drawPixmap(r, pm);
                     }
                     else {
                         drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
@@ -676,13 +675,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case MenuItem::CheckOn:
                 {
-                    renderCheckBox(p, r.adjusted(2,-2,1,1), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
+                    renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
                     return;
                 }
 
                 case MenuItem::CheckOff:
                 {
-                    renderCheckBox(p, r.adjusted(2,-2,1,1), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
+                    renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
                     return;
                 }
 
@@ -2098,8 +2097,8 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
         }
         else {
             if (sunken) {
-                p->drawLine(QPointF(x+7, y), QPointF(x+1,y+6));
-                p->drawLine(QPointF(x+7, y+6), QPointF(x+1,y));
+                p->drawLine(QPointF(x+8, y), QPointF(x+1,y+7));
+                p->drawLine(QPointF(x+8, y+7), QPointF(x+1,y));
             }
             else {
                 p->drawLine(QPointF(x+8, y-1), QPointF(x,y+7));
