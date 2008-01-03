@@ -272,7 +272,7 @@ void OxygenStyle::drawComplexControl(ComplexControl control,const QStyleOptionCo
 		default:
 			break;
 	}
-	
+
 	return KStyle::drawComplexControl(control,option,painter,widget);
 }
 
@@ -605,10 +605,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case MenuItem::ItemIndicator:
                 {
                     if (enabled) {
-                        QPixmap pm(r.size());
+                        QRect r2 = r.adjusted(0,0,0,-1);
+                        QRect rr(QPoint(0,0), r2.size());
+                        QPixmap pm(rr.size());
                         pm.fill(Qt::transparent);
                         QPainter pp(&pm);
-                        QRect rr(QPoint(0,0), r.size());
 
                         QColor color = pal.color(QPalette::Window);
                         if (_menuHighlightMode == MM_STRONG)
@@ -633,7 +634,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
                         pp.drawRect(maskr);
 
-                        p->drawPixmap(r, pm);
+                        p->drawPixmap(r2, pm);
                     }
                     else {
                         drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
@@ -675,13 +676,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case MenuItem::CheckOn:
                 {
-                    renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
+                    renderCheckBox(p, r.adjusted(2,-2,1,1), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
                     return;
                 }
 
                 case MenuItem::CheckOff:
                 {
-                    renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
+                    renderCheckBox(p, r.adjusted(2,-2,1,1), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
                     return;
                 }
 
@@ -2096,8 +2097,14 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
             p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
         }
         else {
-            p->drawLine(QPointF(x+7, y), QPointF(x+1,y+6));
-            p->drawLine(QPointF(x+7, y+6), QPointF(x+1,y));
+            if (sunken) {
+                p->drawLine(QPointF(x+7, y), QPointF(x+1,y+6));
+                p->drawLine(QPointF(x+7, y+6), QPointF(x+1,y));
+            }
+            else {
+                p->drawLine(QPointF(x+8, y-1), QPointF(x,y+7));
+                p->drawLine(QPointF(x+8, y+7), QPointF(x,y-1));
+            }
         }
         p->setRenderHint(QPainter::Antialiasing, false);
     }
@@ -2653,7 +2660,7 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
             const QStyleOptionGroupBox *gbOpt = qstyleoption_cast<const QStyleOptionGroupBox *>(option);
             if (!gbOpt)
                 break;
-					
+
 			bool isFlat = gbOpt->features & QStyleOptionFrameV2::Flat;
 
             switch (subControl)
@@ -2665,7 +2672,7 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                     int th = gbOpt->fontMetrics.height() + 8;
                     QRect cr = subElementRect(SE_CheckBoxIndicator, option, widget);
                     int fw = widgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, option, widget);
-                    
+
 					r.adjust(fw,fw + qMax(th, cr.height()), -fw, -fw);
 
 					// add additional indentation to flat group boxes
