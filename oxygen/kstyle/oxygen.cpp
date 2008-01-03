@@ -508,7 +508,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             }
                         }
                         else {
-                            color = _helper.calcDarkColor(color);
+                            color = _helper.calcMidColor(color);
                         }
 
                         _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
@@ -605,7 +605,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case MenuItem::ItemIndicator:
                 {
                     if (enabled) {
-                        QRect r2 = r.adjusted(0,0,0,-1);
+                        QRect r2 = (_menuHighlightMode == MM_DARK ? r : r.adjusted(0,0,0,-1));
                         QRect rr(QPoint(0,0), r2.size());
                         QPixmap pm(rr.size());
                         pm.fill(Qt::transparent);
@@ -617,7 +617,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         else if (_menuHighlightMode == MM_SUBTLE)
                             color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
                         else
-                            color = _helper.calcDarkColor(color);
+                            color = _helper.calcMidColor(color);
                         pp.setRenderHint(QPainter::Antialiasing);
                         pp.setPen(Qt::NoPen);
 

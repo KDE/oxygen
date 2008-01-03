@@ -556,7 +556,7 @@ TileSet *OxygenStyleHelper::holeFlat(const QColor &color, double shade, int size
 
         // hole inside
         p.setBrush(color);
-        p.drawEllipse(4,4,6,6);
+        p.drawEllipse(QRectF(3.2,3.2,7.6,7.6));
 
         p.end();
 
