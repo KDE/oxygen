@@ -1,52 +1,53 @@
 
-install( FILES
-KDE_Event_Error_Critial.ogg
-KDE_Event_Error.ogg
-KDE_Event_Error_Printing.ogg
-KDE_Event_Error_Serious.ogg
-KDE_Event_Error_VerySerious.ogg
-KDE_Event_File_Open_Foes.ogg
-KDE_Event_List_End.ogg
-KDE_Event_List_Multiple_Match.ogg
-KDE_Event_List_NoMatch.ogg
-KDE_Event_Message.ogg
-KDE_Event_Question.ogg
-KDE_Event_Special.ogg
-KDE_Im_Cant_Connect.ogg
-KDE_Im_Connection_lost.ogg
-KDE_Im_Contact_in.ogg
-KDE_Im_Contact_out.ogg
-KDE_Im_Error_on_Connection.ogg
-KDE_Im_Highlight_Msg.ogg
-KDE_Im_Internal_Error.ogg
-KDE_Im_Irc_Event.ogg
-KDE_Im_Low_Priority_Message.ogg
-KDE_Im_Message_In.ogg
-KDE_Im_Message_Out.ogg
-KDE_Im_Network_Problems.ogg
-KDE_Im_New_Mail.ogg
-KDE_Im_Nudge.ogg
-KDE_Im_User_Auth.ogg
-KDE_K3B_Finish_Error.ogg
-KDE_K3B_Finish_Success.ogg
-KDE_K3B_Insert_Medium.ogg
-KDE_Sys_Log_in_Long.ogg
-KDE_Sys_Log_In.ogg
-KDE_Sys_Log_in_Short.ogg
-KDE_Sys_Log_Out.ogg
-KDE_Sys_Trash_Wmptied.ogg
-KDE_Sys_Warning.ogg
-KDE_Window_All_Desktops_Not.ogg
-KDE_Window_All_Desktops.ogg
-KDE_Window_Close.ogg
-KDE_Window_Dhade_Up.ogg
-KDE_Window_Maximize.ogg
-KDE_Window_Minimize.ogg
-KDE_Window_Move.ogg
-KDE_Window_Move_Stop.ogg
-KDE_Window_Shade_Down.ogg
+install(FILES
 
-   DESTINATION  ${SOUND_INSTALL_DIR} )
+	KDE-Im-Cant-Connect.ogg
+	KDE-Im-Connection-Lost.ogg
+	KDE-Im-Contact-In.ogg
+	KDE-Im-Contact-Out.ogg
+	KDE-Im-Error-On-Connection.ogg
+	KDE-Im-Highlight-Msg.ogg
+	KDE-Im-Internal-Error.ogg
+	KDE-Im-Irc-Event.ogg
+	KDE-Im-Low-Priority-Message.ogg
+	KDE-Im-Message-In.ogg
+	KDE-Im-Message-Out.ogg
+	KDE-Im-Network-Problems.ogg
+	KDE-Im-New-Mail.ogg
+	KDE-Im-Nudge.ogg
+	KDE-Im-User-Auth.ogg
+	KDE-K3B-Finish-Error.ogg
+	KDE-K3B-Finish-Success.ogg
+	KDE-K3B-Insert-Medium.ogg
+	KDE-Sys-App-Error-Critial.ogg
+	KDE-Sys-App-Error.ogg
+	KDE-Sys-App-Error-Serious.ogg
+	KDE-Sys-App-Error-Serious-Very.ogg
+	KDE-Sys-App-Message.ogg
+	KDE-Sys-Error-Printing.ogg
+	KDE-Sys-File-Open-Foes.ogg
+	KDE-Sys-List-End.ogg
+	KDE-Sys-List-Match-Multiple.ogg
+	KDE-Sys-List-Match-No.ogg
+	KDE-Sys-Log-In-Long.ogg
+	KDE-Sys-Log-In.ogg
+	KDE-Sys-Log-In-Short.ogg
+	KDE-Sys-Log-Out.ogg
+	KDE-Sys-Question.ogg
+	KDE-Sys-Special.ogg
+	KDE-Sys-Trash-Emptied.ogg
+	KDE-Sys-Warning.ogg
+	KDE-Window-All-Desktops-Not.ogg
+	KDE-Window-All-Desktops.ogg
+	KDE-Window-Close.ogg
+	KDE-Window-Maximize.ogg
+	KDE-Window-Minimize.ogg
+	KDE-Window-Move.ogg
+	KDE-Window-Move-Stop.ogg
+	KDE-Window-Shade-Down.ogg
+	KDE-Window-Shade-Up.ogg
+
+	DESTINATION  ${SOUND_INSTALL_DIR} )
 
 
 
