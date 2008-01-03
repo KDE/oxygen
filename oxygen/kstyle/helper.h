@@ -66,14 +66,13 @@ public:
 
     TileSet *verticalScrollBar(const QColor&, int width, int offset, int size = 6);
     TileSet *horizontalScrollBar(const QColor&, int width, int offset, int size = 6);
-    void drawGroove(QPainter &p, const QColor&, double shade) const;
 
 protected:
     SlabCache* slabCache(const QColor&);
 
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, double fuzz) const;
     void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
-    void drawHole(QPainter &p, const QColor&, double shade) const;
+    void drawHole(QPainter&, const QColor&, double shade, int r = 7) const;
     void drawSlab(QPainter&, const QColor&, double shade) const;
 
     static const double _slabThickness;

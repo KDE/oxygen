@@ -486,16 +486,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             color = _helper.calcDarkColor(color);
                         }
 
-                        p->save();
-                        p->setRenderHint(QPainter::Antialiasing);
-                        p->setPen(Qt::NoPen);
-
-                        p->setBrush(color);
-                        _helper.fillHole(*p, r);
-
-                        p->restore();
-
-                        _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p);
+                        _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
                     }
 
                     return;
@@ -2041,17 +2032,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     if(sunken)
     {
         QColor color = pal.color(QPalette::Window);
-
-        p->save();
-        p->setRenderHint(QPainter::Antialiasing);
-        p->setPen(Qt::NoPen);
-
-        p->setBrush(color);
-        _helper.fillHole(*p, r.adjusted(-2,-2,2,2));
-
-        p->restore();
-
-        _helper.holeFlat(color, 0.0)->render(r, p);
+        _helper.holeFlat(color, 0.0)->render(r, p, TileSet::Full);
     }
     else
     {
