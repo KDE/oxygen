@@ -50,7 +50,6 @@ install(FILES
 	KDE-Window-Move-Stop.ogg
 	KDE-Window-Shade-Down.ogg
 	KDE-Window-Shade-Up.ogg
-	KDE-W
 
 	DESTINATION  ${SOUND_INSTALL_DIR} )
 
