@@ -1052,6 +1052,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     else
                         gr = QRect(0, 0, 0, r.height());
 
+/*
                     QLinearGradient grad(gr.x(), gr.y(), gr.width(), gr.height());
                     grad.setColorAt(0, Qt::transparent);
                     grad.setColorAt(0.2, Qt::transparent);
@@ -1061,8 +1062,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     p->setCompositionMode(slabCompMode);
                     renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, flag);
-
-                    return;
+*/                    return;
                 }
                 case TabBar::BaseFrame:
                 {
@@ -1073,6 +1073,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         case QTabBar::RoundedNorth:
                         case QTabBar::TriangularNorth:
                         {
+
                             if (r.left() < tabOpt->tabBarRect.left())
                             {
                                 QRect fr = r;
