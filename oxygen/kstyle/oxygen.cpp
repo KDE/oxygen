@@ -447,7 +447,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ProgressBar::Indicator:
                 {
                     QColor color = _viewHoverBrush.brush(pal).color();
-                    QRect rect = r.adjusted(0,-2,2+r.width() / 300,2); // right pos: hackish, but neccessary...
+                    QRect rect = r.adjusted(0,-2,2+r.width() / 300,2); // right pos: hackish, but necessary...
 
                     int animShift = 0;
                     if (_animateProgressBar) {
