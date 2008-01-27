@@ -1720,7 +1720,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ToolButton::Panel:
                 {
                     const QToolButton* t=dynamic_cast<const QToolButton*>(widget);
-                    const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(opt);
+                    //const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(opt);
                     if (t && t->autoRaise()==false && t->icon().isNull())
                     {
                         StyleOptions opts = 0;
@@ -1845,6 +1845,18 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 r, pal, flags, p, widget, kOpt);
 }
 
+void OxygenStyle::polish(QApplication* app)
+{
+    // FIXME: does this need to be implemented?
+    Q_UNUSED(app);
+}
+
+void OxygenStyle::polish(QPalette& palette)
+{
+    // FIXME: does this need to be implemented?
+    Q_UNUSED(palette);
+}
+
 void OxygenStyle::polish(QWidget* widget)
 {
     if (!widget) return;
@@ -1923,6 +1935,12 @@ void OxygenStyle::polish(QWidget* widget)
         widget->installEventFilter(this);
     }
     KStyle::polish(widget);
+}
+
+void OxygenStyle::unpolish(QApplication* app)
+{
+    // FIXME: does this need to be implemented?
+    Q_UNUSED(app);
 }
 
 void OxygenStyle::unpolish(QWidget* widget)
@@ -2052,6 +2070,8 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
                                  bool enabled, bool hasFocus, bool mouseOver, int primitive,
                                  bool sunken) const
 {
+    Q_UNUSED(enabled);
+
     int s = qMin(rect.width(), rect.height());
     QRect r = centerRect(rect, s, s);
 
@@ -2114,6 +2134,8 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
                                         bool enabled, bool mouseOver, int prim,
                                    bool drawButton) const
 {
+    Q_UNUSED(enabled);
+
     QRect r2(r.x() + (r.width()-21)/2, r.y() + (r.height()-21)/2, 21, 21);
     int x = r2.x();
     int y = r2.y();
@@ -3061,8 +3083,8 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             painter.setBrush(Qt::NoBrush);
             QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
             painter.setPen(QPen(lg,1.4));
-            painter.drawLine(6.5,6.5,11,11);
-            painter.drawLine(11,6.5,6.5,11);
+            painter.drawLine( QPointF(6.5,6.5), QPointF(11.0,11.0) );
+            painter.drawLine( QPointF(11.0,6.5), QPointF(6.5,11.0) );
 
             return QIcon(realpm);
         }
