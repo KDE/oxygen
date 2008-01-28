@@ -87,11 +87,6 @@ public:
 
     virtual QRect subElementRect(SubElement sr, const QStyleOption *opt, const QWidget *widget) const;
 
-
-    virtual void polish(QApplication* app);
-    virtual void polish(QPalette& palette);
-    virtual void unpolish(QApplication* app);
-
     virtual void polish(QWidget* widget);
     virtual void unpolish(QWidget* widget);
 

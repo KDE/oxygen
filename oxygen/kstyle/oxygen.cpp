@@ -1845,18 +1845,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 r, pal, flags, p, widget, kOpt);
 }
 
-void OxygenStyle::polish(QApplication* app)
-{
-    // FIXME: does this need to be implemented?
-    Q_UNUSED(app);
-}
-
-void OxygenStyle::polish(QPalette& palette)
-{
-    // FIXME: does this need to be implemented?
-    Q_UNUSED(palette);
-}
-
 void OxygenStyle::polish(QWidget* widget)
 {
     if (!widget) return;
@@ -1935,12 +1923,6 @@ void OxygenStyle::polish(QWidget* widget)
         widget->installEventFilter(this);
     }
     KStyle::polish(widget);
-}
-
-void OxygenStyle::unpolish(QApplication* app)
-{
-    // FIXME: does this need to be implemented?
-    Q_UNUSED(app);
 }
 
 void OxygenStyle::unpolish(QWidget* widget)
