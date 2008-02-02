@@ -1,5 +1,5 @@
 /* Oxygen widget style for KDE 4
-   Copyright (C) 2007 Casper Boemann <cbr@boemann.dk>
+   Copyright (C) 2007-2008 Casper Boemann <cbr@boemann.dk>
    Copyright (C) 2003-2005 Sandro Giessl <sandro@giessl.com>
    Copyright (C) 2001-2002 Chris Lee <clee@kde.org>
    Copyright (C) 2001-2002 Carsten Pfeiffer <pfeiffer@kde.org>
@@ -121,7 +121,9 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_Splitter, Splitter::Width, 6);
 
     setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 23);
+    setWidgetLayoutProp(WT_CheckBox, CheckBox::BoxTextSpace, 4);
     setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 25);
+    setWidgetLayoutProp(WT_RadioButton, RadioButton::BoxTextSpace, 4);
 
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 0);
@@ -1720,7 +1722,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ToolButton::Panel:
                 {
                     const QToolButton* t=dynamic_cast<const QToolButton*>(widget);
-                    //const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(opt);
                     if (t && t->autoRaise()==false)
                     {
                         StyleOptions opts = 0;
@@ -1730,7 +1731,14 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             opts |= Focus;
                         if (enabled && (flags & State_MouseOver))
                             opts |= Hover;
-                        renderSlab(p, r, pal.color(QPalette::Button), opts);
+                        if (dynamic_cast<const QTabBar*>(t->parent()))
+                        {
+                            renderWindowBackground(p, r, t->window());
+                            //renderSlab(p, r.adjusted(0,4,0,-4), pal.color(QPalette::Button), opts);
+                            renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
+                        }
+                        else
+                            renderSlab(p, r, pal.color(QPalette::Button), opts);
                         return;
                     }
 
