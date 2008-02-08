@@ -69,6 +69,13 @@
 #include "helper.h"
 #include "tileset.h"
 
+// We need better holes! Bevel color and shadow color are currently based on
+// only one color, even though they are different things; also, we don't really
+// know what bevel color should be based on... (and shadow color for white
+// views looks rather bad). For now at least, just using QPalette::Window
+// everywhere seems best...
+#define HOLE_COLOR_OUTSIDE
+
 K_EXPORT_STYLE("Oxygen", OxygenStyle)
 
 K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("oxygen"))
@@ -1400,23 +1407,34 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         {
             bool hasFocus = flags & State_HasFocus;
 
-            const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
+            const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
 
             switch (primitive)
             {
                 case Generic::Frame:
                 {
                     QRect fr = r.adjusted(2,2,-2,-2);
-                     p->save();
-                     p->setRenderHint(QPainter::Antialiasing);
-                     p->setPen(Qt::NoPen);
-                     p->setBrush(inputColor);
+                    p->save();
+                    p->setRenderHint(QPainter::Antialiasing);
+                    p->setPen(Qt::NoPen);
+                    p->setBrush(inputColor);
 
-                     p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
+#ifdef HOLE_NO_EDGE_FILL
+                    p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
+#else
+                    _helper.fillHole(*p, r);
+#endif
 
-                     p->restore();
+                    p->restore();
                     // TODO use widget background role?
+                    // We really need the color of the widget behind to be "right",
+                    // but the shadow needs to be colored as the inner widget; needs
+                    // changes in helper.
+#ifdef HOLE_COLOR_OUTSIDE
                     renderHole(p, pal.color(QPalette::Window), fr, hasFocus, mouseOver);
+#else
+                    renderHole(p, inputColor, fr, hasFocus, mouseOver);
+#endif
                     return;
                 }
                 case SpinBox::EditField:
@@ -1442,8 +1460,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
             if (mouseOver) opts |= Hover;
 
-            const QColor buttonColor = enabled?pal.color(QPalette::Button):pal.color(QPalette::Background);
-            const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Background);
+            const QColor buttonColor = enabled?pal.color(QPalette::Button):pal.color(QPalette::Window);
+            const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Window);
             QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
 
             switch (primitive)
@@ -1461,10 +1479,15 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         p->setPen(Qt::NoPen);
                         p->setBrush(inputColor);
 
+#ifdef HOLE_NO_EDGE_FILL
                         p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
+#else
+                        _helper.fillHole(*p, r.adjusted(0,0,0,-1));
+#endif
 
                         p->restore();
 
+#ifdef HOLE_COLOR_OUTSIDE
                         if (hasFocus && enabled)
                         {
                             renderHole(p, pal.color(QPalette::Window), fr, true, mouseOver);
@@ -1473,6 +1496,16 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         {
                             renderHole(p, pal.color(QPalette::Window), fr, false, mouseOver);
                         }
+#else
+                        if (hasFocus && enabled)
+                        {
+                            renderHole(p, inputColor, fr, true, mouseOver);
+                        }
+                        else
+                        {
+                            renderHole(p, inputColor, fr, false, mouseOver);
+                        }
+#endif
                     }
 
                     return;
@@ -1576,7 +1609,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     const bool isReadOnly = flags & State_ReadOnly;
                     const bool isEnabled = flags & State_Enabled;
                     const bool hasFocus = flags & State_HasFocus;
+#ifdef HOLE_COLOR_OUTSIDE
                     const QColor inputColor =  pal.color(QPalette::Window);
+#else
+                    const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
+#endif
                     if (hasFocus && !isReadOnly && isEnabled)
                     {
                         renderHole(p, inputColor, r.adjusted(2,2,-2,-3), true, mouseOver);
@@ -1590,8 +1627,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case LineEdit::Panel:
                 {
-                    const QColor inputColor =
-                                enabled?pal.color(QPalette::Base):pal.color(QPalette::Background);
+                    const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
 
                     if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>(opt))
                     {
@@ -1604,7 +1640,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             p->setPen(Qt::NoPen);
                             p->setBrush(inputColor);
 
+#ifdef HOLE_NO_EDGE_FILL
                             p->fillRect(r.adjusted(5,5,-5,-5), inputColor);
+#else
+                            _helper.fillHole(*p, r.adjusted(0,0,-0,-1));
+#endif
                             drawPrimitive(PE_FrameLineEdit, panel, p, widget);
 
                             p->restore();
