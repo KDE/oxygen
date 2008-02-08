@@ -162,6 +162,7 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
 
 void OxygenStyleHelper::drawHole(QPainter &p, const QColor &color, double shade, int r) const
 {
+    return;
     const int r2 = 2*r;
     QColor base = KColorUtils::shade(color, shade);
     QColor light = KColorUtils::shade(calcLightColor(color), shade);
