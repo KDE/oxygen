@@ -360,19 +360,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     if(!(option && widget)) return;
 
                     const QStyleOptionToolBoxV2 *v2 = qstyleoption_cast<const QStyleOptionToolBoxV2 *>(opt);
-                    bool enabled = option->state & State_Enabled;
-                    QPixmap pm = option->icon.pixmap(pixelMetric(QStyle::PM_SmallIconSize, option, widget),
-                                                 enabled ? QIcon::Normal : QIcon::Disabled);
-                    int cm = widgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, opt, widget);
-                    QRect cr = r.adjusted(cm,2,-50-cm,0);
-
-                    if(!pm.isNull() && cr.width() >= pm.width())
-                    {
-                        QRect pr(cr.x(), cr.y()+(cr.height()-pm.height())/2, pm.width(), pm.height());
-                        pr = visualRect(option->direction, cr, pr);
-                        p->drawPixmap(pr.x(), pr.y(), pm);
-                        cr.adjust(pm.width()+4, 0, reverseLayout ? -(pm.width()+4) : 0, 0);
-                    }
 
                     p->save();
                     if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning)
@@ -386,11 +373,18 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QColor dark = _helper.calcDarkColor(color);
 
                     QPainterPath path;
-                    path.moveTo(r.x()+r.width()-52, r.y());
                     int y = r.height()*15/100;
-                    path.cubicTo(QPointF(r.x()+r.width()-50+8, r.y()), QPointF(r.x()+r.width()-50+10, r.y()+y), QPointF(r.x()+r.width()-50+10, r.y()+y));
-                    path.lineTo(r.x()+r.width()-18-9, r.y()+r.height()-y);
-                    path.cubicTo(QPointF(r.x()+r.width()-18-9, r.y()+r.height()-y), QPointF(r.x()+r.width()-19-6, r.y()+r.height()-1-0.3), QPointF(r.x()+r.width()-19, r.y()+r.height()-1-0.3));
+                    if (reverseLayout) {
+                        path.moveTo(r.left()+52, r.top());
+                        path.cubicTo(QPointF(r.left()+50-8, r.top()), QPointF(r.left()+50-10, r.top()+y), QPointF(r.left()+50-10, r.top()+y));
+                        path.lineTo(r.left()+18+9, r.bottom()-y);
+                        path.cubicTo(QPointF(r.left()+18+9, r.bottom()-y), QPointF(r.left()+19+6, r.bottom()-1-0.3), QPointF(r.left()+19, r.bottom()-1-0.3));
+                    } else {
+                        path.moveTo(r.right()-52, r.top());
+                        path.cubicTo(QPointF(r.right()-50+8, r.top()), QPointF(r.right()-50+10, r.top()+y), QPointF(r.right()-50+10, r.top()+y));
+                        path.lineTo(r.right()-18-9, r.bottom()-y);
+                        path.cubicTo(QPointF(r.right()-18-9, r.bottom()-y), QPointF(r.right()-19-6, r.bottom()-1-0.3), QPointF(r.right()-19, r.bottom()-1-0.3));
+                    }
 
                     p->setRenderHint(QPainter::Antialiasing, true);
                     p->translate(0,1);
@@ -401,11 +395,19 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     p->drawPath(path);
 
                     p->setRenderHint(QPainter::Antialiasing, false);
-                    p->drawLine(r.x(), r.y(), r.x()+r.width()-50+1, r.y());
-                    p->drawLine(r.x()+r.width()-20, r.y()+r.height()-2, r.x()+r.width(), r.y()+r.height()-2);
-                    p->setPen(light);
-                    p->drawLine(r.x(), r.y()+1, r.x()+r.width()-50, r.y()+1);
-                    p->drawLine(r.x()+r.width()-20, r.y()+r.height()-1, r.x()+r.width(), r.y()+r.height()-1);
+                    if (reverseLayout) {
+                        p->drawLine(r.left()+50-1, r.top(), r.right(), r.top());
+                        p->drawLine(r.left()+20, r.bottom()-2, r.left(), r.bottom()-2);
+                        p->setPen(light);
+                        p->drawLine(r.left()+50, r.top()+1, r.right(), r.top()+1);
+                        p->drawLine(r.left()+20, r.bottom()-1, r.left(), r.bottom()-1);
+                    } else {
+                        p->drawLine(r.left(), r.top(), r.right()-50+1, r.top());
+                        p->drawLine(r.right()-20, r.bottom()-2, r.right(), r.bottom()-2);
+                        p->setPen(light);
+                        p->drawLine(r.left(), r.top()+1, r.right()-50, r.top()+1);
+                        p->drawLine(r.right()-20, r.bottom()-1, r.right(), r.bottom()-1);
+                    }
 
                     p->restore();
                     return;
