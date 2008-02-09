@@ -2696,7 +2696,7 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
             if (!gbOpt)
                 break;
 
-			bool isFlat = gbOpt->features & QStyleOptionFrameV2::Flat;
+            bool isFlat = gbOpt->features & QStyleOptionFrameV2::Flat;
 
             switch (subControl)
             {
@@ -2708,24 +2708,24 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                     QRect cr = subElementRect(SE_CheckBoxIndicator, option, widget);
                     int fw = widgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, option, widget);
 
-					r.adjust(fw,fw + qMax(th, cr.height()), -fw, -fw);
+                    r.adjust(fw,fw + qMax(th, cr.height()), -fw, -fw);
 
-					// add additional indentation to flat group boxes
-					if (isFlat)
-					{
-						int leftMarginExtension = 16;
-						r = visualRect(option->direction,r,r.adjusted(leftMarginExtension,0,0,0));
-					}
+                    // add additional indentation to flat group boxes
+                    if (isFlat)
+                    {
+                        int leftMarginExtension = 16;
+                        r = visualRect(option->direction,r,r.adjusted(leftMarginExtension,0,0,0));
+                    }
 
-					return r;
+                    return r;
                 }
                 case SC_GroupBoxCheckBox:
                 case SC_GroupBoxLabel:
                 {
-					QFont font = widget->font();
-					// calculate text width assuming bold text in flat group boxes
-					if (isFlat)
-						font.setBold(true);
+                    QFont font = widget->font();
+                    // calculate text width assuming bold text in flat group boxes
+                    if (isFlat)
+                        font.setBold(true);
 
                     QFontMetrics fontMetrics = QFontMetrics(font);
                     int h = fontMetrics.height();
@@ -2741,11 +2741,11 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                             return visualRect(option->direction, option->rect, gcr);
                     }
 
-					// left align labels in flat group boxes, center align labels in framed group boxes
-					if (isFlat)
-						r = QRect(0,r.y(),tw,r.height());
-					else
-                    	r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
+                    // left align labels in flat group boxes, center align labels in framed group boxes
+                    if (isFlat)
+                        r = QRect(0,r.y(),tw,r.height());
+                    else
+                        r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
 
                     return visualRect(option->direction, option->rect, r);
                 }
