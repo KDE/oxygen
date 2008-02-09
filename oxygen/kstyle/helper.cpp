@@ -174,17 +174,12 @@ void OxygenStyleHelper::drawHole(QPainter &p, const QColor &color, double shade,
     qreal yl = KColorUtils::luma(light);
     qreal yd = KColorUtils::luma(dark);
     QLinearGradient bevelGradient1(0, 2, 0, r2-2);
-    bevelGradient1.setColorAt(0.0,QColor(Qt::black));
-    bevelGradient1.setColorAt(0.1, mid);
-    bevelGradient1.setColorAt(1.0, light);
-#if 0
     bevelGradient1.setColorAt(0.2, dark);
     bevelGradient1.setColorAt(0.5, mid);
     bevelGradient1.setColorAt(1.0, light);
-#endif
-/*    if (y < yl && y > yd) // no middle when color is very light/dark
+    if (y < yl && y > yd) // no middle when color is very light/dark
         bevelGradient1.setColorAt(0.6, base);
- */   p.setBrush(bevelGradient1);
+    p.setBrush(bevelGradient1);
     p.drawEllipse(2,2,r2-4,r2-4);
 
     // mask
