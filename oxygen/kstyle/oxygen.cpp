@@ -158,8 +158,10 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_TabBar, TabBar::TabOverlap, 0);
     setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 7);
-    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, 8);
-    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 8);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin, 6);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabFocusMargin, 0);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, 5);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 5);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, 2);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, 2);
     setWidgetLayoutProp(WT_TabBar, TabBar::ScrollButtonWidth, 18);
@@ -2659,27 +2661,6 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
 {
     switch(type)
     {
-        case CT_TabBarTab: {
-            const QStyleOptionTab* opt = qstyleoption_cast<const QStyleOptionTab*>(option);
-            if(!opt) return contentsSize;
-
-            int left = widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, option, widget);
-            int right = widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, option, widget);
-            int top =  widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, option, widget);
-            int bottom = widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, option, widget);
-            top += 2*widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + MainMargin, opt, widget);
-            left += 2*widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + MainMargin, opt, widget);
-
-            switch(opt->shape) {
-            case QTabBar::RoundedNorth:
-            case QTabBar::TriangularNorth:
-            case QTabBar::RoundedSouth:
-            case QTabBar::TriangularSouth:
-                return QSize(contentsSize.width() + left + right + 2, contentsSize.height() + top + bottom);
-            default:
-                return QSize(contentsSize.width() + top + bottom,  contentsSize.height() + left + right + 2);
-            }
-        }
         case CT_ToolButton:
         {
             // We want to avoid super-skiny buttons, for things like "up" when icons + text
