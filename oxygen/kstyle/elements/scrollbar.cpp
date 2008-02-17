@@ -159,7 +159,7 @@ QPixmap OxygenScrollbar::bevel(int width, int height, double w, double h, int rx
     // anti-highlight mask
     p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
     p.setBrush(Qt::black);
-    p.drawRoundRect(rect.adjusted(0, 1, 0, -1), rx, ry);
+    p.drawRoundedRect(rect.adjusted(0, 1, 0, -1), rx, ry);
 
     // bevel
     QLinearGradient bevelGradient(0, 0, 0, 8);
@@ -173,7 +173,7 @@ QPixmap OxygenScrollbar::bevel(int width, int height, double w, double h, int rx
     // mask
     p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
     p.setBrush(Qt::black);
-    p.drawRoundRect(rect.adjusted(1, 2.5, -1, -1.4), rx, ry);
+    p.drawRoundedRect(rect.adjusted(1, 2.5, -1, -1.4), rx, ry);
 
     p.end();
     return pixmap;
@@ -205,7 +205,7 @@ TileSet* OxygenScrollbar::vertical(int size, int width, int offset) const
 
     // shine
     p.setBrush(shineGradient(w, Qt::Vertical));
-    p.drawRoundRect(QRectF(w- int(w*0.45)-0.5, 0, int(w*0.45), h), int(2000.0/w), 12);
+    p.drawRoundedRect(QRectF(w- int(w*0.45)-0.5, 0, int(w*0.45), h), 2000.0 / w, 12);
     p.setClipping(false);
 
     // shimmer
@@ -218,8 +218,8 @@ TileSet* OxygenScrollbar::vertical(int size, int width, int offset) const
 
     // highlight
     p.setBrush(alphaColor(highlight, 0.2));
-    p.drawRoundRect(QRectF(w-3, 7, 1.5, h-14), 100, 5);
-    p.drawRoundRect(QRectF(1.5, 7, 1.5, h-14), 100, 5);
+    p.drawRoundedRect(QRectF(w-3, 7, 1.5, h-14), 100, 5);
+    p.drawRoundedRect(QRectF(1.5, 7, 1.5, h-14), 100, 5);
 
     // bevel
     p.setWindow(0, 0, width, length);
@@ -254,7 +254,7 @@ TileSet* OxygenScrollbar::horizontal(int size, int width, int offset) const
 
     // shine
     p.setBrush(shineGradient(h, Qt::Horizontal));
-    p.drawRoundRect(QRectF(0, 0.5, w, int(h*0.45)), 12, int(2000.0/h));
+    p.drawRoundedRect(QRectF(0, 0.5, w, int(h*0.45)), 12, 2000.0 / h);
     p.setClipping(false);
 
     // shimmer

@@ -275,10 +275,10 @@ void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
     if (w <= 0 || h <= 0)
         return;
     const double ra = 200.0 * (7.0 - (3.6 + (0.5 * _slabThickness))) / 7.0;
-    int rx = (int)floor((ra*size) / w);
-    int ry = (int)floor((ra*size) / h);
+    qreal rx = floor((ra*size) / w);
+    qreal ry = floor((ra*size) / h);
 
-    p.drawRoundRect(r, rx, ry);
+    p.drawRoundedRect(r, rx, ry);
 }
 
 void OxygenStyleHelper::fillHole(QPainter &p, const QRect &rect, int size)
@@ -290,10 +290,10 @@ void OxygenStyleHelper::fillHole(QPainter &p, const QRect &rect, int size)
     if (w <= 0 || h <= 0)
         return;
     const double ra = 200.0 * 4.0 / 7.0;
-    int rx = (int)floor((ra*size) / w);
-    int ry = (int)floor((ra*size) / h);
+    qreal rx = floor((ra*size) / w);
+    qreal ry = floor((ra*size) / h);
 
-    p.drawRoundRect(r, rx, ry);
+    p.drawRoundedRect(r, rx, ry);
 }
 
 TileSet *OxygenStyleHelper::slab(const QColor &color, double shade, int size)
