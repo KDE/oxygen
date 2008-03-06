@@ -178,7 +178,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonSpacing, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Left, 2);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 9);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 8);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 5);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 4);
 
