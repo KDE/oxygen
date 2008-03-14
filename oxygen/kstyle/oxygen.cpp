@@ -2617,7 +2617,7 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
             return true;
 
         case SH_ItemView_ShowDecorationSelected:
-            return true;
+            return false;
 
         case SH_RubberBand_Mask:
         {
