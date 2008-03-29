@@ -591,7 +591,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QColor light = _helper.calcLightColor(color);
                     QColor dark = _helper.calcDarkColor(color);
                     dark.setAlpha(120);
-                        p->setRenderHint(QPainter::Antialiasing);
+                    bool antialias = p->testRenderHint(QPainter::Antialiasing);
+                    p->setRenderHint(QPainter::Antialiasing);
 
                     QLinearGradient lg(r.x(),0,r.right(),0);
                     lg.setColorAt(0.5, dark);
@@ -612,6 +613,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     p->drawLine(QPointF(r.x(), r.y()+1.5),
                                         QPointF(r.right(), r.y()+1.5));
+                    p->setRenderHint(QPainter::Antialiasing, antialias);
                     return;
                 }
 
