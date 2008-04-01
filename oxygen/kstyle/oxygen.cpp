@@ -588,33 +588,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case MenuItem::Separator:
                 {
-                    QColor color = pal.color(QPalette::Window);
-                    QColor light = _helper.calcLightColor(color);
-                    QColor dark = _helper.calcDarkColor(color);
-                    dark.setAlpha(120);
-                    bool antialias = p->testRenderHint(QPainter::Antialiasing);
-                    p->setRenderHint(QPainter::Antialiasing);
-
-                    QLinearGradient lg(r.x(),0,r.right(),0);
-                    lg.setColorAt(0.5, dark);
-                    dark.setAlpha(0);
-                    lg.setColorAt(0.0, dark);
-                    lg.setColorAt(1.0, dark);
-                    p->setPen(QPen(lg,1));
-
-                    p->drawLine(QPointF(r.x(), r.y()+0.5),
-                                            QPointF(r.right(), r.y()+0.5));
-
-                    lg = QLinearGradient(r.x(), 0, r.right(),0);
-                    lg.setColorAt(0.5, light);
-                    light.setAlpha(0);
-                    lg.setColorAt(0.0, light);
-                    lg.setColorAt(1.0, light);
-                    p->setPen(QPen(lg,1));
-
-                    p->drawLine(QPointF(r.x(), r.y()+1.5),
-                                        QPointF(r.right(), r.y()+1.5));
-                    p->setRenderHint(QPainter::Antialiasing, antialias);
+                    renderSeparator(p,r,pal,Qt::Horizontal);
                     return;
                 }
 
@@ -1771,15 +1745,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ToolBar::Separator:
                 {
                     if(_drawToolBarItemSeparator) {
-                        // TODO leftover from plastik, probably should be redone
-                        p->setPen(_helper.calcDarkColor(pal.color(QPalette::Background)));
-                        if(flags & State_Horizontal) {
-                            int center = r.left()+r.width()/2;
-                            p->drawLine( center-1, r.top()+3, center-1, r.bottom()-3 );
-                        } else {
-                            int center = r.top()+r.height()/2;
-                            p->drawLine( r.x()+3, center-1, r.right()-3, center-1 );
-                        }
+
+                        if(flags & State_Horizontal)
+                            renderSeparator(p,r,pal,Qt::Vertical);
+                        else
+                            renderSeparator(p,r,pal,Qt::Horizontal);
                     }
 
                     return;
@@ -2254,6 +2224,48 @@ void OxygenStyle::renderDot(QPainter *p, const QPointF &point, const QColor &bas
     p->setBrush(QColor(0, 0, 0, 66));
     p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
     p->setRenderHint(QPainter::Antialiasing, false);
+}
+
+void OxygenStyle::renderSeparator(QPainter *p, const QRect &rect,
+const QPalette &pal, Qt::Orientation orientation) const
+{
+    QColor color = pal.color(QPalette::Window);
+    QColor light = _helper.calcLightColor(color);
+    QColor dark = _helper.calcDarkColor(color);
+    dark.setAlpha(120);
+    bool antialias = p->testRenderHint(QPainter::Antialiasing);
+    p->setRenderHint(QPainter::Antialiasing,false);
+
+    QPoint start,end,offset;
+
+    if (orientation == Qt::Horizontal) {
+        start = QPoint(rect.x(),rect.y()+0.5);
+        end = QPoint(rect.right(),rect.y()+0.5);
+          offset = QPoint(0,1);
+    } else {
+          start = QPoint(rect.x()+0.5,rect.y());
+          end = QPoint(rect.x()+0.5,rect.bottom());
+          offset = QPoint(1,0);
+    }
+
+    QLinearGradient lg(start,end);
+    lg.setColorAt(0.5, dark);
+    dark.setAlpha(0);
+    lg.setColorAt(0.0, dark);
+    lg.setColorAt(1.0, dark);
+    p->setPen(QPen(lg,1));
+
+    p->drawLine(start,end);
+
+    lg = QLinearGradient(start,end);
+    lg.setColorAt(0.5, light);
+    light.setAlpha(0);
+    lg.setColorAt(0.0, light);
+    lg.setColorAt(1.0, light);
+    p->setPen(QPen(lg,1));
+
+    p->drawLine(start+offset,end+offset);
+    p->setRenderHint(QPainter::Antialiasing, antialias);
 }
 
 void OxygenStyle::renderTab(QPainter *p,

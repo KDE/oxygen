@@ -147,6 +147,9 @@ protected:
 
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
+    void renderSeparator(QPainter *p, const QRect &r, const QPalette &pal,
+                        Qt::Orientation orientation) const;
+
     void renderTab(QPainter *p,
                    const QRect &r,
                    const QPalette &pal,
