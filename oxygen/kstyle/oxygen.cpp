@@ -62,6 +62,7 @@
 #include <KGlobalSettings>
 #include <KConfigGroup>
 #include <KColorUtils>
+#include <KIconEffect>
 #include <kdebug.h>
 
 #include <math.h>
@@ -715,6 +716,32 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case MenuItem::CheckIcon:
                 {
                     // TODO
+                    return;
+                }
+
+                case Generic::Icon:
+                {
+                    p->save();
+                    KStyle::IconOption* iconOpts = extractOption<KStyle::IconOption*>(kOpt);
+                    QSize size = iconOpts->size;
+                    if(!size.isValid()) {
+                        size = QSize(pixelMetric(PM_SmallIconSize, opt, widget),
+                                     pixelMetric(PM_SmallIconSize, opt, widget));
+                    }
+                    QImage icon;
+                    if (flags & State_Enabled) {
+                        if (iconOpts->active) {
+                            icon = iconOpts->icon.pixmap(size, QIcon::Active).toImage();
+                        } else {
+                            icon = iconOpts->icon.pixmap(size, QIcon::Normal).toImage();
+                        }
+                    } else {
+                        icon = iconOpts->icon.pixmap(size).toImage();
+                        KIconEffect::deSaturate(icon, 0.8);
+                        p->setOpacity(0.7);
+                    }
+                    p->drawImage(centerRect(r, icon.size()), icon);
+                    p->restore();
                     return;
                 }
             }
