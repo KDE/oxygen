@@ -2379,18 +2379,18 @@ void OxygenStyle::renderTab(QPainter *p,
             p->setPen(darkColor);
 
             if (!southAlignment) {
-                r.adjusted(0,4,0,0).getRect(&x, &y, &w, &h);
+                r.adjusted(0,5,0,0).getRect(&x, &y, &w, &h);
                 if(isLeftMost) {
-                    p->drawArc(QRectF(x+2.5, y+0.5, 9.5, 9.5),90*16, 90*16);
+                    p->drawArc(QRectF(x+2, y, 9, 9),90*16, 90*16);
                     if(isFrameAligned)
-                        p->drawLine(QPointF(x+2.5, y+6.3), QPointF(x+2.5, y+h-2));
+                        p->drawLine(QPointF(x+2.5, y+5.3), QPointF(x+2.5, y+h-2));
                     else
-                        p->drawLine(QPointF(x+2.5, y+6.3), QPointF(x+2.5, y+h-6));
+                        p->drawLine(QPointF(x+2.5, y+5.3), QPointF(x+2.5, y+h-6));
                     // topline
-                    p->drawLine(QPointF(x+8.8, y+0.5), QPointF(x+w-1, y+0.5));
+                    p->drawLine(QPointF(x+6.8, y+0.5), QPointF(x+w-1, y+0.5));
                     if(!isLeftOfSelected)
                         p->drawLine(QPointF(x+w-0.5, y+1.5), QPointF(x+w-0.5, y+h-6.3));
-                    p->fillRect(x+2, y+1, w-2, h-5, midColor);
+                    p->fillRect(x+3, y+1, w-3, h-4, midColor);
                 } else  if(isRightMost) {
                     p->drawArc(QRectF(x+w-9.5-2.5, y+0.5, 9.5, 9.5), 0, 90*16);
                     if(isFrameAligned)
@@ -2399,7 +2399,7 @@ void OxygenStyle::renderTab(QPainter *p,
                         p->drawLine(QPointF(x+w-2.5, y+6.3), QPointF(x+w-2.5, y+h-6.3));
                     // topline
                     p->drawLine(QPointF(x, y+0.5), QPointF(x+w-8.8, y+0.5));
-                    p->fillRect(x-1, y+1, w-1, h-5, midColor);
+                    p->fillRect(x-1, y+1, w-2, h-5, midColor);
                 } else {
                     // topline
                     p->drawLine(QPointF(x, y+0.5), QPointF(x+w-1, y+0.5));
@@ -2551,6 +2551,8 @@ void OxygenStyle::renderTab(QPainter *p,
                 Rc.adjusted(5,0,2,0).getRect(&x, &y, &w, &h);
 
                 if(isLeftMost) { // at top
+		    y += 2;
+		    h -= 2;
                         p->drawArc(QRectF(x+0.5, y+1.5, 9.5, 9.5),90*16, 90*16);
                     if(isFrameAligned)
                         p->drawLine(QPointF(x-3+9.5, y+1.5), QPointF(x+w+1.5, y+1.5));
@@ -2584,6 +2586,8 @@ void OxygenStyle::renderTab(QPainter *p,
                 Rc.adjusted(-2,0,-5,0).getRect(&x, &y, &w, &h);
 
                 if(isLeftMost) { // at top
+		    y += 2;
+		    h -= 2;
                     p->drawArc(QRectF(x+w-0.5-9.5, y+1.5, 9.5, 9.5),0*16, 90*16);
                     if(isFrameAligned)
                         p->drawLine(QPointF(x-1.5, y+1.5), QPointF(x+w+3-9.5, y+1.5));
@@ -2651,6 +2655,8 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
                             const QWidget * widget, QStyleHintReturn * returnData) const
 {
     switch (hint) {
+        case SH_ComboBox_ListMouseTracking:
+            return true;
         case SH_Menu_SubMenuPopupDelay:
             return 96; // Motif-like delay...
 
