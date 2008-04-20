@@ -1715,11 +1715,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int counter = 1;
 
                         int center = r.left()+r.width()/2;
-                        for(int j = r.top()+2; j <= r.bottom()-3; j+=3) {
+                        for(int j = r.top(); j <= r.bottom()-5; j+=4) {
                             if(counter%2 == 0) {
-                                renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background));
+                                renderSeparator(p, QRect(center+1, j, 2, 7), pal, Qt::Vertical);
                             } else {
-                                renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background));
+                                renderSeparator(p, QRect(center-2, j, 2, 7), pal, Qt::Vertical);
                             }
                             counter++;
                         }
@@ -1730,11 +1730,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int counter = 1;
 
                         int center = r.top()+r.height()/2;
-                        for(int j = r.left()+2; j <= r.right()-3; j+=3) {
+                        for(int j = r.left(); j <= r.right()-5; j+=3) {
                             if(counter%2 == 0) {
-                                renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background));
+                                renderSeparator(p, QRect(j, center+1, 7, 2), pal, Qt::Horizontal);
                             } else {
-                                renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background));
+                                renderSeparator(p, QRect(j, center-2, 7, 2), pal, Qt::Horizontal);
                             }
                             counter++;
                         }
@@ -1794,12 +1794,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     else if (hasFocus || mouseOver)
                     {
                         TileSet *tile;
-
-                        if(mouseOver)
-                            tile = _helper.slitFocused(_viewHoverBrush.brush(QPalette::Active).color());
-                        else
-                             tile = _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color());
-                       tile->render(r, p);
+                        tile = _helper.slab(pal.color(QPalette::Button), 0.0);
+                        tile->render(r, p);
                     }
                     return;
                 }
