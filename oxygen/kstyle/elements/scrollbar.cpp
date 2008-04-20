@@ -205,7 +205,7 @@ TileSet* OxygenScrollbar::vertical(int size, int width, int offset) const
 
     // shine
     p.setBrush(shineGradient(w, Qt::Vertical));
-    p.drawRoundRect(QRectF(w- int(w*0.45)-0.5, 0, int(w*0.45), h), 2000.0 / w, 12);
+    p.drawRoundRect(QRectF(0, 0, int(w*0.45), h), 2000.0 / w, 12);
     p.setClipping(false);
 
     // shimmer

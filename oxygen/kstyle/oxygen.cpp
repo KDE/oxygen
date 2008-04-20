@@ -135,7 +135,7 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 0);
-    setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 2);
+    setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 10);
 
     setWidgetLayoutProp(WT_Menu, Menu::FrameWidth, 5);
 
@@ -3063,21 +3063,58 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                 _helper.drawFloatFrame(&p, dw->rect(), dw->palette().color(QPalette::Window));
                 return false;
             }
-
+            
+            QPixmap pm(dw->rect().size());                                                            
+            pm.fill(Qt::transparent);                                                                 
+            QPainter pp(&pm);
+            pp.setRenderHints(QPainter::Antialiasing);
+            pp.translate(.5, .5);
             int x,y,w,h;
 
             dw->rect().getRect(&x, &y, &w, &h);
-
-            h--;
-            p.setPen(QColor(0,0,0, 30));
-            p.drawLine(QPointF(6.3, 0.5), QPointF(w-6.3, 0.5));
-            p.drawArc(QRectF(0.5, 0.5, 9.5, 9.5),90*16, 90*16);
-            p.drawArc(QRectF(w-9.5-0.5, 0.5, 9.5, 9.5), 0, 90*16);
-            p.drawLine(QPointF(0.5, 6.3), QPointF(0.5, h-6.3));
-            p.drawLine(QPointF(w-0.5, 6.3), QPointF(w-0.5, h-6.3));
-            p.drawArc(QRectF(0.5, h-9.5-0.5, 9.5, 9.5),180*16, 90*16);
-            p.drawArc(QRectF(w-9.5-0.5, h-9.5-0.5, 9.5, 9.5), 270*16, 90*16);
-            p.drawLine(QPointF(6.3, h-0.5), QPointF(w-6.3, h-0.5));
+            x = 0; y = 0;                                                                             
+            h--; w--;                                                                                 
+            
+            QRect rect(x,y,w,h);                                                                      
+            
+            QPalette pal = dw->palette();                                                             
+            QColor color = pal.color(QPalette::Window);                                               
+            QColor light = _helper.calcLightColor(color);                                             
+            QColor dark = _helper.calcDarkColor(color);                                               
+            dark.setAlpha(120);                                                                       
+                                                                                                      
+            // draw top and bottom border                                                             
+            renderSeparator(&p,QRect(x,y,w,2),dw->palette(),Qt::Horizontal);                          
+            renderSeparator(&p,QRect(x,y+h-2,w,2),dw->palette(),Qt::Horizontal);                      
+                                                                                                      
+            // draw left and right border                                                             
+                                                                                                      
+            QLinearGradient lg(rect.topLeft(),rect.topRight());                                       
+            lg.setColorAt(0.0, dark);                                                                 
+            lg.setColorAt(0.1, QColor(0,0,0,0));                                                      
+            lg.setColorAt(0.9, QColor(0,0,0,0));                                                      
+            lg.setColorAt(1.0, dark);                                                                 
+            pp.setPen(QPen(lg,1));                                                                    
+            pp.setBrush(Qt::NoBrush);                                                                 
+            pp.drawRoundedRect(rect.adjusted(0,0,-1,-2),5,5);                                         
+                                                                                                      
+            lg.setColorAt(0.0, light);                                                                
+            lg.setColorAt(0.1, QColor(0,0,0,0));                                                      
+            lg.setColorAt(0.9, QColor(0,0,0,0));                                                      
+            lg.setColorAt(1.0, light);                                                                
+            pp.setPen(QPen(lg,1));                                                                    
+            pp.drawRoundedRect(rect.adjusted(1,1,-2,-1),5,5);                                         
+ 
+            // fade
+            QRect maskr = rect.adjusted(0,h/3,0,0);
+            pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+            QLinearGradient mask(maskr.topLeft(),maskr.bottomLeft());
+            mask.setColorAt(0.0,QColor(0,0,0,255));
+            mask.setColorAt(1.0,QColor(0,0,0,55));
+            pp.setBrush(mask);
+            pp.setPen(Qt::NoPen);
+            pp.drawRect(maskr);
+            p.drawPixmap(dw->rect().topLeft(),pm);
             return false;
         }
     }
