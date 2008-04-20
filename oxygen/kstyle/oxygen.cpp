@@ -1861,6 +1861,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 //renderHole(p, pal.color(widget->backgroundRole()), r, focusHighlight);
                 renderHole(p, pal.color(QPalette::Window), r, focusHighlight);
             } else
+                renderSlab(p, r.adjusted(-2, -2, 2, 2), pal.color(QPalette::Background), NoFill);
                 break; // do the default thing
         }
 
@@ -1967,6 +1968,10 @@ void OxygenStyle::polish(QWidget* widget)
     else if (qobject_cast<QMenu*>(widget) || qobject_cast<QFrame*>(widget))
     {
         widget->installEventFilter(this);
+    }
+    if(qobject_cast<QFrame*>(widget))
+    {
+        widget->setAutoFillBackground(false);
     }
     KStyle::polish(widget);
 }
@@ -2244,7 +2249,8 @@ const QPalette &pal, Qt::Orientation orientation) const
     }
 
     QLinearGradient lg(start,end);
-    lg.setColorAt(0.5, dark);
+    lg.setColorAt(0.3, dark);
+    lg.setColorAt(0.7, dark);
     dark.setAlpha(0);
     lg.setColorAt(0.0, dark);
     lg.setColorAt(1.0, dark);
@@ -2253,7 +2259,8 @@ const QPalette &pal, Qt::Orientation orientation) const
     p->drawLine(start,end);
 
     lg = QLinearGradient(start,end);
-    lg.setColorAt(0.5, light);
+    lg.setColorAt(0.3, light);
+    lg.setColorAt(0.7, light);
     light.setAlpha(0);
     lg.setColorAt(0.0, light);
     lg.setColorAt(1.0, light);
