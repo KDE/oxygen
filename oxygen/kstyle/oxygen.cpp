@@ -138,7 +138,6 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 2);
 
     setWidgetLayoutProp(WT_Menu, Menu::FrameWidth, 5);
-    setWidgetLayoutProp(WT_Menu, Menu::Margin,     4);
 
     setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 0);
     setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin,        0);
@@ -1794,7 +1793,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     else if (hasFocus || mouseOver)
                     {
                         TileSet *tile;
-                        tile = _helper.slab(pal.color(QPalette::Button), 0.0);
+                        tile = _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color());
                         tile->render(r, p);
                     }
                     return;
@@ -1901,7 +1900,7 @@ void OxygenStyle::polish(QWidget* widget)
         case Qt::Dialog:
             widget->installEventFilter(this);
             break;
-        case Qt::Popup: // we currently don't want gradients on menus etc
+        case Qt::Popup: // we currently don't want that kind of gradient on menus etc
         case Qt::Tool: // this we exclude as it is used for dragging of icons etc
         default:
             break;
