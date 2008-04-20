@@ -1964,7 +1964,7 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAutoFillBackground(false);
         widget->parentWidget()->setAutoFillBackground(false);
     }
-    else if (qobject_cast<QMenu*>(widget))
+    else if (qobject_cast<QMenu*>(widget) || qobject_cast<QFrame*>(widget))
     {
         widget->installEventFilter(this);
     }
@@ -3085,7 +3085,29 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             QPainter p(tb);
             p.setClipRegion(((QPaintEvent*)ev)->region());
             renderSlab(&p, r, tb->palette().color(QPalette::Button), opts);
-            return false;
+        }
+        return false;
+    }
+    
+    // style HLines/VLines here, as Qt doesn't make them stylable as primitives.
+    // Qt bug is filed.
+    if (QFrame *f = qobject_cast<QFrame*>(obj))
+    {
+        if (ev->type() == QEvent::Paint)
+        {
+            QRect r = f->rect();
+            QPainter p(f);
+            p.setClipRegion(((QPaintEvent*)ev)->region());
+            p.setClipping(false);
+            Qt::Orientation o;
+            switch(f->frameShape())
+            {
+                case QFrame::HLine: { o = Qt::Horizontal; break; }
+                case QFrame::VLine: { o = Qt::Vertical; break; }
+                default: { return false; }
+            }
+            renderSeparator(&p, r, f->palette(), o);
+            return true;
         }
         return false;
     }
