@@ -162,7 +162,6 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
 
 void OxygenStyleHelper::drawHole(QPainter &p, const QColor &color, double shade, int r) const
 {
-    return;
     const int r2 = 2*r;
     QColor base = KColorUtils::shade(color, shade);
     QColor light = KColorUtils::shade(calcLightColor(color), shade);
@@ -180,7 +179,7 @@ void OxygenStyleHelper::drawHole(QPainter &p, const QColor &color, double shade,
     if (y < yl && y > yd) // no middle when color is very light/dark
         bevelGradient1.setColorAt(0.6, base);
     p.setBrush(bevelGradient1);
-    p.drawEllipse(2,2,r2-4,r2-4);
+    p.drawEllipse(3,3,r2-5,r2-5);
 
     // mask
     QRadialGradient maskGradient(r,r,r-2);
@@ -376,9 +375,6 @@ TileSet *OxygenStyleHelper::slabSunken(const QColor &color, double shade, int si
         p.setPen(Qt::NoPen);
         p.setWindow(0,0,14,14);
 
-        // hole
-        drawHole(p, color, shade);
-
         // slab
         drawSlab(p, color, shade);
 
@@ -515,9 +511,6 @@ TileSet *OxygenStyleHelper::hole(const QColor &color, double shade, int size)
         p.setPen(Qt::NoPen);
         p.setWindow(2,2,10,10);
 
-        // hole
-        drawHole(p, color, shade);
-
         // hole mask
         p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
         p.setBrush(Qt::black);
@@ -618,9 +611,6 @@ TileSet *OxygenStyleHelper::groove(const QColor &color, double shade, int size)
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
         p.setWindow(2,2,6,6);
-
-        // hole
-        drawHole(p, color, shade, 5);
 
         // hole mask
         p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
