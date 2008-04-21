@@ -135,7 +135,7 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 0);
-    setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 2);
+    setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 3);
 
     setWidgetLayoutProp(WT_Menu, Menu::FrameWidth, 5);
 
@@ -1861,7 +1861,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 //renderHole(p, pal.color(widget->backgroundRole()), r, focusHighlight);
                 renderHole(p, pal.color(QPalette::Window), r, focusHighlight);
             } else
-                renderSlab(p, r.adjusted(-2, -2, 2, 2), pal.color(QPalette::Background), NoFill);
+                if(widgetType == WT_Generic && (flags & State_Raised)) {
+                    renderSlab(p, r.adjusted(-2, -2, 2, 2), pal.color(QPalette::Background), NoFill);
+                }
                 break; // do the default thing
         }
 

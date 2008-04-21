@@ -204,9 +204,9 @@ void OxygenStyleHelper::drawSlab(QPainter &p, const QColor &color, double shade)
     qreal yd = KColorUtils::luma(dark);
     QLinearGradient bevelGradient1(0, 7, 0, 11);
     bevelGradient1.setColorAt(0.0, light);
-    bevelGradient1.setColorAt(0.9, dark);
     if (y < yl && y > yd) // no middle when color is very light/dark
         bevelGradient1.setColorAt(0.5, base);
+    bevelGradient1.setColorAt(0.9, base);
     p.setBrush(bevelGradient1);
     p.drawEllipse(QRectF(3.0,3.0,8.0,8.0));
 
