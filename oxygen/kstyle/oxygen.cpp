@@ -135,7 +135,7 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 0);
-    setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 10);
+    setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 2);
 
     setWidgetLayoutProp(WT_Menu, Menu::FrameWidth, 5);
 
@@ -1714,11 +1714,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int counter = 1;
 
                         int center = r.left()+r.width()/2;
-                        for(int j = r.top(); j <= r.bottom()-5; j+=4) {
+                        for(int j = r.top()+2; j <= r.bottom()-3; j+=3) {
                             if(counter%2 == 0) {
-                                renderSeparator(p, QRect(center+1, j, 2, 7), pal, Qt::Vertical);
+                                renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background));
                             } else {
-                                renderSeparator(p, QRect(center-2, j, 2, 7), pal, Qt::Vertical);
+                                renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background));
                             }
                             counter++;
                         }
@@ -1729,11 +1729,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int counter = 1;
 
                         int center = r.top()+r.height()/2;
-                        for(int j = r.left(); j <= r.right()-5; j+=3) {
+                        for(int j = r.left()+2; j <= r.right()-3; j+=3) {
                             if(counter%2 == 0) {
-                                renderSeparator(p, QRect(j, center+1, 7, 2), pal, Qt::Horizontal);
+                                renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background));
                             } else {
-                                renderSeparator(p, QRect(j, center-2, 7, 2), pal, Qt::Horizontal);
+                                renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background));
                             }
                             counter++;
                         }
