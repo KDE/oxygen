@@ -2241,12 +2241,12 @@ const QPalette &pal, Qt::Orientation orientation) const
     QPoint start,end,offset;
 
     if (orientation == Qt::Horizontal) {
-        start = QPoint(rect.x(),rect.y()+0.5);
-        end = QPoint(rect.right(),rect.y()+0.5);
+        start = QPoint(rect.x(),rect.y()+rect.height()/2);
+        end = QPoint(rect.right(),rect.y()+rect.height()/2);
           offset = QPoint(0,1);
     } else {
-          start = QPoint(rect.x()+0.5,rect.y());
-          end = QPoint(rect.x()+0.5,rect.bottom());
+          start = QPoint(rect.x()+rect.width()/2,rect.y());
+          end = QPoint(rect.x()+rect.width()/2,rect.bottom());
           offset = QPoint(1,0);
     }
 
