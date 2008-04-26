@@ -3098,14 +3098,14 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             lg.setColorAt(1.0, dark);                                                                 
             pp.setPen(QPen(lg,1));                                                                    
             pp.setBrush(Qt::NoBrush);                                                                 
-            pp.drawRoundedRect(rect.adjusted(0,0,-1,-2),5,5);                                         
+            pp.drawRoundedRect(rect.adjusted(0,0,0,-1),5,5);                                         
                                                                                                       
             lg.setColorAt(0.0, light);                                                                
             lg.setColorAt(0.1, QColor(0,0,0,0));                                                      
             lg.setColorAt(0.9, QColor(0,0,0,0));                                                      
             lg.setColorAt(1.0, light);                                                                
             pp.setPen(QPen(lg,1));                                                                    
-            pp.drawRoundedRect(rect.adjusted(1,1,-2,-1),5,5);                                         
+            pp.drawRoundedRect(rect.adjusted(1,1,-1,0),5,5);                                         
  
             // fade
             QRect maskr = rect.adjusted(0,h/3,0,0);
