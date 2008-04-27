@@ -2357,19 +2357,22 @@ void OxygenStyle::renderTab(QPainter *p,
         } else {
             // inactive tabs
             int x,y,w,h;
+            p->save(); // we only use the clipping and AA for inactive tabs
             p->setPen(darkColor);
             p->setBrush(midColor);
             p->setRenderHints(QPainter::Antialiasing);
 
             if (northAlignment) {
                 r.adjusted(0,5,0,0).getRect(&x, &y, &w, &h);
+                p->setClipRect(x-4, y, w+8, h-5); // don't intersect the translucent border of the slab
+                p->setClipRect(x, y, w, h, Qt::UniteClip);
                 if(isLeftMost) {
                     QPainterPath path;
                     path.moveTo(x+2.5, y+h-2-(isFrameAligned ? 0 : 2));
                     path.lineTo(x+2.5, y+2.5); // left border
                     path.arcTo(QRectF(x+2.5, y+0.5, 9, 9), 180, -90); // top-left corner
                     path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4:0), y+0.5)); // top border
-                    path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4:0), y+h-5)); // to complete the path.
+                    path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4:0), y+h-4)); // to complete the path.
                     p->drawPath(path);
                 } else if(isRightMost) {
                     QPainterPath path;
@@ -2377,14 +2380,14 @@ void OxygenStyle::renderTab(QPainter *p,
                     path.lineTo(x+w-2.5, y+2.5); // right border
                     path.arcTo(QRectF(x+w-9-2.5, y+0.5, 9, 9), 0, 90); // top-right corner
                     path.lineTo(QPointF(x+0.5-(isRightOfSelected?4:0), y+0.5)); // top border
-                    path.lineTo(QPointF(x+0.5-(isRightOfSelected?4:0), y+h-5)); // to complete the path.
+                    path.lineTo(QPointF(x+0.5-(isRightOfSelected?4:0), y+h-4)); // to complete the path.
                     p->drawPath(path);
                 } else {
                     // top border
                     p->drawLine(QPointF(x-(isRightOfSelected?2:0), y+0.5), QPointF(x+w+(isRightOfSelected?2:0)+(isLeftOfSelected?2:0), y+0.5));
                     if(!isLeftOfSelected)
                         p->drawLine(QPointF(x+w+0.5, y+1.5), QPointF(x+w+0.5, y+h-4));
-                    p->fillRect(x-(isRightOfSelected ? 2 : 0), y+1, w+(isLeftOfSelected||isRightOfSelected?3:0), h-4, midColor);
+                    p->fillRect(x-(isRightOfSelected ? 2 : 0), y+1, w+(isLeftOfSelected||isRightOfSelected?3:0), h-5, midColor);
                 }
             }
             else { // southAlignment
@@ -2395,7 +2398,7 @@ void OxygenStyle::renderTab(QPainter *p,
                     path.lineTo(x+2.5, y+h-2.5); // left border
                     path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90); // bottom-left corner
                     path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4:0), y+h-0.5)); // bottom border
-                    path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4:0), y+5)); // to complete the path.
+                    path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4:0), y+4)); // to complete the path.
                     p->drawPath(path);
                 } else if(isRightMost) {
                     QPainterPath path;
@@ -2403,7 +2406,7 @@ void OxygenStyle::renderTab(QPainter *p,
                     path.lineTo(x+w-2.5, y+h-2.5); // right border
                     path.arcTo(QRectF(x+w-9-2.5, y+h-9.5, 9, 9), 0, -90); // bottom-right corner
                     path.lineTo(QPointF(x+0.5-(isRightOfSelected?4:0), y+h-0.5)); // bottom border
-                    path.lineTo(QPointF(x+0.5-(isRightOfSelected?4:0), y+5)); // to complete the path.
+                    path.lineTo(QPointF(x+0.5-(isRightOfSelected?4:0), y+4)); // to complete the path.
                     p->drawPath(path);
                 } else {
                     // bottom border
@@ -2413,6 +2416,7 @@ void OxygenStyle::renderTab(QPainter *p,
                     p->fillRect(x-(isRightOfSelected ?2:0), y+1, w+(isLeftOfSelected || isRightOfSelected?3:0), h-2, midColor);
                 }
             }
+            p->restore();
 
             TileSet::Tiles posFlag = southAlignment?TileSet::Bottom:TileSet::Top;
             QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 6);
