@@ -82,13 +82,7 @@ QLinearGradient OxygenScrollbar::baseGradient(double width, Qt::Orientation orie
 
 QLinearGradient OxygenScrollbar::shineGradient(double width, Qt::Orientation orient) const
 {
-    double x = 0.0, y1 = -width, y2 = -width;
-    if (orient == Qt::Vertical)
-        x = width * 2.0;
-    else
-        y1 = width;
-
-    QLinearGradient gradient(0, y1, x, y2);
+    QLinearGradient gradient(0, width, 0, -width);
     gradient.setColorAt(0.0, light);
     gradient.setColorAt(0.5, alphaColor(color, 0.5));
     gradient.setColorAt(1.0, color);
