@@ -1776,7 +1776,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             opts |= Hover;
                         if (dynamic_cast<const QTabBar*>(t->parent()))
                         {
-                            _helper.renderWindowBackground(p, r.adjusted(0,2,0,-2), t, pal);
+                            _helper.renderWindowBackground(p, r.adjusted(0,2,0,-2), t, t->window()->palette());
                             renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
                             renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
                         }
