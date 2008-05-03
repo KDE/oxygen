@@ -524,7 +524,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         else {
                             color = _helper.calcMidColor(color);
                         }
-                        color = QColor(Qt::red);
 
                         _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
                     }
