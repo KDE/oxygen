@@ -1776,7 +1776,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             opts |= Hover;
                         if (dynamic_cast<const QTabBar*>(t->parent()))
                         {
-                            _helper.renderWindowBackground(p, r.adjusted(0,2,0,-2), t);
+                            _helper.renderWindowBackground(p, r.adjusted(0,2,0,-2), t, pal);
                             renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
                             renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
                         }
@@ -3027,7 +3027,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                      !widget->testAttribute(Qt::WA_NoSystemBackground)) {
                 QPainter p(widget);
                 QPaintEvent *e = (QPaintEvent*)ev;
-                _helper.renderWindowBackground(&p, widget->rect(), widget);
+                _helper.renderWindowBackground(&p, widget->rect(), widget,widget->window()->palette());
             }
         }
     }
@@ -3135,7 +3135,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         if (ev->type() == QEvent::Paint) {
             if (qobject_cast<KTitleWidget*>(f->parentWidget())) {
                 QPainter p(f);
-                _helper.renderWindowBackground(&p, f->rect(), f);
+                _helper.renderWindowBackground(&p, f->rect(), f, f->window()->palette());
             } else {
                 QRect r = f->rect();
                 QPainter p(f);

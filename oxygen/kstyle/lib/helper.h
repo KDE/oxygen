@@ -41,7 +41,7 @@ public:
     KSharedConfigPtr config() const;
     void reloadConfig();
 
-    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget);
+    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal);
     virtual void invalidateCaches();
 
     static bool lowThreshold(const QColor &color);

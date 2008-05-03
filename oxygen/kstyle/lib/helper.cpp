@@ -62,7 +62,7 @@ void OxygenHelper::reloadConfig()
         invalidateCaches(); // contrast changed, invalidate our caches
 }
 
-void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget)
+void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal)
 {
     const QWidget* window = widget->window();
     // get coordinates relative to the client area
@@ -76,7 +76,7 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
     
     p->setClipRegion(clipRect);
     QRect r = window->rect();
-    QColor color = window->palette().color(window->backgroundRole());
+    QColor color = pal.color(window->backgroundRole());
     int splitY = qMin(300, 3*r.height()/4);
 
     QRect upperRect = QRect(-x, -y, r.width(), splitY);
