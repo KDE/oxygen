@@ -3084,7 +3084,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             lg.setColorAt(1.0, light);                                                                
             pp.setPen(QPen(lg,1));                                                                    
             //pp.drawRoundedRect(rect.adjusted(1,1,-1,0),5,5);                                         
-            pp.drawRoundedRect(rect.adjusted(0,-1,0,0),4,4);                                         
+            pp.drawRoundedRect(rect.adjusted(0,-1,0,-1),4,4);                                         
             pp.drawRoundedRect(rect.adjusted(2,1,-2,-2),4,4);       
 
             lg.setColorAt(0.0, dark);                                                                 
