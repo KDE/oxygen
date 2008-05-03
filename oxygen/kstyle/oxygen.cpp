@@ -2761,12 +2761,17 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                         cr = subElementRect(SE_CheckBoxIndicator, option, widget);
                         QRect gcr((gbOpt->rect.width() - tw -cr.width())/2 , (h-cr.height())/2+r.y(), cr.width(), cr.height());
                         if(subControl == SC_GroupBoxCheckBox)
-                            return visualRect(option->direction, option->rect, gcr);
+			{
+			    if (!isFlat)
+				return visualRect(option->direction, option->rect, gcr);
+			    else
+				return visualRect(option->direction, option->rect, QRect(0,0,cr.width(),cr.height()));
+			}
                     }
 
                     // left align labels in flat group boxes, center align labels in framed group boxes
                     if (isFlat)
-                        r = QRect(0,r.y(),tw,r.height());
+                        r = QRect(cr.width(),r.y(),tw,r.height());
                     else
                         r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
 
