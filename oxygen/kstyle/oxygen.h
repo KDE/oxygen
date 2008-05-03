@@ -158,8 +158,6 @@ protected:
                    const QStyleOptionTabV2 *tabOpt,
                    const bool reverseLayout) const;
 
-    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget) const;
-
     bool eventFilter(QObject *, QEvent *);
 
 protected Q_SLOTS:

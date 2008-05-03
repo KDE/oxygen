@@ -524,6 +524,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         else {
                             color = _helper.calcMidColor(color);
                         }
+                        color = QColor(Qt::red);
 
                         _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
                     }
@@ -1776,7 +1777,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             opts |= Hover;
                         if (dynamic_cast<const QTabBar*>(t->parent()))
                         {
-                            renderWindowBackground(p, r.adjusted(0,2,0,-2), t);
+                            _helper.renderWindowBackground(p, r.adjusted(0,2,0,-2), t);
                             renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
                             renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
                         }
@@ -3027,7 +3028,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                      !widget->testAttribute(Qt::WA_NoSystemBackground)) {
                 QPainter p(widget);
                 QPaintEvent *e = (QPaintEvent*)ev;
-                renderWindowBackground(&p, widget->rect(), widget);
+                _helper.renderWindowBackground(&p, widget->rect(), widget);
             }
         }
     }
@@ -3073,8 +3074,8 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             QColor light = _helper.calcLightColor(color);                                             
             QColor dark = _helper.calcDarkColor(color);                                               
 
-	    dark.setAlpha(200);                
-	    light.setAlpha(150);
+            dark.setAlpha(200);                
+            light.setAlpha(150);
                                                                                                       
             // draw left and right border                                                             
             QLinearGradient lg(rect.topLeft(),rect.topRight());                                       
@@ -3132,26 +3133,26 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     // Qt bug is filed.
     if (QFrame *f = qobject_cast<QFrame*>(obj))
     {
-	if (ev->type() == QEvent::Paint) {
-	    if (qobject_cast<KTitleWidget*>(f->parentWidget())) {
-		QPainter p(f);
-		renderWindowBackground(&p, f->rect(), f);
-	    } else {
-		QRect r = f->rect();
-		QPainter p(f);
-		p.setClipRegion(((QPaintEvent*)ev)->region());
-		p.setClipping(false);
-		Qt::Orientation o;
-		switch(f->frameShape())
-		{
-		    case QFrame::HLine: { o = Qt::Horizontal; break; }
-		    case QFrame::VLine: { o = Qt::Vertical; break; }
-		    default: { return false; }
-		}
-		renderSeparator(&p, r, f->palette(), o);
-		return true;
-	    }
-	}
+        if (ev->type() == QEvent::Paint) {
+            if (qobject_cast<KTitleWidget*>(f->parentWidget())) {
+                QPainter p(f);
+                _helper.renderWindowBackground(&p, f->rect(), f);
+            } else {
+                QRect r = f->rect();
+                QPainter p(f);
+                p.setClipRegion(((QPaintEvent*)ev)->region());
+                p.setClipping(false);
+                Qt::Orientation o;
+                switch(f->frameShape())
+                {
+                    case QFrame::HLine: { o = Qt::Horizontal; break; }
+                    case QFrame::VLine: { o = Qt::Vertical; break; }
+                    default: { return false; }
+                }
+                renderSeparator(&p, r, f->palette(), o);
+                return true;
+            }
+        }
         return false;
     }
 
@@ -3211,41 +3212,6 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         default:
             return KStyle::standardPixmap(standardIcon, option, widget);
     }
-}
-
-void OxygenStyle::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget) const
-{
-    const QWidget* window = widget->window();
-    // get coordinates relative to the client area
-    const QWidget* w = widget;
-    int x = 0, y = 0;
-    while (!w->isWindow()) {
-	x += w->geometry().x();
-	y += w->geometry().y();
-	w = w->parentWidget();
-    } 
-    
-    p->setClipRegion(clipRect);
-    QRect r = window->rect();
-    QColor color = window->palette().color(window->backgroundRole());
-    int splitY = qMin(300, 3*r.height()/4);
-
-    QRect upperRect = QRect(-x, -y, r.width(), splitY);
-    QPixmap tile = _helper.verticalGradient(color, splitY);
-    p->drawTiledPixmap(upperRect, tile);
-
-    QRect lowerRect = QRect(-x, splitY-y, r.width(), r.height() - splitY);
-    p->fillRect(lowerRect, _helper.backgroundBottomColor(color));
-
-    int radialW = qMin(600, r.width());
-    int frameH = 32; // on first paint the frame may not have been done yet, so just fixate it
-    QRect radialRect = QRect((r.width() - radialW) / 2-x, -y, radialW, 64-frameH);
-    if (clipRect.intersects(radialRect))
-    {
-        tile = _helper.radialGradient(color, radialW);
-        p->drawPixmap(radialRect, tile, QRect(0, frameH, radialW, 64-frameH));
-    }
-    p->setClipping(false);
 }
 
 // kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;

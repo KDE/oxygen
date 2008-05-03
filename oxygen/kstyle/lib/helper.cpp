@@ -24,6 +24,7 @@
 #include <KColorUtils>
 #include <KColorScheme>
 
+#include <QtGui/QWidget>
 #include <QtGui/QPainter>
 
 #include <math.h>
@@ -59,6 +60,41 @@ void OxygenHelper::reloadConfig()
 
     if (_contrast != old_contrast)
         invalidateCaches(); // contrast changed, invalidate our caches
+}
+
+void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget)
+{
+    const QWidget* window = widget->window();
+    // get coordinates relative to the client area
+    const QWidget* w = widget;
+    int x = 0, y = 0;
+    while (!w->isWindow()) {
+        x += w->geometry().x();
+        y += w->geometry().y();
+        w = w->parentWidget();
+    } 
+    
+    p->setClipRegion(clipRect);
+    QRect r = window->rect();
+    QColor color = window->palette().color(window->backgroundRole());
+    int splitY = qMin(300, 3*r.height()/4);
+
+    QRect upperRect = QRect(-x, -y, r.width(), splitY);
+    QPixmap tile = verticalGradient(color, splitY);
+    p->drawTiledPixmap(upperRect, tile);
+
+    QRect lowerRect = QRect(-x, splitY-y, r.width(), r.height() - splitY);
+    p->fillRect(lowerRect, backgroundBottomColor(color));
+
+    int radialW = qMin(600, r.width());
+    int frameH = 32; // on first paint the frame may not have been done yet, so just fixate it
+    QRect radialRect = QRect((r.width() - radialW) / 2-x, -y, radialW, 64-frameH);
+    if (clipRect.intersects(radialRect))
+    {
+        tile = radialGradient(color, radialW);
+        p->drawPixmap(radialRect, tile, QRect(0, frameH, radialW, 64-frameH));
+    }
+    p->setClipping(false);
 }
 
 void OxygenHelper::invalidateCaches()
