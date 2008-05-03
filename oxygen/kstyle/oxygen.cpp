@@ -55,6 +55,7 @@
 #include <QToolBox>
 #include <QAbstractScrollArea>
 #include <QAbstractItemView>
+#include <KTitleWidget>
 
 #include <QtDBus/QtDBus>
 
@@ -1775,9 +1776,20 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             opts |= Hover;
                         if (dynamic_cast<const QTabBar*>(t->parent()))
                         {
-                            renderWindowBackground(p, r, t->window());
-                            //renderSlab(p, r.adjusted(0,4,0,-4), pal.color(QPalette::Button), opts);
+			    // get coordinates relative to the client area
+			    int x = 0, y = 0;
+			    const QWidget* w=t;
+			    do {
+				x += w->geometry().x();
+				y += w->geometry().y();
+				w = w->parentWidget();
+			    } while (!w->isWindow());
+			    //qDebug() << x << y;
+
+			    // renderWindowBackground seems to work now
+                            renderWindowBackground(p,x,y,r.adjusted(0,2,0,-2), t->window());
                             renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
+                            renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
                         }
                         else
                             renderSlab(p, r, pal.color(QPalette::Button), opts);
@@ -1971,10 +1983,6 @@ void OxygenStyle::polish(QWidget* widget)
     {
         widget->installEventFilter(this);
     }
-    if(qobject_cast<QFrame*>(widget))
-    {
-        widget->setAutoFillBackground(false);
-    }
     KStyle::polish(widget);
 }
 
@@ -2024,6 +2032,10 @@ void OxygenStyle::unpolish(QWidget* widget)
         widget->setAttribute(Qt::WA_PaintOnScreen, false);
         widget->setAttribute(Qt::WA_NoSystemBackground, false);
         widget->removeEventFilter(this);
+    }
+    else if (qobject_cast<QFrame*>(widget))
+    {
+	widget->removeEventFilter(this);
     }
     KStyle::unpolish(widget);
 }
@@ -3014,8 +3026,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                      !widget->testAttribute(Qt::WA_NoSystemBackground)) {
                 QPainter p(widget);
                 QPaintEvent *e = (QPaintEvent*)ev;
-                p.setClipRegion(e->region());
-                renderWindowBackground(&p, e->rect(), widget);
+                renderWindowBackground(&p, widget->rect().x(), widget->rect().y(), widget->rect(), widget);
             }
         }
     }
@@ -3116,22 +3127,34 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     // Qt bug is filed.
     if (QFrame *f = qobject_cast<QFrame*>(obj))
     {
-        if (ev->type() == QEvent::Paint)
-        {
-            QRect r = f->rect();
-            QPainter p(f);
-            p.setClipRegion(((QPaintEvent*)ev)->region());
-            p.setClipping(false);
-            Qt::Orientation o;
-            switch(f->frameShape())
-            {
-                case QFrame::HLine: { o = Qt::Horizontal; break; }
-                case QFrame::VLine: { o = Qt::Vertical; break; }
-                default: { return false; }
-            }
-            renderSeparator(&p, r, f->palette(), o);
-            return true;
-        }
+	if (ev->type() == QEvent::Paint) {
+	    if (qobject_cast<KTitleWidget*>(f->parentWidget())) {
+		QPainter p(f);
+		// this should be factored out since it is used in ~1777 (tabbar arrows)
+		int x=0,y=0;
+		QWidget *w = f;
+		do {
+		  x += w->x();
+		  y += w->y();
+		  w = w->parentWidget();
+		} while (!w->isWindow());
+		renderWindowBackground(&p, x, y, f->rect(), f->window());
+	    } else {
+		QRect r = f->rect();
+		QPainter p(f);
+		p.setClipRegion(((QPaintEvent*)ev)->region());
+		p.setClipping(false);
+		Qt::Orientation o;
+		switch(f->frameShape())
+		{
+		    case QFrame::HLine: { o = Qt::Horizontal; break; }
+		    case QFrame::VLine: { o = Qt::Vertical; break; }
+		    default: { return false; }
+		}
+		renderSeparator(&p, r, f->palette(), o);
+		return true;
+	    }
+	}
         return false;
     }
 
@@ -3193,27 +3216,29 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
     }
 }
 
-void OxygenStyle::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget) const
+void OxygenStyle::renderWindowBackground(QPainter *p, int x, int y, const QRect &clipRect, const QWidget *widget) const
 {
+    p->setClipRegion(clipRect);
     QRect r = widget->rect();
     QColor color = widget->palette().color(widget->backgroundRole());
     int splitY = qMin(300, 3*r.height()/4);
 
-    QRect upperRect = QRect(0, 0, r.width(), splitY);
+    QRect upperRect = QRect(-x, -y, r.width(), splitY);
     QPixmap tile = _helper.verticalGradient(color, splitY);
     p->drawTiledPixmap(upperRect, tile);
 
-    QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
+    QRect lowerRect = QRect(-x, splitY-y, r.width(), r.height() - splitY);
     p->fillRect(lowerRect, _helper.backgroundBottomColor(color));
 
     int radialW = qMin(600, r.width());
     int frameH = 32; // on first paint the frame may not have been done yet, so just fixate it
-    QRect radialRect = QRect((r.width() - radialW) / 2, 0, radialW, 64-frameH);
+    QRect radialRect = QRect((r.width() - radialW) / 2-x, -y, radialW, 64-frameH);
     if (clipRect.intersects(radialRect))
     {
         tile = _helper.radialGradient(color, radialW);
         p->drawPixmap(radialRect, tile, QRect(0, frameH, radialW, 64-frameH));
     }
+    p->setClipping(false);
 }
 
 // kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;
