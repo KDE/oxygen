@@ -1952,7 +1952,7 @@ void OxygenStyle::polish(QWidget* widget)
     }
     else if (qobject_cast<QDockWidget*>(widget))
     {
-        widget->setContentsMargins(2,1,2,2);
+        widget->setContentsMargins(4,3,4,4);
         widget->installEventFilter(this);
     }
     else if (qobject_cast<QToolBox*>(widget))
