@@ -1776,18 +1776,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             opts |= Hover;
                         if (dynamic_cast<const QTabBar*>(t->parent()))
                         {
-			    // get coordinates relative to the client area
-			    int x = 0, y = 0;
-			    const QWidget* w=t;
-			    do {
-				x += w->geometry().x();
-				y += w->geometry().y();
-				w = w->parentWidget();
-			    } while (!w->isWindow());
-			    //qDebug() << x << y;
-
-			    // renderWindowBackground seems to work now
-                            renderWindowBackground(p,x,y,r.adjusted(0,2,0,-2), t->window());
+                            renderWindowBackground(p, r.adjusted(0,2,0,-2), t);
                             renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
                             renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
                         }
@@ -3026,7 +3015,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                      !widget->testAttribute(Qt::WA_NoSystemBackground)) {
                 QPainter p(widget);
                 QPaintEvent *e = (QPaintEvent*)ev;
-                renderWindowBackground(&p, widget->rect().x(), widget->rect().y(), widget->rect(), widget);
+                renderWindowBackground(&p, widget->rect(), widget);
             }
         }
     }
@@ -3130,15 +3119,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 	if (ev->type() == QEvent::Paint) {
 	    if (qobject_cast<KTitleWidget*>(f->parentWidget())) {
 		QPainter p(f);
-		// this should be factored out since it is used in ~1777 (tabbar arrows)
-		int x=0,y=0;
-		QWidget *w = f;
-		do {
-		  x += w->x();
-		  y += w->y();
-		  w = w->parentWidget();
-		} while (!w->isWindow());
-		renderWindowBackground(&p, x, y, f->rect(), f->window());
+		renderWindowBackground(&p, f->rect(), f);
 	    } else {
 		QRect r = f->rect();
 		QPainter p(f);
@@ -3216,11 +3197,21 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
     }
 }
 
-void OxygenStyle::renderWindowBackground(QPainter *p, int x, int y, const QRect &clipRect, const QWidget *widget) const
+void OxygenStyle::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget) const
 {
+    const QWidget* window = widget->window();
+    // get coordinates relative to the client area
+    const QWidget* w = widget;
+    int x = 0, y = 0;
+    while (!w->isWindow()) {
+	x += w->geometry().x();
+	y += w->geometry().y();
+	w = w->parentWidget();
+    } 
+    
     p->setClipRegion(clipRect);
-    QRect r = widget->rect();
-    QColor color = widget->palette().color(widget->backgroundRole());
+    QRect r = window->rect();
+    QColor color = window->palette().color(window->backgroundRole());
     int splitY = qMin(300, 3*r.height()/4);
 
     QRect upperRect = QRect(-x, -y, r.width(), splitY);

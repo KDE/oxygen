@@ -158,7 +158,7 @@ protected:
                    const QStyleOptionTabV2 *tabOpt,
                    const bool reverseLayout) const;
 
-    void renderWindowBackground(QPainter *p, int x, int y, const QRect &clipRect, const QWidget *widget) const;
+    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget) const;
 
     bool eventFilter(QObject *, QEvent *);
 
