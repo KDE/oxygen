@@ -1774,11 +1774,49 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             opts |= Focus;
                         if (enabled && (flags & State_MouseOver))
                             opts |= Hover;
-                        if (dynamic_cast<const QTabBar*>(t->parent()))
+                        if (const QTabBar *tb =  dynamic_cast<const QTabBar*>(t->parent()))                               
                         {
-                            _helper.renderWindowBackground(p, r.adjusted(0,2,0,-2), t, t->window()->palette());
-                            renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
-                            renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
+                            bool horizontal = true;
+                            bool northOrEast = true;
+                            switch(tb->shape())
+                            {
+                                case QTabBar::RoundedNorth:
+                                case QTabBar::TriangularNorth:
+                                    break;
+                                case QTabBar::RoundedSouth:
+                                case QTabBar::TriangularSouth:
+                                    northOrEast = false;
+                                    break;
+                                case QTabBar::RoundedEast:
+                                case QTabBar::TriangularEast:
+                                    horizontal = false;
+                                    break;
+                                case QTabBar::RoundedWest:
+                                case QTabBar::TriangularWest:
+                                    northOrEast = false;
+                                    horizontal = false;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            if (horizontal)
+                            {
+                                _helper.renderWindowBackground(p, r.adjusted(0,2,0,-2), t, t->window()->palette());
+                                if (northOrEast)
+                                    renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
+                                else
+                                    renderSlab(p, QRect(r.left()-7, r.top()+4, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Bottom);
+                                renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
+                            }
+                            else
+                            {
+                                _helper.renderWindowBackground(p, r.adjusted(2,0,-2,0), t, t->window()->palette());
+                                if (northOrEast)
+                                    renderSlab(p, QRect(r.left()+5, r.top()-7, 2, r.height()+14), pal.color(QPalette::Window), NoFill, TileSet::Right);
+                                else
+                                    renderSlab(p, QRect(r.right()-6, r.top()-7, 2, r.height()+14), pal.color(QPalette::Window), NoFill, TileSet::Left);
+                                renderSlab(p, r.adjusted(1,-1,-1,1), pal.color(QPalette::Button), opts);
+                            }
                         }
                         else
                             renderSlab(p, r, pal.color(QPalette::Button), opts);
@@ -2692,25 +2730,62 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
     }
 }
 
-
 QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const
 {
     switch(type)
     {
         case CT_ToolButton:
         {
-            // We want to avoid super-skiny buttons, for things like "up" when icons + text
-            // For this, we would like to make width >= height.
-            // However, once we get here, QToolButton may have already put in the menu area
-            // (PM_MenuButtonIndicator) into the width. So we may have to take it out, fix things
-            // up, and add it back in. So much for class-independent rendering...
             QSize size = contentsSize;
 
             if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
                 if ((!tbOpt->icon.isNull()) && (!tbOpt->text.isEmpty()) && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon)
                     size.setHeight(size.height()-9);
             }
-            return KStyle::sizeFromContents(type, option, size, widget);
+
+            // We want to avoid super-skiny buttons, for things like "up" when icons + text
+            // For this, we would like to make width >= height.
+            // However, once we get here, QToolButton may have already put in the menu area 
+            // (PM_MenuButtonIndicator) into the width. So we may have to take it out, fix things 
+            // up, and add it back in. So much for class-independent rendering...
+            int   menuAreaWidth = 0;
+            if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
+                if (tbOpt->features & QStyleOptionToolButton::MenuButtonPopup)
+                    menuAreaWidth = pixelMetric(QStyle::PM_MenuButtonIndicator, option, widget);
+            }
+            
+            size.setWidth(size.width() - menuAreaWidth);
+            if (size.width() < size.height())
+                size.setWidth(size.height());
+            size.setWidth(size.width() + menuAreaWidth);
+            
+            const QToolButton* t=dynamic_cast<const QToolButton*>(widget);
+            if (t && t->autoRaise()==true)
+            {
+                int width = size.width() +  
+                                    2*widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + MainMargin, option, widget) +
+                                    widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Left, option, widget) +
+                                    widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Right, option, widget);
+
+                int height = size.height() +
+                                    2*widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + MainMargin, option, widget) +
+                                    widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Top, option, widget) +
+                                    widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Bot, option, widget);
+
+                return QSize(width, height);
+            }
+            else
+            {
+                int width = size.width() +
+                        2*widgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + MainMargin, option, widget);
+
+                int height = size.height() +
+                        2*widgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + MainMargin, option, widget)
+                        + widgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, option, widget)
+                        + widgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, option, widget);
+
+                return QSize(width, height);
+            }
         }
         default:
             break;
