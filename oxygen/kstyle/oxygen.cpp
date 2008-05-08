@@ -1806,7 +1806,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                     renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
                                 else
                                     renderSlab(p, QRect(r.left()-7, r.top()+4, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Bottom);
-                                renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
+                                //renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
                             }
                             else
                             {
@@ -1815,7 +1815,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                     renderSlab(p, QRect(r.left()+5, r.top()-7, 2, r.height()+14), pal.color(QPalette::Window), NoFill, TileSet::Right);
                                 else
                                     renderSlab(p, QRect(r.right()-6, r.top()-7, 2, r.height()+14), pal.color(QPalette::Window), NoFill, TileSet::Left);
-                                renderSlab(p, r.adjusted(1,-1,-1,1), pal.color(QPalette::Button), opts);
+                                //renderSlab(p, r.adjusted(1,-1,-1,1), pal.color(QPalette::Button), opts);
                             }
                         }
                         else
