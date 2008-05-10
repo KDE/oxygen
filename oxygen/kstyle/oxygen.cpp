@@ -1764,16 +1764,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case ToolButton::Panel:
                 {
+                    QRect slitRect = r;
                     const QToolButton* t=dynamic_cast<const QToolButton*>(widget);
                     if (t && t->autoRaise()==false)
                     {
                         StyleOptions opts = 0;
-                        if ((flags & State_On) || (flags & State_Sunken))
-                            opts |= Sunken;
-                        if (flags & State_HasFocus)
-                            opts |= Focus;
-                        if (enabled && (flags & State_MouseOver))
-                            opts |= Hover;
+
                         if (const QTabBar *tb =  dynamic_cast<const QTabBar*>(t->parent()))                               
                         {
                             bool horizontal = true;
@@ -1801,39 +1797,49 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             }
                             if (horizontal)
                             {
-                                _helper.renderWindowBackground(p, r.adjusted(0,2,0,-2), t, t->window()->palette());
+                                slitRect.adjust(0,3,0,-3);
+                                _helper.renderWindowBackground(p, r.adjusted(0,2,0,-1), t, t->window()->palette());
                                 if (northOrEast)
                                     renderSlab(p, QRect(r.left()-7, r.bottom()-6, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
                                 else
                                     renderSlab(p, QRect(r.left()-7, r.top()+4, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Bottom);
-                                //renderSlab(p, r.adjusted(-1,1,1,-1), pal.color(QPalette::Button), opts);
                             }
                             else
                             {
+                                slitRect.adjust(3,0,-3,0);
                                 _helper.renderWindowBackground(p, r.adjusted(2,0,-2,0), t, t->window()->palette());
                                 if (northOrEast)
                                     renderSlab(p, QRect(r.left()+5, r.top()-7, 2, r.height()+14), pal.color(QPalette::Window), NoFill, TileSet::Right);
                                 else
                                     renderSlab(p, QRect(r.right()-6, r.top()-7, 2, r.height()+14), pal.color(QPalette::Window), NoFill, TileSet::Left);
-                                //renderSlab(p, r.adjusted(1,-1,-1,1), pal.color(QPalette::Button), opts);
                             }
+                            // continue drawing the slit
                         }
                         else
-                            renderSlab(p, r, pal.color(QPalette::Button), opts);
-                        return;
+                        {
+                            if ((flags & State_On) || (flags & State_Sunken))
+                                opts |= Sunken;
+                            if (flags & State_HasFocus)
+                                opts |= Focus;
+                            if (enabled && (flags & State_MouseOver))
+                                opts |= Hover;
+                            else
+                                renderSlab(p, r, pal.color(QPalette::Button), opts);
+                            return;
+                        }
                     }
 
                     bool hasFocus = flags & State_HasFocus;
 
                     if((flags & State_Sunken) || (flags & State_On) )
                     {
-                        renderHole(p, pal.color(QPalette::Window), r, hasFocus, mouseOver);
+                        renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, mouseOver);
                     }
                     else if (hasFocus || mouseOver)
                     {
                         TileSet *tile;
                         tile = _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color());
-                        tile->render(r, p);
+                        tile->render(slitRect, p);
                     }
                     return;
                 }
