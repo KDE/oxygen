@@ -74,7 +74,10 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
         w = w->parentWidget();
     } 
     
-    p->setClipRegion(clipRect);
+    if (clipRect.isValid()) {
+        p->save();
+        p->setClipRegion(clipRect,Qt::IntersectClip);
+    }
     QRect r = window->rect();
     QColor color = pal.color(window->backgroundRole());
     int splitY = qMin(300, 3*r.height()/4);
@@ -94,7 +97,9 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
         tile = radialGradient(color, radialW);
         p->drawPixmap(radialRect, tile, QRect(0, frameH, radialW, 64-frameH));
     }
-    p->setClipping(false);
+
+    if (clipRect.isValid())
+        p->restore();
 }
 
 void OxygenHelper::invalidateCaches()
