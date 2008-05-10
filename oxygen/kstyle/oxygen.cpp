@@ -1059,26 +1059,40 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     QRect gr;
                     if(!vertical && !reverseLayout)
-                        gr = QRect(0, 0, r.width(), 0);
+                        gr = QRect(0, 0, r.width(), r.height());
                     else if(!vertical && reverseLayout)
                         if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
-                            gr = QRect(r.x()-4, 0, r.x()-4+r.width(), 0);
+                            gr = QRect(r.x()-4, 0, r.x()-4+r.width(), r.height());
                         else
-                            gr = QRect(r.x(), 0, r.x()+r.width(), 0);
+                            gr = QRect(r.x(), 0, r.x()+r.width(), r.height());
                     else
-                        gr = QRect(0, 0, 0, r.height());
+                        gr = QRect(0, 0, r.width(), r.height());
 
-/*
-                    QLinearGradient grad(gr.x(), gr.y(), gr.width(), gr.height());
+                    // fade tabbar
+                    QPixmap pm(gr.width(),gr.height());
+                    pm.fill(Qt::transparent);
+                    QPainter pp(&pm);
+
+                    int w = 0, h = 0;
+                    if (vertical) {
+                        h = gr.height();
+                    } else {
+                        w = gr.width();
+                    }
+                    QLinearGradient grad(w, h, 0, 0);
                     grad.setColorAt(0, Qt::transparent);
                     grad.setColorAt(0.2, Qt::transparent);
                     grad.setColorAt(1, Qt::black);
-                    p->setCompositionMode((reverseLayout && !vertical) ? QPainter::CompositionMode_DestinationOut : QPainter::CompositionMode_DestinationIn);
-                    p->fillRect(br, QBrush(grad));
 
-                    p->setCompositionMode(slabCompMode);
+                    _helper.renderWindowBackground(&pp, pm.rect(), widget, pal);
+                    pp.setCompositionMode(QPainter::CompositionMode_DestinationAtop);
+                    pp.fillRect(pm.rect(), QBrush(grad));
+                    p->setCompositionMode(QPainter::CompositionMode_SourceOver);
+                    p->drawPixmap(gr.topLeft(),pm);
+
                     renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, flag);
-*/                    return;
+
+                    return;
                 }
                 case TabBar::BaseFrame:
                 {
