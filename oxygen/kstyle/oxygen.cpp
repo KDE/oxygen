@@ -1766,7 +1766,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     QRect slitRect = r;
                     const QToolButton* t=dynamic_cast<const QToolButton*>(widget);
-                    if (t && t->autoRaise()==false)
+                    if (t && !t->autoRaise())
                     {
                         StyleOptions opts = 0;
 
@@ -1823,8 +1823,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 opts |= Focus;
                             if (enabled && (flags & State_MouseOver))
                                 opts |= Hover;
-                            else
-                                renderSlab(p, r, pal.color(QPalette::Button), opts);
+                            renderSlab(p, r, pal.color(QPalette::Button), opts);
                             return;
                         }
                     }
