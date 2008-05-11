@@ -142,8 +142,8 @@ protected:
                         bool enabled, bool hasFocus, bool mouseOver,
                         int checkPrimitive, bool sunken=false) const;
     void renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
-                           bool enabled, bool mouseOver, int radioPrimitive,
-                           bool drawButton=true) const;
+                           bool enabled, bool hasFocus, bool mouseOver,
+                           int radioPrimitive, bool drawButton=true) const;
 
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
