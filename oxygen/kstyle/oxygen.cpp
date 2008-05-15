@@ -3116,10 +3116,10 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         }
     }
 
-    if (static_cast<QWidget*>(obj)->isWindow()) {
+    QWidget *widget = static_cast<QWidget*>(obj);
+    if (widget->isWindow() && widget->isVisible()) {
         if (ev->type() == QEvent::Paint)
         {
-            QWidget *widget = static_cast<QWidget*>(obj);
             QBrush brush = widget->palette().brush(widget->backgroundRole());
             // don't use our background if the app requested something else,
             // e.g. a pixmap
