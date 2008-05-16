@@ -615,15 +615,17 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                         _helper.holeFlat(color, 0.0)->render(rr.adjusted(2,2,-2,-2), &pp);
 
-                        QRect maskr(rr.width()-40, 0, 40,rr.height());
-                        QLinearGradient gradient(maskr.left(), 0, maskr.right()-4, 0);
+                        QRect maskr( visualRect(opt->direction, rr, QRect(rr.width()-40, 0, 40,rr.height())) );
+                        QLinearGradient gradient(
+                                visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
+                                visualPos(opt->direction, maskr, QPoint(maskr.right()-4, 0)));
                         gradient.setColorAt(0.0, QColor(0,0,0,255));
                         gradient.setColorAt(1.0, QColor(0,0,0,0));
                         pp.setBrush(gradient);
                         pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
                         pp.drawRect(maskr);
 
-                        p->drawPixmap(r, pm);
+                        p->drawPixmap(handleRTL(opt, r), pm);
                     }
                     else {
                         drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
@@ -3312,6 +3314,16 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         default:
             return KStyle::standardPixmap(standardIcon, option, widget);
     }
+}
+
+QPoint OxygenStyle::handleRTL(const QStyleOption* opt, const QPoint& pos) const
+{
+    return visualPos(opt->direction, opt->rect, pos);
+}
+
+QRect OxygenStyle::handleRTL(const QStyleOption* opt, const QRect& subRect) const
+{
+    return visualRect(opt->direction, opt->rect, subRect);
 }
 
 // kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;
