@@ -156,6 +156,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_MenuItem, MenuItem::MinHeight,  20);
 
     setWidgetLayoutProp(WT_ProgressBar, ProgressBar::BusyIndicatorSize, 10);
+    setWidgetLayoutProp(WT_ProgressBar, ProgressBar::GrooveMargin, 0);
 
     setWidgetLayoutProp(WT_TabBar, TabBar::TabOverlap, 0);
     setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 7);
@@ -426,59 +427,67 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
             QColor bg = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background); // background
             QColor fg = enabled?pal.color(QPalette::Highlight):pal.color(QPalette::Background).dark(110); // foreground
+            const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>(opt);
+            Qt::Orientation orientation = pbOpt? pbOpt->orientation : Qt::Horizontal;
 
+            // we want small (16px) and centered progressbars
+            QRect rect = r;
+            /*if (orientation == Qt::Horizontal) {
+                if (r.height() > 17)
+                    rect = QRect(r.x(), r.y() + (r.height()-17)/2, r.width(), 18);
+            } else {
+                if (r.width() > 17)
+                    rect = QRect(r.x() + (r.width()-17)/2, r.y(), 18, r.height());
+            }*/
 
             switch (primitive)
             {
                 case ProgressBar::Groove:
                 {
                     QColor color = pal.color(QPalette::Button);
-                    QRect rect = r.adjusted(2,0,-2,0);
 
-                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), r.width());
+                    TileSet *tiles1 = _helper.progressBar(color, rect, orientation);
+                    if (orientation == Qt::Horizontal)
+                        tiles1->render(rect, p, TileSet::Left | TileSet::Vertical | TileSet::Right);
+                    else 
+                        tiles1->render(rect, p, TileSet::Top | TileSet::Horizontal | TileSet::Bottom);
 
-                    p->save();
-                    p->setClipRect(rect.adjusted(-32,0,32,0));
-                    tiles1->render(rect, p, TileSet::Left | TileSet::Vertical | TileSet::Right);
-                    p->restore();
                     return;
                 }
 
                 case ProgressBar::BusyIndicator:
-                {
-                    QColor color = _viewHoverBrush.brush(pal).color();
-                    QRect rect = r.adjusted(0,-2,0,2);
-
-                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), r.width());
-
-                    p->save();
-                    p->setClipRect(rect.adjusted(-32,0,32,0));
-                    tiles1->render(rect, p, TileSet::Left | TileSet::Vertical | TileSet::Right);
-                    p->restore();
-                    return;
-                }
-
                 case ProgressBar::Indicator:
                 {
-                    QColor color = _viewHoverBrush.brush(pal).color();
-                    QRect rect = r.adjusted(0,-2,2+r.width() / 300,2); // right pos: hackish, but necessary...
+                    QColor color = pal.color(QPalette::Button);
+                    QColor hoverColor = _viewHoverBrush.brush(pal).color();
 
-                    int animShift = 0;
-                    if (_animateProgressBar) {
-                        // find the animation Offset for the current Widget
-                        QWidget* nonConstWidget = const_cast<QWidget*>(widget);
-                        QMap<QWidget*, int>::const_iterator iter = progAnimWidgets.find(nonConstWidget);
-                        if (iter != progAnimWidgets.end())
-                            animShift = iter.value();
+                    if (rect.width() > 3) // doesn't look too good in a very small rect
+                    {
+                        // TODO: make kstyle make vertical progress bar grow from bottom to top
+                        TileSet *tiles1 = _helper.progressBar(_helper.alphaColor(hoverColor,0.8), rect, orientation);
+
+                        QPixmap pm(rect.width(),rect.height());
+                        pm.fill(Qt::transparent);
+                        QPainter pp(&pm);
+                        pp.setRenderHints(QPainter::Antialiasing);
+                        
+                        QLinearGradient lg(rect.topLeft(),rect.topRight());
+                        lg.setColorAt(0.0, _helper.alphaColor(hoverColor,0.8));
+                        lg.setColorAt(1.0, hoverColor);
+                        pp.setPen(Qt::NoPen);
+                        pp.setBrush(lg);
+                        pp.drawRoundedRect(pm.rect().adjusted(2,2,-2,-3),3,3);
+                        // only draw the inner part of the scrollbar
+                        pp.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+
+                        if (orientation == Qt::Horizontal)
+                            tiles1->render(pm.rect(), &pp, TileSet::Horizontal);
+                        else
+                            tiles1->render(pm.rect(), &pp, TileSet::Vertical);
+     
+                        pp.end();
+                        p->drawPixmap(rect.topLeft(),pm);
                     }
-                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), r.width()-animShift);
-
-                    p->save();
-                    //p->setClipRect(rect.adjusted(-32,0,32,0));
-                    /* HACK - make progress bars with a few percent progress look less broken. */
-                    p->setClipRect(rect.adjusted(1,0,0,0));
-                    tiles1->render(rect, p, TileSet::Left | TileSet::Vertical | TileSet::Right);
-                    p->restore();
                     return;
                 }
             }

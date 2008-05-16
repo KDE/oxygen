@@ -11,6 +11,7 @@ set(oxygen_PART_SRCS
     tileset.cpp
     lib/helper.cpp helper.cpp
     elements/scrollbar.cpp
+    elements/progressbar.cpp
     oxygen.cpp)
 
 

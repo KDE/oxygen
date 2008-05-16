@@ -67,6 +67,8 @@ public:
     TileSet *verticalScrollBar(const QColor&, int width, int offset, int size = 6);
     TileSet *horizontalScrollBar(const QColor&, int width, int offset, int size = 6);
 
+    TileSet *progressBar(const QColor&, QRect rect, Qt::Orientation orient = Qt::Horizontal, int size = 6);
+
 protected:
     SlabCache* slabCache(const QColor&);
 
@@ -87,6 +89,7 @@ protected:
     QCache<quint64, TileSet> m_slitCache;
     QCache<quint64, TileSet> m_verticalScrollBarCache;
     QCache<quint64, TileSet> m_horizontalScrollBarCache;
+    QCache<quint64, TileSet> m_progressBarCache;
 };
 
 #endif // __OXYGEN_STYLE_HELPER_H
