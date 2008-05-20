@@ -2855,8 +2855,13 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                     int th = gbOpt->fontMetrics.height() + 8;
                     QRect cr = subElementRect(SE_CheckBoxIndicator, option, widget);
                     int fw = widgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, option, widget);
-
-                    r.adjust(fw,fw + qMax(th, cr.height()), -fw, -fw);
+                    
+                    bool checkable = gbOpt->subControls & QStyle::SC_GroupBoxCheckBox;
+                    bool emptyText = gbOpt->text.isEmpty();
+                    if (emptyText && !checkable) r.adjust(fw, fw, -fw, -fw);
+                    else if (checkable) r.adjust(fw, fw + cr.height(), -fw, -fw);
+                    else if (!emptyText) r.adjust(fw, fw + th, -fw, -fw);
+                    else r.adjust(fw, fw + qMax(th, cr.height()), -fw, -fw);
 
                     // add additional indentation to flat group boxes
                     if (isFlat)
