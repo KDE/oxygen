@@ -23,7 +23,6 @@ install(FILES
 	KDE-K3B-Insert-Medium.ogg
 	KDE-Sys-App-Positive.ogg
 	KDE-Sys-App-Negative.ogg
-	KDE-Sys-App-Error-Critial.ogg
 	KDE-Sys-App-Error.ogg
 	KDE-Sys-App-Error-Serious.ogg
 	KDE-Sys-App-Error-Serious-Very.ogg
