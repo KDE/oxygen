@@ -280,63 +280,53 @@ QLinearGradient OxygenHelper::decoGradient(const QRect &r, const QColor &color)
     return gradient;
 }
 
-QPixmap OxygenHelper::windecoButton(const QColor &color, int size)
+QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
 {
-    quint64 key = (quint64(color.rgba()) << 32) | size;
+    quint64 key = (quint64(color.rgba()) << 32) | (size << 1) | pressed;
     QPixmap *pixmap = m_windecoButtonCache.object(key);
 
     if (!pixmap)
     {
         pixmap = new QPixmap(size*3, size*3);
-        pixmap->fill(QColor(0,0,0,0));
+        pixmap->fill(Qt::transparent);
 
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
         p.setWindow(0,0,21,21);
 
-        QColor light = calcLightColor(color);
-        QColor dark = calcDarkColor(color);
-
-        // shadow
-        drawShadow(p, calcShadowColor(color), 21);
-
-        // bevel
-        qreal y = KColorUtils::luma(color);
-        qreal yl = KColorUtils::luma(light);
-        qreal yd = KColorUtils::luma(dark);
-        QLinearGradient bevelGradient(0, 1, 0, 20);
-        bevelGradient.setColorAt(0.45, light);
-        bevelGradient.setColorAt(0.80, dark);
-        if (y < yl && y > yd) // no middle when color is very light/dark
-            bevelGradient.setColorAt(0.55, color);
-        p.setBrush(QBrush(bevelGradient));
-        p.drawEllipse(QRectF(3.0,3.0,15.0,15.0));
-
-        // inside mask
-        QRadialGradient maskGradient(10.5,10.5,7.5);
-        maskGradient.setColorAt(0.70, QColor(0,0,0,0));
-        maskGradient.setColorAt(0.85, QColor(0,0,0,140));
-        maskGradient.setColorAt(0.95, QColor(0,0,0,255));
-        p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        p.setBrush(maskGradient);
-        p.drawRect(0,0,21,21);
+        QColor light = alphaColor(calcLightColor(color), 0.2);
+        QColor dark = alphaColor(calcShadowColor(color), 0.2);
 
         // inside
-        QLinearGradient innerGradient(0, 4, 0, 17);
-        innerGradient.setColorAt(0.0, color);
-        innerGradient.setColorAt(1.0, light);
-        p.setCompositionMode(QPainter::CompositionMode_DestinationOver);
+        QLinearGradient innerGradient(0, 0, 0, 21);
+        if (!pressed) {
+            innerGradient.setColorAt(0.0, Qt::transparent);
+            innerGradient.setColorAt(1.0, alphaColor(color, 0.2));
+        } else {
+            innerGradient.setColorAt(0.0, alphaColor(color, 0.2));
+            innerGradient.setColorAt(1.0, Qt::transparent);
+        }
         p.setBrush(innerGradient);
         p.drawEllipse(QRectF(3.0,3.0,15.0,15.0));
 
-        // anti-shadow
-        QRadialGradient highlightGradient(10.5,10,8.5);
-        highlightGradient.setColorAt(0.85, alphaColor(light, 0.0));
-        highlightGradient.setColorAt(1.00, light);
-        p.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        p.setBrush(highlightGradient);
-        p.drawEllipse(QRectF(3.0,3.0,15.0,15.0));
+        // grove
+        QLinearGradient darklg(QPoint(0,0), QPoint(21,0));
+        darklg.setColorAt(0.0, Qt::transparent);
+        darklg.setColorAt(0.5, dark);
+        darklg.setColorAt(1.0, Qt::transparent);
+
+        QLinearGradient lightlg(QPoint(0,0), QPoint(21,0));
+        lightlg.setColorAt(0.0, Qt::transparent);
+        lightlg.setColorAt(0.5, light);
+        lightlg.setColorAt(1.0, Qt::transparent);
+
+        p.setPen(QPen(darklg, 1.5));
+        for(int i = 0; i < 2; ++i)
+            p.drawEllipse(QRectF(3.0,2.7,15.0,15.0));
+        p.setPen(QPen(lightlg, 1.0));
+        for(int i = 0; i < 8; ++i)
+            p.drawEllipse(QRectF(3.0,4.0,15.0,15.0));
 
         m_windecoButtonCache.insert(key, pixmap);
     }
@@ -380,36 +370,6 @@ QPixmap OxygenHelper::glow(const QColor &color, int size, int rsize)
     p.end();
 
     return pixmap;
-}
-
-QPixmap OxygenHelper::windecoButtonFocused(const QColor &color, const QColor &glowColor, int size)
-{
-    quint64 key = (quint64(glowColor.rgba()) << 32) | size;
-    QPixmap *pixmap = m_windecoButtonCache.object(key);
-
-    if (!pixmap)
-    {
-        pixmap = new QPixmap(size*3, size*3);
-        pixmap->fill(QColor(0,0,0,0));
-
-        QPainter p(pixmap);
-        p.setRenderHints(QPainter::Antialiasing);
-        p.setPen(Qt::NoPen);
-        p.setWindow(0,0,21,21);
-
-        // slab
-        QPixmap slabPixmap = windecoButton(color, size);
-        p.drawPixmap(0, 0, slabPixmap);
-
-        // glow
-        QPixmap gp = glow(glowColor, 21, size*3);
-        p.drawPixmap(0, 0, gp);
-
-        p.end();
-
-        m_windecoButtonCache.insert(key, pixmap);
-    }
-    return *pixmap;
 }
 
 void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &color) const
