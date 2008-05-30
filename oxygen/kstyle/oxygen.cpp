@@ -202,6 +202,9 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 4);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    0);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, 6);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, -7);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorYOff, -7);
 
     setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 5);
 
@@ -2794,6 +2797,8 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
             if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
                 if (tbOpt->features & QStyleOptionToolButton::MenuButtonPopup)
                     menuAreaWidth = pixelMetric(QStyle::PM_MenuButtonIndicator, option, widget);
+                else if (tbOpt->features & QStyleOptionToolButton::HasMenu)
+                    size.setWidth(size.width() + 10); // extra space for inline button
             }
 
             size.setWidth(size.width() - menuAreaWidth);
