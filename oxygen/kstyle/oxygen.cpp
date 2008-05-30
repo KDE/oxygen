@@ -1976,6 +1976,11 @@ void OxygenStyle::polish(QWidget* widget)
 
     switch (widget->windowFlags() & Qt::WindowType_Mask) {
         case Qt::Window:
+            // don't install a gradient on a (possibly blank) screen saver
+            if (widget->inherits("KScreenSaver"))
+                break;
+
+            // fall through
         case Qt::Dialog:
             widget->installEventFilter(this);
             break;
