@@ -42,8 +42,8 @@ TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w2, int h2)
 
     _w3 = pix.width() - (w1 + w2);
     _h3 = pix.height() - (h1 + h2);
-    int w = w2; while (w < 32) w += w2;
-    int h = h2; while (h < 32) h += h2;
+    int w = w2; while (w < 32 && w2 > 0) w += w2;
+    int h = h2; while (h < 32 && h2 > 0) h += h2;
 
     initPixmap(0, pix, _w1, _h1, QRect(0,      0,      _w1, _h1));
     initPixmap(1, pix,  w,  _h1, QRect(_w1,    0,       w2, _h1));
@@ -64,8 +64,8 @@ TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w3, int h3, int x1, int
 
     int x2 = pix.width() - _w3;
     int y2 = pix.height() - _h3;
-    int w = w2; while (w < 32) w += w2;
-    int h = h2; while (h < 32) h += h2;
+    int w = w2; while (w < 32 && w2 > 0) w += w2;
+    int h = h2; while (h < 32 && h2 > 0) h += h2;
 
     initPixmap(0, pix, _w1, _h1, QRect(0,  0,  _w1, _h1));
     initPixmap(1, pix,  w,  _h1, QRect(x1, 0,   w2, _h1));
