@@ -158,6 +158,9 @@ protected:
                    const QStyleOptionTabV2 *tabOpt,
                    const bool reverseLayout) const;
 
+
+    void renderWindowIcon(QPainter *p, const QRectF &r, int &type) const;
+
     bool eventFilter(QObject *, QEvent *);
 
 protected Q_SLOTS:

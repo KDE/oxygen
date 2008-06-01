@@ -50,6 +50,7 @@
 #include <QtGui/QGroupBox>
 #include <QtGui/QLineEdit>
 #include <QtGui/QDockWidget>
+#include <QtGui/QMdiSubWindow>
 #include <QStyleOptionDockWidget>
 #include <QPaintEvent>
 #include <QToolBox>
@@ -209,6 +210,8 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 5);
 
     setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, 5);
+
+    setWidgetLayoutProp(WT_Window, Window::TitleTextColor, QPalette::WindowText);
 
     KConfigGroup cfg(_config, "Style");
     switch (cfg.readEntry("MenuHighlight", (int)MM_DARK)) {
@@ -1334,11 +1337,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case Generic::Frame:
                 {
+                    _helper.drawFloatFrame(p, r, pal.window().color());
                     return;
                 }
 
                 case Window::TitlePanel:
-                    p->fillRect(r, QColor(Qt::green) );
                     return;
 
                 case Window::ButtonMin:
@@ -1355,7 +1358,14 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     bflags &= ~State_Sunken;
                     if (tbkOpts->active)
                         bflags |= State_Sunken;
-                    drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, opt, r, pal, bflags, p, widget);
+                    //drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, opt, r, pal, bflags, p, widget);
+                    p->drawPixmap(r.topLeft(), _helper.windecoButton(pal.button().color(), false,  r.height()));
+                    p->setRenderHints(QPainter::Antialiasing);
+                    p->setBrush(Qt::NoBrush);
+                    QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
+                    p->setPen(QPen(lg, 1.4));
+                    renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
+
                     return;
                 }
 
@@ -2051,7 +2061,9 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAutoFillBackground(false);
         widget->parentWidget()->setAutoFillBackground(false);
     }
-    else if (qobject_cast<QMenu*>(widget) || qobject_cast<QFrame*>(widget))
+    else if (qobject_cast<QMenu*>(widget) 
+            || qobject_cast<QFrame*>(widget) 
+            || qobject_cast<QMdiSubWindow*>(widget))
     {
         widget->installEventFilter(this);
     }
@@ -2105,9 +2117,10 @@ void OxygenStyle::unpolish(QWidget* widget)
         widget->setAttribute(Qt::WA_NoSystemBackground, false);
         widget->removeEventFilter(this);
     }
-    else if (qobject_cast<QFrame*>(widget))
+    else if (qobject_cast<QFrame*>(widget)
+            || qobject_cast<QMdiSubWindow*>(widget))
     {
-	widget->removeEventFilter(this);
+        widget->removeEventFilter(this);
     }
     KStyle::unpolish(widget);
 }
@@ -3070,6 +3083,52 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
 
 }
 
+void OxygenStyle::renderWindowIcon(QPainter *p, const QRectF &r, int &type) const
+{
+    p->save();
+    p->translate(r.topLeft());
+    switch(type)
+    {
+        case Window::ButtonHelp:
+        {
+            p->translate(1.5, 1.5);
+            p->drawArc(7,5,4,4,135*16, -180*16);
+            p->drawArc(9,8,4,4,135*16,45*16);
+            p->drawPoint(9,12);
+            break;
+        }
+        case Window::ButtonMin:
+        {
+            p->drawLine(QPointF( 7.5, 9.5), QPointF(10.5,12.5));
+            p->drawLine(QPointF(10.5,12.5), QPointF(13.5, 9.5));
+            break;
+        }
+        case Window::ButtonRestore:
+        {
+            p->translate(1.5, 1.5);
+            QPoint points[4] = {QPoint(9, 6), QPoint(12, 9), QPoint(9, 12), QPoint(6, 9)};
+            p->drawPolygon(points, 4);
+            break;
+        }
+        case Window::ButtonMax:
+        {                    
+            p->drawLine(QPointF( 7.5,11.5), QPointF(10.5, 8.5));
+            p->drawLine(QPointF(10.5, 8.5), QPointF(13.5,11.5));
+            break;
+        }
+        case Window::ButtonClose:
+        {
+            p->drawLine(QPointF( 7.5,7.5), QPointF(13.5,13.5));
+            p->drawLine(QPointF(13.5,7.5), QPointF( 7.5,13.5));
+            break;
+        }
+        default:
+            break;
+    }
+    p->restore();
+}
+
+
 bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 {
     if (KStyle::eventFilter(obj, ev) )
@@ -3156,6 +3215,22 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                 QPaintEvent *e = (QPaintEvent*)ev;
                 _helper.renderWindowBackground(&p, widget->rect(), widget,widget->window()->palette());
             }
+        }
+    }
+
+    if (QMdiSubWindow *mw = qobject_cast<QMdiSubWindow*>(obj))
+    {
+        if (ev->type() == QEvent::Show || ev->type() == QEvent::Resize || ev->type() == QEvent::WindowStateChange)
+        {
+            int x, y, w, h;
+            mw->rect().getRect(&x, &y, &w, &h);
+            QRegion reg(x+4, y, w-8, h);
+            reg += QRegion(x, y+4, w, h-8);
+            reg += QRegion(x+2, y+1, w-4, h-2);
+            reg += QRegion(x+1, y+2, w-2, h-4);
+            if(mw->mask() != reg)
+                mw->setMask(reg);
+            return false;
         }
     }
 
@@ -3305,7 +3380,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         {
             QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
             realpm.fill(QColor(0,0,0,0));
-            QPixmap pm = _helper.windecoButton(buttonColor, 5);
+            QPixmap pm = _helper.windecoButton(buttonColor, false, 15);
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
@@ -3323,7 +3398,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         {
             QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
             realpm.fill(QColor(0,0,0,0));
-            QPixmap pm = _helper.windecoButton(buttonColor,5);
+            QPixmap pm = _helper.windecoButton(buttonColor, false, 15);
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);

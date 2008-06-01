@@ -287,7 +287,7 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
 
     if (!pixmap)
     {
-        pixmap = new QPixmap(size*3, size*3);
+        pixmap = new QPixmap(size, size);
         pixmap->fill(Qt::transparent);
 
         QPainter p(pixmap);
@@ -298,13 +298,16 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
         QColor light = alphaColor(calcLightColor(color), 0.2);
         QColor dark = alphaColor(calcShadowColor(color), 0.2);
 
+        // penWidth should always be 1px;
+        int penWidth = 1 / (size / 21.0);
+
         // inside
         QLinearGradient innerGradient(0, 0, 0, 21);
         if (!pressed) {
             innerGradient.setColorAt(0.0, Qt::transparent);
-            innerGradient.setColorAt(1.0, alphaColor(color, 0.2));
+            innerGradient.setColorAt(1.0, alphaColor(color, 0.1));
         } else {
-            innerGradient.setColorAt(0.0, alphaColor(color, 0.2));
+            innerGradient.setColorAt(0.0, alphaColor(color, 0.1));
             innerGradient.setColorAt(1.0, Qt::transparent);
         }
         p.setBrush(innerGradient);
@@ -321,10 +324,10 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
         lightlg.setColorAt(0.5, light);
         lightlg.setColorAt(1.0, Qt::transparent);
 
-        p.setPen(QPen(darklg, 1.5));
+        p.setPen(QPen(darklg, 1.5*penWidth));
         for(int i = 0; i < 2; ++i)
             p.drawEllipse(QRectF(3.0,2.7,15.0,15.0));
-        p.setPen(QPen(lightlg, 1.0));
+        p.setPen(QPen(lightlg, 1.0*penWidth));
         for(int i = 0; i < 8; ++i)
             p.drawEllipse(QRectF(3.0,4.0,15.0,15.0));
 

@@ -63,7 +63,7 @@ public:
 
     QLinearGradient decoGradient(const QRect &r, const QColor &color);
 
-    QPixmap windecoButton(const QColor &color, bool pressed, int size = 7);
+    QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
 
     void drawFloatFrame(QPainter *p, const QRect r, const QColor &color) const;
 
