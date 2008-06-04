@@ -163,7 +163,9 @@ QColor OxygenHelper::calcDarkColor(const QColor &color) const
 
 QColor OxygenHelper::calcShadowColor(const QColor &color) const
 {
-    return KColorScheme::shade(color, KColorScheme::ShadowShade, _contrast);
+    return KColorScheme::shade(KColorUtils::mix(QColor(255,255,255),color, color.alpha()*(1/255.0)),
+                    KColorScheme::ShadowShade, _contrast);
+
 }
 
 QColor OxygenHelper::backgroundColor(const QColor &color, int height, int y)
