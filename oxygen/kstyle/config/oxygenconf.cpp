@@ -66,7 +66,7 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     layout->addWidget(drawTriangularExpander);
     layout->addStretch(1);
 
-    QSettings s;
+    QSettings s("KDE","Oxygen");
     //origAnimProgressBar = s.value("/oxygenstyle/Settings/animateProgressBar", true).toBool();
     //animateProgressBar->setChecked(origAnimProgressBar);
     origDrawToolBarItemSeparator = s.value("/oxygenstyle/Settings/drawToolBarItemSeparator", true).toBool();
@@ -86,7 +86,7 @@ OxygenStyleConfig::~OxygenStyleConfig()
 
 void OxygenStyleConfig::save()
 {
-    QSettings s;
+    QSettings s("KDE","Oxygen");
     //s.setValue("/oxygenstyle/Settings/animateProgressBar", animateProgressBar->isChecked());
     s.setValue("/oxygenstyle/Settings/drawToolBarItemSeparator", drawToolBarItemSeparator->isChecked());
     s.setValue("/oxygenstyle/Settings/drawTriangularExpander", drawTriangularExpander->isChecked());
