@@ -1989,13 +1989,9 @@ void OxygenStyle::polish(QWidget* widget)
 
     switch (widget->windowFlags() & Qt::WindowType_Mask) {
         case Qt::Window:
-            // don't install a gradient on a (possibly blank) screen saver
-            if (widget->inherits("KScreenSaver"))
-                break;
-
-            // fall through
         case Qt::Dialog:
             widget->installEventFilter(this);
+            widget->setAttribute(Qt::WA_StyledBackground);
             break;
         case Qt::Popup: // we currently don't want that kind of gradient on menus etc
         case Qt::Tool: // this we exclude as it is used for dragging of icons etc
@@ -3210,7 +3206,10 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             // e.g. a pixmap
             // TODO - draw our light effects over an arbitrary fill?
             if (brush.style() == Qt::SolidPattern &&
-                     !widget->testAttribute(Qt::WA_NoSystemBackground)) {
+                     !widget->testAttribute(Qt::WA_NoSystemBackground))
+                ;
+            if(widget->testAttribute(Qt::WA_StyledBackground))
+            {
                 QPainter p(widget);
                 QPaintEvent *e = (QPaintEvent*)ev;
                 _helper.renderWindowBackground(&p, widget->rect(), widget,widget->window()->palette());
