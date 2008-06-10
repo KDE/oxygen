@@ -208,6 +208,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorYOff, -7);
 
     setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 5);
+    setWidgetLayoutProp(WT_GroupBox, GroupBox::TitleTextColor, ColorMode(QPalette::WindowText));
 
     setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, 5);
 
