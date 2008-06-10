@@ -157,7 +157,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_MenuItem, MenuItem::MinHeight,  20);
 
     setWidgetLayoutProp(WT_ProgressBar, ProgressBar::BusyIndicatorSize, 10);
-    setWidgetLayoutProp(WT_ProgressBar, ProgressBar::GrooveMargin, 0);
+    setWidgetLayoutProp(WT_ProgressBar, ProgressBar::GrooveMargin, 2);
 
     setWidgetLayoutProp(WT_TabBar, TabBar::TabOverlap, 0);
     setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 7);
@@ -466,6 +466,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ProgressBar::BusyIndicator:
                 case ProgressBar::Indicator:
                 {
+                    rect.adjust(-2,-2,2,2);
+
                     QColor color = pal.color(QPalette::Button);
                     QColor hoverColor = _viewHoverBrush.brush(pal).color();
 
