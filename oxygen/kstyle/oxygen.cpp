@@ -854,6 +854,17 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive);
                     return;
                 }
+                case Generic::Text:
+                {
+                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+
+                    QPen old = p->pen();
+                    p->setPen(pal.color(QPalette::WindowText));
+                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
+                                 textOpts->text);
+                    p->setPen(old);
+                    return;
+                }
             }
         }
         break;
@@ -1166,6 +1177,17 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         default:
                             break;
                     }
+                    return;
+                }
+                case Generic::Text:
+                {
+                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+
+                    QPen old = p->pen();
+                    p->setPen(pal.color(QPalette::WindowText));
+                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
+                                 textOpts->text);
+                    p->setPen(old);
                     return;
                 }
             }
