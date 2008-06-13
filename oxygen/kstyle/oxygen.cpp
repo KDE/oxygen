@@ -3232,10 +3232,10 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             // don't use our background if the app requested something else,
             // e.g. a pixmap
             // TODO - draw our light effects over an arbitrary fill?
-            if (brush.style() == Qt::SolidPattern &&
-                     !widget->testAttribute(Qt::WA_NoSystemBackground))
+            if (brush.style() == Qt::SolidPattern)
                 ;
-            if(widget->testAttribute(Qt::WA_StyledBackground))
+
+            if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground))
             {
                 QPainter p(widget);
                 QPaintEvent *e = (QPaintEvent*)ev;
