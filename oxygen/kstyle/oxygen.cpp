@@ -891,8 +891,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             switch (primitive)
             {
                 case ScrollBar::DoubleButtonHor:
-                    renderHole(p, pal.color(QPalette::Window), QRect(r.left()-5, 0, 5, r.height()),
-                               false, false, TileSet::Top | TileSet::Bottom | TileSet::Right);
+                    if (reverseLayout)
+                        renderHole(p, pal.color(QPalette::Window), QRect(r.right()+1, 0, 5, r.height()),
+                                   false, false, TileSet::Top | TileSet::Bottom | TileSet::Left);
+                    else
+                        renderHole(p, pal.color(QPalette::Window), QRect(r.left()-5, 0, 5, r.height()),
+                                   false, false, TileSet::Top | TileSet::Right | TileSet::Bottom);
                     break;
 
                 case ScrollBar::DoubleButtonVert:
@@ -901,8 +905,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     break;
 
                 case ScrollBar::SingleButtonHor:
-                    renderHole(p, pal.color(QPalette::Window), QRect(r.right()+3, 0, 5, r.height()),
-                               false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    if (reverseLayout)
+                        renderHole(p, pal.color(QPalette::Window), QRect(r.left()-7, 0, 5, r.height()),
+                                   false, false, TileSet::Top | TileSet::Right | TileSet::Bottom);
+                    else
+                        renderHole(p, pal.color(QPalette::Window), QRect(r.right()+3, 0, 5, r.height()),
+                                   false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
                     break;
 
                 case ScrollBar::SingleButtonVert:
@@ -926,14 +934,16 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::GrooveAreaHorLeft:
                 {
-                    renderHole(p, pal.color(QPalette::Window), r.adjusted(2,0,12,0), false, false,
+                    QRect rect = (reverseLayout) ? r.adjusted(0,0,10,0) : r.adjusted(2,0,12,0);
+                    renderHole(p, pal.color(QPalette::Window), rect, false, false,
                                TileSet::Top | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorRight:
                 {
-                    renderHole(p, pal.color(QPalette::Window), r.adjusted(-10,0,0,0), false, false,
+                    QRect rect = (reverseLayout) ? r.adjusted(-12,0,-2,0) : r.adjusted(-10,0,0,0);
+                    renderHole(p, pal.color(QPalette::Window), rect, false, false,
                                TileSet::Top | TileSet::Bottom);
                     return;
                 }
@@ -970,7 +980,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QColor color = pal.color(QPalette::Button);
                     if (mouseOver || (flags & State_Sunken)) // TODO not when disabled ((flags & State_Enabled) doesn't work?)
                         color = _viewHoverBrush.brush(pal).color();
-                    QRect rect = r.adjusted(3,1,0,-1);
+                    QRect rect = (reverseLayout) ? r.adjusted(1,1,-2,-1) : r.adjusted(3,1,0,-1);
 
                     renderHole(p, pal.color(QPalette::Window), rect.adjusted(-1,-1,0,1), false, false,
                                TileSet::Top | TileSet::Bottom);
@@ -1617,9 +1627,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         if(primitive == Header::SectionHor) {
                             if(header->section != 0 || isFirst) {
                                 int center = r.center().y();
-                                renderDot(p, QPointF(r.right()-1, center-3), color);
-                                renderDot(p, QPointF(r.right()-1, center), color);
-                                renderDot(p, QPointF(r.right()-1, center+3), color);
+                                int pos = (reverseLayout)? r.left()+1 : r.right()-1;
+                                renderDot(p, QPointF(pos, center-3), color);
+                                renderDot(p, QPointF(pos, center), color);
+                                renderDot(p, QPointF(pos, center+3), color);
                             }
                         }
                         else
