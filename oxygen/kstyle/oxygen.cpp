@@ -214,9 +214,8 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_Window, Window::TitleTextColor, QPalette::WindowText);
 
-    QSettings s("KDE","Oxygen");
-    //s.beginGroup("/oxygenstyle/Settings/");
-    switch (s.value("MenuHighlight", (int)MM_DARK).toInt()) {
+    KConfigGroup cfg(_config, "Style");
+    switch (cfg.readEntry("MenuHighlight", (int)MM_DARK)) {
         case MM_STRONG:
             _menuHighlightMode = MM_STRONG;
             break;
@@ -226,11 +225,10 @@ OxygenStyle::OxygenStyle() :
         default:
             _menuHighlightMode = MM_DARK;
     }
-
-    _checkCheck = (s.value("/oxygenstyle/Settings/checkStyle", 0).toBool() == 0);
-    _animateProgressBar = s.value("/oxygenstyle/Settings/animateProgressBar", false).toBool();
-    _drawToolBarItemSeparator = s.value("/oxygenstyle/Settings/drawToolBarItemSeparator", true).toBool();
-    _drawTriangularExpander = s.value("/oxygenstyle/Settings/drawTriangularExpander", false).toBool();
+    _checkCheck = (cfg.readEntry("CheckStyle", 0) == 0);
+    _animateProgressBar = cfg.readEntry("AnimateProgressBar", false);
+    _drawToolBarItemSeparator = cfg.readEntry("DrawToolBarItemSeparator", true);
+    _drawTriangularExpander = cfg.readEntry("DrawTriangularExpander", false);
 
     if ( _animateProgressBar )
     {

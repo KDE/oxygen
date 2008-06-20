@@ -32,6 +32,7 @@ DEALINGS IN THE SOFTWARE.
 #endif
 #include <QtGui/QWidget>
 #include <QtGui/QColor>
+#include <KSharedConfig>
 
 class QCheckBox;
 class KColorButton;
@@ -57,11 +58,13 @@ protected Q_SLOTS:
 	void updateChanged();
 
 protected:
+	KSharedConfigPtr config;
+
 	//We store settings directly in widgets to
 	//avoid the hassle of sync'ing things
 	QCheckBox* animateProgressBar;
-	QCheckBox*       drawToolBarItemSeparator;
-	QCheckBox*       drawTriangularExpander;
+	QCheckBox* drawToolBarItemSeparator;
+	QCheckBox* drawTriangularExpander;
 
 	//Original settings, for accurate dirtiness tracking
 	bool       origAnimProgressBar;

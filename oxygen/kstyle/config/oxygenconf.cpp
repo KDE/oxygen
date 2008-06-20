@@ -34,9 +34,11 @@ DEALINGS IN THE SOFTWARE.
 #include <khbox.h>
 #include <QtCore/QSettings>
 #include <QtGui/QColor>
-#include <kglobal.h>
-#include <klocale.h>
-#include <kcolorbutton.h>
+#include <KGlobal>
+#include <KLocale>
+#include <KColorButton>
+#include <KComponentData>
+#include <KConfigGroup>
 #include <kdemacros.h>
 
 extern "C"
@@ -50,6 +52,7 @@ extern "C"
 
 OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
 {
+    config = KComponentData("oxygen").config();
     //Should have no margins here, the dialog provides them
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setMargin(0);
@@ -66,12 +69,12 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     layout->addWidget(drawTriangularExpander);
     layout->addStretch(1);
 
-    QSettings s("KDE","Oxygen");
-    //origAnimProgressBar = s.value("/oxygenstyle/Settings/animateProgressBar", true).toBool();
+    KConfigGroup cfg(config, "Style");
+    //origAnimProgressBar = cfg.readEntry("AnimateProgressBar", false);
     //animateProgressBar->setChecked(origAnimProgressBar);
-    origDrawToolBarItemSeparator = s.value("/oxygenstyle/Settings/drawToolBarItemSeparator", true).toBool();
+    origDrawToolBarItemSeparator = cfg.readEntry("DrawToolBarItemSeparator", true);
     drawToolBarItemSeparator->setChecked(origDrawToolBarItemSeparator);
-    origDrawTriangularExpander = s.value("/oxygenstyle/Settings/drawTriangularExpander", false).toBool();
+    origDrawTriangularExpander = cfg.readEntry("DrawTriangularExpander", false);
     drawTriangularExpander->setChecked(origDrawTriangularExpander);
 
     //connect(animateProgressBar, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
@@ -86,10 +89,10 @@ OxygenStyleConfig::~OxygenStyleConfig()
 
 void OxygenStyleConfig::save()
 {
-    QSettings s("KDE","Oxygen");
-    //s.setValue("/oxygenstyle/Settings/animateProgressBar", animateProgressBar->isChecked());
-    s.setValue("/oxygenstyle/Settings/drawToolBarItemSeparator", drawToolBarItemSeparator->isChecked());
-    s.setValue("/oxygenstyle/Settings/drawTriangularExpander", drawTriangularExpander->isChecked());
+    KConfigGroup cfg(config, "Style");
+    //s.writeEntry("AnimateProgressBar", animateProgressBar->isChecked() ? true : false);
+    cfg.writeEntry("DrawToolBarItemSeparator", drawToolBarItemSeparator->isChecked() ? true : false);
+    cfg.writeEntry("DrawTriangularExpander", drawTriangularExpander->isChecked() ? true : false);
 }
 
 void OxygenStyleConfig::defaults()
