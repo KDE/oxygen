@@ -2098,6 +2098,10 @@ void OxygenStyle::polish(QWidget* widget)
     {
         widget->installEventFilter(this);
     }
+    else if (widget->inherits("QComboBoxPrivateContainer"))
+    {
+        widget->installEventFilter(this);
+    }
     KStyle::polish(widget);
 }
 
@@ -2150,6 +2154,10 @@ void OxygenStyle::unpolish(QWidget* widget)
     }
     else if (qobject_cast<QFrame*>(widget)
             || qobject_cast<QMdiSubWindow*>(widget))
+    {
+        widget->removeEventFilter(this);
+    }
+    else if (widget->inherits("QComboBoxPrivateContainer"))
     {
         widget->removeEventFilter(this);
     }
@@ -3233,6 +3241,31 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     }
 
     QWidget *widget = static_cast<QWidget*>(obj);
+    if (widget->inherits("QComboBoxPrivateContainer")) {
+        switch(ev->type()) {
+        case QEvent::Show:
+        case QEvent::Resize: 
+        {
+            int x, y, w, h;
+            widget->rect().getRect(&x, &y, &w, &h);
+            QRegion reg(x+4, y, w-8, h);
+            reg += QRegion(x, y+4, w, h-8);
+            reg += QRegion(x+2, y+1, w-4, h-2);
+            reg += QRegion(x+1, y+2, w-2, h-4);
+            if(widget->mask() != reg)
+                widget->setMask(reg);
+            return false;
+        }
+        case QEvent::Paint:
+        {
+            QPainter p(widget);
+            _helper.drawFloatFrame(&p, widget->rect(), widget->palette().color(QPalette::Window));
+        }
+        default:
+            return false;
+        }
+    }
+
     if (widget->isWindow() && widget->isVisible()) {
         if (ev->type() == QEvent::Paint)
         {
