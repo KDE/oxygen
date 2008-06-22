@@ -451,7 +451,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case ProgressBar::Groove:
                 {
-                    QColor color = pal.color(QPalette::Button);
+                    QColor color = pal.color(QPalette::Window);
 
                     TileSet *tiles1 = _helper.progressBar(color, rect, orientation);
                     if (orientation == Qt::Horizontal)
@@ -467,13 +467,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     rect.adjust(-2,-2,2,2);
 
-                    QColor color = pal.color(QPalette::Button);
-                    QColor hoverColor = _viewHoverBrush.brush(pal).color();
+                    QColor color = pal.color(QPalette::Active, QPalette::Highlight);
 
                     if (rect.width() > 3) // doesn't look too good in a very small rect
                     {
                         // TODO: make kstyle make vertical progress bar grow from bottom to top
-                        TileSet *tiles1 = _helper.progressBar(_helper.alphaColor(hoverColor,0.8), rect, orientation);
+                        TileSet *tiles1 = _helper.progressBar(_helper.alphaColor(color,0.8), rect, orientation);
 
                         QPixmap pm(rect.width(),rect.height());
                         pm.fill(Qt::transparent);
@@ -481,8 +480,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         pp.setRenderHints(QPainter::Antialiasing);
 
                         QLinearGradient lg(rect.topLeft(),rect.topRight());
-                        lg.setColorAt(0.0, _helper.alphaColor(hoverColor,0.8));
-                        lg.setColorAt(1.0, hoverColor);
+                        lg.setColorAt(0.0, _helper.alphaColor(color,0.8));
+                        lg.setColorAt(1.0, color);
                         pp.setPen(Qt::NoPen);
                         pp.setBrush(lg);
                         pp.drawRoundedRect(pm.rect().adjusted(2,2,-2,-3),3,3);
