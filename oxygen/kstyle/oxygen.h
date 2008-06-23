@@ -89,6 +89,9 @@ public:
 
     virtual void polish(QWidget* widget);
     virtual void unpolish(QWidget* widget);
+    using  KStyle::polish;
+    using  KStyle::unpolish;
+
 
     virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
                           const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
