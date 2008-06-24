@@ -1332,24 +1332,24 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             {
                                 // Left and right widgets are placed right and left when in reverse mode
                                 if (h+lh >0)
-                                    renderSlab(p, QRect(r.x()+r.width()-7+gw,  h + lh - 7, 7, r.height() - h - lh+7+gw),
+                                    renderSlab(p, QRect(r.right()+1-7+gw,  h + lh - 7, 7, r.height() - h - lh+7+gw),
                                                pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
                                 else
-                                    renderSlab(p, QRect(r.x()+r.width()-7+gw, r.y()-gw, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill,
                                                TileSet::Left | TileSet::Top | TileSet::Right);
 
                                 if (lh > 0)
-                                    renderSlab(p, QRect(r.x()+r.width()-7+gw, r.y()+gw , 7, lh+7),
+                                    renderSlab(p, QRect(r.right()+1-7+gw, r.y()+gw , 7, lh+7),
                                                pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
                             }
                             else
                             {
                                 if (lh > 0)
-                                    renderSlab(p, QRect(r.right()-7+gw, r.y()-gw, 7, lh+7+gw), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, 7, lh+7+gw), pal.color(QPalette::Window), NoFill,
                                                TileSet::Top | TileSet::Right);
 
                                 if (h+lh >0)
-                                    renderSlab(p, QRect(r.right()-7+gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill,
+                                    renderSlab(p, QRect(r.right()+1-7+gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill,
                                                TileSet::Bottom | TileSet::Right);
                                 else
                                     renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, r.height()+2*gw), pal.color(QPalette::Window), NoFill,
