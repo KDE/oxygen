@@ -134,7 +134,7 @@ protected:
         CheckMark
     };
 
-    void renderSlab(QPainter*, const QRect&, const QColor&, StyleOptions = 0,
+    void renderSlab(QPainter*, QRect, const QColor&, StyleOptions = 0,
                     TileSet::Tiles tiles = TileSet::Ring) const;
 
     void renderHole(QPainter *p, const QColor&, const QRect &r,

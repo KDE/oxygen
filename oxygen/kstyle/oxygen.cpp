@@ -205,9 +205,9 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 4);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    0);
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, 6);
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, -7);
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorYOff, -7);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, 8);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, -12);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorYOff, -10);
 
     setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 5);
     setWidgetLayoutProp(WT_GroupBox, GroupBox::TitleTextColor, ColorMode(QPalette::WindowText));
@@ -2056,6 +2056,7 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QScrollBar*>(widget)
         || qobject_cast<QSlider*>(widget)
         || qobject_cast<QToolButton*>(widget)
+        || qobject_cast<QLineEdit*>(widget)
         ) {
         widget->setAttribute(Qt::WA_Hover);
     }
@@ -2103,6 +2104,7 @@ void OxygenStyle::polish(QWidget* widget)
     else if (widget->inherits("QComboBoxPrivateContainer"))
     {
         widget->installEventFilter(this);
+        // note, it doesn't help to do a setContentsMargin()
     }
     KStyle::polish(widget);
 }
@@ -2121,6 +2123,7 @@ void OxygenStyle::unpolish(QWidget* widget)
         || qobject_cast<QRadioButton*>(widget)
         || qobject_cast<QScrollBar*>(widget)
         || qobject_cast<QSlider*>(widget)
+        || qobject_cast<QLineEdit*>(widget)
     ) {
         widget->setAttribute(Qt::WA_Hover, false);
     }
@@ -2181,12 +2184,15 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
     }
 }
 
-void OxygenStyle::renderSlab(QPainter *p, const QRect &r, const QColor &color, StyleOptions opts, TileSet::Tiles tiles) const
+void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOptions opts, TileSet::Tiles tiles) const
 {
     if ((r.width() <= 0) || (r.height() <= 0))
         return;
 
     TileSet *tile;
+
+    if (opts & Sunken)
+        r.adjust(-1,0,1,2); // the tiles of sunken slabs look different so this is needed (also for the fill)
 
     // fill
     if (!(opts & NoFill))
@@ -2856,9 +2862,8 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
                 if (tbOpt->features & QStyleOptionToolButton::MenuButtonPopup)
                     menuAreaWidth = pixelMetric(QStyle::PM_MenuButtonIndicator, option, widget);
                 else if (tbOpt->features & QStyleOptionToolButton::HasMenu)
-                    size.setWidth(size.width() + 10); // extra space for inline button
+                    size.setWidth(size.width() + widgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, tbOpt, widget));
             }
-
             size.setWidth(size.width() - menuAreaWidth);
             if (size.width() < size.height())
                 size.setWidth(size.height());
@@ -3279,8 +3284,8 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             // don't use our background if the app requested something else,
             // e.g. a pixmap
             // TODO - draw our light effects over an arbitrary fill?
-            if (brush.style() == Qt::SolidPattern)
-                ;
+            if (brush.style() == Qt::SolidPattern) {
+            }
 
             if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground))
             {
