@@ -50,9 +50,6 @@ OxygenProgressBar::OxygenProgressBar(const QColor &c, double contrast) : color(c
 
 void OxygenProgressBar::mask(QPainter &p, const QRectF &rect) const
 {
-    double w = rect.width();
-    double h = rect.height();
-
     p.setBrush(alphaColor(mid,0.8)); // color does matter
     p.drawRoundedRect(rect,8,8);
 
@@ -128,11 +125,11 @@ TileSet* OxygenProgressBar::horizontal(int size, int width) const
 
     // shine and border
     p.setBrush(Qt::NoBrush);
-    p.setPen(QPen(dark,1));
+    p.setPen( QPen(dark, 1.2)  );
     p.drawRoundedRect(rect.adjusted(0,0,0,-1),6,6);
 
-    p.setPen(alphaColor(light,0.4));
-    p.drawRoundedRect(rect.adjusted(2,2,-2,-2),6,6);
+    p.setPen( QPen(alphaColor(light,0.4), 1.0) );
+    p.drawRoundedRect(rect.adjusted(2,2,-2,-3),6,6);
     p.drawRoundedRect(rect.adjusted(2,2,-2,-2.5),6,6);
 
 
