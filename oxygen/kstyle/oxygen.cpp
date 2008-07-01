@@ -206,7 +206,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 4);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    0);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, 8);
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, -12);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, -11);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorYOff, -10);
 
     setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 5);
@@ -1900,7 +1900,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 opts |= Focus;
                             if (enabled && (flags & State_MouseOver))
                                 opts |= Hover;
-                            renderSlab(p, r, pal.color(QPalette::Button), opts);
+                            
+                            if (t->popupMode()==QToolButton::MenuButtonPopup) {
+                                renderSlab(p, r.adjusted(0,0,4,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Left);
+                            } else
+                                renderSlab(p, r, pal.color(QPalette::Button), opts);
                             return;
                         }
                     }
@@ -1933,6 +1937,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
     // Arrows
     if (primitive >= Generic::ArrowUp && primitive <= Generic::ArrowLeft) {
         QPolygonF a;
+        QPen oldPen(p->pen()); // important to save the pen as combobox assumes we don't touch
 
         switch (primitive) {
             case Generic::ArrowUp: {
@@ -1956,13 +1961,48 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 break;
             }
         }
+        qreal penThickness = 2.2;
+
+        if (const QToolButton *tool = dynamic_cast<const QToolButton *>(widget)) {
+            if (tool->popupMode()==QToolButton::MenuButtonPopup) {
+                if(!tool->autoRaise()) {
+                    if ((flags & State_On) || (flags & State_Sunken))
+                        opts |= Sunken;
+                    if (flags & State_HasFocus)
+                        opts |= Focus;
+                    if (enabled && (flags & State_MouseOver))
+                        opts |= Hover;
+                    renderSlab(p, r.adjusted(-10,0,0,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
+
+                    a.translate(-3,1);
+
+                    //Draw the dividing line
+                    QColor color = pal.color(QPalette::Window);
+                    QColor light = _helper.calcLightColor(color);
+                    QColor dark = _helper.calcDarkColor(color);
+                    dark.setAlpha(200);
+                    light.setAlpha(150);
+                    p->setPen(QPen(light,1));
+                    p->drawLine(r.x()-5, r.y()+3, r.x()-5, r.bottom()-4);
+                    p->drawLine(r.x()-3, r.y()+3, r.x()-3, r.bottom()-3);
+                    p->setPen(QPen(dark,1));
+                    p->drawLine(r.x()-4, r.y()+4, r.x()-4, r.bottom()-3);
+                }
+            }
+            else {
+                // smaller down arrow for menu indication on toolbuttons
+                penThickness = 1.7;
+                a.clear();
+                a << QPointF( -2,-1.5) << QPointF(0.5, 1.5) << QPointF(3,-1.5);
+            }
+        }
 
         a.translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
-        KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
-        QColor               arrowColor = colorOpt->color.color(pal);
 
-        QPen oldPen(p->pen()); // important to save the pen as combobox assumes we don't touch
-        p->setPen(QPen(arrowColor, 2.2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
+        QColor  arrowColor = colorOpt->color.color(pal);
+
+        p->setPen(QPen(arrowColor, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         p->setRenderHint(QPainter::Antialiasing);
         p->drawPolyline(a);
         p->setRenderHint(QPainter::Antialiasing, false);
