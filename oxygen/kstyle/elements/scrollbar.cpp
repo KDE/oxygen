@@ -82,7 +82,13 @@ QLinearGradient OxygenScrollbar::baseGradient(double width, Qt::Orientation orie
 
 QLinearGradient OxygenScrollbar::shineGradient(double width, Qt::Orientation orient) const
 {
-    QLinearGradient gradient(0, width, 0, -width);
+    double x = 0.0, y1 = -width, y2 = -width;
+    if (orient == Qt::Vertical)
+        x = width * 2.0;
+    else
+        y1 = width;
+
+    QLinearGradient gradient(0, y1, x, y2);
     gradient.setColorAt(0.0, light);
     gradient.setColorAt(0.5, alphaColor(color, 0.5));
     gradient.setColorAt(1.0, color);
@@ -198,7 +204,7 @@ TileSet* OxygenScrollbar::vertical(int size, int width, int offset) const
 
     // shine
     p.setBrush(shineGradient(w, Qt::Vertical));
-    p.drawRoundRect(QRectF(0, 0, int(w*0.45), h), 2000.0 / w, 12);
+    p.drawRoundRect(QRectF(w- int(w*0.45)-0.5, 0, int(w*0.45), h), 2000.0 / w, 12);
     p.setClipping(false);
 
     // shimmer
