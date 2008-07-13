@@ -1391,10 +1391,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             extractOption<KStyle::TitleButtonOption*>(kOpt);
                     State bflags = flags;
                     bflags &= ~State_Sunken;
-                    if (tbkOpts->active)
-                        bflags |= State_Sunken;
+                    //if (tbkOpts->active)
+                    //    bflags |= State_Sunken;
                     //drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, opt, r, pal, bflags, p, widget);
-                    p->drawPixmap(r.topLeft(), _helper.windecoButton(pal.button().color(), false,  r.height()));
+                    p->drawPixmap(r.topLeft(), _helper.windecoButton(pal.button().color(), tbkOpts->active,  r.height()));
                     p->setRenderHints(QPainter::Antialiasing);
                     p->setBrush(Qt::NoBrush);
                     QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
