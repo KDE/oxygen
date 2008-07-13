@@ -1632,7 +1632,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             }
                         }
                         else
-                            p->drawLine(r.bottomLeft(),r.bottomRight());
+                        {
+                            int center = r.center().x();
+                            int pos = r.bottom()-1;
+                            renderDot(p, QPointF(center-3, pos), color);
+                            renderDot(p, QPointF(center, pos), color);
+                            renderDot(p, QPointF(center+3, pos), color);
+                        }
                     }
 
                     return;
