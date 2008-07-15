@@ -62,12 +62,12 @@ void OxygenHelper::reloadConfig()
         invalidateCaches(); // contrast changed, invalidate our caches
 }
 
-void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal)
+void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift)
 {
     const QWidget* window = widget->window();
     // get coordinates relative to the client area
     const QWidget* w = widget;
-    int x = 0, y = 0;
+    int x = 0, y = -y_shift;
     while (!w->isWindow()) {
         x += w->geometry().x();
         y += w->geometry().y();
@@ -86,7 +86,7 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
     QPixmap tile = verticalGradient(color, splitY);
     p->drawTiledPixmap(upperRect, tile);
 
-    QRect lowerRect = QRect(-x, splitY-y, r.width(), r.height() - splitY);
+    QRect lowerRect = QRect(-x, splitY-y, r.width(), r.height() - splitY-y_shift);
     p->fillRect(lowerRect, backgroundBottomColor(color));
 
     int radialW = qMin(600, r.width());

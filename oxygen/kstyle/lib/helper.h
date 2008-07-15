@@ -41,7 +41,7 @@ public:
     KSharedConfigPtr config() const;
     void reloadConfig();
 
-    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal);
+    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift=-23 /* shift the background gradient upwards, to fit with the windec */);
     virtual void invalidateCaches();
 
     static bool lowThreshold(const QColor &color);
