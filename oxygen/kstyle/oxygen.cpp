@@ -2026,11 +2026,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             if (flags & State_Sunken) {
                 // TODO use widget background role? - probably not
                 //renderHole(p, pal.color(widget->backgroundRole()), r, focusHighlight);
-                if (widget && widget->parentWidget()) {
-                    p->setClipRegion(QRegion(r).xored(QRegion(r.adjusted(2,2,-2,-2))));
-                    _helper.renderWindowBackground(p, QRect(), widget->parentWidget(), pal);
-                    p->setClipping(false);
-                }
                 renderHole(p, pal.color(QPalette::Window), r, focusHighlight);
             } else
                 if(widgetType == WT_Generic && (flags & State_Raised)) {
