@@ -2608,11 +2608,11 @@ void OxygenStyle::renderTab(QPainter *p,
                     p->drawLine(QPointF(x-(isRightOfSelected?2:0), y+0.5), QPointF(x+w+(isRightOfSelected?2:0)+(isLeftOfSelected?2:0), y+0.5));
                     if(!isLeftOfSelected)
                         p->drawLine(QPointF(x+w+0.5, y+1.5), QPointF(x+w+0.5, y+h-4));
-                    p->fillRect(x-(isRightOfSelected ? 2 : 0), y+1, w+(isLeftOfSelected||isRightOfSelected?3:0), h-5, midColor);
+                    p->fillRect(x-(isRightOfSelected ? 2 : 0), y+1, w+(isLeftOfSelected||isRightOfSelected ? (isRightOfSelected ? 3 : 3-gw) : 0), h-5, midColor);
                 }
             }
             else { // southAlignment
-                r.adjusted(0,0+gw,0,-5+gw).getRect(&x, &y, &w, &h);
+                r.adjusted(0,gw,0,-5+gw).getRect(&x, &y, &w, &h);
                 if(isLeftMost) {
                     QPainterPath path;
                     x-=gw;
@@ -2637,7 +2637,7 @@ void OxygenStyle::renderTab(QPainter *p,
                     p->drawLine(QPointF(x-(isRightOfSelected?2:0), y+h-0.5), QPointF(x+w+(isRightOfSelected ?2:0)+(isLeftOfSelected ?2:0), y+h-0.5));
                     if(!isLeftOfSelected)
                         p->drawLine(QPointF(x+w+0.5, y+1.5), QPointF(x+w+0.5, y+h-4));
-                    p->fillRect(x-(isRightOfSelected ?2:0), y+1, w+(isLeftOfSelected || isRightOfSelected?3:0), h-2, midColor);
+                    p->fillRect(x, y+1, w, h-2, midColor);
                 }
             }
             p->restore();
