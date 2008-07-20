@@ -1999,7 +1999,26 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 // smaller down arrow for menu indication on toolbuttons
                 penThickness = 1.7;
                 a.clear();
-                a << QPointF( -2,-1.5) << QPointF(0.5, 1.5) << QPointF(3,-1.5);
+                // NOTE: is there any smarter solution than this?
+                switch (primitive)
+                {
+                    case Generic::ArrowUp: {
+                        a << QPointF( -2,1.5) << QPointF(0.5, -1.5) << QPointF(3,1.5);
+                        break;
+                    }
+                    case Generic::ArrowDown: {
+                        a << QPointF( -2,-1.5) << QPointF(0.5, 1.5) << QPointF(3,-1.5);
+                        break;
+                    }
+                    case Generic::ArrowLeft: {
+                        a << QPointF(1.5,-2) << QPointF(-1.5, 0.5) << QPointF(1.5,3);
+                        break;
+                    }
+                    case Generic::ArrowRight: {
+                        a << QPointF(-1.5,-2) << QPointF(1.5, 0.5) << QPointF(-1.5,3);
+                        break;
+                    }
+                }
             }
         }
 
