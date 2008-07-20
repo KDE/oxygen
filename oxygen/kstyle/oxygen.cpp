@@ -1043,6 +1043,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     TileSet::Tiles flag;
                     QRect rect;
                     QRect br = r;
+                    QRect gr = r; // fade the tab there
                     bool vertical = false;
                     QPainter::CompositionMode slabCompMode = QPainter::CompositionMode_Source;
 
@@ -1058,7 +1059,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             rect = QRect(r.x()-7, r.y()+r.height()-7, 14+7, 7);
                             slabCompMode = QPainter::CompositionMode_SourceOver;
                         }
+                        rect.translate(-gw,0);
                         rect = visualRect(option->direction, r, rect);
+                        gr.translate(-gw,0);
                         break;
                     case QTabBar::RoundedSouth:
                     case QTabBar::TriangularSouth:
@@ -1070,6 +1073,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             flag = TileSet::Bottom;
                             rect = reverseLayout ? QRect(r.x()-7+4, r.y(), 14+3, 6) : QRect(r.x()-7, r.y()-1, 14+6, 7);
                         }
+                        rect.translate(-gw,0);
+                        rect = visualRect(option->direction, r, rect);
+                        gr.translate(-gw,0);
                         break;
                     case QTabBar::RoundedWest:
                     case QTabBar::TriangularWest:
@@ -1083,6 +1089,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             br.adjust(0,0,-5,0);
                         }
                         vertical = true;
+                        rect.translate(0,-gw);
+                        gr.translate(0,-gw);
                         break;
                     case QTabBar::RoundedEast:
                     case QTabBar::TriangularEast:
@@ -1096,21 +1104,20 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             br.adjust(5,0,0,0);
                         }
                         vertical = true;
+                        rect.translate(0,-gw);
+                        gr.translate(0,-gw);
                         break;
                     default:
                         return;
                     }
 
-                    QRect gr;
-                    if(!vertical && !reverseLayout)
-                        gr = QRect(0, 0, r.width(), r.height());
-                    else if(!vertical && reverseLayout)
+                    if(!vertical && reverseLayout)
+                    {
                         if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
-                            gr = QRect(r.x()-4, 0, r.x()-4+r.width(), r.height());
+                            gr.adjust(-4,-gr.y(),+gr.x()-4,0);
                         else
-                            gr = QRect(r.x(), 0, r.x()+r.width(), r.height());
-                    else
-                        gr = QRect(0, 0, r.width(), r.height());
+                            gr.adjust(0,-gr.y(),gr.x(),0);
+                    }
 
                     // fade tabbar
                     QPixmap pm(gr.width(),gr.height());
