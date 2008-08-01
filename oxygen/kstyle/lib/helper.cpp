@@ -90,13 +90,13 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
     p->fillRect(lowerRect, backgroundBottomColor(color));
 
     int radialW = qMin(600, r.width());
-    int frameH = 32; // on first paint the frame may not have been done yet, so just fixate it
+    int frameH = 10; // on first paint the frame may not have been done yet, so just fixate it
     QRect radialRect = QRect((r.width() - radialW) / 2-x, -y, radialW, 64-frameH);
     if (clipRect.intersects(radialRect))
     {
         tile = radialGradient(color, radialW);
-        p->drawPixmap(radialRect, tile, QRect(0, frameH, radialW, 64-frameH));
-    }
+        p->drawPixmap(radialRect, tile);
+     }
 
     if (clipRect.isValid())
         p->restore();
