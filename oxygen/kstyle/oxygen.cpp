@@ -130,7 +130,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftHorizontal, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftVertical,   0);
 
-    setWidgetLayoutProp(WT_Splitter, Splitter::Width, 6);
+    setWidgetLayoutProp(WT_Splitter, Splitter::Width, 3);
 
     setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 23);
     setWidgetLayoutProp(WT_CheckBox, CheckBox::BoxTextSpace, 4);
@@ -140,6 +140,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::FrameWidth, 0);
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, 3);
+    setWidgetLayoutProp(WT_DockWidget, DockWidget::SeparatorExtent, 3);
 
     setWidgetLayoutProp(WT_Menu, Menu::FrameWidth, 5);
 
@@ -1432,9 +1433,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int ngroups = qMax(1,h / 250);
                     int center = (h - (ngroups-1) * 250) /2 + r.top();
                     for(int k = 0; k < ngroups; k++, center += 250) {
-                        renderDot(p, QPointF(r.left()+3, center-3), color);
-                        renderDot(p, QPointF(r.left()+3, center), color);
-                        renderDot(p, QPointF(r.left()+3, center+3), color);
+                        renderDot(p, QPointF(r.left()+1, center-3), color);
+                        renderDot(p, QPointF(r.left()+1, center), color);
+                        renderDot(p, QPointF(r.left()+1, center+3), color);
                     }
                     return;
                 }
@@ -1446,9 +1447,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int ngroups = qMax(1, w / 250);
                     int center = (w - (ngroups-1) * 250) /2 + r.left();
                     for(int k = 0; k < ngroups; k++, center += 250) {
-                        renderDot(p, QPointF(center-3, r.top()+3), color);
-                        renderDot(p, QPointF(center, r.top()+3), color);
-                        renderDot(p, QPointF(center+3, r.top()+3), color);
+                        renderDot(p, QPointF(center-3, r.top()+1), color);
+                        renderDot(p, QPointF(center, r.top()+1), color);
+                        renderDot(p, QPointF(center+3, r.top()+1), color);
                     }
                     return;
                 }
@@ -3426,7 +3427,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
             dw->rect().getRect(&x, &y, &w, &h);
             x = 0; y = 0;
-            h--; w--;
+            w--;
 
             QRect rect(x,y,w,h);
 
