@@ -228,7 +228,7 @@ OxygenStyle::OxygenStyle() :
             _menuHighlightMode = MM_DARK;
     }
     _checkCheck = (cfg.readEntry("CheckStyle", 0) == 0);
-    _animateProgressBar = cfg.readEntry("AnimateProgressBar", false);
+    _animateProgressBar = cfg.readEntry("AnimateProgressBar", true);
     _drawToolBarItemSeparator = cfg.readEntry("DrawToolBarItemSeparator", true);
     _drawTriangularExpander = cfg.readEntry("DrawTriangularExpander", false);
 
@@ -239,7 +239,6 @@ OxygenStyle::OxygenStyle() :
     }
 
 }
-
 
 void OxygenStyle::updateProgressPos()
 {
@@ -258,8 +257,14 @@ void OxygenStyle::updateProgressPos()
              pb->value() != pb->maximum() )
         {
             // update animation Offset of the current Widget
-            //iter.value() = (iter.value() + 1) % 32;
-            // dont' update right now      iter.key()->update();
+            iter.value() = (iter.value() + 1) % 32;
+            // don't update right now
+            // iter.key()->update();
+        }
+        if ((pb->minimum() == 0 && pb->maximum() == 0))
+        {
+          pb->setValue(pb->value()+1);
+          pb->update();
         }
         if (iter.key()->isVisible())
             visible = true;
@@ -268,10 +273,10 @@ void OxygenStyle::updateProgressPos()
         animationTimer->stop();
 }
 
-
 OxygenStyle::~OxygenStyle()
 {
 }
+
 void OxygenStyle::drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
 {
 	switch (control)
@@ -2981,7 +2986,6 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
     }
     return KStyle::sizeFromContents(type, option, contentsSize, widget);
 }
-
 
 QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComplex* option,
                                 SubControl subControl, const QWidget* widget) const
