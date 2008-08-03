@@ -1751,10 +1751,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                             p->restore();
                         }
-                        else
-                        {
-                            p->fillRect(r.adjusted(2,2,-2,-1), inputColor);
-                        }
                     }
                 }
             }
