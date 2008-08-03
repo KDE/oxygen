@@ -1689,7 +1689,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             p->drawLine( centerx, centery - radius, centerx, centery + radius );
                     } else {
                         if(primitive == Tree::ExpanderClosed)
-                            drawKStylePrimitive(WT_Generic, Generic::ArrowRight, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget);
+                            drawKStylePrimitive(WT_Generic, reverseLayout? Generic::ArrowLeft : Generic::ArrowRight, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget);
                         else
                             drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget);
                     }
