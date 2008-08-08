@@ -763,16 +763,17 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QRect btnr = subElementRect(dwOpt->floatable ? SE_DockWidgetFloatButton : SE_DockWidgetCloseButton, opt, widget);
                     int fw = widgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, opt, widget);
                     QRect r = dwOpt->rect.adjusted(fw, fw, -fw, -fw);
-                    if (verticalTitleBar)
-                        r.setY(btnr.y()+btnr.height());
-                    else if(reverseLayout)
-                    {
-                        r.setLeft(btnr.x()+btnr.width());
-                        r.adjust(0,0,-4,0);
+                    if (verticalTitleBar) {
+                        if(btnr.isValid())
+                            r.setY(btnr.y()+btnr.height());
                     }
-                    else
-                    {
-                        r.setRight(btnr.x());
+                    else if(reverseLayout) {
+                        if(btnr.isValid())
+                            r.setLeft(btnr.x()+btnr.width());
+                        r.adjust(0,0,-4,0);
+                    } else {
+                        if(btnr.isValid())
+                            r.setRight(btnr.x());
                         r.adjust(4,0,0,0);
                     }
 
