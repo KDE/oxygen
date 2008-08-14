@@ -118,10 +118,11 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleButtonHeight, 28);
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 16);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 16);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 1);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 0);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 5);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 4);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Left, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 0);
@@ -177,21 +178,26 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 25);
     setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 19);
 
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 6);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Left, 3);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Top, -2);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Bot, -1);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 4);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin, 0);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Left, 1);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Right, 4);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Top, 0);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Bot, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonSpacing, 0);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Left, 2);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 8);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 5);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 4);
 
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 6);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Left, 3);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Top, -1);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Bot, -1);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 4);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin, 0);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Left, 1);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Right, 4);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Top, 0);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Bot, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
@@ -324,6 +330,37 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
             }
             break;
         }
+    case CE_ComboBoxLabel: //same as CommonStyle, except for fiilling behind icon
+        if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
+            QRect editRect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
+            p->save();
+            p->setClipRect(editRect);
+            if (!cb->currentIcon.isNull()) {
+                QIcon::Mode mode = cb->state & State_Enabled ? QIcon::Normal
+                                                             : QIcon::Disabled;
+                QPixmap pixmap = cb->currentIcon.pixmap(cb->iconSize, mode);
+                QRect iconRect(editRect);
+                iconRect.setWidth(cb->iconSize.width() + 4);
+                iconRect = alignedRect(cb->direction,
+                                       Qt::AlignLeft | Qt::AlignVCenter,
+                                       iconRect.size(), editRect);
+
+                drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
+
+                if (cb->direction == Qt::RightToLeft)
+                    editRect.translate(-4 - cb->iconSize.width(), 0);
+                else
+                    editRect.translate(cb->iconSize.width() + 4, 0);
+            }
+            if (!cb->currentText.isEmpty() && !cb->editable) {
+                drawItemText(p, editRect.adjusted(1, 0, -1, 0),
+                             visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
+                             cb->palette, cb->state & State_Enabled, cb->currentText);
+            }
+            p->restore();
+        }
+        break;
+
         default:
             KStyle::drawControl(element, option, p, widget);
     }
@@ -2916,7 +2953,7 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
 
         case PM_DefaultFrameWidth:
             if (qobject_cast<const QLineEdit*>(widget))
-                return 5;
+                return 4;
             if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget))
                 return 3;
             //else fall through
