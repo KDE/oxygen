@@ -1730,10 +1730,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case LineEdit::Panel:
                 {
-                    const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
-
                     if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>(opt))
                     {
+
+                        const QBrush inputBrush = enabled?panel->palette.base():panel->palette.window();
                         const int lineWidth(panel->lineWidth);
 
                         if (lineWidth > 0)
@@ -1741,16 +1741,20 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             p->save();
                             p->setRenderHint(QPainter::Antialiasing);
                             p->setPen(Qt::NoPen);
-                            p->setBrush(inputColor);
+                            p->setBrush(inputBrush);
 
 #ifdef HOLE_NO_EDGE_FILL
-                            p->fillRect(r.adjusted(5,5,-5,-5), inputColor);
+                            p->fillRect(r.adjusted(5,5,-5,-5), inputBrush);
 #else
                             _helper.fillHole(*p, r.adjusted(0,0,-0,-1));
 #endif
                             drawPrimitive(PE_FrameLineEdit, panel, p, widget);
 
                             p->restore();
+                        }
+                        else
+                        {
+                            p->fillRect(r.adjusted(2,2,-2,-1), inputBrush);
                         }
                     }
                 }
