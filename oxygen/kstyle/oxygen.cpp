@@ -118,11 +118,11 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleButtonHeight, 28);
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 0);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 16);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 16);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 5);
-    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 4);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 11);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 11);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 0);
+    setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, -1);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Left, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 0);
