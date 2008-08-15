@@ -842,9 +842,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     }
                     else
                     {
-                        drawItemText(p, r, (reverseLayout ? Qt::AlignRight : Qt::AlignLeft) | Qt::AlignVCenter
-                        | Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title,
-                        QPalette::WindowText);
+                        drawItemText(p, r, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title, QPalette::WindowText);
                     }
                     return;
                 }
