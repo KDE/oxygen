@@ -2806,74 +2806,68 @@ void OxygenStyle::renderTab(QPainter *p,
         else {
             // inactive tabs
             int x,y,w,h;
+            p->save(); // we only use the clipping and AA for inactive tabs
             p->setPen(darkColor);
+            p->setBrush(midColor);
+            p->setRenderHints(QPainter::Antialiasing);
 
             if (westAlignment) {
                 r.adjusted(5-gw,0,-5-gw,0).getRect(&x, &y, &w, &h);
 
-                if(isLeftMost) { // at top
-                    p->drawArc(QRectF(x+0.5, y+1.5, 9.5, 9.5),90*16, 90*16);
-                    if(isFrameAligned)
-                        p->drawLine(QPointF(x-3+9.5, y+1.5), QPointF(x+w+1.5, y+1.5));
-                    else
-                        p->drawLine(QPointF(x-3+9.5, y+1.5), QPointF(x+w-1, y+1.5));
-                    // leftline
-                    p->drawLine(QPointF(x, y-3+9.5), QPointF(x, y+h-1));
-                    // separator
-                    if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
-                        p->drawLine(QPointF(x+1.5, y+h-1), QPointF(x+w-0.5, y+h-1));
-                    p->fillRect(x, y+2, w, h-2, midColor);
-                } else  if(isRightMost) { // at bottom
-                    p->drawArc(QRectF(x+0.5, y+h-0.5-9.5, 9.5, 9.5), 180*16, 90*16);
-                    if(isFrameAligned)
-                        p->drawLine(QPointF(x+9.5, y+h-1), QPointF(x+w, y+h-1));
-                    else
-                        p->drawLine(QPointF(x-4+9.5, y+h-1), QPointF(x+w-1, y+h-1));
-                    // leftline
-                    p->drawLine(QPointF(x, y), QPointF(x, y+h+3-9.5));
-                    p->fillRect(x, y, w, h, midColor);
+                if (isLeftMost) { // at top
+                    QPainterPath path;
+
+                    path.moveTo(x+w+3.0, y);
+                    path.lineTo(x+5.0, y); // top border
+                    path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
+                    path.lineTo(x+0.5, y+h+0.5); // left border
+                    path.lineTo(x+w+1.0, y+h+0.5); // complete the path
+                    p->drawPath(path);
+                } else if (isRightMost) { // at bottom
+                    QPainterPath path;
+
+                    path.moveTo(x+w+0.5, y+h-0.5);
+                    path.lineTo(x+5.0, y+h-0.5); // bottom border
+                    path.arcTo(QRectF(x+0.5, y+h-0.5-9.5, 9.5, 9.5), 270, -90); // bottom-left corner
+                    path.lineTo(x+0.5, y-0.5); // left border
+                    path.lineTo(x+w+0.5, y-0.5); // complete the path
+                    p->drawPath(path);
                 } else {
                     // leftline
-                    p->drawLine(QPointF(x, y), QPointF(x, y+h-1));
+                    p->drawLine(QPointF(x+0.5, y-0.5), QPointF(x+0.5, y+h-0.5));
                     if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
-                        p->drawLine(QPointF(x+1.5, y+h-1), QPointF(x+w-0.5, y+h-1));
+                        p->drawLine(QPointF(x+0.5, y+h-0.5), QPointF(x+w-0.5, y+h-0.5));
                     p->fillRect(x, y, w, h, midColor);
                 }
-            }
-            else { // eastAlignment
-
+            } else { // eastAlignment
                 r.adjusted(5+gw,0,-5+gw,0).getRect(&x, &y, &w, &h);
+                if (isLeftMost) { // at top
+                    QPainterPath path;
 
-                if(isLeftMost) { // at top
-                    p->drawArc(QRectF(x+w-0.5-9.5, y+1.5, 9.5, 9.5),0*16, 90*16);
-                    if(isFrameAligned)
-                        p->drawLine(QPointF(x-1.5, y+1.5), QPointF(x+w+3-9.5, y+1.5));
-                    else
-                        p->drawLine(QPointF(x, y+1.5), QPointF(x+w+3-9.5, y+1.5));
-                    // rightline
-                    p->drawLine(QPointF(x+w-1, y-3+9.5), QPointF(x+w-1, y+h-1));
-                    // separator
-                    if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
-                        p->drawLine(QPointF(x+0.5, y+h-1), QPointF(x+w-1.5, y+h-1));
-                    p->fillRect(x, y+2, w, h-2, midColor);
-                } else  if(isRightMost) { // at bottom
-                    p->drawArc(QRectF(x+w-9.5-0.5, y+h-0.5-9.5, 9.5, 9.5), 270*16, 90*16);
-                    if(isFrameAligned) // in reverseLayout mode
-                        p->drawLine(QPointF(x-2.5, y+h-1), QPointF(x+w+3-9.5, y+h-1));
-                    else
-                        p->drawLine(QPointF(x+0.5, y+h-1), QPointF(x+w+4-9.5, y+h-1));
-                    // rightline
-                    p->drawLine(QPointF(x+w-1, y), QPointF(x+w-1, y+h+3-9.5));
-                    p->fillRect(x, y, w, h, midColor);
+                    path.moveTo(x-3.0, y+0.5);
+                    path.lineTo(x+w-5.0, y+0.5); // top line
+                    path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
+                    path.lineTo(x+w-0.5, y+h+0.5); // right line
+                    path.lineTo(x-0.5, y+h+0.5); // complete path
+                    p->drawPath(path);
+                } else if (isRightMost) { // at bottom
+                    QPainterPath path;
+
+                    path.moveTo(x-0.5, y+h-0.5);
+                    path.lineTo(x+w-5.0, y+h-0.5); // bottom line
+                    path.arcTo(QRectF(x+w-0.5-9.5, y+h-0.5-9.5, 9.5, 9.5), -90, 90); // bottom-right corner
+                    path.lineTo(x+w-0.5, y-0.5); // right line
+                    path.lineTo(x-0.5, y-0.5); // complete path
+                    p->drawPath(path);
                 } else {
-                    // rightline
-                    p->drawLine(QPointF(x+w-1, y), QPointF(x+w-1, y+h-1));
+                    // right line
+                    p->drawLine(QPointF(x+w-0.5, y), QPointF(x+w-0.5, y+h-0.5));
                     if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
-                        p->drawLine(QPointF(x+0.5, y+h-1), QPointF(x+w-1.5, y+h-1));
+                        p->drawLine(QPointF(x+0.5, y+h-0.5), QPointF(x+w-1.5, y+h-0.5));
                     p->fillRect(x, y, w, h, midColor);
                 }
-
             }
+            p->restore();
 
             TileSet::Tiles posFlag = eastAlignment ? TileSet::Right : TileSet::Left;
             QRect Ractual(Rb.left(), Rb.y(), 7, Rb.height());
