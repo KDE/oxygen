@@ -430,3 +430,58 @@ void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &colo
 
     return;
 }
+
+void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &color, Qt::Orientation orientation) const
+{
+    QColor light = calcLightColor(color);
+    QColor dark = calcDarkColor(color);
+
+    bool antialias = p->testRenderHint(QPainter::Antialiasing);
+    p->setRenderHint(QPainter::Antialiasing,false);
+
+    QPoint start,end,offset;
+
+    if (orientation == Qt::Horizontal) {
+        start = QPoint(rect.x(),rect.y()+rect.height()/2-1);
+        end = QPoint(rect.right(),rect.y()+rect.height()/2-1);
+        offset = QPoint(0,1);
+    } else {
+        start = QPoint(rect.x()+rect.width()/2-1,rect.y());
+        end = QPoint(rect.x()+rect.width()/2-1,rect.bottom());
+        offset = QPoint(1,0);
+        light.setAlpha(150);
+    }
+
+    QLinearGradient lg(start,end);
+    lg.setColorAt(0.3, dark);
+    lg.setColorAt(0.7, dark);
+    dark.setAlpha(0);
+    lg.setColorAt(0.0, dark);
+    lg.setColorAt(1.0, dark);
+    p->setPen(QPen(lg,1));
+
+    if (orientation == Qt::Horizontal)
+        p->drawLine(start,end);
+    else
+        p->drawLine(start+offset,end+offset);
+
+    lg = QLinearGradient(start,end);
+    lg.setColorAt(0.3, light);
+    lg.setColorAt(0.7, light);
+    light.setAlpha(0);
+    lg.setColorAt(0.0, light);
+    lg.setColorAt(1.0, light);
+    p->setPen(QPen(lg,1));
+
+
+    if (orientation == Qt::Horizontal)
+        p->drawLine(start+offset,end+offset);
+    else
+    {
+        p->drawLine(start,end);
+        p->drawLine(start+offset*2,end+offset*2);
+    }
+
+    p->setRenderHint(QPainter::Antialiasing, antialias);
+}
+

@@ -67,6 +67,8 @@ public:
 
     void drawFloatFrame(QPainter *p, const QRect r, const QColor &color) const;
 
+    void drawSeparator(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation) const;
+
 protected:
     void drawShadow(QPainter&, const QColor&, int size) const;
     static QPixmap glow(const QColor&, int size, int rsize);

@@ -650,7 +650,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             {
                 case MenuItem::Separator:
                 {
-                    renderSeparator(p,r,pal,Qt::Horizontal);
+                    _helper.drawSeparator(p, r, pal.color(QPalette::Window), Qt::Horizontal);
                     return;
                 }
 
@@ -1876,11 +1876,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ToolBar::Separator:
                 {
                     if(_drawToolBarItemSeparator) {
-
+                        QColor color = pal.color(QPalette::Window);
                         if(flags & State_Horizontal)
-                            renderSeparator(p,r,pal,Qt::Vertical);
+                            _helper.drawSeparator(p, r, color, Qt::Vertical);
                         else
-                            renderSeparator(p,r,pal,Qt::Horizontal);
+                            _helper.drawSeparator(p, r, color, Qt::Horizontal);
                     }
 
                     return;
@@ -2491,62 +2491,6 @@ void OxygenStyle::renderDot(QPainter *p, const QPointF &point, const QColor &bas
     p->setBrush(QColor(0, 0, 0, 66));
     p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
     p->setRenderHint(QPainter::Antialiasing, false);
-}
-
-void OxygenStyle::renderSeparator(QPainter *p, const QRect &rect,
-const QPalette &pal, Qt::Orientation orientation) const
-{
-    QColor color = pal.color(QPalette::Window);
-    QColor light = _helper.calcLightColor(color);
-    QColor dark = _helper.calcDarkColor(color);
-
-    bool antialias = p->testRenderHint(QPainter::Antialiasing);
-    p->setRenderHint(QPainter::Antialiasing,false);
-
-    QPoint start,end,offset;
-
-    if (orientation == Qt::Horizontal) {
-        start = QPoint(rect.x(),rect.y()+rect.height()/2-1);
-        end = QPoint(rect.right(),rect.y()+rect.height()/2-1);
-	offset = QPoint(0,1);
-    } else {
-	start = QPoint(rect.x()+rect.width()/2-1,rect.y());
-	end = QPoint(rect.x()+rect.width()/2-1,rect.bottom());
-	offset = QPoint(1,0);
-	light.setAlpha(150);
-    }
-
-    QLinearGradient lg(start,end);
-    lg.setColorAt(0.3, dark);
-    lg.setColorAt(0.7, dark);
-    dark.setAlpha(0);
-    lg.setColorAt(0.0, dark);
-    lg.setColorAt(1.0, dark);
-    p->setPen(QPen(lg,1));
-
-    if (orientation == Qt::Horizontal)
-	p->drawLine(start,end);
-    else
-	p->drawLine(start+offset,end+offset);
-
-    lg = QLinearGradient(start,end);
-    lg.setColorAt(0.3, light);
-    lg.setColorAt(0.7, light);
-    light.setAlpha(0);
-    lg.setColorAt(0.0, light);
-    lg.setColorAt(1.0, light);
-    p->setPen(QPen(lg,1));
-
-
-    if (orientation == Qt::Horizontal)
-	p->drawLine(start+offset,end+offset);
-    else
-    {
-	p->drawLine(start,end);
-	p->drawLine(start+offset*2,end+offset*2);
-    }
-
-    p->setRenderHint(QPainter::Antialiasing, antialias);
 }
 
 void OxygenStyle::renderTab(QPainter *p,
@@ -3442,67 +3386,21 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         if (ev->type() == QEvent::Paint)
         {
             QPainter p(dw);
+            const QColor color = dw->palette().color(QPalette::Window);
+
             if(dw->isWindow())
             {
-                _helper.drawFloatFrame(&p, dw->rect(), dw->palette().color(QPalette::Window));
+                _helper.drawFloatFrame(&p, dw->rect(), color);
                 return false;
             }
 
-            QPixmap pm(dw->rect().size());
-            pm.fill(Qt::transparent);
-            QPainter pp(&pm);
-            pp.setRenderHints(QPainter::Antialiasing);
-            pp.translate(.5, .5);
-            int x,y,w,h;
+            int w = dw->rect().width();
+            int h = dw->rect().height();
+            QRect rect(0,0,w,h);
 
-            dw->rect().getRect(&x, &y, &w, &h);
-            x = 0; y = 0;
-            w--;
+            TileSet *tileSet = _helper.dockFrame(color, w);
+            tileSet->render(rect, &p, TileSet::Ring);
 
-            QRect rect(x,y,w,h);
-
-            QPalette pal = dw->palette();
-            QColor color = pal.color(QPalette::Window);
-            QColor light = _helper.calcLightColor(color);
-            QColor dark = _helper.calcDarkColor(color);
-
-            dark.setAlpha(200);
-            light.setAlpha(150);
-
-            // draw left and right border
-            QLinearGradient lg(rect.topLeft(),rect.topRight());
-            lg.setColorAt(0.0, light);
-            lg.setColorAt(0.1, QColor(0,0,0,0));
-            lg.setColorAt(0.9, QColor(0,0,0,0));
-            lg.setColorAt(1.0, light);
-            pp.setPen(QPen(lg,1));
-            //pp.drawRoundedRect(rect.adjusted(1,1,-1,0),5,5);
-            pp.drawRoundedRect(rect.adjusted(0,-1,0,-1),4,4);
-            pp.drawRoundedRect(rect.adjusted(2,1,-2,-2),4,4);
-
-            lg.setColorAt(0.0, dark);
-            lg.setColorAt(0.1, QColor(0,0,0,0));
-            lg.setColorAt(0.9, QColor(0,0,0,0));
-            lg.setColorAt(1.0, dark);
-            pp.setPen(QPen(lg,1));
-            pp.setBrush(Qt::NoBrush);
-            //pp.drawRoundedRect(rect.adjusted(0,0,0,-1),5,5);
-            pp.drawRoundedRect(rect.adjusted(1,0,-1,-2),4,4);
-
-            // fade
-            QRect maskr = rect.adjusted(0,h/3,0,0);
-            pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-            QLinearGradient mask(maskr.topLeft(),maskr.bottomLeft());
-            mask.setColorAt(0.0,QColor(0,0,0,255));
-            mask.setColorAt(1.0,QColor(0,0,0,150));
-            pp.setBrush(mask);
-            pp.setPen(QPen(mask,1));
-            pp.drawRect(maskr);
-            p.drawPixmap(dw->rect().topLeft(),pm);
-
-            // draw top and bottom border
-            renderSeparator(&p,QRect(x,y,w,2),dw->palette(),Qt::Horizontal);
-            renderSeparator(&p,QRect(x,y+h-2,w,2),dw->palette(),Qt::Horizontal);
             return false;
         }
     }
@@ -3541,7 +3439,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                     case QFrame::VLine: { o = Qt::Vertical; break; }
                     default: { return false; }
                 }
-                renderSeparator(&p, r, f->palette(), o);
+                _helper.drawSeparator(&p, r, f->palette().color(QPalette::Window), o);
                 return true;
             }
         }

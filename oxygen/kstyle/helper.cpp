@@ -34,6 +34,8 @@ const double OxygenStyleHelper::_slabThickness = 0.45; //TODO: configurable?
 OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
     : OxygenHelper(componentName)
 {
+    // optimize for repainting of dock contents, which saves memory
+    m_dockFrameCache.setMaxCost(1);
 }
 
 QColor OxygenStyleHelper::calcMidColor(const QColor &color) const
@@ -53,6 +55,7 @@ void OxygenStyleHelper::invalidateCaches()
     m_verticalScrollBarCache.clear();
     m_horizontalScrollBarCache.clear();
     m_progressBarCache.clear();
+    m_dockFrameCache.clear();
     OxygenHelper::invalidateCaches();
 }
 
@@ -703,6 +706,60 @@ TileSet *OxygenStyleHelper::progressBar(const QColor &color, QRect rect,  Qt::Or
         else
             tileSet = OxygenProgressBar(color, _contrast).vertical(size, width);
         m_progressBarCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
+{
+    quint64 key = quint64(color.rgba()) << 32 | width;
+    TileSet *tileSet = m_dockFrameCache.object(key);
+    if (!tileSet)
+    {
+        if (!width&1) // width should be uneven
+            --width;
+
+        int w = width;
+        int h = 9;
+
+        QPixmap pm(w, h);
+        pm.fill(Qt::transparent);
+
+        QPainter p(&pm);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setBrush(Qt::NoBrush);
+        p.translate(0.5, 0.5);
+        QRect rect(0.5,0.5,w-0.5,h-0.);
+
+        QColor light = calcLightColor(color);
+        QColor dark = calcDarkColor(color);
+
+        //dark.setAlpha(200);
+        light.setAlpha(150);
+
+        // left and right border
+        QLinearGradient lg(QPoint(0,0), QPoint(w,0));
+        lg.setColorAt(0.0, light);
+        lg.setColorAt(0.1, QColor(0,0,0,0));
+        lg.setColorAt(0.9, QColor(0,0,0,0));
+        lg.setColorAt(1.0, light);
+        p.setPen(QPen(lg,1));
+        p.drawRoundedRect(rect.adjusted(0,-1,0,-1),5,5);
+        p.drawRoundedRect(rect.adjusted(2,1,-2,-2),5,5);
+
+        lg.setColorAt(0.0, dark);
+        lg.setColorAt(0.1, QColor(0,0,0,0));
+        lg.setColorAt(0.9, QColor(0,0,0,0));
+        lg.setColorAt(1.0, dark);
+        p.setPen(QPen(lg, 1));
+        p.drawRoundedRect(rect.adjusted(1,0,-1,-2),5,5);
+
+        // top and bottom border
+        drawSeparator(&p, QRect(0,0,w,2), color, Qt::Horizontal);
+        drawSeparator(&p, QRect(0,h-2,w,2), color, Qt::Horizontal);
+
+        tileSet = new TileSet(pm, w/2, h/2, 1, 1);
+        m_dockFrameCache.insert(key, tileSet);
     }
     return tileSet;
 }
