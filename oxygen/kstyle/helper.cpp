@@ -758,7 +758,7 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
         drawSeparator(&p, QRect(0,0,w,2), color, Qt::Horizontal);
         drawSeparator(&p, QRect(0,h-2,w,2), color, Qt::Horizontal);
 
-        tileSet = new TileSet(pm, w/2, h/2, 1, 1);
+        tileSet = new TileSet(pm, 4, 4, w-8, h-8);
         m_dockFrameCache.insert(key, tileSet);
     }
     return tileSet;

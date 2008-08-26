@@ -3399,7 +3399,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             QRect rect(0,0,w,h);
 
             TileSet *tileSet = _helper.dockFrame(color, w);
-            tileSet->render(rect, &p, TileSet::Ring);
+            tileSet->render(rect, &p);
 
             return false;
         }
