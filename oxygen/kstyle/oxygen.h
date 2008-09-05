@@ -174,8 +174,6 @@ private:
     QPoint handleRTL(const QStyleOption* opt, const QPoint& pos) const;
     QRect handleRTL(const QStyleOption* opt, const QRect& subRect) const;
 
-    mutable bool flatMode;
-
     bool _animateProgressBar;
     bool _drawToolBarItemSeparator;
     bool _drawTriangularExpander;

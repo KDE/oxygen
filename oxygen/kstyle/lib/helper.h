@@ -38,6 +38,7 @@ public:
     explicit OxygenHelper(const QByteArray &componentName);
     virtual ~OxygenHelper() {}
 
+    void cleanupBeforeDelete() {OxygenHelper::invalidateCaches();}
     KSharedConfigPtr config() const;
     void reloadConfig();
 

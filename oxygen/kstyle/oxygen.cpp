@@ -85,14 +85,19 @@ K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("oxygen"))
 
 static const int gw = 2; // ie glowwidth which we want to un-reserve space for in the tabs
 
+static void cleanupBefore()
+{
+    OxygenStyleHelper *h = globalHelper;
+    h->cleanupBeforeDelete();
+}
+
 OxygenStyle::OxygenStyle() :
     KStyle(),
-//     kickerMode(false),
-//     kornMode(false),
-    flatMode(false),
     _helper(*globalHelper)
 {
     _config = _helper.config();
+
+    qAddPostRoutine(cleanupBefore);
 
     // connect to KGlobalSettings signals so we will be notified when the
     // system palette (in particular, the contrast) is changed
