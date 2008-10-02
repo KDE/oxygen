@@ -140,7 +140,7 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 23);
     setWidgetLayoutProp(WT_CheckBox, CheckBox::BoxTextSpace, 4);
-    setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 25);
+    setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 21);
     setWidgetLayoutProp(WT_RadioButton, RadioButton::BoxTextSpace, 4);
 
     setWidgetLayoutProp(WT_DockWidget, DockWidget::TitleTextColor, QPalette::WindowText);
@@ -180,8 +180,8 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_TabWidget, TabWidget::ContentsMargin, 4);
 
-    setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 25);
-    setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 19);
+    setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 23);
+    setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 15);
 
     setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 4);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin, 0);
@@ -2441,7 +2441,8 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
 {
     Q_UNUSED(enabled);
 
-    QRect r2(r.x() + (r.width()-21)/2, r.y() + (r.height()-21)/2, 21, 21);
+    int s = widgetLayoutProp(WT_RadioButton, RadioButton::Size);
+    QRect r2(r.x() + (r.width()-s)/2, r.y() + (r.height()-s)/2, s, s);
     int x = r2.x();
     int y = r2.y();
 
