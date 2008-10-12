@@ -3488,6 +3488,42 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             return QIcon(realpm);
         }
 
+        case SP_TitleBarShadeButton:
+        {
+            QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
+            realpm.fill(QColor(0,0,0,0));
+            QPixmap pm = _helper.windecoButton(buttonColor, false, 15);
+            QPainter painter(&realpm);
+            painter.drawPixmap(1,1,pm);
+            painter.setRenderHints(QPainter::Antialiasing);
+            painter.setBrush(Qt::NoBrush);
+            QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
+            painter.setPen(QPen(lg,1.4));
+            painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
+            painter.drawLine( QPointF(8.75,8.75), QPointF(11.0,6.5) );
+            painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
+
+            return QIcon(realpm);
+        }
+
+        case SP_TitleBarUnshadeButton:
+        {
+            QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
+            realpm.fill(QColor(0,0,0,0));
+            QPixmap pm = _helper.windecoButton(buttonColor, false, 15);
+            QPainter painter(&realpm);
+            painter.drawPixmap(1,1,pm);
+            painter.setRenderHints(QPainter::Antialiasing);
+            painter.setBrush(Qt::NoBrush);
+            QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
+            painter.setPen(QPen(lg,1.4));
+            painter.drawLine( QPointF(6.5,8.75), QPointF(8.75,6.5) );
+            painter.drawLine( QPointF(8.75,6.5), QPointF(11.0,8.75) );
+            painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
+
+            return QIcon(realpm);
+        }
+
         case SP_TitleBarCloseButton:
         case SP_DockWidgetCloseButton:
         {
