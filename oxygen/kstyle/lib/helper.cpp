@@ -416,13 +416,13 @@ void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &colo
         p->drawLine(QPointF(x+4, y+h+0.5), QPointF(x+w-4, y+h+0.5));
     }
 
-    p->setPen(QPen(light, 1.2));
+    p->setPen(QPen(light, 0.8));
     p->drawLine(QPointF(x+4, y+0.6), QPointF(x+w-4, y+0.6));
     QLinearGradient lg = QLinearGradient(0.0, 1.5, 0.0, 4.5);
     lg.setColorAt(0, light);
     light = calcLightColor(backgroundBottomColor(color));
     lg.setColorAt(1, light);
-    p->setPen(QPen(lg, 1.2));
+    p->setPen(QPen(lg, 0.8));
     p->drawArc(QRectF(x+0.6, y+0.6, 9, 9),90*16, 90*16);
     p->drawArc(QRectF(x+w-9-0.6, y+0.6, 9, 9), 0, 90*16);
     p->drawLine(QPointF(x+0.6, y+4), QPointF(x+0.6, y+h-4));
