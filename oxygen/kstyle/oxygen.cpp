@@ -1968,26 +1968,27 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
     if (primitive >= Generic::ArrowUp && primitive <= Generic::ArrowLeft) {
         QPolygonF a;
         QPen oldPen(p->pen()); // important to save the pen as combobox assumes we don't touch
+        QLinearGradient arrowGradient;
 
         switch (primitive) {
             case Generic::ArrowUp: {
-                a.clear();
                 a << QPointF( -3,2.5) << QPointF(0.5, -1.5) << QPointF(4,2.5);
+                arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,2.5));
                 break;
             }
             case Generic::ArrowDown: {
-                a.clear();
                 a << QPointF( -3,-2.5) << QPointF(0.5, 1.5) << QPointF(4,-2.5);
+                arrowGradient = QLinearGradient(QPoint(0,1.5),QPoint(0,-2.5));
               break;
             }
             case Generic::ArrowLeft: {
-                a.clear();
                 a << QPointF(2.5,-3) << QPointF(-1.5, 0.5) << QPointF(2.5,4);
+                arrowGradient = QLinearGradient(QPoint(-1.5,0),QPoint(2.5,0));
                 break;
             }
             case Generic::ArrowRight: {
-                a.clear();
                 a << QPointF(-2.5,-3) << QPointF(1.5, 0.5) << QPointF(-2.5,4);
+                arrowGradient = QLinearGradient(QPoint(1.5,0),QPoint(-2.5,0));
                 break;
             }
         }
@@ -2028,34 +2029,43 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     case Generic::ArrowUp: {
                         a << QPointF( -2,1.5) << QPointF(0.5, -1.5) << QPointF(3,1.5);
+                        arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,2.5));
                         break;
                     }
                     case Generic::ArrowDown: {
                         a << QPointF( -2,-1.5) << QPointF(0.5, 1.5) << QPointF(3,-1.5);
+                        arrowGradient = QLinearGradient(QPoint(0,1.5),QPoint(0,-2.5));
                         break;
                     }
                     case Generic::ArrowLeft: {
                         a << QPointF(1.5,-2) << QPointF(-1.5, 0.5) << QPointF(1.5,3);
+                        arrowGradient = QLinearGradient(QPoint(-1.5,0),QPoint(2.5,0));
                         break;
                     }
                     case Generic::ArrowRight: {
                         a << QPointF(-1.5,-2) << QPointF(1.5, 0.5) << QPointF(-1.5,3);
+                        arrowGradient = QLinearGradient(QPoint(1.5,0),QPoint(-2.5,0));
                         break;
                     }
                 }
             }
         }
 
-        a.translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
+        p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
 
         KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
         QColor  arrowColor = colorOpt->color.color(pal);
 
-        p->setPen(QPen(arrowColor, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        arrowGradient.setColorAt(0.0, KColorUtils::mix(pal.color(QPalette::Window), arrowColor, 0.6));
+        arrowGradient.setColorAt(1.0, arrowColor);
+
+        p->setPen(QPen(arrowGradient, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         p->setRenderHint(QPainter::Antialiasing);
         p->drawPolyline(a);
+
         p->setRenderHint(QPainter::Antialiasing, false);
         p->setPen(oldPen);
+        p->translate(-int(r.x()+r.width()/2), -int(r.y()+r.height()/2));
         return;
     }
 
