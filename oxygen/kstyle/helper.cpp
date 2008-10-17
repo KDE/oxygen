@@ -56,6 +56,7 @@ void OxygenStyleHelper::invalidateCaches()
     m_horizontalScrollBarCache.clear();
     m_progressBarCache.clear();
     m_dockFrameCache.clear();
+    m_scrollHoleCache.clear();
     OxygenHelper::invalidateCaches();
 }
 
@@ -760,6 +761,81 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
 
         tileSet = new TileSet(pm, 4, 4, w-8, h-8);
         m_dockFrameCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+TileSet *OxygenStyleHelper::scrollHole(const QColor &color, int width, Qt::Orientation orientation)
+{
+    quint64 key = quint64(color.rgba()) << 32 | (width << 1 ) | (orientation == Qt::Horizontal);
+    TileSet *tileSet = m_scrollHoleCache.object(key);
+    if (!tileSet)
+    {
+        if (!width&1) // width should be uneven
+            --width;
+
+        QPixmap pm(15, width);
+        pm.fill(Qt::transparent);
+
+        QPainter p(&pm);
+
+        QColor dark = calcDarkColor(color);
+        QColor light = calcLightColor(color);
+        QColor shadow = calcShadowColor(color);
+        // use space for white border
+        QRect r = QRect(0,0,15,width);
+        QRect rect = r.adjusted(1, 0, -1, -1);
+        int shadowWidth = (orientation == Qt::Horizontal) ? 3 : 3;
+
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setBrush(dark);
+        p.setPen(Qt::NoPen);
+
+        // base
+        p.drawRoundedRect(rect, 2, 2);
+
+        // slight shadow
+        // try only for horizontal bars
+        if (orientation == Qt::Horizontal)
+        {
+            QLinearGradient shadowGradient(rect.topLeft(), rect.bottomLeft());
+            shadowGradient.setColorAt(0.0, alphaColor(shadow, 0.1));
+            shadowGradient.setColorAt(0.6, Qt::transparent);
+            p.setBrush(shadowGradient);
+            p.drawRoundedRect(rect, 3, 3);
+        }
+
+        // strong shadow
+        // left
+        QLinearGradient l1 = QLinearGradient(rect.topLeft(), rect.topLeft()+QPoint(shadowWidth,0));
+        l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.2 : 0.1));
+        l1.setColorAt(1.0, Qt::transparent);
+        p.setBrush(l1);
+        p.drawRoundedRect(QRect(rect.topLeft(), rect.bottomLeft()+QPoint(shadowWidth,0)), 3, 3);
+        // right
+        l1 = QLinearGradient(rect.topRight(), rect.topRight()-QPoint(shadowWidth,0));
+        l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.2 : 0.1));
+        l1.setColorAt(1.0, Qt::transparent);
+        p.setBrush(l1);
+        p.drawRoundedRect(QRect(rect.topRight()-QPoint(shadowWidth,0), rect.bottomRight()), 3, 3);
+        //top
+        l1 = QLinearGradient(rect.topLeft(), rect.topLeft()+QPoint(0,3));
+        l1.setColorAt(0.0, alphaColor(shadow, 0.3));
+        l1.setColorAt(1.0, Qt::transparent);
+        p.setBrush(l1);
+        p.drawRoundedRect(QRect(rect.topLeft(),rect.topRight()+QPoint(0,3)), 3, 3);
+
+        // light border
+        QLinearGradient borderGradient(r.topLeft()+QPoint(0,r.height()/2-1), r.bottomLeft());
+        borderGradient.setColorAt(0.0, Qt::transparent);
+        borderGradient.setColorAt(1.0, alphaColor(light, 0.8));
+
+        p.setPen( QPen(borderGradient, 1.0) );
+        p.setBrush(Qt::NoBrush);
+        p.drawRoundedRect(r, 3, 3);
+
+        tileSet = new TileSet(pm, 7, width/2, 1, 1);
+        m_scrollHoleCache.insert(key, tileSet);
     }
     return tileSet;
 }

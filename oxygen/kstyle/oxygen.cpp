@@ -937,119 +937,76 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             switch (primitive)
             {
                 case ScrollBar::DoubleButtonHor:
+
                     if (reverseLayout)
-                        renderHole(p, pal.color(QPalette::Window), QRect(r.right()+1, 0, 5, r.height()),
-                                   false, false, TileSet::Top | TileSet::Bottom | TileSet::Left);
+                        renderScrollHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
+                                   TileSet::Top | TileSet::Bottom | TileSet::Left);
                     else
-                        renderHole(p, pal.color(QPalette::Window), QRect(r.left()-5, 0, 5, r.height()),
-                                   false, false, TileSet::Top | TileSet::Right | TileSet::Bottom);
+                        renderScrollHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
+                                   TileSet::Top | TileSet::Right | TileSet::Bottom);
                     break;
 
                 case ScrollBar::DoubleButtonVert:
-                    renderHole(p, pal.color(QPalette::Window), QRect(0, r.top()-5, r.width(), 5),
-                               false, false, TileSet::Left | TileSet::Bottom | TileSet::Right);
+                    renderScrollHole(p, QRect(0, r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical,
+                               TileSet::Bottom | TileSet::Left | TileSet::Right);
                     break;
 
                 case ScrollBar::SingleButtonHor:
                     if (reverseLayout)
-                        renderHole(p, pal.color(QPalette::Window), QRect(r.left()-7, 0, 5, r.height()),
-                                   false, false, TileSet::Top | TileSet::Right | TileSet::Bottom);
+                        renderScrollHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
+                                   TileSet::Top | TileSet::Right | TileSet::Bottom);
                     else
-                        renderHole(p, pal.color(QPalette::Window), QRect(r.right()+3, 0, 5, r.height()),
-                                   false, false, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                        renderScrollHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
+                                   TileSet::Top | TileSet::Left | TileSet::Bottom);
                     break;
 
                 case ScrollBar::SingleButtonVert:
-                    renderHole(p, pal.color(QPalette::Window), QRect(0, r.bottom()+3, r.width(), 5),
-                               false, false, TileSet::Top | TileSet::Left | TileSet::Right);
+                    renderScrollHole(p, QRect(0, r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical,
+                               TileSet::Top | TileSet::Left | TileSet::Right);
                     break;
 
                 case ScrollBar::GrooveAreaVertTop:
                 {
-                    renderHole(p, pal.color(QPalette::Window), r.adjusted(0,2,0,12),
-                               false, false, TileSet::Left | TileSet::Right);
+                    renderScrollHole(p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical, 
+                            TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Top);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaVertBottom:
                 {
-                    renderHole(p, pal.color(QPalette::Window), r.adjusted(0,-10,0,0), false, false,
-                               TileSet::Left | TileSet::Right);
+                    renderScrollHole(p, r.adjusted(0,-10,0,0), pal.color(QPalette::Window), Qt::Vertical,
+                            TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorLeft:
                 {
-                    QRect rect = (reverseLayout) ? r.adjusted(0,0,10,0) : r.adjusted(2,0,12,0);
-                    renderHole(p, pal.color(QPalette::Window), rect, false, false,
-                               TileSet::Top | TileSet::Bottom);
+                    QRect rect = (reverseLayout) ? r.adjusted(0,0,10,0) : r.adjusted(0,0,12,0);
+                    renderScrollHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal,
+                            TileSet::Left | TileSet::Center | TileSet::Top | TileSet::Bottom);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaHorRight:
                 {
-                    QRect rect = (reverseLayout) ? r.adjusted(-12,0,-2,0) : r.adjusted(-10,0,0,0);
-                    renderHole(p, pal.color(QPalette::Window), rect, false, false,
-                               TileSet::Top | TileSet::Bottom);
+                    QRect rect = (reverseLayout) ? r.adjusted(-12,0,0,0) : r.adjusted(-10,0,0,0);
+                    renderScrollHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal,
+                            TileSet::Right | TileSet::Center | TileSet::Top | TileSet::Bottom);
                     return;
                 }
-
-                case ScrollBar::SliderVert:
-                {
-                    QColor color = pal.color(QPalette::Button);
-                    if (mouseOver || (flags & State_Sunken)) // TODO not when disabled ((flags & State_Enabled) doesn't work?)
-                        color = _viewHoverBrush.brush(pal).color();
-                    QRect rect = r.adjusted(1,3,-1,0);
-
-                    renderHole(p, pal.color(QPalette::Window), rect.adjusted(-1,-1,1,0), false, false,
-                               TileSet::Left | TileSet::Right);
-
-                    int offset = rect.top()/2; // divide by 2 to make the "lightplay" move half speed of the handle
-                    int remainder = qMin(12, rect.height()/2);
-
-                    // Draw the handle in two parts, the top, and the bottom with calculated offset
-                    TileSet *tiles1 = _helper.verticalScrollBar(color, rect.width(), offset);
-                    TileSet *tiles2 = _helper.verticalScrollBar(color, rect.width(), offset+rect.height()+8);
-
-                    p->save();
-                    p->setClipRect(rect.adjusted(0,0,0,-remainder-1));
-                    tiles1->render(rect, p, TileSet::Top | TileSet::Horizontal);
-                    p->setClipRect( QRect(rect.left(), rect.bottom()-remainder, rect.width(), remainder));
-                    tiles2->render( QRect(rect.left(), rect.bottom()-32, rect.width(),32),
-                                    p, TileSet::Bottom | TileSet::Horizontal);
-                    p->restore();
-                    return;
-                }
-
                 case ScrollBar::SliderHor:
                 {
-                    QColor color = pal.color(QPalette::Button);
-                    if (mouseOver || (flags & State_Sunken)) // TODO not when disabled ((flags & State_Enabled) doesn't work?)
-                        color = _viewHoverBrush.brush(pal).color();
-                    QRect rect = (reverseLayout) ? r.adjusted(1,1,-2,-1) : r.adjusted(3,1,0,-1);
-
-                    renderHole(p, pal.color(QPalette::Window), rect.adjusted(-1,-1,0,1), false, false,
-                               TileSet::Top | TileSet::Bottom);
-
-                    int offset = r.left()/2; // divide by 2 to make the "lightplay" move half speed of the handle
-                    int remainder = qMin(12, rect.width()/2);
-
-                    // Draw the handle in two parts, the top, and the bottom with calculated offset
-                    TileSet *tiles1 = _helper.horizontalScrollBar(color, rect.height(), offset);
-                    TileSet *tiles2 = _helper.horizontalScrollBar(color, rect.height(), offset+rect.width()+8);
-
-                    p->save();
-                    p->setClipRect(rect.adjusted(0,0,-remainder-1,0));
-                    tiles1->render(rect, p, TileSet::Left | TileSet::Vertical);
-                    p->setClipRect( QRect(rect.right()-remainder, rect.top(), remainder, rect.height()) );
-                    tiles2->render( QRect(rect.right()-32, rect.top(), 32, rect.height()),
-                                    p, TileSet::Right | TileSet::Vertical);
-                    p->restore();
+                    renderScrollBarHandle(p, r, pal, Qt::Horizontal,
+                            flags & State_MouseOver);
                     return;
                 }
-
+                case ScrollBar::SliderVert:
+                {
+                    renderScrollBarHandle(p, r, pal, Qt::Vertical,
+                            flags & State_MouseOver);
+                    return;
+                }
             }
-
         }
         break;
 
@@ -1431,7 +1388,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 }
 
                 case Window::TitlePanel:
+                {
                     return;
+                }
 
                 case Window::ButtonMin:
                 case Window::ButtonMax:
@@ -1457,7 +1416,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     return;
                 }
-
             }
         }
         break;
@@ -2370,6 +2328,79 @@ void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bo
     tile->render(r, p, posFlags);
 }
 
+void OxygenStyle::renderScrollHole(QPainter *p, const QRect &r, const QColor &color,
+                                   Qt::Orientation orientation, TileSet::Tiles tiles) const
+{
+    _helper.scrollHole(
+            color,
+            (orientation == Qt::Horizontal) ? r.height() : r.width(),
+            orientation)->render(r, p, tiles);
+}
+
+void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPalette &pal,
+                               Qt::Orientation orientation, bool hover) const
+{
+    p->setRenderHints(QPainter::Antialiasing);
+    QColor color = pal.color(QPalette::Button);
+    QColor light = _helper.calcLightColor(color);
+    QColor mid = _helper.calcMidColor(color);
+    QColor dark = _helper.calcDarkColor(color);
+    QColor shadow = _helper.calcShadowColor(color);
+    bool horizontal = orientation == Qt::Horizontal;
+
+    // draw the hole as background
+    renderScrollHole(p, (orientation == Qt::Horizontal) ? r.adjusted(-5,0,5,0) : r.adjusted(0,-3,0,5),
+            pal.color(QPalette::Window), orientation, 
+            horizontal ? TileSet::Top | TileSet::Bottom | TileSet::Center
+                       : TileSet::Left | TileSet::Right | TileSet::Center);
+
+    // draw the slider itself
+    QRectF rect = r.adjusted(3, horizontal ? 2 : 4, -3, -3);
+
+    // gradients
+    QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
+    sliderGradient.setColorAt(0.0, color);
+    sliderGradient.setColorAt(1.0, mid);
+
+    QLinearGradient bevelGradient( rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft());
+    bevelGradient.setColorAt(0.0, Qt::transparent);
+    bevelGradient.setColorAt(0.5, light);
+    bevelGradient.setColorAt(1.0, Qt::transparent);
+
+    QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top()); // don't let the pattern move
+    QPoint periodEnd = offset + (horizontal ? QPoint(30, 0) : QPoint(0, 30));
+    QLinearGradient patternGradient(rect.topLeft()+offset, rect.topLeft()+periodEnd);
+    patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.1));
+    patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.1));
+    patternGradient.setSpread(QGradient::ReflectSpread);
+
+    // draw the slider
+    if (hover) {
+        p->setPen(Qt::NoPen);
+        p->setBrush(_helper.alphaColor(_viewHoverBrush.brush(QPalette::Active).color(), 0.6));
+        p->drawRoundedRect(rect.adjusted(-0.8,-0.8,0.8,0.8), 3, 3);
+        p->setPen(QPen(
+                    _helper.alphaColor(_viewHoverBrush.brush(QPalette::Active).color(), 0.3),
+                    1.5));
+        if (horizontal)
+            p->drawRoundedRect(rect.adjusted(-1.2,-0.8,1.2,0.8), 3, 3);
+        else
+            p->drawRoundedRect(rect.adjusted(-0.8,-1.2,0.8,1.2), 3, 3);
+    }
+
+    p->setPen(Qt::NoPen);
+    p->setBrush(sliderGradient);
+    p->drawRoundedRect(rect, 2, 2);
+
+    p->setBrush(patternGradient);
+    p->drawRoundedRect(rect, 2, 2);
+
+    rect.adjust(0.5, 0.5, -0.5, -0.5); // for sharper lines
+    p->setPen(QPen(bevelGradient, 1.0));
+    p->drawLine(rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft());
+    p->drawLine(rect.bottomRight(), horizontal ? rect.bottomLeft() : rect.topRight());
+}
+
 // TODO take StyleOptions instead of ugly bools
 void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette &pal,
                                  bool enabled, bool hasFocus, bool mouseOver, int primitive,
@@ -3241,7 +3272,6 @@ void OxygenStyle::renderWindowIcon(QPainter *p, const QRectF &r, int &type) cons
     }
     p->restore();
 }
-
 
 bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 {

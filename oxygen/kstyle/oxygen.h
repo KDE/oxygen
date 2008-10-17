@@ -160,6 +160,12 @@ protected:
 
     void renderWindowIcon(QPainter *p, const QRectF &r, int &type) const;
 
+    void renderScrollHole(QPainter *p, const QRect &r, const QColor &color,
+                          Qt::Orientation orientation, TileSet::Tiles = TileSet::Full) const;
+
+    void renderScrollBarHandle(QPainter *p, const QRect &r, const QPalette &pal,
+                               Qt::Orientation orientation, bool hover) const;
+
     bool eventFilter(QObject *, QEvent *);
 
 protected Q_SLOTS:
