@@ -372,7 +372,7 @@ QPixmap OxygenHelper::glow(const QColor &color, int size, int rsize)
     return pixmap;
 }
 
-void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &color) const
+void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &color, bool drawUglyShadow, bool isActive) const
 {
     p->setRenderHint(QPainter::Antialiasing);
     QRect frame = r;
@@ -400,7 +400,7 @@ void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &colo
         p->setPen(alphaColor(shadow, 0.55));
         p->drawLine(QPointF(x+4, y+h+0.5), QPointF(x+w-4, y+h+0.5));
     }
-    else if (1) { // TODO make option
+    else if (drawUglyShadow) { // TODO make option
         QColor shadow = KColorUtils::darken(color, 0.0, 0.0); // fully desaturate
         p->setPen(KColorUtils::darken(shadow, 0.1));
         p->drawLine(QPointF(x+4, y-0.5), QPointF(x+w-4, y-0.5));

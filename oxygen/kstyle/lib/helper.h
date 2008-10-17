@@ -66,7 +66,7 @@ public:
 
     QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
 
-    void drawFloatFrame(QPainter *p, const QRect r, const QColor &color) const;
+    void drawFloatFrame(QPainter *p, const QRect r, const QColor &color, bool drawUglyShadow=true, bool isActive=false) const;
 
     void drawSeparator(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation) const;
 
