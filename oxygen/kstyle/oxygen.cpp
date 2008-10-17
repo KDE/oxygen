@@ -2385,26 +2385,30 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
     patternGradient.setSpread(QGradient::ReflectSpread);
 
     // draw the slider
-    if (hover) {
-        p->setPen(Qt::NoPen);
-        p->setBrush(_helper.alphaColor(_viewHoverBrush.brush(QPalette::Active).color(), 0.6));
-        p->drawRoundedRect(rect.adjusted(-0.8,-0.8,0.8,0.8), 3, 3);
-        p->setPen(QPen(
-                    _helper.alphaColor(_viewHoverBrush.brush(QPalette::Active).color(), 0.3),
-                    1.5));
-        if (horizontal)
-            p->drawRoundedRect(rect.adjusted(-1.2,-0.8,1.2,0.8), 3, 3);
-        else
-            p->drawRoundedRect(rect.adjusted(-0.8,-1.2,0.8,1.2), 3, 3);
-    }
+    QColor glowColor = hover? _viewHoverBrush.brush(QPalette::Active).color()
+                            : KColorUtils::mix(dark, shadow, 0.5);
+    // glow / shadow
+    p->setPen(Qt::NoPen);
+    p->setBrush(_helper.alphaColor(glowColor, 0.6));
+    p->drawRoundedRect(rect.adjusted(-0.8,-0.8,0.8,0.8), 3, 3);
+    p->setPen(QPen(
+                _helper.alphaColor(glowColor, 0.3),
+                1.5));
+    if (horizontal)
+        p->drawRoundedRect(rect.adjusted(-1.2,-0.8,1.2,0.8), 3, 3);
+    else
+        p->drawRoundedRect(rect.adjusted(-0.8,-1.2,0.8,1.2), 3, 3);
 
+    // slider
     p->setPen(Qt::NoPen);
     p->setBrush(sliderGradient);
     p->drawRoundedRect(rect, 2, 2);
 
+    // pattern
     p->setBrush(patternGradient);
     p->drawRoundedRect(rect, 2, 2);
 
+    // bevel
     rect.adjust(0.5, 0.5, -0.5, -0.5); // for sharper lines
     p->setPen(QPen(bevelGradient, 1.0));
     p->drawLine(rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft());
