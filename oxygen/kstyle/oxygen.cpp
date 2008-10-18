@@ -997,13 +997,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ScrollBar::SliderHor:
                 {
                     renderScrollBarHandle(p, r, pal, Qt::Horizontal,
-                            flags & State_MouseOver);
+                            flags & State_MouseOver && flags & State_Enabled);
                     return;
                 }
                 case ScrollBar::SliderVert:
                 {
                     renderScrollBarHandle(p, r, pal, Qt::Vertical,
-                            flags & State_MouseOver);
+                            flags & State_MouseOver && flags & State_Enabled);
                     return;
                 }
             }
