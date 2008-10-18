@@ -797,7 +797,7 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
         borderGradient.setColorAt(1.0, alphaColor(light, 0.8));
         p.setPen( QPen(borderGradient, 1.0) );
         p.setBrush(Qt::NoBrush);
-        p.drawRoundedRect(r, 4.5, 4.5);
+        p.drawRoundedRect(r.adjusted(0.5,0,-0.5,0), 5.0, 5.0);
 
         tileSet = new TileSet(pm, 7, 7, 1, 1);
         m_scrollHoleCache.insert(key, tileSet);

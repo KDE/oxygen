@@ -2057,7 +2057,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         QColor  arrowColor = colorOpt->color.color(pal);
 
         arrowGradient.setColorAt(0.0, arrowColor);
-        arrowGradient.setColorAt(1.0, KColorUtils::mix(pal.color(QPalette::Window), arrowColor, 0.6));
+        arrowGradient.setColorAt(0.8, KColorUtils::mix(pal.color(QPalette::Window), arrowColor, 0.6));
 
         // white reflection
         p->translate(0,1);
