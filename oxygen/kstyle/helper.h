@@ -64,9 +64,6 @@ public:
 
     TileSet *slitFocused(const QColor&);
 
-    TileSet *verticalScrollBar(const QColor&, int width, int offset, int size = 6);
-    TileSet *horizontalScrollBar(const QColor&, int width, int offset, int size = 6);
-
     TileSet *progressBar(const QColor&, QRect rect, Qt::Orientation orient = Qt::Horizontal, int size = 6);
 
     TileSet *dockFrame(const QColor&, int size);
@@ -90,8 +87,6 @@ protected:
     QCache<quint64, TileSet> m_slopeCache;
     QCache<quint64, TileSet> m_grooveCache;
     QCache<quint64, TileSet> m_slitCache;
-    QCache<quint64, TileSet> m_verticalScrollBarCache;
-    QCache<quint64, TileSet> m_horizontalScrollBarCache;
     QCache<quint64, TileSet> m_progressBarCache;
     QCache<quint64, TileSet> m_dockFrameCache;
     QCache<quint64, TileSet> m_scrollHoleCache;

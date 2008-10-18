@@ -18,7 +18,6 @@
  */
 
 #include "helper.h"
-#include "elements/scrollbar.h"
 #include "elements/progressbar.h"
 
 #include <KColorUtils>
@@ -54,8 +53,6 @@ void OxygenStyleHelper::invalidateCaches()
     m_holeFlatCache.clear();
     m_slopeCache.clear();
     m_slitCache.clear();
-    m_verticalScrollBarCache.clear();
-    m_horizontalScrollBarCache.clear();
     m_progressBarCache.clear();
     m_dockFrameCache.clear();
     m_scrollHoleCache.clear();
@@ -661,36 +658,6 @@ TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
     return tileSet;
 }
 
-TileSet *OxygenStyleHelper::verticalScrollBar(const QColor &color, int width, int offset, int size)
-{
-    size = (size*4)/3; // this code is writetn wrong :-), with base size == 8, not 6
-    offset %= (size * 4);
-
-    quint64 key = (quint64(color.rgba()) << 32) | (width<<22) | (offset<<10) | size;
-    TileSet *tileSet = m_verticalScrollBarCache.object(key);
-    if (!tileSet)
-    {
-        tileSet = OxygenScrollbar(color, _contrast).vertical(size, width, offset);
-        m_verticalScrollBarCache.insert(key, tileSet);
-    }
-    return tileSet;
-}
-
-TileSet *OxygenStyleHelper::horizontalScrollBar(const QColor &color, int width, int offset, int size)
-{
-    size = (size*4)/3; // this code is writetn wrong :-), with base size == 8, not 6
-    offset %= (size * 4);
-
-    quint64 key = (quint64(color.rgba()) << 32) | (width<<12) | offset;
-    TileSet *tileSet = m_horizontalScrollBarCache.object(key);
-    if (!tileSet)
-    {
-        tileSet = OxygenScrollbar(color, _contrast).horizontal(size, width, offset);
-        m_horizontalScrollBarCache.insert(key, tileSet);
-    }
-    return tileSet;
-}
-
 TileSet *OxygenStyleHelper::progressBar(const QColor &color, QRect rect,  Qt::Orientation orient, int size)
 {
     size = (size*4)/3; // this code is writetn wrong :-), with base size == 8, not 6
@@ -791,7 +758,7 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
         p.setPen(Qt::NoPen);
 
         // base
-        p.drawRoundedRect(rect, 2, 2);
+        p.drawRoundedRect(rect, 4.5, 4.5);
 
         // slight shadow
         // try only for horizontal bars
@@ -801,7 +768,7 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
             shadowGradient.setColorAt(0.0, alphaColor(shadow, 0.1));
             shadowGradient.setColorAt(0.6, Qt::transparent);
             p.setBrush(shadowGradient);
-            p.drawRoundedRect(rect, 3, 3);
+            p.drawRoundedRect(rect, 4.5, 4.5);
         }
 
         // strong shadow
@@ -810,28 +777,27 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
         l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.2 : 0.1));
         l1.setColorAt(1.0, Qt::transparent);
         p.setBrush(l1);
-        p.drawRoundedRect(QRect(rect.topLeft(), rect.bottomLeft()+QPoint(shadowWidth,0)), 3, 3);
+        p.drawRoundedRect(QRect(rect.topLeft(), rect.bottomLeft()+QPoint(shadowWidth,0)), 4.5, 4.5);
         // right
         l1 = QLinearGradient(rect.topRight(), rect.topRight()-QPoint(shadowWidth,0));
         l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.2 : 0.1));
         l1.setColorAt(1.0, Qt::transparent);
         p.setBrush(l1);
-        p.drawRoundedRect(QRect(rect.topRight()-QPoint(shadowWidth,0), rect.bottomRight()), 3, 3);
+        p.drawRoundedRect(QRect(rect.topRight()-QPoint(shadowWidth,0), rect.bottomRight()), 4.5, 4.5);
         //top
         l1 = QLinearGradient(rect.topLeft(), rect.topLeft()+QPoint(0,3));
         l1.setColorAt(0.0, alphaColor(shadow, 0.3));
         l1.setColorAt(1.0, Qt::transparent);
         p.setBrush(l1);
-        p.drawRoundedRect(QRect(rect.topLeft(),rect.topRight()+QPoint(0,3)), 3, 3);
+        p.drawRoundedRect(QRect(rect.topLeft(),rect.topRight()+QPoint(0,3)), 4.5, 4.5);
 
         // light border
         QLinearGradient borderGradient(r.topLeft()+QPoint(0,r.height()/2-1), r.bottomLeft());
         borderGradient.setColorAt(0.0, Qt::transparent);
         borderGradient.setColorAt(1.0, alphaColor(light, 0.8));
-
         p.setPen( QPen(borderGradient, 1.0) );
         p.setBrush(Qt::NoBrush);
-        p.drawRoundedRect(r, 3, 3);
+        p.drawRoundedRect(r, 4.5, 4.5);
 
         tileSet = new TileSet(pm, 7, 7, 1, 1);
         m_scrollHoleCache.insert(key, tileSet);

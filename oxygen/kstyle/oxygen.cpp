@@ -939,42 +939,42 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ScrollBar::DoubleButtonHor:
 
                     if (reverseLayout)
-                        renderScrollHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
+                        renderScrollBarHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
                                    TileSet::Top | TileSet::Bottom | TileSet::Left);
                     else
-                        renderScrollHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
+                        renderScrollBarHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
                                    TileSet::Top | TileSet::Right | TileSet::Bottom);
                     break;
 
                 case ScrollBar::DoubleButtonVert:
-                    renderScrollHole(p, QRect(0, r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical,
+                    renderScrollBarHole(p, QRect(0, r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical,
                                TileSet::Bottom | TileSet::Left | TileSet::Right);
                     break;
 
                 case ScrollBar::SingleButtonHor:
                     if (reverseLayout)
-                        renderScrollHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
+                        renderScrollBarHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
                                    TileSet::Top | TileSet::Right | TileSet::Bottom);
                     else
-                        renderScrollHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
+                        renderScrollBarHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
                                    TileSet::Top | TileSet::Left | TileSet::Bottom);
                     break;
 
                 case ScrollBar::SingleButtonVert:
-                    renderScrollHole(p, QRect(0, r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical,
+                    renderScrollBarHole(p, QRect(0, r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical,
                                TileSet::Top | TileSet::Left | TileSet::Right);
                     break;
 
                 case ScrollBar::GrooveAreaVertTop:
                 {
-                    renderScrollHole(p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical, 
+                    renderScrollBarHole(p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical, 
                             TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Top);
                     return;
                 }
 
                 case ScrollBar::GrooveAreaVertBottom:
                 {
-                    renderScrollHole(p, r.adjusted(0,-10,0,0), pal.color(QPalette::Window), Qt::Vertical,
+                    renderScrollBarHole(p, r.adjusted(0,-10,0,0), pal.color(QPalette::Window), Qt::Vertical,
                             TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Bottom);
                     return;
                 }
@@ -982,7 +982,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ScrollBar::GrooveAreaHorLeft:
                 {
                     QRect rect = (reverseLayout) ? r.adjusted(0,0,10,0) : r.adjusted(0,0,12,0);
-                    renderScrollHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal,
+                    renderScrollBarHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal,
                             TileSet::Left | TileSet::Center | TileSet::Top | TileSet::Bottom);
                     return;
                 }
@@ -990,7 +990,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ScrollBar::GrooveAreaHorRight:
                 {
                     QRect rect = (reverseLayout) ? r.adjusted(-12,0,0,0) : r.adjusted(-10,0,0,0);
-                    renderScrollHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal,
+                    renderScrollBarHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal,
                             TileSet::Right | TileSet::Center | TileSet::Top | TileSet::Bottom);
                     return;
                 }
@@ -2345,7 +2345,7 @@ void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bo
     tile->render(r, p, posFlags);
 }
 
-void OxygenStyle::renderScrollHole(QPainter *p, const QRect &r, const QColor &color,
+void OxygenStyle::renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
                                    Qt::Orientation orientation, TileSet::Tiles tiles) const
 {
     _helper.scrollHole(
@@ -2365,7 +2365,7 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
     bool horizontal = orientation == Qt::Horizontal;
 
     // draw the hole as background
-    renderScrollHole(p, (orientation == Qt::Horizontal) ? r.adjusted(-5,0,5,0) : r.adjusted(0,-3,0,5),
+    renderScrollBarHole(p, (orientation == Qt::Horizontal) ? r.adjusted(-4,0,4,0) : r.adjusted(0,-3,0,4),
             pal.color(QPalette::Window), orientation, 
             horizontal ? TileSet::Top | TileSet::Bottom | TileSet::Center
                        : TileSet::Left | TileSet::Right | TileSet::Center);
