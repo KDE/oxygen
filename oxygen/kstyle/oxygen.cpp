@@ -111,7 +111,7 @@ OxygenStyle::OxygenStyle() :
     // need to be reset when the system palette changes
     globalSettingsChange(KGlobalSettings::PaletteChanged, 0);
 
-    setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 2);
+    setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 1);
 
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
