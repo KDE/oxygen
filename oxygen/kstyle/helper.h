@@ -70,7 +70,7 @@ public:
     TileSet *progressBar(const QColor&, QRect rect, Qt::Orientation orient = Qt::Horizontal, int size = 6);
 
     TileSet *dockFrame(const QColor&, int size);
-    TileSet *scrollHole(const QColor&, int width, Qt::Orientation orientation);
+    TileSet *scrollHole(const QColor&, Qt::Orientation orientation);
 
 protected:
     SlabCache* slabCache(const QColor&);

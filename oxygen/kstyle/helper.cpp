@@ -36,6 +36,8 @@ OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
 {
     // optimize for repainting of dock contents, which saves memory
     m_dockFrameCache.setMaxCost(1);
+    // we won't store many tilesets, because one size fits all
+    m_scrollHoleCache.setMaxCost(10);
 }
 
 QColor OxygenStyleHelper::calcMidColor(const QColor &color) const
@@ -765,16 +767,13 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
     return tileSet;
 }
 
-TileSet *OxygenStyleHelper::scrollHole(const QColor &color, int width, Qt::Orientation orientation)
+TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orientation)
 {
-    quint64 key = quint64(color.rgba()) << 32 | (width << 1 ) | (orientation == Qt::Horizontal);
+    quint64 key = quint64(color.rgba()) << 32 | (orientation == Qt::Horizontal);
     TileSet *tileSet = m_scrollHoleCache.object(key);
     if (!tileSet)
     {
-        if (!width&1) // width should be uneven
-            --width;
-
-        QPixmap pm(15, width);
+        QPixmap pm(15, 15);
         pm.fill(Qt::transparent);
 
         QPainter p(&pm);
@@ -783,7 +782,7 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, int width, Qt::Orien
         QColor light = calcLightColor(color);
         QColor shadow = calcShadowColor(color);
         // use space for white border
-        QRect r = QRect(0,0,15,width);
+        QRect r = QRect(0,0,15,15);
         QRect rect = r.adjusted(1, 0, -1, -1);
         int shadowWidth = (orientation == Qt::Horizontal) ? 3 : 3;
 
@@ -834,7 +833,7 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, int width, Qt::Orien
         p.setBrush(Qt::NoBrush);
         p.drawRoundedRect(r, 3, 3);
 
-        tileSet = new TileSet(pm, 7, width/2, 1, 1);
+        tileSet = new TileSet(pm, 7, 7, 1, 1);
         m_scrollHoleCache.insert(key, tileSet);
     }
     return tileSet;

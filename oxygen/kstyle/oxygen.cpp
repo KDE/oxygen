@@ -2350,7 +2350,6 @@ void OxygenStyle::renderScrollHole(QPainter *p, const QRect &r, const QColor &co
 {
     _helper.scrollHole(
             color,
-            (orientation == Qt::Horizontal) ? r.height() : r.width(),
             orientation)->render(r, p, tiles);
 }
 
