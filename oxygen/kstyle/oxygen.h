@@ -1,4 +1,7 @@
 /* Oxygen widget style for KDE 4
+   Copyright (C) 2008 Long Huynh Huu <long.upcase@googlemail.com>
+   Copyright (C) 2007-2008 Casper Boemann <cbr@boemann.dk>
+   Copyright (C) 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
    Copyright (C) 2003-2005 Sandro Giessl <sandro@giessl.com>
 
    based on the KDE style "dotNET":
