@@ -489,65 +489,81 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>(opt);
             Qt::Orientation orientation = pbOpt? pbOpt->orientation : Qt::Horizontal;
 
-            // we want small (16px) and centered progressbars
             QRect rect = r;
-            /*if (orientation == Qt::Horizontal) {
-                if (r.height() > 17)
-                    rect = QRect(r.x(), r.y() + (r.height()-17)/2, r.width(), 18);
-            } else {
-                if (r.width() > 17)
-                    rect = QRect(r.x() + (r.width()-17)/2, r.y(), 18, r.height());
-            }*/
 
             switch (primitive)
             {
                 case ProgressBar::Groove:
                 {
-                    QColor color = pal.color(QPalette::Window);
-
-                    TileSet *tiles1 = _helper.progressBar(color, rect, orientation);
-                    if (orientation == Qt::Horizontal)
-                        tiles1->render(rect, p, TileSet::Left | TileSet::Vertical | TileSet::Right);
-                    else
-                        tiles1->render(rect, p, TileSet::Top | TileSet::Horizontal | TileSet::Bottom);
-
+                    renderScrollBarHole(p, r, pal.color(QPalette::Window), orientation);
                     return;
                 }
 
-                case ProgressBar::BusyIndicator:
                 case ProgressBar::Indicator:
+                    if (r.width() < 2 || r.height() < 2)
+                        return;
+                case ProgressBar::BusyIndicator:
                 {
-                    rect.adjust(-2,-2,2,2);
+                    rect.adjust(0.5,-1.5,-1.5,-0.5);
 
-                    QColor color = pal.color(QPalette::Active, QPalette::Highlight);
+                    QColor highlight = pal.color(QPalette::Active, QPalette::Highlight);
+                    QColor color = pal.color(QPalette::Active, QPalette::Window);
+                    QColor light = _helper.calcLightColor(color);
+                    QColor dark = _helper.calcDarkColor(color);
+                    QColor shadow = _helper.calcShadowColor(color);
+                    p->setBrush(Qt::NoBrush);
+                    p->setRenderHints(QPainter::Antialiasing);
 
-                    if (rect.width() > 3) // doesn't look too good in a very small rect
-                    {
-                        // TODO: make kstyle make vertical progress bar grow from bottom to top
-                        TileSet *tiles1 = _helper.progressBar(_helper.alphaColor(color,0.8), rect, orientation);
+                    // shadow
+                    p->setPen(_helper.alphaColor(shadow, 0.6));
+                    p->drawRoundedRect(rect.adjusted(-0.5,-0.5,1.5,0.0),2,1);
 
-                        QPixmap pm(rect.width(),rect.height());
-                        pm.fill(Qt::transparent);
-                        QPainter pp(&pm);
-                        pp.setRenderHints(QPainter::Antialiasing);
+                    // fill
+                    p->setPen(Qt::NoPen);
+                    p->setBrush(KColorUtils::mix(highlight, dark, 0.2));
+                    p->drawRect(rect.adjusted(1,0,0,0));
 
-                        QLinearGradient lg(rect.topLeft(),rect.topRight());
-                        lg.setColorAt(0.0, _helper.alphaColor(color,0.8));
-                        lg.setColorAt(1.0, color);
-                        pp.setPen(Qt::NoPen);
-                        pp.setBrush(lg);
-                        pp.drawRoundedRect(pm.rect().adjusted(2,2,-2,-3),3,3);
-                        // only draw the inner part of the scrollbar
-                        pp.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+                    // fake radial gradient
+                    QPixmap pm(rect.size());
+                    pm.fill(Qt::transparent);
+                    QRectF pmRect = pm.rect();
+                    QLinearGradient mask(pmRect.topLeft(), pmRect.topRight());
+                    mask.setColorAt(0.0, Qt::transparent);
+                    mask.setColorAt(0.4, Qt::black);
+                    mask.setColorAt(0.6, Qt::black);
+                    mask.setColorAt(1.0, Qt::transparent);
 
-                        if (orientation == Qt::Horizontal)
-                            tiles1->render(pm.rect(), &pp, TileSet::Horizontal);
-                        else
-                            tiles1->render(pm.rect(), &pp, TileSet::Vertical);
+                    QLinearGradient radial(pmRect.topLeft(), pmRect.bottomLeft());
+                    radial.setColorAt(0.0, KColorUtils::mix(highlight, light, 0.5));
+                    radial.setColorAt(0.5, Qt::transparent);
+                    radial.setColorAt(0.6, Qt::transparent);
+                    radial.setColorAt(1.0, KColorUtils::mix(highlight, light, 0.5));
 
-                        pp.end();
-                        p->drawPixmap(rect.topLeft(),pm);
-                    }
+                    QPainter pp(&pm);
+                    pp.fillRect(pm.rect(), mask);
+                    pp.setCompositionMode(QPainter::CompositionMode_SourceIn);
+                    pp.fillRect(pm.rect(), radial);
+                    pp.end();
+                    p->drawPixmap(rect.topLeft(), pm);
+
+                    // bevel
+                    p->setRenderHint(QPainter::Antialiasing, false);
+                    QLinearGradient bevel(rect.topLeft(), rect.bottomLeft());
+                    bevel.setColorAt(0, KColorUtils::mix(highlight, light, 0.3));
+                    bevel.setColorAt(0.5, highlight);
+                    bevel.setColorAt(1, KColorUtils::mix(highlight, shadow, 0.2));
+                    p->setBrush(Qt::NoBrush);
+                    p->setPen(QPen(bevel, 1));
+                    p->drawRoundedRect(rect,2,2);
+
+                    // light highlights
+                    QLinearGradient lightHl(rect.topLeft(),rect.topRight());
+                    lightHl.setColorAt(0, Qt::transparent);
+                    lightHl.setColorAt(0.5, KColorUtils::mix(highlight, light, 0.8));
+                    lightHl.setColorAt(1, Qt::transparent);
+                    p->setPen(QPen(lightHl, 1));
+                    p->drawLine(rect.topLeft(), rect.topRight());
+
                     return;
                 }
             }
