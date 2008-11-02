@@ -2111,7 +2111,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 p->drawRect(r.adjusted(0,0,-1,-1));
             }
             // we don't want the stippled focus indicator in oxygen
-            return;
+            if (!widget || !widget->inherits("Q3ListView"))
+                return;
         }
 
         default:
