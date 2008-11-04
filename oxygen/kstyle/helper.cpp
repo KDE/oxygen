@@ -19,7 +19,6 @@
  */
 
 #include "helper.h"
-#include "elements/progressbar.h"
 
 #include <KColorUtils>
 #include <KColorScheme>
@@ -54,7 +53,6 @@ void OxygenStyleHelper::invalidateCaches()
     m_holeFlatCache.clear();
     m_slopeCache.clear();
     m_slitCache.clear();
-    m_progressBarCache.clear();
     m_dockFrameCache.clear();
     m_scrollHoleCache.clear();
     OxygenHelper::invalidateCaches();
@@ -655,28 +653,6 @@ TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
         tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
 
         m_slitCache.insert(key, tileSet);
-    }
-    return tileSet;
-}
-
-TileSet *OxygenStyleHelper::progressBar(const QColor &color, QRect rect,  Qt::Orientation orient, int size)
-{
-    size = (size*4)/3; // this code is writetn wrong :-), with base size == 8, not 6
-    int width;
-    if (orient == Qt::Horizontal)
-        width = rect.height();
-    else
-        width = rect.width();
-
-    quint64 key = (quint64(color.rgba()) << 32) | (width<<1) | (orient == Qt::Horizontal);
-    TileSet *tileSet = m_progressBarCache.object(key);
-    if (!tileSet)
-    {
-        if (orient == Qt::Horizontal)
-            tileSet = OxygenProgressBar(color, _contrast).horizontal(size, width);
-        else
-            tileSet = OxygenProgressBar(color, _contrast).vertical(size, width);
-        m_progressBarCache.insert(key, tileSet);
     }
     return tileSet;
 }
