@@ -2372,9 +2372,17 @@ void OxygenStyle::renderScrollBarHole(QPainter *p, const QRect &r, const QColor 
             orientation)->render(r, p, tiles);
 }
 
-void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPalette &pal,
+void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &_r, const QPalette &pal,
                                Qt::Orientation orientation, bool hover) const
 {
+    QRect r(_r);
+    if (r.height() == 0) {
+        // Temporary fix for an infinite loop in kmail. The call to drawRoundedRect()
+        // at the end of this function produces an infinite loop in Qt's drawing code
+        // if the rect's height is zero.
+        qDebug("OxygenStyle::renderScrollBarHandle: trying to paint scrollbar handle with zero height!");
+        r.setHeight(1);
+    }
     p->setRenderHints(QPainter::Antialiasing);
     QColor color = pal.color(QPalette::Button);
     QColor light = _helper.calcLightColor(color);
