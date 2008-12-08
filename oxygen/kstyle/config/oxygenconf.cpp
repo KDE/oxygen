@@ -32,7 +32,6 @@ DEALINGS IN THE SOFTWARE.
 #include <QtGui/QCheckBox>
 #include <QtGui/QLayout>
 #include <khbox.h>
-#include <QtCore/QSettings>
 #include <QtGui/QColor>
 #include <KGlobal>
 #include <KLocale>

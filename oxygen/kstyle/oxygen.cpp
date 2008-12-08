@@ -35,7 +35,6 @@
 #include <QtGui/QPainter>
 #include <QtCore/QTimer>
 #include <QtCore/QEvent>
-#include <QtCore/QSettings>
 #include <QtGui/QStyleOption>
 #include <QtGui/QApplication>
 
