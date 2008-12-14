@@ -1769,7 +1769,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         }
                         else
                         {
-                            p->fillRect(r.adjusted(2,2,-2,-1), inputBrush);
+                            p->fillRect(r.adjusted(2,2,-2,-2), inputBrush);
                         }
                     }
                 }
