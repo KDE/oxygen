@@ -2571,8 +2571,12 @@ void OxygenStyle::renderDot(QPainter *p, const QPointF &point, const QColor &bas
     const qreal diameter = 1.8;
     p->setRenderHint(QPainter::Antialiasing);
     p->setPen(Qt::NoPen);
-    p->setBrush(QColor(0, 0, 0, 66));
+
+    p->setBrush(_helper.calcLightColor(baseColor));
+    p->drawEllipse(QRectF(point.x()-diameter/2+1.5, point.y()-diameter/2+1.5, diameter, diameter));
+    p->setBrush(_helper.calcDarkColor(baseColor));
     p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
+
     p->setRenderHint(QPainter::Antialiasing, false);
 }
 
