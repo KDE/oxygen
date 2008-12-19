@@ -89,7 +89,7 @@ static const int gw = 2; // ie glowwidth which we want to un-reserve space for i
 static void cleanupBefore()
 {
     OxygenStyleHelper *h = globalHelper;
-    h->cleanupBeforeDelete();
+    h->invalidateCaches();
 }
 
 OxygenStyle::OxygenStyle() :
@@ -187,7 +187,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 4);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Left, 1);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Right, 4);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Right, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Top, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Bot, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonWidth, 19);
@@ -201,7 +201,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 4);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Left, 1);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Right, 4);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Right, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Top, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Bot, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
@@ -2198,7 +2198,7 @@ void OxygenStyle::polish(QWidget* widget)
     }
     else if (qobject_cast<QDockWidget*>(widget))
     {
-        widget->setContentsMargins(4,3,4,4);
+        widget->setContentsMargins(3,0,3,3);
         widget->installEventFilter(this);
     }
     else if (qobject_cast<QToolBox*>(widget))
@@ -3498,9 +3498,12 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             QRect r = tb->rect();
             StyleOptions opts = NoFill;
 
-            QPainter p(tb);
-            p.setClipRegion(((QPaintEvent*)ev)->region());
-            renderSlab(&p, r, tb->palette().color(QPalette::Button), opts);
+            if(tb->frameShape() != QFrame::NoFrame) {
+                QPainter p(tb);
+                p.setClipRegion(((QPaintEvent*)ev)->region());
+
+                renderSlab(&p, r, tb->palette().color(QPalette::Button), opts);
+            }
         }
         return false;
     }
