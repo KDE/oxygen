@@ -506,6 +506,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     rect.adjust(0.5,-1.5,-1.5,-0.5);
 
                     QColor highlight = pal.color(QPalette::Active, QPalette::Highlight);
+                    QColor lhighlight = _helper.calcLightColor(highlight);
                     QColor color = pal.color(QPalette::Active, QPalette::Window);
                     QColor light = _helper.calcLightColor(color);
                     QColor dark = _helper.calcDarkColor(color);
@@ -533,10 +534,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     mask.setColorAt(1.0, Qt::transparent);
 
                     QLinearGradient radial(pmRect.topLeft(), pmRect.bottomLeft());
-                    radial.setColorAt(0.0, KColorUtils::mix(highlight, light, 0.5));
+                    radial.setColorAt(0.0, KColorUtils::mix(lhighlight, light, 0.3));
                     radial.setColorAt(0.5, Qt::transparent);
                     radial.setColorAt(0.6, Qt::transparent);
-                    radial.setColorAt(1.0, KColorUtils::mix(highlight, light, 0.5));
+                    radial.setColorAt(1.0, KColorUtils::mix(lhighlight, light, 0.3));
 
                     QPainter pp(&pm);
                     pp.fillRect(pm.rect(), mask);
@@ -548,14 +549,14 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     // bevel
                     p->setRenderHint(QPainter::Antialiasing, false);
                     QLinearGradient bevel(rect.topLeft(), rect.bottomLeft());
-                    bevel.setColorAt(0, KColorUtils::mix(highlight, light, 0.3));
+                    bevel.setColorAt(0, lhighlight);
                     bevel.setColorAt(0.5, highlight);
-                    bevel.setColorAt(1, KColorUtils::mix(highlight, shadow, 0.2));
+                    bevel.setColorAt(1, _helper.calcDarkColor(highlight));
                     p->setBrush(Qt::NoBrush);
                     p->setPen(QPen(bevel, 1));
                     p->drawRoundedRect(rect,2,2);
 
-                    // light highlights
+                    // bright top edge
                     QLinearGradient lightHl(rect.topLeft(),rect.topRight());
                     lightHl.setColorAt(0, Qt::transparent);
                     lightHl.setColorAt(0.5, KColorUtils::mix(highlight, light, 0.8));
