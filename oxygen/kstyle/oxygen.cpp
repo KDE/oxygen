@@ -1651,6 +1651,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         p->setPen(pal.color(QPalette::Text));
 
                         QColor color = pal.color(QPalette::Button);
+                        QColor dark  = _helper.calcDarkColor(color);
+                        QColor light = _helper.calcLightColor(color);
+
+                        QRect rect(r);
+
                         p->fillRect(r, color);
                         if(primitive == Header::SectionHor) {
                             if(header->section != 0 || isFirst) {
@@ -1660,6 +1665,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 renderDot(p, QPointF(pos, center), color);
                                 renderDot(p, QPointF(pos, center+3), color);
                             }
+                            p->setPen(dark); p->drawLine(rect.bottomLeft(), rect.bottomRight());
+                            rect.adjust(0,0,0,-1);
+                            p->setPen(light); p->drawLine(rect.bottomLeft(), rect.bottomRight());
                         }
                         else
                         {
@@ -1668,6 +1676,17 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             renderDot(p, QPointF(center-3, pos), color);
                             renderDot(p, QPointF(center, pos), color);
                             renderDot(p, QPointF(center+3, pos), color);
+
+                            if (reverseLayout)
+                            {
+                                p->setPen(dark); p->drawLine(rect.topLeft(), rect.bottomLeft());
+                                rect.adjust(1,0,0,0);
+                                p->setPen(light); p->drawLine(rect.topLeft(), rect.bottomLeft());
+                            } else {
+                                p->setPen(dark); p->drawLine(rect.topRight(), rect.bottomRight());
+                                rect.adjust(0,0,-1,0);
+                                p->setPen(light); p->drawLine(rect.topRight(), rect.bottomRight());
+                            }
                         }
                     }
 
