@@ -2340,10 +2340,18 @@ void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOpt
         p->setRenderHint(QPainter::Antialiasing);
         p->setPen(Qt::NoPen);
 
-        QLinearGradient innerGradient(0, r.top() - r.height(), 0, r.bottom());
-        innerGradient.setColorAt(0.0, _helper.calcLightColor(color)); //KColorUtils::shade(calcLightColor(color), shade));
-        innerGradient.setColorAt(1.0, color);
-        p->setBrush(innerGradient);
+        if (_helper.calcShadowColor(color).value() > color.value()
+                && opts & Sunken) {
+            QLinearGradient innerGradient(0, r.top(), 0, r.bottom() + r.height());
+            innerGradient.setColorAt(0.0, color);
+            innerGradient.setColorAt(1.0, _helper.calcLightColor(color));
+            p->setBrush(innerGradient);
+        } else {
+            QLinearGradient innerGradient(0, r.top() - r.height(), 0, r.bottom());
+            innerGradient.setColorAt(0.0, _helper.calcLightColor(color)); //KColorUtils::shade(calcLightColor(color), shade));
+            innerGradient.setColorAt(1.0, color);
+            p->setBrush(innerGradient);
+        }
         _helper.fillSlab(*p, r);
 
         p->restore();
