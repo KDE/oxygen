@@ -326,10 +326,9 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
             {
                 p->save();
                 QColor color = rbOpt->palette.color(QPalette::Highlight);
+                p->setPen(KColorUtils::mix(color, rbOpt->palette.color(QPalette::Active, QPalette::WindowText)));
                 color.setAlpha(50);
                 p->setBrush(color);
-                color = KColorUtils::mix(color, rbOpt->palette.color(QPalette::Active, QPalette::WindowText));
-                p->setPen(color);
                 p->setClipRegion(rbOpt->rect);
                 p->drawRect(rbOpt->rect.adjusted(0,0,-1,-1));
                 p->restore();
@@ -2981,8 +2980,10 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
             const QStyleOptionRubberBand *opt = qstyleoption_cast<const QStyleOptionRubberBand *>(option);
             if (!opt)
                 return true;
-            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>(returnData))
+            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>(returnData)) {
                 mask->region = option->rect;
+                mask->region -= option->rect.adjusted(1,1,-1,-1);
+            }
             return true;
         }
         default:
