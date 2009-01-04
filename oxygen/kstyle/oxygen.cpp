@@ -3503,14 +3503,24 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     {
         if (ev->type() == QEvent::Show || ev->type() == QEvent::Resize)
         {
-            int x, y, w, h;
-            dw->rect().getRect(&x, &y, &w, &h);
-            QRegion reg(x+4, y, w-8, h);
-            reg += QRegion(x, y+4, w, h-8);
-            reg += QRegion(x+2, y+1, w-4, h-2);
-            reg += QRegion(x+1, y+2, w-2, h-4);
-            if(dw->mask() != reg)
-                dw->setMask(reg);
+            if (dw->isFloating())
+            {
+                int x, y, w, h;
+                dw->rect().getRect(&x, &y, &w, &h);
+                QRegion reg(x+4, y, w-8, h);
+                reg += QRegion(x, y+4, w, h-8);
+                reg += QRegion(x+2, y+1, w-4, h-2);
+                reg += QRegion(x+1, y+2, w-2, h-4);
+                if(dw->mask() != reg)
+                    dw->setMask(reg);
+            }
+            // remove the mask in docked state to prevent it
+            // from intefering with the dock frame
+            else if (dw->mask() != QRegion())
+            {
+                dw->clearMask();
+            }
+
             return false;
         }
         if (ev->type() == QEvent::Paint)

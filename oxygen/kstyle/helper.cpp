@@ -691,15 +691,15 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
         lg.setColorAt(0.9, QColor(0,0,0,0));
         lg.setColorAt(1.0, light);
         p.setPen(QPen(lg,1));
-        p.drawRoundedRect(rect.adjusted(0,-1,0,-1),5,5);
-        p.drawRoundedRect(rect.adjusted(2,1,-2,-2),5,5);
+        p.drawRoundedRect(rect.adjusted(0,-1,0,-1),4,5);
+        p.drawRoundedRect(rect.adjusted(2,1,-2,-2),4,5);
 
         lg.setColorAt(0.0, dark);
         lg.setColorAt(0.1, QColor(0,0,0,0));
         lg.setColorAt(0.9, QColor(0,0,0,0));
         lg.setColorAt(1.0, dark);
         p.setPen(QPen(lg, 1));
-        p.drawRoundedRect(rect.adjusted(1,0,-1,-2),5,5);
+        p.drawRoundedRect(rect.adjusted(1,0,-1,-2),4,5);
 
         // top and bottom border
         drawSeparator(&p, QRect(0,0,w,2), color, Qt::Horizontal);
