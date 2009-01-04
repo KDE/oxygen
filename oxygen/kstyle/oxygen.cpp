@@ -2249,6 +2249,17 @@ void OxygenStyle::polish(QWidget* widget)
 
 void OxygenStyle::unpolish(QWidget* widget)
 {
+
+    switch (widget->windowFlags() & Qt::WindowType_Mask) {
+        case Qt::Window:
+        case Qt::Dialog:
+            widget->removeEventFilter(this);
+            break;
+        default:
+            break;
+    }
+
+
     if ( qobject_cast<QProgressBar*>(widget) )
     {
         progAnimWidgets.remove(widget);
@@ -2273,6 +2284,8 @@ void OxygenStyle::unpolish(QWidget* widget)
         || qobject_cast<QToolBox*>(widget))
     {
         widget->setBackgroundRole(QPalette::Button);
+        widget->removeEventFilter(this);
+        widget->clearMask();
     }
 
     if (qobject_cast<QScrollBar*>(widget))
@@ -2282,6 +2295,7 @@ void OxygenStyle::unpolish(QWidget* widget)
     else if (qobject_cast<QDockWidget*>(widget))
     {
         widget->setContentsMargins(0,0,0,0);
+        widget->clearMask();
     }
     else if (qobject_cast<QToolBox*>(widget))
     {
@@ -2294,6 +2308,7 @@ void OxygenStyle::unpolish(QWidget* widget)
         widget->setAttribute(Qt::WA_PaintOnScreen, false);
         widget->setAttribute(Qt::WA_NoSystemBackground, false);
         widget->removeEventFilter(this);
+        widget->clearMask();
     }
     else if (qobject_cast<QFrame*>(widget)
             || qobject_cast<QMdiSubWindow*>(widget))
