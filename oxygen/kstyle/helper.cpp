@@ -635,7 +635,7 @@ TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
         QImage tmpImg(9, 9, QImage::Format_ARGB32);
         QPainter p;
 
-        tmpImg.fill(Qt::transparent);
+        tmpImg.fill(0);
 
         p.begin(&tmpImg);
         p.setPen(Qt::NoPen);
