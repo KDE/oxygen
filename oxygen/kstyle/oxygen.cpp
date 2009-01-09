@@ -3324,6 +3324,7 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
 
 void OxygenStyle::renderWindowIcon(QPainter *p, const QRectF &r, int &type) const
 {
+    // TODO: make icons smaller
     p->save();
     p->translate(r.topLeft());
     switch(type)
@@ -3597,15 +3598,22 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
 {
     // get button color (unfortunately option and widget might not be set)
     QColor buttonColor;
-    if (option)
+    QColor iconColor;
+    if (option) {
         buttonColor = option->palette.button().color();
-    else if (widget)
+        iconColor   = option->palette.buttonText().color();
+    } else if (widget) {
         buttonColor = widget->palette().button().color();
-    else if (qApp) // might not have a QApplication
+        iconColor   = widget->palette().buttonText().color();
+    } else if (qApp) { // might not have a QApplication
         buttonColor = qApp->palette().button().color();
-    else // KCS is always safe
+        iconColor   = qApp->palette().buttonText().color();
+    } else {// KCS is always safe
         buttonColor = KColorScheme(QPalette::Active, KColorScheme::Button,
                                    _config).background().color();
+        iconColor   = KColorScheme(QPalette::Active, KColorScheme::Button,
+                                   _config).foreground().color();
+    }
 
     switch (standardIcon) {
         case SP_TitleBarNormalButton:
@@ -3617,8 +3625,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
-            QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
-            painter.setPen(QPen(lg,1.4));
+            painter.setPen(QPen(iconColor, 1.1));
             QPointF points[4] = {QPointF(8.5, 6), QPointF(11, 8.5), QPointF(8.5, 11), QPointF(6, 8.5)};
             painter.drawPolygon(points, 4);
 
@@ -3634,8 +3641,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
-            QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
-            painter.setPen(QPen(lg,1.4));
+            painter.setPen(QPen(iconColor, 1.1));
             painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
             painter.drawLine( QPointF(8.75,8.75), QPointF(11.0,6.5) );
             painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
@@ -3652,8 +3658,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
-            QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
-            painter.setPen(QPen(lg,1.4));
+            painter.setPen(QPen(iconColor, 1.1));
             painter.drawLine( QPointF(6.5,8.75), QPointF(8.75,6.5) );
             painter.drawLine( QPointF(8.75,6.5), QPointF(11.0,8.75) );
             painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
@@ -3671,8 +3676,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
-            QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
-            painter.setPen(QPen(lg,1.4));
+            painter.setPen(QPen(iconColor, 1.1));
             painter.drawLine( QPointF(6.5,6.5), QPointF(11.0,11.0) );
             painter.drawLine( QPointF(11.0,6.5), QPointF(6.5,11.0) );
 

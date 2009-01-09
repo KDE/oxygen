@@ -65,6 +65,7 @@ public:
     QLinearGradient decoGradient(const QRect &r, const QColor &color);
 
     QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
+    QPixmap windecoButtonGlow(const QColor &color, int size = 21);
 
     void drawFloatFrame(QPainter *p, const QRect r, const QColor &color, bool drawUglyShadow=true, bool isActive=false, const QColor &frameColor=QColor()) const;
 
@@ -83,6 +84,7 @@ protected:
 
     QCache<quint64, QPixmap> m_backgroundCache;
     QCache<quint64, QPixmap> m_windecoButtonCache;
+    QCache<quint64, QPixmap> m_windecoButtonGlowCache;
 };
 
 #endif // __OXYGEN_HELPER_H
