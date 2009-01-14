@@ -3174,6 +3174,9 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
             }
             break;
         }
+        case CC_ComboBox:
+            if(subControl == SC_ComboBoxListBoxPopup)
+                return r.adjusted(0,0,8,0); // add the same width as we do in eventFilter
         default:
             break;
     }
