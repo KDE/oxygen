@@ -244,6 +244,7 @@ OxygenStyle::OxygenStyle() :
     _animateProgressBar = cfg.readEntry("AnimateProgressBar", true);
     _drawToolBarItemSeparator = cfg.readEntry("DrawToolBarItemSeparator", true);
     _drawTriangularExpander = cfg.readEntry("DrawTriangularExpander", false);
+    _drawTreeBranchLine = cfg.readEntry("DrawTreeBranchLines", true);
 
     if ( _animateProgressBar )
     {
@@ -1702,10 +1703,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case Tree::VerticalBranch:
                 case Tree::HorizontalBranch:
                 {
-                //### FIXME: set sane color.
-                    QBrush brush(Qt::Dense4Pattern);
-                    brush.setColor(pal.mid().color() );
-                    p->fillRect(r, brush);
+                    if (_drawTreeBranchLine)
+                    {
+                        //### FIXME: set sane color.
+                        QBrush brush(Qt::Dense4Pattern);
+                        brush.setColor(pal.mid().color() );
+                        p->fillRect(r, brush);
+                    }
                     return;
                 }
                 case Tree::ExpanderOpen:

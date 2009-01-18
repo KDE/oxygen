@@ -65,11 +65,13 @@ protected:
 	QCheckBox* animateProgressBar;
 	QCheckBox* drawToolBarItemSeparator;
 	QCheckBox* drawTriangularExpander;
+	QCheckBox* drawTreeBranchLines;
 
 	//Original settings, for accurate dirtiness tracking
 	bool       origAnimProgressBar;
 	bool       origDrawToolBarItemSeparator;
 	bool       origDrawTriangularExpander;
+	bool       origDrawTreeBranchLines;
 };
 
 #endif // OXYGENCONF_H

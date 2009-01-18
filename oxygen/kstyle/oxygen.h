@@ -186,6 +186,7 @@ private:
     bool _animateProgressBar;
     bool _drawToolBarItemSeparator;
     bool _drawTriangularExpander;
+    bool _drawTreeBranchLine;
     bool _checkCheck;
     enum {
         MM_DARK = 0,

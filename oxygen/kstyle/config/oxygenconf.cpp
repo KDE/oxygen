@@ -62,10 +62,12 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     //animateProgressBar = new QCheckBox(i18n("Animate progress bars"), this);
     drawToolBarItemSeparator = new QCheckBox(i18n("Draw toolbar item separators"), this);
     drawTriangularExpander = new QCheckBox(i18n("Triangular tree expander"), this);
+    drawTreeBranchLines = new QCheckBox(i18n("Draw tree branch lines"), this);
 
     //layout->addWidget(animateProgressBar);
     layout->addWidget(drawToolBarItemSeparator);
     layout->addWidget(drawTriangularExpander);
+    layout->addWidget(drawTreeBranchLines);
     layout->addStretch(1);
 
     KConfigGroup cfg(config, "Style");
@@ -75,10 +77,13 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     drawToolBarItemSeparator->setChecked(origDrawToolBarItemSeparator);
     origDrawTriangularExpander = cfg.readEntry("DrawTriangularExpander", false);
     drawTriangularExpander->setChecked(origDrawTriangularExpander);
+    origDrawTreeBranchLines = cfg.readEntry("DrawTreeBranchLines", true);
+    drawTreeBranchLines->setChecked(origDrawTreeBranchLines);
 
     //connect(animateProgressBar, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect(drawToolBarItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect(drawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect(drawTreeBranchLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
 }
 
 OxygenStyleConfig::~OxygenStyleConfig()
@@ -92,6 +97,7 @@ void OxygenStyleConfig::save()
     //s.writeEntry("AnimateProgressBar", animateProgressBar->isChecked() ? true : false);
     cfg.writeEntry("DrawToolBarItemSeparator", drawToolBarItemSeparator->isChecked() ? true : false);
     cfg.writeEntry("DrawTriangularExpander", drawTriangularExpander->isChecked() ? true : false);
+    cfg.writeEntry("DrawTreeBranchLines", drawTreeBranchLines->isChecked() ? true : false);
 }
 
 void OxygenStyleConfig::defaults()
@@ -99,6 +105,7 @@ void OxygenStyleConfig::defaults()
 //    animateProgressBar->setChecked(true);
     drawToolBarItemSeparator->setChecked(true);
     drawTriangularExpander->setChecked(false);
+    drawTreeBranchLines->setChecked(true);
     //updateChanged would be done by setChecked already
 }
 
@@ -107,7 +114,8 @@ void OxygenStyleConfig::updateChanged()
     if (
         //(animateProgressBar->isChecked() == origAnimProgressBar) &&
         (drawToolBarItemSeparator->isChecked() == origDrawToolBarItemSeparator) &&
-        (drawTriangularExpander->isChecked() == origDrawTriangularExpander)
+        (drawTriangularExpander->isChecked() == origDrawTriangularExpander) &&
+        (drawTreeBranchLines->isChecked() == origDrawTreeBranchLines)
         )
         emit changed(false);
     else
