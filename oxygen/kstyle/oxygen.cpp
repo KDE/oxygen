@@ -3690,7 +3690,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             return QIcon(realpm);
         }
         default:
-            return KStyle::standardPixmap(standardIcon, option, widget);
+            return KStyle::standardIconImplementation(standardIcon, option, widget);
     }
 }
 
