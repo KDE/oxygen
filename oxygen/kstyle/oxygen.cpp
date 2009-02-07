@@ -2197,7 +2197,6 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QTabBar*>(widget)
         || qobject_cast<QScrollBar*>(widget)
         || qobject_cast<QSlider*>(widget)
-        || qobject_cast<QToolButton*>(widget)
         || qobject_cast<QLineEdit*>(widget)
         ) {
         widget->setAttribute(Qt::WA_Hover);
