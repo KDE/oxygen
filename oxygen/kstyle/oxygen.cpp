@@ -709,6 +709,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         pp.setBrush(gradient);
                         pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
                         pp.drawRect(maskr);
+                        pp.end();
 
                         p->drawPixmap(handleRTL(opt, r), pm);
                     }
