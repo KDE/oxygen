@@ -152,11 +152,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_Menu, Menu::FrameWidth, 5);
 
     setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 0);
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin,        0);
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Left,  0);
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Right, 0);
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Top, 0);
-    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin + Bot, 2);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin, 0);
 
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin, 3);
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin+Left, 5);
@@ -216,7 +212,11 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemMargin, 2);
 
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 4);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 0);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Left, 4);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Right, 4);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Top, 1);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Bot, 1);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    0);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, 8);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, -11);
@@ -2212,7 +2212,7 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QToolBar *>(widget->parent()))
     {
         widget->setBackgroundRole(QPalette::NoRole);
-        widget->setContentsMargins(0,0,0,2);
+        widget->setContentsMargins(0,0,0,1);
         widget->installEventFilter(this);
     }
     else if (qobject_cast<QScrollBar*>(widget) )
@@ -3044,7 +3044,7 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
 
             if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
                 if ((!tbOpt->icon.isNull()) && (!tbOpt->text.isEmpty()) && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon)
-                    size.setHeight(size.height()-9);
+                    size.setHeight(size.height()-2);
             }
 
             // We want to avoid super-skiny buttons, for things like "up" when icons + text
