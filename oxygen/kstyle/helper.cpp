@@ -675,8 +675,8 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
         QPainter p(&pm);
         p.setRenderHints(QPainter::Antialiasing);
         p.setBrush(Qt::NoBrush);
-        p.translate(0.5,0.5);
-        QRect rect(0,0,w-1,h-1);
+        p.translate(0.5, 0.5);
+        QRect rect(0.5,0.5,w-0.5,h-0.);
 
         QColor light = calcLightColor(color);
         QColor dark = calcDarkColor(color);
@@ -691,19 +691,19 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
         lg.setColorAt(0.9, QColor(0,0,0,0));
         lg.setColorAt(1.0, light);
         p.setPen(QPen(lg,1));
-        p.drawRoundedRect(rect.adjusted(0,-1,0,0),4,5);
-        p.drawRoundedRect(rect.adjusted(2,1,-2,0),4,5);
+        p.drawRoundedRect(rect.adjusted(0,-1,0,-1),4,5);
+        p.drawRoundedRect(rect.adjusted(2,1,-2,-2),4,5);
 
         lg.setColorAt(0.0, dark);
         lg.setColorAt(0.1, QColor(0,0,0,0));
         lg.setColorAt(0.9, QColor(0,0,0,0));
         lg.setColorAt(1.0, dark);
         p.setPen(QPen(lg, 1));
-        p.drawRoundedRect(rect.adjusted(1,0,-1,-1),4,5);
+        p.drawRoundedRect(rect.adjusted(1,0,-1,-2),4,5);
 
         // top and bottom border
-        drawSeparator(&p, QRect(0,0,w-1,2-1), color, Qt::Horizontal);
-        drawSeparator(&p, QRect(0,h-2,w-1,2-1), color, Qt::Horizontal);
+        drawSeparator(&p, QRect(0,0,w,2), color, Qt::Horizontal);
+        drawSeparator(&p, QRect(0,h-2,w,2), color, Qt::Horizontal);
 
         tileSet = new TileSet(pm, 4, 4, w-8, h-8);
         m_dockFrameCache.insert(key, tileSet);
