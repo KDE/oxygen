@@ -210,13 +210,9 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
-    setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemMargin, 2);
+    setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemMargin, 1);
 
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 0);
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Left, 4);
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Right, 4);
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Top, 1);
-    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Bot, 1);
+    setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 4);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    0);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, 8);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, -11);
@@ -3044,7 +3040,7 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
 
             if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
                 if ((!tbOpt->icon.isNull()) && (!tbOpt->text.isEmpty()) && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon)
-                    size.setHeight(size.height()-2);
+                    size.setHeight(size.height()-9);
             }
 
             // We want to avoid super-skiny buttons, for things like "up" when icons + text
