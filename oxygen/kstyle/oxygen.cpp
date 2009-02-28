@@ -3019,6 +3019,9 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
         case PM_DefaultLayoutSpacing:
             return 4; // qcommon is 6
 
+        case PM_ButtonMargin:
+            return 5;
+
         case PM_DefaultFrameWidth:
             if (qobject_cast<const QLineEdit*>(widget))
                 return 4;
