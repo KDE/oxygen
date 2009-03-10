@@ -117,11 +117,11 @@ OxygenStyle::OxygenStyle() :
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, 15); // size*2+1
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::SingleButtonHeight, 14);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleButtonHeight, 28);
+    // NOTE: ScrollBar::BarWidth is configurable and therefore set below...
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5); //also used by toolbutton
@@ -241,6 +241,9 @@ OxygenStyle::OxygenStyle() :
     _drawToolBarItemSeparator = cfg.readEntry("DrawToolBarItemSeparator", true);
     _drawTriangularExpander = cfg.readEntry("DrawTriangularExpander", false);
     _drawTreeBranchLine = cfg.readEntry("DrawTreeBranchLines", true);
+    _scrollBarWidth = cfg.readEntry("ScrollBarWidth", 15 /* size*2+1 */);
+
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, _scrollBarWidth);
 
     if ( _animateProgressBar )
     {

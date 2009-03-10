@@ -188,6 +188,7 @@ private:
     bool _drawTriangularExpander;
     bool _drawTreeBranchLine;
     bool _checkCheck;
+    int _scrollBarWidth;
     enum {
         MM_DARK = 0,
         MM_SUBTLE = 1,

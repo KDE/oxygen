@@ -35,6 +35,7 @@ DEALINGS IN THE SOFTWARE.
 #include <KSharedConfig>
 
 class QCheckBox;
+class KIntNumInput;
 class KColorButton;
 
 class OxygenStyleConfig: public QWidget
@@ -66,12 +67,14 @@ protected:
 	QCheckBox* drawToolBarItemSeparator;
 	QCheckBox* drawTriangularExpander;
 	QCheckBox* drawTreeBranchLines;
+    KIntNumInput* scrollBarWidth;
 
 	//Original settings, for accurate dirtiness tracking
-	bool       origAnimProgressBar;
-	bool       origDrawToolBarItemSeparator;
-	bool       origDrawTriangularExpander;
-	bool       origDrawTreeBranchLines;
+	bool        origAnimProgressBar;
+	bool        origDrawToolBarItemSeparator;
+	bool        origDrawTriangularExpander;
+	bool        origDrawTreeBranchLines;
+    int         origScrollBarWidth;
 };
 
 #endif // OXYGENCONF_H
