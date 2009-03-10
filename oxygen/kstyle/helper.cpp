@@ -728,7 +728,7 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
         // use space for white border
         QRect r = QRect(0,0,15,15);
         QRect rect = r.adjusted(1, 0, -1, -1);
-        int shadowWidth = (orientation == Qt::Horizontal) ? 3 : 3;
+        int shadowWidth = (orientation == Qt::Horizontal) ? 3 : 2;
 
         p.setRenderHints(QPainter::Antialiasing);
         p.setBrush(dark);
@@ -737,16 +737,15 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
         // base
         p.drawRoundedRect(rect, 4.5, 4.5);
 
-        // slight shadow
-        // try only for horizontal bars
-        if (orientation == Qt::Horizontal)
-        {
-            QLinearGradient shadowGradient(rect.topLeft(), rect.bottomLeft());
-            shadowGradient.setColorAt(0.0, alphaColor(shadow, 0.1));
-            shadowGradient.setColorAt(0.6, Qt::transparent);
-            p.setBrush(shadowGradient);
-            p.drawRoundedRect(rect, 4.5, 4.5);
-        }
+        // slight shadow across the whole hole
+        QLinearGradient shadowGradient(rect.topLeft(),
+                orientation == Qt::Horizontal ?
+                    rect.bottomLeft()
+                :   rect.topRight());
+        shadowGradient.setColorAt(0.0, alphaColor(shadow, 0.1));
+        shadowGradient.setColorAt(0.6, Qt::transparent);
+        p.setBrush(shadowGradient);
+        p.drawRoundedRect(rect, 4.5, 4.5);
 
         // strong shadow
         // left
