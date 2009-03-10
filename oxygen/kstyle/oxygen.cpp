@@ -119,9 +119,9 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::SingleButtonHeight, 14);
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleButtonHeight, 28);
     // NOTE: ScrollBar::BarWidth is configurable and therefore set below...
+    // NOTE: ScrollBar::SingleButtonHeight is configurable and therefore set below...
+    // NOTE: ScrollBar::DoubleButtonHeight is configurable and therefore set below...
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5); //also used by toolbutton
@@ -243,6 +243,14 @@ OxygenStyle::OxygenStyle() :
     _drawTreeBranchLine = cfg.readEntry("DrawTreeBranchLines", true);
     _scrollBarWidth = cfg.readEntry("ScrollBarWidth", 15 /* size*2+1 */);
 
+    //NOTE: These button heights are arbitrarily chosen
+    // in a way that they don't consume too much space and
+    // still are usable with i.e. touchscreens
+    //TODO: This hasn't been tested though
+    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight, 
+            qMax(_scrollBarWidth * 7 / 10, 14) );
+    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight, 
+            qMax(_scrollBarWidth * 14 / 10, 28) );
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, _scrollBarWidth);
 
     if ( _animateProgressBar )
