@@ -3041,6 +3041,16 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
 {
     switch(type)
     {
+        case CT_GroupBox:
+        {
+            // adjust groupbox width to bold label font
+            if (const QStyleOptionGroupBox* gbOpt = qstyleoption_cast<const QStyleOptionGroupBox*>(option)) {
+                QSize size = KStyle::sizeFromContents(type, option, contentsSize, widget);
+                int labelWidth = subControlRect(CC_GroupBox, gbOpt, SC_GroupBoxLabel, widget).width();
+                size.setWidth(qMax(size.width(), labelWidth));
+                return size;
+            }
+        }
         case CT_ToolButton:
         {
             QSize size = contentsSize;
@@ -3161,12 +3171,12 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                         cr = subElementRect(SE_CheckBoxIndicator, option, widget);
                         QRect gcr((gbOpt->rect.width() - tw -cr.width())/2 , (h-cr.height())/2+r.y(), cr.width(), cr.height());
                         if(subControl == SC_GroupBoxCheckBox)
-			{
-			    if (!isFlat)
-				return visualRect(option->direction, option->rect, gcr);
-			    else
-				return visualRect(option->direction, option->rect, QRect(0,0,cr.width(),cr.height()));
-			}
+                        {
+                            if (!isFlat)
+                                return visualRect(option->direction, option->rect, gcr);
+                            else
+                                return visualRect(option->direction, option->rect, QRect(0,0,cr.width(),cr.height()));
+                        }
                     }
 
                     // left align labels in flat group boxes, center align labels in framed group boxes
