@@ -2421,22 +2421,18 @@ void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bo
 void OxygenStyle::renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
                                    Qt::Orientation orientation, TileSet::Tiles tiles) const
 {
-    _helper.scrollHole(
-            color,
-            orientation)->render(r, p, tiles);
+    if (r.isValid()) { // TODO and check that it's big enough?
+        _helper.scrollHole(
+                color,
+                orientation)->render(r, p, tiles);
+    }
 }
 
-void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &_r, const QPalette &pal,
+void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPalette &pal,
                                Qt::Orientation orientation, bool hover) const
 {
-    QRect r(_r);
-    if (r.height() == 0) {
-        // Temporary fix for an infinite loop in kmail. The call to drawRoundedRect()
-        // at the end of this function produces an infinite loop in Qt's drawing code
-        // if the rect's height is zero.
-        qDebug("OxygenStyle::renderScrollBarHandle: trying to paint scrollbar handle with zero height!");
-        r.setHeight(1);
-    }
+    if (!r.isValid())
+        return;
     p->setRenderHints(QPainter::Antialiasing);
     QColor color = pal.color(QPalette::Button);
     QColor light = _helper.calcLightColor(color);
@@ -2446,13 +2442,16 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &_r, const QPal
     bool horizontal = orientation == Qt::Horizontal;
 
     // draw the hole as background
-    renderScrollBarHole(p, (orientation == Qt::Horizontal) ? r.adjusted(-4,0,4,0) : r.adjusted(0,-3,0,4),
+    const QRect holeRect = horizontal ? r.adjusted(-4,0,4,0) : r.adjusted(0,-3,0,4);
+    renderScrollBarHole(p, holeRect,
             pal.color(QPalette::Window), orientation, 
             horizontal ? TileSet::Top | TileSet::Bottom | TileSet::Center
                        : TileSet::Left | TileSet::Right | TileSet::Center);
 
     // draw the slider itself
     QRectF rect = r.adjusted(3, horizontal ? 2 : 4, -3, -3);
+    if (!rect.isValid()) // e.g. not enough height
+        return;
 
     // gradients
     QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
