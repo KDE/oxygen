@@ -6,6 +6,7 @@ include_directories( ${KDE4_KDEUI_INCLUDES} )
 
 set(kstyle_oxygen_config_PART_SRCS oxygenconf.cpp )
 
+kde4_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
 
 kde4_add_plugin(kstyle_oxygen_config ${kstyle_oxygen_config_PART_SRCS})
 

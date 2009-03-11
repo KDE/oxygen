@@ -34,46 +34,50 @@ DEALINGS IN THE SOFTWARE.
 #include <QtGui/QColor>
 #include <KSharedConfig>
 
+#include "settings.h"
+
 class QCheckBox;
 class KIntNumInput;
 class KColorButton;
 
 class OxygenStyleConfig: public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	OxygenStyleConfig(QWidget* parent);
-	~OxygenStyleConfig();
+    OxygenStyleConfig(QWidget* parent);
+    ~OxygenStyleConfig();
 
-	//This signal and the next two slots are the plugin
-	//page interface
+    //This signal and the next two slots are the plugin
+    //page interface
 Q_SIGNALS:
-	void changed(bool);
+    void changed(bool);
 
 public Q_SLOTS:
-	void save();
-	void defaults();
+    void save();
+    void defaults();
 
-	//Everything below this is internal.
+    //Everything below this is internal.
 protected Q_SLOTS:
-	void updateChanged();
+    void updateChanged();
 
 protected:
-	KSharedConfigPtr config;
+    KSharedConfigPtr config;
 
-	//We store settings directly in widgets to
-	//avoid the hassle of sync'ing things
-	QCheckBox* animateProgressBar;
-	QCheckBox* drawToolBarItemSeparator;
-	QCheckBox* drawTriangularExpander;
-	QCheckBox* drawTreeBranchLines;
+    //We store settings directly in widgets to
+    //avoid the hassle of sync'ing things
+    QCheckBox* animateProgressBar;
+    QCheckBox* drawToolBarItemSeparator;
+    QCheckBox* drawTriangularExpander;
+    QCheckBox* drawTreeBranchLines;
+    QCheckBox* colorfulScrollBar;
     KIntNumInput* scrollBarWidth;
 
-	//Original settings, for accurate dirtiness tracking
-	bool        origAnimProgressBar;
-	bool        origDrawToolBarItemSeparator;
-	bool        origDrawTriangularExpander;
-	bool        origDrawTreeBranchLines;
+    //Original settings, for accurate dirtiness tracking
+    Settings    orig;
+    bool        origAnimProgressBar;
+    bool        origDrawToolBarItemSeparator;
+    bool        origDrawTriangularExpander;
+    bool        origDrawTreeBranchLines;
     int         origScrollBarWidth;
 };
 

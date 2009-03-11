@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg> 
+  <kcfgfile name="oxygenrc"/> 
+  <group name="Style"> 
+    <entry name="DrawToolBarItemSeparator" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="DrawTriangularExpander" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="DrawTreeBranchLines" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="ScrollBarWidth" type="Int">
+      <default>17</default>
+    </entry>
+    <entry name="DrawCheck" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="ColorfulScrollBar" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="AnimateProgressBar" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="MenuHighLightMode" type="Enum">
+      <choices>
+          <choice name="MM_DARK" />
+          <choice name="MM_SUBTLE" />
+          <choice name="MM_STRONG" />
+      </choices>
+      <default>MM_DARK</default>
+    </entry>
+  </group> 
+</kcfg>
+

@@ -52,6 +52,7 @@
 
 #include "helper.h"
 #include "tileset.h"
+#include "config/settings.h"
 
 #define u_arrow -4,1, 2,1, -3,0, 1,0, -2,-1, 0,-1, -1,-2
 #define d_arrow -4,-2, 2,-2, -3,-1, 1,-1, -2,0, 0,0, -1,1
@@ -183,21 +184,13 @@ private:
     QPoint handleRTL(const QStyleOption* opt, const QPoint& pos) const;
     QRect handleRTL(const QStyleOption* opt, const QRect& subRect) const;
 
-    bool _animateProgressBar;
-    bool _drawToolBarItemSeparator;
-    bool _drawTriangularExpander;
-    bool _drawTreeBranchLine;
-    bool _checkCheck;
-    int _scrollBarWidth;
-    enum {
-        MM_DARK = 0,
-        MM_SUBTLE = 1,
-        MM_STRONG = 2
-    } _menuHighlightMode;
+    // configuration
+    Settings settings;
+    void loadConfiguration();
 
     // global colors
     OxygenStyleHelper &_helper;
-    KSharedConfigPtr _config;
+    KSharedConfigPtr _sharedConfig;
     KStatefulBrush _viewFocusBrush;
     KStatefulBrush _viewHoverBrush;
 

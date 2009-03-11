@@ -72,6 +72,8 @@
 
 #include "helper.h"
 #include "tileset.h"
+#include "config/settings.h"
+#include "oxygenstyleconfigdata.h"
 
 // We need better holes! Bevel color and shadow color are currently based on
 // only one color, even though they are different things; also, we don't really
@@ -96,7 +98,7 @@ OxygenStyle::OxygenStyle() :
     KStyle(),
     _helper(*globalHelper)
 {
-    _config = _helper.config();
+    _sharedConfig = _helper.config();
 
     qAddPostRoutine(cleanupBefore);
 
@@ -112,6 +114,9 @@ OxygenStyle::OxygenStyle() :
     // need to be reset when the system palette changes
     globalSettingsChange(KGlobalSettings::PaletteChanged, 0);
 
+    // this has to be called to load the configuration
+    loadConfiguration();
+
     setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 1);
 
     // TODO: change this when double buttons are implemented
@@ -119,9 +124,16 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
-    // NOTE: ScrollBar::BarWidth is configurable and therefore set below...
-    // NOTE: ScrollBar::SingleButtonHeight is configurable and therefore set below...
-    // NOTE: ScrollBar::DoubleButtonHeight is configurable and therefore set below...
+    //NOTE: These button heights are arbitrarily chosen
+    // in a way that they don't consume too much space and
+    // still are usable with i.e. touchscreens
+    //TODO: This hasn't been tested though
+    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight, 
+            qMax(settings.ScrollBar.width * 7 / 10, 14) );
+    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight, 
+            qMax(settings.ScrollBar.width * 14 / 10, 28) );
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth,
+            settings.ScrollBar.width);
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5); //also used by toolbutton
@@ -225,35 +237,7 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_Window, Window::TitleTextColor, QPalette::WindowText);
 
-    KConfigGroup cfg(_config, "Style");
-    switch (cfg.readEntry("MenuHighlight", (int)MM_DARK)) {
-        case MM_STRONG:
-            _menuHighlightMode = MM_STRONG;
-            break;
-        case MM_SUBTLE:
-            _menuHighlightMode = MM_SUBTLE;
-            break;
-        default:
-            _menuHighlightMode = MM_DARK;
-    }
-    _checkCheck = (cfg.readEntry("CheckStyle", 0) == 0);
-    _animateProgressBar = cfg.readEntry("AnimateProgressBar", true);
-    _drawToolBarItemSeparator = cfg.readEntry("DrawToolBarItemSeparator", true);
-    _drawTriangularExpander = cfg.readEntry("DrawTriangularExpander", false);
-    _drawTreeBranchLine = cfg.readEntry("DrawTreeBranchLines", true);
-    _scrollBarWidth = cfg.readEntry("ScrollBarWidth", 15 /* size*2+1 */);
-
-    //NOTE: These button heights are arbitrarily chosen
-    // in a way that they don't consume too much space and
-    // still are usable with i.e. touchscreens
-    //TODO: This hasn't been tested though
-    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight, 
-            qMax(_scrollBarWidth * 7 / 10, 14) );
-    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight, 
-            qMax(_scrollBarWidth * 14 / 10, 28) );
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth, _scrollBarWidth);
-
-    if ( _animateProgressBar )
+    if ( settings.ProgressBar.animated )
     {
         animationTimer = new QTimer( this );
         connect( animationTimer, SIGNAL(timeout()), this, SLOT(updateProgressPos()) );
@@ -292,6 +276,30 @@ void OxygenStyle::updateProgressPos()
     }
     if (!visible)
         animationTimer->stop();
+}
+
+void OxygenStyle::loadConfiguration()
+{
+    OxygenStyleConfigData::self()->readConfig();
+
+    switch (OxygenStyleConfigData::menuHighLightMode()) {
+        case MM_STRONG:
+            settings.Menu.highLightMode = MM_STRONG;
+            break;
+        case MM_SUBTLE:
+            settings.Menu.highLightMode = MM_SUBTLE;
+            break;
+        default:
+            settings.Menu.highLightMode = MM_DARK;
+    }
+
+    settings.CheckBox.drawCheck = OxygenStyleConfigData::drawCheck();
+    settings.ProgressBar.animated = OxygenStyleConfigData::animateProgressBar();
+    settings.ToolBar.drawItemSeparator = OxygenStyleConfigData::drawToolBarItemSeparator();
+    settings.View.drawTriangularExpander = OxygenStyleConfigData::drawTriangularExpander();
+    settings.View.drawTreeBranchLines = OxygenStyleConfigData::drawTreeBranchLines();
+    settings.ScrollBar.colored = OxygenStyleConfigData::colorfulScrollBar();
+    settings.ScrollBar.width = OxygenStyleConfigData::scrollBarWidth();
 }
 
 OxygenStyle::~OxygenStyle()
@@ -599,15 +607,15 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     if (active) {
                         QColor color = pal.color(QPalette::Window);
-                        if (_menuHighlightMode != MM_DARK) {
+                        if (settings.Menu.highLightMode != MM_DARK) {
                             if(flags & State_Sunken) {
-                                if (_menuHighlightMode == MM_STRONG)
+                                if (settings.Menu.highLightMode == MM_STRONG)
                                     color = pal.color(QPalette::Highlight);
                                 else
                                     color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
                             }
                             else {
-                                if (_menuHighlightMode == MM_STRONG)
+                                if (settings.Menu.highLightMode == MM_STRONG)
                                     color = KColorUtils::tint(color, _viewHoverBrush.brush(pal).color());
                                 else
                                     color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
@@ -628,7 +636,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
 
                     QPen   old = p->pen();
-                    if (_menuHighlightMode == MM_STRONG && flags & State_Sunken)
+                    if (settings.Menu.highLightMode == MM_STRONG && flags & State_Sunken)
                         p->setPen(pal.color(QPalette::HighlightedText));
                     else
                         p->setPen(pal.color(QPalette::WindowText));
@@ -693,9 +701,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         QRect rr(QPoint(0,0), r.size());
 
                         QColor color = pal.color(QPalette::Window);
-                        if (_menuHighlightMode == MM_STRONG)
+                        if (settings.Menu.highLightMode == MM_STRONG)
                             color = pal.color(QPalette::Highlight);
-                        else if (_menuHighlightMode == MM_SUBTLE)
+                        else if (settings.Menu.highLightMode == MM_SUBTLE)
                             color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
                         else
                             color = _helper.calcMidColor(color);
@@ -732,7 +740,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
 
                     QPen   old = p->pen();
-                    if (_menuHighlightMode == MM_STRONG && flags & State_Selected)
+                    if (settings.Menu.highLightMode == MM_STRONG && flags & State_Selected)
                         p->setPen(pal.color(QPalette::HighlightedText));
                     else
                         p->setPen(pal.color(QPalette::WindowText));
@@ -1711,7 +1719,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case Tree::VerticalBranch:
                 case Tree::HorizontalBranch:
                 {
-                    if (_drawTreeBranchLine)
+                    if (settings.View.drawTreeBranchLines)
                     {
                         //### FIXME: set sane color.
                         QBrush brush(Qt::Dense4Pattern);
@@ -1728,7 +1736,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int centery = r.y() + r.height()/2;
 
                     p->setPen( pal.text().color() );
-                    if(!_drawTriangularExpander)
+                    if(!settings.View.drawTriangularExpander)
                     {
                         // plus or minus
                         p->drawLine( centerx - radius, centery, centerx + radius, centery );
@@ -1886,7 +1894,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ToolBar::Separator:
                 {
-                    if(_drawToolBarItemSeparator) {
+                    if(settings.ToolBar.drawItemSeparator) {
                         QColor color = pal.color(QPalette::Window);
                         if(flags & State_Horizontal)
                             _helper.drawSeparator(p, r, color, Qt::Vertical);
@@ -2186,7 +2194,7 @@ void OxygenStyle::polish(QWidget* widget)
             break;
     }
 
-    if( _animateProgressBar && qobject_cast<QProgressBar*>(widget) )
+    if( settings.ProgressBar.animated && qobject_cast<QProgressBar*>(widget) )
     {
         widget->installEventFilter(this);
         progAnimWidgets[widget] = 0;
@@ -2345,8 +2353,8 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
 {
     if (type == KGlobalSettings::PaletteChanged) {
         _helper.reloadConfig();
-        _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
-        _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _config );
+        _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _sharedConfig );
+        _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _sharedConfig );
     }
 }
 
@@ -2454,9 +2462,13 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
         return;
 
     // gradients
-    QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
-    sliderGradient.setColorAt(0.0, color);
-    sliderGradient.setColorAt(1.0, mid);
+    QLinearGradient sliderGradient;
+    
+    if (!settings.ScrollBar.colored) {
+        sliderGradient = QLinearGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
+        sliderGradient.setColorAt(0.0, color);
+        sliderGradient.setColorAt(1.0, mid);
+    }
 
     QLinearGradient bevelGradient( rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft());
     bevelGradient.setColorAt(0.0, Qt::transparent);
@@ -2471,8 +2483,9 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
     patternGradient.setSpread(QGradient::ReflectSpread);
 
     // draw the slider
-    QColor glowColor = hover? _viewHoverBrush.brush(QPalette::Active).color()
-                            : KColorUtils::mix(dark, shadow, 0.5);
+    QColor glowColor = (hover && !settings.ScrollBar.colored)?
+        _viewHoverBrush.brush(QPalette::Active).color()
+        : KColorUtils::mix(dark, shadow, 0.5);
     // glow / shadow
     p->setPen(Qt::NoPen);
     p->setBrush(_helper.alphaColor(glowColor, 0.6));
@@ -2487,7 +2500,13 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
 
     // slider
     p->setPen(Qt::NoPen);
-    p->setBrush(sliderGradient);
+    if (settings.ScrollBar.colored) {
+        p->setBrush( hover?
+                _viewHoverBrush.brush(QPalette::Active).color()
+                : light);
+    } else {
+        p->setBrush(sliderGradient);
+    }
     p->drawRoundedRect(rect, 2, 2);
 
     // pattern
@@ -2536,7 +2555,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
         pen.setCapStyle(Qt::RoundCap);
         if (primitive == CheckBox::CheckTriState) {
             QVector<qreal> dashes;
-            if (_checkCheck) {
+            if (settings.CheckBox.drawCheck) {
                 dashes << 1.0 << 2.0;
                 pen.setWidthF(1.3);
             }
@@ -2548,7 +2567,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 
         p->setRenderHint(QPainter::Antialiasing);
         p->setPen(pen);
-        if (_checkCheck) {
+        if (settings.CheckBox.drawCheck) {
             p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
             p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
         }
@@ -3402,7 +3421,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         return true;
 
     // Track show events for progress bars
-    if ( _animateProgressBar && qobject_cast<QProgressBar*>(obj) )
+    if ( settings.ProgressBar.animated && qobject_cast<QProgressBar*>(obj) )
     {
         if ((ev->type() == QEvent::Show) && !animationTimer->isActive())
         {
@@ -3638,9 +3657,9 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         iconColor   = qApp->palette().buttonText().color();
     } else {// KCS is always safe
         buttonColor = KColorScheme(QPalette::Active, KColorScheme::Button,
-                                   _config).background().color();
+                                   _sharedConfig).background().color();
         iconColor   = KColorScheme(QPalette::Active, KColorScheme::Button,
-                                   _config).foreground().color();
+                                   _sharedConfig).foreground().color();
     }
 
     switch (standardIcon) {

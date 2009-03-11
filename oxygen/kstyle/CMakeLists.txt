@@ -12,6 +12,7 @@ set(oxygen_PART_SRCS
     lib/helper.cpp helper.cpp
     oxygen.cpp)
 
+kde4_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 
 kde4_add_plugin(oxygen ${oxygen_PART_SRCS})
 
