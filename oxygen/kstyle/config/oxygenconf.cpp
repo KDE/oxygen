@@ -126,7 +126,7 @@ void OxygenStyleConfig::defaults()
     drawToolBarItemSeparator->setChecked(true);
     drawTriangularExpander->setChecked(false);
     drawTreeBranchLines->setChecked(true);
-    colorfulScrollBar->setChecked(true);
+    colorfulScrollBar->setChecked(false);
     scrollBarWidth->setValue(SCROLLBAR_DEFAULT_WIDTH);
     //updateChanged would be done by setChecked already
 }
