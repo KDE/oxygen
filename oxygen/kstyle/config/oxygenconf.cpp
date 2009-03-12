@@ -83,16 +83,16 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     layout->addStretch(1);
 
     /* Stop 3: Set up the configuration struct and your widget */
-    orig.ToolBar.drawItemSeparator = OxygenStyleConfigData::drawToolBarItemSeparator();
-    drawToolBarItemSeparator->setChecked(orig.ToolBar.drawItemSeparator);
-    orig.View.drawTriangularExpander = OxygenStyleConfigData::drawTriangularExpander();
-    drawTriangularExpander->setChecked(orig.View.drawTriangularExpander);
-    orig.View.drawTreeBranchLines = OxygenStyleConfigData::drawTreeBranchLines();
-    drawTreeBranchLines->setChecked(orig.View.drawTreeBranchLines);
-    orig.ScrollBar.width = OxygenStyleConfigData::scrollBarWidth();
-    scrollBarWidth->setValue(qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH, orig.ScrollBar.width)));
-    orig.ScrollBar.colored = OxygenStyleConfigData::colorfulScrollBar();
-    colorfulScrollBar->setChecked(orig.ScrollBar.colored);
+    origToolBarDrawItemSeparator = OxygenStyleConfigData::toolBarDrawItemSeparator();
+    drawToolBarItemSeparator->setChecked(origToolBarDrawItemSeparator);
+    origViewDrawTriangularExpander = OxygenStyleConfigData::viewDrawTriangularExpander();
+    drawTriangularExpander->setChecked(origViewDrawTriangularExpander);
+    origViewDrawTreeBranchLines = OxygenStyleConfigData::viewDrawTreeBranchLines();
+    drawTreeBranchLines->setChecked(origViewDrawTreeBranchLines);
+    origScrollBarWidth = OxygenStyleConfigData::scrollBarWidth();
+    scrollBarWidth->setValue(qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH, origScrollBarWidth)));
+    origScrollBarColored = OxygenStyleConfigData::scrollBarColored();
+    colorfulScrollBar->setChecked(origScrollBarColored);
 
 
     /* Stop 4: Emit a signal on changes */
@@ -111,10 +111,10 @@ OxygenStyleConfig::~OxygenStyleConfig()
 void OxygenStyleConfig::save()
 {
     /* Stop 5: Save the configuration */
-    OxygenStyleConfigData::setDrawToolBarItemSeparator(drawToolBarItemSeparator->isChecked());
-    OxygenStyleConfigData::setDrawTriangularExpander(drawTriangularExpander->isChecked());
-    OxygenStyleConfigData::setDrawTreeBranchLines(drawTreeBranchLines->isChecked());
-    OxygenStyleConfigData::setColorfulScrollBar(colorfulScrollBar->isChecked());
+    OxygenStyleConfigData::setToolBarDrawItemSeparator(drawToolBarItemSeparator->isChecked());
+    OxygenStyleConfigData::setViewDrawTriangularExpander(drawTriangularExpander->isChecked());
+    OxygenStyleConfigData::setViewDrawTreeBranchLines(drawTreeBranchLines->isChecked());
+    OxygenStyleConfigData::setScrollBarColored(colorfulScrollBar->isChecked());
     OxygenStyleConfigData::setScrollBarWidth(scrollBarWidth->value());
 
     OxygenStyleConfigData::self()->writeConfig();
@@ -135,11 +135,11 @@ void OxygenStyleConfig::updateChanged()
 {
     /* Stop 7: Check if some value changed */
     if (
-        (drawToolBarItemSeparator->isChecked() == orig.ToolBar.drawItemSeparator)
-        && (drawTriangularExpander->isChecked() == orig.View.drawTriangularExpander)
-        && (drawTreeBranchLines->isChecked() == orig.View.drawTreeBranchLines)
-        && (colorfulScrollBar->isChecked() == orig.ScrollBar.colored)
-        && (scrollBarWidth->value() == orig.ScrollBar.width)
+        (drawToolBarItemSeparator->isChecked() == origToolBarDrawItemSeparator)
+        && (drawTriangularExpander->isChecked() == origViewDrawTriangularExpander)
+        && (drawTreeBranchLines->isChecked() == origViewDrawTreeBranchLines)
+        && (colorfulScrollBar->isChecked() == origScrollBarColored)
+        && (scrollBarWidth->value() == origScrollBarWidth)
         )
         emit changed(false);
     else

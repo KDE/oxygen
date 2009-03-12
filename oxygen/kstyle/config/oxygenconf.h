@@ -34,8 +34,6 @@ DEALINGS IN THE SOFTWARE.
 #include <QtGui/QColor>
 #include <KSharedConfig>
 
-#include "settings.h"
-
 class QCheckBox;
 class KIntNumInput;
 class KColorButton;
@@ -72,12 +70,12 @@ protected:
     QCheckBox* colorfulScrollBar;
     KIntNumInput* scrollBarWidth;
 
+private:
     //Original settings, for accurate dirtiness tracking
-    Settings    orig;
-    bool        origAnimProgressBar;
-    bool        origDrawToolBarItemSeparator;
-    bool        origDrawTriangularExpander;
-    bool        origDrawTreeBranchLines;
+    bool        origToolBarDrawItemSeparator;
+    bool        origViewDrawTriangularExpander;
+    bool        origViewDrawTreeBranchLines;
+    bool        origScrollBarColored;
     int         origScrollBarWidth;
 };
 
