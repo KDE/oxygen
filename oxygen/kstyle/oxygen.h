@@ -63,14 +63,6 @@
 
 class QTimer;
 
-class OWidget : public QWidget
-{
-    friend class OxygenStyle;
-public:
-    OWidget(QWidget *parent) : QWidget(parent) {}
-};
-
-
 class OxygenStyle : public KStyle
 {
     Q_OBJECT
