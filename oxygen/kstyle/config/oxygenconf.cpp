@@ -1,4 +1,5 @@
 /*
+Copyright (C) 2009 Long Huynh Huu <long.upcase@googlemail.com>
 Copyright (C) 2003 Sandro Giessl <ceebx@users.sourceforge.net>
 
 based on the Keramik configuration dialog:
@@ -65,42 +66,39 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     KGlobal::locale()->insertCatalog("kstyle_config");
 
     /* Stop 1: Add a widget */
-    drawToolBarItemSeparator = new QCheckBox(i18n("Draw toolbar item separators"), this);
-    drawTriangularExpander = new QCheckBox(i18n("Triangular tree expander"), this);
-    drawTreeBranchLines = new QCheckBox(i18n("Draw tree branch lines"), this);
-    scrollBarWidth = new KIntNumInput(this);
-    scrollBarWidth->setRange(SCROLLBAR_MINIMUM_WIDTH, SCROLLBAR_MAXIMUM_WIDTH, 1);
-    scrollBarWidth->setSliderEnabled(true);
-    scrollBarWidth->setLabel(i18n("Scrollbar width"), Qt::AlignLeft | Qt::AlignVCenter);
-    colorfulScrollBar = new QCheckBox(i18n("Colorful hovered scrollbars"));
+    _toolBarDrawItemSeparator = new QCheckBox(i18n("Draw toolbar item separators"), this);
+    _viewDrawTriangularExpander = new QCheckBox(i18n("Triangular tree expander"), this);
+    _viewDrawTreeBranchLines = new QCheckBox(i18n("Draw tree branch lines"), this);
+    _scrollBarWidth = new KIntNumInput(this);
+    _scrollBarWidth->setRange(SCROLLBAR_MINIMUM_WIDTH, SCROLLBAR_MAXIMUM_WIDTH, 1);
+    _scrollBarWidth->setSliderEnabled(true);
+    _scrollBarWidth->setLabel(i18n("Scrollbar width"), Qt::AlignLeft | Qt::AlignVCenter);
+    _scrollBarColored = new QCheckBox(i18n("Colorful hovered scrollbars"));
 
     /* Stop 2: Add your widget somewhere */
-    layout->addWidget(drawToolBarItemSeparator);
-    layout->addWidget(drawTriangularExpander);
-    layout->addWidget(drawTreeBranchLines);
-    layout->addWidget(colorfulScrollBar);
-    layout->addWidget(scrollBarWidth);
+    layout->addWidget( _toolBarDrawItemSeparator );
+    layout->addWidget( _viewDrawTriangularExpander );
+    layout->addWidget( _viewDrawTreeBranchLines );
+    layout->addWidget( _scrollBarColored );
+    layout->addWidget( _scrollBarWidth );
+
     layout->addStretch(1);
 
     /* Stop 3: Set up the configuration struct and your widget */
-    origToolBarDrawItemSeparator = OxygenStyleConfigData::toolBarDrawItemSeparator();
-    drawToolBarItemSeparator->setChecked(origToolBarDrawItemSeparator);
-    origViewDrawTriangularExpander = OxygenStyleConfigData::viewDrawTriangularExpander();
-    drawTriangularExpander->setChecked(origViewDrawTriangularExpander);
-    origViewDrawTreeBranchLines = OxygenStyleConfigData::viewDrawTreeBranchLines();
-    drawTreeBranchLines->setChecked(origViewDrawTreeBranchLines);
-    origScrollBarWidth = OxygenStyleConfigData::scrollBarWidth();
-    scrollBarWidth->setValue(qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH, origScrollBarWidth)));
-    origScrollBarColored = OxygenStyleConfigData::scrollBarColored();
-    colorfulScrollBar->setChecked(origScrollBarColored);
+    _toolBarDrawItemSeparator->setChecked( OxygenStyleConfigData::toolBarDrawItemSeparator() );
+    _viewDrawTriangularExpander->setChecked( OxygenStyleConfigData::viewDrawTriangularExpander() );
+    _viewDrawTreeBranchLines->setChecked(OxygenStyleConfigData::viewDrawTreeBranchLines() );
+    _scrollBarWidth->setValue( qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH,
+                                OxygenStyleConfigData::scrollBarWidth())) );
+    _scrollBarColored->setChecked( OxygenStyleConfigData::scrollBarColored() );
 
 
     /* Stop 4: Emit a signal on changes */
-    connect(drawToolBarItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect(drawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect(drawTreeBranchLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect(colorfulScrollBar, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect(scrollBarWidth, SIGNAL( valueChanged(int) ), SLOT( updateChanged() ) );
+    connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _viewDrawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _viewDrawTreeBranchLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _scrollBarColored, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _scrollBarWidth, SIGNAL( valueChanged(int) ), SLOT( updateChanged() ) );
 }
 
 OxygenStyleConfig::~OxygenStyleConfig()
@@ -111,11 +109,11 @@ OxygenStyleConfig::~OxygenStyleConfig()
 void OxygenStyleConfig::save()
 {
     /* Stop 5: Save the configuration */
-    OxygenStyleConfigData::setToolBarDrawItemSeparator(drawToolBarItemSeparator->isChecked());
-    OxygenStyleConfigData::setViewDrawTriangularExpander(drawTriangularExpander->isChecked());
-    OxygenStyleConfigData::setViewDrawTreeBranchLines(drawTreeBranchLines->isChecked());
-    OxygenStyleConfigData::setScrollBarColored(colorfulScrollBar->isChecked());
-    OxygenStyleConfigData::setScrollBarWidth(scrollBarWidth->value());
+    OxygenStyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
+    OxygenStyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
+    OxygenStyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
+    OxygenStyleConfigData::setScrollBarColored( _scrollBarColored->isChecked() );
+    OxygenStyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
 
     OxygenStyleConfigData::self()->writeConfig();
 }
@@ -123,11 +121,11 @@ void OxygenStyleConfig::save()
 void OxygenStyleConfig::defaults()
 {
     /* Stop 6: Set defaults */
-    drawToolBarItemSeparator->setChecked(true);
-    drawTriangularExpander->setChecked(false);
-    drawTreeBranchLines->setChecked(true);
-    colorfulScrollBar->setChecked(false);
-    scrollBarWidth->setValue(SCROLLBAR_DEFAULT_WIDTH);
+    _toolBarDrawItemSeparator->setChecked(true);
+    _viewDrawTriangularExpander->setChecked(false);
+    _viewDrawTreeBranchLines->setChecked(true);
+    _scrollBarColored->setChecked(false);
+    _scrollBarWidth->setValue(SCROLLBAR_DEFAULT_WIDTH);
     //updateChanged would be done by setChecked already
 }
 
@@ -135,11 +133,11 @@ void OxygenStyleConfig::updateChanged()
 {
     /* Stop 7: Check if some value changed */
     if (
-        (drawToolBarItemSeparator->isChecked() == origToolBarDrawItemSeparator)
-        && (drawTriangularExpander->isChecked() == origViewDrawTriangularExpander)
-        && (drawTreeBranchLines->isChecked() == origViewDrawTreeBranchLines)
-        && (colorfulScrollBar->isChecked() == origScrollBarColored)
-        && (scrollBarWidth->value() == origScrollBarWidth)
+        (_toolBarDrawItemSeparator->isChecked() == OxygenStyleConfigData::toolBarDrawItemSeparator())
+        && (_viewDrawTriangularExpander->isChecked() == OxygenStyleConfigData::viewDrawTriangularExpander())
+        && (_viewDrawTreeBranchLines->isChecked() == OxygenStyleConfigData::viewDrawTreeBranchLines())
+        && (_scrollBarColored->isChecked() == OxygenStyleConfigData::scrollBarColored())
+        && (_scrollBarWidth->value() == OxygenStyleConfigData::scrollBarWidth())
         )
         emit changed(false);
     else

@@ -59,24 +59,13 @@ protected Q_SLOTS:
     void updateChanged();
 
 protected:
-    KSharedConfigPtr config;
-
     //We store settings directly in widgets to
     //avoid the hassle of sync'ing things
-    QCheckBox* animateProgressBar;
-    QCheckBox* drawToolBarItemSeparator;
-    QCheckBox* drawTriangularExpander;
-    QCheckBox* drawTreeBranchLines;
-    QCheckBox* colorfulScrollBar;
-    KIntNumInput* scrollBarWidth;
-
-private:
-    //Original settings, for accurate dirtiness tracking
-    bool        origToolBarDrawItemSeparator;
-    bool        origViewDrawTriangularExpander;
-    bool        origViewDrawTreeBranchLines;
-    bool        origScrollBarColored;
-    int         origScrollBarWidth;
+    QCheckBox* _toolBarDrawItemSeparator;
+    QCheckBox* _viewDrawTriangularExpander;
+    QCheckBox* _viewDrawTreeBranchLines;
+    QCheckBox* _scrollBarColored;
+    KIntNumInput* _scrollBarWidth;
 };
 
 #endif // OXYGENCONF_H
