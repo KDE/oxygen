@@ -3513,14 +3513,18 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     {
         if (ev->type() == QEvent::Show || ev->type() == QEvent::Resize || ev->type() == QEvent::WindowStateChange)
         {
-            int x, y, w, h;
-            mw->rect().getRect(&x, &y, &w, &h);
-            QRegion reg(x+4, y, w-8, h);
-            reg += QRegion(x, y+4, w, h-8);
-            reg += QRegion(x+2, y+1, w-4, h-2);
-            reg += QRegion(x+1, y+2, w-2, h-4);
-            if(mw->mask() != reg)
-                mw->setMask(reg);
+            if (mw->windowState() & Qt::WindowMaximized) {
+                mw->clearMask();
+            } else {
+                int x, y, w, h;
+                mw->rect().getRect(&x, &y, &w, &h);
+                QRegion reg(x+4, y, w-8, h);
+                reg += QRegion(x, y+4, w, h-8);
+                reg += QRegion(x+2, y+1, w-4, h-2);
+                reg += QRegion(x+1, y+2, w-2, h-4);
+                if(mw->mask() != reg)
+                    mw->setMask(reg);
+            }
             return false;
         }
     }
