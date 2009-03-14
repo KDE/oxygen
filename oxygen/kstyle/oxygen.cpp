@@ -2130,8 +2130,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         case Generic::FocusIndicator:
         {
             const QAbstractItemView *aiv = qobject_cast<const QAbstractItemView*>(widget);
-            if (aiv && opt && (opt->state & QStyle::State_Item)
-                         && (aiv->selectionMode() != QAbstractItemView::SingleSelection))
+
+            if (aiv
+                && aiv->selectionMode() != QAbstractItemView::SingleSelection
+                && aiv->selectionMode() != QAbstractItemView::NoSelection)
             {
                 QPen pen(_viewFocusBrush.brush(QPalette::Active).color());
                 pen.setWidth(0);
