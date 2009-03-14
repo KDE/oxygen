@@ -632,12 +632,12 @@ TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
 
     if (!tileSet)
     {
-        QImage tmpImg(9, 9, QImage::Format_ARGB32);
+        QPixmap pixmap(9,9);
         QPainter p;
 
-        tmpImg.fill(0);
+        pixmap.fill(Qt::transparent);
 
-        p.begin(&tmpImg);
+        p.begin(&pixmap);
         p.setPen(Qt::NoPen);
         p.setRenderHint(QPainter::Antialiasing);
         QRadialGradient rg = QRadialGradient(4.5, 4.5, 4.5, 4.5, 4.5);
@@ -650,7 +650,7 @@ TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
         p.setBrush(rg);
         p.drawEllipse(QRectF(0, 0, 9, 9));
 
-        tileSet = new TileSet(QPixmap::fromImage(tmpImg), 4, 4, 1, 1);
+        tileSet = new TileSet(pixmap, 4, 4, 1, 1);
 
         m_slitCache.insert(key, tileSet);
     }
