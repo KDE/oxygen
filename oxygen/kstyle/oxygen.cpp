@@ -1923,19 +1923,22 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 default:
                                     break;
                             }
+
+                            QPalette::ColorGroup colorGroup = tb->palette().currentColorGroup();
+
                             if (horizontal)
                             {
                                 if (northOrEast) // north
                                 {
                                     slitRect.adjust(0,3,0,-3-gw);
-                                    _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-1), t, t->window()->palette());
-                                    renderSlab(p, QRect(r.left()-7, r.bottom()-6-gw, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Top);
+                                    _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-3), t, t->window()->palette());
+                                    renderSlab(p, QRect(r.left()-7, r.bottom()-6-gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top);
                                 }
                                 else // south
                                 {
                                     slitRect.adjust(0,3+gw,0,-3);
                                     _helper.renderWindowBackground(p, r.adjusted(0,2+gw,0,0), t, t->window()->palette());
-                                    renderSlab(p, QRect(r.left()-7, r.top()+4+gw, r.width()+14, 2), pal.color(QPalette::Window), NoFill, TileSet::Bottom);
+                                    renderSlab(p, QRect(r.left()-7, r.top()+4+gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom);
                                 }
                             }
                             else
@@ -1944,13 +1947,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 {
                                     slitRect.adjust(3+gw,0,-3-gw,0);
                                     _helper.renderWindowBackground(p, r.adjusted(2+gw,0,-2,0), t, t->window()->palette());
-                                    renderSlab(p, QRect(r.left()+5+gw, r.top()-7, 2, r.height()+14), pal.color(QPalette::Window), NoFill, TileSet::Right);
+                                    renderSlab(p, QRect(r.left()+5+gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Right);
                                 }
                                 else // west
                                 {
                                     slitRect.adjust(3+gw,0,-3-gw,0);
-                                    _helper.renderWindowBackground(p, r.adjusted(2-gw,0,-2,0), t, t->window()->palette());
-                                    renderSlab(p, QRect(r.right()-6-gw, r.top()-7, 2, r.height()+14), pal.color(QPalette::Window), NoFill, TileSet::Left);
+                                    _helper.renderWindowBackground(p, r.adjusted(2-gw,0,-3,0), t, t->window()->palette());
+                                    renderSlab(p, QRect(r.right()-6-gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Left);
                                 }
                             }
                             // continue drawing the slit
