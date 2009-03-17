@@ -51,7 +51,6 @@
 #include <QtGui/QGroupBox>
 #include <QtGui/QLineEdit>
 #include <QtGui/QDockWidget>
-#include <QtGui/QMdiSubWindow>
 #include <QStyleOptionDockWidget>
 #include <QPaintEvent>
 #include <QToolBox>
@@ -2236,8 +2235,7 @@ void OxygenStyle::polish(QWidget* widget)
         widget->parentWidget()->setAutoFillBackground(false);
     }
     else if (qobject_cast<QMenu*>(widget) 
-            || qobject_cast<QFrame*>(widget) 
-            || qobject_cast<QMdiSubWindow*>(widget))
+            || qobject_cast<QFrame*>(widget))
     {
         widget->installEventFilter(this);
     }
@@ -2313,8 +2311,7 @@ void OxygenStyle::unpolish(QWidget* widget)
         widget->removeEventFilter(this);
         widget->clearMask();
     }
-    else if (qobject_cast<QFrame*>(widget)
-            || qobject_cast<QMdiSubWindow*>(widget))
+    else if (qobject_cast<QFrame*>(widget))
     {
         widget->removeEventFilter(this);
     }
@@ -3014,6 +3011,25 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
             }
             return true;
         }
+        case SH_WindowFrame_Mask: {
+            const QStyleOptionTitleBar *opt = qstyleoption_cast<const QStyleOptionTitleBar *>(option);
+            if (!opt)
+                return true;
+            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask *>(returnData)) {
+                if (opt->titleBarState & Qt::WindowMaximized) {
+                    mask->region = option->rect;
+                } else {
+                    int x, y, w, h;
+                    option->rect.getRect(&x, &y, &w, &h);
+                    QRegion reg(x+4, y, w-8, h);
+                    reg += QRegion(x, y+4, w, h-8);
+                    reg += QRegion(x+2, y+1, w-4, h-2);
+                    reg += QRegion(x+1, y+2, w-2, h-4);
+                    mask->region = reg;
+                }
+            }
+            return true;
+        }
         default:
             return KStyle::styleHint(hint, option, widget, returnData);
     }
@@ -3510,26 +3526,6 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                 QPainter p(widget);
                 _helper.renderWindowBackground(&p, widget->rect(), widget,widget->window()->palette());
             }
-        }
-    }
-
-    if (QMdiSubWindow *mw = qobject_cast<QMdiSubWindow*>(obj))
-    {
-        if (ev->type() == QEvent::Show || ev->type() == QEvent::Resize || ev->type() == QEvent::WindowStateChange)
-        {
-            if (mw->windowState() & Qt::WindowMaximized) {
-                mw->clearMask();
-            } else {
-                int x, y, w, h;
-                mw->rect().getRect(&x, &y, &w, &h);
-                QRegion reg(x+4, y, w-8, h);
-                reg += QRegion(x, y+4, w, h-8);
-                reg += QRegion(x+2, y+1, w-4, h-2);
-                reg += QRegion(x+1, y+2, w-2, h-4);
-                if(mw->mask() != reg)
-                    mw->setMask(reg);
-            }
-            return false;
         }
     }
 
