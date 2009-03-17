@@ -3030,6 +3030,18 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
             }
             return true;
         }
+        case SH_Menu_Mask: {
+            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask *>(returnData)) {
+                int x, y, w, h;
+                option->rect.getRect(&x, &y, &w, &h);
+                QRegion reg(x+4, y, w-8, h);
+                reg += QRegion(x, y+4, w, h-8);
+                reg += QRegion(x+2, y+1, w-4, h-2);
+                reg += QRegion(x+1, y+2, w-2, h-4);
+                mask->region = reg;
+            }
+            return true;
+        }
         default:
             return KStyle::styleHint(hint, option, widget, returnData);
     }
@@ -3449,20 +3461,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
     if (QMenu *m = qobject_cast<QMenu*>(obj))
     {
-        switch(ev->type()) {
-        case QEvent::Show:
-        case QEvent::Resize: {
-            int x, y, w, h;
-            m->rect().getRect(&x, &y, &w, &h);
-            QRegion reg(x+4, y, w-8, h);
-            reg += QRegion(x, y+4, w, h-8);
-            reg += QRegion(x+2, y+1, w-4, h-2);
-            reg += QRegion(x+1, y+2, w-2, h-4);
-            if(m->mask() != reg)
-                m->setMask(reg);
-            return false;
-        }
-        case QEvent::Paint:
+        if (ev->type() == QEvent::Paint)
         {
             QPainter p(m);
             QPaintEvent *e = (QPaintEvent*)ev;
@@ -3478,11 +3477,8 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
             QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
             p.fillRect(lowerRect, _helper.backgroundBottomColor(color));
-            return false;
         }
-        default:
-            return false;
-        }
+        return false;
     }
 
     QWidget *widget = static_cast<QWidget*>(obj);
