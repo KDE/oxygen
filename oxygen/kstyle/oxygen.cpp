@@ -3292,12 +3292,13 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
     case SE_TabWidgetLeftCorner: {
         const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt);
         if(!twf) return QRect();
+        const QTabWidget* tb = qobject_cast<const QTabWidget*>(widget);
 
         QRect paneRect = subElementRect(SE_TabWidgetTabPane, twf, widget);
         switch (twf->shape) {
         case QTabBar::RoundedNorth:
         case QTabBar::TriangularNorth:
-            r = QRect(QPoint(paneRect.x(), paneRect.y() - twf->leftCornerWidgetSize.height() + gw), twf->leftCornerWidgetSize);
+            r = QRect(QPoint(paneRect.x(), paneRect.y() - twf->leftCornerWidgetSize.height() + (tb && tb->documentMode() ? 0 : gw)), twf->leftCornerWidgetSize);
             r = visualRect(twf->direction, twf->rect, r);
             break;
         case QTabBar::RoundedSouth:
@@ -3323,12 +3324,13 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
     case SE_TabWidgetRightCorner: {
         const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt);
         if(!twf) return QRect();
+        const QTabWidget* tb = qobject_cast<const QTabWidget*>(widget);
 
         QRect paneRect = subElementRect(SE_TabWidgetTabPane, twf, widget);
         switch (twf->shape) {
         case QTabBar::RoundedNorth:
         case QTabBar::TriangularNorth:
-            r = QRect(QPoint(paneRect.width() - twf->rightCornerWidgetSize.width(), paneRect.y() - twf->rightCornerWidgetSize.height() + gw), twf->rightCornerWidgetSize);
+            r = QRect(QPoint(paneRect.width() - twf->rightCornerWidgetSize.width(), paneRect.y() - twf->rightCornerWidgetSize.height() + (tb && tb->documentMode() ? 0 : gw)), twf->rightCornerWidgetSize);
             r = visualRect(twf->direction, twf->rect, r);
             break;
         case QTabBar::RoundedSouth:
