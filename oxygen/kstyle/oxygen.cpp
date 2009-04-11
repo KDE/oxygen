@@ -1698,9 +1698,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     if (OxygenStyleConfigData::viewDrawTreeBranchLines())
                     {
-                        //### FIXME: set sane color.
                         QBrush brush(Qt::Dense4Pattern);
-                        brush.setColor(pal.mid().color() );
+                        QColor lineColor = pal.text().color();
+                        lineColor.setAlphaF(0.3);
+                        brush.setColor(lineColor);
                         p->fillRect(r, brush);
                     }
                     return;
