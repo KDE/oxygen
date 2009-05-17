@@ -750,13 +750,15 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
         // strong shadow
         // left
         QLinearGradient l1 = QLinearGradient(rect.topLeft(), rect.topLeft()+QPoint(shadowWidth,0));
-        l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.2 : 0.1));
+        l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.3 : 0.2));
+        l1.setColorAt(0.5, alphaColor(shadow, orientation == Qt::Horizontal ? 0.1 : 0.1));
         l1.setColorAt(1.0, Qt::transparent);
         p.setBrush(l1);
         p.drawRoundedRect(QRect(rect.topLeft(), rect.bottomLeft()+QPoint(shadowWidth,0)), 4.5, 4.5);
         // right
         l1 = QLinearGradient(rect.topRight(), rect.topRight()-QPoint(shadowWidth,0));
-        l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.2 : 0.1));
+        l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.3 : 0.2));
+        l1.setColorAt(0.5, alphaColor(shadow, orientation == Qt::Horizontal ? 0.1 : 0.1));
         l1.setColorAt(1.0, Qt::transparent);
         p.setBrush(l1);
         p.drawRoundedRect(QRect(rect.topRight()-QPoint(shadowWidth,0), rect.bottomRight()), 4.5, 4.5);
