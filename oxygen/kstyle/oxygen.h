@@ -153,6 +153,9 @@ protected:
                    const QStyleOptionTabV2 *tabOpt,
                    const bool reverseLayout) const;
 
+    void fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation,
+                 bool active, bool inverted) const;
+
     void renderWindowIcon(QPainter *p, const QRectF &r, int &type) const;
 
     void renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
