@@ -3067,7 +3067,8 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
 
             if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
                 if ((!tbOpt->icon.isNull()) && (!tbOpt->text.isEmpty()) && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon)
-                    size.setHeight(size.height()-9);
+                    // TODO: Make this font size dependent
+                    size.setHeight(size.height()-5);
             }
 
             // We want to avoid super-skiny buttons, for things like "up" when icons + text
