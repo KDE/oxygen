@@ -2738,7 +2738,7 @@ void OxygenStyle::renderTab(QPainter *p,
     if (horizontal) {
         if ((isLeftMost && !reverseLayout) || (isRightMost && reverseLayout)) {
             if (!reverseLayout) {
-                if (!documentMode && !leftCornerWidget) {
+                if (isFrameAligned) {
                     if (!selected) {
                         frameRect.adjust(-gw+7,0,0,0);
                         frameTiles |= TileSet::Left;
@@ -2751,7 +2751,7 @@ void OxygenStyle::renderTab(QPainter *p,
                 }
                 tabRect.adjust(-gw,0,0,0);
             } else { // reverseLayout
-                if (!documentMode && !rightCornerWidget) {
+                if (isFrameAligned) {
                     if (!selected) {
                         frameRect.adjust(0,0,gw-7,0);
                         frameTiles |= TileSet::Right;
@@ -2833,7 +2833,7 @@ void OxygenStyle::renderTab(QPainter *p,
     p->setClipRect(r);
 
     renderSlab(p, tabRect, color, selected ? selectedTabOpts : (mouseOver ? hoverTabOpts : deselectedTabOpts), tilesByShape(tabOpt->shape));
-    fillTab(p, tabRect, color, horizontal ? Qt::Horizontal : Qt::Vertical, selected, southAlignment || eastAlignment || (reverseLayout && westAlignment));
+    fillTab(p, tabRect, color, horizontal ? Qt::Horizontal : Qt::Vertical, selected, southAlignment || eastAlignment);
     
     p->restore();
 }
