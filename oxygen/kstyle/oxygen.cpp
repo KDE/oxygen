@@ -2414,12 +2414,15 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
         return;
 
     // gradients
-    QLinearGradient sliderGradient;
+    QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
     
     if (!OxygenStyleConfigData::scrollBarColored()) {
-        sliderGradient = QLinearGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
         sliderGradient.setColorAt(0.0, color);
         sliderGradient.setColorAt(1.0, mid);
+    } else {
+        sliderGradient.setColorAt(0.0, _helper.alphaColor( light, 0.6 ));
+        sliderGradient.setColorAt(0.3, _helper.alphaColor( dark, 0.3 ));
+        sliderGradient.setColorAt(1.0, _helper.alphaColor( light, 0.8 ));
     }
 
     QLinearGradient bevelGradient( rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft());
@@ -2430,14 +2433,26 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
     QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top()); // don't let the pattern move
     QPoint periodEnd = offset + (horizontal ? QPoint(30, 0) : QPoint(0, 30));
     QLinearGradient patternGradient(rect.topLeft()+offset, rect.topLeft()+periodEnd);
-    patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.1));
-    patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.1));
+    if (!OxygenStyleConfigData::scrollBarColored()) {
+        patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.1));
+        patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.1));
+    } else {
+        patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.15));
+        patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.15));
+    }
     patternGradient.setSpread(QGradient::ReflectSpread);
 
     // draw the slider
-    QColor glowColor = (hover && !OxygenStyleConfigData::scrollBarColored())?
-        _viewHoverBrush.brush(QPalette::Active).color()
-        : KColorUtils::mix(dark, shadow, 0.5);
+
+    QColor glowColor;
+    if (!OxygenStyleConfigData::scrollBarColored()) {
+        glowColor = hover ?
+            _viewHoverBrush.brush(QPalette::Active).color()
+            : KColorUtils::mix(dark, shadow, 0.5);
+    } else {
+        glowColor = KColorUtils::mix(dark, shadow, 0.5);
+    }
+
     // glow / shadow
     p->setPen(Qt::NoPen);
     p->setBrush(_helper.alphaColor(glowColor, 0.6));
@@ -2450,15 +2465,15 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
     else
         p->drawRoundedRect(rect.adjusted(-0.8,-1.2,0.8,1.2), 3, 3);
 
-    // slider
+    // colored background
     p->setPen(Qt::NoPen);
     if (OxygenStyleConfigData::scrollBarColored()) {
-        p->setBrush( hover?
-                _viewHoverBrush.brush(QPalette::Active).color()
-                : light);
-    } else {
-        p->setBrush(sliderGradient);
+        p->setBrush( hover ? pal.color(QPalette::Highlight) : color );
+        p->drawRoundedRect(rect, 2, 2);
     }
+
+    // slider
+    p->setBrush(sliderGradient);
     p->drawRoundedRect(rect, 2, 2);
 
     // pattern
