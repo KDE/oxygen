@@ -2738,7 +2738,7 @@ void OxygenStyle::renderTab(QPainter *p,
     if (horizontal) {
         if ((isLeftMost && !reverseLayout) || (isRightMost && reverseLayout)) {
             if (!reverseLayout) {
-                if (isFrameAligned) {
+                if (isFrameAligned && !documentMode) {
                     if (!selected) {
                         frameRect.adjust(-gw+7,0,0,0);
                         frameTiles |= TileSet::Left;
@@ -2751,7 +2751,7 @@ void OxygenStyle::renderTab(QPainter *p,
                 }
                 tabRect.adjust(-gw,0,0,0);
             } else { // reverseLayout
-                if (isFrameAligned) {
+                if (isFrameAligned && !documentMode) {
                     if (!selected) {
                         frameRect.adjust(0,0,gw-7,0);
                         frameTiles |= TileSet::Right;
