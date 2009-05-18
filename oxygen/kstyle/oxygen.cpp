@@ -2480,6 +2480,10 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
     p->setBrush(patternGradient);
     p->drawRoundedRect(rect, 2, 2);
 
+
+    if (OxygenStyleConfigData::scrollBarColored())
+        return;
+
     // bevel
     rect.adjust(0.5, 0.5, -0.5, -0.5); // for sharper lines
     p->setPen(QPen(bevelGradient, 1.0));
