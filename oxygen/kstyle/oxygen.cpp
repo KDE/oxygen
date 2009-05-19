@@ -1136,18 +1136,32 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         case QTabBar::RoundedNorth:
                         case QTabBar::TriangularNorth:
                         {
-
+                            // HACK: When drawing corner widget the
+                            // tabbar area is not given, we use the widget
+                            // itself to calculate the needed base frame
+                            // part
+                            if (!tabOpt->tabBarRect.isValid()) {
+                                if (!widget || !widget->inherits("QTabWidget"))
+                                    return;
+                            }
+                            
                             if (r.left() < tabOpt->tabBarRect.left())
                             {
                                 QRect fr = r;
-                                fr.setRight(tabOpt->tabBarRect.left());
+                                if (tabOpt->tabBarRect.isValid())
+                                    fr.setRight(tabOpt->tabBarRect.left());
+                                else
+                                    fr.setRight(fr.left() + (qobject_cast<const QTabWidget *>(widget)->cornerWidget(Qt::TopLeftCorner)->width()));
                                 fr.adjust(-7,-gw,7,-1-gw);
                                 renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
                             }
                             if (tabOpt->tabBarRect.right() < r.right())
                             {
                                 QRect fr = r;
-                                fr.setLeft(tabOpt->tabBarRect.right());
+                                if (tabOpt->tabBarRect.isValid())
+                                    fr.setLeft(tabOpt->tabBarRect.right());
+                                else
+                                    fr.setLeft(fr.right() - (qobject_cast<const QTabWidget *>(widget)->cornerWidget(Qt::TopRightCorner)->width()));
                                 fr.adjust(-7,-gw,7,-1-gw);
                                 renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
                             }
@@ -1156,6 +1170,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         case QTabBar::RoundedSouth:
                         case QTabBar::TriangularSouth:
                         {
+                            if (!tabOpt->tabBarRect.isValid())
+                                return;
+
                             if (r.left() < tabOpt->tabBarRect.left())
                             {
                                 QRect fr = r;
