@@ -321,40 +321,78 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
             }
             break;
         }
-    case CE_ComboBoxLabel: //same as CommonStyle, except for fiilling behind icon
-        if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
-            QRect editRect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
-            p->save();
-            p->setClipRect(editRect);
-            if (!cb->currentIcon.isNull()) {
-                QIcon::Mode mode = cb->state & State_Enabled ? QIcon::Normal
-                                                             : QIcon::Disabled;
-                QPixmap pixmap = cb->currentIcon.pixmap(cb->iconSize, mode);
-                QRect iconRect(editRect);
-                iconRect.setWidth(cb->iconSize.width() + 4);
-                iconRect = alignedRect(cb->direction,
-                                       Qt::AlignLeft | Qt::AlignVCenter,
-                                       iconRect.size(), editRect);
+        case CE_ComboBoxLabel: //same as CommonStyle, except for fiilling behind icon
+        {
+            if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
+                QRect editRect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
+                p->save();
+                p->setClipRect(editRect);
+                if (!cb->currentIcon.isNull()) {
+                    QIcon::Mode mode = cb->state & State_Enabled ? QIcon::Normal
+                                                                 : QIcon::Disabled;
+                    QPixmap pixmap = cb->currentIcon.pixmap(cb->iconSize, mode);
+                    QRect iconRect(editRect);
+                    iconRect.setWidth(cb->iconSize.width() + 4);
+                    iconRect = alignedRect(cb->direction,
+                                           Qt::AlignLeft | Qt::AlignVCenter,
+                                           iconRect.size(), editRect);
 
-                drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
+                    drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
 
-                if (cb->direction == Qt::RightToLeft)
-                    editRect.translate(-4 - cb->iconSize.width(), 0);
-                else
-                    editRect.translate(cb->iconSize.width() + 4, 0);
+                    if (cb->direction == Qt::RightToLeft)
+                        editRect.translate(-4 - cb->iconSize.width(), 0);
+                    else
+                        editRect.translate(cb->iconSize.width() + 4, 0);
+                }
+                if (!cb->currentText.isEmpty() && !cb->editable) {
+                    drawItemText(p, editRect.adjusted(1, 0, -1, 0),
+                                 visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
+                                 cb->palette, cb->state & State_Enabled, cb->currentText);
+                }
+                p->restore();
             }
-            if (!cb->currentText.isEmpty() && !cb->editable) {
-                drawItemText(p, editRect.adjusted(1, 0, -1, 0),
-                             visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
-                             cb->palette, cb->state & State_Enabled, cb->currentText);
-            }
-            p->restore();
+            break;
         }
-        break;
+        case CE_TabBarTabLabel:
+        {
+            const QStyleOptionTab *tabOpt = qstyleoption_cast<const QStyleOptionTab *>(option);
+            QRect rect = option->rect;
+            if (tabOpt && (option->state & State_Selected)) {
+                switch (tabOpt->shape)
+                {
+                    case QTabBar::RoundedNorth:
+                    case QTabBar::TriangularNorth:
+                        rect.adjust(0,-1,0,-1);
+                        break;
+                    case QTabBar::RoundedSouth:
+                    case QTabBar::TriangularSouth:
+                        rect.adjust(0,1,0,1);
+                        break;
+                    case QTabBar::RoundedWest:
+                    case QTabBar::TriangularWest:
+                        rect.adjust(-1,0,-1,0);
+                        break;
+                    case QTabBar::RoundedEast:
+                    case QTabBar::TriangularEast:
+                        rect.adjust(1,0,1,0);
+                        break;
+                    default:
+                        break;
+                }
 
+                QStyleOptionTabV3 *tabOpt3 = new QStyleOptionTabV3(*tabOpt);
+                tabOpt3->rect = rect;
+                KStyle::drawControl(element, tabOpt3, p, widget);
+                delete tabOpt3;
+                return;
+            } else {
+                break;
+            }
+        }
         default:
-            KStyle::drawControl(element, option, p, widget);
+            break;
     }
+    KStyle::drawControl(element, option, p, widget);
 }
 
 void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
@@ -2370,6 +2408,10 @@ void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOpt
         tile = _helper.slabFocused(color, _viewHoverBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
     else if (opts & Focus)
         tile = _helper.slabFocused(color, _viewFocusBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
+    else if (opts & SubtleShadow)
+        tile = _helper.slabFocused( color
+                , _helper.alphaColor(_helper.calcShadowColor(color), 0.15)
+                , 0.0 ); // FIXME need state
     else
     {
         tile = _helper.slab(color, 0.0);
@@ -2700,7 +2742,7 @@ void OxygenStyle::renderTab(QPainter *p,
     const QColor midColor = _helper.alphaColor(_helper.calcDarkColor(color), 0.4);
     const QColor darkColor = _helper.alphaColor(_helper.calcDarkColor(color), 0.6);
     
-    StyleOptions selectedTabOpts = NoFill;
+    StyleOptions selectedTabOpts = NoFill | SubtleShadow;
     StyleOptions hoverTabOpts = NoFill | Hover;
     StyleOptions deselectedTabOpts = NoFill;
     TileSet::Tiles frameTiles = (horizontal) ? 
@@ -2712,8 +2754,8 @@ void OxygenStyle::renderTab(QPainter *p,
     if (horizontal) {
         // selected tabs are taller
         if (selected) {
-            if (northAlignment) tabRect.adjust(0,0,0,2);
-            else                tabRect.adjust(0,-2,0,0);
+            if (northAlignment) tabRect.adjust(0,-1,0,2);
+            else                tabRect.adjust(0,-2,0,1);
         } else { // deselected 
             if (northAlignment) tabRect.adjust(0,1,0,2);
             else                tabRect.adjust(0,-2,0,-1);
@@ -2724,8 +2766,8 @@ void OxygenStyle::renderTab(QPainter *p,
     } else { // east and west tabs
         // selected tabs are taller
         if (selected) {
-            if (westAlignment)  tabRect.adjust(1,0,2,0);
-            else                tabRect.adjust(-2,0,-1,0);
+            if (westAlignment)  tabRect.adjust(0,0,2,0);
+            else                tabRect.adjust(-2,0,0,0);
         } else { // deselected 
             if (westAlignment)  tabRect.adjust(2,0,2,0);
             else                tabRect.adjust(-2,0,-2,0);
@@ -2868,7 +2910,7 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
     QColor light = _helper.calcLightColor(color);
     QColor hl = _viewFocusBrush.brush(QPalette::Active).color();
     
-    QRect fillRect = r.adjusted(3.5,3.5,-3.5,-3.5);
+    QRect fillRect = r.adjusted(4,4,-4,-4);
     
     QLinearGradient highlight;
     if (orientation == Qt::Horizontal) {

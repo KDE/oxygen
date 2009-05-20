@@ -101,7 +101,8 @@ public:
         Focus = 0x2,
         Hover = 0x4,
         Disabled = 0x8,
-        NoFill = 0x10
+        NoFill = 0x10,
+        SubtleShadow = 0x20
     };
     Q_DECLARE_FLAGS(StyleOptions, StyleOption)
 
