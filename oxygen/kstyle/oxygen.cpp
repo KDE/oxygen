@@ -2410,7 +2410,7 @@ void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOpt
         tile = _helper.slabFocused(color, _viewFocusBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
     else if (opts & SubtleShadow)
         tile = _helper.slabFocused( color
-                , _helper.alphaColor(_helper.calcShadowColor(color), 0.15)
+                , _helper.alphaColor(_helper.calcShadowColor(color), 0.1)
                 , 0.0 ); // FIXME need state
     else
     {
