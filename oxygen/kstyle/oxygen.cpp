@@ -2414,7 +2414,7 @@ void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOpt
         tile = _helper.slabFocused(color, _viewFocusBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
     else if (opts & SubtleShadow)
         tile = _helper.slabFocused( color
-                , _helper.alphaColor(_helper.calcShadowColor(color), 0.1)
+                , _helper.alphaColor(_helper.calcShadowColor(color), 0.15)
                 , 0.0 ); // FIXME need state
     else
     {
@@ -2746,7 +2746,8 @@ void OxygenStyle::renderTab(QPainter *p,
     const QColor midColor = _helper.alphaColor(_helper.calcDarkColor(color), 0.4);
     const QColor darkColor = _helper.alphaColor(_helper.calcDarkColor(color), 0.6);
     
-    StyleOptions selectedTabOpts = NoFill | SubtleShadow;
+    StyleOptions selectedTabOpts = OxygenStyleConfigData::tabSubtleShadow() ?
+        SubtleShadow | NoFill : NoFill;
     StyleOptions hoverTabOpts = NoFill | Hover;
     StyleOptions deselectedTabOpts = NoFill;
     TileSet::Tiles frameTiles = (horizontal) ? 
