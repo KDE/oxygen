@@ -2915,7 +2915,7 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
     QColor light = _helper.calcLightColor(color);
     QColor hl = _viewFocusBrush.brush(QPalette::Active).color();
     
-    QRect fillRect = r.adjusted(4,4,-4,-4);
+    QRect fillRect = r.adjusted(4,(orientation == Qt::Horizontal && !inverted) ? 3 : 4,-4,-4);
     
     QLinearGradient highlight;
     if (orientation == Qt::Horizontal) {
