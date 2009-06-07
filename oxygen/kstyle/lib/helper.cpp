@@ -445,7 +445,7 @@ void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &colo
             p->drawArc(QRectF(x+w-11+0.5, y-0.5, 11, 11), 0, 90*16);
             p->drawLine(QPointF(x-0.5, y+4), QPointF(x-0.5, y+h-4));
             p->drawLine(QPointF(x+w+0.5, y+4), QPointF(x+w+0.5, y+h-4));
-            p->drawArc(QRectF(0.5, y+h-11+0.5, 11, 11),180*16, 90*16);
+            p->drawArc(QRectF(x-0.5, y+h-11+0.5, 11, 11),180*16, 90*16);
             p->drawArc(QRectF(x+w-11+0.5, y+h-11+0.5, 11, 11),270*16, 90*16);
             p->drawLine(QPointF(x+4, y+h+0.5), QPointF(x+w-4, y+h+0.5));
             light = KColorUtils::mix(light, frameColor);
