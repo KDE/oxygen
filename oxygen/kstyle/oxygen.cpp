@@ -69,7 +69,7 @@
 #include <math.h>
 
 #include "helper.h"
-#include "tileset.h"
+#include "lib/tileset.h"
 #include "oxygenstyleconfigdata.h"
 
 // We need better holes! Bevel color and shadow color are currently based on

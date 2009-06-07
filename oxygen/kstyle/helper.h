@@ -22,7 +22,7 @@
 #define __OXYGEN_STYLE_HELPER_H
 
 #include "lib/helper.h"
-#include "tileset.h"
+#include "lib/tileset.h"
 
 class SlabCache {
 public:
