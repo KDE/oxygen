@@ -8,7 +8,7 @@ add_subdirectory( config )
 ########### next target ###############
 
 set(oxygen_PART_SRCS
-    tileset.cpp
+    lib/tileset.cpp
     lib/helper.cpp helper.cpp
     oxygen.cpp)
 
