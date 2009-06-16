@@ -2940,9 +2940,9 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
         highlight.setColorAt(0.75, _helper.alphaColor(light, 0.1));
         highlight.setColorAt(0.9, Qt::transparent);
     } else { // inactive
-       highlight.setColorAt(0.0, _helper.alphaColor(light, 0.2));
-       highlight.setColorAt(0.4, _helper.alphaColor(dark, 0.4));
-       highlight.setColorAt(0.8, _helper.alphaColor(dark, 0.3));
+       highlight.setColorAt(0.0, _helper.alphaColor(light, 0.1));
+       highlight.setColorAt(0.4, _helper.alphaColor(dark, 0.5));
+       highlight.setColorAt(0.8, _helper.alphaColor(dark, 0.4));
        highlight.setColorAt(0.9, Qt::transparent);
     }
     
