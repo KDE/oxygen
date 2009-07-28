@@ -201,6 +201,8 @@ QPixmap OxygenHelper::verticalGradient(const QColor &color, int height)
         p.setCompositionMode(QPainter::CompositionMode_Source);
         p.fillRect(pixmap->rect(), gradient);
 
+        p.end();
+
         m_backgroundCache.insert(key, pixmap);
     }
 
@@ -231,6 +233,8 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width)
         QPainter p(pixmap);
         p.scale(width/128.0,1);
         p.fillRect(QRect(0,0,128,64), gradient);
+
+        p.end();
 
         m_backgroundCache.insert(key, pixmap);
     }
@@ -337,6 +341,8 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
         p.setPen(QPen(lightgr, 1.7));
         p.drawEllipse(buttonRect.adjusted(0.0, -0.5, -0.1, 0.0));
 
+        p.end();
+
         m_windecoButtonCache.insert(key, pixmap);
     }
 
@@ -378,6 +384,8 @@ QPixmap OxygenHelper::windecoButtonGlow(const QColor &color, int size)
         p.setCompositionMode(QPainter::CompositionMode_SourceIn);
         p.setBrush(glow);
         p.drawEllipse(rect);
+
+        p.end();
 
         m_windecoButtonGlowCache.insert(key, pixmap);
     }
@@ -425,6 +433,7 @@ QPixmap OxygenHelper::glow(const QColor &color, int size, int rsize)
 
 void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &color, bool drawUglyShadow, bool isActive, const QColor &frameColor) const
 {
+    p->save();
     p->setRenderHint(QPainter::Antialiasing);
     QRect frame = r;
     frame.adjust(1,1,-1,-1);
@@ -478,8 +487,7 @@ void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &colo
     p->drawArc(QRectF(x+w-9-0.6, y+0.6, 9, 9), 0, 90*16);
     p->drawLine(QPointF(x+0.6, y+4), QPointF(x+0.6, y+h-4));
     p->drawLine(QPointF(x+w-0.6, y+4), QPointF(x+w-0.6, y+h-4));
-
-    return;
+    p->restore();
 }
 
 void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &color, Qt::Orientation orientation) const
@@ -487,7 +495,7 @@ void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &c
     QColor light = calcLightColor(color);
     QColor dark = calcDarkColor(color);
 
-    bool antialias = p->testRenderHint(QPainter::Antialiasing);
+    p->save();
     p->setRenderHint(QPainter::Antialiasing,false);
 
     QPoint start,end,offset;
@@ -533,6 +541,6 @@ void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &c
         p->drawLine(start+offset*2,end+offset*2);
     }
 
-    p->setRenderHint(QPainter::Antialiasing, antialias);
+    p->restore();
 }
 
