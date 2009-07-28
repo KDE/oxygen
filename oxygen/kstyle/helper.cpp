@@ -484,7 +484,10 @@ TileSet *OxygenStyleHelper::slope(const QColor &color, double shade, int size)
         p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
         p.drawRect(0, 9, 28, 19);
 
+        p.end();
+
         tileSet = new TileSet(pixmap, size, size, size*2, 2);
+
         m_slopeCache.insert(key, tileSet);
     }
     return tileSet;
@@ -650,6 +653,8 @@ TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
         p.setBrush(rg);
         p.drawEllipse(QRectF(0, 0, 9, 9));
 
+        p.end();
+
         tileSet = new TileSet(pixmap, 4, 4, 1, 1);
 
         m_slitCache.insert(key, tileSet);
@@ -705,7 +710,10 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
         drawSeparator(&p, QRect(0,0,w,2), color, Qt::Horizontal);
         drawSeparator(&p, QRect(0,h-2,w,2), color, Qt::Horizontal);
 
+        p.end();
+
         tileSet = new TileSet(pm, 4, 4, w-8, h-8);
+
         m_dockFrameCache.insert(key, tileSet);
     }
     return tileSet;
@@ -777,7 +785,10 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
         p.setBrush(Qt::NoBrush);
         p.drawRoundedRect(r.adjusted(0.5,0,-0.5,0), 5.0, 5.0);
 
+        p.end();
+
         tileSet = new TileSet(pm, 7, 7, 1, 1);
+
         m_scrollHoleCache.insert(key, tileSet);
     }
     return tileSet;
