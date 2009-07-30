@@ -620,15 +620,15 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     if (active) {
                         QColor color = pal.color(QPalette::Window);
-                        if (OxygenStyleConfigData::menuHighLightMode() != OxygenStyleConfigData::MM_DARK) {
+                        if (OxygenStyleConfigData::menuHighlightMode() != OxygenStyleConfigData::MM_DARK) {
                             if(flags & State_Sunken) {
-                                if (OxygenStyleConfigData::menuHighLightMode() == OxygenStyleConfigData::MM_STRONG)
+                                if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
                                     color = pal.color(QPalette::Highlight);
                                 else
                                     color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
                             }
                             else {
-                                if (OxygenStyleConfigData::menuHighLightMode() == OxygenStyleConfigData::MM_STRONG)
+                                if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
                                     color = KColorUtils::tint(color, _viewHoverBrush.brush(pal).color());
                                 else
                                     color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
@@ -649,7 +649,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
 
                     QPen   old = p->pen();
-                    if (OxygenStyleConfigData::menuHighLightMode() == OxygenStyleConfigData::MM_STRONG && flags & State_Sunken)
+                    if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && flags & State_Sunken)
                         p->setPen(pal.color(QPalette::HighlightedText));
                     else
                         p->setPen(pal.color(QPalette::WindowText));
@@ -714,9 +714,9 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                         QRect rr(QPoint(0,0), r.size());
 
                         QColor color = pal.color(QPalette::Window);
-                        if (OxygenStyleConfigData::menuHighLightMode() == OxygenStyleConfigData::MM_STRONG)
+                        if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
                             color = pal.color(QPalette::Highlight);
-                        else if (OxygenStyleConfigData::menuHighLightMode() == OxygenStyleConfigData::MM_SUBTLE)
+                        else if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE)
                             color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
                         else
                             color = _helper.calcMidColor(color);
@@ -753,7 +753,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
 
                     QPen   old = p->pen();
-                    if (OxygenStyleConfigData::menuHighLightMode() == OxygenStyleConfigData::MM_STRONG && flags & State_Selected)
+                    if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && flags & State_Selected)
                         p->setPen(pal.color(QPalette::HighlightedText));
                     else
                         p->setPen(pal.color(QPalette::WindowText));
@@ -2608,7 +2608,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
         pen.setCapStyle(Qt::RoundCap);
         if (primitive == CheckBox::CheckTriState) {
             QVector<qreal> dashes;
-            if (OxygenStyleConfigData::checkBoxDrawCheck()) {
+            if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK) {
                 dashes << 1.0 << 2.0;
                 pen.setWidthF(1.3);
             }
@@ -2621,7 +2621,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
         p->save();
         p->setRenderHint(QPainter::Antialiasing);
         p->setPen(pen);
-        if (OxygenStyleConfigData::checkBoxDrawCheck()) {
+        if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK) {
             p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
             p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
         }

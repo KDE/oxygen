@@ -15,8 +15,12 @@
     <entry name="ScrollBarWidth" type="Int">
       <default>17</default>
     </entry>
-    <entry name="CheckBoxDrawCheck" type="Bool">
-      <default>true</default>
+    <entry name="CheckBoxStyle" type="Int">
+      <choices>
+          <choice name="CS_CHECK" />
+          <choice name="CS_X" />
+      </choices>
+      <default>CS_CHECK</default>
     </entry>
     <entry name="ScrollBarColored" type="Bool">
       <default>false</default>
@@ -24,7 +28,7 @@
     <entry name="ProgressBarAnimated" type="Bool">
       <default>true</default>
     </entry>
-    <entry name="MenuHighLightMode" type="Enum">
+    <entry name="MenuHighlightMode" type="Enum">
       <choices>
           <choice name="MM_DARK" />
           <choice name="MM_SUBTLE" />
