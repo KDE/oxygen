@@ -8,6 +8,8 @@ set(kstyle_oxygen_config_PART_SRCS oxygenconf.cpp )
 
 kde4_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
 
+kde4_add_ui_files(kstyle_oxygen_config_PART_SRCS oxygenconf.ui)
+
 kde4_add_plugin(kstyle_oxygen_config ${kstyle_oxygen_config_PART_SRCS})
 
 target_link_libraries(kstyle_oxygen_config ${KDE4_KDEUI_LIBS})

@@ -58,47 +58,37 @@ extern "C"
 
 OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
 {
-    //Should have no margins here, the dialog provides them
-    QVBoxLayout* layout = new QVBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
-
     KGlobal::locale()->insertCatalog("kstyle_config");
 
-    /* Stop 1: Add a widget */
-    _toolBarDrawItemSeparator = new QCheckBox(i18n("Draw toolbar item separators"), this);
-    _viewDrawTriangularExpander = new QCheckBox(i18n("Triangular tree expander"), this);
-    _viewDrawTreeBranchLines = new QCheckBox(i18n("Draw tree branch lines"), this);
-    _scrollBarWidth = new KIntNumInput(this);
-    _scrollBarWidth->setRange(SCROLLBAR_MINIMUM_WIDTH, SCROLLBAR_MAXIMUM_WIDTH, 1);
-    _scrollBarWidth->setSliderEnabled(true);
-    _scrollBarWidth->setLabel(i18n("Scrollbar width"), Qt::AlignLeft | Qt::AlignVCenter);
-    _scrollBarColored = new QCheckBox(i18n("Colorful hovered scrollbars"));
-
-    /* Stop 2: Add your widget somewhere */
-    layout->addWidget( _toolBarDrawItemSeparator );
-    layout->addWidget( _viewDrawTriangularExpander );
-    layout->addWidget( _viewDrawTreeBranchLines );
-    layout->addWidget( _scrollBarColored );
-    layout->addWidget( _scrollBarWidth );
-
-    layout->addStretch(1);
+    /* Stop 1+2: Set up the UI */
+    setupUi(this);
 
     /* Stop 3: Set up the configuration struct and your widget */
     _toolBarDrawItemSeparator->setChecked( OxygenStyleConfigData::toolBarDrawItemSeparator() );
+    _checkDrawX->setChecked( OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_X );
     _viewDrawTriangularExpander->setChecked( OxygenStyleConfigData::viewDrawTriangularExpander() );
     _viewDrawTreeBranchLines->setChecked(OxygenStyleConfigData::viewDrawTreeBranchLines() );
     _scrollBarWidth->setValue( qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH,
                                 OxygenStyleConfigData::scrollBarWidth())) );
     _scrollBarColored->setChecked( OxygenStyleConfigData::scrollBarColored() );
+    _menuHighlightDark->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK );
+    _menuHighlightStrong->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG
+                                   || OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
+    _menuHighlightSubtle->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
+    _menuHighlightSubtle->setEnabled( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG
+                                   || OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
 
 
     /* Stop 4: Emit a signal on changes */
     connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _checkDrawX, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _viewDrawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _viewDrawTreeBranchLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _scrollBarColored, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _scrollBarWidth, SIGNAL( valueChanged(int) ), SLOT( updateChanged() ) );
+    connect( _menuHighlightDark, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _menuHighlightStrong, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _menuHighlightSubtle, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
 }
 
 OxygenStyleConfig::~OxygenStyleConfig()
@@ -110,10 +100,12 @@ void OxygenStyleConfig::save()
 {
     /* Stop 5: Save the configuration */
     OxygenStyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
+    OxygenStyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK ) );
     OxygenStyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
     OxygenStyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
     OxygenStyleConfigData::setScrollBarColored( _scrollBarColored->isChecked() );
     OxygenStyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
+    OxygenStyleConfigData::setMenuHighlightMode( menuMode() );
 
     OxygenStyleConfigData::self()->writeConfig();
 }
@@ -122,11 +114,24 @@ void OxygenStyleConfig::defaults()
 {
     /* Stop 6: Set defaults */
     _toolBarDrawItemSeparator->setChecked(true);
+    _checkDrawX->setChecked(false);
     _viewDrawTriangularExpander->setChecked(false);
     _viewDrawTreeBranchLines->setChecked(true);
     _scrollBarColored->setChecked(false);
     _scrollBarWidth->setValue(SCROLLBAR_DEFAULT_WIDTH);
+    _menuHighlightSubtle->setChecked(false);
+    _menuHighlightDark->setChecked(true);
     //updateChanged would be done by setChecked already
+}
+
+int OxygenStyleConfig::menuMode() const
+{
+    if (_menuHighlightDark->isChecked())
+        return OxygenStyleConfigData::MM_DARK;
+    else if (_menuHighlightSubtle->isChecked())
+        return OxygenStyleConfigData::MM_SUBTLE;
+    else
+        return OxygenStyleConfigData::MM_STRONG;
 }
 
 void OxygenStyleConfig::updateChanged()
@@ -138,6 +143,8 @@ void OxygenStyleConfig::updateChanged()
         && (_viewDrawTreeBranchLines->isChecked() == OxygenStyleConfigData::viewDrawTreeBranchLines())
         && (_scrollBarColored->isChecked() == OxygenStyleConfigData::scrollBarColored())
         && (_scrollBarWidth->value() == OxygenStyleConfigData::scrollBarWidth())
+        && ((_checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK) == OxygenStyleConfigData::checkBoxStyle())
+        && (menuMode() == OxygenStyleConfigData::menuHighlightMode())
         )
         emit changed(false);
     else

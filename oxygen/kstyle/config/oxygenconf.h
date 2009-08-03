@@ -34,11 +34,9 @@ DEALINGS IN THE SOFTWARE.
 #include <QtGui/QColor>
 #include <KSharedConfig>
 
-class QCheckBox;
-class KIntNumInput;
-class KColorButton;
+#include "ui_oxygenconf.h"
 
-class OxygenStyleConfig: public QWidget
+class OxygenStyleConfig: public QWidget, Ui::OxygenConfigDialog
 {
     Q_OBJECT
 public:
@@ -59,13 +57,7 @@ protected Q_SLOTS:
     void updateChanged();
 
 protected:
-    //We store settings directly in widgets to
-    //avoid the hassle of sync'ing things
-    QCheckBox* _toolBarDrawItemSeparator;
-    QCheckBox* _viewDrawTriangularExpander;
-    QCheckBox* _viewDrawTreeBranchLines;
-    QCheckBox* _scrollBarColored;
-    KIntNumInput* _scrollBarWidth;
+    int menuMode() const;
 };
 
 #endif // OXYGENCONF_H
