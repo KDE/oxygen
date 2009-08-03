@@ -1,9 +1,10 @@
 /*
-Copyright (C) 2009 Long Huynh Huu <long.upcase@googlemail.com>
-Copyright (C) 2003 Sandro Giessl <ceebx@users.sourceforge.net>
+Copyright 2009 Matthew Woehlke <mw.triad@users.sourceforge.net>
+Copyright 2009 Long Huynh Huu <long.upcase@googlemail.com>
+Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
 
-based on the Keramik configuration dialog:
-Copyright (c) 2003 Maksim Orlovich <maksim.orlovich@kdemail.net>
+originally based on the Keramik configuration dialog:
+Copyright 2003 Maksim Orlovich <maksim.orlovich@kdemail.net>
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -28,18 +29,9 @@ DEALINGS IN THE SOFTWARE.
 #include "oxygenconf.h"
 #include "oxygenstyleconfigdata.h"
 
-#ifndef QT3_SUPPORT
-#define QT3_SUPPORT
-#endif
-#include <QtGui/QCheckBox>
-#include <knuminput.h>
-#include <QtGui/QLayout>
-#include <khbox.h>
-#include <QtGui/QColor>
 #include <KGlobal>
 #include <KLocale>
-#include <KColorButton>
-#include <KComponentData>
+#include <KSharedConfig>
 #include <KConfigGroup>
 #include <kdemacros.h>
 
@@ -94,7 +86,6 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
 OxygenStyleConfig::~OxygenStyleConfig()
 {
 }
-
 
 void OxygenStyleConfig::save()
 {

@@ -27,13 +27,6 @@ DEALINGS IN THE SOFTWARE.
 #ifndef OXYGENCONF_H
 #define OXYGENCONF_H
 
-#ifndef QT3_SUPPORT
-#define QT3_SUPPORT
-#endif
-#include <QtGui/QWidget>
-#include <QtGui/QColor>
-#include <KSharedConfig>
-
 #include "ui_oxygenconf.h"
 
 class OxygenStyleConfig: public QWidget, Ui::OxygenConfigDialog
