@@ -322,6 +322,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
                 p->setClipRegion(rbOpt->rect);
                 p->drawRect(rbOpt->rect.adjusted(0,0,-1,-1));
                 p->restore();
+                return;
             }
             break;
         }
@@ -354,6 +355,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
                                  cb->palette, cb->state & State_Enabled, cb->currentText);
                 }
                 p->restore();
+                return;
             }
             break;
         }
