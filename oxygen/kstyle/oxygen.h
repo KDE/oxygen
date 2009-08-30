@@ -152,7 +152,8 @@ protected:
                    bool mouseOver,
                    const bool selected,
                    const QStyleOptionTabV2 *tabOpt,
-                   const bool reverseLayout) const;
+                   const bool reverseLayout,
+                   const QWidget *widget=NULL) const;
 
     void fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation,
                  bool active, bool inverted) const;
