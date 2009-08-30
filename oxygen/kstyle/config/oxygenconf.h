@@ -51,6 +51,7 @@ protected Q_SLOTS:
 
 protected:
     int menuMode() const;
+    int tabStyle() const;
 };
 
 #endif // OXYGENCONF_H

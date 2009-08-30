@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>452</width>
+    <width>439</width>
     <height>351</height>
    </rect>
   </property>
@@ -14,22 +14,6 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <property name="margin">
-    <number>0</number>
-   </property>
-   <item row="3" column="0" colspan="2">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="0" column="0" colspan="2">
     <widget class="QGroupBox" name="groupGeneral">
      <property name="title">
@@ -53,7 +37,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="1" column="0">
     <widget class="QGroupBox" name="groupView">
      <property name="title">
       <string>Views</string>
@@ -71,6 +55,42 @@
         <property name="text">
          <string>Draw tree branch lines</string>
         </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Tabs</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Tab style</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="_tabStyle">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string>Single</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Plain</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -208,12 +228,20 @@
      <zorder>_menuHighlightSubtle</zorder>
     </widget>
    </item>
+   <item row="3" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
   </layout>
-  <zorder>verticalSpacer</zorder>
-  <zorder>groupGeneral</zorder>
-  <zorder>groupView</zorder>
-  <zorder>groupScrollBar</zorder>
-  <zorder>groupMenu</zorder>
  </widget>
  <resources/>
  <connections>
@@ -262,6 +290,22 @@
     <hint type="destinationlabel">
      <x>358</x>
      <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>_menuHighlightDark</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>_menuHighlightSubtle</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>236</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>354</x>
+     <y>287</y>
     </hint>
    </hints>
   </connection>

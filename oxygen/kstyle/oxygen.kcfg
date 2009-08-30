@@ -39,6 +39,13 @@
     <entry name="TabSubtleShadow" type="Bool">
       <default>false</default>
     </entry>
+    <entry name="TabStyle" type="Enum">
+      <choices>
+          <choice name="TS_SINGLE" />
+          <choice name="TS_PLAIN" />
+      </choices>
+      <default>TS_SINGLE</default>
+    </entry>
   </group> 
 </kcfg>
 
