@@ -54,7 +54,10 @@ public:
     KSharedConfigPtr config() const;
     void reloadConfig();
 
-    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift=-23 /* shift the background gradient upwards, to fit with the windec */);
+    // y_shift: shift the background gradient upwards, to fit with the windec 
+    // gradientHeight: the height of the generated gradient. 
+    // for different heights, the gradient is translated so that it is always at the same position from the bottom 
+    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift=-23, int gradientHeight = 64);
     virtual void invalidateCaches();
 
     static bool lowThreshold(const QColor &color);
@@ -72,7 +75,7 @@ public:
     QColor backgroundBottomColor(const QColor &color) const;
 
     QPixmap verticalGradient(const QColor &color, int height);
-    QPixmap radialGradient(const QColor &color, int width);
+    QPixmap radialGradient(const QColor &color, int width, int height = 64);
 
     QLinearGradient decoGradient(const QRect &r, const QColor &color);
 

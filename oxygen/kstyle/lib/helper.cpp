@@ -65,7 +65,7 @@ void OxygenHelper::reloadConfig()
         invalidateCaches(); // contrast changed, invalidate our caches
 }
 
-void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift)
+void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift, int gradientHeight)
 {
     const QWidget* window = widget->window();
     // get coordinates relative to the client area
@@ -93,10 +93,10 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
     p->fillRect(lowerRect, backgroundBottomColor(color));
 
     int radialW = qMin(600, r.width());
-    QRect radialRect = QRect((r.width() - radialW) / 2-x, -y, radialW, 64);
+    QRect radialRect = QRect((r.width() - radialW) / 2-x, -y, radialW, gradientHeight);
     if (clipRect.intersects(radialRect))
     {
-        tile = radialGradient(color, radialW);
+        tile = radialGradient(color, radialW, gradientHeight);
         p->drawPixmap(radialRect, tile);
      }
 
@@ -210,7 +210,7 @@ QPixmap OxygenHelper::verticalGradient(const QColor &color, int height)
     return *pixmap;
 }
 
-QPixmap OxygenHelper::radialGradient(const QColor &color, int width)
+QPixmap OxygenHelper::radialGradient(const QColor &color, int width, int height)
 {
     quint64 key = (quint64(color.rgba()) << 32) | width | 0xb000;
     QPixmap *pixmap = m_backgroundCache.object(key);
@@ -218,11 +218,11 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width)
     if (!pixmap)
     {
 //        width /= 2;
-        pixmap = new QPixmap(width, 64);
+        pixmap = new QPixmap(width, height);
         pixmap->fill(QColor(0,0,0,0));
         QColor radialColor = backgroundRadialColor(color);
         radialColor.setAlpha(255);
-        QRadialGradient gradient(64, 0, 64);
+        QRadialGradient gradient(64, height-64, 64);
         gradient.setColorAt(0, radialColor);
         radialColor.setAlpha(101);
         gradient.setColorAt(0.5, radialColor);
@@ -233,7 +233,7 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width)
 
         QPainter p(pixmap);
         p.scale(width/128.0,1);
-        p.fillRect(QRect(0,0,128,64), gradient);
+        p.fillRect(QRect(0,0,128,height), gradient);
 
         p.end();
 
