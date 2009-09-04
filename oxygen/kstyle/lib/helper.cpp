@@ -30,6 +30,7 @@
 
 #include <math.h>
 
+const double OxygenHelper::_slabThickness = 0.45; //TODO: configurable?
 const double OxygenHelper::_shadowGain = 1.5;
 
 // NOTE: OxygenStyleHelper needs to use a KConfig from its own KComponentData
@@ -544,3 +545,83 @@ void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &c
     p->restore();
 }
 
+
+TileSet *OxygenHelper::slab(const QColor &color, double shade, int size)
+{
+    SlabCache *cache = slabCache(color);
+    quint64 key = (int)(256.0 * shade) << 24 | size;
+    TileSet *tileSet = cache->m_slabCache.object(key);
+
+    if (!tileSet)
+    {
+        QPixmap pixmap(size*2, size*2);
+        pixmap.fill(QColor(0,0,0,0));
+
+        QPainter p(&pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(0,0,14,14);
+
+        // shadow
+        drawShadow(p, calcShadowColor(color), 14);
+
+        // slab
+        drawSlab(p, color, shade);
+
+        p.end();
+
+        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
+
+        cache->m_slabCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+void OxygenHelper::drawSlab(QPainter &p, const QColor &color, double shade) const
+{
+    QColor base = KColorUtils::shade(color, shade);
+    QColor light = KColorUtils::shade(calcLightColor(color), shade);
+    QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+
+    // bevel, part 1
+    qreal y = KColorUtils::luma(base);
+    qreal yl = KColorUtils::luma(light);
+    qreal yd = KColorUtils::luma(dark);
+    QLinearGradient bevelGradient1(0, 7, 0, 11);
+    bevelGradient1.setColorAt(0.0, light);
+    if (y < yl && y > yd) // no middle when color is very light/dark
+        bevelGradient1.setColorAt(0.5, base);
+    bevelGradient1.setColorAt(0.9, base);
+    p.setBrush(bevelGradient1);
+    p.drawEllipse(QRectF(3.0,3.0,8.0,8.0));
+
+    // bevel, part 2
+    if (_slabThickness > 0.0) {
+        QLinearGradient bevelGradient2(0, 6, 0, 19);
+        bevelGradient2.setColorAt(0.0, light);
+        bevelGradient2.setColorAt(0.9, base);
+        p.setBrush(bevelGradient2);
+        p.drawEllipse(QRectF(3.6,3.6,6.8,6.8));
+    }
+
+    // inside mask
+    p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+    p.setBrush(QBrush(Qt::black));
+    double ic = 3.6 + _slabThickness;
+    double is = 6.8 - (2.0*_slabThickness);
+    p.drawEllipse(QRectF(ic, ic, is, is));
+}
+
+SlabCache* OxygenHelper::slabCache(const QColor &color)
+{
+    quint64 key = (quint64(color.rgba()) << 32);
+    SlabCache *cache = m_slabCache.object(key);
+
+    if (!cache)
+    {
+        cache = new SlabCache;
+        m_slabCache.insert(key, cache);
+    }
+
+    return cache;
+}

@@ -22,16 +22,6 @@
 #define __OXYGEN_STYLE_HELPER_H
 
 #include "lib/helper.h"
-#include "lib/tileset.h"
-
-class SlabCache {
-public:
-    SlabCache() {}
-    ~SlabCache() {}
-
-    QCache<quint64, QPixmap> m_roundSlabCache;
-    QCache<quint64, TileSet> m_slabCache;
-};
 
 class OxygenStyleHelper : public OxygenHelper
 {
@@ -50,7 +40,6 @@ public:
     QPixmap  roundSlabFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
 
     // TODO - need to rebase scrollbars to size=7
-    TileSet *slab(const QColor&, double shade, int size = 7);
     TileSet *slabFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
     TileSet *slabSunken(const QColor&, double shade, int size = 7);
     TileSet *slabInverted(const QColor&, double shade, int size = 7);
@@ -69,16 +58,11 @@ public:
     TileSet *scrollHole(const QColor&, Qt::Orientation orientation);
 
 protected:
-    SlabCache* slabCache(const QColor&);
 
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, double fuzz) const;
     void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
     void drawHole(QPainter&, const QColor&, double shade, int r = 7) const;
-    void drawSlab(QPainter&, const QColor&, double shade) const;
 
-    static const double _slabThickness;
-
-    QCache<quint64, SlabCache> m_slabCache;
     QCache<quint64, TileSet> m_slabSunkenCache;
     QCache<quint64, TileSet> m_slabInvertedCache;
     QCache<quint64, TileSet> m_holeCache;

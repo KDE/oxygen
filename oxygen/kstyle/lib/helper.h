@@ -30,7 +30,19 @@
 #include <QtGui/QLinearGradient>
 #include <QtCore/QCache>
 
+#include "tileset.h"
+
 #define _glowBias 0.9 // not likely to be configurable
+
+
+class SlabCache {
+public:
+    SlabCache() {}
+    ~SlabCache() {}
+
+    QCache<quint64, QPixmap> m_roundSlabCache;
+    QCache<quint64, TileSet> m_slabCache;
+};
 
 // WARNING - OxygenHelper must be a K_GLOBAL_STATIC!
 class OxygenHelper
@@ -71,16 +83,24 @@ public:
 
     void drawSeparator(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation) const;
 
+    TileSet *slab(const QColor&, double shade, int size = 7);
+
 protected:
     void drawShadow(QPainter&, const QColor&, int size) const;
+    void drawSlab(QPainter&, const QColor&, double shade) const;
     static QPixmap glow(const QColor&, int size, int rsize);
 
+    SlabCache* slabCache(const QColor&);
+
+    static const double _slabThickness;
     static const double _shadowGain;
 
     KComponentData _componentData;
     KSharedConfigPtr _config;
     qreal _contrast;
     qreal _bgcontrast;
+
+    QCache<quint64, SlabCache> m_slabCache;
 
     QCache<quint64, QPixmap> m_backgroundCache;
     QCache<quint64, QPixmap> m_windecoButtonCache;
