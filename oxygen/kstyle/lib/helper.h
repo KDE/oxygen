@@ -27,6 +27,7 @@
 
 #include <QtGui/QColor>
 #include <QtGui/QPixmap>
+#include <QtGui/QWidget>
 #include <QtGui/QLinearGradient>
 #include <QtCore/QCache>
 
@@ -57,7 +58,14 @@ public:
     // y_shift: shift the background gradient upwards, to fit with the windec 
     // gradientHeight: the height of the generated gradient. 
     // for different heights, the gradient is translated so that it is always at the same position from the bottom 
-    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift=-23, int gradientHeight = 64);
+    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift=-23, int gradientHeight = 64)
+    { renderWindowBackground( p, clipRect, widget, widget->window(), pal, y_shift, gradientHeight ); }
+    
+    // y_shift: shift the background gradient upwards, to fit with the windec 
+    // gradientHeight: the height of the generated gradient. 
+    // for different heights, the gradient is translated so that it is always at the same position from the bottom 
+    void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QPalette & pal, int y_shift=-23, int gradientHeight = 64); 
+    
     virtual void invalidateCaches();
 
     static bool lowThreshold(const QColor &color);

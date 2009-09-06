@@ -65,13 +65,15 @@ void OxygenHelper::reloadConfig()
         invalidateCaches(); // contrast changed, invalidate our caches
 }
 
-void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift, int gradientHeight)
+void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QPalette & pal, int y_shift, int gradientHeight)
 {
-    const QWidget* window = widget->window();
+
     // get coordinates relative to the client area
+    // this is stupid. One could use mapTo if this was taking const QWidget* and not
+    // const QWidget* as argument. 
     const QWidget* w = widget;
     int x = 0, y = -y_shift;
-    while (!w->isWindow()) {
+    while ( w != window && !w->isWindow() && w != w->parentWidget() ) {
         x += w->geometry().x();
         y += w->geometry().y();
         w = w->parentWidget();
