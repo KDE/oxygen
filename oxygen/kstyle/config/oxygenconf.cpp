@@ -153,7 +153,9 @@ int OxygenStyleConfig::tabStyle() const
 {
     switch (_tabStyle->currentIndex()) {
         case 0: return OxygenStyleConfigData::TS_SINGLE;
-        case 1: return OxygenStyleConfigData::TS_PLAIN;
+        case 1:
+        default:
+                return OxygenStyleConfigData::TS_PLAIN;
     }
 }
 
