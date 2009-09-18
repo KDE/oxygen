@@ -19,8 +19,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef __OXYGEN_HELPER_H
-#define __OXYGEN_HELPER_H
+#ifndef OXYGEN_HELPER_H
+#define OXYGEN_HELPER_H
 
 #include <ksharedconfig.h>
 #include <kcomponentdata.h>

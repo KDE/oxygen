@@ -17,9 +17,9 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <QtGui/QPainter>
-
 #include "tileset.h"
+
+#include <QtGui/QPainter>
 
 void TileSet::initPixmap(int s, const QPixmap &pix, int w, int h, const QRect &region)
 {
