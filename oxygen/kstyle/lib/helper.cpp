@@ -326,24 +326,22 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
         // shadow
         if (pressed)
         {
-            p.setPen(alphaColor(dark, 0.4));
-            p.drawEllipse(buttonRect.adjusted(0.9, 0.6, -0.7, -0.7).adjusted(1.7,1.7,-1.7,-1.7));
-            p.setPen(alphaColor(dark, 0.8));
-            p.drawEllipse(buttonRect.adjusted(0.9, 0.6, -0.7, -0.7).adjusted(1.2,1.2,-1.2,-1.2));
+            p.setPen(alphaColor(dark, 0.4*u));
+            p.drawEllipse(buttonRect.adjusted(0.9*u, 0.6*u, -0.7*u, -0.7*u).adjusted(1.7*u,1.7*u,-1.7*u,-1.7*u));
+            p.setPen(alphaColor(dark, 0.8*u));
+            p.drawEllipse(buttonRect.adjusted(0.9*u, 0.6*u, -0.7*u, -0.7*u).adjusted(1.2*u,1.2*u,-1.2*u,-1.2*u));
         }
-        p.setPen(QPen(KColorUtils::mix(dark, shadow, 0.12), 2.0));
-        p.drawEllipse(buttonRect.adjusted(0.9, 0.6, -0.7, -0.7).adjusted(0,0.1,0,-0.1));
-        p.setPen(QPen(KColorUtils::mix(dark, shadow, 0.6), 1.2));
-        p.drawEllipse(buttonRect.adjusted(1.0, 1.4, -0.8, -0.8));
+        p.setPen(QPen(KColorUtils::mix(dark, shadow, 0.12), 2.0*u));
+        p.drawEllipse(buttonRect.adjusted(0.9*u, 0.6*u, -0.7*u, -0.7*u).adjusted(0,0.1*u,0,-0.1*u));
+        p.setPen(QPen(KColorUtils::mix(dark, shadow, 0.6), 1.2*u));
+        p.drawEllipse(buttonRect.adjusted(1.0*u, 1.4*u, -0.8*u, -0.8*u));
 
         // reflection
-        QLinearGradient lightgr(QPointF(0.0, 0.0*u),
-                QPointF(0.0, 21.0*u));
+        QLinearGradient lightgr(QPointF(0.0, 0.0), QPointF(0.0, 21.0*u));
         lightgr.setColorAt(0.0, Qt::transparent);
         lightgr.setColorAt(1.0, light);
-        p.setPen(QPen(lightgr, 1.7));
-        p.drawEllipse(buttonRect.adjusted(0.0, -0.5, -0.1, 0.0));
-
+        p.setPen(QPen(lightgr, 1.7*u));
+        p.drawEllipse(buttonRect.adjusted(0.0, -0.5*u, -0.1*u, 0.0));
         p.end();
 
         m_windecoButtonCache.insert(key, pixmap);
