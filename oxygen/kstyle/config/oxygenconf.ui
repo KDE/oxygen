@@ -165,7 +165,6 @@
        </widget>
       </item>
      </layout>
-     <zorder>verticalSpacer_2</zorder>
      <zorder>_scrollBarColored</zorder>
      <zorder>label</zorder>
      <zorder>_scrollBarWidthSlider</zorder>
@@ -222,7 +221,6 @@
        </widget>
       </item>
      </layout>
-     <zorder>horizontalSpacer</zorder>
      <zorder>_menuHighlightDark</zorder>
      <zorder>_menuHighlightStrong</zorder>
      <zorder>_menuHighlightSubtle</zorder>
