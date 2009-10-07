@@ -480,7 +480,7 @@ void OxygenHelper::drawFloatFrame(
 
         } else {
 
-            //window inactive - draw something resembling shadow
+            // window inactive - draw something resembling shadow
             // fully desaturate
             QColor shadow = KColorUtils::darken(color, 0.0, 0.0);
 
@@ -520,21 +520,12 @@ void OxygenHelper::drawFloatFrame(
     // corner and side frames
     // sides are drawn even if Top only is selected, but with a different gradient
     QLinearGradient lg;
-    if( tiles&(TileSet::Left|TileSet::Right ) )
-    {
+    lg = QLinearGradient(0.0, y+1.5, 0.0, y+h-4);
+    lg.setColorAt(0, light);
+    lg.setColorAt(1, alphaColor(dark, 0) );
 
-        lg = QLinearGradient(0.0, 1.5, 0.0, 4.5);
-        lg.setColorAt(0, light);
-        lg.setColorAt(1, dark);
-
-    } else {
-
-        lg = QLinearGradient(0.0, 1.5, 0.0, y+h-4);
-        lg.setColorAt(0, light);
-        lg.setColorAt(qMax(0.0,qMin( 4.5/(y+h-2.5), 1.0 )), dark);
-        lg.setColorAt(1, alphaColor(dark, 0) );
-
-    }
+    if( h > 8.5 ) lg.setColorAt(qMax( 0.0, 3.0/(h-5.5) ), dark);
+    if( h > 20.5 ) lg.setColorAt(qMax( 0.0, 1.0 - 12.0/(h-5.5) ), dark);
 
     p->setPen(QPen(lg, 0.8));
     if( tiles & TileSet::Top )
@@ -543,8 +534,8 @@ void OxygenHelper::drawFloatFrame(
         p->drawArc(QRectF(x+w-9-0.6, y+0.6, 9, 9), 0, 90*16);
     }
 
-    if( tiles & (TileSet::Top|TileSet::Left ) ) p->drawLine(QPointF(x+0.6, y+4), QPointF(x+0.6, y+h-4));
-    if( tiles & (TileSet::Top|TileSet::Left ) ) p->drawLine(QPointF(x+w-0.6, y+4), QPointF(x+w-0.6, y+h-4));
+    if( tiles & TileSet::Left ) p->drawLine(QPointF(x+0.6, y+4), QPointF(x+0.6, y+h-4));
+    if( tiles & TileSet::Right ) p->drawLine(QPointF(x+w-0.6, y+4), QPointF(x+w-0.6, y+h-4));
 
     p->restore();
 
