@@ -432,8 +432,12 @@ QPixmap OxygenHelper::glow(const QColor &color, int size, int rsize)
     return pixmap;
 }
 
-void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &color, bool drawUglyShadow, bool isActive, const QColor &frameColor) const
+void OxygenHelper::drawFloatFrame(
+    QPainter *p, const QRect r,
+    const QColor &color,
+    bool drawUglyShadow, bool isActive, const QColor &frameColor, TileSet::Tiles tiles ) const
 {
+
     p->save();
     p->setRenderHint(QPainter::Antialiasing);
     QRect frame = r;
@@ -443,52 +447,107 @@ void OxygenHelper::drawFloatFrame(QPainter *p, const QRect r, const QColor &colo
 
     QColor light = calcLightColor(backgroundTopColor(color));
     QColor dark = calcLightColor(backgroundBottomColor(color));
-    QColor glow = KColorUtils::mix(QColor(128,128,128),frameColor,0.7);
-
     p->setBrush(Qt::NoBrush);
 
-    if (drawUglyShadow) {
-        if(isActive) { //window active - it's a glow - not a shadow
+    if (drawUglyShadow)
+    {
+
+        if(isActive)
+        {
+            //window active - it's a glow - not a shadow
+            QColor glow = KColorUtils::mix(QColor(128,128,128),frameColor,0.7);
             p->setPen(glow);
-            p->drawLine(QPointF(x+4, y-0.5), QPointF(x+w-4, y-0.5));
-            p->drawArc(QRectF(x-0.5, y-0.5, 11, 11),90*16, 90*16);
-            p->drawArc(QRectF(x+w-11+0.5, y-0.5, 11, 11), 0, 90*16);
-            p->drawLine(QPointF(x-0.5, y+4), QPointF(x-0.5, y+h-4));
-            p->drawLine(QPointF(x+w+0.5, y+4), QPointF(x+w+0.5, y+h-4));
-            p->drawArc(QRectF(x-0.5, y+h-11+0.5, 11, 11),180*16, 90*16);
-            p->drawArc(QRectF(x+w-11+0.5, y+h-11+0.5, 11, 11),270*16, 90*16);
-            p->drawLine(QPointF(x+4, y+h+0.5), QPointF(x+w-4, y+h+0.5));
+
+            if( tiles & TileSet::Top )
+            {
+                p->drawLine(QPointF(x+4, y-0.5), QPointF(x+w-4, y-0.5));
+                p->drawArc(QRectF(x-0.5, y-0.5, 11, 11),90*16, 90*16);
+                p->drawArc(QRectF(x+w-11+0.5, y-0.5, 11, 11), 0, 90*16);
+            }
+
+            if( tiles & TileSet::Left ) p->drawLine(QPointF(x-0.5, y+4), QPointF(x-0.5, y+h-4));
+            if( tiles & TileSet::Right ) p->drawLine(QPointF(x+w+0.5, y+4), QPointF(x+w+0.5, y+h-4));
+
+            if( tiles & TileSet::Bottom )
+            {
+                if( tiles & TileSet::Left ) p->drawArc(QRectF(x-0.5, y+h-11+0.5, 11, 11),180*16, 90*16);
+                if( tiles & TileSet::Right ) p->drawArc(QRectF(x+w-11+0.5, y+h-11+0.5, 11, 11),270*16, 90*16);
+                p->drawLine(QPointF(x+4, y+h+0.5), QPointF(x+w-4, y+h+0.5));
+            }
+
             light = KColorUtils::mix(light, frameColor);
             dark = KColorUtils::mix(dark, frameColor);
-        }
-        else { //window inactive - draw something resembling shadow
-            QColor shadow = KColorUtils::darken(color, 0.0, 0.0); // fully desaturate
-            p->setPen(KColorUtils::darken(shadow, 0.2));
-            p->drawLine(QPointF(x+4, y-0.5), QPointF(x+w-4, y-0.5));
-            p->drawArc(QRectF(x-0.5, y-0.5, 11, 11),90*16, 90*16);
-            p->drawArc(QRectF(x+w-11+0.5, y-0.5, 11, 11), 0, 90*16);
+
+        } else {
+
+            //window inactive - draw something resembling shadow
+            // fully desaturate
+            QColor shadow = KColorUtils::darken(color, 0.0, 0.0);
+
+            if( tiles & TileSet::Top )
+            {
+                p->setPen(KColorUtils::darken(shadow, 0.2));
+                p->drawLine(QPointF(x+4, y-0.5), QPointF(x+w-4, y-0.5));
+                if( tiles & TileSet::Left ) p->drawArc(QRectF(x-0.5, y-0.5, 11, 11),90*16, 90*16);
+                if( tiles & TileSet::Right ) p->drawArc(QRectF(x+w-11+0.5, y-0.5, 11, 11), 0, 90*16);
+            }
+
             p->setPen(KColorUtils::darken(shadow, 0.35));
-            p->drawLine(QPointF(x-0.5, y+4), QPointF(x-0.5, y+h-4));
-            p->drawLine(QPointF(x+w+0.5, y+4), QPointF(x+w+0.5, y+h-4));
-            p->setPen(KColorUtils::darken(shadow, 0.45));
-            p->drawArc(QRectF(x-0.5, y+h-11+0.5, 11, 11),180*16, 90*16);
-            p->drawArc(QRectF(x+w-11+0.5, y+h-11+0.5, 11, 11),270*16, 90*16);
-            p->setPen(KColorUtils::darken(shadow, 0.6));
-            p->drawLine(QPointF(x+4, y+h+0.5), QPointF(x+w-4, y+h+0.5));
+            if( tiles & TileSet::Left ) p->drawLine(QPointF(x-0.5, y+4), QPointF(x-0.5, y+h-4));
+            if( tiles & TileSet::Right ) p->drawLine(QPointF(x+w+0.5, y+4), QPointF(x+w+0.5, y+h-4));
+
+            if( tiles & TileSet::Bottom )
+            {
+
+                p->setPen(KColorUtils::darken(shadow, 0.45));
+                if( tiles & TileSet::Left ) p->drawArc(QRectF(x-0.5, y+h-11+0.5, 11, 11),180*16, 90*16);
+                if( tiles & TileSet::Right ) p->drawArc(QRectF(x+w-11+0.5, y+h-11+0.5, 11, 11),270*16, 90*16);
+                p->setPen(KColorUtils::darken(shadow, 0.6));
+                p->drawLine(QPointF(x+4, y+h+0.5), QPointF(x+w-4, y+h+0.5));
+
+            }
+
         }
     }
 
-    p->setPen(QPen(light, 0.8));
-    p->drawLine(QPointF(x+4, y+0.6), QPointF(x+w-4, y+0.6));
-    QLinearGradient lg = QLinearGradient(0.0, 1.5, 0.0, 4.5);
-    lg.setColorAt(0, light);
-    lg.setColorAt(1, dark);
+    // top frame
+    if( tiles & TileSet::Top )
+    {
+        p->setPen(QPen(light, 0.8));
+        p->drawLine(QPointF(x+4, y+0.6), QPointF(x+w-4, y+0.6));
+    }
+
+    // corner and side frames
+    // sides are drawn even if Top only is selected, but with a different gradient
+    QLinearGradient lg;
+    if( tiles&(TileSet::Left|TileSet::Right ) )
+    {
+
+        lg = QLinearGradient(0.0, 1.5, 0.0, 4.5);
+        lg.setColorAt(0, light);
+        lg.setColorAt(1, dark);
+
+    } else {
+
+        lg = QLinearGradient(0.0, y+1.5, 0.0, y+10.5);
+        lg.setColorAt(0, light);
+        lg.setColorAt(0.3, dark);
+        lg.setColorAt(1, alphaColor(dark, 0) );
+
+    }
+
     p->setPen(QPen(lg, 0.8));
-    p->drawArc(QRectF(x+0.6, y+0.6, 9, 9),90*16, 90*16);
-    p->drawArc(QRectF(x+w-9-0.6, y+0.6, 9, 9), 0, 90*16);
-    p->drawLine(QPointF(x+0.6, y+4), QPointF(x+0.6, y+h-4));
-    p->drawLine(QPointF(x+w-0.6, y+4), QPointF(x+w-0.6, y+h-4));
+    if( tiles & TileSet::Top )
+    {
+        p->drawArc(QRectF(x+0.6, y+0.6, 9, 9),90*16, 90*16);
+        p->drawArc(QRectF(x+w-9-0.6, y+0.6, 9, 9), 0, 90*16);
+    }
+
+    if( tiles & (TileSet::Top|TileSet::Left ) ) p->drawLine(QPointF(x+0.6, y+4), QPointF(x+0.6, y+h-4));
+    if( tiles & (TileSet::Top|TileSet::Left ) ) p->drawLine(QPointF(x+w-0.6, y+4), QPointF(x+w-0.6, y+h-4));
+
     p->restore();
+
 }
 
 void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &color, Qt::Orientation orientation) const
