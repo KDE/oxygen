@@ -529,9 +529,9 @@ void OxygenHelper::drawFloatFrame(
 
     } else {
 
-        lg = QLinearGradient(0.0, y+1.5, 0.0, y+10.5);
+        lg = QLinearGradient(0.0, 1.5, 0.0, y+h-4);
         lg.setColorAt(0, light);
-        lg.setColorAt(0.3, dark);
+        lg.setColorAt(qMax(0.0,qMin( 4.5/(y+h-2.5), 1.0 )), dark);
         lg.setColorAt(1, alphaColor(dark, 0) );
 
     }
