@@ -122,9 +122,9 @@ OxygenStyle::OxygenStyle() :
     // in a way that they don't consume too much space and
     // still are usable with i.e. touchscreens
     //TODO: This hasn't been tested though
-    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight, 
+    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight,
             qMax(OxygenStyleConfigData::scrollBarWidth() * 7 / 10, 14) );
-    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight, 
+    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight,
             qMax(OxygenStyleConfigData::scrollBarWidth() * 14 / 10, 28) );
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth,
             OxygenStyleConfigData::scrollBarWidth());
@@ -990,7 +990,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                 case ScrollBar::GrooveAreaVertTop:
                 {
-                    renderScrollBarHole(p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical, 
+                    renderScrollBarHole(p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical,
                             TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Top);
                     return;
                 }
@@ -1209,7 +1209,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                     fr.setLeft(tabOpt->tabBarRect.right());
                                 else if (tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner))
                                     fr.setLeft(fr.right() - (tabWidget->cornerWidget(Qt::TopRightCorner)->width()));
-                                else 
+                                else
                                     return;
                                 fr.adjust(-7,-gw,7,-1-gw);
                                 renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
@@ -1452,11 +1452,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     //    bflags |= State_Sunken;
                     //drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, opt, r, pal, bflags, p, widget);
                     p->save();
-                    p->drawPixmap(r.topLeft(), _helper.windecoButton(pal.button().color(), tbkOpts->active,  r.height()));
+                    p->drawPixmap(r.topLeft(), _helper.windecoButton(pal.window().color(), tbkOpts->active,  r.height()));
                     p->setRenderHints(QPainter::Antialiasing);
                     p->setBrush(Qt::NoBrush);
+
                     QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
-                    p->setPen(QPen(lg, 1.4));
+                    p->setPen(QPen(lg, 1.2));
                     renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
                     p->restore();
 
@@ -1474,7 +1475,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     int h = r.height();
                     QColor color = pal.color(QPalette::Background);
-                    
+
                     if (mouseOver)
                         p->fillRect(r,_helper.alphaColor(_helper.calcLightColor(color),0.5));
 
@@ -2012,7 +2013,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 opts |= Focus;
                             if (enabled && (flags & State_MouseOver))
                                 opts |= Hover;
-                            
+
                             if (t->popupMode()==QToolButton::MenuButtonPopup) {
                                 renderSlab(p, r.adjusted(0,0,4,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Left);
                             } else
@@ -2288,7 +2289,7 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAutoFillBackground(false);
         widget->parentWidget()->setAutoFillBackground(false);
     }
-    else if (qobject_cast<QMenu*>(widget) 
+    else if (qobject_cast<QMenu*>(widget)
             || qobject_cast<QFrame*>(widget))
     {
         widget->installEventFilter(this);
@@ -2490,7 +2491,7 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
     // draw the hole as background
     const QRect holeRect = horizontal ? r.adjusted(-4,0,4,0) : r.adjusted(0,-3,0,4);
     renderScrollBarHole(p, holeRect,
-            pal.color(QPalette::Window), orientation, 
+            pal.color(QPalette::Window), orientation,
             horizontal ? TileSet::Top | TileSet::Bottom | TileSet::Center
                        : TileSet::Left | TileSet::Right | TileSet::Center);
 
@@ -2503,7 +2504,7 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
 
     // gradients
     QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
-    
+
     if (!OxygenStyleConfigData::scrollBarColored()) {
         sliderGradient.setColorAt(0.0, color);
         sliderGradient.setColorAt(1.0, mid);
@@ -2789,12 +2790,12 @@ void OxygenStyle::renderTab(QPainter *p,
     const QColor color = pal.color(QPalette::Window);
     const QColor midColor = _helper.alphaColor(_helper.calcDarkColor(color), 0.4);
     const QColor darkColor = _helper.alphaColor(_helper.calcDarkColor(color), 0.6);
-    
+
     StyleOptions selectedTabOpts = OxygenStyleConfigData::tabSubtleShadow() ?
         SubtleShadow | NoFill : NoFill;
     StyleOptions hoverTabOpts = NoFill | Hover;
     StyleOptions deselectedTabOpts = NoFill;
-    TileSet::Tiles frameTiles = (horizontal) ? 
+    TileSet::Tiles frameTiles = (horizontal) ?
         (northAlignment ? TileSet::Top : TileSet::Bottom)
         : (westAlignment ? TileSet::Left : TileSet::Right);
 
@@ -2809,7 +2810,7 @@ void OxygenStyle::renderTab(QPainter *p,
                 if (selected) {
                     if (northAlignment) tabRect.adjust(0,-1,0,2);
                     else                tabRect.adjust(0,-2,0,1);
-                } else { // deselected 
+                } else { // deselected
                     if (northAlignment) tabRect.adjust(0,1,0,2);
                     else                tabRect.adjust(0,-2,0,-1);
                 }
@@ -2821,7 +2822,7 @@ void OxygenStyle::renderTab(QPainter *p,
                 if (selected) {
                     if (westAlignment)  tabRect.adjust(0,0,2,0);
                     else                tabRect.adjust(-2,0,0,0);
-                } else { // deselected 
+                } else { // deselected
                     if (westAlignment)  tabRect.adjust(2,0,2,0);
                     else                tabRect.adjust(-2,0,-2,0);
                 }
@@ -2839,7 +2840,7 @@ void OxygenStyle::renderTab(QPainter *p,
                 if (westAlignment)  frameRect = r.adjusted(r.width()-gw-7, -7, 0, 7);
                 else                frameRect = r.adjusted(0, -7, -r.width()+gw+7, 7);
             }
-                                              
+
             // HACK: Workaround for misplaced tab
             if (southAlignment) {
                 frameRect.adjust(0,-1,0,-1);
@@ -2847,7 +2848,7 @@ void OxygenStyle::renderTab(QPainter *p,
                 else          tabRect.adjust(0,0,0,-1);
 
             }
-            
+
             // handle the rightmost and leftmost tabs
             // if document mode is not enabled, draw the rounded frame corner (which is visible if the tab is not selected)
             // also fill the small gap between that corner and the actial frame
@@ -2940,7 +2941,7 @@ void OxygenStyle::renderTab(QPainter *p,
                 } else if (eastAlignment) {
                     if (!isFrameAligned)    p->drawPoint(tabRect.x()+7, tabRect.y()+3);
                     p->drawPoint(tabRect.x()+7, tabRect.bottom()-2);
-                } else {// west aligned 
+                } else {// west aligned
                     if (!isFrameAligned)    p->drawPoint(tabRect.right()-6, tabRect.y()+3);
                     p->drawPoint(tabRect.right()-6, tabRect.bottom()-2);
                 }
@@ -2951,7 +2952,7 @@ void OxygenStyle::renderTab(QPainter *p,
 
             renderSlab(p, tabRect, color, selected ? selectedTabOpts : (mouseOver ? hoverTabOpts : deselectedTabOpts), tilesByShape(tabOpt->shape));
             fillTab(p, tabRect, color, horizontal ? Qt::Horizontal : Qt::Vertical, selected, southAlignment || eastAlignment);
-            
+
             p->restore();
             return;
         } // OxygenStyleConfigData::TS_SINGLE
@@ -3000,7 +3001,7 @@ void OxygenStyle::renderTab(QPainter *p,
                             tile->render(QRect(Rb.right()-6, Rb.top()-5,12,12), p, TileSet::Left | TileSet::Bottom);
                     }
                 } else {
-                    
+
                     // inactive tabs
                     int x,y,w,h;
                     p->save(); // we only use the clipping and AA for inactive tabs
@@ -3282,16 +3283,16 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
     QColor shadow = _helper.calcShadowColor(color);
     QColor light = _helper.calcLightColor(color);
     QColor hl = _viewFocusBrush.brush(QPalette::Active).color();
-    
+
     QRect fillRect = r.adjusted(4,(orientation == Qt::Horizontal && !inverted) ? 3 : 4,-4,-4);
-    
+
     QLinearGradient highlight;
     if (orientation == Qt::Horizontal) {
         if (!inverted) {
             highlight = QLinearGradient(fillRect.topLeft(), fillRect.bottomLeft());
         } else { // inverted
             highlight = QLinearGradient(fillRect.bottomLeft(), fillRect.topLeft());
-        } 
+        }
     } else { // vertical tab fill
          if (!inverted) {
             highlight = QLinearGradient(fillRect.topLeft(), fillRect.topRight());
@@ -3313,7 +3314,7 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
        highlight.setColorAt(0.8, _helper.alphaColor(dark, 0.4));
        highlight.setColorAt(0.9, Qt::transparent);
     }
-    
+
     p->setRenderHints(QPainter::Antialiasing);
     p->setPen(Qt::NoPen);
     p->setBrush(highlight);
@@ -3746,7 +3747,7 @@ void OxygenStyle::renderWindowIcon(QPainter *p, const QRectF &r, int &type) cons
             break;
         }
         case Window::ButtonMax:
-        {                    
+        {
             p->drawLine(QPointF( 7.5,11.5), QPointF(10.5, 8.5));
             p->drawLine(QPointF(10.5, 8.5), QPointF(13.5,11.5));
             break;
@@ -3823,7 +3824,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     if (widget->inherits("QComboBoxPrivateContainer")) {
         switch(ev->type()) {
         case QEvent::Show:
-        case QEvent::Resize: 
+        case QEvent::Resize:
         {
             int x, y, w, h;
             widget->rect().getRect(&x, &y, &w, &h);
@@ -3963,13 +3964,14 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
     QColor buttonColor;
     QColor iconColor;
     if (option) {
-        buttonColor = option->palette.button().color();
+        buttonColor = option->palette.window().color();
         iconColor   = option->palette.buttonText().color();
     } else if (widget) {
-        buttonColor = widget->palette().button().color();
+        buttonColor = widget->palette().window().color();
         iconColor   = widget->palette().buttonText().color();
-    } else if (qApp) { // might not have a QApplication
-        buttonColor = qApp->palette().button().color();
+    } else if (qApp) {
+        // might not have a QApplication
+        buttonColor = qApp->palette().window().color();
         iconColor   = qApp->palette().buttonText().color();
     } else {// KCS is always safe
         buttonColor = KColorScheme(QPalette::Active, KColorScheme::Button,
@@ -3987,10 +3989,23 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
-            painter.setBrush(Qt::NoBrush);
-            painter.setPen(QPen(iconColor, 1.1));
             QPointF points[4] = {QPointF(8.5, 6), QPointF(11, 8.5), QPointF(8.5, 11), QPointF(6, 8.5)};
-            painter.drawPolygon(points, 4);
+            {
+
+                qreal width( 1.1 );
+                painter.translate(0, 0.5);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawPolygon(points, 4);
+            }
+
+            {
+                qreal width( 1.1 );
+                painter.translate(0,-1);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawPolygon(points, 4);
+            }
             painter.end();
 
             return QIcon(realpm);
@@ -4004,11 +4019,27 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
-            painter.setBrush(Qt::NoBrush);
-            painter.setPen(QPen(iconColor, 1.1));
-            painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
-            painter.drawLine( QPointF(8.75,8.75), QPointF(11.0,6.5) );
-            painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
+            {
+
+                qreal width( 1.1 );
+                painter.translate(0, 0.5);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
+                painter.drawLine( QPointF(8.75,8.75), QPointF(11.0,6.5) );
+                painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
+            }
+
+            {
+                qreal width( 1.1 );
+                painter.translate(0,-1);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
+                painter.drawLine( QPointF(8.75,8.75), QPointF(11.0,6.5) );
+                painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
+            }
+
             painter.end();
 
             return QIcon(realpm);
@@ -4022,11 +4053,27 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
-            painter.setBrush(Qt::NoBrush);
-            painter.setPen(QPen(iconColor, 1.1));
-            painter.drawLine( QPointF(6.5,8.75), QPointF(8.75,6.5) );
-            painter.drawLine( QPointF(8.75,6.5), QPointF(11.0,8.75) );
-            painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
+
+            {
+
+                qreal width( 1.1 );
+                painter.translate(0, 0.5);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawLine( QPointF(6.5,8.75), QPointF(8.75,6.5) );
+                painter.drawLine( QPointF(8.75,6.5), QPointF(11.0,8.75) );
+                painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
+            }
+
+            {
+                qreal width( 1.1 );
+                painter.translate(0,-1);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawLine( QPointF(6.5,8.75), QPointF(8.75,6.5) );
+                painter.drawLine( QPointF(8.75,6.5), QPointF(11.0,8.75) );
+                painter.drawLine( QPointF(6.5,11.0), QPointF(11.0,11.0) );
+            }
             painter.end();
 
             return QIcon(realpm);
@@ -4042,15 +4089,31 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
-            painter.setPen(QPen(iconColor, 1.1));
-            painter.drawLine( QPointF(6.5,6.5), QPointF(11.0,11.0) );
-            painter.drawLine( QPointF(11.0,6.5), QPointF(6.5,11.0) );
+            {
+
+                qreal width( 1.1 );
+                painter.translate(0, 0.5);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawLine( QPointF(6.5,6.5), QPointF(11.0,11.0) );
+                painter.drawLine( QPointF(11.0,6.5), QPointF(6.5,11.0) );
+            }
+
+            {
+                qreal width( 1.1 );
+                painter.translate(0,-1);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawLine( QPointF(6.5,6.5), QPointF(11.0,11.0) );
+                painter.drawLine( QPointF(11.0,6.5), QPointF(6.5,11.0) );
+            }
+
             painter.end();
 
             return QIcon(realpm);
         }
         default:
-            return KStyle::standardIconImplementation(standardIcon, option, widget);
+        return KStyle::standardIconImplementation(standardIcon, option, widget);
     }
 }
 

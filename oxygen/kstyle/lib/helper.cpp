@@ -21,9 +21,10 @@
 
 #include "helper.h"
 
-#include <KGlobalSettings>
 #include <KColorUtils>
 #include <KColorScheme>
+#include <KDebug>
+#include <KGlobalSettings>
 
 #include <QtGui/QWidget>
 #include <QtGui/QPainter>
@@ -108,6 +109,7 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
 
 void OxygenHelper::invalidateCaches()
 {
+    m_slabCache.clear();
     m_backgroundCache.clear();
     m_windecoButtonCache.clear();
     m_windecoButtonGlowCache.clear();
@@ -219,7 +221,6 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width, int height)
 
     if (!pixmap)
     {
-//        width /= 2;
         pixmap = new QPixmap(width, height);
         pixmap->fill(QColor(0,0,0,0));
         QColor radialColor = backgroundRadialColor(color);
@@ -291,6 +292,7 @@ QLinearGradient OxygenHelper::decoGradient(const QRect &r, const QColor &color)
     return gradient;
 }
 
+//______________________________________________________________________________
 QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32) | (size << 1) | (int)pressed;
@@ -301,48 +303,43 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
         pixmap = new QPixmap(size, size);
         pixmap->fill(Qt::transparent);
 
+        QColor light  = calcLightColor(color);
+        QColor dark   = calcDarkColor(color);
+
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
+        double u = size/18.0;
+        p.translate( 0.5*u, (0.5-0.668)*u );
 
-        double u = size/21.0;
-
-        QColor light  = calcLightColor(color);
-        QColor dark   = calcDarkColor(color);
-        QColor shadow = calcShadowColor(color);
-
-        QRectF rect(0.0, 0.0, size, size);
-        QRectF buttonRect = rect.adjusted(2*u,2*u,-2*u,-2*u);
-
-        QLinearGradient fill(QPointF(0.0, 0.0*u),
-                QPointF(0.0, 21.0*u));
-        fill.setColorAt(0.0, alphaColor(light, 0.7));
-        fill.setColorAt(1.0, alphaColor(dark, 0.7));
-
-        p.setBrush(fill);
-        p.drawEllipse(buttonRect);
-        p.setBrush(Qt::NoBrush);
-
-        // shadow
-        if (pressed)
         {
-            p.setPen(alphaColor(dark, 0.4*u));
-            p.drawEllipse(buttonRect.adjusted(0.9*u, 0.6*u, -0.7*u, -0.7*u).adjusted(1.7*u,1.7*u,-1.7*u,-1.7*u));
-            p.setPen(alphaColor(dark, 0.8*u));
-            p.drawEllipse(buttonRect.adjusted(0.9*u, 0.6*u, -0.7*u, -0.7*u).adjusted(1.2*u,1.2*u,-1.2*u,-1.2*u));
-        }
-        p.setPen(QPen(KColorUtils::mix(dark, shadow, 0.12), 2.0*u));
-        p.drawEllipse(buttonRect.adjusted(0.9*u, 0.6*u, -0.7*u, -0.7*u).adjusted(0,0.1*u,0,-0.1*u));
-        p.setPen(QPen(KColorUtils::mix(dark, shadow, 0.6), 1.2*u));
-        p.drawEllipse(buttonRect.adjusted(1.0*u, 1.4*u, -0.8*u, -0.8*u));
+            //plain background
+            QLinearGradient lg( 0, u*1.665, 0, u*(12.33+1.665) );
+            if( pressed )
+            {
+                lg.setColorAt( 1, light );
+                lg.setColorAt( 0, dark );
+            } else {
+                lg.setColorAt( 0, light );
+                lg.setColorAt( 1, dark );
+            }
 
-        // reflection
-        QLinearGradient lightgr(QPointF(0.0, 0.0), QPointF(0.0, 21.0*u));
-        lightgr.setColorAt(0.0, Qt::transparent);
-        lightgr.setColorAt(1.0, light);
-        p.setPen(QPen(lightgr, 1.7*u));
-        p.drawEllipse(buttonRect.adjusted(0.0, -0.5*u, -0.1*u, 0.0));
-        p.end();
+            QRectF r( u*0.5*(17-12.33), u*1.665, u*12.33, u*12.33 );
+            p.setBrush( lg );
+            p.drawEllipse( r );
+        }
+
+        {
+            // outline circle
+            qreal penWidth = 0.7;
+            QLinearGradient lg( 0, u*1.665, 0, u*(2.0*12.33+1.665) );
+            lg.setColorAt( 0, light );
+            lg.setColorAt( 1, dark );
+            QRectF r( u*0.5*(17-12.33+penWidth), u*(1.665+penWidth), u*(12.33-penWidth), u*(12.33-penWidth) );
+            p.setPen( QPen( lg, penWidth*u ) );
+            p.drawEllipse( r );
+            p.end();
+        }
 
         m_windecoButtonCache.insert(key, pixmap);
     }
@@ -350,6 +347,7 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
     return *pixmap;
 }
 
+//_______________________________________________________________________
 QPixmap OxygenHelper::windecoButtonGlow(const QColor &color, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32) | size;
@@ -360,35 +358,51 @@ QPixmap OxygenHelper::windecoButtonGlow(const QColor &color, int size)
         pixmap = new QPixmap(size, size);
         pixmap->fill(Qt::transparent);
 
+        // right now the same color is used for the two shadows
+        QColor light = color;
+        QColor dark = color;
+
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
+        double u = size/18.0;
+        p.translate( 0.5*u, (0.5-0.668)*u );
 
-        double u = size/21.0;
-        QRectF rect(0.0, 0.0, size, size);
-        QRectF buttonRect = rect.adjusted(2*u,2*u,-2*u,-2*u);
+        {
 
-        //mask
-        p.setBrush(QColor(0,0,0,125));
-        p.drawEllipse(rect.adjusted(u, 0, -u, -2*u));
+            // outer shadow
+            QRadialGradient rg( u*8.5, u*8.5, u*8.5 );
 
-        //glow
-        QColor dark  = calcDarkColor(color);
-        QColor light = calcLightColor(color);
+            int nPoints = 5;
+            qreal x[5] = { 0.61, 0.72, 0.81, 0.9, 1};
+            qreal values[5] = { 255-172, 255-178, 255-210, 255-250, 0 };
+            QColor c = dark;
+            for( int i = 0; i<nPoints; i++ )
+            { c.setAlpha( values[i] ); rg.setColorAt( x[i], c ); }
 
-        QRadialGradient glow(QPointF(size/2.0, size/2.0 + 0.25), size/2.0);
-        glow.setColorAt(12.0 / 21.0, Qt::transparent);
-        glow.setColorAt(16.0 / 21.0, dark);
-        glow.setColorAt(18.0 / 21.0, alphaColor(light, 0.25));
-        glow.setColorAt(20.0 / 21.0, Qt::transparent);
+            QRectF r( pixmap->rect() );
+            p.setBrush( rg );
+            p.drawRect( r );
+        }
 
-        p.setCompositionMode(QPainter::CompositionMode_SourceIn);
-        p.setBrush(glow);
-        p.drawEllipse(rect);
+        {
+            // inner shadow
+            QRadialGradient rg( u*8.5, u*8.5, u*8.5 );
 
-        p.end();
+            static int nPoints = 6;
+            qreal x[6] = { 0.61, 0.67, 0.7, 0.74, 0.78, 1 };
+            qreal values[6] = { 255-92, 255-100, 255-135, 255-205, 255-250, 0 };
+            QColor c = light;
+            for( int i = 0; i<nPoints; i++ )
+            { c.setAlpha( values[i] ); rg.setColorAt( x[i], c ); }
+
+            QRectF r( pixmap->rect() );
+            p.setBrush( rg );
+            p.drawRect( r );
+        }
 
         m_windecoButtonGlowCache.insert(key, pixmap);
+        
     }
 
     return *pixmap;

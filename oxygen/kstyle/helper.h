@@ -31,6 +31,9 @@ public:
 
     virtual void invalidateCaches();
 
+    //! overloaded
+    virtual QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
+
     QColor calcMidColor(const QColor &color) const;
 
     static void fillSlab(QPainter&, const QRect&, int size = 7);

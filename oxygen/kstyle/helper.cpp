@@ -37,14 +37,9 @@ OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
     m_scrollHoleCache.setMaxCost(10);
 }
 
-QColor OxygenStyleHelper::calcMidColor(const QColor &color) const
-{
-    return KColorScheme::shade(color, KColorScheme::MidShade, _contrast - 1.0);
-}
-
+//______________________________________________________________________________
 void OxygenStyleHelper::invalidateCaches()
 {
-    m_slabCache.clear();
     m_slabSunkenCache.clear();
     m_slabInvertedCache.clear();
     m_holeCache.clear();
@@ -54,6 +49,49 @@ void OxygenStyleHelper::invalidateCaches()
     m_dockFrameCache.clear();
     m_scrollHoleCache.clear();
     OxygenHelper::invalidateCaches();
+}
+
+//______________________________________________________________________________
+QPixmap OxygenStyleHelper::windecoButton(const QColor &color, bool pressed, int size)
+{
+    quint64 key = (quint64(color.rgba()) << 32) | (size << 1) | (int)pressed;
+    QPixmap *pixmap = m_windecoButtonCache.object(key);
+
+    if (!pixmap)
+    {
+        pixmap = new QPixmap(size, size);
+        pixmap->fill(Qt::transparent);
+
+        QColor light  = calcLightColor(color);
+        QColor dark   = calcDarkColor(color);
+
+        QPainter p(pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        double u = size/18.0;
+        p.translate( 0.5*u, (0.5-0.668)*u );
+
+        {
+            // outline circle
+            qreal penWidth = 1.2;
+            QLinearGradient lg( 0, u*(1.665-penWidth), 0, u*(12.33+1.665-penWidth) );
+            lg.setColorAt( 0, dark );
+            lg.setColorAt( 1, light );
+            QRectF r( u*0.5*(17-12.33+penWidth), u*(1.665+penWidth), u*(12.33-penWidth), u*(12.33-penWidth) );
+            p.setPen( QPen( lg, penWidth*u ) );
+            p.drawEllipse( r );
+            p.end();
+        }
+
+        m_windecoButtonCache.insert(key, pixmap);
+    }
+
+    return *pixmap;
+}
+
+QColor OxygenStyleHelper::calcMidColor(const QColor &color) const
+{
+    return KColorScheme::shade(color, KColorScheme::MidShade, _contrast - 1.0);
 }
 
 QPixmap OxygenStyleHelper::roundSlab(const QColor &color, double shade, int size)
