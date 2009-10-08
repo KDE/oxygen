@@ -72,41 +72,40 @@ public:
 
     static QColor alphaColor(QColor color, double alpha);
 
-    QColor calcLightColor(const QColor &color) const;
-    QColor calcDarkColor(const QColor &color) const;
-    QColor calcShadowColor(const QColor &color) const;
+    virtual QColor calcLightColor(const QColor &color) const;
+    virtual QColor calcDarkColor(const QColor &color) const;
+    virtual QColor calcShadowColor(const QColor &color) const;
 
-    QColor backgroundColor(const QColor &color, int height, int y);
+    virtual QColor backgroundColor(const QColor &color, int height, int y);
 
-    QColor backgroundRadialColor(const QColor &color) const;
-    QColor backgroundTopColor(const QColor &color) const;
-    QColor backgroundBottomColor(const QColor &color) const;
+    virtual QColor backgroundRadialColor(const QColor &color) const;
+    virtual QColor backgroundTopColor(const QColor &color) const;
+    virtual QColor backgroundBottomColor(const QColor &color) const;
 
-    QPixmap verticalGradient(const QColor &color, int height);
-    QPixmap radialGradient(const QColor &color, int width, int height = 64);
+    virtual QPixmap verticalGradient(const QColor &color, int height);
+    virtual QPixmap radialGradient(const QColor &color, int width, int height = 64);
 
-    QLinearGradient decoGradient(const QRect &r, const QColor &color);
+    virtual QLinearGradient decoGradient(const QRect &r, const QColor &color);
 
-    QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
-    QPixmap windecoButtonGlow(const QColor &color, int size = 21);
+    virtual QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
+    virtual QPixmap windecoButtonGlow(const QColor &color, int size = 21);
 
-    void drawFloatFrame(
+    virtual void drawFloatFrame(
       QPainter *p, const QRect r, const QColor &color,
       bool drawUglyShadow=true, bool isActive=false,
       const QColor &frameColor=QColor(),
       TileSet::Tiles tiles = TileSet::Ring
       ) const;
 
-    void drawSeparator(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation) const;
+    virtual void drawSeparator(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation) const;
 
-    TileSet *slab(const QColor&, double shade, int size = 7);
+    virtual TileSet *slab(const QColor&, double shade, int size = 7);
 
-protected:
-    void drawShadow(QPainter&, const QColor&, int size) const;
-    void drawSlab(QPainter&, const QColor&, double shade) const;
+    protected:
+    virtual void drawShadow(QPainter&, const QColor&, int size) const;
+    virtual void drawSlab(QPainter&, const QColor&, double shade) const;
+    virtual SlabCache* slabCache(const QColor&);
     static QPixmap glow(const QColor&, int size, int rsize);
-
-    SlabCache* slabCache(const QColor&);
 
     static const double _slabThickness;
     static const double _shadowGain;
