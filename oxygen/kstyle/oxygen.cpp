@@ -2143,6 +2143,41 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
         QColor  arrowColor = colorOpt->color.color(pal);
 
+        // handle scrollbar arrow hover
+        if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) )
+        {
+            bool hover( false );
+
+            // check if cursor is in current rect
+            QPoint position( scrollbar->mapFromGlobal( QCursor::pos() ) );
+            if( r.contains( position ) )
+            {
+                // check if active subControl matches current
+                const QStyleOptionSlider *sbOpt( qstyleoption_cast<const QStyleOptionSlider*>(opt) );
+                if( sbOpt )
+                {
+                    if( scrollbar->orientation() == Qt::Vertical )
+                    {
+
+                        if( (sbOpt->activeSubControls & SC_ScrollBarAddLine) && primitive == Generic::ArrowDown ) hover = true;
+                        else if( (sbOpt->activeSubControls & SC_ScrollBarSubLine) && primitive == Generic::ArrowUp ) hover = true;
+
+                    } else {
+
+                        if( (sbOpt->activeSubControls & SC_ScrollBarAddLine) && primitive == (opt->direction == Qt::LeftToRight ? Generic::ArrowRight:Generic::ArrowLeft ) ) hover = true;
+                        else if ( (sbOpt->activeSubControls & SC_ScrollBarSubLine) && primitive == (opt->direction == Qt::LeftToRight ? Generic::ArrowLeft:Generic::ArrowRight ) ) hover = true;
+
+                    }
+
+                }
+
+            }
+
+            // if all is good change arrow color
+            if( hover ) { arrowColor = pal.color( QPalette::Highlight ); }
+
+        }
+
         arrowGradient.setColorAt(0.0, arrowColor);
         arrowGradient.setColorAt(0.8, KColorUtils::mix(pal.color(QPalette::Window), arrowColor, 0.6));
 
@@ -2280,6 +2315,7 @@ void OxygenStyle::polish(QWidget* widget)
     else if (qobject_cast<QScrollBar*>(widget) )
     {
         widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
+        widget->installEventFilter(this);
     }
     else if (qobject_cast<QDockWidget*>(widget))
     {
@@ -3792,6 +3828,31 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         {
             animationTimer->start( 50 );
         }
+    }
+
+    else if (QScrollBar *sb = qobject_cast<QScrollBar*>(obj))
+    {
+        switch(ev->type())
+        {
+            case QEvent::HoverEnter:
+            case QEvent::HoverLeave:
+            case QEvent::HoverMove:
+            {
+                // retrieve scrollbar option
+                QStyleOptionSlider opt;
+                opt.initFrom( sb );
+                QHoverEvent *he = static_cast<QHoverEvent*>(ev);
+                if( !he ) break;
+
+                int hoverControl = hitTestComplexControl(QStyle::CC_ScrollBar, &opt, he->pos(), sb);
+                if( hoverControl & (SC_ScrollBarAddLine | SC_ScrollBarSubLine ) ) sb->update();
+                break;
+            }
+
+            default: break;
+        }
+
+        return false;
     }
 
     if (QToolBar *t = qobject_cast<QToolBar*>(obj))
