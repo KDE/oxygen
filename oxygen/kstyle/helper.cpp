@@ -40,6 +40,7 @@ OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
 //______________________________________________________________________________
 void OxygenStyleHelper::invalidateCaches()
 {
+    m_cornerCache.clear();
     m_slabSunkenCache.clear();
     m_slabInvertedCache.clear();
     m_holeCache.clear();
@@ -309,6 +310,38 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowC
 
         cache->m_slabCache.insert(key, tileSet);
     }
+    return tileSet;
+}
+
+TileSet *OxygenStyleHelper::roundCorner(const QColor &color, int size)
+{
+    quint64 key = (quint64(color.rgba()) << 32);
+    TileSet *tileSet = m_slabSunkenCache.object(key);
+
+    if (!tileSet)
+    {
+
+        QPixmap pixmap = QPixmap( size*2, size*2 );
+        pixmap.fill( Qt::transparent );
+
+        QPainter p( &pixmap );
+        p.setRenderHint( QPainter::Antialiasing );
+        p.setPen( Qt::NoPen );
+
+        QLinearGradient lg = QLinearGradient(0.0, size-4.5, 0.0, size+4.5);
+        lg.setColorAt(0.0, calcLightColor( backgroundTopColor(color) ));
+        lg.setColorAt(0.52, backgroundTopColor(color) );
+        lg.setColorAt(1.0, backgroundBottomColor(color) );
+
+        // draw ellipse.
+        p.setBrush( lg );
+        p.drawEllipse( QRectF( size-4, size-4, 8, 8 ) );
+
+        tileSet = new TileSet(pixmap, size, size, 1, 1);
+        m_cornerCache.insert(key, tileSet);
+
+    }
+
     return tileSet;
 }
 

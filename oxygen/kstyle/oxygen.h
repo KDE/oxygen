@@ -168,6 +168,9 @@ protected:
 
     bool eventFilter(QObject *, QEvent *);
 
+    //! returns true if compositing is active
+    bool compositingActive( void ) const;
+
 protected Q_SLOTS:
     virtual QIcon standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option, const QWidget *widget) const;
     //Animation slots.
@@ -183,8 +186,9 @@ private:
     // configuration
     void loadConfiguration();
 
-    // global colors
+    // helper
     OxygenStyleHelper &_helper;
+
     KSharedConfigPtr _sharedConfig;
     KStatefulBrush _viewFocusBrush;
     KStatefulBrush _viewHoverBrush;

@@ -32,6 +32,7 @@
 #include "oxygen.h"
 #include "oxygen.moc"
 
+#include <QtGui/QStyleOptionToolBar>
 #include <QtGui/QPainter>
 #include <QtCore/QTimer>
 #include <QtCore/QEvent>
@@ -51,11 +52,13 @@
 #include <QtGui/QGroupBox>
 #include <QtGui/QLineEdit>
 #include <QtGui/QDockWidget>
-#include <QStyleOptionDockWidget>
-#include <QPaintEvent>
-#include <QToolBox>
-#include <QAbstractScrollArea>
-#include <QAbstractItemView>
+#include <QtCore/QTextStream>
+#include <QtGui/QStyleOptionDockWidget>
+#include <QtGui/QPaintEvent>
+#include <QtGui/QToolBox>
+#include <QtGui/QAbstractScrollArea>
+#include <QtGui/QAbstractItemView>
+
 #include <KTitleWidget>
 
 #include <QtDBus/QtDBus>
@@ -65,8 +68,7 @@
 #include <KConfigGroup>
 #include <KColorUtils>
 #include <kdebug.h>
-
-#include <math.h>
+#include <KWindowSystem>
 
 #include "helper.h"
 #include "lib/tileset.h"
@@ -83,14 +85,17 @@ K_EXPORT_STYLE("Oxygen", OxygenStyle)
 
 K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("oxygen"))
 
-static const int gw = 1; // ie glowwidth which we want to un-reserve space for in the tabs
+// ie glowwidth which we want to un-reserve space for in the tabs
+static const int gw = 1;
 
+//_____________________________________________
 static void cleanupBefore()
 {
     OxygenStyleHelper *h = globalHelper;
     h->invalidateCaches();
 }
 
+//_____________________________________________
 OxygenStyle::OxygenStyle() :
     KStyle(),
     _helper(*globalHelper)
@@ -670,11 +675,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             switch (primitive)
             {
                 case Generic::Frame:
-                {
-                    _helper.drawFloatFrame(p, r, pal.window().color());
-                    return;
-                }
-
                 case Menu::Background:
                 {
                     // we paint in the eventFilter instead so we can paint in the border too
@@ -1888,31 +1888,29 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ToolBar::HandleHor:
                 {
                     int counter = 1;
-
-                        int center = r.left()+r.width()/2;
-                        for(int j = r.top()+2; j <= r.bottom()-3; j+=3) {
-                            if(counter%2 == 0) {
-                                renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background));
-                            } else {
-                                renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background));
-                            }
-                            counter++;
+                    int center = r.left()+r.width()/2;
+                    for(int j = r.top()+2; j <= r.bottom()-3; j+=3) {
+                        if(counter%2 == 0) {
+                            renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background));
+                        } else {
+                            renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background));
                         }
+                        counter++;
+                    }
                     return;
                 }
                 case ToolBar::HandleVert:
                 {
                     int counter = 1;
-
-                        int center = r.top()+r.height()/2;
-                        for(int j = r.left()+2; j <= r.right()-3; j+=3) {
-                            if(counter%2 == 0) {
-                                renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background));
-                            } else {
-                                renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background));
-                            }
-                            counter++;
+                    int center = r.top()+r.height()/2;
+                    for(int j = r.left()+2; j <= r.right()-3; j+=3) {
+                        if(counter%2 == 0) {
+                            renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background));
+                        } else {
+                            renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background));
                         }
+                        counter++;
+                    }
 
                     return;
                 }
@@ -1929,6 +1927,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
                     return;
                 }
+
+                case ToolBar::PanelHor:
+                case ToolBar::PanelVert:
+                return;
+
             }
         }
         break;
@@ -2255,6 +2258,11 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAttribute(Qt::WA_Hover);
     }
 
+    if (qobject_cast<QToolButton*>(widget) )
+    {
+        widget->setBackgroundRole(QPalette::NoRole);
+    }
+
     if (qobject_cast<QMenuBar*>(widget))
     {
         widget->setBackgroundRole(QPalette::NoRole);
@@ -2264,6 +2272,7 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QToolBar *>(widget->parent()))
     {
         widget->setBackgroundRole(QPalette::NoRole);
+        widget->setAttribute(Qt::WA_TranslucentBackground);
         widget->setContentsMargins(0,0,0,1);
         widget->installEventFilter(this);
     }
@@ -2273,6 +2282,8 @@ void OxygenStyle::polish(QWidget* widget)
     }
     else if (qobject_cast<QDockWidget*>(widget))
     {
+        widget->setBackgroundRole(QPalette::NoRole);
+        widget->setAttribute(Qt::WA_TranslucentBackground);
         widget->setContentsMargins(3,0,3,3);
         widget->installEventFilter(this);
     }
@@ -2289,15 +2300,18 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAutoFillBackground(false);
         widget->parentWidget()->setAutoFillBackground(false);
     }
-    else if (qobject_cast<QMenu*>(widget)
-            || qobject_cast<QFrame*>(widget))
+    else if (qobject_cast<QMenu*>(widget) )
     {
+        widget->installEventFilter(this);
+        widget->setAttribute(Qt::WA_TranslucentBackground);
+    }
+    else if ( qobject_cast<QFrame*>(widget) ) {
         widget->installEventFilter(this);
     }
     else if (widget->inherits("QComboBoxPrivateContainer"))
     {
         widget->installEventFilter(this);
-        // note, it doesn't help to do a setContentsMargin()
+        widget->setAttribute(Qt::WA_TranslucentBackground);
     }
     KStyle::polish(widget);
 }
@@ -2783,7 +2797,7 @@ void OxygenStyle::renderTab(QPainter *p,
                             (tabOpt->position == QStyleOptionTab::End) ||
                                 tabOpt->position == QStyleOptionTab::OnlyOneTab;
     const bool isTopMost = isLeftMost && !horizontal;
-    const bool isBottomMost = isRightMost && !horizontal;
+    // const bool isBottomMost = isRightMost && !horizontal;
     const bool isFrameAligned =  reverseLayout && !(westAlignment || eastAlignment) ?
         (isRightMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget)) :
         (isLeftMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget));
@@ -3347,39 +3361,38 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
             }
             return true;
         }
-        case SH_WindowFrame_Mask: {
+
+        case SH_WindowFrame_Mask:
+        {
+
             const QStyleOptionTitleBar *opt = qstyleoption_cast<const QStyleOptionTitleBar *>(option);
-            if (!opt)
+            if (!opt) return true;
+            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask *>(returnData)) {
+                if (opt->titleBarState & Qt::WindowMaximized) mask->region = option->rect;
+                else mask->region = _helper.roundedMask( option->rect );
+            }
+            return true;
+
+        }
+
+        case SH_Menu_Mask:
+        {
+
+            // mask should be returned only if composite in disabled
+            if( !compositingActive() )
+            {
+                if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask *>(returnData))
+                { mask->region = _helper.roundedMask( option->rect ); }
                 return true;
-            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask *>(returnData)) {
-                if (opt->titleBarState & Qt::WindowMaximized) {
-                    mask->region = option->rect;
-                } else {
-                    int x, y, w, h;
-                    option->rect.getRect(&x, &y, &w, &h);
-                    QRegion reg(x+4, y, w-8, h);
-                    reg += QRegion(x, y+4, w, h-8);
-                    reg += QRegion(x+2, y+1, w-4, h-2);
-                    reg += QRegion(x+1, y+2, w-2, h-4);
-                    mask->region = reg;
-                }
+
+            } else {
+
+                return KStyle::styleHint(hint, option, widget, returnData);
+
             }
-            return true;
         }
-        case SH_Menu_Mask: {
-            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask *>(returnData)) {
-                int x, y, w, h;
-                option->rect.getRect(&x, &y, &w, &h);
-                QRegion reg(x+4, y, w-8, h);
-                reg += QRegion(x, y+4, w, h-8);
-                reg += QRegion(x+2, y+1, w-4, h-2);
-                reg += QRegion(x+1, y+2, w-2, h-4);
-                mask->region = reg;
-            }
-            return true;
-        }
-        default:
-            return KStyle::styleHint(hint, option, widget, returnData);
+
+        default: return KStyle::styleHint(hint, option, widget, returnData);
     }
 }
 
@@ -3764,6 +3777,7 @@ void OxygenStyle::renderWindowIcon(QPainter *p, const QRectF &r, int &type) cons
     p->restore();
 }
 
+//_____________________________________________________________________
 bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 {
     if (KStyle::eventFilter(obj, ev) )
@@ -3780,81 +3794,172 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
     if (QToolBar *t = qobject_cast<QToolBar*>(obj))
     {
-        switch(ev->type()) {
+        switch(ev->type())
+        {
             case QEvent::Show:
-            case QEvent::Resize: {
-                int x, y, w, h;
-                t->rect().getRect(&x, &y, &w, &h);
-                QRegion reg(x+4, y, w-8, h);
-                reg += QRegion(x, y+4, w, h-8);
-                reg += QRegion(x+2, y+1, w-4, h-2);
-                reg += QRegion(x+1, y+2, w-2, h-4);
-                if(t->mask() != reg)
-                    t->setMask(reg);
+            case QEvent::Resize:
+            {
+                // make sure mask appropriate
+                if( !compositingActive() )
+                {
+
+                    QRegion mask( _helper.roundedMask( t->rect() ) );
+                    if(t->mask() != mask) t->setMask(mask);
+
+                } else if( t->mask() != QRegion() ) {
+
+                    t->clearMask();
+
+                }
+
                 return false;
             }
-            default:
-                return false;
+
+            case QEvent::Paint:
+            {
+
+                // default painting when not floating
+                if( !t->isFloating() ) return false;
+
+                QPainter p(t);
+                QPaintEvent *e = (QPaintEvent*)ev;
+                p.setClipRegion(e->region());
+
+                QRect r = t->rect();
+                QColor color = t->palette().window().color();
+
+                if( compositingActive() )
+                {
+                    TileSet *tileSet( _helper.roundCorner(color) );
+                    tileSet->render( r, &p );
+                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+                }
+
+                // background
+                _helper.renderWindowBackground(&p, r, t, color);
+
+                // remaining painting: need to add handle
+                // this is copied from QToolBar::paintEvent
+                {
+                    QStyleOptionToolBar opt;
+                    opt.initFrom( t );
+                    if( t->orientation() == Qt::Horizontal)
+                    {
+                        opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( 8, r.height() ) ) );
+                        opt.state |= QStyle::State_Horizontal;
+                    } else {
+                        opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( r.width(), 8 ) ) );
+                    }
+
+                    drawPrimitive(QStyle::PE_IndicatorToolBarHandle, &opt, &p, t);
+                }
+
+                // frame
+                if( compositingActive() ) p.setClipping( false );
+                _helper.drawFloatFrame( &p, r, color );
+
+                return true;
+
+            }
+            default: return false;
         }
     }
 
     if (QMenu *m = qobject_cast<QMenu*>(obj))
     {
-        if (ev->type() == QEvent::Paint)
-        {
-            QPainter p(m);
-            QPaintEvent *e = (QPaintEvent*)ev;
-            QRect r = m->rect();
-            QColor color = m->palette().color(QPalette::Background);
-            int splitY = qMin(200, 3*r.height()/4);
+        switch(ev->type()) {
+            case QEvent::Show:
+            case QEvent::Resize:
+            {
 
-            p.setClipRegion(e->region());
+                // make sure mask is appropriate
+                if( compositingActive() )
+                {
+                    if( m->mask() != QRegion() )
+                    { m->clearMask(); }
 
-            QRect upperRect = QRect(0, 0, r.width(), splitY);
-            QPixmap tile = _helper.verticalGradient(color, splitY);
-            p.drawTiledPixmap(upperRect, tile);
+                } else {
 
-            QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
-            p.fillRect(lowerRect, _helper.backgroundBottomColor(color));
+                    if( m->mask() == QRegion() )
+                    { m->setMask( _helper.roundedMask( m->rect() ) ); }
+
+                }
+
+                return false;
+
+            }
+
+            case QEvent::Paint:
+            {
+
+                QPainter p(m);
+                QPaintEvent *e = (QPaintEvent*)ev;
+                p.setClipRegion(e->region());
+
+                QRect r = m->rect();
+                QColor color = m->palette().window().color();
+
+                if( compositingActive() )
+                {
+                    TileSet *tileSet( _helper.roundCorner(color) );
+                    tileSet->render( r, &p );
+
+                    // set clip region
+                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+
+                }
+
+                // background
+                int splitY = qMin(200, 3*r.height()/4);
+
+                QRect upperRect = QRect(0, 0, r.width(), splitY);
+                QPixmap tile = _helper.verticalGradient(color, splitY);
+                p.drawTiledPixmap(upperRect, tile);
+
+                QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
+                p.fillRect(lowerRect, _helper.backgroundBottomColor(color));
+
+                // frame
+                if( compositingActive() ) p.setClipping( false );
+                _helper.drawFloatFrame( &p, r, color );
+
+                return false;
+            }
+
+            default: return false;
+
         }
-        return false;
+
     }
 
     QWidget *widget = static_cast<QWidget*>(obj);
-    if (widget->inherits("QComboBoxPrivateContainer")) {
-        switch(ev->type()) {
-        case QEvent::Show:
-        case QEvent::Resize:
+    if (widget->inherits("QComboBoxPrivateContainer"))
+    {
+        switch(ev->type())
         {
-            int x, y, w, h;
-            widget->rect().getRect(&x, &y, &w, &h);
-            QRegion reg(x+4, y, w-8, h);
-            reg += QRegion(x, y+4, w, h-8);
-            reg += QRegion(x+2, y+1, w-4, h-2);
-            reg += QRegion(x+1, y+2, w-2, h-4);
-            if(widget->mask() != reg)
-                widget->setMask(reg);
-            return false;
+            case QEvent::Show:
+            case QEvent::Resize:
+            {
+                QRegion mask( _helper.roundedMask( widget->rect() ) );
+                if(widget->mask() != mask) widget->setMask(mask);
+                return false;
+            }
+
+            case QEvent::Paint: return false;
+            default: return false;
         }
-        case QEvent::Paint:
-        {
-            QPainter p(widget);
-            _helper.drawFloatFrame(&p, widget->rect(), widget->palette().color(QPalette::Window));
-        }
-        default:
-            return false;
-        }
+
     }
 
     if (widget->isWindow() && widget->isVisible()) {
         if (ev->type() == QEvent::Paint)
         {
             QBrush brush = widget->palette().brush(widget->backgroundRole());
+
             // don't use our background if the app requested something else,
             // e.g. a pixmap
             // TODO - draw our light effects over an arbitrary fill?
-            if (brush.style() == Qt::SolidPattern) {
-            }
+            if (brush.style() == Qt::SolidPattern) {}
 
             if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground))
             {
@@ -3866,47 +3971,70 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
     if (QDockWidget*dw = qobject_cast<QDockWidget*>(obj))
     {
-        if (ev->type() == QEvent::Show || ev->type() == QEvent::Resize)
+        switch( ev->type() )
         {
-            if (dw->isFloating())
+            case QEvent::Show:
+            case QEvent::Resize:
             {
-                int x, y, w, h;
-                dw->rect().getRect(&x, &y, &w, &h);
-                QRegion reg(x+4, y, w-8, h);
-                reg += QRegion(x, y+4, w, h-8);
-                reg += QRegion(x+2, y+1, w-4, h-2);
-                reg += QRegion(x+1, y+2, w-2, h-4);
-                if(dw->mask() != reg)
-                    dw->setMask(reg);
-            }
-            // remove the mask in docked state to prevent it
-            // from intefering with the dock frame
-            else if (dw->mask() != QRegion())
-            {
-                dw->clearMask();
-            }
 
-            return false;
-        }
-        if (ev->type() == QEvent::Paint)
-        {
-            QPainter p(dw);
-            const QColor color = dw->palette().color(QPalette::Window);
+                if( dw->isFloating() && !compositingActive() )
+                {
 
-            if(dw->isWindow())
-            {
-                _helper.drawFloatFrame(&p, dw->rect(), color);
+                    QRegion mask( _helper.roundedMask( dw->rect() ) );
+                    if(dw->mask() != mask) dw->setMask( mask );
+
+                } else if (dw->mask() != QRegion()) {
+                    // remove the mask in docked state to prevent it
+                    // from intefering with the dock frame
+                    dw->clearMask();
+                }
                 return false;
             }
 
-            int w = dw->rect().width();
-            int h = dw->rect().height();
-            QRect rect(0,0,w,h);
+            case QEvent::Paint:
+            {
+                QPainter p(dw);
+                const QColor color = dw->palette().color(QPalette::Window);
+                if(dw->isWindow())
+                {
 
-            TileSet *tileSet = _helper.dockFrame(color, w);
-            tileSet->render(rect, &p);
+                    QPainter p(dw);
+                    QPaintEvent *e = (QPaintEvent*)ev;
+                    p.setClipRegion(e->region());
+                    QRect r = dw->rect();
+                    QColor color = dw->palette().window().color();
 
-            return false;
+                    if( compositingActive() )
+                    {
+                        TileSet *tileSet( _helper.roundCorner(color) );
+                        tileSet->render( r, &p );
+
+                        // set clip region
+                        p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+                    }
+
+                    _helper.renderWindowBackground(&p, r, dw, color);
+
+                    if( compositingActive() ) p.setClipping( false );
+
+                    _helper.drawFloatFrame(&p, r, color);
+
+                } else {
+
+                    int w = dw->rect().width();
+                    int h = dw->rect().height();
+                    QRect rect(0,0,w,h);
+
+                    TileSet *tileSet = _helper.dockFrame(color, w);
+                    tileSet->render(rect, &p);
+
+                }
+
+                return false;
+            }
+
+            default: return false;
+
         }
     }
 
@@ -3957,6 +4085,13 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     return false;
 }
 
+//____________________________________________________________________
+bool OxygenStyle::compositingActive( void ) const
+{
+    return KWindowSystem::compositingActive();
+}
+
+//____________________________________________________________________
 QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option,
                                                const QWidget *widget) const
 {

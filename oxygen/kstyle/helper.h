@@ -43,6 +43,7 @@ public:
     QPixmap  roundSlabFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
 
     // TODO - need to rebase scrollbars to size=7
+    TileSet *roundCorner(const QColor&, int size = 5);
     TileSet *slabFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
     TileSet *slabSunken(const QColor&, double shade, int size = 7);
     TileSet *slabInverted(const QColor&, double shade, int size = 7);
@@ -66,6 +67,7 @@ protected:
     void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
     void drawHole(QPainter&, const QColor&, double shade, int r = 7) const;
 
+    QCache<quint64, TileSet> m_cornerCache;
     QCache<quint64, TileSet> m_slabSunkenCache;
     QCache<quint64, TileSet> m_slabInvertedCache;
     QCache<quint64, TileSet> m_holeCache;
