@@ -38,6 +38,7 @@
 #include <QtCore/QEvent>
 #include <QtGui/QStyleOption>
 #include <QtGui/QApplication>
+#include <QtGui/QLayout>
 
 #include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
@@ -2305,13 +2306,14 @@ void OxygenStyle::polish(QWidget* widget)
         widget->installEventFilter(this);
         widget->setAttribute(Qt::WA_TranslucentBackground);
     }
-    else if ( qobject_cast<QFrame*>(widget) ) {
-        widget->installEventFilter(this);
-    }
     else if (widget->inherits("QComboBoxPrivateContainer"))
     {
         widget->installEventFilter(this);
         widget->setAttribute(Qt::WA_TranslucentBackground);
+        if( widget->layout() ) widget->layout()->setMargin(1);
+    }
+    else if ( qobject_cast<QFrame*>(widget) ) {
+        widget->installEventFilter(this);
     }
     KStyle::polish(widget);
 }
@@ -2380,11 +2382,11 @@ void OxygenStyle::unpolish(QWidget* widget)
         widget->removeEventFilter(this);
         widget->clearMask();
     }
-    else if (qobject_cast<QFrame*>(widget))
+    else if (widget->inherits("QComboBoxPrivateContainer"))
     {
         widget->removeEventFilter(this);
     }
-    else if (widget->inherits("QComboBoxPrivateContainer"))
+    else if (qobject_cast<QFrame*>(widget))
     {
         widget->removeEventFilter(this);
     }
@@ -3878,10 +3880,9 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                     if( m->mask() != QRegion() )
                     { m->clearMask(); }
 
-                } else {
+                } else if( m->mask() == QRegion() ) {
 
-                    if( m->mask() == QRegion() )
-                    { m->setMask( _helper.roundedMask( m->rect() ) ); }
+                    m->setMask( _helper.roundedMask( m->rect() ) );
 
                 }
 
@@ -3940,12 +3941,58 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             case QEvent::Show:
             case QEvent::Resize:
             {
-                QRegion mask( _helper.roundedMask( widget->rect() ) );
-                if(widget->mask() != mask) widget->setMask(mask);
+
+                // make sure mask is appropriate
+                if( compositingActive() )
+                {
+                    if( widget->mask() != QRegion() )
+                    { widget->clearMask(); }
+
+                } else if( widget->mask() == QRegion() ) {
+
+                    widget->setMask( _helper.roundedMask( widget->rect() ) );
+
+                }
+
                 return false;
             }
 
-            case QEvent::Paint: return false;
+            case QEvent::Paint:
+            {
+
+                QPainter p(widget);
+                QPaintEvent *e = (QPaintEvent*)ev;
+                p.setClipRegion(e->region());
+
+                QRect r = widget->rect();
+                QColor color = widget->palette().window().color();
+
+                if( compositingActive() )
+                {
+                    TileSet *tileSet( _helper.roundCorner(color) );
+                    tileSet->render( r, &p );
+
+                    // set clip region
+                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+
+                }
+
+                // background
+                int splitY = qMin(200, 3*r.height()/4);
+
+                QRect upperRect = QRect(0, 0, r.width(), splitY);
+                QPixmap tile = _helper.verticalGradient(color, splitY);
+                p.drawTiledPixmap(upperRect, tile);
+
+                QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
+                p.fillRect(lowerRect, _helper.backgroundBottomColor(color));
+
+                // frame
+                if( compositingActive() ) p.setClipping( false );
+                _helper.drawFloatFrame( &p, r, color );
+                return false;
+
+            }
             default: return false;
         }
 
