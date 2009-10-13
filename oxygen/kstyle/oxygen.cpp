@@ -253,7 +253,7 @@ void OxygenStyle::updateProgressPos()
     bool visible = false;
     for (iter = progAnimWidgets.begin(); iter != progAnimWidgets.end(); ++iter)
     {
-        pb = dynamic_cast<QProgressBar*>(iter.key());
+        pb = qobject_cast<QProgressBar*>(iter.key());
 
         if ( !pb )
             continue;
@@ -514,7 +514,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 
         case WT_ProgressBar:
         {
-//             const Q3ProgressBar *pb = dynamic_cast<const Q3ProgressBar*>(widget);
+//             const Q3ProgressBar *pb = qobject_cast<const Q3ProgressBar*>(widget);
 //             int steps = pb->totalSteps();
 
             QColor bg = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background); // background
@@ -1944,12 +1944,12 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case ToolButton::Panel:
                 {
                     QRect slitRect = r;
-                    const QToolButton* t=dynamic_cast<const QToolButton*>(widget);
+                    const QToolButton* t=qobject_cast<const QToolButton*>(widget);
                     if (t && !t->autoRaise())
                     {
                         StyleOptions opts = 0;
 
-                        if (const QTabBar *tb =  dynamic_cast<const QTabBar*>(t->parent()))
+                        if (const QTabBar *tb =  qobject_cast<const QTabBar*>(t->parent()))
                         {
                             bool horizontal = true;
                             bool northOrEast = true;
@@ -2081,7 +2081,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         }
         qreal penThickness = 2.2;
 
-        if (const QToolButton *tool = dynamic_cast<const QToolButton *>(widget)) {
+        if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
             if (tool->popupMode()==QToolButton::MenuButtonPopup) {
                 if(!tool->autoRaise()) {
                     if ((flags & State_On) || (flags & State_Sunken))
@@ -3465,7 +3465,7 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
                 size.setWidth(size.height());
             size.setWidth(size.width() + menuAreaWidth);
 
-            const QToolButton* t=dynamic_cast<const QToolButton*>(widget);
+            const QToolButton* t=qobject_cast<const QToolButton*>(widget);
             if (t && t->autoRaise()==true)
             {
                 int width = size.width() +
