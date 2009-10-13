@@ -70,8 +70,9 @@ public:
     OxygenStyle();
     virtual ~OxygenStyle();
 
+    virtual void drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p, const QWidget *widget) const;
     virtual void drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const;
-	virtual void drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
+    virtual void drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
 
     virtual void drawKStylePrimitive(WidgetType widgetType, int primitive,
                                      const QStyleOption* opt,

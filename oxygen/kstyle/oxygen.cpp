@@ -312,6 +312,21 @@ void OxygenStyle::drawComplexControl(ComplexControl control,const QStyleOptionCo
 	return KStyle::drawComplexControl(control,option,painter,widget);
 }
 
+void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const
+{
+
+    switch (element)
+    {
+
+        // disable painting of PE_PanelScrollAreaCorner
+        // the default implementation fills the rect with the window background color
+        // which does not work for windows that have gradients.
+        case PE_PanelScrollAreaCorner: return;
+
+        default: return KStyle::drawPrimitive( element, option, p, widget );
+    }
+}
+
 void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const
 {
     switch (element)
