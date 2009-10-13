@@ -90,6 +90,14 @@ public:
     virtual QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
     virtual QPixmap windecoButtonGlow(const QColor &color, int size = 21);
 
+    //! returns a region matching given rect, with rounded corners, based on the multipliers
+    /*! setting any of the multipliers to zero will result in no corners shown on the corresponding side */
+    virtual QRegion roundedRegion( const QRect&, int left = 1, int right = 1, int top = 1, int bottom = 1 ) const;
+
+    //! returns a region matching given rect, with rounded corners, based on the multipliers
+    /*! setting any of the multipliers to zero will result in no corners shown on the corresponding side */
+    virtual QRegion roundedMask( const QRect&, int left = 1, int right = 1, int top = 1, int bottom = 1 ) const;
+
     virtual void drawFloatFrame(
       QPainter *p, const QRect r, const QColor &color,
       bool drawUglyShadow=true, bool isActive=false,

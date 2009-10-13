@@ -408,6 +408,39 @@ QPixmap OxygenHelper::windecoButtonGlow(const QColor &color, int size)
     return *pixmap;
 }
 
+//_______________________________________________________________________
+QRegion OxygenHelper::roundedRegion( const QRect& r, int left, int right, int top, int bottom ) const
+{
+    // get rect geometry
+    int x, y, w, h;
+    r.getRect(&x, &y, &w, &h);
+
+    // disable bottom corners when border frame is too small and window is not shaded
+    QRegion mask( x+5*left,   y+0*top, w-5*(left+right), h-0*(top+bottom));
+    mask += QRegion(x+0*left, y+5*top, w-0*(left+right), h-5*(top+bottom));
+    mask += QRegion(x+2*left, y+2*top, w-2*(left+right), h-2*(top+bottom));
+    mask += QRegion(x+3*left, y+1*top, w-3*(left+right), h-1*(top+bottom));
+    mask += QRegion(x+1*left, y+3*top, w-1*(left+right), h-3*(top+bottom));
+    return mask;
+
+}
+
+//_______________________________________________________________________
+QRegion OxygenHelper::roundedMask( const QRect& r, int left, int right, int top, int bottom ) const
+{
+    // get rect geometry
+    int x, y, w, h;
+    r.getRect(&x, &y, &w, &h);
+
+    QRegion mask(x + 4*left, y + 0*top, w-4*(left+right), h-0*(top+bottom));
+    mask += QRegion(x + 0*left, y + 4*top, w-0*(left+right), h-4*(top+bottom));
+    mask += QRegion(x + 2*left, y + 1*top, w-2*(left+right), h-1*(top+bottom));
+    mask += QRegion(x + 1*left, y + 2*top, w-1*(left+right), h-2*(top+bottom));
+
+    return mask;
+}
+
+//_______________________________________________________________________
 QPixmap OxygenHelper::glow(const QColor &color, int size, int rsize)
 {
     QPixmap pixmap(rsize, rsize);
