@@ -196,6 +196,7 @@ QPixmap OxygenHelper::verticalGradient(const QColor &color, int height)
     if (!pixmap)
     {
         pixmap = new QPixmap(32, height);
+        pixmap->fill( Qt::transparent );
 
         QLinearGradient gradient(0, 0, 0, height);
         gradient.setColorAt(0.0, backgroundTopColor(color));
@@ -222,7 +223,8 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width, int height)
     if (!pixmap)
     {
         pixmap = new QPixmap(width, height);
-        pixmap->fill(QColor(0,0,0,0));
+        pixmap->fill(Qt::transparent);
+
         QColor radialColor = backgroundRadialColor(color);
         radialColor.setAlpha(255);
         QRadialGradient gradient(64, height-64, 64);
