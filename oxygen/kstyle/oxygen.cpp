@@ -122,8 +122,8 @@ OxygenStyle::OxygenStyle() :
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::ButtonText);
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::ButtonText);
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::WindowText);
+    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::HighlightedText);
     //NOTE: These button heights are arbitrarily chosen
     // in a way that they don't consume too much space and
     // still are usable with i.e. touchscreens
@@ -2202,7 +2202,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             }
 
             // if all is good change arrow color
-            if( hover ) { arrowColor = pal.color( QPalette::Highlight ); }
+            if( hover ) { arrowColor = pal.color( QPalette::HighlightedText ); }
 
         }
 
@@ -4236,18 +4236,18 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
     QColor iconColor;
     if (option) {
         buttonColor = option->palette.window().color();
-        iconColor   = option->palette.buttonText().color();
+        iconColor   = option->palette.windowText().color();
     } else if (widget) {
         buttonColor = widget->palette().window().color();
-        iconColor   = widget->palette().buttonText().color();
+        iconColor   = widget->palette().windowText().color();
     } else if (qApp) {
         // might not have a QApplication
         buttonColor = qApp->palette().window().color();
-        iconColor   = qApp->palette().buttonText().color();
+        iconColor   = qApp->palette().windowText().color();
     } else {// KCS is always safe
-        buttonColor = KColorScheme(QPalette::Active, KColorScheme::Button,
+        buttonColor = KColorScheme(QPalette::Active, KColorScheme::Window,
                                    _sharedConfig).background().color();
-        iconColor   = KColorScheme(QPalette::Active, KColorScheme::Button,
+        iconColor   = KColorScheme(QPalette::Active, KColorScheme::Window,
                                    _sharedConfig).foreground().color();
     }
 
