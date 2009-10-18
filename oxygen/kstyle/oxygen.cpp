@@ -373,7 +373,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
                 if (!cb->currentText.isEmpty() && !cb->editable) {
                     drawItemText(p, editRect.adjusted(1, 0, -1, 0),
                                  visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
-                                 cb->palette, cb->state & State_Enabled, cb->currentText);
+                                 cb->palette, cb->state & State_Enabled, cb->currentText, QPalette::ButtonText );
                 }
                 p->restore();
                 return;
@@ -966,6 +966,19 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive);
                     return;
                 }
+
+                case Generic::Text:
+                {
+                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+
+                    QPen old = p->pen();
+                    p->setPen(pal.color(QPalette::WindowText));
+                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
+                                 textOpts->text);
+                    p->setPen(old);
+                    return;
+                }
+
             }
 
         }
