@@ -670,16 +670,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case Generic::Text:
                 {
                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-
-                    QPen   old = p->pen();
-                    if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && flags & State_Sunken)
-                        p->setPen(pal.color(QPalette::HighlightedText));
-                    else
-                        p->setPen(pal.color(QPalette::WindowText));
+                    QPalette::ColorRole role( QPalette::WindowText );
+                    if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Sunken) && (flags & State_Enabled) )
+                    { role = QPalette::HighlightedText; }
                     drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
-                                 textOpts->text);
-                    p->setPen(old);
-
+                                 textOpts->text, role);
                     return;
                 }
             }
@@ -770,7 +765,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
                     QPalette::ColorRole role( QPalette::WindowText );
-                    if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && flags & State_Selected)
+                    if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
                     { role = QPalette::HighlightedText; }
 
                     drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
