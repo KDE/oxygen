@@ -46,6 +46,7 @@
 #include <QtGui/QProgressBar>
 #include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
+#include <QtGui/QSpinBox>
 #include <QtGui/QToolButton>
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
@@ -2101,10 +2102,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
         QColor  arrowColor = colorOpt->color.color(pal);
 
-        if (widget->inherits("QSpinBox"))
-        {
-            arrowColor = pal.color( QPalette::Text );
-        }
+        if (qobject_cast<const QSpinBox *>(widget) )
+        { arrowColor = pal.color( QPalette::Text ); }
 
         if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget))
         {
