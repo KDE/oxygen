@@ -2116,7 +2116,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     arrowColor = pal.color( QPalette::ButtonText );
                     if ((flags & State_On) || (flags & State_Sunken))
                     {
-                        arrowColor = pal.color( QPalette::HighlightedText );
+                        arrowColor = pal.color( QPalette::Highlight );
                         opts |= Sunken;
                     }
 
@@ -2139,7 +2139,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     p->drawLine(r.x()-4, r.y()+4, r.x()-4, r.bottom()-3);
                 } else {
 
-                    if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::HighlightedText );
+                    if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::Highlight );
                     else arrowColor = pal.color( QPalette::WindowText );
 
                 }
@@ -2147,7 +2147,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             } else {
 
                 // adjust color
-                if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::HighlightedText );
+                if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::Highlight );
                 else arrowColor = pal.color( QPalette::WindowText );
 
                 // smaller down arrow for menu indication on toolbuttons
@@ -2213,7 +2213,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             }
 
             // if all is good change arrow color
-            if( hover ) { arrowColor = pal.color( QPalette::HighlightedText ); }
+            if( hover ) { arrowColor = pal.color( QPalette::Highlight ); }
 
         }
 
