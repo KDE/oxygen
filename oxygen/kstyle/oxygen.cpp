@@ -1455,9 +1455,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                             extractOption<KStyle::TitleButtonOption*>(kOpt);
                     State bflags = flags;
                     bflags &= ~State_Sunken;
-                    //if (tbkOpts->active)
-                    //    bflags |= State_Sunken;
-                    //drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, opt, r, pal, bflags, p, widget);
                     p->save();
                     p->drawPixmap(r.topLeft(), _helper.windecoButton(pal.window().color(), tbkOpts->active,  r.height()));
                     p->setRenderHints(QPainter::Antialiasing);
@@ -2046,6 +2043,20 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     }
                     return;
                 }
+
+//                 case Generic::Text:
+//                 {
+//                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+//                     QPalette::ColorRole role( QPalette::WindowText );
+//                     if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
+//                     { role = QPalette::HighlightedText; }
+//                     drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
+//                         textOpts->text, role);
+//                     return;
+//                 }
+
+                default: break;
+
             }
 
         }
@@ -2086,16 +2097,31 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             }
         }
         qreal penThickness = 2.2;
+        p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
+        KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
+        QColor  arrowColor = colorOpt->color.color(pal);
 
-        if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
-            if (tool->popupMode()==QToolButton::MenuButtonPopup) {
-                if(!tool->autoRaise()) {
+        if (widget->inherits("QSpinBox"))
+        {
+            arrowColor = pal.color( QPalette::Text );
+        }
+
+        if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget))
+        {
+            if (tool->popupMode()==QToolButton::MenuButtonPopup)
+            {
+
+                if(!tool->autoRaise())
+                {
+                    arrowColor = pal.color( QPalette::ButtonText );
                     if ((flags & State_On) || (flags & State_Sunken))
+                    {
+                        arrowColor = pal.color( QPalette::HighlightedText );
                         opts |= Sunken;
-                    if (flags & State_HasFocus)
-                        opts |= Focus;
-                    if (enabled && (flags & State_MouseOver))
-                        opts |= Hover;
+                    }
+
+                    if (flags & State_HasFocus) opts |= Focus;
+                    if (enabled && (flags & State_MouseOver)) opts |= Hover;
                     renderSlab(p, r.adjusted(-10,0,0,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
 
                     a.translate(-3,1);
@@ -2111,13 +2137,25 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     p->drawLine(r.x()-3, r.y()+3, r.x()-3, r.bottom()-3);
                     p->setPen(QPen(dark,1));
                     p->drawLine(r.x()-4, r.y()+4, r.x()-4, r.bottom()-3);
+                } else {
+
+                    if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::HighlightedText );
+                    else arrowColor = pal.color( QPalette::WindowText );
+
                 }
-            }
-            else {
+
+            } else {
+
+                // adjust color
+                if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::HighlightedText );
+                else arrowColor = pal.color( QPalette::WindowText );
+
                 // smaller down arrow for menu indication on toolbuttons
                 penThickness = 1.7;
                 a.clear();
+
                 // NOTE: is there any smarter solution than this?
+                // I (Hugo) would like to implement this in helper() for once.
                 switch (primitive)
                 {
                     case Generic::ArrowUp: {
@@ -2143,11 +2181,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 }
             }
         }
-
-        p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
-
-        KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
-        QColor  arrowColor = colorOpt->color.color(pal);
 
         // handle scrollbar arrow hover
         if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) )
@@ -2234,8 +2267,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 if (flags & State_Selected) {
                     lg.setColorAt(0.2, pal.color(QPalette::BrightText));
                     lg.setColorAt(0.8, pal.color(QPalette::BrightText));
-                }
-                else {
+                } else {
                     lg.setColorAt(0.2, pal.color(QPalette::Text));
                     lg.setColorAt(0.8, pal.color(QPalette::Text));
                 }

@@ -1,6 +1,13 @@
 
 project(kstyle-oxygen)
 
+find_package (KDE4 REQUIRED)
+add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
+include (KDE4Defaults)
+include (MacroLibrary)
+include_directories (${KDE4_INCLUDES} ${CMAKE_BINARY_DIR})
+add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+
 add_subdirectory( config )
 
 
