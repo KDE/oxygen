@@ -767,7 +767,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     QPalette::ColorRole role( QPalette::WindowText );
                     if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
                     { role = QPalette::HighlightedText; }
-
                     drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
                                  textOpts->text, role);
                     return;
@@ -2671,7 +2670,9 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 
     if (primitive != CheckBox::CheckOff)
     {
-        QBrush brush = _helper.decoGradient(rect.adjusted(2,2,-2,-2), pal.color(QPalette::ButtonText));
+        QBrush brush = (sunken) ?
+            _helper.decoGradient(rect.adjusted(2,2,-2,-2), pal.color(QPalette::WindowText)):
+            _helper.decoGradient(rect.adjusted(2,2,-2,-2), pal.color(QPalette::ButtonText));
         QPen pen(brush, 2.2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 
         pen.setCapStyle(Qt::RoundCap);
@@ -4239,6 +4240,8 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
             painter.setRenderHints(QPainter::Antialiasing);
+
+            // should use the same icons as in the deco
             QPointF points[4] = {QPointF(8.5, 6), QPointF(11, 8.5), QPointF(8.5, 11), QPointF(6, 8.5)};
             {
 
