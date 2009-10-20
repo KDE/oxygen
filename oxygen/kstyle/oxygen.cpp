@@ -2338,13 +2338,15 @@ void OxygenStyle::polish(QWidget* widget)
             // this hack is needed to have correct text color
             // rendered in toolbars
             QPalette palette( widget->palette() );
-            palette.setColor( QPalette::ButtonText, palette.color( QPalette::WindowText ) );
+            palette.setColor( QPalette::Disabled, QPalette::ButtonText, palette.color( QPalette::Disabled, QPalette::WindowText ) );
+            palette.setColor( QPalette::Active, QPalette::ButtonText, palette.color( QPalette::Active, QPalette::WindowText ) );
+            palette.setColor( QPalette::Inactive, QPalette::ButtonText, palette.color( QPalette::Inactive, QPalette::WindowText ) );
             widget->setPalette( palette );
         }
 
         widget->setBackgroundRole(QPalette::NoRole);
 
-   }
+    }
 
     if (qobject_cast<QMenuBar*>(widget))
     {
