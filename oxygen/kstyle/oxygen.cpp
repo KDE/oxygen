@@ -1460,6 +1460,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case Window::ButtonShade:
                 case Window::ButtonUnshade:
                 case Window::ButtonHelp:
+                if( r.isValid() )
                 {
                     KStyle::TitleButtonOption* tbkOpts =
                             extractOption<KStyle::TitleButtonOption*>(kOpt);
@@ -3911,6 +3912,20 @@ void OxygenStyle::renderWindowIcon(QPainter *p, const QRectF &r, int &type) cons
         {
             p->drawLine(QPointF( 7.5,7.5), QPointF(13.5,13.5));
             p->drawLine(QPointF(13.5,7.5), QPointF( 7.5,13.5));
+            break;
+        }
+        case Window::ButtonShade:
+        {
+            p->drawLine(QPointF( 7.5, 13.5 ), QPointF(13.5, 13.5));
+            p->drawLine(QPointF( 7.5, 7.5), QPointF(10.5,10.5));
+            p->drawLine(QPointF(10.5,10.5), QPointF(13.5, 7.5));
+            break;
+        }
+        case Window::ButtonUnshade:
+        {
+            p->drawLine(QPointF( 7.5,10.5), QPointF(10.5, 7.5));
+            p->drawLine(QPointF(10.5, 7.5), QPointF(13.5,10.5));
+            p->drawLine(QPointF( 7.5,13.0), QPointF(13.5,13.0));
             break;
         }
         default:
