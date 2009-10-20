@@ -2045,17 +2045,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     return;
                 }
 
-//                 case Generic::Text:
-//                 {
-//                     KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-//                     QPalette::ColorRole role( QPalette::WindowText );
-//                     if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
-//                     { role = QPalette::HighlightedText; }
-//                     drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
-//                         textOpts->text, role);
-//                     return;
-//                 }
-
                 default: break;
 
             }
@@ -3686,6 +3675,16 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
     QRect r;
 
     switch (sr) {
+
+        case SE_TabBarTabLeftButton:
+        case SE_TabBarTabRightButton:
+        {
+            int offset(
+                (widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, opt, widget) -
+                widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, opt, widget) )/2 );
+            return KStyle::subElementRect( sr, opt, widget ).translated( 0, offset );
+        }
+
     case SE_TabWidgetTabBar: {
         const QStyleOptionTabWidgetFrame *twf  = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt);
         if(!twf) return QRect();
