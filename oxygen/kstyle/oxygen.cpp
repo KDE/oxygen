@@ -2331,10 +2331,20 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAttribute(Qt::WA_Hover);
     }
 
-    if (qobject_cast<QToolButton*>(widget) )
+    if (QToolButton* tb = qobject_cast<QToolButton*>(widget) )
     {
+        if( qobject_cast<QToolBar*>( widget->parent() ) )
+        {
+            // this hack is needed to have correct text color
+            // rendered in toolbars
+            QPalette palette( widget->palette() );
+            palette.setColor( QPalette::ButtonText, palette.color( QPalette::WindowText ) );
+            widget->setPalette( palette );
+        }
+
         widget->setBackgroundRole(QPalette::NoRole);
-    }
+
+   }
 
     if (qobject_cast<QMenuBar*>(widget))
     {
