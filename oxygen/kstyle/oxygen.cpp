@@ -1219,10 +1219,19 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 QRect fr = r;
                                 if (tabOpt->tabBarRect.isValid())
                                     fr.setLeft(tabOpt->tabBarRect.right());
-                                else if (tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner))
+                                else if (tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner)) {
+
                                     fr.setLeft(fr.right() - (tabWidget->cornerWidget(Qt::TopRightCorner)->width()));
-                                else
-                                    return;
+
+                                    // this is another ugly hack
+                                    // it comes from the fact that 1/ rect is not passed properly when using KStyle
+                                    // to paint behind the left or right corner widget
+                                    // 2/ that the widget is now located 6 pixels above the tabbar bottom
+                                    // TODO: at least use correct LayoutMetrics
+                                    fr.translate( 0, 6 );
+
+                                } else return;
+
                                 fr.adjust(-7,-gw,7,-1-gw);
                                 renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
                             }
@@ -3504,6 +3513,7 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
     }
 }
 
+#include <KTabBar>
 QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const
 {
     switch(type)
@@ -3676,14 +3686,52 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
 
     switch (sr) {
 
-        case SE_TabBarTabLeftButton:
-        case SE_TabBarTabRightButton:
+    case SE_TabWidgetTabPane:
+    {
+        if (const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
         {
-            int offset(
-                (widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, opt, widget) -
-                widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, opt, widget) )/2 );
-            return KStyle::subElementRect( sr, opt, widget ).translated( 0, offset );
+            QStyleOptionTab tabopt;
+            tabopt.shape = twf->shape;
+            int overlap = pixelMetric(PM_TabBarBaseOverlap, &tabopt, widget);
+
+            // this line is what causes the differences between drawing corner widgets in KStyle and drawing them in Qt
+            // TODO: identify where the lineWidth difference come from
+            if (twf->lineWidth == 0) overlap += 1;
+
+            switch (twf->shape) {
+            case QTabBar::RoundedNorth:
+            case QTabBar::TriangularNorth:
+                r = QRect(QPoint(0,qMax(twf->tabBarSize.height() - overlap, 0)),
+                          QSize(twf->rect.width(), qMin(twf->rect.height() - twf->tabBarSize.height() + overlap, twf->rect.height())));
+                break;
+            case QTabBar::RoundedSouth:
+            case QTabBar::TriangularSouth:
+                r = QRect(QPoint(0,0), QSize(twf->rect.width(), qMin(twf->rect.height() - twf->tabBarSize.height() + overlap, twf->rect.height())));
+                break;
+            case QTabBar::RoundedEast:
+            case QTabBar::TriangularEast:
+                r = QRect(QPoint(0, 0), QSize(qMin(twf->rect.width() - twf->tabBarSize.width() + overlap, twf->rect.width()), twf->rect.height()));
+                break;
+            case QTabBar::RoundedWest:
+            case QTabBar::TriangularWest:
+                r = QRect(QPoint(qMax(twf->tabBarSize.width() - overlap, 0), 0),
+                          QSize(qMin(twf->rect.width() - twf->tabBarSize.width() + overlap, twf->rect.width()), twf->rect.height()));
+                break;
+            }
+            if (sr == SE_TabWidgetTabContents && twf->lineWidth > 0)
+               r.adjust(2, 2, -2, -2);
         }
+        return r;
+    }
+
+    case SE_TabBarTabLeftButton:
+    case SE_TabBarTabRightButton:
+    {
+        int offset(
+            (widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, opt, widget) -
+            widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, opt, widget) )/2 );
+        return KStyle::subElementRect( sr, opt, widget ).translated( 0, offset );
+    }
 
     case SE_TabWidgetTabBar: {
         const QStyleOptionTabWidgetFrame *twf  = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt);
@@ -3729,8 +3777,8 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
             break;
         }
         return r;
-
     }
+
     case SE_TabWidgetLeftCorner: {
         const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt);
         if(!twf) return QRect();
@@ -3760,6 +3808,7 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
             break;
         }
 
+        r.translate( 0, 2 );
         return r;
 
     }
@@ -3792,6 +3841,7 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
             break;
         }
 
+        r.translate( 0, 2 );
         return r;
         }
     case SE_TabBarTearIndicator: {
