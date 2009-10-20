@@ -2383,9 +2383,13 @@ void OxygenStyle::polish(QWidget* widget)
     {
         widget->installEventFilter(this);
         widget->setAttribute(Qt::WA_TranslucentBackground);
-        //if( widget->layout() ) widget->layout()->setMargin(1);
     }
     else if ( qobject_cast<QFrame*>(widget) ) {
+
+        if (qobject_cast<KTitleWidget*>(widget->parentWidget())) {
+            widget->setBackgroundRole( QPalette::Window );
+        }
+
         widget->installEventFilter(this);
     }
     KStyle::polish(widget);
