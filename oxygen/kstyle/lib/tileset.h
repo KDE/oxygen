@@ -21,6 +21,7 @@
 
 #include <QtGui/QPixmap>
 #include <QtCore/QRect>
+#include <QtCore/QVector>
 
 class TileSet
 {
@@ -55,12 +56,12 @@ public:
     */
     TileSet(const QPixmap &pix, int w1, int h1, int w3, int h3, int x2, int y2, int w2, int h2);
 
-    TileSet() : _empty(true) {}
-    TileSet(const TileSet&);
+    //! empty constructor
+    TileSet();
 
-    virtual ~TileSet() {}
-
-    TileSet& operator=(const TileSet&);
+    //! destructor
+    virtual ~TileSet()
+    {}
 
     /**
      * Flags specifying what sides to draw in ::render. Corners are drawn when
@@ -90,11 +91,19 @@ public:
     void render(const QRect&, QPainter*, Tiles = Ring) const;
 
 protected:
-    void initPixmap(int s, const QPixmap&, int w, int h, const QRect &region);
 
-    bool _empty;
-    QPixmap _pixmap[9];
-    int _w1, _h1, _w3, _h3;
+    // initialize pixmap
+    void initPixmap( int, const QPixmap&, int w, int h, const QRect &region);
+
+    //! pixmap arry
+    QVector<QPixmap> _pixmap;
+
+    // dimensions
+    int _w1;
+    int _h1;
+    int _w3;
+    int _h3;
+
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(TileSet::Tiles)
