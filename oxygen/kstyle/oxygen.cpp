@@ -3734,6 +3734,7 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
 
     switch (sr) {
 
+    case SE_TabWidgetTabContents:
     case SE_TabWidgetTabPane:
     {
         if (const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
@@ -3766,8 +3767,9 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                           QSize(qMin(twf->rect.width() - twf->tabBarSize.width() + overlap, twf->rect.width()), twf->rect.height()));
                 break;
             }
-            if (sr == SE_TabWidgetTabContents && twf->lineWidth > 0)
-               r.adjust(2, 2, -2, -2);
+
+            // adjust rect for contents to handle margins
+            if (sr == SE_TabWidgetTabContents && twf->lineWidth > 0) r.adjust(2, 2, -2, -2);
         }
         return r;
     }
