@@ -1448,11 +1448,39 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     return;
                 }
 
+                case Generic::Text:
+                {
+
+                    const QStyleOptionTitleBar *tb = qstyleoption_cast<const QStyleOptionTitleBar *>(opt);
+                    bool active = (tb->titleBarState & Qt::WindowActive );
+                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+                    QPalette local( pal );
+                    local.setCurrentColorGroup( active ? QPalette::Active: QPalette::Disabled );
+                    drawItemText(
+                        p, r, Qt::AlignVCenter | textOpts->hAlign, local, active,
+                        textOpts->text, QPalette::WindowText);
+
+                    return;
+                }
+
                 case Window::TitlePanel:
                 {
                     return;
                 }
 
+                // menu button. Use icon if available
+                case Window::ButtonMenu:
+                if( r.isValid() )
+                {
+
+                    KStyle::TitleButtonOption* tbkOpts = extractOption<KStyle::TitleButtonOption*>(kOpt);
+                    if( !tbkOpts->icon.isNull() ) tbkOpts->icon.paint(p, r);
+                    return;
+
+                }
+                break;
+
+                // other title bar icons. Use build in pixmaps
                 case Window::ButtonMin:
                 case Window::ButtonMax:
                 case Window::ButtonRestore:
@@ -1471,13 +1499,32 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     p->setRenderHints(QPainter::Antialiasing);
                     p->setBrush(Qt::NoBrush);
 
-                    QLinearGradient lg = _helper.decoGradient(QRect(3,3,11,11), QColor(0,0,0));
-                    p->setPen(QPen(lg, 1.2));
-                    renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
-                    p->restore();
+                    const QStyleOptionTitleBar *tb = qstyleoption_cast<const QStyleOptionTitleBar *>(opt);
+                    bool active = (tb->titleBarState & Qt::WindowActive );
+                    QColor color( pal.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
 
+                    {
+                        // contrast pixel is achieved by translating
+                        // down the icon and painting it with white color
+                        qreal width( 1.1 );
+                        p->translate(0, 0.5);
+                        p->setPen(QPen( _helper.calcLightColor( color ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                        renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
+                    }
+
+                    {
+                        // main icon painting
+                        qreal width( 1.1 );
+                        p->translate(0,-1);
+                        p->setPen(QPen( color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                        renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
+                    }
+
+                    p->restore();
                     return;
                 }
+
+                break;
             }
         }
         break;
