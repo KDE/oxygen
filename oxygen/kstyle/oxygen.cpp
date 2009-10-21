@@ -1065,13 +1065,22 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 case TabBar::WestText:
                 case TabBar::EastText:
                 {
-                    QImage img(r.height(), r.width(), QImage::Format_ARGB32_Premultiplied);
-                    img.fill(0x00000000);
-                    QPainter painter(&img);
-                    drawItemText(&painter, img.rect(), (reverseLayout ? Qt::AlignRight : Qt::AlignLeft) | Qt::AlignVCenter | Qt::TextShowMnemonic, tabOpt->palette, tabOpt->state & State_Enabled, tabOpt->text, QPalette::WindowText);
-                    painter.end();
-                    img = img.transformed(QMatrix().rotate(primitive == TabBar::WestText ? -90 : 90));
-                    p->drawImage(r.x(), r.y(), img);
+                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+
+                    p->save();
+                    p->translate( r.topLeft() );
+                    if( primitive == TabBar::EastText )
+                    {
+                        p->rotate( 90 );
+                        p->translate( 0, -r.height()+1 );
+                    } else {
+                        p->rotate( -90 );
+                        p->translate( -r.width()+1, 0 );
+                    }
+
+                    QRect local( QPoint(), r.size() );
+                    drawItemText(p, local, (reverseLayout ? Qt::AlignRight : Qt::AlignLeft) | Qt::AlignVCenter | Qt::TextShowMnemonic, tabOpt->palette, tabOpt->state & State_Enabled, tabOpt->text, QPalette::WindowText);
+                    p->restore();
                     return;
                 }
                 case TabBar::IndicatorTear:
@@ -3733,6 +3742,29 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
     QRect r;
 
     switch (sr) {
+    case SE_TabBarTabText:
+    {
+        QRect r( KStyle::subElementRect( sr, opt, widget ) );
+        const QStyleOptionTabV3* tov3 = qstyleoption_cast<const QStyleOptionTabV3*>(opt);
+        switch( tov3->shape )
+        {
+
+            case QTabBar::RoundedEast:
+            case QTabBar::TriangularEast:
+            case QTabBar::RoundedWest:
+            case QTabBar::TriangularWest:
+            { return QRect( r.topLeft(), QSize( r.height(), r.width() ) ); }
+
+            case QTabBar::RoundedNorth:
+            case QTabBar::TriangularNorth:
+            case QTabBar::RoundedSouth:
+            case QTabBar::TriangularSouth:
+            default:
+            return r;
+
+        }
+
+    }
 
     case SE_TabWidgetTabContents:
     case SE_TabWidgetTabPane:
