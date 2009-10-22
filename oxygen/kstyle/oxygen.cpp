@@ -4597,11 +4597,9 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
                 painter.translate(0, 0.5);
                 painter.setBrush(Qt::NoBrush);
                 painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                painter.drawLine( QPointF(5.5,6.5), QPointF(7.75,8.75) );
-                painter.drawLine( QPointF(7.75,8.75), QPointF(5.5,11.0) );
+                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
+                painter.drawLine( QPointF(8.75,8.75), QPointF(6.5,11.0) );
 
-                painter.drawLine( QPointF(8.5,6.5), QPointF(10.75,8.75) );
-                painter.drawLine( QPointF(10.75,8.75), QPointF(8.5,11.0) );
             }
 
             {
@@ -4610,11 +4608,8 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
                 painter.setBrush(Qt::NoBrush);
                 painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
-                painter.drawLine( QPointF(5.5,6.5), QPointF(7.75,8.75) );
-                painter.drawLine( QPointF(7.75,8.75), QPointF(5.5,11.0) );
-
-                painter.drawLine( QPointF(8.5,6.5), QPointF(10.75,8.75) );
-                painter.drawLine( QPointF(10.75,8.75), QPointF(8.5,11.0) );
+                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
+                painter.drawLine( QPointF(8.75,8.75), QPointF(6.5,11.0) );
             }
 
             return QIcon( realpm );
@@ -4632,11 +4627,8 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
                 painter.translate(0, 0.5);
                 painter.setBrush(Qt::NoBrush);
                 painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                painter.drawLine( QPointF(6.5,5.5), QPointF(8.75,7.75) );
-                painter.drawLine( QPointF(8.75,7.75), QPointF(11.0,5.5) );
-
-                painter.drawLine( QPointF(6.5,8.5), QPointF(8.75,10.75) );
-                painter.drawLine( QPointF(8.75,10.75), QPointF(11.0, 8.5) );
+                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
+                painter.drawLine( QPointF(8.75,8.75), QPointF(11.0,6.5) );
             }
 
             {
@@ -4645,12 +4637,9 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
                 painter.setBrush(Qt::NoBrush);
                 painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
-                painter.drawLine( QPointF(6.5,5.5), QPointF(8.75,7.75) );
-                painter.drawLine( QPointF(8.75,7.75), QPointF(11.0,5.5) );
-
-                painter.drawLine( QPointF(6.5,8.5), QPointF(8.75,10.75) );
-                painter.drawLine( QPointF(8.75,10.75), QPointF(11.0, 8.5) );
-             }
+                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
+                painter.drawLine( QPointF(8.75,8.75), QPointF(11.0,6.5) );
+            }
 
             return QIcon( realpm );
         }
