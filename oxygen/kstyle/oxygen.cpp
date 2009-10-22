@@ -1079,7 +1079,8 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     }
 
                     QRect local( QPoint(), r.size() );
-                    drawItemText(p, local, (reverseLayout ? Qt::AlignRight : Qt::AlignLeft) | Qt::AlignVCenter | Qt::TextShowMnemonic, tabOpt->palette, tabOpt->state & State_Enabled, tabOpt->text, QPalette::WindowText);
+                    drawKStylePrimitive(WT_TabBar, Generic::Text, opt, local, pal, flags, p, widget, kOpt);
+
                     p->restore();
                     return;
                 }
