@@ -2426,7 +2426,7 @@ void OxygenStyle::polish(QWidget* widget)
     {
         widget->setBackgroundRole(QPalette::NoRole);
         widget->setAttribute(Qt::WA_TranslucentBackground);
-        widget->setContentsMargins(3,0,3,3);
+        widget->setContentsMargins(3,3,3,3);
         widget->installEventFilter(this);
     }
     else if (qobject_cast<QToolBox*>(widget))
@@ -4313,13 +4313,14 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             case QEvent::Paint:
             {
                 QPainter p(dw);
+                QPaintEvent *e = (QPaintEvent*)ev;
+                p.setClipRegion(e->region());
+
                 const QColor color = dw->palette().color(QPalette::Window);
                 if(dw->isWindow())
                 {
 
                     QPainter p(dw);
-                    QPaintEvent *e = (QPaintEvent*)ev;
-                    p.setClipRegion(e->region());
                     QRect r = dw->rect();
                     QColor color = dw->palette().window().color();
 
@@ -4340,12 +4341,11 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
                 } else {
 
-                    int w = dw->rect().width();
-                    int h = dw->rect().height();
-                    QRect rect(0,0,w,h);
+                    QRect r( dw->rect() );
 
-                    TileSet *tileSet = _helper.dockFrame(color, w);
-                    tileSet->render(rect, &p);
+                    _helper.renderWindowBackground(&p, r, dw, color);
+                    TileSet *tileSet = _helper.dockFrame(color, r.width());
+                    tileSet->render(r, &p);
 
                 }
 
