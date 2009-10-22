@@ -224,6 +224,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemSpacing, 1);
     setWidgetLayoutProp(WT_ToolBar, ToolBar::ItemMargin, 1);
+    setWidgetLayoutProp(WT_ToolBar, ToolBar::ExtensionExtent, 16);
 
     setWidgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin, 4);
     setWidgetLayoutProp(WT_ToolButton, ToolButton::FocusMargin,    0);
@@ -747,7 +748,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                                 visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
                                 visualPos(opt->direction, maskr, QPoint(maskr.right()-4, 0)));
                         gradient.setColorAt(0.0, QColor(0,0,0,255));
-                        gradient.setColorAt(1.0, QColor(0,0,0,0));
+                        gradient.setColorAt(1.0, Qt::transparent);
                         pp.setBrush(gradient);
                         pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
                         pp.drawRect(maskr);
@@ -4438,7 +4439,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         case SP_TitleBarNormalButton:
         {
             QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
-            realpm.fill(QColor(0,0,0,0));
+            realpm.fill(Qt::transparent);
             QPixmap pm = _helper.windecoButton(buttonColor, false, 15);
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
@@ -4470,7 +4471,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         case SP_TitleBarShadeButton:
         {
             QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
-            realpm.fill(QColor(0,0,0,0));
+            realpm.fill(Qt::transparent);
             QPixmap pm = _helper.windecoButton(buttonColor, false, 15);
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
@@ -4504,7 +4505,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         case SP_TitleBarUnshadeButton:
         {
             QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
-            realpm.fill(QColor(0,0,0,0));
+            realpm.fill(Qt::transparent);
             QPixmap pm = _helper.windecoButton(buttonColor, false, 15);
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
@@ -4539,7 +4540,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
         case SP_DockWidgetCloseButton:
         {
             QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
-            realpm.fill(QColor(0,0,0,0));
+            realpm.fill(Qt::transparent);
             QPixmap pm = _helper.windecoButton(buttonColor, false, 15);
             QPainter painter(&realpm);
             painter.drawPixmap(1,1,pm);
@@ -4568,6 +4569,78 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
 
             return QIcon(realpm);
         }
+
+        case SP_ToolBarHorizontalExtensionButton:
+        {
+
+            QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
+            realpm.fill(Qt::transparent);
+            QPainter painter(&realpm);
+            painter.setRenderHints(QPainter::Antialiasing);
+            painter.setBrush(Qt::NoBrush);
+            {
+                qreal width( 1.1 );
+                painter.translate(0, 0.5);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawLine( QPointF(5.5,6.5), QPointF(7.75,8.75) );
+                painter.drawLine( QPointF(7.75,8.75), QPointF(5.5,11.0) );
+
+                painter.drawLine( QPointF(8.5,6.5), QPointF(10.75,8.75) );
+                painter.drawLine( QPointF(10.75,8.75), QPointF(8.5,11.0) );
+            }
+
+            {
+                qreal width( 1.1 );
+                painter.translate(0,-1);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+
+                painter.drawLine( QPointF(5.5,6.5), QPointF(7.75,8.75) );
+                painter.drawLine( QPointF(7.75,8.75), QPointF(5.5,11.0) );
+
+                painter.drawLine( QPointF(8.5,6.5), QPointF(10.75,8.75) );
+                painter.drawLine( QPointF(10.75,8.75), QPointF(8.5,11.0) );
+            }
+
+            return QIcon( realpm );
+        }
+
+        case SP_ToolBarVerticalExtensionButton:
+        {
+            QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
+            realpm.fill(Qt::transparent);
+            QPainter painter(&realpm);
+            painter.setRenderHints(QPainter::Antialiasing);
+            painter.setBrush(Qt::NoBrush);
+            {
+                qreal width( 1.1 );
+                painter.translate(0, 0.5);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                painter.drawLine( QPointF(6.5,5.5), QPointF(8.75,7.75) );
+                painter.drawLine( QPointF(8.75,7.75), QPointF(11.0,5.5) );
+
+                painter.drawLine( QPointF(6.5,8.5), QPointF(8.75,10.75) );
+                painter.drawLine( QPointF(8.75,10.75), QPointF(11.0, 8.5) );
+            }
+
+            {
+                qreal width( 1.1 );
+                painter.translate(0,-1);
+                painter.setBrush(Qt::NoBrush);
+                painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+
+                painter.drawLine( QPointF(6.5,5.5), QPointF(8.75,7.75) );
+                painter.drawLine( QPointF(8.75,7.75), QPointF(11.0,5.5) );
+
+                painter.drawLine( QPointF(6.5,8.5), QPointF(8.75,10.75) );
+                painter.drawLine( QPointF(8.75,10.75), QPointF(11.0, 8.5) );
+             }
+
+            return QIcon( realpm );
+        }
+
         default:
         return KStyle::standardIconImplementation(standardIcon, option, widget);
     }
