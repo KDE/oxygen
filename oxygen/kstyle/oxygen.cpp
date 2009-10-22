@@ -1741,6 +1741,14 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 {
                     return;
                 }
+
+                case Generic::ArrowDown:
+                {
+                    KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
+                    colorOpt->color = ColorMode( editable ? QPalette::Text : QPalette::ButtonText );
+                    drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, r, pal, flags, p, widget, colorOpt );
+                }
+
             }
 
         }
@@ -1831,21 +1839,27 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                     int centerx = r.x() + r.width()/2;
                     int centery = r.y() + r.height()/2;
 
-                    p->save();
-                    p->setPen( pal.text().color() );
                     if(!OxygenStyleConfigData::viewDrawTriangularExpander())
                     {
                         // plus or minus
+                        p->save();
+                        p->setPen( pal.text().color() );
                         p->drawLine( centerx - radius, centery, centerx + radius, centery );
                         if (primitive == Tree::ExpanderClosed) // Collapsed = On
                             p->drawLine( centerx, centery - radius, centerx, centery + radius );
+                        p->restore();
+
                     } else {
+
+                        KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
+                        colorOpt->color = ColorMode( QPalette::Text );
                         if(primitive == Tree::ExpanderClosed)
-                            drawKStylePrimitive(WT_Generic, reverseLayout? Generic::ArrowLeft : Generic::ArrowRight, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget);
-                        else
-                            drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget);
+                        {
+                            drawKStylePrimitive(WT_Generic, reverseLayout? Generic::ArrowLeft : Generic::ArrowRight, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget, colorOpt );
+                        } else {
+                            drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget, colorOpt );
+                        }
                     }
-                    p->restore();
 
                     return;
                 }
