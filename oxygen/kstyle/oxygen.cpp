@@ -2254,7 +2254,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         }
 
         // handle scrollbar arrow hover
-        if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) )
+        if( const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) )
         {
             bool hover( false );
 
@@ -2284,7 +2284,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             }
 
             // if all is good change arrow color
-            if( hover ) { arrowColor = pal.color( QPalette::Highlight ); }
+            if( hover && enabled ) { arrowColor = pal.color( QPalette::Highlight ); }
 
         }
 
