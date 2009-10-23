@@ -2170,7 +2170,6 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
             }
         }
         qreal penThickness = 2.2;
-        p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
         KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
         QColor  arrowColor = colorOpt->color.color(pal);
 
@@ -2292,6 +2291,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         arrowGradient.setColorAt(0.8, KColorUtils::mix(pal.color(QPalette::Window), arrowColor, 0.6));
 
         // white reflection
+        p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
         p->translate(0,1);
         p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)),
                        penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
