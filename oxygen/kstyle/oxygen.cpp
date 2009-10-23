@@ -2184,11 +2184,7 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
                 if(!tool->autoRaise())
                 {
                     arrowColor = pal.color( QPalette::ButtonText );
-                    if ((flags & State_On) || (flags & State_Sunken))
-                    {
-                        arrowColor = pal.color( QPalette::Highlight );
-                        opts |= Sunken;
-                    }
+                    if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
 
                     if (flags & State_HasFocus) opts |= Focus;
                     if (enabled && (flags & State_MouseOver)) opts |= Hover;
