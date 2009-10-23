@@ -2583,7 +2583,7 @@ bool OxygenStyle::drawGenericPrimitive(
                 }
 
                 // if all is good change arrow color
-                if( hover && enabled ) { arrowColor = pal.color( QPalette::Highlight ); }
+                if( hover && enabled ) { arrowColor = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color(); }
 
             } else if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
 
