@@ -74,12 +74,48 @@ public:
     virtual void drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const;
     virtual void drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
 
-    virtual void drawKStylePrimitive(WidgetType widgetType, int primitive,
-                                     const QStyleOption* opt,
-                                     const QRect &r, const QPalette &pal, State flags,
-                                     QPainter* p,
-                                     const QWidget* widget = 0,
-                                     Option* kOpt = 0) const;
+    //! generic primitive drawing
+    virtual void drawKStylePrimitive(
+        WidgetType, int,
+        const QStyleOption*,
+        const QRect &, const QPalette &,
+        State,
+        QPainter*,
+        const QWidget* = 0,
+        Option* = 0) const;
+
+
+    //!@name dedicated primitive drawing
+    //@{
+    // should use a macro to declare these functions
+    virtual bool drawPushButtonPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawToolBoxTabPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawProgressBarPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawMenuBarPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawMenuBarItemPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawMenuPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawMenuItemPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawDockWidgetPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawStatusBarPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawCheckBoxPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawRadioButtonPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawScrollBarPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawTabBarPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawTabWidgetPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawWindowPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawSplitterPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawSliderPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawSpinBoxPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawComboBoxPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawHeaderPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawTreePrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawLineEditPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawGroupBoxPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawToolBarPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    virtual bool drawToolButtonPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+
+    virtual bool drawGenericPrimitive(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+    //@}
 
     virtual QRect subElementRect(SubElement sr, const QStyleOption *opt, const QWidget *widget) const;
 

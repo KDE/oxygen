@@ -423,1941 +423,2326 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
     KStyle::drawControl(element, option, p, widget);
 }
 
+//_________________________________________________________________________
 void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
-                                       const QStyleOption* opt,
-                                       const QRect &r, const QPalette &pal,
-                                       State flags, QPainter* p,
-                                       const QWidget* widget,
-                                       KStyle::Option* kOpt) const
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
 {
-    StyleOptions opts = 0;
-    const bool reverseLayout = opt->direction == Qt::RightToLeft;
-
-    const bool enabled = flags & State_Enabled;
-    const bool mouseOver(enabled && (flags & State_MouseOver));
 
     switch (widgetType)
     {
         case WT_PushButton:
-        {
-            switch (primitive)
-            {
-                case PushButton::Panel:
-                {
-                    if ((flags & State_On) || (flags & State_Sunken))
-                        opts |= Sunken;
-                    if (flags & State_HasFocus)
-                        opts |= Focus;
-                    if (enabled && (flags & State_MouseOver))
-                        opts |= Hover;
-
-                    renderSlab(p, r, pal.color(QPalette::Button), opts);
-                    return;
-                }
-
-                case PushButton::DefaultButtonFrame:
-                {
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawPushButtonPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_ToolBoxTab:
-        {
-            switch (primitive)
-            {
-                case ToolBoxTab::Panel:
-                {
-                    const QStyleOptionToolBox *option = qstyleoption_cast<const QStyleOptionToolBox *>(opt);
-                    if(!(option && widget)) return;
-
-                    const QStyleOptionToolBoxV2 *v2 = qstyleoption_cast<const QStyleOptionToolBoxV2 *>(opt);
-
-                    p->save();
-                    if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning)
-                    {
-                        p->restore();
-                        return;
-                    }
-
-                    QColor color = widget->palette().color(QPalette::Window); // option returns a wrong color
-                    QColor light = _helper.calcLightColor(color);
-                    QColor dark = _helper.calcDarkColor(color);
-
-                    QPainterPath path;
-                    int y = r.height()*15/100;
-                    if (reverseLayout) {
-                        path.moveTo(r.left()+52, r.top());
-                        path.cubicTo(QPointF(r.left()+50-8, r.top()), QPointF(r.left()+50-10, r.top()+y), QPointF(r.left()+50-10, r.top()+y));
-                        path.lineTo(r.left()+18+9, r.bottom()-y);
-                        path.cubicTo(QPointF(r.left()+18+9, r.bottom()-y), QPointF(r.left()+19+6, r.bottom()-1-0.3), QPointF(r.left()+19, r.bottom()-1-0.3));
-                    } else {
-                        path.moveTo(r.right()-52, r.top());
-                        path.cubicTo(QPointF(r.right()-50+8, r.top()), QPointF(r.right()-50+10, r.top()+y), QPointF(r.right()-50+10, r.top()+y));
-                        path.lineTo(r.right()-18-9, r.bottom()-y);
-                        path.cubicTo(QPointF(r.right()-18-9, r.bottom()-y), QPointF(r.right()-19-6, r.bottom()-1-0.3), QPointF(r.right()-19, r.bottom()-1-0.3));
-                    }
-
-                    p->setRenderHint(QPainter::Antialiasing, true);
-                    p->translate(0,1);
-                    p->setPen(light);
-                    p->drawPath(path);
-                    p->translate(0,-1);
-                    p->setPen(dark);
-                    p->drawPath(path);
-
-                    p->setRenderHint(QPainter::Antialiasing, false);
-                    if (reverseLayout) {
-                        p->drawLine(r.left()+50-1, r.top(), r.right(), r.top());
-                        p->drawLine(r.left()+20, r.bottom()-2, r.left(), r.bottom()-2);
-                        p->setPen(light);
-                        p->drawLine(r.left()+50, r.top()+1, r.right(), r.top()+1);
-                        p->drawLine(r.left()+20, r.bottom()-1, r.left(), r.bottom()-1);
-                    } else {
-                        p->drawLine(r.left(), r.top(), r.right()-50+1, r.top());
-                        p->drawLine(r.right()-20, r.bottom()-2, r.right(), r.bottom()-2);
-                        p->setPen(light);
-                        p->drawLine(r.left(), r.top()+1, r.right()-50, r.top()+1);
-                        p->drawLine(r.right()-20, r.bottom()-1, r.right(), r.bottom()-1);
-                    }
-
-                    p->restore();
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawToolBoxTabPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_ProgressBar:
-        {
-//             const Q3ProgressBar *pb = qobject_cast<const Q3ProgressBar*>(widget);
-//             int steps = pb->totalSteps();
-
-            QColor bg = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background); // background
-            QColor fg = enabled?pal.color(QPalette::Highlight):pal.color(QPalette::Background).dark(110); // foreground
-            const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>(opt);
-            Qt::Orientation orientation = pbOpt? pbOpt->orientation : Qt::Horizontal;
-
-            QRect rect = r;
-
-            switch (primitive)
-            {
-                case ProgressBar::Groove:
-                {
-                    renderScrollBarHole(p, r, pal.color(QPalette::Window), orientation);
-                    return;
-                }
-
-                case ProgressBar::Indicator:
-                    if (r.width() < 2 || r.height() < 2)
-                        return;
-                case ProgressBar::BusyIndicator:
-                {
-                    rect.adjust(0.5,-1.5,-1.5,-0.5);
-
-                    QColor highlight = pal.color(QPalette::Active, QPalette::Highlight);
-                    QColor lhighlight = _helper.calcLightColor(highlight);
-                    QColor color = pal.color(QPalette::Active, QPalette::Window);
-                    QColor light = _helper.calcLightColor(color);
-                    QColor dark = _helper.calcDarkColor(color);
-                    QColor shadow = _helper.calcShadowColor(color);
-                    p->save();
-                    p->setBrush(Qt::NoBrush);
-                    p->setRenderHints(QPainter::Antialiasing);
-
-                    // shadow
-                    p->setPen(_helper.alphaColor(shadow, 0.6));
-                    p->drawRoundedRect(rect.adjusted(-0.5,-0.5,1.5,0.0),2,1);
-
-                    // fill
-                    p->setPen(Qt::NoPen);
-                    p->setBrush(KColorUtils::mix(highlight, dark, 0.2));
-                    p->drawRect(rect.adjusted(1,0,0,0));
-
-                    // fake radial gradient
-                    QPixmap pm(rect.size());
-                    pm.fill(Qt::transparent);
-                    QRectF pmRect = pm.rect();
-                    QLinearGradient mask(pmRect.topLeft(), pmRect.topRight());
-                    mask.setColorAt(0.0, Qt::transparent);
-                    mask.setColorAt(0.4, Qt::black);
-                    mask.setColorAt(0.6, Qt::black);
-                    mask.setColorAt(1.0, Qt::transparent);
-
-                    QLinearGradient radial(pmRect.topLeft(), pmRect.bottomLeft());
-                    radial.setColorAt(0.0, KColorUtils::mix(lhighlight, light, 0.3));
-                    radial.setColorAt(0.5, Qt::transparent);
-                    radial.setColorAt(0.6, Qt::transparent);
-                    radial.setColorAt(1.0, KColorUtils::mix(lhighlight, light, 0.3));
-
-                    QPainter pp(&pm);
-                    pp.fillRect(pm.rect(), mask);
-                    pp.setCompositionMode(QPainter::CompositionMode_SourceIn);
-                    pp.fillRect(pm.rect(), radial);
-                    pp.end();
-                    p->drawPixmap(rect.topLeft(), pm);
-
-                    // bevel
-                    p->setRenderHint(QPainter::Antialiasing, false);
-                    QLinearGradient bevel(rect.topLeft(), rect.bottomLeft());
-                    bevel.setColorAt(0, lhighlight);
-                    bevel.setColorAt(0.5, highlight);
-                    bevel.setColorAt(1, _helper.calcDarkColor(highlight));
-                    p->setBrush(Qt::NoBrush);
-                    p->setPen(QPen(bevel, 1));
-                    p->drawRoundedRect(rect,2,2);
-
-                    // bright top edge
-                    QLinearGradient lightHl(rect.topLeft(),rect.topRight());
-                    lightHl.setColorAt(0, Qt::transparent);
-                    lightHl.setColorAt(0.5, KColorUtils::mix(highlight, light, 0.8));
-                    lightHl.setColorAt(1, Qt::transparent);
-                    p->setPen(QPen(lightHl, 1));
-                    p->drawLine(rect.topLeft(), rect.topRight());
-                    p->restore();
-
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawProgressBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_MenuBar:
-        {
-            switch (primitive)
-            {
-                case MenuBar::EmptyArea:
-                {
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawMenuBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_MenuBarItem:
-        {
-            switch (primitive)
-            {
-                case MenuBarItem::Panel:
-                {
-                    bool active  = flags & State_Selected;
-
-                    if (active) {
-                        QColor color = pal.color(QPalette::Window);
-                        if (OxygenStyleConfigData::menuHighlightMode() != OxygenStyleConfigData::MM_DARK) {
-                            if(flags & State_Sunken) {
-                                if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
-                                    color = pal.color(QPalette::Highlight);
-                                else
-                                    color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
-                            }
-                            else {
-                                if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
-                                    color = KColorUtils::tint(color, _viewHoverBrush.brush(pal).color());
-                                else
-                                    color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
-                            }
-                        }
-                        else {
-                            color = _helper.calcMidColor(color);
-                        }
-
-                        _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
-                    }
-
-                    return;
-                }
-
-                case Generic::Text:
-                {
-                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-                    QPalette::ColorRole role( QPalette::WindowText );
-                    if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Sunken) && (flags & State_Enabled) )
-                    { role = QPalette::HighlightedText; }
-                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
-                                 textOpts->text, role);
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawMenuBarItemPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_Menu:
-        {
-            switch (primitive)
-            {
-                case Generic::Frame:
-                case Menu::Background:
-                {
-                    // we paint in the eventFilter instead so we can paint in the border too
-                    return;
-                }
-
-                case Menu::TearOff:
-                {
-                    // TODO: See Keramik...
-
-                    return;
-                }
-
-                case Menu::Scroller:
-                {
-                    // TODO
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawMenuPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_MenuItem:
-        {
-            switch (primitive)
-            {
-                case MenuItem::Separator:
-                {
-                    _helper.drawSeparator(p, r, pal.color(QPalette::Window), Qt::Horizontal);
-                    return;
-                }
-
-                case MenuItem::ItemIndicator:
-                {
-                    if (enabled) {
-                        QPixmap pm(r.size());
-                        pm.fill(Qt::transparent);
-                        QPainter pp(&pm);
-                        QRect rr(QPoint(0,0), r.size());
-
-                        QColor color = pal.color(QPalette::Window);
-                        if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
-                            color = pal.color(QPalette::Highlight);
-                        else if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE)
-                            color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
-                        else
-                            color = _helper.calcMidColor(color);
-                        pp.setRenderHint(QPainter::Antialiasing);
-                        pp.setPen(Qt::NoPen);
-
-                        pp.setBrush(color);
-                        _helper.fillHole(pp, rr);
-
-                        _helper.holeFlat(color, 0.0)->render(rr.adjusted(2,2,-2,-2), &pp);
-
-                        QRect maskr( visualRect(opt->direction, rr, QRect(rr.width()-40, 0, 40,rr.height())) );
-                        QLinearGradient gradient(
-                                visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
-                                visualPos(opt->direction, maskr, QPoint(maskr.right()-4, 0)));
-                        gradient.setColorAt(0.0, QColor(0,0,0,255));
-                        gradient.setColorAt(1.0, Qt::transparent);
-                        pp.setBrush(gradient);
-                        pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-                        pp.drawRect(maskr);
-                        pp.end();
-
-                        p->drawPixmap(handleRTL(opt, r), pm);
-                    }
-                    else {
-                        drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
-                    }
-
-                    return;
-                }
-
-                case Generic::Text:
-                {
-                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-                    QPalette::ColorRole role( QPalette::WindowText );
-                    if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
-                    { role = QPalette::HighlightedText; }
-                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
-                                 textOpts->text, role);
-                    return;
-                }
-
-                case Generic::ArrowRight:
-                case Generic::ArrowLeft:
-                {
-                    // always draw in window text color due to fade-out
-                    extractOption<KStyle::ColorOption*>(kOpt)->color = QPalette::WindowText;
-                    // fall through to lower handler
-                    break;
-                }
-
-                case MenuItem::CheckColumn:
-                {
-                    // empty
-                    return;
-                }
-
-                case MenuItem::CheckOn:
-                {
-                    renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
-                    return;
-                }
-
-                case MenuItem::CheckOff:
-                {
-                    renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
-                    return;
-                }
-
-                case MenuItem::RadioOn:
-                {
-                    renderRadioButton(p, r, pal, enabled, false, mouseOver, RadioButton::RadioOn, true);
-                    return;
-                }
-
-                case MenuItem::RadioOff:
-                {
-                    renderRadioButton(p, r, pal, enabled, false, mouseOver, RadioButton::RadioOff, true);
-                    return;
-                }
-
-                case MenuItem::CheckIcon:
-                {
-                    // TODO
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawMenuItemPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_DockWidget:
-        {
-            switch (primitive)
-            {
-                case Generic::Text:
-                {
-                    const QStyleOptionDockWidget* dwOpt = ::qstyleoption_cast<const QStyleOptionDockWidget*>(opt);
-                    if (!dwOpt) return;
-                    const QStyleOptionDockWidgetV2 *v2 = qstyleoption_cast<const QStyleOptionDockWidgetV2*>(opt);
-                    bool verticalTitleBar = v2 ? v2->verticalTitleBar : false;
-
-                    QRect btnr = subElementRect(dwOpt->floatable ? SE_DockWidgetFloatButton : SE_DockWidgetCloseButton, opt, widget);
-                    int fw = widgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, opt, widget);
-                    QRect r = dwOpt->rect.adjusted(fw, fw, -fw, -fw);
-                    if (verticalTitleBar) {
-                        if(btnr.isValid())
-                            r.setY(btnr.y()+btnr.height());
-                    }
-                    else if(reverseLayout) {
-                        if(btnr.isValid())
-                            r.setLeft(btnr.x()+btnr.width());
-                        r.adjust(0,0,-4,0);
-                    } else {
-                        if(btnr.isValid())
-                            r.setRight(btnr.x());
-                        r.adjust(4,0,0,0);
-                    }
-
-                    QString title = dwOpt->title;
-                    QString tmpTitle = title;
-                    if(tmpTitle.contains("&"))
-                    {
-                        int pos = tmpTitle.indexOf("&");
-                        if(!(tmpTitle.size()-1 > pos && tmpTitle.at(pos+1) == QChar('&')))
-                            tmpTitle.remove(pos, 1);
-                    }
-                    int tw = dwOpt->fontMetrics.width(tmpTitle);
-                    int th = dwOpt->fontMetrics.height();
-                    int width = verticalTitleBar ? r.height() : r.width();
-                    if (width < tw)
-                        title = dwOpt->fontMetrics.elidedText(title, Qt::ElideRight, width, Qt::TextShowMnemonic);
-
-                    if (verticalTitleBar)
-                    {
-                        QRect br(dwOpt->fontMetrics.boundingRect(title));
-                        QImage textImage(br.size(), QImage::Format_ARGB32_Premultiplied);
-                        textImage.fill(0x00000000);
-                        QPainter painter(&textImage);
-                        drawItemText(&painter, QRect(0, 0, br.width(), br.height()), Qt::AlignLeft|Qt::AlignTop|Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title, QPalette::WindowText);
-                        painter.end();
-                        textImage = textImage.transformed(QMatrix().rotate(-90));
-
-                        p->drawPixmap(r.x()+(r.width()-th)/2, r.y()+r.height()-textImage.height(), QPixmap::fromImage(textImage));
-                    }
-                    else
-                    {
-                        drawItemText(p, r, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title, QPalette::WindowText);
-                    }
-                    return;
-                }
-                case Generic::Frame:
-                {
-                    // Don't do anything here as it interferes with custom titlewidgets
-                    return;
-                }
-
-                case DockWidget::TitlePanel:
-                {
-                    // The frame is draw in the eventfilter
-                    // This is because when a dockwidget has a titlebarwidget, then we can not
-                    //  paint on the dockwidget prober here
-                    return;
-                }
-
-                case DockWidget::SeparatorHandle:
-                    if (flags&State_Horizontal)
-                        drawKStylePrimitive(WT_Splitter, Splitter::HandleVert, opt, r, pal, flags, p, widget);
-                    else
-                        drawKStylePrimitive(WT_Splitter, Splitter::HandleHor, opt, r, pal, flags, p, widget);
-                    return;
-            }
-        }
-        break;
+        if( drawDockWidgetPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_StatusBar:
-        {
-            switch (primitive)
-            {
-                case Generic::Frame:
-                {
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawStatusBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_CheckBox:
-        {
-            switch(primitive)
-            {
-                case CheckBox::CheckOn:
-                case CheckBox::CheckOff:
-                case CheckBox::CheckTriState:
-                {
-                    bool hasFocus = flags & State_HasFocus;
-
-                    renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive);
-                    return;
-                }
-                case Generic::Text:
-                {
-                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
-                                 textOpts->text, QPalette::WindowText);
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawCheckBoxPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_RadioButton:
-        {
-            switch(primitive)
-            {
-                case RadioButton::RadioOn:
-                case RadioButton::RadioOff:
-                {
-                    bool hasFocus = flags & State_HasFocus;
-
-                    renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive);
-                    return;
-                }
-
-                case Generic::Text:
-                {
-                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
-                                 textOpts->text, QPalette::WindowText);
-                    return;
-                }
-
-            }
-
-        }
-        break;
+        if( drawRadioButtonPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_ScrollBar:
-        {
-            switch (primitive)
-            {
-                case ScrollBar::DoubleButtonHor:
-
-                    if (reverseLayout)
-                        renderScrollBarHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
-                                   TileSet::Top | TileSet::Bottom | TileSet::Left);
-                    else
-                        renderScrollBarHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
-                                   TileSet::Top | TileSet::Right | TileSet::Bottom);
-                    break;
-
-                case ScrollBar::DoubleButtonVert:
-                    renderScrollBarHole(p, QRect(0, r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical,
-                               TileSet::Bottom | TileSet::Left | TileSet::Right);
-                    break;
-
-                case ScrollBar::SingleButtonHor:
-                    if (reverseLayout)
-                        renderScrollBarHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
-                                   TileSet::Top | TileSet::Right | TileSet::Bottom);
-                    else
-                        renderScrollBarHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal,
-                                   TileSet::Top | TileSet::Left | TileSet::Bottom);
-                    break;
-
-                case ScrollBar::SingleButtonVert:
-                    renderScrollBarHole(p, QRect(0, r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical,
-                               TileSet::Top | TileSet::Left | TileSet::Right);
-                    break;
-
-                case ScrollBar::GrooveAreaVertTop:
-                {
-                    renderScrollBarHole(p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical,
-                            TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Top);
-                    return;
-                }
-
-                case ScrollBar::GrooveAreaVertBottom:
-                {
-                    renderScrollBarHole(p, r.adjusted(0,-10,0,0), pal.color(QPalette::Window), Qt::Vertical,
-                            TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Bottom);
-                    return;
-                }
-
-                case ScrollBar::GrooveAreaHorLeft:
-                {
-                    QRect rect = (reverseLayout) ? r.adjusted(0,0,10,0) : r.adjusted(0,0,12,0);
-                    renderScrollBarHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal,
-                            TileSet::Left | TileSet::Center | TileSet::Top | TileSet::Bottom);
-                    return;
-                }
-
-                case ScrollBar::GrooveAreaHorRight:
-                {
-                    QRect rect = (reverseLayout) ? r.adjusted(-12,0,0,0) : r.adjusted(-10,0,0,0);
-                    renderScrollBarHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal,
-                            TileSet::Right | TileSet::Center | TileSet::Top | TileSet::Bottom);
-                    return;
-                }
-                case ScrollBar::SliderHor:
-                {
-                    renderScrollBarHandle(p, r, pal, Qt::Horizontal,
-                            flags & State_MouseOver && flags & State_Enabled);
-                    return;
-                }
-                case ScrollBar::SliderVert:
-                {
-                    renderScrollBarHandle(p, r, pal, Qt::Vertical,
-                            flags & State_MouseOver && flags & State_Enabled);
-                    return;
-                }
-            }
-        }
-        break;
+        if( drawScrollBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
 
         case WT_TabBar:
+        if( drawTabBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+        case WT_TabWidget:
+        if( drawTabWidgetPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+        case WT_Window:
+        if( drawWindowPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+        case WT_Splitter:
+        if( drawSplitterPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+
+        case WT_Slider:
+        if( drawSliderPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+        case WT_SpinBox:
+        if( drawSpinBoxPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+
+        case WT_ComboBox:
+        if( drawComboBoxPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+
+        case WT_Header:
+        if( drawHeaderPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+
+        case WT_Tree:
+        if( drawTreePrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+
+        case WT_LineEdit:
+        if( drawLineEditPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+        case WT_GroupBox:
+        if( drawGroupBoxPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+        case WT_ToolBar:
+        if( drawToolBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+        case WT_ToolButton:
+        if( drawToolButtonPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        else break;
+
+        case WT_Limit: //max value for the enum, only here to silence the compiler
+        case WT_Generic: // handled below since the primitives arevalid for all WT_ types
+        default: break;
+    }
+
+    // generic primitive
+    if( drawGenericPrimitive( widgetType, primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+
+    // default fallback
+    KStyle::drawKStylePrimitive(widgetType, primitive, opt, r, pal, flags, p, widget, kOpt);
+}
+
+//___________________________________________________________________
+bool OxygenStyle::drawPushButtonPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( opt );
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+    StyleOptions opts = 0;
+    const bool enabled = flags & State_Enabled;
+    switch (primitive)
+    {
+        case PushButton::Panel:
+        {
+            if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
+            if (flags & State_HasFocus) opts |= Focus;
+            if (enabled && (flags & State_MouseOver)) opts |= Hover;
+            renderSlab(p, r, pal.color(QPalette::Button), opts);
+            return true;
+        }
+
+        case PushButton::DefaultButtonFrame: return true;
+        default: return false;
+    }
+
+}
+
+//___________________________________________________________________
+bool OxygenStyle::drawToolBoxTabPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( pal );
+    Q_UNUSED( flags );
+    Q_UNUSED( kOpt );
+
+    const bool reverseLayout = opt->direction == Qt::RightToLeft;
+    switch (primitive)
+    {
+        case ToolBoxTab::Panel:
+        {
+            const QStyleOptionToolBox *option = qstyleoption_cast<const QStyleOptionToolBox *>(opt);
+            if(!(option && widget)) return true;
+
+            const QStyleOptionToolBoxV2 *v2 = qstyleoption_cast<const QStyleOptionToolBoxV2 *>(opt);
+
+            if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning) return true;
+
+            p->save();
+            QColor color = widget->palette().color(QPalette::Window); // option returns a wrong color
+            QColor light = _helper.calcLightColor(color);
+            QColor dark = _helper.calcDarkColor(color);
+
+            QPainterPath path;
+            int y = r.height()*15/100;
+            if (reverseLayout) {
+                path.moveTo(r.left()+52, r.top());
+                path.cubicTo(QPointF(r.left()+50-8, r.top()), QPointF(r.left()+50-10, r.top()+y), QPointF(r.left()+50-10, r.top()+y));
+                path.lineTo(r.left()+18+9, r.bottom()-y);
+                path.cubicTo(QPointF(r.left()+18+9, r.bottom()-y), QPointF(r.left()+19+6, r.bottom()-1-0.3), QPointF(r.left()+19, r.bottom()-1-0.3));
+            } else {
+                path.moveTo(r.right()-52, r.top());
+                path.cubicTo(QPointF(r.right()-50+8, r.top()), QPointF(r.right()-50+10, r.top()+y), QPointF(r.right()-50+10, r.top()+y));
+                path.lineTo(r.right()-18-9, r.bottom()-y);
+                path.cubicTo(QPointF(r.right()-18-9, r.bottom()-y), QPointF(r.right()-19-6, r.bottom()-1-0.3), QPointF(r.right()-19, r.bottom()-1-0.3));
+            }
+
+            p->setRenderHint(QPainter::Antialiasing, true);
+            p->translate(0,1);
+            p->setPen(light);
+            p->drawPath(path);
+            p->translate(0,-1);
+            p->setPen(dark);
+            p->drawPath(path);
+
+            p->setRenderHint(QPainter::Antialiasing, false);
+            if (reverseLayout) {
+                p->drawLine(r.left()+50-1, r.top(), r.right(), r.top());
+                p->drawLine(r.left()+20, r.bottom()-2, r.left(), r.bottom()-2);
+                p->setPen(light);
+                p->drawLine(r.left()+50, r.top()+1, r.right(), r.top()+1);
+                p->drawLine(r.left()+20, r.bottom()-1, r.left(), r.bottom()-1);
+            } else {
+                p->drawLine(r.left(), r.top(), r.right()-50+1, r.top());
+                p->drawLine(r.right()-20, r.bottom()-2, r.right(), r.bottom()-2);
+                p->setPen(light);
+                p->drawLine(r.left(), r.top()+1, r.right()-50, r.top()+1);
+                p->drawLine(r.right()-20, r.bottom()-1, r.right(), r.bottom()-1);
+            }
+
+            p->restore();
+            return true;
+        }
+
+        default: return false;
+    }
+}
+
+//______________________________________________________
+bool OxygenStyle::drawProgressBarPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+
+    const bool enabled = flags & State_Enabled;
+    QColor bg = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background); // background
+    QColor fg = enabled?pal.color(QPalette::Highlight):pal.color(QPalette::Background).dark(110); // foreground
+    const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>(opt);
+    Qt::Orientation orientation = pbOpt? pbOpt->orientation : Qt::Horizontal;
+
+    QRect rect = r;
+
+    switch (primitive)
+    {
+        case ProgressBar::Groove:
+        {
+            renderScrollBarHole(p, r, pal.color(QPalette::Window), orientation);
+            return true;
+        }
+
+        case ProgressBar::Indicator:
+        {
+            if (r.width() < 2 || r.height() < 2) return true;
+        }
+
+        case ProgressBar::BusyIndicator:
+        {
+            rect.adjust(0.5,-1.5,-1.5,-0.5);
+
+            QColor highlight = pal.color(QPalette::Active, QPalette::Highlight);
+            QColor lhighlight = _helper.calcLightColor(highlight);
+            QColor color = pal.color(QPalette::Active, QPalette::Window);
+            QColor light = _helper.calcLightColor(color);
+            QColor dark = _helper.calcDarkColor(color);
+            QColor shadow = _helper.calcShadowColor(color);
+            p->save();
+            p->setBrush(Qt::NoBrush);
+            p->setRenderHints(QPainter::Antialiasing);
+
+            // shadow
+            p->setPen(_helper.alphaColor(shadow, 0.6));
+            p->drawRoundedRect(rect.adjusted(-0.5,-0.5,1.5,0.0),2,1);
+
+            // fill
+            p->setPen(Qt::NoPen);
+            p->setBrush(KColorUtils::mix(highlight, dark, 0.2));
+            p->drawRect(rect.adjusted(1,0,0,0));
+
+            // fake radial gradient
+            QPixmap pm(rect.size());
+            pm.fill(Qt::transparent);
+            QRectF pmRect = pm.rect();
+            QLinearGradient mask(pmRect.topLeft(), pmRect.topRight());
+            mask.setColorAt(0.0, Qt::transparent);
+            mask.setColorAt(0.4, Qt::black);
+            mask.setColorAt(0.6, Qt::black);
+            mask.setColorAt(1.0, Qt::transparent);
+
+            QLinearGradient radial(pmRect.topLeft(), pmRect.bottomLeft());
+            radial.setColorAt(0.0, KColorUtils::mix(lhighlight, light, 0.3));
+            radial.setColorAt(0.5, Qt::transparent);
+            radial.setColorAt(0.6, Qt::transparent);
+            radial.setColorAt(1.0, KColorUtils::mix(lhighlight, light, 0.3));
+
+            QPainter pp(&pm);
+            pp.fillRect(pm.rect(), mask);
+            pp.setCompositionMode(QPainter::CompositionMode_SourceIn);
+            pp.fillRect(pm.rect(), radial);
+            pp.end();
+            p->drawPixmap(rect.topLeft(), pm);
+
+            // bevel
+            p->setRenderHint(QPainter::Antialiasing, false);
+            QLinearGradient bevel(rect.topLeft(), rect.bottomLeft());
+            bevel.setColorAt(0, lhighlight);
+            bevel.setColorAt(0.5, highlight);
+            bevel.setColorAt(1, _helper.calcDarkColor(highlight));
+            p->setBrush(Qt::NoBrush);
+            p->setPen(QPen(bevel, 1));
+            p->drawRoundedRect(rect,2,2);
+
+            // bright top edge
+            QLinearGradient lightHl(rect.topLeft(),rect.topRight());
+            lightHl.setColorAt(0, Qt::transparent);
+            lightHl.setColorAt(0.5, KColorUtils::mix(highlight, light, 0.8));
+            lightHl.setColorAt(1, Qt::transparent);
+            p->setPen(QPen(lightHl, 1));
+            p->drawLine(rect.topLeft(), rect.topRight());
+            p->restore();
+
+            return true;
+        }
+
+        default: return false;
+
+    }
+}
+
+
+//______________________________________________________
+bool OxygenStyle::drawMenuBarPrimitive(
+    int primitive,
+    const QStyleOption*,
+    const QRect &, const QPalette&,
+    State, QPainter* ,
+    const QWidget*,
+    KStyle::Option* ) const
+{
+    switch (primitive)
+    {
+        case MenuBar::EmptyArea: return true;
+        default: return false;
+    }
+}
+
+//______________________________________________________
+bool OxygenStyle::drawMenuBarItemPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+    Q_UNUSED( opt );
+    Q_UNUSED( widget );
+    switch (primitive)
+    {
+        case MenuBarItem::Panel:
+        {
+            bool active  = flags & State_Selected;
+
+            if (active)
+            {
+                QColor color = pal.color(QPalette::Window);
+                if (OxygenStyleConfigData::menuHighlightMode() != OxygenStyleConfigData::MM_DARK)
+                {
+
+                    if(flags & State_Sunken)
+                    {
+
+                        if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) color = pal.color(QPalette::Highlight);
+                        else color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
+
+                    } else {
+
+                        if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) color = KColorUtils::tint(color, _viewHoverBrush.brush(pal).color());
+                        else color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
+                    }
+
+                } else color = _helper.calcMidColor(color);
+
+                _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
+            }
+
+            return true;
+        }
+
+        case Generic::Text:
+        {
+            KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+            QPalette::ColorRole role( QPalette::WindowText );
+            if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Sunken) && (flags & State_Enabled) )
+            { role = QPalette::HighlightedText; }
+
+            drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled, textOpts->text, role);
+            return true;
+        }
+
+        default: return false;
+    }
+
+}
+
+//______________________________________________________
+bool OxygenStyle::drawMenuPrimitive(
+    int primitive,
+    const QStyleOption*,
+    const QRect &, const QPalette &,
+    State, QPainter*,
+    const QWidget*,
+    KStyle::Option* ) const
+{
+
+    switch (primitive)
+    {
+        case Generic::Frame:
+        case Menu::Background:
+        return true;
+
+        case Menu::TearOff:
+        return true;
+
+        case Menu::Scroller:
+        return true;
+
+        default: return false;
+    }
+}
+
+//______________________________________________________
+bool OxygenStyle::drawMenuItemPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+
+    switch( primitive )
+    {
+        case MenuItem::ItemIndicator:
+        {
+            if (enabled) {
+                QPixmap pm(r.size());
+                pm.fill(Qt::transparent);
+                QPainter pp(&pm);
+                QRect rr(QPoint(0,0), r.size());
+
+                QColor color = pal.color(QPalette::Window);
+                if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
+                    color = pal.color(QPalette::Highlight);
+                else if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE)
+                    color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
+                else
+                    color = _helper.calcMidColor(color);
+                pp.setRenderHint(QPainter::Antialiasing);
+                pp.setPen(Qt::NoPen);
+
+                pp.setBrush(color);
+                _helper.fillHole(pp, rr);
+
+                _helper.holeFlat(color, 0.0)->render(rr.adjusted(2,2,-2,-2), &pp);
+
+                QRect maskr( visualRect(opt->direction, rr, QRect(rr.width()-40, 0, 40,rr.height())) );
+                QLinearGradient gradient(
+                    visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
+                    visualPos(opt->direction, maskr, QPoint(maskr.right()-4, 0)));
+                gradient.setColorAt(0.0, QColor(0,0,0,255));
+                gradient.setColorAt(1.0, Qt::transparent);
+                pp.setBrush(gradient);
+                pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+                pp.drawRect(maskr);
+                pp.end();
+
+                p->drawPixmap(handleRTL(opt, r), pm);
+            }
+            else {
+                drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
+            }
+
+            return true;
+        }
+
+        case Generic::Text:
+        {
+            KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+            QPalette::ColorRole role( QPalette::WindowText );
+            if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
+            { role = QPalette::HighlightedText; }
+            drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
+                textOpts->text, role);
+            return true;
+        }
+
+        case Generic::ArrowRight:
+        case Generic::ArrowLeft:
+        {
+            // always draw in window text color due to fade-out
+            extractOption<KStyle::ColorOption*>(kOpt)->color = QPalette::WindowText;
+            // fall through to lower handler
+            return false;
+        }
+
+        case MenuItem::CheckColumn: return true;
+
+        case MenuItem::CheckOn:
+        {
+            renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
+            return true;
+        }
+
+        case MenuItem::CheckOff:
+        {
+            renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
+            return true;
+        }
+
+        case MenuItem::RadioOn:
+        {
+            renderRadioButton(p, r, pal, enabled, false, mouseOver, RadioButton::RadioOn, true);
+            return true;
+        }
+
+        case MenuItem::RadioOff:
+        {
+            renderRadioButton(p, r, pal, enabled, false, mouseOver, RadioButton::RadioOff, true);
+            return true;
+        }
+
+        case MenuItem::CheckIcon:  return true;
+        default: return false;
+    }
+}
+
+//______________________________________________________
+bool OxygenStyle::drawDockWidgetPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( kOpt );
+    const bool reverseLayout = opt->direction == Qt::RightToLeft;
+    switch (primitive)
+    {
+
+        case Generic::Text:
+        {
+
+            const QStyleOptionDockWidget* dwOpt = ::qstyleoption_cast<const QStyleOptionDockWidget*>(opt);
+            if (!dwOpt) return true;
+            const QStyleOptionDockWidgetV2 *v2 = qstyleoption_cast<const QStyleOptionDockWidgetV2*>(opt);
+            bool verticalTitleBar = v2 ? v2->verticalTitleBar : false;
+
+            QRect btnr = subElementRect(dwOpt->floatable ? SE_DockWidgetFloatButton : SE_DockWidgetCloseButton, opt, widget);
+            int fw = widgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, opt, widget);
+            QRect r = dwOpt->rect.adjusted(fw, fw, -fw, -fw);
+            if (verticalTitleBar) {
+
+                if(btnr.isValid()) r.setY(btnr.y()+btnr.height());
+
+            } else if(reverseLayout) {
+
+                if(btnr.isValid()) r.setLeft(btnr.x()+btnr.width());
+                r.adjust(0,0,-4,0);
+
+            } else {
+
+                if(btnr.isValid())  r.setRight(btnr.x());
+                r.adjust(4,0,0,0);
+
+            }
+
+            QString title = dwOpt->title;
+            QString tmpTitle = title;
+            if(tmpTitle.contains("&"))
+            {
+                int pos = tmpTitle.indexOf("&");
+                if(!(tmpTitle.size()-1 > pos && tmpTitle.at(pos+1) == QChar('&'))) tmpTitle.remove(pos, 1);
+
+            }
+
+            int tw = dwOpt->fontMetrics.width(tmpTitle);
+            int th = dwOpt->fontMetrics.height();
+            int width = verticalTitleBar ? r.height() : r.width();
+            if (width < tw) title = dwOpt->fontMetrics.elidedText(title, Qt::ElideRight, width, Qt::TextShowMnemonic);
+
+            if (verticalTitleBar)
+            {
+
+                // one should properly rotate/translate painter rather than using QImage
+                QRect br(dwOpt->fontMetrics.boundingRect(title));
+                QImage textImage(br.size(), QImage::Format_ARGB32_Premultiplied);
+                textImage.fill(0x00000000);
+                QPainter painter(&textImage);
+                drawItemText(&painter, QRect(0, 0, br.width(), br.height()), Qt::AlignLeft|Qt::AlignTop|Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title, QPalette::WindowText);
+                painter.end();
+                textImage = textImage.transformed(QMatrix().rotate(-90));
+
+                p->drawPixmap(r.x()+(r.width()-th)/2, r.y()+r.height()-textImage.height(), QPixmap::fromImage(textImage));
+
+            } else {
+
+                drawItemText(p, r, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title, QPalette::WindowText);
+
+            }
+
+            return true;
+
+        }
+
+        case Generic::Frame:
+        return true;
+
+        case DockWidget::TitlePanel:
+        {
+            // The frame is draw in the eventfilter
+            // This is because when a dockwidget has a titlebarwidget, then we can not
+            //  paint on the dockwidget prober here
+            return true;
+        }
+
+        case DockWidget::SeparatorHandle:
+        if (flags&State_Horizontal) drawKStylePrimitive(WT_Splitter, Splitter::HandleVert, opt, r, pal, flags, p, widget);
+        else drawKStylePrimitive(WT_Splitter, Splitter::HandleHor, opt, r, pal, flags, p, widget);
+        return true;
+
+        default: return false;
+
+    }
+
+}
+
+//______________________________________________________
+bool OxygenStyle::drawStatusBarPrimitive(
+    int primitive,
+    const QStyleOption*,
+    const QRect &, const QPalette &,
+    State, QPainter*,
+    const QWidget*,
+    KStyle::Option* ) const
+{
+
+    switch (primitive)
+    {
+        case Generic::Frame: return true;
+        default: return false;
+    }
+
+}
+
+//______________________________________________________
+bool OxygenStyle::drawCheckBoxPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( opt );
+    Q_UNUSED( widget );
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+    switch(primitive)
+    {
+        case CheckBox::CheckOn:
+        case CheckBox::CheckOff:
+        case CheckBox::CheckTriState:
+        {
+
+            bool hasFocus = flags & State_HasFocus;
+            renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive);
+            return true;
+
+        }
+
+        case Generic::Text:
+        {
+
+            KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+            drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled, textOpts->text, QPalette::WindowText);
+            return true;
+
+        }
+
+        default: return false;
+
+    }
+
+}
+
+//______________________________________________________
+bool OxygenStyle::drawRadioButtonPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( opt );
+    Q_UNUSED( widget );
+
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+    switch(primitive)
+    {
+        case RadioButton::RadioOn:
+        case RadioButton::RadioOff:
+        {
+            bool hasFocus = flags & State_HasFocus;
+
+            renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive);
+            return true;
+        }
+
+        case Generic::Text:
+        {
+            KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+            drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
+                textOpts->text, QPalette::WindowText);
+            return true;
+        }
+
+        default: return false;
+    }
+
+}
+
+//______________________________________________________
+bool OxygenStyle::drawScrollBarPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+
+    const bool reverseLayout = opt->direction == Qt::RightToLeft;
+    switch (primitive)
+    {
+        case ScrollBar::DoubleButtonHor:
+
+        if (reverseLayout) renderScrollBarHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left);
+        else renderScrollBarHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
+        return false;
+
+        case ScrollBar::DoubleButtonVert:
+        renderScrollBarHole(p, QRect(0, r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right);
+        return false;
+
+        case ScrollBar::SingleButtonHor:
+        if (reverseLayout) renderScrollBarHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
+        else renderScrollBarHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom);
+        return false;
+
+        case ScrollBar::SingleButtonVert:
+        renderScrollBarHole(p, QRect(0, r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right);
+        return false;
+
+        case ScrollBar::GrooveAreaVertTop:
+        {
+            renderScrollBarHole(p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical, TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Top);
+            return true;
+        }
+
+        case ScrollBar::GrooveAreaVertBottom:
+        {
+            renderScrollBarHole(p, r.adjusted(0,-10,0,0), pal.color(QPalette::Window), Qt::Vertical, TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Bottom);
+            return true;
+        }
+
+        case ScrollBar::GrooveAreaHorLeft:
+        {
+            QRect rect = (reverseLayout) ? r.adjusted(0,0,10,0) : r.adjusted(0,0,12,0);
+            renderScrollBarHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal, TileSet::Left | TileSet::Center | TileSet::Top | TileSet::Bottom);
+            return true;
+        }
+
+        case ScrollBar::GrooveAreaHorRight:
+        {
+            QRect rect = (reverseLayout) ? r.adjusted(-12,0,0,0) : r.adjusted(-10,0,0,0);
+            renderScrollBarHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal, TileSet::Right | TileSet::Center | TileSet::Top | TileSet::Bottom);
+            return true;
+        }
+
+        case ScrollBar::SliderHor:
+        {
+            renderScrollBarHandle(p, r, pal, Qt::Horizontal, flags & State_MouseOver && flags & State_Enabled);
+            return true;
+        }
+
+        case ScrollBar::SliderVert:
+        {
+            renderScrollBarHandle(p, r, pal, Qt::Vertical, flags & State_MouseOver && flags & State_Enabled);
+            return true;
+        }
+
+        default: return false;
+
+    }
+}
+
+
+//______________________________________________________
+bool OxygenStyle::drawTabBarPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+    const bool reverseLayout = opt->direction == Qt::RightToLeft;
+
+    switch (primitive)
+    {
+        case TabBar::NorthTab:
+        case TabBar::SouthTab:
+        case TabBar::WestTab:
+        case TabBar::EastTab:
         {
             const QStyleOptionTabV2* tabOpt = qstyleoption_cast<const QStyleOptionTabV2*>(opt);
+            if (!tabOpt) return false;
 
-            switch (primitive)
+            renderTab(p, r, pal, mouseOver, flags&State_Selected, tabOpt, reverseLayout, widget);
+            return true;
+
+        }
+        case TabBar::WestText:
+        case TabBar::EastText:
+        {
+
+            p->save();
+            p->translate( r.topLeft() );
+            if( primitive == TabBar::EastText )
             {
-                case TabBar::NorthTab:
-                case TabBar::SouthTab:
-                case TabBar::WestTab:
-                case TabBar::EastTab:
+                p->rotate( 90 );
+                p->translate( 0, -r.height()+1 );
+            } else {
+                p->rotate( -90 );
+                p->translate( -r.width()+1, 0 );
+            }
+
+            QRect local( QPoint(), r.size() );
+            drawKStylePrimitive(WT_TabBar, Generic::Text, opt, local, pal, flags, p, widget, kOpt);
+
+            p->restore();
+            return true;
+        }
+        case TabBar::IndicatorTear:
+        {
+            const QStyleOptionTab* option = qstyleoption_cast<const QStyleOptionTab*>(opt);
+            if(!option) return true;
+
+            TileSet::Tiles flag;
+            QRect rect;
+            QRect br = r;
+            QRect gr = r; // fade the tab there
+            bool vertical = false;
+            QPainter::CompositionMode slabCompMode = QPainter::CompositionMode_Source;
+
+            switch(option->shape)
+            {
+
+                case QTabBar::RoundedNorth:
+                case QTabBar::TriangularNorth:
+                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
                 {
-                    if (!tabOpt) break;
 
-                    renderTab(p, r, pal, mouseOver, flags&State_Selected, tabOpt, reverseLayout, widget);
+                    flag = reverseLayout ? TileSet::Right : TileSet::Left;
+                    rect = QRect(r.x(), r.y()+r.height()-4-7, 14+7, 4+14);
 
-                    return;
+                } else {
+
+                    flag = TileSet::Top;
+                    rect = QRect(r.x()-7, r.y()+r.height()-7, 14+7, 7);
+                    slabCompMode = QPainter::CompositionMode_SourceOver;
+
                 }
-                case TabBar::WestText:
-                case TabBar::EastText:
+                rect.translate(-gw,0);
+                rect = visualRect(option->direction, r, rect);
+                gr.translate(-gw,0);
+                break;
+
+                case QTabBar::RoundedSouth:
+                case QTabBar::TriangularSouth:
+                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
                 {
-                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
 
-                    p->save();
-                    p->translate( r.topLeft() );
-                    if( primitive == TabBar::EastText )
-                    {
-                        p->rotate( 90 );
-                        p->translate( 0, -r.height()+1 );
-                    } else {
-                        p->rotate( -90 );
-                        p->translate( -r.width()+1, 0 );
-                    }
+                    flag = reverseLayout ? TileSet::Right : TileSet::Left;
+                    rect = QRect(r.x(), r.y()-7, 14+7, 2+14);
 
-                    QRect local( QPoint(), r.size() );
-                    drawKStylePrimitive(WT_TabBar, Generic::Text, opt, local, pal, flags, p, widget, kOpt);
+                } else {
 
-                    p->restore();
-                    return;
+                    flag = TileSet::Bottom;
+                    rect = reverseLayout ? QRect(r.x()-7+4, r.y(), 14+3, 6) : QRect(r.x()-7, r.y()-1, 14+6, 7);
+
                 }
-                case TabBar::IndicatorTear:
+
+                rect.translate(-gw,0);
+                rect = visualRect(option->direction, r, rect);
+                gr.translate(-gw,0);
+                break;
+
+                case QTabBar::RoundedWest:
+                case QTabBar::TriangularWest:
+                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
                 {
-                    const QStyleOptionTab* option = qstyleoption_cast<const QStyleOptionTab*>(opt);
-                    if(!option) return;
 
-                    TileSet::Tiles flag;
-                    QRect rect;
-                    QRect br = r;
-                    QRect gr = r; // fade the tab there
-                    bool vertical = false;
-                    QPainter::CompositionMode slabCompMode = QPainter::CompositionMode_Source;
+                    flag = TileSet::Top;
+                    rect = QRect(r.x()+r.width()-4-7, r.y(), 4+14, 7);
 
-                    switch(option->shape) {
-                    case QTabBar::RoundedNorth:
-                    case QTabBar::TriangularNorth:
-                        if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) {
-                            flag = reverseLayout ? TileSet::Right : TileSet::Left;
-                            rect = QRect(r.x(), r.y()+r.height()-4-7, 14+7, 4+14);
-                        }
-                        else {
-                            flag = TileSet::Top;
-                            rect = QRect(r.x()-7, r.y()+r.height()-7, 14+7, 7);
-                            slabCompMode = QPainter::CompositionMode_SourceOver;
-                        }
-                        rect.translate(-gw,0);
-                        rect = visualRect(option->direction, r, rect);
-                        gr.translate(-gw,0);
-                        break;
-                    case QTabBar::RoundedSouth:
-                    case QTabBar::TriangularSouth:
-                        if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) {
-                            flag = reverseLayout ? TileSet::Right : TileSet::Left;
-                            rect = QRect(r.x(), r.y()-7, 14+7, 2+14);
-                        }
-                        else {
-                            flag = TileSet::Bottom;
-                            rect = reverseLayout ? QRect(r.x()-7+4, r.y(), 14+3, 6) : QRect(r.x()-7, r.y()-1, 14+6, 7);
-                        }
-                        rect.translate(-gw,0);
-                        rect = visualRect(option->direction, r, rect);
-                        gr.translate(-gw,0);
-                        break;
-                    case QTabBar::RoundedWest:
-                    case QTabBar::TriangularWest:
-                        if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) {
-                            flag = TileSet::Top;
-                            rect = QRect(r.x()+r.width()-4-7, r.y(), 4+14, 7);
-                        }
-                        else {
-                            flag = TileSet::Left;
-                            rect = QRect(r.x()+r.width()-7, r.y()-7, 7, 4+14);
-                            br.adjust(0,0,-5,0);
-                        }
-                        vertical = true;
-                        rect.translate(0,-gw);
-                        gr.translate(0,-gw);
-                        break;
-                    case QTabBar::RoundedEast:
-                    case QTabBar::TriangularEast:
-                        if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) {
-                            flag = TileSet::Top;
-                            rect = QRect(r.x()-7, r.y(), 4+14, 7);
-                        }
-                        else {
-                            flag = TileSet::Right;
-                            rect = QRect(r.x(), r.y()-7, 7, 4+14);
-                            br.adjust(5,0,0,0);
-                        }
-                        vertical = true;
-                        rect.translate(0,-gw);
-                        gr.translate(0,-gw);
-                        break;
-                    default:
-                        return;
-                    }
+                } else {
 
-                    if(!vertical && reverseLayout)
-                    {
-                        if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
-                            gr.adjust(-4,-gr.y(),+gr.x()-4,0);
-                        else
-                            gr.adjust(0,-gr.y(),gr.x(),0);
-                    }
+                    flag = TileSet::Left;
+                    rect = QRect(r.x()+r.width()-7, r.y()-7, 7, 4+14);
+                    br.adjust(0,0,-5,0);
 
-                    // fade tabbar
-                    QPixmap pm(gr.width(),gr.height());
-                    pm.fill(Qt::transparent);
-                    QPainter pp(&pm);
-
-                    int w = 0, h = 0;
-                    if (vertical) {
-                        h = gr.height();
-                    } else {
-                        w = gr.width();
-                    }
-                    QLinearGradient grad(w, h, 0, 0);
-                    grad.setColorAt(0, Qt::transparent);
-                    grad.setColorAt(0.2, Qt::transparent);
-                    grad.setColorAt(1, Qt::black);
-
-                    _helper.renderWindowBackground(&pp, pm.rect(), widget, pal);
-                    pp.setCompositionMode(QPainter::CompositionMode_DestinationAtop);
-                    pp.fillRect(pm.rect(), QBrush(grad));
-                    pp.end();
-                    p->drawPixmap(gr.topLeft(),pm);
-
-                    renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, flag);
-
-                    return;
                 }
-                case TabBar::BaseFrame:
-                {
-                    const QStyleOptionTabBarBase* tabOpt = qstyleoption_cast<const QStyleOptionTabBarBase*>(opt);
+                vertical = true;
+                rect.translate(0,-gw);
+                gr.translate(0,-gw);
+                break;
 
-                    switch(tabOpt->shape)
+                case QTabBar::RoundedEast:
+                case QTabBar::TriangularEast:
+                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
+                {
+
+                    flag = TileSet::Top;
+                    rect = QRect(r.x()-7, r.y(), 4+14, 7);
+
+                } else {
+
+                    flag = TileSet::Right;
+                    rect = QRect(r.x(), r.y()-7, 7, 4+14);
+                    br.adjust(5,0,0,0);
+
+                }
+                vertical = true;
+                rect.translate(0,-gw);
+                gr.translate(0,-gw);
+                break;
+
+                default: return true;
+            }
+
+            if(!vertical && reverseLayout)
+            {
+                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) gr.adjust(-4,-gr.y(),+gr.x()-4,0);
+                else gr.adjust(0,-gr.y(),gr.x(),0);
+            }
+
+            // fade tabbar
+            QPixmap pm(gr.width(),gr.height());
+            pm.fill(Qt::transparent);
+            QPainter pp(&pm);
+
+            int w = 0, h = 0;
+            if (vertical) {
+                h = gr.height();
+            } else {
+                w = gr.width();
+            }
+            QLinearGradient grad(w, h, 0, 0);
+            grad.setColorAt(0, Qt::transparent);
+            grad.setColorAt(0.2, Qt::transparent);
+            grad.setColorAt(1, Qt::black);
+
+            _helper.renderWindowBackground(&pp, pm.rect(), widget, pal);
+            pp.setCompositionMode(QPainter::CompositionMode_DestinationAtop);
+            pp.fillRect(pm.rect(), QBrush(grad));
+            pp.end();
+            p->drawPixmap(gr.topLeft(),pm);
+
+            renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, flag);
+
+            return true;
+        }
+
+        case TabBar::BaseFrame:
+        {
+
+            const QStyleOptionTabBarBase* tabOpt = qstyleoption_cast<const QStyleOptionTabBarBase*>(opt);
+
+            switch(tabOpt->shape)
+            {
+                case QTabBar::RoundedNorth:
+                case QTabBar::TriangularNorth:
+                {
+
+                    // HACK: When drawing corner widget the
+                    // tabbar area is not given, we use the widget
+                    // itself to calculate the needed base frame
+                    // part
+                    const QTabWidget *tabWidget = qobject_cast<const QTabWidget *>(widget);
+                    if (!tabOpt->tabBarRect.isValid() && !tabWidget) return true;
+
+                    if (r.left() < tabOpt->tabBarRect.left())
                     {
-                        case QTabBar::RoundedNorth:
-                        case QTabBar::TriangularNorth:
+                        QRect fr = r;
+                        if (tabOpt->tabBarRect.isValid()) fr.setRight(tabOpt->tabBarRect.left());
+                        else if (tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner)) fr.setRight(fr.left() + (tabWidget->cornerWidget(Qt::TopLeftCorner)->width()));
+                        else return true;
+
+                        fr.adjust(-7,-gw,7,-1-gw);
+                        renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
+                    }
+
+                    if (tabOpt->tabBarRect.right() < r.right())
+                    {
+                        QRect fr = r;
+                        if (tabOpt->tabBarRect.isValid()) fr.setLeft(tabOpt->tabBarRect.right());
+                        else if (tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner))
                         {
-                            // HACK: When drawing corner widget the
-                            // tabbar area is not given, we use the widget
-                            // itself to calculate the needed base frame
-                            // part
-                            const QTabWidget *tabWidget = qobject_cast<const QTabWidget *>(widget);
-                            if (!tabOpt->tabBarRect.isValid() && !tabWidget) {
-                                    return;
-                            }
 
-                            if (r.left() < tabOpt->tabBarRect.left())
-                            {
-                                QRect fr = r;
-                                if (tabOpt->tabBarRect.isValid())
-                                    fr.setRight(tabOpt->tabBarRect.left());
-                                else if (tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner))
-                                    fr.setRight(fr.left() + (tabWidget->cornerWidget(Qt::TopLeftCorner)->width()));
-                                else
-                                    return;
-                                fr.adjust(-7,-gw,7,-1-gw);
-                                renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
-                            }
-                            if (tabOpt->tabBarRect.right() < r.right())
-                            {
-                                QRect fr = r;
-                                if (tabOpt->tabBarRect.isValid())
-                                    fr.setLeft(tabOpt->tabBarRect.right());
-                                else if (tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner)) {
+                            fr.setLeft(fr.right() - (tabWidget->cornerWidget(Qt::TopRightCorner)->width()));
 
-                                    fr.setLeft(fr.right() - (tabWidget->cornerWidget(Qt::TopRightCorner)->width()));
+                            // this is another ugly hack
+                            // it comes from the fact that 1/ rect is not passed properly when using KStyle
+                            // to paint behind the left or right corner widget
+                            // 2/ that the widget is now located 6 pixels above the tabbar bottom
+                            // TODO: at least use correct LayoutMetrics
+                            fr.translate( 0, 6 );
 
-                                    // this is another ugly hack
-                                    // it comes from the fact that 1/ rect is not passed properly when using KStyle
-                                    // to paint behind the left or right corner widget
-                                    // 2/ that the widget is now located 6 pixels above the tabbar bottom
-                                    // TODO: at least use correct LayoutMetrics
-                                    fr.translate( 0, 6 );
+                        } else return true;
 
-                                } else return;
-
-                                fr.adjust(-7,-gw,7,-1-gw);
-                                renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
-                            }
-                            return;
-                        }
-                        case QTabBar::RoundedSouth:
-                        case QTabBar::TriangularSouth:
-                        {
-                            if (!tabOpt->tabBarRect.isValid())
-                                return;
-
-                            if (r.left() < tabOpt->tabBarRect.left())
-                            {
-                                QRect fr = r;
-                                fr.setRight(tabOpt->tabBarRect.left());
-                                fr.adjust(-7,gw,7,-1+gw);
-                                renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
-                            }
-                            if (tabOpt->tabBarRect.right() < r.right())
-                            {
-                                QRect fr = r;
-                                fr.setLeft(tabOpt->tabBarRect.right());
-                                fr.adjust(-6,gw,7,-1+gw);
-                                renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
-                            }
-                            return;
-                        }
-                        default:
-                            break;
+                        fr.adjust(-7,-gw,7,-1-gw);
+                        renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
                     }
-                    return;
+
+                    return true;
                 }
-                case Generic::Text:
+
+                case QTabBar::RoundedSouth:
+                case QTabBar::TriangularSouth:
                 {
-                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-                    drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
-                                 textOpts->text, QPalette::WindowText);
-                    return;
+                    if (!tabOpt->tabBarRect.isValid()) return true;
+
+                    if (r.left() < tabOpt->tabBarRect.left())
+                    {
+                        QRect fr = r;
+                        fr.setRight(tabOpt->tabBarRect.left());
+                        fr.adjust(-7,gw,7,-1+gw);
+                        renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
+                    }
+
+                    if (tabOpt->tabBarRect.right() < r.right())
+                    {
+                        QRect fr = r;
+                        fr.setLeft(tabOpt->tabBarRect.right());
+                        fr.adjust(-6,gw,7,-1+gw);
+                        renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
+                    }
+
+                    return true;
+                }
+
+                default: return false;
+            }
+
+            return true;
+        }
+
+        case Generic::Text:
+        {
+            KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+            drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled, textOpts->text, QPalette::WindowText);
+            return true;
+        }
+
+        default: return false;
+    }
+
+}
+
+//______________________________________________________
+bool OxygenStyle::drawTabWidgetPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( flags );
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+
+    const bool reverseLayout = opt->direction == Qt::RightToLeft;
+    switch (primitive)
+    {
+        case Generic::Frame:
+        {
+            const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>(opt);
+            // FIXME: tabOpt->tabBarSize may be bigger than the tab widget's size
+            int w = tabOpt->tabBarSize.width();
+            int h = tabOpt->tabBarSize.height();
+            int lw = tabOpt->leftCornerWidgetSize.width();
+            int lh = tabOpt->leftCornerWidgetSize.height();
+
+            switch(tabOpt->shape)
+            {
+                case QTabBar::RoundedNorth:
+                case QTabBar::TriangularNorth:
+                renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
+
+                if(reverseLayout)
+                {
+
+                    // Left and right widgets are placed right and left when in reverse mode
+                    if (w+lw >0) renderSlab(p, QRect(-gw, r.y()-gw, r.width() - w - lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
+                    else renderSlab(p, QRect(-gw, r.y()-gw, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top | TileSet::Right);
+
+                    if (lw > 0) renderSlab(p, QRect(r.right() - lw-7+gw, r.y()-gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
+
+                } else {
+
+                    if (lw > 0) renderSlab(p, QRect(-gw, r.y()-gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
+                    if (w+lw >0)  renderSlab(p, QRect(w+lw-7, r.y()-gw, r.width() - w - lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
+                    else renderSlab(p, QRect(-gw, r.y(), r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top | TileSet::Right);
+
+                }
+
+                return true;
+
+                case QTabBar::RoundedSouth:
+                case QTabBar::TriangularSouth:
+
+                renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top | TileSet::Right);
+                if(reverseLayout)
+                {
+
+                    // Left and right widgets are placed right and left when in reverse mode
+                    if (w+lw >0) renderSlab(p, QRect(-gw, r.bottom()-7+gw, r.width() - w - lw + 7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
+                    else renderSlab(p, QRect(-gw, r.bottom()-7+gw, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
+
+                    if (lw > 0) renderSlab(p, QRect(r.right() - lw-7+gw, r.bottom()-7+gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
+
+                } else {
+
+                    if (lw > 0) renderSlab(p, QRect(-gw, r.bottom()-7+gw, lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
+                    if (w+lw >0) renderSlab(p, QRect(w+lw-7, r.bottom()-7+gw, r.width() - w - lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
+                    else renderSlab(p, QRect(-gw, r.bottom()-7, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
+
+                }
+                return true;
+
+                case QTabBar::RoundedWest:
+                case QTabBar::TriangularWest:
+                renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right | TileSet::Bottom);
+
+                if(reverseLayout)
+                {
+
+                    // Left and right widgets are placed right and left when in reverse mode
+                    if (h+lh >0) renderSlab(p, QRect(r.x()-gw,  h + lh - 7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left);
+                    else renderSlab(p, QRect(r.x()-gw, r.y()-gw, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top | TileSet::Right);
+
+                    if (lh > 0) renderSlab(p, QRect(r.x()-gw, r.y()+gw , 7, lh+7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left);
+
+                } else {
+
+                    if (lh > 0) renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, lh+7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
+
+                    if (h+lh >0) renderSlab(p, QRect(r.x()-gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
+                    else renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, r.height()+2*gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Bottom);
+
+                }
+
+                return true;
+
+                case QTabBar::RoundedEast:
+                case QTabBar::TriangularEast:
+                renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                if(reverseLayout)
+                {
+
+                    // Left and right widgets are placed right and left when in reverse mode
+                    if (h+lh >0) renderSlab(p, QRect(r.right()+1-7+gw,  h + lh - 7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
+                    else renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top | TileSet::Right);
+
+                    if (lh > 0) renderSlab(p, QRect(r.right()+1-7+gw, r.y()+gw , 7, lh+7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
+
+                } else {
+
+                    if (lh > 0) renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, 7, lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
+
+                    if (h+lh >0) renderSlab(p, QRect(r.right()+1-7+gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
+                    else renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, r.height()+2*gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right | TileSet::Bottom);
+
+                }
+
+                return true;
+
+                default: return true;
+            }
+        }
+
+        default: return false;
+
+    }
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawWindowPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+    Q_UNUSED( widget );
+
+    switch (primitive)
+    {
+        case Generic::Frame:
+        {
+            _helper.drawFloatFrame(p, r, pal.window().color());
+            return true;
+        }
+
+        case Generic::Text:
+        {
+
+            const QStyleOptionTitleBar *tb = qstyleoption_cast<const QStyleOptionTitleBar *>(opt);
+            bool active = (tb->titleBarState & Qt::WindowActive );
+            KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
+            QPalette local( pal );
+            local.setCurrentColorGroup( active ? QPalette::Active: QPalette::Disabled );
+            drawItemText( p, r, Qt::AlignVCenter | textOpts->hAlign, local, active, textOpts->text, QPalette::WindowText);
+
+            return true;
+        }
+
+        case Window::TitlePanel: return true;
+
+        // menu button. Use icon if available
+        case Window::ButtonMenu:
+        if( r.isValid() )
+        {
+
+            KStyle::TitleButtonOption* tbkOpts = extractOption<KStyle::TitleButtonOption*>(kOpt);
+            if( !tbkOpts->icon.isNull() ) tbkOpts->icon.paint(p, r);
+            return true;
+
+        }
+        return false;
+
+        // other title bar icons. Use build in pixmaps
+        case Window::ButtonMin:
+        case Window::ButtonMax:
+        case Window::ButtonRestore:
+        case Window::ButtonClose:
+        case Window::ButtonShade:
+        case Window::ButtonUnshade:
+        case Window::ButtonHelp:
+        if( r.isValid() )
+        {
+            KStyle::TitleButtonOption* tbkOpts = extractOption<KStyle::TitleButtonOption*>(kOpt);
+            State bflags = flags;
+            bflags &= ~State_Sunken;
+            p->save();
+            p->drawPixmap(r.topLeft(), _helper.windecoButton(pal.window().color(), tbkOpts->active,  r.height()));
+            p->setRenderHints(QPainter::Antialiasing);
+            p->setBrush(Qt::NoBrush);
+
+            const QStyleOptionTitleBar *tb = qstyleoption_cast<const QStyleOptionTitleBar *>(opt);
+            bool active = (tb->titleBarState & Qt::WindowActive );
+            QColor color( pal.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
+
+            {
+                // contrast pixel is achieved by translating
+                // down the icon and painting it with white color
+                qreal width( 1.1 );
+                p->translate(0, 0.5);
+                p->setPen(QPen( _helper.calcLightColor( color ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
+            }
+
+            {
+                // main icon painting
+                qreal width( 1.1 );
+                p->translate(0,-1);
+                p->setPen(QPen( color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
+            }
+
+            p->restore();
+            return true;
+        }
+
+        default: return false;
+    }
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawSplitterPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( opt );
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+    switch (primitive)
+    {
+        case Splitter::HandleHor:
+        {
+            int h = r.height();
+            QColor color = pal.color(QPalette::Background);
+
+            if (mouseOver)  p->fillRect(r,_helper.alphaColor(_helper.calcLightColor(color),0.5));
+
+            int ngroups = qMax(1,h / 250);
+            int center = (h - (ngroups-1) * 250) /2 + r.top();
+            for(int k = 0; k < ngroups; k++, center += 250) {
+                renderDot(p, QPointF(r.left()+1, center-3), color);
+                renderDot(p, QPointF(r.left()+1, center), color);
+                renderDot(p, QPointF(r.left()+1, center+3), color);
+            }
+            return true;
+        }
+
+        case Splitter::HandleVert:
+        {
+            int w = r.width();
+            QColor color = pal.color(QPalette::Background);
+
+            if (mouseOver)
+                p->fillRect(r,_helper.alphaColor(_helper.calcLightColor(color),0.5));
+
+            int ngroups = qMax(1, w / 250);
+            int center = (w - (ngroups-1) * 250) /2 + r.left();
+            for(int k = 0; k < ngroups; k++, center += 250) {
+                renderDot(p, QPointF(center-3, r.top()+1), color);
+                renderDot(p, QPointF(center, r.top()+1), color);
+                renderDot(p, QPointF(center+3, r.top()+1), color);
+            }
+            return true;
+        }
+
+        default: return false;
+
+    }
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawSliderPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+    switch (primitive)
+    {
+        case Slider::HandleHor:
+        case Slider::HandleVert:
+        {
+            StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
+            if(const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt))
+            { if( (slider->activeSubControls & SC_SliderHandle) && mouseOver ) opts |= Hover; }
+
+            renderSlab(p, r, pal.color(QPalette::Button), opts);
+            return true;
+        }
+
+        case Slider::GrooveHor:
+        case Slider::GrooveVert:
+        {
+
+            bool horizontal = primitive == Slider::GrooveHor;
+
+            if (horizontal) {
+                int center = r.y()+r.height()/2;
+                _helper.groove(pal.color(QPalette::Window), 0.0)->render( QRect(r.left()+4, center-2, r.width()-8, 5), p);
+            } else {
+                int center = r.x()+r.width()/2;
+                _helper.groove(pal.color(QPalette::Window), 0.0)->render(  QRect(center-2, r.top()+4, 5, r.height()-8), p);
+
+            }
+
+            return true;
+        }
+
+        default: return false;
+
+    }
+
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawSpinBoxPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+    Q_UNUSED( opt );
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+    bool hasFocus = flags & State_HasFocus;
+    const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
+
+    switch (primitive)
+    {
+
+        case Generic::Frame:
+        {
+            QRect fr = r.adjusted(2,2,-2,-2);
+            p->save();
+            p->setRenderHint(QPainter::Antialiasing);
+            p->setPen(Qt::NoPen);
+            p->setBrush(inputColor);
+
+            #ifdef HOLE_NO_EDGE_FILL
+            p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
+            #else
+            _helper.fillHole(*p, r);
+            #endif
+
+            p->restore();
+
+            // TODO use widget background role?
+            // We really need the color of the widget behind to be "right",
+            // but the shadow needs to be colored as the inner widget; needs
+            // changes in helper.
+            #ifdef HOLE_COLOR_OUTSIDE
+            renderHole(p, pal.color(QPalette::Window), fr, hasFocus, mouseOver);
+            #else
+            renderHole(p, inputColor, fr, hasFocus, mouseOver);
+            #endif
+            return true;
+        }
+
+        case SpinBox::EditField:
+        case SpinBox::ButtonArea:
+        case SpinBox::UpButton:
+        case SpinBox::DownButton:
+        return true;
+
+        default: return false;
+
+    }
+
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawComboBoxPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+    bool editable = false;
+
+    if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(opt) )
+    { editable = cb->editable; }
+
+    bool hasFocus = flags & State_HasFocus;
+    StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
+    if (mouseOver) opts |= Hover;
+
+    const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Window);
+    QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
+
+    switch (primitive)
+    {
+        case Generic::Frame:
+        {
+            // TODO: pressed state
+            if(!editable) {
+                renderSlab(p, r, pal.color(QPalette::Button), opts);
+            } else {
+                QRect fr = r.adjusted(2,2,-2,-2);
+                // input area
+                p->save();
+                p->setRenderHint(QPainter::Antialiasing);
+                p->setPen(Qt::NoPen);
+                p->setBrush(inputColor);
+
+                #ifdef HOLE_NO_EDGE_FILL
+                p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
+                #else
+                _helper.fillHole(*p, r.adjusted(0,0,0,-1));
+                #endif
+
+                p->restore();
+
+                #ifdef HOLE_COLOR_OUTSIDE
+                if (hasFocus && enabled) renderHole(p, pal.color(QPalette::Window), fr, true, mouseOver);
+                else renderHole(p, pal.color(QPalette::Window), fr, false, mouseOver);
+                #else
+                if (hasFocus && enabled) renderHole(p, inputColor, fr, true, mouseOver);
+                else renderHole(p, inputColor, fr, false, mouseOver);
+                #endif
+
+            }
+
+            return true;
+        }
+
+        case ComboBox::EditField: return true;
+        case ComboBox::Button: return true;
+
+        case Generic::ArrowDown:
+        {
+            KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
+            colorOpt->color = ColorMode( editable ? QPalette::Text : QPalette::ButtonText );
+            drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, r, pal, flags, p, widget, colorOpt );
+            return true;
+        }
+
+        default: return false;
+
+    }
+
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawHeaderPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( flags );
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+    const bool reverseLayout = opt->direction == Qt::RightToLeft;
+    switch (primitive)
+    {
+        case Header::SectionHor:
+        case Header::SectionVert:
+        {
+            if (const QStyleOptionHeader *header = qstyleoption_cast<const QStyleOptionHeader *>(opt))
+            {
+
+                bool isFirst = (primitive==Header::SectionHor)&&(header->position == QStyleOptionHeader::Beginning);
+                p->save();
+                p->setPen(pal.color(QPalette::Text));
+
+                QColor color = pal.color(QPalette::Button);
+                QColor dark  = _helper.calcDarkColor(color);
+                QColor light = _helper.calcLightColor(color);
+
+                QRect rect(r);
+
+                p->fillRect(r, color);
+                if(primitive == Header::SectionHor)
+                {
+
+                    if(header->section != 0 || isFirst)
+                    {
+                        int center = r.center().y();
+                        int pos = (reverseLayout)? r.left()+1 : r.right()-1;
+                        renderDot(p, QPointF(pos, center-3), color);
+                        renderDot(p, QPointF(pos, center), color);
+                        renderDot(p, QPointF(pos, center+3), color);
+                    }
+                    p->setPen(dark);
+                    p->drawLine(rect.bottomLeft(), rect.bottomRight());
+                    rect.adjust(0,0,0,-1);
+                    p->setPen(light);
+                    p->drawLine(rect.bottomLeft(), rect.bottomRight());
+
+                } else {
+
+                    int center = r.center().x();
+                    int pos = r.bottom()-1;
+                    renderDot(p, QPointF(center-3, pos), color);
+                    renderDot(p, QPointF(center, pos), color);
+                    renderDot(p, QPointF(center+3, pos), color);
+
+                    if (reverseLayout)
+                    {
+                        p->setPen(dark); p->drawLine(rect.topLeft(), rect.bottomLeft());
+                        rect.adjust(1,0,0,0);
+                        p->setPen(light); p->drawLine(rect.topLeft(), rect.bottomLeft());
+                    } else {
+                        p->setPen(dark); p->drawLine(rect.topRight(), rect.bottomRight());
+                        rect.adjust(0,0,-1,0);
+                        p->setPen(light); p->drawLine(rect.topRight(), rect.bottomRight());
+                    }
+                }
+
+                p->restore();
+            }
+
+            return true;
+        }
+
+        default: return false;
+    }
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawTreePrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    const bool reverseLayout = opt->direction == Qt::RightToLeft;
+    switch (primitive)
+    {
+        case Tree::VerticalBranch:
+        case Tree::HorizontalBranch:
+        {
+            if (OxygenStyleConfigData::viewDrawTreeBranchLines())
+            {
+                QBrush brush(Qt::Dense4Pattern);
+                QColor lineColor = pal.text().color();
+                lineColor.setAlphaF(0.3);
+                brush.setColor(lineColor);
+                p->fillRect(r, brush);
+            }
+            return true;
+        }
+
+        case Tree::ExpanderOpen:
+        case Tree::ExpanderClosed:
+        {
+            int radius = (r.width() - 4) / 2;
+            int centerx = r.x() + r.width()/2;
+            int centery = r.y() + r.height()/2;
+
+            if(!OxygenStyleConfigData::viewDrawTriangularExpander())
+            {
+                // plus or minus
+                p->save();
+                p->setPen( pal.text().color() );
+                p->drawLine( centerx - radius, centery, centerx + radius, centery );
+
+                // Collapsed = On
+                if (primitive == Tree::ExpanderClosed)
+                { p->drawLine( centerx, centery - radius, centerx, centery + radius ); }
+
+                p->restore();
+
+            } else {
+
+                KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
+                colorOpt->color = ColorMode( QPalette::Text );
+                if(primitive == Tree::ExpanderClosed)
+                {
+                    drawKStylePrimitive(WT_Generic, reverseLayout? Generic::ArrowLeft : Generic::ArrowRight, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget, colorOpt );
+                } else {
+                    drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget, colorOpt );
                 }
             }
 
+            return true;
         }
-        break;
 
-        case WT_TabWidget:
+        default: return false;
+
+    }
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawLineEditPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( kOpt );
+
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+
+    switch (primitive)
+    {
+        case Generic::Frame:
         {
-            switch (primitive)
-            {
-                case Generic::Frame:
-                {
-                    const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>(opt);
-                    // FIXME: tabOpt->tabBarSize may be bigger than the tab widget's size
-                    int w = tabOpt->tabBarSize.width();
-                    int h = tabOpt->tabBarSize.height();
-                    int lw = tabOpt->leftCornerWidgetSize.width();
-                    int lh = tabOpt->leftCornerWidgetSize.height();
+            const bool isReadOnly = flags & State_ReadOnly;
+            const bool isEnabled = flags & State_Enabled;
+            const bool hasFocus = flags & State_HasFocus;
 
-                    switch(tabOpt->shape)
+            #ifdef HOLE_COLOR_OUTSIDE
+            const QColor inputColor =  pal.color(QPalette::Window);
+            #else
+            const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
+            #endif
+
+            if (hasFocus && !isReadOnly && isEnabled) renderHole(p, inputColor, r.adjusted(2,2,-2,-3), true, mouseOver);
+            else renderHole(p, inputColor, r.adjusted(2,2,-2,-3), false, mouseOver);
+
+            return true;
+        }
+
+        case LineEdit::Panel:
+        {
+            if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>(opt))
+            {
+
+                const QBrush inputBrush = enabled?panel->palette.base():panel->palette.window();
+                const int lineWidth(panel->lineWidth);
+
+                if (lineWidth > 0)
+                {
+                    p->save();
+                    p->setRenderHint(QPainter::Antialiasing);
+                    p->setPen(Qt::NoPen);
+                    p->setBrush(inputBrush);
+
+                    #ifdef HOLE_NO_EDGE_FILL
+                    p->fillRect(r.adjusted(5,5,-5,-5), inputBrush);
+                    #else
+                    _helper.fillHole(*p, r.adjusted(0,0,-0,-1));
+                    #endif
+
+                    drawPrimitive(PE_FrameLineEdit, panel, p, widget);
+
+                    p->restore();
+                } else  {
+
+                    p->fillRect(r.adjusted(2,2,-2,-2), inputBrush);
+
+                }
+            }
+            return false;
+        }
+
+        default: return false;
+
+    }
+
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawGroupBoxPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+    Q_UNUSED( opt );
+    Q_UNUSED( flags );
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+    switch (primitive)
+    {
+        case Generic::Frame:
+        {
+            QColor color = pal.color(QPalette::Window);
+
+            p->save();
+            p->setRenderHint(QPainter::Antialiasing);
+            p->setPen(Qt::NoPen);
+
+            QLinearGradient innerGradient(0, r.top()-r.height()+12, 0, r.bottom()+r.height()-19);
+            QColor light = _helper.calcLightColor(color); //KColorUtils::shade(calcLightColor(color), shade));
+            light.setAlphaF(0.4);
+            innerGradient.setColorAt(0.0, light);
+            color.setAlphaF(0.4);
+            innerGradient.setColorAt(1.0, color);
+            p->setBrush(innerGradient);
+            p->setClipRect(r.adjusted(0, 0, 0, -19));
+            _helper.fillSlab(*p, r);
+
+            TileSet *slopeTileSet = _helper.slope(pal.color(QPalette::Window), 0.0);
+            p->setClipping(false);
+            slopeTileSet->render(r, p);
+
+            p->restore();
+
+            return true;
+        }
+
+        case GroupBox::FlatFrame: return true;
+        default: return false;
+
+    }
+
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawToolBarPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+    Q_UNUSED( opt );
+    Q_UNUSED( widget );
+    Q_UNUSED( kOpt );
+    switch (primitive)
+    {
+        case ToolBar::HandleHor:
+        {
+            int counter = 1;
+            int center = r.left()+r.width()/2;
+            for(int j = r.top()+2; j <= r.bottom()-3; j+=3)
+            {
+                if(counter%2 == 0)
+                {
+                    renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background));
+                } else {
+                    renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background));
+                }
+                counter++;
+            }
+            return true;
+        }
+
+        case ToolBar::HandleVert:
+        {
+            int counter = 1;
+            int center = r.top()+r.height()/2;
+            for(int j = r.left()+2; j <= r.right()-3; j+=3)
+            {
+                if(counter%2 == 0)
+                {
+                    renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background));
+                } else {
+                    renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background));
+                }
+
+                counter++;
+            }
+
+            return true;
+        }
+
+        case ToolBar::Separator:
+        {
+            if(OxygenStyleConfigData::toolBarDrawItemSeparator())
+            {
+                QColor color = pal.color(QPalette::Window);
+                if(flags & State_Horizontal) _helper.drawSeparator(p, r, color, Qt::Vertical);
+                else _helper.drawSeparator(p, r, color, Qt::Horizontal);
+            }
+
+            return true;
+        }
+
+        case ToolBar::PanelHor:
+        case ToolBar::PanelVert:
+        return true;
+
+        default: return false;
+    }
+}
+
+//_________________________________________________________
+bool OxygenStyle::drawToolButtonPrimitive(
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    Q_UNUSED( opt );
+    Q_UNUSED( kOpt );
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+
+    switch (primitive)
+    {
+
+        case ToolButton::Panel:
+        {
+            QRect slitRect = r;
+
+            // cast
+            const QToolButton* t=qobject_cast<const QToolButton*>(widget);
+            if (t && !t->autoRaise())
+            {
+                StyleOptions opts = 0;
+
+                // check if parent is tabbar
+                if (const QTabBar *tb =  qobject_cast<const QTabBar*>(t->parent()))
+                {
+                    // set proper flags based on taskbar tab shape
+                    bool horizontal = true;
+                    bool northOrEast = true;
+                    switch(tb->shape())
                     {
                         case QTabBar::RoundedNorth:
                         case QTabBar::TriangularNorth:
-                            renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill,
-                                       TileSet::Left | TileSet::Bottom | TileSet::Right);
-                            if(reverseLayout)
-                            {
-                                // Left and right widgets are placed right and left when in reverse mode
-
-                                if (w+lw >0)
-                                    renderSlab(p, QRect(-gw, r.y()-gw, r.width() - w - lw+7+gw, 7),
-                                        pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
-                                else
-                                    renderSlab(p, QRect(-gw, r.y()-gw, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill,
-                                            TileSet::Left | TileSet::Top | TileSet::Right);
-
-                                if (lw > 0)
-                                    renderSlab(p, QRect(r.right() - lw-7+gw, r.y()-gw, lw+7, 7),
-                                             pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
-                            }
-                            else
-                            {
-                                if (lw > 0)
-                                    renderSlab(p, QRect(-gw, r.y()-gw, lw+7, 7), pal.color(QPalette::Window), NoFill,
-                                        TileSet::Left | TileSet::Top);
-
-                                if (w+lw >0)
-                                    renderSlab(p, QRect(w+lw-7, r.y()-gw, r.width() - w - lw+7+gw, 7), pal.color(QPalette::Window), NoFill,
-                                            TileSet::Top | TileSet::Right);
-                                else
-                                    renderSlab(p, QRect(-gw, r.y(), r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill,
-                                            TileSet::Left | TileSet::Top | TileSet::Right);
-
-                            }
-                            return;
+                        break;
 
                         case QTabBar::RoundedSouth:
                         case QTabBar::TriangularSouth:
-                            renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill,
-                                       TileSet::Left | TileSet::Top | TileSet::Right);
-                            if(reverseLayout)
-                            {
-                                // Left and right widgets are placed right and left when in reverse mode
-
-                                if (w+lw >0)
-                                    renderSlab(p, QRect(-gw, r.bottom()-7+gw, r.width() - w - lw + 7+gw, 7),
-                                        pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
-                                else
-                                    renderSlab(p, QRect(-gw, r.bottom()-7+gw, r.width()+2*gw, 7), pal.color(QPalette::Window),
-                                        NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
-
-                                if (lw > 0)
-                                    renderSlab(p, QRect(r.right() - lw-7+gw, r.bottom()-7+gw, lw+7, 7),
-                                        pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
-                            }
-                            else
-                            {
-                                if (lw > 0)
-                                    renderSlab(p, QRect(-gw, r.bottom()-7+gw, lw+7+gw, 7),
-                                            pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
-
-                                if (w+lw >0)
-                                    renderSlab(p, QRect(w+lw-7, r.bottom()-7+gw, r.width() - w - lw+7+gw, 7),
-                                            pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
-                                else
-                                    renderSlab(p, QRect(-gw, r.bottom()-7, r.width()+2*gw, 7), pal.color(QPalette::Window),
-                                        NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
-
-                            }
-                            return;
-
-                        case QTabBar::RoundedWest:
-                        case QTabBar::TriangularWest:
-                            renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill,
-                                       TileSet::Top | TileSet::Right | TileSet::Bottom);
-
-                            if(reverseLayout)
-                            {
-                                // Left and right widgets are placed right and left when in reverse mode
-                                if (h+lh >0)
-                                    renderSlab(p, QRect(r.x()-gw,  h + lh - 7, 7, r.height() - h - lh+7+gw),
-                                               pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left);
-                                else
-                                    renderSlab(p, QRect(r.x()-gw, r.y()-gw, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill,
-                                               TileSet::Left | TileSet::Top | TileSet::Right);
-
-                                if (lh > 0)
-                                    renderSlab(p, QRect(r.x()-gw, r.y()+gw , 7, lh+7),
-                                               pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left);
-                            }
-                            else
-                            {
-                                if (lh > 0)
-                                    renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, lh+7), pal.color(QPalette::Window), NoFill,
-                                               TileSet::Left | TileSet::Top);
-
-                                if (h+lh >0)
-                                    renderSlab(p, QRect(r.x()-gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill,
-                                               TileSet::Left | TileSet::Bottom);
-                                else
-                                    renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, r.height()+2*gw), pal.color(QPalette::Window), NoFill,
-                                               TileSet::Top | TileSet::Left | TileSet::Bottom);
-                            }
-
-                            return;
+                        northOrEast = false;
+                        break;
 
                         case QTabBar::RoundedEast:
                         case QTabBar::TriangularEast:
-                            renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill,
-                                       TileSet::Top | TileSet::Left | TileSet::Bottom);
-                            if(reverseLayout)
-                            {
-                                // Left and right widgets are placed right and left when in reverse mode
-                                if (h+lh >0)
-                                    renderSlab(p, QRect(r.right()+1-7+gw,  h + lh - 7, 7, r.height() - h - lh+7+gw),
-                                               pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
-                                else
-                                    renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, r.width()+2*gw, 7), pal.color(QPalette::Window), NoFill,
-                                               TileSet::Left | TileSet::Top | TileSet::Right);
+                        horizontal = false;
+                        break;
 
-                                if (lh > 0)
-                                    renderSlab(p, QRect(r.right()+1-7+gw, r.y()+gw , 7, lh+7),
-                                               pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
-                            }
-                            else
-                            {
-                                if (lh > 0)
-                                    renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, 7, lh+7+gw), pal.color(QPalette::Window), NoFill,
-                                               TileSet::Top | TileSet::Right);
+                        case QTabBar::RoundedWest:
+                        case QTabBar::TriangularWest:
+                        northOrEast = false;
+                        horizontal = false;
+                        break;
 
-                                if (h+lh >0)
-                                    renderSlab(p, QRect(r.right()+1-7+gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill,
-                                               TileSet::Bottom | TileSet::Right);
-                                else
-                                    renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, r.height()+2*gw), pal.color(QPalette::Window), NoFill,
-                                               TileSet::Top | TileSet::Right | TileSet::Bottom);
-                            }
-
-                            return;
                         default:
-                            return;
+                        break;
                     }
-                }
 
-            }
-        }
-        break;
-
-        case WT_Window:
-        {
-            switch (primitive)
-            {
-                case Generic::Frame:
-                {
-                    _helper.drawFloatFrame(p, r, pal.window().color());
-                    return;
-                }
-
-                case Generic::Text:
-                {
-
-                    const QStyleOptionTitleBar *tb = qstyleoption_cast<const QStyleOptionTitleBar *>(opt);
-                    bool active = (tb->titleBarState & Qt::WindowActive );
-                    KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-                    QPalette local( pal );
-                    local.setCurrentColorGroup( active ? QPalette::Active: QPalette::Disabled );
-                    drawItemText(
-                        p, r, Qt::AlignVCenter | textOpts->hAlign, local, active,
-                        textOpts->text, QPalette::WindowText);
-
-                    return;
-                }
-
-                case Window::TitlePanel:
-                {
-                    return;
-                }
-
-                // menu button. Use icon if available
-                case Window::ButtonMenu:
-                if( r.isValid() )
-                {
-
-                    KStyle::TitleButtonOption* tbkOpts = extractOption<KStyle::TitleButtonOption*>(kOpt);
-                    if( !tbkOpts->icon.isNull() ) tbkOpts->icon.paint(p, r);
-                    return;
-
-                }
-                break;
-
-                // other title bar icons. Use build in pixmaps
-                case Window::ButtonMin:
-                case Window::ButtonMax:
-                case Window::ButtonRestore:
-                case Window::ButtonClose:
-                case Window::ButtonShade:
-                case Window::ButtonUnshade:
-                case Window::ButtonHelp:
-                if( r.isValid() )
-                {
-                    KStyle::TitleButtonOption* tbkOpts =
-                            extractOption<KStyle::TitleButtonOption*>(kOpt);
-                    State bflags = flags;
-                    bflags &= ~State_Sunken;
-                    p->save();
-                    p->drawPixmap(r.topLeft(), _helper.windecoButton(pal.window().color(), tbkOpts->active,  r.height()));
-                    p->setRenderHints(QPainter::Antialiasing);
-                    p->setBrush(Qt::NoBrush);
-
-                    const QStyleOptionTitleBar *tb = qstyleoption_cast<const QStyleOptionTitleBar *>(opt);
-                    bool active = (tb->titleBarState & Qt::WindowActive );
-                    QColor color( pal.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
-
+                    QPalette::ColorGroup colorGroup = tb->palette().currentColorGroup();
+                    if (horizontal)
                     {
-                        // contrast pixel is achieved by translating
-                        // down the icon and painting it with white color
-                        qreal width( 1.1 );
-                        p->translate(0, 0.5);
-                        p->setPen(QPen( _helper.calcLightColor( color ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                        renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
-                    }
 
-                    {
-                        // main icon painting
-                        qreal width( 1.1 );
-                        p->translate(0,-1);
-                        p->setPen(QPen( color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                        renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
-                    }
-
-                    p->restore();
-                    return;
-                }
-
-                break;
-            }
-        }
-        break;
-
-        case WT_Splitter:
-        {
-            switch (primitive)
-            {
-                case Splitter::HandleHor:
-                {
-                    int h = r.height();
-                    QColor color = pal.color(QPalette::Background);
-
-                    if (mouseOver)
-                        p->fillRect(r,_helper.alphaColor(_helper.calcLightColor(color),0.5));
-
-                    int ngroups = qMax(1,h / 250);
-                    int center = (h - (ngroups-1) * 250) /2 + r.top();
-                    for(int k = 0; k < ngroups; k++, center += 250) {
-                        renderDot(p, QPointF(r.left()+1, center-3), color);
-                        renderDot(p, QPointF(r.left()+1, center), color);
-                        renderDot(p, QPointF(r.left()+1, center+3), color);
-                    }
-                    return;
-                }
-                case Splitter::HandleVert:
-                {
-                    int w = r.width();
-                    QColor color = pal.color(QPalette::Background);
-
-                    if (mouseOver)
-                        p->fillRect(r,_helper.alphaColor(_helper.calcLightColor(color),0.5));
-
-                    int ngroups = qMax(1, w / 250);
-                    int center = (w - (ngroups-1) * 250) /2 + r.left();
-                    for(int k = 0; k < ngroups; k++, center += 250) {
-                        renderDot(p, QPointF(center-3, r.top()+1), color);
-                        renderDot(p, QPointF(center, r.top()+1), color);
-                        renderDot(p, QPointF(center+3, r.top()+1), color);
-                    }
-                    return;
-                }
-            }
-        }
-        break;
-
-        case WT_Slider:
-        {
-            // TODO
-            switch (primitive)
-            {
-                case Slider::HandleHor:
-                case Slider::HandleVert:
-                {
-                    StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
-                    if (const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt))
-                        if(slider->activeSubControls & SC_SliderHandle)
-                            if (mouseOver) opts |= Hover;
-
-                    renderSlab(p, r, pal.color(QPalette::Button), opts);
-                    return;
-                }
-
-                case Slider::GrooveHor:
-                case Slider::GrooveVert:
-                {
-
-                    bool horizontal = primitive == Slider::GrooveHor;
-
-                    if (horizontal) {
-                        int center = r.y()+r.height()/2;
-                        _helper.groove(pal.color(QPalette::Window), 0.0)->render(
-                                    QRect(r.left()+4, center-2, r.width()-8, 5), p);
-                    } else {
-                        int center = r.x()+r.width()/2;
-                        _helper.groove(pal.color(QPalette::Window), 0.0)->render(
-                                    QRect(center-2, r.top()+4, 5, r.height()-8), p);
-
-                    }
-
-                    return;
-                }
-            }
-
-        }
-        break;
-
-        case WT_SpinBox:
-        {
-            bool hasFocus = flags & State_HasFocus;
-
-            const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
-
-            switch (primitive)
-            {
-                case Generic::Frame:
-                {
-                    QRect fr = r.adjusted(2,2,-2,-2);
-                    p->save();
-                    p->setRenderHint(QPainter::Antialiasing);
-                    p->setPen(Qt::NoPen);
-                    p->setBrush(inputColor);
-
-#ifdef HOLE_NO_EDGE_FILL
-                    p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
-#else
-                    _helper.fillHole(*p, r);
-#endif
-
-                    p->restore();
-                    // TODO use widget background role?
-                    // We really need the color of the widget behind to be "right",
-                    // but the shadow needs to be colored as the inner widget; needs
-                    // changes in helper.
-#ifdef HOLE_COLOR_OUTSIDE
-                    renderHole(p, pal.color(QPalette::Window), fr, hasFocus, mouseOver);
-#else
-                    renderHole(p, inputColor, fr, hasFocus, mouseOver);
-#endif
-                    return;
-                }
-                case SpinBox::EditField:
-                case SpinBox::ButtonArea:
-                case SpinBox::UpButton:
-                case SpinBox::DownButton:
-                {
-                    return;
-                }
-
-            }
-
-        }
-        break;
-
-        case WT_ComboBox:
-        {
-            bool editable = false;
-            if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(opt) )
-                editable = cb->editable;
-
-            bool hasFocus = flags & State_HasFocus;
-            StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
-            if (mouseOver) opts |= Hover;
-
-            const QColor buttonColor = enabled?pal.color(QPalette::Button):pal.color(QPalette::Window);
-            const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Window);
-            QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
-
-            switch (primitive)
-            {
-                case Generic::Frame:
-                {
-                    // TODO: pressed state
-                    if(!editable) {
-                        renderSlab(p, r, pal.color(QPalette::Button), opts);
-                    } else {
-                        QRect fr = r.adjusted(2,2,-2,-2);
-                        // input area
-                        p->save();
-                        p->setRenderHint(QPainter::Antialiasing);
-                        p->setPen(Qt::NoPen);
-                        p->setBrush(inputColor);
-
-#ifdef HOLE_NO_EDGE_FILL
-                        p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
-#else
-                        _helper.fillHole(*p, r.adjusted(0,0,0,-1));
-#endif
-
-                        p->restore();
-
-#ifdef HOLE_COLOR_OUTSIDE
-                        if (hasFocus && enabled)
+                        if (northOrEast)
                         {
-                            renderHole(p, pal.color(QPalette::Window), fr, true, mouseOver);
-                        }
-                        else
-                        {
-                            renderHole(p, pal.color(QPalette::Window), fr, false, mouseOver);
-                        }
-#else
-                        if (hasFocus && enabled)
-                        {
-                            renderHole(p, inputColor, fr, true, mouseOver);
-                        }
-                        else
-                        {
-                            renderHole(p, inputColor, fr, false, mouseOver);
-                        }
-#endif
-                    }
 
-                    return;
-                }
+                            // north
+                            slitRect.adjust(0,3,0,-3-gw);
+                            _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-3), t, t->window()->palette());
+                            renderSlab(p, QRect(r.left()-7, r.bottom()-6-gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top);
 
-                case ComboBox::EditField:
-                {
-                    // empty
-                    return;
-                }
-
-                case ComboBox::Button:
-                {
-                    return;
-                }
-
-                case Generic::ArrowDown:
-                {
-                    KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
-                    colorOpt->color = ColorMode( editable ? QPalette::Text : QPalette::ButtonText );
-                    drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, r, pal, flags, p, widget, colorOpt );
-                    return;
-                }
-
-            }
-
-        }
-        break;
-
-        case WT_Header:
-        {
-            switch (primitive)
-            {
-                case Header::SectionHor:
-                case Header::SectionVert:
-                {
-                    if (const QStyleOptionHeader *header = qstyleoption_cast<const QStyleOptionHeader *>(opt)) {
-                        bool isFirst = (primitive==Header::SectionHor)&&(header->position == QStyleOptionHeader::Beginning);
-
-                        p->save();
-                        p->setPen(pal.color(QPalette::Text));
-
-                        QColor color = pal.color(QPalette::Button);
-                        QColor dark  = _helper.calcDarkColor(color);
-                        QColor light = _helper.calcLightColor(color);
-
-                        QRect rect(r);
-
-                        p->fillRect(r, color);
-                        if(primitive == Header::SectionHor) {
-                            if(header->section != 0 || isFirst) {
-                                int center = r.center().y();
-                                int pos = (reverseLayout)? r.left()+1 : r.right()-1;
-                                renderDot(p, QPointF(pos, center-3), color);
-                                renderDot(p, QPointF(pos, center), color);
-                                renderDot(p, QPointF(pos, center+3), color);
-                            }
-                            p->setPen(dark); p->drawLine(rect.bottomLeft(), rect.bottomRight());
-                            rect.adjust(0,0,0,-1);
-                            p->setPen(light); p->drawLine(rect.bottomLeft(), rect.bottomRight());
-                        }
-                        else
-                        {
-                            int center = r.center().x();
-                            int pos = r.bottom()-1;
-                            renderDot(p, QPointF(center-3, pos), color);
-                            renderDot(p, QPointF(center, pos), color);
-                            renderDot(p, QPointF(center+3, pos), color);
-
-                            if (reverseLayout)
-                            {
-                                p->setPen(dark); p->drawLine(rect.topLeft(), rect.bottomLeft());
-                                rect.adjust(1,0,0,0);
-                                p->setPen(light); p->drawLine(rect.topLeft(), rect.bottomLeft());
-                            } else {
-                                p->setPen(dark); p->drawLine(rect.topRight(), rect.bottomRight());
-                                rect.adjust(0,0,-1,0);
-                                p->setPen(light); p->drawLine(rect.topRight(), rect.bottomRight());
-                            }
-                        }
-
-                        p->restore();
-                    }
-
-                    return;
-                }
-            }
-        }
-        break;
-
-        case WT_Tree:
-        {
-            switch (primitive)
-            {
-                case Tree::VerticalBranch:
-                case Tree::HorizontalBranch:
-                {
-                    if (OxygenStyleConfigData::viewDrawTreeBranchLines())
-                    {
-                        QBrush brush(Qt::Dense4Pattern);
-                        QColor lineColor = pal.text().color();
-                        lineColor.setAlphaF(0.3);
-                        brush.setColor(lineColor);
-                        p->fillRect(r, brush);
-                    }
-                    return;
-                }
-                case Tree::ExpanderOpen:
-                case Tree::ExpanderClosed:
-                {
-                    int radius = (r.width() - 4) / 2;
-                    int centerx = r.x() + r.width()/2;
-                    int centery = r.y() + r.height()/2;
-
-                    if(!OxygenStyleConfigData::viewDrawTriangularExpander())
-                    {
-                        // plus or minus
-                        p->save();
-                        p->setPen( pal.text().color() );
-                        p->drawLine( centerx - radius, centery, centerx + radius, centery );
-                        if (primitive == Tree::ExpanderClosed) // Collapsed = On
-                            p->drawLine( centerx, centery - radius, centerx, centery + radius );
-                        p->restore();
-
-                    } else {
-
-                        KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
-                        colorOpt->color = ColorMode( QPalette::Text );
-                        if(primitive == Tree::ExpanderClosed)
-                        {
-                            drawKStylePrimitive(WT_Generic, reverseLayout? Generic::ArrowLeft : Generic::ArrowRight, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget, colorOpt );
                         } else {
-                            drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget, colorOpt );
+
+                            //south
+                            slitRect.adjust(0,3+gw,0,-3);
+                            _helper.renderWindowBackground(p, r.adjusted(0,2+gw,0,0), t, t->window()->palette());
+                            renderSlab(p, QRect(r.left()-7, r.top()+4+gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom);
+
+                        }
+
+                    } else {
+
+                        if (northOrEast)
+                        {
+
+                            // east
+                            slitRect.adjust(3+gw,0,-3-gw,0);
+                            _helper.renderWindowBackground(p, r.adjusted(2+gw,0,-2,0), t, t->window()->palette());
+                            renderSlab(p, QRect(r.left()+5+gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Right);
+
+                        } else {
+
+                            // west
+                            slitRect.adjust(3+gw,0,-3-gw,0);
+                            _helper.renderWindowBackground(p, r.adjusted(2-gw,0,-3,0), t, t->window()->palette());
+                            renderSlab(p, QRect(r.right()-6-gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Left);
+
                         }
                     }
 
-                    return;
+                    // continue drawing the slit
+
+                } else {
+
+                    // "normal" parent, and non "autoraised" (that is: always raised) buttons
+                    if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
+                    if (flags & State_HasFocus) opts |= Focus;
+                    if (enabled && (flags & State_MouseOver)) opts |= Hover;
+
+                    if (t->popupMode()==QToolButton::MenuButtonPopup) {
+                        renderSlab(p, r.adjusted(0,0,4,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Left);
+                    } else renderSlab(p, r, pal.color(QPalette::Button), opts);
+                    return true;
+
                 }
-                default:
+            }
+
+            // normal (auto-raised) toolbuttons
+            bool hasFocus = flags & State_HasFocus;
+
+            if((flags & State_Sunken) || (flags & State_On) )
+            {
+
+                renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, mouseOver);
+
+            } else if (hasFocus || mouseOver) {
+
+                TileSet *tile;
+                tile = _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color());
+                tile->render(slitRect, p);
+
+            }
+
+            return true;
+        }
+
+        default: return false;
+
+    }
+
+}
+
+
+//_________________________________________________________
+bool OxygenStyle::drawGenericPrimitive(
+    WidgetType widgetType,
+    int primitive,
+    const QStyleOption* opt,
+    const QRect &r, const QPalette &pal,
+    State flags, QPainter* p,
+    const QWidget* widget,
+    KStyle::Option* kOpt) const
+{
+
+    const bool enabled = flags & State_Enabled;
+    StyleOptions opts = 0;
+    switch (primitive)
+    {
+
+        case Generic::ArrowUp:
+        case Generic::ArrowDown:
+        case Generic::ArrowLeft:
+        case Generic::ArrowRight:
+        {
+
+            p->save();
+
+            // define gradient and polygon for drawing arrow
+            QPolygonF a;
+            QLinearGradient arrowGradient;
+            switch (primitive)
+            {
+                case Generic::ArrowUp: {
+                    a << QPointF( -3,2.5) << QPointF(0.5, -1.5) << QPointF(4,2.5);
+                    arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,2.5));
                     break;
-            }
-        }
-        break;
-
-        case WT_LineEdit:
-        {
-            switch (primitive)
-            {
-                case Generic::Frame:
-                {
-                    const bool isReadOnly = flags & State_ReadOnly;
-                    const bool isEnabled = flags & State_Enabled;
-                    const bool hasFocus = flags & State_HasFocus;
-#ifdef HOLE_COLOR_OUTSIDE
-                    const QColor inputColor =  pal.color(QPalette::Window);
-#else
-                    const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
-#endif
-                    if (hasFocus && !isReadOnly && isEnabled)
-                    {
-                        renderHole(p, inputColor, r.adjusted(2,2,-2,-3), true, mouseOver);
-                    }
-                    else
-                    {
-                        renderHole(p, inputColor, r.adjusted(2,2,-2,-3), false, mouseOver);
-                    }
-                    return;
                 }
 
-                case LineEdit::Panel:
-                {
-                    if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>(opt))
-                    {
-
-                        const QBrush inputBrush = enabled?panel->palette.base():panel->palette.window();
-                        const int lineWidth(panel->lineWidth);
-
-                        if (lineWidth > 0)
-                        {
-                            p->save();
-                            p->setRenderHint(QPainter::Antialiasing);
-                            p->setPen(Qt::NoPen);
-                            p->setBrush(inputBrush);
-
-#ifdef HOLE_NO_EDGE_FILL
-                            p->fillRect(r.adjusted(5,5,-5,-5), inputBrush);
-#else
-                            _helper.fillHole(*p, r.adjusted(0,0,-0,-1));
-#endif
-                            drawPrimitive(PE_FrameLineEdit, panel, p, widget);
-
-                            p->restore();
-                        }
-                        else
-                        {
-                            p->fillRect(r.adjusted(2,2,-2,-2), inputBrush);
-                        }
-                    }
-                }
-            }
-
-        }
-        break;
-
-        case WT_GroupBox:
-        {
-            switch (primitive)
-            {
-                case Generic::Frame:
-                {
-                    QColor color = pal.color(QPalette::Window);
-
-                    p->save();
-                    p->setRenderHint(QPainter::Antialiasing);
-                    p->setPen(Qt::NoPen);
-
-                    QLinearGradient innerGradient(0, r.top()-r.height()+12, 0, r.bottom()+r.height()-19);
-                    QColor light = _helper.calcLightColor(color); //KColorUtils::shade(calcLightColor(color), shade));
-                    light.setAlphaF(0.4);
-                    innerGradient.setColorAt(0.0, light);
-                    color.setAlphaF(0.4);
-                    innerGradient.setColorAt(1.0, color);
-                    p->setBrush(innerGradient);
-                    p->setClipRect(r.adjusted(0, 0, 0, -19));
-                    _helper.fillSlab(*p, r);
-
-                    TileSet *slopeTileSet = _helper.slope(pal.color(QPalette::Window), 0.0);
-                    p->setClipping(false);
-                    slopeTileSet->render(r, p);
-
-                    p->restore();
-
-                    return;
-                }
-				case GroupBox::FlatFrame:
-				{
-					return;
-				}
-            }
-
-        }
-        break;
-
-        case WT_ToolBar:
-        {
-            switch (primitive)
-            {
-                case ToolBar::HandleHor:
-                {
-                    int counter = 1;
-                    int center = r.left()+r.width()/2;
-                    for(int j = r.top()+2; j <= r.bottom()-3; j+=3) {
-                        if(counter%2 == 0) {
-                            renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background));
-                        } else {
-                            renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background));
-                        }
-                        counter++;
-                    }
-                    return;
-                }
-                case ToolBar::HandleVert:
-                {
-                    int counter = 1;
-                    int center = r.top()+r.height()/2;
-                    for(int j = r.left()+2; j <= r.right()-3; j+=3) {
-                        if(counter%2 == 0) {
-                            renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background));
-                        } else {
-                            renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background));
-                        }
-                        counter++;
-                    }
-
-                    return;
+                case Generic::ArrowDown: {
+                    a << QPointF( -3,-2.5) << QPointF(0.5, 1.5) << QPointF(4,-2.5);
+                    arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,2.5));
+                    break;
                 }
 
-                case ToolBar::Separator:
-                {
-                    if(OxygenStyleConfigData::toolBarDrawItemSeparator()) {
-                        QColor color = pal.color(QPalette::Window);
-                        if(flags & State_Horizontal)
-                            _helper.drawSeparator(p, r, color, Qt::Vertical);
-                        else
-                            _helper.drawSeparator(p, r, color, Qt::Horizontal);
-                    }
-
-                    return;
+                case Generic::ArrowLeft: {
+                    a << QPointF(2.5,-3) << QPointF(-1.5, 0.5) << QPointF(2.5,4);
+                    arrowGradient = QLinearGradient(QPoint(0,-3),QPoint(0,4));
+                    break;
                 }
 
-                case ToolBar::PanelHor:
-                case ToolBar::PanelVert:
-                return;
-
-            }
-        }
-        break;
-
-        case WT_ToolButton:
-        {
-            switch (primitive)
-            {
-                case ToolButton::Panel:
-                {
-                    QRect slitRect = r;
-                    const QToolButton* t=qobject_cast<const QToolButton*>(widget);
-                    if (t && !t->autoRaise())
-                    {
-                        StyleOptions opts = 0;
-
-                        if (const QTabBar *tb =  qobject_cast<const QTabBar*>(t->parent()))
-                        {
-                            bool horizontal = true;
-                            bool northOrEast = true;
-                            switch(tb->shape())
-                            {
-                                case QTabBar::RoundedNorth:
-                                case QTabBar::TriangularNorth:
-                                    break;
-                                case QTabBar::RoundedSouth:
-                                case QTabBar::TriangularSouth:
-                                    northOrEast = false;
-                                    break;
-                                case QTabBar::RoundedEast:
-                                case QTabBar::TriangularEast:
-                                    horizontal = false;
-                                    break;
-                                case QTabBar::RoundedWest:
-                                case QTabBar::TriangularWest:
-                                    northOrEast = false;
-                                    horizontal = false;
-                                    break;
-                                default:
-                                    break;
-                            }
-
-                            QPalette::ColorGroup colorGroup = tb->palette().currentColorGroup();
-
-                            if (horizontal)
-                            {
-                                if (northOrEast) // north
-                                {
-                                    slitRect.adjust(0,3,0,-3-gw);
-                                    _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-3), t, t->window()->palette());
-                                    renderSlab(p, QRect(r.left()-7, r.bottom()-6-gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top);
-                                }
-                                else // south
-                                {
-                                    slitRect.adjust(0,3+gw,0,-3);
-                                    _helper.renderWindowBackground(p, r.adjusted(0,2+gw,0,0), t, t->window()->palette());
-                                    renderSlab(p, QRect(r.left()-7, r.top()+4+gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom);
-                                }
-                            }
-                            else
-                            {
-                                if (northOrEast) // east
-                                {
-                                    slitRect.adjust(3+gw,0,-3-gw,0);
-                                    _helper.renderWindowBackground(p, r.adjusted(2+gw,0,-2,0), t, t->window()->palette());
-                                    renderSlab(p, QRect(r.left()+5+gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Right);
-                                }
-                                else // west
-                                {
-                                    slitRect.adjust(3+gw,0,-3-gw,0);
-                                    _helper.renderWindowBackground(p, r.adjusted(2-gw,0,-3,0), t, t->window()->palette());
-                                    renderSlab(p, QRect(r.right()-6-gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Left);
-                                }
-                            }
-                            // continue drawing the slit
-                        }
-                        else
-                        {
-                            if ((flags & State_On) || (flags & State_Sunken))
-                                opts |= Sunken;
-                            if (flags & State_HasFocus)
-                                opts |= Focus;
-                            if (enabled && (flags & State_MouseOver))
-                                opts |= Hover;
-
-                            if (t->popupMode()==QToolButton::MenuButtonPopup) {
-                                renderSlab(p, r.adjusted(0,0,4,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Left);
-                            } else
-                                renderSlab(p, r, pal.color(QPalette::Button), opts);
-                            return;
-                        }
-                    }
-
-                    bool hasFocus = flags & State_HasFocus;
-
-                    if((flags & State_Sunken) || (flags & State_On) )
-                    {
-                        renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, mouseOver);
-                    }
-                    else if (hasFocus || mouseOver)
-                    {
-                        TileSet *tile;
-                        tile = _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color());
-                        tile->render(slitRect, p);
-                    }
-                    return;
+                case Generic::ArrowRight: {
+                    a << QPointF(-2.5,-3) << QPointF(1.5, 0.5) << QPointF(-2.5,4);
+                    arrowGradient = QLinearGradient(QPoint(0,-3),QPoint(0,4));
+                    break;
                 }
 
                 default: break;
 
             }
 
-        }
-        break;
+            qreal penThickness = 2.2;
+            KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
+            QColor  arrowColor = colorOpt->color.color(pal);
 
-        case WT_Limit: //max value for the enum, only here to silence the compiler
-        case WT_Generic: // handled below since the primitives arevalid for all WT_ types
-            break;
-    }
-
-
-    // Arrows
-    if (primitive >= Generic::ArrowUp && primitive <= Generic::ArrowLeft) {
-        QPolygonF a;
-        QLinearGradient arrowGradient;
-
-        p->save();
-        switch (primitive) {
-            case Generic::ArrowUp: {
-                a << QPointF( -3,2.5) << QPointF(0.5, -1.5) << QPointF(4,2.5);
-                arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,2.5));
-                break;
-            }
-            case Generic::ArrowDown: {
-                a << QPointF( -3,-2.5) << QPointF(0.5, 1.5) << QPointF(4,-2.5);
-                arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,2.5));
-              break;
-            }
-            case Generic::ArrowLeft: {
-                a << QPointF(2.5,-3) << QPointF(-1.5, 0.5) << QPointF(2.5,4);
-                arrowGradient = QLinearGradient(QPoint(0,-3),QPoint(0,4));
-                break;
-            }
-            case Generic::ArrowRight: {
-                a << QPointF(-2.5,-3) << QPointF(1.5, 0.5) << QPointF(-2.5,4);
-                arrowGradient = QLinearGradient(QPoint(0,-3),QPoint(0,4));
-                break;
-            }
-        }
-        qreal penThickness = 2.2;
-        KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
-        QColor  arrowColor = colorOpt->color.color(pal);
-
-        if (qobject_cast<const QSpinBox *>(widget) )
-        { arrowColor = pal.color( QPalette::Text ); }
-
-        if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget))
-        {
-            if (tool->popupMode()==QToolButton::MenuButtonPopup)
+            // customize color depending on widget
+            if (qobject_cast<const QSpinBox *>(widget) )
             {
+                // spinBox
+                arrowColor = pal.color( QPalette::Text );
 
-                if(!tool->autoRaise())
+            } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
+
+
+                // handle scrollbar arrow hover
+                bool hover( false );
+
+                // check if cursor is in current rect
+                QPoint position( scrollbar->mapFromGlobal( QCursor::pos() ) );
+                if( r.contains( position ) )
                 {
-                    arrowColor = pal.color( QPalette::ButtonText );
-                    if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
+                    // check if active subControl matches current
+                    if( const QStyleOptionSlider *sbOpt = qstyleoption_cast<const QStyleOptionSlider*>(opt) )
+                    {
+                        if( scrollbar->orientation() == Qt::Vertical )
+                        {
 
-                    if (flags & State_HasFocus) opts |= Focus;
-                    if (enabled && (flags & State_MouseOver)) opts |= Hover;
-                    renderSlab(p, r.adjusted(-10,0,0,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
+                            if( (sbOpt->activeSubControls & SC_ScrollBarAddLine) && primitive == Generic::ArrowDown ) hover = true;
+                            else if( (sbOpt->activeSubControls & SC_ScrollBarSubLine) && primitive == Generic::ArrowUp ) hover = true;
 
-                    a.translate(-3,1);
+                        } else {
 
-                    //Draw the dividing line
-                    QColor color = pal.color(QPalette::Window);
-                    QColor light = _helper.calcLightColor(color);
-                    QColor dark = _helper.calcDarkColor(color);
-                    dark.setAlpha(200);
-                    light.setAlpha(150);
-                    p->setPen(QPen(light,1));
-                    p->drawLine(r.x()-5, r.y()+3, r.x()-5, r.bottom()-4);
-                    p->drawLine(r.x()-3, r.y()+3, r.x()-3, r.bottom()-3);
-                    p->setPen(QPen(dark,1));
-                    p->drawLine(r.x()-4, r.y()+4, r.x()-4, r.bottom()-3);
-                } else {
+                            if( (sbOpt->activeSubControls & SC_ScrollBarAddLine) && primitive == (opt->direction == Qt::LeftToRight ? Generic::ArrowRight:Generic::ArrowLeft ) ) hover = true;
+                            else if ( (sbOpt->activeSubControls & SC_ScrollBarSubLine) && primitive == (opt->direction == Qt::LeftToRight ? Generic::ArrowLeft:Generic::ArrowRight ) ) hover = true;
 
-                    if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::Highlight );
-                    else arrowColor = pal.color( QPalette::WindowText );
+                        }
+
+                    }
 
                 }
 
-            } else {
+                // if all is good change arrow color
+                if( hover && enabled ) { arrowColor = pal.color( QPalette::Highlight ); }
 
-                // adjust color
-                if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::Highlight );
-                else arrowColor = pal.color( QPalette::WindowText );
+            } else if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
 
-                // smaller down arrow for menu indication on toolbuttons
-                penThickness = 1.7;
-                a.clear();
-
-                // NOTE: is there any smarter solution than this?
-                // I (Hugo) would like to implement this in helper() for once.
-                switch (primitive)
+                // toolbuttons
+                if (tool->popupMode()==QToolButton::MenuButtonPopup)
                 {
-                    case Generic::ArrowUp: {
-                        a << QPointF( -2,1.5) << QPointF(0.5, -1.5) << QPointF(3,1.5);
-                        arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,1.5));
-                        break;
-                    }
-                    case Generic::ArrowDown: {
-                        a << QPointF( -2,-1.5) << QPointF(0.5, 1.5) << QPointF(3,-1.5);
-                        arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,1.5));
-                        break;
-                    }
-                    case Generic::ArrowLeft: {
-                        a << QPointF(1.5,-2) << QPointF(-1.5, 0.5) << QPointF(1.5,3);
-                        arrowGradient = QLinearGradient(QPoint(0,-2),QPoint(0,3));
-                        break;
-                    }
-                    case Generic::ArrowRight: {
-                        a << QPointF(-1.5,-2) << QPointF(1.5, 0.5) << QPointF(-1.5,3);
-                        arrowGradient = QLinearGradient(QPoint(0,-2),QPoint(0,3));
-                        break;
-                    }
-                }
-            }
-        }
 
-        // handle scrollbar arrow hover
-        if( const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) )
-        {
-            bool hover( false );
-
-            // check if cursor is in current rect
-            QPoint position( scrollbar->mapFromGlobal( QCursor::pos() ) );
-            if( r.contains( position ) )
-            {
-                // check if active subControl matches current
-                const QStyleOptionSlider *sbOpt( qstyleoption_cast<const QStyleOptionSlider*>(opt) );
-                if( sbOpt )
-                {
-                    if( scrollbar->orientation() == Qt::Vertical )
+                    if(!tool->autoRaise())
                     {
 
-                        if( (sbOpt->activeSubControls & SC_ScrollBarAddLine) && primitive == Generic::ArrowDown ) hover = true;
-                        else if( (sbOpt->activeSubControls & SC_ScrollBarSubLine) && primitive == Generic::ArrowUp ) hover = true;
+                        arrowColor = pal.color( QPalette::ButtonText );
+                        if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
+                        if (flags & State_HasFocus) opts |= Focus;
+                        if (enabled && (flags & State_MouseOver)) opts |= Hover;
+                        renderSlab(p, r.adjusted(-10,0,0,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
+
+                        a.translate(-3,1);
+
+                        //Draw the dividing line
+                        QColor color = pal.color(QPalette::Window);
+                        QColor light = _helper.calcLightColor(color);
+                        QColor dark = _helper.calcDarkColor(color);
+                        dark.setAlpha(200);
+                        light.setAlpha(150);
+                        p->setPen(QPen(light,1));
+                        p->drawLine(r.x()-5, r.y()+3, r.x()-5, r.bottom()-4);
+                        p->drawLine(r.x()-3, r.y()+3, r.x()-3, r.bottom()-3);
+                        p->setPen(QPen(dark,1));
+                        p->drawLine(r.x()-4, r.y()+4, r.x()-4, r.bottom()-3);
 
                     } else {
 
-                        if( (sbOpt->activeSubControls & SC_ScrollBarAddLine) && primitive == (opt->direction == Qt::LeftToRight ? Generic::ArrowRight:Generic::ArrowLeft ) ) hover = true;
-                        else if ( (sbOpt->activeSubControls & SC_ScrollBarSubLine) && primitive == (opt->direction == Qt::LeftToRight ? Generic::ArrowLeft:Generic::ArrowRight ) ) hover = true;
+                        if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::Highlight );
+                        else arrowColor = pal.color( QPalette::WindowText );
 
                     }
 
-                }
+                } else {
 
+                    // adjust color
+                    if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::Highlight );
+                    else arrowColor = pal.color( QPalette::WindowText );
+
+                    // smaller down arrow for menu indication on toolbuttons
+                    penThickness = 1.7;
+                    a.clear();
+
+                    // NOTE: is there any smarter solution than this?
+                    // I (Hugo) would like to implement this in helper() for once.
+                    switch (primitive)
+                    {
+                        case Generic::ArrowUp: {
+                            a << QPointF( -2,1.5) << QPointF(0.5, -1.5) << QPointF(3,1.5);
+                            arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,1.5));
+                            break;
+                        }
+                        case Generic::ArrowDown: {
+                            a << QPointF( -2,-1.5) << QPointF(0.5, 1.5) << QPointF(3,-1.5);
+                            arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,1.5));
+                            break;
+                        }
+                        case Generic::ArrowLeft: {
+                            a << QPointF(1.5,-2) << QPointF(-1.5, 0.5) << QPointF(1.5,3);
+                            arrowGradient = QLinearGradient(QPoint(0,-2),QPoint(0,3));
+                            break;
+                        }
+                        case Generic::ArrowRight: {
+                            a << QPointF(-1.5,-2) << QPointF(1.5, 0.5) << QPointF(-1.5,3);
+                            arrowGradient = QLinearGradient(QPoint(0,-2),QPoint(0,3));
+                            break;
+                        }
+
+                        default: break;
+                    }
+                }
             }
 
-            // if all is good change arrow color
-            if( hover && enabled ) { arrowColor = pal.color( QPalette::Highlight ); }
+            //
+            arrowGradient.setColorAt(0.0, arrowColor);
+            arrowGradient.setColorAt(0.8, KColorUtils::mix(pal.color(QPalette::Window), arrowColor, 0.6));
 
+            // white reflection
+            p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
+            p->translate(0,1);
+            p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            p->setRenderHint(QPainter::Antialiasing);
+            p->drawPolyline(a);
+            p->translate(0,-1);
+
+            p->setPen(QPen(arrowGradient, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            p->drawPolyline(a);
+
+            p->restore();
+            return true;
         }
 
-        arrowGradient.setColorAt(0.0, arrowColor);
-        arrowGradient.setColorAt(0.8, KColorUtils::mix(pal.color(QPalette::Window), arrowColor, 0.6));
-
-        // white reflection
-        p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
-        p->translate(0,1);
-        p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)),
-                       penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-        p->setRenderHint(QPainter::Antialiasing);
-        p->drawPolyline(a);
-        p->translate(0,-1);
-
-        p->setPen(QPen(arrowGradient, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-        p->drawPolyline(a);
-
-        p->restore();
-        return;
-    }
-
-    switch (primitive)
-    {
         case Generic::Frame:
         {
+
             // WT_Generic and other fallen-through frames...
             // QFrame, Qt item views, etc.: sunken..
             bool focusHighlight = flags&State_HasFocus/* && flags&State_Enabled*/;
-            if (flags & State_Sunken) {
+            if (flags & State_Sunken)
+            {
+
                 // TODO use widget background role? - probably not
                 //renderHole(p, pal.color(widget->backgroundRole()), r, focusHighlight);
                 renderHole(p, pal.color(QPalette::Window), r, focusHighlight);
-            } else
-                if(widgetType == WT_Generic && (flags & State_Raised)) {
-                    renderSlab(p, r.adjusted(-2, -2, 2, 2), pal.color(QPalette::Background), NoFill);
-                }
-                break; // do the default thing
+
+            } else if(widgetType == WT_Generic && (flags & State_Raised)) {
+
+                renderSlab(p, r.adjusted(-2, -2, 2, 2), pal.color(QPalette::Background), NoFill);
+
+            }
+
+            return false;
         }
 
         case Generic::FocusIndicator:
         {
 
             if (const QAbstractItemView *aiv = qobject_cast<const QAbstractItemView*>(widget))
-            if (!(aiv->selectionMode() == QAbstractItemView::SingleSelection)
-                && !(aiv->selectionMode() == QAbstractItemView::NoSelection))
-             {
-                const QPen oldPen = p->pen();
-                QLinearGradient lg(r.adjusted(2,0,0,-2).bottomLeft(),
-                                    r.adjusted(0,0,-2,-2).bottomRight());
-                lg.setColorAt(0.0, Qt::transparent);
-                if (flags & State_Selected) {
-                    lg.setColorAt(0.2, pal.color(QPalette::BrightText));
-                    lg.setColorAt(0.8, pal.color(QPalette::BrightText));
-                } else {
-                    lg.setColorAt(0.2, pal.color(QPalette::Text));
-                    lg.setColorAt(0.8, pal.color(QPalette::Text));
+            {
+                if (!(aiv->selectionMode() == QAbstractItemView::SingleSelection) && !(aiv->selectionMode() == QAbstractItemView::NoSelection))
+                {
+                    const QPen oldPen = p->pen();
+                    QLinearGradient lg(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
+                    lg.setColorAt(0.0, Qt::transparent);
+
+                    if (flags & State_Selected) {
+
+                        lg.setColorAt(0.2, pal.color(QPalette::BrightText));
+                        lg.setColorAt(0.8, pal.color(QPalette::BrightText));
+
+                    } else {
+
+                        lg.setColorAt(0.2, pal.color(QPalette::Text));
+                        lg.setColorAt(0.8, pal.color(QPalette::Text));
+
+                    }
+
+                    lg.setColorAt(1.0, Qt::transparent);
+                    p->setPen(QPen(lg, 1));
+                    p->drawLine(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
+                    p->setPen(oldPen);
                 }
-                lg.setColorAt(1.0, Qt::transparent);
-                p->setPen(QPen(lg, 1));
-                p->drawLine(r.adjusted(2,0,0,-2).bottomLeft(),
-                            r.adjusted(0,0,-2,-2).bottomRight());
-                p->setPen(oldPen);
-             }
+            }
+
             // we don't want the stippled focus indicator in oxygen
-            if (!widget || !widget->inherits("Q3ListView"))
-                return;
+            if (!widget || !widget->inherits("Q3ListView")) return true;
+            else return false;
         }
 
-        default:
-            break;
+        default: return false;
     }
 
-    // default fallback
-    KStyle::drawKStylePrimitive(widgetType, primitive, opt,
-                                r, pal, flags, p, widget, kOpt);
 }
 
+//______________________________________________________________
 void OxygenStyle::polish(QWidget* widget)
 {
     if (!widget) return;
@@ -2399,7 +2784,7 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAttribute(Qt::WA_Hover);
     }
 
-    if (QToolButton* tb = qobject_cast<QToolButton*>(widget) )
+    if( qobject_cast<QToolButton*>(widget) )
     {
         if( qobject_cast<QToolBar*>( widget->parent() ) )
         {
