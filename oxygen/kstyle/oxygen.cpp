@@ -3899,13 +3899,13 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
         case SH_RubberBand_Mask:
         {
             const QStyleOptionRubberBand *opt = qstyleoption_cast<const QStyleOptionRubberBand *>(option);
-            if (!opt)
-                return true;
+            if (!opt) return false;
             if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>(returnData)) {
                 mask->region = option->rect;
-                mask->region -= option->rect.adjusted(1,1,-1,-1);
+                // mask->region -= option->rect.adjusted(1,1,-1,-1);
+                return true;
             }
-            return true;
+            return false;
         }
 
         case SH_WindowFrame_Mask:
