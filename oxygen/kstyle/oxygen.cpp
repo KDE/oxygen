@@ -883,6 +883,13 @@ bool OxygenStyle::drawMenuItemPrimitive(
 
     switch( primitive )
     {
+
+        case MenuItem::Separator:
+        {
+            _helper.drawSeparator(p, r, pal.color(QPalette::Window), Qt::Horizontal);
+            return true;
+        }
+
         case MenuItem::ItemIndicator:
         {
             if (enabled) {
