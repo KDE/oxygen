@@ -384,41 +384,12 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
         }
         case CE_TabBarTabLabel:
         {
-            const QStyleOptionTab *tabOpt = qstyleoption_cast<const QStyleOptionTab *>(option);
-            QRect rect = option->rect;
-            if (tabOpt && !(option->state & State_Selected)) {
-                switch (tabOpt->shape)
-                {
-                    case QTabBar::RoundedNorth:
-                    case QTabBar::TriangularNorth:
-                        rect.adjust(0,1,0,1);
-                        break;
-                    case QTabBar::RoundedSouth:
-                    case QTabBar::TriangularSouth:
-                        rect.adjust(0,-1,0,-1);
-                        break;
-                    case QTabBar::RoundedWest:
-                    case QTabBar::TriangularWest:
-                        rect.adjust(1,0,1,0);
-                        break;
-                    case QTabBar::RoundedEast:
-                    case QTabBar::TriangularEast:
-                        rect.adjust(-1,0,-1,0);
-                        break;
-                    default:
-                        break;
-                }
-
-                QStyleOptionTabV3 tabOpt3(*tabOpt);
-                tabOpt3.rect = rect;
-                KStyle::drawControl(element, &tabOpt3, p, widget);
-                return;
-            } else {
-                break;
-            }
+            // bypass KStyle entirely because it makes it completely impossible
+            // to handle both KDE and Qt applications at the same time
+            return QCommonStyle::drawControl( element, option, p, widget);
         }
-        default:
-            break;
+
+        default:  break;
     }
     KStyle::drawControl(element, option, p, widget);
 }
@@ -1291,27 +1262,7 @@ bool OxygenStyle::drawTabBarPrimitive(
             return true;
 
         }
-        case TabBar::WestText:
-        case TabBar::EastText:
-        {
 
-            p->save();
-            p->translate( r.topLeft() );
-            if( primitive == TabBar::EastText )
-            {
-                p->rotate( 90 );
-                p->translate( 0, -r.height()+1 );
-            } else {
-                p->rotate( -90 );
-                p->translate( -r.width()+1, 0 );
-            }
-
-            QRect local( QPoint(), r.size() );
-            drawKStylePrimitive(WT_TabBar, Generic::Text, opt, local, pal, flags, p, widget, kOpt);
-
-            p->restore();
-            return true;
-        }
         case TabBar::IndicatorTear:
         {
             const QStyleOptionTab* option = qstyleoption_cast<const QStyleOptionTab*>(opt);
@@ -1524,13 +1475,6 @@ bool OxygenStyle::drawTabBarPrimitive(
                 default: return false;
             }
 
-            return true;
-        }
-
-        case Generic::Text:
-        {
-            KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-            drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled, textOpts->text, QPalette::WindowText);
             return true;
         }
 
@@ -3842,9 +3786,8 @@ void OxygenStyle::renderTab(QPainter *p,
     }
 }
 
-
-void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation,
-                 bool active, bool inverted) const
+//______________________________________________________________________________________________________________________________
+void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation, bool active, bool inverted) const
 {
     QColor dark = _helper.calcDarkColor(color);
     QColor shadow = _helper.calcShadowColor(color);
@@ -3854,32 +3797,53 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
     QRect fillRect = r.adjusted(4,(orientation == Qt::Horizontal && !inverted) ? 3 : 4,-4,-4);
 
     QLinearGradient highlight;
-    if (orientation == Qt::Horizontal) {
-        if (!inverted) {
+    if (orientation == Qt::Horizontal)
+    {
+
+        if (!inverted)
+        {
+
             highlight = QLinearGradient(fillRect.topLeft(), fillRect.bottomLeft());
-        } else { // inverted
+
+        } else {
+
+            // inverted
             highlight = QLinearGradient(fillRect.bottomLeft(), fillRect.topLeft());
+
         }
-    } else { // vertical tab fill
-         if (!inverted) {
+
+    } else {
+
+        // vertical tab fill
+        if (!inverted)
+        {
+
             highlight = QLinearGradient(fillRect.topLeft(), fillRect.topRight());
-        } else { // inverted
+
+        } else {
+
+            // inverted
             highlight = QLinearGradient(fillRect.topRight(), fillRect.topLeft());
+
         }
     }
 
     if (active) {
+
         highlight.setColorAt(0.0, _helper.alphaColor(light, 0.5));
         highlight.setColorAt(0.1, _helper.alphaColor(light, 0.5));
         highlight.setColorAt(0.25, _helper.alphaColor(light, 0.3));
         highlight.setColorAt(0.5, _helper.alphaColor(light, 0.2));
         highlight.setColorAt(0.75, _helper.alphaColor(light, 0.1));
         highlight.setColorAt(0.9, Qt::transparent);
+
     } else { // inactive
-       highlight.setColorAt(0.0, _helper.alphaColor(light, 0.1));
-       highlight.setColorAt(0.4, _helper.alphaColor(dark, 0.5));
-       highlight.setColorAt(0.8, _helper.alphaColor(dark, 0.4));
-       highlight.setColorAt(0.9, Qt::transparent);
+
+        highlight.setColorAt(0.0, _helper.alphaColor(light, 0.1));
+        highlight.setColorAt(0.4, _helper.alphaColor(dark, 0.5));
+        highlight.setColorAt(0.8, _helper.alphaColor(dark, 0.4));
+        highlight.setColorAt(0.9, Qt::transparent);
+
     }
 
     p->setRenderHints(QPainter::Antialiasing);
@@ -3888,8 +3852,8 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
     p->drawRoundedRect(fillRect,2,2);
 }
 
-int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
-                            const QWidget * widget, QStyleHintReturn * returnData) const
+//______________________________________________________________________________________________________________________________
+int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option, const QWidget * widget, QStyleHintReturn * returnData) const
 {
     switch (hint) {
         case SH_ComboBox_ListMouseTracking:
@@ -3909,7 +3873,6 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
             if (!opt) return false;
             if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>(returnData)) {
                 mask->region = option->rect;
-                // mask->region -= option->rect.adjusted(1,1,-1,-1);
                 return true;
             }
             return false;
@@ -3952,23 +3915,18 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option,
 int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const
 {
     switch(m) {
-        case PM_DefaultTopLevelMargin:
-            return 11;
+        case PM_DefaultTopLevelMargin: return 11;
 
-        case PM_DefaultChildMargin:
-            return 4; // qcommon is 9;
+        case PM_DefaultChildMargin: return 4; // qcommon is 9;
 
-        case PM_DefaultLayoutSpacing:
-            return 4; // qcommon is 6
+        case PM_DefaultLayoutSpacing: return 4; // qcommon is 6
 
         case PM_ButtonMargin:
             return 5;
 
         case PM_DefaultFrameWidth:
-            if (qobject_cast<const QLineEdit*>(widget))
-                return 4;
-            if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget))
-                return 3;
+            if (qobject_cast<const QLineEdit*>(widget)) return 4;
+            if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget)) return 3;
             //else fall through
         default:
             return KStyle::pixelMetric(m,opt,widget);
@@ -3983,7 +3941,8 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
         case CT_GroupBox:
         {
             // adjust groupbox width to bold label font
-            if (const QStyleOptionGroupBox* gbOpt = qstyleoption_cast<const QStyleOptionGroupBox*>(option)) {
+            if (const QStyleOptionGroupBox* gbOpt = qstyleoption_cast<const QStyleOptionGroupBox*>(option))
+            {
                 QSize size = KStyle::sizeFromContents(type, option, contentsSize, widget);
                 int labelWidth = subControlRect(CC_GroupBox, gbOpt, SC_GroupBoxLabel, widget).width();
                 size.setWidth(qMax(size.width(), labelWidth));
@@ -3994,10 +3953,17 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
         {
             QSize size = contentsSize;
 
-            if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
+            if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option))
+            {
+
                 if ((!tbOpt->icon.isNull()) && (!tbOpt->text.isEmpty()) && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon)
+                {
+
                     // TODO: Make this font size dependent
                     size.setHeight(size.height()-5);
+
+                }
+
             }
 
             // We want to avoid super-skiny buttons, for things like "up" when icons + text
@@ -4008,9 +3974,15 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
             int   menuAreaWidth = 0;
             if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
                 if (tbOpt->features & QStyleOptionToolButton::MenuButtonPopup)
+                {
+
                     menuAreaWidth = pixelMetric(QStyle::PM_MenuButtonIndicator, option, widget);
-                else if (tbOpt->features & QStyleOptionToolButton::HasMenu)
+
+                } else if (tbOpt->features & QStyleOptionToolButton::HasMenu) {
+
                     size.setWidth(size.width() + widgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, tbOpt, widget));
+
+                }
             }
             size.setWidth(size.width() - menuAreaWidth);
             if (size.width() < size.height())
@@ -4031,9 +4003,9 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
                                     widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Bot, option, widget);
 
                 return QSize(width, height);
-            }
-            else
-            {
+
+            } else {
+
                 int width = size.width() +
                         2*widgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + MainMargin, option, widget);
 
@@ -4045,14 +4017,13 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
                 return QSize(width, height);
             }
         }
-        default:
-            break;
+
+        default: break;
     }
     return KStyle::sizeFromContents(type, option, contentsSize, widget);
 }
 
-QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComplex* option,
-                                SubControl subControl, const QWidget* widget) const
+QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget) const
 {
     QRect r = option->rect;
 
@@ -4061,15 +4032,13 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
         case CC_GroupBox:
         {
             const QStyleOptionGroupBox *gbOpt = qstyleoption_cast<const QStyleOptionGroupBox *>(option);
-            if (!gbOpt)
-                break;
+            if (!gbOpt) break;
 
             bool isFlat = gbOpt->features & QStyleOptionFrameV2::Flat;
 
             switch (subControl)
             {
-                case SC_GroupBoxFrame:
-                    return r;
+                case SC_GroupBoxFrame: return r;
                 case SC_GroupBoxContents:
                 {
                     int th = gbOpt->fontMetrics.height() + 8;
@@ -4096,9 +4065,9 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                 case SC_GroupBoxLabel:
                 {
                     QFont font = widget->font();
+
                     // calculate text width assuming bold text in flat group boxes
-                    if (isFlat)
-                        font.setBold(true);
+                    if (isFlat) font.setBold(true);
 
                     QFontMetrics fontMetrics = QFontMetrics(font);
                     int h = fontMetrics.height();
@@ -4112,18 +4081,14 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                         QRect gcr((gbOpt->rect.width() - tw -cr.width())/2 , (h-cr.height())/2+r.y(), cr.width(), cr.height());
                         if(subControl == SC_GroupBoxCheckBox)
                         {
-                            if (!isFlat)
-                                return visualRect(option->direction, option->rect, gcr);
-                            else
-                                return visualRect(option->direction, option->rect, QRect(0,0,cr.width(),cr.height()));
+                            if (!isFlat) return visualRect(option->direction, option->rect, gcr);
+                            else return visualRect(option->direction, option->rect, QRect(0,0,cr.width(),cr.height()));
                         }
                     }
 
                     // left align labels in flat group boxes, center align labels in framed group boxes
-                    if (isFlat)
-                        r = QRect(cr.width(),r.y(),tw,r.height());
-                    else
-                        r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
+                    if (isFlat)  r = QRect(cr.width(),r.y(),tw,r.height());
+                    else r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
 
                     return visualRect(option->direction, option->rect, r);
                 }
@@ -4149,25 +4114,38 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
     switch (sr) {
     case SE_TabBarTabText:
     {
-        QRect r( KStyle::subElementRect( sr, opt, widget ) );
-        const QStyleOptionTabV3* tov3 = qstyleoption_cast<const QStyleOptionTabV3*>(opt);
-        switch( tov3->shape )
+
+        // bypass KStyle entirely because it makes it completely impossible
+        // to handle both KDE and Qt applications at the same time
+        int voffset(0);
+        if( const QStyleOptionTabV3* tov3 = qstyleoption_cast<const QStyleOptionTabV3*>(opt) )
         {
 
-            case QTabBar::RoundedEast:
-            case QTabBar::TriangularEast:
-            case QTabBar::RoundedWest:
-            case QTabBar::TriangularWest:
-            { return QRect( r.topLeft(), QSize( r.height(), r.width() ) ); }
+            switch( tov3->shape )
+            {
 
-            case QTabBar::RoundedNorth:
-            case QTabBar::TriangularNorth:
-            case QTabBar::RoundedSouth:
-            case QTabBar::TriangularSouth:
-            default:
-            return r;
+                case QTabBar::RoundedEast:
+                case QTabBar::TriangularEast:
+                case QTabBar::RoundedWest:
+                case QTabBar::TriangularWest:
+                case QTabBar::RoundedNorth:
+                case QTabBar::TriangularNorth:
+                voffset = ( opt->state & State_Selected ) ? 0:1;
+                break;
+
+                case QTabBar::RoundedSouth:
+                case QTabBar::TriangularSouth:
+                voffset = ( opt->state & State_Selected ) ? 0:-1;
+                break;
+
+                default: break;
+
+            }
 
         }
+
+        return  QCommonStyle::subElementRect(sr, opt, widget).adjusted( 6, 0, -6, 0 ).translated( 0, voffset );
+
 
     }
 
