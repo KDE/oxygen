@@ -48,47 +48,26 @@ namespace Oxygen
     }
 
     //____________________________________________________________
-    TimeLine::Pointer MenuEngineV1::timeLine( const QObject* object )
+    TimeLine::Pointer MenuEngineV1::timeLine( const QObject* object, WidgetIndex index )
     {
 
         if( !enabled() ) return TimeLine::Pointer();
 
         TimeLine::Pointer out;
         if( QPointer<MenuDataV1> data = data_.find( object ) )
-        { out = data->currentTimeLine(); }
+        { out = (index == Current) ? data->currentTimeLine():data->previousTimeLine(); }
         return _timeLine( out );
 
     }
 
     //____________________________________________________________
-    TimeLine::Pointer MenuEngineV1::previousTimeLine( const QObject* object )
-    {
-
-        if( !enabled() ) return TimeLine::Pointer();
-
-        TimeLine::Pointer out;
-        if( QPointer<MenuDataV1> data = data_.find( object ) )
-        { out = data->previousTimeLine(); }
-        return _timeLine( out );
-
-    }
-
-    //____________________________________________________________
-    QRect MenuEngineV1::currentRect( const QObject* object )
+    QRect MenuEngineV1::animatedRect( const QObject* object, WidgetIndex index )
     {
 
         if( !enabled() ) return QRect();
         QPointer<MenuDataV1> out( data_.find( object ) );
-        return out ? out->currentRect():QRect();
-
-    }
-
-    //____________________________________________________________
-    QRect MenuEngineV1::previousRect( const QObject* object )
-    {
-        if( !enabled() ) return QRect();
-        QPointer<MenuDataV1> out( data_.find( object ) );
-        return out ? out->previousRect():QRect();
+        if( !out ) return QRect();
+        else return (index == Current) ? out->currentRect() : out->previousRect();
 
     }
 

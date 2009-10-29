@@ -34,6 +34,13 @@
 namespace Oxygen
 {
 
+    //! widget index
+    enum WidgetIndex
+    {
+        Current,
+        Previous
+    };
+
     //! stores menu hovered action and timeLine
     class MenuBaseEngine: public BaseEngine
     {
@@ -53,29 +60,17 @@ namespace Oxygen
         //! register menubar
         virtual bool registerWidget( QWidget* ) = 0;
 
-        //! return timeLine associated to action at given position, if any
-        virtual TimeLine::Pointer timeLine( const QObject* )
-        { return TimeLine::Pointer(); }
-
-        //! return 'hover' rect position when widget is animated
-        virtual TimeLine::Pointer previousTimeLine( const QObject* )
-        { return TimeLine::Pointer(); }
-
-        //! return 'hover' rect position when widget is animated
-        virtual QRect currentRect( const QObject* )
-        { return QRect(); }
-
-        //! return 'hover' rect position when widget is animated
-        virtual QRect previousRect( const QObject* )
-        { return QRect(); }
-
-        //! return 'hover' rect position when widget is animated
-        virtual QRect animatedRect( const QObject* )
-        { return QRect(); }
-
-        //! timer associated to the data
-        virtual bool isTimerActive( const QObject* )
+        //! true if widget is animated
+        virtual bool isAnimated( const QObject*, WidgetIndex )
         { return false; }
+
+        //! opacity
+        virtual qreal opacity( const QObject*, WidgetIndex )
+        { return -1; }
+
+        //! return 'hover' rect position when widget is animated
+        virtual QRect animatedRect( const QObject*, WidgetIndex )
+        { return QRect(); }
 
         //! enability
         virtual void setEnabled( bool value ) = 0;
@@ -107,17 +102,19 @@ namespace Oxygen
         //! register menubar
         virtual bool registerWidget( QWidget* );
 
-        //! return timeLine associated to action at given position, if any
-        virtual TimeLine::Pointer timeLine( const QObject* );
+        //! true if widget is animated
+        virtual bool isAnimated( const QObject* object, WidgetIndex index )
+        { return (bool) timeLine( object, index ); }
+
+        //! animation opacity
+        virtual qreal opacity( const QObject* object, WidgetIndex index )
+        {
+            TimeLine::Pointer timeLine( MenuEngineV1::timeLine( object, index ) );
+            return timeLine ? timeLine->ratio() : -1;
+        }
 
         //! return 'hover' rect position when widget is animated
-        virtual TimeLine::Pointer previousTimeLine( const QObject* );
-
-        //! return 'hover' rect position when widget is animated
-        virtual QRect currentRect( const QObject* );
-
-        //! return 'hover' rect position when widget is animated
-        virtual QRect previousRect( const QObject* );
+        virtual QRect animatedRect( const QObject*, WidgetIndex );
 
         //! enability
         virtual void setEnabled( bool value )
@@ -146,6 +143,11 @@ namespace Oxygen
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
         { if( object ) data_.remove( object ); }
+
+        protected:
+
+        //! return timeLine associated to action at given position, if any
+        virtual TimeLine::Pointer timeLine( const QObject*, WidgetIndex );
 
         private:
 

@@ -58,7 +58,11 @@ namespace Oxygen
 
         //! progress ratio
         qreal ratio( void ) const
-        { return qreal( currentFrame() )/qreal( endFrame() ); }
+        {
+            static const qreal offset = 0.1;
+            static const qreal scale = 1.0 - offset*2;
+            return offset + scale*qreal( currentFrame() )/qreal( endFrame() );
+        }
 
         //! restart
         void restart( void )

@@ -33,15 +33,15 @@
 
 namespace Oxygen
 {
-    
+
     //! stores tabbar hovered action and timeLine
     class TabBarEngine: public BaseEngine
     {
-        
+
         Q_OBJECT
-            
+
         public:
-            
+
         //! constructor
         TabBarEngine( QObject* parent ):
         BaseEngine( parent )
@@ -54,8 +54,17 @@ namespace Oxygen
         //! register tabbar
         virtual bool registerWidget( QWidget* );
 
-        //! return timeLine associated to action at given position, if any
-        virtual TimeLine::Pointer timeLine( const QObject*, const QPoint& position );
+
+        //! true if widget is animated
+        virtual bool isAnimated( const QObject* object, const QPoint& point )
+        { return (bool) timeLine( object, point ); }
+
+        //! animation opacity
+        virtual qreal opacity( const QObject* object, const QPoint& point )
+        {
+            TimeLine::Pointer timeLine( TabBarEngine::timeLine( object, point ) );
+            return timeLine ? timeLine->ratio() : -1;
+        }
 
         //! enability
         virtual void setEnabled( bool value )
@@ -83,6 +92,11 @@ namespace Oxygen
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
         { if( object ) data_.remove( object ); }
+
+        protected:
+
+        //! return timeLine associated to action at given position, if any
+        virtual TimeLine::Pointer timeLine( const QObject*, const QPoint& position );
 
         private:
 

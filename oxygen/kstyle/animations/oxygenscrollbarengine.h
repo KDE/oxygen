@@ -54,8 +54,16 @@ namespace Oxygen
         //! register scrollbar
         virtual bool registerWidget( QWidget* );
 
-        //! return timeLine associated to object for given subcontrol, if any
-        virtual TimeLine::Pointer timeLine( const QObject*, QStyle::SubControl );
+        //! true if widget is animated
+        virtual bool isAnimated( const QObject* object, QStyle::SubControl subcontrol )
+        { return (bool) timeLine( object, subcontrol ); }
+
+        //! animation opacity
+        virtual qreal opacity( const QObject* object, QStyle::SubControl subcontrol )
+        {
+            TimeLine::Pointer timeLine( ScrollBarEngine::timeLine( object, subcontrol ) );
+            return timeLine ? timeLine->ratio() : -1;
+        }
 
         //! subcontrol rect associated to object
         virtual QRect subControlRect( const QObject*, QStyle::SubControl );
@@ -89,6 +97,11 @@ namespace Oxygen
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
         { if( object ) data_.remove( object ); }
+
+        protected:
+
+        //! return timeLine associated to object for given subcontrol, if any
+        virtual TimeLine::Pointer timeLine( const QObject*, QStyle::SubControl );
 
         private:
 

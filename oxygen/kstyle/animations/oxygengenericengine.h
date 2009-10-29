@@ -66,8 +66,16 @@ namespace Oxygen
         //! register widget
         virtual bool registerWidget( QWidget*, unsigned int mode );
 
-        //! returns timeLine associated to widget
-        TimeLine::Pointer timeLine( const QObject*, AnimationMode );
+        //! true if widget is animated
+        virtual bool isAnimated( const QObject* object, AnimationMode mode )
+        { return (bool) timeLine( object, mode ); }
+
+        //! animation opacity
+        virtual qreal opacity( const QObject* object, AnimationMode mode )
+        {
+            TimeLine::Pointer timeLine( GenericEngine::timeLine( object, mode ) );
+            return timeLine ? timeLine->ratio() : -1;
+        }
 
         //! duration
         virtual void setEnabled( bool value )
@@ -104,6 +112,11 @@ namespace Oxygen
                 focusData_.remove( object );
             }
         }
+
+        protected:
+
+        //! returns timeLine associated to widget
+        TimeLine::Pointer timeLine( const QObject*, AnimationMode );
 
         private:
 

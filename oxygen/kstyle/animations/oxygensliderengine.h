@@ -33,15 +33,15 @@
 
 namespace Oxygen
 {
-    
+
     //! stores slider hovered action and timeLine
     class SliderEngine: public BaseEngine
     {
-        
+
         Q_OBJECT
-            
+
         public:
-            
+
         //! constructor
         SliderEngine( QObject* parent ):
         BaseEngine( parent )
@@ -54,8 +54,16 @@ namespace Oxygen
         //! register slider
         virtual bool registerWidget( QWidget* );
 
-        //! return timeLine associated to action at given position, if any
-        virtual TimeLine::Pointer timeLine( const QObject* );
+        //! true if widget is animated
+        virtual bool isAnimated( const QObject* object )
+        { return (bool) timeLine( object ); }
+
+        //! animation opacity
+        virtual qreal opacity( const QObject* object )
+        {
+            TimeLine::Pointer timeLine( SliderEngine::timeLine( object ) );
+            return timeLine ? timeLine->ratio() : -1;
+        }
 
         //! enability
         virtual void setEnabled( bool value )
@@ -83,6 +91,11 @@ namespace Oxygen
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
         { if( object ) data_.remove( object ); }
+
+        protected:
+
+        //! return timeLine associated to action at given position, if any
+        virtual TimeLine::Pointer timeLine( const QObject* );
 
         private:
 
