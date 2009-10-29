@@ -38,6 +38,7 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return false;
         if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, QPointer<HoverData>( new HoverData( this, widget, maxFrame(), duration() ) ) ); }
         if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, QPointer<FocusData>( new FocusData( this, widget, maxFrame(), duration() ) ) ); }
+        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, QPointer<EnableData>( new EnableData( this, widget, maxFrame(), duration() ) ) ); }
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
@@ -66,6 +67,13 @@ namespace Oxygen
             case AnimationFocus:
             {
                 if( QPointer<FocusData> data = focusData_.find( object ) )
+                { out = data->timeLine(); }
+                break;
+            }
+
+            case AnimationEnable:
+            {
+                if( QPointer<EnableData> data = enableData_.find( object ) )
                 { out = data->timeLine(); }
                 break;
             }

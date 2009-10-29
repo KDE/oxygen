@@ -62,6 +62,10 @@ namespace Oxygen
         bool registerWidget( QWidget* widget ) const;
 
         //! abstractButton engine
+        QPointer<GenericEngine> widgetEnabilityEngine( void ) const
+        { return widgetEnabilityEngine_; }
+
+        //! abstractButton engine
         QPointer<GenericEngine> abstractButtonEngine( void ) const
         { return abstractButtonEngine_; }
 
@@ -99,6 +103,9 @@ namespace Oxygen
         void setupEngines( void );
 
         private:
+
+        //! widget enability engine
+        GenericEngine* widgetEnabilityEngine_;
 
         //! abstract button engine
         GenericEngine* abstractButtonEngine_;

@@ -30,6 +30,7 @@
 #include "oxygenbaseengine.h"
 #include "oxygendatamap.h"
 #include "oxygenhoverdata.h"
+#include "oxygenenabledata.h"
 #include "oxygenfocusdata.h"
 
 
@@ -41,7 +42,8 @@ namespace Oxygen
     {
         AnimationNone = 0,
         AnimationHover = 1<<0,
-        AnimationFocus = 1<<1
+        AnimationFocus = 1<<1,
+        AnimationEnable = 1<<2
     };
 
     Q_DECLARE_FLAGS(AnimationModes, AnimationMode)
@@ -83,6 +85,7 @@ namespace Oxygen
             BaseEngine::setEnabled( value );
             hoverData_.setEnabled( value );
             focusData_.setEnabled( value );
+            enableData_.setEnabled( value );
         }
 
         //! duration
@@ -91,6 +94,7 @@ namespace Oxygen
             BaseEngine::setDuration( value );
             hoverData_.setDuration( value );
             focusData_.setDuration( value );
+            enableData_.setDuration( value );
         }
 
         //! max frame
@@ -99,6 +103,7 @@ namespace Oxygen
             BaseEngine::setMaxFrame( value );
             hoverData_.setMaxFrame( value );
             focusData_.setMaxFrame( value );
+            enableData_.setMaxFrame( value );
         }
 
         protected slots:
@@ -110,6 +115,7 @@ namespace Oxygen
             {
                 hoverData_.remove( object );
                 focusData_.remove( object );
+                enableData_.remove( object );
             }
         }
 
@@ -123,6 +129,7 @@ namespace Oxygen
         //! maps
         DataMap<HoverData> hoverData_;
         DataMap<FocusData> focusData_;
+        DataMap<EnableData> enableData_;
 
     };
 

@@ -36,6 +36,7 @@ namespace Oxygen
     //____________________________________________________________
     Animations::Animations( QObject* parent ):
         QObject( parent ),
+        widgetEnabilityEngine_( new GenericEngine( this ) ),
         abstractButtonEngine_( new GenericEngine( this ) ),
         toolBarEngine_( new GenericEngine( this ) ),
         lineEditEngine_( new GenericEngine( this ) ),
@@ -59,6 +60,7 @@ namespace Oxygen
         { engine->setMaxFrame( 500 ); }
 
         // enability
+        widgetEnabilityEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         abstractButtonEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         lineEditEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         scrollBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
@@ -70,6 +72,7 @@ namespace Oxygen
         toolBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::toolBarAnimationsEnabled() );
 
         // duration
+        widgetEnabilityEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         abstractButtonEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         lineEditEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         scrollBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
@@ -88,6 +91,8 @@ namespace Oxygen
 
         if( !widget ) return false;
 
+        widgetEnabilityEngine()->registerWidget( widget, AnimationEnable );
+
         // install animation timers
         // for optimization, one should put with most used widgets here first
         if( widget->inherits( "QToolButton" ) )
@@ -96,21 +101,38 @@ namespace Oxygen
             if( widget->parent() && widget->parent()->inherits( "QToolBar" ) ) return toolBarEngine()->registerWidget( widget, AnimationHover );
             else return abstractButtonEngine()->registerWidget( widget, AnimationHover );
 
-        } else if( widget->inherits( "QAbstractButton" ) ) { return abstractButtonEngine()->registerWidget( widget, AnimationHover ); }
+        } else if( widget->inherits( "QAbstractButton" ) ) {
+
+            return abstractButtonEngine()->registerWidget( widget, AnimationHover );
+
+        }
 
         // scrollbar
-        else if( widget->inherits( "QScrollBar" ) ) { return scrollBarEngine()->registerWidget( widget ); }
-        else if( widget->inherits( "QSlider" ) ) { return sliderEngine()->registerWidget( widget ); }
+        else if( widget->inherits( "QScrollBar" ) ) {
+
+            return scrollBarEngine()->registerWidget( widget );
+
+        } else if( widget->inherits( "QSlider" ) ) {
+
+            return sliderEngine()->registerWidget( widget );
+
+        }
 
         // menu
-        else if( widget->inherits( "QMenu" ) ) return menuEngine()->registerWidget( widget );
+        else if( widget->inherits( "QMenu" ) ) { return menuEngine()->registerWidget( widget ); }
         else if( widget->inherits( "QMenuBar" ) ) { return menuBarEngine()->registerWidget( widget ); }
         else if( widget->inherits( "QTabBar" ) ) { return tabBarEngine()->registerWidget( widget ); }
 
         // editors
-        else if( widget->inherits( "QComboBox" ) ) { return lineEditEngine()->registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( widget->inherits( "QSpinBox" ) ) { return lineEditEngine()->registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( widget->inherits( "QLineEdit" ) ) { return lineEditEngine()->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QComboBox" ) ) {
+
+            return lineEditEngine()->registerWidget( widget, AnimationHover|AnimationFocus );
+
+        } else if( widget->inherits( "QSpinBox" ) ) {
+
+            return lineEditEngine()->registerWidget( widget, AnimationHover|AnimationFocus );
+
+        } else if( widget->inherits( "QLineEdit" ) ) { return lineEditEngine()->registerWidget( widget, AnimationHover|AnimationFocus ); }
         else if( widget->inherits( "QTextEdit" ) ) { return lineEditEngine()->registerWidget( widget, AnimationFocus ); }
 
         // lists
