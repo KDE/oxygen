@@ -62,40 +62,40 @@ namespace Oxygen
         bool registerWidget( QWidget* widget ) const;
 
         //! abstractButton engine
-        QPointer<GenericEngine> widgetEnabilityEngine( void ) const
-        { return widgetEnabilityEngine_; }
+        GenericEngine& widgetEnabilityEngine( void ) const
+        { return *widgetEnabilityEngine_; }
 
         //! abstractButton engine
-        QPointer<GenericEngine> abstractButtonEngine( void ) const
-        { return abstractButtonEngine_; }
+        GenericEngine& abstractButtonEngine( void ) const
+        { return *abstractButtonEngine_; }
 
         //! abstractButton engine
-        QPointer<GenericEngine> toolBarEngine( void ) const
-        { return toolBarEngine_; }
+        GenericEngine& toolBarEngine( void ) const
+        { return *toolBarEngine_; }
 
         //! abstractButton engine
-        QPointer<GenericEngine> lineEditEngine( void ) const
-        { return lineEditEngine_; }
+        GenericEngine& lineEditEngine( void ) const
+        { return *lineEditEngine_; }
 
         //! menubar engine
-        QPointer<MenuBarBaseEngine> menuBarEngine( void ) const
-        { return menuBarEngine_; }
+        MenuBarBaseEngine& menuBarEngine( void ) const
+        { return *menuBarEngine_; }
 
         //! menu engine
-        QPointer<MenuBaseEngine> menuEngine( void ) const
-        { return menuEngine_; }
+        MenuBaseEngine& menuEngine( void ) const
+        { return *menuEngine_; }
 
         //! abstractButton engine
-        QPointer<ScrollBarEngine> scrollBarEngine( void ) const
-        { return scrollBarEngine_; }
+        ScrollBarEngine& scrollBarEngine( void ) const
+        { return *scrollBarEngine_; }
 
         //! abstractButton engine
-        QPointer<SliderEngine> sliderEngine( void ) const
-        { return sliderEngine_; }
+        SliderEngine& sliderEngine( void ) const
+        { return *sliderEngine_; }
 
         //! tabbar
-        QPointer<TabBarEngine> tabBarEngine( void ) const
-        { return tabBarEngine_; }
+        TabBarEngine& tabBarEngine( void ) const
+        { return *tabBarEngine_; }
 
         public slots:
 

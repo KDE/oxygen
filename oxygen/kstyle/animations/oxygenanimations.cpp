@@ -91,52 +91,52 @@ namespace Oxygen
 
         if( !widget ) return false;
 
-        widgetEnabilityEngine()->registerWidget( widget, AnimationEnable );
+        widgetEnabilityEngine().registerWidget( widget, AnimationEnable );
 
         // install animation timers
         // for optimization, one should put with most used widgets here first
         if( widget->inherits( "QToolButton" ) )
         {
 
-            if( widget->parent() && widget->parent()->inherits( "QToolBar" ) ) return toolBarEngine()->registerWidget( widget, AnimationHover );
-            else return abstractButtonEngine()->registerWidget( widget, AnimationHover );
+            if( widget->parent() && widget->parent()->inherits( "QToolBar" ) ) return toolBarEngine().registerWidget( widget, AnimationHover );
+            else return abstractButtonEngine().registerWidget( widget, AnimationHover );
 
         } else if( widget->inherits( "QAbstractButton" ) ) {
 
-            return abstractButtonEngine()->registerWidget( widget, AnimationHover );
+            return abstractButtonEngine().registerWidget( widget, AnimationHover );
 
         }
 
         // scrollbar
         else if( widget->inherits( "QScrollBar" ) ) {
 
-            return scrollBarEngine()->registerWidget( widget );
+            return scrollBarEngine().registerWidget( widget );
 
         } else if( widget->inherits( "QSlider" ) ) {
 
-            return sliderEngine()->registerWidget( widget );
+            return sliderEngine().registerWidget( widget );
 
         }
 
         // menu
-        else if( widget->inherits( "QMenu" ) ) { return menuEngine()->registerWidget( widget ); }
-        else if( widget->inherits( "QMenuBar" ) ) { return menuBarEngine()->registerWidget( widget ); }
-        else if( widget->inherits( "QTabBar" ) ) { return tabBarEngine()->registerWidget( widget ); }
+        else if( widget->inherits( "QMenu" ) ) { return menuEngine().registerWidget( widget ); }
+        else if( widget->inherits( "QMenuBar" ) ) { return menuBarEngine().registerWidget( widget ); }
+        else if( widget->inherits( "QTabBar" ) ) { return tabBarEngine().registerWidget( widget ); }
 
         // editors
         else if( widget->inherits( "QComboBox" ) ) {
 
-            return lineEditEngine()->registerWidget( widget, AnimationHover|AnimationFocus );
+            return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
         } else if( widget->inherits( "QSpinBox" ) ) {
 
-            return lineEditEngine()->registerWidget( widget, AnimationHover|AnimationFocus );
+            return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
-        } else if( widget->inherits( "QLineEdit" ) ) { return lineEditEngine()->registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( widget->inherits( "QTextEdit" ) ) { return lineEditEngine()->registerWidget( widget, AnimationFocus ); }
+        } else if( widget->inherits( "QLineEdit" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QTextEdit" ) ) { return lineEditEngine().registerWidget( widget, AnimationFocus ); }
 
         // lists
-        else if( widget->inherits( "QAbstractItemView" ) ) { return lineEditEngine()->registerWidget( widget, AnimationFocus ); }
+        else if( widget->inherits( "QAbstractItemView" ) ) { return lineEditEngine().registerWidget( widget, AnimationFocus ); }
 
         return false;
 
