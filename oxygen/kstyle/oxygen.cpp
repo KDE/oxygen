@@ -42,6 +42,7 @@
 
 #include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
+#include <QtGui/QGraphicsView>
 #include <QtGui/QMenuBar>
 #include <QtGui/QProgressBar>
 #include <QtGui/QPushButton>
@@ -389,7 +390,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
             return QCommonStyle::drawControl( element, option, p, widget);
         }
 
-        default:  break;
+        default: break;
     }
     KStyle::drawControl(element, option, p, widget);
 }
@@ -3837,8 +3838,9 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
         highlight.setColorAt(0.75, _helper.alphaColor(light, 0.1));
         highlight.setColorAt(0.9, Qt::transparent);
 
-    } else { // inactive
+    } else {
 
+        // inactive
         highlight.setColorAt(0.0, _helper.alphaColor(light, 0.1));
         highlight.setColorAt(0.4, _helper.alphaColor(dark, 0.5));
         highlight.setColorAt(0.8, _helper.alphaColor(dark, 0.4));
@@ -3871,9 +3873,15 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option, const QW
         {
             const QStyleOptionRubberBand *opt = qstyleoption_cast<const QStyleOptionRubberBand *>(option);
             if (!opt) return false;
-            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>(returnData)) {
+            if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>(returnData))
+            {
+
                 mask->region = option->rect;
+                if( !( widget && qobject_cast<const QGraphicsView*>( widget->parent() ) ) )
+                { mask->region -= option->rect.adjusted(1,1,-1,-1); }
+
                 return true;
+
             }
             return false;
         }
@@ -3912,28 +3920,25 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option, const QW
     }
 }
 
+//______________________________________________________________________________________________________________________________
 int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const
 {
     switch(m) {
         case PM_DefaultTopLevelMargin: return 11;
-
         case PM_DefaultChildMargin: return 4; // qcommon is 9;
-
         case PM_DefaultLayoutSpacing: return 4; // qcommon is 6
-
-        case PM_ButtonMargin:
-            return 5;
+        case PM_ButtonMargin: return 5;
 
         case PM_DefaultFrameWidth:
             if (qobject_cast<const QLineEdit*>(widget)) return 4;
             if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget)) return 3;
             //else fall through
-        default:
-            return KStyle::pixelMetric(m,opt,widget);
+
+        default: return KStyle::pixelMetric(m,opt,widget);
     }
 }
 
-#include <KTabBar>
+//______________________________________________________________________________________________________________________________
 QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const
 {
     switch(type)
@@ -3972,7 +3977,9 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
             // (PM_MenuButtonIndicator) into the width. So we may have to take it out, fix things
             // up, and add it back in. So much for class-independent rendering...
             int   menuAreaWidth = 0;
-            if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option)) {
+            if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option))
+            {
+
                 if (tbOpt->features & QStyleOptionToolButton::MenuButtonPopup)
                 {
 
@@ -3983,6 +3990,7 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
                     size.setWidth(size.width() + widgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, tbOpt, widget));
 
                 }
+
             }
             size.setWidth(size.width() - menuAreaWidth);
             if (size.width() < size.height())
@@ -4023,6 +4031,7 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
     return KStyle::sizeFromContents(type, option, contentsSize, widget);
 }
 
+//______________________________________________________________________________________________________________________________
 QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget) const
 {
     QRect r = option->rect;
@@ -4107,6 +4116,7 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
     return KStyle::subControlRect(control, option, subControl, widget);
 }
 
+//______________________________________________________________________________________________________________________________
 QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const QWidget *widget) const
 {
     QRect r;
@@ -4145,7 +4155,6 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
         }
 
         return  QCommonStyle::subElementRect(sr, opt, widget).adjusted( 6, 0, -6, 0 ).translated( 0, voffset );
-
 
     }
 
