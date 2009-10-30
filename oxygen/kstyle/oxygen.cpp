@@ -4140,12 +4140,12 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                 case QTabBar::TriangularWest:
                 case QTabBar::RoundedNorth:
                 case QTabBar::TriangularNorth:
-                voffset = ( opt->state & State_Selected ) ? 0:1;
+                voffset = ( opt->state & State_Selected ) ? -1:0;
                 break;
 
                 case QTabBar::RoundedSouth:
                 case QTabBar::TriangularSouth:
-                voffset = ( opt->state & State_Selected ) ? 0:-1;
+                voffset = ( opt->state & State_Selected ) ? 1:0;
                 break;
 
                 default: break;
