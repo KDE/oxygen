@@ -43,6 +43,8 @@ public:
 
     QCache<quint64, QPixmap> m_roundSlabCache;
     QCache<quint64, TileSet> m_slabCache;
+    QCache<quint64, TileSet> m_shadowCache;
+    QCache<quint64, TileSet> m_outerGlowCache;
 };
 
 // WARNING - OxygenHelper must be a K_GLOBAL_STATIC!
@@ -70,7 +72,7 @@ public:
 
     static bool lowThreshold(const QColor &color);
 
-    static QColor alphaColor(QColor color, double alpha);
+    static QColor alphaColor(QColor color, qreal alpha);
 
     virtual QColor calcLightColor(const QColor &color) const;
     virtual QColor calcDarkColor(const QColor &color) const;
@@ -85,7 +87,8 @@ public:
     virtual QPixmap verticalGradient(const QColor &color, int height);
     virtual QPixmap radialGradient(const QColor &color, int width, int height = 64);
 
-    virtual QLinearGradient decoGradient(const QRect &r, const QColor &color);
+    //! merge background and front color for check marks, arrows, etc. using _contrast
+    virtual QColor decoColor(const QColor &background, const QColor &color) const;
 
     virtual QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
     virtual QPixmap windecoButtonGlow(const QColor &color, int size = 21);
@@ -107,16 +110,19 @@ public:
 
     virtual void drawSeparator(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation) const;
 
-    virtual TileSet *slab(const QColor&, double shade, int size = 7);
+    virtual TileSet *slab(const QColor&, qreal shade, int size = 7);
+    virtual TileSet *shadow(const QColor&, int size = 7);
+    virtual TileSet *outerGlow(const QColor&, int size = 7);
 
     protected:
+    virtual void drawSlab(QPainter&, const QColor&, qreal shade) const;
     virtual void drawShadow(QPainter&, const QColor&, int size) const;
-    virtual void drawSlab(QPainter&, const QColor&, double shade) const;
-    virtual SlabCache* slabCache(const QColor&);
-    static QPixmap glow(const QColor&, int size, int rsize);
+    virtual void drawOuterGlow(QPainter&, const QColor&, int size) const;
 
-    static const double _slabThickness;
-    static const double _shadowGain;
+    virtual SlabCache* slabCache(const QColor&);
+
+    static const qreal _slabThickness;
+    static const qreal _shadowGain;
 
     KComponentData _componentData;
     KSharedConfigPtr _config;

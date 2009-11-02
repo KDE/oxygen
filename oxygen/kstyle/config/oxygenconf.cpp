@@ -59,33 +59,64 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     _toolBarDrawItemSeparator->setChecked( OxygenStyleConfigData::toolBarDrawItemSeparator() );
     _checkDrawX->setChecked( OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_X );
     _viewDrawTriangularExpander->setChecked( OxygenStyleConfigData::viewDrawTriangularExpander() );
+    _viewDrawFocusIndicator->setChecked( OxygenStyleConfigData::viewDrawFocusIndicator() );
     _viewDrawTreeBranchLines->setChecked(OxygenStyleConfigData::viewDrawTreeBranchLines() );
-    _scrollBarWidth->setValue( qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH,
-                                OxygenStyleConfigData::scrollBarWidth())) );
-    _scrollBarColored->setChecked( OxygenStyleConfigData::scrollBarColored() );
-    _menuHighlightDark->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK );
-    _menuHighlightStrong->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG
-                                   || OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
-    _menuHighlightSubtle->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
-    _menuHighlightSubtle->setEnabled( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG
-                                   || OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
-    _tabStyle->setCurrentIndex( OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_SINGLE ? 0 :
-                                OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_PLAIN ? 1 :
-                                0);
 
+    _scrollBarWidth->setValue(
+        qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH,
+        OxygenStyleConfigData::scrollBarWidth())) );
+    _scrollBarColored->setChecked( OxygenStyleConfigData::scrollBarColored() );
+    _scrollBarBevel->setChecked( OxygenStyleConfigData::scrollBarBevel() );
+
+    _menuHighlightDark->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK );
+
+    _menuHighlightStrong->setChecked(
+        OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG
+        || OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
+
+    _menuHighlightSubtle->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
+
+    _menuHighlightSubtle->setEnabled(
+        OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG
+        || OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
+
+    _tabStyle->setCurrentIndex(
+        OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_SINGLE ? 0 :
+        OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_PLAIN ? 1 :
+        0);
+
+    connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _genericAnimationsEnabled, SLOT( setEnabled( bool) ) );
+    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _toolBarAnimationsEnabled, SLOT( setEnabled( bool) ) );
+    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _menuBarAnimationsEnabled, SLOT( setEnabled( bool) ) );
+    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _menuAnimationsEnabled, SLOT( setEnabled( bool) ) );
+
+    _animationsEnabled->setChecked( OxygenStyleConfigData::animationsEnabled() );
+    _genericAnimationsEnabled->setChecked( OxygenStyleConfigData::genericAnimationsEnabled() );
+    _toolBarAnimationsEnabled->setChecked( OxygenStyleConfigData::toolBarAnimationsEnabled() );
+    _menuBarAnimationsEnabled->setChecked( OxygenStyleConfigData::menuBarAnimationsEnabled() );
+    _menuAnimationsEnabled->setChecked( OxygenStyleConfigData::menuAnimationsEnabled() );
 
     /* Stop 4: Emit a signal on changes */
     connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _checkDrawX, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _viewDrawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _viewDrawFocusIndicator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _viewDrawTreeBranchLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _scrollBarColored, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _scrollBarBevel, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _scrollBarWidth, SIGNAL( valueChanged(int) ), SLOT( updateChanged() ) );
     connect( _menuHighlightDark, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _menuHighlightStrong, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _menuHighlightSubtle, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _tabStyle, SIGNAL( currentIndexChanged( int )), SLOT( updateChanged() ) );
-}
+
+    connect( _genericAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _toolBarAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _menuBarAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _menuAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+
+ }
 
 OxygenStyleConfig::~OxygenStyleConfig()
 {
@@ -97,11 +128,19 @@ void OxygenStyleConfig::save()
     OxygenStyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
     OxygenStyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK ) );
     OxygenStyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
+    OxygenStyleConfigData::setViewDrawFocusIndicator( _viewDrawFocusIndicator->isChecked() );
     OxygenStyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
     OxygenStyleConfigData::setScrollBarColored( _scrollBarColored->isChecked() );
+    OxygenStyleConfigData::setScrollBarBevel( _scrollBarBevel->isChecked() );
     OxygenStyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
     OxygenStyleConfigData::setMenuHighlightMode( menuMode() );
     OxygenStyleConfigData::setTabStyle( tabStyle() );
+
+    OxygenStyleConfigData::setAnimationsEnabled( _animationsEnabled->isChecked() );
+    OxygenStyleConfigData::setGenericAnimationsEnabled( _genericAnimationsEnabled->isChecked() );
+    OxygenStyleConfigData::setToolBarAnimationsEnabled( _toolBarAnimationsEnabled->isChecked() );
+    OxygenStyleConfigData::setMenuBarAnimationsEnabled( _menuBarAnimationsEnabled->isChecked() );
+    OxygenStyleConfigData::setMenuAnimationsEnabled( _menuAnimationsEnabled->isChecked() );
 
     OxygenStyleConfigData::self()->writeConfig();
 }
@@ -112,12 +151,22 @@ void OxygenStyleConfig::defaults()
     _toolBarDrawItemSeparator->setChecked(true);
     _checkDrawX->setChecked(false);
     _viewDrawTriangularExpander->setChecked(false);
+    _viewDrawFocusIndicator->setChecked(true);
     _viewDrawTreeBranchLines->setChecked(true);
     _scrollBarColored->setChecked(false);
+    _scrollBarBevel->setChecked(true);
     _scrollBarWidth->setValue(SCROLLBAR_DEFAULT_WIDTH);
     _menuHighlightSubtle->setChecked(false);
     _menuHighlightDark->setChecked(true);
     _tabStyle->setCurrentIndex(0);
+
+
+     _animationsEnabled->setChecked( true );
+     _genericAnimationsEnabled->setChecked( true );
+     _toolBarAnimationsEnabled->setChecked( true );
+     _menuBarAnimationsEnabled->setChecked( false );
+     _menuAnimationsEnabled->setChecked( false );
+
     //updateChanged would be done by setChecked already
 }
 
@@ -127,12 +176,19 @@ void OxygenStyleConfig::updateChanged()
     if (
         (_toolBarDrawItemSeparator->isChecked() == OxygenStyleConfigData::toolBarDrawItemSeparator())
         && (_viewDrawTriangularExpander->isChecked() == OxygenStyleConfigData::viewDrawTriangularExpander())
+        && (_viewDrawFocusIndicator->isChecked() == OxygenStyleConfigData::viewDrawFocusIndicator())
         && (_viewDrawTreeBranchLines->isChecked() == OxygenStyleConfigData::viewDrawTreeBranchLines())
         && (_scrollBarColored->isChecked() == OxygenStyleConfigData::scrollBarColored())
+        && (_scrollBarBevel->isChecked() == OxygenStyleConfigData::scrollBarBevel())
         && (_scrollBarWidth->value() == OxygenStyleConfigData::scrollBarWidth())
         && ((_checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK) == OxygenStyleConfigData::checkBoxStyle())
         && (menuMode() == OxygenStyleConfigData::menuHighlightMode())
         && (tabStyle() == OxygenStyleConfigData::tabStyle())
+        && (_animationsEnabled->isChecked() == OxygenStyleConfigData::animationsEnabled() )
+        && (_genericAnimationsEnabled->isChecked() == OxygenStyleConfigData::genericAnimationsEnabled() )
+        && (_toolBarAnimationsEnabled->isChecked() == OxygenStyleConfigData::toolBarAnimationsEnabled() )
+        && (_menuBarAnimationsEnabled->isChecked() == OxygenStyleConfigData::menuBarAnimationsEnabled() )
+        && (_menuAnimationsEnabled->isChecked() == OxygenStyleConfigData::menuAnimationsEnabled() )
         )
         emit changed(false);
     else

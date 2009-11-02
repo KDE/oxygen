@@ -31,8 +31,8 @@
 
 #include <math.h>
 
-const double OxygenHelper::_slabThickness = 0.45; //TODO: configurable?
-const double OxygenHelper::_shadowGain = 1.5;
+const qreal OxygenHelper::_slabThickness = 0.45; //TODO: configurable?
+const qreal OxygenHelper::_shadowGain = 1.5;
 
 // NOTE: OxygenStyleHelper needs to use a KConfig from its own KComponentData
 // Since the ctor order causes a SEGV if we try to pass in a KConfig here from
@@ -57,7 +57,7 @@ KSharedConfigPtr OxygenHelper::config() const
 
 void OxygenHelper::reloadConfig()
 {
-    double old_contrast = _contrast;
+    qreal old_contrast = _contrast;
 
     _config->reparseConfiguration();
     _contrast = KGlobalSettings::contrastF(_config);
@@ -121,7 +121,7 @@ bool OxygenHelper::lowThreshold(const QColor &color)
     return KColorUtils::luma(darker) > KColorUtils::luma(color);
 }
 
-QColor OxygenHelper::alphaColor(QColor color, double alpha)
+QColor OxygenHelper::alphaColor(QColor color, qreal alpha)
 {
     if (alpha >= 1.0)
         return color;
@@ -151,7 +151,7 @@ QColor OxygenHelper::backgroundBottomColor(const QColor &color) const
     if (lowThreshold(color))
         return midColor;
 
-    double by = KColorUtils::luma(color), my = KColorUtils::luma(midColor);
+    qreal by = KColorUtils::luma(color), my = KColorUtils::luma(midColor);
     return KColorUtils::shade(color, (my - by) * _bgcontrast);
 }
 
@@ -177,13 +177,13 @@ QColor OxygenHelper::calcShadowColor(const QColor &color) const
 
 QColor OxygenHelper::backgroundColor(const QColor &color, int height, int y)
 {
-    double h = height * 0.5;
+    qreal h = height * 0.5;
     if (y > height>>1) {
-        double a = double(y) / h;
+        qreal a = qreal(y) / h;
         return KColorUtils::mix(backgroundTopColor(color), color, a);
     }
     else {
-        double a = (double(y) - h) / h;
+        qreal a = (qreal(y) - h) / h;
         return KColorUtils::mix(color, backgroundBottomColor(color), a);
     }
 }
@@ -248,51 +248,9 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width, int height)
     return *pixmap;
 }
 
-void OxygenHelper::drawShadow(QPainter &p, const QColor &color, int size) const
-{
-    double m = double(size-2)*0.5;
-
-    const double offset = 0.8;
-    double k0 = (m-4.0) / m;
-    QRadialGradient shadowGradient(m+1.0, m+offset+1.0, m);
-    for (int i = 0; i < 8; i++) { // sinusoidal gradient
-        double k1 = (k0 * double(8 - i) + double(i)) * 0.125;
-        double a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
-        shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
-    }
-    shadowGradient.setColorAt(1.0, alphaColor(color, 0.0));
-    p.setBrush(shadowGradient);
-    p.drawEllipse(QRectF(0, 0, size, size));
-}
-
-QLinearGradient OxygenHelper::decoGradient(const QRect &r, const QColor &color)
-{
-    QColor light = KColorScheme::shade(color, KColorScheme::LightShade, _contrast * 0.7);
-    QColor dark = KColorScheme::shade(color, KColorScheme::DarkShade, _contrast * 0.7);
-    double y = KColorUtils::luma(color);
-    double yd = KColorUtils::luma(dark);
-    double yl = KColorUtils::luma(light);
-
-    QLinearGradient gradient(r.topLeft(), r.bottomLeft());
-    if (yd > y)
-    {
-        gradient.setColorAt(0.2, color);
-        gradient.setColorAt(0.8, dark);
-    }
-    else if (yl < y)
-    {
-        gradient.setColorAt(0.2, light);
-        gradient.setColorAt(0.8, color);
-    }
-    else
-    {
-        gradient.setColorAt(0.2, dark);
-        gradient.setColorAt(0.5, color);
-        gradient.setColorAt(0.8, light);
-    }
-
-    return gradient;
-}
+//____________________________________________________________________________________
+QColor OxygenHelper::decoColor(const QColor& background, const QColor &color) const
+{ return KColorUtils::mix( background, color, _contrast*1.2 ); }
 
 //______________________________________________________________________________
 QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
@@ -311,7 +269,7 @@ QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        double u = size/18.0;
+        qreal u = size/18.0;
         p.translate( 0.5*u, (0.5-0.668)*u );
 
         {
@@ -367,7 +325,7 @@ QPixmap OxygenHelper::windecoButtonGlow(const QColor &color, int size)
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        double u = size/18.0;
+        qreal u = size/18.0;
         p.translate( 0.5*u, (0.5-0.668)*u );
 
         {
@@ -442,45 +400,7 @@ QRegion OxygenHelper::roundedMask( const QRect& r, int left, int right, int top,
     return mask;
 }
 
-//_______________________________________________________________________
-QPixmap OxygenHelper::glow(const QColor &color, int size, int rsize)
-{
-    QPixmap pixmap(rsize, rsize);
-    pixmap.fill(QColor(0,0,0,0));
-
-    QPainter p(&pixmap);
-    p.setRenderHints(QPainter::Antialiasing);
-    p.setPen(Qt::NoPen);
-    p.setWindow(0,0,size,size);
-
-    QRectF r(0, 0, size, size);
-    double m = double(size)*0.5;
-
-    const double width = 3.0;
-    const double bias = _glowBias * double(size) / double(rsize);
-    double k0 = (m-width+bias) / m;
-    QRadialGradient glowGradient(m, m, m);
-    for (int i = 0; i < 8; i++) { // inverse parabolic gradient
-        double k1 = (k0 * double(8 - i) + double(i)) * 0.125;
-        double a = 1.0 - sqrt(i * 0.125);
-        glowGradient.setColorAt(k1, alphaColor(color, a));
-    }
-    glowGradient.setColorAt(1.0, alphaColor(color, 0.0));
-
-    // glow
-    p.setBrush(glowGradient);
-    p.drawEllipse(r);
-
-    // mask
-    p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-    p.setBrush(QBrush(Qt::black));
-    p.drawEllipse(r.adjusted(width, width, -width, -width));
-
-    p.end();
-
-    return pixmap;
-}
-
+//______________________________________________________________________
 void OxygenHelper::drawFloatFrame(
     QPainter *p, const QRect r,
     const QColor &color,
@@ -592,6 +512,7 @@ void OxygenHelper::drawFloatFrame(
 
 }
 
+//______________________________________________________________________________________
 void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &color, Qt::Orientation orientation) const
 {
     QColor light = calcLightColor(color);
@@ -646,8 +567,8 @@ void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &c
     p->restore();
 }
 
-
-TileSet *OxygenHelper::slab(const QColor &color, double shade, int size)
+//________________________________________________________________________________________________________
+TileSet *OxygenHelper::slab(const QColor &color, qreal shade, int size)
 {
     SlabCache *cache = slabCache(color);
     quint64 key = (int)(256.0 * shade) << 24 | size;
@@ -656,7 +577,7 @@ TileSet *OxygenHelper::slab(const QColor &color, double shade, int size)
     if (!tileSet)
     {
         QPixmap pixmap(size*2, size*2);
-        pixmap.fill(QColor(0,0,0,0));
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
@@ -678,7 +599,64 @@ TileSet *OxygenHelper::slab(const QColor &color, double shade, int size)
     return tileSet;
 }
 
-void OxygenHelper::drawSlab(QPainter &p, const QColor &color, double shade) const
+//________________________________________________________________________________________________________
+TileSet *OxygenHelper::shadow(const QColor &color, int size)
+{
+    SlabCache *cache = slabCache(color);
+    quint64 key = size;
+    TileSet *tileSet = cache->m_shadowCache.object(key);
+
+    if (!tileSet)
+    {
+        QPixmap pixmap(size*2, size*2);
+        pixmap.fill(QColor(Qt::transparent));
+
+        QPainter p(&pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(0,0,14,14);
+
+        // shadow
+        drawShadow(p, calcShadowColor(color), 14);
+        p.end();
+
+        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
+
+        cache->m_shadowCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+//________________________________________________________________________________________________________
+TileSet *OxygenHelper::outerGlow(const QColor &color, int size)
+{
+    SlabCache *cache = slabCache(color);
+    quint64 key = size;
+    TileSet *tileSet = cache->m_outerGlowCache.object(key);
+
+    if (!tileSet)
+    {
+        QPixmap pixmap(size*2, size*2);
+        pixmap.fill(QColor(Qt::transparent));
+
+        QPainter p(&pixmap);
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow(0,0,14,14);
+
+        // shadow
+        drawOuterGlow(p, color, 14);
+        p.end();
+
+        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
+
+        cache->m_outerGlowCache.insert(key, tileSet);
+    }
+    return tileSet;
+}
+
+//______________________________________________________________________________________
+void OxygenHelper::drawSlab(QPainter &p, const QColor &color, qreal shade) const
 {
     QColor base = KColorUtils::shade(color, shade);
     QColor light = KColorUtils::shade(calcLightColor(color), shade);
@@ -708,11 +686,58 @@ void OxygenHelper::drawSlab(QPainter &p, const QColor &color, double shade) cons
     // inside mask
     p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
     p.setBrush(QBrush(Qt::black));
-    double ic = 3.6 + _slabThickness;
-    double is = 6.8 - (2.0*_slabThickness);
+
+    qreal ic = 3.6 + 0.5*_slabThickness;
+    qreal is = 6.8 - (2.0*0.5*_slabThickness);
     p.drawEllipse(QRectF(ic, ic, is, is));
+
 }
 
+//___________________________________________________________________________________________
+void OxygenHelper::drawShadow(QPainter &p, const QColor &color, int size) const
+{
+    qreal m = qreal(size-2)*0.5;
+
+    const qreal offset = 0.8;
+    qreal k0 = (m-4.0) / m;
+    QRadialGradient shadowGradient(m+1.0, m+offset+1.0, m);
+    for (int i = 0; i < 8; i++) { // sinusoidal gradient
+        qreal k1 = (k0 * qreal(8 - i) + qreal(i)) * 0.125;
+        qreal a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
+        shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
+    }
+    shadowGradient.setColorAt(1.0, alphaColor(color, 0.0));
+    p.setBrush(shadowGradient);
+    p.drawEllipse(QRectF(0, 0, size, size));
+
+}
+
+//_______________________________________________________________________
+void OxygenHelper::drawOuterGlow( QPainter &p, const QColor &color, int size) const
+{
+
+    const QRectF r(0, 0, size, size);
+    const qreal m = qreal(size)*0.5;
+
+    QRadialGradient glowGradient(m, m, m);
+    glowGradient.setColorAt(1.0 - (1.0-0.67)*14.0/size, alphaColor( color, 240.0/255.0 ) );
+    glowGradient.setColorAt(1.0 - (1.0-0.83)*14.0/size, alphaColor( color, 15/255.0 ) );
+    glowGradient.setColorAt(1.0 - (1.0-0.98)*14.0/size, alphaColor( color, 10/255 ) );
+    glowGradient.setColorAt(1.0, Qt::transparent );
+
+    // glow
+    p.setBrush(glowGradient);
+    p.drawEllipse(r);
+
+    // inside mask
+    p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+    p.setBrush(QBrush(Qt::black));
+    qreal width( 3 );
+    p.drawEllipse(r.adjusted(width, width, -width, -width));
+
+}
+
+//___________________________________________________________________________________________
 SlabCache* OxygenHelper::slabCache(const QColor &color)
 {
     quint64 key = (quint64(color.rgba()) << 32);

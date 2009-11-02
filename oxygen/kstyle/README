@@ -1,0 +1,44 @@
+oxygen-style-animated is a branch of trunk/KDE/kdebase/runtime/kstyles/oxygen that introduces smooth animations for the oxygen widget style.
+
+The code is organized as follow:
+--------------------------------
+
+oxygen.h and .cpp take derive from KStyle and take care of all the painting.
+
+Animation code is contained in the animations subdirectory.
+
+For each element (e.g. QScrollBar) to be animated there are two classes:
+
+- oxygenscrollbardata: contains the needed information, objects to animate a give QScrollBar instance. This usually consist of one or two QTimeLine, an event filter, and some needed flags + geometrical information.
+
+- oxygenscrollbarengine: contains the list of all Data objects registered for each new instance of the widget that is animated.
+This is used by the style to get the relevant data matching a given widget when painting the later.
+
+Additionaly, a "factory" class, oxygenanimations, keeps track of all the engines and engine setup. It serves as an interfact between the animations and the KStyle painting primitives.
+
+How the informations contained by the Data is used to animate a given widget is used in the oxygen KSTyle class. 
+
+Remark on the use of QTimeLine: it was decided to use QTimeLine rather than e.g. QPropertyAnimation to animate the widgets because KStyle is really a question of painting primitives, and one could not subclass the existing widgets to define (efficiently) the required properties. So that the animations are really kept "outside" of the widgets (by means of the engine.)
+
+
+Configuration
+-------------
+
+A number of options have been added to oxygen.kcfg to handle the animation configurations. They are:
+
+AnimationsEnabled (true): enable/disable all animations as a whole
+
+GenericAnimationsEnabled (true): enable/disable "generic" animations (the one we would like to have turned on by default, such as button/scrollbar/slider/lineEditor hover highlight
+
+ToolBarAnimationsEnabled (true): enable/disable toolbuttons animations when stored in a toolbar. It is kept separated from "generic" because there are plans to use more fancy animations in the future to handle the "hover" rect, rather than the current fade-in/fade-out effect.
+
+MenuBarAnimationsEnabled (false): controls fade-in/fade-out effect in MenuBar: this animations does not look so attractive and is disabled by default. There are plans to use a more fancy one ("hover rect follow mouse") in the future.
+
+MenuAnimationsEnabled (false): controls fade-in/fade-out effect in MenuBar: this animations does not look so attractive and is disabled by default. There are plans to use a more fancy one ("hover rect follow mouse") in the future.
+
+GenericAnimationsDuration (150 ms)
+ToolBarAnimationsDuration (150 ms)
+MenuBarAnimationsDuration (100 ms)
+MenuAnimationsDuration (100 ms)
+These are the durations of the animations.
+These are "hidden" options, meaning that they can be tweaked in the oxygenrc file, but are not visible in the oxygen configuration file.

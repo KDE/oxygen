@@ -1,3 +1,6 @@
+#ifndef oxygen_style_helper_h
+#define oxygen_style_helper_h
+
 /*
  * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
  * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
@@ -18,9 +21,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef __OXYGEN_STYLE_HELPER_H
-#define __OXYGEN_STYLE_HELPER_H
-
 #include "lib/helper.h"
 
 class OxygenStyleHelper : public OxygenHelper
@@ -39,33 +39,35 @@ public:
     static void fillSlab(QPainter&, const QRect&, int size = 7);
     static void fillHole(QPainter&, const QRect&, int size = 7);
 
-    QPixmap  roundSlab(const QColor&, double shade, int size = 7);
-    QPixmap  roundSlabFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
+    QPixmap  roundSlab(const QColor&, qreal shade, int size = 7);
+    QPixmap  roundSlabFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
 
     // TODO - need to rebase scrollbars to size=7
     TileSet *roundCorner(const QColor&, int size = 5);
-    TileSet *slabFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
-    TileSet *slabSunken(const QColor&, double shade, int size = 7);
-    TileSet *slabInverted(const QColor&, double shade, int size = 7);
+    TileSet *slabFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
+    TileSet *slabSunken(const QColor&, qreal shade, int size = 7);
+    TileSet *slabInverted(const QColor&, qreal shade, int size = 7);
 
-    TileSet *slope(const QColor&, double shade, int size = 7);
+    TileSet *slope(const QColor&, qreal shade, int size = 7);
 
-    TileSet *hole(const QColor&, double shade, int size = 7);
-    TileSet *holeFlat(const QColor&, double shade, int size = 7);
-    TileSet *holeFocused(const QColor&, const QColor &glowColor, double shade, int size = 7);
+    TileSet *hole(const QColor&, qreal shade, int size = 7);
+    TileSet *holeFlat(const QColor&, qreal shade, int size = 7);
+    TileSet *holeFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
 
-    TileSet *groove(const QColor&, double shade, int size = 7);
+    TileSet *groove(const QColor&, qreal shade, int size = 7);
 
     TileSet *slitFocused(const QColor&);
 
     TileSet *dockFrame(const QColor&, int size);
     TileSet *scrollHole(const QColor&, Qt::Orientation orientation);
 
+    QPalette mergePalettes( const QPalette&, qreal ) const;
+
 protected:
 
-    void drawInverseShadow(QPainter&, const QColor&, int pad, int size, double fuzz) const;
+    void drawInverseShadow(QPainter&, const QColor&, int pad, int size, qreal fuzz) const;
     void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
-    void drawHole(QPainter&, const QColor&, double shade, int r = 7) const;
+    void drawHole(QPainter&, const QColor&, qreal shade, int r = 7) const;
 
     QCache<quint64, TileSet> m_cornerCache;
     QCache<quint64, TileSet> m_slabSunkenCache;

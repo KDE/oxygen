@@ -9,6 +9,9 @@
     <entry name="ViewDrawTriangularExpander" type="Bool">
       <default>false</default>
     </entry>
+    <entry name="ViewDrawFocusIndicator" type="Bool">
+      <default>false</default>
+    </entry>
     <entry name="ViewDrawTreeBranchLines" type="Bool">
       <default>true</default>
     </entry>
@@ -24,6 +27,9 @@
     </entry>
     <entry name="ScrollBarColored" type="Bool">
       <default>false</default>
+    </entry>
+    <entry name="ScrollBarBevel" type="Bool">
+      <default>true</default>
     </entry>
     <entry name="ProgressBarAnimated" type="Bool">
       <default>true</default>
@@ -46,6 +52,43 @@
       </choices>
       <default>TS_SINGLE</default>
     </entry>
+
+    <!-- animation flags -->
+    <entry name="AnimationsEnabled" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="GenericAnimationsEnabled" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="ToolBarAnimationsEnabled" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="MenuBarAnimationsEnabled" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="MenuAnimationsEnabled" type="Bool">
+      <default>false</default>
+    </entry>
+
+    <!-- generic animation durations -->
+    <entry name="GenericAnimationsDuration" type="Int">
+      <default>150</default>
+    </entry>  
+
+    <!-- toolbar animation durations -->
+    <entry name="ToolBarAnimationsDuration" type="Int">
+      <default>150</default>
+    </entry>  
+
+    <!-- menubar animation durations -->
+    <entry name="MenuBarAnimationsDuration" type="Int">
+      <default>100</default>
+    </entry>  
+
+    <!-- menu animation durations -->
+    <entry name="MenuAnimationsDuration" type="Int">
+      <default>100</default>
+    </entry>  
+
   </group> 
 </kcfg>
-

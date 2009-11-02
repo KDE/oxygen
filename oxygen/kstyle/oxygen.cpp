@@ -32,37 +32,24 @@
 #include "oxygen.h"
 #include "oxygen.moc"
 
-#include <QtGui/QStyleOptionToolBar>
-#include <QtGui/QPainter>
-#include <QtCore/QTimer>
-#include <QtCore/QEvent>
-#include <QtGui/QStyleOption>
-#include <QtGui/QApplication>
-#include <QtGui/QLayout>
+#include <QtGui/QHoverEvent>
 
+#include <QtGui/QAbstractItemView>
+#include <QtGui/QApplication>
 #include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
+#include <QtGui/QDockWidget>
 #include <QtGui/QGraphicsView>
-#include <QtGui/QMenuBar>
+#include <QtGui/QLineEdit>
+#include <QtGui/QMainWindow>
 #include <QtGui/QProgressBar>
 #include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
+#include <QtGui/QScrollBar>
 #include <QtGui/QSpinBox>
-#include <QtGui/QToolButton>
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
-#include <QtGui/QScrollBar>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLineEdit>
-#include <QtGui/QDockWidget>
-#include <QtCore/QTextStream>
-#include <QtGui/QStyleOptionDockWidget>
-#include <QtGui/QPaintEvent>
-#include <QtGui/QToolBox>
-#include <QtGui/QAbstractScrollArea>
-#include <QtGui/QAbstractItemView>
-
-#include <KTitleWidget>
+#include <QtGui/QToolButton>
 
 #include <QtDBus/QtDBus>
 
@@ -70,11 +57,13 @@
 #include <KGlobalSettings>
 #include <KConfigGroup>
 #include <KColorUtils>
-#include <kdebug.h>
+#include <KDebug>
 #include <KWindowSystem>
+#include <KTitleWidget>
 
 #include "helper.h"
 #include "lib/tileset.h"
+#include "animations/oxygenanimations.h"
 #include "oxygenstyleconfigdata.h"
 
 // We need better holes! Bevel color and shadow color are currently based on
@@ -101,7 +90,8 @@ static void cleanupBefore()
 //_____________________________________________
 OxygenStyle::OxygenStyle() :
     KStyle(),
-    _helper(*globalHelper)
+    _helper(*globalHelper),
+    _animations( new Oxygen::Animations( this ) )
 {
     _sharedConfig = _helper.config();
 
@@ -109,11 +99,12 @@ OxygenStyle::OxygenStyle() :
 
     // connect to KGlobalSettings signals so we will be notified when the
     // system palette (in particular, the contrast) is changed
-    QDBusConnection::sessionBus().connect( QString(), "/KGlobalSettings",
-                                           "org.kde.KGlobalSettings",
-                                           "notifyChange", this,
-                                           SLOT(globalSettingsChange(int,int))
-                                         );
+    QDBusConnection::sessionBus().connect(
+        QString(), "/KGlobalSettings",
+        "org.kde.KGlobalSettings",
+        "notifyChange", this,
+        SLOT(globalSettingsChange(int,int))
+        );
 
     // call the slot directly; this initial call will set up things that also
     // need to be reset when the system palette changes
@@ -187,6 +178,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 5);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, 2);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, 4);
+    setWidgetLayoutProp(WT_TabBar, TabBar::TabTextToIconSpace, 13 );
     setWidgetLayoutProp(WT_TabBar, TabBar::ScrollButtonWidth, 18);
 
     setWidgetLayoutProp(WT_TabWidget, TabWidget::ContentsMargin, 4);
@@ -307,12 +299,53 @@ void OxygenStyle::drawComplexControl(ComplexControl control,const QStyleOptionCo
 				}
 			}
 		}
-		break;
-		default:
-			break;
-	}
 
-	return KStyle::drawComplexControl(control,option,painter,widget);
+        case CC_ToolButton:
+        {
+
+            if( widget )
+            {
+                // handle inactive (but animated) toolbuttons
+                //Extract the stuff we need out of the option
+                State flags( option->state );
+                QRect rect( option->rect );
+                QPalette palette( option->palette );
+                QStyleOption tOpt(*option);
+
+                bool isInToolBar( widget->parent() && widget->parent()->inherits( "QToolBar" ) );
+
+                bool animated( isInToolBar ?
+                    animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ):
+                    animations().abstractButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+
+                const bool enabled = flags & State_Enabled;
+                const bool mouseOver(enabled && (flags & State_MouseOver));
+                const bool hasFocus(enabled && (flags&State_HasFocus));
+                const bool sunken( (flags & State_Sunken) || (flags & State_On) );
+
+                if( enabled && !(mouseOver || hasFocus || sunken ) )
+                {
+
+                    if( animated )
+                    {
+                        QRect buttonRect = subControlRect(control, option, SC_ToolButton, widget);
+                        tOpt.rect = buttonRect;
+                        tOpt.state = flags;
+                        drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, &tOpt, buttonRect, palette, flags, painter, widget);
+                    }
+
+                }
+
+            }
+            break;
+
+            default:
+            break;
+        }
+    }
+
+    return KStyle::drawComplexControl(control,option,painter,widget);
+
 }
 
 void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const
@@ -325,7 +358,6 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
         // the default implementation fills the rect with the window background color
         // which does not work for windows that have gradients.
         case PE_PanelScrollAreaCorner: return;
-
         default: return KStyle::drawPrimitive( element, option, p, widget );
     }
 }
@@ -388,6 +420,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
             // bypass KStyle entirely because it makes it completely impossible
             // to handle both KDE and Qt applications at the same time
             return QCommonStyle::drawControl( element, option, p, widget);
+            //return KStyle::drawControl( element, option, p, widget);
         }
 
         default: break;
@@ -398,11 +431,16 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
 //_________________________________________________________________________
 void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
     const QStyleOption* opt,
-    const QRect &r, const QPalette &pal,
+    const QRect &r,
+    const QPalette &palette,
     State flags, QPainter* p,
     const QWidget* widget,
     KStyle::Option* kOpt) const
 {
+
+    QPalette pal( palette );
+    if( widget && opt && animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
+    { pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
 
     switch (widgetType)
     {
@@ -484,16 +522,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
         if( drawComboBoxPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
         else break;
 
-
         case WT_Header:
         if( drawHeaderPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
         else break;
 
-
         case WT_Tree:
         if( drawTreePrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
         else break;
-
 
         case WT_LineEdit:
         if( drawLineEditPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
@@ -545,7 +580,20 @@ bool OxygenStyle::drawPushButtonPrimitive(
             if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
             if (flags & State_HasFocus) opts |= Focus;
             if (enabled && (flags & State_MouseOver)) opts |= Hover;
-            renderSlab(p, r, pal.color(QPalette::Button), opts);
+
+            bool animated( animations().abstractButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+            if( animated && enabled && !(opts & Sunken ) )
+            {
+
+                qreal opacity( animations().abstractButtonEngine().opacity( widget, Oxygen::AnimationHover ) );
+                renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, TileSet::Ring );
+
+            } else {
+
+                renderButtonSlab(p, r, pal.color(QPalette::Button), opts);
+
+            }
+
             return true;
         }
 
@@ -772,7 +820,13 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
         {
             bool active  = flags & State_Selected;
 
-            if (active)
+            bool animated( animations().menuBarEngine().isAnimated(widget, r.topLeft() ) );
+            qreal opacity( animations().menuBarEngine().opacity( widget, r.topLeft() ) );
+            QRect currentRect( animations().menuBarEngine().currentRect( widget, r.topLeft() ) );
+
+            const bool current( currentRect.contains( r.topLeft() ) );
+
+            if (active || animated )
             {
                 QColor color = pal.color(QPalette::Window);
                 if (OxygenStyleConfigData::menuHighlightMode() != OxygenStyleConfigData::MM_DARK)
@@ -792,7 +846,18 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
 
                 } else color = _helper.calcMidColor(color);
 
-                _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
+                // drawing
+                if( animated && current ) {
+
+                    color = KColorUtils::mix( pal.color(QPalette::Window), color, opacity );
+                    _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
+
+                } else if( active ) {
+
+                    _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
+
+                }
+
             }
 
             return true;
@@ -817,18 +882,29 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
 //______________________________________________________
 bool OxygenStyle::drawMenuPrimitive(
     int primitive,
-    const QStyleOption*,
-    const QRect &, const QPalette &,
-    State, QPainter*,
-    const QWidget*,
+    const QStyleOption* opt,
+    const QRect& r, const QPalette& pal,
+    State, QPainter* p,
+    const QWidget* widget,
     KStyle::Option* ) const
 {
 
     switch (primitive)
     {
         case Generic::Frame:
-        case Menu::Background:
         return true;
+
+        case Menu::Background:
+        {
+            bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Previous ) );
+            QRect previousRect( animations().menuEngine().animatedRect( widget, Oxygen::Previous ) );
+            qreal opacity(  animations().menuEngine().opacity( widget, Oxygen::Previous ) );
+            if( animated && previousRect.intersects( r ) )
+            { renderMenuItemRect( opt, previousRect, pal, p, opacity ); }
+
+            return true;
+
+        }
 
         case Menu::TearOff:
         return true;
@@ -864,43 +940,18 @@ bool OxygenStyle::drawMenuItemPrimitive(
 
         case MenuItem::ItemIndicator:
         {
-            if (enabled) {
-                QPixmap pm(r.size());
-                pm.fill(Qt::transparent);
-                QPainter pp(&pm);
-                QRect rr(QPoint(0,0), r.size());
 
-                QColor color = pal.color(QPalette::Window);
-                if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
-                    color = pal.color(QPalette::Highlight);
-                else if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE)
-                    color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
-                else
-                    color = _helper.calcMidColor(color);
-                pp.setRenderHint(QPainter::Antialiasing);
-                pp.setPen(Qt::NoPen);
+            bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Current ) );
+            QRect currentRect( animations().menuEngine().animatedRect( widget, Oxygen::Current ) );
+            const bool intersected( currentRect.contains( r.topLeft() ) );
 
-                pp.setBrush(color);
-                _helper.fillHole(pp, rr);
+            if (enabled)
+            {
 
-                _helper.holeFlat(color, 0.0)->render(rr.adjusted(2,2,-2,-2), &pp);
+                if( animated && intersected ) renderMenuItemRect( opt, r, pal, p, animations().menuEngine().opacity( widget, Oxygen::Current ) );
+                else renderMenuItemRect( opt, r, pal, p );
 
-                QRect maskr( visualRect(opt->direction, rr, QRect(rr.width()-40, 0, 40,rr.height())) );
-                QLinearGradient gradient(
-                    visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
-                    visualPos(opt->direction, maskr, QPoint(maskr.right()-4, 0)));
-                gradient.setColorAt(0.0, QColor(0,0,0,255));
-                gradient.setColorAt(1.0, Qt::transparent);
-                pp.setBrush(gradient);
-                pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-                pp.drawRect(maskr);
-                pp.end();
-
-                p->drawPixmap(handleRTL(opt, r), pm);
-            }
-            else {
-                drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
-            }
+            } else drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
 
             return true;
         }
@@ -1098,7 +1149,11 @@ bool OxygenStyle::drawCheckBoxPrimitive(
         {
 
             bool hasFocus = flags & State_HasFocus;
-            renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive);
+
+            bool animated( enabled && animations().abstractButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+            if( animated ) renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive, false, animations().abstractButtonEngine().opacity( widget, Oxygen::AnimationHover ) );
+            else renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive);
+
             return true;
 
         }
@@ -1115,7 +1170,6 @@ bool OxygenStyle::drawCheckBoxPrimitive(
         default: return false;
 
     }
-
 }
 
 //______________________________________________________
@@ -1140,7 +1194,10 @@ bool OxygenStyle::drawRadioButtonPrimitive(
         {
             bool hasFocus = flags & State_HasFocus;
 
-            renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive);
+            bool animated( enabled && animations().abstractButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+            if( animated ) renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive, true, animations().abstractButtonEngine().opacity( widget, Oxygen::AnimationHover ) );
+            else renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive);
+
             return true;
         }
 
@@ -1220,13 +1277,19 @@ bool OxygenStyle::drawScrollBarPrimitive(
 
         case ScrollBar::SliderHor:
         {
-            renderScrollBarHandle(p, r, pal, Qt::Horizontal, flags & State_MouseOver && flags & State_Enabled);
+            const bool enabled = flags & State_Enabled;
+            bool animated( animations().scrollBarEngine().isAnimated( widget, SC_ScrollBarSlider ) );
+            if( animated && enabled ) renderScrollBarHandle(p, r, pal, Qt::Horizontal, flags & State_MouseOver && flags & State_Enabled, animations().scrollBarEngine().opacity( widget, SC_ScrollBarSlider ) );
+            else renderScrollBarHandle(p, r, pal, Qt::Horizontal, (flags & State_MouseOver) && enabled );
             return true;
         }
 
         case ScrollBar::SliderVert:
         {
-            renderScrollBarHandle(p, r, pal, Qt::Vertical, flags & State_MouseOver && flags & State_Enabled);
+            const bool enabled = flags & State_Enabled;
+            bool animated( animations().scrollBarEngine().isAnimated( widget, SC_ScrollBarSlider ) );
+            if( animated && enabled ) renderScrollBarHandle(p, r, pal, Qt::Vertical, flags & State_MouseOver && flags & State_Enabled, animations().scrollBarEngine().opacity( widget, SC_ScrollBarSlider ) );
+            else renderScrollBarHandle(p, r, pal, Qt::Vertical, (flags & State_MouseOver) && enabled );
             return true;
         }
 
@@ -1245,6 +1308,7 @@ bool OxygenStyle::drawTabBarPrimitive(
     const QWidget* widget,
     KStyle::Option* kOpt) const
 {
+    Q_UNUSED( kOpt );
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
     const bool reverseLayout = opt->direction == Qt::RightToLeft;
@@ -1784,10 +1848,20 @@ bool OxygenStyle::drawSliderPrimitive(
         case Slider::HandleVert:
         {
             StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
-            if(const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt))
-            { if( (slider->activeSubControls & SC_SliderHandle) && mouseOver ) opts |= Hover; }
+            if( enabled &&  animations().sliderEngine().isAnimated( widget ) )
+            {
 
-            renderSlab(p, r, pal.color(QPalette::Button), opts);
+                renderSlab(p, r, pal.color(QPalette::Button), opts,  animations().sliderEngine().opacity( widget ), TileSet::Ring );
+
+            } else {
+
+                if(const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt))
+                { if( (slider->activeSubControls & SC_SliderHandle) && mouseOver ) opts |= Hover; }
+
+                renderSlab(p, r, pal.color(QPalette::Button), opts);
+
+            }
+
             return true;
         }
 
@@ -1856,11 +1930,28 @@ bool OxygenStyle::drawSpinBoxPrimitive(
             // We really need the color of the widget behind to be "right",
             // but the shadow needs to be colored as the inner widget; needs
             // changes in helper.
+
             #ifdef HOLE_COLOR_OUTSIDE
-            renderHole(p, pal.color(QPalette::Window), fr, hasFocus, mouseOver);
+            QColor local( pal.color(QPalette::Window) );
             #else
-            renderHole(p, inputColor, fr, hasFocus, mouseOver);
+            QColor local( inputColor );
             #endif
+
+            if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+            {
+
+                renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
+
+            } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+
+                renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+
+            } else {
+
+                renderHole(p, local, fr, hasFocus, mouseOver);
+
+            }
+
             return true;
         }
 
@@ -1906,7 +1997,18 @@ bool OxygenStyle::drawComboBoxPrimitive(
         {
             // TODO: pressed state
             if(!editable) {
-                renderSlab(p, r, pal.color(QPalette::Button), opts);
+
+                if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) )
+                {
+
+                    renderButtonSlab(p, r, pal.color(QPalette::Button), opts, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), TileSet::Ring );
+
+                } else {
+
+                    renderButtonSlab(p, r, pal.color(QPalette::Button), opts);
+
+                }
+
             } else {
                 QRect fr = r.adjusted(2,2,-2,-2);
                 // input area
@@ -1924,12 +2026,25 @@ bool OxygenStyle::drawComboBoxPrimitive(
                 p->restore();
 
                 #ifdef HOLE_COLOR_OUTSIDE
-                if (hasFocus && enabled) renderHole(p, pal.color(QPalette::Window), fr, true, mouseOver);
-                else renderHole(p, pal.color(QPalette::Window), fr, false, mouseOver);
+                QColor local( pal.color(QPalette::Window) );
                 #else
-                if (hasFocus && enabled) renderHole(p, inputColor, fr, true, mouseOver);
-                else renderHole(p, inputColor, fr, false, mouseOver);
+                QColor local( inputColor );
                 #endif
+
+                if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+                {
+
+                    renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
+
+                } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+
+                    renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+
+                } else {
+
+                    renderHole(p, local, fr, hasFocus && enabled, mouseOver);
+
+                }
 
             }
 
@@ -2120,7 +2235,6 @@ bool OxygenStyle::drawLineEditPrimitive(
         case Generic::Frame:
         {
             const bool isReadOnly = flags & State_ReadOnly;
-            const bool isEnabled = flags & State_Enabled;
             const bool hasFocus = flags & State_HasFocus;
 
             #ifdef HOLE_COLOR_OUTSIDE
@@ -2129,9 +2243,21 @@ bool OxygenStyle::drawLineEditPrimitive(
             const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
             #endif
 
-            if (hasFocus && !isReadOnly && isEnabled) renderHole(p, inputColor, r.adjusted(2,2,-2,-3), true, mouseOver);
-            else renderHole(p, inputColor, r.adjusted(2,2,-2,-3), false, mouseOver);
+            QRect fr( r.adjusted(2,2,-2,-3) );
+            if( enabled && (!isReadOnly) && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+            {
 
+                renderHole(p, inputColor, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
+
+            } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+
+                renderHole(p, inputColor, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+
+            } else {
+
+                renderHole(p, inputColor, fr, hasFocus, mouseOver);
+
+            }
             return true;
         }
 
@@ -2313,6 +2439,20 @@ bool OxygenStyle::drawToolButtonPrimitive(
 
         case ToolButton::Panel:
         {
+
+            // toolbutton engine
+            bool isInToolBar( widget && widget->parent() && widget->parent()->inherits( "QToolBar" ) );
+            bool animated(
+                isInToolBar ?
+                animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ):
+                animations().abstractButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+
+            qreal opacity(
+                isInToolBar ?
+                animations().toolBarEngine().opacity( widget, Oxygen::AnimationHover ):
+                animations().abstractButtonEngine().opacity( widget, Oxygen::AnimationHover ) );
+
+            // hover rect
             QRect slitRect = r;
 
             // cast
@@ -2404,8 +2544,19 @@ bool OxygenStyle::drawToolButtonPrimitive(
                     if (enabled && (flags & State_MouseOver)) opts |= Hover;
 
                     if (t->popupMode()==QToolButton::MenuButtonPopup) {
-                        renderSlab(p, r.adjusted(0,0,4,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Left);
-                    } else renderSlab(p, r, pal.color(QPalette::Button), opts);
+
+                        renderButtonSlab(p, r.adjusted(0,0,4,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Left);
+
+                    } else if( enabled && animated ) {
+
+                        renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, TileSet::Ring );
+
+                    } else {
+
+                        renderButtonSlab( p, r, pal.color(QPalette::Button), opts);
+
+                    }
+
                     return true;
 
                 }
@@ -2417,13 +2568,29 @@ bool OxygenStyle::drawToolButtonPrimitive(
             if((flags & State_Sunken) || (flags & State_On) )
             {
 
-                renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, mouseOver);
+                if( enabled && animated )
+                {
 
-            } else if (hasFocus || mouseOver) {
+                    renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, mouseOver, opacity, Oxygen::AnimationHover, TileSet::Ring );
 
-                TileSet *tile;
-                tile = _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color());
-                tile->render(slitRect, p);
+                } else {
+
+                    renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, mouseOver);
+
+                }
+
+            } else {
+
+                if( enabled && animated ) {
+
+                    QColor glow( _helper.alphaColor( _viewFocusBrush.brush(QPalette::Active).color(), opacity ) );
+                    _helper.slitFocused( glow )->render(slitRect, p);
+
+                } else if (hasFocus || mouseOver) {
+
+                    _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color())->render(slitRect, p);
+
+                }
 
             }
 
@@ -2463,30 +2630,25 @@ bool OxygenStyle::drawGenericPrimitive(
 
             // define gradient and polygon for drawing arrow
             QPolygonF a;
-            QLinearGradient arrowGradient;
             switch (primitive)
             {
                 case Generic::ArrowUp: {
                     a << QPointF( -3,2.5) << QPointF(0.5, -1.5) << QPointF(4,2.5);
-                    arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,2.5));
                     break;
                 }
 
                 case Generic::ArrowDown: {
                     a << QPointF( -3,-2.5) << QPointF(0.5, 1.5) << QPointF(4,-2.5);
-                    arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,2.5));
                     break;
                 }
 
                 case Generic::ArrowLeft: {
                     a << QPointF(2.5,-3) << QPointF(-1.5, 0.5) << QPointF(2.5,4);
-                    arrowGradient = QLinearGradient(QPoint(0,-3),QPoint(0,4));
                     break;
                 }
 
                 case Generic::ArrowRight: {
                     a << QPointF(-2.5,-3) << QPointF(1.5, 0.5) << QPointF(-2.5,4);
-                    arrowGradient = QLinearGradient(QPoint(0,-3),QPoint(0,4));
                     break;
                 }
 
@@ -2494,48 +2656,64 @@ bool OxygenStyle::drawGenericPrimitive(
 
             }
 
-            qreal penThickness = 2.2;
-            KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
-            QColor  arrowColor = colorOpt->color.color(pal);
+            qreal penThickness = 1.6;
+            KStyle::ColorOption* colorOpt = extractOption<KStyle::ColorOption*>(kOpt);
+            QColor color = colorOpt->color.color(pal);
+            QColor background = pal.color(QPalette::Window);
 
             // customize color depending on widget
             if (qobject_cast<const QSpinBox *>(widget) )
             {
                 // spinBox
-                arrowColor = pal.color( QPalette::Text );
+                color = pal.color( QPalette::Text );
+                background = pal.color( QPalette::Background );
 
             } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
 
 
                 // handle scrollbar arrow hover
+                // first get relevant subcontrol type matching arrow
+                SubControl subcontrol( SC_None );
+                if( scrollbar->orientation() == Qt::Vertical )  subcontrol = (primitive == Generic::ArrowDown) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
+                else if( opt->direction == Qt::LeftToRight ) subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarSubLine:SC_ScrollBarAddLine;
+                else subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
+
+                // check if active subControl matches current
                 bool hover( false );
+                if( const QStyleOptionSlider *sbOpt = qstyleoption_cast<const QStyleOptionSlider*>(opt) )
+                { if( sbOpt->activeSubControls & subcontrol ) hover = true; }
 
-                // check if cursor is in current rect
-                QPoint position( scrollbar->mapFromGlobal( QCursor::pos() ) );
-                if( r.contains( position ) )
+                if( enabled )
                 {
-                    // check if active subControl matches current
-                    if( const QStyleOptionSlider *sbOpt = qstyleoption_cast<const QStyleOptionSlider*>(opt) )
+
+                    bool animated( animations().scrollBarEngine().isAnimated( widget, subcontrol ) );
+                    qreal opacity( animations().scrollBarEngine().opacity( widget, subcontrol ) );
+
+                    QPoint position( hover ? scrollbar->mapFromGlobal( QCursor::pos() ) : QPoint( -1, -1 ) );
+                    if( hover && r.contains( position ) )
                     {
-                        if( scrollbar->orientation() == Qt::Vertical )
+                        // we need to update the arrow subcontrolRect on fly because there is no
+                        // way to get it from the styles directly, outside of repaint events
+                        animations().scrollBarEngine().setSubControlRect( widget, subcontrol, r );
+                    }
+
+                    QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                    if( r.intersects(  animations().scrollBarEngine().subControlRect( widget, subcontrol ) ) )
+                    {
+
+                        if( animated )
                         {
+                            color = KColorUtils::mix( color, highlight, opacity );
 
-                            if( (sbOpt->activeSubControls & SC_ScrollBarAddLine) && primitive == Generic::ArrowDown ) hover = true;
-                            else if( (sbOpt->activeSubControls & SC_ScrollBarSubLine) && primitive == Generic::ArrowUp ) hover = true;
+                        } else if( hover ) {
 
-                        } else {
-
-                            if( (sbOpt->activeSubControls & SC_ScrollBarAddLine) && primitive == (opt->direction == Qt::LeftToRight ? Generic::ArrowRight:Generic::ArrowLeft ) ) hover = true;
-                            else if ( (sbOpt->activeSubControls & SC_ScrollBarSubLine) && primitive == (opt->direction == Qt::LeftToRight ? Generic::ArrowLeft:Generic::ArrowRight ) ) hover = true;
+                            color = highlight;
 
                         }
 
                     }
 
                 }
-
-                // if all is good change arrow color
-                if( hover && enabled ) { arrowColor = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color(); }
 
             } else if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
 
@@ -2546,7 +2724,8 @@ bool OxygenStyle::drawGenericPrimitive(
                     if(!tool->autoRaise())
                     {
 
-                        arrowColor = pal.color( QPalette::ButtonText );
+                        color = pal.color( QPalette::ButtonText );
+                        background = pal.color( QPalette::Button );
                         if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
                         if (flags & State_HasFocus) opts |= Focus;
                         if (enabled && (flags & State_MouseOver)) opts |= Hover;
@@ -2568,19 +2747,19 @@ bool OxygenStyle::drawGenericPrimitive(
 
                     } else {
 
-                        if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::Highlight );
-                        else arrowColor = pal.color( QPalette::WindowText );
+                        if ((flags & State_On) || (flags & State_Sunken)) color = pal.color( QPalette::Highlight );
+                        else color = pal.color( QPalette::WindowText );
 
                     }
 
                 } else {
 
                     // adjust color
-                    if ((flags & State_On) || (flags & State_Sunken)) arrowColor = pal.color( QPalette::Highlight );
-                    else arrowColor = pal.color( QPalette::WindowText );
+                    if ((flags & State_On) || (flags & State_Sunken)) color = pal.color( QPalette::Highlight );
+                    else color = pal.color( QPalette::WindowText );
 
                     // smaller down arrow for menu indication on toolbuttons
-                    penThickness = 1.7;
+                    penThickness = 1.4;
                     a.clear();
 
                     // NOTE: is there any smarter solution than this?
@@ -2589,43 +2768,51 @@ bool OxygenStyle::drawGenericPrimitive(
                     {
                         case Generic::ArrowUp: {
                             a << QPointF( -2,1.5) << QPointF(0.5, -1.5) << QPointF(3,1.5);
-                            arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,1.5));
                             break;
                         }
                         case Generic::ArrowDown: {
                             a << QPointF( -2,-1.5) << QPointF(0.5, 1.5) << QPointF(3,-1.5);
-                            arrowGradient = QLinearGradient(QPoint(0,-1.5),QPoint(0,1.5));
                             break;
                         }
                         case Generic::ArrowLeft: {
                             a << QPointF(1.5,-2) << QPointF(-1.5, 0.5) << QPointF(1.5,3);
-                            arrowGradient = QLinearGradient(QPoint(0,-2),QPoint(0,3));
                             break;
                         }
                         case Generic::ArrowRight: {
                             a << QPointF(-1.5,-2) << QPointF(1.5, 0.5) << QPointF(-1.5,3);
-                            arrowGradient = QLinearGradient(QPoint(0,-2),QPoint(0,3));
                             break;
                         }
 
                         default: break;
                     }
                 }
-            }
+            } else if( const QComboBox *comboBox = qobject_cast<const QComboBox *>(widget) ){
 
-            //
-            arrowGradient.setColorAt(0.0, arrowColor);
-            arrowGradient.setColorAt(0.8, KColorUtils::mix(pal.color(QPalette::Window), arrowColor, 0.6));
+                if( comboBox->isEditable() )
+                {
+                    color = pal.color( QPalette::Text );
+                    background = pal.color( QPalette::Background );
+
+                } else {
+
+                    color = pal.color( QPalette::ButtonText );
+                    background = pal.color( QPalette::Button );
+
+                }
+
+            }
 
             // white reflection
             p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
-            p->translate(0,1);
+
+            qreal offset( qMin( penThickness, 1.0 ) );
+            p->translate(0,offset);
             p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             p->setRenderHint(QPainter::Antialiasing);
             p->drawPolyline(a);
-            p->translate(0,-1);
+            p->translate(0,-offset);
 
-            p->setPen(QPen(arrowGradient, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            p->setPen(QPen( _helper.decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             p->drawPolyline(a);
 
             p->restore();
@@ -2637,13 +2824,22 @@ bool OxygenStyle::drawGenericPrimitive(
 
             // WT_Generic and other fallen-through frames...
             // QFrame, Qt item views, etc.: sunken..
-            bool focusHighlight = flags&State_HasFocus/* && flags&State_Enabled*/;
+            bool focusHighlight = flags&State_HasFocus;
             if (flags & State_Sunken)
             {
 
-                // TODO use widget background role? - probably not
-                //renderHole(p, pal.color(widget->backgroundRole()), r, focusHighlight);
-                renderHole(p, pal.color(QPalette::Window), r, focusHighlight);
+                if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+                {
+
+                    renderHole(p, pal.color(QPalette::Window), r, focusHighlight, false,
+                        animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ),
+                        Oxygen::AnimationFocus, TileSet::Ring );
+
+                } else {
+
+                    renderHole(p, pal.color(QPalette::Window), r, focusHighlight);
+
+                }
 
             } else if(widgetType == WT_Generic && (flags & State_Raised)) {
 
@@ -2657,9 +2853,9 @@ bool OxygenStyle::drawGenericPrimitive(
         case Generic::FocusIndicator:
         {
 
-            if (const QAbstractItemView *aiv = qobject_cast<const QAbstractItemView*>(widget))
+            if( const QAbstractItemView *aiv = qobject_cast<const QAbstractItemView*>(widget) )
             {
-                if (!(aiv->selectionMode() == QAbstractItemView::SingleSelection) && !(aiv->selectionMode() == QAbstractItemView::NoSelection))
+                if( OxygenStyleConfigData::viewDrawFocusIndicator() && !(aiv->selectionMode() == QAbstractItemView::SingleSelection) && !(aiv->selectionMode() == QAbstractItemView::NoSelection))
                 {
                     const QPen oldPen = p->pen();
                     QLinearGradient lg(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
@@ -2699,6 +2895,10 @@ void OxygenStyle::polish(QWidget* widget)
 {
     if (!widget) return;
 
+    // register widget to animations
+    animations().registerWidget( widget );
+
+    // adjust flags
     switch (widget->windowFlags() & Qt::WindowType_Mask) {
         case Qt::Window:
         case Qt::Dialog:
@@ -2732,9 +2932,11 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QScrollBar*>(widget)
         || qobject_cast<QSlider*>(widget)
         || qobject_cast<QLineEdit*>(widget)
-        ) {
-        widget->setAttribute(Qt::WA_Hover);
-    }
+        )
+    { widget->setAttribute(Qt::WA_Hover); }
+
+    if( qobject_cast<QAbstractButton*>(widget) && qobject_cast<QDockWidget*>( widget->parent() ) )
+    { widget->setAttribute(Qt::WA_Hover); }
 
     if( qobject_cast<QToolButton*>(widget) )
     {
@@ -2893,6 +3095,7 @@ void OxygenStyle::progressBarDestroyed(QObject* obj)
     //the timer updates will stop next time if this was the last visible one
 }
 
+//_____________________________________________________________________
 void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
 {
     if (type == KGlobalSettings::PaletteChanged) {
@@ -2900,17 +3103,72 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
         _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _sharedConfig );
         _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _sharedConfig );
     }
+
+    // need to update animated timers
+    OxygenStyleConfigData::self()->readConfig();
+    animations().setupEngines();
+
 }
 
-void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOptions opts, TileSet::Tiles tiles) const
+//__________________________________________________________________________
+void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, const QPalette& pal, QPainter* p, qreal opacity ) const
 {
-    if ((r.width() <= 0) || (r.height() <= 0))
-        return;
+
+    if( opacity == 0 ) return;
+
+    QPixmap pm(r.size());
+    pm.fill(Qt::transparent);
+    QPainter pp(&pm);
+    QRect rr(QPoint(0,0), r.size());
+
+    QColor color = pal.color(QPalette::Window);
+    if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
+        color = pal.color(QPalette::Highlight);
+    else if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE)
+        color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
+    else
+        color = _helper.calcMidColor(color);
+    pp.setRenderHint(QPainter::Antialiasing);
+    pp.setPen(Qt::NoPen);
+
+    pp.setBrush(color);
+    _helper.fillHole(pp, rr);
+
+    _helper.holeFlat(color, 0.0)->render(rr.adjusted(2,2,-2,-2), &pp);
+
+    QRect maskr( visualRect(opt->direction, rr, QRect(rr.width()-40, 0, 40,rr.height())) );
+    QLinearGradient gradient(
+        visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
+        visualPos(opt->direction, maskr, QPoint(maskr.right()-4, 0)));
+    gradient.setColorAt(0.0, QColor(0,0,0,255));
+    gradient.setColorAt(1.0, Qt::transparent);
+    pp.setBrush(gradient);
+    pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+    pp.drawRect(maskr);
+
+    if( opacity >= 0 )
+    {
+        pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+        pp.fillRect(pm.rect(), QColor(0,0,0, opacity*255));
+    }
+
+    pp.end();
+
+    p->drawPixmap(handleRTL(opt, r), pm);
+
+}
+
+//____________________________________________________________________________________
+void OxygenStyle::renderButtonSlab(QPainter *p, QRect r, const QColor &color, StyleOptions opts, qreal opacity, TileSet::Tiles tiles) const
+{
+    if ((r.width() <= 0) || (r.height() <= 0)) return;
 
     TileSet *tile;
-
     if (opts & Sunken)
-        r.adjust(-1,0,1,2); // the tiles of sunken slabs look different so this is needed (also for the fill)
+    {
+        // the tiles of sunken slabs look different so this is needed (also for the fill)
+        r.adjust(-1,0,1,2);
+    }
 
     // fill
     if (!(opts & NoFill))
@@ -2919,18 +3177,107 @@ void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOpt
         p->setRenderHint(QPainter::Antialiasing);
         p->setPen(Qt::NoPen);
 
-        if (_helper.calcShadowColor(color).value() > color.value()
-                && opts & Sunken) {
+        if (_helper.calcShadowColor(color).value() > color.value() && (opts & Sunken) )
+        {
+
             QLinearGradient innerGradient(0, r.top(), 0, r.bottom() + r.height());
             innerGradient.setColorAt(0.0, color);
             innerGradient.setColorAt(1.0, _helper.calcLightColor(color));
             p->setBrush(innerGradient);
-        } else {
+
+        } else if(opts & Sunken) {
+
+
             QLinearGradient innerGradient(0, r.top() - r.height(), 0, r.bottom());
-            innerGradient.setColorAt(0.0, _helper.calcLightColor(color)); //KColorUtils::shade(calcLightColor(color), shade));
+            innerGradient.setColorAt(0.0, _helper.calcLightColor(color));
             innerGradient.setColorAt(1.0, color);
             p->setBrush(innerGradient);
+
+        } else {
+
+            QLinearGradient innerGradient(0, r.top()-0.2*r.height(), 0, r.bottom()+ 0.4*r.height() );
+            innerGradient.setColorAt(0.0, _helper.calcLightColor(color));
+            innerGradient.setColorAt(0.6, color );
+            p->setBrush(innerGradient);
+
         }
+
+        _helper.fillSlab(*p, r);
+        p->restore();
+
+    }
+
+    // edges
+    // for slabs, hover takes precedence over focus (other way around for holes)
+    // but in any case if the button is sunken we don't show focus nor hover
+    if (opts & Sunken)
+    {
+        tile = _helper.slabSunken(color, 0.0);
+
+    } else if( opacity >= 0 ) {
+
+        // calculate proper glow color based on current settings and opacity
+        QColor glow;
+        if( opts&Focus ) glow = _viewFocusBrush.brush(QPalette::Active).color();
+        else if( opts&SubtleShadow ) glow = _helper.alphaColor(_helper.calcShadowColor(color), 0.15 );
+
+        if( glow.isValid() ) glow = KColorUtils::mix( glow,  _viewHoverBrush.brush(QPalette::Active).color(), opacity );
+        else glow = _helper.alphaColor(  _viewHoverBrush.brush(QPalette::Active).color(), opacity );
+
+        tile = _helper.slabFocused(color, glow , 0.0);
+
+    } else {
+
+        if (opts & Hover) tile = _helper.slabFocused(color, _viewHoverBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
+        else if (opts & Focus) tile = _helper.slabFocused(color, _viewFocusBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
+        else if (opts & SubtleShadow) tile = _helper.slabFocused( color, _helper.alphaColor(_helper.calcShadowColor(color), 0.15), 0.0 );
+        else tile = _helper.slab(color, 0.0);
+
+    }
+
+    tile->render(r, p, tiles);
+    return;
+
+}
+
+//____________________________________________________________________________________
+void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOptions opts, qreal opacity,
+    TileSet::Tiles tiles) const
+{
+    if ((r.width() <= 0) || (r.height() <= 0)) return;
+
+    TileSet *tile;
+
+    if (opts & Sunken)
+    {
+        // the tiles of sunken slabs look different so this is needed (also for the fill)
+        r.adjust(-1,0,1,2);
+    }
+
+    // fill
+    if (!(opts & NoFill))
+    {
+        p->save();
+        p->setRenderHint(QPainter::Antialiasing);
+        p->setPen(Qt::NoPen);
+
+        if (_helper.calcShadowColor(color).value() > color.value() && (opts & Sunken) )
+        {
+
+            QLinearGradient innerGradient(0, r.top(), 0, r.bottom() + r.height());
+            innerGradient.setColorAt(0.0, color);
+            innerGradient.setColorAt(1.0, _helper.calcLightColor(color));
+            p->setBrush(innerGradient);
+
+        } else {
+
+            QLinearGradient innerGradient(0, r.top() - r.height(), 0, r.bottom());
+            innerGradient.setColorAt(0.0, _helper.calcLightColor(color));
+            innerGradient.setColorAt(1.0, color);
+            p->setBrush(innerGradient);
+
+        }
+
         _helper.fillSlab(*p, r);
 
         p->restore();
@@ -2940,38 +3287,71 @@ void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOpt
     // for slabs, hover takes precedence over focus (other way around for holes)
     // but in any case if the button is sunken we don't show focus nor hover
     if (opts & Sunken)
-        tile = _helper.slabSunken(color, 0.0);
-    else if (opts & Hover)
-        tile = _helper.slabFocused(color, _viewHoverBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
-    else if (opts & Focus)
-        tile = _helper.slabFocused(color, _viewFocusBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
-    else if (opts & SubtleShadow)
-        tile = _helper.slabFocused( color
-                , _helper.alphaColor(_helper.calcShadowColor(color), 0.15)
-                , 0.0 ); // FIXME need state
-    else
     {
-        tile = _helper.slab(color, 0.0);
-        tile->render(r, p, tiles);
-        return;
+        tile = _helper.slabSunken(color, 0.0);
+
+    } else if( opacity >= 0 ) {
+
+        // calculate proper glow color based on current settings and opacity
+        QColor glow;
+        if( opts&Focus ) glow = _viewFocusBrush.brush(QPalette::Active).color();
+        else if( opts&SubtleShadow ) glow = _helper.alphaColor(_helper.calcShadowColor(color), 0.15 );
+
+        if( glow.isValid() ) glow = KColorUtils::mix( glow,  _viewHoverBrush.brush(QPalette::Active).color(), opacity );
+        else glow = _helper.alphaColor(  _viewHoverBrush.brush(QPalette::Active).color(), opacity );
+
+        tile = _helper.slabFocused(color, glow , 0.0);
+
+    } else {
+
+        if (opts & Hover) tile = _helper.slabFocused(color, _viewHoverBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
+        else if (opts & Focus) tile = _helper.slabFocused(color, _viewFocusBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
+        else if (opts & SubtleShadow) tile = _helper.slabFocused( color, _helper.alphaColor(_helper.calcShadowColor(color), 0.15), 0.0 );
+        else tile = _helper.slab(color, 0.0);
+
     }
+
     tile->render(r, p, tiles);
+    return;
+
 }
 
-void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bool focus, bool hover, TileSet::Tiles posFlags) const
+//____________________________________________________________________________________
+void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bool focus, bool hover, qreal opacity, Oxygen::AnimationModes animationMode,  TileSet::Tiles posFlags) const
 {
     if((r.width() <= 0)||(r.height() <= 0))
         return;
 
-    TileSet *tile;
-    // for holes, focus takes precedence over hover (other way around for buttons)
-    if (focus)
-        tile = _helper.holeFocused(base, _viewFocusBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
-    else if (hover)
-        tile = _helper.holeFocused(base, _viewHoverBrush.brush(QPalette::Active).color(), 0.0); // FIXME need state
-    else
-        tile = _helper.hole(base, 0.0);
-    tile->render(r, p, posFlags);
+    if( opacity >= 0 && ( animationMode & Oxygen::AnimationFocus ) )
+    {
+
+        // calculate proper glow color based on current settings and opacity
+        QColor glow = hover ?
+            KColorUtils::mix( _viewHoverBrush.brush(QPalette::Active).color(), _viewFocusBrush.brush(QPalette::Active).color(), opacity ):
+            _helper.alphaColor(  _viewFocusBrush.brush(QPalette::Active).color(), opacity );
+
+        _helper.holeFocused(base, glow, 0.0)->render(r, p, posFlags);
+
+    } else if (focus) {
+
+        _helper.holeFocused(base, _viewFocusBrush.brush(QPalette::Active).color(), 0.0)->render(r, p, posFlags);
+
+    } else if( opacity >= 0 && ( animationMode & Oxygen::AnimationHover ) ) {
+
+        // calculate proper glow color based on current settings and opacity
+        QColor glow = _helper.alphaColor(  _viewHoverBrush.brush(QPalette::Active).color(), opacity );
+        _helper.holeFocused(base, glow, 0.0)->render(r, p, posFlags);
+
+    } else if (hover) {
+
+        _helper.holeFocused(base, _viewHoverBrush.brush(QPalette::Active).color(), 0.0)->render(r, p, posFlags);
+
+    } else {
+
+        _helper.hole(base, 0.0)->render(r, p, posFlags);
+
+    }
+
 }
 
 void OxygenStyle::renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
@@ -2985,10 +3365,9 @@ void OxygenStyle::renderScrollBarHole(QPainter *p, const QRect &r, const QColor 
 }
 
 void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPalette &pal,
-                               Qt::Orientation orientation, bool hover) const
+                               Qt::Orientation orientation, bool hover, qreal opacity ) const
 {
-    if (!r.isValid())
-        return;
+    if (!r.isValid()) return;
     p->save();
     p->setRenderHints(QPainter::Antialiasing);
     QColor color = pal.color(QPalette::Button);
@@ -3012,73 +3391,77 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
         return;
     }
 
-    // gradients
-    QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
-
-    if (!OxygenStyleConfigData::scrollBarColored()) {
-        sliderGradient.setColorAt(0.0, color);
-        sliderGradient.setColorAt(1.0, mid);
-    } else {
-        sliderGradient.setColorAt(0.0, _helper.alphaColor( light, 0.6 ));
-        sliderGradient.setColorAt(0.3, _helper.alphaColor( dark, 0.3 ));
-        sliderGradient.setColorAt(1.0, _helper.alphaColor( light, 0.8 ));
-    }
-
-    QLinearGradient bevelGradient( rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft());
-    bevelGradient.setColorAt(0.0, Qt::transparent);
-    bevelGradient.setColorAt(0.5, light);
-    bevelGradient.setColorAt(1.0, Qt::transparent);
-
-    QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top()); // don't let the pattern move
-    QPoint periodEnd = offset + (horizontal ? QPoint(30, 0) : QPoint(0, 30));
-    QLinearGradient patternGradient(rect.topLeft()+offset, rect.topLeft()+periodEnd);
-    if (!OxygenStyleConfigData::scrollBarColored()) {
-        patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.1));
-        patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.1));
-    } else {
-        patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.15));
-        patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.15));
-    }
-    patternGradient.setSpread(QGradient::ReflectSpread);
-
     // draw the slider
-
     QColor glowColor;
-    if (!OxygenStyleConfigData::scrollBarColored()) {
-        glowColor = hover ?
-            _viewHoverBrush.brush(QPalette::Active).color()
-            : KColorUtils::mix(dark, shadow, 0.5);
+    if (!OxygenStyleConfigData::scrollBarColored())
+    {
+        QColor base = KColorUtils::mix(dark, shadow, 0.5);
+        QColor hovered = _viewHoverBrush.brush(QPalette::Active).color();
+
+        if( opacity >= 0 ) glowColor = KColorUtils::mix( base, hovered, opacity );
+        else if( hover ) glowColor = hovered;
+        else glowColor = base;
+
     } else {
+
         glowColor = KColorUtils::mix(dark, shadow, 0.5);
+
     }
 
     // glow / shadow
     p->setPen(Qt::NoPen);
     p->setBrush(_helper.alphaColor(glowColor, 0.6));
     p->drawRoundedRect(rect.adjusted(-0.8,-0.8,0.8,0.8), 3, 3);
-    p->setPen(QPen(
-                _helper.alphaColor(glowColor, 0.3),
-                1.5));
-    if (horizontal)
-        p->drawRoundedRect(rect.adjusted(-1.2,-0.8,1.2,0.8), 3, 3);
-    else
-        p->drawRoundedRect(rect.adjusted(-0.8,-1.2,0.8,1.2), 3, 3);
+    p->setPen(QPen( _helper.alphaColor(glowColor, 0.3),  1.5));
+    if (horizontal) p->drawRoundedRect(rect.adjusted(-1.2,-0.8,1.2,0.8), 3, 3);
+    else p->drawRoundedRect(rect.adjusted(-0.8,-1.2,0.8,1.2), 3, 3);
 
     // colored background
     p->setPen(Qt::NoPen);
-    if (OxygenStyleConfigData::scrollBarColored()) {
-        p->setBrush( hover ? pal.color(QPalette::Highlight) : color );
+    if (OxygenStyleConfigData::scrollBarColored())
+    {
+
+        if( opacity >= 0 ) p->setBrush( KColorUtils::mix( color, pal.color(QPalette::Highlight), opacity ) );
+        else if( hover ) p->setBrush(  pal.color(QPalette::Highlight) );
+        else p->setBrush( color );
+        p->drawRoundedRect(rect, 2, 2);
+
+    }
+
+    // slider gradient
+    {
+        QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
+        if (!OxygenStyleConfigData::scrollBarColored()) {
+            sliderGradient.setColorAt(0.0, color);
+            sliderGradient.setColorAt(1.0, mid);
+        } else {
+            sliderGradient.setColorAt(0.0, _helper.alphaColor( light, 0.6 ));
+            sliderGradient.setColorAt(0.3, _helper.alphaColor( dark, 0.3 ));
+            sliderGradient.setColorAt(1.0, _helper.alphaColor( light, 0.8 ));
+        }
+
+        p->setBrush(sliderGradient);
         p->drawRoundedRect(rect, 2, 2);
     }
 
-    // slider
-    p->setBrush(sliderGradient);
-    p->drawRoundedRect(rect, 2, 2);
-
     // pattern
-    p->setBrush(patternGradient);
-    p->drawRoundedRect(rect, 2, 2);
+    if( OxygenStyleConfigData::scrollBarBevel() )
+    {
+        QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top()); // don't let the pattern move
+        QPoint periodEnd = offset + (horizontal ? QPoint(30, 0) : QPoint(0, 30));
+        QLinearGradient patternGradient(rect.topLeft()+offset, rect.topLeft()+periodEnd);
+        if (!OxygenStyleConfigData::scrollBarColored()) {
+            patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.1));
+            patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.1));
+        } else {
+            patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.15));
+            patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.15));
+        }
+        patternGradient.setSpread(QGradient::ReflectSpread);
 
+        p->setBrush(patternGradient);
+        p->drawRoundedRect(rect, 2, 2);
+    }
 
     if (OxygenStyleConfigData::scrollBarColored()) {
         p->restore();
@@ -3086,17 +3469,27 @@ void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPale
     }
 
     // bevel
-    rect.adjust(0.5, 0.5, -0.5, -0.5); // for sharper lines
-    p->setPen(QPen(bevelGradient, 1.0));
-    p->drawLine(rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft());
-    p->drawLine(rect.bottomRight(), horizontal ? rect.bottomLeft() : rect.topRight());
+    {
+        QLinearGradient bevelGradient( rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft());
+        bevelGradient.setColorAt(0.0, Qt::transparent);
+        bevelGradient.setColorAt(0.5, light);
+        bevelGradient.setColorAt(1.0, Qt::transparent);
+
+        rect.adjust(0.5, 0.5, -0.5, -0.5); // for sharper lines
+        p->setPen(QPen(bevelGradient, 1.0));
+        p->drawLine(rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft());
+        p->drawLine(rect.bottomRight(), horizontal ? rect.bottomLeft() : rect.topRight());
+    }
+
     p->restore();
+
 }
 
-// TODO take StyleOptions instead of ugly bools
+//________________________________________________________________________
 void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette &pal,
-                                 bool enabled, bool hasFocus, bool mouseOver, int primitive,
-                                 bool sunken) const
+    bool enabled, bool hasFocus, bool mouseOver, int primitive,
+    bool sunken,
+    qreal opacity ) const
 {
     Q_UNUSED(enabled);
 
@@ -3114,7 +3507,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     }
     else
     {
-        renderSlab(p, r, pal.color(QPalette::Button), opts);
+        renderSlab(p, r, pal.color(QPalette::Button), opts, opacity, TileSet::Ring );
     }
 
     // check mark
@@ -3122,48 +3515,85 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 
     if (primitive != CheckBox::CheckOff)
     {
-        QBrush brush = (sunken) ?
-            _helper.decoGradient(rect.adjusted(2,2,-2,-2), pal.color(QPalette::WindowText)):
-            _helper.decoGradient(rect.adjusted(2,2,-2,-2), pal.color(QPalette::ButtonText));
-        QPen pen(brush, 2.2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+        qreal penThickness = 2.0;
+
+        QColor color =  (sunken) ? pal.color(QPalette::WindowText): pal.color(QPalette::ButtonText);
+        QColor background =  (sunken) ? pal.color(QPalette::Window): pal.color(QPalette::Button);
+
+        QPen pen( _helper.decoColor( background, color ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+        QPen contrastPen( _helper.calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 
         pen.setCapStyle(Qt::RoundCap);
-        if (primitive == CheckBox::CheckTriState) {
+        if (primitive == CheckBox::CheckTriState)
+        {
             QVector<qreal> dashes;
-            if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK) {
+            if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
+            {
                 dashes << 1.0 << 2.0;
-                pen.setWidthF(1.3);
+                penThickness = 1.3;
+                pen.setWidthF(penThickness);
+                contrastPen.setWidthF(penThickness);
             }
             else {
                 dashes << 0.4 << 2.0;
             }
             pen.setDashPattern(dashes);
+            contrastPen.setDashPattern(dashes);
         }
 
         p->save();
         p->setRenderHint(QPainter::Antialiasing);
-        p->setPen(pen);
-        if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK) {
+        qreal offset( qMin( penThickness, 1.0 ) );
+        if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
+        {
+
+            p->setPen(contrastPen);
+            p->translate( 0, offset );
             p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
             p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
-        }
-        else {
-            if (sunken) {
+
+            p->setPen(pen);
+            p->translate( 0, -offset );
+            p->drawLine(QPointF(x+9, y), QPointF(x+3,y+7));
+            p->drawLine(QPointF(x, y+4), QPointF(x+3,y+7));
+
+        } else {
+
+            if (sunken)
+            {
+
+                p->setPen(contrastPen);
+                p->translate( 0, offset );
                 p->drawLine(QPointF(x+8, y), QPointF(x+1,y+7));
                 p->drawLine(QPointF(x+8, y+7), QPointF(x+1,y));
-            }
-            else {
+
+                p->setPen(pen);
+                p->translate( 0, -offset );
+                p->drawLine(QPointF(x+8, y), QPointF(x+1,y+7));
+                p->drawLine(QPointF(x+8, y+7), QPointF(x+1,y));
+
+            } else {
+
+                p->setPen(contrastPen);
+                p->translate( 0, offset );
                 p->drawLine(QPointF(x+8, y-1), QPointF(x,y+7));
                 p->drawLine(QPointF(x+8, y+7), QPointF(x,y-1));
+
+                p->setPen(pen);
+                p->translate( 0, -offset );
+                p->drawLine(QPointF(x+8, y-1), QPointF(x,y+7));
+                p->drawLine(QPointF(x+8, y+7), QPointF(x,y-1));
+
             }
         }
         p->restore();
     }
 }
 
+//___________________________________________________________________
 void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
-                                        bool enabled, bool hasFocus, bool mouseOver, int prim,
-                                   bool drawButton) const
+    bool enabled, bool hasFocus, bool mouseOver, int prim,
+    bool drawButton, qreal opacity) const
 {
     Q_UNUSED(enabled);
 
@@ -3172,18 +3602,30 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     int x = r2.x();
     int y = r2.y();
 
-    if(mouseOver || hasFocus)
+    if( drawButton )
     {
-        QPixmap slabPixmap = _helper.roundSlabFocused(pal.color(QPalette::Button),
-                    (mouseOver ? _viewHoverBrush : _viewFocusBrush).brush(QPalette::Active).color(), 0.0);
-        if(drawButton)
+
+        QPixmap slabPixmap;
+        if( opacity >= 0 )
+        {
+
+            QColor base = pal.color(QPalette::Button);
+            QColor glow = hasFocus ?
+                KColorUtils::mix( _viewFocusBrush.brush(QPalette::Active).color(), _viewHoverBrush.brush(QPalette::Active).color(), opacity ):
+                _helper.alphaColor( _viewHoverBrush.brush(QPalette::Active).color(), opacity );
+
+            slabPixmap =  _helper.roundSlabFocused(pal.color(QPalette::Button), glow, 0.0);
             p->drawPixmap(x, y, slabPixmap);
-    }
-    else
-    {
-        QPixmap slabPixmap = _helper.roundSlab(pal.color(QPalette::Button), 0.0);
-        if(drawButton)
+
+        } else {
+
+            if( mouseOver ) slabPixmap =  _helper.roundSlabFocused(pal.color(QPalette::Button), _viewHoverBrush.brush(QPalette::Active).color(), 0.0);
+            else if( hasFocus ) slabPixmap =  _helper.roundSlabFocused(pal.color(QPalette::Button), _viewFocusBrush.brush(QPalette::Active).color(), 0.0);
+            else slabPixmap = _helper.roundSlab(pal.color(QPalette::Button), 0.0);
             p->drawPixmap(x, y, slabPixmap);
+
+        }
+
     }
 
     // draw the radio mark
@@ -3191,15 +3633,25 @@ void OxygenStyle::renderRadioButton(QPainter *p, const QRect &r, const QPalette 
     {
         case RadioButton::RadioOn:
         {
-            const double radius = 3.0;
+            const double radius = 2.6;
             double dx = r2.width() * 0.5 - radius;
             double dy = r2.height() * 0.5 - radius;
             p->save();
             p->setRenderHints(QPainter::Antialiasing);
             p->setPen(Qt::NoPen);
-            p->setBrush(_helper.decoGradient(r2.adjusted(2,2,-2,-2), pal.color(QPalette::ButtonText)));
+
+            QColor background( pal.color( QPalette::Button ) );
+            QColor color( pal.color(QPalette::ButtonText) );
+
+            p->setBrush( _helper.calcLightColor( background ) );
+            p->translate( 0, radius/2 );
+            p->drawEllipse(QRectF(r2).adjusted(dx, dy, -dx, -dy));
+
+            p->setBrush( _helper.decoColor( background, color ) );
+            p->translate( 0, -radius/2 );
             p->drawEllipse(QRectF(r2).adjusted(dx, dy, -dx, -dy));
             p->restore();
+
             return;
         }
         case RadioButton::RadioOff:
@@ -3251,6 +3703,7 @@ static TileSet::Tiles tilesByShape(QTabBar::Shape shape)
     }
 }
 
+//_____________________________________________________________________
 void OxygenStyle::renderTab(QPainter *p,
                             const QRect &r,
                             const QPalette &pal,
@@ -3262,6 +3715,7 @@ void OxygenStyle::renderTab(QPainter *p,
 {
     const QStyleOptionTab::TabPosition pos = tabOpt->position;
     const QStyleOptionTabV3 *tabOptV3 = qstyleoption_cast<const QStyleOptionTabV3 *>(tabOpt);
+
     // HACK: determine whether a connection to a frame (like in tab widgets) has to be considered
     const QTabWidget *tabWidget = (widget && widget->parentWidget()) ? qobject_cast<const QTabWidget *>(widget->parentWidget()) : NULL;
     const bool hasFrame = tabWidget ? true : false;
@@ -3295,7 +3749,6 @@ void OxygenStyle::renderTab(QPainter *p,
                             (tabOpt->position == QStyleOptionTab::End) ||
                                 tabOpt->position == QStyleOptionTab::OnlyOneTab;
     const bool isTopMost = isLeftMost && !horizontal;
-    // const bool isBottomMost = isRightMost && !horizontal;
     const bool isFrameAligned =  reverseLayout && !(westAlignment || eastAlignment) ?
         (isRightMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget)) :
         (isLeftMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget));
@@ -3312,31 +3765,52 @@ void OxygenStyle::renderTab(QPainter *p,
         : (westAlignment ? TileSet::Left : TileSet::Right);
 
 
-    switch (OxygenStyleConfigData::tabStyle()) {
+    switch (OxygenStyleConfigData::tabStyle())
+    {
+
         case OxygenStyleConfigData::TS_SINGLE:
         {
             QRect tabRect = r;
+
             // tabRect defines the position of the tab
-            if (horizontal) {
+            if (horizontal)
+            {
+
                 // selected tabs are taller
-                if (selected) {
+                if (selected)
+                {
+
                     if (northAlignment) tabRect.adjust(0,-1,0,2);
-                    else                tabRect.adjust(0,-2,0,1);
-                } else { // deselected
+                    else tabRect.adjust(0,-2,0,1);
+
+                } else {
+
+                    // deselected
                     if (northAlignment) tabRect.adjust(0,1,0,2);
-                    else                tabRect.adjust(0,-2,0,-1);
+                    else tabRect.adjust(0,-2,0,-1);
+
                 }
+
                 // reduces the space between tabs
-                if (!isLeftMost)        tabRect.adjust(-gw,0,0,0);
-                if (!isRightMost)       tabRect.adjust(0,0,gw,0);
-            } else { // east and west tabs
+                if (!isLeftMost) tabRect.adjust(-gw,0,0,0);
+                if (!isRightMost) tabRect.adjust(0,0,gw,0);
+
+            } else {
+
+                // east and west tabs
                 // selected tabs are taller
-                if (selected) {
-                    if (westAlignment)  tabRect.adjust(0,0,2,0);
-                    else                tabRect.adjust(-2,0,0,0);
-                } else { // deselected
-                    if (westAlignment)  tabRect.adjust(2,0,2,0);
-                    else                tabRect.adjust(-2,0,-2,0);
+                if (selected)
+                {
+
+                    if (westAlignment) tabRect.adjust(0,0,2,0);
+                    else tabRect.adjust(-2,0,0,0);
+
+                } else {
+
+                    // deselected
+                    if (westAlignment) tabRect.adjust(2,0,2,0);
+                    else tabRect.adjust(-2,0,-2,0);
+
                 }
                 // reduces the space between tabs
                 tabRect.adjust(0,0,0,1);
@@ -3345,66 +3819,86 @@ void OxygenStyle::renderTab(QPainter *p,
             QRect frameRect;
             // frameRect defines the part of the frame which
             // holds the content and is connected to the tab
-            if (horizontal) {
+            if (horizontal)
+            {
+
                 if (northAlignment) frameRect = r.adjusted(-7, r.height()-gw-7, 7, 0);
-                else                frameRect = r.adjusted(-7, 0, 7, -r.height()+gw+7);
-            } else { // vertical
-                if (westAlignment)  frameRect = r.adjusted(r.width()-gw-7, -7, 0, 7);
-                else                frameRect = r.adjusted(0, -7, -r.width()+gw+7, 7);
+                else frameRect = r.adjusted(-7, 0, 7, -r.height()+gw+7);
+
+            } else {
+
+                // vertical
+                if (westAlignment) frameRect = r.adjusted(r.width()-gw-7, -7, 0, 7);
+                else frameRect = r.adjusted(0, -7, -r.width()+gw+7, 7);
+
             }
 
             // HACK: Workaround for misplaced tab
             if (southAlignment) {
                 frameRect.adjust(0,-1,0,-1);
                 if (selected) tabRect.adjust(0,-1,0,-1);
-                else          tabRect.adjust(0,0,0,-1);
+                else tabRect.adjust(0,0,0,-1);
 
             }
 
             // handle the rightmost and leftmost tabs
             // if document mode is not enabled, draw the rounded frame corner (which is visible if the tab is not selected)
             // also fill the small gap between that corner and the actial frame
-            if (horizontal) {
-                if ((isLeftMost && !reverseLayout) || (isRightMost && reverseLayout)) {
-                    if (!reverseLayout) {
-                        if (isFrameAligned && hasFrame && !documentMode) {
-                            if (!selected) {
+            if (horizontal)
+            {
+
+                if ((isLeftMost && !reverseLayout) || (isRightMost && reverseLayout))
+                {
+
+                    if (!reverseLayout)
+                    {
+                        if (isFrameAligned && hasFrame && !documentMode)
+                        {
+                            if (!selected)
+                            {
                                 frameRect.adjust(-gw+7,0,0,0);
                                 frameTiles |= TileSet::Left;
                             }
-                            if (northAlignment) {
-                                renderSlab(p, QRect(r.x()-gw, r.bottom()-11, 2, 18), color, NoFill, TileSet::Left);
-                            } else {
-                                renderSlab(p, QRect(r.x()-gw, r.top()-11, 2, 23), color, NoFill, TileSet::Left);
-                            }
+                            if (northAlignment) renderSlab(p, QRect(r.x()-gw, r.bottom()-11, 2, 18), color, NoFill, TileSet::Left);
+                            else renderSlab(p, QRect(r.x()-gw, r.top()-11, 2, 23), color, NoFill, TileSet::Left);
+
                         }
                         tabRect.adjust(-gw,0,0,0);
-                    } else { // reverseLayout
-                        if (isFrameAligned && hasFrame && !documentMode) {
-                            if (!selected) {
+
+                    } else {
+
+                        // reverseLayout
+                        if (isFrameAligned && hasFrame && !documentMode)
+                        {
+                            if (!selected)
+                            {
                                 frameRect.adjust(0,0,gw-7,0);
                                 frameTiles |= TileSet::Right;
                             }
-                            if (northAlignment) {
-                                renderSlab(p, QRect(r.right(), r.bottom()-11, 2, 18), color, NoFill, TileSet::Right);
-                            } else {
-                                renderSlab(p, QRect(r.right(), r.top()-11, 2, 23), color, NoFill, TileSet::Right);
-                            }
+
+                            if (northAlignment) renderSlab(p, QRect(r.right(), r.bottom()-11, 2, 18), color, NoFill, TileSet::Right);
+                            else renderSlab(p, QRect(r.right(), r.top()-11, 2, 23), color, NoFill, TileSet::Right);
+
                         }
                         tabRect.adjust(0,0,gw,0);
                     }
                 }
-            } else { // vertical
-                if (isTopMost && hasFrame && !documentMode) {
-                    if (!selected) {
+
+            } else {
+
+                // vertical
+                if (isTopMost && hasFrame && !documentMode)
+                {
+
+                    if (!selected)
+                    {
                         frameRect.adjust(0,-gw+7,0,0);
                         frameTiles |= TileSet::Top;
                     }
-                    if (westAlignment) {
-                        renderSlab(p, QRect(r.right()-11, r.y()-gw, 18, 2), color, NoFill, TileSet::Top);
-                    } else {
-                        renderSlab(p, QRect(r.x()-11, r.y()-gw, 23, 2), color, NoFill, TileSet::Top);
-                    }
+
+                    if (westAlignment) renderSlab(p, QRect(r.right()-11, r.y()-gw, 18, 2), color, NoFill, TileSet::Top);
+                    else renderSlab(p, QRect(r.x()-11, r.y()-gw, 23, 2), color, NoFill, TileSet::Top);
+
                 }
                 tabRect.adjust(0,-gw,0,0);
             }
@@ -3413,22 +3907,34 @@ void OxygenStyle::renderTab(QPainter *p,
 
             // draw the remaining parts of the frame
             if (!selected) {
+
                 renderSlab(p, frameRect, color, NoFill, frameTiles);
-            } else { // when selected only draw parts of the frame to appear connected to the content
+
+            } else {
+
+                // when selected only draw parts of the frame to appear connected to the content
+
                 QRegion clipRegion;
-                if (horizontal && !(isLeftMost && !reverseLayout)) {
+                if (horizontal && !(isLeftMost && !reverseLayout))
+                {
                     QRegion frameRegionLeft = QRegion(QRect(frameRect.x(), frameRect.y(), tabRect.x()-frameRect.x() + 2, frameRect.height()));
                     clipRegion += frameRegionLeft;
                 }
-                if (horizontal && !(isRightMost && reverseLayout)) {
+
+                if (horizontal && !(isRightMost && reverseLayout))
+                {
                     QRegion frameRegionRight = QRegion(QRect(tabRect.right() - gw, frameRect.y(), frameRect.right()-tabRect.right(), frameRect.height()));
                     clipRegion += frameRegionRight;
                 }
-                if (!horizontal && !isTopMost) {
+
+                if (!horizontal && !isTopMost)
+                {
                     QRegion frameRegionTop = QRegion(QRect(frameRect.x(), frameRect.y(), frameRect.width(), tabRect.y() - frameRect.y() + 3));
                     clipRegion += frameRegionTop;
                 }
-                if (!horizontal /* && !isBottomMost */) {
+
+                if (!horizontal /* && !isBottomMost */)
+                {
                     QRegion frameRegionTop = QRegion(QRect(frameRect.x(), tabRect.bottom() - 1, frameRect.width(), tabRect.y() - frameRect.y() + 3));
                     clipRegion += frameRegionTop;
                 }
@@ -3438,31 +3944,52 @@ void OxygenStyle::renderTab(QPainter *p,
                 renderSlab(p, frameRect, color, NoFill, frameTiles);
                 p->restore();
 
-
                 // connect active tabs to the frame
-                p->setPen(QPen(_helper.alphaColor(
-                                _helper.calcLightColor(color), 0.5), 2));
+                p->setPen(QPen(_helper.alphaColor( _helper.calcLightColor(color), 0.5), 2));
                 if (northAlignment) {
+
                     // don't draw the connection for a frame aligned tab
                     // except for RTL-layout
                     if (!isFrameAligned || reverseLayout)   p->drawPoint(tabRect.x()+3,tabRect.bottom()-6);
                     if (!isFrameAligned || !reverseLayout)  p->drawPoint(tabRect.right()-2,tabRect.bottom()-6);
+
                 } else if (southAlignment) {
+
                     if (!isFrameAligned || reverseLayout)   p->drawPoint(tabRect.x()+3, tabRect.y()+7);
                     if (!isFrameAligned || !reverseLayout)  p->drawPoint(tabRect.right()-2, tabRect.y()+7);
+
                 } else if (eastAlignment) {
-                    if (!isFrameAligned)    p->drawPoint(tabRect.x()+7, tabRect.y()+3);
+
+                    if (!isFrameAligned) p->drawPoint(tabRect.x()+7, tabRect.y()+3);
                     p->drawPoint(tabRect.x()+7, tabRect.bottom()-2);
-                } else {// west aligned
-                    if (!isFrameAligned)    p->drawPoint(tabRect.right()-6, tabRect.y()+3);
+
+                } else {
+
+                    // west aligned
+                    if (!isFrameAligned) p->drawPoint(tabRect.right()-6, tabRect.y()+3);
                     p->drawPoint(tabRect.right()-6, tabRect.bottom()-2);
+
                 }
             }
 
             // HACK: the glow should only be drawn inside the given rect
             p->setClipRect(r);
 
-            renderSlab(p, tabRect, color, selected ? selectedTabOpts : (mouseOver ? hoverTabOpts : deselectedTabOpts), tilesByShape(tabOpt->shape));
+            // get timeLine
+            if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) && !selected )
+            {
+
+                renderSlab(p, tabRect, color, mouseOver ? hoverTabOpts : deselectedTabOpts,
+                    animations().tabBarEngine().opacity( widget, r.topLeft() ),
+                    tilesByShape(tabOpt->shape));
+
+            } else {
+
+                renderSlab(p, tabRect, color, selected ? selectedTabOpts : (mouseOver ? hoverTabOpts : deselectedTabOpts), tilesByShape(tabOpt->shape));
+
+            }
+
+            // filling
             fillTab(p, tabRect, color, horizontal ? Qt::Horizontal : Qt::Vertical, selected, southAlignment || eastAlignment);
 
             p->restore();
@@ -3471,7 +3998,9 @@ void OxygenStyle::renderTab(QPainter *p,
 
         case OxygenStyleConfigData::TS_PLAIN:
         {
-             if(northAlignment || southAlignment) {
+            if(northAlignment || southAlignment)
+            {
+
                 // the tab part of the tab - ie subtracted the fairing to the frame
                 QRect Rc = southAlignment ? r.adjusted(-gw,6+gw,gw,gw) : r.adjusted(-gw,-gw,gw,-7-gw);
 
@@ -3480,38 +4009,42 @@ void OxygenStyle::renderTab(QPainter *p,
 
 
                 // FIXME - maybe going to redo tabs
-                if (selected) {
+                if (selected)
+                {
+
                     int x,y,w,h;
                     r.getRect(&x, &y, &w, &h);
 
-                    if(southAlignment)
-                        renderSlab(p, Rc.adjusted(0,-7,0,0), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left | TileSet::Right);
-                    else
-                        renderSlab(p, Rc.adjusted(0,0,0,7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Right);
+                    if(southAlignment) renderSlab(p, Rc.adjusted(0,-7,0,0), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left | TileSet::Right);
+                    else renderSlab(p, Rc.adjusted(0,0,0,7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Right);
 
                     // some "position specific" paintings...
                     // First draw the left connection from the panel border to the tab
                     if(isFirst && !reverseLayout && !leftCornerWidget) {
+
                         renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Left);
+
                     } else {
+
                         TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
-                        if(southAlignment)
-                            tile->render(QRect(Rb.left()-5, Rb.top()-1,12,13), p, TileSet::Right | TileSet::Top);
-                        else
-                            tile->render(QRect(Rb.left()-5, Rb.top()-5,12,12), p, TileSet::Right | TileSet::Bottom);
+                        if(southAlignment) tile->render(QRect(Rb.left()-5, Rb.top()-1,12,13), p, TileSet::Right | TileSet::Top);
+                        else tile->render(QRect(Rb.left()-5, Rb.top()-5,12,12), p, TileSet::Right | TileSet::Bottom);
+
                     }
 
                     // Now draw the right connection from the panel border to the tab
                     if(isFirst && reverseLayout && !rightCornerWidget) {
+
                         renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Right);
+
                     } else {
+
                         TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
-                        //renderHole(p, QRect(Rb.right()-3, Rb.top(),3,5), false, false, TileSet::Left | TileSet::Bottom);
-                        if(southAlignment)
-                            tile->render(QRect(Rb.right()-6, Rb.top()-1,12,13), p, TileSet::Left | TileSet::Top);
-                        else
-                            tile->render(QRect(Rb.right()-6, Rb.top()-5,12,12), p, TileSet::Left | TileSet::Bottom);
+                        if(southAlignment) tile->render(QRect(Rb.right()-6, Rb.top()-1,12,13), p, TileSet::Left | TileSet::Top);
+                        else tile->render(QRect(Rb.right()-6, Rb.top()-5,12,12), p, TileSet::Left | TileSet::Bottom);
+
                     }
+
                 } else {
 
                     // inactive tabs
@@ -3525,7 +4058,9 @@ void OxygenStyle::renderTab(QPainter *p,
                         r.adjusted(0,5-gw,0,-gw).getRect(&x, &y, &w, &h);
                         p->setClipRect(x-4, y, w+8, h-5); // don't intersect the translucent border of the slab
                         p->setClipRect(x, y, w, h, Qt::UniteClip);
-                        if(isLeftMost) {
+                        if(isLeftMost)
+                        {
+
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
@@ -3535,7 +4070,9 @@ void OxygenStyle::renderTab(QPainter *p,
                             path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+0.5)); // top border
                             path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+h-4)); // to complete the path.
                             p->drawPath(path);
+
                         } else if(isRightMost) {
+
                             QPainterPath path;
                             w+=gw;
                             path.moveTo(x+w-2.5, y+h-2-(isFrameAligned?0:2));
@@ -3544,17 +4081,23 @@ void OxygenStyle::renderTab(QPainter *p,
                             path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+0.5)); // top border
                             path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+h-4)); // to complete the path.
                             p->drawPath(path);
+
                         } else {
+
                             // top border
                             p->drawLine(QPointF(x-(isRightOfSelected?2:0), y+0.5), QPointF(x+w+(isRightOfSelected?2:0)+(isLeftOfSelected?2:0), y+0.5));
-                            if(!isLeftOfSelected)
-                                p->drawLine(QPointF(x+w+0.5, y+1.5), QPointF(x+w+0.5, y+h-4));
+                            if(!isLeftOfSelected) p->drawLine(QPointF(x+w+0.5, y+1.5), QPointF(x+w+0.5, y+h-4));
                             p->fillRect(x-(isRightOfSelected ? 2 : 0), y+1, w+(isLeftOfSelected||isRightOfSelected ? (isRightOfSelected ? 3 : 3-gw) : 0), h-5, midColor);
+
                         }
-                    }
-                    else { // southAlignment
+
+                    } else {
+
+                        // southAlignment
                         r.adjusted(0,gw,0,-5+gw).getRect(&x, &y, &w, &h);
-                        if(isLeftMost) {
+                        if(isLeftMost)
+                        {
+
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
@@ -3564,7 +4107,9 @@ void OxygenStyle::renderTab(QPainter *p,
                             path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+h-0.5)); // bottom border
                             path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+4)); // to complete the path.
                             p->drawPath(path);
+
                         } else if(isRightMost) {
+
                             QPainterPath path;
                             w+=gw;
                             path.moveTo(x+w-2.5, y+2+(isFrameAligned ?0:2));
@@ -3573,12 +4118,14 @@ void OxygenStyle::renderTab(QPainter *p,
                             path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+h-0.5)); // bottom border
                             path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+4)); // to complete the path.
                             p->drawPath(path);
+
                         } else {
+
                             // bottom border
                             p->drawLine(QPointF(x-(isRightOfSelected?2:0), y+h-0.5), QPointF(x+w+(isRightOfSelected ?2:0)+(isLeftOfSelected ?2:0), y+h-0.5));
-                            if(!isLeftOfSelected)
-                                p->drawLine(QPointF(x+w+0.5, y+1.5), QPointF(x+w+0.5, y+h-4));
+                            if(!isLeftOfSelected) p->drawLine(QPointF(x+w+0.5, y+1.5), QPointF(x+w+0.5, y+h-4));
                             p->fillRect(x, y+1, w, h-2, midColor);
+
                         }
                     }
                     p->restore();
@@ -3586,115 +4133,144 @@ void OxygenStyle::renderTab(QPainter *p,
                     TileSet::Tiles posFlag = southAlignment?TileSet::Bottom:TileSet::Top;
                     QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 6);
 
-                    if(isLeftMost) {
-                        if(isFrameAligned)
-                            posFlag |= TileSet::Left;
-                        // fix, to keep the mouseover line within the tabs (drawn) boundary
-                        if(reverseLayout || !isFrameAligned) {
+                    if(isLeftMost)
+                    {
+
+                        if(isFrameAligned) posFlag |= TileSet::Left;
+                        if(reverseLayout || !isFrameAligned)
+                        {
                             renderSlab(p, QRect(Ractual.left()-7, Ractual.y(), 2+14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
                             Ractual.adjust(-5,0,0,0);
                         }
-                    }
-                    else
-                        Ractual.adjust(-7+gw,0,0,0);
 
-                    if(isRightMost) {
-                        if(isFrameAligned)
-                            posFlag |= TileSet::Right;
-                        // fix, to keep the mouseover line within the tabs (drawn) boundary
-                        if(reverseLayout && !isFrameAligned) {
+                    } else Ractual.adjust(-7+gw,0,0,0);
+
+                    if(isRightMost)
+                    {
+
+                        if(isFrameAligned) posFlag |= TileSet::Right;
+                        if(reverseLayout && !isFrameAligned)
+                        {
+
                             renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 1+14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
                             Ractual.adjust(0,0,5,0);
-                        }
-                        else if(!isFrameAligned) {
+
+                        } else if(!isFrameAligned) {
+
                             renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 2+14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
                             Ractual.adjust(0,0,5,0);
+
                         }
-                    }
-                    else
-                        Ractual.adjust(0,0,7-gw,0);
 
-                    if (mouseOver)
-                        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover, posFlag);
-                    else
-                        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
+                    } else Ractual.adjust(0,0,7-gw,0);
 
+                    if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) )
+                    {
 
-                    // TODO mouseover effects
+                        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover,
+                            animations().tabBarEngine().opacity( widget, r.topLeft() ),
+                            posFlag );
+
+                    } else if (mouseOver) renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover, posFlag);
+                    else renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
+
                 }
-            }
-             // westAlignment and eastAlignment
-            else {
+
+            } else {
+
+                // westAlignment and eastAlignment
                 // the tab part of the tab - ie subtracted the fairing to the frame
                 QRect Rc = eastAlignment ? r.adjusted(7+gw,-gw,gw,gw) : r.adjusted(-gw,-gw,-7-gw,gw);
+
                 // the area where the fairing should appear
                 const QRect Rb(eastAlignment ? r.x()+gw: Rc.right()+1, Rc.top(), r.width()-Rc.width(), Rc.height() );
 
-                if (selected) {
+                if (selected)
+                {
                     int x,y,w,h;
                     r.getRect(&x, &y, &w, &h);
 
                     // parts of the adjacent tabs
-                    if(!isSingle && ((!reverseLayout && !isFirst) || (reverseLayout && !isFirst))) {
+                    if(!isSingle && ((!reverseLayout && !isFirst) || (reverseLayout && !isFirst)))
+                    {
+
                         p->setPen(darkColor);
-                        if(eastAlignment) {
+                        if(eastAlignment)
+                        {
+
                             p->fillRect(x+5, y, w-10, 2, midColor);
                             p->drawLine(QPointF(x+w-5-1, y), QPointF(x+w-5-1, y+2));
-                        }
-                        else {
+
+                        } else {
+
                             p->fillRect(x+5, y, w-10, 2, midColor);
                             p->drawLine(QPointF(x+5, y), QPointF(x+5, y+2));
+
                         }
-                    }
-                    if(!isSingle && ((!reverseLayout && !isLast) || (reverseLayout && !isLast))) {
-                        p->setPen(darkColor);
-                        if(eastAlignment) {
-                            p->fillRect(x+5, y+h-2, w-10, 2, midColor);
-                            p->drawLine(QPointF(x+w-5-1, y+h-2), QPointF(x+w-5-1, y+h-1));
-                        }
-                        else {
-                            p->fillRect(x+5, y+h-2, w-10, 2, midColor);
-                            p->drawLine(QPointF(x+5, y+h-2-1), QPointF(x+5, y+h-1));
-                        }
+
                     }
 
-                    if(eastAlignment)
-                        renderSlab(p, Rc.adjusted(-7,0,0,0), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right | TileSet::Bottom);
-                    else
-                        renderSlab(p, Rc.adjusted(0,0,7,0), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    if(!isSingle && ((!reverseLayout && !isLast) || (reverseLayout && !isLast)))
+                    {
+
+                        p->setPen(darkColor);
+                        if(eastAlignment)
+                        {
+
+                            p->fillRect(x+5, y+h-2, w-10, 2, midColor);
+                            p->drawLine(QPointF(x+w-5-1, y+h-2), QPointF(x+w-5-1, y+h-1));
+
+                        } else {
+
+                            p->fillRect(x+5, y+h-2, w-10, 2, midColor);
+                            p->drawLine(QPointF(x+5, y+h-2-1), QPointF(x+5, y+h-1));
+
+                        }
+
+                    }
+
+                    if(eastAlignment) renderSlab(p, Rc.adjusted(-7,0,0,0), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right | TileSet::Bottom);
+                    else renderSlab(p, Rc.adjusted(0,0,7,0), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Bottom);
 
                     // some "position specific" paintings...
                     // First draw the top connection from the panel border to the tab
-                    if(isFirst && !leftCornerWidget) {
+                    if(isFirst && !leftCornerWidget)
+                    {
+
                         renderSlab(p, Rb.adjusted(-7,0,7,0), pal.color(QPalette::Window), NoFill, TileSet::Top);
+
                     } else {
+
                         TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
-                        if(eastAlignment)
-                            tile->render(QRect(Rb.left(), Rb.top()-6,12,13), p, TileSet::Left | TileSet::Bottom);
-                        else
-                            tile->render(QRect(Rb.left()-5, Rb.top()-5,12,12), p, TileSet::Right | TileSet::Bottom);
+                        if(eastAlignment) tile->render(QRect(Rb.left(), Rb.top()-6,12,13), p, TileSet::Left | TileSet::Bottom);
+                        else tile->render(QRect(Rb.left()-5, Rb.top()-5,12,12), p, TileSet::Right | TileSet::Bottom);
+
                     }
 
                     // Now draw the bottom connection from the panel border to the tab
                     TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
-                    if(eastAlignment)
-                        tile->render(QRect(Rb.right()-6, Rb.bottom()-6,12,13), p, TileSet::Left | TileSet::Top);
-                    else
-                        tile->render(QRect(Rb.right()-5-6, Rb.bottom()-6,12,12), p, TileSet::Right | TileSet::Top);
+                    if(eastAlignment) tile->render(QRect(Rb.right()-6, Rb.bottom()-6,12,13), p, TileSet::Left | TileSet::Top);
+                    else tile->render(QRect(Rb.right()-5-6, Rb.bottom()-6,12,12), p, TileSet::Right | TileSet::Top);
 
-                }
-                else {
+                } else {
+
                     // inactive tabs
                     int x,y,w,h;
-                    p->save(); // we only use the clipping and AA for inactive tabs
+                    p->save();
+
+                    // we only use the clipping and AA for inactive tabs
                     p->setPen(darkColor);
                     p->setBrush(midColor);
                     p->setRenderHints(QPainter::Antialiasing);
 
-                    if (westAlignment) {
+                    if (westAlignment)
+                    {
                         r.adjusted(5-gw,0,-5-gw,0).getRect(&x, &y, &w, &h);
 
-                        if (isLeftMost) { // at top
+                        if (isLeftMost)
+                        {
+
+                            // at top
                             QPainterPath path;
                             y = y + 1.5;
 
@@ -3704,7 +4280,10 @@ void OxygenStyle::renderTab(QPainter *p,
                             path.lineTo(x+0.5, y+h+0.5); // left border
                             path.lineTo(x+w+1.0, y+h+0.5); // complete the path
                             p->drawPath(path);
-                        } else if (isRightMost) { // at bottom
+
+                        } else if (isRightMost) {
+
+                            // at bottom
                             QPainterPath path;
 
                             path.moveTo(x+w+0.5, y+h-0.5);
@@ -3713,16 +4292,25 @@ void OxygenStyle::renderTab(QPainter *p,
                             path.lineTo(x+0.5, y-0.5); // left border
                             path.lineTo(x+w+0.5, y-0.5); // complete the path
                             p->drawPath(path);
+
                         } else {
+
                             // leftline
                             p->drawLine(QPointF(x+0.5, y-0.5), QPointF(x+0.5, y+h-0.5));
                             if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
                                 p->drawLine(QPointF(x+0.5, y+h-0.5), QPointF(x+w-0.5, y+h-0.5));
                             p->fillRect(x, y, w, h, midColor);
+
                         }
-                    } else { // eastAlignment
+
+                    } else {
+
+                        // eastAlignment
                         r.adjusted(5+gw,0,-5+gw,0).getRect(&x, &y, &w, &h);
-                        if (isLeftMost) { // at top
+                        if (isLeftMost)
+                        {
+
+                            // at top
                             QPainterPath path;
                             y = y + 1.5;
 
@@ -3732,7 +4320,10 @@ void OxygenStyle::renderTab(QPainter *p,
                             path.lineTo(x+w-0.5, y+h+0.5); // right line
                             path.lineTo(x-0.5, y+h+0.5); // complete path
                             p->drawPath(path);
-                        } else if (isRightMost) { // at bottom
+
+                        } else if (isRightMost) {
+
+                            // at bottom
                             QPainterPath path;
 
                             path.moveTo(x-0.5, y+h-0.5);
@@ -3741,12 +4332,15 @@ void OxygenStyle::renderTab(QPainter *p,
                             path.lineTo(x+w-0.5, y-0.5); // right line
                             path.lineTo(x-0.5, y-0.5); // complete path
                             p->drawPath(path);
+
                         } else {
+
                             // right line
                             p->drawLine(QPointF(x+w-0.5, y), QPointF(x+w-0.5, y+h-0.5));
                             if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
                                 p->drawLine(QPointF(x+0.5, y+h-0.5), QPointF(x+w-1.5, y+h-0.5));
                             p->fillRect(x, y, w, h, midColor);
+
                         }
                     }
                     p->restore();
@@ -3754,35 +4348,39 @@ void OxygenStyle::renderTab(QPainter *p,
                     TileSet::Tiles posFlag = eastAlignment ? TileSet::Right : TileSet::Left;
                     QRect Ractual(Rb.left(), Rb.y(), 7, Rb.height());
 
-                    if(isLeftMost) { // at top
-                        if(isFrameAligned)
-                            posFlag |= TileSet::Top;
+                    if(isLeftMost)
+                    {
+
+                        // at top
+                        if(isFrameAligned) posFlag |= TileSet::Top;
                         else {
                             renderSlab(p, QRect(Ractual.left(), Ractual.y()-7, Ractual.width(), 2+14), pal.color(QPalette::Window), NoFill, posFlag);
                             Ractual.adjust(0,-5,0,0);
                         }
-                    }
-                    else
-                        Ractual.adjust(0,-7+gw,0,0);
 
-                    if(isRightMost) { // at bottom
-                        if(isFrameAligned && !reverseLayout)
-                            posFlag |= TileSet::Top;
+                    } else Ractual.adjust(0,-7+gw,0,0);
+
+                    if(isRightMost)
+                    {
+
+                        // at bottom
+                        if(isFrameAligned && !reverseLayout) posFlag |= TileSet::Top;
                         Ractual.adjust(0,0,0,7);
-                    }
-                    else
-                        Ractual.adjust(0,0,0,7-gw);
 
-                    if (mouseOver)
-                        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover, posFlag);
-                    else
-                        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
+                    } else Ractual.adjust(0,0,0,7-gw);
 
-                // TODO mouseover effects
+                    if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) ) {
+
+                        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover,
+                            animations().tabBarEngine().opacity( widget, r.topLeft() ),
+                            posFlag );
+
+                    } else if (mouseOver) renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover, posFlag);
+                    else renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
+
                 }
 
             }
-        return;
         } // OxygenStyleConfigData::TS_PLAIN
     }
 }
@@ -3877,11 +4475,17 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option, const QW
             {
 
                 mask->region = option->rect;
-                if( !( widget && qobject_cast<const QGraphicsView*>( widget->parent() ) ) )
+
+                // need to check on widget before removing inner region
+                // in order to still preserve rubberband in MainWindow and QGraphicsView
+                // in QMainWindow because it looks better
+                // in QGraphicsView because the painting fails completely otherwise
+                if( !( widget && (
+                    qobject_cast<const QGraphicsView*>( widget->parent() ) ||
+                    qobject_cast<const QMainWindow*>( widget->parent() ) ) ) )
                 { mask->region -= option->rect.adjusted(1,1,-1,-1); }
 
                 return true;
-
             }
             return false;
         }
@@ -4096,7 +4700,7 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                     }
 
                     // left align labels in flat group boxes, center align labels in framed group boxes
-                    if (isFlat)  r = QRect(cr.width(),r.y(),tw,r.height());
+                    if (isFlat) r = QRect(cr.width(),r.y(),tw,r.height());
                     else r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
 
                     return visualRect(option->direction, option->rect, r);
@@ -4107,10 +4711,12 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
             break;
         }
         case CC_ComboBox:
-            if(subControl == SC_ComboBoxListBoxPopup)
-                return r.adjusted(0,0,8,0); // add the same width as we do in eventFilter
+        // add the same width as we do in eventFilter
+        if(subControl == SC_ComboBoxListBoxPopup)
+        return r.adjusted(0,0,8,0);
+
         default:
-            break;
+        break;
     }
 
     return KStyle::subControlRect(control, option, subControl, widget);

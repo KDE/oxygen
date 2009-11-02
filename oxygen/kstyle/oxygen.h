@@ -1,3 +1,6 @@
+#ifndef oxygen_h
+#define oxygen_h
+
 /* Oxygen widget style for KDE 4
    Copyright (C) 2008 Long Huynh Huu <long.upcase@googlemail.com>
    Copyright (C) 2007-2008 Casper Boemann <cbr@boemann.dk>
@@ -39,19 +42,17 @@
    Boston, MA 02110-1301, USA.
  */
 
-#ifndef __OXYGEN_H
-#define __OXYGEN_H
-
 #include <KStyle>
 #include <KColorScheme>
 #include <KSharedConfig>
 
 #include <QtGui/QBitmap>
 #include <QtGui/QStyleOption>
-#include <QTabBar>
+#include <QtGui/QTabBar>
 
 #include "helper.h"
 #include "lib/tileset.h"
+#include "animations/oxygengenericengine.h"
 
 #define u_arrow -4,1, 2,1, -3,0, 1,0, -2,-1, 0,-1, -1,-2
 #define d_arrow -4,-2, 2,-2, -3,-1, 1,-1, -2,0, 0,0, -1,1
@@ -61,6 +62,11 @@
 #define QCOORDARRLEN(x) sizeof(x)/(sizeof(QCOORD)*2)
 
 class QTimer;
+
+namespace Oxygen
+{
+  class Animations;
+}
 
 class OxygenStyle : public KStyle
 {
@@ -144,6 +150,13 @@ public:
     Q_DECLARE_FLAGS(StyleOptions, StyleOption)
 
 protected:
+
+    //! animations
+    Oxygen::Animations& animations( void ) const
+    { return *_animations; }
+
+private:
+
     enum TabPosition
     {
         First = 0,
@@ -167,19 +180,46 @@ protected:
         CheckMark
     };
 
-    void renderSlab(QPainter*, QRect, const QColor&, StyleOptions = 0,
-                    TileSet::Tiles tiles = TileSet::Ring) const;
+    //! menu item
+    void renderMenuItemRect( const QStyleOption*, const QRect&, const QPalette&, QPainter* p, qreal opacity = -1 ) const;
 
+    //! generic slab
+    void renderButtonSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opt = 0, TileSet::Tiles tiles = TileSet::Ring) const
+    { renderButtonSlab( p, r, c, opt, -1, tiles ); }
+
+    //! generic slab
+    void renderButtonSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal opacity, TileSet::Tiles tiles ) const;
+
+    //! generic slab
+    void renderSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opt = 0, TileSet::Tiles tiles = TileSet::Ring) const
+    { renderSlab( p, r, c, opt, -1, tiles ); }
+
+    //! generic slab
+    void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal opacity, TileSet::Tiles tiles ) const;
+
+
+    //! generic hole
+    void renderHole(QPainter *p, const QColor& color, const QRect &r,
+        bool focus=false, bool hover=false,
+        TileSet::Tiles posFlags = TileSet::Ring) const
+    { renderHole( p, color, r, focus, hover, -1, Oxygen::AnimationNone, posFlags ); }
+
+    //! generic hole (with animated glow)
     void renderHole(QPainter *p, const QColor&, const QRect &r,
-                    bool focus=false, bool hover=false,
-                    TileSet::Tiles posFlags = TileSet::Ring) const;
+        bool focus, bool hover,
+        qreal opacity, Oxygen::AnimationModes animationMode,
+        TileSet::Tiles posFlags = TileSet::Ring) const;
 
+    //! checkbox
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
-                        bool enabled, bool hasFocus, bool mouseOver,
-                        int checkPrimitive, bool sunken=false) const;
-    void renderRadioButton(QPainter *p, const QRect &r, const QPalette &pal,
-                           bool enabled, bool hasFocus, bool mouseOver,
-                           int radioPrimitive, bool drawButton=true) const;
+        bool enabled, bool hasFocus, bool mouseOver,
+        int checkPrimitive, bool sunken=false, qreal opacity = -1 ) const;
+
+    //! radio button
+    void renderRadioButton(
+        QPainter *p, const QRect &r, const QPalette &pal,
+        bool enabled, bool hasFocus, bool mouseOver,
+        int radioPrimitive, bool drawButton=true, qreal opacity = -1 ) const;
 
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
@@ -197,12 +237,23 @@ protected:
 
     void renderWindowIcon(QPainter *p, const QRectF &r, int &type) const;
 
+    //! scrollbar hole
     void renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
-                          Qt::Orientation orientation, TileSet::Tiles = TileSet::Full) const;
+        Qt::Orientation orientation, TileSet::Tiles = TileSet::Full) const;
 
-    void renderScrollBarHandle(QPainter *p, const QRect &r, const QPalette &pal,
-                               Qt::Orientation orientation, bool hover) const;
+    //! scrollbar handle (non animated)
+    void renderScrollBarHandle(
+        QPainter *p, const QRect &r, const QPalette &pal,
+        Qt::Orientation orientation, bool hover) const
+    { renderScrollBarHandle( p, r, pal, orientation, hover, -1 ); }
 
+    //! scrollbar handle (animated)
+    void renderScrollBarHandle(
+        QPainter *p, const QRect &r, const QPalette &pal,
+        Qt::Orientation orientation, bool hover, qreal opacity) const;
+
+    //! event filter
+    /*! for some widgets special painting has to be done in event method */
     bool eventFilter(QObject *, QEvent *);
 
     //! returns true if compositing is active
@@ -236,6 +287,9 @@ private:
     QTimer *animationTimer;
 
     TileSet *m_holeTileSet;
+
+    //! animations
+    Oxygen::Animations* _animations;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(OxygenStyle::StyleOptions)

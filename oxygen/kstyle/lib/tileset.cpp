@@ -102,26 +102,54 @@ inline bool bits(TileSet::Tiles flags, TileSet::Tiles testFlags)
 void TileSet::render(const QRect &r, QPainter *p, Tiles t) const
 {
 
+    // check initialization
     if( _pixmap.size() < 9 ) return;
 
     int x0, y0, w, h;
     r.getRect(&x0, &y0, &w, &h);
-    w -= _w1 + _w3;
-    h -= _h1 + _h3;
-    int x1 = x0 + _w1;
+
+    // calculate pixmaps widths
+    qreal wRatio( qreal( _w1 )/qreal( _w1 + _w3 ) );
+    int wLeft = (t&Right) ? qMin( _w1, int(w*wRatio) ):_w1;
+    int wRight = (t&Left) ? qMin( _w3, int(w*(1.0-wRatio)) ):_w3;
+
+    // calculate pixmap heights
+    qreal hRatio( qreal( _h1 )/qreal( _h1 + _h3 ) );
+    int hTop = (t&Bottom) ? qMin( _h1, int(h*hRatio) ):_h1;
+    int hBottom = (t&Top) ? qMin( _h3, int(h*(1.0-hRatio)) ):_h3;
+
+    // calculate corner locations
+
+    // maybe one should make the following two lines depend on
+    // what tilesets are selected. Would be more logical, but would
+    // probably break code all over the place ...
+    w -= wLeft + wRight;
+    h -= hTop + hBottom;
+    int x1 = x0 + wLeft;
     int x2 = x1 + w;
-    int y1 = y0 + _h1;
+    int y1 = y0 + hTop;
     int y2 = y1 + h;
 
-    if (bits(t,    Top|Left))  p->drawPixmap(x0, y0, _pixmap.at(0));
-    if (bits(t,    Top|Right)) p->drawPixmap(x2, y0, _pixmap.at(2));
-    if (bits(t, Bottom|Left))  p->drawPixmap(x0, y2, _pixmap.at(6));
-    if (bits(t, Bottom|Right)) p->drawPixmap(x2, y2, _pixmap.at(8));
+    // corner
+    if (bits(t,    Top|Left))  p->drawPixmap(x0, y0, _pixmap.at(0), 0, 0, wLeft, hTop);
+    if (bits(t,    Top|Right)) p->drawPixmap(x2, y0, _pixmap.at(2), _w3-wRight, 0, wRight, hTop);
+    if (bits(t, Bottom|Left))  p->drawPixmap(x0, y2, _pixmap.at(6), 0, _h3-hBottom, wLeft,  hBottom);
+    if (bits(t, Bottom|Right)) p->drawPixmap(x2, y2, _pixmap.at(8), _w3-wRight, _h3-hBottom, wRight, hBottom );
 
-    if (t & Top)    p->drawTiledPixmap(x1, y0, w, _h1, _pixmap.at(1));
-    if (t & Bottom) p->drawTiledPixmap(x1, y2, w, _h3, _pixmap.at(7));
-    if (t & Left)   p->drawTiledPixmap(x0, y1, _w1, h, _pixmap.at(3));
-    if (t & Right)  p->drawTiledPixmap(x2, y1, _w3, h, _pixmap.at(5));
+    // top and bottom
+    if( w > 0 )
+    {
+        if (t & Top )    p->drawTiledPixmap(x1, y0, w, hTop, _pixmap.at(1));
+        if (t & Bottom ) p->drawTiledPixmap(x1, y2, w, hBottom, _pixmap.at(7), 0, _h3-hBottom);
+    }
 
-    if (t & Center) p->drawTiledPixmap(x1, y1, w, h, _pixmap.at(4));
+    // left and right
+    if( h > 0 )
+    {
+        if (t & Left )   p->drawTiledPixmap(x0, y1, wLeft, h, _pixmap.at(3));
+        if (t & Right )  p->drawTiledPixmap(x2, y1, wRight, h, _pixmap.at(5), _w3-wRight, 0);
+    }
+
+    // center
+    if ( (t & Center) && h > 0 && w > 0 ) p->drawTiledPixmap(x1, y1, w, h, _pixmap.at(4));
 }

@@ -31,9 +31,7 @@
 OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
     : OxygenHelper(componentName)
 {
-    // optimize for repainting of dock contents, which saves memory
     m_dockFrameCache.setMaxCost(1);
-    // we won't store many tilesets, because one size fits all
     m_scrollHoleCache.setMaxCost(10);
 }
 
@@ -50,6 +48,19 @@ void OxygenStyleHelper::invalidateCaches()
     m_dockFrameCache.clear();
     m_scrollHoleCache.clear();
     OxygenHelper::invalidateCaches();
+}
+
+//______________________________________________________________________________
+QPalette OxygenStyleHelper::mergePalettes( const QPalette& source, qreal ratio ) const
+{
+
+    QPalette out( source );
+    out.setColor( QPalette::Background, KColorUtils::mix( source.color( QPalette::Active, QPalette::Background ), source.color( QPalette::Disabled, QPalette::Background ), 1.0-ratio ) );
+    out.setColor( QPalette::WindowText, KColorUtils::mix( source.color( QPalette::Active, QPalette::WindowText ), source.color( QPalette::Disabled, QPalette::WindowText ), 1.0-ratio ) );
+    out.setColor( QPalette::ButtonText, KColorUtils::mix( source.color( QPalette::Active, QPalette::ButtonText ), source.color( QPalette::Disabled, QPalette::ButtonText ), 1.0-ratio ) );
+    out.setColor( QPalette::Text, KColorUtils::mix( source.color( QPalette::Active, QPalette::Text ), source.color( QPalette::Disabled, QPalette::Text ), 1.0-ratio ) );
+    out.setColor( QPalette::Button, KColorUtils::mix( source.color( QPalette::Active, QPalette::Button ), source.color( QPalette::Disabled, QPalette::Button ), 1.0-ratio ) );
+    return out;
 }
 
 //______________________________________________________________________________
@@ -104,7 +115,7 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, double shade, int size
     if (!pixmap)
     {
         pixmap = new QPixmap(size*3, size*3);
-        pixmap->fill(QColor(0,0,0,0));
+        pixmap->fill(Qt::transparent);
 
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
@@ -156,6 +167,7 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, double shade, int size
     return *pixmap;
 }
 
+//__________________________________________________________________________________________________________
 QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &glowColor, double shade, int size)
 {
     SlabCache *cache = slabCache(color);
@@ -165,28 +177,24 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
     if (!pixmap)
     {
         pixmap = new QPixmap(size*3, size*3);
-        pixmap->fill(QColor(0,0,0,0));
+        pixmap->fill(Qt::transparent);
 
         QPainter p(pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
         p.setWindow(0,0,21,21);
 
-        // slab
-        QPixmap slabPixmap = roundSlab(color, shade, size);
-        p.drawPixmap(0, 0, slabPixmap);
-
-        // glow
-        QPixmap gp = glow(glowColor, 21, size*3);
-        p.drawPixmap(0, 0, gp);
+        p.drawPixmap(0, 0, roundSlab(color, shade, size));
+        drawOuterGlow( p, glowColor, 21 );
 
         p.end();
-
         cache->m_roundSlabCache.insert(key, pixmap);
+
     }
     return *pixmap;
 }
 
+//__________________________________________________________________________________________________________
 void OxygenStyleHelper::drawHole(QPainter &p, const QColor &color, double shade, int r) const
 {
     const int r2 = 2*r;
@@ -219,6 +227,7 @@ void OxygenStyleHelper::drawHole(QPainter &p, const QColor &color, double shade,
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
 }
 
+//________________________________________________________________________________________________________
 void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
                                           int pad, int size, double fuzz) const
 {
@@ -237,6 +246,7 @@ void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
     p.drawEllipse(QRectF(pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0));
 }
 
+//________________________________________________________________________________________________________
 void OxygenStyleHelper::drawInverseGlow(QPainter &p, const QColor &color,
                                         int pad, int size, int rsize) const
 {
@@ -257,6 +267,7 @@ void OxygenStyleHelper::drawInverseGlow(QPainter &p, const QColor &color,
     p.drawEllipse(r);
 }
 
+//________________________________________________________________________________________________________
 void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
 {
     const double s = double(size) * (3.6 + (0.5 * _slabThickness)) / 7.0;
@@ -272,47 +283,49 @@ void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
     p.drawRoundRect(r, rx, ry);
 }
 
+//________________________________________________________________________________________________________
 void OxygenStyleHelper::fillHole(QPainter &p, const QRect &rect, int size)
 {
     const double s = double(size) * 3.0 / 7.0;
     p.drawRoundedRect(rect.adjusted(s,s,-s,-s), 4, 4);
 }
 
-
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowColor, double shade, int size)
 {
     SlabCache *cache = slabCache(color);
     quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
     TileSet *tileSet = cache->m_slabCache.object(key);
 
+    const qreal hScale( 3 );
+    const int hSize( size*hScale );
+    const int vSize( size );
+
     if (!tileSet)
     {
-        QPixmap pixmap(size*2,size*2);
-        pixmap.fill(QColor(0,0,0,0));
+        QPixmap pixmap(hSize*2,vSize*2);
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
         p.setPen(Qt::NoPen);
-        p.setWindow(0,0,14,14);
 
-        TileSet *slabTileSet = slab(color, shade, size);
+        int fixedSize = 14;
+        p.setWindow(0,0,fixedSize*hScale, fixedSize);
 
-        // slab
-        slabTileSet->render(QRect(0,0,14,14), &p);
-
-        // glow
-        QPixmap gp = glow(glowColor, 14, size*2);
-        p.drawPixmap(0, 0, gp);
+        slab(color, shade, size)->render(QRect( 0, 0, fixedSize*hScale, fixedSize), &p);
+        outerGlow( glowColor, size)->render( QRect( 0, 0, fixedSize*hScale, fixedSize), &p);
 
         p.end();
 
-        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
+        tileSet = new TileSet(pixmap, hSize, vSize, hSize, vSize, hSize-1, vSize, 2, 1);
 
         cache->m_slabCache.insert(key, tileSet);
     }
     return tileSet;
 }
 
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::roundCorner(const QColor &color, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32);
@@ -353,7 +366,7 @@ TileSet *OxygenStyleHelper::slabSunken(const QColor &color, double shade, int si
     if (!tileSet)
     {
         QPixmap pixmap(size*2, size*2);
-        pixmap.fill(QColor(0,0,0,0));
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
@@ -384,7 +397,7 @@ TileSet *OxygenStyleHelper::slabInverted(const QColor &color, double shade, int 
     if (!tileSet)
     {
         QPixmap pixmap(size*2, size*2);
-        pixmap.fill(QColor(0,0,0,0));
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
@@ -441,7 +454,7 @@ TileSet *OxygenStyleHelper::slope(const QColor &color, double shade, int size)
     {
         // TODO - rebase??
         QPixmap pixmap(size*4, size*4);
-        pixmap.fill(QColor(0,0,0,0));
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setPen(Qt::NoPen);
@@ -492,7 +505,7 @@ TileSet *OxygenStyleHelper::hole(const QColor &color, double shade, int size)
     {
         int rsize = (int)ceil(double(size) * 5.0/7.0);
         QPixmap pixmap(rsize*2, rsize*2);
-        pixmap.fill(QColor(0,0,0,0));
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
@@ -526,7 +539,7 @@ TileSet *OxygenStyleHelper::holeFlat(const QColor &color, double shade, int size
     {
         int rsize = (int)ceil(double(size) * 5.0/7.0);
         QPixmap pixmap(rsize*2, rsize*2);
-        pixmap.fill(QColor(0,0,0,0));
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
@@ -559,7 +572,7 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &color, const QColor &glowC
     {
         int rsize = (int)ceil(double(size) * 5.0/7.0);
         QPixmap pixmap(rsize*2, rsize*2);
-        pixmap.fill(QColor(0,0,0,0));
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
@@ -593,7 +606,7 @@ TileSet *OxygenStyleHelper::groove(const QColor &color, double shade, int size)
     {
         int rsize = (int)ceil(double(size) * 3.0/7.0);
         QPixmap pixmap(rsize*2, rsize*2);
-        pixmap.fill(QColor(0,0,0,0));
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
@@ -635,7 +648,7 @@ TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
         p.setRenderHint(QPainter::Antialiasing);
         QRadialGradient rg = QRadialGradient(4.5, 4.5, 4.5, 4.5, 4.5);
         QColor tmpColor = glowColor;
-        tmpColor.setAlpha(180);
+        tmpColor.setAlpha(180*glowColor.alphaF());
         rg.setColorAt(0.75, tmpColor);
         tmpColor.setAlpha(0);
         rg.setColorAt(0.90, tmpColor);
