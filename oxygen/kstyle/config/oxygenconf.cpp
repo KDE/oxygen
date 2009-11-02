@@ -85,6 +85,11 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
         OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_PLAIN ? 1 :
         0);
 
+    _genericAnimationsEnabled->setEnabled( false );
+    _toolBarAnimationsEnabled->setEnabled( false );
+    _menuBarAnimationsEnabled->setEnabled( false );
+    _menuAnimationsEnabled->setEnabled( false );
+
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), _genericAnimationsEnabled, SLOT( setEnabled( bool) ) );
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), _toolBarAnimationsEnabled, SLOT( setEnabled( bool) ) );
