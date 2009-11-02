@@ -9,7 +9,27 @@ add_subdirectory( config )
 
 set(oxygen_PART_SRCS
     lib/tileset.cpp
-    lib/helper.cpp helper.cpp
+    lib/helper.cpp
+    helper.cpp
+    animations/oxygenanimations.cpp
+    animations/oxygenbaseengine.cpp
+    animations/oxygenenabledata.cpp
+    animations/oxygenfocusdata.cpp
+    animations/oxygengenericdata.cpp
+    animations/oxygengenericengine.cpp
+    animations/oxygenhoverdata.cpp
+    animations/oxygenmenubardata.cpp
+    animations/oxygenmenubarengine.cpp
+    animations/oxygenmenudata.cpp
+    animations/oxygenmenuengine.cpp
+    animations/oxygenscrollbardata.cpp
+    animations/oxygenscrollbarengine.cpp
+    animations/oxygensliderdata.cpp
+    animations/oxygensliderengine.cpp
+    animations/oxygentabbardata.cpp
+    animations/oxygentabbarengine.cpp
+    animations/oxygentimeline.cpp
+    animations/oxygenwidgetdata.cpp
     oxygen.cpp)
 
 kde4_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
