@@ -33,7 +33,8 @@
 
 #include "tileset.h"
 
-#define _glowBias 0.9 // not likely to be configurable
+//#define _glowBias 0.9 // not likely to be configurable
+#define _glowBias 0.6 // not likely to be configurable
 
 
 class SlabCache {

@@ -718,12 +718,18 @@ void OxygenHelper::drawOuterGlow( QPainter &p, const QColor &color, int size) co
 
     const QRectF r(0, 0, size, size);
     const qreal m = qreal(size)*0.5;
+    qreal width( 3 );
 
-    QRadialGradient glowGradient(m, m, m);
-    glowGradient.setColorAt(1.0 - (1.0-0.67)*14.0/size, alphaColor( color, 240.0/255.0 ) );
-    glowGradient.setColorAt(1.0 - (1.0-0.83)*14.0/size, alphaColor( color, 15/255.0 ) );
-    glowGradient.setColorAt(1.0 - (1.0-0.98)*14.0/size, alphaColor( color, 10/255 ) );
-    glowGradient.setColorAt(1.0, Qt::transparent );
+    const qreal bias = _glowBias * qreal(14)/size;
+    qreal k0 = (m-width+bias) / m;
+    QRadialGradient glowGradient(m, m, m-bias);
+    for (int i = 0; i < 8; i++)
+    {
+      // inverse parabolic gradient
+      qreal k1 = (k0 * qreal(8 - i) + qreal(i)) * 0.125;
+      qreal a = 1.0 - sqrt(i * 0.125);
+      glowGradient.setColorAt(k1, alphaColor(color, a));
+    }
 
     // glow
     p.setBrush(glowGradient);
@@ -732,7 +738,6 @@ void OxygenHelper::drawOuterGlow( QPainter &p, const QColor &color, int size) co
     // inside mask
     p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
     p.setBrush(QBrush(Qt::black));
-    qreal width( 3 );
     p.drawEllipse(r.adjusted(width, width, -width, -width));
 
 }
