@@ -51,14 +51,14 @@ namespace Oxygen
 
         //! return default animation
         virtual const Animation::Pointer& animation() const
-        { return GenericData::animation(); }
+        { return SliderData::animation(); }
 
         //! return animation for a given subcontrol
         virtual const Animation::Pointer& animation( QStyle::SubControl ) const;
 
         //! return default opacity
         virtual qreal opacity( void ) const
-        { return GenericData::opacity(); }
+        { return SliderData::opacity(); }
 
         //! return default opacity for a given subcontrol
         virtual qreal opacity( QStyle::SubControl ) const;

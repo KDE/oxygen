@@ -51,10 +51,15 @@ namespace Oxygen
    //____________________________________________________________
     bool ScrollBarEngine::isAnimated( const QObject* object, QStyle::SubControl control )
     {
-        DataMap<ScrollBarData>::Value data( data_.find( object ) );
-        if( !data ) return false;
-        if( Animation::Pointer animation = data.data()->animation( control ) ) return animation.data()->isRunning();
-        else return false;
+
+        if( DataMap<ScrollBarData>::Value data = data_.find( object ) )
+        {
+            if( Animation::Pointer animation = data.data()->animation( control ) ) return animation.data()->isRunning();
+
+        }
+
+        return false;
+
     }
 
 }

@@ -46,6 +46,9 @@ namespace Oxygen
         subLineOpacity_( 0 )
     {
 
+        connect( addLineAnimation().data(), SIGNAL( finished( void ) ), SLOT( clearAddLineRect( void ) ) );
+        connect( subLineAnimation().data(), SIGNAL( finished( void ) ), SLOT( clearSubLineRect( void ) ) );
+
         // setup animation
         setupAnimation( addLineAnimation(), "addLineOpacity" );
         setupAnimation( subLineAnimation(), "subLineOpacity" );
@@ -156,7 +159,8 @@ namespace Oxygen
         if( hoverControl == QStyle::SC_ScrollBarSubLine )
         {
 
-            if( !subLineArrowHovered() ) {
+            if( !subLineArrowHovered() )
+            {
                 setSubLineArrowHovered( true );
                 subLineAnimation().data()->setDirection( Animation::Forward );
                 if( !subLineAnimation().data()->isRunning() ) subLineAnimation().data()->start();
@@ -180,8 +184,8 @@ namespace Oxygen
         if( hoverControl == QStyle::SC_ScrollBarAddLine )
         {
 
-            if( !addLineArrowHovered() ) {
-
+            if( !addLineArrowHovered() )
+            {
                 setAddLineArrowHovered( true );
                 addLineAnimation().data()->setDirection( Animation::Forward );
                 if( !addLineAnimation().data()->isRunning() ) addLineAnimation().data()->start();

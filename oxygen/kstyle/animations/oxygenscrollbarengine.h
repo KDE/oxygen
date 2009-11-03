@@ -63,7 +63,10 @@ namespace Oxygen
 
         //! control rect associated to object
         virtual QRect subControlRect( const QObject* object, QStyle::SubControl control )
-        { return isAnimated( object, control ) ? data_.find( object ).data()->subControlRect( control ):QRect(); }
+        {
+            if( DataMap<ScrollBarData>::Value data = data_.find( object ) ) return data.data()->subControlRect( control );
+            else return QRect();
+        }
 
         //! control rect
         virtual void setSubControlRect( const QObject* object, QStyle::SubControl control, const QRect& rect )
