@@ -54,11 +54,6 @@ namespace Oxygen
         // default enability, duration and maxFrame
         bool animationsEnabled( OxygenStyleConfigData::animationsEnabled() );
 
-        // max frame
-        QList<BaseEngine*> engines( findChildren<BaseEngine*>() );
-        foreach( BaseEngine* engine, engines )
-        { engine->setMaxFrame( 500 ); }
-
         // enability
         widgetEnabilityEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         abstractButtonEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );

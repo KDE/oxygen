@@ -31,24 +31,19 @@ namespace Oxygen
 {
 
     //______________________________________________
-    MenuBarDataV1::MenuBarDataV1( QObject* parent, QWidget* target, int maxFrame, int duration ):
-        WidgetData( parent, target ),
-        currentTimeLine_( new TimeLine( duration, this ) ),
-        previousTimeLine_( new TimeLine( duration, this ) )
+    MenuBarDataV1::MenuBarDataV1( QWidget* parent, int duration ):
+        WidgetData( parent ),
+        currentAnimation_( new Animation( duration, this ) ),
+        previousAnimation_( new Animation( duration, this ) )
     {
 
-        // setup timeLine
-        currentTimeLine()->setDirection( QTimeLine::Forward );
-        currentTimeLine()->setFrameRange( 0, maxFrame );
-        currentTimeLine()->setCurveShape( QTimeLine::LinearCurve );
-        connect( currentTimeLine().data(), SIGNAL( frameChanged( int ) ), SLOT( setDirty( void ) ) );
-        connect( currentTimeLine().data(), SIGNAL( finished() ), SLOT( setDirty( void ) ) );
 
-        previousTimeLine()->setDirection( QTimeLine::Backward );
-        previousTimeLine()->setFrameRange( 0, maxFrame );
-        previousTimeLine()->setCurveShape( QTimeLine::LinearCurve );
-        connect( previousTimeLine().data(), SIGNAL( frameChanged( int ) ), SLOT( setDirty( void ) ) );
-        connect( previousTimeLine().data(), SIGNAL( finished() ), SLOT( setDirty( void ) ) );
+        // setup timeLine
+        setupAnimation( currentAnimation(), "currentOpacity" );
+        currentAnimation().data()->setDirection( Animation::Forward );
+
+        setupAnimation( previousAnimation(), "previousOpacity" );
+        previousAnimation().data()->setDirection( Animation::Backward );
 
     }
 

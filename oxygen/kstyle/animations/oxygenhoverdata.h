@@ -31,18 +31,18 @@
 
 namespace Oxygen
 {
-    
+
     //! Hover data
     class HoverData: public GenericData
     {
-        
+
         Q_OBJECT
-            
+
         public:
-           
+
         //! constructor
-        HoverData( QObject* parent, QWidget* target, int maxFrame, int duration ):
-        GenericData( parent, target, maxFrame, duration )
+        HoverData( QWidget* parent, int duration ):
+        GenericData( parent, duration )
         {}
 
         //! destructor

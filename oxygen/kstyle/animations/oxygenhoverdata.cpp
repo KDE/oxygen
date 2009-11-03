@@ -45,16 +45,16 @@ namespace Oxygen
             // enter event
             case QEvent::HoverEnter:
             {
-                timeLine()->setDirection( QTimeLine::Forward );
-                if( !timeLine()->isRunning() ) timeLine()->start();
+                animation().data()->setDirection( Animation::Forward );
+                if( !animation().data()->isRunning() ) animation().data()->start();
                 break;
             }
 
             // leave event
             case QEvent::HoverLeave:
             {
-                timeLine()->setDirection( QTimeLine::Backward );
-                if( !timeLine()->isRunning() ) timeLine()->start();
+                animation().data()->setDirection( Animation::Backward );
+                if( !animation().data()->isRunning() ) animation().data()->start();
                 break;
             }
 

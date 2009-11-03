@@ -41,8 +41,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        EnableData( QObject* parent, QWidget* target, int maxFrame, int duration ):
-        GenericData( parent, target, maxFrame, duration )
+        EnableData( QWidget* parent, int duration ):
+        GenericData( parent, duration )
         {}
 
         //! destructor

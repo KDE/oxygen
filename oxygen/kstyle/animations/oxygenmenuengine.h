@@ -34,13 +34,6 @@
 namespace Oxygen
 {
 
-    //! widget index
-    enum WidgetIndex
-    {
-        Current,
-        Previous
-    };
-
     //! stores menu hovered action and timeLine
     class MenuBaseEngine: public BaseEngine
     {
@@ -69,14 +62,11 @@ namespace Oxygen
         { return -1; }
 
         //! return 'hover' rect position when widget is animated
-        virtual QRect animatedRect( const QObject*, WidgetIndex )
+        virtual QRect currentRect( const QObject*, WidgetIndex )
         { return QRect(); }
 
         //! enability
         virtual void setEnabled( bool value ) = 0;
-
-        //! max frame
-        virtual void setMaxFrame( int value ) = 0;
 
         //! duration
         virtual void setDuration( int ) = 0;
@@ -103,18 +93,21 @@ namespace Oxygen
         virtual bool registerWidget( QWidget* );
 
         //! true if widget is animated
-        virtual bool isAnimated( const QObject* object, WidgetIndex index )
-        { return (bool) timeLine( object, index ); }
+        virtual bool isAnimated( const QObject* object, WidgetIndex index );
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, WidgetIndex index )
         {
-            TimeLine::Pointer timeLine( MenuEngineV1::timeLine( object, index ) );
-            return timeLine ? timeLine->ratio() : -1;
+            if( !isAnimated( object, index ) ) return WidgetData::OpacityInvalid;
+            else return data_.find(object).data()->opacity( index );
         }
 
         //! return 'hover' rect position when widget is animated
-        virtual QRect animatedRect( const QObject*, WidgetIndex );
+        virtual QRect currentRect( const QObject* object, WidgetIndex index )
+        {
+            if( !isAnimated( object, index ) ) return QRect();
+            else return data_.find(object).data()->currentRect( index );
+        }
 
         //! enability
         virtual void setEnabled( bool value )
@@ -127,15 +120,7 @@ namespace Oxygen
         virtual void setDuration( int duration )
         {
             BaseEngine::setDuration( duration );
-            foreach( const DataMap<MenuDataV1>::Value& value, data_ )
-            { value->setDuration( duration ); }
-        }
-
-        //! max frame
-        virtual void setMaxFrame( int value )
-        {
-            BaseEngine::setMaxFrame( value );
-            data_.setMaxFrame( value );
+            data_.setDuration( duration );
         }
 
         protected slots:
@@ -143,11 +128,6 @@ namespace Oxygen
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
         { if( object ) data_.remove( object ); }
-
-        protected:
-
-        //! return timeLine associated to action at given position, if any
-        virtual TimeLine::Pointer timeLine( const QObject*, WidgetIndex );
 
         private:
 

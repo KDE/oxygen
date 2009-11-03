@@ -27,7 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygentimeline.h"
+#include "oxygenanimation.h"
 #include <QtCore/QObject>
 
 namespace Oxygen
@@ -44,7 +44,6 @@ namespace Oxygen
         BaseEngine( QObject* parent ):
         QObject( parent ),
         enabled_( true ),
-        maxFrame_( 500 ),
         duration_( 200 )
         {}
 
@@ -60,14 +59,6 @@ namespace Oxygen
         virtual bool enabled( void ) const
         { return enabled_; }
 
-        //! max frame
-        virtual void setMaxFrame( int value )
-        { maxFrame_ = value; }
-
-        //! max frame
-        virtual int maxFrame( void ) const
-        { return maxFrame_; }
-
         //! duration
         virtual void setDuration( int value )
         { duration_ = value; }
@@ -76,16 +67,9 @@ namespace Oxygen
         virtual int duration( void ) const
         { return duration_; }
 
-        protected:
-
-        //! return timeLine if running, null pointer otherwise
-        virtual TimeLine::Pointer _timeLine( const TimeLine::Pointer& timeLine ) const
-        { return timeLine && timeLine->isRunning() ? timeLine : TimeLine::Pointer(); }
-
         private:
 
         bool enabled_;
-        int maxFrame_;
         int duration_;
 
     };

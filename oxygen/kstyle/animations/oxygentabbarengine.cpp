@@ -40,26 +40,12 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, QPointer<TabBarData>( new TabBarData( this, widget, maxFrame(), duration() ) ) );
+        if( !data_.contains( widget ) ) data_.insert( widget, new TabBarData( widget, duration() ) );
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
         return true;
-
-    }
-
-    //____________________________________________________________
-    TimeLine::Pointer TabBarEngine::timeLine( const QObject* object, const QPoint& position )
-    {
-
-        if( !enabled() ) return TimeLine::Pointer();
-
-        TimeLine::Pointer out;
-        if( QPointer<TabBarData> data = data_.find( object ) )
-        { out = data->timeLine( object, position ); }
-
-        return _timeLine( out );
 
     }
 

@@ -1,8 +1,8 @@
-#ifndef oxygentimeline_h
-#define oxygentimeline_h
+#ifndef oxygenanimation_h
+#define oxygenanimation_h
 //////////////////////////////////////////////////////////////////////////////
-// oxygentimeline.h
-// stores event filters and maps widgets to timelines for animations
+// oxygenanimation.h
+// stores event filters and maps widgets to animations for animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -28,12 +28,12 @@
 
 #include <QtCore/QPointer>
 #include <QtCore/QTimeLine>
-#include <QtCore/QTextStream>
+#include <QtCore/QVariant>
 
 namespace Oxygen
 {
 
-    class TimeLine: public QTimeLine
+    class Animation: public QTimeLine
     {
 
         Q_OBJECT
@@ -41,28 +41,23 @@ namespace Oxygen
         public:
 
         //! TimeLine shared pointer
-        typedef QPointer<TimeLine> Pointer;
+        typedef QPointer<Animation> Pointer;
 
         //! constructor
-        TimeLine( int duration, QObject* parent ):
+        Animation( int duration, QObject* parent ):
             QTimeLine( duration, parent )
-            {}
+        {
+            setFrameRange( 0, 512 );
+            connect( this, SIGNAL( frameChanged( int ) ), SLOT( updateProperty( int ) ) );
+        }
 
         //! destructor
-        virtual ~TimeLine( void )
+        virtual ~Animation( void )
         {}
 
         //! true if running
         bool isRunning( void ) const
-        { return state() == QTimeLine::Running; }
-
-        //! progress ratio
-        qreal ratio( void ) const
-        {
-            static const qreal offset = 0.1;
-            static const qreal scale = 1.0 - offset*2;
-            return offset + scale*qreal( currentFrame() )/qreal( endFrame() );
-        }
+        { return state() == Animation::Running; }
 
         //! restart
         void restart( void )
@@ -70,6 +65,40 @@ namespace Oxygen
             if( isRunning() ) stop();
             start();
         }
+
+        //! start
+        void setStartValue( qreal value )
+        { start_ = value; }
+
+        //! end
+        void setEndValue( qreal value )
+        { end_ = value; }
+
+        //! target
+        void setTargetObject( QObject* object )
+        { target_ = object; }
+
+        //! property
+        void setPropertyName( const QByteArray& array )
+        { property_ = array; }
+
+
+        signals:
+
+        void valueChanged( const QVariant& );
+
+
+        private slots:
+
+        //! update property
+        void updateProperty( int );
+
+        private:
+
+        qreal start_;
+        qreal end_;
+        QPointer<QObject> target_;
+        QByteArray property_;
 
     };
 

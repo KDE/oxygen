@@ -3,7 +3,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenwidgetdata.h
-// stores event filters and maps widgets to timelines for animations
+// stores event filters and maps widgets to Animations for animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -38,10 +38,14 @@ namespace Oxygen
 
         Q_OBJECT
 
+        //! declare opacity property
+        Q_PROPERTY( qreal currentOpacity READ currentOpacity WRITE setCurrentOpacity )
+        Q_PROPERTY( qreal previousOpacity READ previousOpacity WRITE setPreviousOpacity )
+
         public:
 
         //! constructor
-        TabBarData( QObject* parent, QWidget* target, int maxFrame, int duration );
+        TabBarData( QWidget* parent, int duration );
 
         //! destructor
         virtual ~TabBarData( void )
@@ -53,19 +57,20 @@ namespace Oxygen
         //! duration
         void setDuration( int duration )
         {
-            currentIndexTimeLine_->setDuration( duration );
-            previousIndexTimeLine_->setDuration( duration );
-        }
-
-        //! maxFrame
-        void setMaxFrame( int maxFrame )
-        {
-            currentIndexTimeLine_->setFrameRange( 0, maxFrame );
-            previousIndexTimeLine_->setFrameRange( 0, maxFrame );
+            currentIndexAnimation().data()->setDuration( duration );
+            previousIndexAnimation().data()->setDuration( duration );
         }
 
         //!@name current index handling
         //@{
+
+        //! current opacity
+        virtual qreal currentOpacity( void ) const
+        { return currentOpacity_; }
+
+        //! current opacity
+        virtual void setCurrentOpacity( qreal value )
+        { currentOpacity_ = value; }
 
         //! current index
         virtual int currentIndex( void ) const
@@ -75,14 +80,22 @@ namespace Oxygen
         virtual void setCurrentIndex( int index )
         { currentIndex_ = index; }
 
-        //! current index timeLine
-        virtual const TimeLine::Pointer& currentIndexTimeLine( void ) const
-        { return currentIndexTimeLine_; }
+        //! current index animation
+        virtual const Animation::Pointer& currentIndexAnimation( void ) const
+        { return currentIndexAnimation_; }
 
         //@}
 
         //!@name previous index handling
         //@{
+
+        //! previous opacity
+        virtual qreal previousOpacity( void ) const
+        { return previousOpacity_; }
+
+        //! previous opacity
+        virtual void setPreviousOpacity( qreal value )
+        { previousOpacity_ = value; }
 
         //! previous index
         virtual int previousIndex( void ) const
@@ -92,14 +105,17 @@ namespace Oxygen
         virtual void setPreviousIndex( int index )
         { previousIndex_ = index; }
 
-        //! previous index timeLine
-        virtual const TimeLine::Pointer& previousIndexTimeLine( void ) const
-        { return previousIndexTimeLine_; }
+        //! previous index Animation
+        virtual const Animation::Pointer& previousIndexAnimation( void ) const
+        { return previousIndexAnimation_; }
 
         //@}
 
-        //! return timeLine associated to action at given position, if any
-        virtual TimeLine::Pointer timeLine( const QObject* widget, const QPoint& position ) const;
+        //! return Animation associated to action at given position, if any
+        virtual Animation::Pointer animation( const QPoint& position ) const;
+
+        //! return opacity associated to action at given position, if any
+        virtual qreal opacity( const QPoint& position ) const;
 
         protected:
 
@@ -120,11 +136,17 @@ namespace Oxygen
         //! previous index
         int previousIndex_;
 
-        //! timeline
-        TimeLine::Pointer currentIndexTimeLine_;
+        //! Animation
+        Animation::Pointer currentIndexAnimation_;
 
-        //! timeline
-        TimeLine::Pointer previousIndexTimeLine_;
+        //! Animation
+        Animation::Pointer previousIndexAnimation_;
+
+        //! current opacity
+        qreal currentOpacity_;
+
+        //! previous opacity
+        qreal previousOpacity_;
 
     };
 

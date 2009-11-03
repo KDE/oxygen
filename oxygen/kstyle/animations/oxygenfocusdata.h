@@ -31,18 +31,18 @@
 
 namespace Oxygen
 {
-    
+
     //! Focus data
     class FocusData: public GenericData
     {
-        
+
         Q_OBJECT
-            
+
         public:
-            
+
         //! constructor
-        FocusData( QObject* parent, QWidget* target, int maxFrame, int duration ):
-        GenericData( parent, target, maxFrame, duration )
+        FocusData( QWidget* parent, int duration ):
+        GenericData( parent, duration )
         {}
 
         //! destructor

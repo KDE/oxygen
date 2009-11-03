@@ -3,7 +3,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygengenericengine.h
-// stores event filters and maps widgets to timelines for animations
+// stores event filters and maps widgets to animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -69,15 +69,11 @@ namespace Oxygen
         virtual bool registerWidget( QWidget*, unsigned int mode );
 
         //! true if widget is animated
-        virtual bool isAnimated( const QObject* object, AnimationMode mode )
-        { return (bool) timeLine( object, mode ); }
+        virtual bool isAnimated( const QObject* object, AnimationMode mode );
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, AnimationMode mode )
-        {
-            TimeLine::Pointer timeLine( GenericEngine::timeLine( object, mode ) );
-            return timeLine ? timeLine->ratio() : -1;
-        }
+        { return isAnimated( object, mode ) ? data( object, mode ).data()->opacity(): WidgetData::OpacityInvalid; }
 
         //! duration
         virtual void setEnabled( bool value )
@@ -97,15 +93,6 @@ namespace Oxygen
             enableData_.setDuration( value );
         }
 
-        //! max frame
-        virtual void setMaxFrame( int value )
-        {
-            BaseEngine::setMaxFrame( value );
-            hoverData_.setMaxFrame( value );
-            focusData_.setMaxFrame( value );
-            enableData_.setMaxFrame( value );
-        }
-
         protected slots:
 
         //! remove widget from map
@@ -121,8 +108,8 @@ namespace Oxygen
 
         protected:
 
-        //! returns timeLine associated to widget
-        TimeLine::Pointer timeLine( const QObject*, AnimationMode );
+        //! returns data associated to widget
+        DataMap<GenericData>::Value data( const QObject*, AnimationMode );
 
         private:
 

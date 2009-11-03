@@ -69,26 +69,18 @@ namespace Oxygen
         {
             enabled_ = enabled;
             foreach( const Value& value, *this )
-            { value->setEnabled( enabled ); }
+            { value.data()->setEnabled( enabled ); }
         }
 
         //! enability
         bool enabled( void ) const
         { return enabled_; }
 
-        //! maxFrame
-        void setMaxFrame( int maxFrame ) const
-        {
-            foreach( const Value& value, *this )
-            { value->setMaxFrame( maxFrame ); }
-        }
-
-
         //! duration
         void setDuration( int duration ) const
         {
             foreach( const Value& value, *this )
-            { value->setDuration( duration ); }
+            { value.data()->setDuration( duration ); }
         }
 
         private:

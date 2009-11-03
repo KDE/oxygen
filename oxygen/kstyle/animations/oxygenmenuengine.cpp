@@ -28,6 +28,7 @@
 #include "oxygenmenuengine.moc"
 
 #include <QtCore/QEvent>
+#include <QtCore/QTextStream>
 
 namespace Oxygen
 {
@@ -39,7 +40,7 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( this, widget, maxFrame(), duration() ) );
+        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( widget, duration() ) );
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
@@ -47,28 +48,20 @@ namespace Oxygen
         return true;
     }
 
-    //____________________________________________________________
-    TimeLine::Pointer MenuEngineV1::timeLine( const QObject* object, WidgetIndex index )
+   //____________________________________________________________
+    bool MenuEngineV1::isAnimated( const QObject* object, WidgetIndex index )
     {
+        DataMap<MenuDataV1>::Value data( data_.find( object ) );
+        if( !data )
+        {
+            return false;
+        }
 
-        if( !enabled() ) return TimeLine::Pointer();
+        if( Animation::Pointer animation = data.data()->animation( index ) ) {
 
-        TimeLine::Pointer out;
-        if( QPointer<MenuDataV1> data = data_.find( object ) )
-        { out = (index == Current) ? data->currentTimeLine():data->previousTimeLine(); }
-        return _timeLine( out );
+            return animation.data()->isRunning();
 
-    }
-
-    //____________________________________________________________
-    QRect MenuEngineV1::animatedRect( const QObject* object, WidgetIndex index )
-    {
-
-        if( !enabled() ) return QRect();
-        QPointer<MenuDataV1> out( data_.find( object ) );
-        if( !out ) return QRect();
-        else return (index == Current) ? out->currentRect() : out->previousRect();
-
+        } else return false;
     }
 
 }

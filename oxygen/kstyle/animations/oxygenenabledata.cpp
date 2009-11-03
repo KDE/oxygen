@@ -46,8 +46,8 @@ namespace Oxygen
                 if( QWidget* widget = qobject_cast<QWidget*>( object ) )
                 {
                     bool enabled( widget->isEnabled() );
-                    timeLine()->setDirection( enabled ? QTimeLine::Forward : QTimeLine::Backward );
-                    if( !timeLine()->isRunning() ) timeLine()->start();
+                    animation().data()->setDirection( enabled ? Animation::Forward : Animation::Backward );
+                    if( !animation().data()->isRunning() ) animation().data()->start( );
                 }
                 break;
             }

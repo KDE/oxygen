@@ -100,8 +100,8 @@ namespace Oxygen
 
             if( !sliderHovered() ) {
                 setSliderHovered( true );
-                timeLine()->setDirection( QTimeLine::Forward );
-                if( !timeLine()->isRunning() ) timeLine()->start();
+                animation().data()->setDirection( Animation::Forward );
+                if( !animation().data()->isRunning() ) animation().data()->start();
             }
 
         } else {
@@ -109,8 +109,8 @@ namespace Oxygen
             if( sliderHovered() )
             {
                 setSliderHovered( false );
-                timeLine()->setDirection( QTimeLine::Backward );
-                if( !timeLine()->isRunning() ) timeLine()->start();
+                animation().data()->setDirection( Animation::Backward );
+                if( !animation().data()->isRunning() ) animation().data()->start();
             }
 
         }

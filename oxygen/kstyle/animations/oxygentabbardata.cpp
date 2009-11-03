@@ -34,44 +34,53 @@ namespace Oxygen
 {
 
     //______________________________________________
-    TabBarData::TabBarData( QObject* parent, QWidget* target, int maxFrame, int duration ):
-        WidgetData( parent, target ),
+    TabBarData::TabBarData( QWidget* parent, int duration ):
+        WidgetData( parent ),
         currentIndex_( -1 ),
         previousIndex_( -1 ),
-        currentIndexTimeLine_( new TimeLine( duration, this ) ),
-        previousIndexTimeLine_( new TimeLine( duration, this ) )
+        currentIndexAnimation_( new Animation( duration, this ) ),
+        previousIndexAnimation_( new Animation( duration, this ) ),
+        currentOpacity_( 0 ),
+        previousOpacity_( 0 )
+    {
+        setupAnimation( currentIndexAnimation(), "currentOpacity" );
+        setupAnimation( previousIndexAnimation(), "previousOpacity" );
+
+        currentIndexAnimation().data()->setDirection( Animation::Forward );
+        previousIndexAnimation().data()->setDirection( Animation::Backward );
+    }
+
+    //______________________________________________
+    Animation::Pointer TabBarData::animation( const QPoint& position ) const
     {
 
-        // setup timeLines
-        currentIndexTimeLine()->setFrameRange( 0, maxFrame );
-        currentIndexTimeLine()->setCurveShape( QTimeLine::EaseInOutCurve );
-        currentIndexTimeLine()->setDirection( QTimeLine::Forward );
-        connect( currentIndexTimeLine().data(), SIGNAL( frameChanged( int ) ), SLOT( setDirty( void ) ) );
-        connect( currentIndexTimeLine().data(), SIGNAL( finished() ), SLOT( setDirty( void ) ) );
+        if( !enabled() )  return Animation::Pointer();
 
-        // setup timeLines
-        previousIndexTimeLine()->setFrameRange( 0, maxFrame );
-        previousIndexTimeLine()->setCurveShape( QTimeLine::EaseInOutCurve );
-        previousIndexTimeLine()->setDirection( QTimeLine::Backward );
-        connect( previousIndexTimeLine().data(), SIGNAL( frameChanged( int ) ), SLOT( setDirty( void ) ) );
-        connect( previousIndexTimeLine().data(), SIGNAL( finished() ), SLOT( setDirty( void ) ) );
+        const QTabBar* local( qobject_cast<const QTabBar*>( target().data() ) );
+        if( !local ) return Animation::Pointer();
+
+        int index( local->tabAt( position ) );
+        if( index < 0 ) return Animation::Pointer();
+        else if( index == currentIndex() ) return currentIndexAnimation();
+        else if( index == previousIndex() ) return previousIndexAnimation();
+        else return Animation::Pointer();
 
     }
 
     //______________________________________________
-    TimeLine::Pointer TabBarData::timeLine( const QObject* object, const QPoint& position ) const
+    qreal TabBarData::opacity( const QPoint& position ) const
     {
 
-        if( !enabled() )  return TimeLine::Pointer();
+        if( !enabled() ) return OpacityInvalid;
 
-        const QTabBar* local( qobject_cast<const QTabBar*>( object ) );
-        if( !local ) return TimeLine::Pointer();
+        const QTabBar* local( qobject_cast<const QTabBar*>( target().data() ) );
+        if( !local ) return OpacityInvalid;
 
         int index( local->tabAt( position ) );
-        if( index < 0 ) return TimeLine::Pointer();
-        else if( index == currentIndex() ) return currentIndexTimeLine();
-        else if( index == previousIndex() ) return previousIndexTimeLine();
-        else return TimeLine::Pointer();
+        if( index < 0 ) return OpacityInvalid;
+        else if( index == currentIndex() ) return currentOpacity();
+        else if( index == previousIndex() ) return previousOpacity();
+        else return OpacityInvalid;
 
     }
 
@@ -121,15 +130,15 @@ namespace Oxygen
     void TabBarData::leaveEvent( const QObject* )
     {
 
-        // otherwise: stop current index timeLine
-        // move current index to previous, and trigger previousIndexTimeLine
-        if( currentIndexTimeLine()->isRunning() ) currentIndexTimeLine()->stop();
+        // otherwise: stop current index animation
+        // move current index to previous, and trigger previousIndexAnimation
+        if( currentIndexAnimation().data()->isRunning() ) currentIndexAnimation().data()->stop();
         if( currentIndex() >= 0 )
         {
 
             setPreviousIndex( currentIndex() );
             setCurrentIndex( -1 );
-            previousIndexTimeLine()->restart();
+            previousIndexAnimation().data()->restart();
 
         }
 
@@ -154,13 +163,13 @@ namespace Oxygen
             {
                 setPreviousIndex( currentIndex() );
                 setCurrentIndex( -1 );
-                previousIndexTimeLine()->restart();
+                previousIndexAnimation().data()->restart();
             }
 
             if( currentTabIndex >= 0 )
             {
                 setCurrentIndex( currentTabIndex );
-                currentIndexTimeLine()->restart();
+                currentIndexAnimation().data()->restart();
             }
 
         }

@@ -57,14 +57,15 @@ namespace Oxygen
 
         //! true if widget is animated
         virtual bool isAnimated( const QObject* object, const QPoint& point )
-        { return (bool) timeLine( object, point ); }
+        {
+            if( DataMap<TabBarData>::Value data = data_.find( object ) )
+            { if( Animation::Pointer animation = data.data()->animation( point ) ) return animation.data()->isRunning(); }
+            return false;
+        }
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, const QPoint& point )
-        {
-            TimeLine::Pointer timeLine( TabBarEngine::timeLine( object, point ) );
-            return timeLine ? timeLine->ratio() : -1;
-        }
+        { return isAnimated( object, point ) ? data_.find( object ).data()->opacity( point ) : WidgetData::OpacityInvalid; }
 
         //! enability
         virtual void setEnabled( bool value )
@@ -80,23 +81,11 @@ namespace Oxygen
             data_.setDuration( value );
         }
 
-        //! max frame
-        virtual void setMaxFrame( int value )
-        {
-            BaseEngine::setMaxFrame( value );
-            data_.setMaxFrame( value );
-        }
-
         protected slots:
 
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
         { if( object ) data_.remove( object ); }
-
-        protected:
-
-        //! return timeLine associated to action at given position, if any
-        virtual TimeLine::Pointer timeLine( const QObject*, const QPoint& position );
 
         private:
 

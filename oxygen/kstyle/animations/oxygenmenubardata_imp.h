@@ -39,9 +39,9 @@ namespace Oxygen
         if( !local ) return;
 
         // if the current action is still active, one does nothing
-        if( local->activeAction() == currentAction() ) return;
+        if( local->activeAction() == currentAction().data() ) return;
 
-        if( currentTimeLine()->isRunning() ) currentTimeLine()->stop();
+        if( currentAnimation().data()->isRunning() ) currentAnimation().data()->stop();
         clearCurrentAction();
         clearCurrentRect();
 
@@ -57,16 +57,16 @@ namespace Oxygen
         if( !local ) return;
 
         // if the current action is still active, one does nothing
-        if( local->activeAction() == currentAction() ) return;
+        if( local->activeAction() == currentAction().data() ) return;
 
-        if( currentTimeLine()->isRunning() ) currentTimeLine()->stop();
-        if( previousTimeLine()->isRunning() ) previousTimeLine()->stop();
+        if( currentAnimation().data()->isRunning() ) currentAnimation().data()->stop();
+        if( previousAnimation().data()->isRunning() ) previousAnimation().data()->stop();
         if( currentAction() )
         {
             setPreviousRect( currentRect() );
             clearCurrentAction();
             clearCurrentRect();
-            previousTimeLine()->start();
+            previousAnimation().data()->start();
         }
 
         return;
@@ -80,15 +80,15 @@ namespace Oxygen
         if( !local ) return;
 
         // check action
-        if( local->activeAction() == currentAction() ) return;
+        if( local->activeAction() == currentAction().data() ) return;
 
         // check current action
         if( currentAction() )
         {
-            if( currentTimeLine()->isRunning() ) currentTimeLine()->stop();
-            if( previousTimeLine()->isRunning() ) previousTimeLine()->stop();
+            if( currentAnimation().data()->isRunning() ) currentAnimation().data()->stop();
+            if( previousAnimation().data()->isRunning() ) previousAnimation().data()->stop();
             setPreviousRect( currentRect() );
-            previousTimeLine()->start();
+            previousAnimation().data()->start();
             clearCurrentAction();
             clearCurrentRect();
         }
@@ -96,10 +96,10 @@ namespace Oxygen
         // check if local current actions is valid
         if( local->activeAction() && local->activeAction()->isEnabled() && !local->activeAction()->isSeparator())
         {
-            if( currentTimeLine()->isRunning() ) currentTimeLine()->stop();
+            if( currentAnimation().data()->isRunning() ) currentAnimation().data()->stop();
             setCurrentAction( local->activeAction() );
-            setCurrentRect( local->actionGeometry( currentAction() ) );
-            currentTimeLine()->start();
+            setCurrentRect( local->actionGeometry( currentAction().data() ) );
+            currentAnimation().data()->start();
         }
 
     }

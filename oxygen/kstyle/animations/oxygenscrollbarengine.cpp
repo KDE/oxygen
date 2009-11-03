@@ -39,7 +39,7 @@ namespace Oxygen
         if( !(enabled() && widget ) ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, QPointer<ScrollBarData>( new ScrollBarData( this, widget, maxFrame(), duration() ) ) );
+        if( !data_.contains( widget ) ) data_.insert( widget, new ScrollBarData( widget, duration() ) );
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
@@ -47,45 +47,14 @@ namespace Oxygen
         return true;
     }
 
-    //____________________________________________________________
-    TimeLine::Pointer ScrollBarEngine::timeLine( const QObject* object, QStyle::SubControl control )
+
+   //____________________________________________________________
+    bool ScrollBarEngine::isAnimated( const QObject* object, QStyle::SubControl control )
     {
-
-        if( !enabled() ) return TimeLine::Pointer();
-
-        TimeLine::Pointer out;
-        if( QPointer<ScrollBarData> data = data_.find( object ) )
-        { out = data->timeLine( control ); }
-
-        return _timeLine( out );
-
-    }
-
-    //____________________________________________________________
-    QRect ScrollBarEngine::subControlRect( const QObject* object, QStyle::SubControl subcontrol )
-    {
-
-        if( !enabled() ) return QRect();
-
-        QRect out;
-        if( QPointer<ScrollBarData> data = data_.find( object ) )
-        { out = data->subControlRect( subcontrol ); }
-
-        return out;
-
-    }
-
-    //____________________________________________________________
-    void ScrollBarEngine::setSubControlRect( const QObject* object, QStyle::SubControl subcontrol, const QRect& rect )
-    {
-
-        if( !enabled() ) return;
-
-        if( QPointer<ScrollBarData> data = data_.find( object ) )
-        { data->setSubControlRect( subcontrol, rect ); }
-
-        return;
-
+        DataMap<ScrollBarData>::Value data( data_.find( object ) );
+        if( !data ) return false;
+        if( Animation::Pointer animation = data.data()->animation( control ) ) return animation.data()->isRunning();
+        else return false;
     }
 
 }

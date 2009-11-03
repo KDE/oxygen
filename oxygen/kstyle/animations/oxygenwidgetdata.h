@@ -27,12 +27,12 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygentimeline.h"
-
 #include <QtCore/QEvent>
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
 #include <QtGui/QWidget>
+
+#include "oxygenanimation.h"
 
 namespace Oxygen
 {
@@ -46,11 +46,14 @@ namespace Oxygen
         public:
 
         //! constructor
-        WidgetData( QObject* parent, QWidget* target ):
+        WidgetData( QWidget* parent ):
         QObject( parent ),
-        target_( target ),
+        target_( parent ),
         enabled_( true )
-        { target->installEventFilter( this ); }
+        {
+            Q_ASSERT( target_ );
+            target_.data()->installEventFilter( this );
+        }
 
         //! destructor
         virtual ~WidgetData( void )
@@ -62,9 +65,6 @@ namespace Oxygen
         //! duration
         virtual void setDuration( int ) = 0;
 
-        //! max frame
-        virtual void setMaxFrame( int ) = 0;
-
         //! enability
         virtual bool enabled( void ) const
         { return enabled_; }
@@ -73,17 +73,23 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         { enabled_ = value; }
 
+        //! invalid opacity
+        static qreal OpacityInvalid;
+
         protected slots:
 
         /*! allows to trigger widget update in specified QRect only */
         virtual void setDirty( void )
-        { if( target_ ) target_->update(); }
+        { if( target_ ) target_.data()->update(); }
 
         protected:
 
         //! target
         const QPointer<QWidget>& target( void ) const
         { return target_; }
+
+        //! setup animation
+        virtual void setupAnimation( const Animation::Pointer& animation, const QByteArray& property );
 
         private:
 

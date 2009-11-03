@@ -897,7 +897,7 @@ bool OxygenStyle::drawMenuPrimitive(
         case Menu::Background:
         {
             bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Previous ) );
-            QRect previousRect( animations().menuEngine().animatedRect( widget, Oxygen::Previous ) );
+            QRect previousRect( animations().menuEngine().currentRect( widget, Oxygen::Previous ) );
             qreal opacity(  animations().menuEngine().opacity( widget, Oxygen::Previous ) );
             if( animated && previousRect.intersects( r ) )
             { renderMenuItemRect( opt, previousRect, pal, p, opacity ); }
@@ -942,7 +942,7 @@ bool OxygenStyle::drawMenuItemPrimitive(
         {
 
             bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Current ) );
-            QRect currentRect( animations().menuEngine().animatedRect( widget, Oxygen::Current ) );
+            QRect currentRect( animations().menuEngine().currentRect( widget, Oxygen::Current ) );
             const bool intersected( currentRect.contains( r.topLeft() ) );
 
             if (enabled)

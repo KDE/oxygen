@@ -46,8 +46,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        MenuDataV1( QObject* parent, QWidget* target, int maxFrame, int duration ):
-        MenuBarDataV1( parent, target, maxFrame, duration )
+        MenuDataV1( QWidget* parent, int duration ):
+        MenuBarDataV1( parent, duration )
         {}
 
         //! destructor

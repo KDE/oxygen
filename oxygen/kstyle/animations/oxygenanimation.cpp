@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygentimeline.h
-// stores event filters and maps widgets to timelines for animations
+// oxygenanimation.h
+// stores event filters and maps widgets to animations for animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -24,5 +24,19 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygentimeline.h"
-#include "oxygentimeline.moc"
+#include "oxygenanimation.h"
+#include "oxygenanimation.moc"
+
+namespace Oxygen
+{
+
+  //_________________________________________________
+  void Animation::updateProperty( int frame )
+  {
+
+    qreal value = start_ + (end_-start_)*qreal(frame)/qreal(endFrame());
+    if( target_ ) target_.data()->setProperty( property_, value );
+    emit valueChanged( QVariant() );
+  }
+
+}

@@ -55,21 +55,22 @@ namespace Oxygen
         virtual bool registerWidget( QWidget* );
 
         //! true if widget is animated
-        virtual bool isAnimated( const QObject* object, QStyle::SubControl subcontrol )
-        { return (bool) timeLine( object, subcontrol ); }
+        virtual bool isAnimated( const QObject* object, QStyle::SubControl control );
 
         //! animation opacity
-        virtual qreal opacity( const QObject* object, QStyle::SubControl subcontrol )
+        virtual qreal opacity( const QObject* object, QStyle::SubControl control )
+        { return isAnimated( object, control ) ? data_.find( object ).data()->opacity( control ):WidgetData::OpacityInvalid; }
+
+        //! control rect associated to object
+        virtual QRect subControlRect( const QObject* object, QStyle::SubControl control )
+        { return isAnimated( object, control ) ? data_.find( object ).data()->subControlRect( control ):QRect(); }
+
+        //! control rect
+        virtual void setSubControlRect( const QObject* object, QStyle::SubControl control, const QRect& rect )
         {
-            TimeLine::Pointer timeLine( ScrollBarEngine::timeLine( object, subcontrol ) );
-            return timeLine ? timeLine->ratio() : -1;
+            if( DataMap<ScrollBarData>::Value data = data_.find( object ) )
+            { data.data()->setSubControlRect( control, rect ); }
         }
-
-        //! subcontrol rect associated to object
-        virtual QRect subControlRect( const QObject*, QStyle::SubControl );
-
-        //! subcontrol rect
-        virtual void setSubControlRect( const QObject*, QStyle::SubControl, const QRect& );
 
         //! enability
         virtual void setEnabled( bool value )
@@ -85,23 +86,11 @@ namespace Oxygen
             data_.setDuration( value );
         }
 
-        //! max frame
-        virtual void setMaxFrame( int value )
-        {
-            BaseEngine::setMaxFrame( value );
-            data_.setMaxFrame( value );
-        }
-
         protected slots:
 
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
         { if( object ) data_.remove( object ); }
-
-        protected:
-
-        //! return timeLine associated to object for given subcontrol, if any
-        virtual TimeLine::Pointer timeLine( const QObject*, QStyle::SubControl );
 
         private:
 

@@ -56,14 +56,20 @@ namespace Oxygen
 
         //! true if widget is animated
         virtual bool isAnimated( const QObject* object )
-        { return (bool) timeLine( object ); }
+        {
+            if( DataMap<SliderData>::Value data = data_.find( object ) )
+            {
+
+                return data.data()->animation().data()->isRunning();
+
+            } else return false;
+
+        }
+
 
         //! animation opacity
         virtual qreal opacity( const QObject* object )
-        {
-            TimeLine::Pointer timeLine( SliderEngine::timeLine( object ) );
-            return timeLine ? timeLine->ratio() : -1;
-        }
+        { return isAnimated( object ) ? data_.find( object ).data()->opacity() : WidgetData::OpacityInvalid; }
 
         //! enability
         virtual void setEnabled( bool value )
@@ -79,23 +85,11 @@ namespace Oxygen
             data_.setDuration( value );
         }
 
-        //! max frame
-        virtual void setMaxFrame( int value )
-        {
-            BaseEngine::setMaxFrame( value );
-            data_.setMaxFrame( value );
-        }
-
         protected slots:
 
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
         { if( object ) data_.remove( object ); }
-
-        protected:
-
-        //! return timeLine associated to action at given position, if any
-        virtual TimeLine::Pointer timeLine( const QObject* );
 
         private:
 

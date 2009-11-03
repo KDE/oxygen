@@ -39,26 +39,12 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, QPointer<SliderData>( new SliderData( this, widget, maxFrame(), duration() ) ) );
+        if( !data_.contains( widget ) ) data_.insert( widget, new SliderData( widget, duration() ) );
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
         return true;
-
-    }
-
-    //____________________________________________________________
-    TimeLine::Pointer SliderEngine::timeLine( const QObject* object )
-    {
-
-        if( !enabled() ) return TimeLine::Pointer();
-
-        TimeLine::Pointer out;
-        if( QPointer<SliderData> data = data_.find( object ) )
-        { out = data->timeLine(); }
-
-        return _timeLine( out );
 
     }
 

@@ -36,45 +36,54 @@ Q_GUI_EXPORT QStyleOptionSlider qt_qscrollbarStyleOption(QScrollBar*);
 namespace Oxygen
 {
 
-    ScrollBarData::ScrollBarData( QObject* parent, QWidget* target, int maxFrame, int duration ):
-        SliderData( parent, target, maxFrame, duration ),
+    ScrollBarData::ScrollBarData( QWidget* parent, int duration ):
+        SliderData( parent, duration ),
         addLineArrowHovered_( false ),
         subLineArrowHovered_( false ),
-        addLineTimeLine_( new TimeLine( duration, this ) ),
-        subLineTimeLine_( new TimeLine( duration, this ) )
+        addLineAnimation_( new Animation( duration, this ) ),
+        subLineAnimation_( new Animation( duration, this ) ),
+        addLineOpacity_( 0 ),
+        subLineOpacity_( 0 )
     {
 
-        // setup timeLine
-        addLineTimeLine()->setFrameRange( 0, maxFrame );
-        addLineTimeLine()->setCurveShape( QTimeLine::EaseInOutCurve );
-        connect( addLineTimeLine_.data(), SIGNAL( frameChanged( int ) ), SLOT( setDirty( void ) ) );
-        connect( addLineTimeLine_.data(), SIGNAL( finished( void ) ), SLOT( clearAddLineRect( void ) ) );
-        connect( addLineTimeLine_.data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
-
-
-        // setup timeLine
-        subLineTimeLine()->setFrameRange( 0, maxFrame );
-        subLineTimeLine()->setCurveShape( QTimeLine::EaseInOutCurve );
-        connect( subLineTimeLine_.data(), SIGNAL( frameChanged( int ) ), SLOT( setDirty( void ) ) );
-        connect( subLineTimeLine_.data(), SIGNAL( finished( void ) ), SLOT( clearSubLineRect( void ) ) );
-        connect( subLineTimeLine_.data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
+        // setup animation
+        setupAnimation( addLineAnimation(), "addLineOpacity" );
+        setupAnimation( subLineAnimation(), "subLineOpacity" );
 
     }
 
     //______________________________________________
-    const TimeLine::Pointer& ScrollBarData::timeLine( QStyle::SubControl subcontrol ) const
+    const Animation::Pointer& ScrollBarData::animation( QStyle::SubControl subcontrol ) const
     {
         switch( subcontrol )
         {
             default:
             case QStyle::SC_ScrollBarSlider:
-            return timeLine();
+            return animation();
 
             case QStyle::SC_ScrollBarAddLine:
-            return addLineTimeLine();
+            return addLineAnimation();
 
             case QStyle::SC_ScrollBarSubLine:
-            return subLineTimeLine();
+            return subLineAnimation();
+        }
+
+    }
+
+    //______________________________________________
+    qreal ScrollBarData::opacity( QStyle::SubControl subcontrol ) const
+    {
+        switch( subcontrol )
+        {
+            default:
+            case QStyle::SC_ScrollBarSlider:
+            return opacity();
+
+            case QStyle::SC_ScrollBarAddLine:
+            return addLineOpacity();
+
+            case QStyle::SC_ScrollBarSubLine:
+            return subLineOpacity();
         }
 
     }
@@ -125,8 +134,8 @@ namespace Oxygen
 
             if( !sliderHovered() ) {
                 setSliderHovered( true );
-                timeLine()->setDirection( QTimeLine::Forward );
-                if( !timeLine()->isRunning() ) timeLine()->start();
+                animation().data()->setDirection( Animation::Forward );
+                if( !animation().data()->isRunning() ) animation().data()->start();
             }
 
         } else {
@@ -134,8 +143,8 @@ namespace Oxygen
             if( sliderHovered() )
             {
                 setSliderHovered( false );
-                timeLine()->setDirection( QTimeLine::Backward );
-                if( !timeLine()->isRunning() ) timeLine()->start();
+                animation().data()->setDirection( Animation::Backward );
+                if( !animation().data()->isRunning() ) animation().data()->start();
             }
 
         }
@@ -149,8 +158,8 @@ namespace Oxygen
 
             if( !subLineArrowHovered() ) {
                 setSubLineArrowHovered( true );
-                subLineTimeLine()->setDirection( QTimeLine::Forward );
-                if( !subLineTimeLine()->isRunning() ) subLineTimeLine()->start();
+                subLineAnimation().data()->setDirection( Animation::Forward );
+                if( !subLineAnimation().data()->isRunning() ) subLineAnimation().data()->start();
              }
 
         } else {
@@ -158,8 +167,8 @@ namespace Oxygen
             if( subLineArrowHovered() )
             {
                 setSubLineArrowHovered( false );
-                subLineTimeLine()->setDirection( QTimeLine::Backward );
-                if( !subLineTimeLine()->isRunning() ) subLineTimeLine()->start();
+                subLineAnimation().data()->setDirection( Animation::Backward );
+                if( !subLineAnimation().data()->isRunning() ) subLineAnimation().data()->start();
             }
 
         }
@@ -174,8 +183,8 @@ namespace Oxygen
             if( !addLineArrowHovered() ) {
 
                 setAddLineArrowHovered( true );
-                addLineTimeLine()->setDirection( QTimeLine::Forward );
-                if( !addLineTimeLine()->isRunning() ) addLineTimeLine()->start();
+                addLineAnimation().data()->setDirection( Animation::Forward );
+                if( !addLineAnimation().data()->isRunning() ) addLineAnimation().data()->start();
             }
 
         } else {
@@ -183,8 +192,8 @@ namespace Oxygen
             if( addLineArrowHovered() )
             {
                 setAddLineArrowHovered( false );
-                addLineTimeLine()->setDirection( QTimeLine::Backward );
-                if( !addLineTimeLine()->isRunning() ) addLineTimeLine()->start();
+                addLineAnimation().data()->setDirection( Animation::Backward );
+                if( !addLineAnimation().data()->isRunning() ) addLineAnimation().data()->start();
             }
 
         }

@@ -43,16 +43,16 @@ namespace Oxygen
             // enter event
             case QEvent::FocusIn:
             {
-                timeLine()->setDirection( QTimeLine::Forward );
-                if( !timeLine()->isRunning() ) timeLine()->start();
+                animation().data()->setDirection( Animation::Forward );
+                if( !animation().data()->isRunning() ) animation().data()->start();
                 break;
             }
 
             // leave event
             case QEvent::FocusOut:
             {
-                timeLine()->setDirection( QTimeLine::Backward );
-                if( !timeLine()->isRunning() ) timeLine()->start();
+                animation().data()->setDirection( Animation::Backward );
+                if( !animation().data()->isRunning() ) animation().data()->start();
                 break;
             }
 

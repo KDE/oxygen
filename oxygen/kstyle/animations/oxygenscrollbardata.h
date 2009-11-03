@@ -37,21 +37,31 @@ namespace Oxygen
     {
 
         Q_OBJECT
+        Q_PROPERTY( qreal addLineOpacity READ addLineOpacity WRITE setAddLineOpacity )
+        Q_PROPERTY( qreal subLineOpacity READ subLineOpacity WRITE setSubLineOpacity )
 
         public:
 
         //! constructor
-        ScrollBarData( QObject*, QWidget*, int, int );
+        ScrollBarData( QWidget*, int );
 
         //! destructor
         virtual ~ScrollBarData( void )
         {}
 
-        virtual const TimeLine::Pointer& timeLine() const
-        { return GenericData::timeLine(); }
+        //! return default animation
+        virtual const Animation::Pointer& animation() const
+        { return GenericData::animation(); }
 
-        //! return timeLine
-        virtual const TimeLine::Pointer& timeLine( QStyle::SubControl ) const;
+        //! return animation for a given subcontrol
+        virtual const Animation::Pointer& animation( QStyle::SubControl ) const;
+
+        //! return default opacity
+        virtual qreal opacity( void ) const
+        { return GenericData::opacity(); }
+
+        //! return default opacity for a given subcontrol
+        virtual qreal opacity( QStyle::SubControl ) const;
 
         //! subControlRect
         virtual QRect subControlRect( QStyle::SubControl control ) const
@@ -86,31 +96,39 @@ namespace Oxygen
         virtual void setDuration( int duration )
         {
             SliderData::setDuration( duration );
-            addLineTimeLine()->setDuration( duration );
-            subLineTimeLine()->setDuration( duration );
+            addLineAnimation().data()->setDuration( duration );
+            subLineAnimation().data()->setDuration( duration );
         }
 
-        //! maxFrame
-        virtual void setMaxFrame( int maxFrame )
-        {
-            SliderData::setMaxFrame( maxFrame );
-            addLineTimeLine()->setFrameRange( 0, maxFrame );
-            subLineTimeLine()->setFrameRange( 0, maxFrame );
-        }
+        //! addLine opacity
+        virtual void setAddLineOpacity( qreal value )
+        { addLineOpacity_ = value; }
+
+        //! addLine opacity
+        virtual qreal addLineOpacity( void ) const
+        { return addLineOpacity_; }
+
+        //! subLine opacity
+        virtual void setSubLineOpacity( qreal value )
+        { subLineOpacity_ = value; }
+
+        //! subLine opacity
+        virtual qreal subLineOpacity( void ) const
+        { return subLineOpacity_; }
 
         protected slots:
 
         //! clear addLineRect
         void clearAddLineRect( void )
         {
-            if( addLineTimeLine()->direction() == QTimeLine::Backward )
+            if( addLineAnimation().data()->direction() == Animation::Backward )
             { addLineRect_ = QRect(); }
         }
 
         //! clear subLineRect
         void clearSubLineRect( void )
         {
-            if( subLineTimeLine()->direction() == QTimeLine::Backward )
+            if( subLineAnimation().data()->direction() == Animation::Backward )
             { subLineRect_ = QRect(); }
         }
 
@@ -151,11 +169,11 @@ namespace Oxygen
         //!@name timelines
         //@{
 
-        virtual const TimeLine::Pointer& addLineTimeLine( void ) const
-        { return addLineTimeLine_; }
+        virtual const Animation::Pointer& addLineAnimation( void ) const
+        { return addLineAnimation_; }
 
-        virtual const TimeLine::Pointer& subLineTimeLine( void ) const
-        { return subLineTimeLine_; }
+        virtual const Animation::Pointer& subLineAnimation( void ) const
+        { return subLineAnimation_; }
 
         private:
 
@@ -164,8 +182,12 @@ namespace Oxygen
         bool subLineArrowHovered_;
 
         //! timelines
-        TimeLine::Pointer addLineTimeLine_;
-        TimeLine::Pointer subLineTimeLine_;
+        Animation::Pointer addLineAnimation_;
+        Animation::Pointer subLineAnimation_;
+
+        //! opacities
+        qreal addLineOpacity_;
+        qreal subLineOpacity_;
 
         //! subControlRect
         QRect addLineRect_;

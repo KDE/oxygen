@@ -69,9 +69,6 @@ namespace Oxygen
         //! enability
         virtual void setEnabled( bool value ) = 0;
 
-        //! max frame
-        virtual void setMaxFrame( int value ) = 0;
-
         //! duration
         virtual void setDuration( int ) = 0;
 
@@ -98,18 +95,15 @@ namespace Oxygen
         virtual bool registerWidget( QWidget* );
 
         //! true if widget is animated
-        virtual bool isAnimated( const QObject* object, const QPoint& point )
-        { return (bool) timeLine( object, point ); }
+        virtual bool isAnimated( const QObject* object, const QPoint& point );
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, const QPoint& point )
-        {
-            TimeLine::Pointer timeLine( MenuBarEngineV1::timeLine( object, point ) );
-            return timeLine ? timeLine->ratio() : -1;
-        }
+        { return isAnimated( object, point ) ? data_.find( object ).data()->opacity( point ): WidgetData::OpacityInvalid; }
 
         //! return 'hover' rect position when widget is animated
-        virtual QRect currentRect( const QObject*, const QPoint& );
+        virtual QRect currentRect( const QObject* object, const QPoint& point)
+        { return isAnimated( object, point ) ? data_.find( object ).data()->currentRect( point ): QRect(); }
 
         //! enability
         virtual void setEnabled( bool value )
@@ -122,15 +116,7 @@ namespace Oxygen
         virtual void setDuration( int duration )
         {
             BaseEngine::setDuration( duration );
-            foreach( const DataMap<MenuBarDataV1>::Value& value, data_ )
-            { value->setDuration( duration ); }
-        }
-
-        //! max frame
-        virtual void setMaxFrame( int value )
-        {
-            BaseEngine::setMaxFrame( value );
-            data_.setMaxFrame( value );
+            data_.setDuration( duration );
         }
 
         protected slots:
@@ -138,11 +124,6 @@ namespace Oxygen
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
         { if( object ) data_.remove( object ); }
-
-        protected:
-
-        //! return timeLine associated to action at given position, if any
-        virtual TimeLine::Pointer timeLine( const QObject*, const QPoint& );
 
         private:
 

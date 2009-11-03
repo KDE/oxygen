@@ -36,9 +36,9 @@ namespace Oxygen
     {
 
         if( !( enabled() && widget ) ) return false;
-        if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, QPointer<HoverData>( new HoverData( this, widget, maxFrame(), duration() ) ) ); }
-        if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, QPointer<FocusData>( new FocusData( this, widget, maxFrame(), duration() ) ) ); }
-        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, QPointer<EnableData>( new EnableData( this, widget, maxFrame(), duration() ) ) ); }
+        if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, new HoverData( widget, duration() ) ); }
+        if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, new FocusData( widget, duration() ) ); }
+        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, new EnableData( widget, duration() ) ); }
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
@@ -49,40 +49,26 @@ namespace Oxygen
     }
 
     //____________________________________________________________
-    TimeLine::Pointer GenericEngine::timeLine( const QObject* object, AnimationMode mode )
+    bool GenericEngine::isAnimated( const QObject* object, AnimationMode mode )
     {
 
-        if( !enabled() ) return TimeLine::Pointer();
+        DataMap<GenericData>::Value data( GenericEngine::data( object, mode ) );
+        return ( data && data.data()->animation() && data.data()->animation().data()->isRunning() );
 
-        TimeLine::Pointer out;
+    }
+
+    //____________________________________________________________
+    DataMap<GenericData>::Value GenericEngine::data( const QObject* object, AnimationMode mode )
+    {
+
+        DataMap<GenericData>::Value out;
         switch( mode )
         {
-            case AnimationHover:
-            {
-                if( QPointer<HoverData> data = hoverData_.find( object ) )
-                { out = data->timeLine(); }
-                break;
-            }
-
-            case AnimationFocus:
-            {
-                if( QPointer<FocusData> data = focusData_.find( object ) )
-                { out = data->timeLine(); }
-                break;
-            }
-
-            case AnimationEnable:
-            {
-                if( QPointer<EnableData> data = enableData_.find( object ) )
-                { out = data->timeLine(); }
-                break;
-            }
-
-            default: break;
-
+            case AnimationHover: return hoverData_.find( object ).data();
+            case AnimationFocus: return focusData_.find( object ).data();
+            case AnimationEnable: return enableData_.find( object ).data();
+            default: return DataMap<GenericData>::Value();
         }
-
-        return _timeLine( out );
 
     }
 

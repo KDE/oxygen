@@ -31,17 +31,10 @@ namespace Oxygen
 {
 
     //______________________________________________
-    GenericData::GenericData( QObject* parent, QWidget* target, int maxFrame, int duration ):
-        WidgetData( parent, target ),
-        timeLine_( new TimeLine( duration, this ) )
-    {
-
-        // setup timeLine
-        timeLine()->setFrameRange( 0, maxFrame );
-        timeLine()->setCurveShape( QTimeLine::EaseInOutCurve );
-        connect( timeLine_.data(), SIGNAL( frameChanged( int ) ), SLOT( setDirty( void ) ) );
-        connect( timeLine_.data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
-
-    }
+    GenericData::GenericData( QWidget* parent, int duration ):
+        WidgetData( parent ),
+        animation_( new Animation( duration, this ) ),
+        opacity_(0)
+    { setupAnimation( animation_, "opacity" ); }
 
 }

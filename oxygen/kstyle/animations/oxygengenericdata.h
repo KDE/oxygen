@@ -28,7 +28,10 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenwidgetdata.h"
+#include "oxygenanimation.h"
 
+#include <QtCore/QObject>
+#include <QtCore/QTextStream>
 namespace Oxygen
 {
 
@@ -39,30 +42,41 @@ namespace Oxygen
 
         Q_OBJECT
 
+        //! declare opacity property
+        Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
+
         public:
 
         //! constructor
-        GenericData( QObject* parent, QWidget* target, int maxFrame, int duration );
+        GenericData( QWidget* parent, int duration );
 
         //! destructor
         virtual ~GenericData( void )
         {}
 
         //! return timeLine
-        virtual const TimeLine::Pointer& timeLine() const
-        { return timeLine_; }
+        virtual const Animation::Pointer& animation() const
+        { return animation_; }
 
         //! duration
         virtual void setDuration( int duration )
-        { timeLine_->setDuration( duration ); }
+        { animation_.data()->setDuration( duration ); }
 
-        //! maxFrame
-        virtual void setMaxFrame( int maxFrame )
-        { timeLine_->setFrameRange( 0, maxFrame ); }
+        //! opacity
+        virtual qreal opacity( void ) const
+        { return opacity_; }
+
+        //! opacity
+        virtual void setOpacity( qreal value )
+        { opacity_ = value; }
 
         private:
 
-        TimeLine::Pointer timeLine_;
+        //! animation handling
+        Animation::Pointer animation_;
+
+        //! opacity variable
+        qreal opacity_;
 
     };
 

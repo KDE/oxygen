@@ -26,3 +26,26 @@
 
 #include "oxygenwidgetdata.h"
 #include "oxygenwidgetdata.moc"
+
+namespace Oxygen
+{
+
+    qreal WidgetData::OpacityInvalid = -1;
+
+    //_________________________________________________________________________________
+    void WidgetData::setupAnimation( const Animation::Pointer& animation, const QByteArray& property )
+    {
+
+        // setup animation
+        animation.data()->setStartValue( 0.1 );
+        animation.data()->setEndValue( 0.9 );
+        //animation.data()->setEasingCurve( QEasingCurve::InQuad );
+        animation.data()->setTargetObject( this );
+        animation.data()->setPropertyName( property );
+
+        // setup connections
+        connect( animation.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
+        connect( animation.data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
+    }
+
+}

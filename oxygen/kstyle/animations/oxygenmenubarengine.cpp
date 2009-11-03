@@ -39,7 +39,7 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuBarDataV1( this, widget, maxFrame(), duration() ) );
+        if( !data_.contains( widget ) ) data_.insert( widget, new MenuBarDataV1( widget, duration() ) );
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
@@ -49,42 +49,13 @@ namespace Oxygen
     }
 
     //____________________________________________________________
-    TimeLine::Pointer MenuBarEngineV1::timeLine( const QObject* object, const QPoint& position )
+    bool MenuBarEngineV1::isAnimated( const QObject* object, const QPoint& position )
     {
-
-        if( !enabled() ) return TimeLine::Pointer();
-
-        QPointer<MenuBarDataV1> data( data_.find( object ) );
-        TimeLine::Pointer out;
-
-        if( !data )
-        {
-
-            return out;
-
-        } else if( data->currentRect().contains( position ) ) {
-
-            out = data->currentTimeLine();
-
-        } else if( data->previousRect().contains( position ) ) {
-
-            out = data->previousTimeLine();
-
-        }
-
-        return _timeLine( out );
-
+        DataMap<MenuBarDataV1>::Value data( data_.find( object ) );
+        if( !data ) return false;
+        if( Animation::Pointer animation = data.data()->animation( position ) ) return animation.data()->isRunning();
+        else return false;
     }
 
-    //____________________________________________________________
-    QRect MenuBarEngineV1::currentRect( const QObject* object, const QPoint& position )
-    {
-        if( !enabled() ) return QRect();
-        QPointer<MenuBarDataV1> out( data_.find( object ) );
-        if( !out ) return QRect();
-        else if( out->currentRect().contains( position ) ) return out->currentRect();
-        else if( out->previousRect().contains( position ) ) return out->previousRect();
-        else return QRect();
-    }
 
 }

@@ -30,9 +30,17 @@
 #include "oxygenwidgetdata.h"
 #include <QtGui/QMenuBar>
 #include <QtCore/QBasicTimer>
+#include <QtCore/QPointer>
 
 namespace Oxygen
 {
+
+    //! widget index
+    enum WidgetIndex
+    {
+        Current,
+        Previous
+    };
 
     //! menubar data
     class MenuBarDataV1: public WidgetData
@@ -40,10 +48,14 @@ namespace Oxygen
 
         Q_OBJECT
 
+        //! declare opacity property
+        Q_PROPERTY( qreal currentOpacity READ currentOpacity WRITE setCurrentOpacity )
+        Q_PROPERTY( qreal previousOpacity READ previousOpacity WRITE setPreviousOpacity )
+
         public:
 
         //! constructor
-        MenuBarDataV1( QObject* parent, QWidget* target, int maxFrame, int duration );
+        MenuBarDataV1( QWidget* parent, int duration );
 
         //! destructor
         virtual ~MenuBarDataV1( void )
@@ -53,30 +65,75 @@ namespace Oxygen
         virtual bool eventFilter( QObject*, QEvent* );
 
         //! timeLines
-        const TimeLine::Pointer& currentTimeLine( void ) const
-        { return currentTimeLine_; }
+        virtual const Animation::Pointer& currentAnimation( void ) const
+        { return currentAnimation_; }
 
         //! timeLines
-        const TimeLine::Pointer& previousTimeLine( void ) const
-        { return previousTimeLine_; }
+        virtual const Animation::Pointer& previousAnimation( void ) const
+        { return previousAnimation_; }
+
+        //! return animation matching given point
+        virtual Animation::Pointer animation( const QPoint& point ) const
+        {
+            if( currentRect().contains( point ) ) return currentAnimation();
+            else if( previousRect().contains( point ) ) return previousAnimation();
+            else return Animation::Pointer();
+        }
+
+        //! return animation matching given point
+        virtual qreal opacity( const QPoint& point ) const
+        {
+            if( currentRect().contains( point ) ) return currentOpacity();
+            else if( previousRect().contains( point ) ) return previousOpacity();
+            else return OpacityInvalid;
+        }
+
+        // return rect matching QPoint
+        virtual QRect currentRect( const QPoint& point ) const
+        {
+            if( currentRect().contains( point ) ) return currentRect();
+            else if( previousRect().contains( point ) ) return previousRect();
+            else return QRect();
+        }
+
+        //! animation associated to given Widget index
+        virtual const Animation::Pointer& animation( WidgetIndex index ) const
+        { return index == Current ? currentAnimation():previousAnimation(); }
+
+        //! opacity associated to given Widget index
+        virtual qreal opacity( WidgetIndex index ) const
+        { return index == Current ? currentOpacity():previousOpacity(); }
+
+        //! opacity associated to given Widget index
+        virtual const QRect& currentRect( WidgetIndex index ) const
+        { return index == Current ? currentRect():previousRect(); }
 
         //! duration
         virtual void setDuration( int duration )
         {
-            currentTimeLine_->setDuration( duration );
-            previousTimeLine_->setDuration( duration );
+            currentAnimation().data()->setDuration( duration );
+            previousAnimation().data()->setDuration( duration );
         }
 
-        //! maxFrame
-        virtual void setMaxFrame( int maxFrame )
-        {
-            previousTimeLine_->setFrameRange( 0, maxFrame );
-            currentTimeLine_->setFrameRange( 0, maxFrame );
-        }
+        //! current opacity
+        virtual qreal currentOpacity( void ) const
+        { return currentOpacity_; }
+
+        //! current opacity
+        virtual void setCurrentOpacity( qreal value )
+        { currentOpacity_ = value; }
 
         //! current rect
         virtual const QRect& currentRect( void ) const
         { return currentRect_; }
+
+        //! previous opacity
+        virtual qreal previousOpacity( void ) const
+        { return previousOpacity_; }
+
+        //! previous opacity
+        virtual void setPreviousOpacity( qreal value )
+        { previousOpacity_ = value; }
 
         //! previous rect
         virtual const QRect& previousRect( void ) const
@@ -149,10 +206,16 @@ namespace Oxygen
         private:
 
         //! time line
-        TimeLine::Pointer currentTimeLine_;
+        Animation::Pointer currentAnimation_;
 
         //! time line
-        TimeLine::Pointer previousTimeLine_;
+        Animation::Pointer previousAnimation_;
+
+        //! current opacity
+        qreal currentOpacity_;
+
+        //! previous opacity
+        qreal previousOpacity_;
 
         //! current action
         ActionPointer currentAction_;
