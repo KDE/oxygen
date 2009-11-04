@@ -23,6 +23,11 @@
 #include <QtCore/QRect>
 #include <QtCore/QVector>
 
+//! handles proper scaling of pixmap to match widget rect.
+/*!
+tilesets are collections of stretchable pixmaps corresponding to a given widget corners, sides, and center.
+corner pixmaps are never stretched. center pixmaps are
+*/
 class TileSet
 {
 public:

@@ -33,6 +33,8 @@
 namespace Oxygen
 {
 
+    //! base class for all animation engines
+    /*! it is used to store configuration values used by all animations stored in the engine */
     class BaseEngine: public QObject
     {
 

@@ -68,6 +68,8 @@ namespace Oxygen
   class Animations;
 }
 
+//! main oxygen style class.
+/*! it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */
 class OxygenStyle : public KStyle
 {
     Q_OBJECT
