@@ -47,6 +47,7 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QScrollBar>
 #include <QtGui/QSpinBox>
+#include <QtGui/QTextEdit>
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
 #include <QtGui/QToolButton>
@@ -2824,6 +2825,7 @@ bool OxygenStyle::drawGenericPrimitive(
 
             // WT_Generic and other fallen-through frames...
             // QFrame, Qt item views, etc.: sunken..
+            bool hoverHighlight = flags&State_MouseOver;
             bool focusHighlight = flags&State_HasFocus;
             if (flags & State_Sunken)
             {
@@ -2831,13 +2833,19 @@ bool OxygenStyle::drawGenericPrimitive(
                 if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
                 {
 
-                    renderHole(p, pal.color(QPalette::Window), r, focusHighlight, false,
+                    renderHole(p, pal.color(QPalette::Window), r, focusHighlight, hoverHighlight,
                         animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ),
                         Oxygen::AnimationFocus, TileSet::Ring );
 
+                } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+
+                    renderHole(p, pal.color(QPalette::Window), r, focusHighlight, hoverHighlight,
+                        animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ),
+                        Oxygen::AnimationHover, TileSet::Ring );
+
                 } else {
 
-                    renderHole(p, pal.color(QPalette::Window), r, focusHighlight);
+                    renderHole(p, pal.color(QPalette::Window), r, focusHighlight, hoverHighlight);
 
                 }
 
@@ -2922,16 +2930,19 @@ void OxygenStyle::polish(QWidget* widget)
         }
     }
 
-    if (qobject_cast<QPushButton*>(widget)
-        || qobject_cast<QComboBox*>(widget)
+    if (
+        qobject_cast<QAbstractItemView*>(widget)
         || qobject_cast<QAbstractSpinBox*>(widget)
         || qobject_cast<QCheckBox*>(widget)
+        || qobject_cast<QComboBox*>(widget)
+        || qobject_cast<QLineEdit*>(widget)
+        || qobject_cast<QPushButton*>(widget)
         || qobject_cast<QRadioButton*>(widget)
-        || qobject_cast<QTabBar*>(widget)
-        || qobject_cast<QToolButton*>(widget)
         || qobject_cast<QScrollBar*>(widget)
         || qobject_cast<QSlider*>(widget)
-        || qobject_cast<QLineEdit*>(widget)
+        || qobject_cast<QTabBar*>(widget)
+        || qobject_cast<QTextEdit*>(widget)
+        || qobject_cast<QToolButton*>(widget)
         )
     { widget->setAttribute(Qt::WA_Hover); }
 
