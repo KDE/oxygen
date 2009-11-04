@@ -31,8 +31,9 @@
 
 #include <math.h>
 
-const qreal OxygenHelper::_slabThickness = 0.45; //TODO: configurable?
+const qreal OxygenHelper::_slabThickness = 0.45;
 const qreal OxygenHelper::_shadowGain = 1.5;
+const qreal OxygenHelper::_glowBias = 0.6;
 
 // NOTE: OxygenStyleHelper needs to use a KConfig from its own KComponentData
 // Since the ctor order causes a SEGV if we try to pass in a KConfig here from
@@ -43,7 +44,7 @@ OxygenHelper::OxygenHelper(const QByteArray &componentName)
 {
     _config = _componentData.config();
     _contrast = KGlobalSettings::contrastF(_config);
-    _bgcontrast = 0.3;// // shouldn't use contrast for this _contrast; // TODO get style setting
+    _bgcontrast = 0.3;
 
     m_backgroundCache.setMaxCost(64);
     m_windecoButtonCache.setMaxCost(64);
@@ -568,7 +569,7 @@ void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &c
 }
 
 //________________________________________________________________________________________________________
-TileSet *OxygenHelper::slab(const QColor &color, qreal shade, int size)
+TileSet *OxygenHelper::slab(const QColor &color, qreal shade, int size )
 {
     SlabCache *cache = slabCache(color);
     quint64 key = (int)(256.0 * shade) << 24 | size;
@@ -635,7 +636,7 @@ TileSet *OxygenHelper::outerGlow(const QColor &color, int size)
     if (!tileSet)
     {
         QPixmap pixmap(size*2, size*2);
-        pixmap.fill(QColor(Qt::transparent));
+        pixmap.fill(Qt::transparent);
 
         QPainter p(&pixmap);
         p.setRenderHints(QPainter::Antialiasing);
@@ -684,7 +685,7 @@ void OxygenHelper::drawSlab(QPainter &p, const QColor &color, qreal shade) const
 
     // inside mask
     p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-    p.setBrush(QBrush(Qt::black));
+    p.setBrush(Qt::black);
 
     const qreal ic = 3.6 + 0.5*_slabThickness;
     const qreal is = 6.8 - (2.0*0.5*_slabThickness);
@@ -721,14 +722,20 @@ void OxygenHelper::drawOuterGlow( QPainter &p, const QColor &color, int size) co
     const qreal width( 3 );
 
     const qreal bias = _glowBias * qreal(14)/size;
-    qreal k0 = (m-width+bias) / m;
-    QRadialGradient glowGradient(m, m, m-bias);
+
+    // k0 is located at width - bias from the outer edge
+    qreal gm = m + bias - 0.9;
+    qreal k0 = (m-width+bias) / gm ;
+    QRadialGradient glowGradient(m, m, gm );
     for (int i = 0; i < 8; i++)
     {
-      // inverse parabolic gradient
-      qreal k1 = (k0 * qreal(8 - i) + qreal(i)) * 0.125;
-      qreal a = 1.0 - sqrt(i * 0.125);
-      glowGradient.setColorAt(k1, alphaColor(color, a));
+
+        // k1 grows linearly from k0 to 1.0
+        qreal k1 =  k0 + qreal(i)*(1.0-k0)/8.0;
+
+        // a folows sqrt curve
+        qreal a = 1.0 - sqrt(qreal(i)/8);
+        glowGradient.setColorAt(k1, alphaColor(color, a));
     }
 
     // glow
@@ -738,7 +745,7 @@ void OxygenHelper::drawOuterGlow( QPainter &p, const QColor &color, int size) co
 
     // inside mask
     p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-    p.setBrush(QBrush(Qt::black));
+    p.setBrush(Qt::black);
     p.drawEllipse(r.adjusted(width, width, -width, -width));
     p.restore();
 

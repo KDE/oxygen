@@ -33,9 +33,6 @@
 
 #include "tileset.h"
 
-//#define _glowBias 0.9 // not likely to be configurable
-#define _glowBias 0.6 // not likely to be configurable
-
 //! tileSet cache
 /*! uses QCache to keep track of generated tileSets in order to save CPU time (at the cost of memory footprint */
 class SlabCache
@@ -131,6 +128,7 @@ public:
 
     virtual SlabCache* slabCache(const QColor&);
 
+    static const qreal _glowBias;
     static const qreal _slabThickness;
     static const qreal _shadowGain;
 
