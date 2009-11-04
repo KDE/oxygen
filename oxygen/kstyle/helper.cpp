@@ -122,43 +122,9 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, qreal shade, int size)
         p.setPen(Qt::NoPen);
         p.setWindow(0,0,21,21);
 
-        QColor base = KColorUtils::shade(color, shade);
-        QColor light = KColorUtils::shade(calcLightColor(color), shade);
-        QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
-
         // shadow
         drawShadow(p, calcShadowColor(color), 21);
-
-        // bevel, part 1
-        qreal y = KColorUtils::luma(base);
-        qreal yl = KColorUtils::luma(light);
-        qreal yd = KColorUtils::luma(dark);
-        QLinearGradient bevelGradient1(0, 10, 0, 18);
-        bevelGradient1.setColorAt(0.0, light);
-        bevelGradient1.setColorAt(0.9, dark);
-        if (y < yl && y > yd) // no middle when color is very light/dark
-            bevelGradient1.setColorAt(0.5, base);
-        p.setBrush(bevelGradient1);
-        p.drawEllipse(QRectF(3.0,3.0,15.0,15.0));
-
-        // bevel, part 2
-        if (_slabThickness > 0.0) {
-            QLinearGradient bevelGradient2(0, 7, 0, 28);
-            bevelGradient2.setColorAt(0.0, light);
-            bevelGradient2.setColorAt(0.9, base);
-            p.setBrush(bevelGradient2);
-            p.drawEllipse(QRectF(3.6,3.6,13.8,13.8));
-        }
-
-        // inside
-        QLinearGradient innerGradient(0, -17, 0, 20);
-        innerGradient.setColorAt(0.0, light);
-        innerGradient.setColorAt(1.0, base);
-        p.setBrush(innerGradient);
-        qreal ic = 3.6 + _slabThickness;
-        qreal is = 13.8 - (2.0*_slabThickness);
-        p.drawEllipse(QRectF(ic, ic, is, is));
-
+        drawRoundSlab( p, color, shade );
         p.end();
 
         cache->m_roundSlabCache.insert(key, pixmap);
@@ -184,8 +150,9 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
         p.setPen(Qt::NoPen);
         p.setWindow(0,0,21,21);
 
-        p.drawPixmap(0, 0, roundSlab(color, shade, size));
+        drawShadow(p, calcShadowColor(color), 21);
         drawOuterGlow( p, glowColor, 21 );
+        drawRoundSlab( p, color, shade );
 
         p.end();
         cache->m_roundSlabCache.insert(key, pixmap);
@@ -225,6 +192,51 @@ void OxygenStyleHelper::drawHole(QPainter &p, const QColor &color, qreal shade, 
     p.setBrush(maskGradient);
     p.drawRect(0,0,r2,r2);
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+}
+
+//__________________________________________________________________________________________________________
+void OxygenStyleHelper::drawRoundSlab(QPainter &p, const QColor &color, qreal shade ) const
+{
+
+    p.save();
+
+    // colors
+    QColor base = KColorUtils::shade(color, shade);
+    QColor light = KColorUtils::shade(calcLightColor(color), shade);
+    QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+
+    // bevel, part 1
+    qreal y = KColorUtils::luma(base);
+    qreal yl = KColorUtils::luma(light);
+    qreal yd = KColorUtils::luma(dark);
+    QLinearGradient bevelGradient1(0, 10, 0, 18);
+    bevelGradient1.setColorAt(0.0, light);
+    bevelGradient1.setColorAt(0.9, dark);
+    if (y < yl && y > yd) // no middle when color is very light/dark
+        bevelGradient1.setColorAt(0.5, base);
+    p.setBrush(bevelGradient1);
+    p.drawEllipse(QRectF(3.0,3.0,15.0,15.0));
+
+    // bevel, part 2
+    if (_slabThickness > 0.0) {
+        QLinearGradient bevelGradient2(0, 7, 0, 28);
+        bevelGradient2.setColorAt(0.0, light);
+        bevelGradient2.setColorAt(0.9, base);
+        p.setBrush(bevelGradient2);
+        p.drawEllipse(QRectF(3.6,3.6,13.8,13.8));
+    }
+
+    // inside
+    QLinearGradient innerGradient(0, -17, 0, 20);
+    innerGradient.setColorAt(0.0, light);
+    innerGradient.setColorAt(1.0, base);
+    p.setBrush(innerGradient);
+    qreal ic = 3.6 + _slabThickness;
+    qreal is = 13.8 - (2.0*_slabThickness);
+    p.drawEllipse(QRectF(ic, ic, is, is));
+
+    p.restore();
+
 }
 
 //________________________________________________________________________________________________________
@@ -301,7 +313,7 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowC
     quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
     TileSet *tileSet = cache->m_slabCache.object(key);
 
-    const qreal hScale( 3 );
+    const qreal hScale( 1 );
     const int hSize( size*hScale );
     const int vSize( size );
 
@@ -317,8 +329,13 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowC
         int fixedSize = 14;
         p.setWindow(0,0,fixedSize*hScale, fixedSize);
 
-        slab(color, shade, size)->render(QRect( 0, 0, fixedSize*hScale, fixedSize), &p);
-        outerGlow( glowColor, size)->render( QRect( 0, 0, fixedSize*hScale, fixedSize), &p);
+        // draw all components
+        drawShadow(p, calcShadowColor(color), 14);
+        drawOuterGlow( p, glowColor, 14 );
+        drawSlab(p, color, shade);
+
+        //slab(color, shade, size)->render(QRect( 0, 0, fixedSize*hScale, fixedSize), &p);
+        //outerGlow( glowColor, size)->render( QRect( 0, 0, fixedSize*hScale, fixedSize), &p);
 
         p.end();
 

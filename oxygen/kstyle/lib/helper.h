@@ -36,8 +36,10 @@
 //#define _glowBias 0.9 // not likely to be configurable
 #define _glowBias 0.6 // not likely to be configurable
 
-
-class SlabCache {
+//! tileSet cache
+/*! uses QCache to keep track of generated tileSets in order to save CPU time (at the cost of memory footprint */
+class SlabCache
+{
 public:
     SlabCache() {}
     ~SlabCache() {}
@@ -48,7 +50,8 @@ public:
     QCache<quint64, TileSet> m_outerGlowCache;
 };
 
-// WARNING - OxygenHelper must be a K_GLOBAL_STATIC!
+//! oxygen style helper class.
+/*! contains utility functions used at multiple places in both oxygen style and oxygen window decoration */
 class OxygenHelper
 {
 public:
@@ -58,9 +61,12 @@ public:
     KSharedConfigPtr config() const;
     void reloadConfig();
 
-    // y_shift: shift the background gradient upwards, to fit with the windec
-    // gradientHeight: the height of the generated gradient.
-    // for different heights, the gradient is translated so that it is always at the same position from the bottom
+    //! render window background gradients
+    /*!
+    \par y_shift: shift the background gradient upwards, to fit with the windec
+    \par gradientHeight: the height of the generated gradient.
+    for different heights, the gradient is translated so that it is always at the same position from the bottom
+    */
     void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift=-23, int gradientHeight = 64)
     { renderWindowBackground( p, clipRect, widget, widget->window(), pal, y_shift, gradientHeight ); }
 
@@ -69,6 +75,7 @@ public:
     // for different heights, the gradient is translated so that it is always at the same position from the bottom
     void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QPalette & pal, int y_shift=-23, int gradientHeight = 64);
 
+    //! reset all caches
     virtual void invalidateCaches();
 
     static bool lowThreshold(const QColor &color);
@@ -80,7 +87,6 @@ public:
     virtual QColor calcShadowColor(const QColor &color) const;
 
     virtual QColor backgroundColor(const QColor &color, int height, int y);
-
     virtual QColor backgroundRadialColor(const QColor &color) const;
     virtual QColor backgroundTopColor(const QColor &color) const;
     virtual QColor backgroundBottomColor(const QColor &color) const;
@@ -91,8 +97,11 @@ public:
     //! merge background and front color for check marks, arrows, etc. using _contrast
     virtual QColor decoColor(const QColor &background, const QColor &color) const;
 
+    //!@name decoration specific helper functions
+    //@{
     virtual QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
     virtual QPixmap windecoButtonGlow(const QColor &color, int size = 21);
+    //@}
 
     //! returns a region matching given rect, with rounded corners, based on the multipliers
     /*! setting any of the multipliers to zero will result in no corners shown on the corresponding side */

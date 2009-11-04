@@ -23,6 +23,8 @@
 
 #include "lib/helper.h"
 
+//! helper class
+/*! contains utility functions used at multiple places in oxygen style */
 class OxygenStyleHelper : public OxygenHelper
 {
 public:
@@ -68,6 +70,7 @@ protected:
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, qreal fuzz) const;
     void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
     void drawHole(QPainter&, const QColor&, qreal shade, int r = 7) const;
+    void drawRoundSlab( QPainter&, const QColor&, qreal ) const;
 
     QCache<quint64, TileSet> m_cornerCache;
     QCache<quint64, TileSet> m_slabSunkenCache;
