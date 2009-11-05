@@ -2,11 +2,11 @@
 #define oxygenenabledata_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygenwidgetdata.h
-// stores event filters and maps widgets to timelines for animations
+// oxygenenabledata.h
+// generic data container for widget enable/disable animations
 // -------------------
 //
-// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
