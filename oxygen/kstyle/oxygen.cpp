@@ -2954,7 +2954,9 @@ void OxygenStyle::polish(QWidget* widget)
         if( qobject_cast<QToolBar*>( widget->parent() ) )
         {
             // this hack is needed to have correct text color
-            // rendered in toolbars
+            // rendered in toolbars. This does not really update nicely when changing styles
+            // but is the best I can do for now since setting the palette color at painting
+            // time is not doable
             QPalette palette( widget->palette() );
             palette.setColor( QPalette::Disabled, QPalette::ButtonText, palette.color( QPalette::Disabled, QPalette::WindowText ) );
             palette.setColor( QPalette::Active, QPalette::ButtonText, palette.color( QPalette::Active, QPalette::WindowText ) );
@@ -3134,11 +3136,16 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
 
     QColor color = pal.color(QPalette::Window);
     if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
+    {
+
         color = pal.color(QPalette::Highlight);
-    else if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE)
+
+    } else if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE) {
+
         color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
-    else
-        color = _helper.calcMidColor(color);
+
+    } else  color = _helper.calcMidColor(color);
+
     pp.setRenderHint(QPainter::Antialiasing);
     pp.setPen(Qt::NoPen);
 
@@ -3151,16 +3158,16 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
     QLinearGradient gradient(
         visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
         visualPos(opt->direction, maskr, QPoint(maskr.right()-4, 0)));
-    gradient.setColorAt(0.0, QColor(0,0,0,255));
-    gradient.setColorAt(1.0, Qt::transparent);
+    gradient.setColorAt( 0.0, Qt::black );
+    gradient.setColorAt( 1.0, Qt::transparent );
     pp.setBrush(gradient);
     pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
     pp.drawRect(maskr);
 
-    if( opacity >= 0 )
+    if( opacity >= 0 && opacity < 1 )
     {
         pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        pp.fillRect(pm.rect(), QColor(0,0,0, opacity*255));
+        pp.fillRect(pm.rect(), _helper.alphaColor( Qt::black, opacity ) );
     }
 
     pp.end();
