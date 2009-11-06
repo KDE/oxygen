@@ -30,7 +30,6 @@
 namespace Oxygen
 {
 
-
     //________________________________________________________________________
     template< typename T > void MenuBarDataV1::enterEvent( const QObject* object )
     {
@@ -109,6 +108,34 @@ namespace Oxygen
             setCurrentAction( local->activeAction() );
             setCurrentRect( local->actionGeometry( currentAction().data() ) );
             currentAnimation().data()->start();
+        }
+
+    }
+
+    //________________________________________________________________________
+    template< typename T > void MenuBarDataV1::mousePressEvent( const QObject* object )
+    {
+
+        const T* local = qobject_cast<const T*>( object );
+        if( !local ) return;
+
+        // check action
+        if( local->activeAction() == currentAction().data() ) return;
+
+        // check current action
+        bool activeActionValid( local->activeAction() && local->activeAction()->isEnabled() && !local->activeAction()->isSeparator() );
+        if( currentAction() && !activeActionValid )
+        {
+
+            if( currentAnimation().data()->isRunning() ) currentAnimation().data()->stop();
+            if( previousAnimation().data()->isRunning() ) previousAnimation().data()->stop();
+
+            setPreviousRect( currentRect() );
+            previousAnimation().data()->start();
+
+            clearCurrentAction();
+            clearCurrentRect();
+
         }
 
     }

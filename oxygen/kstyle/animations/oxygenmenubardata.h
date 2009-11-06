@@ -191,6 +191,9 @@ namespace Oxygen
         //! mouse move event
         template< typename T > inline void mouseMoveEvent( const QObject* object );
 
+        //! mouse move event
+        template< typename T > inline void mousePressEvent( const QObject* object );
+
         //! menubar enterEvent
         virtual void enterEvent( const QObject* object )
         { enterEvent<QMenuBar>( object ); }
@@ -202,6 +205,10 @@ namespace Oxygen
         //! menubar mouseMoveEvent
         virtual void mouseMoveEvent( const QObject* object )
         { mouseMoveEvent<QMenuBar>( object ); }
+
+        //! menubar mousePressEvent
+        virtual void mousePressEvent( const QObject* object )
+        { mousePressEvent<QMenuBar>( object ); }
 
         private:
 

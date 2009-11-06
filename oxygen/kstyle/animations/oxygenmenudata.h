@@ -68,6 +68,10 @@ namespace Oxygen
         virtual void mouseMoveEvent( const QObject* object )
         { MenuBarDataV1::mouseMoveEvent<QMenu>( object ); }
 
+        //! menubar mousePressEvent
+        virtual void mousePressEvent( const QObject* object )
+        { MenuBarDataV1::mousePressEvent<QMenu>( object ); }
+
     };
 
 }

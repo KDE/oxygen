@@ -84,6 +84,15 @@ namespace Oxygen
                 return true;
             }
 
+            case QEvent::MouseButtonPress:
+            {
+                // first need to call proper event processing
+                // then implement transition
+                object->event( event );
+                mousePressEvent( object );
+                return true;
+            }
+
             default: break;
 
         }
