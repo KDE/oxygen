@@ -82,19 +82,28 @@ namespace Oxygen
         // check action
         if( local->activeAction() == currentAction().data() ) return;
 
+        bool activeActionValid( local->activeAction() && local->activeAction()->isEnabled() && !local->activeAction()->isSeparator() );
+
         // check current action
         if( currentAction() )
         {
             if( currentAnimation().data()->isRunning() ) currentAnimation().data()->stop();
             if( previousAnimation().data()->isRunning() ) previousAnimation().data()->stop();
-            setPreviousRect( currentRect() );
-            previousAnimation().data()->start();
+
+            // only start fadeout effect if there is no new selected action
+            if( !activeActionValid )
+            {
+                setPreviousRect( currentRect() );
+                previousAnimation().data()->start();
+            }
+
             clearCurrentAction();
             clearCurrentRect();
+
         }
 
         // check if local current actions is valid
-        if( local->activeAction() && local->activeAction()->isEnabled() && !local->activeAction()->isSeparator())
+        if( activeActionValid )
         {
             if( currentAnimation().data()->isRunning() ) currentAnimation().data()->stop();
             setCurrentAction( local->activeAction() );
