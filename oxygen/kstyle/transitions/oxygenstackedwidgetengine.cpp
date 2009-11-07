@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygenmenuengine.cpp
-// stores event filters and maps widgets to timelines for animations
+// oxygenstackedwidgetengine.cpp
+// stores event filters and maps widgets to animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -24,43 +24,25 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenmenuengine.h"
-#include "oxygenmenuengine.moc"
-
-#include <QtCore/QEvent>
+#include "oxygenstackedwidgetengine.h"
+#include "oxygenstackedwidgetengine.moc"
 
 namespace Oxygen
 {
 
     //____________________________________________________________
-    bool MenuEngineV1::registerWidget( QWidget* widget )
+    bool StackedWidgetEngine::registerWidget( QStackedWidget* widget )
     {
 
         if( !( enabled() && widget ) ) return false;
-
-        // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( widget, duration() ) );
+        if( !data_.contains( widget ) ) { data_.insert( widget, new StackedWidgetData( widget, duration() ) ); }
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+
         return true;
-    }
 
-   //____________________________________________________________
-    bool MenuEngineV1::isAnimated( const QObject* object, WidgetIndex index )
-    {
-        DataMap<MenuDataV1>::Value data( data_.find( object ) );
-        if( !data )
-        {
-            return false;
-        }
-
-        if( Animation::Pointer animation = data.data()->animation( index ) ) {
-
-            return animation.data()->isRunning();
-
-        } else return false;
     }
 
 }

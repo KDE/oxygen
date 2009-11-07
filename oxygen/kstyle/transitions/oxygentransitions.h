@@ -1,6 +1,9 @@
+#ifndef oxygentransitions_h
+#define oxygentransitions_h
+
 //////////////////////////////////////////////////////////////////////////////
-// oxygenmenuengine.cpp
-// stores event filters and maps widgets to timelines for animations
+// oxygentransitions.h
+// container for all transition engines
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -24,43 +27,48 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenmenuengine.h"
-#include "oxygenmenuengine.moc"
-
-#include <QtCore/QEvent>
+#include "oxygenstackedwidgetengine.h"
 
 namespace Oxygen
 {
 
-    //____________________________________________________________
-    bool MenuEngineV1::registerWidget( QWidget* widget )
+    //! stores engines
+    class Transitions: public QObject
     {
 
-        if( !( enabled() && widget ) ) return false;
+        Q_OBJECT
 
-        // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( widget, duration() ) );
+        public:
 
-        // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        return true;
-    }
+        //! constructor
+        explicit Transitions( QObject* );
 
-   //____________________________________________________________
-    bool MenuEngineV1::isAnimated( const QObject* object, WidgetIndex index )
-    {
-        DataMap<MenuDataV1>::Value data( data_.find( object ) );
-        if( !data )
-        {
-            return false;
-        }
+        //! destructor
+        virtual ~Transitions( void )
+        {}
 
-        if( Animation::Pointer animation = data.data()->animation( index ) ) {
+        /*
+        register widget; depending on its type
+        returns true if widget was registered
+        */
+        bool registerWidget( QWidget* widget ) const;
 
-            return animation.data()->isRunning();
+        //! tab widget engine
+        StackedWidgetEngine& stackedWidgetEngine( void ) const
+        { return *stackedWidgetEngine_; }
 
-        } else return false;
-    }
+        public slots:
+
+        //! setup engines
+        void setupEngines( void );
+
+        private:
+
+        //! tab widget engine
+        StackedWidgetEngine* stackedWidgetEngine_;
+
+    };
 
 }
+
+#endif

@@ -28,7 +28,6 @@
 #include "oxygentabbarengine.moc"
 
 #include <QtCore/QEvent>
-#include <QtCore/QTextStream>
 
 namespace Oxygen
 {

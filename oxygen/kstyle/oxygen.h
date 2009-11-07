@@ -66,6 +66,7 @@ class QTimer;
 namespace Oxygen
 {
   class Animations;
+  class Transitions;
 }
 
 //! main oxygen style class.
@@ -74,8 +75,12 @@ class OxygenStyle : public KStyle
 {
     Q_OBJECT
 
-public:
+    public:
+
+    //! constructor
     OxygenStyle();
+
+    //! destructor
     virtual ~OxygenStyle();
 
     virtual void drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p, const QWidget *widget) const;
@@ -139,7 +144,8 @@ public:
     virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option,
                                 SubControl subControl, const QWidget* widget) const;
     virtual QSize sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const;
-public:
+
+    public:
     enum StyleOption
     {
         Sunken = 0x1,
@@ -151,13 +157,16 @@ public:
     };
     Q_DECLARE_FLAGS(StyleOptions, StyleOption)
 
-protected:
+    protected:
 
     //! animations
     Oxygen::Animations& animations( void ) const
     { return *_animations; }
 
-private:
+    Oxygen::Transitions& transitions( void ) const
+    { return *_transitions; }
+
+    private:
 
     enum TabPosition
     {
@@ -291,6 +300,10 @@ private:
 
     //! animations
     Oxygen::Animations* _animations;
+
+    //! transitions
+    Oxygen::Transitions* _transitions;
+
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(OxygenStyle::StyleOptions)

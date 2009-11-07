@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygenmenuengine.cpp
-// stores event filters and maps widgets to timelines for animations
+// oxygentransitions.cpp
+// container for all transition engines
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -24,43 +24,47 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenmenuengine.h"
-#include "oxygenmenuengine.moc"
-
-#include <QtCore/QEvent>
+#include "oxygentransitions.h"
+#include "oxygentransitions.moc"
+#include "oxygenstyleconfigdata.h"
 
 namespace Oxygen
 {
 
-    //____________________________________________________________
-    bool MenuEngineV1::registerWidget( QWidget* widget )
+    //________________________________________________________--
+    Transitions::Transitions( QObject* parent ):
+        QObject( parent ),
+        stackedWidgetEngine_( new StackedWidgetEngine( this ) )
+    {}
+
+    //________________________________________________________--
+    void Transitions::setupEngines( void )
     {
 
-        if( !( enabled() && widget ) ) return false;
+        // default enability, duration and maxFrame
+        bool animationsEnabled( OxygenStyleConfigData::animationsEnabled() );
 
-        // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( widget, duration() ) );
+        // enability
+        stackedWidgetEngine().setEnabled(
+            animationsEnabled &&
+            OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
 
-        // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        return true;
+        // durations
+        stackedWidgetEngine().setDuration( OxygenStyleConfigData::genericTransitionsDuration() );
+
     }
 
-   //____________________________________________________________
-    bool MenuEngineV1::isAnimated( const QObject* object, WidgetIndex index )
+    //____________________________________________________________
+    bool Transitions::registerWidget( QWidget* widget ) const
     {
-        DataMap<MenuDataV1>::Value data( data_.find( object ) );
-        if( !data )
-        {
-            return false;
-        }
 
-        if( Animation::Pointer animation = data.data()->animation( index ) ) {
+        if( !widget ) return false;
 
-            return animation.data()->isRunning();
+        if( QStackedWidget* stack = qobject_cast<QStackedWidget*>( widget ) )
+        { return stackedWidgetEngine().registerWidget( stack ); }
 
-        } else return false;
+        return false;
+
     }
 
 }

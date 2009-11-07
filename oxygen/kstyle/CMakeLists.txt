@@ -30,7 +30,14 @@ set(oxygen_PART_SRCS
     animations/oxygentabbardata.cpp
     animations/oxygentabbarengine.cpp
     animations/oxygenwidgetdata.cpp
-    oxygen.cpp)
+    transitions/oxygenstackedwidgetdata.cpp
+    transitions/oxygenstackedwidgetengine.cpp
+    transitions/oxygentransitiondata.cpp
+    transitions/oxygentransitionwidget.cpp
+    transitions/oxygentransitions.cpp
+    transitions/oxygentransitionwidget.cpp
+    oxygen.cpp
+)
 
 kde4_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 

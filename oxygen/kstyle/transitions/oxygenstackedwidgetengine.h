@@ -1,6 +1,9 @@
+#ifndef oxygenstackedwidgetengine_h
+#define oxygenstackedwidgetengine_h
+
 //////////////////////////////////////////////////////////////////////////////
-// oxygenmenuengine.cpp
-// stores event filters and maps widgets to timelines for animations
+// oxygenstackedwidgetengine.h
+// stores event filters and maps widgets to animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -24,43 +27,60 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenmenuengine.h"
-#include "oxygenmenuengine.moc"
-
-#include <QtCore/QEvent>
+#include "oxygenbaseengine.h"
+#include "oxygendatamap.h"
+#include "oxygenstackedwidgetdata.h"
 
 namespace Oxygen
 {
 
-    //____________________________________________________________
-    bool MenuEngineV1::registerWidget( QWidget* widget )
+    //! used for simple widgets
+    class StackedWidgetEngine: public BaseEngine
     {
 
-        if( !( enabled() && widget ) ) return false;
+        Q_OBJECT
 
-        // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( widget, duration() ) );
+        public:
 
-        // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        return true;
-    }
+        //! constructor
+        StackedWidgetEngine( QObject* parent ):
+        BaseEngine( parent )
+        {}
 
-   //____________________________________________________________
-    bool MenuEngineV1::isAnimated( const QObject* object, WidgetIndex index )
-    {
-        DataMap<MenuDataV1>::Value data( data_.find( object ) );
-        if( !data )
+        //! destructor
+        virtual ~StackedWidgetEngine( void )
+        {}
+
+        //! register widget
+        virtual bool registerWidget( QStackedWidget* );
+
+        //! duration
+        virtual void setEnabled( bool value )
         {
-            return false;
+            BaseEngine::setEnabled( value );
+            data_.setEnabled( value );
         }
 
-        if( Animation::Pointer animation = data.data()->animation( index ) ) {
+        //! duration
+        virtual void setDuration( int value )
+        {
+            BaseEngine::setDuration( value );
+            data_.setDuration( value );
+        }
 
-            return animation.data()->isRunning();
+        protected slots:
 
-        } else return false;
-    }
+        //! remove widget from map
+        virtual void unregisterWidget( QObject* object )
+        { if( object ) data_.remove( object ); }
+
+        private:
+
+        //! maps
+        DataMap<StackedWidgetData> data_;
+
+    };
 
 }
+
+#endif

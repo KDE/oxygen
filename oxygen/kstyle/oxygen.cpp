@@ -64,7 +64,9 @@
 
 #include "helper.h"
 #include "lib/tileset.h"
-#include "animations/oxygenanimations.h"
+
+#include "oxygenanimations.h"
+#include "oxygentransitions.h"
 #include "oxygenstyleconfigdata.h"
 
 // We need better holes! Bevel color and shadow color are currently based on
@@ -92,7 +94,8 @@ static void cleanupBefore()
 OxygenStyle::OxygenStyle() :
     KStyle(),
     _helper(*globalHelper),
-    _animations( new Oxygen::Animations( this ) )
+    _animations( new Oxygen::Animations( this ) ),
+    _transitions( new Oxygen::Transitions( this ) )
 {
     _sharedConfig = _helper.config();
 
@@ -2903,9 +2906,12 @@ void OxygenStyle::polish(QWidget* widget)
 
     // register widget to animations
     animations().registerWidget( widget );
+    transitions().registerWidget( widget );
 
     // adjust flags
-    switch (widget->windowFlags() & Qt::WindowType_Mask) {
+    switch (widget->windowFlags() & Qt::WindowType_Mask)
+    {
+
         case Qt::Window:
         case Qt::Dialog:
             widget->installEventFilter(this);
@@ -2913,8 +2919,8 @@ void OxygenStyle::polish(QWidget* widget)
             break;
         case Qt::Popup: // we currently don't want that kind of gradient on menus etc
         case Qt::Tool: // this we exclude as it is used for dragging of icons etc
-        default:
-            break;
+        default: break;
+
     }
 
     if( OxygenStyleConfigData::progressBarAnimated() && qobject_cast<QProgressBar*>(widget) )
@@ -3118,6 +3124,7 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
     // need to update animated timers
     OxygenStyleConfigData::self()->readConfig();
     animations().setupEngines();
+    transitions().setupEngines();
 
 }
 

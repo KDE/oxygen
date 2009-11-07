@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygenmenuengine.cpp
-// stores event filters and maps widgets to timelines for animations
+// oxygentransitiondata.cpp
+// data container for generic transitions
 // -------------------
 //
-// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -24,43 +24,20 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenmenuengine.h"
-#include "oxygenmenuengine.moc"
-
-#include <QtCore/QEvent>
+#include "oxygentransitiondata.h"
+#include "oxygentransitiondata.moc"
 
 namespace Oxygen
 {
 
-    //____________________________________________________________
-    bool MenuEngineV1::registerWidget( QWidget* widget )
+    //_________________________________________________________________
+    TransitionData::TransitionData( QWidget* parent, int duration ):
+        QObject( parent ),
+        enabled_( true ),
+        transition_( new TransitionWidget( parent, duration ) )
     {
-
-        if( !( enabled() && widget ) ) return false;
-
-        // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( widget, duration() ) );
-
-        // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        return true;
-    }
-
-   //____________________________________________________________
-    bool MenuEngineV1::isAnimated( const QObject* object, WidgetIndex index )
-    {
-        DataMap<MenuDataV1>::Value data( data_.find( object ) );
-        if( !data )
-        {
-            return false;
-        }
-
-        if( Animation::Pointer animation = data.data()->animation( index ) ) {
-
-            return animation.data()->isRunning();
-
-        } else return false;
+        transition().data()->hide();
+        connect( transition().data(), SIGNAL( finished( void ) ), SLOT( finishAnimation( void ) ) );
     }
 
 }

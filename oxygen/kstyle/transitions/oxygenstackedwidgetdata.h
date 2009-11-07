@@ -1,9 +1,12 @@
+#ifndef oxygenstackedwidgetdata_h
+#define oxygenstackedwidgetdata_h
+
 //////////////////////////////////////////////////////////////////////////////
-// oxygenmenuengine.cpp
-// stores event filters and maps widgets to timelines for animations
+// oxygenstackedwidgetdata.h
+// data container for QStackedWidget transition
 // -------------------
 //
-// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -24,43 +27,49 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenmenuengine.h"
-#include "oxygenmenuengine.moc"
+#include "oxygentransitiondata.h"
 
-#include <QtCore/QEvent>
+#include <QtGui/QStackedWidget>
 
 namespace Oxygen
 {
 
-    //____________________________________________________________
-    bool MenuEngineV1::registerWidget( QWidget* widget )
+    //! generic data
+    class StackedWidgetData: public TransitionData
     {
 
-        if( !( enabled() && widget ) ) return false;
+        Q_OBJECT
 
-        // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( widget, duration() ) );
+        public:
 
-        // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        return true;
-    }
+        //! constructor
+        StackedWidgetData( QStackedWidget*, int );
 
-   //____________________________________________________________
-    bool MenuEngineV1::isAnimated( const QObject* object, WidgetIndex index )
-    {
-        DataMap<MenuDataV1>::Value data( data_.find( object ) );
-        if( !data )
-        {
-            return false;
-        }
+        //! destructor
+        virtual ~StackedWidgetData( void )
+        {}
 
-        if( Animation::Pointer animation = data.data()->animation( index ) ) {
+        protected slots:
 
-            return animation.data()->isRunning();
+        //! initialize animation
+        void initializeAnimation( void );
 
-        } else return false;
-    }
+        //! animate
+        void animate( void );
+
+        //! finish animation
+        virtual void finishAnimation( void );
+
+        private:
+
+        //! target
+        QPointer<QStackedWidget> target_;
+
+        //! current index
+        int index_;
+
+    };
 
 }
+
+#endif

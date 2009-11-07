@@ -89,18 +89,21 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     _toolBarAnimationsEnabled->setEnabled( false );
     _menuBarAnimationsEnabled->setEnabled( false );
     _menuAnimationsEnabled->setEnabled( false );
+    _stackedWidgetTransitionsEnabled->setEnabled( false );
 
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), _genericAnimationsEnabled, SLOT( setEnabled( bool) ) );
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), _toolBarAnimationsEnabled, SLOT( setEnabled( bool) ) );
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), _menuBarAnimationsEnabled, SLOT( setEnabled( bool) ) );
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), _menuAnimationsEnabled, SLOT( setEnabled( bool) ) );
+    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
 
     _animationsEnabled->setChecked( OxygenStyleConfigData::animationsEnabled() );
     _genericAnimationsEnabled->setChecked( OxygenStyleConfigData::genericAnimationsEnabled() );
     _toolBarAnimationsEnabled->setChecked( OxygenStyleConfigData::toolBarAnimationsEnabled() );
     _menuBarAnimationsEnabled->setChecked( OxygenStyleConfigData::menuBarAnimationsEnabled() );
     _menuAnimationsEnabled->setChecked( OxygenStyleConfigData::menuAnimationsEnabled() );
+    _stackedWidgetTransitionsEnabled->setChecked( OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
 
     /* Stop 4: Emit a signal on changes */
     connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
@@ -120,6 +123,7 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     connect( _toolBarAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _menuBarAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _menuAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _stackedWidgetTransitionsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
 
  }
 
@@ -146,6 +150,7 @@ void OxygenStyleConfig::save()
     OxygenStyleConfigData::setToolBarAnimationsEnabled( _toolBarAnimationsEnabled->isChecked() );
     OxygenStyleConfigData::setMenuBarAnimationsEnabled( _menuBarAnimationsEnabled->isChecked() );
     OxygenStyleConfigData::setMenuAnimationsEnabled( _menuAnimationsEnabled->isChecked() );
+    OxygenStyleConfigData::setStackedWidgetTransitionsEnabled( _stackedWidgetTransitionsEnabled->isChecked() );
 
     OxygenStyleConfigData::self()->writeConfig();
 }
@@ -171,8 +176,10 @@ void OxygenStyleConfig::defaults()
      _toolBarAnimationsEnabled->setChecked( true );
      _menuBarAnimationsEnabled->setChecked( false );
      _menuAnimationsEnabled->setChecked( false );
+     _stackedWidgetTransitionsEnabled->setChecked( false );
 
     //updateChanged would be done by setChecked already
+
 }
 
 void OxygenStyleConfig::updateChanged()
@@ -194,6 +201,7 @@ void OxygenStyleConfig::updateChanged()
         && (_toolBarAnimationsEnabled->isChecked() == OxygenStyleConfigData::toolBarAnimationsEnabled() )
         && (_menuBarAnimationsEnabled->isChecked() == OxygenStyleConfigData::menuBarAnimationsEnabled() )
         && (_menuAnimationsEnabled->isChecked() == OxygenStyleConfigData::menuAnimationsEnabled() )
+        && (_stackedWidgetTransitionsEnabled->isChecked() == OxygenStyleConfigData::stackedWidgetTransitionsEnabled() )
         )
         emit changed(false);
     else
