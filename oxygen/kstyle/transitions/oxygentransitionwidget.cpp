@@ -67,6 +67,9 @@ namespace Oxygen
     void TransitionWidget::initialize( QWidget* widget, QRect rect )
     {
 
+        // reset opacity
+        setOpacity(0);
+
         // check widget
         if( !widget ) widget = parentWidget();
         assert( widget );
