@@ -97,7 +97,7 @@
 
     <!-- generic Transition durations -->
     <entry name="GenericTransitionsDuration" type="Int">
-      <default>200</default>
+      <default>300</default>
     </entry>  
 
   </group> 
