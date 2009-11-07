@@ -1310,8 +1310,6 @@ bool OxygenStyle::drawTabBarPrimitive(
     KStyle::Option* kOpt) const
 {
     Q_UNUSED( kOpt );
-    const bool enabled = flags & State_Enabled;
-    const bool mouseOver(enabled && (flags & State_MouseOver));
     const bool reverseLayout = opt->direction == Qt::RightToLeft;
 
     switch (primitive)
@@ -1324,7 +1322,6 @@ bool OxygenStyle::drawTabBarPrimitive(
             const QStyleOptionTabV2* tabOpt = qstyleoption_cast<const QStyleOptionTabV2*>(opt);
             if (!tabOpt) return false;
 
-            //renderTab(p, r, pal, mouseOver, flags&State_Selected, tabOpt, reverseLayout, widget);
             renderTab(p, r, pal, flags, tabOpt, reverseLayout, widget);
             return true;
 
