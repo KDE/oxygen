@@ -74,19 +74,39 @@ namespace Oxygen
 
         //@}
 
-        //!@name GrabFromWindow if true, use parent window() for grab
+        //@name pixmaps handling
         //@{
 
-        bool grabFromWindow( void ) const
-        { return grabFromWindow_; }
+        //! start
+        void resetStartPixmap( void )
+        { setStartPixmap( QPixmap() ); }
 
-        void setGrabFromWindow( bool value )
-        { grabFromWindow_ = value; }
+        //! start
+        void setStartPixmap( QPixmap pixmap )
+        { startPixmap_ = pixmap; }
+
+        //! start
+        const QPixmap& startPixmap( void ) const
+        { return startPixmap_; }
+
+        //! end
+        void resetEndPixmap( void )
+        { setEndPixmap( QPixmap() ); }
+
+        //! end
+        void setEndPixmap( QPixmap pixmap )
+        { endPixmap_ = pixmap; }
+
+        //! start
+        const QPixmap& endPixmap( void ) const
+        { return endPixmap_; }
+
+        //!
 
         //@}
 
-        //! set starting widget
-        void initialize( QWidget* widget = 0, QRect rect = QRect() );
+        //! grap pixmap
+        QPixmap grab( QWidget* = 0, QRect = QRect() ) const;
 
         //! animate transition
         virtual void animate( void )
@@ -128,13 +148,13 @@ namespace Oxygen
         Animation::Pointer animation_;
 
         //! animation starting pixmap
-        QPixmap pixmap_;
+        QPixmap startPixmap_;
+
+        //! animation starting pixmap
+        QPixmap endPixmap_;
 
         //! current state opacity
         qreal opacity_;
-
-        //! if true window() widget is used for grabbing
-        bool grabFromWindow_;
 
     };
 

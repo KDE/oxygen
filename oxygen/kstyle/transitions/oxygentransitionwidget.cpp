@@ -40,8 +40,7 @@ namespace Oxygen
     TransitionWidget::TransitionWidget( QWidget* parent, int duration ):
         QWidget( parent ),
         animation_( new Animation( duration, this ) ),
-        opacity_(0),
-        grabFromWindow_( true )
+        opacity_(0)
     {
 
         // background flags
@@ -61,35 +60,19 @@ namespace Oxygen
 
     }
 
-
-
-    //___________________________________________________________________
-    void TransitionWidget::initialize( QWidget* widget, QRect rect )
+    //________________________________________________
+    QPixmap TransitionWidget::grab( QWidget* widget, QRect rect ) const
     {
-
-        // reset opacity
-        setOpacity(0);
-
-        // check widget
-        if( !widget ) widget = parentWidget();
-        assert( widget );
 
         // change rect
         if( rect.isNull() ) rect = widget->rect();
-        setGeometry( rect.translated( widget->mapTo( parentWidget(), rect.topLeft() ) ) );
-
-        // use parent window instead of widget if requested
-        if( grabFromWindow() )
-        {
-            rect = rect.translated( widget->mapTo( widget->window(), widget->rect().topLeft() ) );
-            widget = widget->window();
-        }
 
         // initialize pixmap
-        pixmap_ = QPixmap( rect.size() );
-        pixmap_.fill( Qt::transparent );
-        grabBackground( pixmap_, widget, rect );
-        grabWidget( pixmap_, widget, rect );
+        QPixmap out( rect.size() );
+        out.fill( Qt::transparent );
+        grabBackground( out, widget, rect );
+        grabWidget( out, widget, rect );
+        return out;
 
     }
 
@@ -97,31 +80,52 @@ namespace Oxygen
     void TransitionWidget::paintEvent( QPaintEvent* event )
     {
 
-        if( opacity() == 1.0 ) return;
+        // fully transparent case
+        if( opacity() >= 1.0 && endPixmap().isNull() ) return;
 
+        // get rect
         QRect rect = event->rect();
         if( !rect.isValid() ) rect = TransitionWidget::rect();
 
+        // local pixmap
         QPixmap local( size() );
+        local.fill( Qt::transparent );
         {
-            local.fill( Qt::transparent );
             QPainter p( &local );
             p.setClipRect( event->rect() );
 
-            p.drawPixmap( QPoint(0,0), pixmap_ );
-            p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-
-            if( opacity() > 0 )
+            // start pixmap
+            if( opacity() < 1 && !startPixmap_.isNull() )
             {
-                QColor color( Qt::black );
-                color.setAlphaF( 1.0-opacity() );
-                p.fillRect(rect, color );
+                // draw pixmap
+                p.drawPixmap( QPoint(0,0), startPixmap_ );
+
+                // opacity mask
+                if( opacity() > 0 )
+                {
+                    p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+                    QColor color( Qt::black );
+                    color.setAlphaF( 1.0-opacity() );
+                    p.fillRect(rect, color );
+                }
             }
+
+            p.end();
+
         }
 
-        QPainter p( this );
-        p.setClipRect( event->rect() );
-        p.drawPixmap( QPoint(), local );
+        // copy local pixmap to widget
+        {
+            QPainter p( this );
+            p.setClipRect( event->rect() );
+
+            // end pixmap
+            if( opacity() > 0 && !endPixmap_.isNull() )
+            { p.drawPixmap( QPoint(), endPixmap() ); }
+
+            p.drawPixmap( QPoint(), local );
+            p.end();
+        }
 
     }
 

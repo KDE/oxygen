@@ -42,7 +42,6 @@ namespace Oxygen
     {
 
         // configure transition
-        transition().data()->setGrabFromWindow( false );
         connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( initializeAnimation() ) );
         connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( animate() ) );
 
@@ -62,8 +61,12 @@ namespace Oxygen
         if( target_.data()->currentIndex() == index_ ) return;
 
         // get old widget (matching index_) and initialize transition
-        QWidget *widget( target_.data()->widget( index_ ) );
-        if( widget ) transition().data()->initialize( widget );
+        transition().data()->setOpacity( 0 );
+        if( QWidget *widget = target_.data()->widget( index_ ) )
+        {
+            transition().data()->setGeometry( widget->geometry() );
+            transition().data()->setStartPixmap( transition().data()->grab( widget ) );
+        }
 
         // update index
         index_ = target_.data()->currentIndex();
