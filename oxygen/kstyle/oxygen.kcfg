@@ -82,12 +82,12 @@
 
     <!-- menubar animation durations -->
     <entry name="MenuBarAnimationsDuration" type="Int">
-      <default>100</default>
+      <default>150</default>
     </entry>  
 
     <!-- menu animation durations -->
     <entry name="MenuAnimationsDuration" type="Int">
-      <default>100</default>
+      <default>150</default>
     </entry>  
 
   </group> 

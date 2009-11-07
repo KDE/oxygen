@@ -1324,7 +1324,8 @@ bool OxygenStyle::drawTabBarPrimitive(
             const QStyleOptionTabV2* tabOpt = qstyleoption_cast<const QStyleOptionTabV2*>(opt);
             if (!tabOpt) return false;
 
-            renderTab(p, r, pal, mouseOver, flags&State_Selected, tabOpt, reverseLayout, widget);
+            //renderTab(p, r, pal, mouseOver, flags&State_Selected, tabOpt, reverseLayout, widget);
+            renderTab(p, r, pal, flags, tabOpt, reverseLayout, widget);
             return true;
 
         }
@@ -3722,15 +3723,19 @@ static TileSet::Tiles tilesByShape(QTabBar::Shape shape)
 }
 
 //_____________________________________________________________________
-void OxygenStyle::renderTab(QPainter *p,
-                            const QRect &r,
-                            const QPalette &pal,
-                            bool mouseOver,
-                            const bool selected,
-                            const QStyleOptionTabV2 *tabOpt,
-                            const bool reverseLayout,
-                            const QWidget *widget) const
+void OxygenStyle::renderTab(
+    QPainter*p, const QRect& r,
+    const QPalette& pal,
+    State flags,
+    const QStyleOptionTabV2 *tabOpt,
+    const bool reverseLayout,
+    const QWidget *widget) const
 {
+
+    const bool enabled( flags & State_Enabled );
+    const bool mouseOver(enabled && (flags & State_MouseOver) );
+    const bool selected( flags&State_Selected );
+
     const QStyleOptionTab::TabPosition pos = tabOpt->position;
     const QStyleOptionTabV3 *tabOptV3 = qstyleoption_cast<const QStyleOptionTabV3 *>(tabOpt);
 
@@ -3994,7 +3999,7 @@ void OxygenStyle::renderTab(QPainter *p,
             p->setClipRect(r);
 
             // get timeLine
-            if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) && !selected )
+            if( !selected && enabled && animations().tabBarEngine().isAnimated( widget, r.topLeft() ) )
             {
 
                 renderSlab(p, tabRect, color, mouseOver ? hoverTabOpts : deselectedTabOpts,

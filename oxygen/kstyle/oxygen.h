@@ -225,14 +225,13 @@ private:
 
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
-    void renderTab(QPainter *p,
-                   const QRect &r,
-                   const QPalette &pal,
-                   bool mouseOver,
-                   const bool selected,
-                   const QStyleOptionTabV2 *tabOpt,
-                   const bool reverseLayout,
-                   const QWidget *widget=NULL) const;
+    void renderTab(
+        QPainter*p, const QRect& r,
+        const QPalette& pal,
+        State flags,
+        const QStyleOptionTabV2 *tabOpt,
+        const bool reverseLayout,
+        const QWidget *widget=NULL) const;
 
     void fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation,
                  bool active, bool inverted) const;
