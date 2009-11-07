@@ -251,7 +251,7 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width, int height)
 
 //____________________________________________________________________________________
 QColor OxygenHelper::decoColor(const QColor& background, const QColor &color) const
-{ return KColorUtils::mix( background, color, _contrast*1.2 ); }
+{ return KColorUtils::mix( background, color, 0.4 + 0.8*_contrast ); }
 
 //______________________________________________________________________________
 QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
