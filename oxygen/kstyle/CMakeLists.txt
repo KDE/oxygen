@@ -3,6 +3,7 @@ project(kstyle-oxygen)
 
 add_subdirectory( config )
 
+include_directories (animations transitions)
 
 
 ########### next target ###############
