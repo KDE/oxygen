@@ -34,7 +34,7 @@ namespace Oxygen
     bool EnableData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !enabled() ) return false;
+        if( !enabled() ) return GenericData::eventFilter( object, event );
 
         // check event type
         switch( event->type() )
@@ -56,7 +56,7 @@ namespace Oxygen
 
         }
 
-        return false;
+        return GenericData::eventFilter( object, event );
 
     }
 

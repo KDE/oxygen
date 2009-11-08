@@ -88,36 +88,31 @@ namespace Oxygen
     bool TabBarData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !enabled() ) return false;
+        if( !( enabled() && object == target() ) )
+        { return WidgetData::eventFilter( object, event ); }
 
         // check event type
         switch( event->type() )
         {
 
             case QEvent::HoverEnter:
-            {
-                enterEvent( object );
-                return false;
-            }
+            enterEvent( object );
+            break;
 
             case QEvent::HoverLeave:
-            {
-                leaveEvent( object );
-                return false;
-            }
+            leaveEvent( object );
+            break;
 
             case QEvent::HoverMove:
-            {
-                mouseMoveEvent( object, static_cast<QHoverEvent*>( event )->pos() );
-                return false;
-            }
+            mouseMoveEvent( object, static_cast<QHoverEvent*>( event )->pos() );
+            break;
 
             default: break;
 
         }
 
         // always forward event
-        return false;
+        return WidgetData::eventFilter( object, event );
 
     }
 

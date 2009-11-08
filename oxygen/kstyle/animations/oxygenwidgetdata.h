@@ -59,9 +59,6 @@ namespace Oxygen
         virtual ~WidgetData( void )
         {}
 
-        //! event filter
-        virtual bool eventFilter( QObject*, QEvent* ) = 0;
-
         //! duration
         virtual void setDuration( int ) = 0;
 

@@ -51,7 +51,8 @@ namespace Oxygen
     bool MenuBarDataV1::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !enabled() ) return false;
+        if( !( enabled() && object == target() ) )
+        { return WidgetData::eventFilter( object, event ); }
 
         // check event type
         switch( event->type() )
@@ -98,7 +99,7 @@ namespace Oxygen
         }
 
         // always forward event
-        return false;
+        return WidgetData::eventFilter( object, event );
 
     }
 

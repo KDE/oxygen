@@ -31,10 +31,11 @@ namespace Oxygen
 {
 
     //______________________________________________
-    bool FocusData::eventFilter( QObject*, QEvent* event )
+    bool FocusData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !enabled() ) return false;
+        if( !( enabled() && object == target() ) )
+        { return GenericData::eventFilter( object, event ); }
 
         // check event type
         switch( event->type() )
@@ -60,7 +61,7 @@ namespace Oxygen
 
         }
 
-        return false;
+        return GenericData::eventFilter( object, event );
 
     }
 
