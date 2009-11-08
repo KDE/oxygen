@@ -38,7 +38,6 @@ set(oxygen_PART_SRCS
     transitions/oxygenstackedwidgetdata.cpp
     transitions/oxygenstackedwidgetengine.cpp
     transitions/oxygentransitiondata.cpp
-    transitions/oxygentransitionwidget.cpp
     transitions/oxygentransitions.cpp
     transitions/oxygentransitionwidget.cpp
     oxygen.cpp
