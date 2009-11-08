@@ -37,14 +37,15 @@ namespace Oxygen
     LabelData::LabelData( QLabel* parent, int duration ):
         TransitionData( parent, duration ),
         target_( parent ),
-        pixmap_( 0 )
+        text_( parent->text() ),
+        pixmap_( parent->pixmap() )
     { target_.data()->installEventFilter( this ); }
 
     //___________________________________________________________________
     bool LabelData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( object != target_ ) return false;
+        if( object != target_ ) return TransitionData::eventFilter( object, event );
 
         switch( event->type() )
         {
@@ -59,10 +60,11 @@ namespace Oxygen
                 { timer_.start( 0, this ); }
                 return true;
 
-            } else return false;
+            } else return TransitionData::eventFilter( object, event );
 
             default:
-            return false;
+            return TransitionData::eventFilter( object, event );
+
         }
 
     }
