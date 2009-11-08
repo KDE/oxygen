@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygenstackedwidgetdata.cpp
-// data container for QStackedWidget transition
+// oxygenlabeldata.cpp
+// data container for QLabel transition
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -24,8 +24,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenstackedwidgetdata.h"
-#include "oxygenstackedwidgetdata.moc"
+#include "oxygenlabeldata.h"
+#include "oxygenlabeldata.moc"
 
 #include <QtCore/QEvent>
 #include <QtGui/QMouseEvent>
@@ -35,73 +35,67 @@ namespace Oxygen
 {
 
     //______________________________________________________
-    StackedWidgetData::StackedWidgetData( QStackedWidget* parent, int duration ):
+    LabelData::LabelData( QLabel* parent, int duration ):
         TransitionData( parent, duration ),
         target_( parent ),
-        index_( parent->currentIndex() )
+        pixmap_( 0 )
     {
+        timer_.setSingleShot( true );
+        connect( &timer_, SIGNAL( timeout()), SLOT( initializeAnimation() ) );
+        connect( &timer_, SIGNAL( timeout()), SLOT( animate() ) );
 
-        // configure transition
-        connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( initializeAnimation() ) );
-        connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( animate() ) );
-
+        target_.data()->installEventFilter( this );
     }
 
     //___________________________________________________________________
-    bool StackedWidgetData::initializeAnimation( void )
+    bool LabelData::eventFilter( QObject* object, QEvent* event )
     {
 
-        // check enability
-        if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
+        if( object != target_ ) return false;
 
-        // check index
-        if( target_.data()->currentIndex() == index_ ) return false;
-
-        // get old widget (matching index_) and initialize transition
-        transition().data()->setOpacity( 0 );
-        if( QWidget *widget = target_.data()->widget( index_ ) )
+        switch( event->type() )
         {
-            transition().data()->setGeometry( widget->geometry() );
-            transition().data()->setStartPixmap( transition().data()->grab( widget ) );
+            case QEvent::Paint:
+            if( enabled() && target_ && ( target_.data()->text() != text_ || target_.data()->pixmap() != pixmap_ ) )
+            {
+
+                text_ = target_.data()->text();
+                pixmap_ = target_.data()->pixmap();
+
+                if( initializeAnimation() )
+                { timer_.start( 0 ); }
+                return true;
+
+            } else return false;
+
+            default:
+            return false;
         }
 
-        // update index
-        index_ = target_.data()->currentIndex();
-        return true;
-
     }
 
     //___________________________________________________________________
-    bool StackedWidgetData::animate( void )
+    bool LabelData::initializeAnimation( void )
     {
-
-        // check enability
-        if( !enabled() ) return false;
-
-        // show transition widget
+        if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
+        transition().data()->setOpacity(0);
+        transition().data()->setGeometry( target_.data()->rect() );
+        transition().data()->setStartPixmap( transition().data()->endPixmap() );
         transition().data()->show();
         transition().data()->raise();
-        transition().data()->animate();
         return true;
-
     }
 
     //___________________________________________________________________
-    void StackedWidgetData::finishAnimation( void )
+    bool LabelData::animate( void )
     {
-        // disable updates on currentWidget
-        if( target_ && target_.data()->currentWidget() )
-        { target_.data()->currentWidget()->setUpdatesEnabled( false ); }
 
-        // hide transition
-        transition().data()->hide();
+        if( !enabled() ) return false;
 
-        // reenable updates and repaint
-        if( target_ && target_.data()->currentWidget() )
-        {
-            target_.data()->currentWidget()->setUpdatesEnabled( true );
-            target_.data()->currentWidget()->repaint();
-        }
+        // check enability
+        transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
+        transition().data()->animate();
+        return true;
 
     }
 

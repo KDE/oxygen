@@ -1,9 +1,9 @@
-#ifndef oxygentransitiondata_h
-#define oxygentransitiondata_h
+#ifndef oxygenlabeldata_h
+#define oxygenlabeldata_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygentransitiondata.h
-// data container for generic transitions
+// oxygenlabeldata.h
+// data container for QLabel transition
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -27,16 +27,17 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygentransitionwidget.h"
+#include "oxygentransitiondata.h"
 
-#include <QtCore/QObject>
-#include <QtGui/QWidget>
+#include <QtCore/QString>
+#include <QtCore/QTimer>
+#include <QtGui/QLabel>
 
 namespace Oxygen
 {
 
     //! generic data
-    class TransitionData: public QObject
+    class LabelData: public TransitionData
     {
 
         Q_OBJECT
@@ -44,56 +45,40 @@ namespace Oxygen
         public:
 
         //! constructor
-        TransitionData( QWidget*, int );
+        LabelData( QLabel*, int );
 
         //! destructor
-        virtual ~TransitionData( void )
+        virtual ~LabelData( void )
         {}
 
-        //! enability
-        virtual void setEnabled( bool value )
-        { enabled_ = value; }
-
-        //! enability
-        virtual bool enabled( void ) const
-        { return enabled_; }
-
-        //! duration
-        virtual void setDuration( int duration )
-        { transition().data()->setDuration( duration ); }
+        //! event filter
+        bool eventFilter( QObject*, QEvent* );
 
         protected slots:
 
         //! initialize animation
-        virtual bool initializeAnimation( void ) = 0;
+        bool initializeAnimation( void );
 
         //! animate
-        virtual bool animate( void ) = 0;
-
-        //! finish animation
-        virtual void finishAnimation( void )
-        {
-            if( transition() )
-            { transition().data()->hide(); }
-        }
-
-        protected:
-
-        //! transition widget
-        virtual const TransitionWidget::Pointer& transition( void ) const
-        { return transition_; }
+        bool animate( void );
 
         private:
 
-        //! enability
-        bool enabled_;
+        //! needed to start animations
+        QTimer timer_;
 
-        //! animation handling
-        TransitionWidget::Pointer transition_;
+        //! target
+        QPointer<QLabel> target_;
+
+        //! old text
+        QString text_;
+
+        //! old pixmap
+        /*! an unchecked pointer is used cause the pixmap is actually never used */
+        const QPixmap* pixmap_;
 
     };
 
 }
 
 #endif
-

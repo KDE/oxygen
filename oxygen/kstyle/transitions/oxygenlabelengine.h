@@ -1,12 +1,12 @@
-#ifndef oxygentransitiondata_h
-#define oxygentransitiondata_h
+#ifndef oxygenlabelengine_h
+#define oxygenlabelengine_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygentransitiondata.h
-// data container for generic transitions
+// oxygenlabelengine.h
+// stores event filters and maps widgets to animations
 // -------------------
 //
-// Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -27,16 +27,15 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygentransitionwidget.h"
-
-#include <QtCore/QObject>
-#include <QtGui/QWidget>
+#include "oxygenbaseengine.h"
+#include "oxygendatamap.h"
+#include "oxygenlabeldata.h"
 
 namespace Oxygen
 {
 
-    //! generic data
-    class TransitionData: public QObject
+    //! used for simple widgets
+    class LabelEngine: public BaseEngine
     {
 
         Q_OBJECT
@@ -44,56 +43,44 @@ namespace Oxygen
         public:
 
         //! constructor
-        TransitionData( QWidget*, int );
-
-        //! destructor
-        virtual ~TransitionData( void )
+        LabelEngine( QObject* parent ):
+        BaseEngine( parent )
         {}
 
-        //! enability
-        virtual void setEnabled( bool value )
-        { enabled_ = value; }
+        //! destructor
+        virtual ~LabelEngine( void )
+        {}
 
-        //! enability
-        virtual bool enabled( void ) const
-        { return enabled_; }
+        //! register widget
+        virtual bool registerWidget( QLabel* );
 
         //! duration
-        virtual void setDuration( int duration )
-        { transition().data()->setDuration( duration ); }
+        virtual void setEnabled( bool value )
+        {
+            BaseEngine::setEnabled( value );
+            data_.setEnabled( value );
+        }
+
+        //! duration
+        virtual void setDuration( int value )
+        {
+            BaseEngine::setDuration( value );
+            data_.setDuration( value );
+        }
 
         protected slots:
 
-        //! initialize animation
-        virtual bool initializeAnimation( void ) = 0;
-
-        //! animate
-        virtual bool animate( void ) = 0;
-
-        //! finish animation
-        virtual void finishAnimation( void )
-        {
-            if( transition() )
-            { transition().data()->hide(); }
-        }
-
-        protected:
-
-        //! transition widget
-        virtual const TransitionWidget::Pointer& transition( void ) const
-        { return transition_; }
+        //! remove widget from map
+        virtual void unregisterWidget( QObject* object )
+        { if( object ) data_.remove( object ); }
 
         private:
 
-        //! enability
-        bool enabled_;
-
-        //! animation handling
-        TransitionWidget::Pointer transition_;
+        //! maps
+        DataMap<LabelData> data_;
 
     };
 
 }
 
 #endif
-

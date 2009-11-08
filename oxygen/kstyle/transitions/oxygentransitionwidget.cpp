@@ -194,6 +194,19 @@ namespace Oxygen
 
     //________________________________________________
     void TransitionWidget::grabWidget( QPixmap& pixmap, QWidget* widget, QRect& rect ) const
-    { widget->render( &pixmap, rect.topLeft(), rect, QWidget::DrawChildren ); }
+    {
+
+        // render main widget
+        widget->render( &pixmap, rect.topLeft(), rect, 0 );
+
+        // need to render children one by one to skip this widget
+        // in case it is already visible.
+        QList<QWidget*> widgets( widget->findChildren<QWidget*>() );
+        foreach( QWidget* w, widgets )
+        {
+            if( w->parent() == widget && w != this && w->isVisibleTo( widget ) )
+            { w->render( &pixmap, w->mapToParent( w->rect().topLeft() ), w->rect(), QWidget::DrawChildren ); }
+        }
+    }
 
 }

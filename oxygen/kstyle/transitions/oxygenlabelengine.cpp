@@ -1,12 +1,9 @@
-#ifndef oxygenstackedwidgetdata_h
-#define oxygenstackedwidgetdata_h
-
 //////////////////////////////////////////////////////////////////////////////
-// oxygenstackedwidgetdata.h
-// data container for QStackedWidget transition
+// oxygenlabelengine.cpp
+// stores event filters and maps widgets to animations
 // -------------------
 //
-// Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -27,49 +24,25 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygentransitiondata.h"
-
-#include <QtGui/QStackedWidget>
+#include "oxygenlabelengine.h"
+#include "oxygenlabelengine.moc"
 
 namespace Oxygen
 {
 
-    //! generic data
-    class StackedWidgetData: public TransitionData
+    //____________________________________________________________
+    bool LabelEngine::registerWidget( QLabel* widget )
     {
 
-        Q_OBJECT
+        if( !( enabled() && widget ) ) return false;
+        if( !data_.contains( widget ) ) { data_.insert( widget, new LabelData( widget, duration() ) ); }
 
-        public:
+        // connect destruction signal
+        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
 
-        //! constructor
-        StackedWidgetData( QStackedWidget*, int );
+        return true;
 
-        //! destructor
-        virtual ~StackedWidgetData( void )
-        {}
-
-        protected slots:
-
-        //! initialize animation
-        bool initializeAnimation( void );
-
-        //! animate
-        bool animate( void );
-
-        //! finish animation
-        virtual void finishAnimation( void );
-
-        private:
-
-        //! target
-        QPointer<QStackedWidget> target_;
-
-        //! current index
-        int index_;
-
-    };
+    }
 
 }
-
-#endif

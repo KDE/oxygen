@@ -34,6 +34,7 @@ namespace Oxygen
     //________________________________________________________--
     Transitions::Transitions( QObject* parent ):
         QObject( parent ),
+        labelEngine_( new LabelEngine( this ) ),
         stackedWidgetEngine_( new StackedWidgetEngine( this ) )
     {}
 
@@ -45,12 +46,12 @@ namespace Oxygen
         bool animationsEnabled( OxygenStyleConfigData::animationsEnabled() );
 
         // enability
-        stackedWidgetEngine().setEnabled(
-            animationsEnabled &&
-            OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
+        labelEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::labelTransitionsEnabled() );
+        stackedWidgetEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
 
         // durations
-        stackedWidgetEngine().setDuration( OxygenStyleConfigData::genericTransitionsDuration() );
+        labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
+        stackedWidgetEngine().setDuration( OxygenStyleConfigData::stackedWidgetTransitionsDuration() );
 
     }
 
@@ -60,8 +61,15 @@ namespace Oxygen
 
         if( !widget ) return false;
 
-        if( QStackedWidget* stack = qobject_cast<QStackedWidget*>( widget ) )
-        { return stackedWidgetEngine().registerWidget( stack ); }
+        if( QLabel* label = qobject_cast<QLabel*>( widget ) ) {
+
+            return labelEngine().registerWidget( label );
+
+        } else if( QStackedWidget* stack = qobject_cast<QStackedWidget*>( widget ) ) {
+
+            return stackedWidgetEngine().registerWidget( stack );
+
+        }
 
         return false;
 

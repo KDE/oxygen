@@ -95,9 +95,17 @@
       <default>false</default>
     </entry>
 
-    <!-- generic Transition durations -->
-    <entry name="GenericTransitionsDuration" type="Int">
-      <default>300</default>
+    <entry name="LabelTransitionsEnabled" type="Bool">
+      <default>false</default>
+    </entry>
+
+    <!-- transition durations -->
+    <entry name="StackedWidgetTransitionsDuration" type="Int">
+      <default>250</default>
+    </entry>  
+
+    <entry name="LabelTransitionsDuration" type="Int">
+      <default>100</default>
     </entry>  
 
   </group> 

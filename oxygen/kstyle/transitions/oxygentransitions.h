@@ -27,6 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygenlabelengine.h"
 #include "oxygenstackedwidgetengine.h"
 
 namespace Oxygen
@@ -53,7 +54,11 @@ namespace Oxygen
         */
         bool registerWidget( QWidget* widget ) const;
 
-        //! tab widget engine
+        //! qlabel engine
+        LabelEngine& labelEngine( void ) const
+        { return *labelEngine_; }
+
+        //! stacked widget engine
         StackedWidgetEngine& stackedWidgetEngine( void ) const
         { return *stackedWidgetEngine_; }
 
@@ -64,7 +69,10 @@ namespace Oxygen
 
         private:
 
-        //! tab widget engine
+        //! qlabel engine
+        LabelEngine* labelEngine_;
+
+        //! stacked widget engine
         StackedWidgetEngine* stackedWidgetEngine_;
 
     };
