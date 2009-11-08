@@ -39,13 +39,7 @@ namespace Oxygen
         TransitionData( parent, duration ),
         target_( parent ),
         pixmap_( 0 )
-    {
-        timer_.setSingleShot( true );
-        connect( &timer_, SIGNAL( timeout()), SLOT( initializeAnimation() ) );
-        connect( &timer_, SIGNAL( timeout()), SLOT( animate() ) );
-
-        target_.data()->installEventFilter( this );
-    }
+    { target_.data()->installEventFilter( this ); }
 
     //___________________________________________________________________
     bool LabelData::eventFilter( QObject* object, QEvent* event )
@@ -63,7 +57,7 @@ namespace Oxygen
                 pixmap_ = target_.data()->pixmap();
 
                 if( initializeAnimation() )
-                { timer_.start( 0 ); }
+                { timer_.start( 0, this ); }
                 return true;
 
             } else return false;
@@ -71,6 +65,19 @@ namespace Oxygen
             default:
             return false;
         }
+
+    }
+
+    //___________________________________________________________________
+    void LabelData::timerEvent( QTimerEvent* event )
+    {
+        if( event->timerId() == timer_.timerId() )
+        {
+
+            timer_.stop();
+            animate();
+
+        } else return QObject::timerEvent( event );
 
     }
 

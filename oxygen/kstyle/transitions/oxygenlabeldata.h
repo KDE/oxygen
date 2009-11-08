@@ -30,7 +30,7 @@
 #include "oxygentransitiondata.h"
 
 #include <QtCore/QString>
-#include <QtCore/QTimer>
+#include <QtCore/QBasicTimer>
 #include <QtGui/QLabel>
 
 namespace Oxygen
@@ -62,10 +62,15 @@ namespace Oxygen
         //! animate
         bool animate( void );
 
+        protected:
+
+        //! timer event
+        virtual void timerEvent( QTimerEvent* );
+
         private:
 
-        //! needed to start animations
-        QTimer timer_;
+        //! needed to start animations out of parent paintEvent
+        QBasicTimer timer_;
 
         //! target
         QPointer<QLabel> target_;
