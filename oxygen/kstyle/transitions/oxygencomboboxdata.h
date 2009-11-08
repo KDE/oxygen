@@ -33,6 +33,7 @@
 #include <QtCore/QBasicTimer>
 #include <QtCore/QTimerEvent>
 #include <QtGui/QComboBox>
+#include <QtGui/QLineEdit>
 
 namespace Oxygen
 {
@@ -61,12 +62,15 @@ namespace Oxygen
         /*! return rect corresponding to the area to be updated when animating */
         QRect targetRect( void ) const
         { return target_ ? target_.data()->rect().adjusted( 5, 5, -5, -5 ):QRect(); }
-        //{ return target_ ? target_.data()->rect():QRect(); }
 
         protected slots:
 
         //! triggerd when comboBox edit text is changed
         virtual void textChanged( void );
+
+        //! triggerd when comboBox text selection is changed
+        virtual void selectionChanged( void )
+        { timer_.start( 50, this ); }
 
         //! triggered when item is activated in combobox
         virtual void  indexChanged( void );
@@ -84,6 +88,9 @@ namespace Oxygen
 
         //! target
         QPointer<QComboBox> target_;
+
+        //! line editor
+        QPointer<QLineEdit> lineEdit_;
 
     };
 

@@ -33,18 +33,30 @@ namespace Oxygen
     //______________________________________________________
     ComboBoxData::ComboBoxData( QComboBox* parent, int duration ):
         TransitionData( parent, duration ),
-        target_( parent )
+        target_( parent ),
+        lineEdit_( parent->lineEdit() )
     {
         connect( target_.data(), SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged() ) );
         connect( target_.data(), SIGNAL( editTextChanged( const QString& ) ), SLOT( textChanged() ) );
+
+        if( lineEdit_ )
+        { connect( lineEdit_.data(), SIGNAL( selectionChanged() ), SLOT( selectionChanged() ) ); }
     }
 
     //___________________________________________________________________
     void ComboBoxData::textChanged( void )
     {
-        // start transition update timer
-        // this is needed so that transition widget always gets the right pixmap before starting
+
         timer_.start( 50, this );
+
+        // check if QLineEdit associated to combobox has changed
+        // connect selectionChanged signal
+        if( target_.data()->lineEdit() && target_.data()->lineEdit() != lineEdit_ )
+        {
+            lineEdit_ = target_.data()->lineEdit();
+            connect( lineEdit_.data(), SIGNAL( selectionChanged() ), SLOT( selectionChanged() ) );
+        }
+
     }
 
     //___________________________________________________________________
