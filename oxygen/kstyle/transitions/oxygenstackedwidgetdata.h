@@ -52,10 +52,10 @@ namespace Oxygen
         protected slots:
 
         //! initialize animation
-        bool initializeAnimation( void );
+        virtual bool initializeAnimation( void );
 
         //! animate
-        bool animate( void );
+        virtual bool animate( void );
 
         //! finish animation
         virtual void finishAnimation( void );
