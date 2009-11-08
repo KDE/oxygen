@@ -28,7 +28,6 @@
 #include "oxygenlabeldata.moc"
 
 #include <QtCore/QEvent>
-#include <QtGui/QMouseEvent>
 #include <QtGui/QTabBar>
 
 namespace Oxygen

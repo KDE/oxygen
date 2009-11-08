@@ -205,7 +205,10 @@ namespace Oxygen
         foreach( QWidget* w, widgets )
         {
             if( w->parent() == widget && w != this && w->isVisibleTo( widget ) )
-            { w->render( &pixmap, w->mapToParent( w->rect().topLeft() ), w->rect(), QWidget::DrawChildren ); }
+            {
+                QRect local = rect.translated( w->mapFromParent( rect.topLeft() ) ).intersected( w->rect() );
+                if( !local.isValid() ) continue;
+                w->render( &pixmap, w->mapToParent( local.topLeft() ), local, QWidget::DrawChildren ); }
         }
     }
 

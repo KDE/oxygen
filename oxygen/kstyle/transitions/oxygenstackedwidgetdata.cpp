@@ -27,10 +27,6 @@
 #include "oxygenstackedwidgetdata.h"
 #include "oxygenstackedwidgetdata.moc"
 
-#include <QtCore/QEvent>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QTabBar>
-
 namespace Oxygen
 {
 
