@@ -1,9 +1,6 @@
-#ifndef oxygentransitions_h
-#define oxygentransitions_h
-
 //////////////////////////////////////////////////////////////////////////////
-// oxygentransitions.h
-// container for all transition engines
+// oxygencomboboxengine.cpp
+// stores event filters and maps widgets to animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -28,63 +25,24 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygencomboboxengine.h"
-#include "oxygenlabelengine.h"
-#include "oxygenstackedwidgetengine.h"
+#include "oxygencomboboxengine.moc"
 
 namespace Oxygen
 {
 
-    //! stores engines
-    class Transitions: public QObject
+    //____________________________________________________________
+    bool ComboBoxEngine::registerWidget( QComboBox* widget )
     {
 
-        Q_OBJECT
+        if( !( enabled() && widget ) ) return false;
+        if( !data_.contains( widget ) ) { data_.insert( widget, new ComboBoxData( widget, duration() ) ); }
 
-        public:
+        // connect destruction signal
+        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
 
-        //! constructor
-        explicit Transitions( QObject* );
+        return true;
 
-        //! destructor
-        virtual ~Transitions( void )
-        {}
-
-        /*
-        register widget; depending on its type
-        returns true if widget was registered
-        */
-        bool registerWidget( QWidget* widget ) const;
-
-        //! qlabel engine
-        ComboBoxEngine& comboBoxEngine( void ) const
-        { return *comboBoxEngine_; }
-
-        //! qlabel engine
-        LabelEngine& labelEngine( void ) const
-        { return *labelEngine_; }
-
-        //! stacked widget engine
-        StackedWidgetEngine& stackedWidgetEngine( void ) const
-        { return *stackedWidgetEngine_; }
-
-        public slots:
-
-        //! setup engines
-        void setupEngines( void );
-
-        private:
-
-        //! qcombobox engine
-        ComboBoxEngine* comboBoxEngine_;
-
-        //! qlabel engine
-        LabelEngine* labelEngine_;
-
-        //! stacked widget engine
-        StackedWidgetEngine* stackedWidgetEngine_;
-
-    };
+    }
 
 }
-
-#endif

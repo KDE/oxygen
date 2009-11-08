@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygenlabeldata.cpp
-// data container for QLabel transition
+// oxygencomboboxdata.cpp
+// data container for QComboBox transition
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -24,69 +24,55 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenlabeldata.h"
-#include "oxygenlabeldata.moc"
-
-#include <QtCore/QEvent>
+#include "oxygencomboboxdata.h"
+#include "oxygencomboboxdata.moc"
 
 namespace Oxygen
 {
 
     //______________________________________________________
-    LabelData::LabelData( QLabel* parent, int duration ):
+    ComboBoxData::ComboBoxData( QComboBox* parent, int duration ):
         TransitionData( parent, duration ),
-        target_( parent ),
-        text_( parent->text() ),
-        pixmap_( parent->pixmap() )
-    { target_.data()->installEventFilter( this ); }
-
-    //___________________________________________________________________
-    bool LabelData::eventFilter( QObject* object, QEvent* event )
+        target_( parent )
     {
-
-        if( object != target_ ) return TransitionData::eventFilter( object, event );
-
-        switch( event->type() )
-        {
-            case QEvent::Paint:
-            if( enabled() && target_ && ( target_.data()->text() != text_ || target_.data()->pixmap() != pixmap_ ) )
-            {
-
-                text_ = target_.data()->text();
-                pixmap_ = target_.data()->pixmap();
-
-                if( initializeAnimation() )
-                { timer_.start( 0, this ); }
-                return true;
-
-            } else return TransitionData::eventFilter( object, event );
-
-            default:
-            return TransitionData::eventFilter( object, event );
-
-        }
-
+        connect( target_.data(), SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged() ) );
+        connect( target_.data(), SIGNAL( editTextChanged( const QString& ) ), SLOT( textChanged() ) );
     }
 
     //___________________________________________________________________
-    void LabelData::timerEvent( QTimerEvent* event )
+    void ComboBoxData::textChanged( void )
     {
+        // start transition update timer
+        // this is needed so that transition widget always gets the right pixmap before starting
+        timer_.start( 50, this );
+    }
+
+    //___________________________________________________________________
+    void ComboBoxData::indexChanged( void )
+    {
+        if( initializeAnimation() )
+        { animate(); }
+    }
+
+    //___________________________________________________________________
+    void ComboBoxData::timerEvent( QTimerEvent* event )
+    {
+
         if( event->timerId() == timer_.timerId() )
         {
-
             timer_.stop();
-            animate();
-
-        } else return QObject::timerEvent( event );
+            if( target_ )
+            { transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) ); }
+        } else return TransitionData::timerEvent( event );
 
     }
 
     //___________________________________________________________________
-    bool LabelData::initializeAnimation( void )
+    bool ComboBoxData::initializeAnimation( void )
     {
         if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
         transition().data()->setOpacity(0);
-        transition().data()->setGeometry( target_.data()->rect() );
+        transition().data()->setGeometry( targetRect() );
         transition().data()->setStartPixmap( transition().data()->endPixmap() );
         transition().data()->show();
         transition().data()->raise();
@@ -94,13 +80,13 @@ namespace Oxygen
     }
 
     //___________________________________________________________________
-    bool LabelData::animate( void )
+    bool ComboBoxData::animate( void )
     {
 
         if( !enabled() ) return false;
 
         // check enability
-        transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
+        transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
         transition().data()->animate();
         return true;
 

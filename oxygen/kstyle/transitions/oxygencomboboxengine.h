@@ -1,9 +1,9 @@
-#ifndef oxygentransitions_h
-#define oxygentransitions_h
+#ifndef oxygencomboboxengine_h
+#define oxygencomboboxengine_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygentransitions.h
-// container for all transition engines
+// oxygencomboboxengine.h
+// stores event filters and maps widgets to animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -27,15 +27,15 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygencomboboxengine.h"
-#include "oxygenlabelengine.h"
-#include "oxygenstackedwidgetengine.h"
+#include "oxygenbaseengine.h"
+#include "oxygendatamap.h"
+#include "oxygencomboboxdata.h"
 
 namespace Oxygen
 {
 
-    //! stores engines
-    class Transitions: public QObject
+    //! used for simple widgets
+    class ComboBoxEngine: public BaseEngine
     {
 
         Q_OBJECT
@@ -43,45 +43,41 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit Transitions( QObject* );
-
-        //! destructor
-        virtual ~Transitions( void )
+        ComboBoxEngine( QObject* parent ):
+        BaseEngine( parent )
         {}
 
-        /*
-        register widget; depending on its type
-        returns true if widget was registered
-        */
-        bool registerWidget( QWidget* widget ) const;
+        //! destructor
+        virtual ~ComboBoxEngine( void )
+        {}
 
-        //! qlabel engine
-        ComboBoxEngine& comboBoxEngine( void ) const
-        { return *comboBoxEngine_; }
+        //! register widget
+        virtual bool registerWidget( QComboBox* );
 
-        //! qlabel engine
-        LabelEngine& labelEngine( void ) const
-        { return *labelEngine_; }
+        //! duration
+        virtual void setEnabled( bool value )
+        {
+            BaseEngine::setEnabled( value );
+            data_.setEnabled( value );
+        }
 
-        //! stacked widget engine
-        StackedWidgetEngine& stackedWidgetEngine( void ) const
-        { return *stackedWidgetEngine_; }
+        //! duration
+        virtual void setDuration( int value )
+        {
+            BaseEngine::setDuration( value );
+            data_.setDuration( value );
+        }
 
-        public slots:
+        protected slots:
 
-        //! setup engines
-        void setupEngines( void );
+        //! remove widget from map
+        virtual void unregisterWidget( QObject* object )
+        { if( object ) data_.remove( object ); }
 
         private:
 
-        //! qcombobox engine
-        ComboBoxEngine* comboBoxEngine_;
-
-        //! qlabel engine
-        LabelEngine* labelEngine_;
-
-        //! stacked widget engine
-        StackedWidgetEngine* stackedWidgetEngine_;
+        //! maps
+        DataMap<ComboBoxData> data_;
 
     };
 

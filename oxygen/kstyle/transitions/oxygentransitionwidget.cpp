@@ -197,7 +197,7 @@ namespace Oxygen
     {
 
         // render main widget
-        widget->render( &pixmap, rect.topLeft(), rect, 0 );
+        widget->render( &pixmap, pixmap.rect().topLeft(), rect, 0 );
 
         // need to render children one by one to skip this widget
         // in case it is already visible.
@@ -205,10 +205,7 @@ namespace Oxygen
         foreach( QWidget* w, widgets )
         {
             if( w->parent() == widget && w != this && w->isVisibleTo( widget ) )
-            {
-                QRect local = rect.translated( w->mapFromParent( rect.topLeft() ) ).intersected( w->rect() );
-                if( !local.isValid() ) continue;
-                w->render( &pixmap, w->mapToParent( local.topLeft() ), local, QWidget::DrawChildren ); }
+            { w->render( &pixmap, w->mapToParent( w->rect().topLeft() ) - rect.topLeft(), w->rect(), QWidget::DrawChildren ); }
         }
     }
 

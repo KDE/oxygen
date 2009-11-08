@@ -34,6 +34,7 @@ namespace Oxygen
     //________________________________________________________--
     Transitions::Transitions( QObject* parent ):
         QObject( parent ),
+        comboBoxEngine_( new ComboBoxEngine( this ) ),
         labelEngine_( new LabelEngine( this ) ),
         stackedWidgetEngine_( new StackedWidgetEngine( this ) )
     {}
@@ -46,10 +47,12 @@ namespace Oxygen
         bool animationsEnabled( OxygenStyleConfigData::animationsEnabled() );
 
         // enability
+        comboBoxEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::labelTransitionsEnabled() );
         labelEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::labelTransitionsEnabled() );
         stackedWidgetEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
 
         // durations
+        comboBoxEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
         labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
         stackedWidgetEngine().setDuration( OxygenStyleConfigData::stackedWidgetTransitionsDuration() );
 
@@ -64,6 +67,10 @@ namespace Oxygen
         if( QLabel* label = qobject_cast<QLabel*>( widget ) ) {
 
             return labelEngine().registerWidget( label );
+
+        } else if( QComboBox* comboBox = qobject_cast<QComboBox*>( widget ) ) {
+
+            return comboBoxEngine().registerWidget( comboBox );
 
         } else if( QStackedWidget* stack = qobject_cast<QStackedWidget*>( widget ) ) {
 

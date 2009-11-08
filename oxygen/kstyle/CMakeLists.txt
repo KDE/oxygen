@@ -31,6 +31,8 @@ set(oxygen_PART_SRCS
     animations/oxygentabbardata.cpp
     animations/oxygentabbarengine.cpp
     animations/oxygenwidgetdata.cpp
+    transitions/oxygencomboboxdata.cpp
+    transitions/oxygencomboboxengine.cpp
     transitions/oxygenlabeldata.cpp
     transitions/oxygenlabelengine.cpp
     transitions/oxygenstackedwidgetdata.cpp

@@ -1,12 +1,12 @@
-#ifndef oxygentransitions_h
-#define oxygentransitions_h
+#ifndef oxygencomboboxdata_h
+#define oxygencomboboxdata_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygentransitions.h
-// container for all transition engines
+// oxygencomboboxdata.h
+// data container for QComboBox transition
 // -------------------
 //
-// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -27,15 +27,18 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygencomboboxengine.h"
-#include "oxygenlabelengine.h"
-#include "oxygenstackedwidgetengine.h"
+#include "oxygentransitiondata.h"
+
+#include <QtCore/QString>
+#include <QtCore/QBasicTimer>
+#include <QtCore/QTimerEvent>
+#include <QtGui/QComboBox>
 
 namespace Oxygen
 {
 
-    //! stores engines
-    class Transitions: public QObject
+    //! generic data
+    class ComboBoxData: public TransitionData
     {
 
         Q_OBJECT
@@ -43,45 +46,44 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit Transitions( QObject* );
+        ComboBoxData( QComboBox*, int );
 
         //! destructor
-        virtual ~Transitions( void )
+        virtual ~ComboBoxData( void )
         {}
 
-        /*
-        register widget; depending on its type
-        returns true if widget was registered
-        */
-        bool registerWidget( QWidget* widget ) const;
+        protected:
 
-        //! qlabel engine
-        ComboBoxEngine& comboBoxEngine( void ) const
-        { return *comboBoxEngine_; }
+        //! timer event
+        void timerEvent( QTimerEvent* );
 
-        //! qlabel engine
-        LabelEngine& labelEngine( void ) const
-        { return *labelEngine_; }
+        //! target rect
+        /*! return rect corresponding to the area to be updated when animating */
+        QRect targetRect( void ) const
+        { return target_ ? target_.data()->rect().adjusted( 5, 5, -5, -5 ):QRect(); }
+        //{ return target_ ? target_.data()->rect():QRect(); }
 
-        //! stacked widget engine
-        StackedWidgetEngine& stackedWidgetEngine( void ) const
-        { return *stackedWidgetEngine_; }
+        protected slots:
 
-        public slots:
+        //! triggerd when comboBox edit text is changed
+        virtual void textChanged( void );
 
-        //! setup engines
-        void setupEngines( void );
+        //! triggered when item is activated in combobox
+        virtual void  indexChanged( void );
+
+        //! initialize animation
+        virtual bool initializeAnimation( void );
+
+        //! animate
+        virtual bool animate( void );
 
         private:
 
-        //! qcombobox engine
-        ComboBoxEngine* comboBoxEngine_;
+        //! timer
+        QBasicTimer timer_;
 
-        //! qlabel engine
-        LabelEngine* labelEngine_;
-
-        //! stacked widget engine
-        StackedWidgetEngine* stackedWidgetEngine_;
+        //! target
+        QPointer<QComboBox> target_;
 
     };
 
