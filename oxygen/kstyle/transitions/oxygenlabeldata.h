@@ -52,15 +52,15 @@ namespace Oxygen
         {}
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* );
+        virtual bool eventFilter( QObject*, QEvent* );
 
         protected slots:
 
         //! initialize animation
-        bool initializeAnimation( void );
+        virtual bool initializeAnimation( void );
 
         //! animate
-        bool animate( void );
+        virtual bool animate( void );
 
         protected:
 
