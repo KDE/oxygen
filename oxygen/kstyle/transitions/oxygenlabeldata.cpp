@@ -38,7 +38,10 @@ namespace Oxygen
         target_( parent ),
         text_( parent->text() ),
         pixmap_( parent->pixmap() )
-    { target_.data()->installEventFilter( this ); }
+    {
+        transition().data()->setGrabFromWindow( true );
+        target_.data()->installEventFilter( this );
+    }
 
     //___________________________________________________________________
     bool LabelData::eventFilter( QObject* object, QEvent* event )

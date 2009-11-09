@@ -40,7 +40,9 @@ namespace Oxygen
     TransitionWidget::TransitionWidget( QWidget* parent, int duration ):
         QWidget( parent ),
         animation_( new Animation( duration, this ) ),
-        opacity_(0)
+        opacity_(0),
+        grabFromWindow_( false ),
+        paintEnabled_( true )
     {
 
         // background flags
@@ -61,7 +63,7 @@ namespace Oxygen
     }
 
     //________________________________________________
-    QPixmap TransitionWidget::grab( QWidget* widget, QRect rect ) const
+    QPixmap TransitionWidget::grab( QWidget* widget, QRect rect )
     {
 
         // change rect
@@ -70,8 +72,25 @@ namespace Oxygen
         // initialize pixmap
         QPixmap out( rect.size() );
         out.fill( Qt::transparent );
-        grabBackground( out, widget, rect );
-        grabWidget( out, widget, rect );
+        paintEnabled_ = false;
+
+        if( grabFromWindow_ )
+        {
+
+            rect = rect.translated( widget->mapTo( widget->window(), widget->rect().topLeft() ) );
+            widget = widget->window();
+            out = QPixmap::grabWidget( widget, rect );
+
+
+        } else {
+
+            grabBackground( out, widget, rect );
+            grabWidget( out, widget, rect );
+
+        }
+
+        paintEnabled_ = true;
+
         return out;
 
     }
@@ -82,6 +101,7 @@ namespace Oxygen
 
         // fully transparent case
         if( opacity() >= 1.0 && endPixmap().isNull() ) return;
+        if( !paintEnabled_ ) return;
 
         // get rect
         QRect rect = event->rect();
@@ -199,7 +219,8 @@ namespace Oxygen
     {
 
         // render main widget
-        widget->render( &pixmap, pixmap.rect().topLeft(), rect, 0 );
+        widget->render( &pixmap, pixmap.rect().topLeft(), rect, QWidget::DrawChildren );
+        return;
 
         // need to render children one by one to skip this widget
         // in case it is already visible.

@@ -52,6 +52,11 @@ namespace Oxygen
         virtual ~TransitionWidget( void )
         {}
 
+        //! grab from window directly
+        /*! when possible, this fixes some issues with background painting */
+        void setGrabFromWindow( bool value )
+        { grabFromWindow_ = value; }
+
         //! duration
         void setDuration( int duration )
         {
@@ -106,7 +111,7 @@ namespace Oxygen
         //@}
 
         //! grap pixmap
-        QPixmap grab( QWidget* = 0, QRect = QRect() ) const;
+        QPixmap grab( QWidget* = 0, QRect = QRect() );
 
         //! animate transition
         virtual void animate( void )
@@ -143,6 +148,12 @@ namespace Oxygen
         virtual void grabWidget( QPixmap&, QWidget*, QRect& ) const;
 
         private:
+
+        //! grab from window
+        bool grabFromWindow_;
+
+        //! paint enabled
+        bool paintEnabled_;
 
         //! internal transition animation
         Animation::Pointer animation_;
