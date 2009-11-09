@@ -93,6 +93,7 @@ static void cleanupBefore()
 //_____________________________________________
 OxygenStyle::OxygenStyle() :
     KStyle(),
+    CE_CapacityBar( newControlElement( "CE_CapacityBar" ) ),
     _helper(*globalHelper),
     _animations( new Oxygen::Animations( this ) ),
     _transitions( new Oxygen::Transitions( this ) )
@@ -352,6 +353,7 @@ void OxygenStyle::drawComplexControl(ComplexControl control,const QStyleOptionCo
 
 }
 
+//___________________________________________________________________________________
 void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const
 {
 
@@ -366,10 +368,19 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
     }
 }
 
+//___________________________________________________________________________________
 void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const
 {
+
+    if( element == CE_CapacityBar )
+    {
+        drawCapacityBar( option, p, widget );
+        return;
+    }
+
     switch (element)
     {
+
         case CE_RubberBand:
         {
             if (const QStyleOptionRubberBand *rbOpt = qstyleoption_cast<const QStyleOptionRubberBand *>(option))
@@ -2900,6 +2911,37 @@ bool OxygenStyle::drawGenericPrimitive(
 }
 
 //______________________________________________________________
+void OxygenStyle::drawCapacityBar(const QStyleOption *option, QPainter *p, const QWidget *widget) const
+{
+
+    // cast option
+    const QStyleOptionProgressBar* cbOption( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
+    if( !cbOption ) return;
+
+    // draw container
+    QStyleOptionProgressBarV2 sub_opt(*cbOption);
+    sub_opt.rect = subElementRect( QStyle::SE_ProgressBarGroove, cbOption, widget);
+    drawControl( QStyle::CE_ProgressBarGroove, &sub_opt, p, widget);
+
+    sub_opt.progress = 100;
+    sub_opt.palette.setColor( QPalette::Highlight, _viewHoverBrush.brush(QPalette::Active).color() );
+    sub_opt.rect = subElementRect( QStyle::SE_ProgressBarContents, cbOption, widget);
+    drawControl( QStyle::CE_ProgressBarContents, &sub_opt, p, widget);
+
+    sub_opt.progress = cbOption->progress;
+    sub_opt.palette.setColor( QPalette::Highlight, _viewFocusBrush.brush(QPalette::Active).color() );
+    sub_opt.rect = subElementRect( QStyle::SE_ProgressBarContents, cbOption, widget);
+    drawControl( QStyle::CE_ProgressBarContents, &sub_opt, p, widget);
+
+    sub_opt.progress = 100;
+    sub_opt.rect = subElementRect( QStyle::SE_ProgressBarLabel, cbOption, widget);
+    drawControl( QStyle::CE_ProgressBarLabel, &sub_opt, p, widget);
+
+    return;
+
+}
+
+//______________________________________________________________
 void OxygenStyle::polish(QWidget* widget)
 {
     if (!widget) return;
@@ -4483,6 +4525,7 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
 int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option, const QWidget * widget, QStyleHintReturn * returnData) const
 {
     switch (hint) {
+
         case SH_ComboBox_ListMouseTracking:
             return true;
         case SH_Menu_SubMenuPopupDelay:

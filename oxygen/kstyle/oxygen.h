@@ -74,6 +74,7 @@ namespace Oxygen
 class OxygenStyle : public KStyle
 {
     Q_OBJECT
+    Q_CLASSINFO ("X-KDE-CustomElements", "true")
 
     public:
 
@@ -82,7 +83,6 @@ class OxygenStyle : public KStyle
 
     //! destructor
     virtual ~OxygenStyle();
-
     virtual void drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p, const QWidget *widget) const;
     virtual void drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const;
     virtual void drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
@@ -126,9 +126,11 @@ class OxygenStyle : public KStyle
     virtual bool drawGroupBoxPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
     virtual bool drawToolBarPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
     virtual bool drawToolButtonPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
-
     virtual bool drawGenericPrimitive(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
     //@}
+
+    // capacity bar
+    virtual void drawCapacityBar(const QStyleOption *option, QPainter *p, const QWidget *widget) const;
 
     virtual QRect subElementRect(SubElement sr, const QStyleOption *opt, const QWidget *widget) const;
 
@@ -138,14 +140,18 @@ class OxygenStyle : public KStyle
     using  KStyle::unpolish;
 
 
-    virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
-                          const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
+    int styleHint(
+        StyleHint hint, const QStyleOption * option = 0, const QWidget * widget = 0,
+        QStyleHintReturn * returnData = 0 ) const;
+    //virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
+    // const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
     virtual int pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const;
     virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option,
                                 SubControl subControl, const QWidget* widget) const;
     virtual QSize sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const;
 
     public:
+
     enum StyleOption
     {
         Sunken = 0x1,
@@ -242,13 +248,15 @@ class OxygenStyle : public KStyle
         const bool reverseLayout,
         const QWidget *widget=NULL) const;
 
-    void fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation,
-                 bool active, bool inverted) const;
+    void fillTab(
+        QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation,
+        bool active, bool inverted) const;
 
     void renderWindowIcon(QPainter *p, const QRectF &r, int &type) const;
 
     //! scrollbar hole
-    void renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
+    void renderScrollBarHole(
+        QPainter *p, const QRect &r, const QColor &color,
         Qt::Orientation orientation, TileSet::Tiles = TileSet::Full) const;
 
     //! scrollbar handle (non animated)
@@ -269,20 +277,25 @@ class OxygenStyle : public KStyle
     //! returns true if compositing is active
     bool compositingActive( void ) const;
 
-protected Q_SLOTS:
+    protected Q_SLOTS:
     virtual QIcon standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option, const QWidget *widget) const;
+
     //Animation slots.
     void updateProgressPos();
     void progressBarDestroyed(QObject* bar);
+
     //For KGlobalSettings notifications
     void globalSettingsChange(int type, int arg);
 
-private:
+    private:
     QPoint handleRTL(const QStyleOption* opt, const QPoint& pos) const;
     QRect handleRTL(const QStyleOption* opt, const QRect& subRect) const;
 
     // configuration
     void loadConfiguration();
+
+    // custom Control element to implement re-painting of dolphin CapacityBar
+    const QStyle::ControlElement CE_CapacityBar;
 
     // helper
     OxygenStyleHelper &_helper;
