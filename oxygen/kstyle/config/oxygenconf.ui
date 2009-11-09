@@ -436,7 +436,7 @@
        <item row="5" column="1">
         <widget class="QCheckBox" name="_stackedWidgetTransitionsEnabled">
          <property name="text">
-          <string>Animate tabs transitions</string>
+          <string>Animate tab transitions</string>
          </property>
         </widget>
        </item>
