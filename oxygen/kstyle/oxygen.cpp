@@ -2923,17 +2923,11 @@ void OxygenStyle::drawCapacityBar(const QStyleOption *option, QPainter *p, const
     sub_opt.rect = subElementRect( QStyle::SE_ProgressBarGroove, cbOption, widget);
     drawControl( QStyle::CE_ProgressBarGroove, &sub_opt, p, widget);
 
-    sub_opt.progress = 100;
-    sub_opt.palette.setColor( QPalette::Highlight, _viewHoverBrush.brush(QPalette::Active).color() );
-    sub_opt.rect = subElementRect( QStyle::SE_ProgressBarContents, cbOption, widget);
-    drawControl( QStyle::CE_ProgressBarContents, &sub_opt, p, widget);
-
     sub_opt.progress = cbOption->progress;
     sub_opt.palette.setColor( QPalette::Highlight, _viewFocusBrush.brush(QPalette::Active).color() );
     sub_opt.rect = subElementRect( QStyle::SE_ProgressBarContents, cbOption, widget);
     drawControl( QStyle::CE_ProgressBarContents, &sub_opt, p, widget);
 
-    sub_opt.progress = 100;
     sub_opt.rect = subElementRect( QStyle::SE_ProgressBarLabel, cbOption, widget);
     drawControl( QStyle::CE_ProgressBarLabel, &sub_opt, p, widget);
 
