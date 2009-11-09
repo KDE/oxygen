@@ -135,7 +135,9 @@ namespace Oxygen
         if (!widget) return;
 
         QWidgetList widgets;
-        widgets.push_back( widget );
+        if( widget->autoFillBackground() )
+        { widgets.push_back( widget ); }
+
         QWidget *parent(0);
 
         // get highest level parent
