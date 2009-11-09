@@ -2918,13 +2918,18 @@ void OxygenStyle::drawCapacityBar(const QStyleOption *option, QPainter *p, const
     const QStyleOptionProgressBar* cbOption( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
     if( !cbOption ) return;
 
+    QColor contentsColor;
+    if( cbOption->progress < 85 ) contentsColor = QColor( "#00aa00" );
+    else if( cbOption->progress < 95 ) contentsColor = QColor( "#ff8800" );
+    else contentsColor = QColor( "#aa0000" );
+
     // draw container
     QStyleOptionProgressBarV2 sub_opt(*cbOption);
     sub_opt.rect = subElementRect( QStyle::SE_ProgressBarGroove, cbOption, widget);
     drawControl( QStyle::CE_ProgressBarGroove, &sub_opt, p, widget);
 
     sub_opt.progress = cbOption->progress;
-    sub_opt.palette.setColor( QPalette::Highlight, _viewFocusBrush.brush(QPalette::Active).color() );
+    sub_opt.palette.setColor( QPalette::Highlight, contentsColor );
     sub_opt.rect = subElementRect( QStyle::SE_ProgressBarContents, cbOption, widget);
     drawControl( QStyle::CE_ProgressBarContents, &sub_opt, p, widget);
 
@@ -3413,14 +3418,19 @@ void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bo
 
 }
 
+//______________________________________________________________________________
 void OxygenStyle::renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
                                    Qt::Orientation orientation, TileSet::Tiles tiles) const
 {
-    if (r.isValid()) { // TODO and check that it's big enough?
+    if (r.isValid())
+    {
+        // one need to make smaller shadow
+        // (notably on the size when rect height is too high)
         _helper.scrollHole(
-                color,
-                orientation)->render(r, p, tiles);
+            color,
+            orientation)->render(r, p, tiles);
     }
+
 }
 
 void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPalette &pal,
