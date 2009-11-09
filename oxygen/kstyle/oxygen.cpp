@@ -2918,21 +2918,16 @@ void OxygenStyle::drawCapacityBar(const QStyleOption *option, QPainter *p, const
     const QStyleOptionProgressBar* cbOption( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
     if( !cbOption ) return;
 
-    QColor contentsColor;
-    if( cbOption->progress < 85 ) contentsColor = QColor( "#00aa00" );
-    else if( cbOption->progress < 95 ) contentsColor = QColor( "#ff8800" );
-    else contentsColor = QColor( "#aa0000" );
-
     // draw container
     QStyleOptionProgressBarV2 sub_opt(*cbOption);
     sub_opt.rect = subElementRect( QStyle::SE_ProgressBarGroove, cbOption, widget);
     drawControl( QStyle::CE_ProgressBarGroove, &sub_opt, p, widget);
 
-    sub_opt.progress = cbOption->progress;
-    sub_opt.palette.setColor( QPalette::Highlight, contentsColor );
+    // draw bar
     sub_opt.rect = subElementRect( QStyle::SE_ProgressBarContents, cbOption, widget);
     drawControl( QStyle::CE_ProgressBarContents, &sub_opt, p, widget);
 
+    // draw label
     sub_opt.rect = subElementRect( QStyle::SE_ProgressBarLabel, cbOption, widget);
     drawControl( QStyle::CE_ProgressBarLabel, &sub_opt, p, widget);
 
@@ -3424,17 +3419,20 @@ void OxygenStyle::renderScrollBarHole(QPainter *p, const QRect &r, const QColor 
 {
     if (r.isValid())
     {
+
         // one need to make smaller shadow
         // (notably on the size when rect height is too high)
-        _helper.scrollHole(
-            color,
-            orientation)->render(r, p, tiles);
+        bool smallShadow = r.height() < 10;
+        _helper.scrollHole( color, orientation, smallShadow)->render(r, p, tiles);
+
     }
 
 }
 
-void OxygenStyle::renderScrollBarHandle(QPainter *p, const QRect &r, const QPalette &pal,
-                               Qt::Orientation orientation, bool hover, qreal opacity ) const
+//______________________________________________________________________________
+void OxygenStyle::renderScrollBarHandle(
+    QPainter *p, const QRect &r, const QPalette &pal,
+    Qt::Orientation orientation, bool hover, qreal opacity ) const
 {
     if (!r.isValid()) return;
     p->save();

@@ -61,7 +61,7 @@ public:
     TileSet *slitFocused(const QColor&);
 
     TileSet *dockFrame(const QColor&, int size);
-    TileSet *scrollHole(const QColor&, Qt::Orientation orientation);
+    TileSet *scrollHole(const QColor&, Qt::Orientation orientation, bool smallShadow = false );
 
     QPalette mergePalettes( const QPalette&, qreal ) const;
 

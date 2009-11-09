@@ -743,9 +743,10 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
     return tileSet;
 }
 
-TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orientation)
+//______________________________________________________________________________
+TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orientation, bool smallShadow )
 {
-    quint64 key = quint64(color.rgba()) << 32 | (orientation == Qt::Horizontal);
+    quint64 key = quint64(color.rgba()) << 32 | ((orientation == Qt::Horizontal) << 1) | smallShadow;
     TileSet *tileSet = m_scrollHoleCache.object(key);
     if (!tileSet)
     {
@@ -757,10 +758,13 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
         QColor dark = calcDarkColor(color);
         QColor light = calcLightColor(color);
         QColor shadow = calcShadowColor(color);
+
         // use space for white border
         QRect r = QRect(0,0,15,15);
         QRect rect = r.adjusted(1, 0, -1, -1);
-        int shadowWidth = (orientation == Qt::Horizontal) ? 3 : 2;
+        int shadowWidth(0);
+        if( smallShadow ) shadowWidth = (orientation == Qt::Horizontal) ? 2 : 1;
+        else shadowWidth = (orientation == Qt::Horizontal) ? 3 : 2;
 
         p.setRenderHints(QPainter::Antialiasing);
         p.setBrush(dark);
@@ -771,15 +775,16 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
 
         // slight shadow across the whole hole
         QLinearGradient shadowGradient(rect.topLeft(),
-                orientation == Qt::Horizontal ?
-                    rect.bottomLeft()
-                :   rect.topRight());
+            orientation == Qt::Horizontal ?
+            rect.bottomLeft():rect.topRight());
+
         shadowGradient.setColorAt(0.0, alphaColor(shadow, 0.1));
         shadowGradient.setColorAt(0.6, Qt::transparent);
         p.setBrush(shadowGradient);
         p.drawRoundedRect(rect, 4.5, 4.5);
 
         // strong shadow
+
         // left
         QLinearGradient l1 = QLinearGradient(rect.topLeft(), rect.topLeft()+QPoint(shadowWidth,0));
         l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.3 : 0.2));
@@ -787,6 +792,7 @@ TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orie
         l1.setColorAt(1.0, Qt::transparent);
         p.setBrush(l1);
         p.drawRoundedRect(QRect(rect.topLeft(), rect.bottomLeft()+QPoint(shadowWidth,0)), 4.5, 4.5);
+
         // right
         l1 = QLinearGradient(rect.topRight(), rect.topRight()-QPoint(shadowWidth,0));
         l1.setColorAt(0.0, alphaColor(shadow, orientation == Qt::Horizontal ? 0.3 : 0.2));
