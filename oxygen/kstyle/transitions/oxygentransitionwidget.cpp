@@ -39,10 +39,10 @@ namespace Oxygen
     //________________________________________________
     TransitionWidget::TransitionWidget( QWidget* parent, int duration ):
         QWidget( parent ),
-        animation_( new Animation( duration, this ) ),
-        opacity_(0),
         grabFromWindow_( false ),
-        paintEnabled_( true )
+        paintEnabled_( true ),
+        animation_( new Animation( duration, this ) ),
+        opacity_(0)
     {
 
         // background flags
