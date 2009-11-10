@@ -52,7 +52,7 @@
 
 #include "helper.h"
 #include "lib/tileset.h"
-#include "animations/oxygengenericengine.h"
+#include "animations/oxygenwidgetstateengine.h"
 
 #define u_arrow -4,1, 2,1, -3,0, 1,0, -2,-1, 0,-1, -1,-2
 #define d_arrow -4,-2, 2,-2, -3,-1, 1,-1, -2,0, 0,0, -1,1
@@ -200,19 +200,22 @@ class OxygenStyle : public KStyle
     //! menu item
     void renderMenuItemRect( const QStyleOption*, const QRect&, const QPalette&, QPainter* p, qreal opacity = -1 ) const;
 
-    //! generic slab
-    void renderButtonSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opt = 0, TileSet::Tiles tiles = TileSet::Ring) const
-    { renderButtonSlab( p, r, c, opt, -1, tiles ); }
+    //! slab glowing color
+    QColor slabShadowColor( QColor color, StyleOptions opts, qreal opacity, Oxygen::AnimationMode mode ) const;
+
+    //! generic button slab
+    void renderButtonSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opts = 0, TileSet::Tiles tiles = TileSet::Ring) const
+    { renderButtonSlab( p, r, c, opts, -1,  Oxygen::AnimationNone, tiles ); }
+
+    //! generic button slab
+    void renderButtonSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, Oxygen::AnimationMode, TileSet::Tiles ) const;
 
     //! generic slab
-    void renderButtonSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal opacity, TileSet::Tiles tiles ) const;
+    void renderSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opts = 0, TileSet::Tiles tiles = TileSet::Ring) const
+    { renderSlab( p, r, c, opts, -1, Oxygen::AnimationNone, tiles ); }
 
     //! generic slab
-    void renderSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opt = 0, TileSet::Tiles tiles = TileSet::Ring) const
-    { renderSlab( p, r, c, opt, -1, tiles ); }
-
-    //! generic slab
-    void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal opacity, TileSet::Tiles tiles ) const;
+    void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, Oxygen::AnimationMode, TileSet::Tiles ) const;
 
 
     //! generic hole
@@ -224,19 +227,19 @@ class OxygenStyle : public KStyle
     //! generic hole (with animated glow)
     void renderHole(QPainter *p, const QColor&, const QRect &r,
         bool focus, bool hover,
-        qreal opacity, Oxygen::AnimationModes animationMode,
+        qreal opacity, Oxygen::AnimationMode animationMode,
         TileSet::Tiles posFlags = TileSet::Ring) const;
 
     //! checkbox
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
         bool enabled, bool hasFocus, bool mouseOver,
-        int checkPrimitive, bool sunken=false, qreal opacity = -1 ) const;
+        int checkPrimitive, bool sunken=false, qreal opacity = -1, Oxygen::AnimationMode mode = Oxygen::AnimationNone ) const;
 
     //! radio button
     void renderRadioButton(
         QPainter *p, const QRect &r, const QPalette &pal,
         bool enabled, bool hasFocus, bool mouseOver,
-        int radioPrimitive, bool drawButton=true, qreal opacity = -1 ) const;
+        int radioPrimitive, bool drawButton=true, qreal opacity = -1, Oxygen::AnimationMode mode = Oxygen::AnimationNone ) const;
 
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 

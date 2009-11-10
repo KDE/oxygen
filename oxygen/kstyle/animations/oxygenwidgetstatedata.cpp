@@ -1,9 +1,6 @@
-#ifndef oxygenhoverdata_h
-#define oxygenhoverdata_h
-
 //////////////////////////////////////////////////////////////////////////////
-// oxygenhoverdata.h
-// generic data container for widget hover (mouse-over) animations
+// oxygenwidgetstatedata.cpp
+// generic data container for widget widgetstate (mouse-over) animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -27,33 +24,25 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygengenericdata.h"
+#include "oxygenwidgetstatedata.h"
+#include "oxygenwidgetstatedata.moc"
 
 namespace Oxygen
 {
 
-    //! Hover data
-    class HoverData: public GenericData
+    //______________________________________________
+    bool WidgetStateData::updateState( bool value )
     {
+        if( state_ == value ) return false;
+        else {
 
-        Q_OBJECT
+            state_ = value;
+            animation().data()->setDirection( state_ ? Animation::Forward : Animation::Backward );
+            if( !animation().data()->isRunning() ) animation().data()->start();
+            return true;
 
-        public:
+        }
 
-        //! constructor
-        HoverData( QWidget* parent, int duration ):
-        GenericData( parent, duration )
-        {}
-
-        //! destructor
-        virtual ~HoverData( void )
-        {}
-
-        //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
-
-    };
+    }
 
 }
-
-#endif

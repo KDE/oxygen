@@ -1,9 +1,9 @@
-#ifndef oxygencheckboxdata_h
-#define oxygencheckboxdata_h
+#ifndef oxygenwidgetstatedata_h
+#define oxygenwidgetstatedata_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygencheckboxdata.h
-// generic data container for checkbox hover (mouse-over) animations
+// oxygenwidgetstatedata.h
+// generic data container for widgetstate hover (mouse-over) animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -32,7 +32,7 @@
 namespace Oxygen
 {
 
-    class CheckBoxData: public GenericData
+    class WidgetStateData: public GenericData
     {
 
         Q_OBJECT
@@ -40,24 +40,24 @@ namespace Oxygen
         public:
 
         //! constructor
-        CheckBoxData( QWidget* parent, int duration ):
+        WidgetStateData( QWidget* parent, int duration ):
             GenericData( parent, duration ),
-            hovered_( false )
+            state_( false )
         {}
 
         //! destructor
-        virtual ~CheckBoxData( void )
+        virtual ~WidgetStateData( void )
         {}
 
         /*!
         returns true if hover has Changed
         and starts timer accordingly
         */
-        virtual bool hoverChanged( bool value );
+        virtual bool updateState( bool value );
 
         private:
 
-        bool hovered_;
+        bool state_;
 
     };
 

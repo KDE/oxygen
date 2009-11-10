@@ -1,6 +1,6 @@
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygengenericengine.h
+// oxygenwidgetstateengine.h
 // stores event filters and maps widgets to timelines for animations
 // -------------------
 //
@@ -25,20 +25,20 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygengenericengine.h"
-#include "oxygengenericengine.moc"
+#include "oxygenwidgetstateengine.h"
+#include "oxygenwidgetstateengine.moc"
 
 namespace Oxygen
 {
 
     //____________________________________________________________
-    bool GenericEngine::registerWidget( QWidget* widget, unsigned int mode )
+    bool WidgetStateEngine::registerWidget( QWidget* widget, unsigned int mode )
     {
 
         if( !( enabled() && widget ) ) return false;
-        if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, new HoverData( widget, duration() ) ); }
-        if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, new FocusData( widget, duration() ) ); }
-        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, new EnableData( widget, duration() ) ); }
+        if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, new WidgetStateData( widget, duration() ) ); }
+        if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, new WidgetStateData( widget, duration() ) ); }
+        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, new WidgetStateData( widget, duration() ) ); }
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
@@ -49,25 +49,32 @@ namespace Oxygen
     }
 
     //____________________________________________________________
-    bool GenericEngine::isAnimated( const QObject* object, AnimationMode mode )
+    bool WidgetStateEngine::updateState( const QObject* object, AnimationMode mode, bool value )
+    {
+        DataMap<WidgetStateData>::Value data( WidgetStateEngine::data( object, mode ) );
+        return ( data && data.data()->updateState( value ) );
+    }
+
+    //____________________________________________________________
+    bool WidgetStateEngine::isAnimated( const QObject* object, AnimationMode mode )
     {
 
-        DataMap<GenericData>::Value data( GenericEngine::data( object, mode ) );
+        DataMap<WidgetStateData>::Value data( WidgetStateEngine::data( object, mode ) );
         return ( data && data.data()->animation() && data.data()->animation().data()->isRunning() );
 
     }
 
     //____________________________________________________________
-    DataMap<GenericData>::Value GenericEngine::data( const QObject* object, AnimationMode mode )
+    DataMap<WidgetStateData>::Value WidgetStateEngine::data( const QObject* object, AnimationMode mode )
     {
 
-        DataMap<GenericData>::Value out;
+        DataMap<WidgetStateData>::Value out;
         switch( mode )
         {
             case AnimationHover: return hoverData_.find( object ).data();
             case AnimationFocus: return focusData_.find( object ).data();
             case AnimationEnable: return enableData_.find( object ).data();
-            default: return DataMap<GenericData>::Value();
+            default: return DataMap<WidgetStateData>::Value();
         }
 
     }

@@ -27,13 +27,12 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygencheckboxengine.h"
-#include "oxygengenericengine.h"
 #include "oxygenmenubarengine.h"
 #include "oxygenmenuengine.h"
 #include "oxygenscrollbarengine.h"
 #include "oxygensliderengine.h"
 #include "oxygentabbarengine.h"
+#include "oxygenwidgetstateengine.h"
 
 #include <QtCore/QObject>
 
@@ -63,24 +62,16 @@ namespace Oxygen
         bool registerWidget( QWidget* widget ) const;
 
         //! enability engine
-        GenericEngine& widgetEnabilityEngine( void ) const
+        WidgetStateEngine& widgetEnabilityEngine( void ) const
         { return *widgetEnabilityEngine_; }
 
         //! abstractButton engine
-        GenericEngine& abstractButtonEngine( void ) const
-        { return *abstractButtonEngine_; }
-
-        //! checkbox engine
-        CheckBoxEngine& checkBoxEngine( void ) const
-        { return *checkBoxEngine_; }
+        WidgetStateEngine& widgetStateEngine( void ) const
+        { return *widgetStateEngine_; }
 
         //! toolbar engine
-        GenericEngine& toolBarEngine( void ) const
+        WidgetStateEngine& toolBarEngine( void ) const
         { return *toolBarEngine_; }
-
-        //! lineEdit engine
-        GenericEngine& lineEditEngine( void ) const
-        { return *lineEditEngine_; }
 
         //! menubar engine
         MenuBarBaseEngine& menuBarEngine( void ) const
@@ -110,19 +101,13 @@ namespace Oxygen
         private:
 
         //! widget enability engine
-        GenericEngine* widgetEnabilityEngine_;
+        WidgetStateEngine* widgetEnabilityEngine_;
 
         //! abstract button engine
-        GenericEngine* abstractButtonEngine_;
-
-        //! checkbox engine
-        CheckBoxEngine* checkBoxEngine_;
+        WidgetStateEngine* widgetStateEngine_;
 
         //! tool button engine
-        GenericEngine* toolBarEngine_;
-
-        //! line editor engine
-        GenericEngine* lineEditEngine_;
+        WidgetStateEngine* toolBarEngine_;
 
         //! menubar engine
         MenuBarBaseEngine* menuBarEngine_;

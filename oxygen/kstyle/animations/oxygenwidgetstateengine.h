@@ -1,8 +1,8 @@
-#ifndef oxygengenericengine_h
-#define oxygengenericengine_h
+#ifndef oxygenwidgetstateengine_h
+#define oxygenwidgetstateengine_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygengenericengine.h
+// oxygenwidgetstateengine.h
 // stores event filters and maps widgets to animations
 // -------------------
 //
@@ -29,10 +29,7 @@
 
 #include "oxygenbaseengine.h"
 #include "oxygendatamap.h"
-#include "oxygenhoverdata.h"
-#include "oxygenenabledata.h"
-#include "oxygenfocusdata.h"
-
+#include "oxygenwidgetstatedata.h"
 
 namespace Oxygen
 {
@@ -49,7 +46,7 @@ namespace Oxygen
     Q_DECLARE_FLAGS(AnimationModes, AnimationMode)
 
     //! used for simple widgets
-    class GenericEngine: public BaseEngine
+    class WidgetStateEngine: public BaseEngine
     {
 
         Q_OBJECT
@@ -57,19 +54,22 @@ namespace Oxygen
         public:
 
         //! constructor
-        GenericEngine( QObject* parent ):
+        WidgetStateEngine( QObject* parent ):
         BaseEngine( parent )
         {}
 
         //! destructor
-        virtual ~GenericEngine( void )
+        virtual ~WidgetStateEngine( void )
         {}
 
         //! register widget
         virtual bool registerWidget( QWidget*, unsigned int mode );
 
+        //! true if widget hover state is changed
+        virtual bool updateState( const QObject* object, AnimationMode, bool value );
+
         //! true if widget is animated
-        virtual bool isAnimated( const QObject* object, AnimationMode mode );
+        virtual bool isAnimated( const QObject* object, AnimationMode );
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, AnimationMode mode )
@@ -109,14 +109,14 @@ namespace Oxygen
         protected:
 
         //! returns data associated to widget
-        DataMap<GenericData>::Value data( const QObject*, AnimationMode );
+        DataMap<WidgetStateData>::Value data( const QObject*, AnimationMode );
 
         private:
 
         //! maps
-        DataMap<GenericData> hoverData_;
-        DataMap<GenericData> focusData_;
-        DataMap<GenericData> enableData_;
+        DataMap<WidgetStateData> hoverData_;
+        DataMap<WidgetStateData> focusData_;
+        DataMap<WidgetStateData> enableData_;
 
     };
 
