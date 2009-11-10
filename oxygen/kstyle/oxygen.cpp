@@ -444,7 +444,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
             // bypass KStyle entirely because it makes it completely impossible
             // to handle both KDE and Qt applications at the same time
             return QCommonStyle::drawControl( element, option, p, widget);
-            //return KStyle::drawControl( element, option, p, widget);
+
         }
 
         default: break;
@@ -463,13 +463,11 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 {
 
     QPalette pal( palette );
-//     if( widget && opt )
-//     {
-//         animations().widgetEnabilityEngine().updateState( widget, Oxygen::AnimationEnable, flags & State_Enabled );
-//         if( animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
-//         { pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
-//
-//     }
+    if( widget && opt )
+    {
+      if( animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
+      { pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
+    }
 
     switch (widgetType)
     {

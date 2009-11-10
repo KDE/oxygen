@@ -28,6 +28,8 @@
 #include "oxygenwidgetstateengine.h"
 #include "oxygenwidgetstateengine.moc"
 
+#include "oxygenenabledata.h"
+
 namespace Oxygen
 {
 
@@ -38,7 +40,7 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return false;
         if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, new WidgetStateData( widget, duration() ) ); }
         if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, new WidgetStateData( widget, duration() ) ); }
-        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, new WidgetStateData( widget, duration() ) ); }
+        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, new EnableData( widget, duration() ) ); }
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
