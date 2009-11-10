@@ -247,7 +247,9 @@ OxygenStyle::OxygenStyle() :
 
 void OxygenStyle::updateProgressPos()
 {
+
     QProgressBar* pb;
+
     //Update the registered progressbars.
     QMap<QWidget*, int>::iterator iter;
     bool visible = false;
@@ -3010,61 +3012,66 @@ void OxygenStyle::polish(QWidget* widget)
 
     if (qobject_cast<QMenuBar*>(widget))
     {
+
         widget->setBackgroundRole(QPalette::NoRole);
-    }
-    else if (widget->inherits("Q3ToolBar")
+
+    } else if (widget->inherits("Q3ToolBar")
         || qobject_cast<QToolBar*>(widget)
-        || qobject_cast<QToolBar *>(widget->parent()))
-    {
+        || qobject_cast<QToolBar *>(widget->parent())) {
+
         widget->setBackgroundRole(QPalette::NoRole);
         widget->setAttribute(Qt::WA_TranslucentBackground);
         widget->setContentsMargins(0,0,0,1);
         widget->installEventFilter(this);
-    }
-    else if (qobject_cast<QScrollBar*>(widget) )
-    {
+
+    } else if (qobject_cast<QScrollBar*>(widget) ) {
+
         widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
-        widget->installEventFilter(this);
-    }
-    else if (qobject_cast<QDockWidget*>(widget))
-    {
+
+    } else if (qobject_cast<QDockWidget*>(widget)) {
+
         widget->setBackgroundRole(QPalette::NoRole);
         widget->setAttribute(Qt::WA_TranslucentBackground);
         widget->setContentsMargins(3,3,3,3);
         widget->installEventFilter(this);
-    }
-    else if (qobject_cast<QToolBox*>(widget))
-    {
+
+    } else if (qobject_cast<QToolBox*>(widget)) {
+
         widget->setBackgroundRole(QPalette::NoRole);
         widget->setAutoFillBackground(false);
         widget->setContentsMargins(5,5,5,5);
         widget->installEventFilter(this);
-    }
-    else if (widget->parentWidget() && widget->parentWidget()->parentWidget() && qobject_cast<QToolBox*>(widget->parentWidget()->parentWidget()->parentWidget()))
-    {
+
+    } else if (widget->parentWidget() && widget->parentWidget()->parentWidget() && qobject_cast<QToolBox*>(widget->parentWidget()->parentWidget()->parentWidget())) {
+
         widget->setBackgroundRole(QPalette::NoRole);
         widget->setAutoFillBackground(false);
         widget->parentWidget()->setAutoFillBackground(false);
-    }
-    else if (qobject_cast<QMenu*>(widget) )
-    {
-        widget->installEventFilter(this);
-        widget->setAttribute(Qt::WA_TranslucentBackground);
-    }
-    else if (widget->inherits("QComboBoxPrivateContainer"))
-    {
-        widget->installEventFilter(this);
-        widget->setAttribute(Qt::WA_TranslucentBackground);
-    }
-    else if ( qobject_cast<QFrame*>(widget) ) {
 
-        if (qobject_cast<KTitleWidget*>(widget->parentWidget())) {
+    } else if (qobject_cast<QMenu*>(widget) ) {
+
+        widget->installEventFilter(this);
+        widget->setAttribute(Qt::WA_TranslucentBackground);
+
+    } else if (widget->inherits("QComboBoxPrivateContainer")) {
+
+        widget->installEventFilter(this);
+        widget->setAttribute(Qt::WA_TranslucentBackground);
+
+    } else if ( qobject_cast<QFrame*>(widget) ) {
+
+        if (qobject_cast<KTitleWidget*>(widget->parentWidget()))
+        {
             widget->setBackgroundRole( QPalette::Window );
         }
 
         widget->installEventFilter(this);
+
     }
+
+    // base class polishing
     KStyle::polish(widget);
+
 }
 
 void OxygenStyle::unpolish(QWidget* widget)
@@ -5142,31 +5149,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         }
     }
 
-    else if (QScrollBar *sb = qobject_cast<QScrollBar*>(obj))
-    {
-        switch(ev->type())
-        {
-            case QEvent::HoverEnter:
-            case QEvent::HoverLeave:
-            case QEvent::HoverMove:
-            {
-                // retrieve scrollbar option
-                QStyleOptionSlider opt;
-                opt.initFrom( sb );
-                QHoverEvent *he = static_cast<QHoverEvent*>(ev);
-                if( !he ) break;
-
-                int hoverControl = hitTestComplexControl(QStyle::CC_ScrollBar, &opt, he->pos(), sb);
-                if( hoverControl & (SC_ScrollBarAddLine | SC_ScrollBarSubLine ) ) sb->update();
-                break;
-            }
-
-            default: break;
-        }
-
-        return false;
-    }
-
+    // toolbars
     if (QToolBar *t = qobject_cast<QToolBar*>(obj))
     {
         switch(ev->type())
@@ -5240,6 +5223,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         }
     }
 
+    // QMenu
     if (QMenu *m = qobject_cast<QMenu*>(obj))
     {
         switch(ev->type()) {
@@ -5306,6 +5290,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
     }
 
+    // combobox container
     QWidget *widget = static_cast<QWidget*>(obj);
     if (widget->inherits("QComboBoxPrivateContainer"))
     {
@@ -5371,7 +5356,9 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
     }
 
-    if (widget->isWindow() && widget->isVisible()) {
+    // window painting
+    if (widget->isWindow() && widget->isVisible())
+    {
         if (ev->type() == QEvent::Paint)
         {
             QBrush brush = widget->palette().brush(widget->backgroundRole());
@@ -5389,6 +5376,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         }
     }
 
+    // dock widgets
     if (QDockWidget*dw = qobject_cast<QDockWidget*>(obj))
     {
         switch( ev->type() )
@@ -5458,6 +5446,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         }
     }
 
+    // toolboxes
     if (QToolBox *tb = qobject_cast<QToolBox*>(obj))
     {
         if (ev->type() == QEvent::Paint)
@@ -5475,6 +5464,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
         return false;
     }
 
+    // frames
     // style HLines/VLines here, as Qt doesn't make them stylable as primitives.
     // Qt bug is filed.
     if (QFrame *f = qobject_cast<QFrame*>(obj))
