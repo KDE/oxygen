@@ -93,7 +93,7 @@ namespace Oxygen
         if( widget->inherits( "QToolButton" ) )
         {
 
-            if( widget->parent() && widget->parent()->inherits( "QToolBar" ) ) return toolBarEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+            if( widget->parent() && widget->parent()->inherits( "QToolBar" ) ) return toolBarEngine().registerWidget( widget, AnimationHover );
             else return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
         } else if( widget->inherits( "QAbstractButton" ) ) {

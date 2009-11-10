@@ -326,8 +326,17 @@ void OxygenStyle::drawComplexControl(ComplexControl control,const QStyleOptionCo
                 const bool hasFocus(enabled && (flags&State_HasFocus));
                 const bool sunken( (flags & State_Sunken) || (flags & State_On) );
 
-                animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-                animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+                if( isInToolBar )
+                {
+
+                  animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+
+                } else {
+
+                  animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                  animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+
+                }
 
                 bool hoverAnimated( isInToolBar ?
                     animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ):
@@ -2515,11 +2524,20 @@ bool OxygenStyle::drawToolButtonPrimitive(
         case ToolButton::Panel:
         {
 
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
-
             // toolbutton engine
             bool isInToolBar( widget && widget->parent() && widget->parent()->inherits( "QToolBar" ) );
+            if( isInToolBar )
+            {
+
+              animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+
+            } else {
+
+              animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+              animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+
+            }
+
             bool hoverAnimated(
                 isInToolBar ?
                 animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ):
