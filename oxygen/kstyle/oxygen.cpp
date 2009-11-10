@@ -1155,9 +1155,9 @@ bool OxygenStyle::drawCheckBoxPrimitive(
 {
 
     Q_UNUSED( opt );
-    Q_UNUSED( widget );
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
+
     switch(primitive)
     {
         case CheckBox::CheckOn:
@@ -1165,10 +1165,11 @@ bool OxygenStyle::drawCheckBoxPrimitive(
         case CheckBox::CheckTriState:
         {
 
+            animations().checkBoxEngine().hoverChanged( widget, mouseOver );
             bool hasFocus = flags & State_HasFocus;
 
-            bool animated( enabled && animations().abstractButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-            if( animated ) renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive, false, animations().abstractButtonEngine().opacity( widget, Oxygen::AnimationHover ) );
+            bool animated( enabled && animations().checkBoxEngine().isAnimated( widget ) );
+            if( animated ) renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive, false, animations().checkBoxEngine().opacity( widget ) );
             else renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive);
 
             return true;
@@ -1200,19 +1201,21 @@ bool OxygenStyle::drawRadioButtonPrimitive(
 {
 
     Q_UNUSED( opt );
-    Q_UNUSED( widget );
 
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
+
     switch(primitive)
     {
         case RadioButton::RadioOn:
         case RadioButton::RadioOff:
         {
-            bool hasFocus = flags & State_HasFocus;
 
-            bool animated( enabled && animations().abstractButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-            if( animated ) renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive, true, animations().abstractButtonEngine().opacity( widget, Oxygen::AnimationHover ) );
+            animations().checkBoxEngine().hoverChanged( widget, mouseOver );
+
+            bool hasFocus = flags & State_HasFocus;
+            bool animated( enabled && animations().checkBoxEngine().isAnimated( widget ) );
+            if( animated ) renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive, true, animations().checkBoxEngine().opacity( widget ) );
             else renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive);
 
             return true;

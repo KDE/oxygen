@@ -27,6 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygencheckboxengine.h"
 #include "oxygengenericengine.h"
 #include "oxygenmenubarengine.h"
 #include "oxygenmenuengine.h"
@@ -61,7 +62,7 @@ namespace Oxygen
 
         bool registerWidget( QWidget* widget ) const;
 
-        //! abstractButton engine
+        //! enability engine
         GenericEngine& widgetEnabilityEngine( void ) const
         { return *widgetEnabilityEngine_; }
 
@@ -69,11 +70,15 @@ namespace Oxygen
         GenericEngine& abstractButtonEngine( void ) const
         { return *abstractButtonEngine_; }
 
-        //! abstractButton engine
+        //! checkbox engine
+        CheckBoxEngine& checkBoxEngine( void ) const
+        { return *checkBoxEngine_; }
+
+        //! toolbar engine
         GenericEngine& toolBarEngine( void ) const
         { return *toolBarEngine_; }
 
-        //! abstractButton engine
+        //! lineEdit engine
         GenericEngine& lineEditEngine( void ) const
         { return *lineEditEngine_; }
 
@@ -109,6 +114,9 @@ namespace Oxygen
 
         //! abstract button engine
         GenericEngine* abstractButtonEngine_;
+
+        //! checkbox engine
+        CheckBoxEngine* checkBoxEngine_;
 
         //! tool button engine
         GenericEngine* toolBarEngine_;

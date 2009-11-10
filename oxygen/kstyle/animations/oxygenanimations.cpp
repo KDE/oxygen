@@ -38,6 +38,7 @@ namespace Oxygen
         QObject( parent ),
         widgetEnabilityEngine_( new GenericEngine( this ) ),
         abstractButtonEngine_( new GenericEngine( this ) ),
+        checkBoxEngine_( new CheckBoxEngine( this ) ),
         toolBarEngine_( new GenericEngine( this ) ),
         lineEditEngine_( new GenericEngine( this ) ),
         menuBarEngine_( new MenuBarEngineV1( this ) ),
@@ -57,6 +58,7 @@ namespace Oxygen
         // enability
         widgetEnabilityEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         abstractButtonEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
+        checkBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         lineEditEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         scrollBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         sliderEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
@@ -69,6 +71,7 @@ namespace Oxygen
         // duration
         widgetEnabilityEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         abstractButtonEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+        checkBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         lineEditEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         scrollBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         sliderEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
@@ -95,6 +98,10 @@ namespace Oxygen
 
             if( widget->parent() && widget->parent()->inherits( "QToolBar" ) ) return toolBarEngine().registerWidget( widget, AnimationHover );
             else return abstractButtonEngine().registerWidget( widget, AnimationHover );
+
+        } else if( widget->inherits( "QCheckBox" ) || widget->inherits( "QRadioButton" ) ) {
+
+            return checkBoxEngine().registerWidget( widget );
 
         } else if( widget->inherits( "QAbstractButton" ) ) {
 
