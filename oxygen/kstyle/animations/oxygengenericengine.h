@@ -114,9 +114,9 @@ namespace Oxygen
         private:
 
         //! maps
-        DataMap<HoverData> hoverData_;
-        DataMap<FocusData> focusData_;
-        DataMap<EnableData> enableData_;
+        DataMap<GenericData> hoverData_;
+        DataMap<GenericData> focusData_;
+        DataMap<GenericData> enableData_;
 
     };
 
