@@ -73,6 +73,10 @@ namespace Oxygen
         WidgetStateEngine& toolBarEngine( void ) const
         { return *toolBarEngine_; }
 
+        //! lineEdit engine
+        WidgetStateEngine& lineEditEngine( void ) const
+        { return *lineEditEngine_; }
+
         //! menubar engine
         MenuBarBaseEngine& menuBarEngine( void ) const
         { return *menuBarEngine_; }
@@ -108,6 +112,9 @@ namespace Oxygen
 
         //! tool button engine
         WidgetStateEngine* toolBarEngine_;
+
+        //! line editor engine
+        WidgetStateEngine* lineEditEngine_;
 
         //! menubar engine
         MenuBarBaseEngine* menuBarEngine_;

@@ -463,13 +463,13 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 {
 
     QPalette pal( palette );
-    if( widget && opt )
-    {
-        animations().widgetEnabilityEngine().updateState( widget, Oxygen::AnimationEnable, flags & State_Enabled );
-        if( animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
-        { pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
-
-    }
+//     if( widget && opt )
+//     {
+//         animations().widgetEnabilityEngine().updateState( widget, Oxygen::AnimationEnable, flags & State_Enabled );
+//         if( animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
+//         { pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
+//
+//     }
 
     switch (widgetType)
     {
@@ -1998,16 +1998,16 @@ bool OxygenStyle::drawSpinBoxPrimitive(
             QColor local( inputColor );
             #endif
 
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
-            if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+            animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+            animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+            if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
             {
 
-                renderHole(p, local, fr, hasFocus, mouseOver, animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
+                renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
 
-            } else if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+            } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
 
-                renderHole(p, local, fr, hasFocus, mouseOver, animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+                renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
 
             } else {
 
@@ -2054,8 +2054,8 @@ bool OxygenStyle::drawComboBoxPrimitive(
     const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Window);
     QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
 
-    animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-    animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+    animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+    animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
 
     switch (primitive)
     {
@@ -2064,15 +2064,15 @@ bool OxygenStyle::drawComboBoxPrimitive(
             // TODO: pressed state
             if(!editable) {
 
-                if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) )
+                if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) )
                 {
 
-                    qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
+                    qreal opacity( animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ) );
                     renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationHover, TileSet::Ring );
 
-                } else if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) ) {
+                } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) ) {
 
-                    qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ) );
+                    qreal opacity( animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ) );
                     renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationFocus, TileSet::Ring );
 
                 } else {
@@ -2103,14 +2103,14 @@ bool OxygenStyle::drawComboBoxPrimitive(
                 QColor local( inputColor );
                 #endif
 
-                if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+                if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
                 {
 
-                    renderHole(p, local, fr, hasFocus, mouseOver, animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
+                    renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
 
-                } else if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+                } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
 
-                    renderHole(p, local, fr, hasFocus, mouseOver, animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+                    renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
 
                 } else {
 
@@ -2317,17 +2317,17 @@ bool OxygenStyle::drawLineEditPrimitive(
 
             QRect fr( r.adjusted(2,2,-2,-3) );
 
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+            animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+            animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
 
-            if( enabled && (!isReadOnly) && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+            if( enabled && (!isReadOnly) && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
             {
 
-                renderHole(p, inputColor, fr, hasFocus, mouseOver, animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
+                renderHole(p, inputColor, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
 
-            } else if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+            } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
 
-                renderHole(p, inputColor, fr, hasFocus, mouseOver, animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+                renderHole(p, inputColor, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
 
             } else {
 
@@ -2921,22 +2921,22 @@ bool OxygenStyle::drawGenericPrimitive(
             bool hoverHighlight = flags&State_MouseOver;
             bool focusHighlight = flags&State_HasFocus;
 
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, hoverHighlight );
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, focusHighlight );
+            animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, hoverHighlight );
+            animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, focusHighlight );
             if (flags & State_Sunken)
             {
 
-                if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+                if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
                 {
 
                     renderHole(p, pal.color(QPalette::Window), r, focusHighlight, hoverHighlight,
-                        animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ),
+                        animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ),
                         Oxygen::AnimationFocus, TileSet::Ring );
 
-                } else if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+                } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
 
                     renderHole(p, pal.color(QPalette::Window), r, focusHighlight, hoverHighlight,
-                        animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ),
+                        animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ),
                         Oxygen::AnimationHover, TileSet::Ring );
 
                 } else {

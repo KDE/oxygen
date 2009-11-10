@@ -39,6 +39,7 @@ namespace Oxygen
         widgetEnabilityEngine_( new WidgetStateEngine( this ) ),
         widgetStateEngine_( new WidgetStateEngine( this ) ),
         toolBarEngine_( new WidgetStateEngine( this ) ),
+        lineEditEngine_( new WidgetStateEngine( this ) ),
         menuBarEngine_( new MenuBarEngineV1( this ) ),
         menuEngine_( new MenuEngineV1( this ) ),
         scrollBarEngine_( new ScrollBarEngine( this ) ),
@@ -56,6 +57,7 @@ namespace Oxygen
         // enability
         widgetEnabilityEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         widgetStateEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
+        lineEditEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         scrollBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         sliderEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         tabBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
@@ -67,6 +69,7 @@ namespace Oxygen
         // duration
         widgetEnabilityEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         widgetStateEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+        lineEditEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         scrollBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         sliderEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
@@ -118,17 +121,17 @@ namespace Oxygen
         // editors
         else if( widget->inherits( "QComboBox" ) ) {
 
-            return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+          return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
         } else if( widget->inherits( "QSpinBox" ) ) {
 
-            return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+            return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
-        } else if( widget->inherits( "QLineEdit" ) ) { return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( widget->inherits( "QTextEdit" ) ) { return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        } else if( widget->inherits( "QLineEdit" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QTextEdit" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // lists
-        else if( widget->inherits( "QAbstractItemView" ) ) { return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QAbstractItemView" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         return false;
 
