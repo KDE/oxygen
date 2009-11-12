@@ -53,7 +53,7 @@ namespace Oxygen
         virtual bool eventFilter( QObject*, QEvent* );
 
         //! always return false. State is handled in event filter
-        virtual bool updateState( bool value )
+        virtual bool updateState( bool )
         { return false; }
 
     };
