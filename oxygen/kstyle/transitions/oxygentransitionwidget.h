@@ -52,10 +52,30 @@ namespace Oxygen
         virtual ~TransitionWidget( void )
         {}
 
-        //! grab from window directly
-        /*! when possible, this fixes some issues with background painting */
-        void setGrabFromWindow( bool value )
-        { grabFromWindow_ = value; }
+        //!@name flags
+        //@{
+        enum Flag
+        {
+            None = 0,
+            GrabFromWindow = 1<<0,
+            Transparent = 1<<1
+        };
+
+        Q_DECLARE_FLAGS(Flags, Flag);
+
+        void setFlags( Flags value )
+        { flags_ = value; }
+
+        void setFlag( Flag flag, bool value = true )
+        {
+            if( value ) flags_ |= flag;
+            else flags_ &= (~flag);
+        }
+
+        bool testFlag( Flag flag ) const
+        { return flags_ & flag; }
+
+        //@}
 
         //! duration
         void setDuration( int duration )
@@ -106,20 +126,23 @@ namespace Oxygen
         const QPixmap& endPixmap( void ) const
         { return endPixmap_; }
 
-        //!
-
         //@}
-
-        //! true if widget can be grabbed
-        bool canGrab( QWidget* widget = 0 ) const;
 
         //! grap pixmap
         QPixmap grab( QWidget* = 0, QRect = QRect() );
 
+        //! true if animated
+        virtual bool isAnimated( void ) const
+        { return animation_.data()->isRunning(); }
+
+        //! end animation
+        virtual void endAnimation( void )
+        { if( animation_.data()->isRunning() ) animation_.data()->stop(); }
+
         //! animate transition
         virtual void animate( void )
         {
-            if( animation_.data()->isRunning() ) animation_.data()->stop();
+            endAnimation();
             animation_.data()->start();
         }
 
@@ -150,10 +173,13 @@ namespace Oxygen
         //! grab widget
         virtual void grabWidget( QPixmap&, QWidget*, QRect& ) const;
 
+        //! fade pixmap
+        virtual QPixmap fade( const QPixmap&, qreal opacity, const QRect& ) const;
+
         private:
 
-        //! grab from window
-        bool grabFromWindow_;
+        //! Flags
+        Flags flags_;
 
         //! paint enabled
         bool paintEnabled_;

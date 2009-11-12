@@ -38,40 +38,48 @@ namespace Oxygen
         target_( parent ),
         text_( parent->text() ),
         pixmap_( parent->pixmap() )
-    {
-        transition().data()->setGrabFromWindow( true );
-        target_.data()->installEventFilter( this );
-    }
+    { target_.data()->installEventFilter( this ); }
 
     //___________________________________________________________________
     bool LabelData::eventFilter( QObject* object, QEvent* event )
     {
 
         if( object != target_ ) return TransitionData::eventFilter( object, event );
-
         switch( event->type() )
         {
             case QEvent::Paint:
-            if( enabled() && target_ && ( target_.data()->text() != text_ || target_.data()->pixmap() != pixmap_ ) )
             {
-
-                text_ = target_.data()->text();
-                pixmap_ = target_.data()->pixmap();
-
-                if( transition().data()->canGrab( target_.data() ) && initializeAnimation() )
+                if( enabled() && target_ && ( target_.data()->text() != text_ || target_.data()->pixmap() != pixmap_ ) )
                 {
 
-                    timer_.start( 0, this );
+                    // need to update flags on fly
+                    bool transparent( target_.data()->isTopLevel() && target_.data()->testAttribute( Qt::WA_NoSystemBackground ) );
+                    transition().data()->setFlags( transparent ? TransitionWidget::Transparent : TransitionWidget::GrabFromWindow );
+
+                    // update text and pixmap
+                    text_ = target_.data()->text();
+                    pixmap_ = target_.data()->pixmap();
+
+                    // try start animation
+                    if( initializeAnimation() )
+                    {
+
+                        timer_.start( 0, this );
+                        return true;
+
+                    } else break;
+
+                } else if( transition().data()->isAnimated() ) {
+
                     return true;
 
-                } else return false;
+                } else break;
+            }
 
-            } else return TransitionData::eventFilter( object, event );
-
-            default:
-            return TransitionData::eventFilter( object, event );
-
+            default: break;
         }
+
+        return TransitionData::eventFilter( object, event );
 
     }
 
@@ -107,6 +115,7 @@ namespace Oxygen
         if( !enabled() ) return false;
 
         // check enability
+        transition().data()->endAnimation();
         transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
         transition().data()->animate();
         return true;
