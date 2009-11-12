@@ -110,6 +110,9 @@ namespace Oxygen
 
         //@}
 
+        //! true if widget can be grabbed
+        bool canGrab( QWidget* widget = 0 ) const;
+
         //! grap pixmap
         QPixmap grab( QWidget* = 0, QRect = QRect() );
 

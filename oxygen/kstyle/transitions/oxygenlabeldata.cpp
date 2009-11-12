@@ -58,9 +58,13 @@ namespace Oxygen
                 text_ = target_.data()->text();
                 pixmap_ = target_.data()->pixmap();
 
-                if( initializeAnimation() )
-                { timer_.start( 0, this ); }
-                return true;
+                if( transition().data()->canGrab( target_.data() ) && initializeAnimation() )
+                {
+
+                    timer_.start( 0, this );
+                    return true;
+
+                } else return false;
 
             } else return TransitionData::eventFilter( object, event );
 

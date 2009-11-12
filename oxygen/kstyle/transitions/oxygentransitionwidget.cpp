@@ -32,6 +32,7 @@
 #include <QtGui/QPaintEvent>
 #include <QtGui/QStyleOption>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QTextStream>
 
 namespace Oxygen
 {
@@ -60,6 +61,15 @@ namespace Oxygen
         connect( animation_.data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
         connect( animation_.data(), SIGNAL( finished( void ) ), SIGNAL( finished( void ) ) );
 
+    }
+
+    //________________________________________________
+    bool TransitionWidget::canGrab( QWidget* widget ) const
+    {
+        if( !widget ) widget = parentWidget();
+        if( !widget ) return false;
+        if( widget->isTopLevel() && widget->testAttribute( Qt::WA_NoSystemBackground ) ) return false;
+        return true;
     }
 
     //________________________________________________
