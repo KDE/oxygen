@@ -746,7 +746,7 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
 //______________________________________________________________________________
 TileSet *OxygenStyleHelper::scrollHole(const QColor &color, Qt::Orientation orientation, bool smallShadow )
 {
-    quint64 key = quint64(color.rgba()) << 32 | ((orientation == Qt::Horizontal) << 1) | smallShadow;
+    const quint64 key = quint64(color.rgba()) << 32 | (orientation == Qt::Horizontal ? 2 : 0) | (smallShadow ? 1 : 0);
     TileSet *tileSet = m_scrollHoleCache.object(key);
     if (!tileSet)
     {
