@@ -382,7 +382,7 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
         // the default implementation fills the rect with the window background color
         // which does not work for windows that have gradients.
         case PE_PanelScrollAreaCorner: return;
-        default: return KStyle::drawPrimitive( element, option, p, widget );
+        default: KStyle::drawPrimitive( element, option, p, widget );
     }
 }
 
@@ -3031,8 +3031,6 @@ void OxygenStyle::drawCapacityBar(const QStyleOption *option, QPainter *p, const
     sub_opt.rect = subElementRect( QStyle::SE_ProgressBarLabel, cbOption, widget);
     drawControl( QStyle::CE_ProgressBarLabel, &sub_opt, p, widget);
 
-    return;
-
 }
 
 //______________________________________________________________
@@ -3417,7 +3415,6 @@ void OxygenStyle::renderButtonSlab(QPainter *p, QRect r, const QColor &color, St
     }
 
     tile->render(r, p, tiles);
-    return;
 
 }
 
@@ -3476,7 +3473,6 @@ void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOpt
     }
 
     tile->render(r, p, tiles);
-    return;
 
 }
 

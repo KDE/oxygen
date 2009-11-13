@@ -119,7 +119,8 @@ namespace Oxygen
 
     //________________________________________________________________________
     void TabBarData::enterEvent( const QObject* )
-    { return; }
+    {
+    }
 
     //________________________________________________________________________
     void TabBarData::leaveEvent( const QObject* )
@@ -136,8 +137,6 @@ namespace Oxygen
             previousIndexAnimation().data()->restart();
 
         }
-
-        return;
 
     }
 
@@ -168,8 +167,6 @@ namespace Oxygen
             }
 
         }
-
-        return;
 
     }
 

@@ -210,11 +210,8 @@ namespace Oxygen
     //________________________________________________
     void TransitionWidget::grabWidget( QPixmap& pixmap, QWidget* widget, QRect& rect ) const
     {
-
         // render main widget
         widget->render( &pixmap, pixmap.rect().topLeft(), rect, QWidget::DrawChildren );
-        return;
-
     }
 
     //________________________________________________

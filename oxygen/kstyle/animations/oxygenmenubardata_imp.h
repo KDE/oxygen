@@ -44,8 +44,6 @@ namespace Oxygen
         clearCurrentAction();
         clearCurrentRect();
 
-        return;
-
     }
 
     //________________________________________________________________________
@@ -68,7 +66,6 @@ namespace Oxygen
             previousAnimation().data()->start();
         }
 
-        return;
     }
 
     //________________________________________________________________________

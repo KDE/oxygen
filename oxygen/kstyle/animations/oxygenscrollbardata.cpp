@@ -113,7 +113,6 @@ namespace Oxygen
         updateSlider( hoverControl );
         updateAddLineArrow( hoverControl );
         updateSubLineArrow( hoverControl );
-        return;
 
     }
 
