@@ -1,9 +1,9 @@
-#ifndef oxygenbaseengine_h
-#define oxygenbaseengine_h
+#ifndef oxygenprogressbarengine_h
+#define oxygenprogressbarengine_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygenbaseengine.h
-// base engine
+// oxygenprogressbarengine.h
+// handle progress bar animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -27,15 +27,19 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenanimation.h"
+#include "oxygenbaseengine.h"
+
+#include <QtCore/QBasicTimer>
+#include <QtCore/QSet>
 #include <QtCore/QObject>
+#include <QtCore/QTimerEvent>
+#include <QtGui/QWidget>
+#include <QtGui/QProgressBar>
 
 namespace Oxygen
 {
 
-    //! base class for all animation engines
-    /*! it is used to store configuration values used by all animations stored in the engine */
-    class BaseEngine: public QObject
+    class ProgressBarEngine: public BaseEngine
     {
 
         Q_OBJECT
@@ -43,39 +47,41 @@ namespace Oxygen
         public:
 
         //! constructor
-        BaseEngine( QObject* parent ):
-        QObject( parent ),
-        enabled_( true ),
-        duration_( 200 )
+        ProgressBarEngine( QObject* object ):
+        BaseEngine( object )
         {}
 
         //! destructor
-        virtual ~BaseEngine( void )
+        virtual ~ProgressBarEngine( void )
         {}
 
-        //! enability
-        virtual void setEnabled( bool value )
-        { enabled_ = value; }
+        //! register menubar
+        virtual bool registerWidget( QWidget* );
 
-        //! enability
-        virtual bool enabled( void ) const
-        { return enabled_; }
+        //! event filter
+        virtual bool eventFilter( QObject*, QEvent* );
 
-        //! duration
-        virtual void setDuration( int value )
-        { duration_ = value; }
+        protected:
 
-        //! duration
-        virtual int duration( void ) const
-        { return duration_; }
+        //! timer event
+        virtual void timerEvent( QTimerEvent* );
+
+        protected slots:
+
+        //! remove widget from map
+        virtual void unregisterWidget( QObject* object )
+        { if( object ) data_.remove( object ); }
 
         private:
 
-        //! engine enability
-        bool enabled_;
+        //! map widgets to progress bar value
+        typedef QSet<QObject*> ProgressBarMap;
 
-        //! animation duration
-        int duration_;
+        //! map widgets to progress bar value
+        ProgressBarMap data_;
+
+        //! timer
+        QBasicTimer timer_;
 
     };
 

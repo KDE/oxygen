@@ -29,6 +29,7 @@
 
 #include "oxygenmenubarengine.h"
 #include "oxygenmenuengine.h"
+#include "oxygenprogressbarengine.h"
 #include "oxygenscrollbarengine.h"
 #include "oxygensliderengine.h"
 #include "oxygentabbarengine.h"
@@ -77,6 +78,10 @@ namespace Oxygen
         WidgetStateEngine& lineEditEngine( void ) const
         { return *lineEditEngine_; }
 
+        //! progressbar engine
+        ProgressBarEngine& progressBarEngine( void ) const
+        { return *progressBarEngine_; }
+
         //! menubar engine
         MenuBarBaseEngine& menuBarEngine( void ) const
         { return *menuBarEngine_; }
@@ -115,6 +120,9 @@ namespace Oxygen
 
         //! line editor engine
         WidgetStateEngine* lineEditEngine_;
+
+        //! progressbar engine
+        ProgressBarEngine* progressBarEngine_;
 
         //! menubar engine
         MenuBarBaseEngine* menuBarEngine_;

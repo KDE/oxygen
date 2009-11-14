@@ -40,6 +40,7 @@ namespace Oxygen
         widgetStateEngine_( new WidgetStateEngine( this ) ),
         toolBarEngine_( new WidgetStateEngine( this ) ),
         lineEditEngine_( new WidgetStateEngine( this ) ),
+        progressBarEngine_( new ProgressBarEngine( this ) ),
         menuBarEngine_( new MenuBarEngineV1( this ) ),
         menuEngine_( new MenuEngineV1( this ) ),
         scrollBarEngine_( new ScrollBarEngine( this ) ),
@@ -62,6 +63,8 @@ namespace Oxygen
         sliderEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         tabBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
 
+        progressBarEngine_->setEnabled( OxygenStyleConfigData::progressBarAnimated() );
+
         menuBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuBarAnimationsEnabled() );
         menuEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuAnimationsEnabled() );
         toolBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::toolBarAnimationsEnabled() );
@@ -75,6 +78,8 @@ namespace Oxygen
         tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         toolBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
 
+        progressBarEngine_->setDuration( 50 );
+
         menuBarEngine_->setDuration( OxygenStyleConfigData::menuBarAnimationsDuration() );
         menuEngine_->setDuration( OxygenStyleConfigData::menuAnimationsDuration() );
 
@@ -86,6 +91,7 @@ namespace Oxygen
 
         if( !widget ) return false;
 
+        // all widgets are registered to the enability engine.
         widgetEnabilityEngine().registerWidget( widget, AnimationEnable );
 
         // install animation timers
@@ -132,6 +138,7 @@ namespace Oxygen
 
         // lists
         else if( widget->inherits( "QAbstractItemView" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QProgressBar" ) ) { return progressBarEngine().registerWidget( widget ); }
 
         return false;
 

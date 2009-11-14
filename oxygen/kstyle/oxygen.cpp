@@ -122,16 +122,14 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::MinimumSliderHeight, 21);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ArrowColor,QPalette::WindowText);
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::ActiveArrowColor,QPalette::HighlightedText);
+
     //NOTE: These button heights are arbitrarily chosen
     // in a way that they don't consume too much space and
     // still are usable with i.e. touchscreens
     //TODO: This hasn't been tested though
-    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight,
-            qMax(OxygenStyleConfigData::scrollBarWidth() * 7 / 10, 14) );
-    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight,
-            qMax(OxygenStyleConfigData::scrollBarWidth() * 14 / 10, 28) );
-    setWidgetLayoutProp(WT_ScrollBar, ScrollBar::BarWidth,
-            OxygenStyleConfigData::scrollBarWidth());
+    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight, qMax(OxygenStyleConfigData::scrollBarWidth() * 7 / 10, 14) );
+    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight, qMax(OxygenStyleConfigData::scrollBarWidth() * 14 / 10, 28) );
+    setWidgetLayoutProp( WT_ScrollBar, ScrollBar::BarWidth, OxygenStyleConfigData::scrollBarWidth());
 
     setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5); //also used by toolbutton
@@ -237,47 +235,6 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_Window, Window::TitleTextColor, QPalette::WindowText);
 
-    if ( OxygenStyleConfigData::progressBarAnimated() )
-    {
-        animationTimer = new QTimer( this );
-        connect( animationTimer, SIGNAL(timeout()), this, SLOT(updateProgressPos()) );
-    }
-
-}
-
-void OxygenStyle::updateProgressPos()
-{
-
-    QProgressBar* pb;
-
-    //Update the registered progressbars.
-    QMap<QWidget*, int>::iterator iter;
-    bool visible = false;
-    for (iter = progAnimWidgets.begin(); iter != progAnimWidgets.end(); ++iter)
-    {
-        pb = qobject_cast<QProgressBar*>(iter.key());
-
-        if ( !pb )
-            continue;
-
-        if ( iter.key() -> isEnabled() &&
-             pb->value() != pb->maximum() )
-        {
-            // update animation Offset of the current Widget
-            iter.value() = (iter.value() + 1) % 32;
-            // don't update right now
-            // iter.key()->update();
-        }
-        if ((pb->minimum() == 0 && pb->maximum() == 0))
-        {
-          pb->setValue(pb->value()+1);
-          pb->update();
-        }
-        if (iter.key()->isVisible())
-            visible = true;
-    }
-    if (!visible)
-        animationTimer->stop();
 }
 
 OxygenStyle::~OxygenStyle()
@@ -3057,17 +3014,6 @@ void OxygenStyle::polish(QWidget* widget)
 
     }
 
-    if( OxygenStyleConfigData::progressBarAnimated() && qobject_cast<QProgressBar*>(widget) )
-    {
-        widget->installEventFilter(this);
-        progAnimWidgets[widget] = 0;
-        connect(widget, SIGNAL(destroyed(QObject*)), this, SLOT(progressBarDestroyed(QObject*)));
-        if (!animationTimer->isActive()) {
-            animationTimer->setSingleShot( false );
-            animationTimer->start( 50 );
-        }
-    }
-
     if (
         qobject_cast<QAbstractItemView*>(widget)
         || qobject_cast<QAbstractSpinBox*>(widget)
@@ -3183,12 +3129,6 @@ void OxygenStyle::unpolish(QWidget* widget)
             break;
     }
 
-
-    if ( qobject_cast<QProgressBar*>(widget) )
-    {
-        progAnimWidgets.remove(widget);
-    }
-
     if (qobject_cast<QPushButton*>(widget)
         || qobject_cast<QComboBox*>(widget)
         || qobject_cast<QAbstractSpinBox*>(widget)
@@ -3234,21 +3174,11 @@ void OxygenStyle::unpolish(QWidget* widget)
         widget->removeEventFilter(this);
         widget->clearMask();
     }
-    else if (widget->inherits("QComboBoxPrivateContainer"))
-    {
-        widget->removeEventFilter(this);
-    }
-    else if (qobject_cast<QFrame*>(widget))
-    {
-        widget->removeEventFilter(this);
-    }
-    KStyle::unpolish(widget);
-}
+    else if (widget->inherits("QComboBoxPrivateContainer")) widget->removeEventFilter(this);
+    else if (qobject_cast<QFrame*>(widget)) widget->removeEventFilter(this);
 
-void OxygenStyle::progressBarDestroyed(QObject* obj)
-{
-    progAnimWidgets.remove(static_cast<QWidget*>(obj));
-    //the timer updates will stop next time if this was the last visible one
+    KStyle::unpolish(widget);
+
 }
 
 //_____________________________________________________________________
@@ -5223,17 +5153,7 @@ void OxygenStyle::renderWindowIcon(QPainter *p, const QRectF &r, int &type) cons
 //_____________________________________________________________________
 bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 {
-    if (KStyle::eventFilter(obj, ev) )
-        return true;
-
-    // Track show events for progress bars
-    if ( OxygenStyleConfigData::progressBarAnimated() && qobject_cast<QProgressBar*>(obj) )
-    {
-        if ((ev->type() == QEvent::Show) && !animationTimer->isActive())
-        {
-            animationTimer->start( 50 );
-        }
-    }
+    if (KStyle::eventFilter(obj, ev) ) return true;
 
     // toolbars
     if (QToolBar *t = qobject_cast<QToolBar*>(obj))

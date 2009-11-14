@@ -61,8 +61,6 @@
 
 #define QCOORDARRLEN(x) sizeof(x)/(sizeof(QCOORD)*2)
 
-class QTimer;
-
 namespace Oxygen
 {
   class Animations;
@@ -217,7 +215,6 @@ class OxygenStyle : public KStyle
     //! generic slab
     void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, Oxygen::AnimationMode, TileSet::Tiles ) const;
 
-
     //! generic hole
     void renderHole(QPainter *p, const QColor& color, const QRect &r,
         bool focus=false, bool hover=false,
@@ -243,6 +240,7 @@ class OxygenStyle : public KStyle
 
     void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
+    //! tabs
     void renderTab(
         QPainter*p, const QRect& r,
         const QPalette& pal,
@@ -251,10 +249,12 @@ class OxygenStyle : public KStyle
         const bool reverseLayout,
         const QWidget *widget=NULL) const;
 
+    //! tab filling
     void fillTab(
         QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation,
         bool active, bool inverted) const;
 
+    //! window icon (for MDI)
     void renderWindowIcon(QPainter *p, const QRectF &r, int &type) const;
 
     //! scrollbar hole
@@ -281,36 +281,31 @@ class OxygenStyle : public KStyle
     bool compositingActive( void ) const;
 
     protected Q_SLOTS:
+
+    //! standard icons
     virtual QIcon standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option, const QWidget *widget) const;
 
-    //Animation slots.
-    void updateProgressPos();
-    void progressBarDestroyed(QObject* bar);
-
-    //For KGlobalSettings notifications
+    //! needed to update style when configuration is changed
     void globalSettingsChange(int type, int arg);
 
     private:
+
+    //! right to left languages
     QPoint handleRTL(const QStyleOption* opt, const QPoint& pos) const;
     QRect handleRTL(const QStyleOption* opt, const QRect& subRect) const;
 
-    // configuration
+    //! configuration
     void loadConfiguration();
 
-    // custom Control element to implement re-painting of dolphin CapacityBar
+    //! custom Control element to implement re-painting of dolphin CapacityBar
     const QStyle::ControlElement CE_CapacityBar;
 
-    // helper
+    //! helper
     OxygenStyleHelper &_helper;
 
     KSharedConfigPtr _sharedConfig;
     KStatefulBrush _viewFocusBrush;
     KStatefulBrush _viewHoverBrush;
-
-    //Animation support.
-    QMap<QWidget*, int> progAnimWidgets;
-    // For progress bar animation
-    QTimer *animationTimer;
 
     TileSet *m_holeTileSet;
 
