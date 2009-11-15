@@ -28,6 +28,7 @@
 
 #include <math.h>
 
+//______________________________________________________________________________
 OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
     : OxygenHelper(componentName)
 {
@@ -169,20 +170,23 @@ QPixmap OxygenStyleHelper::progressBarIndicator(const QPalette& pal, const QRect
 {
 
     QColor highlight = pal.color(QPalette::Active, QPalette::Highlight);
-    quint64 key = (quint64(highlight.rgba()) << 32) | rect.width();
-    QPixmap *pixmap = m_progressBarCache.object(key);
+    quint64 key = (quint64(highlight.rgba()) << 32) | (rect.width() << 16 ) | (rect.height() );
 
+    QPixmap *pixmap = m_progressBarCache.object(key);
     if (!pixmap)
     {
+
         QRect local( rect );
         local.adjust( -1, -1, 1, 1 );
         local.adjust( 0, -1, 0, 0 );
+
+        // set topLeft corner to 0.0
+        local.translate( -local.topLeft() );
 
         pixmap = new QPixmap(local.size());
         pixmap->fill( Qt::transparent );
 
         QPainter p( pixmap );
-        p.translate( -local.topLeft() );
         p.setRenderHints( QPainter::Antialiasing );
         p.setBrush(Qt::NoBrush);
 
@@ -225,6 +229,7 @@ QPixmap OxygenStyleHelper::progressBarIndicator(const QPalette& pal, const QRect
             pp.setCompositionMode(QPainter::CompositionMode_SourceIn);
             pp.fillRect(pm.rect(), radial);
             pp.end();
+
         }
 
         p.drawPixmap( QPoint(1,1), pm);
@@ -335,8 +340,9 @@ void OxygenStyleHelper::drawRoundSlab(QPainter &p, const QColor &color, qreal sh
 }
 
 //________________________________________________________________________________________________________
-void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
-                                          int pad, int size, qreal fuzz) const
+void OxygenStyleHelper::drawInverseShadow(
+    QPainter &p, const QColor &color,
+    int pad, int size, qreal fuzz) const
 {
     qreal m = qreal(size)*0.5;
 
@@ -354,8 +360,9 @@ void OxygenStyleHelper::drawInverseShadow(QPainter &p, const QColor &color,
 }
 
 //________________________________________________________________________________________________________
-void OxygenStyleHelper::drawInverseGlow(QPainter &p, const QColor &color,
-                                        int pad, int size, int rsize) const
+void OxygenStyleHelper::drawInverseGlow(
+    QPainter &p, const QColor &color,
+    int pad, int size, int rsize) const
 {
     QRectF r(pad, pad, size, size);
     qreal m = qreal(size)*0.5;
@@ -385,8 +392,7 @@ void OxygenStyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
     QRectF r = rect;
     r.adjust(s, s, -s, -s);
     qreal w = r.width(), h = r.height();
-    if (w <= 0 || h <= 0)
-        return;
+    if (w <= 0 || h <= 0) return;
     const qreal ra = 200.0 * (7.0 - (3.6 + (0.5 * _slabThickness))) / 7.0;
     qreal rx = floor((ra*size) / w);
     qreal ry = floor((ra*size) / h);
@@ -474,6 +480,7 @@ TileSet *OxygenStyleHelper::roundCorner(const QColor &color, int size)
     return tileSet;
 }
 
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::slabSunken(const QColor &color, qreal shade, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32);
@@ -505,6 +512,7 @@ TileSet *OxygenStyleHelper::slabSunken(const QColor &color, qreal shade, int siz
     return tileSet;
 }
 
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::slabInverted(const QColor &color, qreal shade, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32);
@@ -538,8 +546,13 @@ TileSet *OxygenStyleHelper::slabInverted(const QColor &color, qreal shade, int s
         QLinearGradient bevelGradient1(0, 7, 0, 4);
         bevelGradient1.setColorAt(0.0, light);
         bevelGradient1.setColorAt(0.9, dark);
-        if (y < yl && y > yd) // no middle when color is very light/dark
+
+        if (y < yl && y > yd)
+        {
+            // no middle when color is very light/dark
             bevelGradient1.setColorAt(0.5, base);
+        }
+
         p.setBrush(bevelGradient1);
         p.drawEllipse(QRectF(3.4,3.4,7.2,7.2));
 
@@ -561,6 +574,7 @@ TileSet *OxygenStyleHelper::slabInverted(const QColor &color, qreal shade, int s
     return tileSet;
 }
 
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::slope(const QColor &color, qreal shade, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32);
@@ -612,6 +626,7 @@ TileSet *OxygenStyleHelper::slope(const QColor &color, qreal shade, int size)
     return tileSet;
 }
 
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::hole(const QColor &color, qreal shade, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
@@ -646,6 +661,7 @@ TileSet *OxygenStyleHelper::hole(const QColor &color, qreal shade, int size)
     return tileSet;
 }
 
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::holeFlat(const QColor &color, qreal shade, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
@@ -678,6 +694,7 @@ TileSet *OxygenStyleHelper::holeFlat(const QColor &color, qreal shade, int size)
     return tileSet;
 }
 
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::holeFocused(const QColor &color, const QColor &glowColor, qreal shade, int size)
 {
     // FIXME must move to s/slabcache/cache/ b/c key is wrong
@@ -713,6 +730,7 @@ TileSet *OxygenStyleHelper::holeFocused(const QColor &color, const QColor &glowC
     return tileSet;
 }
 
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::groove(const QColor &color, qreal shade, int size)
 {
     quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
@@ -747,6 +765,7 @@ TileSet *OxygenStyleHelper::groove(const QColor &color, qreal shade, int size)
     return tileSet;
 }
 
+//________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
 {
     quint64 key = (quint64(glowColor.rgba()) << 32);
