@@ -36,8 +36,7 @@ namespace Oxygen
     LabelData::LabelData( QObject* parent, QLabel* target, int duration ):
         TransitionData( parent, target, duration ),
         target_( target ),
-        text_( target->text() ),
-        pixmap_( target->pixmap() )
+        pixmap_( NULL )
     { target_.data()->installEventFilter( this ); }
 
     //___________________________________________________________________
@@ -59,6 +58,9 @@ namespace Oxygen
                     // update text and pixmap
                     text_ = target_.data()->text();
                     pixmap_ = target_.data()->pixmap();
+
+                    if( transition().data()->isAnimated() )
+                    { transition().data()->endAnimation(); }
 
                     // try start animation
                     if( initializeAnimation() )
@@ -100,6 +102,7 @@ namespace Oxygen
     bool LabelData::initializeAnimation( void )
     {
         if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
+
         transition().data()->setOpacity(0);
         transition().data()->setGeometry( target_.data()->rect() );
         transition().data()->setStartPixmap( transition().data()->endPixmap() );
