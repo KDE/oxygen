@@ -39,7 +39,7 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new SliderData( widget, duration() ) );
+        if( !data_.contains( widget ) ) data_.insert( widget, new SliderData( this, widget, duration() ) );
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );

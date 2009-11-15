@@ -43,7 +43,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        StackedWidgetData( QStackedWidget*, int );
+        StackedWidgetData( QObject*, QStackedWidget*, int );
 
         //! destructor
         virtual ~StackedWidgetData( void )

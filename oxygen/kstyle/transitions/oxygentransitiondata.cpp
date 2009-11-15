@@ -31,12 +31,12 @@ namespace Oxygen
 {
 
     //_________________________________________________________________
-    TransitionData::TransitionData( QWidget* parent, int duration ):
+    TransitionData::TransitionData( QObject* parent, QWidget* target, int duration ):
         QObject( parent ),
         enabled_( true ),
         aborted_( false ),
         maxRenderTime_( 200 ),
-        transition_( new TransitionWidget( parent, duration ) )
+        transition_( new TransitionWidget( target, duration ) )
     {
         transition().data()->hide();
         connect( transition().data(), SIGNAL( finished( void ) ), SLOT( finishAnimation( void ) ) );

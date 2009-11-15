@@ -45,7 +45,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        LabelData( QLabel*, int );
+        LabelData( QObject*, QLabel*, int );
 
         //! destructor
         virtual ~LabelData( void )

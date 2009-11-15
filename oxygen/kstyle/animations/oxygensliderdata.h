@@ -44,8 +44,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        SliderData( QWidget* parent, int duration ):
-        GenericData( parent, duration ),
+        SliderData( QObject* parent, QWidget* target, int duration ):
+        GenericData( parent, target, duration ),
         sliderHovered_( false )
         {}
 

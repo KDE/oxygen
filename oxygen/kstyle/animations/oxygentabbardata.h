@@ -45,7 +45,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        TabBarData( QWidget* parent, int duration );
+        TabBarData( QObject* parent, QWidget* target, int duration );
 
         //! destructor
         virtual ~TabBarData( void )

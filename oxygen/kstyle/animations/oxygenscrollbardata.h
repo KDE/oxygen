@@ -43,7 +43,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        ScrollBarData( QWidget*, int );
+        ScrollBarData( QObject* parent, QWidget* target, int );
 
         //! destructor
         virtual ~ScrollBarData( void )

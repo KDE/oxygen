@@ -49,6 +49,10 @@ namespace Oxygen
             lastKey_( NULL )
         {}
 
+        //! destructor
+        virtual ~DataMap( void )
+        {}
+
         //! find value
         Value find( Key key )
         {

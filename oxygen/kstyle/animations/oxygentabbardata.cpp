@@ -34,8 +34,8 @@ namespace Oxygen
 {
 
     //______________________________________________
-    TabBarData::TabBarData( QWidget* parent, int duration ):
-        WidgetData( parent ),
+    TabBarData::TabBarData( QObject* parent, QWidget* target, int duration ):
+        WidgetData( parent, target ),
         currentIndex_( -1 ),
         previousIndex_( -1 ),
         currentIndexAnimation_( new Animation( duration, this ) ),

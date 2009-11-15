@@ -39,7 +39,6 @@ namespace Oxygen
         // setup animation
         animation.data()->setStartValue( 0.1 );
         animation.data()->setEndValue( 0.9 );
-        //animation.data()->setEasingCurve( QEasingCurve::InQuad );
         animation.data()->setTargetObject( this );
         animation.data()->setPropertyName( property );
 

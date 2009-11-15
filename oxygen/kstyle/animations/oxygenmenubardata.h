@@ -55,7 +55,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        MenuBarDataV1( QWidget* parent, int duration );
+        MenuBarDataV1( QObject* parent, QWidget* target, int duration );
 
         //! destructor
         virtual ~MenuBarDataV1( void )

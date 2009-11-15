@@ -45,11 +45,11 @@ namespace Oxygen
         public:
 
         //! constructor
-        TransitionData( QWidget*, int );
+        TransitionData( QObject* parent, QWidget* target, int );
 
         //! destructor
         virtual ~TransitionData( void )
-        {}
+        { if( transition_ ) transition_.data()->deleteLater(); }
 
         //! enability
         virtual void setEnabled( bool value )

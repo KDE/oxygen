@@ -48,7 +48,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        GenericData( QWidget* parent, int duration );
+        GenericData( QObject* parent, QWidget* widget, int duration );
 
         //! destructor
         virtual ~GenericData( void )

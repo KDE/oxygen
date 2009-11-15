@@ -31,10 +31,10 @@ namespace Oxygen
 {
 
     //______________________________________________________
-    StackedWidgetData::StackedWidgetData( QStackedWidget* parent, int duration ):
-        TransitionData( parent, duration ),
-        target_( parent ),
-        index_( parent->currentIndex() )
+    StackedWidgetData::StackedWidgetData( QObject* parent, QStackedWidget* target, int duration ):
+        TransitionData( parent, target, duration ),
+        target_( target ),
+        index_( target->currentIndex() )
     {
 
         // configure transition

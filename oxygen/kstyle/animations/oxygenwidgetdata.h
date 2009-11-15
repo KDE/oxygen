@@ -46,9 +46,9 @@ namespace Oxygen
         public:
 
         //! constructor
-        WidgetData( QWidget* parent ):
+        WidgetData( QObject* parent, QWidget* target ):
         QObject( parent ),
-        target_( parent ),
+        target_( target ),
         enabled_( true )
         {
             Q_ASSERT( target_ );

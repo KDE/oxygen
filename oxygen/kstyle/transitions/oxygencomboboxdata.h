@@ -47,7 +47,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        ComboBoxData( QComboBox*, int );
+        ComboBoxData( QObject*, QComboBox*, int );
 
         //! destructor
         virtual ~ComboBoxData( void )

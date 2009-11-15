@@ -33,11 +33,11 @@ namespace Oxygen
 {
 
     //______________________________________________________
-    LabelData::LabelData( QLabel* parent, int duration ):
-        TransitionData( parent, duration ),
-        target_( parent ),
-        text_( parent->text() ),
-        pixmap_( parent->pixmap() )
+    LabelData::LabelData( QObject* parent, QLabel* target, int duration ):
+        TransitionData( parent, target, duration ),
+        target_( target ),
+        text_( target->text() ),
+        pixmap_( target->pixmap() )
     { target_.data()->installEventFilter( this ); }
 
     //___________________________________________________________________

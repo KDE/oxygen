@@ -36,8 +36,8 @@ Q_GUI_EXPORT QStyleOptionSlider qt_qscrollbarStyleOption(QScrollBar*);
 namespace Oxygen
 {
 
-    ScrollBarData::ScrollBarData( QWidget* parent, int duration ):
-        SliderData( parent, duration ),
+    ScrollBarData::ScrollBarData( QObject* parent, QWidget* target, int duration ):
+        SliderData( parent, target, duration ),
         addLineArrowHovered_( false ),
         subLineArrowHovered_( false ),
         addLineAnimation_( new Animation( duration, this ) ),

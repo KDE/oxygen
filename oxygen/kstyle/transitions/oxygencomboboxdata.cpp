@@ -31,10 +31,10 @@ namespace Oxygen
 {
 
     //______________________________________________________
-    ComboBoxData::ComboBoxData( QComboBox* parent, int duration ):
-        TransitionData( parent, duration ),
-        target_( parent ),
-        lineEdit_( parent->lineEdit() )
+    ComboBoxData::ComboBoxData( QObject* parent, QComboBox* target, int duration ):
+        TransitionData( parent, target, duration ),
+        target_( target ),
+        lineEdit_( target->lineEdit() )
     {
         connect( target_.data(), SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged() ) );
         connect( target_.data(), SIGNAL( editTextChanged( const QString& ) ), SLOT( textChanged() ) );

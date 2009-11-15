@@ -31,8 +31,8 @@ namespace Oxygen
 {
 
     //______________________________________________
-    GenericData::GenericData( QWidget* parent, int duration ):
-        WidgetData( parent ),
+    GenericData::GenericData( QObject* parent, QWidget* target, int duration ):
+        WidgetData( parent, target ),
         animation_( new Animation( duration, this ) ),
         opacity_(0)
     { setupAnimation( animation_, "opacity" ); }
