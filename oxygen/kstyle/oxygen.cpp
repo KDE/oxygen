@@ -718,7 +718,8 @@ bool OxygenStyle::drawProgressBarPrimitive(
 
         case ProgressBar::BusyIndicator:
         {
-            rect.adjust(0.5,-1.5,-1.5,-0.5);
+
+            rect.adjust(0, -1, -1, 0 );
 
             QColor highlight = pal.color(QPalette::Active, QPalette::Highlight);
             QColor lhighlight = _helper.calcLightColor(highlight);
@@ -732,12 +733,12 @@ bool OxygenStyle::drawProgressBarPrimitive(
 
             // shadow
             p->setPen(_helper.alphaColor(shadow, 0.6));
-            p->drawRoundedRect(rect.adjusted(-0.5,-0.5,1.5,0.0),2,1);
+            p->drawRoundedRect(rect.adjusted( 0, 0, 1, 0 ), 2, 1 );
 
             // fill
             p->setPen(Qt::NoPen);
             p->setBrush(KColorUtils::mix(highlight, dark, 0.2));
-            p->drawRect(rect.adjusted(1,0,0,0));
+            p->drawRect(rect.adjusted( 1, 0, 0, 0 ));
 
             // fake radial gradient
             QPixmap pm(rect.size());
