@@ -30,6 +30,7 @@
 #include "oxygentransitionwidget.h"
 
 #include <QtCore/QObject>
+#include <QtCore/QTime>
 #include <QtGui/QWidget>
 
 namespace Oxygen
@@ -62,6 +63,25 @@ namespace Oxygen
         virtual void setDuration( int duration )
         { transition().data()->setDuration( duration ); }
 
+        //! max render time
+        void setMaxRenderTime( int value )
+        { maxRenderTime_ = value; }
+
+        //! max renderTime
+        const int& maxRenderTime( void ) const
+        { return maxRenderTime_; }
+
+        //! start clock
+        void startClock( void )
+        {
+            if( clock_.isNull() ) clock_.start();
+            else clock_.restart();
+        }
+
+        //! check if rendering is two slow
+        bool slow( void ) const
+        { return !( clock_.isNull() || clock_.elapsed() <= maxRenderTime() ); }
+
         protected slots:
 
         //! initialize animation
@@ -83,10 +103,28 @@ namespace Oxygen
         virtual const TransitionWidget::Pointer& transition( void ) const
         { return transition_; }
 
+        //! true when animation is aborted
+        const bool& aborted( void ) const
+        { return aborted_; }
+
+        //! set to true to abort transition
+        void setAborted( bool value )
+        { aborted_ = value; }
+
         private:
 
         //! enability
         bool enabled_;
+
+        //! true when transition is aborted
+        bool aborted_;
+
+        //! timer used to detect slow rendering
+        QTime clock_;
+
+        //! max render time
+        /*! used to detect slow rendering */
+        int maxRenderTime_;
 
         //! animation handling
         TransitionWidget::Pointer transition_;

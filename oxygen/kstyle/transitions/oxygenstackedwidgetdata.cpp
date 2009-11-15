@@ -54,12 +54,17 @@ namespace Oxygen
         if( target_.data()->currentIndex() == index_ ) return false;
 
         // get old widget (matching index_) and initialize transition
-        transition().data()->setOpacity( 0 );
         if( QWidget *widget = target_.data()->widget( index_ ) )
         {
+
+            transition().data()->setOpacity( 0 );
+            setAborted( false );
+            startClock();
             transition().data()->setGeometry( widget->geometry() );
             transition().data()->setStartPixmap( transition().data()->grab( widget ) );
-        }
+            if( slow() ) setAborted( true );
+
+        } else setAborted( true );
 
         // update index
         index_ = target_.data()->currentIndex();
@@ -72,7 +77,7 @@ namespace Oxygen
     {
 
         // check enability
-        if( !enabled() ) return false;
+        if( aborted() || !enabled() ) return false;
 
         // show transition widget
         transition().data()->show();

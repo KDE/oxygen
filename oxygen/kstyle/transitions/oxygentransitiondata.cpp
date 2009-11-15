@@ -34,6 +34,8 @@ namespace Oxygen
     TransitionData::TransitionData( QWidget* parent, int duration ):
         QObject( parent ),
         enabled_( true ),
+        aborted_( false ),
+        maxRenderTime_( 200 ),
         transition_( new TransitionWidget( parent, duration ) )
     {
         transition().data()->hide();
