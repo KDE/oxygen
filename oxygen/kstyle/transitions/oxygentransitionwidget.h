@@ -61,7 +61,7 @@ namespace Oxygen
             Transparent = 1<<1
         };
 
-        Q_DECLARE_FLAGS(Flags, Flag);
+        Q_DECLARE_FLAGS(Flags, Flag)
 
         void setFlags( Flags value )
         { flags_ = value; }
