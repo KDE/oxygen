@@ -102,8 +102,6 @@ namespace Oxygen
         TabBarEngine& tabBarEngine( void ) const
         { return *tabBarEngine_; }
 
-        public slots:
-
         //! setup engines
         void setupEngines( void );
 
