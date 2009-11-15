@@ -76,7 +76,7 @@ namespace Oxygen
         bool animated( false );
 
         // loop over objects in map
-        for( ProgressBarMap::iterator iter = data_.begin(); iter != data_.end(); iter++ )
+        for( ProgressBarMap::iterator iter = data_.begin(); iter != data_.end(); ++iter )
         {
 
             // cast to progressbar
