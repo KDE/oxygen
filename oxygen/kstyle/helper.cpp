@@ -38,6 +38,7 @@ OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
 //______________________________________________________________________________
 void OxygenStyleHelper::invalidateCaches()
 {
+    m_progressBarCache.clear();
     m_cornerCache.clear();
     m_slabSunkenCache.clear();
     m_slabInvertedCache.clear();
@@ -101,11 +102,13 @@ QPixmap OxygenStyleHelper::windecoButton(const QColor &color, bool pressed, int 
     return *pixmap;
 }
 
+//______________________________________________________________________________
 QColor OxygenStyleHelper::calcMidColor(const QColor &color) const
 {
     return KColorScheme::shade(color, KColorScheme::MidShade, _contrast - 1.0);
 }
 
+//______________________________________________________________________________
 QPixmap OxygenStyleHelper::roundSlab(const QColor &color, qreal shade, int size)
 {
     SlabCache *cache = slabCache(color);
@@ -159,6 +162,98 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
 
     }
     return *pixmap;
+}
+
+//__________________________________________________________________________________________________________
+QPixmap OxygenStyleHelper::progressBarIndicator(const QPalette& pal, const QRect& rect )
+{
+
+    QColor highlight = pal.color(QPalette::Active, QPalette::Highlight);
+    quint64 key = (quint64(highlight.rgba()) << 32) | rect.width();
+    QPixmap *pixmap = m_progressBarCache.object(key);
+
+    if (!pixmap)
+    {
+        QRect local( rect );
+        local.adjust( -1, -1, 1, 1 );
+        local.adjust( 0, -1, 0, 0 );
+
+        pixmap = new QPixmap(local.size());
+        pixmap->fill( Qt::transparent );
+
+        QPainter p( pixmap );
+        p.translate( -local.topLeft() );
+        p.setRenderHints( QPainter::Antialiasing );
+        p.setBrush(Qt::NoBrush);
+
+        local.adjust( 1, 1, -1, -1 );
+        QColor lhighlight = calcLightColor(highlight);
+        QColor color = pal.color(QPalette::Active, QPalette::Window);
+        QColor light = calcLightColor(color);
+        QColor dark = calcDarkColor(color);
+        QColor shadow = calcShadowColor(color);
+
+        // shadow
+        p.setPen(alphaColor(shadow, 0.6));
+        p.drawRoundedRect(local,2,1);
+
+        // fill
+        p.setPen(Qt::NoPen);
+        p.setBrush(KColorUtils::mix(highlight, dark, 0.2));
+        p.drawRect(local.adjusted(1, 0, -1, 0 ) );
+
+        // fake radial gradient
+        local.adjust( 0, 0, -1, 0 );
+        QPixmap pm(local.size());
+        pm.fill(Qt::transparent);
+        {
+            QRectF pmRect = pm.rect();
+            QLinearGradient mask(pmRect.topLeft(), pmRect.topRight());
+            mask.setColorAt(0.0, Qt::transparent);
+            mask.setColorAt(0.4, Qt::black);
+            mask.setColorAt(0.6, Qt::black);
+            mask.setColorAt(1.0, Qt::transparent);
+
+            QLinearGradient radial(pmRect.topLeft(), pmRect.bottomLeft());
+            radial.setColorAt(0.0, KColorUtils::mix(lhighlight, light, 0.3));
+            radial.setColorAt(0.5, Qt::transparent);
+            radial.setColorAt(0.6, Qt::transparent);
+            radial.setColorAt(1.0, KColorUtils::mix(lhighlight, light, 0.3));
+
+            QPainter pp(&pm);
+            pp.fillRect(pm.rect(), mask);
+            pp.setCompositionMode(QPainter::CompositionMode_SourceIn);
+            pp.fillRect(pm.rect(), radial);
+            pp.end();
+        }
+
+        p.drawPixmap( QPoint(1,1), pm);
+
+        // bevel
+        p.setRenderHint(QPainter::Antialiasing, false);
+        QLinearGradient bevel(local.topLeft(), local.bottomLeft());
+        bevel.setColorAt(0, lhighlight);
+        bevel.setColorAt(0.5, highlight);
+        bevel.setColorAt(1, calcDarkColor(highlight));
+        p.setBrush(Qt::NoBrush);
+        p.setPen(QPen(bevel, 1));
+        p.drawRoundedRect(local,2,2);
+
+        // bright top edge
+        QLinearGradient lightHl(local.topLeft(),local.topRight());
+        lightHl.setColorAt(0, Qt::transparent);
+        lightHl.setColorAt(0.5, KColorUtils::mix(highlight, light, 0.8));
+        lightHl.setColorAt(1, Qt::transparent);
+
+        p.setPen(QPen(lightHl, 1));
+        p.drawLine(local.topLeft(), local.topRight());
+        p.end();
+
+        m_progressBarCache.insert(key, pixmap);
+    }
+
+    return *pixmap;
+
 }
 
 //__________________________________________________________________________________________________________
@@ -686,6 +781,7 @@ TileSet *OxygenStyleHelper::slitFocused(const QColor &glowColor)
     return tileSet;
 }
 
+//____________________________________________________________________
 TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
 {
     quint64 key = quint64(color.rgba()) << 32 | width;

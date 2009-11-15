@@ -32,8 +32,6 @@
 #include "oxygen.h"
 #include "oxygen.moc"
 
-#include <QtGui/QHoverEvent>
-
 #include <QtGui/QAbstractItemView>
 #include <QtGui/QApplication>
 #include <QtGui/QCheckBox>
@@ -719,70 +717,10 @@ bool OxygenStyle::drawProgressBarPrimitive(
         case ProgressBar::BusyIndicator:
         {
 
-            rect.adjust(0, -1, -1, 0 );
-
-            QColor highlight = pal.color(QPalette::Active, QPalette::Highlight);
-            QColor lhighlight = _helper.calcLightColor(highlight);
-            QColor color = pal.color(QPalette::Active, QPalette::Window);
-            QColor light = _helper.calcLightColor(color);
-            QColor dark = _helper.calcDarkColor(color);
-            QColor shadow = _helper.calcShadowColor(color);
-            p->save();
-            p->setBrush(Qt::NoBrush);
-            p->setRenderHints(QPainter::Antialiasing);
-
-            // shadow
-            p->setPen(_helper.alphaColor(shadow, 0.6));
-            p->drawRoundedRect(rect.adjusted( 0, 0, 1, 0 ), 2, 1 );
-
-            // fill
-            p->setPen(Qt::NoPen);
-            p->setBrush(KColorUtils::mix(highlight, dark, 0.2));
-            p->drawRect(rect.adjusted( 1, 0, 0, 0 ));
-
-            // fake radial gradient
-            QPixmap pm(rect.size());
-            pm.fill(Qt::transparent);
-            QRectF pmRect = pm.rect();
-            QLinearGradient mask(pmRect.topLeft(), pmRect.topRight());
-            mask.setColorAt(0.0, Qt::transparent);
-            mask.setColorAt(0.4, Qt::black);
-            mask.setColorAt(0.6, Qt::black);
-            mask.setColorAt(1.0, Qt::transparent);
-
-            QLinearGradient radial(pmRect.topLeft(), pmRect.bottomLeft());
-            radial.setColorAt(0.0, KColorUtils::mix(lhighlight, light, 0.3));
-            radial.setColorAt(0.5, Qt::transparent);
-            radial.setColorAt(0.6, Qt::transparent);
-            radial.setColorAt(1.0, KColorUtils::mix(lhighlight, light, 0.3));
-
-            QPainter pp(&pm);
-            pp.fillRect(pm.rect(), mask);
-            pp.setCompositionMode(QPainter::CompositionMode_SourceIn);
-            pp.fillRect(pm.rect(), radial);
-            pp.end();
-            p->drawPixmap(rect.topLeft(), pm);
-
-            // bevel
-            p->setRenderHint(QPainter::Antialiasing, false);
-            QLinearGradient bevel(rect.topLeft(), rect.bottomLeft());
-            bevel.setColorAt(0, lhighlight);
-            bevel.setColorAt(0.5, highlight);
-            bevel.setColorAt(1, _helper.calcDarkColor(highlight));
-            p->setBrush(Qt::NoBrush);
-            p->setPen(QPen(bevel, 1));
-            p->drawRoundedRect(rect,2,2);
-
-            // bright top edge
-            QLinearGradient lightHl(rect.topLeft(),rect.topRight());
-            lightHl.setColorAt(0, Qt::transparent);
-            lightHl.setColorAt(0.5, KColorUtils::mix(highlight, light, 0.8));
-            lightHl.setColorAt(1, Qt::transparent);
-            p->setPen(QPen(lightHl, 1));
-            p->drawLine(rect.topLeft(), rect.topRight());
-            p->restore();
-
+            QPixmap pixmap( _helper.progressBarIndicator( pal, rect ) );
+            p->drawPixmap( rect.adjusted(-1, -2, 0, 0).topLeft(), pixmap );
             return true;
+
         }
 
         default: return false;

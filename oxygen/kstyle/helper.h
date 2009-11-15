@@ -41,8 +41,11 @@ public:
     static void fillSlab(QPainter&, const QRect&, int size = 7);
     static void fillHole(QPainter&, const QRect&, int size = 7);
 
-    QPixmap  roundSlab(const QColor&, qreal shade, int size = 7);
-    QPixmap  roundSlabFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
+    QPixmap roundSlab(const QColor&, qreal shade, int size = 7);
+    QPixmap roundSlabFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
+
+    // progressbar
+    QPixmap progressBarIndicator( const QPalette&, const QRect& );
 
     // TODO - need to rebase scrollbars to size=7
     TileSet *roundCorner(const QColor&, int size = 5);
@@ -72,6 +75,9 @@ protected:
     void drawHole(QPainter&, const QColor&, qreal shade, int r = 7) const;
     void drawRoundSlab( QPainter&, const QColor&, qreal ) const;
 
+    //! progressbar cache
+    QCache<quint64, QPixmap> m_progressBarCache;
+
     QCache<quint64, TileSet> m_cornerCache;
     QCache<quint64, TileSet> m_slabSunkenCache;
     QCache<quint64, TileSet> m_slabInvertedCache;
@@ -82,6 +88,7 @@ protected:
     QCache<quint64, TileSet> m_slitCache;
     QCache<quint64, TileSet> m_dockFrameCache;
     QCache<quint64, TileSet> m_scrollHoleCache;
+
 };
 
 #endif // __OXYGEN_STYLE_HELPER_H
