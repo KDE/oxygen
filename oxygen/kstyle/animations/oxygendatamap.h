@@ -69,7 +69,7 @@ namespace Oxygen
         {
             enabled_ = enabled;
             foreach( const Value& value, *this )
-            { value.data()->setEnabled( enabled ); }
+            { if( value ) value.data()->setEnabled( enabled ); }
         }
 
         //! enability
@@ -80,7 +80,7 @@ namespace Oxygen
         void setDuration( int duration ) const
         {
             foreach( const Value& value, *this )
-            { value.data()->setDuration( duration ); }
+            { if( value ) value.data()->setDuration( duration ); }
         }
 
         private:
