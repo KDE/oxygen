@@ -100,9 +100,9 @@ namespace Oxygen
         {
             if( object )
             {
-                hoverData_.remove( object );
-                focusData_.remove( object );
-                enableData_.remove( object );
+                hoverData_.unregisterWidget( object );
+                focusData_.unregisterWidget( object );
+                enableData_.unregisterWidget( object );
             }
         }
 
