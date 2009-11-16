@@ -209,6 +209,13 @@ class OxygenStyle : public KStyle
     //! slab glowing color
     QColor slabShadowColor( QColor color, StyleOptions opts, qreal opacity, Oxygen::AnimationMode mode ) const;
 
+    //! qdial slab
+    void renderDialSlab( QPainter* p, QRect r, const QColor& c, const QStyleOption* option, StyleOptions opts = 0 ) const
+    { renderDialSlab( p, r, c, option, opts, -1,  Oxygen::AnimationNone ); }
+
+    //! qdial slab
+    void renderDialSlab( QPainter*, QRect, const QColor&, const QStyleOption*, StyleOptions, qreal, Oxygen::AnimationMode ) const;
+
     //! generic button slab
     void renderButtonSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opts = 0, TileSet::Tiles tiles = TileSet::Ring) const
     { renderButtonSlab( p, r, c, opts, -1,  Oxygen::AnimationNone, tiles ); }

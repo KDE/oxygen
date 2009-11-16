@@ -50,6 +50,7 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
 #include <QtGui/QToolButton>
+#include <QtGui/QDial>
 
 #include <QtDBus/QtDBus>
 
@@ -287,74 +288,42 @@ bool OxygenStyle::drawGroupBoxComplexControl( const QStyleOptionComplex *option,
 //___________________________________________________________________________________
 bool OxygenStyle::drawDialComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
 {
-    Q_UNUSED(widget);
 
-    const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
-    if( !sliderOption ) return false;
+    const bool enabled = option->state & State_Enabled;
+    const bool mouseOver(enabled && (option->state & State_MouseOver));
+    const bool hasFocus( enabled && (option->state & State_HasFocus));
 
-    QRect rect( sliderOption->rect );
-    const QPalette &pal( sliderOption->palette );
+    StyleOptions opts = 0;
+    if ((option->state & State_On) || (option->state & State_Sunken)) opts |= Sunken;
+    if (option->state & State_HasFocus) opts |= Focus;
+    if (enabled && (option->state & State_MouseOver)) opts |= Hover;
+
+    animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+    animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+
+    QRect rect( option->rect );
+    const QPalette &pal( option->palette );
     QColor color( pal.color(QPalette::Button) );
-    QColor shadow( _helper.calcShadowColor(color) );
 
-    const qreal baseOffset = 3.5;
-    QPixmap pix( _helper.dialSlab( color, 0.0, rect.width() ) );
-    QColor light  = _helper.calcLightColor(color);
+    if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) && !(opts & Sunken ) )
     {
 
-        QPainter p( &pix );
-        p.setPen( Qt::NoPen );
-        p.setRenderHints(QPainter::Antialiasing);
+        qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
+        renderDialSlab( painter, rect, pal.color(QPalette::Button), option, opts, opacity, Oxygen::AnimationHover );
 
-        // indicator
-        // might use cache here
-        {
+    } else if( enabled && !mouseOver && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) && !(opts & Sunken ) ) {
 
-            // angle calculation from qcommonstyle.cpp (c) Trolltech 1992-2007, ASA.
-            qreal angle(0);
-            if( sliderOption->maximum == sliderOption->minimum ) angle = M_PI / 2;
-            else {
+        qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ) );
+        renderDialSlab( painter, rect, pal.color(QPalette::Button), option, opts, opacity, Oxygen::AnimationFocus );
 
-                const qreal fraction( qreal(sliderOption->sliderValue - sliderOption->minimum)/qreal(sliderOption->maximum - sliderOption->minimum));
-                if( sliderOption->dialWrapping ) angle = 1.5*M_PI - fraction*2*M_PI;
-                else  angle = (M_PI*8 - fraction*10*M_PI)/6;
-            }
+    } else {
 
-            QPointF center = rect.center();
-            const int sliderWidth = qMin( 2*rect.width()/5, 18 );
-            const qreal radius( 0.5*( rect.width() - 2*sliderWidth ) );
-            center += QPointF( radius*cos(angle), -radius*sin(angle));
-
-            QRectF sliderRect( 0, 0, sliderWidth, sliderWidth );
-            sliderRect.moveCenter( center );
-
-            // outline circle
-            const qreal offset = 0.3;
-            QLinearGradient lg( 0, baseOffset, 0, baseOffset + 2*sliderRect.height() );
-            p.setBrush( light );
-            p.setPen( Qt::NoPen );
-            p.drawEllipse( sliderRect.translated(0, offset) );
-
-            // mask
-            p.setPen( Qt::NoPen );
-            p.save();
-            p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-            p.setBrush(QBrush(Qt::black));
-            p.drawEllipse( sliderRect );
-            p.restore();
-
-            // shadow
-            p.translate( sliderRect.topLeft() );
-            _helper.drawInverseShadow( p, shadow.darker(200), 0.0, sliderRect.width()-0.0, 0.0 );
-
-        }
-
-        p.end();
+        renderDialSlab( painter, rect, pal.color(QPalette::Button), option, opts);
 
     }
 
-    painter->drawPixmap( rect.topLeft(), pix );
     return true;
+
 }
 
 //___________________________________________________________________________________
@@ -3055,6 +3024,7 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QTabBar*>(widget)
         || qobject_cast<QTextEdit*>(widget)
         || qobject_cast<QToolButton*>(widget)
+        || qobject_cast<QDial*>(widget)
         )
     { widget->setAttribute(Qt::WA_Hover); }
 
@@ -3311,6 +3281,78 @@ QColor OxygenStyle::slabShadowColor( QColor color, StyleOptions opts, qreal opac
     }
 
     return glow;
+}
+
+//___________________________________________________________________________________
+void OxygenStyle::renderDialSlab( QPainter *painter, QRect rect, const QColor &color, const QStyleOption *option, StyleOptions opts, qreal opacity, Oxygen::AnimationMode mode) const
+{
+
+    // cast option
+    const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+    if( !sliderOption ) return;
+
+    // calculate glow color
+    QColor glow = slabShadowColor( color, opts, opacity, mode );
+
+    // get main slab
+    QPixmap pix( glow.isValid() ? _helper.dialSlabFocused( color, glow, 0.0, rect.width()) : _helper.dialSlab( color, 0.0, rect.width() ));
+    const qreal baseOffset = 3.5;
+
+    QColor light  = _helper.calcLightColor(color);
+    QColor shadow( _helper.calcShadowColor(color) );
+
+    QPainter p( &pix );
+    p.setPen( Qt::NoPen );
+    p.setRenderHints(QPainter::Antialiasing);
+
+    // indicator
+    // might use cache here
+
+    // angle calculation from qcommonstyle.cpp (c) Trolltech 1992-2007, ASA.
+    qreal angle(0);
+    if( sliderOption->maximum == sliderOption->minimum ) angle = M_PI / 2;
+    else {
+
+        const qreal fraction( qreal(sliderOption->sliderValue - sliderOption->minimum)/qreal(sliderOption->maximum - sliderOption->minimum));
+        if( sliderOption->dialWrapping ) angle = 1.5*M_PI - fraction*2*M_PI;
+        else  angle = (M_PI*8 - fraction*10*M_PI)/6;
+    }
+
+    QPointF center = rect.center();
+    const int sliderWidth = qMin( 2*rect.width()/5, 18 );
+    const qreal radius( 0.5*( rect.width() - 2*sliderWidth ) );
+    center += QPointF( radius*cos(angle), -radius*sin(angle));
+
+    QRectF sliderRect( 0, 0, sliderWidth, sliderWidth );
+    sliderRect.moveCenter( center );
+
+    // outline circle
+    const qreal offset = 0.3;
+    QLinearGradient lg( 0, baseOffset, 0, baseOffset + 2*sliderRect.height() );
+    p.setBrush( light );
+    p.setPen( Qt::NoPen );
+    p.drawEllipse( sliderRect.translated(0, offset) );
+
+    // mask
+    p.setPen( Qt::NoPen );
+    p.save();
+    p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+    p.setBrush(QBrush(Qt::black));
+    p.drawEllipse( sliderRect );
+    p.restore();
+
+    // shadow
+    p.translate( sliderRect.topLeft() );
+    _helper.drawInverseShadow( p, shadow.darker(200), 0.0, sliderRect.width(), 0.0 );
+
+    // glow
+    if( glow.isValid() ) _helper.drawInverseGlow( p, glow, 0.0, sliderRect.width(),  sliderRect.width() );
+
+    p.end();
+
+    painter->drawPixmap( rect.topLeft(), pix );
+    return;
+
 }
 
 //____________________________________________________________________________________

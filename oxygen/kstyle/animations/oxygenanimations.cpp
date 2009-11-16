@@ -139,6 +139,7 @@ namespace Oxygen
         // lists
         else if( widget->inherits( "QAbstractItemView" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
         else if( widget->inherits( "QProgressBar" ) ) { return progressBarEngine().registerWidget( widget ); }
+        else if( widget->inherits( "QDial" ) ) { return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         return false;
 

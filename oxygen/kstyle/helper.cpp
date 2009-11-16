@@ -170,6 +170,67 @@ QPixmap OxygenStyleHelper::dialSlab(const QColor &color, qreal shade, int size)
 }
 
 //______________________________________________________________________________
+QPixmap OxygenStyleHelper::dialSlabFocused(const QColor &color, const QColor& glowColor, qreal shade, int size)
+{
+    SlabCache *cache = slabCache(color);
+    quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+    QPixmap *pixmap = cache->m_dialSlabCache.object(key);
+    if (!pixmap)
+    {
+        pixmap = new QPixmap( size, size );
+        pixmap->fill( Qt::transparent );
+
+        QRectF rect( pixmap->rect() );
+
+        QPainter p( pixmap );
+        p.setPen( Qt::NoPen );
+        p.setRenderHints(QPainter::Antialiasing);
+
+        // colors
+        QColor base = KColorUtils::shade(color, shade);
+        QColor light = KColorUtils::shade(calcLightColor(color), shade);
+        QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+        QColor mid = KColorUtils::shade(calcMidColor(color), shade);
+        QColor shadow( calcShadowColor(color) );
+
+        // shadow
+        drawShadow( p, shadow, rect.width() );
+        drawOuterGlow( p, glowColor, rect.width() );
+
+        const qreal baseOffset = 3.5;
+        {
+            //plain background
+            QLinearGradient lg( 0, baseOffset-0.5*rect.height(), 0, baseOffset+rect.height() );
+            lg.setColorAt( 0, light );
+            lg.setColorAt( 0.8, base );
+
+            p.setBrush( lg );
+            const qreal offset = baseOffset;
+            p.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
+        }
+
+        {
+            // outline circle
+            qreal penWidth = 0.7;
+            QLinearGradient lg( 0, baseOffset, 0, baseOffset + 2*rect.height() );
+            lg.setColorAt( 0, light );
+            lg.setColorAt( 1, mid );
+            p.setBrush( Qt::NoBrush );
+            p.setPen( QPen( lg, penWidth ) );
+            const qreal offset = baseOffset+0.5*penWidth;
+            p.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
+        }
+
+
+        cache->m_dialSlabCache.insert(key, pixmap);
+
+    }
+
+    return *pixmap;
+
+}
+
+//______________________________________________________________________________
 QPixmap OxygenStyleHelper::roundSlab(const QColor &color, qreal shade, int size)
 {
     SlabCache *cache = slabCache(color);

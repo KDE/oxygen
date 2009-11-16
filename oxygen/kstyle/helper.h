@@ -42,6 +42,7 @@ public:
     static void fillHole(QPainter&, const QRect&, int size = 7);
 
     QPixmap dialSlab(const QColor&, qreal shade, int size = 7);
+    QPixmap dialSlabFocused(const QColor&, const QColor&, qreal shade, int size = 7);
     QPixmap roundSlab(const QColor&, qreal shade, int size = 7);
     QPixmap roundSlabFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
 
@@ -69,11 +70,12 @@ public:
 
     QPalette mergePalettes( const QPalette&, qreal ) const;
 
+    // these two methods must be public because they are used directly by OxygenStyle to draw dials
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, qreal fuzz) const;
+    void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
 
     protected:
 
-    void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
     void drawHole(QPainter&, const QColor&, qreal shade, int r = 7) const;
     void drawRoundSlab( QPainter&, const QColor&, qreal ) const;
 
