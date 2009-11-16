@@ -126,7 +126,7 @@ class OxygenStyle : public KStyle
         NoFill = 0x10,
         SubtleShadow = 0x20
     };
-    Q_DECLARE_FLAGS(StyleOptions, StyleOption);
+    Q_DECLARE_FLAGS(StyleOptions, StyleOption)
 
     protected:
 

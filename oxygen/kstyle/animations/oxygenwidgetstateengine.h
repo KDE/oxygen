@@ -43,7 +43,7 @@ namespace Oxygen
         AnimationEnable = 1<<2
     };
 
-    Q_DECLARE_FLAGS(AnimationModes, AnimationMode);
+    Q_DECLARE_FLAGS(AnimationModes, AnimationMode)
 
     //! used for simple widgets
     class WidgetStateEngine: public BaseEngine
