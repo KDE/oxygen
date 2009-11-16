@@ -287,10 +287,74 @@ bool OxygenStyle::drawGroupBoxComplexControl( const QStyleOptionComplex *option,
 //___________________________________________________________________________________
 bool OxygenStyle::drawDialComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
 {
-    Q_UNUSED(option);
-    Q_UNUSED(painter);
     Q_UNUSED(widget);
-    return false;
+
+    const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+    if( !sliderOption ) return false;
+
+    QRect rect( sliderOption->rect );
+    const QPalette &pal( sliderOption->palette );
+    QColor color( pal.color(QPalette::Button) );
+    QColor shadow( _helper.calcShadowColor(color) );
+
+    const qreal baseOffset = 3.5;
+    QPixmap pix( _helper.dialSlab( color, 0.0, rect.width() ) );
+    QColor light  = _helper.calcLightColor(color);
+    {
+
+        QPainter p( &pix );
+        p.setPen( Qt::NoPen );
+        p.setRenderHints(QPainter::Antialiasing);
+
+        // indicator
+        // might use cache here
+        {
+
+            // angle calculation from qcommonstyle.cpp (c) Trolltech 1992-2007, ASA.
+            qreal angle(0);
+            if( sliderOption->maximum == sliderOption->minimum ) angle = M_PI / 2;
+            else {
+
+                const qreal fraction( qreal(sliderOption->sliderValue - sliderOption->minimum)/qreal(sliderOption->maximum - sliderOption->minimum));
+                if( sliderOption->dialWrapping ) angle = 1.5*M_PI - fraction*2*M_PI;
+                else  angle = (M_PI*8 - fraction*10*M_PI)/6;
+            }
+
+            QPointF center = rect.center();
+            const int sliderWidth = qMin( 2*rect.width()/5, 15 );
+            const qreal radius( 0.5*( rect.width() - 2*sliderWidth ) );
+            center += QPointF( radius*cos(angle), -radius*sin(angle));
+
+            QRectF sliderRect( 0, 0, sliderWidth, sliderWidth );
+            sliderRect.moveCenter( center );
+
+            // outline circle
+            const qreal offset = 0.3;
+            QLinearGradient lg( 0, baseOffset, 0, baseOffset + 2*sliderRect.height() );
+            p.setBrush( light );
+            p.setPen( Qt::NoPen );
+            p.drawEllipse( sliderRect.translated(0, offset) );
+
+            // mask
+            p.setPen( Qt::NoPen );
+            p.save();
+            p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+            p.setBrush(QBrush(Qt::black));
+            p.drawEllipse( sliderRect );
+            p.restore();
+
+            // shadow
+            p.translate( sliderRect.topLeft() );
+            _helper.drawInverseShadow( p, shadow.darker(150), 0.0, sliderRect.width()-0.0, 0.0 );
+
+        }
+
+        p.end();
+
+    }
+
+    painter->drawPixmap( rect.topLeft(), pix );
+    return true;
 }
 
 //___________________________________________________________________________________

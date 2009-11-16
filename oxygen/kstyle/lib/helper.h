@@ -41,6 +41,7 @@ public:
     SlabCache() {}
     ~SlabCache() {}
 
+    QCache<quint64, QPixmap> m_dialSlabCache;
     QCache<quint64, QPixmap> m_roundSlabCache;
     QCache<quint64, TileSet> m_slabCache;
     QCache<quint64, TileSet> m_shadowCache;
