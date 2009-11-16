@@ -1,9 +1,9 @@
-#ifndef oxygentransitions_h
-#define oxygentransitions_h
+#ifndef oxygenlineeditengine_h
+#define oxygenlineeditengine_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygentransitions.h
-// container for all transition engines
+// oxygenlineeditengine.h
+// stores event filters and maps widgets to animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -27,16 +27,15 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygencomboboxengine.h"
-#include "oxygenlabelengine.h"
-#include "oxygenlineeditengine.h"
-#include "oxygenstackedwidgetengine.h"
+#include "oxygenbaseengine.h"
+#include "oxygendatamap.h"
+#include "oxygenlineeditdata.h"
 
 namespace Oxygen
 {
 
-    //! stores engines
-    class Transitions: public QObject
+    //! used for simple widgets
+    class LineEditEngine: public BaseEngine
     {
 
         Q_OBJECT
@@ -44,52 +43,41 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit Transitions( QObject* );
-
-        //! destructor
-        virtual ~Transitions( void )
+        LineEditEngine( QObject* parent ):
+        BaseEngine( parent )
         {}
 
-        /*
-        register widget; depending on its type
-        returns true if widget was registered
-        */
-        bool registerWidget( QWidget* widget ) const;
+        //! destructor
+        virtual ~LineEditEngine( void )
+        {}
 
-        //! qlabel engine
-        ComboBoxEngine& comboBoxEngine( void ) const
-        { return *comboBoxEngine_; }
+        //! register widget
+        virtual bool registerWidget( QLineEdit* );
 
-        //! qlabel engine
-        LabelEngine& labelEngine( void ) const
-        { return *labelEngine_; }
+        //! duration
+        virtual void setEnabled( bool value )
+        {
+            BaseEngine::setEnabled( value );
+            data_.setEnabled( value );
+        }
 
-        //! qlineedit engine
-        LineEditEngine& lineEditEngine( void ) const
-        { return *lineEditEngine_; }
+        //! duration
+        virtual void setDuration( int value )
+        {
+            BaseEngine::setDuration( value );
+            data_.setDuration( value );
+        }
 
-        //! stacked widget engine
-        StackedWidgetEngine& stackedWidgetEngine( void ) const
-        { return *stackedWidgetEngine_; }
+        protected slots:
 
-        public slots:
-
-        //! setup engines
-        void setupEngines( void );
+        //! remove widget from map
+        virtual void unregisterWidget( QObject* object )
+        { if( object ) data_.unregisterWidget( object ); }
 
         private:
 
-        //! qcombobox engine
-        ComboBoxEngine* comboBoxEngine_;
-
-        //! qlabel engine
-        LabelEngine* labelEngine_;
-
-        //! qlineedit engine
-        LineEditEngine* lineEditEngine_;
-
-        //! stacked widget engine
-        StackedWidgetEngine* stackedWidgetEngine_;
+        //! maps
+        DataMap<LineEditData> data_;
 
     };
 

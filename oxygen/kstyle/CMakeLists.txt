@@ -36,6 +36,8 @@ set(oxygen_PART_SRCS
     transitions/oxygencomboboxengine.cpp
     transitions/oxygenlabeldata.cpp
     transitions/oxygenlabelengine.cpp
+    transitions/oxygenlineeditdata.cpp
+    transitions/oxygenlineeditengine.cpp
     transitions/oxygenstackedwidgetdata.cpp
     transitions/oxygenstackedwidgetengine.cpp
     transitions/oxygentransitiondata.cpp

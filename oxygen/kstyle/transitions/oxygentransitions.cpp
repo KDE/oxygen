@@ -36,6 +36,7 @@ namespace Oxygen
         QObject( parent ),
         comboBoxEngine_( new ComboBoxEngine( this ) ),
         labelEngine_( new LabelEngine( this ) ),
+        lineEditEngine_( new LineEditEngine( this ) ),
         stackedWidgetEngine_( new StackedWidgetEngine( this ) )
     {}
 
@@ -49,12 +50,15 @@ namespace Oxygen
         // enability
         comboBoxEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::labelTransitionsEnabled() );
         labelEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::labelTransitionsEnabled() );
+        lineEditEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::labelTransitionsEnabled() );
         stackedWidgetEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
 
         // durations
         comboBoxEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
         labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
-        stackedWidgetEngine().setDuration( OxygenStyleConfigData::stackedWidgetTransitionsDuration() );
+        lineEditEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
+        stackedWidgetEngine().setDuration( OxygenStyleConfigData::stackedWidgetTransitionsDuration() );        labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
+
 
     }
 
@@ -71,6 +75,10 @@ namespace Oxygen
         } else if( QComboBox* comboBox = qobject_cast<QComboBox*>( widget ) ) {
 
             return comboBoxEngine().registerWidget( comboBox );
+
+        } else if( QLineEdit* lineEdit = qobject_cast<QLineEdit*>( widget ) ) {
+
+            return lineEditEngine().registerWidget( lineEdit );
 
         } else if( QStackedWidget* stack = qobject_cast<QStackedWidget*>( widget ) ) {
 

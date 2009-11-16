@@ -2304,7 +2304,7 @@ bool OxygenStyle::drawGroupBoxPrimitive(
             p->setPen(Qt::NoPen);
 
             QLinearGradient innerGradient(0, r.top()-r.height()+12, 0, r.bottom()+r.height()-19);
-            QColor light = _helper.calcLightColor(color); //KColorUtils::shade(calcLightColor(color), shade));
+            QColor light = _helper.calcLightColor(color);
             light.setAlphaF(0.4);
             innerGradient.setColorAt(0.0, light);
             color.setAlphaF(0.4);
@@ -5379,6 +5379,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                     QRect r( dw->rect() );
 
                     _helper.renderWindowBackground(&p, r, dw, color);
+
                     TileSet *tileSet = _helper.dockFrame(color, r.width());
                     tileSet->render(r, &p);
 

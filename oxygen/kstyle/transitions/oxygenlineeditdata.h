@@ -1,9 +1,9 @@
-#ifndef oxygencomboboxdata_h
-#define oxygencomboboxdata_h
+#ifndef oxygenlineeditdata_h
+#define oxygenlineeditdata_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygencomboboxdata.h
-// data container for QComboBox transition
+// oxygenlineeditdata.h
+// data container for QLineEdit transition
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -31,15 +31,13 @@
 
 #include <QtCore/QString>
 #include <QtCore/QBasicTimer>
-#include <QtCore/QTimerEvent>
-#include <QtGui/QComboBox>
 #include <QtGui/QLineEdit>
 
 namespace Oxygen
 {
 
     //! generic data
-    class ComboBoxData: public TransitionData
+    class LineEditData: public TransitionData
     {
 
         Q_OBJECT
@@ -47,14 +45,32 @@ namespace Oxygen
         public:
 
         //! constructor
-        ComboBoxData( QObject*, QComboBox*, int );
+        LineEditData( QObject*, QLineEdit*, int );
 
         //! destructor
-        virtual ~ComboBoxData( void )
+        virtual ~LineEditData( void )
         {}
 
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );
+
+        protected slots:
+
+        //! text edited
+        virtual void textEdited( const QString& );
+
+        //! selection changed
+        virtual void selectionChanged( void )
+        { timer_.start( 50, this ); }
+
+        //! text changed
+        virtual void textChanged( const QString& );
+
+        //! initialize animation
+        virtual bool initializeAnimation( void );
+
+        //! animate
+        virtual bool animate( void );
 
         protected:
 
@@ -64,18 +80,7 @@ namespace Oxygen
         //! target rect
         /*! return rect corresponding to the area to be updated when animating */
         QRect targetRect( void ) const
-        { return target_ ? target_.data()->rect().adjusted( 5, 5, -5, -5 ):QRect(); }
-
-        protected slots:
-
-        //! triggered when item is activated in combobox
-        virtual void  indexChanged( void );
-
-        //! initialize animation
-        virtual bool initializeAnimation( void );
-
-        //! animate
-        virtual bool animate( void );
+        { return target_ ? target_.data()->rect():QRect(); }
 
         private:
 
@@ -83,7 +88,14 @@ namespace Oxygen
         QBasicTimer timer_;
 
         //! target
-        QPointer<QComboBox> target_;
+        QPointer<QLineEdit> target_;
+
+        //! true if text was manually edited
+        /*! needed to trigger animation only on programatically enabled text */
+        bool edited_;
+
+        //! old text
+        QString text_;
 
     };
 

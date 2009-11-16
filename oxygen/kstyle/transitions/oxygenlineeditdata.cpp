@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygencomboboxdata.cpp
-// data container for QComboBox transition
+// oxygenlineeditdata.cpp
+// data container for QLineEdit transition
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -24,38 +24,33 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygencomboboxdata.h"
-#include "oxygencomboboxdata.moc"
+#include "oxygenlineeditdata.h"
+#include "oxygenlineeditdata.moc"
+
+#include <QtCore/QEvent>
+#include <QtCore/QTextStream>
 
 namespace Oxygen
 {
 
     //______________________________________________________
-    ComboBoxData::ComboBoxData( QObject* parent, QComboBox* target, int duration ):
+    LineEditData::LineEditData( QObject* parent, QLineEdit* target, int duration ):
         TransitionData( parent, target, duration ),
-        target_( target )
+        target_( target ),
+        edited_( false )
     {
         target_.data()->installEventFilter( this );
-        connect( target_.data(), SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged() ) );
+        transition().data()->setFlags( TransitionWidget::GrabFromWindow );
+        connect( target_.data(), SIGNAL( textEdited( const QString& ) ), SLOT( textEdited( const QString& ) ) );
+        connect( target_.data(), SIGNAL( textChanged( const QString& ) ), SLOT( textChanged( const QString& ) ) );
+        connect( target_.data(), SIGNAL( selectionChanged() ), SLOT( selectionChanged() ) );
     }
 
     //___________________________________________________________________
-    void ComboBoxData::indexChanged( void )
-    {
-        if( initializeAnimation() )
-        { animate(); }
-    }
-
-    //___________________________________________________________________
-    bool ComboBoxData::eventFilter( QObject* object, QEvent* event )
+    bool LineEditData::eventFilter( QObject* object, QEvent* event )
     {
 
-        // make sure engine is enabled
         if( !( enabled() && object == target_.data() ) )
-        { return TransitionData::eventFilter( object, event ); }
-
-        // make sure that target is not editable
-        if( target_.data()->isEditable() )
         { return TransitionData::eventFilter( object, event ); }
 
         switch( event->type() )
@@ -73,13 +68,13 @@ namespace Oxygen
     }
 
     //___________________________________________________________________
-    void ComboBoxData::timerEvent( QTimerEvent* event )
+    void LineEditData::timerEvent( QTimerEvent* event )
     {
         if( event->timerId() == timer_.timerId() )
         {
 
             timer_.stop();
-            if( target_ && !target_.data()->isEditable() )
+            if( target_ )
             { transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) ); }
 
         } else return QObject::timerEvent( event );
@@ -87,18 +82,31 @@ namespace Oxygen
     }
 
     //___________________________________________________________________
-    bool ComboBoxData::initializeAnimation( void )
+    void LineEditData::textEdited( const QString& )
     {
-        if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
-        if( target_.data()->isEditable() )
+        edited_ = true;
+        timer_.start( 50, this );
+    }
+
+    //___________________________________________________________________
+    void LineEditData::textChanged( const QString& )
+    {
+        // check wether text change was triggered manually
+        // in which case do not start transition
+        if( edited_ )
         {
-            /*
-            do nothing for editable comboboxes because
-            lineEditor animations are handled directly
-            */
-            return false;
+            edited_ = false;
+            return;
         }
 
+        if( initializeAnimation() ) animate();
+
+    }
+
+    //___________________________________________________________________
+    bool LineEditData::initializeAnimation( void )
+    {
+        if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
         transition().data()->setOpacity(0);
         transition().data()->setGeometry( targetRect() );
         transition().data()->setStartPixmap( transition().data()->endPixmap() );
@@ -108,7 +116,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________
-    bool ComboBoxData::animate( void )
+    bool LineEditData::animate( void )
     {
 
         if( !enabled() ) return false;
