@@ -43,7 +43,7 @@ namespace Oxygen
         AnimationEnable = 1<<2
     };
 
-    Q_DECLARE_FLAGS(AnimationModes, AnimationMode)
+    Q_DECLARE_FLAGS(AnimationModes, AnimationMode);
 
     //! used for simple widgets
     class WidgetStateEngine: public BaseEngine
@@ -63,7 +63,7 @@ namespace Oxygen
         {}
 
         //! register widget
-        virtual bool registerWidget( QWidget*, unsigned int mode );
+        virtual bool registerWidget( QWidget*, AnimationModes mode );
 
         //! true if widget hover state is changed
         virtual bool updateState( const QObject* object, AnimationMode, bool value );
@@ -121,6 +121,8 @@ namespace Oxygen
     };
 
 }
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(Oxygen::AnimationModes)
 
 #endif
 

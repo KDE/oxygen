@@ -80,7 +80,10 @@ class OxygenStyle : public KStyle
     OxygenStyle();
 
     //! destructor
-    virtual ~OxygenStyle();
+    virtual ~OxygenStyle()
+    {}
+
+    //! reimp from QCommonStyle
     virtual void drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p, const QWidget *widget) const;
     virtual void drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const;
     virtual void drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
@@ -95,6 +98,44 @@ class OxygenStyle : public KStyle
         const QWidget* = 0,
         Option* = 0) const;
 
+    virtual QRect subElementRect(SubElement sr, const QStyleOption *opt, const QWidget *widget) const;
+
+    virtual void polish(QWidget* widget);
+    virtual void unpolish(QWidget* widget);
+    using  KStyle::polish;
+    using  KStyle::unpolish;
+
+
+    int styleHint(
+        StyleHint hint, const QStyleOption * option = 0, const QWidget * widget = 0,
+        QStyleHintReturn * returnData = 0 ) const;
+
+    //virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
+    // const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
+    virtual int pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const;
+    virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget) const;
+    virtual QSize sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const;
+
+    //! internal option flags to pass arguments around
+    enum StyleOption
+    {
+        Sunken = 0x1,
+        Focus = 0x2,
+        Hover = 0x4,
+        Disabled = 0x8,
+        NoFill = 0x10,
+        SubtleShadow = 0x20
+    };
+    Q_DECLARE_FLAGS(StyleOptions, StyleOption);
+
+    protected:
+
+    //!@name dedicated complexcontrol drawing
+    //@{
+    virtual bool drawGroupBoxComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
+    virtual bool drawDialComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
+    virtual bool drawToolButtonComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
+    //@}
 
     //!@name dedicated primitive drawing
     //@{
@@ -127,41 +168,8 @@ class OxygenStyle : public KStyle
     virtual bool drawGenericPrimitive(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
     //@}
 
-    // capacity bar
+    //! capacity bar
     virtual void drawCapacityBar(const QStyleOption *option, QPainter *p, const QWidget *widget) const;
-
-    virtual QRect subElementRect(SubElement sr, const QStyleOption *opt, const QWidget *widget) const;
-
-    virtual void polish(QWidget* widget);
-    virtual void unpolish(QWidget* widget);
-    using  KStyle::polish;
-    using  KStyle::unpolish;
-
-
-    int styleHint(
-        StyleHint hint, const QStyleOption * option = 0, const QWidget * widget = 0,
-        QStyleHintReturn * returnData = 0 ) const;
-    //virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
-    // const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
-    virtual int pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const;
-    virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option,
-                                SubControl subControl, const QWidget* widget) const;
-    virtual QSize sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const;
-
-    public:
-
-    enum StyleOption
-    {
-        Sunken = 0x1,
-        Focus = 0x2,
-        Hover = 0x4,
-        Disabled = 0x8,
-        NoFill = 0x10,
-        SubtleShadow = 0x20
-    };
-    Q_DECLARE_FLAGS(StyleOptions, StyleOption)
-
-    protected:
 
     //! animations
     Oxygen::Animations& animations( void ) const

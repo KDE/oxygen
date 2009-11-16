@@ -35,7 +35,7 @@ namespace Oxygen
 {
 
     //____________________________________________________________
-    bool WidgetStateEngine::registerWidget( QWidget* widget, unsigned int mode )
+    bool WidgetStateEngine::registerWidget( QWidget* widget, AnimationModes mode )
     {
 
         if( !( enabled() && widget ) ) return false;

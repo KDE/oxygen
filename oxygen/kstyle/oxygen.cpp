@@ -236,94 +236,118 @@ OxygenStyle::OxygenStyle() :
 
 }
 
-OxygenStyle::~OxygenStyle()
-{
-}
-
+//___________________________________________________________________________________
 void OxygenStyle::drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
 {
-	switch (control)
-	{
-		case CC_GroupBox:
-		{
-			if (const QStyleOptionGroupBox *groupBox = qstyleoption_cast<const QStyleOptionGroupBox *>(option))
-			{
-				bool isFlat = groupBox->features & QStyleOptionFrameV2::Flat;
+    switch (control)
+    {
+        case CC_GroupBox:
+        if( drawGroupBoxComplexControl( option, painter, widget) ) return;
+        else break;
 
-				if (isFlat)
-				{
-					QFont font = painter->font();
-                    QFont oldFont = font;
-					font.setBold(true);
-					painter->setFont(font);
-                    KStyle::drawComplexControl(control,option,painter,widget);
-                    painter->setFont(oldFont);
-                    return;
-				}
-			}
-		}
+        case CC_Dial:
+        if( drawDialComplexControl( option, painter, widget) ) return;
+        else break;
 
         case CC_ToolButton:
-        {
+        if( drawToolButtonComplexControl( option, painter, widget) ) return;
+        else break;
 
-            if( widget )
-            {
-                // handle inactive (but animated) toolbuttons
-                //Extract the stuff we need out of the option
-                State flags( option->state );
-                QRect rect( option->rect );
-                QPalette palette( option->palette );
-                QStyleOption tOpt(*option);
+        default: break;
 
-                bool isInToolBar( widget->parent() && widget->parent()->inherits( "QToolBar" ) );
-
-                const bool enabled = flags & State_Enabled;
-                const bool mouseOver(enabled && (flags & State_MouseOver));
-                const bool hasFocus(enabled && (flags&State_HasFocus));
-                const bool sunken( (flags & State_Sunken) || (flags & State_On) );
-
-                if( isInToolBar )
-                {
-
-                  animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-
-                } else {
-
-                  animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-                  animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
-
-                }
-
-                bool hoverAnimated( isInToolBar ?
-                    animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ):
-                    animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-
-                bool focusAnimated( isInToolBar ?
-                    animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationFocus ):
-                    animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
-
-                if( enabled && !(mouseOver || hasFocus || sunken ) )
-                {
-
-                    if( hoverAnimated || (focusAnimated && !hasFocus) )
-                    {
-                        QRect buttonRect = subControlRect(control, option, SC_ToolButton, widget);
-                        tOpt.rect = buttonRect;
-                        tOpt.state = flags;
-                        drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, &tOpt, buttonRect, palette, flags, painter, widget);
-                    }
-
-                }
-
-            }
-            break;
-
-            default:
-            break;
-        }
     }
 
     return KStyle::drawComplexControl(control,option,painter,widget);
+
+}
+
+//___________________________________________________________________________________
+bool OxygenStyle::drawGroupBoxComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
+{
+
+    if(const QStyleOptionGroupBox *groupBox = qstyleoption_cast<const QStyleOptionGroupBox *>(option))
+    {
+        bool isFlat = groupBox->features & QStyleOptionFrameV2::Flat;
+
+        if (isFlat)
+        {
+            QFont font = painter->font();
+            QFont oldFont = font;
+            font.setBold(true);
+            painter->setFont(font);
+            KStyle::drawComplexControl(CC_GroupBox,option,painter,widget);
+            painter->setFont(oldFont);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//___________________________________________________________________________________
+bool OxygenStyle::drawDialComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
+{
+    Q_UNUSED(option);
+    Q_UNUSED(painter);
+    Q_UNUSED(widget);
+    return false;
+}
+
+//___________________________________________________________________________________
+bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
+{
+
+    if( !widget ) return false;
+
+    // handle inactive (but animated) toolbuttons
+    //Extract the stuff we need out of the option
+    State flags( option->state );
+    QRect rect( option->rect );
+    QPalette palette( option->palette );
+    QStyleOption tOpt(*option);
+
+    bool isInToolBar( widget->parent() && widget->parent()->inherits( "QToolBar" ) );
+
+    const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+    const bool hasFocus(enabled && (flags&State_HasFocus));
+    const bool sunken( (flags & State_Sunken) || (flags & State_On) );
+
+    if( isInToolBar )
+    {
+
+        animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+
+    } else {
+
+        animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+        animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+
+    }
+
+    bool hoverAnimated( isInToolBar ?
+        animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ):
+        animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+
+    bool focusAnimated( isInToolBar ?
+        animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationFocus ):
+        animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
+
+    if( enabled && !(mouseOver || hasFocus || sunken ) )
+    {
+
+        if( hoverAnimated || (focusAnimated && !hasFocus) )
+        {
+            QRect buttonRect = subControlRect(CC_ToolButton, option, SC_ToolButton, widget);
+            tOpt.rect = buttonRect;
+            tOpt.state = flags;
+            drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, &tOpt, buttonRect, palette, flags, painter, widget);
+        }
+
+    }
+
+    // always return false to continue with "default" painting
+    return false;
 
 }
 
