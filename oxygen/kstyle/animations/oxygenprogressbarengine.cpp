@@ -54,12 +54,23 @@ namespace Oxygen
     bool ProgressBarEngine::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !(enabled() && data_.contains( object ) ) )
+        if( !(enabled() && data_.contains( object ) ) || timer_.isActive() )
         { return BaseEngine::eventFilter( object, event ); }
 
-        // start timer if needed
-        if( (event->type() == QEvent::Show) && !timer_.isActive())
-        { timer_.start( duration(), this ); }
+        switch( event->type() )
+        {
+            case QEvent::EnabledChange:
+            if( qobject_cast<QWidget*>(object)->isEnabled() )
+            { timer_.start( duration(), this ); }
+            break;
+
+            case QEvent::Show:
+            timer_.start( duration(), this );
+            break;
+
+            default: break;
+
+        }
 
         return BaseEngine::eventFilter( object, event );
 

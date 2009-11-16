@@ -321,7 +321,7 @@ bool OxygenStyle::drawDialComplexControl( const QStyleOptionComplex *option, QPa
             }
 
             QPointF center = rect.center();
-            const int sliderWidth = qMin( 2*rect.width()/5, 15 );
+            const int sliderWidth = qMin( 2*rect.width()/5, 18 );
             const qreal radius( 0.5*( rect.width() - 2*sliderWidth ) );
             center += QPointF( radius*cos(angle), -radius*sin(angle));
 
@@ -345,7 +345,7 @@ bool OxygenStyle::drawDialComplexControl( const QStyleOptionComplex *option, QPa
 
             // shadow
             p.translate( sliderRect.topLeft() );
-            _helper.drawInverseShadow( p, shadow.darker(150), 0.0, sliderRect.width()-0.0, 0.0 );
+            _helper.drawInverseShadow( p, shadow.darker(200), 0.0, sliderRect.width()-0.0, 0.0 );
 
         }
 

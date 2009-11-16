@@ -139,10 +139,9 @@ QPixmap OxygenStyleHelper::dialSlab(const QColor &color, qreal shade, int size)
         const qreal baseOffset = 3.5;
         {
             //plain background
-            QLinearGradient lg( 0, baseOffset-rect.height()/2, 0, baseOffset+rect.height() );
+            QLinearGradient lg( 0, baseOffset-0.5*rect.height(), 0, baseOffset+rect.height() );
             lg.setColorAt( 0, light );
-            lg.setColorAt( 0.5, mid );
-            lg.setColorAt( 1, dark );
+            lg.setColorAt( 0.8, base );
 
             p.setBrush( lg );
             const qreal offset = baseOffset;
@@ -154,8 +153,7 @@ QPixmap OxygenStyleHelper::dialSlab(const QColor &color, qreal shade, int size)
             qreal penWidth = 0.7;
             QLinearGradient lg( 0, baseOffset, 0, baseOffset + 2*rect.height() );
             lg.setColorAt( 0, light );
-            lg.setColorAt( 0.5, mid );
-            lg.setColorAt( 1, dark );
+            lg.setColorAt( 1, mid );
             p.setBrush( Qt::NoBrush );
             p.setPen( QPen( lg, penWidth ) );
             const qreal offset = baseOffset+0.5*penWidth;
