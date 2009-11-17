@@ -59,7 +59,7 @@ namespace Oxygen
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, QStyle::SubControl control )
-        { return isAnimated( object, control ) ? data_.find( object ).data()->opacity( control ):WidgetData::OpacityInvalid; }
+        { return isAnimated( object, control ) ? data_.find( object ).data()->opacity( control ):AnimationData::OpacityInvalid; }
 
         //! control rect associated to object
         virtual QRect subControlRect( const QObject* object, QStyle::SubControl control )

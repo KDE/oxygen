@@ -27,13 +27,13 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenwidgetdata.h"
+#include "oxygenanimationdata.h"
 
 namespace Oxygen
 {
 
     //! tabbars
-    class TabBarData: public WidgetData
+    class TabBarData: public AnimationData
     {
 
         Q_OBJECT

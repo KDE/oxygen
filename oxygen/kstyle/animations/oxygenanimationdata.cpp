@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygenwidgetdata.cpp
+// oxygenanimationdata.cpp
 // base class data container needed for widget animations
 // -------------------
 //
@@ -24,16 +24,16 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenwidgetdata.h"
-#include "oxygenwidgetdata.moc"
+#include "oxygenanimationdata.h"
+#include "oxygenanimationdata.moc"
 
 namespace Oxygen
 {
 
-    qreal WidgetData::OpacityInvalid = -1;
+    qreal AnimationData::OpacityInvalid = -1;
 
     //_________________________________________________________________________________
-    void WidgetData::setupAnimation( const Animation::Pointer& animation, const QByteArray& property )
+    void AnimationData::setupAnimation( const Animation::Pointer& animation, const QByteArray& property )
     {
 
         // setup animation

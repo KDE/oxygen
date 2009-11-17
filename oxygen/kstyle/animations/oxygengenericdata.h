@@ -27,7 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenwidgetdata.h"
+#include "oxygenanimationdata.h"
 #include "oxygenanimation.h"
 
 #include <QtCore/QObject>
@@ -37,7 +37,7 @@ namespace Oxygen
 
 
     //! generic data
-    class GenericData: public WidgetData
+    class GenericData: public AnimationData
     {
 
         Q_OBJECT

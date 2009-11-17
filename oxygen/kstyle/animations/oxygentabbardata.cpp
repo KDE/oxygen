@@ -35,7 +35,7 @@ namespace Oxygen
 
     //______________________________________________
     TabBarData::TabBarData( QObject* parent, QWidget* target, int duration ):
-        WidgetData( parent, target ),
+        AnimationData( parent, target ),
         currentIndex_( -1 ),
         previousIndex_( -1 ),
         currentIndexAnimation_( new Animation( duration, this ) ),
@@ -89,7 +89,7 @@ namespace Oxygen
     {
 
         if( !( enabled() && object == target() ) )
-        { return WidgetData::eventFilter( object, event ); }
+        { return AnimationData::eventFilter( object, event ); }
 
         // check event type
         switch( event->type() )
@@ -112,7 +112,7 @@ namespace Oxygen
         }
 
         // always forward event
-        return WidgetData::eventFilter( object, event );
+        return AnimationData::eventFilter( object, event );
 
     }
 

@@ -99,7 +99,7 @@ namespace Oxygen
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, const QPoint& point )
-        { return isAnimated( object, point ) ? data_.find( object ).data()->opacity( point ): WidgetData::OpacityInvalid; }
+        { return isAnimated( object, point ) ? data_.find( object ).data()->opacity( point ): AnimationData::OpacityInvalid; }
 
         //! return 'hover' rect position when widget is animated
         virtual QRect currentRect( const QObject* object, const QPoint& point)

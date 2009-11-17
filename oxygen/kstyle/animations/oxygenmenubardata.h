@@ -27,7 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenwidgetdata.h"
+#include "oxygenanimationdata.h"
 #include <QtGui/QMenuBar>
 #include <QtCore/QBasicTimer>
 #include <QtCore/QPointer>
@@ -43,7 +43,7 @@ namespace Oxygen
     };
 
     //! menubar data
-    class MenuBarDataV1: public WidgetData
+    class MenuBarDataV1: public AnimationData
     {
 
         Q_OBJECT

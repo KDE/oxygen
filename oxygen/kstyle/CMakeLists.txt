@@ -14,6 +14,7 @@ set(oxygen_PART_SRCS
     helper.cpp
     animations/oxygenanimations.cpp
     animations/oxygenanimation.cpp
+    animations/oxygenanimationdata.cpp
     animations/oxygenbaseengine.cpp
     animations/oxygenenabledata.cpp
     animations/oxygengenericdata.cpp
@@ -29,7 +30,6 @@ set(oxygen_PART_SRCS
     animations/oxygensliderengine.cpp
     animations/oxygentabbardata.cpp
     animations/oxygentabbarengine.cpp
-    animations/oxygenwidgetdata.cpp
     animations/oxygenwidgetstatedata.cpp
     animations/oxygenwidgetstateengine.cpp
     transitions/oxygencomboboxdata.cpp

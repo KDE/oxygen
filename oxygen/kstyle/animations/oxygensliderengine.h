@@ -69,7 +69,7 @@ namespace Oxygen
 
         //! animation opacity
         virtual qreal opacity( const QObject* object )
-        { return isAnimated( object ) ? data_.find( object ).data()->opacity() : WidgetData::OpacityInvalid; }
+        { return isAnimated( object ) ? data_.find( object ).data()->opacity() : AnimationData::OpacityInvalid; }
 
         //! enability
         virtual void setEnabled( bool value )

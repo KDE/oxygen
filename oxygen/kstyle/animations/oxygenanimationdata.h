@@ -1,8 +1,8 @@
-#ifndef oxygenwidgetdata_h
-#define oxygenwidgetdata_h
+#ifndef oxygenanimationdata_h
+#define oxygenanimationdata_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygenwidgetdata.h
+// oxygenanimationdata.h
 // base class data container needed for widget animations
 // -------------------
 //
@@ -38,7 +38,7 @@ namespace Oxygen
 {
 
     //! base class
-    class WidgetData: public QObject
+    class AnimationData: public QObject
     {
 
         Q_OBJECT
@@ -46,7 +46,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        WidgetData( QObject* parent, QWidget* target ):
+        AnimationData( QObject* parent, QWidget* target ):
         QObject( parent ),
         target_( target ),
         enabled_( true )
@@ -56,7 +56,7 @@ namespace Oxygen
         }
 
         //! destructor
-        virtual ~WidgetData( void )
+        virtual ~AnimationData( void )
         {}
 
         //! duration

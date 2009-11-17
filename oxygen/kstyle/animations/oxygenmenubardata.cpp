@@ -32,7 +32,7 @@ namespace Oxygen
 
     //______________________________________________
     MenuBarDataV1::MenuBarDataV1( QObject* parent, QWidget* target, int duration ):
-        WidgetData( parent, target ),
+        AnimationData( parent, target ),
         currentAnimation_( new Animation( duration, this ) ),
         previousAnimation_( new Animation( duration, this ) ),
         currentOpacity_(0),
@@ -54,7 +54,7 @@ namespace Oxygen
     {
 
         if( !( enabled() && object == target() ) )
-        { return WidgetData::eventFilter( object, event ); }
+        { return AnimationData::eventFilter( object, event ); }
 
         // check event type
         switch( event->type() )
@@ -101,7 +101,7 @@ namespace Oxygen
         }
 
         // always forward event
-        return WidgetData::eventFilter( object, event );
+        return AnimationData::eventFilter( object, event );
 
     }
 
