@@ -53,6 +53,39 @@ namespace Oxygen
     }
 
     //______________________________________________
+    bool ProgressBarData::eventFilter( QObject* object, QEvent* event )
+    {
+
+        if( !( enabled() && object && object == target().data() ) ) return AnimationData::eventFilter( object, event );
+        switch( event->type() )
+        {
+            case QEvent::Show:
+            {
+
+                // reset start and end value
+                QProgressBar* progress = static_cast<QProgressBar*>( target().data() );
+                setStartValue( progress->minimum() );
+                setEndValue( progress->minimum() );
+                break;
+
+            }
+
+            case QEvent::Hide:
+            {
+                if( animation().data()->isRunning() )
+                { animation().data()->stop(); }
+                break;
+            }
+
+            default: break;
+
+        }
+
+        return AnimationData::eventFilter( object, event );
+
+    }
+
+    //______________________________________________
     void ProgressBarData::valueChanged( int value )
     {
 

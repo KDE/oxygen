@@ -54,6 +54,9 @@ namespace Oxygen
         virtual ~ProgressBarData( void )
         {}
 
+        //! event filter
+        virtual bool eventFilter( QObject*, QEvent* );
+
         //! return timeLine
         virtual const Animation::Pointer& animation() const
         { return animation_; }
