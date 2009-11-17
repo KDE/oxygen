@@ -101,8 +101,12 @@ namespace Oxygen
         if( !isRunning ) setStartValue( endValue() );
         setEndValue( value );
 
-        if( !isRunning && abs(endValue()-startValue()) > 1 )
-        { animation().data()->start(); }
+        // start animation only if target is enabled, visible, not running,
+        // and if end and start values are different enough
+        if( !(target() && target().data()->isEnabled() && target().data()->isVisible()) ) return;
+        if( isRunning || abs(endValue()-startValue()) < 2 ) return;
+
+        animation().data()->start();
 
     }
 
