@@ -428,41 +428,71 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
             }
             break;
         }
-        case CE_ComboBoxLabel: //same as CommonStyle, except for fiilling behind icon
+
+        case CE_ProgressBar:
+        // same as QCommonStyle::drawControl, except that it handles animations
+        if (const QStyleOptionProgressBar *pb = qstyleoption_cast<const QStyleOptionProgressBar *>(option))
+        {
+            QStyleOptionProgressBarV2 subopt = *pb;
+            subopt.rect = subElementRect(SE_ProgressBarGroove, pb, widget);
+            drawControl(CE_ProgressBarGroove, &subopt, p, widget);
+
+            if( animations().progressBarEngine().isAnimated( widget ) )
+            { subopt.progress = animations().progressBarEngine().value( widget ); }
+
+            subopt.rect = subElementRect(SE_ProgressBarContents, &subopt, widget);
+            drawControl(CE_ProgressBarContents, &subopt, p, widget);
+
+            if (pb->textVisible)
+            {
+                subopt.rect = subElementRect(SE_ProgressBarLabel, pb, widget);
+                drawControl(CE_ProgressBarLabel, &subopt, p, widget);
+            }
+
+        }
+        return;
+
+        case CE_ComboBoxLabel:
+        //same as CommonStyle, except for fiilling behind icon
         {
             if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
                 QRect editRect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
                 p->save();
                 p->setClipRect(editRect);
-                if (!cb->currentIcon.isNull()) {
-                    QIcon::Mode mode = cb->state & State_Enabled ? QIcon::Normal
-                                                                 : QIcon::Disabled;
+                if (!cb->currentIcon.isNull())
+                {
+
+                    QIcon::Mode mode = cb->state & State_Enabled ? QIcon::Normal : QIcon::Disabled;
                     QPixmap pixmap = cb->currentIcon.pixmap(cb->iconSize, mode);
                     QRect iconRect(editRect);
                     iconRect.setWidth(cb->iconSize.width() + 4);
-                    iconRect = alignedRect(cb->direction,
-                                           Qt::AlignLeft | Qt::AlignVCenter,
-                                           iconRect.size(), editRect);
+                    iconRect = alignedRect(
+                        cb->direction,
+                        Qt::AlignLeft | Qt::AlignVCenter,
+                        iconRect.size(), editRect);
 
                     drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
 
-                    if (cb->direction == Qt::RightToLeft)
-                        editRect.translate(-4 - cb->iconSize.width(), 0);
-                    else
-                        editRect.translate(cb->iconSize.width() + 4, 0);
+                    if (cb->direction == Qt::RightToLeft) editRect.translate(-4 - cb->iconSize.width(), 0);
+                    else editRect.translate(cb->iconSize.width() + 4, 0);
                 }
-                if (!cb->currentText.isEmpty() && !cb->editable) {
-                    drawItemText(p, editRect.adjusted(1, 0, -1, 0),
-                                 visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
-                                 cb->palette, cb->state & State_Enabled, cb->currentText, QPalette::ButtonText );
+
+                if (!cb->currentText.isEmpty() && !cb->editable)
+                {
+                    drawItemText(
+                        p, editRect.adjusted(1, 0, -1, 0),
+                        visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
+                        cb->palette, cb->state & State_Enabled, cb->currentText, QPalette::ButtonText );
                 }
                 p->restore();
                 return;
             }
             break;
         }
+
         case CE_TabBarTabLabel:
         {
+
             // bypass KStyle entirely because it makes it completely impossible
             // to handle both KDE and Qt applications at the same time
             return QCommonStyle::drawControl( element, option, p, widget);

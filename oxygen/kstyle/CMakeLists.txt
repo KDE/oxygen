@@ -23,6 +23,7 @@ set(oxygen_PART_SRCS
     animations/oxygenmenubarengine.cpp
     animations/oxygenmenudata.cpp
     animations/oxygenmenuengine.cpp
+    animations/oxygenprogressbardata.cpp
     animations/oxygenprogressbarengine.cpp
     animations/oxygenscrollbardata.cpp
     animations/oxygenscrollbarengine.cpp

@@ -35,17 +35,23 @@ namespace Oxygen
     {
 
         // check enability
-        if( !( enabled() && widget ) ) return false;
+        if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget );
+        if( enabled() && !data_.contains( widget ) ) data_.insert( widget, new ProgressBarData( this, widget, duration() ) );
+        if( busyIndicatorEnabled() && !dataSet_.contains( widget ) ) dataSet_.insert( widget );
 
         // install event filter
-        widget->installEventFilter( this );
+        if( busyIndicatorEnabled() )
+        { widget->installEventFilter( this ); }
 
         // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        if( enabled() || busyIndicatorEnabled() )
+        {
+            disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+            connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        }
+
         return true;
 
     }
@@ -54,18 +60,18 @@ namespace Oxygen
     bool ProgressBarEngine::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !(enabled() && data_.contains( object ) ) || timer_.isActive() )
+        if( !( busyIndicatorEnabled() && dataSet_.contains( object ) ) || timer_.isActive() )
         { return BaseEngine::eventFilter( object, event ); }
 
         switch( event->type() )
         {
             case QEvent::EnabledChange:
             if( qobject_cast<QWidget*>(object)->isEnabled() )
-            { timer_.start( duration(), this ); }
+            { timer_.start( busyStepDuration(), this ); }
             break;
 
             case QEvent::Show:
-            timer_.start( duration(), this );
+            timer_.start( busyStepDuration(), this );
             break;
 
             default: break;
@@ -76,18 +82,27 @@ namespace Oxygen
 
     }
 
+    //____________________________________________________________
+    bool ProgressBarEngine::isAnimated( const QObject* object )
+    {
+
+        DataMap<ProgressBarData>::Value data( ProgressBarEngine::data( object ) );
+        return ( data && data.data()->animation() && data.data()->animation().data()->isRunning() );
+
+    }
+
     //_______________________________________________
     void ProgressBarEngine::timerEvent( QTimerEvent* event )
     {
 
         // check enability and timer
-        if( !(enabled() && event->timerId() == timer_.timerId() ) )
+        if( !(busyIndicatorEnabled() && event->timerId() == timer_.timerId() ) )
         { return BaseEngine::timerEvent( event ); }
 
         bool animated( false );
 
         // loop over objects in map
-        for( ProgressBarMap::iterator iter = data_.begin(); iter != data_.end(); ++iter )
+        for( ProgressBarSet::iterator iter = dataSet_.begin(); iter != dataSet_.end(); ++iter )
         {
 
             // cast to progressbar
@@ -109,4 +124,9 @@ namespace Oxygen
         if( !animated ) timer_.stop();
 
     }
+
+    //____________________________________________________________
+    DataMap<ProgressBarData>::Value ProgressBarEngine::data( const QObject* object )
+    { return data_.find( object ).data(); }
+
 }

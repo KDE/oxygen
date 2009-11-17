@@ -63,7 +63,8 @@ namespace Oxygen
         sliderEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         tabBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
 
-        progressBarEngine_->setEnabled( OxygenStyleConfigData::progressBarAnimated() );
+        progressBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimationsEnabled() );
+        progressBarEngine_->setBusyIndicatorEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimated() );
 
         menuBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuBarAnimationsEnabled() );
         menuEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuAnimationsEnabled() );
@@ -78,7 +79,8 @@ namespace Oxygen
         tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         toolBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
 
-        progressBarEngine_->setDuration( 50 );
+        progressBarEngine_->setDuration( OxygenStyleConfigData::progressBarAnimationsDuration() );
+        progressBarEngine_->setBusyStepDuration( OxygenStyleConfigData::progressBarBusyStepDuration() );
 
         menuBarEngine_->setDuration( OxygenStyleConfigData::menuBarAnimationsDuration() );
         menuEngine_->setDuration( OxygenStyleConfigData::menuAnimationsDuration() );

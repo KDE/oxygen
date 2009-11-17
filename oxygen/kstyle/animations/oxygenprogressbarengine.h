@@ -28,6 +28,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenbaseengine.h"
+#include "oxygenprogressbardata.h"
+#include "oxygendatamap.h"
 
 #include <QtCore/QBasicTimer>
 #include <QtCore/QSet>
@@ -48,7 +50,9 @@ namespace Oxygen
 
         //! constructor
         ProgressBarEngine( QObject* object ):
-        BaseEngine( object )
+        BaseEngine( object ),
+        busyIndicatorEnabled_( true ),
+        busyStepDuration_( 50 )
         {}
 
         //! destructor
@@ -61,24 +65,75 @@ namespace Oxygen
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );
 
-        protected:
+        //! true if widget is animated
+        virtual bool isAnimated( const QObject* object );
 
-        //! timer event
-        virtual void timerEvent( QTimerEvent* );
+        //! animation opacity
+        virtual int value( const QObject* object )
+        { return isAnimated( object ) ? data( object ).data()->value():0 ; }
+
+        //! enability
+        virtual void setEnabled( bool value )
+        {
+            BaseEngine::setEnabled( value );
+            data_.setEnabled( value );
+        }
+
+        //! duration
+        virtual void setDuration( int value )
+        {
+            BaseEngine::setDuration( value );
+            data_.setDuration( value );
+        }
+
+        //! busy indicator enability
+        virtual void setBusyIndicatorEnabled( bool value )
+        { busyIndicatorEnabled_ = value; }
+
+        virtual bool busyIndicatorEnabled( void ) const
+        { return busyIndicatorEnabled_; }
+
+        //! busy indicator step duration
+        virtual void setBusyStepDuration( int value )
+        { busyStepDuration_ = value; }
+
+        virtual int busyStepDuration( void ) const
+        { return busyStepDuration_; }
 
         protected slots:
 
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )
-        { if( object ) data_.remove( object ); }
+        {
+            if( object )
+            {
+                data_.unregisterWidget( object );
+                dataSet_.remove( object );
+            }
+        }
+
+        protected:
+
+        //! timer event
+        virtual void timerEvent( QTimerEvent* );
+
+        //! returns data associated to widget
+        DataMap<ProgressBarData>::Value data( const QObject* );
 
         private:
 
-        //! map widgets to progress bar value
-        typedef QSet<QObject*> ProgressBarMap;
+        //! map widgets to progressbar data
+        DataMap<ProgressBarData> data_;
 
-        //! map widgets to progress bar value
-        ProgressBarMap data_;
+        //! store set of of progress bars
+        typedef QSet<QObject*> ProgressBarSet;
+        ProgressBarSet dataSet_;
+
+        //! busy indicator enabled
+        bool busyIndicatorEnabled_;
+
+        //! busy indicator step duration
+        int busyStepDuration_;
 
         //! timer
         QBasicTimer timer_;

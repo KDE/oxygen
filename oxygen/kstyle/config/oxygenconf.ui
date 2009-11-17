@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>248</height>
+    <height>259</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -407,7 +407,7 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="9" column="1">
         <spacer name="verticalSpacer_6">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -433,17 +433,24 @@
          </property>
         </spacer>
        </item>
-       <item row="5" column="1">
+       <item row="6" column="1">
         <widget class="QCheckBox" name="_stackedWidgetTransitionsEnabled">
          <property name="text">
           <string>Animate tab transitions</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="7" column="1">
         <widget class="QCheckBox" name="_labelTransitionsEnabled">
          <property name="text">
           <string>Animate label transitions</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="_progressBarAnimationsEnabled">
+         <property name="text">
+          <string>Animate progress bars</string>
          </property>
         </widget>
        </item>
