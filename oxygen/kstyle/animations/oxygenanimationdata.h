@@ -32,7 +32,7 @@
 #include <QtCore/QPointer>
 #include <QtGui/QWidget>
 
-#include "oxygenanimation.h"
+#include "../lib/oxygenanimation.h"
 
 namespace Oxygen
 {

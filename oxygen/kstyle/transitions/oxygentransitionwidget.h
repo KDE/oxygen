@@ -26,7 +26,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <oxygenanimation.h>
+#include "../lib/oxygenanimation.h"
+
 #include <QtGui/QWidget>
 
 namespace Oxygen

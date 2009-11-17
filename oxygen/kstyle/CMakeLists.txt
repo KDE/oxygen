@@ -11,9 +11,9 @@ include_directories (animations transitions)
 set(oxygen_PART_SRCS
     lib/tileset.cpp
     lib/helper.cpp
+    lib/oxygenanimation.cpp
     helper.cpp
     animations/oxygenanimations.cpp
-    animations/oxygenanimation.cpp
     animations/oxygenanimationdata.cpp
     animations/oxygenbaseengine.cpp
     animations/oxygenenabledata.cpp
