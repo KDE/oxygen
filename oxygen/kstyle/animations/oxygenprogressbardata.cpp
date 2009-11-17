@@ -67,7 +67,9 @@ namespace Oxygen
         bool isRunning( animation().data()->isRunning() );
         if( !isRunning ) setStartValue( endValue() );
         setEndValue( value );
-        if( !isRunning ) animation().data()->start();
+
+        if( !isRunning && abs(endValue()-startValue()) > 1 )
+        { animation().data()->start(); }
 
     }
 
