@@ -35,21 +35,23 @@ namespace Oxygen
 
     //______________________________________________
     ProgressBarData::ProgressBarData( QObject* parent, QWidget* target, int duration ):
-        AnimationData( parent, target ),
-        animation_( new Animation( duration, this ) ),
-        ratio_(0),
+        GenericData( parent, target, duration ),
         startValue_(0),
         endValue_(0)
     {
-        setupAnimation( animation_, "ratio" );
+
+        // set animation curve shape (warning this is not portable to Qt Kinetic)
         animation().data()->setCurveShape( QTimeLine::EaseInOutCurve );
 
+        // make sure target is a progressbar and store relevant values
         QProgressBar* progress = qobject_cast<QProgressBar*>( target );
         assert( progress );
         setStartValue( progress->value() );
         setEndValue( progress->value() );
 
+        // setup connections
         connect( target, SIGNAL( valueChanged( int ) ), SLOT( valueChanged( int ) ) );
+
     }
 
     //______________________________________________

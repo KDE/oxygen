@@ -27,23 +27,20 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenanimationdata.h"
-#include "oxygenanimation.h"
+#include "oxygengenericdata.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QTextStream>
+
 namespace Oxygen
 {
 
 
     //! generic data
-    class ProgressBarData: public AnimationData
+    class ProgressBarData: public GenericData
     {
 
         Q_OBJECT
-
-        //! declare progess fraction property
-        Q_PROPERTY( qreal ratio READ ratio WRITE setRatio )
 
         public:
 
@@ -57,25 +54,9 @@ namespace Oxygen
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );
 
-        //! return timeLine
-        virtual const Animation::Pointer& animation() const
-        { return animation_; }
-
-        //! duration
-        virtual void setDuration( int duration )
-        { animation_.data()->setDuration( duration ); }
-
         //! progressbar value (during animation)
         virtual int value( void ) const
-        { return startValue() + ratio_*( endValue() - startValue() ); }
-
-        //! ratio
-        virtual qreal ratio( void ) const
-        { return ratio_; }
-
-        //! ratio
-        virtual void setRatio( qreal value )
-        { ratio_ = value; }
+        { return startValue() + opacity()*( endValue() - startValue() ); }
 
         protected slots:
 
@@ -97,12 +78,6 @@ namespace Oxygen
         { endValue_ = value; }
 
         private:
-
-        //! animation handling
-        Animation::Pointer animation_;
-
-        //! opacity variable
-        qreal ratio_;
 
         //! animation starting value
         int startValue_;
