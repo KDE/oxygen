@@ -64,8 +64,8 @@ namespace Oxygen
 
                 // reset start and end value
                 QProgressBar* progress = static_cast<QProgressBar*>( target().data() );
-                setStartValue( progress->minimum() );
-                setEndValue( progress->minimum() );
+                setStartValue( progress->value() );
+                setEndValue( progress->value() );
                 break;
 
             }
