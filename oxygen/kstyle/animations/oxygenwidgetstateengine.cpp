@@ -71,7 +71,6 @@ namespace Oxygen
     DataMap<WidgetStateData>::Value WidgetStateEngine::data( const QObject* object, AnimationMode mode )
     {
 
-        DataMap<WidgetStateData>::Value out;
         switch( mode )
         {
             case AnimationHover: return hoverData_.find( object ).data();
