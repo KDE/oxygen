@@ -101,7 +101,7 @@ namespace Oxygen
     //___________________________________________________________________
     bool LabelData::initializeAnimation( void )
     {
-        if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
+        if( !( enabled() && transition() && target_ && target_.data()->isVisible() ) ) return false;
 
         transition().data()->setOpacity(0);
         transition().data()->setGeometry( target_.data()->rect() );
@@ -115,7 +115,7 @@ namespace Oxygen
     bool LabelData::animate( void )
     {
 
-        if( !enabled() ) return false;
+        if( !( enabled() && transition() ) ) return false;
 
         // check enability
         transition().data()->endAnimation();
