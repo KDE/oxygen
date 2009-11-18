@@ -44,18 +44,22 @@ OxygenHelper::OxygenHelper(const QByteArray &componentName)
 {
     _config = _componentData.config();
     _contrast = KGlobalSettings::contrastF(_config);
-    _bgcontrast = 0.3;
+
+    // maximum contrast, to make Nuno happy
+    // this is not configurable.
+    //_bgcontrast = 1.0;
+    _bgcontrast = 0.9;
 
     m_backgroundCache.setMaxCost(64);
     m_windecoButtonCache.setMaxCost(64);
     m_windecoButtonGlowCache.setMaxCost(64);
 }
 
+//____________________________________________________________________
 KSharedConfigPtr OxygenHelper::config() const
-{
-    return _config;
-}
+{ return _config; }
 
+//____________________________________________________________________
 void OxygenHelper::reloadConfig()
 {
     qreal old_contrast = _contrast;
@@ -63,10 +67,11 @@ void OxygenHelper::reloadConfig()
     _config->reparseConfiguration();
     _contrast = KGlobalSettings::contrastF(_config);
 
-    if (_contrast != old_contrast)
-        invalidateCaches(); // contrast changed, invalidate our caches
+    // contrast changed, invalidate our caches
+    if( _contrast != old_contrast ) invalidateCaches();
 }
 
+//____________________________________________________________________
 void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QPalette & pal, int y_shift, int gradientHeight)
 {
 
@@ -108,6 +113,7 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
         p->restore();
 }
 
+//____________________________________________________________________
 void OxygenHelper::invalidateCaches()
 {
     m_slabCache.clear();
@@ -116,79 +122,95 @@ void OxygenHelper::invalidateCaches()
     m_windecoButtonGlowCache.clear();
 }
 
+//____________________________________________________________________
 bool OxygenHelper::lowThreshold(const QColor &color)
 {
     QColor darker = KColorScheme::shade(color, KColorScheme::MidShade, 0.5);
     return KColorUtils::luma(darker) > KColorUtils::luma(color);
 }
 
+//____________________________________________________________________
 QColor OxygenHelper::alphaColor(QColor color, qreal alpha)
 {
-    if (alpha >= 1.0)
-        return color;
-    color.setAlphaF(qMax(0.0, alpha) * color.alphaF());
+    if( alpha >= 0 && alpha < 1.0 )
+    { color.setAlphaF(qMax(0.0, alpha) * color.alphaF()); }
     return color;
 }
 
+//____________________________________________________________________
 QColor OxygenHelper::backgroundRadialColor(const QColor &color) const
 {
-    if (lowThreshold(color))
-        return KColorScheme::shade(color, KColorScheme::LightShade, 0.0);
-    else
-        return KColorScheme::shade(color, KColorScheme::LightShade, _bgcontrast);
+    return (lowThreshold(color)) ?
+      KColorScheme::shade(color, KColorScheme::LightShade, 0.0):
+      KColorScheme::shade(color, KColorScheme::LightShade, _bgcontrast);
 }
 
+//_________________________________________________________________________
 QColor OxygenHelper::backgroundTopColor(const QColor &color) const
 {
-    if (lowThreshold(color))
-        return KColorScheme::shade(color, KColorScheme::MidlightShade, 0.0);
-    else
-        return KColorScheme::shade(color, KColorScheme::MidlightShade, _bgcontrast);
+
+    if( lowThreshold(color) ) return KColorScheme::shade(color, KColorScheme::MidlightShade, 0.0);
+    qreal my = KColorUtils::luma( KColorScheme::shade(color, KColorScheme::LightShade, 0.0) );
+    qreal by = KColorUtils::luma(color);
+    return KColorUtils::shade(color, (my - by) * _bgcontrast);
+
 }
 
+//_________________________________________________________________________
 QColor OxygenHelper::backgroundBottomColor(const QColor &color) const
 {
     QColor midColor = KColorScheme::shade(color, KColorScheme::MidShade, 0.0);
-    if (lowThreshold(color))
-        return midColor;
+    if( lowThreshold(color) ) return midColor;
 
-    qreal by = KColorUtils::luma(color), my = KColorUtils::luma(midColor);
-    return KColorUtils::shade(color, (my - by) * _bgcontrast);
+    qreal by = KColorUtils::luma(color);
+    qreal my = KColorUtils::luma(midColor);
+    return KColorUtils::shade(color, (my - by) * _bgcontrast * 0.85);
+
 }
 
+//____________________________________________________________________
 QColor OxygenHelper::calcLightColor(const QColor &color) const
-{
-    return KColorScheme::shade(color, KColorScheme::LightShade, _contrast);
-}
+{ return KColorScheme::shade(color, KColorScheme::LightShade, _contrast); }
 
+//____________________________________________________________________
 QColor OxygenHelper::calcDarkColor(const QColor &color) const
 {
-    if (lowThreshold(color))
-        return KColorUtils::mix(calcLightColor(color), color, 0.2 + 0.8 * _contrast);
-    else
-        return KColorScheme::shade(color, KColorScheme::MidShade, _contrast);
+    return (lowThreshold(color)) ?
+        KColorUtils::mix(calcLightColor(color), color, 0.2 + 0.8 * _contrast):
+        KColorScheme::shade(color, KColorScheme::MidShade, _contrast);
 }
 
+//____________________________________________________________________
 QColor OxygenHelper::calcShadowColor(const QColor &color) const
 {
-    return KColorScheme::shade(KColorUtils::mix(QColor(255,255,255),color, color.alpha()*(1/255.0)),
-                    KColorScheme::ShadowShade, _contrast);
+
+    return KColorScheme::shade(
+        KColorUtils::mix(QColor(255,255,255),color, color.alpha()*(1/255.0)),
+        KColorScheme::ShadowShade,
+        _contrast);
 
 }
 
+//____________________________________________________________________
 QColor OxygenHelper::backgroundColor(const QColor &color, int height, int y)
 {
+
     qreal h = height * 0.5;
-    if (y > height>>1) {
+    if (y > height>>1)
+    {
+
         qreal a = qreal(y) / h;
         return KColorUtils::mix(backgroundTopColor(color), color, a);
-    }
-    else {
+
+    } else {
+
         qreal a = (qreal(y) - h) / h;
         return KColorUtils::mix(color, backgroundBottomColor(color), a);
     }
+
 }
 
+//____________________________________________________________________
 QPixmap OxygenHelper::verticalGradient(const QColor &color, int height)
 {
     quint64 key = (quint64(color.rgba()) << 32) | height | 0x8000;
@@ -216,6 +238,7 @@ QPixmap OxygenHelper::verticalGradient(const QColor &color, int height)
     return *pixmap;
 }
 
+//____________________________________________________________________
 QPixmap OxygenHelper::radialGradient(const QColor &color, int width, int height)
 {
     quint64 key = (quint64(color.rgba()) << 32) | width | 0xb000;

@@ -3246,7 +3246,8 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
 
         color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
 
-    } else  color = _helper.calcMidColor(color);
+    //} else  color = _helper.calcMidColor( _helper.backgroundBottomColor( color ) );
+    } else  color = _helper.calcDarkColor( color );
 
     pp.setRenderHint(QPainter::Antialiasing);
     pp.setPen(Qt::NoPen);
