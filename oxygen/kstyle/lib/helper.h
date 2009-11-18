@@ -84,7 +84,8 @@ public:
     virtual QColor calcDarkColor(const QColor &color) const;
     virtual QColor calcShadowColor(const QColor &color) const;
 
-    virtual QColor backgroundColor(const QColor &color, int height, int y);
+    virtual QColor backgroundColor(const QColor &color, const QWidget*, const QPoint& = QPoint(0,0) ) const;
+    virtual QColor backgroundColor(const QColor &color, int height, int y) const;
     virtual QColor backgroundRadialColor(const QColor &color) const;
     virtual QColor backgroundTopColor(const QColor &color) const;
     virtual QColor backgroundBottomColor(const QColor &color) const;

@@ -39,7 +39,7 @@ const qreal OxygenHelper::_glowBias = 0.6;
 // Since the ctor order causes a SEGV if we try to pass in a KConfig here from
 // a KComponentData constructed in the OxygenStyleHelper ctor, we'll just keep
 // one here, even though the window decoration doesn't really need it.
-OxygenHelper::OxygenHelper(const QByteArray &componentName): 
+OxygenHelper::OxygenHelper(const QByteArray &componentName):
     _componentData(componentName, 0, KComponentData::SkipMainComponentRegistration)
 {
     _config = _componentData.config();
@@ -194,7 +194,14 @@ QColor OxygenHelper::calcShadowColor(const QColor &color) const
 }
 
 //____________________________________________________________________
-QColor OxygenHelper::backgroundColor(const QColor &color, int height, int y)
+QColor OxygenHelper::backgroundColor(const QColor &color, const QWidget* w, const QPoint& point ) const
+{
+    if( !( w && w->window() ) ) return color;
+    else return backgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
+}
+
+//____________________________________________________________________
+QColor OxygenHelper::backgroundColor(const QColor &color, int height, int y) const
 {
 
     qreal h = 0.5*qMin(300, 3*height/4);
