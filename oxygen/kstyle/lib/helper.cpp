@@ -39,16 +39,15 @@ const qreal OxygenHelper::_glowBias = 0.6;
 // Since the ctor order causes a SEGV if we try to pass in a KConfig here from
 // a KComponentData constructed in the OxygenStyleHelper ctor, we'll just keep
 // one here, even though the window decoration doesn't really need it.
-OxygenHelper::OxygenHelper(const QByteArray &componentName)
-    : _componentData(componentName, 0, KComponentData::SkipMainComponentRegistration)
+OxygenHelper::OxygenHelper(const QByteArray &componentName): 
+    _componentData(componentName, 0, KComponentData::SkipMainComponentRegistration)
 {
     _config = _componentData.config();
     _contrast = KGlobalSettings::contrastF(_config);
 
-    // maximum contrast, to make Nuno happy
-    // this is not configurable.
-    //_bgcontrast = 1.0;
-    _bgcontrast = 0.9;
+    // background contrast is calculated so that it is 0.9
+    // when KGlobalSettings contrast value of 0.7
+    _bgcontrast = qMin(1.0, 0.9*_contrast/0.7);
 
     m_backgroundCache.setMaxCost(64);
     m_windecoButtonCache.setMaxCost(64);
@@ -62,13 +61,16 @@ KSharedConfigPtr OxygenHelper::config() const
 //____________________________________________________________________
 void OxygenHelper::reloadConfig()
 {
+
     qreal old_contrast = _contrast;
 
     _config->reparseConfiguration();
     _contrast = KGlobalSettings::contrastF(_config);
+    _bgcontrast = qMin(1.0, 0.9*_contrast/0.7);
 
     // contrast changed, invalidate our caches
     if( _contrast != old_contrast ) invalidateCaches();
+
 }
 
 //____________________________________________________________________
@@ -195,18 +197,19 @@ QColor OxygenHelper::calcShadowColor(const QColor &color) const
 QColor OxygenHelper::backgroundColor(const QColor &color, int height, int y)
 {
 
-    qreal h = height * 0.5;
-    if (y > height>>1)
+    qreal h = 0.5*qMin(300, 3*height/4);
+    if( y < h )
     {
 
         qreal a = qreal(y) / h;
         return KColorUtils::mix(backgroundTopColor(color), color, a);
 
-    } else {
+    } else if( y < 2*h ) {
 
         qreal a = (qreal(y) - h) / h;
         return KColorUtils::mix(color, backgroundBottomColor(color), a);
-    }
+
+    } else return backgroundBottomColor(color);
 
 }
 
