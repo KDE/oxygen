@@ -204,7 +204,11 @@ class OxygenStyle : public KStyle
     };
 
     //! menu item
-    void renderMenuItemRect( const QStyleOption*, const QRect&, const QPalette&, QPainter* p, qreal opacity = -1 ) const;
+    void renderMenuItemRect( const QStyleOption* opt, const QRect& rect, const QPalette& pal, QPainter* p, qreal opacity = -1 ) const
+    { renderMenuItemRect( opt, rect, pal.color(QPalette::Window), p, opacity ); }
+
+    //! menu item
+    void renderMenuItemRect( const QStyleOption*, const QRect&, const QColor&, const QPalette&, QPainter* p, qreal opacity = -1 ) const;
 
     //! slab glowing color
     QColor slabShadowColor( QColor color, StyleOptions opts, qreal opacity, Oxygen::AnimationMode mode ) const;

@@ -929,8 +929,12 @@ bool OxygenStyle::drawMenuPrimitive(
             bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Previous ) );
             QRect previousRect( animations().menuEngine().currentRect( widget, Oxygen::Previous ) );
             qreal opacity(  animations().menuEngine().opacity( widget, Oxygen::Previous ) );
+
             if( animated && previousRect.intersects( r ) )
-            { renderMenuItemRect( opt, previousRect, pal, p, opacity ); }
+            {
+                QColor color( _helper.backgroundColor( pal.color( QPalette::Window ), widget, previousRect.center() ) );
+                renderMenuItemRect( opt, previousRect, color, pal, p, opacity );
+            }
 
             return true;
 
@@ -978,8 +982,9 @@ bool OxygenStyle::drawMenuItemPrimitive(
             if (enabled)
             {
 
-                if( animated && intersected ) renderMenuItemRect( opt, r, pal, p, animations().menuEngine().opacity( widget, Oxygen::Current ) );
-                else renderMenuItemRect( opt, r, pal, p );
+                QColor color( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
+                if( animated && intersected ) renderMenuItemRect( opt, r, color, pal, p, animations().menuEngine().opacity( widget, Oxygen::Current ) );
+                else renderMenuItemRect( opt, r, color, pal, p );
 
             } else drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
 
@@ -2384,7 +2389,8 @@ bool OxygenStyle::drawGroupBoxPrimitive(
     {
         case Generic::Frame:
         {
-            QColor color = pal.color(QPalette::Window);
+
+            QColor color( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
 
             p->save();
             p->setRenderHint(QPainter::Antialiasing);
@@ -2400,7 +2406,7 @@ bool OxygenStyle::drawGroupBoxPrimitive(
             p->setClipRect(r.adjusted(0, 0, 0, -19));
             _helper.fillSlab(*p, r);
 
-            TileSet *slopeTileSet = _helper.slope(pal.color(QPalette::Window), 0.0);
+            TileSet *slopeTileSet = _helper.slope( color, 0.0);
             p->setClipping(false);
             slopeTileSet->render(r, p);
 
@@ -3226,7 +3232,7 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
 }
 
 //__________________________________________________________________________
-void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, const QPalette& pal, QPainter* p, qreal opacity ) const
+void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, const QColor& base, const QPalette& pal, QPainter* p, qreal opacity ) const
 {
 
     if( opacity == 0 ) return;
@@ -3236,7 +3242,7 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
     QPainter pp(&pm);
     QRect rr(QPoint(0,0), r.size());
 
-    QColor color = pal.color(QPalette::Window);
+    QColor color(base);
     if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
     {
 
@@ -3246,7 +3252,6 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
 
         color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
 
-    //} else  color = _helper.calcMidColor( _helper.backgroundBottomColor( color ) );
     } else  color = _helper.calcDarkColor( color );
 
     pp.setRenderHint(QPainter::Antialiasing);
