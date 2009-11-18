@@ -54,7 +54,7 @@ namespace Oxygen
         virtual ~GenericData( void )
         {}
 
-        //! return timeLine
+        //! return animation object
         virtual const Animation::Pointer& animation() const
         { return animation_; }
 
