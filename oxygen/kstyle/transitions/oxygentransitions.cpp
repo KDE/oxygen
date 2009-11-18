@@ -50,13 +50,13 @@ namespace Oxygen
         // enability
         comboBoxEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::labelTransitionsEnabled() );
         labelEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::labelTransitionsEnabled() );
-        lineEditEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::labelTransitionsEnabled() );
+        lineEditEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::lineEditTransitionsEnabled() );
         stackedWidgetEngine().setEnabled( animationsEnabled && OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
 
         // durations
         comboBoxEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
         labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
-        lineEditEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
+        lineEditEngine().setDuration( OxygenStyleConfigData::lineEditTransitionsDuration() );
         stackedWidgetEngine().setDuration( OxygenStyleConfigData::stackedWidgetTransitionsDuration() );        labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
 
 
