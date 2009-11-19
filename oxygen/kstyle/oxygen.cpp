@@ -968,6 +968,56 @@ bool OxygenStyle::drawMenuItemPrimitive(
 
         case MenuItem::Separator:
         {
+            // cast option
+            if( const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>(opt) )
+            {
+
+                // check text and icon
+                // separators with non empty text and/or non null icons are rendered like checked checked toolbuttons
+                if( !( menuItemOption->text.isEmpty() && menuItemOption->icon.isNull() ) )
+                {
+
+                    QStyleOptionToolButton toolbuttonOpt;
+                    toolbuttonOpt.features = QStyleOptionToolButton::None;
+                    toolbuttonOpt.state = State_On|State_Sunken|State_Enabled;
+                    toolbuttonOpt.rect = r.adjusted(-2, -3, 2, 2);
+                    toolbuttonOpt.subControls = SC_ToolButton;
+                    toolbuttonOpt.icon =  menuItemOption->icon;
+
+                    QFont font = widget->font();
+                    toolbuttonOpt.font = widget->font();
+                    toolbuttonOpt.font.setBold(true);
+
+                    toolbuttonOpt.iconSize = QSize(
+                        pixelMetric(QStyle::PM_SmallIconSize,0,0),
+                        pixelMetric(QStyle::PM_SmallIconSize,0,0) );
+
+                    // for now menu size is not calculated properly
+                    // (meaning it doesnt account for titled separators width
+                    // as a fallback, we elide the text to be displayed
+                    if( !menuItemOption->text.isEmpty() )
+                    {
+                        int width( r.width() );
+                        if( !menuItemOption->icon.isNull() )
+                        { width -= toolbuttonOpt.iconSize.width() + 2; }
+
+                        width -= 2*widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + MainMargin, &toolbuttonOpt, widget) +
+                            widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Left, &toolbuttonOpt, widget) +
+                            widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Right, &toolbuttonOpt, widget);
+
+                        toolbuttonOpt.text = QFontMetrics( toolbuttonOpt.font )
+                            .elidedText( menuItemOption->text, Qt::ElideRight, width );
+                    }
+
+                    toolbuttonOpt.toolButtonStyle = Qt::ToolButtonTextBesideIcon;
+                    drawComplexControl( CC_ToolButton, &toolbuttonOpt, p, widget );
+                    return true;
+
+                }
+
+            }
+
+            // in all other cases draw regular separator
             QColor color( _helper.menuBackgroundColor( pal.color(QPalette::Window), widget, r.center() ) );
             _helper.drawSeparator(p, r, color, Qt::Horizontal);
             return true;
@@ -4830,6 +4880,35 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
 
                 return QSize(width, height);
             }
+        }
+
+
+        // separators
+        case CT_MenuItem:
+        {
+
+            if( const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>(option) )
+            {
+                if( menuItemOption->menuItemType == QStyleOptionMenuItem::Separator )
+                {
+
+                    // separator can have a title and an icon
+                    // in that case they are rendered as menubar 'title', which
+                    // corresponds to checked toolbuttons.
+                    // a rectangle identical to the one of normal items is returned.
+                    if( !( menuItemOption->text.isEmpty() && menuItemOption->icon.isNull() ) )
+                    {
+                        QStyleOptionMenuItem local( *menuItemOption );
+                        local.menuItemType = QStyleOptionMenuItem::Normal;
+                        return sizeFromContents( type, &local, contentsSize, widget );
+                    }
+
+                }
+            }
+
+            // in all other cases the default behavior is good enough
+            break;
+
         }
 
         default: break;
