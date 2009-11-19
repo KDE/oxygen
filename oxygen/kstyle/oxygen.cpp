@@ -2390,7 +2390,8 @@ bool OxygenStyle::drawGroupBoxPrimitive(
         case Generic::Frame:
         {
 
-            QColor color( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
+            QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
+            QColor color( base );
 
             p->save();
             p->setRenderHint(QPainter::Antialiasing);
@@ -2406,7 +2407,7 @@ bool OxygenStyle::drawGroupBoxPrimitive(
             p->setClipRect(r.adjusted(0, 0, 0, -19));
             _helper.fillSlab(*p, r);
 
-            TileSet *slopeTileSet = _helper.slope( color, 0.0);
+            TileSet *slopeTileSet = _helper.slope( base, 0.0);
             p->setClipping(false);
             slopeTileSet->render(r, p);
 
