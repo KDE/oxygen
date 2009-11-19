@@ -932,7 +932,7 @@ bool OxygenStyle::drawMenuPrimitive(
 
             if( animated && previousRect.intersects( r ) )
             {
-                QColor color( _helper.backgroundColor( pal.color( QPalette::Window ), widget, previousRect.center() ) );
+                QColor color( _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, previousRect.center() ) );
                 renderMenuItemRect( opt, previousRect, color, pal, p, opacity );
             }
 
@@ -968,7 +968,8 @@ bool OxygenStyle::drawMenuItemPrimitive(
 
         case MenuItem::Separator:
         {
-            _helper.drawSeparator(p, r, pal.color(QPalette::Window), Qt::Horizontal);
+            QColor color( _helper.menuBackgroundColor( pal.color(QPalette::Window), widget, r.center() ) );
+            _helper.drawSeparator(p, r, color, Qt::Horizontal);
             return true;
         }
 
@@ -982,7 +983,7 @@ bool OxygenStyle::drawMenuItemPrimitive(
             if (enabled)
             {
 
-                QColor color( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
+                QColor color( _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
                 if( animated && intersected ) renderMenuItemRect( opt, r, color, pal, p, animations().menuEngine().opacity( widget, Oxygen::Current ) );
                 else renderMenuItemRect( opt, r, color, pal, p );
 
@@ -1007,7 +1008,6 @@ bool OxygenStyle::drawMenuItemPrimitive(
         {
             // always draw in window text color due to fade-out
             extractOption<KStyle::ColorOption*>(kOpt)->color = QPalette::WindowText;
-            // fall through to lower handler
             return false;
         }
 

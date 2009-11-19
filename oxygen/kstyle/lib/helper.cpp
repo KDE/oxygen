@@ -194,6 +194,33 @@ QColor OxygenHelper::calcShadowColor(const QColor &color) const
 }
 
 //____________________________________________________________________
+QColor OxygenHelper::menuBackgroundColor(const QColor &color, const QWidget* w, const QPoint& point ) const
+{
+    if( !( w && w->window() ) ) return color;
+    else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
+}
+
+//____________________________________________________________________
+QColor OxygenHelper::menuBackgroundColor(const QColor &color, int height, int y) const
+{
+
+    qreal h = 0.5*height;
+    if( y < h )
+    {
+
+        qreal a = qreal(y) / h;
+        return KColorUtils::mix(backgroundTopColor(color), color, a);
+
+    } else {
+
+        qreal a = (qreal(y) - h) / h;
+        return KColorUtils::mix(color, backgroundBottomColor(color), a);
+
+    }
+
+}
+
+//____________________________________________________________________
 QColor OxygenHelper::backgroundColor(const QColor &color, const QWidget* w, const QPoint& point ) const
 {
     if( !( w && w->window() ) ) return color;
