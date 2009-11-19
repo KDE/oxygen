@@ -130,7 +130,6 @@
       <default>150</default>
     </entry>  
 
-
     <entry name="LineEditTransitionsDuration" type="Int">
       <default>150</default>
     </entry>  
