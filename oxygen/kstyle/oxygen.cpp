@@ -5626,7 +5626,9 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
                     _helper.renderWindowBackground(&p, r, dw, color);
 
-                    TileSet *tileSet = _helper.dockFrame(color, r.width());
+                    // adjust color
+                    QColor local( _helper.backgroundColor( color, dw, r.center() ) );
+                    TileSet *tileSet = _helper.dockFrame(local, r.width());
                     tileSet->render(r, &p);
 
                 }
@@ -5650,7 +5652,6 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
                 QPainter p(tb);
                 p.setClipRegion(((QPaintEvent*)ev)->region());
-
                 renderSlab(&p, r, tb->palette().color(QPalette::Button), opts);
             }
         }
