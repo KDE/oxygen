@@ -28,6 +28,7 @@
 
 #include "../lib/oxygenanimation.h"
 
+#include <QtCore/QPointer>
 #include <QtGui/QWidget>
 
 namespace Oxygen
