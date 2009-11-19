@@ -41,6 +41,8 @@ namespace Oxygen
         connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( initializeAnimation() ) );
         connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( animate() ) );
 
+        setMaxRenderTime( 50 );
+
     }
 
     //___________________________________________________________________
