@@ -84,11 +84,25 @@ public:
     virtual QColor calcDarkColor(const QColor &color) const;
     virtual QColor calcShadowColor(const QColor &color) const;
 
-    virtual QColor backgroundColor(const QColor &color, const QWidget*, const QPoint& = QPoint(0,0) ) const;
-    virtual QColor backgroundColor(const QColor &color, int height, int y) const;
 
-    virtual QColor menuBackgroundColor(const QColor &color, const QWidget*, const QPoint& = QPoint(0,0) ) const;
-    virtual QColor menuBackgroundColor(const QColor &color, int height, int y) const;
+
+    virtual QColor menuBackgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
+    {
+        if( !( w && w->window() ) ) return color;
+        else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
+    }
+
+    virtual QColor menuBackgroundColor(const QColor &color, int height, int y)
+    { return cachedBackgroundColor( color, qreal(y)/height ); }
+
+    virtual QColor backgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
+    {
+        if( !( w && w->window() ) ) return color;
+        else return backgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
+    }
+
+    virtual QColor backgroundColor(const QColor &color, int height, int y)
+    { return cachedBackgroundColor( color, qMin( 1.0, qreal(y)/qMin(300, 3*height/4) ) ); }
 
     virtual QColor backgroundRadialColor(const QColor &color) const;
     virtual QColor backgroundTopColor(const QColor &color) const;
@@ -128,11 +142,15 @@ public:
     virtual TileSet *outerGlow(const QColor&, int size = 7);
 
     protected:
+
     virtual void drawSlab(QPainter&, const QColor&, qreal shade) const;
     virtual void drawShadow(QPainter&, const QColor&, int size) const;
     virtual void drawOuterGlow(QPainter&, const QColor&, int size) const;
 
     virtual SlabCache* slabCache(const QColor&);
+
+    //! return background adjusted color matching relative vertical position in window
+    QColor cachedBackgroundColor( const QColor&, qreal ratio );
 
     static const qreal _glowBias;
     static const qreal _slabThickness;
@@ -143,6 +161,7 @@ public:
     qreal _contrast;
     qreal _bgcontrast;
 
+    QCache<quint64, QColor> m_backgroundColorCache;
     QCache<quint64, SlabCache> m_slabCache;
 
     QCache<quint64, QPixmap> m_backgroundCache;

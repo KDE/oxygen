@@ -119,6 +119,7 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
 void OxygenHelper::invalidateCaches()
 {
     m_slabCache.clear();
+    m_backgroundColorCache.clear();
     m_backgroundCache.clear();
     m_windecoButtonCache.clear();
     m_windecoButtonGlowCache.clear();
@@ -194,58 +195,34 @@ QColor OxygenHelper::calcShadowColor(const QColor &color) const
 }
 
 //____________________________________________________________________
-QColor OxygenHelper::menuBackgroundColor(const QColor &color, const QWidget* w, const QPoint& point ) const
-{
-    if( !( w && w->window() ) ) return color;
-    else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
-}
-
-//____________________________________________________________________
-QColor OxygenHelper::menuBackgroundColor(const QColor &color, int height, int y) const
+QColor OxygenHelper::cachedBackgroundColor(const QColor &color, qreal ratio)
 {
 
-    qreal h = 0.5*height;
-    if( y < h )
+    quint64 key = (quint64(color.rgba()) << 32) | int(ratio*512);
+    QColor *out = m_backgroundColorCache.object(key);
+    if( !out )
     {
+        if( ratio < 0.5 )
+        {
 
-        qreal a = qreal(y) / h;
-        return KColorUtils::mix(backgroundTopColor(color), color, a);
+            qreal a = 2.0*ratio;
+            out = new QColor( KColorUtils::mix(backgroundTopColor(color), color, a) );
 
-    } else {
+        } else {
 
-        qreal a = (qreal(y) - h) / h;
-        return KColorUtils::mix(color, backgroundBottomColor(color), a);
+            qreal a = 2.0*ratio-1;
+            out = new QColor( KColorUtils::mix(color, backgroundBottomColor(color), a) );
+
+        }
+
+        m_backgroundColorCache.insert(key, out );
 
     }
 
-}
-
-//____________________________________________________________________
-QColor OxygenHelper::backgroundColor(const QColor &color, const QWidget* w, const QPoint& point ) const
-{
-    if( !( w && w->window() ) ) return color;
-    else return backgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
-}
-
-//____________________________________________________________________
-QColor OxygenHelper::backgroundColor(const QColor &color, int height, int y) const
-{
-
-    qreal h = 0.5*qMin(300, 3*height/4);
-    if( y < h )
-    {
-
-        qreal a = qreal(y) / h;
-        return KColorUtils::mix(backgroundTopColor(color), color, a);
-
-    } else if( y < 2*h ) {
-
-        qreal a = (qreal(y) - h) / h;
-        return KColorUtils::mix(color, backgroundBottomColor(color), a);
-
-    } else return backgroundBottomColor(color);
+    return *out;
 
 }
+
 
 //____________________________________________________________________
 QPixmap OxygenHelper::verticalGradient(const QColor &color, int height)
