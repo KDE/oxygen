@@ -68,7 +68,8 @@ namespace Oxygen
     {
 
         // change rect
-        if( rect.isNull() ) rect = widget->rect();
+        if( !rect.isValid() ) rect = widget->rect();
+        if( !rect.isValid() ) return QPixmap();
 
         // initialize pixmap
         QPixmap out( rect.size() );
@@ -81,7 +82,6 @@ namespace Oxygen
             rect = rect.translated( widget->mapTo( widget->window(), widget->rect().topLeft() ) );
             widget = widget->window();
             out = QPixmap::grabWidget( widget, rect );
-
 
         } else {
 
@@ -145,7 +145,7 @@ namespace Oxygen
     //________________________________________________
     void TransitionWidget::grabBackground( QPixmap& pixmap, QWidget* widget, QRect& rect ) const
     {
-        if (!widget) return;
+        if( !widget ) return;
 
         QWidgetList widgets;
         if( widget->autoFillBackground() )
@@ -157,7 +157,9 @@ namespace Oxygen
         for( parent = widget->parentWidget(); parent; parent = parent->parentWidget() )
         {
 
-            if( !parent->isVisible()) continue;
+            if( !( parent->isVisible() && parent->rect().isValid() ) ) continue;
+
+            // store in list
             widgets.push_back( parent );
 
             // stop at topLevel
