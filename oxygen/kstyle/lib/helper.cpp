@@ -92,17 +92,26 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
         p->save();
         p->setClipRegion(clipRect,Qt::IntersectClip);
     }
+
+    // calculate upper part height
+    // special tricks are needed
+    // to handle both window contents and window decoration
     QRect r = window->rect();
     QColor color = pal.color(window->backgroundRole());
-    int splitY = qMin(300, 3*r.height()/4);
+    int height = window->frameGeometry().height();
+    if( y_shift > 0 ) height -= 2*y_shift;
+    int splitY = qMin(300, (3*height)/4);
 
+    // draw upper linear gradient
     QRect upperRect = QRect(-x, -y, r.width(), splitY);
     QPixmap tile = verticalGradient(color, splitY);
     p->drawTiledPixmap(upperRect, tile);
 
+    // draw lower flat part
     QRect lowerRect = QRect(-x, splitY-y, r.width(), r.height() - splitY-y_shift);
     p->fillRect(lowerRect, backgroundBottomColor(color));
 
+    // draw upper radial gradient
     int radialW = qMin(600, r.width());
     QRect radialRect = QRect((r.width() - radialW) / 2-x, -y, radialW, gradientHeight);
     if (clipRect.intersects(radialRect))
@@ -112,7 +121,7 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
      }
 
     if (clipRect.isValid())
-        p->restore();
+    { p->restore(); }
 }
 
 //____________________________________________________________________
