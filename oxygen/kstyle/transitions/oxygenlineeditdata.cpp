@@ -29,6 +29,8 @@
 
 #include <QtCore/QEvent>
 #include <QtCore/QTextStream>
+#include <QtGui/QStyle>
+#include <QtGui/QStyleOptionFrameV2>
 
 namespace Oxygen
 {
@@ -50,14 +52,15 @@ namespace Oxygen
     bool LineEditData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !( enabled() && object == target_.data() ) )
+        if( !( enabled() && object && object == target_ ) )
         { return TransitionData::eventFilter( object, event ); }
 
-        switch( event->type() )
+        switch ( event->type() )
         {
-            case QEvent::Paint:
-            if( transition().data()->endPixmap().isNull() )
-            { timer_.start( 0, this ); }
+            case QEvent::Show:
+            case QEvent::Resize:
+            case QEvent::Move:
+            timer_.start( 0, this );
             break;
 
             default: break;
@@ -74,7 +77,7 @@ namespace Oxygen
         {
 
             timer_.stop();
-            if( target_ )
+            if( target_ && target_.data()->isVisible() )
             { transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) ); }
 
         } else return QObject::timerEvent( event );
@@ -82,15 +85,9 @@ namespace Oxygen
     }
 
     //___________________________________________________________________
-    void LineEditData::textEdited( const QString& )
+    void LineEditData::textChanged( const QString& value )
     {
-        edited_ = true;
-        timer_.start( 50, this );
-    }
 
-    //___________________________________________________________________
-    void LineEditData::textChanged( const QString& )
-    {
         // check wether text change was triggered manually
         // in which case do not start transition
         if( edited_ )
@@ -110,22 +107,24 @@ namespace Oxygen
         transition().data()->setOpacity(0);
         transition().data()->setGeometry( targetRect() );
         transition().data()->setStartPixmap( transition().data()->endPixmap() );
-        transition().data()->show();
-        transition().data()->raise();
-        return true;
+        bool valid( !transition().data()->startPixmap().isNull() );
+
+        if( valid )
+        {
+            transition().data()->show();
+            transition().data()->raise();
+        }
+
+        transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
+        return valid;
+
     }
 
     //___________________________________________________________________
     bool LineEditData::animate( void )
     {
-
-        if( !enabled() ) return false;
-
-        // check enability
-        transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
         transition().data()->animate();
         return true;
-
     }
 
 }

@@ -37,11 +37,13 @@
 namespace Oxygen
 {
 
+    bool TransitionWidget::paintEnabled_ = true;
+
     //________________________________________________
     TransitionWidget::TransitionWidget( QWidget* parent, int duration ):
         QWidget( parent ),
         flags_( None ),
-        paintEnabled_( true ),
+        //paintEnabled_( true ),
         animation_( new Animation( duration, this ) ),
         opacity_(0)
     {

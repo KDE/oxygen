@@ -184,7 +184,7 @@ namespace Oxygen
         Flags flags_;
 
         //! paint enabled
-        bool paintEnabled_;
+        static bool paintEnabled_;
 
         //! internal transition animation
         Animation::Pointer animation_;

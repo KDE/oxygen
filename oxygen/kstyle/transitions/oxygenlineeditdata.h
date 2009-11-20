@@ -52,16 +52,21 @@ namespace Oxygen
         {}
 
         //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
+        bool eventFilter( QObject*, QEvent* );
 
         protected slots:
 
         //! text edited
-        virtual void textEdited( const QString& );
+        virtual void textEdited( const QString& )
+        {
+            edited_ = true;
+            timer_.start( 0, this );
+        }
+
 
         //! selection changed
         virtual void selectionChanged( void )
-        { timer_.start( 50, this ); }
+        { timer_.start( 0, this ); }
 
         //! text changed
         virtual void textChanged( const QString& );
