@@ -1048,8 +1048,7 @@ bool OxygenStyle::drawMenuItemPrimitive(
             QPalette::ColorRole role( QPalette::WindowText );
             if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
             { role = QPalette::HighlightedText; }
-            drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled,
-                textOpts->text, role);
+            drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled, textOpts->text, role);
             return true;
         }
 
@@ -1065,25 +1064,29 @@ bool OxygenStyle::drawMenuItemPrimitive(
 
         case MenuItem::CheckOn:
         {
-            renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOn, true);
+            QPalette local( pal );
+            local.setColor( QPalette::Window, _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, r.topLeft() ) );
+            renderCheckBox(p, r.adjusted(2,-2,2,2), local, enabled, false, mouseOver, CheckBox::CheckOn, true);
             return true;
         }
 
         case MenuItem::CheckOff:
         {
-            renderCheckBox(p, r.adjusted(2,-2,2,2), pal, enabled, false, mouseOver, CheckBox::CheckOff, true);
+            QPalette local( pal );
+            local.setColor( QPalette::Window, _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, r.topLeft() ) );
+            renderCheckBox(p, r.adjusted(2,-2,2,2), local, enabled, false, mouseOver, CheckBox::CheckOff, true);
             return true;
         }
 
         case MenuItem::RadioOn:
         {
-            renderRadioButton(p, r, pal, enabled, false, mouseOver, RadioButton::RadioOn, true);
+            renderRadioButton(p, r.adjusted(2,-1,2,2), pal, enabled, false, mouseOver, RadioButton::RadioOn, true);
             return true;
         }
 
         case MenuItem::RadioOff:
         {
-            renderRadioButton(p, r, pal, enabled, false, mouseOver, RadioButton::RadioOff, true);
+            renderRadioButton(p, r.adjusted(2,-1,2,2), pal, enabled, false, mouseOver, RadioButton::RadioOff, true);
             return true;
         }
 
@@ -3311,7 +3314,7 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
     pp.setBrush(color);
     _helper.fillHole(pp, rr);
 
-    _helper.holeFlat(color, 0.0)->render(rr.adjusted(2,2,-2,-2), &pp);
+    _helper.holeFlat(color, 0.0)->render(rr.adjusted( 1, 2, -2, -1 ), &pp);
 
     QRect maskr( visualRect(opt->direction, rr, QRect(rr.width()-40, 0, 40,rr.height())) );
     QLinearGradient gradient(
@@ -3756,15 +3759,8 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
     if (hasFocus) opts |= Focus;
     if (mouseOver) opts |= Hover;
 
-    if(sunken)
-    {
-        QColor color = pal.color(QPalette::Window);
-        _helper.holeFlat(color, 0.0)->render(r, p, TileSet::Full);
-    }
-    else
-    {
-        renderSlab(p, r, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Ring );
-    }
+    if(sunken) _helper.holeFlat(pal.color(QPalette::Window), 0.0)->render(r, p, TileSet::Full);
+    else renderSlab(p, r, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Ring );
 
     // check mark
     double x = r.center().x() - 3.5, y = r.center().y() - 2.5;
