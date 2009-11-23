@@ -114,8 +114,7 @@ OxygenStyle::OxygenStyle() :
     // call the slot directly; this initial call will set up things that also
     // need to be reset when the system palette changes
     globalSettingsChange(KGlobalSettings::PaletteChanged, 0);
-
-    setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 1);
+    setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 0);
 
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
@@ -280,7 +279,8 @@ bool OxygenStyle::drawGroupBoxComplexControl( const QStyleOptionComplex *option,
             painter->setFont(oldFont);
             return true;
         }
-    }
+
+        }
 
     return false;
 }
@@ -3007,7 +3007,7 @@ bool OxygenStyle::drawGenericPrimitive(
 
             } else if(widgetType == WT_Generic && (flags & State_Raised)) {
 
-                renderSlab(p, r.adjusted(-2, -2, 2, 2), pal.color(QPalette::Background), NoFill);
+                renderSlab(p, r.adjusted(-1, -1, 1, 1), pal.color(QPalette::Background), NoFill);
 
             }
 
