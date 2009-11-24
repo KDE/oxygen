@@ -880,11 +880,11 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
                 if( animated && current ) {
 
                     color = KColorUtils::mix( pal.color(QPalette::Window), color, opacity );
-                    _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
+                    _helper.holeFlat(color, 0.0)->render(r.adjusted(1,1,-1,-1), p, TileSet::Full);
 
                 } else if( active ) {
 
-                    _helper.holeFlat(color, 0.0)->render(r.adjusted(2,2,-2,-2), p, TileSet::Full);
+                    _helper.holeFlat(color, 0.0)->render(r.adjusted(1,1,-1,-1), p, TileSet::Full);
 
                 }
 
