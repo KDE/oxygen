@@ -34,6 +34,7 @@ DEALINGS IN THE SOFTWARE.
 #include <KSharedConfig>
 #include <KConfigGroup>
 #include <kdemacros.h>
+#include <KDialog>
 
 #define SCROLLBAR_DEFAULT_WIDTH 15
 #define SCROLLBAR_MINIMUM_WIDTH 10
@@ -51,6 +52,10 @@ extern "C"
 OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
 {
     KGlobal::locale()->insertCatalog("kstyle_config");
+
+    if( KDialog* dialog = qobject_cast<KDialog*>( parent ) )
+    { dialog->showButtonSeparator( false ); }
+
 
     /* Stop 1+2: Set up the UI */
     setupUi(this);
