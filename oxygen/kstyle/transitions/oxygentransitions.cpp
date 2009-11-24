@@ -70,7 +70,9 @@ namespace Oxygen
 
         if( QLabel* label = qobject_cast<QLabel*>( widget ) ) {
 
-            return labelEngine().registerWidget( label );
+            // do not animate labels from tooltips
+            if( !( widget->parentWidget() && ( widget->parentWidget()->windowFlags() & Qt::ToolTip ) ) )
+            { return labelEngine().registerWidget( label ); }
 
         } else if( QComboBox* comboBox = qobject_cast<QComboBox*>( widget ) ) {
 
