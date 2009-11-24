@@ -4782,9 +4782,12 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
         case PM_ButtonMargin: return 5;
 
         case PM_DefaultFrameWidth:
-            if (qobject_cast<const QLineEdit*>(widget)) return 4;
-            if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget)) return 3;
-            //else fall through
+        if (qobject_cast<const QLineEdit*>(widget)) return 4;
+        if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget)) return 3;
+        //else fall through
+
+        // no spacing between widget and scrollbars
+        case PM_ScrollView_ScrollBarSpacing: return 0;
 
         default: return KStyle::pixelMetric(m,opt,widget);
     }
