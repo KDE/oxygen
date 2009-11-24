@@ -115,7 +115,7 @@ OxygenStyle::OxygenStyle() :
     // need to be reset when the system palette changes
     globalSettingsChange(KGlobalSettings::PaletteChanged, 0);
 
-    setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 1);
+    setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 0);
 
     // TODO: change this when double buttons are implemented
     setWidgetLayoutProp(WT_ScrollBar, ScrollBar::DoubleBotButton, true);
@@ -5063,10 +5063,6 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                 QStyleOptionTab tabopt;
                 tabopt.shape = twf->shape;
                 int overlap = pixelMetric(PM_TabBarBaseOverlap, &tabopt, widget);
-
-                // this line is what causes the differences between drawing corner widgets in KStyle and drawing them in Qt
-                // TODO: identify where the lineWidth difference come from
-                if (twf->lineWidth == 0) overlap += 1;
 
                 switch (twf->shape)
                 {
