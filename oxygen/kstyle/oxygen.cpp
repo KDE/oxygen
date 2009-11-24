@@ -4787,7 +4787,7 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
         //else fall through
 
         // no spacing between widget and scrollbars
-        case PM_ScrollView_ScrollBarSpacing: return 0;
+        // case PM_ScrollView_ScrollBarSpacing: return 0;
 
         default: return KStyle::pixelMetric(m,opt,widget);
     }
