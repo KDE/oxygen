@@ -4786,8 +4786,8 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
         if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget)) return 3;
         //else fall through
 
-        // no spacing between widget and scrollbars
-        // case PM_ScrollView_ScrollBarSpacing: return 0;
+        // spacing between widget and scrollbars
+        case PM_ScrollView_ScrollBarSpacing: return 1;
 
         default: return KStyle::pixelMetric(m,opt,widget);
     }
@@ -5045,19 +5045,6 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
             return  QCommonStyle::subElementRect(sr, opt, widget).adjusted( 6, 0, -6, 0 ).translated( 0, voffset );
 
         }
-
-        case SE_TabWidgetTabContents:
-        {
-
-            QRect r( KStyle::subElementRect( sr, opt, widget) );
-
-            // adjust rect for contents to handle margins
-            if (const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
-            { if( twf->lineWidth > 0) r.adjust( -2, 0, 2, 0); }
-            return r;
-
-        }
-
 
         case SE_TabWidgetTabPane:
         {
