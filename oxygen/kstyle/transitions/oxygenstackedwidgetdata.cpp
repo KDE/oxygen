@@ -49,11 +49,24 @@ namespace Oxygen
     bool StackedWidgetData::initializeAnimation( void )
     {
 
+        // unless everything is right, animation is aborted
+        setAborted( true );
+
         // check enability
-        if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
+        if( !( enabled() && target_ && target_.data()->isVisible() ) )
+        { return false; }
 
         // check index
-        if( target_.data()->currentIndex() == index_ ) return false;
+        if( target_.data()->currentIndex() == index_ )
+        { return false; }
+
+        // do not animate if either index or currentIndex is not valid
+        // but update index_ none the less
+        if( target_.data()->currentIndex() < 0 || index_ < 0 )
+        {
+            index_ = target_.data()->currentIndex();
+            return false;
+        }
 
         // get old widget (matching index_) and initialize transition
         if( QWidget *widget = target_.data()->widget( index_ ) )
@@ -66,11 +79,15 @@ namespace Oxygen
             transition().data()->setStartPixmap( transition().data()->grab( widget ) );
             if( slow() ) setAborted( true );
 
-        } else setAborted( true );
+            index_ = target_.data()->currentIndex();
+            return true;
 
-        // update index
-        index_ = target_.data()->currentIndex();
-        return true;
+        } else {
+
+            index_ = target_.data()->currentIndex();
+            return false;
+
+        }
 
     }
 
@@ -105,6 +122,9 @@ namespace Oxygen
             target_.data()->currentWidget()->setUpdatesEnabled( true );
             target_.data()->currentWidget()->repaint();
         }
+
+        // invalidate start widget
+        transition().data()->resetStartPixmap();
 
     }
 
