@@ -5050,7 +5050,7 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
         {
             // there is something wrong with KStyle::subElementRect.
             // Fallback to QStyle value
-            return QCommonStyle::subElementRect( sr, opt, widget );
+            // return QCommonStyle::subElementRect( sr, opt, widget );
         }
 
         case SE_TabWidgetTabPane:
