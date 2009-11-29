@@ -4910,6 +4910,19 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
 
         }
 
+        case CT_TabWidget:
+        {
+
+            const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>(option);
+            if( qstyleoption_cast<const QStyleOptionTabWidgetFrame*>(option) ) return KStyle::sizeFromContents( type, option, contentsSize, widget );
+            else {
+                QStyleOptionTabWidgetFrame tabOpt;
+                if( widget  ) tabOpt.initFrom( widget );
+                tabOpt.shape = QTabBar::RoundedNorth;
+                return KStyle::sizeFromContents( type, &tabOpt, contentsSize, widget );
+            }
+        }
+
         default: break;
     }
     return KStyle::sizeFromContents(type, option, contentsSize, widget);
