@@ -91,6 +91,11 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
         0);
 
     _stackedWidgetTransitionsEnabled->setChecked( OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
+    _stackedWidgetTransitionsEnabled->setEnabled( false );
+
+    connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
+    _animationsEnabled->setChecked( OxygenStyleConfigData::animationsEnabled() );
 
     /* Stop 4: Emit a signal on changes */
     connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
@@ -127,6 +132,8 @@ void OxygenStyleConfig::save()
     OxygenStyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
     OxygenStyleConfigData::setMenuHighlightMode( menuMode() );
     OxygenStyleConfigData::setTabStyle( tabStyle() );
+
+    OxygenStyleConfigData::setAnimationsEnabled( _animationsEnabled->isChecked() );
     OxygenStyleConfigData::setStackedWidgetTransitionsEnabled( _stackedWidgetTransitionsEnabled->isChecked() );
 
     OxygenStyleConfigData::self()->writeConfig();
@@ -147,6 +154,7 @@ void OxygenStyleConfig::defaults()
     _menuHighlightDark->setChecked(true);
     _tabStyle->setCurrentIndex(0);
 
+    _animationsEnabled->setChecked( true );
     _stackedWidgetTransitionsEnabled->setChecked( false );
 
 }
@@ -165,6 +173,7 @@ void OxygenStyleConfig::updateChanged()
         && ((_checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK) == OxygenStyleConfigData::checkBoxStyle())
         && (menuMode() == OxygenStyleConfigData::menuHighlightMode())
         && (tabStyle() == OxygenStyleConfigData::tabStyle())
+        && (_animationsEnabled->isChecked() == OxygenStyleConfigData::animationsEnabled() )
         && (_stackedWidgetTransitionsEnabled->isChecked() == OxygenStyleConfigData::stackedWidgetTransitionsEnabled() )
         )
         emit changed(false);
