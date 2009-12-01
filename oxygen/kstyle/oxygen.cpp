@@ -3153,6 +3153,9 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAttribute(Qt::WA_TranslucentBackground);
         widget->setContentsMargins(0,0,0,1);
         widget->installEventFilter(this);
+#ifdef Q_WS_WIN
+        widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+#endif
 
     } else if (qobject_cast<QScrollBar*>(widget) ) {
 
@@ -3182,11 +3185,17 @@ void OxygenStyle::polish(QWidget* widget)
 
         widget->installEventFilter(this);
         widget->setAttribute(Qt::WA_TranslucentBackground);
+#ifdef Q_WS_WIN
+        widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+#endif
 
     } else if (widget->inherits("QComboBoxPrivateContainer")) {
 
         widget->installEventFilter(this);
         widget->setAttribute(Qt::WA_TranslucentBackground);
+#ifdef Q_WS_WIN
+        widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+#endif
 
     } else if ( qobject_cast<QFrame*>(widget) ) {
 
