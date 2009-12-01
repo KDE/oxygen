@@ -5620,6 +5620,7 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                     QRect r = dw->rect();
                     QColor color = dw->palette().window().color();
 
+#ifndef Q_WS_WIN
                     if( compositingActive() )
                     {
                         TileSet *tileSet( _helper.roundCorner(color) );
@@ -5628,10 +5629,13 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                         // set clip region
                         p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
                     }
+#endif
 
                     _helper.renderWindowBackground(&p, r, dw, color);
 
+#ifndef Q_WS_WIN
                     if( compositingActive() ) p.setClipping( false );
+#endif
 
                     _helper.drawFloatFrame(&p, r, color);
 
