@@ -90,31 +90,7 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
         OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_PLAIN ? 1 :
         0);
 
-    _genericAnimationsEnabled->setEnabled( false );
-    _toolBarAnimationsEnabled->setEnabled( false );
-    _menuBarAnimationsEnabled->setEnabled( false );
-    _menuAnimationsEnabled->setEnabled( false );
-    _progressBarAnimationsEnabled->setEnabled( false );
-    _stackedWidgetTransitionsEnabled->setEnabled( false );
-    _labelTransitionsEnabled->setEnabled( false );
-
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _genericAnimationsEnabled, SLOT( setEnabled( bool) ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _toolBarAnimationsEnabled, SLOT( setEnabled( bool) ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _menuBarAnimationsEnabled, SLOT( setEnabled( bool) ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _menuAnimationsEnabled, SLOT( setEnabled( bool) ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _progressBarAnimationsEnabled, SLOT( setEnabled( bool) ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _labelTransitionsEnabled, SLOT( setEnabled( bool) ) );
-
-    _animationsEnabled->setChecked( OxygenStyleConfigData::animationsEnabled() );
-    _genericAnimationsEnabled->setChecked( OxygenStyleConfigData::genericAnimationsEnabled() );
-    _toolBarAnimationsEnabled->setChecked( OxygenStyleConfigData::toolBarAnimationsEnabled() );
-    _menuBarAnimationsEnabled->setChecked( OxygenStyleConfigData::menuBarAnimationsEnabled() );
-    _menuAnimationsEnabled->setChecked( OxygenStyleConfigData::menuAnimationsEnabled() );
-    _progressBarAnimationsEnabled->setChecked( OxygenStyleConfigData::progressBarAnimationsEnabled() );
     _stackedWidgetTransitionsEnabled->setChecked( OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
-    _labelTransitionsEnabled->setChecked( OxygenStyleConfigData::labelTransitionsEnabled() );
 
     /* Stop 4: Emit a signal on changes */
     connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
@@ -130,13 +106,7 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     connect( _menuHighlightSubtle, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _tabStyle, SIGNAL( currentIndexChanged( int )), SLOT( updateChanged() ) );
 
-    connect( _genericAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect( _toolBarAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect( _menuBarAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect( _menuAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect( _progressBarAnimationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _stackedWidgetTransitionsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect( _labelTransitionsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
 
  }
 
@@ -157,15 +127,7 @@ void OxygenStyleConfig::save()
     OxygenStyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
     OxygenStyleConfigData::setMenuHighlightMode( menuMode() );
     OxygenStyleConfigData::setTabStyle( tabStyle() );
-
-    OxygenStyleConfigData::setAnimationsEnabled( _animationsEnabled->isChecked() );
-    OxygenStyleConfigData::setGenericAnimationsEnabled( _genericAnimationsEnabled->isChecked() );
-    OxygenStyleConfigData::setToolBarAnimationsEnabled( _toolBarAnimationsEnabled->isChecked() );
-    OxygenStyleConfigData::setMenuBarAnimationsEnabled( _menuBarAnimationsEnabled->isChecked() );
-    OxygenStyleConfigData::setMenuAnimationsEnabled( _menuAnimationsEnabled->isChecked() );
-    OxygenStyleConfigData::setProgressBarAnimationsEnabled( _progressBarAnimationsEnabled->isChecked() );
     OxygenStyleConfigData::setStackedWidgetTransitionsEnabled( _stackedWidgetTransitionsEnabled->isChecked() );
-    OxygenStyleConfigData::setLabelTransitionsEnabled( _labelTransitionsEnabled->isChecked() );
 
     OxygenStyleConfigData::self()->writeConfig();
 }
@@ -185,17 +147,7 @@ void OxygenStyleConfig::defaults()
     _menuHighlightDark->setChecked(true);
     _tabStyle->setCurrentIndex(0);
 
-
-     _animationsEnabled->setChecked( true );
-     _genericAnimationsEnabled->setChecked( true );
-     _toolBarAnimationsEnabled->setChecked( true );
-     _menuBarAnimationsEnabled->setChecked( false );
-     _menuAnimationsEnabled->setChecked( false );
-     _progressBarAnimationsEnabled->setChecked( false );
-     _stackedWidgetTransitionsEnabled->setChecked( false );
-     _labelTransitionsEnabled->setChecked( false );
-
-    //updateChanged would be done by setChecked already
+    _stackedWidgetTransitionsEnabled->setChecked( false );
 
 }
 
@@ -213,14 +165,7 @@ void OxygenStyleConfig::updateChanged()
         && ((_checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK) == OxygenStyleConfigData::checkBoxStyle())
         && (menuMode() == OxygenStyleConfigData::menuHighlightMode())
         && (tabStyle() == OxygenStyleConfigData::tabStyle())
-        && (_animationsEnabled->isChecked() == OxygenStyleConfigData::animationsEnabled() )
-        && (_genericAnimationsEnabled->isChecked() == OxygenStyleConfigData::genericAnimationsEnabled() )
-        && (_toolBarAnimationsEnabled->isChecked() == OxygenStyleConfigData::toolBarAnimationsEnabled() )
-        && (_menuBarAnimationsEnabled->isChecked() == OxygenStyleConfigData::menuBarAnimationsEnabled() )
-        && (_menuAnimationsEnabled->isChecked() == OxygenStyleConfigData::menuAnimationsEnabled() )
-        && (_progressBarAnimationsEnabled->isChecked() == OxygenStyleConfigData::progressBarAnimationsEnabled() )
         && (_stackedWidgetTransitionsEnabled->isChecked() == OxygenStyleConfigData::stackedWidgetTransitionsEnabled() )
-        && (_labelTransitionsEnabled->isChecked() == OxygenStyleConfigData::labelTransitionsEnabled() )
         )
         emit changed(false);
     else

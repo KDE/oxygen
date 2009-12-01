@@ -44,19 +44,6 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <spacer name="verticalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>244</width>
-           <height>97</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="0" column="1">
         <spacer name="horizontalSpacer_6">
          <property name="orientation">
@@ -66,6 +53,19 @@
           <size>
            <width>40</width>
            <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0">
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
           </size>
          </property>
         </spacer>
@@ -158,19 +158,6 @@
          </item>
         </widget>
        </item>
-       <item row="1" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>158</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="0" column="2">
         <spacer name="horizontalSpacer_5">
          <property name="orientation">
@@ -183,6 +170,26 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="2" column="0">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="_stackedWidgetTransitionsEnabled">
+         <property name="text">
+          <string>Animate tab transitions</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -351,111 +358,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>Animations</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0" colspan="2">
-        <widget class="QCheckBox" name="_animationsEnabled">
-         <property name="text">
-          <string>Enable animations</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" rowspan="2">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>55</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="_genericAnimationsEnabled">
-         <property name="text">
-          <string>Animate glow on widget hover</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QCheckBox" name="_toolBarAnimationsEnabled">
-         <property name="text">
-          <string>Animate toolbar hover</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QCheckBox" name="_menuBarAnimationsEnabled">
-         <property name="text">
-          <string>Animate menubar hover</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QCheckBox" name="_menuAnimationsEnabled">
-         <property name="text">
-          <string>Animate menu hover</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <spacer name="verticalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="2">
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="6" column="1">
-        <widget class="QCheckBox" name="_stackedWidgetTransitionsEnabled">
-         <property name="text">
-          <string>Animate tab transitions</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QCheckBox" name="_labelTransitionsEnabled">
-         <property name="text">
-          <string>Animate label transitions</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QCheckBox" name="_progressBarAnimationsEnabled">
-         <property name="text">
-          <string>Animate progress bars</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
     </widget>
    </item>
   </layout>
@@ -481,18 +383,18 @@
  <resources/>
  <connections>
   <connection>
-   <sender>_scrollBarWidthSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>_scrollBarWidth</receiver>
-   <slot>setValue(int)</slot>
+   <sender>_menuHighlightStrong</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>_menuHighlightSubtle</receiver>
+   <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>112</x>
-     <y>275</y>
+     <x>346</x>
+     <y>266</y>
     </hint>
     <hint type="destinationlabel">
-     <x>200</x>
-     <y>275</y>
+     <x>358</x>
+     <y>292</y>
     </hint>
    </hints>
   </connection>
@@ -513,18 +415,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>_menuHighlightStrong</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>_menuHighlightSubtle</receiver>
-   <slot>setEnabled(bool)</slot>
+   <sender>_scrollBarWidthSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>_scrollBarWidth</receiver>
+   <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>346</x>
-     <y>266</y>
+     <x>112</x>
+     <y>275</y>
     </hint>
     <hint type="destinationlabel">
-     <x>358</x>
-     <y>292</y>
+     <x>200</x>
+     <y>275</y>
     </hint>
    </hints>
   </connection>
