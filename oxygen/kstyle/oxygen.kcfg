@@ -110,7 +110,7 @@
 
    <!-- transition flags -->
     <entry name="StackedWidgetTransitionsEnabled" type="Bool">
-      <default>true</default>
+      <default>false</default>
     </entry>
 
     <entry name="LabelTransitionsEnabled" type="Bool">
