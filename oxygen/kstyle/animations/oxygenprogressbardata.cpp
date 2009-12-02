@@ -105,8 +105,9 @@ namespace Oxygen
 
         // start animation only if target is enabled, visible, not running,
         // and if end and start values are different enough
+        // (with end value being larger than start value)
         if( !(target() && target().data()->isEnabled() && target().data()->isVisible()) ) return;
-        if( isRunning || abs(endValue()-startValue()) < 2 ) return;
+        if( isRunning || endValue()-startValue() < 2 ) return;
 
         animation().data()->start();
 
