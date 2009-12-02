@@ -28,6 +28,7 @@
 #include "oxygenlabeldata.moc"
 
 #include <QtCore/QEvent>
+#include <QtCore/QTextStream>
 
 namespace Oxygen
 {
@@ -50,6 +51,13 @@ namespace Oxygen
         if( object != target_ ) return TransitionData::eventFilter( object, event );
         switch( event->type() )
         {
+
+            case QEvent::Show:
+            // at show event, on set the old text to current
+            // to avoid animate the "first" paint event.
+            text_ = target_.data()->text();
+            break;
+
             case QEvent::Paint:
             {
                 if( enabled() && target_ && ( target_.data()->text() != text_ || target_.data()->pixmap() != pixmap_ ) )
