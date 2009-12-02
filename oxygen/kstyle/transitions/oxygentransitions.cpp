@@ -57,7 +57,8 @@ namespace Oxygen
         comboBoxEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
         labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
         lineEditEngine().setDuration( OxygenStyleConfigData::lineEditTransitionsDuration() );
-        stackedWidgetEngine().setDuration( OxygenStyleConfigData::stackedWidgetTransitionsDuration() );        labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
+        stackedWidgetEngine().setDuration( OxygenStyleConfigData::stackedWidgetTransitionsDuration() );
+        labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
 
 
     }
