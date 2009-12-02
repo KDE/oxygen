@@ -2959,7 +2959,7 @@ bool OxygenStyle::drawGenericPrimitive(
             // white reflection
             p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
 
-            qreal offset( qMin( penThickness, 1.0 ) );
+            qreal offset( qMin( penThickness, qreal(1.0)) );
             p->translate(0,offset);
             p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             p->setRenderHint(QPainter::Antialiasing);
@@ -3804,7 +3804,7 @@ void OxygenStyle::renderCheckBox(QPainter *p, const QRect &rect, const QPalette 
 
         p->save();
         p->setRenderHint(QPainter::Antialiasing);
-        qreal offset( qMin( penThickness, 1.0 ) );
+        qreal offset( qMin( penThickness, qreal(1.0) ) );
         if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
         {
 

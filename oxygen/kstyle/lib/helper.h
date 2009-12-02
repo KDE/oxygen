@@ -102,7 +102,7 @@ public:
     }
 
     virtual QColor backgroundColor(const QColor &color, int height, int y)
-    { return cachedBackgroundColor( color, qMin( 1.0, qreal(y)/qMin(300, 3*height/4) ) ); }
+    { return cachedBackgroundColor( color, qMin(qreal(1.0), qreal(y)/qMin(300, 3*height/4) ) ); }
 
     virtual QColor backgroundRadialColor(const QColor &color) const;
     virtual QColor backgroundTopColor(const QColor &color) const;

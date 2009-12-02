@@ -145,7 +145,7 @@ bool OxygenHelper::lowThreshold(const QColor &color)
 QColor OxygenHelper::alphaColor(QColor color, qreal alpha)
 {
     if( alpha >= 0 && alpha < 1.0 )
-    { color.setAlphaF(qMax(0.0, alpha) * color.alphaF()); }
+    { color.setAlphaF(qMax(qreal(0.0), alpha) * color.alphaF()); }
     return color;
 }
 
