@@ -37,7 +37,11 @@ namespace Oxygen
         TransitionData( parent, target, duration ),
         target_( target ),
         pixmap_( NULL )
-    { target_.data()->installEventFilter( this ); }
+    {
+        target_.data()->installEventFilter( this );
+        bool hasProxy( target_.data()->graphicsProxyWidget() );
+        transition().data()->setFlags( hasProxy ? TransitionWidget::Transparent : TransitionWidget::GrabFromWindow );
+    }
 
     //___________________________________________________________________
     bool LabelData::eventFilter( QObject* object, QEvent* event )
@@ -50,10 +54,6 @@ namespace Oxygen
             {
                 if( enabled() && target_ && ( target_.data()->text() != text_ || target_.data()->pixmap() != pixmap_ ) )
                 {
-
-                    // need to update flags on fly
-                    bool transparent( target_.data()->isTopLevel() && target_.data()->testAttribute( Qt::WA_NoSystemBackground ) );
-                    transition().data()->setFlags( transparent ? TransitionWidget::Transparent : TransitionWidget::GrabFromWindow );
 
                     // update text and pixmap
                     text_ = target_.data()->text();

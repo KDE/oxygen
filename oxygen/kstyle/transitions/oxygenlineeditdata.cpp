@@ -105,13 +105,6 @@ namespace Oxygen
     {
         if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
 
-        // need to update flags on fly
-        if( target_.data()->isTopLevel() && target_.data()->testAttribute( Qt::WA_NoSystemBackground ) )
-        {
-            setEnabled( false );
-            return false;
-        }
-
         transition().data()->setOpacity(0);
         transition().data()->setGeometry( targetRect() );
         transition().data()->setStartPixmap( transition().data()->endPixmap() );

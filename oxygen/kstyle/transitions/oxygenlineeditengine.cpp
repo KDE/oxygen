@@ -34,7 +34,13 @@ namespace Oxygen
     bool LineEditEngine::registerWidget( QLineEdit* widget )
     {
 
+        // check enability and widget validity
         if( !( enabled() && widget ) ) return false;
+
+        // do not register widget if painted in a scene
+        if( widget->graphicsProxyWidget() ) return false;
+
+        // insert in map if needed
         if( !data_.contains( widget ) ) { data_.insert( widget, new LineEditData( this, widget, duration() ) ); }
 
         // connect destruction signal
