@@ -406,9 +406,9 @@ void OxygenStyleHelper::drawHole(QPainter &p, const QColor &color, qreal shade, 
 
     // mask
     QRadialGradient maskGradient(r,r,r-2);
-    maskGradient.setColorAt(0.80, QColor(0,0,0,255));
-    maskGradient.setColorAt(0.90, QColor(0,0,0,140));
-    maskGradient.setColorAt(1.00, QColor(0,0,0,0));
+    maskGradient.setColorAt(0.80, Qt::black );
+    maskGradient.setColorAt(0.90, alphaColor( Qt::black,0.55) );
+    maskGradient.setColorAt(1.00, Qt::transparent );
     p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
     p.setBrush(maskGradient);
     p.drawRect(0,0,r2,r2);
@@ -731,8 +731,8 @@ TileSet *OxygenStyleHelper::slope(const QColor &color, qreal shade, int size)
 
         // fade bottom
         QLinearGradient maskGradient(0, 7, 0, 28);
-        maskGradient.setColorAt(0.0, QColor(0, 0, 0, 255));
-        maskGradient.setColorAt(1.0, QColor(0, 0, 0, 0));
+        maskGradient.setColorAt(0.0, Qt::black);
+        maskGradient.setColorAt(1.0, Qt::transparent);
 
         p.setBrush(maskGradient);
         p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
@@ -938,6 +938,7 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
         pm.fill(Qt::transparent);
 
         QPainter p(&pm);
+        p.save();
         p.setRenderHints(QPainter::Antialiasing);
         p.setBrush(Qt::NoBrush);
         p.translate(0.5, 0.5);
@@ -946,25 +947,29 @@ TileSet *OxygenStyleHelper::dockFrame(const QColor &color, int width)
         QColor light = calcLightColor(color);
         QColor dark = calcDarkColor(color);
 
-        //dark.setAlpha(200);
-        light.setAlpha(150);
+        {
+          // left and right border
+          QLinearGradient lg(QPoint(0,0), QPoint(w,0));
+          lg.setColorAt(0.0, alphaColor( light, 0.6 ) );
+          lg.setColorAt(0.1, Qt::transparent);
+          lg.setColorAt(0.9, Qt::transparent);
+          lg.setColorAt(1.0, alphaColor( light, 0.6 ) );
+          p.setPen(QPen(lg,1));
+          p.drawRoundedRect(rect.adjusted(0,-1,0,-1),4,5);
+          p.drawRoundedRect(rect.adjusted(2,1,-2,-2),4,5);
+        }
 
-        // left and right border
-        QLinearGradient lg(QPoint(0,0), QPoint(w,0));
-        lg.setColorAt(0.0, light);
-        lg.setColorAt(0.1, QColor(0,0,0,0));
-        lg.setColorAt(0.9, QColor(0,0,0,0));
-        lg.setColorAt(1.0, light);
-        p.setPen(QPen(lg,1));
-        p.drawRoundedRect(rect.adjusted(0,-1,0,-1),4,5);
-        p.drawRoundedRect(rect.adjusted(2,1,-2,-2),4,5);
+        {
+          QLinearGradient lg(QPoint(0,0), QPoint(w,0));
+          lg.setColorAt(0.0, dark);
+          lg.setColorAt(0.1, Qt::transparent);
+          lg.setColorAt(0.9, Qt::transparent);
+          lg.setColorAt(1.0, dark);
+          p.setPen(QPen(lg, 1));
+          p.drawRoundedRect(rect.adjusted(1,0,-1,-2),4,5);
+        }
 
-        lg.setColorAt(0.0, dark);
-        lg.setColorAt(0.1, QColor(0,0,0,0));
-        lg.setColorAt(0.9, QColor(0,0,0,0));
-        lg.setColorAt(1.0, dark);
-        p.setPen(QPen(lg, 1));
-        p.drawRoundedRect(rect.adjusted(1,0,-1,-2),4,5);
+        p.restore();
 
         // top and bottom border
         drawSeparator(&p, QRect(0,0,w,2), color, Qt::Horizontal);
