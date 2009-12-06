@@ -4084,8 +4084,6 @@ void OxygenStyle::renderTab(
         (isRightMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget)) :
         (isLeftMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget));
     const QColor color = pal.color(QPalette::Window);
-    const QColor midColor = _helper.alphaColor(_helper.calcDarkColor(color), 0.4);
-    const QColor darkColor = _helper.alphaColor(_helper.calcDarkColor(color), 0.6);
 
     StyleOptions selectedTabOpts = OxygenStyleConfigData::tabSubtleShadow() ?
         SubtleShadow | NoFill : NoFill;
@@ -4329,6 +4327,11 @@ void OxygenStyle::renderTab(
 
         case OxygenStyleConfigData::TS_PLAIN:
         {
+
+            const QColor backgroundColor = _helper.backgroundColor( color, widget, r.center() );
+            const QColor midColor = _helper.alphaColor(_helper.calcDarkColor(backgroundColor), 0.4);
+            const QColor darkColor = _helper.alphaColor(_helper.calcDarkColor(backgroundColor), 0.6);
+
             if(northAlignment || southAlignment)
             {
 
@@ -4385,7 +4388,8 @@ void OxygenStyle::renderTab(
                     p->setBrush(midColor);
                     p->setRenderHints(QPainter::Antialiasing);
 
-                    if (northAlignment) {
+                    if (northAlignment)
+                    {
                         r.adjusted(0,5-gw,0,-gw).getRect(&x, &y, &w, &h);
                         p->setClipRect(x-4, y, w+8, h-5); // don't intersect the translucent border of the slab
                         p->setClipRect(x, y, w, h, Qt::UniteClip);
@@ -4425,7 +4429,7 @@ void OxygenStyle::renderTab(
                     } else {
 
                         // southAlignment
-                        r.adjusted(0,gw,0,-5+gw).getRect(&x, &y, &w, &h);
+                        r.adjusted(0,gw,0,-4+gw).getRect(&x, &y, &w, &h);
                         if(isLeftMost)
                         {
 
@@ -4597,7 +4601,7 @@ void OxygenStyle::renderTab(
 
                     if (westAlignment)
                     {
-                        r.adjusted(5-gw,0,-5-gw,0).getRect(&x, &y, &w, &h);
+                        r.adjusted(4-gw,0,-5-gw,0).getRect(&x, &y, &w, &h);
 
                         if (isLeftMost)
                         {
@@ -4638,7 +4642,7 @@ void OxygenStyle::renderTab(
                     } else {
 
                         // eastAlignment
-                        r.adjusted(5+gw,0,-5+gw,0).getRect(&x, &y, &w, &h);
+                        r.adjusted(5+gw,0,-4+gw,0).getRect(&x, &y, &w, &h);
                         if (isLeftMost)
                         {
 
