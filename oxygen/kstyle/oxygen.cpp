@@ -659,27 +659,56 @@ bool OxygenStyle::drawPushButtonPrimitive(
 
             const bool mouseOver(enabled && (flags & State_MouseOver));
             const bool hasFocus( enabled && (flags & State_HasFocus));
+
             if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
             if (flags & State_HasFocus) opts |= Focus;
             if (enabled && (flags & State_MouseOver)) opts |= Hover;
 
+            // update animation state
             animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
             animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
 
-            if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) && !(opts & Sunken ) )
+            // store animation state
+            bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+            bool focusAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
+            qreal hoverOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
+            qreal focusOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ) );
+
+            const QStyleOptionButton* bOpt( qstyleoption_cast< const QStyleOptionButton* >( opt ) );
+            if( bOpt && ( bOpt->features & QStyleOptionButton::Flat ) )
             {
 
-                qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
-                renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationHover, TileSet::Ring );
+                // hover rect
+                QRect slitRect = r;
 
-            } else if( enabled && !mouseOver && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) && !(opts & Sunken ) ) {
+                if( enabled && hoverAnimated )
+                {
 
-                qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ) );
-                renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationFocus, TileSet::Ring );
+                    QColor glow( _helper.alphaColor( _viewFocusBrush.brush(QPalette::Active).color(), hoverOpacity ) );
+                    _helper.slitFocused( glow )->render(slitRect, p);
+
+                } else if( mouseOver) {
+
+                    _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color())->render(slitRect, p);
+
+                }
 
             } else {
 
-                renderButtonSlab(p, r, pal.color(QPalette::Button), opts);
+                if( enabled && hoverAnimated && !(opts & Sunken ) )
+                {
+
+                    renderButtonSlab( p, r, pal.color(QPalette::Button), opts, hoverOpacity, Oxygen::AnimationHover, TileSet::Ring );
+
+                } else if( enabled && !mouseOver && focusAnimated && !(opts & Sunken ) ) {
+
+                    renderButtonSlab( p, r, pal.color(QPalette::Button), opts, focusOpacity, Oxygen::AnimationFocus, TileSet::Ring );
+
+                } else {
+
+                    renderButtonSlab(p, r, pal.color(QPalette::Button), opts);
+
+                }
 
             }
 
@@ -2028,39 +2057,53 @@ bool OxygenStyle::drawSpinBoxPrimitive(
             p->setPen(Qt::NoPen);
             p->setBrush(inputColor);
 
-            #ifdef HOLE_NO_EDGE_FILL
-            p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
-            #else
-            _helper.fillHole(*p, r);
-            #endif
 
-            p->restore();
-
-            // TODO use widget background role?
-            // We really need the color of the widget behind to be "right",
-            // but the shadow needs to be colored as the inner widget; needs
-            // changes in helper.
-
-            #ifdef HOLE_COLOR_OUTSIDE
-            QColor local( pal.color(QPalette::Window) );
-            #else
-            QColor local( inputColor );
-            #endif
-
-            animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-            animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
-            if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+            const QStyleOptionSpinBox* sbOpt( qstyleoption_cast<const QStyleOptionSpinBox*>( opt ) );
+            if( sbOpt && !sbOpt->frame )
             {
-
-                renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
-
-            } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
-
-                renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+                // frameless spinbox
+                // frame is adjusted to have the same dimensions as a frameless editor
+                p->fillRect(fr.adjusted(4,4,-4,-4), inputColor);
+                p->restore();
 
             } else {
 
-                renderHole(p, local, fr, hasFocus, mouseOver);
+                // normal spinbox
+                #ifdef HOLE_NO_EDGE_FILL
+                p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
+                #else
+                _helper.fillHole(*p, r);
+                #endif
+
+                p->restore();
+
+                // TODO use widget background role?
+                // We really need the color of the widget behind to be "right",
+                // but the shadow needs to be colored as the inner widget; needs
+                // changes in helper.
+
+                #ifdef HOLE_COLOR_OUTSIDE
+                QColor local( pal.color(QPalette::Window) );
+                #else
+                QColor local( inputColor );
+                #endif
+
+                animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+                if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+                {
+
+                    renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
+
+                } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+
+                    renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+
+                } else {
+
+                    renderHole(p, local, fr, hasFocus, mouseOver);
+
+                }
 
             }
 
@@ -2110,11 +2153,18 @@ bool OxygenStyle::drawComboBoxPrimitive(
     {
         case Generic::Frame:
         {
-            // TODO: pressed state
-            if(!editable) {
+            const QStyleOptionComboBox* cbOpt = qstyleoption_cast<const QStyleOptionComboBox *>(opt);
 
-                if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) )
+            // TODO: pressed state
+            if(!editable)
+            {
+
+                if( cbOpt && !cbOpt->frame )
                 {
+
+                    // do nothing.
+
+                } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
 
                     qreal opacity( animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ) );
                     renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationHover, TileSet::Ring );
@@ -2131,39 +2181,52 @@ bool OxygenStyle::drawComboBoxPrimitive(
                 }
 
             } else {
+
                 QRect fr = r.adjusted(2,2,-2,-2);
+
                 // input area
                 p->save();
                 p->setRenderHint(QPainter::Antialiasing);
                 p->setPen(Qt::NoPen);
                 p->setBrush(inputColor);
 
-                #ifdef HOLE_NO_EDGE_FILL
-                p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
-                #else
-                _helper.fillHole(*p, r.adjusted(0,0,0,-1));
-                #endif
-
-                p->restore();
-
-                #ifdef HOLE_COLOR_OUTSIDE
-                QColor local( pal.color(QPalette::Window) );
-                #else
-                QColor local( inputColor );
-                #endif
-
-                if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+                if( cbOpt && !cbOpt->frame )
                 {
 
-                    renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
-
-                } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
-
-                    renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+                    // adjust rect to match frameLess editors
+                    p->fillRect(fr.adjusted( 4, 4, -4, -4 ), inputColor);
+                    p->restore();
 
                 } else {
 
-                    renderHole(p, local, fr, hasFocus && enabled, mouseOver);
+                    #ifdef HOLE_NO_EDGE_FILL
+                    p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
+                    #else
+                    _helper.fillHole(*p, r.adjusted(0,0,0,-1));
+                    #endif
+
+                    p->restore();
+
+                    #ifdef HOLE_COLOR_OUTSIDE
+                    QColor local( pal.color(QPalette::Window) );
+                    #else
+                    QColor local( inputColor );
+                    #endif
+
+                    if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+                    {
+
+                        renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ), Oxygen::AnimationFocus, TileSet::Ring);
+
+                    } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+
+                        renderHole(p, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ), Oxygen::AnimationHover, TileSet::Ring);
+
+                    } else {
+
+                        renderHole(p, local, fr, hasFocus && enabled, mouseOver);
+
+                    }
 
                 }
 
@@ -2410,6 +2473,7 @@ bool OxygenStyle::drawLineEditPrimitive(
                     drawPrimitive(PE_FrameLineEdit, panel, p, widget);
 
                     p->restore();
+
                 } else  {
 
                     p->fillRect(r.adjusted(2,2,-2,-2), inputBrush);
@@ -2811,16 +2875,18 @@ bool OxygenStyle::drawGenericPrimitive(
             }
 
             qreal penThickness = 1.6;
+            bool drawContrast = true;
             KStyle::ColorOption* colorOpt = extractOption<KStyle::ColorOption*>(kOpt);
             QColor color = colorOpt->color.color(pal);
             QColor background = pal.color(QPalette::Window);
 
             // customize color depending on widget
-            if (qobject_cast<const QSpinBox *>(widget) )
+            if( qobject_cast<const QSpinBox*>(widget) )
             {
                 // spinBox
                 color = pal.color( QPalette::Text );
                 background = pal.color( QPalette::Background );
+                drawContrast = false;
 
             } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
 
@@ -2944,8 +3010,10 @@ bool OxygenStyle::drawGenericPrimitive(
 
                 if( comboBox->isEditable() )
                 {
+
                     color = pal.color( QPalette::Text );
                     background = pal.color( QPalette::Background );
+                    if( comboBox->isEnabled() ) drawContrast = false;
 
                 } else {
 
@@ -2958,18 +3026,27 @@ bool OxygenStyle::drawGenericPrimitive(
 
             // white reflection
             p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
+            p->setRenderHint(QPainter::Antialiasing);
 
             qreal offset( qMin( penThickness, qreal(1.0)) );
-            p->translate(0,offset);
-            p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            p->setRenderHint(QPainter::Antialiasing);
-            p->drawPolyline(a);
-            p->translate(0,-offset);
+            if( drawContrast )
+            {
+
+                p->translate(0,0.5*offset);
+                p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                p->drawPolyline(a);
+                p->translate(0,-offset);
+
+            } else {
+
+                p->translate(0,-0.5*offset);
+
+            }
 
             p->setPen(QPen( _helper.decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             p->drawPolyline(a);
-
             p->restore();
+
             return true;
         }
 
