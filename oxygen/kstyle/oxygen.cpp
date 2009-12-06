@@ -4056,42 +4056,51 @@ void OxygenStyle::renderTab(
     const bool westAlignment = tabOpt->shape == QTabBar::RoundedWest || tabOpt->shape == QTabBar::TriangularWest;
     const bool eastAlignment = tabOpt->shape == QTabBar::RoundedEast || tabOpt->shape == QTabBar::TriangularEast;
     const bool horizontal = (northAlignment || southAlignment);
+
     const bool leftCornerWidget = reverseLayout ?
-                            (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget) :
-                            (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget);
+        (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget) :
+        (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget);
+
     const bool rightCornerWidget = reverseLayout ?
-                            (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget) :
-                            (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget);
+        (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget) :
+        (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget);
+
     const bool isFirst = pos == QStyleOptionTab::Beginning || pos == QStyleOptionTab::OnlyOneTab/* (pos == First) || (pos == Single)*/;
     const bool isLast = pos == QStyleOptionTab::End /*(pos == Last)*/;
     const bool isSingle = pos == QStyleOptionTab::OnlyOneTab /*(pos == Single)*/;
+
     const bool isLeftOfSelected =  reverseLayout ?
-                            (tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected) :
-                            (tabOpt->selectedPosition == QStyleOptionTab::NextIsSelected);
+        (tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected) :
+        (tabOpt->selectedPosition == QStyleOptionTab::NextIsSelected);
+
     const bool isRightOfSelected =  reverseLayout ?
-                            (tabOpt->selectedPosition == QStyleOptionTab::NextIsSelected) :
-                            (tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected);
+        (tabOpt->selectedPosition == QStyleOptionTab::NextIsSelected) :
+        (tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected);
+
     const bool isLeftMost =  (reverseLayout && !(westAlignment || eastAlignment) ?
-                            (tabOpt->position == QStyleOptionTab::End) :
-                            (tabOpt->position == QStyleOptionTab::Beginning)) ||
-                                tabOpt->position == QStyleOptionTab::OnlyOneTab;
+        (tabOpt->position == QStyleOptionTab::End) :
+        (tabOpt->position == QStyleOptionTab::Beginning)) ||
+        tabOpt->position == QStyleOptionTab::OnlyOneTab;
+
     const bool isRightMost =  reverseLayout && !(westAlignment || eastAlignment) ?
-                            (tabOpt->position == QStyleOptionTab::Beginning) :
-                            (tabOpt->position == QStyleOptionTab::End) ||
-                                tabOpt->position == QStyleOptionTab::OnlyOneTab;
+        (tabOpt->position == QStyleOptionTab::Beginning) :
+        (tabOpt->position == QStyleOptionTab::End) ||
+        tabOpt->position == QStyleOptionTab::OnlyOneTab;
+
     const bool isTopMost = isLeftMost && !horizontal;
+
     const bool isFrameAligned =  reverseLayout && !(westAlignment || eastAlignment) ?
         (isRightMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget)) :
         (isLeftMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget));
-    const QColor color = pal.color(QPalette::Window);
 
-    StyleOptions selectedTabOpts = OxygenStyleConfigData::tabSubtleShadow() ?
-        SubtleShadow | NoFill : NoFill;
+    const QColor color = pal.color(QPalette::Window);
+    StyleOptions selectedTabOpts = OxygenStyleConfigData::tabSubtleShadow() ? SubtleShadow | NoFill : NoFill;
     StyleOptions hoverTabOpts = NoFill | Hover;
     StyleOptions deselectedTabOpts = NoFill;
+
     TileSet::Tiles frameTiles = (horizontal) ?
-        (northAlignment ? TileSet::Top : TileSet::Bottom)
-        : (westAlignment ? TileSet::Left : TileSet::Right);
+        (northAlignment ? TileSet::Top : TileSet::Bottom):
+        (westAlignment ? TileSet::Left : TileSet::Right);
 
 
     switch (OxygenStyleConfigData::tabStyle())
@@ -4341,42 +4350,38 @@ void OxygenStyle::renderTab(
                 // the area where the fairing should appear
                 QRect Rb(Rc.x(), southAlignment?r.top()+gw:Rc.bottom()+1, Rc.width(), r.height()-Rc.height() );
 
-
-                // FIXME - maybe going to redo tabs
                 if (selected)
                 {
 
                     int x,y,w,h;
                     r.getRect(&x, &y, &w, &h);
 
-                    if(southAlignment) renderSlab(p, Rc.adjusted(0,-7,0,0), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left | TileSet::Right);
-                    else renderSlab(p, Rc.adjusted(0,0,0,7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Right);
+                    if(southAlignment) renderSlab(p, Rc.adjusted(0,-10,0,0), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left | TileSet::Right);
+                    else renderSlab(p, Rc.adjusted(0,0,0,10), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Right);
 
                     // some "position specific" paintings...
-                    // First draw the left connection from the panel border to the tab
+                    // draw the left connection from the panel border to the tab
                     if(isFirst && !reverseLayout && !leftCornerWidget) {
 
                         renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Left);
 
-                    } else {
+                    } else if( isLeftMost ) {
 
-                        TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
-                        if(southAlignment) tile->render(QRect(Rb.left()-5, Rb.top()-1,12,13), p, TileSet::Right | TileSet::Top);
-                        else tile->render(QRect(Rb.left()-5, Rb.top()-5,12,12), p, TileSet::Right | TileSet::Bottom);
+                        // horizontal tileSet to connect to main line
+                        if( southAlignment ) _helper.slab(pal.color(QPalette::Window), 0.0)->render( QRect(Rb.left()-6, Rb.top(),16,6), p, TileSet::Bottom );
+                        else _helper.slab(pal.color(QPalette::Window), 0.0)->render( QRect(Rb.left()-6, Rb.bottom()-6,17,6), p, TileSet::Top );
 
                     }
 
-                    // Now draw the right connection from the panel border to the tab
+                    // draw the right connection from the panel border to the tab
                     if(isFirst && reverseLayout && !rightCornerWidget) {
 
                         renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Right);
 
-                    } else {
+                    } else if( isRightMost ) {
 
-                        TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
-                        if(southAlignment) tile->render(QRect(Rb.right()-6, Rb.top()-1,12,13), p, TileSet::Left | TileSet::Top);
-                        else tile->render(QRect(Rb.right()-6, Rb.top()-5,12,12), p, TileSet::Left | TileSet::Bottom);
-
+                        if( southAlignment ) _helper.slab(pal.color(QPalette::Window), 0.0)->render( QRect(Rb.right()-9, Rb.top(),16,6), p, TileSet::Bottom );
+                        else _helper.slab(pal.color(QPalette::Window), 0.0)->render( QRect(Rb.right()-10, Rb.bottom()-6,17,6), p, TileSet::Top );
                     }
 
                 } else {
@@ -4465,6 +4470,7 @@ void OxygenStyle::renderTab(
                     }
                     p->restore();
 
+                    // bottom line
                     TileSet::Tiles posFlag = southAlignment?TileSet::Bottom:TileSet::Top;
                     QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 6);
 
@@ -4474,11 +4480,12 @@ void OxygenStyle::renderTab(
                         if(isFrameAligned) posFlag |= TileSet::Left;
                         if(reverseLayout || !isFrameAligned)
                         {
-                            renderSlab(p, QRect(Ractual.left()-7, Ractual.y(), 2+14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
+                            renderSlab(p, QRect(Ractual.left()-7, Ractual.y(), 14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
                             Ractual.adjust(-5,0,0,0);
                         }
 
-                    } else Ractual.adjust(-7+gw,0,0,0);
+                    } else if( isRightOfSelected ) Ractual.adjust(-10+gw,0,0,0);
+                    else Ractual.adjust(-7+gw,0,0,0);
 
                     if(isRightMost)
                     {
@@ -4492,12 +4499,13 @@ void OxygenStyle::renderTab(
 
                         } else if(!isFrameAligned) {
 
-                            renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 2+14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
+                            renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 1+14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
                             Ractual.adjust(0,0,5,0);
 
                         }
 
-                    } else Ractual.adjust(0,0,7-gw,0);
+                    } else if( isLeftOfSelected ) Ractual.adjust(0,0,10-gw,0);
+                    else Ractual.adjust(0,0,7-gw,0);
 
                     if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) )
                     {
