@@ -4310,7 +4310,6 @@ void OxygenStyle::renderTab(
                 }
             }
 
-            // HACK: the glow should only be drawn inside the given rect
             p->setClipRect(r);
 
             // get timeLine
@@ -4356,32 +4355,32 @@ void OxygenStyle::renderTab(
                     int x,y,w,h;
                     r.getRect(&x, &y, &w, &h);
 
-                    if(southAlignment) renderSlab(p, Rc.adjusted(0,-10,0,0), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left | TileSet::Right);
-                    else renderSlab(p, Rc.adjusted(0,0,0,10), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Right);
+                    if(southAlignment) renderSlab(p, Rc.adjusted(0,-10,0,0), color, NoFill, TileSet::Bottom | TileSet::Left | TileSet::Right);
+                    else renderSlab(p, Rc.adjusted(0,0,0,10), color, NoFill, TileSet::Top | TileSet::Left | TileSet::Right);
 
                     // some "position specific" paintings...
                     // draw the left connection from the panel border to the tab
                     if(isFirst && !reverseLayout && !leftCornerWidget) {
 
-                        renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Left);
+                        renderSlab(p, Rb.adjusted(0,-7,0,7), color, NoFill, TileSet::Left);
 
                     } else if( isLeftMost ) {
 
                         // horizontal tileSet to connect to main line
-                        if( southAlignment ) _helper.slab(pal.color(QPalette::Window), 0.0)->render( QRect(Rb.left()-6, Rb.top(),16,6), p, TileSet::Bottom );
-                        else _helper.slab(pal.color(QPalette::Window), 0.0)->render( QRect(Rb.left()-6, Rb.bottom()-6,17,6), p, TileSet::Top );
+                        if( southAlignment ) renderSlab( p, QRect(Rb.left()-6, Rb.top(),16,6), color, NoFill, TileSet::Bottom );
+                        else renderSlab( p, QRect(Rb.left()-6, Rb.bottom()-6,17,6), color, NoFill, TileSet::Top );
 
                     }
 
                     // draw the right connection from the panel border to the tab
                     if(isFirst && reverseLayout && !rightCornerWidget) {
 
-                        renderSlab(p, Rb.adjusted(0,-7,0,7), pal.color(QPalette::Window), NoFill, TileSet::Right);
+                        renderSlab(p, Rb.adjusted(0,-7,0,7), color, NoFill, TileSet::Right);
 
                     } else if( isRightMost ) {
 
-                        if( southAlignment ) _helper.slab(pal.color(QPalette::Window), 0.0)->render( QRect(Rb.right()-9, Rb.top(),16,6), p, TileSet::Bottom );
-                        else _helper.slab(pal.color(QPalette::Window), 0.0)->render( QRect(Rb.right()-10, Rb.bottom()-6,17,6), p, TileSet::Top );
+                        if( southAlignment ) renderSlab( p, QRect(Rb.right()-9, Rb.top(),16,6), color, NoFill, TileSet::Bottom );
+                        else renderSlab( p, QRect(Rb.right()-10, Rb.bottom()-6,17,6), color, NoFill, TileSet::Top );
                     }
 
                 } else {
@@ -4480,7 +4479,7 @@ void OxygenStyle::renderTab(
                         if(isFrameAligned) posFlag |= TileSet::Left;
                         if(reverseLayout || !isFrameAligned)
                         {
-                            renderSlab(p, QRect(Ractual.left()-7, Ractual.y(), 14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
+                            renderSlab(p, QRect(Ractual.left()-7, Ractual.y(), 14, Ractual.height()), color, NoFill, posFlag);
                             Ractual.adjust(-5,0,0,0);
                         }
 
@@ -4494,12 +4493,12 @@ void OxygenStyle::renderTab(
                         if(reverseLayout && !isFrameAligned)
                         {
 
-                            renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 1+14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
+                            renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 1+14, Ractual.height()), color, NoFill, posFlag);
                             Ractual.adjust(0,0,5,0);
 
                         } else if(!isFrameAligned) {
 
-                            renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 1+14, Ractual.height()), pal.color(QPalette::Window), NoFill, posFlag);
+                            renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 1+14, Ractual.height()), color, NoFill, posFlag);
                             Ractual.adjust(0,0,5,0);
 
                         }
@@ -4510,13 +4509,13 @@ void OxygenStyle::renderTab(
                     if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) )
                     {
 
-                        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover,
+                        renderSlab(p, Ractual, color, NoFill| Hover,
                             animations().tabBarEngine().opacity( widget, r.topLeft() ),
                             Oxygen::AnimationHover,
                             posFlag );
 
-                    } else if (mouseOver) renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover, posFlag);
-                    else renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
+                    } else if (mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, posFlag);
+                    else renderSlab(p, Ractual, color, NoFill, posFlag);
 
                 }
 
@@ -4573,28 +4572,27 @@ void OxygenStyle::renderTab(
 
                     }
 
-                    if(eastAlignment) renderSlab(p, Rc.adjusted(-7,0,0,0), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right | TileSet::Bottom);
-                    else renderSlab(p, Rc.adjusted(0,0,7,0), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                    if(eastAlignment) renderSlab(p, Rc.adjusted(-10,0,0,0), color, NoFill, TileSet::Top | TileSet::Right | TileSet::Bottom);
+                    else renderSlab(p, Rc.adjusted(0,0,10,0), color, NoFill, TileSet::Top | TileSet::Left | TileSet::Bottom);
 
                     // some "position specific" paintings...
-                    // First draw the top connection from the panel border to the tab
+                    // draw the top connection from the panel border to the tab
                     if(isFirst && !leftCornerWidget)
                     {
 
-                        renderSlab(p, Rb.adjusted(-7,0,7,0), pal.color(QPalette::Window), NoFill, TileSet::Top);
+                        renderSlab(p, Rb.adjusted(-7,0,7,0), color, NoFill, TileSet::Top);
 
-                    } else {
+                    } else if( isLeftMost ) {
 
-                        TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
-                        if(eastAlignment) tile->render(QRect(Rb.left(), Rb.top()-6,12,13), p, TileSet::Left | TileSet::Bottom);
-                        else tile->render(QRect(Rb.left()-5, Rb.top()-5,12,12), p, TileSet::Right | TileSet::Bottom);
+                        if( eastAlignment ) renderSlab( p, QRect(Rb.left()+1, Rb.top()-6,6,16), color, NoFill, TileSet::Right );
+                        else renderSlab( p, QRect(Rb.right()-6, Rb.top()-6,6,16), color, NoFill, TileSet::Left );
 
                     }
 
-                    // Now draw the bottom connection from the panel border to the tab
-                    TileSet *tile = _helper.slabInverted(pal.color(QPalette::Window), 0.0);
-                    if(eastAlignment) tile->render(QRect(Rb.right()-6, Rb.bottom()-6,12,13), p, TileSet::Left | TileSet::Top);
-                    else tile->render(QRect(Rb.right()-5-6, Rb.bottom()-6,12,12), p, TileSet::Right | TileSet::Top);
+                    if( isRightMost ) {
+                        if( eastAlignment ) renderSlab( p, QRect(Rb.left()+1, Rb.bottom()-9,6,16), color, NoFill, TileSet::Right );
+                        else renderSlab( p, QRect(Rb.right()-6, Rb.bottom()-10,6,17), color, NoFill, TileSet::Left );
+                    }
 
                 } else {
 
@@ -4698,11 +4696,12 @@ void OxygenStyle::renderTab(
                         // at top
                         if(isFrameAligned) posFlag |= TileSet::Top;
                         else {
-                            renderSlab(p, QRect(Ractual.left(), Ractual.y()-7, Ractual.width(), 2+14), pal.color(QPalette::Window), NoFill, posFlag);
+                            renderSlab(p, QRect(Ractual.left(), Ractual.y()-7, Ractual.width(), 2+14), color, NoFill, posFlag);
                             Ractual.adjust(0,-5,0,0);
                         }
 
-                    } else Ractual.adjust(0,-7+gw,0,0);
+                    } else if( isRightOfSelected ) Ractual.adjust(0,-10+gw,0,0);
+                    else  Ractual.adjust(0,-7+gw,0,0);
 
                     if(isRightMost)
                     {
@@ -4711,17 +4710,18 @@ void OxygenStyle::renderTab(
                         if(isFrameAligned && !reverseLayout) posFlag |= TileSet::Top;
                         Ractual.adjust(0,0,0,7);
 
-                    } else Ractual.adjust(0,0,0,7-gw);
+                    } else if( isLeftOfSelected )  Ractual.adjust(0,0,0,10-gw);
+                    else Ractual.adjust(0,0,0,7-gw);
 
                     if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) ) {
 
-                        renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover,
+                        renderSlab(p, Ractual, color, NoFill| Hover,
                             animations().tabBarEngine().opacity( widget, r.topLeft() ),
                             Oxygen::AnimationHover,
                             posFlag );
 
-                    } else if (mouseOver) renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill| Hover, posFlag);
-                    else renderSlab(p, Ractual, pal.color(QPalette::Window), NoFill, posFlag);
+                    } else if (mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, posFlag);
+                    else renderSlab(p, Ractual, color, NoFill, posFlag);
 
                 }
 
