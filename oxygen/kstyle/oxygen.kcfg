@@ -98,12 +98,12 @@
       <default>150</default>
     </entry>  
 
-    <!-- progess bar animation durations -->
+    <!-- progress bar animation durations -->
     <entry name="ProgressBarAnimationsDuration" type="Int">
       <default>250</default>
     </entry>  
 
-    <!-- progess bar animation durations -->
+    <!-- progress bar animation durations -->
     <entry name="ProgressBarBusyStepDuration" type="Int">
       <default>50</default>
     </entry>  

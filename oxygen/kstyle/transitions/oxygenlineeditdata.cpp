@@ -88,7 +88,7 @@ namespace Oxygen
     void LineEditData::textChanged( const QString& )
     {
 
-        // check wether text change was triggered manually
+        // check whether text change was triggered manually
         // in which case do not start transition
         if( edited_ )
         {
