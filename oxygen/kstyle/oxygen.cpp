@@ -76,6 +76,10 @@
 // everywhere seems best...
 #define HOLE_COLOR_OUTSIDE
 
+/* These are to link libkio even if 'smart' linker is used */
+#include <kio/authinfo.h>
+extern "C" KIO::AuthInfo* _oxygen_init_kio() { return new KIO::AuthInfo(); }
+
 K_EXPORT_STYLE("Oxygen", OxygenStyle)
 
 K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("oxygen"))
