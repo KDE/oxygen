@@ -5050,10 +5050,11 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
 
                     bool checkable = gbOpt->subControls & QStyle::SC_GroupBoxCheckBox;
                     bool emptyText = gbOpt->text.isEmpty();
-                    if (emptyText && !checkable) r.adjust(fw, fw, -fw, -fw);
-                    else if (checkable) r.adjust(fw, fw + cr.height(), -fw, -fw);
-                    else if (!emptyText) r.adjust(fw, fw + th, -fw, -fw);
-                    else r.adjust(fw, fw + qMax(th, cr.height()), -fw, -fw);
+
+                    r.adjust(fw, fw, -fw, -fw);
+                    if (checkable && !emptyText) r.adjust(0, qMax(th, cr.height()), 0, 0);
+                    else if (checkable) r.adjust(0, cr.height(), 0, 0);
+                    else if (!emptyText) r.adjust(0, th, 0, 0);
 
                     // add additional indentation to flat group boxes
                     if (isFlat)
@@ -5076,7 +5077,7 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                     int h = fontMetrics.height();
                     int tw = fontMetrics.size(Qt::TextShowMnemonic, gbOpt->text + QLatin1String("  ")).width();
                     r.setHeight(h);
-                    r.moveTop(8);
+
                     QRect cr;
                     if(gbOpt->subControls & QStyle::SC_GroupBoxCheckBox)
                     {
@@ -5090,8 +5091,9 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                     }
 
                     // left align labels in flat group boxes, center align labels in framed group boxes
+                    // for non flat groupboxes also move down the rect by 8 pixels to avoid collilsion with frame
                     if (isFlat) r = QRect(cr.width(),r.y(),tw,r.height());
-                    else r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
+                    else r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y()+8, tw, r.height());
 
                     return visualRect(option->direction, option->rect, r);
                 }
