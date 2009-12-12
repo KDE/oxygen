@@ -5045,7 +5045,9 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
 
             switch (subControl)
             {
+
                 case SC_GroupBoxFrame: return r;
+
                 case SC_GroupBoxContents:
                 {
                     int th = gbOpt->fontMetrics.height() + 8;
@@ -5069,18 +5071,23 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
 
                     return r;
                 }
+
                 case SC_GroupBoxCheckBox:
                 case SC_GroupBoxLabel:
                 {
                     QFont font = widget->font();
 
                     // calculate text width assuming bold text in flat group boxes
-                    if (isFlat) font.setBold(true);
+                    if( isFlat ) font.setBold(true);
 
                     QFontMetrics fontMetrics = QFontMetrics(font);
                     int h = fontMetrics.height();
                     int tw = fontMetrics.size(Qt::TextShowMnemonic, gbOpt->text + QLatin1String("  ")).width();
                     r.setHeight(h);
+
+                    // translate down by 8 pixels in non flat mode,
+                    // to avoid collision with groupbox frame
+                    if( !isFlat ) r.moveTop(8);
 
                     QRect cr;
                     if(gbOpt->subControls & QStyle::SC_GroupBoxCheckBox)
@@ -5095,14 +5102,14 @@ QRect OxygenStyle::subControlRect(ComplexControl control, const QStyleOptionComp
                     }
 
                     // left align labels in flat group boxes, center align labels in framed group boxes
-                    // for non flat groupboxes also move down the rect by 8 pixels to avoid collilsion with frame
                     if (isFlat) r = QRect(cr.width(),r.y(),tw,r.height());
-                    else r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y()+8, tw, r.height());
+                    else r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
 
                     return visualRect(option->direction, option->rect, r);
                 }
-                default:
-                    break;
+
+                default: break;
+
             }
             break;
         }
