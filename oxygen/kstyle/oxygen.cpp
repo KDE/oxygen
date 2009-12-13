@@ -4102,6 +4102,13 @@ void OxygenStyle::renderTab(
     StyleOptions hoverTabOpts = NoFill | Hover;
     StyleOptions deselectedTabOpts = NoFill;
 
+    // if painter device is not the current widget
+    // one must paint a non transparent background behind the tab
+    // this occurs notably when dragging tabs around.
+    // ideally it would be better if Qt would set a flag to the option
+    // when doing this
+    const bool drawBackground( p->device() != widget );
+
     TileSet::Tiles frameTiles = (horizontal) ?
         (northAlignment ? TileSet::Top : TileSet::Bottom):
         (westAlignment ? TileSet::Left : TileSet::Right);
@@ -4158,9 +4165,9 @@ void OxygenStyle::renderTab(
                 tabRect.adjust(0,0,0,1);
             }
 
-            QRect frameRect;
             // frameRect defines the part of the frame which
             // holds the content and is connected to the tab
+            QRect frameRect;
             if (horizontal)
             {
 
@@ -4331,10 +4338,19 @@ void OxygenStyle::renderTab(
             }
 
             // filling
-            fillTab(p, tabRect, color, horizontal ? Qt::Horizontal : Qt::Vertical, selected, southAlignment || eastAlignment);
+            Qt::Orientation orientation( horizontal ? Qt::Horizontal : Qt::Vertical );
+            bool inverted( southAlignment || eastAlignment);
+            if( drawBackground )
+            {
+                QRect fillRect = tabRect.adjusted(4,(orientation == Qt::Horizontal && !inverted) ? 3 : 4,-4,-4);
+                _helper.renderWindowBackground(p, fillRect, widget,widget->window()->palette());
+            }
+
+            fillTab(p, tabRect, color, orientation, selected, inverted );
 
             p->restore();
             return;
+
         } // OxygenStyleConfigData::TS_SINGLE
 
         case OxygenStyleConfigData::TS_PLAIN:
@@ -4797,6 +4813,7 @@ void OxygenStyle::fillTab(QPainter *p, const QRect &r, const QColor &color, Qt::
 
     p->setRenderHints(QPainter::Antialiasing);
     p->setPen(Qt::NoPen);
+
     p->setBrush(highlight);
     p->drawRoundedRect(fillRect,2,2);
 }
