@@ -108,7 +108,7 @@ public:
     virtual QColor backgroundTopColor(const QColor &color) const;
     virtual QColor backgroundBottomColor(const QColor &color) const;
 
-    virtual QPixmap verticalGradient(const QColor &color, int height);
+    virtual QPixmap verticalGradient(const QColor &color, int height, int offset = 0 );
     virtual QPixmap radialGradient(const QColor &color, int width, int height = 64);
 
     //! merge background and front color for check marks, arrows, etc. using _contrast

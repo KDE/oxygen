@@ -104,7 +104,7 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
 
     // draw upper linear gradient
     QRect upperRect = QRect(-x, -y, r.width(), splitY);
-    QPixmap tile = verticalGradient(color, splitY);
+    QPixmap tile = verticalGradient(color, splitY, gradientHeight-64);
     p->drawTiledPixmap(upperRect, tile);
 
     // draw lower flat part
@@ -234,7 +234,7 @@ QColor OxygenHelper::cachedBackgroundColor(const QColor &color, qreal ratio)
 
 
 //____________________________________________________________________
-QPixmap OxygenHelper::verticalGradient(const QColor &color, int height)
+QPixmap OxygenHelper::verticalGradient(const QColor &color, int height, int offset)
 {
     quint64 key = (quint64(color.rgba()) << 32) | height | 0x8000;
     QPixmap *pixmap = m_backgroundCache.object(key);
@@ -244,7 +244,7 @@ QPixmap OxygenHelper::verticalGradient(const QColor &color, int height)
         pixmap = new QPixmap(32, height);
         pixmap->fill( Qt::transparent );
 
-        QLinearGradient gradient(0, 0, 0, height);
+        QLinearGradient gradient(0, offset, 0, height+offset);
         gradient.setColorAt(0.0, backgroundTopColor(color));
         gradient.setColorAt(0.5, color);
         gradient.setColorAt(1.0, backgroundBottomColor(color));
