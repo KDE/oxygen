@@ -4486,8 +4486,22 @@ void OxygenStyle::renderTab(
 
                         // southAlignment
                         r.adjusted(0,gw,0,-4+gw).getRect(&x, &y, &w, &h);
-                        if(isLeftMost)
+
+                        if( isLeftMost && isRightMost )
                         {
+
+                            QPainterPath path;
+                            x-=gw;
+                            w+=gw;
+                            path.moveTo(x+2.5, y+2+((hasFrame && isFrameAligned) ? 0 : 2));
+                            path.lineTo(x+2.5, y+h-2.5); // left border
+                            path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90); // bottom-left corner
+                            path.lineTo(QPointF(x+w - 1.5 -4.5, y+h-0.5)); // bottom border
+                            path.arcTo( QRectF( x+w - 1.5 - 9, y+h-0.5 - 9, 9, 9 ), -90, 90 );
+                            path.lineTo(QPointF(x+w-1.5, y+4 ) ); // to complete the path
+                            p->drawPath(path);
+
+                        } else if(isLeftMost) {
 
                             QPainterPath path;
                             x-=gw;
@@ -4673,14 +4687,27 @@ void OxygenStyle::renderTab(
                         // west alignment
                         r.adjusted(5-gw,0,-5-gw,0).getRect(&x, &y, &w, &h);
 
-                        if( isLeftMost )
-                        {
+                        if( isLeftMost && isRightMost ) {
 
                             // at top
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x+w+3.0, y+0.5);
+                            path.moveTo(x+w+ (hasFrame ? 3.0:0.5), y+0.5);
+                            path.lineTo(x+5.0, y+0.5); // top border
+                            path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
+                            path.lineTo(x+0.5, y+h-2.5-4.5); // left border
+                            path.arcTo( QRectF( x+0.5, y+h-2.5-9, 9, 9 ), 180, 90 );
+                            path.lineTo(x+w+(hasFrame ? 3.0:0.5), y+h-2.5); // complete the path
+                            p->drawPath(path);
+
+                        } else if( isLeftMost ) {
+
+                            // at top
+                            QPainterPath path;
+                            y = y + 1.5;
+
+                            path.moveTo(x+w+(hasFrame ? 3.0:0.5), y+0.5);
                             path.lineTo(x+5.0, y+0.5); // top border
                             path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
                             path.lineTo(x+0.5, y+h+0.5); // left border
@@ -4713,21 +4740,35 @@ void OxygenStyle::renderTab(
 
                         // eastAlignment
                         r.adjusted(5+gw,0,-5+gw,0).getRect(&x, &y, &w, &h);
-                        if (isLeftMost)
+                        if( isLeftMost && isRightMost )
                         {
 
                             // at top
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x-3.0, y+0.5);
+                            path.moveTo(x-(hasFrame ? 3.0:0.5), y+0.5);
+                            path.lineTo(x+w-5.0, y+0.5); // top line
+                            path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
+                            path.lineTo(x+w-0.5, y+h-2.5 -4.5 ); // right line
+                            path.arcTo( QRectF( x+w-0.5-9, y+h-2.5-9, 9, 9 ), 0, -90 );
+                            path.lineTo(x-(hasFrame ? 3.0:0.5), y+h-2.5); // complete path
+                            p->drawPath(path);
+
+                        } else if (isLeftMost) {
+
+                            // at top
+                            QPainterPath path;
+                            y = y + 1.5;
+
+                            path.moveTo(x-(hasFrame ? 3.0:0.5), y+0.5);
                             path.lineTo(x+w-5.0, y+0.5); // top line
                             path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
                             path.lineTo(x+w-0.5, y+h+0.5); // right line
                             path.lineTo(x-0.5, y+h+0.5); // complete path
                             p->drawPath(path);
 
-                        } else if (isRightMost) {
+                        } else if( isRightMost ) {
 
                             // at bottom
                             QPainterPath path;
