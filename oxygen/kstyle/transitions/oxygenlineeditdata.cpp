@@ -39,7 +39,8 @@ namespace Oxygen
     LineEditData::LineEditData( QObject* parent, QLineEdit* target, int duration ):
         TransitionData( parent, target, duration ),
         target_( target ),
-        edited_( false )
+        edited_( false ),
+        isGrabbing_( false )
     {
         target_.data()->installEventFilter( this );
         transition().data()->setFlags( TransitionWidget::GrabFromWindow );
@@ -60,8 +61,12 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             case QEvent::Move:
-            timer_.start( 0, this );
-            break;
+            if( !isGrabbing_ )
+            {
+                isGrabbing_ = true;
+                timer_.start( 0, this );
+                break;
+            }
 
             default: break;
         }
@@ -79,6 +84,8 @@ namespace Oxygen
             timer_.stop();
             if( target_ && target_.data()->isVisible() )
             { transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) ); }
+
+            isGrabbing_ = false;
 
         } else return QObject::timerEvent( event );
 

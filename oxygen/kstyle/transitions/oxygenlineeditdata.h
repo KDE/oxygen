@@ -99,6 +99,10 @@ namespace Oxygen
         /*! needed to trigger animation only on programatically enabled text */
         bool edited_;
 
+        //! true when target widget is being grabbed
+        /*! this is needed to avoid infinite recursive calls to widget grabbing*/
+        bool isGrabbing_;
+
         //! old text
         QString text_;
 
