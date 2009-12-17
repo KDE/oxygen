@@ -5119,10 +5119,9 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
 
             if( qstyleoption_cast<const QStyleOptionTabWidgetFrame*>(option) ) return KStyle::sizeFromContents( type, option, contentsSize, widget );
             else {
-                QStyleOptionTabWidgetFrame tabOpt;
-                if( widget  ) tabOpt.initFrom( widget );
-                tabOpt.shape = QTabBar::RoundedNorth;
-                return KStyle::sizeFromContents( type, &tabOpt, contentsSize, widget );
+                // this handles tab layout properly in all tested cases event if the option does not have the correct style.
+                int m = widgetLayoutProp(WT_TabWidget, TabWidget::ContentsMargin, option, widget);
+                return KStyle::sizeFromContents( type, option, contentsSize, widget ) + QSize( m, 0 );
             }
         }
 
