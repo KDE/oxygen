@@ -1026,7 +1026,7 @@ bool OxygenStyle::drawMenuItemPrimitive(
                         pixelMetric(QStyle::PM_SmallIconSize,0,0) );
 
                     // for now menu size is not calculated properly
-                    // (meaning it doesnt account for titled separators width
+                    // (meaning it doesn't account for titled separators width
                     // as a fallback, we elide the text to be displayed
                     if( !menuItemOption->text.isEmpty() )
                     {
