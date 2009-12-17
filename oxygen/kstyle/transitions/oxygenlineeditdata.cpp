@@ -40,7 +40,7 @@ namespace Oxygen
         TransitionData( parent, target, duration ),
         target_( target ),
         edited_( false ),
-        isGrabbing_( false )
+        recursiveCheck_( false )
     {
         target_.data()->installEventFilter( this );
         transition().data()->setFlags( TransitionWidget::GrabFromWindow );
@@ -61,9 +61,9 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             case QEvent::Move:
-            if( !isGrabbing_ )
+            if( !recursiveCheck_ )
             {
-                isGrabbing_ = true;
+                recursiveCheck_ = true;
                 timer_.start( 0, this );
                 break;
             }
@@ -85,10 +85,33 @@ namespace Oxygen
             if( target_ && target_.data()->isVisible() )
             { transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) ); }
 
-            isGrabbing_ = false;
+            recursiveCheck_ = false;
 
         } else return QObject::timerEvent( event );
 
+    }
+
+
+    //___________________________________________________________________
+    void LineEditData::textEdited( const QString& )
+    {
+        edited_ = true;
+        if( !recursiveCheck_ )
+        {
+            recursiveCheck_ = true;
+            timer_.start( 0, this );
+        }
+    }
+
+
+    //___________________________________________________________________
+    void LineEditData::selectionChanged( void )
+    {
+        if( !recursiveCheck_ )
+        {
+            recursiveCheck_ = true;
+            timer_.start( 0, this );
+        }
     }
 
     //___________________________________________________________________
@@ -103,7 +126,16 @@ namespace Oxygen
             return;
         }
 
-        if( initializeAnimation() ) animate();
+        if( !recursiveCheck_ )
+        {
+
+            recursiveCheck_ = true;
+            if( initializeAnimation() )
+            { animate(); }
+
+            recursiveCheck_ = false;
+
+        }
 
     }
 
@@ -126,13 +158,6 @@ namespace Oxygen
         transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
         return valid;
 
-    }
-
-    //___________________________________________________________________
-    bool LineEditData::animate( void )
-    {
-        transition().data()->animate();
-        return true;
     }
 
 }

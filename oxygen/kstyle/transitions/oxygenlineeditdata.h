@@ -57,16 +57,10 @@ namespace Oxygen
         protected slots:
 
         //! text edited
-        virtual void textEdited( const QString& )
-        {
-            edited_ = true;
-            timer_.start( 0, this );
-        }
-
+        virtual void textEdited( const QString& );
 
         //! selection changed
-        virtual void selectionChanged( void )
-        { timer_.start( 0, this ); }
+        virtual void selectionChanged( void );
 
         //! text changed
         virtual void textChanged( const QString& );
@@ -75,7 +69,11 @@ namespace Oxygen
         virtual bool initializeAnimation( void );
 
         //! animate
-        virtual bool animate( void );
+        virtual bool animate( void )
+        {
+            transition().data()->animate();
+            return true;
+        }
 
         protected:
 
@@ -101,7 +99,7 @@ namespace Oxygen
 
         //! true when target widget is being grabbed
         /*! this is needed to avoid infinite recursive calls to widget grabbing*/
-        bool isGrabbing_;
+        bool recursiveCheck_;
 
         //! old text
         QString text_;
