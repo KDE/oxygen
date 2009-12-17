@@ -33,8 +33,7 @@ namespace Oxygen
     //______________________________________________________
     ComboBoxData::ComboBoxData( QObject* parent, QComboBox* target, int duration ):
         TransitionData( parent, target, duration ),
-        target_( target ),
-        recursiveCheck_( false )
+        target_( target )
     {
         target_.data()->installEventFilter( this );
         connect( target_.data(), SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged() ) );
@@ -43,13 +42,13 @@ namespace Oxygen
     //___________________________________________________________________
     void ComboBoxData::indexChanged( void )
     {
-        if( !recursiveCheck_ )
+        if( !recursiveCheck() )
         {
-            recursiveCheck_ = true;
+            setRecursiveCheck( true );
             if( initializeAnimation() )
             { animate(); }
 
-            recursiveCheck_ = false;
+            setRecursiveCheck( false );
         }
     }
 
@@ -68,9 +67,9 @@ namespace Oxygen
         switch( event->type() )
         {
             case QEvent::Paint:
-            if( transition().data()->endPixmap().isNull() && !recursiveCheck_ )
+            if( transition().data()->endPixmap().isNull() && !recursiveCheck() )
             {
-                recursiveCheck_ = true;
+                setRecursiveCheck( true );
                 timer_.start( 0, this );
             }
             break;
@@ -91,7 +90,7 @@ namespace Oxygen
             timer_.stop();
             if( target_ && !target_.data()->isEditable() )
             { transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) ); }
-            recursiveCheck_ = false;
+            setRecursiveCheck( false );
 
         } else return QObject::timerEvent( event );
 

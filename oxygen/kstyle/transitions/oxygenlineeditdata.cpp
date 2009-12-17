@@ -39,8 +39,7 @@ namespace Oxygen
     LineEditData::LineEditData( QObject* parent, QLineEdit* target, int duration ):
         TransitionData( parent, target, duration ),
         target_( target ),
-        edited_( false ),
-        recursiveCheck_( false )
+        edited_( false )
     {
         target_.data()->installEventFilter( this );
         transition().data()->setFlags( TransitionWidget::GrabFromWindow );
@@ -61,9 +60,9 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             case QEvent::Move:
-            if( !recursiveCheck_ )
+            if( !recursiveCheck() )
             {
-                recursiveCheck_ = true;
+                setRecursiveCheck( true );
                 timer_.start( 0, this );
                 break;
             }
@@ -85,7 +84,7 @@ namespace Oxygen
             if( target_ && target_.data()->isVisible() )
             { transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) ); }
 
-            recursiveCheck_ = false;
+            setRecursiveCheck( false );
 
         } else return QObject::timerEvent( event );
 
@@ -96,9 +95,9 @@ namespace Oxygen
     void LineEditData::textEdited( const QString& )
     {
         edited_ = true;
-        if( !recursiveCheck_ )
+        if( !recursiveCheck() )
         {
-            recursiveCheck_ = true;
+            setRecursiveCheck( true );
             timer_.start( 0, this );
         }
     }
@@ -107,9 +106,9 @@ namespace Oxygen
     //___________________________________________________________________
     void LineEditData::selectionChanged( void )
     {
-        if( !recursiveCheck_ )
+        if( !recursiveCheck() )
         {
-            recursiveCheck_ = true;
+            setRecursiveCheck( true );
             timer_.start( 0, this );
         }
     }
@@ -126,14 +125,14 @@ namespace Oxygen
             return;
         }
 
-        if( !recursiveCheck_ )
+        if( !recursiveCheck() )
         {
 
-            recursiveCheck_ = true;
+            setRecursiveCheck( true );
             if( initializeAnimation() )
             { animate(); }
 
-            recursiveCheck_ = false;
+            setRecursiveCheck( false );
 
         }
 

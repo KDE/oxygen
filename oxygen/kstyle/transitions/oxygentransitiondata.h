@@ -111,6 +111,14 @@ namespace Oxygen
         void setAborted( bool value )
         { aborted_ = value; }
 
+        //! used to avoid recursion when grabbing widgets
+        void setRecursiveCheck( bool value )
+        { recursiveCheck_ = value; }
+
+        //! used to avoid recursion when grabbing widgets
+        bool recursiveCheck( void ) const
+        { return recursiveCheck_; }
+
         private:
 
         //! enability
@@ -118,6 +126,9 @@ namespace Oxygen
 
         //! true when transition is aborted
         bool aborted_;
+
+        //! used to avoid recursion when grabbing widgets
+        bool recursiveCheck_;
 
         //! timer used to detect slow rendering
         QTime clock_;
