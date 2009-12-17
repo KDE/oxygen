@@ -85,6 +85,9 @@ namespace Oxygen
         //! target
         QPointer<QComboBox> target_;
 
+        //! flag to avoid recursive calls to paintEvent/render
+        bool recursiveCheck_;
+
     };
 
 }
