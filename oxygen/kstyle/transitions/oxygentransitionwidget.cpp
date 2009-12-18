@@ -221,10 +221,15 @@ namespace Oxygen
     //________________________________________________
     QPixmap TransitionWidget::fade( const QPixmap& pixmap, qreal opacity, const QRect& rect ) const
     {
-        if( pixmap.isNull() || opacity <= 0 ) return QPixmap();
+        if( pixmap.isNull() ) return QPixmap();
 
+        // create output pixmap
         QPixmap out( size() );
         out.fill( Qt::transparent );
+
+        // check opacity
+        if( opacity*255 < 1 ) return out;
+
         QPainter p( &out );
         p.setClipRect( rect );
 
@@ -232,7 +237,7 @@ namespace Oxygen
         p.drawPixmap( QPoint(0,0), pixmap );
 
         // opacity mask
-        if( opacity < 1 )
+        if( opacity*255 <= 254 )
         {
             p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
             QColor color( Qt::black );
