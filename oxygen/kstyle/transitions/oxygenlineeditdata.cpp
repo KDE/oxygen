@@ -62,7 +62,6 @@ namespace Oxygen
             case QEvent::Move:
             if( !recursiveCheck() )
             {
-                setRecursiveCheck( true );
                 timer_.start( 0, this );
                 break;
             }
@@ -81,10 +80,13 @@ namespace Oxygen
         {
 
             timer_.stop();
+            setRecursiveCheck( true );
             if( target_ && target_.data()->isVisible() )
-            { transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) ); }
-
-            setRecursiveCheck( false );
+            {
+                setRecursiveCheck( true );
+                transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
+                setRecursiveCheck( false );
+            }
 
         } else return QObject::timerEvent( event );
 
@@ -96,10 +98,7 @@ namespace Oxygen
     {
         edited_ = true;
         if( !recursiveCheck() )
-        {
-            setRecursiveCheck( true );
-            timer_.start( 0, this );
-        }
+        { timer_.start( 0, this ); }
     }
 
 
@@ -107,10 +106,7 @@ namespace Oxygen
     void LineEditData::selectionChanged( void )
     {
         if( !recursiveCheck() )
-        {
-            setRecursiveCheck( true );
-            timer_.start( 0, this );
-        }
+        { timer_.start( 0, this ); }
     }
 
     //___________________________________________________________________
@@ -125,16 +121,8 @@ namespace Oxygen
             return;
         }
 
-        if( !recursiveCheck() )
-        {
-
-            setRecursiveCheck( true );
-            if( initializeAnimation() )
-            { animate(); }
-
-            setRecursiveCheck( false );
-
-        }
+        if( initializeAnimation() )
+        { animate(); }
 
     }
 
@@ -142,6 +130,8 @@ namespace Oxygen
     bool LineEditData::initializeAnimation( void )
     {
         if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
+
+        if( recursiveCheck() ) return false;
 
         transition().data()->setOpacity(0);
         transition().data()->setGeometry( targetRect() );
@@ -154,7 +144,10 @@ namespace Oxygen
             transition().data()->raise();
         }
 
+        setRecursiveCheck( true );
         transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
+        setRecursiveCheck( false );
+
         return valid;
 
     }

@@ -42,14 +42,8 @@ namespace Oxygen
     //___________________________________________________________________
     void ComboBoxData::indexChanged( void )
     {
-        if( !recursiveCheck() )
-        {
-            setRecursiveCheck( true );
-            if( initializeAnimation() )
-            { animate(); }
-
-            setRecursiveCheck( false );
-        }
+        if( !recursiveCheck() && initializeAnimation() )
+        { animate(); }
     }
 
     //___________________________________________________________________
@@ -68,10 +62,7 @@ namespace Oxygen
         {
             case QEvent::Paint:
             if( transition().data()->endPixmap().isNull() && !recursiveCheck() )
-            {
-                setRecursiveCheck( true );
-                timer_.start( 0, this );
-            }
+            { timer_.start( 0, this ); }
             break;
 
             default: break;
@@ -89,8 +80,11 @@ namespace Oxygen
 
             timer_.stop();
             if( target_ && !target_.data()->isEditable() )
-            { transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) ); }
-            setRecursiveCheck( false );
+            {
+                setRecursiveCheck( true );
+                transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
+                setRecursiveCheck( false );
+            }
 
         } else return QObject::timerEvent( event );
 
@@ -121,11 +115,17 @@ namespace Oxygen
     bool ComboBoxData::animate( void )
     {
 
+        // check enability
         if( !enabled() ) return false;
 
-        // check enability
+        // grab
+        setRecursiveCheck( true );
         transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
+        setRecursiveCheck( false );
+
+        // start animation
         transition().data()->animate();
+
         return true;
 
     }
