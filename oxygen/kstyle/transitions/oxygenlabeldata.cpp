@@ -29,6 +29,7 @@
 
 #include <QtCore/QEvent>
 #include <QtCore/QTextStream>
+#include <QtGui/QPainter>
 
 namespace Oxygen
 {
@@ -112,8 +113,32 @@ namespace Oxygen
         if( !( enabled() && transition() && target_ && target_.data()->isVisible() ) ) return false;
 
         transition().data()->setOpacity(0);
+        QRect current( target_.data()->geometry() );
+        if(
+          labelRect_.isValid() &&
+          !transition().data()->endPixmap().isNull() &&
+          labelRect_ != current )
+        {
+
+          // if label geometry has changed since last animation
+          // one must clone the pixmap to make it match the right
+          // geometry before starting the animation.
+          QPixmap pixmap( current.size() );
+          pixmap.fill( Qt::transparent );
+          QPainter p( &pixmap );
+          p.drawPixmap( labelRect_.topLeft() - current.topLeft(), transition().data()->endPixmap() );
+          p.end();
+          transition().data()->setStartPixmap( pixmap );
+
+        } else {
+
+          transition().data()->setStartPixmap( transition().data()->endPixmap() );
+
+        }
+
         transition().data()->setGeometry( target_.data()->rect() );
-        transition().data()->setStartPixmap( transition().data()->endPixmap() );
+        labelRect_ = current;
+
         transition().data()->show();
         transition().data()->raise();
         return true;
