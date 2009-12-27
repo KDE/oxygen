@@ -29,6 +29,7 @@
 
 #include <QtCore/QEvent>
 #include <QtCore/QTextStream>
+#include <QtGui/QPainter>
 #include <QtGui/QStyle>
 #include <QtGui/QStyleOptionFrameV2>
 
@@ -121,6 +122,9 @@ namespace Oxygen
             return;
         }
 
+        if( transition().data()->isAnimated() )
+        { transition().data()->endAnimation(); }
+
         if( initializeAnimation() )
         { animate(); }
 
@@ -133,11 +137,33 @@ namespace Oxygen
 
         if( recursiveCheck() ) return false;
 
-        transition().data()->setOpacity(0);
-        transition().data()->setGeometry( targetRect() );
-        transition().data()->setStartPixmap( transition().data()->endPixmap() );
-        bool valid( !transition().data()->startPixmap().isNull() );
+        QRect current( targetRect() );
 
+        transition().data()->setOpacity(0);
+        transition().data()->setGeometry( current );
+
+        if( widgetRect_.isValid() &&
+            !transition().data()->currentPixmap().isNull() &&
+            widgetRect_ != current )
+        {
+
+          // if label geometry has changed since last animation
+          // one must clone the pixmap to make it match the right
+          // geometry before starting the animation.
+          QPixmap pixmap( current.size() );
+          pixmap.fill( Qt::transparent );
+          QPainter p( &pixmap );
+          p.drawPixmap( widgetRect_.topLeft() - current.topLeft(), transition().data()->currentPixmap() );
+          p.end();
+          transition().data()->setStartPixmap( pixmap );
+
+        } else {
+
+            transition().data()->setStartPixmap( transition().data()->currentPixmap() );
+
+        }
+
+        bool valid( !transition().data()->startPixmap().isNull() );
         if( valid )
         {
             transition().data()->show();

@@ -82,6 +82,8 @@ namespace Oxygen
 
                 } else if( transition().data()->isAnimated() ) {
 
+                    // disable painting when label is animated.
+                    // since it is obscured by transition
                     return true;
 
                 } else break;
@@ -115,29 +117,29 @@ namespace Oxygen
         transition().data()->setOpacity(0);
         QRect current( target_.data()->geometry() );
         if(
-          labelRect_.isValid() &&
-          !transition().data()->endPixmap().isNull() &&
-          labelRect_ != current )
+            widgetRect_.isValid() &&
+            !transition().data()->currentPixmap().isNull() &&
+            widgetRect_ != current )
         {
 
-          // if label geometry has changed since last animation
-          // one must clone the pixmap to make it match the right
-          // geometry before starting the animation.
-          QPixmap pixmap( current.size() );
-          pixmap.fill( Qt::transparent );
-          QPainter p( &pixmap );
-          p.drawPixmap( labelRect_.topLeft() - current.topLeft(), transition().data()->endPixmap() );
-          p.end();
-          transition().data()->setStartPixmap( pixmap );
+            // if label geometry has changed since last animation
+            // one must clone the pixmap to make it match the right
+            // geometry before starting the animation.
+            QPixmap pixmap( current.size() );
+            pixmap.fill( Qt::transparent );
+            QPainter p( &pixmap );
+            p.drawPixmap( widgetRect_.topLeft() - current.topLeft(), transition().data()->currentPixmap() );
+            p.end();
+            transition().data()->setStartPixmap( pixmap );
 
         } else {
 
-          transition().data()->setStartPixmap( transition().data()->endPixmap() );
+            transition().data()->setStartPixmap( transition().data()->currentPixmap() );
 
         }
 
         transition().data()->setGeometry( target_.data()->rect() );
-        labelRect_ = current;
+        widgetRect_ = current;
 
         transition().data()->show();
         transition().data()->raise();

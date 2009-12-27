@@ -42,8 +42,15 @@ namespace Oxygen
     //___________________________________________________________________
     void ComboBoxData::indexChanged( void )
     {
-        if( !recursiveCheck() && initializeAnimation() )
+
+        if( recursiveCheck() ) return;
+
+        if( transition().data()->isAnimated() )
+        { transition().data()->endAnimation(); }
+
+        if( initializeAnimation() )
         { animate(); }
+
     }
 
     //___________________________________________________________________
@@ -105,7 +112,7 @@ namespace Oxygen
 
         transition().data()->setOpacity(0);
         transition().data()->setGeometry( targetRect() );
-        transition().data()->setStartPixmap( transition().data()->endPixmap() );
+        transition().data()->setStartPixmap( transition().data()->currentPixmap() );
         transition().data()->show();
         transition().data()->raise();
         return true;

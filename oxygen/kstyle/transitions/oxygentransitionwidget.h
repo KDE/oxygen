@@ -122,11 +122,18 @@ namespace Oxygen
 
         //! end
         void setEndPixmap( QPixmap pixmap )
-        { endPixmap_ = pixmap; }
+        {
+            endPixmap_ = pixmap;
+            currentPixmap_ = pixmap;
+        }
 
         //! start
         const QPixmap& endPixmap( void ) const
         { return endPixmap_; }
+
+        //! current
+        const QPixmap& currentPixmap( void ) const
+        { return currentPixmap_; }
 
         //@}
 
@@ -194,6 +201,9 @@ namespace Oxygen
 
         //! animation starting pixmap
         QPixmap endPixmap_;
+
+        //! current pixmap
+        QPixmap currentPixmap_;
 
         //! current state opacity
         qreal opacity_;

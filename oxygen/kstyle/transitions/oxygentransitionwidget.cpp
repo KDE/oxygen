@@ -114,9 +114,12 @@ namespace Oxygen
         QPixmap localStart = fade( startPixmap_, 1.0-opacity(), rect );
         QPixmap localEnd = fade( endPixmap_, opacity(), rect );
 
-        // copy local pixmap to widget
+        currentPixmap_ = QPixmap( TransitionWidget::size() );
+        currentPixmap_.fill( Qt::transparent );
+
+        // copy local pixmap to current
         {
-            QPainter p( this );
+            QPainter p( &currentPixmap_ );
             p.setClipRect( event->rect() );
 
             // draw end pixmap first
@@ -142,6 +145,13 @@ namespace Oxygen
             p.end();
         }
 
+        // copy current pixmap on widget
+        {
+            QPainter p( this );
+            p.setClipRect( event->rect() );
+            p.drawPixmap( QPoint(0,0), currentPixmap_ );
+            p.end();
+        }
     }
 
     //________________________________________________

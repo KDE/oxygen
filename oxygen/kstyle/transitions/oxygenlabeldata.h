@@ -82,9 +82,9 @@ namespace Oxygen
         /*! an unchecked pointer is used cause the pixmap is actually never used */
         const QPixmap* pixmap_;
 
-        //! label rect
+        //! widget rect
         /*! needed to properly handle QLabel geometry changes */
-        QRect labelRect_;
+        QRect widgetRect_;
 
     };
 

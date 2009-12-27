@@ -100,6 +100,10 @@ namespace Oxygen
         //! old text
         QString text_;
 
+        //! widget rect
+        /*! needed to properly handle QLabel geometry changes */
+        QRect widgetRect_;
+
     };
 
 }
