@@ -2838,6 +2838,8 @@ bool OxygenStyle::drawGenericPrimitive(
 {
 
     const bool enabled = flags & State_Enabled;
+    const bool mouseOver(enabled && (flags & State_MouseOver));
+
     StyleOptions opts = 0;
     switch (primitive)
     {
@@ -2941,6 +2943,14 @@ bool OxygenStyle::drawGenericPrimitive(
 
             } else if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
 
+                // toolbutton animation
+                animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                bool animated( animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                qreal opacity( animations().toolBarEngine().opacity( widget, Oxygen::AnimationHover ) );
+
+                QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                color = pal.color( QPalette::WindowText );
+
                 // toolbuttons
                 if (tool->popupMode()==QToolButton::MenuButtonPopup)
                 {
@@ -2950,9 +2960,9 @@ bool OxygenStyle::drawGenericPrimitive(
 
                         color = pal.color( QPalette::ButtonText );
                         background = pal.color( QPalette::Button );
-                        if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
-                        if (flags & State_HasFocus) opts |= Focus;
-                        if (enabled && (flags & State_MouseOver)) opts |= Hover;
+                        if( (flags & State_On) || (flags & State_Sunken) ) opts |= Sunken;
+                        if( flags & State_HasFocus ) opts |= Focus;
+                        if( mouseOver ) opts |= Hover;
                         renderSlab(p, r.adjusted(-10,0,0,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
 
                         a.translate(-3,1);
@@ -2971,23 +2981,25 @@ bool OxygenStyle::drawGenericPrimitive(
 
                     } else {
 
-                        if ((flags & State_On) || (flags & State_Sunken)) color = pal.color( QPalette::Highlight );
+                        // this does not really work
+                        // in case of menu tool-buttons, one should animate the
+                        // menu arrow independently from the button itself
+                        if( animated ) color = KColorUtils::mix( color, highlight, opacity );
+                        else if( mouseOver ) color = highlight;
                         else color = pal.color( QPalette::WindowText );
 
                     }
 
                 } else {
 
-                    // adjust color
-                    if ((flags & State_On) || (flags & State_Sunken)) color = pal.color( QPalette::Highlight );
+                    if( animated ) color = KColorUtils::mix( color, highlight, opacity );
+                    else if( mouseOver ) color = highlight;
                     else color = pal.color( QPalette::WindowText );
 
                     // smaller down arrow for menu indication on toolbuttons
                     penThickness = 1.4;
                     a.clear();
 
-                    // NOTE: is there any smarter solution than this?
-                    // I (Hugo) would like to implement this in helper() for once.
                     switch (primitive)
                     {
                         case Generic::ArrowUp: {
