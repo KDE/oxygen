@@ -28,7 +28,7 @@
 
 #include "../lib/oxygenanimation.h"
 
-#include <QtCore/QPointer>
+#include <QtCore/QWeakPointer>
 #include <QtGui/QWidget>
 
 namespace Oxygen
@@ -45,7 +45,7 @@ namespace Oxygen
         public:
 
         //! shortcut to painter
-        typedef QPointer<TransitionWidget> Pointer;
+        typedef QWeakPointer<TransitionWidget> Pointer;
 
         //! constructor
         TransitionWidget( QWidget* parent, int duration );

@@ -53,7 +53,7 @@ namespace Oxygen
     bool MenuBarDataV1::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !( enabled() && object == target() ) )
+        if( !( enabled() && object == target().data() ) )
         { return AnimationData::eventFilter( object, event ); }
 
         // check event type

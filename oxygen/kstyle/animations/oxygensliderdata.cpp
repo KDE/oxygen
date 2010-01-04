@@ -41,7 +41,7 @@ namespace Oxygen
     bool SliderData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !( enabled() && object == target() ) )
+        if( !( enabled() && object == target().data() ) )
         { return GenericData::eventFilter( object, event ); }
 
         // check event type

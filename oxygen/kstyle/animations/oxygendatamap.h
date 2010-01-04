@@ -28,19 +28,19 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <QtCore/QMap>
-#include <QtCore/QPointer>
+#include <QtCore/QWeakPointer>
 
 namespace Oxygen
 {
     //! data map
     /*! it maps templatized data object to associated object */
-    template< typename T > class DataMap: public QMap< const QObject*, QPointer<T> >
+    template< typename T > class DataMap: public QMap< const QObject*, QWeakPointer<T> >
     {
 
         public:
 
         typedef const QObject* Key;
-        typedef QPointer<T> Value;
+        typedef QWeakPointer<T> Value;
 
         //! constructor
         DataMap( void ):

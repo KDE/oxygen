@@ -26,7 +26,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtCore/QPointer>
+#include <QtCore/QWeakPointer>
 #include <QtCore/QPropertyAnimation>
 #include <QtCore/QVariant>
 
@@ -41,7 +41,7 @@ namespace Oxygen
         public:
 
         //! TimeLine shared pointer
-        typedef QPointer<Animation> Pointer;
+        typedef QWeakPointer<Animation> Pointer;
 
         //! constructor
         Animation( int duration, QObject* parent ):

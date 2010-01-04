@@ -53,7 +53,7 @@ namespace Oxygen
     bool LineEditData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !( enabled() && object && object == target_ ) )
+        if( !( enabled() && object && object == target_.data() ) )
         { return TransitionData::eventFilter( object, event ); }
 
         switch ( event->type() )

@@ -49,7 +49,7 @@ namespace Oxygen
     bool LabelData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( object != target_ ) return TransitionData::eventFilter( object, event );
+        if( object != target_.data() ) return TransitionData::eventFilter( object, event );
         switch( event->type() )
         {
 

@@ -29,7 +29,7 @@
 
 #include <QtCore/QEvent>
 #include <QtCore/QObject>
-#include <QtCore/QPointer>
+#include <QtCore/QWeakPointer>
 #include <QtGui/QWidget>
 
 #include "../lib/oxygenanimation.h"
@@ -82,7 +82,7 @@ namespace Oxygen
         protected:
 
         //! target
-        const QPointer<QWidget>& target( void ) const
+        const QWeakPointer<QWidget>& target( void ) const
         { return target_; }
 
         //! setup animation
@@ -91,7 +91,7 @@ namespace Oxygen
         private:
 
         //! guarded target
-        QPointer<QWidget> target_;
+        QWeakPointer<QWidget> target_;
 
         //! enability
         bool enabled_;

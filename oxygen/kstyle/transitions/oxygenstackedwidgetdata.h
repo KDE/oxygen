@@ -63,7 +63,7 @@ namespace Oxygen
         private:
 
         //! target
-        QPointer<QStackedWidget> target_;
+        QWeakPointer<QStackedWidget> target_;
 
         //! current index
         int index_;

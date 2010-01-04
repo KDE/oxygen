@@ -73,7 +73,7 @@ namespace Oxygen
         QBasicTimer timer_;
 
         //! target
-        QPointer<QLabel> target_;
+        QWeakPointer<QLabel> target_;
 
         //! old text
         QString text_;

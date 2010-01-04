@@ -91,7 +91,7 @@ namespace Oxygen
         QBasicTimer timer_;
 
         //! target
-        QPointer<QLineEdit> target_;
+        QWeakPointer<QLineEdit> target_;
 
         //! true if text was manually edited
         /*! needed to trigger animation only on programatically enabled text */
