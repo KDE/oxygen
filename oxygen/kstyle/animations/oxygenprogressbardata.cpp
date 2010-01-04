@@ -40,8 +40,8 @@ namespace Oxygen
         endValue_(0)
     {
 
-        // set animation curve shape (warning this is not portable to Qt Kinetic)
-        animation().data()->setCurveShape( QTimeLine::EaseInOutCurve );
+        // set animation curve shape
+        animation().data()->setEasingCurve( QEasingCurve::InOutQuad );
 
         // make sure target is a progressbar and store relevant values
         QProgressBar* progress = qobject_cast<QProgressBar*>( target );

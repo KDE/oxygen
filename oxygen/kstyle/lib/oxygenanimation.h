@@ -27,13 +27,13 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <QtCore/QPointer>
-#include <QtCore/QTimeLine>
+#include <QtCore/QPropertyAnimation>
 #include <QtCore/QVariant>
 
 namespace Oxygen
 {
 
-    class Animation: public QTimeLine
+    class Animation: public QPropertyAnimation
     {
 
         Q_OBJECT
@@ -45,11 +45,8 @@ namespace Oxygen
 
         //! constructor
         Animation( int duration, QObject* parent ):
-            QTimeLine( duration, parent )
-        {
-            setFrameRange( 0, 512 );
-            connect( this, SIGNAL( frameChanged( int ) ), SLOT( updateProperty( int ) ) );
-        }
+            QPropertyAnimation( parent )
+        { setDuration( duration ); }
 
         //! destructor
         virtual ~Animation( void )
@@ -65,40 +62,6 @@ namespace Oxygen
             if( isRunning() ) stop();
             start();
         }
-
-        //! start
-        void setStartValue( qreal value )
-        { start_ = value; }
-
-        //! end
-        void setEndValue( qreal value )
-        { end_ = value; }
-
-        //! target
-        void setTargetObject( QObject* object )
-        { target_ = object; }
-
-        //! property
-        void setPropertyName( const QByteArray& array )
-        { property_ = array; }
-
-
-        signals:
-
-        void valueChanged( const QVariant& );
-
-
-        private slots:
-
-        //! update property
-        void updateProperty( int );
-
-        private:
-
-        qreal start_;
-        qreal end_;
-        QPointer<QObject> target_;
-        QByteArray property_;
 
     };
 

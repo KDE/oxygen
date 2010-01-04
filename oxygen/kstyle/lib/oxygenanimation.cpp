@@ -26,17 +26,3 @@
 
 #include "oxygenanimation.h"
 #include "oxygenanimation.moc"
-
-namespace Oxygen
-{
-
-  //_________________________________________________
-  void Animation::updateProperty( int frame )
-  {
-
-    qreal value = start_ + (end_-start_)*qreal(frame)/qreal(endFrame());
-    if( target_ ) target_.data()->setProperty( property_, value );
-    emit valueChanged( QVariant() );
-  }
-
-}
