@@ -94,4 +94,16 @@ namespace Oxygen
 
     }
 
+    //____________________________________________________________
+    void Transitions::unregisterWidget( QWidget* widget ) const
+    {
+
+        if( !widget ) return;
+
+        comboBoxEngine().unregisterWidget( widget );
+        labelEngine().unregisterWidget( widget );
+        lineEditEngine().unregisterWidget( widget );
+        stackedWidgetEngine().unregisterWidget( widget );
+    }
+
 }

@@ -54,6 +54,9 @@ namespace Oxygen
         //! register menubar
         virtual bool registerWidget( QWidget* ) = 0;
 
+        //! unregister menubar
+        virtual void unregisterWidget( QObject* ) = 0;
+
         //! true if widget is animated
         virtual bool isAnimated( const QObject*, const QPoint& )
         { return false; }
@@ -119,7 +122,7 @@ namespace Oxygen
             data_.setDuration( duration );
         }
 
-        protected slots:
+        public slots:
 
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )

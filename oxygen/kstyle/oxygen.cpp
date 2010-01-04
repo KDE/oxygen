@@ -3306,19 +3306,30 @@ void OxygenStyle::polish(QWidget* widget)
 
 }
 
+//_______________________________________________________________
 void OxygenStyle::unpolish(QWidget* widget)
 {
 
-    switch (widget->windowFlags() & Qt::WindowType_Mask) {
+    // register widget to animations
+    animations().unregisterWidget( widget );
+    transitions().unregisterWidget( widget );
+
+    // event filters
+    switch (widget->windowFlags() & Qt::WindowType_Mask)
+    {
+
         case Qt::Window:
         case Qt::Dialog:
-            widget->removeEventFilter(this);
-            widget->setAttribute(Qt::WA_StyledBackground, false);
-            break;
+        widget->removeEventFilter(this);
+        widget->setAttribute(Qt::WA_StyledBackground, false);
+        break;
+
         default:
-            break;
+        break;
+
     }
 
+    // hover flags
     if (qobject_cast<QPushButton*>(widget)
         || qobject_cast<QComboBox*>(widget)
         || qobject_cast<QAbstractSpinBox*>(widget)
@@ -3327,9 +3338,7 @@ void OxygenStyle::unpolish(QWidget* widget)
         || qobject_cast<QScrollBar*>(widget)
         || qobject_cast<QSlider*>(widget)
         || qobject_cast<QLineEdit*>(widget)
-    ) {
-        widget->setAttribute(Qt::WA_Hover, false);
-    }
+    ) { widget->setAttribute(Qt::WA_Hover, false); }
 
     if (qobject_cast<QMenuBar*>(widget)
         || (widget && widget->inherits("Q3ToolBar"))
@@ -3344,27 +3353,28 @@ void OxygenStyle::unpolish(QWidget* widget)
 
     if (qobject_cast<QScrollBar*>(widget))
     {
+
         widget->setAttribute(Qt::WA_OpaquePaintEvent);
-    }
-    else if (qobject_cast<QDockWidget*>(widget))
-    {
+
+    } else if (qobject_cast<QDockWidget*>(widget)) {
+
         widget->setContentsMargins(0,0,0,0);
         widget->clearMask();
-    }
-    else if (qobject_cast<QToolBox*>(widget))
-    {
+
+    } else if (qobject_cast<QToolBox*>(widget)) {
+
         widget->setBackgroundRole(QPalette::Button);
         widget->setContentsMargins(0,0,0,0);
         widget->removeEventFilter(this);
-    }
-    else if (qobject_cast<QMenu*>(widget))
-    {
+
+    } else if (qobject_cast<QMenu*>(widget)) {
+
         widget->setAttribute(Qt::WA_PaintOnScreen, false);
         widget->setAttribute(Qt::WA_NoSystemBackground, false);
         widget->removeEventFilter(this);
         widget->clearMask();
-    }
-    else if (widget->inherits("QComboBoxPrivateContainer")) widget->removeEventFilter(this);
+
+    } else if (widget->inherits("QComboBoxPrivateContainer")) widget->removeEventFilter(this);
     else if (qobject_cast<QFrame*>(widget)) widget->removeEventFilter(this);
 
     KStyle::unpolish(widget);

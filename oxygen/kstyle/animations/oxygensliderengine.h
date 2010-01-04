@@ -85,7 +85,7 @@ namespace Oxygen
             data_.setDuration( value );
         }
 
-        protected slots:
+        public slots:
 
         //! remove widget from map
         virtual void unregisterWidget( QObject* object )

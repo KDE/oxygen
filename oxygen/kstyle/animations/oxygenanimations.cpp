@@ -147,4 +147,22 @@ namespace Oxygen
 
     }
 
+    //____________________________________________________________
+    void Animations::unregisterWidget( QWidget* widget ) const
+    {
+
+        if( !widget ) return;
+
+        widgetEnabilityEngine().unregisterWidget( widget );
+        widgetStateEngine().unregisterWidget( widget );
+        toolBarEngine().unregisterWidget( widget );
+        lineEditEngine().unregisterWidget( widget );
+        progressBarEngine().unregisterWidget( widget );
+        menuBarEngine().unregisterWidget( widget );
+        menuEngine().unregisterWidget( widget );
+        scrollBarEngine().unregisterWidget( widget );
+        sliderEngine().unregisterWidget( widget );
+        tabBarEngine().unregisterWidget( widget );
+    }
+
 }
