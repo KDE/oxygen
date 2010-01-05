@@ -5628,9 +5628,10 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
                 // background
                 _helper.renderWindowBackground(&p, r, t, color);
 
-                // remaining painting: need to add handle
-                // this is copied from QToolBar::paintEvent
+                if( t->isMovable() )
                 {
+                    // remaining painting: need to add handle
+                    // this is copied from QToolBar::paintEvent
                     QStyleOptionToolBar opt;
                     opt.initFrom( t );
                     if( t->orientation() == Qt::Horizontal)
