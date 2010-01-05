@@ -3171,6 +3171,19 @@ void OxygenStyle::drawCapacityBar(const QStyleOption *option, QPainter *p, const
 }
 
 //______________________________________________________________
+void OxygenStyle::polish(QPalette &palette)
+{
+
+    KStyle::polish(palette);
+
+    // for non kde applications, alter and complete palette
+    // to have proper disabled colors
+    if( !qApp->inherits("KApplication") )
+    { computeColorGroups(palette ); }
+
+}
+
+//______________________________________________________________
 void OxygenStyle::polish(QWidget* widget)
 {
     if (!widget) return;
@@ -6163,14 +6176,100 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
     }
 }
 
+//_________________________________________________________________
 QPoint OxygenStyle::handleRTL(const QStyleOption* opt, const QPoint& pos) const
+{ return visualPos(opt->direction, opt->rect, pos); }
+
+//_________________________________________________________________
+QRect OxygenStyle::handleRTL(const QStyleOption* opt, const QRect& subRect) const
+{ return visualRect(opt->direction, opt->rect, subRect); }
+
+//_________________________________________________________________
+OxygenStyle::ColorScheme OxygenStyle::guessColorScheme(const QPalette &palette, QPalette::ColorGroup colorGroup, QPalette::ColorRole colorRole ) const
 {
-    return visualPos(opt->direction, opt->rect, pos);
+    const QColor windowColor = palette.color(colorGroup, colorRole);
+    int r, g, b;
+    windowColor.getRgb(&r, &g, &b);
+    int brightness = qGray(r, g, b);
+
+    if (brightness > 230) return BrightColorScheme;
+    else if (brightness < 50) return DarkColorScheme;
+    else return NormalColorScheme;
 }
 
-QRect OxygenStyle::handleRTL(const QStyleOption* opt, const QRect& subRect) const
+//_________________________________________________________________
+void OxygenStyle::computeAlternateBase(QPalette &palette, QPalette::ColorGroup colorGroup) const
 {
-    return visualRect(opt->direction, opt->rect, subRect);
+    switch (guessColorScheme(palette, colorGroup, QPalette::Base))
+    {
+        case DarkColorScheme:
+        palette.setColor(colorGroup, QPalette::AlternateBase, palette.color(colorGroup, QPalette::Base).lighter(103));
+        break;
+
+        case BrightColorScheme:
+        case NormalColorScheme:
+        palette.setColor(colorGroup, QPalette::AlternateBase, palette.color(colorGroup, QPalette::Base).darker(103));
+        break;
+    }
+}
+
+//_________________________________________________________________
+void OxygenStyle::copyColorGroup(QPalette &palette, QPalette::ColorGroup fromColorGroup, QPalette::ColorGroup toColorGroup) const
+{
+    for (int role = int(QPalette::WindowText); role <= int(QPalette::LinkVisited); ++role)
+    {
+        QPalette::ColorRole colorRole = QPalette::ColorRole(role);
+        palette.setColor(toColorGroup, colorRole, palette.color(fromColorGroup, colorRole));
+    }
+}
+
+//_________________________________________________________________
+void OxygenStyle::computeDisabledColor( QPalette& palette, QPalette::ColorRole role, OxygenStyle::ColorScheme scheme ) const
+{
+    QColor color( palette.color( QPalette::Active, role ) );
+    switch( scheme )
+    {
+
+        case DarkColorScheme:
+        color = color.darker( 200 );
+        break;
+
+        case BrightColorScheme:
+        case NormalColorScheme:
+        color = color.lighter( 200 );
+        break;
+
+    }
+
+    palette.setColor( QPalette::Inactive, role, color );
+
+}
+
+//_________________________________________________________________
+void OxygenStyle::computeColorGroups(QPalette &palette ) const
+{
+
+    // compute remaining colors in Active group
+    computeAlternateBase(palette, QPalette::Active);
+
+    // copy Active group to Inactive group
+    copyColorGroup(palette, QPalette::Active, QPalette::Inactive);
+
+    // compute remaining colors in Inactive group
+    computeAlternateBase(palette, QPalette::Inactive);
+
+    // create Disabled group
+    ColorScheme scheme( guessColorScheme(palette, QPalette::Active, QPalette::Window) );
+
+    computeDisabledColor( palette, QPalette::WindowText, scheme );
+    computeDisabledColor( palette, QPalette::Text, scheme );
+    computeDisabledColor( palette, QPalette::Link, scheme );
+    computeDisabledColor( palette, QPalette::LinkVisited, scheme );
+    computeDisabledColor( palette, QPalette::ButtonText, scheme );
+    computeDisabledColor( palette, QPalette::Highlight, scheme );
+
+    computeAlternateBase(palette, QPalette::Disabled);
+
 }
 
 // kate: indent-width 4; replace-tabs on; tab-width 4; space-indent on;

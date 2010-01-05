@@ -100,18 +100,25 @@ class OxygenStyle : public KStyle
 
     virtual QRect subElementRect(SubElement sr, const QStyleOption *opt, const QWidget *widget) const;
 
+    //! adjust palette to have correct "disabled" colors
+    virtual void polish(QPalette &palette);
+
+    //! customize widget options and register animations
     virtual void polish(QWidget* widget);
+
+    //! remove widget customizations
     virtual void unpolish(QWidget* widget);
+
+    //! needed to avoid warnings at compilation time
     using  KStyle::polish;
     using  KStyle::unpolish;
 
-
+    //! hints
     int styleHint(
         StyleHint hint, const QStyleOption * option = 0, const QWidget * widget = 0,
         QStyleHintReturn * returnData = 0 ) const;
 
-    //virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
-    // const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
+    //! pixel metrics
     virtual int pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const;
     virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget) const;
     virtual QSize sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const;
@@ -298,6 +305,30 @@ class OxygenStyle : public KStyle
 
     //! returns true if compositing is active
     bool compositingActive( void ) const;
+
+    //! copied from skulpture style
+    /*! Copyright (c) 2007-2009 Christoph Feck <christoph@maxiom.de> */
+    enum ColorScheme {
+        NormalColorScheme, // allow 3D effects
+        DarkColorScheme, // too dark, no 3D effects
+        BrightColorScheme // too bright, no 3D effects
+    };
+
+    //! copied from skulpture style
+    /*! Copyright (c) 2007-2009 Christoph Feck <christoph@maxiom.de> */
+    ColorScheme guessColorScheme(const QPalette&, QPalette::ColorGroup = QPalette::Active, QPalette::ColorRole = QPalette::Window) const;
+
+    /*! Copyright (c) 2007-2009 Christoph Feck <christoph@maxiom.de> */
+    void computeAlternateBase(QPalette&, QPalette::ColorGroup ) const;
+
+    //! compute disabled color
+    void computeDisabledColor( QPalette&, QPalette::ColorRole, OxygenStyle::ColorScheme ) const;
+
+    /*! Copyright (c) 2007-2009 Christoph Feck <christoph@maxiom.de> */
+    void copyColorGroup(QPalette&, QPalette::ColorGroup, QPalette::ColorGroup ) const;
+
+    /*! Copyright (c) 2007-2009 Christoph Feck <christoph@maxiom.de> */
+    void computeColorGroups(QPalette &palette ) const;
 
     protected Q_SLOTS:
 
