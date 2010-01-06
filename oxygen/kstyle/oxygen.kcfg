@@ -127,7 +127,7 @@
     </entry>  
 
     <entry name="LabelTransitionsDuration" type="Int">
-      <default>150</default>
+      <default>75</default>
     </entry>  
 
     <entry name="LineEditTransitionsDuration" type="Int">
