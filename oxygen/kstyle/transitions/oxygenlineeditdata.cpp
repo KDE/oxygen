@@ -81,7 +81,6 @@ namespace Oxygen
         {
 
             timer_.stop();
-            setRecursiveCheck( true );
             if( target_ && target_.data()->isVisible() )
             {
                 setRecursiveCheck( true );
@@ -125,8 +124,8 @@ namespace Oxygen
         if( transition().data()->isAnimated() )
         { transition().data()->endAnimation(); }
 
-        if( initializeAnimation() )
-        { animate(); }
+        if( initializeAnimation() ) animate();
+        else transition().data()->hide();
 
     }
 

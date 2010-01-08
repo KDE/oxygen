@@ -48,8 +48,8 @@ namespace Oxygen
         if( transition().data()->isAnimated() )
         { transition().data()->endAnimation(); }
 
-        if( initializeAnimation() )
-        { animate(); }
+        if( initializeAnimation() ) animate();
+        else transition().data()->hide();
 
     }
 
