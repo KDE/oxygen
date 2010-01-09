@@ -72,6 +72,11 @@ namespace Oxygen
             { timer_.start( 0, this ); }
             break;
 
+            case QEvent::Resize:
+            if( !recursiveCheck() )
+            { timer_.start( 0, this ); }
+            break;
+
             default: break;
         }
 
