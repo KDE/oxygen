@@ -4994,6 +4994,9 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option, const QW
             }
         }
 
+        case SH_ItemView_ArrowKeysNavigateIntoChildren:
+        return true;
+
         default: return KStyle::styleHint(hint, option, widget, returnData);
     }
 }
