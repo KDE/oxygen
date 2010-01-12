@@ -399,6 +399,49 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
         // the default implementation fills the rect with the window background color
         // which does not work for windows that have gradients.
         case PE_PanelScrollAreaCorner: return;
+
+        // this uses "standard" radio buttons to draw in Qt3 lists.
+        case PE_Q3CheckListExclusiveIndicator:
+        {
+
+            State flags = option->state;
+            QRect r = option->rect;
+
+            // HACK: for some reason height is calculated using the font,
+            // which here results in bad centerin.
+            // also: centering is incorrect
+            if( r.height() < r.width() ) r.setHeight( r.width() );
+            r.translate( 0, 2 );
+
+            QPalette pal = option->palette;
+            if (flags & State_On) drawKStylePrimitive( WT_RadioButton, RadioButton::RadioOn, option, r, pal, flags, p, widget);
+            else drawKStylePrimitive( WT_RadioButton, RadioButton::RadioOff, option, r, pal, flags, p, widget);
+            return;
+
+        }
+
+        // this uses "standard" checkboxes to draw in Qt3 lists.
+        case PE_Q3CheckListIndicator:
+        {
+
+            State flags = option->state;
+            QRect r = option->rect;
+
+            // HACK: for some reason height is calculated using the font,
+            // which here results in bad centerin.
+            // also: centering is incorrect
+            if( r.height() < r.width() ) r.setHeight( r.width() );
+            r.translate( 0, 2 );
+
+            QPalette pal = option->palette;
+            if (flags & State_NoChange) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckTriState, option, r, pal, flags, p, widget);
+            else if (flags & State_On) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckOn, option, r, pal, flags, p, widget);
+            else drawKStylePrimitive( WT_CheckBox, CheckBox::CheckOff, option, r, pal, flags, p, widget);
+            return;
+
+        }
+
+
         default: KStyle::drawPrimitive( element, option, p, widget );
     }
 }
