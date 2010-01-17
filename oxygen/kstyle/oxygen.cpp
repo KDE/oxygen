@@ -1799,13 +1799,25 @@ bool OxygenStyle::drawTabWidgetPrimitive(
                     {
 
                         // Left and right widgets are placed right and left when in reverse mode
+                        // need to clip the painter to avoid overlapping shadow
+                        // on can't reduce the rect because 7 is the minimum height for tileset rendering
+                        p->save();
+                        p->setClipRect( QRect(-gw, r.bottom()-6+gw, r.width() - w - lw + 7+gw, 6) );
                         renderSlab(p, QRect(-gw, r.bottom()-7+gw, r.width() - w - lw + 7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
+                        p->restore();
+
                         if (lw > 0) renderSlab(p, QRect(r.right() - lw-7+gw, r.bottom()-7+gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
 
                     } else {
 
                         if (lw > 0) renderSlab(p, QRect(-gw, r.bottom()-7+gw, lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
+
+                        // need to clip the painter to avoid overlapping shadow
+                        // on can't reduce the rect because 7 is the minimum height for tileset rendering
+                        p->save();
+                        p->setClipRect( QRect(w+lw-7, r.bottom()-6+gw, r.width() - w - lw+7+gw, 6 ) );
                         renderSlab(p, QRect(w+lw-7, r.bottom()-7+gw, r.width() - w - lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
+                        p->restore();
 
                     }
 
