@@ -5519,12 +5519,14 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                 case QTabBar::TriangularNorth:
                 r = QRect(QPoint(paneRect.width() - twf->rightCornerWidgetSize.width(), paneRect.y() - twf->rightCornerWidgetSize.height() + (tb && tb->documentMode() ? 0 : gw)), twf->rightCornerWidgetSize);
                 r = visualRect(twf->direction, twf->rect, r);
+                r.translate( 0, 2 );
                 break;
 
                 case QTabBar::RoundedSouth:
                 case QTabBar::TriangularSouth:
                 r = QRect(QPoint(paneRect.width() - twf->rightCornerWidgetSize.width(), paneRect.height()), twf->rightCornerWidgetSize);
                 r = visualRect(twf->direction, twf->rect, r);
+                r.translate( 0, -4 );
                 break;
 
                 case QTabBar::RoundedWest:
@@ -5541,7 +5543,6 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                 break;
             }
 
-            r.translate( 0, 2 );
             return r;
         }
 
