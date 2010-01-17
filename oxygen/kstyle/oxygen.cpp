@@ -3119,14 +3119,10 @@ bool OxygenStyle::drawGenericPrimitive(
             if( drawContrast )
             {
 
-                p->translate(0,0.5*offset);
+                p->translate(0,offset);
                 p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
                 p->drawPolyline(a);
                 p->translate(0,-offset);
-
-            } else {
-
-                p->translate(0,-0.5*offset);
 
             }
 
