@@ -4391,7 +4391,8 @@ void OxygenStyle::renderTab(
 
                     // don't draw the connection for a frame aligned tab
                     // except for RTL-layout
-                    if (!isFrameAligned || reverseLayout)   p->drawPoint(tabRect.x()+3,tabRect.bottom()-6);
+                    if (!isFrameAligned || reverseLayout)
+                    { renderSlab( p, QRect(tabRect.x() - 7, tabRect.bottom()-9, 18, 7), color, NoFill, TileSet::Top ); }
                     if (!isFrameAligned || !reverseLayout)  p->drawPoint(tabRect.right()-2,tabRect.bottom()-6);
 
                 } else if (southAlignment) {
