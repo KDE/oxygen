@@ -319,8 +319,8 @@ QPixmap OxygenStyleHelper::progressBarIndicator(const QPalette& pal, const QRect
         QColor shadow = calcShadowColor(color);
 
         // shadow
-        p.setPen(QPen(alphaColor(shadow, 0.5),1));
-        p.drawRoundedRect(QRectF(local).adjusted( 0.5, 0.5, 0.5, 0.5), 2, 1 );
+        p.setPen(QPen(alphaColor(shadow, 0.4),1));
+        p.drawRoundedRect(QRectF(local).adjusted( 0.5, -0.5, 0.5, 1.5), 2, 2 );
 
         // fill
         p.setPen(Qt::NoPen);
