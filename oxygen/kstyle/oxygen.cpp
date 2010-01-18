@@ -1663,6 +1663,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                     // itself to calculate the needed base frame
                     // part
                     const QTabWidget *tabWidget = qobject_cast<const QTabWidget *>(widget);
+                    if( widget && !tabWidget ) tabWidget = qobject_cast<const QTabWidget *>(widget->parent() );
                     if (!tabOpt->tabBarRect.isValid() && !tabWidget) return true;
 
                     if (r.left() < tabOpt->tabBarRect.left())
