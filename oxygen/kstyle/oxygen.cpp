@@ -1777,7 +1777,7 @@ bool OxygenStyle::drawTabWidgetPrimitive(
 
                     } else {
 
-                        if (lw > 0) renderSlab(p, QRect(-gw, r.y()-gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
+                        if (lw > 0) renderSlab(p, QRect(-gw, r.y()-gw, lw+11, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
                         renderSlab(p, QRect(w+lw-7, r.y()-gw, r.width() - w - lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
 
                     }
