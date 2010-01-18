@@ -165,6 +165,8 @@ OxygenStyle::OxygenStyle() :
 
     setWidgetLayoutProp(WT_MenuBar, MenuBar::ItemSpacing, 0);
     setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin, 0);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin+Left, 0);
+    setWidgetLayoutProp(WT_MenuBar, MenuBar::Margin+Right, 0);
 
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin, 3);
     setWidgetLayoutProp(WT_MenuBarItem, MenuBarItem::Margin+Left, 5);
