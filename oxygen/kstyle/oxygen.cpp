@@ -187,7 +187,6 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 5);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, 2);
     setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, 4);
-    setWidgetLayoutProp(WT_TabBar, TabBar::TabTextToIconSpace, 13 );
     setWidgetLayoutProp(WT_TabBar, TabBar::ScrollButtonWidth, 18);
 
     setWidgetLayoutProp(WT_TabWidget, TabWidget::ContentsMargin, 4);
@@ -544,7 +543,23 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
 
             // bypass KStyle entirely because it makes it completely impossible
             // to handle both KDE and Qt applications at the same time
-            return QCommonStyle::drawControl( element, option, p, widget);
+            // however, adds some extras spaces for icons in order not to conflict with tab margin
+            // (which QCommonStyle does not handle right)
+            const QStyleOptionTabV3 *tab = qstyleoption_cast<const QStyleOptionTabV3 *>(option);
+            if( tab && !tab->icon.isNull() )
+            {
+
+                QStyleOptionTabV3 tabV3(*tab);
+                bool verticalTabs = tabV3.shape == QTabBar::RoundedEast
+                    || tabV3.shape == QTabBar::RoundedWest
+                    || tabV3.shape == QTabBar::TriangularEast
+                    || tabV3.shape == QTabBar::TriangularWest;
+                if( verticalTabs ) tabV3.rect.adjust( 0, 0, 0, -3 );
+                else tabV3.rect.adjust( 3, 0, 0, 0 );
+
+                return QCommonStyle::drawControl( element, &tabV3, p, widget);
+
+            } else return QCommonStyle::drawControl( element, option, p, widget);
 
         }
 
