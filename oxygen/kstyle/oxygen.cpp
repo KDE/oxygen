@@ -555,6 +555,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
                     || tabV3.shape == QTabBar::TriangularEast
                     || tabV3.shape == QTabBar::TriangularWest;
                 if( verticalTabs ) tabV3.rect.adjust( 0, 0, 0, -3 );
+                else if( tabV3.direction == Qt::RightToLeft ) tabV3.rect.adjust( 0, 0, -3, 0 );
                 else tabV3.rect.adjust( 3, 0, 0, 0 );
 
                 return QCommonStyle::drawControl( element, &tabV3, p, widget);
@@ -1533,74 +1534,104 @@ bool OxygenStyle::drawTabBarPrimitive(
 
         case TabBar::IndicatorTear:
         {
-            const QStyleOptionTab* option = qstyleoption_cast<const QStyleOptionTab*>(opt);
+
+            const QStyleOptionTab* option( qstyleoption_cast<const QStyleOptionTab*>(opt) );
             if(!option) return true;
+
+            // in fact with current version of Qt (4.6.0) the cast fails and document mode is always false
+            // this will hopefully be fixed in later versions
+            const QStyleOptionTabV3* tabOptV3( qstyleoption_cast<const QStyleOptionTabV3*>(opt) );
+            bool documentMode = tabOptV3 ? tabOptV3->documentMode : false;
+
+            const QTabWidget *tabWidget = (widget && widget->parentWidget()) ? qobject_cast<const QTabWidget *>(widget->parentWidget()) : NULL;
+            documentMode |= (tabWidget ? tabWidget->documentMode() : true );
 
             TileSet::Tiles flag;
             QRect rect;
+            QRect clip;
             QRect br = r;
             QRect gr = r; // fade the tab there
             bool vertical = false;
-            QPainter::CompositionMode slabCompMode = QPainter::CompositionMode_Source;
 
             switch(option->shape)
             {
 
                 case QTabBar::RoundedNorth:
                 case QTabBar::TriangularNorth:
-                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
+                if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                 {
 
-                    flag = reverseLayout ? TileSet::Right : TileSet::Left;
-                    rect = QRect(r.x(), r.y()+r.height()-4-7, 14+7, 4+14);
+                    flag = TileSet::Top;
+                    rect = QRect(r.x()-7, r.y()+r.height()-7-1, 14+7, 7);
+
+                    if( reverseLayout ) clip = QRect(r.x()+2, r.y()+r.height()-7-1, 14-1, 7);
+                    else clip = QRect(r.x()-7, r.y()+r.height()-7-1, 14-1, 7);
+
 
                 } else {
 
-                    flag = TileSet::Top;
-                    rect = QRect(r.x()-7, r.y()+r.height()-7, 14+7, 7);
-                    slabCompMode = QPainter::CompositionMode_SourceOver;
-
+                    flag = reverseLayout ? TileSet::Right : TileSet::Left;
+                    flag |= TileSet::Top;
+                    if( reverseLayout ) {
+                        rect = QRect(r.x(), r.y()+r.height()-7-1, 7, 1+14);
+                    } else {
+                        rect = QRect(r.x(), r.y()+r.height()-7-1, 7, 1+14);
+                        clip = rect;
+                    }
                 }
+
                 rect.translate(-gw,0);
                 rect = visualRect(option->direction, r, rect);
-                gr.translate(-gw,0);
+                if( !reverseLayout ) gr.translate(-gw,0);
                 break;
 
                 case QTabBar::RoundedSouth:
                 case QTabBar::TriangularSouth:
-                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
+                if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                 {
 
-                    flag = reverseLayout ? TileSet::Right : TileSet::Left;
-                    rect = QRect(r.x(), r.y()-7, 14+7, 2+14);
+                    flag = TileSet::Bottom;
+                    rect = QRect(r.x()-7, r.y(), 14+7, 7);
+
+                    if( reverseLayout ) clip = QRect(r.x()+2, r.y(), 14-1, 7);
+                    else clip = QRect(r.x()-7, r.y(), 14-1, 7);
 
                 } else {
 
-                    flag = TileSet::Bottom;
-                    rect = reverseLayout ? QRect(r.x()-7+4, r.y(), 14+3, 6) : QRect(r.x()-7, r.y()-1, 14+6, 7);
+                    flag = reverseLayout ? TileSet::Right : TileSet::Left;
+                    flag |= TileSet::Bottom;
+                    if( reverseLayout ) {
+                        rect = QRect(r.x(), r.y()-7, 7, 14);
+                        clip = QRect(r.x()+2, r.y()-7, 5, 14);
+                    } else {
+                        rect = QRect(r.x(), r.y()-7, 7, 14);
+                        clip = QRect(r.x(), r.y()-7, 6, 14);
+                    }
 
                 }
 
                 rect.translate(-gw,0);
                 rect = visualRect(option->direction, r, rect);
-                gr.translate(-gw,0);
+                if( !reverseLayout ) gr.translate(-gw,0);
                 break;
 
                 case QTabBar::RoundedWest:
                 case QTabBar::TriangularWest:
-                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
+                if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                 {
 
-                    flag = TileSet::Top;
-                    rect = QRect(r.x()+r.width()-4-7, r.y(), 4+14, 7);
+                    flag = TileSet::Left;
+                    rect = QRect(r.x()+r.width()-8, r.y()-7, 7, 6+14);
+                    clip = QRect(r.x()+r.width()-8, r.y()-7, 7, 14-2);
+                    br.adjust(0,0,-5,0);
 
                 } else {
 
-                    flag = TileSet::Left;
-                    rect = QRect(r.x()+r.width()-7, r.y()-7, 7, 4+14);
-                    br.adjust(0,0,-5,0);
+                    flag = TileSet::Top|TileSet::Left;
+                    rect = QRect(r.x()+r.width()-8, r.y(), 7, 7);
 
                 }
+
                 vertical = true;
                 rect.translate(0,-gw);
                 gr.translate(0,-gw);
@@ -1608,17 +1639,18 @@ bool OxygenStyle::drawTabBarPrimitive(
 
                 case QTabBar::RoundedEast:
                 case QTabBar::TriangularEast:
-                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget)
+                if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                 {
 
-                    flag = TileSet::Top;
-                    rect = QRect(r.x()-7, r.y(), 4+14, 7);
+                    flag = TileSet::Right;
+                    rect = QRect(r.x()+1, r.y()-7, 7, 6+14);
+                    clip = QRect(r.x()+1, r.y()-7, 7, 14-2);
+                    br.adjust(5,0,0,0);
 
                 } else {
 
-                    flag = TileSet::Right;
-                    rect = QRect(r.x(), r.y()-7, 7, 4+14);
-                    br.adjust(5,0,0,0);
+                    flag = TileSet::Top|TileSet::Right;
+                    rect = QRect(r.x()-7, r.y(), 14, 7);
 
                 }
                 vertical = true;
@@ -1629,26 +1661,21 @@ bool OxygenStyle::drawTabBarPrimitive(
                 default: return true;
             }
 
-            if(!vertical && reverseLayout)
-            {
-                if(!option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) gr.adjust(-4,-gr.y(),+gr.x()-4,0);
-                else gr.adjust(0,-gr.y(),gr.x(),0);
-            }
-
             // fade tabbar
-            QPixmap pm(gr.width(),gr.height());
+            QPixmap pm(gr.size());
             pm.fill(Qt::transparent);
             QPainter pp(&pm);
 
             int w = 0, h = 0;
-            if (vertical) {
-                h = gr.height();
-            } else {
-                w = gr.width();
-            }
-            QLinearGradient grad(w, h, 0, 0);
-            grad.setColorAt(0, Qt::transparent);
-            grad.setColorAt(0.2, Qt::transparent);
+            if (vertical) h = gr.height();
+            else w = gr.width();
+
+            QLinearGradient grad;
+            if( reverseLayout ) grad = QLinearGradient( 0, 0, w, h );
+            else grad = QLinearGradient(w, h, 0, 0);
+
+            grad.setColorAt(0, Qt::transparent );
+            grad.setColorAt(0.6, Qt::black);
             grad.setColorAt(1, Qt::black);
 
             _helper.renderWindowBackground(&pp, pm.rect(), widget, pal);
@@ -1657,8 +1684,11 @@ bool OxygenStyle::drawTabBarPrimitive(
             pp.end();
             p->drawPixmap(gr.topLeft(),pm);
 
-            renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, flag);
-
+            if( !(documentMode && flags&State_Selected) )
+            {
+                if( clip.isValid() ) _helper.renderWindowBackground(p, clip, widget, pal);
+                renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, flag);
+            }
             return true;
         }
 
@@ -4159,9 +4189,10 @@ void OxygenStyle::renderTab(
     const QStyleOptionTabV3 *tabOptV3 = qstyleoption_cast<const QStyleOptionTabV3 *>(tabOpt);
 
     // HACK: determine whether a connection to a frame (like in tab widgets) has to be considered
+    bool documentMode = tabOptV3 ? tabOptV3->documentMode : false;
     const QTabWidget *tabWidget = (widget && widget->parentWidget()) ? qobject_cast<const QTabWidget *>(widget->parentWidget()) : NULL;
-    const bool hasFrame = tabWidget ? true : false;
-    const bool documentMode = tabOptV3 ? tabOptV3->documentMode : false;
+    documentMode |= (tabWidget ? tabWidget->documentMode() : true );
+
     const bool northAlignment = tabOpt->shape == QTabBar::RoundedNorth || tabOpt->shape == QTabBar::TriangularNorth;
     const bool southAlignment = tabOpt->shape == QTabBar::RoundedSouth || tabOpt->shape == QTabBar::TriangularSouth;
     const bool westAlignment = tabOpt->shape == QTabBar::RoundedWest || tabOpt->shape == QTabBar::TriangularWest;
@@ -4307,7 +4338,7 @@ void OxygenStyle::renderTab(
 
                     if (!reverseLayout)
                     {
-                        if (hasFrame&&isFrameAligned && !documentMode)
+                        if ( isFrameAligned && !documentMode)
                         {
                             if (!selected)
                             {
@@ -4323,7 +4354,7 @@ void OxygenStyle::renderTab(
                     } else {
 
                         // reverseLayout
-                        if (hasFrame&&isFrameAligned && !documentMode)
+                        if( isFrameAligned && !documentMode )
                         {
                             if (!selected)
                             {
@@ -4343,7 +4374,7 @@ void OxygenStyle::renderTab(
             } else {
 
                 // vertical
-                if (isTopMost && hasFrame && !documentMode)
+                if (isTopMost && !documentMode)
                 {
 
                     if (!selected)
@@ -4550,12 +4581,12 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
-                            path.moveTo(x+2.5, y+h-2-(( hasFrame && isFrameAligned ) ? 0 : 2 ));
+                            path.moveTo(x+2.5, y+h-2-(( isFrameAligned && !documentMode ) ? 0 : 2 ));
                             path.lineTo(x+2.5, y+2.5); // left border
                             path.arcTo(QRectF(x+2.5, y+0.5, 9, 9), 180, -90); // top-left corner
                             path.lineTo(QPointF( x + w - 1.5 - 4.5, y+0.5)); // top border
                             path.arcTo( QRectF( x+w - 1.5 - 9, y+0.5, 9, 9 ), 90, -90 );
-                            path.lineTo(QPointF( x+w - 1.5, y+h-2-(( hasFrame && isFrameAligned ) ? 0 : 2 ) )); // to complete the path.
+                            path.lineTo(QPointF( x+w - 1.5, y+h-2-(( isFrameAligned && !documentMode ) ? 0 : 2 ) )); // to complete the path.
                             p->drawPath(path);
 
                         } else if( isLeftMost ) {
@@ -4563,7 +4594,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
-                            path.moveTo(x+2.5, y+h-2-(( hasFrame && isFrameAligned ) ? 0 : 2 ));
+                            path.moveTo(x+2.5, y+h-2-(( isFrameAligned && !documentMode ) ? 0 : 2 ));
                             path.lineTo(x+2.5, y+2.5); // left border
                             path.arcTo(QRectF(x+2.5, y+0.5, 9, 9), 180, -90); // top-left corner
                             path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+0.5)); // top border
@@ -4574,7 +4605,7 @@ void OxygenStyle::renderTab(
 
                             QPainterPath path;
                             w+=gw;
-                            path.moveTo(x+w-2.5, y+h-2- (( hasFrame && isFrameAligned ) ? 0 : 2 ) );
+                            path.moveTo(x+w-2.5, y+h-2- (( isFrameAligned && !documentMode ) ? 0 : 2 ) );
                             path.lineTo(x+w-2.5, y+2.5); // right border
                             path.arcTo(QRectF(x+w-9-2.5, y+0.5, 9, 9), 0, 90); // top-right corner
                             path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+0.5)); // top border
@@ -4601,7 +4632,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
-                            path.moveTo(x+2.5, y+2+((hasFrame && isFrameAligned) ? 0 : 2));
+                            path.moveTo(x+2.5, y+2+(( isFrameAligned && !documentMode ) ? 0 : 2));
                             path.lineTo(x+2.5, y+h-2.5); // left border
                             path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90); // bottom-left corner
                             path.lineTo(QPointF(x+w - 1.5 -4.5, y+h-0.5)); // bottom border
@@ -4614,7 +4645,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
-                            path.moveTo(x+2.5, y+2+((hasFrame && isFrameAligned) ? 0 : 2));
+                            path.moveTo(x+2.5, y+2+(( isFrameAligned && !documentMode ) ? 0 : 2));
                             path.lineTo(x+2.5, y+h-2.5); // left border
                             path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90); // bottom-left corner
                             path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+h-0.5)); // bottom border
@@ -4625,7 +4656,7 @@ void OxygenStyle::renderTab(
 
                             QPainterPath path;
                             w+=gw;
-                            path.moveTo(x+w-2.5, y+2+((hasFrame&&isFrameAligned) ?0:2));
+                            path.moveTo(x+w-2.5, y+2+(( isFrameAligned && !documentMode ) ?0:2));
                             path.lineTo(x+w-2.5, y+h-2.5); // right border
                             path.arcTo(QRectF(x+w-9-2.5, y+h-9.5, 9, 9), 0, -90); // bottom-right corner
                             path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+h-0.5)); // bottom border
@@ -4650,8 +4681,8 @@ void OxygenStyle::renderTab(
                     if(isLeftMost)
                     {
 
-                        if( hasFrame&&isFrameAligned ) posFlag |= TileSet::Left;
-                        if(reverseLayout || !( hasFrame&&isFrameAligned ) )
+                        if( isFrameAligned && !documentMode ) posFlag |= TileSet::Left;
+                        if( reverseLayout || documentMode || !isFrameAligned )
                         {
                             renderSlab(p, QRect(Ractual.left()-7, Ractual.y(), 14, Ractual.height()), color, NoFill, posFlag);
                             Ractual.adjust(-5,0,0,0);
@@ -4663,7 +4694,7 @@ void OxygenStyle::renderTab(
                     if(isRightMost)
                     {
 
-                        if( hasFrame&&isFrameAligned ) posFlag |= TileSet::Right;
+                        if( isFrameAligned && !documentMode ) posFlag |= TileSet::Right;
                         else {
 
                             renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 1+14, Ractual.height()), color, NoFill, posFlag);
@@ -4801,12 +4832,12 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x+w+ (hasFrame ? 3.0:0.5), y+0.5);
+                            path.moveTo(x+w+ ( documentMode ? 0.5:3.0 ), y+0.5);
                             path.lineTo(x+5.0, y+0.5); // top border
                             path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
                             path.lineTo(x+0.5, y+h-2.5-4.5); // left border
                             path.arcTo( QRectF( x+0.5, y+h-2.5-9, 9, 9 ), 180, 90 );
-                            path.lineTo(x+w+(hasFrame ? 3.0:0.5), y+h-2.5); // complete the path
+                            path.lineTo(x+w+( documentMode ? 0.5:3.0 ), y+h-2.5); // complete the path
                             p->drawPath(path);
 
                         } else if( isLeftMost ) {
@@ -4815,7 +4846,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x+w+(hasFrame ? 3.0:0.5), y+0.5);
+                            path.moveTo(x+w+( documentMode ? 0.5:3.0 ), y+0.5);
                             path.lineTo(x+5.0, y+0.5); // top border
                             path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
                             path.lineTo(x+0.5, y+h+0.5); // left border
@@ -4855,12 +4886,12 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x-(hasFrame ? 3.0:0.5), y+0.5);
+                            path.moveTo(x-( documentMode ? 0.5:3.0 ), y+0.5);
                             path.lineTo(x+w-5.0, y+0.5); // top line
                             path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
                             path.lineTo(x+w-0.5, y+h-2.5 -4.5 ); // right line
                             path.arcTo( QRectF( x+w-0.5-9, y+h-2.5-9, 9, 9 ), 0, -90 );
-                            path.lineTo(x-(hasFrame ? 3.0:0.5), y+h-2.5); // complete path
+                            path.lineTo(x-( documentMode ? 0.5:3.0 ), y+h-2.5); // complete path
                             p->drawPath(path);
 
                         } else if (isLeftMost) {
@@ -4869,7 +4900,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x-(hasFrame ? 3.0:0.5), y+0.5);
+                            path.moveTo(x-( documentMode ? 0.5:3.0 ), y+0.5);
                             path.lineTo(x+w-5.0, y+0.5); // top line
                             path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
                             path.lineTo(x+w-0.5, y+h+0.5); // right line
@@ -4907,7 +4938,7 @@ void OxygenStyle::renderTab(
                     {
 
                         // at top
-                        if(hasFrame&&isFrameAligned ) posFlag |= TileSet::Top;
+                        if( isFrameAligned && !documentMode ) posFlag |= TileSet::Top;
                         else {
                             renderSlab(p, QRect(Ractual.left(), Ractual.y()-7, Ractual.width(), 2+14), color, NoFill, posFlag);
                             Ractual.adjust(0,-5,0,0);
@@ -4920,7 +4951,7 @@ void OxygenStyle::renderTab(
                     {
 
                         // at bottom
-                        if( (hasFrame&&isFrameAligned) && !reverseLayout) posFlag |= TileSet::Top;
+                        if( isFrameAligned && !documentMode && !reverseLayout) posFlag |= TileSet::Top;
                         Ractual.adjust(0,0,0,7);
 
                     } else if( isLeftOfSelected )  Ractual.adjust(0,0,0,10-gw);
