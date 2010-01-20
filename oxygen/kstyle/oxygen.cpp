@@ -1564,20 +1564,16 @@ bool OxygenStyle::drawTabBarPrimitive(
                     flag = TileSet::Top;
                     rect = QRect(r.x()-7, r.y()+r.height()-7-1, 14+7, 7);
 
-                    if( reverseLayout ) clip = QRect(r.x()+2, r.y()+r.height()-7-1, 14-1, 7);
-                    else clip = QRect(r.x()-7, r.y()+r.height()-7-1, 14-1, 7);
-
 
                 } else {
 
                     flag = reverseLayout ? TileSet::Right : TileSet::Left;
                     flag |= TileSet::Top;
-                    if( reverseLayout ) {
-                        rect = QRect(r.x(), r.y()+r.height()-7-1, 7, 1+14);
-                    } else {
-                        rect = QRect(r.x(), r.y()+r.height()-7-1, 7, 1+14);
-                        clip = rect;
-                    }
+                    if( reverseLayout ) rect = QRect(r.x(), r.y()+r.height()-7-1, 7, 14);
+                    else rect = QRect(r.x(), r.y()+r.height()-7-1, 7, 14);
+
+                    gr.adjust( 0, 0, 0, -3 );
+
                 }
 
                 rect.translate(-gw,0);
@@ -1686,7 +1682,7 @@ bool OxygenStyle::drawTabBarPrimitive(
 
             if( !(documentMode && flags&State_Selected) )
             {
-                if( clip.isValid() ) _helper.renderWindowBackground(p, clip, widget, pal);
+                //if( clip.isValid() ) _helper.renderWindowBackground(p, clip, widget, pal);
                 renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, flag);
             }
             return true;
@@ -2748,6 +2744,7 @@ bool OxygenStyle::drawToolButtonPrimitive(
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
     const bool hasFocus(enabled && (flags & State_HasFocus));
+    const bool reverseLayout = opt->direction == Qt::RightToLeft;
 
     switch (primitive)
     {
@@ -2803,7 +2800,10 @@ bool OxygenStyle::drawToolButtonPrimitive(
                 {
 
                     QPalette::ColorGroup colorGroup = tb->palette().currentColorGroup();
-                    bool documentMode( tb->documentMode() || !qobject_cast<QTabWidget*>(tb->parent()) );
+                    QTabWidget* tw( qobject_cast<QTabWidget*>(tb->parent() ) );
+                    const bool documentMode( tb->documentMode() || !tw );
+                    const bool leftCorner( tw && reverseLayout ? tw->cornerWidget( Qt::TopRightCorner ):tw->cornerWidget( Qt::TopLeftCorner ) );
+                    const bool rightCorner( tw && reverseLayout ? tw->cornerWidget( Qt::TopLeftCorner ):tw->cornerWidget( Qt::TopRightCorner ) );
 
                     switch(tb->shape())
                     {
@@ -2813,18 +2813,20 @@ bool OxygenStyle::drawToolButtonPrimitive(
 
                             // check border right
                             slitRect.adjust(0,3,0,-3-gw);
-                            _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-2), t, t->window()->palette());
-                            if( !documentMode && t->geometry().right() >= tb->rect().right() )
+                            if( !documentMode && !rightCorner && t->geometry().right() >= tb->rect().right() )
                             {
 
+                                _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-2), t, t->window()->palette());
                                 renderSlab(p, QRect(r.left()-7, r.bottom()-6-gw, r.width()+7+1, 7), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top|TileSet::Right);
 
-                            } else if( !documentMode && t->geometry().left() <= tb->rect().left() ) {
+                            } else if( !documentMode && !leftCorner && t->geometry().left() <= tb->rect().left() ) {
 
+                                _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-2), t, t->window()->palette());
                                 renderSlab(p, QRect(r.left()-1, r.bottom()-6-gw, r.width()+7+1, 7), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top|TileSet::Left);
 
                             } else {
 
+                                _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-3), t, t->window()->palette());
                                 renderSlab(p, QRect(r.left()-7, r.bottom()-6-gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top);
 
                             }
@@ -2838,12 +2840,12 @@ bool OxygenStyle::drawToolButtonPrimitive(
                             slitRect.adjust(0,3+gw,0,-3);
                             _helper.renderWindowBackground(p, r.adjusted(0,2+gw,0,0), t, t->window()->palette());
 
-                            if( !documentMode && t->geometry().right() >= tb->rect().right() )
+                            if( !documentMode && !leftCorner && t->geometry().right() >= tb->rect().right() )
                             {
 
                                 renderSlab(p, QRect(r.left()-7, r.top()+gw-1, r.width()+7+1, 7), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom|TileSet::Right );
 
-                            } else if( !documentMode && t->geometry().left() <= tb->rect().left() ) {
+                            } else if( !documentMode && !rightCorner && t->geometry().left() <= tb->rect().left() ) {
 
                                 renderSlab(p, QRect(r.left()-1, r.top()+gw-1, r.width()+7+1, 7), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom|TileSet::Left );
 
