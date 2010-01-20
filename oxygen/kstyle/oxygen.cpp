@@ -2801,77 +2801,104 @@ bool OxygenStyle::drawToolButtonPrimitive(
                 // check if parent is tabbar
                 if (const QTabBar *tb =  qobject_cast<const QTabBar*>(t->parent()))
                 {
-                    // set proper flags based on taskbar tab shape
-                    bool horizontal = true;
-                    bool northOrEast = true;
+
+                    QPalette::ColorGroup colorGroup = tb->palette().currentColorGroup();
+                    bool documentMode( tb->documentMode() || !qobject_cast<QTabWidget*>(tb->parent()) );
+
                     switch(tb->shape())
                     {
                         case QTabBar::RoundedNorth:
                         case QTabBar::TriangularNorth:
-                        break;
+                        {
+
+                            // check border right
+                            slitRect.adjust(0,3,0,-3-gw);
+                            _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-2), t, t->window()->palette());
+                            if( !documentMode && t->geometry().right() >= tb->rect().right() )
+                            {
+
+                                renderSlab(p, QRect(r.left()-7, r.bottom()-6-gw, r.width()+7+1, 7), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top|TileSet::Right);
+
+                            } else if( !documentMode && t->geometry().left() <= tb->rect().left() ) {
+
+                                renderSlab(p, QRect(r.left()-1, r.bottom()-6-gw, r.width()+7+1, 7), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top|TileSet::Left);
+
+                            } else {
+
+                                renderSlab(p, QRect(r.left()-7, r.bottom()-6-gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top);
+
+                            }
+
+                            break;
+                        }
 
                         case QTabBar::RoundedSouth:
                         case QTabBar::TriangularSouth:
-                        northOrEast = false;
-                        break;
+                        {
+                            slitRect.adjust(0,3+gw,0,-3);
+                            _helper.renderWindowBackground(p, r.adjusted(0,2+gw,0,0), t, t->window()->palette());
+
+                            if( !documentMode && t->geometry().right() >= tb->rect().right() )
+                            {
+
+                                renderSlab(p, QRect(r.left()-7, r.top()+gw-1, r.width()+7+1, 7), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom|TileSet::Right );
+
+                            } else if( !documentMode && t->geometry().left() <= tb->rect().left() ) {
+
+                                renderSlab(p, QRect(r.left()-1, r.top()+gw-1, r.width()+7+1, 7), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom|TileSet::Left );
+
+                            } else {
+
+                                renderSlab(p, QRect(r.left()-7, r.top()+4+gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom);
+
+                            }
+
+                            break;
+                        }
 
                         case QTabBar::RoundedEast:
                         case QTabBar::TriangularEast:
-                        horizontal = false;
-                        break;
+                        {
+
+                            slitRect.adjust(3+gw,0,-3-gw,0);
+                            _helper.renderWindowBackground(p, r.adjusted(1+gw,0,-2,0), t, t->window()->palette());
+                            if( !documentMode && t->geometry().bottom() >= tb->rect().bottom() )
+                            {
+                                renderSlab(p, QRect(r.left()+gw, r.top()-7, 7, r.height()+7+1), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom|TileSet::Right );
+
+                            } else {
+
+                                renderSlab(p, QRect(r.left()+5+gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Right);
+
+                            }
+
+                            break;
+                        }
+
 
                         case QTabBar::RoundedWest:
                         case QTabBar::TriangularWest:
-                        northOrEast = false;
-                        horizontal = false;
-                        break;
+                        {
+                            // west
+                            slitRect.adjust(3+gw,0,-3-gw,0);
+                            _helper.renderWindowBackground(p, r.adjusted(2-gw,0,-1,0), t, t->window()->palette());
+
+                            if( !documentMode && t->geometry().bottom() >= tb->rect().bottom() )
+                            {
+                                renderSlab(p, QRect(r.right()-6-gw, r.top()-7, 7, r.height()+7+1), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom|TileSet::Left );
+
+                            } else {
+
+                                renderSlab(p, QRect(r.right()-6-gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Left);
+
+                            }
+
+                            break;
+                        }
 
                         default:
                         break;
                     }
-
-                    QPalette::ColorGroup colorGroup = tb->palette().currentColorGroup();
-                    if (horizontal)
-                    {
-
-                        if (northOrEast)
-                        {
-
-                            // north
-                            slitRect.adjust(0,3,0,-3-gw);
-                            _helper.renderWindowBackground(p, r.adjusted(0,2-gw,0,-3), t, t->window()->palette());
-                            renderSlab(p, QRect(r.left()-7, r.bottom()-6-gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Top);
-
-                        } else {
-
-                            //south
-                            slitRect.adjust(0,3+gw,0,-3);
-                            _helper.renderWindowBackground(p, r.adjusted(0,2+gw,0,0), t, t->window()->palette());
-                            renderSlab(p, QRect(r.left()-7, r.top()+4+gw, r.width()+14, 2), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Bottom);
-
-                        }
-
-                    } else {
-
-                        if (northOrEast)
-                        {
-
-                            // east
-                            slitRect.adjust(3+gw,0,-3-gw,0);
-                            _helper.renderWindowBackground(p, r.adjusted(2+gw,0,-2,0), t, t->window()->palette());
-                            renderSlab(p, QRect(r.left()+5+gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Right);
-
-                        } else {
-
-                            // west
-                            slitRect.adjust(3+gw,0,-3-gw,0);
-                            _helper.renderWindowBackground(p, r.adjusted(2-gw,0,-3,0), t, t->window()->palette());
-                            renderSlab(p, QRect(r.right()-6-gw, r.top()-7, 2, r.height()+14), pal.color(colorGroup, QPalette::Window), NoFill, TileSet::Left);
-
-                        }
-                    }
-
-                    // continue drawing the slit
 
                 } else {
 
