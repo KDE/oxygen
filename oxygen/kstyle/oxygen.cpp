@@ -2804,8 +2804,8 @@ bool OxygenStyle::drawToolButtonPrimitive(
                     QPalette::ColorGroup colorGroup = tb->palette().currentColorGroup();
                     QTabWidget* tw( qobject_cast<QTabWidget*>(tb->parent() ) );
                     const bool documentMode( tb->documentMode() || !tw );
-                    const bool leftCorner( tw && reverseLayout ? tw->cornerWidget( Qt::TopRightCorner ):tw->cornerWidget( Qt::TopLeftCorner ) );
-                    const bool rightCorner( tw && reverseLayout ? tw->cornerWidget( Qt::TopLeftCorner ):tw->cornerWidget( Qt::TopRightCorner ) );
+                    const bool leftCorner( tw && (reverseLayout ? tw->cornerWidget( Qt::TopRightCorner ):tw->cornerWidget( Qt::TopLeftCorner )) );
+                    const bool rightCorner( tw && (reverseLayout ? tw->cornerWidget( Qt::TopLeftCorner ):tw->cornerWidget( Qt::TopRightCorner )) );
 
                     switch(tb->shape())
                     {
