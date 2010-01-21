@@ -4551,9 +4551,14 @@ void OxygenStyle::renderTab(
 
                     // some "position specific" paintings...
                     // draw the left connection from the panel border to the tab
-                    if(isFirst && !reverseLayout && !leftCornerWidget) {
+                    if(isFirst && !reverseLayout && !leftCornerWidget )
+                    {
 
-                        renderSlab(p, Rb.adjusted(0,-7,0,7), color, NoFill, TileSet::Left);
+                        if( !documentMode )
+                        {
+                            if( southAlignment ) renderSlab(p, Rb.adjusted(0, -7, 0, 4), color, NoFill, TileSet::Left);
+                            else renderSlab(p, Rb.adjusted(0, -4, 0, 7), color, NoFill, TileSet::Left);
+                        }
 
                     } else if( isLeftMost ) {
 
@@ -4564,9 +4569,14 @@ void OxygenStyle::renderTab(
                     }
 
                     // draw the right connection from the panel border to the tab
-                    if(isFirst && reverseLayout && !rightCornerWidget) {
+                    if(isFirst && reverseLayout && !rightCornerWidget )
+                    {
 
-                        renderSlab(p, Rb.adjusted(0,-7,0,7), color, NoFill, TileSet::Right);
+                        if( !documentMode )
+                        {
+                            if( southAlignment ) renderSlab(p, Rb.adjusted(0, -7, 0, 4), color, NoFill, TileSet::Right);
+                            else renderSlab(p, Rb.adjusted(0, -4, 0, 7), color, NoFill, TileSet::Right);
+                        }
 
                     } else if( isRightMost ) {
 
@@ -4765,7 +4775,7 @@ void OxygenStyle::renderTab(
                     r.getRect(&x, &y, &w, &h);
 
                     // parts of the adjacent tabs
-                    if(!isSingle && ((!reverseLayout && !isFirst) || (reverseLayout && !isFirst)))
+                    if(!isSingle && !isFirst )
                     {
 
                         p->setPen(darkColor);
@@ -4784,7 +4794,7 @@ void OxygenStyle::renderTab(
 
                     }
 
-                    if(!isSingle && ((!reverseLayout && !isLast) || (reverseLayout && !isLast)))
+                    if( !isSingle && !isLast )
                     {
 
                         p->setPen(darkColor);
@@ -4813,7 +4823,11 @@ void OxygenStyle::renderTab(
                     if(isFirst && !leftCornerWidget)
                     {
 
-                        renderSlab(p, Rb.adjusted(-7,0,7,0), color, NoFill, TileSet::Top);
+                        if( !documentMode )
+                        {
+                            if( eastAlignment ) renderSlab(p, Rb.adjusted( -7, 0, 4, 0), color, NoFill, TileSet::Top);
+                            else renderSlab(p, Rb.adjusted( -4, 0, 7, 0 ), color, NoFill, TileSet::Top);
+                        }
 
                     } else if( isLeftMost ) {
 
@@ -4822,9 +4836,12 @@ void OxygenStyle::renderTab(
 
                     }
 
-                    if( isRightMost ) {
+                    if( isRightMost )
+                    {
+
                         if( eastAlignment ) renderSlab( p, QRect(Rb.left()+1, Rb.bottom()-9,6,16), color, NoFill, TileSet::Right );
                         else renderSlab( p, QRect(Rb.right()-6, Rb.bottom()-10,6,17), color, NoFill, TileSet::Left );
+
                     }
 
                     // filling (this is identical to the TS_SINGLE code)
