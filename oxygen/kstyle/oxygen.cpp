@@ -1707,11 +1707,13 @@ bool OxygenStyle::drawTabBarPrimitive(
                     if( widget && !tabWidget ) tabWidget = qobject_cast<const QTabWidget *>(widget->parent() );
                     if (!tabOpt->tabBarRect.isValid() && !tabWidget) return true;
 
+                    const bool leftWidget( tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner) && tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner)->isVisible() );
+                    const bool rightWidget( tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner) && tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner)->isVisible() );
                     if (r.left() < tabOpt->tabBarRect.left())
                     {
                         QRect fr = r;
-                        if (tabOpt->tabBarRect.isValid()) fr.setRight(tabOpt->tabBarRect.left());
-                        else if (tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner)) fr.setRight(fr.left() + (tabWidget->cornerWidget(Qt::TopLeftCorner)->width()));
+                        if( tabOpt->tabBarRect.isValid() ) fr.setRight(tabOpt->tabBarRect.left());
+                        else if( leftWidget ) fr.setRight(fr.left() + (tabWidget->cornerWidget(Qt::TopLeftCorner)->width()));
                         else return true;
 
                         fr.adjust(-7,-gw,7,-1-gw);
@@ -1721,8 +1723,8 @@ bool OxygenStyle::drawTabBarPrimitive(
                     if (tabOpt->tabBarRect.right() < r.right())
                     {
                         QRect fr = r;
-                        if (tabOpt->tabBarRect.isValid()) fr.setLeft(tabOpt->tabBarRect.right());
-                        else if (tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner))
+                        if( tabOpt->tabBarRect.isValid() ) fr.setLeft(tabOpt->tabBarRect.right());
+                        else if( rightWidget )
                         {
 
                             fr.setLeft(fr.right() - (tabWidget->cornerWidget(Qt::TopRightCorner)->width()));
