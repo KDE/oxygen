@@ -2806,8 +2806,8 @@ bool OxygenStyle::drawToolButtonPrimitive(
                     const QWidget* rightWidget( tw ? (reverseLayout ? tw->cornerWidget( Qt::TopLeftCorner ):tw->cornerWidget( Qt::TopRightCorner )):0 );
 
                     // check if toolbutton is on the "edge" of the tab
-                    const bool toolButtonAtLeft( t->geometry().left() <= ( leftWidget ? leftWidget->geometry().right() : tb->rect().left() ) );
-                    const bool toolButtonAtRight( t->geometry().right() >= ( rightWidget ? rightWidget->geometry().left() : tb->rect().right() ) );
+                    //const bool toolButtonAtLeft( t->geometry().left() <= ( leftWidget ? leftWidget->geometry().right() : tb->rect().left() ) );
+                    //const bool toolButtonAtRight( t->geometry().right() >= ( rightWidget ? rightWidget->geometry().left() : tb->rect().right() ) );
 
                     // prepare painting, clipping and tiles
                     TileSet::Tiles tiles = 0;
@@ -2955,7 +2955,7 @@ bool OxygenStyle::drawToolButtonPrimitive(
                 }
             }
 
-            if( widget->inherits("QDockWidgetTitleButton" ) )
+            if( widget && widget->inherits("QDockWidgetTitleButton" ) )
             { slitRect.adjust( 1, 0, 0, 0 ); }
 
             // normal (auto-raised) toolbuttons
