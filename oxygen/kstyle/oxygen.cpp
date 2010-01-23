@@ -2955,6 +2955,9 @@ bool OxygenStyle::drawToolButtonPrimitive(
                 }
             }
 
+            if( widget->inherits("QDockWidgetTitleButton" ) )
+            { slitRect.adjust( 1, 0, 0, 0 ); }
+
             // normal (auto-raised) toolbuttons
             bool hasFocus = flags & State_HasFocus;
 
