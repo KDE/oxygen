@@ -1549,7 +1549,6 @@ bool OxygenStyle::drawTabBarPrimitive(
             TileSet::Tiles flag;
             QRect rect;
             QRect clip;
-            QRect br = r;
             QRect gr = r; // fade the tab there
             bool vertical = false;
 
@@ -1596,13 +1595,12 @@ bool OxygenStyle::drawTabBarPrimitive(
 
                     flag = reverseLayout ? TileSet::Right : TileSet::Left;
                     flag |= TileSet::Bottom;
-                    if( reverseLayout ) {
-                        rect = QRect(r.x(), r.y()-7, 7, 14);
-                        clip = QRect(r.x()+2, r.y()-7, 5, 14);
-                    } else {
-                        rect = QRect(r.x(), r.y()-7, 7, 14);
-                        clip = QRect(r.x(), r.y()-7, 6, 14);
-                    }
+                    //if( reverseLayout ) rect = QRect(r.x(), r.y()-7, 7, 14);
+                    //else rect = QRect(r.x(), r.y()-7, 7, 14);
+                    if( reverseLayout ) rect = QRect(r.x(), r.y()-7, 7, 14);
+                    else rect = QRect(r.x(), r.y()-7, 7, 14);
+
+                    gr.adjust( 0, 3, 0, 0 );
 
                 }
 
@@ -1619,12 +1617,12 @@ bool OxygenStyle::drawTabBarPrimitive(
                     flag = TileSet::Left;
                     rect = QRect(r.x()+r.width()-8, r.y()-7, 7, 6+14);
                     clip = QRect(r.x()+r.width()-8, r.y()-7, 7, 14-2);
-                    br.adjust(0,0,-5,0);
 
                 } else {
 
                     flag = TileSet::Top|TileSet::Left;
                     rect = QRect(r.x()+r.width()-8, r.y(), 7, 7);
+                    gr.adjust( 0, 0, -3, 0 );
 
                 }
 
@@ -1641,12 +1639,12 @@ bool OxygenStyle::drawTabBarPrimitive(
                     flag = TileSet::Right;
                     rect = QRect(r.x()+1, r.y()-7, 7, 6+14);
                     clip = QRect(r.x()+1, r.y()-7, 7, 14-2);
-                    br.adjust(5,0,0,0);
 
                 } else {
 
                     flag = TileSet::Top|TileSet::Right;
-                    rect = QRect(r.x()-7, r.y(), 14, 7);
+                    rect = QRect(r.x()-6, r.y(), 14, 7);
+                    gr.adjust( 3, 0, 0, 0 );
 
                 }
                 vertical = true;
@@ -1682,7 +1680,7 @@ bool OxygenStyle::drawTabBarPrimitive(
 
             if( !(documentMode && flags&State_Selected) )
             {
-                //if( clip.isValid() ) _helper.renderWindowBackground(p, clip, widget, pal);
+                if( clip.isValid() ) _helper.renderWindowBackground(p, clip, widget, pal);
                 renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, flag);
             }
             return true;
@@ -2826,7 +2824,7 @@ bool OxygenStyle::drawToolButtonPrimitive(
                         {
 
                             slitRect.adjust(0,3,0,-3-gw);
-                            clipRect = r.adjusted(0,2-gw,0,-2);
+                            clipRect = r.adjusted(0,2-gw,0,-3);
                             tiles = TileSet::Top;
 
                             // check border right
@@ -2883,7 +2881,7 @@ bool OxygenStyle::drawToolButtonPrimitive(
 
                             slitRect.adjust(3+gw,0,-3-gw,0);
                             tiles = TileSet::Right;
-                            clipRect = r.adjusted(1+gw,0,-2,0);
+                            clipRect = r.adjusted(3+gw,0,-2,0);
                             if( !documentMode && t->geometry().bottom() >= tb->rect().bottom() )
                             {
                                 tiles |= TileSet::Bottom;
@@ -2905,12 +2903,12 @@ bool OxygenStyle::drawToolButtonPrimitive(
                             // west
                             slitRect.adjust(3+gw,0,-3-gw,0);
                             tiles |= TileSet::Left;
-                            clipRect = r.adjusted(2-gw,0,-1,0);
+                            clipRect = r.adjusted(2-gw,0,-3,0);
 
                             if( !documentMode && t->geometry().bottom() >= tb->rect().bottom() )
                             {
                                 tiles |= TileSet::Bottom;
-                                slabRect = QRect(r.right()-6-gw, r.top()-7, 7, r.height()+7+1);
+                                slabRect = QRect(r.right()-6-gw, r.top()-7, 6, r.height()+7+1);
 
                             } else {
 
