@@ -1595,8 +1595,6 @@ bool OxygenStyle::drawTabBarPrimitive(
 
                     flag = reverseLayout ? TileSet::Right : TileSet::Left;
                     flag |= TileSet::Bottom;
-                    //if( reverseLayout ) rect = QRect(r.x(), r.y()-7, 7, 14);
-                    //else rect = QRect(r.x(), r.y()-7, 7, 14);
                     if( reverseLayout ) rect = QRect(r.x(), r.y()-7, 7, 14);
                     else rect = QRect(r.x(), r.y()-7, 7, 14);
 
@@ -1665,7 +1663,7 @@ bool OxygenStyle::drawTabBarPrimitive(
             else w = gr.width();
 
             QLinearGradient grad;
-            if( reverseLayout ) grad = QLinearGradient( 0, 0, w, h );
+            if( reverseLayout && !vertical ) grad = QLinearGradient( 0, 0, w, h );
             else grad = QLinearGradient(w, h, 0, 0);
 
             grad.setColorAt(0, Qt::transparent );
