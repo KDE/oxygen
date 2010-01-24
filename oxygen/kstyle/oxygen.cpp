@@ -4729,14 +4729,10 @@ void OxygenStyle::renderTab(
 
                     // some "position specific" paintings...
                     // draw the left connection from the panel border to the tab
-                    if(isFirst && !reverseLayout && !leftCornerWidget )
+                    if(isFirst && !reverseLayout && !leftCornerWidget && !documentMode )
                     {
-
-                        if( !documentMode )
-                        {
-                            if( southAlignment ) renderSlab(p, Rb.adjusted(0, -7, 0, 4), color, NoFill, TileSet::Left);
-                            else renderSlab(p, Rb.adjusted(0, -4, 0, 7), color, NoFill, TileSet::Left);
-                        }
+                        if( southAlignment ) renderSlab(p, Rb.adjusted(0, -7, 0, 4), color, NoFill, TileSet::Left);
+                        else renderSlab(p, Rb.adjusted(0, -4, 0, 7), color, NoFill, TileSet::Left);
 
                     } else if( isLeftMost ) {
 
@@ -4747,14 +4743,11 @@ void OxygenStyle::renderTab(
                     }
 
                     // draw the right connection from the panel border to the tab
-                    if(isFirst && reverseLayout && !rightCornerWidget )
+                    if(isFirst && reverseLayout && !rightCornerWidget && !documentMode )
                     {
 
-                        if( !documentMode )
-                        {
-                            if( southAlignment ) renderSlab(p, Rb.adjusted(0, -7, 0, 4), color, NoFill, TileSet::Right);
-                            else renderSlab(p, Rb.adjusted(0, -4, 0, 7), color, NoFill, TileSet::Right);
-                        }
+                        if( southAlignment ) renderSlab(p, Rb.adjusted(0, -7, 0, 4), color, NoFill, TileSet::Right);
+                        else renderSlab(p, Rb.adjusted(0, -4, 0, 7), color, NoFill, TileSet::Right);
 
                     } else if( isRightMost ) {
 
@@ -4911,7 +4904,7 @@ void OxygenStyle::renderTab(
                         if( isFrameAligned && !documentMode ) tiles |= TileSet::Right;
                         else Ractual.adjust(0,0,6,0);
 
-                    } else if( isLeftOfSelected ) Ractual.adjust(0,0,9-gw,0);
+                    } else if( isLeftOfSelected ) Ractual.adjust(0,0,10-gw,0);
                     else Ractual.adjust(0,0,7-gw,0);
 
                     if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) )
@@ -4950,14 +4943,10 @@ void OxygenStyle::renderTab(
 
                     // some "position specific" paintings...
                     // draw the top connection from the panel border to the tab
-                    if(isFirst && !leftCornerWidget)
+                    if(isFirst && !leftCornerWidget && !documentMode )
                     {
-
-                        if( !documentMode )
-                        {
-                            if( eastAlignment ) renderSlab(p, Rb.adjusted( -7, 0, 4, 0), color, NoFill, TileSet::Top);
-                            else renderSlab(p, Rb.adjusted( -4, 0, 7, 0 ), color, NoFill, TileSet::Top);
-                        }
+                        if( eastAlignment ) renderSlab(p, Rb.adjusted( -7, 0, 4, 0), color, NoFill, TileSet::Top);
+                        else renderSlab(p, Rb.adjusted( -4, 0, 7, 0 ), color, NoFill, TileSet::Top);
 
                     } else if( isLeftMost ) {
 
