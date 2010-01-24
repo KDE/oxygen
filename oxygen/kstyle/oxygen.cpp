@@ -4431,6 +4431,8 @@ void OxygenStyle::renderTab(
 
     }
 
+    isFrameAligned &= !documentMode;
+
     const QColor color = pal.color(QPalette::Window);
     StyleOptions selectedTabOpts = OxygenStyleConfigData::tabSubtleShadow() ? SubtleShadow | NoFill : NoFill;
     StyleOptions hoverTabOpts = NoFill | Hover;
@@ -4598,7 +4600,6 @@ void OxygenStyle::renderTab(
             } else {
 
                 // when selected only draw parts of the frame to appear connected to the content
-
                 QRegion clipRegion;
                 if (horizontal && !(isLeftMost && !reverseLayout))
                 {
@@ -4635,8 +4636,8 @@ void OxygenStyle::renderTab(
 
                     // don't draw the connection for a frame aligned tab
                     // except for RTL-layout
-                    if (!isFrameAligned || reverseLayout) renderSlab( p, QRect(tabRect.x() - 5, tabRect.bottom()-9, 16, 7), color, NoFill, TileSet::Top );
-                    if (!isFrameAligned || !reverseLayout) renderSlab( p, QRect( tabRect.right()-10, tabRect.bottom()-9, 16, 7), color, NoFill, TileSet::Top );
+                    if (!isFrameAligned || reverseLayout) renderSlab( p, QRect(tabRect.x() - 6, tabRect.bottom()-9, 17, 7), color, NoFill, TileSet::Top );
+                    if (!isFrameAligned || !reverseLayout) renderSlab( p, QRect( tabRect.right()-10, tabRect.bottom()-9, 17, 7), color, NoFill, TileSet::Top );
 
                 } else if (southAlignment) {
 
@@ -4654,13 +4655,13 @@ void OxygenStyle::renderTab(
 
                 } else if (eastAlignment) {
 
-                    if (!isFrameAligned) renderSlab( p, QRect( tabRect.x() + 3, tabRect.y() - 5, 7, 16 ), color, NoFill, TileSet::Right );
+                    if (!isFrameAligned) renderSlab( p, QRect( tabRect.x() + 3, tabRect.y() - 7, 7, 18 ), color, NoFill, TileSet::Right );
                     renderSlab( p, QRect( tabRect.x() + 3, tabRect.bottom()-10, 7, 16 ), color, NoFill, TileSet::Right );
 
                 } else {
 
                     // west aligned
-                    if (!isFrameAligned) renderSlab( p, QRect( tabRect.right()-9, tabRect.y()-6, 7, 16 ), color, NoFill, TileSet::Left );
+                    if (!isFrameAligned) renderSlab( p, QRect( tabRect.right()-9, tabRect.y()-7, 7, 18 ), color, NoFill, TileSet::Left );
                     renderSlab( p, QRect( tabRect.right()-9, tabRect.bottom()-10, 7, 16 ), color, NoFill, TileSet::Left );
 
                 }
@@ -5600,7 +5601,7 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                     case QTabBar::RoundedSouth:
                     case QTabBar::TriangularSouth:
                     if (twf->lineWidth == 0) r.adjust( 0, 0, 0, 1 );
-                    else r.adjust( 0, 0, 0, -1 );
+                    else r.adjust( 0, 0, 0, -2 );
                     break;
 
                     case QTabBar::RoundedEast:
