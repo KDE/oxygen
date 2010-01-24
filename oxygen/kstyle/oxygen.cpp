@@ -1761,7 +1761,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                         {
 
                             fr.setRight(fr.left() + leftWidget->width());
-                            fr.translate( 0, -2 );
+                            fr.translate( 0, -3 );
 
                         } else return true;
 
@@ -1776,7 +1776,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                         else if( rightWidget ) {
 
                             fr.setLeft(fr.right() - rightWidget->width());
-                            fr.translate( 0, -2 );
+                            fr.translate( 0, -3 );
 
                         } else return true;
 
@@ -1798,7 +1798,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                         else if( leftWidget )
                         {
                             fr.setBottom( fr.top() + leftWidget->height() );
-                            fr.translate( -2, 0 );
+                            fr.translate( -3, 0 );
 
                         } else return true;
 
@@ -1814,7 +1814,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                         else if( rightWidget )
                         {
                             fr.setTop( fr.bottom() - rightWidget->height() );
-                            fr.translate( -2, 0 );
+                            fr.translate( -3, 0 );
                         }
 
                         fr.adjust( gw+1,-7,gw, 7 );
@@ -1836,7 +1836,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                         else if( leftWidget )
                         {
                             fr.setBottom( fr.top() + leftWidget->height() );
-                            fr.translate( 2, 0 );
+                            fr.translate( 3, 0 );
 
                         } else return true;
 
@@ -1852,7 +1852,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                         else if( rightWidget )
                         {
                             fr.setTop( fr.bottom() - rightWidget->height() );
-                            fr.translate( 2, 0 );
+                            fr.translate( 3, 0 );
                         }
 
                         fr.adjust( -gw,-7,-1-gw, 7 );
@@ -5635,7 +5635,42 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
         }
 
         case SE_TabWidgetTabContents:
-        return KStyle::subElementRect(sr, opt, widget);
+        {
+            QRect r = KStyle::subElementRect(sr, opt, widget);
+            if (const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
+            {
+                if (twf->lineWidth != 0) return r;
+                switch (twf->shape)
+                {
+                    case QTabBar::RoundedNorth:
+                    case QTabBar::TriangularNorth:
+                    r.adjust( 0, -3, 0, 0 );
+                    break;
+
+                    case QTabBar::RoundedSouth:
+                    case QTabBar::TriangularSouth:
+                    r.adjust( 0, 0, 0, 3 );
+                    break;
+
+                    case QTabBar::RoundedEast:
+                    case QTabBar::TriangularEast:
+                    r.adjust( 0, 0, 3, 0 );
+                    break;
+
+                    case QTabBar::RoundedWest:
+                    case QTabBar::TriangularWest:
+                    r.adjust( -3, 0, 0, 0 );
+                    break;
+
+                    default:
+                    break;
+
+                }
+
+            }
+
+            return r;
+        }
 
         case SE_TabWidgetTabPane:
         {
@@ -5645,14 +5680,15 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                 tabopt.shape = twf->shape;
                 int overlap = pixelMetric(PM_TabBarBaseOverlap, &tabopt, widget);
 
-                // this line is what causes the differences between drawing corner widgets in KStyle and drawing them in Qt
-                // TODO: identify where the lineWidth difference come from
-                if (twf->lineWidth == 0) overlap -= 1;
-
                 switch (twf->shape)
                 {
                     case QTabBar::RoundedNorth:
                     case QTabBar::TriangularNorth:
+
+                    // this line is what causes the differences between drawing corner widgets in KStyle and drawing them in Qt
+                    // TODO: identify where the lineWidth difference come from
+                    if (twf->lineWidth == 0) overlap -= 1;
+
                     r = QRect(QPoint(0,qMax(twf->tabBarSize.height() - overlap, 0)),
                     QSize(twf->rect.width(), qMin(twf->rect.height() - twf->tabBarSize.height() + overlap, twf->rect.height())));
                     break;
