@@ -1546,7 +1546,7 @@ bool OxygenStyle::drawTabBarPrimitive(
             const QTabWidget *tabWidget = (widget && widget->parentWidget()) ? qobject_cast<const QTabWidget *>(widget->parentWidget()) : NULL;
             documentMode |= (tabWidget ? tabWidget->documentMode() : true );
 
-            TileSet::Tiles flag;
+            TileSet::Tiles tiles;
             QRect rect;
             QRect clip;
             QRect gr = r; // fade the tab there
@@ -1560,20 +1560,19 @@ bool OxygenStyle::drawTabBarPrimitive(
                 if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                 {
 
-                    flag = TileSet::Top;
+                    tiles = TileSet::Top;
                     rect = QRect(r.x()-7, r.y()+r.height()-7-1, 14+7, 7);
 
 
                 } else {
 
-                    flag = reverseLayout ? TileSet::Right : TileSet::Left;
-                    flag |= TileSet::Top;
-                    if( reverseLayout ) rect = QRect(r.x(), r.y()+r.height()-7-1, 7, 14);
-                    else rect = QRect(r.x(), r.y()+r.height()-7-1, 7, 14);
-
-                    gr.adjust( 0, 0, 0, -3 );
+                    tiles = reverseLayout ? TileSet::Right : TileSet::Left;
+                    tiles |= TileSet::Top;
+                    rect = QRect(r.x(), r.y()+r.height()-7-1, 7, 14);
 
                 }
+
+                gr.adjust( 0, 0, 0, -3 );
 
                 rect.translate(-gw,0);
                 rect = visualRect(option->direction, r, rect);
@@ -1585,22 +1584,30 @@ bool OxygenStyle::drawTabBarPrimitive(
                 if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                 {
 
-                    flag = TileSet::Bottom;
+                    tiles = TileSet::Bottom;
                     rect = QRect(r.x()-7, r.y(), 14+7, 7);
 
-                    if( reverseLayout ) clip = QRect(r.x()+2, r.y(), 14-1, 7);
-                    else clip = QRect(r.x()-7, r.y(), 14-1, 7);
+                    if( reverseLayout ) clip = QRect(r.x()+2, r.y() + 3, 14-1, 4);
+                    else clip = QRect(r.x()-7, r.y() + 3, 14-1, 4);
 
                 } else {
 
-                    flag = reverseLayout ? TileSet::Right : TileSet::Left;
-                    flag |= TileSet::Bottom;
-                    if( reverseLayout ) rect = QRect(r.x(), r.y()-7, 7, 14);
-                    else rect = QRect(r.x(), r.y()-7, 7, 14);
+                    tiles = reverseLayout ? TileSet::Right : TileSet::Left;
+                    tiles |= TileSet::Bottom;
+                    if( reverseLayout )
+                    {
+                        rect = QRect(r.x(), r.y()-7, 7, 14);
+                        clip = QRect( r.x()+2, r.y()+3, 6, 4);
+                    } else {
 
-                    gr.adjust( 0, 3, 0, 0 );
+                        rect = QRect(r.x(), r.y()-7, 7, 14);
+                        clip = QRect(r.x(), r.y()+3, 6, 4);
+
+                    }
 
                 }
+
+                gr.adjust( 0, 3, 0, 0 );
 
                 rect.translate(-gw,0);
                 rect = visualRect(option->direction, r, rect);
@@ -1612,18 +1619,18 @@ bool OxygenStyle::drawTabBarPrimitive(
                 if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                 {
 
-                    flag = TileSet::Left;
+                    tiles = TileSet::Left;
                     rect = QRect(r.x()+r.width()-8, r.y()-7, 7, 6+14);
-                    clip = QRect(r.x()+r.width()-8, r.y()-7, 7, 14-2);
+                    clip = QRect(r.x()+r.width()-8, r.y()-7, 4, 14-2);
 
                 } else {
 
-                    flag = TileSet::Top|TileSet::Left;
+                    tiles = TileSet::Top|TileSet::Left;
                     rect = QRect(r.x()+r.width()-8, r.y(), 7, 7);
-                    gr.adjust( 0, 0, -3, 0 );
 
                 }
 
+                gr.adjust( 0, 0, -3, 0 );
                 vertical = true;
                 rect.translate(0,-gw);
                 gr.translate(0,-gw);
@@ -1634,17 +1641,18 @@ bool OxygenStyle::drawTabBarPrimitive(
                 if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                 {
 
-                    flag = TileSet::Right;
+                    tiles = TileSet::Right;
                     rect = QRect(r.x()+1, r.y()-7, 7, 6+14);
-                    clip = QRect(r.x()+1, r.y()-7, 7, 14-2);
+                    clip = QRect(r.x()+4, r.y()-7, 4, 14-2);
 
                 } else {
 
-                    flag = TileSet::Top|TileSet::Right;
+                    tiles = TileSet::Top|TileSet::Right;
                     rect = QRect(r.x()-6, r.y(), 14, 7);
-                    gr.adjust( 3, 0, 0, 0 );
 
                 }
+
+                gr.adjust( 3, 0, 0, 0 );
                 vertical = true;
                 rect.translate(0,-gw);
                 gr.translate(0,-gw);
@@ -1679,7 +1687,7 @@ bool OxygenStyle::drawTabBarPrimitive(
             if( !(documentMode && flags&State_Selected) )
             {
                 if( clip.isValid() ) _helper.renderWindowBackground(p, clip, widget, pal);
-                renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, flag);
+                renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, tiles );
             }
             return true;
         }
@@ -1689,28 +1697,34 @@ bool OxygenStyle::drawTabBarPrimitive(
 
             const QStyleOptionTabBarBase* tabOpt = qstyleoption_cast<const QStyleOptionTabBarBase*>(opt);
 
+            // HACK: When drawing corner widget the
+            // tabbar area is not given, we use the widget
+            // itself to calculate the needed base frame
+            // part
+            const QTabWidget *tabWidget = qobject_cast<const QTabWidget *>(widget);
+            if( widget && !tabWidget ) tabWidget = qobject_cast<const QTabWidget *>(widget->parent() );
+            if (!tabOpt->tabBarRect.isValid() && !tabWidget) return true;
+
+            const QWidget* leftWidget = ( tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner) && tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner)->isVisible()) ? tabWidget->cornerWidget(Qt::TopLeftCorner):0;
+            const QWidget* rightWidget = ( tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner) && tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner)->isVisible()) ? tabWidget->cornerWidget(Qt::TopRightCorner):0;
+
             switch(tabOpt->shape)
             {
                 case QTabBar::RoundedNorth:
                 case QTabBar::TriangularNorth:
                 {
 
-                    // HACK: When drawing corner widget the
-                    // tabbar area is not given, we use the widget
-                    // itself to calculate the needed base frame
-                    // part
-                    const QTabWidget *tabWidget = qobject_cast<const QTabWidget *>(widget);
-                    if( widget && !tabWidget ) tabWidget = qobject_cast<const QTabWidget *>(widget->parent() );
-                    if (!tabOpt->tabBarRect.isValid() && !tabWidget) return true;
-
-                    const bool leftWidget( tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner) && tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner)->isVisible() );
-                    const bool rightWidget( tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner) && tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner)->isVisible() );
                     if (r.left() < tabOpt->tabBarRect.left())
                     {
                         QRect fr = r;
                         if( tabOpt->tabBarRect.isValid() ) fr.setRight(tabOpt->tabBarRect.left());
-                        else if( leftWidget ) fr.setRight(fr.left() + (tabWidget->cornerWidget(Qt::TopLeftCorner)->width()));
-                        else return true;
+                        else if( leftWidget )
+                        {
+
+                            fr.setRight(fr.left() + leftWidget->width());
+                            fr.translate( 0, -1 );
+
+                        } else return true;
 
                         fr.adjust(-7,-gw,7,-1-gw);
                         renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
@@ -1723,14 +1737,8 @@ bool OxygenStyle::drawTabBarPrimitive(
                         else if( rightWidget )
                         {
 
-                            fr.setLeft(fr.right() - (tabWidget->cornerWidget(Qt::TopRightCorner)->width()));
-
-                            // this is another ugly hack
-                            // it comes from the fact that 1/ rect is not passed properly when using KStyle
-                            // to paint behind the left or right corner widget
-                            // 2/ that the widget is now located 6 pixels above the tabbar bottom
-                            // TODO: at least use correct LayoutMetrics
-                            fr.translate( 0, 6 );
+                            fr.setLeft(fr.right() - rightWidget->width());
+                            fr.translate( 0, 5 );
 
                         } else return true;
 
@@ -1744,12 +1752,14 @@ bool OxygenStyle::drawTabBarPrimitive(
                 case QTabBar::RoundedSouth:
                 case QTabBar::TriangularSouth:
                 {
-                    if (!tabOpt->tabBarRect.isValid()) return true;
 
                     if (r.left() < tabOpt->tabBarRect.left())
                     {
                         QRect fr = r;
-                        fr.setRight(tabOpt->tabBarRect.left());
+                        if( tabOpt->tabBarRect.isValid() ) fr.setRight(tabOpt->tabBarRect.left());
+                        else if( leftWidget ) fr.setRight(fr.left() + leftWidget->width());
+                        else return true;
+
                         fr.adjust(-7,gw,7,-1+gw);
                         renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
                     }
@@ -1757,7 +1767,10 @@ bool OxygenStyle::drawTabBarPrimitive(
                     if (tabOpt->tabBarRect.right() < r.right())
                     {
                         QRect fr = r;
-                        fr.setLeft(tabOpt->tabBarRect.right());
+                        if( tabOpt->tabBarRect.isValid() ) fr.setLeft(tabOpt->tabBarRect.right());
+                        else if( rightWidget ) fr.setLeft(fr.right() - rightWidget->width());
+                        else return true;
+
                         fr.adjust(-6,gw,7,-1+gw);
                         renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
                     }
@@ -1796,11 +1809,20 @@ bool OxygenStyle::drawTabWidgetPrimitive(
         case Generic::Frame:
         {
             const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>(opt);
-            // FIXME: tabOpt->tabBarSize may be bigger than the tab widget's size
+
+            // tab
             int w = tabOpt->tabBarSize.width();
             int h = tabOpt->tabBarSize.height();
+
+            // left corner widget
             int lw = tabOpt->leftCornerWidgetSize.width();
             int lh = tabOpt->leftCornerWidgetSize.height();
+
+            // right corner
+            int rw = tabOpt->rightCornerWidgetSize.width();
+            int rh = tabOpt->rightCornerWidgetSize.height();
+
+            const QTabWidget* tw( qobject_cast<const QTabWidget*>(widget) );
 
             switch(tabOpt->shape)
             {
@@ -1814,13 +1836,23 @@ bool OxygenStyle::drawTabWidgetPrimitive(
                     {
 
                         // Left and right widgets are placed right and left when in reverse mode
-                        renderSlab(p, QRect(-gw, r.y()-gw, r.width() - w - lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
+                        // left side
+                        QRect slabRect( -gw, r.y()-gw, r.width() - w - lw+7+gw, 7);
+                        if( tw ) slabRect.setRight( qMax( slabRect.right(), tw->rect().left() + rw + 7 + gw ) );
+                        renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
+
+                        // right side
                         if (lw > 0) renderSlab(p, QRect(r.right() - lw-7+gw, r.y()-gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
 
                     } else {
 
+                        // left side
                         if (lw > 0) renderSlab(p, QRect(-gw, r.y()-gw, lw+11, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
-                        renderSlab(p, QRect(w+lw-7, r.y()-gw, r.width() - w - lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
+
+                        // right side
+                        QRect slabRect( w+lw-7, r.y()-gw, r.width() - w - lw+7+gw, 7);
+                        if( tw ) slabRect.setLeft( qMin( slabRect.left(), tw->rect().right() - rw - 7 ) );
+                        renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
 
                     }
 
@@ -1843,9 +1875,17 @@ bool OxygenStyle::drawTabWidgetPrimitive(
                         // Left and right widgets are placed right and left when in reverse mode
                         // need to clip the painter to avoid overlapping shadow
                         // on can't reduce the rect because 7 is the minimum height for tileset rendering
+                        QRect slabRect( -gw, r.bottom()-7+gw, r.width() - w - lw + 7 + gw, 7 );
+                        QRect clipRect( -gw, r.bottom()-6+gw, r.width() - w - lw + 7 + gw, 6 );
+                        if( tw )
+                        {
+                            slabRect.setRight( qMax( slabRect.right(), tw->rect().left() + rw + 7 + gw ) );
+                            clipRect.setRight( qMax( slabRect.right(), tw->rect().left() + rw + 7 + gw ) );
+                        }
+
                         p->save();
-                        p->setClipRect( QRect(-gw, r.bottom()-6+gw, r.width() - w - lw + 7+gw, 6) );
-                        renderSlab(p, QRect(-gw, r.bottom()-7+gw, r.width() - w - lw + 7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
+                        p->setClipRect( clipRect );
+                        renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
                         p->restore();
 
                         if (lw > 0) renderSlab(p, QRect(r.right() - lw-7+gw, r.bottom()-7+gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
@@ -1856,9 +1896,17 @@ bool OxygenStyle::drawTabWidgetPrimitive(
 
                         // need to clip the painter to avoid overlapping shadow
                         // on can't reduce the rect because 7 is the minimum height for tileset rendering
+                        QRect slabRect( w+lw-7, r.bottom()-7+gw, r.width() - w - lw+7+gw, 7 );
+                        QRect clipRect( w+lw-7, r.bottom()-6+gw, r.width() - w - lw+7+gw, 6 );
+                        if( tw )
+                        {
+                            slabRect.setLeft( qMin( slabRect.left(), tw->rect().right() - rw - 7 ) );
+                            clipRect.setLeft( qMin( slabRect.left(), tw->rect().right() - rw - 7 ) );
+                        }
+
                         p->save();
-                        p->setClipRect( QRect(w+lw-7, r.bottom()-6+gw, r.width() - w - lw+7+gw, 6 ) );
-                        renderSlab(p, QRect(w+lw-7, r.bottom()-7+gw, r.width() - w - lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
+                        p->setClipRect( clipRect );
+                        renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
                         p->restore();
 
                     }
@@ -1874,20 +1922,13 @@ bool OxygenStyle::drawTabWidgetPrimitive(
                 case QTabBar::TriangularWest:
                 if( h+lh > 0 )
                 {
+
                     renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right | TileSet::Bottom);
-                    if(reverseLayout)
-                    {
 
-                        // Left and right widgets are placed right and left when in reverse mode
-                        renderSlab(p, QRect(r.x()-gw,  h + lh - 7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Left);
-                        if (lh > 0) renderSlab(p, QRect(r.x()-gw, r.y()+gw , 7, lh+7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left);
-
-                    } else {
-
-                        if (lh > 0) renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, lh+7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
-                        renderSlab(p, QRect(r.x()-gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
-
-                    }
+                    if (lh > 0) renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, lh+7 + 1), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
+                    QRect slabRect( r.x()-gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw);
+                    if( tw ) slabRect.setTop( qMin( slabRect.top(), tw->rect().bottom() - rh -7 ) );
+                    renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
 
                 } else {
 
@@ -1902,19 +1943,12 @@ bool OxygenStyle::drawTabWidgetPrimitive(
                 if( h+lh > 0 )
                 {
                     renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Bottom);
-                    if(reverseLayout)
-                    {
 
-                        // Left and right widgets are placed right and left when in reverse mode
-                        renderSlab(p, QRect(r.right()+1-7+gw,  h + lh - 7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
-                        if (lh > 0) renderSlab(p, QRect(r.right()+1-7+gw, r.y()+gw , 7, lh+7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
+                    if (lh > 0) renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, 7, lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
 
-                    } else {
-
-                        if (lh > 0) renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, 7, lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
-                        renderSlab(p, QRect(r.right()+1-7+gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
-
-                    }
+                    QRect slabRect(r.right()+1-7+gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw );
+                    if( tw ) slabRect.setTop( qMin( slabRect.top(), tw->rect().bottom() - rh -7 ) );
+                    renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
 
                 } else {
 
@@ -2802,24 +2836,25 @@ bool OxygenStyle::drawToolButtonPrimitive(
                     const bool documentMode( tb->documentMode() || !tw );
 
                     // get corner widgets if any
-                    const QWidget* leftWidget( tw ? (reverseLayout ? tw->cornerWidget( Qt::TopRightCorner ):tw->cornerWidget( Qt::TopLeftCorner )):0 );
-                    const QWidget* rightWidget( tw ? (reverseLayout ? tw->cornerWidget( Qt::TopLeftCorner ):tw->cornerWidget( Qt::TopRightCorner )):0 );
-
-                    // check if toolbutton is on the "edge" of the tab
-                    //const bool toolButtonAtLeft( t->geometry().left() <= ( leftWidget ? leftWidget->geometry().right() : tb->rect().left() ) );
-                    //const bool toolButtonAtRight( t->geometry().right() >= ( rightWidget ? rightWidget->geometry().left() : tb->rect().right() ) );
+                    const QWidget* leftWidget( tw ? tw->cornerWidget( Qt::TopLeftCorner ):0 );
+                    const QWidget* rightWidget( tw ? tw->cornerWidget( Qt::TopRightCorner ):0 );
+                    if( leftWidget && !leftWidget->isVisible() ) leftWidget = 0;
+                    if( rightWidget && !rightWidget->isVisible() ) rightWidget = 0;
 
                     // prepare painting, clipping and tiles
                     TileSet::Tiles tiles = 0;
                     QRect slabRect;
                     QRect clipRect;
 
-                    // paint relevan region depending on tabbar shape and whether widget is on the edge
+                    // paint relevant region depending on tabbar shape and whether widget is on the edge
                     switch(tb->shape())
                     {
                         case QTabBar::RoundedNorth:
                         case QTabBar::TriangularNorth:
                         {
+
+                            // need to swap left and right widgets in reverse mode
+                            if( reverseLayout ) qSwap( leftWidget, rightWidget );
 
                             slitRect.adjust(0,3,0,-3-gw);
                             clipRect = r.adjusted(0,2-gw,0,-3);
@@ -2830,16 +2865,16 @@ bool OxygenStyle::drawToolButtonPrimitive(
                             {
 
                                 tiles |= TileSet::Right;
-                                slabRect = QRect(r.left()-7, r.bottom()-6-gw, r.width()+7+1, 7);
+                                slabRect = QRect(r.left()-7, r.bottom()-6-gw, r.width()+7+1, 5);
 
                             } else if( !documentMode && !leftWidget && t->geometry().left() <= tb->rect().left() ) {
 
                                 tiles |= TileSet::Left;
-                                slabRect = QRect(r.left()-1, r.bottom()-6-gw, r.width()+7+1, 7);
+                                slabRect = QRect(r.left()-1, r.bottom()-6-gw, r.width()+7+1, 5);
 
                             } else {
 
-                                slabRect = QRect(r.left()-7, r.bottom()-6-gw, r.width()+14, 2);
+                                slabRect = QRect(r.left()-7, r.bottom()-6-gw, r.width()+14, 5);
 
                             }
 
@@ -2849,6 +2884,10 @@ bool OxygenStyle::drawToolButtonPrimitive(
                         case QTabBar::RoundedSouth:
                         case QTabBar::TriangularSouth:
                         {
+
+                            // need to swap left and right widgets in reverse mode
+                            if( reverseLayout ) qSwap( leftWidget, rightWidget );
+
                             slitRect.adjust(0,3+gw,0,-3);
                             tiles = TileSet::Bottom;
                             clipRect = r.adjusted(0,2+gw,0,0);
@@ -2857,16 +2896,16 @@ bool OxygenStyle::drawToolButtonPrimitive(
                             {
 
                                 tiles |= TileSet::Right;
-                                slabRect = QRect(r.left()-7, r.top()+gw-1, r.width()+7+1, 7);
+                                slabRect = QRect(r.left()-7, r.top()+gw+1, r.width()+7+1, 5);
 
                             } else if( !documentMode && !leftWidget && t->geometry().left() <= tb->rect().left() ) {
 
                                 tiles |= TileSet::Left;
-                                slabRect = QRect(r.left()-1, r.top()+gw-1, r.width()+7+1, 7);
+                                slabRect = QRect(r.left()-1, r.top()+gw+1, r.width()+7+1, 5);
 
                             } else {
 
-                                slabRect = QRect(r.left()-7, r.top()+4+gw, r.width()+14, 2);
+                                slabRect = QRect(r.left()-7, r.top()+gw+1, r.width()+14, 5);
 
                             }
 
@@ -2880,14 +2919,14 @@ bool OxygenStyle::drawToolButtonPrimitive(
                             slitRect.adjust(3+gw,0,-3-gw,0);
                             tiles = TileSet::Right;
                             clipRect = r.adjusted(3+gw,0,-2,0);
-                            if( !documentMode && t->geometry().bottom() >= tb->rect().bottom() )
+                            if( !documentMode && !rightWidget && t->geometry().bottom() >= tb->rect().bottom() )
                             {
                                 tiles |= TileSet::Bottom;
-                                slabRect = QRect(r.left()+gw, r.top()-7, 7, r.height()+7+1);
+                                slabRect = QRect(r.left()+gw+3, r.top()-7, 4, r.height()+7+1);
 
                             } else {
 
-                                slabRect = QRect(r.left()+5+gw, r.top()-7, 2, r.height()+14);
+                                slabRect = QRect(r.left()+gw+3, r.top()-7, 4, r.height()+14);
 
                             }
 
@@ -2898,19 +2937,21 @@ bool OxygenStyle::drawToolButtonPrimitive(
                         case QTabBar::RoundedWest:
                         case QTabBar::TriangularWest:
                         {
+
                             // west
                             slitRect.adjust(3+gw,0,-3-gw,0);
                             tiles |= TileSet::Left;
-                            clipRect = r.adjusted(2-gw,0,-3,0);
+                            clipRect = r.adjusted(2-gw,0,-3, 0);
 
-                            if( !documentMode && t->geometry().bottom() >= tb->rect().bottom() )
+                            if( !documentMode && !rightWidget && t->geometry().bottom() >= tb->rect().bottom() )
                             {
+
                                 tiles |= TileSet::Bottom;
-                                slabRect = QRect(r.right()-6-gw, r.top()-7, 6, r.height()+7+1);
+                                slabRect = QRect(r.right()-6-gw, r.top()-7, 5, r.height()+7+1);
 
                             } else {
 
-                                slabRect = QRect(r.right()-6-gw, r.top()-7, 2, r.height()+14);
+                                slabRect = QRect(r.right()-6-gw, r.top()-7, 5, r.height()+14);
 
                             }
 
@@ -2923,7 +2964,13 @@ bool OxygenStyle::drawToolButtonPrimitive(
 
 
                     if( clipRect.isValid() ) _helper.renderWindowBackground(p, clipRect, t, t->window()->palette());
-                    if( slabRect.isValid() ) renderSlab(p, slabRect, pal.color(colorGroup, QPalette::Window), NoFill, tiles );
+                    if( slabRect.isValid() )
+                    {
+                        p->save();
+                        p->setClipRect( slabRect );
+                        renderSlab(p, slabRect, pal.color(colorGroup, QPalette::Window), NoFill, tiles );
+                        p->restore();
+                    }
 
                 } else {
 
@@ -3308,7 +3355,7 @@ bool OxygenStyle::drawGenericPrimitive(
             }
 
             // we don't want the stippled focus indicator in oxygen
-            if (!widget || !widget->inherits("Q3ListView")) return true;
+            if( !( widget && widget->inherits("Q3ListView") ) ) return true;
             else return false;
         }
 
@@ -4274,21 +4321,31 @@ void OxygenStyle::renderTab(
         (tabOpt->selectedPosition == QStyleOptionTab::NextIsSelected) :
         (tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected);
 
-    const bool isLeftMost =  (reverseLayout && !(westAlignment || eastAlignment) ?
+    const bool isLeftMost =  ((reverseLayout && horizontal) ?
         (tabOpt->position == QStyleOptionTab::End) :
         (tabOpt->position == QStyleOptionTab::Beginning)) ||
         tabOpt->position == QStyleOptionTab::OnlyOneTab;
 
-    const bool isRightMost =  reverseLayout && !(westAlignment || eastAlignment) ?
+    const bool isRightMost = ((reverseLayout && horizontal) ?
         (tabOpt->position == QStyleOptionTab::Beginning) :
-        (tabOpt->position == QStyleOptionTab::End) ||
+        (tabOpt->position == QStyleOptionTab::End)) ||
         tabOpt->position == QStyleOptionTab::OnlyOneTab;
 
     const bool isTopMost = isLeftMost && !horizontal;
 
-    const bool isFrameAligned =  reverseLayout && !(westAlignment || eastAlignment) ?
-        (isRightMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget)) :
-        (isLeftMost && ! (tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget));
+    bool isFrameAligned( false );
+    if( horizontal )
+    {
+
+        isFrameAligned =  reverseLayout ?
+            (isRightMost && !(tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget)) :
+            (isLeftMost && !(tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget));
+
+    } else {
+
+        isFrameAligned = isTopMost && !(tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget);
+
+    }
 
     const QColor color = pal.color(QPalette::Window);
     StyleOptions selectedTabOpts = OxygenStyleConfigData::tabSubtleShadow() ? SubtleShadow | NoFill : NoFill;
@@ -4377,8 +4434,8 @@ void OxygenStyle::renderTab(
 
             // HACK: Workaround for misplaced tab
             if (southAlignment) {
-                frameRect.adjust(0,-1,0,-1);
-                if (selected) tabRect.adjust(0,-1,0,-1);
+                frameRect.translate( 0, -1 );
+                if (selected) tabRect.translate( 0, -1 );
                 else tabRect.adjust(0,0,0,-1);
             }
 
@@ -4429,7 +4486,7 @@ void OxygenStyle::renderTab(
             } else {
 
                 // vertical
-                if (isTopMost && !documentMode)
+                if( isTopMost && isFrameAligned && !documentMode )
                 {
 
                     if (!selected)
@@ -4492,25 +4549,33 @@ void OxygenStyle::renderTab(
 
                     // don't draw the connection for a frame aligned tab
                     // except for RTL-layout
-                    if (!isFrameAligned || reverseLayout)
-                    { renderSlab( p, QRect(tabRect.x() - 7, tabRect.bottom()-9, 18, 7), color, NoFill, TileSet::Top ); }
-                    if (!isFrameAligned || !reverseLayout)  p->drawPoint(tabRect.right()-2,tabRect.bottom()-6);
+                    if (!isFrameAligned || reverseLayout) renderSlab( p, QRect(tabRect.x() - 5, tabRect.bottom()-9, 16, 7), color, NoFill, TileSet::Top );
+                    if (!isFrameAligned || !reverseLayout) renderSlab( p, QRect( tabRect.right()-10, tabRect.bottom()-9, 16, 7), color, NoFill, TileSet::Top );
 
                 } else if (southAlignment) {
 
-                    if (!isFrameAligned || reverseLayout)   p->drawPoint(tabRect.x()+3, tabRect.y()+7);
-                    if (!isFrameAligned || !reverseLayout)  p->drawPoint(tabRect.right()-2, tabRect.y()+7);
+                    if (!isFrameAligned || reverseLayout)
+                    {
+                        if( isLeftMost && !reverseLayout ) renderSlab( p, QRect( tabRect.x()-6, tabRect.y()+3, 17, 7), color, NoFill, TileSet::Bottom );
+                        else renderSlab( p, QRect( tabRect.x()-5, tabRect.y()+3, 16, 7), color, NoFill, TileSet::Bottom );
+                    }
+
+                    if (!isFrameAligned || !reverseLayout)
+                    {
+                        if( isRightMost && reverseLayout ) renderSlab( p, QRect( tabRect.right()-10, tabRect.y()+3, 17, 7), color, NoFill, TileSet::Bottom );
+                        else renderSlab( p, QRect( tabRect.right()-10, tabRect.y()+3, 16, 7), color, NoFill, TileSet::Bottom );
+                    }
 
                 } else if (eastAlignment) {
 
-                    if (!isFrameAligned) p->drawPoint(tabRect.x()+7, tabRect.y()+3);
-                    p->drawPoint(tabRect.x()+7, tabRect.bottom()-2);
+                    if (!isFrameAligned) renderSlab( p, QRect( tabRect.x() + 3, tabRect.y() - 5, 7, 16 ), color, NoFill, TileSet::Right );
+                    renderSlab( p, QRect( tabRect.x() + 3, tabRect.bottom()-10, 7, 16 ), color, NoFill, TileSet::Right );
 
                 } else {
 
                     // west aligned
-                    if (!isFrameAligned) p->drawPoint(tabRect.right()-6, tabRect.y()+3);
-                    p->drawPoint(tabRect.right()-6, tabRect.bottom()-2);
+                    if (!isFrameAligned) renderSlab( p, QRect( tabRect.right()-9, tabRect.y()-6, 7, 16 ), color, NoFill, TileSet::Left );
+                    renderSlab( p, QRect( tabRect.right()-9, tabRect.bottom()-10, 7, 16 ), color, NoFill, TileSet::Left );
 
                 }
             }
@@ -5485,12 +5550,7 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
         }
 
         case SE_TabWidgetTabContents:
-        {
-            // // there is something wrong with KStyle::subElementRect.
-            // // Fallback to QStyle value
-            // return QCommonStyle::subElementRect( sr, opt, widget );
-            return KStyle::subElementRect(sr, opt, widget);
-        }
+        return KStyle::subElementRect(sr, opt, widget);
 
         case SE_TabWidgetTabPane:
         {
@@ -5502,7 +5562,7 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
 
                 // this line is what causes the differences between drawing corner widgets in KStyle and drawing them in Qt
                 // TODO: identify where the lineWidth difference come from
-                if (twf->lineWidth == 0) overlap += 1;
+                // if (twf->lineWidth == 0) overlap += 1;
 
                 switch (twf->shape)
                 {
@@ -5610,28 +5670,31 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                 case QTabBar::TriangularNorth:
                 r = QRect(QPoint(paneRect.x(), paneRect.y() - twf->leftCornerWidgetSize.height() + (tb && tb->documentMode() ? 0 : gw)), twf->leftCornerWidgetSize);
                 r = visualRect(twf->direction, twf->rect, r);
+                r.translate( 0, 2 );
                 break;
 
                 case QTabBar::RoundedSouth:
                 case QTabBar::TriangularSouth:
-                r = QRect(QPoint(paneRect.x(), paneRect.height()), twf->leftCornerWidgetSize);
+                r = QRect(QPoint(paneRect.x(), paneRect.height() ), twf->leftCornerWidgetSize);
                 r = visualRect(twf->direction, twf->rect, r);
+                r.translate( 0, -4 );
                 break;
 
                 case QTabBar::RoundedWest:
                 case QTabBar::TriangularWest:
                 r = QRect(QPoint(paneRect.x() - twf->leftCornerWidgetSize.width(), paneRect.y()), twf->leftCornerWidgetSize);
+                r.translate( 4, 0 );
                 break;
 
                 case QTabBar::RoundedEast:
                 case QTabBar::TriangularEast:
                 r = QRect(QPoint(paneRect.x() + paneRect.width(), paneRect.y()), twf->leftCornerWidgetSize);
+                r.translate( -4, 0 );
                 break;
                 default:
                 break;
             }
 
-            r.translate( 0, 2 );
             return r;
 
         }
@@ -5662,11 +5725,13 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                 case QTabBar::RoundedWest:
                 case QTabBar::TriangularWest:
                 r = QRect(QPoint(paneRect.x() - twf->rightCornerWidgetSize.width(), paneRect.y() + paneRect.height() - twf->rightCornerWidgetSize.height()), twf->rightCornerWidgetSize);
+                r.translate( 4, 0 );
                 break;
 
                 case QTabBar::RoundedEast:
                 case QTabBar::TriangularEast:
                 r = QRect(QPoint(paneRect.x() + paneRect.width(), paneRect.y() + paneRect.height() - twf->rightCornerWidgetSize.height()), twf->rightCornerWidgetSize);
+                r.translate( -4, 0 );
                 break;
 
                 default:
