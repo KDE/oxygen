@@ -1722,7 +1722,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                         {
 
                             fr.setRight(fr.left() + leftWidget->width());
-                            fr.translate( 0, -1 );
+                            fr.translate( 0, -2 );
 
                         } else return true;
 
@@ -1738,7 +1738,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                         {
 
                             fr.setLeft(fr.right() - rightWidget->width());
-                            fr.translate( 0, 5 );
+                            fr.translate( 0, 4 );
 
                         } else return true;
 
@@ -1757,8 +1757,13 @@ bool OxygenStyle::drawTabBarPrimitive(
                     {
                         QRect fr = r;
                         if( tabOpt->tabBarRect.isValid() ) fr.setRight(tabOpt->tabBarRect.left());
-                        else if( leftWidget ) fr.setRight(fr.left() + leftWidget->width());
-                        else return true;
+                        else if( leftWidget )
+                        {
+
+                            fr.setRight(fr.left() + leftWidget->width());
+                            fr.translate( 0, -2 );
+
+                        } else return true;
 
                         fr.adjust(-7,gw,7,-1+gw);
                         renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
@@ -1768,14 +1773,94 @@ bool OxygenStyle::drawTabBarPrimitive(
                     {
                         QRect fr = r;
                         if( tabOpt->tabBarRect.isValid() ) fr.setLeft(tabOpt->tabBarRect.right());
-                        else if( rightWidget ) fr.setLeft(fr.right() - rightWidget->width());
-                        else return true;
+                        else if( rightWidget ) {
+
+                            fr.setLeft(fr.right() - rightWidget->width());
+                            fr.translate( 0, -2 );
+
+                        } else return true;
 
                         fr.adjust(-6,gw,7,-1+gw);
                         renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
                     }
 
                     return true;
+                }
+
+                case QTabBar::RoundedEast:
+                case QTabBar::TriangularEast:
+                {
+
+                    if( r.top() < tabOpt->tabBarRect.top() )
+                    {
+                        QRect fr = r;
+                        if( tabOpt->tabBarRect.isValid() ) fr.setBottom(tabOpt->tabBarRect.top());
+                        else if( leftWidget )
+                        {
+                            fr.setBottom( fr.top() + leftWidget->height() );
+                            fr.translate( -2, 0 );
+
+                        } else return true;
+
+                        fr.adjust( gw+1, -7, gw, 7 );
+                        renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Right);
+
+                    }
+
+                    if( tabOpt->tabBarRect.bottom() < r.bottom() )
+                    {
+                        QRect fr = r;
+                        if( tabOpt->tabBarRect.isValid() ) fr.setTop(tabOpt->tabBarRect.bottom());
+                        else if( rightWidget )
+                        {
+                            fr.setTop( fr.bottom() - rightWidget->height() );
+                            fr.translate( -2, 0 );
+                        }
+
+                        fr.adjust( gw+1,-7,gw, 7 );
+                        renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Right);
+
+                    }
+
+                break;
+                }
+
+                case QTabBar::RoundedWest:
+                case QTabBar::TriangularWest:
+                {
+
+                    if( r.top() < tabOpt->tabBarRect.top() )
+                    {
+                        QRect fr = r;
+                        if( tabOpt->tabBarRect.isValid() ) fr.setBottom(tabOpt->tabBarRect.top());
+                        else if( leftWidget )
+                        {
+                            fr.setBottom( fr.top() + leftWidget->height() );
+                            fr.translate( 2, 0 );
+
+                        } else return true;
+
+                        fr.adjust( -gw,-7,-1-gw, 7 );
+                        renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Left);
+
+                    }
+
+                    if( tabOpt->tabBarRect.bottom() < r.bottom() )
+                    {
+                        QRect fr = r;
+                        if( tabOpt->tabBarRect.isValid() ) fr.setTop(tabOpt->tabBarRect.bottom());
+                        else if( rightWidget )
+                        {
+                            fr.setTop( fr.bottom() - rightWidget->height() );
+                            fr.translate( 2, 0 );
+                        }
+
+                        fr.adjust( -gw,-7,-1-gw, 7 );
+                        renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Left);
+
+                    }
+
+                    break;
                 }
 
                 default: return false;
@@ -5562,7 +5647,7 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
 
                 // this line is what causes the differences between drawing corner widgets in KStyle and drawing them in Qt
                 // TODO: identify where the lineWidth difference come from
-                // if (twf->lineWidth == 0) overlap += 1;
+                if (twf->lineWidth == 0) overlap -= 1;
 
                 switch (twf->shape)
                 {
