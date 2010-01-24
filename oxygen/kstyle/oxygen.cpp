@@ -4417,6 +4417,7 @@ void OxygenStyle::renderTab(
         tabOpt->position == QStyleOptionTab::OnlyOneTab;
 
     const bool isTopMost = isLeftMost && !horizontal;
+    const bool isBottomMost = isRightMost && !horizontal;
 
     bool isFrameAligned( false );
     if( horizontal )
@@ -4486,18 +4487,20 @@ void OxygenStyle::renderTab(
                 if (selected)
                 {
 
-                    if (westAlignment) tabRect.adjust(0,0,2,0);
-                    else tabRect.adjust(-2,0,0,0);
+                    if (westAlignment) tabRect.adjust(-1,0,2,0);
+                    else tabRect.adjust(-2,0,1,0);
 
                 } else {
 
                     // deselected
-                    if (westAlignment) tabRect.adjust(2,0,2,0);
-                    else tabRect.adjust(-2,0,-2,0);
+                    if (westAlignment) tabRect.adjust(1,0,2,0);
+                    else tabRect.adjust(-2,0,-1,0);
 
                 }
+
                 // reduces the space between tabs
-                tabRect.adjust(0,0,0,1);
+                if( !isTopMost ) tabRect.adjust(0,-gw,0,0);
+                if( !isBottomMost ) tabRect.adjust(0,0,0,gw);
             }
 
             // frameRect defines the part of the frame which
