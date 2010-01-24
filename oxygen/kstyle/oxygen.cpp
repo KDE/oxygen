@@ -1585,25 +1585,18 @@ bool OxygenStyle::drawTabBarPrimitive(
                 {
 
                     tiles = TileSet::Bottom;
-                    rect = QRect(r.x()-7, r.y(), 14+7, 7);
+                    rect = QRect(r.x()-8, r.y(), 14+7, 7);
 
-                    if( reverseLayout ) clip = QRect(r.x()+2, r.y() + 3, 14-1, 4);
-                    else clip = QRect(r.x()-7, r.y() + 3, 14-1, 4);
+                    if( reverseLayout ) clip = QRect(r.x()+2, r.y() + 3, 14-1, 3);
+                    else clip = QRect(r.x()-7, r.y() + 3, 14-1, 3);
 
                 } else {
 
                     tiles = reverseLayout ? TileSet::Right : TileSet::Left;
                     tiles |= TileSet::Bottom;
-                    if( reverseLayout )
-                    {
-                        rect = QRect(r.x(), r.y()-7, 7, 14);
-                        clip = QRect( r.x()+2, r.y()+3, 6, 4);
-                    } else {
-
-                        rect = QRect(r.x(), r.y()-7, 7, 14);
-                        clip = QRect(r.x(), r.y()+3, 6, 4);
-
-                    }
+                    rect = QRect(r.x(), r.y()-7, 7, 14);
+                    if( reverseLayout ) clip = QRect( r.x()+2, r.y() + 3, 6, 3);
+                    else clip = QRect(r.x(), r.y()+3, 6, 3);
 
                 }
 
@@ -4538,7 +4531,7 @@ void OxygenStyle::renderTab(
 
                     if (!reverseLayout)
                     {
-                        if ( isFrameAligned && !documentMode)
+                        if( isFrameAligned )
                         {
                             if (!selected)
                             {
@@ -4554,7 +4547,7 @@ void OxygenStyle::renderTab(
                     } else {
 
                         // reverseLayout
-                        if( isFrameAligned && !documentMode )
+                        if( isFrameAligned )
                         {
                             if (!selected)
                             {
@@ -4574,7 +4567,7 @@ void OxygenStyle::renderTab(
             } else {
 
                 // vertical
-                if( isTopMost && isFrameAligned && !documentMode )
+                if( isTopMost && isFrameAligned )
                 {
 
                     if (!selected)
@@ -4791,12 +4784,12 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
-                            path.moveTo(x+2.5, y+h-2-(( isFrameAligned && !documentMode ) ? 0 : 2 ));
+                            path.moveTo(x+2.5, y+h-2-( isFrameAligned ? 0 : 2 ));
                             path.lineTo(x+2.5, y+2.5); // left border
                             path.arcTo(QRectF(x+2.5, y+0.5, 9, 9), 180, -90); // top-left corner
                             path.lineTo(QPointF( x + w - 1.5 - 4.5, y+0.5)); // top border
                             path.arcTo( QRectF( x+w - 1.5 - 9, y+0.5, 9, 9 ), 90, -90 );
-                            path.lineTo(QPointF( x+w - 1.5, y+h-2-(( isFrameAligned && !documentMode ) ? 0 : 2 ) )); // to complete the path.
+                            path.lineTo(QPointF( x+w - 1.5, y+h-2-( isFrameAligned ? 0 : 2 ) )); // to complete the path.
                             p->drawPath(path);
 
                         } else if( isLeftMost ) {
@@ -4804,7 +4797,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
-                            path.moveTo(x+2.5, y+h-2-(( isFrameAligned && !documentMode ) ? 0 : 2 ));
+                            path.moveTo(x+2.5, y+h-2-( isFrameAligned ? 0 : 2 ));
                             path.lineTo(x+2.5, y+2.5); // left border
                             path.arcTo(QRectF(x+2.5, y+0.5, 9, 9), 180, -90); // top-left corner
                             path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+0.5)); // top border
@@ -4815,7 +4808,7 @@ void OxygenStyle::renderTab(
 
                             QPainterPath path;
                             w+=gw;
-                            path.moveTo(x+w-2.5, y+h-2- (( isFrameAligned && !documentMode ) ? 0 : 2 ) );
+                            path.moveTo(x+w-2.5, y+h-2- ( isFrameAligned ? 0 : 2 ) );
                             path.lineTo(x+w-2.5, y+2.5); // right border
                             path.arcTo(QRectF(x+w-9-2.5, y+0.5, 9, 9), 0, 90); // top-right corner
                             path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+0.5)); // top border
@@ -4842,7 +4835,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
-                            path.moveTo(x+2.5, y+2+(( isFrameAligned && !documentMode ) ? 0 : 2));
+                            path.moveTo(x+2.5, y+3+( isFrameAligned ? 0 : 2));
                             path.lineTo(x+2.5, y+h-2.5); // left border
                             path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90); // bottom-left corner
                             path.lineTo(QPointF(x+w - 1.5 -4.5, y+h-0.5)); // bottom border
@@ -4855,7 +4848,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             x-=gw;
                             w+=gw;
-                            path.moveTo(x+2.5, y+2+(( isFrameAligned && !documentMode ) ? 0 : 2));
+                            path.moveTo(x+2.5, y+2+( isFrameAligned ? 0 : 2));
                             path.lineTo(x+2.5, y+h-2.5); // left border
                             path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90); // bottom-left corner
                             path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+h-0.5)); // bottom border
@@ -4866,7 +4859,7 @@ void OxygenStyle::renderTab(
 
                             QPainterPath path;
                             w+=gw;
-                            path.moveTo(x+w-2.5, y+2+(( isFrameAligned && !documentMode ) ?0:2));
+                            path.moveTo(x+w-2.5, y+2+( isFrameAligned ? 0 : 2));
                             path.lineTo(x+w-2.5, y+h-2.5); // right border
                             path.arcTo(QRectF(x+w-9-2.5, y+h-9.5, 9, 9), 0, -90); // bottom-right corner
                             path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+h-0.5)); // bottom border
@@ -4891,7 +4884,7 @@ void OxygenStyle::renderTab(
                     if(isLeftMost)
                     {
 
-                        if( isFrameAligned && !documentMode ) tiles |= TileSet::Left;
+                        if( isFrameAligned ) tiles |= TileSet::Left;
                         if( reverseLayout || documentMode || !isFrameAligned )
                         { Ractual.adjust( -6, 0, 0, 0); }
 
@@ -4901,7 +4894,7 @@ void OxygenStyle::renderTab(
                     if(isRightMost)
                     {
 
-                        if( isFrameAligned && !documentMode ) tiles |= TileSet::Right;
+                        if( isFrameAligned ) tiles |= TileSet::Right;
                         else Ractual.adjust(0,0,6,0);
 
                     } else if( isLeftOfSelected ) Ractual.adjust(0,0,10-gw,0);
@@ -4997,7 +4990,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x+w+0.5, y+0.5);
+                            path.moveTo(x+w+0.5 + ( isFrameAligned ? 2 : 0), y+0.5 );
                             path.lineTo(x+5.0, y+0.5); // top border
                             path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
                             path.lineTo(x+0.5, y+h-2.5-4.5); // left border
@@ -5011,7 +5004,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y += 1.5;
 
-                            path.moveTo(x+w+0.5, y+0.5);
+                            path.moveTo(x+w+0.5 + ( isFrameAligned ? 2 : 0), y+0.5);
                             path.lineTo(x+5.0, y+0.5); // top border
                             path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
                             path.lineTo(x+0.5, y+h+0.5); // left border
@@ -5050,7 +5043,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x-0.5, y+0.5);
+                            path.moveTo(x-0.5 - ( isFrameAligned ? 2:0 ), y+0.5 );
                             path.lineTo(x+w-5.0, y+0.5); // top line
                             path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
                             path.lineTo(x+w-0.5, y+h-2.5 -4.5 ); // right line
@@ -5064,7 +5057,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x-0.5, y+0.5);
+                            path.moveTo(x-0.5 - ( isFrameAligned ? 2:0 ), y+0.5 );
                             path.lineTo(x+w-5.0, y+0.5); // top line
                             path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
                             path.lineTo(x+w-0.5, y+h+0.5); // right line
@@ -5101,7 +5094,7 @@ void OxygenStyle::renderTab(
                     {
 
                         // at top
-                        if( isFrameAligned && !documentMode ) tiles |= TileSet::Top;
+                        if( isFrameAligned ) tiles |= TileSet::Top;
                         else {
                             renderSlab(p, QRect(Ractual.left(), Ractual.y()-7, Ractual.width(), 2+14), color, NoFill, tiles);
                             Ractual.adjust(0,-5,0,0);
@@ -5114,7 +5107,7 @@ void OxygenStyle::renderTab(
                     {
 
                         // at bottom
-                        if( isFrameAligned && !documentMode && !reverseLayout) tiles |= TileSet::Top;
+                        if( isFrameAligned && !reverseLayout) tiles |= TileSet::Top;
                         Ractual.adjust(0,0,0,7);
 
                     } else if( isLeftOfSelected )  Ractual.adjust(0,0,0,10-gw);
