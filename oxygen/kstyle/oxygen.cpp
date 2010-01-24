@@ -3981,7 +3981,7 @@ void OxygenStyle::renderSlab(QPainter *p, QRect r, const QColor &color, StyleOpt
 }
 
 //____________________________________________________________________________________
-void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bool focus, bool hover, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles posFlags) const
+void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bool focus, bool hover, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles tiles) const
 {
     if((r.width() <= 0)||(r.height() <= 0))
         return;
@@ -3994,25 +3994,25 @@ void OxygenStyle::renderHole(QPainter *p, const QColor &base, const QRect &r, bo
             KColorUtils::mix( _viewHoverBrush.brush(QPalette::Active).color(), _viewFocusBrush.brush(QPalette::Active).color(), opacity ):
             _helper.alphaColor(  _viewFocusBrush.brush(QPalette::Active).color(), opacity );
 
-        _helper.holeFocused(base, glow, 0.0)->render(r, p, posFlags);
+        _helper.holeFocused(base, glow, 0.0)->render(r, p, tiles);
 
     } else if (focus) {
 
-        _helper.holeFocused(base, _viewFocusBrush.brush(QPalette::Active).color(), 0.0)->render(r, p, posFlags);
+        _helper.holeFocused(base, _viewFocusBrush.brush(QPalette::Active).color(), 0.0)->render(r, p, tiles);
 
     } else if( opacity >= 0 && ( animationMode & Oxygen::AnimationHover ) ) {
 
         // calculate proper glow color based on current settings and opacity
         QColor glow = _helper.alphaColor(  _viewHoverBrush.brush(QPalette::Active).color(), opacity );
-        _helper.holeFocused(base, glow, 0.0)->render(r, p, posFlags);
+        _helper.holeFocused(base, glow, 0.0)->render(r, p, tiles);
 
     } else if (hover) {
 
-        _helper.holeFocused(base, _viewHoverBrush.brush(QPalette::Active).color(), 0.0)->render(r, p, posFlags);
+        _helper.holeFocused(base, _viewHoverBrush.brush(QPalette::Active).color(), 0.0)->render(r, p, tiles);
 
     } else {
 
-        _helper.hole(base, 0.0)->render(r, p, posFlags);
+        _helper.hole(base, 0.0)->render(r, p, tiles);
 
     }
 
@@ -4395,8 +4395,6 @@ void OxygenStyle::renderTab(
         (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget);
 
     const bool isFirst = pos == QStyleOptionTab::Beginning || pos == QStyleOptionTab::OnlyOneTab/* (pos == First) || (pos == Single)*/;
-    const bool isLast = pos == QStyleOptionTab::End /*(pos == Last)*/;
-    const bool isSingle = pos == QStyleOptionTab::OnlyOneTab /*(pos == Single)*/;
 
     const bool isLeftOfSelected =  reverseLayout ?
         (tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected) :
@@ -4885,26 +4883,23 @@ void OxygenStyle::renderTab(
 
                             // bottom border
                             p->drawLine(QPointF(x-(isRightOfSelected?2:0), y+h-0.5), QPointF(x+w+(isRightOfSelected ?2:0)+(isLeftOfSelected ?2:0), y+h-0.5));
-                            if(!isLeftOfSelected) p->drawLine(QPointF(x+w+0.5, y+1.5), QPointF(x+w+0.5, y+h-4));
-                            p->fillRect(x, y+1, w, h-2, midColor);
+                            if(!isLeftOfSelected) p->drawLine(QPointF(x+w+0.5, y+2.5), QPointF(x+w+0.5, y+h-4));
+                            p->fillRect(x, y+2, w+(isLeftOfSelected ?2:0), h-2, midColor);
 
                         }
                     }
                     p->restore();
 
                     // bottom line
-                    TileSet::Tiles posFlag = southAlignment?TileSet::Bottom:TileSet::Top;
+                    TileSet::Tiles tiles = southAlignment?TileSet::Bottom:TileSet::Top;
                     QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 6);
 
                     if(isLeftMost)
                     {
 
-                        if( isFrameAligned && !documentMode ) posFlag |= TileSet::Left;
+                        if( isFrameAligned && !documentMode ) tiles |= TileSet::Left;
                         if( reverseLayout || documentMode || !isFrameAligned )
-                        {
-                            renderSlab(p, QRect(Ractual.left()-7, Ractual.y(), 14, Ractual.height()), color, NoFill, posFlag);
-                            Ractual.adjust(-5,0,0,0);
-                        }
+                        { Ractual.adjust( -6, 0, 0, 0); }
 
                     } else if( isRightOfSelected ) Ractual.adjust(-10+gw,0,0,0);
                     else Ractual.adjust(-7+gw,0,0,0);
@@ -4912,15 +4907,10 @@ void OxygenStyle::renderTab(
                     if(isRightMost)
                     {
 
-                        if( isFrameAligned && !documentMode ) posFlag |= TileSet::Right;
-                        else {
+                        if( isFrameAligned && !documentMode ) tiles |= TileSet::Right;
+                        else Ractual.adjust(0,0,6,0);
 
-                            renderSlab(p, QRect(Ractual.left()+Ractual.width()-2-7, Ractual.y(), 1+14, Ractual.height()), color, NoFill, posFlag);
-                            Ractual.adjust(0,0,5,0);
-
-                        }
-
-                    } else if( isLeftOfSelected ) Ractual.adjust(0,0,10-gw,0);
+                    } else if( isLeftOfSelected ) Ractual.adjust(0,0,9-gw,0);
                     else Ractual.adjust(0,0,7-gw,0);
 
                     if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) )
@@ -4929,10 +4919,10 @@ void OxygenStyle::renderTab(
                         renderSlab(p, Ractual, color, NoFill| Hover,
                             animations().tabBarEngine().opacity( widget, r.topLeft() ),
                             Oxygen::AnimationHover,
-                            posFlag );
+                            tiles );
 
-                    } else if (mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, posFlag);
-                    else renderSlab(p, Ractual, color, NoFill, posFlag);
+                    } else if (mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, tiles);
+                    else renderSlab(p, Ractual, color, NoFill, tiles);
 
                 }
 
@@ -4952,46 +4942,6 @@ void OxygenStyle::renderTab(
 
                     int x,y,w,h;
                     r.getRect(&x, &y, &w, &h);
-
-                    // parts of the adjacent tabs
-                    if(!isSingle && !isFirst )
-                    {
-
-                        p->setPen(darkColor);
-                        if(eastAlignment)
-                        {
-
-                            p->fillRect(x+5, y, w-10, 2, midColor);
-                            p->drawLine(QPointF(x+w-5-1, y), QPointF(x+w-5-1, y+2));
-
-                        } else {
-
-                            p->fillRect(x+5, y, w-10, 2, midColor);
-                            p->drawLine(QPointF(x+5, y), QPointF(x+5, y+2));
-
-                        }
-
-                    }
-
-                    if( !isSingle && !isLast )
-                    {
-
-                        p->setPen(darkColor);
-                        if(eastAlignment)
-                        {
-
-                            p->fillRect(x+5, y+h-2, w-10, 2, midColor);
-                            p->drawLine(QPointF(x+w-5, y+h-2), QPointF(x+w-5, y+h-1));
-
-                        } else {
-
-                            p->fillRect(x+5, y+h-2, w-10, 2, midColor);
-                            p->drawLine(QPointF(x+5, y+h-2-1), QPointF(x+5, y+h-1));
-
-                        }
-
-                    }
-
                     QRect tabRect( eastAlignment ? Rc.adjusted(-10,0,0,0):Rc.adjusted(0,0,10,0) );
 
                     if(eastAlignment) renderSlab(p, tabRect, color, NoFill, TileSet::Top | TileSet::Right | TileSet::Bottom);
@@ -5057,21 +5007,21 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x+w+ ( documentMode ? 0.5:3.0 ), y+0.5);
+                            path.moveTo(x+w+0.5, y+0.5);
                             path.lineTo(x+5.0, y+0.5); // top border
                             path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
                             path.lineTo(x+0.5, y+h-2.5-4.5); // left border
                             path.arcTo( QRectF( x+0.5, y+h-2.5-9, 9, 9 ), 180, 90 );
-                            path.lineTo(x+w+( documentMode ? 0.5:3.0 ), y+h-2.5); // complete the path
+                            path.lineTo(x+w+( 0.5 ), y+h-2.5); // complete the path
                             p->drawPath(path);
 
                         } else if( isLeftMost ) {
 
                             // at top
                             QPainterPath path;
-                            y = y + 1.5;
+                            y += 1.5;
 
-                            path.moveTo(x+w+( documentMode ? 0.5:3.0 ), y+0.5);
+                            path.moveTo(x+w+0.5, y+0.5);
                             path.lineTo(x+5.0, y+0.5); // top border
                             path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
                             path.lineTo(x+0.5, y+h+0.5); // left border
@@ -5093,10 +5043,9 @@ void OxygenStyle::renderTab(
                         } else {
 
                             // leftline
-                            p->drawLine(QPointF(x+0.5, y-0.5), QPointF(x+0.5, y+h-0.5));
-                            if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
-                                p->drawLine(QPointF(x+0.5, y+h-0.5), QPointF(x+w-0.5, y+h-0.5));
-                            p->fillRect(x, y, w, h, midColor);
+                            p->drawLine(QPointF(x+0.5, y-0.5 - (isRightOfSelected ? 2:0) ), QPointF(x+0.5, y+h-0.5 + (isLeftOfSelected ? 2:0)));
+                            if( !isLeftOfSelected ) p->drawLine(QPointF(x+0.5, y+h-0.5), QPointF(x+w-0.5, y+h-0.5));
+                            p->fillRect(x, y - (isRightOfSelected ? 2:0), w, h+(isRightOfSelected ? 2:0)+ (isLeftOfSelected ? 2:0), midColor);
 
                         }
 
@@ -5111,12 +5060,12 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x-( documentMode ? 0.5:3.0 ), y+0.5);
+                            path.moveTo(x-0.5, y+0.5);
                             path.lineTo(x+w-5.0, y+0.5); // top line
                             path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
                             path.lineTo(x+w-0.5, y+h-2.5 -4.5 ); // right line
                             path.arcTo( QRectF( x+w-0.5-9, y+h-2.5-9, 9, 9 ), 0, -90 );
-                            path.lineTo(x-( documentMode ? 0.5:3.0 ), y+h-2.5); // complete path
+                            path.lineTo(x-0.5, y+h-2.5); // complete path
                             p->drawPath(path);
 
                         } else if (isLeftMost) {
@@ -5125,7 +5074,7 @@ void OxygenStyle::renderTab(
                             QPainterPath path;
                             y = y + 1.5;
 
-                            path.moveTo(x-( documentMode ? 0.5:3.0 ), y+0.5);
+                            path.moveTo(x-0.5, y+0.5);
                             path.lineTo(x+w-5.0, y+0.5); // top line
                             path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
                             path.lineTo(x+w-0.5, y+h+0.5); // right line
@@ -5147,25 +5096,24 @@ void OxygenStyle::renderTab(
                         } else {
 
                             // right line
-                            p->drawLine(QPointF(x+w-0.5, y), QPointF(x+w-0.5, y+h-0.5));
-                            if((!reverseLayout && !isLeftOfSelected) || (reverseLayout && !isRightOfSelected))
-                                p->drawLine(QPointF(x+0.5, y+h-0.5), QPointF(x+w-1.5, y+h-0.5));
-                            p->fillRect(x, y, w, h, midColor);
+                            p->drawLine(QPointF(x+w-0.5, y - (isRightOfSelected ? 2:0) ), QPointF(x+w-0.5, y+h-0.5 + (isLeftOfSelected ? 2:0)));
+                            if( !isLeftOfSelected ) p->drawLine(QPointF(x+0.5, y+h-0.5), QPointF(x+w-1.5, y+h-0.5));
+                            p->fillRect(x, y - (isRightOfSelected ? 2:0), w, h + (isRightOfSelected ? 2:0) + (isLeftOfSelected ? 2:0), midColor);
 
                         }
                     }
                     p->restore();
 
-                    TileSet::Tiles posFlag = eastAlignment ? TileSet::Right : TileSet::Left;
+                    TileSet::Tiles tiles = eastAlignment ? TileSet::Right : TileSet::Left;
                     QRect Ractual(Rb.left(), Rb.y(), 7, Rb.height());
 
                     if(isLeftMost)
                     {
 
                         // at top
-                        if( isFrameAligned && !documentMode ) posFlag |= TileSet::Top;
+                        if( isFrameAligned && !documentMode ) tiles |= TileSet::Top;
                         else {
-                            renderSlab(p, QRect(Ractual.left(), Ractual.y()-7, Ractual.width(), 2+14), color, NoFill, posFlag);
+                            renderSlab(p, QRect(Ractual.left(), Ractual.y()-7, Ractual.width(), 2+14), color, NoFill, tiles);
                             Ractual.adjust(0,-5,0,0);
                         }
 
@@ -5176,7 +5124,7 @@ void OxygenStyle::renderTab(
                     {
 
                         // at bottom
-                        if( isFrameAligned && !documentMode && !reverseLayout) posFlag |= TileSet::Top;
+                        if( isFrameAligned && !documentMode && !reverseLayout) tiles |= TileSet::Top;
                         Ractual.adjust(0,0,0,7);
 
                     } else if( isLeftOfSelected )  Ractual.adjust(0,0,0,10-gw);
@@ -5187,10 +5135,10 @@ void OxygenStyle::renderTab(
                         renderSlab(p, Ractual, color, NoFill| Hover,
                             animations().tabBarEngine().opacity( widget, r.topLeft() ),
                             Oxygen::AnimationHover,
-                            posFlag );
+                            tiles );
 
-                    } else if (mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, posFlag);
-                    else renderSlab(p, Ractual, color, NoFill, posFlag);
+                    } else if (mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, tiles);
+                    else renderSlab(p, Ractual, color, NoFill, tiles);
 
                 }
 
