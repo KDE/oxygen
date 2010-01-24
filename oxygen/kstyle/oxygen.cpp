@@ -2923,8 +2923,8 @@ bool OxygenStyle::drawToolButtonPrimitive(
                     // get corner widgets if any
                     const QWidget* leftWidget( tw ? tw->cornerWidget( Qt::TopLeftCorner ):0 );
                     const QWidget* rightWidget( tw ? tw->cornerWidget( Qt::TopRightCorner ):0 );
-                    if( leftWidget && !leftWidget->isVisible() ) leftWidget = 0;
-                    if( rightWidget && !rightWidget->isVisible() ) rightWidget = 0;
+                    //if( leftWidget && !leftWidget->isVisible() ) leftWidget = 0;
+                    //if( rightWidget && !rightWidget->isVisible() ) rightWidget = 0;
 
                     // prepare painting, clipping and tiles
                     TileSet::Tiles tiles = 0;
@@ -5590,27 +5590,27 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
             QRect r = KStyle::subElementRect(sr, opt, widget);
             if (const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
             {
-                if (twf->lineWidth != 0) return r;
                 switch (twf->shape)
                 {
                     case QTabBar::RoundedNorth:
                     case QTabBar::TriangularNorth:
-                    r.adjust( 0, -3, 0, 0 );
+                    if (twf->lineWidth == 0) r.adjust( 0, -3, 0, 0 );
                     break;
 
                     case QTabBar::RoundedSouth:
                     case QTabBar::TriangularSouth:
-                    r.adjust( 0, 0, 0, 3 );
+                    if (twf->lineWidth == 0) r.adjust( 0, 0, 0, 1 );
+                    else r.adjust( 0, 0, 0, -1 );
                     break;
 
                     case QTabBar::RoundedEast:
                     case QTabBar::TriangularEast:
-                    r.adjust( 0, 0, 3, 0 );
+                    if (twf->lineWidth == 0) r.adjust( 0, 0, 3, 0 );
                     break;
 
                     case QTabBar::RoundedWest:
                     case QTabBar::TriangularWest:
-                    r.adjust( -3, 0, 0, 0 );
+                    if (twf->lineWidth == 0) r.adjust( -3, 0, 0, 0 );
                     break;
 
                     default:
