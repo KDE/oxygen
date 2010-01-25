@@ -5585,7 +5585,6 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
                     case QTabBar::TriangularSouth:
                     if( twf->lineWidth == 0 && tabBarVisible ) r.adjust( 0, 0, 0, 2 );
                     else if( tabBarVisible ) r.adjust( 0, 0, 0, -1 );
-                    else r.adjust( 0, 0, 0, 0 );
                     break;
 
                     case QTabBar::RoundedEast:
