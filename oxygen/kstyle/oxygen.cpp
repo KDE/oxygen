@@ -1698,8 +1698,8 @@ bool OxygenStyle::drawTabBarPrimitive(
             if( widget && !tabWidget ) tabWidget = qobject_cast<const QTabWidget *>(widget->parent() );
             if (!tabOpt->tabBarRect.isValid() && !tabWidget) return true;
 
-            const QWidget* leftWidget = ( tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner) && tabWidget && tabWidget->cornerWidget(Qt::TopLeftCorner)->isVisible()) ? tabWidget->cornerWidget(Qt::TopLeftCorner):0;
-            const QWidget* rightWidget = ( tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner) && tabWidget && tabWidget->cornerWidget(Qt::TopRightCorner)->isVisible()) ? tabWidget->cornerWidget(Qt::TopRightCorner):0;
+            const QWidget* leftWidget = ( tabWidget && widget->isVisible() && tabWidget->cornerWidget(Qt::TopLeftCorner) ) ? tabWidget->cornerWidget(Qt::TopLeftCorner):0;
+            const QWidget* rightWidget = ( tabWidget && widget->isVisible() && tabWidget->cornerWidget(Qt::TopRightCorner) ) ? tabWidget->cornerWidget(Qt::TopRightCorner):0;
 
             switch(tabOpt->shape)
             {
@@ -5573,27 +5573,29 @@ QRect OxygenStyle::subElementRect(SubElement sr, const QStyleOption *opt, const 
             QRect r = KStyle::subElementRect(sr, opt, widget);
             if (const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
             {
+                bool tabBarVisible( !twf->tabBarSize.isEmpty() );
                 switch (twf->shape)
                 {
                     case QTabBar::RoundedNorth:
                     case QTabBar::TriangularNorth:
-                    if (twf->lineWidth == 0) r.adjust( 0, -3, 0, 0 );
+                    if( twf->lineWidth == 0 && tabBarVisible ) r.adjust( 0, -3, 0, 0 );
                     break;
 
                     case QTabBar::RoundedSouth:
                     case QTabBar::TriangularSouth:
-                    if (twf->lineWidth == 0) r.adjust( 0, 0, 0, 1 );
-                    else r.adjust( 0, 0, 0, -2 );
+                    if( twf->lineWidth == 0 && tabBarVisible ) r.adjust( 0, 0, 0, 2 );
+                    else if( tabBarVisible ) r.adjust( 0, 0, 0, -1 );
+                    else r.adjust( 0, 0, 0, 0 );
                     break;
 
                     case QTabBar::RoundedEast:
                     case QTabBar::TriangularEast:
-                    if (twf->lineWidth == 0) r.adjust( 0, 0, 3, 0 );
+                    if( twf->lineWidth == 0 && tabBarVisible ) r.adjust( 0, 0, 3, 0 );
                     break;
 
                     case QTabBar::RoundedWest:
                     case QTabBar::TriangularWest:
-                    if (twf->lineWidth == 0) r.adjust( -3, 0, 0, 0 );
+                    if( twf->lineWidth == 0 && tabBarVisible ) r.adjust( -3, 0, 0, 0 );
                     break;
 
                     default:
