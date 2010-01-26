@@ -1067,8 +1067,8 @@ bool OxygenStyle::drawMenuItemPrimitive(
             {
 
                 // check text and icon
-                // separators with non empty text and/or non null icons are rendered like checked checked toolbuttons
-                if( !( menuItemOption->text.isEmpty() && menuItemOption->icon.isNull() ) )
+                // separators with non empty text are rendered as checked toolbuttons
+                if( !menuItemOption->text.isEmpty() )
                 {
 
                     QStyleOptionToolButton toolbuttonOpt;
