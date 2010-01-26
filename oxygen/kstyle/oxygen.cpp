@@ -2301,7 +2301,7 @@ bool OxygenStyle::drawSpinBoxPrimitive(
                 #ifdef HOLE_NO_EDGE_FILL
                 p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
                 #else
-                _helper.fillHole(*p, r);
+                _helper.fillHole(*p, r.adjusted( 0, 0, 0, -1 ) );
                 #endif
 
                 p->restore();
@@ -2656,7 +2656,7 @@ bool OxygenStyle::drawLineEditPrimitive(
             const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
             #endif
 
-            QRect fr( r.adjusted(2,2,-2,-3) );
+            QRect fr( r.adjusted(2,2,-2,-2) );
 
             animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
             animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
