@@ -99,7 +99,13 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
     QRect r = window->rect();
     QColor color = pal.color(window->backgroundRole());
     int height = window->frameGeometry().height();
-    if( y_shift > 0 ) height -= 2*y_shift;
+    int width = window->frameGeometry().width();
+    if( y_shift > 0 )
+    {
+      height -= 2*y_shift;
+      width -= 2*y_shift;
+    }
+
     int splitY = qMin(300, (3*height)/4);
 
     // draw upper linear gradient
@@ -112,13 +118,13 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
     p->fillRect(lowerRect, backgroundBottomColor(color));
 
     // draw upper radial gradient
-    int radialW = qMin(600, r.width());
+    int radialW = qMin(600, width);
     QRect radialRect = QRect((r.width() - radialW) / 2-x, -y, radialW, gradientHeight);
     if (clipRect.intersects(radialRect))
     {
         tile = radialGradient(color, radialW, gradientHeight);
         p->drawPixmap(radialRect, tile);
-     }
+    }
 
     if (clipRect.isValid())
     { p->restore(); }
