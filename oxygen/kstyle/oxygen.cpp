@@ -2388,6 +2388,7 @@ bool OxygenStyle::drawComboBoxPrimitive(
             if(!editable)
             {
 
+                QRect fr( r.adjusted( 0, 0, 0, -1 ) );
                 if( cbOpt && !cbOpt->frame )
                 {
 
@@ -2396,16 +2397,16 @@ bool OxygenStyle::drawComboBoxPrimitive(
                 } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
 
                     qreal opacity( animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ) );
-                    renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationHover, TileSet::Ring );
+                    renderButtonSlab( p, fr, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationHover, TileSet::Ring );
 
                 } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) ) {
 
                     qreal opacity( animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ) );
-                    renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationFocus, TileSet::Ring );
+                    renderButtonSlab( p, fr, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationFocus, TileSet::Ring );
 
                 } else {
 
-                    renderButtonSlab(p, r, pal.color(QPalette::Button), opts);
+                    renderButtonSlab(p, fr, pal.color(QPalette::Button), opts);
 
                 }
 
@@ -3407,9 +3408,10 @@ bool OxygenStyle::drawGenericPrimitive(
 
             if( const QAbstractItemView *aiv = qobject_cast<const QAbstractItemView*>(widget) )
             {
-                if( OxygenStyleConfigData::viewDrawFocusIndicator() && !(aiv->selectionMode() == QAbstractItemView::SingleSelection) && !(aiv->selectionMode() == QAbstractItemView::NoSelection))
+                if( OxygenStyleConfigData::viewDrawFocusIndicator() &&
+                  aiv->selectionMode() != QAbstractItemView::SingleSelection &&
+                  aiv->selectionMode() != QAbstractItemView::NoSelection)
                 {
-                    const QPen oldPen = p->pen();
                     QLinearGradient lg(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
                     lg.setColorAt(0.0, Qt::transparent);
 
@@ -3426,10 +3428,14 @@ bool OxygenStyle::drawGenericPrimitive(
                     }
 
                     lg.setColorAt(1.0, Qt::transparent);
+
+                    p->save();
+                    p->setRenderHint(QPainter::Antialiasing, false);
                     p->setPen(QPen(lg, 1));
                     p->drawLine(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
-                    p->setPen(oldPen);
-                }
+                    p->restore();
+
+                  }
             }
 
             // we don't want the stippled focus indicator in oxygen
