@@ -2388,7 +2388,6 @@ bool OxygenStyle::drawComboBoxPrimitive(
             if(!editable)
             {
 
-                QRect fr( r.adjusted( 0, 0, 0, -1 ) );
                 if( cbOpt && !cbOpt->frame )
                 {
 
@@ -2397,16 +2396,16 @@ bool OxygenStyle::drawComboBoxPrimitive(
                 } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
 
                     qreal opacity( animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover ) );
-                    renderButtonSlab( p, fr, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationHover, TileSet::Ring );
+                    renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationHover, TileSet::Ring );
 
                 } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) ) {
 
                     qreal opacity( animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus ) );
-                    renderButtonSlab( p, fr, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationFocus, TileSet::Ring );
+                    renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, Oxygen::AnimationFocus, TileSet::Ring );
 
                 } else {
 
-                    renderButtonSlab(p, fr, pal.color(QPalette::Button), opts);
+                    renderButtonSlab(p, r, pal.color(QPalette::Button), opts);
 
                 }
 
