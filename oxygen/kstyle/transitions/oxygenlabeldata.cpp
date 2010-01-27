@@ -108,7 +108,7 @@ namespace Oxygen
         {
 
             timer_.stop();
-            if( !animate() ) transition().data()->hide();
+            if( transition() && !animate() ) transition().data()->hide();
 
         } else return QObject::timerEvent( event );
 

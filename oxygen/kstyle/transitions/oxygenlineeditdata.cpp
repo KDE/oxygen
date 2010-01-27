@@ -81,7 +81,7 @@ namespace Oxygen
         {
 
             timer_.stop();
-            if( target_ && target_.data()->isVisible() )
+            if( transition() && target_ && target_.data()->isVisible() )
             {
                 setRecursiveCheck( true );
                 transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
