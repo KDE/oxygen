@@ -87,6 +87,12 @@ K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("oxygen"))
 // ie glowwidth which we want to un-reserve space for in the tabs
 static const int gw = 1;
 
+// these parameters replace the KStyle PushButton::PressedShiftVertical because
+// the latter is not flexible enough. They are implemented manually in
+// OxygenStyle::drawControl
+static const int pushButtonPressedShiftVertical = 1;
+static const int toolButtonPressedShiftVertical = 2;
+
 //_____________________________________________
 static void cleanupBefore()
 {
@@ -146,6 +152,11 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Top, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Bot, 0);
+    
+    // these are left to zero because the kstyle implementation that uses them
+    // is not flexible enough for oxygen needs.
+    // Instead we re-implement KStyle::drawControl when needed and perform the specific
+    // handling of pressed buttons vertical shif there
     setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftHorizontal, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftVertical, 0 );
 
@@ -564,6 +575,36 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
 
         }
 
+        // re-implement from kstyle to handle pressed 
+        // down vertical shift properly
+        case CE_ToolButtonLabel:
+        {
+            
+            // check whether button is pressed
+            const bool active = (option->state & State_On) || (option->state & State_Sunken);
+            if( !active )  return KStyle::drawControl(element, option, p, widget);
+            
+            // cast option and check
+            const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option);
+            if( !( tbOpt && active ) ) return KStyle::drawControl(element, option, p, widget);
+            
+            // case button and check
+            const QToolButton* toolButton( qobject_cast<const QToolButton*>( widget ) );
+            if( !toolButton || toolButton->autoRaise() ) return KStyle::drawControl(element, option, p, widget);
+            
+            // check button parent. Right now the fix addresses only toolbuttons located
+            // in a menu, in order to fix the KMenu title rendering issue
+            if( !( toolButton->parent() && toolButton->parent()->inherits( "QMenu" ) ) )
+            { return KStyle::drawControl(element, option, p, widget); }
+            
+            // adjust vertical position
+            QStyleOptionToolButton local( *tbOpt );
+            local.rect.translate( 0, toolButtonPressedShiftVertical );
+            return KStyle::drawControl(element, &local, p, widget);
+
+        }
+
+        
         default: break;
     }
     KStyle::drawControl(element, option, p, widget);
