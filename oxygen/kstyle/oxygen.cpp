@@ -2301,7 +2301,7 @@ bool OxygenStyle::drawSpinBoxPrimitive(
                 #ifdef HOLE_NO_EDGE_FILL
                 p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
                 #else
-                _helper.fillHole(*p, r.adjusted( 0, 0, 0, -1 ) );
+                _helper.fillHole(*p, r.adjusted( 1, 0, -1, -1 ) );
                 #endif
 
                 p->restore();
@@ -2431,7 +2431,7 @@ bool OxygenStyle::drawComboBoxPrimitive(
                     #ifdef HOLE_NO_EDGE_FILL
                     p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
                     #else
-                    _helper.fillHole(*p, r.adjusted(0,0,0,-1));
+                    _helper.fillHole(*p, r.adjusted(1,0,-1,-1));
                     #endif
 
                     p->restore();
@@ -2696,7 +2696,7 @@ bool OxygenStyle::drawLineEditPrimitive(
                     #ifdef HOLE_NO_EDGE_FILL
                     p->fillRect(r.adjusted(5,5,-5,-5), inputBrush);
                     #else
-                    _helper.fillHole(*p, r.adjusted(0,0,-0,-1));
+                    _helper.fillHole(*p, r.adjusted(1,0,-1,-1));
                     #endif
 
                     drawPrimitive(PE_FrameLineEdit, panel, p, widget);
