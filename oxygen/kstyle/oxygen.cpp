@@ -147,7 +147,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Top, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Bot, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftHorizontal, 0);
-    setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftVertical, 2 );
+    setWidgetLayoutProp(WT_PushButton, PushButton::PressedShiftVertical, 0 );
 
     setWidgetLayoutProp(WT_Splitter, Splitter::Width, 3);
 
@@ -563,44 +563,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
             } else return QCommonStyle::drawControl( element, option, p, widget);
 
         }
-        
-        case CE_PushButtonLabel:
-        {
-            
-            const QStyleOptionButton* bOpt = qstyleoption_cast<const QStyleOptionButton*>(option);
-            const bool active = (option->state & State_On) || (option->state & State_Sunken);
-            if( bOpt && active )
-            {
-                // fix vertical position so that default voffset is 
-                // 1 for normal buttons and 0 for flat buttons
-                QStyleOptionButton local( *bOpt );
-                local.rect.translate( 0, (bOpt->features & QStyleOptionButton::Flat) ? -2:-1 );
-                return KStyle::drawControl(element, &local, p, widget);
 
-            } else return KStyle::drawControl(element, option, p, widget);
-            
-        }
-       
-        case CE_ToolButtonLabel:
-        {
-            
-            const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option);
-            const bool active = (option->state & State_On) || (option->state & State_Sunken);
-            if( !( tbOpt && active ) ) return KStyle::drawControl(element, option, p, widget);
-            
-            const QToolButton* toolButton( qobject_cast<const QToolButton*>( widget ) );
-            if( toolButton && toolButton->autoRaise() )
-            {
-                // fix vertical position so that default voffset is 0 
-                // for autoRaised toolbuttons
-                QStyleOptionToolButton local( *tbOpt );
-                local.rect.translate( 0, -2 );
-                return KStyle::drawControl(element, &local, p, widget);
-
-            } else return KStyle::drawControl(element, option, p, widget);
-            
-        }
-        
         default: break;
     }
     KStyle::drawControl(element, option, p, widget);
