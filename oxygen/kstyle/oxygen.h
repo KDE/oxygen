@@ -46,6 +46,7 @@
 #include <KColorScheme>
 #include <KSharedConfig>
 
+#include <QtGui/QAbstractScrollArea>
 #include <QtGui/QBitmap>
 #include <QtGui/QStyleOption>
 #include <QtGui/QTabBar>
@@ -177,6 +178,9 @@ class OxygenStyle : public KStyle
 
     Oxygen::Transitions& transitions( void ) const
     { return *_transitions; }
+
+    //! register scrollarea
+    void registerScrollArea( QAbstractScrollArea* ) const;
 
     private:
 
