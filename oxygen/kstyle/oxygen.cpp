@@ -1720,7 +1720,13 @@ bool OxygenStyle::drawTabBarPrimitive(
 
             if( !(documentMode && flags&State_Selected) )
             {
-                if( clip.isValid() ) _helper.renderWindowBackground(p, clip, widget, pal);
+                // clipping is done by drawing the 
+                // window background over the requested rect
+                if( clip.isValid() ) 
+                {
+                    if( checkAutoFillBackground( widget ) ) p->fillRect( clip, pal.color( widget->backgroundRole() ) );
+                    else _helper.renderWindowBackground(p, clip, widget, pal);
+                }
                 renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, tiles );
             }
             return true;
@@ -3081,8 +3087,16 @@ bool OxygenStyle::drawToolButtonPrimitive(
                         break;
                     }
 
-
-                    if( clipRect.isValid() ) _helper.renderWindowBackground(p, clipRect, t, t->window()->palette());
+                    if( clipRect.isValid() ) 
+                    {
+                        QPalette local( t->parentWidget() ? t->parentWidget()->palette() : pal );
+                        
+                        // check whether parent has autofill background flag
+                        if( checkAutoFillBackground( t ) ) p->fillRect( clipRect, local.color( t->backgroundRole() ) );
+                        else _helper.renderWindowBackground(p, clipRect, t, local);
+                        
+                    }
+                    
                     if( slabRect.isValid() )
                     {
                         p->save();
@@ -6327,6 +6341,20 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 bool OxygenStyle::compositingActive( void ) const
 {
     return KWindowSystem::compositingActive();
+}
+
+//____________________________________________________________________
+bool OxygenStyle::checkAutoFillBackground( const QWidget* w ) const
+{
+    if( w->autoFillBackground() ) return true;
+    for( const QWidget* parent = w->parentWidget(); parent!=0; parent = parent->parentWidget() )
+    {
+        if( parent->autoFillBackground() ) return true;
+        if( parent == w->window() ) break;
+    }
+    
+    return false;
+    
 }
 
 //____________________________________________________________________
