@@ -1724,7 +1724,7 @@ bool OxygenStyle::drawTabBarPrimitive(
                 // window background over the requested rect
                 if( clip.isValid() ) 
                 {
-                    if( checkAutoFillBackground( widget ) ) p->fillRect( clip, pal.color( widget->backgroundRole() ) );
+                    if( const QWidget* parent = checkAutoFillBackground( widget ) ) p->fillRect( clip, parent->palette().color( parent->backgroundRole() ) );
                     else _helper.renderWindowBackground(p, clip, widget, pal);
                 }
                 renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, tiles );
@@ -3092,7 +3092,7 @@ bool OxygenStyle::drawToolButtonPrimitive(
                         QPalette local( t->parentWidget() ? t->parentWidget()->palette() : pal );
                         
                         // check whether parent has autofill background flag
-                        if( checkAutoFillBackground( t ) ) p->fillRect( clipRect, local.color( t->backgroundRole() ) );
+                        if( const QWidget* parent = checkAutoFillBackground( t ) ) p->fillRect( clipRect, parent->palette().color( parent->backgroundRole() ) );
                         else _helper.renderWindowBackground(p, clipRect, t, local);
                         
                     }
@@ -6344,17 +6344,17 @@ bool OxygenStyle::compositingActive( void ) const
 }
 
 //____________________________________________________________________
-bool OxygenStyle::checkAutoFillBackground( const QWidget* w ) const
+const QWidget* OxygenStyle::checkAutoFillBackground( const QWidget* w ) const
 {
-    if( w->autoFillBackground() ) return true;
+    if( !w ) return NULL;
+    if( w->autoFillBackground() ) return w;
     for( const QWidget* parent = w->parentWidget(); parent!=0; parent = parent->parentWidget() )
     {
-        if( parent->autoFillBackground() ) return true;
+        if( parent->autoFillBackground() ) return parent;
         if( parent == w->window() ) break;
     }
     
-    return false;
-    
+    return NULL;
 }
 
 //____________________________________________________________________

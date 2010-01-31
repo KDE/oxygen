@@ -303,8 +303,11 @@ class OxygenStyle : public KStyle
     //! returns true if compositing is active
     bool compositingActive( void ) const;
 
-    //! returns true if one of the parent of a widget has its autofillbackground set to true
-    bool checkAutoFillBackground( const QWidget* ) const;
+    /*! 
+    returns first widget in parent chain that sets autoFillBackground to true,
+    or NULL if none
+    */
+    const QWidget* checkAutoFillBackground( const QWidget* ) const;
     
     protected Q_SLOTS:
 
