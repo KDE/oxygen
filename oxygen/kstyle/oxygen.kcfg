@@ -117,6 +117,10 @@
       <default>false</default>
     </entry>
 
+    <entry name="ComboBoxTransitionsEnabled" type="Bool">
+      <default>true</default>
+    </entry>
+
     <entry name="LineEditTransitionsEnabled" type="Bool">
       <default>true</default>
     </entry>
@@ -127,6 +131,10 @@
     </entry>  
 
     <entry name="LabelTransitionsDuration" type="Int">
+      <default>75</default>
+    </entry>  
+
+    <entry name="ComboBoxTransitionsDuration" type="Int">
       <default>75</default>
     </entry>  
 
