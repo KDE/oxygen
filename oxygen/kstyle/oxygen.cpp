@@ -91,7 +91,7 @@ static const int gw = 1;
 // the latter is not flexible enough. They are implemented manually in
 // OxygenStyle::drawControl
 static const int pushButtonPressedShiftVertical = 1;
-static const int toolButtonPressedShiftVertical = 2;
+static const int toolButtonPressedShiftVertical = 1;
 
 //_____________________________________________
 static void cleanupBefore()
@@ -152,7 +152,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Top, 0);
     setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Bot, 0);
-    
+
     // these are left to zero because the kstyle implementation that uses them
     // is not flexible enough for oxygen needs.
     // Instead we re-implement KStyle::drawControl when needed and perform the specific
@@ -575,28 +575,28 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
 
         }
 
-        // re-implement from kstyle to handle pressed 
+        // re-implement from kstyle to handle pressed
         // down vertical shift properly
         case CE_ToolButtonLabel:
         {
-            
+
             // check whether button is pressed
             const bool active = (option->state & State_On) || (option->state & State_Sunken);
             if( !active )  return KStyle::drawControl(element, option, p, widget);
-            
+
             // cast option and check
             const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option);
             if( !( tbOpt && active ) ) return KStyle::drawControl(element, option, p, widget);
-            
+
             // case button and check
             const QToolButton* toolButton( qobject_cast<const QToolButton*>( widget ) );
             if( !toolButton || toolButton->autoRaise() ) return KStyle::drawControl(element, option, p, widget);
-            
+
             // check button parent. Right now the fix addresses only toolbuttons located
             // in a menu, in order to fix the KMenu title rendering issue
             if( !( toolButton->parent() && toolButton->parent()->inherits( "QMenu" ) ) )
             { return KStyle::drawControl(element, option, p, widget); }
-            
+
             // adjust vertical position
             QStyleOptionToolButton local( *tbOpt );
             local.rect.translate( 0, toolButtonPressedShiftVertical );
@@ -604,7 +604,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
 
         }
 
-        
+
         default: break;
     }
     KStyle::drawControl(element, option, p, widget);
@@ -1720,9 +1720,9 @@ bool OxygenStyle::drawTabBarPrimitive(
 
             if( !(documentMode && flags&State_Selected) )
             {
-                // clipping is done by drawing the 
+                // clipping is done by drawing the
                 // window background over the requested rect
-                if( clip.isValid() ) 
+                if( clip.isValid() )
                 {
                     if( const QWidget* parent = checkAutoFillBackground( widget ) ) p->fillRect( clip, parent->palette().color( parent->backgroundRole() ) );
                     else _helper.renderWindowBackground(p, clip, widget, pal);
@@ -3087,16 +3087,16 @@ bool OxygenStyle::drawToolButtonPrimitive(
                         break;
                     }
 
-                    if( clipRect.isValid() ) 
+                    if( clipRect.isValid() )
                     {
                         QPalette local( t->parentWidget() ? t->parentWidget()->palette() : pal );
-                        
+
                         // check whether parent has autofill background flag
                         if( const QWidget* parent = checkAutoFillBackground( t ) ) p->fillRect( clipRect, parent->palette().color( parent->backgroundRole() ) );
                         else _helper.renderWindowBackground(p, clipRect, t, local);
-                        
+
                     }
-                    
+
                     if( slabRect.isValid() )
                     {
                         p->save();
@@ -3530,25 +3530,25 @@ void OxygenStyle::registerScrollArea( QAbstractScrollArea* scrollArea ) const
 {
 
     if( !scrollArea ) return;
-    
+
     // check frame style and background role
     if( scrollArea->frameShape() != QFrame::NoFrame ) return;
-    if( scrollArea->backgroundRole() != QPalette::Window ) return;    
-    
+    if( scrollArea->backgroundRole() != QPalette::Window ) return;
+
     // get viewport and check background role
     QWidget* viewport( scrollArea->viewport() );
-    if( !( viewport && viewport->backgroundRole() == QPalette::Window ) ) return;    
-    
+    if( !( viewport && viewport->backgroundRole() == QPalette::Window ) ) return;
+
     // change viewport autoFill background.
     // do the same for children if the background role is QPalette::Window
     viewport->setAutoFillBackground( false );
     QList<QWidget*> children( viewport->findChildren<QWidget*>() );
     foreach( QWidget* child, children )
-    { 
-        if( child->parent() == viewport && child->backgroundRole() == QPalette::Window ) 
+    {
+        if( child->parent() == viewport && child->backgroundRole() == QPalette::Window )
         { child->setAutoFillBackground( false ); }
     }
-        
+
 }
 
 //______________________________________________________________
@@ -3562,7 +3562,7 @@ void OxygenStyle::polish(QWidget* widget)
 
     if( widget->inherits( "QAbstractScrollArea" ) )
     { registerScrollArea( qobject_cast<QAbstractScrollArea*>(widget) ); }
-    
+
     // adjust flags
     switch (widget->windowFlags() & Qt::WindowType_Mask)
     {
@@ -3980,7 +3980,8 @@ void OxygenStyle::renderButtonSlab(QPainter *p, QRect r, const QColor &color, St
 
         }
 
-        _helper.fillSlab(*p, r);
+        if( opts & Sunken ) _helper.fillSlab(*p, r.adjusted(0,0,0,-1) );
+        else _helper.fillSlab(*p, r);
         p->restore();
 
     }
@@ -4000,7 +4001,8 @@ void OxygenStyle::renderButtonSlab(QPainter *p, QRect r, const QColor &color, St
 
     }
 
-    tile->render(r, p, tiles);
+    if( opts & Sunken ) tile->render(r.adjusted(0,0,0,-1), p, tiles);
+    else tile->render(r, p, tiles);
 
 }
 
@@ -6353,7 +6355,7 @@ const QWidget* OxygenStyle::checkAutoFillBackground( const QWidget* w ) const
         if( parent->autoFillBackground() ) return parent;
         if( parent == w->window() ) break;
     }
-    
+
     return NULL;
 }
 
