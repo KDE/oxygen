@@ -63,6 +63,19 @@ namespace Oxygen
         //! return default opacity for a given subcontrol
         virtual qreal opacity( QStyle::SubControl ) const;
 
+        //! return default opacity for a given subcontrol
+        virtual bool isHovered( QStyle::SubControl control ) const
+        {
+            switch( control )
+            {
+                case QStyle::SC_ScrollBarAddLine: return addLineArrowHovered();
+                case QStyle::SC_ScrollBarSubLine: return subLineArrowHovered();
+                default: return false;
+            }
+
+
+        }
+
         //! subControlRect
         virtual QRect subControlRect( QStyle::SubControl control ) const
         {

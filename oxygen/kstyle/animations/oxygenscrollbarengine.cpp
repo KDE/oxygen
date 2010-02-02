@@ -36,10 +36,20 @@ namespace Oxygen
     bool ScrollBarEngine::registerWidget( QWidget* widget )
     {
 
-        if( !(enabled() && widget ) ) return false;
+        // check widget
+        /*
+        note: widget is registered even if animation is disabled because OxygenScrollBarData
+        is also used in non-animated mode to store arrow rect for hover highlight
+        */
+        if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new ScrollBarData( this, widget, duration() ) );
+        if( !data_.contains( widget ) )
+        {
+            ScrollBarData* data = new ScrollBarData( this, widget, duration() );
+            data->setEnabled( enabled() );
+            data_.insert( widget, data );
+        }
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );

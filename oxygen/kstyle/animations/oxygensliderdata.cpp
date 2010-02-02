@@ -41,7 +41,7 @@ namespace Oxygen
     bool SliderData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !( enabled() && object == target().data() ) )
+        if( object != target().data() )
         { return GenericData::eventFilter( object, event ); }
 
         // check event type
@@ -103,8 +103,11 @@ namespace Oxygen
 
             if( !sliderHovered() ) {
                 setSliderHovered( true );
-                animation().data()->setDirection( Animation::Forward );
-                if( !animation().data()->isRunning() ) animation().data()->start();
+                if( enabled() )
+                {
+                    animation().data()->setDirection( Animation::Forward );
+                    if( !animation().data()->isRunning() ) animation().data()->start();
+                } else setDirty();
             }
 
         } else {
@@ -112,8 +115,11 @@ namespace Oxygen
             if( sliderHovered() )
             {
                 setSliderHovered( false );
-                animation().data()->setDirection( Animation::Backward );
-                if( !animation().data()->isRunning() ) animation().data()->start();
+                if( enabled() )
+                {
+                    animation().data()->setDirection( Animation::Backward );
+                    if( !animation().data()->isRunning() ) animation().data()->start();
+                } else setDirty();
             }
 
         }

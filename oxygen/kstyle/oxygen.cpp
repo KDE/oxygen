@@ -3258,14 +3258,10 @@ bool OxygenStyle::drawGenericPrimitive(
                 else if( opt->direction == Qt::LeftToRight ) subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarSubLine:SC_ScrollBarAddLine;
                 else subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
 
-                // check if active subControl matches current
-                bool hover( false );
-                if( const QStyleOptionSlider *sbOpt = qstyleoption_cast<const QStyleOptionSlider*>(opt) )
-                { if( sbOpt->activeSubControls & subcontrol ) hover = true; }
-
                 if( enabled )
                 {
 
+                    bool hover( animations().scrollBarEngine().isHovered( widget, subcontrol ) );
                     bool animated( animations().scrollBarEngine().isAnimated( widget, subcontrol ) );
                     qreal opacity( animations().scrollBarEngine().opacity( widget, subcontrol ) );
 

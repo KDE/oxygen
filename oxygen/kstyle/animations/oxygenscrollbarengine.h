@@ -61,6 +61,13 @@ namespace Oxygen
         virtual qreal opacity( const QObject* object, QStyle::SubControl control )
         { return isAnimated( object, control ) ? data_.find( object ).data()->opacity( control ):AnimationData::OpacityInvalid; }
 
+        //! return true if given subcontrol is hovered
+        virtual bool isHovered( const QObject* object, QStyle::SubControl control )
+        {
+            if( DataMap<ScrollBarData>::Value data = data_.find( object ) ) return data.data()->isHovered( control );
+            else return false;
+        }
+
         //! control rect associated to object
         virtual QRect subControlRect( const QObject* object, QStyle::SubControl control )
         {
@@ -79,7 +86,14 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            /*
+            do not disable the map directly, because the contained OxygenScrollbarData
+            are also used in non animated mode to store scrollbar arrows rect. However
+            do disable all contains DATA object, in order to prevent actual animations
+            */
+            foreach( const DataMap<ScrollBarData>::Value data, data_ )
+            { if( data ) data.data()->setEnabled( value ); }
+
         }
 
         //! duration

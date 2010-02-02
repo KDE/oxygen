@@ -122,6 +122,7 @@ namespace Oxygen
     {
         Q_UNUSED( object );
         Q_UNUSED( event );
+
         updateSlider( QStyle::SC_None );
         updateSubLineArrow( QStyle::SC_None );
         updateAddLineArrow( QStyle::SC_None );
@@ -136,8 +137,11 @@ namespace Oxygen
 
             if( !sliderHovered() ) {
                 setSliderHovered( true );
-                animation().data()->setDirection( Animation::Forward );
-                if( !animation().data()->isRunning() ) animation().data()->start();
+                if( enabled() )
+                {
+                    animation().data()->setDirection( Animation::Forward );
+                    if( !animation().data()->isRunning() ) animation().data()->start();
+                } else setDirty();
             }
 
         } else {
@@ -145,8 +149,11 @@ namespace Oxygen
             if( sliderHovered() )
             {
                 setSliderHovered( false );
-                animation().data()->setDirection( Animation::Backward );
-                if( !animation().data()->isRunning() ) animation().data()->start();
+                if( enabled() )
+                {
+                    animation().data()->setDirection( Animation::Backward );
+                    if( !animation().data()->isRunning() ) animation().data()->start();
+                } else setDirty();
             }
 
         }
@@ -161,8 +168,11 @@ namespace Oxygen
             if( !subLineArrowHovered() )
             {
                 setSubLineArrowHovered( true );
-                subLineAnimation().data()->setDirection( Animation::Forward );
-                if( !subLineAnimation().data()->isRunning() ) subLineAnimation().data()->start();
+                if( enabled() )
+                {
+                    subLineAnimation().data()->setDirection( Animation::Forward );
+                    if( !subLineAnimation().data()->isRunning() ) subLineAnimation().data()->start();
+                } else setDirty();
              }
 
         } else {
@@ -170,8 +180,11 @@ namespace Oxygen
             if( subLineArrowHovered() )
             {
                 setSubLineArrowHovered( false );
-                subLineAnimation().data()->setDirection( Animation::Backward );
-                if( !subLineAnimation().data()->isRunning() ) subLineAnimation().data()->start();
+                if( enabled() )
+                {
+                    subLineAnimation().data()->setDirection( Animation::Backward );
+                    if( !subLineAnimation().data()->isRunning() ) subLineAnimation().data()->start();
+                } else setDirty();
             }
 
         }
@@ -186,8 +199,11 @@ namespace Oxygen
             if( !addLineArrowHovered() )
             {
                 setAddLineArrowHovered( true );
-                addLineAnimation().data()->setDirection( Animation::Forward );
-                if( !addLineAnimation().data()->isRunning() ) addLineAnimation().data()->start();
+                if( enabled() )
+                {
+                    addLineAnimation().data()->setDirection( Animation::Forward );
+                    if( !addLineAnimation().data()->isRunning() ) addLineAnimation().data()->start();
+                } else setDirty();
             }
 
         } else {
@@ -195,8 +211,11 @@ namespace Oxygen
             if( addLineArrowHovered() )
             {
                 setAddLineArrowHovered( false );
-                addLineAnimation().data()->setDirection( Animation::Backward );
-                if( !addLineAnimation().data()->isRunning() ) addLineAnimation().data()->start();
+                if( enabled() )
+                {
+                    addLineAnimation().data()->setDirection( Animation::Backward );
+                    if( !addLineAnimation().data()->isRunning() ) addLineAnimation().data()->start();
+                } else setDirty();
             }
 
         }
