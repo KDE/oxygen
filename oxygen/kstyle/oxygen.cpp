@@ -407,6 +407,41 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
     switch (element)
     {
 
+        case PE_PanelMenu:
+        {
+
+            const QStyleOptionMenuItem* mOpt( qstyleoption_cast<const QStyleOptionMenuItem*>(option) );
+            if( !mOpt ) return;
+            QRect r = mOpt->rect;
+            QColor color = mOpt->palette.window().color();
+
+            if( compositingActive() )
+            {
+                TileSet *tileSet( _helper.roundCorner(color) );
+                tileSet->render( r, p );
+
+                // set clip region
+                p->setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+
+            }
+
+            // background
+            int splitY = qMin(200, 3*r.height()/4);
+
+            QRect upperRect = QRect(0, 0, r.width(), splitY);
+            QPixmap tile = _helper.verticalGradient(color, splitY);
+            p->drawTiledPixmap(upperRect, tile);
+
+            QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
+            p->fillRect(lowerRect, _helper.backgroundBottomColor(color));
+
+            // frame
+            if( compositingActive() ) p->setClipping( false );
+            _helper.drawFloatFrame( p, r, color );
+            return;
+
+        }
+
         // disable painting of PE_PanelScrollAreaCorner
         // the default implementation fills the rect with the window background color
         // which does not work for windows that have gradients.
@@ -3656,11 +3691,11 @@ void OxygenStyle::polish(QWidget* widget)
 
     } else if (qobject_cast<QMenu*>(widget) ) {
 
-        widget->installEventFilter(this);
         widget->setAttribute(Qt::WA_TranslucentBackground);
-#ifdef Q_WS_WIN
-        widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
-#endif
+        #ifdef Q_WS_WIN
+        //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+        widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
+        #endif
 
     } else if (widget->inherits("QComboBoxPrivateContainer")) {
 
@@ -3751,7 +3786,6 @@ void OxygenStyle::unpolish(QWidget* widget)
 
         widget->setAttribute(Qt::WA_PaintOnScreen, false);
         widget->setAttribute(Qt::WA_NoSystemBackground, false);
-        widget->removeEventFilter(this);
         widget->clearMask();
 
     } else if (widget->inherits("QComboBoxPrivateContainer")) widget->removeEventFilter(this);
@@ -6055,73 +6089,6 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
             }
             default: return false;
         }
-    }
-
-    // QMenu
-    if (QMenu *m = qobject_cast<QMenu*>(obj))
-    {
-        switch(ev->type()) {
-            case QEvent::Show:
-            case QEvent::Resize:
-            {
-
-                // make sure mask is appropriate
-                if( compositingActive() )
-                {
-                    if( m->mask() != QRegion() )
-                    { m->clearMask(); }
-
-                } else if( m->mask() == QRegion() ) {
-
-                    m->setMask( _helper.roundedMask( m->rect() ) );
-
-                }
-
-                return false;
-
-            }
-
-            case QEvent::Paint:
-            {
-
-                QPainter p(m);
-                QPaintEvent *e = (QPaintEvent*)ev;
-                p.setClipRegion(e->region());
-
-                QRect r = m->rect();
-                QColor color = m->palette().window().color();
-
-                if( compositingActive() )
-                {
-                    TileSet *tileSet( _helper.roundCorner(color) );
-                    tileSet->render( r, &p );
-
-                    // set clip region
-                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-
-                }
-
-                // background
-                int splitY = qMin(200, 3*r.height()/4);
-
-                QRect upperRect = QRect(0, 0, r.width(), splitY);
-                QPixmap tile = _helper.verticalGradient(color, splitY);
-                p.drawTiledPixmap(upperRect, tile);
-
-                QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
-                p.fillRect(lowerRect, _helper.backgroundBottomColor(color));
-
-                // frame
-                if( compositingActive() ) p.setClipping( false );
-                _helper.drawFloatFrame( &p, r, color );
-
-                return false;
-            }
-
-            default: return false;
-
-        }
-
     }
 
     // combobox container
