@@ -550,7 +550,9 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
         case CE_ComboBoxLabel:
         //same as CommonStyle, except for fiilling behind icon
         {
-            if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option)) {
+            if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
+            {
+
                 QRect editRect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
                 p->save();
                 p->setClipRect(editRect);
@@ -3319,12 +3321,34 @@ bool OxygenStyle::drawGenericPrimitive(
             QColor background = pal.color(QPalette::Window);
 
             // customize color depending on widget
-            if( qobject_cast<const QSpinBox*>(widget) )
+            if( widgetType == WT_SpinBox )
             {
                 // spinBox
                 color = pal.color( QPalette::Text );
                 background = pal.color( QPalette::Background );
                 drawContrast = false;
+
+            } else if( widgetType == WT_ComboBox ) {
+
+                // combobox
+                if( const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(opt) )
+                {
+
+                    if( cb->editable )
+                    {
+
+                        color = pal.color( QPalette::Text );
+                        background = pal.color( QPalette::Background );
+                        if( enabled ) drawContrast = false;
+
+                    } else {
+
+                        color = pal.color( QPalette::ButtonText );
+                        background = pal.color( QPalette::Button );
+
+                    }
+
+                }
 
             } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
 
@@ -3449,21 +3473,6 @@ bool OxygenStyle::drawGenericPrimitive(
 
                         default: break;
                     }
-                }
-            } else if( const QComboBox *comboBox = qobject_cast<const QComboBox *>(widget) ){
-
-                if( comboBox->isEditable() )
-                {
-
-                    color = pal.color( QPalette::Text );
-                    background = pal.color( QPalette::Background );
-                    if( comboBox->isEnabled() ) drawContrast = false;
-
-                } else {
-
-                    color = pal.color( QPalette::ButtonText );
-                    background = pal.color( QPalette::Button );
-
                 }
 
             }
