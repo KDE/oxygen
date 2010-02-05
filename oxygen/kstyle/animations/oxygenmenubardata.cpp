@@ -32,18 +32,16 @@ namespace Oxygen
 
     //______________________________________________
     MenuBarDataV1::MenuBarDataV1( QObject* parent, QWidget* target, int duration ):
-        AnimationData( parent, target ),
-        currentAnimation_( new Animation( duration, this ) ),
-        previousAnimation_( new Animation( duration, this ) ),
-        currentOpacity_(0),
-        previousOpacity_(0)
+        AnimationData( parent, target )
     {
 
 
         // setup timeLine
+        current_.animation_ = new Animation( duration, this );
         setupAnimation( currentAnimation(), "currentOpacity" );
         currentAnimation().data()->setDirection( Animation::Forward );
 
+        previous_.animation_ = new Animation( duration, this );
         setupAnimation( previousAnimation(), "previousOpacity" );
         previousAnimation().data()->setDirection( Animation::Backward );
 

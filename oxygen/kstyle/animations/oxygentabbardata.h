@@ -66,23 +66,23 @@ namespace Oxygen
 
         //! current opacity
         virtual qreal currentOpacity( void ) const
-        { return currentOpacity_; }
+        { return current_.opacity_; }
 
         //! current opacity
         virtual void setCurrentOpacity( qreal value )
-        { currentOpacity_ = value; }
+        { current_.opacity_ = value; }
 
         //! current index
         virtual int currentIndex( void ) const
-        { return currentIndex_; }
+        { return current_.index_; }
 
         //! current index
         virtual void setCurrentIndex( int index )
-        { currentIndex_ = index; }
+        { current_.index_ = index; }
 
         //! current index animation
         virtual const Animation::Pointer& currentIndexAnimation( void ) const
-        { return currentIndexAnimation_; }
+        { return current_.animation_; }
 
         //@}
 
@@ -91,23 +91,23 @@ namespace Oxygen
 
         //! previous opacity
         virtual qreal previousOpacity( void ) const
-        { return previousOpacity_; }
+        { return previous_.opacity_; }
 
         //! previous opacity
         virtual void setPreviousOpacity( qreal value )
-        { previousOpacity_ = value; }
+        { previous_.opacity_ = value; }
 
         //! previous index
         virtual int previousIndex( void ) const
-        { return previousIndex_; }
+        { return previous_.index_; }
 
         //! previous index
         virtual void setPreviousIndex( int index )
-        { previousIndex_ = index; }
+        { previous_.index_ = index; }
 
         //! previous index Animation
         virtual const Animation::Pointer& previousIndexAnimation( void ) const
-        { return previousIndexAnimation_; }
+        { return previous_.animation_; }
 
         //@}
 
@@ -130,23 +130,27 @@ namespace Oxygen
 
         private:
 
-        //! current index
-        int currentIndex_;
+        //! container for needed animation data
+        class Data
+        {
+            public:
 
-        //! previous index
-        int previousIndex_;
+            //! default constructor
+            Data( void ):
+                opacity_(0),
+                index_(-1)
+            {}
 
-        //! Animation
-        Animation::Pointer currentIndexAnimation_;
+            Animation::Pointer animation_;
+            qreal opacity_;
+            int index_;
+        };
 
-        //! Animation
-        Animation::Pointer previousIndexAnimation_;
+        //! current tab animation data (for hover enter animations)
+        Data current_;
 
-        //! current opacity
-        qreal currentOpacity_;
-
-        //! previous opacity
-        qreal previousOpacity_;
+        //! previous tab animations data (for hover leave animations)
+        Data previous_;
 
     };
 

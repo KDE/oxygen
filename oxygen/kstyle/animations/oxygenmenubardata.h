@@ -66,11 +66,11 @@ namespace Oxygen
 
         //! timeLines
         virtual const Animation::Pointer& currentAnimation( void ) const
-        { return currentAnimation_; }
+        { return current_.animation_; }
 
         //! timeLines
         virtual const Animation::Pointer& previousAnimation( void ) const
-        { return previousAnimation_; }
+        { return previous_.animation_; }
 
         //! return animation matching given point
         virtual Animation::Pointer animation( const QPoint& point ) const
@@ -117,27 +117,27 @@ namespace Oxygen
 
         //! current opacity
         virtual qreal currentOpacity( void ) const
-        { return currentOpacity_; }
+        { return current_.opacity_; }
 
         //! current opacity
         virtual void setCurrentOpacity( qreal value )
-        { currentOpacity_ = value; }
+        { current_.opacity_ = value; }
 
         //! current rect
         virtual const QRect& currentRect( void ) const
-        { return currentRect_; }
+        { return current_.rect_; }
 
         //! previous opacity
         virtual qreal previousOpacity( void ) const
-        { return previousOpacity_; }
+        { return previous_.opacity_; }
 
         //! previous opacity
         virtual void setPreviousOpacity( qreal value )
-        { previousOpacity_ = value; }
+        { previous_.opacity_ = value; }
 
         //! previous rect
         virtual const QRect& previousRect( void ) const
-        { return previousRect_; }
+        { return previous_.rect_; }
 
         protected:
 
@@ -166,19 +166,19 @@ namespace Oxygen
 
         //! current rect
         virtual void setCurrentRect( const QRect& rect )
-        { currentRect_ = rect; }
+        { current_.rect_ = rect; }
 
         //! current rect
         virtual void clearCurrentRect( void )
-        { currentRect_ = QRect(); }
+        { current_.rect_ = QRect(); }
 
         //! previous rect
         virtual void setPreviousRect( const QRect& rect )
-        { previousRect_ = rect; }
+        { previous_.rect_ = rect; }
 
         //! previous rect
         virtual void clearPreviousRect( void )
-        { previousRect_ = QRect(); }
+        { previous_.rect_ = QRect(); }
 
         //@}
 
@@ -212,26 +212,29 @@ namespace Oxygen
 
         private:
 
-        //! time line
-        Animation::Pointer currentAnimation_;
+        //! container for needed animation data
+        class Data
+        {
+            public:
 
-        //! time line
-        Animation::Pointer previousAnimation_;
+            //! default constructor
+            Data( void ):
+                opacity_(0)
+                {}
 
-        //! current opacity
-        qreal currentOpacity_;
+            Animation::Pointer animation_;
+            qreal opacity_;
+            QRect rect_;
+        };
 
-        //! previous opacity
-        qreal previousOpacity_;
+        //! current tab animation data (for hover enter animations)
+        Data current_;
+
+        //! previous tab animations data (for hover leave animations)
+        Data previous_;
 
         //! current action
         ActionPointer currentAction_;
-
-        // current rect
-        QRect currentRect_;
-
-        // previous rect
-        QRect previousRect_;
 
     };
 

@@ -35,19 +35,17 @@ namespace Oxygen
 
     //______________________________________________
     TabBarData::TabBarData( QObject* parent, QWidget* target, int duration ):
-        AnimationData( parent, target ),
-        currentIndex_( -1 ),
-        previousIndex_( -1 ),
-        currentIndexAnimation_( new Animation( duration, this ) ),
-        previousIndexAnimation_( new Animation( duration, this ) ),
-        currentOpacity_( 0 ),
-        previousOpacity_( 0 )
+        AnimationData( parent, target )
     {
-        setupAnimation( currentIndexAnimation(), "currentOpacity" );
-        setupAnimation( previousIndexAnimation(), "previousOpacity" );
 
+        current_.animation_ = new Animation( duration, this );
+        setupAnimation( currentIndexAnimation(), "currentOpacity" );
         currentIndexAnimation().data()->setDirection( Animation::Forward );
+
+        previous_.animation_ = new Animation( duration, this );
+        setupAnimation( previousIndexAnimation(), "previousOpacity" );
         previousIndexAnimation().data()->setDirection( Animation::Backward );
+
     }
 
     //______________________________________________
