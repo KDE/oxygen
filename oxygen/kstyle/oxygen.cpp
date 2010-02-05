@@ -46,6 +46,7 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QScrollBar>
 #include <QtGui/QSpinBox>
+#include <QtGui/QSplitterHandle>
 #include <QtGui/QTextEdit>
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
@@ -2236,6 +2237,29 @@ bool OxygenStyle::drawSplitterPrimitive(
 
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
+
+    bool animated( false );
+    qreal opacity( Oxygen::AnimationData::OpacityInvalid );
+
+    // try retrieve QSplitterHandle, from painter device.
+    if( enabled )
+    {
+        if( const QSplitterHandle* handle = dynamic_cast<const QSplitterHandle*>(p->device()) )
+        {
+
+            animations().widgetStateEngine().updateState( handle, Oxygen::AnimationHover, mouseOver );
+            animated = animations().widgetStateEngine().isAnimated( handle, Oxygen::AnimationHover );
+            opacity = animations().widgetStateEngine().opacity( handle, Oxygen::AnimationHover );
+
+        } else if( widget && widget->inherits( "QMainWindow" ) ) {
+
+            animations().dockSeparatorEngine().updateRect( widget, r, mouseOver );
+            animated = animations().dockSeparatorEngine().isAnimated( widget, r );
+            opacity = animated ? animations().dockSeparatorEngine().opacity( widget ) : Oxygen::AnimationData::OpacityInvalid;
+
+        }
+    }
+
     switch (primitive)
     {
         case Splitter::HandleHor:
@@ -2243,7 +2267,11 @@ bool OxygenStyle::drawSplitterPrimitive(
             int h = r.height();
             QColor color = pal.color(QPalette::Background);
 
-            if (mouseOver)  p->fillRect(r,_helper.alphaColor(_helper.calcLightColor(color),0.5));
+            if( animated || mouseOver )
+            {
+                QColor highlight = _helper.alphaColor(_helper.calcLightColor(color),0.5*( animated ? opacity:1.0 ) );
+                p->fillRect( r, highlight );
+            }
 
             int ngroups = qMax(1,h / 250);
             int center = (h - (ngroups-1) * 250) /2 + r.top();
@@ -2260,8 +2288,11 @@ bool OxygenStyle::drawSplitterPrimitive(
             int w = r.width();
             QColor color = pal.color(QPalette::Background);
 
-            if (mouseOver)
-                p->fillRect(r,_helper.alphaColor(_helper.calcLightColor(color),0.5));
+            if( animated || mouseOver )
+            {
+                QColor highlight = _helper.alphaColor(_helper.calcLightColor(color),0.5*( animated ? opacity:1.0 ) );
+                p->fillRect( r, highlight );
+            }
 
             int ngroups = qMax(1, w / 250);
             int center = (w - (ngroups-1) * 250) /2 + r.left();
@@ -3623,6 +3654,7 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QTextEdit*>(widget)
         || qobject_cast<QToolButton*>(widget)
         || qobject_cast<QDial*>(widget)
+        || qobject_cast<QSplitterHandle*>(widget)
         )
     { widget->setAttribute(Qt::WA_Hover); }
 
