@@ -2236,7 +2236,7 @@ bool OxygenStyle::drawSplitterPrimitive(
     Q_UNUSED( kOpt );
 
     const bool enabled = flags & State_Enabled;
-    const bool mouseOver(enabled && (flags & State_MouseOver));
+    const bool mouseOver(enabled && (flags & (State_MouseOver|State_Sunken) ));
 
     bool animated( false );
     qreal opacity( Oxygen::AnimationData::OpacityInvalid );
@@ -2270,7 +2270,13 @@ bool OxygenStyle::drawSplitterPrimitive(
             if( animated || mouseOver )
             {
                 QColor highlight = _helper.alphaColor(_helper.calcLightColor(color),0.5*( animated ? opacity:1.0 ) );
-                p->fillRect( r, highlight );
+                qreal a( r.height() > 30 ? 10.0/r.height():0.1 );
+                QLinearGradient lg( 0, r.top(), 0, r.bottom() );
+                lg.setColorAt(0, Qt::transparent );
+                lg.setColorAt(a, highlight );
+                lg.setColorAt(1.0-a, highlight );
+                lg.setColorAt(1, Qt::transparent );
+                p->fillRect( r, lg );
             }
 
             int ngroups = qMax(1,h / 250);
@@ -2291,7 +2297,13 @@ bool OxygenStyle::drawSplitterPrimitive(
             if( animated || mouseOver )
             {
                 QColor highlight = _helper.alphaColor(_helper.calcLightColor(color),0.5*( animated ? opacity:1.0 ) );
-                p->fillRect( r, highlight );
+                qreal a( r.width() > 30 ? 10.0/r.width():0.1 );
+                QLinearGradient lg( r.left(), 0, r.right(), 0 );
+                lg.setColorAt(0, Qt::transparent );
+                lg.setColorAt(a, highlight );
+                lg.setColorAt(1.0-a, highlight );
+                lg.setColorAt(1, Qt::transparent );
+                p->fillRect( r, lg );
             }
 
             int ngroups = qMax(1, w / 250);
