@@ -96,14 +96,14 @@ namespace Oxygen
         public slots:
 
         //! remove widget from map
-        virtual void unregisterWidget( QObject* object )
+        virtual bool unregisterWidget( QObject* object )
         {
-            if( object )
-            {
-                hoverData_.unregisterWidget( object );
-                focusData_.unregisterWidget( object );
-                enableData_.unregisterWidget( object );
-            }
+            if( !object ) return false;
+            bool found = false;
+            if( hoverData_.unregisterWidget( object ) ) found = true;
+            if( focusData_.unregisterWidget( object ) ) found = true;
+            if( enableData_.unregisterWidget( object ) ) found = true;
+            return found;
         }
 
         protected:

@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <QtCore/QObject>
+#include <QtCore/QWeakPointer>
 
 namespace Oxygen
 {
@@ -40,6 +41,8 @@ namespace Oxygen
         Q_OBJECT
 
         public:
+
+        typedef QWeakPointer<BaseEngine> Pointer;
 
         //! constructor
         BaseEngine( QObject* parent ):
@@ -67,6 +70,9 @@ namespace Oxygen
         //! duration
         virtual int duration( void ) const
         { return duration_; }
+
+        //! unregister widget
+        virtual bool unregisterWidget( QObject* object ) = 0;
 
         private:
 

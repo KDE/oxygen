@@ -33,12 +33,15 @@ namespace Oxygen
 
     //________________________________________________________--
     Transitions::Transitions( QObject* parent ):
-        QObject( parent ),
-        comboBoxEngine_( new ComboBoxEngine( this ) ),
-        labelEngine_( new LabelEngine( this ) ),
-        lineEditEngine_( new LineEditEngine( this ) ),
-        stackedWidgetEngine_( new StackedWidgetEngine( this ) )
-    {}
+        QObject( parent )
+    {
+
+        registerEngine( comboBoxEngine_ = new ComboBoxEngine( this ) );
+        registerEngine( labelEngine_ = new LabelEngine( this ) );
+        registerEngine( lineEditEngine_ = new LineEditEngine( this ) );
+        registerEngine( stackedWidgetEngine_ = new StackedWidgetEngine( this ) );
+
+    }
 
     //________________________________________________________--
     void Transitions::setupEngines( void )
@@ -73,8 +76,7 @@ namespace Oxygen
 
             // do not animate labels from tooltips
             if( widget->window() && widget->window()->windowFlags().testFlag( Qt::ToolTip ) ) return false;
-            else
-                return labelEngine().registerWidget( label );
+            else return labelEngine().registerWidget( label );
 
         } else if( QComboBox* comboBox = qobject_cast<QComboBox*>( widget ) ) {
 
@@ -100,10 +102,12 @@ namespace Oxygen
 
         if( !widget ) return;
 
-        comboBoxEngine().unregisterWidget( widget );
-        labelEngine().unregisterWidget( widget );
-        lineEditEngine().unregisterWidget( widget );
-        stackedWidgetEngine().unregisterWidget( widget );
+        // the following allows some optimisation of widget unregistration
+        // it assumes that a widget can be registered atmost in one of the
+        // engines stored in the list.
+        foreach( const BaseEngine::Pointer& engine, engines_ )
+        { if( engine && engine.data()->unregisterWidget( widget ) ) break; }
+
     }
 
 }

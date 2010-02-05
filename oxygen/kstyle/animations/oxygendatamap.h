@@ -69,19 +69,24 @@ namespace Oxygen
         }
 
         //! unregister widget
-        void unregisterWidget( Key key )
+        bool unregisterWidget( Key key )
         {
+
+            // check key
+            if( !key ) return false;
 
             // clear last value if needed
             if( key == lastKey_ && lastValue_ ) lastValue_.data()->deleteLater();
 
-            // delete value from map if found
+            // find key in map
             typename QMap<Key, Value>::iterator iter( QMap<Key, Value>::find( key ) );
-            if( iter != QMap<Key, Value>::end() )
-            { if( iter.value() ) iter.value().data()->deleteLater(); }
+            if( iter == QMap<Key, Value>::end() ) return false;
 
-            // remove key from map
-            QMap<Key, Value>::remove( key );
+            // delete value from map if found
+            if( iter.value() ) iter.value().data()->deleteLater();
+            QMap<Key, Value>::erase( iter );
+
+            return true;
 
         }
 

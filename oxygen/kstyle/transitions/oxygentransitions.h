@@ -82,6 +82,10 @@ namespace Oxygen
 
         private:
 
+        //! register new engine
+        void registerEngine( BaseEngine* engine )
+        { engines_.push_back( engine ); }
+
         //! qcombobox engine
         ComboBoxEngine* comboBoxEngine_;
 
@@ -93,6 +97,9 @@ namespace Oxygen
 
         //! stacked widget engine
         StackedWidgetEngine* stackedWidgetEngine_;
+
+        //! keep list of existing engines
+        QList< BaseEngine::Pointer > engines_;
 
     };
 

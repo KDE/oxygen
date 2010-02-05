@@ -103,13 +103,11 @@ namespace Oxygen
         public slots:
 
         //! remove widget from map
-        virtual void unregisterWidget( QObject* object )
+        virtual bool unregisterWidget( QObject* object )
         {
-            if( object )
-            {
-                data_.unregisterWidget( object );
-                dataSet_.remove( object );
-            }
+            if( !object ) return false;
+            dataSet_.remove( object );
+            return data_.unregisterWidget( object );
         }
 
         protected:

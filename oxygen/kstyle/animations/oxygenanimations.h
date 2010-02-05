@@ -36,6 +36,7 @@
 #include "oxygenwidgetstateengine.h"
 
 #include <QtCore/QObject>
+#include <QtCore/QList>
 
 namespace Oxygen
 {
@@ -109,6 +110,10 @@ namespace Oxygen
 
         private:
 
+        //! register new engine
+        void registerEngine( BaseEngine* engine )
+        { engines_.push_back( engine ); }
+
         //! widget enability engine
         WidgetStateEngine* widgetEnabilityEngine_;
 
@@ -138,6 +143,9 @@ namespace Oxygen
 
         //! tabbar engine
         TabBarEngine* tabBarEngine_;
+
+        //! keep list of existing engines
+        QList< BaseEngine::Pointer > engines_;
 
     };
 

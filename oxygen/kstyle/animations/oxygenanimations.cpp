@@ -35,18 +35,21 @@ namespace Oxygen
 
     //____________________________________________________________
     Animations::Animations( QObject* parent ):
-        QObject( parent ),
-        widgetEnabilityEngine_( new WidgetStateEngine( this ) ),
-        widgetStateEngine_( new WidgetStateEngine( this ) ),
-        toolBarEngine_( new WidgetStateEngine( this ) ),
-        lineEditEngine_( new WidgetStateEngine( this ) ),
-        progressBarEngine_( new ProgressBarEngine( this ) ),
-        menuBarEngine_( new MenuBarEngineV1( this ) ),
-        menuEngine_( new MenuEngineV1( this ) ),
-        scrollBarEngine_( new ScrollBarEngine( this ) ),
-        sliderEngine_( new SliderEngine( this ) ),
-        tabBarEngine_( new TabBarEngine( this ) )
-    {}
+        QObject( parent )
+    {
+
+        widgetEnabilityEngine_ = new WidgetStateEngine( this );
+
+        registerEngine( widgetStateEngine_ = new WidgetStateEngine( this ) );
+        registerEngine( toolBarEngine_ = new WidgetStateEngine( this ) );
+        registerEngine( lineEditEngine_ = new WidgetStateEngine( this ) );
+        registerEngine( progressBarEngine_ = new ProgressBarEngine( this ) );
+        registerEngine( menuBarEngine_ = new MenuBarEngineV1( this ) );
+        registerEngine( menuEngine_ = new MenuEngineV1( this ) );
+        registerEngine( scrollBarEngine_ = new ScrollBarEngine( this ) );
+        registerEngine( sliderEngine_ = new SliderEngine( this ) );
+        registerEngine( tabBarEngine_ = new TabBarEngine( this ) );
+    }
 
     //____________________________________________________________
     void Animations::setupEngines( void )
@@ -104,22 +107,14 @@ namespace Oxygen
             if( widget->parent() && widget->parent()->inherits( "QToolBar" ) ) return toolBarEngine().registerWidget( widget, AnimationHover );
             else return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
-        } else if( widget->inherits( "QAbstractButton" ) ) {
-
-            return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
-
-        }
+        } else if( widget->inherits( "QAbstractButton" ) ) { return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QDial" ) ) { return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // scrollbar
-        else if( widget->inherits( "QScrollBar" ) ) {
-
-            return scrollBarEngine().registerWidget( widget );
-
-        } else if( widget->inherits( "QSlider" ) ) {
-
-            return sliderEngine().registerWidget( widget );
-
-        }
+        else if( widget->inherits( "QScrollBar" ) ) { return scrollBarEngine().registerWidget( widget ); }
+        else if( widget->inherits( "QSlider" ) ) { return sliderEngine().registerWidget( widget ); }
+        else if( widget->inherits( "QProgressBar" ) ) { return progressBarEngine().registerWidget( widget ); }
+        else if( widget->inherits( "QSplitterHandle" ) ) { return widgetStateEngine().registerWidget( widget, AnimationHover ); }
 
         // menu
         else if( widget->inherits( "QMenu" ) ) { return menuEngine().registerWidget( widget ); }
@@ -127,21 +122,13 @@ namespace Oxygen
         else if( widget->inherits( "QTabBar" ) ) { return tabBarEngine().registerWidget( widget ); }
 
         // editors
-        else if( widget->inherits( "QComboBox" ) ) {
-
-          return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
-
-        } else if( widget->inherits( "QSpinBox" ) ) {
-
-            return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
-
-        } else if( widget->inherits( "QLineEdit" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QComboBox" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QSpinBox" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QLineEdit" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
         else if( widget->inherits( "QTextEdit" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // lists
         else if( widget->inherits( "QAbstractItemView" ) ) { return lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( widget->inherits( "QProgressBar" ) ) { return progressBarEngine().registerWidget( widget ); }
-        else if( widget->inherits( "QDial" ) ) { return widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         return false;
 
@@ -154,15 +141,13 @@ namespace Oxygen
         if( !widget ) return;
 
         widgetEnabilityEngine().unregisterWidget( widget );
-        widgetStateEngine().unregisterWidget( widget );
-        toolBarEngine().unregisterWidget( widget );
-        lineEditEngine().unregisterWidget( widget );
-        progressBarEngine().unregisterWidget( widget );
-        menuBarEngine().unregisterWidget( widget );
-        menuEngine().unregisterWidget( widget );
-        scrollBarEngine().unregisterWidget( widget );
-        sliderEngine().unregisterWidget( widget );
-        tabBarEngine().unregisterWidget( widget );
+
+        // the following allows some optimisation of widget unregistration
+        // it assumes that a widget can be registered atmost in one of the
+        // engines stored in the list.
+        foreach( const BaseEngine::Pointer& engine, engines_ )
+        { if( engine && engine.data()->unregisterWidget( widget ) ) break; }
+
     }
 
 }
