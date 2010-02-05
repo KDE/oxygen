@@ -40,6 +40,7 @@ namespace Oxygen
 
         widgetEnabilityEngine_ = new WidgetStateEngine( this );
 
+        registerEngine( dockSeparatorEngine_ = new DockSeparatorEngine( this ) );
         registerEngine( widgetStateEngine_ = new WidgetStateEngine( this ) );
         registerEngine( toolBarEngine_ = new WidgetStateEngine( this ) );
         registerEngine( lineEditEngine_ = new WidgetStateEngine( this ) );
@@ -65,6 +66,7 @@ namespace Oxygen
         scrollBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         sliderEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         tabBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
+        dockSeparatorEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
 
         progressBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimationsEnabled() );
         progressBarEngine_->setBusyIndicatorEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimated() );
@@ -81,6 +83,7 @@ namespace Oxygen
         sliderEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         toolBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+        dockSeparatorEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
 
         progressBarEngine_->setDuration( OxygenStyleConfigData::progressBarAnimationsDuration() );
         progressBarEngine_->setBusyStepDuration( OxygenStyleConfigData::progressBarBusyStepDuration() );
@@ -115,6 +118,7 @@ namespace Oxygen
         else if( widget->inherits( "QSlider" ) ) { return sliderEngine().registerWidget( widget ); }
         else if( widget->inherits( "QProgressBar" ) ) { return progressBarEngine().registerWidget( widget ); }
         else if( widget->inherits( "QSplitterHandle" ) ) { return widgetStateEngine().registerWidget( widget, AnimationHover ); }
+        else if( widget->inherits( "QMainWindow" ) ) { return dockSeparatorEngine().registerWidget( widget ); }
 
         // menu
         else if( widget->inherits( "QMenu" ) ) { return menuEngine().registerWidget( widget ); }

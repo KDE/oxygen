@@ -27,6 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygendockseparatorengine.h"
 #include "oxygenmenubarengine.h"
 #include "oxygenmenuengine.h"
 #include "oxygenprogressbarengine.h"
@@ -68,6 +69,10 @@ namespace Oxygen
         //! enability engine
         WidgetStateEngine& widgetEnabilityEngine( void ) const
         { return *widgetEnabilityEngine_; }
+
+        //! dock separators engine
+        DockSeparatorEngine& dockSeparatorEngine( void ) const
+        { return *dockSeparatorEngine_; }
 
         //! abstractButton engine
         WidgetStateEngine& widgetStateEngine( void ) const
@@ -113,6 +118,9 @@ namespace Oxygen
         //! register new engine
         void registerEngine( BaseEngine* engine )
         { engines_.push_back( engine ); }
+
+        //! widget enability engine
+        DockSeparatorEngine* dockSeparatorEngine_;
 
         //! widget enability engine
         WidgetStateEngine* widgetEnabilityEngine_;
