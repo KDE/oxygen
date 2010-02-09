@@ -822,18 +822,39 @@ bool OxygenStyle::drawPushButtonPrimitive(
             if( bOpt && ( bOpt->features & QStyleOptionButton::Flat ) )
             {
 
-                // hover rect
-                QRect slitRect = r;
 
-                if( enabled && hoverAnimated )
+                QRect slitRect(r);
+                if( !( opts & Sunken) )
                 {
+                    // hover rect
+                    if( enabled && hoverAnimated )
+                    {
 
-                    QColor glow( _helper.alphaColor( _viewFocusBrush.brush(QPalette::Active).color(), hoverOpacity ) );
-                    _helper.slitFocused( glow )->render(slitRect, p);
+                        QColor glow( _helper.alphaColor( _viewFocusBrush.brush(QPalette::Active).color(), hoverOpacity ) );
+                        _helper.slitFocused( glow )->render(slitRect, p);
 
-                } else if( mouseOver) {
+                    } else if( mouseOver) {
 
-                    _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color())->render(slitRect, p);
+                        _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color())->render(slitRect, p);
+
+                    }
+
+                } else {
+
+                    slitRect.adjust( 0, 0, 0, -1 );
+
+                    // flat pressed-down buttons do not get focus effect,
+                    // consistently with tool buttons
+                    if( enabled && hoverAnimated )
+                    {
+
+                        renderHole(p, pal.color(QPalette::Window), slitRect, false, mouseOver, hoverOpacity, Oxygen::AnimationHover, TileSet::Ring );
+
+                    } else {
+
+                        renderHole(p, pal.color(QPalette::Window), slitRect, false, mouseOver);
+
+                    }
 
                 }
 
