@@ -37,14 +37,11 @@ namespace Oxygen
 {
 
     ScrollBarData::ScrollBarData( QObject* parent, QWidget* target, int duration ):
-        SliderData( parent, target, duration ),
-        addLineArrowHovered_( false ),
-        subLineArrowHovered_( false ),
-        addLineAnimation_( new Animation( duration, this ) ),
-        subLineAnimation_( new Animation( duration, this ) ),
-        addLineOpacity_( 0 ),
-        subLineOpacity_( 0 )
+        SliderData( parent, target, duration )
     {
+
+        addLineData_.animation_ = new Animation( duration, this );
+        subLineData_.animation_ = new Animation( duration, this );
 
         connect( addLineAnimation().data(), SIGNAL( finished( void ) ), SLOT( clearAddLineRect( void ) ) );
         connect( subLineAnimation().data(), SIGNAL( finished( void ) ), SLOT( clearSubLineRect( void ) ) );

@@ -81,8 +81,8 @@ namespace Oxygen
         {
             switch( control )
             {
-                case QStyle::SC_ScrollBarAddLine: return addLineRect_;
-                case QStyle::SC_ScrollBarSubLine: return subLineRect_;
+                case QStyle::SC_ScrollBarAddLine: return addLineData_.rect_;
+                case QStyle::SC_ScrollBarSubLine: return subLineData_.rect_;
                 default: return QRect();
             }
         }
@@ -94,11 +94,11 @@ namespace Oxygen
             switch( control )
             {
                 case QStyle::SC_ScrollBarAddLine:
-                addLineRect_ = rect;
+                addLineData_.rect_ = rect;
                 break;
 
                 case QStyle::SC_ScrollBarSubLine:
-                subLineRect_ = rect;
+                subLineData_.rect_ = rect;
                 break;
 
                 default: break;
@@ -115,19 +115,19 @@ namespace Oxygen
 
         //! addLine opacity
         virtual void setAddLineOpacity( qreal value )
-        { addLineOpacity_ = value; }
+        { addLineData_.opacity_ = value; }
 
         //! addLine opacity
         virtual qreal addLineOpacity( void ) const
-        { return addLineOpacity_; }
+        { return addLineData_.opacity_; }
 
         //! subLine opacity
         virtual void setSubLineOpacity( qreal value )
-        { subLineOpacity_ = value; }
+        { subLineData_.opacity_ = value; }
 
         //! subLine opacity
         virtual qreal subLineOpacity( void ) const
-        { return subLineOpacity_; }
+        { return subLineData_.opacity_; }
 
         protected slots:
 
@@ -135,14 +135,14 @@ namespace Oxygen
         void clearAddLineRect( void )
         {
             if( addLineAnimation().data()->direction() == Animation::Backward )
-            { addLineRect_ = QRect(); }
+            { addLineData_.rect_ = QRect(); }
         }
 
         //! clear subLineRect
         void clearSubLineRect( void )
         {
             if( subLineAnimation().data()->direction() == Animation::Backward )
-            { subLineRect_ = QRect(); }
+            { subLineData_.rect_ = QRect(); }
         }
 
         protected:
@@ -157,16 +157,16 @@ namespace Oxygen
         //@{
 
         virtual bool addLineArrowHovered( void ) const
-        { return addLineArrowHovered_; }
+        { return addLineData_.hovered_; }
 
         virtual void setAddLineArrowHovered( bool value )
-        { addLineArrowHovered_ = value; }
+        { addLineData_.hovered_ = value; }
 
         virtual bool subLineArrowHovered( void ) const
-        { return subLineArrowHovered_; }
+        { return subLineData_.hovered_; }
 
         virtual void setSubLineArrowHovered( bool value )
-        { subLineArrowHovered_ = value; }
+        { subLineData_.hovered_ = value; }
 
         //@}
 
@@ -183,28 +183,45 @@ namespace Oxygen
         //@{
 
         virtual const Animation::Pointer& addLineAnimation( void ) const
-        { return addLineAnimation_; }
+        { return addLineData_.animation_; }
 
         virtual const Animation::Pointer& subLineAnimation( void ) const
-        { return subLineAnimation_; }
+        { return subLineData_.animation_; }
 
         private:
 
-        //! true when one arrow is overed
-        bool addLineArrowHovered_;
-        bool subLineArrowHovered_;
+        //! stores arrow data
+        class Data
+        {
 
-        //! timelines
-        Animation::Pointer addLineAnimation_;
-        Animation::Pointer subLineAnimation_;
+          public:
 
-        //! opacities
-        qreal addLineOpacity_;
-        qreal subLineOpacity_;
+          //! constructor
+          Data( void ):
+            hovered_( false ),
+            opacity_( AnimationData::OpacityInvalid )
+          {}
 
-        //! subControlRect
-        QRect addLineRect_;
-        QRect subLineRect_;
+          //! true if hovered
+          bool hovered_;
+
+          //! animation
+          Animation::Pointer animation_;
+
+          //! opacity
+          qreal opacity_;
+
+          //! rect
+          QRect rect_;
+
+        };
+
+
+        //! add line data (down arrow)
+        Data addLineData_;
+
+        //! subtract line data (up arrow)
+        Data subLineData_;
 
     };
 
