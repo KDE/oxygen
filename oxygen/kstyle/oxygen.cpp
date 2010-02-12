@@ -2619,7 +2619,7 @@ bool OxygenStyle::drawComboBoxPrimitive(
         {
             KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
             colorOpt->color = ColorMode( editable ? QPalette::Text : QPalette::ButtonText );
-            drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, r, pal, flags, p, widget, colorOpt );
+            drawGenericPrimitive( WT_ComboBox, Generic::ArrowDown, opt, r, pal, flags, p, widget, colorOpt );
             return true;
         }
 
