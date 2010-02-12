@@ -73,7 +73,7 @@ namespace Oxygen
             break;
 
             case QEvent::Resize:
-            if( !recursiveCheck() )
+            if( !recursiveCheck() && target_.data()->isVisible() )
             { timer_.start( 0, this ); }
             break;
 
