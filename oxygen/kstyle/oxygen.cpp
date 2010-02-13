@@ -3355,16 +3355,22 @@ bool OxygenStyle::drawGenericPrimitive(
                 if( const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(opt) )
                 {
 
+                    const QComboBox* comboBox = qobject_cast<const QComboBox*>( widget );
+                    bool empty( comboBox && !comboBox->count() );
+
                     if( cb->editable )
                     {
 
-                        color = pal.color( QPalette::Text );
+                        if( enabled && empty ) color = pal.color( QPalette::Disabled,  QPalette::Text );
+                        else color  = pal.color( QPalette::Text );
                         background = pal.color( QPalette::Background );
+
                         if( enabled ) drawContrast = false;
 
                     } else {
 
-                        color = pal.color( QPalette::ButtonText );
+                        if( enabled && empty ) color = pal.color( QPalette::Disabled,  QPalette::ButtonText );
+                        else color  = pal.color( QPalette::ButtonText );
                         background = pal.color( QPalette::Button );
 
                     }
