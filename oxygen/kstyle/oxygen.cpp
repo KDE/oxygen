@@ -271,6 +271,28 @@ void OxygenStyle::drawComplexControl(ComplexControl control,const QStyleOptionCo
         if( drawToolButtonComplexControl( option, painter, widget) ) return;
         else break;
 
+        case CC_Slider:
+        {
+            if (const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(option))
+            {
+
+                // if tickmarks are not requested, fall back to default
+                if( !(slider->subControls & SC_SliderTickmarks) || slider->tickPosition == QSlider::NoTicks ) break;
+
+                // draw oxygen custom tickmarks
+                drawSliderTickmarks( slider, painter, widget );
+
+                // disable tickmarks drawing and draw using default
+                // this is necessary because by default kstyle does not allow style
+                // to customize tickmarks painting
+                QStyleOptionSlider local( *slider );
+                local.subControls &= ~SC_SliderTickmarks;
+                KStyle::drawComplexControl(control,&local,painter,widget);
+                return;
+
+            } else break;
+        }
+
         default: break;
 
     }
@@ -2342,6 +2364,76 @@ bool OxygenStyle::drawSplitterPrimitive(
         default: return false;
 
     }
+}
+
+//_________________________________________________________
+void OxygenStyle::drawSliderTickmarks(
+    const QStyleOptionSlider* opt,
+    QPainter* p,
+    const QWidget* widget ) const
+{
+
+    int ticks = opt->tickPosition;
+    int available = pixelMetric(PM_SliderSpaceAvailable, opt, widget);
+    int interval = opt->tickInterval;
+    if( interval < 1 ) interval = opt->pageStep;
+    if( interval < 1 ) return;
+
+    QRect r( widget->rect() );
+    QPalette pal( widget->palette() );
+
+    const int len = pixelMetric(PM_SliderLength, opt, widget);
+    const int fudge = len / 2;
+    int current( opt->minimum );
+
+    // Since there is no subrect for tickmarks do a translation here.
+    p->save();
+    p->translate(r.x(), r.y());
+
+    if( opt->orientation == Qt::Horizontal )
+    {
+        QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
+        p->setPen( _helper.calcDarkColor( base ) );
+    }
+
+    int tickSize( opt->orientation == Qt::Horizontal ? r.height()/3:r.width()/3 );
+
+    while( current <= opt->maximum )
+    {
+
+        int position( sliderPositionFromValue(opt->minimum, opt->maximum, current, available) + fudge );
+
+        // calculate positions
+        if( opt->orientation == Qt::Horizontal )
+        {
+            if( ticks == QSlider::TicksAbove ) p->drawLine( position, 0, position, tickSize );
+            else if( ticks == QSlider::TicksBelow ) p->drawLine( position, r.height()-tickSize, position, r.height() );
+            else {
+                p->drawLine( position, 0, position, tickSize );
+                p->drawLine( position, r.height()-tickSize, position, r.height() );
+            }
+
+        } else {
+
+            QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, QPoint( r.center().x(), position ) ) );
+            p->setPen( _helper.calcDarkColor( base ) );
+
+            if( ticks == QSlider::TicksAbove ) p->drawLine( 0, position, tickSize, position );
+            else if( ticks == QSlider::TicksBelow ) p->drawLine( r.width()-tickSize, position, r.width(), position );
+            else {
+                p->drawLine( 0, position, tickSize, position );
+                p->drawLine( r.width()-tickSize, position, r.width(), position );
+            }
+        }
+
+        // go to next position
+        int next( current + interval );
+        if( next < current ) break;
+        current = next;
+
+    }
+
+    p->restore();
 }
 
 //_________________________________________________________

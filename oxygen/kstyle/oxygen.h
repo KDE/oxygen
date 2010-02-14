@@ -136,6 +136,7 @@ class OxygenStyle : public KStyle
     virtual bool drawGroupBoxComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
     virtual bool drawDialComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
     virtual bool drawToolButtonComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
+    virtual void drawSliderTickmarks( const QStyleOptionSlider* option, QPainter *painter, const QWidget *widget) const;
     //@}
 
     //!@name dedicated primitive drawing
@@ -303,12 +304,12 @@ class OxygenStyle : public KStyle
     //! returns true if compositing is active
     bool compositingActive( void ) const;
 
-    /*! 
+    /*!
     returns first widget in parent chain that sets autoFillBackground to true,
     or NULL if none
     */
     const QWidget* checkAutoFillBackground( const QWidget* ) const;
-    
+
     protected Q_SLOTS:
 
     //! standard icons
