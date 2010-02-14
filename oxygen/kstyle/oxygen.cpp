@@ -3980,18 +3980,22 @@ QColor OxygenStyle::slabShadowColor( QColor color, StyleOptions opts, qreal opac
 }
 
 //___________________________________________________________________________________
-void OxygenStyle::renderDialSlab( QPainter *painter, QRect rect, const QColor &color, const QStyleOption *option, StyleOptions opts, qreal opacity, Oxygen::AnimationMode mode) const
+void OxygenStyle::renderDialSlab( QPainter *painter, QRect r, const QColor &color, const QStyleOption *option, StyleOptions opts, qreal opacity, Oxygen::AnimationMode mode) const
 {
 
     // cast option
     const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
     if( !sliderOption ) return;
 
+    // adjust rect to be square, and centered
+    int dimension(qMin( r.width(), r.height() ));
+    QRect rect( r.topLeft() + QPoint( (r.width()-dimension)/2, (r.height()-dimension)/2 ), QSize( dimension, dimension ) );
+
     // calculate glow color
     QColor glow = slabShadowColor( color, opts, opacity, mode );
 
     // get main slab
-    QPixmap pix( glow.isValid() ? _helper.dialSlabFocused( color, glow, 0.0, rect.width()) : _helper.dialSlab( color, 0.0, rect.width() ));
+    QPixmap pix( glow.isValid() ? _helper.dialSlabFocused( color, glow, 0.0, dimension ) : _helper.dialSlab( color, 0.0, dimension ));
     const qreal baseOffset = 3.5;
 
     QColor light  = _helper.calcLightColor(color);
@@ -4003,7 +4007,6 @@ void OxygenStyle::renderDialSlab( QPainter *painter, QRect rect, const QColor &c
 
     // indicator
     // might use cache here
-
     // angle calculation from qcommonstyle.cpp (c) Trolltech 1992-2007, ASA.
     qreal angle(0);
     if( sliderOption->maximum == sliderOption->minimum ) angle = M_PI / 2;
@@ -4014,9 +4017,9 @@ void OxygenStyle::renderDialSlab( QPainter *painter, QRect rect, const QColor &c
         else  angle = (M_PI*8 - fraction*10*M_PI)/6;
     }
 
-    QPointF center = rect.center();
-    const int sliderWidth = qMin( 2*rect.width()/5, 18 );
-    const qreal radius( 0.5*( rect.width() - 2*sliderWidth ) );
+    QPointF center( pix.rect().center() );
+    const int sliderWidth = dimension/6;
+    const qreal radius( 0.5*( dimension - 2*sliderWidth ) );
     center += QPointF( radius*cos(angle), -radius*sin(angle));
 
     QRectF sliderRect( 0, 0, sliderWidth, sliderWidth );
@@ -4047,6 +4050,7 @@ void OxygenStyle::renderDialSlab( QPainter *painter, QRect rect, const QColor &c
     p.end();
 
     painter->drawPixmap( rect.topLeft(), pix );
+
     return;
 
 }
