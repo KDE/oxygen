@@ -2298,9 +2298,11 @@ bool OxygenStyle::drawSplitterPrimitive(
 
         } else if( widget && widget->inherits( "QMainWindow" ) ) {
 
-            animations().dockSeparatorEngine().updateRect( widget, r, mouseOver );
-            animated = animations().dockSeparatorEngine().isAnimated( widget, r );
-            opacity = animated ? animations().dockSeparatorEngine().opacity( widget ) : Oxygen::AnimationData::OpacityInvalid;
+            // get orientation
+            Qt::Orientation orientation( flags & QStyle::State_Horizontal ? Qt::Horizontal : Qt::Vertical );
+            animations().dockSeparatorEngine().updateRect( widget, r, orientation, mouseOver );
+            animated = animations().dockSeparatorEngine().isAnimated( widget, r, orientation );
+            opacity = animated ? animations().dockSeparatorEngine().opacity( widget, orientation ) : Oxygen::AnimationData::OpacityInvalid;
 
         }
     }

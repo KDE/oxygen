@@ -32,24 +32,55 @@ namespace Oxygen
 {
 
     //______________________________________________
-    void DockSeparatorData::updateRect( QRect r, bool hovered )
+    DockSeparatorData::DockSeparatorData( QObject* parent, QWidget* target, int duration ):
+        AnimationData( parent, target )
     {
+
+        // setup animation
+        horizontalData_.animation_ = new Animation( duration, this );
+        horizontalData_.animation_.data()->setStartValue( 0.1 );
+        horizontalData_.animation_.data()->setEndValue( 0.9 );
+        horizontalData_.animation_.data()->setTargetObject( this );
+        horizontalData_.animation_.data()->setPropertyName( "horizontalOpacity" );
+
+        // setup connections
+        connect( horizontalData_.animation_.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setHorizontalDirty( void ) ) );
+        connect( horizontalData_.animation_.data(), SIGNAL( finished( void ) ), SLOT( setHorizontalDirty( void ) ) );
+
+        // setup animation
+        verticalData_.animation_ = new Animation( duration, this );
+        verticalData_.animation_.data()->setStartValue( 0.1 );
+        verticalData_.animation_.data()->setEndValue( 0.9 );
+        verticalData_.animation_.data()->setTargetObject( this );
+        verticalData_.animation_.data()->setPropertyName( "verticalOpacity" );
+
+        // setup connections
+        connect( verticalData_.animation_.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setVerticalDirty( void ) ) );
+        connect( verticalData_.animation_.data(), SIGNAL( finished( void ) ), SLOT( setVerticalDirty( void ) ) );
+
+    }
+
+    //______________________________________________
+    void DockSeparatorData::updateRect( const QRect& r, const Qt::Orientation& orientation, bool hovered )
+    {
+
+        Data& data( orientation == Qt::Vertical ? verticalData_:horizontalData_ );
 
         if( hovered )
         {
-            setRect( r );
-            if( animation().data()->direction() == Animation::Backward )
+            data.rect_ = r;
+            if( data.animation_.data()->direction() == Animation::Backward )
             {
-                if( animation().data()->isRunning() ) animation().data()->stop();
-                animation().data()->setDirection( Animation::Forward );
-                animation().data()->start();
+                if( data.animation_.data()->isRunning() ) data.animation_.data()->stop();
+                data.animation_.data()->setDirection( Animation::Forward );
+                data.animation_.data()->start();
             }
-            
-        } else if( animation().data()->direction() == Animation::Forward && r == rect()  ) {
 
-            if( animation().data()->isRunning() ) animation().data()->stop();
-            animation().data()->setDirection( Animation::Backward );
-            animation().data()->start();
+        } else if( data.animation_.data()->direction() == Animation::Forward && r == data.rect_  ) {
+
+            if( data.animation_.data()->isRunning() ) data.animation_.data()->stop();
+            data.animation_.data()->setDirection( Animation::Backward );
+            data.animation_.data()->start();
 
         }
 

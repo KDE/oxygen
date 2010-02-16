@@ -33,29 +33,23 @@
 namespace Oxygen
 {
 
-    class DockSeparatorData: public GenericData
+    class DockSeparatorData: public AnimationData
     {
 
         Q_OBJECT
 
+        //! declare opacity property
+        Q_PROPERTY( qreal verticalOpacity READ verticalOpacity WRITE setVerticalOpacity )
+        Q_PROPERTY( qreal horizontalOpacity READ horizontalOpacity WRITE setHorizontalOpacity )
+
         public:
 
         //! constructor
-        DockSeparatorData( QObject* parent, QWidget* target, int duration ):
-            GenericData( parent, target, duration )
-            {}
+        DockSeparatorData( QObject* parent, QWidget* target, int duration );
 
         //! destructor
         virtual ~DockSeparatorData( void )
         {}
-
-        //! previous index
-        virtual const QRect& rect( void ) const
-        { return rect_; }
-
-        //! current index
-        virtual void setRect( const QRect& r )
-        { rect_ = r; }
 
         //@}
 
@@ -63,22 +57,107 @@ namespace Oxygen
         returns true if hover has Changed
         and starts timer accordingly
         */
-        virtual void updateRect( QRect, bool hovered );
+        virtual void updateRect( const QRect&, const Qt::Orientation&, bool hovered );
 
         //! returns true if current splitter is animated
-        virtual bool isAnimated( QRect r ) const
-        {  return r == rect() && animation().data()->isRunning(); }
+        virtual bool isAnimated( QRect r, const Qt::Orientation& orientation ) const
+        { return orientation == Qt::Vertical ? verticalData_.isAnimated( r ):horizontalData_.isAnimated( r ); }
+
+        //! opacity for given orientation
+        qreal opacity( const Qt::Orientation& orientation ) const
+        { return orientation == Qt::Vertical ? verticalOpacity():horizontalOpacity(); }
+
+        //! duration
+        virtual void setDuration( int duration )
+        {
+            horizontalAnimation().data()->setDuration( duration );
+            verticalAnimation().data()->setDuration( duration );
+        }
+
+        //!@name horizontal splitter data
+        //@{
+
+        Animation::Pointer horizontalAnimation( void ) const
+        { return horizontalData_.animation_; }
+
+        const QRect& horizontalRect( void ) const
+        { return horizontalData_.rect_; }
+
+        void setHorizontalRect( const QRect& r )
+        { horizontalData_.rect_ = r; }
+
+        qreal horizontalOpacity( void ) const
+        { return horizontalData_.opacity_; }
+
+        void setHorizontalOpacity( qreal value )
+        { horizontalData_.opacity_ = value; }
+
+        //@}
+
+
+        //!@name vertical splitter data
+        //@{
+
+        Animation::Pointer verticalAnimation( void ) const
+        { return verticalData_.animation_; }
+
+        const QRect& verticalRect( void ) const
+        { return verticalData_.rect_; }
+
+        void setVerticalRect( const QRect& r )
+        { verticalData_.rect_ = r; }
+
+        qreal verticalOpacity( void ) const
+        { return verticalData_.opacity_; }
+
+        void setVerticalOpacity( qreal value )
+        { verticalData_.opacity_ = value; }
+
+        //@}
 
         protected slots:
 
         /*! allows to trigger widget update in specified QRect only */
-        virtual void setDirty( void )
-        { if( target() && !rect().isEmpty() ) target().data()->update( rect_ ); }
+        virtual void setHorizontalDirty( void )
+        { if( target() && !horizontalRect().isEmpty() ) target().data()->update( horizontalRect() ); }
+
+        /*! allows to trigger widget update in specified QRect only */
+        virtual void setVerticalDirty( void )
+        { if( target() && !verticalRect().isEmpty() ) target().data()->update( verticalRect() ); }
 
         private:
 
-        //! stores active separator rect
-        QRect rect_;
+        //! stores data needed for animation
+        class Data
+        {
+
+            public:
+
+            //! constructor
+            Data( void ):
+                opacity_( AnimationData::OpacityInvalid )
+                {}
+
+            //! true if is animated
+            bool isAnimated( QRect r ) const
+            { return r == rect_ && animation_.data()->isRunning(); }
+
+            //! animation pointer
+            Animation::Pointer animation_;
+
+            //! opacity variable
+            qreal opacity_;
+
+            //! stores active separator rect
+            QRect rect_;
+
+        };
+
+        //! horizontal
+        Data horizontalData_;
+
+        //! vertical
+        Data verticalData_;
 
     };
 
