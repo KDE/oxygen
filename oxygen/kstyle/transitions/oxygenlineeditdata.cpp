@@ -43,7 +43,8 @@ namespace Oxygen
         edited_( false )
     {
         target_.data()->installEventFilter( this );
-        transition().data()->setFlags( TransitionWidget::GrabFromWindow );
+        // I don't think this is necessary
+        // transition().data()->setFlags( TransitionWidget::GrabFromWindow );
         connect( target_.data(), SIGNAL( textEdited( const QString& ) ), SLOT( textEdited( const QString& ) ) );
         connect( target_.data(), SIGNAL( textChanged( const QString& ) ), SLOT( textChanged( const QString& ) ) );
         connect( target_.data(), SIGNAL( selectionChanged() ), SLOT( selectionChanged() ) );
