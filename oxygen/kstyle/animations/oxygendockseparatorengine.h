@@ -55,28 +55,28 @@ namespace Oxygen
         virtual bool registerWidget( QWidget* );
 
         //! update rect and hover value for data matching widget
-        virtual void updateRect( const QObject* object, const QRect& r, bool hovered )
+        virtual void updateRect( const QObject* object, const QRect& r, const Qt::Orientation orientation, bool hovered )
         {
             if( DataMap<DockSeparatorData>::Value data = data_.find( object ) )
-            { data.data()->updateRect( r, hovered ); }
+            { data.data()->updateRect( r, orientation, hovered ); }
         }
 
         //! returns true if object is animated
-        virtual bool isAnimated( const QObject* object, const QRect& r )
+        virtual bool isAnimated( const QObject* object, const QRect& r, const Qt::Orientation orientation )
         {
             if( DataMap<DockSeparatorData>::Value data = data_.find( object ) )
             {
-                return data.data()->isAnimated( r );
+                return data.data()->isAnimated( r, orientation );
             } else return false;
 
         }
 
         //! returns true if object is animated
-        virtual qreal opacity( const QObject* object )
+        virtual qreal opacity( const QObject* object, const Qt::Orientation orientation )
         {
             if( DataMap<DockSeparatorData>::Value data = data_.find( object ) )
             {
-                return data.data()->opacity();
+                return data.data()->opacity( orientation );
             } else return AnimationData::OpacityInvalid;
         }
 
