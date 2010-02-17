@@ -3738,7 +3738,15 @@ void OxygenStyle::registerScrollArea( QAbstractScrollArea* scrollArea ) const
     // HACK: add exception for KPIM transactionItemView, which is an overlay widget
     // and must have filled background. This is a temporary workaround until a more
     // robust solution is found.
-    if( scrollArea->inherits( "KPIM::TransactionItemView" ) ) return;
+    if( scrollArea->inherits( "KPIM::TransactionItemView" ) )
+    {
+        // also need to make the scrollarea background plain (using autofill background)
+        // so that optional vertical scrollbar background is not transparent either.
+        // TODO: possibly add an event filter to use the "normal" window background
+        // instead of something flat.
+        scrollArea->setAutoFillBackground( true );
+        return;
+    }
 
     // check frame style and background role
     if( scrollArea->frameShape() != QFrame::NoFrame ) return;
