@@ -664,10 +664,24 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
 
         }
 
+        case CE_HeaderEmptyArea:
+        {
+
+            // use the same background as in drawHeaderPrimitive
+            QPalette pal( option->palette );
+            QRect r( option->rect );
+            bool horizontal( option->state & QStyle::State_Horizontal );
+            bool reverse( horizontal && option->direction == Qt::RightToLeft );
+            renderHeaderBackground( r, pal, p, widget, horizontal, reverse );
+
+            return;
+        }
 
         default: break;
     }
+
     KStyle::drawControl(element, option, p, widget);
+
 }
 
 //_________________________________________________________________________
@@ -2736,7 +2750,6 @@ bool OxygenStyle::drawHeaderPrimitive(
     Q_UNUSED( flags );
     Q_UNUSED( widget );
     Q_UNUSED( kOpt );
-    const bool reverseLayout = opt->direction == Qt::RightToLeft;
     switch (primitive)
     {
         case Header::SectionHor:
@@ -2745,33 +2758,30 @@ bool OxygenStyle::drawHeaderPrimitive(
             if (const QStyleOptionHeader *header = qstyleoption_cast<const QStyleOptionHeader *>(opt))
             {
 
-                bool isFirst = (primitive==Header::SectionHor)&&(header->position == QStyleOptionHeader::Beginning);
+                const bool isFirst = (primitive==Header::SectionHor)&&(header->position == QStyleOptionHeader::Beginning);
+                const bool horizontal( primitive == Header::SectionHor );
+                const bool reverse( opt->direction == Qt::RightToLeft );
+
+                // background
+                renderHeaderBackground( r, pal, p, widget, horizontal, reverse );
+
+                // dots
                 p->save();
                 p->setPen(pal.color(QPalette::Text));
-
-                QColor color = pal.color(QPalette::Button);
-                QColor dark  = _helper.calcDarkColor(color);
-                QColor light = _helper.calcLightColor(color);
-
+                QColor color = pal.color(QPalette::Window);
                 QRect rect(r);
 
-                p->fillRect(r, color);
                 if(primitive == Header::SectionHor)
                 {
 
                     if(header->section != 0 || isFirst)
                     {
                         int center = r.center().y();
-                        int pos = (reverseLayout)? r.left()+1 : r.right()-1;
+                        int pos = reverse ? r.left()+1 : r.right()-1;
                         renderDot(p, QPointF(pos, center-3), color);
                         renderDot(p, QPointF(pos, center), color);
                         renderDot(p, QPointF(pos, center+3), color);
                     }
-                    p->setPen(dark);
-                    p->drawLine(rect.bottomLeft(), rect.bottomRight());
-                    rect.adjust(0,0,0,-1);
-                    p->setPen(light);
-                    p->drawLine(rect.bottomLeft(), rect.bottomRight());
 
                 } else {
 
@@ -2781,16 +2791,6 @@ bool OxygenStyle::drawHeaderPrimitive(
                     renderDot(p, QPointF(center, pos), color);
                     renderDot(p, QPointF(center+3, pos), color);
 
-                    if (reverseLayout)
-                    {
-                        p->setPen(dark); p->drawLine(rect.topLeft(), rect.bottomLeft());
-                        rect.adjust(1,0,0,0);
-                        p->setPen(light); p->drawLine(rect.topLeft(), rect.bottomLeft());
-                    } else {
-                        p->setPen(dark); p->drawLine(rect.topRight(), rect.bottomRight());
-                        rect.adjust(0,0,-1,0);
-                        p->setPen(light); p->drawLine(rect.topRight(), rect.bottomRight());
-                    }
                 }
 
                 p->restore();
@@ -3995,6 +3995,56 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
     OxygenStyleConfigData::self()->readConfig();
     animations().setupEngines();
     transitions().setupEngines();
+
+}
+
+//__________________________________________________________________________
+void OxygenStyle::renderHeaderBackground( const QRect& r, const QPalette& pal, QPainter* p, const QWidget* widget, bool horizontal, bool reverse ) const
+{
+
+    // use window background for the background
+    _helper.renderWindowBackground(p, r, widget, pal);
+
+    // add horizontal lines
+    QColor color = pal.color(QPalette::Window);
+    QColor dark  = _helper.calcDarkColor(color);
+    QColor light = _helper.calcLightColor(color);
+
+    p->save();
+    QRect rect( r );
+    if( horizontal )
+    {
+
+        p->setPen(dark);
+        p->drawLine(rect.bottomLeft(), rect.bottomRight());
+
+        rect.adjust(0,0,0,-1);
+        p->setPen(light);
+        p->drawLine(rect.bottomLeft(), rect.bottomRight());
+
+    } else if( reverse ) {
+
+        p->setPen(dark);
+        p->drawLine(rect.topLeft(), rect.bottomLeft());
+
+        rect.adjust(1,0,0,0);
+        p->setPen(light);
+        p->drawLine(rect.topLeft(), rect.bottomLeft());
+
+    } else {
+
+        p->setPen(dark);
+        p->drawLine(rect.topRight(), rect.bottomRight());
+
+        rect.adjust(0,0,-1,0);
+        p->setPen(light);
+        p->drawLine(rect.topRight(), rect.bottomRight());
+
+    }
+
+    p->restore();
+
+    return;
 
 }
 

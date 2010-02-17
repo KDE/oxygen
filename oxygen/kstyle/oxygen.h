@@ -185,6 +185,9 @@ class OxygenStyle : public KStyle
 
     private:
 
+    //! header background
+    void renderHeaderBackground( const QRect&, const QPalette&, QPainter*, const QWidget*, bool horizontal, bool reverse ) const;
+
     //! menu item
     void renderMenuItemRect( const QStyleOption* opt, const QRect& rect, const QPalette& pal, QPainter* p, qreal opacity = -1 ) const
     { renderMenuItemRect( opt, rect, pal.color(QPalette::Window), p, opacity ); }
