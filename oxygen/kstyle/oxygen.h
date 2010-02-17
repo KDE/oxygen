@@ -193,21 +193,6 @@ class OxygenStyle : public KStyle
         Single // only one tab!
     };
 
-    enum ColorType
-    {
-        ButtonContour,
-        DragButtonContour,
-        DragButtonSurface,
-        PanelContour,
-        PanelLight,
-        PanelLight2,
-        PanelDark,
-        PanelDark2,
-        MouseOverHighlight,
-        FocusHighlight,
-        CheckMark
-    };
-
     //! menu item
     void renderMenuItemRect( const QStyleOption* opt, const QRect& rect, const QPalette& pal, QPainter* p, qreal opacity = -1 ) const
     { renderMenuItemRect( opt, rect, pal.color(QPalette::Window), p, opacity ); }
