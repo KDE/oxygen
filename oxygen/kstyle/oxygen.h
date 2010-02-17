@@ -185,14 +185,6 @@ class OxygenStyle : public KStyle
 
     private:
 
-    enum TabPosition
-    {
-        First = 0,
-        Middle,
-        Last,
-        Single // only one tab!
-    };
-
     //! menu item
     void renderMenuItemRect( const QStyleOption* opt, const QRect& rect, const QPalette& pal, QPainter* p, qreal opacity = -1 ) const
     { renderMenuItemRect( opt, rect, pal.color(QPalette::Window), p, opacity ); }
