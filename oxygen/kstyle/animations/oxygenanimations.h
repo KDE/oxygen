@@ -33,6 +33,7 @@
 #include "oxygenprogressbarengine.h"
 #include "oxygenscrollbarengine.h"
 #include "oxygensliderengine.h"
+#include "oxygenspinboxengine.h"
 #include "oxygentabbarengine.h"
 #include "oxygenwidgetstateengine.h"
 
@@ -57,11 +58,8 @@ namespace Oxygen
         virtual ~Animations( void )
         {}
 
-        /*!
-        register animations corresponding to given widget, depending on its type.
-        returns true if widget was registered
-        */
-        bool registerWidget( QWidget* widget ) const;
+        //! register animations corresponding to given widget, depending on its type.
+        void registerWidget( QWidget* widget ) const;
 
         /*! unregister all animations associated to a widget */
         void unregisterWidget( QWidget* widget ) const;
@@ -70,13 +68,13 @@ namespace Oxygen
         WidgetStateEngine& widgetEnabilityEngine( void ) const
         { return *widgetEnabilityEngine_; }
 
-        //! dock separators engine
-        DockSeparatorEngine& dockSeparatorEngine( void ) const
-        { return *dockSeparatorEngine_; }
-
         //! abstractButton engine
         WidgetStateEngine& widgetStateEngine( void ) const
         { return *widgetStateEngine_; }
+
+        //! editable combobox arrow hover engine
+        WidgetStateEngine& comboBoxEngine( void ) const
+        { return *comboBoxEngine_; }
 
         //! toolbar engine
         WidgetStateEngine& toolBarEngine( void ) const
@@ -85,6 +83,10 @@ namespace Oxygen
         //! lineEdit engine
         WidgetStateEngine& lineEditEngine( void ) const
         { return *lineEditEngine_; }
+
+        //! dock separators engine
+        DockSeparatorEngine& dockSeparatorEngine( void ) const
+        { return *dockSeparatorEngine_; }
 
         //! progressbar engine
         ProgressBarEngine& progressBarEngine( void ) const
@@ -98,13 +100,17 @@ namespace Oxygen
         MenuBaseEngine& menuEngine( void ) const
         { return *menuEngine_; }
 
-        //! abstractButton engine
+        //! scrollbar engine
         ScrollBarEngine& scrollBarEngine( void ) const
         { return *scrollBarEngine_; }
 
-        //! abstractButton engine
+        //! slider engine
         SliderEngine& sliderEngine( void ) const
         { return *sliderEngine_; }
+
+        //! spinbox engine
+        SpinBoxEngine& spinBoxEngine( void ) const
+        { return *spinBoxEngine_; }
 
         //! tabbar
         TabBarEngine& tabBarEngine( void ) const
@@ -128,6 +134,9 @@ namespace Oxygen
         //! abstract button engine
         WidgetStateEngine* widgetStateEngine_;
 
+        //! abstract button engine
+        WidgetStateEngine* comboBoxEngine_;
+
         //! tool button engine
         WidgetStateEngine* toolBarEngine_;
 
@@ -148,6 +157,9 @@ namespace Oxygen
 
         //! slider engine
         SliderEngine* sliderEngine_;
+
+        //! spinbox engine
+        SpinBoxEngine* spinBoxEngine_;
 
         //! tabbar engine
         TabBarEngine* tabBarEngine_;

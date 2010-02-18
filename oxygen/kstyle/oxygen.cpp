@@ -3438,8 +3438,38 @@ bool OxygenStyle::drawGenericPrimitive(
             // customize color depending on widget
             if( widgetType == WT_SpinBox )
             {
-                // spinBox
-                color = pal.color( QPalette::Text );
+
+                // get subcontrol type
+                SubControl subControl;
+                if( primitive == Generic::ArrowUp ) subControl = SC_SpinBoxUp;
+                else if( primitive == Generic::ArrowDown ) subControl = SC_SpinBoxDown;
+                else subControl = SC_None;
+
+                // try cast option
+                const QStyleOptionSpinBox *sbOpt = qstyleoption_cast<const QStyleOptionSpinBox *>(opt);
+                const bool subControlHover( enabled && mouseOver && sbOpt && subControl != SC_None && (sbOpt->activeSubControls&subControl) );
+
+                // check animation state
+                animations().spinBoxEngine().updateState( widget, subControl, subControlHover );
+                const bool animated( enabled && animations().spinBoxEngine().isAnimated( widget, subControl ) );
+                qreal opacity( animations().spinBoxEngine().opacity( widget, subControl ) );
+
+                if( animated )
+                {
+
+                    QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                    color = KColorUtils::mix( pal.color( QPalette::Text ), highlight, opacity );
+
+                } else if( subControlHover ) {
+
+                    color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+
+                } else {
+
+                    color = pal.color( QPalette::Text );
+
+                }
+
                 background = pal.color( QPalette::Background );
                 drawContrast = false;
 
@@ -3456,7 +3486,33 @@ bool OxygenStyle::drawGenericPrimitive(
                     {
 
                         if( enabled && empty ) color = pal.color( QPalette::Disabled,  QPalette::Text );
-                        else color  = pal.color( QPalette::Text );
+                        else {
+
+                            // check animation state
+                            const bool subControlHover( enabled && mouseOver && cb->activeSubControls&SC_ComboBoxArrow );
+                            animations().comboBoxEngine().updateState( widget, Oxygen::AnimationHover, subControlHover  );
+
+                            const bool animated( enabled && animations().comboBoxEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                            const qreal opacity( animations().comboBoxEngine().opacity( widget, Oxygen::AnimationHover ) );
+
+                            if( animated )
+                            {
+
+                                QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                                color = KColorUtils::mix( pal.color( QPalette::Text ), highlight, opacity );
+
+                            } else if( subControlHover ) {
+
+                                color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+
+                            } else {
+
+                                color = pal.color( QPalette::Text );
+
+                            }
+
+                        }
+
                         background = pal.color( QPalette::Background );
 
                         if( enabled ) drawContrast = false;
@@ -3496,10 +3552,10 @@ bool OxygenStyle::drawGenericPrimitive(
                         animations().scrollBarEngine().setSubControlRect( widget, subcontrol, r );
                     }
 
-                    QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
                     if( r.intersects(  animations().scrollBarEngine().subControlRect( widget, subcontrol ) ) )
                     {
 
+                        QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
                         if( animated )
                         {
                             color = KColorUtils::mix( color, highlight, opacity );
@@ -6255,7 +6311,7 @@ void OxygenStyle::renderWindowIcon(QPainter *p, const QRectF &r, int &type) cons
 //_____________________________________________________________________
 bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 {
-    if (KStyle::eventFilter(obj, ev) ) return true;
+    if( KStyle::eventFilter(obj, ev) ) return true;
 
     // toolbars
     if (QToolBar *t = qobject_cast<QToolBar*>(obj))

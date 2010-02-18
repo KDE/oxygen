@@ -31,6 +31,8 @@ set(oxygen_PART_SRCS
     animations/oxygenscrollbarengine.cpp
     animations/oxygensliderdata.cpp
     animations/oxygensliderengine.cpp
+    animations/oxygenspinboxdata.cpp
+    animations/oxygenspinboxengine.cpp
     animations/oxygentabbardata.cpp
     animations/oxygentabbarengine.cpp
     animations/oxygenwidgetstatedata.cpp
