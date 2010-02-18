@@ -67,32 +67,30 @@ namespace Oxygen
     }
 
     //____________________________________________________________
-    bool Transitions::registerWidget( QWidget* widget ) const
+    void Transitions::registerWidget( QWidget* widget ) const
     {
 
-        if( !widget ) return false;
+        if( !widget ) return;
 
         if( QLabel* label = qobject_cast<QLabel*>( widget ) ) {
 
             // do not animate labels from tooltips
-            if( widget->window() && widget->window()->windowFlags().testFlag( Qt::ToolTip ) ) return false;
-            else return labelEngine().registerWidget( label );
+            if( widget->window() && widget->window()->windowFlags().testFlag( Qt::ToolTip ) ) return;
+            else labelEngine().registerWidget( label );
 
         } else if( QComboBox* comboBox = qobject_cast<QComboBox*>( widget ) ) {
 
-            return comboBoxEngine().registerWidget( comboBox );
+            comboBoxEngine().registerWidget( comboBox );
 
         } else if( QLineEdit* lineEdit = qobject_cast<QLineEdit*>( widget ) ) {
 
-            return lineEditEngine().registerWidget( lineEdit );
+            lineEditEngine().registerWidget( lineEdit );
 
         } else if( QStackedWidget* stack = qobject_cast<QStackedWidget*>( widget ) ) {
 
-            return stackedWidgetEngine().registerWidget( stack );
+            stackedWidgetEngine().registerWidget( stack );
 
         }
-
-        return false;
 
     }
 

@@ -50,11 +50,8 @@ namespace Oxygen
         virtual ~Transitions( void )
         {}
 
-        /*!
-        register animations corresponding to given widget, depending on its type.
-        returns true if widget was registered
-        */
-        bool registerWidget( QWidget* widget ) const;
+        //! register animations corresponding to given widget, depending on its type.
+        void registerWidget( QWidget* widget ) const;
 
         /*! unregister all animations associated to a widget */
         void unregisterWidget( QWidget* widget ) const;
