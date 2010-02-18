@@ -66,10 +66,10 @@ namespace Oxygen
         virtual bool registerWidget( QWidget*, AnimationModes mode );
 
         //! true if widget hover state is changed
-        virtual bool updateState( const QObject* object, AnimationMode, bool value );
+        virtual bool updateState( const QObject*, AnimationMode, bool );
 
         //! true if widget is animated
-        virtual bool isAnimated( const QObject* object, AnimationMode );
+        virtual bool isAnimated( const QObject*, AnimationMode );
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, AnimationMode mode )
