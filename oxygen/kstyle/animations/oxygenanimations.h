@@ -76,6 +76,10 @@ namespace Oxygen
         WidgetStateEngine& comboBoxEngine( void ) const
         { return *comboBoxEngine_; }
 
+        //! Menu tool buttons arrow hover engine
+        WidgetStateEngine& toolButtonEngine( void ) const
+        { return *toolButtonEngine_; }
+
         //! toolbar engine
         WidgetStateEngine& toolBarEngine( void ) const
         { return *toolBarEngine_; }
@@ -125,7 +129,7 @@ namespace Oxygen
         void registerEngine( BaseEngine* engine )
         { engines_.push_back( engine ); }
 
-        //! widget enability engine
+        //! dock separator handle hover effect
         DockSeparatorEngine* dockSeparatorEngine_;
 
         //! widget enability engine
@@ -134,8 +138,11 @@ namespace Oxygen
         //! abstract button engine
         WidgetStateEngine* widgetStateEngine_;
 
-        //! abstract button engine
+        //! editable combobox arrow hover effect
         WidgetStateEngine* comboBoxEngine_;
+
+        //! mennu toolbutton arrow hover effect
+        WidgetStateEngine* toolButtonEngine_;
 
         //! tool button engine
         WidgetStateEngine* toolBarEngine_;

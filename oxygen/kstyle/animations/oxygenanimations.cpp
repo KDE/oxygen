@@ -41,6 +41,7 @@ namespace Oxygen
         widgetEnabilityEngine_ = new WidgetStateEngine( this );
         spinBoxEngine_ = new SpinBoxEngine( this );
         comboBoxEngine_ = new WidgetStateEngine( this );
+        toolButtonEngine_ = new WidgetStateEngine( this );
 
         registerEngine( dockSeparatorEngine_ = new DockSeparatorEngine( this ) );
         registerEngine( widgetStateEngine_ = new WidgetStateEngine( this ) );
@@ -65,6 +66,7 @@ namespace Oxygen
         widgetEnabilityEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         widgetStateEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         comboBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
+        toolButtonEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         lineEditEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         scrollBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
         sliderEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
@@ -83,6 +85,7 @@ namespace Oxygen
         widgetEnabilityEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         widgetStateEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         comboBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+        toolButtonEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         lineEditEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         scrollBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         sliderEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
@@ -113,6 +116,7 @@ namespace Oxygen
         if( widget->inherits( "QToolButton" ) )
         {
 
+            toolButtonEngine().registerWidget( widget, AnimationHover );
             if( widget->parent() && widget->parent()->inherits( "QToolBar" ) ) toolBarEngine().registerWidget( widget, AnimationHover );
             else widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
@@ -163,6 +167,7 @@ namespace Oxygen
         widgetEnabilityEngine().unregisterWidget( widget );
         spinBoxEngine().unregisterWidget( widget );
         comboBoxEngine().unregisterWidget( widget );
+        toolButtonEngine().unregisterWidget( widget );
 
         // the following allows some optimisation of widget unregistration
         // it assumes that a widget can be registered atmost in one of the

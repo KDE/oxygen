@@ -376,7 +376,14 @@ bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *optio
     State flags( option->state );
     QRect rect( option->rect );
     QPalette palette( option->palette );
-    QStyleOption tOpt(*option);
+
+
+    // local clone of toolbutton option
+    const QStyleOptionToolButton *tbOption( qstyleoption_cast<const QStyleOptionToolButton *>(option) );
+    if( !tbOption ) return false;
+
+    // make local copy
+    QStyleOptionToolButton localTbOption(*tbOption);
 
     bool isInToolBar( widget->parent() && widget->parent()->inherits( "QToolBar" ) );
 
@@ -411,15 +418,75 @@ bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *optio
         if( hoverAnimated || (focusAnimated && !hasFocus) )
         {
             QRect buttonRect = subControlRect(CC_ToolButton, option, SC_ToolButton, widget);
-            tOpt.rect = buttonRect;
-            tOpt.state = flags;
-            drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, &tOpt, buttonRect, palette, flags, painter, widget);
+            localTbOption.rect = buttonRect;
+            localTbOption.state = flags;
+            drawKStylePrimitive(WT_ToolButton, ToolButton::Panel, &localTbOption, buttonRect, palette, flags, painter, widget);
         }
 
     }
 
-    // always return false to continue with "default" painting
-    return false;
+    // copy code from kstyle. and modify it to handle arrow hover properly
+    QRect buttonRect = subControlRect( CC_ToolButton, tbOption, SC_ToolButton, widget);
+    QRect menuRect = subControlRect( CC_ToolButton, tbOption, SC_ToolButtonMenu, widget);
+
+    // State_AutoRaise: only draw button when State_MouseOver
+    State bflags = tbOption->state;
+    if( (bflags & State_AutoRaise) && !(bflags & State_MouseOver) )
+    { bflags &= ~State_Raised; }
+
+    State mflags = bflags;
+
+    localTbOption.palette = palette;
+
+    if( (tbOption->subControls & SC_ToolButton) && (bflags & (State_Sunken | State_On | State_Raised) ) )
+    {
+        localTbOption.rect = buttonRect;
+        localTbOption.state = bflags;
+        drawPrimitive(PE_PanelButtonTool, &localTbOption, painter, widget);
+    }
+
+    if (tbOption->subControls & SC_ToolButtonMenu)
+    {
+
+        localTbOption.rect = menuRect;
+        localTbOption.state = mflags;
+        drawPrimitive(PE_IndicatorButtonDropDown, &localTbOption, painter, widget );
+
+    } else if (tbOption->features & QStyleOptionToolButton::HasMenu) {
+
+        // This is requesting KDE3-style arrow indicator, per Qt 4.4 behavior. Qt 4.3 prefers to hide
+        // the fact of the menu's existence. Whee! Since we don't know how to paint this right,
+        // though, we have to have some metrics set for it to look nice.
+        int size = widgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, option, widget );
+        if (size)
+        {
+
+            int xOff = widgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, option, widget );
+            int yOff = widgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorYOff, option, widget );
+
+            QRect r = QRect(buttonRect.right() + xOff, buttonRect.bottom() + yOff, size, size);
+            localTbOption.rect  = r;
+            localTbOption.state = bflags;
+            drawPrimitive(PE_IndicatorButtonDropDown, &localTbOption, painter, widget );
+
+        }
+
+    }
+
+    if (flags & State_HasFocus)
+    {
+        QRect focusRect = rect;
+        localTbOption.rect = focusRect;
+        localTbOption.state = bflags;
+        drawKStylePrimitive(WT_ToolButton, Generic::FocusIndicator, &localTbOption, focusRect, palette, bflags, painter, widget );
+    }
+
+    // CE_ToolButtonLabel expects a readjusted rect, for the button area proper
+    QStyleOptionToolButton labelOpt = *tbOption;
+    labelOpt.rect = buttonRect;
+    drawControl(CE_ToolButtonLabel, &labelOpt, painter, widget );
+
+    return true;
 
 }
 
@@ -3572,27 +3639,44 @@ bool OxygenStyle::drawGenericPrimitive(
 
             } else if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
 
-                // toolbutton animation
-                animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-                bool animated( animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-                qreal opacity( animations().toolBarEngine().opacity( widget, Oxygen::AnimationHover ) );
-
                 QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
                 color = pal.color( QPalette::WindowText );
 
                 // toolbuttons
-                if (tool->popupMode()==QToolButton::MenuButtonPopup)
+                if( tool->popupMode()==QToolButton::MenuButtonPopup )
                 {
+
+                    // handle arrow over animation
+                    if( const QStyleOptionToolButton *tbOption = qstyleoption_cast<const QStyleOptionToolButton *>(opt) )
+                    {
+
+                        const bool arrowHover( enabled && mouseOver && (tbOption->activeSubControls & SC_ToolButtonMenu));
+                        animations().toolButtonEngine().updateState( widget, Oxygen::AnimationHover, arrowHover );
+                        bool animated( enabled && animations().toolButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                        qreal opacity( animations().toolButtonEngine().opacity( widget, Oxygen::AnimationHover) );
+
+                        if( animated ) color = KColorUtils::mix( color, highlight, opacity );
+                        else if( arrowHover ) color = highlight;
+                        else color = pal.color( QPalette::WindowText );
+
+                    }
 
                     if(!tool->autoRaise())
                     {
 
                         color = pal.color( QPalette::ButtonText );
                         background = pal.color( QPalette::Button );
-                        if( (flags & State_On) || (flags & State_Sunken) ) opts |= Sunken;
+
+                        // arrow rect
+                        QRect frameRect( r.adjusted(-10,0,0,0) );
+                        if( (flags & State_On) || (flags & State_Sunken) )
+                        {
+                            frameRect.adjust( 0, 0, 0, -1 );
+                            opts |= Sunken;
+                        }
                         if( flags & State_HasFocus ) opts |= Focus;
                         if( mouseOver ) opts |= Hover;
-                        renderSlab(p, r.adjusted(-10,0,0,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
+                        renderSlab(p, frameRect, pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
 
                         a.translate(-3,1);
 
@@ -3608,18 +3692,16 @@ bool OxygenStyle::drawGenericPrimitive(
                         p->setPen(QPen(dark,1));
                         p->drawLine(r.x()-4, r.y()+4, r.x()-4, r.bottom()-3);
 
-                    } else {
-
-                        // this does not really work
-                        // in case of menu tool-buttons, one should animate the
-                        // menu arrow independently from the button itself
-                        if( animated ) color = KColorUtils::mix( color, highlight, opacity );
-                        else if( mouseOver ) color = highlight;
-                        else color = pal.color( QPalette::WindowText );
-
                     }
 
                 } else {
+
+                    // toolbutton animation
+                    // when the arrow is painted directly on the icon, button hover and arrow hover
+                    // are identical. The generic toolbar engine is used.
+                    animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                    bool animated( animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                    qreal opacity( animations().toolBarEngine().opacity( widget, Oxygen::AnimationHover ) );
 
                     if( animated ) color = KColorUtils::mix( color, highlight, opacity );
                     else if( mouseOver ) color = highlight;
@@ -3651,7 +3733,6 @@ bool OxygenStyle::drawGenericPrimitive(
                         default: break;
                     }
                 }
-
             }
 
             // white reflection
