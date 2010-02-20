@@ -61,12 +61,13 @@ namespace Oxygen
 
             case QEvent::Paint:
             {
-                if( enabled() && target_ && ( target_.data()->text() != text_ || target_.data()->pixmap() != pixmap_ ) )
+                //if( enabled() && target_ && ( target_.data()->text() != text_ || target_.data()->pixmap() != pixmap_ ) )
+                if( enabled() && target_ && target_.data()->text() != text_ )
                 {
 
                     // update text and pixmap
                     text_ = target_.data()->text();
-                    pixmap_ = target_.data()->pixmap();
+                    // pixmap_ = target_.data()->pixmap();
 
                     if( transition().data()->isAnimated() )
                     { transition().data()->endAnimation(); }
