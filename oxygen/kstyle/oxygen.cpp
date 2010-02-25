@@ -1171,7 +1171,7 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
                         else color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
                     }
 
-                } else color = _helper.calcMidColor(color);
+                } else color = _helper.calcDarkColor( _helper.backgroundColor( color, widget, r.center() ) );
 
                 // drawing
                 if( animated && current ) {
@@ -4206,7 +4206,7 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
 
         color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
 
-    } else  color = _helper.calcDarkColor( color );
+    } else color = _helper.calcDarkColor( color );
 
     pp.setRenderHint(QPainter::Antialiasing);
     pp.setPen(Qt::NoPen);
