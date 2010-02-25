@@ -4216,15 +4216,19 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
 
     _helper.holeFlat(color, 0.0)->render(rr.adjusted( 1, 2, -2, -1 ), &pp);
 
-    QRect maskr( visualRect(opt->direction, rr, QRect(rr.width()-40, 0, 40,rr.height())) );
-    QLinearGradient gradient(
-        visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
-        visualPos(opt->direction, maskr, QPoint(maskr.right()-4, 0)));
-    gradient.setColorAt( 0.0, Qt::black );
-    gradient.setColorAt( 1.0, Qt::transparent );
-    pp.setBrush(gradient);
-    pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-    pp.drawRect(maskr);
+    const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>(opt);
+    if( menuItemOption && menuItemOption->menuItemType == QStyleOptionMenuItem::SubMenu )
+    {
+        QRect maskr( visualRect(opt->direction, rr, QRect(rr.width()-40, 0, 40,rr.height())) );
+        QLinearGradient gradient(
+            visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
+            visualPos(opt->direction, maskr, QPoint(maskr.right()-4, 0)));
+        gradient.setColorAt( 0.0, Qt::black );
+        gradient.setColorAt( 1.0, Qt::transparent );
+        pp.setBrush(gradient);
+        pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+        pp.drawRect(maskr);
+    }
 
     if( opacity >= 0 && opacity < 1 )
     {
