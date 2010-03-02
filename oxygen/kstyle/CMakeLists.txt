@@ -3,15 +3,11 @@ project(kstyle-oxygen)
 
 add_subdirectory( config )
 
-include_directories (animations transitions)
-
+include_directories (animations transitions ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs/oxygen)
 
 ########### next target ###############
 
 set(oxygen_PART_SRCS
-    lib/tileset.cpp
-    lib/helper.cpp
-    lib/oxygenanimation.cpp
     helper.cpp
     animations/oxygenanimations.cpp
     animations/oxygenanimationdata.cpp
@@ -55,7 +51,7 @@ kde4_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 
 kde4_add_plugin(oxygen ${oxygen_PART_SRCS})
 
-target_link_libraries(oxygen  ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS})
+target_link_libraries(oxygen  ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} oxygenstyle)
 
 install(TARGETS oxygen  DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/ )
 

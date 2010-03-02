@@ -28,7 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenanimationdata.h"
-#include "../lib/oxygenanimation.h"
+#include "oxygenanimation.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QTextStream>

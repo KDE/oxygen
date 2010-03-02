@@ -30,10 +30,12 @@
 #include <QtCore/QPropertyAnimation>
 #include <QtCore/QVariant>
 
+#include "oxygen_export.h"
+
 namespace Oxygen
 {
 
-    class Animation: public QPropertyAnimation
+    class OXYGEN_EXPORT Animation: public QPropertyAnimation
     {
 
         Q_OBJECT

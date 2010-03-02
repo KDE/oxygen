@@ -32,10 +32,11 @@
 #include <QtCore/QCache>
 
 #include "tileset.h"
+#include "oxygen_export.h"
 
 //! tileSet cache
 /*! uses QCache to keep track of generated tileSets in order to save CPU time (at the cost of memory footprint */
-class SlabCache
+class OXYGEN_EXPORT SlabCache
 {
 public:
     SlabCache() {}
@@ -50,7 +51,7 @@ public:
 
 //! oxygen style helper class.
 /*! contains utility functions used at multiple places in both oxygen style and oxygen window decoration */
-class OxygenHelper
+class OXYGEN_EXPORT OxygenHelper
 {
 public:
     explicit OxygenHelper(const QByteArray &componentName);

@@ -64,7 +64,7 @@
 #include <KTitleWidget>
 
 #include "helper.h"
-#include "lib/tileset.h"
+#include "tileset.h"
 
 #include "oxygenanimations.h"
 #include "oxygentransitions.h"

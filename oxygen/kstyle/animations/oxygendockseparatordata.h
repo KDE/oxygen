@@ -28,7 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygengenericdata.h"
-#include "../lib/oxygenanimation.h"
+#include "oxygenanimation.h"
 
 namespace Oxygen
 {

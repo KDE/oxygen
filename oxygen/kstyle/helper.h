@@ -21,7 +21,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "lib/helper.h"
+#include "oxygenhelper.h"
 
 //! helper class
 /*! contains utility functions used at multiple places in oxygen style */

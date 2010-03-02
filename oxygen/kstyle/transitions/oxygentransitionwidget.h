@@ -26,7 +26,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "../lib/oxygenanimation.h"
+#include "oxygenanimation.h"
 
 #include <QtCore/QWeakPointer>
 #include <QtGui/QWidget>

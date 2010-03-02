@@ -19,7 +19,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "helper.h"
+#include "oxygenhelper.h"
 
 #include <KColorUtils>
 #include <KColorScheme>

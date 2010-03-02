@@ -52,7 +52,7 @@
 #include <QtGui/QTabBar>
 
 #include "helper.h"
-#include "lib/tileset.h"
+#include "tileset.h"
 #include "animations/oxygenwidgetstateengine.h"
 
 #define u_arrow -4,1, 2,1, -3,0, 1,0, -2,-1, 0,-1, -1,-2
