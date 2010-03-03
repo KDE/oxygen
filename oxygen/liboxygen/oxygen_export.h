@@ -24,7 +24,7 @@
 #include <kdemacros.h>
 
 #ifndef OXYGEN_EXPORT
-# if defined(MAKE_OXYGEN_LIB)
+# if defined(MAKE_OXYGENSTYLE_LIB)
    /* We are building this library */ 
 #  define OXYGEN_EXPORT KDE_EXPORT
 # else
