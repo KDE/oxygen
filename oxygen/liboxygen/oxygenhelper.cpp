@@ -305,122 +305,6 @@ QPixmap OxygenHelper::radialGradient(const QColor &color, int width, int height)
 QColor OxygenHelper::decoColor(const QColor& background, const QColor &color) const
 { return KColorUtils::mix( background, color, 0.4 + 0.8*_contrast ); }
 
-//______________________________________________________________________________
-QPixmap OxygenHelper::windecoButton(const QColor &color, bool pressed, int size)
-{
-    quint64 key = (quint64(color.rgba()) << 32) | (size << 1) | (int)pressed;
-    QPixmap *pixmap = m_windecoButtonCache.object(key);
-
-    if (!pixmap)
-    {
-        pixmap = new QPixmap(size, size);
-        pixmap->fill(Qt::transparent);
-
-        QColor light  = calcLightColor(color);
-        QColor dark   = calcDarkColor(color);
-
-        QPainter p(pixmap);
-        p.setRenderHints(QPainter::Antialiasing);
-        p.setPen(Qt::NoPen);
-        qreal u = size/18.0;
-        p.translate( 0.5*u, (0.5-0.668)*u );
-
-        {
-            //plain background
-            QLinearGradient lg( 0, u*1.665, 0, u*(12.33+1.665) );
-            if( pressed )
-            {
-                lg.setColorAt( 1, light );
-                lg.setColorAt( 0, dark );
-            } else {
-                lg.setColorAt( 0, light );
-                lg.setColorAt( 1, dark );
-            }
-
-            QRectF r( u*0.5*(17-12.33), u*1.665, u*12.33, u*12.33 );
-            p.setBrush( lg );
-            p.drawEllipse( r );
-        }
-
-        {
-            // outline circle
-            qreal penWidth = 0.7;
-            QLinearGradient lg( 0, u*1.665, 0, u*(2.0*12.33+1.665) );
-            lg.setColorAt( 0, light );
-            lg.setColorAt( 1, dark );
-            QRectF r( u*0.5*(17-12.33+penWidth), u*(1.665+penWidth), u*(12.33-penWidth), u*(12.33-penWidth) );
-            p.setPen( QPen( lg, penWidth*u ) );
-            p.drawEllipse( r );
-            p.end();
-        }
-
-        m_windecoButtonCache.insert(key, pixmap);
-    }
-
-    return *pixmap;
-}
-
-//_______________________________________________________________________
-QPixmap OxygenHelper::windecoButtonGlow(const QColor &color, int size)
-{
-    quint64 key = (quint64(color.rgba()) << 32) | size;
-    QPixmap *pixmap = m_windecoButtonGlowCache.object(key);
-
-    if (!pixmap)
-    {
-        pixmap = new QPixmap(size, size);
-        pixmap->fill(Qt::transparent);
-
-        // right now the same color is used for the two shadows
-        QColor light = color;
-        QColor dark = color;
-
-        QPainter p(pixmap);
-        p.setRenderHints(QPainter::Antialiasing);
-        p.setPen(Qt::NoPen);
-        qreal u = size/18.0;
-        p.translate( 0.5*u, (0.5-0.668)*u );
-
-        {
-
-            // outer shadow
-            QRadialGradient rg( u*8.5, u*8.5, u*8.5 );
-
-            int nPoints = 5;
-            qreal x[5] = { 0.61, 0.72, 0.81, 0.9, 1};
-            qreal values[5] = { 255-172, 255-178, 255-210, 255-250, 0 };
-            QColor c = dark;
-            for( int i = 0; i<nPoints; i++ )
-            { c.setAlpha( values[i] ); rg.setColorAt( x[i], c ); }
-
-            QRectF r( pixmap->rect() );
-            p.setBrush( rg );
-            p.drawRect( r );
-        }
-
-        {
-            // inner shadow
-            QRadialGradient rg( u*8.5, u*8.5, u*8.5 );
-
-            static int nPoints = 6;
-            qreal x[6] = { 0.61, 0.67, 0.7, 0.74, 0.78, 1 };
-            qreal values[6] = { 255-92, 255-100, 255-135, 255-205, 255-250, 0 };
-            QColor c = light;
-            for( int i = 0; i<nPoints; i++ )
-            { c.setAlpha( values[i] ); rg.setColorAt( x[i], c ); }
-
-            QRectF r( pixmap->rect() );
-            p.setBrush( rg );
-            p.drawRect( r );
-        }
-
-        m_windecoButtonGlowCache.insert(key, pixmap);
-
-    }
-
-    return *pixmap;
-}
-
 //_______________________________________________________________________
 QRegion OxygenHelper::roundedRegion( const QRect& r, int left, int right, int top, int bottom ) const
 {
@@ -623,9 +507,9 @@ void OxygenHelper::drawSeparator(QPainter *p, const QRect &rect, const QColor &c
 //________________________________________________________________________________________________________
 TileSet *OxygenHelper::slab(const QColor &color, qreal shade, int size )
 {
-    SlabCache *cache = slabCache(color);
+    Oxygen::Cache<TileSet>::Value *cache = m_slabCache.get(color);
     quint64 key = (int)(256.0 * shade) << 24 | size;
-    TileSet *tileSet = cache->m_slabCache.object(key);
+    TileSet *tileSet = cache->object(key);
 
     if (!tileSet)
     {
@@ -645,64 +529,9 @@ TileSet *OxygenHelper::slab(const QColor &color, qreal shade, int size )
 
         tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
 
-        cache->m_slabCache.insert(key, tileSet);
+        cache->insert(key, tileSet);
     }
-    return tileSet;
-}
 
-//________________________________________________________________________________________________________
-TileSet *OxygenHelper::shadow(const QColor &color, int size)
-{
-    SlabCache *cache = slabCache(color);
-    quint64 key = size;
-    TileSet *tileSet = cache->m_shadowCache.object(key);
-
-    if (!tileSet)
-    {
-        QPixmap pixmap(size*2, size*2);
-        pixmap.fill(QColor(Qt::transparent));
-
-        QPainter p(&pixmap);
-        p.setRenderHints(QPainter::Antialiasing);
-        p.setPen(Qt::NoPen);
-        p.setWindow(0,0,14,14);
-
-        // shadow
-        drawShadow(p, calcShadowColor(color), 14);
-        p.end();
-
-        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
-
-        cache->m_shadowCache.insert(key, tileSet);
-    }
-    return tileSet;
-}
-
-//________________________________________________________________________________________________________
-TileSet *OxygenHelper::outerGlow(const QColor &color, int size)
-{
-    SlabCache *cache = slabCache(color);
-    quint64 key = size;
-    TileSet *tileSet = cache->m_outerGlowCache.object(key);
-
-    if (!tileSet)
-    {
-        QPixmap pixmap(size*2, size*2);
-        pixmap.fill(Qt::transparent);
-
-        QPainter p(&pixmap);
-        p.setRenderHints(QPainter::Antialiasing);
-        p.setPen(Qt::NoPen);
-        p.setWindow(0,0,14,14);
-
-        // shadow
-        drawOuterGlow(p, color, 14);
-        p.end();
-
-        tileSet = new TileSet(pixmap, size, size, size, size, size-1, size, 2, 1);
-
-        cache->m_outerGlowCache.insert(key, tileSet);
-    }
     return tileSet;
 }
 
@@ -801,19 +630,4 @@ void OxygenHelper::drawOuterGlow( QPainter &p, const QColor &color, int size) co
     p.drawEllipse(r.adjusted(width, width, -width, -width));
     p.restore();
 
-}
-
-//___________________________________________________________________________________________
-SlabCache* OxygenHelper::slabCache(const QColor &color)
-{
-    quint64 key = (quint64(color.rgba()) << 32);
-    SlabCache *cache = m_slabCache.object(key);
-
-    if (!cache)
-    {
-        cache = new SlabCache;
-        m_slabCache.insert(key, cache);
-    }
-
-    return cache;
 }

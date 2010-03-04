@@ -1,3 +1,6 @@
+#ifndef oxygen_helper_h
+#define oxygen_helper_h
+
 /*
  * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
  * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
@@ -19,9 +22,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef OXYGEN_HELPER_H
-#define OXYGEN_HELPER_H
-
 #include <ksharedconfig.h>
 #include <kcomponentdata.h>
 
@@ -32,22 +32,50 @@
 #include <QtCore/QCache>
 
 #include "tileset.h"
-#include "oxygen_export.h"
 
-//! tileSet cache
-/*! uses QCache to keep track of generated tileSets in order to save CPU time (at the cost of memory footprint */
-class OXYGEN_EXPORT SlabCache
+namespace Oxygen
 {
-public:
-    SlabCache() {}
-    ~SlabCache() {}
 
-    QCache<quint64, QPixmap> m_dialSlabCache;
-    QCache<quint64, QPixmap> m_roundSlabCache;
-    QCache<quint64, TileSet> m_slabCache;
-    QCache<quint64, TileSet> m_shadowCache;
-    QCache<quint64, TileSet> m_outerGlowCache;
-};
+    template<typename T> class OXYGEN_EXPORT Cache
+    {
+
+        public:
+
+        //! constructor
+        Cache()
+        {}
+
+        //! destructor
+        ~Cache()
+        {}
+
+        //! return cache matching a given key
+        typedef QCache<quint64, T> Value;
+        Value* get( const QColor& color )
+        {
+            quint64 key = (quint64(color.rgba()) << 32);
+            Value *cache = data_.object(key);
+
+            if (!cache)
+            {
+                cache = new Value();
+                data_.insert(key, cache);
+            }
+
+            return cache;
+        }
+
+        //! clear
+        void clear( void )
+        { data_.clear(); }
+
+        private:
+
+        QCache<quint64, Value> data_;
+
+    };
+
+}
 
 //! oxygen style helper class.
 /*! contains utility functions used at multiple places in both oxygen style and oxygen window decoration */
@@ -85,8 +113,6 @@ public:
     virtual QColor calcDarkColor(const QColor &color) const;
     virtual QColor calcShadowColor(const QColor &color) const;
 
-
-
     virtual QColor menuBackgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
     {
         if( !( w && w->window() ) ) return color;
@@ -115,12 +141,6 @@ public:
     //! merge background and front color for check marks, arrows, etc. using _contrast
     virtual QColor decoColor(const QColor &background, const QColor &color) const;
 
-    //!@name decoration specific helper functions
-    //@{
-    virtual QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
-    virtual QPixmap windecoButtonGlow(const QColor &color, int size = 21);
-    //@}
-
     //! returns a region matching given rect, with rounded corners, based on the multipliers
     /*! setting any of the multipliers to zero will result in no corners shown on the corresponding side */
     virtual QRegion roundedRegion( const QRect&, int left = 1, int right = 1, int top = 1, int bottom = 1 ) const;
@@ -129,6 +149,8 @@ public:
     /*! setting any of the multipliers to zero will result in no corners shown on the corresponding side */
     virtual QRegion roundedMask( const QRect&, int left = 1, int right = 1, int top = 1, int bottom = 1 ) const;
 
+    //! draw frame that mimics some sort of shadows around a panel
+    /*! it is used for menus, detached dock panels and toolbar, as well as window decoration when compositing is disabled */
     virtual void drawFloatFrame(
       QPainter *p, const QRect r, const QColor &color,
       bool drawUglyShadow=true, bool isActive=false,
@@ -139,16 +161,12 @@ public:
     virtual void drawSeparator(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation) const;
 
     virtual TileSet *slab(const QColor&, qreal shade, int size = 7);
-    virtual TileSet *shadow(const QColor&, int size = 7);
-    virtual TileSet *outerGlow(const QColor&, int size = 7);
 
     protected:
 
     virtual void drawSlab(QPainter&, const QColor&, qreal shade) const;
     virtual void drawShadow(QPainter&, const QColor&, int size) const;
     virtual void drawOuterGlow(QPainter&, const QColor&, int size) const;
-
-    virtual SlabCache* slabCache(const QColor&);
 
     //! return background adjusted color matching relative vertical position in window
     QColor cachedBackgroundColor( const QColor&, qreal ratio );
@@ -162,12 +180,12 @@ public:
     qreal _contrast;
     qreal _bgcontrast;
 
-    QCache<quint64, QColor> m_backgroundColorCache;
-    QCache<quint64, SlabCache> m_slabCache;
+    Oxygen::Cache<TileSet> m_slabCache;
 
+    QCache<quint64, QColor> m_backgroundColorCache;
     QCache<quint64, QPixmap> m_backgroundCache;
     QCache<quint64, QPixmap> m_windecoButtonCache;
     QCache<quint64, QPixmap> m_windecoButtonGlowCache;
 };
 
-#endif // __OXYGEN_HELPER_H
+#endif
