@@ -79,6 +79,9 @@ public:
     void drawHole(QPainter&, const QColor&, qreal shade, int r = 7) const;
     void drawRoundSlab( QPainter&, const QColor&, qreal ) const;
 
+    Oxygen::Cache<QPixmap> m_dialSlabCache;
+    Oxygen::Cache<QPixmap> m_roundSlabCache;
+
     //! progressbar cache
     QCache<quint64, QPixmap> m_progressBarCache;
 
@@ -95,4 +98,4 @@ public:
 
 };
 
-#endif // __OXYGEN_STYLE_HELPER_H
+#endif

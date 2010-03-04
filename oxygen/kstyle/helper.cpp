@@ -39,6 +39,10 @@ OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
 //______________________________________________________________________________
 void OxygenStyleHelper::invalidateCaches()
 {
+
+    m_dialSlabCache.clear();
+    m_roundSlabCache.clear();
+
     m_progressBarCache.clear();
     m_cornerCache.clear();
     m_slabSunkenCache.clear();
@@ -112,9 +116,10 @@ QColor OxygenStyleHelper::calcMidColor(const QColor &color) const
 //______________________________________________________________________________
 QPixmap OxygenStyleHelper::dialSlab(const QColor &color, qreal shade, int size)
 {
-    SlabCache *cache = slabCache(color);
+    Oxygen::Cache<QPixmap>::Value *cache = m_dialSlabCache.get(color);
+
     quint64 key = (int)(256.0 * shade) << 24 | size;
-    QPixmap *pixmap = cache->m_dialSlabCache.object(key);
+    QPixmap *pixmap = cache->object(key);
     if (!pixmap)
     {
         pixmap = new QPixmap( size, size );
@@ -161,7 +166,7 @@ QPixmap OxygenStyleHelper::dialSlab(const QColor &color, qreal shade, int size)
         }
 
 
-        cache->m_dialSlabCache.insert(key, pixmap);
+        cache->insert(key, pixmap);
 
     }
 
@@ -172,9 +177,10 @@ QPixmap OxygenStyleHelper::dialSlab(const QColor &color, qreal shade, int size)
 //______________________________________________________________________________
 QPixmap OxygenStyleHelper::dialSlabFocused(const QColor &color, const QColor& glowColor, qreal shade, int size)
 {
-    SlabCache *cache = slabCache(color);
+    Oxygen::Cache<QPixmap>::Value* cache =  m_dialSlabCache.get(color);
+
     quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
-    QPixmap *pixmap = cache->m_dialSlabCache.object(key);
+    QPixmap *pixmap = cache->object(key);
     if (!pixmap)
     {
         pixmap = new QPixmap( size, size );
@@ -222,7 +228,7 @@ QPixmap OxygenStyleHelper::dialSlabFocused(const QColor &color, const QColor& gl
         }
 
 
-        cache->m_dialSlabCache.insert(key, pixmap);
+        cache->insert(key, pixmap);
 
     }
 
@@ -233,9 +239,11 @@ QPixmap OxygenStyleHelper::dialSlabFocused(const QColor &color, const QColor& gl
 //______________________________________________________________________________
 QPixmap OxygenStyleHelper::roundSlab(const QColor &color, qreal shade, int size)
 {
-    SlabCache *cache = slabCache(color);
+
+    Oxygen::Cache<QPixmap>::Value* cache = m_roundSlabCache.get(color);
+
     quint64 key = (int)(256.0 * shade) << 24 | size;
-    QPixmap *pixmap = cache->m_roundSlabCache.object(key);
+    QPixmap *pixmap = cache->object(key);
 
     if (!pixmap)
     {
@@ -252,7 +260,7 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, qreal shade, int size)
         drawRoundSlab( p, color, shade );
         p.end();
 
-        cache->m_roundSlabCache.insert(key, pixmap);
+        cache->insert(key, pixmap);
     }
 
     return *pixmap;
@@ -261,9 +269,11 @@ QPixmap OxygenStyleHelper::roundSlab(const QColor &color, qreal shade, int size)
 //__________________________________________________________________________________________________________
 QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &glowColor, qreal shade, int size)
 {
-    SlabCache *cache = slabCache(color);
+
+    Oxygen::Cache<QPixmap>::Value* cache = m_roundSlabCache.get(color);
+
     quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
-    QPixmap *pixmap = cache->m_roundSlabCache.object(key);
+    QPixmap *pixmap = cache->object(key);
 
     if (!pixmap)
     {
@@ -280,7 +290,7 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
         drawRoundSlab( p, color, shade );
 
         p.end();
-        cache->m_roundSlabCache.insert(key, pixmap);
+        cache->insert(key, pixmap);
 
     }
     return *pixmap;
@@ -531,9 +541,10 @@ void OxygenStyleHelper::fillHole(QPainter &p, const QRect &rect, int size)
 //________________________________________________________________________________________________________
 TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowColor, qreal shade, int size)
 {
-    SlabCache *cache = slabCache(color);
+    Oxygen::Cache<TileSet>::Value* cache = m_slabCache.get(color);
+
     quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
-    TileSet *tileSet = cache->m_slabCache.object(key);
+    TileSet *tileSet = cache->object(key);
 
     const qreal hScale( 1 );
     const int hSize( size*hScale );
@@ -563,7 +574,7 @@ TileSet *OxygenStyleHelper::slabFocused(const QColor &color, const QColor &glowC
 
         tileSet = new TileSet(pixmap, hSize, vSize, hSize, vSize, hSize-1, vSize, 2, 1);
 
-        cache->m_slabCache.insert(key, tileSet);
+        cache->insert(key, tileSet);
     }
     return tileSet;
 }
