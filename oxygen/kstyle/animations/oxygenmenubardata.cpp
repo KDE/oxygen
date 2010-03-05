@@ -103,4 +103,99 @@ namespace Oxygen
 
     }
 
+    //______________________________________________
+    MenuBarDataV2::MenuBarDataV2( QObject* parent, QWidget* target, int duration ):
+        AnimationData( parent, target )
+    {
+
+        animation_ = new Animation( duration, this );
+        animation().data()->setDirection( Animation::Forward );
+
+        // setup animation
+        //animation().data()->setStartValue( 0.1 );
+        //animation().data()->setEndValue( 0.9 );
+        animation().data()->setStartValue( 0 );
+        animation().data()->setEndValue( 1.0 );
+        animation().data()->setTargetObject( this );
+        animation().data()->setPropertyName( "opacity" );
+
+        // setup connections
+        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( updateAnimatedRect( void ) ) );
+        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
+
+        //connect( animation().data(), SIGNAL( finished( void ) ), SLOT( clearAnimatedRect( void ) ) );
+        connect( animation().data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
+
+    }
+
+    //______________________________________________
+    bool MenuBarDataV2::eventFilter( QObject* object, QEvent* event )
+    {
+
+        if( !enabled() ) return false;
+
+        // check event type
+        switch( event->type() )
+        {
+
+            case QEvent::Enter:
+            {
+                object->event( event );
+                enterEvent( object );
+                return true;
+            }
+
+            case QEvent::Leave:
+            {
+                object->event( event );
+                if( !timer_.isActive() ) timer_.start( 100, this );
+                return true;
+            }
+
+            case QEvent::MouseMove:
+            {
+                object->event( event );
+                mouseMoveEvent( object );
+                return true;
+            }
+
+            default: break;
+
+        }
+
+        // always forward event
+        return false;
+
+    }
+
+    //____________________________________________________________
+    void MenuBarDataV2::updateAnimatedRect( void )
+    {
+
+        // check rect validity
+        if( currentRect().isNull() || previousRect().isNull() )
+        {
+            animatedRect_ = QRect();
+            return;
+        }
+
+        // compute rect located 'between' previous and current
+        animatedRect_.setLeft( previousRect().left() + opacity()*(currentRect().left() - previousRect().left()) );
+        animatedRect_.setRight( previousRect().right() + opacity()*(currentRect().right() - previousRect().right()) );
+        animatedRect_.setTop( previousRect().top() + opacity()*(currentRect().top() - previousRect().top()) );
+        animatedRect_.setBottom( previousRect().bottom() + opacity()*(currentRect().bottom() - previousRect().bottom()) );
+
+        return;
+
+    }
+
+    //___________________________________________________________
+    void MenuBarDataV2::timerEvent( QTimerEvent *event )
+    {
+
+        if( event->timerId() != timer_.timerId() ) return AnimationData::timerEvent( event );
+        timer_.stop();
+        leaveEvent( target().data() );
+    }
+
 }

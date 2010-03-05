@@ -57,5 +57,58 @@ namespace Oxygen
         else return false;
     }
 
+    //____________________________________________________________
+    bool MenuBarEngineV2::registerWidget( QWidget* widget )
+    {
+
+        if( !( enabled() && widget ) ) return false;
+
+        // create new data class
+        if( !data_.contains( widget ) ) data_.insert( widget, DataMap<MenuBarDataV2>::Value( new MenuBarDataV2( this, widget, duration() ) ) );
+
+        // connect destruction signal
+        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        return true;
+
+    }
+
+
+    //____________________________________________________________
+    bool MenuBarEngineV2::isAnimated( const QObject* object, const QPoint& )
+    {
+        if( !enabled() ) return false;
+        DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
+        if( !data ) return false;
+        if( Animation::Pointer animation = data.data()->animation() ) return animation.data()->isRunning();
+        else return false;
+
+    }
+
+    //____________________________________________________________
+    QRect MenuBarEngineV2::currentRect( const QObject* object, const QPoint& )
+    {
+        if( !enabled() ) return QRect();
+        DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
+        return data ? data.data()->currentRect():QRect();
+
+    }
+
+    //____________________________________________________________
+    QRect MenuBarEngineV2::animatedRect( const QObject* object )
+    {
+        if( !enabled() ) return QRect();
+        DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
+        return data ? data.data()->animatedRect():QRect();
+
+    }
+
+    //____________________________________________________________
+    bool MenuBarEngineV2::isTimerActive( const QObject* object )
+    {
+        if( !enabled() ) return false;
+        DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
+        return data ? data.data()->timer().isActive():false;
+    }
 
 }

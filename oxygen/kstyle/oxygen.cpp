@@ -1150,10 +1150,16 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
             bool animated( animations().menuBarEngine().isAnimated(widget, r.topLeft() ) );
             qreal opacity( animations().menuBarEngine().opacity( widget, r.topLeft() ) );
             QRect currentRect( animations().menuBarEngine().currentRect( widget, r.topLeft() ) );
+            QRect animatedRect( animations().menuBarEngine().animatedRect( widget ) );
 
+            const bool intersected( animatedRect.intersects( r ) );
             const bool current( currentRect.contains( r.topLeft() ) );
+            const bool timerIsActive( animations().menuBarEngine().isTimerActive(widget) );
 
-            if (active || animated )
+            // do nothing in case of empty intersection between animated rect and current
+            if( animated && !( animatedRect.isNull() || intersected ) ) return true;
+
+            if (active || animated || timerIsActive )
             {
                 QColor color = pal.color(QPalette::Window);
                 if (OxygenStyleConfigData::menuHighlightMode() != OxygenStyleConfigData::MM_DARK)
@@ -1174,7 +1180,16 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
                 } else color = _helper.calcDarkColor( _helper.backgroundColor( color, widget, r.center() ) );
 
                 // drawing
-                if( animated && current ) {
+                if( animated && intersected )
+                {
+
+                    _helper.holeFlat(color, 0.0)->render(animatedRect.adjusted(1,1,-1,-1), p, TileSet::Full);
+
+                } else if( timerIsActive && current ) {
+
+                    _helper.holeFlat(color, 0.0)->render(r.adjusted(1,1,-1,-1), p, TileSet::Full);
+
+                } else if( animated && current ) {
 
                     color = KColorUtils::mix( pal.color(QPalette::Window), color, opacity );
                     _helper.holeFlat(color, 0.0)->render(r.adjusted(1,1,-1,-1), p, TileSet::Full);
@@ -1224,13 +1239,36 @@ bool OxygenStyle::drawMenuPrimitive(
         case Menu::Background:
         {
             bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Previous ) );
+            QRect animatedRect( animations().menuEngine().animatedRect( widget ) );
             QRect previousRect( animations().menuEngine().currentRect( widget, Oxygen::Previous ) );
             qreal opacity(  animations().menuEngine().opacity( widget, Oxygen::Previous ) );
 
-            if( animated && previousRect.intersects( r ) )
+            if( !animatedRect.isNull() )
             {
-                QColor color( _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, previousRect.center() ) );
-                renderMenuItemRect( opt, previousRect, color, pal, p, opacity );
+
+                if( animatedRect.intersects( r ) )
+                {
+                    QColor color( _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, animatedRect.center() ) );
+                    renderMenuItemRect( opt, animatedRect, color, pal, p );
+                }
+
+            } else if( animations().menuEngine().isTimerActive( widget ) ) {
+
+                if( previousRect.intersects( r ) )
+                {
+
+                    QColor color( _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, previousRect.center() ) );
+                    renderMenuItemRect( opt, previousRect, color, pal, p );
+                }
+
+            } else if( animated ) {
+
+                if( previousRect.intersects( r ) )
+                {
+                    QColor color( _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, previousRect.center() ) );
+                    renderMenuItemRect( opt, previousRect, color, pal, p, opacity );
+                }
+
             }
 
             return true;
@@ -1322,6 +1360,10 @@ bool OxygenStyle::drawMenuItemPrimitive(
 
         case MenuItem::ItemIndicator:
         {
+
+            // check if there is a 'sliding' animation in progress, in which case, do nothing
+            QRect animatedRect( animations().menuEngine().animatedRect( widget ) );
+            if( !animatedRect.isNull() ) return true;
 
             bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Current ) );
             QRect currentRect( animations().menuEngine().currentRect( widget, Oxygen::Current ) );

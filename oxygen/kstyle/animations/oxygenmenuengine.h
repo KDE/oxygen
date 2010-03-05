@@ -65,6 +65,14 @@ namespace Oxygen
         virtual QRect currentRect( const QObject*, WidgetIndex )
         { return QRect(); }
 
+        //! return 'hover' rect position when widget is animated
+        virtual QRect animatedRect( const QObject* )
+        { return QRect(); }
+
+        //! timer associated to the data
+        virtual bool isTimerActive( const QObject* )
+        { return false; }
+
         //! enability
         virtual void setEnabled( bool value ) = 0;
 
@@ -133,6 +141,72 @@ namespace Oxygen
 
         //! data map
         DataMap<MenuDataV1> data_;
+
+    };
+
+    //! stores menu hovered action and timeLine
+    class MenuEngineV2: public MenuBaseEngine
+    {
+
+        Q_OBJECT
+
+        public:
+
+        //! constructor
+        MenuEngineV2( QObject* parent ):
+        MenuBaseEngine( parent )
+        {}
+
+        //! destructor
+        virtual ~MenuEngineV2( void )
+        {}
+
+        //! register menu
+        virtual bool registerWidget( QWidget* );
+
+        //! return timeLine associated to action at given position, if any
+        virtual bool isAnimated( const QObject*, WidgetIndex );
+
+        //! animation opacity
+        virtual qreal opacity( const QObject* object, WidgetIndex index )
+        {
+            if( !isAnimated( object, index ) ) return AnimationData::OpacityInvalid;
+            else return data_.find(object).data()->opacity();
+        }
+
+        //! return 'hover' rect position when widget is animated
+        virtual QRect currentRect( const QObject* object, WidgetIndex index );
+
+        //! return 'hover' rect position when widget is animated
+        virtual QRect animatedRect( const QObject* );
+
+        //! timer associated to the data
+        virtual bool isTimerActive( const QObject* );
+
+        //! enability
+        virtual void setEnabled( bool value )
+        {
+            BaseEngine::setEnabled( value );
+            data_.setEnabled( value );
+        }
+
+        //! duration
+        virtual void setDuration( int value )
+        {
+            BaseEngine::setDuration( value );
+            data_.setDuration( value );
+        }
+
+        protected slots:
+
+        //! remove widget from map
+        virtual bool unregisterWidget( QObject* object )
+        { return data_.remove( object ); }
+
+        private:
+
+        //! data map
+        DataMap<MenuDataV2> data_;
 
     };
 

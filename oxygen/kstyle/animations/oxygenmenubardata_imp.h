@@ -142,6 +142,104 @@ namespace Oxygen
 
     }
 
+    //________________________________________________________________________
+    template< typename T > void MenuBarDataV2::enterEvent( const QObject* object )
+    {
+
+        // cast widget
+        const T* local = qobject_cast<const T*>( object );
+        if( !local ) return;
+
+        if( timer_.isActive() ) timer_.stop();
+
+        // if the current action is still active, one does nothing
+        if( currentAction() && local->activeAction() == currentAction().data() ) return;
+
+        if( animation().data()->isRunning() ) animation().data()->stop();
+        clearPreviousRect();
+        clearAnimatedRect();
+        setCurrentAction( local->activeAction() );
+        setCurrentRect( local->actionGeometry( currentAction().data() ) );
+        animation().data()->setDirection( Animation::Forward );
+        animation().data()->start();
+
+        return;
+    }
+
+    //________________________________________________________________________
+    template< typename T > void MenuBarDataV2::leaveEvent( const QObject* object )
+    {
+
+        const T* local = qobject_cast<const T*>( object );
+        if( !local ) return;
+
+        // if the current action is still active, one does nothing
+        if( local->activeAction() == currentAction().data() ) return;
+
+        if( animation().data()->isRunning() ) animation().data()->stop();
+        clearAnimatedRect();
+        clearPreviousRect();
+        if( currentAction() )
+        {
+            clearCurrentAction();
+            animation().data()->setDirection( Animation::Backward );
+            animation().data()->start();
+        }
+
+        return;
+
+    }
+
+    //________________________________________________________________________
+    template< typename T > void MenuBarDataV2::mouseMoveEvent( const QObject* object )
+    {
+        const T* local = qobject_cast<const T*>( object );
+        if( !local ) return;
+        if( local->activeAction() == currentAction().data() ) return;
+
+        // check if current position match another action
+        if( local->activeAction() && local->activeAction()->isEnabled() && !local->activeAction()->isSeparator())
+        {
+
+            if( timer_.isActive() ) timer_.stop();
+
+            QAction* activeAction( local->activeAction() );
+
+            // update previous rect if the current action is valid
+            if( currentAction() )
+            {
+
+                // if current action is valid,
+                setPreviousRect( animatedRect() );
+                if( previousRect().isNull() ) setPreviousRect( currentRect() );
+
+            }
+
+            // update current action
+            setCurrentAction( activeAction );
+            setCurrentRect( local->actionGeometry( activeAction ) );
+            animation().data()->setDirection( Animation::Forward );
+            if( !animation().data()->isRunning() ) animation().data()->start();
+
+        } else if( currentAction() ) {
+
+            if( !local->activeAction() )
+            {
+
+                leaveEvent( object );
+
+            } else if( !timer_.isActive() ) {
+
+                timer_.start( 100, this );
+
+            }
+
+        }
+
+        return;
+
+    }
+
 }
 
 #endif

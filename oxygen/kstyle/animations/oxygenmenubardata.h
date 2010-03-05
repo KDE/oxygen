@@ -64,11 +64,11 @@ namespace Oxygen
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );
 
-        //! timeLines
+        //! animations
         virtual const Animation::Pointer& currentAnimation( void ) const
         { return current_.animation_; }
 
-        //! timeLines
+        //! animations
         virtual const Animation::Pointer& previousAnimation( void ) const
         { return previous_.animation_; }
 
@@ -238,6 +238,159 @@ namespace Oxygen
 
     };
 
+
+    //! menubar data
+    class MenuBarDataV2: public AnimationData
+    {
+
+        Q_OBJECT
+        Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
+
+        public:
+
+        //! constructor
+        MenuBarDataV2( QObject* parent, QWidget* target, int duration );
+
+        //! destructor
+        virtual ~MenuBarDataV2( void )
+        {}
+
+        //! event filter
+        virtual bool eventFilter( QObject*, QEvent* );
+
+        //! return animation associated to action at given position, if any
+        virtual const Animation::Pointer& animation( void ) const
+        { return animation_; }
+
+        //! duration
+        virtual void setDuration( int duration )
+        { animation_.data()->setDuration( duration ); }
+
+        //! return 'hover' rect position when widget is animated
+        virtual const QRect& animatedRect( void ) const
+        { return animatedRect_; }
+
+        //! current rect
+        virtual const QRect& currentRect( void ) const
+        { return currentRect_; }
+
+        //! timer
+        const QBasicTimer& timer( void ) const
+        { return timer_; }
+
+        //! animation opacity
+        virtual qreal opacity( void ) const
+        { return opacity_; }
+
+        //! animation opacity
+        virtual void setOpacity( qreal value )
+        { opacity_ = value; }
+
+        protected slots:
+
+        //! updated animated rect
+        virtual void updateAnimatedRect( void );
+
+        //! animated rect
+        virtual void clearAnimatedRect( void )
+        { animatedRect_ = QRect(); }
+
+        protected:
+
+        //! timer event
+        virtual void timerEvent( QTimerEvent* );
+
+        //!@name current action handling
+        //@{
+
+        //! guarded action pointer
+        typedef QWeakPointer<QAction> ActionPointer;
+
+        //! current action
+        virtual const ActionPointer& currentAction( void ) const
+        { return currentAction_; }
+
+        //! current action
+        virtual void setCurrentAction( QAction* action )
+        { currentAction_ = ActionPointer( action ); }
+
+        //! current action
+        virtual void clearCurrentAction( void )
+        { currentAction_ = ActionPointer(); }
+
+        //@}
+
+        //!@name rect handling
+        //@{
+
+        //! current rect
+        virtual void setCurrentRect( const QRect& rect )
+        { currentRect_ = rect; }
+
+        //! current rect
+        virtual void clearCurrentRect( void )
+        { currentRect_ = QRect(); }
+
+        //! previous rect
+        virtual const QRect& previousRect( void ) const
+        { return previousRect_; }
+
+        //! previous rect
+        virtual void setPreviousRect( const QRect& rect )
+        { previousRect_ = rect; }
+
+        //! previous rect
+        virtual void clearPreviousRect( void )
+        { previousRect_ = QRect(); }
+
+        //@}
+
+        // leave event
+        template< typename T > inline void enterEvent( const QObject* object );
+
+        // leave event
+        template< typename T > inline void leaveEvent( const QObject* object );
+
+        //! mouse move event
+        template< typename T > inline void mouseMoveEvent( const QObject* object );
+
+        //! menubar enterEvent
+        virtual void enterEvent( const QObject* object )
+        { enterEvent<QMenuBar>( object ); }
+
+        //! menubar enterEvent
+        virtual void leaveEvent( const QObject* object )
+        { leaveEvent<QMenuBar>( object ); }
+
+        //! menubar mouseMoveEvent
+        virtual void mouseMoveEvent( const QObject* object )
+        { mouseMoveEvent<QMenuBar>( object ); }
+
+        private:
+
+        //! time line
+        Animation::Pointer animation_;
+
+        //! opacity
+        qreal opacity_;
+
+        //! timer
+        /*! this allows to add some delay before starting leaveEvent animation */
+        QBasicTimer timer_;
+
+        //! current action
+        ActionPointer currentAction_;
+
+        // current rect
+        QRect currentRect_;
+
+        // previous rect
+        QRect previousRect_;
+
+        // animated rect
+        QRect animatedRect_;
+
+    };
 }
 
 #include "oxygenmenubardata_imp.h"

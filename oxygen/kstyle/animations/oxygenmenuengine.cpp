@@ -63,4 +63,71 @@ namespace Oxygen
         } else return false;
     }
 
+    //____________________________________________________________
+    bool MenuEngineV2::registerWidget( QWidget* widget )
+    {
+
+        if( !( enabled() && widget ) ) return false;
+
+        // create new data class
+        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV2( this, widget, duration() ) );
+
+        // connect destruction signal
+        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        return true;
+    }
+
+
+    //____________________________________________________________
+    QRect MenuEngineV2::currentRect( const QObject* object, WidgetIndex )
+    {
+        if( !enabled() ) return QRect();
+        DataMap<MenuDataV2>::Value data( data_.find( object ) );
+        return data ? data.data()->currentRect():QRect();
+
+    }
+
+    //____________________________________________________________
+    bool MenuEngineV2::isAnimated( const QObject* object, WidgetIndex index )
+    {
+        DataMap<MenuDataV2>::Value data( data_.find( object ) );
+        if( !data )
+        {
+            return false;
+        }
+
+        if( Animation::Pointer animation = data.data()->animation() ) {
+
+            switch( index )
+            {
+                case Oxygen::Previous:
+                return animation.data()->direction() == Animation::Backward && animation.data()->isRunning();
+
+                case Oxygen::Current:
+                return animation.data()->direction() == Animation::Forward && animation.data()->isRunning();
+
+            }
+
+        } else return false;
+    }
+
+    //____________________________________________________________
+    QRect MenuEngineV2::animatedRect( const QObject* object )
+    {
+        if( !enabled() ) return QRect();
+        DataMap<MenuDataV2>::Value data( data_.find( object ) );
+        return data ? data.data()->animatedRect():QRect();
+
+    }
+
+    //____________________________________________________________
+    bool MenuEngineV2::isTimerActive( const QObject* object )
+    {
+        if( !enabled() ) return false;
+        DataMap<MenuDataV2>::Value data( data_.find( object ) );
+        return data ? data.data()->timer().isActive():false;
+
+    }
+
 }

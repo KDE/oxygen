@@ -74,6 +74,42 @@ namespace Oxygen
 
     };
 
+    //! menubar data
+    /*!
+    most members are identical to menubar data. The one that are not are
+    using templatized versions, because QMenuBar and QMenu API are very similar
+    */
+    class MenuDataV2: public MenuBarDataV2
+    {
+
+        Q_OBJECT
+
+        public:
+        //! constructor
+        MenuDataV2( QObject* parent, QWidget* target, int duration ):
+        MenuBarDataV2( parent, target, duration )
+        {}
+
+        //! destructor
+        virtual ~MenuDataV2( void )
+        {}
+
+        protected:
+
+        //! menubar enterEvent
+        virtual void enterEvent( const QObject* object )
+        { MenuBarDataV2::enterEvent<QMenu>( object ); }
+
+        //! menubar enterEvent
+        virtual void leaveEvent( const QObject* object )
+        { MenuBarDataV2::leaveEvent<QMenu>( object ); }
+
+        //! menubar mouseMoveEvent
+        virtual void mouseMoveEvent( const QObject* object )
+        { MenuBarDataV2::mouseMoveEvent<QMenu>( object ); }
+
+    };
+
 }
 
 #endif
