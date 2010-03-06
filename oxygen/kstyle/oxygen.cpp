@@ -1191,7 +1191,7 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
 
                 } else if( animated && current ) {
 
-                    color = KColorUtils::mix( pal.color(QPalette::Window), color, opacity );
+                    color.setAlphaF( opacity );
                     _helper.holeFlat(color, 0.0)->render(r.adjusted(1,1,-1,-1), p, TileSet::Full);
 
                 } else if( active ) {
@@ -1385,9 +1385,15 @@ bool OxygenStyle::drawMenuItemPrimitive(
         {
             KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
             QPalette::ColorRole role( QPalette::WindowText );
-            if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
+
+            bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Current ) );
+            QRect animatedRect( animations().menuEngine().animatedRect( widget ) );
+
+            if( (!animated) && OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
             { role = QPalette::HighlightedText; }
+
             drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled, textOpts->text, role);
+
             return true;
         }
 
@@ -4233,11 +4239,7 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
 
     if( opacity == 0 ) return;
 
-    QPixmap pm(r.size());
-    pm.fill(Qt::transparent);
-    QPainter pp(&pm);
-    QRect rr(QPoint(0,0), r.size());
-
+    // get relevant color
     QColor color(base);
     if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
     {
@@ -4250,17 +4252,24 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
 
     } else color = _helper.calcDarkColor( color );
 
-    pp.setRenderHint(QPainter::Antialiasing);
-    pp.setPen(Qt::NoPen);
-
-    pp.setBrush(color);
-    _helper.fillHole(pp, rr);
-
-    _helper.holeFlat(color, 0.0)->render(rr.adjusted( 1, 2, -2, -1 ), &pp);
-
+    // special painting for items with submenus
     const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>(opt);
     if( menuItemOption && menuItemOption->menuItemType == QStyleOptionMenuItem::SubMenu )
     {
+
+        QPixmap pm(r.size());
+        pm.fill(Qt::transparent);
+        QPainter pp(&pm);
+        QRect rr(QPoint(0,0), r.size());
+
+        pp.setRenderHint(QPainter::Antialiasing);
+        pp.setPen(Qt::NoPen);
+
+        pp.setBrush(color);
+        _helper.fillHole(pp, rr);
+
+        _helper.holeFlat(color, 0.0)->render(rr.adjusted( 1, 2, -2, -1 ), &pp);
+
         QRect maskr( visualRect(opt->direction, rr, QRect(rr.width()-40, 0, 40,rr.height())) );
         QLinearGradient gradient(
             visualPos(opt->direction, maskr, QPoint(maskr.left(), 0)),
@@ -4270,17 +4279,25 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
         pp.setBrush(gradient);
         pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
         pp.drawRect(maskr);
+
+        if( opacity >= 0 && opacity < 1 )
+        {
+            pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+            pp.fillRect(pm.rect(), _helper.alphaColor( Qt::black, opacity ) );
+        }
+
+        pp.end();
+
+        p->drawPixmap(handleRTL(opt, r), pm);
+
+    } else {
+
+        if( opacity >= 0 && opacity < 1 )
+        { color.setAlphaF( opacity ); }
+
+        _helper.holeFlat(color, 0.0)->render(r.adjusted(1,2,-2,-1), p, TileSet::Full);
+
     }
-
-    if( opacity >= 0 && opacity < 1 )
-    {
-        pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        pp.fillRect(pm.rect(), _helper.alphaColor( Qt::black, opacity ) );
-    }
-
-    pp.end();
-
-    p->drawPixmap(handleRTL(opt, r), pm);
 
 }
 
