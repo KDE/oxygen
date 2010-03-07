@@ -80,7 +80,8 @@ namespace Oxygen
         if( !enabled() ) return false;
         DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
         if( !data ) return false;
-        if( Animation::Pointer animation = data.data()->animation() ) return animation.data()->isRunning();
+        if( data.data()->animation() && data.data()->animation().data()->isRunning() ) return true;
+        else if( Animation::Pointer animation = data.data()->progressAnimation() ) return animation.data()->isRunning();
         else return false;
 
     }
@@ -91,7 +92,6 @@ namespace Oxygen
         if( !enabled() ) return QRect();
         DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
         return data ? data.data()->currentRect():QRect();
-
     }
 
     //____________________________________________________________

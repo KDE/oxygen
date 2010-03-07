@@ -245,6 +245,7 @@ namespace Oxygen
 
         Q_OBJECT
         Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
+        Q_PROPERTY( qreal progress READ progress  WRITE setProgress )
 
         public:
 
@@ -262,9 +263,16 @@ namespace Oxygen
         virtual const Animation::Pointer& animation( void ) const
         { return animation_; }
 
+        //! return animation associated to action at given position, if any
+        virtual const Animation::Pointer& progressAnimation( void ) const
+        { return progressAnimation_; }
+
         //! duration
         virtual void setDuration( int duration )
-        { animation_.data()->setDuration( duration ); }
+        {
+            animation().data()->setDuration( duration );
+            progressAnimation().data()->setDuration( duration/3 );
+        }
 
         //! return 'hover' rect position when widget is animated
         virtual const QRect& animatedRect( void ) const
@@ -285,6 +293,14 @@ namespace Oxygen
         //! animation opacity
         virtual void setOpacity( qreal value )
         { opacity_ = value; }
+
+        //! animation progress
+        virtual qreal progress( void ) const
+        { return progress_; }
+
+        //! animation progress
+        virtual void setProgress( qreal value )
+        { progress_ = value; }
 
         protected slots:
 
@@ -368,11 +384,17 @@ namespace Oxygen
 
         private:
 
-        //! time line
+        //! fade animation
         Animation::Pointer animation_;
+
+        //! progress animation
+        Animation::Pointer progressAnimation_;
 
         //! opacity
         qreal opacity_;
+
+        //! opacity
+        qreal progress_;
 
         //! timer
         /*! this allows to add some delay before starting leaveEvent animation */

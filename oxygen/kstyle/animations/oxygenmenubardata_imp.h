@@ -156,6 +156,7 @@ namespace Oxygen
         if( currentAction() && local->activeAction() == currentAction().data() ) return;
 
         if( animation().data()->isRunning() ) animation().data()->stop();
+        if( progressAnimation().data()->isRunning() ) progressAnimation().data()->stop();
         clearPreviousRect();
         clearAnimatedRect();
         setCurrentAction( local->activeAction() );
@@ -177,6 +178,7 @@ namespace Oxygen
         if( local->activeAction() == currentAction().data() ) return;
 
         if( animation().data()->isRunning() ) animation().data()->stop();
+        if( progressAnimation().data()->isRunning() ) progressAnimation().data()->stop();
         clearAnimatedRect();
         clearPreviousRect();
         if( currentAction() )
@@ -218,8 +220,7 @@ namespace Oxygen
             // update current action
             setCurrentAction( activeAction );
             setCurrentRect( local->actionGeometry( activeAction ) );
-            animation().data()->setDirection( Animation::Forward );
-            if( !animation().data()->isRunning() ) animation().data()->start();
+            if( !progressAnimation().data()->isRunning() ) progressAnimation().data()->start();
 
         } else if( currentAction() ) {
 

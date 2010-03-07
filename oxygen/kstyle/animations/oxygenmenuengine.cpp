@@ -97,19 +97,27 @@ namespace Oxygen
             return false;
         }
 
-        if( Animation::Pointer animation = data.data()->animation() ) {
-
-            switch( index )
+        switch( index )
+        {
+            case Oxygen::Previous:
             {
-                case Oxygen::Previous:
-                return animation.data()->direction() == Animation::Backward && animation.data()->isRunning();
-
-                case Oxygen::Current:
-                return animation.data()->direction() == Animation::Forward && animation.data()->isRunning();
-
+                if( Animation::Pointer animation = data.data()->animation() )
+                {
+                    return animation.data()->direction() == Animation::Backward && animation.data()->isRunning();
+                } else return false;
             }
 
-        } else return false;
+            case Oxygen::Current:
+            {
+                if( data.data()->animation() && data.data()->animation().data()->isRunning() ) return true;
+                else if( Animation::Pointer animation = data.data()->progressAnimation() ) return animation.data()->isRunning();
+                else return false;
+            }
+
+            default: return false;
+
+        }
+
     }
 
     //____________________________________________________________

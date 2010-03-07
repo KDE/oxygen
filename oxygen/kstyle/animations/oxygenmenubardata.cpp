@@ -105,26 +105,35 @@ namespace Oxygen
 
     //______________________________________________
     MenuBarDataV2::MenuBarDataV2( QObject* parent, QWidget* target, int duration ):
-        AnimationData( parent, target )
+        AnimationData( parent, target ),
+        opacity_(0),
+        progress_(0)
     {
 
         animation_ = new Animation( duration, this );
         animation().data()->setDirection( Animation::Forward );
-
-        // setup animation
-        //animation().data()->setStartValue( 0.1 );
-        //animation().data()->setEndValue( 0.9 );
-        animation().data()->setStartValue( 0 );
-        animation().data()->setEndValue( 1.0 );
+        animation().data()->setStartValue( 0.1 );
+        animation().data()->setEndValue( 0.9 );
         animation().data()->setTargetObject( this );
         animation().data()->setPropertyName( "opacity" );
 
         // setup connections
-        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( updateAnimatedRect( void ) ) );
         connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
-
-        //connect( animation().data(), SIGNAL( finished( void ) ), SLOT( clearAnimatedRect( void ) ) );
         connect( animation().data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
+
+
+        progressAnimation_ = new Animation( duration/3, this );
+        progressAnimation().data()->setDirection( Animation::Forward );
+        progressAnimation().data()->setStartValue( 0 );
+        progressAnimation().data()->setEndValue( 1 );
+        progressAnimation().data()->setTargetObject( this );
+        progressAnimation().data()->setPropertyName( "progress" );
+        progressAnimation().data()->setEasingCurve( QEasingCurve::Linear );
+
+        // setup connections
+        connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( updateAnimatedRect( void ) ) );
+        connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
+        connect( progressAnimation().data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
 
     }
 
@@ -180,10 +189,10 @@ namespace Oxygen
         }
 
         // compute rect located 'between' previous and current
-        animatedRect_.setLeft( previousRect().left() + opacity()*(currentRect().left() - previousRect().left()) );
-        animatedRect_.setRight( previousRect().right() + opacity()*(currentRect().right() - previousRect().right()) );
-        animatedRect_.setTop( previousRect().top() + opacity()*(currentRect().top() - previousRect().top()) );
-        animatedRect_.setBottom( previousRect().bottom() + opacity()*(currentRect().bottom() - previousRect().bottom()) );
+        animatedRect_.setLeft( previousRect().left() + progress()*(currentRect().left() - previousRect().left()) );
+        animatedRect_.setRight( previousRect().right() + progress()*(currentRect().right() - previousRect().right()) );
+        animatedRect_.setTop( previousRect().top() + progress()*(currentRect().top() - previousRect().top()) );
+        animatedRect_.setBottom( previousRect().bottom() + progress()*(currentRect().bottom() - previousRect().bottom()) );
 
         return;
 
