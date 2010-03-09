@@ -395,7 +395,7 @@ bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *optio
     if( isInToolBar )
     {
 
-        animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+        animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
 
     } else {
 
@@ -404,13 +404,8 @@ bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *optio
 
     }
 
-    bool hoverAnimated( isInToolBar ?
-        animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ):
-        animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-
-    bool focusAnimated( isInToolBar ?
-        animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationFocus ):
-        animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
+    bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+    bool focusAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
 
     if( enabled && !(mouseOver || hasFocus || sunken ) )
     {
@@ -3224,7 +3219,7 @@ bool OxygenStyle::drawToolButtonPrimitive(
             if( isInToolBar )
             {
 
-              animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+              animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
 
             } else {
 
@@ -3233,25 +3228,11 @@ bool OxygenStyle::drawToolButtonPrimitive(
 
             }
 
-            bool hoverAnimated(
-                isInToolBar ?
-                animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ):
-                animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+            bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+            bool focusAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
 
-            bool focusAnimated(
-                isInToolBar ?
-                animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationFocus ):
-                animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
-
-            qreal hoverOpacity(
-                isInToolBar ?
-                animations().toolBarEngine().opacity( widget, Oxygen::AnimationHover ):
-                animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
-
-             qreal focusOpacity(
-                isInToolBar ?
-                animations().toolBarEngine().opacity( widget, Oxygen::AnimationFocus ):
-                animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ) );
+            qreal hoverOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
+            qreal focusOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ) );
 
             // hover rect
             QRect slitRect = r;
@@ -3747,9 +3728,9 @@ bool OxygenStyle::drawGenericPrimitive(
                     // toolbutton animation
                     // when the arrow is painted directly on the icon, button hover and arrow hover
                     // are identical. The generic toolbar engine is used.
-                    animations().toolBarEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-                    bool animated( animations().toolBarEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-                    qreal opacity( animations().toolBarEngine().opacity( widget, Oxygen::AnimationHover ) );
+                    animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                    bool animated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                    qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
 
                     if( animated ) color = KColorUtils::mix( color, highlight, opacity );
                     else if( mouseOver ) color = highlight;

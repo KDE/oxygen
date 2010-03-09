@@ -45,7 +45,6 @@ namespace Oxygen
 
         registerEngine( dockSeparatorEngine_ = new DockSeparatorEngine( this ) );
         registerEngine( widgetStateEngine_ = new WidgetStateEngine( this ) );
-        registerEngine( toolBarEngine_ = new WidgetStateEngine( this ) );
         registerEngine( lineEditEngine_ = new WidgetStateEngine( this ) );
         registerEngine( progressBarEngine_ = new ProgressBarEngine( this ) );
         registerEngine( menuBarEngine_ = new MenuBarEngineV1( this ) );
@@ -79,7 +78,6 @@ namespace Oxygen
 
         menuBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuBarAnimationsEnabled() );
         menuEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuAnimationsEnabled() );
-        toolBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::toolBarAnimationsEnabled() );
 
         // duration
         widgetEnabilityEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
@@ -91,7 +89,6 @@ namespace Oxygen
         sliderEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         spinBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-        toolBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
         dockSeparatorEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
 
         progressBarEngine_->setDuration( OxygenStyleConfigData::progressBarAnimationsDuration() );
@@ -117,7 +114,8 @@ namespace Oxygen
         {
 
             toolButtonEngine().registerWidget( widget, AnimationHover );
-            if( widget->parent() && widget->parent()->inherits( "QToolBar" ) ) toolBarEngine().registerWidget( widget, AnimationHover );
+            bool isInToolBar( widget->parent() && widget->parent()->inherits( "QToolBar" ) );
+            if( isInToolBar ) widgetStateEngine().registerWidget( widget, AnimationHover );
             else widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
         } else if( widget->inherits( "QAbstractButton" ) ) { widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }

@@ -80,10 +80,6 @@ namespace Oxygen
         WidgetStateEngine& toolButtonEngine( void ) const
         { return *toolButtonEngine_; }
 
-        //! toolbar engine
-        WidgetStateEngine& toolBarEngine( void ) const
-        { return *toolBarEngine_; }
-
         //! lineEdit engine
         WidgetStateEngine& lineEditEngine( void ) const
         { return *lineEditEngine_; }
@@ -143,9 +139,6 @@ namespace Oxygen
 
         //! mennu toolbutton arrow hover effect
         WidgetStateEngine* toolButtonEngine_;
-
-        //! tool button engine
-        WidgetStateEngine* toolBarEngine_;
 
         //! line editor engine
         WidgetStateEngine* lineEditEngine_;
