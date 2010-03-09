@@ -3254,8 +3254,6 @@ bool OxygenStyle::drawToolButtonPrimitive(
                     // get corner widgets if any
                     const QWidget* leftWidget( tw ? tw->cornerWidget( Qt::TopLeftCorner ):0 );
                     const QWidget* rightWidget( tw ? tw->cornerWidget( Qt::TopRightCorner ):0 );
-                    //if( leftWidget && !leftWidget->isVisible() ) leftWidget = 0;
-                    //if( rightWidget && !rightWidget->isVisible() ) rightWidget = 0;
 
                     // prepare painting, clipping and tiles
                     TileSet::Tiles tiles = 0;
@@ -4054,9 +4052,10 @@ void OxygenStyle::polish(QWidget* widget)
 
         widget->installEventFilter(this);
         widget->setAttribute(Qt::WA_TranslucentBackground);
-#ifdef Q_WS_WIN
-        widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
-#endif
+        #ifdef Q_WS_WIN
+        //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+        widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
+        #endif
 
     } else if ( qobject_cast<QFrame*>(widget) ) {
 
