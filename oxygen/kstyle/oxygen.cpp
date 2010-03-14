@@ -5745,11 +5745,6 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option, const QW
 {
     switch (hint) {
 
-        case SH_ComboBox_ListMouseTracking:
-            return true;
-        case SH_Menu_SubMenuPopupDelay:
-            return 96; // Motif-like delay...
-
         case SH_ScrollView_FrameOnlyAroundContents:
             return true;
 
@@ -5808,9 +5803,6 @@ int OxygenStyle::styleHint(StyleHint hint, const QStyleOption * option, const QW
 
             }
         }
-
-        case SH_ItemView_ArrowKeysNavigateIntoChildren:
-        return true;
 
         default: return KStyle::styleHint(hint, option, widget, returnData);
     }
