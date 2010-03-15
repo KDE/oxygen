@@ -50,6 +50,7 @@ void OxygenStyleHelper::invalidateCaches()
     m_holeCache.clear();
     m_holeFlatCache.clear();
     m_slopeCache.clear();
+    m_grooveCache.clear();
     m_slitCache.clear();
     m_dockFrameCache.clear();
     m_scrollHoleCache.clear();
