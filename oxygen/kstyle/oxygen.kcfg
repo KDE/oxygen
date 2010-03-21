@@ -7,7 +7,15 @@
       <default>true</default>
     </entry>
     <entry name="ViewDrawTriangularExpander" type="Bool">
-      <default>false</default>
+      <default>true</default>
+    </entry>
+    <entry name="ViewTriangularExpanderSize" type="Enum">
+      <choices>
+          <choice name="TE_TINY" />
+          <choice name="TE_SMALL" />
+          <choice name="TE_NORMAL" />
+      </choices>
+      <default>TE_SMALL</default>
     </entry>
     <entry name="ViewDrawFocusIndicator" type="Bool">
       <default>true</default>

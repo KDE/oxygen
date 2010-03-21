@@ -277,6 +277,16 @@ class OxygenStyle : public KStyle
         QPainter *p, const QRect &r, const QPalette &pal,
         Qt::Orientation orientation, bool hover, qreal opacity) const;
 
+    //! get polygon corresponding to generic arrow
+    enum ArrowSize
+    {
+        ArrowNormal,
+        ArrowSmall,
+        ArrowTiny
+    };
+
+    QPolygonF genericArrow( int primitive, ArrowSize size = ArrowNormal ) const;
+
     //! event filter
     /*! for some widgets special painting has to be done in event method */
     bool eventFilter(QObject *, QEvent *);

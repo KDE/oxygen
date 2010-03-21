@@ -2923,6 +2923,8 @@ bool OxygenStyle::drawTreePrimitive(
     KStyle::Option* kOpt) const
 {
 
+    Q_UNUSED( widget );
+
     const bool reverseLayout = opt->direction == Qt::RightToLeft;
     switch (primitive)
     {
@@ -2947,11 +2949,17 @@ bool OxygenStyle::drawTreePrimitive(
             int centerx = r.x() + r.width()/2;
             int centery = r.y() + r.height()/2;
 
+            const bool enabled = flags & State_Enabled;
+            const bool mouseOver(enabled && (flags & State_MouseOver));
+            QColor expanderColor( mouseOver ?
+                KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color():
+                pal.text().color() );
+
             if(!OxygenStyleConfigData::viewDrawTriangularExpander())
             {
                 // plus or minus
                 p->save();
-                p->setPen( pal.text().color() );
+                p->setPen( expanderColor );
                 p->drawLine( centerx - radius, centery, centerx + radius, centery );
 
                 // Collapsed = On
@@ -2964,12 +2972,43 @@ bool OxygenStyle::drawTreePrimitive(
 
                 KStyle::ColorOption* colorOpt   = extractOption<KStyle::ColorOption*>(kOpt);
                 colorOpt->color = ColorMode( QPalette::Text );
-                if(primitive == Tree::ExpanderClosed)
+
+                p->save();
+                p->translate( centerx, centery );
+
+                QPolygonF a;
+
+                // get size from option
+
+                ArrowSize size = ArrowSmall;
+                switch( OxygenStyleConfigData::viewTriangularExpanderSize() )
                 {
-                    drawKStylePrimitive(WT_Generic, reverseLayout? Generic::ArrowLeft : Generic::ArrowRight, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget, colorOpt );
-                } else {
-                    drawKStylePrimitive(WT_Generic, Generic::ArrowDown, opt, QRect(r.x()+1,r.y()+1,r.width(),r.height()), pal, flags, p, widget, colorOpt );
+                    case OxygenStyleConfigData::TE_TINY: size = ArrowTiny; break;
+                    case OxygenStyleConfigData::TE_NORMAL: size = ArrowNormal; break;
+                    default:
+                    case OxygenStyleConfigData::TE_SMALL: size = ArrowSmall; break;
                 }
+
+                if( primitive == Tree::ExpanderClosed )
+                {
+
+                    p->translate( 0.5, 0 );
+                    if( reverseLayout ) a = genericArrow( Generic::ArrowLeft, size );
+                    else a = genericArrow( Generic::ArrowRight, size );
+
+                } else {
+
+                    p->translate( 0, 0.5 );
+                    a = genericArrow( Generic::ArrowDown, size );
+
+                }
+                qreal penThickness = 1.2;
+
+                p->setPen( QPen( expanderColor, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                p->setRenderHint(QPainter::Antialiasing);
+                p->drawPolyline( a );
+                p->restore();
+
             }
 
             return true;
@@ -3496,32 +3535,7 @@ bool OxygenStyle::drawGenericPrimitive(
             p->save();
 
             // define gradient and polygon for drawing arrow
-            QPolygonF a;
-            switch (primitive)
-            {
-                case Generic::ArrowUp: {
-                    a << QPointF( -3,2.5) << QPointF(0.5, -1.5) << QPointF(4,2.5);
-                    break;
-                }
-
-                case Generic::ArrowDown: {
-                    a << QPointF( -3,-2.5) << QPointF(0.5, 1.5) << QPointF(4,-2.5);
-                    break;
-                }
-
-                case Generic::ArrowLeft: {
-                    a << QPointF(2.5,-3) << QPointF(-1.5, 0.5) << QPointF(2.5,4);
-                    break;
-                }
-
-                case Generic::ArrowRight: {
-                    a << QPointF(-2.5,-3) << QPointF(1.5, 0.5) << QPointF(-2.5,4);
-                    break;
-                }
-
-                default: break;
-
-            }
+            QPolygonF a = genericArrow( primitive, ArrowNormal );
 
             qreal penThickness = 1.6;
             bool drawContrast = true;
@@ -3620,6 +3634,9 @@ bool OxygenStyle::drawGenericPrimitive(
                     }
 
                 }
+            } else if( widgetType == WT_Header ) {
+
+                if( mouseOver ) color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
 
             } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
 
@@ -3736,29 +3753,8 @@ bool OxygenStyle::drawGenericPrimitive(
 
                     // smaller down arrow for menu indication on toolbuttons
                     penThickness = 1.4;
-                    a.clear();
+                    a = genericArrow( primitive, ArrowSmall );
 
-                    switch (primitive)
-                    {
-                        case Generic::ArrowUp: {
-                            a << QPointF( -2,1.5) << QPointF(0.5, -1.5) << QPointF(3,1.5);
-                            break;
-                        }
-                        case Generic::ArrowDown: {
-                            a << QPointF( -2,-1.5) << QPointF(0.5, 1.5) << QPointF(3,-1.5);
-                            break;
-                        }
-                        case Generic::ArrowLeft: {
-                            a << QPointF(1.5,-2) << QPointF(-1.5, 0.5) << QPointF(1.5,3);
-                            break;
-                        }
-                        case Generic::ArrowRight: {
-                            a << QPointF(-1.5,-2) << QPointF(1.5, 0.5) << QPointF(-1.5,3);
-                            break;
-                        }
-
-                        default: break;
-                    }
                 }
             }
 
@@ -4689,6 +4685,54 @@ void OxygenStyle::renderScrollBarHandle(
     }
 
     p->restore();
+
+}
+
+//______________________________________________________________________________
+QPolygonF OxygenStyle::genericArrow( int primitive, OxygenStyle::ArrowSize size ) const
+{
+
+    QPolygonF a;
+    switch( primitive )
+    {
+        case Generic::ArrowUp:
+        {
+            if( size == ArrowTiny ) a << QPointF( -1.75, 1.125 ) << QPointF( 0.5, -1.125 ) << QPointF( 2.75, 1.125 );
+            else if( size == ArrowSmall ) a << QPointF( -2,1.5) << QPointF(0.5, -1.5) << QPointF(3,1.5);
+            else a << QPointF( -3,2.5) << QPointF(0.5, -1.5) << QPointF(4,2.5);
+            break;
+        }
+
+        case Generic::ArrowDown:
+        {
+            if( size == ArrowTiny ) a << QPointF( -1.75, -1.125 ) << QPointF( 0.5, 1.125 ) << QPointF( 2.75, -1.125 );
+            else if( size == ArrowSmall ) a << QPointF( -2,-1.5) << QPointF(0.5, 1.5) << QPointF(3,-1.5);
+            else a << QPointF( -3,-2.5) << QPointF(0.5, 1.5) << QPointF(4,-2.5);
+            break;
+        }
+
+        case Generic::ArrowLeft:
+        {
+            if( size == ArrowTiny ) a << QPointF( 1.125, -1.75 ) << QPointF( -1.125, 0.5 ) << QPointF( 1.125, 2.75 );
+            else if( size == ArrowSmall ) a << QPointF(1.5,-2) << QPointF(-1.5, 0.5) << QPointF(1.5,3);
+            else a << QPointF(2.5,-3) << QPointF(-1.5, 0.5) << QPointF(2.5,4);
+            break;
+        }
+
+        case Generic::ArrowRight:
+        {
+            if( size == ArrowTiny ) a << QPointF( -1.125, -1.75 ) << QPointF( 1.125, 0.5 ) << QPointF( -1.125, 2.75 );
+            else if( size == ArrowSmall ) a << QPointF(-1.5,-2) << QPointF(1.5, 0.5) << QPointF(-1.5,3);
+            else a << QPointF(-2.5,-3) << QPointF(1.5, 0.5) << QPointF(-2.5,4);
+            break;
+        }
+
+        default: break;
+
+    }
+
+    return a;
+
 
 }
 
@@ -6759,7 +6803,9 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
                                    _sharedConfig).foreground().color();
     }
 
-    switch (standardIcon) {
+    switch (standardIcon)
+    {
+
         case SP_TitleBarNormalButton:
         {
             QPixmap realpm(pixelMetric(QStyle::PM_SmallIconSize,0,0), pixelMetric(QStyle::PM_SmallIconSize,0,0));
@@ -6902,14 +6948,17 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             QPainter painter(&realpm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
+
+            painter.translate( qreal(realpm.width())/2.0, qreal(realpm.height())/2.0 );
+
+            bool reverse( option && option->direction == Qt::RightToLeft );
+            QPolygonF a = genericArrow( reverse ? Generic::ArrowLeft:Generic::ArrowRight, ArrowTiny );
             {
                 qreal width( 1.1 );
                 painter.translate(0, 0.5);
                 painter.setBrush(Qt::NoBrush);
                 painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
-                painter.drawLine( QPointF(8.75,8.75), QPointF(6.5,11.0) );
-
+                painter.drawPolyline( a );
             }
 
             {
@@ -6917,9 +6966,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
                 painter.translate(0,-1);
                 painter.setBrush(Qt::NoBrush);
                 painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-
-                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
-                painter.drawLine( QPointF(8.75,8.75), QPointF(6.5,11.0) );
+                painter.drawPolyline( a );
             }
 
             return QIcon( realpm );
@@ -6932,13 +6979,14 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
             QPainter painter(&realpm);
             painter.setRenderHints(QPainter::Antialiasing);
             painter.setBrush(Qt::NoBrush);
+
+            QPolygonF a = genericArrow( Generic::ArrowDown, ArrowTiny );
             {
                 qreal width( 1.1 );
                 painter.translate(0, 0.5);
                 painter.setBrush(Qt::NoBrush);
                 painter.setPen(QPen( _helper.calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
-                painter.drawLine( QPointF(8.75,8.75), QPointF(11.0,6.5) );
+                painter.drawPolyline( a );
             }
 
             {
@@ -6946,9 +6994,7 @@ QIcon OxygenStyle::standardIconImplementation(StandardPixmap standardIcon, const
                 painter.translate(0,-1);
                 painter.setBrush(Qt::NoBrush);
                 painter.setPen(QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-
-                painter.drawLine( QPointF(6.5,6.5), QPointF(8.75,8.75) );
-                painter.drawLine( QPointF(8.75,8.75), QPointF(11.0,6.5) );
+                painter.drawPolyline( a );
             }
 
             return QIcon( realpm );
