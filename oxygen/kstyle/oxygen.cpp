@@ -2933,12 +2933,10 @@ bool OxygenStyle::drawTreePrimitive(
         {
             if (OxygenStyleConfigData::viewDrawTreeBranchLines())
             {
-                QBrush brush(Qt::Dense4Pattern);
-                QColor lineColor = pal.text().color();
-                lineColor.setAlphaF(0.3);
-                brush.setColor(lineColor);
-                p->fillRect(r, brush);
+                QBrush brush( KColorUtils::mix( pal.text().color(), pal.background().color(), 0.8 ) );
+                p->fillRect( r, brush );
             }
+
             return true;
         }
 
