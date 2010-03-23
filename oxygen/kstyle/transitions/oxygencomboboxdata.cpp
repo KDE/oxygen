@@ -36,6 +36,7 @@ namespace Oxygen
         target_( target )
     {
         target_.data()->installEventFilter( this );
+        connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
         connect( target_.data(), SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged() ) );
     }
 
@@ -140,6 +141,13 @@ namespace Oxygen
 
         return true;
 
+    }
+
+    //___________________________________________________________________
+    void ComboBoxData::targetDestroyed( void )
+    {
+        setEnabled( false );
+        target_.clear();
     }
 
 }

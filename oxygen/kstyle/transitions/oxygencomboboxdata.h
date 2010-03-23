@@ -77,6 +77,9 @@ namespace Oxygen
         //! animate
         virtual bool animate( void );
 
+        //! called when target is destroyed
+        virtual void targetDestroyed( void );
+
         private:
 
         //! needed to start animations out of parent paintEvent

@@ -69,11 +69,10 @@ namespace Oxygen
         virtual bool initializeAnimation( void );
 
         //! animate
-        virtual bool animate( void )
-        {
-            transition().data()->animate();
-            return true;
-        }
+        virtual bool animate( void );
+
+        //! called when target is destroyed
+        virtual void targetDestroyed( void );
 
         protected:
 

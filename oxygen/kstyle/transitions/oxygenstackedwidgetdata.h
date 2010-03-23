@@ -60,6 +60,9 @@ namespace Oxygen
         //! finish animation
         virtual void finishAnimation( void );
 
+        //! called when target is destroyed
+        virtual void targetDestroyed( void );
+
         private:
 
         //! target

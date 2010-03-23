@@ -62,6 +62,9 @@ namespace Oxygen
         //! animate
         virtual bool animate( void );
 
+        //! called when target is destroyed
+        virtual void targetDestroyed( void );
+
         protected:
 
         //! timer event

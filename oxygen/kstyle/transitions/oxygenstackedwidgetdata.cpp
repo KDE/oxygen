@@ -38,6 +38,7 @@ namespace Oxygen
     {
 
         // configure transition
+        connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
         connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( initializeAnimation() ) );
         connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( animate() ) );
 
@@ -126,6 +127,13 @@ namespace Oxygen
         // invalidate start widget
         transition().data()->resetStartPixmap();
 
+    }
+
+    //___________________________________________________________________
+    void StackedWidgetData::targetDestroyed( void )
+    {
+        setEnabled( false );
+        target_.clear();
     }
 
 }

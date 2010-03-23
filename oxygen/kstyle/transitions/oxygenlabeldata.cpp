@@ -43,6 +43,9 @@ namespace Oxygen
         target_.data()->installEventFilter( this );
         bool hasProxy( target_.data()->graphicsProxyWidget() );
         transition().data()->setFlags( hasProxy ? TransitionWidget::Transparent : TransitionWidget::GrabFromWindow );
+
+        connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
+
     }
 
     //___________________________________________________________________
@@ -164,6 +167,13 @@ namespace Oxygen
         transition().data()->animate();
         return true;
 
+    }
+
+    //___________________________________________________________________
+    void LabelData::targetDestroyed( void )
+    {
+        setEnabled( false );
+        target_.clear();
     }
 
 }
