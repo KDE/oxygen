@@ -145,7 +145,8 @@ namespace Oxygen
         else if( widget->inherits( "QTextEdit" ) ) { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // lists
-        else if( widget->inherits( "QAbstractItemView" ) ) { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "QAbstractItemView" ) || widget->inherits( "Q3ListView" ) )
+        { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         return;
 
