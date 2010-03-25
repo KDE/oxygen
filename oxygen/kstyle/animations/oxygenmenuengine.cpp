@@ -27,8 +27,6 @@
 #include "oxygenmenuengine.h"
 #include "oxygenmenuengine.moc"
 
-#include <QtCore/QEvent>
-
 namespace Oxygen
 {
 
@@ -42,12 +40,11 @@ namespace Oxygen
         if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( this, widget, duration() ) );
 
         // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
         return true;
     }
 
-   //____________________________________________________________
+    //____________________________________________________________
     bool MenuEngineV1::isAnimated( const QObject* object, WidgetIndex index )
     {
         DataMap<MenuDataV1>::Value data( data_.find( object ) );
@@ -73,11 +70,10 @@ namespace Oxygen
         if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV2( this, widget, duration() ) );
 
         // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
+
         return true;
     }
-
 
     //____________________________________________________________
     QRect MenuEngineV2::currentRect( const QObject* object, WidgetIndex )

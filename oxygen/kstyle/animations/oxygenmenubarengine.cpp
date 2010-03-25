@@ -42,8 +42,7 @@ namespace Oxygen
         if( !data_.contains( widget ) ) data_.insert( widget, new MenuBarDataV1( this, widget, duration() ) );
 
         // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
         return true;
 
     }
@@ -67,8 +66,7 @@ namespace Oxygen
         if( !data_.contains( widget ) ) data_.insert( widget, DataMap<MenuBarDataV2>::Value( new MenuBarDataV2( this, widget, duration() ) ) );
 
         // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
+        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
         return true;
 
     }
