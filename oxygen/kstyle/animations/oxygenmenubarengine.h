@@ -195,7 +195,7 @@ namespace Oxygen
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.remove( object ); }
+        { return data_.unregisterWidget( object ); }
 
         private:
 
