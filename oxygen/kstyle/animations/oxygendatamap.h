@@ -76,7 +76,14 @@ namespace Oxygen
             if( !key ) return false;
 
             // clear last value if needed
-            if( key == lastKey_ && lastValue_ ) lastValue_.data()->deleteLater();
+            if( key == lastKey_ && lastValue_ )
+            {
+
+                lastValue_.data()->deleteLater();
+                lastKey_ = NULL;
+                lastValue_.clear();
+
+            }
 
             // find key in map
             typename QMap<Key, Value>::iterator iter( QMap<Key, Value>::find( key ) );
