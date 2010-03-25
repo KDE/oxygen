@@ -76,12 +76,16 @@ namespace Oxygen
             if( !key ) return false;
 
             // clear last value if needed
-            if( key == lastKey_ && lastValue_ )
+            if( key == lastKey_ )
             {
 
-                lastValue_.data()->deleteLater();
+                if( lastValue_ )
+                {
+                    lastValue_.data()->deleteLater();
+                    lastValue_.clear();
+                }
+
                 lastKey_ = NULL;
-                lastValue_.clear();
 
             }
 
