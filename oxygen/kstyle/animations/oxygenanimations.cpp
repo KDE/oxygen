@@ -76,8 +76,66 @@ namespace Oxygen
         progressBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimationsEnabled() );
         progressBarEngine_->setBusyIndicatorEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimated() );
 
-        menuBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuBarAnimationsEnabled() );
-        menuEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuAnimationsEnabled() );
+        // menubar engine
+        int menuBarAnimationType( OxygenStyleConfigData::menuBarAnimationType() );
+        if( menuBarAnimationType == OxygenStyleConfigData::MB_FADE && !qobject_cast<MenuBarEngineV1*>( menuBarEngine_ ) )
+        {
+            if( menuBarEngine_ )
+            {
+
+                MenuBarEngineV1* newEngine = new MenuBarEngineV1( this, menuBarEngine_ );
+                registerEngine( newEngine );
+                menuBarEngine_->deleteLater();
+                menuBarEngine_ = newEngine;
+
+            } else registerEngine( menuBarEngine_ = new MenuBarEngineV1( this ) );
+
+        } else if( menuBarAnimationType == OxygenStyleConfigData::MB_FOLLOW_MOUSE && !qobject_cast<MenuBarEngineV2*>( menuBarEngine_ ) ) {
+
+            if( menuBarEngine_ )
+            {
+
+                MenuBarEngineV2* newEngine = new MenuBarEngineV2( this, menuBarEngine_ );
+                registerEngine( newEngine );
+                menuBarEngine_->deleteLater();
+                menuBarEngine_ = newEngine;
+
+            } else registerEngine( menuBarEngine_ = new MenuBarEngineV1( this ) );
+
+        }
+
+        menuBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuBarAnimationsEnabled() && menuBarAnimationType != OxygenStyleConfigData::MB_NONE );
+
+        // menu engine
+        int menuAnimationType( OxygenStyleConfigData::menuAnimationType() );
+        if( menuAnimationType == OxygenStyleConfigData::ME_FADE && !qobject_cast<MenuEngineV1*>( menuEngine_ ) )
+        {
+
+            if( menuEngine_ )
+            {
+
+                MenuEngineV1* newEngine = new MenuEngineV1( this, menuEngine_ );
+                registerEngine( newEngine );
+                menuEngine_->deleteLater();
+                menuEngine_ = newEngine;
+
+            } else registerEngine( menuEngine_ = new MenuEngineV1( this ) );
+
+        } else if( menuAnimationType == OxygenStyleConfigData::ME_FOLLOW_MOUSE && !qobject_cast<MenuEngineV2*>( menuEngine_ ) ) {
+
+            if( menuEngine_ )
+            {
+
+                MenuEngineV2* newEngine = new MenuEngineV2( this, menuEngine_ );
+                registerEngine( newEngine );
+                menuEngine_->deleteLater();
+                menuEngine_ = newEngine;
+
+            } else registerEngine( menuEngine_ = new MenuEngineV1( this ) );
+
+        }
+
+        menuEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuAnimationsEnabled() && menuAnimationType != OxygenStyleConfigData::ME_NONE );
 
         // duration
         widgetEnabilityEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
@@ -174,6 +232,20 @@ namespace Oxygen
         foreach( const BaseEngine::Pointer& engine, engines_ )
         { if( engine && engine.data()->unregisterWidget( widget ) ) break; }
 
+    }
+
+    //_______________________________________________________________
+    void Animations::unregisterEngine( QObject* object )
+    {
+        int index( engines_.indexOf( qobject_cast<BaseEngine*>(object) ) );
+        if( index >= 0 ) engines_.removeAt( index );
+    }
+
+    //_______________________________________________________________
+    void Animations::registerEngine( BaseEngine* engine )
+    {
+        engines_.push_back( engine );
+        connect( engine, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterEngine( QObject* ) ) );
     }
 
 }

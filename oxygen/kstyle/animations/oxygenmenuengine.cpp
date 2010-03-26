@@ -31,6 +31,18 @@ namespace Oxygen
 {
 
     //____________________________________________________________
+    MenuEngineV1::MenuEngineV1( QObject* parent, MenuBaseEngine* other ):
+        MenuBaseEngine( parent )
+    {
+        if( other )
+        {
+            WidgetList widgets( other->registeredWidgets() );
+            for( WidgetList::const_iterator iter = widgets.begin(); iter != widgets.end(); iter++ )
+            { registerWidget( *iter ); }
+        }
+    }
+
+    //____________________________________________________________
     bool MenuEngineV1::registerWidget( QWidget* widget )
     {
 
@@ -58,6 +70,30 @@ namespace Oxygen
             return animation.data()->isRunning();
 
         } else return false;
+    }
+
+    //____________________________________________________________
+    BaseEngine::WidgetList MenuEngineV1::registeredWidgets( void ) const
+    {
+
+        WidgetList out ;
+        foreach( const QWeakPointer<MenuDataV1>& data, data_.values() )
+        { if( data ) out.push_back( data.data()->target().data() ); }
+
+        return out;
+
+    }
+
+    //____________________________________________________________
+    MenuEngineV2::MenuEngineV2( QObject* parent, MenuBaseEngine* other ):
+        MenuBaseEngine( parent )
+    {
+        if( other )
+        {
+            WidgetList widgets( other->registeredWidgets() );
+            for( WidgetList::const_iterator iter = widgets.begin(); iter != widgets.end(); iter++ )
+            { registerWidget( *iter ); }
+        }
     }
 
     //____________________________________________________________
@@ -131,6 +167,18 @@ namespace Oxygen
         if( !enabled() ) return false;
         DataMap<MenuDataV2>::Value data( data_.find( object ) );
         return data ? data.data()->timer().isActive():false;
+
+    }
+
+    //____________________________________________________________
+    BaseEngine::WidgetList MenuEngineV2::registeredWidgets( void ) const
+    {
+
+        WidgetList out ;
+        foreach( const QWeakPointer<MenuDataV2>& data, data_.values() )
+        { if( data ) out.push_back( data.data()->target().data() ); }
+
+        return out;
 
     }
 

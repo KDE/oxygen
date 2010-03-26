@@ -78,8 +78,26 @@
       <default>true</default>
     </entry>
 
+    <entry name="MenuBarAnimationType" type="Enum">
+      <choices>
+          <choice name="MB_NONE" />
+          <choice name="MB_FADE" />
+          <choice name="MB_FOLLOW_MOUSE" />
+      </choices>
+      <default>MB_FADE</default>
+    </entry>
+
     <entry name="MenuAnimationsEnabled" type="Bool">
       <default>true</default>
+    </entry>
+
+    <entry name="MenuAnimationType" type="Enum">
+      <choices>
+          <choice name="ME_NONE" />
+          <choice name="ME_FADE" />
+          <choice name="ME_FOLLOW_MOUSE" />
+      </choices>
+      <default>ME_FADE</default>
     </entry>
 
     <entry name="ProgressBarAnimationsEnabled" type="Bool">

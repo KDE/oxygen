@@ -93,6 +93,9 @@ namespace Oxygen
         MenuBaseEngine( parent )
         {}
 
+        //! constructor
+        MenuEngineV1( QObject* parent, MenuBaseEngine* other );
+
         //! destructor
         virtual ~MenuEngineV1( void )
         {}
@@ -131,6 +134,9 @@ namespace Oxygen
             data_.setDuration( duration );
         }
 
+        //! return list of registered widgets
+        virtual WidgetList registeredWidgets( void ) const;
+
         public slots:
 
         //! remove widget from map
@@ -160,6 +166,9 @@ namespace Oxygen
         //! destructor
         virtual ~MenuEngineV2( void )
         {}
+
+        //! constructor
+        MenuEngineV2( QObject* parent, MenuBaseEngine* other );
 
         //! register menu
         virtual bool registerWidget( QWidget* );
@@ -196,6 +205,9 @@ namespace Oxygen
             BaseEngine::setDuration( value );
             data_.setDuration( value );
         }
+
+        //! return list of registered widgets
+        virtual WidgetList registeredWidgets( void ) const;
 
         protected slots:
 

@@ -74,6 +74,13 @@ namespace Oxygen
         //! unregister widget
         virtual bool unregisterWidget( QObject* object ) = 0;
 
+        //! list of widgets
+        typedef QList<QWidget*> WidgetList;
+
+        //! returns registered widgets
+        virtual WidgetList registeredWidgets( void ) const
+        { return WidgetList(); }
+
         private:
 
         //! engine enability

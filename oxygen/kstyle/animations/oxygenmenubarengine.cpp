@@ -33,6 +33,18 @@ namespace Oxygen
 {
 
     //____________________________________________________________
+    MenuBarEngineV1::MenuBarEngineV1( QObject* parent, MenuBarBaseEngine* other ):
+        MenuBarBaseEngine( parent )
+    {
+        if( other )
+        {
+            WidgetList widgets( other->registeredWidgets() );
+            for( WidgetList::const_iterator iter = widgets.begin(); iter != widgets.end(); iter++ )
+            { registerWidget( *iter ); }
+        }
+    }
+
+    //____________________________________________________________
     bool MenuBarEngineV1::registerWidget( QWidget* widget )
     {
 
@@ -54,6 +66,30 @@ namespace Oxygen
         if( !data ) return false;
         if( Animation::Pointer animation = data.data()->animation( position ) ) return animation.data()->isRunning();
         else return false;
+    }
+
+    //____________________________________________________________
+    BaseEngine::WidgetList MenuBarEngineV1::registeredWidgets( void ) const
+    {
+
+        WidgetList out ;
+        foreach( const QWeakPointer<MenuBarDataV1>& data, data_.values() )
+        { if( data ) out.push_back( data.data()->target().data() ); }
+
+        return out;
+
+    }
+
+    //____________________________________________________________
+    MenuBarEngineV2::MenuBarEngineV2( QObject* parent, MenuBarBaseEngine* other ):
+        MenuBarBaseEngine( parent )
+    {
+        if( other )
+        {
+            WidgetList widgets( other->registeredWidgets() );
+            for( WidgetList::const_iterator iter = widgets.begin(); iter != widgets.end(); iter++ )
+            { registerWidget( *iter ); }
+        }
     }
 
     //____________________________________________________________
@@ -107,6 +143,18 @@ namespace Oxygen
         if( !enabled() ) return false;
         DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
         return data ? data.data()->timer().isActive():false;
+    }
+
+    //____________________________________________________________
+    BaseEngine::WidgetList MenuBarEngineV2::registeredWidgets( void ) const
+    {
+
+        WidgetList out ;
+        foreach( const QWeakPointer<MenuBarDataV2>& data, data_.values() )
+        { if( data ) out.push_back( data.data()->target().data() ); }
+
+        return out;
+
     }
 
 }

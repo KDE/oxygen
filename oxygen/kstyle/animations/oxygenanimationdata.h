@@ -70,6 +70,10 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         { enabled_ = value; }
 
+        //! target
+        const QWeakPointer<QWidget>& target( void ) const
+        { return target_; }
+
         //! invalid opacity
         static qreal OpacityInvalid;
 
@@ -80,10 +84,6 @@ namespace Oxygen
         { if( target_ ) target_.data()->update(); }
 
         protected:
-
-        //! target
-        const QWeakPointer<QWidget>& target( void ) const
-        { return target_; }
 
         //! setup animation
         virtual void setupAnimation( const Animation::Pointer& animation, const QByteArray& property );

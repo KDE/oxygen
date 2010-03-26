@@ -119,11 +119,14 @@ namespace Oxygen
         //! setup engines
         void setupEngines( void );
 
+        protected slots:
+
+        //! enregister engine
+        void unregisterEngine( QObject* );
         private:
 
         //! register new engine
-        void registerEngine( BaseEngine* engine )
-        { engines_.push_back( engine ); }
+        void registerEngine( BaseEngine* engine );
 
         //! dock separator handle hover effect
         DockSeparatorEngine* dockSeparatorEngine_;
