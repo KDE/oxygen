@@ -73,23 +73,16 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     _scrollBarColored->setChecked( OxygenStyleConfigData::scrollBarColored() );
     _scrollBarBevel->setChecked( OxygenStyleConfigData::scrollBarBevel() );
 
+    // menu highlight
     _menuHighlightDark->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK );
-
-    _menuHighlightStrong->setChecked(
-        OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG
-        || OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
-
+    _menuHighlightStrong->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG );
     _menuHighlightSubtle->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
 
-    _menuHighlightSubtle->setEnabled(
-        OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG
-        || OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
+    // tab style
+    _tabStyleSingle->setChecked( OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_SINGLE );
+    _tabStylePlain->setChecked( OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_PLAIN );
 
-    _tabStyle->setCurrentIndex(
-        OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_SINGLE ? 0 :
-        OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_PLAIN ? 1 :
-        0);
-
+    // animations
     _stackedWidgetTransitionsEnabled->setChecked( OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
     _stackedWidgetTransitionsEnabled->setEnabled( false );
 
@@ -109,15 +102,15 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     connect( _menuHighlightDark, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _menuHighlightStrong, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _menuHighlightSubtle, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-    connect( _tabStyle, SIGNAL( currentIndexChanged( int )), SLOT( updateChanged() ) );
+    connect( _tabStylePlain, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
+    connect( _tabStyleSingle, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
 
     connect( _stackedWidgetTransitionsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
 
  }
 
 OxygenStyleConfig::~OxygenStyleConfig()
-{
-}
+{}
 
 void OxygenStyleConfig::save()
 {
@@ -150,9 +143,9 @@ void OxygenStyleConfig::defaults()
     _scrollBarColored->setChecked(false);
     _scrollBarBevel->setChecked(true);
     _scrollBarWidth->setValue(SCROLLBAR_DEFAULT_WIDTH);
-    _menuHighlightSubtle->setChecked(false);
+
     _menuHighlightDark->setChecked(true);
-    _tabStyle->setCurrentIndex(0);
+    _tabStyleSingle->setChecked(true);
 
     _animationsEnabled->setChecked( true );
     _stackedWidgetTransitionsEnabled->setChecked( false );
@@ -183,22 +176,15 @@ void OxygenStyleConfig::updateChanged()
 
 int OxygenStyleConfig::menuMode() const
 {
-    if (_menuHighlightDark->isChecked())
-        return OxygenStyleConfigData::MM_DARK;
-    else if (_menuHighlightSubtle->isChecked())
-        return OxygenStyleConfigData::MM_SUBTLE;
-    else
-        return OxygenStyleConfigData::MM_STRONG;
+    if (_menuHighlightDark->isChecked()) return OxygenStyleConfigData::MM_DARK;
+    else if (_menuHighlightSubtle->isChecked()) return OxygenStyleConfigData::MM_SUBTLE;
+    else return OxygenStyleConfigData::MM_STRONG;
 }
 
 int OxygenStyleConfig::tabStyle() const
 {
-    switch (_tabStyle->currentIndex()) {
-        case 0: return OxygenStyleConfigData::TS_SINGLE;
-        case 1:
-        default:
-                return OxygenStyleConfigData::TS_PLAIN;
-    }
+    if( _tabStylePlain->isChecked() ) return OxygenStyleConfigData::TS_PLAIN;
+    else return OxygenStyleConfigData::TS_SINGLE;
 }
 
 #include "oxygenconf.moc"
