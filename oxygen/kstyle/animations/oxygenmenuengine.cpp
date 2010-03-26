@@ -37,7 +37,7 @@ namespace Oxygen
         if( other )
         {
             WidgetList widgets( other->registeredWidgets() );
-            for( WidgetList::const_iterator iter = widgets.begin(); iter != widgets.end(); iter++ )
+            for( WidgetList::const_iterator iter = widgets.constBegin(); iter != widgets.constEnd(); iter++ )
             { registerWidget( *iter ); }
         }
     }
@@ -91,7 +91,7 @@ namespace Oxygen
         if( other )
         {
             WidgetList widgets( other->registeredWidgets() );
-            for( WidgetList::const_iterator iter = widgets.begin(); iter != widgets.end(); iter++ )
+            for( WidgetList::const_iterator iter = widgets.constBegin(); iter != widgets.constEnd(); iter++ )
             { registerWidget( *iter ); }
         }
     }
