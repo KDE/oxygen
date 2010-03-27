@@ -57,6 +57,47 @@ void OxygenStyleHelper::invalidateCaches()
     OxygenHelper::invalidateCaches();
 }
 
+//____________________________________________________________________
+void OxygenStyleHelper::renderMenuBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal)
+{
+
+    // get coordinates relative to the client area
+    // this is stupid. One could use mapTo if this was taking const QWidget* and not
+    // const QWidget* as argument.
+    const QWidget* w = widget;
+    int x = 0, y = 0;
+    while( !w->isWindow() && w != w->parentWidget() ) {
+        x += w->geometry().x();
+        y += w->geometry().y();
+        w = w->parentWidget();
+    }
+
+    if (clipRect.isValid()) {
+        p->save();
+        p->setClipRegion(clipRect,Qt::IntersectClip);
+    }
+
+    // calculate upper part height
+    // special tricks are needed
+    // to handle both window contents and window decoration
+    QRect r = w->rect();
+    QColor color = pal.color(w->backgroundRole());
+    int height = w->frameGeometry().height();
+
+    int splitY = qMin(200, (3*height)/4);
+
+    QRect upperRect = QRect(0, 0, r.width(), splitY);
+    QPixmap tile = verticalGradient(color, splitY);
+    p->drawTiledPixmap(upperRect, tile);
+
+    QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
+    p->fillRect(lowerRect, backgroundBottomColor(color));
+
+    if (clipRect.isValid())
+    { p->restore(); }
+
+}
+
 //______________________________________________________________________________
 QPalette OxygenStyleHelper::mergePalettes( const QPalette& source, qreal ratio ) const
 {

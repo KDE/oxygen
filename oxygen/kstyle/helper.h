@@ -33,6 +33,20 @@ public:
 
     virtual void invalidateCaches();
 
+    // render menu background
+    void renderMenuBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal);
+
+    //! returns menu background color matching position in a given menu widget
+    virtual QColor menuBackgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
+    {
+        if( !( w && w->window() ) ) return color;
+        else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
+    }
+
+    //! returns menu background color matching position in a menu widget of given height
+    virtual QColor menuBackgroundColor(const QColor &color, int height, int y)
+    { return cachedBackgroundColor( color, qMin(qreal(1.0), qreal(y)/qMin(200, 3*height/4) ) ); }
+
     //! overloaded
     virtual QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
 

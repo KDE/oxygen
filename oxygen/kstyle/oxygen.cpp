@@ -496,7 +496,7 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
         {
 
             const QStyleOptionMenuItem* mOpt( qstyleoption_cast<const QStyleOptionMenuItem*>(option) );
-            if( !mOpt ) return;
+            if( !( mOpt && widget ) ) return;
             QRect r = mOpt->rect;
             QColor color = mOpt->palette.window().color();
 
@@ -510,19 +510,11 @@ void OxygenStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
 
             }
 
-            // background
-            int splitY = qMin(200, 3*r.height()/4);
+            _helper.renderMenuBackground( p, r, widget, mOpt->palette );
 
-            QRect upperRect = QRect(0, 0, r.width(), splitY);
-            QPixmap tile = _helper.verticalGradient(color, splitY);
-            p->drawTiledPixmap(upperRect, tile);
-
-            QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
-            p->fillRect(lowerRect, _helper.backgroundBottomColor(color));
-
-            // frame
             if( compositingActive() ) p->setClipping( false );
             _helper.drawFloatFrame( p, r, color );
+
             return;
 
         }
@@ -1172,7 +1164,7 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
                         else color = KColorUtils::mix(color, KColorUtils::tint(color, _viewHoverBrush.brush(pal).color()));
                     }
 
-                } else color = _helper.calcDarkColor( _helper.backgroundColor( color, widget, r.center() ) );
+                } else color = _helper.calcMidColor( _helper.backgroundColor( color, widget, r.center() ) );
 
                 // drawing
                 if( animated && intersected )
@@ -4234,7 +4226,7 @@ void OxygenStyle::renderMenuItemRect( const QStyleOption* opt, const QRect& r, c
 
         color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
 
-    } else color = _helper.calcDarkColor( color );
+    } else color = _helper.calcMidColor( color );
 
     // special painting for items with submenus
     const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>(opt);
