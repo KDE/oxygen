@@ -6477,7 +6477,6 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     if( QToolBar *t = qobject_cast<QToolBar*>(obj) ) { return eventFilterToolBar( t, ev ); }
     if( QDockWidget*dw = qobject_cast<QDockWidget*>(obj) ) { return eventFilterDockWidget( dw, ev ); }
     if( QToolBox *tb = qobject_cast<QToolBox*>(obj) ) { return eventFilterToolBox( tb, ev ); }
-    if( QFrame *f = qobject_cast<QFrame*>(obj) ) { return eventFilterFrames( f, ev ); }
 
     // cast to QWidget
     QWidget *widget = static_cast<QWidget*>(obj);
@@ -6485,6 +6484,9 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     if( widget->inherits( "Q3ListView" ) ) { return eventFilterQ3ListView( widget, ev ); }
     if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, ev ); }
     if( widget->isWindow() && widget->isVisible() ) { return eventFilterWindow( widget, ev ); }
+
+    // frames must come last
+    if( QFrame *f = qobject_cast<QFrame*>(obj) ) { return eventFilterFrames( f, ev ); }
 
     return false;
 
