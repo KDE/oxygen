@@ -113,21 +113,14 @@ public:
     virtual QColor calcDarkColor(const QColor &color) const;
     virtual QColor calcShadowColor(const QColor &color) const;
 
-    virtual QColor menuBackgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
-    {
-        if( !( w && w->window() ) ) return color;
-        else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
-    }
-
-    virtual QColor menuBackgroundColor(const QColor &color, int height, int y)
-    { return cachedBackgroundColor( color, qreal(y)/height ); }
-
+    //! returns menu background color matching position in a given top level widget
     virtual QColor backgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
     {
         if( !( w && w->window() ) ) return color;
         else return backgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
     }
 
+    //! returns menu background color matching position in a top level widget of given height
     virtual QColor backgroundColor(const QColor &color, int height, int y)
     { return cachedBackgroundColor( color, qMin(qreal(1.0), qreal(y)/qMin(300, 3*height/4) ) ); }
 
