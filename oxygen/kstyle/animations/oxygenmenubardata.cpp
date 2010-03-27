@@ -153,6 +153,7 @@ namespace Oxygen
                 return true;
             }
 
+            case QEvent::Hide:
             case QEvent::Leave:
             {
                 object->event( event );
