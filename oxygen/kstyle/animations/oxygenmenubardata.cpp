@@ -121,7 +121,7 @@ namespace Oxygen
         connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
         connect( animation().data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
 
-        progressAnimation_ = new Animation( duration/2, this );
+        progressAnimation_ = new Animation( duration, this );
         progressAnimation().data()->setDirection( Animation::Forward );
         progressAnimation().data()->setStartValue( 0 );
         progressAnimation().data()->setEndValue( 1 );

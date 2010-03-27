@@ -159,10 +159,20 @@ namespace Oxygen
         if( progressAnimation().data()->isRunning() ) progressAnimation().data()->stop();
         clearPreviousRect();
         clearAnimatedRect();
-        setCurrentAction( local->activeAction() );
-        setCurrentRect( local->actionGeometry( currentAction().data() ) );
-        animation().data()->setDirection( Animation::Forward );
-        animation().data()->start();
+
+        if( local->activeAction() &&  local->activeAction()->isEnabled() && !local->activeAction()->isSeparator() )
+        {
+            setCurrentAction( local->activeAction() );
+            setCurrentRect( local->actionGeometry( currentAction().data() ) );
+            animation().data()->setDirection( Animation::Forward );
+            animation().data()->start();
+
+        } else {
+
+            clearCurrentAction();
+            clearCurrentRect();
+
+        }
 
         return;
     }
@@ -225,16 +235,7 @@ namespace Oxygen
 
         } else if( currentAction() ) {
 
-            if( !local->activeAction() )
-            {
-
-                leaveEvent( object );
-
-            } else if( !timer_.isActive() ) {
-
-                timer_.start( 150, this );
-
-            }
+            timer_.start( 150, this );
 
         }
 

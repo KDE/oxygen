@@ -271,7 +271,7 @@ namespace Oxygen
         virtual void setDuration( int duration )
         {
             animation().data()->setDuration( duration );
-            progressAnimation().data()->setDuration( duration/2 );
+            progressAnimation().data()->setDuration( duration );
         }
 
         //! return 'hover' rect position when widget is animated
