@@ -3889,7 +3889,7 @@ void OxygenStyle::drawCapacityBar(const QStyleOption *option, QPainter *p, const
 }
 
 //______________________________________________________________
-void OxygenStyle::registerScrollArea( QAbstractScrollArea* scrollArea ) const
+void OxygenStyle::polishScrollArea( QAbstractScrollArea* scrollArea ) const
 {
 
     if( !scrollArea ) return;
@@ -3937,7 +3937,7 @@ void OxygenStyle::polish(QWidget* widget)
     transitions().registerWidget( widget );
 
     if( widget->inherits( "QAbstractScrollArea" ) )
-    { registerScrollArea( qobject_cast<QAbstractScrollArea*>(widget) ); }
+    { polishScrollArea( qobject_cast<QAbstractScrollArea*>(widget) ); }
 
     // adjust flags
     switch (widget->windowFlags() & Qt::WindowType_Mask)
@@ -6481,138 +6481,250 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 {
     if( KStyle::eventFilter(obj, ev) ) return true;
 
-    // toolbars
-    if (QToolBar *t = qobject_cast<QToolBar*>(obj))
-    {
-        switch(ev->type())
-        {
-            case QEvent::Show:
-            case QEvent::Resize:
-            {
-                // make sure mask appropriate
-                if( !compositingActive() )
-                {
-
-                    QRegion mask( _helper.roundedMask( t->rect() ) );
-                    if(t->mask() != mask) t->setMask(mask);
-
-                } else if( t->mask() != QRegion() ) {
-
-                    t->clearMask();
-
-                }
-
-                return false;
-            }
-
-            case QEvent::Paint:
-            {
-
-                // default painting when not floating
-                if( !t->isFloating() ) return false;
-
-                QPainter p(t);
-                QPaintEvent *e = (QPaintEvent*)ev;
-                p.setClipRegion(e->region());
-
-                QRect r = t->rect();
-                QColor color = t->palette().window().color();
-
-                if( compositingActive() )
-                {
-                    TileSet *tileSet( _helper.roundCorner(color) );
-                    tileSet->render( r, &p );
-                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-                }
-
-                // background
-                _helper.renderWindowBackground(&p, r, t, color);
-
-                if( t->isMovable() )
-                {
-                    // remaining painting: need to add handle
-                    // this is copied from QToolBar::paintEvent
-                    QStyleOptionToolBar opt;
-                    opt.initFrom( t );
-                    if( t->orientation() == Qt::Horizontal)
-                    {
-                        opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( 8, r.height() ) ) );
-                        opt.state |= QStyle::State_Horizontal;
-                    } else {
-                        opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( r.width(), 8 ) ) );
-                    }
-
-                    drawPrimitive(QStyle::PE_IndicatorToolBarHandle, &opt, &p, t);
-                }
-
-                // frame
-                if( compositingActive() ) p.setClipping( false );
-                _helper.drawFloatFrame( &p, r, color );
-
-                return true;
-
-            }
-            default: return false;
-        }
-    }
+    if( QToolBar *t = qobject_cast<QToolBar*>(obj) ) { return eventFilterToolBar( t, ev ); }
+    if( QDockWidget*dw = qobject_cast<QDockWidget*>(obj) ) { return eventFilterDockWidget( dw, ev ); }
+    if( QToolBox *tb = qobject_cast<QToolBox*>(obj) ) { return eventFilterToolBox( tb, ev ); }
+    if( QFrame *f = qobject_cast<QFrame*>(obj) ) { return eventFilterFrames( f, ev ); }
 
     // cast to QWidget
     QWidget *widget = static_cast<QWidget*>(obj);
 
-    // Q3ListView
-    if( widget->inherits( "Q3ListView" ) )
+    if( widget->inherits( "Q3ListView" ) ) { return eventFilterQ3ListView( widget, ev ); }
+    if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, ev ); }
+    if( widget->isWindow() && widget->isVisible() ) { return eventFilterWindow( widget, ev ); }
+
+    return false;
+
+}
+
+//_____________________________________________________________________
+bool OxygenStyle::eventFilterToolBar( QToolBar* t, QEvent* ev )
+{
+    switch(ev->type())
     {
-        switch(ev->type())
+        case QEvent::Show:
+        case QEvent::Resize:
         {
-            case QEvent::FocusIn:
+            // make sure mask appropriate
+            if( !compositingActive() )
             {
-                widget->update();
-                return false;
-            }
-            case QEvent::FocusOut:
-            {
-                widget->update();
-                return false;
+
+                QRegion mask( _helper.roundedMask( t->rect() ) );
+                if(t->mask() != mask) t->setMask(mask);
+
+            } else if( t->mask() != QRegion() ) {
+
+                t->clearMask();
+
             }
 
-            default: return false;
+            return false;
         }
 
-    }
-
-    if (widget->inherits("QComboBoxPrivateContainer"))
-    {
-        switch(ev->type())
+        case QEvent::Paint:
         {
-            case QEvent::Show:
-            case QEvent::Resize:
+
+            // default painting when not floating
+            if( !t->isFloating() ) return false;
+
+            QPainter p(t);
+            QPaintEvent *e = (QPaintEvent*)ev;
+            p.setClipRegion(e->region());
+
+            QRect r = t->rect();
+            QColor color = t->palette().window().color();
+
+            if( compositingActive() )
             {
-
-                // make sure mask is appropriate
-                if( compositingActive() )
-                {
-                    if( widget->mask() != QRegion() )
-                    { widget->clearMask(); }
-
-                } else if( widget->mask() == QRegion() ) {
-
-                    widget->setMask( _helper.roundedMask( widget->rect() ) );
-
-                }
-
-                return false;
+                TileSet *tileSet( _helper.roundCorner(color) );
+                tileSet->render( r, &p );
+                p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
             }
 
-            case QEvent::Paint:
+            // background
+            _helper.renderWindowBackground(&p, r, t, color);
+
+            if( t->isMovable() )
+            {
+                // remaining painting: need to add handle
+                // this is copied from QToolBar::paintEvent
+                QStyleOptionToolBar opt;
+                opt.initFrom( t );
+                if( t->orientation() == Qt::Horizontal)
+                {
+                    opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( 8, r.height() ) ) );
+                    opt.state |= QStyle::State_Horizontal;
+                } else {
+                    opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( r.width(), 8 ) ) );
+                }
+
+                drawPrimitive(QStyle::PE_IndicatorToolBarHandle, &opt, &p, t);
+            }
+
+            // frame
+            if( compositingActive() ) p.setClipping( false );
+            _helper.drawFloatFrame( &p, r, color );
+
+            return true;
+
+        }
+        default: return false;
+    }
+
+}
+
+//__________________________________________________________________________________
+bool OxygenStyle::eventFilterQ3ListView( QWidget* widget, QEvent* ev )
+{
+    // this apparently fixes a Qt bug with Q3ListView, consisting in
+    // the fact that Focus events do not trigger repaint of these
+    switch(ev->type())
+    {
+        case QEvent::FocusIn:
+        {
+            widget->update();
+            return false;
+        }
+        case QEvent::FocusOut:
+        {
+            widget->update();
+            return false;
+        }
+
+        default: return false;
+    }
+
+}
+
+//_________________________________________________________
+bool OxygenStyle::eventFilterComboBoxContainer( QWidget* widget, QEvent* ev )
+{
+    switch(ev->type())
+    {
+        case QEvent::Show:
+        case QEvent::Resize:
+        {
+
+            // make sure mask is appropriate
+            if( compositingActive() )
+            {
+                if( widget->mask() != QRegion() )
+                { widget->clearMask(); }
+
+            } else if( widget->mask() == QRegion() ) {
+
+                widget->setMask( _helper.roundedMask( widget->rect() ) );
+
+            }
+
+            return false;
+        }
+
+        case QEvent::Paint:
+        {
+
+            QPainter p(widget);
+            QPaintEvent *e = (QPaintEvent*)ev;
+            p.setClipRegion(e->region());
+
+            QRect r = widget->rect();
+            QColor color = widget->palette().window().color();
+
+            if( compositingActive() )
+            {
+                TileSet *tileSet( _helper.roundCorner(color) );
+                tileSet->render( r, &p );
+
+                // set clip region
+                p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+
+            }
+
+            // background
+            int splitY = qMin(200, 3*r.height()/4);
+
+            QRect upperRect = QRect(0, 0, r.width(), splitY);
+            QPixmap tile = _helper.verticalGradient(color, splitY);
+            p.drawTiledPixmap(upperRect, tile);
+
+            QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
+            p.fillRect(lowerRect, _helper.backgroundBottomColor(color));
+
+            // frame
+            if( compositingActive() ) p.setClipping( false );
+            _helper.drawFloatFrame( &p, r, color );
+            return false;
+
+        }
+        default: return false;
+    }
+}
+
+//____________________________________________________________________________
+bool OxygenStyle::eventFilterWindow( QWidget* widget, QEvent* ev )
+{
+    if (ev->type() == QEvent::Paint)
+    {
+        QBrush brush = widget->palette().brush(widget->backgroundRole());
+
+        // don't use our background if the app requested something else,
+        // e.g. a pixmap
+        // TODO - draw our light effects over an arbitrary fill?
+        if (brush.style() == Qt::SolidPattern) {}
+
+        if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground))
+        {
+            QPainter p(widget);
+            _helper.renderWindowBackground(&p, widget->rect(), widget,widget->window()->palette());
+        }
+    }
+
+    // continue with normal painting
+    return false;
+
+}
+
+//____________________________________________________________________________
+bool OxygenStyle::eventFilterDockWidget( QDockWidget* dw, QEvent* ev )
+{
+    switch( ev->type() )
+    {
+        case QEvent::Show:
+        case QEvent::Resize:
+        {
+
+            if( dw->isFloating() && !compositingActive() )
             {
 
-                QPainter p(widget);
-                QPaintEvent *e = (QPaintEvent*)ev;
-                p.setClipRegion(e->region());
+                QRegion mask( _helper.roundedMask( dw->rect() ) );
+                if(dw->mask() != mask) dw->setMask( mask );
 
-                QRect r = widget->rect();
-                QColor color = widget->palette().window().color();
+            } else if (dw->mask() != QRegion()) {
 
+                // remove the mask in docked state to prevent it
+                // from intefering with the dock frame
+                dw->clearMask();
+
+            }
+
+            return false;
+        }
+
+        case QEvent::Paint:
+        {
+            QPainter p(dw);
+            QPaintEvent *e = (QPaintEvent*)ev;
+            p.setClipRegion(e->region());
+
+            const QColor color = dw->palette().color(QPalette::Window);
+            if(dw->isWindow())
+            {
+
+                QPainter p(dw);
+                QRect r = dw->rect();
+                QColor color = dw->palette().window().color();
+
+                #ifndef Q_WS_WIN
                 if( compositingActive() )
                 {
                     TileSet *tileSet( _helper.roundCorner(color) );
@@ -6620,172 +6732,89 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
 
                     // set clip region
                     p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-
                 }
+                #endif
 
-                // background
-                int splitY = qMin(200, 3*r.height()/4);
+                _helper.renderWindowBackground(&p, r, dw, color);
 
-                QRect upperRect = QRect(0, 0, r.width(), splitY);
-                QPixmap tile = _helper.verticalGradient(color, splitY);
-                p.drawTiledPixmap(upperRect, tile);
-
-                QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
-                p.fillRect(lowerRect, _helper.backgroundBottomColor(color));
-
-                // frame
+                #ifndef Q_WS_WIN
                 if( compositingActive() ) p.setClipping( false );
-                _helper.drawFloatFrame( &p, r, color );
-                return false;
+                #endif
 
-            }
-            default: return false;
-        }
+                _helper.drawFloatFrame(&p, r, color);
 
-    }
-
-    // window painting
-    if (widget->isWindow() && widget->isVisible())
-    {
-        if (ev->type() == QEvent::Paint)
-        {
-            QBrush brush = widget->palette().brush(widget->backgroundRole());
-
-            // don't use our background if the app requested something else,
-            // e.g. a pixmap
-            // TODO - draw our light effects over an arbitrary fill?
-            if (brush.style() == Qt::SolidPattern) {}
-
-            if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground))
-            {
-                QPainter p(widget);
-                _helper.renderWindowBackground(&p, widget->rect(), widget,widget->window()->palette());
-            }
-        }
-    }
-
-    // dock widgets
-    if (QDockWidget*dw = qobject_cast<QDockWidget*>(obj))
-    {
-        switch( ev->type() )
-        {
-            case QEvent::Show:
-            case QEvent::Resize:
-            {
-
-                if( dw->isFloating() && !compositingActive() )
-                {
-
-                    QRegion mask( _helper.roundedMask( dw->rect() ) );
-                    if(dw->mask() != mask) dw->setMask( mask );
-
-                } else if (dw->mask() != QRegion()) {
-                    // remove the mask in docked state to prevent it
-                    // from intefering with the dock frame
-                    dw->clearMask();
-                }
-                return false;
-            }
-
-            case QEvent::Paint:
-            {
-                QPainter p(dw);
-                QPaintEvent *e = (QPaintEvent*)ev;
-                p.setClipRegion(e->region());
-
-                const QColor color = dw->palette().color(QPalette::Window);
-                if(dw->isWindow())
-                {
-
-                    QPainter p(dw);
-                    QRect r = dw->rect();
-                    QColor color = dw->palette().window().color();
-
-#ifndef Q_WS_WIN
-                    if( compositingActive() )
-                    {
-                        TileSet *tileSet( _helper.roundCorner(color) );
-                        tileSet->render( r, &p );
-
-                        // set clip region
-                        p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-                    }
-#endif
-
-                    _helper.renderWindowBackground(&p, r, dw, color);
-
-#ifndef Q_WS_WIN
-                    if( compositingActive() ) p.setClipping( false );
-#endif
-
-                    _helper.drawFloatFrame(&p, r, color);
-
-                } else {
-
-                    QRect r( dw->rect() );
-
-                    _helper.renderWindowBackground(&p, r, dw, color);
-
-                    // adjust color
-                    QColor local( _helper.backgroundColor( color, dw, r.center() ) );
-                    TileSet *tileSet = _helper.dockFrame(local, r.width());
-                    tileSet->render(r, &p);
-
-                }
-
-                return false;
-            }
-
-            default: return false;
-
-        }
-    }
-
-    // toolboxes
-    if (QToolBox *tb = qobject_cast<QToolBox*>(obj))
-    {
-        if (ev->type() == QEvent::Paint)
-        {
-            if(tb->frameShape() != QFrame::NoFrame) {
-                QRect r = tb->rect();
-                StyleOptions opts = NoFill;
-
-                QPainter p(tb);
-                p.setClipRegion(((QPaintEvent*)ev)->region());
-                renderSlab(&p, r, tb->palette().color(QPalette::Button), opts);
-            }
-        }
-        return false;
-    }
-
-    // frames
-    // style HLines/VLines here, as Qt doesn't make them stylable as primitives.
-    // Qt bug is filed.
-    if (QFrame *f = qobject_cast<QFrame*>(obj))
-    {
-        if (ev->type() == QEvent::Paint) {
-            if (qobject_cast<KTitleWidget*>(f->parentWidget())) {
-                QPainter p(f);
-                _helper.renderWindowBackground(&p, f->rect(), f, f->window()->palette());
             } else {
-                QRect r = f->rect();
-                QPainter p(f);
-                p.setClipRegion(((QPaintEvent*)ev)->region());
-                p.setClipping(false);
-                Qt::Orientation o;
-                switch(f->frameShape())
-                {
-                    case QFrame::HLine: { o = Qt::Horizontal; break; }
-                    case QFrame::VLine: { o = Qt::Vertical; break; }
-                    default: { return false; }
-                }
-                _helper.drawSeparator(&p, r, f->palette().color(QPalette::Window), o);
-                return true;
+
+                QRect r( dw->rect() );
+
+                _helper.renderWindowBackground(&p, r, dw, color);
+
+                // adjust color
+                QColor local( _helper.backgroundColor( color, dw, r.center() ) );
+                TileSet *tileSet = _helper.dockFrame(local, r.width());
+                tileSet->render(r, &p);
+
             }
+
+            return false;
         }
-        return false;
+
+        default: return false;
+
     }
 
+}
+
+//____________________________________________________________________________
+bool OxygenStyle::eventFilterToolBox( QToolBox* tb, QEvent* ev )
+{
+
+    if (ev->type() == QEvent::Paint)
+    {
+        if(tb->frameShape() != QFrame::NoFrame)
+        {
+
+            QRect r = tb->rect();
+            StyleOptions opts = NoFill;
+
+            QPainter p(tb);
+            p.setClipRegion(((QPaintEvent*)ev)->region());
+            renderSlab(&p, r, tb->palette().color(QPalette::Button), opts);
+        }
+    }
+
+    return false;
+}
+
+//____________________________________________________________________________
+bool OxygenStyle::eventFilterFrames( QFrame* f, QEvent* ev )
+{
+    if (ev->type() == QEvent::Paint)
+    {
+
+        if (qobject_cast<KTitleWidget*>(f->parentWidget()))
+        {
+
+            QPainter p(f);
+            _helper.renderWindowBackground(&p, f->rect(), f, f->window()->palette());
+
+        } else {
+
+            QRect r = f->rect();
+            QPainter p(f);
+            p.setClipRegion(((QPaintEvent*)ev)->region());
+            p.setClipping(false);
+            Qt::Orientation o;
+            switch(f->frameShape())
+            {
+                case QFrame::HLine: { o = Qt::Horizontal; break; }
+                case QFrame::VLine: { o = Qt::Vertical; break; }
+                default: { return false; }
+            }
+            _helper.drawSeparator(&p, r, f->palette().color(QPalette::Window), o);
+            return true;
+        }
+    }
     return false;
 }
 

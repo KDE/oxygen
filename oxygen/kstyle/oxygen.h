@@ -48,8 +48,12 @@
 
 #include <QtGui/QAbstractScrollArea>
 #include <QtGui/QBitmap>
+#include <QtGui/QDockWidget>
+#include <QtGui/QFrame>
 #include <QtGui/QStyleOption>
 #include <QtGui/QTabBar>
+#include <QtGui/QToolBar>
+#include <QtGui/QToolBox>
 
 #include "helper.h"
 #include "tileset.h"
@@ -180,10 +184,13 @@ class OxygenStyle : public KStyle
     Oxygen::Transitions& transitions( void ) const
     { return *_transitions; }
 
-    //! register scrollarea
-    void registerScrollArea( QAbstractScrollArea* ) const;
+    //! polish scrollarea
+    void polishScrollArea( QAbstractScrollArea* ) const;
 
     private:
+
+    //!@name rendering methods
+    //@{
 
     //! header background
     void renderHeaderBackground( const QRect&, const QPalette&, QPainter*, const QWidget*, bool horizontal, bool reverse ) const;
@@ -287,9 +294,21 @@ class OxygenStyle : public KStyle
 
     QPolygonF genericArrow( int primitive, ArrowSize size = ArrowNormal ) const;
 
-    //! event filter
-    /*! for some widgets special painting has to be done in event method */
+    //@}
+
+    //!@name event filters
+    //@{
+
     bool eventFilter(QObject *, QEvent *);
+    bool eventFilterToolBar( QToolBar*, QEvent* );
+    bool eventFilterDockWidget( QDockWidget*, QEvent* );
+    bool eventFilterToolBox( QToolBox*, QEvent* );
+    bool eventFilterFrames( QFrame*, QEvent* );
+    bool eventFilterQ3ListView( QWidget*, QEvent* );
+    bool eventFilterComboBoxContainer( QWidget*, QEvent* );
+    bool eventFilterWindow( QWidget*, QEvent* );
+
+    //@}
 
     //! returns true if compositing is active
     bool compositingActive( void ) const;
