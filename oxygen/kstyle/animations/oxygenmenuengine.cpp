@@ -142,7 +142,6 @@ namespace Oxygen
             case Oxygen::Current:
             {
                 if( data.data()->animation() && data.data()->animation().data()->isRunning() ) return true;
-                else if( Animation::Pointer animation = data.data()->progressAnimation() ) return animation.data()->isRunning();
                 else return false;
             }
 

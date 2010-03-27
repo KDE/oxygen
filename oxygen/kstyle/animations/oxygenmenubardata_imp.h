@@ -220,6 +220,7 @@ namespace Oxygen
             // update current action
             setCurrentAction( activeAction );
             setCurrentRect( local->actionGeometry( activeAction ) );
+            if( animation().data()->isRunning() ) animation().data()->stop();
             if( !progressAnimation().data()->isRunning() ) progressAnimation().data()->start();
 
         } else if( currentAction() ) {
@@ -231,7 +232,7 @@ namespace Oxygen
 
             } else if( !timer_.isActive() ) {
 
-                timer_.start( 100, this );
+                timer_.start( 150, this );
 
             }
 

@@ -121,8 +121,7 @@ namespace Oxygen
         connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
         connect( animation().data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
 
-
-        progressAnimation_ = new Animation( duration/3, this );
+        progressAnimation_ = new Animation( duration/2, this );
         progressAnimation().data()->setDirection( Animation::Forward );
         progressAnimation().data()->setStartValue( 0 );
         progressAnimation().data()->setEndValue( 1 );
@@ -157,7 +156,8 @@ namespace Oxygen
             case QEvent::Leave:
             {
                 object->event( event );
-                if( !timer_.isActive() ) timer_.start( 100, this );
+                if( timer_.isActive() ) timer_.stop();
+                timer_.start( 100, this );
                 return true;
             }
 
