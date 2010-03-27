@@ -38,9 +38,8 @@ namespace Oxygen
     {
         if( other )
         {
-            WidgetList widgets( other->registeredWidgets() );
-            for( WidgetList::const_iterator iter = widgets.constBegin(); iter != widgets.constEnd(); iter++ )
-            { registerWidget( *iter ); }
+            foreach( QWidget* widget,  other->registeredWidgets() )
+            { registerWidget( widget ); }
         }
     }
 
@@ -73,7 +72,10 @@ namespace Oxygen
     {
 
         WidgetList out ;
-        foreach( const QWeakPointer<MenuBarDataV1>& data, data_.values() )
+
+        // typedef needed to trick krazy
+        typedef QWeakPointer<MenuBarDataV1> DataPointer;
+        foreach( const DataPointer& data, data_.values() )
         { if( data ) out.push_back( data.data()->target().data() ); }
 
         return out;
@@ -86,9 +88,8 @@ namespace Oxygen
     {
         if( other )
         {
-            WidgetList widgets( other->registeredWidgets() );
-            for( WidgetList::const_iterator iter = widgets.constBegin(); iter != widgets.constEnd(); iter++ )
-            { registerWidget( *iter ); }
+            foreach( QWidget* widget, other->registeredWidgets() )
+            { registerWidget( widget ); }
         }
     }
 
@@ -150,7 +151,10 @@ namespace Oxygen
     {
 
         WidgetList out ;
-        foreach( const QWeakPointer<MenuBarDataV2>& data, data_.values() )
+
+        // typedef needed to trick krazy
+        typedef QWeakPointer<MenuBarDataV2> DataPointer;
+        foreach( const DataPointer& data, data_.values() )
         { if( data ) out.push_back( data.data()->target().data() ); }
 
         return out;

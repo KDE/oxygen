@@ -226,7 +226,7 @@ namespace Oxygen
         comboBoxEngine().unregisterWidget( widget );
         toolButtonEngine().unregisterWidget( widget );
 
-        // the following allows some optimisation of widget unregistration
+        // the following allows some optimization of widget unregistration
         // it assumes that a widget can be registered atmost in one of the
         // engines stored in the list.
         foreach( const BaseEngine::Pointer& engine, engines_ )
