@@ -50,8 +50,10 @@ protected Q_SLOTS:
     void updateChanged();
 
 protected:
-    int menuMode() const;
-    int tabStyle() const;
+    int menuMode( void ) const;
+    int tabStyle( void ) const;
+    int menuAnimationType( void ) const;
+    int menuBarAnimationType( void ) const;
 };
 
 #endif // OXYGENCONF_H
