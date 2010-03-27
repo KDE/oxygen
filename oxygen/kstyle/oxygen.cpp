@@ -1133,20 +1133,22 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
         case MenuBarItem::Panel:
         {
 
-            const bool active  = flags & State_Selected;
-            const bool animated( animations().menuBarEngine().isAnimated(widget, r.topLeft() ) );
-            const QRect animatedRect( animations().menuBarEngine().animatedRect( widget ) );
+            bool active  = flags & State_Selected;
+
+            bool animated( animations().menuBarEngine().isAnimated(widget, r.topLeft() ) );
+            qreal opacity( animations().menuBarEngine().opacity( widget, r.topLeft() ) );
+            QRect currentRect( animations().menuBarEngine().currentRect( widget, r.topLeft() ) );
+            QRect animatedRect( animations().menuBarEngine().animatedRect( widget ) );
+
             const bool intersected( animatedRect.intersects( r ) );
+            const bool current( currentRect.contains( r.topLeft() ) );
+            const bool timerIsActive( animations().menuBarEngine().isTimerActive(widget) );
 
             // do nothing in case of empty intersection between animated rect and current
             if( animated && !( animatedRect.isNull() || intersected ) ) return true;
 
-            const bool timerIsActive( animations().menuBarEngine().isTimerActive(widget) );
             if (active || animated || timerIsActive )
             {
-
-                const QRect currentRect( animations().menuBarEngine().currentRect( widget, r.topLeft() ) );
-                const bool current( !intersected && currentRect.contains( r.topLeft() ) );
 
                 QColor color = pal.color(QPalette::Window);
                 if (OxygenStyleConfigData::menuHighlightMode() != OxygenStyleConfigData::MM_DARK)
@@ -1178,7 +1180,6 @@ bool OxygenStyle::drawMenuBarItemPrimitive(
 
                 } else if( animated && current ) {
 
-                    const qreal opacity( animations().menuBarEngine().opacity( widget, r.topLeft() ) );
                     color.setAlphaF( opacity );
                     _helper.holeFlat(color, 0.0)->render(r.adjusted(1,1,-1,-1), p, TileSet::Full);
 
