@@ -48,8 +48,7 @@ namespace Oxygen
         TransitionData( QObject* parent, QWidget* target, int );
 
         //! destructor
-        virtual ~TransitionData( void )
-        { if( transition_ ) transition_.data()->deleteLater(); }
+        virtual ~TransitionData( void );
 
         //! enability
         virtual void setEnabled( bool value )

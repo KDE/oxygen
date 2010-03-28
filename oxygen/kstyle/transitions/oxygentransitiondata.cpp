@@ -43,4 +43,8 @@ namespace Oxygen
         connect( transition().data(), SIGNAL( finished( void ) ), SLOT( finishAnimation( void ) ) );
     }
 
+    //_________________________________________________________________
+    TransitionData::~TransitionData( void )
+    { delete transition_.data(); }
+
 }
