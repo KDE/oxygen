@@ -35,6 +35,7 @@ namespace Oxygen
         AnimationData( parent, target )
     {
 
+        target->installEventFilter( this );
 
         // setup timeLine
         current_.animation_ = new Animation( duration, this );
@@ -109,6 +110,8 @@ namespace Oxygen
         opacity_(0),
         progress_(0)
     {
+
+        target->installEventFilter( this );
 
         animation_ = new Animation( duration, this );
         animation().data()->setDirection( Animation::Forward );

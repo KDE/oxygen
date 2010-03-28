@@ -38,6 +38,8 @@ namespace Oxygen
         AnimationData( parent, target )
     {
 
+        target->installEventFilter( this );
+
         current_.animation_ = new Animation( duration, this );
         setupAnimation( currentIndexAnimation(), "currentOpacity" );
         currentIndexAnimation().data()->setDirection( Animation::Forward );

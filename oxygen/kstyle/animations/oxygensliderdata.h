@@ -47,7 +47,7 @@ namespace Oxygen
         SliderData( QObject* parent, QWidget* target, int duration ):
         GenericData( parent, target, duration ),
         sliderHovered_( false )
-        {}
+        { target->installEventFilter( this ); }
 
         //! destructor
         virtual ~SliderData( void )

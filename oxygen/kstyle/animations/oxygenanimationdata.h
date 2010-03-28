@@ -50,10 +50,7 @@ namespace Oxygen
         QObject( parent ),
         target_( target ),
         enabled_( true )
-        {
-            Q_ASSERT( target_ );
-            target_.data()->installEventFilter( this );
-        }
+        { Q_ASSERT( target_ ); }
 
         //! destructor
         virtual ~AnimationData( void )

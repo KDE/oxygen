@@ -39,7 +39,9 @@ namespace Oxygen
         startValue_(0),
         endValue_(0)
     {
-
+        
+        target->installEventFilter( this );
+        
         // set animation curve shape
         animation().data()->setEasingCurve( QEasingCurve::InOutQuad );
 
