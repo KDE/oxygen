@@ -79,12 +79,7 @@ namespace Oxygen
             if( key == lastKey_ )
             {
 
-                if( lastValue_ )
-                {
-                    delete lastValue_.data();
-                    lastValue_.clear();
-                }
-
+                if( lastValue_ ) lastValue_.clear();
                 lastKey_ = NULL;
 
             }
