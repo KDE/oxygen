@@ -72,11 +72,8 @@ namespace Oxygen
     {
 
         WidgetList out ;
-
-        // typedef needed to trick krazy
-        typedef QWeakPointer<MenuBarDataV1> DataPointer;
-        foreach( const DataPointer& data, data_.values() )
-        { if( data ) out.push_back( data.data()->target().data() ); }
+        foreach( const DataMap<MenuBarDataV1>::Value& value, data_.values() )
+        { if( value ) out.push_back( value.data()->target().data() ); }
 
         return out;
 
@@ -84,7 +81,8 @@ namespace Oxygen
 
     //____________________________________________________________
     MenuBarEngineV2::MenuBarEngineV2( QObject* parent, MenuBarBaseEngine* other ):
-        MenuBarBaseEngine( parent )
+        MenuBarBaseEngine( parent ),
+        followMouseDuration_( 150 )
     {
         if( other )
         {
@@ -100,7 +98,12 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, DataMap<MenuBarDataV2>::Value( new MenuBarDataV2( this, widget, duration() ) ) );
+        if( !data_.contains( widget ) )
+        {
+            DataMap<MenuBarDataV2>::Value value( new MenuBarDataV2( this, widget, duration() ) );
+            value.data()->setFollowMouseDuration( followMouseDuration() );
+            data_.insert( widget, DataMap<MenuBarDataV2>::Value( value ) );
+        }
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -150,12 +153,9 @@ namespace Oxygen
     BaseEngine::WidgetList MenuBarEngineV2::registeredWidgets( void ) const
     {
 
-        WidgetList out ;
-
-        // typedef needed to trick krazy
-        typedef QWeakPointer<MenuBarDataV2> DataPointer;
-        foreach( const DataPointer& data, data_.values() )
-        { if( data ) out.push_back( data.data()->target().data() ); }
+        WidgetList out;
+        foreach( const DataMap<MenuBarDataV2>::Value& value, data_.values() )
+        { if( value ) out.push_back( value.data()->target().data() ); }
 
         return out;
 

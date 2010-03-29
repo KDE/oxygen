@@ -79,6 +79,10 @@ namespace Oxygen
         //! duration
         virtual void setDuration( int ) = 0;
 
+        //! duration
+        virtual void setFollowMouseDuration( int )
+        {}
+
     };
 
     //! stores menu hovered action and timeLine
@@ -206,6 +210,18 @@ namespace Oxygen
             data_.setDuration( value );
         }
 
+        //! duration
+        virtual int followMouseDuration( void ) const
+        { return followMouseDuration_; }
+
+        //! duration
+        virtual void setFollowMouseDuration( int duration )
+        {
+            followMouseDuration_ = duration;
+            foreach( const DataMap<MenuDataV2>::Value& value, data_.values() )
+            { if( value ) value.data()->setFollowMouseDuration( duration ); }
+        }
+
         //! return list of registered widgets
         virtual WidgetList registeredWidgets( void ) const;
 
@@ -216,6 +232,9 @@ namespace Oxygen
         { return data_.unregisterWidget( object ); }
 
         private:
+
+        //! follow mouse animation duration
+        int followMouseDuration_;
 
         //! data map
         DataMap<MenuDataV2> data_;

@@ -76,11 +76,8 @@ namespace Oxygen
     {
 
         WidgetList out;
-
-        // typedef needed to trick krazy
-        typedef QWeakPointer<MenuDataV1> DataPointer;
-        foreach( const DataPointer& data, data_.values() )
-        { if( data ) out.push_back( data.data()->target().data() ); }
+        foreach( const DataMap<MenuDataV1>::Value& value, data_.values() )
+        { if( value ) out.push_back( value.data()->target().data() ); }
 
         return out;
 
@@ -88,7 +85,8 @@ namespace Oxygen
 
     //____________________________________________________________
     MenuEngineV2::MenuEngineV2( QObject* parent, MenuBaseEngine* other ):
-        MenuBaseEngine( parent )
+        MenuBaseEngine( parent ),
+        followMouseDuration_( 150 )
     {
         if( other )
         {
@@ -104,7 +102,12 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV2( this, widget, duration() ) );
+        if( !data_.contains( widget ) )
+        {
+            DataMap<MenuDataV2>::Value value( new MenuDataV2( this, widget, duration() ) );
+            value.data()->setFollowMouseDuration( followMouseDuration() );
+            data_.insert( widget, value );
+        }
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -174,12 +177,9 @@ namespace Oxygen
     BaseEngine::WidgetList MenuEngineV2::registeredWidgets( void ) const
     {
 
-        WidgetList out ;
-
-        // typedef needed to trick krazy
-        typedef QWeakPointer<MenuDataV2> DataPointer;
-        foreach( const DataPointer& data, data_.values() )
-        { if( data ) out.push_back( data.data()->target().data() ); }
+        WidgetList out;
+        foreach( const DataMap<MenuDataV2>::Value& value, data_.values() )
+        { if( value ) out.push_back( value.data()->target().data() ); }
 
         return out;
 

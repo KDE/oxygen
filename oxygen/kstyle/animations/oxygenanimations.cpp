@@ -153,7 +153,10 @@ namespace Oxygen
         progressBarEngine_->setBusyStepDuration( OxygenStyleConfigData::progressBarBusyStepDuration() );
 
         menuBarEngine_->setDuration( OxygenStyleConfigData::menuBarAnimationsDuration() );
+        menuBarEngine_->setFollowMouseDuration( OxygenStyleConfigData::menuBarFollowMouseAnimationsDuration() );
+
         menuEngine_->setDuration( OxygenStyleConfigData::menuAnimationsDuration() );
+        menuEngine_->setFollowMouseDuration( OxygenStyleConfigData::menuFollowMouseAnimationsDuration() );
 
     }
 

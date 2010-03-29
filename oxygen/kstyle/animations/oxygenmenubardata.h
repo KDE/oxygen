@@ -269,10 +269,11 @@ namespace Oxygen
 
         //! duration
         virtual void setDuration( int duration )
-        {
-            animation().data()->setDuration( duration );
-            progressAnimation().data()->setDuration( duration );
-        }
+        { animation().data()->setDuration( duration ); }
+
+        //! duration
+        virtual void setFollowMouseDuration( int duration )
+        { progressAnimation().data()->setDuration( duration ); }
 
         //! return 'hover' rect position when widget is animated
         virtual const QRect& animatedRect( void ) const
