@@ -220,10 +220,27 @@ namespace Oxygen
             // update previous rect if the current action is valid
             if( currentAction() )
             {
+                if( !progressAnimation().data()->isRunning() )
+                {
 
-                // if current action is valid,
-                setPreviousRect( animatedRect() );
-                if( previousRect().isNull() ) setPreviousRect( currentRect() );
+                    // if current action is valid,
+                    setPreviousRect( animatedRect() );
+                    if( previousRect().isNull() ) setPreviousRect( currentRect() );
+
+                } else if( progress() < 1 && currentRect().isValid() && previousRect().isValid() ) {
+
+                    // re-calculate previous rect so that animatedRect
+                    // is unchanged after currentRect is updated
+                    // this prevents from having jumps in the animation
+                    qreal ratio = progress()/(1.0-progress());
+                    QRect activeRect( local->actionGeometry( activeAction ) );
+                    previousRect_.adjust(
+                        ratio*( currentRect().left() - activeRect.left() ),
+                        ratio*( currentRect().top() - activeRect.top() ),
+                        ratio*( currentRect().right() - activeRect.right() ),
+                        ratio*( currentRect().bottom() - activeRect.bottom() ) );
+
+                }
 
             }
 
