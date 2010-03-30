@@ -76,7 +76,7 @@ namespace Oxygen
         WidgetStateEngine& comboBoxEngine( void ) const
         { return *comboBoxEngine_; }
 
-        //! Menu tool buttons arrow hover engine
+        //! Tool buttons arrow hover engine
         WidgetStateEngine& toolButtonEngine( void ) const
         { return *toolButtonEngine_; }
 
