@@ -902,7 +902,7 @@ bool OxygenStyle::drawPushButtonPrimitive(
 
             // update animation state
             animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, (!mouseOver) && hasFocus );
 
             // store animation state
             bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
@@ -2738,7 +2738,7 @@ bool OxygenStyle::drawComboBoxPrimitive(
     QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
 
     animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-    animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+    animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
 
     switch (primitive)
     {
