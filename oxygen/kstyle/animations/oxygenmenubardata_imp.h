@@ -218,14 +218,13 @@ namespace Oxygen
             QAction* activeAction( local->activeAction() );
 
             // update previous rect if the current action is valid
+            QRect activeRect( local->actionGeometry( activeAction ) );
             if( currentAction() )
             {
                 if( !progressAnimation().data()->isRunning() )
                 {
 
-                    // if current action is valid,
-                    setPreviousRect( animatedRect() );
-                    if( previousRect().isNull() ) setPreviousRect( currentRect() );
+                    setPreviousRect( currentRect() );
 
                 } else if( progress() < 1 && currentRect().isValid() && previousRect().isValid() ) {
 
@@ -233,7 +232,6 @@ namespace Oxygen
                     // is unchanged after currentRect is updated
                     // this prevents from having jumps in the animation
                     qreal ratio = progress()/(1.0-progress());
-                    QRect activeRect( local->actionGeometry( activeAction ) );
                     previousRect_.adjust(
                         ratio*( currentRect().left() - activeRect.left() ),
                         ratio*( currentRect().top() - activeRect.top() ),
@@ -242,13 +240,34 @@ namespace Oxygen
 
                 }
 
-            }
+                // update current action
+                setCurrentAction( activeAction );
+                setCurrentRect( activeRect );
+                if( animation().data()->isRunning() ) animation().data()->stop();
+                if( !progressAnimation().data()->isRunning() ) progressAnimation().data()->start();
 
-            // update current action
-            setCurrentAction( activeAction );
-            setCurrentRect( local->actionGeometry( activeAction ) );
-            if( animation().data()->isRunning() ) animation().data()->stop();
-            if( !progressAnimation().data()->isRunning() ) progressAnimation().data()->start();
+            } else {
+
+                // update current action
+                setCurrentAction( activeAction );
+                setCurrentRect( activeRect );
+                if( !entered_ )
+                {
+
+                    entered_ = true;
+                    if( animation().data()->isRunning() ) animation().data()->stop();
+                    if( !progressAnimation().data()->isRunning() ) progressAnimation().data()->start();
+
+                } else {
+
+                    setPreviousRect( activeRect );
+                    clearAnimatedRect();
+                    if( progressAnimation().data()->isRunning() ) progressAnimation().data()->stop();
+                    animation().data()->setDirection( Animation::Forward );
+                    if( !animation().data()->isRunning() ) animation().data()->start();
+                }
+
+            }
 
         } else if( currentAction() ) {
 

@@ -413,6 +413,8 @@ namespace Oxygen
         // animated rect
         QRect animatedRect_;
 
+        bool entered_;
+
     };
 }
 
