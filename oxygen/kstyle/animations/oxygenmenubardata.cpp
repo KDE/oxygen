@@ -186,7 +186,7 @@ namespace Oxygen
     {
 
         // check rect validity
-        if( currentRect().isNull() || previousRect().isNull() )
+        if( !( currentRect().isValid() && previousRect().isValid() ) )
         {
             animatedRect_ = QRect();
             return;
