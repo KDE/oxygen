@@ -77,7 +77,7 @@ namespace Oxygen
 
         WidgetList out;
         foreach( const DataMap<MenuDataV1>::Value& value, data_.values() )
-        { if( value ) out.push_back( value.data()->target().data() ); }
+        { if( value ) out.insert( value.data()->target().data() ); }
 
         return out;
 
@@ -179,7 +179,7 @@ namespace Oxygen
 
         WidgetList out;
         foreach( const DataMap<MenuDataV2>::Value& value, data_.values() )
-        { if( value ) out.push_back( value.data()->target().data() ); }
+        { if( value ) out.insert( value.data()->target().data() ); }
 
         return out;
 

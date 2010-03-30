@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <QtCore/QObject>
+#include <QtCore/QSet>
 #include <QtCore/QWeakPointer>
 
 namespace Oxygen
@@ -75,7 +76,7 @@ namespace Oxygen
         virtual bool unregisterWidget( QObject* object ) = 0;
 
         //! list of widgets
-        typedef QList<QWidget*> WidgetList;
+        typedef QSet<QWidget*> WidgetList;
 
         //! returns registered widgets
         virtual WidgetList registeredWidgets( void ) const
