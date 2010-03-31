@@ -44,12 +44,7 @@ namespace Oxygen
         if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) )
-        {
-            ScrollBarData* data = new ScrollBarData( this, widget, duration() );
-            data->setEnabled( enabled() );
-            data_.insert( widget, data );
-        }
+        if( !data_.contains( widget ) ) data_.insert( widget, new ScrollBarData( this, widget, duration() ), enabled() );
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );

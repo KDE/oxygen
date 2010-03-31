@@ -38,10 +38,10 @@ namespace Oxygen
     bool WidgetStateEngine::registerWidget( QWidget* widget, AnimationModes mode )
     {
 
-        if( !( enabled() && widget ) ) return false;
-        if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, new HoverData( this, widget, duration() ) ); }
-        if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, new WidgetStateData( this, widget, duration() ) ); }
-        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, new EnableData( this, widget, duration() ) ); }
+        if( !widget ) return false;
+        if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, new HoverData( this, widget, duration() ), enabled() ); }
+        if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, new WidgetStateData( this, widget, duration() ), enabled() ); }
+        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, new EnableData( this, widget, duration() ), enabled() ); }
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );

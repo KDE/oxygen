@@ -53,6 +53,13 @@ namespace Oxygen
         virtual ~DataMap( void )
         {}
 
+        //! insertion
+        virtual typename QMap< Key, Value >::iterator insert( const Key& key, const Value& value, bool enabled = true )
+        {
+            if( value ) value.data()->setEnabled( enabled );
+            return QMap< Key, Value >::insert( key, value );
+        }
+
         //! find value
         Value find( Key key )
         {

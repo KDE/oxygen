@@ -45,10 +45,10 @@ namespace Oxygen
     bool MenuEngineV1::registerWidget( QWidget* widget )
     {
 
-        if( !( enabled() && widget ) ) return false;
+        if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( this, widget, duration() ) );
+        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( this, widget, duration() ), enabled() );
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -99,14 +99,14 @@ namespace Oxygen
     bool MenuEngineV2::registerWidget( QWidget* widget )
     {
 
-        if( !( enabled() && widget ) ) return false;
+        if( !widget ) return false;
 
         // create new data class
         if( !data_.contains( widget ) )
         {
             DataMap<MenuDataV2>::Value value( new MenuDataV2( this, widget, duration() ) );
             value.data()->setFollowMouseDuration( followMouseDuration() );
-            data_.insert( widget, value );
+            data_.insert( widget, value, enabled() );
         }
 
         // connect destruction signal

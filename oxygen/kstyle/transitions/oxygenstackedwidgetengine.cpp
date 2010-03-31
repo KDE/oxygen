@@ -34,8 +34,8 @@ namespace Oxygen
     bool StackedWidgetEngine::registerWidget( QStackedWidget* widget )
     {
 
-        if( !( enabled() && widget ) ) return false;
-        if( !data_.contains( widget ) ) { data_.insert( widget, new StackedWidgetData( this, widget, duration() ) ); }
+        if( !widget ) return false;
+        if( !data_.contains( widget ) ) { data_.insert( widget, new StackedWidgetData( this, widget, duration() ), enabled() ); }
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );

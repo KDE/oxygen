@@ -38,7 +38,7 @@ namespace Oxygen
         if( !widget ) return false;
 
         // create new data class
-        if( enabled() && !data_.contains( widget ) ) data_.insert( widget, new ProgressBarData( this, widget, duration() ) );
+        if( !data_.contains( widget ) ) data_.insert( widget, new ProgressBarData( this, widget, duration() ), enabled() );
         if( busyIndicatorEnabled() && !dataSet_.contains( widget ) ) dataSet_.insert( widget );
 
         // install event filter
@@ -46,10 +46,7 @@ namespace Oxygen
         { widget->installEventFilter( this ); }
 
         // connect destruction signal
-        if( enabled() || busyIndicatorEnabled() )
-        {
-            connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
-        }
+        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
 
         return true;
 
