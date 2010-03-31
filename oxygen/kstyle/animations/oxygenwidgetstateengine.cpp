@@ -51,6 +51,33 @@ namespace Oxygen
     }
 
     //____________________________________________________________
+    BaseEngine::WidgetList WidgetStateEngine::registeredWidgets( AnimationModes mode ) const
+    {
+
+        WidgetList out;
+        if( mode&AnimationHover )
+        {
+            foreach( const DataMap<WidgetStateData>::Value& value, hoverData_.values() )
+            { if( value ) out.insert( value.data()->target().data() ); }
+        }
+
+        if( mode&AnimationFocus )
+        {
+            foreach( const DataMap<WidgetStateData>::Value& value, focusData_.values() )
+            { if( value ) out.insert( value.data()->target().data() ); }
+        }
+
+        if( mode&AnimationEnable )
+        {
+            foreach( const DataMap<WidgetStateData>::Value& value, enableData_.values() )
+            { if( value ) out.insert( value.data()->target().data() ); }
+        }
+
+        return out;
+
+    }
+
+    //____________________________________________________________
     bool WidgetStateEngine::updateState( const QObject* object, AnimationMode mode, bool value )
     {
         DataMap<WidgetStateData>::Value data( WidgetStateEngine::data( object, mode ) );

@@ -70,8 +70,13 @@
       <default>true</default>
     </entry>
 
-    <entry name="ToolBarAnimationsEnabled" type="Bool">
-      <default>true</default>
+   <entry name="ToolBarAnimationType" type="Enum">
+      <choices>
+          <choice name="TB_NONE" />
+          <choice name="TB_FADE" />
+          <choice name="TB_FOLLOW_MOUSE" />
+      </choices>
+      <default>TB_FADE</default>
     </entry>
 
     <entry name="MenuBarAnimationsEnabled" type="Bool">
@@ -111,7 +116,7 @@
 
     <!-- toolbar animation durations -->
     <entry name="ToolBarAnimationsDuration" type="Int">
-      <default>150</default>
+      <default>80</default>
     </entry>  
 
     <!-- menubar animation durations -->

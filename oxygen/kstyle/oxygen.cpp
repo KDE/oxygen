@@ -404,13 +404,22 @@ bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *optio
 
     }
 
+    // toolbar animation
+    bool toolBarAnimated( isInToolBar && animations().toolBarEngine().isAnimated( widget->parentWidget() ) );
+    QRect animatedRect( animations().toolBarEngine().animatedRect( widget->parentWidget() ) );
+    QRect currentRect( animations().toolBarEngine().currentRect( widget->parentWidget() ) );
+    bool current( isInToolBar && currentRect.intersects( rect.translated( widget->mapToParent( QPoint(0,0) ) ) ) );
+    bool toolBarTimerActive( isInToolBar && animations().toolBarEngine().isTimerActive( widget->parentWidget() ) );
+
+    // normal toolbutton animation
     bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
     bool focusAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
 
     if( enabled && !(mouseOver || hasFocus || sunken ) )
     {
 
-        if( hoverAnimated || (focusAnimated && !hasFocus) )
+        //if( hoverAnimated || (focusAnimated && !hasFocus) )
+        if( hoverAnimated || (focusAnimated && !hasFocus) || ( ((toolBarAnimated && animatedRect.isNull())||toolBarTimerActive) && current ) )
         {
             QRect buttonRect = subControlRect(CC_ToolButton, option, SC_ToolButton, widget);
             localTbOption.rect = buttonRect;
@@ -696,25 +705,31 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
         case CE_ToolButtonLabel:
         {
 
-            // check whether button is pressed
-            const bool active = (option->state & State_On) || (option->state & State_Sunken);
-            if( !active )  return KStyle::drawControl(element, option, p, widget);
-
             // cast option and check
             const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option);
-            if( !( tbOpt && active ) ) return KStyle::drawControl(element, option, p, widget);
+            if( !tbOpt ) return KStyle::drawControl(element, option, p, widget);
+
+            // copy option
+            QStyleOptionToolButton local = *tbOpt;
+
+            // disable mouseOver effect if toolbar is animated animated
+            if( widget && animations().toolBarEngine().isAnimated( widget->parentWidget() ) )
+            { local.state &= ~State_MouseOver; }
+
+            // check whether button is pressed
+            const bool active = (option->state & State_On) || (option->state & State_Sunken);
+            if( !active )  return KStyle::drawControl(element, &local, p, widget);
 
             // case button and check
             const QToolButton* toolButton( qobject_cast<const QToolButton*>( widget ) );
-            if( !toolButton || toolButton->autoRaise() ) return KStyle::drawControl(element, option, p, widget);
+            if( !toolButton || toolButton->autoRaise() ) return KStyle::drawControl(element, &local, p, widget);
 
             // check button parent. Right now the fix addresses only toolbuttons located
             // in a menu, in order to fix the KMenu title rendering issue
             if( !( toolButton->parent() && toolButton->parent()->inherits( "QMenu" ) ) )
-            { return KStyle::drawControl(element, option, p, widget); }
+            { return KStyle::drawControl(element, &local, p, widget); }
 
             // adjust vertical position
-            QStyleOptionToolButton local( *tbOpt );
             local.rect.translate( 0, toolButtonPressedShiftVertical );
             return KStyle::drawControl(element, &local, p, widget);
 
@@ -902,7 +917,7 @@ bool OxygenStyle::drawPushButtonPrimitive(
 
             // update animation state
             animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, (!mouseOver) && hasFocus );
+            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
 
             // store animation state
             bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
@@ -3218,7 +3233,18 @@ bool OxygenStyle::drawToolBarPrimitive(
 
         case ToolBar::PanelHor:
         case ToolBar::PanelVert:
-        return true;
+        {
+
+            // when timeLine is running draw border event if not hovered
+            bool toolBarAnimated( animations().toolBarEngine().isFollowMouseAnimated( widget ) );
+            QRect animatedRect( animations().toolBarEngine().animatedRect( widget ) );
+            bool toolBarIntersected( toolBarAnimated && animatedRect.intersects( r ) );
+            if( toolBarIntersected )
+            { _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color())->render(animatedRect, p); }
+
+            return true;
+
+        }
 
         default: return false;
     }
@@ -3247,9 +3273,20 @@ bool OxygenStyle::drawToolButtonPrimitive(
         case ToolButton::Panel:
         {
 
-            // toolbutton engine
+            // check whether toolbutton is in toolbar
             bool isInToolBar( widget && widget->parent() && widget->parent()->inherits( "QToolBar" ) );
-            if( isInToolBar )
+
+            // toolbar engine
+            bool toolBarAnimated( isInToolBar && widget && ( animations().toolBarEngine().isAnimated( widget->parentWidget() ) || animations().toolBarEngine().isFollowMouseAnimated( widget->parentWidget() ) ) );
+            QRect animatedRect( (isInToolBar && widget) ? animations().toolBarEngine().animatedRect( widget->parentWidget() ):QRect() );
+            QRect childRect( (widget && widget->parentWidget()) ? r.translated( widget->mapToParent( QPoint(0,0) ) ):QRect() );
+            QRect currentRect(  widget ? animations().toolBarEngine().currentRect( widget->parentWidget() ):QRect() );
+            bool current( isInToolBar && widget && widget->parentWidget() && currentRect.intersects( r.translated( widget->mapToParent( QPoint(0,0) ) ) ) );
+            bool toolBarTimerActive( isInToolBar && widget && animations().toolBarEngine().isTimerActive( widget->parentWidget() ) );
+            qreal toolBarOpacity( ( isInToolBar && widget ) ? animations().toolBarEngine().opacity( widget->parentWidget() ):0 );
+
+            // toolbutton engine
+            if( isInToolBar && !toolBarAnimated )
             {
 
               animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
@@ -3471,6 +3508,23 @@ bool OxygenStyle::drawToolButtonPrimitive(
 
                     renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, mouseOver, hoverOpacity, Oxygen::AnimationHover, TileSet::Ring );
 
+                } else if( toolBarAnimated ) {
+
+                    if( enabled && animatedRect.isNull() && current  )
+                    {
+
+                        renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, mouseOver, toolBarOpacity, Oxygen::AnimationHover, TileSet::Ring );
+
+                    } else {
+
+                        renderHole(p, pal.color(QPalette::Window), slitRect, false, false);
+
+                    }
+
+                } else if( toolBarTimerActive && current ) {
+
+                    renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, true );
+
                 } else {
 
                     renderHole(p, pal.color(QPalette::Window), slitRect, hasFocus, mouseOver);
@@ -3484,7 +3538,15 @@ bool OxygenStyle::drawToolButtonPrimitive(
                     QColor glow( _helper.alphaColor( _viewFocusBrush.brush(QPalette::Active).color(), hoverOpacity ) );
                     _helper.slitFocused( glow )->render(slitRect, p);
 
-                } else if (hasFocus || mouseOver) {
+                } else if( toolBarAnimated ) {
+
+                    if( enabled && animatedRect.isNull() && current )
+                    {
+                        QColor glow( _helper.alphaColor( _viewFocusBrush.brush(QPalette::Active).color(), toolBarOpacity ) );
+                        _helper.slitFocused( glow )->render(slitRect, p);
+                    }
+
+                } else if (hasFocus || mouseOver || (toolBarTimerActive && current ) ) {
 
                     _helper.slitFocused(_viewFocusBrush.brush(QPalette::Active).color())->render(slitRect, p);
 
@@ -6539,7 +6601,6 @@ bool OxygenStyle::eventFilterToolBar( QToolBar* t, QEvent* ev )
                 return false;
 
             }
-
 
             if( compositingActive() )
             {

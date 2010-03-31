@@ -54,6 +54,7 @@ protected:
     int tabStyle( void ) const;
     int menuAnimationType( void ) const;
     int menuBarAnimationType( void ) const;
+    int toolBarAnimationType( void ) const;
 };
 
 #endif // OXYGENCONF_H

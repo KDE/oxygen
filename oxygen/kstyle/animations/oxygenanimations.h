@@ -35,6 +35,7 @@
 #include "oxygensliderengine.h"
 #include "oxygenspinboxengine.h"
 #include "oxygentabbarengine.h"
+#include "oxygentoolbarengine.h"
 #include "oxygenwidgetstateengine.h"
 
 #include <QtCore/QObject>
@@ -116,6 +117,10 @@ namespace Oxygen
         TabBarEngine& tabBarEngine( void ) const
         { return *tabBarEngine_; }
 
+        //! toolbar
+        ToolBarEngine& toolBarEngine( void ) const
+        { return *toolBarEngine_; }
+
         //! setup engines
         void setupEngines( void );
 
@@ -166,6 +171,9 @@ namespace Oxygen
 
         //! tabbar engine
         TabBarEngine* tabBarEngine_;
+
+        //! toolbar engine
+        ToolBarEngine* toolBarEngine_;
 
         //! keep list of existing engines
         QList< BaseEngine::Pointer > engines_;

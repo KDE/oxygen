@@ -63,7 +63,12 @@ namespace Oxygen
         {}
 
         //! register widget
-        virtual bool registerWidget( QWidget*, AnimationModes mode );
+        virtual bool registerWidget( QWidget*, AnimationModes );
+
+        //! returns registered widgets
+        virtual WidgetList registeredWidgets( AnimationModes ) const;
+
+        using BaseEngine::registeredWidgets;
 
         //! true if widget hover state is changed
         virtual bool updateState( const QObject*, AnimationMode, bool );
