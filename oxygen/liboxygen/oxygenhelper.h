@@ -36,7 +36,7 @@
 namespace Oxygen
 {
 
-    template<typename T> class OXYGEN_EXPORT Cache
+    template<typename T> class Cache
     {
 
         public:
