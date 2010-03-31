@@ -102,21 +102,6 @@ namespace Oxygen
         //! updated animated rect
         virtual void updateAnimatedRect( void );
 
-        /*! allows to trigger widget update in specified QRect only */
-        virtual void setDirty( void )
-        {
-
-            if( !target() ) return;
-            if( entered_ && progressAnimation().data()->isRunning() )
-            {
-                if( dirtyRect_.isValid() ) dirtyRect_ |= animatedRect();
-                else dirtyRect_ = animatedRect();
-                target().data()->update( dirtyRect_ );
-                dirtyRect_ = animatedRect();
-            } else target().data()->update();
-
-        }
-
         protected:
 
         //! timer event
@@ -213,9 +198,6 @@ namespace Oxygen
 
         //! animated rect
         QRect animatedRect_;
-
-        // widget dirty rect (for updates)
-        QRect dirtyRect_;
 
         //! true if toolbar was entered at least once (this prevents some initialization glitches)
         bool entered_;
