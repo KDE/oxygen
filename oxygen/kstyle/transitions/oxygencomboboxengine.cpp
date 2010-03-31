@@ -1,3 +1,5 @@
+// krazy:excludeall=qclasses
+
 //////////////////////////////////////////////////////////////////////////////
 // oxygencomboboxengine.cpp
 // stores event filters and maps widgets to animations

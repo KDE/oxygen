@@ -1,3 +1,5 @@
+// krazy:excludeall=qclasses
+
 //////////////////////////////////////////////////////////////////////////////
 // oxygenlineeditengine.cpp
 // stores event filters and maps widgets to animations

@@ -55,21 +55,25 @@ namespace Oxygen
     {
 
         WidgetList out;
+
+        // the typedef is needed to make Krazy happy
+        typedef DataMap<WidgetStateData>::Value Value;
+
         if( mode&AnimationHover )
         {
-            foreach( const DataMap<WidgetStateData>::Value& value, hoverData_.values() )
+            foreach( const Value& value, hoverData_ )
             { if( value ) out.insert( value.data()->target().data() ); }
         }
 
         if( mode&AnimationFocus )
         {
-            foreach( const DataMap<WidgetStateData>::Value& value, focusData_.values() )
+            foreach( const Value& value, focusData_ )
             { if( value ) out.insert( value.data()->target().data() ); }
         }
 
         if( mode&AnimationEnable )
         {
-            foreach( const DataMap<WidgetStateData>::Value& value, enableData_.values() )
+            foreach( const Value& value, enableData_ )
             { if( value ) out.insert( value.data()->target().data() ); }
         }
 
