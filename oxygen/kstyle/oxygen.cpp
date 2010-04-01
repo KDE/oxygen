@@ -3841,10 +3841,9 @@ bool OxygenStyle::drawGenericPrimitive(
         case Generic::Frame:
         {
 
-            // WT_Generic and other fallen-through frames...
-            // QFrame, Qt item views, etc.: sunken..
-            bool hoverHighlight = flags&State_MouseOver;
-            bool focusHighlight = flags&State_HasFocus;
+            const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
+            const bool hoverHighlight( isInputWidget && (flags&State_MouseOver) );
+            const bool focusHighlight( isInputWidget && (flags&State_HasFocus) );
 
             animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, hoverHighlight );
             animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, focusHighlight );
