@@ -63,33 +63,6 @@ namespace Oxygen
     {
 
         {
-            // duration
-            widgetEnabilityEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            widgetStateEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            comboBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            toolButtonEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            lineEditEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            scrollBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            sliderEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            spinBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            dockSeparatorEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-
-            progressBarEngine_->setDuration( OxygenStyleConfigData::progressBarAnimationsDuration() );
-            progressBarEngine_->setBusyStepDuration( OxygenStyleConfigData::progressBarBusyStepDuration() );
-
-            toolBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            toolBarEngine_->setFollowMouseDuration( OxygenStyleConfigData::toolBarAnimationsDuration() );
-
-            menuBarEngine_->setDuration( OxygenStyleConfigData::menuBarAnimationsDuration() );
-            menuBarEngine_->setFollowMouseDuration( OxygenStyleConfigData::menuBarFollowMouseAnimationsDuration() );
-
-            menuEngine_->setDuration( OxygenStyleConfigData::menuAnimationsDuration() );
-            menuEngine_->setFollowMouseDuration( OxygenStyleConfigData::menuFollowMouseAnimationsDuration() );
-
-        }
-
-        {
             // default enability, duration and maxFrame
             bool animationsEnabled( OxygenStyleConfigData::animationsEnabled() );
 
@@ -203,6 +176,36 @@ namespace Oxygen
             }
 
         }
+
+
+        {
+
+            // durations
+            widgetEnabilityEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            widgetStateEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            comboBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            toolButtonEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            lineEditEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            scrollBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            sliderEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            spinBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            dockSeparatorEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+
+            progressBarEngine_->setDuration( OxygenStyleConfigData::progressBarAnimationsDuration() );
+            progressBarEngine_->setBusyStepDuration( OxygenStyleConfigData::progressBarBusyStepDuration() );
+
+            toolBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            toolBarEngine_->setFollowMouseDuration( OxygenStyleConfigData::toolBarAnimationsDuration() );
+
+            menuBarEngine_->setDuration( OxygenStyleConfigData::menuBarAnimationsDuration() );
+            menuBarEngine_->setFollowMouseDuration( OxygenStyleConfigData::menuBarFollowMouseAnimationsDuration() );
+
+            menuEngine_->setDuration( OxygenStyleConfigData::menuAnimationsDuration() );
+            menuEngine_->setFollowMouseDuration( OxygenStyleConfigData::menuFollowMouseAnimationsDuration() );
+
+        }
+
     }
 
     //____________________________________________________________
