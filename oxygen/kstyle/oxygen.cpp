@@ -1009,6 +1009,9 @@ bool OxygenStyle::drawToolBoxTabPrimitive(
     Q_UNUSED( flags );
     Q_UNUSED( kOpt );
 
+    const bool selected( flags&State_Selected );
+    const bool hover( flags&State_MouseOver);
+
     const bool reverseLayout = opt->direction == Qt::RightToLeft;
     switch (primitive)
     {
@@ -1021,11 +1024,23 @@ bool OxygenStyle::drawToolBoxTabPrimitive(
 
             if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning) return true;
 
-            p->save();
+            // save colors
             QColor color = widget->palette().color(QPalette::Window); // option returns a wrong color
-            QColor light = _helper.calcLightColor(color);
-            QColor dark = _helper.calcDarkColor(color);
+            QList<QColor> colors;
+            colors.push_back( _helper.calcLightColor(color) );
 
+            if( hover && !selected )
+            {
+
+                QColor highlight = _viewHoverBrush.brush(pal).color();
+                colors.push_back( highlight );
+                //colors.push_back( _helper.alphaColor( highlight, 0.5 ) );
+                colors.push_back( _helper.alphaColor( highlight, 0.2 ) );
+
+            } else colors.push_back( _helper.calcDarkColor(color) );
+
+            // create path
+            p->save();
             QPainterPath path;
             int y = r.height()*15/100;
             if (reverseLayout) {
@@ -1033,34 +1048,41 @@ bool OxygenStyle::drawToolBoxTabPrimitive(
                 path.cubicTo(QPointF(r.left()+50-8, r.top()), QPointF(r.left()+50-10, r.top()+y), QPointF(r.left()+50-10, r.top()+y));
                 path.lineTo(r.left()+18+9, r.bottom()-y);
                 path.cubicTo(QPointF(r.left()+18+9, r.bottom()-y), QPointF(r.left()+19+6, r.bottom()-1-0.3), QPointF(r.left()+19, r.bottom()-1-0.3));
+                p->setClipRect( QRect( r.left()+21, r.top(), 28, r.height() ) );
             } else {
                 path.moveTo(r.right()-52, r.top());
                 path.cubicTo(QPointF(r.right()-50+8, r.top()), QPointF(r.right()-50+10, r.top()+y), QPointF(r.right()-50+10, r.top()+y));
                 path.lineTo(r.right()-18-9, r.bottom()-y);
                 path.cubicTo(QPointF(r.right()-18-9, r.bottom()-y), QPointF(r.right()-19-6, r.bottom()-1-0.3), QPointF(r.right()-19, r.bottom()-1-0.3));
+                p->setClipRect( QRect( r.right()-48, r.top(), 32, r.height() ) );
             }
 
-            p->setRenderHint(QPainter::Antialiasing, true);
-            p->translate(0,1);
-            p->setPen(light);
-            p->drawPath(path);
-            p->translate(0,-1);
-            p->setPen(dark);
-            p->drawPath(path);
 
+            // paint
+            p->setRenderHint(QPainter::Antialiasing, true);
+            p->translate(0,2);
+            foreach( const QColor& color, colors )
+            {
+                p->setPen(color);
+                p->drawPath(path);
+                p->translate(0,-1);
+            }
+            p->restore();
+
+            p->save();
             p->setRenderHint(QPainter::Antialiasing, false);
-            if (reverseLayout) {
-                p->drawLine(r.left()+50-1, r.top(), r.right(), r.top());
-                p->drawLine(r.left()+20, r.bottom()-2, r.left(), r.bottom()-2);
-                p->setPen(light);
-                p->drawLine(r.left()+50, r.top()+1, r.right(), r.top()+1);
-                p->drawLine(r.left()+20, r.bottom()-1, r.left(), r.bottom()-1);
-            } else {
-                p->drawLine(r.left(), r.top(), r.right()-50+1, r.top());
-                p->drawLine(r.right()-20, r.bottom()-2, r.right(), r.bottom()-2);
-                p->setPen(light);
-                p->drawLine(r.left(), r.top()+1, r.right()-50, r.top()+1);
-                p->drawLine(r.right()-20, r.bottom()-1, r.right(), r.bottom()-1);
+            p->translate(0,2);
+            foreach( const QColor& color, colors )
+            {
+                p->setPen( color );
+                if (reverseLayout) {
+                    p->drawLine(r.left()+50-1, r.top(), r.right(), r.top());
+                    p->drawLine(r.left()+20, r.bottom()-2, r.left(), r.bottom()-2);
+                } else {
+                    p->drawLine(r.left(), r.top(), r.right()-50+1, r.top());
+                    p->drawLine(r.right()-20, r.bottom()-2, r.right(), r.bottom()-2);
+                }
+                p->translate(0,-1);
             }
 
             p->restore();
@@ -4032,6 +4054,9 @@ void OxygenStyle::polish(QWidget* widget)
     { widget->setAttribute(Qt::WA_Hover); }
 
     if( qobject_cast<QAbstractButton*>(widget) && qobject_cast<QDockWidget*>( widget->parent() ) )
+    { widget->setAttribute(Qt::WA_Hover); }
+
+    if( qobject_cast<QAbstractButton*>(widget) && qobject_cast<QToolBox*>( widget->parent() ) )
     { widget->setAttribute(Qt::WA_Hover); }
 
     if( qobject_cast<QToolButton*>(widget) )
