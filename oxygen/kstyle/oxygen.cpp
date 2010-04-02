@@ -1009,14 +1009,31 @@ bool OxygenStyle::drawToolBoxTabPrimitive(
     Q_UNUSED( flags );
     Q_UNUSED( kOpt );
 
+    const bool enabled( flags&State_Enabled );
     const bool selected( flags&State_Selected );
-    const bool hover( flags&State_MouseOver);
+    const bool mouseOver( enabled && !selected && (flags&State_MouseOver) );
 
     const bool reverseLayout = opt->direction == Qt::RightToLeft;
     switch (primitive)
     {
         case ToolBoxTab::Panel:
         {
+
+
+            bool animated( false );
+            qreal opacity( Oxygen::AnimationData::OpacityInvalid );
+            if( enabled )
+            {
+                // try retrieve QSplitterHandle, from painter device.
+                if( const QAbstractButton* button = dynamic_cast<const QAbstractButton*>(p->device()) )
+                {
+                    animations().widgetStateEngine().updateState( button, Oxygen::AnimationHover, mouseOver );
+                    animated = animations().widgetStateEngine().isAnimated( button, Oxygen::AnimationHover );
+                    opacity = animations().widgetStateEngine().opacity( button, Oxygen::AnimationHover );
+                }
+
+            }
+
             const QStyleOptionToolBox *option = qstyleoption_cast<const QStyleOptionToolBox *>(opt);
             if(!(option && widget)) return true;
 
@@ -1025,19 +1042,29 @@ bool OxygenStyle::drawToolBoxTabPrimitive(
             if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning) return true;
 
             // save colors
-            QColor color = widget->palette().color(QPalette::Window); // option returns a wrong color
+            QColor color( widget->palette().color(QPalette::Window) ); // option returns a wrong color
+            QColor dark( _helper.calcDarkColor(color) );
             QList<QColor> colors;
             colors.push_back( _helper.calcLightColor(color) );
 
-            if( hover && !selected )
+            if( mouseOver || animated )
             {
 
                 QColor highlight = _viewHoverBrush.brush(pal).color();
-                colors.push_back( highlight );
-                //colors.push_back( _helper.alphaColor( highlight, 0.5 ) );
-                colors.push_back( _helper.alphaColor( highlight, 0.2 ) );
+                if( animated )
+                {
 
-            } else colors.push_back( _helper.calcDarkColor(color) );
+                    colors.push_back( KColorUtils::mix( dark, highlight, opacity ) );
+                    colors.push_back( _helper.alphaColor( highlight, 0.2*opacity ) );
+
+                } else {
+
+                    colors.push_back( highlight );
+                    colors.push_back( _helper.alphaColor( highlight, 0.2 ) );
+
+                }
+
+            } else colors.push_back( dark );
 
             // create path
             p->save();
@@ -2445,9 +2472,9 @@ bool OxygenStyle::drawSplitterPrimitive(
     bool animated( false );
     qreal opacity( Oxygen::AnimationData::OpacityInvalid );
 
-    // try retrieve QSplitterHandle, from painter device.
     if( enabled )
     {
+        // try retrieve QSplitterHandle, from painter device.
         if( const QSplitterHandle* handle = dynamic_cast<const QSplitterHandle*>(p->device()) )
         {
 
