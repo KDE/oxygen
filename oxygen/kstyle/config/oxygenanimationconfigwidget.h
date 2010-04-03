@@ -31,7 +31,6 @@
 #include <QtGui/QLayout>
 
 #include "oxygenconfigwidget.h"
-#include "ui_oxygenanimationconfigwidget.h"
 
 namespace Oxygen
 {
@@ -70,8 +69,6 @@ namespace Oxygen
         void setupItem( QGridLayout*, AnimationConfigItem* );
 
         private:
-
-        Ui_AnimationConfigWidget ui;
 
         GenericAnimationConfigItem* genericAnimations_;
         GenericAnimationConfigItem* progressBarAnimations_;
