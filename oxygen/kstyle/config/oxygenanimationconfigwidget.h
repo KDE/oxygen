@@ -51,22 +51,22 @@ namespace Oxygen
         public slots:
 
         //! read current configuration
-        void load( void );
+        virtual void load( void );
 
         //! save current configuration
-        void save( void );
+        virtual void save( void );
 
         protected slots:
 
         //! update chacked button
-        void updateItems( bool );
+        virtual void updateItems( bool );
 
         //! check whether configuration is changed and emit appropriate signal if yes
-        void updateChanged();
+        virtual void updateChanged();
 
         protected:
 
-        void setupItem( QGridLayout*, AnimationConfigItem* );
+        virtual void setupItem( QGridLayout*, AnimationConfigItem* );
 
         private:
 

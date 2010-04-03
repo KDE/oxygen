@@ -142,6 +142,13 @@ namespace Oxygen
     }
 
     //_______________________________________________
+    void DecorationConfigWidget::defaults( void )
+    {
+        inactiveShadowConf_.setDefaults();
+        activeShadowConf_.setDefaults();
+    }
+
+    //_______________________________________________
     void DecorationConfigWidget::updateChanged( void )
     {
         bool modified( false );

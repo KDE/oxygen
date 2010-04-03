@@ -48,15 +48,18 @@ namespace Oxygen
         public slots:
 
         //! read current configuration
-        void load( void );
+        virtual void load( void );
 
         //! save current configuration
-        void save( void );
+        virtual void save( void );
+
+        //! defaults
+        virtual void defaults( void );
 
         protected slots:
 
         //! check whether configuration is changed and emit appropriate signal if yes
-        void updateChanged();
+        virtual void updateChanged();
 
         protected:
 

@@ -101,6 +101,8 @@ namespace Oxygen
     void ConfigDialog::defaults( void )
     {
         OxygenStyleConfigData::self()->setDefaults();
+        decorationConfigWidget_->defaults();
+
         appearanceConfigWidget_->load();
         animationConfigWidget_->load();
         decorationConfigWidget_->load();

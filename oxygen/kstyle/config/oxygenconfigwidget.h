@@ -55,6 +55,26 @@ namespace Oxygen
         //! emmited when changed
         void changed( bool );
 
+        public slots:
+
+        //! read current configuration
+        virtual void load( void )
+        {}
+
+        //! save current configuration
+        virtual void save( void )
+        {}
+
+        //! reset to defaults
+        virtual void defaults( void )
+        {}
+
+        protected slots:
+
+        //! check whether configuration is changed and emit appropriate signal if yes
+        virtual void updateChanged()
+        {}
+
         protected:
 
         //! set changed state
