@@ -100,7 +100,7 @@ namespace Oxygen
         appearanceConfigWidget_->load();
         animationConfigWidget_->load();
         decorationConfigWidget_->load();
-        updateChanged();
+        button( Apply )->setEnabled( true );
     }
 
     //_______________________________________________________________

@@ -96,7 +96,6 @@ namespace Oxygen
         ui.menuHighlightStrong_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG );
         ui.menuHighlightSubtle_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
         ui.menuHighlightDark_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK );
-        setChanged( false );
     }
 
     //_______________________________________________

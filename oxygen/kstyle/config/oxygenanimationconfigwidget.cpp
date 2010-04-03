@@ -158,7 +158,6 @@ namespace Oxygen
 
         comboBoxAnimations_->setEnabled( OxygenStyleConfigData::comboBoxTransitionsEnabled() );
         comboBoxAnimations_->setDuration( OxygenStyleConfigData::comboBoxTransitionsDuration() );
-        setChanged( false );
     }
 
     //_______________________________________________

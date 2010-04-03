@@ -72,6 +72,7 @@ namespace Oxygen
         QFrame( parent )
         {
             ui.setupUi( this );
+            ui.followMouseDurationSpinBox_->setEnabled( false );
             connect( ui.typeComboBox_, SIGNAL( currentIndexChanged( int ) ), SLOT( typeChanged( int ) ) );
         }
 
