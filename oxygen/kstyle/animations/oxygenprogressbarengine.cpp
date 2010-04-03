@@ -87,6 +87,21 @@ namespace Oxygen
 
     }
 
+    //____________________________________________________________
+    void ProgressBarEngine::setBusyStepDuration( int value )
+    {
+        if( busyStepDuration_ == value ) return;
+        busyStepDuration_ = value;
+
+        // restart timer with specified time
+        if( timer_.isActive() )
+        {
+            timer_.stop();
+            timer_.start( busyStepDuration(), this );
+        }
+
+    }
+
     //_______________________________________________
     void ProgressBarEngine::timerEvent( QTimerEvent* event )
     {

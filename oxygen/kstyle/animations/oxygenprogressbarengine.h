@@ -94,8 +94,7 @@ namespace Oxygen
         { return busyIndicatorEnabled_; }
 
         //! busy indicator step duration
-        virtual void setBusyStepDuration( int value )
-        { busyStepDuration_ = value; }
+        virtual void setBusyStepDuration( int value );
 
         virtual int busyStepDuration( void ) const
         { return busyStepDuration_; }
