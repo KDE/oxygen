@@ -26,12 +26,27 @@
 
 #include "oxygenanimationconfigwidget.h"
 #include "oxygenconfigdialog.h"
-#include <QtGui/QApplication>
+#include <KCmdLineArgs>
+#include <KApplication>
 #include <KIcon>
+#include <KAboutData>
+#include <kdeversion.h>
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    KAboutData aboutData(
+        "oxygen-settings",
+        0,
+        ki18n( "Oxygen Settings" ),
+        KDE_VERSION_STRING,
+        ki18n( "Oxygen expert configuration tool" ),
+        KAboutData::License_GPL_V2,
+        ki18n( "(c) 2010, Hugo Pereira Da Costa" ));
+
+    aboutData.addAuthor( ki18n( "Hugo Pereira Da Costa" ),KLocalizedString(), "hugo@oxygen-icons.org" );
+
+    KCmdLineArgs::init( argc, argv, &aboutData );
+    KApplication app;
     app.setWindowIcon( KIcon( "oxygen" ) );
     Oxygen::ConfigDialog dialog;
     dialog.load();
