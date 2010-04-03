@@ -76,6 +76,7 @@ namespace Oxygen
         if( ui.menuHighlightStrong_->isChecked() ) OxygenStyleConfigData::setMenuHighlightMode( OxygenStyleConfigData::MM_STRONG );
         else if( ui.menuHighlightSubtle_->isChecked() ) OxygenStyleConfigData::setMenuHighlightMode( OxygenStyleConfigData::MM_SUBTLE );
         else OxygenStyleConfigData::setMenuHighlightMode( OxygenStyleConfigData::MM_DARK );
+        setChanged( false );
     }
 
     //_______________________________________________
@@ -95,6 +96,7 @@ namespace Oxygen
         ui.menuHighlightStrong_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG );
         ui.menuHighlightSubtle_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
         ui.menuHighlightDark_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK );
+        setChanged( false );
     }
 
     //_______________________________________________

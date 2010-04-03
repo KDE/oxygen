@@ -69,6 +69,7 @@ namespace Oxygen
         OxygenStyleConfigData::setDrawTitleOutline( ui.drawTitleOutline_->isChecked() );
         OxygenStyleConfigData::setButtonSize( ui.buttonSize_->currentIndex() );
         OxygenStyleConfigData::setTitleAlignment( ui.titleAlignment_->currentIndex() );
+        setChanged( false );
     }
 
     //_______________________________________________
@@ -84,6 +85,7 @@ namespace Oxygen
         ui.drawTitleOutline_->setChecked( OxygenStyleConfigData::drawTitleOutline() );
         ui.buttonSize_->setCurrentIndex( OxygenStyleConfigData::buttonSize() );
         ui.titleAlignment_->setCurrentIndex( OxygenStyleConfigData::titleAlignment() );
+        setChanged( false );
     }
 
     //_______________________________________________

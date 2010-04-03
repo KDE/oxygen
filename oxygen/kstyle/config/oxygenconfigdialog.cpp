@@ -100,6 +100,7 @@ namespace Oxygen
         appearanceConfigWidget_->load();
         animationConfigWidget_->load();
         decorationConfigWidget_->load();
+        updateChanged();
     }
 
     //_______________________________________________________________
@@ -110,6 +111,7 @@ namespace Oxygen
         decorationConfigWidget_->save();
         OxygenStyleConfigData::self()->writeConfig();
         KGlobalSettings::self()->emitChange(KGlobalSettings::StyleChanged);
+        updateChanged();
     }
 
     //_______________________________________________________________
