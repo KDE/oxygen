@@ -116,7 +116,7 @@
 
     <!-- toolbar animation durations -->
     <entry name="ToolBarAnimationsDuration" type="Int">
-      <default>80</default>
+      <default>50</default>
     </entry>  
 
     <!-- menubar animation durations -->
@@ -126,7 +126,7 @@
 
     <!-- menubar animation durations -->
     <entry name="MenuBarFollowMouseAnimationsDuration" type="Int">
-      <default>60</default>
+      <default>40</default>
     </entry>  
 
     <!-- menu animation durations -->
@@ -136,7 +136,7 @@
 
    <!-- menubar animation durations -->
     <entry name="MenuFollowMouseAnimationsDuration" type="Int">
-      <default>60</default>
+      <default>30</default>
     </entry>  
 
     <!-- progress bar animation durations -->
@@ -184,4 +184,63 @@
     </entry>  
 
   </group> 
+
+  <group name="Windeco"> 
+
+    <entry name="AnimateTitleChange" type="Bool">
+      <default>true</default>
+    </entry>
+
+    <entry name="BlendTitlebarColors" type="Bool">
+      <default>true</default>
+    </entry>
+
+    <entry name="DrawSeparator" type="Bool">
+      <default>false</default>
+    </entry>
+
+    <entry name="DrawTitleOutline" type="Bool">
+      <default>false</default>
+    </entry>
+
+    <entry name="TabsEnabled" type="Bool">
+      <default>true</default>
+    </entry>
+
+    <entry name="UseAnimations" type="Bool">
+      <default>true</default>
+    </entry>
+
+    <entry name="UseDropShadows" type="Bool">
+      <default>true</default>
+    </entry>
+
+    <entry name="UseNarrowButtonSpacing" type="Bool">
+      <default>false</default>
+    </entry>
+
+    <entry name="UseOxygenShadows" type="Bool">
+      <default>true</default>
+    </entry>
+
+    <entry name="ButtonSize" type="Enum">
+      <choices>
+          <choice name="Small" />
+          <choice name="Normal" />
+          <choice name="Large" />
+          <choice name="Huge" />
+      </choices>
+      <default>Normal</default>
+    </entry>
+
+    <entry name="TitleAlignment" type="Enum">
+      <choices>
+          <choice name="Left" />
+          <choice name="Center" />
+          <choice name="Right" />
+      </choices>
+      <default>Normal</default>
+    </entry>
+  </group> 
+
 </kcfg>

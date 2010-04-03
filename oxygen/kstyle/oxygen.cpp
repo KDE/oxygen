@@ -1019,6 +1019,11 @@ bool OxygenStyle::drawToolBoxTabPrimitive(
         case ToolBoxTab::Panel:
         {
 
+            const QStyleOptionToolBox *option = qstyleoption_cast<const QStyleOptionToolBox *>(opt);
+            if(!(option && widget)) return true;
+
+            const QStyleOptionToolBoxV2 *v2 = qstyleoption_cast<const QStyleOptionToolBoxV2 *>(opt);
+            if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning && selected ) return true;
 
             bool animated( false );
             qreal opacity( Oxygen::AnimationData::OpacityInvalid );
@@ -1033,13 +1038,6 @@ bool OxygenStyle::drawToolBoxTabPrimitive(
                 }
 
             }
-
-            const QStyleOptionToolBox *option = qstyleoption_cast<const QStyleOptionToolBox *>(opt);
-            if(!(option && widget)) return true;
-
-            const QStyleOptionToolBoxV2 *v2 = qstyleoption_cast<const QStyleOptionToolBoxV2 *>(opt);
-
-            if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning) return true;
 
             // save colors
             QColor color( widget->palette().color(QPalette::Window) ); // option returns a wrong color

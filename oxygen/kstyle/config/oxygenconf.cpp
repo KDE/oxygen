@@ -1,4 +1,5 @@
 /*
+Copyright 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
 Copyright 2009 Matthew Woehlke <mw.triad@users.sourceforge.net>
 Copyright 2009 Long Huynh Huu <long.upcase@googlemail.com>
 Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>

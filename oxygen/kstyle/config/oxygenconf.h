@@ -2,6 +2,7 @@
 Copyright (C) 2003 Sandro Giessl <ceebx@users.sourceforge.net>
 
 based on the Keramik configuration dialog:
+Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
 Copyright (c) 2003 Maksim Orlovich <maksim.orlovich@kdemail.net>
 
 Permission is hereby granted, free of charge, to any person obtaining a
