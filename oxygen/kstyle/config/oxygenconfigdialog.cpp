@@ -68,6 +68,7 @@ namespace Oxygen
         page->setIcon( KIcon( "preferences-desktop-theme" ) );
         pageWidget_->addPage( page );
 
+        // animations
         page = new KPageWidgetItem( animationConfigWidget_ = new AnimationConfigWidget() );
         page->setName( "Widget Animations" );
         page->setHeader( "Allows the fine tuning of widget animations" );
