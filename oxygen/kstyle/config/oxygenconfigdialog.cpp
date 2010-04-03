@@ -34,7 +34,6 @@
 #include <KGlobalSettings>
 #include <KLocale>
 #include <KPushButton>
-#include <KPageWidget>
 #include <KIcon>
 
 namespace Oxygen
@@ -47,29 +46,33 @@ namespace Oxygen
         setDefaultButton( Cancel );
         showButtonSeparator( false );
 
+        setWindowTitle( i18n( "Oxygen Settings" ) );
+
         // tab widget
-        KPageWidget* pageWidget( new KPageWidget( this ) );
-        setMainWidget( pageWidget );
+        pageWidget_ = new KPageWidget( this );
+        setMainWidget( pageWidget_ );
+
+        connect( pageWidget_, SIGNAL( currentPageChanged( KPageWidgetItem*, KPageWidgetItem* ) ), SLOT( updateWindowTitle( KPageWidgetItem* ) ) );
 
         // decoration
         KPageWidgetItem *page = new KPageWidgetItem( decorationConfigWidget_ = new DecorationConfigWidget() );
         page->setName( "Window Decorations" );
         page->setHeader( "Allows to modify the appearance of window decorations" );
         page->setIcon( KIcon( "preferences-system-windows" ) );
-        pageWidget->addPage( page );
+        pageWidget_->addPage( page );
 
         // appearance
         page = new KPageWidgetItem( appearanceConfigWidget_ = new AppearanceConfigWidget() );
         page->setName( "Widget Style" );
         page->setHeader( "Allows to modify the appearance of widgets" );
         page->setIcon( KIcon( "preferences-desktop-theme" ) );
-        pageWidget->addPage( page );
+        pageWidget_->addPage( page );
 
         page = new KPageWidgetItem( animationConfigWidget_ = new AnimationConfigWidget() );
         page->setName( "Widget Animations" );
         page->setHeader( "Allows the fine tuning of widget animations" );
         page->setIcon( KIcon( "preferences-desktop-theme" ) );
-        pageWidget->addPage( page );
+        pageWidget_->addPage( page );
 
         // connections
         connect( appearanceConfigWidget_, SIGNAL( changed( bool ) ), SLOT( updateChanged( void ) ) );
@@ -120,6 +123,26 @@ namespace Oxygen
         bool changed( appearanceConfigWidget_->isChanged() || animationConfigWidget_->isChanged() || decorationConfigWidget_->isChanged() );
         button( Reset )->setEnabled( changed );
         button( Apply )->setEnabled( changed );
+        updateWindowTitle( pageWidget_->currentPage() );
+    }
+
+    //_______________________________________________________________
+    void ConfigDialog::updateWindowTitle( KPageWidgetItem* item )
+    {
+
+        QString title;
+        QTextStream what( &title );
+        if( item )
+        {
+            what << item->name();
+            if( ConfigWidget* widget = qobject_cast<ConfigWidget*>( item->widget() ) )
+            { if( widget->isChanged() ) what << " [modified]"; }
+
+            what << " - ";
+        }
+
+        what << i18n( "Oxygen Settings" );
+        setWindowTitle( title );
     }
 
 }

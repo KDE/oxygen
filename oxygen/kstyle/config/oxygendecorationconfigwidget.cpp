@@ -145,7 +145,8 @@ namespace Oxygen
     void DecorationConfigWidget::updateChanged( void )
     {
         bool modified( false );
-        if( shadowConfChanged( inactiveShadowUi, inactiveShadowConf_ ) ) modified = true;
+        if( false ) modified = true;
+        else if( shadowConfChanged( inactiveShadowUi, inactiveShadowConf_ ) ) modified = true;
         else if( shadowConfChanged( activeShadowUi, activeShadowConf_ ) ) modified = true;
         else if( ui.tabsEnabled_->isChecked() != OxygenStyleConfigData::tabsEnabled() ) modified = true;
         else if( ui.useAnimations_->isChecked() != OxygenStyleConfigData::useAnimations() ) modified = true;
@@ -202,12 +203,14 @@ namespace Oxygen
     //_______________________________________________
     bool DecorationConfigWidget::shadowConfChanged( const Ui_ShadowConfigBox& ui, const ShadowConfigData& conf ) const
     {
-        if( ui.size_->value() != conf.size() ) return true;
-        else if( ui.verticalOffset_->value() != conf.verticalOffset() * 10 ) return true;
-        else if( ui.innerColor_->color() != conf.innerColor() ) return true;
-        else if( ui.outerColor_->color() != conf.outerColor() ) return true;
-        else if( ui.useOuterColor_->isChecked() != conf.useOuterColor() ) return true;
-        else return false;
+        bool modified( false );
+        if( ui.size_->value() != conf.size() ) modified = true;
+        else if( ui.verticalOffset_->value() != int( conf.verticalOffset() * 10 ) ) modified = true;
+        else if( ui.innerColor_->color() != conf.innerColor() ) modified = true;
+        else if( ui.outerColor_->color() != conf.outerColor() ) modified = true;
+        else if( ui.useOuterColor_->isChecked() != conf.useOuterColor() ) modified = true;
+        return modified;
+
     }
 
     //_______________________________________________

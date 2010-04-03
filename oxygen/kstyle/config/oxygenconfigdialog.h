@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <KDialog>
+#include <KPageWidget>
 
 namespace Oxygen
 {
@@ -52,10 +53,15 @@ namespace Oxygen
 
         protected slots:
 
+        // handle configuration modifications
         virtual void updateChanged( void );
+
+        // update window title based on selected page
+        virtual void updateWindowTitle( KPageWidgetItem* );
 
         private:
 
+        KPageWidget* pageWidget_;
         AppearanceConfigWidget* appearanceConfigWidget_;
         AnimationConfigWidget* animationConfigWidget_;
         DecorationConfigWidget* decorationConfigWidget_;
