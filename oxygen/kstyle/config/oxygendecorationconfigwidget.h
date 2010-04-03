@@ -28,7 +28,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenconfigwidget.h"
+#include "oxygenshadowconfigdata.h"
 #include "ui_oxygendecorationconfigwidget.h"
+#include "ui_oxygenshadowconfigbox.h"
 
 namespace Oxygen
 {
@@ -56,10 +58,34 @@ namespace Oxygen
         //! check whether configuration is changed and emit appropriate signal if yes
         void updateChanged();
 
+        protected:
+
+        //!@name shadow configuration handling
+        //@{
+        virtual void setupShadowConf( Ui_ShadowConfigBox&, QWidget* );
+        virtual void loadShadowConf( const Ui_ShadowConfigBox&, ShadowConfigData& );
+        virtual void saveShadowConf( const Ui_ShadowConfigBox&, ShadowConfigData& );
+        virtual bool shadowConfChanged( const Ui_ShadowConfigBox&, const ShadowConfigData& ) const;
+
+        //!@name mapping between strings and integer
+        //@{
+
+        QString frameBorder( int ) const;
+        QString sizeGripMode( int ) const;
+        QString blendColor( int ) const;
+
+        //@}
+
         private:
 
         //! ui
         Ui_DecorationConfigWidget ui;
+
+        ShadowConfigData inactiveShadowConf_;
+        ShadowConfigData activeShadowConf_;
+
+        Ui_ShadowConfigBox inactiveShadowUi;
+        Ui_ShadowConfigBox activeShadowUi;
 
     };
 

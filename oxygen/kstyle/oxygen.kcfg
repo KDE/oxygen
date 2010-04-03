@@ -2,6 +2,8 @@
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
 <kcfg> 
   <kcfgfile name="oxygenrc"/> 
+
+  <!-- widget style -->
   <group name="Style"> 
     <entry name="ToolBarDrawItemSeparator" type="Bool">
       <default>true</default>
@@ -185,6 +187,7 @@
 
   </group> 
 
+  <!-- Window decorations -->
   <group name="Windeco"> 
 
     <entry name="AnimateTitleChange" type="Bool">
@@ -239,8 +242,21 @@
           <choice name="Center" />
           <choice name="Right" />
       </choices>
+      <default>Center</default>
+    </entry>
+
+    <entry name="BlendColor" type="String">
+      <default>Radial Gradient</default>
+    </entry>
+
+    <entry name="SizeGripMode" type="String">
+      <default>Show Extra Size Grip When Needed</default>
+    </entry>
+
+    <entry name="FrameBorder" type="String">
       <default>Normal</default>
     </entry>
+
   </group> 
 
 </kcfg>

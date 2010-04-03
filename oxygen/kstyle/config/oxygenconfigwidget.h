@@ -60,7 +60,6 @@ namespace Oxygen
         //! set changed state
         virtual void setChanged( bool value )
         {
-            if( changed_ == value ) return;
             changed_ = value;
             emit changed( value );
         }

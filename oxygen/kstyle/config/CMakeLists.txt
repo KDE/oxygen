@@ -24,6 +24,7 @@ set( oxygen_settings_SOURCES
     oxygenconfigwidget.cpp
     oxygenconfigdialog.cpp
     oxygendecorationconfigwidget.cpp
+    oxygenshadowconfigdata.cpp
     main.cpp)
 
 kde4_add_ui_files(oxygen_settings_SOURCES
@@ -32,9 +33,12 @@ kde4_add_ui_files(oxygen_settings_SOURCES
     ui/oxygendecorationconfigwidget.ui
     ui/oxygenfollowmouseanimationconfigbox.ui
     ui/oxygengenericanimationconfigbox.ui
+    ui/oxygenshadowconfigbox.ui
 )
 
-kde4_add_kcfg_files(oxygen_settings_SOURCES ../oxygenstyleconfigdata.kcfgc)
+kde4_add_kcfg_files(oxygen_settings_SOURCES
+    ../oxygenstyleconfigdata.kcfgc
+)
 
 kde4_add_executable( oxygen-settings ${oxygen_settings_SOURCES} )
 
