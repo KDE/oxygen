@@ -1,21 +1,9 @@
 
 project(kstyle-oxygen)
 
-########### add version number into compilation defines
-find_package (KDE4 REQUIRED)
-add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
-include (KDE4Defaults)
-include (MacroLibrary)
-add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-add_definitions ( -DAPP_VERSION=\\\"${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}\\\")
-
-include_directories (${KDE4_INCLUDES} ${CMAKE_BINARY_DIR})
-include_directories( ../oxygen-common)
-
 add_subdirectory( config )
 
-include_directories (animations transitions)
-
+include_directories (animations transitions ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs/oxygen)
 
 ########### next target ###############
 
