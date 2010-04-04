@@ -29,6 +29,7 @@ set( oxygen_settings_SOURCES
 
 kde4_add_ui_files(oxygen_settings_SOURCES
     ui/oxygenanimationconfigitem.ui
+    ui/oxygenanimationconfigwidget.ui
     ui/oxygenappearanceconfigwidget.ui
     ui/oxygendecorationconfigwidget.ui
     ui/oxygenfollowmouseanimationconfigbox.ui

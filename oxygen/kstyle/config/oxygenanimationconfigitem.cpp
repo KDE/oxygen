@@ -41,6 +41,8 @@ namespace Oxygen
     {
 
         ui.setupUi( this );
+        layout()->setMargin(0);
+
         ui.configurationButton_->setIcon( KIcon("configure") );
         ui.descriptionButton_->setIcon(KIcon("dialog-information"));
 

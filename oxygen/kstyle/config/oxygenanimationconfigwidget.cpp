@@ -30,6 +30,8 @@
 #include "oxygenstyleconfigdata.h"
 
 #include <QtGui/QButtonGroup>
+#include <QtGui/QHoverEvent>
+#include <QtCore/QTextStream>
 #include <KLocale>
 
 namespace Oxygen
@@ -41,10 +43,9 @@ namespace Oxygen
         row_(0)
     {
 
-        QGridLayout* layout( new QGridLayout() );
-        layout->setSpacing(0);
-        layout->setMargin(0);
-        setLayout( layout );
+        ui.setupUi( this );
+        QGridLayout* layout( qobject_cast<QGridLayout*>( AnimationConfigWidget::layout() ) );
+        row_ = layout->rowCount();
 
         setupItem( layout, genericAnimations_ = new GenericAnimationConfigItem( this,
             i18n("Focus, mouse-over and enability"),
@@ -67,7 +68,7 @@ namespace Oxygen
             i18n( "Progress bar animation" ),
             i18n( "Configure progress bars' steps animation" ) ) );
 
-       setupItem( layout, progressBarBusyAnimations_ = new GenericAnimationConfigItem( this,
+        setupItem( layout, progressBarBusyAnimations_ = new GenericAnimationConfigItem( this,
             i18n( "Busy indicator steps" ),
             i18n( "Configure progress bars' busy indicator animation" ) ) );
 
@@ -83,8 +84,19 @@ namespace Oxygen
         setupItem( layout, comboBoxAnimations_ = new GenericAnimationConfigItem( this,
             i18n( "Combo box transitions" ), i18n( "Configure fading transition when a combo box's selected choice is changed" ) ) );
 
+        // add spacers to the first column, previous row to finalize layout
+        layout->addItem( new QSpacerItem( 25, 0 ), row_-1, 0, 1, 1 );
+
+        // add vertical spacer
         layout->addItem( new QSpacerItem( 0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding ), row_, 1, 1, 1 );
         ++row_;
+
+        connect( ui.animationsEnabled_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
+        foreach( AnimationConfigItem* item, findChildren<AnimationConfigItem*>() )
+        {
+            item->QWidget::setEnabled( false );
+            connect( ui.animationsEnabled_, SIGNAL( toggled( bool ) ), item, SLOT( setEnabled( bool ) ) );
+        }
 
     }
 
@@ -92,6 +104,7 @@ namespace Oxygen
     void AnimationConfigWidget::load( void )
     {
 
+        ui.animationsEnabled_->setChecked( OxygenStyleConfigData::animationsEnabled() );
         genericAnimations_->setEnabled( OxygenStyleConfigData::genericAnimationsEnabled() );
         genericAnimations_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
 
@@ -164,6 +177,7 @@ namespace Oxygen
     void AnimationConfigWidget::save( void )
     {
 
+        OxygenStyleConfigData::setAnimationsEnabled( ui.animationsEnabled_->isChecked() );
         OxygenStyleConfigData::setGenericAnimationsEnabled( genericAnimations_->enabled() );
         OxygenStyleConfigData::setGenericAnimationsDuration( genericAnimations_->duration() );
 
@@ -208,45 +222,47 @@ namespace Oxygen
     //_______________________________________________
     void AnimationConfigWidget::updateChanged( void )
     {
+
         bool modified( false );
-        if( genericAnimations_->enabled() != OxygenStyleConfigData::genericAnimationsEnabled() ) { modified = true; }
-        else if( genericAnimations_->duration() != OxygenStyleConfigData::genericAnimationsDuration() ) { modified = true; }
+        if( ui.animationsEnabled_->isChecked() != OxygenStyleConfigData::animationsEnabled() ) modified = true;
+        else if( genericAnimations_->enabled() != OxygenStyleConfigData::genericAnimationsEnabled() ) modified = true;
+        else if( genericAnimations_->duration() != OxygenStyleConfigData::genericAnimationsDuration() ) modified = true;
 
-        else if( toolBarAnimations_->duration() != OxygenStyleConfigData::genericAnimationsDuration() ) { modified = true; }
-        else if( toolBarAnimations_->followMouseDuration() != OxygenStyleConfigData::toolBarAnimationsDuration() ) { modified = true; }
-        else if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_NONE && toolBarAnimations_->enabled() ) { modified = true; }
-        else if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_FOLLOW_MOUSE && !( toolBarAnimations_->type() == 1 && toolBarAnimations_->enabled() ) ) { modified = true; }
-        else if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_FADE && !( toolBarAnimations_->type() == 0 && toolBarAnimations_->enabled() )) { modified = true; }
+        else if( toolBarAnimations_->duration() != OxygenStyleConfigData::genericAnimationsDuration() ) modified = true;
+        else if( toolBarAnimations_->followMouseDuration() != OxygenStyleConfigData::toolBarAnimationsDuration() ) modified = true;
+        else if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_NONE && toolBarAnimations_->enabled() ) modified = true;
+        else if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_FOLLOW_MOUSE && !( toolBarAnimations_->type() == 1 && toolBarAnimations_->enabled() ) ) modified = true;
+        else if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_FADE && !( toolBarAnimations_->type() == 0 && toolBarAnimations_->enabled() )) modified = true;
 
-        else if( menuBarAnimations_->duration() != OxygenStyleConfigData::menuBarAnimationsDuration() ) { modified = true; }
-        else if( menuBarAnimations_->followMouseDuration() != OxygenStyleConfigData::menuBarFollowMouseAnimationsDuration() ) { modified = true; }
-        else if( OxygenStyleConfigData::menuBarAnimationType() == OxygenStyleConfigData::MB_NONE && menuBarAnimations_->enabled() ) { modified = true; }
-        else if( OxygenStyleConfigData::menuBarAnimationType() == OxygenStyleConfigData::MB_FOLLOW_MOUSE && !( menuBarAnimations_->type() == 1 && menuBarAnimations_->enabled() ) ) { modified = true; }
-        else if( OxygenStyleConfigData::menuBarAnimationType() == OxygenStyleConfigData::MB_FADE && !( menuBarAnimations_->type() == 0 && menuBarAnimations_->enabled() ) ) { modified = true; }
+        else if( menuBarAnimations_->duration() != OxygenStyleConfigData::menuBarAnimationsDuration() ) modified = true;
+        else if( menuBarAnimations_->followMouseDuration() != OxygenStyleConfigData::menuBarFollowMouseAnimationsDuration() ) modified = true;
+        else if( OxygenStyleConfigData::menuBarAnimationType() == OxygenStyleConfigData::MB_NONE && menuBarAnimations_->enabled() ) modified = true;
+        else if( OxygenStyleConfigData::menuBarAnimationType() == OxygenStyleConfigData::MB_FOLLOW_MOUSE && !( menuBarAnimations_->type() == 1 && menuBarAnimations_->enabled() ) ) modified = true;
+        else if( OxygenStyleConfigData::menuBarAnimationType() == OxygenStyleConfigData::MB_FADE && !( menuBarAnimations_->type() == 0 && menuBarAnimations_->enabled() ) ) modified = true;
 
-        else if( menuAnimations_->duration() != OxygenStyleConfigData::menuAnimationsDuration() ) { modified = true; }
-        else if( menuAnimations_->followMouseDuration() != OxygenStyleConfigData::menuFollowMouseAnimationsDuration() ) { modified = true; }
-        else if( OxygenStyleConfigData::menuAnimationType() == OxygenStyleConfigData::ME_NONE && menuAnimations_->enabled() ) { modified = true; }
-        else if( OxygenStyleConfigData::menuAnimationType() == OxygenStyleConfigData::ME_FOLLOW_MOUSE && !( menuAnimations_->type() == 1 && menuAnimations_->enabled() ) ) { modified = true; }
-        else if( OxygenStyleConfigData::menuAnimationType() == OxygenStyleConfigData::ME_FADE && !( menuAnimations_->type() == 0 && menuAnimations_->enabled() ) ) { modified = true; }
+        else if( menuAnimations_->duration() != OxygenStyleConfigData::menuAnimationsDuration() ) modified = true;
+        else if( menuAnimations_->followMouseDuration() != OxygenStyleConfigData::menuFollowMouseAnimationsDuration() ) modified = true;
+        else if( OxygenStyleConfigData::menuAnimationType() == OxygenStyleConfigData::ME_NONE && menuAnimations_->enabled() ) modified = true;
+        else if( OxygenStyleConfigData::menuAnimationType() == OxygenStyleConfigData::ME_FOLLOW_MOUSE && !( menuAnimations_->type() == 1 && menuAnimations_->enabled() ) ) modified = true;
+        else if( OxygenStyleConfigData::menuAnimationType() == OxygenStyleConfigData::ME_FADE && !( menuAnimations_->type() == 0 && menuAnimations_->enabled() ) ) modified = true;
 
-        else if( progressBarAnimations_->enabled() != OxygenStyleConfigData::progressBarAnimationsEnabled() ) { modified = true; }
-        else if( progressBarAnimations_->duration() != OxygenStyleConfigData::progressBarAnimationsDuration() ) { modified = true; }
+        else if( progressBarAnimations_->enabled() != OxygenStyleConfigData::progressBarAnimationsEnabled() ) modified = true;
+        else if( progressBarAnimations_->duration() != OxygenStyleConfigData::progressBarAnimationsDuration() ) modified = true;
 
-        else if( progressBarBusyAnimations_->enabled() != OxygenStyleConfigData::progressBarAnimated() ) { modified = true; }
-        else if( progressBarBusyAnimations_->duration() != OxygenStyleConfigData::progressBarBusyStepDuration() ) { modified = true; }
+        else if( progressBarBusyAnimations_->enabled() != OxygenStyleConfigData::progressBarAnimated() ) modified = true;
+        else if( progressBarBusyAnimations_->duration() != OxygenStyleConfigData::progressBarBusyStepDuration() ) modified = true;
 
-        else if( stackedWidgetAnimations_->enabled() != OxygenStyleConfigData::stackedWidgetTransitionsEnabled() ) { modified = true; }
-        else if( stackedWidgetAnimations_->duration() != OxygenStyleConfigData::stackedWidgetTransitionsDuration() ) { modified = true; }
+        else if( stackedWidgetAnimations_->enabled() != OxygenStyleConfigData::stackedWidgetTransitionsEnabled() ) modified = true;
+        else if( stackedWidgetAnimations_->duration() != OxygenStyleConfigData::stackedWidgetTransitionsDuration() ) modified = true;
 
-        else if( labelAnimations_->enabled() != OxygenStyleConfigData::labelTransitionsEnabled() ) { modified = true; }
-        else if( labelAnimations_->duration() != OxygenStyleConfigData::labelTransitionsDuration() ) { modified = true; }
+        else if( labelAnimations_->enabled() != OxygenStyleConfigData::labelTransitionsEnabled() ) modified = true;
+        else if( labelAnimations_->duration() != OxygenStyleConfigData::labelTransitionsDuration() ) modified = true;
 
-        else if( lineEditAnimations_->enabled() != OxygenStyleConfigData::lineEditTransitionsEnabled() ) { modified = true; }
-        else if( lineEditAnimations_->duration() != OxygenStyleConfigData::lineEditTransitionsDuration() ) { modified = true; }
+        else if( lineEditAnimations_->enabled() != OxygenStyleConfigData::lineEditTransitionsEnabled() ) modified = true;
+        else if( lineEditAnimations_->duration() != OxygenStyleConfigData::lineEditTransitionsDuration() ) modified = true;
 
-        else if( comboBoxAnimations_->enabled() != OxygenStyleConfigData::comboBoxTransitionsEnabled() ) { modified = true; }
-        else if( comboBoxAnimations_->duration() != OxygenStyleConfigData::comboBoxTransitionsDuration() ) { modified = true; }
+        else if( comboBoxAnimations_->enabled() != OxygenStyleConfigData::comboBoxTransitionsEnabled() ) modified = true;
+        else if( comboBoxAnimations_->duration() != OxygenStyleConfigData::comboBoxTransitionsDuration() ) modified = true;
 
         setChanged( modified );
 
@@ -270,7 +286,6 @@ namespace Oxygen
 
         item->initializeConfigurationWidget( this );
         layout->addWidget( item->configurationWidget(), row_, 1, 1, 1 );
-        if( row_ == 1 ) layout->addItem( new QSpacerItem( 25, 0 ), row_, 0, 1, 1 );
         ++row_;
 
         item->configurationWidget()->setVisible( false );
