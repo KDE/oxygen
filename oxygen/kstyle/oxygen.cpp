@@ -40,6 +40,7 @@
 #include <QtGui/QComboBox>
 #include <QtGui/QDockWidget>
 #include <QtGui/QGraphicsView>
+#include <QtGui/QGroupBox>
 #include <QtGui/QLineEdit>
 #include <QtGui/QMainWindow>
 #include <QtGui/QPaintEvent>
@@ -4064,19 +4065,27 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QAbstractSpinBox*>(widget)
         || qobject_cast<QCheckBox*>(widget)
         || qobject_cast<QComboBox*>(widget)
+        || qobject_cast<QDial*>(widget)
         || qobject_cast<QLineEdit*>(widget)
         || qobject_cast<QPushButton*>(widget)
         || qobject_cast<QRadioButton*>(widget)
         || qobject_cast<QScrollBar*>(widget)
         || qobject_cast<QSlider*>(widget)
+        || qobject_cast<QSplitterHandle*>(widget)
         || qobject_cast<QTabBar*>(widget)
         || qobject_cast<QTextEdit*>(widget)
         || qobject_cast<QToolButton*>(widget)
-        || qobject_cast<QDial*>(widget)
-        || qobject_cast<QSplitterHandle*>(widget)
         || widget->inherits( "Q3ListView" )
         )
     { widget->setAttribute(Qt::WA_Hover); }
+
+    // checkable group boxes
+    if( QGroupBox* groupBox = qobject_cast<QGroupBox*>(widget) )
+    {
+        if( groupBox->isCheckable() )
+        { groupBox->setAttribute( Qt::WA_Hover ); }
+    }
+
 
     if( qobject_cast<QAbstractButton*>(widget) && qobject_cast<QDockWidget*>( widget->parent() ) )
     { widget->setAttribute(Qt::WA_Hover); }
@@ -4204,17 +4213,39 @@ void OxygenStyle::unpolish(QWidget* widget)
 
     }
 
+    // checkable group boxes
+    if( QGroupBox* groupBox = qobject_cast<QGroupBox*>(widget) )
+    {
+        if( groupBox->isCheckable() )
+        { groupBox->setAttribute( Qt::WA_Hover ); }
+    }
+
     // hover flags
-    if (qobject_cast<QPushButton*>(widget)
-        || qobject_cast<QComboBox*>(widget)
+    if(
+        qobject_cast<QAbstractItemView*>(widget)
         || qobject_cast<QAbstractSpinBox*>(widget)
         || qobject_cast<QCheckBox*>(widget)
+        || qobject_cast<QComboBox*>(widget)
+        || qobject_cast<QDial*>(widget)
+        || qobject_cast<QLineEdit*>(widget)
+        || qobject_cast<QPushButton*>(widget)
         || qobject_cast<QRadioButton*>(widget)
         || qobject_cast<QScrollBar*>(widget)
         || qobject_cast<QSlider*>(widget)
-        || qobject_cast<QLineEdit*>(widget)
-        || widget->inherits( "Q3ListView ") )
+        || qobject_cast<QSplitterHandle*>(widget)
+        || qobject_cast<QTabBar*>(widget)
+        || qobject_cast<QTextEdit*>(widget)
+        || qobject_cast<QToolButton*>(widget)
+        || widget->inherits( "Q3ListView" )
+        )
     { widget->setAttribute(Qt::WA_Hover, false); }
+
+    // checkable group boxes
+    if( QGroupBox* groupBox = qobject_cast<QGroupBox*>(widget) )
+    {
+        if( groupBox->isCheckable() )
+        { groupBox->setAttribute( Qt::WA_Hover, false ); }
+    }
 
     if( widget->inherits( "Q3ListView" ) )
     { widget->removeEventFilter(this); }

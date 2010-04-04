@@ -32,6 +32,7 @@
 
 #include <QtGui/QToolBar>
 #include <QtGui/QToolButton>
+#include <QtGui/QGroupBox>
 
 namespace Oxygen
 {
@@ -234,6 +235,13 @@ namespace Oxygen
 
         } else if( widget->inherits( "QAbstractButton" ) ) { widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
         else if( widget->inherits( "QDial" ) ) { widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+
+        // groupboxes
+        else if( QGroupBox* groupBox = qobject_cast<QGroupBox*>( widget ) )
+        {
+            if( groupBox->isCheckable() )
+            { widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        }
 
         // scrollbar
         else if( widget->inherits( "QScrollBar" ) ) { scrollBarEngine().registerWidget( widget ); }
