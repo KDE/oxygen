@@ -96,7 +96,10 @@ namespace Oxygen
 
         //! type changed
         void typeChanged( int value )
-        { ui.followMouseDurationSpinBox_->setEnabled( value == 1 ); }
+        {
+            ui.followMouseDurationLabel_->setEnabled( value == 1 );
+            ui.followMouseDurationSpinBox_->setEnabled( value == 1 );
+        }
 
         private:
 
