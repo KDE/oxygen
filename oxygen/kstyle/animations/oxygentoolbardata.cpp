@@ -115,11 +115,11 @@ namespace Oxygen
             switch( event->type() )
             {
 
-                case QEvent::Enter:
+                case QEvent::HoverEnter:
                 childEnterEvent( object );
                 break;
 
-                case QEvent::Leave:
+                case QEvent::HoverLeave:
                 if( currentObject() && !timer_.isActive() ) timer_.start( 100, this );
                 break;
 
