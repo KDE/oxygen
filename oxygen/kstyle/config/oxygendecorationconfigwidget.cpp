@@ -152,8 +152,7 @@ namespace Oxygen
     void DecorationConfigWidget::updateChanged( void )
     {
         bool modified( false );
-        if( false ) modified = true;
-        else if( shadowConfChanged( inactiveShadowUi, inactiveShadowConf_ ) ) modified = true;
+        if( shadowConfChanged( inactiveShadowUi, inactiveShadowConf_ ) ) modified = true;
         else if( shadowConfChanged( activeShadowUi, activeShadowConf_ ) ) modified = true;
         else if( ui.tabsEnabled_->isChecked() != OxygenStyleConfigData::tabsEnabled() ) modified = true;
         else if( ui.useAnimations_->isChecked() != OxygenStyleConfigData::useAnimations() ) modified = true;
