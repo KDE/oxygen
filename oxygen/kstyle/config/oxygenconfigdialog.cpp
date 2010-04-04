@@ -53,13 +53,7 @@ namespace Oxygen
         setMainWidget( pageWidget_ );
 
         connect( pageWidget_, SIGNAL( currentPageChanged( KPageWidgetItem*, KPageWidgetItem* ) ), SLOT( updateWindowTitle( KPageWidgetItem* ) ) );
-
-        // decoration
-        KPageWidgetItem *page = new KPageWidgetItem( decorationConfigWidget_ = new DecorationConfigWidget() );
-        page->setName( "Window Decorations" );
-        page->setHeader( "Allows to modify the appearance of window decorations" );
-        page->setIcon( KIcon( "preferences-system-windows" ) );
-        pageWidget_->addPage( page );
+        KPageWidgetItem *page;
 
         // appearance
         page = new KPageWidgetItem( appearanceConfigWidget_ = new AppearanceConfigWidget() );
@@ -73,6 +67,13 @@ namespace Oxygen
         page->setName( "Widget Animations" );
         page->setHeader( "Allows the fine tuning of widget animations" );
         page->setIcon( KIcon( "preferences-desktop-theme" ) );
+        pageWidget_->addPage( page );
+
+        // decoration
+        page = new KPageWidgetItem( decorationConfigWidget_ = new DecorationConfigWidget() );
+        page->setName( "Window Decorations" );
+        page->setHeader( "Allows to modify the appearance of window decorations" );
+        page->setIcon( KIcon( "preferences-system-windows" ) );
         pageWidget_->addPage( page );
 
         // connections
