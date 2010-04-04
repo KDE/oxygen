@@ -44,7 +44,7 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
+       <item row="5" column="1">
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -91,103 +91,6 @@
          <property name="text">
           <string>Use 'X' in checkboxes instead of check</string>
          </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Menu bar animation:</string>
-         </property>
-         <property name="buddy">
-          <cstring>_menuBarAnimationType</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Menu animation:</string>
-         </property>
-         <property name="buddy">
-          <cstring>_menuAnimationType</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="2">
-        <widget class="KComboBox" name="_menuAnimationType">
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Fade</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Follow Mouse</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="5" column="3">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="5" column="2">
-        <widget class="KComboBox" name="_menuBarAnimationType">
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Fade</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Follow Mouse</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Tool bar animation:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="KComboBox" name="_toolBarAnimationType">
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Fade</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Follow Mouse</string>
-          </property>
-         </item>
         </widget>
        </item>
       </layout>
@@ -413,11 +316,6 @@
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
    <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KTabWidget</class>

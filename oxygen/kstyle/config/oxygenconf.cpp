@@ -83,94 +83,11 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     _tabStyleSingle->setChecked( OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_SINGLE );
     _tabStylePlain->setChecked( OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_PLAIN );
 
-
-    // animations
-    // toolbar animation type
-    switch( OxygenStyleConfigData::toolBarAnimationType() )
-    {
-        case OxygenStyleConfigData::TB_NONE:
-        {
-            _toolBarAnimationType->setCurrentIndex(0);
-            break;
-        }
-
-        case OxygenStyleConfigData::TB_FOLLOW_MOUSE:
-        {
-            _toolBarAnimationType->setCurrentIndex(2);
-            break;
-        }
-
-        default:
-        case OxygenStyleConfigData::TB_FADE:
-        {
-            _toolBarAnimationType->setCurrentIndex(1);
-            break;
-        }
-
-    }
-
-    _toolBarAnimationType->setEnabled( false );
-
-    // menubar animation type
-    switch( OxygenStyleConfigData::menuBarAnimationType() )
-    {
-        case OxygenStyleConfigData::MB_NONE:
-        {
-            _menuBarAnimationType->setCurrentIndex(0);
-            break;
-        }
-
-        case OxygenStyleConfigData::MB_FOLLOW_MOUSE:
-        {
-            _menuBarAnimationType->setCurrentIndex(2);
-            break;
-        }
-
-        default:
-        case OxygenStyleConfigData::MB_FADE:
-        {
-            _menuBarAnimationType->setCurrentIndex(1);
-            break;
-        }
-
-    }
-
-    _menuBarAnimationType->setEnabled( false );
-
-    // menu animation type
-    switch( OxygenStyleConfigData::menuAnimationType() )
-    {
-        case OxygenStyleConfigData::ME_NONE:
-        {
-            _menuAnimationType->setCurrentIndex(0);
-            break;
-        }
-
-        case OxygenStyleConfigData::ME_FOLLOW_MOUSE:
-        {
-            _menuAnimationType->setCurrentIndex(2);
-            break;
-        }
-
-        default:
-        case OxygenStyleConfigData::ME_FADE:
-        {
-            _menuAnimationType->setCurrentIndex(1);
-            break;
-        }
-
-    }
-    _menuAnimationType->setEnabled( false );
-
     _stackedWidgetTransitionsEnabled->setChecked( OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
     _stackedWidgetTransitionsEnabled->setEnabled( false );
 
-
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _animationsEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _toolBarAnimationType, SLOT( setEnabled( bool) ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _menuBarAnimationType, SLOT( setEnabled( bool) ) );
-    connect( _animationsEnabled, SIGNAL( toggled(bool) ), _menuAnimationType, SLOT( setEnabled( bool) ) );
     _animationsEnabled->setChecked( OxygenStyleConfigData::animationsEnabled() );
 
     /* Stop 4: Emit a signal on changes */
@@ -187,9 +104,6 @@ OxygenStyleConfig::OxygenStyleConfig(QWidget* parent): QWidget(parent)
     connect( _menuHighlightSubtle, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
     connect( _tabStylePlain, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
     connect( _tabStyleSingle, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
-    connect( _toolBarAnimationType, SIGNAL( currentIndexChanged( int )), SLOT( updateChanged() ) );
-    connect( _menuBarAnimationType, SIGNAL( currentIndexChanged( int )), SLOT( updateChanged() ) );
-    connect( _menuAnimationType, SIGNAL( currentIndexChanged( int )), SLOT( updateChanged() ) );
 
     connect( _stackedWidgetTransitionsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
 
@@ -211,9 +125,6 @@ void OxygenStyleConfig::save()
     OxygenStyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
     OxygenStyleConfigData::setMenuHighlightMode( menuMode() );
     OxygenStyleConfigData::setTabStyle( tabStyle() );
-    OxygenStyleConfigData::setToolBarAnimationType( toolBarAnimationType() );
-    OxygenStyleConfigData::setMenuBarAnimationType( menuBarAnimationType() );
-    OxygenStyleConfigData::setMenuAnimationType( menuAnimationType() );
 
     OxygenStyleConfigData::setAnimationsEnabled( _animationsEnabled->isChecked() );
     OxygenStyleConfigData::setStackedWidgetTransitionsEnabled( _stackedWidgetTransitionsEnabled->isChecked() );
@@ -235,9 +146,6 @@ void OxygenStyleConfig::defaults()
 
     _menuHighlightDark->setChecked(true);
     _tabStyleSingle->setChecked(true);
-    _toolBarAnimationType->setCurrentIndex(1);
-    _menuBarAnimationType->setCurrentIndex(1);
-    _menuAnimationType->setCurrentIndex(1);
 
     _animationsEnabled->setChecked( true );
     _stackedWidgetTransitionsEnabled->setChecked( false );
@@ -258,9 +166,6 @@ void OxygenStyleConfig::updateChanged()
         && ((_checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK) == OxygenStyleConfigData::checkBoxStyle())
         && (menuMode() == OxygenStyleConfigData::menuHighlightMode())
         && (tabStyle() == OxygenStyleConfigData::tabStyle())
-        && (toolBarAnimationType() == OxygenStyleConfigData::toolBarAnimationType())
-        && (menuBarAnimationType() == OxygenStyleConfigData::menuBarAnimationType())
-        && (menuAnimationType() == OxygenStyleConfigData::menuAnimationType())
         && (_animationsEnabled->isChecked() == OxygenStyleConfigData::animationsEnabled() )
         && (_stackedWidgetTransitionsEnabled->isChecked() == OxygenStyleConfigData::stackedWidgetTransitionsEnabled() )
         )
@@ -284,42 +189,4 @@ int OxygenStyleConfig::tabStyle( void ) const
     else return OxygenStyleConfigData::TS_SINGLE;
 }
 
-//____________________________________________________________
-int OxygenStyleConfig::toolBarAnimationType( void ) const
-{
-    switch (_toolBarAnimationType->currentIndex())
-    {
-        case 0: return OxygenStyleConfigData::TB_NONE;
-        case 2: return OxygenStyleConfigData::TB_FOLLOW_MOUSE;
-        case 1:
-        default:
-        return OxygenStyleConfigData::TB_FADE;
-    }
-}
-
-//____________________________________________________________
-int OxygenStyleConfig::menuBarAnimationType( void ) const
-{
-    switch (_menuBarAnimationType->currentIndex())
-    {
-        case 0: return OxygenStyleConfigData::MB_NONE;
-        case 2: return OxygenStyleConfigData::MB_FOLLOW_MOUSE;
-        case 1:
-        default:
-        return OxygenStyleConfigData::MB_FADE;
-    }
-}
-
-//____________________________________________________________
-int OxygenStyleConfig::menuAnimationType( void ) const
-{
-    switch (_menuAnimationType->currentIndex())
-    {
-        case 0: return OxygenStyleConfigData::ME_NONE;
-        case 2: return OxygenStyleConfigData::ME_FOLLOW_MOUSE;
-        case 1:
-        default:
-        return OxygenStyleConfigData::ME_FADE;
-    }
-}
 #include "oxygenconf.moc"
