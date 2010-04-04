@@ -2802,8 +2802,9 @@ bool OxygenStyle::drawComboBoxPrimitive(
     const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Window);
     QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
 
-    animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-    animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
+    // focus takes precedence over hover
+    animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+    animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver && !hasFocus );
 
     switch (primitive)
     {
@@ -3893,8 +3894,9 @@ bool OxygenStyle::drawGenericPrimitive(
             const bool hoverHighlight( isInputWidget && (flags&State_MouseOver) );
             const bool focusHighlight( isInputWidget && (flags&State_HasFocus) );
 
-            animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, hoverHighlight );
+            // assume focus takes precedence over hover
             animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, focusHighlight );
+            animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, hoverHighlight && !focusHighlight );
             if (flags & State_Sunken)
             {
 
