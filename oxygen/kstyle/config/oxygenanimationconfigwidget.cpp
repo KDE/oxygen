@@ -48,40 +48,40 @@ namespace Oxygen
 
         setupItem( layout, genericAnimations_ = new GenericAnimationConfigItem( this,
             i18n("Focus, mouse-over and enability"),
-            i18n("Configure widgets focus and mouse-over animated highlight") ) );
+            i18n("Configure widgets' focus and mouse-over animated highlight") ) );
 
         setupItem( layout, toolBarAnimations_ = new FollowMouseAnimationConfigItem( this,
             i18n("Tool bar highlight" ),
-            i18n("Configure tool bars mouse-over animated highlight" ) ) );
+            i18n("Configure tool bars' mouse-over animated highlight" ) ) );
         toolBarAnimations_->hideDurationSpinBox();
 
         setupItem( layout, menuBarAnimations_ = new FollowMouseAnimationConfigItem( this,
             i18n("Menu bar highlight" ),
-            i18n("Configure menu bars mouse-over animated highlight" ) ) );
+            i18n("Configure menu bars' mouse-over animated highlight" ) ) );
 
         setupItem( layout, menuAnimations_ = new FollowMouseAnimationConfigItem( this,
             i18n("Menu highlight" ),
-            i18n("Configure menu mouse-over animated highlight" ) ) );
+            i18n("Configure menus' mouse-over animated highlight" ) ) );
 
         setupItem( layout, progressBarAnimations_ = new GenericAnimationConfigItem( this,
             i18n( "Progress bar animation" ),
-            i18n( "Configure Progress bar steps animation" ) ) );
+            i18n( "Configure progress bars' steps animation" ) ) );
 
        setupItem( layout, progressBarBusyAnimations_ = new GenericAnimationConfigItem( this,
             i18n( "Busy indicator steps" ),
-            i18n( "Configure Progress bar busy indicator animation" ) ) );
+            i18n( "Configure progress bars' busy indicator animation" ) ) );
 
         setupItem( layout, stackedWidgetAnimations_ = new GenericAnimationConfigItem( this,
             i18n( "Tab transitions" ), i18n( "Configure fading transition between tabs" ) ) );
 
         setupItem( layout, labelAnimations_ = new GenericAnimationConfigItem( this,
-            i18n( "Label transitions" ), i18n( "Configure fading transition when label's text is changed" ) ) );
+            i18n( "Label transitions" ), i18n( "Configure fading transition when a label's text is changed" ) ) );
 
         setupItem( layout, lineEditAnimations_ = new GenericAnimationConfigItem( this,
-            i18n( "Text editor transitions" ), i18n( "Configure fading transition when editor's text is changed" ) ) );
+            i18n( "Text editor transitions" ), i18n( "Configure fading transition when an editor's text is changed" ) ) );
 
         setupItem( layout, comboBoxAnimations_ = new GenericAnimationConfigItem( this,
-            i18n( "Combo box transitions" ), i18n( "Configure fading transition when combo boxes selected choice is changed" ) ) );
+            i18n( "Combo box transitions" ), i18n( "Configure fading transition when a combo box's selected choice is changed" ) ) );
 
         layout->addItem( new QSpacerItem( 0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding ), row_, 1, 1, 1 );
         ++row_;
