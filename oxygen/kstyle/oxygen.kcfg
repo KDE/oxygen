@@ -128,7 +128,7 @@
 
     <!-- menubar animation durations -->
     <entry name="MenuBarFollowMouseAnimationsDuration" type="Int">
-      <default>40</default>
+      <default>60</default>
     </entry>  
 
     <!-- menu animation durations -->
@@ -136,7 +136,7 @@
       <default>150</default>
     </entry>  
 
-   <!-- menubar animation durations -->
+   <!-- menu animation durations -->
     <entry name="MenuFollowMouseAnimationsDuration" type="Int">
       <default>40</default>
     </entry>  
