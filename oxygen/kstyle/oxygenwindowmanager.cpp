@@ -96,8 +96,8 @@ namespace Oxygen
         if( !enabled() ) return false;
 
         /*
-        if a drag is in progress, the widget will not recieve any event
-        we trigger on the first MouseMove or MousePress events that are recieved
+        if a drag is in progress, the widget will not receive any event
+        we trigger on the first MouseMove or MousePress events that are received
         by any widget in the application to detect that the drag is finished
         */
         if( dragInProgress_ && target_ && ( event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ) )

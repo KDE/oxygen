@@ -6699,7 +6699,7 @@ bool OxygenStyle::eventFilterToolBar( QToolBar* t, QEvent* ev )
             // default painting when not floating
             if( !t->isFloating() ) {
 
-                // background has to be rendered explicitely
+                // background has to be rendered explicitly
                 // when one of the parent has autofillBackground set to true
                 if( checkAutoFillBackground(t) )
                 { _helper.renderWindowBackground(&p, r, t, color); }
