@@ -142,7 +142,7 @@
 
    <!-- menu animation durations -->
     <entry name="MenuFollowMouseAnimationsDuration" type="Int">
-      <default>40</default>
+      <default>30</default>
     </entry>  
 
     <!-- progress bar animation durations -->
