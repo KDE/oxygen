@@ -43,7 +43,6 @@
 #include <QtGui/QGroupBox>
 #include <QtGui/QLineEdit>
 #include <QtGui/QMainWindow>
-#include <QtGui/QMdiSubWindow>
 #include <QtGui/QPaintEvent>
 #include <QtGui/QProgressBar>
 #include <QtGui/QPushButton>
@@ -6631,11 +6630,11 @@ bool OxygenStyle::eventFilter(QObject *obj, QEvent *ev)
     if( QToolBar *t = qobject_cast<QToolBar*>(obj) ) { return eventFilterToolBar( t, ev ); }
     if( QDockWidget*dw = qobject_cast<QDockWidget*>(obj) ) { return eventFilterDockWidget( dw, ev ); }
     if( QToolBox *tb = qobject_cast<QToolBox*>(obj) ) { return eventFilterToolBox( tb, ev ); }
+    if( QMdiSubWindow *sw = qobject_cast<QMdiSubWindow*>(obj) ) { return eventFilterMdiSubWindow( sw, ev ); }
 
     // cast to QWidget
     QWidget *widget = static_cast<QWidget*>(obj);
 
-    if( widget->inherits( "QMdiSubWindow" ) ) { return eventFilterMdiSubWindow( widget, ev ); }
     if( widget->inherits( "Q3ListView" ) ) { return eventFilterQ3ListView( widget, ev ); }
     if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, ev ); }
     if( widget->isWindow() && widget->isVisible() ) { return eventFilterWindow( widget, ev ); }
@@ -6851,15 +6850,16 @@ bool OxygenStyle::eventFilterWindow( QWidget* widget, QEvent* ev )
 }
 
 //____________________________________________________________________________
-bool OxygenStyle::eventFilterMdiSubWindow( QWidget* widget, QEvent* ev )
+bool OxygenStyle::eventFilterMdiSubWindow( QMdiSubWindow* sw, QEvent* ev )
 {
 
     if (ev->type() == QEvent::Paint)
     {
 
-        QPainter p(widget);
+        QPainter p(sw);
         QRect r( static_cast<QPaintEvent*>( ev )->rect() );
-        _helper.renderWindowBackground(&p, r, widget, widget, widget->palette(), 0, 50 );
+        if( sw->isMaximized() ) _helper.renderWindowBackground(&p, r, sw, sw->palette() );
+        else _helper.renderWindowBackground(&p, r, sw, sw, sw->palette(), 0, 50 );
 
     }
 

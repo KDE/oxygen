@@ -50,6 +50,7 @@
 #include <QtGui/QBitmap>
 #include <QtGui/QDockWidget>
 #include <QtGui/QFrame>
+#include <QtGui/QMdiSubWindow>
 #include <QtGui/QStyleOption>
 #include <QtGui/QTabBar>
 #include <QtGui/QToolBar>
@@ -299,7 +300,7 @@ class OxygenStyle : public KStyle
     bool eventFilterFrames( QFrame*, QEvent* );
     bool eventFilterQ3ListView( QWidget*, QEvent* );
     bool eventFilterComboBoxContainer( QWidget*, QEvent* );
-    bool eventFilterMdiSubWindow( QWidget*, QEvent* );
+    bool eventFilterMdiSubWindow( QMdiSubWindow*, QEvent* );
     bool eventFilterWindow( QWidget*, QEvent* );
 
     //@}
