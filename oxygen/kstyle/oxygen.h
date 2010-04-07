@@ -299,6 +299,7 @@ class OxygenStyle : public KStyle
     bool eventFilterFrames( QFrame*, QEvent* );
     bool eventFilterQ3ListView( QWidget*, QEvent* );
     bool eventFilterComboBoxContainer( QWidget*, QEvent* );
+    bool eventFilterMdiSubWindow( QWidget*, QEvent* );
     bool eventFilterWindow( QWidget*, QEvent* );
 
     //@}
