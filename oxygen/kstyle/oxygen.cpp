@@ -2367,7 +2367,6 @@ bool OxygenStyle::drawWindowPrimitive(
     const QWidget* widget,
     KStyle::Option* kOpt) const
 {
-    Q_UNUSED( widget );
 
     switch (primitive)
     {
@@ -2424,16 +2423,29 @@ bool OxygenStyle::drawWindowPrimitive(
             const bool active = (tb->titleBarState & Qt::WindowActive );
             QColor color( pal.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
 
+            const bool sunken( flags&State_Sunken );
+            const bool mouseOver = (!sunken) && widget && r.translated( widget->mapToGlobal( QPoint(0,0) ) ).contains( QCursor::pos() );
             {
-                // contrast pixel is achieved by translating
-                // down the icon and painting it with white color
+
+                QColor contrast = _helper.calcLightColor( color );
+
                 qreal width( 1.1 );
                 p->translate(0, 0.5);
-                p->setPen(QPen( _helper.calcLightColor( color ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                p->setPen(QPen( contrast, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
                 renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
+
             }
 
             {
+
+                if( mouseOver )
+                {
+                    color = primitive == Window::ButtonClose ?
+                        KColorScheme(pal.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
+                        KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+
+                }
+
                 // main icon painting
                 qreal width( 1.1 );
                 p->translate(0,-1);
