@@ -6869,7 +6869,7 @@ bool OxygenStyle::eventFilterMdiSubWindow( QMdiSubWindow* sw, QEvent* ev )
             tileSet->render( r, &p );
 
             p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-            _helper.renderWindowBackground(&p, clip, sw, sw, sw->palette(), 0, 50 );
+            _helper.renderWindowBackground(&p, clip, sw, sw, sw->palette(), 0, 58 );
 
         }
 
