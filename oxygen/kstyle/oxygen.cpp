@@ -71,6 +71,7 @@
 
 #include "oxygenanimations.h"
 #include "oxygentransitions.h"
+#include "oxygenwindowmanager.h"
 #include "oxygenstyleconfigdata.h"
 
 // We need better holes! Bevel color and shadow color are currently based on
@@ -110,7 +111,8 @@ OxygenStyle::OxygenStyle() :
     CE_CapacityBar( newControlElement( "CE_CapacityBar" ) ),
     _helper(*globalHelper),
     _animations( new Oxygen::Animations( this ) ),
-    _transitions( new Oxygen::Transitions( this ) )
+    _transitions( new Oxygen::Transitions( this ) ),
+    _windowManager( new Oxygen::WindowManager( this ) )
 {
     _sharedConfig = _helper.config();
 
@@ -4055,6 +4057,10 @@ void OxygenStyle::polish(QWidget* widget)
     animations().registerWidget( widget );
     transitions().registerWidget( widget );
 
+    #ifdef Q_WS_X11
+    windowManager().registerWidget( widget );
+    #endif
+
     if( widget->inherits( "QAbstractScrollArea" ) )
     { polishScrollArea( qobject_cast<QAbstractScrollArea*>(widget) ); }
 
@@ -4138,9 +4144,10 @@ void OxygenStyle::polish(QWidget* widget)
         widget->setAttribute(Qt::WA_TranslucentBackground);
         widget->setContentsMargins(0,0,0,1);
         widget->installEventFilter(this);
-#ifdef Q_WS_WIN
+
+        #ifdef Q_WS_WIN
         widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
-#endif
+        #endif
 
     } else if (qobject_cast<QScrollBar*>(widget) ) {
 
@@ -4215,6 +4222,10 @@ void OxygenStyle::unpolish(QWidget* widget)
     // register widget to animations
     animations().unregisterWidget( widget );
     transitions().unregisterWidget( widget );
+
+    #ifdef Q_WS_X11
+    windowManager().unregisterWidget( widget );
+    #endif
 
     // event filters
     switch (widget->windowFlags() & Qt::WindowType_Mask)
@@ -4321,6 +4332,10 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
     OxygenStyleConfigData::self()->readConfig();
     animations().setupEngines();
     transitions().setupEngines();
+
+    #ifdef Q_WS_X11
+    windowManager().setEnabled( OxygenStyleConfigData::windowDragEnabled() );
+    #endif
 
 }
 

@@ -64,6 +64,7 @@ namespace Oxygen
 {
   class Animations;
   class Transitions;
+  class WindowManager;
 }
 
 //! main oxygen style class.
@@ -177,6 +178,10 @@ class OxygenStyle : public KStyle
 
     Oxygen::Transitions& transitions( void ) const
     { return *_transitions; }
+
+    //! window manager
+    Oxygen::WindowManager& windowManager( void ) const
+    { return *_windowManager; }
 
     //! polish scrollarea
     void polishScrollArea( QAbstractScrollArea* ) const;
@@ -348,6 +353,9 @@ class OxygenStyle : public KStyle
 
     //! transitions
     Oxygen::Transitions* _transitions;
+
+    //! window manager
+    Oxygen::WindowManager* _windowManager;
 
 };
 

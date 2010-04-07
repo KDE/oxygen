@@ -36,6 +36,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="windowDragEnabled_">
+         <property name="text">
+          <string>Drag windows by clicking on empty areas</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
