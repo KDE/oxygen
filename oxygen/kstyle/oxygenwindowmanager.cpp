@@ -42,6 +42,8 @@
 #include <QtGui/QTabBar>
 #include <QtGui/QTabWidget>
 
+#include <QtCore/QTextStream>
+
 #ifdef Q_WS_X11
 #include <QX11Info>
 #include <X11/Xlib.h>
@@ -146,8 +148,6 @@ namespace Oxygen
         if( event->type() == QEvent::MouseButtonPress )
         {
 
-            // check if event is black listed
-            if( isEventBlackListed( event ) ) return false;
 
             // cast event and check buttons/modifiers
             QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
@@ -173,8 +173,12 @@ namespace Oxygen
             if( canDrag( widget, mouseEvent->pos() ) )
             {
 
-                // clear event black list
-                clearBlackListedEvent();
+                // check if event is black listed
+                if( isEventBlackListed( event ) )
+                {
+                    clearBlackListedEvent();
+                    return true;
+                }
 
                 // save target and drag point
                 target_ = widget;
