@@ -48,21 +48,21 @@ namespace Oxygen
         row_ = layout->rowCount();
 
         setupItem( layout, genericAnimations_ = new GenericAnimationConfigItem( this,
-            i18n("Focus, mouse-over and enability"),
-            i18n("Configure widgets' focus and mouse-over animated highlight") ) );
+            i18n("Focus, mouseover and widget state transition"),
+            i18n("Configure widgets' focus and mouseover highlight animation, as well as widget enabled/disabled state transition") ) );
 
         setupItem( layout, toolBarAnimations_ = new FollowMouseAnimationConfigItem( this,
-            i18n("Tool bar highlight" ),
-            i18n("Configure tool bars' mouse-over animated highlight" ) ) );
+            i18n("Toolbar highlight" ),
+            i18n("Configure toolbars' mouseover highlight animation" ) ) );
         toolBarAnimations_->hideDurationSpinBox();
 
         setupItem( layout, menuBarAnimations_ = new FollowMouseAnimationConfigItem( this,
             i18n("Menu bar highlight" ),
-            i18n("Configure menu bars' mouse-over animated highlight" ) ) );
+            i18n("Configure menu bars' mouseover highlight animation" ) ) );
 
         setupItem( layout, menuAnimations_ = new FollowMouseAnimationConfigItem( this,
             i18n("Menu highlight" ),
-            i18n("Configure menus' mouse-over animated highlight" ) ) );
+            i18n("Configure menus' mouseover highlight animation" ) ) );
 
         setupItem( layout, progressBarAnimations_ = new GenericAnimationConfigItem( this,
             i18n( "Progress bar animation" ),
