@@ -127,6 +127,7 @@ namespace Oxygen
         /*! QWeakPointer is used in case the target gets deleted while drag is in progress */
         QWeakPointer<QWidget> target_;
 
+        //! pointer to current blacklisted event, if any
         QEvent* blackListEvent_;
 
         //! true if drag is in progress

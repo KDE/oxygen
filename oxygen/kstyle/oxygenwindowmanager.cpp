@@ -286,7 +286,7 @@ namespace Oxygen
     bool WindowManager::canDrag( QWidget* widget, const QPoint& position ) const
     {
 
-        // check enability
+        // check if enabled
         if( !enabled() ) return false;
 
         // assume isDragable widget is already passed
