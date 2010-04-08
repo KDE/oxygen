@@ -323,7 +323,9 @@ namespace Oxygen
             if (!groupBox->title().isEmpty()) opt.subControls |= QStyle::SC_GroupBoxLabel;
 
             opt.state |= (groupBox->isChecked() ? QStyle::State_On : QStyle::State_Off);
-            if( groupBox->style()->subControlRect(QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxCheckBox, groupBox ).contains( position ))
+            if(
+                groupBox->style()->subControlRect(QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxCheckBox, groupBox ).contains( position ) ||
+                groupBox->style()->subControlRect(QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxLabel, groupBox ).contains( position ) )
             { return false; }
         }
 
