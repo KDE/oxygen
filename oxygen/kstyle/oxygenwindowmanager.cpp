@@ -46,9 +46,7 @@
 
 #ifdef Q_WS_X11
 #include <QX11Info>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
+#include <NETRootInfo>
 #endif
 
 namespace Oxygen
@@ -62,19 +60,7 @@ namespace Oxygen
         dragDelay_( QApplication::doubleClickInterval() ),
         blackListEvent_( NULL ),
         dragInProgress_( false )
-    {
-
-        #ifdef Q_WS_X11
-
-        Display* display( QX11Info::display() );
-        netMoveResize_ = XInternAtom(display, "_NET_WM_MOVERESIZE", false );
-
-        // one should make sure that the atom is supported
-        // and permanently disable if not
-
-        #endif
-
-    }
+    {}
 
     //_____________________________________________________________
     void WindowManager::registerWidget( QWidget* widget )
@@ -363,23 +349,15 @@ namespace Oxygen
         if( QWidget::mouseGrabber() ) return;
 
         #ifdef Q_WS_X11
-        QPoint globalPosition( widget->mapToGlobal( position ) );
-
-        QX11Info info;
-        XEvent xev;
-        xev.xclient.type = ClientMessage;
-        xev.xclient.message_type = netMoveResize_;
-        xev.xclient.display = QX11Info::display();
-        xev.xclient.window = widget->window()->winId();
-        xev.xclient.format = 32;
-        xev.xclient.data.l[0] = globalPosition.x();
-        xev.xclient.data.l[1] = globalPosition.y();
-        xev.xclient.data.l[2] = 8; // NET::Move
-        xev.xclient.data.l[3] = Button1;
-        xev.xclient.data.l[4] = 0;
+        // ungrab pointer
         XUngrabPointer(QX11Info::display(), QX11Info::appTime());
-        XSendEvent(QX11Info::display(), QX11Info::appRootWindow(info.screen()), False,
-            SubstructureRedirectMask | SubstructureNotifyMask, &xev);
+
+        // Ask the window manager to start an interactive move operation.
+        NETRootInfo rootInfo(QX11Info::display(), NET::WMMoveResize);
+
+        // translate position to global
+        QPoint globalPosition( widget->mapToGlobal( position ) );
+        rootInfo.moveResizeRequest( widget->window()->winId(), globalPosition.x(), globalPosition.y(), NET::Move);
 
         dragInProgress_ = true;
         qApp->installEventFilter( this );

@@ -37,10 +37,6 @@
 #include <QtCore/QBasicTimer>
 #include <QtGui/QWidget>
 
-#ifdef Q_WS_X11
-#include <X11/Xdefs.h>
-#endif
-
 namespace Oxygen
 {
 
@@ -132,11 +128,6 @@ namespace Oxygen
 
         //! true if drag is in progress
         bool dragInProgress_;
-
-        #ifdef Q_WS_X11
-        //! move resize X11 atom
-        Atom netMoveResize_;
-        #endif
 
     };
 
