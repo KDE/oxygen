@@ -30,6 +30,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include <QtCore/QEvent>
+
 #include <QtCore/QObject>
 #include <QtCore/QWeakPointer>
 #include <QtCore/QBasicTimer>
@@ -76,7 +78,10 @@ namespace Oxygen
         void timerEvent( QTimerEvent* );
 
         //! returns true if widget is dragable
-        bool isDragableWidget( QWidget* ) const;
+        bool isDragable( QWidget* ) const;
+
+        //! returns true if widget is dragable
+        bool isBlackListed( QWidget* ) const;
 
         //! returns true if drag can be started from current widget and position
         bool canDrag( QWidget*, const QPoint& ) const;
@@ -86,6 +91,18 @@ namespace Oxygen
 
         //! start drag
         void startDrag( QWidget*, const QPoint& );
+
+        //! tag event as blacklisted
+        void setEventBlackListed( QEvent* event )
+        { blackListEvent_ = event; }
+
+        //! true if event is blacklisted
+        bool isEventBlackListed( QEvent* event ) const
+        { return event == blackListEvent_; }
+
+        //! clear blackListed event
+        void clearBlackListedEvent( void )
+        { blackListEvent_ = NULL; }
 
         private:
 
@@ -109,6 +126,8 @@ namespace Oxygen
         //! target being dragged
         /*! QWeakPointer is used in case the target gets deleted while drag is in progress */
         QWeakPointer<QWidget> target_;
+
+        QEvent* blackListEvent_;
 
         //! true if drag is in progress
         bool dragInProgress_;

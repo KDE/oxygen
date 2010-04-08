@@ -58,6 +58,7 @@ namespace Oxygen
         enabled_( true ),
         dragDistance_(6),
         dragDelay_( QApplication::doubleClickInterval() ),
+        blackListEvent_( NULL ),
         dragInProgress_( false )
     {
 
@@ -76,11 +77,24 @@ namespace Oxygen
     //_____________________________________________________________
     void WindowManager::registerWidget( QWidget* widget )
     {
-        if( isDragableWidget( widget ) )
+
+        if( isDragable( widget ) )
         {
             widget->removeEventFilter( this );
             widget->installEventFilter( this );
         }
+
+        if( isBlackListed( widget ) )
+        {
+            /*
+            also install filter for blacklisted widgets
+            to be able to catch the relevant events and prevent
+            the drag to happen
+            */
+            widget->removeEventFilter( this );
+            widget->installEventFilter( this );
+        }
+
     }
 
     //_____________________________________________________________
@@ -132,15 +146,35 @@ namespace Oxygen
         if( event->type() == QEvent::MouseButtonPress )
         {
 
+            // check if event is black listed
+            if( isEventBlackListed( event ) ) return false;
+
             // cast event and check buttons/modifiers
             QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
             if( !( mouseEvent->modifiers() == Qt::NoModifier && mouseEvent->button() == Qt::LeftButton ) )
             { return false; }
 
-            // cast to widget and check mouse grab
+            // cast to widget
             QWidget *widget = static_cast<QWidget*>( object );
+
+            // check against blacklist
+            if( isBlackListed( widget ) )
+            {
+                /*
+                tag event as blacklisted to prevent
+                the drag to get started if the event is propagated to one of
+                the (dragable) parents of the widget
+                */
+                setEventBlackListed( event );
+                return false;
+            }
+
+            // check if widget can be dragged from current position
             if( canDrag( widget, mouseEvent->pos() ) )
             {
+
+                // clear event black list
+                clearBlackListedEvent();
 
                 // save target and drag point
                 target_ = widget;
@@ -201,7 +235,7 @@ namespace Oxygen
         {
             dragTimer_.stop();
             if( target_ )
-            { startDrag( target_.data(), target_.data()->mapToGlobal( dragPoint_ ) ); }
+            { startDrag( target_.data(), dragPoint_ ); }
 
         } else {
 
@@ -212,7 +246,7 @@ namespace Oxygen
     }
 
     //_____________________________________________________________
-    bool WindowManager::isDragableWidget( QWidget* widget ) const
+    bool WindowManager::isDragable( QWidget* widget ) const
     {
 
         // check widget
@@ -231,16 +265,17 @@ namespace Oxygen
             widget->inherits( "QToolBar" ) )
         { return true; }
 
-        // accept non-selectable labels
-        if(
-            widget->inherits( "QLabel" ) &&
-            widget->parentWidget() &&
-            ( widget->parentWidget()->inherits( "QStatusBar" ) || widget->parentWidget()->inherits( "KTitleWidget" ) ) &&
-            !static_cast<QLabel*>(widget)->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ) )
-        { return true; }
-
         return false;
 
+    }
+
+    //_____________________________________________________________
+    bool WindowManager::isBlackListed( QWidget* widget ) const
+    {
+        if(
+            widget->inherits( "KCategorizedView" ) ||
+            widget->inherits( "Utils::WelcomeModeLabel" ) ) return true;
+        return false;
     }
 
     //_____________________________________________________________
@@ -276,10 +311,6 @@ namespace Oxygen
         // correspond to the empty area alongside the tabs in the tabbar
         if( QTabWidget* tabWidget = qobject_cast<QTabWidget*>( widget ) )
         { return !tabWidget->childAt( position ); }
-
-        // check labels
-        if( QLabel* label = qobject_cast<QLabel*>( widget ) )
-        { return !label->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ); }
 
         /*
         check groupboxes
@@ -323,10 +354,13 @@ namespace Oxygen
     //____________________________________________________________
     void WindowManager::startDrag( QWidget* widget, const QPoint& position )
     {
+
         if( !( enabled() && widget ) ) return;
         if( QWidget::mouseGrabber() ) return;
 
         #ifdef Q_WS_X11
+        QPoint globalPosition( widget->mapToGlobal( position ) );
+
         QX11Info info;
         XEvent xev;
         xev.xclient.type = ClientMessage;
@@ -334,8 +368,8 @@ namespace Oxygen
         xev.xclient.display = QX11Info::display();
         xev.xclient.window = widget->window()->winId();
         xev.xclient.format = 32;
-        xev.xclient.data.l[0] = position.x();
-        xev.xclient.data.l[1] = position.y();
+        xev.xclient.data.l[0] = globalPosition.x();
+        xev.xclient.data.l[1] = globalPosition.y();
         xev.xclient.data.l[2] = 8; // NET::Move
         xev.xclient.data.l[3] = Button1;
         xev.xclient.data.l[4] = 0;
