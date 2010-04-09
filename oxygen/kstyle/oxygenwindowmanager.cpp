@@ -66,14 +66,9 @@ namespace Oxygen
     void WindowManager::registerWidget( QWidget* widget )
     {
 
-        if( isDragable( widget ) )
-        {
-            widget->removeEventFilter( this );
-            widget->installEventFilter( this );
-        }
-
         if( isBlackListed( widget ) )
         {
+
             /*
             also install filter for blacklisted widgets
             to be able to catch the relevant events and prevent
@@ -81,6 +76,12 @@ namespace Oxygen
             */
             widget->removeEventFilter( this );
             widget->installEventFilter( this );
+
+        } else if( isDragable( widget ) ) {
+
+            widget->removeEventFilter( this );
+            widget->installEventFilter( this );
+
         }
 
     }
