@@ -50,6 +50,10 @@ namespace Oxygen
         //! constructor
         explicit WindowManager( QObject* );
 
+        //! destructor
+        virtual ~WindowManager( void )
+        {}
+
         //! enability
         bool enabled( void ) const
         { return enabled_; }
