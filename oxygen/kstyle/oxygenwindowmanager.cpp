@@ -245,12 +245,10 @@ namespace Oxygen
 
         // all accepted types
         if(
-            widget->inherits( "KTitleWidget" ) ||
             ( widget->inherits( "QDialog" ) && widget->isWindow() ) ||
             ( widget->inherits( "QMainWindow" ) && widget->isWindow() ) ||
             widget->inherits( "QGroupBox" ) ||
             widget->inherits( "QMenuBar" ) ||
-            widget->inherits( "QStatusBar" ) ||
             widget->inherits( "QTabBar" ) ||
             widget->inherits( "QTabWidget" ) ||
             widget->inherits( "QToolBar" ) )
@@ -324,10 +322,15 @@ namespace Oxygen
             if (!groupBox->title().isEmpty()) opt.subControls |= QStyle::SC_GroupBoxLabel;
 
             opt.state |= (groupBox->isChecked() ? QStyle::State_On : QStyle::State_Off);
-            if(
-                groupBox->style()->subControlRect(QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxCheckBox, groupBox ).contains( position ) ||
-                groupBox->style()->subControlRect(QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxLabel, groupBox ).contains( position ) )
+
+            // check against groupbox checkbox
+            if( groupBox->style()->subControlRect(QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxCheckBox, groupBox ).contains( position ) )
             { return false; }
+
+            // check against groupbox label
+            if( !groupBox->title().isEmpty() && groupBox->style()->subControlRect(QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxLabel, groupBox ).contains( position ) )
+            { return false; }
+
         }
 
         return true;
