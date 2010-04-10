@@ -63,8 +63,6 @@ namespace Oxygen
         labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
         lineEditEngine().setDuration( OxygenStyleConfigData::lineEditTransitionsDuration() );
         stackedWidgetEngine().setDuration( OxygenStyleConfigData::stackedWidgetTransitionsDuration() );
-        labelEngine().setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
-
 
     }
 
