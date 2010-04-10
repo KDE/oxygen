@@ -191,6 +191,12 @@ namespace Oxygen
 
         } else if( event->type() == QEvent::MouseMove && target_ ) {
 
+            /*
+            make sure that object and target are the same
+            this is needed so that the drag distance is calculated properly
+            */
+            if( object != target_.data() ) return false;
+
             // stop timer
             if( dragTimer_.isActive() ) dragTimer_.stop();
 
