@@ -251,6 +251,7 @@ namespace Oxygen
             widget->inherits( "QMenuBar" ) ||
             widget->inherits( "QTabBar" ) ||
             widget->inherits( "QTabWidget" ) ||
+            widget->inherits( "ViewSliders" ) || // kmix
             widget->inherits( "QToolBar" ) )
         { return true; }
 
