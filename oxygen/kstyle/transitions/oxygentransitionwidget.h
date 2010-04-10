@@ -75,7 +75,7 @@ namespace Oxygen
         }
 
         bool testFlag( Flag flag ) const
-        { return flags_ & flag; }
+        { return flags_.testFlag( flag ); }
 
         //@}
 
