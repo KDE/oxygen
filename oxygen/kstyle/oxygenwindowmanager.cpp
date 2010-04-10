@@ -41,6 +41,7 @@
 #include <QtGui/QStyleOptionGroupBox>
 #include <QtGui/QTabBar>
 #include <QtGui/QTabWidget>
+#include <QtGui/QToolButton>
 
 #include <QtCore/QTextStream>
 
@@ -255,6 +256,10 @@ namespace Oxygen
             widget->inherits( "QToolBar" ) )
         { return true; }
 
+        // flat toolbuttons
+        if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
+        { if( toolButton->autoRaise() ) return true; }
+
         return false;
 
     }
@@ -289,9 +294,28 @@ namespace Oxygen
         if( widget->cursor().shape() != Qt::ArrowCursor )
         { return false; }
 
+        // tool buttons
+        if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
+        { return toolButton->autoRaise() && !toolButton->isEnabled(); }
+
         // check menubar
         if( QMenuBar* menuBar = qobject_cast<QMenuBar*>( widget ) )
-        { return !(menuBar->actionAt( position ) || menuBar->activeAction() ); }
+        {
+
+            // check if there is an active action
+            if( menuBar->activeAction() ) return false;
+
+            // check if action at position exists and is enabled
+            if( QAction* action = menuBar->actionAt( position ) )
+            {
+                if( action->isSeparator() ) return true;
+                if( action->isEnabled() ) return false;
+            }
+
+            // return true in all other cases
+            return true;
+
+        }
 
         // tabbar. Make sure no tab is under the cursor
         if( QTabBar* tabBar = qobject_cast<QTabBar*>( widget ) )
