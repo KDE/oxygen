@@ -32,6 +32,8 @@
 
 
 #include <QtGui/QMouseEvent>
+#include <QtGui/QListView>
+#include <QtGui/QTreeView>
 #include <QtGui/QApplication>
 #include <QtGui/QDockWidget>
 #include <QtGui/QGroupBox>
@@ -260,6 +262,13 @@ namespace Oxygen
         if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
         { if( toolButton->autoRaise() ) return true; }
 
+        // viewports
+        if( QListView* listView = qobject_cast<QListView*>( widget->parentWidget() ) )
+        { if( listView->viewport() == widget && listView->frameShape() == QFrame::NoFrame ) return true; }
+
+        if( QTreeView* treeView = qobject_cast<QTreeView*>( widget->parentWidget() ) )
+        { if( treeView->viewport() == widget && treeView->frameShape() == QFrame::NoFrame ) return true; }
+
         return false;
 
     }
@@ -267,10 +276,12 @@ namespace Oxygen
     //_____________________________________________________________
     bool WindowManager::isBlackListed( QWidget* widget ) const
     {
-        if(
-            widget->inherits( "KCategorizedView" ) ||
-            widget->inherits( "Utils::WelcomeModeLabel" ) ) return true;
+
+        if( widget->inherits( "Utils::WelcomeModeLabel" ) )
+        { return true; }
+
         return false;
+
     }
 
     //_____________________________________________________________
@@ -357,6 +368,10 @@ namespace Oxygen
             { return false; }
 
         }
+
+        // viewports
+        if( QAbstractItemView* itemView = qobject_cast<QAbstractItemView*>( widget->parentWidget() ) )
+        { if( itemView->indexAt( position ).isValid() ) return false; }
 
         return true;
 
