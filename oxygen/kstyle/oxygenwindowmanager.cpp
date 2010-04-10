@@ -29,6 +29,7 @@
 
 #include "oxygenwindowmanager.h"
 #include "oxygenwindowmanager.moc"
+#include "oxygenstyleconfigdata.h"
 
 
 #include <QtGui/QMouseEvent>
@@ -43,6 +44,7 @@
 #include <QtGui/QStyleOptionGroupBox>
 #include <QtGui/QTabBar>
 #include <QtGui/QTabWidget>
+#include <QtGui/QToolBar>
 #include <QtGui/QToolButton>
 
 #include <QtCore/QTextStream>
@@ -59,6 +61,7 @@ namespace Oxygen
     WindowManager::WindowManager( QObject* parent ):
         QObject( parent ),
         enabled_( true ),
+        dragMode_( OxygenStyleConfigData::WD_FULL ),
         dragDistance_(6),
         dragDelay_( QApplication::doubleClickInterval() ),
         blackListEvent_( NULL ),
@@ -305,7 +308,10 @@ namespace Oxygen
 
         // tool buttons
         if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
-        { return toolButton->autoRaise() && !toolButton->isEnabled(); }
+        {
+            if( dragMode() == OxygenStyleConfigData::WD_MINIMAL && !qobject_cast<QToolBar*>(widget->parentWidget() ) ) return false;
+            return toolButton->autoRaise() && !toolButton->isEnabled();
+        }
 
         // check menubar
         if( QMenuBar* menuBar = qobject_cast<QMenuBar*>( widget ) )
@@ -325,6 +331,18 @@ namespace Oxygen
             return true;
 
         }
+
+        /*
+        in MINIMAL mode, anything that has not been already accepted
+        and does not come from a toolbar is rejected
+        */
+        if( dragMode() == OxygenStyleConfigData::WD_MINIMAL )
+        {
+            if( widget->inherits( "QToolBar" ) ) return true;
+            else return false;
+        }
+
+        /* following checks are relevant only for WD_FULL mode */
 
         // tabbar. Make sure no tab is under the cursor
         if( QTabBar* tabBar = qobject_cast<QTabBar*>( widget ) )

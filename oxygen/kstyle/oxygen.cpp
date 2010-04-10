@@ -4340,6 +4340,7 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
 
     #ifdef Q_WS_X11
     windowManager().setEnabled( OxygenStyleConfigData::windowDragEnabled() );
+    windowManager().setDragMode( OxygenStyleConfigData::windowDragMode() );
     #endif
 
 }

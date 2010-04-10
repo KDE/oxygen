@@ -62,6 +62,14 @@ namespace Oxygen
         void setEnabled( bool value )
         { enabled_ = value; }
 
+        //! drag mode
+        int dragMode( void ) const
+        { return dragMode_; }
+
+        //! drag mode
+        void setDragMode( int value )
+        { dragMode_ = value; }
+
         //! register widget
         void registerWidget( QWidget* );
 
@@ -108,6 +116,9 @@ namespace Oxygen
 
         //! enability
         bool enabled_;
+
+        //! drag mode
+        bool dragMode_;
 
         //! drag distance
         /*! this is copied from kwin::geometry */

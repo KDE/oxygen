@@ -67,6 +67,14 @@
       <default>true</default>
     </entry>
 
+    <entry name="WindowDragMode" type="Enum">
+      <choices>
+          <choice name="WD_MINIMAL" />
+          <choice name="WD_FULL" />
+      </choices>
+      <default>WD_MINIMAL</default>
+    </entry>
+
     <!-- animation flags -->
     <entry name="AnimationsEnabled" type="Bool">
       <default>true</default>
