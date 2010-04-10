@@ -276,12 +276,10 @@ namespace Oxygen
     //_____________________________________________________________
     bool WindowManager::isBlackListed( QWidget* widget ) const
     {
-
-        if( widget->inherits( "Utils::WelcomeModeLabel" ) )
-        { return true; }
-
+        if(
+            widget->inherits( "KCategorizedView" ) ||
+            widget->inherits( "Utils::WelcomeModeLabel" ) ) return true;
         return false;
-
     }
 
     //_____________________________________________________________
