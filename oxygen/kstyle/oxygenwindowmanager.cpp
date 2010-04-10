@@ -303,7 +303,7 @@ namespace Oxygen
         {
 
             // check if there is an active action
-            if( menuBar->activeAction() ) return false;
+            if( menuBar->activeAction() && menuBar->activeAction()->isEnabled() ) return false;
 
             // check if action at position exists and is enabled
             if( QAction* action = menuBar->actionAt( position ) )
