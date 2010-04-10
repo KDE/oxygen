@@ -253,7 +253,9 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 5);
     setWidgetLayoutProp(WT_GroupBox, GroupBox::TitleTextColor, ColorMode(QPalette::WindowText));
 
-    setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, 5);
+    setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, 0);
+    setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin+Left, 5);
+    setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin+Right, 5);
 
     setWidgetLayoutProp(WT_Window, Window::TitleTextColor, QPalette::WindowText);
 
