@@ -72,7 +72,7 @@
           <choice name="WD_MINIMAL" />
           <choice name="WD_FULL" />
       </choices>
-      <default>WD_MINIMAL</default>
+      <default>WD_FULL</default>
     </entry>
 
     <!-- animation flags -->
