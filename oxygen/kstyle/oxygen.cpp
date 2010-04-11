@@ -4061,10 +4061,7 @@ void OxygenStyle::polish(QWidget* widget)
     // register widget to animations
     animations().registerWidget( widget );
     transitions().registerWidget( widget );
-
-    #ifdef Q_WS_X11
     windowManager().registerWidget( widget );
-    #endif
 
     if( widget->inherits( "QAbstractScrollArea" ) )
     { polishScrollArea( qobject_cast<QAbstractScrollArea*>(widget) ); }
@@ -4227,10 +4224,7 @@ void OxygenStyle::unpolish(QWidget* widget)
     // register widget to animations
     animations().unregisterWidget( widget );
     transitions().unregisterWidget( widget );
-
-    #ifdef Q_WS_X11
     windowManager().unregisterWidget( widget );
-    #endif
 
     // event filters
     switch (widget->windowFlags() & Qt::WindowType_Mask)
@@ -4337,11 +4331,8 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
     OxygenStyleConfigData::self()->readConfig();
     animations().setupEngines();
     transitions().setupEngines();
-
-    #ifdef Q_WS_X11
     windowManager().setEnabled( OxygenStyleConfigData::windowDragEnabled() );
     windowManager().setDragMode( OxygenStyleConfigData::windowDragMode() );
-    #endif
 
 }
 

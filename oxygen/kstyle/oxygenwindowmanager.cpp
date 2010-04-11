@@ -109,7 +109,7 @@ namespace Oxygen
         we trigger on the first MouseMove or MousePress events that are received
         by any widget in the application to detect that the drag is finished
         */
-        if( dragInProgress_ && target_ && ( event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ) )
+        if( supportWMMoveResize() && dragInProgress_ && target_ && ( event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ) )
         {
 
             // store target window (see later)
@@ -210,7 +210,15 @@ namespace Oxygen
                 (and notably pending mouseRelease events)
                 before actually starting the drag
                 */
-                dragTimer_.start( 0, this );
+                if( !dragInProgress_ ) dragTimer_.start( 0, this );
+                else if( !supportWMMoveResize() ) {
+
+                    //! use QWidget::move for the grabbing
+                    QWidget* window( target_.data()->window() );
+                    window->move( window->pos() + mouseEvent->pos() - dragPoint_ );
+
+                }
+
             }
 
             /*
@@ -402,11 +410,16 @@ namespace Oxygen
     //____________________________________________________________
     void WindowManager::resetDrag( void )
     {
+
+        if( supportWMMoveResize() ) qApp->removeEventFilter( this );
+        else if( target_ ) target_.data()->window()->unsetCursor();
+
         target_.clear();
         if( dragTimer_.isActive() ) dragTimer_.stop();
         dragPoint_ = QPoint();
         dragInProgress_ = false;
-        qApp->removeEventFilter( this );
+
+
     }
 
     //____________________________________________________________
@@ -416,23 +429,38 @@ namespace Oxygen
         if( !( enabled() && widget ) ) return;
         if( QWidget::mouseGrabber() ) return;
 
-        #ifdef Q_WS_X11
         // ungrab pointer
-        XUngrabPointer(QX11Info::display(), QX11Info::appTime());
+        if( supportWMMoveResize() )
+        {
+            QPoint globalPosition( widget->mapToGlobal( position ) );
 
-        // Ask the window manager to start an interactive move operation.
-        NETRootInfo rootInfo(QX11Info::display(), NET::WMMoveResize);
+            #ifdef Q_WS_X11
+            XUngrabPointer(QX11Info::display(), QX11Info::appTime());
+            NETRootInfo rootInfo(QX11Info::display(), NET::WMMoveResize);
+            rootInfo.moveResizeRequest( widget->window()->winId(), globalPosition.x(), globalPosition.y(), NET::Move);
+            #endif
 
-        // translate position to global
-        QPoint globalPosition( widget->mapToGlobal( position ) );
-        rootInfo.moveResizeRequest( widget->window()->winId(), globalPosition.x(), globalPosition.y(), NET::Move);
+            qApp->installEventFilter( this );
+        }
+
+        if( !supportWMMoveResize() )
+        { widget->window()->setCursor( Qt::SizeAllCursor ); }
 
         dragInProgress_ = true;
-        qApp->installEventFilter( this );
-        #endif // Q_WS_X11
 
         return;
 
     }
 
+    //____________________________________________________________
+    bool WindowManager::supportWMMoveResize( void ) const
+    {
+
+        #ifdef Q_WS_X11
+        return true;
+        #endif
+
+        return false;
+
+    }
 }

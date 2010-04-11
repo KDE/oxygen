@@ -38,11 +38,6 @@ namespace Oxygen
         ui.setupUi( this );
         layout()->setMargin(0);
 
-        #ifndef Q_WS_X11
-        ui.windowDragEnabled_->setChecked( false );
-        ui.windowDragEnabled_->setEnabled( false );
-        #endif
-
         ui.viewTriangularExpanderSize_->setEnabled( false );
         // connections
 
@@ -81,7 +76,6 @@ namespace Oxygen
         OxygenStyleConfigData::setScrollBarColored( ui.scrollBarColored_->isChecked() );
         OxygenStyleConfigData::setScrollBarWidth( ui.scrollBarWidth_->value() );
 
-        #ifdef Q_WS_X11
         switch( ui.windowDragMode_->currentIndex() )
         {
             case 0:
@@ -100,7 +94,6 @@ namespace Oxygen
             OxygenStyleConfigData::setWindowDragMode( OxygenStyleConfigData::WD_FULL );
             break;
         }
-        #endif
 
         if( ui.menuHighlightStrong_->isChecked() ) OxygenStyleConfigData::setMenuHighlightMode( OxygenStyleConfigData::MM_STRONG );
         else if( ui.menuHighlightSubtle_->isChecked() ) OxygenStyleConfigData::setMenuHighlightMode( OxygenStyleConfigData::MM_SUBTLE );
@@ -123,11 +116,10 @@ namespace Oxygen
         ui.scrollBarColored_->setChecked( OxygenStyleConfigData::scrollBarColored() );
         ui.scrollBarWidth_->setValue( OxygenStyleConfigData::scrollBarWidth() );
 
-        #ifdef Q_WS_X11
+        // window dragging mode
         if( !OxygenStyleConfigData::windowDragEnabled() ) ui.windowDragMode_->setCurrentIndex( 0 );
         else if( OxygenStyleConfigData::windowDragMode() == OxygenStyleConfigData::WD_MINIMAL ) ui.windowDragMode_->setCurrentIndex( 1 );
         else ui.windowDragMode_->setCurrentIndex( 2 );
-        #endif
 
         ui.menuHighlightStrong_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG );
         ui.menuHighlightSubtle_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
@@ -149,11 +141,12 @@ namespace Oxygen
         else if( ui.scrollBarBevel_->isChecked() != OxygenStyleConfigData::scrollBarBevel() ) modified = true;
         else if( ui.scrollBarColored_->isChecked() != OxygenStyleConfigData::scrollBarColored() ) modified = true;
         else if( ui.scrollBarWidth_->value() != OxygenStyleConfigData::scrollBarWidth() ) modified = true;
-        #ifdef Q_WS_X11
+
+        // window dragging mode
         else if( ui.windowDragMode_->currentIndex() == 0 && OxygenStyleConfigData::windowDragEnabled() ) modified = true;
         else if( ui.windowDragMode_->currentIndex() == 1 && !( OxygenStyleConfigData::windowDragEnabled() && OxygenStyleConfigData::windowDragMode() == OxygenStyleConfigData::WD_MINIMAL ) ) modified = true;
         else if( ui.windowDragMode_->currentIndex() == 2 && !( OxygenStyleConfigData::windowDragEnabled() && OxygenStyleConfigData::windowDragMode() == OxygenStyleConfigData::WD_FULL ) ) modified = true;
-        #endif
+
         else if( ui.menuHighlightStrong_->isChecked() != (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) ) modified = true;
         else if( ui.menuHighlightSubtle_->isChecked() != (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE) ) modified = true;
         else if( ui.menuHighlightDark_->isChecked() != (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK) ) modified = true;

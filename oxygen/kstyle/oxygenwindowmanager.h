@@ -112,6 +112,10 @@ namespace Oxygen
         void clearBlackListedEvent( void )
         { blackListEvent_ = NULL; }
 
+        //! returns true if window manager is used for moving
+        /*! right now this is true only for X11 */
+        bool supportWMMoveResize( void ) const;
+
         private:
 
         //! enability
