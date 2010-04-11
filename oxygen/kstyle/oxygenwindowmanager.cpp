@@ -289,6 +289,7 @@ namespace Oxygen
             widget->inherits( "QMenuBar" ) ||
             widget->inherits( "QTabBar" ) ||
             widget->inherits( "QTabWidget" ) ||
+            widget->inherits( "QStatusBar" ) ||
             widget->inherits( "ViewSliders" ) || // kmix
             widget->inherits( "QToolBar" ) )
         { return true; }
@@ -304,6 +305,19 @@ namespace Oxygen
         if( QTreeView* treeView = qobject_cast<QTreeView*>( widget->parentWidget() ) )
         { if( treeView->viewport() == widget ) return true; }
 
+        /* labels in status bars (this is because of kstatusbar who captures buttonPress/release events) */
+        if( QLabel* label = qobject_cast<QLabel*>( widget ) )
+        {
+            if( label->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ) ) return false;
+
+            QWidget* parent = label->parentWidget();
+            while( parent )
+            {
+                if( parent->inherits( "QStatusBar" ) ) return true;
+                parent = parent->parentWidget();
+            }
+        }
+
         return false;
 
     }
@@ -312,9 +326,9 @@ namespace Oxygen
     bool WindowManager::isBlackListed( QWidget* widget ) const
     {
         if(
-            widget->inherits( "KSqueezedTextLabel" ) ||
             widget->inherits( "KCategorizedView" ) ||
             widget->inherits( "Utils::WelcomeModeLabel" ) ) return true;
+
         return false;
     }
 
