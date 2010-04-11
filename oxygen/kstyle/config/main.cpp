@@ -24,7 +24,6 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenanimationconfigwidget.h"
 #include "oxygenconfigdialog.h"
 #include <KCmdLineArgs>
 #include <KApplication>
