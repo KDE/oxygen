@@ -45,6 +45,10 @@ namespace Oxygen
         //! constructor
         explicit ConfigDialog( QWidget* parent = 0 );
 
+        //! destructor
+        virtual ~ConfigDialog( void )
+        {}
+
         public slots:
 
         virtual void load( void );
