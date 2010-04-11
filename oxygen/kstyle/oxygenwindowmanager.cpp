@@ -342,8 +342,7 @@ namespace Oxygen
         Assume that a changed cursor means that some action is in progress
         and should prevent the drag
         */
-        if( widget->cursor().shape() != Qt::ArrowCursor )
-        { return false; }
+        if( widget->cursor().shape() != Qt::ArrowCursor ) return false;
 
         // tool buttons
         if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
@@ -436,6 +435,10 @@ namespace Oxygen
             } else if( itemView->indexAt( position ).isValid() ) return false;
         }
 
+        // labels
+        if( QLabel* label = qobject_cast<QLabel*>( widget ) )
+        { return( !label->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ) ); }
+
         return true;
 
     }
@@ -452,7 +455,6 @@ namespace Oxygen
         dragPoint_ = QPoint();
         globalDragPoint_ = QPoint();
         dragInProgress_ = false;
-
 
     }
 
