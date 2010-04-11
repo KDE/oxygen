@@ -85,6 +85,19 @@ namespace Oxygen
         /*! used to start drag if button is pressed for a long enough time */
         void timerEvent( QTimerEvent* );
 
+        //! application-wise event.
+        /*! needed to catch end of XMoveResize events */
+        bool appMouseEvent( QObject*, QEvent* );
+
+        //! mouse press event
+        bool mousePressEvent( QObject*, QEvent* );
+
+        //! mouse move event
+        bool mouseMoveEvent( QObject*, QEvent* );
+
+        //! mouse release event
+        bool mouseReleaseEvent( QObject*, QEvent* );
+
         //! returns true if widget is dragable
         bool isDragable( QWidget* ) const;
 
@@ -92,7 +105,7 @@ namespace Oxygen
         bool isBlackListed( QWidget* ) const;
 
         //! returns true if drag can be started from current widget and position
-        bool canDrag( QWidget*, const QPoint& ) const;
+        bool canDrag( QWidget*, const QPoint& );
 
         //! reset drag
         void resetDrag( void );
@@ -134,6 +147,7 @@ namespace Oxygen
 
         //! drag point
         QPoint dragPoint_;
+        QPoint globalDragPoint_;
 
         //! drag timer
         QBasicTimer dragTimer_;

@@ -110,130 +110,11 @@ namespace Oxygen
         by any widget in the application to detect that the drag is finished
         */
         if( supportWMMoveResize() && dragInProgress_ && target_ && ( event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ) )
-        {
+        { return appMouseEvent( object, event ); }
 
-            // store target window (see later)
-            QWidget* window( target_.data()->window() );
-
-            /*
-            post some mouseRelease event to the target, in order to counter balance
-            the mouse press that triggered the drag. Note that it triggers a resetDrag
-            */
-            QMouseEvent mouseEvent( QEvent::MouseButtonRelease, dragPoint_, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
-            qApp->sendEvent( target_.data(), &mouseEvent );
-
-            if( event->type() == QEvent::MouseMove )
-            {
-                /*
-                HACK: quickly move the main cursor out of the window and back
-                this is needed to get the focus right for the window children
-                the origin of this issue is unknown at the moment
-                */
-                const QPoint cursor = QCursor::pos();
-                QCursor::setPos(window->mapToGlobal( window->rect().topRight() ) + QPoint(1, 0) );
-                QCursor::setPos(cursor);
-            }
-
-            return true;
-
-        }
-
-        if( event->type() == QEvent::MouseButtonPress )
-        {
-
-
-            // cast event and check buttons/modifiers
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
-            if( !( mouseEvent->modifiers() == Qt::NoModifier && mouseEvent->button() == Qt::LeftButton ) )
-            { return false; }
-
-            // cast to widget
-            QWidget *widget = static_cast<QWidget*>( object );
-
-            // check against blacklist
-            if( isBlackListed( widget ) )
-            {
-                /*
-                tag event as blacklisted to prevent
-                the drag to get started if the event is propagated to one of
-                the (dragable) parents of the widget
-                */
-                setEventBlackListed( event );
-                return false;
-            }
-
-            // check if widget can be dragged from current position
-            if( canDrag( widget, mouseEvent->pos() ) )
-            {
-
-                // check if event is black listed
-                if( isEventBlackListed( event ) )
-                {
-                    clearBlackListedEvent();
-                    return true;
-                }
-
-                // save target and drag point
-                target_ = widget;
-                dragPoint_ = mouseEvent->pos();
-
-                // start timer
-                if( dragTimer_.isActive() ) dragTimer_.stop();
-                dragTimer_.start( dragDelay_, this );
-
-                /*
-                accept the event, to prevent other widget
-                to interfere with the drag process
-                */
-                return true;
-
-            } else return false;
-
-        } else if( event->type() == QEvent::MouseMove && target_ ) {
-
-            /*
-            make sure that object and target are the same
-            this is needed so that the drag distance is calculated properly
-            */
-            if( object != target_.data() ) return false;
-
-            // stop timer
-            if( dragTimer_.isActive() ) dragTimer_.stop();
-
-            // cast event and check drag distance
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
-            if( QPoint( mouseEvent->pos() - dragPoint_ ).manhattanLength() >= dragDistance_ )
-            {
-                /*
-                trigger startDrag with 0 delay
-                this make sure all Qt pending events are processed
-                (and notably pending mouseRelease events)
-                before actually starting the drag
-                */
-                if( !dragInProgress_ ) dragTimer_.start( 0, this );
-                else if( !supportWMMoveResize() ) {
-
-                    //! use QWidget::move for the grabbing
-                    QWidget* window( target_.data()->window() );
-                    window->move( window->pos() + mouseEvent->pos() - dragPoint_ );
-
-                }
-
-            }
-
-            /*
-            always accept the event, to prevent other widget
-            to interfere with the drag process
-            */
-            return true;
-
-        } else if( event->type() == QEvent::MouseButtonRelease && target_ ) {
-
-            resetDrag();
-            return false;
-
-        }
-
+        if( event->type() == QEvent::MouseButtonPress ) return mousePressEvent( object, event );
+        else if( event->type() == QEvent::MouseMove && target_ ) return mouseMoveEvent( object, event );
+        else if( event->type() == QEvent::MouseButtonRelease && target_ ) return mouseReleaseEvent( object, event );
         return false;
 
     }
@@ -246,7 +127,7 @@ namespace Oxygen
         {
             dragTimer_.stop();
             if( target_ )
-            { startDrag( target_.data(), dragPoint_ ); }
+            { startDrag( target_.data(), globalDragPoint_ ); }
 
         } else {
 
@@ -254,6 +135,143 @@ namespace Oxygen
 
         }
 
+    }
+
+    //_____________________________________________________________
+    bool WindowManager::appMouseEvent( QObject* object, QEvent* event )
+    {
+
+        Q_UNUSED( object );
+
+        // store target window (see later)
+        QWidget* window( target_.data()->window() );
+
+        /*
+        post some mouseRelease event to the target, in order to counter balance
+        the mouse press that triggered the drag. Note that it triggers a resetDrag
+        */
+        QMouseEvent mouseEvent( QEvent::MouseButtonRelease, dragPoint_, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
+        qApp->sendEvent( target_.data(), &mouseEvent );
+
+        if( event->type() == QEvent::MouseMove )
+        {
+            /*
+            HACK: quickly move the main cursor out of the window and back
+            this is needed to get the focus right for the window children
+            the origin of this issue is unknown at the moment
+            */
+            const QPoint cursor = QCursor::pos();
+            QCursor::setPos(window->mapToGlobal( window->rect().topRight() ) + QPoint(1, 0) );
+            QCursor::setPos(cursor);
+
+        }
+
+        return true;
+
+    }
+
+    //_____________________________________________________________
+    bool WindowManager::mousePressEvent( QObject* object, QEvent* event )
+    {
+
+        // cast event and check buttons/modifiers
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
+        if( !( mouseEvent->modifiers() == Qt::NoModifier && mouseEvent->button() == Qt::LeftButton ) )
+        { return false; }
+
+        // cast to widget
+        QWidget *widget = static_cast<QWidget*>( object );
+
+        // check against blacklist
+        if( isBlackListed( widget ) )
+        {
+            /*
+            tag event as blacklisted to prevent
+            the drag to get started if the event is propagated to one of
+            the (dragable) parents of the widget
+            */
+            setEventBlackListed( event );
+            return false;
+        }
+
+        // check if widget can be dragged from current position
+        if( canDrag( widget, mouseEvent->pos() ) )
+        {
+
+            // check if event is black listed
+            if( isEventBlackListed( event ) )
+            {
+                clearBlackListedEvent();
+                return true;
+            }
+
+            // save target and drag point
+            target_ = widget;
+            dragPoint_ = mouseEvent->pos();
+            globalDragPoint_ = mouseEvent->globalPos();
+
+            // start timer
+            if( dragTimer_.isActive() ) dragTimer_.stop();
+            dragTimer_.start( dragDelay_, this );
+
+            /*
+            accept the event, to prevent other widget
+            to interfere with the drag process
+            */
+            return true;
+
+        } else return false;
+
+    }
+
+    //_____________________________________________________________
+    bool WindowManager::mouseMoveEvent( QObject* object, QEvent* event )
+    {
+
+        // stop timer
+        if( dragTimer_.isActive() ) dragTimer_.stop();
+
+        // cast event and check drag distance
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
+        if( !dragInProgress_ )
+        {
+            if( QPoint( mouseEvent->globalPos() - globalDragPoint_ ).manhattanLength() >= dragDistance_ )
+            {
+                /*
+                trigger startDrag with 0 delay
+                this make sure all Qt pending events are processed
+                (and notably pending mouseRelease events)
+                before actually starting the drag
+                */
+                dragTimer_.start( 0, this );
+            }
+
+            return true;
+
+        } else if( !supportWMMoveResize() ) {
+
+            if( object == target_.data() )
+            {
+
+                // use QWidget::move for the grabbing
+                /* this works only if the sending object and the target are identical */
+                QWidget* window( target_.data()->window() );
+                window->move( window->pos() + mouseEvent->pos() - dragPoint_ );
+                return true;
+
+            } else return false;
+
+        } else return true;
+
+    }
+
+    //_____________________________________________________________
+    bool WindowManager::mouseReleaseEvent( QObject* object, QEvent* event )
+    {
+        Q_UNUSED( object );
+        Q_UNUSED( event );
+        resetDrag();
+        return false;
     }
 
     //_____________________________________________________________
@@ -281,10 +299,10 @@ namespace Oxygen
 
         // viewports
         if( QListView* listView = qobject_cast<QListView*>( widget->parentWidget() ) )
-        { if( listView->viewport() == widget && listView->frameShape() == QFrame::NoFrame ) return true; }
+        { if( listView->viewport() == widget ) return true; }
 
         if( QTreeView* treeView = qobject_cast<QTreeView*>( widget->parentWidget() ) )
-        { if( treeView->viewport() == widget && treeView->frameShape() == QFrame::NoFrame ) return true; }
+        { if( treeView->viewport() == widget ) return true; }
 
         return false;
 
@@ -301,7 +319,7 @@ namespace Oxygen
     }
 
     //_____________________________________________________________
-    bool WindowManager::canDrag( QWidget* widget, const QPoint& position ) const
+    bool WindowManager::canDrag( QWidget* widget, const QPoint& position )
     {
 
         // check if enabled
@@ -402,7 +420,15 @@ namespace Oxygen
 
         // viewports
         if( QAbstractItemView* itemView = qobject_cast<QAbstractItemView*>( widget->parentWidget() ) )
-        { if( itemView->indexAt( position ).isValid() ) return false; }
+        {
+            if( itemView->frameShape() != QFrame::NoFrame )
+            {
+
+                widget->removeEventFilter( this );
+                return false;
+
+            } else if( itemView->indexAt( position ).isValid() ) return false;
+        }
 
         return true;
 
@@ -413,11 +439,12 @@ namespace Oxygen
     {
 
         if( supportWMMoveResize() ) qApp->removeEventFilter( this );
-        else if( target_ ) target_.data()->window()->unsetCursor();
+        else if( target_ ) target_.data()->unsetCursor();
 
         target_.clear();
         if( dragTimer_.isActive() ) dragTimer_.stop();
         dragPoint_ = QPoint();
+        globalDragPoint_ = QPoint();
         dragInProgress_ = false;
 
 
@@ -433,19 +460,18 @@ namespace Oxygen
         // ungrab pointer
         if( supportWMMoveResize() )
         {
-            QPoint globalPosition( widget->mapToGlobal( position ) );
 
             #ifdef Q_WS_X11
             XUngrabPointer(QX11Info::display(), QX11Info::appTime());
             NETRootInfo rootInfo(QX11Info::display(), NET::WMMoveResize);
-            rootInfo.moveResizeRequest( widget->window()->winId(), globalPosition.x(), globalPosition.y(), NET::Move);
+            rootInfo.moveResizeRequest( widget->window()->winId(), position.x(), position.y(), NET::Move);
             #endif
 
             qApp->installEventFilter( this );
         }
 
         if( !supportWMMoveResize() )
-        { widget->window()->setCursor( Qt::SizeAllCursor ); }
+        { widget->setCursor( Qt::SizeAllCursor ); }
 
         dragInProgress_ = true;
 
