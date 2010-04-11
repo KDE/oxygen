@@ -1,6 +1,4 @@
-
 include_directories( ${KDE4_KDEUI_INCLUDES} )
-
 
 ########### next target ###############
 
@@ -48,10 +46,8 @@ target_link_libraries( oxygen-settings
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY})
 
-install (TARGETS oxygen-settings DESTINATION ${BIN_INSTALL_DIR} )
-
-
 ########### install files ###############
+install (TARGETS oxygen-settings DESTINATION ${BIN_INSTALL_DIR} )
 
 
 
