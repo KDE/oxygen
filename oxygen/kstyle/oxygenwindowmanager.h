@@ -62,6 +62,14 @@ namespace Oxygen
         void setEnabled( bool value )
         { enabled_ = value; }
 
+        //! returns true if window manager is used for moving
+        bool useWMMoveResize( void ) const
+        { return supportWMMoveResize() && useWMMoveResize_; }
+
+        //! use window manager for moving, when available
+        void setUseWMMoveResize( bool value )
+        { useWMMoveResize_ = value; }
+
         //! drag mode
         int dragMode( void ) const
         { return dragMode_; }
@@ -133,6 +141,9 @@ namespace Oxygen
 
         //! enability
         bool enabled_;
+
+        //! use WM moveResize
+        bool useWMMoveResize_;
 
         //! drag mode
         bool dragMode_;

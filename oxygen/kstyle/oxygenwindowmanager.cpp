@@ -61,6 +61,7 @@ namespace Oxygen
     WindowManager::WindowManager( QObject* parent ):
         QObject( parent ),
         enabled_( true ),
+        useWMMoveResize_( true ),
         dragMode_( OxygenStyleConfigData::WD_FULL ),
         dragDistance_(6),
         dragDelay_( QApplication::doubleClickInterval() ),
@@ -109,7 +110,7 @@ namespace Oxygen
         we trigger on the first MouseMove or MousePress events that are received
         by any widget in the application to detect that the drag is finished
         */
-        if( supportWMMoveResize() && dragInProgress_ && target_ && ( event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ) )
+        if( useWMMoveResize() && dragInProgress_ && target_ && ( event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ) )
         { return appMouseEvent( object, event ); }
 
         if( event->type() == QEvent::MouseButtonPress ) return mousePressEvent( object, event );
@@ -240,7 +241,7 @@ namespace Oxygen
             { dragTimer_.start( 0, this ); }
             return true;
 
-        } else if( !supportWMMoveResize() ) {
+        } else if( !useWMMoveResize() ) {
 
             if( object == target_.data() )
             {
@@ -447,7 +448,7 @@ namespace Oxygen
     void WindowManager::resetDrag( void )
     {
 
-        if( supportWMMoveResize() ) qApp->removeEventFilter( this );
+        if( useWMMoveResize() ) qApp->removeEventFilter( this );
         else if( target_ ) target_.data()->unsetCursor();
 
         target_.clear();
@@ -466,7 +467,7 @@ namespace Oxygen
         if( QWidget::mouseGrabber() ) return;
 
         // ungrab pointer
-        if( supportWMMoveResize() )
+        if( useWMMoveResize() )
         {
 
             #ifdef Q_WS_X11
@@ -478,7 +479,7 @@ namespace Oxygen
             qApp->installEventFilter( this );
         }
 
-        if( !supportWMMoveResize() )
+        if( !useWMMoveResize() )
         { widget->setCursor( Qt::SizeAllCursor ); }
 
         dragInProgress_ = true;

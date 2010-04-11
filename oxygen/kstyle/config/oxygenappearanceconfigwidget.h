@@ -56,6 +56,9 @@ namespace Oxygen
         //! check whether configuration is changed and emit appropriate signal if yes
         virtual void updateChanged();
 
+        //! update wmMoveResize option based on windowDrag mode
+        virtual void updateWMMoveResize( int );
+
         private:
 
         //! ui

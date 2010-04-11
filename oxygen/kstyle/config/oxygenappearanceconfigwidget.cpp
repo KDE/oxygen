@@ -39,6 +39,8 @@ namespace Oxygen
         layout()->setMargin(0);
 
         ui.viewTriangularExpanderSize_->setEnabled( false );
+        ui.useWMMoveResize_->setEnabled( false );
+
         // connections
 
         connect( ui.viewDrawTriangularExpander_, SIGNAL( toggled( bool ) ), ui.viewTriangularExpanderSize_, SLOT( setEnabled( bool ) ) );
@@ -56,8 +58,12 @@ namespace Oxygen
         connect( ui.menuHighlightStrong_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
         connect( ui.menuHighlightSubtle_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
         connect( ui.menuHighlightDark_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        //connect( ui.windowDragEnabled_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
         connect( ui.windowDragMode_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
+        connect( ui.windowDragMode_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateWMMoveResize(int) ) );
+
+        #ifdef Q_WS_X11
+        connect( ui.useWMMoveResize_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
+        #endif
 
     }
 
@@ -95,6 +101,10 @@ namespace Oxygen
             break;
         }
 
+        #ifdef Q_WS_X11
+        OxygenStyleConfigData::setUseWMMoveResize( ui.useWMMoveResize_->isChecked() );
+        #endif
+
         if( ui.menuHighlightStrong_->isChecked() ) OxygenStyleConfigData::setMenuHighlightMode( OxygenStyleConfigData::MM_STRONG );
         else if( ui.menuHighlightSubtle_->isChecked() ) OxygenStyleConfigData::setMenuHighlightMode( OxygenStyleConfigData::MM_SUBTLE );
         else OxygenStyleConfigData::setMenuHighlightMode( OxygenStyleConfigData::MM_DARK );
@@ -120,6 +130,10 @@ namespace Oxygen
         if( !OxygenStyleConfigData::windowDragEnabled() ) ui.windowDragMode_->setCurrentIndex( 0 );
         else if( OxygenStyleConfigData::windowDragMode() == OxygenStyleConfigData::WD_MINIMAL ) ui.windowDragMode_->setCurrentIndex( 1 );
         else ui.windowDragMode_->setCurrentIndex( 2 );
+
+        #ifdef Q_WS_X11
+        ui.useWMMoveResize_->setChecked( OxygenStyleConfigData::useWMMoveResize() );
+        #endif
 
         ui.menuHighlightStrong_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG );
         ui.menuHighlightSubtle_->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
@@ -147,10 +161,22 @@ namespace Oxygen
         else if( ui.windowDragMode_->currentIndex() == 1 && !( OxygenStyleConfigData::windowDragEnabled() && OxygenStyleConfigData::windowDragMode() == OxygenStyleConfigData::WD_MINIMAL ) ) modified = true;
         else if( ui.windowDragMode_->currentIndex() == 2 && !( OxygenStyleConfigData::windowDragEnabled() && OxygenStyleConfigData::windowDragMode() == OxygenStyleConfigData::WD_FULL ) ) modified = true;
 
+        #ifdef Q_WS_X11
+        else if( ui.useWMMoveResize_->isChecked() != OxygenStyleConfigData::useWMMoveResize() ) modified = true;
+        #endif
+
         else if( ui.menuHighlightStrong_->isChecked() != (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) ) modified = true;
         else if( ui.menuHighlightSubtle_->isChecked() != (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE) ) modified = true;
         else if( ui.menuHighlightDark_->isChecked() != (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK) ) modified = true;
         setChanged( modified );
+    }
+
+    //_______________________________________________
+    void AppearanceConfigWidget::updateWMMoveResize( int index )
+    {
+        #ifdef Q_WS_X11
+        ui.useWMMoveResize_->setEnabled( index != 0 );
+        #endif
     }
 
 }

@@ -4333,6 +4333,7 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
     transitions().setupEngines();
     windowManager().setEnabled( OxygenStyleConfigData::windowDragEnabled() );
     windowManager().setDragMode( OxygenStyleConfigData::windowDragMode() );
+    windowManager().setUseWMMoveResize( OxygenStyleConfigData::useWMMoveResize() );
 
 }
 
