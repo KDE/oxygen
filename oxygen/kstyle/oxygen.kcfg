@@ -75,6 +75,10 @@
       <default>WD_FULL</default>
     </entry>
 
+    <entry name="UseWMMoveResize" type="Bool">
+      <default>true</default>
+    </entry>
+
     <!-- animation flags -->
     <entry name="AnimationsEnabled" type="Bool">
       <default>true</default>
