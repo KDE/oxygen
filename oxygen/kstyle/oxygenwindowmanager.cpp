@@ -228,9 +228,6 @@ namespace Oxygen
     bool WindowManager::mouseMoveEvent( QObject* object, QEvent* event )
     {
 
-        // check object
-        if( object != target_.data() ) return false;
-
         // stop timer
         if( dragTimer_.isActive() ) dragTimer_.stop();
 
@@ -245,10 +242,16 @@ namespace Oxygen
 
         } else if( !supportWMMoveResize() ) {
 
-            // use QWidget::move for the grabbing
-            QWidget* window( target_.data()->window() );
-            window->move( window->pos() + mouseEvent->pos() - dragPoint_ );
-            return true;
+            if( object == target_.data() )
+            {
+
+                // use QWidget::move for the grabbing
+                /* this works only if the sending object and the target are identical */
+                QWidget* window( target_.data()->window() );
+                window->move( window->pos() + mouseEvent->pos() - dragPoint_ );
+                return true;
+
+            } else return false;
 
         } else return true;
 
