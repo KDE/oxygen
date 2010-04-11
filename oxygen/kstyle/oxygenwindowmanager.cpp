@@ -294,6 +294,7 @@ namespace Oxygen
     bool WindowManager::isBlackListed( QWidget* widget ) const
     {
         if(
+            widget->inherits( "KSqueezedTextLabel" ) ||
             widget->inherits( "KCategorizedView" ) ||
             widget->inherits( "Utils::WelcomeModeLabel" ) ) return true;
         return false;
