@@ -228,6 +228,9 @@ namespace Oxygen
     bool WindowManager::mouseMoveEvent( QObject* object, QEvent* event )
     {
 
+        // check object
+        if( object != target_.data() ) return false;
+
         // stop timer
         if( dragTimer_.isActive() ) dragTimer_.stop();
 
@@ -235,31 +238,17 @@ namespace Oxygen
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
         if( !dragInProgress_ )
         {
-            if( QPoint( mouseEvent->globalPos() - globalDragPoint_ ).manhattanLength() >= dragDistance_ )
-            {
-                /*
-                trigger startDrag with 0 delay
-                this make sure all Qt pending events are processed
-                (and notably pending mouseRelease events)
-                before actually starting the drag
-                */
-                dragTimer_.start( 0, this );
-            }
 
+            if( QPoint( mouseEvent->globalPos() - globalDragPoint_ ).manhattanLength() >= dragDistance_ )
+            { dragTimer_.start( 0, this ); }
             return true;
 
         } else if( !supportWMMoveResize() ) {
 
-            if( object == target_.data() )
-            {
-
-                // use QWidget::move for the grabbing
-                /* this works only if the sending object and the target are identical */
-                QWidget* window( target_.data()->window() );
-                window->move( window->pos() + mouseEvent->pos() - dragPoint_ );
-                return true;
-
-            } else return false;
+            // use QWidget::move for the grabbing
+            QWidget* window( target_.data()->window() );
+            window->move( window->pos() + mouseEvent->pos() - dragPoint_ );
+            return true;
 
         } else return true;
 
