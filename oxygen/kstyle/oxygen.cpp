@@ -4342,7 +4342,7 @@ void OxygenStyle::renderHeaderBackground( const QRect& r, const QPalette& pal, Q
 {
 
     // use window background for the background
-    _helper.renderWindowBackground(p, r, widget, pal);
+    if (widget) _helper.renderWindowBackground(p, r, widget, pal);
 
     // add horizontal lines
     QColor color = pal.color(QPalette::Window);
