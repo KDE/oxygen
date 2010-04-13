@@ -71,7 +71,6 @@
 
 #include "oxygenanimations.h"
 #include "oxygentransitions.h"
-#include "oxygenwidgetcontroler.h"
 #include "oxygenwindowmanager.h"
 #include "oxygenstyleconfigdata.h"
 
