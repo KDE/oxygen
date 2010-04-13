@@ -63,6 +63,7 @@
       <default>TS_SINGLE</default>
     </entry>
 
+    <!-- window dragging -->
     <entry name="WindowDragEnabled" type="Bool">
       <default>true</default>
     </entry>
@@ -75,6 +76,31 @@
       <default>WD_FULL</default>
     </entry>
 
+    <!-- 
+        this is the comma separated list of special per-app widgets on which
+        window dragging can be installed (in addition to the build-in list of
+        standard widgets. They are reference by the widget class name.
+    -->
+    <entry name="WindowDragDefaultWhiteList" type="StringList" hidden="true">
+       <default>MplayerWindow,ViewSliders</default>
+    </entry>
+    <entry name="WindowDragWhiteList" type="StringList">
+       <default></default>
+    </entry>
+
+    <!-- 
+        this is the comma separated list of special per-app widgets on which
+        window dragging must be disabled (in addition to the build-in list of
+        standard widgets). They are reference by the widget class name.
+    -->
+    <entry name="WindowDragDefaultBlackList" type="StringList" hidden="true">
+       <default>KCategorizedView,Utils::WelcomeModeLabel</default>
+    </entry>
+    <entry name="WindowDragBlackList" type="StringList">
+       <default></default>
+    </entry>
+
+    <!-- if true, move events are passed to the window manager (e.g. KWin) -->
     <entry name="UseWMMoveResize" type="Bool">
       <default>true</default>
     </entry>

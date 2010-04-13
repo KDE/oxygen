@@ -70,6 +70,19 @@ namespace Oxygen
     {}
 
     //_____________________________________________________________
+    void WindowManager::initialize( void )
+    {
+
+        setEnabled( OxygenStyleConfigData::windowDragEnabled() );
+        setDragMode( OxygenStyleConfigData::windowDragMode() );
+        setUseWMMoveResize( OxygenStyleConfigData::useWMMoveResize() );
+
+        initializeWhiteList();
+        initializeBlackList();
+
+    }
+
+    //_____________________________________________________________
     void WindowManager::registerWidget( QWidget* widget )
     {
 
@@ -98,6 +111,32 @@ namespace Oxygen
     {
         if( widget )
         { widget->removeEventFilter( this ); }
+    }
+
+    //_____________________________________________________________
+    void WindowManager::initializeWhiteList( void )
+    {
+
+        whiteList_.clear();
+        foreach( const QString& className, OxygenStyleConfigData::windowDragDefaultWhiteList() )
+        { whiteList_.insert( className.trimmed() ); }
+
+        // add use specified whitelisted classnames
+        foreach( const QString& className, OxygenStyleConfigData::windowDragWhiteList() )
+        { whiteList_.insert( className.trimmed() ); }
+    }
+
+    //_____________________________________________________________
+    void WindowManager::initializeBlackList( void )
+    {
+
+        blackList_.clear();
+        foreach( const QString& className, OxygenStyleConfigData::windowDragDefaultBlackList() )
+        { blackList_.insert( className.trimmed() ); }
+
+        // add use specified blacklisted classnames
+        foreach( const QString& className, OxygenStyleConfigData::windowDragBlackList() )
+        { blackList_.insert( className.trimmed() ); }
     }
 
     //_____________________________________________________________
@@ -274,7 +313,7 @@ namespace Oxygen
         // check widget
         if( !widget ) return false;
 
-        // all accepted types
+        // all accepted default types
         if(
             ( widget->inherits( "QDialog" ) && widget->isWindow() ) ||
             ( widget->inherits( "QMainWindow" ) && widget->isWindow() ) ||
@@ -283,9 +322,12 @@ namespace Oxygen
             widget->inherits( "QTabBar" ) ||
             widget->inherits( "QTabWidget" ) ||
             widget->inherits( "QStatusBar" ) ||
-            widget->inherits( "ViewSliders" ) || // kmix
             widget->inherits( "QToolBar" ) )
         { return true; }
+
+        // accepted special types, from whitelist
+        foreach( const QString& className, whiteList_ )
+        { if( widget->inherits( className.toLatin1() ) ) return true; }
 
         // flat toolbuttons
         if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
@@ -318,9 +360,9 @@ namespace Oxygen
     //_____________________________________________________________
     bool WindowManager::isBlackListed( QWidget* widget ) const
     {
-        if(
-            widget->inherits( "KCategorizedView" ) ||
-            widget->inherits( "Utils::WelcomeModeLabel" ) ) return true;
+
+        foreach( const QString& className, blackList_ )
+        { if( widget->inherits( className.toLatin1() ) ) return true; }
 
         return false;
     }

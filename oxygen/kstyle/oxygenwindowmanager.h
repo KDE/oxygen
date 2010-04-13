@@ -32,9 +32,12 @@
 
 #include <QtCore/QEvent>
 
-#include <QtCore/QObject>
-#include <QtCore/QWeakPointer>
 #include <QtCore/QBasicTimer>
+#include <QtCore/QObject>
+#include <QtCore/QSet>
+#include <QtCore/QString>
+#include <QtCore/QWeakPointer>
+
 #include <QtGui/QWidget>
 
 namespace Oxygen
@@ -54,29 +57,9 @@ namespace Oxygen
         virtual ~WindowManager( void )
         {}
 
-        //! enability
-        bool enabled( void ) const
-        { return enabled_; }
-
-        //! enability
-        void setEnabled( bool value )
-        { enabled_ = value; }
-
-        //! returns true if window manager is used for moving
-        bool useWMMoveResize( void ) const
-        { return supportWMMoveResize() && useWMMoveResize_; }
-
-        //! use window manager for moving, when available
-        void setUseWMMoveResize( bool value )
-        { useWMMoveResize_ = value; }
-
-        //! drag mode
-        int dragMode( void ) const
-        { return dragMode_; }
-
-        //! drag mode
-        void setDragMode( int value )
-        { dragMode_ = value; }
+        //! initialize
+        /*! read relevant options from OxygenStyleConfigData */
+        void initialize( void );
 
         //! register widget
         void registerWidget( QWidget* );
@@ -105,6 +88,49 @@ namespace Oxygen
 
         //! mouse release event
         bool mouseReleaseEvent( QObject*, QEvent* );
+
+        //!@name configuration
+        //@{
+
+        //! enability
+        bool enabled( void ) const
+        { return enabled_; }
+
+        //! enability
+        void setEnabled( bool value )
+        { enabled_ = value; }
+
+        //! returns true if window manager is used for moving
+        bool useWMMoveResize( void ) const
+        { return supportWMMoveResize() && useWMMoveResize_; }
+
+        //! use window manager for moving, when available
+        void setUseWMMoveResize( bool value )
+        { useWMMoveResize_ = value; }
+
+        //! drag mode
+        int dragMode( void ) const
+        { return dragMode_; }
+
+        //! drag mode
+        void setDragMode( int value )
+        { dragMode_ = value; }
+
+        //! set list of whiteListed widgets
+        /*!
+        white list is read from options and is used to adjust
+        per-app window dragging issues
+        */
+        void initializeWhiteList();
+
+        //! set list of blackListed widgets
+        /*!
+        black list is read from options and is used to adjust
+        per-app window dragging issues
+        */
+        void initializeBlackList( void );
+
+        //@}
 
         //! returns true if widget is dragable
         bool isDragable( QWidget* ) const;
@@ -155,6 +181,20 @@ namespace Oxygen
         //! drag delay
         /*! this is copied from kwin::geometry */
         int dragDelay_;
+
+        //! list of white listed special widgets
+        /*!
+        it is read from options and is used to adjust
+        per-app window dragging issues
+        */
+        QSet<QString> whiteList_;
+
+        //! list of black listed special widgets
+        /*!
+        it is read from options and is used to adjust
+        per-app window dragging issues
+        */
+        QSet<QString> blackList_;
 
         //! drag point
         QPoint dragPoint_;
