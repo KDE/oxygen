@@ -71,6 +71,7 @@
 
 #include "oxygenanimations.h"
 #include "oxygentransitions.h"
+#include "oxygenwidgetcontroler.h"
 #include "oxygenwindowmanager.h"
 #include "oxygenstyleconfigdata.h"
 
@@ -749,7 +750,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
             QPalette pal( option->palette );
             QRect r( option->rect );
             bool horizontal( option->state & QStyle::State_Horizontal );
-            bool reverse( horizontal && option->direction == Qt::RightToLeft );
+            bool reverse( option->direction == Qt::RightToLeft );
             renderHeaderBackground( r, pal, p, widget, horizontal, reverse );
 
             return;
@@ -2945,15 +2946,22 @@ bool OxygenStyle::drawHeaderPrimitive(
         case Header::SectionHor:
         case Header::SectionVert:
         {
+
             if (const QStyleOptionHeader *header = qstyleoption_cast<const QStyleOptionHeader *>(opt))
             {
 
-                const bool isFirst = (primitive==Header::SectionHor)&&(header->position == QStyleOptionHeader::Beginning);
                 const bool horizontal( primitive == Header::SectionHor );
                 const bool reverse( opt->direction == Qt::RightToLeft );
+                const bool isFirst( ( primitive == Header::SectionHor ) && ( header->position == QStyleOptionHeader::Beginning ) );
 
-                // background
-                renderHeaderBackground( r, pal, p, widget, horizontal, reverse );
+                if( primitive == Header::SectionHor && header->section == 0 && !isFirst )
+                {
+
+                    if( widget ) _helper.renderWindowBackground(p, r, widget, pal);
+                    if( reverse ) renderHeaderLines( r, pal, p, TileSet::Bottom | TileSet::Left );
+                    else renderHeaderLines( r, pal, p, TileSet::Bottom | TileSet::Right );
+
+                } else renderHeaderBackground( r, pal, p, widget, horizontal, reverse );
 
                 // dots
                 p->save();
@@ -2964,7 +2972,7 @@ bool OxygenStyle::drawHeaderPrimitive(
                 if(primitive == Header::SectionHor)
                 {
 
-                    if(header->section != 0 || isFirst)
+                    if(header->section != 0 || isFirst )
                     {
                         int center = r.center().y();
                         int pos = reverse ? r.left()+1 : r.right()-1;
@@ -3646,6 +3654,7 @@ bool OxygenStyle::drawGenericPrimitive(
 
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
+    const bool sunken(enabled && (flags & State_Sunken));
 
     StyleOptions opts = 0;
     switch (primitive)
@@ -3815,6 +3824,45 @@ bool OxygenStyle::drawGenericPrimitive(
                 if( tool->popupMode()==QToolButton::MenuButtonPopup )
                 {
 
+                    if(!tool->autoRaise())
+                    {
+
+                        color = pal.color( QPalette::ButtonText );
+                        background = pal.color( QPalette::Button );
+
+                        // arrow rect
+                        QRect frameRect( r.adjusted(-10,0,0,0) );
+                        if( (flags & State_On) || (flags & State_Sunken) )
+                        {
+                            frameRect.adjust( 2, 0, 0, -1 );
+                            opts |= Sunken;
+                        }
+                        if( flags & State_HasFocus ) opts |= Focus;
+                        if( mouseOver ) opts |= Hover;
+                        p->save();
+                        p->setClipRect( frameRect.adjusted( 6, 0, 0, 0 ), Qt::IntersectClip );
+                        renderSlab(p, frameRect, pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
+                        p->restore();
+
+                        a.translate(-3,1);
+
+                        QColor color = pal.color(QPalette::Window);
+                        QColor light = _helper.calcLightColor(color);
+                        QColor dark = _helper.calcDarkColor(color);
+                        dark.setAlpha(200);
+                        light.setAlpha(150);
+                        int yTop( r.top()+3 );
+                        if( sunken ) yTop += 1;
+                        int yBottom( r.bottom()-3 );
+                        p->setPen(QPen(light,1));
+
+                        p->drawLine(r.x()-5, yTop+1, r.x()-5, yBottom);
+                        p->drawLine(r.x()-3, yTop+2, r.x()-3, yBottom);
+                        p->setPen(QPen(dark,1));
+                        p->drawLine(r.x()-4, yTop, r.x()-4, yBottom);
+
+                    }
+
                     // handle arrow over animation
                     if( const QStyleOptionToolButton *tbOption = qstyleoption_cast<const QStyleOptionToolButton *>(opt) )
                     {
@@ -3830,44 +3878,11 @@ bool OxygenStyle::drawGenericPrimitive(
 
                     }
 
-                    if(!tool->autoRaise())
-                    {
-
-                        color = pal.color( QPalette::ButtonText );
-                        background = pal.color( QPalette::Button );
-
-                        // arrow rect
-                        QRect frameRect( r.adjusted(-10,0,0,0) );
-                        if( (flags & State_On) || (flags & State_Sunken) )
-                        {
-                            frameRect.adjust( 0, 0, 0, -1 );
-                            opts |= Sunken;
-                        }
-                        if( flags & State_HasFocus ) opts |= Focus;
-                        if( mouseOver ) opts |= Hover;
-                        renderSlab(p, frameRect, pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
-
-                        a.translate(-3,1);
-
-                        //Draw the dividing line
-                        QColor color = pal.color(QPalette::Window);
-                        QColor light = _helper.calcLightColor(color);
-                        QColor dark = _helper.calcDarkColor(color);
-                        dark.setAlpha(200);
-                        light.setAlpha(150);
-                        p->setPen(QPen(light,1));
-                        p->drawLine(r.x()-5, r.y()+3, r.x()-5, r.bottom()-4);
-                        p->drawLine(r.x()-3, r.y()+3, r.x()-3, r.bottom()-3);
-                        p->setPen(QPen(dark,1));
-                        p->drawLine(r.x()-4, r.y()+4, r.x()-4, r.bottom()-3);
-
-                    }
-
                 } else {
 
                     // toolbutton animation
                     // when the arrow is painted directly on the icon, button hover and arrow hover
-                    // are identical. The generic toolbar engine is used.
+                    // are identical. The generic widget engine is used.
                     animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
                     bool animated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
                     qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
@@ -4327,13 +4342,12 @@ void OxygenStyle::globalSettingsChange(int type, int /*arg*/)
         _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _sharedConfig );
     }
 
-    // need to update animated timers
     OxygenStyleConfigData::self()->readConfig();
+
+    // reinitialize engines
     animations().setupEngines();
     transitions().setupEngines();
-    windowManager().setEnabled( OxygenStyleConfigData::windowDragEnabled() );
-    windowManager().setDragMode( OxygenStyleConfigData::windowDragMode() );
-    windowManager().setUseWMMoveResize( OxygenStyleConfigData::useWMMoveResize() );
+    windowManager().initialize();
 
 }
 
@@ -4344,6 +4358,16 @@ void OxygenStyle::renderHeaderBackground( const QRect& r, const QPalette& pal, Q
     // use window background for the background
     if (widget) _helper.renderWindowBackground(p, r, widget, pal);
 
+    if( horizontal ) renderHeaderLines( r, pal, p, TileSet::Bottom );
+    else if( reverse ) renderHeaderLines( r, pal, p, TileSet::Left );
+    else renderHeaderLines( r, pal, p, TileSet::Right );
+
+}
+
+//__________________________________________________________________________
+void OxygenStyle::renderHeaderLines( const QRect& r, const QPalette& pal, QPainter* p, TileSet::Tiles tiles ) const
+{
+
     // add horizontal lines
     QColor color = pal.color(QPalette::Window);
     QColor dark  = _helper.calcDarkColor(color);
@@ -4351,17 +4375,31 @@ void OxygenStyle::renderHeaderBackground( const QRect& r, const QPalette& pal, Q
 
     p->save();
     QRect rect( r );
-    if( horizontal )
+    if( tiles & TileSet::Bottom  )
     {
 
         p->setPen(dark);
-        p->drawLine(rect.bottomLeft(), rect.bottomRight());
+        if( tiles & TileSet::Left ) p->drawPoint( rect.bottomLeft() );
+        else if( tiles& TileSet::Right ) p->drawPoint( rect.bottomRight() );
+        else p->drawLine(rect.bottomLeft(), rect.bottomRight());
 
         rect.adjust(0,0,0,-1);
         p->setPen(light);
-        p->drawLine(rect.bottomLeft(), rect.bottomRight());
+        if( tiles & TileSet::Left )
+        {
+            p->drawLine(rect.bottomLeft(), rect.bottomLeft()+QPoint( 1, 0 ) );
+            p->drawLine(rect.bottomLeft()+ QPoint( 1, 0 ), rect.bottomLeft()+QPoint( 1, 1 ) );
 
-    } else if( reverse ) {
+        } else if( tiles & TileSet::Right ) {
+
+            p->drawLine(rect.bottomRight(), rect.bottomRight() - QPoint( 1, 0 ) );
+            p->drawLine(rect.bottomRight() - QPoint( 1, 0 ), rect.bottomRight() - QPoint( 1, -1 ) );
+
+        } else {
+
+            p->drawLine(rect.bottomLeft(), rect.bottomRight());
+        }
+    } else if( tiles & TileSet::Left ) {
 
         p->setPen(dark);
         p->drawLine(rect.topLeft(), rect.bottomLeft());
@@ -4370,7 +4408,7 @@ void OxygenStyle::renderHeaderBackground( const QRect& r, const QPalette& pal, Q
         p->setPen(light);
         p->drawLine(rect.topLeft(), rect.bottomLeft());
 
-    } else {
+    } else if( tiles & TileSet::Right ) {
 
         p->setPen(dark);
         p->drawLine(rect.topRight(), rect.bottomRight());
