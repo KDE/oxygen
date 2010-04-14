@@ -138,6 +138,9 @@ namespace Oxygen
         //! returns true if widget is dragable
         bool isBlackListed( QWidget* ) const;
 
+        //! returns true if widget is dragable
+        bool isWhiteListed( QWidget* ) const;
+
         //! returns true if drag can be started from current widget and position
         bool canDrag( QWidget*, const QPoint& );
 
@@ -182,19 +185,45 @@ namespace Oxygen
         /*! this is copied from kwin::geometry */
         int dragDelay_;
 
+        //! exception set
+        //! wrapper for exception id
+        class ExceptionId: public QPair<QString, QString>
+        {
+            public:
+
+            //! constructor
+            ExceptionId( const QString& value )
+            {
+                QStringList args( value.split( "@" ) );
+                if( args.isEmpty() ) return;
+                second = args[0].trimmed();
+                if( args.size()>1 ) first = args[1].trimmed();
+            }
+
+            const QString& appName( void ) const
+            { return first; }
+
+            const QString& className( void ) const
+            { return second; }
+
+        };
+
+
+        typedef QSet<ExceptionId> ExceptionSet;
+
         //! list of white listed special widgets
         /*!
         it is read from options and is used to adjust
         per-app window dragging issues
         */
-        QSet<QString> whiteList_;
+        ExceptionSet whiteList_;
 
         //! list of black listed special widgets
         /*!
         it is read from options and is used to adjust
         per-app window dragging issues
         */
-        QSet<QString> blackList_;
+        ExceptionSet blackList_;
 
         //! drag point
         QPoint dragPoint_;

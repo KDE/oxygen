@@ -32,20 +32,20 @@
 #include "oxygenstyleconfigdata.h"
 
 
-#include <QtGui/QMouseEvent>
-#include <QtGui/QListView>
-#include <QtGui/QTreeView>
 #include <QtGui/QApplication>
 #include <QtGui/QDockWidget>
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
+#include <QtGui/QListView>
 #include <QtGui/QMenuBar>
+#include <QtGui/QMouseEvent>
 #include <QtGui/QStyle>
 #include <QtGui/QStyleOptionGroupBox>
 #include <QtGui/QTabBar>
 #include <QtGui/QTabWidget>
 #include <QtGui/QToolBar>
 #include <QtGui/QToolButton>
+#include <QtGui/QTreeView>
 
 #include <QtCore/QTextStream>
 
@@ -118,12 +118,20 @@ namespace Oxygen
     {
 
         whiteList_.clear();
-        foreach( const QString& className, OxygenStyleConfigData::windowDragDefaultWhiteList() )
-        { whiteList_.insert( className.trimmed() ); }
+        foreach( const QString& exception, OxygenStyleConfigData::windowDragDefaultWhiteList() )
+        {
+            ExceptionId id( exception );
+            if( !id.className().isEmpty() )
+            { whiteList_.insert( exception ); }
+        }
 
         // add use specified whitelisted classnames
-        foreach( const QString& className, OxygenStyleConfigData::windowDragWhiteList() )
-        { whiteList_.insert( className.trimmed() ); }
+        foreach( const QString& exception, OxygenStyleConfigData::windowDragWhiteList() )
+        {
+            ExceptionId id( exception );
+            if( !id.className().isEmpty() )
+            { whiteList_.insert( exception ); }
+        }
     }
 
     //_____________________________________________________________
@@ -131,12 +139,21 @@ namespace Oxygen
     {
 
         blackList_.clear();
-        foreach( const QString& className, OxygenStyleConfigData::windowDragDefaultBlackList() )
-        { blackList_.insert( className.trimmed() ); }
+        foreach( const QString& exception, OxygenStyleConfigData::windowDragDefaultBlackList() )
+        {
+            ExceptionId id( exception );
+            if( !id.className().isEmpty() )
+            { blackList_.insert( exception ); }
+        }
 
         // add use specified blacklisted classnames
-        foreach( const QString& className, OxygenStyleConfigData::windowDragBlackList() )
-        { blackList_.insert( className.trimmed() ); }
+        foreach( const QString& exception, OxygenStyleConfigData::windowDragBlackList() )
+        {
+            ExceptionId id( exception );
+            if( !id.className().isEmpty() )
+            { blackList_.insert( exception ); }
+        }
+
     }
 
     //_____________________________________________________________
@@ -325,9 +342,8 @@ namespace Oxygen
             widget->inherits( "QToolBar" ) )
         { return true; }
 
-        // accepted special types, from whitelist
-        foreach( const QString& className, whiteList_ )
-        { if( widget->inherits( className.toLatin1() ) ) return true; }
+        if( isWhiteListed( widget ) )
+        { return true; }
 
         // flat toolbuttons
         if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
@@ -361,8 +377,28 @@ namespace Oxygen
     bool WindowManager::isBlackListed( QWidget* widget ) const
     {
 
-        foreach( const QString& className, blackList_ )
-        { if( widget->inherits( className.toLatin1() ) ) return true; }
+        //foreach( const QString& className, blackList_ )
+        QString appName( qApp->applicationName() );
+        foreach( const ExceptionId& id, blackList_ )
+        {
+            if( !id.appName().isEmpty() && id.appName() != appName ) continue;
+            if( widget->inherits( id.className().toLatin1() ) ) return true;
+        }
+
+        return false;
+    }
+
+    //_____________________________________________________________
+    bool WindowManager::isWhiteListed( QWidget* widget ) const
+    {
+
+        //foreach( const QString& className, blackList_ )
+        QString appName( qApp->applicationName() );
+        foreach( const ExceptionId& id, whiteList_ )
+        {
+            if( !id.appName().isEmpty() && id.appName() != appName ) continue;
+            if( widget->inherits( id.className().toLatin1() ) ) return true;
+        }
 
         return false;
     }
