@@ -2957,6 +2957,7 @@ bool OxygenStyle::drawHeaderPrimitive(
                 {
 
                     if( widget ) _helper.renderWindowBackground(p, r, widget, pal);
+                    else p->fillRect( r, pal.color( QPalette::Window ) );
                     if( reverse ) renderHeaderLines( r, pal, p, TileSet::Bottom | TileSet::Left );
                     else renderHeaderLines( r, pal, p, TileSet::Bottom | TileSet::Right );
 
@@ -4355,7 +4356,8 @@ void OxygenStyle::renderHeaderBackground( const QRect& r, const QPalette& pal, Q
 {
 
     // use window background for the background
-    if (widget) _helper.renderWindowBackground(p, r, widget, pal);
+    if( widget ) _helper.renderWindowBackground(p, r, widget, pal);
+    else p->fillRect( r, pal.color( QPalette::Window ) );
 
     if( horizontal ) renderHeaderLines( r, pal, p, TileSet::Bottom );
     else if( reverse ) renderHeaderLines( r, pal, p, TileSet::Left );
@@ -5483,7 +5485,8 @@ void OxygenStyle::renderTab(
             if( drawBackground )
             {
                 QRect fillRect = tabRect.adjusted(4,(orientation == Qt::Horizontal && !inverted) ? 3 : 4,-4,-4);
-                _helper.renderWindowBackground(p, fillRect, widget,widget->window()->palette());
+                if( widget ) _helper.renderWindowBackground(p, fillRect, widget,widget->window()->palette());
+                else p->fillRect( fillRect, pal.color( QPalette::Window ) );
             }
 
             fillTab(p, tabRect, color, orientation, selected, inverted );
@@ -5555,7 +5558,8 @@ void OxygenStyle::renderTab(
                     if( drawBackground )
                     {
                         QRect fillRect = tabRect.adjusted(4,(orientation == Qt::Horizontal && !inverted) ? 3 : 4,-4,-4);
-                        _helper.renderWindowBackground(p, fillRect, widget,widget->window()->palette());
+                        if( widget ) _helper.renderWindowBackground(p, fillRect, widget,widget->window()->palette());
+                        else p->fillRect( fillRect, pal.color( QPalette::Window ) );
                     }
 
                     fillTab(p, tabRect, color, orientation, selected, inverted );
@@ -5763,7 +5767,8 @@ void OxygenStyle::renderTab(
                     if( drawBackground )
                     {
                         QRect fillRect = tabRect.adjusted(4,(orientation == Qt::Horizontal && !inverted) ? 3 : 4,-4,-4);
-                        _helper.renderWindowBackground(p, fillRect, widget,widget->window()->palette());
+                        if( widget ) _helper.renderWindowBackground(p, fillRect, widget,widget->window()->palette());
+                        else p->fillRect( fillRect, pal.color( QPalette::Window ) );
                     }
 
                     fillTab(p, tabRect, color, orientation, selected, inverted );
