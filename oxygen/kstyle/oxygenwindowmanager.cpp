@@ -374,7 +374,7 @@ namespace Oxygen
     }
 
     //_____________________________________________________________
-    bool WindowManager::isBlackListed( QWidget* widget ) const
+    bool WindowManager::isBlackListed( QWidget* widget )
     {
 
         //foreach( const QString& className, blackList_ )
@@ -382,6 +382,13 @@ namespace Oxygen
         foreach( const ExceptionId& id, blackList_ )
         {
             if( !id.appName().isEmpty() && id.appName() != appName ) continue;
+            if( id.className() == "*" && !id.appName().isEmpty() )
+            {
+                // if application name matches and all classes are selected
+                // disable the grabbing entirely
+                setEnabled( false );
+                return true;
+            }
             if( widget->inherits( id.className().toLatin1() ) ) return true;
         }
 

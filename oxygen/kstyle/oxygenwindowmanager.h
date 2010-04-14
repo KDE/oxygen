@@ -136,7 +136,7 @@ namespace Oxygen
         bool isDragable( QWidget* ) const;
 
         //! returns true if widget is dragable
-        bool isBlackListed( QWidget* ) const;
+        bool isBlackListed( QWidget* );
 
         //! returns true if widget is dragable
         bool isWhiteListed( QWidget* ) const;
