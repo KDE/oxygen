@@ -94,7 +94,7 @@
         standard widgets). They are reference by the widget class name.
     -->
     <entry name="WindowDragDefaultBlackList" type="StringList" hidden="true">
-       <default>KCategorizedView,Utils::WelcomeModeLabel@QtCreator,CustomTrackView@kdenlive,QGraphicsView</default>
+       <default>KCategorizedView,Utils::WelcomeModeLabel@QtCreator,CustomTrackView@kdenlive</default>
     </entry>
     <entry name="WindowDragBlackList" type="StringList">
        <default></default>
