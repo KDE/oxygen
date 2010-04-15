@@ -44,25 +44,25 @@ namespace Oxygen
         // connections
 
         connect( ui.viewDrawTriangularExpander_, SIGNAL( toggled( bool ) ), ui.viewTriangularExpanderSize_, SLOT( setEnabled( bool ) ) );
-        connect( ui.toolBarDrawItemSeparator_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.checkDrawX_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.viewDrawFocusIndicator_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.viewDrawTreeBranchLines_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.viewDrawTriangularExpander_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.viewTriangularExpanderSize_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
-        connect( ui.tabStylePlain_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.tabStyleSingle_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.scrollBarBevel_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.scrollBarColored_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.scrollBarWidth_, SIGNAL( valueChanged( int ) ), SLOT( updateChanged() ) );
-        connect( ui.menuHighlightStrong_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.menuHighlightSubtle_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.menuHighlightDark_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( ui.windowDragMode_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
+        connect( ui.toolBarDrawItemSeparator_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.checkDrawX_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.viewDrawFocusIndicator_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.viewDrawTreeBranchLines_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.viewDrawTriangularExpander_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.viewTriangularExpanderSize_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.tabStylePlain_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.tabStyleSingle_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.scrollBarBevel_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.scrollBarColored_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.scrollBarWidth_, SIGNAL( valueChanged( int ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.menuHighlightStrong_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.menuHighlightSubtle_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.menuHighlightDark_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui.windowDragMode_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged( void ) ) );
         connect( ui.windowDragMode_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateWMMoveResize(int) ) );
 
         #ifdef Q_WS_X11
-        connect( ui.useWMMoveResize_, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
+        connect( ui.useWMMoveResize_, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
         #endif
 
     }
