@@ -31,10 +31,13 @@
 #include "oxygenappearanceconfigwidget.h"
 #include "oxygendecorationconfigwidget.h"
 
+#include <QtGui/QShortcut>
+
 #include <KGlobalSettings>
+#include <KIcon>
 #include <KLocale>
 #include <KPushButton>
-#include <KIcon>
+#include <KStandardShortcut>
 
 namespace Oxygen
 {
@@ -47,6 +50,10 @@ namespace Oxygen
         showButtonSeparator( false );
 
         setWindowTitle( i18n( "Oxygen Settings" ) );
+
+        // install Quit shortcut
+        connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL( activated() ), SLOT( close() ) );
+        connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL( activated() ), SLOT( close() ) );
 
         // tab widget
         pageWidget_ = new KPageWidget( this );
@@ -113,6 +120,14 @@ namespace Oxygen
     //_______________________________________________________________
     void ConfigDialog::save( void )
     {
+
+        // check modifications
+        if( !(
+            appearanceConfigWidget_->isChanged() ||
+            animationConfigWidget_->isChanged() ||
+            decorationConfigWidget_->isChanged() ) ) return;
+
+        // save all
         appearanceConfigWidget_->save();
         animationConfigWidget_->save();
         decorationConfigWidget_->save();
