@@ -46,6 +46,7 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QToolButton>
 #include <QtGui/QTreeView>
+#include <QtGui/QGraphicsView>
 
 #include <QtCore/QTextStream>
 
@@ -356,6 +357,9 @@ namespace Oxygen
         if( QTreeView* treeView = qobject_cast<QTreeView*>( widget->parentWidget() ) )
         { if( treeView->viewport() == widget ) return true; }
 
+        if( QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
+        { if( graphicsView->viewport() == widget ) return true; }
+
         /* labels in status bars (this is because of kstatusbar who captures buttonPress/release events) */
         if( QLabel* label = qobject_cast<QLabel*>( widget ) )
         {
@@ -519,6 +523,17 @@ namespace Oxygen
                 return false;
 
             } else if( itemView->indexAt( position ).isValid() ) return false;
+        }
+
+        if( QGraphicsView* graphicsView =  qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
+        {
+            if( graphicsView->frameShape() != QFrame::NoFrame )
+            {
+
+                widget->removeEventFilter( this );
+                return false;
+
+            } else if( graphicsView->itemAt( position ) ) return false;
         }
 
         // labels
