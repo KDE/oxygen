@@ -49,6 +49,7 @@
 #include <QtGui/QGraphicsView>
 
 #include <QtCore/QTextStream>
+#include <QtGui/QTextDocument>
 
 #ifdef Q_WS_X11
 #include <QX11Info>
@@ -340,7 +341,8 @@ namespace Oxygen
             widget->inherits( "QTabBar" ) ||
             widget->inherits( "QTabWidget" ) ||
             widget->inherits( "QStatusBar" ) ||
-            widget->inherits( "QToolBar" ) )
+            widget->inherits( "QToolBar" ) ||
+            widget->inherits( "QLabel" ) )
         { return true; }
 
         if( isWhiteListed( widget ) )
@@ -359,19 +361,6 @@ namespace Oxygen
 
         if( QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
         { if( graphicsView->viewport() == widget ) return true; }
-
-        /* labels in status bars (this is because of kstatusbar who captures buttonPress/release events) */
-        if( QLabel* label = qobject_cast<QLabel*>( widget ) )
-        {
-            if( label->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ) ) return false;
-
-            QWidget* parent = label->parentWidget();
-            while( parent )
-            {
-                if( parent->inherits( "QStatusBar" ) ) return true;
-                parent = parent->parentWidget();
-            }
-        }
 
         return false;
 
@@ -538,7 +527,10 @@ namespace Oxygen
 
         // labels
         if( QLabel* label = qobject_cast<QLabel*>( widget ) )
-        { return( !label->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ) ); }
+        {
+            if( label->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ) ) return false;
+            if( label->textInteractionFlags().testFlag( Qt::LinksAccessibleByMouse ) && Qt::mightBeRichText( label->text() ) ) return false;
+        }
 
         return true;
 
