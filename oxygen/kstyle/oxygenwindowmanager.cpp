@@ -304,10 +304,10 @@ namespace Oxygen
 
             if( dragAboutToStart_ )
             {
-                dragAboutToStart_ = false;
                 if( mouseEvent->globalPos() == globalDragPoint_ )
                 {
                     // start timer,
+                    dragAboutToStart_ = false;
                     if( dragTimer_.isActive() ) dragTimer_.stop();
                     dragTimer_.start( dragDelay_, this );
 
@@ -562,6 +562,7 @@ namespace Oxygen
         if( dragTimer_.isActive() ) dragTimer_.stop();
         dragPoint_ = QPoint();
         globalDragPoint_ = QPoint();
+        dragAboutToStart_ = false;
         dragInProgress_ = false;
 
     }
