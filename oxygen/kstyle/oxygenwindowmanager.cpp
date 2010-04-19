@@ -527,10 +527,7 @@ namespace Oxygen
 
         // labels
         if( QLabel* label = qobject_cast<QLabel*>( widget ) )
-        {
-            if( label->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ) ) return false;
-            if( label->textInteractionFlags().testFlag( Qt::LinksAccessibleByMouse ) && Qt::mightBeRichText( label->text() ) ) return false;
-        }
+        { if( label->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ) ) return false; }
 
         return true;
 
