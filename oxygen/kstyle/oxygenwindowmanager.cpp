@@ -68,6 +68,7 @@ namespace Oxygen
         dragDistance_(6),
         dragDelay_( QApplication::doubleClickInterval() ),
         blackListEvent_( NULL ),
+        dragAboutToStart_( false ),
         dragInProgress_( false )
     {}
 
@@ -268,10 +269,16 @@ namespace Oxygen
             target_ = widget;
             dragPoint_ = mouseEvent->pos();
             globalDragPoint_ = mouseEvent->globalPos();
+            dragAboutToStart_ = true;
 
-            // start timer
-            if( dragTimer_.isActive() ) dragTimer_.stop();
-            dragTimer_.start( dragDelay_, this );
+            // send a move event to the current child with same position
+            // if recieved, it is catched to actually start the drag
+            QWidget* child = widget->childAt( dragPoint_ );
+            QPoint localPoint( dragPoint_ );
+            if( child ) localPoint = child->mapFrom( widget, localPoint );
+            else child = widget;
+            QMouseEvent localMouseEvent( QEvent::MouseMove, localPoint, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
+            qApp->sendEvent( child, &localMouseEvent );
 
             /*
             accept the event, to prevent other widget
@@ -295,7 +302,18 @@ namespace Oxygen
         if( !dragInProgress_ )
         {
 
-            if( QPoint( mouseEvent->globalPos() - globalDragPoint_ ).manhattanLength() >= dragDistance_ )
+            if( dragAboutToStart_ )
+            {
+                dragAboutToStart_ = false;
+                if( mouseEvent->globalPos() == globalDragPoint_ )
+                {
+                    // start timer,
+                    if( dragTimer_.isActive() ) dragTimer_.stop();
+                    dragTimer_.start( dragDelay_, this );
+
+                } else resetDrag();
+
+            } else if( QPoint( mouseEvent->globalPos() - globalDragPoint_ ).manhattanLength() >= dragDistance_ )
             { dragTimer_.start( 0, this ); }
             return true;
 

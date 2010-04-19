@@ -239,6 +239,9 @@ namespace Oxygen
         //! pointer to current blacklisted event, if any
         QEvent* blackListEvent_;
 
+        //! true if drag is about to start
+        bool dragAboutToStart_;
+
         //! true if drag is in progress
         bool dragInProgress_;
 
