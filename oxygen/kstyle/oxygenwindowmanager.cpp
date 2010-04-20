@@ -344,7 +344,7 @@ namespace Oxygen
     }
 
     //_____________________________________________________________
-    bool WindowManager::isDragable( QWidget* widget ) const
+    bool WindowManager::isDragable( QWidget* widget )
     {
 
         // check widget
@@ -371,14 +371,20 @@ namespace Oxygen
         { if( toolButton->autoRaise() ) return true; }
 
         // viewports
+        /*
+        one needs to check that
+        1/ the widget parent is a scrollarea
+        2/ it matches its parent viewport
+        3/ the parent is not blacklisted
+        */
         if( QListView* listView = qobject_cast<QListView*>( widget->parentWidget() ) )
-        { if( listView->viewport() == widget ) return true; }
+        { if( listView->viewport() == widget && !isBlackListed( listView ) ) return true; }
 
         if( QTreeView* treeView = qobject_cast<QTreeView*>( widget->parentWidget() ) )
-        { if( treeView->viewport() == widget ) return true; }
+        { if( treeView->viewport() == widget && !isBlackListed( treeView ) ) return true; }
 
         if( QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
-        { if( graphicsView->viewport() == widget ) return true; }
+        { if( graphicsView->viewport() == widget && !isBlackListed( graphicsView ) ) return true; }
 
         return false;
 
