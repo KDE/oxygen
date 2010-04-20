@@ -82,7 +82,7 @@
         standard widgets. They are reference by the widget class name.
     -->
     <entry name="WindowDragDefaultWhiteList" type="StringList" hidden="true">
-       <default>MplayerWindow,ViewSliders@kmix</default>
+           <default>ViewSliders@kmix</default>
     </entry>
     <entry name="WindowDragWhiteList" type="StringList">
        <default></default>
