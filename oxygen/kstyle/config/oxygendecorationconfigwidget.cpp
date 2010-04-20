@@ -62,6 +62,7 @@ namespace Oxygen
         connect( ui.blendColor_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
 
         // shadow configurations
+        connect( ui.shadowCacheMode_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
         setupShadowConf( inactiveShadowUi, ui.inactiveShadowConfiguration_ );
         setupShadowConf( activeShadowUi, ui.activeShadowConfiguration_ );
 
@@ -70,8 +71,6 @@ namespace Oxygen
     //_______________________________________________
     void DecorationConfigWidget::save( void )
     {
-        saveShadowConf( inactiveShadowUi, inactiveShadowConf_ );
-        saveShadowConf( activeShadowUi, activeShadowConf_ );
 
         OxygenStyleConfigData::setTabsEnabled( ui.tabsEnabled_->isChecked() );
         OxygenStyleConfigData::setUseAnimations( ui.useAnimations_->isChecked() );
@@ -86,6 +85,11 @@ namespace Oxygen
         OxygenStyleConfigData::setFrameBorder( frameBorder( ui.frameBorder_->currentIndex() ) );
         OxygenStyleConfigData::setSizeGripMode( sizeGripMode( ui.sizeGripMode_->currentIndex() ) );
         OxygenStyleConfigData::setBlendColor( blendColor( ui.blendColor_->currentIndex() ) );
+
+        // shadow configurations
+        OxygenStyleConfigData::setShadowCacheMode( shadowCacheMode( ui.shadowCacheMode_->currentIndex() ) );
+        saveShadowConf( inactiveShadowUi, inactiveShadowConf_ );
+        saveShadowConf( activeShadowUi, activeShadowConf_ );
 
         setChanged( false );
     }
@@ -139,6 +143,16 @@ namespace Oxygen
             }
         }
 
+        // shadow cache mode
+        for( int i=0; i<3; ++i )
+        {
+            if( shadowCacheMode(i) == OxygenStyleConfigData::shadowCacheMode() )
+            {
+                ui.shadowCacheMode_->setCurrentIndex( i );
+                break;
+            }
+        }
+
     }
 
     //_______________________________________________
@@ -167,6 +181,7 @@ namespace Oxygen
         else if( frameBorder( ui.frameBorder_->currentIndex() ) != OxygenStyleConfigData::frameBorder() ) modified = true;
         else if( blendColor( ui.blendColor_->currentIndex() ) != OxygenStyleConfigData::blendColor() ) modified = true;
         else if( sizeGripMode( ui.sizeGripMode_->currentIndex() ) != OxygenStyleConfigData::sizeGripMode() ) modified = true;
+        else if( shadowCacheMode( ui.shadowCacheMode_->currentIndex() ) != OxygenStyleConfigData::shadowCacheMode() ) modified = true;
         setChanged( modified );
 
     }
@@ -254,6 +269,17 @@ namespace Oxygen
         {
             case 0: return "Always Hide Extra Size Grip";
             case 1: default: return "Show Extra Size Grip When Needed";
+        }
+    }
+
+    //_______________________________________________
+    QString DecorationConfigWidget::shadowCacheMode( int index ) const
+    {
+        switch( index )
+        {
+            case 0: return "Disabled";
+            case 1: default: return "Variable";
+            case 2: return "Maximum";
         }
     }
 

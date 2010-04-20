@@ -76,6 +76,7 @@ namespace Oxygen
         QString frameBorder( int ) const;
         QString sizeGripMode( int ) const;
         QString blendColor( int ) const;
+        QString shadowCacheMode( int ) const;
 
         //@}
 

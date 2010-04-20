@@ -298,6 +298,11 @@
     <entry name="FrameBorder" type="String">
       <default>Normal</default>
     </entry>
+    
+    <!-- shadow caching -->
+    <entry name="ShadowCacheMode" type="String">
+      <default>"CacheVariable"</default>
+    </entry>
 
   </group> 
 
