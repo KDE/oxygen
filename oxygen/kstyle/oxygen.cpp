@@ -3932,8 +3932,8 @@ bool OxygenStyle::drawGenericPrimitive(
         {
 
             const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
-            const bool hoverHighlight( isInputWidget && (flags&State_MouseOver) );
-            const bool focusHighlight( isInputWidget && (flags&State_HasFocus) );
+            const bool hoverHighlight( enabled && isInputWidget && (flags&State_MouseOver) );
+            const bool focusHighlight( enabled && isInputWidget && (flags&State_HasFocus) );
 
             // assume focus takes precedence over hover
             animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, focusHighlight );
