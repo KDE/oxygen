@@ -2820,9 +2820,17 @@ bool OxygenStyle::drawComboBoxPrimitive(
     const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Window);
     QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
 
-    // focus takes precedence over hover
-    animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
-    animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver && !hasFocus );
+    if( editable )
+    {
+
+        // focus takes precedence over hover for editable comboboxes
+        animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+        animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver && !hasFocus );
+    } else {
+        // hover takes precedence over focus for read-only comboboxes
+        animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+        animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
+    }
 
     switch (primitive)
     {
