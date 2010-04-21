@@ -344,8 +344,9 @@ bool OxygenStyle::drawDialComplexControl( const QStyleOptionComplex *option, QPa
     if (option->state & State_HasFocus) opts |= Focus;
     if (enabled && (option->state & State_MouseOver)) opts |= Hover;
 
+    // mouseOver has precedence over focus
     animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-    animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+    animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
 
     QRect rect( option->rect );
     const QPalette &pal( option->palette );
@@ -406,8 +407,9 @@ bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *optio
 
     } else {
 
+        // mouseOver has precedence over focus
         animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-        animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+        animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus&&!mouseOver );
 
     }
 
@@ -1646,8 +1648,9 @@ bool OxygenStyle::drawCheckBoxPrimitive(
 
             bool hasFocus = flags & State_HasFocus;
 
+            // mouseOver has precedence over focus
             animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus&&!mouseOver );
 
             if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) )
             {
@@ -1703,8 +1706,11 @@ bool OxygenStyle::drawRadioButtonPrimitive(
 
 
             bool hasFocus = flags & State_HasFocus;
+
+            // mouseOver has precedence over focus
             animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
+
             if( enabled && animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) )
             {
 
@@ -3374,12 +3380,13 @@ bool OxygenStyle::drawToolButtonPrimitive(
             if( isInToolBar && !toolBarAnimated )
             {
 
-              animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
 
             } else {
 
-              animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-              animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
+                // mouseOver has precedence over focus
+                animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
 
             }
 
