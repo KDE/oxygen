@@ -47,7 +47,7 @@ target_link_libraries( oxygen-settings
     ${QT_QTGUI_LIBRARY})
 
 ########### install files ###############
-install (TARGETS oxygen-settings DESTINATION ${BIN_INSTALL_DIR} )
+install (TARGETS oxygen-settings ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 
 

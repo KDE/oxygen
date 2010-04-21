@@ -24,4 +24,4 @@ target_link_libraries( oxygen-demo
     ${QT_QTGUI_LIBRARY})
 
 ########### install files ###############
-install (TARGETS oxygen-demo DESTINATION ${BIN_INSTALL_DIR} )
+install (TARGETS oxygen-demo ${INSTALL_TARGETS_DEFAULT_ARGS} )
