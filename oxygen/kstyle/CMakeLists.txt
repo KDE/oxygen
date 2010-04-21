@@ -2,6 +2,7 @@
 project(kstyle-oxygen)
 
 add_subdirectory( config )
+add_subdirectory( demo )
 
 include_directories (animations transitions ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs/oxygen)
 
