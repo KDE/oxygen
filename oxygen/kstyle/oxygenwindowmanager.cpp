@@ -173,7 +173,7 @@ namespace Oxygen
         { return appMouseEvent( object, event ); }
 
         if( event->type() == QEvent::MouseButtonPress ) return mousePressEvent( object, event );
-        else if( event->type() == QEvent::MouseMove && target_ ) return mouseMoveEvent( object, event );
+        else if( event->type() == QEvent::MouseMove && object == target_.data() ) return mouseMoveEvent( object, event );
         else if( event->type() == QEvent::MouseButtonRelease && target_ ) return mouseReleaseEvent( object, event );
         return false;
 
@@ -233,7 +233,7 @@ namespace Oxygen
     //_____________________________________________________________
     bool WindowManager::mousePressEvent( QObject* object, QEvent* event )
     {
-
+        
         // cast event and check buttons/modifiers
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
         if( !( mouseEvent->modifiers() == Qt::NoModifier && mouseEvent->button() == Qt::LeftButton ) )
@@ -294,6 +294,8 @@ namespace Oxygen
     bool WindowManager::mouseMoveEvent( QObject* object, QEvent* event )
     {
 
+        Q_UNUSED( object );
+
         // stop timer
         if( dragTimer_.isActive() ) dragTimer_.stop();
 
@@ -319,18 +321,13 @@ namespace Oxygen
 
         } else if( !useWMMoveResize() ) {
 
-            if( object == target_.data() )
-            {
+            // use QWidget::move for the grabbing
+            /* this works only if the sending object and the target are identical */
+            QWidget* window( target_.data()->window() );
+            window->move( window->pos() + mouseEvent->pos() - dragPoint_ );
+            return true;
 
-                // use QWidget::move for the grabbing
-                /* this works only if the sending object and the target are identical */
-                QWidget* window( target_.data()->window() );
-                window->move( window->pos() + mouseEvent->pos() - dragPoint_ );
-                return true;
-
-            } else return false;
-
-        } else return true;
+        } else return false;
 
     }
 
