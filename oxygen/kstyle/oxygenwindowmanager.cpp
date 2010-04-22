@@ -539,44 +539,44 @@ namespace Oxygen
 
         }
 
-        // viewports
-        if( QAbstractItemView* itemView = qobject_cast<QAbstractItemView*>( widget->parentWidget() ) )
+        QAbstractItemView* itemView( NULL );
+        if( (itemView = qobject_cast<QListView*>( widget->parentWidget() ) ) )
         {
+            // QListView
             if( itemView->frameShape() != QFrame::NoFrame )
             {
 
                 widget->removeEventFilter( this );
                 return false;
 
-            } else if( itemView->selectionMode() != QAbstractItemView::NoSelection && itemView->selectionMode() != QAbstractItemView::SingleSelection ) {
+            } else if(
+                itemView->selectionMode() != QAbstractItemView::NoSelection &&
+                itemView->selectionMode() != QAbstractItemView::SingleSelection &&
+                itemView->model()->rowCount() ) return false;
+            else if( itemView->indexAt( position ).isValid() ) return false;
 
+        } else if( (itemView = qobject_cast<QAbstractItemView*>( widget->parentWidget() ) ) ) {
+
+            // QAbstractItemView
+            if( itemView->frameShape() != QFrame::NoFrame )
+            {
+
+                widget->removeEventFilter( this );
                 return false;
 
-            } else if( itemView->indexAt( position ).isValid() ) {
+            } else if( itemView->indexAt( position ).isValid() ) return false;
 
-                return false;
+        } else if( QGraphicsView* graphicsView =  qobject_cast<QGraphicsView*>( widget->parentWidget() ) )  {
 
-            }
-
-        }
-
-        if( QGraphicsView* graphicsView =  qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
-        {
+            // QGraphicsView
             if( graphicsView->frameShape() != QFrame::NoFrame )
             {
 
                 widget->removeEventFilter( this );
                 return false;
 
-            } else if( graphicsView->dragMode() != QGraphicsView::NoDrag ) {
-
-                return false;
-
-            } else if( graphicsView->itemAt( position ) ) {
-
-                return false;
-
-            }
+            } else if( graphicsView->dragMode() != QGraphicsView::NoDrag ) return false;
+            else if( graphicsView->itemAt( position ) ) return false;
 
         }
 
