@@ -128,7 +128,7 @@ namespace Oxygen
             { whiteList_.insert( exception ); }
         }
 
-        // add use specified whitelisted classnames
+        // add user specified whitelisted classnames
         foreach( const QString& exception, OxygenStyleConfigData::windowDragWhiteList() )
         {
             ExceptionId id( exception );
@@ -149,7 +149,7 @@ namespace Oxygen
             { blackList_.insert( exception ); }
         }
 
-        // add use specified blacklisted classnames
+        // add user specified blacklisted classnames
         foreach( const QString& exception, OxygenStyleConfigData::windowDragBlackList() )
         {
             ExceptionId id( exception );
@@ -548,7 +548,16 @@ namespace Oxygen
                 widget->removeEventFilter( this );
                 return false;
 
-            } else if( itemView->indexAt( position ).isValid() ) return false;
+            } else if( itemView->selectionMode() != QAbstractItemView::NoSelection && itemView->selectionMode() != QAbstractItemView::SingleSelection ) {
+
+                return false;
+
+            } else if( itemView->indexAt( position ).isValid() ) {
+
+                return false;
+
+            }
+
         }
 
         if( QGraphicsView* graphicsView =  qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
@@ -559,7 +568,16 @@ namespace Oxygen
                 widget->removeEventFilter( this );
                 return false;
 
-            } else if( graphicsView->itemAt( position ) ) return false;
+            } else if( graphicsView->dragMode() != QGraphicsView::NoDrag ) {
+
+                return false;
+
+            } else if( graphicsView->itemAt( position ) ) {
+
+                return false;
+
+            }
+
         }
 
         // labels
