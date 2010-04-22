@@ -233,7 +233,7 @@ namespace Oxygen
     //_____________________________________________________________
     bool WindowManager::mousePressEvent( QObject* object, QEvent* event )
     {
-        
+
         // cast event and check buttons/modifiers
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
         if( !( mouseEvent->modifiers() == Qt::NoModifier && mouseEvent->button() == Qt::LeftButton ) )
@@ -356,8 +356,7 @@ namespace Oxygen
             widget->inherits( "QTabBar" ) ||
             widget->inherits( "QTabWidget" ) ||
             widget->inherits( "QStatusBar" ) ||
-            widget->inherits( "QToolBar" ) ||
-            widget->inherits( "QLabel" ) )
+            widget->inherits( "QToolBar" ) )
         { return true; }
 
         if( isWhiteListed( widget ) )
@@ -382,6 +381,23 @@ namespace Oxygen
 
         if( QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
         { if( graphicsView->viewport() == widget && !isBlackListed( graphicsView ) ) return true; }
+
+        /*
+        catch labels in status bars.
+        this is because of kstatusbar
+        who captures buttonPress/release events
+        */
+        if( QLabel* label = qobject_cast<QLabel*>( widget ) )
+        {
+            if( label->textInteractionFlags().testFlag( Qt::TextSelectableByMouse ) ) return false;
+
+            QWidget* parent = label->parentWidget();
+            while( parent )
+            {
+                if( parent->inherits( "QStatusBar" ) ) return true;
+                parent = parent->parentWidget();
+            }
+        }
 
         return false;
 
