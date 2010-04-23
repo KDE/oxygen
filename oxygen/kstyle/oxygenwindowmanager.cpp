@@ -1,3 +1,5 @@
+// krazy:excludeall=qclasses
+
 //////////////////////////////////////////////////////////////////////////////
 // oxygenwindowmanager.cpp
 // pass some window mouse press/release/move event actions to window manager
@@ -262,7 +264,7 @@ namespace Oxygen
             dragAboutToStart_ = true;
 
             // send a move event to the current child with same position
-            // if recieved, it is catched to actually start the drag
+            // if received, it is caught to actually start the drag
             QWidget* child = widget->childAt( dragPoint_ );
             QPoint localPoint( dragPoint_ );
             if( child ) localPoint = child->mapFrom( widget, localPoint );
