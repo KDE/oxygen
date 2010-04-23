@@ -340,10 +340,10 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
 }
 
 //__________________________________________________________________________________________________________
-QPixmap OxygenStyleHelper::progressBarIndicator(const QPalette& pal, const QRect& rect, bool enabled )
+QPixmap OxygenStyleHelper::progressBarIndicator(const QPalette& pal, const QRect& rect )
 {
 
-    QColor highlight = pal.color( enabled ? QPalette::Active : QPalette::Disabled, QPalette::Highlight);
+    QColor highlight = pal.color( QPalette::Highlight );
     quint64 key = (quint64(highlight.rgba()) << 32) | (rect.width() << 16 ) | (rect.height() );
 
     QPixmap *pixmap = m_progressBarCache.object(key);

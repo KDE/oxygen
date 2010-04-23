@@ -61,7 +61,7 @@ public:
     QPixmap roundSlabFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
 
     // progressbar
-    QPixmap progressBarIndicator( const QPalette&, const QRect&, bool = true );
+    QPixmap progressBarIndicator( const QPalette&, const QRect& );
 
     // TODO - need to rebase scrollbars to size=7
     TileSet *roundCorner(const QColor&, int size = 5);

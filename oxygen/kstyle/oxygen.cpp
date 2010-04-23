@@ -1138,9 +1138,6 @@ bool OxygenStyle::drawProgressBarPrimitive(
     Q_UNUSED( widget );
     Q_UNUSED( kOpt );
 
-    const bool enabled = flags & State_Enabled;
-    QColor bg = enabled?pal.color(QPalette::Base):pal.color(QPalette::Background); // background
-    QColor fg = enabled?pal.color(QPalette::Highlight):pal.color(QPalette::Background).dark(110); // foreground
     const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>(opt);
     Qt::Orientation orientation = pbOpt? pbOpt->orientation : Qt::Horizontal;
 
@@ -1162,7 +1159,7 @@ bool OxygenStyle::drawProgressBarPrimitive(
         case ProgressBar::BusyIndicator:
         {
 
-            QPixmap pixmap( _helper.progressBarIndicator( pal, rect, enabled ) );
+            QPixmap pixmap( _helper.progressBarIndicator( pal, rect ) );
             p->drawPixmap( rect.adjusted(-1, -2, 0, 0).topLeft(), pixmap );
             return true;
 
