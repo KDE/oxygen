@@ -121,14 +121,11 @@ namespace Oxygen
     {
 
         whiteList_.clear();
-        foreach( const QString& exception, OxygenStyleConfigData::windowDragDefaultWhiteList() )
-        {
-            ExceptionId id( exception );
-            if( !id.className().isEmpty() )
-            { whiteList_.insert( exception ); }
-        }
 
         // add user specified whitelisted classnames
+        whiteList_.insert( ExceptionId( "MplayerWindow" ) );
+        whiteList_.insert( ExceptionId( "ViewSliders@kmix" ) );
+
         foreach( const QString& exception, OxygenStyleConfigData::windowDragWhiteList() )
         {
             ExceptionId id( exception );
@@ -142,14 +139,7 @@ namespace Oxygen
     {
 
         blackList_.clear();
-        foreach( const QString& exception, OxygenStyleConfigData::windowDragDefaultBlackList() )
-        {
-            ExceptionId id( exception );
-            if( !id.className().isEmpty() )
-            { blackList_.insert( exception ); }
-        }
-
-        // add user specified blacklisted classnames
+        blackList_.insert( ExceptionId( "CustomTrackView@kdenlive" ) );
         foreach( const QString& exception, OxygenStyleConfigData::windowDragBlackList() )
         {
             ExceptionId id( exception );
@@ -357,6 +347,9 @@ namespace Oxygen
             widget->inherits( "QTabWidget" ) ||
             widget->inherits( "QStatusBar" ) ||
             widget->inherits( "QToolBar" ) )
+        { return true; }
+
+        if( widget->inherits( "KScreenSaver" ) && widget->inherits( "KCModule" ) )
         { return true; }
 
         if( isWhiteListed( widget ) )

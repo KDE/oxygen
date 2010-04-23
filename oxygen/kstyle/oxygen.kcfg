@@ -81,9 +81,6 @@
         window dragging can be installed (in addition to the build-in list of
         standard widgets. They are reference by the widget class name.
     -->
-    <entry name="WindowDragDefaultWhiteList" type="StringList" hidden="true">
-       <default>MplayerWindow,ViewSliders@kmix</default>
-    </entry>
     <entry name="WindowDragWhiteList" type="StringList">
        <default></default>
     </entry>
@@ -93,9 +90,6 @@
         window dragging must be disabled (in addition to the build-in list of
         standard widgets). They are reference by the widget class name.
     -->
-    <entry name="WindowDragDefaultBlackList" type="StringList" hidden="true">
-    <default>CustomTrackView@kdenlive</default>
-    </entry>
     <entry name="WindowDragBlackList" type="StringList">
        <default></default>
     </entry>
