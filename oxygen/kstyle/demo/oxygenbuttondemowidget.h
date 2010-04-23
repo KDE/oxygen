@@ -55,6 +55,7 @@ namespace Oxygen
 
         void textPosition( int );
         void iconSize( int );
+        void toggleFlat( bool );
 
         protected:
 
@@ -64,7 +65,8 @@ namespace Oxygen
         private:
 
         Ui_ButtonDemoWidget ui;
-        QList<QToolButton*> buttons_;
+        QList<QPushButton*> pushButtons_;
+        QList<QToolButton*> toolButtons_;
     };
 
 }

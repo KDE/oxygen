@@ -40,15 +40,22 @@ namespace Oxygen
 
         ui.setupUi( this );
 
-        ui.pushButton_4->setIcon( KIcon("oxygen") );
-        ui.pushButton_5->setIcon( KIcon("oxygen") );
+        ui.pushButton_3->setIcon( KIcon("oxygen") );
         ui.pushButton_6->setIcon( KIcon("oxygen") );
 
-        installMenu( ui.pushButton_7 );
-        installMenu( ui.pushButton_8 );
+        installMenu( ui.pushButton_5 );
+        installMenu( ui.pushButton_6 );
+
+        pushButtons_
+            << ui.pushButton_1
+            << ui.pushButton_3
+            << ui.pushButton_5
+            << ui.pushButton_6;
+
+        connect( ui.flatButtonCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleFlat( bool ) ) );
+
 
         ui.toolButton->setIcon( KIcon("oxygen") );
-        ui.toolButton_2->setIcon( KIcon("oxygen") );
         ui.toolButton_3->setIcon( KIcon("oxygen") );
         ui.toolButton_4->setIcon( KIcon("document-new") );
         ui.toolButton_5->setIcon( KIcon("document-open") );
@@ -66,9 +73,8 @@ namespace Oxygen
 
         ui.checkBox_3->setCheckState( Qt::PartiallyChecked );
 
-        buttons_
+        toolButtons_
             << ui.toolButton
-            << ui.toolButton_2
             << ui.toolButton_3
             << ui.toolButton_4
             << ui.toolButton_5
@@ -86,9 +92,19 @@ namespace Oxygen
     }
 
     //_____________________________________________________________
+    void ButtonDemoWidget::toggleFlat( bool value )
+    {
+        foreach( QPushButton* button, pushButtons_ )
+        { button->setFlat( value ); }
+
+        ui.kcombobox->setFrame( !value );
+
+    }
+
+    //_____________________________________________________________
     void ButtonDemoWidget::textPosition( int index)
     {
-        foreach( QToolButton* button, buttons_ )
+        foreach( QToolButton* button, toolButtons_ )
         {
             switch( index )
             {
@@ -105,7 +121,7 @@ namespace Oxygen
     void ButtonDemoWidget::iconSize( int index)
     {
         static QList<int> sizes( QList<int>() << 16 << 22 << 32 << 48 );
-        foreach( QToolButton* button, buttons_ )
+        foreach( QToolButton* button, toolButtons_ )
         { button->setIconSize( QSize( sizes[index], sizes[index] ) ); }
 
     }

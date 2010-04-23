@@ -28,6 +28,8 @@
 
 #include "oxygenbuttondemowidget.h"
 #include "oxygeninputdemowidget.h"
+#include "oxygenmdidemowidget.h"
+#include "oxygensliderdemowidget.h"
 #include "oxygentabdemowidget.h"
 
 #include <QtCore/QTextStream>
@@ -73,6 +75,15 @@ namespace Oxygen
             pageWidget_->addPage( page );
         }
 
+        // tab
+        {
+            page = new KPageWidgetItem( tabDemoWidget_ = new TabDemoWidget() );
+            page->setName( "Tab Widgets" );
+            page->setIcon( KIcon( "tab-detach" ) );
+            page->setHeader( "Shows the appearance of tab widgets" );
+            pageWidget_->addPage( page );
+        }
+
         // buttons
         {
             page = new KPageWidgetItem( buttonDemoWidget_ = new ButtonDemoWidget() );
@@ -89,16 +100,25 @@ namespace Oxygen
             listDemoWidgetUi_.setupUi( widget );
             page->setName( "Lists" );
             page->setIcon( KIcon( "view-list-tree" ) );
-            page->setHeader( "Shows the appearance of lists and trees" );
+            page->setHeader( "Shows the appearance of lists, trees and tables" );
             pageWidget_->addPage( page );
         }
 
-        // tab
+        // mdi
         {
-            page = new KPageWidgetItem( tabDemoWidget_ = new TabDemoWidget() );
-            page->setName( "Tab Widgets" );
-            page->setIcon( KIcon( "tab-detach" ) );
-            page->setHeader( "Shows the appearance of tab widgets" );
+            page = new KPageWidgetItem( mdiDemoWidget_ = new MdiDemoWidget() );
+            page->setName( "MDI Windows" );
+            page->setIcon( KIcon( "preferences-system-windows" ) );
+            page->setHeader( "Shows the appearance of MDI windows" );
+            pageWidget_->addPage( page );
+        }
+
+        // sliders
+        {
+            page = new KPageWidgetItem( sliderDemoWidget_ = new SliderDemoWidget() );
+            page->setName( "Sliders" );
+            page->setIcon( KIcon( "measure" ) );
+            page->setHeader( "Shows the appearance of sliders, progressbars and scrollbars" );
             pageWidget_->addPage( page );
         }
 

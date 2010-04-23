@@ -52,12 +52,11 @@ namespace Oxygen
 
         protected slots:
 
-        //! show/hide corner buttons
-        void toggleWrapMode( bool value )
-        {
-            if( value ) ui.textedit->setLineWrapMode( QTextEdit::WidgetWidth );
-            else ui.textedit->setLineWrapMode( QTextEdit::NoWrap );
-        }
+        //! flat widgets
+        void toggleFlatWidgets( bool );
+
+        //! wrap mode
+        void toggleWrapMode( bool );
 
         private:
 

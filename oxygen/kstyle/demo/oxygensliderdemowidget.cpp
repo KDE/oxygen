@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygentabdemowidget.cpp
+// oxygensliderdemowidget.cpp
 // oxygen tabwidget demo dialog
 // -------------------
 //
@@ -24,33 +24,42 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygentabdemowidget.h"
-#include "oxygentabdemowidget.moc"
-#include "oxygentabwidget.moc"
+#include "oxygensliderdemowidget.h"
+#include "oxygensliderdemowidget.moc"
 
-#include <QtGui/QToolButton>
+#include <QtGui/QMenu>
+#include <KIcon>
 
 namespace Oxygen
 {
 
-    //______________________________________________________________
-    TabDemoWidget::TabDemoWidget( QWidget* parent ):
+    //_____________________________________________________________
+    SliderDemoWidget::SliderDemoWidget( QWidget* parent ):
         QWidget( parent ),
-        left_( new QToolButton(0) ),
-        right_( new QToolButton(0) )
+        locked_( false )
     {
+
         ui.setupUi( this );
-        connect( ui.tabPositionComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( changeTabPosition( int ) ) );
-        connect( ui.documentModeCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleDocumentMode( bool ) ) );
-        connect( ui.cornerWidgetsCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleCornerWidgets( bool ) ) );
-        connect( ui.tabBarVisibilityCheckBox, SIGNAL( toggled( bool ) ), ui.tabWidget, SLOT( toggleTabBarVisibility( bool ) ) );
-
-        left_->setIcon( KIcon( "tab-new" ) );
-        left_->setVisible( false );
-
-        right_->setIcon( KIcon( "tab-close" ) );
-        right_->setVisible( false );
+        connect( ui.horizontalSlider, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
+        connect( ui.horizontalScrollBar, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
+        connect( ui.verticalSlider, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
+        connect( ui.verticalScrollBar, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
+        connect( ui.dial, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
 
     }
 
+    //_____________________________________________________________
+    void SliderDemoWidget::updateSliders( int value )
+    {
+        if( locked_ ) return;
+        locked_ = true;
+        ui.horizontalSlider->setValue( value );
+        ui.verticalSlider->setValue( value );
+        ui.progressBar_2->setValue( value );
+        ui.progressBar_3->setValue( value );
+        ui.horizontalScrollBar->setValue( value );
+        ui.verticalScrollBar->setValue( value );
+        ui.dial->setValue( value );
+        locked_ = false;
+    }
 }

@@ -1,9 +1,9 @@
-#ifndef oxygendemodialog_h
-#define oxygendemodialog_h
+#ifndef oxygensliderdemowidget_h
+#define oxygensliderdemowidget_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygendemodialog.h
-// oxygen demo dialog
+// oxygensliderdemowidget.h
+// oxygen tabwidget demo dialog
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -27,76 +27,37 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <KDialog>
-#include <KPageWidget>
-#include <QtGui/QWidget>
-#include <QtGui/QCheckBox>
+#include <KIcon>
 
-#include "ui_oxygenlistdemowidget.h"
+#include <QtGui/QWidget>
+
+#include "ui_oxygensliderdemowidget.h"
 
 namespace Oxygen
 {
-
-    class ButtonDemoWidget;
-    class InputDemoWidget;
-    class MdiDemoWidget;
-    class SliderDemoWidget;
-    class TabDemoWidget;
-    class DemoDialog: public KDialog
+    class SliderDemoWidget: public QWidget
     {
+
         Q_OBJECT
 
         public:
 
         //! constructor
-        explicit DemoDialog( QWidget* parent = 0 );
+        SliderDemoWidget( QWidget* parent = 0 );
 
         //! destructor
-        virtual ~DemoDialog( void )
+        virtual ~SliderDemoWidget( void )
         {}
 
         protected slots:
 
-        //! update window title when page is changed
-        virtual void updateWindowTitle( KPageWidgetItem* );
-
-        //! update page enability
-        virtual void updateEnableState( KPageWidgetItem* );
-
-        //! toggle enable state
-        virtual void toggleEnable( bool );
-
-        //! toggle RightToLeft
-        virtual void toggleRightToLeft( bool );
+        void updateSliders( int );
 
         private:
 
-        //! main paged widget
-        KPageWidget* pageWidget_;
+        bool locked_;
 
-        //! button widgets
-        ButtonDemoWidget* buttonDemoWidget_;
-
-        //! input widgets
-        InputDemoWidget* inputDemoWidget_;
-
-        //! tab widget
-        TabDemoWidget* tabDemoWidget_;
-
-        //! tab widget
-        SliderDemoWidget* sliderDemoWidget_;
-
-        //! mdi
-        MdiDemoWidget* mdiDemoWidget_;
-
-        //! list widgets ui
-        Ui_ListDemoWidget listDemoWidgetUi_;
-
-        //! enable state checkbox
-        QCheckBox* enableCheckBox_;
-
-        //! reverse layout checkbox
-        QCheckBox* rightToLeftCheckBox_;
+        Ui_SliderDemoWidget ui;
 
     };
 

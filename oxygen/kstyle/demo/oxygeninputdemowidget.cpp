@@ -29,7 +29,8 @@
 
 namespace Oxygen
 {
-    //! constructor
+
+    //________________________________________________________________
     InputDemoWidget::InputDemoWidget( QWidget* parent ):
         QWidget( parent )
     {
@@ -56,9 +57,25 @@ namespace Oxygen
             "nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla "
             "pariatur?");
         ui.textedit->setLineWrapMode( QTextEdit::NoWrap );
+        connect( ui.checkBox, SIGNAL( toggled( bool ) ), SLOT( toggleFlatWidgets( bool ) ) );
         connect( ui.wrapCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleWrapMode( bool ) ) );
         ui.wrapCheckBox->setChecked( true );
     }
 
+    //________________________________________________________________
+    void InputDemoWidget::toggleFlatWidgets( bool value )
+    {
+        ui.klineedit->setFrame( !value );
+        ui.klineedit_2->setFrame( !value );
+        ui.kcombobox->setFrame( !value );
+        ui.kintspinbox->setFrame( !value );
+    }
+
+    //________________________________________________________________
+    void InputDemoWidget::toggleWrapMode( bool value )
+    {
+        if( value ) ui.textedit->setLineWrapMode( QTextEdit::WidgetWidth );
+        else ui.textedit->setLineWrapMode( QTextEdit::NoWrap );
+    }
 
 }
