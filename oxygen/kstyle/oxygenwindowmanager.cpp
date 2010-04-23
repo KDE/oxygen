@@ -7,7 +7,7 @@
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
 //
-// Largely inspired from BeSpin window decoration
+// Largely inspired from BeSpin style
 // Copyright (C) 2007 Thomas Luebking <thomas.luebking@web.de>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
