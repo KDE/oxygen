@@ -1136,6 +1136,7 @@ bool OxygenStyle::drawProgressBarPrimitive(
 {
 
     Q_UNUSED( widget );
+    Q_UNUSED( flags );
     Q_UNUSED( kOpt );
 
     const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>(opt);
