@@ -104,6 +104,7 @@ QPalette OxygenStyleHelper::mergePalettes( const QPalette& source, qreal ratio )
 
     QPalette out( source );
     out.setColor( QPalette::Background, KColorUtils::mix( source.color( QPalette::Active, QPalette::Background ), source.color( QPalette::Disabled, QPalette::Background ), 1.0-ratio ) );
+    out.setColor( QPalette::Highlight, KColorUtils::mix( source.color( QPalette::Active, QPalette::Highlight ), source.color( QPalette::Disabled, QPalette::Highlight ), 1.0-ratio ) );
     out.setColor( QPalette::WindowText, KColorUtils::mix( source.color( QPalette::Active, QPalette::WindowText ), source.color( QPalette::Disabled, QPalette::WindowText ), 1.0-ratio ) );
     out.setColor( QPalette::ButtonText, KColorUtils::mix( source.color( QPalette::Active, QPalette::ButtonText ), source.color( QPalette::Disabled, QPalette::ButtonText ), 1.0-ratio ) );
     out.setColor( QPalette::Text, KColorUtils::mix( source.color( QPalette::Active, QPalette::Text ), source.color( QPalette::Disabled, QPalette::Text ), 1.0-ratio ) );
@@ -339,10 +340,10 @@ QPixmap OxygenStyleHelper::roundSlabFocused(const QColor &color, const QColor &g
 }
 
 //__________________________________________________________________________________________________________
-QPixmap OxygenStyleHelper::progressBarIndicator(const QPalette& pal, const QRect& rect )
+QPixmap OxygenStyleHelper::progressBarIndicator(const QPalette& pal, const QRect& rect, bool enabled )
 {
 
-    QColor highlight = pal.color(QPalette::Active, QPalette::Highlight);
+    QColor highlight = pal.color( enabled ? QPalette::Active : QPalette::Disabled, QPalette::Highlight);
     quint64 key = (quint64(highlight.rgba()) << 32) | (rect.width() << 16 ) | (rect.height() );
 
     QPixmap *pixmap = m_progressBarCache.object(key);

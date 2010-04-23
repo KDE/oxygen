@@ -1162,7 +1162,7 @@ bool OxygenStyle::drawProgressBarPrimitive(
         case ProgressBar::BusyIndicator:
         {
 
-            QPixmap pixmap( _helper.progressBarIndicator( pal, rect ) );
+            QPixmap pixmap( _helper.progressBarIndicator( pal, rect, enabled ) );
             p->drawPixmap( rect.adjusted(-1, -2, 0, 0).topLeft(), pixmap );
             return true;
 
