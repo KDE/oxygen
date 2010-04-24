@@ -32,6 +32,7 @@
 #include <QtGui/QWidget>
 #include <QtGui/QToolButton>
 #include <QtCore/QList>
+#include <KToolBar>
 
 #include "ui_oxygenbuttondemowidget.h"
 
@@ -65,6 +66,7 @@ namespace Oxygen
         private:
 
         Ui_ButtonDemoWidget ui;
+        KToolBar* toolBar_;
         QList<QPushButton*> pushButtons_;
         QList<QToolButton*> toolButtons_;
     };

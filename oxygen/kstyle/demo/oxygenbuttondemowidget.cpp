@@ -57,10 +57,14 @@ namespace Oxygen
 
         ui.toolButton->setIcon( KIcon("oxygen") );
         ui.toolButton_3->setIcon( KIcon("oxygen") );
-        ui.toolButton_4->setIcon( KIcon("document-new") );
-        ui.toolButton_5->setIcon( KIcon("document-open") );
-        ui.toolButton_6->setIcon( KIcon("document-save") );
 
+        // add toolbar
+        ui.toolBarContainer->setLayout( new QVBoxLayout() );
+        toolBar_ = new KToolBar( ui.toolBarContainer );
+        ui.toolBarContainer->layout()->addWidget( toolBar_ );
+        toolBar_->addAction( KIcon("document-new"), i18n( "New" ) );
+        toolBar_->addAction( KIcon("document-open"), i18n( "Open" ) );
+        toolBar_->addAction( KIcon("document-save"), i18n( "Save" ) );
         ui.toolButton_7->setIcon( KIcon("oxygen") );
         ui.toolButton_8->setIcon( KIcon("oxygen") );
         ui.toolButton_9->setIcon( KIcon("oxygen") );
@@ -76,9 +80,6 @@ namespace Oxygen
         toolButtons_
             << ui.toolButton
             << ui.toolButton_3
-            << ui.toolButton_4
-            << ui.toolButton_5
-            << ui.toolButton_6
             << ui.toolButton_7
             << ui.toolButton_8
             << ui.toolButton_9
@@ -88,7 +89,7 @@ namespace Oxygen
         connect( ui.textPosition, SIGNAL( currentIndexChanged( int ) ), SLOT( textPosition( int ) ) );
         connect( ui.iconSize, SIGNAL( currentIndexChanged( int ) ), SLOT( iconSize( int ) ) );
         ui.iconSize->setCurrentIndex( 2 );
-
+        textPosition(0);
     }
 
     //_____________________________________________________________
@@ -115,6 +116,16 @@ namespace Oxygen
                 case 3: button->setToolButtonStyle( Qt::ToolButtonTextUnderIcon ); break;
             }
         }
+
+        switch( index )
+        {
+            default:
+            case 0: toolBar_->setToolButtonStyle( Qt::ToolButtonIconOnly ); break;
+            case 1: toolBar_->setToolButtonStyle( Qt::ToolButtonTextOnly ); break;
+            case 2: toolBar_->setToolButtonStyle( Qt::ToolButtonTextBesideIcon ); break;
+            case 3: toolBar_->setToolButtonStyle( Qt::ToolButtonTextUnderIcon ); break;
+        }
+
     }
 
     //_____________________________________________________________
@@ -123,6 +134,8 @@ namespace Oxygen
         static QList<int> sizes( QList<int>() << 16 << 22 << 32 << 48 );
         foreach( QToolButton* button, toolButtons_ )
         { button->setIconSize( QSize( sizes[index], sizes[index] ) ); }
+
+        toolBar_->setIconSize( QSize( sizes[index], sizes[index] ) );
 
     }
 

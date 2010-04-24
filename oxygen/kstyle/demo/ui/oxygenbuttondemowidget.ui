@@ -208,7 +208,7 @@
       <string>Toolbuttons</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0" colspan="3">
+      <item row="0" column="0" colspan="4">
        <widget class="QWidget" name="widget" native="true">
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="0" column="0">
@@ -251,33 +251,13 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="4">
-          <widget class="QToolButton" name="toolButton_4">
-           <property name="text">
-            <string>New</string>
-           </property>
-           <property name="autoRaise">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QToolButton" name="toolButton_5">
-           <property name="text">
-            <string>Open</string>
-           </property>
-           <property name="autoRaise">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="6">
-          <widget class="QToolButton" name="toolButton_6">
-           <property name="text">
-            <string>Save</string>
-           </property>
-           <property name="autoRaise">
-            <bool>true</bool>
+         <item row="0" column="4" colspan="2">
+          <widget class="QWidget" name="toolBarContainer" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
           </widget>
          </item>
@@ -322,19 +302,6 @@
          </item>
         </layout>
        </widget>
-      </item>
-      <item row="0" column="3">
-       <spacer name="horizontalSpacer_6">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>116</width>
-          <height>17</height>
-         </size>
-        </property>
-       </spacer>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_11">
