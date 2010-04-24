@@ -376,12 +376,14 @@ bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *optio
 
     if( !widget ) return false;
 
-    // handle inactive (but animated) toolbuttons
-    //Extract the stuff we need out of the option
+    // check autoRaise state
     State flags( option->state );
+    bool isInToolBar( widget->parent() && widget->parent()->inherits( "QToolBar" ) );
+    if( !( isInToolBar || (flags & State_AutoRaise) ) ) return false;
+
+    // get rect and palette
     QRect rect( option->rect );
     QPalette palette( option->palette );
-
 
     // local clone of toolbutton option
     const QStyleOptionToolButton *tbOption( qstyleoption_cast<const QStyleOptionToolButton *>(option) );
@@ -389,8 +391,6 @@ bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *optio
 
     // make local copy
     QStyleOptionToolButton localTbOption(*tbOption);
-
-    bool isInToolBar( widget->parent() && widget->parent()->inherits( "QToolBar" ) );
 
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
@@ -424,7 +424,6 @@ bool OxygenStyle::drawToolButtonComplexControl( const QStyleOptionComplex *optio
     if( enabled && !(mouseOver || hasFocus || sunken ) )
     {
 
-        //if( hoverAnimated || (focusAnimated && !hasFocus) )
         if( hoverAnimated || (focusAnimated && !hasFocus) || ( ((toolBarAnimated && animatedRect.isNull())||toolBarTimerActive) && current ) )
         {
             QRect buttonRect = subControlRect(CC_ToolButton, option, SC_ToolButton, widget);
