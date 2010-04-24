@@ -44,8 +44,6 @@
  */
 
 #include <KStyle>
-#include <KColorScheme>
-#include <KSharedConfig>
 
 #include <QtGui/QAbstractScrollArea>
 #include <QtGui/QBitmap>
@@ -66,6 +64,7 @@ namespace Oxygen
   class Animations;
   class Transitions;
   class WindowManager;
+  class FrameShadowManager;
 }
 
 //! main oxygen style class.
@@ -184,6 +183,10 @@ class OxygenStyle : public KStyle
     Oxygen::WindowManager& windowManager( void ) const
     { return *_windowManager; }
 
+    //! window manager
+    Oxygen::FrameShadowManager& frameShadowManager( void ) const
+    { return *_frameShadowManager; }
+
     //! polish scrollarea
     void polishScrollArea( QAbstractScrollArea* ) const;
 
@@ -226,18 +229,6 @@ class OxygenStyle : public KStyle
 
     //! generic slab
     void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, Oxygen::AnimationMode, TileSet::Tiles ) const;
-
-    //! generic hole
-    void renderHole(QPainter *p, const QColor& color, const QRect &r,
-        bool focus=false, bool hover=false,
-        TileSet::Tiles posFlags = TileSet::Ring) const
-    { renderHole( p, color, r, focus, hover, -1, Oxygen::AnimationNone, posFlags ); }
-
-    //! generic hole (with animated glow)
-    void renderHole(QPainter *p, const QColor&, const QRect &r,
-        bool focus, bool hover,
-        qreal opacity, Oxygen::AnimationMode animationMode,
-        TileSet::Tiles posFlags = TileSet::Ring) const;
 
     //! checkbox
     void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
@@ -344,10 +335,6 @@ class OxygenStyle : public KStyle
     //! helper
     OxygenStyleHelper &_helper;
 
-    KSharedConfigPtr _sharedConfig;
-    KStatefulBrush _viewFocusBrush;
-    KStatefulBrush _viewHoverBrush;
-
     TileSet *m_holeTileSet;
 
     //! animations
@@ -358,6 +345,9 @@ class OxygenStyle : public KStyle
 
     //! window manager
     Oxygen::WindowManager* _windowManager;
+
+    //! frame shadows
+    Oxygen::FrameShadowManager* _frameShadowManager;
 
 };
 

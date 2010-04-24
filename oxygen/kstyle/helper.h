@@ -2,6 +2,7 @@
 #define oxygen_style_helper_h
 
 /*
+ * Copyright 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
  * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
  * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
  * Copyright 2007 Casper Boemann <cbr@boemann.dk>
@@ -22,15 +23,27 @@
  */
 
 #include "oxygenhelper.h"
+#include "tileset.h"
+#include "oxygenwidgetstateengine.h"
+
+#include <KColorScheme>
 
 //! helper class
 /*! contains utility functions used at multiple places in oxygen style */
 class OxygenStyleHelper : public OxygenHelper
 {
-public:
+    public:
+
+    //! constructor
     explicit OxygenStyleHelper(const QByteArray &componentName);
+
+    //! destructor
     virtual ~OxygenStyleHelper() {}
 
+    //! reload configuration
+    virtual void reloadConfig();
+
+    //! clear cache
     virtual void invalidateCaches();
 
     // render menu background
@@ -71,6 +84,18 @@ public:
 
     TileSet *slope(const QColor&, qreal shade, int size = 7);
 
+    //! generic hole
+    void renderHole(QPainter *p, const QColor& color, const QRect &r,
+        bool focus=false, bool hover=false,
+        TileSet::Tiles posFlags = TileSet::Ring)
+    { renderHole( p, color, r, focus, hover, -1, Oxygen::AnimationNone, posFlags ); }
+
+    //! generic hole (with animated glow)
+    void renderHole(QPainter *p, const QColor&, const QRect &r,
+        bool focus, bool hover,
+        qreal opacity, Oxygen::AnimationMode animationMode,
+        TileSet::Tiles posFlags = TileSet::Ring);
+
     TileSet *hole(const QColor&, qreal shade, int size = 7);
     TileSet *holeFlat(const QColor&, qreal shade, int size = 7);
     TileSet *holeFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
@@ -88,10 +113,22 @@ public:
     void drawInverseShadow(QPainter&, const QColor&, int pad, int size, qreal fuzz) const;
     void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
 
+    //! focus brush
+    const KStatefulBrush& viewFocusBrush( void ) const
+    { return _viewFocusBrush; }
+
+    //! hover brush
+    const KStatefulBrush& viewHoverBrush( void ) const
+    { return _viewHoverBrush; }
+
     protected:
 
     void drawHole(QPainter&, const QColor&, qreal shade, int r = 7) const;
     void drawRoundSlab( QPainter&, const QColor&, qreal ) const;
+
+    //! brushes
+    KStatefulBrush _viewFocusBrush;
+    KStatefulBrush _viewHoverBrush;
 
     Oxygen::Cache<QPixmap> m_dialSlabCache;
     Oxygen::Cache<QPixmap> m_roundSlabCache;

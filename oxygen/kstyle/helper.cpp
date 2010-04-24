@@ -37,7 +37,16 @@ OxygenStyleHelper::OxygenStyleHelper(const QByteArray &componentName)
 }
 
 //______________________________________________________________________________
-void OxygenStyleHelper::invalidateCaches()
+void OxygenStyleHelper::reloadConfig( void )
+{
+    OxygenHelper::reloadConfig();
+    _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, config() );
+    _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, config() );
+
+}
+
+//______________________________________________________________________________
+void OxygenStyleHelper::invalidateCaches( void )
 {
 
     m_dialSlabCache.clear();
@@ -521,9 +530,11 @@ void OxygenStyleHelper::drawInverseShadow(
     qreal m = qreal(size)*0.5;
 
     const qreal offset = 0.8;
-    qreal k0 = (m-2.0) / qreal(m+2.0);
-    QRadialGradient shadowGradient(pad+m, pad+m+offset, m+2.0);
-    for (int i = 0; i < 8; i++) { // sinusoidal gradient
+    qreal k0 = (m-2) / qreal(m+2.0);
+    QRadialGradient shadowGradient(pad+m, pad+m+offset, m+2);
+    for (int i = 0; i < 8; i++)
+    {
+        // sinusoidal gradient
         qreal k1 = (qreal(8 - i) + k0 * qreal(i)) * 0.125;
         qreal a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
         shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
@@ -541,7 +552,7 @@ void OxygenStyleHelper::drawInverseGlow(
     QRectF r(pad, pad, size, size);
     qreal m = qreal(size)*0.5;
 
-    const qreal width = 3.0;
+    const qreal width = 3.5;
     const qreal bias = _glowBias * 7.0 / qreal(rsize);
     qreal k0 = (m-width) / (m-bias);
     QRadialGradient glowGradient(pad+m, pad+m, m-bias);
@@ -799,6 +810,45 @@ TileSet *OxygenStyleHelper::slope(const QColor &color, qreal shade, int size)
         m_slopeCache.insert(key, tileSet);
     }
     return tileSet;
+}
+
+
+//____________________________________________________________________________________
+void OxygenStyleHelper::renderHole(QPainter *p, const QColor &base, const QRect &r, bool focus, bool hover, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles tiles)
+{
+    if((r.width() <= 0)||(r.height() <= 0))
+        return;
+
+    if( opacity >= 0 && ( animationMode & Oxygen::AnimationFocus ) )
+    {
+
+        // calculate proper glow color based on current settings and opacity
+        QColor glow = hover ?
+            KColorUtils::mix( viewHoverBrush().brush(QPalette::Active).color(), viewFocusBrush().brush(QPalette::Active).color(), opacity ):
+            alphaColor(  viewFocusBrush().brush(QPalette::Active).color(), opacity );
+
+        holeFocused(base, glow, 0.0)->render(r, p, tiles);
+
+    } else if (focus) {
+
+        holeFocused(base, viewFocusBrush().brush(QPalette::Active).color(), 0.0)->render(r, p, tiles);
+
+    } else if( opacity >= 0 && ( animationMode & Oxygen::AnimationHover ) ) {
+
+        // calculate proper glow color based on current settings and opacity
+        QColor glow = alphaColor(  viewHoverBrush().brush(QPalette::Active).color(), opacity );
+        holeFocused(base, glow, 0.0)->render(r, p, tiles);
+
+    } else if (hover) {
+
+        holeFocused(base, viewHoverBrush().brush(QPalette::Active).color(), 0.0)->render(r, p, tiles);
+
+    } else {
+
+        hole(base, 0.0)->render(r, p, tiles);
+
+    }
+
 }
 
 //________________________________________________________________________________________________________
