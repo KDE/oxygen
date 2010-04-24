@@ -4017,7 +4017,16 @@ bool OxygenStyle::drawGenericPrimitive(
                 }
 
                 if( const QAbstractScrollArea* scrollArea = qobject_cast<const QAbstractScrollArea*>( widget ) )
-                { frameShadowManager().updateState( scrollArea, focusHighlight, hoverHighlight, opacity, mode ); }
+                {
+
+                    frameShadowManager().updateState( scrollArea, focusHighlight, hoverHighlight, opacity, mode );
+
+                } else if( widget && widget->inherits( "Q3ListView" ) ) {
+
+                    frameShadowManager().updateState( widget, focusHighlight, hoverHighlight, opacity, mode );
+
+                }
+
 
                 _helper.renderHole(
                     p, pal.color(QPalette::Window), local, focusHighlight, hoverHighlight,
@@ -4119,9 +4128,6 @@ void OxygenStyle::polishScrollArea( QAbstractScrollArea* scrollArea ) const
         return;
     }
 
-    // shadows
-    if( scrollArea->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken))
-    { frameShadowManager().installShadows( scrollArea, _helper ); }
 
     // check frame style and background role
     if( scrollArea->frameShape() != QFrame::NoFrame ) return;
@@ -4153,8 +4159,25 @@ void OxygenStyle::polish(QWidget* widget)
     transitions().registerWidget( widget );
     windowManager().registerWidget( widget );
 
-    if( widget->inherits( "QAbstractScrollArea" ) )
-    { polishScrollArea( qobject_cast<QAbstractScrollArea*>(widget) ); }
+    // scroll areas
+    if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>(widget) )
+    {
+
+        // shadows
+        if( scrollArea->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
+        { frameShadowManager().installShadows( scrollArea, _helper ); }
+
+        polishScrollArea( scrollArea );
+
+    } else if( widget->inherits( "Q3ListView" ) ) {
+
+        widget->installEventFilter(this);
+        widget->setAttribute(Qt::WA_Hover);
+        QFrame* frame = qobject_cast<QFrame*>( widget );
+        if( frame && frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
+        { frameShadowManager().installShadows( widget, _helper ); }
+
+    }
 
     // adjust flags
     switch (widget->windowFlags() & Qt::WindowType_Mask)
@@ -4186,7 +4209,6 @@ void OxygenStyle::polish(QWidget* widget)
         || qobject_cast<QTabBar*>(widget)
         || qobject_cast<QTextEdit*>(widget)
         || qobject_cast<QToolButton*>(widget)
-        || widget->inherits( "Q3ListView" )
         )
     { widget->setAttribute(Qt::WA_Hover); }
 
@@ -4296,10 +4318,6 @@ void OxygenStyle::polish(QWidget* widget)
 
         widget->installEventFilter(this);
 
-    } else if( widget->inherits( "Q3ListView" ) ) {
-
-        widget->installEventFilter(this);
-
     }
 
     // base class polishing
@@ -4315,6 +4333,19 @@ void OxygenStyle::unpolish(QWidget* widget)
     animations().unregisterWidget( widget );
     transitions().unregisterWidget( widget );
     windowManager().unregisterWidget( widget );
+
+    if( widget && widget->inherits( "QAbstractScrollArea" ) )
+    {
+
+        frameShadowManager().removeShadows( widget );
+
+    } else if( widget && widget->inherits( "Q3ListView" ) ) {
+
+        widget->removeEventFilter(this);
+        widget->setAttribute(Qt::WA_Hover, false );
+        frameShadowManager().removeShadows( widget );
+
+    }
 
     // event filters
     switch (widget->windowFlags() & Qt::WindowType_Mask)
@@ -4354,7 +4385,6 @@ void OxygenStyle::unpolish(QWidget* widget)
         || qobject_cast<QTabBar*>(widget)
         || qobject_cast<QTextEdit*>(widget)
         || qobject_cast<QToolButton*>(widget)
-        || widget->inherits( "Q3ListView" )
         )
     { widget->setAttribute(Qt::WA_Hover, false); }
 
@@ -4364,9 +4394,6 @@ void OxygenStyle::unpolish(QWidget* widget)
         if( groupBox->isCheckable() )
         { groupBox->setAttribute( Qt::WA_Hover, false ); }
     }
-
-    if( widget->inherits( "Q3ListView" ) )
-    { widget->removeEventFilter(this); }
 
     if (qobject_cast<QMenuBar*>(widget)
         || (widget && widget->inherits("Q3ToolBar"))

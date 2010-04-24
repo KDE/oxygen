@@ -145,7 +145,12 @@ namespace Oxygen
         setAttribute(Qt::WA_TransparentForMouseEvents, true);
         setContextMenuPolicy(Qt::NoContextMenu);
 
+        // grab viewport widget
         QWidget *viewport( FrameShadow::viewport() );
+        if( !viewport && parentWidget() && parentWidget()->inherits( "Q3ListView" ) )
+        { viewport = parentWidget(); }
+
+        // set cursor from viewport
         if (viewport) setCursor(viewport->cursor());
 
     }
