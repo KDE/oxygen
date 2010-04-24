@@ -772,10 +772,10 @@ void OxygenStyle::drawKStylePrimitive(WidgetType widgetType, int primitive,
 {
 
     QPalette pal( palette );
-    if( widget && opt )
+    if( widget && !widget->inherits( "QMdiSubWindow" ) )
     {
-      if( animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
-      { pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
+        if( animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
+        { pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
     }
 
     switch (widgetType)
@@ -2388,11 +2388,18 @@ bool OxygenStyle::drawWindowPrimitive(
         {
 
             const QStyleOptionTitleBar *tb = qstyleoption_cast<const QStyleOptionTitleBar *>(opt);
-            bool active = (tb->titleBarState & Qt::WindowActive );
+            const bool enabled = flags & State_Enabled;
+            const bool active = enabled && (tb->titleBarState & Qt::WindowActive );
+
+            // enable state transition
+            QPalette palette( pal );
+            animations().widgetEnabilityEngine().updateState( widget, Oxygen::AnimationEnable, active );
+            if( animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
+            { palette = _helper.mergePalettes( pal, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
+
             KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
-            QPalette local( pal );
-            local.setCurrentColorGroup( active ? QPalette::Active: QPalette::Disabled );
-            drawItemText( p, r, Qt::AlignVCenter | textOpts->hAlign, local, active, textOpts->text, QPalette::WindowText);
+            palette.setCurrentColorGroup( active ? QPalette::Active: QPalette::Disabled );
+            drawItemText( p, r, Qt::AlignVCenter | textOpts->hAlign, palette, active, textOpts->text, QPalette::WindowText);
 
             return true;
         }
@@ -2428,14 +2435,21 @@ bool OxygenStyle::drawWindowPrimitive(
             p->setBrush(Qt::NoBrush);
 
             const QStyleOptionTitleBar *tb = qstyleoption_cast<const QStyleOptionTitleBar *>(opt);
-            const bool active = (tb->titleBarState & Qt::WindowActive );
-            QColor color( pal.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
+            const bool enabled = flags & State_Enabled;
+            const bool active = enabled && (tb->titleBarState & Qt::WindowActive );
+
+            // enable state transition
+            QPalette palette( pal );
+            animations().widgetEnabilityEngine().updateState( widget, Oxygen::AnimationEnable, active );
+            if( animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
+            { palette = _helper.mergePalettes( pal, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
 
             const bool sunken( flags&State_Sunken );
             const bool mouseOver = (!sunken) && widget && r.translated( widget->mapToGlobal( QPoint(0,0) ) ).contains( QCursor::pos() );
             {
 
-                QColor contrast = _helper.calcLightColor( color );
+                // button color
+                QColor contrast = _helper.calcLightColor( pal.color( QPalette::Active, QPalette::WindowText ) );
 
                 qreal width( 1.1 );
                 p->translate(0, 0.5);
@@ -2446,11 +2460,17 @@ bool OxygenStyle::drawWindowPrimitive(
 
             {
 
+                QColor color;
                 if( mouseOver )
                 {
                     color = primitive == Window::ButtonClose ?
-                        KColorScheme(pal.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
-                        KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                        KColorScheme(palette.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
+                        KColorScheme(palette.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+
+                } else {
+
+                    // button color
+                    color = palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText );
 
                 }
 

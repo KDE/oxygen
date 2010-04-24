@@ -41,9 +41,9 @@ namespace Oxygen
         public:
 
         //! constructor
-        WidgetStateData( QObject* parent, QWidget* target, int duration ):
+        WidgetStateData( QObject* parent, QWidget* target, int duration, bool state = false ):
             GenericData( parent, target, duration ),
-            state_( false )
+            state_( state )
         {}
 
         //! destructor

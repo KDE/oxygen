@@ -41,9 +41,9 @@ namespace Oxygen
         public:
 
         //! constructor
-        EnableData( QObject* parent, QWidget* target, int duration ):
-        WidgetStateData( parent, target, duration )
-        { target->installEventFilter( this ); }
+        EnableData( QObject* parent, QWidget* target, int duration, bool state = true ):
+        WidgetStateData( parent, target, duration, state )
+        {}
 
         //! destructor
         virtual ~EnableData( void )
@@ -51,10 +51,6 @@ namespace Oxygen
 
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );
-
-        //! always return false. State is handled in event filter
-        virtual bool updateState( bool )
-        { return false; }
 
     };
 

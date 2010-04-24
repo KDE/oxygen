@@ -44,11 +44,7 @@ namespace Oxygen
             case QEvent::EnabledChange:
             {
                 if( QWidget* widget = qobject_cast<QWidget*>( object ) )
-                {
-                    bool enabled( widget->isEnabled() );
-                    animation().data()->setDirection( enabled ? Animation::Forward : Animation::Backward );
-                    if( !animation().data()->isRunning() ) animation().data()->start( );
-                }
+                { updateState( widget->isEnabled() ); }
                 break;
             }
 
