@@ -86,7 +86,9 @@ public:
     virtual ~OxygenHelper() {}
 
     KSharedConfigPtr config() const;
-    void reloadConfig();
+
+    //! reload configuration
+    virtual void reloadConfig();
 
     //! render window background gradients
     /*!
