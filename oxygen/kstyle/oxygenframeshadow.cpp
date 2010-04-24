@@ -46,6 +46,13 @@ namespace Oxygen
     void FrameShadowManager::installShadows( QWidget* widget, OxygenStyleHelper& helper )
     {
 
+        QWidget* parent( widget->parentWidget() );
+        while( parent && !parent->isTopLevel() )
+        {
+            if( parent->inherits( "KHTMLView" ) ) return;
+            parent = parent->parentWidget();
+        }
+
         removeShadows(widget);
 
         widget->installEventFilter(this);
@@ -131,9 +138,10 @@ namespace Oxygen
     //____________________________________________________________________________________
     void FrameShadow::init()
     {
-        setAttribute(Qt::WA_OpaquePaintEvent, false);
-        setFocusPolicy(Qt::NoFocus);
 
+        setAttribute(Qt::WA_OpaquePaintEvent, false);
+
+        setFocusPolicy(Qt::NoFocus);
         setAttribute(Qt::WA_TransparentForMouseEvents, true);
         setContextMenuPolicy(Qt::NoContextMenu);
 
@@ -252,12 +260,13 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadow::paintEvent(QPaintEvent *)
+    void FrameShadow::paintEvent(QPaintEvent *event )
     {
 
         // this fixes shadows in frames that change frameStyle() after polish()
         if (QFrame *frame = qobject_cast<QFrame *>(parentWidget()))
         { if (frame->frameStyle() != (QFrame::StyledPanel | QFrame::Sunken)) return; }
+
 
         QWidget *parent = parentWidget();
         QRect r = parent->contentsRect();
@@ -299,6 +308,7 @@ namespace Oxygen
         }
 
         QPainter painter(this);
+        painter.setClipRegion( event->region() );
         _helper.renderHole( &painter, palette().color( QPalette::Window ), r, _focus, _hover, _opacity, _mode, tiles );
 
         return;
