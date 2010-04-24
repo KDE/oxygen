@@ -185,7 +185,6 @@ namespace Oxygen
         /*! this is copied from kwin::geometry */
         int dragDelay_;
 
-        //! exception set
         //! wrapper for exception id
         class ExceptionId: public QPair<QString, QString>
         {
@@ -208,7 +207,7 @@ namespace Oxygen
 
         };
 
-
+        //! exception set
         typedef QSet<ExceptionId> ExceptionSet;
 
         //! list of white listed special widgets

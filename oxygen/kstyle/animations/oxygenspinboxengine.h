@@ -34,6 +34,7 @@
 namespace Oxygen
 {
 
+    //! handle spinbox arrows hover effect
     class SpinBoxEngine: public BaseEngine
     {
 

@@ -41,6 +41,7 @@
 namespace Oxygen
 {
 
+    //! handles progress bar animations
     class ProgressBarEngine: public BaseEngine
     {
 

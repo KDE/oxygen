@@ -32,6 +32,7 @@
 namespace Oxygen
 {
 
+    //! handle widget state (hover/focus/enable) changes
     class WidgetStateData: public GenericData
     {
 
