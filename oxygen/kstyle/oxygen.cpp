@@ -3578,23 +3578,33 @@ bool OxygenStyle::drawToolButtonPrimitive(
                     if (flags & State_HasFocus) opts |= Focus;
                     if (enabled && (flags & State_MouseOver)) opts |= Hover;
 
-                    if (t->popupMode()==QToolButton::MenuButtonPopup) {
+                    TileSet::Tiles tiles = TileSet::Ring;
+                    QRect local( r );
 
-                        renderButtonSlab(p, r.adjusted(0,0,4,0), pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Left);
+                    // adjust tiles and rect in case of menubutton
+                    if( t->popupMode()==QToolButton::MenuButtonPopup )
+                    {
+                        tiles = TileSet::Bottom | TileSet::Top | TileSet::Left;
+                        local.adjust( 0, 0, 4, 0 );
+                    }
 
-                    } else if( enabled && hoverAnimated ) {
-
-                        renderButtonSlab( p, r, pal.color(QPalette::Button), opts, hoverOpacity, Oxygen::AnimationHover, TileSet::Ring );
+                    // adjust opacity and animation mode
+                    qreal opacity( -1 );
+                    Oxygen::AnimationMode mode( Oxygen::AnimationNone );
+                    if( enabled && hoverAnimated )
+                    {
+                        opacity = hoverOpacity;
+                        mode = Oxygen::AnimationHover;
 
                     } else if( enabled && !hasFocus && focusAnimated ) {
 
-                        renderButtonSlab( p, r, pal.color(QPalette::Button), opts, focusOpacity, Oxygen::AnimationFocus, TileSet::Ring );
-
-                    } else {
-
-                        renderButtonSlab( p, r, pal.color(QPalette::Button), opts);
+                        opacity = focusOpacity;
+                        mode = Oxygen::AnimationFocus;
 
                     }
+
+                    // render slab
+                    renderButtonSlab( p, local, pal.color(QPalette::Button), opts, opacity, mode, tiles );
 
                     return true;
 
@@ -3857,6 +3867,18 @@ bool OxygenStyle::drawGenericPrimitive(
                     if(!tool->autoRaise())
                     {
 
+                        const bool hasFocus(enabled && (flags & State_HasFocus));
+
+                        // mouseOver has precedence over focus
+                        animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                        animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
+
+                        bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                        bool focusAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
+
+                        qreal hoverOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
+                        qreal focusOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ) );
+
                         color = pal.color( QPalette::ButtonText );
                         background = pal.color( QPalette::Button );
 
@@ -3867,11 +3889,28 @@ bool OxygenStyle::drawGenericPrimitive(
                             frameRect.adjust( 2, 0, 0, -1 );
                             opts |= Sunken;
                         }
-                        if( flags & State_HasFocus ) opts |= Focus;
+
+                        if( hasFocus ) opts |= Focus;
                         if( mouseOver ) opts |= Hover;
+
+                        // adjust opacity and animation mode
+                        qreal opacity( -1 );
+                        Oxygen::AnimationMode mode( Oxygen::AnimationNone );
+                        if( enabled && hoverAnimated )
+                        {
+                            opacity = hoverOpacity;
+                            mode = Oxygen::AnimationHover;
+
+                        } else if( enabled && !hasFocus && focusAnimated ) {
+
+                            opacity = focusOpacity;
+                            mode = Oxygen::AnimationFocus;
+
+                        }
+
                         p->save();
                         p->setClipRect( frameRect.adjusted( 6, 0, 0, 0 ), Qt::IntersectClip );
-                        renderSlab(p, frameRect, pal.color(QPalette::Button), opts, TileSet::Bottom | TileSet::Top | TileSet::Right);
+                        renderSlab(p, frameRect, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right);
                         p->restore();
 
                         a.translate(-3,1);
