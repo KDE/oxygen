@@ -306,6 +306,35 @@ void OxygenStyle::drawComplexControl(ComplexControl control,const QStyleOptionCo
 }
 
 //___________________________________________________________________________________
+void OxygenStyle::drawItemText(
+    QPainter* painter, const QRect& r, int alignment, const QPalette& palette, bool enabled,
+    const QString &text, QPalette::ColorRole textRole ) const
+{
+
+    if( !animations().widgetEnabilityEngine().enabled() )
+    { return KStyle::drawItemText( painter, r, alignment, palette, enabled, text, textRole ); }
+
+    /*
+    check if painter engine is registered to WidgetEnabilityEngine, and animated
+    if yes, merge the palettes. Note: a static_cast is safe here, since only the address
+    of the pointer is used, not the actual content
+    */
+    const QWidget* widget( static_cast<const QWidget*>( painter->device() ) );
+    if( widget && animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
+    {
+
+        QPalette pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  );
+        return KStyle::drawItemText( painter, r, alignment, pal, enabled, text, textRole );
+
+    } else {
+
+        return KStyle::drawItemText( painter, r, alignment, palette, enabled, text, textRole );
+
+    }
+
+}
+
+//___________________________________________________________________________________
 bool OxygenStyle::drawGroupBoxComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
 {
 

@@ -87,6 +87,8 @@ class OxygenStyle : public KStyle
     virtual void drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p, const QWidget *widget) const;
     virtual void drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const;
     virtual void drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
+    virtual void drawItemText(QPainter*, const QRect&, int alignment, const QPalette&, bool enabled,
+                      const QString &text, QPalette::ColorRole textRole = QPalette::NoRole) const;
 
     //! generic primitive drawing
     virtual void drawKStylePrimitive(
