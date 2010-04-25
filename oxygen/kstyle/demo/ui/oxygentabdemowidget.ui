@@ -118,7 +118,11 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="KLineEdit" name="lineEdit_2"/>
+           <widget class="KLineEdit" name="lineEdit_2">
+            <property name="showClearButton" stdset="0">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="KTextEdit" name="textEdit"/>
@@ -152,7 +156,11 @@
            </spacer>
           </item>
           <item>
-           <widget class="KLineEdit" name="lineEdit"/>
+           <widget class="KLineEdit" name="lineEdit">
+            <property name="showClearButton" stdset="0">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
