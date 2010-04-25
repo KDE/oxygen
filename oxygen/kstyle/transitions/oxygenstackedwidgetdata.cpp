@@ -42,6 +42,9 @@ namespace Oxygen
         connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( initializeAnimation() ) );
         connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( animate() ) );
 
+        // disable focus
+        transition().data()->setAttribute(Qt::WA_NoMousePropagation, true);
+
         setMaxRenderTime( 50 );
 
     }
