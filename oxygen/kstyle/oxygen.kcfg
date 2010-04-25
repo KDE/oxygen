@@ -293,6 +293,11 @@
       <default>Normal</default>
     </entry>
     
+    <!-- shadow mode -->
+    <entry name="ShadowMode" type="String">
+      <default>"Use Oxygen Shadows"</default>
+    </entry>
+   
     <!-- shadow caching -->
     <entry name="ShadowCacheMode" type="String">
       <default>"CacheVariable"</default>

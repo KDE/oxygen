@@ -61,6 +61,9 @@ namespace Oxygen
         //! check whether configuration is changed and emit appropriate signal if yes
         virtual void updateChanged();
 
+        //! shadow mode changed
+        virtual void shadowModeChanged( int );
+
         protected:
 
         //!@name shadow configuration handling
@@ -76,6 +79,7 @@ namespace Oxygen
         QString frameBorder( int ) const;
         QString sizeGripMode( int ) const;
         QString blendColor( int ) const;
+        QString shadowMode( int ) const;
         QString shadowCacheMode( int ) const;
 
         //@}

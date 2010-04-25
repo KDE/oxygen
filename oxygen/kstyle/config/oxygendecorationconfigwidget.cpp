@@ -62,6 +62,8 @@ namespace Oxygen
         connect( ui.blendColor_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
 
         // shadow configurations
+        connect( ui.shadowMode_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
+        connect( ui.shadowMode_, SIGNAL( currentIndexChanged( int ) ), SLOT( shadowModeChanged( int ) ) );
         connect( ui.shadowCacheMode_, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
         setupShadowConf( inactiveShadowUi, ui.inactiveShadowConfiguration_ );
         setupShadowConf( activeShadowUi, ui.activeShadowConfiguration_ );
@@ -87,6 +89,7 @@ namespace Oxygen
         OxygenStyleConfigData::setBlendColor( blendColor( ui.blendColor_->currentIndex() ) );
 
         // shadow configurations
+        OxygenStyleConfigData::setShadowMode( shadowMode( ui.shadowMode_->currentIndex() ) );
         OxygenStyleConfigData::setShadowCacheMode( shadowCacheMode( ui.shadowCacheMode_->currentIndex() ) );
         saveShadowConf( inactiveShadowUi, inactiveShadowConf_ );
         saveShadowConf( activeShadowUi, activeShadowConf_ );
@@ -143,6 +146,16 @@ namespace Oxygen
             }
         }
 
+        // shadow mode
+        for( int i=0; i<3; ++i )
+        {
+            if( shadowMode(i) == OxygenStyleConfigData::shadowMode() )
+            {
+                ui.shadowMode_->setCurrentIndex( i );
+                break;
+            }
+        }
+
         // shadow cache mode
         for( int i=0; i<3; ++i )
         {
@@ -181,9 +194,18 @@ namespace Oxygen
         else if( frameBorder( ui.frameBorder_->currentIndex() ) != OxygenStyleConfigData::frameBorder() ) modified = true;
         else if( blendColor( ui.blendColor_->currentIndex() ) != OxygenStyleConfigData::blendColor() ) modified = true;
         else if( sizeGripMode( ui.sizeGripMode_->currentIndex() ) != OxygenStyleConfigData::sizeGripMode() ) modified = true;
+        else if( shadowMode( ui.shadowMode_->currentIndex() ) != OxygenStyleConfigData::shadowMode() ) modified = true;
         else if( shadowCacheMode( ui.shadowCacheMode_->currentIndex() ) != OxygenStyleConfigData::shadowCacheMode() ) modified = true;
         setChanged( modified );
 
+    }
+
+    //_______________________________________________
+    void DecorationConfigWidget::shadowModeChanged( int value )
+    {
+        ui.shadowCacheMode_->setEnabled( value == 0 );
+        ui.inactiveShadowConfiguration_->setEnabled( value == 0 );
+        ui.activeShadowConfiguration_->setEnabled( value == 0 );
     }
 
     //_______________________________________________
@@ -269,6 +291,17 @@ namespace Oxygen
         {
             case 0: return "Always Hide Extra Size Grip";
             case 1: default: return "Show Extra Size Grip When Needed";
+        }
+    }
+
+    //_______________________________________________
+    QString DecorationConfigWidget::shadowMode( int index ) const
+    {
+        switch( index )
+        {
+            case 0: default: return "Use Oxygen Shadows";
+            case 1: return "Use Desktop Effects Shadows";
+            case 2: return "Do Not Draw Shadows";
         }
     }
 
