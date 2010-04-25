@@ -95,7 +95,7 @@
    <item row="4" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Preview:</string>
+      <string>Preview</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
