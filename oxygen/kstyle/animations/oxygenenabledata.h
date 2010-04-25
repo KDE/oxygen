@@ -43,7 +43,7 @@ namespace Oxygen
         //! constructor
         EnableData( QObject* parent, QWidget* target, int duration, bool state = true ):
         WidgetStateData( parent, target, duration, state )
-        {}
+        { target->installEventFilter( this ); }
 
         //! destructor
         virtual ~EnableData( void )
