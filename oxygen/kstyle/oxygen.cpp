@@ -745,6 +745,10 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
 
             // use the same background as in drawHeaderPrimitive
             QPalette pal( option->palette );
+
+            if( widget && animations().widgetEnabilityEngine().isAnimated( widget, Oxygen::AnimationEnable ) )
+            { pal = _helper.mergePalettes( pal, animations().widgetEnabilityEngine().opacity( widget, Oxygen::AnimationEnable )  ); }
+
             QRect r( option->rect );
             bool horizontal( option->state & QStyle::State_Horizontal );
             bool reverse( option->direction == Qt::RightToLeft );
