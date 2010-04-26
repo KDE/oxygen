@@ -3217,7 +3217,7 @@ bool OxygenStyle::drawLineEditPrimitive(
 
                 } else  {
 
-                    p->fillRect(r, inputBrush);
+                    p->fillRect(r.adjusted(2,2,-2,-2), inputBrush);
 
                 }
             }
