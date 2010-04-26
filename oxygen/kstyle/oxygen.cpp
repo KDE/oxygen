@@ -80,7 +80,6 @@
 // know what bevel color should be based on... (and shadow color for white
 // views looks rather bad). For now at least, just using QPalette::Window
 // everywhere seems best...
-#define HOLE_COLOR_OUTSIDE
 
 /* These are to link libkio even if 'smart' linker is used */
 #include <kio/authinfo.h>
@@ -2791,19 +2790,13 @@ bool OxygenStyle::drawSpinBoxPrimitive(
             {
                 // frameless spinbox
                 // frame is adjusted to have the same dimensions as a frameless editor
-                p->fillRect(fr.adjusted(4,4,-4,-4), inputColor);
+                p->fillRect(r, inputColor);
                 p->restore();
 
             } else {
 
                 // normal spinbox
-                #ifdef HOLE_NO_EDGE_FILL
-                p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
-                #else
-                //_helper.fillHole(*p, r.adjusted( 1, 0, -1, -1 ) );
                 _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
-                #endif
-
                 p->restore();
 
                 // TODO use widget background role?
@@ -2811,12 +2804,7 @@ bool OxygenStyle::drawSpinBoxPrimitive(
                 // but the shadow needs to be colored as the inner widget; needs
                 // changes in helper.
 
-                #ifdef HOLE_COLOR_OUTSIDE
                 QColor local( pal.color(QPalette::Window) );
-                #else
-                QColor local( inputColor );
-                #endif
-
                 animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
                 animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
                 if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
@@ -2935,26 +2923,16 @@ bool OxygenStyle::drawComboBoxPrimitive(
                 {
 
                     // adjust rect to match frameLess editors
-                    p->fillRect(fr.adjusted( 4, 4, -4, -4 ), inputColor);
+                    p->fillRect(r, inputColor);
                     p->restore();
 
                 } else {
 
-                    #ifdef HOLE_NO_EDGE_FILL
-                    p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
-                    #else
-                    //_helper.fillHole(*p, r.adjusted(1,0,-1,-1));
-                    _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
-                    #endif
 
+                    _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
                     p->restore();
 
-                    #ifdef HOLE_COLOR_OUTSIDE
                     QColor local( pal.color(QPalette::Window) );
-                    #else
-                    QColor local( inputColor );
-                    #endif
-
                     if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
                     {
 
@@ -3193,12 +3171,7 @@ bool OxygenStyle::drawLineEditPrimitive(
         {
             const bool isReadOnly = flags & State_ReadOnly;
             const bool hasFocus = flags & State_HasFocus;
-
-            #ifdef HOLE_COLOR_OUTSIDE
             const QColor inputColor =  pal.color(QPalette::Window);
-            #else
-            const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
-            #endif
 
             QRect fr( r.adjusted(0,1,0,-1) );
 
@@ -3237,19 +3210,14 @@ bool OxygenStyle::drawLineEditPrimitive(
                     p->setPen(Qt::NoPen);
                     p->setBrush(inputBrush);
 
-                    #ifdef HOLE_NO_EDGE_FILL
-                    p->fillRect(r.adjusted(5,5,-5,-5), inputBrush);
-                    #else
                     _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
-                    #endif
-
                     drawPrimitive(PE_FrameLineEdit, panel, p, widget);
 
                     p->restore();
 
                 } else  {
 
-                    p->fillRect(r.adjusted(2,2,-2,-2), inputBrush);
+                    p->fillRect(r, inputBrush);
 
                 }
             }
