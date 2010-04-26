@@ -106,22 +106,41 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2" colspan="2">
+      <item row="0" column="2">
        <widget class="KPushButton" name="pushButton_5">
         <property name="text">
          <string>Normal</string>
         </property>
        </widget>
       </item>
+      <item row="0" column="3">
+       <widget class="KComboBox" name="kcombobox">
+        <item>
+         <property name="text">
+          <string>First Item</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Second Item</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Third Item</string>
+         </property>
+        </item>
+       </widget>
+      </item>
       <item row="0" column="4">
-       <spacer name="horizontalSpacer_4">
+       <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>183</width>
-          <height>19</height>
+          <width>36</width>
+          <height>20</height>
          </size>
         </property>
        </spacer>
@@ -143,7 +162,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2" colspan="2">
+      <item row="1" column="2">
        <widget class="KPushButton" name="pushButton_6">
         <property name="text">
          <string>Normal</string>
@@ -151,53 +170,14 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Read-only combobox:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" colspan="2">
-       <widget class="KComboBox" name="kcombobox">
-        <item>
-         <property name="text">
-          <string>First Item</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Second Item</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Third Item</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="2" column="3" colspan="2">
-       <spacer name="horizontalSpacer_7">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>172</width>
-          <height>19</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="3" column="0">
        <widget class="QCheckBox" name="flatButtonCheckBox">
         <property name="text">
          <string>Use flat buttons</string>
         </property>
        </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="KComboBox" name="kcombobox_2"/>
       </item>
      </layout>
     </widget>

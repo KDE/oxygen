@@ -54,6 +54,10 @@ namespace Oxygen
 
         connect( ui.flatButtonCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleFlat( bool ) ) );
 
+        ui.kcombobox_2->addItem( KIcon("oxygen"), i18n( "Normal" ) );
+        ui.kcombobox_2->addItem( KIcon("document-new"), i18n( "New" ) );
+        ui.kcombobox_2->addItem( KIcon("document-open"), i18n( "Open" ) );
+        ui.kcombobox_2->addItem( KIcon("document-save"), i18n( "Save" ) );
 
         ui.toolButton->setIcon( KIcon("oxygen") );
         ui.toolButton_3->setIcon( KIcon("oxygen") );
