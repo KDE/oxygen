@@ -208,7 +208,7 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_Slider, Slider::HandleThickness, 23);
     setWidgetLayoutProp(WT_Slider, Slider::HandleLength, 15);
 
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 4);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::FrameWidth, 3);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Left, 1);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ContentsMargin + Right, 0);
@@ -218,22 +218,22 @@ OxygenStyle::OxygenStyle() :
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonSpacing, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin, 0);
     setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Left, 2);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 8);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 5);
-    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 4);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 7);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 4);
+    setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 3);
 
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 4);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 3);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin, 0);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Left, 1);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Left, 2);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Right, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Top, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Bot, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 9);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 6);
-    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 3);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 8);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 5);
+    setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 2);
     setWidgetLayoutProp(WT_ComboBox, ComboBox::FocusMargin, 0);
 
     setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
@@ -669,15 +669,15 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
         return;
 
         case CE_ComboBoxLabel:
-        //same as CommonStyle, except for fiilling behind icon
+        //same as CommonStyle, except for filling behind icon
         {
             if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
             {
 
                 QRect editRect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
+
                 p->save();
-                p->setClipRect(editRect);
-                if (!cb->currentIcon.isNull())
+                if( !cb->currentIcon.isNull() )
                 {
 
                     QIcon::Mode mode = cb->state & State_Enabled ? QIcon::Normal : QIcon::Disabled;
@@ -689,7 +689,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
                         Qt::AlignLeft | Qt::AlignVCenter,
                         iconRect.size(), editRect);
 
-                    drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
+                    drawItemPixmap(p, iconRect.translated(0,1), Qt::AlignCenter, pixmap);
 
                     if (cb->direction == Qt::RightToLeft) editRect.translate(-4 - cb->iconSize.width(), 0);
                     else editRect.translate(cb->iconSize.width() + 4, 0);
@@ -697,6 +697,7 @@ void OxygenStyle::drawControl(ControlElement element, const QStyleOption *option
 
                 if (!cb->currentText.isEmpty() && !cb->editable)
                 {
+                    if( cb->currentIcon.isNull() ) editRect.translate( 0, 1 );
                     drawItemText(
                         p, editRect.adjusted(1, 0, -1, 0),
                         visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
@@ -2778,7 +2779,7 @@ bool OxygenStyle::drawSpinBoxPrimitive(
 
         case Generic::Frame:
         {
-            QRect fr = r.adjusted(2,2,-2,-2);
+            QRect fr( r.adjusted(0,1,0,-1) );
             p->save();
             p->setRenderHint(QPainter::Antialiasing);
             p->setPen(Qt::NoPen);
@@ -2799,7 +2800,8 @@ bool OxygenStyle::drawSpinBoxPrimitive(
                 #ifdef HOLE_NO_EDGE_FILL
                 p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
                 #else
-                _helper.fillHole(*p, r.adjusted( 1, 0, -1, -1 ) );
+                //_helper.fillHole(*p, r.adjusted( 1, 0, -1, -1 ) );
+                _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
                 #endif
 
                 p->restore();
@@ -2879,10 +2881,13 @@ bool OxygenStyle::drawComboBoxPrimitive(
         // focus takes precedence over hover for editable comboboxes
         animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
         animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver && !hasFocus );
+
     } else {
+
         // hover takes precedence over focus for read-only comboboxes
         animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
         animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
+
     }
 
     switch (primitive)
@@ -2918,7 +2923,7 @@ bool OxygenStyle::drawComboBoxPrimitive(
 
             } else {
 
-                QRect fr = r.adjusted(2,2,-2,-2);
+                QRect fr = r.adjusted(0,1,0,-1);
 
                 // input area
                 p->save();
@@ -2938,7 +2943,8 @@ bool OxygenStyle::drawComboBoxPrimitive(
                     #ifdef HOLE_NO_EDGE_FILL
                     p->fillRect(fr.adjusted(3,3,-3,-3), inputColor);
                     #else
-                    _helper.fillHole(*p, r.adjusted(1,0,-1,-1));
+                    //_helper.fillHole(*p, r.adjusted(1,0,-1,-1));
+                    _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
                     #endif
 
                     p->restore();
@@ -3194,7 +3200,7 @@ bool OxygenStyle::drawLineEditPrimitive(
             const QColor inputColor = enabled?pal.color(QPalette::Base):pal.color(QPalette::Window);
             #endif
 
-            QRect fr( r.adjusted(2,2,-2,-2) );
+            QRect fr( r.adjusted(0,1,0,-1) );
 
             animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
             animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
@@ -3234,7 +3240,7 @@ bool OxygenStyle::drawLineEditPrimitive(
                     #ifdef HOLE_NO_EDGE_FILL
                     p->fillRect(r.adjusted(5,5,-5,-5), inputBrush);
                     #else
-                    _helper.fillHole(*p, r.adjusted(1,0,-1,-1));
+                    _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
                     #endif
 
                     drawPrimitive(PE_FrameLineEdit, panel, p, widget);
@@ -3718,7 +3724,7 @@ bool OxygenStyle::drawGenericPrimitive(
     WidgetType widgetType,
     int primitive,
     const QStyleOption* opt,
-    const QRect &r, const QPalette &pal,
+    const QRect &rect, const QPalette &pal,
     State flags, QPainter* p,
     const QWidget* widget,
     KStyle::Option* kOpt) const
@@ -3737,7 +3743,7 @@ bool OxygenStyle::drawGenericPrimitive(
         case Generic::ArrowLeft:
         case Generic::ArrowRight:
         {
-
+            QRect r( rect );
             p->save();
 
             // define gradient and polygon for drawing arrow
@@ -3750,8 +3756,12 @@ bool OxygenStyle::drawGenericPrimitive(
             QColor background = pal.color(QPalette::Window);
 
             // customize color depending on widget
-            if( widgetType == WT_SpinBox )
+            if( widgetType == WT_PushButton )
             {
+
+                r.translate( 0, 1 );
+
+            } else if( widgetType == WT_SpinBox ) {
 
                 // get subcontrol type
                 SubControl subControl;
@@ -4024,6 +4034,7 @@ bool OxygenStyle::drawGenericPrimitive(
         case Generic::Frame:
         {
 
+            QRect r( rect );
             const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
             const bool hoverHighlight( enabled && isInputWidget && (flags&State_MouseOver) );
             const bool focusHighlight( enabled && isInputWidget && (flags&State_HasFocus) );
@@ -4083,6 +4094,7 @@ bool OxygenStyle::drawGenericPrimitive(
                   aiv->selectionMode() != QAbstractItemView::SingleSelection &&
                   aiv->selectionMode() != QAbstractItemView::NoSelection)
                 {
+                    QRect r( rect );
                     QLinearGradient lg(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
                     lg.setColorAt(0.0, Qt::transparent);
 
@@ -6167,7 +6179,7 @@ int OxygenStyle::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidg
         case PM_ButtonMargin: return 5;
 
         case PM_DefaultFrameWidth:
-        if (qobject_cast<const QLineEdit*>(widget)) return 4;
+        if (qobject_cast<const QLineEdit*>(widget)) return 3;
         if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget)) return 3;
         //else fall through
 
@@ -6266,6 +6278,14 @@ QSize OxygenStyle::sizeFromContents(ContentsType type, const QStyleOption* optio
             }
         }
 
+        // combobox
+        case CT_ComboBox:
+        {
+            QSize size( KStyle::sizeFromContents( type, option, contentsSize, widget));
+            const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option);
+            if( cb && !cb->editable && !cb->currentIcon.isNull() ) size.rheight()+=1;
+            return size;
+        }
 
         // separators
         case CT_MenuItem:
