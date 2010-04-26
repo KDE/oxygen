@@ -2478,9 +2478,14 @@ bool OxygenStyle::drawWindowPrimitive(
 
             const bool sunken( flags&State_Sunken );
             const bool mouseOver = (!sunken) && widget && r.translated( widget->mapToGlobal( QPoint(0,0) ) ).contains( QCursor::pos() );
+
+            animations().mdiWindowEngine().updateState( widget, primitive, enabled && mouseOver );
+            const bool animated( enabled && animations().mdiWindowEngine().isAnimated( widget, primitive ) );
+            const qreal opacity( animations().mdiWindowEngine().opacity( widget, primitive ) );
+
             {
 
-                // button color
+                // contrast pixel
                 QColor contrast = _helper.calcLightColor( pal.color( QPalette::Active, QPalette::WindowText ) );
 
                 qreal width( 1.1 );
@@ -2492,16 +2497,25 @@ bool OxygenStyle::drawWindowPrimitive(
 
             {
 
+                // button color
                 QColor color;
-                if( mouseOver )
+                if( animated )
                 {
-                    color = primitive == Window::ButtonClose ?
+
+                    QColor base( palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
+                    QColor glow( ( primitive == Window::ButtonClose ) ?
+                        KColorScheme(palette.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
+                        KColorScheme(palette.currentColorGroup()).decoration(KColorScheme::HoverColor).color() );
+
+                    color = KColorUtils::mix( base, glow, opacity );
+
+                } else if( mouseOver ) {
+                    color = ( primitive == Window::ButtonClose ) ?
                         KColorScheme(palette.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
                         KColorScheme(palette.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
 
                 } else {
 
-                    // button color
                     color = palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText );
 
                 }
@@ -2511,6 +2525,7 @@ bool OxygenStyle::drawWindowPrimitive(
                 p->translate(0,-1);
                 p->setPen(QPen( color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
                 renderWindowIcon(p, QRectF(r).adjusted(-2.5,-2.5,0,0), primitive);
+
             }
 
             p->restore();

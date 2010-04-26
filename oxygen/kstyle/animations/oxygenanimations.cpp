@@ -57,6 +57,7 @@ namespace Oxygen
         registerEngine( sliderEngine_ = new SliderEngine( this ) );
         registerEngine( tabBarEngine_ = new TabBarEngine( this ) );
         registerEngine( toolBarEngine_ = new ToolBarEngine( this ) );
+        registerEngine( mdiWindowEngine_ = new MdiWindowEngine( this ) );
     }
 
     //____________________________________________________________
@@ -78,6 +79,7 @@ namespace Oxygen
             spinBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             tabBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             dockSeparatorEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
+            mdiWindowEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
 
             progressBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimationsEnabled() );
             progressBarEngine_->setBusyIndicatorEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimated() );
@@ -192,6 +194,7 @@ namespace Oxygen
             spinBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             dockSeparatorEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            mdiWindowEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
 
             progressBarEngine_->setDuration( OxygenStyleConfigData::progressBarAnimationsDuration() );
             progressBarEngine_->setBusyStepDuration( OxygenStyleConfigData::progressBarBusyStepDuration() );
@@ -270,6 +273,10 @@ namespace Oxygen
         // lists
         else if( widget->inherits( "QAbstractItemView" ) || widget->inherits( "Q3ListView" ) )
         { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+
+        // mdi subwindows
+        else if( widget->inherits( "QMdiSubWindow" ) )
+        { mdiWindowEngine().registerWidget( widget ); }
 
         return;
 

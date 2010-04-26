@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygendockseparatorengine.h"
+#include "oxygenmdiwindowengine.h"
 #include "oxygenmenubarengine.h"
 #include "oxygenmenuengine.h"
 #include "oxygenprogressbarengine.h"
@@ -121,6 +122,10 @@ namespace Oxygen
         ToolBarEngine& toolBarEngine( void ) const
         { return *toolBarEngine_; }
 
+        //! mdi windows
+        MdiWindowEngine& mdiWindowEngine( void ) const
+        { return *mdiWindowEngine_; }
+
         //! setup engines
         void setupEngines( void );
 
@@ -174,6 +179,9 @@ namespace Oxygen
 
         //! toolbar engine
         ToolBarEngine* toolBarEngine_;
+
+        //! mdi window
+        MdiWindowEngine* mdiWindowEngine_;
 
         //! keep list of existing engines
         QList< BaseEngine::Pointer > engines_;
