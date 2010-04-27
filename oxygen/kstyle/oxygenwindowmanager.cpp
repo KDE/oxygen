@@ -71,7 +71,8 @@ namespace Oxygen
         dragDelay_( QApplication::doubleClickInterval() ),
         blackListEvent_( NULL ),
         dragAboutToStart_( false ),
-        dragInProgress_( false )
+        dragInProgress_( false ),
+        cursorOverride_( false )
     {}
 
     //_____________________________________________________________
@@ -589,7 +590,12 @@ namespace Oxygen
     {
 
         if( useWMMoveResize() ) qApp->removeEventFilter( this );
-        else if( target_ ) target_.data()->unsetCursor();
+        else if( target_ && cursorOverride_ ) {
+
+          qApp->restoreOverrideCursor();
+          cursorOverride_ = false;
+
+        }
 
         target_.clear();
         if( dragTimer_.isActive() ) dragTimer_.stop();
@@ -621,7 +627,13 @@ namespace Oxygen
         }
 
         if( !useWMMoveResize() )
-        { widget->setCursor( Qt::SizeAllCursor ); }
+        {
+            if( !cursorOverride_ )
+            {
+                qApp->setOverrideCursor( Qt::SizeAllCursor );
+                cursorOverride_ = true;
+            }
+        }
 
         dragInProgress_ = true;
 

@@ -244,6 +244,10 @@ namespace Oxygen
         //! true if drag is in progress
         bool dragInProgress_;
 
+        //! cursor override
+        /*! used to keep track of application cursor being overridden when dragging in non-WM mode */
+        bool cursorOverride_;
+
     };
 
 }
