@@ -127,6 +127,7 @@ namespace Oxygen
         // add user specified whitelisted classnames
         whiteList_.insert( ExceptionId( "MplayerWindow" ) );
         whiteList_.insert( ExceptionId( "ViewSliders@kmix" ) );
+        whiteList_.insert( ExceptionId( "Sidebar_Widget@konqueror" ) );
 
         foreach( const QString& exception, OxygenStyleConfigData::windowDragWhiteList() )
         {
