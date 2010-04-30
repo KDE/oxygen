@@ -4221,8 +4221,11 @@ void OxygenStyle::polish(QWidget* widget)
 
                 widget->setAttribute(Qt::WA_NoSystemBackground);
                 widget->setAttribute(Qt::WA_TranslucentBackground);
-                if( QFrame* frame = qobject_cast<QFrame*>( widget ) )
-                { frame->setFrameStyle( QFrame::NoFrame ); }
+                if( QLabel* label = qobject_cast<QLabel*>( widget ) )
+                { 
+                    label->setFrameStyle( QFrame::NoFrame ); 
+                    label->setMargin(5);
+                }
 
                 #ifdef Q_WS_WIN
                 widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
