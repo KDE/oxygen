@@ -4214,8 +4214,27 @@ void OxygenStyle::polish(QWidget* widget)
         case Qt::Window:
         case Qt::Dialog:
             widget->installEventFilter(this);
-            widget->setAttribute(Qt::WA_StyledBackground);
+
+            // special handling of kwin geometry tip widget
+            if( widget->inherits( "KWin::GeometryTip" ) )
+            {
+
+                widget->setAttribute(Qt::WA_NoSystemBackground);
+                widget->setAttribute(Qt::WA_TranslucentBackground);
+                if( QFrame* frame = qobject_cast<QFrame*>( widget ) )
+                { frame->setFrameStyle( QFrame::NoFrame ); }
+
+                #ifdef Q_WS_WIN
+                widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
+                #endif
+
+            } else {
+
+                widget->setAttribute(Qt::WA_StyledBackground);
+
+            }
             break;
+
         case Qt::Popup: // we currently don't want that kind of gradient on menus etc
         case Qt::Tool: // this we exclude as it is used for dragging of icons etc
         default: break;
@@ -4249,10 +4268,15 @@ void OxygenStyle::polish(QWidget* widget)
 
 
     if( qobject_cast<QAbstractButton*>(widget) && qobject_cast<QDockWidget*>( widget->parent() ) )
-    { widget->setAttribute(Qt::WA_Hover); }
+    {
 
-    if( qobject_cast<QAbstractButton*>(widget) && qobject_cast<QToolBox*>( widget->parent() ) )
-    { widget->setAttribute(Qt::WA_Hover); }
+        widget->setAttribute(Qt::WA_Hover);
+
+    } else if( qobject_cast<QAbstractButton*>(widget) && qobject_cast<QToolBox*>( widget->parent() ) ) {
+
+        widget->setAttribute(Qt::WA_Hover);
+
+    }
 
     if( qobject_cast<QToolButton*>(widget) )
     {
@@ -4271,9 +4295,7 @@ void OxygenStyle::polish(QWidget* widget)
 
         widget->setBackgroundRole(QPalette::NoRole);
 
-    }
-
-    if (qobject_cast<QMenuBar*>(widget))
+    } else if (qobject_cast<QMenuBar*>(widget))
     {
 
         widget->setBackgroundRole(QPalette::NoRole);
@@ -4340,9 +4362,7 @@ void OxygenStyle::polish(QWidget* widget)
     } else if ( qobject_cast<QFrame*>(widget) ) {
 
         if (qobject_cast<KTitleWidget*>(widget->parentWidget()))
-        {
-            widget->setBackgroundRole( QPalette::Window );
-        }
+        { widget->setBackgroundRole( QPalette::Window ); }
 
         widget->installEventFilter(this);
 
@@ -6979,22 +6999,81 @@ bool OxygenStyle::eventFilterComboBoxContainer( QWidget* widget, QEvent* ev )
 //____________________________________________________________________________
 bool OxygenStyle::eventFilterWindow( QWidget* widget, QEvent* ev )
 {
-    if (ev->type() == QEvent::Paint)
+    switch( ev->type() )
     {
-        QBrush brush = widget->palette().brush(widget->backgroundRole());
 
-        // don't use our background if the app requested something else,
-        // e.g. a pixmap
-        // TODO - draw our light effects over an arbitrary fill?
-        if (brush.style() == Qt::SolidPattern) {}
-
-        if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground))
+        case QEvent::Show:
+        case QEvent::Resize:
         {
 
-            QPainter p(widget);
-            _helper.renderWindowBackground(&p, widget->rect(), widget,widget->window()->palette());
+            // make sure mask is appropriate
+            if( widget->inherits( "KWin::GeometryTip" ) )
+            {
+                if( compositingActive() )
+                {
+                    if( widget->mask() != QRegion() )
+                    { widget->clearMask(); }
+
+                } else if( widget->mask() == QRegion() ) {
+
+                    widget->setMask( _helper.roundedMask( widget->rect() ) );
+
+                }
+
+            }
+
+            return false;
+        }
+
+        case QEvent::Paint:
+        {
+
+            // this happens when the widget was given a parent after call to "polish"
+            if( !widget->isWindow() ) return false;
+
+            // special handling of KWin geometry tip widget
+            if( widget->inherits( "KWin::GeometryTip" ) )
+            {
+
+                QColor color = widget->palette().window().color();
+                QRect r = widget->rect();
+
+                QPainter p(widget);
+                QPaintEvent *e = (QPaintEvent*)ev;
+                p.setClipRegion(e->region());
+
+                if( compositingActive() )
+                {
+
+                    p.setCompositionMode(QPainter::CompositionMode_Source );
+                    TileSet *tileSet( _helper.roundCorner(color) );
+                    tileSet->render( r, &p );
+
+                    p.setCompositionMode(QPainter::CompositionMode_SourceOver );
+                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+
+                }
+
+                _helper.renderMenuBackground(&p, r, widget,color );
+
+                // frame
+                if( compositingActive() ) p.setClipping( false );
+                _helper.drawFloatFrame( &p, r, color );
+
+            } else if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground)) {
+
+                // normal "window" background
+                QPainter p(widget);
+                _helper.renderWindowBackground(&p, widget->rect(), widget,widget->window()->palette());
+
+            }
+
+            return false;
 
         }
+
+        default: return false;
+
     }
 
     // continue with normal painting
