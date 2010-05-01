@@ -25,29 +25,35 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "oxygenconfigdialog.h"
 #include "oxygenconfigdialog.moc"
-#include "oxygenstyleconfigdata.h"
 
-#include "oxygenanimationconfigwidget.h"
-#include "oxygenappearanceconfigwidget.h"
-#include "oxygendecorationconfigwidget.h"
-
+#include <QtCore/QTextStream>
+#include <QtCore/QTimer>
+#include <QtGui/QLabel>
 #include <QtGui/QShortcut>
 
+#include <KConfigGroup>
 #include <KGlobalSettings>
-#include <KIcon>
 #include <KLocale>
+#include <KLibLoader>
 #include <KPushButton>
 #include <KStandardShortcut>
+#include <KVBox>
 
 namespace Oxygen
 {
     //_______________________________________________________________
     ConfigDialog::ConfigDialog( QWidget* parent ):
-        KDialog( parent )
-    {
+        KDialog( parent ),
+        _stylePluginObject(0),
+        _decorationPluginObject( 0 ),
+        _styleChanged( false ),
+        _decorationChanged( false )
+   {
         setButtons( Default|Reset|Apply|Ok|Cancel );
         setDefaultButton( Cancel );
         showButtonSeparator( false );
+
+        updateWindowTitle();
 
         setWindowTitle( i18n( "Oxygen Settings" ) );
 
@@ -60,108 +66,196 @@ namespace Oxygen
         setMainWidget( pageWidget_ );
 
         connect( pageWidget_, SIGNAL( currentPageChanged( KPageWidgetItem*, KPageWidgetItem* ) ), SLOT( updateWindowTitle( KPageWidgetItem* ) ) );
+
         KPageWidgetItem *page;
 
-        // appearance
-        page = new KPageWidgetItem( appearanceConfigWidget_ = new AppearanceConfigWidget() );
+        // style
+        page = loadStyleConfig();
         page->setName( "Widget Style" );
         page->setHeader( "Allows to modify the appearance of widgets" );
         page->setIcon( KIcon( "preferences-desktop-theme" ) );
         pageWidget_->addPage( page );
 
-        // animations
-        page = new KPageWidgetItem( animationConfigWidget_ = new AnimationConfigWidget() );
-        page->setName( "Widget Animations" );
-        page->setHeader( "Allows the fine tuning of widget animations" );
-        page->setIcon( KIcon( "preferences-desktop-theme" ) );
-        pageWidget_->addPage( page );
+        if( _stylePluginObject )
+        {
+            connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT( updateStyleChanged(bool) ) );
+            connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT( updateChanged() ) );
+
+            connect( this, SIGNAL(pluginSave( KConfigGroup& )), _stylePluginObject, SLOT(save( void )) );
+            connect( this, SIGNAL(pluginDefault( void ) ), _stylePluginObject, SLOT(defaults( void )) );
+            connect( this, SIGNAL(pluginReset( const KConfigGroup& ) ), _stylePluginObject, SLOT(reset( void )) );
+            connect( this, SIGNAL(pluginToggleExpertMode( bool )), _stylePluginObject, SLOT(toggleExpertMode( bool )) );
+
+        }
 
         // decoration
-        page = new KPageWidgetItem( decorationConfigWidget_ = new DecorationConfigWidget() );
+        page = loadDecorationConfig();
         page->setName( "Window Decorations" );
         page->setHeader( "Allows to modify the appearance of window decorations" );
         page->setIcon( KIcon( "preferences-system-windows" ) );
         pageWidget_->addPage( page );
 
+        if( _decorationPluginObject )
+        {
+            connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT( updateDecorationChanged( bool ) ) );
+            connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT( updateChanged( void ) ) );
+
+            connect( this, SIGNAL(pluginSave( KConfigGroup& )), _decorationPluginObject, SLOT(save( KConfigGroup & )) );
+            connect( this, SIGNAL(pluginReset( const KConfigGroup& )), _decorationPluginObject, SLOT(load( const KConfigGroup & )) );
+            connect( this, SIGNAL(pluginDefault( void )), _decorationPluginObject, SLOT(defaults( void )) );
+            connect( this, SIGNAL(pluginToggleExpertMode( bool )), _decorationPluginObject, SLOT(toggleExpertMode( bool )) );
+        }
+
+        // expert mode
+        emit pluginToggleExpertMode( true );
+
         // connections
-        connect( appearanceConfigWidget_, SIGNAL( changed( bool ) ), SLOT( updateChanged( void ) ) );
-        connect( animationConfigWidget_, SIGNAL( changed( bool ) ), SLOT( updateChanged( void ) ) );
-        connect( decorationConfigWidget_, SIGNAL( changed( bool ) ), SLOT( updateChanged( void ) ) );
-        connect( button( Default ), SIGNAL( clicked() ), SLOT( defaults() ) );
-        connect( button( Reset ), SIGNAL( clicked() ), SLOT( load() ) );
-        connect( button( Apply ), SIGNAL( clicked() ), SLOT( save() ) );
-        connect( button( Ok ), SIGNAL( clicked() ), SLOT( save() ) );
+        connect( button( Default ), SIGNAL( clicked( void ) ), SLOT( defaults( void ) ) );
+        connect( button( Reset ), SIGNAL( clicked( void ) ), SLOT( reset( void ) ) );
+        connect( button( Apply ), SIGNAL( clicked( void ) ), SLOT( save( void ) ) );
+        connect( button( Ok ), SIGNAL( clicked( void ) ), SLOT( save( void ) ) );
+        updateChanged();
 
-
-    }
-
-    //_______________________________________________________________
-    void ConfigDialog::load( void )
-    {
-        OxygenStyleConfigData::self()->readConfig();
-        appearanceConfigWidget_->load();
-        animationConfigWidget_->load();
-        decorationConfigWidget_->load();
-        button( Apply )->setEnabled( false );
     }
 
     //_______________________________________________________________
     void ConfigDialog::defaults( void )
-    {
-        OxygenStyleConfigData::self()->setDefaults();
-        decorationConfigWidget_->defaults();
+    { emit pluginDefault(); }
 
-        appearanceConfigWidget_->load();
-        animationConfigWidget_->load();
-        decorationConfigWidget_->load();
-        button( Apply )->setEnabled( true );
+    //_______________________________________________________________
+    void ConfigDialog::reset( void )
+    {
+        KConfigGroup config;
+        emit pluginReset( config );
     }
 
     //_______________________________________________________________
     void ConfigDialog::save( void )
     {
-
-        // check modifications
-        if( !(
-            appearanceConfigWidget_->isChanged() ||
-            animationConfigWidget_->isChanged() ||
-            decorationConfigWidget_->isChanged() ) ) return;
-
-        // save all
-        appearanceConfigWidget_->save();
-        animationConfigWidget_->save();
-        decorationConfigWidget_->save();
-        OxygenStyleConfigData::self()->writeConfig();
+        KConfigGroup config;
+        emit pluginSave( config );
         KGlobalSettings::self()->emitChange(KGlobalSettings::StyleChanged);
+        updateStyleChanged( false );
+        updateDecorationChanged( false );
         updateChanged();
     }
 
     //_______________________________________________________________
     void ConfigDialog::updateChanged( void )
     {
-        bool changed( appearanceConfigWidget_->isChanged() || animationConfigWidget_->isChanged() || decorationConfigWidget_->isChanged() );
-        button( Reset )->setEnabled( changed );
-        button( Apply )->setEnabled( changed );
+        bool modified( changed() );
+        button( Apply )->setEnabled( modified );
+        button( Reset )->setEnabled( modified );
+        button( Ok )->setEnabled( modified );
         updateWindowTitle( pageWidget_->currentPage() );
     }
 
     //_______________________________________________________________
     void ConfigDialog::updateWindowTitle( KPageWidgetItem* item )
     {
-
         QString title;
         QTextStream what( &title );
         if( item )
         {
             what << item->name();
-            if( ConfigWidget* widget = qobject_cast<ConfigWidget*>( item->widget() ) )
-            { if( widget->isChanged() ) what << " [modified]"; }
-
+            if( changed() ) what << " [modified]";
             what << " - ";
         }
 
         what << i18n( "Oxygen Settings" );
         setWindowTitle( title );
+    }
+
+    //_______________________________________________________________
+    KPageWidgetItem* ConfigDialog::loadStyleConfig( void )
+    {
+
+        // load decoration from plugin
+        KLibLoader* loader( KLibLoader::self() );
+        KLibrary* library = loader->library( "kstyle_oxygen_config" );
+
+        if (library != NULL)
+        {
+            KLibrary::void_function_ptr alloc_ptr = library->resolveFunction("allocate_kstyle_config");
+            if (alloc_ptr != NULL)
+            {
+
+                // pointer to decoration plugin allocation function
+                QWidget* (*allocator)( QWidget* );
+                allocator = (QWidget* (*)(QWidget* parent))alloc_ptr;
+
+                // create container
+                KVBox* container = new KVBox();
+                container->setObjectName( "oxygen-settings-container" );
+
+                // allocate config object
+                _stylePluginObject = (QObject*)(allocator( container ));
+                return new KPageWidgetItem( container );
+
+            } else {
+
+                // fall back to warning label
+                QLabel* label = new QLabel();
+                label->setText( i18n( "Unable to find oxygen style configuration pluggin" ) );
+                return new KPageWidgetItem( label );
+
+            }
+
+        } else {
+
+            // fall back to warning label
+            QLabel* label = new QLabel();
+            label->setText( i18n( "Unable to find oxygen style configuration pluggin" ) );
+            return new KPageWidgetItem( label );
+
+        }
+
+    }
+
+    //_______________________________________________________________
+    KPageWidgetItem* ConfigDialog::loadDecorationConfig( void )
+    {
+
+        // load decoration from plugin
+        KLibLoader* loader( KLibLoader::self() );
+        KLibrary* library = loader->library( "kwin_oxygen_config" );
+
+        if (library != NULL)
+        {
+            KLibrary::void_function_ptr alloc_ptr = library->resolveFunction("allocate_config");
+            if (alloc_ptr != NULL)
+            {
+
+                // pointer to decoration plugin allocation function
+                QObject* (*allocator)( KConfigGroup&, QWidget* );
+                allocator = (QObject* (*)(KConfigGroup& conf, QWidget* parent))alloc_ptr;
+
+                // create container
+                KVBox* container = new KVBox();
+
+                // allocate config object
+                KConfigGroup config;
+                _decorationPluginObject = (QObject*)(allocator( config, container ));
+                return new KPageWidgetItem( container );
+
+            } else {
+
+                // fall back to warning label
+                QLabel* label = new QLabel();
+                label->setText( i18n( "Unable to find oxygen decoration configuration pluggin" ) );
+                return new KPageWidgetItem( label );
+
+            }
+
+        } else {
+
+            // fall back to warning label
+            QLabel* label = new QLabel();
+            label->setText( i18n( "Unable to find oxygen decoration configuration pluggin" ) );
+            return new KPageWidgetItem( label );
+
+        }
+
     }
 
 }

@@ -48,7 +48,6 @@ int main(int argc, char *argv[])
     KApplication app;
     app.setWindowIcon( KIcon( "oxygen" ) );
     Oxygen::ConfigDialog dialog;
-    dialog.load();
     dialog.show();
     return app.exec();
 }

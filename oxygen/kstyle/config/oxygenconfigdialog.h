@@ -33,9 +33,6 @@
 namespace Oxygen
 {
 
-    class AppearanceConfigWidget;
-    class AnimationConfigWidget;
-    class DecorationConfigWidget;
     class ConfigDialog: public KDialog
     {
         Q_OBJECT
@@ -49,26 +46,73 @@ namespace Oxygen
         virtual ~ConfigDialog( void )
         {}
 
+        signals:
+
+        //! restore default configuration
+        void pluginDefault( void );
+
+        //! reset local changes
+        void pluginReset( const KConfigGroup& );
+
+        //! save local changes
+        void pluginSave( KConfigGroup& );
+
+        //! expert mode
+        void pluginToggleExpertMode( bool );
+
         public slots:
 
-        virtual void load( void );
+        //! restore default configuration
         virtual void defaults( void );
+
+        //! reset local changes
+        virtual void reset( void );
+
+        //! save local changes
         virtual void save( void );
 
         protected slots:
+
+        // update decoration changed state
+        void updateStyleChanged( bool state = true )
+        { _styleChanged = state; }
+
+        // update decoration changed state
+        void updateDecorationChanged( bool state = true )
+        { _decorationChanged = state; }
 
         // handle configuration modifications
         virtual void updateChanged( void );
 
         // update window title based on selected page
-        virtual void updateWindowTitle( KPageWidgetItem* );
+        virtual void updateWindowTitle( KPageWidgetItem* = 0 );
 
         private:
 
+        //! true if configuration changed
+        bool changed( void ) const
+        { return _styleChanged || _decorationChanged; }
+
+        //! convert decoration name to config library name
+        QString styleToConfigLib( const QString& ) const;
+
+        //! load style config widget from plugin
+        KPageWidgetItem* loadStyleConfig( void );
+
+        //! load decoration config widget from plugin
+        KPageWidgetItem* loadDecorationConfig( void );
+
+        //! central widget
         KPageWidget* pageWidget_;
-        AppearanceConfigWidget* appearanceConfigWidget_;
-        AnimationConfigWidget* animationConfigWidget_;
-        DecorationConfigWidget* decorationConfigWidget_;
+
+        //! style plugin widget
+        QObject *_stylePluginObject;
+
+        //! decoration plugin widget
+        QObject *_decorationPluginObject;
+
+        bool _styleChanged;
+        bool _decorationChanged;
 
     };
 

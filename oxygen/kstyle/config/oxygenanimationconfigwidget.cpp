@@ -39,7 +39,8 @@ namespace Oxygen
 
     //_______________________________________________
     AnimationConfigWidget::AnimationConfigWidget( QWidget* parent ):
-        ConfigWidget( parent ),
+        QWidget( parent ),
+        changed_( false ),
         row_(0)
     {
 
@@ -277,6 +278,10 @@ namespace Oxygen
     }
 
     //_______________________________________________
+    void AnimationConfigWidget::updateLayout( bool state )
+    { emit layoutChanged(); }
+
+    //_______________________________________________
     void AnimationConfigWidget::setupItem( QGridLayout* layout, AnimationConfigItem* item )
     {
         layout->addWidget( item, row_, 0, 1, 2 );
@@ -289,6 +294,7 @@ namespace Oxygen
         ++row_;
 
         item->configurationWidget()->setVisible( false );
+        connect( item->configurationButton(), SIGNAL( toggled( bool ) ), SLOT( updateLayout( bool ) ) );
         connect( item, SIGNAL( changed( void ) ), SLOT( updateChanged( void ) ) );
     }
 

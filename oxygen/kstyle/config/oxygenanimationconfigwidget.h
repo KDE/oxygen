@@ -30,7 +30,6 @@
 #include <QtGui/QWidget>
 #include <QtGui/QLayout>
 
-#include "oxygenconfigwidget.h"
 #include "ui_oxygenanimationconfigwidget.h"
 
 namespace Oxygen
@@ -39,7 +38,7 @@ namespace Oxygen
     class GenericAnimationConfigItem;
     class FollowMouseAnimationConfigItem;
 
-    class AnimationConfigWidget: public ConfigWidget
+    class AnimationConfigWidget: public QWidget
     {
 
         Q_OBJECT
@@ -48,6 +47,18 @@ namespace Oxygen
 
         //! constructor
         explicit AnimationConfigWidget( QWidget* = 0 );
+
+        //! true if changed
+        virtual bool isChanged( void ) const
+        { return changed_; }
+
+        signals:
+
+        //! emmited when layout is changed
+        void layoutChanged( void );
+
+        //! emmited when changed
+        void changed( bool );
 
         public slots:
 
@@ -59,8 +70,11 @@ namespace Oxygen
 
         protected slots:
 
-        //! update chacked button
+        //! update visible ites
         virtual void updateItems( bool );
+
+        //! update layout
+        virtual void updateLayout( bool );
 
         //! check whether configuration is changed and emit appropriate signal if yes
         virtual void updateChanged();
@@ -69,7 +83,17 @@ namespace Oxygen
 
         virtual void setupItem( QGridLayout*, AnimationConfigItem* );
 
+        //! set changed state
+        virtual void setChanged( bool value )
+        {
+            changed_ = value;
+            emit changed( value );
+        }
+
         private:
+
+        //! changed state
+        bool changed_;
 
         Ui_AnimationConfigWidget ui;
 
