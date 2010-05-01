@@ -73,9 +73,6 @@ namespace Oxygen
         //! update visible ites
         virtual void updateItems( bool );
 
-        //! update layout
-        virtual void updateLayout( bool );
-
         //! check whether configuration is changed and emit appropriate signal if yes
         virtual void updateChanged();
 
