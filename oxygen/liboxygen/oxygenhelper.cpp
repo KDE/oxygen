@@ -182,7 +182,7 @@ QColor OxygenHelper::backgroundBottomColor(const QColor &color) const
 
     qreal by = KColorUtils::luma(color);
     qreal my = KColorUtils::luma(midColor);
-    return KColorUtils::shade(color, (my - by) * _bgcontrast * 0.85);
+    return KColorUtils::shade(color, (my - by) * _bgcontrast);
 
 }
 
@@ -194,7 +194,7 @@ QColor OxygenHelper::calcLightColor(const QColor &color) const
 QColor OxygenHelper::calcDarkColor(const QColor &color) const
 {
     return (lowThreshold(color)) ?
-        KColorUtils::mix(calcLightColor(color), color, 0.2 + 0.8 * _contrast):
+        KColorUtils::mix(calcLightColor(color), color, 0.3 + 0.7 * _contrast):
         KColorScheme::shade(color, KColorScheme::MidShade, _contrast);
 }
 
