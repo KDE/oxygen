@@ -4110,7 +4110,7 @@ namespace Oxygen
 
         } else if(widgetType == WT_Generic && (flags & State_Raised)) {
 
-            renderSlab(p, r.adjusted(-2, -2, 2, 2), pal.color(QPalette::Background), NoFill);
+            renderSlab(p, r.adjusted(-1, -1, 1, 1), pal.color(QPalette::Background), NoFill);
 
         }
 
