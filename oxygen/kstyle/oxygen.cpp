@@ -1781,6 +1781,14 @@ namespace Oxygen
         Q_UNUSED( kOpt );
 
         const bool reverseLayout = opt->direction == Qt::RightToLeft;
+        const bool enabled = flags & State_Enabled;
+        const bool mouseOver(enabled && (flags & State_MouseOver));
+
+        const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt);
+        animations().scrollBarEngine().updateState( widget, enabled && slider && (slider->activeSubControls & SC_ScrollBarSlider) );
+
+
+
         switch (primitive)
         {
             case ScrollBar::DoubleButtonHor:
@@ -1830,19 +1838,17 @@ namespace Oxygen
 
             case ScrollBar::SliderHor:
             {
-                const bool enabled = flags & State_Enabled;
-                bool animated( animations().scrollBarEngine().isAnimated( widget, SC_ScrollBarSlider ) );
-                if( animated && enabled ) renderScrollBarHandle(p, r, pal, Qt::Horizontal, flags & State_MouseOver && flags & State_Enabled, animations().scrollBarEngine().opacity( widget, SC_ScrollBarSlider ) );
-                else renderScrollBarHandle(p, r, pal, Qt::Horizontal, (flags & State_MouseOver) && enabled );
+                bool animated( enabled && animations().scrollBarEngine().isAnimated( widget, SC_ScrollBarSlider ) );
+                if( animated ) renderScrollBarHandle(p, r, pal, Qt::Horizontal, mouseOver, animations().scrollBarEngine().opacity( widget, SC_ScrollBarSlider ) );
+                else renderScrollBarHandle(p, r, pal, Qt::Horizontal, mouseOver );
                 return true;
             }
 
             case ScrollBar::SliderVert:
             {
-                const bool enabled = flags & State_Enabled;
-                bool animated( animations().scrollBarEngine().isAnimated( widget, SC_ScrollBarSlider ) );
-                if( animated && enabled ) renderScrollBarHandle(p, r, pal, Qt::Vertical, flags & State_MouseOver && flags & State_Enabled, animations().scrollBarEngine().opacity( widget, SC_ScrollBarSlider ) );
-                else renderScrollBarHandle(p, r, pal, Qt::Vertical, (flags & State_MouseOver) && enabled );
+                bool animated( enabled && animations().scrollBarEngine().isAnimated( widget, SC_ScrollBarSlider ) );
+                if( animated ) renderScrollBarHandle(p, r, pal, Qt::Vertical, mouseOver, animations().scrollBarEngine().opacity( widget, SC_ScrollBarSlider ) );
+                else renderScrollBarHandle(p, r, pal, Qt::Vertical, mouseOver );
                 return true;
             }
 

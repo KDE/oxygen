@@ -132,13 +132,7 @@ namespace Oxygen
 
         // cast event
         QHoverEvent *he = static_cast<QHoverEvent*>(event);
-        if( !he ) return;
-
-        // need to properly handle arrow hover.
-        // probably need to add two more timers for the arrows (add and sub)
         QStyle::SubControl hoverControl = scrollBar->style()->hitTestComplexControl(QStyle::CC_ScrollBar, &opt, he->pos(), scrollBar);
-
-        updateSlider( hoverControl );
         updateAddLineArrow( hoverControl );
         updateSubLineArrow( hoverControl );
 
@@ -150,41 +144,8 @@ namespace Oxygen
     {
         Q_UNUSED( object );
         Q_UNUSED( event );
-
-        updateSlider( QStyle::SC_None );
         updateSubLineArrow( QStyle::SC_None );
         updateAddLineArrow( QStyle::SC_None );
-    }
-
-
-    //_____________________________________________________________________
-    void ScrollBarData::updateSlider( QStyle::SubControl hoverControl )
-    {
-        if( hoverControl == QStyle::SC_ScrollBarSlider )
-        {
-
-            if( !sliderHovered() ) {
-                setSliderHovered( true );
-                if( enabled() )
-                {
-                    animation().data()->setDirection( Animation::Forward );
-                    if( !animation().data()->isRunning() ) animation().data()->start();
-                } else setDirty();
-            }
-
-        } else {
-
-            if( sliderHovered() )
-            {
-                setSliderHovered( false );
-                if( enabled() )
-                {
-                    animation().data()->setDirection( Animation::Backward );
-                    if( !animation().data()->isRunning() ) animation().data()->start();
-                } else setDirty();
-            }
-
-        }
     }
 
     //_____________________________________________________________________

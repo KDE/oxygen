@@ -169,9 +169,6 @@ namespace Oxygen
 
         //@}
 
-        //! update slider
-        virtual void updateSlider( QStyle::SubControl );
-
         //! update add line arrow
         virtual void updateAddLineArrow( QStyle::SubControl );
 

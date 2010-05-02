@@ -82,6 +82,14 @@ namespace Oxygen
             { data.data()->setSubControlRect( control, rect ); }
         }
 
+        //! control rect
+        virtual void updateState( const QObject* object, bool state )
+        {
+            if( DataMap<ScrollBarData>::Value data = data_.find( object ) )
+            { data.data()->updateState( state ); }
+        }
+
+
         //! enability
         virtual void setEnabled( bool value )
         {
