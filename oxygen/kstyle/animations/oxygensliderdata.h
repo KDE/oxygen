@@ -47,22 +47,16 @@ namespace Oxygen
         SliderData( QObject* parent, QWidget* target, int duration ):
         GenericData( parent, target, duration ),
         sliderHovered_( false )
-        { target->installEventFilter( this ); }
+        {}
 
         //! destructor
         virtual ~SliderData( void )
         {}
 
-        //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
+        //! update state
+        virtual bool updateState( bool );
 
         protected:
-
-        //! hoverMoveEvent
-        virtual void hoverMoveEvent( QObject*, QEvent* );
-
-        //! hoverMoveEvent
-        virtual void hoverLeaveEvent( QObject*, QEvent* );
 
         //! hover
         virtual bool sliderHovered( void ) const

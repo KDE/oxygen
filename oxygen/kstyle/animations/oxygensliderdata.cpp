@@ -38,60 +38,11 @@ namespace Oxygen
 {
 
     //______________________________________________
-    bool SliderData::eventFilter( QObject* object, QEvent* event )
+    bool SliderData::updateState( bool state )
     {
-
-        if( object != target().data() )
-        { return GenericData::eventFilter( object, event ); }
-
-        // check event type
-        switch( event->type() )
-        {
-
-            case QEvent::HoverEnter:
-            case QEvent::HoverMove:
-            hoverMoveEvent( object, event );
-            break;
-
-            case QEvent::HoverLeave:
-            hoverLeaveEvent( object, event );
-            break;
-
-            default: break;
-
-        }
-
-        return GenericData::eventFilter( object, event );
-
-    }
-
-
-    //______________________________________________
-    void SliderData::hoverMoveEvent(  QObject* object, QEvent* event )
-    {
-
-        // try cast object to slider
-        QSlider* slider( qobject_cast<QSlider*>( object ) );
-        if( !slider || slider->isSliderDown() ) return;
-
-        // retrieve slider option
-        QStyleOptionSlider opt( qt_qsliderStyleOption( qobject_cast<QSlider*>( object ) ) );
-
-        // cast event
-        QHoverEvent *he = static_cast<QHoverEvent*>(event);
-        if( !he ) return;
-
-        QStyle::SubControl hoverControl = slider->style()->hitTestComplexControl(QStyle::CC_Slider, &opt, he->pos(), slider);
-        updateSlider( hoverControl );
-
-    }
-
-    //______________________________________________
-    void SliderData::hoverLeaveEvent(  QObject* object, QEvent* event )
-    {
-        Q_UNUSED( object );
-        Q_UNUSED( event );
-        updateSlider( QStyle::SC_None );
+        if( state == sliderHovered_ ) return false;
+        updateSlider( state ? QStyle::SC_SliderHandle : QStyle::SC_None );
+        return true;
     }
 
     //_____________________________________________________________________

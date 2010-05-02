@@ -49,6 +49,8 @@ namespace Oxygen
         virtual ~ScrollBarData( void )
         {}
 
+        //! event filter
+        virtual bool eventFilter( QObject*, QEvent* );
 
         //! needed to avoid warning about virtual function being hidden
         using SliderData::animation;

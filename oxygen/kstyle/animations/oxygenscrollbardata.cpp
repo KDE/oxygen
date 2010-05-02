@@ -36,9 +36,12 @@ Q_GUI_EXPORT QStyleOptionSlider qt_qscrollbarStyleOption(QScrollBar*);
 namespace Oxygen
 {
 
+    //______________________________________________
     ScrollBarData::ScrollBarData( QObject* parent, QWidget* target, int duration ):
         SliderData( parent, target, duration )
     {
+
+        target->installEventFilter( this );
 
         addLineData_.animation_ = new Animation( duration, this );
         subLineData_.animation_ = new Animation( duration, this );
@@ -49,6 +52,34 @@ namespace Oxygen
         // setup animation
         setupAnimation( addLineAnimation(), "addLineOpacity" );
         setupAnimation( subLineAnimation(), "subLineOpacity" );
+
+    }
+
+    //______________________________________________
+    bool ScrollBarData::eventFilter( QObject* object, QEvent* event )
+    {
+
+        if( object != target().data() )
+        { return SliderData::eventFilter( object, event ); }
+
+        // check event type
+        switch( event->type() )
+        {
+
+            case QEvent::HoverEnter:
+            case QEvent::HoverMove:
+            hoverMoveEvent( object, event );
+            break;
+
+            case QEvent::HoverLeave:
+            hoverLeaveEvent( object, event );
+            break;
+
+            default: break;
+
+        }
+
+        return SliderData::eventFilter( object, event );
 
     }
 

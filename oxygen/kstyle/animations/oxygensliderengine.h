@@ -66,6 +66,18 @@ namespace Oxygen
 
         }
 
+        //! update state
+        virtual bool updateState( const QObject* object, bool state )
+        {
+
+            if( DataMap<SliderData>::Value data = data_.find( object ) )
+            {
+
+                return data.data()->updateState( state );
+
+            } else return false;
+
+        }
 
         //! animation opacity
         virtual qreal opacity( const QObject* object )

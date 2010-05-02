@@ -2718,16 +2718,21 @@ bool OxygenStyle::drawSliderPrimitive(
     const QWidget* widget,
     KStyle::Option* kOpt) const
 {
-    Q_UNUSED( widget );
+
     Q_UNUSED( kOpt );
 
     const bool enabled = flags & State_Enabled;
     const bool mouseOver(enabled && (flags & State_MouseOver));
+
+    const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt);
+    animations().sliderEngine().updateState( widget, enabled && (slider->activeSubControls & SC_SliderHandle) );
+
     switch (primitive)
     {
         case Slider::HandleHor:
         case Slider::HandleVert:
         {
+
             StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
             if( enabled &&  animations().sliderEngine().isAnimated( widget ) )
             {
@@ -2736,7 +2741,7 @@ bool OxygenStyle::drawSliderPrimitive(
 
             } else {
 
-                if(const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt))
+                if(slider)
                 { if( (slider->activeSubControls & SC_SliderHandle) && mouseOver ) opts |= Hover; }
 
                 renderSlab(p, r, pal.color(QPalette::Button), opts);
@@ -4222,8 +4227,8 @@ void OxygenStyle::polish(QWidget* widget)
                 widget->setAttribute(Qt::WA_NoSystemBackground);
                 widget->setAttribute(Qt::WA_TranslucentBackground);
                 if( QLabel* label = qobject_cast<QLabel*>( widget ) )
-                { 
-                    label->setFrameStyle( QFrame::NoFrame ); 
+                {
+                    label->setFrameStyle( QFrame::NoFrame );
                     label->setMargin(5);
                 }
 
