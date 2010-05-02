@@ -29,7 +29,6 @@
 #include "oxygenwidgetstateengine.moc"
 
 #include "oxygenenabledata.h"
-#include "oxygenhoverdata.h"
 
 namespace Oxygen
 {
@@ -39,7 +38,7 @@ namespace Oxygen
     {
 
         if( !widget ) return false;
-        if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, new HoverData( this, widget, duration() ), enabled() ); }
+        if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, new WidgetStateData( this, widget, duration() ), enabled() ); }
         if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, new WidgetStateData( this, widget, duration() ), enabled() ); }
         if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, new EnableData( this, widget, duration() ), enabled() ); }
 
