@@ -15,7 +15,7 @@ kde4_add_ui_files(kstyle_oxygen_config_PART_SRCS
     ui/oxygenanimationconfigwidget.ui
     ui/oxygenfollowmouseanimationconfigbox.ui
     ui/oxygengenericanimationconfigbox.ui
-    ui/oxygenconf.ui
+    ui/oxygenstyleconfig.ui
 )
 
 kde4_add_plugin(kstyle_oxygen_config ${kstyle_oxygen_config_PART_SRCS})

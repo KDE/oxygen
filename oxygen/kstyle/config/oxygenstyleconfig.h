@@ -1,3 +1,5 @@
+#ifndef oxygenstyleconfig_h
+#define oxygenstyleconfig_h
 /*
 Copyright (C) 2003 Sandro Giessl <ceebx@users.sourceforge.net>
 
@@ -25,16 +27,13 @@ DEALINGS IN THE SOFTWARE.
 
 */
 
-#ifndef OXYGENCONF_H
-#define OXYGENCONF_H
-
-#include "ui_oxygenconf.h"
+#include "ui_oxygenstyleconfig.h"
 
 namespace Oxygen
 {
     class AnimationConfigWidget;
 
-    class StyleConfig: public QWidget, Ui::OxygenConfigDialog
+    class StyleConfig: public QWidget, Ui::OxygenStyleConfig
     {
 
         Q_OBJECT

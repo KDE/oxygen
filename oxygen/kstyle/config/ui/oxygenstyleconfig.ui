@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OxygenConfigDialog</class>
- <widget class="QWidget" name="OxygenConfigDialog">
+ <class>OxygenStyleConfig</class>
+ <widget class="QWidget" name="OxygenStyleConfig">
   <property name="geometry">
    <rect>
     <x>0</x>

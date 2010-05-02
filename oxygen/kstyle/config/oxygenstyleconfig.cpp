@@ -68,7 +68,6 @@ namespace Oxygen
         if( KDialog* dialog = qobject_cast<KDialog*>( parent ) )
         { dialog->showButtonSeparator( false ); }
 
-
         /* Stop 1+2: Set up the UI */
         setupUi(this);
 
