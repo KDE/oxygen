@@ -2725,7 +2725,7 @@ bool OxygenStyle::drawSliderPrimitive(
     const bool mouseOver(enabled && (flags & State_MouseOver));
 
     const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt);
-    animations().sliderEngine().updateState( widget, enabled && (slider->activeSubControls & SC_SliderHandle) );
+    animations().sliderEngine().updateState( widget, enabled && slider && (slider->activeSubControls & SC_SliderHandle) );
 
     switch (primitive)
     {
