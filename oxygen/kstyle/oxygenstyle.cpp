@@ -3725,11 +3725,6 @@ namespace Oxygen
         KStyle::Option* kOpt) const
     {
 
-        const bool enabled = flags & State_Enabled;
-        const bool mouseOver(enabled && (flags & State_MouseOver));
-        const bool sunken(enabled && (flags & State_Sunken));
-
-        StyleOptions opts = 0;
         switch (primitive)
         {
 
@@ -3737,393 +3732,443 @@ namespace Oxygen
             case Generic::ArrowDown:
             case Generic::ArrowLeft:
             case Generic::ArrowRight:
-            {
-                QRect r( rect );
-                p->save();
-
-                // define gradient and polygon for drawing arrow
-                QPolygonF a = genericArrow( primitive, ArrowNormal );
-
-                qreal penThickness = 1.6;
-                bool drawContrast = true;
-                KStyle::ColorOption* colorOpt = extractOption<KStyle::ColorOption*>(kOpt);
-                QColor color = colorOpt->color.color(pal);
-                QColor background = pal.color(QPalette::Window);
-
-                // customize color depending on widget
-                if( widgetType == WT_PushButton )
-                {
-
-                    r.translate( 0, 1 );
-
-                } else if( widgetType == WT_SpinBox ) {
-
-                    // get subcontrol type
-                    SubControl subControl;
-                    if( primitive == Generic::ArrowUp ) subControl = SC_SpinBoxUp;
-                    else if( primitive == Generic::ArrowDown ) subControl = SC_SpinBoxDown;
-                    else subControl = SC_None;
-
-                    // try cast option
-                    const QStyleOptionSpinBox *sbOpt = qstyleoption_cast<const QStyleOptionSpinBox *>(opt);
-                    const bool subControlHover( enabled && mouseOver && sbOpt && subControl != SC_None && (sbOpt->activeSubControls&subControl) );
-
-                    // check animation state
-                    animations().spinBoxEngine().updateState( widget, subControl, subControlHover );
-                    const bool animated( enabled && animations().spinBoxEngine().isAnimated( widget, subControl ) );
-                    qreal opacity( animations().spinBoxEngine().opacity( widget, subControl ) );
-
-                    if( animated )
-                    {
-
-                        QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
-                        color = KColorUtils::mix( pal.color( QPalette::Text ), highlight, opacity );
-
-                    } else if( subControlHover ) {
-
-                        color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
-
-                    } else {
-
-                        color = pal.color( QPalette::Text );
-
-                    }
-
-                    background = pal.color( QPalette::Background );
-                    drawContrast = false;
-
-                } else if( widgetType == WT_ComboBox ) {
-
-                    // combobox
-                    if( const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(opt) )
-                    {
-
-                        const QComboBox* comboBox = qobject_cast<const QComboBox*>( widget );
-                        bool empty( comboBox && !comboBox->count() );
-
-                        if( cb->editable )
-                        {
-
-                            if( enabled && empty ) color = pal.color( QPalette::Disabled,  QPalette::Text );
-                            else {
-
-                                // check animation state
-                                const bool subControlHover( enabled && mouseOver && cb->activeSubControls&SC_ComboBoxArrow );
-                                animations().comboBoxEngine().updateState( widget, Oxygen::AnimationHover, subControlHover  );
-
-                                const bool animated( enabled && animations().comboBoxEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-                                const qreal opacity( animations().comboBoxEngine().opacity( widget, Oxygen::AnimationHover ) );
-
-                                if( animated )
-                                {
-
-                                    QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
-                                    color = KColorUtils::mix( pal.color( QPalette::Text ), highlight, opacity );
-
-                                } else if( subControlHover ) {
-
-                                    color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
-
-                                } else {
-
-                                    color = pal.color( QPalette::Text );
-
-                                }
-
-                            }
-
-                            background = pal.color( QPalette::Background );
-
-                            if( enabled ) drawContrast = false;
-
-                        } else {
-
-                            if( enabled && empty ) color = pal.color( QPalette::Disabled,  QPalette::ButtonText );
-                            else color  = pal.color( QPalette::ButtonText );
-                            background = pal.color( QPalette::Button );
-
-                        }
-
-                    }
-                } else if( widgetType == WT_Header ) {
-
-                    if( mouseOver ) color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
-
-                } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
-
-
-                    // handle scrollbar arrow hover
-                    // first get relevant subcontrol type matching arrow
-                    SubControl subcontrol( SC_None );
-                    if( scrollbar->orientation() == Qt::Vertical )  subcontrol = (primitive == Generic::ArrowDown) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
-                    else if( opt->direction == Qt::LeftToRight ) subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarSubLine:SC_ScrollBarAddLine;
-                    else subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
-
-                    if( enabled )
-                    {
-
-                        bool hover( animations().scrollBarEngine().isHovered( widget, subcontrol ) );
-                        bool animated( animations().scrollBarEngine().isAnimated( widget, subcontrol ) );
-                        qreal opacity( animations().scrollBarEngine().opacity( widget, subcontrol ) );
-
-                        QPoint position( hover ? scrollbar->mapFromGlobal( QCursor::pos() ) : QPoint( -1, -1 ) );
-                        if( hover && r.contains( position ) )
-                        {
-                            // we need to update the arrow subcontrolRect on fly because there is no
-                            // way to get it from the styles directly, outside of repaint events
-                            animations().scrollBarEngine().setSubControlRect( widget, subcontrol, r );
-                        }
-
-                        if( r.intersects(  animations().scrollBarEngine().subControlRect( widget, subcontrol ) ) )
-                        {
-
-                            QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
-                            if( animated )
-                            {
-                                color = KColorUtils::mix( color, highlight, opacity );
-
-                            } else if( hover ) {
-
-                                color = highlight;
-
-                            }
-
-                        }
-
-                    }
-
-                } else if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
-
-                    QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
-                    color = pal.color( QPalette::WindowText );
-
-                    // toolbuttons
-                    if( tool->popupMode()==QToolButton::MenuButtonPopup )
-                    {
-
-                        if(!tool->autoRaise())
-                        {
-
-                            const bool hasFocus(enabled && (flags & State_HasFocus));
-
-                            // mouseOver has precedence over focus
-                            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-                            animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
-
-                            bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-                            bool focusAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
-
-                            qreal hoverOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
-                            qreal focusOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ) );
-
-                            color = pal.color( QPalette::ButtonText );
-                            background = pal.color( QPalette::Button );
-
-                            // arrow rect
-                            QRect frameRect( r.adjusted(-10,0,0,0) );
-                            if( (flags & State_On) || (flags & State_Sunken) )
-                            {
-                                frameRect.adjust( 2, 0, 0, -1 );
-                                opts |= Sunken;
-                            }
-
-                            if( hasFocus ) opts |= Focus;
-                            if( mouseOver ) opts |= Hover;
-
-                            // adjust opacity and animation mode
-                            qreal opacity( -1 );
-                            Oxygen::AnimationMode mode( Oxygen::AnimationNone );
-                            if( enabled && hoverAnimated )
-                            {
-                                opacity = hoverOpacity;
-                                mode = Oxygen::AnimationHover;
-
-                            } else if( enabled && !hasFocus && focusAnimated ) {
-
-                                opacity = focusOpacity;
-                                mode = Oxygen::AnimationFocus;
-
-                            }
-
-                            p->save();
-                            p->setClipRect( frameRect.adjusted( 6, 0, 0, 0 ), Qt::IntersectClip );
-                            renderSlab(p, frameRect, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right);
-                            p->restore();
-
-                            a.translate(-3,1);
-
-                            QColor color = pal.color(QPalette::Window);
-                            QColor light = _helper.calcLightColor(color);
-                            QColor dark = _helper.calcDarkColor(color);
-                            dark.setAlpha(200);
-                            light.setAlpha(150);
-                            int yTop( r.top()+3 );
-                            if( sunken ) yTop += 1;
-                            int yBottom( r.bottom()-3 );
-                            p->setPen(QPen(light,1));
-
-                            p->drawLine(r.x()-5, yTop+1, r.x()-5, yBottom);
-                            p->drawLine(r.x()-3, yTop+2, r.x()-3, yBottom);
-                            p->setPen(QPen(dark,1));
-                            p->drawLine(r.x()-4, yTop, r.x()-4, yBottom);
-
-                        }
-
-                        // handle arrow over animation
-                        if( const QStyleOptionToolButton *tbOption = qstyleoption_cast<const QStyleOptionToolButton *>(opt) )
-                        {
-
-                            const bool arrowHover( enabled && mouseOver && (tbOption->activeSubControls & SC_ToolButtonMenu));
-                            animations().toolButtonEngine().updateState( widget, Oxygen::AnimationHover, arrowHover );
-                            bool animated( enabled && animations().toolButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-                            qreal opacity( animations().toolButtonEngine().opacity( widget, Oxygen::AnimationHover) );
-
-                            if( animated ) color = KColorUtils::mix( color, highlight, opacity );
-                            else if( arrowHover ) color = highlight;
-                            else color = pal.color( QPalette::WindowText );
-
-                        }
-
-                    } else {
-
-                        // toolbutton animation
-                        // when the arrow is painted directly on the icon, button hover and arrow hover
-                        // are identical. The generic widget engine is used.
-                        animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
-                        bool animated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
-                        qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
-
-                        if( animated ) color = KColorUtils::mix( color, highlight, opacity );
-                        else if( mouseOver ) color = highlight;
-                        else color = pal.color( QPalette::WindowText );
-
-                        // smaller down arrow for menu indication on toolbuttons
-                        penThickness = 1.4;
-                        a = genericArrow( primitive, ArrowSmall );
-
-                    }
-                }
-
-                // white reflection
-                p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
-                p->setRenderHint(QPainter::Antialiasing);
-
-                qreal offset( qMin( penThickness, qreal(1.0)) );
-                if( drawContrast )
-                {
-
-                    p->translate(0,offset);
-                    p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                    p->drawPolyline(a);
-                    p->translate(0,-offset);
-
-                }
-
-                p->setPen(QPen( _helper.decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                p->drawPolyline(a);
-                p->restore();
-
-                return true;
-            }
+            { return drawGenericArrow( widgetType, primitive, opt, rect, pal, flags, p, widget, kOpt ); }
 
             case Generic::Frame:
-            {
-
-                QRect r( rect );
-                const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
-                const bool hoverHighlight( enabled && isInputWidget && (flags&State_MouseOver) );
-                const bool focusHighlight( enabled && isInputWidget && (flags&State_HasFocus) );
-
-                // assume focus takes precedence over hover
-                animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, focusHighlight );
-                animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, hoverHighlight && !focusHighlight );
-                if (flags & State_Sunken)
-                {
-                    QRect local( r );
-                    qreal opacity( -1 );
-                    Oxygen::AnimationMode mode = Oxygen::AnimationNone;
-                    if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
-                    {
-
-                        opacity = animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus  );
-                        mode = Oxygen::AnimationFocus;
-
-                    } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
-
-                        opacity = animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover );
-                        mode = Oxygen::AnimationHover;
-
-                    }
-
-                    if( const QAbstractScrollArea* scrollArea = qobject_cast<const QAbstractScrollArea*>( widget ) )
-                    {
-
-                        frameShadowManager().updateState( scrollArea, focusHighlight, hoverHighlight, opacity, mode );
-
-                    } else if( widget && widget->inherits( "Q3ListView" ) ) {
-
-                        frameShadowManager().updateState( widget, focusHighlight, hoverHighlight, opacity, mode );
-
-                    }
-
-
-                    _helper.renderHole(
-                        p, pal.color(QPalette::Window), local, focusHighlight, hoverHighlight,
-                        opacity, mode, TileSet::Ring );
-
-                } else if(widgetType == WT_Generic && (flags & State_Raised)) {
-
-                    renderSlab(p, r.adjusted(-2, -2, 2, 2), pal.color(QPalette::Background), NoFill);
-
-                }
-
-                return false;
-            }
+            { return drawGenericFrame( widgetType, primitive, opt, rect, pal, flags, p, widget, kOpt ); }
 
             case Generic::FocusIndicator:
-            {
-
-                if( const QAbstractItemView *aiv = qobject_cast<const QAbstractItemView*>(widget) )
-                {
-                    if( OxygenStyleConfigData::viewDrawFocusIndicator() &&
-                        aiv->selectionMode() != QAbstractItemView::SingleSelection &&
-                        aiv->selectionMode() != QAbstractItemView::NoSelection)
-                    {
-                        QRect r( rect );
-                        QLinearGradient lg(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
-                        lg.setColorAt(0.0, Qt::transparent);
-
-                        if (flags & State_Selected) {
-
-                            lg.setColorAt(0.2, pal.color(QPalette::BrightText));
-                            lg.setColorAt(0.8, pal.color(QPalette::BrightText));
-
-                        } else {
-
-                            lg.setColorAt(0.2, pal.color(QPalette::Text));
-                            lg.setColorAt(0.8, pal.color(QPalette::Text));
-
-                        }
-
-                        lg.setColorAt(1.0, Qt::transparent);
-
-                        p->save();
-                        p->setRenderHint(QPainter::Antialiasing, false);
-                        p->setPen(QPen(lg, 1));
-                        p->drawLine(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
-                        p->restore();
-
-                    }
-                }
-
-                // we don't want the stippled focus indicator in oxygen
-                if( !( widget && widget->inherits("Q3ListView") ) ) return true;
-                else return false;
-            }
+            { return drawFocusIndicator( widgetType, primitive, opt, rect, pal, flags, p, widget, kOpt ); }
 
             default: return false;
         }
 
+    }
+
+    //_________________________________________________________
+    bool Style::drawGenericArrow(
+        WidgetType widgetType,
+        int primitive,
+        const QStyleOption* opt,
+        const QRect &rect, const QPalette &pal,
+        State flags, QPainter* p,
+        const QWidget* widget,
+        KStyle::Option* kOpt) const
+    {
+
+        const bool enabled = flags & State_Enabled;
+        const bool mouseOver(enabled && (flags & State_MouseOver));
+        const bool sunken(enabled && (flags & State_Sunken));
+        StyleOptions opts = 0;
+
+        QRect r( rect );
+        p->save();
+
+        // define gradient and polygon for drawing arrow
+        QPolygonF a = genericArrow( primitive, ArrowNormal );
+
+        qreal penThickness = 1.6;
+        bool drawContrast = true;
+        KStyle::ColorOption* colorOpt = extractOption<KStyle::ColorOption*>(kOpt);
+        QColor color = colorOpt->color.color(pal);
+        QColor background = pal.color(QPalette::Window);
+
+        // customize color depending on widget
+        if( widgetType == WT_PushButton )
+        {
+
+            r.translate( 0, 1 );
+
+        } else if( widgetType == WT_SpinBox ) {
+
+            // get subcontrol type
+            SubControl subControl;
+            if( primitive == Generic::ArrowUp ) subControl = SC_SpinBoxUp;
+            else if( primitive == Generic::ArrowDown ) subControl = SC_SpinBoxDown;
+            else subControl = SC_None;
+
+            // try cast option
+            const QStyleOptionSpinBox *sbOpt = qstyleoption_cast<const QStyleOptionSpinBox *>(opt);
+            const bool subControlHover( enabled && mouseOver && sbOpt && subControl != SC_None && (sbOpt->activeSubControls&subControl) );
+
+            // check animation state
+            animations().spinBoxEngine().updateState( widget, subControl, subControlHover );
+            const bool animated( enabled && animations().spinBoxEngine().isAnimated( widget, subControl ) );
+            qreal opacity( animations().spinBoxEngine().opacity( widget, subControl ) );
+
+            if( animated )
+            {
+
+                QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                color = KColorUtils::mix( pal.color( QPalette::Text ), highlight, opacity );
+
+            } else if( subControlHover ) {
+
+                color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+
+            } else {
+
+                color = pal.color( QPalette::Text );
+
+            }
+
+            background = pal.color( QPalette::Background );
+            drawContrast = false;
+
+        } else if( widgetType == WT_ComboBox ) {
+
+            // combobox
+            if( const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(opt) )
+            {
+
+                const QComboBox* comboBox = qobject_cast<const QComboBox*>( widget );
+                bool empty( comboBox && !comboBox->count() );
+
+                if( cb->editable )
+                {
+
+                    if( enabled && empty ) color = pal.color( QPalette::Disabled,  QPalette::Text );
+                    else {
+
+                        // check animation state
+                        const bool subControlHover( enabled && mouseOver && cb->activeSubControls&SC_ComboBoxArrow );
+                        animations().comboBoxEngine().updateState( widget, Oxygen::AnimationHover, subControlHover  );
+
+                        const bool animated( enabled && animations().comboBoxEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                        const qreal opacity( animations().comboBoxEngine().opacity( widget, Oxygen::AnimationHover ) );
+
+                        if( animated )
+                        {
+
+                            QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                            color = KColorUtils::mix( pal.color( QPalette::Text ), highlight, opacity );
+
+                        } else if( subControlHover ) {
+
+                            color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+
+                        } else {
+
+                            color = pal.color( QPalette::Text );
+
+                        }
+
+                    }
+
+                    background = pal.color( QPalette::Background );
+
+                    if( enabled ) drawContrast = false;
+
+                } else {
+
+                    if( enabled && empty ) color = pal.color( QPalette::Disabled,  QPalette::ButtonText );
+                    else color  = pal.color( QPalette::ButtonText );
+                    background = pal.color( QPalette::Button );
+
+                }
+
+            }
+        } else if( widgetType == WT_Header ) {
+
+            if( mouseOver ) color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+
+        } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
+
+
+            // handle scrollbar arrow hover
+            // first get relevant subcontrol type matching arrow
+            SubControl subcontrol( SC_None );
+            if( scrollbar->orientation() == Qt::Vertical )  subcontrol = (primitive == Generic::ArrowDown) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
+            else if( opt->direction == Qt::LeftToRight ) subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarSubLine:SC_ScrollBarAddLine;
+            else subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
+
+            if( enabled )
+            {
+
+                bool hover( animations().scrollBarEngine().isHovered( widget, subcontrol ) );
+                bool animated( animations().scrollBarEngine().isAnimated( widget, subcontrol ) );
+                qreal opacity( animations().scrollBarEngine().opacity( widget, subcontrol ) );
+
+                QPoint position( hover ? scrollbar->mapFromGlobal( QCursor::pos() ) : QPoint( -1, -1 ) );
+                if( hover && r.contains( position ) )
+                {
+                    // we need to update the arrow subcontrolRect on fly because there is no
+                    // way to get it from the styles directly, outside of repaint events
+                    animations().scrollBarEngine().setSubControlRect( widget, subcontrol, r );
+                }
+
+                if( r.intersects(  animations().scrollBarEngine().subControlRect( widget, subcontrol ) ) )
+                {
+
+                    QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                    if( animated )
+                    {
+                        color = KColorUtils::mix( color, highlight, opacity );
+
+                    } else if( hover ) {
+
+                        color = highlight;
+
+                    }
+
+                }
+
+            }
+
+        } else if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
+
+            QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+            color = pal.color( QPalette::WindowText );
+
+            // toolbuttons
+            if( tool->popupMode()==QToolButton::MenuButtonPopup )
+            {
+
+                if(!tool->autoRaise())
+                {
+
+                    const bool hasFocus(enabled && (flags & State_HasFocus));
+
+                    // mouseOver has precedence over focus
+                    animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                    animations().widgetStateEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus && !mouseOver );
+
+                    bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                    bool focusAnimated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationFocus ) );
+
+                    qreal hoverOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
+                    qreal focusOpacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationFocus ) );
+
+                    color = pal.color( QPalette::ButtonText );
+                    background = pal.color( QPalette::Button );
+
+                    // arrow rect
+                    QRect frameRect( r.adjusted(-10,0,0,0) );
+                    if( (flags & State_On) || (flags & State_Sunken) )
+                    {
+                        frameRect.adjust( 2, 0, 0, -1 );
+                        opts |= Sunken;
+                    }
+
+                    if( hasFocus ) opts |= Focus;
+                    if( mouseOver ) opts |= Hover;
+
+                    // adjust opacity and animation mode
+                    qreal opacity( -1 );
+                    Oxygen::AnimationMode mode( Oxygen::AnimationNone );
+                    if( enabled && hoverAnimated )
+                    {
+                        opacity = hoverOpacity;
+                        mode = Oxygen::AnimationHover;
+
+                    } else if( enabled && !hasFocus && focusAnimated ) {
+
+                        opacity = focusOpacity;
+                        mode = Oxygen::AnimationFocus;
+
+                    }
+
+                    p->save();
+                    p->setClipRect( frameRect.adjusted( 6, 0, 0, 0 ), Qt::IntersectClip );
+                    renderSlab(p, frameRect, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right);
+                    p->restore();
+
+                    a.translate(-3,1);
+
+                    QColor color = pal.color(QPalette::Window);
+                    QColor light = _helper.calcLightColor(color);
+                    QColor dark = _helper.calcDarkColor(color);
+                    dark.setAlpha(200);
+                    light.setAlpha(150);
+                    int yTop( r.top()+3 );
+                    if( sunken ) yTop += 1;
+                    int yBottom( r.bottom()-3 );
+                    p->setPen(QPen(light,1));
+
+                    p->drawLine(r.x()-5, yTop+1, r.x()-5, yBottom);
+                    p->drawLine(r.x()-3, yTop+2, r.x()-3, yBottom);
+                    p->setPen(QPen(dark,1));
+                    p->drawLine(r.x()-4, yTop, r.x()-4, yBottom);
+
+                }
+
+                // handle arrow over animation
+                if( const QStyleOptionToolButton *tbOption = qstyleoption_cast<const QStyleOptionToolButton *>(opt) )
+                {
+
+                    const bool arrowHover( enabled && mouseOver && (tbOption->activeSubControls & SC_ToolButtonMenu));
+                    animations().toolButtonEngine().updateState( widget, Oxygen::AnimationHover, arrowHover );
+                    bool animated( enabled && animations().toolButtonEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                    qreal opacity( animations().toolButtonEngine().opacity( widget, Oxygen::AnimationHover) );
+
+                    if( animated ) color = KColorUtils::mix( color, highlight, opacity );
+                    else if( arrowHover ) color = highlight;
+                    else color = pal.color( QPalette::WindowText );
+
+                }
+
+            } else {
+
+                // toolbutton animation
+                // when the arrow is painted directly on the icon, button hover and arrow hover
+                // are identical. The generic widget engine is used.
+                animations().widgetStateEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
+                bool animated( animations().widgetStateEngine().isAnimated( widget, Oxygen::AnimationHover ) );
+                qreal opacity( animations().widgetStateEngine().opacity( widget, Oxygen::AnimationHover ) );
+
+                if( animated ) color = KColorUtils::mix( color, highlight, opacity );
+                else if( mouseOver ) color = highlight;
+                else color = pal.color( QPalette::WindowText );
+
+                // smaller down arrow for menu indication on toolbuttons
+                penThickness = 1.4;
+                a = genericArrow( primitive, ArrowSmall );
+
+            }
+        }
+
+        // white reflection
+        p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
+        p->setRenderHint(QPainter::Antialiasing);
+
+        qreal offset( qMin( penThickness, qreal(1.0)) );
+        if( drawContrast )
+        {
+
+            p->translate(0,offset);
+            p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            p->drawPolyline(a);
+            p->translate(0,-offset);
+
+        }
+
+        p->setPen(QPen( _helper.decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        p->drawPolyline(a);
+        p->restore();
+
+        return true;
+    }
+
+    //_________________________________________________________
+    bool Style::drawGenericFrame(
+        WidgetType widgetType,
+        int primitive,
+        const QStyleOption* opt,
+        const QRect &rect, const QPalette &pal,
+        State flags, QPainter* p,
+        const QWidget* widget,
+        KStyle::Option* kOpt) const
+    {
+
+        Q_UNUSED( primitive );
+        Q_UNUSED( opt );
+        Q_UNUSED( kOpt );
+
+        const bool enabled = flags & State_Enabled;
+
+        QRect r( rect );
+        const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
+        const bool hoverHighlight( enabled && isInputWidget && (flags&State_MouseOver) );
+        const bool focusHighlight( enabled && isInputWidget && (flags&State_HasFocus) );
+
+        // assume focus takes precedence over hover
+        animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, focusHighlight );
+        animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, hoverHighlight && !focusHighlight );
+        if (flags & State_Sunken)
+        {
+            QRect local( r );
+            qreal opacity( -1 );
+            Oxygen::AnimationMode mode = Oxygen::AnimationNone;
+            if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
+            {
+
+                opacity = animations().lineEditEngine().opacity( widget, Oxygen::AnimationFocus  );
+                mode = Oxygen::AnimationFocus;
+
+            } else if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationHover ) ) {
+
+                opacity = animations().lineEditEngine().opacity( widget, Oxygen::AnimationHover );
+                mode = Oxygen::AnimationHover;
+
+            }
+
+            if( const QAbstractScrollArea* scrollArea = qobject_cast<const QAbstractScrollArea*>( widget ) )
+            {
+
+                frameShadowManager().updateState( scrollArea, focusHighlight, hoverHighlight, opacity, mode );
+
+            } else if( widget && widget->inherits( "Q3ListView" ) ) {
+
+                frameShadowManager().updateState( widget, focusHighlight, hoverHighlight, opacity, mode );
+
+            }
+
+
+            _helper.renderHole(
+                p, pal.color(QPalette::Window), local, focusHighlight, hoverHighlight,
+                opacity, mode, TileSet::Ring );
+
+        } else if(widgetType == WT_Generic && (flags & State_Raised)) {
+
+            renderSlab(p, r.adjusted(-2, -2, 2, 2), pal.color(QPalette::Background), NoFill);
+
+        }
+
+        return false;
+    }
+
+    //_________________________________________________________
+    bool Style::drawFocusIndicator(
+        WidgetType widgetType,
+        int primitive,
+        const QStyleOption* opt,
+        const QRect &rect, const QPalette &pal,
+        State flags, QPainter* p,
+        const QWidget* widget,
+        KStyle::Option* kOpt) const
+    {
+
+        Q_UNUSED( widgetType );
+        Q_UNUSED( primitive );
+        Q_UNUSED( opt );
+        Q_UNUSED( kOpt );
+
+        if( const QAbstractItemView *aiv = qobject_cast<const QAbstractItemView*>(widget) )
+        {
+            if( OxygenStyleConfigData::viewDrawFocusIndicator() &&
+                aiv->selectionMode() != QAbstractItemView::SingleSelection &&
+                aiv->selectionMode() != QAbstractItemView::NoSelection)
+            {
+                QRect r( rect );
+                QLinearGradient lg(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
+                lg.setColorAt(0.0, Qt::transparent);
+
+                if (flags & State_Selected) {
+
+                    lg.setColorAt(0.2, pal.color(QPalette::BrightText));
+                    lg.setColorAt(0.8, pal.color(QPalette::BrightText));
+
+                } else {
+
+                    lg.setColorAt(0.2, pal.color(QPalette::Text));
+                    lg.setColorAt(0.8, pal.color(QPalette::Text));
+
+                }
+
+                lg.setColorAt(1.0, Qt::transparent);
+
+                p->save();
+                p->setRenderHint(QPainter::Antialiasing, false);
+                p->setPen(QPen(lg, 1));
+                p->drawLine(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
+                p->restore();
+
+            }
+        }
+
+        // we don't want the stippled focus indicator in oxygen
+        if( !( widget && widget->inherits("Q3ListView") ) ) return true;
+        else return false;
     }
 
     //______________________________________________________________

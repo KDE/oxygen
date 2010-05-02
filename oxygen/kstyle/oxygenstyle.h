@@ -166,6 +166,9 @@ namespace Oxygen
         virtual bool drawToolBarPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
         virtual bool drawToolButtonPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
         virtual bool drawGenericPrimitive(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+        virtual bool drawGenericArrow(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+        virtual bool drawGenericFrame(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+        virtual bool drawFocusIndicator(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
         //@}
 
         //! capacity bar
