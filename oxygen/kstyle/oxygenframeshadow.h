@@ -37,10 +37,8 @@
 #include <QtGui/QPaintEvent>
 #include <KColorScheme>
 
-#include "oxygenwidgetstateengine.h"
+#include "oxygenstylehelper.h"
 #include "tileset.h"
-
-#include "helper.h"
 
 namespace Oxygen
 {

@@ -55,9 +55,9 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
 
-#include "helper.h"
-#include "tileset.h"
+#include "oxygenstylehelper.h"
 #include "animations/oxygenwidgetstateengine.h"
+#include "tileset.h"
 
 namespace Oxygen
 {

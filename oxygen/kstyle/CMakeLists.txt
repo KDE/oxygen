@@ -9,7 +9,6 @@ include_directories (animations transitions ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs
 ########### next target ###############
 
 set(oxygen_PART_SRCS
-    helper.cpp
     animations/oxygenanimations.cpp
     animations/oxygenanimationdata.cpp
     animations/oxygenbaseengine.cpp
@@ -48,9 +47,10 @@ set(oxygen_PART_SRCS
     transitions/oxygentransitiondata.cpp
     transitions/oxygentransitions.cpp
     transitions/oxygentransitionwidget.cpp
-    oxygenframeshadow.cpp
-    oxygenwindowmanager.cpp
     oxygen.cpp
+    oxygenframeshadow.cpp
+    oxygenstylehelper.cpp
+    oxygenwindowmanager.cpp
 )
 
 kde4_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
