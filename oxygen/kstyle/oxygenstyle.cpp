@@ -31,8 +31,8 @@
    Boston, MA 02110-1301, USA.
  */
 
-#include "oxygen.h"
-#include "oxygen.moc"
+#include "oxygenstyle.h"
+#include "oxygenstyle.moc"
 
 #include <QtGui/QAbstractItemView>
 #include <QtGui/QApplication>
