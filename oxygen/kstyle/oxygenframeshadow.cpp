@@ -43,7 +43,7 @@ namespace Oxygen
 {
 
     //____________________________________________________________________________________
-    void FrameShadowManager::installShadows( QWidget* widget, OxygenStyleHelper& helper )
+    void FrameShadowManager::installShadows( QWidget* widget, StyleHelper& helper )
     {
 
         QWidget* parent( widget->parentWidget() );
@@ -126,7 +126,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadowManager::installShadow( QWidget* widget, OxygenStyleHelper& helper, ShadowArea area ) const
+    void FrameShadowManager::installShadow( QWidget* widget, StyleHelper& helper, ShadowArea area ) const
     {
         FrameShadow *shadow = new FrameShadow( area, helper );
         shadow->hide();

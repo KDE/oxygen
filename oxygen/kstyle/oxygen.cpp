@@ -87,7 +87,7 @@ extern "C" KIO::AuthInfo* _oxygen_init_kio() { return new KIO::AuthInfo(); }
 
 K_EXPORT_STYLE("Oxygen", Oxygen::Style)
 
-K_GLOBAL_STATIC_WITH_ARGS(OxygenStyleHelper, globalHelper, ("oxygen"))
+K_GLOBAL_STATIC_WITH_ARGS(Oxygen::StyleHelper, globalHelper, ("oxygen"))
 
 // ie glowwidth which we want to un-reserve space for in the tabs
 static const int gw = 1;

@@ -331,7 +331,7 @@ namespace Oxygen
         const QStyle::ControlElement CE_CapacityBar;
 
         //! helper
-        OxygenStyleHelper &_helper;
+        StyleHelper &_helper;
 
         TileSet *m_holeTileSet;
 

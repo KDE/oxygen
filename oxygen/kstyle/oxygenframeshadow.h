@@ -72,7 +72,7 @@ namespace Oxygen
         {}
 
         //! install shadows on given widget
-        virtual void installShadows( QWidget*, OxygenStyleHelper& );
+        virtual void installShadows( QWidget*, StyleHelper& );
 
         //! remove shadows from widget
         virtual void removeShadows( QWidget* );
@@ -89,7 +89,7 @@ namespace Oxygen
         virtual void updateShadowsGeometry( QObject* ) const;
 
         //! install shadow on given side
-        virtual void installShadow( QWidget*, OxygenStyleHelper&, ShadowArea ) const;
+        virtual void installShadow( QWidget*, StyleHelper&, ShadowArea ) const;
 
     };
 
@@ -102,7 +102,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit FrameShadow( ShadowArea area, OxygenStyleHelper& helper ):
+        explicit FrameShadow( ShadowArea area, StyleHelper& helper ):
             QWidget(0),
             _helper( helper ),
             _viewFocusBrush( KColorScheme::View, KColorScheme::FocusColor, helper.config() ),
@@ -158,7 +158,7 @@ namespace Oxygen
         };
 
         //! helper
-        OxygenStyleHelper& _helper;
+        StyleHelper& _helper;
 
         KStatefulBrush _viewFocusBrush;
         KStatefulBrush _viewHoverBrush;
