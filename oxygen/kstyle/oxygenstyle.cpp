@@ -38,6 +38,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
+#include <QtGui/QDial>
 #include <QtGui/QDockWidget>
 #include <QtGui/QGraphicsView>
 #include <QtGui/QGroupBox>
@@ -54,7 +55,6 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
 #include <QtGui/QToolButton>
-#include <QtGui/QDial>
 
 #include <QtDBus/QtDBus>
 
@@ -3023,9 +3023,11 @@ namespace Oxygen
 
                     const bool horizontal( primitive == Header::SectionHor );
                     const bool reverse( opt->direction == Qt::RightToLeft );
-                    const bool isFirst( ( primitive == Header::SectionHor ) && ( header->position == QStyleOptionHeader::Beginning ) );
+                    const bool isFirst( horizontal && ( header->position == QStyleOptionHeader::Beginning ) );
+                    const bool isCorner( widget && widget->inherits( "QTableCornerButton" ) );
 
-                    if( primitive == Header::SectionHor && header->section == 0 && !isFirst )
+                    // corner header lines
+                    if( isCorner )
                     {
 
                         if( widget ) _helper.renderWindowBackground(p, r, widget, pal);
