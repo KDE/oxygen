@@ -5,6 +5,7 @@ include_directories( ${KDE4_KDEUI_INCLUDES} )
 set( oxygen_demo_SOURCES
     oxygenbuttondemowidget.cpp
     oxygendemodialog.cpp
+    oxygenframedemowidget.cpp
     oxygeninputdemowidget.cpp
     oxygenmdidemowidget.cpp
     oxygensliderdemowidget.cpp
