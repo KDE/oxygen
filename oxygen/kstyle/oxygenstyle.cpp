@@ -6245,22 +6245,31 @@ namespace Oxygen
     //______________________________________________________________________________________________________________________________
     int Style::pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const
     {
-        switch(m) {
+        switch(m)
+        {
+
             case PM_DefaultTopLevelMargin: return 11;
-            case PM_DefaultChildMargin: return 4; // qcommon is 9;
-            case PM_DefaultLayoutSpacing: return 4; // qcommon is 6
+            case PM_DefaultChildMargin: return 4;
+            case PM_DefaultLayoutSpacing: return 4
             case PM_ButtonMargin: return 5;
 
             case PM_DefaultFrameWidth:
-            if (qobject_cast<const QLineEdit*>(widget)) return 3;
-            if (qobject_cast<const QFrame*>(widget) ||  qobject_cast<const QComboBox*>(widget)) return 3;
-            //else fall through
+            if( qobject_cast<const QLineEdit*>(widget) ) return 3;
+            else if( const QFrame* frame = qobject_cast<const QFrame*>(widget) )
+            {
+                return frame->frameShadow() == QFrame::Raised ? 4:3;
+
+            } else if( qobject_cast<const QComboBox*>(widget)) return 3;
+            break;
 
             // spacing between widget and scrollbars
             case PM_ScrollView_ScrollBarSpacing: return 1;
 
-            default: return KStyle::pixelMetric(m,opt,widget);
+            default: break;
         }
+
+        return KStyle::pixelMetric(m,opt,widget);
+
     }
 
     //______________________________________________________________________________________________________________________________
