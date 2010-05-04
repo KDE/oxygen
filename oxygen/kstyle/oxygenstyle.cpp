@@ -2293,10 +2293,6 @@ namespace Oxygen
 
                         }
 
-                    } else {
-
-                        renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Ring);
-
                     }
 
                     return true;
@@ -2348,10 +2344,6 @@ namespace Oxygen
 
                         }
 
-                    } else {
-
-                        renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Ring);
-
                     }
                     return true;
 
@@ -2367,12 +2359,7 @@ namespace Oxygen
                         if( tw ) slabRect.setTop( qMin( slabRect.top(), tw->rect().bottom() - rh -7 ) );
                         renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
 
-                    } else {
-
-                        renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Ring);
-
                     }
-
                     return true;
 
                     case QTabBar::RoundedEast:
@@ -2387,12 +2374,7 @@ namespace Oxygen
                         if( tw ) slabRect.setTop( qMin( slabRect.top(), tw->rect().bottom() - rh -7 ) );
                         renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
 
-                    } else {
-
-                        renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Ring);
-
                     }
-
                     return true;
 
                     default: return true;
@@ -6557,10 +6539,12 @@ namespace Oxygen
 
             case SE_TabWidgetTabContents:
             {
-                QRect r = KStyle::subElementRect(sr, opt, widget);
                 if (const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
                 {
                     bool tabBarVisible( !twf->tabBarSize.isEmpty() );
+                    if( !tabBarVisible ) return opt->rect;
+
+                    QRect r = KStyle::subElementRect(sr, opt, widget);
                     switch (twf->shape)
                     {
                         case QTabBar::RoundedNorth:
@@ -6589,9 +6573,10 @@ namespace Oxygen
 
                     }
 
-                }
+                    return r;
 
-                return r;
+                } else return KStyle::subElementRect(sr, opt, widget);
+
             }
 
             case SE_TabWidgetTabPane:
