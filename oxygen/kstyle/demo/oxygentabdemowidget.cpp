@@ -29,6 +29,7 @@
 #include "oxygentabwidget.moc"
 
 #include <QtGui/QToolButton>
+#include <KIcon>
 
 namespace Oxygen
 {

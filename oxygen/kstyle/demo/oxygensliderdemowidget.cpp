@@ -28,7 +28,6 @@
 #include "oxygensliderdemowidget.moc"
 
 #include <QtGui/QMenu>
-#include <KIcon>
 
 namespace Oxygen
 {

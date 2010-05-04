@@ -38,6 +38,7 @@ namespace Oxygen
 {
 
     class ButtonDemoWidget;
+    class FrameDemoWidget;
     class InputDemoWidget;
     class MdiDemoWidget;
     class SliderDemoWidget;
@@ -79,6 +80,9 @@ namespace Oxygen
 
         //! input widgets
         InputDemoWidget* inputDemoWidget_;
+
+        //! input widgets
+        FrameDemoWidget* frameDemoWidget_;
 
         //! tab widget
         TabDemoWidget* tabDemoWidget_;

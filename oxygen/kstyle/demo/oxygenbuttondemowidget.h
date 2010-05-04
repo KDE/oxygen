@@ -27,8 +27,6 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <KIcon>
-
 #include <QtGui/QWidget>
 #include <QtGui/QToolButton>
 #include <QtCore/QList>

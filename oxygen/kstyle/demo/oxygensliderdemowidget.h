@@ -27,8 +27,6 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <KIcon>
-
 #include <QtGui/QWidget>
 
 #include "ui_oxygensliderdemowidget.h"

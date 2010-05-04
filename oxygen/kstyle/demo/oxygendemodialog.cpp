@@ -28,6 +28,7 @@
 
 #include "oxygenbuttondemowidget.h"
 #include "oxygeninputdemowidget.h"
+#include "oxygenframedemowidget.h"
 #include "oxygenmdidemowidget.h"
 #include "oxygensliderdemowidget.h"
 #include "oxygentabdemowidget.h"
@@ -101,6 +102,15 @@ namespace Oxygen
             page->setName( "Lists" );
             page->setIcon( KIcon( "view-list-tree" ) );
             page->setHeader( "Shows the appearance of lists, trees and tables" );
+            pageWidget_->addPage( page );
+        }
+
+        // frames
+        {
+            page = new KPageWidgetItem( frameDemoWidget_ = new FrameDemoWidget() );
+            page->setName( "Frames" );
+            page->setIcon( KIcon( "draw-rectangle" ) );
+            page->setHeader( "Shows the appearance of tab widgets" );
             pageWidget_->addPage( page );
         }
 
