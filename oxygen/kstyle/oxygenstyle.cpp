@@ -6250,7 +6250,7 @@ namespace Oxygen
 
             case PM_DefaultTopLevelMargin: return 11;
             case PM_DefaultChildMargin: return 4;
-            case PM_DefaultLayoutSpacing: return 4
+            case PM_DefaultLayoutSpacing: return 4;
             case PM_ButtonMargin: return 5;
 
             case PM_DefaultFrameWidth:
