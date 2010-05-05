@@ -889,7 +889,7 @@ namespace Oxygen
 
                 p.setBrush( Qt::NoBrush );
                 p.setPen( QPen( blend, 1 ) );
-                p.drawEllipse( 3, 3, 8, 8 );
+                p.drawEllipse( 3, 3.5, 8, 7 );
                 p.setPen( Qt::NoPen );
             }
 
