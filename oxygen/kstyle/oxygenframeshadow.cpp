@@ -41,6 +41,62 @@
 
 namespace Oxygen
 {
+    //____________________________________________________________________________________
+    bool FrameShadowManager::registerWidget( QWidget* widget, StyleHelper& helper )
+    {
+
+        if( !widget ) return false;
+        if( isRegistered( widget ) ) return false;
+
+        bool accepted = false;
+        if( const QAbstractScrollArea* scrollArea = qobject_cast<const QAbstractScrollArea*>( widget ) )
+        {
+            // shadows
+            if( scrollArea->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
+            { accepted = true; }
+
+        } else if( widget->inherits( "Q3ListView" ) ) {
+
+            QFrame* frame = qobject_cast<QFrame*>( widget );
+            if( frame && frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
+            { accepted = true; }
+
+
+        } else if( QFrame* frame = qobject_cast<QFrame*>( widget ) ) {
+
+            if( frame &&
+                frame->parentWidget() && frame->parentWidget()->inherits( "KTextEditor::View" ) &&
+                frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
+            { accepted = true;  }
+
+        }
+
+        if( !accepted ) return false;
+
+        // store in set
+        _registeredWidgets.insert( widget );
+
+        // catch object destruction
+        connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( widgetDestroyed( QObject* ) ) );
+
+        // install shadow
+        installShadows( widget, helper );
+
+        return true;
+
+    }
+
+    //____________________________________________________________________________________
+    void FrameShadowManager::unregisterWidget( QWidget* widget )
+    {
+        if( !isRegistered( widget ) ) return;
+        _registeredWidgets.remove( widget );
+        removeShadows( widget );
+    }
+
+    //____________________________________________________________________________________
+    void FrameShadowManager::widgetDestroyed( QObject* o )
+    { _registeredWidgets.remove( o ); }
 
     //____________________________________________________________________________________
     void FrameShadowManager::installShadows( QWidget* widget, StyleHelper& helper )

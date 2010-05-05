@@ -32,6 +32,7 @@
 
 #include <QtCore/QEvent>
 #include <QtCore/QObject>
+#include <QtCore/QSet>
 
 #include <QtGui/QWidget>
 #include <QtGui/QPaintEvent>
@@ -69,11 +70,15 @@ namespace Oxygen
         virtual ~FrameShadowManager( void )
         {}
 
-        //! install shadows on given widget
-        virtual void installShadows( QWidget*, StyleHelper& );
+        //! register widget
+        bool registerWidget( QWidget*, StyleHelper& );
 
-        //! remove shadows from widget
-        virtual void removeShadows( QWidget* );
+        //! unregister
+        void unregisterWidget( QWidget* );
+
+        //! true if widget is registered
+        bool isRegistered( const QWidget* widget ) const
+        { return _registeredWidgets.contains( widget ); }
 
         //! event filter
         virtual bool eventFilter( QObject*, QEvent*);
@@ -83,11 +88,27 @@ namespace Oxygen
 
         protected:
 
+        //! install shadows on given widget
+        virtual void installShadows( QWidget*, StyleHelper& );
+
+        //! remove shadows from widget
+        virtual void removeShadows( QWidget* );
+
         //! update shadows geometry
         virtual void updateShadowsGeometry( QObject* ) const;
 
         //! install shadow on given side
         virtual void installShadow( QWidget*, StyleHelper&, ShadowArea ) const;
+
+        protected slots:
+
+        //! triggered by object destruction
+        void widgetDestroyed( QObject* );
+
+        private:
+
+        //! set of registered widgets
+        QSet<const QObject*> _registeredWidgets;
 
     };
 

@@ -4082,16 +4082,8 @@ namespace Oxygen
 
             }
 
-            if( const QAbstractScrollArea* scrollArea = qobject_cast<const QAbstractScrollArea*>( widget ) )
-            {
-
-                frameShadowManager().updateState( scrollArea, focusHighlight, hoverHighlight, opacity, mode );
-
-            } else if( widget && widget->inherits( "Q3ListView" ) ) {
-
-                frameShadowManager().updateState( widget, focusHighlight, hoverHighlight, opacity, mode );
-
-            }
+            if( frameShadowManager().isRegistered( widget ) )
+            { frameShadowManager().updateState( widget, focusHighlight, hoverHighlight, opacity, mode ); }
 
             _helper.renderHole(
                 p, pal.color(QPalette::Window), local, focusHighlight, hoverHighlight,
@@ -4232,14 +4224,11 @@ namespace Oxygen
         animations().registerWidget( widget );
         transitions().registerWidget( widget );
         windowManager().registerWidget( widget );
+        frameShadowManager().registerWidget( widget, _helper );
 
         // scroll areas
         if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>(widget) )
         {
-
-            // shadows
-            if( scrollArea->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
-            { frameShadowManager().installShadows( scrollArea, _helper ); }
 
             polishScrollArea( scrollArea );
 
@@ -4247,9 +4236,6 @@ namespace Oxygen
 
             widget->installEventFilter(this);
             widget->setAttribute(Qt::WA_Hover);
-            QFrame* frame = qobject_cast<QFrame*>( widget );
-            if( frame && frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
-            { frameShadowManager().installShadows( widget, _helper ); }
 
         }
 
@@ -4429,17 +4415,12 @@ namespace Oxygen
         animations().unregisterWidget( widget );
         transitions().unregisterWidget( widget );
         windowManager().unregisterWidget( widget );
+        frameShadowManager().unregisterWidget( widget );
 
-        if( widget && widget->inherits( "QAbstractScrollArea" ) )
-        {
-
-            frameShadowManager().removeShadows( widget );
-
-        } else if( widget && widget->inherits( "Q3ListView" ) ) {
+        if( widget && widget->inherits( "Q3ListView" ) ) {
 
             widget->removeEventFilter(this);
             widget->setAttribute(Qt::WA_Hover, false );
-            frameShadowManager().removeShadows( widget );
 
         }
 
