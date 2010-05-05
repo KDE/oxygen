@@ -75,7 +75,7 @@ namespace Oxygen
 
         // groupbox
         QGroupBox* groupBox = new QGroupBox( i18n( "GroupBox" ), widget );
-        boxLayout->addWidget( groupBox );
+        boxLayout->addWidget( groupBox, 1 );
         {
             QVBoxLayout* vLayout = new QVBoxLayout();
             vLayout->setMargin(0);
@@ -86,7 +86,7 @@ namespace Oxygen
         // frame
         frame = new QFrame( widget );
         frame->setFrameStyle( QFrame::StyledPanel|QFrame::Raised );
-        boxLayout->addWidget( frame );
+        boxLayout->addWidget( frame, 1 );
         QButtonGroup* group = new QButtonGroup( this );
 
         {
@@ -116,7 +116,7 @@ namespace Oxygen
         // tab widget
         KTabWidget* tabWidget = new KTabWidget( widget );
         tabWidget->addTab( new QWidget(), i18n( "Tab Widget" ) );
-        boxLayout->addWidget( tabWidget );
+        boxLayout->addWidget( tabWidget, 1 );
 
         // connections
         connect( comboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( updateLayoutDirection( int ) ) );
