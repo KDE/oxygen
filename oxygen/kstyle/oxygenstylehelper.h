@@ -89,18 +89,18 @@ namespace Oxygen
         //! generic hole
         void renderHole(QPainter *p, const QColor& color, const QRect &r,
             bool focus=false, bool hover=false,
-            TileSet::Tiles posFlags = TileSet::Ring)
-        { renderHole( p, color, r, focus, hover, -1, Oxygen::AnimationNone, posFlags ); }
+            TileSet::Tiles posFlags = TileSet::Ring, bool outline = false)
+        { renderHole( p, color, r, focus, hover, -1, Oxygen::AnimationNone, posFlags, outline ); }
 
         //! generic hole (with animated glow)
         void renderHole(QPainter *p, const QColor&, const QRect &r,
             bool focus, bool hover,
             qreal opacity, Oxygen::AnimationMode animationMode,
-            TileSet::Tiles posFlags = TileSet::Ring);
+            TileSet::Tiles posFlags = TileSet::Ring, bool outline = false);
 
-        TileSet *hole(const QColor&, qreal shade, int size = 7);
+        TileSet *hole(const QColor&, qreal shade, int size = 7, bool outline = false);
         TileSet *holeFlat(const QColor&, qreal shade, int size = 7);
-        TileSet *holeFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
+        TileSet *holeFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7, bool outline = false);
 
         TileSet *groove(const QColor&, qreal shade, int size = 7);
 
@@ -134,6 +134,7 @@ namespace Oxygen
 
         Oxygen::Cache<QPixmap> m_dialSlabCache;
         Oxygen::Cache<QPixmap> m_roundSlabCache;
+        Oxygen::Cache<TileSet> m_holeFocusedCache;
 
         //! progressbar cache
         QCache<quint64, QPixmap> m_progressBarCache;

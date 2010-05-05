@@ -2787,7 +2787,8 @@ namespace Oxygen
 
             case Generic::Frame:
             {
-                QRect fr( r.adjusted(0,1,0,-1) );
+                //QRect fr( r.adjusted(0,1,0,-1) );
+                QRect fr( r.adjusted(1,1,-1,-1) );
                 p->save();
                 p->setRenderHint(QPainter::Antialiasing);
                 p->setPen(Qt::NoPen);
@@ -2805,7 +2806,8 @@ namespace Oxygen
                 } else {
 
                     // normal spinbox
-                    _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
+                    //_helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
+                    _helper.fillHole(*p, r.adjusted( 0, -1, 0, 0 ) );
                     p->restore();
 
                     // TODO use widget background role?
@@ -2920,7 +2922,8 @@ namespace Oxygen
 
                 } else {
 
-                    QRect fr = r.adjusted(0,1,0,-1);
+                    //QRect fr = r.adjusted(0,1,0,-1);
+                    QRect fr = r.adjusted(1,1,-1,-1);
 
                     // input area
                     p->save();
@@ -2938,7 +2941,8 @@ namespace Oxygen
                     } else {
 
 
-                        _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
+                        //_helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
+                        _helper.fillHole(*p, r.adjusted( 0, -1, 0, 0 ) );
                         p->restore();
 
                         QColor local( pal.color(QPalette::Window) );
@@ -3184,7 +3188,8 @@ namespace Oxygen
                 const bool hasFocus = flags & State_HasFocus;
                 const QColor inputColor =  pal.color(QPalette::Window);
 
-                QRect fr( r.adjusted(0,1,0,-1) );
+                //QRect fr( r.adjusted(0,1,0,-1) );
+                QRect fr( r.adjusted(1,1,-1,-1) );
 
                 animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, mouseOver );
                 animations().lineEditEngine().updateState( widget, Oxygen::AnimationFocus, hasFocus );
@@ -3221,7 +3226,8 @@ namespace Oxygen
                         p->setPen(Qt::NoPen);
                         p->setBrush(inputBrush);
 
-                        _helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
+                        //_helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
+                        _helper.fillHole(*p, r.adjusted( 0, -1, 0, 0 ) );
                         drawPrimitive(PE_FrameLineEdit, panel, p, widget);
 
                         p->restore();
@@ -4060,7 +4066,7 @@ namespace Oxygen
         animations().lineEditEngine().updateState( widget, Oxygen::AnimationHover, hoverHighlight && !focusHighlight );
         if (flags & State_Sunken)
         {
-            QRect local( r );
+            QRect local( r.adjusted( 1, 1, -1, -1 ) );
             qreal opacity( -1 );
             Oxygen::AnimationMode mode = Oxygen::AnimationNone;
             if( enabled && animations().lineEditEngine().isAnimated( widget, Oxygen::AnimationFocus ) )
@@ -4087,10 +4093,9 @@ namespace Oxygen
 
             }
 
-
             _helper.renderHole(
                 p, pal.color(QPalette::Window), local, focusHighlight, hoverHighlight,
-                opacity, mode, TileSet::Ring );
+                opacity, mode, TileSet::Ring, true );
 
         } else if(widgetType == WT_Generic && (flags & State_Raised)) {
 

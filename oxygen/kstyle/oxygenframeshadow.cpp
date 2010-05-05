@@ -284,28 +284,29 @@ namespace Oxygen
             case Top:
             {
                 tiles = TileSet::Left|TileSet::Top|TileSet::Right;
-                r.adjust( -3, -3, 3, 0 );
+                //r.adjust( -3, -3, 3, 0 );
+                r.adjust( -2, -2, 2, -1 );
                 break;
             }
 
             case Bottom:
             {
                 tiles = TileSet::Left|TileSet::Bottom|TileSet::Right;
-                r.adjust( -3, 0, 3, 3 );
+                r.adjust( -2, 1, 2, 2 );
                 break;
             }
 
             case Left:
             {
                 tiles = TileSet::Left;
-                r.adjust( -3, -3, 0, 3 );
+                r.adjust( -2, -3, -1, 3 );
                 break;
             }
 
             case Right:
             {
                 tiles = TileSet::Right;
-                r.adjust( 0, -3, 3, 3 );
+                r.adjust( -1, -3, 2, 3 );
                 break;
             }
 
