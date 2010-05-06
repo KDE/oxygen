@@ -1171,25 +1171,25 @@ namespace Oxygen
 
         const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>(opt);
         Qt::Orientation orientation = pbOpt? pbOpt->orientation : Qt::Horizontal;
-
+        
+        // adjust rect to match other sunken frames
         QRect rect = r;
-
+        if( orientation == Qt::Horizontal ) rect.adjust( 1, 0, -1, 0 );
+        else rect.adjust( 0, 1, 0, -1 );
+        
         switch (primitive)
         {
             case ProgressBar::Groove:
             {
-                renderScrollBarHole(p, r, pal.color(QPalette::Window), orientation);
+                renderScrollBarHole(p, rect, pal.color(QPalette::Window), orientation);
                 return true;
             }
 
             case ProgressBar::Indicator:
-            {
-                if (r.width() < 2 || r.height() < 2) return true;
-            }
-
             case ProgressBar::BusyIndicator:
             {
 
+                if (r.width() < 2 || r.height() < 2) return true;
                 QPixmap pixmap( _helper.progressBarIndicator( pal, rect ) );
                 p->drawPixmap( rect.adjusted(-1, -2, 0, 0).topLeft(), pixmap );
                 return true;
@@ -2748,10 +2748,10 @@ namespace Oxygen
 
                 if (horizontal) {
                     int center = r.y()+r.height()/2;
-                    _helper.groove(pal.color(QPalette::Window), 0.0)->render( QRect(r.left()+4, center-2, r.width()-8, 5), p);
+                    _helper.groove(pal.color(QPalette::Window), 0.0)->render( QRect(r.left()+1, center-2, r.width()-2, 5), p);
                 } else {
                     int center = r.x()+r.width()/2;
-                    _helper.groove(pal.color(QPalette::Window), 0.0)->render(  QRect(center-2, r.top()+4, 5, r.height()-8), p);
+                    _helper.groove(pal.color(QPalette::Window), 0.0)->render(  QRect(center-2, r.top()+1, 5, r.height()-2), p);
 
                 }
 
