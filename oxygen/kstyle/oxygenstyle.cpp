@@ -1175,7 +1175,7 @@ namespace Oxygen
         // adjust rect to match other sunken frames
         QRect rect = r;
         if( orientation == Qt::Horizontal ) rect.adjust( 1, 0, -1, 0 );
-        else rect.adjust( 0, 1, 0, -1 );
+        else rect.adjust( 0, 2, 0, -2 );
         
         switch (primitive)
         {
@@ -2747,12 +2747,15 @@ namespace Oxygen
                 bool horizontal = primitive == Slider::GrooveHor;
 
                 if (horizontal) {
+                    
                     int center = r.y()+r.height()/2;
-                    _helper.groove(pal.color(QPalette::Window), 0.0)->render( QRect(r.left()+1, center-2, r.width()-2, 5), p);
-                } else {
-                    int center = r.x()+r.width()/2;
-                    _helper.groove(pal.color(QPalette::Window), 0.0)->render(  QRect(center-2, r.top()+1, 5, r.height()-2), p);
+                    _helper.groove(pal.color(QPalette::Window), 0.0)->render( QRect( r.left()+1, center-2, r.width()-2, 5  ), p);
 
+                } else {
+                
+                    int center = r.x()+r.width()/2;
+                    _helper.groove(pal.color(QPalette::Window), 0.0)->render( QRect( center-2, r.top()+1, 5, r.height()-2 ), p);
+                
                 }
 
                 return true;
@@ -4937,6 +4940,7 @@ namespace Oxygen
         bool horizontal = orientation == Qt::Horizontal;
 
         // draw the hole as background
+        //const QRect holeRect = horizontal ? r.adjusted(-4,0,4,0) : r.adjusted(0,-3,0,4);
         const QRect holeRect = horizontal ? r.adjusted(-4,0,4,0) : r.adjusted(0,-3,0,4);
         renderScrollBarHole(p, holeRect,
             pal.color(QPalette::Window), orientation,
