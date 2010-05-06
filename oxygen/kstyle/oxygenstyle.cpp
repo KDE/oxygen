@@ -1,6 +1,7 @@
 // krazy:excludeall=qclasses
 
 /* Oxygen widget style for KDE 4
+   Copyright (C) 2009-2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
    Copyright (C) 2008 Long Huynh Huu <long.upcase@googlemail.com>
    Copyright (C) 2007-2008 Casper Boemann <cbr@boemann.dk>
    Copyright (C) 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
@@ -148,8 +149,8 @@ namespace Oxygen
         setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5); //also used by toolbutton
         setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 11);
         setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 11);
-        setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, 0);
-        setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, -1);
+        setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, -1);
+        setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 0);
         setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 0);
         setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Left, 0);
         setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin + Right, 0);
@@ -232,8 +233,8 @@ namespace Oxygen
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 6);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 5);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 2);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 4);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 3);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::FocusMargin, 0);
 
         setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
@@ -689,7 +690,8 @@ namespace Oxygen
                             Qt::AlignLeft | Qt::AlignVCenter,
                             iconRect.size(), editRect);
 
-                        drawItemPixmap(p, iconRect.translated(0,1), Qt::AlignCenter, pixmap);
+                        //drawItemPixmap(p, iconRect.translated(0,1), Qt::AlignCenter, pixmap);
+                        drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
 
                         if (cb->direction == Qt::RightToLeft) editRect.translate(-4 - cb->iconSize.width(), 0);
                         else editRect.translate(cb->iconSize.width() + 4, 0);
@@ -697,7 +699,7 @@ namespace Oxygen
 
                     if (!cb->currentText.isEmpty() && !cb->editable)
                     {
-                        if( cb->currentIcon.isNull() ) editRect.translate( 0, 1 );
+                        if( !cb->currentIcon.isNull() ) editRect.translate( 0, -1 );
                         drawItemText(
                             p, editRect.adjusted(1, 0, -1, 0),
                             visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
@@ -3973,9 +3975,9 @@ namespace Oxygen
                     QColor dark = _helper.calcDarkColor(color);
                     dark.setAlpha(200);
                     light.setAlpha(150);
-                    int yTop( r.top()+3 );
+                    int yTop( r.top()+2 );
                     if( sunken ) yTop += 1;
-                    int yBottom( r.bottom()-3 );
+                    int yBottom( r.bottom()-4 );
                     p->setPen(QPen(light,1));
 
                     p->drawLine(r.x()-5, yTop+1, r.x()-5, yBottom);
@@ -4790,6 +4792,7 @@ namespace Oxygen
     {
         if ((r.width() <= 0) || (r.height() <= 0)) return;
 
+        r.translate(0,-1);
         if (opts & Sunken) r.adjust(-1,0,1,2);
 
         // fill
@@ -4857,6 +4860,7 @@ namespace Oxygen
     {
         if ((r.width() <= 0) || (r.height() <= 0)) return;
 
+        r.translate(0,-1);
         if (opts & Sunken) r.adjust(-1,0,1,2);
 
         // fill
@@ -5147,6 +5151,7 @@ namespace Oxygen
             }
 
             p->save();
+            if( !sunken ) p->translate(0, -1);
             p->setRenderHint(QPainter::Antialiasing);
             qreal offset( qMin( penThickness, qreal(1.0) ) );
             if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
