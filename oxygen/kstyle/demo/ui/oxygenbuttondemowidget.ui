@@ -118,19 +118,22 @@
       </item>
       <item row="0" column="3">
        <widget class="KComboBox" name="kcombobox">
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
         <item>
          <property name="text">
-          <string>First Item</string>
+          <string>Small</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Second Item</string>
+          <string>Normal</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Third Item</string>
+          <string>Larg</string>
          </property>
         </item>
        </widget>
