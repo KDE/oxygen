@@ -231,10 +231,13 @@ namespace Oxygen
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Bot, 0);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 6);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 4);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 3);
+
+        // negative margins are used to ensure that the arrow is well centered
+        // it also ensures that the arrow clickable area is as large as possible
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, -4);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 0);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 0);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, -1);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::FocusMargin, 0);
 
         setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
