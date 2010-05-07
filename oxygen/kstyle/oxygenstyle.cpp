@@ -1173,12 +1173,12 @@ namespace Oxygen
 
         const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>(opt);
         Qt::Orientation orientation = pbOpt? pbOpt->orientation : Qt::Horizontal;
-        
+
         // adjust rect to match other sunken frames
         QRect rect = r;
         if( orientation == Qt::Horizontal ) rect.adjust( 1, 0, -1, 0 );
         else rect.adjust( 0, 2, 0, -2 );
-        
+
         switch (primitive)
         {
             case ProgressBar::Groove:
@@ -2749,15 +2749,15 @@ namespace Oxygen
                 bool horizontal = primitive == Slider::GrooveHor;
 
                 if (horizontal) {
-                    
+
                     int center = r.y()+r.height()/2;
                     _helper.groove(pal.color(QPalette::Window), 0.0)->render( QRect( r.left()+1, center-2, r.width()-2, 5  ), p);
 
                 } else {
-                
+
                     int center = r.x()+r.width()/2;
                     _helper.groove(pal.color(QPalette::Window), 0.0)->render( QRect( center-2, r.top()+1, 5, r.height()-2 ), p);
-                
+
                 }
 
                 return true;
@@ -3853,6 +3853,7 @@ namespace Oxygen
                     background = pal.color( QPalette::Background );
 
                     if( enabled ) drawContrast = false;
+                    r.translate( 0, 1 );
 
                 } else {
 
@@ -7029,15 +7030,7 @@ namespace Oxygen
 
                 }
 
-                // background
-                int splitY = qMin(200, 3*r.height()/4);
-
-                QRect upperRect = QRect(0, 0, r.width(), splitY);
-                QPixmap tile = _helper.verticalGradient(color, splitY);
-                p.drawTiledPixmap(upperRect, tile);
-
-                QRect lowerRect = QRect(0,splitY, r.width(), r.height() - splitY);
-                p.fillRect(lowerRect, _helper.backgroundBottomColor(color));
+                _helper.renderMenuBackground( &p, e->rect(), widget, widget->palette() );
 
                 // frame
                 if( compositingActive() ) p.setClipping( false );
