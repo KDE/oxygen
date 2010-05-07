@@ -76,6 +76,7 @@ namespace Oxygen
 
             // do not animate labels from tooltips
             if( widget->window() && widget->window()->windowFlags().testFlag( Qt::ToolTip ) ) return;
+            else if( widget->window() && widget->window()->inherits( "KWin::GeometryTip" ) ) return;
             else labelEngine().registerWidget( label );
 
         } else if( QComboBox* comboBox = qobject_cast<QComboBox*>( widget ) ) {
