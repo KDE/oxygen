@@ -79,7 +79,7 @@ void OxygenHelper::renderWindowBackground(QPainter *p, const QRect &clipRect, co
 
     // get coordinates relative to the client area
     // this is stupid. One could use mapTo if this was taking const QWidget* and not
-    // const QWidget* as argument.
+    // QWidget* as argument.
     const QWidget* w = widget;
     int x = 0, y = -y_shift;
     while ( w != window && !w->isWindow() && w != w->parentWidget() ) {
