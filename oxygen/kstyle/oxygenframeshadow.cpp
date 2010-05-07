@@ -42,7 +42,7 @@
 namespace Oxygen
 {
     //____________________________________________________________________________________
-    bool FrameShadowManager::registerWidget( QWidget* widget, StyleHelper& helper )
+    bool FrameShadowFactory::registerWidget( QWidget* widget, StyleHelper& helper )
     {
 
         if( !widget ) return false;
@@ -87,7 +87,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadowManager::unregisterWidget( QWidget* widget )
+    void FrameShadowFactory::unregisterWidget( QWidget* widget )
     {
         if( !isRegistered( widget ) ) return;
         _registeredWidgets.remove( widget );
@@ -95,11 +95,11 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadowManager::widgetDestroyed( QObject* o )
+    void FrameShadowFactory::widgetDestroyed( QObject* o )
     { _registeredWidgets.remove( o ); }
 
     //____________________________________________________________________________________
-    void FrameShadowManager::installShadows( QWidget* widget, StyleHelper& helper )
+    void FrameShadowFactory::installShadows( QWidget* widget, StyleHelper& helper )
     {
 
         QWidget* parent( widget->parentWidget() );
@@ -120,7 +120,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadowManager::removeShadows( QWidget* widget )
+    void FrameShadowFactory::removeShadows( QWidget* widget )
     {
 
         widget->removeEventFilter( this );
@@ -139,7 +139,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    bool FrameShadowManager::eventFilter( QObject* object, QEvent* event )
+    bool FrameShadowFactory::eventFilter( QObject* object, QEvent* event )
     {
 
         switch( event->type() )
@@ -156,7 +156,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadowManager::updateShadowsGeometry( QObject* object ) const
+    void FrameShadowFactory::updateShadowsGeometry( QObject* object ) const
     {
 
         const QList<QObject *> children = object->children();
@@ -169,7 +169,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadowManager::updateState( const QWidget* widget, bool focus, bool hover, qreal opacity, AnimationMode mode ) const
+    void FrameShadowFactory::updateState( const QWidget* widget, bool focus, bool hover, qreal opacity, AnimationMode mode ) const
     {
 
         const QList<QObject *> children = widget->children();
@@ -182,7 +182,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadowManager::installShadow( QWidget* widget, StyleHelper& helper, ShadowArea area ) const
+    void FrameShadowFactory::installShadow( QWidget* widget, StyleHelper& helper, ShadowArea area ) const
     {
         FrameShadow *shadow = new FrameShadow( area, helper );
         shadow->hide();

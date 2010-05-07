@@ -54,7 +54,7 @@ namespace Oxygen
     };
 
     //! shadow manager
-    class FrameShadowManager: public QObject
+    class FrameShadowFactory: public QObject
     {
 
         Q_OBJECT
@@ -62,12 +62,12 @@ namespace Oxygen
         public:
 
         //! constructor
-        FrameShadowManager( QObject* parent ):
+        FrameShadowFactory( QObject* parent ):
         QObject( parent )
         {}
 
         //! destructor
-        virtual ~FrameShadowManager( void )
+        virtual ~FrameShadowFactory( void )
         {}
 
         //! register widget

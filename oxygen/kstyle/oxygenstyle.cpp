@@ -111,7 +111,7 @@ namespace Oxygen
         _animations( new Oxygen::Animations( this ) ),
         _transitions( new Oxygen::Transitions( this ) ),
         _windowManager( new Oxygen::WindowManager( this ) ),
-        _frameShadowManager( new Oxygen::FrameShadowManager( this ) )
+        _frameShadowFactory( new Oxygen::FrameShadowFactory( this ) )
     {
 
         qAddPostRoutine(cleanupBefore);
@@ -4088,8 +4088,8 @@ namespace Oxygen
 
             }
 
-            if( frameShadowManager().isRegistered( widget ) )
-            { frameShadowManager().updateState( widget, focusHighlight, hoverHighlight, opacity, mode ); }
+            if( frameShadowFactory().isRegistered( widget ) )
+            { frameShadowFactory().updateState( widget, focusHighlight, hoverHighlight, opacity, mode ); }
 
             _helper.renderHole(
                 p, pal.color(QPalette::Window), local, focusHighlight, hoverHighlight,
@@ -4230,7 +4230,7 @@ namespace Oxygen
         animations().registerWidget( widget );
         transitions().registerWidget( widget );
         windowManager().registerWidget( widget );
-        frameShadowManager().registerWidget( widget, _helper );
+        frameShadowFactory().registerWidget( widget, _helper );
 
         // scroll areas
         if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>(widget) )
@@ -4421,7 +4421,7 @@ namespace Oxygen
         animations().unregisterWidget( widget );
         transitions().unregisterWidget( widget );
         windowManager().unregisterWidget( widget );
-        frameShadowManager().unregisterWidget( widget );
+        frameShadowFactory().unregisterWidget( widget );
 
         if( widget && widget->inherits( "Q3ListView" ) ) {
 

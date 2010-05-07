@@ -64,7 +64,7 @@ namespace Oxygen
     class Animations;
     class Transitions;
     class WindowManager;
-    class FrameShadowManager;
+    class FrameShadowFactory;
 
     //! main oxygen style class.
     /*! it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */
@@ -186,8 +186,8 @@ namespace Oxygen
         { return *_windowManager; }
 
         //! window manager
-        Oxygen::FrameShadowManager& frameShadowManager( void ) const
-        { return *_frameShadowManager; }
+        Oxygen::FrameShadowFactory& frameShadowFactory( void ) const
+        { return *_frameShadowFactory; }
 
         //! polish scrollarea
         void polishScrollArea( QAbstractScrollArea* ) const;
@@ -348,7 +348,7 @@ namespace Oxygen
         Oxygen::WindowManager* _windowManager;
 
         //! frame shadows
-        Oxygen::FrameShadowManager* _frameShadowManager;
+        Oxygen::FrameShadowFactory* _frameShadowFactory;
 
     };
 }
