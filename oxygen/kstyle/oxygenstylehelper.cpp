@@ -76,7 +76,7 @@ namespace Oxygen
 
         // get coordinates relative to the client area
         // this is stupid. One could use mapTo if this was taking const QWidget* and not
-        // const QWidget* as argument.
+        // QWidget* as argument.
         const QWidget* w = widget;
         int x = 0, y = 0;
         while( !w->isWindow() && w != w->parentWidget() ) {
