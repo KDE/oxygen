@@ -581,7 +581,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    void StyleHelper::fillSlab(QPainter &p, const QRect &rect, int size)
+    void StyleHelper::fillSlab(QPainter &p, const QRect &rect, int size) const
     {
         const qreal s = qreal(size) * (3.6 + (0.5 * _slabThickness)) / 7.0;
         QRectF r = rect;
@@ -596,7 +596,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    void StyleHelper::fillHole(QPainter &p, const QRect &rect, int size)
+    void StyleHelper::fillHole(QPainter &p, const QRect &rect, int size) const
     {
         const qreal s = qreal(size) * 3.0 / 7.0;
         p.drawRoundedRect(rect.adjusted(s,s,-s,-s), 4, 4);

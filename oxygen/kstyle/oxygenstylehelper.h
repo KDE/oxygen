@@ -67,8 +67,8 @@ namespace Oxygen
 
         QColor calcMidColor(const QColor &color) const;
 
-        static void fillSlab(QPainter&, const QRect&, int size = 7);
-        static void fillHole(QPainter&, const QRect&, int size = 7);
+        void fillSlab(QPainter&, const QRect&, int size = 7) const;
+        void fillHole(QPainter&, const QRect&, int size = 7) const;
 
         QPixmap dialSlab(const QColor&, qreal shade, int size = 7);
         QPixmap dialSlabFocused(const QColor&, const QColor&, qreal shade, int size = 7);
