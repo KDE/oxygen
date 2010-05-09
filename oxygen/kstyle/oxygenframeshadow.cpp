@@ -42,15 +42,19 @@
 namespace Oxygen
 {
     //____________________________________________________________________________________
-    bool FrameShadowFactory::registerWidget( QWidget* widget, StyleHelper& helper )
+    bool FrameShadowFactory::registerWidget( QWidget* widget, StyleHelper& helper, bool forced )
     {
 
         if( !widget ) return false;
         if( isRegistered( widget ) ) return false;
 
         bool accepted = false;
-        if( const QAbstractScrollArea* scrollArea = qobject_cast<const QAbstractScrollArea*>( widget ) )
-        {
+        if( forced ) {
+
+            accepted = true;
+
+        } else if( const QAbstractScrollArea* scrollArea = qobject_cast<const QAbstractScrollArea*>( widget ) ) {
+
             // shadows
             if( scrollArea->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
             { accepted = true; }
@@ -61,13 +65,6 @@ namespace Oxygen
             if( frame && frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
             { accepted = true; }
 
-
-        } else if( QFrame* frame = qobject_cast<QFrame*>( widget ) ) {
-
-            if( frame &&
-                frame->parentWidget() && frame->parentWidget()->inherits( "KTextEditor::View" ) &&
-                frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
-            { accepted = true;  }
 
         }
 

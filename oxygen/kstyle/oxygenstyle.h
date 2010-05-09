@@ -175,7 +175,7 @@ namespace Oxygen
         virtual void drawCapacityBar(const QStyleOption *option, QPainter *p, const QWidget *widget) const;
 
         //! animations
-        Oxygen::Animations& animations( void ) const
+        Animations& animations( void ) const
         { return *_animations; }
 
         Oxygen::Transitions& transitions( void ) const
@@ -209,39 +209,39 @@ namespace Oxygen
         void renderMenuItemRect( const QStyleOption*, const QRect&, const QColor&, const QPalette&, QPainter* p, qreal opacity = -1 ) const;
 
         //! slab glowing color
-        QColor slabShadowColor( QColor color, StyleOptions opts, qreal opacity, Oxygen::AnimationMode mode ) const;
+        QColor slabShadowColor( QColor color, StyleOptions opts, qreal opacity, AnimationMode mode ) const;
 
         //! qdial slab
         void renderDialSlab( QPainter* p, QRect r, const QColor& c, const QStyleOption* option, StyleOptions opts = 0 ) const
-        { renderDialSlab( p, r, c, option, opts, -1,  Oxygen::AnimationNone ); }
+        { renderDialSlab( p, r, c, option, opts, -1,  AnimationNone ); }
 
         //! qdial slab
-        void renderDialSlab( QPainter*, QRect, const QColor&, const QStyleOption*, StyleOptions, qreal, Oxygen::AnimationMode ) const;
+        void renderDialSlab( QPainter*, QRect, const QColor&, const QStyleOption*, StyleOptions, qreal, AnimationMode ) const;
 
         //! generic button slab
         void renderButtonSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opts = 0, TileSet::Tiles tiles = TileSet::Ring) const
-        { renderButtonSlab( p, r, c, opts, -1,  Oxygen::AnimationNone, tiles ); }
+        { renderButtonSlab( p, r, c, opts, -1,  AnimationNone, tiles ); }
 
         //! generic button slab
-        void renderButtonSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, Oxygen::AnimationMode, TileSet::Tiles ) const;
+        void renderButtonSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, AnimationMode, TileSet::Tiles ) const;
 
         //! generic slab
         void renderSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opts = 0, TileSet::Tiles tiles = TileSet::Ring) const
-        { renderSlab( p, r, c, opts, -1, Oxygen::AnimationNone, tiles ); }
+        { renderSlab( p, r, c, opts, -1, AnimationNone, tiles ); }
 
         //! generic slab
-        void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, Oxygen::AnimationMode, TileSet::Tiles ) const;
+        void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, AnimationMode, TileSet::Tiles ) const;
 
         //! checkbox
         void renderCheckBox(QPainter *p, const QRect &r, const QPalette &pal,
             bool enabled, bool hasFocus, bool mouseOver,
-            int checkPrimitive, bool sunken=false, qreal opacity = -1, Oxygen::AnimationMode mode = Oxygen::AnimationNone ) const;
+            int checkPrimitive, bool sunken=false, qreal opacity = -1, AnimationMode mode = AnimationNone ) const;
 
         //! radio button
         void renderRadioButton(
             QPainter *p, const QRect &r, const QPalette &pal,
             bool enabled, bool hasFocus, bool mouseOver,
-            int radioPrimitive, bool drawButton=true, qreal opacity = -1, Oxygen::AnimationMode mode = Oxygen::AnimationNone ) const;
+            int radioPrimitive, bool drawButton=true, qreal opacity = -1, AnimationMode mode = AnimationNone ) const;
 
         void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
@@ -288,6 +288,10 @@ namespace Oxygen
         QPolygonF genericArrow( int primitive, ArrowSize size = ArrowNormal ) const;
 
         //@}
+
+        //!@name utilities
+        bool isKTextEditFrame( const QWidget* widget ) const
+        { return ( widget && widget->parentWidget() && widget->parentWidget()->inherits( "KTextEditor::View" ) ); }
 
         //!@name event filters
         //@{
@@ -339,7 +343,7 @@ namespace Oxygen
         TileSet *m_holeTileSet;
 
         //! animations
-        Oxygen::Animations* _animations;
+        Animations* _animations;
 
         //! transitions
         Oxygen::Transitions* _transitions;

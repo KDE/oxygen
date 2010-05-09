@@ -71,7 +71,7 @@ namespace Oxygen
         {}
 
         //! register widget
-        bool registerWidget( QWidget*, StyleHelper& );
+        bool registerWidget( QWidget*, StyleHelper&, bool forced = false );
 
         //! unregister
         void unregisterWidget( QWidget* );
