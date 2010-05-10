@@ -35,6 +35,7 @@
 #include <QtGui/QFrame>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QPainter>
+#include <QtGui/QStyle>
 #include <QtCore/QTextStream>
 
 #include <KColorUtils>
@@ -42,29 +43,17 @@
 namespace Oxygen
 {
     //____________________________________________________________________________________
-    bool FrameShadowFactory::registerWidget( QWidget* widget, StyleHelper& helper, bool forced )
+    bool FrameShadowFactory::registerWidget( QWidget* widget, StyleHelper& helper )
     {
 
         if( !widget ) return false;
         if( isRegistered( widget ) ) return false;
 
         bool accepted = false;
-        if( forced ) {
+        if( QFrame* frame = qobject_cast<QFrame*>( widget ) ) {
 
-            accepted = true;
-
-        } else if( const QAbstractScrollArea* scrollArea = qobject_cast<const QAbstractScrollArea*>( widget ) ) {
-
-            // shadows
-            if( scrollArea->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
-            { accepted = true; }
-
-        } else if( widget->inherits( "Q3ListView" ) ) {
-
-            QFrame* frame = qobject_cast<QFrame*>( widget );
             if( frame && frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
             { accepted = true; }
-
 
         }
 
@@ -220,21 +209,23 @@ namespace Oxygen
         {
 
             case Top:
-            cr.setHeight(SHADOW_SIZE_TOP);
+            cr.setHeight( SHADOW_SIZE_TOP );
+            cr.adjust( -3, -3, 3, 0 );
             break;
 
             case Left:
             cr.setWidth(SHADOW_SIZE_LEFT);
-            cr.adjust(0, SHADOW_SIZE_TOP, 0, -SHADOW_SIZE_BOTTOM);
+            cr.adjust(-3, SHADOW_SIZE_TOP, 0, -SHADOW_SIZE_BOTTOM);
             break;
 
             case Bottom:
             cr.setTop(cr.bottom() - SHADOW_SIZE_BOTTOM + 1);
+            cr.adjust( -3, 0, 3, 3 );
             break;
 
             case Right:
             cr.setLeft(cr.right() - SHADOW_SIZE_RIGHT + 1);
-            cr.adjust(0, SHADOW_SIZE_TOP, 0, -SHADOW_SIZE_BOTTOM);
+            cr.adjust(0, SHADOW_SIZE_TOP, 3, -SHADOW_SIZE_BOTTOM);
             break;
 
             case Unknown:
@@ -253,28 +244,33 @@ namespace Oxygen
         if (e->type() == QEvent::Paint) return QWidget::event(e);
 
         QWidget *viewport( FrameShadow::viewport() );
-        if (!viewport) return false;
 
         switch (e->type())
         {
+
+            // TODO: possibly implement ZOrderChange event, to make sure that
+            // the shadow is always painted on top
 
             case QEvent::DragEnter:
             case QEvent::DragMove:
             case QEvent::DragLeave:
             case QEvent::Drop:
+            if( viewport )
             {
                 setAcceptDrops(viewport->acceptDrops());
-                QObject *o = viewport;
-                return o->event(e);
+                return viewport->QObject::event(e);
             }
             break;
 
             case QEvent::Enter:
-            setCursor(viewport->cursor());
-            setAcceptDrops(viewport->acceptDrops());
+            if( viewport ) {
+                setCursor(viewport->cursor());
+                setAcceptDrops(viewport->acceptDrops());
+            }
             break;
 
             case QEvent::ContextMenu:
+            if( viewport )
             {
 
                 QContextMenuEvent *me = static_cast<QContextMenuEvent *>(e);
@@ -288,6 +284,7 @@ namespace Oxygen
             case QEvent::MouseButtonPress: releaseMouse();
             case QEvent::MouseMove:
             case QEvent::MouseButtonRelease:
+            if( viewport )
             {
                 QMouseEvent *me = static_cast<QMouseEvent *>(e);
                 QMouseEvent *ne = new QMouseEvent(e->type(), parentWidget()->mapFromGlobal(me->globalPos()), me->globalPos(), me->button(), me->buttons(), me->modifiers());
@@ -337,7 +334,6 @@ namespace Oxygen
             case Top:
             {
                 tiles = TileSet::Left|TileSet::Top|TileSet::Right;
-                //r.adjust( -3, -3, 3, 0 );
                 r.adjust( -2, -2, 2, -1 );
                 break;
             }

@@ -3196,13 +3196,13 @@ namespace Oxygen
                 const bool hasFocus = flags & State_HasFocus;
                 const QColor inputColor =  pal.color(QPalette::Window);
 
-                //QRect fr( r.adjusted(0,1,0,-1) );
                 QRect fr( r.adjusted(1,1,-1,-1) );
 
-                animations().lineEditEngine().updateState( widget, AnimationHover, mouseOver );
+                // focus takes precedence over mouseOver
                 animations().lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
+                animations().lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
 
-                if( enabled && (!isReadOnly) && animations().lineEditEngine().isAnimated( widget, AnimationFocus ) )
+                if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationFocus ) )
                 {
 
                     _helper.renderHole( p, inputColor, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring);
@@ -4097,11 +4097,17 @@ namespace Oxygen
             }
 
             if( frameShadowFactory().isRegistered( widget ) )
-            { frameShadowFactory().updateState( widget, focusHighlight, hoverHighlight, opacity, mode ); }
+            {
 
-            _helper.renderHole(
-                p, pal.color(QPalette::Window), local, focusHighlight, hoverHighlight,
-                opacity, mode, TileSet::Ring, true );
+                frameShadowFactory().updateState( widget, focusHighlight, hoverHighlight, opacity, mode );
+
+            } else {
+
+                _helper.renderHole(
+                    p, pal.color(QPalette::Window), local, focusHighlight, hoverHighlight,
+                    opacity, mode, TileSet::Ring, true );
+
+            }
 
         } else if(widgetType == WT_Generic && (flags & State_Raised)) {
 
@@ -4259,7 +4265,6 @@ namespace Oxygen
         {
 
             widget->setAttribute( Qt::WA_Hover );
-            frameShadowFactory().registerWidget( widget, _helper, true );
             animations().lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
         }

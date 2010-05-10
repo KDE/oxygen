@@ -71,7 +71,7 @@ namespace Oxygen
         {}
 
         //! register widget
-        bool registerWidget( QWidget*, StyleHelper&, bool forced = false );
+        bool registerWidget( QWidget*, StyleHelper& );
 
         //! unregister
         void unregisterWidget( QWidget* );
@@ -170,10 +170,10 @@ namespace Oxygen
 
         enum
         {
-            SHADOW_SIZE_TOP = 2,
-            SHADOW_SIZE_BOTTOM = 2,
-            SHADOW_SIZE_LEFT = 2,
-            SHADOW_SIZE_RIGHT = 2
+            SHADOW_SIZE_TOP = 5,
+            SHADOW_SIZE_BOTTOM = 5,
+            SHADOW_SIZE_LEFT = 5,
+            SHADOW_SIZE_RIGHT = 5
         };
 
         //! helper
