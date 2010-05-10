@@ -2498,7 +2498,7 @@ namespace Oxygen
                         QColor base( palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
                         QColor glow( ( primitive == Window::ButtonClose ) ?
                             KColorScheme(palette.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
-                            KColorScheme(palette.currentColorGroup()).decoration(KColorScheme::HoverColor).color() );
+                            _helper.viewHoverBrush().brush( palette ).color() );
 
                         color = KColorUtils::mix( base, glow, opacity );
 
@@ -2506,7 +2506,7 @@ namespace Oxygen
 
                         color = ( primitive == Window::ButtonClose ) ?
                             KColorScheme(palette.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
-                            KColorScheme(palette.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                            _helper.viewHoverBrush().brush( palette ).color() );
 
                     } else {
 
@@ -3106,7 +3106,7 @@ namespace Oxygen
                 const bool enabled = flags & State_Enabled;
                 const bool mouseOver(enabled && (flags & State_MouseOver));
                 QColor expanderColor( mouseOver ?
-                    KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color():
+                    _helper.viewHoverBrush().brush(pal).color():
                     pal.text().color() );
 
                 if(!OxygenStyleConfigData::viewDrawTriangularExpander())
@@ -3766,12 +3766,12 @@ namespace Oxygen
             if( animated )
             {
 
-                QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                QColor highlight = _helper.viewHoverBrush().brush(pal).color();
                 color = KColorUtils::mix( pal.color( QPalette::Text ), highlight, opacity );
 
             } else if( subControlHover ) {
 
-                color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                color = _helper.viewHoverBrush().brush(pal).color();
 
             } else {
 
@@ -3807,12 +3807,12 @@ namespace Oxygen
                         if( animated )
                         {
 
-                            QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                            QColor highlight = _helper.viewHoverBrush().brush(pal).color();
                             color = KColorUtils::mix( pal.color( QPalette::Text ), highlight, opacity );
 
                         } else if( subControlHover ) {
 
-                            color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                            color = _helper.viewHoverBrush().brush(pal).color();
 
                         } else {
 
@@ -3838,7 +3838,7 @@ namespace Oxygen
             }
         } else if( widgetType == WT_Header ) {
 
-            if( mouseOver ) color = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+            if( mouseOver ) color = _helper.viewHoverBrush().brush(pal).color();
 
         } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
 
@@ -3868,7 +3868,7 @@ namespace Oxygen
                 if( r.intersects(  animations().scrollBarEngine().subControlRect( widget, subcontrol ) ) )
                 {
 
-                    QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+                    QColor highlight = _helper.viewHoverBrush().brush(pal).color();
                     if( animated )
                     {
                         color = KColorUtils::mix( color, highlight, opacity );
@@ -3885,7 +3885,7 @@ namespace Oxygen
 
         } else if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
 
-            QColor highlight = KColorScheme(pal.currentColorGroup()).decoration(KColorScheme::HoverColor).color();
+            QColor highlight = _helper.viewHoverBrush().brush(pal).color();
             color = pal.color( QPalette::WindowText );
 
             // toolbuttons

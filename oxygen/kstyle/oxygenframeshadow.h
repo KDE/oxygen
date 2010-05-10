@@ -124,8 +124,8 @@ namespace Oxygen
         explicit FrameShadow( ShadowArea area, StyleHelper& helper ):
             QWidget(0),
             _helper( helper ),
-            _viewFocusBrush( KColorScheme::View, KColorScheme::FocusColor, helper.config() ),
-            _viewHoverBrush( KColorScheme::View, KColorScheme::HoverColor, helper.config() ),
+            _viewFocusBrush( helper.viewFocusBrush() ),
+            _viewHoverBrush( helper.viewHoverBrush() ),
             _area( area ),
             _focus( false ),
             _hover( false ),
