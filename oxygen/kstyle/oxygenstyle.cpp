@@ -3186,45 +3186,15 @@ namespace Oxygen
         Q_UNUSED( kOpt );
 
         const bool enabled = flags & State_Enabled;
-        const bool mouseOver(enabled && (flags & State_MouseOver));
-
         switch (primitive)
         {
-            case Generic::Frame:
-            {
-                const bool isReadOnly = flags & State_ReadOnly;
-                const bool hasFocus = flags & State_HasFocus;
-                const QColor inputColor =  pal.color(QPalette::Window);
-
-                QRect fr( r.adjusted(1,1,-1,-1) );
-
-                // focus takes precedence over mouseOver
-                animations().lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
-                animations().lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
-
-                if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationFocus ) )
-                {
-
-                    _helper.renderHole( p, inputColor, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring);
-
-                } else if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationHover ) ) {
-
-                    _helper.renderHole( p, inputColor, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring);
-
-                } else {
-
-                    _helper.renderHole( p, inputColor, fr, hasFocus, mouseOver);
-
-                }
-                return true;
-            }
 
             case LineEdit::Panel:
             {
                 if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>(opt))
                 {
 
-                    const QBrush inputBrush = enabled?panel->palette.base():panel->palette.window();
+                    const QBrush inputBrush = enabled?pal.base():pal.window();
                     const int lineWidth(panel->lineWidth);
 
                     if (lineWidth > 0)
@@ -3234,7 +3204,6 @@ namespace Oxygen
                         p->setPen(Qt::NoPen);
                         p->setBrush(inputBrush);
 
-                        //_helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
                         _helper.fillHole(*p, r.adjusted( 0, -1, 0, 0 ) );
                         drawPrimitive(PE_FrameLineEdit, panel, p, widget);
 
@@ -4115,7 +4084,7 @@ namespace Oxygen
 
         }
 
-        return false;
+        return true;
     }
 
     //_________________________________________________________
