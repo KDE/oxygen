@@ -2506,7 +2506,7 @@ namespace Oxygen
 
                         color = ( primitive == Window::ButtonClose ) ?
                             KColorScheme(palette.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
-                            _helper.viewHoverBrush().brush( palette ).color() );
+                            _helper.viewHoverBrush().brush( palette ).color();
 
                     } else {
 
