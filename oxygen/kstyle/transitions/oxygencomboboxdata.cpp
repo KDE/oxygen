@@ -94,7 +94,7 @@ namespace Oxygen
         {
 
             timer_.stop();
-            if( target_ && !target_.data()->isEditable() )
+            if( enabled() && transition() && target_ && !target_.data()->isEditable() )
             {
                 setRecursiveCheck( true );
                 transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
