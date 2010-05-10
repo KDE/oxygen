@@ -33,19 +33,10 @@ namespace Oxygen
 
     //______________________________________________________________________________
     StyleHelper::StyleHelper(const QByteArray &componentName)
-        : OxygenHelper(componentName)
+        : Helper(componentName)
     {
         m_dockFrameCache.setMaxCost(1);
         m_scrollHoleCache.setMaxCost(10);
-    }
-
-    //______________________________________________________________________________
-    void StyleHelper::reloadConfig( void )
-    {
-        OxygenHelper::reloadConfig();
-        _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, config() );
-        _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, config() );
-
     }
 
     //______________________________________________________________________________
@@ -67,7 +58,7 @@ namespace Oxygen
         m_slitCache.clear();
         m_dockFrameCache.clear();
         m_scrollHoleCache.clear();
-        OxygenHelper::invalidateCaches();
+        Helper::invalidateCaches();
     }
 
     //____________________________________________________________________

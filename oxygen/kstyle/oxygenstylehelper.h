@@ -26,13 +26,11 @@
 #include "tileset.h"
 #include "oxygenwidgetstateengine.h"
 
-#include <KColorScheme>
-
 //! helper class
 /*! contains utility functions used at multiple places in oxygen style */
 namespace Oxygen
 {
-    class StyleHelper : public OxygenHelper
+    class StyleHelper : public Helper
     {
         public:
 
@@ -41,9 +39,6 @@ namespace Oxygen
 
         //! destructor
         virtual ~StyleHelper() {}
-
-        //! reload configuration
-        virtual void reloadConfig();
 
         //! clear cache
         virtual void invalidateCaches();
@@ -115,22 +110,10 @@ namespace Oxygen
         void drawInverseShadow(QPainter&, const QColor&, int pad, int size, qreal fuzz) const;
         void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
 
-        //! focus brush
-        const KStatefulBrush& viewFocusBrush( void ) const
-        { return _viewFocusBrush; }
-
-        //! hover brush
-        const KStatefulBrush& viewHoverBrush( void ) const
-        { return _viewHoverBrush; }
-
         protected:
 
         void drawHole(QPainter&, const QColor&, qreal shade, int r = 7) const;
         void drawRoundSlab( QPainter&, const QColor&, qreal ) const;
-
-        //! brushes
-        KStatefulBrush _viewFocusBrush;
-        KStatefulBrush _viewHoverBrush;
 
         Oxygen::Cache<QPixmap> m_dialSlabCache;
         Oxygen::Cache<QPixmap> m_roundSlabCache;

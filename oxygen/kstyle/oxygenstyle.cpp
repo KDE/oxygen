@@ -2497,7 +2497,7 @@ namespace Oxygen
 
                         QColor base( palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
                         QColor glow( ( primitive == Window::ButtonClose ) ?
-                            KColorScheme(palette.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
+                            _helper.viewNegativeTextBrush().brush( palette ).color():
                             _helper.viewHoverBrush().brush( palette ).color() );
 
                         color = KColorUtils::mix( base, glow, opacity );
@@ -2505,7 +2505,7 @@ namespace Oxygen
                     } else if( mouseOver ) {
 
                         color = ( primitive == Window::ButtonClose ) ?
-                            KColorScheme(palette.currentColorGroup()).foreground(KColorScheme::NegativeText).color():
+                            _helper.viewNegativeTextBrush().brush( palette ).color():
                             _helper.viewHoverBrush().brush( palette ).color();
 
                     } else {
