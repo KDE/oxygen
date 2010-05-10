@@ -4074,7 +4074,7 @@ namespace Oxygen
 
                 _helper.renderHole(
                     p, pal.color(QPalette::Window), local, focusHighlight, hoverHighlight,
-                    opacity, mode, TileSet::Ring, true );
+                    opacity, mode, TileSet::Ring );
 
             }
 
