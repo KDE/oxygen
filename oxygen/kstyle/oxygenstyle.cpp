@@ -1589,23 +1589,23 @@ namespace Oxygen
                 }
 
                 int tw = dwOpt->fontMetrics.width(tmpTitle);
-                int th = dwOpt->fontMetrics.height();
                 int width = verticalTitleBar ? r.height() : r.width();
                 if (width < tw) title = dwOpt->fontMetrics.elidedText(title, Qt::ElideRight, width, Qt::TextShowMnemonic);
 
                 if (verticalTitleBar)
                 {
 
-                    // one should properly rotate/translate painter rather than using QImage
-                    QRect br(dwOpt->fontMetrics.boundingRect(title));
-                    QImage textImage(br.size(), QImage::Format_ARGB32_Premultiplied);
-                    textImage.fill(0x00000000);
-                    QPainter painter(&textImage);
-                    drawItemText(&painter, QRect(0, 0, br.width(), br.height()), Qt::AlignLeft|Qt::AlignTop|Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title, QPalette::WindowText);
-                    painter.end();
-                    textImage = textImage.transformed(QMatrix().rotate(-90));
+                    QSize s = r.size();
+                    s.transpose();
+                    r.setSize(s);
 
-                    p->drawPixmap(r.x()+(r.width()-th)/2, r.y()+r.height()-textImage.height(), QPixmap::fromImage(textImage));
+                    p->save();
+                    p->translate(r.left(), r.top() + r.width());
+                    p->rotate(-90);
+                    p->translate(-r.left(), -r.top());
+                    drawItemText(p, r, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic, dwOpt->palette, dwOpt->state & State_Enabled, title, QPalette::WindowText);
+                    p->restore();
+
 
                 } else {
 
