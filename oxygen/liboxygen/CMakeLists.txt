@@ -1,6 +1,6 @@
 set(oxygenstyle_LIB_SRCS oxygenanimation.cpp
                          oxygenhelper.cpp
-                         tileset.cpp)
+                         oxygentileset.cpp)
 
 kde4_add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
 

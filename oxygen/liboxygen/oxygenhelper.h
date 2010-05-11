@@ -32,7 +32,7 @@
 #include <QtGui/QLinearGradient>
 #include <QtCore/QCache>
 
-#include "tileset.h"
+#include "oxygentileset.h"
 
 namespace Oxygen
 {
