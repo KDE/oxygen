@@ -39,7 +39,6 @@
 #include <KColorScheme>
 
 #include "oxygenstylehelper.h"
-#include "tileset.h"
 
 namespace Oxygen
 {

@@ -23,7 +23,6 @@
  */
 
 #include "oxygenhelper.h"
-#include "tileset.h"
 #include "oxygenwidgetstateengine.h"
 
 //! helper class

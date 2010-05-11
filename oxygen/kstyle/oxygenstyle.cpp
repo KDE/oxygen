@@ -67,8 +67,6 @@
 #include <KWindowSystem>
 #include <KTitleWidget>
 
-#include "tileset.h"
-
 #include "oxygenanimations.h"
 #include "oxygentransitions.h"
 #include "oxygenwindowmanager.h"

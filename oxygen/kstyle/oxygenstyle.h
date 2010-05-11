@@ -57,7 +57,6 @@
 
 #include "oxygenstylehelper.h"
 #include "animations/oxygenwidgetstateengine.h"
-#include "tileset.h"
 
 namespace Oxygen
 {
