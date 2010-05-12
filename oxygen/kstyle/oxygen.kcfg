@@ -5,6 +5,9 @@
 
   <!-- widget style -->
   <group name="Style"> 
+    <entry name="ToolTipDrawStyledFrames" type = "Bool">
+       <default>true</default>
+    </entry>
     <entry name="ToolBarDrawItemSeparator" type="Bool">
       <default>true</default>
     </entry>

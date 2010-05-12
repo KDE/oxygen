@@ -571,6 +571,61 @@ namespace Oxygen
             // which does not work for windows that have gradients.
             case PE_PanelScrollAreaCorner: return;
 
+            // tooltip_ labels
+            case PE_PanelTipLabel:
+            {
+                if( !OxygenStyleConfigData::toolTipDrawStyledFrames ) break;
+                QRect r = option->rect;
+
+                QColor color = option->palette.brush(QPalette::ToolTipBase).color();
+                QColor topColor = _helper.backgroundTopColor(color);
+                QColor bottomColor = _helper.backgroundBottomColor(color);
+
+                QLinearGradient gr( 0, r.top(), 0, r.bottom() );
+                gr.setColorAt(0, topColor );
+                gr.setColorAt(1, bottomColor );
+
+
+                // contrast pixmap
+                QLinearGradient gr2( 0, r.top(), 0, r.bottom() );
+                gr2.setColorAt(0.0, _helper.calcLightColor( bottomColor ) );
+                gr2.setColorAt(0.9, bottomColor );
+
+
+                p->save();
+
+                if( compositingActive() )
+                {
+                    p->setRenderHint(QPainter::Antialiasing);
+
+                    QRectF local( r );
+                    local.adjust( 0.5, 0.5, -0.5, -0.5 );
+
+                    p->setPen( Qt::NoPen );
+                    p->setBrush( gr );
+                    p->drawRoundedRect( local, 4, 4 );
+
+                    p->setBrush( Qt::NoBrush );
+                    p->setPen(QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                    p->drawRoundedRect( local, 4, 4 );
+
+                } else {
+
+                    p->setPen( Qt::NoPen );
+                    p->setBrush( gr );
+                    p->drawRect( r );
+
+                    p->setBrush( Qt::NoBrush );
+                    p->setPen(QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+                    p->drawRect( r );
+
+                }
+
+                p->restore();
+
+                return;
+            }
+
             // this uses "standard" radio buttons to draw in Qt3 lists.
             case PE_Q3CheckListExclusiveIndicator:
             {
@@ -4294,13 +4349,11 @@ namespace Oxygen
         // checkable group boxes
         if( QGroupBox* groupBox = qobject_cast<QGroupBox*>(widget) )
         {
+
             if( groupBox->isCheckable() )
             { groupBox->setAttribute( Qt::WA_Hover ); }
-        }
 
-
-        if( qobject_cast<QAbstractButton*>(widget) && qobject_cast<QDockWidget*>( widget->parent() ) )
-        {
+        } else if( qobject_cast<QAbstractButton*>(widget) && qobject_cast<QDockWidget*>( widget->parent() ) ) {
 
             widget->setAttribute(Qt::WA_Hover);
 
@@ -4331,18 +4384,27 @@ namespace Oxygen
 
             widget->setBackgroundRole(QPalette::NoRole);
 
-        } else if (widget->inherits("Q3ToolBar")
+        } else if( widget->inherits("Q3ToolBar")
             || qobject_cast<QToolBar*>(widget)
             || qobject_cast<QToolBar *>(widget->parent())) {
 
-                widget->setBackgroundRole(QPalette::NoRole);
-                widget->setAttribute(Qt::WA_TranslucentBackground);
-                widget->setContentsMargins(0,0,0,1);
-                widget->installEventFilter(this);
+            widget->setBackgroundRole(QPalette::NoRole);
+            widget->setAttribute(Qt::WA_TranslucentBackground);
+            widget->setContentsMargins(0,0,0,1);
+            widget->installEventFilter(this);
 
-                #ifdef Q_WS_WIN
-                widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
-                #endif
+            #ifdef Q_WS_WIN
+            widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+            #endif
+
+        } else if( widget->inherits( "QTipLabel" ) ) {
+
+            widget->setBackgroundRole(QPalette::NoRole);
+            widget->setAttribute(Qt::WA_TranslucentBackground);
+
+            #ifdef Q_WS_WIN
+            widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+            #endif
 
         } else if (qobject_cast<QScrollBar*>(widget) ) {
 
@@ -4483,30 +4545,36 @@ namespace Oxygen
             widget->clearMask();
         }
 
-        if (qobject_cast<QScrollBar*>(widget))
+        if( widget->inherits( "QTipLabel" ) )
         {
-
-            widget->setAttribute(Qt::WA_OpaquePaintEvent);
-
-        } else if (qobject_cast<QDockWidget*>(widget)) {
-
-            widget->setContentsMargins(0,0,0,0);
-            widget->clearMask();
-
-        } else if (qobject_cast<QToolBox*>(widget)) {
-
-            widget->setBackgroundRole(QPalette::Button);
-            widget->setContentsMargins(0,0,0,0);
-            widget->removeEventFilter(this);
-
-        } else if (qobject_cast<QMenu*>(widget)) {
 
             widget->setAttribute(Qt::WA_PaintOnScreen, false);
             widget->setAttribute(Qt::WA_NoSystemBackground, false);
             widget->clearMask();
 
-        } else if (widget->inherits("QComboBoxPrivateContainer")) widget->removeEventFilter(this);
-        else if (qobject_cast<QFrame*>(widget)) widget->removeEventFilter(this);
+        } else if( qobject_cast<QScrollBar*>(widget) ) {
+
+            widget->setAttribute(Qt::WA_OpaquePaintEvent);
+
+        } else if( qobject_cast<QDockWidget*>(widget) ) {
+
+            widget->setContentsMargins(0,0,0,0);
+            widget->clearMask();
+
+        } else if( qobject_cast<QToolBox*>(widget) ) {
+
+            widget->setBackgroundRole(QPalette::Button);
+            widget->setContentsMargins(0,0,0,0);
+            widget->removeEventFilter(this);
+
+        } else if( qobject_cast<QMenu*>(widget) ) {
+
+            widget->setAttribute(Qt::WA_PaintOnScreen, false);
+            widget->setAttribute(Qt::WA_NoSystemBackground, false);
+            widget->clearMask();
+
+        } else if( widget->inherits("QComboBoxPrivateContainer") ) widget->removeEventFilter(this);
+        else if( qobject_cast<QFrame*>(widget) ) widget->removeEventFilter(this);
 
         KStyle::unpolish(widget);
 
@@ -6233,6 +6301,13 @@ namespace Oxygen
 
             } else if( qobject_cast<const QComboBox*>(widget)) return 3;
             break;
+
+            // tooltip label
+            case PM_ToolTipLabelFrameWidth:
+            {
+                if( !OxygenStyleConfigData::toolTipDrawStyledFrames ) break;
+                return 3;
+            }
 
             // spacing between widget and scrollbars
             case PM_ScrollView_ScrollBarSpacing: return 1;
