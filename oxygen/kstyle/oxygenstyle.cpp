@@ -588,9 +588,8 @@ namespace Oxygen
 
                 // contrast pixmap
                 QLinearGradient gr2( 0, r.top(), 0, r.bottom() );
-                gr2.setColorAt(0.0, _helper.calcLightColor( bottomColor ) );
-                gr2.setColorAt(0.9, bottomColor );
-
+                gr2.setColorAt(0, _helper.calcLightColor( bottomColor ) );
+                gr2.setColorAt(1, bottomColor );
 
                 p->save();
 
