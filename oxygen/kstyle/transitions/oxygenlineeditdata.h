@@ -82,8 +82,18 @@ namespace Oxygen
         //! target rect
         /*! return rect corresponding to the area to be updated when animating */
         QRect targetRect( void ) const
-        { return target_ ? target_.data()->rect():QRect(); }
+        { 
+            if( !target_ ) return QRect();
+            QRect out( target_.data()->rect() );
+            if( hasClearButton_ && clearButtonRect_.isValid() )
+            { out.setRight( clearButtonRect_.left() ); }
+            
+            return out;
+        }
 
+        //! check if target has clear button
+        void checkClearButton( void );
+        
         private:
 
         //! needed to start animations out of parent paintEvent
@@ -92,6 +102,12 @@ namespace Oxygen
         //! target
         QWeakPointer<QLineEdit> target_;
 
+        //! true if target has clean button
+        bool hasClearButton_;
+        
+        //! clear button rect
+        QRect clearButtonRect_;
+        
         //! true if text was manually edited
         /*! needed to trigger animation only on programatically enabled text */
         bool edited_;

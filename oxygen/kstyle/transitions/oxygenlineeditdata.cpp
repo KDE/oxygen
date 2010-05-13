@@ -42,10 +42,13 @@ namespace Oxygen
     LineEditData::LineEditData( QObject* parent, QLineEdit* target, int duration ):
         TransitionData( parent, target, duration ),
         target_( target ),
+        hasClearButton_( false ),
         edited_( false )
     {
         target_.data()->installEventFilter( this );
 
+        checkClearButton();
+        
         connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
         connect( target_.data(), SIGNAL( textEdited( const QString& ) ), SLOT( textEdited( const QString& ) ) );
         connect( target_.data(), SIGNAL( textChanged( const QString& ) ), SLOT( textChanged( const QString& ) ) );
@@ -85,6 +88,7 @@ namespace Oxygen
         {
 
             timer_.stop();
+            checkClearButton();
             if( enabled() && transition() && target_ && target_.data()->isVisible() )
             {
                 setRecursiveCheck( true );
@@ -96,7 +100,25 @@ namespace Oxygen
 
     }
 
-
+    //___________________________________________________________________
+    void LineEditData::checkClearButton( void )
+    {
+        if( !target_ ) return;
+        QObjectList children( target_.data()->children() );
+        hasClearButton_ = false;
+        foreach( QObject* child, children )
+        {
+            if( child->inherits( "KLineEditButton" ) )
+            {
+                hasClearButton_ = true;
+                clearButtonRect_ = static_cast<QWidget*>(child)->geometry();
+                break;
+            }
+        }
+        
+        return;
+    }
+    
     //___________________________________________________________________
     void LineEditData::textEdited( const QString& )
     {
