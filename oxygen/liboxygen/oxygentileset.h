@@ -91,13 +91,21 @@ namespace Oxygen
         };
         Q_DECLARE_FLAGS(Tiles, Tile)
 
-            /**
-            * Fills the specified rect with tiled chunks. Corners are never tiled,
-            * edges are tiled in one direction, and the center chunk is tiled in both
-            * directions. Partial tiles are used as needed so that the entire rect is
-            * perfectly filled. Filling is performed as if all chunks are being drawn.
-            */
-            void render(const QRect&, QPainter*, Tiles = Ring) const;
+        /**
+        * Fills the specified rect with tiled chunks. Corners are never tiled,
+        * edges are tiled in one direction, and the center chunk is tiled in both
+        * directions. Partial tiles are used as needed so that the entire rect is
+        * perfectly filled. Filling is performed as if all chunks are being drawn.
+        */
+        void render(const QRect&, QPainter*, Tiles = Ring) const;
+
+        //! return size associated to this tileset
+        QSize size( void ) const
+        { return QSize( _w1 + _w3, _h1 + _h3 ); }
+
+        //! is valid
+        bool isValid( void ) const
+        { return size().isValid() && _pixmap.size() == 9; }
 
         protected:
 
