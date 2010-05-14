@@ -2304,6 +2304,10 @@ namespace Oxygen
             {
                 const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>(opt);
 
+                // no frame is drawn when tabbar is empty.
+                // this is consistent with the tabWidgetTabContents subelementRect
+                if( tabOpt->tabBarSize.isEmpty() ) return true;
+                
                 // tab
                 int w = tabOpt->tabBarSize.width();
                 int h = tabOpt->tabBarSize.height();
@@ -4280,6 +4284,12 @@ namespace Oxygen
 
         }
 
+        // several widgets set autofill background to false, which effectively breaks the background
+        // gradient rendering. Instead of patching all concerned applications, we change the background
+        // here
+        if( widget->inherits( "MessageList::Core::Widget" ) )
+        { widget->setAutoFillBackground( false ); }
+        
         // KTextEdit frames
         // static cast is safe here, since isKTextEdit already checks that widget inherits from QFrame
         if( isKTextEditFrame( widget ) && static_cast<QFrame*>(widget)->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
