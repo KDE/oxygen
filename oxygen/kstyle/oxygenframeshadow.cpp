@@ -49,6 +49,7 @@ namespace Oxygen
         if( !widget ) return false;
         if( isRegistered( widget ) ) return false;
 
+        // check whether widget is a frame, and has the proper shape
         bool accepted = false;
         if( QFrame* frame = qobject_cast<QFrame*>( widget ) ) {
 
@@ -58,6 +59,14 @@ namespace Oxygen
         }
 
         if( !accepted ) return false;
+
+        // make sure that the widget is not embedded into a KHTMLView
+        QWidget* parent( widget->parentWidget() );
+        while( parent && !parent->isTopLevel() )
+        {
+            if( parent->inherits( "KHTMLView" ) ) return false;
+            parent = parent->parentWidget();
+        }
 
         // store in set
         _registeredWidgets.insert( widget );
@@ -87,13 +96,6 @@ namespace Oxygen
     //____________________________________________________________________________________
     void FrameShadowFactory::installShadows( QWidget* widget, StyleHelper& helper )
     {
-
-        QWidget* parent( widget->parentWidget() );
-        while( parent && !parent->isTopLevel() )
-        {
-            if( parent->inherits( "KHTMLView" ) ) return;
-            parent = parent->parentWidget();
-        }
 
         removeShadows(widget);
 
@@ -171,10 +173,8 @@ namespace Oxygen
     void FrameShadowFactory::installShadow( QWidget* widget, StyleHelper& helper, ShadowArea area ) const
     {
         FrameShadow *shadow = new FrameShadow( area, helper );
-        shadow->hide();
         shadow->setParent(widget);
         shadow->updateGeometry();
-        shadow->show();
     }
 
     //____________________________________________________________________________________
