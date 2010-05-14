@@ -177,15 +177,15 @@ namespace Oxygen
         Animations& animations( void ) const
         { return *_animations; }
 
-        Oxygen::Transitions& transitions( void ) const
+        Transitions& transitions( void ) const
         { return *_transitions; }
 
         //! window manager
-        Oxygen::WindowManager& windowManager( void ) const
+        WindowManager& windowManager( void ) const
         { return *_windowManager; }
 
         //! window manager
-        Oxygen::FrameShadowFactory& frameShadowFactory( void ) const
+        FrameShadowFactory& frameShadowFactory( void ) const
         { return *_frameShadowFactory; }
 
         //! polish scrollarea
@@ -345,13 +345,13 @@ namespace Oxygen
         Animations* _animations;
 
         //! transitions
-        Oxygen::Transitions* _transitions;
+        Transitions* _transitions;
 
         //! window manager
-        Oxygen::WindowManager* _windowManager;
+        WindowManager* _windowManager;
 
         //! frame shadows
-        Oxygen::FrameShadowFactory* _frameShadowFactory;
+        FrameShadowFactory* _frameShadowFactory;
 
     };
 }
