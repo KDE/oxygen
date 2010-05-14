@@ -107,9 +107,9 @@ namespace Oxygen
         CE_CapacityBar( newControlElement( "CE_CapacityBar" ) ),
         _helper(*globalHelper),
         _animations( new Animations( this ) ),
-        _transitions( new Oxygen::Transitions( this ) ),
-        _windowManager( new Oxygen::WindowManager( this ) ),
-        _frameShadowFactory( new Oxygen::FrameShadowFactory( this ) )
+        _transitions( new Transitions( this ) ),
+        _windowManager( new WindowManager( this ) ),
+        _frameShadowFactory( new FrameShadowFactory( this ) )
     {
 
         qAddPostRoutine(cleanupBefore);
@@ -1401,7 +1401,7 @@ namespace Oxygen
 
                 } else if( animations().menuEngine().isTimerActive( widget ) ) {
 
-                    QRect previousRect( animations().menuEngine().currentRect( widget, Oxygen::Previous ) );
+                    QRect previousRect( animations().menuEngine().currentRect( widget, Previous ) );
                     if( previousRect.intersects( r ) )
                     {
 
@@ -1409,12 +1409,12 @@ namespace Oxygen
                         renderMenuItemRect( opt, previousRect, color, pal, p );
                     }
 
-                } else if( animations().menuEngine().isAnimated(widget, Oxygen::Previous ) ) {
+                } else if( animations().menuEngine().isAnimated(widget, Previous ) ) {
 
-                    QRect previousRect( animations().menuEngine().currentRect( widget, Oxygen::Previous ) );
+                    QRect previousRect( animations().menuEngine().currentRect( widget, Previous ) );
                     if( previousRect.intersects( r ) )
                     {
-                        qreal opacity(  animations().menuEngine().opacity( widget, Oxygen::Previous ) );
+                        qreal opacity(  animations().menuEngine().opacity( widget, Previous ) );
                         QColor color( _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, previousRect.center() ) );
                         renderMenuItemRect( opt, previousRect, color, pal, p, opacity );
                     }
@@ -1517,12 +1517,12 @@ namespace Oxygen
                 if (enabled)
                 {
 
-                    bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Current ) );
-                    QRect currentRect( animations().menuEngine().currentRect( widget, Oxygen::Current ) );
+                    bool animated( animations().menuEngine().isAnimated(widget, Current ) );
+                    QRect currentRect( animations().menuEngine().currentRect( widget, Current ) );
                     const bool intersected( currentRect.contains( r.topLeft() ) );
 
                     QColor color( _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
-                    if( animated && intersected ) renderMenuItemRect( opt, r, color, pal, p, animations().menuEngine().opacity( widget, Oxygen::Current ) );
+                    if( animated && intersected ) renderMenuItemRect( opt, r, color, pal, p, animations().menuEngine().opacity( widget, Current ) );
                     else renderMenuItemRect( opt, r, color, pal, p );
 
                 } else drawKStylePrimitive(WT_Generic, Generic::FocusIndicator, opt, r, pal, flags, p, widget, kOpt);
@@ -1535,7 +1535,7 @@ namespace Oxygen
                 KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
                 QPalette::ColorRole role( QPalette::WindowText );
 
-                bool animated( animations().menuEngine().isAnimated(widget, Oxygen::Current ) );
+                bool animated( animations().menuEngine().isAnimated(widget, Current ) );
                 QRect animatedRect( animations().menuEngine().animatedRect( widget ) );
 
                 if( (!animated) && OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Selected) && (flags & State_Enabled) )
