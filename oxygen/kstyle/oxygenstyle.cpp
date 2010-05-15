@@ -1844,27 +1844,13 @@ namespace Oxygen
         const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt);
         animations().scrollBarEngine().updateState( widget, enabled && slider && (slider->activeSubControls & SC_ScrollBarSlider) );
 
+
         QRect r( rect );
-        switch( primitive )
+        if( slider )
         {
-            case ScrollBar::DoubleButtonHor:
-            case ScrollBar::SingleButtonHor:
-            case ScrollBar::GrooveAreaHorLeft:
-            case ScrollBar::GrooveAreaHorRight:
-            case ScrollBar::SliderHor:
-            r.adjust( 0, 0, 0, -1 );
-            break;
-
-            case ScrollBar::DoubleButtonVert:
-            case ScrollBar::SingleButtonVert:
-            case ScrollBar::GrooveAreaVertTop:
-            case ScrollBar::GrooveAreaVertBottom:
-            case ScrollBar::SliderVert:
-            if( reverseLayout ) r.adjust( 1, 0, 0, 0 );
+            if( slider->orientation == Qt::Horizontal ) r.adjust( 0, 0, 0, -1 );
+            else if( reverseLayout )  r.adjust( 1, 0, 0, 0 );
             else r.adjust( 0, 0, -1, 0 );
-            break;
-
-            default: break;
         }
 
         switch (primitive)
@@ -1929,6 +1915,12 @@ namespace Oxygen
                 else renderScrollBarHandle(p, r, pal, Qt::Vertical, mouseOver );
                 return true;
             }
+
+            case Generic::ArrowUp:
+            case Generic::ArrowDown:
+            case Generic::ArrowLeft:
+            case Generic::ArrowRight:
+            { return drawGenericArrow( WT_ScrollBar, primitive, opt, r, pal, flags, p, widget, kOpt ); }
 
             default: return false;
 
@@ -3917,18 +3909,18 @@ namespace Oxygen
 
             if( mouseOver ) color = _helper.viewHoverBrush().brush(pal).color();
 
-        } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
+        } else if( widgetType == WT_ScrollBar ) {
 
-
-            if( scrollbar->orientation() == Qt::Vertical ) r.translate( opt->direction == Qt::LeftToRight ? -1:1, 0 );
-            else r.translate( 0, -1 );
+            const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt);
+            const bool vertical = (slider && slider->orientation == Qt::Vertical);
+            const bool reverseLayout = (opt->direction == Qt::RightToLeft);
 
             // handle scrollbar arrow hover
             // first get relevant subcontrol type matching arrow
             SubControl subcontrol( SC_None );
-            if( scrollbar->orientation() == Qt::Vertical )  subcontrol = (primitive == Generic::ArrowDown) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
-            else if( opt->direction == Qt::LeftToRight ) subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarSubLine:SC_ScrollBarAddLine;
-            else subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
+            if( vertical )  subcontrol = (primitive == Generic::ArrowDown) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
+            else if( reverseLayout ) subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarAddLine:SC_ScrollBarSubLine;
+            else subcontrol = (primitive == Generic::ArrowLeft) ? SC_ScrollBarSubLine:SC_ScrollBarAddLine;
 
             if( enabled )
             {
@@ -3937,7 +3929,7 @@ namespace Oxygen
                 bool animated( animations().scrollBarEngine().isAnimated( widget, subcontrol ) );
                 qreal opacity( animations().scrollBarEngine().opacity( widget, subcontrol ) );
 
-                QPoint position( hover ? scrollbar->mapFromGlobal( QCursor::pos() ) : QPoint( -1, -1 ) );
+                QPoint position( hover ? widget->mapFromGlobal( QCursor::pos() ) : QPoint( -1, -1 ) );
                 if( hover && r.contains( position ) )
                 {
                     // we need to update the arrow subcontrolRect on fly because there is no
