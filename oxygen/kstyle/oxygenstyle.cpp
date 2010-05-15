@@ -141,7 +141,7 @@ namespace Oxygen
         //TODO: This hasn't been tested though
         setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight, qMax(OxygenStyleConfigData::scrollBarWidth() * 7 / 10, 14) );
         setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight, qMax(OxygenStyleConfigData::scrollBarWidth() * 14 / 10, 28) );
-        setWidgetLayoutProp( WT_ScrollBar, ScrollBar::BarWidth, OxygenStyleConfigData::scrollBarWidth() + 2);
+        setWidgetLayoutProp( WT_ScrollBar, ScrollBar::BarWidth, OxygenStyleConfigData::scrollBarWidth() + 1);
 
         setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
         setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5); //also used by toolbutton
@@ -1852,7 +1852,7 @@ namespace Oxygen
             case ScrollBar::GrooveAreaHorLeft:
             case ScrollBar::GrooveAreaHorRight:
             case ScrollBar::SliderHor:
-            r.adjust( 0, 1, 0, -1 );
+            r.adjust( 0, 0, 0, -1 );
             break;
 
             case ScrollBar::DoubleButtonVert:
@@ -1860,7 +1860,8 @@ namespace Oxygen
             case ScrollBar::GrooveAreaVertTop:
             case ScrollBar::GrooveAreaVertBottom:
             case ScrollBar::SliderVert:
-            r.adjust( 1, 0, -1, 0 );
+            if( reverseLayout ) r.adjust( 1, 0, 0, 0 );
+            else r.adjust( 0, 0, -1, 0 );
             break;
 
             default: break;
@@ -3918,6 +3919,9 @@ namespace Oxygen
 
         } else if(const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>(widget) ) {
 
+
+            if( scrollbar->orientation() == Qt::Vertical ) r.translate( opt->direction == Qt::LeftToRight ? -1:1, 0 );
+            else r.translate( 0, -1 );
 
             // handle scrollbar arrow hover
             // first get relevant subcontrol type matching arrow
