@@ -141,7 +141,7 @@ namespace Oxygen
         //TODO: This hasn't been tested though
         setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight, qMax(OxygenStyleConfigData::scrollBarWidth() * 7 / 10, 14) );
         setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight, qMax(OxygenStyleConfigData::scrollBarWidth() * 14 / 10, 28) );
-        setWidgetLayoutProp( WT_ScrollBar, ScrollBar::BarWidth, OxygenStyleConfigData::scrollBarWidth());
+        setWidgetLayoutProp( WT_ScrollBar, ScrollBar::BarWidth, OxygenStyleConfigData::scrollBarWidth() + 2);
 
         setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
         setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5); //also used by toolbutton
@@ -1828,7 +1828,7 @@ namespace Oxygen
     bool Style::drawScrollBarPrimitive(
         int primitive,
         const QStyleOption* opt,
-        const QRect &r, const QPalette &pal,
+        const QRect &rect, const QPalette &pal,
         State flags, QPainter* p,
         const QWidget* widget,
         KStyle::Option* kOpt) const
@@ -1844,27 +1844,47 @@ namespace Oxygen
         const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt);
         animations().scrollBarEngine().updateState( widget, enabled && slider && (slider->activeSubControls & SC_ScrollBarSlider) );
 
+        QRect r( rect );
+        switch( primitive )
+        {
+            case ScrollBar::DoubleButtonHor:
+            case ScrollBar::SingleButtonHor:
+            case ScrollBar::GrooveAreaHorLeft:
+            case ScrollBar::GrooveAreaHorRight:
+            case ScrollBar::SliderHor:
+            r.adjust( 0, 1, 0, -1 );
+            break;
 
+            case ScrollBar::DoubleButtonVert:
+            case ScrollBar::SingleButtonVert:
+            case ScrollBar::GrooveAreaVertTop:
+            case ScrollBar::GrooveAreaVertBottom:
+            case ScrollBar::SliderVert:
+            r.adjust( 1, 0, -1, 0 );
+            break;
+
+            default: break;
+        }
 
         switch (primitive)
         {
             case ScrollBar::DoubleButtonHor:
 
-            if (reverseLayout) renderScrollBarHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left);
-            else renderScrollBarHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
+            if (reverseLayout) renderScrollBarHole(p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left);
+            else renderScrollBarHole(p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
             return false;
 
             case ScrollBar::DoubleButtonVert:
-            renderScrollBarHole(p, QRect(0, r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right);
+            renderScrollBarHole(p, QRect(r.left(), r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right);
             return false;
 
             case ScrollBar::SingleButtonHor:
-            if (reverseLayout) renderScrollBarHole(p, QRect(r.left()-5, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
-            else renderScrollBarHole(p, QRect(r.right()+1, 0, 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom);
+            if (reverseLayout) renderScrollBarHole(p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
+            else renderScrollBarHole(p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom);
             return false;
 
             case ScrollBar::SingleButtonVert:
-            renderScrollBarHole(p, QRect(0, r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right);
+            renderScrollBarHole(p, QRect(r.left(), r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right);
             return false;
 
             case ScrollBar::GrooveAreaVertTop:
@@ -2307,7 +2327,7 @@ namespace Oxygen
                 // no frame is drawn when tabbar is empty.
                 // this is consistent with the tabWidgetTabContents subelementRect
                 if( tabOpt->tabBarSize.isEmpty() ) return true;
-                
+
                 // tab
                 int w = tabOpt->tabBarSize.width();
                 int h = tabOpt->tabBarSize.height();
@@ -4289,7 +4309,7 @@ namespace Oxygen
         // here
         if( widget->inherits( "MessageList::Core::Widget" ) )
         { widget->setAutoFillBackground( false ); }
-        
+
         // KTextEdit frames
         // static cast is safe here, since isKTextEdit already checks that widget inherits from QFrame
         if( isKTextEditFrame( widget ) && static_cast<QFrame*>(widget)->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
@@ -6319,7 +6339,7 @@ namespace Oxygen
             }
 
             // spacing between widget and scrollbars
-            case PM_ScrollView_ScrollBarSpacing: return 1;
+            case PM_ScrollView_ScrollBarSpacing: return 0;
 
             default: break;
         }
