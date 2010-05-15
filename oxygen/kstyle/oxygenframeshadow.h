@@ -96,6 +96,9 @@ namespace Oxygen
         //! update shadows geometry
         virtual void updateShadowsGeometry( QObject* ) const;
 
+        //! update shadows
+        virtual void update( QObject* ) const;
+
         //! install shadow on given side
         virtual void installShadow( QWidget*, StyleHelper&, ShadowArea ) const;
 

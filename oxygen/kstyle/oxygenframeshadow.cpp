@@ -132,6 +132,11 @@ namespace Oxygen
 
         switch( event->type() )
         {
+            case QEvent::Show:
+            updateShadowsGeometry( object );
+            update( object );
+            break;
+
             case QEvent::Resize:
             updateShadowsGeometry( object );
             break;
@@ -152,6 +157,19 @@ namespace Oxygen
         {
             if( FrameShadow* shadow = qobject_cast<FrameShadow *>(child) )
             { shadow->updateGeometry(); }
+        }
+
+    }
+
+    //____________________________________________________________________________________
+    void FrameShadowFactory::update( QObject* object ) const
+    {
+
+        const QList<QObject* > children = object->children();
+        foreach( QObject *child, children )
+        {
+            if( FrameShadow* shadow = qobject_cast<FrameShadow *>(child) )
+            { shadow->update();}
         }
 
     }
