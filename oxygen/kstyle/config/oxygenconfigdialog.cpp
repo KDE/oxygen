@@ -145,7 +145,7 @@ namespace Oxygen
         bool modified( changed() );
         button( Apply )->setEnabled( modified );
         button( Reset )->setEnabled( modified );
-        button( Cancel )->setEnabled( modified );
+        button( Ok )->setEnabled( modified );
         updateWindowTitle( pageWidget_->currentPage() );
     }
 
