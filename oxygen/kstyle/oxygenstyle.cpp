@@ -58,13 +58,13 @@
 #include <QtGui/QToolButton>
 
 #include <QtDBus/QtDBus>
+#include <QX11Info>
 
 #include <KGlobal>
 #include <KGlobalSettings>
 #include <KConfigGroup>
 #include <KColorUtils>
 #include <KDebug>
-#include <KWindowSystem>
 #include <KTitleWidget>
 
 #include "oxygenanimations.h"
@@ -4353,6 +4353,13 @@ namespace Oxygen
 
         }
 
+        if( QPushButton* button = qobject_cast<QPushButton*>(widget) )
+        {
+            button->setAttribute(Qt::WA_Hover);
+            if( button->parentWidget() && button->parentWidget()->inherits( "KPIM::StatusbarProgressWidget" ) )
+            { button->setFlat( true ); }
+        }
+
         if (
             qobject_cast<QAbstractItemView*>(widget)
             || qobject_cast<QAbstractSpinBox*>(widget)
@@ -4360,7 +4367,6 @@ namespace Oxygen
             || qobject_cast<QComboBox*>(widget)
             || qobject_cast<QDial*>(widget)
             || qobject_cast<QLineEdit*>(widget)
-            || qobject_cast<QPushButton*>(widget)
             || qobject_cast<QRadioButton*>(widget)
             || qobject_cast<QScrollBar*>(widget)
             || qobject_cast<QSlider*>(widget)
@@ -6289,18 +6295,17 @@ namespace Oxygen
             case SH_Menu_Mask:
             {
 
-                // mask should be returned only if composite in disabled
-                if( !( compositingActive() ) )
+                if( !hasAlphaChannel( widget ) )
                 {
+
+                    // mask should be set only if compositing is disabled
                     if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask *>(returnData))
                     { mask->region = _helper.roundedMask( option->rect ); }
-                    return true;
-
-                } else {
-
-                    return KStyle::styleHint(hint, option, widget, returnData);
 
                 }
+
+                return true;
+
             }
 
             default: return KStyle::styleHint(hint, option, widget, returnData);
@@ -6986,7 +6991,7 @@ namespace Oxygen
             case QEvent::Resize:
             {
                 // make sure mask is appropriate
-                if( !compositingActive() )
+                if( !hasAlphaChannel(t) )
                 {
 
                     QRegion mask( _helper.roundedMask( t->rect() ) );
@@ -7023,7 +7028,8 @@ namespace Oxygen
 
                 }
 
-                if( compositingActive() )
+                bool hasAlpha( hasAlphaChannel(t) );
+                if( hasAlpha )
                 {
                     p.setCompositionMode(QPainter::CompositionMode_Source );
                     TileSet *tileSet( _helper.roundCorner(color) );
@@ -7054,7 +7060,7 @@ namespace Oxygen
                 }
 
                 // frame
-                if( compositingActive() ) p.setClipping( false );
+                if( hasAlpha ) p.setClipping( false );
                 _helper.drawFloatFrame( &p, r, color );
 
                 return true;
@@ -7084,24 +7090,6 @@ namespace Oxygen
     {
         switch(ev->type())
         {
-            case QEvent::Show:
-            case QEvent::Resize:
-            {
-
-                // make sure mask is appropriate
-                if( compositingActive() )
-                {
-                    if( widget->mask() != QRegion() )
-                    { widget->clearMask(); }
-
-                } else if( widget->mask() == QRegion() ) {
-
-                    widget->setMask( _helper.roundedMask( widget->rect() ) );
-
-                }
-
-                return false;
-            }
 
             case QEvent::Paint:
             {
@@ -7113,7 +7101,8 @@ namespace Oxygen
                 QRect r = widget->rect();
                 QColor color = widget->palette().window().color();
 
-                if( compositingActive() )
+                bool hasAlpha( hasAlphaChannel( widget ) );
+                if( hasAlpha )
                 {
                     p.setCompositionMode(QPainter::CompositionMode_Source );
                     TileSet *tileSet( _helper.roundCorner(color) );
@@ -7127,7 +7116,7 @@ namespace Oxygen
                 _helper.renderMenuBackground( &p, e->rect(), widget, widget->palette() );
 
                 // frame
-                if( compositingActive() ) p.setClipping( false );
+                if( hasAlpha ) p.setClipping( false );
                 _helper.drawFloatFrame( &p, r, color );
                 return false;
 
@@ -7149,7 +7138,7 @@ namespace Oxygen
                 // make sure mask is appropriate
                 if( widget->inherits( "KWin::GeometryTip" ) )
                 {
-                    if( compositingActive() )
+                    if( hasAlphaChannel( widget ) )
                     {
                         if( widget->mask() != QRegion() )
                         { widget->clearMask(); }
@@ -7182,7 +7171,8 @@ namespace Oxygen
                     QPaintEvent *e = (QPaintEvent*)ev;
                     p.setClipRegion(e->region());
 
-                    if( compositingActive() )
+                    bool hasAlpha( hasAlphaChannel( widget ) );
+                    if( hasAlpha )
                     {
 
                         p.setCompositionMode(QPainter::CompositionMode_Source );
@@ -7197,7 +7187,7 @@ namespace Oxygen
                     _helper.renderMenuBackground(&p, r, widget,color );
 
                     // frame
-                    if( compositingActive() ) p.setClipping( false );
+                    if( hasAlpha ) p.setClipping( false );
                     _helper.drawFloatFrame( &p, r, color );
 
                 } else if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground)) {
@@ -7260,7 +7250,7 @@ namespace Oxygen
             case QEvent::Resize:
             {
 
-                if( dw->isFloating() && !compositingActive() )
+                if( dw->isFloating() && !hasAlphaChannel( dw ) )
                 {
 
                     QRegion mask( _helper.roundedMask( dw->rect() ) );
@@ -7292,7 +7282,8 @@ namespace Oxygen
                     QColor color = dw->palette().window().color();
 
                     #ifndef Q_WS_WIN
-                    if( compositingActive() )
+                    bool hasAlpha( hasAlphaChannel(dw ) );
+                    if( hasAlpha )
                     {
                         p.setCompositionMode(QPainter::CompositionMode_Source );
                         TileSet *tileSet( _helper.roundCorner(color) );
@@ -7307,7 +7298,7 @@ namespace Oxygen
                     _helper.renderWindowBackground(&p, r, dw, color);
 
                     #ifndef Q_WS_WIN
-                    if( compositingActive() ) p.setClipping( false );
+                    if( hasAlpha ) p.setClipping( false );
                     #endif
 
                     _helper.drawFloatFrame(&p, r, color);
@@ -7388,9 +7379,21 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    bool Style::compositingActive( void ) const
+    bool Style::hasAlphaChannel( const QWidget* widget ) const
     {
-        return KWindowSystem::compositingActive();
+        #ifdef Q_WS_X11
+        if( compositingActive() )
+        {
+
+            if( widget ) return widget->x11Info().depth() == 32;
+            else return QX11Info().appDepth() == 32;
+
+        } else return false;
+
+        #else
+        return compositingActive();
+        #endif
+
     }
 
     //____________________________________________________________________

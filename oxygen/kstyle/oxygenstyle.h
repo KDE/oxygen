@@ -44,6 +44,7 @@
  */
 
 #include <KStyle>
+#include <KWindowSystem>
 
 #include <QtGui/QAbstractScrollArea>
 #include <QtGui/QBitmap>
@@ -311,7 +312,11 @@ namespace Oxygen
         //@}
 
         //! returns true if compositing is active
-        bool compositingActive( void ) const;
+        bool compositingActive( void ) const
+        { return KWindowSystem::compositingActive(); }
+
+        //! returns true if a given widget supports alpha channel
+        bool hasAlphaChannel( const QWidget* ) const;
 
         /*!
         returns first widget in parent chain that sets autoFillBackground to true,
