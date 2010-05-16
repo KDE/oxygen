@@ -6798,7 +6798,7 @@ namespace Oxygen
                     case QTabBar::TriangularNorth:
                     r = QRect(QPoint(paneRect.x(), paneRect.y() - twf->leftCornerWidgetSize.height() + (tb && tb->documentMode() ? 0 : gw)), twf->leftCornerWidgetSize);
                     r = visualRect(twf->direction, twf->rect, r);
-                    r.translate( 0, 2 );
+                    r.adjust( 0, 3, 0, 2 );
                     break;
 
                     case QTabBar::RoundedSouth:
@@ -6840,7 +6840,7 @@ namespace Oxygen
                     case QTabBar::TriangularNorth:
                     r = QRect(QPoint(paneRect.width() - twf->rightCornerWidgetSize.width(), paneRect.y() - twf->rightCornerWidgetSize.height() + (tb && tb->documentMode() ? 0 : gw)), twf->rightCornerWidgetSize);
                     r = visualRect(twf->direction, twf->rect, r);
-                    r.translate( 0, 2 );
+                    r.adjust( 0, 3, 0, 2 );
                     break;
 
                     case QTabBar::RoundedSouth:
