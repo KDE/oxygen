@@ -100,17 +100,20 @@ namespace Oxygen
 
         virtual QRect subElementRect(SubElement sr, const QStyleOption *opt, const QWidget *widget) const;
 
-        virtual void polish(QWidget* widget);
-        virtual void unpolish(QWidget* widget);
+        //!@name polishing
+        //@{
+
+        virtual void polish( QWidget* );
+        virtual void unpolish( QWidget* );
         using  KStyle::polish;
         using  KStyle::unpolish;
+
+        //@}
 
         int styleHint(
             StyleHint hint, const QStyleOption * option = 0, const QWidget * widget = 0,
             QStyleHintReturn * returnData = 0 ) const;
 
-        //virtual int styleHint(StyleHint hint, const QStyleOption * option = 0,
-        // const QWidget * widget = 0, QStyleHintReturn * returnData = 0) const;
         virtual int pixelMetric(PixelMetric m, const QStyleOption *opt, const QWidget *widget) const;
         virtual QRect subControlRect(ComplexControl control, const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget) const;
         virtual QSize sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& contentsSize, const QWidget* widget) const;
@@ -338,8 +341,6 @@ namespace Oxygen
 
         //! helper
         StyleHelper &_helper;
-
-        TileSet *m_holeTileSet;
 
         //! animations
         Animations* _animations;
