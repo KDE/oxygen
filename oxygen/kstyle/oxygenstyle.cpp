@@ -3482,15 +3482,12 @@ namespace Oxygen
 
                 // hover rect
                 QRect slitRect = r;
-
-                // cast
-                const QToolButton* t=qobject_cast<const QToolButton*>(widget);
-                if (t && !t->autoRaise())
+                if( widget )
                 {
-                    StyleOptions opts = 0;
 
-                    // check if parent is tabbar
-                    if (const QTabBar *tb =  qobject_cast<const QTabBar*>(t->parent()))
+                    // check if parent is tabbar, in which case one must add some extra
+                    // painting below the button
+                    if (const QTabBar *tb =  qobject_cast<const QTabBar*>(widget->parent()))
                     {
 
                         QPalette::ColorGroup colorGroup = tb->palette().currentColorGroup();
@@ -3521,13 +3518,13 @@ namespace Oxygen
                                 tiles = TileSet::Top;
 
                                 // check border right
-                                if( !documentMode && !rightWidget && t->geometry().right() >= tb->rect().right() )
+                                if( !documentMode && !rightWidget && widget->geometry().right() >= tb->rect().right() )
                                 {
 
                                     tiles |= TileSet::Right;
                                     slabRect = QRect(r.left()-7, r.bottom()-6-gw, r.width()+7+1, 5);
 
-                                } else if( !documentMode && !leftWidget && t->geometry().left() <= tb->rect().left() ) {
+                                } else if( !documentMode && !leftWidget && widget->geometry().left() <= tb->rect().left() ) {
 
                                     tiles |= TileSet::Left;
                                     slabRect = QRect(r.left()-1, r.bottom()-6-gw, r.width()+7+1, 5);
@@ -3552,13 +3549,13 @@ namespace Oxygen
                                 tiles = TileSet::Bottom;
                                 clipRect = r.adjusted(0,2+gw,0,0);
 
-                                if( !documentMode && !rightWidget && t->geometry().right() >= tb->rect().right() )
+                                if( !documentMode && !rightWidget && widget->geometry().right() >= tb->rect().right() )
                                 {
 
                                     tiles |= TileSet::Right;
                                     slabRect = QRect(r.left()-7, r.top()+gw+1, r.width()+7+1, 5);
 
-                                } else if( !documentMode && !leftWidget && t->geometry().left() <= tb->rect().left() ) {
+                                } else if( !documentMode && !leftWidget && widget->geometry().left() <= tb->rect().left() ) {
 
                                     tiles |= TileSet::Left;
                                     slabRect = QRect(r.left()-1, r.top()+gw+1, r.width()+7+1, 5);
@@ -3579,7 +3576,7 @@ namespace Oxygen
                                 slitRect.adjust(3+gw,0,-3-gw,0);
                                 tiles = TileSet::Right;
                                 clipRect = r.adjusted(3+gw,0,-2,0);
-                                if( !documentMode && !rightWidget && t->geometry().bottom() >= tb->rect().bottom() )
+                                if( !documentMode && !rightWidget && widget->geometry().bottom() >= tb->rect().bottom() )
                                 {
                                     tiles |= TileSet::Bottom;
                                     slabRect = QRect(r.left()+gw+3, r.top()-7, 4, r.height()+7+1);
@@ -3603,7 +3600,7 @@ namespace Oxygen
                                 tiles |= TileSet::Left;
                                 clipRect = r.adjusted(2-gw,0,-3, 0);
 
-                                if( !documentMode && !rightWidget && t->geometry().bottom() >= tb->rect().bottom() )
+                                if( !documentMode && !rightWidget && widget->geometry().bottom() >= tb->rect().bottom() )
                                 {
 
                                     tiles |= TileSet::Bottom;
@@ -3624,11 +3621,11 @@ namespace Oxygen
 
                         if( clipRect.isValid() )
                         {
-                            QPalette local( t->parentWidget() ? t->parentWidget()->palette() : pal );
+                            QPalette local( widget->parentWidget() ? widget->parentWidget()->palette() : pal );
 
                             // check whether parent has autofill background flag
-                            if( const QWidget* parent = checkAutoFillBackground( t ) ) p->fillRect( clipRect, parent->palette().color( parent->backgroundRole() ) );
-                            else _helper.renderWindowBackground(p, clipRect, t, local);
+                            if( const QWidget* parent = checkAutoFillBackground( widget ) ) p->fillRect( clipRect, parent->palette().color( parent->backgroundRole() ) );
+                            else _helper.renderWindowBackground(p, clipRect, widget, local);
 
                         }
 
@@ -3640,44 +3637,53 @@ namespace Oxygen
                             p->restore();
                         }
 
-                    } else {
+                    }
 
-                        // "normal" parent, and non "autoraised" (that is: always raised) buttons
-                        if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
-                        if (flags & State_HasFocus) opts |= Focus;
-                        if (enabled && (flags & State_MouseOver)) opts |= Hover;
+                }
 
-                        TileSet::Tiles tiles = TileSet::Ring;
-                        QRect local( r );
+                // non autoraised tool buttons get same slab as regular buttons
+                if( !flags.testFlag( State_AutoRaise ) )
+                {
+                    StyleOptions opts = 0;
 
-                        // adjust tiles and rect in case of menubutton
+                    // "normal" parent, and non "autoraised" (that is: always raised) buttons
+                    if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
+                    if (flags & State_HasFocus) opts |= Focus;
+                    if (enabled && (flags & State_MouseOver)) opts |= Hover;
+
+
+                    TileSet::Tiles tiles = TileSet::Ring;
+
+                    // adjust tiles and rect in case of menubutton
+                    if( const QToolButton* t = qobject_cast<const QToolButton*>( widget ) )
+                    {
                         if( t->popupMode()==QToolButton::MenuButtonPopup )
                         {
                             tiles = TileSet::Bottom | TileSet::Top | TileSet::Left;
-                            local.adjust( 0, 0, 4, 0 );
+                            slitRect.adjust( 0, 0, 4, 0 );
                         }
+                    }
 
-                        // adjust opacity and animation mode
-                        qreal opacity( -1 );
-                        AnimationMode mode( AnimationNone );
-                        if( enabled && hoverAnimated )
-                        {
-                            opacity = hoverOpacity;
-                            mode = AnimationHover;
+                    // adjust opacity and animation mode
+                    qreal opacity( -1 );
+                    AnimationMode mode( AnimationNone );
+                    if( enabled && hoverAnimated )
+                    {
+                        opacity = hoverOpacity;
+                        mode = AnimationHover;
 
-                        } else if( enabled && !hasFocus && focusAnimated ) {
+                    } else if( enabled && !hasFocus && focusAnimated ) {
 
-                            opacity = focusOpacity;
-                            mode = AnimationFocus;
-
-                        }
-
-                        // render slab
-                        renderButtonSlab( p, local, pal.color(QPalette::Button), opts, opacity, mode, tiles );
-
-                        return true;
+                        opacity = focusOpacity;
+                        mode = AnimationFocus;
 
                     }
+
+                    // render slab
+                    renderButtonSlab( p, slitRect, pal.color(QPalette::Button), opts, opacity, mode, tiles );
+
+                    return true;
+
                 }
 
                 if( widget && widget->inherits("QDockWidgetTitleButton" ) )
