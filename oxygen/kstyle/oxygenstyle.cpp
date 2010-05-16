@@ -6985,18 +6985,8 @@ namespace Oxygen
             case QEvent::Resize:
             {
                 // make sure mask is appropriate
-                if( !hasAlphaChannel(t) )
-                {
-
-                    QRegion mask( _helper.roundedMask( t->rect() ) );
-                    if(t->mask() != mask) t->setMask(mask);
-
-                } else if( t->mask() != QRegion() ) {
-
-                    t->clearMask();
-
-                }
-
+                if( t->isFloating() && !hasAlphaChannel(t) ) t->setMask(_helper.roundedMask( t->rect() ));
+                else  t->clearMask();
                 return false;
             }
 
@@ -7128,23 +7118,12 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             {
-
-                // make sure mask is appropriate
                 if( widget->inherits( "KWin::GeometryTip" ) )
                 {
-                    if( hasAlphaChannel( widget ) )
-                    {
-                        if( widget->mask() != QRegion() )
-                        { widget->clearMask(); }
-
-                    } else if( widget->mask() == QRegion() ) {
-
-                        widget->setMask( _helper.roundedMask( widget->rect() ) );
-
-                    }
-
+                    // make sure mask is appropriate
+                    if( !hasAlphaChannel(widget) ) widget->setMask(_helper.roundedMask( widget->rect() ));
+                    else  widget->clearMask();
                 }
-
                 return false;
             }
 
@@ -7243,21 +7222,9 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             {
-
-                if( dw->isFloating() && !hasAlphaChannel( dw ) )
-                {
-
-                    QRegion mask( _helper.roundedMask( dw->rect() ) );
-                    if(dw->mask() != mask) dw->setMask( mask );
-
-                } else if (dw->mask() != QRegion()) {
-
-                    // remove the mask in docked state to prevent it
-                    // from intefering with the dock frame
-                    dw->clearMask();
-
-                }
-
+                // make sure mask is appropriate
+                if( dw->isFloating() && !hasAlphaChannel(dw) ) dw->setMask(_helper.roundedMask( dw->rect() ));
+                else  dw->clearMask();
                 return false;
             }
 
