@@ -3448,7 +3448,9 @@ namespace Oxygen
             case ToolButton::Panel:
             {
 
-                // check whether toolbutton is in toolbar
+                bool autoRaised( flags & State_AutoRaise );
+
+                    // check whether toolbutton is in toolbar
                 bool isInToolBar( widget && widget->parent() && widget->parent()->inherits( "QToolBar" ) );
 
                 // toolbar engine
@@ -3489,6 +3491,9 @@ namespace Oxygen
                     // painting below the button
                     if (const QTabBar *tb =  qobject_cast<const QTabBar*>(widget->parent()))
                     {
+
+                        // always autoRaise toobuttons in tabbars
+                        autoRaised = true;
 
                         QPalette::ColorGroup colorGroup = tb->palette().currentColorGroup();
                         QTabWidget* tw( qobject_cast<QTabWidget*>(tb->parent() ) );
@@ -3642,7 +3647,7 @@ namespace Oxygen
                 }
 
                 // non autoraised tool buttons get same slab as regular buttons
-                if( !flags.testFlag( State_AutoRaise ) )
+                if( !autoRaised )
                 {
                     StyleOptions opts = 0;
 
