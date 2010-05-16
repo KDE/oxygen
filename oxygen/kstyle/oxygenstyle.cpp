@@ -56,9 +56,9 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
 #include <QtGui/QToolButton>
+#include <QtGui/QX11Info>
 
 #include <QtDBus/QtDBus>
-#include <QX11Info>
 
 #include <KGlobal>
 #include <KGlobalSettings>
@@ -4353,13 +4353,6 @@ namespace Oxygen
 
         }
 
-        if( QPushButton* button = qobject_cast<QPushButton*>(widget) )
-        {
-            button->setAttribute(Qt::WA_Hover);
-            if( button->parentWidget() && button->parentWidget()->inherits( "KPIM::StatusbarProgressWidget" ) )
-            { button->setFlat( true ); }
-        }
-
         if (
             qobject_cast<QAbstractItemView*>(widget)
             || qobject_cast<QAbstractSpinBox*>(widget)
@@ -4367,6 +4360,7 @@ namespace Oxygen
             || qobject_cast<QComboBox*>(widget)
             || qobject_cast<QDial*>(widget)
             || qobject_cast<QLineEdit*>(widget)
+            || qobject_cast<QPushButton*>(widget)
             || qobject_cast<QRadioButton*>(widget)
             || qobject_cast<QScrollBar*>(widget)
             || qobject_cast<QSlider*>(widget)
