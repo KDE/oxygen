@@ -539,7 +539,11 @@ namespace Oxygen
 
             case PE_PanelMenu:
             {
-
+                
+                // do nothing if menu is embedded in another widget
+                // this corresponds to having a transparent background
+                if( widget && !widget->isWindow() ) return;
+                
                 const QStyleOptionMenuItem* mOpt( qstyleoption_cast<const QStyleOptionMenuItem*>(option) );
                 if( !( mOpt && widget ) ) return;
                 QRect r = mOpt->rect;
@@ -6312,7 +6316,7 @@ namespace Oxygen
             case SH_Menu_Mask:
             {
 
-                if( !hasAlphaChannel( widget ) )
+                if( !hasAlphaChannel( widget ) && (!widget || widget->isWindow() ) )
                 {
 
                     // mask should be set only if compositing is disabled
