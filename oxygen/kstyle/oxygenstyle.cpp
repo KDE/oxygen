@@ -1021,8 +1021,19 @@ namespace Oxygen
                 qreal hoverOpacity( animations().widgetStateEngine().opacity( widget, AnimationHover ) );
                 qreal focusOpacity( animations().widgetStateEngine().opacity( widget, AnimationFocus ) );
 
+                // decide if widget must be rendered flat.
+                /*
+                The decision is made depending on 
+                - whether the "flat" flag is set in the option
+                - whether the widget is hight enough to render both icons and normal margins
+                Note: in principle one should also check for the button text height
+                */
                 const QStyleOptionButton* bOpt( qstyleoption_cast< const QStyleOptionButton* >( opt ) );
-                if( bOpt && ( bOpt->features & QStyleOptionButton::Flat ) )
+                bool flat = ( bOpt && ( 
+                    bOpt->features.testFlag( QStyleOptionButton::Flat ) ||
+                    ( (!bOpt->icon.isNull()) && sizeFromContents( CT_PushButton, opt, bOpt->iconSize, widget ).height() > r.height() ) ) );
+                
+                if( flat )
                 {
 
 
@@ -3450,7 +3461,7 @@ namespace Oxygen
 
                 bool autoRaised( flags & State_AutoRaise );
 
-                    // check whether toolbutton is in toolbar
+                // check whether toolbutton is in toolbar
                 bool isInToolBar( widget && widget->parent() && widget->parent()->inherits( "QToolBar" ) );
 
                 // toolbar engine
@@ -6297,6 +6308,7 @@ namespace Oxygen
             // set no mask for window frame as round corners are rendered antialiased
             case SH_WindowFrame_Mask: return true;
 
+            case SH_ToolTip_Mask:
             case SH_Menu_Mask:
             {
 
@@ -6374,7 +6386,7 @@ namespace Oxygen
             {
                 QSize size = contentsSize;
 
-                if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option))
+                if( const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option) )
                 {
 
                     if ((!tbOpt->icon.isNull()) && (!tbOpt->text.isEmpty()) && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon)
