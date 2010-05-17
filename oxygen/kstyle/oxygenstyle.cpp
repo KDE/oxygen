@@ -4975,6 +4975,7 @@ namespace Oxygen
     {
         if ((r.width() <= 0) || (r.height() <= 0)) return;
 
+        // this is needed for button vertical alignment
         r.translate(0,-1);
         if (opts & Sunken) r.adjust(-1,0,1,2);
 
@@ -6663,6 +6664,11 @@ namespace Oxygen
                     if( !tabBarVisible ) return opt->rect;
 
                     QRect r = KStyle::subElementRect(sr, opt, widget);
+
+                    // this is needed to match slab translations introduced for
+                    // vertical alignment with labels
+                    if( twf->lineWidth != 0 ) r.translate( 0, -1 );
+
                     switch (twf->shape)
                     {
                         case QTabBar::RoundedNorth:
