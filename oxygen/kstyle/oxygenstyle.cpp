@@ -539,17 +539,18 @@ namespace Oxygen
 
             case PE_PanelMenu:
             {
-                
+
                 // do nothing if menu is embedded in another widget
                 // this corresponds to having a transparent background
                 if( widget && !widget->isWindow() ) return;
-                
+
                 const QStyleOptionMenuItem* mOpt( qstyleoption_cast<const QStyleOptionMenuItem*>(option) );
                 if( !( mOpt && widget ) ) return;
                 QRect r = mOpt->rect;
                 QColor color = mOpt->palette.window().color();
 
-                if( compositingActive() )
+                bool hasAlpha( hasAlphaChannel( widget ) );
+                if( hasAlpha )
                 {
 
                     p->setCompositionMode(QPainter::CompositionMode_Source );
@@ -563,8 +564,8 @@ namespace Oxygen
 
                 _helper.renderMenuBackground( p, r, widget, mOpt->palette );
 
-                if( compositingActive() ) p->setClipping( false );
-                _helper.drawFloatFrame( p, r, color );
+                if( hasAlpha ) p->setClipping( false );
+                _helper.drawFloatFrame( p, r, color, !hasAlpha );
 
                 return;
 
@@ -1027,16 +1028,16 @@ namespace Oxygen
 
                 // decide if widget must be rendered flat.
                 /*
-                The decision is made depending on 
+                The decision is made depending on
                 - whether the "flat" flag is set in the option
                 - whether the widget is hight enough to render both icons and normal margins
                 Note: in principle one should also check for the button text height
                 */
                 const QStyleOptionButton* bOpt( qstyleoption_cast< const QStyleOptionButton* >( opt ) );
-                bool flat = ( bOpt && ( 
+                bool flat = ( bOpt && (
                     bOpt->features.testFlag( QStyleOptionButton::Flat ) ||
                     ( (!bOpt->icon.isNull()) && sizeFromContents( CT_PushButton, opt, bOpt->iconSize, widget ).height() > r.height() ) ) );
-                
+
                 if( flat )
                 {
 
@@ -2489,7 +2490,7 @@ namespace Oxygen
         {
             case Generic::Frame:
             {
-                _helper.drawFloatFrame(p, r, pal.window().color());
+                _helper.drawFloatFrame(p, r, pal.window().color(), false );
                 return true;
             }
 
@@ -6345,7 +6346,8 @@ namespace Oxygen
             case PM_ButtonMargin: return 5;
 
             case PM_DefaultFrameWidth:
-            if( qobject_cast<const QLineEdit*>(widget) ) return 3;
+            if( !widget ) break;
+            else if( qobject_cast<const QLineEdit*>(widget) ) return 3;
             else if( const QFrame* frame = qobject_cast<const QFrame*>(widget) )
             {
                 return frame->frameShadow() == QFrame::Raised ? 4:3;
@@ -7072,7 +7074,7 @@ namespace Oxygen
 
                 // frame
                 if( hasAlpha ) p.setClipping( false );
-                _helper.drawFloatFrame( &p, r, color );
+                _helper.drawFloatFrame( &p, r, color, !hasAlpha );
 
                 return true;
 
@@ -7102,6 +7104,14 @@ namespace Oxygen
         switch(ev->type())
         {
 
+            case QEvent::Show:
+            case QEvent::Resize:
+            {
+                if( !hasAlphaChannel(widget) ) widget->setMask(_helper.roundedMask( widget->rect() ));
+                else  widget->clearMask();
+                return false;
+            }
+
             case QEvent::Paint:
             {
 
@@ -7115,10 +7125,8 @@ namespace Oxygen
                 bool hasAlpha( hasAlphaChannel( widget ) );
                 if( hasAlpha )
                 {
-                    p.setCompositionMode(QPainter::CompositionMode_Source );
                     TileSet *tileSet( _helper.roundCorner(color) );
                     tileSet->render( r, &p );
-
                     p.setCompositionMode(QPainter::CompositionMode_SourceOver );
                     p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
 
@@ -7128,7 +7136,8 @@ namespace Oxygen
 
                 // frame
                 if( hasAlpha ) p.setClipping( false );
-                _helper.drawFloatFrame( &p, r, color );
+
+                _helper.drawFloatFrame( &p, r, color, !hasAlpha );
                 return false;
 
             }
@@ -7188,7 +7197,7 @@ namespace Oxygen
 
                     // frame
                     if( hasAlpha ) p.setClipping( false );
-                    _helper.drawFloatFrame( &p, r, color );
+                    _helper.drawFloatFrame( &p, r, color, !hasAlpha );
 
                 } else if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground)) {
 
@@ -7289,7 +7298,7 @@ namespace Oxygen
                     if( hasAlpha ) p.setClipping( false );
                     #endif
 
-                    _helper.drawFloatFrame(&p, r, color);
+                    _helper.drawFloatFrame(&p, r, color, !hasAlpha );
 
                 } else {
 

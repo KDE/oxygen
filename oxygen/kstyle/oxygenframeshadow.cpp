@@ -51,11 +51,14 @@ namespace Oxygen
 
         // check whether widget is a frame, and has the proper shape
         bool accepted = false;
+        bool flat = false;
         if( QFrame* frame = qobject_cast<QFrame*>( widget ) ) {
 
-            if( frame && frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) )
-            { accepted = true; }
-
+            if( frame && frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) ) { accepted = true; }
+            else if( widget->parent() && widget->parent()->inherits( "QComboBoxPrivateContainer" ) ) {
+                accepted = true;
+                flat = true;
+            }
         }
 
         if( !accepted ) return false;
@@ -75,7 +78,7 @@ namespace Oxygen
         connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( widgetDestroyed( QObject* ) ) );
 
         // install shadow
-        installShadows( widget, helper );
+        installShadows( widget, helper, flat );
 
         return true;
 
@@ -94,16 +97,20 @@ namespace Oxygen
     { _registeredWidgets.remove( o ); }
 
     //____________________________________________________________________________________
-    void FrameShadowFactory::installShadows( QWidget* widget, StyleHelper& helper )
+    void FrameShadowFactory::installShadows( QWidget* widget, StyleHelper& helper, bool flat )
     {
 
         removeShadows(widget);
 
         widget->installEventFilter(this);
-        installShadow( widget, helper, Left );
-        installShadow( widget, helper, Top );
-        installShadow( widget, helper, Right );
-        installShadow( widget, helper, Bottom );
+        if( !flat )
+        {
+            installShadow( widget, helper, Left );
+            installShadow( widget, helper, Right );
+        }
+
+        installShadow( widget, helper, Top, flat );
+        installShadow( widget, helper, Bottom, flat );
 
     }
 
@@ -116,7 +123,7 @@ namespace Oxygen
         const QList<QObject* > children = widget->children();
         foreach( QObject *child, children )
         {
-            if( FrameShadow* shadow = qobject_cast<FrameShadow *>(child) )
+            if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase*>(child) )
             {
                 shadow->hide();
                 shadow->setParent(0);
@@ -155,7 +162,7 @@ namespace Oxygen
         const QList<QObject *> children = object->children();
         foreach( QObject *child, children )
         {
-            if( FrameShadow* shadow = qobject_cast<FrameShadow *>(child) )
+            if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->updateGeometry(); }
         }
 
@@ -168,7 +175,7 @@ namespace Oxygen
         const QList<QObject* > children = object->children();
         foreach( QObject *child, children )
         {
-            if( FrameShadow* shadow = qobject_cast<FrameShadow *>(child) )
+            if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->update();}
         }
 
@@ -181,22 +188,24 @@ namespace Oxygen
         const QList<QObject *> children = widget->children();
         foreach( QObject *child, children )
         {
-            if( FrameShadow* shadow = qobject_cast<FrameShadow *>(child) )
+            if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->updateState( focus, hover, opacity, mode ); }
         }
 
     }
 
     //____________________________________________________________________________________
-    void FrameShadowFactory::installShadow( QWidget* widget, StyleHelper& helper, ShadowArea area ) const
+    void FrameShadowFactory::installShadow( QWidget* widget, StyleHelper& helper, ShadowArea area, bool flat ) const
     {
-        FrameShadow *shadow = new FrameShadow( area, helper );
+        FrameShadowBase *shadow(0);
+        if( flat ) shadow = new FlatFrameShadow( area, helper );
+        else shadow = new SunkenFrameShadow( area, helper );
         shadow->setParent(widget);
         shadow->updateGeometry();
     }
 
     //____________________________________________________________________________________
-    void FrameShadow::init()
+    void FrameShadowBase::init()
     {
 
         setAttribute(Qt::WA_OpaquePaintEvent, false);
@@ -206,7 +215,7 @@ namespace Oxygen
         setContextMenuPolicy(Qt::NoContextMenu);
 
         // grab viewport widget
-        QWidget *viewport( FrameShadow::viewport() );
+        QWidget *viewport( FrameShadowBase::viewport() );
         if( !viewport && parentWidget() && parentWidget()->inherits( "Q3ListView" ) )
         { viewport = parentWidget(); }
 
@@ -215,53 +224,29 @@ namespace Oxygen
 
     }
 
-    //____________________________________________________________________________________
-    void FrameShadow::updateGeometry()
+     //____________________________________________________________________________________
+    QWidget* FrameShadowBase::viewport( void ) const
     {
 
-        QWidget *widget = parentWidget();
-        if( !widget ) return;
+        if( !parentWidget() )  return NULL;
 
-        QRect cr = widget->contentsRect();
-        switch (shadowArea())
+        if( QAbstractScrollArea *widget = qobject_cast<QAbstractScrollArea *>(parentWidget()) )
         {
 
-            case Top:
-            cr.setHeight( SHADOW_SIZE_TOP );
-            cr.adjust( -3, -3, 3, 0 );
-            break;
+            return widget->viewport();
 
-            case Left:
-            cr.setWidth(SHADOW_SIZE_LEFT);
-            cr.adjust(-3, SHADOW_SIZE_TOP, 0, -SHADOW_SIZE_BOTTOM);
-            break;
+        } else return NULL;
 
-            case Bottom:
-            cr.setTop(cr.bottom() - SHADOW_SIZE_BOTTOM + 1);
-            cr.adjust( -3, 0, 3, 3 );
-            break;
-
-            case Right:
-            cr.setLeft(cr.right() - SHADOW_SIZE_RIGHT + 1);
-            cr.adjust(0, SHADOW_SIZE_TOP, 3, -SHADOW_SIZE_BOTTOM);
-            break;
-
-            case Unknown:
-            default:
-            return;
-        }
-
-        setGeometry(cr);
     }
 
     //____________________________________________________________________________________
-    bool FrameShadow::event(QEvent *e)
+    bool FrameShadowBase::event(QEvent *e)
     {
 
         // paintEvents are handled separately
         if (e->type() == QEvent::Paint) return QWidget::event(e);
 
-        QWidget *viewport( FrameShadow::viewport() );
+        QWidget *viewport( FrameShadowBase::viewport() );
 
         switch (e->type())
         {
@@ -322,7 +307,46 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadow::updateState( bool focus, bool hover, qreal opacity, AnimationMode mode )
+    void FrameShadowBase::updateGeometry()
+    {
+
+        QWidget *widget = parentWidget();
+        if( !widget ) return;
+
+        QRect cr = widget->contentsRect();
+        switch (shadowArea())
+        {
+
+            case Top:
+            cr.setHeight( SHADOW_SIZE_TOP );
+            cr.adjust( -3, -3, 3, 0 );
+            break;
+
+            case Left:
+            cr.setWidth(SHADOW_SIZE_LEFT);
+            cr.adjust(-3, SHADOW_SIZE_TOP, 0, -SHADOW_SIZE_BOTTOM);
+            break;
+
+            case Bottom:
+            cr.setTop(cr.bottom() - SHADOW_SIZE_BOTTOM + 1);
+            cr.adjust( -3, 0, 3, 3 );
+            break;
+
+            case Right:
+            cr.setLeft(cr.right() - SHADOW_SIZE_RIGHT + 1);
+            cr.adjust(0, SHADOW_SIZE_TOP, 3, -SHADOW_SIZE_BOTTOM);
+            break;
+
+            case Unknown:
+            default:
+            return;
+        }
+
+        setGeometry(cr);
+    }
+
+    //____________________________________________________________________________________
+    void SunkenFrameShadow::updateState( bool focus, bool hover, qreal opacity, AnimationMode mode )
     {
         bool changed( false );
         if( _focus != focus ) { _focus = focus; changed = true; }
@@ -333,7 +357,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadow::paintEvent(QPaintEvent *event )
+    void SunkenFrameShadow::paintEvent(QPaintEvent *event )
     {
 
         // this fixes shadows in frames that change frameStyle() after polish()
@@ -347,7 +371,7 @@ namespace Oxygen
 
         QColor base( palette().color(QPalette::Window) );
         TileSet::Tiles tiles;
-        switch( _area )
+        switch( shadowArea() )
         {
             case Top:
             {
@@ -389,17 +413,39 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    QWidget* FrameShadow::viewport( void ) const
+    void FlatFrameShadow::paintEvent(QPaintEvent *event )
     {
 
-        if( !parentWidget() )  return NULL;
+        // this fixes shadows in frames that change frameStyle() after polish()
+        if (QFrame *frame = qobject_cast<QFrame *>(parentWidget()))
+        { if (frame->frameStyle() != (QFrame::NoFrame)) return; }
 
-        if( QAbstractScrollArea *widget = qobject_cast<QAbstractScrollArea *>(parentWidget()) )
+        QWidget *parent = parentWidget();
+        QPixmap pm( size() );
         {
 
-            return widget->viewport();
+            pm.fill( Qt::transparent );
+            QPainter p( &pm );
+            p.setClipRegion( event->region() );
+            p.setRenderHints( QPainter::Antialiasing );
+            p.translate( -geometry().topLeft() );
+            p.setCompositionMode(QPainter::CompositionMode_DestinationOver);
+            p.setPen( Qt::NoPen );
+            _helper.renderMenuBackground( &p, geometry(), parent, parent->palette() );
 
-        } else return NULL;
+            // mask
+            p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+            p.setBrush( Qt::black );
+            p.drawRoundedRect( QRectF(parent->contentsRect()), 2.5, 2.5 );
+
+        }
+
+        QPainter p( this );
+        p.setClipRegion( event->region() );
+        p.fillRect( rect(), Qt::transparent );
+        p.drawPixmap( QPoint(0,0), pm );
+
+        return;
 
     }
 

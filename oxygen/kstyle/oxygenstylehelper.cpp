@@ -649,7 +649,7 @@ namespace Oxygen
 
             QLinearGradient lg = QLinearGradient(0.0, size-4.5, 0.0, size+4.5);
             lg.setColorAt(0.0, calcLightColor( backgroundTopColor(color) ));
-            lg.setColorAt(0.52, backgroundTopColor(color) );
+            lg.setColorAt(0.51, backgroundBottomColor(color) );
             lg.setColorAt(1.0, backgroundBottomColor(color) );
 
             // draw ellipse.

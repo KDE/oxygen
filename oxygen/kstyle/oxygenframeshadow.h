@@ -88,7 +88,7 @@ namespace Oxygen
         protected:
 
         //! install shadows on given widget
-        virtual void installShadows( QWidget*, StyleHelper& );
+        virtual void installShadows( QWidget*, StyleHelper&, bool flat = false );
 
         //! remove shadows from widget
         virtual void removeShadows( QWidget* );
@@ -100,7 +100,7 @@ namespace Oxygen
         virtual void update( QObject* ) const;
 
         //! install shadow on given side
-        virtual void installShadow( QWidget*, StyleHelper&, ShadowArea ) const;
+        virtual void installShadow( QWidget*, StyleHelper&, ShadowArea, bool flat = false ) const;
 
         protected slots:
 
@@ -116,28 +116,20 @@ namespace Oxygen
 
     //! frame shadow
     /*! this allows the shadow to be painted over the widgets viewport */
-    class FrameShadow : public QWidget
+    class FrameShadowBase: public QWidget
     {
+
         Q_OBJECT
 
         public:
 
         //! constructor
-        explicit FrameShadow( ShadowArea area, StyleHelper& helper ):
-            QWidget(0),
-            _helper( helper ),
-            _viewFocusBrush( helper.viewFocusBrush() ),
-            _viewHoverBrush( helper.viewHoverBrush() ),
-            _area( area ),
-            _focus( false ),
-            _hover( false ),
-            _opacity( -1 ),
-            _mode( AnimationNone )
-        { init(); }
-
+        explicit FrameShadowBase( ShadowArea area ):
+            _area( area )
+        {}
 
         //! destructor
-        virtual ~FrameShadow()
+        virtual ~FrameShadowBase( void )
         {}
 
         //! shadow area
@@ -145,22 +137,29 @@ namespace Oxygen
         { _area = area; }
 
         //! shadow area
-        ShadowArea shadowArea() const
+        const ShadowArea& shadowArea() const
         { return _area; }
 
         //! update geometry
         virtual void updateGeometry( void );
 
         //! update state
-        void updateState( bool focus, bool hover, qreal opacity, AnimationMode mode );
+        virtual void updateState( bool, bool, qreal, AnimationMode )
+        {}
 
         protected:
 
+        //! shadow sizes
+        enum
+        {
+            SHADOW_SIZE_TOP = 5,
+            SHADOW_SIZE_BOTTOM = 5,
+            SHADOW_SIZE_LEFT = 5,
+            SHADOW_SIZE_RIGHT = 5
+        };
+
         //! event handler
         virtual bool event(QEvent *e);
-
-        //! painting
-        virtual void paintEvent(QPaintEvent *);
 
         //! initialization
         virtual void init();
@@ -170,22 +169,51 @@ namespace Oxygen
 
         private:
 
-        enum
-        {
-            SHADOW_SIZE_TOP = 5,
-            SHADOW_SIZE_BOTTOM = 5,
-            SHADOW_SIZE_LEFT = 5,
-            SHADOW_SIZE_RIGHT = 5
-        };
+        //! shadow area
+        ShadowArea _area;
+
+    };
+
+    //! frame shadow
+    /*! this allows the shadow to be painted over the widgets viewport */
+    class SunkenFrameShadow : public FrameShadowBase
+    {
+        Q_OBJECT
+
+        public:
+
+        //! constructor
+        SunkenFrameShadow( ShadowArea area, StyleHelper& helper ):
+            FrameShadowBase( area ),
+            _helper( helper ),
+            _viewFocusBrush( helper.viewFocusBrush() ),
+            _viewHoverBrush( helper.viewHoverBrush() ),
+            _focus( false ),
+            _hover( false ),
+            _opacity( -1 ),
+            _mode( AnimationNone )
+        { init(); }
+
+
+        //! destructor
+        virtual ~SunkenFrameShadow()
+        {}
+
+        //! update state
+        void updateState( bool focus, bool hover, qreal opacity, AnimationMode mode );
+
+        protected:
+
+        //! painting
+        virtual void paintEvent(QPaintEvent *);
+
+        private:
 
         //! helper
         StyleHelper& _helper;
 
         KStatefulBrush _viewFocusBrush;
         KStatefulBrush _viewHoverBrush;
-
-        //! shadow area
-        ShadowArea _area;
 
         //!@name widget state
         //@{
@@ -196,6 +224,37 @@ namespace Oxygen
 
     };
 
+
+    //! frame shadow
+    /*! this allows the shadow to be painted over the widgets viewport */
+    class FlatFrameShadow : public FrameShadowBase
+    {
+        Q_OBJECT
+
+        public:
+
+        //! constructor
+        FlatFrameShadow( ShadowArea area, StyleHelper& helper ):
+            FrameShadowBase( area ),
+            _helper( helper )
+        { init(); }
+
+
+        //! destructor
+        virtual ~FlatFrameShadow()
+        {}
+
+        protected:
+
+        //! painting
+        virtual void paintEvent(QPaintEvent *);
+
+        private:
+
+        //! helper
+        StyleHelper& _helper;
+
+    };
 }
 
 #endif
