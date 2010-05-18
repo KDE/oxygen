@@ -105,6 +105,9 @@ namespace Oxygen
         foreach( QPushButton* button, pushButtons_ )
         { button->setFlat( value ); }
 
+        ui.toolButton_2->setAutoRaise( value );
+        ui.toolButton_4->setAutoRaise( value );
+
         ui.kcombobox->setFrame( !value );
 
     }

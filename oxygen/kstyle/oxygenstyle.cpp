@@ -809,7 +809,8 @@ namespace Oxygen
 
                 // copy option and adjust rect
                 QStyleOptionToolButton local = *tbOpt;
-                local.rect.adjust( 0, 0, 0, -1 );
+                if( !(local.state & State_AutoRaise ) )
+                { local.rect.adjust( 0, 0, 0, -1 ); }
 
                 // disable mouseOver effect if toolbar is animated
                 if( widget && animations().toolBarEngine().isAnimated( widget->parentWidget() ) )
