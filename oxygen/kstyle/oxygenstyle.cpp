@@ -707,9 +707,9 @@ namespace Oxygen
             }
 
             case CE_ProgressBar:
-            // same as QCommonStyle::drawControl, except that it handles animations
             if (const QStyleOptionProgressBar *pb = qstyleoption_cast<const QStyleOptionProgressBar *>(option))
             {
+                // same as QCommonStyle::drawControl, except that it handles animations
                 QStyleOptionProgressBarV2 subopt = *pb;
                 subopt.rect = subElementRect(SE_ProgressBarGroove, pb, widget);
                 drawControl(CE_ProgressBarGroove, &subopt, p, widget);
@@ -730,12 +730,15 @@ namespace Oxygen
             return;
 
             case CE_ComboBoxLabel:
-            //same as CommonStyle, except for filling behind icon
             {
+                //same as CommonStyle, except for filling behind icon
                 if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
                 {
 
                     QRect editRect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
+
+                    // adjust rect for consistency with other buttons
+                    if( !cb->currentIcon.isNull() && !cb->editable ) editRect.adjust( 0, 0, 0, -1 );
 
                     p->save();
                     if( !cb->currentIcon.isNull() )
@@ -750,7 +753,6 @@ namespace Oxygen
                             Qt::AlignLeft | Qt::AlignVCenter,
                             iconRect.size(), editRect);
 
-                        //drawItemPixmap(p, iconRect.translated(0,1), Qt::AlignCenter, pixmap);
                         drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
 
                         if (cb->direction == Qt::RightToLeft) editRect.translate(-4 - cb->iconSize.width(), 0);
@@ -759,7 +761,6 @@ namespace Oxygen
 
                     if (!cb->currentText.isEmpty() && !cb->editable)
                     {
-                        if( !cb->currentIcon.isNull() ) editRect.translate( 0, -1 );
                         drawItemText(
                             p, editRect.adjusted(1, 0, -1, 0),
                             visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
@@ -806,10 +807,11 @@ namespace Oxygen
                 const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option);
                 if( !tbOpt ) return KStyle::drawControl(element, option, p, widget);
 
-                // copy option
+                // copy option and adjust rect
                 QStyleOptionToolButton local = *tbOpt;
+                local.rect.adjust( 0, 0, 0, -1 );
 
-                // disable mouseOver effect if toolbar is animated animated
+                // disable mouseOver effect if toolbar is animated
                 if( widget && animations().toolBarEngine().isAnimated( widget->parentWidget() ) )
                 { local.state &= ~State_MouseOver; }
 
@@ -817,13 +819,12 @@ namespace Oxygen
                 const bool active = (option->state & State_On) || (option->state & State_Sunken);
                 if( !active )  return KStyle::drawControl(element, &local, p, widget);
 
-                // case button and check
-                const QToolButton* toolButton( qobject_cast<const QToolButton*>( widget ) );
-                if( !toolButton || toolButton->autoRaise() ) return KStyle::drawControl(element, &local, p, widget);
+                // check autoRaise
+                if( option->state & State_AutoRaise ) return KStyle::drawControl(element, &local, p, widget);
 
                 // check button parent. Right now the fix addresses only toolbuttons located
                 // in a menu, in order to fix the KMenu title rendering issue
-                if( !( toolButton->parent() && toolButton->parent()->inherits( "QMenu" ) ) )
+                if( !( widget && widget->parent() && widget->parent()->inherits( "QMenu" ) ) )
                 { return KStyle::drawControl(element, &local, p, widget); }
 
                 // adjust vertical position
@@ -1859,7 +1860,6 @@ namespace Oxygen
 
         const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt);
         animations().scrollBarEngine().updateState( widget, enabled && slider && (slider->activeSubControls & SC_ScrollBarSlider) );
-
 
         QRect r( rect );
         if( slider )
@@ -3015,7 +3015,6 @@ namespace Oxygen
 
                 } else {
 
-                    //QRect fr = r.adjusted(0,1,0,-1);
                     QRect fr = r.adjusted(1,1,-1,-1);
 
                     // input area
@@ -3034,7 +3033,6 @@ namespace Oxygen
                     } else {
 
 
-                        //_helper.fillHole(*p, r.adjusted( -1, -1, 1, 0 ) );
                         _helper.fillHole(*p, r.adjusted( 0, -1, 0, 0 ) );
                         p->restore();
 
@@ -3836,7 +3834,7 @@ namespace Oxygen
         QColor color = colorOpt->color.color(pal);
         QColor background = pal.color(QPalette::Window);
 
-        // customize color depending on widget
+        // customize color and adjust position depending on widget
         if( widgetType == WT_PushButton )
         {
 
@@ -4208,10 +4206,10 @@ namespace Oxygen
                 aiv->selectionMode() != QAbstractItemView::SingleSelection &&
                 aiv->selectionMode() != QAbstractItemView::NoSelection)
             {
-                QRect r( rect );
-                QLinearGradient lg(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
-                lg.setColorAt(0.0, Qt::transparent);
 
+                const QRect r( rect.adjusted( 2, 0, -2, -2 ) );
+                QLinearGradient lg(r.bottomLeft(), r.bottomRight() );
+                lg.setColorAt(0.0, Qt::transparent);
                 if (flags & State_Selected) {
 
                     lg.setColorAt(0.2, pal.color(QPalette::BrightText));
@@ -4229,7 +4227,7 @@ namespace Oxygen
                 p->save();
                 p->setRenderHint(QPainter::Antialiasing, false);
                 p->setPen(QPen(lg, 1));
-                p->drawLine(r.adjusted(2,0,0,-2).bottomLeft(), r.adjusted(0,0,-2,-2).bottomRight());
+                p->drawLine(r.bottomLeft(), r.bottomRight() );
                 p->restore();
 
             }
@@ -4328,8 +4326,8 @@ namespace Oxygen
         }
 
         // several widgets set autofill background to false, which effectively breaks the background
-        // gradient rendering. Instead of patching all concerned applications, we change the background
-        // here
+        // gradient rendering. Instead of patching all concerned applications,
+        // we change the background here
         if( widget->inherits( "MessageList::Core::Widget" ) )
         { widget->setAutoFillBackground( false ); }
 
@@ -4375,7 +4373,7 @@ namespace Oxygen
             break;
 
             case Qt::Popup: // we currently don't want that kind of gradient on menus etc
-            case Qt::Tool: // this we exclude as it is used for dragging of icons etc
+            case Qt::Tool:  // this we exclude as it is used for dragging of icons etc
             default: break;
 
         }
@@ -6598,11 +6596,12 @@ namespace Oxygen
                 }
                 break;
             }
+
             case CC_ComboBox:
             {
                 // add the same width as we do in eventFilter
                 if(subControl == SC_ComboBoxListBoxPopup)
-                { return r.adjusted(0,0,8,0); }
+                { return r.adjusted(2,0,-2,0); }
             }
 
             default:

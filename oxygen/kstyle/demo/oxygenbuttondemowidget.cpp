@@ -60,6 +60,9 @@ namespace Oxygen
         ui.kcombobox_2->addItem( KIcon("document-save"), i18n( "Save" ) );
 
         ui.toolButton->setIcon( KIcon("oxygen") );
+        ui.toolButton_2->setIcon( KIcon("oxygen") );
+        ui.toolButton_2->setIconSize( QSize(16,16 ) );
+        ui.toolButton_2->setToolButtonStyle( Qt::ToolButtonTextBesideIcon	);
         ui.toolButton_3->setIcon( KIcon("oxygen") );
 
         // add toolbar

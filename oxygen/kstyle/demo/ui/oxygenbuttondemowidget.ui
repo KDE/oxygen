@@ -116,7 +116,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
+      <item row="0" column="4">
        <widget class="KComboBox" name="kcombobox">
         <property name="currentIndex">
          <number>1</number>
@@ -138,7 +138,7 @@
         </item>
        </widget>
       </item>
-      <item row="0" column="4">
+      <item row="0" column="6">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -182,8 +182,22 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
+      <item row="1" column="4">
        <widget class="KComboBox" name="kcombobox_2"/>
+      </item>
+      <item row="0" column="5">
+       <widget class="QToolButton" name="toolButton_4">
+        <property name="text">
+         <string>Normal</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QToolButton" name="toolButton_2">
+        <property name="text">
+         <string>Normal</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
