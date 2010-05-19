@@ -110,7 +110,7 @@ namespace Oxygen
         protected:
 
         // initialize pixmap
-        void initPixmap( int, const QPixmap&, int w, int h, const QRect &region);
+        void initPixmap( int, const QPixmap&, int w, int h, const QRect& );
 
         //! pixmap arry
         QVector<QPixmap> _pixmap;

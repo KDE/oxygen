@@ -24,18 +24,22 @@
 namespace Oxygen
 {
     //______________________________________________________________
-    void TileSet::initPixmap( int s, const QPixmap &pix, int w, int h, const QRect &region)
+    void TileSet::initPixmap( int s, const QPixmap &pix, int w, int h, const QRect &rect)
     {
-        if (w != region.width() || h != region.height())
+        QSize size( w, h );
+        if( !size.isValid() )
         {
+            _pixmap[s] = QPixmap();
 
-            QPixmap tile = pix.copy(region);
+        } else if( size != rect.size() ) {
+
+            QPixmap tile = pix.copy(rect);
             _pixmap[s] = QPixmap(w, h);
-            _pixmap[s].fill(QColor(0,0,0,0));
+            _pixmap[s].fill(Qt::transparent);
             QPainter p(&_pixmap[s]);
             p.drawTiledPixmap(0, 0, w, h, tile);
 
-        } else _pixmap[s] = pix.copy(region);
+        } else _pixmap[s] = pix.copy(rect);
 
     }
 
@@ -121,10 +125,6 @@ namespace Oxygen
         int hBottom = (t&Top) ? qMin( _h3, int(h*(1.0-hRatio)) ):_h3;
 
         // calculate corner locations
-
-        // maybe one should make the following two lines depend on
-        // what tilesets are selected. Would be more logical, but would
-        // probably break code all over the place ...
         w -= wLeft + wRight;
         h -= hTop + hBottom;
         int x1 = x0 + wLeft;
