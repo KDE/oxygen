@@ -65,6 +65,7 @@ namespace Oxygen
     class Transitions;
     class WindowManager;
     class FrameShadowFactory;
+    class WidgetExplorer;
 
     //! main oxygen style class.
     /*! it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */
@@ -188,9 +189,17 @@ namespace Oxygen
         WindowManager& windowManager( void ) const
         { return *_windowManager; }
 
-        //! window manager
+        //! frame shadows
         FrameShadowFactory& frameShadowFactory( void ) const
         { return *_frameShadowFactory; }
+
+        //! widget explorer
+        /*!
+        this is used for debugging. Provides information about
+        widgets, widgets' geometry, and ancestry tree
+        */
+        WidgetExplorer& widgetExplorer( void ) const
+        { return *_widgetExplorer; }
 
         //! polish scrollarea
         void polishScrollArea( QAbstractScrollArea* ) const;
@@ -358,6 +367,13 @@ namespace Oxygen
 
         //! frame shadows
         FrameShadowFactory* _frameShadowFactory;
+
+        //! widget explorer
+        /*!
+        this is used for debugging. Provides information about
+        widgets, widgets' geometry, and ancestry tree
+        */
+        WidgetExplorer* _widgetExplorer;
 
     };
 }

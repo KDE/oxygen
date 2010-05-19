@@ -68,10 +68,11 @@
 #include <KTitleWidget>
 
 #include "oxygenanimations.h"
-#include "oxygentransitions.h"
-#include "oxygenwindowmanager.h"
 #include "oxygenframeshadow.h"
 #include "oxygenstyleconfigdata.h"
+#include "oxygentransitions.h"
+#include "oxygenwindowmanager.h"
+#include "oxygenwidgetexplorer.h"
 
 // We need better holes! Bevel color and shadow color are currently based on
 // only one color, even though they are different things; also, we don't really
@@ -109,7 +110,8 @@ namespace Oxygen
         _animations( new Animations( this ) ),
         _transitions( new Transitions( this ) ),
         _windowManager( new WindowManager( this ) ),
-        _frameShadowFactory( new FrameShadowFactory( this ) )
+        _frameShadowFactory( new FrameShadowFactory( this ) ),
+        _widgetExplorer( new WidgetExplorer( this ) )
     {
 
         qAddPostRoutine(cleanupBefore);
@@ -1942,6 +1944,10 @@ namespace Oxygen
         const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(opt);
         animations().scrollBarEngine().updateState( widget, enabled && slider && (slider->activeSubControls & SC_ScrollBarSlider) );
 
+        /*
+        translate scrollbar rect to reduce the spacing with
+        respect to the associated view
+        */
         QRect r( rect );
         if( slider )
         {
@@ -4601,6 +4607,13 @@ namespace Oxygen
 
         }
 
+        // kate view
+        if( widget->inherits( "KateViewInternal" ) )
+        {
+            QTextStream( stdout ) << "Registering KateViewInternal" << endl;
+            widget->setContentsMargins( 10, 10, 10, 10 );
+        }
+
         // base class polishing
         KStyle::polish(widget);
 
@@ -4733,6 +4746,8 @@ namespace Oxygen
         animations().setupEngines();
         transitions().setupEngines();
         windowManager().initialize();
+
+        widgetExplorer().setEnabled( OxygenStyleConfigData::widgetExplorerEnabled() );
 
     }
 

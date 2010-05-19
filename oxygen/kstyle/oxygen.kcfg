@@ -80,6 +80,15 @@
     </entry>
 
     <!-- 
+        this enables WidgetExplorer debugging tool.
+        it provides information about widgets, 
+        widgets' geometry, and ancestry tree
+    -->
+    <entry name="WidgetExplorerEnabled" type="Bool">
+      <default>false</default>
+    </entry>
+
+    <!-- 
         this is the comma separated list of special per-app widgets on which
         window dragging can be installed (in addition to the build-in list of
         standard widgets. They are reference by the widget class name.

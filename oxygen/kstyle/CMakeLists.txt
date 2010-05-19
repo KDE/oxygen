@@ -4,7 +4,7 @@ project(kstyle-oxygen)
 add_subdirectory( config )
 add_subdirectory( demo )
 
-include_directories (animations transitions ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs/oxygen)
+include_directories (animations debug transitions ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs/oxygen)
 
 ########### next target ###############
 
@@ -36,6 +36,7 @@ set(oxygen_PART_SRCS
     animations/oxygentoolbarengine.cpp
     animations/oxygenwidgetstatedata.cpp
     animations/oxygenwidgetstateengine.cpp
+    debug/oxygenwidgetexplorer.cpp
     transitions/oxygencomboboxdata.cpp
     transitions/oxygencomboboxengine.cpp
     transitions/oxygenlabeldata.cpp
