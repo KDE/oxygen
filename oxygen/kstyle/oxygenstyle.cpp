@@ -220,6 +220,7 @@ namespace Oxygen
         setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Right, 7);
         setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Top, 4);
         setWidgetLayoutProp(WT_SpinBox, SpinBox::ButtonMargin+Bot, 3);
+        setWidgetLayoutProp(WT_SpinBox, SpinBox::SupportFrameless, 1);
 
         setWidgetLayoutProp(WT_ComboBox, ComboBox::FrameWidth, 3);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin, 0);
@@ -229,6 +230,7 @@ namespace Oxygen
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Bot, 0);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::SupportFrameless, 1);
 
         // negative margins are used to ensure that the arrow is well centered
         // it also ensures that the arrow clickable area is as large as possible
