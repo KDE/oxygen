@@ -232,12 +232,10 @@ namespace Oxygen
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::SupportFrameless, 1);
 
-        // negative margins are used to ensure that the arrow is well centered
-        // it also ensures that the arrow clickable area is as large as possible
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, -4);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 0);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 0);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, -1);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 6);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 4);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 3);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::FocusMargin, 0);
 
         setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
@@ -281,7 +279,7 @@ namespace Oxygen
 
             case CC_Slider:
             {
-                if (const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(option))
+                if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(option))
                 {
 
                     // if tickmarks are not requested, fall back to default
@@ -346,7 +344,7 @@ namespace Oxygen
         {
             bool isFlat = groupBox->features & QStyleOptionFrameV2::Flat;
 
-            if (isFlat)
+            if( isFlat)
             {
                 QFont font = painter->font();
                 QFont oldFont = font;
@@ -370,9 +368,9 @@ namespace Oxygen
         const bool hasFocus( enabled && (option->state & State_HasFocus));
 
         StyleOptions opts = 0;
-        if ((option->state & State_On) || (option->state & State_Sunken)) opts |= Sunken;
-        if (option->state & State_HasFocus) opts |= Focus;
-        if (enabled && (option->state & State_MouseOver)) opts |= Hover;
+        if( (option->state & State_On) || (option->state & State_Sunken)) opts |= Sunken;
+        if( option->state & State_HasFocus) opts |= Focus;
+        if( enabled && (option->state & State_MouseOver)) opts |= Hover;
 
         // mouseOver has precedence over focus
         animations().widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
@@ -487,20 +485,20 @@ namespace Oxygen
             drawPrimitive(PE_PanelButtonTool, &localTbOption, painter, widget);
         }
 
-        if (tbOption->subControls & SC_ToolButtonMenu)
+        if( tbOption->subControls & SC_ToolButtonMenu)
         {
 
             localTbOption.rect = menuRect;
             localTbOption.state = mflags;
             drawPrimitive(PE_IndicatorButtonDropDown, &localTbOption, painter, widget );
 
-        } else if (tbOption->features & QStyleOptionToolButton::HasMenu) {
+        } else if( tbOption->features & QStyleOptionToolButton::HasMenu) {
 
             // This is requesting KDE3-style arrow indicator, per Qt 4.4 behavior. Qt 4.3 prefers to hide
             // the fact of the menu's existence. Whee! Since we don't know how to paint this right,
             // though, we have to have some metrics set for it to look nice.
             int size = widgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, option, widget );
-            if (size)
+            if( size)
             {
 
                 int xOff = widgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, option, widget );
@@ -515,7 +513,7 @@ namespace Oxygen
 
         }
 
-        if (flags & State_HasFocus)
+        if( flags & State_HasFocus)
         {
             QRect focusRect = rect;
             localTbOption.rect = focusRect;
@@ -632,6 +630,86 @@ namespace Oxygen
                 return;
             }
 
+            case PE_PanelItemViewItem:
+            {
+
+                const QStyleOptionViewItemV4 *opt = qstyleoption_cast<const QStyleOptionViewItemV4*>(option);
+                const QAbstractItemView *view = qobject_cast<const QAbstractItemView *>(widget);
+                bool hover = (option->state & State_MouseOver) && (!view || view->selectionMode() != QAbstractItemView::NoSelection);
+
+                bool hasCustomBackground = opt->backgroundBrush.style() != Qt::NoBrush && !(option->state & State_Selected);
+                bool hasSolidBackground = !hasCustomBackground || opt->backgroundBrush.style() == Qt::SolidPattern;
+
+                if( !hover && !(option->state & State_Selected) && !hasCustomBackground && !(opt->features & QStyleOptionViewItemV2::Alternate) )
+                { return; }
+
+                QPalette::ColorGroup cg;
+                if( option->state & State_Enabled) cg = (option->state & State_Active) ? QPalette::Normal : QPalette::Inactive;
+                else cg = QPalette::Disabled;
+
+                QColor color;
+                if( hasCustomBackground && hasSolidBackground) color = opt->backgroundBrush.color();
+                else color = option->palette.color(cg, QPalette::Highlight);
+
+                if( hover && !hasCustomBackground)
+                {
+                    if( !(option->state & State_Selected)) color.setAlphaF(0.2);
+                    else color = color.lighter(110);
+                }
+
+                if( opt && (opt->features & QStyleOptionViewItemV2::Alternate))
+                { p->fillRect(option->rect, option->palette.brush(cg, QPalette::AlternateBase)); }
+
+                if( !hover && !(option->state & State_Selected) && !hasCustomBackground)
+                { return; }
+
+                if( hasCustomBackground && !hasSolidBackground) {
+
+                    const QPointF oldBrushOrigin = p->brushOrigin();
+                    p->setBrushOrigin(opt->rect.topLeft());
+                    p->setBrush(opt->backgroundBrush);
+                    p->setPen(Qt::NoPen);
+                    p->drawRect(opt->rect);
+                    p->setBrushOrigin(oldBrushOrigin);
+
+                } else {
+
+                    // get selection tileset
+                    QRect r = option->rect;
+                    TileSet *tileSet( _helper.selection( color, r.height(), hasCustomBackground ) );
+
+                    bool roundedLeft  = false;
+                    bool roundedRight = false;
+                    if( opt )
+                    {
+
+                        roundedLeft  = (opt->viewItemPosition == QStyleOptionViewItemV4::Beginning);
+                        roundedRight = (opt->viewItemPosition == QStyleOptionViewItemV4::End);
+                        if( opt->viewItemPosition == QStyleOptionViewItemV4::OnlyOne ||
+                            opt->viewItemPosition == QStyleOptionViewItemV4::Invalid ||
+                            (view && view->selectionBehavior() != QAbstractItemView::SelectRows))
+                        {
+                            roundedLeft  = true;
+                            roundedRight = true;
+                        }
+
+                    }
+
+                    bool reverseLayout = option->direction == Qt::RightToLeft;
+
+                    TileSet::Tiles tiles = TileSet::Center;
+                    if( !reverseLayout ? roundedLeft : roundedRight) tiles |= TileSet::Left;
+                    else r.adjust( -8, 0, 0, 0 );
+
+                    if( !reverseLayout ? roundedRight : roundedLeft) tiles |= TileSet::Right;
+                    else r.adjust( 0, 0, 8, 0 );
+
+                    if( r.isValid()) tileSet->render( r, p, tiles );
+                }
+
+                return;
+            }
+
             // this uses "standard" radio buttons to draw in Qt3 lists.
             case PE_Q3CheckListExclusiveIndicator:
             {
@@ -646,7 +724,7 @@ namespace Oxygen
                 r.translate( 0, 2 );
 
                 QPalette pal = option->palette;
-                if (flags & State_On) drawKStylePrimitive( WT_RadioButton, RadioButton::RadioOn, option, r, pal, flags, p, widget);
+                if( flags & State_On) drawKStylePrimitive( WT_RadioButton, RadioButton::RadioOn, option, r, pal, flags, p, widget);
                 else drawKStylePrimitive( WT_RadioButton, RadioButton::RadioOff, option, r, pal, flags, p, widget);
                 return;
 
@@ -666,8 +744,8 @@ namespace Oxygen
                 r.translate( 0, 2 );
 
                 QPalette pal = option->palette;
-                if (flags & State_NoChange) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckTriState, option, r, pal, flags, p, widget);
-                else if (flags & State_On) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckOn, option, r, pal, flags, p, widget);
+                if( flags & State_NoChange) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckTriState, option, r, pal, flags, p, widget);
+                else if( flags & State_On) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckOn, option, r, pal, flags, p, widget);
                 else drawKStylePrimitive( WT_CheckBox, CheckBox::CheckOff, option, r, pal, flags, p, widget);
                 return;
 
@@ -693,7 +771,7 @@ namespace Oxygen
 
             case CE_RubberBand:
             {
-                if (const QStyleOptionRubberBand *rbOpt = qstyleoption_cast<const QStyleOptionRubberBand *>(option))
+                if( const QStyleOptionRubberBand *rbOpt = qstyleoption_cast<const QStyleOptionRubberBand *>(option))
                 {
                     p->save();
                     QColor color = rbOpt->palette.color(QPalette::Highlight);
@@ -709,7 +787,7 @@ namespace Oxygen
             }
 
             case CE_ProgressBar:
-            if (const QStyleOptionProgressBar *pb = qstyleoption_cast<const QStyleOptionProgressBar *>(option))
+            if( const QStyleOptionProgressBar *pb = qstyleoption_cast<const QStyleOptionProgressBar *>(option))
             {
                 // same as QCommonStyle::drawControl, except that it handles animations
                 QStyleOptionProgressBarV2 subopt = *pb;
@@ -722,7 +800,7 @@ namespace Oxygen
                 subopt.rect = subElementRect(SE_ProgressBarContents, &subopt, widget);
                 drawControl(CE_ProgressBarContents, &subopt, p, widget);
 
-                if (pb->textVisible)
+                if( pb->textVisible)
                 {
                     subopt.rect = subElementRect(SE_ProgressBarLabel, pb, widget);
                     drawControl(CE_ProgressBarLabel, &subopt, p, widget);
@@ -734,7 +812,7 @@ namespace Oxygen
             case CE_ComboBoxLabel:
             {
                 //same as CommonStyle, except for filling behind icon
-                if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
+                if( const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
                 {
 
                     QRect editRect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
@@ -757,11 +835,11 @@ namespace Oxygen
 
                         drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
 
-                        if (cb->direction == Qt::RightToLeft) editRect.translate(-4 - cb->iconSize.width(), 0);
+                        if( cb->direction == Qt::RightToLeft) editRect.translate(-4 - cb->iconSize.width(), 0);
                         else editRect.translate(cb->iconSize.width() + 4, 0);
                     }
 
-                    if (!cb->currentText.isEmpty() && !cb->editable)
+                    if( !cb->currentText.isEmpty() && !cb->editable)
                     {
                         drawItemText(
                             p, editRect.adjusted(1, 0, -1, 0),
@@ -1016,9 +1094,9 @@ namespace Oxygen
                 const bool mouseOver(enabled && (flags & State_MouseOver));
                 const bool hasFocus( enabled && (flags & State_HasFocus));
 
-                if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
-                if (flags & State_HasFocus) opts |= Focus;
-                if (enabled && (flags & State_MouseOver)) opts |= Hover;
+                if( (flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
+                if( flags & State_HasFocus) opts |= Focus;
+                if( enabled && (flags & State_MouseOver)) opts |= Hover;
 
                 // update animation state
                 animations().widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
@@ -1137,7 +1215,7 @@ namespace Oxygen
                 if(!(option && widget)) return true;
 
                 const QStyleOptionToolBoxV2 *v2 = qstyleoption_cast<const QStyleOptionToolBoxV2 *>(opt);
-                if (v2 && v2->position == QStyleOptionToolBoxV2::Beginning && selected ) return true;
+                if( v2 && v2->position == QStyleOptionToolBoxV2::Beginning && selected ) return true;
 
                 bool animated( false );
                 qreal opacity( AnimationData::OpacityInvalid );
@@ -1182,7 +1260,7 @@ namespace Oxygen
                 p->save();
                 QPainterPath path;
                 int y = r.height()*15/100;
-                if (reverseLayout) {
+                if( reverseLayout) {
                     path.moveTo(r.left()+52, r.top());
                     path.cubicTo(QPointF(r.left()+50-8, r.top()), QPointF(r.left()+50-10, r.top()+y), QPointF(r.left()+50-10, r.top()+y));
                     path.lineTo(r.left()+18+9, r.bottom()-y);
@@ -1214,7 +1292,7 @@ namespace Oxygen
                 foreach( const QColor& color, colors )
                 {
                     p->setPen( color );
-                    if (reverseLayout) {
+                    if( reverseLayout) {
                         p->drawLine(r.left()+50-1, r.top(), r.right(), r.top());
                         p->drawLine(r.left()+20, r.bottom()-2, r.left(), r.bottom()-2);
                     } else {
@@ -1266,7 +1344,7 @@ namespace Oxygen
             case ProgressBar::BusyIndicator:
             {
 
-                if (r.width() < 4 || r.height() < 4 ) return true;
+                if( r.width() < 4 || r.height() < 4 ) return true;
                 QPixmap pixmap( _helper.progressBarIndicator( pal, rect ) );
                 p->drawPixmap( rect.adjusted(-1, -2, 0, 0).topLeft(), pixmap );
                 return true;
@@ -1328,22 +1406,22 @@ namespace Oxygen
                 // do nothing in case of empty intersection between animated rect and current
                 if( animated && !( animatedRect.isNull() || intersected ) ) return true;
 
-                if (active || animated || timerIsActive )
+                if( active || animated || timerIsActive )
                 {
 
                     QColor color = pal.color(QPalette::Window);
-                    if (OxygenStyleConfigData::menuHighlightMode() != OxygenStyleConfigData::MM_DARK)
+                    if( OxygenStyleConfigData::menuHighlightMode() != OxygenStyleConfigData::MM_DARK)
                     {
 
                         if(flags & State_Sunken)
                         {
 
-                            if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) color = pal.color(QPalette::Highlight);
+                            if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) color = pal.color(QPalette::Highlight);
                             else color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
 
                         } else {
 
-                            if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) color = KColorUtils::tint(color, _helper.viewHoverBrush().brush(pal).color());
+                            if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) color = KColorUtils::tint(color, _helper.viewHoverBrush().brush(pal).color());
                             else color = KColorUtils::mix(color, KColorUtils::tint(color, _helper.viewHoverBrush().brush(pal).color()));
                         }
 
@@ -1379,7 +1457,7 @@ namespace Oxygen
             {
                 KStyle::TextOption* textOpts = extractOption<KStyle::TextOption*>(kOpt);
                 QPalette::ColorRole role( QPalette::WindowText );
-                if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Sunken) && (flags & State_Enabled) )
+                if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Sunken) && (flags & State_Enabled) )
                 { role = QPalette::HighlightedText; }
 
                 drawItemText(p, r, Qt::AlignVCenter | Qt::TextShowMnemonic | textOpts->hAlign, pal, flags & State_Enabled, textOpts->text, role);
@@ -1534,7 +1612,7 @@ namespace Oxygen
                 QRect animatedRect( animations().menuEngine().animatedRect( widget ) );
                 if( !animatedRect.isNull() ) return true;
 
-                if (enabled)
+                if( enabled)
                 {
 
                     bool animated( animations().menuEngine().isAnimated(widget, Current ) );
@@ -1628,14 +1706,14 @@ namespace Oxygen
             {
 
                 const QStyleOptionDockWidget* dwOpt = ::qstyleoption_cast<const QStyleOptionDockWidget*>(opt);
-                if (!dwOpt) return true;
+                if( !dwOpt) return true;
                 const QStyleOptionDockWidgetV2 *v2 = qstyleoption_cast<const QStyleOptionDockWidgetV2*>(opt);
                 bool verticalTitleBar = v2 ? v2->verticalTitleBar : false;
 
                 QRect btnr = subElementRect(dwOpt->floatable ? SE_DockWidgetFloatButton : SE_DockWidgetCloseButton, opt, widget);
                 int fw = widgetLayoutProp(WT_DockWidget, DockWidget::TitleMargin, opt, widget);
                 QRect r = dwOpt->rect.adjusted(fw, fw, -fw, -fw);
-                if (verticalTitleBar) {
+                if( verticalTitleBar) {
 
                     if(btnr.isValid()) r.setY(btnr.y()+btnr.height());
 
@@ -1662,9 +1740,9 @@ namespace Oxygen
 
                 int tw = dwOpt->fontMetrics.width(tmpTitle);
                 int width = verticalTitleBar ? r.height() : r.width();
-                if (width < tw) title = dwOpt->fontMetrics.elidedText(title, Qt::ElideRight, width, Qt::TextShowMnemonic);
+                if( width < tw) title = dwOpt->fontMetrics.elidedText(title, Qt::ElideRight, width, Qt::TextShowMnemonic);
 
-                if (verticalTitleBar)
+                if( verticalTitleBar)
                 {
 
                     QSize s = r.size();
@@ -1701,7 +1779,7 @@ namespace Oxygen
             }
 
             case DockWidget::SeparatorHandle:
-            if (flags&State_Horizontal) drawKStylePrimitive(WT_Splitter, Splitter::HandleVert, opt, r, pal, flags, p, widget);
+            if( flags&State_Horizontal) drawKStylePrimitive(WT_Splitter, Splitter::HandleVert, opt, r, pal, flags, p, widget);
             else drawKStylePrimitive(WT_Splitter, Splitter::HandleHor, opt, r, pal, flags, p, widget);
             return true;
 
@@ -1876,7 +1954,7 @@ namespace Oxygen
         {
             case ScrollBar::DoubleButtonHor:
 
-            if (reverseLayout) renderScrollBarHole(p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left);
+            if( reverseLayout) renderScrollBarHole(p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left);
             else renderScrollBarHole(p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
             return false;
 
@@ -1885,7 +1963,7 @@ namespace Oxygen
             return false;
 
             case ScrollBar::SingleButtonHor:
-            if (reverseLayout) renderScrollBarHole(p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
+            if( reverseLayout) renderScrollBarHole(p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
             else renderScrollBarHole(p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom);
             return false;
 
@@ -1967,7 +2045,7 @@ namespace Oxygen
             case TabBar::EastTab:
             {
                 const QStyleOptionTabV2* tabOpt = qstyleoption_cast<const QStyleOptionTabV2*>(opt);
-                if (!tabOpt) return false;
+                if( !tabOpt) return false;
 
                 renderTab(p, r, pal, flags, tabOpt, reverseLayout, widget);
                 return true;
@@ -2102,7 +2180,7 @@ namespace Oxygen
                 QPainter pp(&pm);
 
                 int w = 0, h = 0;
-                if (vertical) h = gr.height();
+                if( vertical) h = gr.height();
                 else w = gr.width();
 
                 QLinearGradient grad;
@@ -2144,7 +2222,7 @@ namespace Oxygen
                 // part
                 const QTabWidget *tabWidget = qobject_cast<const QTabWidget *>(widget);
                 if( widget && !tabWidget ) tabWidget = qobject_cast<const QTabWidget *>(widget->parent() );
-                if (!tabOpt->tabBarRect.isValid() && !tabWidget) return true;
+                if( !tabOpt->tabBarRect.isValid() && !tabWidget) return true;
 
                 const QWidget* leftWidget = ( tabWidget && widget->isVisible() && tabWidget->cornerWidget(Qt::TopLeftCorner) ) ? tabWidget->cornerWidget(Qt::TopLeftCorner):0;
                 const QWidget* rightWidget = ( tabWidget && widget->isVisible() && tabWidget->cornerWidget(Qt::TopRightCorner) ) ? tabWidget->cornerWidget(Qt::TopRightCorner):0;
@@ -2155,7 +2233,7 @@ namespace Oxygen
                     case QTabBar::TriangularNorth:
                     {
 
-                        if (r.left() < tabOpt->tabBarRect.left())
+                        if( r.left() < tabOpt->tabBarRect.left())
                         {
                             QRect fr = r;
                             if( tabOpt->tabBarRect.isValid() ) fr.setRight(tabOpt->tabBarRect.left());
@@ -2171,7 +2249,7 @@ namespace Oxygen
                             renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Top);
                         }
 
-                        if (tabOpt->tabBarRect.right() < r.right())
+                        if( tabOpt->tabBarRect.right() < r.right())
                         {
                             QRect fr = r;
                             if( tabOpt->tabBarRect.isValid() ) fr.setLeft(tabOpt->tabBarRect.right());
@@ -2194,7 +2272,7 @@ namespace Oxygen
                     case QTabBar::TriangularSouth:
                     {
 
-                        if (r.left() < tabOpt->tabBarRect.left())
+                        if( r.left() < tabOpt->tabBarRect.left())
                         {
                             QRect fr = r;
                             if( tabOpt->tabBarRect.isValid() ) fr.setRight(tabOpt->tabBarRect.left());
@@ -2210,7 +2288,7 @@ namespace Oxygen
                             renderSlab(p, fr, pal.color(QPalette::Window), NoFill, TileSet::Bottom);
                         }
 
-                        if (tabOpt->tabBarRect.right() < r.right())
+                        if( tabOpt->tabBarRect.right() < r.right())
                         {
                             QRect fr = r;
                             if( tabOpt->tabBarRect.isValid() ) fr.setLeft(tabOpt->tabBarRect.right());
@@ -2372,12 +2450,12 @@ namespace Oxygen
                             renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
 
                             // right side
-                            if (lw > 0) renderSlab(p, QRect(r.right() - lw-7+gw, r.y()-gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
+                            if( lw > 0) renderSlab(p, QRect(r.right() - lw-7+gw, r.y()-gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
 
                         } else {
 
                             // left side
-                            if (lw > 0) renderSlab(p, QRect(-gw, r.y()-gw, lw+11, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
+                            if( lw > 0) renderSlab(p, QRect(-gw, r.y()-gw, lw+11, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
 
                             // right side
                             QRect slabRect( w+lw-7, r.y()-gw, r.width() - w - lw+7+gw, 7);
@@ -2414,11 +2492,11 @@ namespace Oxygen
                             renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
                             p->restore();
 
-                            if (lw > 0) renderSlab(p, QRect(r.right() - lw-7+gw, r.bottom()-7+gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
+                            if( lw > 0) renderSlab(p, QRect(r.right() - lw-7+gw, r.bottom()-7+gw, lw+7, 7), pal.color(QPalette::Window), NoFill, TileSet::Bottom | TileSet::Right);
 
                         } else {
 
-                            if (lw > 0) renderSlab(p, QRect(-gw, r.bottom()-7+gw, lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
+                            if( lw > 0) renderSlab(p, QRect(-gw, r.bottom()-7+gw, lw+7+gw, 7), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
 
                             // need to clip the painter to avoid overlapping shadow
                             // on can't reduce the rect because 7 is the minimum height for tileset rendering
@@ -2447,7 +2525,7 @@ namespace Oxygen
 
                         renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right | TileSet::Bottom);
 
-                        if (lh > 0) renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, lh+7 + 1), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
+                        if( lh > 0) renderSlab(p, QRect(r.x()-gw, r.y()-gw, 7, lh+7 + 1), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top);
                         QRect slabRect( r.x()-gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw);
                         if( tw ) slabRect.setTop( qMin( slabRect.top(), tw->rect().bottom() - rh -7 ) );
                         renderSlab(p, slabRect, pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom);
@@ -2461,7 +2539,7 @@ namespace Oxygen
                     {
                         renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Bottom);
 
-                        if (lh > 0) renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, 7, lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
+                        if( lh > 0) renderSlab(p, QRect(r.right()+1-7+gw, r.y()-gw, 7, lh+7+gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Right);
 
                         QRect slabRect(r.right()+1-7+gw, r.y()+h+lh-7, 7, r.height() - h - lh+7+gw );
                         if( tw ) slabRect.setTop( qMin( slabRect.top(), tw->rect().bottom() - rh -7 ) );
@@ -2839,7 +2917,7 @@ namespace Oxygen
 
                 bool horizontal = primitive == Slider::GrooveHor;
 
-                if (horizontal) {
+                if( horizontal) {
 
                     int center = r.y()+r.height()/2;
                     _helper.groove(pal.color(QPalette::Window), 0.0)->render( QRect( r.left()+1, center-2, r.width()-2, 5  ), p);
@@ -2960,12 +3038,12 @@ namespace Oxygen
         const bool mouseOver(enabled && (flags & State_MouseOver));
         bool editable = false;
 
-        if (const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(opt) )
+        if( const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(opt) )
         { editable = cb->editable; }
 
         bool hasFocus = flags & State_HasFocus;
         StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
-        if (mouseOver) opts |= Hover;
+        if( mouseOver) opts |= Hover;
 
         const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Window);
         QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
@@ -3098,7 +3176,7 @@ namespace Oxygen
             case Header::SectionVert:
             {
 
-                if (const QStyleOptionHeader *header = qstyleoption_cast<const QStyleOptionHeader *>(opt))
+                if( const QStyleOptionHeader *header = qstyleoption_cast<const QStyleOptionHeader *>(opt))
                 {
 
                     const bool horizontal( primitive == Header::SectionHor );
@@ -3173,7 +3251,7 @@ namespace Oxygen
             case Tree::VerticalBranch:
             case Tree::HorizontalBranch:
             {
-                if (OxygenStyleConfigData::viewDrawTreeBranchLines())
+                if( OxygenStyleConfigData::viewDrawTreeBranchLines())
                 {
                     QBrush brush( KColorUtils::mix( pal.text().color(), pal.background().color(), 0.8 ) );
                     p->fillRect( r, brush );
@@ -3203,7 +3281,7 @@ namespace Oxygen
                     p->drawLine( centerx - radius, centery, centerx + radius, centery );
 
                     // Collapsed = On
-                    if (primitive == Tree::ExpanderClosed)
+                    if( primitive == Tree::ExpanderClosed)
                     { p->drawLine( centerx, centery - radius, centerx, centery + radius ); }
 
                     p->restore();
@@ -3277,13 +3355,13 @@ namespace Oxygen
 
             case LineEdit::Panel:
             {
-                if (const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>(opt))
+                if( const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>(opt))
                 {
 
                     const QBrush inputBrush = enabled?pal.base():pal.window();
                     const int lineWidth(panel->lineWidth);
 
-                    if (lineWidth > 0)
+                    if( lineWidth > 0)
                     {
                         p->save();
                         p->setRenderHint(QPainter::Antialiasing);
@@ -3506,7 +3584,7 @@ namespace Oxygen
 
                     // check if parent is tabbar, in which case one must add some extra
                     // painting below the button
-                    if (const QTabBar *tb =  qobject_cast<const QTabBar*>(widget->parent()))
+                    if( const QTabBar *tb =  qobject_cast<const QTabBar*>(widget->parent()))
                     {
 
                         // always autoRaise toobuttons in tabbars
@@ -3669,9 +3747,9 @@ namespace Oxygen
                     StyleOptions opts = 0;
 
                     // "normal" parent, and non "autoraised" (that is: always raised) buttons
-                    if ((flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
-                    if (flags & State_HasFocus) opts |= Focus;
-                    if (enabled && (flags & State_MouseOver)) opts |= Hover;
+                    if( (flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
+                    if( flags & State_HasFocus) opts |= Focus;
+                    if( enabled && (flags & State_MouseOver)) opts |= Hover;
 
 
                     TileSet::Tiles tiles = TileSet::Ring;
@@ -3760,7 +3838,7 @@ namespace Oxygen
                             _helper.slitFocused( glow )->render(slitRect, p);
                         }
 
-                    } else if (hasFocus || mouseOver || (toolBarTimerActive && current ) ) {
+                    } else if( hasFocus || mouseOver || (toolBarTimerActive && current ) ) {
 
                         _helper.slitFocused(_helper.viewFocusBrush().brush(QPalette::Active).color())->render(slitRect, p);
 
@@ -3983,7 +4061,7 @@ namespace Oxygen
 
             }
 
-        } else if (const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
+        } else if( const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
 
             QColor highlight = _helper.viewHoverBrush().brush(pal).color();
             color = pal.color( QPalette::WindowText );
@@ -4147,7 +4225,7 @@ namespace Oxygen
         // assume focus takes precedence over hover
         animations().lineEditEngine().updateState( widget, AnimationFocus, focusHighlight );
         animations().lineEditEngine().updateState( widget, AnimationHover, hoverHighlight && !focusHighlight );
-        if (flags & State_Sunken)
+        if( flags & State_Sunken)
         {
             QRect local( r.adjusted( 1, 1, -1, -1 ) );
             qreal opacity( -1 );
@@ -4213,7 +4291,7 @@ namespace Oxygen
                 const QRect r( rect.adjusted( 2, 0, -2, -2 ) );
                 QLinearGradient lg(r.bottomLeft(), r.bottomRight() );
                 lg.setColorAt(0.0, Qt::transparent);
-                if (flags & State_Selected) {
+                if( flags & State_Selected) {
 
                     lg.setColorAt(0.2, pal.color(QPalette::BrightText));
                     lg.setColorAt(0.8, pal.color(QPalette::BrightText));
@@ -4307,7 +4385,7 @@ namespace Oxygen
     //______________________________________________________________
     void Style::polish(QWidget* widget)
     {
-        if (!widget) return;
+        if( !widget) return;
 
         // register widget to animations
         animations().registerWidget( widget );
@@ -4381,7 +4459,7 @@ namespace Oxygen
 
         }
 
-        if (
+        if(
             qobject_cast<QAbstractItemView*>(widget)
             || qobject_cast<QAbstractSpinBox*>(widget)
             || qobject_cast<QCheckBox*>(widget)
@@ -4416,6 +4494,16 @@ namespace Oxygen
 
         }
 
+        /*
+            I do not understand the setContentsMargins below
+            nor what effect removing it has on the layout:
+            the horizontal alignment of some widgets starts varying from
+            toolbar to toolbar if removed.
+            (Hugo 05/18/2010)
+        */
+        if( qobject_cast<QToolBar *>(widget->parent()) )
+        { widget->setContentsMargins(0,0,0,1); }
+
         if( qobject_cast<QToolButton*>(widget) )
         {
             if( qobject_cast<QToolBar*>( widget->parent() ) )
@@ -4433,21 +4521,19 @@ namespace Oxygen
 
             widget->setBackgroundRole(QPalette::NoRole);
 
-        } else if (qobject_cast<QMenuBar*>(widget)) {
+        } else if( qobject_cast<QMenuBar*>(widget)) {
 
             widget->setBackgroundRole(QPalette::NoRole);
 
-        } else if( widget->inherits("Q3ToolBar")
-            || qobject_cast<QToolBar*>(widget)
-            || qobject_cast<QToolBar *>(widget->parent())) {
+        } else if( widget->inherits("Q3ToolBar") || qobject_cast<QToolBar*>(widget) ) {
 
             widget->setBackgroundRole(QPalette::NoRole);
             widget->setAttribute(Qt::WA_TranslucentBackground);
-            widget->setContentsMargins(0,0,0,1);
             widget->installEventFilter(this);
 
             #ifdef Q_WS_WIN
-            widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+            //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+            widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
             #endif
 
         } else if( widget->inherits( "QTipLabel" ) ) {
@@ -4456,14 +4542,15 @@ namespace Oxygen
             widget->setAttribute(Qt::WA_TranslucentBackground);
 
             #ifdef Q_WS_WIN
-            widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint); //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+            //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+            widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
             #endif
 
-        } else if (qobject_cast<QScrollBar*>(widget) ) {
+        } else if( qobject_cast<QScrollBar*>(widget) ) {
 
             widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
 
-        } else if (qobject_cast<QDockWidget*>(widget)) {
+        } else if( qobject_cast<QDockWidget*>(widget)) {
 
             widget->setBackgroundRole(QPalette::NoRole);
             widget->setAttribute(Qt::WA_TranslucentBackground);
@@ -4475,20 +4562,20 @@ namespace Oxygen
             widget->setAutoFillBackground( false );
             widget->installEventFilter( this );
 
-        } else if (qobject_cast<QToolBox*>(widget)) {
+        } else if( qobject_cast<QToolBox*>(widget)) {
 
             widget->setBackgroundRole(QPalette::NoRole);
             widget->setAutoFillBackground(false);
             widget->setContentsMargins(5,5,5,5);
             widget->installEventFilter(this);
 
-        } else if (widget->parentWidget() && widget->parentWidget()->parentWidget() && qobject_cast<QToolBox*>(widget->parentWidget()->parentWidget()->parentWidget())) {
+        } else if( widget->parentWidget() && widget->parentWidget()->parentWidget() && qobject_cast<QToolBox*>(widget->parentWidget()->parentWidget()->parentWidget())) {
 
             widget->setBackgroundRole(QPalette::NoRole);
             widget->setAutoFillBackground(false);
             widget->parentWidget()->setAutoFillBackground(false);
 
-        } else if (qobject_cast<QMenu*>(widget) ) {
+        } else if( qobject_cast<QMenu*>(widget) ) {
 
             widget->setAttribute(Qt::WA_TranslucentBackground);
             #ifdef Q_WS_WIN
@@ -4496,7 +4583,7 @@ namespace Oxygen
             widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
             #endif
 
-        } else if (widget->inherits("QComboBoxPrivateContainer")) {
+        } else if( widget->inherits("QComboBoxPrivateContainer")) {
 
             widget->installEventFilter(this);
             widget->setAttribute(Qt::WA_TranslucentBackground);
@@ -4505,9 +4592,9 @@ namespace Oxygen
             widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
             #endif
 
-        } else if ( qobject_cast<QFrame*>(widget) ) {
+        } else if(  qobject_cast<QFrame*>(widget) ) {
 
-            if (qobject_cast<KTitleWidget*>(widget->parentWidget()))
+            if( qobject_cast<KTitleWidget*>(widget->parentWidget()))
             { widget->setBackgroundRole( QPalette::Window ); }
 
             widget->installEventFilter(this);
@@ -4587,7 +4674,7 @@ namespace Oxygen
             { groupBox->setAttribute( Qt::WA_Hover, false ); }
         }
 
-        if (qobject_cast<QMenuBar*>(widget)
+        if( qobject_cast<QMenuBar*>(widget)
             || (widget && widget->inherits("Q3ToolBar"))
             || qobject_cast<QToolBar*>(widget)
             || (widget && qobject_cast<QToolBar *>(widget->parent()))
@@ -4638,7 +4725,7 @@ namespace Oxygen
     {
 
         // reset helper configuration
-        if (type == KGlobalSettings::PaletteChanged) _helper.reloadConfig();
+        if( type == KGlobalSettings::PaletteChanged) _helper.reloadConfig();
 
         OxygenStyleConfigData::self()->readConfig();
 
@@ -4732,12 +4819,12 @@ namespace Oxygen
 
         // get relevant color
         QColor color(base);
-        if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
+        if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
         {
 
             color = pal.color(QPalette::Highlight);
 
-        } else if (OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE) {
+        } else if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE) {
 
             color = KColorUtils::mix(color, KColorUtils::tint(color, pal.color(QPalette::Highlight), 0.6));
 
@@ -4906,19 +4993,19 @@ namespace Oxygen
     //____________________________________________________________________________________
     void Style::renderButtonSlab(QPainter *p, QRect r, const QColor &color, StyleOptions opts, qreal opacity, AnimationMode mode, TileSet::Tiles tiles) const
     {
-        if ((r.width() <= 0) || (r.height() <= 0)) return;
+        if( (r.width() <= 0) || (r.height() <= 0)) return;
 
         r.translate(0,-1);
-        if (opts & Sunken) r.adjust(-1,0,1,2);
+        if( opts & Sunken) r.adjust(-1,0,1,2);
 
         // fill
-        if (!(opts & NoFill))
+        if( !(opts & NoFill))
         {
             p->save();
             p->setRenderHint(QPainter::Antialiasing);
             p->setPen(Qt::NoPen);
 
-            if (_helper.calcShadowColor(color).value() > color.value() && (opts & Sunken) )
+            if( _helper.calcShadowColor(color).value() > color.value() && (opts & Sunken) )
             {
 
                 QLinearGradient innerGradient(0, r.top(), 0, r.bottom() + r.height());
@@ -4953,7 +5040,7 @@ namespace Oxygen
         // for slabs, hover takes precedence over focus (other way around for holes)
         // but in any case if the button is sunken we don't show focus nor hover
         TileSet *tile;
-        if (opts & Sunken)
+        if( opts & Sunken)
         {
             tile = _helper.slabSunken(color, 0.0);
 
@@ -4974,20 +5061,20 @@ namespace Oxygen
         AnimationMode mode,
         TileSet::Tiles tiles) const
     {
-        if ((r.width() <= 0) || (r.height() <= 0)) return;
+        if( (r.width() <= 0) || (r.height() <= 0)) return;
 
         // this is needed for button vertical alignment
         r.translate(0,-1);
-        if (opts & Sunken) r.adjust(-1,0,1,2);
+        if( opts & Sunken) r.adjust(-1,0,1,2);
 
         // fill
-        if (!(opts & NoFill))
+        if( !(opts & NoFill))
         {
             p->save();
             p->setRenderHint(QPainter::Antialiasing);
             p->setPen(Qt::NoPen);
 
-            if (_helper.calcShadowColor(color).value() > color.value() && (opts & Sunken) )
+            if( _helper.calcShadowColor(color).value() > color.value() && (opts & Sunken) )
             {
 
                 QLinearGradient innerGradient(0, r.top(), 0, r.bottom() + r.height());
@@ -5013,7 +5100,7 @@ namespace Oxygen
         // for slabs, hover takes precedence over focus (other way around for holes)
         // but in any case if the button is sunken we don't show focus nor hover
         TileSet *tile;
-        if (opts & Sunken)
+        if( opts & Sunken)
         {
             tile = _helper.slabSunken(color, 0.0);
 
@@ -5033,7 +5120,7 @@ namespace Oxygen
     void Style::renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
         Qt::Orientation orientation, TileSet::Tiles tiles) const
     {
-        if (r.isValid())
+        if( r.isValid())
         {
 
             // one need to make smaller shadow
@@ -5050,7 +5137,7 @@ namespace Oxygen
         QPainter *p, const QRect &r, const QPalette &pal,
         Qt::Orientation orientation, bool hover, qreal opacity ) const
     {
-        if (!r.isValid()) return;
+        if( !r.isValid()) return;
         p->save();
         p->setRenderHints(QPainter::Antialiasing);
         QColor color = pal.color(QPalette::Button);
@@ -5070,14 +5157,14 @@ namespace Oxygen
 
         // draw the slider itself
         QRectF rect = r.adjusted(3, horizontal ? 2 : 4, -3, -3);
-        if (!rect.isValid()) { // e.g. not enough height
+        if( !rect.isValid()) { // e.g. not enough height
             p->restore();
             return;
         }
 
         // draw the slider
         QColor glowColor;
-        if (!OxygenStyleConfigData::scrollBarColored())
+        if( !OxygenStyleConfigData::scrollBarColored())
         {
             QColor base = KColorUtils::mix(dark, shadow, 0.5);
             QColor hovered = _helper.viewHoverBrush().brush(QPalette::Active).color();
@@ -5097,12 +5184,12 @@ namespace Oxygen
         p->setBrush(_helper.alphaColor(glowColor, 0.6));
         p->drawRoundedRect(rect.adjusted(-0.8,-0.8,0.8,0.8), 3, 3);
         p->setPen(QPen( _helper.alphaColor(glowColor, 0.3),  1.5));
-        if (horizontal) p->drawRoundedRect(rect.adjusted(-1.2,-0.8,1.2,0.8), 3, 3);
+        if( horizontal) p->drawRoundedRect(rect.adjusted(-1.2,-0.8,1.2,0.8), 3, 3);
         else p->drawRoundedRect(rect.adjusted(-0.8,-1.2,0.8,1.2), 3, 3);
 
         // colored background
         p->setPen(Qt::NoPen);
-        if (OxygenStyleConfigData::scrollBarColored())
+        if( OxygenStyleConfigData::scrollBarColored())
         {
 
             if( opacity >= 0 ) p->setBrush( KColorUtils::mix( color, pal.color(QPalette::Highlight), opacity ) );
@@ -5115,7 +5202,7 @@ namespace Oxygen
         // slider gradient
         {
             QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
-            if (!OxygenStyleConfigData::scrollBarColored()) {
+            if( !OxygenStyleConfigData::scrollBarColored()) {
                 sliderGradient.setColorAt(0.0, color);
                 sliderGradient.setColorAt(1.0, mid);
             } else {
@@ -5134,7 +5221,7 @@ namespace Oxygen
             QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top()); // don't let the pattern move
             QPoint periodEnd = offset + (horizontal ? QPoint(30, 0) : QPoint(0, 30));
             QLinearGradient patternGradient(rect.topLeft()+offset, rect.topLeft()+periodEnd);
-            if (!OxygenStyleConfigData::scrollBarColored()) {
+            if( !OxygenStyleConfigData::scrollBarColored()) {
                 patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.1));
                 patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.1));
             } else {
@@ -5147,7 +5234,7 @@ namespace Oxygen
             p->drawRoundedRect(rect, 2, 2);
         }
 
-        if (OxygenStyleConfigData::scrollBarColored()) {
+        if( OxygenStyleConfigData::scrollBarColored()) {
             p->restore();
             return;
         }
@@ -5230,8 +5317,8 @@ namespace Oxygen
         QRect r = centerRect(rect, s, s);
 
         StyleOptions opts;
-        if (hasFocus) opts |= Focus;
-        if (mouseOver) opts |= Hover;
+        if( hasFocus) opts |= Focus;
+        if( mouseOver) opts |= Hover;
 
         if(sunken) _helper.holeFlat(pal.color(QPalette::Window), 0.0)->render(r, p, TileSet::Full);
         else renderSlab(p, r, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Ring );
@@ -5239,7 +5326,7 @@ namespace Oxygen
         // check mark
         double x = r.center().x() - 3.5, y = r.center().y() - 2.5;
 
-        if (primitive != CheckBox::CheckOff)
+        if( primitive != CheckBox::CheckOff)
         {
             qreal penThickness = 2.0;
 
@@ -5250,10 +5337,10 @@ namespace Oxygen
             QPen contrastPen( _helper.calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 
             pen.setCapStyle(Qt::RoundCap);
-            if (primitive == CheckBox::CheckTriState)
+            if( primitive == CheckBox::CheckTriState)
             {
                 QVector<qreal> dashes;
-                if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
+                if( OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
                 {
                     dashes << 1.0 << 2.0;
                     penThickness = 1.3;
@@ -5271,7 +5358,7 @@ namespace Oxygen
             if( !sunken ) p->translate(0, -1);
             p->setRenderHint(QPainter::Antialiasing);
             qreal offset( qMin( penThickness, qreal(1.0) ) );
-            if (OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
+            if( OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
             {
 
                 p->setPen(contrastPen);
@@ -5286,7 +5373,7 @@ namespace Oxygen
 
             } else {
 
-                if (sunken)
+                if( sunken)
                 {
 
                     p->setPen(contrastPen);
@@ -5334,8 +5421,8 @@ namespace Oxygen
         {
 
             StyleOptions opts;
-            if (hasFocus) opts |= Focus;
-            if (mouseOver) opts |= Hover;
+            if( hasFocus) opts |= Focus;
+            if( mouseOver) opts |= Hover;
             QColor color( pal.color(QPalette::Button) );
             QColor glow( slabShadowColor( color, opts, opacity, mode ) );
 
@@ -5519,42 +5606,42 @@ namespace Oxygen
                 QRect tabRect = r;
 
                 // tabRect defines the position of the tab
-                if (horizontal)
+                if( horizontal)
                 {
 
                     // selected tabs are taller
-                    if (selected)
+                    if( selected)
                     {
 
-                        if (northAlignment) tabRect.adjust(0,-1,0,2);
+                        if( northAlignment) tabRect.adjust(0,-1,0,2);
                         else tabRect.adjust(0,-2,0,1);
 
                     } else {
 
                         // deselected
-                        if (northAlignment) tabRect.adjust(0,1,0,2);
+                        if( northAlignment) tabRect.adjust(0,1,0,2);
                         else tabRect.adjust(0,-2,0,-1);
 
                     }
 
                     // reduces the space between tabs
-                    if (!isLeftMost) tabRect.adjust(-gw,0,0,0);
-                    if (!isRightMost) tabRect.adjust(0,0,gw,0);
+                    if( !isLeftMost) tabRect.adjust(-gw,0,0,0);
+                    if( !isRightMost) tabRect.adjust(0,0,gw,0);
 
                 } else {
 
                     // east and west tabs
                     // selected tabs are taller
-                    if (selected)
+                    if( selected)
                     {
 
-                        if (westAlignment) tabRect.adjust(-1,0,2,0);
+                        if( westAlignment) tabRect.adjust(-1,0,2,0);
                         else tabRect.adjust(-2,0,1,0);
 
                     } else {
 
                         // deselected
-                        if (westAlignment) tabRect.adjust(1,0,2,0);
+                        if( westAlignment) tabRect.adjust(1,0,2,0);
                         else tabRect.adjust(-2,0,-1,0);
 
                     }
@@ -5567,25 +5654,25 @@ namespace Oxygen
                 // frameRect defines the part of the frame which
                 // holds the content and is connected to the tab
                 QRect frameRect;
-                if (horizontal)
+                if( horizontal)
                 {
 
-                    if (northAlignment) frameRect = r.adjusted(-7, r.height()-gw-7, 7, 0);
+                    if( northAlignment) frameRect = r.adjusted(-7, r.height()-gw-7, 7, 0);
                     else frameRect = r.adjusted(-7, 0, 7, -r.height()+gw+7);
 
                 } else {
 
                     // vertical
-                    if (westAlignment) frameRect = r.adjusted(r.width()-gw-7, -7, 0, 7);
+                    if( westAlignment) frameRect = r.adjusted(r.width()-gw-7, -7, 0, 7);
                     else frameRect = r.adjusted(0, -7, -r.width()+gw+7, 7);
 
                 }
 
                 // HACK: Workaround for misplaced tab
-                if (southAlignment) {
+                if( southAlignment) {
 
                     frameRect.translate( 0, -1 );
-                    if (selected) tabRect.translate( 0, -1 );
+                    if( selected) tabRect.translate( 0, -1 );
                     else tabRect.adjust(0,0,0,-1);
 
                 }
@@ -5593,23 +5680,23 @@ namespace Oxygen
                 // handle the rightmost and leftmost tabs
                 // if document mode is not enabled, draw the rounded frame corner (which is visible if the tab is not selected)
                 // also fill the small gap between that corner and the actial frame
-                if (horizontal)
+                if( horizontal)
                 {
 
-                    if ((isLeftMost && !reverseLayout) || (isRightMost && reverseLayout))
+                    if( (isLeftMost && !reverseLayout) || (isRightMost && reverseLayout))
                     {
 
-                        if (!reverseLayout)
+                        if( !reverseLayout)
                         {
                             if( isFrameAligned )
                             {
-                                if (!selected)
+                                if( !selected)
                                 {
                                     frameRect.adjust(-gw+7,0,0,0);
                                     frameTiles |= TileSet::Left;
                                 }
 
-                                if (northAlignment) renderSlab(p, QRect(r.x()-gw, r.bottom()-11, 2, 18), color, NoFill, TileSet::Left);
+                                if( northAlignment) renderSlab(p, QRect(r.x()-gw, r.bottom()-11, 2, 18), color, NoFill, TileSet::Left);
                                 else if( selected ) renderSlab(p, QRect(r.x()-gw, r.top()-6, 2, 17), color, NoFill, TileSet::Left);
                                 else renderSlab(p, QRect(r.x()-gw, r.top()-6, 2, 18), color, NoFill, TileSet::Left);
                             }
@@ -5621,13 +5708,13 @@ namespace Oxygen
                             // reverseLayout
                             if( isFrameAligned )
                             {
-                                if (!selected)
+                                if( !selected)
                                 {
                                     frameRect.adjust(0,0,gw-7,0);
                                     frameTiles |= TileSet::Right;
                                 }
 
-                                if (northAlignment) renderSlab(p, QRect(r.right(), r.bottom()-11, 2, 18), color, NoFill, TileSet::Right);
+                                if( northAlignment) renderSlab(p, QRect(r.right(), r.bottom()-11, 2, 18), color, NoFill, TileSet::Right);
                                 else if( selected ) renderSlab(p, QRect(r.right(), r.top()-6, 2, 17), color, NoFill, TileSet::Right);
                                 else renderSlab(p, QRect(r.right(), r.top()-6, 2, 18), color, NoFill, TileSet::Right);
 
@@ -5643,13 +5730,13 @@ namespace Oxygen
                     if( isTopMost && isFrameAligned )
                     {
 
-                        if (!selected)
+                        if( !selected)
                         {
                             frameRect.adjust(0,-gw+7,0,0);
                             frameTiles |= TileSet::Top;
                         }
 
-                        if (westAlignment) renderSlab(p, QRect(r.right()-11, r.y()-gw, 18, 2), color, NoFill, TileSet::Top);
+                        if( westAlignment) renderSlab(p, QRect(r.right()-11, r.y()-gw, 18, 2), color, NoFill, TileSet::Top);
                         else renderSlab(p, QRect(r.x()-11, r.y()-gw, 23, 2), color, NoFill, TileSet::Top);
 
                     }
@@ -5659,7 +5746,7 @@ namespace Oxygen
                 p->save();
 
                 // draw the remaining parts of the frame
-                if (!selected)
+                if( !selected)
                 {
 
                     renderSlab(p, frameRect, color, NoFill, frameTiles);
@@ -5668,25 +5755,25 @@ namespace Oxygen
 
                     // when selected only draw parts of the frame to appear connected to the content
                     QRegion clipRegion;
-                    if (horizontal && !(isLeftMost && !reverseLayout))
+                    if( horizontal && !(isLeftMost && !reverseLayout))
                     {
                         QRegion frameRegionLeft = QRegion(QRect(frameRect.x(), frameRect.y(), tabRect.x()-frameRect.x() + 2, frameRect.height()));
                         clipRegion += frameRegionLeft;
                     }
 
-                    if (horizontal && !(isRightMost && reverseLayout))
+                    if( horizontal && !(isRightMost && reverseLayout))
                     {
                         QRegion frameRegionRight = QRegion(QRect(tabRect.right() - gw, frameRect.y(), frameRect.right()-tabRect.right(), frameRect.height()));
                         clipRegion += frameRegionRight;
                     }
 
-                    if (!horizontal && !isTopMost)
+                    if( !horizontal && !isTopMost)
                     {
                         QRegion frameRegionTop = QRegion(QRect(frameRect.x(), frameRect.y(), frameRect.width(), tabRect.y() - frameRect.y() + 3));
                         clipRegion += frameRegionTop;
                     }
 
-                    if (!horizontal /* && !isBottomMost */)
+                    if( !horizontal /* && !isBottomMost */)
                     {
                         QRegion frameRegionTop = QRegion(QRect(frameRect.x(), tabRect.bottom() - 1, frameRect.width(), tabRect.y() - frameRect.y() + 3));
                         clipRegion += frameRegionTop;
@@ -5699,37 +5786,37 @@ namespace Oxygen
 
                     // connect active tabs to the frame
                     p->setPen(QPen(_helper.alphaColor( _helper.calcLightColor(color), 0.5), 2));
-                    if (northAlignment)
+                    if( northAlignment)
                     {
 
                         // don't draw the connection for a frame aligned tab
                         // except for RTL-layout
-                        if (!isFrameAligned || reverseLayout) renderSlab( p, QRect(tabRect.x() - 6, tabRect.bottom()-9, 17, 7), color, NoFill, TileSet::Top );
-                        if (!isFrameAligned || !reverseLayout) renderSlab( p, QRect( tabRect.right()-10, tabRect.bottom()-9, 17, 7), color, NoFill, TileSet::Top );
+                        if( !isFrameAligned || reverseLayout) renderSlab( p, QRect(tabRect.x() - 6, tabRect.bottom()-9, 17, 7), color, NoFill, TileSet::Top );
+                        if( !isFrameAligned || !reverseLayout) renderSlab( p, QRect( tabRect.right()-10, tabRect.bottom()-9, 17, 7), color, NoFill, TileSet::Top );
 
-                    } else if (southAlignment) {
+                    } else if( southAlignment) {
 
-                        if (!isFrameAligned || reverseLayout)
+                        if( !isFrameAligned || reverseLayout)
                         {
                             if( isLeftMost && !reverseLayout ) renderSlab( p, QRect( tabRect.x()-6, tabRect.y()+3, 17, 7), color, NoFill, TileSet::Bottom );
                             else renderSlab( p, QRect( tabRect.x()-5, tabRect.y()+3, 16, 7), color, NoFill, TileSet::Bottom );
                         }
 
-                        if (!isFrameAligned || !reverseLayout)
+                        if( !isFrameAligned || !reverseLayout)
                         {
                             if( isRightMost && reverseLayout ) renderSlab( p, QRect( tabRect.right()-10, tabRect.y()+3, 17, 7), color, NoFill, TileSet::Bottom );
                             else renderSlab( p, QRect( tabRect.right()-10, tabRect.y()+3, 16, 7), color, NoFill, TileSet::Bottom );
                         }
 
-                    } else if (eastAlignment) {
+                    } else if( eastAlignment) {
 
-                        if (!isFrameAligned) renderSlab( p, QRect( tabRect.x() + 3, tabRect.y() - 7, 7, 18 ), color, NoFill, TileSet::Right );
+                        if( !isFrameAligned) renderSlab( p, QRect( tabRect.x() + 3, tabRect.y() - 7, 7, 18 ), color, NoFill, TileSet::Right );
                         renderSlab( p, QRect( tabRect.x() + 3, tabRect.bottom()-10, 7, 16 ), color, NoFill, TileSet::Right );
 
                     } else {
 
                         // west aligned
-                        if (!isFrameAligned) renderSlab( p, QRect( tabRect.right()-9, tabRect.y()-7, 7, 18 ), color, NoFill, TileSet::Left );
+                        if( !isFrameAligned) renderSlab( p, QRect( tabRect.right()-9, tabRect.y()-7, 7, 18 ), color, NoFill, TileSet::Left );
                         renderSlab( p, QRect( tabRect.right()-9, tabRect.bottom()-10, 7, 16 ), color, NoFill, TileSet::Left );
 
                     }
@@ -5985,7 +6072,7 @@ namespace Oxygen
                                 AnimationHover,
                                 tiles );
 
-                        } else if (mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, tiles);
+                        } else if( mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, tiles);
                         else renderSlab(p, Ractual, color, NoFill, tiles);
 
                     }
@@ -5999,7 +6086,7 @@ namespace Oxygen
                     // the area where the fairing should appear
                     const QRect Rb(eastAlignment ? r.x()+gw: Rc.right()+1, Rc.top(), r.width()-Rc.width(), Rc.height() );
 
-                    if (selected)
+                    if( selected)
                     {
 
                         p->save();
@@ -6057,7 +6144,7 @@ namespace Oxygen
                         p->setBrush(midColor);
                         p->setRenderHints(QPainter::Antialiasing);
 
-                        if (westAlignment)
+                        if( westAlignment)
                         {
                             // west alignment
                             r.adjusted(5-gw,0,-5-gw,0).getRect(&x, &y, &w, &h);
@@ -6129,7 +6216,7 @@ namespace Oxygen
                                 path.lineTo(x-0.5, y+h-2.5);
                                 p->drawPath(path);
 
-                            } else if (isLeftMost) {
+                            } else if( isLeftMost) {
 
                                 // at top
                                 QPainterPath path;
@@ -6198,7 +6285,7 @@ namespace Oxygen
                                 AnimationHover,
                                 tiles );
 
-                        } else if (mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, tiles);
+                        } else if( mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, tiles);
                         else renderSlab(p, Ractual, color, NoFill, tiles);
 
                     }
@@ -6221,10 +6308,10 @@ namespace Oxygen
         QRect fillRect = r.adjusted(4,(orientation == Qt::Horizontal && !inverted) ? 3 : 4,-4,-4);
 
         QLinearGradient highlight;
-        if (orientation == Qt::Horizontal)
+        if( orientation == Qt::Horizontal)
         {
 
-            if (!inverted)
+            if( !inverted)
             {
 
                 highlight = QLinearGradient(fillRect.topLeft(), fillRect.bottomLeft());
@@ -6239,7 +6326,7 @@ namespace Oxygen
         } else {
 
             // vertical tab fill
-            if (!inverted)
+            if( !inverted)
             {
 
                 highlight = QLinearGradient(fillRect.topLeft(), fillRect.topRight());
@@ -6252,7 +6339,7 @@ namespace Oxygen
             }
         }
 
-        if (active) {
+        if( active) {
 
             highlight.setColorAt(0.0, _helper.alphaColor(light, 0.5));
             highlight.setColorAt(0.1, _helper.alphaColor(light, 0.5));
@@ -6292,8 +6379,8 @@ namespace Oxygen
             case SH_RubberBand_Mask:
             {
                 const QStyleOptionRubberBand *opt = qstyleoption_cast<const QStyleOptionRubberBand *>(option);
-                if (!opt) return false;
-                if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>(returnData))
+                if( !opt) return false;
+                if( QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>(returnData))
                 {
 
                     mask->region = option->rect;
@@ -6323,7 +6410,7 @@ namespace Oxygen
                 {
 
                     // mask should be set only if compositing is disabled
-                    if (QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask *>(returnData))
+                    if( QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask *>(returnData))
                     { mask->region = _helper.roundedMask( option->rect ); }
 
                 }
@@ -6382,7 +6469,7 @@ namespace Oxygen
             case CT_GroupBox:
             {
                 // adjust groupbox width to bold label font
-                if (const QStyleOptionGroupBox* gbOpt = qstyleoption_cast<const QStyleOptionGroupBox*>(option))
+                if( const QStyleOptionGroupBox* gbOpt = qstyleoption_cast<const QStyleOptionGroupBox*>(option))
                 {
                     QSize size = KStyle::sizeFromContents(type, option, contentsSize, widget);
                     int labelWidth = subControlRect(CC_GroupBox, gbOpt, SC_GroupBoxLabel, widget).width();
@@ -6397,7 +6484,7 @@ namespace Oxygen
                 if( const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option) )
                 {
 
-                    if ((!tbOpt->icon.isNull()) && (!tbOpt->text.isEmpty()) && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon)
+                    if( (!tbOpt->icon.isNull()) && (!tbOpt->text.isEmpty()) && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon)
                     {
 
                         // TODO: Make this font size dependent
@@ -6413,15 +6500,15 @@ namespace Oxygen
                 // (PM_MenuButtonIndicator) into the width. So we may have to take it out, fix things
                 // up, and add it back in. So much for class-independent rendering...
                 int   menuAreaWidth = 0;
-                if (const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option))
+                if( const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option))
                 {
 
-                    if (tbOpt->features & QStyleOptionToolButton::MenuButtonPopup)
+                    if( tbOpt->features & QStyleOptionToolButton::MenuButtonPopup)
                     {
 
                         menuAreaWidth = pixelMetric(QStyle::PM_MenuButtonIndicator, option, widget);
 
-                    } else if (tbOpt->features & QStyleOptionToolButton::HasMenu) {
+                    } else if( tbOpt->features & QStyleOptionToolButton::HasMenu) {
 
                         size.setWidth(size.width() + widgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorSize, tbOpt, widget));
 
@@ -6429,12 +6516,12 @@ namespace Oxygen
 
                 }
                 size.setWidth(size.width() - menuAreaWidth);
-                if (size.width() < size.height())
+                if( size.width() < size.height())
                     size.setWidth(size.height());
                 size.setWidth(size.width() + menuAreaWidth);
 
                 const QToolButton* t=qobject_cast<const QToolButton*>(widget);
-                if (t && t->autoRaise()==true)
+                if( t && t->autoRaise()==true)
                 {
                     int width = size.width() +
                         2*widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + MainMargin, option, widget) +
@@ -6525,7 +6612,7 @@ namespace Oxygen
             case CC_GroupBox:
             {
                 const QStyleOptionGroupBox *gbOpt = qstyleoption_cast<const QStyleOptionGroupBox *>(option);
-                if (!gbOpt) break;
+                if( !gbOpt) break;
 
                 bool isFlat = gbOpt->features & QStyleOptionFrameV2::Flat;
 
@@ -6544,12 +6631,12 @@ namespace Oxygen
                         bool emptyText = gbOpt->text.isEmpty();
 
                         r.adjust(fw, fw, -fw, -fw);
-                        if (checkable && !emptyText) r.adjust(0, qMax(th, cr.height()), 0, 0);
-                        else if (checkable) r.adjust(0, cr.height(), 0, 0);
-                        else if (!emptyText) r.adjust(0, th, 0, 0);
+                        if( checkable && !emptyText) r.adjust(0, qMax(th, cr.height()), 0, 0);
+                        else if( checkable) r.adjust(0, cr.height(), 0, 0);
+                        else if( !emptyText) r.adjust(0, th, 0, 0);
 
                         // add additional indentation to flat group boxes
-                        if (isFlat)
+                        if( isFlat)
                         {
                             int leftMarginExtension = 16;
                             r = visualRect(option->direction,r,r.adjusted(leftMarginExtension,0,0,0));
@@ -6582,13 +6669,13 @@ namespace Oxygen
                             QRect gcr((gbOpt->rect.width() - tw -cr.width())/2 , (h-cr.height())/2+r.y(), cr.width(), cr.height());
                             if(subControl == SC_GroupBoxCheckBox)
                             {
-                                if (!isFlat) return visualRect(option->direction, option->rect, gcr);
+                                if( !isFlat) return visualRect(option->direction, option->rect, gcr);
                                 else return visualRect(option->direction, option->rect, QRect(0,0,cr.width(),cr.height()));
                             }
                         }
 
                         // left align labels in flat group boxes, center align labels in framed group boxes
-                        if (isFlat) r = QRect(cr.width(),r.y(),tw,r.height());
+                        if( isFlat) r = QRect(cr.width(),r.y(),tw,r.height());
                         else r = QRect((gbOpt->rect.width() - tw - cr.width())/2 + cr.width(), r.y(), tw, r.height());
 
                         return visualRect(option->direction, option->rect, r);
@@ -6660,7 +6747,7 @@ namespace Oxygen
 
             case SE_TabWidgetTabContents:
             {
-                if (const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
+                if( const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
                 {
                     bool tabBarVisible( !twf->tabBarSize.isEmpty() );
                     if( !tabBarVisible ) return opt->rect;
@@ -6707,7 +6794,7 @@ namespace Oxygen
 
             case SE_TabWidgetTabPane:
             {
-                if (const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
+                if( const QStyleOptionTabWidgetFrame *twf = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>(opt))
                 {
                     QStyleOptionTab tabopt;
                     tabopt.shape = twf->shape;
@@ -6720,7 +6807,7 @@ namespace Oxygen
 
                         // this line is what causes the differences between drawing corner widgets in KStyle and drawing them in Qt
                         // TODO: identify where the lineWidth difference come from
-                        if (twf->lineWidth == 0) overlap -= 1;
+                        if( twf->lineWidth == 0) overlap -= 1;
 
                         r = QRect(QPoint(0,qMax(twf->tabBarSize.height() - overlap, 0)),
                             QSize(twf->rect.width(), qMin(twf->rect.height() - twf->tabBarSize.height() + overlap, twf->rect.height())));
@@ -7232,7 +7319,7 @@ namespace Oxygen
     bool Style::eventFilterMdiSubWindow( QMdiSubWindow* sw, QEvent* ev )
     {
 
-        if (ev->type() == QEvent::Paint)
+        if( ev->type() == QEvent::Paint)
         {
 
             QPainter p(sw);
@@ -7334,7 +7421,7 @@ namespace Oxygen
     bool Style::eventFilterToolBox( QToolBox* tb, QEvent* ev )
     {
 
-        if (ev->type() == QEvent::Paint)
+        if( ev->type() == QEvent::Paint)
         {
             if(tb->frameShape() != QFrame::NoFrame)
             {
@@ -7354,10 +7441,10 @@ namespace Oxygen
     //____________________________________________________________________________
     bool Style::eventFilterFrames( QFrame* f, QEvent* ev )
     {
-        if (ev->type() == QEvent::Paint)
+        if( ev->type() == QEvent::Paint)
         {
 
-            if (qobject_cast<KTitleWidget*>(f->parentWidget()))
+            if( qobject_cast<KTitleWidget*>(f->parentWidget()))
             {
 
                 QPainter p(f);
@@ -7424,13 +7511,13 @@ namespace Oxygen
         // get button color (unfortunately option and widget might not be set)
         QColor buttonColor;
         QColor iconColor;
-        if (option) {
+        if( option) {
             buttonColor = option->palette.window().color();
             iconColor   = option->palette.windowText().color();
-        } else if (widget) {
+        } else if( widget) {
             buttonColor = widget->palette().window().color();
             iconColor   = widget->palette().windowText().color();
-        } else if (qApp) {
+        } else if( qApp) {
             // might not have a QApplication
             buttonColor = qApp->palette().window().color();
             iconColor   = qApp->palette().windowText().color();

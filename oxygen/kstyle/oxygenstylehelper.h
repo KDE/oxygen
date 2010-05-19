@@ -56,29 +56,45 @@ namespace Oxygen
         virtual QColor menuBackgroundColor(const QColor &color, int height, int y)
         { return cachedBackgroundColor( color, qMin(qreal(1.0), qreal(y)/qMin(200, 3*height/4) ) ); }
 
-        //! overloaded
+        //! color
+        QColor calcMidColor(const QColor &color) const
+        { return KColorScheme::shade(color, KColorScheme::MidShade, _contrast - 1.0); }
+
+        //! merge active and inactive palettes based on ratio, for smooth enable state change transition
+        QPalette mergePalettes( const QPalette&, qreal ratio ) const;
+
+        //! overloaded window decoration buttons for MDI windows
         virtual QPixmap windecoButton(const QColor &color, bool pressed, int size = 21);
 
-        QColor calcMidColor(const QColor &color) const;
+        //! round corners (used for Menus, combobox drop-down, detached toolbars and dockwidgets
+        TileSet *roundCorner(const QColor&, int size = 5);
+
+        //! groupbox background
+        TileSet *slope(const QColor&, qreal shade, int size = 7);
+
+        //!@name slabs
+        //@{
 
         void fillSlab(QPainter&, const QRect&, int size = 7) const;
-        void fillHole(QPainter&, const QRect&, int size = 7) const;
+
+        // progressbar
+        QPixmap progressBarIndicator( const QPalette&, const QRect& );
 
         QPixmap dialSlab(const QColor&, qreal shade, int size = 7);
         QPixmap dialSlabFocused(const QColor&, const QColor&, qreal shade, int size = 7);
         QPixmap roundSlab(const QColor&, qreal shade, int size = 7);
         QPixmap roundSlabFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
 
-        // progressbar
-        QPixmap progressBarIndicator( const QPalette&, const QRect& );
-
-        // TODO - need to rebase scrollbars to size=7
-        TileSet *roundCorner(const QColor&, int size = 5);
         TileSet *slabFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7);
         TileSet *slabSunken(const QColor&, qreal shade, int size = 7);
         TileSet *slabInverted(const QColor&, qreal shade, int size = 7);
 
-        TileSet *slope(const QColor&, qreal shade, int size = 7);
+        //@}
+
+        //!@name holes
+        //@{
+
+        void fillHole(QPainter&, const QRect&, int size = 7) const;
 
         //! generic hole
         void renderHole(QPainter *p, const QColor& color, const QRect &r,
@@ -96,14 +112,22 @@ namespace Oxygen
         TileSet *holeFlat(const QColor&, qreal shade, int size = 7);
         TileSet *holeFocused(const QColor&, const QColor &glowColor, qreal shade, int size = 7, bool outline = false);
 
-        TileSet *groove(const QColor&, qreal shade, int size = 7);
-
-        TileSet *slitFocused(const QColor&);
-
-        TileSet *dockFrame(const QColor&, int size);
+        //! scrollbar hole
         TileSet *scrollHole(const QColor&, Qt::Orientation orientation, bool smallShadow = false );
 
-        QPalette mergePalettes( const QPalette&, qreal ) const;
+        //@}
+
+        //! scrollbar groove
+        TileSet *groove(const QColor&, qreal shade, int size = 7);
+
+        //! focus rect for flat toolbuttons
+        TileSet *slitFocused(const QColor&);
+
+        //! dock frame
+        TileSet *dockFrame(const QColor&, int size);
+
+        //! selection
+        TileSet *selection( const QColor&, int height, bool custom );
 
         // these two methods must be public because they are used directly by OxygenStyle to draw dials
         void drawInverseShadow(QPainter&, const QColor&, int pad, int size, qreal fuzz) const;
@@ -131,6 +155,7 @@ namespace Oxygen
         QCache<quint64, TileSet> m_slitCache;
         QCache<quint64, TileSet> m_dockFrameCache;
         QCache<quint64, TileSet> m_scrollHoleCache;
+        QCache<quint64, TileSet> m_selectionCache;
 
     };
 
