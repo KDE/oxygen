@@ -6452,7 +6452,7 @@ namespace Oxygen
             }
 
             // spacing between widget and scrollbars
-            case PM_ScrollView_ScrollBarSpacing: return 0;
+            case PM_ScrollView_ScrollBarSpacing: return -1;
 
             default: break;
         }
