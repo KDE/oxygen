@@ -577,7 +577,10 @@ namespace Oxygen
             {
 
                 if( option && widget && widget->inherits( "QToolBar" ) )
-                { _helper.renderWindowBackground( p, option->rect, widget, option->palette ); }
+                {
+                    _helper.renderWindowBackground( p, option->rect, widget, option->palette );
+                    _helper.drawFloatFrame( p, option->rect, option->palette.window().color(), true );
+                }
 
                 return;
 
