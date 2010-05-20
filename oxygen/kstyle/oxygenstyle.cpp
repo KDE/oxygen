@@ -6729,25 +6729,17 @@ namespace Oxygen
 
                 // bypass KStyle entirely because it makes it completely impossible
                 // to handle both KDE and Qt applications at the same time
-                int voffset(0);
+                QRect r( QCommonStyle::subElementRect(sr, opt, widget).adjusted( 6, 0, -6, 0 ) );
                 if( const QStyleOptionTabV3* tov3 = qstyleoption_cast<const QStyleOptionTabV3*>(opt) )
                 {
-
                     switch( tov3->shape )
                     {
 
                         case QTabBar::RoundedEast:
                         case QTabBar::TriangularEast:
-                        case QTabBar::RoundedWest:
-                        case QTabBar::TriangularWest:
                         case QTabBar::RoundedNorth:
                         case QTabBar::TriangularNorth:
-                        voffset = ( opt->state & State_Selected ) ? -1:0;
-                        break;
-
-                        case QTabBar::RoundedSouth:
-                        case QTabBar::TriangularSouth:
-                        voffset = ( opt->state & State_Selected ) ? 1:0;
+                        if( opt->state & State_Selected ) r.translate( 0, -1 );
                         break;
 
                         default: break;
@@ -6756,7 +6748,7 @@ namespace Oxygen
 
                 }
 
-                return  QCommonStyle::subElementRect(sr, opt, widget).adjusted( 6, 0, -6, 0 ).translated( 0, voffset );
+                return r;
 
             }
 
