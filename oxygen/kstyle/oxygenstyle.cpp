@@ -11,11 +11,11 @@
    Copyright (C) 2001-2002 Karol Szwed <gallium@kde.org>
    Copyright (c) 2002 Malte Starostik <malte@kde.org>
    Copyright (C) 2002,2003 Maksim Orlovich <mo002j@mail.rochester.edu>
-   Copyright (C) 2001-2002 Karol Szwed      <gallium@kde.org>
-   Copyright (C) 2001-2002 Fredrik Höglund  <fredrik@kde.org>
-   Copyright (C) 2000 Daniel M. Duley       <mosfet@kde.org>
-   Copyright (C) 2000 Dirk Mueller          <mueller@kde.org>
-   Copyright (C) 2001 Martijn Klingens      <klingens@kde.org>
+   Copyright (C) 2001-2002 Karol Szwed <gallium@kde.org>
+   Copyright (C) 2001-2002 Fredrik Höglund <fredrik@kde.org>
+   Copyright (C) 2000 Daniel M. Duley <mosfet@kde.org>
+   Copyright (C) 2000 Dirk Mueller <mueller@kde.org>
+   Copyright (C) 2001 Martijn Klingens <klingens@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -3807,8 +3807,10 @@ namespace Oxygen
 
                 }
 
-                if( widget && widget->inherits("QDockWidgetTitleButton" ) )
-                { slitRect.adjust( 1, 0, 0, 0 ); }
+                //! fine tuning of slitRect geometry
+                if( widget && widget->inherits( "QDockWidgetTitleButton" ) ) slitRect.adjust( 1, 0, 0, 0 );
+                else if( widget && widget->inherits( "QToolBarExtension" ) ) slitRect.adjust( 1, 1, -1, -1 );
+                else if( widget && widget->objectName() == "qt_menubar_ext_button" ) slitRect.adjust( -1, -1, 0, 0 );
 
                 // normal (auto-raised) toolbuttons
                 bool hasFocus = flags & State_HasFocus;
