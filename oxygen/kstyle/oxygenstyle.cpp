@@ -573,6 +573,16 @@ namespace Oxygen
 
             }
 
+            case PE_FrameMenu:
+            {
+
+                if( option && widget && widget->inherits( "QToolBar" ) )
+                { _helper.renderWindowBackground( p, option->rect, widget, option->palette ); }
+
+                return;
+
+            }
+
             // disable painting of PE_PanelScrollAreaCorner
             // the default implementation fills the rect with the window background color
             // which does not work for windows that have gradients.
