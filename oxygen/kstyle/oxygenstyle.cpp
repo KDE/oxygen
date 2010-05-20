@@ -3584,7 +3584,6 @@ namespace Oxygen
                 qreal focusOpacity( animations().widgetStateEngine().opacity( widget, AnimationFocus ) );
 
                 // hover rect
-                QRect slitRect = r;
                 if( widget )
                 {
 
@@ -3619,8 +3618,7 @@ namespace Oxygen
                                 // need to swap left and right widgets in reverse mode
                                 if( reverseLayout ) qSwap( leftWidget, rightWidget );
 
-                                slitRect.adjust(0,3,0,-3-gw);
-                                clipRect = r.adjusted(0,2-gw,0,-3);
+                                clipRect = r.adjusted(0,1-gw,0,-3);
                                 tiles = TileSet::Top;
 
                                 // check border right
@@ -3651,7 +3649,6 @@ namespace Oxygen
                                 // need to swap left and right widgets in reverse mode
                                 if( reverseLayout ) qSwap( leftWidget, rightWidget );
 
-                                slitRect.adjust(0,3+gw,0,-3);
                                 tiles = TileSet::Bottom;
                                 clipRect = r.adjusted(0,2+gw,0,0);
 
@@ -3679,7 +3676,6 @@ namespace Oxygen
                             case QTabBar::TriangularEast:
                             {
 
-                                slitRect.adjust(3+gw,0,-3-gw,0);
                                 tiles = TileSet::Right;
                                 clipRect = r.adjusted(3+gw,0,-2,0);
                                 if( !documentMode && !rightWidget && widget->geometry().bottom() >= tb->rect().bottom() )
@@ -3702,7 +3698,6 @@ namespace Oxygen
                             {
 
                                 // west
-                                slitRect.adjust(3+gw,0,-3-gw,0);
                                 tiles |= TileSet::Left;
                                 clipRect = r.adjusted(2-gw,0,-3, 0);
 
@@ -3743,9 +3738,16 @@ namespace Oxygen
                             p->restore();
                         }
 
+                        // end painting here.
+                        // no slitRect for tabbar arrow buttons
+                        return true;
+
                     }
 
                 }
+
+                // slit rect
+                QRect slitRect = r;
 
                 // non autoraised tool buttons get same slab as regular buttons
                 if( !autoRaised )
