@@ -41,40 +41,10 @@ namespace Oxygen
         if( !data_.contains( widget ) ) data_.insert( widget, new ProgressBarData( this, widget, duration() ), enabled() );
         if( busyIndicatorEnabled() && !dataSet_.contains( widget ) ) dataSet_.insert( widget );
 
-        // install event filter
-        if( busyIndicatorEnabled() )
-        { widget->installEventFilter( this ); }
-
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
 
         return true;
-
-    }
-
-    //_______________________________________________
-    bool ProgressBarEngine::eventFilter( QObject* object, QEvent* event )
-    {
-
-        if( !( busyIndicatorEnabled() && dataSet_.contains( object ) ) || timer_.isActive() )
-        { return BaseEngine::eventFilter( object, event ); }
-
-        switch( event->type() )
-        {
-            case QEvent::EnabledChange:
-            if( qobject_cast<QWidget*>(object)->isEnabled() )
-            { timer_.start( busyStepDuration(), this ); }
-            break;
-
-            case QEvent::Show:
-            timer_.start( busyStepDuration(), this );
-            break;
-
-            default: break;
-
-        }
-
-        return BaseEngine::eventFilter( object, event );
 
     }
 
@@ -119,17 +89,18 @@ namespace Oxygen
             // cast to progressbar
             QProgressBar* progressBar( qobject_cast<QProgressBar*>( *iter ) );
 
-            // check cast, visibility, enability and range
-            if( !( progressBar && progressBar->isEnabled() && progressBar->isVisible() && progressBar->minimum() == 0 && progressBar->maximum() == 0  ) )
-            { continue; }
+            // check cast, visibility and range
+            if( progressBar && progressBar->isVisible() && progressBar->minimum() == 0 && progressBar->maximum() == 0  )
+            {
 
-            // update animation flag
-            animated = true;
+                // update animation flag
+                animated = true;
 
-            // update value
-            progressBar->setValue(progressBar->value()+1);
-            progressBar->update();
+                // update value
+                progressBar->setValue(progressBar->value()+1);
+                progressBar->update();
 
+            }
         }
 
         if( !animated ) timer_.stop();

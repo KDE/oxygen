@@ -63,9 +63,6 @@ namespace Oxygen
         //! register menubar
         virtual bool registerWidget( QWidget* );
 
-        //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
-
         //! true if widget is animated
         virtual bool isAnimated( const QObject* object );
 
@@ -97,8 +94,16 @@ namespace Oxygen
         //! busy indicator step duration
         virtual void setBusyStepDuration( int value );
 
+        //! busy indicator step duration
         virtual int busyStepDuration( void ) const
         { return busyStepDuration_; }
+
+        //! start busy timer
+        virtual void startBusyTimer( void )
+        {
+            if( !timer_.isActive() )
+            { timer_.start( busyStepDuration(), this ); }
+        }
 
         public slots:
 

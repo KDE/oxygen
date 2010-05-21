@@ -809,6 +809,9 @@ namespace Oxygen
                 subopt.rect = subElementRect(SE_ProgressBarGroove, pb, widget);
                 drawControl(CE_ProgressBarGroove, &subopt, p, widget);
 
+                if( animations().progressBarEngine().busyIndicatorEnabled() && pb->maximum == 0 && pb->minimum == 0 )
+                { animations().progressBarEngine().startBusyTimer(); }
+
                 if( animations().progressBarEngine().isAnimated( widget ) )
                 { subopt.progress = animations().progressBarEngine().value( widget ); }
 
