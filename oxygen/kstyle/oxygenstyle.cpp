@@ -2211,7 +2211,7 @@ namespace Oxygen
                 pp.setCompositionMode(QPainter::CompositionMode_DestinationAtop);
                 pp.fillRect(pm.rect(), QBrush(grad));
                 pp.end();
-                p->drawPixmap(gr.topLeft(),pm);
+                p->drawPixmap(gr.topLeft()+QPoint(0,-1),pm);
 
                 if( !(documentMode && flags&State_Selected) )
                 {
@@ -2219,8 +2219,10 @@ namespace Oxygen
                     // window background over the requested rect
                     if( clip.isValid() )
                     {
+                        // translate clip because the corresponding slab rect also is.
+                        clip.translate(0,-1);
                         if( const QWidget* parent = checkAutoFillBackground( widget ) ) p->fillRect( clip, parent->palette().color( parent->backgroundRole() ) );
-                        else _helper.renderWindowBackground(p, clip.translated(0,-1), widget, pal);
+                        else _helper.renderWindowBackground(p, clip, widget, pal);
                     }
                     renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, tiles );
                 }
