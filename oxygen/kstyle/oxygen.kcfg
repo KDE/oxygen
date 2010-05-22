@@ -29,7 +29,7 @@
       <default>true</default>
     </entry>
     <entry name="ScrollBarWidth" type="Int">
-      <default>17</default>
+      <default>15</default>
     </entry>
     <entry name="CheckBoxStyle" type="Enum">
       <choices>
@@ -42,7 +42,7 @@
       <default>false</default>
     </entry>
     <entry name="ScrollBarBevel" type="Bool">
-      <default>true</default>
+      <default>false</default>
     </entry>
     <entry name="ProgressBarAnimated" type="Bool">
       <default>true</default>

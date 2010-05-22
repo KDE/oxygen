@@ -143,7 +143,7 @@ namespace Oxygen
         //TODO: This hasn't been tested though
         setWidgetLayoutProp( WT_ScrollBar, ScrollBar::SingleButtonHeight, qMax(OxygenStyleConfigData::scrollBarWidth() * 7 / 10, 14) );
         setWidgetLayoutProp( WT_ScrollBar, ScrollBar::DoubleButtonHeight, qMax(OxygenStyleConfigData::scrollBarWidth() * 14 / 10, 28) );
-        setWidgetLayoutProp( WT_ScrollBar, ScrollBar::BarWidth, OxygenStyleConfigData::scrollBarWidth() + 1);
+        setWidgetLayoutProp( WT_ScrollBar, ScrollBar::BarWidth, OxygenStyleConfigData::scrollBarWidth() + 2);
 
         setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
         setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5); //also used by toolbutton
@@ -1967,9 +1967,8 @@ namespace Oxygen
         QRect r( rect );
         if( slider )
         {
-            if( slider->orientation == Qt::Horizontal ) r.adjust( 0, 0, 0, -1 );
-            else if( reverseLayout )  r.adjust( 1, 0, 0, 0 );
-            else r.adjust( 0, 0, -1, 0 );
+            if( slider->orientation == Qt::Horizontal ) r.adjust( 0, 1, 0, -1 );
+            else r.adjust( 1, 0, -1, 0 );
         }
 
         switch (primitive)
@@ -6487,7 +6486,7 @@ namespace Oxygen
             }
 
             // spacing between widget and scrollbars
-            case PM_ScrollView_ScrollBarSpacing: return -1;
+            case PM_ScrollView_ScrollBarSpacing: return -2;
 
             default: break;
         }
