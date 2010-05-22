@@ -5083,6 +5083,9 @@ namespace Oxygen
 
         // this is needed for button vertical alignment
         r.translate(0,-1);
+        if( !p->clipRegion().isEmpty() ) p->setClipRegion( p->clipRegion().translated(0,-1) );
+
+        // additional adjustment for sunken frames
         if( opts & Sunken) r.adjust(-1,0,1,2);
 
         // fill
