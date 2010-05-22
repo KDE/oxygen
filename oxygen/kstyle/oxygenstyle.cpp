@@ -6309,6 +6309,9 @@ namespace Oxygen
                         } else if( isLeftOfSelected )  frameRect.adjust(0,0,0,10-gw);
                         else frameRect.adjust(0,0,0,7-gw);
 
+                        if( isLast && !documentMode && !widgetRect.isNull() )
+                        { frameRect.setBottom( qMin( frameRect.bottom(), widgetRect.bottom()+1 ) ); }
+
                         if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) ) {
 
                             renderSlab(p, frameRect, color, NoFill| Hover,
