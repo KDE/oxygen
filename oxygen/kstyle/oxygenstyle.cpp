@@ -5837,7 +5837,7 @@ namespace Oxygen
                     }
                 }
 
-                p->setClipRect(r);
+                p->setClipRect(tabRect);
 
                 // get timeLine
                 if( !selected && enabled && animations().tabBarEngine().isAnimated( widget, r.topLeft() ) )
@@ -6320,7 +6320,7 @@ namespace Oxygen
         QColor light = _helper.calcLightColor(color);
         QColor hl = _helper.viewFocusBrush().brush(QPalette::Active).color();
 
-        QRect fillRect = r.adjusted(4,(orientation == Qt::Horizontal && !inverted) ? 3 : 4,-4,-4);
+        QRect fillRect = r.adjusted(4, 3,-4,-5);
 
         QLinearGradient highlight;
         if( orientation == Qt::Horizontal)
