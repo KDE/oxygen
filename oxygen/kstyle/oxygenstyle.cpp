@@ -3684,8 +3684,7 @@ namespace Oxygen
 
                                 } else {
 
-                                    slabRect = QRect(r.left()+gw+3, r.top()-7, 4, r.height()+14);
-                                    slabRect.translate(0,1);
+                                    slabRect = QRect(r.left()+gw+3, r.top()-6, 4, r.height()+14);
 
                                 }
 
@@ -3708,9 +3707,8 @@ namespace Oxygen
 
                                 } else {
 
-                                    //slabRect = QRect(r.right()-6-gw, r.top()-7, 5, r.height()+14);
-                                    slabRect = QRect(r.right()-6-gw, r.top()-7, 5, r.height()+14);
-                                    slabRect.translate(0,1);
+                                    slabRect = QRect(r.right()-6-gw, r.top()-6, 5, r.height()+14);
+
                                 }
 
                                 break;
