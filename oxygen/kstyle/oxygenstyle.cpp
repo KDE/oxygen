@@ -6068,37 +6068,43 @@ namespace Oxygen
 
                         // bottom line
                         TileSet::Tiles tiles = southAlignment?TileSet::Bottom:TileSet::Top;
-                        QRect Ractual(Rb.left(), Rb.y(), Rb.width(), 6);
+                        QRect frameRect(Rb.left(), Rb.y(), Rb.width(), 6);
 
                         if(isLeftMost)
                         {
 
                             if( isFrameAligned ) tiles |= TileSet::Left;
                             if( reverseLayout || documentMode || !isFrameAligned )
-                            { Ractual.adjust( -6, 0, 0, 0); }
+                            { frameRect.adjust( -6, 0, 0, 0); }
 
-                        } else if( isRightOfSelected ) Ractual.adjust(-10+gw,0,0,0);
-                        else Ractual.adjust(-7+gw,0,0,0);
+                            if( isLast && !documentMode && !widgetRect.isNull() && reverseLayout )
+                            { frameRect.setLeft( qMax( frameRect.left(), widgetRect.left()-1 ) ); }
+
+                        } else if( isRightOfSelected ) frameRect.adjust(-10+gw,0,0,0);
+                        else frameRect.adjust(-7+gw,0,0,0);
 
                         if(isRightMost)
                         {
 
                             if( isFrameAligned ) tiles |= TileSet::Right;
-                            else Ractual.adjust(0,0,6,0);
+                            else frameRect.adjust(0,0,6,0);
 
-                        } else if( isLeftOfSelected ) Ractual.adjust(0,0,10-gw,0);
-                        else Ractual.adjust(0,0,7-gw,0);
+                            if( isLast && !documentMode && !widgetRect.isNull() && !reverseLayout )
+                            { frameRect.setRight( qMin( frameRect.right(), widgetRect.right()+1 ) ); }
+
+                        } else if( isLeftOfSelected ) frameRect.adjust(0,0,10-gw,0);
+                        else frameRect.adjust(0,0,7-gw,0);
 
                         if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) )
                         {
 
-                            renderSlab(p, Ractual, color, NoFill| Hover,
+                            renderSlab(p, frameRect, color, NoFill| Hover,
                                 animations().tabBarEngine().opacity( widget, r.topLeft() ),
                                 AnimationHover,
                                 tiles );
 
-                        } else if( mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, tiles);
-                        else renderSlab(p, Ractual, color, NoFill, tiles);
+                        } else if( mouseOver) renderSlab(p, frameRect, color, NoFill| Hover, tiles);
+                        else renderSlab(p, frameRect, color, NoFill, tiles);
 
                     }
 
@@ -6278,7 +6284,7 @@ namespace Oxygen
                         p->restore();
 
                         TileSet::Tiles tiles = eastAlignment ? TileSet::Right : TileSet::Left;
-                        QRect Ractual(Rb.left(), Rb.y(), 7, Rb.height());
+                        QRect frameRect(Rb.left(), Rb.y(), 7, Rb.height());
 
                         if(isLeftMost)
                         {
@@ -6286,32 +6292,32 @@ namespace Oxygen
                             // at top
                             if( isFrameAligned ) tiles |= TileSet::Top;
                             else {
-                                renderSlab(p, QRect(Ractual.left(), Ractual.y()-7, Ractual.width(), 2+14), color, NoFill, tiles);
-                                Ractual.adjust(0,-5,0,0);
+                                renderSlab(p, QRect(frameRect.left(), frameRect.y()-7, frameRect.width(), 2+14), color, NoFill, tiles);
+                                frameRect.adjust(0,-5,0,0);
                             }
 
-                        } else if( isRightOfSelected ) Ractual.adjust(0,-10+gw,0,0);
-                        else  Ractual.adjust(0,-7+gw,0,0);
+                        } else if( isRightOfSelected ) frameRect.adjust(0,-10+gw,0,0);
+                        else  frameRect.adjust(0,-7+gw,0,0);
 
                         if(isRightMost)
                         {
 
                             // at bottom
                             if( isFrameAligned && !reverseLayout) tiles |= TileSet::Top;
-                            Ractual.adjust(0,0,0,7);
+                            frameRect.adjust(0,0,0,7);
 
-                        } else if( isLeftOfSelected )  Ractual.adjust(0,0,0,10-gw);
-                        else Ractual.adjust(0,0,0,7-gw);
+                        } else if( isLeftOfSelected )  frameRect.adjust(0,0,0,10-gw);
+                        else frameRect.adjust(0,0,0,7-gw);
 
                         if( animations().tabBarEngine().isAnimated( widget, r.topLeft() ) ) {
 
-                            renderSlab(p, Ractual, color, NoFill| Hover,
+                            renderSlab(p, frameRect, color, NoFill| Hover,
                                 animations().tabBarEngine().opacity( widget, r.topLeft() ),
                                 AnimationHover,
                                 tiles );
 
-                        } else if( mouseOver) renderSlab(p, Ractual, color, NoFill| Hover, tiles);
-                        else renderSlab(p, Ractual, color, NoFill, tiles);
+                        } else if( mouseOver) renderSlab(p, frameRect, color, NoFill| Hover, tiles);
+                        else renderSlab(p, frameRect, color, NoFill, tiles);
 
                     }
 
