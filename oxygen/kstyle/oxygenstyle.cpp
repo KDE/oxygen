@@ -2093,11 +2093,10 @@ namespace Oxygen
                 QRect gr = r; // fade the tab there
                 bool vertical = false;
 
-                switch(option->shape)
+                switch( tabOrientation(option->shape) )
                 {
 
-                    case QTabBar::RoundedNorth:
-                    case QTabBar::TriangularNorth:
+                    case TabNorth:
                     if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                     {
 
@@ -2120,8 +2119,7 @@ namespace Oxygen
                     if( !reverseLayout ) gr.translate(-gw,0);
                     break;
 
-                    case QTabBar::RoundedSouth:
-                    case QTabBar::TriangularSouth:
+                    case TabSouth:
                     if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                     {
 
@@ -2148,8 +2146,7 @@ namespace Oxygen
                     if( !reverseLayout ) gr.translate(-gw,0);
                     break;
 
-                    case QTabBar::RoundedWest:
-                    case QTabBar::TriangularWest:
+                    case TabWest:
                     if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                     {
 
@@ -2170,8 +2167,7 @@ namespace Oxygen
                     gr.translate(0,-gw);
                     break;
 
-                    case QTabBar::RoundedEast:
-                    case QTabBar::TriangularEast:
+                    case TabEast:
                     if( documentMode || (option->cornerWidgets & QStyleOptionTab::LeftCornerWidget) )
                     {
 
@@ -2248,10 +2244,9 @@ namespace Oxygen
                 const QWidget* leftWidget = ( tabWidget && widget->isVisible() && tabWidget->cornerWidget(Qt::TopLeftCorner) ) ? tabWidget->cornerWidget(Qt::TopLeftCorner):0;
                 const QWidget* rightWidget = ( tabWidget && widget->isVisible() && tabWidget->cornerWidget(Qt::TopRightCorner) ) ? tabWidget->cornerWidget(Qt::TopRightCorner):0;
 
-                switch(tabOpt->shape)
+                switch( tabOrientation(tabOpt->shape) )
                 {
-                    case QTabBar::RoundedNorth:
-                    case QTabBar::TriangularNorth:
+                    case TabNorth:
                     {
 
                         if( r.left() < tabOpt->tabBarRect.left())
@@ -2289,8 +2284,7 @@ namespace Oxygen
                         return true;
                     }
 
-                    case QTabBar::RoundedSouth:
-                    case QTabBar::TriangularSouth:
+                    case TabSouth:
                     {
 
                         if( r.left() < tabOpt->tabBarRect.left())
@@ -2327,8 +2321,7 @@ namespace Oxygen
                         return true;
                     }
 
-                    case QTabBar::RoundedEast:
-                    case QTabBar::TriangularEast:
+                    case TabEast:
                     {
 
                         if( r.top() < tabOpt->tabBarRect.top() )
@@ -2365,8 +2358,7 @@ namespace Oxygen
                         break;
                     }
 
-                    case QTabBar::RoundedWest:
-                    case QTabBar::TriangularWest:
+                    case TabWest:
                     {
 
                         if( r.top() < tabOpt->tabBarRect.top() )
@@ -2453,10 +2445,9 @@ namespace Oxygen
 
                 const QTabWidget* tw( qobject_cast<const QTabWidget*>(widget) );
 
-                switch(tabOpt->shape)
+                switch( tabOrientation(tabOpt->shape) )
                 {
-                    case QTabBar::RoundedNorth:
-                    case QTabBar::TriangularNorth:
+                    case TabNorth:
                     if( w+lw > 0 )
                     {
                         renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Bottom | TileSet::Right);
@@ -2489,8 +2480,7 @@ namespace Oxygen
 
                     return true;
 
-                    case QTabBar::RoundedSouth:
-                    case QTabBar::TriangularSouth:
+                    case TabSouth:
                     if( w+lw > 0 )
                     {
                         renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Left | TileSet::Top | TileSet::Right);
@@ -2539,8 +2529,7 @@ namespace Oxygen
                     }
                     return true;
 
-                    case QTabBar::RoundedWest:
-                    case QTabBar::TriangularWest:
+                    case TabWest:
                     if( h+lh > 0 )
                     {
 
@@ -2554,8 +2543,7 @@ namespace Oxygen
                     }
                     return true;
 
-                    case QTabBar::RoundedEast:
-                    case QTabBar::TriangularEast:
+                    case TabEast:
                     if( h+lh > 0 )
                     {
                         renderSlab(p, r.adjusted(-gw,-gw,gw,gw), pal.color(QPalette::Window), NoFill, TileSet::Top | TileSet::Left | TileSet::Bottom);
@@ -3624,10 +3612,9 @@ namespace Oxygen
                         QRect clipRect;
 
                         // paint relevant region depending on tabbar shape and whether widget is on the edge
-                        switch(tb->shape())
+                        switch( tabOrientation( tb->shape() ) )
                         {
-                            case QTabBar::RoundedNorth:
-                            case QTabBar::TriangularNorth:
+                            case TabNorth:
                             {
 
                                 // need to swap left and right widgets in reverse mode
@@ -3657,8 +3644,7 @@ namespace Oxygen
                                 break;
                             }
 
-                            case QTabBar::RoundedSouth:
-                            case QTabBar::TriangularSouth:
+                            case TabSouth:
                             {
 
                                 // need to swap left and right widgets in reverse mode
@@ -3687,8 +3673,7 @@ namespace Oxygen
                                 break;
                             }
 
-                            case QTabBar::RoundedEast:
-                            case QTabBar::TriangularEast:
+                            case TabEast:
                             {
 
                                 tiles = TileSet::Right;
@@ -3708,8 +3693,7 @@ namespace Oxygen
                             }
 
 
-                            case QTabBar::RoundedWest:
-                            case QTabBar::TriangularWest:
+                            case TabWest:
                             {
 
                                 // west
@@ -5503,6 +5487,7 @@ namespace Oxygen
         }
     }
 
+    //_____________________________________________________________
     void Style::renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const
     {
         Q_UNUSED(baseColor)
@@ -5519,23 +5504,16 @@ namespace Oxygen
         p->restore();
     }
 
-    static TileSet::Tiles tilesByShape(QTabBar::Shape shape)
+    //_____________________________________________________________
+    TileSet::Tiles Style::tilesByShape(QTabBar::Shape shape) const
     {
-        switch (shape) {
-            case QTabBar::RoundedNorth:
-            case QTabBar::TriangularNorth:
-            return TileSet::Top | TileSet::Left | TileSet::Right;
-            case QTabBar::RoundedSouth:
-            case QTabBar::TriangularSouth:
-            return TileSet::Bottom | TileSet::Left | TileSet::Right;
-            case QTabBar::RoundedEast:
-            case QTabBar::TriangularEast:
-            return TileSet::Right | TileSet::Top | TileSet::Bottom;
-            case QTabBar::RoundedWest:
-            case QTabBar::TriangularWest:
-            return TileSet::Left | TileSet::Top | TileSet::Bottom;
+        switch( tabOrientation( shape ) )
+        {
+            case TabNorth: return TileSet::Top | TileSet::Left | TileSet::Right;
+            case TabSouth: return TileSet::Bottom | TileSet::Left | TileSet::Right;
+            case TabEast: return TileSet::Right | TileSet::Top | TileSet::Bottom;
+            case TabWest: return TileSet::Left | TileSet::Top | TileSet::Bottom;
             default:
-            qDebug() << "tilesByShape: unknown shape";
             return TileSet::Ring;
         }
     }

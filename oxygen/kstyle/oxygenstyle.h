@@ -255,6 +255,7 @@ namespace Oxygen
             bool enabled, bool hasFocus, bool mouseOver,
             int radioPrimitive, bool drawButton=true, qreal opacity = -1, AnimationMode mode = AnimationNone ) const;
 
+        //! dots
         void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
 
         //! tabs
@@ -297,6 +298,41 @@ namespace Oxygen
             ArrowTiny
         };
 
+        // tab orientation
+        enum TabOrientation {
+            TabSouth,
+            TabNorth,
+            TabEast,
+            TabWest
+        };
+
+        //! tab orientation
+        TabOrientation tabOrientation( const QTabBar::Shape& shape ) const
+        {
+            switch( shape )
+            {
+
+                default: case QTabBar::RoundedNorth:
+                case QTabBar::TriangularNorth:
+                return TabNorth;
+
+                case QTabBar::RoundedSouth:
+                case QTabBar::TriangularSouth:
+                return TabSouth;
+
+                case QTabBar::RoundedEast:
+                case QTabBar::TriangularEast:
+                return TabEast;
+
+                case QTabBar::RoundedWest:
+                case QTabBar::TriangularWest:
+                return TabWest;
+
+            }
+
+        }
+
+        //! returns point position for generic arrows
         QPolygonF genericArrow( int primitive, ArrowSize size = ArrowNormal ) const;
 
         //@}
@@ -346,6 +382,9 @@ namespace Oxygen
         //! right to left languages
         QPoint handleRTL(const QStyleOption* opt, const QPoint& pos) const;
         QRect handleRTL(const QStyleOption* opt, const QRect& subRect) const;
+
+        //! tiles from tab orientation
+        TileSet::Tiles tilesByShape(QTabBar::Shape shape) const;
 
         //! configuration
         void loadConfiguration();
