@@ -37,8 +37,7 @@ namespace Oxygen
     //______________________________________________________
     LabelData::LabelData( QObject* parent, QLabel* target, int duration ):
         TransitionData( parent, target, duration ),
-        target_( target ),
-        pixmap_( NULL )
+        target_( target )
     {
         target_.data()->installEventFilter( this );
         bool hasProxy( target_.data()->graphicsProxyWidget() );
@@ -64,13 +63,11 @@ namespace Oxygen
 
             case QEvent::Paint:
             {
-                //if( enabled() && target_ && ( target_.data()->text() != text_ || target_.data()->pixmap() != pixmap_ ) )
                 if( enabled() && target_ && target_.data()->text() != text_ )
                 {
 
                     // update text and pixmap
                     text_ = target_.data()->text();
-                    // pixmap_ = target_.data()->pixmap();
 
                     if( transition().data()->isAnimated() )
                     { transition().data()->endAnimation(); }
@@ -124,7 +121,7 @@ namespace Oxygen
         if( !( enabled() && transition() && target_ && target_.data()->isVisible() ) ) return false;
 
         transition().data()->setOpacity(0);
-        QRect current( target_.data()->geometry() );
+        QRect current( target_.data()->contentsRect().translated( target_.data()->pos() ) );
         if(
             widgetRect_.isValid() &&
             !transition().data()->currentPixmap().isNull() &&
@@ -147,7 +144,7 @@ namespace Oxygen
 
         }
 
-        transition().data()->setGeometry( target_.data()->rect() );
+        transition().data()->setGeometry( target_.data()->contentsRect() );
         widgetRect_ = current;
 
         transition().data()->show();
@@ -163,7 +160,7 @@ namespace Oxygen
 
         // check enability
         transition().data()->endAnimation();
-        transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
+        transition().data()->setEndPixmap( transition().data()->grab( target_.data(), target_.data()->contentsRect() ) );
         transition().data()->animate();
         return true;
 
