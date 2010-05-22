@@ -2206,7 +2206,6 @@ namespace Oxygen
 
                 grad.setColorAt(0, Qt::transparent );
                 grad.setColorAt(0.6, Qt::black);
-                grad.setColorAt(1, Qt::black);
 
                 _helper.renderWindowBackground(&pp, pm.rect(), widget, pal);
                 pp.setCompositionMode(QPainter::CompositionMode_DestinationAtop);
@@ -2221,7 +2220,7 @@ namespace Oxygen
                     if( clip.isValid() )
                     {
                         if( const QWidget* parent = checkAutoFillBackground( widget ) ) p->fillRect( clip, parent->palette().color( parent->backgroundRole() ) );
-                        else _helper.renderWindowBackground(p, clip, widget, pal);
+                        else _helper.renderWindowBackground(p, clip.translated(0,-1), widget, pal);
                     }
                     renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, tiles );
                 }
@@ -3620,7 +3619,7 @@ namespace Oxygen
                                 // need to swap left and right widgets in reverse mode
                                 if( reverseLayout ) qSwap( leftWidget, rightWidget );
 
-                                clipRect = r.adjusted(0,1-gw,0,-3);
+                                clipRect = r.adjusted(0,-gw,0,-4);
                                 tiles = TileSet::Top;
 
                                 // check border right
@@ -3686,6 +3685,7 @@ namespace Oxygen
                                 } else {
 
                                     slabRect = QRect(r.left()+gw+3, r.top()-7, 4, r.height()+14);
+                                    slabRect.translate(0,1);
 
                                 }
 
@@ -3708,8 +3708,9 @@ namespace Oxygen
 
                                 } else {
 
+                                    //slabRect = QRect(r.right()-6-gw, r.top()-7, 5, r.height()+14);
                                     slabRect = QRect(r.right()-6-gw, r.top()-7, 5, r.height()+14);
-
+                                    slabRect.translate(0,1);
                                 }
 
                                 break;
