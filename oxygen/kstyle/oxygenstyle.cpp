@@ -5543,6 +5543,9 @@ namespace Oxygen
         const QTabWidget *tabWidget = (widget && widget->parentWidget()) ? qobject_cast<const QTabWidget *>(widget->parentWidget()) : NULL;
         documentMode |= (tabWidget ? tabWidget->documentMode() : true );
 
+        // need to get widget rect to fix some cornerCases
+        QRect widgetRect( tabWidget ? tabWidget->rect().translated( -widget->pos() ):QRect() );
+
         const bool northAlignment = tabOpt->shape == QTabBar::RoundedNorth || tabOpt->shape == QTabBar::TriangularNorth;
         const bool southAlignment = tabOpt->shape == QTabBar::RoundedSouth || tabOpt->shape == QTabBar::TriangularSouth;
         const bool westAlignment = tabOpt->shape == QTabBar::RoundedWest || tabOpt->shape == QTabBar::TriangularWest;
@@ -5557,7 +5560,8 @@ namespace Oxygen
             (tabOpt->cornerWidgets&QStyleOptionTab::LeftCornerWidget) :
             (tabOpt->cornerWidgets&QStyleOptionTab::RightCornerWidget);
 
-        const bool isFirst = pos == QStyleOptionTab::Beginning || pos == QStyleOptionTab::OnlyOneTab/* (pos == First) || (pos == Single)*/;
+        const bool isFirst = (pos == QStyleOptionTab::Beginning || pos == QStyleOptionTab::OnlyOneTab );
+        const bool isLast = (pos == QStyleOptionTab::End || pos == QStyleOptionTab::OnlyOneTab );
 
         const bool isLeftOfSelected =  reverseLayout ?
             (tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected) :
@@ -5608,6 +5612,7 @@ namespace Oxygen
         // when doing this
         const bool drawBackground( p->device() != widget );
 
+        // this is the part of the tab that mimics the tabbar baseline
         TileSet::Tiles frameTiles = (horizontal) ?
             (northAlignment ? TileSet::Top : TileSet::Bottom):
             (westAlignment ? TileSet::Left : TileSet::Right);
@@ -5675,11 +5680,20 @@ namespace Oxygen
                     if( northAlignment) frameRect = r.adjusted(-7, r.height()-gw-7, 7, 0);
                     else frameRect = r.adjusted(-7, 0, 7, -r.height()+gw+7);
 
+                    if( isLast && !documentMode && !widgetRect.isNull() )
+                    {
+                        if( reverseLayout ) frameRect.setLeft( qMax( frameRect.left(), widgetRect.left()-1 ) );
+                        else frameRect.setRight( qMin( frameRect.right(), widgetRect.right()+1 ) );
+                    }
+
                 } else {
 
                     // vertical
                     if( westAlignment) frameRect = r.adjusted(r.width()-gw-7, -7, 0, 7);
                     else frameRect = r.adjusted(0, -7, -r.width()+gw+7, 7);
+
+                    if( isLast && !documentMode && !widgetRect.isNull() )
+                    { frameRect.setBottom( qMin( frameRect.bottom(), widgetRect.bottom()+1 ) ); }
 
                 }
 
@@ -5698,45 +5712,41 @@ namespace Oxygen
                 if( horizontal)
                 {
 
-                    if( (isLeftMost && !reverseLayout) || (isRightMost && reverseLayout))
+                    if( isLeftMost && !reverseLayout)
                     {
-
-                        if( !reverseLayout)
+                        if( isFrameAligned )
                         {
-                            if( isFrameAligned )
+                            if( !selected)
                             {
-                                if( !selected)
-                                {
-                                    frameRect.adjust(-gw+7,0,0,0);
-                                    frameTiles |= TileSet::Left;
-                                }
-
-                                if( northAlignment) renderSlab(p, QRect(r.x()-gw, r.bottom()-11, 2, 18), color, NoFill, TileSet::Left);
-                                else if( selected ) renderSlab(p, QRect(r.x()-gw, r.top()-6, 2, 17), color, NoFill, TileSet::Left);
-                                else renderSlab(p, QRect(r.x()-gw, r.top()-6, 2, 18), color, NoFill, TileSet::Left);
+                                frameRect.adjust(-gw+7,0,0,0);
+                                frameTiles |= TileSet::Left;
                             }
 
-                            tabRect.adjust(-gw,0,0,0);
-
-                        } else {
-
-                            // reverseLayout
-                            if( isFrameAligned )
-                            {
-                                if( !selected)
-                                {
-                                    frameRect.adjust(0,0,gw-7,0);
-                                    frameTiles |= TileSet::Right;
-                                }
-
-                                if( northAlignment) renderSlab(p, QRect(r.right(), r.bottom()-11, 2, 18), color, NoFill, TileSet::Right);
-                                else if( selected ) renderSlab(p, QRect(r.right(), r.top()-6, 2, 17), color, NoFill, TileSet::Right);
-                                else renderSlab(p, QRect(r.right(), r.top()-6, 2, 18), color, NoFill, TileSet::Right);
-
-                            }
-
-                            tabRect.adjust(0,0,gw,0);
+                            if( northAlignment) renderSlab(p, QRect(r.x()-gw, r.bottom()-11, 2, 18), color, NoFill, TileSet::Left);
+                            else if( selected ) renderSlab(p, QRect(r.x()-gw, r.top()-6, 2, 17), color, NoFill, TileSet::Left);
+                            else renderSlab(p, QRect(r.x()-gw, r.top()-6, 2, 18), color, NoFill, TileSet::Left);
                         }
+
+                        tabRect.adjust(-gw,0,0,0);
+
+                    } else if( isRightMost && reverseLayout ) {
+
+                        // reverseLayout
+                        if( isFrameAligned )
+                        {
+                            if( !selected)
+                            {
+                                frameRect.adjust(0,0,gw-7,0);
+                                frameTiles |= TileSet::Right;
+                            }
+
+                            if( northAlignment) renderSlab(p, QRect(r.right(), r.bottom()-11, 2, 18), color, NoFill, TileSet::Right);
+                            else if( selected ) renderSlab(p, QRect(r.right(), r.top()-6, 2, 17), color, NoFill, TileSet::Right);
+                            else renderSlab(p, QRect(r.right(), r.top()-6, 2, 18), color, NoFill, TileSet::Right);
+
+                        }
+
+                        tabRect.adjust(0,0,gw,0);
                     }
 
                 } else {
