@@ -5974,12 +5974,12 @@ namespace Oxygen
                                 QPainterPath path;
                                 x-=gw;
                                 w+=gw;
-                                path.moveTo(x+2.5, y+h-2-( isFrameAligned ? 0 : 2 ));
-                                path.lineTo(x+2.5, y+2.5); // left border
-                                path.arcTo(QRectF(x+2.5, y+0.5, 9, 9), 180, -90); // top-left corner
-                                path.lineTo(QPointF( x + w - 1.5 - 4.5, y+0.5)); // top border
+                                path.moveTo(x+2.5, y+h-3-( isFrameAligned ? 0 : 2 ));
+                                path.lineTo(x+2.5, y+2.5);
+                                path.arcTo(QRectF(x+2.5, y+0.5, 9, 9), 180, -90);
+                                path.lineTo(QPointF( x + w - 1.5 - 4.5, y+0.5));
                                 path.arcTo( QRectF( x+w - 1.5 - 9, y+0.5, 9, 9 ), 90, -90 );
-                                path.lineTo(QPointF( x+w - 1.5, y+h-2-( isFrameAligned ? 0 : 2 ) ));
+                                path.lineTo(QPointF( x+w - 1.5, y+h-3-( isFrameAligned ? 0 : 2 ) ));
                                 p->drawPath(path);
 
                             } else if( isLeftMost ) {
@@ -5987,27 +5987,27 @@ namespace Oxygen
                                 QPainterPath path;
                                 x-=gw;
                                 w+=gw;
-                                path.moveTo(x+2.5, y+h-2-( isFrameAligned ? 0 : 2 ));
-                                path.lineTo(x+2.5, y+2.5); // left border
-                                path.arcTo(QRectF(x+2.5, y+0.5, 9, 9), 180, -90); // top-left corner
-                                path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+0.5)); // top border
-                                path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+h-4));
+                                path.moveTo(x+2.5, y+h-3-( isFrameAligned ? 0 : 2 ));
+                                path.lineTo(x+2.5, y+2.5);
+                                path.arcTo(QRectF(x+2.5, y+0.5, 9, 9), 180, -90);
+                                path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+0.5));
+                                path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+h-5));
                                 p->drawPath(path);
 
                             } else if( isRightMost ) {
 
                                 QPainterPath path;
                                 w+=gw;
-                                path.moveTo(x+w-2.5, y+h-2- ( isFrameAligned ? 0 : 2 ) );
-                                path.lineTo(x+w-2.5, y+2.5); // right border
-                                path.arcTo(QRectF(x+w-9-2.5, y+0.5, 9, 9), 0, 90); // top-right corner
-                                path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+0.5)); // top border
-                                path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+h-4));
+                                path.moveTo(x+w-2.5, y+h-3- ( isFrameAligned ? 0 : 2 ) );
+                                path.lineTo(x+w-2.5, y+2.5);
+                                path.arcTo(QRectF(x+w-9-2.5, y+0.5, 9, 9), 0, 90);
+                                path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+0.5));
+                                path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+h-5));
                                 p->drawPath(path);
 
                             } else {
 
-                                // top border
+
                                 p->drawLine(QPointF(x-(isRightOfSelected?2:0), y+0.5), QPointF(x+w+(isRightOfSelected?2:0)+(isLeftOfSelected?2:0), y+0.5));
                                 if(!isLeftOfSelected) p->drawLine(QPointF(x+w+0.5, y+1.5), QPointF(x+w+0.5, y+h-4));
                                 p->fillRect(x-(isRightOfSelected ? 2 : 0), y+1, w+(isLeftOfSelected||isRightOfSelected ? (isRightOfSelected ? 3 : 3-gw) : 0), h-5, midColor);
@@ -6026,9 +6026,9 @@ namespace Oxygen
                                 x-=gw;
                                 w+=gw;
                                 path.moveTo(x+2.5, y+3+( isFrameAligned ? 0 : 2));
-                                path.lineTo(x+2.5, y+h-2.5); // left border
-                                path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90); // bottom-left corner
-                                path.lineTo(QPointF(x+w - 1.5 -4.5, y+h-0.5)); // bottom border
+                                path.lineTo(x+2.5, y+h-2.5);
+                                path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90);
+                                path.lineTo(QPointF(x+w - 1.5 -4.5, y+h-0.5));
                                 path.arcTo( QRectF( x+w - 1.5 - 9, y+h-0.5 - 9, 9, 9 ), -90, 90 );
                                 path.lineTo(QPointF(x+w-1.5, y+4 ) );
                                 p->drawPath(path);
@@ -6039,9 +6039,9 @@ namespace Oxygen
                                 x-=gw;
                                 w+=gw;
                                 path.moveTo(x+2.5, y+2+( isFrameAligned ? 0 : 2));
-                                path.lineTo(x+2.5, y+h-2.5); // left border
-                                path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90); // bottom-left corner
-                                path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+h-0.5)); // bottom border
+                                path.lineTo(x+2.5, y+h-2.5);
+                                path.arcTo(QRectF(x+2.5, y+h-9.5, 9, 9), 180, 90);
+                                path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+h-0.5));
                                 path.lineTo(QPointF(x+w-0.5+(isLeftOfSelected?4-gw:0), y+4));
                                 p->drawPath(path);
 
@@ -6050,15 +6050,14 @@ namespace Oxygen
                                 QPainterPath path;
                                 w+=gw;
                                 path.moveTo(x+w-2.5, y+2+( isFrameAligned ? 0 : 2));
-                                path.lineTo(x+w-2.5, y+h-2.5); // right border
-                                path.arcTo(QRectF(x+w-9-2.5, y+h-9.5, 9, 9), 0, -90); // bottom-right corner
-                                path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+h-0.5)); // bottom border
+                                path.lineTo(x+w-2.5, y+h-2.5);
+                                path.arcTo(QRectF(x+w-9-2.5, y+h-9.5, 9, 9), 0, -90);
+                                path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+h-0.5));
                                 path.lineTo(QPointF(x+0.5-(isRightOfSelected?4-gw:0), y+4));
                                 p->drawPath(path);
 
                             } else {
 
-                                // bottom border
                                 p->drawLine(QPointF(x-(isRightOfSelected?2:0), y+h-0.5), QPointF(x+w+(isRightOfSelected ?2:0)+(isLeftOfSelected ?2:0), y+h-0.5));
                                 if(!isLeftOfSelected) p->drawLine(QPointF(x+w+0.5, y+2.5), QPointF(x+w+0.5, y+h-4));
                                 p->fillRect(x, y+2, w+(isLeftOfSelected ?2:0), h-2, midColor);
@@ -6067,7 +6066,6 @@ namespace Oxygen
                         }
                         p->restore();
 
-                        // bottom line
                         TileSet::Tiles tiles = southAlignment?TileSet::Bottom:TileSet::Top;
                         QRect frameRect(Rb.left(), Rb.y(), Rb.width(), 6);
 
@@ -6188,9 +6186,9 @@ namespace Oxygen
                                 y = y + 1.5;
 
                                 path.moveTo(x+w+0.5 + ( isFrameAligned ? 2 : 0), y+0.5 );
-                                path.lineTo(x+5.0, y+0.5); // top border
-                                path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
-                                path.lineTo(x+0.5, y+h-2.5-4.5); // left border
+                                path.lineTo(x+5.0, y+0.5);
+                                path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90);
+                                path.lineTo(x+0.5, y+h-2.5-4.5);
                                 path.arcTo( QRectF( x+0.5, y+h-2.5-9, 9, 9 ), 180, 90 );
                                 path.lineTo(x+w+( 0.5 ), y+h-2.5);
                                 p->drawPath(path);
@@ -6202,9 +6200,9 @@ namespace Oxygen
                                 y += 1.5;
 
                                 path.moveTo(x+w+0.5 + ( isFrameAligned ? 2 : 0), y+0.5);
-                                path.lineTo(x+5.0, y+0.5); // top border
-                                path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90); // top-left corner
-                                path.lineTo(x+0.5, y+h+0.5); // left border
+                                path.lineTo(x+5.0, y+0.5);
+                                path.arcTo(QRectF(x+0.5, y+0.5, 9.5, 9.5), 90, 90);
+                                path.lineTo(x+0.5, y+h+0.5);
                                 path.lineTo(x+w+1.0, y+h+0.5);
                                 p->drawPath(path);
 
@@ -6214,9 +6212,9 @@ namespace Oxygen
                                 QPainterPath path;
 
                                 path.moveTo(x+w+0.5, y+h-0.5);
-                                path.lineTo(x+5.0, y+h-0.5); // bottom border
-                                path.arcTo(QRectF(x+0.5, y+h-0.5-9.5, 9.5, 9.5), 270, -90); // bottom-left corner
-                                path.lineTo(x+0.5, y-0.5); // left border
+                                path.lineTo(x+5.0, y+h-0.5);
+                                path.arcTo(QRectF(x+0.5, y+h-0.5-9.5, 9.5, 9.5), 270, -90);
+                                path.lineTo(x+0.5, y-0.5);
                                 path.lineTo(x+w+0.5, y-0.5);
                                 p->drawPath(path);
 
@@ -6241,9 +6239,9 @@ namespace Oxygen
                                 y = y + 1.5;
 
                                 path.moveTo(x-0.5 - ( isFrameAligned ? 2:0 ), y+0.5 );
-                                path.lineTo(x+w-5.0, y+0.5); // top line
-                                path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
-                                path.lineTo(x+w-0.5, y+h-2.5 -4.5 ); // right line
+                                path.lineTo(x+w-5.0, y+0.5);
+                                path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90);
+                                path.lineTo(x+w-0.5, y+h-2.5 -4.5 );
                                 path.arcTo( QRectF( x+w-0.5-9, y+h-2.5-9, 9, 9 ), 0, -90 );
                                 path.lineTo(x-0.5, y+h-2.5);
                                 p->drawPath(path);
@@ -6255,9 +6253,9 @@ namespace Oxygen
                                 y = y + 1.5;
 
                                 path.moveTo(x-0.5 - ( isFrameAligned ? 2:0 ), y+0.5 );
-                                path.lineTo(x+w-5.0, y+0.5); // top line
-                                path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90); // top-right corner
-                                path.lineTo(x+w-0.5, y+h+0.5); // right line
+                                path.lineTo(x+w-5.0, y+0.5);
+                                path.arcTo(QRectF(x+w-0.5-9.5, y+0.5, 9.5, 9.5), 90, -90);
+                                path.lineTo(x+w-0.5, y+h+0.5);
                                 path.lineTo(x-0.5, y+h+0.5);
                                 p->drawPath(path);
 
@@ -6267,15 +6265,14 @@ namespace Oxygen
                                 QPainterPath path;
 
                                 path.moveTo(x-0.5, y+h-0.5);
-                                path.lineTo(x+w-5.0, y+h-0.5); // bottom line
-                                path.arcTo(QRectF(x+w-0.5-9.5, y+h-0.5-9.5, 9.5, 9.5), -90, 90); // bottom-right corner
-                                path.lineTo(x+w-0.5, y-0.5); // right line
+                                path.lineTo(x+w-5.0, y+h-0.5);
+                                path.arcTo(QRectF(x+w-0.5-9.5, y+h-0.5-9.5, 9.5, 9.5), -90, 90);
+                                path.lineTo(x+w-0.5, y-0.5);
                                 path.lineTo(x-0.5, y-0.5);
                                 p->drawPath(path);
 
                             } else {
 
-                                // right line
                                 p->drawLine(QPointF(x+w-0.5, y - (isRightOfSelected ? 2:0) ), QPointF(x+w-0.5, y+h-0.5 + (isLeftOfSelected ? 2:0)));
                                 if( !isLeftOfSelected ) p->drawLine(QPointF(x+0.5, y+h-0.5), QPointF(x+w-1.5, y+h-0.5));
                                 p->fillRect(x, y - (isRightOfSelected ? 2:0), w, h + (isRightOfSelected ? 2:0) + (isLeftOfSelected ? 2:0), midColor);
