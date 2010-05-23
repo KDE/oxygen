@@ -5601,6 +5601,8 @@ namespace Oxygen
 
         isFrameAligned &= !documentMode;
 
+        bool isEdge( false );
+
         const QColor color = pal.color(QPalette::Window);
         StyleOptions selectedTabOpts = OxygenStyleConfigData::tabSubtleShadow() ? SubtleShadow | NoFill : NoFill;
         StyleOptions hoverTabOpts = NoFill | Hover;
@@ -5683,8 +5685,14 @@ namespace Oxygen
 
                     if( isLast && !documentMode && !widgetRect.isNull() )
                     {
-                        if( reverseLayout ) frameRect.setLeft( qMax( frameRect.left(), widgetRect.left()-1 ) );
-                        else frameRect.setRight( qMin( frameRect.right(), widgetRect.right()+1 ) );
+                        if( reverseLayout )
+                        {
+                            isEdge = frameRect.left() < widgetRect.left()-5;
+                            frameRect.setLeft( qMax( frameRect.left(), widgetRect.left()-1 ) );
+                        } else {
+                            isEdge = frameRect.right() > widgetRect.right()+5;
+                            frameRect.setRight( qMin( frameRect.right(), widgetRect.right()+1 ) );
+                        }
                     }
 
                 } else {
@@ -5694,8 +5702,10 @@ namespace Oxygen
                     else frameRect = r.adjusted(0, -7, -r.width()+gw+7, 7);
 
                     if( isLast && !documentMode && !widgetRect.isNull() )
-                    { frameRect.setBottom( qMin( frameRect.bottom(), widgetRect.bottom()+1 ) ); }
-
+                    {
+                        isEdge = frameRect.bottom() > widgetRect.bottom()+5;
+                        frameRect.setBottom( qMin( frameRect.bottom(), widgetRect.bottom()+1 ) );
+                    }
                 }
 
                 // HACK: Workaround for misplaced tab
@@ -5713,9 +5723,9 @@ namespace Oxygen
                 if( horizontal)
                 {
 
-                    if( isLeftMost && !reverseLayout)
+                    if( isLeftMost )
                     {
-                        if( isFrameAligned )
+                        if( isFrameAligned && !reverseLayout )
                         {
                             if( !selected)
                             {
@@ -5726,14 +5736,20 @@ namespace Oxygen
                             if( northAlignment) renderSlab(p, QRect(r.x()-gw, r.bottom()-11, 2, 18), color, NoFill, TileSet::Left);
                             else if( selected ) renderSlab(p, QRect(r.x()-gw, r.top()-6, 2, 17), color, NoFill, TileSet::Left);
                             else renderSlab(p, QRect(r.x()-gw, r.top()-6, 2, 18), color, NoFill, TileSet::Left);
+
+                        } else if( isEdge ) {
+
+                            if( northAlignment) renderSlab(p, QRect(r.x()-gw+1, r.bottom()-11, 2, 16), color, NoFill, TileSet::Left);
+                            else renderSlab(p, QRect(r.x()-gw+1, r.top()-3, 2, 15), color, NoFill, TileSet::Left);
+
                         }
 
-                        tabRect.adjust(-gw,0,0,0);
+                        if( !reverseLayout ) tabRect.adjust(-gw,0,0,0);
 
-                    } else if( isRightMost && reverseLayout ) {
+                    } else if( isRightMost ) {
 
                         // reverseLayout
-                        if( isFrameAligned )
+                        if( isFrameAligned && reverseLayout )
                         {
                             if( !selected)
                             {
@@ -5745,9 +5761,14 @@ namespace Oxygen
                             else if( selected ) renderSlab(p, QRect(r.right(), r.top()-6, 2, 17), color, NoFill, TileSet::Right);
                             else renderSlab(p, QRect(r.right(), r.top()-6, 2, 18), color, NoFill, TileSet::Right);
 
+                        } else if( isEdge ) {
+
+                            if( northAlignment) renderSlab(p, QRect(r.right()-1, r.bottom()-11, 2, 16), color, NoFill, TileSet::Right);
+                            else renderSlab(p, QRect(r.right()-1, r.top()-3, 2, 15), color, NoFill, TileSet::Right);
+
                         }
 
-                        tabRect.adjust(0,0,gw,0);
+                        if( reverseLayout ) tabRect.adjust(0,0,gw,0);
                     }
 
                 } else {
@@ -5763,9 +5784,15 @@ namespace Oxygen
                         }
 
                         if( westAlignment) renderSlab(p, QRect(r.right()-11, r.y()-gw, 18, 2), color, NoFill, TileSet::Top);
-                        else renderSlab(p, QRect(r.x()-11, r.y()-gw, 23, 2), color, NoFill, TileSet::Top);
+                        else renderSlab(p, QRect(r.x()-6, r.y()-gw, 18, 2), color, NoFill, TileSet::Top);
+
+                    } else if( isEdge ) {
+
+                        if( westAlignment) renderSlab(p, QRect(r.right()-11, r.bottom()-gw, 15, 2), color, NoFill, TileSet::Bottom);
+                        else renderSlab(p, QRect(r.x()-3, r.bottom()-gw, 15, 2), color, NoFill, TileSet::Bottom);
 
                     }
+
                     tabRect.adjust(0,-gw,0,0);
                 }
 
