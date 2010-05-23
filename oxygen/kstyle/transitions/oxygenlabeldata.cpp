@@ -122,6 +122,15 @@ namespace Oxygen
 
         transition().data()->setOpacity(0);
         QRect current( target_.data()->contentsRect().translated( target_.data()->pos() ) );
+        if( widgetRect_.isValid() && !(widgetRect_.topLeft() == current.topLeft() || widgetRect_.bottomRight() == current.bottomRight() ) )
+        {
+
+            widgetRect_ = current;
+            transition().data()->setEndPixmap( QPixmap() );
+            return false;
+
+        }
+
         if(
             widgetRect_.isValid() &&
             !transition().data()->currentPixmap().isNull() &&
