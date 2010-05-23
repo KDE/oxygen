@@ -166,7 +166,7 @@ namespace Oxygen
 
         setWidgetLayoutProp(WT_Splitter, Splitter::Width, 3);
 
-        setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 23);
+        setWidgetLayoutProp(WT_CheckBox, CheckBox::Size, 21);
         setWidgetLayoutProp(WT_CheckBox, CheckBox::BoxTextSpace, 4);
         setWidgetLayoutProp(WT_RadioButton, RadioButton::Size, 21);
         setWidgetLayoutProp(WT_RadioButton, RadioButton::BoxTextSpace, 4);
