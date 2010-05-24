@@ -835,9 +835,6 @@ namespace Oxygen
 
                     QRect editRect = subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget);
 
-                    // adjust rect for consistency with other buttons
-                    if( !cb->currentIcon.isNull() && !cb->editable ) editRect.adjust( 0, 0, 0, -1 );
-
                     p->save();
                     if( !cb->currentIcon.isNull() )
                     {
@@ -907,8 +904,6 @@ namespace Oxygen
 
                 // copy option and adjust rect
                 QStyleOptionToolButton local = *tbOpt;
-                if( !(local.state & State_AutoRaise ) )
-                { local.rect.adjust( 0, 0, 0, -1 ); }
 
                 // disable mouseOver effect if toolbar is animated
                 if( widget && animations().toolBarEngine().isAnimated( widget->parentWidget() ) )
@@ -1200,6 +1195,24 @@ namespace Oxygen
             }
 
             case PushButton::DefaultButtonFrame: return true;
+
+            case Generic::Text:
+            {
+                if( const QStyleOptionButton* bOpt = qstyleoption_cast<const QStyleOptionButton*>(opt) )
+                {
+                    // when icon is drawn, need to adjust the text rect
+                    // for consistency with other buttons and labels
+                    if( !bOpt->icon.isNull() )
+                    {
+                        KStyle::drawKStylePrimitive( WT_PushButton, primitive, opt, r.adjusted( 0, 0, 0, 1 ), pal, flags, p, widget, kOpt );
+                        return true;
+                    }
+                }
+
+                return false;
+
+            }
+
             default: return false;
         }
 
