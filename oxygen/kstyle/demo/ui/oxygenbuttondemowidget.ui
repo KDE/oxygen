@@ -311,6 +311,9 @@
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
+        <property name="buddy">
+         <cstring>textPosition</cstring>
+        </property>
        </widget>
       </item>
       <item row="1" column="1">
@@ -357,6 +360,9 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>iconSize</cstring>
         </property>
        </widget>
       </item>

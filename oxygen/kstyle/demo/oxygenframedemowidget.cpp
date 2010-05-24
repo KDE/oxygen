@@ -67,6 +67,7 @@ namespace Oxygen
             << i18n( "Top to Bottom" )
             << i18n( "Bottom to Top" ) );
         hLayout->addStretch( 1 );
+        label->setBuddy( comboBox );
 
         // boxes
         vLayout->addWidget( widget = new QWidget( this ) );
