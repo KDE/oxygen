@@ -252,6 +252,7 @@ namespace Oxygen
         setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorYOff, -10);
 
         setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 4);
+        setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 3);
         setWidgetLayoutProp(WT_GroupBox, GroupBox::TitleTextColor, ColorMode(QPalette::WindowText));
 
         setWidgetLayoutProp(WT_ToolBoxTab, ToolBoxTab::Margin, 0);
@@ -3448,7 +3449,7 @@ namespace Oxygen
 
                 TileSet *slopeTileSet = _helper.slope( base, 0.0);
                 p->setClipping(false);
-                slopeTileSet->render(r.adjusted( -1, -1, 1, 0 ), p);
+                slopeTileSet->render( r, p );
 
                 p->restore();
 
@@ -6691,7 +6692,7 @@ namespace Oxygen
                 switch (subControl)
                 {
 
-                    case SC_GroupBoxFrame: return r;
+                    case SC_GroupBoxFrame: return r.adjusted( -1, -2, 1, 0 );
 
                     case SC_GroupBoxContents:
                     {
@@ -6730,9 +6731,9 @@ namespace Oxygen
                         int tw = fontMetrics.size(Qt::TextShowMnemonic, gbOpt->text + QLatin1String("  ")).width();
                         r.setHeight(h);
 
-                        // translate down by 8 pixels in non flat mode,
+                        // translate down by 6 pixels in non flat mode,
                         // to avoid collision with groupbox frame
-                        if( !isFlat ) r.moveTop(7);
+                        if( !isFlat ) r.moveTop(6);
 
                         QRect cr;
                         if(gbOpt->subControls & QStyle::SC_GroupBoxCheckBox)

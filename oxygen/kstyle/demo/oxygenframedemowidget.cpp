@@ -92,13 +92,12 @@ namespace Oxygen
 
         {
             QVBoxLayout* vLayout = new QVBoxLayout();
-            vLayout->setMargin(0);
+            vLayout->setMargin(2);
             frame->setLayout( vLayout );
 
             QLabel* label;
             vLayout->addWidget( label = new QLabel( i18n("Frame"), frame ) );
             label->setAlignment( Qt::AlignCenter );
-            label->setMargin(4);
 
             QRadioButton* radioButton;
             group->addButton( radioButton = new QRadioButton( i18n( "Raised" ), frame ), 0 );
