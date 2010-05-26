@@ -251,7 +251,6 @@ namespace Oxygen
         setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorXOff, -11);
         setWidgetLayoutProp(WT_ToolButton, ToolButton::InlineMenuIndicatorYOff, -10);
 
-        setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 4);
         setWidgetLayoutProp(WT_GroupBox, GroupBox::FrameWidth, 3);
         setWidgetLayoutProp(WT_GroupBox, GroupBox::TitleTextColor, ColorMode(QPalette::WindowText));
 
@@ -3764,8 +3763,9 @@ namespace Oxygen
                 QRect slitRect = r;
 
                 // non autoraised tool buttons get same slab as regular buttons
-                if( !autoRaised )
+                if( widget && !autoRaised )
                 {
+
                     StyleOptions opts = 0;
 
                     // "normal" parent, and non "autoraised" (that is: always raised) buttons
@@ -3818,7 +3818,6 @@ namespace Oxygen
 
                 if((flags & State_Sunken) || (flags & State_On) )
                 {
-
                     if( enabled && hoverAnimated )
                     {
 
@@ -4623,13 +4622,6 @@ namespace Oxygen
 
             widget->installEventFilter(this);
 
-        }
-
-        // kate view
-        if( widget->inherits( "KateViewInternal" ) )
-        {
-            QTextStream( stdout ) << "Registering KateViewInternal" << endl;
-            widget->setContentsMargins( 10, 10, 10, 10 );
         }
 
         // base class polishing
