@@ -50,7 +50,6 @@ namespace Oxygen
         _decorationChanged( false )
    {
         setButtons( Default|Reset|Apply|Ok|Cancel );
-        showButtonSeparator( false );
 
         updateWindowTitle();
 

@@ -51,7 +51,6 @@ namespace Oxygen
         rightToLeftCheckBox_( 0 )
     {
         setButtons( Ok );
-        showButtonSeparator( false );
 
         setWindowTitle( i18n( "Oxygen Demo" ) );
 
