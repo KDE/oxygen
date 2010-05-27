@@ -121,7 +121,7 @@ namespace Oxygen
         if( !( enabled() && transition() && target_ && target_.data()->isVisible() ) ) return false;
 
         transition().data()->setOpacity(0);
-        QRect current( target_.data()->contentsRect().translated( target_.data()->pos() ) );
+        QRect current( target_.data()->geometry() );
         if( widgetRect_.isValid() && !(widgetRect_.topLeft() == current.topLeft() || widgetRect_.bottomRight() == current.bottomRight() ) )
         {
 
@@ -153,7 +153,7 @@ namespace Oxygen
 
         }
 
-        transition().data()->setGeometry( target_.data()->contentsRect() );
+        transition().data()->setGeometry( target_.data()->rect() );
         widgetRect_ = current;
 
         transition().data()->show();
@@ -169,7 +169,7 @@ namespace Oxygen
 
         // check enability
         transition().data()->endAnimation();
-        transition().data()->setEndPixmap( transition().data()->grab( target_.data(), target_.data()->contentsRect() ) );
+        transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
         transition().data()->animate();
         return true;
 
