@@ -4548,6 +4548,12 @@ namespace Oxygen
 
             widget->setBackgroundRole(QPalette::NoRole);
 
+        } else if( widget->inherits( "KMultiTabBar" ) ) {
+
+            // kMultiTabBar margins are set to unity for alignment
+            // with (usually sunken) neighbor frames
+            widget->setContentsMargins( 1, 1, 1, 1 );
+
         } else if( widget->inherits("Q3ToolBar") || qobject_cast<QToolBar*>(widget) ) {
 
             widget->setBackgroundRole(QPalette::NoRole);
