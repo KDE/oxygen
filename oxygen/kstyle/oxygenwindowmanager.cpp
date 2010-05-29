@@ -145,6 +145,7 @@ namespace Oxygen
 
         blackList_.clear();
         blackList_.insert( ExceptionId( "CustomTrackView@kdenlive" ) );
+        blackList_.insert( ExceptionId( "KCategorizedView" ) );
         foreach( const QString& exception, OxygenStyleConfigData::windowDragBlackList() )
         {
             ExceptionId id( exception );
@@ -538,7 +539,9 @@ namespace Oxygen
             // check against groupbox label
             if( !groupBox->title().isEmpty() && groupBox->style()->subControlRect(QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxLabel, groupBox ).contains( position ) )
             { return false; }
-
+            
+            return true;
+            
         }
 
         QAbstractItemView* itemView( NULL );
