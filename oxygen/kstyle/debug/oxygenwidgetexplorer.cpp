@@ -70,7 +70,7 @@ namespace Oxygen
 
                 QTextStream( stdout )
                     << "WidgetExplorer::eventFilter -"
-                    << " event type: " << eventType( event->type() )
+                    << " event: " << event << " type: " << eventType( event->type() )
                     << " widget: " << widgetInformation( widget )
                     << endl;
 
