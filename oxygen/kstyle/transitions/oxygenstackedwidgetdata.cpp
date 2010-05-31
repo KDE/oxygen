@@ -39,7 +39,6 @@ namespace Oxygen
 
         // configure transition
         connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
-        connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( initializeAnimation() ) );
         connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( animate() ) );
 
         // disable focus
@@ -98,6 +97,9 @@ namespace Oxygen
     //___________________________________________________________________
     bool StackedWidgetData::animate( void )
     {
+
+        // initialize animation
+        if( !initializeAnimation() ) return false;
 
         // check enability
         if( aborted() || !enabled() ) return false;
