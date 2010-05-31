@@ -184,7 +184,7 @@ namespace Oxygen
         virtual void grabWidget( QPixmap&, QWidget*, QRect& ) const;
 
         //! fade pixmap
-        virtual QPixmap fade( const QPixmap&, qreal opacity, const QRect& ) const;
+        virtual void fade( const QPixmap& source, QPixmap& target, qreal opacity, const QRect& ) const;
 
         private:
 
@@ -202,6 +202,12 @@ namespace Oxygen
 
         //! animation starting pixmap
         QPixmap endPixmap_;
+
+        //! local start pixmap (used for fading)
+        QPixmap localStartPixmap_;
+
+        //! local end pixmap (used for fading)
+        QPixmap localEndPixmap_;
 
         //! current pixmap
         QPixmap currentPixmap_;

@@ -110,9 +110,6 @@ namespace Oxygen
         if( !rect.isValid() ) rect = TransitionWidget::rect();
 
         // local pixmap
-        QPixmap localStart = fade( startPixmap_, 1.0-opacity(), rect );
-        QPixmap localEnd = fade( endPixmap_, opacity(), rect );
-
         currentPixmap_ = QPixmap( TransitionWidget::size() );
         currentPixmap_.fill( Qt::transparent );
 
@@ -128,8 +125,12 @@ namespace Oxygen
                 if( testFlag( Transparent ) )
                 {
 
-                    QPixmap localEnd = fade( endPixmap_, opacity(), rect );
-                    if( !localEnd.isNull() ) { p.drawPixmap( QPoint(), localEnd ); }
+                    if( !endPixmap_.isNull() )
+                    {
+                        // this could be made faster by not copying localEnd locally
+                        fade( endPixmap_, localEndPixmap_, opacity(), rect );
+                        p.drawPixmap( QPoint(), localEndPixmap_ );
+                    }
 
                 } else {
 
@@ -139,7 +140,11 @@ namespace Oxygen
             }
 
             // draw fading start pixmap
-            if( !localStart.isNull() ) { p.drawPixmap( QPoint(), localStart );  }
+            if( !startPixmap_.isNull() )
+            {
+                fade( startPixmap_, localStartPixmap_, 1.0-opacity(), rect );
+                p.drawPixmap( QPoint(), localStartPixmap_ );
+            }
 
             p.end();
         }
@@ -228,22 +233,23 @@ namespace Oxygen
     }
 
     //________________________________________________
-    QPixmap TransitionWidget::fade( const QPixmap& pixmap, qreal opacity, const QRect& rect ) const
+    void TransitionWidget::fade( const QPixmap& source, QPixmap& target, qreal opacity, const QRect& rect ) const
     {
-        if( pixmap.isNull() ) return QPixmap();
+
+        if( target.isNull() || target.size() != size() )
+        { target = QPixmap( size() ); }
 
         // create output pixmap
-        QPixmap out( size() );
-        out.fill( Qt::transparent );
+        target.fill( Qt::transparent );
 
         // check opacity
-        if( opacity*255 < 1 ) return out;
+        if( opacity*255 < 1 ) return;
 
-        QPainter p( &out );
+        QPainter p( &target );
         p.setClipRect( rect );
 
         // draw pixmap
-        p.drawPixmap( QPoint(0,0), pixmap );
+        p.drawPixmap( QPoint(0,0), source );
 
         // opacity mask
         if( opacity*255 <= 254 )
@@ -255,7 +261,7 @@ namespace Oxygen
         }
 
         p.end();
-        return out;
+        return;
     }
 
 }
