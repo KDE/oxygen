@@ -52,11 +52,8 @@ namespace Oxygen
     bool StackedWidgetData::initializeAnimation( void )
     {
 
-        // unless everything is right, animation is aborted
-        setAborted( true );
-
         // check enability
-        if( !( enabled() && target_ && target_.data()->isVisible() ) )
+        if( !( target_ && target_.data()->isVisible() ) )
         { return false; }
 
         // check index
@@ -76,14 +73,12 @@ namespace Oxygen
         {
 
             transition().data()->setOpacity( 0 );
-            setAborted( false );
             startClock();
             transition().data()->setGeometry( widget->geometry() );
             transition().data()->setStartPixmap( transition().data()->grab( widget ) );
-            if( slow() ) setAborted( true );
 
             index_ = target_.data()->currentIndex();
-            return true;
+            return !slow();
 
         } else {
 
@@ -98,11 +93,11 @@ namespace Oxygen
     bool StackedWidgetData::animate( void )
     {
 
+        // check enability
+        if( !enabled() ) return false;
+
         // initialize animation
         if( !initializeAnimation() ) return false;
-
-        // check enability
-        if( aborted() || !enabled() ) return false;
 
         // show transition widget
         transition().data()->show();

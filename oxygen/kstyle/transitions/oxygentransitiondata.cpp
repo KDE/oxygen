@@ -34,7 +34,6 @@ namespace Oxygen
     TransitionData::TransitionData( QObject* parent, QWidget* target, int duration ):
         QObject( parent ),
         enabled_( true ),
-        aborted_( false ),
         recursiveCheck_( false ),
         maxRenderTime_( 200 ),
         transition_( new TransitionWidget( target, duration ) )

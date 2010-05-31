@@ -102,14 +102,6 @@ namespace Oxygen
         virtual const TransitionWidget::Pointer& transition( void ) const
         { return transition_; }
 
-        //! true when animation is aborted
-        const bool& aborted( void ) const
-        { return aborted_; }
-
-        //! set to true to abort transition
-        void setAborted( bool value )
-        { aborted_ = value; }
-
         //! used to avoid recursion when grabbing widgets
         void setRecursiveCheck( bool value )
         { recursiveCheck_ = value; }
@@ -122,9 +114,6 @@ namespace Oxygen
 
         //! enability
         bool enabled_;
-
-        //! true when transition is aborted
-        bool aborted_;
 
         //! used to avoid recursion when grabbing widgets
         bool recursiveCheck_;
