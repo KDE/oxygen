@@ -110,7 +110,16 @@ namespace Oxygen
         if( !rect.isValid() ) rect = this->rect();
 
         // local pixmap
-        currentPixmap_ = QPixmap( size() );
+        const bool paintOnWidget( testFlag( PaintOnWidget ) && !testFlag( Transparent ) );
+        if( !paintOnWidget )
+        {
+
+            if( currentPixmap_.isNull() || currentPixmap_.size() != size() )
+            { currentPixmap_ = QPixmap( size() ); }
+
+        }
+
+        // fill
         currentPixmap_.fill( Qt::transparent );
 
         // copy local pixmap to current
@@ -132,7 +141,8 @@ namespace Oxygen
 
                 } else {
 
-                    p.begin( &currentPixmap_ );
+                    if( paintOnWidget ) p.begin( this );
+                    else p.begin( &currentPixmap_ );
                     p.setClipRect( event->rect() );
                     p.drawPixmap( QPoint(), endPixmap_ );
 
@@ -140,7 +150,8 @@ namespace Oxygen
 
             } else {
 
-                p.begin( &currentPixmap_ );
+                if( paintOnWidget ) p.begin( this );
+                else p.begin( &currentPixmap_ );
                 p.setClipRect( event->rect() );
 
             }
@@ -162,6 +173,7 @@ namespace Oxygen
         }
 
         // copy current pixmap on widget
+        if( !paintOnWidget )
         {
             QPainter p( this );
             p.setClipRect( event->rect() );
@@ -221,6 +233,7 @@ namespace Oxygen
             p.translate(-option.rect.topLeft());
             parent->style()->drawPrimitive ( QStyle::PE_Widget, &option, &p, parent );
         }
+
         p.end();
 
         // draw all widgets in parent list
@@ -239,10 +252,7 @@ namespace Oxygen
 
     //________________________________________________
     void TransitionWidget::grabWidget( QPixmap& pixmap, QWidget* widget, QRect& rect ) const
-    {
-        // render main widget
-        widget->render( &pixmap, pixmap.rect().topLeft(), rect, QWidget::DrawChildren );
-    }
+    { widget->render( &pixmap, pixmap.rect().topLeft(), rect, QWidget::DrawChildren ); }
 
     //________________________________________________
     void TransitionWidget::fade( const QPixmap& source, QPixmap& target, qreal opacity, const QRect& rect ) const

@@ -43,6 +43,7 @@ namespace Oxygen
 
         // disable focus
         transition().data()->setAttribute(Qt::WA_NoMousePropagation, true);
+        transition().data()->setFlag(TransitionWidget::PaintOnWidget, true);
 
         setMaxRenderTime( 50 );
 
