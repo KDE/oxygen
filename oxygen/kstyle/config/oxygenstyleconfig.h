@@ -68,16 +68,17 @@ namespace Oxygen
         //! toggle expert mode
         virtual void toggleExpertMode( bool );
 
+        //! event
+        virtual void showEvent( QShowEvent* );
+
         protected Q_SLOTS:
 
-        //! update layout (when animation config is changed)
+        //! update layout
+        /*! needed in expert mode to accomodate with animations config widget size changes */
         void updateLayout( void );
 
         //! update modified state when option is checked/unchecked
         void updateChanged( void );
-
-        //! tab changed
-        void currentTabChanged( int );
 
         //! update options enable state based on selected drag mode
         void windowDragModeChanged( int );

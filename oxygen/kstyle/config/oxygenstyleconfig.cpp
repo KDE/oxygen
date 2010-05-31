@@ -65,7 +65,6 @@ namespace Oxygen
     {
         KGlobal::locale()->insertCatalog("kstyle_config");
 
-        /* Stop 1+2: Set up the UI */
         setupUi(this);
 
         // connections
@@ -79,8 +78,6 @@ namespace Oxygen
         // load setup from configData
         load();
 
-        /* Stop 4: Emit a signal on changes */
-        connect( tabWidget, SIGNAL( currentChanged( int ) ), SLOT( currentTabChanged( int ) ) );
         connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _checkDrawX, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
@@ -105,7 +102,6 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::save( void )
     {
-        /* Stop 5: Save the configuration */
         OxygenStyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
         OxygenStyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK ) );
         OxygenStyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
@@ -197,6 +193,23 @@ namespace Oxygen
     }
 
     //__________________________________________________________________
+    void StyleConfig::showEvent( QShowEvent* )
+    {
+
+        if( _expertMode && _animationConfigWidget )
+        {
+            if( const QWidget* widget = tabWidget->widget( tabWidget->currentIndex() ) )
+            {
+                int delta = qMax( 0, _animationConfigWidget->sizeHint().height() - widget->size().height() );
+                if( delta > 0 ) window()->setMinimumSize( QSize( window()->minimumSizeHint().width(), window()->size().height() + delta ) );
+            }
+        }
+
+        return;
+
+    }
+
+    //__________________________________________________________________
     void StyleConfig::updateLayout( void )
     {
 
@@ -256,18 +269,9 @@ namespace Oxygen
     }
 
     //__________________________________________________________________
-    void StyleConfig::currentTabChanged( int index )
-    {
-        if( _animationConfigWidget && index == tabWidget->indexOf( _animationConfigWidget ) )
-        { updateLayout(); }
-
-    }
-
-    //__________________________________________________________________
     void StyleConfig::load( void )
     {
 
-        /* Stop 3: Set up the configuration struct and your widget */
         _toolBarDrawItemSeparator->setChecked( OxygenStyleConfigData::toolBarDrawItemSeparator() );
         _checkDrawX->setChecked( OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_X );
         _viewDrawTriangularExpander->setChecked( OxygenStyleConfigData::viewDrawTriangularExpander() );
