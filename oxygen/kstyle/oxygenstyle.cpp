@@ -1983,7 +1983,7 @@ namespace Oxygen
             if( slider->orientation == Qt::Horizontal ) r.adjust( 0, 1, 0, -1 );
             else r.adjust( 1, 0, -1, 0 );
         }
-
+             
         switch (primitive)
         {
             case ScrollBar::DoubleButtonHor:
@@ -4578,6 +4578,11 @@ namespace Oxygen
         } else if( qobject_cast<QScrollBar*>(widget) ) {
 
             widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
+            
+            // when painted in konsole, one needs to paint the window background below
+            // the scrollarea, otherwise an ugly flat background is used
+            if( widget->parent() && widget->parent()->inherits( "Konsole::TerminalDisplay" ) )
+            { widget->installEventFilter( this ); }
 
         } else if( qobject_cast<QDockWidget*>(widget)) {
 
@@ -7154,6 +7159,7 @@ namespace Oxygen
 
         if( widget->inherits( "Q3ListView" ) ) { return eventFilterQ3ListView( widget, ev ); }
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, ev ); }
+        if( widget->inherits( "QScrollBar" ) ) { return eventFilterScrollBar( widget, ev ); }
         if( widget->isWindow() && widget->isVisible() ) { return eventFilterWindow( widget, ev ); }
 
         // frames must come last
@@ -7301,6 +7307,20 @@ namespace Oxygen
             }
             default: return false;
         }
+    }
+
+    //_________________________________________________________
+    bool Style::eventFilterScrollBar( QWidget* widget, QEvent* ev )
+    {
+        
+        if( ev->type() == QEvent::Paint )
+        {
+            QPainter p( widget );
+            p.setClipRegion( static_cast<QPaintEvent*>(ev)->region() );
+            _helper.renderWindowBackground(&p, widget->rect(), widget,widget->palette());
+        }
+        
+        return false;
     }
 
     //____________________________________________________________________________
