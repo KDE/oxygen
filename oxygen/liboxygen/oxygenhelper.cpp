@@ -155,6 +155,13 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
+    bool Helper::highThreshold(const QColor &color)
+    {
+        QColor lighter = KColorScheme::shade(color, KColorScheme::LightShade, 0.5);
+        return KColorUtils::luma(lighter) < KColorUtils::luma(color);
+    }
+
+    //____________________________________________________________________
     QColor Helper::alphaColor(QColor color, qreal alpha)
     {
         if( alpha >= 0 && alpha < 1.0 )
@@ -165,9 +172,9 @@ namespace Oxygen
     //____________________________________________________________________
     QColor Helper::backgroundRadialColor(const QColor &color) const
     {
-        return (lowThreshold(color)) ?
-            KColorScheme::shade(color, KColorScheme::LightShade, 0.0):
-            KColorScheme::shade(color, KColorScheme::LightShade, _bgcontrast);
+        if( lowThreshold(color) ) return KColorScheme::shade(color, KColorScheme::LightShade, 0.0);
+        else if( highThreshold( color ) ) return color;
+        else return KColorScheme::shade(color, KColorScheme::LightShade, _bgcontrast);
     }
 
     //_________________________________________________________________________
@@ -195,7 +202,7 @@ namespace Oxygen
 
     //____________________________________________________________________
     QColor Helper::calcLightColor(const QColor &color) const
-    { return KColorScheme::shade(color, KColorScheme::LightShade, _contrast); }
+    { return highThreshold(color) ? color: KColorScheme::shade(color, KColorScheme::LightShade, _contrast); }
 
     //____________________________________________________________________
     QColor Helper::calcDarkColor(const QColor &color) const

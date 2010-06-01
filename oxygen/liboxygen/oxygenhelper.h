@@ -112,6 +112,7 @@ namespace Oxygen
         virtual void invalidateCaches();
 
         static bool lowThreshold(const QColor &color);
+        static bool highThreshold(const QColor &color);
 
         static QColor alphaColor(QColor color, qreal alpha);
 
