@@ -539,6 +539,24 @@ namespace Oxygen
         switch (element)
         {
 
+            case PE_Widget:
+            {
+                // check widget and attributes
+                if( !widget || !widget->testAttribute(Qt::WA_StyledBackground) || widget->testAttribute(Qt::WA_NoSystemBackground))
+                { return KStyle::drawPrimitive( element, option, p, widget ); }
+
+                if( !( (widget->windowFlags() & Qt::WindowType_Mask) & (Qt::Window|Qt::Dialog) ) )
+                { return KStyle::drawPrimitive( element, option, p, widget ); }
+
+                if( !widget->isWindow() )
+                { return KStyle::drawPrimitive( element, option, p, widget ); }
+
+                // normal "window" background
+                _helper.renderWindowBackground(p, option->rect, widget, option->palette );
+                return;
+
+            }
+
             case PE_PanelMenu:
             {
 
@@ -2027,7 +2045,7 @@ namespace Oxygen
             if( slider->orientation == Qt::Horizontal ) r.adjust( 0, 1, 0, -1 );
             else r.adjust( 1, 0, -1, 0 );
         }
-             
+
         switch (primitive)
         {
             case ScrollBar::DoubleButtonHor:
@@ -4489,39 +4507,15 @@ namespace Oxygen
 
         }
 
-        // adjust flags
+        // adjust flags for windows and dialogs
         switch (widget->windowFlags() & Qt::WindowType_Mask)
         {
 
             case Qt::Window:
             case Qt::Dialog:
-            widget->installEventFilter(this);
-
-            // special handling of kwin geometry tip widget
-            if( widget->inherits( "KWin::GeometryTip" ) )
-            {
-
-                widget->setAttribute(Qt::WA_NoSystemBackground);
-                widget->setAttribute(Qt::WA_TranslucentBackground);
-                if( QLabel* label = qobject_cast<QLabel*>( widget ) )
-                {
-                    label->setFrameStyle( QFrame::NoFrame );
-                    label->setMargin(5);
-                }
-
-                #ifdef Q_WS_WIN
-                widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
-                #endif
-
-            } else {
-
-                widget->setAttribute(Qt::WA_StyledBackground);
-
-            }
+            widget->setAttribute(Qt::WA_StyledBackground);
             break;
 
-            case Qt::Popup: // we currently don't want that kind of gradient on menus etc
-            case Qt::Tool:  // this we exclude as it is used for dragging of icons etc
             default: break;
 
         }
@@ -4622,7 +4616,7 @@ namespace Oxygen
         } else if( qobject_cast<QScrollBar*>(widget) ) {
 
             widget->setAttribute(Qt::WA_OpaquePaintEvent, false);
-            
+
             // when painted in konsole, one needs to paint the window background below
             // the scrollarea, otherwise an ugly flat background is used
             if( widget->parent() && widget->parent()->inherits( "Konsole::TerminalDisplay" ) )
@@ -4667,6 +4661,22 @@ namespace Oxygen
             widget->setAttribute(Qt::WA_TranslucentBackground);
             #ifdef Q_WS_WIN
             //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+            widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
+            #endif
+
+        } else if( widget->inherits( "KWin::GeometryTip" ) ) {
+
+            // special handling of kwin geometry tip widget
+            widget->installEventFilter(this);
+            widget->setAttribute(Qt::WA_NoSystemBackground);
+            widget->setAttribute(Qt::WA_TranslucentBackground);
+            if( QLabel* label = qobject_cast<QLabel*>( widget ) )
+            {
+                label->setFrameStyle( QFrame::NoFrame );
+                label->setMargin(5);
+            }
+
+            #ifdef Q_WS_WIN
             widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
             #endif
 
@@ -7201,7 +7211,7 @@ namespace Oxygen
         if( widget->inherits( "Q3ListView" ) ) { return eventFilterQ3ListView( widget, ev ); }
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, ev ); }
         if( widget->inherits( "QScrollBar" ) ) { return eventFilterScrollBar( widget, ev ); }
-        if( widget->isWindow() && widget->isVisible() ) { return eventFilterWindow( widget, ev ); }
+        if( widget->inherits( "KWin::GeometryTip" ) ) { return eventFilterGeometryTip( widget, ev ); }
 
         return false;
 
@@ -7350,19 +7360,19 @@ namespace Oxygen
     //_________________________________________________________
     bool Style::eventFilterScrollBar( QWidget* widget, QEvent* ev )
     {
-        
+
         if( ev->type() == QEvent::Paint )
         {
             QPainter p( widget );
             p.setClipRegion( static_cast<QPaintEvent*>(ev)->region() );
             _helper.renderWindowBackground(&p, widget->rect(), widget,widget->palette());
         }
-        
+
         return false;
     }
 
     //____________________________________________________________________________
-    bool Style::eventFilterWindow( QWidget* widget, QEvent* ev )
+    bool Style::eventFilterGeometryTip( QWidget* widget, QEvent* ev )
     {
         switch( ev->type() )
         {
@@ -7370,62 +7380,45 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             {
-                if( widget->inherits( "KWin::GeometryTip" ) )
-                {
-                    // make sure mask is appropriate
-                    if( !hasAlphaChannel(widget) ) widget->setMask(_helper.roundedMask( widget->rect() ));
-                    else  widget->clearMask();
-                }
+
+                // make sure mask is appropriate
+                if( !hasAlphaChannel(widget) ) widget->setMask(_helper.roundedMask( widget->rect() ));
+                else  widget->clearMask();
                 return false;
             }
 
             case QEvent::Paint:
             {
 
-                // this happens when the widget was given a parent after call to "polish"
-                if( !widget->isWindow() ) return false;
+                QColor color = widget->palette().window().color();
+                QRect r = widget->rect();
 
-                // special handling of KWin geometry tip widget
-                if( widget->inherits( "KWin::GeometryTip" ) )
+                QPainter p(widget);
+                QPaintEvent *e = (QPaintEvent*)ev;
+                p.setClipRegion(e->region());
+
+                bool hasAlpha( hasAlphaChannel( widget ) );
+                if( hasAlpha )
                 {
 
-                    QColor color = widget->palette().window().color();
-                    QRect r = widget->rect();
+                    p.setCompositionMode(QPainter::CompositionMode_Source );
+                    TileSet *tileSet( _helper.roundCorner(color) );
+                    tileSet->render( r, &p );
 
-                    QPainter p(widget);
-                    QPaintEvent *e = (QPaintEvent*)ev;
-                    p.setClipRegion(e->region());
-
-                    bool hasAlpha( hasAlphaChannel( widget ) );
-                    if( hasAlpha )
-                    {
-
-                        p.setCompositionMode(QPainter::CompositionMode_Source );
-                        TileSet *tileSet( _helper.roundCorner(color) );
-                        tileSet->render( r, &p );
-
-                        p.setCompositionMode(QPainter::CompositionMode_SourceOver );
-                        p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-
-                    }
-
-                    _helper.renderMenuBackground(&p, r, widget,color );
-
-                    // frame
-                    if( hasAlpha ) p.setClipping( false );
-                    _helper.drawFloatFrame( &p, r, color, !hasAlpha );
-
-                } else if(widget->testAttribute(Qt::WA_StyledBackground) && !widget->testAttribute(Qt::WA_NoSystemBackground)) {
-
-                    // normal "window" background
-                    QPainter p(widget);
-                    _helper.renderWindowBackground(&p, widget->rect(), widget,widget->window()->palette());
+                    p.setCompositionMode(QPainter::CompositionMode_SourceOver );
+                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
 
                 }
 
-                return false;
+                _helper.renderMenuBackground(&p, r, widget,color );
+
+                // frame
+                if( hasAlpha ) p.setClipping( false );
+                _helper.drawFloatFrame( &p, r, color, !hasAlpha );
 
             }
+
+            return false;
 
             default: return false;
 

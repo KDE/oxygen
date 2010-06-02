@@ -352,7 +352,7 @@ namespace Oxygen
         bool eventFilterComboBoxContainer( QWidget*, QEvent* );
         bool eventFilterScrollBar( QWidget*, QEvent* );
         bool eventFilterMdiSubWindow( QMdiSubWindow*, QEvent* );
-        bool eventFilterWindow( QWidget*, QEvent* );
+        bool eventFilterGeometryTip( QWidget*, QEvent* );
 
         //@}
 
