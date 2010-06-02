@@ -231,13 +231,13 @@ namespace Oxygen
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Top, 0);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ContentsMargin + Bot, 0);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonWidth, 19);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 0);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin, 2);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::SupportFrameless, 1);
 
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 2);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 6);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 4);
-        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 3);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Left, 0);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Right, 4);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Top, 2);
+        setWidgetLayoutProp(WT_ComboBox, ComboBox::ButtonMargin+Bot, 1);
         setWidgetLayoutProp(WT_ComboBox, ComboBox::FocusMargin, 0);
 
         setWidgetLayoutProp(WT_ToolBar, ToolBar::FrameWidth, 0);
@@ -6682,7 +6682,11 @@ namespace Oxygen
                 QSize size( KStyle::sizeFromContents( type, option, contentsSize, widget));
                 const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option);
                 if( cb && !cb->editable && !cb->currentIcon.isNull() ) size.rheight()+=1;
+
+                // also expand to account for scrollbar
+                size.rwidth() += OxygenStyleConfigData::scrollBarWidth() - 6;
                 return size;
+
             }
 
             // separators
