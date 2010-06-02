@@ -6854,7 +6854,16 @@ namespace Oxygen
 
                         case TabEast:
                         case TabNorth:
+                        case TabWest:
+                        /*
+                        North, West and East orientations get the same "vertical" offset because
+                        the resulting rect gets rotated afterwards when dealing with East and West
+                        */
                         if( opt->state & State_Selected ) r.translate( 0, -1 );
+                        break;
+
+                        case TabSouth:
+                        if( opt->state & State_Selected ) r.translate( 0, 1 );
                         break;
 
                         default: break;
@@ -6951,10 +6960,46 @@ namespace Oxygen
             case SE_TabBarTabLeftButton:
             case SE_TabBarTabRightButton:
             {
-                int offset(
+                QRect r( KStyle::subElementRect( sr, opt, widget ) );
+
+                QPoint offset(
+                    (widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, opt, widget) -
+                    widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, opt, widget) )/2,
                     (widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, opt, widget) -
                     widgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Bot, opt, widget) )/2 );
-                return KStyle::subElementRect( sr, opt, widget ).translated( 0, offset );
+
+                r.translate( offset );
+
+                // this is the same as for SE_TabBarTabText
+                if( const QStyleOptionTabV3* tov3 = qstyleoption_cast<const QStyleOptionTabV3*>(opt) )
+                {
+                    switch( tabOrientation( tov3->shape ) )
+                    {
+
+                        case TabNorth:
+                        if( opt->state & State_Selected ) r.translate( 0, -1 );
+                        break;
+
+                        case TabSouth:
+                        if( opt->state & State_Selected ) r.translate( 0, 1 );
+                        break;
+
+                        case TabEast:
+                        r.translate( 1, 0 );
+                        break;
+
+                        case TabWest:
+                        if( opt->state & State_Selected ) r.translate( -1, 0 );
+                        break;
+
+                        default: break;
+
+                    }
+
+                }
+
+                return r;
+
             }
 
             case SE_TabWidgetTabBar:
