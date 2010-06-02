@@ -348,7 +348,6 @@ namespace Oxygen
         bool eventFilterToolBar( QToolBar*, QEvent* );
         bool eventFilterDockWidget( QDockWidget*, QEvent* );
         bool eventFilterToolBox( QToolBox*, QEvent* );
-        bool eventFilterFrames( QFrame*, QEvent* );
         bool eventFilterQ3ListView( QWidget*, QEvent* );
         bool eventFilterComboBoxContainer( QWidget*, QEvent* );
         bool eventFilterScrollBar( QWidget*, QEvent* );

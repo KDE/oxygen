@@ -944,6 +944,50 @@ namespace Oxygen
                 return;
             }
 
+            case CE_ShapedFrame:
+            {
+
+                // for frames embedded in KTitleWidget, just paint the window background
+                if( widget && qobject_cast<KTitleWidget*>(widget->parentWidget()) )
+                {
+                    _helper.renderWindowBackground(p, option->rect, widget, widget->window()->palette());
+                    return;
+                }
+
+                // cast option and check
+                const QStyleOptionFrameV3* frameOpt = qstyleoption_cast<const QStyleOptionFrameV3*>( option );
+                if( !frameOpt ) break;
+
+                int frameShape  = frameOpt->frameShape;
+                switch( frameShape )
+                {
+
+                    case QFrame::HLine:
+                    {
+                        _helper.drawSeparator(p, option->rect, option->palette.color(QPalette::Window), Qt::Horizontal);
+                        return;
+                    }
+
+                    case QFrame::VLine:
+                    {
+                        _helper.drawSeparator(p, option->rect, option->palette.color(QPalette::Window), Qt::Vertical);
+                        return;
+                    }
+
+                    default:
+                    {
+
+                        // use KStyle
+                        KStyle::drawControl(element, option, p, widget);
+                        return;
+
+                    }
+                }
+
+                break;
+
+            }
+
             default: break;
         }
 
@@ -4631,8 +4675,6 @@ namespace Oxygen
             if( qobject_cast<KTitleWidget*>(widget->parentWidget()))
             { widget->setBackgroundRole( QPalette::Window ); }
 
-            widget->installEventFilter(this);
-
         }
 
         // base class polishing
@@ -4748,7 +4790,6 @@ namespace Oxygen
             widget->clearMask();
 
         } else if( widget->inherits("QComboBoxPrivateContainer") ) widget->removeEventFilter(this);
-        else if( qobject_cast<QFrame*>(widget) ) widget->removeEventFilter(this);
 
         KStyle::unpolish(widget);
 
@@ -7162,9 +7203,6 @@ namespace Oxygen
         if( widget->inherits( "QScrollBar" ) ) { return eventFilterScrollBar( widget, ev ); }
         if( widget->isWindow() && widget->isVisible() ) { return eventFilterWindow( widget, ev ); }
 
-        // frames must come last
-        if( QFrame *f = qobject_cast<QFrame*>(obj) ) { return eventFilterFrames( f, ev ); }
-
         return false;
 
     }
@@ -7518,38 +7556,6 @@ namespace Oxygen
             }
         }
 
-        return false;
-    }
-
-    //____________________________________________________________________________
-    bool Style::eventFilterFrames( QFrame* f, QEvent* ev )
-    {
-        if( ev->type() == QEvent::Paint)
-        {
-
-            if( qobject_cast<KTitleWidget*>(f->parentWidget()))
-            {
-
-                QPainter p(f);
-                _helper.renderWindowBackground(&p, f->rect(), f, f->window()->palette());
-
-            } else {
-
-                QRect r = f->rect();
-                QPainter p(f);
-                p.setClipRegion(((QPaintEvent*)ev)->region());
-                p.setClipping(false);
-                Qt::Orientation o;
-                switch(f->frameShape())
-                {
-                    case QFrame::HLine: { o = Qt::Horizontal; break; }
-                    case QFrame::VLine: { o = Qt::Vertical; break; }
-                    default: { return false; }
-                }
-                _helper.drawSeparator(&p, r, f->palette().color(QPalette::Window), o);
-                return true;
-            }
-        }
         return false;
     }
 
