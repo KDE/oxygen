@@ -37,6 +37,7 @@ namespace Oxygen
         AnimationData( parent, target ),
         opacity_( 0 ),
         progress_( 0 ),
+        currentObject_( 0 ),
         entered_( false )
     {
 
