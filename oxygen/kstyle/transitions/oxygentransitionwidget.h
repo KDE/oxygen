@@ -157,6 +157,9 @@ namespace Oxygen
             animation_.data()->start();
         }
 
+        //! true if paint is enabled
+        static bool paintEnabled( void );
+
         signals:
 
         //! emmitted when animation is finished/aborder
