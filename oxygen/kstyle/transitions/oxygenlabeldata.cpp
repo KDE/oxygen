@@ -34,6 +34,9 @@
 namespace Oxygen
 {
 
+    // use 300 milliseconds for animation lock
+    const int LabelData::lockTime_ = 300;
+
     //______________________________________________________
     LabelData::LabelData( QObject* parent, QLabel* target, int duration ):
         TransitionData( parent, target, duration ),
@@ -67,7 +70,7 @@ namespace Oxygen
 
             case QEvent::Paint:
             {
-                // remove mnemonic from text
+
                 if( enabled() && target_  )
                 {
 
@@ -82,29 +85,43 @@ namespace Oxygen
                     // update text and pixmap
                     text_ = text;
 
-                    if( !( enabled() && transition() && target_ && target_.data()->isVisible() ) ) break;
+                    if( !(transition() && target_.data()->isVisible() ) ) break;
 
                     if( transition().data()->isAnimated() )
                     { transition().data()->endAnimation(); }
 
+                    // check whether animations are locked
+                    if( isLocked() )
+                    {
+                        // restart the lock timer
+                        // and abort transition
+                        lockAnimations();
+                        break;
+                    }
+
+                    // restart the lock timer
+                    // and prepare transition
+                    lockAnimations();
                     initializeAnimation();
                     timer_.start( 0, this );
 
-                    if( !transition().data()->startPixmap().isNull() && TransitionWidget::paintEnabled() ) 
+                    if( !transition().data()->startPixmap().isNull() && TransitionWidget::paintEnabled() )
                     {
-                        
+
+                        // show the transition widget
+                        // and disable this event painting
                         transition().data()->show();
                         transition().data()->raise();
                         return true;
-                        
+
                     } else break;
-                    
+
                 } else if( transition().data()->isAnimated() && TransitionWidget::paintEnabled() ) {
 
-                    // disable painting when label is animated.
-                    // since it is obscured by transition
+                    // disable painting when transition is running
+                    // since label is obscured by transition widget
                     return true;
-                    
+
                 } else break;
             }
 
@@ -122,7 +139,25 @@ namespace Oxygen
         {
 
             timer_.stop();
+
+            // check transition and widget validity
+            if( !( enabled() && target_ && transition() ) ) return;
+
+            // assign end pixmap
+            transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
+
+            // start animation
             animate();
+
+        } else if( event->timerId() == animationLockTimer_.timerId() ) {
+
+            unlockAnimations();
+
+            // check transition and widget validity
+            if( !( enabled() && target_ && transition() ) ) return;
+
+            // reassign end pixmap for the next transition to be properly initialized
+            transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
 
         } else return QObject::timerEvent( event );
 
@@ -154,18 +189,10 @@ namespace Oxygen
     bool LabelData::animate( void )
     {
 
-        if( !( enabled() && transition() ) ) return false;
-
-        // check enability
-        transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
-
-        if( !transition().data()->startPixmap().isNull() )
-        {
-
-            transition().data()->animate();
-            return true;
-
-        } else return false;
+        if( transition().data()->startPixmap().isNull() ) return false; 
+        
+        transition().data()->animate();
+        return true;
 
     }
 

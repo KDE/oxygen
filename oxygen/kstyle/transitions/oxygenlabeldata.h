@@ -54,6 +54,18 @@ namespace Oxygen
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );
 
+        //! returns true if animations are locked
+        bool isLocked( void ) const
+        { return animationLockTimer_.isActive(); }
+
+        //! start lock animation timer
+        void lockAnimations( void )
+        { animationLockTimer_.start( lockTime_, this ); }
+
+        //! start lock animation timer
+        void unlockAnimations( void )
+        { animationLockTimer_.stop(); }
+
         protected slots:
 
         //! initialize animation
@@ -71,6 +83,12 @@ namespace Oxygen
         virtual void timerEvent( QTimerEvent* );
 
         private:
+
+        //! lock time (milliseconds
+        static const int lockTime_;
+
+        //! timer used to disable animations when triggered too early
+        QBasicTimer animationLockTimer_;
 
         //! needed to start animations out of parent paintEvent
         QBasicTimer timer_;
