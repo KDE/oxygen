@@ -56,18 +56,27 @@ namespace Oxygen
         {
 
             case QEvent::Show:
-            // at show event, on set the old text to current
-            // to avoid animate the "first" paint event.
-            text_ = target_.data()->text();
+            /*
+            at show event, on set the old text to current
+            to avoid animate the "first" paint event.
+            text mnemonic is always removed to avoid triggering the animation when only the
+            latter is changed
+            */
+            text_ = target_.data()->text().remove( '&' );
             break;
 
             case QEvent::Paint:
             {
-                if( enabled() && target_ && target_.data()->text() != text_ )
+                // remove mnemonic from text
+                if( enabled() && target_  )
                 {
 
+                    // remove showMnemonic from text before comparing
+                    QString text( target_.data()->text().remove( '&' ) );
+                    if( text == text_ ) return( transition().data()->isAnimated() );
+
                     // update text and pixmap
-                    text_ = target_.data()->text();
+                    text_ = text;
 
                     if( transition().data()->isAnimated() )
                     { transition().data()->endAnimation(); }
