@@ -73,34 +73,38 @@ namespace Oxygen
 
                     // remove showMnemonic from text before comparing
                     QString text( target_.data()->text().remove( '&' ) );
-                    if( text == text_ ) return( transition().data()->isAnimated() );
+                    if( text == text_ )
+                    {
+                        if( transition().data()->isAnimated() && TransitionWidget::paintEnabled() ) return true;
+                        else break;
+                    }
 
                     // update text and pixmap
                     text_ = text;
 
+                    if( !( enabled() && transition() && target_ && target_.data()->isVisible() ) ) break;
+
                     if( transition().data()->isAnimated() )
                     { transition().data()->endAnimation(); }
 
-                    // try start animation
-                    if( initializeAnimation() )
+                    initializeAnimation();
+                    timer_.start( 0, this );
+
+                    if( !transition().data()->startPixmap().isNull() && TransitionWidget::paintEnabled() ) 
                     {
-
-                        timer_.start( 0, this );
+                        
+                        transition().data()->show();
+                        transition().data()->raise();
                         return true;
-
-                    } else {
-
-                        transition().data()->hide();
-                        break;
-
-                    }
-
-                } else if( transition().data()->isAnimated() ) {
+                        
+                    } else break;
+                    
+                } else if( transition().data()->isAnimated() && TransitionWidget::paintEnabled() ) {
 
                     // disable painting when label is animated.
                     // since it is obscured by transition
                     return true;
-
+                    
                 } else break;
             }
 
@@ -118,7 +122,7 @@ namespace Oxygen
         {
 
             timer_.stop();
-            if( transition() && !animate() ) transition().data()->hide();
+            animate();
 
         } else return QObject::timerEvent( event );
 
@@ -127,46 +131,22 @@ namespace Oxygen
     //___________________________________________________________________
     bool LabelData::initializeAnimation( void )
     {
-        if( !( enabled() && transition() && target_ && target_.data()->isVisible() ) ) return false;
 
         transition().data()->setOpacity(0);
         QRect current( target_.data()->geometry() );
-        if( widgetRect_.isValid() && !(widgetRect_.topLeft() == current.topLeft() || widgetRect_.bottomRight() == current.bottomRight() ) )
+        if( widgetRect_.isValid() && widgetRect_ != current )
         {
 
             widgetRect_ = current;
-            transition().data()->setEndPixmap( QPixmap() );
+            transition().data()->resetStartPixmap();
+            transition().data()->resetEndPixmap();
             return false;
 
         }
 
-        if(
-            widgetRect_.isValid() &&
-            !transition().data()->currentPixmap().isNull() &&
-            widgetRect_ != current )
-        {
-
-            // if label geometry has changed since last animation
-            // one must clone the pixmap to make it match the right
-            // geometry before starting the animation.
-            QPixmap pixmap( current.size() );
-            pixmap.fill( Qt::transparent );
-            QPainter p( &pixmap );
-            p.drawPixmap( widgetRect_.topLeft() - current.topLeft(), transition().data()->currentPixmap() );
-            p.end();
-            transition().data()->setStartPixmap( pixmap );
-
-        } else {
-
-            transition().data()->setStartPixmap( transition().data()->currentPixmap() );
-
-        }
-
+        transition().data()->setStartPixmap( transition().data()->currentPixmap() );
         transition().data()->setGeometry( target_.data()->rect() );
         widgetRect_ = current;
-
-        transition().data()->show();
-        transition().data()->raise();
         return true;
     }
 
@@ -177,10 +157,15 @@ namespace Oxygen
         if( !( enabled() && transition() ) ) return false;
 
         // check enability
-        transition().data()->endAnimation();
         transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
-        transition().data()->animate();
-        return true;
+
+        if( !transition().data()->startPixmap().isNull() )
+        {
+
+            transition().data()->animate();
+            return true;
+
+        } else return false;
 
     }
 
