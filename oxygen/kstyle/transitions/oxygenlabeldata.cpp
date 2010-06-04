@@ -93,6 +93,10 @@ namespace Oxygen
                     // check whether animations are locked
                     if( isLocked() )
                     {
+
+                        // hide transition widget
+                        transition().data()->hide();
+
                         // restart the lock timer
                         // and abort transition
                         lockAnimations();
@@ -114,7 +118,13 @@ namespace Oxygen
                         transition().data()->raise();
                         return true;
 
-                    } else break;
+                    } else {
+
+                        // hide transition widget and abort transition
+                        transition().data()->hide();
+                        break;
+
+                    }
 
                 } else if( transition().data()->isAnimated() && TransitionWidget::paintEnabled() ) {
 
@@ -189,8 +199,8 @@ namespace Oxygen
     bool LabelData::animate( void )
     {
 
-        if( transition().data()->startPixmap().isNull() ) return false; 
-        
+        if( transition().data()->startPixmap().isNull() ) return false;
+
         transition().data()->animate();
         return true;
 
