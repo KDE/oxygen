@@ -81,7 +81,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    void Helper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QPalette & pal, int y_shift, int gradientHeight)
+    void Helper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QColor& color, int y_shift, int gradientHeight)
     {
 
         // get coordinates relative to the client area
@@ -104,7 +104,6 @@ namespace Oxygen
         // special tricks are needed
         // to handle both window contents and window decoration
         QRect r = window->rect();
-        QColor color = pal.color(window->backgroundRole());
         int height = window->frameGeometry().height();
         int width = window->frameGeometry().width();
         if( y_shift > 0 )
