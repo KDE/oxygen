@@ -23,7 +23,7 @@
  */
 
 #include "oxygenhelper.h"
-#include "oxygenwidgetstateengine.h"
+#include "oxygenanimationmodes.h"
 
 //! helper class
 /*! contains utility functions used at multiple places in oxygen style */

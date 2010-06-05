@@ -30,20 +30,10 @@
 #include "oxygenbaseengine.h"
 #include "oxygendatamap.h"
 #include "oxygenwidgetstatedata.h"
+#include "oxygenanimationmodes.h"
 
 namespace Oxygen
 {
-
-    //! animation mode
-    enum AnimationMode
-    {
-        AnimationNone = 0,
-        AnimationHover = 1<<0,
-        AnimationFocus = 1<<1,
-        AnimationEnable = 1<<2
-    };
-
-    Q_DECLARE_FLAGS(AnimationModes, AnimationMode)
 
     //! used for simple widgets
     class WidgetStateEngine: public BaseEngine
