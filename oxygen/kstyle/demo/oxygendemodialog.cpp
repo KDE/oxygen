@@ -69,27 +69,27 @@ namespace Oxygen
         // inputs
         {
             page = new KPageWidgetItem( inputDemoWidget_ = new InputDemoWidget() );
-            page->setName( "Input Widgets" );
+            page->setName( i18n("Input Widgets") );
             page->setIcon( KIcon( "edit-rename" ) );
-            page->setHeader( "Shows the appearance of text input widgets" );
+            page->setHeader( i18n("Shows the appearance of text input widgets") );
             pageWidget_->addPage( page );
         }
 
         // tab
         {
             page = new KPageWidgetItem( tabDemoWidget_ = new TabDemoWidget() );
-            page->setName( "Tab Widgets" );
+            page->setName( i18n("Tab Widgets") );
             page->setIcon( KIcon( "tab-detach" ) );
-            page->setHeader( "Shows the appearance of tab widgets" );
+            page->setHeader( i18n("Shows the appearance of tab widgets") );
             pageWidget_->addPage( page );
         }
 
         // buttons
         {
             page = new KPageWidgetItem( buttonDemoWidget_ = new ButtonDemoWidget() );
-            page->setName( "Buttons" );
+            page->setName( i18n("Buttons") );
             page->setIcon( KIcon( "go-jump-locationbar" ) );
-            page->setHeader( "Shows the appearance of buttons" );
+            page->setHeader( i18n("Shows the appearance of buttons") );
             pageWidget_->addPage( page );
         }
 
@@ -98,18 +98,18 @@ namespace Oxygen
             QWidget* widget;
             page = new KPageWidgetItem( widget = new QWidget() );
             listDemoWidgetUi_.setupUi( widget );
-            page->setName( "Lists" );
+            page->setName( i18n("Lists") );
             page->setIcon( KIcon( "view-list-tree" ) );
-            page->setHeader( "Shows the appearance of lists, trees and tables" );
+            page->setHeader( i18n("Shows the appearance of lists, trees and tables") );
             pageWidget_->addPage( page );
         }
 
         // frames
         {
             page = new KPageWidgetItem( frameDemoWidget_ = new FrameDemoWidget() );
-            page->setName( "Frames" );
+            page->setName( i18n("Frames") );
             page->setIcon( KIcon( "draw-rectangle" ) );
-            page->setHeader( "Shows the appearance of tab widgets" );
+            page->setHeader( i18n("Shows the appearance of tab widgets") );
             pageWidget_->addPage( page );
         }
 
@@ -125,9 +125,9 @@ namespace Oxygen
         // sliders
         {
             page = new KPageWidgetItem( sliderDemoWidget_ = new SliderDemoWidget() );
-            page->setName( "Sliders" );
+            page->setName( i18n("Sliders") );
             page->setIcon( KIcon( "measure" ) );
-            page->setHeader( "Shows the appearance of sliders, progressbars and scrollbars" );
+            page->setHeader( i18n("Shows the appearance of sliders, progressbars and scrollbars") );
             pageWidget_->addPage( page );
         }
 
