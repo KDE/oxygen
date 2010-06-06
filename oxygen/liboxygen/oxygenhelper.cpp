@@ -150,7 +150,7 @@ namespace Oxygen
         p->drawEllipse(QRectF(point.x()-diameter/2+1.0, point.y()-diameter/2+1.0, diameter, diameter));
 
         // dark ellipse
-        p->setBrush(calcDarkColor(baseColor));
+        p->setBrush(calcDarkColor(baseColor).darker(130));
         p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
 
         p->restore();
