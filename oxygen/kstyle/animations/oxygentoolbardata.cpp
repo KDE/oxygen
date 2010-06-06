@@ -79,7 +79,8 @@ namespace Oxygen
     {
 
         // check object
-        if( object == target().data() )
+        const QObject *targetData = target().data();
+        if( object ==  targetData )
         {
 
             switch( event->type() )
@@ -109,7 +110,7 @@ namespace Oxygen
 
             }
 
-        } else if( object->parent() == target().data() ) {
+        } else if( object->parent() == targetData ) {
 
             if( !enabled() ) return false;
 
