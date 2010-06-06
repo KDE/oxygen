@@ -168,9 +168,21 @@ namespace Oxygen
         if( useWMMoveResize() && dragInProgress_ && target_ && ( event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ) )
         { return appMouseEvent( object, event ); }
 
-        if( event->type() == QEvent::MouseButtonPress ) return mousePressEvent( object, event );
-        else if( event->type() == QEvent::MouseMove && object == target_.data() ) return mouseMoveEvent( object, event );
-        else if( event->type() == QEvent::MouseButtonRelease && target_ ) return mouseReleaseEvent( object, event );
+        switch ( event->type() )
+        {
+            case QEvent::MouseButtonPress:
+                return mousePressEvent( object, event );
+            break;
+        
+            case QEvent::MouseMove:
+                if ( object == target_.data() ) return mouseMoveEvent( object, event );
+            break;
+        
+            case QEvent::MouseButtonRelease:
+                if ( target_ ) return mouseReleaseEvent( object, event );
+            break;
+        }
+
         return false;
 
     }
