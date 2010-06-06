@@ -70,7 +70,7 @@ namespace Oxygen
         // style
         page = loadStyleConfig();
         page->setName( i18n("Widget Style") );
-        page->setHeader( i18n("Allows to modify the appearance of widgets") );
+        page->setHeader( i18n("Modify the appearance of widgets") );
         page->setIcon( KIcon( "preferences-desktop-theme" ) );
         pageWidget_->addPage( page );
 
@@ -89,7 +89,7 @@ namespace Oxygen
         // decoration
         page = loadDecorationConfig();
         page->setName( i18n("Window Decorations") );
-        page->setHeader( i18n("Allows to modify the appearance of window decorations") );
+        page->setHeader( i18n("Modify the appearance of window decorations") );
         page->setIcon( KIcon( "preferences-system-windows" ) );
         pageWidget_->addPage( page );
 

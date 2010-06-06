@@ -127,7 +127,7 @@ namespace Oxygen
             page = new KPageWidgetItem( sliderDemoWidget_ = new SliderDemoWidget() );
             page->setName( i18n("Sliders") );
             page->setIcon( KIcon( "measure" ) );
-            page->setHeader( i18n("Shows the appearance of sliders, progressbars and scrollbars") );
+            page->setHeader( i18n("Shows the appearance of sliders, progress bars and scrollbars") );
             pageWidget_->addPage( page );
         }
 
