@@ -2845,9 +2845,9 @@ namespace Oxygen
                 int ngroups = qMax(1,h / 250);
                 int center = (h - (ngroups-1) * 250) /2 + r.top();
                 for(int k = 0; k < ngroups; k++, center += 250) {
-                    renderDot(p, QPointF(r.left()+1, center-3), color);
-                    renderDot(p, QPointF(r.left()+1, center), color);
-                    renderDot(p, QPointF(r.left()+1, center+3), color);
+                    _helper.renderDot(p, QPointF(r.left()+1, center-3), color);
+                    _helper.renderDot(p, QPointF(r.left()+1, center), color);
+                    _helper.renderDot(p, QPointF(r.left()+1, center+3), color);
                 }
                 return true;
             }
@@ -2871,10 +2871,11 @@ namespace Oxygen
 
                 int ngroups = qMax(1, w / 250);
                 int center = (w - (ngroups-1) * 250) /2 + r.left();
-                for(int k = 0; k < ngroups; k++, center += 250) {
-                    renderDot(p, QPointF(center-3, r.top()+1), color);
-                    renderDot(p, QPointF(center, r.top()+1), color);
-                    renderDot(p, QPointF(center+3, r.top()+1), color);
+                for(int k = 0; k < ngroups; k++, center += 250)
+                {
+                    _helper.renderDot(p, QPointF(center-3, r.top()+1), color);
+                    _helper.renderDot(p, QPointF(center, r.top()+1), color);
+                    _helper.renderDot(p, QPointF(center+3, r.top()+1), color);
                 }
                 return true;
             }
@@ -3294,18 +3295,18 @@ namespace Oxygen
                         {
                             int center = r.center().y();
                             int pos = reverse ? r.left()+1 : r.right()-1;
-                            renderDot(p, QPointF(pos, center-3), color);
-                            renderDot(p, QPointF(pos, center), color);
-                            renderDot(p, QPointF(pos, center+3), color);
+                            _helper.renderDot(p, QPointF(pos, center-3), color);
+                            _helper.renderDot(p, QPointF(pos, center), color);
+                            _helper.renderDot(p, QPointF(pos, center+3), color);
                         }
 
                     } else {
 
                         int center = r.center().x();
                         int pos = r.bottom()-1;
-                        renderDot(p, QPointF(center-3, pos), color);
-                        renderDot(p, QPointF(center, pos), color);
-                        renderDot(p, QPointF(center+3, pos), color);
+                        _helper.renderDot(p, QPointF(center-3, pos), color);
+                        _helper.renderDot(p, QPointF(center, pos), color);
+                        _helper.renderDot(p, QPointF(center+3, pos), color);
 
                     }
 
@@ -3545,12 +3546,8 @@ namespace Oxygen
                 int center = r.left()+r.width()/2;
                 for(int j = r.top()+2; j <= r.bottom()-3; j+=3)
                 {
-                    if(counter%2 == 0)
-                    {
-                        renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background));
-                    } else {
-                        renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background));
-                    }
+                    if(counter%2 == 0) _helper.renderDot(p, QPoint(center+1, j), pal.color(QPalette::Background));
+                    else _helper.renderDot(p, QPoint(center-2, j), pal.color(QPalette::Background));
                     counter++;
                 }
                 return true;
@@ -3562,13 +3559,8 @@ namespace Oxygen
                 int center = r.top()+r.height()/2;
                 for(int j = r.left()+2; j <= r.right()-3; j+=3)
                 {
-                    if(counter%2 == 0)
-                    {
-                        renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background));
-                    } else {
-                        renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background));
-                    }
-
+                    if(counter%2 == 0) _helper.renderDot(p, QPoint(j, center+1), pal.color(QPalette::Background));
+                    else _helper.renderDot(p, QPoint(j, center-2), pal.color(QPalette::Background));
                     counter++;
                 }
 
@@ -5558,23 +5550,6 @@ namespace Oxygen
             // StateTristate, shouldn't happen...
             return;
         }
-    }
-
-    //_____________________________________________________________
-    void Style::renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const
-    {
-        Q_UNUSED(baseColor)
-            const qreal diameter = 1.8;
-        p->save();
-        p->setRenderHint(QPainter::Antialiasing);
-        p->setPen(Qt::NoPen);
-
-        p->setBrush(_helper.calcLightColor(baseColor));
-        p->drawEllipse(QRectF(point.x()-diameter/2+1.0, point.y()-diameter/2+1.0, diameter, diameter));
-        p->setBrush(_helper.calcDarkColor(baseColor));
-        p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
-
-        p->restore();
     }
 
     //_____________________________________________________________

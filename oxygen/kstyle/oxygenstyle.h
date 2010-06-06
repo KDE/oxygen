@@ -255,9 +255,6 @@ namespace Oxygen
             bool enabled, bool hasFocus, bool mouseOver,
             int radioPrimitive, bool drawButton=true, qreal opacity = -1, AnimationMode mode = AnimationNone ) const;
 
-        //! dots
-        void renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const;
-
         //! tabs
         void renderTab(
             QPainter*p, const QRect& r,
