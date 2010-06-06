@@ -370,9 +370,9 @@ namespace Oxygen
         const bool hasFocus( enabled && (option->state & State_HasFocus));
 
         StyleOptions opts = 0;
-        if( (option->state & State_On) || (option->state & State_Sunken)) opts |= Sunken;
-        if( option->state & State_HasFocus) opts |= Focus;
-        if( enabled && (option->state & State_MouseOver)) opts |= Hover;
+        if( option->state & (State_On|State_Sunken) ) opts |= Sunken;
+        if( option->state & State_HasFocus ) opts |= Focus;
+        if( enabled && (option->state & State_MouseOver) ) opts |= Hover;
 
         // mouseOver has precedence over focus
         animations().widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
@@ -428,7 +428,7 @@ namespace Oxygen
         const bool enabled = flags & State_Enabled;
         const bool mouseOver(enabled && (flags & State_MouseOver));
         const bool hasFocus(enabled && (flags&State_HasFocus));
-        const bool sunken( (flags & State_Sunken) || (flags & State_On) );
+        const bool sunken( flags & (State_Sunken|State_On) );
 
         if( isInToolBar )
         {
@@ -928,7 +928,7 @@ namespace Oxygen
                 { local.state &= ~State_MouseOver; }
 
                 // check whether button is pressed
-                const bool active = (option->state & State_On) || (option->state & State_Sunken);
+                const bool active(option->state & (State_On|State_Sunken) );
                 if( !active )  return KStyle::drawControl(element, &local, p, widget);
 
                 // check autoRaise
@@ -1169,7 +1169,7 @@ namespace Oxygen
                 const bool mouseOver(enabled && (flags & State_MouseOver));
                 const bool hasFocus( enabled && (flags & State_HasFocus));
 
-                if( (flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
+                if( flags & (State_On|State_Sunken) ) opts |= Sunken;
                 if( flags & State_HasFocus) opts |= Focus;
                 if( enabled && (flags & State_MouseOver)) opts |= Hover;
 
@@ -3129,6 +3129,7 @@ namespace Oxygen
         bool hasFocus = flags & State_HasFocus;
         StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
         if( mouseOver) opts |= Hover;
+        if( (flags & (State_Sunken|State_On)) && !editable ) opts |= Sunken;
 
         const QColor inputColor = enabled ? pal.color(QPalette::Base) : pal.color(QPalette::Window);
         QRect editField = subControlRect(CC_ComboBox, qstyleoption_cast<const QStyleOptionComplex*>(opt), SC_ComboBoxEditField, widget);
@@ -3831,7 +3832,7 @@ namespace Oxygen
                     StyleOptions opts = 0;
 
                     // "normal" parent, and non "autoraised" (that is: always raised) buttons
-                    if( (flags & State_On) || (flags & State_Sunken)) opts |= Sunken;
+                    if( flags & (State_On|State_Sunken) ) opts |= Sunken;
                     if( flags & State_HasFocus) opts |= Focus;
                     if( enabled && (flags & State_MouseOver)) opts |= Hover;
 
@@ -3878,7 +3879,7 @@ namespace Oxygen
                 // normal (auto-raised) toolbuttons
                 bool hasFocus = flags & State_HasFocus;
 
-                if((flags & State_Sunken) || (flags & State_On) )
+                if( flags & (State_Sunken|State_On) )
                 {
                     if( enabled && hoverAnimated )
                     {
@@ -4175,7 +4176,7 @@ namespace Oxygen
 
                     // arrow rect
                     QRect frameRect( r.adjusted(-10,0,0,0) );
-                    if( (flags & State_On) || (flags & State_Sunken) )
+                    if( flags & (State_On|State_Sunken) )
                     {
                         frameRect.adjust( 2, 0, 0, -1 );
                         opts |= Sunken;
