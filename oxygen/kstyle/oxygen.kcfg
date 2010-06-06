@@ -205,7 +205,7 @@
     </entry>
 
     <entry name="LabelTransitionsEnabled" type="Bool">
-      <default>false</default>
+      <default>true</default>
     </entry>
 
     <entry name="ComboBoxTransitionsEnabled" type="Bool">
