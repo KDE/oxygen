@@ -689,7 +689,7 @@ namespace Oxygen
             bevelGradient1.setColorAt(0.6, base);
         }
         p.setBrush(bevelGradient1);
-        p.drawEllipse(3,3,r2-5,r2-5);
+        p.drawEllipse(3,3,r2-6,r2-6);
 
         // mask
         QRadialGradient maskGradient(r,r,r-2);
@@ -912,7 +912,7 @@ namespace Oxygen
 
             // hole inside
             p.setBrush(color);
-            p.drawEllipse(QRectF(3.2,3.2,7.6,7.6));
+            p.drawEllipse(QRectF(3.4,3.4,7.2,7.2));
 
             p.end();
 
