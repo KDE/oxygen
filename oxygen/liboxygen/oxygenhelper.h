@@ -120,6 +120,9 @@ namespace Oxygen
         //! render window background using a given color as a reference
         void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64);
 
+        //! dots
+        void renderDot(QPainter*, const QPointF&, const QColor&) const;
+
         //@}
 
         //! reset all caches

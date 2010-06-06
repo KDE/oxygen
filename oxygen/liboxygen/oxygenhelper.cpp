@@ -137,6 +137,25 @@ namespace Oxygen
         { p->restore(); }
     }
 
+    //_____________________________________________________________
+    void Helper::renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const
+    {
+        const qreal diameter = 1.8;
+        p->save();
+        p->setRenderHint(QPainter::Antialiasing);
+        p->setPen(Qt::NoPen);
+
+        // light ellipse
+        p->setBrush(calcLightColor(baseColor));
+        p->drawEllipse(QRectF(point.x()-diameter/2+1.0, point.y()-diameter/2+1.0, diameter, diameter));
+
+        // dark ellipse
+        p->setBrush(calcDarkColor(baseColor));
+        p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
+
+        p->restore();
+    }
+
     //____________________________________________________________________
     void Helper::invalidateCaches()
     {
