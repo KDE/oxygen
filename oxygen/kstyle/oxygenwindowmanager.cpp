@@ -173,14 +173,18 @@ namespace Oxygen
             case QEvent::MouseButtonPress:
                 return mousePressEvent( object, event );
             break;
-        
+
             case QEvent::MouseMove:
                 if ( object == target_.data() ) return mouseMoveEvent( object, event );
             break;
-        
+
             case QEvent::MouseButtonRelease:
                 if ( target_ ) return mouseReleaseEvent( object, event );
             break;
+
+            default:
+            break;
+
         }
 
         return false;
@@ -551,9 +555,9 @@ namespace Oxygen
             // check against groupbox label
             if( !groupBox->title().isEmpty() && groupBox->style()->subControlRect(QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxLabel, groupBox ).contains( position ) )
             { return false; }
-            
+
             return true;
-            
+
         }
 
         QAbstractItemView* itemView( NULL );
