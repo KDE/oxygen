@@ -1,4 +1,6 @@
 /*
+ * Copyright 2009-2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+ * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
  * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
  *
  * This library is free software; you can redistribute it and/or

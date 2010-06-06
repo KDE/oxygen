@@ -1,4 +1,5 @@
 /*
+ * Copyright 2009-2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
  * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
  * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
  * Copyright 2007 Casper Boemann <cbr@boemann.dk>
@@ -260,7 +261,7 @@ namespace Oxygen
 
         if (!pixmap)
         {
-            pixmap = new QPixmap(32, height);
+            pixmap = new QPixmap(1, height);
             pixmap->fill( Qt::transparent );
 
             QLinearGradient gradient(0, offset, 0, height+offset);
