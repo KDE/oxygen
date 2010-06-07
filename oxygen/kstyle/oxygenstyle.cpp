@@ -612,7 +612,7 @@ namespace Oxygen
             // tooltip_ labels
             case PE_PanelTipLabel:
             {
-                if( !OxygenStyleConfigData::toolTipDrawStyledFrames ) break;
+                if( !OxygenStyleConfigData::toolTipDrawStyledFrames() ) break;
                 QRect r = option->rect;
 
                 QColor color = option->palette.brush(QPalette::ToolTipBase).color();
@@ -6551,7 +6551,7 @@ namespace Oxygen
             // tooltip label
             case PM_ToolTipLabelFrameWidth:
             {
-                if( !OxygenStyleConfigData::toolTipDrawStyledFrames ) break;
+                if( !OxygenStyleConfigData::toolTipDrawStyledFrames() ) break;
                 return 3;
             }
 
@@ -7506,9 +7506,9 @@ namespace Oxygen
 
                     #ifndef Q_WS_WIN
                     if( hasAlpha ) p.setClipping( false );
-                    #endif
 
                     _helper.drawFloatFrame(&p, r, color, !hasAlpha );
+                    #endif
 
                 } else {
 
