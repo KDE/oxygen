@@ -6658,7 +6658,10 @@ namespace Oxygen
             {
                 QSize size( KStyle::sizeFromContents( type, option, contentsSize, widget));
                 const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option);
-                if( cb && !cb->editable && !cb->currentIcon.isNull() ) size.rheight()+=1;
+
+                // hack: For some reason the size is not right in the following configurations
+                // this is still to be understood and might reveal some deeper issue.
+                if( cb && !cb->editable && (!cb->currentIcon.isNull() || cb->fontMetrics.height() > 13 ) ) size.rheight()+=1;
 
                 // also expand to account for scrollbar
                 size.rwidth() += OxygenStyleConfigData::scrollBarWidth() - 6;
