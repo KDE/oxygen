@@ -96,8 +96,8 @@ namespace Oxygen
             if( iter == QMap<Key, Value>::end() ) return false;
 
             // delete value from map if found
-            QMap<Key, Value>::erase( iter );
             if( iter.value() ) delete iter.value().data();
+            QMap<Key, Value>::erase( iter );
 
             return true;
 
