@@ -6804,9 +6804,9 @@ namespace Oxygen
 
             case CC_ComboBox:
             {
-                // add the same width as we do in eventFilter
+                // adjust rect so that boxe borders match parent frame
                 if(subControl == SC_ComboBoxListBoxPopup)
-                { return r.adjusted(2,0,-2,0); }
+                { return r.adjusted(1,0,-1,0); }
             }
 
             default:
