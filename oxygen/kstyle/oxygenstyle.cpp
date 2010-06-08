@@ -147,8 +147,8 @@ namespace Oxygen
 
         setWidgetLayoutProp(WT_PushButton, PushButton::DefaultIndicatorMargin, 0);
         setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin, 5); //also used by toolbutton
-        setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 11);
-        setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 11);
+        setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Left, 8);
+        setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Right, 8);
         setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Top, -1);
         setWidgetLayoutProp(WT_PushButton, PushButton::ContentsMargin + Bot, 0);
         setWidgetLayoutProp(WT_PushButton, PushButton::FocusMargin, 0);
@@ -1236,18 +1236,20 @@ namespace Oxygen
 
                 } else {
 
+                    QRect slabRect(r.adjusted( -1, 0, 1, 0 ) );
+
                     if( enabled && hoverAnimated && !(opts & Sunken ) )
                     {
 
-                        renderButtonSlab( p, r, pal.color(QPalette::Button), opts, hoverOpacity, AnimationHover, TileSet::Ring );
+                        renderButtonSlab( p, slabRect, pal.color(QPalette::Button), opts, hoverOpacity, AnimationHover, TileSet::Ring );
 
                     } else if( enabled && !mouseOver && focusAnimated && !(opts & Sunken ) ) {
 
-                        renderButtonSlab( p, r, pal.color(QPalette::Button), opts, focusOpacity, AnimationFocus, TileSet::Ring );
+                        renderButtonSlab( p, slabRect, pal.color(QPalette::Button), opts, focusOpacity, AnimationFocus, TileSet::Ring );
 
                     } else {
 
-                        renderButtonSlab(p, r, pal.color(QPalette::Button), opts);
+                        renderButtonSlab(p, slabRect, pal.color(QPalette::Button), opts);
 
                     }
 
