@@ -3162,6 +3162,7 @@ namespace Oxygen
                 if(!editable)
                 {
 
+                    QRect slabRect( r.adjusted(-1, 0, 1, 0 ) );
                     if( cbOpt && !cbOpt->frame )
                     {
 
@@ -3170,16 +3171,16 @@ namespace Oxygen
                     } else if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationHover ) ) {
 
                         qreal opacity( animations().lineEditEngine().opacity( widget, AnimationHover ) );
-                        renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, AnimationHover, TileSet::Ring );
+                        renderButtonSlab( p, slabRect, pal.color(QPalette::Button), opts, opacity, AnimationHover, TileSet::Ring );
 
                     } else if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationFocus ) ) {
 
                         qreal opacity( animations().lineEditEngine().opacity( widget, AnimationFocus ) );
-                        renderButtonSlab( p, r, pal.color(QPalette::Button), opts, opacity, AnimationFocus, TileSet::Ring );
+                        renderButtonSlab( p, slabRect, pal.color(QPalette::Button), opts, opacity, AnimationFocus, TileSet::Ring );
 
                     } else {
 
-                        renderButtonSlab(p, r, pal.color(QPalette::Button), opts);
+                        renderButtonSlab(p, slabRect, pal.color(QPalette::Button), opts);
 
                     }
 
