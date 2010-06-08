@@ -3825,6 +3825,7 @@ namespace Oxygen
                 {
 
                     StyleOptions opts = 0;
+                    slitRect.adjust( -1, 0, 1, 0 );
 
                     // "normal" parent, and non "autoraised" (that is: always raised) buttons
                     if( flags & (State_On|State_Sunken) ) opts |= Sunken;
