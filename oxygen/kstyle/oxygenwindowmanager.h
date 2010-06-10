@@ -116,6 +116,14 @@ namespace Oxygen
         void setDragMode( int value )
         { dragMode_ = value; }
 
+        //! drag distance (pixels)
+        void setDragDistance( int value )
+        { dragDistance_ = value; }
+
+        //! drag delay (msec)
+        void setDragDelay( int value )
+        { dragDelay_ = value; }
+
         //! set list of whiteListed widgets
         /*!
         white list is read from options and is used to adjust

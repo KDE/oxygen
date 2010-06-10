@@ -54,6 +54,8 @@
 #include <QtCore/QTextStream>
 #include <QtGui/QTextDocument>
 
+#include <KGlobalSettings>
+
 #ifdef Q_WS_X11
 #include <QX11Info>
 #include <NETRootInfo>
@@ -68,8 +70,8 @@ namespace Oxygen
         enabled_( true ),
         useWMMoveResize_( true ),
         dragMode_( OxygenStyleConfigData::WD_FULL ),
-        dragDistance_(6),
-        dragDelay_( QApplication::doubleClickInterval() ),
+        dragDistance_( KGlobalSettings::dndEventDelay() ),
+        dragDelay_( QApplication::startDragTime() ),
         blackListEvent_( NULL ),
         dragAboutToStart_( false ),
         dragInProgress_( false ),
@@ -83,6 +85,9 @@ namespace Oxygen
         setEnabled( OxygenStyleConfigData::windowDragEnabled() );
         setDragMode( OxygenStyleConfigData::windowDragMode() );
         setUseWMMoveResize( OxygenStyleConfigData::useWMMoveResize() );
+
+        setDragDistance( KGlobalSettings::dndEventDelay() );
+        setDragDelay( QApplication::startDragTime() );
 
         initializeWhiteList();
         initializeBlackList();
