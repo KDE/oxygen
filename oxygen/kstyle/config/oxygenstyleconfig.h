@@ -74,7 +74,7 @@ namespace Oxygen
         protected Q_SLOTS:
 
         //! update layout
-        /*! needed in expert mode to accomodate with animations config widget size changes */
+        /*! needed in expert mode to accommodate with animations config widget size changes */
         void updateLayout( void );
 
         //! update modified state when option is checked/unchecked
