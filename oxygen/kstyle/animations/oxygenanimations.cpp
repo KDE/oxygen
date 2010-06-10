@@ -46,6 +46,7 @@ namespace Oxygen
         spinBoxEngine_ = new SpinBoxEngine( this );
         comboBoxEngine_ = new WidgetStateEngine( this );
         toolButtonEngine_ = new WidgetStateEngine( this );
+        toolBoxEngine_ = new ToolBoxEngine( this );
 
         registerEngine( splitterEngine_ = new SplitterEngine( this ) );
         registerEngine( dockSeparatorEngine_ = new DockSeparatorEngine( this ) );
@@ -74,6 +75,7 @@ namespace Oxygen
             widgetStateEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             comboBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             toolButtonEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
+            toolBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             lineEditEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             splitterEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             scrollBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
@@ -190,6 +192,7 @@ namespace Oxygen
             widgetStateEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             comboBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             toolButtonEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            toolBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             lineEditEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             splitterEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             scrollBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
@@ -239,8 +242,14 @@ namespace Oxygen
 
             } else widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
-        } else if( widget->inherits( "QAbstractButton" ) ) { widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( widget->inherits( "QDial" ) ) { widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        } else if( widget->inherits( "QAbstractButton" ) ) {
+
+            if( widget->parentWidget() && widget->parentWidget()->inherits( "QToolBox" ) )
+            { toolBoxEngine().registerWidget( widget ); }
+
+            widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+
+        } else if( widget->inherits( "QDial" ) ) { widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // groupboxes
         else if( QGroupBox* groupBox = qobject_cast<QGroupBox*>( widget ) )
@@ -300,6 +309,7 @@ namespace Oxygen
         spinBoxEngine().unregisterWidget( widget );
         comboBoxEngine().unregisterWidget( widget );
         toolButtonEngine().unregisterWidget( widget );
+        toolBoxEngine().unregisterWidget( widget );
 
         // the following allows some optimization of widget unregistration
         // it assumes that a widget can be registered atmost in one of the

@@ -1316,12 +1316,13 @@ namespace Oxygen
                 qreal opacity( AnimationData::OpacityInvalid );
                 if( enabled )
                 {
-                    // try retrieve QSplitterHandle, from painter device.
-                    if( const QAbstractButton* button = dynamic_cast<const QAbstractButton*>(p->device()) )
+                    // try retrieve button from painter device.
+                    // this is bad. Should be avoided. Need a dedicated toolboxengine
+                    if( QPaintDevice* device = p->device() )
                     {
-                        animations().widgetStateEngine().updateState( button, AnimationHover, mouseOver );
-                        animated = animations().widgetStateEngine().isAnimated( button, AnimationHover );
-                        opacity = animations().widgetStateEngine().opacity( button, AnimationHover );
+                        animations().toolBoxEngine().updateState( device, mouseOver );
+                        animated = animations().toolBoxEngine().isAnimated( device );
+                        opacity = animations().toolBoxEngine().opacity( device );
                     }
 
                 }

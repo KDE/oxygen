@@ -38,6 +38,7 @@
 #include "oxygensplitterengine.h"
 #include "oxygentabbarengine.h"
 #include "oxygentoolbarengine.h"
+#include "oxygentoolboxengine.h"
 #include "oxygenwidgetstateengine.h"
 
 #include <QtCore/QObject>
@@ -127,6 +128,10 @@ namespace Oxygen
         ToolBarEngine& toolBarEngine( void ) const
         { return *toolBarEngine_; }
 
+        //! toolbox
+        ToolBoxEngine& toolBoxEngine( void ) const
+        { return *toolBoxEngine_; }
+
         //! mdi windows
         MdiWindowEngine& mdiWindowEngine( void ) const
         { return *mdiWindowEngine_; }
@@ -187,6 +192,9 @@ namespace Oxygen
 
         //! toolbar engine
         ToolBarEngine* toolBarEngine_;
+
+        //! toolbar engine
+        ToolBoxEngine* toolBoxEngine_;
 
         //! mdi window
         MdiWindowEngine* mdiWindowEngine_;
