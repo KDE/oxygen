@@ -2795,7 +2795,6 @@ namespace Oxygen
     {
 
         Q_UNUSED( opt );
-        Q_UNUSED( widget );
         Q_UNUSED( kOpt );
 
         const bool enabled = flags & State_Enabled;
@@ -2806,21 +2805,23 @@ namespace Oxygen
 
         if( enabled )
         {
-            // try retrieve QSplitterHandle, from painter device.
-            if( const QSplitterHandle* handle = dynamic_cast<const QSplitterHandle*>(p->device()) )
-            {
-
-                animations().widgetStateEngine().updateState( handle, AnimationHover, mouseOver );
-                animated = animations().widgetStateEngine().isAnimated( handle, AnimationHover );
-                opacity = animations().widgetStateEngine().opacity( handle, AnimationHover );
-
-            } else if( widget && widget->inherits( "QMainWindow" ) ) {
+            if( widget && widget->inherits( "QMainWindow" ) ) {
 
                 // get orientation
                 Qt::Orientation orientation( flags & QStyle::State_Horizontal ? Qt::Horizontal : Qt::Vertical );
                 animations().dockSeparatorEngine().updateRect( widget, r, orientation, mouseOver );
                 animated = animations().dockSeparatorEngine().isAnimated( widget, r, orientation );
                 opacity = animated ? animations().dockSeparatorEngine().opacity( widget, orientation ) : AnimationData::OpacityInvalid;
+
+            } else if( QPaintDevice* device = p->device() ) {
+
+                /*
+                try update QSplitterHandle using painter device, because Qt passes
+                QSplitter as the widget to the QStyle primitive.
+                */
+                animations().splitterEngine().updateState( device, mouseOver );
+                animated = animations().splitterEngine().isAnimated( device );
+                opacity = animations().splitterEngine().opacity( device );
 
             }
         }
@@ -2885,6 +2886,7 @@ namespace Oxygen
             default: return false;
 
         }
+
     }
 
     //_________________________________________________________

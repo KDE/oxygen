@@ -35,6 +35,7 @@
 #include "oxygenscrollbarengine.h"
 #include "oxygensliderengine.h"
 #include "oxygenspinboxengine.h"
+#include "oxygensplitterengine.h"
 #include "oxygentabbarengine.h"
 #include "oxygentoolbarengine.h"
 #include "oxygenwidgetstateengine.h"
@@ -85,6 +86,10 @@ namespace Oxygen
         //! lineEdit engine
         WidgetStateEngine& lineEditEngine( void ) const
         { return *lineEditEngine_; }
+
+        //! splitter engine
+        SplitterEngine& splitterEngine( void ) const
+        { return *splitterEngine_; }
 
         //! dock separators engine
         DockSeparatorEngine& dockSeparatorEngine( void ) const
@@ -155,6 +160,9 @@ namespace Oxygen
 
         //! line editor engine
         WidgetStateEngine* lineEditEngine_;
+
+        //! QSplitter engine
+        SplitterEngine* splitterEngine_;
 
         //! progressbar engine
         ProgressBarEngine* progressBarEngine_;

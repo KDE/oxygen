@@ -27,30 +27,34 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include <QtCore/QObject>
 #include <QtCore/QMap>
 #include <QtCore/QWeakPointer>
 
+#include <QtGui/QPaintDevice>
+
 namespace Oxygen
 {
+
     //! data map
     /*! it maps templatized data object to associated object */
-    template< typename T > class DataMap: public QMap< const QObject*, QWeakPointer<T> >
+    template< typename K, typename T > class BaseDataMap: public QMap< const K*, QWeakPointer<T> >
     {
 
         public:
 
-        typedef const QObject* Key;
+        typedef const K* Key;
         typedef QWeakPointer<T> Value;
 
         //! constructor
-        DataMap( void ):
+        BaseDataMap( void ):
             QMap<Key, Value>(),
             enabled_( true ),
             lastKey_( NULL )
         {}
 
         //! destructor
-        virtual ~DataMap( void )
+        virtual ~BaseDataMap( void )
         {}
 
         //! insertion
@@ -132,6 +136,38 @@ namespace Oxygen
 
         //! last value
         Value lastValue_;
+
+    };
+
+    //! standard data map, using QObject as a key
+    template< typename T > class DataMap: public BaseDataMap< QObject, T >
+    {
+
+        public:
+
+        //! constructor
+        DataMap( void )
+        {}
+
+        //! destructor
+        virtual ~DataMap( void )
+        {}
+
+    };
+
+    //! QPaintDevice based dataMap
+    template< typename T > class PaintDeviceDataMap: public BaseDataMap< QPaintDevice, T >
+    {
+
+        public:
+
+        //! constructor
+        PaintDeviceDataMap( void )
+        {}
+
+        //! destructor
+        virtual ~PaintDeviceDataMap( void )
+        {}
 
     };
 

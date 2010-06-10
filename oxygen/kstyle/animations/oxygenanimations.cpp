@@ -47,6 +47,7 @@ namespace Oxygen
         comboBoxEngine_ = new WidgetStateEngine( this );
         toolButtonEngine_ = new WidgetStateEngine( this );
 
+        registerEngine( splitterEngine_ = new SplitterEngine( this ) );
         registerEngine( dockSeparatorEngine_ = new DockSeparatorEngine( this ) );
         registerEngine( widgetStateEngine_ = new WidgetStateEngine( this ) );
         registerEngine( lineEditEngine_ = new WidgetStateEngine( this ) );
@@ -74,6 +75,7 @@ namespace Oxygen
             comboBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             toolButtonEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             lineEditEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
+            splitterEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             scrollBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             sliderEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             spinBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
@@ -189,6 +191,7 @@ namespace Oxygen
             comboBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             toolButtonEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             lineEditEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            splitterEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             scrollBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             sliderEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             spinBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
@@ -250,7 +253,7 @@ namespace Oxygen
         else if( widget->inherits( "QScrollBar" ) ) { scrollBarEngine().registerWidget( widget ); }
         else if( widget->inherits( "QSlider" ) ) { sliderEngine().registerWidget( widget ); }
         else if( widget->inherits( "QProgressBar" ) ) { progressBarEngine().registerWidget( widget ); }
-        else if( widget->inherits( "QSplitterHandle" ) ) { widgetStateEngine().registerWidget( widget, AnimationHover ); }
+        else if( widget->inherits( "QSplitterHandle" ) ) { splitterEngine().registerWidget( widget ); }
         else if( widget->inherits( "QMainWindow" ) ) { dockSeparatorEngine().registerWidget( widget ); }
 
         // menu
