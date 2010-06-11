@@ -243,7 +243,6 @@ namespace Oxygen
 
         // send a move event to the current child with same position
         // if received, it is caught to actually start the drag
-        // this should be made more efficient since child was already looked after in "canDrag"
         QPoint localPoint( dragPoint_ );
         if( child ) localPoint = child->mapFrom( widget, localPoint );
         else child = widget;
@@ -433,6 +432,9 @@ namespace Oxygen
         and should prevent the drag
         */
         if( widget->cursor().shape() != Qt::ArrowCursor ) return false;
+
+        // accept
+        return true;
 
     }
 
