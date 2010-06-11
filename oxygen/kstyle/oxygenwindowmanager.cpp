@@ -473,12 +473,15 @@ namespace Oxygen
         // check mouse grabber
         if( QWidget::mouseGrabber() ) return false;
 
+        // retrieve child at given position
+        QWidget* child( widget->childAt( position ) );
+
         /*
         check cursor shape.
         Assume that a changed cursor means that some action is in progress
         and should prevent the drag
         */
-        if( widget->cursor().shape() != Qt::ArrowCursor ) return false;
+        if( child && child->cursor().shape() != Qt::ArrowCursor ) return false;
 
         // tool buttons
         if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
@@ -487,8 +490,9 @@ namespace Oxygen
             return toolButton->autoRaise() && !toolButton->isEnabled();
         }
 
+
         // never drag from comboboxes
-        if( qobject_cast<QComboBox*>( widget->childAt( position ) ) )
+        if( qobject_cast<QComboBox*>( child ) )
         { return false; }
 
         // check menubar
