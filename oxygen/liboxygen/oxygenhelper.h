@@ -60,7 +60,7 @@ namespace Oxygen
 
             if (!cache)
             {
-                cache = new Value();
+                cache = new Value( data_.maxCost() );
                 data_.insert(key, cache);
             }
 
@@ -70,6 +70,14 @@ namespace Oxygen
         //! clear
         void clear( void )
         { data_.clear(); }
+
+        //! max cache size
+        void setMaxCacheSize( int value )
+        {
+            data_.setMaxCost( value );
+            foreach( quint64 key, data_.keys() )
+            { data_.object( key )->setMaxCost( value ); }
+        }
 
         private:
 
@@ -93,7 +101,14 @@ namespace Oxygen
         //! reload configuration
         virtual void reloadConfig();
 
+        //! pointer to shared config
         KSharedConfigPtr config() const;
+
+        //! reset all caches
+        virtual void invalidateCaches();
+
+        //! update maximum cache size
+        virtual void setMaxCacheSize( int );
 
         //!@name window background gradients
         //@{
@@ -124,9 +139,6 @@ namespace Oxygen
         void renderDot(QPainter*, const QPointF&, const QColor&) const;
 
         //@}
-
-        //! reset all caches
-        virtual void invalidateCaches();
 
         static bool lowThreshold(const QColor &color);
         static bool highThreshold(const QColor &color);

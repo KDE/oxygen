@@ -81,6 +81,29 @@ namespace Oxygen
 
     }
 
+        //____________________________________________________________________
+    void Helper::invalidateCaches()
+    {
+        m_slabCache.clear();
+        m_backgroundColorCache.clear();
+        m_backgroundCache.clear();
+        m_windecoButtonCache.clear();
+        m_windecoButtonGlowCache.clear();
+    }
+
+    //____________________________________________________________________
+    void Helper::setMaxCacheSize( int value )
+    {
+
+        m_windecoButtonCache.setMaxCost( value );
+        m_windecoButtonGlowCache.setMaxCost( value );
+        m_slabCache.setMaxCacheSize( value );
+        m_backgroundCache.setMaxCost( value );
+
+        /* note: we do not limit the size of the backgroundColor cache on purpose, since this one should be small anyway */
+
+    }
+
     //____________________________________________________________________
     void Helper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QColor& color, int y_shift, int gradientHeight)
     {
@@ -154,16 +177,6 @@ namespace Oxygen
         p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
 
         p->restore();
-    }
-
-    //____________________________________________________________________
-    void Helper::invalidateCaches()
-    {
-        m_slabCache.clear();
-        m_backgroundColorCache.clear();
-        m_backgroundCache.clear();
-        m_windecoButtonCache.clear();
-        m_windecoButtonGlowCache.clear();
     }
 
     //____________________________________________________________________
