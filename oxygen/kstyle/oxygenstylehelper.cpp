@@ -62,6 +62,32 @@ namespace Oxygen
         Helper::invalidateCaches();
     }
 
+
+    //____________________________________________________________________
+    void StyleHelper::setMaxCacheSize( int value )
+    {
+
+        m_dialSlabCache.setMaxCacheSize( value );
+        m_roundSlabCache.setMaxCacheSize( value );
+        m_holeFocusedCache.setMaxCacheSize( value );
+
+        m_progressBarCache.setMaxCost( value );
+        m_cornerCache.setMaxCost( value );
+        m_selectionCache.setMaxCost( value );
+        m_slabSunkenCache.setMaxCost( value );
+        m_slabInvertedCache.setMaxCost( value );
+        m_holeCache.setMaxCost( value );
+        m_holeFlatCache.setMaxCost( value );
+        m_slopeCache.setMaxCost( value );
+        m_grooveCache.setMaxCost( value );
+        m_slitCache.setMaxCost( value );
+        m_dockFrameCache.setMaxCost( value );
+        m_scrollHoleCache.setMaxCost( value );
+
+        Helper::setMaxCacheSize( value );
+
+    }
+
     //____________________________________________________________________
     void StyleHelper::renderMenuBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal)
     {

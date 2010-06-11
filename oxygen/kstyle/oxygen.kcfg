@@ -5,6 +5,12 @@
 
   <!-- widget style -->
   <group name="Style"> 
+    
+    <!-- cache size -->
+    <entry name="MaxCacheSize" type = "Int" >
+       <default>100</default>
+    </entry>
+
     <entry name="ToolTipDrawStyledFrames" type = "Bool">
        <default>true</default>
     </entry>

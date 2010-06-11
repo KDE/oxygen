@@ -42,6 +42,9 @@ namespace Oxygen
         //! clear cache
         virtual void invalidateCaches();
 
+        //! update maximum cache size
+        virtual void setMaxCacheSize( int );
+
         // render menu background
         void renderMenuBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal);
 

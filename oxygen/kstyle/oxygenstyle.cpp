@@ -4812,7 +4812,11 @@ namespace Oxygen
         // reset helper configuration
         if( type == KGlobalSettings::PaletteChanged) _helper.reloadConfig();
 
+        // reset config
         OxygenStyleConfigData::self()->readConfig();
+
+        // update caches size
+        _helper.setMaxCacheSize( qMax( 1, OxygenStyleConfigData::maxCacheSize() ) );
 
         // reinitialize engines
         animations().setupEngines();
