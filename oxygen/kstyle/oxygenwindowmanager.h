@@ -76,10 +76,6 @@ namespace Oxygen
         /*! used to start drag if button is pressed for a long enough time */
         void timerEvent( QTimerEvent* );
 
-        //! application-wise event.
-        /*! needed to catch end of XMoveResize events */
-        bool appMouseEvent( QObject*, QEvent* );
-
         //! mouse press event
         bool mousePressEvent( QObject*, QEvent* );
 
@@ -92,11 +88,11 @@ namespace Oxygen
         //!@name configuration
         //@{
 
-        //! enability
+        //! enable state
         bool enabled( void ) const
         { return enabled_; }
 
-        //! enability
+        //! enable state
         void setEnabled( bool value )
         { enabled_ = value; }
 
@@ -150,7 +146,11 @@ namespace Oxygen
         bool isWhiteListed( QWidget* ) const;
 
         //! returns true if drag can be started from current widget and position
-        bool canDrag( QWidget*, const QPoint& );
+        bool canDrag( QWidget* );
+
+        //! returns true if drag can be started from current widget and position
+        /*! child at given position is passed as second argument */
+        bool canDrag( QWidget*, QWidget*, const QPoint& );
 
         //! reset drag
         void resetDrag( void );
@@ -158,21 +158,21 @@ namespace Oxygen
         //! start drag
         void startDrag( QWidget*, const QPoint& );
 
-        //! tag event as blacklisted
-        void setEventBlackListed( QEvent* event )
-        { blackListEvent_ = event; }
-
-        //! true if event is blacklisted
-        bool isEventBlackListed( QEvent* event ) const
-        { return event == blackListEvent_; }
-
-        //! clear blackListed event
-        void clearBlackListedEvent( void )
-        { blackListEvent_ = NULL; }
-
         //! returns true if window manager is used for moving
         /*! right now this is true only for X11 */
         bool supportWMMoveResize( void ) const;
+
+        //!@name lock
+        //@{
+
+        void setLocked( bool value )
+        { locked_ = value; }
+
+        //! lock
+        bool isLocked( void ) const
+        { return locked_; }
+
+        //@}
 
         private:
 
@@ -243,18 +243,56 @@ namespace Oxygen
         /*! QWeakPointer is used in case the target gets deleted while drag is in progress */
         QWeakPointer<QWidget> target_;
 
-        //! pointer to current blacklisted event, if any
-        QEvent* blackListEvent_;
-
         //! true if drag is about to start
         bool dragAboutToStart_;
 
         //! true if drag is in progress
         bool dragInProgress_;
 
+        //! true if drag is locked
+        bool locked_;
+
         //! cursor override
         /*! used to keep track of application cursor being overridden when dragging in non-WM mode */
         bool cursorOverride_;
+
+        //! provide application-wise event filter
+        /*!
+        it us used to unlock dragging and make sure event look is properly restored
+        after a drag has occured
+        */
+        class AppEventFilter: public QObject
+        {
+
+            public:
+
+            //! constructor
+            AppEventFilter( WindowManager* parent ):
+                QObject( parent ),
+                parent_( parent )
+            {}
+
+            //! event filter
+            virtual bool eventFilter( QObject*, QEvent* );
+
+            protected:
+
+            //! application-wise event.
+            /*! needed to catch end of XMoveResize events */
+            bool appMouseEvent( QObject*, QEvent* );
+
+            private:
+
+            //! parent
+            WindowManager* parent_;
+
+        };
+
+        //! application event filter
+        AppEventFilter* appEventFilter_;
+
+        //! allow access of all private members to the app event filter
+        friend class AppEventFilter;
 
     };
 
