@@ -473,14 +473,15 @@ namespace Oxygen
         // check mouse grabber
         if( QWidget::mouseGrabber() ) return false;
 
-        // retrieve child at given position
-        QWidget* child( widget->childAt( position ) );
-
         /*
         check cursor shape.
         Assume that a changed cursor means that some action is in progress
         and should prevent the drag
         */
+        if( widget->cursor().shape() != Qt::ArrowCursor ) return false;
+
+        // retrieve child at given position and check cursor again
+        QWidget* child( widget->childAt( position ) );
         if( child && child->cursor().shape() != Qt::ArrowCursor ) return false;
 
         // tool buttons
