@@ -145,7 +145,7 @@ namespace Oxygen
         //! returns true if widget is dragable
         bool isWhiteListed( QWidget* ) const;
 
-        //! returns true if drag can be started from current widget and position
+        //! returns true if drag can be started from current widget
         bool canDrag( QWidget* );
 
         //! returns true if drag can be started from current widget and position
