@@ -56,10 +56,7 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
 #include <QtGui/QToolButton>
-
-#ifdef Q_WS_X11
 #include <QtGui/QX11Info>
-#endif
 
 #include <QtDBus/QtDBus>
 
@@ -324,10 +321,10 @@ namespace Oxygen
         /*
         check if painter engine is registered to WidgetEnabilityEngine, and animated
         if yes, merge the palettes. Note: a static_cast is safe here, since only the address
-        of the pointer is used, not the actual content.
+        of the pointer is used, not the actual content
         */
         const QWidget* widget( static_cast<const QWidget*>( painter->device() ) );
-        if( animations().widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
+        if( widget && animations().widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
         {
 
             QPalette pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, AnimationEnable )  );
@@ -1320,6 +1317,7 @@ namespace Oxygen
                 if( enabled )
                 {
                     // try retrieve button from painter device.
+                    // this is bad. Should be avoided. Need a dedicated toolboxengine
                     if( QPaintDevice* device = p->device() )
                     {
                         animations().toolBoxEngine().updateState( device, mouseOver );
@@ -4510,22 +4508,12 @@ namespace Oxygen
         }
 
         // adjust flags for windows and dialogs
-        switch( widget->windowFlags() & Qt::WindowType_Mask )
+        switch (widget->windowFlags() & Qt::WindowType_Mask)
         {
 
             case Qt::Window:
             case Qt::Dialog:
             widget->setAttribute(Qt::WA_StyledBackground);
-            break;
-
-            case Qt::ToolTip:
-            widget->setAttribute(Qt::WA_TranslucentBackground);
-            widget->setAutoFillBackground( false );
-
-            #ifdef Q_WS_WIN
-            //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
-            widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
-            #endif
             break;
 
             default: break;
