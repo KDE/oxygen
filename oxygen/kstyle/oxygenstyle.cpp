@@ -321,10 +321,10 @@ namespace Oxygen
         /*
         check if painter engine is registered to WidgetEnabilityEngine, and animated
         if yes, merge the palettes. Note: a static_cast is safe here, since only the address
-        of the pointer is used, not the actual content
+        of the pointer is used, not the actual content.
         */
         const QWidget* widget( static_cast<const QWidget*>( painter->device() ) );
-        if( widget && animations().widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
+        if( animations().widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
         {
 
             QPalette pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, AnimationEnable )  );
@@ -1317,7 +1317,6 @@ namespace Oxygen
                 if( enabled )
                 {
                     // try retrieve button from painter device.
-                    // this is bad. Should be avoided. Need a dedicated toolboxengine
                     if( QPaintDevice* device = p->device() )
                     {
                         animations().toolBoxEngine().updateState( device, mouseOver );
@@ -4508,7 +4507,7 @@ namespace Oxygen
         }
 
         // adjust flags for windows and dialogs
-        switch (widget->windowFlags() & Qt::WindowType_Mask)
+        switch( widget->windowFlags() & Qt::WindowType_Mask )
         {
 
             case Qt::Window:
