@@ -35,7 +35,6 @@
 
 
 #include <QtGui/QApplication>
-#include <QtGui/QComboBox>
 #include <QtGui/QDockWidget>
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
@@ -374,10 +373,7 @@ namespace Oxygen
     {
 
         // hard coded blacklisted widgets
-        if(
-            widget->inherits( "QComboBox" ) ||
-            widget->inherits( "KCategorizedView" )
-        )
+        if( widget->inherits( "KCategorizedView" ) )
         { return true; }
 
         // list-based blacklisted widgets
@@ -444,6 +440,15 @@ namespace Oxygen
 
         // retrieve child at given position and check cursor again
         if( child && child->cursor().shape() != Qt::ArrowCursor ) return false;
+
+        /*
+        check against children from which drag should never be enabled,
+        even if mousePress/Move has been passed to the parent
+        */
+        if( child && (
+          child->inherits( "QComboBox" ) ||
+          child->inherits( "QProgressBar" ) ) )
+        { return false; }
 
         // tool buttons
         if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
