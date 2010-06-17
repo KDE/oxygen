@@ -372,10 +372,6 @@ namespace Oxygen
     bool WindowManager::isBlackListed( QWidget* widget )
     {
 
-        // hard coded blacklisted widgets
-        if( widget->inherits( "KCategorizedView" ) )
-        { return true; }
-
         // list-based blacklisted widgets
         QString appName( qApp->applicationName() );
         foreach( const ExceptionId& id, blackList_ )
