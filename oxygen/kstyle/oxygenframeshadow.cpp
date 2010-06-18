@@ -52,12 +52,14 @@ namespace Oxygen
         // check whether widget is a frame, and has the proper shape
         bool accepted = false;
         bool flat = false;
-        if( QFrame* frame = qobject_cast<QFrame*>( widget ) ) {
-
+        if( QFrame* frame = qobject_cast<QFrame*>( widget ) )
+        {
             if( frame && frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) ) { accepted = true; }
             else if( widget->parent() && widget->parent()->inherits( "QComboBoxPrivateContainer" ) ) {
+
                 accepted = true;
                 flat = true;
+
             }
         }
 
@@ -139,6 +141,14 @@ namespace Oxygen
 
         switch( event->type() )
         {
+            // TODO: possibly implement ZOrderChange event, to make sure that
+            // the shadow is always painted on top
+            case QEvent::ZOrderChange:
+            {
+                raiseShadows( object );
+                break;
+            }
+
             case QEvent::Show:
             updateShadowsGeometry( object );
             update( object );
@@ -164,6 +174,19 @@ namespace Oxygen
         {
             if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->updateGeometry(); }
+        }
+
+    }
+
+    //____________________________________________________________________________________
+    void FrameShadowFactory::raiseShadows( QObject* object ) const
+    {
+
+        const QList<QObject *> children = object->children();
+        foreach( QObject *child, children )
+        {
+            if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
+            { shadow->raise(); }
         }
 
     }
@@ -250,9 +273,6 @@ namespace Oxygen
 
         switch (e->type())
         {
-
-            // TODO: possibly implement ZOrderChange event, to make sure that
-            // the shadow is always painted on top
 
             case QEvent::DragEnter:
             case QEvent::DragMove:
@@ -411,6 +431,34 @@ namespace Oxygen
         return;
 
     }
+
+    //____________________________________________________________________________________
+    void FlatFrameShadow::updateGeometry()
+    {
+
+        QWidget *widget = parentWidget();
+        if( !widget ) return;
+
+        QRect cr = widget->contentsRect();
+        switch (shadowArea())
+        {
+
+            case Top:
+            cr.setHeight( SHADOW_SIZE_TOP-3 );
+            break;
+
+            case Bottom:
+            cr.setTop(cr.bottom() - SHADOW_SIZE_BOTTOM + 4);
+            break;
+
+            case Unknown:
+            default:
+            return;
+        }
+
+        setGeometry(cr);
+    }
+
 
     //____________________________________________________________________________________
     void FlatFrameShadow::paintEvent(QPaintEvent *event )

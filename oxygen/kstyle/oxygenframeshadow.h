@@ -96,6 +96,9 @@ namespace Oxygen
         //! update shadows geometry
         virtual void updateShadowsGeometry( QObject* ) const;
 
+        //! raise shadows
+        virtual void raiseShadows( QObject* ) const;
+
         //! update shadows
         virtual void update( QObject* ) const;
 
@@ -243,6 +246,9 @@ namespace Oxygen
         //! destructor
         virtual ~FlatFrameShadow()
         {}
+
+        //! update geometry
+        virtual void updateGeometry( void );
 
         protected:
 
