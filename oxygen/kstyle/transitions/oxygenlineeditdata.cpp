@@ -48,7 +48,7 @@ namespace Oxygen
         target_.data()->installEventFilter( this );
 
         checkClearButton();
-        
+
         connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
         connect( target_.data(), SIGNAL( textEdited( const QString& ) ), SLOT( textEdited( const QString& ) ) );
         connect( target_.data(), SIGNAL( textChanged( const QString& ) ), SLOT( textChanged( const QString& ) ) );
@@ -96,7 +96,7 @@ namespace Oxygen
                 setRecursiveCheck( false );
             }
 
-        } else return QObject::timerEvent( event );
+        } else return TransitionData::timerEvent( event );
 
     }
 
@@ -115,10 +115,10 @@ namespace Oxygen
                 break;
             }
         }
-        
+
         return;
     }
-    
+
     //___________________________________________________________________
     void LineEditData::textEdited( const QString& )
     {

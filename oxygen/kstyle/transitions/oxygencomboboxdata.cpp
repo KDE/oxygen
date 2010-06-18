@@ -99,7 +99,7 @@ namespace Oxygen
                 setRecursiveCheck( false );
             }
 
-        } else return QObject::timerEvent( event );
+        } else return TransitionData::timerEvent( event );
 
     }
 

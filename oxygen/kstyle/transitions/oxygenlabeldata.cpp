@@ -169,7 +169,7 @@ namespace Oxygen
             // reassign end pixmap for the next transition to be properly initialized
             transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
 
-        } else return QObject::timerEvent( event );
+        } else return TransitionData::timerEvent( event );
 
     }
 
