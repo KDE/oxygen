@@ -3515,10 +3515,8 @@ namespace Oxygen
 
                 QLinearGradient innerGradient(0, r.top()-r.height()+12, 0, r.bottom()+r.height()-19);
                 QColor light( _helper.calcLightColor(color) );
-                light.setAlphaF(0.4);
-                innerGradient.setColorAt(0.0, light);
-                color.setAlphaF(0.4);
-                innerGradient.setColorAt(1.0, color);
+                light.setAlphaF(0.4); innerGradient.setColorAt(0.0, light);
+                light.setAlphaF(0.0); innerGradient.setColorAt(1.0, light);
                 p->setBrush(innerGradient);
                 p->setClipRect(r.adjusted(0, 0, 0, -19));
                 _helper.fillSlab(*p, r);
