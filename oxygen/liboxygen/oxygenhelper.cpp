@@ -627,11 +627,16 @@ namespace Oxygen
         const qreal offset = 0.8;
         const qreal k0 = (m-4.0) / m;
         QRadialGradient shadowGradient(m+1.0, m+offset+1.0, m);
-        for (int i = 0; i < 8; i++) { // sinusoidal gradient
+        for (int i = 0; i < 8; i++)
+        {
+
+            // sinusoidal gradient
             qreal k1 = (k0 * qreal(8 - i) + qreal(i)) * 0.125;
-            qreal a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
+            qreal a = (cos(3.14159 * i * 0.125) + 1.0) * 0.30;
             shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
+
         }
+
         shadowGradient.setColorAt(1.0, alphaColor(color, 0.0));
         p.save();
         p.setBrush(shadowGradient);
