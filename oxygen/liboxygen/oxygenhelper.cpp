@@ -248,10 +248,12 @@ namespace Oxygen
     QColor Helper::calcShadowColor(const QColor &color) const
     {
 
-        return KColorScheme::shade(
-            KColorUtils::mix(QColor(255,255,255),color, color.alpha()*(1/255.0)),
-            KColorScheme::ShadowShade,
-            _contrast);
+        return (lowThreshold(color)) ?
+            KColorUtils::mix( Qt::black, color, color.alphaF() ) :
+            KColorScheme::shade(
+                KColorUtils::mix( Qt::black, color, color.alphaF() ),
+                KColorScheme::ShadowShade,
+                _contrast);
 
     }
 
