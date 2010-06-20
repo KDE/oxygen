@@ -1227,18 +1227,22 @@ namespace Oxygen
                 } else {
 
                     const QRect slabRect(r.adjusted( -1, 0, 1, 0 ) );
+
+                    // match color to the window background
+                    const QColor buttonColor( _helper.backgroundColor( pal.color(QPalette::Button), widget, r.center() ) );
+
                     if( enabled && hoverAnimated && !(opts & Sunken ) )
                     {
 
-                        renderButtonSlab( p, slabRect, pal.color(QPalette::Button), opts, hoverOpacity, AnimationHover, TileSet::Ring );
+                        renderButtonSlab( p, slabRect, buttonColor, opts, hoverOpacity, AnimationHover, TileSet::Ring );
 
                     } else if( enabled && !mouseOver && focusAnimated && !(opts & Sunken ) ) {
 
-                        renderButtonSlab( p, slabRect, pal.color(QPalette::Button), opts, focusOpacity, AnimationFocus, TileSet::Ring );
+                        renderButtonSlab( p, slabRect, buttonColor, opts, focusOpacity, AnimationFocus, TileSet::Ring );
 
                     } else {
 
-                        renderButtonSlab(p, slabRect, pal.color(QPalette::Button), opts);
+                        renderButtonSlab(p, slabRect, buttonColor, opts);
 
                     }
 
@@ -1922,6 +1926,11 @@ namespace Oxygen
             case CheckBox::CheckTriState:
             {
 
+                // match button color to window background
+                QPalette localPalette( pal );
+                localPalette.setColor( QPalette::Button, _helper.backgroundColor(
+                    pal.color( QPalette::Button ), widget, r.center() ) );
+
                 // mouseOver has precedence over focus
                 const bool hasFocus( flags & State_HasFocus );
                 animations().widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
@@ -1931,14 +1940,14 @@ namespace Oxygen
                 {
 
                     const qreal opacity( animations().widgetStateEngine().opacity( widget, AnimationHover ) );
-                    renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive, false, opacity, AnimationHover );
+                    renderCheckBox(p, r, localPalette, enabled, hasFocus, mouseOver, primitive, false, opacity, AnimationHover );
 
                 } else if( enabled && !hasFocus && animations().widgetStateEngine().isAnimated( widget, AnimationFocus ) ) {
 
                     const qreal opacity( animations().widgetStateEngine().opacity( widget, AnimationFocus ) );
-                    renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive, false, opacity, AnimationFocus );
+                    renderCheckBox(p, r, localPalette, enabled, hasFocus, mouseOver, primitive, false, opacity, AnimationFocus );
 
-                } else renderCheckBox(p, r, pal, enabled, hasFocus, mouseOver, primitive);
+                } else renderCheckBox(p, r, localPalette, enabled, hasFocus, mouseOver, primitive);
 
                 return true;
 
@@ -1979,6 +1988,11 @@ namespace Oxygen
             case RadioButton::RadioOff:
             {
 
+                // match button color to window background
+                QPalette localPalette( pal );
+                localPalette.setColor( QPalette::Button, _helper.backgroundColor(
+                    pal.color( QPalette::Button ), widget, r.center() ) );
+
                 // mouseOver has precedence over focus
                 const bool hasFocus( flags & State_HasFocus );
                 animations().widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
@@ -1988,14 +2002,14 @@ namespace Oxygen
                 {
 
                     const qreal opacity( animations().widgetStateEngine().opacity( widget, AnimationHover ) );
-                    renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive, true, opacity, AnimationHover );
+                    renderRadioButton(p, r, localPalette, enabled, hasFocus, mouseOver, primitive, true, opacity, AnimationHover );
 
                 } else if(  enabled && animations().widgetStateEngine().isAnimated( widget, AnimationFocus ) ) {
 
                     const qreal opacity( animations().widgetStateEngine().opacity( widget, AnimationFocus ) );
-                    renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive, true, opacity, AnimationFocus );
+                    renderRadioButton(p, r, localPalette, enabled, hasFocus, mouseOver, primitive, true, opacity, AnimationFocus );
 
-                } else renderRadioButton(p, r, pal, enabled, hasFocus, mouseOver, primitive);
+                } else renderRadioButton(p, r, localPalette, enabled, hasFocus, mouseOver, primitive);
 
                 return true;
             }
@@ -3153,9 +3167,11 @@ namespace Oxygen
             {
                 const QStyleOptionComboBox* cbOpt = qstyleoption_cast<const QStyleOptionComboBox *>(opt);
 
-                // TODO: pressed state
                 if(!editable)
                 {
+
+                    // blend button color to the background
+                    const QColor buttonColor( _helper.backgroundColor( pal.color( QPalette::Button ), widget, r.center() ) );
 
                     const QRect slabRect( r.adjusted(-1, 0, 1, 0 ) );
                     if( cbOpt && !cbOpt->frame )
@@ -3166,16 +3182,16 @@ namespace Oxygen
                     } else if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationHover ) ) {
 
                         const qreal opacity( animations().lineEditEngine().opacity( widget, AnimationHover ) );
-                        renderButtonSlab( p, slabRect, pal.color(QPalette::Button), opts, opacity, AnimationHover, TileSet::Ring );
+                        renderButtonSlab( p, slabRect, buttonColor, opts, opacity, AnimationHover, TileSet::Ring );
 
                     } else if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationFocus ) ) {
 
                         const qreal opacity( animations().lineEditEngine().opacity( widget, AnimationFocus ) );
-                        renderButtonSlab( p, slabRect, pal.color(QPalette::Button), opts, opacity, AnimationFocus, TileSet::Ring );
+                        renderButtonSlab( p, slabRect, buttonColor, opts, opacity, AnimationFocus, TileSet::Ring );
 
                     } else {
 
-                        renderButtonSlab(p, slabRect, pal.color(QPalette::Button), opts);
+                        renderButtonSlab(p, slabRect, buttonColor, opts);
 
                     }
 
@@ -3857,8 +3873,11 @@ namespace Oxygen
 
                     }
 
+                    // match button color to window background
+                    const QColor buttonColor( _helper.backgroundColor( pal.color(QPalette::Button), widget, r.center() ) );
+
                     // render slab
-                    renderButtonSlab( p, slitRect, pal.color(QPalette::Button), opts, opacity, mode, tiles );
+                    renderButtonSlab( p, slitRect, buttonColor, opts, opacity, mode, tiles );
 
                     return true;
 
@@ -3953,7 +3972,26 @@ namespace Oxygen
             case Generic::ArrowDown:
             case Generic::ArrowLeft:
             case Generic::ArrowRight:
-            { return drawGenericArrow( widgetType, primitive, opt, rect, pal, flags, p, widget, kOpt ); }
+            {
+
+                const QToolButton *tool( qobject_cast<const QToolButton *>(widget) );
+                if( tool && tool->popupMode()==QToolButton::MenuButtonPopup && !tool->autoRaise() )
+                {
+
+                    // match button color to window background
+                    QPalette localPalette( pal );
+                    localPalette.setColor( QPalette::Button, _helper.backgroundColor(
+                        pal.color( QPalette::Button ), widget, rect.center() ) );
+
+                    return drawGenericArrow( widgetType, primitive, opt, rect, localPalette, flags, p, widget, kOpt );
+
+                } else {
+
+                    return drawGenericArrow( widgetType, primitive, opt, rect, pal, flags, p, widget, kOpt );
+
+                }
+
+            }
 
             case Generic::Frame:
             { return drawGenericFrame( widgetType, primitive, opt, rect, pal, flags, p, widget, kOpt ); }
