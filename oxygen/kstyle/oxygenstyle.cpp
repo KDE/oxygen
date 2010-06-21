@@ -5158,12 +5158,16 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void Style::renderButtonSlab(QPainter *p, QRect r, const QColor &color, StyleOptions opts, qreal opacity, AnimationMode mode, TileSet::Tiles tiles) const
+    void Style::renderButtonSlab(QPainter *p, QRect r, const QColor &color, StyleOptions opts, qreal opacity,
+      AnimationMode mode,
+      TileSet::Tiles tiles) const
     {
         if( (r.width() <= 0) || (r.height() <= 0)) return;
 
         r.translate(0,-1);
-        if( opts & Sunken) r.adjust(-1,0,1,2);
+        if( !p->clipRegion().isEmpty() ) p->setClipRegion( p->clipRegion().translated(0,-1) );
+
+        if( opts & Sunken) r.adjust( -1, 0, 1, 1 );
 
         // fill
         if( !(opts & NoFill))
@@ -5197,8 +5201,7 @@ namespace Oxygen
 
             }
 
-            if( opts & Sunken ) _helper.fillSlab(*p, r.adjusted(0,0,0,-1) );
-            else _helper.fillSlab(*p, r);
+            _helper.fillSlab(*p, r);
             p->restore();
 
         }
@@ -5218,8 +5221,7 @@ namespace Oxygen
 
         }
 
-        if( opts & Sunken ) tile->render(r.adjusted(0,0,0,-1), p, tiles);
-        else tile->render(r, p, tiles);
+        tile->render(r, p, tiles);
 
     }
 
