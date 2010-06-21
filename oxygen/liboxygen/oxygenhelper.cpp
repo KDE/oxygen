@@ -508,15 +508,20 @@ namespace Oxygen
 
         QPoint start,end,offset;
 
-        if (orientation == Qt::Horizontal) {
+        if (orientation == Qt::Horizontal)
+        {
+
             start = QPoint(rect.x(),rect.y()+rect.height()/2-1);
             end = QPoint(rect.right(),rect.y()+rect.height()/2-1);
             offset = QPoint(0,1);
+
         } else {
+
             start = QPoint(rect.x()+rect.width()/2-1,rect.y());
             end = QPoint(rect.x()+rect.width()/2-1,rect.bottom());
             offset = QPoint(1,0);
             light.setAlpha(150);
+
         }
 
         QLinearGradient lg(start,end);
@@ -597,19 +602,26 @@ namespace Oxygen
         qreal yd = KColorUtils::luma(dark);
         QLinearGradient bevelGradient1(0, 7, 0, 11);
         bevelGradient1.setColorAt(0.0, light);
-        if (y < yl && y > yd) // no middle when color is very light/dark
+        if (y < yl && y > yd)
+        {
+            // no middle when color is very light/dark
             bevelGradient1.setColorAt(0.5, base);
+        }
+
         bevelGradient1.setColorAt(0.9, base);
         p.setBrush(bevelGradient1);
         p.drawEllipse(QRectF(3.0,3.0,8.0,8.0));
 
         // bevel, part 2
-        if (_slabThickness > 0.0) {
+        if (_slabThickness > 0.0)
+        {
+
             QLinearGradient bevelGradient2(0, 6, 0, 19);
             bevelGradient2.setColorAt(0.0, light);
             bevelGradient2.setColorAt(0.9, base);
             p.setBrush(bevelGradient2);
             p.drawEllipse(QRectF(3.6,3.6,6.8,6.8));
+
         }
 
         // inside mask
