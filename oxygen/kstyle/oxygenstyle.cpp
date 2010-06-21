@@ -1748,29 +1748,33 @@ namespace Oxygen
 
             case MenuItem::CheckOn:
             {
-                QPalette local( pal );
-                local.setColor( QPalette::Window, _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, r.topLeft() ) );
-                renderCheckBox(p, r.adjusted(2,-2,2,2), local, enabled, false, mouseOver, CheckBox::CheckOn, true);
+                QPalette localPalette( pal );
+                localPalette.setColor( QPalette::Window, _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, r.topLeft() ) );
+                renderCheckBox(p, r.adjusted(2,-2,2,2), localPalette, enabled, false, mouseOver, CheckBox::CheckOn, true);
                 return true;
             }
 
             case MenuItem::CheckOff:
             {
-                QPalette local( pal );
-                local.setColor( QPalette::Window, _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, r.topLeft() ) );
-                renderCheckBox(p, r.adjusted(2,-2,2,2), local, enabled, false, mouseOver, CheckBox::CheckOff, true);
+                QPalette localPalette( pal );
+                localPalette.setColor( QPalette::Window, _helper.menuBackgroundColor( pal.color( QPalette::Window ), widget, r.topLeft() ) );
+                renderCheckBox(p, r.adjusted(2,-2,2,2), localPalette, enabled, false, mouseOver, CheckBox::CheckOff, true);
                 return true;
             }
 
             case MenuItem::RadioOn:
             {
-                renderRadioButton(p, r.adjusted(2,-1,2,2), pal, enabled, false, mouseOver, RadioButton::RadioOn, true);
+                QPalette localPalette( pal );
+                localPalette.setColor( QPalette::Button, _helper.menuBackgroundColor( pal.color( QPalette::Button ), widget, r.topLeft() ) );
+                renderRadioButton(p, r.adjusted(2,-2,2,2), localPalette, enabled, false, mouseOver, RadioButton::RadioOn, true);
                 return true;
             }
 
             case MenuItem::RadioOff:
             {
-                renderRadioButton(p, r.adjusted(2,-1,2,2), pal, enabled, false, mouseOver, RadioButton::RadioOff, true);
+                QPalette localPalette( pal );
+                localPalette.setColor( QPalette::Button, _helper.menuBackgroundColor( pal.color( QPalette::Button ), widget, r.topLeft() ) );
+                renderRadioButton(p, r.adjusted(2,-2,2,2), localPalette, enabled, false, mouseOver, RadioButton::RadioOff, true);
                 return true;
             }
 
