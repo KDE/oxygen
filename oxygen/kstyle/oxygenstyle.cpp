@@ -4243,7 +4243,7 @@ namespace Oxygen
                         }
 
                         p->setClipRect( frameRect.adjusted( 0, 0, -8, 0 ), Qt::IntersectClip );
-                        renderSlab(p, frameRect, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Left );
+                        renderButtonSlab(p, frameRect, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Left );
 
                     } else {
 
@@ -4256,7 +4256,7 @@ namespace Oxygen
                         }
 
                         p->setClipRect( frameRect.adjusted( 8, 0, 0, 0 ), Qt::IntersectClip );
-                        renderSlab(p, frameRect, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right );
+                        renderButtonSlab(p, frameRect, pal.color(QPalette::Button), opts, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right );
 
                     }
 
@@ -4264,9 +4264,7 @@ namespace Oxygen
 
                     // draw separating vertical line
                     const QColor color = pal.color(QPalette::Window);
-                    QColor light = _helper.calcLightColor(color);
-                    light.setAlpha(150);
-
+                    QColor light =_helper.alphaColor( _helper.calcLightColor(color), 0.6 );
                     QColor dark = _helper.calcDarkColor(color);
                     dark.setAlpha(200);
 
@@ -4288,8 +4286,8 @@ namespace Oxygen
 
                     } else {
 
-                        p->drawLine(r.x()-5, yTop+1, r.x()-5, yBottom);
-                        p->drawLine(r.x()-3, yTop+2, r.x()-3, yBottom);
+                        p->drawLine(r.x()-5, yTop+1, r.x()-5, yBottom-1);
+                        p->drawLine(r.x()-3, yTop+1, r.x()-3, yBottom-1);
                         p->setPen(QPen(dark,1));
                         p->drawLine(r.x()-4, yTop, r.x()-4, yBottom);
 
