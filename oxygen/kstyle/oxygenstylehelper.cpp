@@ -740,17 +740,9 @@ namespace Oxygen
         QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
 
         // bevel, part 1
-        qreal y = KColorUtils::luma(base);
-        qreal yl = KColorUtils::luma(light);
-        qreal yd = KColorUtils::luma(dark);
         QLinearGradient bevelGradient1(0, 10, 0, 18);
         bevelGradient1.setColorAt(0.0, light);
-        bevelGradient1.setColorAt(0.9, dark);
-        if (y < yl && y > yd)
-        {
-            // no middle when color is very light/dark
-            bevelGradient1.setColorAt(0.5, base);
-        }
+        bevelGradient1.setColorAt(0.9, alphaColor( light, 0.85 ) );
         p.setBrush(bevelGradient1);
         p.drawEllipse(QRectF(3.0,3.0,15.0,15.0));
 
