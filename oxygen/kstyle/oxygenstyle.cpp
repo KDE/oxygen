@@ -379,22 +379,22 @@ namespace Oxygen
 
         const QRect rect( option->rect );
         const QPalette &pal( option->palette );
-        const QColor color( pal.color(QPalette::Button) );
+        const QColor buttonColor( _helper.backgroundColor( pal.color(QPalette::Button), widget, rect.center() ) );
 
         if( enabled && animations().widgetStateEngine().isAnimated( widget, AnimationHover ) && !(opts & Sunken ) )
         {
 
             qreal opacity( animations().widgetStateEngine().opacity( widget, AnimationHover ) );
-            renderDialSlab( painter, rect, pal.color(QPalette::Button), option, opts, opacity, AnimationHover );
+            renderDialSlab( painter, rect, buttonColor, option, opts, opacity, AnimationHover );
 
         } else if( enabled && !mouseOver && animations().widgetStateEngine().isAnimated( widget, AnimationFocus ) && !(opts & Sunken ) ) {
 
             qreal opacity( animations().widgetStateEngine().opacity( widget, AnimationFocus ) );
-            renderDialSlab( painter, rect, pal.color(QPalette::Button), option, opts, opacity, AnimationFocus );
+            renderDialSlab( painter, rect, buttonColor, option, opts, opacity, AnimationFocus );
 
         } else {
 
-            renderDialSlab( painter, rect, pal.color(QPalette::Button), option, opts);
+            renderDialSlab( painter, rect, buttonColor, option, opts);
 
         }
 
@@ -2994,18 +2994,19 @@ namespace Oxygen
             case Slider::HandleVert:
             {
 
+                const QColor buttonColor( _helper.backgroundColor( pal.color(QPalette::Button), widget, r.center() ) );
                 StyleOptions opts = (flags & State_HasFocus ? Focus : StyleOption());
                 if( enabled &&  animations().sliderEngine().isAnimated( widget ) )
                 {
 
-                    renderSlab(p, r, pal.color(QPalette::Button), opts,  animations().sliderEngine().opacity( widget ), AnimationHover, TileSet::Ring );
+                    renderSlab(p, r, buttonColor, opts,  animations().sliderEngine().opacity( widget ), AnimationHover, TileSet::Ring );
 
                 } else {
 
                     if(slider)
                     { if( (slider->activeSubControls & SC_SliderHandle) && mouseOver ) opts |= Hover; }
 
-                    renderSlab(p, r, pal.color(QPalette::Button), opts);
+                    renderSlab(p, r, buttonColor, opts);
 
                 }
 
