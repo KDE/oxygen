@@ -591,8 +591,8 @@ namespace Oxygen
     //______________________________________________________________________________________
     void Helper::drawSlab(QPainter &p, const QColor &color, qreal shade) const
     {
-        const QColor base = KColorUtils::shade(color, shade);
         const QColor light = KColorUtils::shade(calcLightColor(color), shade);
+        const QColor base = alphaColor( light, 0.85 );
         const QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
 
         // bevel, part 1
@@ -610,7 +610,7 @@ namespace Oxygen
 
         bevelGradient1.setColorAt(0.9, base);
         p.setBrush(bevelGradient1);
-        p.drawEllipse(QRectF(3.0,3.0,8.0,8.0));
+        p.drawRoundedRect(QRectF(3.0,3.0,8.0,8.0), 3.5, 3.5 );
 
         // bevel, part 2
         if (_slabThickness > 0.0)
