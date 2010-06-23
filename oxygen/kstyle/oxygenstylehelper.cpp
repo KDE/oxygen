@@ -146,7 +146,7 @@ namespace Oxygen
     //______________________________________________________________________________
     QPixmap StyleHelper::windecoButton(const QColor &color, bool pressed, int size)
     {
-        quint64 key = (quint64(color.rgba()) << 32) | (size << 1) | (int)pressed;
+        quint64 key = (quint64(color.rgba()) << 32) | (size << 1) | quint64(pressed);
         QPixmap *pixmap = m_windecoButtonCache.object(key);
 
         if (!pixmap)
@@ -217,7 +217,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::slope(const QColor &color, qreal shade, int size)
     {
-        quint64 key = (quint64(color.rgba()) << 32);
+        quint64 key = (quint64(color.rgba()) << 32)|(quint64(256.0*shade)<<24)|size;
         TileSet *tileSet = m_slopeCache.object(key);
 
         if (!tileSet)
@@ -382,7 +382,7 @@ namespace Oxygen
     {
         Oxygen::Cache<QPixmap>::Value *cache = m_dialSlabCache.get(color);
 
-        quint64 key = (int)(256.0 * shade) << 24 | size;
+        quint64 key = (quint64(256.0 * shade) << 24) | size;
         QPixmap *pixmap = cache->object(key);
         if (!pixmap)
         {
@@ -443,7 +443,7 @@ namespace Oxygen
     {
         Oxygen::Cache<QPixmap>::Value* cache =  m_dialSlabCache.get(color);
 
-        quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+        quint64 key = (quint64(glowColor.rgba()) << 32) | (quint64(256.0 * shade) << 24) | size;
         QPixmap *pixmap = cache->object(key);
         if (!pixmap)
         {
@@ -506,7 +506,7 @@ namespace Oxygen
 
         Oxygen::Cache<QPixmap>::Value* cache = m_roundSlabCache.get(color);
 
-        quint64 key = (int)(256.0 * shade) << 24 | size;
+        quint64 key = (quint64(256.0 * shade) << 24) | size;
         QPixmap *pixmap = cache->object(key);
 
         if (!pixmap)
@@ -536,7 +536,7 @@ namespace Oxygen
 
         Oxygen::Cache<QPixmap>::Value* cache = m_roundSlabCache.get(color);
 
-        quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+        quint64 key = (quint64(glowColor.rgba()) << 32) | (quint64(256.0 * shade) << 24) | size;
         QPixmap *pixmap = cache->object(key);
 
         if (!pixmap)
@@ -565,7 +565,7 @@ namespace Oxygen
     {
         Oxygen::Cache<TileSet>::Value* cache = m_slabCache.get(color);
 
-        quint64 key = (quint64(glowColor.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+        quint64 key = (quint64(glowColor.rgba()) << 32) | (quint64(256.0 * shade) << 24) | size;
         TileSet *tileSet = cache->object(key);
 
         const qreal hScale( 1 );
@@ -864,7 +864,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::hole(const QColor &color, qreal shade, int size, bool outline)
     {
-        quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size << 1 | outline;
+        quint64 key = (quint64(color.rgba()) << 32) | (quint64(256.0 * shade) << 24) | size << 1 | outline;
         TileSet *tileSet = m_holeCache.object(key);
 
         if (!tileSet)
@@ -911,7 +911,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::holeFlat(const QColor &color, qreal shade, int size)
     {
-        quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+        quint64 key = (quint64(color.rgba()) << 32) | (quint64(256.0 * shade) << 24) | size;
         TileSet *tileSet = m_holeFlatCache.object(key);
 
         if (!tileSet)
@@ -947,7 +947,7 @@ namespace Oxygen
         // FIXME must move to s/slabcache/cache/ b/c key is wrong
         Oxygen::Cache<TileSet>::Value* cache = m_holeFocusedCache.get(glowColor);
 
-        quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size << 1 | outline;
+        quint64 key = (quint64(color.rgba()) << 32) | (quint64(256.0 * shade) << 24) | size << 1 | outline;
         TileSet *tileSet = cache->object(key);
 
         if (!tileSet)
@@ -1063,7 +1063,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::groove(const QColor &color, qreal shade, int size)
     {
-        quint64 key = (quint64(color.rgba()) << 32) | (int)(256.0 * shade) << 24 | size;
+        quint64 key = (quint64(color.rgba()) << 32) | (quint64(256.0 * shade) << 24) | size;
         TileSet *tileSet = m_grooveCache.object(key);
 
         if (!tileSet)
