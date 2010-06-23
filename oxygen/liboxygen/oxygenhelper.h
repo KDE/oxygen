@@ -203,6 +203,13 @@ namespace Oxygen
         const KStatefulBrush& viewNegativeTextBrush( void ) const
         { return _viewNegativeTextBrush; }
 
+        /*!
+        returns first widget in parent chain that sets autoFillBackground to true,
+        or NULL if none
+        */
+        const QWidget* checkAutoFillBackground( const QWidget* ) const;
+
+
         protected:
 
         virtual void drawSlab(QPainter&, const QColor&, qreal shade) const;

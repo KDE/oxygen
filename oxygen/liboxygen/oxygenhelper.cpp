@@ -588,6 +588,20 @@ namespace Oxygen
         return tileSet;
     }
 
+    //____________________________________________________________________
+    const QWidget* Helper::checkAutoFillBackground( const QWidget* w ) const
+    {
+        if( !w ) return NULL;
+        if( w->autoFillBackground() ) return w;
+        for( const QWidget* parent = w->parentWidget(); parent!=0; parent = parent->parentWidget() )
+        {
+            if( parent->autoFillBackground() ) return parent;
+            if( parent == w->window() ) break;
+        }
+
+        return NULL;
+    }
+
     //______________________________________________________________________________________
     void Helper::drawSlab(QPainter &p, const QColor &color, qreal shade) const
     {
