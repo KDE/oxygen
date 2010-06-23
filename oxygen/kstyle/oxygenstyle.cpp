@@ -2311,7 +2311,7 @@ namespace Oxygen
                     {
                         // translate clip because the corresponding slab rect also is.
                         clip.translate(0,-1);
-                        if( const QWidget* parent = checkAutoFillBackground( widget ) ) p->fillRect( clip, parent->palette().color( parent->backgroundRole() ) );
+                        if( const QWidget* parent = _helper.checkAutoFillBackground( widget ) ) p->fillRect( clip, parent->palette().color( parent->backgroundRole() ) );
                         else _helper.renderWindowBackground(p, clip, widget, pal);
                     }
                     renderSlab(p, rect, opt->palette.color(QPalette::Window), NoFill, tiles );
@@ -3807,7 +3807,7 @@ namespace Oxygen
                             const QPalette local( widget->parentWidget() ? widget->parentWidget()->palette() : pal );
 
                             // check whether parent has autofill background flag
-                            if( const QWidget* parent = checkAutoFillBackground( widget ) ) p->fillRect( clipRect, parent->palette().color( parent->backgroundRole() ) );
+                            if( const QWidget* parent = _helper.checkAutoFillBackground( widget ) ) p->fillRect( clipRect, parent->palette().color( parent->backgroundRole() ) );
                             else _helper.renderWindowBackground(p, clipRect, widget, local);
 
                         }
@@ -7343,7 +7343,7 @@ namespace Oxygen
 
                     // background has to be rendered explicitly
                     // when one of the parent has autofillBackground set to true
-                    if( checkAutoFillBackground(t) )
+                    if( _helper.checkAutoFillBackground(t) )
                     { _helper.renderWindowBackground(&p, r, t, color); }
 
                     return false;
@@ -7662,20 +7662,6 @@ namespace Oxygen
         return compositingActive();
         #endif
 
-    }
-
-    //____________________________________________________________________
-    const QWidget* Style::checkAutoFillBackground( const QWidget* w ) const
-    {
-        if( !w ) return NULL;
-        if( w->autoFillBackground() ) return w;
-        for( const QWidget* parent = w->parentWidget(); parent!=0; parent = parent->parentWidget() )
-        {
-            if( parent->autoFillBackground() ) return parent;
-            if( parent == w->window() ) break;
-        }
-
-        return NULL;
     }
 
     //____________________________________________________________________

@@ -360,12 +360,6 @@ namespace Oxygen
         //! returns true if a given widget supports alpha channel
         bool hasAlphaChannel( const QWidget* ) const;
 
-        /*!
-        returns first widget in parent chain that sets autoFillBackground to true,
-        or NULL if none
-        */
-        const QWidget* checkAutoFillBackground( const QWidget* ) const;
-
         protected Q_SLOTS:
 
         //! standard icons
