@@ -184,8 +184,8 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::roundCorner(const QColor &color, int size)
     {
-        quint64 key = (quint64(color.rgba()) << 32);
-        TileSet *tileSet = m_slabSunkenCache.object(key);
+        quint64 key = (quint64(color.rgba()) << 32)|size;
+        TileSet *tileSet = m_cornerCache.object(key);
 
         if (!tileSet)
         {
