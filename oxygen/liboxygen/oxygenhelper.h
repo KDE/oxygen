@@ -152,7 +152,7 @@ namespace Oxygen
         //! returns menu background color matching position in a given top level widget
         virtual QColor backgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
         {
-            if( !( w && w->window() ) ) return color;
+            if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
             else return backgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
         }
 
