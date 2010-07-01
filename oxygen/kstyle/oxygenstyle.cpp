@@ -3520,14 +3520,13 @@ namespace Oxygen
             {
 
                 const QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
-                QColor color( base );
 
                 p->save();
                 p->setRenderHint(QPainter::Antialiasing);
                 p->setPen(Qt::NoPen);
 
                 QLinearGradient innerGradient(0, r.top()-r.height()+12, 0, r.bottom()+r.height()-19);
-                QColor light( _helper.calcLightColor(color) );
+                QColor light( _helper.calcLightColor(base) );
                 light.setAlphaF(0.4); innerGradient.setColorAt(0.0, light);
                 light.setAlphaF(0.0); innerGradient.setColorAt(1.0, light);
                 p->setBrush(innerGradient);

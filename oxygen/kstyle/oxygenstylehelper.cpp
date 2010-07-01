@@ -237,13 +237,10 @@ namespace Oxygen
             p.setWindow(0,0,28,28);
 
             // bottom
-            QColor base = color;
             QColor light = KColorUtils::shade(calcLightColor(color), shade);
             QLinearGradient fillGradient(0, -28, 0, 28);
-            light.setAlphaF(0.4);
-            fillGradient.setColorAt(0.0, light);
-            base.setAlphaF(0.4);
-            fillGradient.setColorAt(1.0, base);
+            light.setAlphaF(0.4); fillGradient.setColorAt(0.0, light);
+            light.setAlphaF(0.0); fillGradient.setColorAt(1.0, light);
             p.setBrush(fillGradient);
             p.setCompositionMode(QPainter::CompositionMode_DestinationOver);
             p.drawRect(3, 9, 22, 17);
