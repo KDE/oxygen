@@ -608,13 +608,21 @@ namespace Oxygen
 
                 const QRect& r( option->rect );
                 const QColor color( option->palette.brush(QPalette::ToolTipBase).color() );
-                const QColor topColor( _helper.backgroundTopColor(color) );
-                const QColor bottomColor( _helper.backgroundBottomColor(color) );
+                QColor topColor( _helper.backgroundTopColor(color) );
+                QColor bottomColor( _helper.backgroundBottomColor(color) );
+
+                // make tooltip semi transparents when possible
+                // alpha is copied from "kdebase/apps/dolphin/tooltips/filemetadatatooltip.cpp"
+                const bool hasAlpha( hasAlphaChannel( widget ) );
+                if(  hasAlpha && OxygenStyleConfigData::toolTipTransparent() )
+                {
+                    topColor.setAlpha(220);
+                    bottomColor.setAlpha(220);
+                }
 
                 QLinearGradient gr( 0, r.top(), 0, r.bottom() );
                 gr.setColorAt(0, topColor );
                 gr.setColorAt(1, bottomColor );
-
 
                 // contrast pixmap
                 QLinearGradient gr2( 0, r.top(), 0, r.bottom() );
@@ -623,7 +631,7 @@ namespace Oxygen
 
                 p->save();
 
-                if( compositingActive() )
+                if( hasAlpha )
                 {
                     p->setRenderHint(QPainter::Antialiasing);
 

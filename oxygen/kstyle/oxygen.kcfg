@@ -11,6 +11,9 @@
        <default>100</default>
     </entry>
 
+    <entry name="ToolTipTransparent" type = "Bool" >
+       <default>true</default>
+    </entry>
     <entry name="ToolTipDrawStyledFrames" type = "Bool">
        <default>true</default>
     </entry>
