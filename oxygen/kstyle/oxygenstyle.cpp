@@ -3363,14 +3363,24 @@ namespace Oxygen
         switch (primitive)
         {
             case Tree::VerticalBranch:
+            {
+                if( OxygenStyleConfigData::viewDrawTreeBranchLines())
+                {
+                    const int x( (r.left()+r.right())/2 );
+                    p->setPen( KColorUtils::mix( pal.text().color(), pal.background().color(), 0.8 ) );
+                    p->drawLine( x, r.top(), x, r.bottom() );
+                }
+                return true;
+            }
+
             case Tree::HorizontalBranch:
             {
                 if( OxygenStyleConfigData::viewDrawTreeBranchLines())
                 {
-                    QBrush brush( KColorUtils::mix( pal.text().color(), pal.background().color(), 0.8 ) );
-                    p->fillRect( r, brush );
+                    const int y( (r.top()+r.bottom())/2 );
+                    p->setPen( KColorUtils::mix( pal.text().color(), pal.background().color(), 0.8 ) );
+                    p->drawLine( r.left(), y, r.right(), y );
                 }
-
                 return true;
             }
 
