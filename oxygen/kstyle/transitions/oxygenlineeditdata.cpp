@@ -38,6 +38,9 @@
 namespace Oxygen
 {
 
+    // use 20 milliseconds for animation lock
+    const int LineEditData::lockTime_ = 20;
+
     //______________________________________________________
     LineEditData::LineEditData( QObject* parent, QLineEdit* target, int duration ):
         TransitionData( parent, target, duration ),
@@ -96,6 +99,10 @@ namespace Oxygen
                 setRecursiveCheck( false );
             }
 
+        } else if( event->timerId() == animationLockTimer_.timerId() ) {
+
+            unlockAnimations();
+
         } else return TransitionData::timerEvent( event );
 
     }
@@ -150,9 +157,28 @@ namespace Oxygen
         if( transition().data()->isAnimated() )
         { transition().data()->endAnimation(); }
 
-        if( initializeAnimation() ) animate();
-        else transition().data()->hide();
+        if( isLocked() )
+        {
+            // if locked one do not start the new animation, to prevent flicker
+            // instead, one hides the transition pixmap, trigger an update, and return.
+            // animations are re-locked.
+            transition().data()->hide();
+            lockAnimations();
+            timer_.start( 0, this );
+            return;
+        }
 
+        if( initializeAnimation() )
+        {
+
+            lockAnimations();
+            animate();
+
+        } else {
+
+            transition().data()->hide();
+
+        }
     }
 
     //___________________________________________________________________

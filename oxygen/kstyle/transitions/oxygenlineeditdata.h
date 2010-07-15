@@ -54,6 +54,18 @@ namespace Oxygen
         //! event filter
         bool eventFilter( QObject*, QEvent* );
 
+        //! returns true if animations are locked
+        bool isLocked( void ) const
+        { return animationLockTimer_.isActive(); }
+
+        //! start lock animation timer
+        void lockAnimations( void )
+        { animationLockTimer_.start( lockTime_, this ); }
+
+        //! start lock animation timer
+        void unlockAnimations( void )
+        { animationLockTimer_.stop(); }
+
         protected slots:
 
         //! text edited
@@ -82,19 +94,25 @@ namespace Oxygen
         //! target rect
         /*! return rect corresponding to the area to be updated when animating */
         QRect targetRect( void ) const
-        { 
+        {
             if( !target_ ) return QRect();
             QRect out( target_.data()->rect() );
             if( hasClearButton_ && clearButtonRect_.isValid() )
             { out.setRight( clearButtonRect_.left() ); }
-            
+
             return out;
         }
 
         //! check if target has clear button
         void checkClearButton( void );
-        
+
         private:
+
+        //! lock time (milliseconds
+        static const int lockTime_;
+
+        //! timer used to disable animations when triggered too early
+        QBasicTimer animationLockTimer_;
 
         //! needed to start animations out of parent paintEvent
         QBasicTimer timer_;
@@ -104,10 +122,10 @@ namespace Oxygen
 
         //! true if target has clean button
         bool hasClearButton_;
-        
+
         //! clear button rect
         QRect clearButtonRect_;
-        
+
         //! true if text was manually edited
         /*! needed to trigger animation only on programatically enabled text */
         bool edited_;
