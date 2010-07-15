@@ -3366,9 +3366,11 @@ namespace Oxygen
             {
                 if( OxygenStyleConfigData::viewDrawTreeBranchLines())
                 {
+                    const QPen oldPen( p->pen() );
                     const int x( (r.left()+r.right())/2 );
                     p->setPen( KColorUtils::mix( pal.text().color(), pal.background().color(), 0.8 ) );
                     p->drawLine( x, r.top(), x, r.bottom() );
+                    p->setPen( oldPen );
                 }
                 return true;
             }
@@ -3377,9 +3379,11 @@ namespace Oxygen
             {
                 if( OxygenStyleConfigData::viewDrawTreeBranchLines())
                 {
+                    const QPen oldPen( p->pen() );
                     const int y( (r.top()+r.bottom())/2 );
                     p->setPen( KColorUtils::mix( pal.text().color(), pal.background().color(), 0.8 ) );
                     p->drawLine( r.left(), y, r.right(), y );
+                    p->setPen( oldPen );
                 }
                 return true;
             }
