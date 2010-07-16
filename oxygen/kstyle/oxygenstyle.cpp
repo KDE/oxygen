@@ -599,7 +599,12 @@ namespace Oxygen
             // disable painting of PE_PanelScrollAreaCorner
             // the default implementation fills the rect with the window background color
             // which does not work for windows that have gradients.
-            case PE_PanelScrollAreaCorner: return;
+            case PE_PanelScrollAreaCorner:
+            if( option && widget && widget->inherits( "QWebView" ) )
+            {
+                p->fillRect( option->rect, option->palette.brush( widget->backgroundRole() ) );
+            }
+            return;
 
             // tooltip_ labels
             case PE_PanelTipLabel:
