@@ -30,7 +30,6 @@
 #include "oxygenlineeditdata.moc"
 
 #include <QtCore/QEvent>
-#include <QtCore/QTextStream>
 #include <QtGui/QPainter>
 #include <QtGui/QStyle>
 #include <QtGui/QStyleOptionFrameV2>
