@@ -83,10 +83,16 @@ namespace Oxygen
         virtual ~Style()
         {}
 
-        //! reimp from QCommonStyle
-        virtual void drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p, const QWidget *widget) const;
+        //! reimp from KStyle
+        virtual void drawPrimitive(PrimitiveElement pe, const QStyleOption*, QPainter*, const QWidget*) const;
+
+        //! reimp from KStyle
         virtual void drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const;
-        virtual void drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
+
+        //! reimp from KStyle
+        virtual void drawComplexControl(ComplexControl control,const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
+
+        //! reimp from KStyle
         virtual void drawItemText(QPainter*, const QRect&, int alignment, const QPalette&, bool enabled,
             const QString &text, QPalette::ColorRole textRole = QPalette::NoRole) const;
 
@@ -135,13 +141,62 @@ namespace Oxygen
 
         //!@name dedicated complexcontrol drawing
         //@{
-        virtual bool drawGroupBoxComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
-        virtual bool drawDialComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
-        virtual bool drawToolButtonComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const;
-        virtual void drawSliderTickmarks( const QStyleOptionSlider* option, QPainter *painter, const QWidget *widget) const;
+        virtual bool drawGroupBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
+        virtual bool drawDialComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
+        virtual bool drawToolButtonComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
+        virtual bool drawSliderComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
+        virtual void drawSliderTickmarks( const QStyleOptionSlider*, QPainter*, const QWidget* ) const;
+
+        //! pointer to QStyle primitive painting function
+        typedef bool (Style::*QStyleComplexControl)( const QStyleOptionComplex*, QPainter*, const QWidget*) const;
+
+        //! map QStyle primitive element to painting function
+        void registerQStyleComplexControl( const ComplexControl& key, const Style::QStyleComplexControl& control )
+        { qStyleComplexControls_.insert( key, control ); }
+
         //@}
 
-        //!@name dedicated primitive drawing
+        //!@name dedicated QStyle Control Element drawing
+        //@{
+        virtual bool drawCapacityBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawRubberBandControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawProgressBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawComboBoxLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawTabBarTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawToolButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawHeaderEmptyAreaControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawShapedFrameControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+
+        //! pointer to QStyle primitive painting function
+        typedef bool (Style::*QStyleControl)( const QStyleOption*, QPainter*, const QWidget*) const;
+
+        //! map QStyle primitive element to painting function
+        void registerQStyleControl( const ControlElement& key, const Style::QStyleControl& control )
+        { qStyleControls_.insert( key, control ); }
+
+        //@}
+
+        //!@name dedicated QStyle primitive drawing
+        //@{
+        virtual bool drawWidgetPrimitive(const QStyleOption*, QPainter*, const QWidget*) const;
+        virtual bool drawPanelMenuPrimitive(const QStyleOption*, QPainter*, const QWidget*) const;
+        virtual bool drawFrameMenuPrimitive(const QStyleOption*, QPainter*, const QWidget*) const;
+        virtual bool drawPanelScrollAreaCornerPrimitive(const QStyleOption*, QPainter*, const QWidget*) const;
+        virtual bool drawPanelTipLabelPrimitive(const QStyleOption*, QPainter*, const QWidget*) const;
+        virtual bool drawPanelItemViewItemPrimitive(const QStyleOption*, QPainter*, const QWidget*) const;
+        virtual bool drawQ3CheckListExclusiveIndicatorPrimitive(const QStyleOption*, QPainter*, const QWidget*) const;
+        virtual bool drawQ3CheckListIndicatorPrimitive(const QStyleOption*, QPainter*, const QWidget*) const;
+
+        //! pointer to QStyle primitive painting function
+        typedef bool (Style::*QStylePrimitive)( const QStyleOption*, QPainter*, const QWidget*) const;
+
+        //! map QStyle primitive element to painting function
+        void registerQStylePrimitive( const PrimitiveElement& key, const Style::QStylePrimitive& primitive )
+        { qStylePrimitives_.insert( key, primitive ); }
+
+        //@}
+
+        //!@name dedicated kstyle primitive drawing
         //@{
         // should use a macro to declare these functions
         virtual bool drawPushButtonPrimitive( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
@@ -173,10 +228,12 @@ namespace Oxygen
         virtual bool drawGenericArrow(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
         virtual bool drawGenericFrame(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
         virtual bool drawFocusIndicator(WidgetType,  int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
-        //@}
 
-        //! capacity bar
-        virtual void drawCapacityBar(const QStyleOption *option, QPainter *p, const QWidget *widget) const;
+        typedef bool (Style::*KStylePrimitive)( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
+        void registerKStylePrimitive( const WidgetType& key, const Style::KStylePrimitive& primitive )
+        { kStylePrimitives_.insert( key, primitive ); }
+
+        //@}
 
         //! animations
         Animations& animations( void ) const
@@ -382,6 +439,30 @@ namespace Oxygen
 
         //! custom Control element to implement re-painting of dolphin CapacityBar
         const QStyle::ControlElement CE_CapacityBar;
+
+        //!@name map control element to QStyle control painting function
+        //@{
+        typedef QMap<ComplexControl, Style::QStyleComplexControl> QStyleComplexControlMap;
+        QStyleComplexControlMap qStyleComplexControls_;
+        //@}
+
+        //!@name map control element to QStyle control painting function
+        //@{
+        typedef QMap<ControlElement, Style::QStyleControl> QStyleControlMap;
+        QStyleControlMap qStyleControls_;
+        //@}
+
+        //!@name map primitive element  to QStyle primitive painting function
+        //@{
+        typedef QMap<PrimitiveElement, Style::QStylePrimitive> QStylePrimitiveMap;
+        QStylePrimitiveMap qStylePrimitives_;
+        //@}
+
+        //!@name map widget type to KStyle primitive painting function
+        //@{
+        typedef QMap<WidgetType, Style::KStylePrimitive> KStylePrimitiveMap;
+        KStylePrimitiveMap kStylePrimitives_;
+        //@}
 
         //! helper
         StyleHelper &_helper;

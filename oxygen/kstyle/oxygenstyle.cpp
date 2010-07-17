@@ -129,6 +129,68 @@ namespace Oxygen
         // need to be reset when the system palette changes
         globalSettingsChange(KGlobalSettings::PaletteChanged, 0);
 
+        // register qstyle complex control elements
+        // the second argument will be called automatically when the first argument is passed to drawControl
+        // this allow to use a QMap to handle the widget types, rather than a huge "switch" statement, which is presumably slower
+        registerQStyleComplexControl( CC_GroupBox, &Style::drawGroupBoxComplexControl );
+        registerQStyleComplexControl( CC_Dial, &Style::drawDialComplexControl );
+        registerQStyleComplexControl( CC_ToolButton, &Style::drawToolButtonComplexControl );
+        registerQStyleComplexControl( CC_Slider, &Style::drawSliderComplexControl );
+
+        // register qstyle control elements
+        // the second argument will be called automatically when the first argument is passed to drawControl
+        // this allow to use a QMap to handle the widget types, rather than a huge "switch" statement, which is presumably slower
+        registerQStyleControl( CE_CapacityBar, &Style::drawCapacityBarControl );
+        registerQStyleControl( CE_RubberBand, &Style::drawRubberBandControl );
+        registerQStyleControl( CE_ProgressBar, &Style::drawProgressBarControl );
+        registerQStyleControl( CE_ComboBoxLabel, &Style::drawComboBoxLabelControl );
+        registerQStyleControl( CE_TabBarTabLabel, &Style::drawTabBarTabLabelControl );
+        registerQStyleControl( CE_ToolButtonLabel, &Style::drawToolButtonLabelControl );
+        registerQStyleControl( CE_HeaderEmptyArea, &Style::drawHeaderEmptyAreaControl );
+        registerQStyleControl( CE_ShapedFrame, &Style::drawShapedFrameControl );
+
+        // register qstyle primitives
+        // the second argument will be called automatically when the first argument is passed to drawPrimitive
+        // this allow to use a QMap to handle the widget types, rather than a huge "switch" statement, which is presumably slower
+        registerQStylePrimitive( PE_FrameMenu, &Style::drawFrameMenuPrimitive );
+        registerQStylePrimitive( PE_PanelMenu, &Style::drawPanelMenuPrimitive );
+        registerQStylePrimitive( PE_PanelScrollAreaCorner, &Style::drawPanelScrollAreaCornerPrimitive );
+        registerQStylePrimitive( PE_PanelTipLabel, &Style::drawPanelTipLabelPrimitive );
+        registerQStylePrimitive( PE_PanelItemViewItem, &Style::drawPanelItemViewItemPrimitive );
+        registerQStylePrimitive( PE_Q3CheckListExclusiveIndicator, &Style::drawQ3CheckListExclusiveIndicatorPrimitive );
+        registerQStylePrimitive( PE_Q3CheckListIndicator, &Style::drawQ3CheckListIndicatorPrimitive );
+        registerQStylePrimitive( PE_Widget, &Style::drawWidgetPrimitive );
+
+        // register kstyle primitives
+        // the second argument will be called automatically when the first argument is passed to drawKStylePrimitive
+        // this allow to use a QMap to handle the widget types, rather than a huge "switch" statement, which is presumably slower
+        registerKStylePrimitive( WT_PushButton, &Style::drawPushButtonPrimitive );
+        registerKStylePrimitive( WT_ToolBoxTab, &Style::drawToolBoxTabPrimitive );
+        registerKStylePrimitive( WT_ProgressBar, &Style::drawProgressBarPrimitive );
+        registerKStylePrimitive( WT_MenuBar, &Style::drawMenuBarPrimitive );
+        registerKStylePrimitive( WT_MenuBarItem, &Style::drawMenuBarItemPrimitive );
+        registerKStylePrimitive( WT_Menu, &Style::drawMenuPrimitive );
+        registerKStylePrimitive( WT_MenuItem, &Style::drawMenuItemPrimitive );
+        registerKStylePrimitive( WT_DockWidget, &Style::drawDockWidgetPrimitive );
+        registerKStylePrimitive( WT_StatusBar, &Style::drawStatusBarPrimitive );
+        registerKStylePrimitive( WT_CheckBox, &Style::drawCheckBoxPrimitive );
+        registerKStylePrimitive( WT_RadioButton, &Style::drawRadioButtonPrimitive );
+        registerKStylePrimitive( WT_ScrollBar, &Style::drawScrollBarPrimitive );
+        registerKStylePrimitive( WT_TabBar, &Style::drawTabBarPrimitive );
+        registerKStylePrimitive( WT_TabWidget, &Style::drawTabWidgetPrimitive );
+        registerKStylePrimitive( WT_Window, &Style::drawWindowPrimitive );
+        registerKStylePrimitive( WT_Splitter, &Style::drawSplitterPrimitive );
+        registerKStylePrimitive( WT_Slider, &Style::drawSliderPrimitive );
+        registerKStylePrimitive( WT_SpinBox, &Style::drawSpinBoxPrimitive );
+        registerKStylePrimitive( WT_ComboBox, &Style::drawComboBoxPrimitive );
+        registerKStylePrimitive( WT_Header, &Style::drawHeaderPrimitive );
+        registerKStylePrimitive( WT_Tree, &Style::drawTreePrimitive );
+        registerKStylePrimitive( WT_LineEdit, &Style::drawLineEditPrimitive );
+        registerKStylePrimitive( WT_GroupBox, &Style::drawGroupBoxPrimitive );
+        registerKStylePrimitive( WT_ToolBar, &Style::drawToolBarPrimitive );
+        registerKStylePrimitive( WT_ToolButton, &Style::drawToolButtonPrimitive );
+
+        // set layout properties
         setWidgetLayoutProp(WT_Generic, Generic::DefaultFrameWidth, 1);
 
         // TODO: change this when double buttons are implemented
@@ -265,47 +327,11 @@ namespace Oxygen
     //___________________________________________________________________________________
     void Style::drawComplexControl(ComplexControl control,const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const
     {
-        switch (control)
-        {
-            case CC_GroupBox:
-            if( drawGroupBoxComplexControl( option, painter, widget) ) return;
-            else break;
-
-            case CC_Dial:
-            if( drawDialComplexControl( option, painter, widget) ) return;
-            else break;
-
-            case CC_ToolButton:
-            if( drawToolButtonComplexControl( option, painter, widget) ) return;
-            else break;
-
-            case CC_Slider:
-            {
-                if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(option))
-                {
-
-                    // if tickmarks are not requested, fall back to default
-                    if( !(slider->subControls & SC_SliderTickmarks) || slider->tickPosition == QSlider::NoTicks ) break;
-
-                    // draw oxygen custom tickmarks
-                    drawSliderTickmarks( slider, painter, widget );
-
-                    // disable tickmarks drawing and draw using default
-                    // this is necessary because by default kstyle does not allow style
-                    // to customize tickmarks painting
-                    QStyleOptionSlider local( *slider );
-                    local.subControls &= ~SC_SliderTickmarks;
-                    KStyle::drawComplexControl(control,&local,painter,widget);
-                    return;
-
-                } else break;
-            }
-
-            default: break;
-
-        }
-
-        return KStyle::drawComplexControl(control,option,painter,widget);
+        // try find primitive in map, and run.
+        // exit if result is true, otherwise fallback to generic case
+        QStyleComplexControlMap::const_iterator iterator( qStyleComplexControls_.find( control ) );
+        if( iterator != qStyleComplexControls_.end() && (this->*iterator.value())(option, painter, widget ) ) return;
+        else KStyle::drawComplexControl(control,option,painter,widget);
 
     }
 
@@ -525,494 +551,639 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    void Style::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const
+    bool Style::drawSliderComplexControl( const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget ) const
     {
-
-        switch (element)
+        if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>(option))
         {
 
-            case PE_Widget:
-            {
-                // check widget and attributes
-                if( !widget || !widget->testAttribute(Qt::WA_StyledBackground) || widget->testAttribute(Qt::WA_NoSystemBackground))
-                { return KStyle::drawPrimitive( element, option, p, widget ); }
-
-                if( !( (widget->windowFlags() & Qt::WindowType_Mask) & (Qt::Window|Qt::Dialog) ) )
-                { return KStyle::drawPrimitive( element, option, p, widget ); }
-
-                if( !widget->isWindow() )
-                { return KStyle::drawPrimitive( element, option, p, widget ); }
-
-                // normal "window" background
-                _helper.renderWindowBackground(p, option->rect, widget, option->palette );
-                return;
-
-            }
-
-            case PE_PanelMenu:
-            {
-
-                // do nothing if menu is embedded in another widget
-                // this corresponds to having a transparent background
-                if( widget && !widget->isWindow() ) return;
-
-                const QStyleOptionMenuItem* mOpt( qstyleoption_cast<const QStyleOptionMenuItem*>(option) );
-                if( !( mOpt && widget ) ) return;
-                const QRect& r = mOpt->rect;
-                const QColor color = mOpt->palette.window().color();
-
-                const bool hasAlpha( hasAlphaChannel( widget ) );
-                if( hasAlpha )
-                {
-
-                    p->setCompositionMode(QPainter::CompositionMode_Source );
-                    TileSet *tileSet( _helper.roundCorner(color) );
-                    tileSet->render( r, p );
-
-                    p->setCompositionMode(QPainter::CompositionMode_SourceOver );
-                    p->setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-
-                }
-
-                _helper.renderMenuBackground( p, r, widget, mOpt->palette );
-
-                if( hasAlpha ) p->setClipping( false );
-                _helper.drawFloatFrame( p, r, color, !hasAlpha );
-
-                return;
-
-            }
-
-            case PE_FrameMenu:
-            {
-
-                if( option && widget && widget->inherits( "QToolBar" ) )
-                {
-                    _helper.renderWindowBackground( p, option->rect, widget, option->palette );
-                    _helper.drawFloatFrame( p, option->rect, option->palette.window().color(), true );
-                }
-
-                return;
-
-            }
-
-            // disable painting of PE_PanelScrollAreaCorner
-            // the default implementation fills the rect with the window background color
-            // which does not work for windows that have gradients.
-            case PE_PanelScrollAreaCorner:
-            if( option && widget && widget->inherits( "QWebView" ) )
-            {
-                p->fillRect( option->rect, option->palette.brush( widget->backgroundRole() ) );
-            }
-            return;
-
-            // tooltip_ labels
-            case PE_PanelTipLabel:
-            {
-                if( !OxygenStyleConfigData::toolTipDrawStyledFrames() ) break;
-
-                const QRect& r( option->rect );
-                const QColor color( option->palette.brush(QPalette::ToolTipBase).color() );
-                QColor topColor( _helper.backgroundTopColor(color) );
-                QColor bottomColor( _helper.backgroundBottomColor(color) );
-
-                // make tooltip semi transparents when possible
-                // alpha is copied from "kdebase/apps/dolphin/tooltips/filemetadatatooltip.cpp"
-                const bool hasAlpha( hasAlphaChannel( widget ) );
-                if(  hasAlpha && OxygenStyleConfigData::toolTipTransparent() )
-                {
-                    topColor.setAlpha(220);
-                    bottomColor.setAlpha(220);
-                }
-
-                QLinearGradient gr( 0, r.top(), 0, r.bottom() );
-                gr.setColorAt(0, topColor );
-                gr.setColorAt(1, bottomColor );
-
-                // contrast pixmap
-                QLinearGradient gr2( 0, r.top(), 0, r.bottom() );
-                gr2.setColorAt(0.5, _helper.calcLightColor( bottomColor ) );
-                gr2.setColorAt(0.9, bottomColor );
-
-                p->save();
-
-                if( hasAlpha )
-                {
-                    p->setRenderHint(QPainter::Antialiasing);
-
-                    QRectF local( r );
-                    local.adjust( 0.5, 0.5, -0.5, -0.5 );
-
-                    p->setPen( Qt::NoPen );
-                    p->setBrush( gr );
-                    p->drawRoundedRect( local, 4, 4 );
-
-                    p->setBrush( Qt::NoBrush );
-                    p->setPen(QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                    p->drawRoundedRect( local, 4, 4 );
-
-                } else {
-
-                    p->setPen( Qt::NoPen );
-                    p->setBrush( gr );
-                    p->drawRect( r );
-
-                    p->setBrush( Qt::NoBrush );
-                    p->setPen(QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-                    p->drawRect( r );
-
-                }
-
-                p->restore();
-
-                return;
-            }
-
-            case PE_PanelItemViewItem:
-            {
-
-                const QStyleOptionViewItemV4 *opt = qstyleoption_cast<const QStyleOptionViewItemV4*>(option);
-                const QAbstractItemView *view = qobject_cast<const QAbstractItemView *>(widget);
-                const bool hover = (option->state & State_MouseOver) && (!view || view->selectionMode() != QAbstractItemView::NoSelection);
-
-                const bool hasCustomBackground = opt->backgroundBrush.style() != Qt::NoBrush && !(option->state & State_Selected);
-                const bool hasSolidBackground = !hasCustomBackground || opt->backgroundBrush.style() == Qt::SolidPattern;
-
-                if( !hover && !(option->state & State_Selected) && !hasCustomBackground && !(opt->features & QStyleOptionViewItemV2::Alternate) )
-                { return; }
-
-                QPalette::ColorGroup cg;
-                if( option->state & State_Enabled) cg = (option->state & State_Active) ? QPalette::Normal : QPalette::Inactive;
-                else cg = QPalette::Disabled;
-
-                QColor color;
-                if( hasCustomBackground && hasSolidBackground) color = opt->backgroundBrush.color();
-                else color = option->palette.color(cg, QPalette::Highlight);
-
-                if( hover && !hasCustomBackground)
-                {
-                    if( !(option->state & State_Selected)) color.setAlphaF(0.2);
-                    else color = color.lighter(110);
-                }
-
-                if( opt && (opt->features & QStyleOptionViewItemV2::Alternate))
-                { p->fillRect(option->rect, option->palette.brush(cg, QPalette::AlternateBase)); }
-
-                if( !hover && !(option->state & State_Selected) && !hasCustomBackground)
-                { return; }
-
-                if( hasCustomBackground && !hasSolidBackground) {
-
-                    const QPointF oldBrushOrigin = p->brushOrigin();
-                    p->setBrushOrigin(opt->rect.topLeft());
-                    p->setBrush(opt->backgroundBrush);
-                    p->setPen(Qt::NoPen);
-                    p->drawRect(opt->rect);
-                    p->setBrushOrigin(oldBrushOrigin);
-
-                } else {
-
-                    // get selection tileset
-                    QRect r = option->rect;
-                    TileSet *tileSet( _helper.selection( color, r.height(), hasCustomBackground ) );
-
-                    bool roundedLeft  = false;
-                    bool roundedRight = false;
-                    if( opt )
-                    {
-
-                        roundedLeft  = (opt->viewItemPosition == QStyleOptionViewItemV4::Beginning);
-                        roundedRight = (opt->viewItemPosition == QStyleOptionViewItemV4::End);
-                        if( opt->viewItemPosition == QStyleOptionViewItemV4::OnlyOne ||
-                            opt->viewItemPosition == QStyleOptionViewItemV4::Invalid ||
-                            (view && view->selectionBehavior() != QAbstractItemView::SelectRows))
-                        {
-                            roundedLeft  = true;
-                            roundedRight = true;
-                        }
-
-                    }
-
-                    const bool reverseLayout( option->direction == Qt::RightToLeft );
-
-                    TileSet::Tiles tiles( TileSet::Center );
-                    if( !reverseLayout ? roundedLeft : roundedRight) tiles |= TileSet::Left;
-                    else r.adjust( -8, 0, 0, 0 );
-
-                    if( !reverseLayout ? roundedRight : roundedLeft) tiles |= TileSet::Right;
-                    else r.adjust( 0, 0, 8, 0 );
-
-                    if( r.isValid()) tileSet->render( r, p, tiles );
-                }
-
-                return;
-            }
-
-            // this uses "standard" radio buttons to draw in Qt3 lists.
-            case PE_Q3CheckListExclusiveIndicator:
-            {
-
-                State flags = option->state;
-                QRect r = option->rect;
-
-                // HACK: for some reason height is calculated using the font,
-                // which here results in bad centerin.
-                // also: centering is incorrect
-                if( r.height() < r.width() ) r.setHeight( r.width() );
-                r.translate( 0, 2 );
-
-                QPalette pal = option->palette;
-                if( flags & State_On) drawKStylePrimitive( WT_RadioButton, RadioButton::RadioOn, option, r, pal, flags, p, widget);
-                else drawKStylePrimitive( WT_RadioButton, RadioButton::RadioOff, option, r, pal, flags, p, widget);
-                return;
-
-            }
-
-            // this uses "standard" checkboxes to draw in Qt3 lists.
-            case PE_Q3CheckListIndicator:
-            {
-
-                State flags = option->state;
-                QRect r = option->rect;
-
-                // HACK: for some reason height is calculated using the font,
-                // which here results in bad centerin.
-                // also: centering is incorrect
-                if( r.height() < r.width() ) r.setHeight( r.width() );
-                r.translate( 0, 2 );
-
-                QPalette pal = option->palette;
-                if( flags & State_NoChange) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckTriState, option, r, pal, flags, p, widget);
-                else if( flags & State_On) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckOn, option, r, pal, flags, p, widget);
-                else drawKStylePrimitive( WT_CheckBox, CheckBox::CheckOff, option, r, pal, flags, p, widget);
-                return;
-
-            }
-
-
-            default: KStyle::drawPrimitive( element, option, p, widget );
+            // if tickmarks are not requested, fall back to default
+            if( !(slider->subControls & SC_SliderTickmarks) || slider->tickPosition == QSlider::NoTicks )
+            { return false; }
+
+            // draw oxygen custom tickmarks
+            drawSliderTickmarks( slider, painter, widget );
+
+            // disable tickmarks drawing and draw using default
+            // this is necessary because by default kstyle does not allow style
+            // to customize tickmarks painting
+            QStyleOptionSlider local( *slider );
+            local.subControls &= ~SC_SliderTickmarks;
+            KStyle::drawComplexControl( CC_Slider, &local, painter, widget);
+            return true;
+
+        } else return false;
+
+    }
+
+    //_________________________________________________________
+    void Style::drawSliderTickmarks(
+        const QStyleOptionSlider* opt,
+        QPainter* p,
+        const QWidget* widget ) const
+    {
+
+        const int& ticks( opt->tickPosition );
+        const int available( pixelMetric(PM_SliderSpaceAvailable, opt, widget) );
+        int interval = opt->tickInterval;
+        if( interval < 1 ) interval = opt->pageStep;
+        if( interval < 1 ) return;
+
+        QRect r( widget->rect() );
+        QPalette pal( widget->palette() );
+
+        const int len( pixelMetric(PM_SliderLength, opt, widget) );
+        const int fudge( len / 2 );
+        int current( opt->minimum );
+
+        // Since there is no subrect for tickmarks do a translation here.
+        p->save();
+        p->translate(r.x(), r.y());
+
+        if( opt->orientation == Qt::Horizontal )
+        {
+            QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
+            p->setPen( _helper.calcDarkColor( base ) );
         }
+
+        int tickSize( opt->orientation == Qt::Horizontal ? r.height()/3:r.width()/3 );
+
+        while( current <= opt->maximum )
+        {
+
+            const int position( sliderPositionFromValue(opt->minimum, opt->maximum, current, available) + fudge );
+
+            // calculate positions
+            if( opt->orientation == Qt::Horizontal )
+            {
+                if( ticks == QSlider::TicksAbove ) p->drawLine( position, 0, position, tickSize );
+                else if( ticks == QSlider::TicksBelow ) p->drawLine( position, r.height()-tickSize, position, r.height() );
+                else {
+                    p->drawLine( position, 0, position, tickSize );
+                    p->drawLine( position, r.height()-tickSize, position, r.height() );
+                }
+
+            } else {
+
+                QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, QPoint( r.center().x(), position ) ) );
+                p->setPen( _helper.calcDarkColor( base ) );
+
+                if( ticks == QSlider::TicksAbove ) p->drawLine( 0, position, tickSize, position );
+                else if( ticks == QSlider::TicksBelow ) p->drawLine( r.width()-tickSize, position, r.width(), position );
+                else {
+                    p->drawLine( 0, position, tickSize, position );
+                    p->drawLine( r.width()-tickSize, position, r.width(), position );
+                }
+            }
+
+            // go to next position
+            current += interval;
+
+        }
+
+        p->restore();
     }
 
     //___________________________________________________________________________________
-    void Style::drawControl(ControlElement element, const QStyleOption *option, QPainter *p, const QWidget *widget) const
+    void Style::drawPrimitive(PrimitiveElement element, const QStyleOption* option, QPainter* p, const QWidget* widget) const
     {
 
-        if( element == CE_CapacityBar )
+        // try find primitive in map, and run.
+        // exit if result is true, otherwise fallback to generic case
+        QStylePrimitiveMap::const_iterator iterator( qStylePrimitives_.find( element ) );
+        if( iterator != qStylePrimitives_.end() && (this->*iterator.value())(option, p, widget ) ) return;
+        else KStyle::drawPrimitive( element, option, p, widget );
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawWidgetPrimitive( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        // check widget and attributes
+        if( !widget || !widget->testAttribute(Qt::WA_StyledBackground) || widget->testAttribute(Qt::WA_NoSystemBackground)) return false;
+        if( !( (widget->windowFlags() & Qt::WindowType_Mask) & (Qt::Window|Qt::Dialog) ) ) return false;
+        if( !widget->isWindow() ) return false;
+
+        // normal "window" background
+        _helper.renderWindowBackground(p, option->rect, widget, option->palette );
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawPanelMenuPrimitive( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        // do nothing if menu is embedded in another widget
+        // this corresponds to having a transparent background
+        if( widget && !widget->isWindow() ) return true;
+
+        const QStyleOptionMenuItem* mOpt( qstyleoption_cast<const QStyleOptionMenuItem*>(option) );
+        if( !( mOpt && widget ) ) return true;
+        const QRect& r = mOpt->rect;
+        const QColor color = mOpt->palette.window().color();
+
+        const bool hasAlpha( hasAlphaChannel( widget ) );
+        if( hasAlpha )
         {
-            drawCapacityBar( option, p, widget );
-            return;
+
+            p->setCompositionMode(QPainter::CompositionMode_Source );
+            TileSet *tileSet( _helper.roundCorner(color) );
+            tileSet->render( r, p );
+
+            p->setCompositionMode(QPainter::CompositionMode_SourceOver );
+            p->setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+
         }
 
-        switch (element)
+        _helper.renderMenuBackground( p, r, widget, mOpt->palette );
+
+        if( hasAlpha ) p->setClipping( false );
+        _helper.drawFloatFrame( p, r, color, !hasAlpha );
+
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawFrameMenuPrimitive( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        if( option && widget && widget->inherits( "QToolBar" ) )
         {
-
-            case CE_RubberBand:
-            {
-                if( const QStyleOptionRubberBand *rbOpt = qstyleoption_cast<const QStyleOptionRubberBand *>(option))
-                {
-                    p->save();
-                    QColor color = rbOpt->palette.color(QPalette::Highlight);
-                    p->setPen(KColorUtils::mix(color, rbOpt->palette.color(QPalette::Active, QPalette::WindowText)));
-                    color.setAlpha(50);
-                    p->setBrush(color);
-                    p->setClipRegion(rbOpt->rect);
-                    p->drawRect(rbOpt->rect.adjusted(0,0,-1,-1));
-                    p->restore();
-                    return;
-                }
-                break;
-            }
-
-            case CE_ProgressBar:
-            if( const QStyleOptionProgressBar *pb = qstyleoption_cast<const QStyleOptionProgressBar *>(option))
-            {
-                // same as QCommonStyle::drawControl, except that it handles animations
-                QStyleOptionProgressBarV2 subopt = *pb;
-                subopt.rect = subElementRect(SE_ProgressBarGroove, pb, widget);
-                drawControl(CE_ProgressBarGroove, &subopt, p, widget);
-
-                if( animations().progressBarEngine().busyIndicatorEnabled() && pb->maximum == 0 && pb->minimum == 0 )
-                { animations().progressBarEngine().startBusyTimer(); }
-
-                if( animations().progressBarEngine().isAnimated( widget ) )
-                { subopt.progress = animations().progressBarEngine().value( widget ); }
-
-                subopt.rect = subElementRect(SE_ProgressBarContents, &subopt, widget);
-                drawControl(CE_ProgressBarContents, &subopt, p, widget);
-
-                if( pb->textVisible)
-                {
-                    subopt.rect = subElementRect(SE_ProgressBarLabel, pb, widget);
-                    drawControl(CE_ProgressBarLabel, &subopt, p, widget);
-                }
-
-            }
-            return;
-
-            case CE_ComboBoxLabel:
-            {
-                //same as CommonStyle, except for filling behind icon
-                if( const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
-                {
-
-                    QRect editRect( subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget) );
-
-                    p->save();
-                    if( !cb->currentIcon.isNull() )
-                    {
-
-                        QIcon::Mode mode = cb->state & State_Enabled ? QIcon::Normal : QIcon::Disabled;
-                        QPixmap pixmap( cb->currentIcon.pixmap(cb->iconSize, mode) );
-                        QRect iconRect(editRect);
-                        iconRect.setWidth(cb->iconSize.width() + 4);
-                        iconRect = alignedRect(
-                            cb->direction,
-                            Qt::AlignLeft | Qt::AlignVCenter,
-                            iconRect.size(), editRect);
-
-                        drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
-
-                        if( cb->direction == Qt::RightToLeft) editRect.translate(-4 - cb->iconSize.width(), 0);
-                        else editRect.translate(cb->iconSize.width() + 4, 0);
-                    }
-
-                    if( !cb->currentText.isEmpty() && !cb->editable)
-                    {
-                        drawItemText(
-                            p, editRect.adjusted(1, 0, -1, 0),
-                            visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
-                            cb->palette, cb->state & State_Enabled, cb->currentText, QPalette::ButtonText );
-                    }
-                    p->restore();
-                    return;
-                }
-                break;
-            }
-
-            case CE_TabBarTabLabel:
-            {
-
-                // bypass KStyle entirely because it makes it completely impossible
-                // to handle both KDE and Qt applications at the same time
-                // however, adds some extras spaces for icons in order not to conflict with tab margin
-                // (which QCommonStyle does not handle right)
-                const QStyleOptionTabV3 *tab = qstyleoption_cast<const QStyleOptionTabV3 *>(option);
-                if( tab && !tab->icon.isNull() )
-                {
-
-                    QStyleOptionTabV3 tabV3(*tab);
-                    const bool verticalTabs( tabV3.shape == QTabBar::RoundedEast
-                        || tabV3.shape == QTabBar::RoundedWest
-                        || tabV3.shape == QTabBar::TriangularEast
-                        || tabV3.shape == QTabBar::TriangularWest );
-                    if( verticalTabs ) tabV3.rect.adjust( 0, 0, 0, -3 );
-                    else if( tabV3.direction == Qt::RightToLeft ) tabV3.rect.adjust( 0, 0, -3, 0 );
-                    else tabV3.rect.adjust( 3, 0, 0, 0 );
-
-                    return QCommonStyle::drawControl( element, &tabV3, p, widget);
-
-                } else return QCommonStyle::drawControl( element, option, p, widget);
-
-            }
-
-            // re-implement from kstyle to handle pressed
-            // down vertical shift properly
-            case CE_ToolButtonLabel:
-            {
-
-                // cast option and check
-                const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option);
-                if( !tbOpt ) return KStyle::drawControl(element, option, p, widget);
-
-                // copy option and adjust rect
-                QStyleOptionToolButton local = *tbOpt;
-
-                // disable mouseOver effect if toolbar is animated
-                if( widget && animations().toolBarEngine().isAnimated( widget->parentWidget() ) )
-                { local.state &= ~State_MouseOver; }
-
-                // check whether button is pressed
-                const bool active(option->state & (State_On|State_Sunken) );
-                if( !active )  return KStyle::drawControl(element, &local, p, widget);
-
-                // check autoRaise
-                if( option->state & State_AutoRaise ) return KStyle::drawControl(element, &local, p, widget);
-
-                // check button parent. Right now the fix addresses only toolbuttons located
-                // in a menu, in order to fix the KMenu title rendering issue
-                if( !( widget && widget->parent() && widget->parent()->inherits( "QMenu" ) ) )
-                { return KStyle::drawControl(element, &local, p, widget); }
-
-                // adjust vertical position
-                local.rect.translate( 0, toolButtonPressedShiftVertical );
-                return KStyle::drawControl(element, &local, p, widget);
-
-            }
-
-            case CE_HeaderEmptyArea:
-            {
-
-                // use the same background as in drawHeaderPrimitive
-                QPalette pal( option->palette );
-
-                if( widget && animations().widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
-                { pal = _helper.mergePalettes( pal, animations().widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
-
-                const bool horizontal( option->state & QStyle::State_Horizontal );
-                const bool reverseLayout( option->direction == Qt::RightToLeft );
-                renderHeaderBackground( option->rect, pal, p, widget, horizontal, reverseLayout );
-
-                return;
-            }
-
-            case CE_ShapedFrame:
-            {
-
-                // for frames embedded in KTitleWidget, just paint the window background
-                if( widget && qobject_cast<KTitleWidget*>(widget->parentWidget()) )
-                {
-                    _helper.renderWindowBackground(p, option->rect, widget, widget->window()->palette());
-                    return;
-                }
-
-                // cast option and check
-                const QStyleOptionFrameV3* frameOpt = qstyleoption_cast<const QStyleOptionFrameV3*>( option );
-                if( !frameOpt ) break;
-
-                switch( frameOpt->frameShape )
-                {
-
-                    case QFrame::HLine:
-                    {
-                        _helper.drawSeparator(p, option->rect, option->palette.color(QPalette::Window), Qt::Horizontal);
-                        return;
-                    }
-
-                    case QFrame::VLine:
-                    {
-                        _helper.drawSeparator(p, option->rect, option->palette.color(QPalette::Window), Qt::Vertical);
-                        return;
-                    }
-
-                    default:
-                    {
-
-                        // use KStyle
-                        KStyle::drawControl(element, option, p, widget);
-                        return;
-
-                    }
-                }
-
-                break;
-
-            }
-
-            default: break;
+            _helper.renderWindowBackground( p, option->rect, widget, option->palette );
+            _helper.drawFloatFrame( p, option->rect, option->palette.window().color(), true );
         }
 
-        KStyle::drawControl(element, option, p, widget);
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawPanelScrollAreaCornerPrimitive( const QStyleOption*, QPainter*, const QWidget* widget) const
+    {
+        // disable painting of PE_PanelScrollAreaCorner
+        // the default implementation fills the rect with the window background color
+        // which does not work for windows that have gradients.
+        // unfortunately, this does not work when scrollbars are children of QWebView,
+        // in which case, false is returned, in order to fall back to the parent style implementation
+        return !( widget && widget->inherits( "QWebView" ) );
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawPanelTipLabelPrimitive( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        // parent style painting if frames should not be styled
+        if( !OxygenStyleConfigData::toolTipDrawStyledFrames() ) return false;
+
+        const QRect& r( option->rect );
+        const QColor color( option->palette.brush(QPalette::ToolTipBase).color() );
+        QColor topColor( _helper.backgroundTopColor(color) );
+        QColor bottomColor( _helper.backgroundBottomColor(color) );
+
+        // make tooltip semi transparents when possible
+        // alpha is copied from "kdebase/apps/dolphin/tooltips/filemetadatatooltip.cpp"
+        const bool hasAlpha( hasAlphaChannel( widget ) );
+        if(  hasAlpha && OxygenStyleConfigData::toolTipTransparent() )
+        {
+            topColor.setAlpha(220);
+            bottomColor.setAlpha(220);
+        }
+
+        QLinearGradient gr( 0, r.top(), 0, r.bottom() );
+        gr.setColorAt(0, topColor );
+        gr.setColorAt(1, bottomColor );
+
+        // contrast pixmap
+        QLinearGradient gr2( 0, r.top(), 0, r.bottom() );
+        gr2.setColorAt(0.5, _helper.calcLightColor( bottomColor ) );
+        gr2.setColorAt(0.9, bottomColor );
+
+        p->save();
+
+        if( hasAlpha )
+        {
+            p->setRenderHint(QPainter::Antialiasing);
+
+            QRectF local( r );
+            local.adjust( 0.5, 0.5, -0.5, -0.5 );
+
+            p->setPen( Qt::NoPen );
+            p->setBrush( gr );
+            p->drawRoundedRect( local, 4, 4 );
+
+            p->setBrush( Qt::NoBrush );
+            p->setPen(QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            p->drawRoundedRect( local, 4, 4 );
+
+        } else {
+
+            p->setPen( Qt::NoPen );
+            p->setBrush( gr );
+            p->drawRect( r );
+
+            p->setBrush( Qt::NoBrush );
+            p->setPen(QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            p->drawRect( r );
+
+        }
+
+        p->restore();
+
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawPanelItemViewItemPrimitive( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        const QStyleOptionViewItemV4 *opt = qstyleoption_cast<const QStyleOptionViewItemV4*>(option);
+        const QAbstractItemView *view = qobject_cast<const QAbstractItemView *>(widget);
+        const bool hover = (option->state & State_MouseOver) && (!view || view->selectionMode() != QAbstractItemView::NoSelection);
+
+        const bool hasCustomBackground = opt->backgroundBrush.style() != Qt::NoBrush && !(option->state & State_Selected);
+        const bool hasSolidBackground = !hasCustomBackground || opt->backgroundBrush.style() == Qt::SolidPattern;
+
+        if( !hover && !(option->state & State_Selected) && !hasCustomBackground && !(opt->features & QStyleOptionViewItemV2::Alternate) )
+        { return true; }
+
+        QPalette::ColorGroup cg;
+        if( option->state & State_Enabled) cg = (option->state & State_Active) ? QPalette::Normal : QPalette::Inactive;
+        else cg = QPalette::Disabled;
+
+        QColor color;
+        if( hasCustomBackground && hasSolidBackground) color = opt->backgroundBrush.color();
+        else color = option->palette.color(cg, QPalette::Highlight);
+
+        if( hover && !hasCustomBackground)
+        {
+            if( !(option->state & State_Selected)) color.setAlphaF(0.2);
+            else color = color.lighter(110);
+        }
+
+        if( opt && (opt->features & QStyleOptionViewItemV2::Alternate))
+        { p->fillRect(option->rect, option->palette.brush(cg, QPalette::AlternateBase)); }
+
+        if( !hover && !(option->state & State_Selected) && !hasCustomBackground)
+        { return true; }
+
+        if( hasCustomBackground && !hasSolidBackground)
+        {
+
+            const QPointF oldBrushOrigin = p->brushOrigin();
+            p->setBrushOrigin(opt->rect.topLeft());
+            p->setBrush(opt->backgroundBrush);
+            p->setPen(Qt::NoPen);
+            p->drawRect(opt->rect);
+            p->setBrushOrigin(oldBrushOrigin);
+
+        } else {
+
+            // get selection tileset
+            QRect r = option->rect;
+            TileSet *tileSet( _helper.selection( color, r.height(), hasCustomBackground ) );
+
+            bool roundedLeft  = false;
+            bool roundedRight = false;
+            if( opt )
+            {
+
+                roundedLeft  = (opt->viewItemPosition == QStyleOptionViewItemV4::Beginning);
+                roundedRight = (opt->viewItemPosition == QStyleOptionViewItemV4::End);
+                if( opt->viewItemPosition == QStyleOptionViewItemV4::OnlyOne ||
+                    opt->viewItemPosition == QStyleOptionViewItemV4::Invalid ||
+                    (view && view->selectionBehavior() != QAbstractItemView::SelectRows))
+                {
+                    roundedLeft  = true;
+                    roundedRight = true;
+                }
+
+            }
+
+            const bool reverseLayout( option->direction == Qt::RightToLeft );
+
+            TileSet::Tiles tiles( TileSet::Center );
+            if( !reverseLayout ? roundedLeft : roundedRight) tiles |= TileSet::Left;
+            else r.adjust( -8, 0, 0, 0 );
+
+            if( !reverseLayout ? roundedRight : roundedLeft) tiles |= TileSet::Right;
+            else r.adjust( 0, 0, 8, 0 );
+
+            if( r.isValid()) tileSet->render( r, p, tiles );
+        }
+
+        return true;
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawQ3CheckListExclusiveIndicatorPrimitive( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+        // this uses "standard" radio buttons to draw in Qt3 lists.
+        State flags = option->state;
+        QRect r = option->rect;
+
+        // HACK: for some reason height is calculated using the font,
+        // which here results in bad centerin.
+        // also: centering is incorrect
+        if( r.height() < r.width() ) r.setHeight( r.width() );
+        r.translate( 0, 2 );
+
+        QPalette pal = option->palette;
+        if( flags & State_On) drawKStylePrimitive( WT_RadioButton, RadioButton::RadioOn, option, r, pal, flags, p, widget);
+        else drawKStylePrimitive( WT_RadioButton, RadioButton::RadioOff, option, r, pal, flags, p, widget);
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawQ3CheckListIndicatorPrimitive( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+        // this uses "standard" checkboxes to draw in Qt3 lists.
+        State flags = option->state;
+        QRect r = option->rect;
+
+        // HACK: for some reason height is calculated using the font,
+        // which here results in bad centerin.
+        // also: centering is incorrect
+        if( r.height() < r.width() ) r.setHeight( r.width() );
+        r.translate( 0, 2 );
+
+        QPalette pal = option->palette;
+        if( flags & State_NoChange) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckTriState, option, r, pal, flags, p, widget);
+        else if( flags & State_On) drawKStylePrimitive( WT_CheckBox, CheckBox::CheckOn, option, r, pal, flags, p, widget);
+        else drawKStylePrimitive( WT_CheckBox, CheckBox::CheckOff, option, r, pal, flags, p, widget);
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    void Style::drawControl(ControlElement element, const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        // try find primitive in map, and run.
+        // exit if result is true, otherwise fallback to generic case
+        QStyleControlMap::const_iterator iterator( qStyleControls_.find( element ) );
+        if( iterator != qStyleControls_.end() && (this->*iterator.value())(option, p, widget ) ) return;
+        else KStyle::drawControl( element, option, p, widget );
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawCapacityBarControl( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        // cast option
+        const QStyleOptionProgressBar* cbOption( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
+        if( !cbOption ) return true;
+
+        // draw container
+        QStyleOptionProgressBarV2 sub_opt(*cbOption);
+        sub_opt.rect = subElementRect( QStyle::SE_ProgressBarGroove, cbOption, widget);
+        drawControl( QStyle::CE_ProgressBarGroove, &sub_opt, p, widget);
+
+        // draw bar
+        sub_opt.rect = subElementRect( QStyle::SE_ProgressBarContents, cbOption, widget);
+        drawControl( QStyle::CE_ProgressBarContents, &sub_opt, p, widget);
+
+        // draw label
+        sub_opt.rect = subElementRect( QStyle::SE_ProgressBarLabel, cbOption, widget);
+        drawControl( QStyle::CE_ProgressBarLabel, &sub_opt, p, widget);
+
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawRubberBandControl( const QStyleOption* option, QPainter* p, const QWidget* ) const
+    {
+
+        if( const QStyleOptionRubberBand *rbOpt = qstyleoption_cast<const QStyleOptionRubberBand *>(option))
+        {
+
+            p->save();
+            QColor color = rbOpt->palette.color(QPalette::Highlight);
+            p->setPen(KColorUtils::mix(color, rbOpt->palette.color(QPalette::Active, QPalette::WindowText)));
+            color.setAlpha(50);
+            p->setBrush(color);
+            p->setClipRegion(rbOpt->rect);
+            p->drawRect(rbOpt->rect.adjusted(0,0,-1,-1));
+            p->restore();
+            return true;
+
+        } else return false;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawProgressBarControl( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        if( const QStyleOptionProgressBar *pb = qstyleoption_cast<const QStyleOptionProgressBar *>(option))
+        {
+
+            // same as QCommonStyle::drawControl, except that it handles animations
+            QStyleOptionProgressBarV2 subopt = *pb;
+            subopt.rect = subElementRect(SE_ProgressBarGroove, pb, widget);
+            drawControl(CE_ProgressBarGroove, &subopt, p, widget);
+
+            if( animations().progressBarEngine().busyIndicatorEnabled() && pb->maximum == 0 && pb->minimum == 0 )
+            { animations().progressBarEngine().startBusyTimer(); }
+
+            if( animations().progressBarEngine().isAnimated( widget ) )
+            { subopt.progress = animations().progressBarEngine().value( widget ); }
+
+            subopt.rect = subElementRect(SE_ProgressBarContents, &subopt, widget);
+            drawControl(CE_ProgressBarContents, &subopt, p, widget);
+
+            if( pb->textVisible)
+            {
+                subopt.rect = subElementRect(SE_ProgressBarLabel, pb, widget);
+                drawControl(CE_ProgressBarLabel, &subopt, p, widget);
+            }
+
+        }
+
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawComboBoxLabelControl( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        //same as CommonStyle, except for filling behind icon
+        if( const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>(option))
+        {
+
+            QRect editRect( subControlRect(CC_ComboBox, cb, SC_ComboBoxEditField, widget) );
+
+            p->save();
+            if( !cb->currentIcon.isNull() )
+            {
+
+                QIcon::Mode mode = cb->state & State_Enabled ? QIcon::Normal : QIcon::Disabled;
+                QPixmap pixmap( cb->currentIcon.pixmap(cb->iconSize, mode) );
+                QRect iconRect(editRect);
+                iconRect.setWidth(cb->iconSize.width() + 4);
+                iconRect = alignedRect(
+                    cb->direction,
+                    Qt::AlignLeft | Qt::AlignVCenter,
+                    iconRect.size(), editRect);
+
+                drawItemPixmap(p, iconRect, Qt::AlignCenter, pixmap);
+
+                if( cb->direction == Qt::RightToLeft) editRect.translate(-4 - cb->iconSize.width(), 0);
+                else editRect.translate(cb->iconSize.width() + 4, 0);
+            }
+
+            if( !cb->currentText.isEmpty() && !cb->editable)
+            {
+                drawItemText(
+                    p, editRect.adjusted(1, 0, -1, 0),
+                    visualAlignment(cb->direction, Qt::AlignLeft | Qt::AlignVCenter),
+                    cb->palette, cb->state & State_Enabled, cb->currentText, QPalette::ButtonText );
+            }
+            p->restore();
+            return true;
+
+        } else return false;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawTabBarTabLabelControl( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        // bypass KStyle entirely because it makes it completely impossible
+        // to handle both KDE and Qt applications at the same time
+        // however, adds some extras spaces for icons in order not to conflict with tab margin
+        // (which QCommonStyle does not handle right)
+        const QStyleOptionTabV3 *tab = qstyleoption_cast<const QStyleOptionTabV3 *>(option);
+        if( tab && !tab->icon.isNull() )
+        {
+
+            QStyleOptionTabV3 tabV3(*tab);
+            const bool verticalTabs( tabV3.shape == QTabBar::RoundedEast
+                || tabV3.shape == QTabBar::RoundedWest
+                || tabV3.shape == QTabBar::TriangularEast
+                || tabV3.shape == QTabBar::TriangularWest );
+            if( verticalTabs ) tabV3.rect.adjust( 0, 0, 0, -3 );
+            else if( tabV3.direction == Qt::RightToLeft ) tabV3.rect.adjust( 0, 0, -3, 0 );
+            else tabV3.rect.adjust( 3, 0, 0, 0 );
+
+            QCommonStyle::drawControl( CE_TabBarTabLabel, &tabV3, p, widget);
+            return true;
+
+        } else {
+
+            QCommonStyle::drawControl( CE_TabBarTabLabel, option, p, widget);
+            return true;
+
+        }
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawToolButtonLabelControl( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        // re-implement from kstyle to handle pressed
+        // down vertical shift properly
+
+        // cast option and check
+        const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>(option);
+        if( !tbOpt ) return false;
+
+        // copy option and adjust rect
+        QStyleOptionToolButton local = *tbOpt;
+
+        // disable mouseOver effect if toolbar is animated
+        if( widget && animations().toolBarEngine().isAnimated( widget->parentWidget() ) )
+        { local.state &= ~State_MouseOver; }
+
+        // check whether button is pressed
+        const bool active(option->state & (State_On|State_Sunken) );
+        if( !active )
+        {
+            KStyle::drawControl(CE_ToolButtonLabel, &local, p, widget);
+            return true;
+        }
+
+        // check autoRaise
+        if( option->state & State_AutoRaise )
+        {
+            KStyle::drawControl(CE_ToolButtonLabel, &local, p, widget);
+            return true;
+        }
+
+        // check button parent. Right now the fix addresses only toolbuttons located
+        // in a menu, in order to fix the KMenu title rendering issue
+        if( !( widget && widget->parent() && widget->parent()->inherits( "QMenu" ) ) )
+        {
+            KStyle::drawControl(CE_ToolButtonLabel, &local, p, widget);
+            return true;
+        }
+
+        // adjust vertical position
+        local.rect.translate( 0, toolButtonPressedShiftVertical );
+        KStyle::drawControl(CE_ToolButtonLabel, &local, p, widget);
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawHeaderEmptyAreaControl( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        // use the same background as in drawHeaderPrimitive
+        QPalette pal( option->palette );
+
+        if( widget && animations().widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
+        { pal = _helper.mergePalettes( pal, animations().widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
+
+        const bool horizontal( option->state & QStyle::State_Horizontal );
+        const bool reverseLayout( option->direction == Qt::RightToLeft );
+        renderHeaderBackground( option->rect, pal, p, widget, horizontal, reverseLayout );
+
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawShapedFrameControl( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    {
+
+        // for frames embedded in KTitleWidget, just paint the window background
+        if( widget && qobject_cast<KTitleWidget*>(widget->parentWidget()) )
+        {
+            _helper.renderWindowBackground(p, option->rect, widget, widget->window()->palette());
+            return true;
+        }
+
+        // cast option and check
+        const QStyleOptionFrameV3* frameOpt = qstyleoption_cast<const QStyleOptionFrameV3*>( option );
+        if( !frameOpt ) return false;
+
+        switch( frameOpt->frameShape )
+        {
+
+            case QFrame::HLine:
+            {
+                _helper.drawSeparator(p, option->rect, option->palette.color(QPalette::Window), Qt::Horizontal);
+                return true;
+            }
+
+            case QFrame::VLine:
+            {
+                _helper.drawSeparator(p, option->rect, option->palette.color(QPalette::Window), Qt::Vertical);
+                return true;
+            }
+
+            default: return false;
+
+        }
 
     }
 
@@ -1033,120 +1204,17 @@ namespace Oxygen
             { pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
         }
 
-        switch (widgetType)
-        {
-            case WT_PushButton:
-            if( drawPushButtonPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_ToolBoxTab:
-            if( drawToolBoxTabPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_ProgressBar:
-            if( drawProgressBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_MenuBar:
-            if( drawMenuBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_MenuBarItem:
-            if( drawMenuBarItemPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_Menu:
-            if( drawMenuPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_MenuItem:
-            if( drawMenuItemPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_DockWidget:
-            if( drawDockWidgetPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_StatusBar:
-            if( drawStatusBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_CheckBox:
-            if( drawCheckBoxPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_RadioButton:
-            if( drawRadioButtonPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_ScrollBar:
-            if( drawScrollBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_TabBar:
-            if( drawTabBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_TabWidget:
-            if( drawTabWidgetPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_Window:
-            if( drawWindowPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_Splitter:
-            if( drawSplitterPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-
-            case WT_Slider:
-            if( drawSliderPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_SpinBox:
-            if( drawSpinBoxPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-
-            case WT_ComboBox:
-            if( drawComboBoxPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_Header:
-            if( drawHeaderPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_Tree:
-            if( drawTreePrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_LineEdit:
-            if( drawLineEditPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_GroupBox:
-            if( drawGroupBoxPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_ToolBar:
-            if( drawToolBarPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_ToolButton:
-            if( drawToolButtonPrimitive( primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
-            else break;
-
-            case WT_Limit: //max value for the enum, only here to silence the compiler
-            case WT_Generic: // handled below since the primitives arevalid for all WT_ types
-            default: break;
-        }
+        // try find primitive in map, and run.
+        // exit if result is true, otherwise fallback to generic case
+        KStylePrimitiveMap::const_iterator iterator( kStylePrimitives_.find( widgetType ) );
+        if( iterator != kStylePrimitives_.end() && (this->*iterator.value())(primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
 
         // generic primitive
         if( drawGenericPrimitive( widgetType, primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
 
         // default fallback
         KStyle::drawKStylePrimitive(widgetType, primitive, opt, r, pal, flags, p, widget, kOpt);
+
     }
 
     //___________________________________________________________________
@@ -2916,74 +2984,6 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    void Style::drawSliderTickmarks(
-        const QStyleOptionSlider* opt,
-        QPainter* p,
-        const QWidget* widget ) const
-    {
-
-        const int& ticks( opt->tickPosition );
-        const int available( pixelMetric(PM_SliderSpaceAvailable, opt, widget) );
-        int interval = opt->tickInterval;
-        if( interval < 1 ) interval = opt->pageStep;
-        if( interval < 1 ) return;
-
-        QRect r( widget->rect() );
-        QPalette pal( widget->palette() );
-
-        const int len( pixelMetric(PM_SliderLength, opt, widget) );
-        const int fudge( len / 2 );
-        int current( opt->minimum );
-
-        // Since there is no subrect for tickmarks do a translation here.
-        p->save();
-        p->translate(r.x(), r.y());
-
-        if( opt->orientation == Qt::Horizontal )
-        {
-            QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, r.center() ) );
-            p->setPen( _helper.calcDarkColor( base ) );
-        }
-
-        int tickSize( opt->orientation == Qt::Horizontal ? r.height()/3:r.width()/3 );
-
-        while( current <= opt->maximum )
-        {
-
-            const int position( sliderPositionFromValue(opt->minimum, opt->maximum, current, available) + fudge );
-
-            // calculate positions
-            if( opt->orientation == Qt::Horizontal )
-            {
-                if( ticks == QSlider::TicksAbove ) p->drawLine( position, 0, position, tickSize );
-                else if( ticks == QSlider::TicksBelow ) p->drawLine( position, r.height()-tickSize, position, r.height() );
-                else {
-                    p->drawLine( position, 0, position, tickSize );
-                    p->drawLine( position, r.height()-tickSize, position, r.height() );
-                }
-
-            } else {
-
-                QColor base( _helper.backgroundColor( pal.color( QPalette::Window ), widget, QPoint( r.center().x(), position ) ) );
-                p->setPen( _helper.calcDarkColor( base ) );
-
-                if( ticks == QSlider::TicksAbove ) p->drawLine( 0, position, tickSize, position );
-                else if( ticks == QSlider::TicksBelow ) p->drawLine( r.width()-tickSize, position, r.width(), position );
-                else {
-                    p->drawLine( 0, position, tickSize, position );
-                    p->drawLine( r.width()-tickSize, position, r.width(), position );
-                }
-            }
-
-            // go to next position
-            current += interval;
-
-        }
-
-        p->restore();
-    }
-
-    //_________________________________________________________
     bool Style::drawSliderPrimitive(
         int primitive,
         const QStyleOption* opt,
@@ -4503,29 +4503,6 @@ namespace Oxygen
         // we don't want the stippled focus indicator in oxygen
         if( !( widget && widget->inherits("Q3ListView") ) ) return true;
         else return false;
-    }
-
-    //______________________________________________________________
-    void Style::drawCapacityBar(const QStyleOption *option, QPainter *p, const QWidget *widget) const
-    {
-
-        // cast option
-        const QStyleOptionProgressBar* cbOption( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
-        if( !cbOption ) return;
-
-        // draw container
-        QStyleOptionProgressBarV2 sub_opt(*cbOption);
-        sub_opt.rect = subElementRect( QStyle::SE_ProgressBarGroove, cbOption, widget);
-        drawControl( QStyle::CE_ProgressBarGroove, &sub_opt, p, widget);
-
-        // draw bar
-        sub_opt.rect = subElementRect( QStyle::SE_ProgressBarContents, cbOption, widget);
-        drawControl( QStyle::CE_ProgressBarContents, &sub_opt, p, widget);
-
-        // draw label
-        sub_opt.rect = subElementRect( QStyle::SE_ProgressBarLabel, cbOption, widget);
-        drawControl( QStyle::CE_ProgressBarLabel, &sub_opt, p, widget);
-
     }
 
     //______________________________________________________________
