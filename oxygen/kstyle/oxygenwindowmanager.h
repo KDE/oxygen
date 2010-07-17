@@ -183,7 +183,7 @@ namespace Oxygen
         bool useWMMoveResize_;
 
         //! drag mode
-        bool dragMode_;
+        int dragMode_;
 
         //! drag distance
         /*! this is copied from kwin::geometry */
