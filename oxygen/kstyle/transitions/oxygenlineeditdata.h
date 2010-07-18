@@ -106,6 +106,10 @@ namespace Oxygen
         //! check if target has clear button
         void checkClearButton( void );
 
+        //! return target
+        QWeakPointer<QLineEdit> target( void )
+        { return target_; }
+
         private:
 
         //! lock time (milliseconds

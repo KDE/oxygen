@@ -1,11 +1,11 @@
 // krazy:excludeall=qclasses
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygenlineeditengine.cpp
-// stores event filters and maps widgets to animations
+// oxygenspinboxdata.cpp
+// data container for QSpinBox (and QDoubleSpinBox) transition
 // -------------------
 //
-// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -26,48 +26,23 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenlineeditengine.h"
-#include "oxygenlineeditengine.moc"
-
 #include "oxygenspinboxtransitiondata.h"
-
-#include <QtGui/QSpinBox>
-#include <QtGui/QDoubleSpinBox>
+#include "oxygenspinboxtransitiondata.moc"
 
 namespace Oxygen
 {
 
-    //____________________________________________________________
-    bool LineEditEngine::registerWidget( QLineEdit* widget )
+    //______________________________________________________
+    SpinBoxTransitionData::SpinBoxTransitionData( QObject* parent, QLineEdit* target, int duration ):
+        LineEditData( parent, target, duration )
     {
 
-        // check enability and widget validity
-        if( !widget ) return false;
-
-        // do not register widget if painted in a scene
-        if( widget->graphicsProxyWidget() ) return false;
-
-        // insert in map if needed
-        if( !data_.contains( widget ) ) {
-
-            if( qobject_cast<QSpinBox*>( widget->parentWidget() ) || qobject_cast<QDoubleSpinBox*>( widget->parentWidget() ) )
-            {
-
-                data_.insert( widget, new SpinBoxTransitionData( this, widget, duration() ), enabled() );
-
-            } else {
-
-                data_.insert( widget, new LineEditData( this, widget, duration() ), enabled() );
-
-            }
-        }
-
-        // connect destruction signal
-        disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );
-
-        return true;
+        // additional connection to valueChanged from parent is needed
+        // because QLineEdit textChanged signal is disabled by the parent
+        if( this->target().data()->parentWidget() )
+        { connect( this->target().data()->parentWidget(), SIGNAL( valueChanged( const QString& ) ), SLOT( textChanged( const QString& ) ) ); }
 
     }
+
 
 }
