@@ -29,11 +29,6 @@
 #include "oxygenlineeditengine.h"
 #include "oxygenlineeditengine.moc"
 
-#include "oxygenspinboxtransitiondata.h"
-
-#include <QtGui/QSpinBox>
-#include <QtGui/QDoubleSpinBox>
-
 namespace Oxygen
 {
 
@@ -50,16 +45,8 @@ namespace Oxygen
         // insert in map if needed
         if( !data_.contains( widget ) ) {
 
-            if( qobject_cast<QSpinBox*>( widget->parentWidget() ) || qobject_cast<QDoubleSpinBox*>( widget->parentWidget() ) )
-            {
+            data_.insert( widget, new LineEditData( this, widget, duration() ), enabled() );
 
-                data_.insert( widget, new SpinBoxTransitionData( this, widget, duration() ), enabled() );
-
-            } else {
-
-                data_.insert( widget, new LineEditData( this, widget, duration() ), enabled() );
-
-            }
         }
 
         // connect destruction signal

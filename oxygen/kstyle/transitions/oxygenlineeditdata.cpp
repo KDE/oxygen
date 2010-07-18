@@ -30,7 +30,10 @@
 #include "oxygenlineeditdata.moc"
 
 #include <QtCore/QEvent>
+#include <QtGui/QDateTimeEdit>
+#include <QtGui/QDoubleSpinBox>
 #include <QtGui/QPainter>
+#include <QtGui/QSpinBox>
 #include <QtGui/QStyle>
 #include <QtGui/QStyleOptionFrameV2>
 
@@ -52,8 +55,26 @@ namespace Oxygen
         checkClearButton();
 
         connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
-        connect( target_.data(), SIGNAL( textEdited( const QString& ) ), SLOT( textEdited( const QString& ) ) );
-        connect( target_.data(), SIGNAL( textChanged( const QString& ) ), SLOT( textChanged( const QString& ) ) );
+        connect( target_.data(), SIGNAL( textEdited( const QString& ) ), SLOT( textEdited( void ) ) );
+        connect( target_.data(), SIGNAL( textChanged( const QString& ) ), SLOT( textChanged( void ) ) );
+
+        /*
+        Additional signal/slot connections depending on widget's parent.
+        This is needed because parents sometime disable the textChanged signal of the embedded
+        QLineEdit
+        */
+        if( qobject_cast<QSpinBox*>( target_.data()->parentWidget() ) ||qobject_cast<QDoubleSpinBox*>( target_.data()->parentWidget() ) )
+        {
+
+            connect( target_.data()->parentWidget(), SIGNAL( valueChanged( const QString& ) ), SLOT( textChanged( void ) ) );
+
+        } else if( qobject_cast<QDateTimeEdit*>( target_.data()->parentWidget() ) ) {
+
+            connect( target_.data()->parentWidget(), SIGNAL( dateTimeChanged ( const QDateTime & ) ), SLOT( textChanged( void ) ) );
+
+        }
+
+        // update cached pixmap on selection change
         connect( target_.data(), SIGNAL( selectionChanged() ), SLOT( selectionChanged() ) );
 
     }
@@ -126,7 +147,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________
-    void LineEditData::textEdited( const QString& )
+    void LineEditData::textEdited( void )
     {
         edited_ = true;
         if( !recursiveCheck() )
@@ -142,7 +163,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________
-    void LineEditData::textChanged( const QString& )
+    void LineEditData::textChanged( void )
     {
 
         // check whether text change was triggered manually

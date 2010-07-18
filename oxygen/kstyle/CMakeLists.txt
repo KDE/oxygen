@@ -45,7 +45,6 @@ set(oxygen_PART_SRCS
     transitions/oxygenlabelengine.cpp
     transitions/oxygenlineeditdata.cpp
     transitions/oxygenlineeditengine.cpp
-    transitions/oxygenspinboxtransitiondata.cpp
     transitions/oxygenstackedwidgetdata.cpp
     transitions/oxygenstackedwidgetengine.cpp
     transitions/oxygentransitiondata.cpp
