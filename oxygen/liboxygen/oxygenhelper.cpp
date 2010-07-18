@@ -39,6 +39,7 @@ namespace Oxygen
     const qreal Helper::_shadowGain = 1.5;
     const qreal Helper::_glowBias = 0.6;
 
+    //____________________________________________________________________
     // NOTE: Oxygen::StyleHelper needs to use a KConfig from its own KComponentData
     // Since the ctor order causes a SEGV if we try to pass in a KConfig here from
     // a KComponentData constructed in the OxygenStyleHelper ctor, we'll just keep
@@ -95,6 +96,10 @@ namespace Oxygen
     void Helper::setMaxCacheSize( int value )
     {
 
+        // protection
+        value = qMax( 1, value );
+
+        // assign value
         m_windecoButtonCache.setMaxCost( value );
         m_windecoButtonGlowCache.setMaxCost( value );
         m_slabCache.setMaxCacheSize( value );
