@@ -67,6 +67,13 @@ namespace Oxygen
     void StyleHelper::setMaxCacheSize( int value )
     {
 
+        // base class
+        Helper::setMaxCacheSize( value );
+
+        // protection
+        value = qMax( 1, value );
+
+        // assign max cache size
         m_dialSlabCache.setMaxCacheSize( value );
         m_roundSlabCache.setMaxCacheSize( value );
         m_holeFocusedCache.setMaxCacheSize( value );
@@ -83,8 +90,6 @@ namespace Oxygen
         m_slitCache.setMaxCost( value );
         m_dockFrameCache.setMaxCost( value );
         m_scrollHoleCache.setMaxCost( value );
-
-        Helper::setMaxCacheSize( value );
 
     }
 
