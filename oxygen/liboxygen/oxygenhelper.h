@@ -172,10 +172,6 @@ namespace Oxygen
 
         //! returns a region matching given rect, with rounded corners, based on the multipliers
         /*! setting any of the multipliers to zero will result in no corners shown on the corresponding side */
-        virtual QRegion roundedRegion( const QRect&, int left = 1, int right = 1, int top = 1, int bottom = 1 ) const;
-
-        //! returns a region matching given rect, with rounded corners, based on the multipliers
-        /*! setting any of the multipliers to zero will result in no corners shown on the corresponding side */
         virtual QRegion roundedMask( const QRect&, int left = 1, int right = 1, int top = 1, int bottom = 1 ) const;
 
         //! draw frame that mimics some sort of shadows around a panel
