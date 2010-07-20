@@ -394,7 +394,6 @@ namespace Oxygen
     bool WindowManager::isWhiteListed( QWidget* widget ) const
     {
 
-        //foreach( const QString& className, blackList_ )
         QString appName( qApp->applicationName() );
         foreach( const ExceptionId& id, whiteList_ )
         {
