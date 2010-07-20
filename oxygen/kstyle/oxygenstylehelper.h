@@ -46,7 +46,11 @@ namespace Oxygen
         virtual void setMaxCacheSize( int );
 
         // render menu background
-        void renderMenuBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal);
+        void renderMenuBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette& pal)
+        { renderMenuBackground( p, clipRect, widget, pal.color( widget->window()->backgroundRole() ) ); }
+
+        // render menu background
+        void renderMenuBackground( QPainter*, const QRect&, const QWidget*, const QColor& );
 
         //! returns menu background color matching position in a given menu widget
         virtual QColor menuBackgroundColor(const QColor &color, const QWidget* w, const QPoint& point )

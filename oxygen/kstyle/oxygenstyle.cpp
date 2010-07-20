@@ -691,7 +691,7 @@ namespace Oxygen
             tileSet->render( r, p );
 
             p->setCompositionMode(QPainter::CompositionMode_SourceOver );
-            p->setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+            p->setClipRegion( _helper.roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
 
         }
 
@@ -7353,7 +7353,7 @@ namespace Oxygen
                     tileSet->render( r, &p );
 
                     p.setCompositionMode(QPainter::CompositionMode_SourceOver );
-                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+                    p.setClipRegion( _helper.roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
                 }
 
                 // background
@@ -7433,7 +7433,7 @@ namespace Oxygen
                     TileSet *tileSet( _helper.roundCorner(color) );
                     tileSet->render( r, &p );
                     p.setCompositionMode(QPainter::CompositionMode_SourceOver );
-                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+                    p.setClipRegion( _helper.roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
 
                 }
 
@@ -7499,7 +7499,7 @@ namespace Oxygen
                     tileSet->render( r, &p );
 
                     p.setCompositionMode(QPainter::CompositionMode_SourceOver );
-                    p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+                    p.setClipRegion( _helper.roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
 
                 }
 
@@ -7540,7 +7540,7 @@ namespace Oxygen
                 TileSet *tileSet( _helper.roundCorner( sw->palette().color( sw->backgroundRole() ) ) );
                 tileSet->render( r, &p );
 
-                p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+                p.setClipRegion( _helper.roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
                 _helper.renderWindowBackground(&p, clip, sw, sw, sw->palette(), 0, 58 );
 
             }
@@ -7587,7 +7587,7 @@ namespace Oxygen
 
                         // set clip region
                         p.setCompositionMode(QPainter::CompositionMode_SourceOver );
-                        p.setClipRegion( _helper.roundedRegion( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+                        p.setClipRegion( _helper.roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
                     }
                     #endif
 

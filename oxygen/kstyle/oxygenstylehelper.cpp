@@ -94,7 +94,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    void StyleHelper::renderMenuBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal)
+    void StyleHelper::renderMenuBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color )
     {
 
         // get coordinates relative to the client area
@@ -117,7 +117,6 @@ namespace Oxygen
         // special tricks are needed
         // to handle both window contents and window decoration
         QRect r = w->rect();
-        QColor color = pal.color(w->backgroundRole());
         int height = w->frameGeometry().height();
 
         int splitY = qMin(200, (3*height)/4);
@@ -210,6 +209,11 @@ namespace Oxygen
             // draw ellipse.
             p.setBrush( lg );
             p.drawEllipse( QRectF( size-4, size-4, 8, 8 ) );
+
+            // mask
+            p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+            p.setBrush( Qt::black );
+            p.drawEllipse( QRectF( size-3, size-3, 6, 6 ) );
 
             tileSet = new TileSet(pixmap, size, size, 1, 1);
             m_cornerCache.insert(key, tileSet);
