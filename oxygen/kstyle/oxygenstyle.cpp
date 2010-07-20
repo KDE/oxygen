@@ -65,7 +65,6 @@
 #include <KConfigGroup>
 #include <KColorUtils>
 #include <KDebug>
-#include <KTitleWidget>
 
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
@@ -1152,15 +1151,8 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawShapedFrameControl( const QStyleOption* option, QPainter* p, const QWidget* widget) const
+    bool Style::drawShapedFrameControl( const QStyleOption* option, QPainter* p, const QWidget* ) const
     {
-
-        // for frames embedded in KTitleWidget, just paint the window background
-        if( widget && qobject_cast<KTitleWidget*>(widget->parentWidget()) )
-        {
-            _helper.renderWindowBackground(p, option->rect, widget, widget->window()->palette());
-            return true;
-        }
 
         // cast option and check
         const QStyleOptionFrameV3* frameOpt = qstyleoption_cast<const QStyleOptionFrameV3*>( option );
@@ -1956,7 +1948,7 @@ namespace Oxygen
             case DockWidget::TitlePanel:
             {
                 // The frame is draw in the eventfilter
-                // This is because when a dockwidget has a titlebarwidget, then we can not
+                // This is because when a dockwidget has a titlebarwidget, we can not
                 //  paint on the dockwidget prober here
                 return true;
             }
@@ -4564,7 +4556,7 @@ namespace Oxygen
 
         } else if( widget->inherits( "Q3ListView" ) ) {
 
-            widget->installEventFilter(this);
+            addEventFilter( widget );
             widget->setAttribute(Qt::WA_Hover);
 
         }
@@ -4674,7 +4666,7 @@ namespace Oxygen
 
             widget->setBackgroundRole(QPalette::NoRole);
             widget->setAttribute(Qt::WA_TranslucentBackground);
-            widget->installEventFilter(this);
+            addEventFilter( widget );
 
             #ifdef Q_WS_WIN
             //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
@@ -4698,26 +4690,26 @@ namespace Oxygen
             // when painted in konsole, one needs to paint the window background below
             // the scrollarea, otherwise an ugly flat background is used
             if( widget->parent() && widget->parent()->inherits( "Konsole::TerminalDisplay" ) )
-            { widget->installEventFilter( this ); }
+            { addEventFilter( widget ); }
 
         } else if( qobject_cast<QDockWidget*>(widget)) {
 
             widget->setBackgroundRole(QPalette::NoRole);
             widget->setAttribute(Qt::WA_TranslucentBackground);
             widget->setContentsMargins(3,3,3,3);
-            widget->installEventFilter(this);
+            addEventFilter( widget );
 
         } else if( qobject_cast<QMdiSubWindow*>(widget) ) {
 
             widget->setAutoFillBackground( false );
-            widget->installEventFilter( this );
+            addEventFilter( widget );
 
         } else if( qobject_cast<QToolBox*>(widget)) {
 
             widget->setBackgroundRole(QPalette::NoRole);
             widget->setAutoFillBackground(false);
             widget->setContentsMargins(5,5,5,5);
-            widget->installEventFilter(this);
+            addEventFilter( widget );
 
         } else if( widget->parentWidget() && widget->parentWidget()->parentWidget() && qobject_cast<QToolBox*>(widget->parentWidget()->parentWidget()->parentWidget())) {
 
@@ -4735,7 +4727,7 @@ namespace Oxygen
 
         } else if( widget->inherits("QComboBoxPrivateContainer")) {
 
-            widget->installEventFilter(this);
+            addEventFilter( widget );
             widget->setAttribute(Qt::WA_TranslucentBackground);
             #ifdef Q_WS_WIN
             //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
@@ -4745,7 +4737,7 @@ namespace Oxygen
         } else if( widget->inherits( "KWin::GeometryTip" ) ) {
 
             // special handling of kwin geometry tip widget
-            widget->installEventFilter(this);
+            addEventFilter( widget );
             widget->setAttribute(Qt::WA_NoSystemBackground);
             widget->setAttribute(Qt::WA_TranslucentBackground);
             if( QLabel* label = qobject_cast<QLabel*>( widget ) )
@@ -4758,10 +4750,10 @@ namespace Oxygen
             widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
             #endif
 
-        } else if(  qobject_cast<QFrame*>(widget) ) {
+        } else if( qobject_cast<QFrame*>( widget ) && widget->parent() && widget->parent()->inherits( "KTitleWidget" ) ) {
 
-            if( qobject_cast<KTitleWidget*>(widget->parentWidget()))
-            { widget->setBackgroundRole( QPalette::Window ); }
+            widget->setAutoFillBackground( false );
+            widget->setBackgroundRole( QPalette::Window );
 
         }
 
@@ -7608,9 +7600,6 @@ namespace Oxygen
                     #endif
 
                 } else {
-
-
-                    _helper.renderWindowBackground(&p, r, dw, color);
 
                     // adjust color
                     QColor local( _helper.backgroundColor( color, dw, r.center() ) );

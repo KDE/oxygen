@@ -417,6 +417,13 @@ namespace Oxygen
         //! returns true if a given widget supports alpha channel
         bool hasAlphaChannel( const QWidget* ) const;
 
+        //! install event filter to object, in a unique way
+        void addEventFilter( QObject* object )
+        {
+            object->removeEventFilter( this );
+            object->installEventFilter( this );
+        }
+
         protected Q_SLOTS:
 
         //! standard icons
