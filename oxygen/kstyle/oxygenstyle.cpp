@@ -2138,24 +2138,31 @@ namespace Oxygen
         switch (primitive)
         {
             case ScrollBar::DoubleButtonHor:
-
-            if( reverseLayout) renderScrollBarHole( p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left);
-            else renderScrollBarHole( p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
-            return false;
-
+            {
+                if( reverseLayout) renderScrollBarHole( p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left);
+                else renderScrollBarHole( p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
+                return false;
+            }
+            
             case ScrollBar::DoubleButtonVert:
-            renderScrollBarHole( p, QRect(r.left(), r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right);
-            return false;
-
+            {
+                renderScrollBarHole( p, QRect(r.left(), r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right);
+                return false;
+            }
+            
             case ScrollBar::SingleButtonHor:
-            if( reverseLayout) renderScrollBarHole( p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
-            else renderScrollBarHole( p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom);
-            return false;
-
+            {
+                if( reverseLayout) renderScrollBarHole( p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
+                else renderScrollBarHole( p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom);
+                return false;
+            }
+            
             case ScrollBar::SingleButtonVert:
-            renderScrollBarHole( p, QRect(r.left(), r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right);
-            return false;
-
+            {
+                renderScrollBarHole( p, QRect(r.left(), r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right);
+                return false;
+            }
+            
             case ScrollBar::GrooveAreaVertTop:
             {
                 renderScrollBarHole( p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical, TileSet::Horizontal );
