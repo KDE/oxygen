@@ -1,4 +1,4 @@
-oxygen-style-animated is a branch of trunk/KDE/kdebase/runtime/kstyles/oxygen that introduces smooth animations for the oxygen widget style.
+oxygen-style-animated is a branch of trunk/KDE/kdebase/runtime/kstyles/oxygen that introduces smooth animations for the Oxygen widget style.
 
 The code is organized as follow:
 --------------------------------
@@ -17,15 +17,15 @@ This is used by the style to get the relevant data matching a given widget when 
 
 Additionaly, two "factory" classes, oxygenanimations and oxygentransitions, keep track of all the engines and engine setup. They serve as an interface between the animations and the KStyle painting primitives.
 
-For the animations located in the ./animations subdirectory, how the informations contained by the Data is used to animate a given widget is def in the oxygen KSTyle class. 
+For the animations located in the ./animations subdirectory, how the informations contained by the Data is used to animate a given widget is def in the oxygen KSTyle class.
 
 For the animations located in the ./transitions subdirectory, handling the animation is performed using a temporary "cover" widget, namely Oxygen::TransitionWidget, and does not necessit any modification to the oxygen.cpp style itself. (In principle, these animations could be used for any style, and not only oxygen).
 
 Remark on the use of QTimeLine:
-Right now all animations are handled by a dedicated class OxygenAnimation, that uses QTimeLine internally. This is to be able to compile and test the style with kde4.3 and Qt4.5. However the OxygenAnimation API has been made identical to QPropertyAnimation class, so that switching to Qt Kinetic for kde4.4 and Qt4.6 is straightforward.
+Right now all animations are handled by a dedicated class OxygenAnimation, that uses QTimeLine internally. This is to be able to compile and test the style with KDE SC 4.3 and Qt 4.5. However the OxygenAnimation API has been made identical to QPropertyAnimation class, so that switching to Qt Kinetic for kde4.4 and Qt4.6 is straightforward.
 
 Configuration
 -------------
 
-A number of options have been added to oxygen.kcfg to handle the animation configurations. 
+A number of options have been added to oxygen.kcfg to handle the animation configurations.
 They are of two types: animation enability, and animation duration. Only the 'enability' options are configurable by the user in KCM. The duration options are hidden. They can be modified manually by editing the file $HOME/.kde/share/config/oxygenrc (or $HOME/.kde4). Look at the bottom of oxygen.kcfg to get the name and default values for the options.
