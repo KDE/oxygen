@@ -2139,46 +2139,44 @@ namespace Oxygen
         {
             case ScrollBar::DoubleButtonHor:
 
-            if( reverseLayout) renderScrollBarHole(p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left);
-            else renderScrollBarHole(p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
+            if( reverseLayout) renderScrollBarHole( p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left);
+            else renderScrollBarHole( p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
             return false;
 
             case ScrollBar::DoubleButtonVert:
-            renderScrollBarHole(p, QRect(r.left(), r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right);
+            renderScrollBarHole( p, QRect(r.left(), r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right);
             return false;
 
             case ScrollBar::SingleButtonHor:
-            if( reverseLayout) renderScrollBarHole(p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
-            else renderScrollBarHole(p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom);
+            if( reverseLayout) renderScrollBarHole( p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
+            else renderScrollBarHole( p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom);
             return false;
 
             case ScrollBar::SingleButtonVert:
-            renderScrollBarHole(p, QRect(r.left(), r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right);
+            renderScrollBarHole( p, QRect(r.left(), r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right);
             return false;
 
             case ScrollBar::GrooveAreaVertTop:
             {
-                renderScrollBarHole(p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical, TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Top);
+                renderScrollBarHole( p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical, TileSet::Horizontal );
                 return true;
             }
 
             case ScrollBar::GrooveAreaVertBottom:
             {
-                renderScrollBarHole(p, r.adjusted(0,-10,0,0), pal.color(QPalette::Window), Qt::Vertical, TileSet::Left | TileSet::Right | TileSet::Center | TileSet::Bottom);
+                renderScrollBarHole( p, r.adjusted(0,-10,0,0), pal.color(QPalette::Window), Qt::Vertical, TileSet::Horizontal );
                 return true;
             }
 
             case ScrollBar::GrooveAreaHorLeft:
             {
-                const QRect rect( (reverseLayout) ? r.adjusted(0,0,10,0) : r.adjusted(0,0,12,0) );
-                renderScrollBarHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal, TileSet::Left | TileSet::Center | TileSet::Top | TileSet::Bottom);
+                renderScrollBarHole( p, r.adjusted(0,0,10,0), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Vertical );
                 return true;
             }
 
             case ScrollBar::GrooveAreaHorRight:
             {
-                const QRect rect( (reverseLayout) ? r.adjusted(-12,0,0,0) : r.adjusted(-10,0,0,0) );
-                renderScrollBarHole(p, rect, pal.color(QPalette::Window), Qt::Horizontal, TileSet::Right | TileSet::Center | TileSet::Top | TileSet::Bottom);
+                renderScrollBarHole( p, r.adjusted(-10, 0,0,0), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Vertical );
                 return true;
             }
 
@@ -5283,7 +5281,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    void Style::renderScrollBarHole(QPainter *p, const QRect &r, const QColor &color,
+    void Style::renderScrollBarHole( QPainter *p, const QRect &r, const QColor &color,
         Qt::Orientation orientation, TileSet::Tiles tiles) const
     {
         if( !r.isValid() ) return;
@@ -5319,8 +5317,11 @@ namespace Oxygen
             : TileSet::Left | TileSet::Right | TileSet::Center);
 
         // draw the slider itself
-        QRectF rect( r.adjusted(3, horizontal ? 2 : 4, -3, -3) );
-        if( !rect.isValid()) { // e.g. not enough height
+        QRectF rect( horizontal ? r.adjusted(3, 2, -3, -3):r.adjusted(3, 4, -3, -3) );
+        
+        if( !rect.isValid()) 
+        { 
+            // e.g. not enough height
             p->restore();
             return;
         }
@@ -5365,7 +5366,8 @@ namespace Oxygen
         // slider gradient
         {
             QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
-            if( !OxygenStyleConfigData::scrollBarColored()) {
+            if( !OxygenStyleConfigData::scrollBarColored()) 
+            {
                 sliderGradient.setColorAt(0.0, color);
                 sliderGradient.setColorAt(1.0, mid);
             } else {
@@ -5381,10 +5383,12 @@ namespace Oxygen
         // pattern
         if( OxygenStyleConfigData::scrollBarBevel() )
         {
-            QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top()); // don't let the pattern move
+            // don't let the pattern move
+            QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top()); 
             QPoint periodEnd = offset + (horizontal ? QPoint(30, 0) : QPoint(0, 30));
             QLinearGradient patternGradient(rect.topLeft()+offset, rect.topLeft()+periodEnd);
-            if( !OxygenStyleConfigData::scrollBarColored()) {
+            if( !OxygenStyleConfigData::scrollBarColored()) 
+            {
                 patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.1));
                 patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.1));
             } else {
