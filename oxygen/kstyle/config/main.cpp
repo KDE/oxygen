@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 {
     KAboutData aboutData(
         "oxygen-settings",
-        0,
+        "kstyle_config",
         ki18n( "Oxygen Settings" ),
         KDE_VERSION_STRING,
         ki18n( "Oxygen expert configuration tool" ),
