@@ -680,9 +680,9 @@ namespace Oxygen
         const QStyleOptionMenuItem* mOpt( qstyleoption_cast<const QStyleOptionMenuItem*>(option) );
         if( !( mOpt && widget ) ) return true;
         const QRect& r = mOpt->rect;
-        const QColor color = mOpt->palette.window().color();
+        const QColor color = mOpt->palette.color( widget->window()->backgroundRole() );
 
-        const bool hasAlpha( hasAlphaChannel( widget ) );
+        const bool hasAlpha( _helper.hasAlphaChannel( widget ) );
         if( hasAlpha )
         {
 
@@ -743,7 +743,7 @@ namespace Oxygen
 
         // make tooltip semi transparents when possible
         // alpha is copied from "kdebase/apps/dolphin/tooltips/filemetadatatooltip.cpp"
-        const bool hasAlpha( hasAlphaChannel( widget ) );
+        const bool hasAlpha( _helper.hasAlphaChannel( widget ) );
         if(  hasAlpha && OxygenStyleConfigData::toolTipTransparent() )
         {
             topColor.setAlpha(220);
@@ -2143,26 +2143,26 @@ namespace Oxygen
                 else renderScrollBarHole( p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
                 return false;
             }
-            
+
             case ScrollBar::DoubleButtonVert:
             {
                 renderScrollBarHole( p, QRect(r.left(), r.top()-5, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right);
                 return false;
             }
-            
+
             case ScrollBar::SingleButtonHor:
             {
                 if( reverseLayout) renderScrollBarHole( p, QRect(r.left()-5, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom);
                 else renderScrollBarHole( p, QRect(r.right()+1, r.top(), 5, r.height()), pal.color(QPalette::Window), Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom);
                 return false;
             }
-            
+
             case ScrollBar::SingleButtonVert:
             {
                 renderScrollBarHole( p, QRect(r.left(), r.bottom()+3, r.width(), 5), pal.color(QPalette::Window), Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right);
                 return false;
             }
-            
+
             case ScrollBar::GrooveAreaVertTop:
             {
                 renderScrollBarHole( p, r.adjusted(0,2,0,12), pal.color(QPalette::Window), Qt::Vertical, TileSet::Horizontal );
@@ -5325,9 +5325,9 @@ namespace Oxygen
 
         // draw the slider itself
         QRectF rect( horizontal ? r.adjusted(3, 2, -3, -3):r.adjusted(3, 4, -3, -3) );
-        
-        if( !rect.isValid()) 
-        { 
+
+        if( !rect.isValid())
+        {
             // e.g. not enough height
             p->restore();
             return;
@@ -5373,7 +5373,7 @@ namespace Oxygen
         // slider gradient
         {
             QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
-            if( !OxygenStyleConfigData::scrollBarColored()) 
+            if( !OxygenStyleConfigData::scrollBarColored())
             {
                 sliderGradient.setColorAt(0.0, color);
                 sliderGradient.setColorAt(1.0, mid);
@@ -5391,10 +5391,10 @@ namespace Oxygen
         if( OxygenStyleConfigData::scrollBarBevel() )
         {
             // don't let the pattern move
-            QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top()); 
+            QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top());
             QPoint periodEnd = offset + (horizontal ? QPoint(30, 0) : QPoint(0, 30));
             QLinearGradient patternGradient(rect.topLeft()+offset, rect.topLeft()+periodEnd);
-            if( !OxygenStyleConfigData::scrollBarColored()) 
+            if( !OxygenStyleConfigData::scrollBarColored())
             {
                 patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.1));
                 patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.1));
@@ -6601,7 +6601,7 @@ namespace Oxygen
             case SH_Menu_Mask:
             {
 
-                if( !hasAlphaChannel( widget ) && (!widget || widget->isWindow() ) )
+                if( !_helper.hasAlphaChannel( widget ) && (!widget || widget->isWindow() ) )
                 {
 
                     // mask should be set only if compositing is disabled
@@ -7328,7 +7328,7 @@ namespace Oxygen
             case QEvent::Resize:
             {
                 // make sure mask is appropriate
-                if( t->isFloating() && !hasAlphaChannel(t) ) t->setMask(_helper.roundedMask( t->rect() ));
+                if( t->isFloating() && !_helper.hasAlphaChannel(t) ) t->setMask(_helper.roundedMask( t->rect() ));
                 else  t->clearMask();
                 return false;
             }
@@ -7356,7 +7356,7 @@ namespace Oxygen
 
                 }
 
-                const bool hasAlpha( hasAlphaChannel(t) );
+                const bool hasAlpha( _helper.hasAlphaChannel(t) );
                 if( hasAlpha )
                 {
                     p.setCompositionMode(QPainter::CompositionMode_Source );
@@ -7422,7 +7422,7 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             {
-                if( !hasAlphaChannel(widget) ) widget->setMask(_helper.roundedMask( widget->rect() ));
+                if( !_helper.hasAlphaChannel(widget) ) widget->setMask(_helper.roundedMask( widget->rect() ));
                 else widget->clearMask();
                 return false;
             }
@@ -7436,7 +7436,7 @@ namespace Oxygen
 
                 const QRect r( widget->rect() );
                 const QColor color( widget->palette().window().color() );
-                const bool hasAlpha( hasAlphaChannel( widget ) );
+                const bool hasAlpha( _helper.hasAlphaChannel( widget ) );
 
                 if( hasAlpha )
                 {
@@ -7486,7 +7486,7 @@ namespace Oxygen
             {
 
                 // make sure mask is appropriate
-                if( !hasAlphaChannel(widget) ) widget->setMask(_helper.roundedMask( widget->rect() ));
+                if( !_helper.hasAlphaChannel(widget) ) widget->setMask(_helper.roundedMask( widget->rect() ));
                 else widget->clearMask();
                 return false;
             }
@@ -7501,7 +7501,7 @@ namespace Oxygen
                 QPaintEvent *e = (QPaintEvent*)ev;
                 p.setClipRegion(e->region());
 
-                const bool hasAlpha( hasAlphaChannel( widget ) );
+                const bool hasAlpha( _helper.hasAlphaChannel( widget ) );
                 if( hasAlpha )
                 {
 
@@ -7572,7 +7572,7 @@ namespace Oxygen
             case QEvent::Resize:
             {
                 // make sure mask is appropriate
-                if( dw->isFloating() && !hasAlphaChannel(dw) ) dw->setMask(_helper.roundedMask( dw->rect() ));
+                if( dw->isFloating() && !_helper.hasAlphaChannel(dw) ) dw->setMask(_helper.roundedMask( dw->rect() ));
                 else dw->clearMask();
                 return false;
             }
@@ -7589,7 +7589,7 @@ namespace Oxygen
                 {
 
                     #ifndef Q_WS_WIN
-                    bool hasAlpha( hasAlphaChannel(dw ) );
+                    bool hasAlpha( _helper.hasAlphaChannel(dw ) );
                     if( hasAlpha )
                     {
                         p.setCompositionMode(QPainter::CompositionMode_Source );
@@ -7647,24 +7647,6 @@ namespace Oxygen
         }
 
         return false;
-    }
-
-    //____________________________________________________________________
-    bool Style::hasAlphaChannel( const QWidget* widget ) const
-    {
-        #ifdef Q_WS_X11
-        if( compositingActive() )
-        {
-
-            if( widget ) return widget->x11Info().depth() == 32;
-            else return QX11Info().appDepth() == 32;
-
-        } else return false;
-
-        #else
-        return compositingActive();
-        #endif
-
     }
 
     //____________________________________________________________________

@@ -25,6 +25,12 @@
 #include "oxygenhelper.h"
 #include "oxygenanimationmodes.h"
 
+#include <KWindowSystem>
+
+#ifdef Q_WS_X11
+#include <QtGui/QX11Info>
+#endif
+
 //! helper class
 /*! contains utility functions used at multiple places in oxygen style */
 namespace Oxygen
@@ -140,6 +146,17 @@ namespace Oxygen
         void drawInverseShadow(QPainter&, const QColor&, int pad, int size, qreal fuzz) const;
         void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
 
+        //!@name utility functions
+
+        //! returns true if compositing is active
+        bool compositingActive( void ) const
+        { return KWindowSystem::compositingActive(); }
+
+        //! returns true if a given widget supports alpha channel
+        inline bool hasAlphaChannel( const QWidget* ) const;
+
+        //@}
+
         protected:
 
         void drawHole(QPainter&, const QColor&, qreal shade, int r = 7) const;
@@ -165,6 +182,25 @@ namespace Oxygen
         QCache<quint64, TileSet> m_selectionCache;
 
     };
+
+
+    //____________________________________________________________________
+    bool StyleHelper::hasAlphaChannel( const QWidget* widget ) const
+    {
+        #ifdef Q_WS_X11
+        if( compositingActive() )
+        {
+
+            if( widget ) return widget->x11Info().depth() == 32;
+            else return QX11Info().appDepth() == 32;
+
+        } else return false;
+
+        #else
+        return compositingActive();
+        #endif
+
+    }
 
 }
 #endif
