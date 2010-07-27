@@ -2135,7 +2135,7 @@ namespace Oxygen
             else r.adjust( 1, 0, -1, 0 );
         }
 
-        switch (primitive)
+        switch( primitive )
         {
             case ScrollBar::DoubleButtonHor:
             {
@@ -4553,6 +4553,39 @@ namespace Oxygen
         windowManager().registerWidget( widget );
         frameShadowFactory().registerWidget( widget, _helper );
 
+        // adjust flags for windows and dialogs
+        switch( widget->windowFlags() & Qt::WindowType_Mask )
+        {
+
+            case Qt::Window:
+            case Qt::Dialog:
+            {
+
+                // do not handle all kind of 'special background' widgets
+                if( widget->windowType() == Qt::Desktop ||
+                    widget->testAttribute(Qt::WA_X11NetWmWindowTypeDesktop) ||
+                    widget->testAttribute(Qt::WA_TranslucentBackground) ||
+                    widget->testAttribute(Qt::WA_NoSystemBackground) ||
+                    widget->testAttribute(Qt::WA_PaintOnScreen)
+                    ) break;
+
+                // disable kde screensaver windows
+                /*
+                the kscreensaver widgets get a WA_PaintOnScreen flag set,
+                which should have been covered by the above, but somehow the flag is set too late,
+                and notably after polish is called. Or so it seems.
+                */
+                if( widget->inherits( "KScreenSaver" ) ) break;
+
+                // set background as styled
+                widget->setAttribute(Qt::WA_StyledBackground);
+            }
+            break;
+
+            default: break;
+
+        }
+
         // scroll areas
         if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>(widget) )
         {
@@ -4579,19 +4612,6 @@ namespace Oxygen
 
             widget->setAttribute( Qt::WA_Hover );
             animations().lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
-
-        }
-
-        // adjust flags for windows and dialogs
-        switch( widget->windowFlags() & Qt::WindowType_Mask )
-        {
-
-            case Qt::Window:
-            case Qt::Dialog:
-            widget->setAttribute(Qt::WA_StyledBackground);
-            break;
-
-            default: break;
 
         }
 
@@ -4637,8 +4657,10 @@ namespace Oxygen
             toolbar to toolbar if removed.
             (Hugo 05/18/2010)
         */
-        if( qobject_cast<QToolBar *>(widget->parent()) )
-        { widget->setContentsMargins(0,0,0,1); }
+        if( qobject_cast<QToolBar*>(widget->parent()) )
+        {
+            widget->setContentsMargins(0,0,0,1);
+        }
 
         if( qobject_cast<QToolButton*>(widget) )
         {
@@ -4771,7 +4793,6 @@ namespace Oxygen
     void Style::unpolish(QWidget* widget)
     {
 
-        // register widget to animations
         animations().unregisterWidget( widget );
         transitions().unregisterWidget( widget );
         windowManager().unregisterWidget( widget );
@@ -7435,7 +7456,7 @@ namespace Oxygen
                 p.setClipRegion(e->region());
 
                 const QRect r( widget->rect() );
-                const QColor color( widget->palette().window().color() );
+                const QColor color( widget->palette().color( widget->window()->backgroundRole() ) );
                 const bool hasAlpha( _helper.hasAlphaChannel( widget ) );
 
                 if( hasAlpha )
@@ -7448,6 +7469,7 @@ namespace Oxygen
 
                 }
 
+                // background
                 _helper.renderMenuBackground( &p, e->rect(), widget, widget->palette() );
 
                 // frame
