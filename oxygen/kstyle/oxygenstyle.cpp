@@ -4561,22 +4561,6 @@ namespace Oxygen
             case Qt::Dialog:
             {
 
-                // do not handle all kind of 'special background' widgets
-                if( widget->windowType() == Qt::Desktop ||
-                    widget->testAttribute(Qt::WA_X11NetWmWindowTypeDesktop) ||
-                    widget->testAttribute(Qt::WA_TranslucentBackground) ||
-                    widget->testAttribute(Qt::WA_NoSystemBackground) ||
-                    widget->testAttribute(Qt::WA_PaintOnScreen)
-                    ) break;
-
-                // disable kde screensaver windows
-                /*
-                the kscreensaver widgets get a WA_PaintOnScreen flag set,
-                which should have been covered by the above, but somehow the flag is set too late,
-                and notably after polish is called. Or so it seems.
-                */
-                if( widget->inherits( "KScreenSaver" ) ) break;
-
                 // set background as styled
                 widget->setAttribute(Qt::WA_StyledBackground);
             }
