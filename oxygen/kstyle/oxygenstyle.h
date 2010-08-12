@@ -434,9 +434,6 @@ namespace Oxygen
         //! tiles from tab orientation
         TileSet::Tiles tilesByShape(QTabBar::Shape shape) const;
 
-        //! configuration
-        void loadConfiguration();
-
         //! custom Control element to implement re-painting of dolphin CapacityBar
         const QStyle::ControlElement CE_CapacityBar;
 
