@@ -39,9 +39,9 @@ namespace Oxygen
         startValue_(0),
         endValue_(0)
     {
-        
+
         target->installEventFilter( this );
-        
+
         // set animation curve shape
         animation().data()->setEasingCurve( QEasingCurve::InOutQuad );
 
@@ -102,7 +102,24 @@ namespace Oxygen
 
         // update start and end values
         bool isRunning( animation().data()->isRunning() );
-        if( !isRunning ) setStartValue( endValue() );
+        if( isRunning )
+        {
+
+            // in case next value arrives while animation is running,
+            // end animation, set value immediately
+            // and trigger target update. This increases responsiveness of progressbars
+            setStartValue( value );
+            setEndValue( value );
+            animation().data()->stop();
+            setOpacity(0);
+
+            if( target() ) target().data()->update();
+
+            return;
+
+        }
+
+        setStartValue( endValue() );
         setEndValue( value );
 
         // start animation only if target is enabled, visible, not running,
