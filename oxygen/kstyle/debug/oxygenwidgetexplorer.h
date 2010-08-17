@@ -52,6 +52,10 @@ namespace Oxygen
         //! enable
         void setEnabled( bool );
 
+        //! widget rects
+        void setDrawWidgetRects( bool value )
+        { _drawWidgetRects = value; }
+
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );
 
@@ -67,6 +71,9 @@ namespace Oxygen
 
         //! enable state
         bool _enabled;
+
+        //! widget rects
+        bool _drawWidgetRects;
 
     };
 

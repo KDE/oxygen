@@ -30,6 +30,7 @@
 #include <QtCore/QTextStream>
 #include <QtGui/QApplication>
 #include <QtGui/QMouseEvent>
+#include <QtGui/QPainter>
 
 namespace Oxygen
 {
@@ -37,7 +38,8 @@ namespace Oxygen
     //________________________________________________
     WidgetExplorer::WidgetExplorer( QObject* parent ):
         QObject( parent ),
-        _enabled( false )
+        _enabled( false ),
+        _drawWidgetRects( false )
     {}
 
     //________________________________________________
@@ -57,6 +59,21 @@ namespace Oxygen
 
         switch( event->type() )
         {
+            case QEvent::Paint:
+            if( _drawWidgetRects )
+            {
+                QWidget* widget( qobject_cast<QWidget*>( object ) );
+                if( !widget ) return false;
+
+                QPainter painter( widget );
+                painter.setRenderHints(QPainter::Antialiasing);
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( Qt::red );
+                painter.drawRect( widget->rect() );
+                painter.end();
+            }
+            break;
+
             case QEvent::MouseButtonPress:
             {
 
@@ -116,7 +133,8 @@ namespace Oxygen
         QString out;
         QTextStream( &out ) << widget << " (" << className << ")"
             << " position: " << r.x() << "," << r.y()
-            << " size: " << r.width() << "," << r.height();
+            << " size: " << r.width() << "," << r.height()
+            << " hover: " << widget->testAttribute( Qt::WA_Hover );
         return out;
     }
 
