@@ -83,13 +83,17 @@ namespace Oxygen
         enum Tile {
             Top = 0x1,
             Left = 0x2,
-            Right = 0x8,
             Bottom = 0x4,
+            Right = 0x8,
             Center = 0x10,
-            Ring = 0x0f,
-            Horizontal = 0x1a,
-            Vertical = 0x15,
-            Full = 0x1f
+            TopLeft = Top|Left,
+            TopRight = Top|Right,
+            BottomLeft = Bottom|Left,
+            BottomRight = Bottom|Right,
+            Ring = Top|Left|Bottom|Right,
+            Horizontal = Left|Right|Center,
+            Vertical = Top|Bottom|Center,
+            Full = Ring|Center
         };
         Q_DECLARE_FLAGS(Tiles, Tile)
 
