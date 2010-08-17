@@ -152,7 +152,7 @@ namespace Oxygen
 
         //! map QStyle primitive element to painting function
         void registerQStyleComplexControl( const ComplexControl& key, const Style::QStyleComplexControl& control )
-        { qStyleComplexControls_.insert( key, control ); }
+        { _qStyleComplexControls.insert( key, control ); }
 
         //@}
 
@@ -172,7 +172,7 @@ namespace Oxygen
 
         //! map QStyle primitive element to painting function
         void registerQStyleControl( const ControlElement& key, const Style::QStyleControl& control )
-        { qStyleControls_.insert( key, control ); }
+        { _qStyleControls.insert( key, control ); }
 
         //@}
 
@@ -192,7 +192,7 @@ namespace Oxygen
 
         //! map QStyle primitive element to painting function
         void registerQStylePrimitive( const PrimitiveElement& key, const Style::QStylePrimitive& primitive )
-        { qStylePrimitives_.insert( key, primitive ); }
+        { _qStylePrimitives.insert( key, primitive ); }
 
         //@}
 
@@ -231,7 +231,7 @@ namespace Oxygen
 
         typedef bool (Style::*KStylePrimitive)( int, const QStyleOption*, const QRect &, const QPalette &, State, QPainter*, const QWidget*, Option*) const;
         void registerKStylePrimitive( const WidgetType& key, const Style::KStylePrimitive& primitive )
-        { kStylePrimitives_.insert( key, primitive ); }
+        { _kStylePrimitives.insert( key, primitive ); }
 
         //@}
 
@@ -440,25 +440,25 @@ namespace Oxygen
         //!@name map control element to QStyle control painting function
         //@{
         typedef QMap<ComplexControl, Style::QStyleComplexControl> QStyleComplexControlMap;
-        QStyleComplexControlMap qStyleComplexControls_;
+        QStyleComplexControlMap _qStyleComplexControls;
         //@}
 
         //!@name map control element to QStyle control painting function
         //@{
         typedef QMap<ControlElement, Style::QStyleControl> QStyleControlMap;
-        QStyleControlMap qStyleControls_;
+        QStyleControlMap _qStyleControls;
         //@}
 
         //!@name map primitive element  to QStyle primitive painting function
         //@{
         typedef QMap<PrimitiveElement, Style::QStylePrimitive> QStylePrimitiveMap;
-        QStylePrimitiveMap qStylePrimitives_;
+        QStylePrimitiveMap _qStylePrimitives;
         //@}
 
         //!@name map widget type to KStyle primitive painting function
         //@{
         typedef QMap<WidgetType, Style::KStylePrimitive> KStylePrimitiveMap;
-        KStylePrimitiveMap kStylePrimitives_;
+        KStylePrimitiveMap _kStylePrimitives;
         //@}
 
         //! helper

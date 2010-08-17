@@ -78,6 +78,7 @@
 // know what bevel color should be based on... (and shadow color for white
 // views looks rather bad). For now at least, just using QPalette::Window
 // everywhere seems best...
+static const QStyle::StyleHint SH_KCustomStyleElement = (QStyle::StyleHint)0xff000001;
 
 /* These are to link libkio even if 'smart' linker is used */
 #include <kio/authinfo.h>
@@ -102,6 +103,7 @@ static void cleanupBefore()
 
 namespace Oxygen
 {
+
     //_____________________________________________
     Style::Style() :
         CE_CapacityBar( newControlElement( "CE_CapacityBar" ) ),
@@ -257,8 +259,8 @@ namespace Oxygen
 
         setWidgetLayoutProp(WT_TabBar, TabBar::TabOverlap, 0);
         setWidgetLayoutProp(WT_TabBar, TabBar::BaseOverlap, 7);
-        setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin, 4);
         setWidgetLayoutProp(WT_TabBar, TabBar::TabFocusMargin, 0);
+        setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin, 4);
         setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Left, 5);
         setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Right, 5);
         setWidgetLayoutProp(WT_TabBar, TabBar::TabContentsMargin + Top, 2);
@@ -328,8 +330,8 @@ namespace Oxygen
     {
         // try find primitive in map, and run.
         // exit if result is true, otherwise fallback to generic case
-        QStyleComplexControlMap::const_iterator iterator( qStyleComplexControls_.find( control ) );
-        if( iterator != qStyleComplexControls_.end() && (this->*iterator.value())(option, painter, widget ) ) return;
+        QStyleComplexControlMap::const_iterator iterator( _qStyleComplexControls.find( control ) );
+        if( iterator != _qStyleComplexControls.end() && (this->*iterator.value())(option, painter, widget ) ) return;
         else KStyle::drawComplexControl(control,option,painter,widget);
 
     }
@@ -648,8 +650,8 @@ namespace Oxygen
 
         // try find primitive in map, and run.
         // exit if result is true, otherwise fallback to generic case
-        QStylePrimitiveMap::const_iterator iterator( qStylePrimitives_.find( element ) );
-        if( iterator != qStylePrimitives_.end() && (this->*iterator.value())(option, p, widget ) ) return;
+        QStylePrimitiveMap::const_iterator iterator( _qStylePrimitives.find( element ) );
+        if( iterator != _qStylePrimitives.end() && (this->*iterator.value())(option, p, widget ) ) return;
         else KStyle::drawPrimitive( element, option, p, widget );
 
     }
@@ -923,8 +925,8 @@ namespace Oxygen
 
         // try find primitive in map, and run.
         // exit if result is true, otherwise fallback to generic case
-        QStyleControlMap::const_iterator iterator( qStyleControls_.find( element ) );
-        if( iterator != qStyleControls_.end() && (this->*iterator.value())(option, p, widget ) ) return;
+        QStyleControlMap::const_iterator iterator( _qStyleControls.find( element ) );
+        if( iterator != _qStyleControls.end() && (this->*iterator.value())(option, p, widget ) ) return;
         else KStyle::drawControl( element, option, p, widget );
 
     }
@@ -1198,8 +1200,8 @@ namespace Oxygen
 
         // try find primitive in map, and run.
         // exit if result is true, otherwise fallback to generic case
-        KStylePrimitiveMap::const_iterator iterator( kStylePrimitives_.find( widgetType ) );
-        if( iterator != kStylePrimitives_.end() && (this->*iterator.value())(primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
+        KStylePrimitiveMap::const_iterator iterator( _kStylePrimitives.find( widgetType ) );
+        if( iterator != _kStylePrimitives.end() && (this->*iterator.value())(primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
 
         // generic primitive
         if( drawGenericPrimitive( widgetType, primitive, opt, r, pal, flags, p, widget, kOpt ) ) return;
@@ -1742,18 +1744,15 @@ namespace Oxygen
                         // for now menu size is not calculated properly
                         // (meaning it doesn't account for titled separators width
                         // as a fallback, we elide the text to be displayed
-                        if( !menuItemOption->text.isEmpty() )
-                        {
-                            int width( r.width() );
-                            if( !menuItemOption->icon.isNull() )
-                            { width -= toolbuttonOpt.iconSize.width() + 2; }
+                        int width( r.width() );
+                        if( !menuItemOption->icon.isNull() )
+                        { width -= toolbuttonOpt.iconSize.width() + 2; }
 
-                            width -= 2*widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + MainMargin, &toolbuttonOpt, widget) +
-                                widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Left, &toolbuttonOpt, widget) +
-                                widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Right, &toolbuttonOpt, widget);
+                        width -= 2*widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + MainMargin, &toolbuttonOpt, widget) +
+                            widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Left, &toolbuttonOpt, widget) +
+                            widgetLayoutProp(WT_ToolButton, ToolButton::ContentsMargin + Right, &toolbuttonOpt, widget);
 
-                            toolbuttonOpt.text = QFontMetrics( toolbuttonOpt.font ).elidedText( menuItemOption->text, Qt::ElideRight, width );
-                        }
+                        toolbuttonOpt.text = QFontMetrics( toolbuttonOpt.font ).elidedText( menuItemOption->text, Qt::ElideRight, width );
 
                         toolbuttonOpt.toolButtonStyle = Qt::ToolButtonTextBesideIcon;
                         drawComplexControl( CC_ToolButton, &toolbuttonOpt, p, widget );
@@ -2895,7 +2894,8 @@ namespace Oxygen
 
         if( enabled )
         {
-            if( widget && widget->inherits( "QMainWindow" ) ) {
+            if( widget && widget->inherits( "QMainWindow" ) )
+            {
 
                 // get orientation
                 Qt::Orientation orientation( flags & QStyle::State_Horizontal ? Qt::Horizontal : Qt::Vertical );
@@ -4360,10 +4360,10 @@ namespace Oxygen
         p->translate(int(r.x()+r.width()/2), int(r.y()+r.height()/2));
         p->setRenderHint(QPainter::Antialiasing);
 
-        qreal offset( qMin( penThickness, qreal(1.0)) );
         if( drawContrast )
         {
 
+            const qreal offset( qMin( penThickness, qreal(1.0)) );
             p->translate(0,offset);
             p->setPen(QPen(_helper.calcLightColor(pal.color(QPalette::Window)), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             p->drawPolyline(a);
@@ -6569,6 +6569,10 @@ namespace Oxygen
     int Style::styleHint(StyleHint hint, const QStyleOption * option, const QWidget * widget, QStyleHintReturn * returnData) const
     {
         switch (hint) {
+
+            case SH_KCustomStyleElement:
+            QTextStream( stdout ) << "Oxygen::Style::styleHint - SH_KCustomStyleElement - " << widget->objectName() << endl;
+            return KStyle::styleHint( hint, option, widget, returnData );
 
             case SH_ScrollView_FrameOnlyAroundContents:
             return true;
