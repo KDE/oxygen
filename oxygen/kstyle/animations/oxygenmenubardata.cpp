@@ -90,9 +90,8 @@ namespace Oxygen
             {
                 // first need to call proper event processing
                 // then implement transition
-                object->event( event );
                 mousePressEvent( object );
-                return true;
+                break;
             }
 
             default: break;
