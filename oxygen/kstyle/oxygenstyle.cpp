@@ -2114,7 +2114,6 @@ namespace Oxygen
     {
 
         Q_UNUSED( widget );
-        Q_UNUSED( kOpt );
 
         const bool reverseLayout( opt->direction == Qt::RightToLeft );
         const bool enabled( flags & State_Enabled );
@@ -4206,6 +4205,9 @@ namespace Oxygen
             }
 
         } else if( const QToolButton *tool = qobject_cast<const QToolButton *>(widget)) {
+
+            // kOpt returns wrong color for pressed down arrow
+            color = pal.color( QPalette::Text );
 
             const bool reverseLayout( opt->direction == Qt::RightToLeft );
             const QColor highlight( _helper.viewHoverBrush().brush(pal).color() );
