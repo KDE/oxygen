@@ -119,16 +119,11 @@ namespace Oxygen
 
         // connect to KGlobalSettings signals so we will be notified when the
         // system palette (in particular, the contrast) is changed
-        QDBusConnection::sessionBus().connect(
-            QString(), "/KGlobalSettings",
-            "org.kde.KGlobalSettings",
-            "notifyChange", this,
-            SLOT(globalSettingsChange(int,int))
-            );
+        connect(KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(globalPaletteChanged()));
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
-        globalSettingsChange(KGlobalSettings::PaletteChanged, 0);
+        globalPaletteChanged();
 
         // register qstyle complex control elements
         // the second argument will be called automatically when the first argument is passed to drawControl
@@ -4898,11 +4893,10 @@ namespace Oxygen
     }
 
     //_____________________________________________________________________
-    void Style::globalSettingsChange(int type, int /*arg*/)
+    void Style::globalPaletteChanged()
     {
-
         // reset helper configuration
-        if( type == KGlobalSettings::PaletteChanged) _helper.reloadConfig();
+        _helper.reloadConfig();
 
         // reset config
         OxygenStyleConfigData::self()->readConfig();

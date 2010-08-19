@@ -423,7 +423,7 @@ namespace Oxygen
         virtual QIcon standardIconImplementation(StandardPixmap standardIcon, const QStyleOption *option, const QWidget *widget) const;
 
         //! needed to update style when configuration is changed
-        void globalSettingsChange(int type, int arg);
+        void globalPaletteChanged();
 
         private:
 
