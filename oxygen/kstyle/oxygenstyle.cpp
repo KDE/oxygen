@@ -58,13 +58,15 @@
 #include <QtGui/QToolButton>
 #include <QtGui/QX11Info>
 
-#include <QtDBus/QtDBus>
+#include <QtDBus/QDBusConnection>
 
 #include <KGlobal>
 #include <KGlobalSettings>
 #include <KConfigGroup>
 #include <KColorUtils>
 #include <KDebug>
+
+#include <cmath>
 
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
@@ -121,9 +123,13 @@ namespace Oxygen
         // system palette (in particular, the contrast) is changed
         connect(KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(globalPaletteChanged()));
 
+        // TODO: need dbus connection to trigger oxygenConfigurationChanged when config is actually modified
+        QDBusConnection dbus = QDBusConnection::sessionBus();
+        dbus.connect(QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT(oxygenConfigurationChanged()));
+
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
-        globalPaletteChanged();
+        oxygenConfigurationChanged();
 
         // register qstyle complex control elements
         // the second argument will be called automatically when the first argument is passed to drawControl
@@ -4894,22 +4900,29 @@ namespace Oxygen
 
     //_____________________________________________________________________
     void Style::globalPaletteChanged()
+    { _helper.reloadConfig(); }
+
+    //_____________________________________________________________________
+    void Style::oxygenConfigurationChanged()
     {
+
         // reset helper configuration
         _helper.reloadConfig();
 
-        // reset config
+        // re-read configuration from file
         OxygenStyleConfigData::self()->readConfig();
 
         // update caches size
         _helper.setMaxCacheSize( qMax( 1, OxygenStyleConfigData::maxCacheSize() ) );
 
-        // reinitialize engines
+        // (re)initialize engines
         animations().setupEngines();
         transitions().setupEngines();
         windowManager().initialize();
-
         widgetExplorer().setEnabled( OxygenStyleConfigData::widgetExplorerEnabled() );
+
+        // possibly, one should trigger an update of relevant widgets,
+        // to make sure things are painted properly.
 
     }
 

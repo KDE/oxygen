@@ -132,7 +132,6 @@ namespace Oxygen
     {
         KConfigGroup config;
         emit pluginSave( config );
-        KGlobalSettings::self()->emitChange(KGlobalSettings::StyleChanged);
         updateStyleChanged( false );
         updateDecorationChanged( false );
         updateChanged();

@@ -33,6 +33,8 @@ DEALINGS IN THE SOFTWARE.
 #include "oxygenstyleconfigdata.h"
 
 #include <QtCore/QTextStream>
+#include <QtDBus/QDBusMessage>
+#include <QtDBus/QDBusConnection>
 
 #include <KGlobal>
 #include <KLocale>
@@ -139,6 +141,11 @@ namespace Oxygen
         }
 
         OxygenStyleConfigData::self()->writeConfig();
+
+        // emit dbus signal
+        QDBusMessage message( QDBusMessage::createSignal("/OxygenStyle",  "org.kde.Oxygen.Style", "reparseConfiguration") );
+        QDBusConnection::sessionBus().send(message);
+
     }
 
     //__________________________________________________________________
