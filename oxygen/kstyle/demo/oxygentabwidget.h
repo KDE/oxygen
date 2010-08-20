@@ -41,7 +41,12 @@ namespace Oxygen
 
         TabWidget( QWidget* parent ):
         KTabWidget( parent )
-        {}
+        {
+
+            // make tabs movable, for further debugging
+            tabBar()->setMovable( true );
+
+        }
 
         public slots:
 
