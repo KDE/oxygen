@@ -68,11 +68,6 @@ endif( X11_FOUND )
 
 install(TARGETS oxygen  DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/ )
 
-
 ########### install files ###############
 
 install( FILES oxygen.themerc  DESTINATION  ${DATA_INSTALL_DIR}/kstyle/themes )
-
-
-
-
