@@ -130,8 +130,15 @@ namespace Oxygen
     //_______________________________________________________________
     void ConfigDialog::save( void )
     {
+
+        // trigger pluggins to save themselves
         KConfigGroup config;
         emit pluginSave( config );
+
+        // this is needed to trigger decoration update
+        KGlobalSettings::self()->emitChange(KGlobalSettings::StyleChanged);
+
+        // reset 'changed' flags
         updateStyleChanged( false );
         updateDecorationChanged( false );
         updateChanged();
