@@ -6486,8 +6486,12 @@ namespace Oxygen
             const qreal opacity( animations().tabBarEngine().opacity( widget, r.topLeft() ) );
             const StyleOptions hoverTabOpts( NoFill | Hover );
             adjustSlabRect( highlightSlab, tabWidgetRect, documentMode, verticalTabs );
-            if( animated ) renderSlab( painter, highlightSlab, color, hoverTabOpts, opacity, AnimationHover);
-            else renderSlab( painter, highlightSlab, color, hoverTabOpts );
+            //if( animated ) renderSlab( painter, highlightSlab, color, hoverTabOpts, opacity, AnimationHover);
+            //else renderSlab( painter, highlightSlab, color, hoverTabOpts );
+
+            // pass an invalid color to have only the glow painted
+            if( animated ) renderSlab( painter, highlightSlab, QColor(), hoverTabOpts, opacity, AnimationHover);
+            else renderSlab( painter, highlightSlab, QColor(), hoverTabOpts );
 
         }
 
@@ -7953,8 +7957,8 @@ namespace Oxygen
         // edges
         // for slabs, hover takes precedence over focus (other way around for holes)
         // but in any case if the button is sunken we don't show focus nor hover
-        TileSet *tile;
-        if( options & Sunken)
+        TileSet *tile(0);
+        if( (options & Sunken) && color.isValid() )
         {
             tile = _helper.slabSunken(color, 0.0);
 
@@ -7962,11 +7966,14 @@ namespace Oxygen
 
             // calculate proper glow color based on current settings and opacity
             QColor glow( slabShadowColor( color, options, opacity, mode ) );
-            tile = glow.isValid() ? _helper.slabFocused(color, glow , 0.0) : _helper.slab(color, 0.0);
+            if( glow.isValid() ) tile = _helper.slabFocused(color, glow , 0.0);
+            else if( color.isValid() ) tile = _helper.slab(color, 0.0);
+            else return;
 
         }
 
-        tile->render( r, painter, tiles );
+        // render tileset
+        if( tile ) tile->render( r, painter, tiles );
 
     }
 
@@ -8853,14 +8860,14 @@ namespace Oxygen
 
             if( options & Hover ) glow = _helper.viewHoverBrush().brush(QPalette::Active).color();
             else if( options & Focus ) glow = _helper.viewFocusBrush().brush(QPalette::Active).color();
-            else if( options & SubtleShadow ) glow = _helper.alphaColor(_helper.calcShadowColor(color), 0.15 );
+            else if( (options & SubtleShadow) && color.isValid() ) glow = _helper.alphaColor(_helper.calcShadowColor(color), 0.15 );
 
 
         } else if( mode == AnimationHover ) {
 
             // animated color, hover
             if( options & Focus ) glow = _helper.viewFocusBrush().brush(QPalette::Active).color();
-            else if( options & SubtleShadow ) glow = _helper.alphaColor(_helper.calcShadowColor(color), 0.15 );
+            else if( (options & SubtleShadow) && color.isValid() ) glow = _helper.alphaColor(_helper.calcShadowColor(color), 0.15 );
 
             if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper.viewHoverBrush().brush(QPalette::Active).color(), opacity );
             else glow = _helper.alphaColor(  _helper.viewHoverBrush().brush(QPalette::Active).color(), opacity );
@@ -8868,7 +8875,7 @@ namespace Oxygen
         } else if( mode == AnimationFocus ) {
 
             if( options & Hover ) glow = _helper.viewHoverBrush().brush(QPalette::Active).color();
-            else if( options & SubtleShadow ) glow = _helper.alphaColor(_helper.calcShadowColor(color), 0.15 );
+            else if( (options & SubtleShadow) && color.isValid() ) glow = _helper.alphaColor(_helper.calcShadowColor(color), 0.15 );
 
             if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper.viewFocusBrush().brush(QPalette::Active).color(), opacity );
             else glow = _helper.alphaColor(  _helper.viewFocusBrush().brush(QPalette::Active).color(), opacity );

@@ -591,9 +591,9 @@ namespace Oxygen
             p.setWindow(0,0,fixedSize*hScale, fixedSize);
 
             // draw all components
-            drawShadow(p, calcShadowColor(color), 14);
-            drawOuterGlow( p, glowColor, 14 );
-            drawSlab(p, color, shade);
+            if( color.isValid() ) drawShadow(p, calcShadowColor(color), 14);
+            if( glowColor.isValid() ) drawOuterGlow( p, glowColor, 14 );
+            if( color.isValid() ) drawSlab(p, color, shade);
 
             p.end();
 
