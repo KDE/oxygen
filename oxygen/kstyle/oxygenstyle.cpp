@@ -5794,15 +5794,7 @@ namespace Oxygen
         {
 
             // render window background in case of dragged tabwidget
-            if( isDragged )
-            {
-
-                // filling
-                QRect fillRect = tabRect.adjusted(4, verticalTabs ? 3:4,-4,-4);
-                if( widget ) _helper.renderWindowBackground( painter, fillRect, widget, palette );
-                else painter->fillRect( fillRect, color );
-
-            }
+            if( isDragged ) fillTabBackground( painter, tabRect, color, tabOpt->shape, widget );
 
             StyleOptions selectedTabOpts( NoFill );
             if( OxygenStyleConfigData::tabSubtleShadow() ) selectedTabOpts |= SubtleShadow;
@@ -6442,15 +6434,7 @@ namespace Oxygen
         {
 
             // render window background in case of dragged tabwidget
-            if( isDragged )
-            {
-
-                // filling
-                QRect fillRect = tabRect.adjusted(4, verticalTabs ? 3:4,-4,-4);
-                if( widget ) _helper.renderWindowBackground( painter, fillRect, widget, palette );
-                else painter->fillRect( fillRect, color );
-
-            }
+            if( isDragged ) fillTabBackground( painter, tabRect, color, tabOpt->shape, widget );
 
             // slab options
             StyleOptions selectedTabOpts( NoFill );
@@ -7975,6 +7959,43 @@ namespace Oxygen
         // render tileset
         if( tile ) tile->render( r, painter, tiles );
 
+    }
+
+    //______________________________________________________________________________________________________________________________
+    void Style::fillTabBackground( QPainter* painter, const QRect &r, const QColor &color, QTabBar::Shape shape, const QWidget* widget ) const
+    {
+        
+        // filling
+        QRect fillRect(r);
+        switch( shape )
+        {
+            case QTabBar::RoundedNorth:
+            case QTabBar::TriangularNorth:
+            fillRect.adjust( 4, 4, -4, -6 );
+            break;
+            
+            case QTabBar::RoundedSouth:
+            case QTabBar::TriangularSouth:
+            fillRect.adjust( 4, 4, -4, -4 );
+            break;
+            
+            case QTabBar::RoundedWest:
+            case QTabBar::TriangularWest:
+            fillRect.adjust( 4, 3, -5, -5 );
+            break;
+            
+            case QTabBar::RoundedEast:
+            case QTabBar::TriangularEast:
+            fillRect.adjust( 5, 3, -4, -5 );
+            break;
+            
+            default: return;
+            
+        }
+        
+        if( widget ) _helper.renderWindowBackground( painter, fillRect, widget, color );
+        else painter->fillRect( fillRect, color );
+        
     }
 
     //______________________________________________________________________________________________________________________________

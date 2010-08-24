@@ -662,7 +662,7 @@ namespace Oxygen
 
         //! generic button slab
         void renderButtonSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, AnimationMode, TileSet::Tiles ) const;
-
+            
         //! generic slab
         void renderSlab( QPainter* painter, const SlabRect& slab, const QColor& color, StyleOptions options = 0 ) const
         { renderSlab( painter, slab._r, color, options, slab._tiles ); }
@@ -680,6 +680,10 @@ namespace Oxygen
 
         // render tab background
         void renderTabBackground( QPainter*, const QRect&, const QPalette&, const QTabBar::Shape, const QWidget* ) const;
+
+        //! tab background
+        /*! this paints window background behind tab when tab is being dragged */
+        void fillTabBackground( QPainter*, const QRect&, const QColor&, const QTabBar::Shape, const QWidget* ) const;
 
         //! tab filling
         void fillTab( QPainter*, const QRect&, const QColor&, const QTabBar::Shape, bool active ) const;
