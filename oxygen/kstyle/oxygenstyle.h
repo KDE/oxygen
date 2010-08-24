@@ -571,6 +571,13 @@ namespace Oxygen
 
         //@}
 
+        //!@name standard icons
+        //@{
+        void initializeStandardIcons( void );
+        void registerStandardIcon( const StandardPixmap& key, const QIcon& value )
+        { _standardIcons.insert( key, value ); }
+        //@}
+        
         //! true if widget is child of KTextEdit
         bool isKTextEditFrame( const QWidget* widget ) const
         { return ( widget && widget->parentWidget() && widget->parentWidget()->inherits( "KTextEditor::View" ) ); }
@@ -979,6 +986,10 @@ namespace Oxygen
         typedef QMap<ComplexControl, Style::StyleComplexControl> StyleComplexControlMap;
         StyleComplexControlMap _styleComplexControls;
 
+        //! standard icons
+        typedef QMap<StandardPixmap, QIcon> StandardIconMap;
+        StandardIconMap _standardIcons;
+        
         //!@name custom elements
         //@{
 
