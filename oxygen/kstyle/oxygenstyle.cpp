@@ -5656,7 +5656,7 @@ namespace Oxygen
 
                             QRect frameRect( r );
                             frameRect.setTop( r.bottom() - 7 + 1 );
-                            if( hasRightCornerWidget ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
+                            if( hasRightCornerWidget && documentMode ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
                             else frameRect.setBottom( tabBarRect.bottom() + 7 );
                             frameRect.setLeft( r.right() - 7 );
                             slabs << SlabRect( frameRect, TileSet::Left );
@@ -5742,7 +5742,7 @@ namespace Oxygen
 
                             QRect frameRect( r );
                             frameRect.setTop( r.bottom() - 7 + 1 );
-                            if( hasRightCornerWidget ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
+                            if( hasRightCornerWidget && documentMode ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
                             else frameRect.setBottom( tabBarRect.bottom() + 7 );
                             frameRect.setRight( r.left() + 7 );
                             slabs << SlabRect( frameRect, TileSet::Right );
@@ -6233,7 +6233,7 @@ namespace Oxygen
 
                             QRect frameRect( r );
                             frameRect.setTop( r.bottom() - 7 + 1 );
-                            if( hasRightCornerWidget ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
+                            if( hasRightCornerWidget && documentMode ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
                             else frameRect.setBottom( tabBarRect.bottom() + 7 );
                             frameRect.setLeft( r.right() - 7 );
                             slabs << SlabRect( frameRect, TileSet::Left );
@@ -6351,7 +6351,7 @@ namespace Oxygen
 
                             QRect frameRect( r );
                             frameRect.setTop( r.bottom() - 7 + 1 );
-                            if( hasRightCornerWidget ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
+                            if( hasRightCornerWidget && documentMode ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
                             else frameRect.setBottom( tabBarRect.bottom() + 7 );
                             frameRect.setRight( r.left() + 7 );
                             slabs << SlabRect( frameRect, TileSet::Right );
