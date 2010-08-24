@@ -40,6 +40,12 @@
     <entry name="ScrollBarWidth" type="Int">
       <default>15</default>
     </entry>
+    <entry name="ScrollBarAddLineButtons" type="Int">
+      <default>2</default>
+    </entry>
+    <entry name="ScrollBarSubLineButtons" type="Int">
+      <default>1</default>
+    </entry>
     <entry name="CheckBoxStyle" type="Enum">
       <choices>
           <choice name="CS_CHECK" />
