@@ -90,6 +90,8 @@ namespace Oxygen
         connect( _scrollBarColored, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _scrollBarBevel, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _scrollBarWidth, SIGNAL( valueChanged(int) ), SLOT( updateChanged() ) );
+        connect( _scrollBarAddLineButtons, SIGNAL( currentIndexChanged(int) ), SLOT( updateChanged() ) );
+        connect( _scrollBarSubLineButtons, SIGNAL( currentIndexChanged(int) ), SLOT( updateChanged() ) );
         connect( _menuHighlightDark, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _menuHighlightStrong, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _menuHighlightSubtle, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
@@ -113,6 +115,8 @@ namespace Oxygen
         OxygenStyleConfigData::setScrollBarColored( _scrollBarColored->isChecked() );
         OxygenStyleConfigData::setScrollBarBevel( _scrollBarBevel->isChecked() );
         OxygenStyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
+        OxygenStyleConfigData::setScrollBarAddLineButtons( _scrollBarAddLineButtons->currentIndex() );
+        OxygenStyleConfigData::setScrollBarSubLineButtons( _scrollBarSubLineButtons->currentIndex() );
         OxygenStyleConfigData::setMenuHighlightMode( menuMode() );
         OxygenStyleConfigData::setTabStyle( tabStyle() );
         OxygenStyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
@@ -240,6 +244,8 @@ namespace Oxygen
         else if( _scrollBarColored->isChecked() != OxygenStyleConfigData::scrollBarColored() ) modified = true;
         else if( _scrollBarBevel->isChecked() != OxygenStyleConfigData::scrollBarBevel() ) modified = true;
         else if( _scrollBarWidth->value() != OxygenStyleConfigData::scrollBarWidth() ) modified = true;
+        else if( _scrollBarAddLineButtons->currentIndex() != OxygenStyleConfigData::scrollBarAddLineButtons() ) modified = true;
+        else if( _scrollBarSubLineButtons->currentIndex() != OxygenStyleConfigData::scrollBarSubLineButtons() ) modified = true;
         else if( (_checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK) != OxygenStyleConfigData::checkBoxStyle() ) modified = true;
         else if( menuMode() != OxygenStyleConfigData::menuHighlightMode() ) modified = true;
         else if( tabStyle() != OxygenStyleConfigData::tabStyle() ) modified = true;
@@ -290,6 +296,9 @@ namespace Oxygen
             OxygenStyleConfigData::scrollBarWidth())) );
         _scrollBarColored->setChecked( OxygenStyleConfigData::scrollBarColored() );
         _scrollBarBevel->setChecked( OxygenStyleConfigData::scrollBarBevel() );
+
+        _scrollBarAddLineButtons->setCurrentIndex( OxygenStyleConfigData::scrollBarAddLineButtons() );
+        _scrollBarSubLineButtons->setCurrentIndex( OxygenStyleConfigData::scrollBarSubLineButtons() );
 
         // menu highlight
         _menuHighlightDark->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK );
