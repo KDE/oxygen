@@ -441,6 +441,31 @@
    <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>pushButton_1</tabstop>
+  <tabstop>pushButton_5</tabstop>
+  <tabstop>kcombobox</tabstop>
+  <tabstop>toolButton_4</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton_6</tabstop>
+  <tabstop>kcombobox_2</tabstop>
+  <tabstop>toolButton_2</tabstop>
+  <tabstop>flatButtonCheckBox</tabstop>
+  <tabstop>toolButton</tabstop>
+  <tabstop>toolButton_7</tabstop>
+  <tabstop>toolButton_9</tabstop>
+  <tabstop>toolButton_3</tabstop>
+  <tabstop>toolButton_8</tabstop>
+  <tabstop>toolButton_10</tabstop>
+  <tabstop>textPosition</tabstop>
+  <tabstop>iconSize</tabstop>
+  <tabstop>checkBox_2</tabstop>
+  <tabstop>checkBox_3</tabstop>
+  <tabstop>checkBox</tabstop>
+  <tabstop>radioButton_4</tabstop>
+  <tabstop>radioButton_5</tabstop>
+  <tabstop>radioButton_6</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
