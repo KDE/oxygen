@@ -27,14 +27,8 @@
 #include "oxygenframedemowidget.h"
 #include "oxygenframedemowidget.moc"
 
-#include <QtCore/QList>
-#include <QtCore/QStringList>
-#include <QtCore/QTextStream>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QMenu>
 #include <QtGui/QButtonGroup>
-#include <QtGui/QRadioButton>
+#include <QtCore/QTextStream>
 
 #include <KComboBox>
 #include <KLocale>
@@ -47,98 +41,27 @@ namespace Oxygen
     FrameDemoWidget::FrameDemoWidget( QWidget* parent ):
         QWidget( parent )
     {
-        QVBoxLayout* vLayout = new QVBoxLayout();
-        vLayout->setMargin(0);
-        setLayout( vLayout );
 
-        QHBoxLayout* hLayout = new QHBoxLayout();
-        hLayout->setMargin(0);
-        vLayout->addItem( hLayout );
-
-        // label and combobox
-        QLabel* label;
-        hLayout->addWidget( label = new QLabel( i18n( "Layout Direction:" ), this ) );
-
-        KComboBox* comboBox;
-        hLayout->addWidget( comboBox = new KComboBox( this ) );
-        comboBox->addItems( QStringList()
-            << i18n( "Left to Right" )
-            << i18n( "Right to Left" )
-            << i18n( "Top to Bottom" )
-            << i18n( "Bottom to Top" ) );
-        hLayout->addStretch( 1 );
-        label->setBuddy( comboBox );
-
-        // boxes
-        vLayout->addWidget( widget = new QWidget( this ) );
-        widget->setLayout( boxLayout = new QBoxLayout( QBoxLayout::LeftToRight ) );
-        boxLayout->setMargin(0);
-
-        // groupbox
-        QGroupBox* groupBox = new QGroupBox( i18n( "GroupBox" ), widget );
-        boxLayout->addWidget( groupBox, 1 );
-        {
-            QVBoxLayout* vLayout = new QVBoxLayout();
-            vLayout->setMargin(0);
-            groupBox->setLayout( vLayout );
-            vLayout->addStretch( 1 );
-        }
-
-        // frame
-        frame = new QFrame( widget );
-        frame->setFrameStyle( QFrame::StyledPanel|QFrame::Raised );
-        boxLayout->addWidget( frame, 1 );
+        ui.setupUi( this );
         QButtonGroup* group = new QButtonGroup( this );
+        group->addButton( ui.raisedFrameRadioButton );
+        group->addButton( ui.plainFrameRadioButton );
+        group->addButton( ui.sunkenFrameRadioButton );
 
-        {
-            QVBoxLayout* vLayout = new QVBoxLayout();
-            vLayout->setMargin(2);
-            frame->setLayout( vLayout );
+        connect( ui.raisedFrameRadioButton, SIGNAL( toggled( bool ) ), SLOT( toggleRaisedFrame( bool ) ) );
+        connect( ui.plainFrameRadioButton, SIGNAL( toggled( bool ) ), SLOT( togglePlainFrame( bool ) ) );
+        connect( ui.sunkenFrameRadioButton, SIGNAL( toggled( bool ) ), SLOT( toggleSunkenFrame( bool ) ) );
 
-            QLabel* label;
-            vLayout->addWidget( label = new QLabel( i18n("Frame"), frame ) );
-            label->setAlignment( Qt::AlignCenter );
+        connect( ui.directionComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( updateLayoutDirection( int ) ) );
+        connect( ui.flatGroupBoxCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleFlatGroupBox( bool ) ) );
 
-            QRadioButton* radioButton;
-            group->addButton( radioButton = new QRadioButton( i18n( "Raised" ), frame ), 0 );
-            vLayout->addWidget( radioButton );
-            radioButton->setChecked( true );
-
-            group->addButton( radioButton = new QRadioButton( i18n( "Plain" ), frame ), 1 );
-            vLayout->addWidget( radioButton );
-
-            group->addButton( radioButton = new QRadioButton( i18n( "Sunken" ), frame ), 2 );
-            vLayout->addWidget( radioButton );
-
-            vLayout->addStretch( 1 );
-        }
-
-        // tab widget
-        KTabWidget* tabWidget = new KTabWidget( widget );
-        tabWidget->addTab( new QWidget(), i18n( "Tab Widget" ) );
-        boxLayout->addWidget( tabWidget, 1 );
-
-        // connections
-        connect( comboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( updateLayoutDirection( int ) ) );
-        connect( group, SIGNAL( buttonClicked( int ) ), SLOT( updateFrameStyle( int ) ) );
-
-    }
-
-    //_____________________________________________________________
-    void FrameDemoWidget::updateFrameStyle( int value )
-    {
-        switch( value )
-        {
-            default: case 0: frame->setFrameStyle( QFrame::StyledPanel|QFrame::Raised ); break;
-            case 1: frame->setFrameStyle( QFrame::StyledPanel|QFrame::Plain ); break;
-            case 2: frame->setFrameStyle( QFrame::StyledPanel|QFrame::Sunken ); break;
-        }
     }
 
     //_____________________________________________________________
     void FrameDemoWidget::updateLayoutDirection( int value )
     {
 
+        QTextStream( stdout ) << "FrameDemoWidget::updateLayoutDirection - value: " << value << endl;
         QBoxLayout::Direction direction;
         switch( value )
         {
@@ -147,12 +70,12 @@ namespace Oxygen
             case 2: direction =  QBoxLayout::TopToBottom; break;
             case 3: direction =  QBoxLayout::BottomToTop; break;
         }
-        if( direction != boxLayout->direction() )
-        {
-            boxLayout->setDirection( direction );
-            boxLayout->update();
-        }
 
+        if( direction != ui.frameLayout->direction() )
+        {
+            ui.frameLayout->setDirection( direction );
+            ui.frameLayout->update();
+        }
     }
 
 }

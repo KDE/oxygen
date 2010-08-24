@@ -14,6 +14,7 @@ set( oxygen_demo_SOURCES
 
 kde4_add_ui_files(oxygen_demo_SOURCES
     ui/oxygenbuttondemowidget.ui
+    ui/oxygenframedemowidget.ui
     ui/oxygeninputdemowidget.ui
     ui/oxygenlistdemowidget.ui
     ui/oxygenmdidemowidget.ui

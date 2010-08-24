@@ -31,6 +31,8 @@
 #include <QtGui/QBoxLayout>
 #include <QtGui/QFrame>
 
+#include "ui_oxygenframedemowidget.h"
+
 namespace Oxygen
 {
     class FrameDemoWidget: public QWidget
@@ -49,14 +51,26 @@ namespace Oxygen
 
         protected slots:
 
-        void updateFrameStyle( int );
+        //! groupbox
+        void toggleFlatGroupBox( bool value )
+        { ui.groupBox->setFlat( value ); }
+
+        //! frame style
+        void toggleRaisedFrame( bool value )
+        { if( value ) ui.frame->setFrameStyle( QFrame::StyledPanel|QFrame::Raised ); }
+
+        void togglePlainFrame( bool value )
+        { if( value ) ui.frame->setFrameStyle( QFrame::StyledPanel|QFrame::Plain ); }
+
+        void toggleSunkenFrame( bool value )
+        { if( value ) ui.frame->setFrameStyle( QFrame::StyledPanel|QFrame::Sunken ); }
+
+        //! layout direction
         void updateLayoutDirection( int );
 
         private:
 
-        QWidget* widget;
-        QBoxLayout* boxLayout;
-        QFrame* frame;
+        Ui_FrameDemoWidget ui;
 
     };
 
