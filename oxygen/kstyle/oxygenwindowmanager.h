@@ -259,7 +259,7 @@ namespace Oxygen
         //! provide application-wise event filter
         /*!
         it us used to unlock dragging and make sure event look is properly restored
-        after a drag has occured
+        after a drag has occurred
         */
         class AppEventFilter: public QObject
         {
