@@ -3,9 +3,15 @@ oxygen-style-animated is a branch of trunk/KDE/kdebase/runtime/kstyles/oxygen th
 The code is organized as follow:
 --------------------------------
 
-oxygen.h and .cpp take derive from KStyle and take care of all the painting.
+1/ oxygenstyle.h and .cpp derive from QCommonStyle and take care of all the painting.
+All 'primitives' are implemented as separate functions with identical prototypes and mapped to the corresponding QStyle primitive element at initialization style.
 
-Animation code is contained in the ./animations and ./transitions subdirectories.
+Some of the painting routines have been moved in oxygenstylehelper, for re-usability.
+Additionaly some code that is common to the widget style and the window decoration resides at kdebase/workspace/libs/oxygen.
+
+2/ since kde4.5 oxygen allows to drag and move windows by clicking in their empty areas. This is handled in the standalone 'oxygenwindowmanager' class.
+
+3/ Since kde4.4, oxygen styles animates most widgets state changes. The animation code is contained in the ./animations and ./transitions subdirectories.
 
 Each animation is structured in the following way:
 For each element (e.g. QScrollBar) to be animated there are two classes:
@@ -19,13 +25,14 @@ Additionaly, two "factory" classes, oxygenanimations and oxygentransitions, keep
 
 For the animations located in the ./animations subdirectory, how the informations contained by the Data is used to animate a given widget is def in the oxygen KSTyle class.
 
-For the animations located in the ./transitions subdirectory, handling the animation is performed using a temporary "cover" widget, namely Oxygen::TransitionWidget, and does not necessit any modification to the oxygen.cpp style itself. (In principle, these animations could be used for any style, and not only oxygen).
+For the animations located in the ./transitions subdirectory, handling the animation is performed using a temporary "cover" widget, namely Oxygen::TransitionWidget, and does not necessit any modification to the oxygen.cpp style itself.
 
-Remark on the use of QTimeLine:
-Right now all animations are handled by a dedicated class OxygenAnimation, that uses QTimeLine internally. This is to be able to compile and test the style with KDE SC 4.3 and Qt 4.5. However the OxygenAnimation API has been made identical to QPropertyAnimation class, so that switching to Qt Kinetic for kde4.4 and Qt4.6 is straightforward.
+Oxygen-style comes with two standalone applications:
+----------------------------------------------------
 
-Configuration
--------------
+- oxygen-settings, which offers an exhaustive list of configuration options for both the style and the decoration, in addition to the limited set of options available in systemsettings.
 
-A number of options have been added to oxygen.kcfg to handle the animation configurations.
-They are of two types: animation enability, and animation duration. Only the 'enability' options are configurable by the user in KCM. The duration options are hidden. They can be modified manually by editing the file $HOME/.kde/share/config/oxygenrc (or $HOME/.kde4). Look at the bottom of oxygen.kcfg to get the name and default values for the options.
+- oxygen-demo, which offers a showcase of how widgets are rendered with oxygen, and is used notably for debugging, and regression checks.
+
+These applications are not available via kde 'start menu'. They must be typed either in a terminal (e.g. konsole) or via krunner. 
+
