@@ -1386,7 +1386,6 @@ namespace Oxygen
         registerStyleHint( SH_FormLayoutWrapPolicy, QFormLayout::DontWrapRows );
         registerStyleHint( SH_MessageBox_TextInteractionFlags, true );
         registerStyleHint( SH_WindowFrame_Mask, false );
-        registerStyleHint( SH_Table_GridLineColor, QColor( Qt::red ).rgb() );
 
     }
 
