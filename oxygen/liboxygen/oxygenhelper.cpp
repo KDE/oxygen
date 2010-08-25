@@ -477,8 +477,10 @@ namespace Oxygen
 
         if( tiles & TileSet::Top )
         {
-            p->drawArc(QRectF(x+0.6, y+0.6, 9, 9),90*16, 90*16);
-            p->drawArc(QRectF(x+w-9-0.6, y+0.6, 9, 9), 0, 90*16);
+            const qreal offset = 0.5;
+            const qreal arc( 7.0 );
+            p->drawArc(QRectF(x+offset, y+offset, arc, arc),90*16, 90*16);
+            p->drawArc(QRectF(x+w-arc-offset, y+offset, arc, arc), 0, 90*16);
         }
 
         p->restore();
