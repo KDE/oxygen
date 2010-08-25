@@ -1386,6 +1386,7 @@ namespace Oxygen
         registerStyleHint( SH_FormLayoutWrapPolicy, QFormLayout::DontWrapRows );
         registerStyleHint( SH_MessageBox_TextInteractionFlags, true );
         registerStyleHint( SH_WindowFrame_Mask, false );
+        registerStyleHint( SH_Table_GridLineColor, QColor( Qt::red ).rgb() );
 
     }
 
@@ -2350,6 +2351,7 @@ namespace Oxygen
 
         registerStylePrimitive( PE_PanelButtonCommand, &Style::drawPanelButtonCommandPrimitive );
         registerStylePrimitive( PE_PanelButtonTool, &Style::drawPanelButtonToolPrimitive );
+
         registerStylePrimitive( PE_PanelItemViewItem, &Style::drawPanelItemViewItemPrimitive );
         registerStylePrimitive( PE_PanelLineEdit, &Style::drawPanelLineEditPrimitive );
         registerStylePrimitive( PE_PanelMenu, &Style::drawPanelMenuPrimitive );
@@ -3398,7 +3400,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawIndicatorBranchPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    bool Style::drawIndicatorBranchPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
         const State& flags( option->state );
@@ -3423,6 +3425,7 @@ namespace Oxygen
             // make sure size limit is odd
             if( !(sizeLimit&1) ) --sizeLimit;
             expanderAdjust = sizeLimit/2 + 1;
+
 
             QRect expanderRect = centerRect( r, sizeLimit, sizeLimit );
             const int radius( (expanderRect.width() - 4) / 2 );
@@ -3487,13 +3490,11 @@ namespace Oxygen
 
         }
 
+
         // tree branches
         if( !OxygenStyleConfigData::viewDrawTreeBranchLines() ) return true;
 
-        // use the same color as grid in table views
-        const int gridHint( styleHint(QStyle::SH_Table_GridLineColor, option, widget) );
-        painter->setPen( static_cast<QRgb>(gridHint) );
-
+        painter->setPen( KColorUtils::mix( palette.color( QPalette::Text ), palette.color( QPalette::Background ), 0.8 ) );
         if (flags & (State_Item | State_Children | State_Sibling))
         {
             const QLine line( QPoint( centerX, r.top() ), QPoint( centerX, centerY - expanderAdjust ) );
@@ -4199,6 +4200,7 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawHeaderSectionControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
+
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
 
