@@ -2258,15 +2258,14 @@ namespace Oxygen
         const QWidget* leftWidget( tabWidget->cornerWidget( Qt::TopLeftCorner ) );
         const QWidget* rightWidget( tabWidget->cornerWidget( Qt::TopRightCorner ) );
         QSize cornerSize;
-        if( leftWidget && leftWidget->isVisible() ) cornerSize = leftWidget->size();
-        if( rightWidget && rightWidget->isVisible() ) cornerSize = cornerSize.expandedTo( rightWidget->size() );
+        if( leftWidget && leftWidget->isVisible() ) cornerSize = leftWidget->minimumSizeHint();
+        if( rightWidget && rightWidget->isVisible() ) cornerSize = cornerSize.expandedTo( rightWidget->minimumSizeHint() );
         if( !cornerSize.isValid() ) return size;
 
         // expand size
         // note: the extra pixels added to the relevant dimension are fine-tuned.
-        // TODO: would like to relate them to existing margins
-        if( verticalTabs ) size.setWidth( qMax( size.width(), cornerSize.width() + 5 ) );
-        else size.setHeight( qMax( size.height(), cornerSize.height() + 3 ) );
+        if( verticalTabs ) size.setWidth( qMax( size.width(), cornerSize.width() + 6 ) );
+        else size.setHeight( qMax( size.height(), cornerSize.height() + 4 ) );
 
         return size;
 
