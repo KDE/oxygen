@@ -7359,7 +7359,9 @@ namespace Oxygen
         if( tool->subControls & SC_ToolButtonMenu)
         {
             tOpt.rect = menuRect;
-            drawPrimitive(PE_IndicatorButtonDropDown, &tOpt, painter, widget );
+            painter->save();
+            drawIndicatorButtonDropDownPrimitive( &tOpt, painter, widget );
+            painter->restore();
 
         } else if( tool->features & QStyleOptionToolButton::HasMenu) {
 
@@ -7373,9 +7375,11 @@ namespace Oxygen
                 const int xOff( ToolButton_InlineMenuIndicatorXOff );
                 const int yOff( ToolButton_InlineMenuIndicatorYOff );
 
-                QRect r = QRect(buttonRect.right() + xOff, buttonRect.bottom() + yOff, size, size);
+                QRect r = QRect(buttonRect.right() + xOff + 1, buttonRect.bottom() + yOff + 1, size, size);
                 tOpt.rect  = r;
-                drawPrimitive(PE_IndicatorButtonDropDown, &tOpt, painter, widget );
+                painter->save();
+                drawIndicatorButtonDropDownPrimitive( &tOpt, painter, widget );
+                painter->restore();
             }
 
         }
