@@ -62,6 +62,7 @@ namespace Oxygen
                 ui.tabWidget->setCornerWidget( 0, Qt::TopRightCorner );
             }
 
+            ui.tabWidget->adjustSize();
             left_->setVisible( value );
             right_->setVisible( value );
 
