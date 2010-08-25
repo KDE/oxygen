@@ -56,7 +56,7 @@
 #include "oxygenwidgetexplorer.h"
 #include "oxygenwindowmanager.h"
 
-#include <QtCore/QTextStream>
+#include <QtCore/QDebug>
 #include <QtGui/QAbstractButton>
 #include <QtGui/QAbstractItemView>
 #include <QtGui/QApplication>
