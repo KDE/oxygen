@@ -274,7 +274,6 @@ namespace Oxygen
         if( QAbstractItemView *itemView = qobject_cast<QAbstractItemView*>( widget ) )
         { itemView->viewport()->setAttribute(Qt::WA_Hover); }
 
-
         // checkable group boxes
         if( QGroupBox* groupBox = qobject_cast<QGroupBox*>(widget) )
         {
@@ -469,7 +468,7 @@ namespace Oxygen
         if( QGroupBox* groupBox = qobject_cast<QGroupBox*>(widget) )
         {
             if( groupBox->isCheckable() )
-            { groupBox->setAttribute( Qt::WA_Hover ); }
+            { groupBox->setAttribute( Qt::WA_Hover, false ); }
         }
 
         // hover flags
