@@ -30,13 +30,13 @@
 #include "oxygenframeshadow.h"
 #include "oxygenframeshadow.moc"
 
+#include <QtCore/QDebug>
 #include <QtGui/QAbstractScrollArea>
 #include <QtGui/QApplication>
 #include <QtGui/QFrame>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QPainter>
-#include <QtGui/QStyle>
-#include <QtCore/QTextStream>
+#include <QtGui/QSplitter>
 
 #include <KColorUtils>
 
@@ -52,15 +52,26 @@ namespace Oxygen
         // check whether widget is a frame, and has the proper shape
         bool accepted = false;
         bool flat = false;
-        if( QFrame* frame = qobject_cast<QFrame*>( widget ) )
+
+        // cast to frame and check
+        QFrame* frame( qobject_cast<QFrame*>( widget ) );
+        if( !frame ) return false;
+
+        // also do not install on QSplitter
+        /*
+        due to Qt, splitters are set with a frame style that matches the condition below,
+        though no shadow should be installed, obviously
+        */
+        if( qobject_cast<QSplitter*>( widget ) ) return false;
+
+        // further checks on frame shape, and parent
+        if( frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) ) accepted = true;
+        else if( widget->parent() && widget->parent()->inherits( "QComboBoxPrivateContainer" ) )
         {
-            if( frame && frame->frameStyle() == (QFrame::StyledPanel | QFrame::Sunken) ) { accepted = true; }
-            else if( widget->parent() && widget->parent()->inherits( "QComboBoxPrivateContainer" ) ) {
 
                 accepted = true;
                 flat = true;
 
-            }
         }
 
         if( !accepted ) return false;
