@@ -373,7 +373,21 @@ namespace Oxygen
         if( _hover != hover ) { _hover = hover; changed = true; }
         if( _opacity != opacity ) { _opacity = opacity; changed = true; }
         if( _mode != mode ) { _mode = mode; changed = true; }
-        if( changed ) update() ;
+        if( changed )
+        {
+
+            if( QWidget* viewport = this->viewport() )
+            {
+
+                // need to disable viewport updates to avoid some redundant painting
+                // besides it fixes one visual glitch (from Qt) in QTableViews
+                viewport->setUpdatesEnabled( false );
+                update() ;
+                viewport->setUpdatesEnabled( true );
+
+            } else update();
+
+        }
     }
 
     //____________________________________________________________________________________
