@@ -3398,7 +3398,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawIndicatorBranchPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawIndicatorBranchPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
         const State& flags( option->state );
@@ -3423,7 +3423,6 @@ namespace Oxygen
             // make sure size limit is odd
             if( !(sizeLimit&1) ) --sizeLimit;
             expanderAdjust = sizeLimit/2 + 1;
-
 
             QRect expanderRect = centerRect( r, sizeLimit, sizeLimit );
             const int radius( (expanderRect.width() - 4) / 2 );
@@ -3488,11 +3487,13 @@ namespace Oxygen
 
         }
 
-
         // tree branches
         if( !OxygenStyleConfigData::viewDrawTreeBranchLines() ) return true;
 
-        painter->setPen( KColorUtils::mix( palette.color( QPalette::Text ), palette.color( QPalette::Background ), 0.8 ) );
+        // use the same color as grid in table views
+        const int gridHint( styleHint(QStyle::SH_Table_GridLineColor, option, widget) );
+        painter->setPen( static_cast<QRgb>(gridHint) );
+
         if (flags & (State_Item | State_Children | State_Sibling))
         {
             const QLine line( QPoint( centerX, r.top() ), QPoint( centerX, centerY - expanderAdjust ) );
