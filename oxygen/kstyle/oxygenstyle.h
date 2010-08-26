@@ -577,7 +577,7 @@ namespace Oxygen
         void registerStandardIcon( const StandardPixmap& key, const QIcon& value )
         { _standardIcons.insert( key, value ); }
         //@}
-        
+
         //! true if widget is child of KTextEdit
         bool isKTextEditFrame( const QWidget* widget ) const
         { return ( widget && widget->parentWidget() && widget->parentWidget()->inherits( "KTextEditor::View" ) ); }
@@ -669,7 +669,7 @@ namespace Oxygen
 
         //! generic button slab
         void renderButtonSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, AnimationMode, TileSet::Tiles ) const;
-            
+
         //! generic slab
         void renderSlab( QPainter* painter, const SlabRect& slab, const QColor& color, StyleOptions options = 0 ) const
         { renderSlab( painter, slab._r, color, options, slab._tiles ); }
@@ -989,7 +989,7 @@ namespace Oxygen
         //! standard icons
         typedef QMap<StandardPixmap, QIcon> StandardIconMap;
         StandardIconMap _standardIcons;
-        
+
         //!@name custom elements
         //@{
 
