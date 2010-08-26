@@ -652,6 +652,14 @@ namespace Oxygen
     int Style::styleHint(StyleHint hint, const QStyleOption* option, const QWidget* widget, QStyleHintReturn* returnData ) const
     {
 
+        // handles SH_KCustomStyleElement out of switch statement,
+        // to avoid warning at compilation
+        if( hint == SH_KCustomStyleElement )
+        {
+            if( widget ) return _styleElements.value(widget->objectName(), 0);
+            else return 0;
+        }
+
         /*
         special cases, that cannot be registered in styleHint map,
         because of conditional statements
@@ -669,10 +677,6 @@ namespace Oxygen
             case SH_ItemView_ActivateItemOnSingleClick:
             return _helper.config()->group("KDE").readEntry("SingleClick", KDE_DEFAULT_SINGLECLICK );
             return false;
-
-            case SH_KCustomStyleElement:
-            if( widget ) return _styleElements.value(widget->objectName(), 0);
-            else return 0;
 
             case SH_RubberBand_Mask:
             {
