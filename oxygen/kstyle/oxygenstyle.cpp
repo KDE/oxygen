@@ -2229,11 +2229,11 @@ namespace Oxygen
     //______________________________________________________________
     QSize Style::tabBarTabSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
     {
+
         const QStyleOptionTab *tabOpt( qstyleoption_cast<const QStyleOptionTab*>(option) );
-        if( !tabOpt ) return QSize();
 
         QSize size;
-        const bool verticalTabs( isVerticalTab( tabOpt ) );
+        const bool verticalTabs( tabOpt && isVerticalTab( tabOpt ) );
         if( verticalTabs )
         {
 
