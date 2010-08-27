@@ -5155,6 +5155,12 @@ namespace Oxygen
         switch( frameOpt->frameShape )
         {
 
+            case QFrame::Box:
+            {
+                if( option->state & State_Sunken ) return true;
+                else break;
+            }
+
             case QFrame::HLine:
             {
                 _helper.drawSeparator( painter, option->rect, option->palette.color(QPalette::Window), Qt::Horizontal);
@@ -5167,9 +5173,11 @@ namespace Oxygen
                 return true;
             }
 
-            default: return false;
+            default: break;
 
         }
+
+        return false;
 
     }
 
