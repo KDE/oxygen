@@ -900,15 +900,15 @@ namespace Oxygen
         if( QTabBar* tabBar = qobject_cast<QTabBar*>(object) ) { return eventFilterTabBar( tabBar, event ); }
         if( QToolBar* toolBar = qobject_cast<QToolBar*>(object) ) { return eventFilterToolBar( toolBar, event ); }
         if( QDockWidget* dockWidget = qobject_cast<QDockWidget*>(object) ) { return eventFilterDockWidget( dockWidget, event ); }
-        if( QToolBox *toolBox = qobject_cast<QToolBox*>(object) ) { return eventFilterToolBox( toolBox, event ); }
-        if( QMdiSubWindow *subWindow = qobject_cast<QMdiSubWindow*>(object) ) { return eventFilterMdiSubWindow( subWindow, event ); }
+        if( QToolBox* toolBox = qobject_cast<QToolBox*>(object) ) { return eventFilterToolBox( toolBox, event ); }
+        if( QMdiSubWindow* subWindow = qobject_cast<QMdiSubWindow*>(object) ) { return eventFilterMdiSubWindow( subWindow, event ); }
+        if( QScrollBar* scrollBar = qobject_cast<QScrollBar*>(object) ) { return eventFilterScrollBar( scrollBar, event ); }
 
         // cast to QWidget
         QWidget *widget = static_cast<QWidget*>(object);
 
         if( widget->inherits( "Q3ListView" ) ) { return eventFilterQ3ListView( widget, event ); }
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, event ); }
-        if( widget->inherits( "QScrollBar" ) ) { return eventFilterScrollBar( widget, event ); }
         if( widget->inherits( "KWin::GeometryTip" ) ) { return eventFilterGeometryTip( widget, event ); }
 
         return QCommonStyle::eventFilter(object, event);
@@ -2481,7 +2481,7 @@ namespace Oxygen
     {
         // only draw frame for (expanded) toolbars
         // do nothing for other cases
-        if( widget && widget->inherits( "QToolBar" ) )
+        if( qobject_cast<const QToolBar*>(widget) )
         {
             _helper.renderWindowBackground( painter, option->rect, widget, option->palette );
             _helper.drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
@@ -5200,7 +5200,7 @@ namespace Oxygen
 
         if( enabled )
         {
-            if( widget && widget->inherits( "QMainWindow" ) )
+            if( qobject_cast<const QMainWindow*>( widget ) )
             {
 
                 animations().dockSeparatorEngine().updateRect( widget, r, orientation, mouseOver );
@@ -7303,7 +7303,7 @@ namespace Oxygen
     {
         // check autoRaise state
         const State flags( option->state );
-        const bool isInToolBar( widget && widget->parent() && widget->parent()->inherits( "QToolBar" ) );
+        const bool isInToolBar( widget && qobject_cast<QToolBar*>(widget->parent()) );
 
         // get rect and palette
         const QRect& rect( option->rect );
