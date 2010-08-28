@@ -143,7 +143,7 @@ namespace Oxygen
         TileSet *selection( const QColor&, int height, bool custom );
 
         // these two methods must be public because they are used directly by OxygenStyle to draw dials
-        void drawInverseShadow(QPainter&, const QColor&, int pad, int size, qreal fuzz) const;
+        void drawInverseShadow(QPainter&, const QColor&, int pad, int size, qreal fuzz);
         void drawInverseGlow(QPainter&, const QColor&, int pad, int size, int rsize) const;
 
         //!@name utility functions
@@ -159,8 +159,8 @@ namespace Oxygen
 
         protected:
 
-        void drawHole(QPainter&, const QColor&, qreal shade, int r = 7) const;
-        void drawRoundSlab( QPainter&, const QColor&, qreal ) const;
+        void drawHole(QPainter&, const QColor&, qreal shade, int r = 7);
+        void drawRoundSlab( QPainter&, const QColor&, qreal );
 
         Oxygen::Cache<QPixmap> m_dialSlabCache;
         Oxygen::Cache<QPixmap> m_roundSlabCache;

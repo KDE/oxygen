@@ -699,7 +699,7 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    void StyleHelper::drawHole(QPainter &p, const QColor &color, qreal shade, int r) const
+    void StyleHelper::drawHole(QPainter &p, const QColor &color, qreal shade, int r)
     {
         const int r2 = 2*r;
         QColor base = KColorUtils::shade(color, shade);
@@ -735,7 +735,7 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    void StyleHelper::drawRoundSlab(QPainter &p, const QColor &color, qreal shade ) const
+    void StyleHelper::drawRoundSlab(QPainter &p, const QColor &color, qreal shade )
     {
 
         p.save();
@@ -777,7 +777,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     void StyleHelper::drawInverseShadow(
         QPainter &p, const QColor &color,
-        int pad, int size, qreal fuzz ) const
+        int pad, int size, qreal fuzz )
     {
         qreal m = qreal(size)*0.5;
         QColor shadow( calcShadowColor( color ) );

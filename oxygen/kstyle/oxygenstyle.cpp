@@ -4238,18 +4238,18 @@ namespace Oxygen
             {
                 const int center( r.center().y() );
                 const int pos( reverseLayout ? r.left()+1 : r.right()-1 );
-                _helper.renderDot( painter, QPointF(pos, center-3), color);
-                _helper.renderDot( painter, QPointF(pos, center), color);
-                _helper.renderDot( painter, QPointF(pos, center+3), color);
+                _helper.renderDot( painter, QPoint(pos, center-3), color);
+                _helper.renderDot( painter, QPoint(pos, center), color);
+                _helper.renderDot( painter, QPoint(pos, center+3), color);
             }
 
         } else {
 
             const int center( r.center().x() );
             const int pos( r.bottom()-1 );
-            _helper.renderDot( painter, QPointF(center-3, pos), color);
-            _helper.renderDot( painter, QPointF(center, pos), color);
-            _helper.renderDot( painter, QPointF(center+3, pos), color);
+            _helper.renderDot( painter, QPoint(center-3, pos), color);
+            _helper.renderDot( painter, QPoint(center, pos), color);
+            _helper.renderDot( painter, QPoint(center+3, pos), color);
 
         }
 
@@ -5243,9 +5243,9 @@ namespace Oxygen
             int center( (h - (ngroups-1) * 250) /2 + r.top() );
             for(int k = 0; k < ngroups; k++, center += 250)
             {
-                _helper.renderDot( painter, QPointF(r.left()+1, center-3), color);
-                _helper.renderDot( painter, QPointF(r.left()+1, center), color);
-                _helper.renderDot( painter, QPointF(r.left()+1, center+3), color);
+                _helper.renderDot( painter, QPoint(r.left()+1, center-3), color);
+                _helper.renderDot( painter, QPoint(r.left()+1, center), color);
+                _helper.renderDot( painter, QPoint(r.left()+1, center+3), color);
             }
 
         } else {
@@ -5268,9 +5268,9 @@ namespace Oxygen
             int center = (w - (ngroups-1) * 250) /2 + r.left();
             for(int k = 0; k < ngroups; k++, center += 250)
             {
-                _helper.renderDot( painter, QPointF(center-3, r.top()+1), color);
-                _helper.renderDot( painter, QPointF(center, r.top()+1), color);
-                _helper.renderDot( painter, QPointF(center+3, r.top()+1), color);
+                _helper.renderDot( painter, QPoint(center-3, r.top()+1), color);
+                _helper.renderDot( painter, QPoint(center, r.top()+1), color);
+                _helper.renderDot( painter, QPoint(center+3, r.top()+1), color);
             }
 
         }
