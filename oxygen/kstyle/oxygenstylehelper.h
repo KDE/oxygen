@@ -59,19 +59,18 @@ namespace Oxygen
         void renderMenuBackground( QPainter*, const QRect&, const QWidget*, const QColor& );
 
         //! returns menu background color matching position in a given menu widget
-        virtual QColor menuBackgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
+        virtual const QColor& menuBackgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
         {
             if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
             else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
         }
 
         //! returns menu background color matching position in a menu widget of given height
-        virtual QColor menuBackgroundColor(const QColor &color, int height, int y)
-        { return cachedBackgroundColor( color, qMin(qreal(1.0), qreal(y)/qMin(200, 3*height/4) ) ); }
+        virtual const QColor& menuBackgroundColor(const QColor &color, int height, int y)
+        { return backgroundColor( color, qMin(qreal(1.0), qreal(y)/qMin(200, 3*height/4) ) ); }
 
         //! color
-        QColor calcMidColor(const QColor &color) const
-        { return KColorScheme::shade(color, KColorScheme::MidShade, _contrast - 1.0); }
+        inline const QColor& calcMidColor(const QColor &color);
 
         //! merge active and inactive palettes based on ratio, for smooth enable state change transition
         QPalette mergePalettes( const QPalette&, qreal ratio ) const;
@@ -166,23 +165,40 @@ namespace Oxygen
         Oxygen::Cache<QPixmap> m_roundSlabCache;
         Oxygen::Cache<TileSet> m_holeFocusedCache;
 
-        //! progressbar cache
-        QCache<quint64, QPixmap> m_progressBarCache;
+        //! mid color cache
+        ColorCache m_midColorCache;
 
-        QCache<quint64, TileSet> m_cornerCache;
-        QCache<quint64, TileSet> m_slabSunkenCache;
-        QCache<quint64, TileSet> m_slabInvertedCache;
-        QCache<quint64, TileSet> m_holeCache;
-        QCache<quint64, TileSet> m_holeFlatCache;
-        QCache<quint64, TileSet> m_slopeCache;
-        QCache<quint64, TileSet> m_grooveCache;
-        QCache<quint64, TileSet> m_slitCache;
-        QCache<quint64, TileSet> m_dockFrameCache;
-        QCache<quint64, TileSet> m_scrollHoleCache;
-        QCache<quint64, TileSet> m_selectionCache;
+        //! progressbar cache
+        PixmapCache m_progressBarCache;
+
+        typedef QCache<quint64, TileSet> TileSetCache;
+        TileSetCache m_cornerCache;
+        TileSetCache m_slabSunkenCache;
+        TileSetCache m_slabInvertedCache;
+        TileSetCache m_holeCache;
+        TileSetCache m_holeFlatCache;
+        TileSetCache m_slopeCache;
+        TileSetCache m_grooveCache;
+        TileSetCache m_slitCache;
+        TileSetCache m_dockFrameCache;
+        TileSetCache m_scrollHoleCache;
+        TileSetCache m_selectionCache;
 
     };
 
+    //____________________________________________________________________
+    const QColor& StyleHelper::calcMidColor( const QColor& color )
+    {
+        const quint64 key( color.rgba() );
+        QColor* out( m_midColorCache.object( key ) );
+        if( !out )
+        {
+            out = new QColor( KColorScheme::shade(color, KColorScheme::MidShade, _contrast - 1.0) );
+            m_midColorCache.insert( key, out );
+        }
+
+        return *out;
+    }
 
     //____________________________________________________________________
     bool StyleHelper::hasAlphaChannel( const QWidget* widget ) const

@@ -47,6 +47,8 @@ namespace Oxygen
         m_roundSlabCache.clear();
         m_holeFocusedCache.clear();
 
+        m_midColorCache.clear();
+
         m_progressBarCache.clear();
         m_cornerCache.clear();
         m_selectionCache.clear();
