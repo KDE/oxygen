@@ -33,14 +33,18 @@
 #include "oxygenwindowmanager.moc"
 #include "oxygenstyleconfigdata.h"
 
-
 #include <QtGui/QApplication>
+#include <QtGui/QComboBox>
+#include <QtGui/QDialog>
 #include <QtGui/QDockWidget>
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
 #include <QtGui/QListView>
+#include <QtGui/QMainWindow>
 #include <QtGui/QMenuBar>
 #include <QtGui/QMouseEvent>
+#include <QtGui/QProgressBar>
+#include <QtGui/QStatusBar>
 #include <QtGui/QStyle>
 #include <QtGui/QStyleOptionGroupBox>
 #include <QtGui/QTabBar>
@@ -312,13 +316,13 @@ namespace Oxygen
 
         // all accepted default types
         if(
-            ( widget->inherits( "QDialog" ) && widget->isWindow() ) ||
-            ( widget->inherits( "QMainWindow" ) && widget->isWindow() ) ||
-            widget->inherits( "QGroupBox" ) ||
-            widget->inherits( "QMenuBar" ) ||
-            widget->inherits( "QTabBar" ) ||
-            widget->inherits( "QStatusBar" ) ||
-            widget->inherits( "QToolBar" ) )
+            ( qobject_cast<QDialog*>( widget ) && widget->isWindow() ) ||
+            ( qobject_cast<QMainWindow*>( widget ) && widget->isWindow() ) ||
+            qobject_cast<QGroupBox*>( widget ) ||
+            qobject_cast<QMenuBar*>( widget ) ||
+            qobject_cast<QTabBar*>( widget ) ||
+            qobject_cast<QStatusBar*>( widget ) ||
+            qobject_cast<QToolBar*>( widget ) )
         { return true; }
 
         if( widget->inherits( "KScreenSaver" ) && widget->inherits( "KCModule" ) )
@@ -359,7 +363,7 @@ namespace Oxygen
             QWidget* parent = label->parentWidget();
             while( parent )
             {
-                if( parent->inherits( "QStatusBar" ) ) return true;
+                if( qobject_cast<QStatusBar*>( parent ) ) return true;
                 parent = parent->parentWidget();
             }
         }
@@ -441,8 +445,8 @@ namespace Oxygen
         even if mousePress/Move has been passed to the parent
         */
         if( child && (
-          child->inherits( "QComboBox" ) ||
-          child->inherits( "QProgressBar" ) ) )
+          qobject_cast<QComboBox*>(child ) ||
+          qobject_cast<QProgressBar*>( child ) ) )
         { return false; }
 
         // tool buttons
@@ -477,7 +481,7 @@ namespace Oxygen
         */
         if( dragMode() == OxygenStyleConfigData::WD_MINIMAL )
         {
-            if( widget->inherits( "QToolBar" ) ) return true;
+            if( qobject_cast<QToolBar*>( widget ) ) return true;
             else return false;
         }
 
