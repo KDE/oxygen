@@ -168,7 +168,7 @@ namespace Oxygen
         virtual QPixmap radialGradient(const QColor &color, int width, int height = 64);
 
         //! merge background and front color for check marks, arrows, etc. using _contrast
-        virtual QColor decoColor(const QColor &background, const QColor &color) const;
+        virtual const QColor& decoColor(const QColor &background, const QColor &color);
 
         //! returns a region matching given rect, with rounded corners, based on the multipliers
         /*! setting any of the multipliers to zero will result in no corners shown on the corresponding side */
@@ -241,6 +241,7 @@ namespace Oxygen
 
         //!@name color caches
         //@{
+        ColorCache m_decoColorCache;
         ColorCache m_lightColorCache;
         ColorCache m_darkColorCache;
         ColorCache m_shadowColorCache;

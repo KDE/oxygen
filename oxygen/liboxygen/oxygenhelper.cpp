@@ -86,6 +86,7 @@ namespace Oxygen
     void Helper::invalidateCaches()
     {
         m_slabCache.clear();
+        m_decoColorCache.clear();
         m_lightColorCache.clear();
         m_darkColorCache.clear();
         m_shadowColorCache.clear();
@@ -465,8 +466,18 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    QColor Helper::decoColor(const QColor& background, const QColor &color) const
-    { return KColorUtils::mix( background, color, 0.4 + 0.8*_contrast ); }
+    const QColor& Helper::decoColor(const QColor& background, const QColor &color)
+    {
+        const quint64 key( (quint64( background.rgba() ) << 32) | color.rgba() );
+        QColor* out( m_decoColorCache.object( key ) );
+        if( !out )
+        {
+            out = new QColor( KColorUtils::mix( background, color, 0.4 + 0.8*_contrast ) );
+            m_decoColorCache.insert( key, out );
+        }
+
+        return *out;
+    }
 
     //_______________________________________________________________________
     QRegion Helper::roundedMask( const QRect& r, int left, int right, int top, int bottom ) const
