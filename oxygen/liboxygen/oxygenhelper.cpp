@@ -67,8 +67,6 @@ namespace Oxygen
     void Helper::reloadConfig()
     {
 
-        const qreal old_contrast( _contrast );
-
         _config->reparseConfiguration();
         _contrast = KGlobalSettings::contrastF(_config);
         _bgcontrast = qMin(1.0, 0.9*_contrast/0.7);
@@ -76,9 +74,6 @@ namespace Oxygen
         _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, config() );
         _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, config() );
         _viewNegativeTextBrush = KStatefulBrush( KColorScheme::View, KColorScheme::NegativeText, config() );
-
-        // contrast changed, invalidate our caches
-        if( _contrast != old_contrast ) invalidateCaches();
 
     }
 
