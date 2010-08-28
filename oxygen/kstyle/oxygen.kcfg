@@ -220,7 +220,7 @@
 
    <!-- transition flags -->
     <entry name="StackedWidgetTransitionsEnabled" type="Bool">
-      <default>false</default>
+      <default>true</default>
     </entry>
 
     <entry name="LabelTransitionsEnabled" type="Bool">
