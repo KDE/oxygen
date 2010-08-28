@@ -67,7 +67,7 @@ namespace Oxygen
     void Helper::reloadConfig()
     {
 
-        qreal old_contrast = _contrast;
+        const qreal old_contrast( _contrast );
 
         _config->reparseConfiguration();
         _contrast = KGlobalSettings::contrastF(_config);
@@ -118,15 +118,19 @@ namespace Oxygen
         // get coordinates relative to the client area
         // this is stupid. One could use mapTo if this was taking const QWidget* and not
         // QWidget* as argument.
-        const QWidget* w = widget;
-        int x = 0, y = -y_shift;
-        while ( w != window && !w->isWindow() && w != w->parentWidget() ) {
+        const QWidget* w( widget );
+        int x(0);
+        int y(-y_shift);
+
+        while ( w != window && !w->isWindow() && w != w->parentWidget() )
+        {
             x += w->geometry().x();
             y += w->geometry().y();
             w = w->parentWidget();
         }
 
-        if (clipRect.isValid()) {
+        if (clipRect.isValid())
+        {
             p->save();
             p->setClipRegion(clipRect,Qt::IntersectClip);
         }
@@ -134,29 +138,29 @@ namespace Oxygen
         // calculate upper part height
         // special tricks are needed
         // to handle both window contents and window decoration
-        QRect r = window->rect();
-        int height = window->frameGeometry().height();
-        int width = window->frameGeometry().width();
+        const QRect r = window->rect();
+        int height( window->frameGeometry().height() );
+        int width( window->frameGeometry().width() );
         if( y_shift > 0 )
         {
             height -= 2*y_shift;
             width -= 2*y_shift;
         }
 
-        int splitY = qMin(300, (3*height)/4);
+        const int splitY( qMin(300, (3*height)/4) );
 
         // draw upper linear gradient
-        QRect upperRect = QRect(-x, -y, r.width(), splitY);
-        QPixmap tile = verticalGradient(color, splitY, gradientHeight-64);
+        const QRect upperRect(-x, -y, r.width(), splitY);
+        QPixmap tile( verticalGradient(color, splitY, gradientHeight-64) );
         p->drawTiledPixmap(upperRect, tile);
 
         // draw lower flat part
-        QRect lowerRect = QRect(-x, splitY-y, r.width(), r.height() - splitY-y_shift);
+        const QRect lowerRect(-x, splitY-y, r.width(), r.height() - splitY-y_shift);
         p->fillRect(lowerRect, backgroundBottomColor(color));
 
         // draw upper radial gradient
-        int radialW = qMin(600, width);
-        QRect radialRect = QRect((r.width() - radialW) / 2-x, -y, radialW, gradientHeight);
+        const int radialW( qMin(600, width) );
+        const QRect radialRect( (r.width() - radialW) / 2-x, -y, radialW, gradientHeight);
         if (clipRect.intersects(radialRect))
         {
             tile = radialGradient(color, radialW, gradientHeight);
@@ -178,7 +182,7 @@ namespace Oxygen
         {
             pixmap = new QPixmap( 4, 4 );
             pixmap->fill( Qt::transparent );
-            const qreal diameter = 1.8;
+            const qreal diameter( 1.8 );
 
             QPainter painter( pixmap );
             painter.setRenderHint(QPainter::Antialiasing);
@@ -245,7 +249,7 @@ namespace Oxygen
     QColor Helper::alphaColor(QColor color, qreal alpha)
     {
         if( alpha >= 0 && alpha < 1.0 )
-        { color.setAlphaF(qMax(qreal(0.0), alpha) * color.alphaF()); }
+        { color.setAlphaF( alpha*color.alphaF()); }
         return color;
     }
 
@@ -262,8 +266,8 @@ namespace Oxygen
     {
 
         if( lowThreshold(color) ) return KColorScheme::shade(color, KColorScheme::MidlightShade, 0.0);
-        qreal my = KColorUtils::luma( KColorScheme::shade(color, KColorScheme::LightShade, 0.0) );
-        qreal by = KColorUtils::luma(color);
+        const qreal my( KColorUtils::luma( KColorScheme::shade(color, KColorScheme::LightShade, 0.0) ) );
+        const qreal by( KColorUtils::luma(color) );
         return KColorUtils::shade(color, (my - by) * _bgcontrast);
 
     }
@@ -271,11 +275,11 @@ namespace Oxygen
     //_________________________________________________________________________
     QColor Helper::backgroundBottomColor(const QColor &color)
     {
-        QColor midColor = KColorScheme::shade(color, KColorScheme::MidShade, 0.0);
+        const QColor midColor( KColorScheme::shade(color, KColorScheme::MidShade, 0.0) );
         if( lowThreshold(color) ) return midColor;
 
-        qreal by = KColorUtils::luma(color);
-        qreal my = KColorUtils::luma(midColor);
+        const qreal by( KColorUtils::luma(color) );
+        const qreal my( KColorUtils::luma(midColor) );
         return KColorUtils::shade(color, (my - by) * _bgcontrast);
 
     }
@@ -316,12 +320,12 @@ namespace Oxygen
             if( ratio < 0.5 )
             {
 
-                qreal a = 2.0*ratio;
+                const qreal a( 2.0*ratio );
                 out = new QColor( KColorUtils::mix(backgroundTopColor(color), color, a) );
 
             } else {
 
-                qreal a = 2.0*ratio-1;
+                const qreal a( 2.0*ratio-1 );
                 out = new QColor( KColorUtils::mix(color, backgroundBottomColor(color), a) );
 
             }
@@ -425,13 +429,12 @@ namespace Oxygen
 
         p->save();
         p->setRenderHint(QPainter::Antialiasing);
-        QRect frame = r;
-        frame.adjust(1,1,-1,-1);
+        const QRect frame( r.adjusted(1,1,-1,-1) );
         int x,y,w,h;
         frame.getRect(&x, &y, &w, &h);
 
-        QColor light = calcLightColor(backgroundTopColor(color));
-        QColor dark = calcLightColor(backgroundBottomColor(color));
+        QColor light( calcLightColor(backgroundTopColor(color)) );
+        QColor dark( calcLightColor(backgroundBottomColor(color)) );
         p->setBrush(Qt::NoBrush);
 
         if (drawUglyShadow)
@@ -440,7 +443,7 @@ namespace Oxygen
             if(isActive)
             {
                 //window active - it's a glow - not a shadow
-                QColor glow = KColorUtils::mix(QColor(128,128,128),frameColor,0.7);
+                const QColor glow( KColorUtils::mix(QColor(128,128,128),frameColor,0.7) );
                 p->setPen(glow);
 
                 if( tiles & TileSet::Top )
@@ -467,7 +470,7 @@ namespace Oxygen
 
                 // window inactive - draw something resembling shadow
                 // fully desaturate
-                QColor shadow = KColorUtils::darken(color, 0.0, 0.0);
+                const QColor shadow( KColorUtils::darken(color, 0.0, 0.0) );
 
                 if( tiles & TileSet::Top )
                 {
@@ -533,14 +536,13 @@ namespace Oxygen
     //______________________________________________________________________________________
     void Helper::drawSeparator(QPainter *p, const QRect &rect, const QColor &color, Qt::Orientation orientation)
     {
-        QColor light = calcLightColor(color);
-        QColor dark = calcDarkColor(color);
+        QColor light( calcLightColor(color) );
+        QColor dark( calcDarkColor(color) );
 
         p->save();
         p->setRenderHint(QPainter::Antialiasing,false);
 
         QPoint start,end,offset;
-
         if (orientation == Qt::Horizontal)
         {
 
@@ -565,10 +567,8 @@ namespace Oxygen
         lg.setColorAt(1.0, dark);
         p->setPen(QPen(lg,1));
 
-        if (orientation == Qt::Horizontal)
-            p->drawLine(start,end);
-        else
-            p->drawLine(start+offset,end+offset);
+        if (orientation == Qt::Horizontal) p->drawLine(start,end);
+        else p->drawLine(start+offset,end+offset);
 
         lg = QLinearGradient(start,end);
         lg.setColorAt(0.3, light);
@@ -579,8 +579,7 @@ namespace Oxygen
         p->setPen(QPen(lg,1));
 
 
-        if (orientation == Qt::Horizontal)
-            p->drawLine(start+offset,end+offset);
+        if (orientation == Qt::Horizontal) p->drawLine(start+offset,end+offset);
         else
         {
             p->drawLine(start,end);
@@ -593,7 +592,8 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *Helper::slab(const QColor &color, qreal shade, int size )
     {
-        Oxygen::Cache<TileSet>::Value *cache = m_slabCache.get(color);
+
+        Oxygen::Cache<TileSet>::Value *cache( m_slabCache.get(color) );
         const quint64 key( ((int)(256.0 * shade)) << 24 | size );
         TileSet *tileSet( cache->object( key ) );
 
@@ -640,15 +640,16 @@ namespace Oxygen
     //______________________________________________________________________________________
     void Helper::drawSlab(QPainter &p, const QColor &color, qreal shade)
     {
-        const QColor light = KColorUtils::shade(calcLightColor(color), shade);
-        const QColor base = alphaColor( light, 0.85 );
-        const QColor dark = KColorUtils::shade(calcDarkColor(color), shade);
+
+        const QColor light( KColorUtils::shade(calcLightColor(color), shade) );
+        const QColor base( alphaColor( light, 0.85 ) );
+        const QColor dark( KColorUtils::shade(calcDarkColor(color), shade) );
 
         // bevel, part 1
         p.save();
-        qreal y = KColorUtils::luma(base);
-        qreal yl = KColorUtils::luma(light);
-        qreal yd = KColorUtils::luma(dark);
+        const qreal y( KColorUtils::luma(base) );
+        const qreal yl( KColorUtils::luma(light) );
+        const qreal yd( KColorUtils::luma(dark) );
         QLinearGradient bevelGradient1(0, 7, 0, 11);
         bevelGradient1.setColorAt(0.0, light);
         if (y < yl && y > yd)
@@ -686,16 +687,17 @@ namespace Oxygen
     //___________________________________________________________________________________________
     void Helper::drawShadow(QPainter &p, const QColor &color, int size)
     {
-        const qreal m = qreal(size-2)*0.5;
-        const qreal offset = 0.8;
-        const qreal k0 = (m-4.0) / m;
+        const qreal m( qreal(size-2)*0.5 );
+        const qreal offset( 0.8 );
+        const qreal k0( (m-4.0) / m );
+
         QRadialGradient shadowGradient(m+1.0, m+offset+1.0, m);
         for (int i = 0; i < 8; i++)
         {
 
             // sinusoidal gradient
-            qreal k1 = (k0 * qreal(8 - i) + qreal(i)) * 0.125;
-            qreal a = (cos(3.14159 * i * 0.125) + 1.0) * 0.30;
+            const qreal k1( (k0 * qreal(8 - i) + qreal(i)) * 0.125 );
+            const qreal a( (cos(3.14159 * i * 0.125) + 1.0) * 0.30 );
             shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
 
         }
@@ -713,23 +715,23 @@ namespace Oxygen
     {
 
         const QRectF r(0, 0, size, size);
-        const qreal m = qreal(size)*0.5;
+        const qreal m( qreal(size)*0.5 );
         const qreal width( 3 );
 
-        const qreal bias = _glowBias * qreal(14)/size;
+        const qreal bias( _glowBias * qreal(14)/size );
 
         // k0 is located at width - bias from the outer edge
-        qreal gm = m + bias - 0.9;
-        qreal k0 = (m-width+bias) / gm ;
+        const qreal gm( m + bias - 0.9 );
+        const qreal k0( (m-width+bias) / gm );
         QRadialGradient glowGradient(m, m, gm );
         for (int i = 0; i < 8; i++)
         {
 
             // k1 grows linearly from k0 to 1.0
-            qreal k1 =  k0 + qreal(i)*(1.0-k0)/8.0;
+            const qreal k1( k0 + qreal(i)*(1.0-k0)/8.0 );
 
             // a folows sqrt curve
-            qreal a = 1.0 - sqrt(qreal(i)/8);
+            const qreal a( 1.0 - sqrt(qreal(i)/8) );
             glowGradient.setColorAt(k1, alphaColor(color, a));
         }
 
