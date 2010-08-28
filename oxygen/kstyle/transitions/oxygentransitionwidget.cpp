@@ -61,7 +61,6 @@ namespace Oxygen
         animation_.data()->setPropertyName( "opacity" );
 
         // setup connections
-        connect( animation_.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
         connect( animation_.data(), SIGNAL( finished( void ) ), SIGNAL( finished( void ) ) );
 
     }
