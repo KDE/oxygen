@@ -89,6 +89,9 @@ namespace Oxygen
         m_lightColorCache.clear();
         m_darkColorCache.clear();
         m_shadowColorCache.clear();
+        m_backgroundTopColorCache.clear();
+        m_backgroundBottomColorCache.clear();
+        m_backgroundRadialColorCache.clear();
         m_backgroundColorCache.clear();
         m_backgroundCache.clear();
         m_dotCache.clear();
@@ -110,7 +113,7 @@ namespace Oxygen
         m_backgroundCache.setMaxCost( value );
         m_dotCache.setMaxCost( value );
 
-        /* note: we do not limit the size of the backgroundColor cache on purpose, since this one should be small anyway */
+        /* note: we do not limit the size of the color caches on purpose, since they should be small anyway */
 
     }
 
@@ -257,38 +260,68 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QColor Helper::backgroundRadialColor(const QColor &color)
+    const QColor& Helper::backgroundRadialColor(const QColor &color)
     {
-        if( lowThreshold(color) ) return KColorScheme::shade(color, KColorScheme::LightShade, 0.0);
-        else if( highThreshold( color ) ) return color;
-        else return KColorScheme::shade(color, KColorScheme::LightShade, _bgcontrast);
+        const quint64 key( color.rgba() );
+        QColor* out( m_backgroundRadialColorCache.object( key ) );
+        if( !out )
+        {
+            if( lowThreshold(color) ) out = new QColor( KColorScheme::shade(color, KColorScheme::LightShade, 0.0) );
+            else if( highThreshold( color ) ) out = new QColor( color );
+            else out = new QColor( KColorScheme::shade(color, KColorScheme::LightShade, _bgcontrast) );
+            m_backgroundRadialColorCache.insert( key, out );
+        }
+
+        return *out;
     }
 
     //_________________________________________________________________________
-    QColor Helper::backgroundTopColor(const QColor &color)
+    const QColor& Helper::backgroundTopColor(const QColor &color)
     {
+        const quint64 key( color.rgba() );
+        QColor* out( m_backgroundTopColorCache.object( key ) );
+        if( !out )
+        {
+            if( lowThreshold(color) ) out = new QColor( KColorScheme::shade(color, KColorScheme::MidlightShade, 0.0) );
+            else {
+                const qreal my( KColorUtils::luma( KColorScheme::shade(color, KColorScheme::LightShade, 0.0) ) );
+                const qreal by( KColorUtils::luma(color) );
+                out = new QColor( KColorUtils::shade(color, (my - by) * _bgcontrast) );
+            }
 
-        if( lowThreshold(color) ) return KColorScheme::shade(color, KColorScheme::MidlightShade, 0.0);
-        const qreal my( KColorUtils::luma( KColorScheme::shade(color, KColorScheme::LightShade, 0.0) ) );
-        const qreal by( KColorUtils::luma(color) );
-        return KColorUtils::shade(color, (my - by) * _bgcontrast);
+            m_backgroundTopColorCache.insert( key, out );
+        }
+
+        return *out;
 
     }
 
     //_________________________________________________________________________
-    QColor Helper::backgroundBottomColor(const QColor &color)
+    const QColor& Helper::backgroundBottomColor(const QColor &color)
     {
-        const QColor midColor( KColorScheme::shade(color, KColorScheme::MidShade, 0.0) );
-        if( lowThreshold(color) ) return midColor;
+        const quint64 key( color.rgba() );
+        QColor* out( m_backgroundBottomColorCache.object( key ) );
+        if( !out )
+        {
+            const QColor midColor( KColorScheme::shade(color, KColorScheme::MidShade, 0.0) );
+            if( lowThreshold(color) ) out = new QColor( midColor );
+            else {
 
-        const qreal by( KColorUtils::luma(color) );
-        const qreal my( KColorUtils::luma(midColor) );
-        return KColorUtils::shade(color, (my - by) * _bgcontrast);
+                const qreal by( KColorUtils::luma(color) );
+                const qreal my( KColorUtils::luma(midColor) );
+                out = new QColor( KColorUtils::shade(color, (my - by) * _bgcontrast) );
+
+            }
+
+            m_backgroundBottomColorCache.insert( key, out );
+        }
+
+        return *out;
 
     }
 
     //____________________________________________________________________
-    QColor Helper::calcLightColor(const QColor &color)
+    const QColor& Helper::calcLightColor(const QColor &color)
     {
         const quint64 key( color.rgba() );
         QColor* out( m_lightColorCache.object( key ) );
@@ -303,7 +336,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QColor Helper::calcDarkColor(const QColor &color)
+    const QColor& Helper::calcDarkColor(const QColor &color)
     {
         const quint64 key( color.rgba() );
         QColor* out( m_darkColorCache.object( key ) );
@@ -319,7 +352,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QColor Helper::calcShadowColor(const QColor &color)
+    const QColor& Helper::calcShadowColor(const QColor &color)
     {
 
         const quint64 key( color.rgba() );
@@ -340,7 +373,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QColor Helper::cachedBackgroundColor(const QColor &color, qreal ratio)
+    const QColor& Helper::backgroundColor(const QColor &color, qreal ratio)
     {
 
         const quint64 key( (quint64(color.rgba()) << 32) | int(ratio*512) );

@@ -145,24 +145,24 @@ namespace Oxygen
 
         static QColor alphaColor(QColor color, qreal alpha);
 
-        virtual QColor calcLightColor(const QColor &color);
-        virtual QColor calcDarkColor(const QColor &color);
-        virtual QColor calcShadowColor(const QColor &color);
+        virtual const QColor& calcLightColor(const QColor &color);
+        virtual const QColor& calcDarkColor(const QColor &color);
+        virtual const QColor& calcShadowColor(const QColor &color);
 
         //! returns menu background color matching position in a given top level widget
-        virtual QColor backgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
+        virtual const QColor& backgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
         {
             if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
             else return backgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
         }
 
         //! returns menu background color matching position in a top level widget of given height
-        virtual QColor backgroundColor(const QColor &color, int height, int y)
-        { return cachedBackgroundColor( color, qMin(qreal(1.0), qreal(y)/qMin(300, 3*height/4) ) ); }
+        virtual const QColor& backgroundColor(const QColor &color, int height, int y)
+        { return backgroundColor( color, qMin(qreal(1.0), qreal(y)/qMin(300, 3*height/4) ) ); }
 
-        virtual QColor backgroundRadialColor(const QColor &color);
-        virtual QColor backgroundTopColor(const QColor &color);
-        virtual QColor backgroundBottomColor(const QColor &color);
+        virtual const QColor& backgroundRadialColor(const QColor &color);
+        virtual const QColor& backgroundTopColor(const QColor &color);
+        virtual const QColor& backgroundBottomColor(const QColor &color);
 
         virtual QPixmap verticalGradient(const QColor &color, int height, int offset = 0 );
         virtual QPixmap radialGradient(const QColor &color, int width, int height = 64);
@@ -205,7 +205,6 @@ namespace Oxygen
         */
         const QWidget* checkAutoFillBackground( const QWidget* ) const;
 
-
         protected:
 
         virtual void drawSlab(QPainter&, const QColor&, qreal shade);
@@ -213,16 +212,21 @@ namespace Oxygen
         virtual void drawOuterGlow(QPainter&, const QColor&, int size);
 
         //! return background adjusted color matching relative vertical position in window
-        QColor cachedBackgroundColor( const QColor&, qreal ratio );
+        const QColor& backgroundColor( const QColor&, qreal ratio );
 
         static const qreal _glowBias;
         static const qreal _slabThickness;
         static const qreal _shadowGain;
         qreal _contrast;
 
-        QCache<quint64, QPixmap> m_windecoButtonCache;
-        QCache<quint64, QPixmap> m_windecoButtonGlowCache;
+        typedef QCache<quint64, QPixmap> PixmapCache;
+        PixmapCache m_windecoButtonCache;
+        PixmapCache m_windecoButtonGlowCache;
         Oxygen::Cache<TileSet> m_slabCache;
+
+        //! shortcut to color caches
+        /*! it is made protected because it is also used in the style helper */
+        typedef QCache<quint64, QColor> ColorCache;
 
         private:
 
@@ -237,15 +241,17 @@ namespace Oxygen
 
         //!@name color caches
         //@{
-        typedef QCache<quint64, QColor> ColorCache;
         ColorCache m_lightColorCache;
         ColorCache m_darkColorCache;
         ColorCache m_shadowColorCache;
+        ColorCache m_backgroundTopColorCache;
+        ColorCache m_backgroundBottomColorCache;
+        ColorCache m_backgroundRadialColorCache;
         ColorCache m_backgroundColorCache;
         //@}
 
-        QCache<quint64, QPixmap> m_backgroundCache;
-        QCache<quint64, QPixmap> m_dotCache;
+        PixmapCache m_backgroundCache;
+        PixmapCache m_dotCache;
 
         //! high threshold colors
         typedef QMap<quint32, bool> ColorMap;
