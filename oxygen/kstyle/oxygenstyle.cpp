@@ -162,6 +162,7 @@ namespace Oxygen
 
         // connect to KGlobalSettings signals so we will be notified when the
         // system palette (in particular, the contrast) is changed
+        KGlobalSettings::self()->activate();
         connect(KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(globalPaletteChanged()));
 
         // initialize all callback maps
@@ -7315,10 +7316,12 @@ namespace Oxygen
 
     }
 
-
     //_____________________________________________________________________
     void Style::globalPaletteChanged()
-    { _helper.reloadConfig(); }
+    {
+        _helper.reloadConfig();
+        _helper.invalidateCaches();
+    }
 
     //_____________________________________________________________________
     void Style::oxygenConfigurationChanged()
