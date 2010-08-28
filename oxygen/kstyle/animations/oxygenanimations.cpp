@@ -170,7 +170,7 @@ namespace Oxygen
                 // unregister all toolbuttons that belong to a toolbar
                 foreach( QWidget* widget, widgetStateEngine_->registeredWidgets( AnimationHover|AnimationFocus ) )
                 {
-                    if( widget && widget->inherits( "QToolButton" ) && qobject_cast<QToolBar*>( widget->parentWidget() ) )
+                    if( qobject_cast<QToolButton*>( widget ) && qobject_cast<QToolBar*>( widget->parentWidget() ) )
                     { widgetStateEngine_->unregisterWidget( widget ); }
                 }
 

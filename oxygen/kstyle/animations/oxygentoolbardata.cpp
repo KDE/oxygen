@@ -61,7 +61,7 @@ namespace Oxygen
 
         // add all children widgets to event handler
         foreach( QObject* child, target->children() )
-        { if( child->inherits( "QToolButton" ) ) childAddedEvent( child ); }
+        { if( qobject_cast<QToolButton*>( child ) ) childAddedEvent( child ); }
 
     }
 
