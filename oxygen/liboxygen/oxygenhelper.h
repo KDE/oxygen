@@ -136,18 +136,18 @@ namespace Oxygen
         void renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64);
 
         //! dots
-        void renderDot(QPainter*, const QPointF&, const QColor&) const;
+        void renderDot(QPainter*, const QPoint&, const QColor&);
 
         //@}
 
-        static bool lowThreshold(const QColor &color);
-        static bool highThreshold(const QColor &color);
+        bool lowThreshold(const QColor &color);
+        bool highThreshold(const QColor &color);
 
         static QColor alphaColor(QColor color, qreal alpha);
 
-        virtual QColor calcLightColor(const QColor &color) const;
-        virtual QColor calcDarkColor(const QColor &color) const;
-        virtual QColor calcShadowColor(const QColor &color) const;
+        virtual QColor calcLightColor(const QColor &color);
+        virtual QColor calcDarkColor(const QColor &color);
+        virtual QColor calcShadowColor(const QColor &color);
 
         //! returns menu background color matching position in a given top level widget
         virtual QColor backgroundColor(const QColor &color, const QWidget* w, const QPoint& point )
@@ -160,9 +160,9 @@ namespace Oxygen
         virtual QColor backgroundColor(const QColor &color, int height, int y)
         { return cachedBackgroundColor( color, qMin(qreal(1.0), qreal(y)/qMin(300, 3*height/4) ) ); }
 
-        virtual QColor backgroundRadialColor(const QColor &color) const;
-        virtual QColor backgroundTopColor(const QColor &color) const;
-        virtual QColor backgroundBottomColor(const QColor &color) const;
+        virtual QColor backgroundRadialColor(const QColor &color);
+        virtual QColor backgroundTopColor(const QColor &color);
+        virtual QColor backgroundBottomColor(const QColor &color);
 
         virtual QPixmap verticalGradient(const QColor &color, int height, int offset = 0 );
         virtual QPixmap radialGradient(const QColor &color, int width, int height = 64);
@@ -181,9 +181,9 @@ namespace Oxygen
             bool drawUglyShadow=true, bool isActive=false,
             const QColor &frameColor=QColor(),
             TileSet::Tiles tiles = TileSet::Ring
-            ) const;
+            );
 
-        virtual void drawSeparator(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation) const;
+        virtual void drawSeparator(QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation);
 
         virtual TileSet *slab(const QColor&, qreal shade, int size = 7);
 
@@ -208,9 +208,9 @@ namespace Oxygen
 
         protected:
 
-        virtual void drawSlab(QPainter&, const QColor&, qreal shade) const;
-        virtual void drawShadow(QPainter&, const QColor&, int size) const;
-        virtual void drawOuterGlow(QPainter&, const QColor&, int size) const;
+        virtual void drawSlab(QPainter&, const QColor&, qreal shade);
+        virtual void drawShadow(QPainter&, const QColor&, int size);
+        virtual void drawOuterGlow(QPainter&, const QColor&, int size);
 
         //! return background adjusted color matching relative vertical position in window
         QColor cachedBackgroundColor( const QColor&, qreal ratio );
@@ -237,7 +237,12 @@ namespace Oxygen
 
         QCache<quint64, QColor> m_backgroundColorCache;
         QCache<quint64, QPixmap> m_backgroundCache;
+        QCache<quint64, QPixmap> m_dotCache;
 
+        //! high threshold colors
+        typedef QMap<quint32, bool> ColorMap;
+        ColorMap m_highThreshold;
+        ColorMap m_lowThreshold;
      };
 
 }

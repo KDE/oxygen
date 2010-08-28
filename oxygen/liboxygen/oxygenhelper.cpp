@@ -88,6 +88,7 @@ namespace Oxygen
         m_slabCache.clear();
         m_backgroundColorCache.clear();
         m_backgroundCache.clear();
+        m_dotCache.clear();
         m_windecoButtonCache.clear();
         m_windecoButtonGlowCache.clear();
     }
@@ -104,6 +105,7 @@ namespace Oxygen
         m_windecoButtonGlowCache.setMaxCost( value );
         m_slabCache.setMaxCacheSize( value );
         m_backgroundCache.setMaxCost( value );
+        m_dotCache.setMaxCost( value );
 
         /* note: we do not limit the size of the backgroundColor cache on purpose, since this one should be small anyway */
 
@@ -166,36 +168,77 @@ namespace Oxygen
     }
 
     //_____________________________________________________________
-    void Helper::renderDot(QPainter *p, const QPointF &point, const QColor &baseColor) const
+    void Helper::renderDot(QPainter *p, const QPoint &point, const QColor &baseColor)
     {
-        const qreal diameter = 1.8;
+
+        const quint64 key(baseColor.rgba());
+        QPixmap *pixmap( m_dotCache.object(key) );
+
+        if( !pixmap )
+        {
+            pixmap = new QPixmap( 4, 4 );
+            pixmap->fill( Qt::transparent );
+            const qreal diameter = 1.8;
+
+            QPainter painter( pixmap );
+            painter.setRenderHint(QPainter::Antialiasing);
+            painter.setPen(Qt::NoPen);
+
+            const QPoint center( pixmap->rect().center() );
+
+            // light ellipse
+            painter.setBrush(calcLightColor(baseColor));
+            painter.drawEllipse(QRectF(center.x()-diameter/2+1.0, center.y()-diameter/2+1.0, diameter, diameter));
+
+            // dark ellipse
+            painter.setBrush(calcDarkColor(baseColor).darker(130));
+            painter.drawEllipse(QRectF(center.x()-diameter/2+0.5, center.y()-diameter/2+0.5, diameter, diameter));
+            painter.end();
+
+            // store in cache
+            m_dotCache.insert( key, pixmap );
+
+        }
+
         p->save();
+        p->translate( point - QPoint(1,1) );
         p->setRenderHint(QPainter::Antialiasing);
-        p->setPen(Qt::NoPen);
-
-        // light ellipse
-        p->setBrush(calcLightColor(baseColor));
-        p->drawEllipse(QRectF(point.x()-diameter/2+1.0, point.y()-diameter/2+1.0, diameter, diameter));
-
-        // dark ellipse
-        p->setBrush(calcDarkColor(baseColor).darker(130));
-        p->drawEllipse(QRectF(point.x()-diameter/2+0.5, point.y()-diameter/2+0.5, diameter, diameter));
-
+        p->drawPixmap( QPoint(0,0), *pixmap );
         p->restore();
+
     }
 
     //____________________________________________________________________
     bool Helper::lowThreshold(const QColor &color)
     {
-        QColor darker = KColorScheme::shade(color, KColorScheme::MidShade, 0.5);
-        return KColorUtils::luma(darker) > KColorUtils::luma(color);
+        const quint32 key( color.rgba() );
+        ColorMap::iterator iter( m_lowThreshold.find( key ) );
+        if( iter != m_lowThreshold.end() ) return iter.value();
+        else {
+
+            const QColor darker( KColorScheme::shade(color, KColorScheme::MidShade, 0.5 ) );
+            const bool result( KColorUtils::luma(darker) > KColorUtils::luma(color) );
+            m_lowThreshold.insert( key, result );
+            return result;
+
+        }
+
     }
 
     //____________________________________________________________________
     bool Helper::highThreshold(const QColor &color)
     {
-        QColor lighter = KColorScheme::shade(color, KColorScheme::LightShade, 0.5);
-        return KColorUtils::luma(lighter) < KColorUtils::luma(color);
+        const quint32 key( color.rgba() );
+        ColorMap::iterator iter( m_highThreshold.find( key ) );
+        if( iter != m_highThreshold.end() ) return iter.value();
+        else {
+
+            const QColor lighter( KColorScheme::shade(color, KColorScheme::LightShade, 0.5 ) );
+            const bool result( KColorUtils::luma(lighter) < KColorUtils::luma(color) );
+            m_highThreshold.insert( key, result );
+            return result;
+
+        }
     }
 
     //____________________________________________________________________
@@ -207,7 +250,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QColor Helper::backgroundRadialColor(const QColor &color) const
+    QColor Helper::backgroundRadialColor(const QColor &color)
     {
         if( lowThreshold(color) ) return KColorScheme::shade(color, KColorScheme::LightShade, 0.0);
         else if( highThreshold( color ) ) return color;
@@ -215,7 +258,7 @@ namespace Oxygen
     }
 
     //_________________________________________________________________________
-    QColor Helper::backgroundTopColor(const QColor &color) const
+    QColor Helper::backgroundTopColor(const QColor &color)
     {
 
         if( lowThreshold(color) ) return KColorScheme::shade(color, KColorScheme::MidlightShade, 0.0);
@@ -226,7 +269,7 @@ namespace Oxygen
     }
 
     //_________________________________________________________________________
-    QColor Helper::backgroundBottomColor(const QColor &color) const
+    QColor Helper::backgroundBottomColor(const QColor &color)
     {
         QColor midColor = KColorScheme::shade(color, KColorScheme::MidShade, 0.0);
         if( lowThreshold(color) ) return midColor;
@@ -238,11 +281,11 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QColor Helper::calcLightColor(const QColor &color) const
+    QColor Helper::calcLightColor(const QColor &color)
     { return highThreshold(color) ? color: KColorScheme::shade(color, KColorScheme::LightShade, _contrast); }
 
     //____________________________________________________________________
-    QColor Helper::calcDarkColor(const QColor &color) const
+    QColor Helper::calcDarkColor(const QColor &color)
     {
         return (lowThreshold(color)) ?
             KColorUtils::mix(calcLightColor(color), color, 0.3 + 0.7 * _contrast):
@@ -250,7 +293,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QColor Helper::calcShadowColor(const QColor &color) const
+    QColor Helper::calcShadowColor(const QColor &color)
     {
 
         return (lowThreshold(color)) ?
@@ -266,8 +309,8 @@ namespace Oxygen
     QColor Helper::cachedBackgroundColor(const QColor &color, qreal ratio)
     {
 
-        quint64 key = (quint64(color.rgba()) << 32) | int(ratio*512);
-        QColor *out = m_backgroundColorCache.object(key);
+        const quint64 key( (quint64(color.rgba()) << 32) | int(ratio*512) );
+        QColor *out( m_backgroundColorCache.object( key ) );
         if( !out )
         {
             if( ratio < 0.5 )
@@ -295,8 +338,8 @@ namespace Oxygen
     //____________________________________________________________________
     QPixmap Helper::verticalGradient(const QColor &color, int height, int offset)
     {
-        quint64 key = (quint64(color.rgba()) << 32) | height | 0x8000;
-        QPixmap *pixmap = m_backgroundCache.object(key);
+        const quint64 key( (quint64(color.rgba()) << 32) | height | 0x8000 );
+        QPixmap *pixmap( m_backgroundCache.object( key ) );
 
         if (!pixmap)
         {
@@ -323,8 +366,8 @@ namespace Oxygen
     //____________________________________________________________________
     QPixmap Helper::radialGradient(const QColor &color, int width, int height)
     {
-        quint64 key = (quint64(color.rgba()) << 32) | width | 0xb000;
-        QPixmap *pixmap = m_backgroundCache.object(key);
+        const quint64 key( ( quint64(color.rgba()) << 32) | width | 0xb000 );
+        QPixmap *pixmap( m_backgroundCache.object( key ) );
 
         if (!pixmap)
         {
@@ -377,7 +420,7 @@ namespace Oxygen
     void Helper::drawFloatFrame(
         QPainter *p, const QRect r,
         const QColor &color,
-        bool drawUglyShadow, bool isActive, const QColor &frameColor, TileSet::Tiles tiles ) const
+        bool drawUglyShadow, bool isActive, const QColor &frameColor, TileSet::Tiles tiles )
     {
 
         p->save();
@@ -488,7 +531,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________________
-    void Helper::drawSeparator(QPainter *p, const QRect &rect, const QColor &color, Qt::Orientation orientation) const
+    void Helper::drawSeparator(QPainter *p, const QRect &rect, const QColor &color, Qt::Orientation orientation)
     {
         QColor light = calcLightColor(color);
         QColor dark = calcDarkColor(color);
@@ -551,8 +594,8 @@ namespace Oxygen
     TileSet *Helper::slab(const QColor &color, qreal shade, int size )
     {
         Oxygen::Cache<TileSet>::Value *cache = m_slabCache.get(color);
-        quint64 key = (int)(256.0 * shade) << 24 | size;
-        TileSet *tileSet = cache->object(key);
+        const quint64 key( ((int)(256.0 * shade)) << 24 | size );
+        TileSet *tileSet( cache->object( key ) );
 
         if (!tileSet)
         {
@@ -595,7 +638,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________________
-    void Helper::drawSlab(QPainter &p, const QColor &color, qreal shade) const
+    void Helper::drawSlab(QPainter &p, const QColor &color, qreal shade)
     {
         const QColor light = KColorUtils::shade(calcLightColor(color), shade);
         const QColor base = alphaColor( light, 0.85 );
@@ -641,7 +684,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________________
-    void Helper::drawShadow(QPainter &p, const QColor &color, int size) const
+    void Helper::drawShadow(QPainter &p, const QColor &color, int size)
     {
         const qreal m = qreal(size-2)*0.5;
         const qreal offset = 0.8;
@@ -666,7 +709,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Helper::drawOuterGlow( QPainter &p, const QColor &color, int size) const
+    void Helper::drawOuterGlow( QPainter &p, const QColor &color, int size)
     {
 
         const QRectF r(0, 0, size, size);
