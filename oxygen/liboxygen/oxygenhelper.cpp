@@ -86,6 +86,9 @@ namespace Oxygen
     void Helper::invalidateCaches()
     {
         m_slabCache.clear();
+        m_lightColorCache.clear();
+        m_darkColorCache.clear();
+        m_shadowColorCache.clear();
         m_backgroundColorCache.clear();
         m_backgroundCache.clear();
         m_dotCache.clear();
@@ -286,26 +289,53 @@ namespace Oxygen
 
     //____________________________________________________________________
     QColor Helper::calcLightColor(const QColor &color)
-    { return highThreshold(color) ? color: KColorScheme::shade(color, KColorScheme::LightShade, _contrast); }
+    {
+        const quint64 key( color.rgba() );
+        QColor* out( m_lightColorCache.object( key ) );
+        if( !out )
+        {
+            out = new QColor( highThreshold(color) ? color: KColorScheme::shade(color, KColorScheme::LightShade, _contrast) );
+            m_lightColorCache.insert(key, out );
+        }
+
+        return *out;
+
+    }
 
     //____________________________________________________________________
     QColor Helper::calcDarkColor(const QColor &color)
     {
-        return (lowThreshold(color)) ?
-            KColorUtils::mix(calcLightColor(color), color, 0.3 + 0.7 * _contrast):
-            KColorScheme::shade(color, KColorScheme::MidShade, _contrast);
+        const quint64 key( color.rgba() );
+        QColor* out( m_darkColorCache.object( key ) );
+        if( !out )
+        {
+            out = new QColor( (lowThreshold(color)) ?
+                KColorUtils::mix(calcLightColor(color), color, 0.3 + 0.7 * _contrast):
+                KColorScheme::shade(color, KColorScheme::MidShade, _contrast) );
+            m_darkColorCache.insert(key, out );
+        }
+
+        return *out;
     }
 
     //____________________________________________________________________
     QColor Helper::calcShadowColor(const QColor &color)
     {
 
-        return (lowThreshold(color)) ?
+        const quint64 key( color.rgba() );
+        QColor* out( m_shadowColorCache.object( key ) );
+        if( !out )
+        {
+            out = new QColor( (lowThreshold(color)) ?
             KColorUtils::mix( Qt::black, color, color.alphaF() ) :
             KColorScheme::shade(
                 KColorUtils::mix( Qt::black, color, color.alphaF() ),
                 KColorScheme::ShadowShade,
-                _contrast);
+                _contrast) );
+            m_shadowColorCache.insert(key, out );
+        }
+
+        return *out;
 
     }
 

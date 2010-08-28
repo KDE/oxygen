@@ -235,7 +235,15 @@ namespace Oxygen
         KSharedConfigPtr _config;
         qreal _bgcontrast;
 
-        QCache<quint64, QColor> m_backgroundColorCache;
+        //!@name color caches
+        //@{
+        typedef QCache<quint64, QColor> ColorCache;
+        ColorCache m_lightColorCache;
+        ColorCache m_darkColorCache;
+        ColorCache m_shadowColorCache;
+        ColorCache m_backgroundColorCache;
+        //@}
+
         QCache<quint64, QPixmap> m_backgroundCache;
         QCache<quint64, QPixmap> m_dotCache;
 
