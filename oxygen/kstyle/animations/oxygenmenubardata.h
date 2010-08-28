@@ -427,9 +427,6 @@ namespace Oxygen
         // animated rect
         QRect animatedRect_;
 
-        //! true if toolbar was entered at least once (this prevents some initialization glitches)
-        bool entered_;
-
     };
 }
 
