@@ -23,7 +23,7 @@
 
 #include <QtGui/QPixmap>
 #include <QtCore/QRect>
-#include <QtCore/QVector>
+#include <QtCore/QList>
 
 #include "oxygen_export.h"
 
@@ -111,15 +111,20 @@ namespace Oxygen
 
         //! is valid
         bool isValid( void ) const
-        { return size().isValid() && _pixmap.size() == 9; }
+        { return size().isValid() && _pixmaps.size() == 9; }
 
         protected:
 
-        // initialize pixmap
-        void initPixmap( int, const QPixmap&, int w, int h, const QRect& );
+        //! shortcut to pixmap list
+        typedef QList<QPixmap> PixmapList;
+
+        //! initialize pixmap
+        void initPixmap( PixmapList&, const QPixmap&, int w, int h, const QRect& );
+
+        private:
 
         //! pixmap arry
-        QVector<QPixmap> _pixmap;
+        PixmapList _pixmaps;
 
         // dimensions
         int _w1;
