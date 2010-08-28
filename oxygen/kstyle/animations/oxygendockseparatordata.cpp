@@ -45,7 +45,6 @@ namespace Oxygen
 
         // setup connections
         connect( horizontalData_.animation_.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setHorizontalDirty( void ) ) );
-        connect( horizontalData_.animation_.data(), SIGNAL( finished( void ) ), SLOT( setHorizontalDirty( void ) ) );
 
         // setup animation
         verticalData_.animation_ = new Animation( duration, this );
@@ -56,7 +55,6 @@ namespace Oxygen
 
         // setup connections
         connect( verticalData_.animation_.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setVerticalDirty( void ) ) );
-        connect( verticalData_.animation_.data(), SIGNAL( finished( void ) ), SLOT( setVerticalDirty( void ) ) );
 
     }
 

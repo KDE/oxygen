@@ -121,8 +121,7 @@ namespace Oxygen
         animation().data()->setPropertyName( "opacity" );
 
         // setup connections
-        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
-        connect( animation().data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
+        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), target, SLOT( update( void ) ) );
 
         progressAnimation_ = new Animation( duration, this );
         progressAnimation().data()->setDirection( Animation::Forward );
@@ -134,8 +133,6 @@ namespace Oxygen
 
         // setup connections
         connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( updateAnimatedRect( void ) ) );
-        connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
-        connect( progressAnimation().data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
 
     }
 
@@ -197,6 +194,9 @@ namespace Oxygen
         animatedRect_.setRight( previousRect().right() + progress()*(currentRect().right() - previousRect().right()) );
         animatedRect_.setTop( previousRect().top() + progress()*(currentRect().top() - previousRect().top()) );
         animatedRect_.setBottom( previousRect().bottom() + progress()*(currentRect().bottom() - previousRect().bottom()) );
+
+        // trigger update
+        setDirty();
 
         return;
 

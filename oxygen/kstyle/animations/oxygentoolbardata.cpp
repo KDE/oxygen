@@ -50,8 +50,7 @@ namespace Oxygen
         animation().data()->setTargetObject( this );
         animation().data()->setPropertyName( "opacity" );
 
-        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
-        connect( animation().data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
+        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), target, SLOT( update( void ) ) );
 
         // progress animation
         progressAnimation_ = new Animation( duration, this );
@@ -64,9 +63,6 @@ namespace Oxygen
 
         // setup connections
         connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( updateAnimatedRect( void ) ) );
-        connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
-        connect( progressAnimation().data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
-
 
         // add all children widgets to event handler
         foreach( QObject* child, target->children() )
@@ -152,6 +148,9 @@ namespace Oxygen
         animatedRect_.setRight( previousRect().right() + progress()*(currentRect().right() - previousRect().right()) );
         animatedRect_.setTop( previousRect().top() + progress()*(currentRect().top() - previousRect().top()) );
         animatedRect_.setBottom( previousRect().bottom() + progress()*(currentRect().bottom() - previousRect().bottom()) );
+
+        // trigger update
+        setDirty();
         return;
 
     }
@@ -279,10 +278,8 @@ namespace Oxygen
 
         // add connections
         connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), widget, SLOT( update() ), Qt::UniqueConnection  );
-        connect( animation().data(), SIGNAL( finished() ), widget, SLOT( update() ), Qt::UniqueConnection  );
 
         connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), widget, SLOT( update() ), Qt::UniqueConnection  );
-        connect( progressAnimation().data(), SIGNAL( finished() ), widget, SLOT( update() ), Qt::UniqueConnection  );
 
         // add event filter
         widget->removeEventFilter( this );

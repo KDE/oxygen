@@ -62,7 +62,6 @@ namespace Oxygen
 
         // setup connections
         connect( animation_.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
-        connect( animation_.data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
         connect( animation_.data(), SIGNAL( finished( void ) ), SIGNAL( finished( void ) ) );
 
     }

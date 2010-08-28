@@ -43,8 +43,9 @@ namespace Oxygen
         animation.data()->setPropertyName( property );
 
         // setup connections
-        connect( animation.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setDirty( void ) ) );
-        connect( animation.data(), SIGNAL( finished( void ) ), SLOT( setDirty( void ) ) );
+        if( target_ )
+        { connect( animation.data(), SIGNAL( valueChanged( const QVariant& ) ), target_.data(), SLOT( update( void ) ) ); }
+
     }
 
 }
