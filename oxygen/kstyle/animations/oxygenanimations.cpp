@@ -30,7 +30,18 @@
 #include "oxygenanimations.moc"
 #include "oxygenstyleconfigdata.h"
 
+#include <QtGui/QAbstractItemView>
+#include <QtGui/QComboBox>
+#include <QtGui/QDial>
+#include <QtGui/QLineEdit>
+#include <QtGui/QMainWindow>
+#include <QtGui/QMdiSubWindow>
+#include <QtGui/QScrollBar>
+#include <QtGui/QSpinBox>
+#include <QtGui/QSplitterHandle>
+#include <QtGui/QTextEdit>
 #include <QtGui/QToolBar>
+#include <QtGui/QToolBox>
 #include <QtGui/QToolButton>
 #include <QtGui/QGroupBox>
 
@@ -229,11 +240,11 @@ namespace Oxygen
 
         // install animation timers
         // for optimization, one should put with most used widgets here first
-        if( widget->inherits( "QToolButton" ) )
+        if( qobject_cast<QToolButton*>(widget) )
         {
 
             toolButtonEngine().registerWidget( widget, AnimationHover );
-            bool isInToolBar( widget->parent() && widget->parent()->inherits( "QToolBar" ) );
+            bool isInToolBar( qobject_cast<QToolBar*>(widget->parent()) );
             if( isInToolBar )
             {
 
@@ -242,14 +253,18 @@ namespace Oxygen
 
             } else widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
-        } else if( widget->inherits( "QAbstractButton" ) ) {
+        } else if( qobject_cast<QAbstractButton*>(widget) ) {
 
-            if( widget->parentWidget() && widget->parentWidget()->inherits( "QToolBox" ) )
+            if( qobject_cast<QToolBox*>( widget->parent() ) )
             { toolBoxEngine().registerWidget( widget ); }
 
             widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
 
-        } else if( widget->inherits( "QDial" ) ) { widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        } else if( qobject_cast<QDial*>(widget) ) {
+
+            widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+
+        }
 
         // groupboxes
         else if( QGroupBox* groupBox = qobject_cast<QGroupBox*>( widget ) )
@@ -259,35 +274,35 @@ namespace Oxygen
         }
 
         // scrollbar
-        else if( widget->inherits( "QScrollBar" ) ) { scrollBarEngine().registerWidget( widget ); }
-        else if( widget->inherits( "QSlider" ) ) { sliderEngine().registerWidget( widget ); }
-        else if( widget->inherits( "QProgressBar" ) ) { progressBarEngine().registerWidget( widget ); }
-        else if( widget->inherits( "QSplitterHandle" ) ) { splitterEngine().registerWidget( widget ); }
-        else if( widget->inherits( "QMainWindow" ) ) { dockSeparatorEngine().registerWidget( widget ); }
+        else if( qobject_cast<QScrollBar*>( widget ) ) { scrollBarEngine().registerWidget( widget ); }
+        else if( qobject_cast<QSlider*>( widget ) ) { sliderEngine().registerWidget( widget ); }
+        else if( qobject_cast<QProgressBar*>( widget ) ) { progressBarEngine().registerWidget( widget ); }
+        else if( qobject_cast<QSplitterHandle*>( widget ) ) { splitterEngine().registerWidget( widget ); }
+        else if( qobject_cast<QMainWindow*>( widget ) ) { dockSeparatorEngine().registerWidget( widget ); }
 
         // menu
-        else if( widget->inherits( "QMenu" ) ) { menuEngine().registerWidget( widget ); }
-        else if( widget->inherits( "QMenuBar" ) ) { menuBarEngine().registerWidget( widget ); }
-        else if( widget->inherits( "QTabBar" ) ) { tabBarEngine().registerWidget( widget ); }
-        else if( widget->inherits( "QToolBar" ) ) { toolBarEngine().registerWidget( widget ); }
+        else if( qobject_cast<QMenu*>( widget ) ) { menuEngine().registerWidget( widget ); }
+        else if( qobject_cast<QMenuBar*>( widget ) ) { menuBarEngine().registerWidget( widget ); }
+        else if( qobject_cast<QTabBar*>( widget ) ) { tabBarEngine().registerWidget( widget ); }
+        else if( qobject_cast<QToolBar*>( widget ) ) { toolBarEngine().registerWidget( widget ); }
 
         // editors
-        else if( widget->inherits( "QComboBox" ) ) {
+        else if( qobject_cast<QComboBox*>( widget ) ) {
             comboBoxEngine().registerWidget( widget, AnimationHover );
             lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
-        } else if( widget->inherits( "QSpinBox" ) ) {
+        } else if( qobject_cast<QSpinBox*>( widget ) ) {
             spinBoxEngine().registerWidget( widget );
             lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
         }
-        else if( widget->inherits( "QLineEdit" ) ) { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( widget->inherits( "QTextEdit" ) ) { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( qobject_cast<QLineEdit*>( widget ) ) { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( qobject_cast<QTextEdit*>( widget ) ) { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // lists
-        else if( widget->inherits( "QAbstractItemView" ) || widget->inherits( "Q3ListView" ) )
+        else if( qobject_cast<QAbstractItemView*>( widget ) || widget->inherits("Q3ListView") )
         { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // mdi subwindows
-        else if( widget->inherits( "QMdiSubWindow" ) )
+        else if( qobject_cast<QMdiSubWindow*>( widget ) )
         { mdiWindowEngine().registerWidget( widget ); }
 
         return;
