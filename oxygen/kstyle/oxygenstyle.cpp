@@ -2352,6 +2352,8 @@ namespace Oxygen
         registerStylePrimitive( PE_IndicatorArrowDown, &Style::drawIndicatorArrowDownPrimitive );
         registerStylePrimitive( PE_IndicatorArrowLeft, &Style::drawIndicatorArrowLeftPrimitive );
         registerStylePrimitive( PE_IndicatorArrowRight, &Style::drawIndicatorArrowRightPrimitive );
+
+        registerStylePrimitive( PE_IndicatorDockWidgetResizeHandle, &Style::drawIndicatorDockWidgetResizeHandlePrimitive );
         registerStylePrimitive( PE_IndicatorHeaderArrow, &Style::drawIndicatorHeaderArrowPrimitive );
 
         registerStylePrimitive( PE_PanelButtonCommand, &Style::drawPanelButtonCommandPrimitive );
@@ -5179,102 +5181,6 @@ namespace Oxygen
 
         return false;
 
-    }
-
-    //___________________________________________________________________________________
-    bool Style::drawSplitterControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
-    {
-
-        const QPalette& palette( option->palette );
-        const QRect& r( option->rect );
-        const State& flags( option->state );
-        const bool enabled( flags & State_Enabled );
-        const bool mouseOver(enabled && (flags & (State_MouseOver|State_Sunken) ));
-
-        // get orientation
-        const bool horizontal( flags & QStyle::State_Horizontal );
-        const Qt::Orientation orientation( horizontal ? Qt::Horizontal : Qt::Vertical );
-
-        bool animated( false );
-        qreal opacity( AnimationData::OpacityInvalid );
-
-        if( enabled )
-        {
-            if( qobject_cast<const QMainWindow*>( widget ) )
-            {
-
-                animations().dockSeparatorEngine().updateRect( widget, r, orientation, mouseOver );
-                animated = animations().dockSeparatorEngine().isAnimated( widget, r, orientation );
-                opacity = animated ? animations().dockSeparatorEngine().opacity( widget, orientation ) : AnimationData::OpacityInvalid;
-
-            } else if(  QPaintDevice* device = painter->device() ) {
-
-                /*
-                try update QSplitterHandle using painter device, because Qt passes
-                QSplitter as the widget to the QStyle primitive.
-                */
-                animations().splitterEngine().updateState( device, mouseOver );
-                animated = animations().splitterEngine().isAnimated( device );
-                opacity = animations().splitterEngine().opacity( device );
-
-            }
-        }
-
-        // get base color
-        const QColor color = palette.color(QPalette::Background);
-
-        if( horizontal )
-        {
-            const int h = r.height();
-
-            if( animated || mouseOver )
-            {
-                QColor highlight = _helper.alphaColor(_helper.calcLightColor(color),0.5*( animated ? opacity:1.0 ) );
-                qreal a( r.height() > 30 ? 10.0/r.height():0.1 );
-                QLinearGradient lg( 0, r.top(), 0, r.bottom() );
-                lg.setColorAt(0, Qt::transparent );
-                lg.setColorAt(a, highlight );
-                lg.setColorAt(1.0-a, highlight );
-                lg.setColorAt(1, Qt::transparent );
-                painter->fillRect( r, lg );
-            }
-
-            const int ngroups( qMax(1,h / 250) );
-            int center( (h - (ngroups-1) * 250) /2 + r.top() );
-            for(int k = 0; k < ngroups; k++, center += 250)
-            {
-                _helper.renderDot( painter, QPoint(r.left()+1, center-3), color);
-                _helper.renderDot( painter, QPoint(r.left()+1, center), color);
-                _helper.renderDot( painter, QPoint(r.left()+1, center+3), color);
-            }
-
-        } else {
-
-            const int w( r.width() );
-            if( animated || mouseOver )
-            {
-                const QColor highlight( _helper.alphaColor(_helper.calcLightColor(color),0.5*( animated ? opacity:1.0 ) ) );
-                const qreal a( r.width() > 30 ? 10.0/r.width():0.1 );
-                QLinearGradient lg( r.left(), 0, r.right(), 0 );
-                lg.setColorAt(0, Qt::transparent );
-                lg.setColorAt(a, highlight );
-                lg.setColorAt(1.0-a, highlight );
-                lg.setColorAt(1, Qt::transparent );
-                painter->fillRect( r, lg );
-
-            }
-
-            int ngroups = qMax(1, w / 250);
-            int center = (w - (ngroups-1) * 250) /2 + r.left();
-            for(int k = 0; k < ngroups; k++, center += 250)
-            {
-                _helper.renderDot( painter, QPoint(center-3, r.top()+1), color);
-                _helper.renderDot( painter, QPoint(center, r.top()+1), color);
-                _helper.renderDot( painter, QPoint(center+3, r.top()+1), color);
-            }
-
-        }
-        return true;
     }
 
     //___________________________________________________________________________________
@@ -8212,6 +8118,101 @@ namespace Oxygen
         painter->restore();
 
         return;
+
+    }
+
+    //___________________________________________________________________________________
+    void Style::renderSplitter( const QStyleOption* option, QPainter* painter, const QWidget* widget, bool horizontal ) const
+    {
+
+        const QPalette& palette( option->palette );
+        const QRect& r( option->rect );
+        const State& flags( option->state );
+        const bool enabled( flags & State_Enabled );
+        const bool mouseOver(enabled && (flags & (State_MouseOver|State_Sunken) ));
+
+        // get orientation
+        const Qt::Orientation orientation( horizontal ? Qt::Horizontal : Qt::Vertical );
+
+        bool animated( false );
+        qreal opacity( AnimationData::OpacityInvalid );
+
+        if( enabled )
+        {
+            if( qobject_cast<const QMainWindow*>( widget ) )
+            {
+
+                animations().dockSeparatorEngine().updateRect( widget, r, orientation, mouseOver );
+                animated = animations().dockSeparatorEngine().isAnimated( widget, r, orientation );
+                opacity = animated ? animations().dockSeparatorEngine().opacity( widget, orientation ) : AnimationData::OpacityInvalid;
+
+            } else if(  QPaintDevice* device = painter->device() ) {
+
+                /*
+                try update QSplitterHandle using painter device, because Qt passes
+                QSplitter as the widget to the QStyle primitive.
+                */
+                animations().splitterEngine().updateState( device, mouseOver );
+                animated = animations().splitterEngine().isAnimated( device );
+                opacity = animations().splitterEngine().opacity( device );
+
+            }
+        }
+
+        // get base color
+        const QColor color = palette.color(QPalette::Background);
+
+        if( horizontal )
+        {
+            const int h = r.height();
+
+            if( animated || mouseOver )
+            {
+                QColor highlight = _helper.alphaColor(_helper.calcLightColor(color),0.5*( animated ? opacity:1.0 ) );
+                qreal a( r.height() > 30 ? 10.0/r.height():0.1 );
+                QLinearGradient lg( 0, r.top(), 0, r.bottom() );
+                lg.setColorAt(0, Qt::transparent );
+                lg.setColorAt(a, highlight );
+                lg.setColorAt(1.0-a, highlight );
+                lg.setColorAt(1, Qt::transparent );
+                painter->fillRect( r, lg );
+            }
+
+            const int ngroups( qMax(1,h / 250) );
+            int center( (h - (ngroups-1) * 250) /2 + r.top() );
+            for(int k = 0; k < ngroups; k++, center += 250)
+            {
+                _helper.renderDot( painter, QPoint(r.left()+1, center-3), color);
+                _helper.renderDot( painter, QPoint(r.left()+1, center), color);
+                _helper.renderDot( painter, QPoint(r.left()+1, center+3), color);
+            }
+
+        } else {
+
+            const int w( r.width() );
+            if( animated || mouseOver )
+            {
+                const QColor highlight( _helper.alphaColor(_helper.calcLightColor(color),0.5*( animated ? opacity:1.0 ) ) );
+                const qreal a( r.width() > 30 ? 10.0/r.width():0.1 );
+                QLinearGradient lg( r.left(), 0, r.right(), 0 );
+                lg.setColorAt(0, Qt::transparent );
+                lg.setColorAt(a, highlight );
+                lg.setColorAt(1.0-a, highlight );
+                lg.setColorAt(1, Qt::transparent );
+                painter->fillRect( r, lg );
+
+            }
+
+            int ngroups = qMax(1, w / 250);
+            int center = (w - (ngroups-1) * 250) /2 + r.left();
+            for(int k = 0; k < ngroups; k++, center += 250)
+            {
+                _helper.renderDot( painter, QPoint(center-3, r.top()+1), color);
+                _helper.renderDot( painter, QPoint(center, r.top()+1), color);
+                _helper.renderDot( painter, QPoint(center+3, r.top()+1), color);
+            }
+
+        }
 
     }
 

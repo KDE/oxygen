@@ -469,6 +469,17 @@ namespace Oxygen
         { return drawIndicatorArrowPrimitive( ArrowRight, option, painter, widget ); }
 
         bool drawIndicatorArrowPrimitive( ArrowOrientation, const QStyleOption*, QPainter*, const QWidget* ) const;
+
+        //! dock widget separators
+        /*! it uses the same painting as QSplitter, but due to Qt, the horizontal/vertical convention is inverted */
+        bool drawIndicatorDockWidgetResizeHandlePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget) const
+        {
+
+            renderSplitter( option, painter, widget, !(option->state & State_Horizontal ) );
+            return true;
+
+        }
+
         bool drawIndicatorHeaderArrowPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelButtonCommandPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelMenuPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -525,7 +536,14 @@ namespace Oxygen
         virtual bool drawScrollBarSubPageControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         virtual bool drawShapedFrameControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawSplitterControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+
+        // splitters
+        virtual bool drawSplitterControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+        {
+            renderSplitter( option, painter, widget, option->state & State_Horizontal );
+            return true;
+        }
+
         virtual bool drawTabBarTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         //! tabbar tabs.
@@ -697,6 +715,9 @@ namespace Oxygen
 
         //! spinbox arrows
         void renderSpinBoxArrow( QPainter*, const QStyleOptionSpinBox*, const QWidget*, const SubControl& ) const;
+
+        //! splitter
+        void renderSplitter( const QStyleOption*, QPainter*, const QWidget*, bool ) const;
 
         //! mdi subwindow titlebar button
         void renderTitleBarButton( QPainter*, const QStyleOptionTitleBar*, const QWidget*, const SubControl& ) const;
