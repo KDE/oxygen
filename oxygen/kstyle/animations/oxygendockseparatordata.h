@@ -91,7 +91,14 @@ namespace Oxygen
         { return horizontalData_.opacity_; }
 
         void setHorizontalOpacity( qreal value )
-        { horizontalData_.opacity_ = value; }
+        {
+
+            if( horizontalData_.opacity_ == value ) return;
+
+            horizontalData_.opacity_ = value;
+            if( target() && !horizontalRect().isEmpty() ) target().data()->update( horizontalRect() );
+
+        }
 
         //@}
 
@@ -112,19 +119,14 @@ namespace Oxygen
         { return verticalData_.opacity_; }
 
         void setVerticalOpacity( qreal value )
-        { verticalData_.opacity_ = value; }
+        {
+            if( verticalData_.opacity_ == value ) return;
+            verticalData_.opacity_ = value;
+            if( target() && !verticalRect().isEmpty() ) target().data()->update( verticalRect() );
+        }
 
         //@}
 
-        protected slots:
-
-        /*! allows to trigger widget update in specified QRect only */
-        virtual void setHorizontalDirty( void )
-        { if( target() && !horizontalRect().isEmpty() ) target().data()->update( horizontalRect() ); }
-
-        /*! allows to trigger widget update in specified QRect only */
-        virtual void setVerticalDirty( void )
-        { if( target() && !verticalRect().isEmpty() ) target().data()->update( verticalRect() ); }
 
         private:
 

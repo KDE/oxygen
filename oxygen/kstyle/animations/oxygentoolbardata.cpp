@@ -50,8 +50,6 @@ namespace Oxygen
         animation().data()->setTargetObject( this );
         animation().data()->setPropertyName( "opacity" );
 
-        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), target, SLOT( update( void ) ) );
-
         // progress animation
         progressAnimation_ = new Animation( duration, this );
         progressAnimation().data()->setDirection( Animation::Forward );
@@ -60,9 +58,6 @@ namespace Oxygen
         progressAnimation().data()->setTargetObject( this );
         progressAnimation().data()->setPropertyName( "progress" );
         progressAnimation().data()->setEasingCurve( QEasingCurve::Linear );
-
-        // setup connections
-        connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( updateAnimatedRect( void ) ) );
 
         // add all children widgets to event handler
         foreach( QObject* child, target->children() )
@@ -278,7 +273,6 @@ namespace Oxygen
 
         // add connections
         connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), widget, SLOT( update() ), Qt::UniqueConnection  );
-
         connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), widget, SLOT( update() ), Qt::UniqueConnection  );
 
         // add event filter

@@ -43,18 +43,12 @@ namespace Oxygen
         horizontalData_.animation_.data()->setTargetObject( this );
         horizontalData_.animation_.data()->setPropertyName( "horizontalOpacity" );
 
-        // setup connections
-        connect( horizontalData_.animation_.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setHorizontalDirty( void ) ) );
-
         // setup animation
         verticalData_.animation_ = new Animation( duration, this );
         verticalData_.animation_.data()->setStartValue( 0.1 );
         verticalData_.animation_.data()->setEndValue( 0.9 );
         verticalData_.animation_.data()->setTargetObject( this );
         verticalData_.animation_.data()->setPropertyName( "verticalOpacity" );
-
-        // setup connections
-        connect( verticalData_.animation_.data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( setVerticalDirty( void ) ) );
 
     }
 

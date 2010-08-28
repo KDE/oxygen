@@ -120,9 +120,6 @@ namespace Oxygen
         animation().data()->setTargetObject( this );
         animation().data()->setPropertyName( "opacity" );
 
-        // setup connections
-        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), target, SLOT( update( void ) ) );
-
         progressAnimation_ = new Animation( duration, this );
         progressAnimation().data()->setDirection( Animation::Forward );
         progressAnimation().data()->setStartValue( 0 );
@@ -130,9 +127,6 @@ namespace Oxygen
         progressAnimation().data()->setTargetObject( this );
         progressAnimation().data()->setPropertyName( "progress" );
         progressAnimation().data()->setEasingCurve( QEasingCurve::Linear );
-
-        // setup connections
-        connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), SLOT( updateAnimatedRect( void ) ) );
 
     }
 
