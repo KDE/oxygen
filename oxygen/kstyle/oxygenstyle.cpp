@@ -1342,7 +1342,7 @@ namespace Oxygen
         // sliders
         registerPixelMetric( PM_SliderThickness, 23 );
         registerPixelMetric( PM_SliderControlThickness, 23 );
-        registerPixelMetric( PM_SliderLength, 15 );
+        registerPixelMetric( PM_SliderLength, 13 );
 
         // spinboxes
         registerPixelMetric( PM_SpinBoxFrameWidth, SpinBox_FrameWidth );
@@ -1676,6 +1676,7 @@ namespace Oxygen
 
         registerSubControlRect( CC_GroupBox, &Style::groupBoxSubControlRect );
         registerSubControlRect( CC_ComboBox, &Style::comboBoxSubControlRect );
+        registerSubControlRect( CC_Slider, &Style::sliderSubControlRect );
         registerSubControlRect( CC_ScrollBar, &Style::scrollBarSubControlRect );
         registerSubControlRect( CC_SpinBox, &Style::spinBoxSubControlRect );
 
@@ -1871,6 +1872,57 @@ namespace Oxygen
             default: return QRect();
 
         }
+    }
+
+    //___________________________________________________________________________________________________________________
+    QRect Style::sliderSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
+    {
+        switch( subControl )
+        {
+            case SC_SliderHandle:
+            {
+
+                QRect handle( QCommonStyle::subControlRect( CC_Slider, option, subControl, widget ) );
+                if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>( option ) )
+                {
+                    const bool horizontal( slider->orientation == Qt::Horizontal );
+                    if( horizontal ) handle.adjust( -1, 0, 1, 0 );
+                    else handle.adjust( 0, 0, 0, 2 );
+                }
+
+                return handle;
+            }
+
+            case SC_SliderGroove:
+            {
+                QRect groove( QCommonStyle::subControlRect( CC_Slider, option, subControl, widget ) );
+                if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>( option ) )
+                {
+                    const bool horizontal( slider->orientation == Qt::Horizontal );
+                    if( horizontal)
+                    {
+
+                        const int center( groove.center().y() );
+                        groove = QRect( groove.left(), center-2, groove.width(), 5  ).adjusted( 3, 0, -3, 0 );
+
+                    } else {
+
+                        const int center( groove.center().x() );
+                        groove = QRect( center-2, groove.top(), 5, groove.height() ).adjusted( 0, 3, 0, -3 );
+
+                    }
+
+                }
+
+                return groove;
+
+            }
+
+            default:
+            return QCommonStyle::subControlRect( CC_Slider, option, subControl, widget );
+
+        }
+
     }
 
     //___________________________________________________________________________________________________________________
@@ -7021,36 +7073,19 @@ namespace Oxygen
         const bool mouseOver(enabled && (flags & State_MouseOver));
         const bool hasFocus( flags & State_HasFocus );
 
-        QRect groove = subControlRect( CC_Slider, slider, SC_SliderGroove, widget );
-        const QRect handle = subControlRect( CC_Slider, slider, SC_SliderHandle, widget );
-        const bool horizontal( slider->orientation == Qt::Horizontal );
-
         if( slider->subControls & SC_SliderTickmarks ) { renderSliderTickmarks( painter, slider, widget ); }
 
         // groove
-        if( (slider->subControls & SC_SliderGroove) && groove.isValid() )
+        if( slider->subControls & SC_SliderGroove )
         {
-
-            if( horizontal)
-            {
-
-                const int center( groove.center().y() );
-                groove = QRect( groove.left()+1, center-2, groove.width()-2, 5  );
-
-            } else {
-
-                const int center( groove.center().x() );
-                groove = QRect( center-2, groove.top()+1, 5, groove.height()-2 );
-
-            }
-
-            _helper.groove( palette.color(QPalette::Window), 0.0)->render( groove, painter);
-
+            const QRect groove = sliderSubControlRect( slider, SC_SliderGroove, widget );
+            if( groove.isValid() ) _helper.groove( palette.color(QPalette::Window), 0.0)->render( groove, painter);
         }
 
         // handle
         if (slider->subControls & SC_SliderHandle)
         {
+            const QRect handle = sliderSubControlRect( slider, SC_SliderHandle, widget );
             const QColor buttonColor( _helper.backgroundColor( palette.color(QPalette::Button), widget, handle.center() ) );
             const bool handleActive( slider->activeSubControls & SC_SliderHandle );
             StyleOptions opts(0);
