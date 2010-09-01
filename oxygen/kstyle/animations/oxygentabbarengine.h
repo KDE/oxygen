@@ -54,6 +54,8 @@ namespace Oxygen
         //! register tabbar
         virtual bool registerWidget( QWidget* );
 
+        //! true if widget hover state is changed
+        virtual bool updateState( const QObject*, const QPoint&, bool );
 
         //! true if widget is animated
         virtual bool isAnimated( const QObject* object, const QPoint& point )

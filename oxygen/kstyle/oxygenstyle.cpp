@@ -5307,6 +5307,9 @@ namespace Oxygen
         /* all are disabled when tabBar is locked (drag in progress) */
         const bool tabBarLocked( tabBarData().locks( tabBar ) );
         const bool mouseOver( enabled && !tabBarLocked && (flags & State_MouseOver) );
+
+        // animation state
+        animations().tabBarEngine().updateState( widget, r.topLeft(), mouseOver );
         const bool animated( enabled && !selected && !tabBarLocked && animations().tabBarEngine().isAnimated( widget, r.topLeft() ) );
 
         // handle base frame painting, for tabbars in which tab is being dragged
@@ -5836,6 +5839,9 @@ namespace Oxygen
         /* all are disabled when tabBar is locked (drag in progress) */
         const bool tabBarLocked( tabBarData().locks( tabBar ) );
         const bool mouseOver( enabled && !tabBarLocked && (flags & State_MouseOver) );
+
+        // animation state
+        animations().tabBarEngine().updateState( widget, r.topLeft(), mouseOver );
         const bool animated( enabled && !selected && !tabBarLocked && animations().tabBarEngine().isAnimated( widget, r.topLeft() ) );
 
         // handle base frame painting, for tabbars in which tab is being dragged

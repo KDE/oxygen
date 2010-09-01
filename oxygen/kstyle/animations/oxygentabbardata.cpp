@@ -40,8 +40,6 @@ namespace Oxygen
         AnimationData( parent, target )
     {
 
-        target->installEventFilter( this );
-
         current_.animation_ = new Animation( duration, this );
         setupAnimation( currentIndexAnimation(), "currentOpacity" );
         currentIndexAnimation().data()->setDirection( Animation::Forward );
@@ -56,7 +54,7 @@ namespace Oxygen
     Animation::Pointer TabBarData::animation( const QPoint& position ) const
     {
 
-        if( !enabled() )  return Animation::Pointer();
+        if( !enabled() ) return Animation::Pointer();
 
         const QTabBar* local( qobject_cast<const QTabBar*>( target().data() ) );
         if( !local ) return Animation::Pointer();
@@ -66,6 +64,48 @@ namespace Oxygen
         else if( index == currentIndex() ) return currentIndexAnimation();
         else if( index == previousIndex() ) return previousIndexAnimation();
         else return Animation::Pointer();
+
+    }
+
+    //______________________________________________
+    bool TabBarData::updateState( const QPoint& position , bool hovered )
+    {
+
+        if( !enabled() ) return false;
+
+        const QTabBar* local( qobject_cast<const QTabBar*>( target().data() ) );
+        if( !local ) return false;
+
+        int index( local->tabAt( position ) );
+        if( index < 0 ) return false;
+
+        if( hovered )
+        {
+
+            if( index != currentIndex() )
+            {
+
+                if( currentIndex() >= 0 )
+                {
+                    setPreviousIndex( currentIndex() );
+                    setCurrentIndex( -1 );
+                    previousIndexAnimation().data()->restart();
+                }
+
+                setCurrentIndex( index );
+                currentIndexAnimation().data()->restart();
+                return true;
+
+            } else return false;
+
+        } else if( index == currentIndex() ) {
+
+            setPreviousIndex( currentIndex() );
+            setCurrentIndex( -1 );
+            previousIndexAnimation().data()->restart();
+            return true;
+
+        } else return false;
 
     }
 
@@ -86,90 +126,5 @@ namespace Oxygen
 
     }
 
-    //____________________________________________________________
-    bool TabBarData::eventFilter( QObject* object, QEvent* event )
-    {
-
-        if( !( enabled() && object == target().data() ) )
-        { return AnimationData::eventFilter( object, event ); }
-
-        // check event type
-        switch( event->type() )
-        {
-
-            case QEvent::HoverEnter:
-            enterEvent( object );
-            break;
-
-            case QEvent::HoverLeave:
-            leaveEvent( object );
-            break;
-
-            case QEvent::HoverMove:
-            mouseMoveEvent( object, static_cast<QHoverEvent*>( event )->pos() );
-            break;
-
-            default: break;
-
-        }
-
-        // always forward event
-        return AnimationData::eventFilter( object, event );
-
-    }
-
-
-    //________________________________________________________________________
-    void TabBarData::enterEvent( const QObject* )
-    {
-    }
-
-    //________________________________________________________________________
-    void TabBarData::leaveEvent( const QObject* )
-    {
-
-        // otherwise: stop current index animation
-        // move current index to previous, and trigger previousIndexAnimation
-        if( currentIndexAnimation().data()->isRunning() ) currentIndexAnimation().data()->stop();
-        if( currentIndex() >= 0 )
-        {
-
-            setPreviousIndex( currentIndex() );
-            setCurrentIndex( -1 );
-            previousIndexAnimation().data()->restart();
-
-        }
-
-    }
-
-    //________________________________________________________________________
-    void TabBarData::mouseMoveEvent( const QObject* object, const QPoint& position )
-    {
-
-        const QTabBar* local = qobject_cast<const QTabBar*>( object );
-        if( !local ) return;
-
-        int currentTabIndex( local->tabAt( position ) );
-        if( currentTabIndex == currentIndex() ) return;
-
-        if( currentTabIndex >= 0 || !local->documentMode() )
-        {
-
-            if( currentIndex() >= 0 )
-            {
-                setPreviousIndex( currentIndex() );
-                setCurrentIndex( -1 );
-                previousIndexAnimation().data()->restart();
-            }
-
-            if( currentTabIndex >= 0 )
-            {
-                setCurrentIndex( currentTabIndex );
-                currentIndexAnimation().data()->restart();
-            }
-
-        }
-
-    }
 
 }

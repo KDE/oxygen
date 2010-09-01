@@ -47,4 +47,11 @@ namespace Oxygen
 
     }
 
+    //____________________________________________________________
+    bool TabBarEngine::updateState( const QObject* object, const QPoint& position, bool value )
+    {
+        DataMap<TabBarData>::Value data( data_.find( object ) );
+        return ( data && data.data()->updateState( position, value ) );
+    }
+
 }
