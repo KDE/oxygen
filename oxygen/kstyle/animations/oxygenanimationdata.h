@@ -80,7 +80,7 @@ namespace Oxygen
         virtual void setupAnimation( const Animation::Pointer& animation, const QByteArray& property );
 
         //! trigger target update
-        void setDirty( void ) const
+        virtual void setDirty( void ) const
         { if( target_ ) target_.data()->update(); }
 
         private:
