@@ -1,8 +1,8 @@
 // krazy:excludeall=qclasses
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygentabbardata.cpp
-// data container for QTabBar animations
+// oxygenheaderviewdata.cpp
+// data container for QHeaderView animations
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -26,19 +26,20 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygentabbardata.h"
-#include "oxygentabbardata.moc"
+#include "oxygenheaderviewdata.h"
+#include "oxygenheaderviewdata.moc"
 
 #include <QtGui/QHoverEvent>
-#include <QtGui/QTabBar>
 
 namespace Oxygen
 {
 
     //______________________________________________
-    TabBarData::TabBarData( QObject* parent, QWidget* target, int duration ):
+    HeaderViewData::HeaderViewData( QObject* parent, QWidget* target, int duration ):
         AnimationData( parent, target )
     {
+
+        target->installEventFilter( this );
 
         current_.animation_ = new Animation( duration, this );
         setupAnimation( currentIndexAnimation(), "currentOpacity" );
@@ -51,32 +52,15 @@ namespace Oxygen
     }
 
     //______________________________________________
-    Animation::Pointer TabBarData::animation( const QPoint& position ) const
-    {
-
-        if( !enabled() ) return Animation::Pointer();
-
-        const QTabBar* local( qobject_cast<const QTabBar*>( target().data() ) );
-        if( !local ) return Animation::Pointer();
-
-        int index( local->tabAt( position ) );
-        if( index < 0 ) return Animation::Pointer();
-        else if( index == currentIndex() ) return currentIndexAnimation();
-        else if( index == previousIndex() ) return previousIndexAnimation();
-        else return Animation::Pointer();
-
-    }
-
-    //______________________________________________
-    bool TabBarData::updateState( const QPoint& position , bool hovered )
+    bool HeaderViewData::updateState( const QPoint& position , bool hovered )
     {
 
         if( !enabled() ) return false;
 
-        const QTabBar* local( qobject_cast<const QTabBar*>( target().data() ) );
+        const QHeaderView* local( qobject_cast<const QHeaderView*>( target().data() ) );
         if( !local ) return false;
 
-        int index( local->tabAt( position ) );
+        int index( local->logicalIndexAt( position ) );
         if( index < 0 ) return false;
 
         if( hovered )
@@ -94,7 +78,14 @@ namespace Oxygen
                 }
 
                 setCurrentIndex( index );
-                currentIndexAnimation().data()->restart();
+
+                /*
+                for now animation is only triggered when hovering the sorting section,
+                since no hover effect is implemented for all other sections
+                */
+                if( index == local->sortIndicatorSection() )
+                { currentIndexAnimation().data()->restart(); }
+
                 return true;
 
             } else return false;
@@ -111,21 +102,37 @@ namespace Oxygen
     }
 
     //______________________________________________
-    qreal TabBarData::opacity( const QPoint& position ) const
+    Animation::Pointer HeaderViewData::animation( const QPoint& position ) const
+    {
+
+        if( !enabled() )  return Animation::Pointer();
+
+        const QHeaderView* local( qobject_cast<const QHeaderView*>( target().data() ) );
+        if( !local ) return Animation::Pointer();
+
+        int index( local->logicalIndexAt( position ) );
+        if( index < 0 ) return Animation::Pointer();
+        else if( index == currentIndex() ) return currentIndexAnimation();
+        else if( index == previousIndex() ) return previousIndexAnimation();
+        else return Animation::Pointer();
+
+    }
+
+    //______________________________________________
+    qreal HeaderViewData::opacity( const QPoint& position ) const
     {
 
         if( !enabled() ) return OpacityInvalid;
 
-        const QTabBar* local( qobject_cast<const QTabBar*>( target().data() ) );
+        const QHeaderView* local( qobject_cast<const QHeaderView*>( target().data() ) );
         if( !local ) return OpacityInvalid;
 
-        int index( local->tabAt( position ) );
+        int index( local->logicalIndexAt( position ) );
         if( index < 0 ) return OpacityInvalid;
         else if( index == currentIndex() ) return currentOpacity();
         else if( index == previousIndex() ) return previousOpacity();
         else return OpacityInvalid;
 
     }
-
 
 }

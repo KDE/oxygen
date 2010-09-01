@@ -33,6 +33,7 @@
 #include <QtGui/QAbstractItemView>
 #include <QtGui/QComboBox>
 #include <QtGui/QDial>
+#include <QtGui/QHeaderView>
 #include <QtGui/QLineEdit>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMdiSubWindow>
@@ -61,6 +62,7 @@ namespace Oxygen
 
         registerEngine( splitterEngine_ = new SplitterEngine( this ) );
         registerEngine( dockSeparatorEngine_ = new DockSeparatorEngine( this ) );
+        registerEngine( headerViewEngine_ = new HeaderViewEngine( this ) );
         registerEngine( widgetStateEngine_ = new WidgetStateEngine( this ) );
         registerEngine( lineEditEngine_ = new WidgetStateEngine( this ) );
         registerEngine( progressBarEngine_ = new ProgressBarEngine( this ) );
@@ -94,6 +96,7 @@ namespace Oxygen
             spinBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             tabBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             dockSeparatorEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
+            headerViewEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
             mdiWindowEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
 
             progressBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimationsEnabled() );
@@ -211,6 +214,7 @@ namespace Oxygen
             spinBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             dockSeparatorEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            headerViewEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
             mdiWindowEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
 
             progressBarEngine_->setDuration( OxygenStyleConfigData::progressBarAnimationsDuration() );
@@ -279,7 +283,7 @@ namespace Oxygen
         else if( qobject_cast<QProgressBar*>( widget ) ) { progressBarEngine().registerWidget( widget ); }
         else if( qobject_cast<QSplitterHandle*>( widget ) ) { splitterEngine().registerWidget( widget ); }
         else if( qobject_cast<QMainWindow*>( widget ) ) { dockSeparatorEngine().registerWidget( widget ); }
-
+        else if( qobject_cast<QHeaderView*>( widget ) ) { headerViewEngine().registerWidget( widget ); }
         // menu
         else if( qobject_cast<QMenu*>( widget ) ) { menuEngine().registerWidget( widget ); }
         else if( qobject_cast<QMenuBar*>( widget ) ) { menuBarEngine().registerWidget( widget ); }

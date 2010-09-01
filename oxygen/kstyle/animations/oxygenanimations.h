@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygendockseparatorengine.h"
+#include "oxygenheaderviewengine.h"
 #include "oxygenmdiwindowengine.h"
 #include "oxygenmenubarengine.h"
 #include "oxygenmenuengine.h"
@@ -96,6 +97,10 @@ namespace Oxygen
         DockSeparatorEngine& dockSeparatorEngine( void ) const
         { return *dockSeparatorEngine_; }
 
+        //! header view engine
+        HeaderViewEngine& headerViewEngine( void ) const
+        { return *headerViewEngine_; }
+
         //! progressbar engine
         ProgressBarEngine& progressBarEngine( void ) const
         { return *progressBarEngine_; }
@@ -150,6 +155,9 @@ namespace Oxygen
 
         //! dock separator handle hover effect
         DockSeparatorEngine* dockSeparatorEngine_;
+
+        //! headerview hover effect
+        HeaderViewEngine* headerViewEngine_;
 
         //! widget enability engine
         WidgetStateEngine* widgetEnabilityEngine_;

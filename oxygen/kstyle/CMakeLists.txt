@@ -16,6 +16,8 @@ set(oxygen_PART_SRCS
     animations/oxygendockseparatorengine.cpp
     animations/oxygenenabledata.cpp
     animations/oxygengenericdata.cpp
+    animations/oxygenheaderviewdata.cpp
+    animations/oxygenheaderviewengine.cpp
     animations/oxygenmdiwindowdata.cpp
     animations/oxygenmdiwindowengine.cpp
     animations/oxygenmenubardata.cpp

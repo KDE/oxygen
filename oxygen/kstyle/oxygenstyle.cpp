@@ -2863,10 +2863,9 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawIndicatorHeaderArrowPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawIndicatorHeaderArrowPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
         const QStyleOptionHeader *headerOpt = qstyleoption_cast<const QStyleOptionHeader *>(option);
-
         const State& flags( option->state );
 
         // arrow orientation
@@ -2881,6 +2880,9 @@ namespace Oxygen
         const bool enabled( flags & State_Enabled );
         const bool mouseOver( enabled && (flags & State_MouseOver ) );
 
+        animations().headerViewEngine().updateState( widget, r.topLeft(), mouseOver );
+        const bool animated( enabled && animations().headerViewEngine().isAnimated( widget, r.topLeft() ) );
+
         // define gradient and polygon for drawing arrow
         const QPolygonF a = genericArrow( orientation, ArrowNormal );
         QColor color = palette.color( QPalette::WindowText );
@@ -2889,7 +2891,13 @@ namespace Oxygen
         const qreal penThickness = 1.6;
         const qreal offset( qMin( penThickness, qreal(1.0)) );
 
-        if( mouseOver ) color = highlight;
+        if( animated )
+        {
+
+            const qreal opacity( animations().headerViewEngine().opacity( widget, r.topLeft() ) );
+            color = KColorUtils::mix( color, highlight, opacity );
+
+        } else if( mouseOver ) color = highlight;
 
         painter->translate( r.center() );
         painter->translate( 0, 1 );
