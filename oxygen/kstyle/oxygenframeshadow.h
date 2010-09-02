@@ -144,22 +144,13 @@ namespace Oxygen
         { return _area; }
 
         //! update geometry
-        virtual void updateGeometry( void );
+        virtual void updateGeometry( void ) = 0;
 
         //! update state
         virtual void updateState( bool, bool, qreal, AnimationMode )
         {}
 
         protected:
-
-        //! shadow sizes
-        enum
-        {
-            SHADOW_SIZE_TOP = 5,
-            SHADOW_SIZE_BOTTOM = 5,
-            SHADOW_SIZE_LEFT = 5,
-            SHADOW_SIZE_RIGHT = 5
-        };
 
         //! event handler
         virtual bool event(QEvent *e);
@@ -202,6 +193,9 @@ namespace Oxygen
         virtual ~SunkenFrameShadow()
         {}
 
+        //! update geometry
+        virtual void updateGeometry( void );
+
         //! update state
         void updateState( bool focus, bool hover, qreal opacity, AnimationMode mode );
 
@@ -211,6 +205,15 @@ namespace Oxygen
         virtual void paintEvent(QPaintEvent *);
 
         private:
+
+        //! shadow sizes
+        enum
+        {
+            SHADOW_SIZE_TOP = 3,
+            SHADOW_SIZE_BOTTOM = 3,
+            SHADOW_SIZE_LEFT = 3,
+            SHADOW_SIZE_RIGHT = 3
+        };
 
         //! helper
         StyleHelper& _helper;
@@ -256,6 +259,15 @@ namespace Oxygen
         virtual void paintEvent(QPaintEvent *);
 
         private:
+
+        //! shadow sizes
+        enum
+        {
+            SHADOW_SIZE_TOP = 5,
+            SHADOW_SIZE_BOTTOM = 5,
+            SHADOW_SIZE_LEFT = 5,
+            SHADOW_SIZE_RIGHT = 5
+        };
 
         //! helper
         StyleHelper& _helper;

@@ -338,7 +338,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadowBase::updateGeometry()
+    void SunkenFrameShadow::updateGeometry()
     {
 
         QWidget *widget = parentWidget();
