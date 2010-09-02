@@ -236,6 +236,7 @@ namespace Oxygen
         else shadow = new SunkenFrameShadow( area, helper );
         shadow->setParent(widget);
         shadow->updateGeometry();
+        shadow->show();
     }
 
     //____________________________________________________________________________________
