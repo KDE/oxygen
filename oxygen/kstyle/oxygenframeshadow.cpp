@@ -69,8 +69,8 @@ namespace Oxygen
         else if( widget->parent() && widget->parent()->inherits( "QComboBoxPrivateContainer" ) )
         {
 
-                accepted = true;
-                flat = true;
+            accepted = true;
+            flat = true;
 
         }
 
@@ -350,22 +350,23 @@ namespace Oxygen
 
             case Top:
             cr.setHeight( SHADOW_SIZE_TOP );
-            cr.adjust( -3, -3, 3, 0 );
+            cr.adjust( -1, -1, 1, 0 );
             break;
 
             case Left:
             cr.setWidth(SHADOW_SIZE_LEFT);
-            cr.adjust(-3, SHADOW_SIZE_TOP, 0, -SHADOW_SIZE_BOTTOM);
+            cr.adjust(-1, SHADOW_SIZE_TOP, 0, -SHADOW_SIZE_BOTTOM);
             break;
+
 
             case Bottom:
             cr.setTop(cr.bottom() - SHADOW_SIZE_BOTTOM + 1);
-            cr.adjust( -3, 0, 3, 3 );
+            cr.adjust( -1, 0, 1, 1 );
             break;
 
             case Right:
             cr.setLeft(cr.right() - SHADOW_SIZE_RIGHT + 1);
-            cr.adjust(0, SHADOW_SIZE_TOP, 3, -SHADOW_SIZE_BOTTOM);
+            cr.adjust(0, SHADOW_SIZE_TOP, 1, -SHADOW_SIZE_BOTTOM);
             break;
 
             case Unknown:
