@@ -381,9 +381,19 @@ namespace Oxygen
     {
         bool changed( false );
         if( _focus != focus ) { _focus = focus; changed = true; }
-        if( _hover != hover ) { _hover = hover; changed = true; }
-        if( _opacity != opacity ) { _opacity = opacity; changed = true; }
-        if( _mode != mode ) { _mode = mode; changed = true; }
+        if( _hover != hover ) { _hover = hover; changed = !_focus; }
+        if( _mode != mode )
+        {
+
+            _mode = mode;
+            changed =
+                (_mode == AnimationNone) ||
+                (_mode == AnimationFocus) ||
+                (_mode == AnimationHover && !_focus );
+
+        }
+
+        if( _opacity != opacity ) { _opacity = opacity; changed = (_mode != AnimationNone ); }
         if( changed )
         {
 
@@ -408,7 +418,6 @@ namespace Oxygen
         // this fixes shadows in frames that change frameStyle() after polish()
         if (QFrame *frame = qobject_cast<QFrame *>(parentWidget()))
         { if (frame->frameStyle() != (QFrame::StyledPanel | QFrame::Sunken)) return; }
-
 
         QWidget *parent = parentWidget();
         QRect r = parent->contentsRect();
