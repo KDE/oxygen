@@ -72,9 +72,6 @@ namespace Oxygen
         // base class
         Helper::setMaxCacheSize( value );
 
-        // protection
-        value = qMax( 1, value );
-
         // assign max cache size
         m_dialSlabCache.setMaxCacheSize( value );
         m_roundSlabCache.setMaxCacheSize( value );

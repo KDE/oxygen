@@ -161,9 +161,9 @@ namespace Oxygen
         void drawHole(QPainter&, const QColor&, qreal shade, int r = 7);
         void drawRoundSlab( QPainter&, const QColor&, qreal );
 
-        Oxygen::Cache<QPixmap> m_dialSlabCache;
-        Oxygen::Cache<QPixmap> m_roundSlabCache;
-        Oxygen::Cache<TileSet> m_holeFocusedCache;
+        Cache<QPixmap> m_dialSlabCache;
+        Cache<QPixmap> m_roundSlabCache;
+        Cache<TileSet> m_holeFocusedCache;
 
         //! mid color cache
         ColorCache m_midColorCache;
@@ -171,7 +171,7 @@ namespace Oxygen
         //! progressbar cache
         PixmapCache m_progressBarCache;
 
-        typedef QCache<quint64, TileSet> TileSetCache;
+        typedef BaseCache<TileSet> TileSetCache;
         TileSetCache m_cornerCache;
         TileSetCache m_slabSunkenCache;
         TileSetCache m_slabInvertedCache;

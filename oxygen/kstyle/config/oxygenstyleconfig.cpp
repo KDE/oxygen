@@ -70,7 +70,7 @@ namespace Oxygen
         setupUi(this);
 
         // connections
-        connect( _animationsEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
+        connect( _cacheEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
         connect( _windowDragMode, SIGNAL( currentIndexChanged( int ) ), SLOT( windowDragModeChanged( int ) ) );
         connect( _viewDrawTriangularExpander, SIGNAL( toggled( bool ) ), _viewTriangularExpanderSize, SLOT( setEnabled( bool ) ) );
 
@@ -80,9 +80,10 @@ namespace Oxygen
         // load setup from configData
         load();
 
-        connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _checkDrawX, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+        connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+        connect( _cacheEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _viewDrawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _viewTriangularExpanderSize, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
         connect( _viewDrawFocusIndicator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
@@ -108,6 +109,7 @@ namespace Oxygen
     {
         OxygenStyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
         OxygenStyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK ) );
+        OxygenStyleConfigData::setCacheEnabled( _cacheEnabled->isChecked() );
         OxygenStyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
         OxygenStyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
         OxygenStyleConfigData::setViewDrawFocusIndicator( _viewDrawFocusIndicator->isChecked() );
@@ -197,6 +199,7 @@ namespace Oxygen
         }
 
         _animationsEnabled->setVisible( !_expertMode );
+        _cacheEnabled->setVisible( _expertMode );
         _stackedTransitionWidget->setVisible( !_expertMode );
         _generalExpertWidget->setVisible( _expertMode );
         _viewsExpertWidget->setVisible( _expertMode );
@@ -250,6 +253,7 @@ namespace Oxygen
         else if( menuMode() != OxygenStyleConfigData::menuHighlightMode() ) modified = true;
         else if( tabStyle() != OxygenStyleConfigData::tabStyle() ) modified = true;
         else if( _animationsEnabled->isChecked() != OxygenStyleConfigData::animationsEnabled() ) modified = true;
+        else if( _cacheEnabled->isChecked() != OxygenStyleConfigData::cacheEnabled() ) modified = true;
         else if( _stackedWidgetTransitionsEnabled->isChecked() != OxygenStyleConfigData::stackedWidgetTransitionsEnabled() ) modified = true;
         else if( _useWMMoveResize->isChecked() != OxygenStyleConfigData::useWMMoveResize() ) modified = true;
         else if( triangularExpanderSize() != OxygenStyleConfigData::viewTriangularExpanderSize() ) modified = true;
@@ -313,6 +317,7 @@ namespace Oxygen
         _stackedWidgetTransitionsEnabled->setEnabled( false );
 
         _animationsEnabled->setChecked( OxygenStyleConfigData::animationsEnabled() );
+        _cacheEnabled->setChecked( OxygenStyleConfigData::cacheEnabled() );
 
         if( !OxygenStyleConfigData::windowDragEnabled() ) _windowDragMode->setCurrentIndex(0);
         else if( OxygenStyleConfigData::windowDragMode() == OxygenStyleConfigData::WD_MINIMAL ) _windowDragMode->setCurrentIndex(1);

@@ -2065,7 +2065,6 @@ namespace Oxygen
 
             case SC_SpinBoxDown:
             return handleRTL(option, QRect(buttonsLeft, r.bottom()-bmb-heightDown, buttonsWidth, heightDown) );
-            //return handleRTL(option, QRect(buttonsLeft, r.bottom()-bmb-heightDown+1, buttonsWidth, heightDown) );
 
             case SC_SpinBoxEditField:
             {
@@ -7383,7 +7382,10 @@ namespace Oxygen
         OxygenStyleConfigData::self()->readConfig();
 
         // update caches size
-        _helper.setMaxCacheSize( qMax( 1, OxygenStyleConfigData::maxCacheSize() ) );
+        int cacheSize( OxygenStyleConfigData::cacheEnabled() ?
+            OxygenStyleConfigData::maxCacheSize():0 );
+
+        _helper.setMaxCacheSize( cacheSize );
 
         // reinitialize engines
         animations().setupEngines();
