@@ -160,11 +160,6 @@ namespace Oxygen
 
         qAddPostRoutine(cleanupBefore);
 
-        // connect to KGlobalSettings signals so we will be notified when the
-        // system palette (in particular, the contrast) is changed
-        KGlobalSettings::self()->activate();
-        connect(KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(globalPaletteChanged()));
-
         // initialize all callback maps
         initializePixelMetrics();
         initializeStyleHints();
@@ -179,6 +174,9 @@ namespace Oxygen
         // use DBus connection to update on oxygen configuration change
         QDBusConnection dbus = QDBusConnection::sessionBus();
         dbus.connect(QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT(oxygenConfigurationChanged()));
+
+        // use DBus connection to update on palette change
+        dbus.connect(QString(), "/KGlobalSettings", "org.kde.KGlobalSettings", "notifyChange", this, SLOT(globalSettingsChange(int,int)));
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
@@ -7366,13 +7364,6 @@ namespace Oxygen
     }
 
     //_____________________________________________________________________
-    void Style::globalPaletteChanged()
-    {
-        _helper.reloadConfig();
-        _helper.invalidateCaches();
-    }
-
-    //_____________________________________________________________________
     void Style::oxygenConfigurationChanged()
     {
 
@@ -7435,6 +7426,20 @@ namespace Oxygen
             break;
         }
 
+    }
+
+    //_____________________________________________________________________
+    void Style::globalSettingsChanged( int type, int )
+    {
+        if( type == KGlobalSettings::PaletteChanged )
+        { globalPaletteChanged(); }
+    }
+
+    //_____________________________________________________________________
+    void Style::globalPaletteChanged( void )
+    {
+        _helper.reloadConfig();
+        _helper.invalidateCaches();
     }
 
     //______________________________________________________________________________

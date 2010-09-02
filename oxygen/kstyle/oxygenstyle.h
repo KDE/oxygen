@@ -155,6 +155,9 @@ namespace Oxygen
         void oxygenConfigurationChanged( void );
 
         //! needed to update style when configuration is changed
+        void globalSettingsChanged( int, int );
+
+        //! needed to update style when configuration is changed
         void globalPaletteChanged( void );
 
         //! copied from kstyle
@@ -365,11 +368,11 @@ namespace Oxygen
         { return tabBarTabButtonRect( SE_TabBarTabRightButton, option, widget ); }
 
         QRect tabBarTabButtonRect( SubElement, const QStyleOption*, const QWidget* ) const;
-        
+
         // tabbar tab text
         QRect tabBarTabTextRect( const QStyleOption* option, const QWidget* widget ) const
         { return QCommonStyle::subElementRect( SE_TabBarTabText, option, widget ).adjusted( 6, 0, -6, 0 ); }
-            
+
         // tab widgets
         QRect tabWidgetTabContentsRect( const QStyleOption*, const QWidget* ) const;
         QRect tabWidgetTabPaneRect( const QStyleOption*, const QWidget* ) const;
