@@ -1408,25 +1408,26 @@ namespace Oxygen
         registerSubElementRect( SE_CheckBoxContents, &Style::checkBoxContentsRect );
         registerSubElementRect( SE_CheckBoxFocusRect, &Style::defaultSubElementRect );
 
-        // radio buttons
-        registerSubElementRect( SE_RadioButtonContents, &Style::checkBoxContentsRect );
-        registerSubElementRect( SE_RadioButtonFocusRect, &Style::defaultSubElementRect );
-
-        // toolboxes
-        registerSubElementRect( SE_ToolBoxTabContents, &Style::toolBoxTabContentsRect );
-
         // progress bars
         registerSubElementRect( SE_ProgressBarGroove, &Style::defaultSubElementRect );
         registerSubElementRect( SE_ProgressBarContents, &Style::progressBarContentsRect );
         registerSubElementRect( SE_ProgressBarLabel, &Style::defaultSubElementRect );
 
+        // radio buttons
+        registerSubElementRect( SE_RadioButtonContents, &Style::checkBoxContentsRect );
+        registerSubElementRect( SE_RadioButtonFocusRect, &Style::defaultSubElementRect );
+
         // tab widget
         registerSubElementRect( SE_TabBarTabLeftButton, &Style::tabBarTabLeftButtonRect );
         registerSubElementRect( SE_TabBarTabRightButton, &Style::tabBarTabRightButtonRect );
+        registerSubElementRect( SE_TabBarTabText, &Style::tabBarTabTextRect );
         registerSubElementRect( SE_TabWidgetTabContents, &Style::tabWidgetTabContentsRect );
         registerSubElementRect( SE_TabWidgetTabPane, &Style::tabWidgetTabPaneRect );
         registerSubElementRect( SE_TabWidgetLeftCorner, &Style::tabWidgetLeftCornerRect );
         registerSubElementRect( SE_TabWidgetRightCorner, &Style::tabWidgetRightCornerRect );
+
+        // toolboxes
+        registerSubElementRect( SE_ToolBoxTabContents, &Style::toolBoxTabContentsRect );
 
     }
 
