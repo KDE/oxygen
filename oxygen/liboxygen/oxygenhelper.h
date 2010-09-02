@@ -38,6 +38,62 @@
 namespace Oxygen
 {
 
+    template<typename T> class BaseCache: public QCache<quint64, T>
+    {
+
+        public:
+
+        //! constructor
+        BaseCache( int maxCost ):
+            QCache<quint64, T>( maxCost ),
+            _enabled( true )
+        {}
+
+        //! constructor
+        explicit BaseCache( void ):
+            _enabled( true )
+            {}
+
+        //! destructor
+        ~BaseCache( void )
+        {}
+
+        //! enable
+        void setEnabled( bool value )
+        { _enabled = value; }
+
+        //! enable state
+        bool enabled( void ) const
+        { return _enabled; }
+
+        //! access
+        T* object( const quint64& key )
+        { return _enabled ? QCache<quint64, T>::object( key ) : 0; }
+
+        //! max cost
+        void setMaxCost( int cost )
+        {
+            if( cost <= 0 ) {
+
+                QCache<quint64, T>::clear();
+                QCache<quint64, T>::setMaxCost( 1 );
+                setEnabled( false );
+
+            } else {
+
+                setEnabled( true );
+                QCache<quint64, T>::setMaxCost( cost );
+
+            }
+        }
+
+        private:
+
+        //! enable flag
+        bool _enabled;
+
+    };
+
     template<typename T> class Cache
     {
 
@@ -52,7 +108,8 @@ namespace Oxygen
         {}
 
         //! return cache matching a given key
-        typedef QCache<quint64, T> Value;
+        //typedef QCache<quint64, T> Value;
+        typedef BaseCache<T> Value;
         Value* get( const QColor& color )
         {
             quint64 key = (quint64(color.rgba()) << 32);
@@ -81,7 +138,8 @@ namespace Oxygen
 
         private:
 
-        QCache<quint64, Value> data_;
+        //! data
+        BaseCache<Value> data_;
 
     };
 
@@ -219,21 +277,27 @@ namespace Oxygen
         static const qreal _shadowGain;
         qreal _contrast;
 
-        typedef QCache<quint64, QPixmap> PixmapCache;
+        //!@name pixmap caches
+        //@{
+        typedef BaseCache<QPixmap> PixmapCache;
         PixmapCache m_windecoButtonCache;
         PixmapCache m_windecoButtonGlowCache;
+        //@}
+
         Oxygen::Cache<TileSet> m_slabCache;
 
         //! shortcut to color caches
         /*! it is made protected because it is also used in the style helper */
-        typedef QCache<quint64, QColor> ColorCache;
+        typedef BaseCache<QColor> ColorCache;
 
         private:
 
-        //! brushes
+        //!@name brushes
+        //@{
         KStatefulBrush _viewFocusBrush;
         KStatefulBrush _viewHoverBrush;
         KStatefulBrush _viewNegativeTextBrush;
+        //@}
 
         KComponentData _componentData;
         KSharedConfigPtr _config;

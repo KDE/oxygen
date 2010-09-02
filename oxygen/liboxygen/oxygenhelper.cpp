@@ -99,9 +99,6 @@ namespace Oxygen
     void Helper::setMaxCacheSize( int value )
     {
 
-        // protection
-        value = qMax( 1, value );
-
         // assign value
         m_windecoButtonCache.setMaxCost( value );
         m_windecoButtonGlowCache.setMaxCost( value );
