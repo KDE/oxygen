@@ -381,20 +381,20 @@ namespace Oxygen
     void SunkenFrameShadow::updateState( bool focus, bool hover, qreal opacity, AnimationMode mode )
     {
         bool changed( false );
-        if( _focus != focus ) { _focus = focus; changed = true; }
-        if( _hover != hover ) { _hover = hover; changed = !_focus; }
+        if( _focus != focus ) { _focus = focus; changed |= true; }
+        if( _hover != hover ) { _hover = hover; changed |= !_focus; }
         if( _mode != mode )
         {
 
             _mode = mode;
-            changed =
+            changed |=
                 (_mode == AnimationNone) ||
                 (_mode == AnimationFocus) ||
                 (_mode == AnimationHover && !_focus );
 
         }
 
-        if( _opacity != opacity ) { _opacity = opacity; changed = (_mode != AnimationNone ); }
+        if( _opacity != opacity ) { _opacity = opacity; changed |= (_mode != AnimationNone ); }
         if( changed )
         {
 
