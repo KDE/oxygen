@@ -2386,10 +2386,10 @@ namespace Oxygen
         */
 
         // register primitives for which nothing is done
-        registerStylePrimitive( PE_FrameFocusRect, &Style::emptyPrimitive );
         registerStylePrimitive( PE_FrameStatusBar, &Style::emptyPrimitive );
 
         registerStylePrimitive( PE_Frame, &Style::drawFramePrimitive );
+        registerStylePrimitive( PE_FrameFocusRect, &Style::drawFrameFocusRectPrimitive );
         registerStylePrimitive( PE_FrameGroupBox, &Style::drawFrameGroupBoxPrimitive );
         registerStylePrimitive( PE_FrameLineEdit, &Style::drawFramePrimitive );
         registerStylePrimitive( PE_FrameMenu, &Style::drawFrameMenuPrimitive );
@@ -2489,6 +2489,44 @@ namespace Oxygen
         }
 
         return true;
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawFrameFocusRectPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    {
+
+        if( !widget ) return true;
+
+        // focus indicators are painted only in Q3ListView and QAbstractItemView
+        if( !( qobject_cast<const QAbstractItemView*>( widget ) || widget->inherits( "Q3ListView" ) ) ) return true;
+
+        const State& flags( option->state );
+        const QRect r( option->rect.adjusted( 0, 0, 0, -2 ) );
+        const QPalette& palette( option->palette );
+
+        QLinearGradient lg(r.bottomLeft(), r.bottomRight() );
+
+        lg.setColorAt(0.0, Qt::transparent);
+        lg.setColorAt(1.0, Qt::transparent);
+        if( flags & State_Selected)
+        {
+
+            lg.setColorAt(0.2, palette.color(QPalette::BrightText));
+            lg.setColorAt(0.8, palette.color(QPalette::BrightText));
+
+        } else {
+
+            lg.setColorAt(0.2, palette.color(QPalette::Text));
+            lg.setColorAt(0.8, palette.color(QPalette::Text));
+
+        }
+
+        painter->setRenderHint(QPainter::Antialiasing, false);
+        painter->setPen(QPen(lg, 1));
+        painter->drawLine(r.bottomLeft(), r.bottomRight() );
+
+        return true;
+
     }
 
     //______________________________________________________________
@@ -7425,6 +7463,10 @@ namespace Oxygen
             registerStyleControl( CE_TabBarTabShape, &Style::drawTabBarTabShapeControl_Single );
             break;
         }
+
+        // frame focus
+        if( OxygenStyleConfigData::viewDrawFocusIndicator() ) registerStylePrimitive( PE_FrameFocusRect, &Style::drawFrameFocusRectPrimitive );
+        else registerStylePrimitive( PE_FrameFocusRect, &Style::emptyPrimitive );
 
     }
 
