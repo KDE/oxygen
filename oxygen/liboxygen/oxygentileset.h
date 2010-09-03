@@ -23,7 +23,7 @@
 
 #include <QtGui/QPixmap>
 #include <QtCore/QRect>
-#include <QtCore/QList>
+#include <QtCore/QVector>
 
 #include "oxygen_export.h"
 
@@ -116,7 +116,7 @@ namespace Oxygen
         protected:
 
         //! shortcut to pixmap list
-        typedef QList<QPixmap> PixmapList;
+        typedef QVector<QPixmap> PixmapList;
 
         //! initialize pixmap
         void initPixmap( PixmapList&, const QPixmap&, int w, int h, const QRect& );

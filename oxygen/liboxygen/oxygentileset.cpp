@@ -53,12 +53,13 @@ namespace Oxygen
         _h1(0),
         _w3(0),
         _h3(0)
-    {}
+    { _pixmaps.reserve(9); }
 
     //______________________________________________________________
     TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w2, int h2):
         _w1(w1), _h1(h1), _w3(0), _h3(0)
     {
+        _pixmaps.reserve(9);
         if (pix.isNull()) return;
 
         _w3 = pix.width() - (w1 + w2);
@@ -82,6 +83,7 @@ namespace Oxygen
     TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w3, int h3, int x1, int y1, int w2, int h2)
         : _w1(w1), _h1(h1), _w3(w3), _h3(h3)
     {
+        _pixmaps.reserve(9);
         if (pix.isNull()) return;
 
         int x2 = pix.width() - _w3;
