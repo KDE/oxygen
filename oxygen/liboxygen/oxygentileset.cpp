@@ -117,14 +117,24 @@ namespace Oxygen
         r.getRect(&x0, &y0, &w, &h);
 
         // calculate pixmaps widths
-        qreal wRatio( qreal( _w1 )/qreal( _w1 + _w3 ) );
-        int wLeft = (t&Right) ? qMin( _w1, int(w*wRatio) ):_w1;
-        int wRight = (t&Left) ? qMin( _w3, int(w*(1.0-wRatio)) ):_w3;
+        int wLeft(0);
+        int wRight(0);
+        if( _w1+_w3 > 0 )
+        {
+            qreal wRatio( qreal( _w1 )/qreal( _w1 + _w3 ) );
+            wLeft = (t&Right) ? qMin( _w1, int(w*wRatio) ):_w1;
+            wRight = (t&Left) ? qMin( _w3, int(w*(1.0-wRatio)) ):_w3;
+        }
 
         // calculate pixmap heights
-        qreal hRatio( qreal( _h1 )/qreal( _h1 + _h3 ) );
-        int hTop = (t&Bottom) ? qMin( _h1, int(h*hRatio) ):_h1;
-        int hBottom = (t&Top) ? qMin( _h3, int(h*(1.0-hRatio)) ):_h3;
+        int hTop(0);
+        int hBottom(0);
+        if( _h1+_h3 > 0 )
+        {
+            qreal hRatio( qreal( _h1 )/qreal( _h1 + _h3 ) );
+            hTop = (t&Bottom) ? qMin( _h1, int(h*hRatio) ):_h1;
+            hBottom = (t&Top) ? qMin( _h3, int(h*(1.0-hRatio)) ):_h3;
+        }
 
         // calculate corner locations
         w -= wLeft + wRight;
