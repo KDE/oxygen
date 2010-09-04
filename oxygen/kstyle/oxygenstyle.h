@@ -315,13 +315,6 @@ namespace Oxygen
         TabBarData& tabBarData( void ) const
         { return *_tabBarData; }
 
-        //! initialize style hints
-        void initializeStyleHints( void );
-
-        //! register style hint value in map
-        void registerStyleHint( const StyleHint& key, int value )
-        { _styleHints.insert( key, value ); }
-
         //!@name subelementRect specialized functions
         //@{
 
@@ -958,10 +951,6 @@ namespace Oxygen
 
         //! tabBar data
         TabBarData* _tabBarData;
-
-        //! map style hints to value
-        typedef QMap<StyleHint, int > StyleHintMap;
-        StyleHintMap _styleHints;
 
         //! map contentsType to sizeFromContents specialized functions
         typedef QMap<ContentsType, Style::SizeFromContents> SizeFromContentsMap;

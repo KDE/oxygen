@@ -161,7 +161,6 @@ namespace Oxygen
         qAddPostRoutine(cleanupBefore);
 
         // initialize all callback maps
-        initializeStyleHints();
         initializeSizeFromContents();
         initializeStylePrimitives();
         initializeStyleControls();
@@ -796,15 +795,28 @@ namespace Oxygen
 
             }
 
-            default: break;
+            // mouse tracking
+            case SH_ComboBox_ListMouseTracking: return true;
+            case SH_MenuBar_MouseTracking: return true;
+            case SH_Menu_MouseTracking: return true;
 
+            case SH_Menu_SubMenuPopupDelay: return 96;
+            case SH_TitleBar_NoBorder: return 0;
+            case SH_GroupBox_TextLabelVerticalAlignment: return Qt::AlignVCenter;
+            case SH_DialogButtonLayout: return QDialogButtonBox::KdeLayout;
+            case SH_ScrollBar_MiddleClickAbsolutePosition: return true;
+            case SH_ItemView_ShowDecorationSelected: return false;
+            case SH_ItemView_ArrowKeysNavigateIntoChildren: return true;
+            case SH_ScrollView_FrameOnlyAroundContents: return true;
+            case SH_FormLayoutFormAlignment: return Qt::AlignLeft | Qt::AlignTop;
+            case SH_FormLayoutLabelAlignment: return Qt::AlignRight;
+            case SH_FormLayoutFieldGrowthPolicy: return QFormLayout::ExpandingFieldsGrow;
+            case SH_FormLayoutWrapPolicy: return QFormLayout::DontWrapRows;
+            case SH_MessageBox_TextInteractionFlags: return true;
+            case SH_WindowFrame_Mask: return false;
+
+            default: return QCommonStyle::styleHint(hint, option, widget, returnData);
         }
-
-        // generic cases (from pixelMetric map)
-        StyleHintMap::const_iterator iter( _styleHints.find( hint ) );
-        if( iter != _styleHints.end() ) return iter.value();
-
-        return QCommonStyle::styleHint(hint, option, widget, returnData);
 
     }
 
@@ -1390,31 +1402,6 @@ namespace Oxygen
         }
 
         return false;
-    }
-
-    //____________________________________________________
-    void Style::initializeStyleHints( void )
-    {
-
-        // mouse tracking
-        registerStyleHint( SH_ComboBox_ListMouseTracking, true );
-        registerStyleHint( SH_MenuBar_MouseTracking, true );
-        registerStyleHint( SH_Menu_MouseTracking, true );
-        registerStyleHint( SH_Menu_SubMenuPopupDelay, 96 );
-        registerStyleHint( SH_TitleBar_NoBorder, 0 );
-        registerStyleHint( SH_GroupBox_TextLabelVerticalAlignment, Qt::AlignVCenter );
-        registerStyleHint( SH_DialogButtonLayout, QDialogButtonBox::KdeLayout );
-        registerStyleHint( SH_ScrollBar_MiddleClickAbsolutePosition, true );
-        registerStyleHint( SH_ItemView_ShowDecorationSelected, false );
-        registerStyleHint( SH_ItemView_ArrowKeysNavigateIntoChildren, true );
-        registerStyleHint( SH_ScrollView_FrameOnlyAroundContents, true );
-        registerStyleHint( SH_FormLayoutFormAlignment, Qt::AlignLeft | Qt::AlignTop );
-        registerStyleHint( SH_FormLayoutLabelAlignment, Qt::AlignRight );
-        registerStyleHint( SH_FormLayoutFieldGrowthPolicy, QFormLayout::ExpandingFieldsGrow );
-        registerStyleHint( SH_FormLayoutWrapPolicy, QFormLayout::DontWrapRows );
-        registerStyleHint( SH_MessageBox_TextInteractionFlags, true );
-        registerStyleHint( SH_WindowFrame_Mask, false );
-
     }
 
     //____________________________________________________________________
