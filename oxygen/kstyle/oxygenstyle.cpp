@@ -162,7 +162,6 @@ namespace Oxygen
 
         // initialize all callback maps
         initializeStyleHints();
-        initializeSubElementRects();
         initializeSubControlRects();
         initializeSizeFromContents();
         initializeStylePrimitives();
@@ -814,11 +813,42 @@ namespace Oxygen
     QRect Style::subElementRect(SubElement element, const QStyleOption* option, const QWidget* widget) const
     {
 
-        // try find primitive in map, and run.
-        // exit if result is true, otherwise fallback to generic case
-        SubElementRectMap::const_iterator iterator( _subElementRects.find( element ) );
-        if( iterator != _subElementRects.end() ) return (this->*iterator.value())(option, widget );
-        else return QCommonStyle::subElementRect( element, option, widget );
+
+        switch( element )
+        {
+
+            // push buttons
+            case SE_PushButtonContents: return pushButtonContentsRect( option, widget );
+            case SE_PushButtonFocusRect: return defaultSubElementRect( option, widget );
+
+            // checkboxes
+            case SE_CheckBoxContents: return checkBoxContentsRect( option, widget );
+            case SE_CheckBoxFocusRect: return defaultSubElementRect( option, widget );
+
+            // progress bars
+            case SE_ProgressBarGroove: return defaultSubElementRect( option, widget );
+            case SE_ProgressBarContents: return progressBarContentsRect( option, widget );
+            case SE_ProgressBarLabel: return defaultSubElementRect( option, widget );
+
+            // radio buttons
+            case SE_RadioButtonContents: return checkBoxContentsRect( option, widget );
+            case SE_RadioButtonFocusRect: return defaultSubElementRect( option, widget );
+
+            // tab widget
+            case SE_TabBarTabLeftButton: return tabBarTabLeftButtonRect( option, widget );
+            case SE_TabBarTabRightButton: return tabBarTabRightButtonRect( option, widget );
+            case SE_TabBarTabText: return tabBarTabTextRect( option, widget );
+            case SE_TabWidgetTabContents: return tabWidgetTabContentsRect( option, widget );
+            case SE_TabWidgetTabPane: return tabWidgetTabPaneRect( option, widget );
+            case SE_TabWidgetLeftCorner: return tabWidgetLeftCornerRect( option, widget );
+            case SE_TabWidgetRightCorner: return tabWidgetRightCornerRect( option, widget );
+
+            // toolboxes
+            case SE_ToolBoxTabContents: return toolBoxTabContentsRect( option, widget );
+
+            default: return QCommonStyle::subElementRect( element, option, widget );
+
+        }
 
     }
 
@@ -1379,41 +1409,6 @@ namespace Oxygen
         registerStyleHint( SH_FormLayoutWrapPolicy, QFormLayout::DontWrapRows );
         registerStyleHint( SH_MessageBox_TextInteractionFlags, true );
         registerStyleHint( SH_WindowFrame_Mask, false );
-
-    }
-
-    //____________________________________________________________________
-    void Style::initializeSubElementRects( void )
-    {
-
-        // push buttons
-        registerSubElementRect( SE_PushButtonContents, &Style::pushButtonContentsRect );
-        registerSubElementRect( SE_PushButtonFocusRect, &Style::defaultSubElementRect );
-
-        // checkboxes
-        registerSubElementRect( SE_CheckBoxContents, &Style::checkBoxContentsRect );
-        registerSubElementRect( SE_CheckBoxFocusRect, &Style::defaultSubElementRect );
-
-        // progress bars
-        registerSubElementRect( SE_ProgressBarGroove, &Style::defaultSubElementRect );
-        registerSubElementRect( SE_ProgressBarContents, &Style::progressBarContentsRect );
-        registerSubElementRect( SE_ProgressBarLabel, &Style::defaultSubElementRect );
-
-        // radio buttons
-        registerSubElementRect( SE_RadioButtonContents, &Style::checkBoxContentsRect );
-        registerSubElementRect( SE_RadioButtonFocusRect, &Style::defaultSubElementRect );
-
-        // tab widget
-        registerSubElementRect( SE_TabBarTabLeftButton, &Style::tabBarTabLeftButtonRect );
-        registerSubElementRect( SE_TabBarTabRightButton, &Style::tabBarTabRightButtonRect );
-        registerSubElementRect( SE_TabBarTabText, &Style::tabBarTabTextRect );
-        registerSubElementRect( SE_TabWidgetTabContents, &Style::tabWidgetTabContentsRect );
-        registerSubElementRect( SE_TabWidgetTabPane, &Style::tabWidgetTabPaneRect );
-        registerSubElementRect( SE_TabWidgetLeftCorner, &Style::tabWidgetLeftCornerRect );
-        registerSubElementRect( SE_TabWidgetRightCorner, &Style::tabWidgetRightCornerRect );
-
-        // toolboxes
-        registerSubElementRect( SE_ToolBoxTabContents, &Style::toolBoxTabContentsRect );
 
     }
 

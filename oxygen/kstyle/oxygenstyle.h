@@ -325,9 +325,6 @@ namespace Oxygen
         //!@name subelementRect specialized functions
         //@{
 
-        //! initialize subelement rects
-        void initializeSubElementRects( void );
-
         //! default implementation. Does not change anything
         QRect defaultSubElementRect( const QStyleOption* option, const QWidget* ) const
         { return option->rect; }
@@ -372,13 +369,6 @@ namespace Oxygen
 
         QRect tabWidgetLeftCornerRect( const QStyleOption* option, const QWidget* widget ) const;
         QRect tabWidgetRightCornerRect( const QStyleOption* option, const QWidget* widget ) const;
-
-        //! pointer to subelement rect specialized function
-        typedef QRect (Style::*SubElementRect)( const QStyleOption*, const QWidget* ) const;
-
-        //! register subelement rect specialized function in map
-        void registerSubElementRect( const SubElement& key, const Style::SubElementRect& value )
-        { _subElementRects.insert( key, value ); }
 
         //@}
 
@@ -982,10 +972,6 @@ namespace Oxygen
         //! map style hints to value
         typedef QMap<StyleHint, int > StyleHintMap;
         StyleHintMap _styleHints;
-
-        //! map subelement to subelementRect specialized function
-        typedef QMap<SubElement, Style::SubElementRect> SubElementRectMap;
-        SubElementRectMap _subElementRects;
 
         //! map subelement to subelementRect specialized function
         typedef QMap<ComplexControl, Style::SubControlRect> SubControlRectMap;
