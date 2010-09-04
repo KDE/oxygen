@@ -382,9 +382,6 @@ namespace Oxygen
         //!@name sizeFromContents
         //@{
 
-        //! initialize
-        void initializeSizeFromContents( void );
-
         QSize checkBoxSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize comboBoxSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize headerSectionSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
@@ -403,13 +400,6 @@ namespace Oxygen
 
         QSize tabBarTabSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const;
         QSize toolButtonSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
-
-        //! pointer to sizeFromContents rect specialized function
-        typedef QSize (Style::*SizeFromContents)( const QStyleOption*, const QSize&, const QWidget* ) const;
-
-        //! register sizeFromContents specialized function
-        void registerSizeFromContents( const ContentsType& key, const Style::SizeFromContents& value )
-        { _sizeFromContents.insert( key, value ); }
 
         //@}
 
@@ -951,10 +941,6 @@ namespace Oxygen
 
         //! tabBar data
         TabBarData* _tabBarData;
-
-        //! map contentsType to sizeFromContents specialized functions
-        typedef QMap<ContentsType, Style::SizeFromContents> SizeFromContentsMap;
-        SizeFromContentsMap _sizeFromContents;
 
         //! map primitiveElement to primitive specialized function
         typedef QMap<PrimitiveElement, Style::StylePrimitive> StylePrimitiveMap;

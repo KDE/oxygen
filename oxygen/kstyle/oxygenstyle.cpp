@@ -161,7 +161,6 @@ namespace Oxygen
         qAddPostRoutine(cleanupBefore);
 
         // initialize all callback maps
-        initializeSizeFromContents();
         initializeStylePrimitives();
         initializeStyleControls();
         initializeStyleComplexControls();
@@ -884,11 +883,21 @@ namespace Oxygen
     QSize Style::sizeFromContents( ContentsType element, const QStyleOption* option, const QSize& size, const QWidget* widget ) const
     {
 
-        // try find primitive in map, and run.
-        // exit if result is true, otherwise fallback to generic case
-        SizeFromContentsMap::const_iterator iterator( _sizeFromContents.find( element ) );
-        if( iterator != _sizeFromContents.end() ) return (this->*iterator.value())(option, size, widget );
-        else return QCommonStyle::sizeFromContents( element, option, size, widget );
+        switch( element )
+        {
+            case CT_CheckBox: return checkBoxSizeFromContents( option, size, widget );
+            case CT_ComboBox: return comboBoxSizeFromContents( option, size, widget );
+            case CT_HeaderSection: return headerSectionSizeFromContents( option, size, widget );
+            case CT_PushButton: return pushButtonSizeFromContents( option, size, widget );
+            case CT_MenuBar: return menuBarSizeFromContents( option, size, widget );
+            case CT_MenuBarItem: return menuBarItemSizeFromContents( option, size, widget );
+            case CT_MenuItem: return menuItemSizeFromContents( option, size, widget );
+            case CT_RadioButton: return checkBoxSizeFromContents( option, size, widget );
+            case CT_TabBarTab: return tabBarTabSizeFromContents( option, size, widget );
+            case CT_TabWidget: return tabWidgetSizeFromContents( option, size, widget );
+            case CT_ToolButton: return toolButtonSizeFromContents( option, size, widget );
+            default: return QCommonStyle::sizeFromContents( element, option, size, widget );
+        }
 
     }
 
@@ -2045,24 +2054,6 @@ namespace Oxygen
         return QCommonStyle::subControlRect( CC_SpinBox, option, subControl, widget);
 
    }
-
-    //______________________________________________________________
-    void Style::initializeSizeFromContents( void )
-    {
-
-        registerSizeFromContents( CT_CheckBox, &Style::checkBoxSizeFromContents );
-        registerSizeFromContents( CT_ComboBox, &Style::comboBoxSizeFromContents );
-        registerSizeFromContents( CT_HeaderSection, &Style::headerSectionSizeFromContents );
-        registerSizeFromContents( CT_PushButton, &Style::pushButtonSizeFromContents );
-        registerSizeFromContents( CT_MenuBar, &Style::menuBarSizeFromContents );
-        registerSizeFromContents( CT_MenuBarItem, &Style::menuBarItemSizeFromContents );
-        registerSizeFromContents( CT_MenuItem, &Style::menuItemSizeFromContents );
-        registerSizeFromContents( CT_RadioButton, &Style::checkBoxSizeFromContents );
-        registerSizeFromContents( CT_TabBarTab, &Style::tabBarTabSizeFromContents );
-        registerSizeFromContents( CT_TabWidget, &Style::tabWidgetSizeFromContents );
-        registerSizeFromContents( CT_ToolButton, &Style::toolButtonSizeFromContents );
-
-    }
 
     //______________________________________________________________
     QSize Style::checkBoxSizeFromContents( const QStyleOption*, const QSize& contentsSize, const QWidget* ) const
