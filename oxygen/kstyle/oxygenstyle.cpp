@@ -162,8 +162,6 @@ namespace Oxygen
 
         qAddPostRoutine(cleanupBefore);
 
-        // initialize all callback maps
-        initializeStyleComplexControls();
         initializeStandardIcons();
 
         // use DBus connection to update on oxygen configuration change
@@ -1086,11 +1084,23 @@ namespace Oxygen
     {
 
         painter->save();
+        StyleComplexControl fcn(0);
 
-        // try find controlElement in map, and run.
-        // exit if result is true, otherwise fallback to generic case
-        StyleComplexControlMap::const_iterator iterator( _styleComplexControls.find( element ) );
-        if( iterator == _styleComplexControls.end() || !(this->*iterator.value())(option, painter, widget ) )
+        switch( element )
+        {
+
+            case CC_ComboBox: fcn = &Style::drawComboBoxComplexControl; break;
+            case CC_Dial: fcn = &Style::drawDialComplexControl; break;
+            case CC_GroupBox: fcn = &Style::drawGroupBoxComplexControl; break;
+            case CC_Slider: fcn = &Style::drawSliderComplexControl; break;
+            case CC_SpinBox: fcn = &Style::drawSpinBoxComplexControl; break;
+            case CC_TitleBar: fcn = &Style::drawTitleBarComplexControl; break;
+            case CC_ToolButton: fcn = &Style::drawToolButtonComplexControl; break;
+            default: break;
+
+        }
+
+        if( !( fcn && (this->*fcn)(option, painter, widget ) ) )
         { QCommonStyle::drawComplexControl( element, option, painter, widget ); }
 
         painter->restore();
@@ -6773,24 +6783,6 @@ namespace Oxygen
         QCommonStyle::drawControl( CE_ToolButtonLabel, &localOption, painter, widget );
         return true;
 
-    }
-
-    //______________________________________________________________
-    void Style::initializeStyleComplexControls( void )
-    {
-        /*
-        register qstyle ComplexControl elements
-        the second argument will be called automatically when the first argument is passed to drawControl
-        this allow to use a QMap to handle the widget types, rather than a huge "switch" statement, which is presumably slower
-        */
-
-        registerStyleComplexControl( CC_ComboBox, &Style::drawComboBoxComplexControl );
-        registerStyleComplexControl( CC_Dial, &Style::drawDialComplexControl );
-        registerStyleComplexControl( CC_GroupBox, &Style::drawGroupBoxComplexControl );
-        registerStyleComplexControl( CC_Slider, &Style::drawSliderComplexControl );
-        registerStyleComplexControl( CC_SpinBox, &Style::drawSpinBoxComplexControl );
-        registerStyleComplexControl( CC_TitleBar, &Style::drawTitleBarComplexControl );
-        registerStyleComplexControl( CC_ToolButton, &Style::drawToolButtonComplexControl );
     }
 
     //______________________________________________________________

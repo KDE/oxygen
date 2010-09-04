@@ -513,10 +513,6 @@ namespace Oxygen
 
         //!@name complex ontrols specialized functions
         //@{
-
-        //! initialize
-        void initializeStyleComplexControls( void );
-
         bool drawComboBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawDialComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawGroupBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
@@ -524,14 +520,6 @@ namespace Oxygen
         bool drawSpinBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawTitleBarComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawToolButtonComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
-
-        //! pointer to control specialized function
-        typedef bool (Style::*StyleComplexControl)( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
-
-        //! register control specialized function in map
-        void registerStyleComplexControl( const ComplexControl& key, const Style::StyleComplexControl& value )
-        { _styleComplexControls.insert( key, value ); }
-
         //@}
 
         //!@name standard icons
@@ -928,9 +916,8 @@ namespace Oxygen
         typedef bool (Style::*StyleControl)( const QStyleOption*, QPainter*, const QWidget* ) const;
         StyleControl _tabBarTabShapeControl;
 
-        //! map controlElement to control specialized function
-        typedef QMap<ComplexControl, Style::StyleComplexControl> StyleComplexControlMap;
-        StyleComplexControlMap _styleComplexControls;
+        //! pointer to control specialized function
+        typedef bool (Style::*StyleComplexControl)( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
 
         //! standard icons
         typedef QMap<StandardPixmap, QIcon> StandardIconMap;
