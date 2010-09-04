@@ -522,13 +522,6 @@ namespace Oxygen
         bool drawToolButtonComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         //@}
 
-        //!@name standard icons
-        //@{
-        void initializeStandardIcons( void );
-        void registerStandardIcon( const StandardPixmap& key, const QIcon& value )
-        { _standardIcons.insert( key, value ); }
-        //@}
-
         //! true if widget is child of KTextEdit
         bool isKTextEditFrame( const QWidget* widget ) const
         { return ( widget && widget->parentWidget() && widget->parentWidget()->inherits( "KTextEditor::View" ) ); }
@@ -918,10 +911,6 @@ namespace Oxygen
 
         //! pointer to control specialized function
         typedef bool (Style::*StyleComplexControl)( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
-
-        //! standard icons
-        typedef QMap<StandardPixmap, QIcon> StandardIconMap;
-        StandardIconMap _standardIcons;
 
         //!@name custom elements
         //@{

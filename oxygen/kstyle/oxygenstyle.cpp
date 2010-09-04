@@ -162,8 +162,6 @@ namespace Oxygen
 
         qAddPostRoutine(cleanupBefore);
 
-        initializeStandardIcons();
-
         // use DBus connection to update on oxygen configuration change
         QDBusConnection dbus = QDBusConnection::sessionBus();
         dbus.connect(QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT(oxygenConfigurationChanged()));
@@ -951,8 +949,8 @@ namespace Oxygen
     {
 
         painter->save();
-        StylePrimitive fcn(0);
 
+        StylePrimitive fcn(0);
         switch( element )
         {
 
@@ -1020,7 +1018,6 @@ namespace Oxygen
         painter->save();
 
         StyleControl fcn(0);
-
         if( element == CE_CapacityBar )
         {
 
@@ -1084,8 +1081,8 @@ namespace Oxygen
     {
 
         painter->save();
-        StyleComplexControl fcn(0);
 
+        StyleComplexControl fcn(0);
         switch( element )
         {
 
@@ -7426,81 +7423,6 @@ namespace Oxygen
         _helper.invalidateCaches();
     }
 
-    //______________________________________________________________________________
-    void Style::initializeStandardIcons( void )
-    {
-
-        // copied from kstyle
-        registerStandardIcon( QStyle::SP_DesktopIcon, KIcon( "user-desktop" ) );
-        registerStandardIcon( QStyle::SP_TrashIcon, KIcon( "user-trash" ) );
-        registerStandardIcon( QStyle::SP_ComputerIcon, KIcon( "computer" ) );
-        registerStandardIcon( QStyle::SP_DriveFDIcon, KIcon( "media-floppy" ) );
-        registerStandardIcon( QStyle::SP_DriveHDIcon, KIcon( "drive-harddisk" ) );
-        registerStandardIcon( QStyle::SP_DriveCDIcon, KIcon( "drive-optical" ) );
-        registerStandardIcon( QStyle::SP_DriveDVDIcon, KIcon( "drive-optical" ) );
-        registerStandardIcon( QStyle::SP_DriveNetIcon, KIcon( "folder-remote" ) );
-        registerStandardIcon( QStyle::SP_DirHomeIcon, KIcon( "user-home" ) );
-        registerStandardIcon( QStyle::SP_DirOpenIcon, KIcon( "document-open-folder" ) );
-        registerStandardIcon( QStyle::SP_DirClosedIcon, KIcon( "folder" ) );
-        registerStandardIcon( QStyle::SP_DirIcon, KIcon( "folder" ) );
-
-        //TODO: generate (!?) folder with link emblem
-        registerStandardIcon( QStyle::SP_DirLinkIcon, KIcon( "folder" ) );
-
-        //TODO: look for a better icon
-        registerStandardIcon( QStyle::SP_FileIcon, KIcon( "text-plain" ) );
-
-        //TODO: generate (!?) file with link emblem
-        registerStandardIcon( QStyle::SP_FileLinkIcon, KIcon( "text-plain" ) );
-
-        //TODO: find correct icon
-        registerStandardIcon( QStyle::SP_FileDialogStart, KIcon( "media-playback-start" ) );
-
-        //TODO: find correct icon
-        registerStandardIcon( QStyle::SP_FileDialogEnd, KIcon( "media-playback-stop" ) );
-        registerStandardIcon( QStyle::SP_FileDialogToParent, KIcon( "go-up" ) );
-        registerStandardIcon( QStyle::SP_FileDialogNewFolder, KIcon( "folder-new" ) );
-        registerStandardIcon( QStyle::SP_FileDialogDetailedView, KIcon( "view-list-details" ) );
-        registerStandardIcon( QStyle::SP_FileDialogInfoView, KIcon( "document-properties" ) );
-        registerStandardIcon( QStyle::SP_FileDialogContentsView, KIcon( "view-list-icons" ) );
-        registerStandardIcon( QStyle::SP_FileDialogListView, KIcon( "view-list-text" ) );
-        registerStandardIcon( QStyle::SP_FileDialogBack, KIcon( "go-previous" ) );
-        registerStandardIcon( QStyle::SP_MessageBoxInformation, KIcon( "dialog-information" ) );
-        registerStandardIcon( QStyle::SP_MessageBoxWarning, KIcon( "dialog-warning" ) );
-        registerStandardIcon( QStyle::SP_MessageBoxCritical, KIcon( "dialog-error" ) );
-        registerStandardIcon( QStyle::SP_MessageBoxQuestion, KIcon( "dialog-information" ) );
-        registerStandardIcon( QStyle::SP_DialogOkButton, KIcon( "dialog-ok" ) );
-        registerStandardIcon( QStyle::SP_DialogCancelButton, KIcon( "dialog-cancel" ) );
-        registerStandardIcon( QStyle::SP_DialogHelpButton, KIcon( "help-contents" ) );
-        registerStandardIcon( QStyle::SP_DialogOpenButton, KIcon( "document-open" ) );
-        registerStandardIcon( QStyle::SP_DialogSaveButton, KIcon( "document-save" ) );
-        registerStandardIcon( QStyle::SP_DialogCloseButton, KIcon( "dialog-close" ) );
-        registerStandardIcon( QStyle::SP_DialogApplyButton, KIcon( "dialog-ok-apply" ) );
-        registerStandardIcon( QStyle::SP_DialogResetButton, KIcon( "document-revert" ) );
-        registerStandardIcon( QStyle::SP_DialogDiscardButton, KIcon( "dialog-cancel" ) );
-        registerStandardIcon( QStyle::SP_DialogYesButton, KIcon( "dialog-ok-apply" ) );
-        registerStandardIcon( QStyle::SP_DialogNoButton, KIcon( "dialog-cancel" ) );
-        registerStandardIcon( QStyle::SP_ArrowUp, KIcon( "go-up" ) );
-        registerStandardIcon( QStyle::SP_ArrowDown, KIcon( "go-down" ) );
-        registerStandardIcon( QStyle::SP_ArrowLeft, KIcon( "go-previous-view" ) );
-        registerStandardIcon( QStyle::SP_ArrowRight, KIcon( "go-next-view" ) );
-        registerStandardIcon( QStyle::SP_ArrowBack, KIcon( "go-previous" ) );
-        registerStandardIcon( QStyle::SP_ArrowForward, KIcon( "go-next" ) );
-        registerStandardIcon( QStyle::SP_BrowserReload, KIcon( "view-refresh" ) );
-        registerStandardIcon( QStyle::SP_BrowserStop, KIcon( "process-stop" ) );
-        registerStandardIcon( QStyle::SP_MediaPlay, KIcon( "media-playback-start" ) );
-        registerStandardIcon( QStyle::SP_MediaStop, KIcon( "media-playback-stop" ) );
-        registerStandardIcon( QStyle::SP_MediaPause, KIcon( "media-playback-pause" ) );
-        registerStandardIcon( QStyle::SP_MediaSkipForward, KIcon( "media-skip-forward" ) );
-        registerStandardIcon( QStyle::SP_MediaSkipBackward, KIcon( "media-skip-backward" ) );
-        registerStandardIcon( QStyle::SP_MediaSeekForward, KIcon( "media-seek-forward" ) );
-        registerStandardIcon( QStyle::SP_MediaSeekBackward, KIcon( "media-seek-backward" ) );
-        registerStandardIcon( QStyle::SP_MediaVolume, KIcon( "audio-volume-medium" ) );
-        registerStandardIcon( QStyle::SP_MediaVolumeMuted, KIcon( "audio-volume-muted" ) );
-
-        return;
-    }
-
     //____________________________________________________________________
     QIcon Style::standardIconImplementation(
         StandardPixmap standardIcon,
@@ -7508,9 +7430,81 @@ namespace Oxygen
         const QWidget *widget) const
     {
 
-        // look in map
-        StandardIconMap::const_iterator iterator( _standardIcons.find( standardIcon ) );
-        if( iterator != _standardIcons.end() ) return iterator.value();
+        switch( standardIcon )
+        {
+
+            // copied from kstyle
+            case SP_DesktopIcon: return KIcon( "user-desktop" );
+            case SP_TrashIcon: return KIcon( "user-trash" );
+            case SP_ComputerIcon: return KIcon( "computer" );
+            case SP_DriveFDIcon: return KIcon( "media-floppy" );
+            case SP_DriveHDIcon: return KIcon( "drive-harddisk" );
+            case SP_DriveCDIcon: return KIcon( "drive-optical" );
+            case SP_DriveDVDIcon: return KIcon( "drive-optical" );
+            case SP_DriveNetIcon: return KIcon( "folder-remote" );
+            case SP_DirHomeIcon: return KIcon( "user-home" );
+            case SP_DirOpenIcon: return KIcon( "document-open-folder" );
+            case SP_DirClosedIcon: return KIcon( "folder" );
+            case SP_DirIcon: return KIcon( "folder" );
+
+            //TODO: generate (!?) folder with link emblem
+            case SP_DirLinkIcon: return KIcon( "folder" );
+
+            //TODO: look for a better icon
+            case SP_FileIcon: return KIcon( "text-plain" );
+
+            //TODO: generate (!?) file with link emblem
+            case SP_FileLinkIcon: return KIcon( "text-plain" );
+
+            //TODO: find correct icon
+            case SP_FileDialogStart: return KIcon( "media-playback-start" );
+
+            //TODO: find correct icon
+            case SP_FileDialogEnd: return KIcon( "media-playback-stop" );
+
+            case SP_FileDialogToParent: return KIcon( "go-up" );
+            case SP_FileDialogNewFolder: return KIcon( "folder-new" );
+            case SP_FileDialogDetailedView: return KIcon( "view-list-details" );
+            case SP_FileDialogInfoView: return KIcon( "document-properties" );
+            case SP_FileDialogContentsView: return KIcon( "view-list-icons" );
+            case SP_FileDialogListView: return KIcon( "view-list-text" );
+            case SP_FileDialogBack: return KIcon( "go-previous" );
+            case SP_MessageBoxInformation: return KIcon( "dialog-information" );
+            case SP_MessageBoxWarning: return KIcon( "dialog-warning" );
+            case SP_MessageBoxCritical: return KIcon( "dialog-error" );
+            case SP_MessageBoxQuestion: return KIcon( "dialog-information" );
+            case SP_DialogOkButton: return KIcon( "dialog-ok" );
+            case SP_DialogCancelButton: return KIcon( "dialog-cancel" );
+            case SP_DialogHelpButton: return KIcon( "help-contents" );
+            case SP_DialogOpenButton: return KIcon( "document-open" );
+            case SP_DialogSaveButton: return KIcon( "document-save" );
+            case SP_DialogCloseButton: return KIcon( "dialog-close" );
+            case SP_DialogApplyButton: return KIcon( "dialog-ok-apply" );
+            case SP_DialogResetButton: return KIcon( "document-revert" );
+            case SP_DialogDiscardButton: return KIcon( "dialog-cancel" );
+            case SP_DialogYesButton: return KIcon( "dialog-ok-apply" );
+            case SP_DialogNoButton: return KIcon( "dialog-cancel" );
+            case SP_ArrowUp: return KIcon( "go-up" );
+            case SP_ArrowDown: return KIcon( "go-down" );
+            case SP_ArrowLeft: return KIcon( "go-previous-view" );
+            case SP_ArrowRight: return KIcon( "go-next-view" );
+            case SP_ArrowBack: return KIcon( "go-previous" );
+            case SP_ArrowForward: return KIcon( "go-next" );
+            case SP_BrowserReload: return KIcon( "view-refresh" );
+            case SP_BrowserStop: return KIcon( "process-stop" );
+            case SP_MediaPlay: return KIcon( "media-playback-start" );
+            case SP_MediaStop: return KIcon( "media-playback-stop" );
+            case SP_MediaPause: return KIcon( "media-playback-pause" );
+            case SP_MediaSkipForward: return KIcon( "media-skip-forward" );
+            case SP_MediaSkipBackward: return KIcon( "media-skip-backward" );
+            case SP_MediaSeekForward: return KIcon( "media-seek-forward" );
+            case SP_MediaSeekBackward: return KIcon( "media-seek-backward" );
+            case SP_MediaVolume: return KIcon( "audio-volume-medium" );
+            case SP_MediaVolumeMuted: return KIcon( "audio-volume-muted" );
+
+            default: break;
+
+        }
 
         // MDI windows buttons
         // get button color (unfortunately option and widget might not be set)
