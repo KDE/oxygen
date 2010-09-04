@@ -152,6 +152,7 @@ namespace Oxygen
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
         _frameFocusPrimitive( 0 ),
+        _tabBarTabShapeControl( 0 ),
         _hintCounter( X_KdeBase+1 ),
         _controlCounter( X_KdeBase ),
         _subElementCounter( X_KdeBase ),
@@ -162,7 +163,6 @@ namespace Oxygen
         qAddPostRoutine(cleanupBefore);
 
         // initialize all callback maps
-        initializeStyleControls();
         initializeStyleComplexControls();
         initializeStandardIcons();
 
@@ -1021,10 +1021,60 @@ namespace Oxygen
 
         painter->save();
 
-        // try find controlElement in map, and run.
-        // exit if result is true, otherwise fallback to generic case
-        StyleControlMap::const_iterator iterator( _styleControls.find( element ) );
-        if( iterator == _styleControls.end() || !(this->*iterator.value())(option, painter, widget ) )
+        StyleControl fcn(0);
+
+        if( element == CE_CapacityBar )
+        {
+
+            fcn = &Style::drawCapacityBarControl;
+
+        } else switch( element ) {
+
+            case CE_ComboBoxLabel: fcn = &Style::drawComboBoxLabelControl; break;
+            case CE_DockWidgetTitle: fcn = &Style::drawDockWidgetTitleControl; break;
+            case CE_HeaderEmptyArea: fcn = &Style::drawHeaderEmptyAreaControl; break;
+            case CE_HeaderLabel: fcn = &Style::drawHeaderLabelControl; break;
+            case CE_HeaderSection: fcn = &Style::drawHeaderSectionControl; break;
+            case CE_MenuBarEmptyArea: fcn = &Style::emptyControl; break;
+            case CE_MenuBarItem: fcn = &Style::drawMenuBarItemControl; break;
+            case CE_MenuItem: fcn = &Style::drawMenuItemControl; break;
+            case CE_ProgressBar: fcn = &Style::drawProgressBarControl; break;
+            case CE_ProgressBarContents: fcn = &Style::drawProgressBarContentsControl; break;
+            case CE_ProgressBarGroove: fcn = &Style::drawProgressBarGrooveControl; break;
+            case CE_ProgressBarLabel: fcn = &Style::drawProgressBarLabelControl; break;
+
+            /*
+            for CE_PushButtonBevel the only thing that is done is draw the PanelButtonCommand primitive
+            since the prototypes are identical we register the second directly in the control map: fcn = without
+            using an intermediate function
+            */
+            case CE_PushButtonBevel: fcn = &Style::drawPanelButtonCommandPrimitive; break;
+            case CE_PushButtonLabel: fcn = &Style::drawPushButtonLabelControl; break;
+
+            case CE_RubberBand: fcn = &Style::drawRubberBandControl; break;
+            case CE_ScrollBarSlider: fcn = &Style::drawScrollBarSliderControl; break;
+            case CE_ScrollBarAddLine: fcn = &Style::drawScrollBarAddLineControl; break;
+            case CE_ScrollBarAddPage: fcn = &Style::drawScrollBarAddPageControl; break;
+            case CE_ScrollBarSubLine: fcn = &Style::drawScrollBarSubLineControl; break;
+            case CE_ScrollBarSubPage: fcn = &Style::drawScrollBarSubPageControl; break;
+
+            case CE_ShapedFrame: fcn = &Style::drawShapedFrameControl; break;
+            case CE_Splitter: fcn = &Style::drawSplitterControl; break;
+            case CE_TabBarTabLabel: fcn = &Style::drawTabBarTabLabelControl; break;
+
+            // default tab style is 'SINGLE'
+            case CE_TabBarTabShape: fcn = &Style::drawTabBarTabShapeControl_Single; break;
+
+            case CE_ToolBar: fcn = &Style::drawToolBarControl; break;
+            case CE_ToolBoxTabLabel: fcn = &Style::drawToolBoxTabLabelControl; break;
+            case CE_ToolBoxTabShape: fcn = &Style::drawToolBoxTabShapeControl; break;
+            case CE_ToolButtonLabel: fcn = &Style::drawToolButtonLabelControl; break;
+
+            default: break;
+
+        }
+
+        if( !( fcn && (this->*fcn)(option, painter, widget ) ) )
         { QCommonStyle::drawControl( element, option, painter, widget ); }
 
         painter->restore();
@@ -4001,59 +4051,6 @@ namespace Oxygen
         return true;
 
     }
-
-    //______________________________________________________________
-    void Style::initializeStyleControls( void )
-    {
-        /*
-        register qstyle control elements
-        the second argument will be called automatically when the first argument is passed to drawControl
-        this allow to use a QMap to handle the widget types, rather than a huge "switch" statement, which is presumably slower
-        */
-
-
-        registerStyleControl( CE_CapacityBar, &Style::drawCapacityBarControl );
-        registerStyleControl( CE_ComboBoxLabel, &Style::drawComboBoxLabelControl );
-        registerStyleControl( CE_DockWidgetTitle, &Style::drawDockWidgetTitleControl );
-        registerStyleControl( CE_HeaderEmptyArea, &Style::drawHeaderEmptyAreaControl );
-        registerStyleControl( CE_HeaderLabel, &Style::drawHeaderLabelControl );
-        registerStyleControl( CE_HeaderSection, &Style::drawHeaderSectionControl );
-        registerStyleControl( CE_MenuBarEmptyArea, &Style::emptyControl );
-        registerStyleControl( CE_MenuBarItem, &Style::drawMenuBarItemControl );
-        registerStyleControl( CE_MenuItem, &Style::drawMenuItemControl );
-        registerStyleControl( CE_ProgressBar, &Style::drawProgressBarControl );
-        registerStyleControl( CE_ProgressBarContents, &Style::drawProgressBarContentsControl );
-        registerStyleControl( CE_ProgressBarGroove, &Style::drawProgressBarGrooveControl );
-        registerStyleControl( CE_ProgressBarLabel, &Style::drawProgressBarLabelControl );
-
-        /*
-        for CE_PushButtonBevel the only thing that is done is draw the PanelButtonCommand primitive
-        since the prototypes are identical we register the second directly in the control map, without
-        using an intermediate function
-        */
-        registerStyleControl( CE_PushButtonBevel, &Style::drawPanelButtonCommandPrimitive );
-        registerStyleControl( CE_PushButtonLabel, &Style::drawPushButtonLabelControl );
-
-        registerStyleControl( CE_RubberBand, &Style::drawRubberBandControl );
-        registerStyleControl( CE_ScrollBarSlider, &Style::drawScrollBarSliderControl );
-        registerStyleControl( CE_ScrollBarAddLine, &Style::drawScrollBarAddLineControl );
-        registerStyleControl( CE_ScrollBarAddPage, &Style::drawScrollBarAddPageControl );
-        registerStyleControl( CE_ScrollBarSubLine, &Style::drawScrollBarSubLineControl );
-        registerStyleControl( CE_ScrollBarSubPage, &Style::drawScrollBarSubPageControl );
-
-        registerStyleControl( CE_ShapedFrame, &Style::drawShapedFrameControl );
-        registerStyleControl( CE_Splitter, &Style::drawSplitterControl );
-        registerStyleControl( CE_TabBarTabLabel, &Style::drawTabBarTabLabelControl );
-
-        // default tab style is 'SINGLE'
-        registerStyleControl( CE_TabBarTabShape, &Style::drawTabBarTabShapeControl_Single );
-
-        registerStyleControl( CE_ToolBar, &Style::drawToolBarControl );
-        registerStyleControl( CE_ToolBoxTabLabel, &Style::drawToolBoxTabLabelControl );
-        registerStyleControl( CE_ToolBoxTabShape, &Style::drawToolBoxTabShapeControl );
-        registerStyleControl( CE_ToolButtonLabel, &Style::drawToolButtonLabelControl );
-    }
-
 
     //___________________________________________________________________________________
     bool Style::drawCapacityBarControl( const QStyleOption* option, QPainter* painter, const QWidget* widget) const
@@ -7407,12 +7404,12 @@ namespace Oxygen
         switch( OxygenStyleConfigData::tabStyle() )
         {
             case OxygenStyleConfigData::TS_PLAIN:
-            registerStyleControl( CE_TabBarTabShape, &Style::drawTabBarTabShapeControl_Plain );
+            _tabBarTabShapeControl = &Style::drawTabBarTabShapeControl_Plain;
             break;
 
             default:
             case OxygenStyleConfigData::TS_SINGLE:
-            registerStyleControl( CE_TabBarTabShape, &Style::drawTabBarTabShapeControl_Single );
+            _tabBarTabShapeControl = &Style::drawTabBarTabShapeControl_Single;
             break;
         }
 

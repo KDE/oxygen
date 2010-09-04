@@ -464,9 +464,6 @@ namespace Oxygen
         //!@name controls specialized functions
         //@{
 
-        //! initialize
-        void initializeStyleControls( void );
-
         bool emptyControl( const QStyleOption*, QPainter*, const QWidget* ) const
         { return true; }
 
@@ -510,16 +507,7 @@ namespace Oxygen
         virtual bool drawToolBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolBoxTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolBoxTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-
         virtual bool drawToolButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-
-
-        //! pointer to control specialized function
-        typedef bool (Style::*StyleControl)( const QStyleOption*, QPainter*, const QWidget* ) const;
-
-        //! register control specialized function in map
-        void registerStyleControl( const ControlElement& key, const Style::StyleControl& value )
-        { _styleControls.insert( key, value ); }
 
         //!@}
 
@@ -936,9 +924,9 @@ namespace Oxygen
         typedef bool (Style::*StylePrimitive)( const QStyleOption*, QPainter*, const QWidget* ) const;
         StylePrimitive _frameFocusPrimitive;
 
-        //! map controlElement to control specialized function
-        typedef QMap<ControlElement, Style::StyleControl> StyleControlMap;
-        StyleControlMap _styleControls;
+        //! pointer to control specialized function
+        typedef bool (Style::*StyleControl)( const QStyleOption*, QPainter*, const QWidget* ) const;
+        StyleControl _tabBarTabShapeControl;
 
         //! map controlElement to control specialized function
         typedef QMap<ComplexControl, Style::StyleComplexControl> StyleComplexControlMap;
