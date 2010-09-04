@@ -161,7 +161,6 @@ namespace Oxygen
         qAddPostRoutine(cleanupBefore);
 
         // initialize all callback maps
-        initializePixelMetrics();
         initializeStyleHints();
         initializeSubElementRects();
         initializeSubControlRects();
@@ -635,12 +634,92 @@ namespace Oxygen
                 else break;
             }
 
+            case PM_DefaultChildMargin: return 4;
+            case PM_DefaultTopLevelMargin: return 11;
+            case PM_DefaultLayoutSpacing: return 4;
+            case PM_LayoutHorizontalSpacing: return -1;
+            case PM_LayoutVerticalSpacing: return -1;
+
+            // buttons
+            case PM_ButtonDefaultIndicator: return 0;
+            case PM_ButtonShiftHorizontal: return 0;
+            case PM_ButtonShiftVertical: return 0;
+
+            // checkboxes: return radiobutton sizes
+            case PM_IndicatorWidth: return CheckBox_Size;
+            case PM_IndicatorHeight: return CheckBox_Size;
+            case PM_ExclusiveIndicatorWidth: return CheckBox_Size;
+            case PM_ExclusiveIndicatorHeight: return CheckBox_Size;
+            case PM_CheckListControllerSize: return CheckBox_Size;
+            case PM_CheckListButtonSize: return CheckBox_Size;
+
+            // splitters and dock widgets
+            case PM_SplitterWidth: return Splitter_Width;
+            case PM_DockWidgetFrameWidth: return DockWidget_FrameWidth;
+            case PM_DockWidgetSeparatorExtent: return DockWidget_SeparatorExtend;
+            case PM_DockWidgetTitleMargin: return DockWidget_TitleMargin;
+
+            // progress bar
+            case PM_ProgressBarChunkWidth: return 1;
+
+            // menu bars
+            case PM_MenuBarPanelWidth: return 0;
+            case PM_MenuBarHMargin: return 0;
+            case PM_MenuBarVMargin: return 0;
+            case PM_MenuBarItemSpacing: return 0;
+            case PM_MenuDesktopFrameWidth: return 0;
+            case PM_MenuPanelWidth: return 5;
+
+            case PM_MenuScrollerHeight: return 10;
+            case PM_MenuTearoffHeight: return 10;
+
+            //! tabbar
+            case PM_TabBarTabVSpace: return 0;
+            case PM_TabBarBaseHeight: return TabBar_BaseHeight;
+            case PM_TabBarBaseOverlap: return TabBar_BaseOverlap;
+            case PM_TabBarTabOverlap: return 0;
+            case PM_TabBarScrollButtonWidth: return TabBar_ScrollButtonWidth;
+
+            /*
+            disable shifts: return because last time I checked it did not work well
+            for South and East tabs. Instead the shifts are added directly in
+            drawTabBarTabLabel. (Hugo)
+            */
+            case PM_TabBarTabShiftVertical: return 0;
+            case PM_TabBarTabShiftHorizontal: return 0;
+
+            // sliders
+            case PM_SliderThickness: return 23;
+            case PM_SliderControlThickness: return 23;
+            case PM_SliderLength: return 13;
+
+            // spinboxes
+            case PM_SpinBoxFrameWidth: return SpinBox_FrameWidth;
+
+            // comboboxes
+            case PM_ComboBoxFrameWidth: return ComboBox_FrameWidth;
+
+            // tree view header
+            case PM_HeaderMarkSize: return 9;
+            case PM_HeaderMargin: return 3;
+
+            // toolbars
+            case PM_ToolBarFrameWidth: return 0;
+            case PM_ToolBarHandleExtent: return 6;
+            case PM_ToolBarSeparatorExtent: return 6;
+
+            case PM_ToolBarExtensionExtent: return 16;
+            case PM_ToolBarItemMargin: return 1;
+            case PM_ToolBarItemSpacing: return 1;
+
+            // MDI windows titlebars
+            case PM_TitleBarHeight: return 20;
+
+            // spacing between widget and scrollbars
+            case PM_ScrollView_ScrollBarSpacing: return -2;
+
             default: break;
         }
-
-        // generic cases (from pixelMetric map)
-        PixelMetricMap::const_iterator iter( _pixelMetrics.find( metric ) );
-        if( iter != _pixelMetrics.end() ) return iter.value();
 
         // fallback
         return QCommonStyle::pixelMetric( metric, option, widget );
@@ -1276,97 +1355,6 @@ namespace Oxygen
         }
 
         return false;
-    }
-
-    //______________________________________________________________
-    void Style::initializePixelMetrics( void )
-    {
-
-        // margins
-        registerPixelMetric( PM_DefaultChildMargin, 4 );
-        registerPixelMetric( PM_DefaultTopLevelMargin, 11 );
-        registerPixelMetric( PM_DefaultLayoutSpacing, 4 );
-        registerPixelMetric( PM_LayoutHorizontalSpacing, -1 );
-        registerPixelMetric( PM_LayoutVerticalSpacing, -1 );
-
-        // buttons
-        registerPixelMetric( PM_ButtonDefaultIndicator, 0 );
-        registerPixelMetric( PM_ButtonShiftHorizontal, 0 );
-        registerPixelMetric( PM_ButtonShiftVertical, 0 );
-
-        // checkboxes, radiobutton sizes
-        registerPixelMetric( PM_IndicatorWidth, CheckBox_Size );
-        registerPixelMetric( PM_IndicatorHeight, CheckBox_Size );
-        registerPixelMetric( PM_ExclusiveIndicatorWidth, CheckBox_Size );
-        registerPixelMetric( PM_ExclusiveIndicatorHeight, CheckBox_Size );
-        registerPixelMetric( PM_CheckListControllerSize, CheckBox_Size );
-        registerPixelMetric( PM_CheckListButtonSize, CheckBox_Size );
-
-        // splitters and dock widgets
-        registerPixelMetric( PM_SplitterWidth, Splitter_Width );
-        registerPixelMetric( PM_DockWidgetFrameWidth, DockWidget_FrameWidth );
-        registerPixelMetric( PM_DockWidgetSeparatorExtent, DockWidget_SeparatorExtend );
-        registerPixelMetric( PM_DockWidgetTitleMargin, DockWidget_TitleMargin );
-
-        // progress bar
-        registerPixelMetric( PM_ProgressBarChunkWidth, 1 );
-
-        // menu bars
-        registerPixelMetric( PM_MenuBarPanelWidth, 0 );
-        registerPixelMetric( PM_MenuBarHMargin, 0 );
-        registerPixelMetric( PM_MenuBarVMargin, 0 );
-        registerPixelMetric( PM_MenuBarItemSpacing, 0 );
-        registerPixelMetric( PM_MenuDesktopFrameWidth, 0 );
-        registerPixelMetric( PM_MenuPanelWidth, 5 );
-
-        registerPixelMetric( PM_MenuScrollerHeight, 10 );
-        registerPixelMetric( PM_MenuTearoffHeight, 10 );
-
-        //! tabbar
-        registerPixelMetric( PM_TabBarTabVSpace, 0 );
-        registerPixelMetric( PM_TabBarBaseHeight, TabBar_BaseHeight );
-        registerPixelMetric( PM_TabBarBaseOverlap, TabBar_BaseOverlap );
-        registerPixelMetric( PM_TabBarTabOverlap, 0 );
-        registerPixelMetric( PM_TabBarScrollButtonWidth, TabBar_ScrollButtonWidth );
-
-        /*
-        disable shifts, because last time I checked it did not work well
-        for South and East tabs. Instead the shifts are added directly in
-        drawTabBarTabLabel. (Hugo)
-        */
-        registerPixelMetric( PM_TabBarTabShiftVertical, 0 );
-        registerPixelMetric( PM_TabBarTabShiftHorizontal, 0 );
-
-        // sliders
-        registerPixelMetric( PM_SliderThickness, 23 );
-        registerPixelMetric( PM_SliderControlThickness, 23 );
-        registerPixelMetric( PM_SliderLength, 13 );
-
-        // spinboxes
-        registerPixelMetric( PM_SpinBoxFrameWidth, SpinBox_FrameWidth );
-
-        // comboboxes
-        registerPixelMetric( PM_ComboBoxFrameWidth, ComboBox_FrameWidth );
-
-        // tree view header
-        registerPixelMetric( PM_HeaderMarkSize, 9 );
-        registerPixelMetric( PM_HeaderMargin, 3 );
-
-        // toolbars
-        registerPixelMetric( PM_ToolBarFrameWidth, 0 );
-        registerPixelMetric( PM_ToolBarHandleExtent, 6 );
-        registerPixelMetric( PM_ToolBarSeparatorExtent, 6 );
-
-        registerPixelMetric( PM_ToolBarExtensionExtent, 16 );
-        registerPixelMetric( PM_ToolBarItemMargin, 1 );
-        registerPixelMetric( PM_ToolBarItemSpacing, 1 );
-
-        // MDI windows titlebars
-        registerPixelMetric( PM_TitleBarHeight, 20 );
-
-        // spacing between widget and scrollbars
-        registerPixelMetric( PM_ScrollView_ScrollBarSpacing, -2 );
-
     }
 
     //____________________________________________________

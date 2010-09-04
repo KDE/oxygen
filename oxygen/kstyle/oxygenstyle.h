@@ -315,13 +315,6 @@ namespace Oxygen
         TabBarData& tabBarData( void ) const
         { return *_tabBarData; }
 
-        //! initialize pixel metrics
-        void initializePixelMetrics( void );
-
-        //! register pixel metric value in map
-        void registerPixelMetric( const PixelMetric& key, const int& value )
-        { _pixelMetrics.insert( key, value ); }
-
         //! initialize style hints
         void initializeStyleHints( void );
 
@@ -985,10 +978,6 @@ namespace Oxygen
 
         //! tabBar data
         TabBarData* _tabBarData;
-
-        //! map pixel metric to value
-        typedef QMap<PixelMetric, int > PixelMetricMap;
-        PixelMetricMap _pixelMetrics;
 
         //! map style hints to value
         typedef QMap<StyleHint, int > StyleHintMap;
