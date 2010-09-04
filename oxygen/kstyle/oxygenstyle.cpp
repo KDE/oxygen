@@ -151,6 +151,7 @@ namespace Oxygen
         _frameShadowFactory( new FrameShadowFactory( this ) ),
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
+        _frameFocusPrimitive( 0 ),
         _hintCounter( X_KdeBase+1 ),
         _controlCounter( X_KdeBase ),
         _subElementCounter( X_KdeBase ),
@@ -161,7 +162,6 @@ namespace Oxygen
         qAddPostRoutine(cleanupBefore);
 
         // initialize all callback maps
-        initializeStylePrimitives();
         initializeStyleControls();
         initializeStyleComplexControls();
         initializeStandardIcons();
@@ -953,11 +953,62 @@ namespace Oxygen
     {
 
         painter->save();
+        StylePrimitive fcn(0);
+
+        switch( element )
+        {
+
+            // register primitives for which nothing is done
+            case PE_FrameStatusBar: fcn = &Style::emptyPrimitive; break;
+
+            case PE_Frame: fcn = &Style::drawFramePrimitive; break;
+
+            // frame focus primitive is set at run time, in oxygenConfigurationChanged
+            case PE_FrameFocusRect: fcn = _frameFocusPrimitive; break;
+
+            case PE_FrameGroupBox: fcn = &Style::drawFrameGroupBoxPrimitive; break;
+            case PE_FrameLineEdit: fcn = &Style::drawFramePrimitive; break;
+            case PE_FrameMenu: fcn = &Style::drawFrameMenuPrimitive; break;
+
+            // TabBar
+            case PE_FrameTabBarBase: fcn = &Style::drawFrameTabBarBasePrimitive; break;
+            case PE_FrameTabWidget: fcn = &Style::drawFrameTabWidgetPrimitive; break;
+
+            case PE_FrameWindow: fcn = &Style::drawFrameWindowPrimitive; break;
+            case PE_IndicatorArrowUp: fcn = &Style::drawIndicatorArrowUpPrimitive; break;
+            case PE_IndicatorArrowDown: fcn = &Style::drawIndicatorArrowDownPrimitive; break;
+            case PE_IndicatorArrowLeft: fcn = &Style::drawIndicatorArrowLeftPrimitive; break;
+            case PE_IndicatorArrowRight: fcn = &Style::drawIndicatorArrowRightPrimitive; break;
+
+            case PE_IndicatorDockWidgetResizeHandle: fcn = &Style::drawIndicatorDockWidgetResizeHandlePrimitive; break;
+            case PE_IndicatorHeaderArrow: fcn = &Style::drawIndicatorHeaderArrowPrimitive; break;
+
+            case PE_PanelButtonCommand: fcn = &Style::drawPanelButtonCommandPrimitive; break;
+            case PE_PanelButtonTool: fcn = &Style::drawPanelButtonToolPrimitive; break;
+
+            case PE_PanelItemViewItem: fcn = &Style::drawPanelItemViewItemPrimitive; break;
+            case PE_PanelLineEdit: fcn = &Style::drawPanelLineEditPrimitive; break;
+            case PE_PanelMenu: fcn = &Style::drawPanelMenuPrimitive; break;
+            case PE_PanelScrollAreaCorner: fcn = &Style::drawPanelScrollAreaCornerPrimitive; break;
+            case PE_PanelTipLabel: fcn = &Style::drawPanelTipLabelPrimitive; break;
+
+            case PE_IndicatorBranch: fcn = &Style::drawIndicatorBranchPrimitive; break;
+            case PE_IndicatorButtonDropDown: fcn = &Style::drawIndicatorButtonDropDownPrimitive; break;
+            case PE_IndicatorCheckBox: fcn = &Style::drawIndicatorCheckBoxPrimitive; break;
+            case PE_IndicatorRadioButton: fcn = &Style::drawIndicatorRadioButtonPrimitive; break;
+            case PE_IndicatorTabTear: fcn = &Style::drawIndicatorTabTearPrimitive; break;
+            case PE_IndicatorToolBarHandle: fcn = &Style::drawIndicatorToolBarHandlePrimitive; break;
+            case PE_IndicatorToolBarSeparator: fcn = &Style::drawIndicatorToolBarSeparatorPrimitive; break;
+
+            case PE_Widget: fcn = &Style::drawWidgetPrimitive; break;
+
+            default: break;
+
+        }
 
         // try find primitive in map, and run.
         // exit if result is true, otherwise fallback to generic case
-        StylePrimitiveMap::const_iterator iterator( _stylePrimitives.find( element ) );
-        if( iterator == _stylePrimitives.end() || !(this->*iterator.value())(option, painter, widget ) )
+        if( !( fcn && (this->*fcn)(option, painter, widget ) ) )
         { QCommonStyle::drawPrimitive( element, option, painter, widget ); }
 
         painter->restore();
@@ -2326,59 +2377,6 @@ namespace Oxygen
             PushButton_ContentsMargin, 0,
             PushButton_ContentsMargin_Top, 0,
             PushButton_ContentsMargin_Bottom );
-
-    }
-
-    //______________________________________________________________
-    void Style::initializeStylePrimitives( void )
-    {
-
-        /*
-        register qstyle primitives
-        the second argument will be called automatically when the first argument is passed to drawPrimitive
-        this allow to use a QMap to handle the widget types, rather than a huge "switch" statement, which is presumably slower
-        */
-
-        // register primitives for which nothing is done
-        registerStylePrimitive( PE_FrameStatusBar, &Style::emptyPrimitive );
-
-        registerStylePrimitive( PE_Frame, &Style::drawFramePrimitive );
-        registerStylePrimitive( PE_FrameFocusRect, &Style::drawFrameFocusRectPrimitive );
-        registerStylePrimitive( PE_FrameGroupBox, &Style::drawFrameGroupBoxPrimitive );
-        registerStylePrimitive( PE_FrameLineEdit, &Style::drawFramePrimitive );
-        registerStylePrimitive( PE_FrameMenu, &Style::drawFrameMenuPrimitive );
-
-        // check: TabBar
-        registerStylePrimitive( PE_FrameTabBarBase, &Style::drawFrameTabBarBasePrimitive );
-        registerStylePrimitive( PE_FrameTabWidget, &Style::drawFrameTabWidgetPrimitive );
-
-        registerStylePrimitive( PE_FrameWindow, &Style::drawFrameWindowPrimitive );
-        registerStylePrimitive( PE_IndicatorArrowUp, &Style::drawIndicatorArrowUpPrimitive );
-        registerStylePrimitive( PE_IndicatorArrowDown, &Style::drawIndicatorArrowDownPrimitive );
-        registerStylePrimitive( PE_IndicatorArrowLeft, &Style::drawIndicatorArrowLeftPrimitive );
-        registerStylePrimitive( PE_IndicatorArrowRight, &Style::drawIndicatorArrowRightPrimitive );
-
-        registerStylePrimitive( PE_IndicatorDockWidgetResizeHandle, &Style::drawIndicatorDockWidgetResizeHandlePrimitive );
-        registerStylePrimitive( PE_IndicatorHeaderArrow, &Style::drawIndicatorHeaderArrowPrimitive );
-
-        registerStylePrimitive( PE_PanelButtonCommand, &Style::drawPanelButtonCommandPrimitive );
-        registerStylePrimitive( PE_PanelButtonTool, &Style::drawPanelButtonToolPrimitive );
-
-        registerStylePrimitive( PE_PanelItemViewItem, &Style::drawPanelItemViewItemPrimitive );
-        registerStylePrimitive( PE_PanelLineEdit, &Style::drawPanelLineEditPrimitive );
-        registerStylePrimitive( PE_PanelMenu, &Style::drawPanelMenuPrimitive );
-        registerStylePrimitive( PE_PanelScrollAreaCorner, &Style::drawPanelScrollAreaCornerPrimitive );
-        registerStylePrimitive( PE_PanelTipLabel, &Style::drawPanelTipLabelPrimitive );
-
-        registerStylePrimitive( PE_IndicatorBranch, &Style::drawIndicatorBranchPrimitive );
-        registerStylePrimitive( PE_IndicatorButtonDropDown, &Style::drawIndicatorButtonDropDownPrimitive );
-        registerStylePrimitive( PE_IndicatorCheckBox, &Style::drawIndicatorCheckBoxPrimitive );
-        registerStylePrimitive( PE_IndicatorRadioButton, &Style::drawIndicatorRadioButtonPrimitive );
-        registerStylePrimitive( PE_IndicatorTabTear, &Style::drawIndicatorTabTearPrimitive );
-        registerStylePrimitive( PE_IndicatorToolBarHandle, &Style::drawIndicatorToolBarHandlePrimitive );
-        registerStylePrimitive( PE_IndicatorToolBarSeparator, &Style::drawIndicatorToolBarSeparatorPrimitive );
-
-        registerStylePrimitive( PE_Widget, &Style::drawWidgetPrimitive );
 
     }
 
@@ -7419,8 +7417,9 @@ namespace Oxygen
         }
 
         // frame focus
-        if( OxygenStyleConfigData::viewDrawFocusIndicator() ) registerStylePrimitive( PE_FrameFocusRect, &Style::drawFrameFocusRectPrimitive );
-        else registerStylePrimitive( PE_FrameFocusRect, &Style::emptyPrimitive );
+
+        if( OxygenStyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
+        else _frameFocusPrimitive = &Style::emptyPrimitive;
 
     }
 

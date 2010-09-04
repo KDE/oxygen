@@ -406,12 +406,6 @@ namespace Oxygen
         //!@name primitives specialized functions
         //@{
 
-        //! initialize
-        void initializeStylePrimitives( void );
-
-        //! pointer to primitive specialized function
-        typedef bool (Style::*StylePrimitive)( const QStyleOption*, QPainter*, const QWidget* ) const;
-
         bool emptyPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const
         { return true; }
 
@@ -464,10 +458,6 @@ namespace Oxygen
         bool drawIndicatorToolBarSeparatorPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         bool drawWidgetPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-
-        //! register primitive specialized function in map
-        void registerStylePrimitive( const PrimitiveElement& key, const Style::StylePrimitive& value )
-        { _stylePrimitives.insert( key, value ); }
 
         //@}
 
@@ -942,9 +932,9 @@ namespace Oxygen
         //! tabBar data
         TabBarData* _tabBarData;
 
-        //! map primitiveElement to primitive specialized function
-        typedef QMap<PrimitiveElement, Style::StylePrimitive> StylePrimitiveMap;
-        StylePrimitiveMap _stylePrimitives;
+        //! pointer to primitive specialized function
+        typedef bool (Style::*StylePrimitive)( const QStyleOption*, QPainter*, const QWidget* ) const;
+        StylePrimitive _frameFocusPrimitive;
 
         //! map controlElement to control specialized function
         typedef QMap<ControlElement, Style::StyleControl> StyleControlMap;
