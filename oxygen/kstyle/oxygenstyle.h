@@ -375,9 +375,6 @@ namespace Oxygen
         //!@name subcontrol Rect specialized functions
         //@{
 
-        //! initialize subelement rects
-        void initializeSubControlRects( void );
-
         QRect groupBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect comboBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect scrollBarSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
@@ -386,13 +383,6 @@ namespace Oxygen
 
         //! this properly handles single/double or no scrollBar buttons
         QRect scrollBarInternalSubControlRect( const QStyleOptionComplex*, SubControl ) const;
-
-        //! pointer to subelement rect specialized function
-        typedef QRect (Style::*SubControlRect)( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
-
-        //! register subcontrol rect specialized function in map
-        void registerSubControlRect( const ComplexControl& key, const Style::SubControlRect& value )
-        { _subControlRects.insert( key, value ); }
 
         //@}
 
@@ -972,10 +962,6 @@ namespace Oxygen
         //! map style hints to value
         typedef QMap<StyleHint, int > StyleHintMap;
         StyleHintMap _styleHints;
-
-        //! map subelement to subelementRect specialized function
-        typedef QMap<ComplexControl, Style::SubControlRect> SubControlRectMap;
-        SubControlRectMap _subControlRects;
 
         //! map contentsType to sizeFromContents specialized functions
         typedef QMap<ContentsType, Style::SizeFromContents> SizeFromContentsMap;

@@ -162,7 +162,6 @@ namespace Oxygen
 
         // initialize all callback maps
         initializeStyleHints();
-        initializeSubControlRects();
         initializeSizeFromContents();
         initializeStylePrimitives();
         initializeStyleControls();
@@ -855,11 +854,17 @@ namespace Oxygen
     //______________________________________________________________
     QRect Style::subControlRect(ComplexControl element, const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
     {
-        // try find primitive in map, and run.
-        // exit if result is true, otherwise fallback to generic case
-        SubControlRectMap::const_iterator iterator( _subControlRects.find( element ) );
-        if( iterator != _subControlRects.end() ) return (this->*iterator.value())(option, subControl, widget );
-        else return QCommonStyle::subControlRect( element, option, subControl, widget );
+
+        switch( element )
+        {
+
+            case CC_GroupBox: return groupBoxSubControlRect( option, subControl, widget );
+            case CC_ComboBox: return comboBoxSubControlRect( option, subControl, widget );
+            case CC_Slider: return sliderSubControlRect( option, subControl, widget );
+            case CC_ScrollBar: return scrollBarSubControlRect( option, subControl, widget );
+            case CC_SpinBox: return spinBoxSubControlRect( option, subControl, widget );
+            default: return QCommonStyle::subControlRect( element, option, subControl, widget );
+        }
 
     }
 
@@ -1649,18 +1654,6 @@ namespace Oxygen
         }
 
         return r;
-
-    }
-
-    //______________________________________________________________
-    void Style::initializeSubControlRects( void )
-    {
-
-        registerSubControlRect( CC_GroupBox, &Style::groupBoxSubControlRect );
-        registerSubControlRect( CC_ComboBox, &Style::comboBoxSubControlRect );
-        registerSubControlRect( CC_Slider, &Style::sliderSubControlRect );
-        registerSubControlRect( CC_ScrollBar, &Style::scrollBarSubControlRect );
-        registerSubControlRect( CC_SpinBox, &Style::spinBoxSubControlRect );
 
     }
 
