@@ -880,6 +880,9 @@ namespace Oxygen
         int _singleButtonHeight;
         int _doubleButtonHeight;
 
+        // mnemonic state
+        Qt::TextFlag _mnemonic;
+
         //! helper
         StyleHelper &_helper;
 

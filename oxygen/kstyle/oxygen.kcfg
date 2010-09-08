@@ -13,6 +13,9 @@
     <entry name="MaxCacheSize" type = "Int" >
        <default>100</default>
     </entry>
+    <entry name="ShowMnemonics" type = "Bool">
+       <default>true</default>
+    </entry>
     <entry name="ToolTipTransparent" type = "Bool">
        <default>true</default>
     </entry>

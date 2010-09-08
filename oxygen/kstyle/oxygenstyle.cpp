@@ -145,6 +145,9 @@ namespace Oxygen
     Style::Style( void ):
         _addLineButtons( DoubleButton ),
         _subLineButtons( SingleButton ),
+        _singleButtonHeight(14),
+        _doubleButtonHeight(28),
+        _mnemonic( Qt::TextShowMnemonic ),
         _helper( *globalHelper ),
         _animations( new Animations( this ) ),
         _transitions( new Transitions( this ) ),
@@ -1121,9 +1124,15 @@ namespace Oxygen
 
     //___________________________________________________________________________________
     void Style::drawItemText(
-        QPainter* painter, const QRect& r, int alignment, const QPalette& palette, bool enabled,
+        QPainter* painter, const QRect& r, int flags, const QPalette& palette, bool enabled,
         const QString &text, QPalette::ColorRole textRole ) const
     {
+
+        if( (flags & Qt::TextShowMnemonic) || !(flags&Qt::TextHideMnemonic) )
+        {
+            flags &= ~Qt::TextShowMnemonic;
+            flags |= _mnemonic;
+        }
 
         if( animations().widgetEnabilityEngine().enabled() )
         {
@@ -1138,13 +1147,13 @@ namespace Oxygen
             {
 
                 const QPalette pal = _helper.mergePalettes( palette, animations().widgetEnabilityEngine().opacity( widget, AnimationEnable )  );
-                return QCommonStyle::drawItemText( painter, r, alignment, pal, enabled, text, textRole );
+                return QCommonStyle::drawItemText( painter, r, flags, pal, enabled, text, textRole );
 
             }
 
         }
 
-        return QCommonStyle::drawItemText( painter, r, alignment, palette, enabled, text, textRole );
+        return QCommonStyle::drawItemText( painter, r, flags, palette, enabled, text, textRole );
 
     }
 
@@ -7354,7 +7363,7 @@ namespace Oxygen
     }
 
     //_____________________________________________________________________
-    void Style::oxygenConfigurationChanged()
+    void Style::oxygenConfigurationChanged( void )
     {
 
         // reset helper configuration
@@ -7383,6 +7392,8 @@ namespace Oxygen
         _noButtonHeight = 0;
         _singleButtonHeight = qMax( OxygenStyleConfigData::scrollBarWidth() * 7 / 10, 14 );
         _doubleButtonHeight = 2*_singleButtonHeight;
+
+        _mnemonic = OxygenStyleConfigData::showMnemonics() ? Qt::TextShowMnemonic : Qt::TextHideMnemonic;
 
         // scrollbar buttons
         switch( OxygenStyleConfigData::scrollBarAddLineButtons() )

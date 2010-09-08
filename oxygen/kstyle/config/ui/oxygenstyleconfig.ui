@@ -52,21 +52,21 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QCheckBox" name="_checkDrawX">
          <property name="text">
           <string>Use 'X' in checkboxes instead of check</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QCheckBox" name="_animationsEnabled">
          <property name="text">
           <string>Enable animations</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QWidget" name="_stackedTransitionWidget" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <property name="margin">
@@ -104,7 +104,7 @@
          </layout>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="6" column="0">
         <widget class="QWidget" name="_generalExpertWidget" native="true">
          <layout class="QGridLayout" name="gridLayout">
           <property name="margin">
@@ -168,7 +168,7 @@
          </layout>
         </widget>
        </item>
-       <item row="6" column="0">
+       <item row="7" column="0">
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -181,10 +181,17 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QCheckBox" name="_cacheEnabled">
          <property name="text">
           <string>Enable pixmap cache</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="_showMnemonics">
+         <property name="text">
+          <string>Draw keyboard accelerators</string>
          </property>
         </widget>
        </item>
