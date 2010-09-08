@@ -91,6 +91,7 @@
 #include <KGlobalSettings>
 #include <KIconLoader>
 #include <KIcon>
+#include <kdeversion.h>
 
 #include <cmath>
 
@@ -164,10 +165,23 @@ namespace Oxygen
 
         // use DBus connection to update on oxygen configuration change
         QDBusConnection dbus = QDBusConnection::sessionBus();
-        dbus.connect(QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT(oxygenConfigurationChanged()));
+        dbus.connect(QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT(oxygenConfigurationChanged( void ) ) );
 
-        // use DBus connection to update on palette change
+        #if KDE_IS_VERSION( 4, 5, 50 )
+
+        // for recent enough version of kde we use KGlobalSettings signal to detect palette changes
+        KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
+        connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
+
+        #else
+
+        /*
+        since the above Activate call is not available for older versions of KDE,
+        direct connection to dbus is used to detect global settings changes
+        */
         dbus.connect(QString(), "/KGlobalSettings", "org.kde.KGlobalSettings", "notifyChange", this, SLOT(globalSettingsChange(int,int)));
+
+        #endif
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
