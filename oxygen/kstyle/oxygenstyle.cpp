@@ -51,6 +51,7 @@
 
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
+#include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
 #include "oxygentransitions.h"
 #include "oxygenwidgetexplorer.h"
@@ -141,6 +142,10 @@ namespace Oxygen
     static const QStyle::StyleHint SH_KCustomStyleElement = (QStyle::StyleHint)0xff000001;
     static const int X_KdeBase = 0xff000000;
 
+    // propery names
+    const char* Property::noAnimations = "_kde_no_animations";
+    const char* Property::noGrab = "_kde_no_grab";
+
     //______________________________________________________________
     Style::Style( void ):
         _addLineButtons( DoubleButton ),
@@ -170,13 +175,13 @@ namespace Oxygen
         QDBusConnection dbus = QDBusConnection::sessionBus();
         dbus.connect(QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT(oxygenConfigurationChanged( void ) ) );
 
-        #if KDE_IS_VERSION( 4, 5, 50 )
-
-        // for recent enough version of kde we use KGlobalSettings signal to detect palette changes
-        KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
-        connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
-
-        #else
+//         #if KDE_IS_VERSION( 4, 5, 50 )
+//
+//         // for recent enough version of kde we use KGlobalSettings signal to detect palette changes
+//         KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
+//         connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
+//
+//         #else
 
         /*
         since the above Activate call is not available for older versions of KDE,
@@ -184,7 +189,7 @@ namespace Oxygen
         */
         dbus.connect(QString(), "/KGlobalSettings", "org.kde.KGlobalSettings", "notifyChange", this, SLOT(globalSettingsChange(int,int)));
 
-        #endif
+//         #endif
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
