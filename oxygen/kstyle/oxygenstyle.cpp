@@ -5771,7 +5771,7 @@ namespace Oxygen
         // slab options
         StyleOptions slabOptions( NoFill );
         if( OxygenStyleConfigData::tabSubtleShadow() ) slabOptions |= SubtleShadow;
-        if( (!selected ) && mouseOver || animated ) slabOptions |= Hover;
+        if( (!selected ) && ( mouseOver || animated ) ) slabOptions |= Hover;
 
         // color
         const QColor color( palette.color(QPalette::Window) );

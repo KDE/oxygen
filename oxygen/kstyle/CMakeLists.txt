@@ -4,6 +4,8 @@ project(kstyle-oxygen)
 add_subdirectory( config )
 add_subdirectory( demo )
 
+add_definitions( -DKDE_DEFAULT_DEBUG_AREA=1230 )
+
 include_directories (animations debug transitions ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs/oxygen)
 
 ########### next target ###############
