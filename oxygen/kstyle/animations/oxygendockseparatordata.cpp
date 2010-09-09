@@ -38,15 +38,15 @@ namespace Oxygen
 
         // setup animation
         horizontalData_.animation_ = new Animation( duration, this );
-        horizontalData_.animation_.data()->setStartValue( 0.1 );
-        horizontalData_.animation_.data()->setEndValue( 0.9 );
+        horizontalData_.animation_.data()->setStartValue( 0.0 );
+        horizontalData_.animation_.data()->setEndValue( 1.0 );
         horizontalData_.animation_.data()->setTargetObject( this );
         horizontalData_.animation_.data()->setPropertyName( "horizontalOpacity" );
 
         // setup animation
         verticalData_.animation_ = new Animation( duration, this );
-        verticalData_.animation_.data()->setStartValue( 0.1 );
-        verticalData_.animation_.data()->setEndValue( 0.9 );
+        verticalData_.animation_.data()->setStartValue( 0.0 );
+        verticalData_.animation_.data()->setEndValue( 1.0 );
         verticalData_.animation_.data()->setTargetObject( this );
         verticalData_.animation_.data()->setPropertyName( "verticalOpacity" );
 
