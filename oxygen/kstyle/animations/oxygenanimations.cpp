@@ -239,6 +239,11 @@ namespace Oxygen
 
         if( !widget ) return;
 
+        // these are needed to not register animations for kwin widgets
+        if( widget->objectName() == "decoration widget" ) return;
+        if( widget->inherits( "KCommonDecorationButton" ) ) return;
+        if( widget->inherits( "QShapedPixmapWidget" ) ) return;
+
         // all widgets are registered to the enability engine.
         widgetEnabilityEngine().registerWidget( widget, AnimationEnable );
 
