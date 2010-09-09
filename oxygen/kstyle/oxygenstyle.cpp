@@ -5767,6 +5767,13 @@ namespace Oxygen
             default: break;
         }
 
+
+        // slab options
+        StyleOptions slabOptions( NoFill );
+        if( OxygenStyleConfigData::tabSubtleShadow() ) slabOptions |= SubtleShadow;
+        if( (!selected ) && mouseOver || animated ) slabOptions |= Hover;
+
+        // color
         const QColor color( palette.color(QPalette::Window) );
 
         // render connections to frame
@@ -5780,7 +5787,14 @@ namespace Oxygen
         foreach( SlabRect slab, slabs ) // krazy:exclude=foreach
         {
             adjustSlabRect( slab, tabWidgetRect, documentMode, verticalTabs );
-            renderSlab( painter, slab, color, NoFill );
+            if( selected || !animated ) renderSlab( painter, slab, color, slabOptions );
+            else {
+
+                const qreal opacity( animations().tabBarEngine().opacity( widget, r.topLeft() ) );
+                renderSlab( painter, slab, color, slabOptions, opacity, AnimationHover);
+
+            }
+
         }
 
         //  adjust clip rect and render tabs
@@ -5790,28 +5804,21 @@ namespace Oxygen
             painter->setClipRegion( tabBarClipRegion( tabBar ) );
         }
 
+        // draw tab
         TileSet::Tiles tiles( tilesByShape( tabOpt->shape ) );
         if( selected )
         {
 
             // render window background in case of dragged tabwidget
             if( isDragged ) fillTabBackground( painter, tabRect, color, tabOpt->shape, widget );
+            renderSlab( painter, tabRect, color, slabOptions, tiles );
 
-            StyleOptions selectedTabOpts( NoFill );
-            if( OxygenStyleConfigData::tabSubtleShadow() ) selectedTabOpts |= SubtleShadow;
-            renderSlab( painter, tabRect, color, selectedTabOpts, tiles );
+        } else if( animated ) {
 
-        } else {
-
-            const StyleOptions deselectedTabOpts( NoFill );
-            const StyleOptions hoverTabOpts( NoFill | Hover );
-            const StyleOptions slabOptions( ( mouseOver || animated ) ? hoverTabOpts:deselectedTabOpts );
             const qreal opacity( animations().tabBarEngine().opacity( widget, r.topLeft() ) );
+            renderSlab( painter, tabRect, color, slabOptions, opacity, AnimationHover, tiles);
 
-            if( animated ) renderSlab( painter, tabRect, color, slabOptions, opacity, AnimationHover, tiles);
-            else renderSlab( painter, tabRect, color, slabOptions, tiles );
-
-        }
+        } else renderSlab( painter, tabRect, color, slabOptions, tiles );
 
         // fill tab
         fillTab( painter, tabRect, color, tabOpt->shape, selected );
@@ -6474,8 +6481,6 @@ namespace Oxygen
             const qreal opacity( animations().tabBarEngine().opacity( widget, r.topLeft() ) );
             const StyleOptions hoverTabOpts( NoFill | Hover );
             adjustSlabRect( highlightSlab, tabWidgetRect, documentMode, verticalTabs );
-            //if( animated ) renderSlab( painter, highlightSlab, color, hoverTabOpts, opacity, AnimationHover);
-            //else renderSlab( painter, highlightSlab, color, hoverTabOpts );
 
             // pass an invalid color to have only the glow painted
             if( animated ) renderSlab( painter, highlightSlab, QColor(), hoverTabOpts, opacity, AnimationHover);
