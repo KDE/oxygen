@@ -88,7 +88,7 @@ namespace Oxygen
         //! constructor
         MenuDataV2( QObject* parent, QWidget* target, int duration ):
         MenuBarDataV2( parent, target, duration )
-        {}
+        { setEntered( false ); }
 
         //! destructor
         virtual ~MenuDataV2( void )

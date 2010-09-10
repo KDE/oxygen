@@ -325,6 +325,9 @@ namespace Oxygen
 
         protected:
 
+        virtual void setEntered( bool value )
+        { entered_ = value; }
+
         //! animated rect
         virtual void clearAnimatedRect( void )
         { animatedRect_ = QRect(); }
@@ -430,6 +433,9 @@ namespace Oxygen
 
         // animated rect
         QRect animatedRect_;
+
+        //! true if toolbar was entered at least once (this prevents some initialization glitches)
+        bool entered_;
 
     };
 }

@@ -251,13 +251,21 @@ namespace Oxygen
                 // update current action
                 setCurrentAction( activeAction );
                 setCurrentRect( activeRect );
-                setPreviousRect( activeRect );
+                if( !entered_ )
+                {
 
-                clearAnimatedRect();
-                if( progressAnimation().data()->isRunning() ) progressAnimation().data()->stop();
-                animation().data()->setDirection( Animation::Forward );
+                    entered_ = true;
+                    if( animation().data()->isRunning() ) animation().data()->stop();
+                    if( !progressAnimation().data()->isRunning() ) progressAnimation().data()->start();
 
-                if( !animation().data()->isRunning() ) animation().data()->start();
+                } else {
+
+                    setPreviousRect( activeRect );
+                    clearAnimatedRect();
+                    if( progressAnimation().data()->isRunning() ) progressAnimation().data()->stop();
+                    animation().data()->setDirection( Animation::Forward );
+                    if( !animation().data()->isRunning() ) animation().data()->start();
+                }
 
             }
 

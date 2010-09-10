@@ -107,7 +107,8 @@ namespace Oxygen
     MenuBarDataV2::MenuBarDataV2( QObject* parent, QWidget* target, int duration ):
         AnimationData( parent, target ),
         opacity_(0),
-        progress_(0)
+        progress_(0),
+        entered_( true )
     {
 
         target->installEventFilter( this );
