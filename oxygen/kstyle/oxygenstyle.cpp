@@ -51,7 +51,6 @@
 
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
-#include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
 #include "oxygentransitions.h"
 #include "oxygenwidgetexplorer.h"
@@ -141,10 +140,6 @@ namespace Oxygen
     // copied from e.g. kstyle.cxx
     static const QStyle::StyleHint SH_KCustomStyleElement = (QStyle::StyleHint)0xff000001;
     static const int X_KdeBase = 0xff000000;
-
-    // propery names
-    const char* Property::noAnimations = "_kde_no_animations";
-    const char* Property::noGrab = "_kde_no_grab";
 
     //______________________________________________________________
     Style::Style( void ):
