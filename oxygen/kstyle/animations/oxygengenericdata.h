@@ -70,6 +70,7 @@ namespace Oxygen
         virtual void setOpacity( qreal value )
         {
 
+            value = digitize( value );
             if( opacity_ == value ) return;
 
             opacity_ = value;

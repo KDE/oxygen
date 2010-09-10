@@ -94,6 +94,7 @@ namespace Oxygen
         //! opacity
         void setUpArrowOpacity( qreal value )
         {
+            value = digitize( value );
             if( upArrowData_.opacity_ == value ) return;
             upArrowData_.opacity_ = value;
             setDirty();
@@ -115,6 +116,7 @@ namespace Oxygen
         //! opacity
         void setDownArrowOpacity( qreal value )
         {
+            value = digitize( value );
             if( downArrowData_.opacity_ == value ) return;
             downArrowData_.opacity_ = value;
             setDirty();

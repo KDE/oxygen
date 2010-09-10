@@ -11,7 +11,10 @@
        <default>true</default>
     </entry>
     <entry name="MaxCacheSize" type = "Int" >
-       <default>100</default>
+       <default>512</default>
+    </entry>
+    <entry name="AnimationSteps" type = "Int" >
+       <default>10</default>
     </entry>
     <entry name="ShowMnemonics" type = "Bool">
        <default>true</default>

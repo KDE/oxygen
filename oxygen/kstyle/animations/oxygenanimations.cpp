@@ -46,6 +46,8 @@
 #include <QtGui/QToolButton>
 #include <QtGui/QGroupBox>
 
+#include <KDebug>
+
 namespace Oxygen
 {
 
@@ -78,6 +80,9 @@ namespace Oxygen
     //____________________________________________________________
     void Animations::setupEngines( void )
     {
+
+        // animation steps
+        AnimationData::setSteps( OxygenStyleConfigData::animationSteps() );
 
         {
             // default enability, duration and maxFrame

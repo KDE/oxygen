@@ -115,6 +115,7 @@ namespace Oxygen
         //! addLine opacity
         virtual void setAddLineOpacity( qreal value )
         {
+            value = digitize( value );
             if( addLineData_.opacity_ == value ) return;
             addLineData_.opacity_ = value;
             setDirty();
@@ -127,6 +128,7 @@ namespace Oxygen
         //! subLine opacity
         virtual void setSubLineOpacity( qreal value )
         {
+            value = digitize( value );
             if( subLineData_.opacity_ == value ) return;
             subLineData_.opacity_ = value;
             setDirty();

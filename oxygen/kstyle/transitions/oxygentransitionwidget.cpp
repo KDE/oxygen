@@ -42,12 +42,14 @@ namespace Oxygen
     bool TransitionWidget::paintEnabled( void )
     { return paintEnabled_; }
 
+    int TransitionWidget::steps_ = 0;
+
     //________________________________________________
     TransitionWidget::TransitionWidget( QWidget* parent, int duration ):
         QWidget( parent ),
         flags_( None ),
         animation_( new Animation( duration, this ) ),
-        opacity_(0)
+        opacity_( 0 )
     {
 
         // background flags

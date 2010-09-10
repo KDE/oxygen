@@ -49,6 +49,9 @@ namespace Oxygen
     void Transitions::setupEngines( void )
     {
 
+        // animation steps
+        TransitionWidget::setSteps( OxygenStyleConfigData::animationSteps() );
+
         // default enability, duration and maxFrame
         bool animationsEnabled( OxygenStyleConfigData::animationsEnabled() );
 

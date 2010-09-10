@@ -89,6 +89,7 @@ namespace Oxygen
         //! opacity
         void setCurrentOpacity( qreal value )
         {
+            value = digitize( value );
             if( currentData_.opacity_ == value ) return;
             currentData_.opacity_ = value;
             setDirty();
@@ -109,6 +110,7 @@ namespace Oxygen
         //! opacity
         void setPreviousOpacity( qreal value )
         {
+            value = digitize( value );
             if( previousData_.opacity_ == value ) return;
             previousData_.opacity_ = value;
             setDirty();

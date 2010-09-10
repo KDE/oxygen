@@ -31,6 +31,7 @@ namespace Oxygen
 {
 
     qreal AnimationData::OpacityInvalid = -1;
+    int AnimationData::steps_ = 0;
 
     //_________________________________________________________________________________
     void AnimationData::setupAnimation( const Animation::Pointer& animation, const QByteArray& property )

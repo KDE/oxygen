@@ -93,8 +93,8 @@ namespace Oxygen
         void setHorizontalOpacity( qreal value )
         {
 
+            value = digitize( value );
             if( horizontalData_.opacity_ == value ) return;
-
             horizontalData_.opacity_ = value;
             if( target() && !horizontalRect().isEmpty() ) target().data()->update( horizontalRect() );
 
@@ -120,6 +120,7 @@ namespace Oxygen
 
         void setVerticalOpacity( qreal value )
         {
+            value = digitize( value );
             if( verticalData_.opacity_ == value ) return;
             verticalData_.opacity_ = value;
             if( target() && !verticalRect().isEmpty() ) target().data()->update( verticalRect() );

@@ -32,6 +32,8 @@
 #include <QtCore/QWeakPointer>
 #include <QtGui/QWidget>
 
+#include <cmath>
+
 #include "oxygenanimation.h"
 
 namespace Oxygen
@@ -59,6 +61,10 @@ namespace Oxygen
         //! duration
         virtual void setDuration( int ) = 0;
 
+        //! steps
+        static void setSteps( int value )
+        { steps_ = value; }
+
         //! enability
         virtual bool enabled( void ) const
         { return enabled_; }
@@ -79,6 +85,13 @@ namespace Oxygen
         //! setup animation
         virtual void setupAnimation( const Animation::Pointer& animation, const QByteArray& property );
 
+        //! apply step
+        virtual qreal digitize( const qreal& value ) const
+        {
+            if( steps_ > 0 ) return std::floor( value*steps_ )/steps_;
+            else return value;
+        }
+
         //! trigger target update
         virtual void setDirty( void ) const
         { if( target_ ) target_.data()->update(); }
@@ -90,6 +103,9 @@ namespace Oxygen
 
         //! enability
         bool enabled_;
+
+        //! steps
+        static int steps_;
 
     };
 

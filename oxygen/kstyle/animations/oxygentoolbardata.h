@@ -88,6 +88,7 @@ namespace Oxygen
         //! animation opacity
         virtual void setOpacity( qreal value )
         {
+            value = digitize( value );
             if( opacity_ == value ) return;
             opacity_ = value;
             setDirty();
@@ -100,6 +101,7 @@ namespace Oxygen
         //! animation progress
         virtual void setProgress( qreal value )
         {
+            value = digitize( value );
             if( progress_ == value ) return;
             progress_ = value;
             updateAnimatedRect();
