@@ -70,7 +70,7 @@ namespace Oxygen
         setupUi(this);
 
         // connections
-        connect( _cacheEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
+        connect( _animationsEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
         connect( _windowDragMode, SIGNAL( currentIndexChanged( int ) ), SLOT( windowDragModeChanged( int ) ) );
         connect( _viewDrawTriangularExpander, SIGNAL( toggled( bool ) ), _viewTriangularExpanderSize, SLOT( setEnabled( bool ) ) );
 
