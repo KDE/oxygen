@@ -91,11 +91,8 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             case QEvent::Move:
-            if( !recursiveCheck() )
-            {
-                timer_.start( 0, this );
-                break;
-            }
+            transition().data()->setEndPixmap( QPixmap() );
+            break;
 
             default: break;
         }
