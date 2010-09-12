@@ -105,117 +105,117 @@ namespace Oxygen
     void AnimationConfigWidget::load( void )
     {
 
-        ui.animationsEnabled_->setChecked( OxygenStyleConfigData::animationsEnabled() );
-        genericAnimations_->setEnabled( OxygenStyleConfigData::genericAnimationsEnabled() );
-        genericAnimations_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+        ui.animationsEnabled_->setChecked( StyleConfigData::animationsEnabled() );
+        genericAnimations_->setEnabled( StyleConfigData::genericAnimationsEnabled() );
+        genericAnimations_->setDuration( StyleConfigData::genericAnimationsDuration() );
 
-        toolBarAnimations_->setEnabled( OxygenStyleConfigData::toolBarAnimationType() != OxygenStyleConfigData::TB_NONE );
-        toolBarAnimations_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-        toolBarAnimations_->setFollowMouseDuration( OxygenStyleConfigData::toolBarAnimationsDuration() );
+        toolBarAnimations_->setEnabled( StyleConfigData::toolBarAnimationType() != StyleConfigData::TB_NONE );
+        toolBarAnimations_->setDuration( StyleConfigData::genericAnimationsDuration() );
+        toolBarAnimations_->setFollowMouseDuration( StyleConfigData::toolBarAnimationsDuration() );
 
-        switch( OxygenStyleConfigData::toolBarAnimationType() )
+        switch( StyleConfigData::toolBarAnimationType() )
         {
-            case OxygenStyleConfigData::TB_FOLLOW_MOUSE:
+            case StyleConfigData::TB_FOLLOW_MOUSE:
             toolBarAnimations_->setType( 1 );
             break;
 
-            case OxygenStyleConfigData::TB_FADE:
+            case StyleConfigData::TB_FADE:
             default:
             toolBarAnimations_->setType( 0 );
             break;
         }
 
-        menuBarAnimations_->setEnabled( OxygenStyleConfigData::menuBarAnimationType() != OxygenStyleConfigData::MB_NONE );
-        menuBarAnimations_->setDuration( OxygenStyleConfigData::menuBarAnimationsDuration() );
-        menuBarAnimations_->setFollowMouseDuration( OxygenStyleConfigData::menuBarFollowMouseAnimationsDuration() );
-        switch( OxygenStyleConfigData::menuBarAnimationType() )
+        menuBarAnimations_->setEnabled( StyleConfigData::menuBarAnimationType() != StyleConfigData::MB_NONE );
+        menuBarAnimations_->setDuration( StyleConfigData::menuBarAnimationsDuration() );
+        menuBarAnimations_->setFollowMouseDuration( StyleConfigData::menuBarFollowMouseAnimationsDuration() );
+        switch( StyleConfigData::menuBarAnimationType() )
         {
-            case OxygenStyleConfigData::MB_FOLLOW_MOUSE:
+            case StyleConfigData::MB_FOLLOW_MOUSE:
             menuBarAnimations_->setType( 1 );
             break;
 
-            case OxygenStyleConfigData::MB_FADE:
+            case StyleConfigData::MB_FADE:
             default:
             menuBarAnimations_->setType( 0 );
             break;
         }
 
-        menuAnimations_->setEnabled( OxygenStyleConfigData::menuAnimationType() != OxygenStyleConfigData::ME_NONE );
-        menuAnimations_->setDuration( OxygenStyleConfigData::menuAnimationsDuration() );
-        menuAnimations_->setFollowMouseDuration( OxygenStyleConfigData::menuFollowMouseAnimationsDuration() );
-        switch( OxygenStyleConfigData::menuAnimationType() )
+        menuAnimations_->setEnabled( StyleConfigData::menuAnimationType() != StyleConfigData::ME_NONE );
+        menuAnimations_->setDuration( StyleConfigData::menuAnimationsDuration() );
+        menuAnimations_->setFollowMouseDuration( StyleConfigData::menuFollowMouseAnimationsDuration() );
+        switch( StyleConfigData::menuAnimationType() )
         {
-            case OxygenStyleConfigData::ME_FOLLOW_MOUSE:
+            case StyleConfigData::ME_FOLLOW_MOUSE:
             menuAnimations_->setType( 1 );
             break;
 
-            case OxygenStyleConfigData::ME_FADE:
+            case StyleConfigData::ME_FADE:
             default:
             menuAnimations_->setType( 0 );
             break;
         }
 
-        progressBarAnimations_->setEnabled( OxygenStyleConfigData::progressBarAnimationsEnabled() );
-        progressBarAnimations_->setDuration( OxygenStyleConfigData::progressBarAnimationsDuration() );
+        progressBarAnimations_->setEnabled( StyleConfigData::progressBarAnimationsEnabled() );
+        progressBarAnimations_->setDuration( StyleConfigData::progressBarAnimationsDuration() );
 
-        progressBarBusyAnimations_->setEnabled( OxygenStyleConfigData::progressBarAnimated() );
-        progressBarBusyAnimations_->setDuration( OxygenStyleConfigData::progressBarBusyStepDuration() );
+        progressBarBusyAnimations_->setEnabled( StyleConfigData::progressBarAnimated() );
+        progressBarBusyAnimations_->setDuration( StyleConfigData::progressBarBusyStepDuration() );
 
-        stackedWidgetAnimations_->setEnabled( OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
-        stackedWidgetAnimations_->setDuration( OxygenStyleConfigData::stackedWidgetTransitionsDuration() );
+        stackedWidgetAnimations_->setEnabled( StyleConfigData::stackedWidgetTransitionsEnabled() );
+        stackedWidgetAnimations_->setDuration( StyleConfigData::stackedWidgetTransitionsDuration() );
 
-        labelAnimations_->setEnabled( OxygenStyleConfigData::labelTransitionsEnabled() );
-        labelAnimations_->setDuration( OxygenStyleConfigData::labelTransitionsDuration() );
+        labelAnimations_->setEnabled( StyleConfigData::labelTransitionsEnabled() );
+        labelAnimations_->setDuration( StyleConfigData::labelTransitionsDuration() );
 
-        lineEditAnimations_->setEnabled( OxygenStyleConfigData::lineEditTransitionsEnabled() );
-        lineEditAnimations_->setDuration( OxygenStyleConfigData::lineEditTransitionsDuration() );
+        lineEditAnimations_->setEnabled( StyleConfigData::lineEditTransitionsEnabled() );
+        lineEditAnimations_->setDuration( StyleConfigData::lineEditTransitionsDuration() );
 
-        comboBoxAnimations_->setEnabled( OxygenStyleConfigData::comboBoxTransitionsEnabled() );
-        comboBoxAnimations_->setDuration( OxygenStyleConfigData::comboBoxTransitionsDuration() );
+        comboBoxAnimations_->setEnabled( StyleConfigData::comboBoxTransitionsEnabled() );
+        comboBoxAnimations_->setDuration( StyleConfigData::comboBoxTransitionsDuration() );
     }
 
     //_______________________________________________
     void AnimationConfigWidget::save( void )
     {
 
-        OxygenStyleConfigData::setAnimationsEnabled( ui.animationsEnabled_->isChecked() );
-        OxygenStyleConfigData::setGenericAnimationsEnabled( genericAnimations_->enabled() );
-        OxygenStyleConfigData::setGenericAnimationsDuration( genericAnimations_->duration() );
+        StyleConfigData::setAnimationsEnabled( ui.animationsEnabled_->isChecked() );
+        StyleConfigData::setGenericAnimationsEnabled( genericAnimations_->enabled() );
+        StyleConfigData::setGenericAnimationsDuration( genericAnimations_->duration() );
 
-        OxygenStyleConfigData::setToolBarAnimationsDuration( toolBarAnimations_->followMouseDuration() );
-        if( !toolBarAnimations_->enabled() ) OxygenStyleConfigData::setToolBarAnimationType( OxygenStyleConfigData::TB_NONE );
-        else if( toolBarAnimations_->type() == 1 ) OxygenStyleConfigData::setToolBarAnimationType( OxygenStyleConfigData::TB_FOLLOW_MOUSE );
-        else OxygenStyleConfigData::setToolBarAnimationType( OxygenStyleConfigData::TB_FADE );
+        StyleConfigData::setToolBarAnimationsDuration( toolBarAnimations_->followMouseDuration() );
+        if( !toolBarAnimations_->enabled() ) StyleConfigData::setToolBarAnimationType( StyleConfigData::TB_NONE );
+        else if( toolBarAnimations_->type() == 1 ) StyleConfigData::setToolBarAnimationType( StyleConfigData::TB_FOLLOW_MOUSE );
+        else StyleConfigData::setToolBarAnimationType( StyleConfigData::TB_FADE );
 
-        OxygenStyleConfigData::setMenuBarAnimationsDuration( menuBarAnimations_->duration() );
-        OxygenStyleConfigData::setMenuBarFollowMouseAnimationsDuration( menuBarAnimations_->followMouseDuration() );
-        if( !menuBarAnimations_->enabled() ) OxygenStyleConfigData::setMenuBarAnimationType( OxygenStyleConfigData::MB_NONE );
-        else if( menuBarAnimations_->type() == 1 ) OxygenStyleConfigData::setMenuBarAnimationType( OxygenStyleConfigData::MB_FOLLOW_MOUSE );
-        else OxygenStyleConfigData::setMenuBarAnimationType( OxygenStyleConfigData::MB_FADE );
+        StyleConfigData::setMenuBarAnimationsDuration( menuBarAnimations_->duration() );
+        StyleConfigData::setMenuBarFollowMouseAnimationsDuration( menuBarAnimations_->followMouseDuration() );
+        if( !menuBarAnimations_->enabled() ) StyleConfigData::setMenuBarAnimationType( StyleConfigData::MB_NONE );
+        else if( menuBarAnimations_->type() == 1 ) StyleConfigData::setMenuBarAnimationType( StyleConfigData::MB_FOLLOW_MOUSE );
+        else StyleConfigData::setMenuBarAnimationType( StyleConfigData::MB_FADE );
 
-        OxygenStyleConfigData::setMenuAnimationsDuration( menuAnimations_->duration() );
-        OxygenStyleConfigData::setMenuFollowMouseAnimationsDuration( menuAnimations_->followMouseDuration() );
-        if( !menuAnimations_->enabled() ) OxygenStyleConfigData::setMenuAnimationType( OxygenStyleConfigData::ME_NONE );
-        else if( menuAnimations_->type() == 1 ) OxygenStyleConfigData::setMenuAnimationType( OxygenStyleConfigData::ME_FOLLOW_MOUSE );
-        else OxygenStyleConfigData::setMenuAnimationType( OxygenStyleConfigData::ME_FADE );
+        StyleConfigData::setMenuAnimationsDuration( menuAnimations_->duration() );
+        StyleConfigData::setMenuFollowMouseAnimationsDuration( menuAnimations_->followMouseDuration() );
+        if( !menuAnimations_->enabled() ) StyleConfigData::setMenuAnimationType( StyleConfigData::ME_NONE );
+        else if( menuAnimations_->type() == 1 ) StyleConfigData::setMenuAnimationType( StyleConfigData::ME_FOLLOW_MOUSE );
+        else StyleConfigData::setMenuAnimationType( StyleConfigData::ME_FADE );
 
-        OxygenStyleConfigData::setProgressBarAnimationsEnabled( progressBarAnimations_->enabled() );
-        OxygenStyleConfigData::setProgressBarAnimationsDuration( progressBarAnimations_->duration() );
+        StyleConfigData::setProgressBarAnimationsEnabled( progressBarAnimations_->enabled() );
+        StyleConfigData::setProgressBarAnimationsDuration( progressBarAnimations_->duration() );
 
-        OxygenStyleConfigData::setProgressBarAnimated( progressBarBusyAnimations_->enabled() );
-        OxygenStyleConfigData::setProgressBarBusyStepDuration( progressBarBusyAnimations_->duration() );
+        StyleConfigData::setProgressBarAnimated( progressBarBusyAnimations_->enabled() );
+        StyleConfigData::setProgressBarBusyStepDuration( progressBarBusyAnimations_->duration() );
 
-        OxygenStyleConfigData::setStackedWidgetTransitionsEnabled( stackedWidgetAnimations_->enabled() );
-        OxygenStyleConfigData::setStackedWidgetTransitionsDuration( stackedWidgetAnimations_->duration() );
+        StyleConfigData::setStackedWidgetTransitionsEnabled( stackedWidgetAnimations_->enabled() );
+        StyleConfigData::setStackedWidgetTransitionsDuration( stackedWidgetAnimations_->duration() );
 
-        OxygenStyleConfigData::setLabelTransitionsEnabled( labelAnimations_->enabled() );
-        OxygenStyleConfigData::setLabelTransitionsDuration( labelAnimations_->duration() );
+        StyleConfigData::setLabelTransitionsEnabled( labelAnimations_->enabled() );
+        StyleConfigData::setLabelTransitionsDuration( labelAnimations_->duration() );
 
-        OxygenStyleConfigData::setLineEditTransitionsEnabled( lineEditAnimations_->enabled() );
-        OxygenStyleConfigData::setLineEditTransitionsDuration( lineEditAnimations_->duration() );
+        StyleConfigData::setLineEditTransitionsEnabled( lineEditAnimations_->enabled() );
+        StyleConfigData::setLineEditTransitionsDuration( lineEditAnimations_->duration() );
 
-        OxygenStyleConfigData::setComboBoxTransitionsEnabled( comboBoxAnimations_->enabled() );
-        OxygenStyleConfigData::setComboBoxTransitionsDuration( comboBoxAnimations_->duration() );
+        StyleConfigData::setComboBoxTransitionsEnabled( comboBoxAnimations_->enabled() );
+        StyleConfigData::setComboBoxTransitionsDuration( comboBoxAnimations_->duration() );
         setChanged( false );
 
     }
@@ -225,45 +225,45 @@ namespace Oxygen
     {
 
         bool modified( false );
-        if( ui.animationsEnabled_->isChecked() != OxygenStyleConfigData::animationsEnabled() ) modified = true;
-        else if( genericAnimations_->enabled() != OxygenStyleConfigData::genericAnimationsEnabled() ) modified = true;
-        else if( genericAnimations_->duration() != OxygenStyleConfigData::genericAnimationsDuration() ) modified = true;
+        if( ui.animationsEnabled_->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
+        else if( genericAnimations_->enabled() != StyleConfigData::genericAnimationsEnabled() ) modified = true;
+        else if( genericAnimations_->duration() != StyleConfigData::genericAnimationsDuration() ) modified = true;
 
-        else if( toolBarAnimations_->duration() != OxygenStyleConfigData::genericAnimationsDuration() ) modified = true;
-        else if( toolBarAnimations_->followMouseDuration() != OxygenStyleConfigData::toolBarAnimationsDuration() ) modified = true;
-        else if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_NONE && toolBarAnimations_->enabled() ) modified = true;
-        else if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_FOLLOW_MOUSE && !( toolBarAnimations_->type() == 1 && toolBarAnimations_->enabled() ) ) modified = true;
-        else if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_FADE && !( toolBarAnimations_->type() == 0 && toolBarAnimations_->enabled() )) modified = true;
+        else if( toolBarAnimations_->duration() != StyleConfigData::genericAnimationsDuration() ) modified = true;
+        else if( toolBarAnimations_->followMouseDuration() != StyleConfigData::toolBarAnimationsDuration() ) modified = true;
+        else if( StyleConfigData::toolBarAnimationType() == StyleConfigData::TB_NONE && toolBarAnimations_->enabled() ) modified = true;
+        else if( StyleConfigData::toolBarAnimationType() == StyleConfigData::TB_FOLLOW_MOUSE && !( toolBarAnimations_->type() == 1 && toolBarAnimations_->enabled() ) ) modified = true;
+        else if( StyleConfigData::toolBarAnimationType() == StyleConfigData::TB_FADE && !( toolBarAnimations_->type() == 0 && toolBarAnimations_->enabled() )) modified = true;
 
-        else if( menuBarAnimations_->duration() != OxygenStyleConfigData::menuBarAnimationsDuration() ) modified = true;
-        else if( menuBarAnimations_->followMouseDuration() != OxygenStyleConfigData::menuBarFollowMouseAnimationsDuration() ) modified = true;
-        else if( OxygenStyleConfigData::menuBarAnimationType() == OxygenStyleConfigData::MB_NONE && menuBarAnimations_->enabled() ) modified = true;
-        else if( OxygenStyleConfigData::menuBarAnimationType() == OxygenStyleConfigData::MB_FOLLOW_MOUSE && !( menuBarAnimations_->type() == 1 && menuBarAnimations_->enabled() ) ) modified = true;
-        else if( OxygenStyleConfigData::menuBarAnimationType() == OxygenStyleConfigData::MB_FADE && !( menuBarAnimations_->type() == 0 && menuBarAnimations_->enabled() ) ) modified = true;
+        else if( menuBarAnimations_->duration() != StyleConfigData::menuBarAnimationsDuration() ) modified = true;
+        else if( menuBarAnimations_->followMouseDuration() != StyleConfigData::menuBarFollowMouseAnimationsDuration() ) modified = true;
+        else if( StyleConfigData::menuBarAnimationType() == StyleConfigData::MB_NONE && menuBarAnimations_->enabled() ) modified = true;
+        else if( StyleConfigData::menuBarAnimationType() == StyleConfigData::MB_FOLLOW_MOUSE && !( menuBarAnimations_->type() == 1 && menuBarAnimations_->enabled() ) ) modified = true;
+        else if( StyleConfigData::menuBarAnimationType() == StyleConfigData::MB_FADE && !( menuBarAnimations_->type() == 0 && menuBarAnimations_->enabled() ) ) modified = true;
 
-        else if( menuAnimations_->duration() != OxygenStyleConfigData::menuAnimationsDuration() ) modified = true;
-        else if( menuAnimations_->followMouseDuration() != OxygenStyleConfigData::menuFollowMouseAnimationsDuration() ) modified = true;
-        else if( OxygenStyleConfigData::menuAnimationType() == OxygenStyleConfigData::ME_NONE && menuAnimations_->enabled() ) modified = true;
-        else if( OxygenStyleConfigData::menuAnimationType() == OxygenStyleConfigData::ME_FOLLOW_MOUSE && !( menuAnimations_->type() == 1 && menuAnimations_->enabled() ) ) modified = true;
-        else if( OxygenStyleConfigData::menuAnimationType() == OxygenStyleConfigData::ME_FADE && !( menuAnimations_->type() == 0 && menuAnimations_->enabled() ) ) modified = true;
+        else if( menuAnimations_->duration() != StyleConfigData::menuAnimationsDuration() ) modified = true;
+        else if( menuAnimations_->followMouseDuration() != StyleConfigData::menuFollowMouseAnimationsDuration() ) modified = true;
+        else if( StyleConfigData::menuAnimationType() == StyleConfigData::ME_NONE && menuAnimations_->enabled() ) modified = true;
+        else if( StyleConfigData::menuAnimationType() == StyleConfigData::ME_FOLLOW_MOUSE && !( menuAnimations_->type() == 1 && menuAnimations_->enabled() ) ) modified = true;
+        else if( StyleConfigData::menuAnimationType() == StyleConfigData::ME_FADE && !( menuAnimations_->type() == 0 && menuAnimations_->enabled() ) ) modified = true;
 
-        else if( progressBarAnimations_->enabled() != OxygenStyleConfigData::progressBarAnimationsEnabled() ) modified = true;
-        else if( progressBarAnimations_->duration() != OxygenStyleConfigData::progressBarAnimationsDuration() ) modified = true;
+        else if( progressBarAnimations_->enabled() != StyleConfigData::progressBarAnimationsEnabled() ) modified = true;
+        else if( progressBarAnimations_->duration() != StyleConfigData::progressBarAnimationsDuration() ) modified = true;
 
-        else if( progressBarBusyAnimations_->enabled() != OxygenStyleConfigData::progressBarAnimated() ) modified = true;
-        else if( progressBarBusyAnimations_->duration() != OxygenStyleConfigData::progressBarBusyStepDuration() ) modified = true;
+        else if( progressBarBusyAnimations_->enabled() != StyleConfigData::progressBarAnimated() ) modified = true;
+        else if( progressBarBusyAnimations_->duration() != StyleConfigData::progressBarBusyStepDuration() ) modified = true;
 
-        else if( stackedWidgetAnimations_->enabled() != OxygenStyleConfigData::stackedWidgetTransitionsEnabled() ) modified = true;
-        else if( stackedWidgetAnimations_->duration() != OxygenStyleConfigData::stackedWidgetTransitionsDuration() ) modified = true;
+        else if( stackedWidgetAnimations_->enabled() != StyleConfigData::stackedWidgetTransitionsEnabled() ) modified = true;
+        else if( stackedWidgetAnimations_->duration() != StyleConfigData::stackedWidgetTransitionsDuration() ) modified = true;
 
-        else if( labelAnimations_->enabled() != OxygenStyleConfigData::labelTransitionsEnabled() ) modified = true;
-        else if( labelAnimations_->duration() != OxygenStyleConfigData::labelTransitionsDuration() ) modified = true;
+        else if( labelAnimations_->enabled() != StyleConfigData::labelTransitionsEnabled() ) modified = true;
+        else if( labelAnimations_->duration() != StyleConfigData::labelTransitionsDuration() ) modified = true;
 
-        else if( lineEditAnimations_->enabled() != OxygenStyleConfigData::lineEditTransitionsEnabled() ) modified = true;
-        else if( lineEditAnimations_->duration() != OxygenStyleConfigData::lineEditTransitionsDuration() ) modified = true;
+        else if( lineEditAnimations_->enabled() != StyleConfigData::lineEditTransitionsEnabled() ) modified = true;
+        else if( lineEditAnimations_->duration() != StyleConfigData::lineEditTransitionsDuration() ) modified = true;
 
-        else if( comboBoxAnimations_->enabled() != OxygenStyleConfigData::comboBoxTransitionsEnabled() ) modified = true;
-        else if( comboBoxAnimations_->duration() != OxygenStyleConfigData::comboBoxTransitionsDuration() ) modified = true;
+        else if( comboBoxAnimations_->enabled() != StyleConfigData::comboBoxTransitionsEnabled() ) modified = true;
+        else if( comboBoxAnimations_->duration() != StyleConfigData::comboBoxTransitionsDuration() ) modified = true;
 
         setChanged( modified );
 

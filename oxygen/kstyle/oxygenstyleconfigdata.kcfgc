@@ -1,5 +1,6 @@
 File=oxygen.kcfgc
-ClassName=OxygenStyleConfigData
+ClassName=StyleConfigData
+NameSpace=Oxygen
 Singleton=true
 Mutators=true
 GlobalEnums=true

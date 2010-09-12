@@ -72,7 +72,7 @@ namespace Oxygen
         QObject( parent ),
         enabled_( true ),
         useWMMoveResize_( true ),
-        dragMode_( OxygenStyleConfigData::WD_FULL ),
+        dragMode_( StyleConfigData::WD_FULL ),
         dragDistance_( KGlobalSettings::dndEventDelay() ),
         dragDelay_( QApplication::startDragTime() ),
         dragAboutToStart_( false ),
@@ -91,9 +91,9 @@ namespace Oxygen
     void WindowManager::initialize( void )
     {
 
-        setEnabled( OxygenStyleConfigData::windowDragEnabled() );
-        setDragMode( OxygenStyleConfigData::windowDragMode() );
-        setUseWMMoveResize( OxygenStyleConfigData::useWMMoveResize() );
+        setEnabled( StyleConfigData::windowDragEnabled() );
+        setDragMode( StyleConfigData::windowDragMode() );
+        setUseWMMoveResize( StyleConfigData::useWMMoveResize() );
 
         setDragDistance( KGlobalSettings::dndEventDelay() );
         setDragDelay( QApplication::startDragTime() );
@@ -145,7 +145,7 @@ namespace Oxygen
         whiteList_.insert( ExceptionId( "ViewSliders@kmix" ) );
         whiteList_.insert( ExceptionId( "Sidebar_Widget@konqueror" ) );
 
-        foreach( const QString& exception, OxygenStyleConfigData::windowDragWhiteList() )
+        foreach( const QString& exception, StyleConfigData::windowDragWhiteList() )
         {
             ExceptionId id( exception );
             if( !id.className().isEmpty() )
@@ -159,7 +159,7 @@ namespace Oxygen
 
         blackList_.clear();
         blackList_.insert( ExceptionId( "CustomTrackView@kdenlive" ) );
-        foreach( const QString& exception, OxygenStyleConfigData::windowDragBlackList() )
+        foreach( const QString& exception, StyleConfigData::windowDragBlackList() )
         {
             ExceptionId id( exception );
             if( !id.className().isEmpty() )
@@ -452,7 +452,7 @@ namespace Oxygen
         // tool buttons
         if( QToolButton* toolButton = qobject_cast<QToolButton*>( widget ) )
         {
-            if( dragMode() == OxygenStyleConfigData::WD_MINIMAL && !qobject_cast<QToolBar*>(widget->parentWidget() ) ) return false;
+            if( dragMode() == StyleConfigData::WD_MINIMAL && !qobject_cast<QToolBar*>(widget->parentWidget() ) ) return false;
             return toolButton->autoRaise() && !toolButton->isEnabled();
         }
 
@@ -479,7 +479,7 @@ namespace Oxygen
         in MINIMAL mode, anything that has not been already accepted
         and does not come from a toolbar is rejected
         */
-        if( dragMode() == OxygenStyleConfigData::WD_MINIMAL )
+        if( dragMode() == StyleConfigData::WD_MINIMAL )
         {
             if( qobject_cast<QToolBar*>( widget ) ) return true;
             else return false;

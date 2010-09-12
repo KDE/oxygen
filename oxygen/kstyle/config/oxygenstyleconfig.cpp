@@ -108,22 +108,22 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::save( void )
     {
-        OxygenStyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
-        OxygenStyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK ) );
-        OxygenStyleConfigData::setShowMnemonics( _showMnemonics->isChecked() );
-        OxygenStyleConfigData::setCacheEnabled( _cacheEnabled->isChecked() );
-        OxygenStyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
-        OxygenStyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
-        OxygenStyleConfigData::setViewDrawFocusIndicator( _viewDrawFocusIndicator->isChecked() );
-        OxygenStyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
-        OxygenStyleConfigData::setScrollBarColored( _scrollBarColored->isChecked() );
-        OxygenStyleConfigData::setScrollBarBevel( _scrollBarBevel->isChecked() );
-        OxygenStyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
-        OxygenStyleConfigData::setScrollBarAddLineButtons( _scrollBarAddLineButtons->currentIndex() );
-        OxygenStyleConfigData::setScrollBarSubLineButtons( _scrollBarSubLineButtons->currentIndex() );
-        OxygenStyleConfigData::setMenuHighlightMode( menuMode() );
-        OxygenStyleConfigData::setTabStyle( tabStyle() );
-        OxygenStyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
+        StyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
+        StyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? StyleConfigData::CS_X : StyleConfigData::CS_CHECK ) );
+        StyleConfigData::setShowMnemonics( _showMnemonics->isChecked() );
+        StyleConfigData::setCacheEnabled( _cacheEnabled->isChecked() );
+        StyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
+        StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
+        StyleConfigData::setViewDrawFocusIndicator( _viewDrawFocusIndicator->isChecked() );
+        StyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
+        StyleConfigData::setScrollBarColored( _scrollBarColored->isChecked() );
+        StyleConfigData::setScrollBarBevel( _scrollBarBevel->isChecked() );
+        StyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
+        StyleConfigData::setScrollBarAddLineButtons( _scrollBarAddLineButtons->currentIndex() );
+        StyleConfigData::setScrollBarSubLineButtons( _scrollBarSubLineButtons->currentIndex() );
+        StyleConfigData::setMenuHighlightMode( menuMode() );
+        StyleConfigData::setTabStyle( tabStyle() );
+        StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
 
         if( _expertMode )
         {
@@ -131,24 +131,24 @@ namespace Oxygen
             _animationConfigWidget->save();
 
         } else {
-            OxygenStyleConfigData::setAnimationsEnabled( _animationsEnabled->isChecked() );
-            OxygenStyleConfigData::setStackedWidgetTransitionsEnabled( _stackedWidgetTransitionsEnabled->isChecked() );
+            StyleConfigData::setAnimationsEnabled( _animationsEnabled->isChecked() );
+            StyleConfigData::setStackedWidgetTransitionsEnabled( _stackedWidgetTransitionsEnabled->isChecked() );
         }
 
-        OxygenStyleConfigData::setUseWMMoveResize( _useWMMoveResize->isChecked() );
+        StyleConfigData::setUseWMMoveResize( _useWMMoveResize->isChecked() );
         if( _windowDragMode->currentIndex() == 0 )
         {
 
-            OxygenStyleConfigData::setWindowDragEnabled( false  );
+            StyleConfigData::setWindowDragEnabled( false  );
 
         } else {
 
-            OxygenStyleConfigData::setWindowDragEnabled( true  );
-            OxygenStyleConfigData::setWindowDragMode( windowDragMode()  );
+            StyleConfigData::setWindowDragEnabled( true  );
+            StyleConfigData::setWindowDragMode( windowDragMode()  );
 
         }
 
-        OxygenStyleConfigData::self()->writeConfig();
+        StyleConfigData::self()->writeConfig();
 
         // emit dbus signal
         QDBusMessage message( QDBusMessage::createSignal("/OxygenStyle",  "org.kde.Oxygen.Style", "reparseConfiguration") );
@@ -159,14 +159,14 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::defaults( void )
     {
-        OxygenStyleConfigData::self()->setDefaults();
+        StyleConfigData::self()->setDefaults();
         load();
     }
 
     //__________________________________________________________________
     void StyleConfig::reset( void )
     {
-        OxygenStyleConfigData::self()->readConfig();
+        StyleConfigData::self()->readConfig();
         load();
     }
 
@@ -243,24 +243,24 @@ namespace Oxygen
         bool modified( false );
 
         // check if any value was modified
-        if ( _toolBarDrawItemSeparator->isChecked() != OxygenStyleConfigData::toolBarDrawItemSeparator() ) modified = true;
-        else if ( _showMnemonics->isChecked() != OxygenStyleConfigData::showMnemonics() ) modified = true;
-        else if( _viewDrawTriangularExpander->isChecked() != OxygenStyleConfigData::viewDrawTriangularExpander() ) modified = true;
-        else if( _viewDrawFocusIndicator->isChecked() != OxygenStyleConfigData::viewDrawFocusIndicator() ) modified = true;
-        else if( _viewDrawTreeBranchLines->isChecked() != OxygenStyleConfigData::viewDrawTreeBranchLines() ) modified = true;
-        else if( _scrollBarColored->isChecked() != OxygenStyleConfigData::scrollBarColored() ) modified = true;
-        else if( _scrollBarBevel->isChecked() != OxygenStyleConfigData::scrollBarBevel() ) modified = true;
-        else if( _scrollBarWidth->value() != OxygenStyleConfigData::scrollBarWidth() ) modified = true;
-        else if( _scrollBarAddLineButtons->currentIndex() != OxygenStyleConfigData::scrollBarAddLineButtons() ) modified = true;
-        else if( _scrollBarSubLineButtons->currentIndex() != OxygenStyleConfigData::scrollBarSubLineButtons() ) modified = true;
-        else if( (_checkDrawX->isChecked() ? OxygenStyleConfigData::CS_X : OxygenStyleConfigData::CS_CHECK) != OxygenStyleConfigData::checkBoxStyle() ) modified = true;
-        else if( menuMode() != OxygenStyleConfigData::menuHighlightMode() ) modified = true;
-        else if( tabStyle() != OxygenStyleConfigData::tabStyle() ) modified = true;
-        else if( _animationsEnabled->isChecked() != OxygenStyleConfigData::animationsEnabled() ) modified = true;
-        else if( _cacheEnabled->isChecked() != OxygenStyleConfigData::cacheEnabled() ) modified = true;
-        else if( _stackedWidgetTransitionsEnabled->isChecked() != OxygenStyleConfigData::stackedWidgetTransitionsEnabled() ) modified = true;
-        else if( _useWMMoveResize->isChecked() != OxygenStyleConfigData::useWMMoveResize() ) modified = true;
-        else if( triangularExpanderSize() != OxygenStyleConfigData::viewTriangularExpanderSize() ) modified = true;
+        if ( _toolBarDrawItemSeparator->isChecked() != StyleConfigData::toolBarDrawItemSeparator() ) modified = true;
+        else if ( _showMnemonics->isChecked() != StyleConfigData::showMnemonics() ) modified = true;
+        else if( _viewDrawTriangularExpander->isChecked() != StyleConfigData::viewDrawTriangularExpander() ) modified = true;
+        else if( _viewDrawFocusIndicator->isChecked() != StyleConfigData::viewDrawFocusIndicator() ) modified = true;
+        else if( _viewDrawTreeBranchLines->isChecked() != StyleConfigData::viewDrawTreeBranchLines() ) modified = true;
+        else if( _scrollBarColored->isChecked() != StyleConfigData::scrollBarColored() ) modified = true;
+        else if( _scrollBarBevel->isChecked() != StyleConfigData::scrollBarBevel() ) modified = true;
+        else if( _scrollBarWidth->value() != StyleConfigData::scrollBarWidth() ) modified = true;
+        else if( _scrollBarAddLineButtons->currentIndex() != StyleConfigData::scrollBarAddLineButtons() ) modified = true;
+        else if( _scrollBarSubLineButtons->currentIndex() != StyleConfigData::scrollBarSubLineButtons() ) modified = true;
+        else if( (_checkDrawX->isChecked() ? StyleConfigData::CS_X : StyleConfigData::CS_CHECK) != StyleConfigData::checkBoxStyle() ) modified = true;
+        else if( menuMode() != StyleConfigData::menuHighlightMode() ) modified = true;
+        else if( tabStyle() != StyleConfigData::tabStyle() ) modified = true;
+        else if( _animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
+        else if( _cacheEnabled->isChecked() != StyleConfigData::cacheEnabled() ) modified = true;
+        else if( _stackedWidgetTransitionsEnabled->isChecked() != StyleConfigData::stackedWidgetTransitionsEnabled() ) modified = true;
+        else if( _useWMMoveResize->isChecked() != StyleConfigData::useWMMoveResize() ) modified = true;
+        else if( triangularExpanderSize() != StyleConfigData::viewTriangularExpanderSize() ) modified = true;
         else if( _animationConfigWidget && _animationConfigWidget->isChanged() ) modified = true;
 
         if( !modified )
@@ -269,7 +269,7 @@ namespace Oxygen
             {
                 case 0:
                 {
-                    if( OxygenStyleConfigData::windowDragEnabled() ) modified = true;
+                    if( StyleConfigData::windowDragEnabled() ) modified = true;
                     break;
                 }
 
@@ -277,7 +277,7 @@ namespace Oxygen
                 case 2:
                 default:
                 {
-                    if( !OxygenStyleConfigData::windowDragEnabled() || windowDragMode() != OxygenStyleConfigData::windowDragMode() )
+                    if( !StyleConfigData::windowDragEnabled() || windowDragMode() != StyleConfigData::windowDragMode() )
                     { modified = true; }
                     break;
                 }
@@ -293,49 +293,49 @@ namespace Oxygen
     void StyleConfig::load( void )
     {
 
-        _toolBarDrawItemSeparator->setChecked( OxygenStyleConfigData::toolBarDrawItemSeparator() );
-        _showMnemonics->setChecked( OxygenStyleConfigData::showMnemonics() );
-        _checkDrawX->setChecked( OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_X );
-        _viewDrawTriangularExpander->setChecked( OxygenStyleConfigData::viewDrawTriangularExpander() );
-        _viewDrawFocusIndicator->setChecked( OxygenStyleConfigData::viewDrawFocusIndicator() );
-        _viewDrawTreeBranchLines->setChecked(OxygenStyleConfigData::viewDrawTreeBranchLines() );
+        _toolBarDrawItemSeparator->setChecked( StyleConfigData::toolBarDrawItemSeparator() );
+        _showMnemonics->setChecked( StyleConfigData::showMnemonics() );
+        _checkDrawX->setChecked( StyleConfigData::checkBoxStyle() == StyleConfigData::CS_X );
+        _viewDrawTriangularExpander->setChecked( StyleConfigData::viewDrawTriangularExpander() );
+        _viewDrawFocusIndicator->setChecked( StyleConfigData::viewDrawFocusIndicator() );
+        _viewDrawTreeBranchLines->setChecked(StyleConfigData::viewDrawTreeBranchLines() );
 
         _scrollBarWidth->setValue(
             qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH,
-            OxygenStyleConfigData::scrollBarWidth())) );
-        _scrollBarColored->setChecked( OxygenStyleConfigData::scrollBarColored() );
-        _scrollBarBevel->setChecked( OxygenStyleConfigData::scrollBarBevel() );
+            StyleConfigData::scrollBarWidth())) );
+        _scrollBarColored->setChecked( StyleConfigData::scrollBarColored() );
+        _scrollBarBevel->setChecked( StyleConfigData::scrollBarBevel() );
 
-        _scrollBarAddLineButtons->setCurrentIndex( OxygenStyleConfigData::scrollBarAddLineButtons() );
-        _scrollBarSubLineButtons->setCurrentIndex( OxygenStyleConfigData::scrollBarSubLineButtons() );
+        _scrollBarAddLineButtons->setCurrentIndex( StyleConfigData::scrollBarAddLineButtons() );
+        _scrollBarSubLineButtons->setCurrentIndex( StyleConfigData::scrollBarSubLineButtons() );
 
         // menu highlight
-        _menuHighlightDark->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_DARK );
-        _menuHighlightStrong->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG );
-        _menuHighlightSubtle->setChecked( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE );
+        _menuHighlightDark->setChecked( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_DARK );
+        _menuHighlightStrong->setChecked( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG );
+        _menuHighlightSubtle->setChecked( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_SUBTLE );
 
         // tab style
-        _tabStyleSingle->setChecked( OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_SINGLE );
-        _tabStylePlain->setChecked( OxygenStyleConfigData::tabStyle() == OxygenStyleConfigData::TS_PLAIN );
+        _tabStyleSingle->setChecked( StyleConfigData::tabStyle() == StyleConfigData::TS_SINGLE );
+        _tabStylePlain->setChecked( StyleConfigData::tabStyle() == StyleConfigData::TS_PLAIN );
 
-        _stackedWidgetTransitionsEnabled->setChecked( OxygenStyleConfigData::stackedWidgetTransitionsEnabled() );
+        _stackedWidgetTransitionsEnabled->setChecked( StyleConfigData::stackedWidgetTransitionsEnabled() );
         _stackedWidgetTransitionsEnabled->setEnabled( false );
 
-        _animationsEnabled->setChecked( OxygenStyleConfigData::animationsEnabled() );
-        _cacheEnabled->setChecked( OxygenStyleConfigData::cacheEnabled() );
+        _animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
+        _cacheEnabled->setChecked( StyleConfigData::cacheEnabled() );
 
-        if( !OxygenStyleConfigData::windowDragEnabled() ) _windowDragMode->setCurrentIndex(0);
-        else if( OxygenStyleConfigData::windowDragMode() == OxygenStyleConfigData::WD_MINIMAL ) _windowDragMode->setCurrentIndex(1);
+        if( !StyleConfigData::windowDragEnabled() ) _windowDragMode->setCurrentIndex(0);
+        else if( StyleConfigData::windowDragMode() == StyleConfigData::WD_MINIMAL ) _windowDragMode->setCurrentIndex(1);
         else _windowDragMode->setCurrentIndex(2);
 
-        switch( OxygenStyleConfigData::viewTriangularExpanderSize() )
+        switch( StyleConfigData::viewTriangularExpanderSize() )
         {
-            case OxygenStyleConfigData::TE_TINY: _viewTriangularExpanderSize->setCurrentIndex(0); break;
-            case OxygenStyleConfigData::TE_SMALL: default: _viewTriangularExpanderSize->setCurrentIndex(1); break;
-            case OxygenStyleConfigData::TE_NORMAL: _viewTriangularExpanderSize->setCurrentIndex(2); break;
+            case StyleConfigData::TE_TINY: _viewTriangularExpanderSize->setCurrentIndex(0); break;
+            case StyleConfigData::TE_SMALL: default: _viewTriangularExpanderSize->setCurrentIndex(1); break;
+            case StyleConfigData::TE_NORMAL: _viewTriangularExpanderSize->setCurrentIndex(2); break;
         }
 
-        _useWMMoveResize->setChecked( OxygenStyleConfigData::useWMMoveResize() );
+        _useWMMoveResize->setChecked( StyleConfigData::useWMMoveResize() );
 
         // animation config widget
         if( _animationConfigWidget ) _animationConfigWidget->load();
@@ -349,16 +349,16 @@ namespace Oxygen
     //____________________________________________________________
     int StyleConfig::menuMode( void ) const
     {
-        if (_menuHighlightDark->isChecked()) return OxygenStyleConfigData::MM_DARK;
-        else if (_menuHighlightSubtle->isChecked()) return OxygenStyleConfigData::MM_SUBTLE;
-        else return OxygenStyleConfigData::MM_STRONG;
+        if (_menuHighlightDark->isChecked()) return StyleConfigData::MM_DARK;
+        else if (_menuHighlightSubtle->isChecked()) return StyleConfigData::MM_SUBTLE;
+        else return StyleConfigData::MM_STRONG;
     }
 
     //____________________________________________________________
     int StyleConfig::tabStyle( void ) const
     {
-        if( _tabStylePlain->isChecked() ) return OxygenStyleConfigData::TS_PLAIN;
-        else return OxygenStyleConfigData::TS_SINGLE;
+        if( _tabStylePlain->isChecked() ) return StyleConfigData::TS_PLAIN;
+        else return StyleConfigData::TS_SINGLE;
     }
 
     //____________________________________________________________
@@ -366,8 +366,8 @@ namespace Oxygen
     {
         switch( _windowDragMode->currentIndex() )
         {
-            case 1: return OxygenStyleConfigData::WD_MINIMAL;
-            case 2: default: return OxygenStyleConfigData::WD_FULL;
+            case 1: return StyleConfigData::WD_MINIMAL;
+            case 2: default: return StyleConfigData::WD_FULL;
         }
     }
 
@@ -376,9 +376,9 @@ namespace Oxygen
     {
         switch( _viewTriangularExpanderSize->currentIndex() )
         {
-            case 0: return OxygenStyleConfigData::TE_TINY;
-            case 1: default: return OxygenStyleConfigData::TE_SMALL;
-            case 2: return OxygenStyleConfigData::TE_NORMAL;
+            case 0: return StyleConfigData::TE_TINY;
+            case 1: default: return StyleConfigData::TE_SMALL;
+            case 2: return StyleConfigData::TE_NORMAL;
         }
 
     }

@@ -634,12 +634,12 @@ namespace Oxygen
             }
 
             case PM_ScrollBarExtent:
-            return OxygenStyleConfigData::scrollBarWidth() + 2;
+            return StyleConfigData::scrollBarWidth() + 2;
 
             // tooltip label
             case PM_ToolTipLabelFrameWidth:
             {
-                if( OxygenStyleConfigData::toolTipDrawStyledFrames() ) return 3;
+                if( StyleConfigData::toolTipDrawStyledFrames() ) return 3;
                 else break;
             }
 
@@ -2229,7 +2229,7 @@ namespace Oxygen
         if( cb && !cb->editable && (!cb->currentIcon.isNull() || cb->fontMetrics.height() > 13 ) ) size.rheight()+=1;
 
         // also expand to account for scrollbar
-        size.rwidth() += OxygenStyleConfigData::scrollBarWidth() - 6;
+        size.rwidth() += StyleConfigData::scrollBarWidth() - 6;
         return size;
 
     }
@@ -3475,7 +3475,7 @@ namespace Oxygen
     {
 
         // parent style painting if frames should not be styled
-        if( !OxygenStyleConfigData::toolTipDrawStyledFrames() ) return false;
+        if( !StyleConfigData::toolTipDrawStyledFrames() ) return false;
 
         const QRect& r( option->rect );
         const QColor color( option->palette.brush(QPalette::ToolTipBase).color() );
@@ -3485,7 +3485,7 @@ namespace Oxygen
         // make tooltip semi transparents when possible
         // alpha is copied from "kdebase/apps/dolphin/tooltips/filemetadatatooltip.cpp"
         const bool hasAlpha( _helper.hasAlphaChannel( widget ) );
-        if(  hasAlpha && OxygenStyleConfigData::toolTipTransparent() )
+        if(  hasAlpha && StyleConfigData::toolTipTransparent() )
         {
             topColor.setAlpha(220);
             bottomColor.setAlpha(220);
@@ -3573,7 +3573,7 @@ namespace Oxygen
             // color
             const QColor expanderColor( mouseOver ? _helper.viewHoverBrush().brush(palette).color():palette.color( QPalette::Text ) );
 
-            if(!OxygenStyleConfigData::viewDrawTriangularExpander())
+            if(!StyleConfigData::viewDrawTriangularExpander())
             {
 
                 // plus or minus sign used for expanders
@@ -3595,12 +3595,12 @@ namespace Oxygen
                 // get size from option
                 QPolygonF a;
                 ArrowSize size = ArrowSmall;
-                switch( OxygenStyleConfigData::viewTriangularExpanderSize() )
+                switch( StyleConfigData::viewTriangularExpanderSize() )
                 {
-                    case OxygenStyleConfigData::TE_TINY: size = ArrowTiny; break;
-                    case OxygenStyleConfigData::TE_NORMAL: size = ArrowNormal; break;
+                    case StyleConfigData::TE_TINY: size = ArrowTiny; break;
+                    case StyleConfigData::TE_NORMAL: size = ArrowNormal; break;
                     default:
-                    case OxygenStyleConfigData::TE_SMALL: size = ArrowSmall; break;
+                    case StyleConfigData::TE_SMALL: size = ArrowSmall; break;
                 }
 
                 if( expanderOpen )
@@ -3628,7 +3628,7 @@ namespace Oxygen
 
 
         // tree branches
-        if( !OxygenStyleConfigData::viewDrawTreeBranchLines() ) return true;
+        if( !StyleConfigData::viewDrawTreeBranchLines() ) return true;
 
         painter->setPen( KColorUtils::mix( palette.color( QPalette::Text ), palette.color( QPalette::Background ), 0.8 ) );
         if (flags & (State_Item | State_Children | State_Sibling))
@@ -4057,7 +4057,7 @@ namespace Oxygen
         const State& flags( option->state );
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
-        if( OxygenStyleConfigData::toolBarDrawItemSeparator() )
+        if( StyleConfigData::toolBarDrawItemSeparator() )
         {
             const QColor color( palette.color(QPalette::Window) );
             if(flags & State_Horizontal) _helper.drawSeparator( painter, r, color, Qt::Vertical );
@@ -4365,18 +4365,18 @@ namespace Oxygen
             {
 
                 QColor color( palette.color(QPalette::Window) );
-                if( OxygenStyleConfigData::menuHighlightMode() != OxygenStyleConfigData::MM_DARK)
+                if( StyleConfigData::menuHighlightMode() != StyleConfigData::MM_DARK)
                 {
 
                     if(flags & State_Sunken)
                     {
 
-                        if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) color = palette.color(QPalette::Highlight);
+                        if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG) color = palette.color(QPalette::Highlight);
                         else color = KColorUtils::mix(color, KColorUtils::tint(color, palette.color(QPalette::Highlight), 0.6));
 
                     } else {
 
-                        if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG) color = KColorUtils::tint(color, _helper.viewHoverBrush().brush( palette ).color());
+                        if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG) color = KColorUtils::tint(color, _helper.viewHoverBrush().brush( palette ).color());
                         else color = KColorUtils::mix(color, KColorUtils::tint(color, _helper.viewHoverBrush().brush( palette ).color()));
                     }
 
@@ -4409,7 +4409,7 @@ namespace Oxygen
 
         // text
         QPalette::ColorRole role( QPalette::WindowText );
-        if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG && (flags & State_Sunken) && enabled )
+        if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG && (flags & State_Sunken) && enabled )
         { role = QPalette::HighlightedText; }
 
         drawItemText(painter, r, Qt::AlignCenter | Qt::TextShowMnemonic, palette, enabled, menuOpt->text, role);
@@ -4522,7 +4522,7 @@ namespace Oxygen
         }
 
         // color
-        QPalette::ColorRole textRole( ( active && enabled && OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG ) ?
+        QPalette::ColorRole textRole( ( active && enabled && StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG ) ?
             QPalette::HighlightedText:
             QPalette::WindowText );
 
@@ -5770,7 +5770,7 @@ namespace Oxygen
 
         // slab options
         StyleOptions slabOptions( NoFill );
-        if( OxygenStyleConfigData::tabSubtleShadow() ) slabOptions |= SubtleShadow;
+        if( StyleConfigData::tabSubtleShadow() ) slabOptions |= SubtleShadow;
         if( (!selected ) && ( mouseOver || animated ) ) slabOptions |= Hover;
 
         // color
@@ -6449,7 +6449,7 @@ namespace Oxygen
 
             // slab options
             StyleOptions selectedTabOpts( NoFill );
-            if( OxygenStyleConfigData::tabSubtleShadow() ) selectedTabOpts |= SubtleShadow;
+            if( StyleConfigData::tabSubtleShadow() ) selectedTabOpts |= SubtleShadow;
 
             TileSet::Tiles tiles( tilesByShape( tabOpt->shape ) );
             renderSlab( painter, tabRect, color, selectedTabOpts, tiles );
@@ -7375,11 +7375,11 @@ namespace Oxygen
         _helper.reloadConfig();
 
         // reset config
-        OxygenStyleConfigData::self()->readConfig();
+        StyleConfigData::self()->readConfig();
 
         // update caches size
-        int cacheSize( OxygenStyleConfigData::cacheEnabled() ?
-            OxygenStyleConfigData::maxCacheSize():0 );
+        int cacheSize( StyleConfigData::cacheEnabled() ?
+            StyleConfigData::maxCacheSize():0 );
 
         _helper.setMaxCacheSize( cacheSize );
 
@@ -7389,19 +7389,19 @@ namespace Oxygen
         windowManager().initialize();
 
         // widget explorer
-        widgetExplorer().setEnabled( OxygenStyleConfigData::widgetExplorerEnabled() );
-        widgetExplorer().setDrawWidgetRects( OxygenStyleConfigData::drawWidgetRects() );
+        widgetExplorer().setEnabled( StyleConfigData::widgetExplorerEnabled() );
+        widgetExplorer().setDrawWidgetRects( StyleConfigData::drawWidgetRects() );
 
         // scrollbar button dimentions.
         /* it has to be reinitialized here because scrollbar width might have changed */
         _noButtonHeight = 0;
-        _singleButtonHeight = qMax( OxygenStyleConfigData::scrollBarWidth() * 7 / 10, 14 );
+        _singleButtonHeight = qMax( StyleConfigData::scrollBarWidth() * 7 / 10, 14 );
         _doubleButtonHeight = 2*_singleButtonHeight;
 
-        _mnemonic = OxygenStyleConfigData::showMnemonics() ? Qt::TextShowMnemonic : Qt::TextHideMnemonic;
+        _mnemonic = StyleConfigData::showMnemonics() ? Qt::TextShowMnemonic : Qt::TextHideMnemonic;
 
         // scrollbar buttons
-        switch( OxygenStyleConfigData::scrollBarAddLineButtons() )
+        switch( StyleConfigData::scrollBarAddLineButtons() )
         {
             case 0: _addLineButtons = NoButton; break;
             case 1: _addLineButtons = SingleButton; break;
@@ -7410,7 +7410,7 @@ namespace Oxygen
             case 2: _addLineButtons = DoubleButton; break;
         }
 
-        switch( OxygenStyleConfigData::scrollBarSubLineButtons() )
+        switch( StyleConfigData::scrollBarSubLineButtons() )
         {
             case 0: _subLineButtons = NoButton; break;
             case 1: _subLineButtons = SingleButton; break;
@@ -7420,21 +7420,21 @@ namespace Oxygen
         }
 
         // tabbar shape
-        switch( OxygenStyleConfigData::tabStyle() )
+        switch( StyleConfigData::tabStyle() )
         {
-            case OxygenStyleConfigData::TS_PLAIN:
+            case StyleConfigData::TS_PLAIN:
             _tabBarTabShapeControl = &Style::drawTabBarTabShapeControl_Plain;
             break;
 
             default:
-            case OxygenStyleConfigData::TS_SINGLE:
+            case StyleConfigData::TS_SINGLE:
             _tabBarTabShapeControl = &Style::drawTabBarTabShapeControl_Single;
             break;
         }
 
         // frame focus
 
-        if( OxygenStyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
+        if( StyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
         else _frameFocusPrimitive = &Style::emptyPrimitive;
 
     }
@@ -8549,12 +8549,12 @@ namespace Oxygen
         // TODO: this is inconsistent with MenuBar color.
         // this should change to properly account for 'sunken' state
         QColor color(base);
-        if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_STRONG)
+        if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG)
         {
 
             color = palette.color(QPalette::Highlight);
 
-        } else if( OxygenStyleConfigData::menuHighlightMode() == OxygenStyleConfigData::MM_SUBTLE) {
+        } else if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_SUBTLE) {
 
             color = KColorUtils::mix(color, KColorUtils::tint(color, palette.color(QPalette::Highlight), 0.6));
 
@@ -8641,7 +8641,7 @@ namespace Oxygen
             if( state == CheckTriState)
             {
                 QVector<qreal> dashes;
-                if( OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
+                if( StyleConfigData::checkBoxStyle() == StyleConfigData::CS_CHECK)
                 {
 
                     dashes << 1.0 << 2.0;
@@ -8663,7 +8663,7 @@ namespace Oxygen
             painter->setRenderHint(QPainter::Antialiasing);
 
             const qreal offset( qMin( penThickness, qreal(1.0) ) );
-            if( OxygenStyleConfigData::checkBoxStyle() == OxygenStyleConfigData::CS_CHECK)
+            if( StyleConfigData::checkBoxStyle() == StyleConfigData::CS_CHECK)
             {
 
                 painter->setPen(contrastPen);
@@ -8809,7 +8809,7 @@ namespace Oxygen
 
         // draw the slider
         QColor glowColor;
-        if( !OxygenStyleConfigData::scrollBarColored())
+        if( !StyleConfigData::scrollBarColored())
         {
             QColor base = KColorUtils::mix(dark, shadow, 0.5);
             QColor hovered = _helper.viewHoverBrush().brush(QPalette::Active).color();
@@ -8834,7 +8834,7 @@ namespace Oxygen
 
         // colored background
         painter->setPen(Qt::NoPen);
-        if( OxygenStyleConfigData::scrollBarColored())
+        if( StyleConfigData::scrollBarColored())
         {
 
             if( opacity >= 0 ) painter->setBrush( KColorUtils::mix( color, palette.color(QPalette::Highlight), opacity ) );
@@ -8847,7 +8847,7 @@ namespace Oxygen
         // slider gradient
         {
             QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight());
-            if( !OxygenStyleConfigData::scrollBarColored())
+            if( !StyleConfigData::scrollBarColored())
             {
                 sliderGradient.setColorAt(0.0, color);
                 sliderGradient.setColorAt(1.0, mid);
@@ -8862,13 +8862,13 @@ namespace Oxygen
         }
 
         // pattern
-        if( OxygenStyleConfigData::scrollBarBevel() )
+        if( StyleConfigData::scrollBarBevel() )
         {
             // don't let the pattern move
             QPoint offset = horizontal ? QPoint(-rect.left(), 0) : QPoint(0, -rect.top());
             QPoint periodEnd = offset + (horizontal ? QPoint(30, 0) : QPoint(0, 30));
             QLinearGradient patternGradient(rect.topLeft()+offset, rect.topLeft()+periodEnd);
-            if( !OxygenStyleConfigData::scrollBarColored())
+            if( !StyleConfigData::scrollBarColored())
             {
                 patternGradient.setColorAt(0.0, _helper.alphaColor(shadow, 0.1));
                 patternGradient.setColorAt(1.0, _helper.alphaColor(light, 0.1));
@@ -8882,7 +8882,7 @@ namespace Oxygen
             painter->drawRoundedRect(rect, 2, 2);
         }
 
-        if( OxygenStyleConfigData::scrollBarColored()) {
+        if( StyleConfigData::scrollBarColored()) {
             painter->restore();
             return;
         }

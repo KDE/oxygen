@@ -82,34 +82,34 @@ namespace Oxygen
     {
 
         // animation steps
-        AnimationData::setSteps( OxygenStyleConfigData::animationSteps() );
+        AnimationData::setSteps( StyleConfigData::animationSteps() );
 
         {
             // default enability, duration and maxFrame
-            bool animationsEnabled( OxygenStyleConfigData::animationsEnabled() );
+            bool animationsEnabled( StyleConfigData::animationsEnabled() );
 
             // enability
-            widgetEnabilityEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            widgetStateEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            comboBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            toolButtonEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            toolBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            lineEditEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            splitterEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            scrollBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            sliderEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            spinBoxEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            tabBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            dockSeparatorEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            headerViewEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
-            mdiWindowEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::genericAnimationsEnabled() );
+            widgetEnabilityEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            widgetStateEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            comboBoxEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            toolButtonEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            toolBoxEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            lineEditEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            splitterEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            scrollBarEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            sliderEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            spinBoxEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            tabBarEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            dockSeparatorEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            headerViewEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            mdiWindowEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
 
-            progressBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimationsEnabled() );
-            progressBarEngine_->setBusyIndicatorEnabled( animationsEnabled &&  OxygenStyleConfigData::progressBarAnimated() );
+            progressBarEngine_->setEnabled( animationsEnabled &&  StyleConfigData::progressBarAnimationsEnabled() );
+            progressBarEngine_->setBusyIndicatorEnabled( animationsEnabled &&  StyleConfigData::progressBarAnimated() );
 
             // menubar engine
-            int menuBarAnimationType( OxygenStyleConfigData::menuBarAnimationType() );
-            if( menuBarAnimationType == OxygenStyleConfigData::MB_FADE && !qobject_cast<MenuBarEngineV1*>( menuBarEngine_ ) )
+            int menuBarAnimationType( StyleConfigData::menuBarAnimationType() );
+            if( menuBarAnimationType == StyleConfigData::MB_FADE && !qobject_cast<MenuBarEngineV1*>( menuBarEngine_ ) )
             {
                 if( menuBarEngine_ )
                 {
@@ -121,7 +121,7 @@ namespace Oxygen
 
                 } else registerEngine( menuBarEngine_ = new MenuBarEngineV1( this ) );
 
-            } else if( menuBarAnimationType == OxygenStyleConfigData::MB_FOLLOW_MOUSE && !qobject_cast<MenuBarEngineV2*>( menuBarEngine_ ) ) {
+            } else if( menuBarAnimationType == StyleConfigData::MB_FOLLOW_MOUSE && !qobject_cast<MenuBarEngineV2*>( menuBarEngine_ ) ) {
 
                 if( menuBarEngine_ )
                 {
@@ -136,8 +136,8 @@ namespace Oxygen
             }
 
             // menu engine
-            int menuAnimationType( OxygenStyleConfigData::menuAnimationType() );
-            if( menuAnimationType == OxygenStyleConfigData::ME_FADE && !qobject_cast<MenuEngineV1*>( menuEngine_ ) )
+            int menuAnimationType( StyleConfigData::menuAnimationType() );
+            if( menuAnimationType == StyleConfigData::ME_FADE && !qobject_cast<MenuEngineV1*>( menuEngine_ ) )
             {
 
                 if( menuEngine_ )
@@ -150,7 +150,7 @@ namespace Oxygen
 
                 } else registerEngine( menuEngine_ = new MenuEngineV1( this ) );
 
-            } else if( menuAnimationType == OxygenStyleConfigData::ME_FOLLOW_MOUSE && !qobject_cast<MenuEngineV2*>( menuEngine_ ) ) {
+            } else if( menuAnimationType == StyleConfigData::ME_FOLLOW_MOUSE && !qobject_cast<MenuEngineV2*>( menuEngine_ ) ) {
 
                 if( menuEngine_ )
                 {
@@ -164,16 +164,16 @@ namespace Oxygen
 
             }
 
-            menuBarEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuBarAnimationsEnabled() && menuBarAnimationType != OxygenStyleConfigData::MB_NONE );
-            menuEngine_->setEnabled( animationsEnabled &&  OxygenStyleConfigData::menuAnimationsEnabled() && menuAnimationType != OxygenStyleConfigData::ME_NONE );
+            menuBarEngine_->setEnabled( animationsEnabled &&  StyleConfigData::menuBarAnimationsEnabled() && menuBarAnimationType != StyleConfigData::MB_NONE );
+            menuEngine_->setEnabled( animationsEnabled &&  StyleConfigData::menuAnimationsEnabled() && menuAnimationType != StyleConfigData::ME_NONE );
 
             // toolbar engine
-            int toolBarAnimationType( OxygenStyleConfigData::toolBarAnimationType() );
-            if( toolBarAnimationType == OxygenStyleConfigData::TB_NONE || toolBarAnimationType == OxygenStyleConfigData::TB_FOLLOW_MOUSE )
+            int toolBarAnimationType( StyleConfigData::toolBarAnimationType() );
+            if( toolBarAnimationType == StyleConfigData::TB_NONE || toolBarAnimationType == StyleConfigData::TB_FOLLOW_MOUSE )
             {
 
                 // disable toolbar engine
-                toolBarEngine_->setEnabled( animationsEnabled && toolBarAnimationType == OxygenStyleConfigData::TB_FOLLOW_MOUSE );
+                toolBarEngine_->setEnabled( animationsEnabled && toolBarAnimationType == StyleConfigData::TB_FOLLOW_MOUSE );
 
                 // unregister all toolbuttons that belong to a toolbar
                 foreach( QWidget* widget, widgetStateEngine_->registeredWidgets( AnimationHover|AnimationFocus ) )
@@ -182,7 +182,7 @@ namespace Oxygen
                     { widgetStateEngine_->unregisterWidget( widget ); }
                 }
 
-            } else if( toolBarAnimationType == OxygenStyleConfigData::TB_FADE ) {
+            } else if( toolBarAnimationType == StyleConfigData::TB_FADE ) {
 
                 // disable toolbar engine
                 toolBarEngine_->setEnabled( false );
@@ -207,32 +207,32 @@ namespace Oxygen
         {
 
             // durations
-            widgetEnabilityEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            widgetStateEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            comboBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            toolButtonEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            toolBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            lineEditEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            splitterEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            scrollBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            sliderEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            spinBoxEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            tabBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            dockSeparatorEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            headerViewEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            mdiWindowEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
+            widgetEnabilityEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            widgetStateEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            comboBoxEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            toolButtonEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            toolBoxEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            lineEditEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            splitterEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            scrollBarEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            sliderEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            spinBoxEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            tabBarEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            dockSeparatorEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            headerViewEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            mdiWindowEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
 
-            progressBarEngine_->setDuration( OxygenStyleConfigData::progressBarAnimationsDuration() );
-            progressBarEngine_->setBusyStepDuration( OxygenStyleConfigData::progressBarBusyStepDuration() );
+            progressBarEngine_->setDuration( StyleConfigData::progressBarAnimationsDuration() );
+            progressBarEngine_->setBusyStepDuration( StyleConfigData::progressBarBusyStepDuration() );
 
-            toolBarEngine_->setDuration( OxygenStyleConfigData::genericAnimationsDuration() );
-            toolBarEngine_->setFollowMouseDuration( OxygenStyleConfigData::toolBarAnimationsDuration() );
+            toolBarEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            toolBarEngine_->setFollowMouseDuration( StyleConfigData::toolBarAnimationsDuration() );
 
-            menuBarEngine_->setDuration( OxygenStyleConfigData::menuBarAnimationsDuration() );
-            menuBarEngine_->setFollowMouseDuration( OxygenStyleConfigData::menuBarFollowMouseAnimationsDuration() );
+            menuBarEngine_->setDuration( StyleConfigData::menuBarAnimationsDuration() );
+            menuBarEngine_->setFollowMouseDuration( StyleConfigData::menuBarFollowMouseAnimationsDuration() );
 
-            menuEngine_->setDuration( OxygenStyleConfigData::menuAnimationsDuration() );
-            menuEngine_->setFollowMouseDuration( OxygenStyleConfigData::menuFollowMouseAnimationsDuration() );
+            menuEngine_->setDuration( StyleConfigData::menuAnimationsDuration() );
+            menuEngine_->setFollowMouseDuration( StyleConfigData::menuFollowMouseAnimationsDuration() );
 
         }
 
@@ -262,7 +262,7 @@ namespace Oxygen
             if( isInToolBar )
             {
 
-                if( OxygenStyleConfigData::toolBarAnimationType() == OxygenStyleConfigData::TB_FADE )
+                if( StyleConfigData::toolBarAnimationType() == StyleConfigData::TB_FADE )
                 { widgetStateEngine().registerWidget( widget, AnimationHover ); }
 
             } else widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
