@@ -31,6 +31,7 @@
 
 #include "oxygenwindowmanager.h"
 #include "oxygenwindowmanager.moc"
+#include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
 
 #include <QtGui/QApplication>
@@ -375,6 +376,10 @@ namespace Oxygen
     //_____________________________________________________________
     bool WindowManager::isBlackListed( QWidget* widget )
     {
+
+        // check against noAnimations propery
+        QVariant propertyValue( widget->property( PropertyNames::noWindowGrab ) );
+        if( propertyValue.isValid() && propertyValue.toBool() ) return true;
 
         // list-based blacklisted widgets
         QString appName( qApp->applicationName() );
