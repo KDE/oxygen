@@ -28,6 +28,7 @@
 
 #include "oxygenanimations.h"
 #include "oxygenanimations.moc"
+#include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
 
 #include <QtGui/QAbstractItemView>
@@ -243,6 +244,10 @@ namespace Oxygen
     {
 
         if( !widget ) return;
+
+        // check against noAnimations propery
+        QVariant propertyValue( widget->property( PropertyNames::noAnimations ) );
+        if( propertyValue.isValid() && propertyValue.toBool() ) return;
 
         // these are needed to not register animations for kwin widgets
         if( widget->objectName() == "decoration widget" ) return;

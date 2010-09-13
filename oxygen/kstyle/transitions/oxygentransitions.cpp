@@ -28,6 +28,7 @@
 
 #include "oxygentransitions.h"
 #include "oxygentransitions.moc"
+#include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
 
 namespace Oxygen
@@ -74,7 +75,12 @@ namespace Oxygen
     {
 
         if( !widget ) return;
-
+        
+        // check against noAnimations propery
+        QVariant propertyValue( widget->property( PropertyNames::noAnimations ) );
+        if( propertyValue.isValid() && propertyValue.toBool() ) return;
+        
+        
         if( QLabel* label = qobject_cast<QLabel*>( widget ) ) {
 
             // do not animate labels from tooltips
