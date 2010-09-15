@@ -23,14 +23,14 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QCheckBox" name="checkBox_2">
+         <widget class="QCheckBox" name="checkBox">
           <property name="text">
            <string>Off</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_3">
+         <widget class="QCheckBox" name="checkBox_2">
           <property name="text">
            <string>Partial</string>
           </property>
@@ -40,7 +40,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="checkBox_3">
           <property name="text">
            <string>On</string>
           </property>
@@ -76,7 +76,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QRadioButton" name="radioButton_4">
+         <widget class="QRadioButton" name="radioButton">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -89,14 +89,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_5">
+         <widget class="QRadioButton" name="radioButton_2">
           <property name="text">
            <string>Second Choice</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_6">
+         <widget class="QRadioButton" name="radioButton_3">
           <property name="text">
            <string>Third Choice</string>
           </property>
@@ -137,14 +137,14 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="KPushButton" name="pushButton_1">
+       <widget class="KPushButton" name="pushButton">
         <property name="text">
          <string>Normal</string>
         </property>
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="KPushButton" name="pushButton_5">
+       <widget class="KPushButton" name="pushButton_2">
         <property name="text">
          <string>Normal</string>
         </property>
@@ -203,7 +203,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="KPushButton" name="pushButton_6">
+       <widget class="KPushButton" name="pushButton_4">
         <property name="text">
          <string>Normal</string>
         </property>
@@ -220,7 +220,7 @@
        <widget class="KComboBox" name="kcombobox_2"/>
       </item>
       <item row="0" column="5">
-       <widget class="QToolButton" name="toolButton_4">
+       <widget class="QToolButton" name="toolButton">
         <property name="text">
          <string>Normal</string>
         </property>
@@ -246,7 +246,7 @@
        <widget class="QWidget" name="widget" native="true">
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="0" column="0">
-          <widget class="QToolButton" name="toolButton">
+          <widget class="QToolButton" name="toolButton_3">
            <property name="text">
             <string>Normal</string>
            </property>
@@ -256,7 +256,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QToolButton" name="toolButton_7">
+          <widget class="QToolButton" name="toolButton_4">
            <property name="text">
             <string>Normal</string>
            </property>
@@ -266,7 +266,7 @@
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QToolButton" name="toolButton_9">
+          <widget class="QToolButton" name="toolButton_5">
            <property name="text">
             <string>Normal</string>
            </property>
@@ -296,7 +296,7 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QToolButton" name="toolButton_3">
+          <widget class="QToolButton" name="toolButton_6">
            <property name="text">
             <string>Flat</string>
            </property>
@@ -309,7 +309,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QToolButton" name="toolButton_8">
+          <widget class="QToolButton" name="toolButton_7">
            <property name="text">
             <string>Flat</string>
            </property>
@@ -322,7 +322,7 @@
           </widget>
          </item>
          <item row="1" column="2">
-          <widget class="QToolButton" name="toolButton_10">
+          <widget class="QToolButton" name="toolButton_8">
            <property name="text">
             <string>Flat</string>
            </property>
@@ -442,29 +442,29 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>pushButton_1</tabstop>
-  <tabstop>pushButton_5</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
   <tabstop>kcombobox</tabstop>
-  <tabstop>toolButton_4</tabstop>
+  <tabstop>toolButton</tabstop>
   <tabstop>pushButton_3</tabstop>
-  <tabstop>pushButton_6</tabstop>
+  <tabstop>pushButton_4</tabstop>
   <tabstop>kcombobox_2</tabstop>
   <tabstop>toolButton_2</tabstop>
   <tabstop>flatButtonCheckBox</tabstop>
-  <tabstop>toolButton</tabstop>
-  <tabstop>toolButton_7</tabstop>
-  <tabstop>toolButton_9</tabstop>
   <tabstop>toolButton_3</tabstop>
+  <tabstop>toolButton_4</tabstop>
+  <tabstop>toolButton_5</tabstop>
+  <tabstop>toolButton_6</tabstop>
+  <tabstop>toolButton_7</tabstop>
   <tabstop>toolButton_8</tabstop>
-  <tabstop>toolButton_10</tabstop>
   <tabstop>textPosition</tabstop>
   <tabstop>iconSize</tabstop>
+  <tabstop>checkBox</tabstop>
   <tabstop>checkBox_2</tabstop>
   <tabstop>checkBox_3</tabstop>
-  <tabstop>checkBox</tabstop>
-  <tabstop>radioButton_4</tabstop>
-  <tabstop>radioButton_5</tabstop>
-  <tabstop>radioButton_6</tabstop>
+  <tabstop>radioButton</tabstop>
+  <tabstop>radioButton_2</tabstop>
+  <tabstop>radioButton_3</tabstop>
  </tabstops>
  <resources/>
  <connections/>

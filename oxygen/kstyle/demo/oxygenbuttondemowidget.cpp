@@ -41,16 +41,16 @@ namespace Oxygen
         ui.setupUi( this );
 
         ui.pushButton_3->setIcon( KIcon("oxygen") );
-        ui.pushButton_6->setIcon( KIcon("oxygen") );
+        ui.pushButton_4->setIcon( KIcon("oxygen") );
 
-        installMenu( ui.pushButton_5 );
-        installMenu( ui.pushButton_6 );
+        installMenu( ui.pushButton_2 );
+        installMenu( ui.pushButton_4 );
 
         pushButtons_
-            << ui.pushButton_1
+            << ui.pushButton
+            << ui.pushButton_2
             << ui.pushButton_3
-            << ui.pushButton_5
-            << ui.pushButton_6;
+            << ui.pushButton_4;
 
         connect( ui.flatButtonCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleFlat( bool ) ) );
 
@@ -59,11 +59,16 @@ namespace Oxygen
         ui.kcombobox_2->addItem( KIcon("document-open"), i18n( "Open" ) );
         ui.kcombobox_2->addItem( KIcon("document-save"), i18n( "Save" ) );
 
-        ui.toolButton->setIcon( KIcon("oxygen") );
         ui.toolButton_2->setIcon( KIcon("oxygen") );
         ui.toolButton_2->setIconSize( QSize(16,16 ) );
         ui.toolButton_2->setToolButtonStyle( Qt::ToolButtonTextBesideIcon	);
+
         ui.toolButton_3->setIcon( KIcon("oxygen") );
+        ui.toolButton_4->setIcon( KIcon("oxygen") );
+        ui.toolButton_5->setIcon( KIcon("oxygen") );
+        ui.toolButton_6->setIcon( KIcon("oxygen") );
+        ui.toolButton_7->setIcon( KIcon("oxygen") );
+        ui.toolButton_8->setIcon( KIcon("oxygen") );
 
         // add toolbar
         ui.toolBarContainer->setLayout( new QVBoxLayout() );
@@ -72,26 +77,23 @@ namespace Oxygen
         toolBar_->addAction( KIcon("document-new"), i18n( "New" ) );
         toolBar_->addAction( KIcon("document-open"), i18n( "Open" ) );
         toolBar_->addAction( KIcon("document-save"), i18n( "Save" ) );
-        ui.toolButton_7->setIcon( KIcon("oxygen") );
-        ui.toolButton_8->setIcon( KIcon("oxygen") );
-        ui.toolButton_9->setIcon( KIcon("oxygen") );
-        ui.toolButton_10->setIcon( KIcon("oxygen") );
 
+
+        installMenu( ui.toolButton_4 );
+        installMenu( ui.toolButton_5 );
         installMenu( ui.toolButton_7 );
         installMenu( ui.toolButton_8 );
-        installMenu( ui.toolButton_9 );
-        installMenu( ui.toolButton_10 );
 
-        ui.checkBox_3->setCheckState( Qt::PartiallyChecked );
+        // checkboxes
+        ui.checkBox_2->setCheckState( Qt::PartiallyChecked );
 
         toolButtons_
-            << ui.toolButton
             << ui.toolButton_3
+            << ui.toolButton_4
+            << ui.toolButton_5
+            << ui.toolButton_6
             << ui.toolButton_7
-            << ui.toolButton_8
-            << ui.toolButton_9
-            << ui.toolButton_10
-            ;
+            << ui.toolButton_8;
 
         connect( ui.textPosition, SIGNAL( currentIndexChanged( int ) ), SLOT( textPosition( int ) ) );
         connect( ui.iconSize, SIGNAL( currentIndexChanged( int ) ), SLOT( iconSize( int ) ) );
@@ -105,10 +107,11 @@ namespace Oxygen
         foreach( QPushButton* button, pushButtons_ )
         { button->setFlat( value ); }
 
+        ui.toolButton->setAutoRaise( value );
         ui.toolButton_2->setAutoRaise( value );
-        ui.toolButton_4->setAutoRaise( value );
 
         ui.kcombobox->setFrame( !value );
+        ui.kcombobox_2->setFrame( !value );
 
     }
 

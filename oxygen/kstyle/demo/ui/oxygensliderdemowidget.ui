@@ -37,19 +37,19 @@
        </widget>
       </item>
       <item>
-       <widget class="QProgressBar" name="progressBar_2">
+       <widget class="QProgressBar" name="progressBar">
         <property name="value">
          <number>25</number>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QProgressBar" name="progressBar">
+       <widget class="QProgressBar" name="progressBar_2">
         <property name="maximum">
          <number>0</number>
         </property>
         <property name="value">
-         <number>10715</number>
+         <number>11476</number>
         </property>
        </widget>
       </item>
