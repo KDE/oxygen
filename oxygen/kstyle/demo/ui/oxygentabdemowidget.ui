@@ -10,95 +10,115 @@
     <height>416</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <property name="margin">
-    <number>0</number>
-   </property>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Tab position:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="buddy">
-      <cstring>tabPositionComboBox</cstring>
-     </property>
-    </widget>
+  <layout class="QVBoxLayout" name="verticalLayout_5">
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Tab position:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>tabPositionComboBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="KComboBox" name="tabPositionComboBox">
+       <item>
+        <property name="text">
+         <string>North</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>South</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>West</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>East</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>261</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Text position:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>textPositionComboBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="KComboBox" name="textPositionComboBox">
+       <item>
+        <property name="text">
+         <string>Icons Only</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Text Only</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Text Alongside Icons</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="0" column="1">
-    <widget class="KComboBox" name="tabPositionComboBox">
-     <item>
-      <property name="text">
-       <string>North</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>South</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>West</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>East</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item row="0" column="2" colspan="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>261</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0" colspan="3">
+   <item>
     <widget class="QCheckBox" name="documentModeCheckBox">
      <property name="text">
       <string>Document mode</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3">
+   <item>
     <widget class="QCheckBox" name="cornerWidgetsCheckBox">
      <property name="text">
       <string>Show Corner Buttons</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="3">
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>249</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="0" colspan="3">
+   <item>
     <widget class="QCheckBox" name="tabBarVisibilityCheckBox">
      <property name="text">
       <string>Hide tabbar</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="4">
+   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Preview</string>
@@ -120,7 +140,7 @@
         </property>
         <widget class="QWidget" name="tab">
          <attribute name="title">
-          <string>First Tab</string>
+          <string/>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout">
           <property name="margin">
@@ -140,12 +160,12 @@
         </widget>
         <widget class="QWidget" name="tab_3">
          <attribute name="title">
-          <string>Second Tab</string>
+          <string/>
          </attribute>
         </widget>
         <widget class="QWidget" name="tab_4">
          <attribute name="title">
-          <string>Third Tab</string>
+          <string/>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <property name="margin">
@@ -175,7 +195,7 @@
         </widget>
         <widget class="QWidget" name="tab_2">
          <attribute name="title">
-          <string>Fourth Tab</string>
+          <string/>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="margin">

@@ -97,6 +97,31 @@ namespace Oxygen
 
         }
 
+        // change tab position
+        void changeTextPosition( int index )
+        {
+            switch( index )
+            {
+
+                case 0:
+                ui.tabWidget->hideText();
+                ui.tabWidget->showIcons();
+                break;
+
+                case 1:
+                ui.tabWidget->showText();
+                ui.tabWidget->hideIcons();
+                break;
+
+                default:
+                case 2:
+                ui.tabWidget->showText();
+                ui.tabWidget->showIcons();
+                break;
+
+            }
+        }
+
         private:
 
         Ui_TabDemoWidget ui;

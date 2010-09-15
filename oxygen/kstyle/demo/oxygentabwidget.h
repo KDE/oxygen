@@ -29,6 +29,7 @@
 
 #include <KTabWidget>
 #include <KTabBar>
+#include <KIcon>
 
 namespace Oxygen
 {
@@ -46,6 +47,41 @@ namespace Oxygen
             // make tabs movable, for further debugging
             tabBar()->setMovable( true );
 
+        }
+
+        //! show icons
+        void showIcons( void )
+        {
+            // add icons to tabs
+            tabBar()->setTabIcon( 0, KIcon( "document-open-folder" ) );
+            tabBar()->setTabIcon( 1, KIcon( "document-open-folder" ) );
+            tabBar()->setTabIcon( 2, KIcon( "document-open-folder" ) );
+            tabBar()->setTabIcon( 3, KIcon( "document-open-folder" ) );
+        }
+
+        void hideIcons( void )
+        {
+            // add icons to tabs
+            tabBar()->setTabIcon( 0, QIcon() );
+            tabBar()->setTabIcon( 1, QIcon() );
+            tabBar()->setTabIcon( 2, QIcon() );
+            tabBar()->setTabIcon( 3, QIcon() );
+        }
+
+        void showText( void )
+        {
+            tabBar()->setTabText( 0, "First Tab" );
+            tabBar()->setTabText( 1, "Second Tab" );
+            tabBar()->setTabText( 2, "Third Tab" );
+            tabBar()->setTabText( 3, "Fourth Tab" );
+        }
+
+        void hideText( void )
+        {
+            tabBar()->setTabText( 0, "" );
+            tabBar()->setTabText( 1, "" );
+            tabBar()->setTabText( 2, "" );
+            tabBar()->setTabText( 3, "" );
         }
 
         public slots:

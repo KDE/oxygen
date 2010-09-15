@@ -42,9 +42,11 @@ namespace Oxygen
     {
         ui.setupUi( this );
         connect( ui.tabPositionComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( changeTabPosition( int ) ) );
+        connect( ui.textPositionComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( changeTextPosition( int ) ) );
         connect( ui.documentModeCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleDocumentMode( bool ) ) );
         connect( ui.cornerWidgetsCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleCornerWidgets( bool ) ) );
         connect( ui.tabBarVisibilityCheckBox, SIGNAL( toggled( bool ) ), ui.tabWidget, SLOT( toggleTabBarVisibility( bool ) ) );
+        ui.textPositionComboBox->setCurrentIndex( 1 );
 
         left_->setIcon( KIcon( "tab-new" ) );
         left_->setVisible( false );
