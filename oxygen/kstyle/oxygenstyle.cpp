@@ -3874,7 +3874,13 @@ namespace Oxygen
     bool Style::drawIndicatorCheckBoxPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget) const
     {
 
-        const QRect& r( option->rect );
+        // get rect
+        QRect r( option->rect );
+
+        // fine tuning for embedded buttons
+        if( qobject_cast<const QAbstractItemView*>( widget ) )
+        { r.translate(0,1); }
+
         const State& flags( option->state );
         const bool enabled( flags & State_Enabled );
         const bool mouseOver(enabled && (flags & State_MouseOver));
@@ -3922,7 +3928,13 @@ namespace Oxygen
     bool Style::drawIndicatorRadioButtonPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget) const
     {
 
-        const QRect& r( option->rect );
+        // get rect
+        QRect r( option->rect );
+
+        // fine tuning for embedded buttons
+        if( qobject_cast<const QAbstractItemView*>( widget ) )
+        { r.translate(0,1); }
+
         const State& flags( option->state );
         const bool enabled( flags & State_Enabled );
         const bool mouseOver(enabled && (flags & State_MouseOver));
