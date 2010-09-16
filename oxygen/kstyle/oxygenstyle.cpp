@@ -620,19 +620,6 @@ namespace Oxygen
                 else return PushButton_MenuIndicatorSize;
             }
 
-            // tabbars
-            case PM_TabBarTabHSpace:
-            {
-                if( const QStyleOptionTab* tabOpt = qstyleoption_cast<const QStyleOptionTab*>(option) )
-                {
-
-                    if( tabOpt->text.isNull() && !tabOpt->icon.isNull()) return 0;
-                    if( tabOpt->icon.isNull() && !tabOpt->text.isNull()) return 0;
-
-                } else return 4;
-
-            }
-
             case PM_ScrollBarExtent:
             return StyleConfigData::scrollBarWidth() + 2;
 
@@ -683,6 +670,8 @@ namespace Oxygen
             case PM_MenuTearoffHeight: return 10;
 
             //! tabbar
+            // tabbars
+            case PM_TabBarTabHSpace: return 0;
             case PM_TabBarTabVSpace: return 0;
             case PM_TabBarBaseHeight: return TabBar_BaseHeight;
             case PM_TabBarBaseOverlap: return TabBar_BaseOverlap;
@@ -5260,46 +5249,144 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawTabBarTabLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* widget) const
+    bool Style::drawTabBarTabLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
         const QStyleOptionTab *tabOpt = qstyleoption_cast< const QStyleOptionTab* >(option);
         if( !tabOpt ) return true;
 
-        const bool selected( option->state&State_Selected );
-        QStyleOptionTabV3 tabOptV3( *tabOpt );
-
         // add extra offset for selected tas
-        switch( tabOpt->shape )
+        QStyleOptionTabV3 tabOptV3(*tabOpt);
+
+        const bool selected( option->state&State_Selected );
+
+        // get rect
+        QRect r( option->rect );
+
+        // handle selection and orientation
+        /*
+        painter is rotated and translated to deal with various orientations
+        rect is translated to 0,0, and possibly transposed
+        */
+        switch( tabOptV3.shape )
         {
 
 
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
-            if( selected ) tabOptV3.rect.translate( 0, -1 );
-            break;
+            {
+                if( selected ) r.translate( 0, -1 );
+                painter->translate( r.topLeft() );
+                r.moveTopLeft( QPoint(0,0) );
+                break;
 
-            case QTabBar::RoundedWest:
-            case QTabBar::TriangularWest:
-            if( selected ) tabOptV3.rect.translate( -1, 0 );
-            break;
-
-            case QTabBar::RoundedEast:
-            case QTabBar::TriangularEast:
-            if( selected ) tabOptV3.rect.translate( 1, 0 );
-            break;
+            }
 
             case QTabBar::RoundedSouth:
             case QTabBar::TriangularSouth:
-            if( selected ) tabOptV3.rect.translate( 0, 1 );
-            break;
+            {
+                if( selected ) r.translate( 0, 1 );
+                painter->translate( r.topLeft() );
+                r.moveTopLeft( QPoint(0,0) );
+                break;
+
+            }
+
+            case QTabBar::RoundedWest:
+            case QTabBar::TriangularWest:
+            {
+
+                if( selected ) r.translate( -1, 0 );
+                painter->translate( r.bottomLeft() );
+                painter->rotate( -90 );
+                r = QRect( QPoint( 0, 0 ), QSize( r.height(), r.width() ) );
+                break;
+
+            }
+
+            case QTabBar::RoundedEast:
+            case QTabBar::TriangularEast:
+            {
+
+                if( selected ) r.translate( 1, 0 );
+                painter->translate( r.topRight() );
+                painter->rotate( 90 );
+                r = QRect( QPoint( 0, 0 ), QSize( r.height(), r.width() ) );
+                break;
+
+            }
 
             default: break;
 
         }
 
-        // use QCommonStyle painting on tranlated rect
-        QCommonStyle::drawControl( CE_TabBarTabLabel, &tabOptV3, painter, widget );
+        // make room for left and right widgets
+        // left widget
+        const bool verticalTabs( isVerticalTab( tabOpt ) );
+
+        if( !tabOptV3.leftButtonSize.isEmpty())
+        { r.setLeft( r.left() + 4 + (verticalTabs ? tabOptV3.leftButtonSize.height() : tabOptV3.leftButtonSize.width() ) ); }
+
+        // make room for left and right widgets
+        // left widget
+        if( !tabOptV3.rightButtonSize.isEmpty())
+        { r.setRight( r.right() - 4 - (verticalTabs ? tabOptV3.rightButtonSize.height() : tabOptV3.rightButtonSize.width() ) ); }
+
+        // compute textRect and iconRect
+        // now that orientation is properly dealt with, everything is handled as a 'north' orientation
+        QRect textRect;
+        QRect iconRect;
+
+        if( tabOptV3.icon.isNull() )
+        {
+
+            textRect = r.adjusted( 6, 0, -6, 0 );
+
+        } else {
+
+            const QSize& iconSize( tabOptV3.iconSize );
+            iconRect = centerRect( r, iconSize );
+            if( !tabOptV3.text.isEmpty() )
+            {
+
+                iconRect.moveLeft( r.left() + 8 );
+                textRect = r;
+                textRect.setLeft( iconRect.right()+3 );
+                textRect.setRight( r.right() - 6 );
+            }
+
+        }
+
+        if( verticalTabs )
+        {
+            textRect = handleRTL( option, textRect );
+            iconRect = handleRTL( option, iconRect );
+        }
+
+        // render icon
+        if( !iconRect.isNull() )
+        {
+
+            const QPixmap tabIcon = tabOptV3.icon.pixmap(
+                tabOptV3.iconSize,
+                ( tabOptV3.state & State_Enabled ) ? QIcon::Normal : QIcon::Disabled,
+                ( tabOptV3.state & State_Selected ) ? QIcon::On : QIcon::Off);
+
+            painter->drawPixmap(iconRect.x(), iconRect.y(), tabIcon);
+        }
+
+        // render text
+        if( !textRect.isNull() )
+        {
+
+            const QPalette& palette( option->palette );
+            const QString& text( tabOptV3.text );
+            const bool enabled( option->state & State_Enabled );
+            const int alignment( Qt::AlignCenter|Qt::TextShowMnemonic );
+            drawItemText( painter, textRect, alignment, palette, enabled, text, QPalette::WindowText );
+
+        }
+
         return true;
 
     }
