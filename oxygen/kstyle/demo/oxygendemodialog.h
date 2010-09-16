@@ -29,6 +29,7 @@
 
 #include <KDialog>
 #include <KPageWidget>
+#include <KPushButton>
 #include <QtGui/QWidget>
 #include <QtGui/QCheckBox>
 
@@ -73,34 +74,37 @@ namespace Oxygen
         private:
 
         //! main paged widget
-        KPageWidget* pageWidget_;
+        KPageWidget* _pageWidget;
 
         //! button widgets
         ButtonDemoWidget* buttonDemoWidget_;
 
         //! input widgets
-        InputDemoWidget* inputDemoWidget_;
+        InputDemoWidget* _inputDemoWidget;
 
         //! input widgets
-        FrameDemoWidget* frameDemoWidget_;
+        FrameDemoWidget* _frameDemoWidget;
 
         //! tab widget
-        TabDemoWidget* tabDemoWidget_;
+        TabDemoWidget* _tabDemoWidget;
 
         //! tab widget
-        SliderDemoWidget* sliderDemoWidget_;
+        SliderDemoWidget* _sliderDemoWidget;
 
         //! mdi
-        MdiDemoWidget* mdiDemoWidget_;
+        MdiDemoWidget* _mdiDemoWidget;
 
         //! list widgets ui
-        Ui_ListDemoWidget listDemoWidgetUi_;
+        Ui_ListDemoWidget _listDemoWidgetUi;
+
+        //! benchmark buton
+        KPushButton* _benchmarkButton;
 
         //! enable state checkbox
-        QCheckBox* enableCheckBox_;
+        QCheckBox* _enableCheckBox;
 
         //! reverse layout checkbox
-        QCheckBox* rightToLeftCheckBox_;
+        QCheckBox* _rightToLeftCheckBox;
 
     };
 

@@ -28,6 +28,8 @@
 #include "oxygentabdemowidget.moc"
 #include "oxygentabwidget.moc"
 
+#include "oxygensimulator.h"
+
 #include <QtGui/QToolButton>
 #include <KIcon>
 
@@ -37,8 +39,9 @@ namespace Oxygen
     //______________________________________________________________
     TabDemoWidget::TabDemoWidget( QWidget* parent ):
         QWidget( parent ),
-        left_( new QToolButton(0) ),
-        right_( new QToolButton(0) )
+        _simulator( new Simulator( this ) ),
+        _left( new QToolButton(0) ),
+        _right( new QToolButton(0) )
     {
         ui.setupUi( this );
         connect( ui.tabPositionComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( changeTabPosition( int ) ) );
@@ -48,11 +51,33 @@ namespace Oxygen
         connect( ui.tabBarVisibilityCheckBox, SIGNAL( toggled( bool ) ), ui.tabWidget, SLOT( toggleTabBarVisibility( bool ) ) );
         ui.textPositionComboBox->setCurrentIndex( 1 );
 
-        left_->setIcon( KIcon( "tab-new" ) );
-        left_->setVisible( false );
+        _left->setIcon( KIcon( "tab-new" ) );
+        _left->setVisible( false );
 
-        right_->setIcon( KIcon( "tab-close" ) );
-        right_->setVisible( false );
+        _right->setIcon( KIcon( "tab-close" ) );
+        _right->setVisible( false );
+
+    }
+
+    //______________________________________________________________
+    void TabDemoWidget::benchmark( void )
+    {
+        if( !isVisible() ) return;
+
+        _simulator->toggleComboBox( ui.tabPositionComboBox );
+        _simulator->toggleComboBox( ui.textPositionComboBox );
+
+        _simulator->toggleCheckBox( ui.documentModeCheckBox );
+        _simulator->toggleCheckBox( ui.documentModeCheckBox );
+
+        _simulator->toggleCheckBox( ui.cornerWidgetsCheckBox );
+        _simulator->toggleCheckBox( ui.cornerWidgetsCheckBox );
+
+        _simulator->toggleCheckBox( ui.tabBarVisibilityCheckBox );
+        _simulator->toggleCheckBox( ui.tabBarVisibilityCheckBox );
+
+        // run
+        _simulator->run();
 
     }
 

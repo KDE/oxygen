@@ -8,6 +8,7 @@ set( oxygen_demo_SOURCES
     oxygenframedemowidget.cpp
     oxygeninputdemowidget.cpp
     oxygenmdidemowidget.cpp
+    oxygensimulator.cpp
     oxygensliderdemowidget.cpp
     oxygentabdemowidget.cpp
     main.cpp)

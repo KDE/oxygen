@@ -34,6 +34,10 @@
 
 namespace Oxygen
 {
+
+    //! forward declarations
+    class Simulator;
+
     class TabDemoWidget: public QWidget
     {
 
@@ -48,6 +52,11 @@ namespace Oxygen
         virtual ~TabDemoWidget( void )
         {}
 
+        public slots:
+
+        //! benchmark
+        void benchmark( void );
+
         protected slots:
 
         //! show/hide corner buttons
@@ -55,16 +64,16 @@ namespace Oxygen
         {
             if( value )
             {
-                ui.tabWidget->setCornerWidget( left_, Qt::TopLeftCorner );
-                ui.tabWidget->setCornerWidget( right_, Qt::TopRightCorner );
+                ui.tabWidget->setCornerWidget( _left, Qt::TopLeftCorner );
+                ui.tabWidget->setCornerWidget( _right, Qt::TopRightCorner );
             } else {
                 ui.tabWidget->setCornerWidget( 0, Qt::TopLeftCorner );
                 ui.tabWidget->setCornerWidget( 0, Qt::TopRightCorner );
             }
 
             ui.tabWidget->adjustSize();
-            left_->setVisible( value );
-            right_->setVisible( value );
+            _left->setVisible( value );
+            _right->setVisible( value );
 
         }
 
@@ -124,9 +133,17 @@ namespace Oxygen
 
         private:
 
+        //! simulator
+        Simulator* _simulator;
+
+        //! ui
         Ui_TabDemoWidget ui;
-        QToolButton* left_;
-        QToolButton* right_;
+
+        //! tabbar left button
+        QToolButton* _left;
+
+        //! tabbar right button
+        QToolButton* _right;
 
     };
 
