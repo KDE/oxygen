@@ -102,6 +102,8 @@ namespace Oxygen
             page->setIcon( KIcon( "view-list-tree" ) );
             page->setHeader( i18n("Shows the appearance of lists, trees and tables") );
             pageWidget_->addPage( page );
+            listDemoWidgetUi_.treeWidget->sortByColumn( 0, Qt::AscendingOrder );
+
         }
 
         // frames
