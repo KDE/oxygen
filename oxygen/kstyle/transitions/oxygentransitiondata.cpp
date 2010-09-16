@@ -44,6 +44,6 @@ namespace Oxygen
 
     //_________________________________________________________________
     TransitionData::~TransitionData( void )
-    {}
+    { if( transition() ) transition().data()->deleteLater(); }
 
 }
