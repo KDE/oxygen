@@ -29,9 +29,6 @@
 #include <KApplication>
 #include <KIcon>
 #include <KAboutData>
-#include <kdeversion.h>
-
-#include <QtCore/QTextStream>
 
 int main(int argc, char *argv[])
 {
@@ -45,8 +42,6 @@ int main(int argc, char *argv[])
         ki18n( "(c) 2010, Hugo Pereira Da Costa" ));
 
     aboutData.addAuthor( ki18n( "Hugo Pereira Da Costa" ),KLocalizedString(), "hugo@oxygen-icons.org" );
-
-    QTextStream( stdout ) << "oxygen-settings::main - kde version: " << KDE_VERSION << endl;
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KApplication app;
