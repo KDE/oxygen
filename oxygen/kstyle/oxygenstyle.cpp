@@ -3875,12 +3875,7 @@ namespace Oxygen
     {
 
         // get rect
-        QRect r( option->rect );
-
-        // fine tuning for embedded buttons
-        if( qobject_cast<const QAbstractItemView*>( widget ) )
-        { r.translate(0,1); }
-
+        const QRect& r( option->rect );
         const State& flags( option->state );
         const bool enabled( flags & State_Enabled );
         const bool mouseOver(enabled && (flags & State_MouseOver));
@@ -3929,12 +3924,7 @@ namespace Oxygen
     {
 
         // get rect
-        QRect r( option->rect );
-
-        // fine tuning for embedded buttons
-        if( qobject_cast<const QAbstractItemView*>( widget ) )
-        { r.translate(0,1); }
-
+        const QRect& r( option->rect );
         const State& flags( option->state );
         const bool enabled( flags & State_Enabled );
         const bool mouseOver(enabled && (flags & State_MouseOver));
