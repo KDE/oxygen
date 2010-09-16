@@ -994,6 +994,8 @@ namespace Oxygen
             case PE_PanelScrollAreaCorner: fcn = &Style::drawPanelScrollAreaCornerPrimitive; break;
             case PE_PanelTipLabel: fcn = &Style::drawPanelTipLabelPrimitive; break;
 
+            case PE_Q3CheckListIndicator: fcn = &Style::drawQ3CheckListIndicatorPrimitive; break;
+            case PE_Q3CheckListExclusiveIndicator: fcn = &Style::drawQ3CheckListExclusiveIndicatorPrimitive; break;
             case PE_IndicatorBranch: fcn = &Style::drawIndicatorBranchPrimitive; break;
             case PE_IndicatorButtonDropDown: fcn = &Style::drawIndicatorButtonDropDownPrimitive; break;
             case PE_IndicatorCheckBox: fcn = &Style::drawIndicatorCheckBoxPrimitive; break;
@@ -1095,6 +1097,7 @@ namespace Oxygen
             case CC_ComboBox: fcn = &Style::drawComboBoxComplexControl; break;
             case CC_Dial: fcn = &Style::drawDialComplexControl; break;
             case CC_GroupBox: fcn = &Style::drawGroupBoxComplexControl; break;
+            case CC_Q3ListView: fcn = &Style::drawQ3ListViewComplexControl; break;
             case CC_Slider: fcn = &Style::drawSliderComplexControl; break;
             case CC_SpinBox: fcn = &Style::drawSpinBoxComplexControl; break;
             case CC_TitleBar: fcn = &Style::drawTitleBarComplexControl; break;
@@ -3525,6 +3528,36 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
+    bool Style::drawQ3CheckListIndicatorPrimitive( const QStyleOption *option, QPainter *painter, const QWidget *widget ) const
+    {
+        const QStyleOptionQ3ListView* listViewOpt( qstyleoption_cast<const QStyleOptionQ3ListView*>( option ) );
+        if( !listViewOpt || listViewOpt->items.isEmpty() ) return true;
+
+        QStyleOptionButton buttonOption;
+        buttonOption.QStyleOption::operator=(*option);
+
+        QSize size( CheckBox_Size, CheckBox_Size );
+        buttonOption.rect = centerRect( option->rect, size ).translated( 0, 4 );
+        drawIndicatorCheckBoxPrimitive( &buttonOption, painter, widget );
+        return true;
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawQ3CheckListExclusiveIndicatorPrimitive( const QStyleOption *option, QPainter *painter, const QWidget *widget ) const
+    {
+        const QStyleOptionQ3ListView* listViewOpt( qstyleoption_cast<const QStyleOptionQ3ListView*>( option ) );
+        if( !listViewOpt || listViewOpt->items.isEmpty() ) return true;
+
+        QStyleOptionButton buttonOption;
+        buttonOption.QStyleOption::operator=(*option);
+
+        QSize size( CheckBox_Size, CheckBox_Size );
+        buttonOption.rect = centerRect( option->rect, size ).translated( 0, 4 );
+        drawIndicatorRadioButtonPrimitive( &buttonOption, painter, widget );
+        return true;
+    }
+
+    //___________________________________________________________________________________
     bool Style::drawIndicatorBranchPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
@@ -3550,7 +3583,6 @@ namespace Oxygen
             // make sure size limit is odd
             if( !(sizeLimit&1) ) --sizeLimit;
             expanderAdjust = sizeLimit/2 + 1;
-
 
             QRect expanderRect = centerRect( r, sizeLimit, sizeLimit );
             const int radius( (expanderRect.width() - 4) / 2 );
@@ -7166,6 +7198,63 @@ namespace Oxygen
             return true;
 
         } else return false;
+    }
+
+    //______________________________________________________________
+    bool Style::drawQ3ListViewComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
+    {
+
+        const QStyleOptionQ3ListView* optListView( qstyleoption_cast<const QStyleOptionQ3ListView*>( option ) );
+        if( !optListView ) return true;
+
+        // this is copied from skulpture code
+        // Copyright (c) 2007-2010 Christoph Feck <christoph@maxiom.de>
+        if( optListView->subControls & QStyle::SC_Q3ListView )
+        {
+            painter->fillRect(
+                optListView->rect,
+                optListView->viewportPalette.brush(optListView->viewportBGRole));
+        }
+
+        if( optListView->subControls & QStyle::SC_Q3ListViewBranch )
+        {
+
+            QStyleOption opt = *static_cast<const QStyleOption*>(option);
+            int y = optListView->rect.y();
+
+            for (int i = 1; i < optListView->items.size(); ++i)
+            {
+                QStyleOptionQ3ListViewItem item = optListView->items.at(i);
+                if( y + item.totalHeight > 0 && y < optListView->rect.height() )
+                {
+                    opt.state = QStyle::State_Item;
+                    if (i + 1 < optListView->items.size())
+                    { opt.state |= QStyle::State_Sibling; }
+
+                    if(
+                        item.features & QStyleOptionQ3ListViewItem::Expandable
+                        || (item.childCount > 0 && item.height > 0))
+                    { opt.state |= QStyle::State_Children | (item.state & QStyle::State_Open); }
+
+                    opt.rect = QRect(optListView->rect.left(), y, optListView->rect.width(), item.height);
+                    drawIndicatorBranchPrimitive( &opt, painter, widget );
+
+                    if( (opt.state & QStyle::State_Sibling) && item.height < item.totalHeight )
+                    {
+                        opt.state = QStyle::State_Sibling;
+                        opt.rect = QRect(
+                            optListView->rect.left(), y + item.height,
+                            optListView->rect.width(), item.totalHeight - item.height);
+                        drawIndicatorBranchPrimitive( &opt, painter, widget );
+                    }
+                }
+
+                y += item.totalHeight;
+            }
+        }
+
+        return true;
+
     }
 
     //______________________________________________________________
