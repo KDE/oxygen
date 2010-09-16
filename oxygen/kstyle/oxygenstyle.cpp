@@ -1075,7 +1075,7 @@ namespace Oxygen
             case CE_TabBarTabLabel: fcn = &Style::drawTabBarTabLabelControl; break;
 
             // default tab style is 'SINGLE'
-            case CE_TabBarTabShape: fcn = &Style::drawTabBarTabShapeControl_Single; break;
+            case CE_TabBarTabShape: fcn = _tabBarTabShapeControl; break;
 
             case CE_ToolBar: fcn = &Style::drawToolBarControl; break;
             case CE_ToolBoxTabLabel: fcn = &Style::drawToolBoxTabLabelControl; break;
