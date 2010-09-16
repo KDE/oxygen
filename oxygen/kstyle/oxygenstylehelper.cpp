@@ -34,7 +34,7 @@ namespace Oxygen
     //______________________________________________________________________________
     StyleHelper::StyleHelper(const QByteArray &componentName):
         Helper(componentName),
-        m_debugArea( KDebug::registerArea( "oxygen-style" ) )
+        m_debugArea( KDebug::registerArea( "Oxygen (style)" ) )
     {
         m_dockFrameCache.setMaxCost(1);
         m_scrollHoleCache.setMaxCost(10);
