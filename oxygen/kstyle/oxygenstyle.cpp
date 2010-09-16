@@ -5367,6 +5367,10 @@ namespace Oxygen
         if( !iconRect.isNull() )
         {
 
+            // not sure why this is necessary
+            if( tabOptV3.shape == QTabBar::RoundedNorth || tabOptV3.shape == QTabBar::TriangularNorth )
+            { iconRect.translate( 0, -1 ); }
+
             const QPixmap tabIcon = tabOptV3.icon.pixmap(
                 tabOptV3.iconSize,
                 ( tabOptV3.state & State_Enabled ) ? QIcon::Normal : QIcon::Disabled,
