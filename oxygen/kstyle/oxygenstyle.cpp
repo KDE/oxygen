@@ -1904,7 +1904,7 @@ namespace Oxygen
                     fw = 0;
 
                     // TODO: why is bml not also set to 0
-                    bmt = bmb = bmr = 0;
+                    bmt = bmb = 0;
                 }
 
                 if( subControl == SC_ComboBoxArrow )
@@ -7019,6 +7019,12 @@ namespace Oxygen
                 animations().lineEditEngine().updateState( widget, AnimationHover, mouseOver );
                 animations().lineEditEngine().updateState( widget, AnimationFocus, hasFocus && !mouseOver );
 
+                // store animation state
+                const bool hoverAnimated( animations().lineEditEngine().isAnimated( widget, AnimationHover ) );
+                const bool focusAnimated( animations().lineEditEngine().isAnimated( widget, AnimationFocus ) );
+                const qreal hoverOpacity( animations().lineEditEngine().opacity( widget, AnimationHover ) );
+                const qreal focusOpacity( animations().lineEditEngine().opacity( widget, AnimationFocus ) );
+
                 // blend button color to the background
                 const QColor buttonColor( _helper.backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
                 const QRect slabRect( r.adjusted(-1, 0, 1, 0 ) );
@@ -7026,21 +7032,57 @@ namespace Oxygen
                 if( !hasFrame )
                 {
 
-                    // do nothing.
+                    QRect slitRect(r);
+                    if( !( opts & Sunken) )
+                    {
+                        // hover rect
+                        if( enabled && hoverAnimated )
+                        {
 
-                } else if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationHover ) ) {
+                            QColor glow( _helper.alphaColor( _helper.viewFocusBrush().brush(QPalette::Active).color(), hoverOpacity ) );
+                            _helper.slitFocused( glow )->render(slitRect, painter );
 
-                    const qreal opacity( animations().lineEditEngine().opacity( widget, AnimationHover ) );
-                    renderButtonSlab( painter, slabRect, buttonColor, opts, opacity, AnimationHover, TileSet::Ring );
+                        } else if( mouseOver) {
 
-                } else if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationFocus ) ) {
+                            _helper.slitFocused(_helper.viewFocusBrush().brush(QPalette::Active).color())->render(slitRect, painter );
 
-                    const qreal opacity( animations().lineEditEngine().opacity( widget, AnimationFocus ) );
-                    renderButtonSlab( painter, slabRect, buttonColor, opts, opacity, AnimationFocus, TileSet::Ring );
+                        }
+
+                    } else {
+
+                        slitRect.adjust( 0, 0, 0, -1 );
+
+                        // flat pressed-down buttons do not get focus effect,
+                        // consistently with tool buttons
+                        if( enabled && hoverAnimated )
+                        {
+
+                            _helper.renderHole( painter, palette.color(QPalette::Window), slitRect, false, mouseOver, hoverOpacity, AnimationHover, TileSet::Ring );
+
+                        } else {
+
+                            _helper.renderHole( painter, palette.color(QPalette::Window), slitRect, false, mouseOver);
+
+                        }
+
+                    }
 
                 } else {
 
-                    renderButtonSlab( painter, slabRect, buttonColor, opts);
+                    if( enabled && hoverAnimated )
+                    {
+
+                        renderButtonSlab( painter, slabRect, buttonColor, opts, hoverOpacity, AnimationHover, TileSet::Ring );
+
+                    } else if( enabled && focusAnimated ) {
+
+                        renderButtonSlab( painter, slabRect, buttonColor, opts, focusOpacity, AnimationFocus, TileSet::Ring );
+
+                    } else {
+
+                        renderButtonSlab( painter, slabRect, buttonColor, opts);
+
+                    }
 
                 }
 
