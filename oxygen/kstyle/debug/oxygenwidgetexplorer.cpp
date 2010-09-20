@@ -40,7 +40,24 @@ namespace Oxygen
         QObject( parent ),
         _enabled( false ),
         _drawWidgetRects( false )
-    {}
+    {
+
+        _eventTypes.insert( QEvent::Enter, "Enter" );
+        _eventTypes.insert( QEvent::Leave, "Leave" );
+
+        _eventTypes.insert( QEvent::HoverMove, "HoverMove" );
+        _eventTypes.insert( QEvent::HoverEnter, "HoverEnter" );
+        _eventTypes.insert( QEvent::HoverLeave, "HoverLeave" );
+
+        _eventTypes.insert( QEvent::MouseMove, "MouseMove" );
+        _eventTypes.insert( QEvent::MouseButtonPress, "MouseButtonPress" );
+        _eventTypes.insert( QEvent::MouseButtonRelease, "MouseButtonRelease" );
+
+        _eventTypes.insert( QEvent::FocusIn, "FocusIn" );
+        _eventTypes.insert( QEvent::FocusOut, "FocusOut" );
+
+        // _eventTypes.insert( QEvent::Paint, "Paint" );
+    }
 
     //________________________________________________
     void WidgetExplorer::setEnabled( bool value )
@@ -56,6 +73,15 @@ namespace Oxygen
     bool WidgetExplorer::eventFilter( QObject* object, QEvent* event )
     {
 
+        if( object->isWidgetType() )
+        {
+            QString type( _eventTypes[event->type()] );
+            if( !type.isEmpty() )
+            {
+                QTextStream( stdout ) << "Oxygen::WidgetExplorer::eventFilter - widget: " << object << " (" << object->metaObject()->className() << ")";
+                QTextStream( stdout ) << " type: " << type  << endl;
+            }
+        }
 
         switch( event->type() )
         {

@@ -1,3 +1,5 @@
+// krazy:excludeall=qclasses
+
 //////////////////////////////////////////////////////////////////////////////
 // oxygensimulator.cpp
 // simulates event chain passed to the application
@@ -65,19 +67,19 @@ namespace Oxygen
     { _events.push_back( Event( Event::Wait, 0, delay ) ); }
 
     //_______________________________________________________________________
-    void Simulator::enter( QWidget* reciever, const QPoint& position, int delay  )
+    void Simulator::enter( QWidget* receiver, const QPoint& position, int delay  )
     {
-        Event event( Event::Enter, reciever, delay );
+        Event event( Event::Enter, receiver, delay );
         event._position = position;
         _events.push_back( event );
     }
 
     //_______________________________________________________________________
-    void Simulator::click( QWidget* reciever, int delay  )
+    void Simulator::click( QWidget* receiver, int delay  )
     {
 
         QPoint position;
-        if( QCheckBox* checkbox = qobject_cast<QCheckBox*>( reciever ) )
+        if( QCheckBox* checkbox = qobject_cast<QCheckBox*>( receiver ) )
         {
 
             QStyleOptionButton option;
@@ -87,7 +89,7 @@ namespace Oxygen
                 &option,
                 checkbox).center();
 
-        } else if( QRadioButton* radiobutton = qobject_cast<QRadioButton*>( reciever ) ) {
+        } else if( QRadioButton* radiobutton = qobject_cast<QRadioButton*>( receiver ) ) {
 
             QStyleOptionButton option;
             option.initFrom( radiobutton );
@@ -98,55 +100,55 @@ namespace Oxygen
 
         } else {
 
-            position = reciever->rect().center();
+            position = receiver->rect().center();
 
         }
 
-        click( reciever, position, delay );
+        click( receiver, position, delay );
 
     }
 
     //_______________________________________________________________________
-    void Simulator::click( QWidget* reciever, const QPoint& position, int delay )
+    void Simulator::click( QWidget* receiver, const QPoint& position, int delay )
     {
-        Event event( Event::Click, reciever, delay );
+        Event event( Event::Click, receiver, delay );
         event._position = position;
         _events.push_back( event );
     }
 
     //_______________________________________________________________________
-    void Simulator::slide( QWidget* reciever, const QPoint& position, int delay )
+    void Simulator::slide( QWidget* receiver, const QPoint& position, int delay )
     {
-        Event event( Event::Slide, reciever, delay );
+        Event event( Event::Slide, receiver, delay );
         event._position = position;
         _events.push_back( event );
 
     }
 
     //_______________________________________________________________________
-    void Simulator::selectItem( QWidget* reciever, int row, int column, int delay )
+    void Simulator::selectItem( QWidget* receiver, int row, int column, int delay )
     {
-        Event event( Event::SelectItem, reciever, delay );
+        Event event( Event::SelectItem, receiver, delay );
         event._position = QPoint( column, row );
         _events.push_back( event );
     }
 
     //_______________________________________________________________________
-    void Simulator::clearSelection( QWidget* reciever, int delay )
-    { _events.push_back( Event( Event::ClearSelection, reciever, delay ) ); }
+    void Simulator::clearSelection( QWidget* receiver, int delay )
+    { _events.push_back( Event( Event::ClearSelection, receiver, delay ) ); }
 
     //_______________________________________________________________________
-    void Simulator::selectComboBoxItem( QWidget* reciever, int index, int delay )
+    void Simulator::selectComboBoxItem( QWidget* receiver, int index, int delay )
     {
-        Event event( Event::SelectComboBoxItem, reciever, delay );
+        Event event( Event::SelectComboBoxItem, receiver, delay );
         event._position.setX( index );
         _events.push_back( event );
     }
 
     //_______________________________________________________________________
-    void Simulator::selectMenuItem( QWidget* reciever, int index, int delay )
+    void Simulator::selectMenuItem( QWidget* receiver, int index, int delay )
     {
-        Event event( Event::SelectMenuItem, reciever, delay );
+        Event event( Event::SelectMenuItem, receiver, delay );
         event._position.setX( index );
         _events.push_back( event );
     }
@@ -165,24 +167,24 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Simulator::selectTab( QTabBar* reciever, int index, int delay )
+    void Simulator::selectTab( QTabBar* receiver, int index, int delay )
     {
-        Event event( Event::SelectTab, reciever, delay );
+        Event event( Event::SelectTab, receiver, delay );
         event._position.setX( index );
         _events.push_back( event );
     }
 
     //_______________________________________________________________________
-    void Simulator::writeText( QWidget* reciever, QString text, int delay )
+    void Simulator::writeText( QWidget* receiver, QString text, int delay )
     {
-        Event event( Event::WriteText, reciever, delay );
+        Event event( Event::WriteText, receiver, delay );
         event._text = text;
         _events.push_back( event );
     }
 
     //_______________________________________________________________________
-    void Simulator::clearText( QWidget* reciever, int delay )
-    { _events.push_back( Event( Event::ClearText, reciever, delay ) ); }
+    void Simulator::clearText( QWidget* receiver, int delay )
+    { _events.push_back( Event( Event::ClearText, receiver, delay ) ); }
 
     //_______________________________________________________________________
     void Simulator::run( void )
@@ -248,7 +250,7 @@ namespace Oxygen
     void Simulator::processEvent( const Event& event )
     {
 
-        if( !event._reciever )
+        if( !event._receiver )
         {
 
             if( event._type == Event::Wait )
@@ -270,7 +272,7 @@ namespace Oxygen
 
         }
 
-        QWidget* reciever( event._reciever.data() );
+        QWidget* receiver( event._receiver.data() );
 
         switch( event._type )
         {
@@ -283,53 +285,53 @@ namespace Oxygen
                 const QPoint& position( event._position );
 
                 // leave previous widget
-                if( _previousWidget && _previousWidget.data() != reciever )
+                if( _previousWidget && _previousWidget.data() != receiver )
                 {
                     postEvent( _previousWidget.data(), QEvent::Leave );
                     if( _previousWidget.data()->testAttribute( Qt::WA_Hover ) )
                     {
                         const QPoint oldPosition( _previousWidget.data()->mapFromGlobal( _previousPosition ) );
-                        const QPoint newPosition( _previousWidget.data()->mapFromGlobal( reciever->mapToGlobal( position ) ) );
+                        const QPoint newPosition( _previousWidget.data()->mapFromGlobal( receiver->mapToGlobal( position ) ) );
                         postHoverEvent( _previousWidget.data(), QEvent::HoverLeave, newPosition, oldPosition );
                     }
                 }
 
                 // enter or move in current widget
-                if( !reciever->rect().contains( reciever->mapFromGlobal( _previousPosition ) ) )
+                if( !receiver->rect().contains( receiver->mapFromGlobal( _previousPosition ) ) )
                 {
 
                     // enter current widget if needed
-                    postEvent( reciever, QEvent::Enter );
-                    if( reciever->testAttribute( Qt::WA_Hover ) )
+                    postEvent( receiver, QEvent::Enter );
+                    if( receiver->testAttribute( Qt::WA_Hover ) )
                     {
-                        const QPoint oldPosition( reciever->mapFromGlobal( _previousPosition ) );
+                        const QPoint oldPosition( receiver->mapFromGlobal( _previousPosition ) );
                         const QPoint newPosition( position );
-                        postHoverEvent( reciever, QEvent::HoverEnter, newPosition, oldPosition );
+                        postHoverEvent( receiver, QEvent::HoverEnter, newPosition, oldPosition );
                     }
 
-                } else if( reciever->mapFromGlobal( _previousPosition ) != position ) {
+                } else if( receiver->mapFromGlobal( _previousPosition ) != position ) {
 
                     // move mouse if needed
-                    postMouseEvent( reciever, QEvent::MouseMove, Qt::NoButton, position );
-                    if( reciever->testAttribute( Qt::WA_Hover ) )
+                    postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, position );
+                    if( receiver->testAttribute( Qt::WA_Hover ) )
                     {
-                        const QPoint oldPosition( reciever->mapFromGlobal( _previousPosition ) );
+                        const QPoint oldPosition( receiver->mapFromGlobal( _previousPosition ) );
                         const QPoint newPosition( position );
-                        postHoverEvent( reciever, QEvent::HoverMove, newPosition, oldPosition );
+                        postHoverEvent( receiver, QEvent::HoverMove, newPosition, oldPosition );
                     }
 
                 }
 
                 // update previous widget and position
-                _previousWidget = reciever;
-                _previousPosition = reciever->mapToGlobal( position );
+                _previousWidget = receiver;
+                _previousPosition = receiver->mapToGlobal( position );
                 break;
             }
 
             // click event
             case Event::Click:
             {
-                postMouseClickEvent( reciever, Qt::LeftButton, event._position );
+                postMouseClickEvent( receiver, Qt::LeftButton, event._position );
                 break;
             }
 
@@ -340,7 +342,7 @@ namespace Oxygen
 
                 // calculate begin position depending on widget type
                 QPoint begin;
-                if( const QSlider* slider = qobject_cast<const QSlider*>( reciever ) )
+                if( const QSlider* slider = qobject_cast<const QSlider*>( receiver ) )
                 {
 
                     // this is copied from QSlider::initStyleOption
@@ -361,7 +363,7 @@ namespace Oxygen
                     if( !handleRect.isValid() ) break;
                     begin = handleRect.center();
 
-                } else if( const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>( reciever ) ) {
+                } else if( const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>( receiver ) ) {
 
                     // this is copied from QSlider::initStyleOption
                     QStyleOptionSlider option;
@@ -383,13 +385,13 @@ namespace Oxygen
 
                 } else {
 
-                    begin = reciever->rect().center();
+                    begin = receiver->rect().center();
 
                 }
                 const QPoint end( begin + delta );
-                postMouseEvent( reciever, QEvent::MouseMove, Qt::NoButton, begin );
-                postMouseEvent( reciever, QEvent::MouseButtonPress, Qt::LeftButton, begin, Qt::LeftButton );
-                reciever->setFocus();
+                postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, begin );
+                postMouseEvent( receiver, QEvent::MouseButtonPress, Qt::LeftButton, begin, Qt::LeftButton );
+                receiver->setFocus();
                 postDelay( 50 );
                 const int steps = 10;
                 for( int i=0; i<steps; ++i )
@@ -397,18 +399,18 @@ namespace Oxygen
                     QPoint current(
                         begin.x() + qreal(i*( end.x()-begin.x() ))/(steps-1),
                         begin.y() + qreal(i*( end.y()-begin.y() ))/(steps-1) );
-                    postMouseEvent( reciever, QEvent::MouseMove, Qt::NoButton, current, Qt::LeftButton, Qt::NoModifier );
+                    postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, current, Qt::LeftButton, Qt::NoModifier );
                     postDelay( 20 );
                 }
 
-                postMouseEvent( reciever, QEvent::MouseButtonRelease, Qt::LeftButton, end );
+                postMouseEvent( receiver, QEvent::MouseButtonRelease, Qt::LeftButton, end );
                 break;
             }
 
             case Event::SelectItem:
             {
 
-                const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>( reciever );
+                const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>( receiver );
                 if( !( view && view->model() ) ) break;
 
                 const int column( event._position.x() );
@@ -432,7 +434,7 @@ namespace Oxygen
 
             case Event::ClearSelection:
             {
-                const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>( reciever );
+                const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>( receiver );
                 postMouseEvent( view->viewport(), QEvent::MouseMove, Qt::NoButton, view->viewport()->rect().bottomRight(), Qt::NoButton, Qt::NoModifier );
                 postDelay(100);
                 postMouseClickEvent( view->viewport(), Qt::LeftButton, view->viewport()->rect().bottomRight() );
@@ -442,7 +444,7 @@ namespace Oxygen
             case Event::SelectComboBoxItem:
             {
 
-                const QComboBox* combobox = qobject_cast<const QComboBox*>( reciever );
+                const QComboBox* combobox = qobject_cast<const QComboBox*>( receiver );
                 if( !combobox ) break;
 
                 // get arrow rect
@@ -451,7 +453,7 @@ namespace Oxygen
                 QRect arrowRect( combobox->style()->subControlRect( QStyle::CC_ComboBox, &option, QStyle::SC_ComboBoxArrow, combobox ) );
 
                 // first click
-                postMouseClickEvent( reciever, Qt::LeftButton, arrowRect.center() );
+                postMouseClickEvent( receiver, Qt::LeftButton, arrowRect.center() );
                 postDelay( 100 );
 
                 // select item in view
@@ -481,8 +483,8 @@ namespace Oxygen
 
                 // retrieve menu
                 QMenu* menu( 0 );
-                if( const QToolButton* button = qobject_cast<const QToolButton*>( reciever ) ) menu = button->menu();
-                else if( const QPushButton* button = qobject_cast<const QPushButton*>( reciever ) ) menu = button->menu();
+                if( const QToolButton* button = qobject_cast<const QToolButton*>( receiver ) ) menu = button->menu();
+                else if( const QPushButton* button = qobject_cast<const QPushButton*>( receiver ) ) menu = button->menu();
 
                 // abort if not found
                 if( !menu ) break;
@@ -528,7 +530,7 @@ namespace Oxygen
                 _pendingEventsTimer.start( 150, this );
 
                 // click
-                postMouseEvent( reciever, QEvent::MouseButtonPress, Qt::LeftButton, reciever->rect().center(), Qt::NoButton, Qt::NoModifier );
+                postMouseEvent( receiver, QEvent::MouseButtonPress, Qt::LeftButton, receiver->rect().center(), Qt::NoButton, Qt::NoModifier );
                 break;
 
             }
@@ -536,7 +538,7 @@ namespace Oxygen
             case Event::SelectTab:
             {
 
-                const QTabBar* tabbar = qobject_cast<const QTabBar*>( reciever );
+                const QTabBar* tabbar = qobject_cast<const QTabBar*>( receiver );
                 if( !tabbar ) break;
 
                 const int index( event._position.x() );
@@ -544,7 +546,7 @@ namespace Oxygen
                 const QRect r( tabbar->tabRect( index ) );
                 if( !r.isValid() ) break;
 
-                postMouseClickEvent( reciever, Qt::LeftButton, r.center() );
+                postMouseClickEvent( receiver, Qt::LeftButton, r.center() );
                 break;
 
             }
@@ -552,14 +554,14 @@ namespace Oxygen
             case Event::WriteText:
             {
 
-                reciever->setFocus();
+                receiver->setFocus();
                 const QString& text( event._text );
                 for( int i=0; i < text.length(); ++i )
                 {
                     const Qt::Key key( toKey( text.at(i) ) );
                     const QString local( text.at(i) );
-                    postKeyEvent( reciever, QEvent::KeyPress, key, local, Qt::NoModifier );
-                    postKeyEvent( reciever, QEvent::KeyRelease, key, local, Qt::NoModifier );
+                    postKeyEvent( receiver, QEvent::KeyPress, key, local, Qt::NoModifier );
+                    postKeyEvent( receiver, QEvent::KeyRelease, key, local, Qt::NoModifier );
                     postDelay( 20 );
                 }
                 break;
@@ -570,11 +572,11 @@ namespace Oxygen
             {
 
                 // select all and backspace
-                reciever->setFocus();
-                postKeyEvent( reciever, QEvent::KeyPress, Qt::Key_A, "a", Qt::ControlModifier );
-                postKeyEvent( reciever, QEvent::KeyRelease, Qt::Key_A, "a", Qt::ControlModifier );
+                receiver->setFocus();
+                postKeyEvent( receiver, QEvent::KeyPress, Qt::Key_A, "a", Qt::ControlModifier );
+                postKeyEvent( receiver, QEvent::KeyRelease, Qt::Key_A, "a", Qt::ControlModifier );
                 postDelay( 20 );
-                postKeyClickEvent( reciever, Qt::Key_Backspace, QString() );
+                postKeyClickEvent( receiver, Qt::Key_Backspace, QString() );
 
             }
 
@@ -591,55 +593,55 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Simulator::postEvent( QWidget* reciever, QEvent::Type type )
-    { postQEvent( reciever, new QEvent( type ) ); }
+    void Simulator::postEvent( QWidget* receiver, QEvent::Type type )
+    { postQEvent( receiver, new QEvent( type ) ); }
 
     //_______________________________________________________________________
-    void Simulator::postHoverEvent( QWidget* reciever, QEvent::Type type, const QPoint& newPosition, const QPoint& oldPosition )
-    { postQEvent( reciever, new QHoverEvent( type, newPosition, oldPosition ) ); }
+    void Simulator::postHoverEvent( QWidget* receiver, QEvent::Type type, const QPoint& newPosition, const QPoint& oldPosition )
+    { postQEvent( receiver, new QHoverEvent( type, newPosition, oldPosition ) ); }
 
     //_______________________________________________________________________
-    void Simulator::postMouseClickEvent( QWidget* reciever, Qt::MouseButton button, const QPoint& position  )
+    void Simulator::postMouseClickEvent( QWidget* receiver, Qt::MouseButton button, const QPoint& position  )
     {
 
         // button press and button release
-        postMouseEvent( reciever, QEvent::MouseButtonPress, button, position, button  );
-        reciever->setFocus();
+        postMouseEvent( receiver, QEvent::MouseButtonPress, button, position, button  );
+        receiver->setFocus();
         postDelay(50);
-        postMouseEvent( reciever, QEvent::MouseButtonRelease, button, position, button );
+        postMouseEvent( receiver, QEvent::MouseButtonRelease, button, position, button );
 
     }
 
     //_______________________________________________________________________
     void Simulator::postMouseEvent(
-        QWidget* reciever,
+        QWidget* receiver,
         QEvent::Type type,
         Qt::MouseButton button,
         const QPoint& position,
         Qt::MouseButtons buttons,
         Qt::KeyboardModifiers modifiers )
     {
-        postQEvent( reciever, new QMouseEvent(
+        postQEvent( receiver, new QMouseEvent(
             type,
             position,
-            reciever->mapToGlobal( position ),
+            receiver->mapToGlobal( position ),
             button,
             buttons,
             modifiers ) );
     }
 
     //_______________________________________________________________________
-    void Simulator::postKeyClickEvent( QWidget* reciever, Qt::Key key, QString text, Qt::KeyboardModifiers modifiers )
+    void Simulator::postKeyClickEvent( QWidget* receiver, Qt::Key key, QString text, Qt::KeyboardModifiers modifiers )
     {
-        postKeyModifiersEvent( reciever, QEvent::KeyPress, modifiers );
-        postKeyEvent( reciever, QEvent::KeyPress, key, text, modifiers );
-        postKeyEvent( reciever, QEvent::KeyRelease, key, text, modifiers );
-        postKeyModifiersEvent( reciever, QEvent::KeyRelease, modifiers );
+        postKeyModifiersEvent( receiver, QEvent::KeyPress, modifiers );
+        postKeyEvent( receiver, QEvent::KeyPress, key, text, modifiers );
+        postKeyEvent( receiver, QEvent::KeyRelease, key, text, modifiers );
+        postKeyModifiersEvent( receiver, QEvent::KeyRelease, modifiers );
 
     }
 
     //_______________________________________________________________________
-    void Simulator::postKeyModifiersEvent( QWidget* reciever, QEvent::Type type, Qt::KeyboardModifiers modifiers )
+    void Simulator::postKeyModifiersEvent( QWidget* receiver, QEvent::Type type, Qt::KeyboardModifiers modifiers )
     {
 
         if( modifiers == Qt::NoModifier ) return;
@@ -650,16 +652,16 @@ namespace Oxygen
             case QEvent::KeyPress:
             {
                 if( modifiers & Qt::ShiftModifier)
-                { postKeyEvent( reciever, QEvent::KeyPress, Qt::Key_Shift, QString() ); }
+                { postKeyEvent( receiver, QEvent::KeyPress, Qt::Key_Shift, QString() ); }
 
                 if( modifiers & Qt::ControlModifier )
-                { postKeyEvent( reciever, QEvent::KeyPress, Qt::Key_Control, QString(), modifiers & Qt::ShiftModifier ); }
+                { postKeyEvent( receiver, QEvent::KeyPress, Qt::Key_Control, QString(), modifiers & Qt::ShiftModifier ); }
 
                 if( modifiers & Qt::AltModifier )
-                { postKeyEvent( reciever, QEvent::KeyPress, Qt::Key_Alt, QString(), modifiers & (Qt::ShiftModifier|Qt::ControlModifier) ); }
+                { postKeyEvent( receiver, QEvent::KeyPress, Qt::Key_Alt, QString(), modifiers & (Qt::ShiftModifier|Qt::ControlModifier) ); }
 
                 if( modifiers & Qt::MetaModifier )
-                { postKeyEvent( reciever, QEvent::KeyPress, Qt::Key_Meta, QString(), modifiers & (Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier) ); }
+                { postKeyEvent( receiver, QEvent::KeyPress, Qt::Key_Meta, QString(), modifiers & (Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier) ); }
 
                 break;
 
@@ -669,16 +671,16 @@ namespace Oxygen
             {
 
                 if( modifiers & Qt::MetaModifier )
-                { postKeyEvent( reciever, QEvent::KeyRelease, Qt::Key_Meta, QString() ); }
+                { postKeyEvent( receiver, QEvent::KeyRelease, Qt::Key_Meta, QString() ); }
 
                 if( modifiers & Qt::AltModifier )
-                { postKeyEvent( reciever, QEvent::KeyRelease, Qt::Key_Alt, QString(), modifiers & Qt::MetaModifier ); }
+                { postKeyEvent( receiver, QEvent::KeyRelease, Qt::Key_Alt, QString(), modifiers & Qt::MetaModifier ); }
 
                 if( modifiers & Qt::ControlModifier )
-                { postKeyEvent( reciever, QEvent::KeyRelease, Qt::Key_Control, QString(), modifiers & (Qt::MetaModifier|Qt::AltModifier) ); }
+                { postKeyEvent( receiver, QEvent::KeyRelease, Qt::Key_Control, QString(), modifiers & (Qt::MetaModifier|Qt::AltModifier) ); }
 
                 if( modifiers & Qt::ShiftModifier)
-                { postKeyEvent( reciever, QEvent::KeyRelease, Qt::Key_Shift, QString(), modifiers & (Qt::MetaModifier|Qt::AltModifier|Qt::ControlModifier) ); }
+                { postKeyEvent( receiver, QEvent::KeyRelease, Qt::Key_Shift, QString(), modifiers & (Qt::MetaModifier|Qt::AltModifier|Qt::ControlModifier) ); }
 
             }
 
@@ -688,8 +690,8 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Simulator::postKeyEvent( QWidget* reciever, QEvent::Type type, Qt::Key key, QString text, Qt::KeyboardModifiers modifiers )
-    { postQEvent( reciever, new QKeyEvent( type, key, modifiers, text ) ); }
+    void Simulator::postKeyEvent( QWidget* receiver, QEvent::Type type, Qt::Key key, QString text, Qt::KeyboardModifiers modifiers )
+    { postQEvent( receiver, new QKeyEvent( type, key, modifiers, text ) ); }
 
     //_______________________________________________________________________
     void Simulator::postDelay( int delay )
@@ -711,6 +713,6 @@ namespace Oxygen
     { return (Qt::Key) QKeySequence( a )[0]; }
 
     //_______________________________________________________________________
-    void Simulator::postQEvent( QWidget* reciever, QEvent* event )
-    { qApp->postEvent( reciever, event ); }
+    void Simulator::postQEvent( QWidget* receiver, QEvent* event )
+    { qApp->postEvent( receiver, event ); }
 }

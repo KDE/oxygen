@@ -62,20 +62,20 @@ namespace Oxygen
         //@{
 
         //! enter widget
-        void enter( QWidget* reciever, int delay = -1 )
-        { enter( reciever, reciever->rect().center(), delay ); }
+        void enter( QWidget* receiver, int delay = -1 )
+        { enter( receiver, receiver->rect().center(), delay ); }
 
-        //! enter reciever
+        //! enter receiver
         void enter( QWidget*, const QPoint&, int = -1 );
 
         //! click on button
-        void click( QWidget* reciever, int delay = -1 );
+        void click( QWidget* receiver, int delay = -1 );
 
         //! click on button
         void click( QWidget*, const QPoint&, int = -1 );
 
         //! slide
-        void slide( QWidget* reciever, const QPoint& delta, int delay = -1 );
+        void slide( QWidget* receiver, const QPoint& delta, int delay = -1 );
 
         //! select item
         void selectItem( QWidget*, int row, int column = 0, int = -1 );
@@ -185,9 +185,9 @@ namespace Oxygen
             };
 
             //! constructor
-            Event( Type type, QWidget* reciever, int delay = 0 ):
+            Event( Type type, QWidget* receiver, int delay = 0 ):
                 _type( type ),
-                _reciever( reciever ),
+                _receiver( receiver ),
                 _delay( delay )
             {}
 
@@ -196,7 +196,7 @@ namespace Oxygen
             {}
 
             Type _type;
-            WidgetPointer _reciever;
+            WidgetPointer _receiver;
             QPoint _position;
             QString _text;
             int _delay;

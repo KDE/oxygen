@@ -29,6 +29,7 @@
 
 #include <QtCore/QEvent>
 #include <QtCore/QObject>
+#include <QtCore/QMap>
 #include <QtCore/QSet>
 #include <QtGui/QWidget>
 
@@ -74,6 +75,9 @@ namespace Oxygen
 
         //! widget rects
         bool _drawWidgetRects;
+
+        //! map event types to string
+        QMap<QEvent::Type, QString > _eventTypes;
 
     };
 
