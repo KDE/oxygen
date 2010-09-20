@@ -3,7 +3,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygentabdemowidget.h
-// oxygen tabwidget demo dialog
+// oxygen tabwidget demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -31,10 +31,12 @@
 #include <QtGui/QToolButton>
 
 #include "ui_oxygentabdemowidget.h"
+#include "oxygendemowidget.h"
 
 namespace Oxygen
 {
-    class TabDemoWidget: public QWidget
+
+    class TabDemoWidget: public DemoWidget
     {
 
         Q_OBJECT
@@ -48,6 +50,11 @@ namespace Oxygen
         virtual ~TabDemoWidget( void )
         {}
 
+        public slots:
+
+        //! benchmark
+        void benchmark( void );
+
         protected slots:
 
         //! show/hide corner buttons
@@ -55,16 +62,16 @@ namespace Oxygen
         {
             if( value )
             {
-                ui.tabWidget->setCornerWidget( left_, Qt::TopLeftCorner );
-                ui.tabWidget->setCornerWidget( right_, Qt::TopRightCorner );
+                ui.tabWidget->setCornerWidget( _left, Qt::TopLeftCorner );
+                ui.tabWidget->setCornerWidget( _right, Qt::TopRightCorner );
             } else {
                 ui.tabWidget->setCornerWidget( 0, Qt::TopLeftCorner );
                 ui.tabWidget->setCornerWidget( 0, Qt::TopRightCorner );
             }
 
+            _left->setVisible( value );
+            _right->setVisible( value );
             ui.tabWidget->adjustSize();
-            left_->setVisible( value );
-            right_->setVisible( value );
 
         }
 
@@ -124,9 +131,14 @@ namespace Oxygen
 
         private:
 
+        //! ui
         Ui_TabDemoWidget ui;
-        QToolButton* left_;
-        QToolButton* right_;
+
+        //! tabbar left button
+        QToolButton* _left;
+
+        //! tabbar right button
+        QToolButton* _right;
 
     };
 

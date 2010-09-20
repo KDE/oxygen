@@ -3,7 +3,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenmdidemowidget.h
-// oxygen tabwidget demo dialog
+// oxygen mdi windows demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -30,11 +30,12 @@
 #include <QtGui/QWidget>
 #include <QtGui/QToolButton>
 
+#include "oxygendemowidget.h"
 #include "ui_oxygenmdidemowidget.h"
 
 namespace Oxygen
 {
-    class MdiDemoWidget: public QWidget
+    class MdiDemoWidget: public DemoWidget
     {
 
         Q_OBJECT

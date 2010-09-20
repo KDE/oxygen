@@ -49,6 +49,10 @@ namespace Oxygen
 
         }
 
+
+        void adjustTabBarSize( void )
+        {  if( tabBar() ) tabBar()->adjustSize(); }
+
         //! show icons
         void showIcons( void )
         {

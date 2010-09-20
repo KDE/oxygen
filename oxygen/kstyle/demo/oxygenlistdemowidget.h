@@ -1,9 +1,9 @@
-#ifndef oxygeninputdemowidget_h
-#define oxygeninputdemowidget_h
+#ifndef oxygenlistdemowidget_h
+#define oxygenlistdemowidget_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygeninputdemowidget.h
-// oxygen input widgets (e.g. text editors) demo widget
+// oxygenlistdemowidget.h
+// oxygen lists (and trees) demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -28,14 +28,14 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <QtGui/QWidget>
-#include <QtGui/QToolButton>
 
 #include "oxygendemowidget.h"
-#include "ui_oxygeninputdemowidget.h"
+#include "ui_oxygenlistdemowidget.h"
 
 namespace Oxygen
 {
-    class InputDemoWidget: public DemoWidget
+
+    class ListDemoWidget: public DemoWidget
     {
 
         Q_OBJECT
@@ -43,28 +43,21 @@ namespace Oxygen
         public:
 
         //! constructor
-        InputDemoWidget( QWidget* parent = 0 );
+        ListDemoWidget( QWidget* parent = 0 );
 
         //! destructor
-        virtual ~InputDemoWidget( void )
+        virtual ~ListDemoWidget( void )
         {}
 
         public slots:
 
-        //! run benchmark
+        //! benchmark
         void benchmark( void );
-
-        protected slots:
-
-        //! flat widgets
-        void toggleFlatWidgets( bool );
-
-        //! wrap mode
-        void toggleWrapMode( bool );
 
         private:
 
-        Ui_InputDemoWidget ui;
+        //! ui
+        Ui_ListDemoWidget ui;
 
     };
 

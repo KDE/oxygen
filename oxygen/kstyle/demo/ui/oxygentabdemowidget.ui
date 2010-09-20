@@ -147,7 +147,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="KLineEdit" name="lineEdit_2">
+           <widget class="KLineEdit" name="lineEdit">
             <property name="showClearButton" stdset="0">
              <bool>true</bool>
             </property>
@@ -185,7 +185,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="KLineEdit" name="lineEdit">
+           <widget class="KLineEdit" name="lineEdit_2">
             <property name="showClearButton" stdset="0">
              <bool>true</bool>
             </property>

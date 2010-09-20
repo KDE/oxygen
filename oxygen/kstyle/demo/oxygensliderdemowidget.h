@@ -3,7 +3,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygensliderdemowidget.h
-// oxygen tabwidget demo dialog
+// oxygen sliders demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -29,11 +29,12 @@
 
 #include <QtGui/QWidget>
 
+#include "oxygendemowidget.h"
 #include "ui_oxygensliderdemowidget.h"
 
 namespace Oxygen
 {
-    class SliderDemoWidget: public QWidget
+    class SliderDemoWidget: public DemoWidget
     {
 
         Q_OBJECT
@@ -46,6 +47,11 @@ namespace Oxygen
         //! destructor
         virtual ~SliderDemoWidget( void )
         {}
+
+        public slots:
+
+        //! benchmark
+        void benchmark( void );
 
         protected slots:
 

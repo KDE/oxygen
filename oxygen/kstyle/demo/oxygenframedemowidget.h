@@ -3,7 +3,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenframedemowidget.h
-// oxygen tabwidget demo dialog
+// oxygen frames demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -31,11 +31,12 @@
 #include <QtGui/QBoxLayout>
 #include <QtGui/QFrame>
 
+#include "oxygendemowidget.h"
 #include "ui_oxygenframedemowidget.h"
 
 namespace Oxygen
 {
-    class FrameDemoWidget: public QWidget
+    class FrameDemoWidget: public DemoWidget
     {
 
         Q_OBJECT
@@ -67,6 +68,11 @@ namespace Oxygen
 
         //! layout direction
         void updateLayoutDirection( int );
+
+        public slots:
+
+        // benchmarking
+        void benchmark( void );
 
         private:
 

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 // oxygenframedemowidget.cpp
-// oxygen tabwidget demo dialog
+// oxygen frames demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -28,7 +28,6 @@
 #include "oxygenframedemowidget.moc"
 
 #include <QtGui/QButtonGroup>
-#include <QtCore/QTextStream>
 
 #include <KComboBox>
 #include <KLocale>
@@ -39,7 +38,7 @@ namespace Oxygen
 
     //_____________________________________________________________
     FrameDemoWidget::FrameDemoWidget( QWidget* parent ):
-        QWidget( parent )
+        DemoWidget( parent )
     {
 
         ui.setupUi( this );
@@ -61,7 +60,6 @@ namespace Oxygen
     void FrameDemoWidget::updateLayoutDirection( int value )
     {
 
-        QTextStream( stdout ) << "FrameDemoWidget::updateLayoutDirection - value: " << value << endl;
         QBoxLayout::Direction direction;
         switch( value )
         {
@@ -76,6 +74,44 @@ namespace Oxygen
             ui.frameLayout->setDirection( direction );
             ui.frameLayout->update();
         }
+    }
+
+    //_____________________________________________________________
+    void FrameDemoWidget::benchmark( void )
+    {
+        if( !isVisible() ) return;
+
+        if( true )
+        {
+            simulator().enter( ui.directionComboBox );
+            simulator().selectComboBoxItem( ui.directionComboBox, 1 );
+            simulator().selectComboBoxItem( ui.directionComboBox, 2 );
+            simulator().selectComboBoxItem( ui.directionComboBox, 3 );
+            simulator().selectComboBoxItem( ui.directionComboBox, 0 );
+        }
+
+        if( true )
+        {
+            simulator().enter( ui.flatGroupBoxCheckBox );
+            simulator().click( ui.flatGroupBoxCheckBox );
+            simulator().click( ui.flatGroupBoxCheckBox );
+        }
+
+        if( true )
+        {
+            simulator().enter( ui.plainFrameRadioButton );
+            simulator().click( ui.plainFrameRadioButton );
+
+            simulator().enter( ui.sunkenFrameRadioButton );
+            simulator().click( ui.sunkenFrameRadioButton );
+
+            simulator().enter( ui.raisedFrameRadioButton );
+            simulator().click( ui.raisedFrameRadioButton );
+
+        }
+
+        simulator().run();
+
     }
 
 }

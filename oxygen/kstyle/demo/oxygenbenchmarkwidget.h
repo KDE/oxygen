@@ -1,9 +1,9 @@
-#ifndef oxygeninputdemowidget_h
-#define oxygeninputdemowidget_h
+#ifndef oxygenbenchmarkwidget_h
+#define oxygenbenchmarkwidget_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygeninputdemowidget.h
-// oxygen input widgets (e.g. text editors) demo widget
+// oxygenbenchmarkwidget.h
+// oxygen buttons demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -28,14 +28,18 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <QtGui/QWidget>
-#include <QtGui/QToolButton>
+#include <QtGui/QCheckBox>
+#include <QtCore/QPair>
+#include <QtCore/QVector>
+#include <QtCore/QWeakPointer>
+#include <KPageWidget>
 
 #include "oxygendemowidget.h"
-#include "ui_oxygeninputdemowidget.h"
+#include "ui_oxygenbenchmarkwidget.h"
 
 namespace Oxygen
 {
-    class InputDemoWidget: public DemoWidget
+    class BenchmarkWidget: public DemoWidget
     {
 
         Q_OBJECT
@@ -43,28 +47,46 @@ namespace Oxygen
         public:
 
         //! constructor
-        InputDemoWidget( QWidget* parent = 0 );
+        explicit BenchmarkWidget( QWidget* parent = 0 );
 
         //! destructor
-        virtual ~InputDemoWidget( void )
+        virtual ~BenchmarkWidget( void )
         {}
 
-        public slots:
 
-        //! run benchmark
-        void benchmark( void );
+        //! setup widgets
+        void init( KPageWidget* );
+
+        signals:
+
+        void runBenchmark( void );
 
         protected slots:
 
-        //! flat widgets
-        void toggleFlatWidgets( bool );
+        //! button state
+        void updateButtonState( void );
 
-        //! wrap mode
-        void toggleWrapMode( bool );
+        //! run
+        void run( void );
+
+        protected:
+
+        //! select page from index in parent page widget
+        void selectPage( int ) const;
 
         private:
 
-        Ui_InputDemoWidget ui;
+        //! ui
+        Ui_BenchmarkWidget ui;
+
+        //! pointer to pagewidget
+        QWeakPointer<KPageWidget> _pageWidget;
+
+        //! map checkboxes to demo widgets
+        typedef QWeakPointer<DemoWidget> DemoWidgetPointer;
+        typedef QPair<QCheckBox*, DemoWidgetPointer> WidgetPair;
+        typedef QVector<WidgetPair> WidgetList;
+        WidgetList _widgets;
 
     };
 

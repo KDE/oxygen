@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 // oxygentabdemowidget.cpp
-// oxygen tabwidget demo dialog
+// oxygen tabwidget demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -36,9 +36,9 @@ namespace Oxygen
 
     //______________________________________________________________
     TabDemoWidget::TabDemoWidget( QWidget* parent ):
-        QWidget( parent ),
-        left_( new QToolButton(0) ),
-        right_( new QToolButton(0) )
+        DemoWidget( parent ),
+        _left( new QToolButton(0) ),
+        _right( new QToolButton(0) )
     {
         ui.setupUi( this );
         connect( ui.tabPositionComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( changeTabPosition( int ) ) );
@@ -48,11 +48,76 @@ namespace Oxygen
         connect( ui.tabBarVisibilityCheckBox, SIGNAL( toggled( bool ) ), ui.tabWidget, SLOT( toggleTabBarVisibility( bool ) ) );
         ui.textPositionComboBox->setCurrentIndex( 1 );
 
-        left_->setIcon( KIcon( "tab-new" ) );
-        left_->setVisible( false );
+        _left->setIcon( KIcon( "tab-new" ) );
+        _left->setVisible( false );
 
-        right_->setIcon( KIcon( "tab-close" ) );
-        right_->setVisible( false );
+        _right->setIcon( KIcon( "tab-close" ) );
+        _right->setVisible( false );
+
+    }
+
+    //______________________________________________________________
+    void TabDemoWidget::benchmark( void )
+    {
+        if( !isVisible() ) return;
+
+        if( true )
+        {
+            simulator().enter( ui.tabPositionComboBox );
+            simulator().selectComboBoxItem( ui.tabPositionComboBox, 1 );
+            simulator().selectComboBoxItem( ui.tabPositionComboBox, 2 );
+            simulator().selectComboBoxItem( ui.tabPositionComboBox, 3 );
+            simulator().selectComboBoxItem( ui.tabPositionComboBox, 0 );
+
+            simulator().enter( ui.textPositionComboBox );
+            simulator().selectComboBoxItem( ui.textPositionComboBox, 0 );
+            simulator().selectComboBoxItem( ui.textPositionComboBox, 2 );
+            simulator().selectComboBoxItem( ui.textPositionComboBox, 1 );
+        }
+
+        if( true )
+        {
+
+            simulator().enter( ui.documentModeCheckBox );
+            simulator().click( ui.documentModeCheckBox );
+            simulator().click( ui.documentModeCheckBox );
+
+            simulator().enter( ui.cornerWidgetsCheckBox );
+            simulator().click( ui.cornerWidgetsCheckBox );
+            simulator().click( ui.cornerWidgetsCheckBox );
+
+            simulator().enter( ui.tabBarVisibilityCheckBox );
+            simulator().click( ui.tabBarVisibilityCheckBox );
+            simulator().click( ui.tabBarVisibilityCheckBox );
+        }
+
+        if( true )
+        {
+            simulator().enter( ui.lineEdit );
+            simulator().writeSampleText( ui.lineEdit );
+            simulator().clearText( ui.lineEdit );
+
+            simulator().enter( ui.textEdit );
+            simulator().writeSampleText( ui.textEdit );
+            simulator().clearText( ui.textEdit );
+
+            simulator().selectTab( ui.tabWidget, 1 );
+            simulator().selectTab( ui.tabWidget, 2 );
+
+            simulator().enter( ui.lineEdit_2 );
+            simulator().writeSampleText( ui.lineEdit_2 );
+            simulator().clearText( ui.lineEdit_2 );
+
+            simulator().selectTab( ui.tabWidget, 3 );
+            simulator().enter( ui.textEdit_2 );
+            simulator().writeSampleText( ui.textEdit_2 );
+            simulator().clearText( ui.textEdit_2 );
+
+            simulator().selectTab( ui.tabWidget, 0 );
+        }
+
+        // run
+        simulator().run();
 
     }
 

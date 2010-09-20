@@ -1,9 +1,9 @@
-#ifndef oxygeninputdemowidget_h
-#define oxygeninputdemowidget_h
+#ifndef oxygendemowidget_h
+#define oxygendemowidget_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygeninputdemowidget.h
-// oxygen input widgets (e.g. text editors) demo widget
+// oxygendemowidget.h
+// base class for oxygen demo widgets
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -28,43 +28,37 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <QtGui/QWidget>
-#include <QtGui/QToolButton>
 
-#include "oxygendemowidget.h"
-#include "ui_oxygeninputdemowidget.h"
+#include "oxygensimulator.h"
 
 namespace Oxygen
 {
-    class InputDemoWidget: public DemoWidget
+
+    class DemoWidget: public QWidget
     {
 
         Q_OBJECT
 
         public:
 
-        //! constructor
-        InputDemoWidget( QWidget* parent = 0 );
-
-        //! destructor
-        virtual ~InputDemoWidget( void )
+        //! constructo
+        DemoWidget( QWidget* parent ):
+            QWidget( parent ),
+            _simulator( new Simulator( this ) )
         {}
 
-        public slots:
+        //! destructor
+        virtual ~DemoWidget( void )
+        {}
 
-        //! run benchmark
-        void benchmark( void );
-
-        protected slots:
-
-        //! flat widgets
-        void toggleFlatWidgets( bool );
-
-        //! wrap mode
-        void toggleWrapMode( bool );
+        //! simulator
+        Simulator& simulator( void ) const
+        { return *_simulator; }
 
         private:
 
-        Ui_InputDemoWidget ui;
+        //! simulator
+        Simulator* _simulator;
 
     };
 

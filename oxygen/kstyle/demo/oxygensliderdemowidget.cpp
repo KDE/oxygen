@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 // oxygensliderdemowidget.cpp
-// oxygen tabwidget demo dialog
+// oxygen sliders demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -28,13 +28,14 @@
 #include "oxygensliderdemowidget.moc"
 
 #include <QtGui/QMenu>
+#include <QtGui/QStyleOptionSlider>
 
 namespace Oxygen
 {
 
     //_____________________________________________________________
     SliderDemoWidget::SliderDemoWidget( QWidget* parent ):
-        QWidget( parent ),
+        DemoWidget( parent ),
         locked_( false )
     {
 
@@ -48,13 +49,43 @@ namespace Oxygen
     }
 
     //_____________________________________________________________
+    void SliderDemoWidget::benchmark( void )
+    {
+
+        if( !isVisible() ) return;
+
+        // horizontal
+        simulator().enter( ui.horizontalSlider );
+        simulator().slide( ui.horizontalSlider, QPoint( 50, 0 ) );
+        simulator().slide( ui.horizontalSlider, QPoint( -50, 0 ) );
+
+        simulator().enter( ui.horizontalScrollBar );
+        simulator().slide( ui.horizontalScrollBar, QPoint( 50, 0 ) );
+        simulator().slide( ui.horizontalScrollBar, QPoint( -50, 0 ) );
+
+        // vertical
+        simulator().enter( ui.verticalScrollBar );
+        simulator().slide( ui.verticalScrollBar, QPoint( 0, 50 ) );
+        simulator().slide( ui.verticalScrollBar, QPoint( 0, -50 ) );
+
+        simulator().enter( ui.verticalSlider );
+        simulator().slide( ui.verticalSlider, QPoint( 0, 50 ) );
+        simulator().slide( ui.verticalSlider, QPoint( 0, -50 ) );
+
+        // dial button
+        // nothing for now.
+
+        simulator().run();
+    }
+
+    //_____________________________________________________________
     void SliderDemoWidget::updateSliders( int value )
     {
         if( locked_ ) return;
         locked_ = true;
         ui.horizontalSlider->setValue( value );
         ui.verticalSlider->setValue( value );
-        ui.progressBar_2->setValue( value );
+        ui.progressBar->setValue( value );
         ui.progressBar_3->setValue( value );
         ui.horizontalScrollBar->setValue( value );
         ui.verticalScrollBar->setValue( value );

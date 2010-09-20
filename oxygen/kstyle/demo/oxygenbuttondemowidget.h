@@ -3,7 +3,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenbuttondemowidget.h
-// oxygen tabwidget demo dialog
+// oxygen buttons demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -32,11 +32,12 @@
 #include <QtCore/QList>
 #include <KToolBar>
 
+#include "oxygendemowidget.h"
 #include "ui_oxygenbuttondemowidget.h"
 
 namespace Oxygen
 {
-    class ButtonDemoWidget: public QWidget
+    class ButtonDemoWidget: public DemoWidget
     {
 
         Q_OBJECT
@@ -50,10 +51,19 @@ namespace Oxygen
         virtual ~ButtonDemoWidget( void )
         {}
 
+        public slots:
+
+        void benchmark( void );
+
         protected slots:
 
+        //! change text position in tool buttons
         void textPosition( int );
+
+        //! change tool button icon size
         void iconSize( int );
+
+        //! set buttons as flat
         void toggleFlat( bool );
 
         protected:

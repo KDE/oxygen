@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 // oxygenmdidemowidget.cpp
-// oxygen tabwidget demo dialog
+// oxygen mdi windows demo widget
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -37,7 +37,7 @@ namespace Oxygen
 
     //______________________________________________________________
     MdiDemoWidget::MdiDemoWidget( QWidget* parent ):
-        QWidget( parent )
+        DemoWidget( parent )
     {
         setLayout( new QVBoxLayout() );
         QMenuBar* menuBar = new QMenuBar( this );
