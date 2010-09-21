@@ -60,6 +60,11 @@ namespace Oxygen
         virtual ~DemoDialog( void )
         {}
 
+        signals:
+
+        //! emitted when dialog is closed
+        void abortSimulations( void );
+
         protected slots:
 
         //! update window title when page is changed
@@ -73,6 +78,14 @@ namespace Oxygen
 
         //! toggle RightToLeft
         virtual void toggleRightToLeft( bool );
+
+        protected:
+
+        //! close event
+        virtual void closeEvent( QCloseEvent* );
+
+        //! hide event
+        virtual void hideEvent( QHideEvent* );
 
         private:
 

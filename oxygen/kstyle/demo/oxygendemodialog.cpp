@@ -167,6 +167,7 @@ namespace Oxygen
             benchmarkWidget->init( _pageWidget );
 
             _pageWidget->addPage( page );
+            _widgets.push_back( benchmarkWidget );
         }
 
         // connections
@@ -175,6 +176,9 @@ namespace Oxygen
         {
             if( widget->metaObject()->indexOfSlot( "benchmark()" ) >= 0 )
             { connect( shortcut, SIGNAL( activated( void ) ), widget, SLOT( benchmark( void ) ) ); }
+
+            connect( this, SIGNAL( abortSimulations( void ) ), &widget->simulator(), SLOT( abort( void ) ) );
+
         }
 
     }
@@ -214,5 +218,19 @@ namespace Oxygen
     //_______________________________________________________________
     void DemoDialog::toggleRightToLeft( bool value )
     { qApp->setLayoutDirection( value ? Qt::RightToLeft:Qt::LeftToRight ); }
+
+    //_______________________________________________________________
+    void DemoDialog::closeEvent( QCloseEvent* event )
+    {
+        emit abortSimulations();
+        KDialog::closeEvent( event );
+    }
+
+    //_______________________________________________________________
+    void DemoDialog::hideEvent( QHideEvent* event )
+    {
+        emit abortSimulations();
+        KDialog::hideEvent( event );
+    }
 
 }

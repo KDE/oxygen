@@ -52,7 +52,8 @@ namespace Oxygen
         //! constructor
         Simulator( QObject* parent ):
             QObject( parent ),
-            _previousPosition( -1, -1 )
+            _previousPosition( -1, -1 ),
+            _aborted( false )
             {}
 
         //! destructor
@@ -110,8 +111,20 @@ namespace Oxygen
 
         //@}
 
+        //! true if aborted
+        bool aborted( void ) const
+        { return _aborted; }
+
         //! run stored events
         void run( void );
+
+        //! gab mouse
+        static bool grabMouse( void )
+        { return _grabMouse; }
+
+        //! mouse grab
+        static void setGrabMouse( bool value )
+        { _grabMouse = value; }
 
         //! default delay
         static void setDefaultDelay( int value )
@@ -121,6 +134,11 @@ namespace Oxygen
 
         //! emitted when simulator starts and stops
         void stateChanged( bool );
+
+        public slots:
+
+        //! abort simulations
+        void abort( void );
 
         protected:
 
@@ -138,26 +156,28 @@ namespace Oxygen
         void postMouseClickEvent( QWidget*, Qt::MouseButton, const QPoint& );
 
         //! 'basic' event
-        void postEvent( QWidget*, QEvent::Type );
+        void postEvent( QWidget*, QEvent::Type ) const;
 
         //! hover
-        void postHoverEvent( QWidget*, QEvent::Type, const QPoint&, const QPoint& );
+        void postHoverEvent( QWidget*, QEvent::Type, const QPoint&, const QPoint& ) const;
 
         //! mouse event
-        void postMouseEvent( QWidget*, QEvent::Type, Qt::MouseButton , const QPoint&, Qt::MouseButtons = Qt::NoButton, Qt::KeyboardModifiers = Qt::NoModifier );
+        void postMouseEvent( QWidget*, QEvent::Type, Qt::MouseButton , const QPoint&, Qt::MouseButtons = Qt::NoButton, Qt::KeyboardModifiers = Qt::NoModifier ) const;
 
         //! key event
-        void postKeyClickEvent( QWidget*, Qt::Key, QString, Qt::KeyboardModifiers = Qt::NoModifier );
+        void postKeyClickEvent( QWidget*, Qt::Key, QString, Qt::KeyboardModifiers = Qt::NoModifier ) const;
 
         //! key event
-        void postKeyModifiersEvent( QWidget*, QEvent::Type, Qt::KeyboardModifiers );
+        void postKeyModifiersEvent( QWidget*, QEvent::Type, Qt::KeyboardModifiers ) const;
 
         //! key event
-        void postKeyEvent( QWidget*, QEvent::Type, Qt::Key, QString, Qt::KeyboardModifiers = Qt::NoModifier );
+        void postKeyEvent( QWidget*, QEvent::Type, Qt::Key, QString, Qt::KeyboardModifiers = Qt::NoModifier ) const;
 
         //! delay
         void postDelay( int );
 
+        //! move cursor
+        void moveCursor( const QPoint& );
         //@}
 
         private:
@@ -207,7 +227,7 @@ namespace Oxygen
         void processEvent( const Event& );
 
         //! process Qt event
-        void postQEvent( QWidget*, QEvent* );
+        void postQEvent( QWidget*, QEvent* ) const;
 
         //! convert QChar to key
         Qt::Key toKey( QChar ) const;
@@ -232,6 +252,12 @@ namespace Oxygen
         //! pending event
         WidgetPointer _pendingWidget;
         QList<QEvent*> _pendingEvents;
+
+        //! true when simulations must be aborted
+        bool _aborted;
+
+        //! true if simulations also grab mouse
+        static bool _grabMouse;
 
         //! default delay
         static int _defaultDelay;

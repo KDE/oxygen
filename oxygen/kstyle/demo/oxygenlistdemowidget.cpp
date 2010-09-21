@@ -49,7 +49,6 @@ namespace Oxygen
             simulator().selectItem( ui.listWidget, 0 );
             simulator().selectItem( ui.listWidget, 1 );
             simulator().selectItem( ui.listWidget, 2 );
-            simulator().clearSelection( ui.listWidget );
         }
 
         if( true )
@@ -58,7 +57,6 @@ namespace Oxygen
             simulator().selectItem( ui.treeWidget, 0, 0 );
             simulator().selectItem( ui.treeWidget, 1, 0 );
             simulator().selectItem( ui.treeWidget, 2, 0 );
-            simulator().clearSelection( ui.treeWidget );
         }
 
         if( true )

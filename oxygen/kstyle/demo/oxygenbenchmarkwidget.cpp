@@ -41,7 +41,7 @@ namespace Oxygen
         // setup ui
         ui.setupUi( this );
         ui.runButton->setIcon( KIcon( "system-run" ) );
-
+        ui.grabMouseCheckBox->setChecked( Simulator::grabMouse() );
         connect( ui.runButton, SIGNAL( clicked( void ) ), SLOT( run( void ) ) );
 
     }
@@ -116,6 +116,7 @@ namespace Oxygen
 
         // disable button and groupbox
         ui.runButton->setEnabled( false );
+        Simulator::setGrabMouse( ui.grabMouseCheckBox->isChecked() );
         for( int i=0; i < _widgets.size(); ++i )
         {
 
@@ -123,8 +124,12 @@ namespace Oxygen
             if( !( _widgets[i].first->isEnabled() && _widgets[i].first->isChecked() ) )
             { continue; }
 
-            selectPage( i );
-            emit runBenchmark();
+            if( simulator().aborted() ) return;
+            else {
+                selectPage( i );
+                emit runBenchmark();
+            }
+
         }
 
         // re-select last page

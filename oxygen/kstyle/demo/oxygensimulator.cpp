@@ -29,10 +29,12 @@
 #include "oxygensimulator.h"
 #include "oxygensimulator.moc"
 
+
 #include <QtGui/QAbstractItemView>
 #include <QtGui/QApplication>
 #include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
+#include <QtGui/QCursor>
 #include <QtGui/QFocusEvent>
 #include <QtGui/QHoverEvent>
 #include <QtGui/QMenu>
@@ -46,16 +48,20 @@
 #include <QtGui/QStyleOptionSlider>
 #include <QtGui/QToolButton>
 
-#include <QtCore/QTimer>
+#ifdef Q_OS_WIN
+/* need windows.h include for Sleep function*/
+#include <windows.h>
+#endif
 
+#ifdef Q_OS_UNIX
 #include <ctime>
-
-extern Qt::Key asciiToKey(char ascii);
+#endif
 
 namespace Oxygen
 {
 
     //_______________________________________________________________________
+    bool Simulator::_grabMouse = true;
     int Simulator::_defaultDelay = 250;
 
     //_______________________________________________________________________
@@ -192,9 +198,20 @@ namespace Oxygen
 
         if( _events.isEmpty() ) return;
 
+        // clear abort state
+        _aborted = false;
+
         emit stateChanged( true );
         foreach( const Event& event, _events )
-        { processEvent( event ); }
+        {
+            if( _aborted )
+            {
+                _events.clear();
+                return;
+            }
+
+            processEvent( event );
+        }
 
         // add last event to reset previousWidget and previousPosition
         if( _previousWidget )
@@ -220,6 +237,14 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
+    void Simulator::abort( void )
+    {
+        _aborted = true;
+        emit stateChanged( true );
+
+    }
+
+    //_______________________________________________________________________
     void Simulator::timerEvent( QTimerEvent* event )
     {
         if( event->timerId() == _timer.timerId() )
@@ -229,18 +254,36 @@ namespace Oxygen
 
         } else if( event->timerId() == _pendingEventsTimer.timerId() ) {
 
-            _pendingEventsTimer.stop();
-            if( _pendingWidget )
+            if( _aborted )
             {
+
+                foreach( QEvent* event, _pendingEvents )
+                { delete event; }
+
+                _pendingEvents.clear();
+                _pendingWidget.clear();
+
+            } else if( _pendingWidget && _pendingWidget.data()->isVisible() ) {
+
+                _pendingEventsTimer.stop();
                 foreach( QEvent* event, _pendingEvents )
                 {
+
+                    if( event->type() == QEvent::MouseMove )
+                    {
+                        QPoint position( static_cast<QMouseEvent*>( event )->pos() );
+                        moveCursor( _pendingWidget.data()->mapToGlobal( position ) );
+                    }
+
                     postQEvent( _pendingWidget.data(), event );
                     postDelay( 150 );
-                }
-            }
 
-            _pendingEvents.clear();
-            _pendingWidget.clear();
+                }
+
+                _pendingEvents.clear();
+                _pendingWidget.clear();
+
+            }
 
         } else return QObject::timerEvent( event );
 
@@ -250,22 +293,14 @@ namespace Oxygen
     void Simulator::processEvent( const Event& event )
     {
 
+        if( _aborted ) return;
         if( !event._receiver )
         {
 
             if( event._type == Event::Wait )
             {
-                if( event._delay > 0 )
-                {
-
-                    postDelay( event._delay );
-
-                } else if( event._delay == -1 && _defaultDelay > 0 ) {
-
-                    postDelay( event._delay );
-
-                }
-
+                if( event._delay > 0 ) postDelay( event._delay );
+                else if( event._delay == -1 && _defaultDelay > 0 ) postDelay( event._delay );
             }
 
             return;
@@ -273,7 +308,6 @@ namespace Oxygen
         }
 
         QWidget* receiver( event._receiver.data() );
-
         switch( event._type )
         {
 
@@ -283,6 +317,7 @@ namespace Oxygen
 
                 // store position
                 const QPoint& position( event._position );
+                moveCursor( receiver->mapToGlobal( position ) );
 
                 // leave previous widget
                 if( _previousWidget && _previousWidget.data() != receiver )
@@ -331,6 +366,7 @@ namespace Oxygen
             // click event
             case Event::Click:
             {
+                moveCursor( receiver->mapToGlobal( event._position ) );
                 postMouseClickEvent( receiver, Qt::LeftButton, event._position );
                 break;
             }
@@ -389,6 +425,7 @@ namespace Oxygen
 
                 }
                 const QPoint end( begin + delta );
+                moveCursor( receiver->mapToGlobal( begin ) );
                 postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, begin );
                 postMouseEvent( receiver, QEvent::MouseButtonPress, Qt::LeftButton, begin, Qt::LeftButton );
                 receiver->setFocus();
@@ -399,6 +436,7 @@ namespace Oxygen
                     QPoint current(
                         begin.x() + qreal(i*( end.x()-begin.x() ))/(steps-1),
                         begin.y() + qreal(i*( end.y()-begin.y() ))/(steps-1) );
+                    moveCursor( receiver->mapToGlobal( current ) );
                     postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, current, Qt::LeftButton, Qt::NoModifier );
                     postDelay( 20 );
                 }
@@ -425,9 +463,11 @@ namespace Oxygen
                 if( !r.isValid() ) break;
 
                 // send event
-                postMouseEvent( view->viewport(), QEvent::MouseMove, Qt::NoButton, r.center(), Qt::NoButton, Qt::NoModifier );
+                const QPoint position( r.center() );
+                moveCursor( view->viewport()->mapToGlobal( position ) );
+                postMouseEvent( view->viewport(), QEvent::MouseMove, Qt::NoButton, position, Qt::NoButton, Qt::NoModifier );
                 postDelay(100);
-                postMouseClickEvent( view->viewport(), Qt::LeftButton, r.center() );
+                postMouseClickEvent( view->viewport(), Qt::LeftButton, position );
                 break;
 
             }
@@ -437,7 +477,9 @@ namespace Oxygen
                 const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>( receiver );
                 postMouseEvent( view->viewport(), QEvent::MouseMove, Qt::NoButton, view->viewport()->rect().bottomRight(), Qt::NoButton, Qt::NoModifier );
                 postDelay(100);
-                postMouseClickEvent( view->viewport(), Qt::LeftButton, view->viewport()->rect().bottomRight() );
+                const QPoint position( view->viewport()->rect().bottomRight() );
+                moveCursor( view->viewport()->mapToGlobal( position ) );
+                postMouseClickEvent( view->viewport(), Qt::LeftButton, position );
                 break;
             }
 
@@ -453,7 +495,9 @@ namespace Oxygen
                 QRect arrowRect( combobox->style()->subControlRect( QStyle::CC_ComboBox, &option, QStyle::SC_ComboBoxArrow, combobox ) );
 
                 // first click
-                postMouseClickEvent( receiver, Qt::LeftButton, arrowRect.center() );
+                QPoint position( arrowRect.center() );
+                moveCursor( combobox->mapToGlobal( position ) );
+                postMouseClickEvent( receiver, Qt::LeftButton, position );
                 postDelay( 100 );
 
                 // select item in view
@@ -470,9 +514,11 @@ namespace Oxygen
                 if( !r.isValid() ) break;
 
                 // send event
-                postMouseEvent( view->viewport(), QEvent::MouseMove, Qt::NoButton, r.center(), Qt::NoButton, Qt::NoModifier );
+                position = QPoint( r.center() );
+                moveCursor( view->viewport()->mapToGlobal( position ) );
+                postMouseEvent( view->viewport(), QEvent::MouseMove, Qt::NoButton, position, Qt::NoButton, Qt::NoModifier );
                 postDelay(100);
-                postMouseClickEvent( view->viewport(), Qt::LeftButton, r.center() );
+                postMouseClickEvent( view->viewport(), Qt::LeftButton, position );
                 break;
 
             }
@@ -505,32 +551,35 @@ namespace Oxygen
                 click on the button (before delay is expired). This way, the menu events will be executed
                 even if the menu is visible (and blocking further code execution).
                 */
+                QPoint position( r.center() );
                 _pendingWidget = menu;
                 _pendingEvents.push_back( new QMouseEvent(
                     QEvent::MouseMove,
-                    r.center(),
+                    position,
                     Qt::NoButton,
                     Qt::NoButton,
                     Qt::NoModifier ) );
 
                 _pendingEvents.push_back( new QMouseEvent(
                     QEvent::MouseButtonPress,
-                    r.center(),
+                    position,
                     Qt::LeftButton,
                     Qt::NoButton,
                     Qt::NoModifier ) );
 
                 _pendingEvents.push_back( new QMouseEvent(
                     QEvent::MouseButtonRelease,
-                    r.center(),
+                    position,
                     Qt::LeftButton,
                     Qt::NoButton,
                     Qt::NoModifier ) );
 
-                _pendingEventsTimer.start( 150, this );
+                _pendingEventsTimer.start( 10, this );
 
                 // click
-                postMouseEvent( receiver, QEvent::MouseButtonPress, Qt::LeftButton, receiver->rect().center(), Qt::NoButton, Qt::NoModifier );
+                position = receiver->rect().center();
+                moveCursor( receiver->mapToGlobal( position ) );
+                postMouseEvent( receiver, QEvent::MouseButtonPress, Qt::LeftButton, position, Qt::NoButton, Qt::NoModifier );
                 break;
 
             }
@@ -546,7 +595,9 @@ namespace Oxygen
                 const QRect r( tabbar->tabRect( index ) );
                 if( !r.isValid() ) break;
 
-                postMouseClickEvent( receiver, Qt::LeftButton, r.center() );
+                const QPoint position( r.center() );
+                moveCursor( receiver->mapToGlobal( position ) );
+                postMouseClickEvent( receiver, Qt::LeftButton, position );
                 break;
 
             }
@@ -593,11 +644,11 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Simulator::postEvent( QWidget* receiver, QEvent::Type type )
+    void Simulator::postEvent( QWidget* receiver, QEvent::Type type ) const
     { postQEvent( receiver, new QEvent( type ) ); }
 
     //_______________________________________________________________________
-    void Simulator::postHoverEvent( QWidget* receiver, QEvent::Type type, const QPoint& newPosition, const QPoint& oldPosition )
+    void Simulator::postHoverEvent( QWidget* receiver, QEvent::Type type, const QPoint& newPosition, const QPoint& oldPosition ) const
     { postQEvent( receiver, new QHoverEvent( type, newPosition, oldPosition ) ); }
 
     //_______________________________________________________________________
@@ -619,7 +670,7 @@ namespace Oxygen
         Qt::MouseButton button,
         const QPoint& position,
         Qt::MouseButtons buttons,
-        Qt::KeyboardModifiers modifiers )
+        Qt::KeyboardModifiers modifiers ) const
     {
         postQEvent( receiver, new QMouseEvent(
             type,
@@ -631,7 +682,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Simulator::postKeyClickEvent( QWidget* receiver, Qt::Key key, QString text, Qt::KeyboardModifiers modifiers )
+    void Simulator::postKeyClickEvent( QWidget* receiver, Qt::Key key, QString text, Qt::KeyboardModifiers modifiers ) const
     {
         postKeyModifiersEvent( receiver, QEvent::KeyPress, modifiers );
         postKeyEvent( receiver, QEvent::KeyPress, key, text, modifiers );
@@ -641,7 +692,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Simulator::postKeyModifiersEvent( QWidget* receiver, QEvent::Type type, Qt::KeyboardModifiers modifiers )
+    void Simulator::postKeyModifiersEvent( QWidget* receiver, QEvent::Type type, Qt::KeyboardModifiers modifiers ) const
     {
 
         if( modifiers == Qt::NoModifier ) return;
@@ -690,7 +741,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Simulator::postKeyEvent( QWidget* receiver, QEvent::Type type, Qt::Key key, QString text, Qt::KeyboardModifiers modifiers )
+    void Simulator::postKeyEvent( QWidget* receiver, QEvent::Type type, Qt::Key key, QString text, Qt::KeyboardModifiers modifiers ) const
     { postQEvent( receiver, new QKeyEvent( type, key, modifiers, text ) ); }
 
     //_______________________________________________________________________
@@ -700,12 +751,44 @@ namespace Oxygen
         _timer.start( delay, this );
         while( _timer.isActive() )
         {
+
+            // flush events in loop
             QCoreApplication::processEvents(QEventLoop::AllEvents, delay);
             int ms( 10 );
+
+            // sleep
+            #ifdef Q_OS_WIN
+            Sleep(uint(ms));
+            #else
             struct timespec ts = { ms / 1000, (ms % 1000) * 1000 * 1000 };
             nanosleep(&ts, NULL);
+            #endif
+
         }
 
+    }
+
+    //_______________________________________________________________________
+    void Simulator::moveCursor( const QPoint& position )
+    {
+
+        // do nothing if mouse grab is disabled
+        if( !_grabMouse ) return;
+
+        const QPoint begin( QCursor::pos() );
+        const QPoint end( position );
+        if( begin == end ) return;
+
+        // make some steps for smoothness
+        const int steps( 10 );
+        for( int i = 0; i<steps; ++i )
+        {
+            const QPoint current(
+                begin.x() + qreal(i*( end.x()-begin.x() ))/(steps-1),
+                begin.y() + qreal(i*( end.y()-begin.y() ))/(steps-1) );
+            QCursor::setPos( current );
+            postDelay( 10 );
+        }
     }
 
     //_______________________________________________________________________
@@ -713,6 +796,6 @@ namespace Oxygen
     { return (Qt::Key) QKeySequence( a )[0]; }
 
     //_______________________________________________________________________
-    void Simulator::postQEvent( QWidget* receiver, QEvent* event )
+    void Simulator::postQEvent( QWidget* receiver, QEvent* event ) const
     { qApp->postEvent( receiver, event ); }
 }
