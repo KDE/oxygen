@@ -88,22 +88,9 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().writeSampleText( ui.lineEdit );
-            simulator().clearText( ui.lineEdit );
-
-            simulator().writeSampleText( ui.textEdit );
-            simulator().clearText( ui.textEdit );
-
             simulator().selectTab( ui.tabWidget, 1 );
             simulator().selectTab( ui.tabWidget, 2 );
-
-            simulator().writeSampleText( ui.lineEdit_2 );
-            simulator().clearText( ui.lineEdit_2 );
-
             simulator().selectTab( ui.tabWidget, 3 );
-            simulator().writeSampleText( ui.textEdit_2 );
-            simulator().clearText( ui.textEdit_2 );
-
             simulator().selectTab( ui.tabWidget, 0 );
         }
 

@@ -49,8 +49,6 @@
 #include <QtGui/QStyleOptionSlider>
 #include <QtGui/QToolButton>
 
-#include <QtCore/QTextStream>
-
 #ifdef Q_OS_WIN
 /* need windows.h include for Sleep function*/
 #include <windows.h>

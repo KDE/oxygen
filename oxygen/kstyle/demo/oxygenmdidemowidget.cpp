@@ -84,16 +84,6 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().writeSampleText( ui.lineEdit );
-            simulator().clearText( ui.lineEdit );
-
-            simulator().writeSampleText( ui.textEdit );
-            simulator().clearText( ui.textEdit );
-
-        }
-
-        if( true )
-        {
             foreach( QAbstractButton* button, ui.toolBox->findChildren<QAbstractButton*>() )
             { simulator().click( button ); }
 
