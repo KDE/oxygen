@@ -182,7 +182,7 @@ namespace Oxygen
         since the above Activate call is not available for older versions of KDE,
         direct connection to dbus is used to detect global settings changes
         */
-        dbus.connect(QString(), "/KGlobalSettings", "org.kde.KGlobalSettings", "notifyChange", this, SLOT(globalSettingsChange(int,int)));
+        dbus.connect(QString(), "/KGlobalSettings", "org.kde.KGlobalSettings", "notifyChange", this, SLOT(globalSettingsChanged(int,int)));
 
 //         #endif
 
@@ -7425,7 +7425,7 @@ namespace Oxygen
 
         // draw title text
         {
-            QRect textRect = subControlRect(CC_TitleBar, tb, SC_TitleBarLabel, widget);
+            QRect textRect = subControlRect( CC_TitleBar, tb, SC_TitleBarLabel, widget );
 
             // enable state transition
             animations().widgetEnabilityEngine().updateState( widget, AnimationEnable, active );
