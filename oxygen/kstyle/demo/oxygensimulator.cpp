@@ -815,7 +815,7 @@ namespace Oxygen
 
         // do nothing if mouse grab is disabled
         if( !_grabMouse ) return;
-
+        if( _aborted ) return;
         const QPoint begin( QCursor::pos() );
         const QPoint end( position );
         if( begin == end ) return;
