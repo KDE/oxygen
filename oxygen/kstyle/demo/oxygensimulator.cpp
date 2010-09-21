@@ -83,7 +83,7 @@ namespace Oxygen
             QStyleOptionButton option;
             option.initFrom( checkbox );
             position = checkbox->style()->subElementRect(
-                QStyle::SE_CheckBoxClickRect,
+                QStyle::SE_CheckBoxIndicator,
                 &option,
                 checkbox).center();
 
@@ -92,7 +92,7 @@ namespace Oxygen
             QStyleOptionButton option;
             option.initFrom( radiobutton );
             position = radiobutton->style()->subElementRect(
-                QStyle::SE_RadioButtonClickRect,
+                QStyle::SE_RadioButtonIndicator,
                 &option,
                 radiobutton).center();
 
