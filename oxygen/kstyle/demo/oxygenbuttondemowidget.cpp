@@ -46,7 +46,7 @@ namespace Oxygen
         installMenu( ui.pushButton_2 );
         installMenu( ui.pushButton_4 );
 
-        pushButtons_
+        _pushButtons
             << ui.pushButton
             << ui.pushButton_2
             << ui.pushButton_3
@@ -72,11 +72,11 @@ namespace Oxygen
 
         // add toolbar
         ui.toolBarContainer->setLayout( new QVBoxLayout() );
-        toolBar_ = new KToolBar( ui.toolBarContainer );
-        ui.toolBarContainer->layout()->addWidget( toolBar_ );
-        toolBar_->addAction( KIcon("document-new"), i18n( "New" ) );
-        toolBar_->addAction( KIcon("document-open"), i18n( "Open" ) );
-        toolBar_->addAction( KIcon("document-save"), i18n( "Save" ) );
+        _toolBar = new KToolBar( ui.toolBarContainer );
+        ui.toolBarContainer->layout()->addWidget( _toolBar );
+        _toolBar->addAction( KIcon("document-new"), i18n( "New" ) );
+        _toolBar->addAction( KIcon("document-open"), i18n( "Open" ) );
+        _toolBar->addAction( KIcon("document-save"), i18n( "Save" ) );
 
 
         installMenu( ui.toolButton_4 );
@@ -87,7 +87,7 @@ namespace Oxygen
         // checkboxes
         ui.checkBox_2->setCheckState( Qt::PartiallyChecked );
 
-        toolButtons_
+        _toolButtons
             << ui.toolButton_3
             << ui.toolButton_4
             << ui.toolButton_5
@@ -110,8 +110,6 @@ namespace Oxygen
         {
             simulator().click( ui.pushButton );
 
-            simulator().selectMenuItem( ui.pushButton_2, 0 );
-            simulator().selectMenuItem( ui.pushButton_2, 1 );
             simulator().selectMenuItem( ui.pushButton_2, 2 );
 
             simulator().selectComboBoxItem( ui.kcombobox, 0 );
@@ -122,8 +120,6 @@ namespace Oxygen
 
             simulator().click( ui.pushButton_3 );
 
-            simulator().selectMenuItem( ui.pushButton_4, 0 );
-            simulator().selectMenuItem( ui.pushButton_4, 1 );
             simulator().selectMenuItem( ui.pushButton_4, 2 );
 
             simulator().selectComboBoxItem( ui.kcombobox_2, 1 );
@@ -139,6 +135,24 @@ namespace Oxygen
             // toggle flat mode and redo
             simulator().click( ui.flatButtonCheckBox );
             simulator().click( ui.flatButtonCheckBox );
+        }
+
+        if( true )
+        {
+            simulator().click( ui.toolButton_3 );
+            simulator().click( ui.toolButton_3 );
+
+            simulator().click( ui.toolButton_6 );
+            simulator().click( ui.toolButton_6 );
+
+            simulator().selectMenuItem( ui.toolButton_4, 2 );
+            simulator().selectMenuItem( ui.toolButton_7, 2 );
+
+            // TODO select menu item in toolbutton with separated arrow
+
+            foreach( QToolButton* button, _toolBar->findChildren<QToolButton*>() )
+            { simulator().click( button ); }
+
         }
 
         if( true )
@@ -160,6 +174,7 @@ namespace Oxygen
 
         if( true )
         {
+
             simulator().click( ui.radioButton_2 );
             simulator().click( ui.radioButton_3 );
             simulator().click( ui.radioButton );
@@ -172,7 +187,7 @@ namespace Oxygen
     //_____________________________________________________________
     void ButtonDemoWidget::toggleFlat( bool value )
     {
-        foreach( QPushButton* button, pushButtons_ )
+        foreach( QPushButton* button, _pushButtons )
         { button->setFlat( value ); }
 
         ui.toolButton->setAutoRaise( value );
@@ -186,7 +201,7 @@ namespace Oxygen
     //_____________________________________________________________
     void ButtonDemoWidget::textPosition( int index)
     {
-        foreach( QToolButton* button, toolButtons_ )
+        foreach( QToolButton* button, _toolButtons )
         {
             switch( index )
             {
@@ -201,10 +216,10 @@ namespace Oxygen
         switch( index )
         {
             default:
-            case 0: toolBar_->setToolButtonStyle( Qt::ToolButtonIconOnly ); break;
-            case 1: toolBar_->setToolButtonStyle( Qt::ToolButtonTextOnly ); break;
-            case 2: toolBar_->setToolButtonStyle( Qt::ToolButtonTextBesideIcon ); break;
-            case 3: toolBar_->setToolButtonStyle( Qt::ToolButtonTextUnderIcon ); break;
+            case 0: _toolBar->setToolButtonStyle( Qt::ToolButtonIconOnly ); break;
+            case 1: _toolBar->setToolButtonStyle( Qt::ToolButtonTextOnly ); break;
+            case 2: _toolBar->setToolButtonStyle( Qt::ToolButtonTextBesideIcon ); break;
+            case 3: _toolBar->setToolButtonStyle( Qt::ToolButtonTextUnderIcon ); break;
         }
 
     }
@@ -213,10 +228,10 @@ namespace Oxygen
     void ButtonDemoWidget::iconSize( int index)
     {
         static QList<int> sizes( QList<int>() << 16 << 22 << 32 << 48 );
-        foreach( QToolButton* button, toolButtons_ )
+        foreach( QToolButton* button, _toolButtons )
         { button->setIconSize( QSize( sizes[index], sizes[index] ) ); }
 
-        toolBar_->setIconSize( QSize( sizes[index], sizes[index] ) );
+        _toolBar->setIconSize( QSize( sizes[index], sizes[index] ) );
 
     }
 

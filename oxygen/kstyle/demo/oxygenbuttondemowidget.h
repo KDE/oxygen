@@ -74,9 +74,9 @@ namespace Oxygen
         private:
 
         Ui_ButtonDemoWidget ui;
-        KToolBar* toolBar_;
-        QList<QPushButton*> pushButtons_;
-        QList<QToolButton*> toolButtons_;
+        KToolBar* _toolBar;
+        QList<QPushButton*> _pushButtons;
+        QList<QToolButton*> _toolButtons;
     };
 
 }
