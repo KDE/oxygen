@@ -62,13 +62,6 @@ namespace Oxygen
         //!@name high level interface
         //@{
 
-        //! enter widget
-        void enter( QWidget* receiver, int delay = -1 )
-        { enter( receiver, receiver->rect().center(), delay ); }
-
-        //! enter receiver
-        void enter( QWidget*, const QPoint&, int = -1 );
-
         //! click on button
         void click( QWidget* receiver, int delay = -1 );
 
@@ -80,9 +73,6 @@ namespace Oxygen
 
         //! select item
         void selectItem( QWidget*, int row, int column = 0, int = -1 );
-
-        //! select item
-        void clearSelection( QWidget*, int = -1 );
 
         //! select combobox item
         void selectComboBoxItem( QWidget*, int, int = -1 );
@@ -148,6 +138,13 @@ namespace Oxygen
         //!@name low level interface
         //@{
 
+        //! enter widget
+        bool enter( QWidget* receiver, int delay = -1 )
+        { return enter( receiver, receiver->rect().center(), delay ); }
+
+        //! enter receiver
+        bool enter( QWidget*, const QPoint&, int = -1 );
+
         //! mouse click event
         void postMouseClickEvent( QWidget* widget )
         { postMouseClickEvent( widget, Qt::LeftButton, widget->rect().center() ); }
@@ -177,7 +174,7 @@ namespace Oxygen
         void postDelay( int );
 
         //! move cursor
-        void moveCursor( const QPoint& );
+        void moveCursor( const QPoint&, int steps = 10 );
         //@}
 
         private:
@@ -192,11 +189,9 @@ namespace Oxygen
             enum Type
             {
                 Wait,
-                Enter,
                 Click,
                 Slide,
                 SelectItem,
-                ClearSelection,
                 SelectComboBoxItem,
                 SelectMenuItem,
                 SelectTab,

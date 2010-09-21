@@ -73,14 +73,6 @@ namespace Oxygen
     { _events.push_back( Event( Event::Wait, 0, delay ) ); }
 
     //_______________________________________________________________________
-    void Simulator::enter( QWidget* receiver, const QPoint& position, int delay  )
-    {
-        Event event( Event::Enter, receiver, delay );
-        event._position = position;
-        _events.push_back( event );
-    }
-
-    //_______________________________________________________________________
     void Simulator::click( QWidget* receiver, int delay  )
     {
 
@@ -138,10 +130,6 @@ namespace Oxygen
         event._position = QPoint( column, row );
         _events.push_back( event );
     }
-
-    //_______________________________________________________________________
-    void Simulator::clearSelection( QWidget* receiver, int delay )
-    { _events.push_back( Event( Event::ClearSelection, receiver, delay ) ); }
 
     //_______________________________________________________________________
     void Simulator::selectComboBoxItem( QWidget* receiver, int index, int delay )
@@ -298,10 +286,7 @@ namespace Oxygen
         {
 
             if( event._type == Event::Wait )
-            {
-                if( event._delay > 0 ) postDelay( event._delay );
-                else if( event._delay == -1 && _defaultDelay > 0 ) postDelay( event._delay );
-            }
+            { postDelay( event._delay ); }
 
             return;
 
@@ -311,62 +296,17 @@ namespace Oxygen
         switch( event._type )
         {
 
-            // Enter event
-            case Event::Enter:
-            {
-
-                // store position
-                const QPoint& position( event._position );
-                moveCursor( receiver->mapToGlobal( position ) );
-
-                // leave previous widget
-                if( _previousWidget && _previousWidget.data() != receiver )
-                {
-                    postEvent( _previousWidget.data(), QEvent::Leave );
-                    if( _previousWidget.data()->testAttribute( Qt::WA_Hover ) )
-                    {
-                        const QPoint oldPosition( _previousWidget.data()->mapFromGlobal( _previousPosition ) );
-                        const QPoint newPosition( _previousWidget.data()->mapFromGlobal( receiver->mapToGlobal( position ) ) );
-                        postHoverEvent( _previousWidget.data(), QEvent::HoverLeave, newPosition, oldPosition );
-                    }
-                }
-
-                // enter or move in current widget
-                if( !receiver->rect().contains( receiver->mapFromGlobal( _previousPosition ) ) )
-                {
-
-                    // enter current widget if needed
-                    postEvent( receiver, QEvent::Enter );
-                    if( receiver->testAttribute( Qt::WA_Hover ) )
-                    {
-                        const QPoint oldPosition( receiver->mapFromGlobal( _previousPosition ) );
-                        const QPoint newPosition( position );
-                        postHoverEvent( receiver, QEvent::HoverEnter, newPosition, oldPosition );
-                    }
-
-                } else if( receiver->mapFromGlobal( _previousPosition ) != position ) {
-
-                    // move mouse if needed
-                    postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, position );
-                    if( receiver->testAttribute( Qt::WA_Hover ) )
-                    {
-                        const QPoint oldPosition( receiver->mapFromGlobal( _previousPosition ) );
-                        const QPoint newPosition( position );
-                        postHoverEvent( receiver, QEvent::HoverMove, newPosition, oldPosition );
-                    }
-
-                }
-
-                // update previous widget and position
-                _previousWidget = receiver;
-                _previousPosition = receiver->mapToGlobal( position );
-                break;
-            }
-
             // click event
             case Event::Click:
             {
-                moveCursor( receiver->mapToGlobal( event._position ) );
+
+                // enter widget or move cursor to relevant position
+                if( !enter( receiver, event._position, event._delay ) )
+                {
+                    moveCursor( receiver->mapToGlobal( event._position ) );
+                    postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, event._position );
+                }
+
                 postMouseClickEvent( receiver, Qt::LeftButton, event._position );
                 break;
             }
@@ -378,7 +318,7 @@ namespace Oxygen
 
                 // calculate begin position depending on widget type
                 QPoint begin;
-                if( const QSlider* slider = qobject_cast<const QSlider*>( receiver ) )
+                if( const QSlider* slider = qobject_cast<QSlider*>( receiver ) )
                 {
 
                     // this is copied from QSlider::initStyleOption
@@ -399,7 +339,7 @@ namespace Oxygen
                     if( !handleRect.isValid() ) break;
                     begin = handleRect.center();
 
-                } else if( const QScrollBar* scrollbar = qobject_cast<const QScrollBar*>( receiver ) ) {
+                } else if( const QScrollBar* scrollbar = qobject_cast<QScrollBar*>( receiver ) ) {
 
                     // this is copied from QSlider::initStyleOption
                     QStyleOptionSlider option;
@@ -424,9 +364,15 @@ namespace Oxygen
                     begin = receiver->rect().center();
 
                 }
+
+                // enter widget or move cursor to relevant position
+                if( !enter( receiver, begin, event._delay ) )
+                {
+                    moveCursor( receiver->mapToGlobal( begin ) );
+                    postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, begin );
+                }
+
                 const QPoint end( begin + delta );
-                moveCursor( receiver->mapToGlobal( begin ) );
-                postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, begin );
                 postMouseEvent( receiver, QEvent::MouseButtonPress, Qt::LeftButton, begin, Qt::LeftButton );
                 receiver->setFocus();
                 postDelay( 50 );
@@ -436,7 +382,7 @@ namespace Oxygen
                     QPoint current(
                         begin.x() + qreal(i*( end.x()-begin.x() ))/(steps-1),
                         begin.y() + qreal(i*( end.y()-begin.y() ))/(steps-1) );
-                    moveCursor( receiver->mapToGlobal( current ) );
+                    moveCursor( receiver->mapToGlobal( current ), 1 );
                     postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, current, Qt::LeftButton, Qt::NoModifier );
                     postDelay( 20 );
                 }
@@ -448,7 +394,7 @@ namespace Oxygen
             case Event::SelectItem:
             {
 
-                const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>( receiver );
+                const QAbstractItemView* view = qobject_cast<QAbstractItemView*>( receiver );
                 if( !( view && view->model() ) ) break;
 
                 const int column( event._position.x() );
@@ -462,31 +408,24 @@ namespace Oxygen
                 QRect r( view->visualRect( modelIndex ) );
                 if( !r.isValid() ) break;
 
-                // send event
+                // enter widget or move cursor to relevant position
                 const QPoint position( r.center() );
-                moveCursor( view->viewport()->mapToGlobal( position ) );
-                postMouseEvent( view->viewport(), QEvent::MouseMove, Qt::NoButton, position, Qt::NoButton, Qt::NoModifier );
-                postDelay(100);
+                if( !enter( view->viewport(), position, event._delay ) )
+                {
+                    moveCursor( view->viewport()->mapToGlobal( position ) );
+                    postMouseEvent( view->viewport(), QEvent::MouseMove, Qt::NoButton, position );
+                    postDelay( event._delay );
+                }
+
                 postMouseClickEvent( view->viewport(), Qt::LeftButton, position );
                 break;
 
-            }
-
-            case Event::ClearSelection:
-            {
-                const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>( receiver );
-                postMouseEvent( view->viewport(), QEvent::MouseMove, Qt::NoButton, view->viewport()->rect().bottomRight(), Qt::NoButton, Qt::NoModifier );
-                postDelay(100);
-                const QPoint position( view->viewport()->rect().bottomRight() );
-                moveCursor( view->viewport()->mapToGlobal( position ) );
-                postMouseClickEvent( view->viewport(), Qt::LeftButton, position );
-                break;
             }
 
             case Event::SelectComboBoxItem:
             {
 
-                const QComboBox* combobox = qobject_cast<const QComboBox*>( receiver );
+                QComboBox* combobox = qobject_cast<QComboBox*>( receiver );
                 if( !combobox ) break;
 
                 // get arrow rect
@@ -494,11 +433,16 @@ namespace Oxygen
                 option.initFrom( combobox );
                 QRect arrowRect( combobox->style()->subControlRect( QStyle::CC_ComboBox, &option, QStyle::SC_ComboBoxArrow, combobox ) );
 
-                // first click
+                // enter widget or move cursor to relevant position
                 QPoint position( arrowRect.center() );
-                moveCursor( combobox->mapToGlobal( position ) );
-                postMouseClickEvent( receiver, Qt::LeftButton, position );
-                postDelay( 100 );
+                if( !enter( combobox, position, event._delay ) )
+                {
+                    moveCursor( combobox->mapToGlobal( position ) );
+                    postMouseEvent( combobox, QEvent::MouseMove, Qt::NoButton, position );
+                    postDelay( event._delay );
+                }
+
+                postMouseClickEvent( combobox, Qt::LeftButton, position );
 
                 // select item in view
                 QAbstractItemView* view = combobox->view();
@@ -529,8 +473,8 @@ namespace Oxygen
 
                 // retrieve menu
                 QMenu* menu( 0 );
-                if( const QToolButton* button = qobject_cast<const QToolButton*>( receiver ) ) menu = button->menu();
-                else if( const QPushButton* button = qobject_cast<const QPushButton*>( receiver ) ) menu = button->menu();
+                if( const QToolButton* button = qobject_cast<QToolButton*>( receiver ) ) menu = button->menu();
+                else if( const QPushButton* button = qobject_cast<QPushButton*>( receiver ) ) menu = button->menu();
 
                 // abort if not found
                 if( !menu ) break;
@@ -576,9 +520,16 @@ namespace Oxygen
 
                 _pendingEventsTimer.start( 10, this );
 
-                // click
+                // enter widget or move cursor to relevant position
                 position = receiver->rect().center();
-                moveCursor( receiver->mapToGlobal( position ) );
+                if( !enter( receiver, position, event._delay ) )
+                {
+                    moveCursor( receiver->mapToGlobal( position ) );
+                    postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, position );
+                    postDelay( event._delay );
+                }
+
+                // click
                 postMouseEvent( receiver, QEvent::MouseButtonPress, Qt::LeftButton, position, Qt::NoButton, Qt::NoModifier );
                 break;
 
@@ -587,7 +538,7 @@ namespace Oxygen
             case Event::SelectTab:
             {
 
-                const QTabBar* tabbar = qobject_cast<const QTabBar*>( receiver );
+                const QTabBar* tabbar = qobject_cast<QTabBar*>( receiver );
                 if( !tabbar ) break;
 
                 const int index( event._position.x() );
@@ -595,8 +546,15 @@ namespace Oxygen
                 const QRect r( tabbar->tabRect( index ) );
                 if( !r.isValid() ) break;
 
+                // enter widget or move cursor to relevant position
                 const QPoint position( r.center() );
-                moveCursor( receiver->mapToGlobal( position ) );
+                if( !enter( receiver, position, event._delay ) )
+                {
+                    moveCursor( receiver->mapToGlobal( position ) );
+                    postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, position );
+                    postDelay( event._delay );
+                }
+
                 postMouseClickEvent( receiver, Qt::LeftButton, position );
                 break;
 
@@ -605,6 +563,7 @@ namespace Oxygen
             case Event::WriteText:
             {
 
+                enter( receiver, receiver->rect().center(), event._delay );
                 receiver->setFocus();
                 const QString& text( event._text );
                 for( int i=0; i < text.length(); ++i )
@@ -622,7 +581,7 @@ namespace Oxygen
             case Event::ClearText:
             {
 
-                // select all and backspace
+                enter( receiver, receiver->rect().center(), event._delay );
                 receiver->setFocus();
                 postKeyEvent( receiver, QEvent::KeyPress, Qt::Key_A, "a", Qt::ControlModifier );
                 postKeyEvent( receiver, QEvent::KeyRelease, Qt::Key_A, "a", Qt::ControlModifier );
@@ -636,8 +595,7 @@ namespace Oxygen
         }
 
         // delay
-        if( event._delay > 0 ) postDelay( event._delay );
-        else if( event._delay == -1 && _defaultDelay > 0 ) postDelay( _defaultDelay );
+        postDelay( event._delay );
 
         return;
 
@@ -650,6 +608,63 @@ namespace Oxygen
     //_______________________________________________________________________
     void Simulator::postHoverEvent( QWidget* receiver, QEvent::Type type, const QPoint& newPosition, const QPoint& oldPosition ) const
     { postQEvent( receiver, new QHoverEvent( type, newPosition, oldPosition ) ); }
+
+
+    //_______________________________________________________________________
+    bool Simulator::enter( QWidget* receiver, const QPoint& position, int delay )
+    {
+
+        if( receiver == _previousWidget.data() ) return false;
+
+        // store position
+        moveCursor( receiver->mapToGlobal( position ) );
+
+        // leave previous widget
+        if( _previousWidget )
+        {
+            postEvent( _previousWidget.data(), QEvent::Leave );
+            if( _previousWidget.data()->testAttribute( Qt::WA_Hover ) )
+            {
+                const QPoint oldPosition( _previousWidget.data()->mapFromGlobal( _previousPosition ) );
+                const QPoint newPosition( _previousWidget.data()->mapFromGlobal( receiver->mapToGlobal( position ) ) );
+                postHoverEvent( _previousWidget.data(), QEvent::HoverLeave, newPosition, oldPosition );
+            }
+        }
+
+        // enter or move in current widget
+        if( !receiver->rect().contains( receiver->mapFromGlobal( _previousPosition ) ) )
+        {
+
+            // enter current widget if needed
+            postEvent( receiver, QEvent::Enter );
+            if( receiver->testAttribute( Qt::WA_Hover ) )
+            {
+                const QPoint oldPosition( receiver->mapFromGlobal( _previousPosition ) );
+                const QPoint newPosition( position );
+                postHoverEvent( receiver, QEvent::HoverEnter, newPosition, oldPosition );
+            }
+
+        } else if( receiver->mapFromGlobal( _previousPosition ) != position ) {
+
+            // move mouse if needed
+            postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, position );
+            if( receiver->testAttribute( Qt::WA_Hover ) )
+            {
+                const QPoint oldPosition( receiver->mapFromGlobal( _previousPosition ) );
+                const QPoint newPosition( position );
+                postHoverEvent( receiver, QEvent::HoverMove, newPosition, oldPosition );
+            }
+
+        }
+
+        // update previous widget and position
+        _previousWidget = receiver;
+        _previousPosition = receiver->mapToGlobal( position );
+        postDelay( delay );
+
+        return true;
+
+    }
 
     //_______________________________________________________________________
     void Simulator::postMouseClickEvent( QWidget* receiver, Qt::MouseButton button, const QPoint& position  )
@@ -747,6 +762,11 @@ namespace Oxygen
     //_______________________________________________________________________
     void Simulator::postDelay( int delay )
     {
+
+        // check value
+        if( delay == -1 ) delay = _defaultDelay;
+        if( delay <= 0 ) return;
+
         // this is largely inspired from qtestlib's qsleep implementation
         _timer.start( delay, this );
         while( _timer.isActive() )
@@ -769,7 +789,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Simulator::moveCursor( const QPoint& position )
+    void Simulator::moveCursor( const QPoint& position, int steps )
     {
 
         // do nothing if mouse grab is disabled
@@ -780,15 +800,22 @@ namespace Oxygen
         if( begin == end ) return;
 
         // make some steps for smoothness
-        const int steps( 10 );
-        for( int i = 0; i<steps; ++i )
+        if( steps > 1 )
         {
-            const QPoint current(
-                begin.x() + qreal(i*( end.x()-begin.x() ))/(steps-1),
-                begin.y() + qreal(i*( end.y()-begin.y() ))/(steps-1) );
-            QCursor::setPos( current );
-            postDelay( 10 );
+            for( int i = 0; i<steps; ++i )
+            {
+                const QPoint current(
+                    begin.x() + qreal(i*( end.x()-begin.x() ))/(steps-1),
+                    begin.y() + qreal(i*( end.y()-begin.y() ))/(steps-1) );
+                QCursor::setPos( current );
+                postDelay( 10 );
+            }
+        } else {
+
+            QCursor::setPos( end );
+
         }
+
     }
 
     //_______________________________________________________________________

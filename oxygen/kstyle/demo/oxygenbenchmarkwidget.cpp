@@ -158,7 +158,6 @@ namespace Oxygen
         if( view )
         {
 
-            simulator().enter( view );
             simulator().selectItem( view, index );
             simulator().run();
 

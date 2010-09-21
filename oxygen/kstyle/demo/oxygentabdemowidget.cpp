@@ -63,13 +63,11 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().enter( ui.tabPositionComboBox );
             simulator().selectComboBoxItem( ui.tabPositionComboBox, 1 );
             simulator().selectComboBoxItem( ui.tabPositionComboBox, 2 );
             simulator().selectComboBoxItem( ui.tabPositionComboBox, 3 );
             simulator().selectComboBoxItem( ui.tabPositionComboBox, 0 );
 
-            simulator().enter( ui.textPositionComboBox );
             simulator().selectComboBoxItem( ui.textPositionComboBox, 0 );
             simulator().selectComboBoxItem( ui.textPositionComboBox, 2 );
             simulator().selectComboBoxItem( ui.textPositionComboBox, 1 );
@@ -78,38 +76,31 @@ namespace Oxygen
         if( true )
         {
 
-            simulator().enter( ui.documentModeCheckBox );
             simulator().click( ui.documentModeCheckBox );
             simulator().click( ui.documentModeCheckBox );
 
-            simulator().enter( ui.cornerWidgetsCheckBox );
             simulator().click( ui.cornerWidgetsCheckBox );
             simulator().click( ui.cornerWidgetsCheckBox );
 
-            simulator().enter( ui.tabBarVisibilityCheckBox );
             simulator().click( ui.tabBarVisibilityCheckBox );
             simulator().click( ui.tabBarVisibilityCheckBox );
         }
 
         if( true )
         {
-            simulator().enter( ui.lineEdit );
             simulator().writeSampleText( ui.lineEdit );
             simulator().clearText( ui.lineEdit );
 
-            simulator().enter( ui.textEdit );
             simulator().writeSampleText( ui.textEdit );
             simulator().clearText( ui.textEdit );
 
             simulator().selectTab( ui.tabWidget, 1 );
             simulator().selectTab( ui.tabWidget, 2 );
 
-            simulator().enter( ui.lineEdit_2 );
             simulator().writeSampleText( ui.lineEdit_2 );
             simulator().clearText( ui.lineEdit_2 );
 
             simulator().selectTab( ui.tabWidget, 3 );
-            simulator().enter( ui.textEdit_2 );
             simulator().writeSampleText( ui.textEdit_2 );
             simulator().clearText( ui.textEdit_2 );
 

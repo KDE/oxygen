@@ -55,20 +55,16 @@ namespace Oxygen
         if( !isVisible() ) return;
 
         // horizontal
-        simulator().enter( ui.horizontalSlider );
         simulator().slide( ui.horizontalSlider, QPoint( 50, 0 ) );
         simulator().slide( ui.horizontalSlider, QPoint( -50, 0 ) );
 
-        simulator().enter( ui.horizontalScrollBar );
         simulator().slide( ui.horizontalScrollBar, QPoint( 50, 0 ) );
         simulator().slide( ui.horizontalScrollBar, QPoint( -50, 0 ) );
 
         // vertical
-        simulator().enter( ui.verticalScrollBar );
         simulator().slide( ui.verticalScrollBar, QPoint( 0, 50 ) );
         simulator().slide( ui.verticalScrollBar, QPoint( 0, -50 ) );
 
-        simulator().enter( ui.verticalSlider );
         simulator().slide( ui.verticalSlider, QPoint( 0, 50 ) );
         simulator().slide( ui.verticalSlider, QPoint( 0, -50 ) );
 

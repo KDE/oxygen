@@ -45,7 +45,6 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().enter( ui.listWidget );
             simulator().selectItem( ui.listWidget, 0 );
             simulator().selectItem( ui.listWidget, 1 );
             simulator().selectItem( ui.listWidget, 2 );
@@ -53,7 +52,6 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().enter( ui.treeWidget );
             simulator().selectItem( ui.treeWidget, 0, 0 );
             simulator().selectItem( ui.treeWidget, 1, 0 );
             simulator().selectItem( ui.treeWidget, 2, 0 );
@@ -61,7 +59,6 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().enter( ui.tableWidget );
 
             simulator().selectItem( ui.tableWidget, 0, 0 );
             simulator().selectItem( ui.tableWidget, 0, 1 );
@@ -74,18 +71,15 @@ namespace Oxygen
             simulator().selectItem( ui.tableWidget, 2, 0 );
             simulator().selectItem( ui.tableWidget, 2, 1 );
             simulator().selectItem( ui.tableWidget, 2, 2 );
-            simulator().clearSelection( ui.tableWidget );
         }
 
         if( true )
         {
             QSplitterHandle* handle( ui.splitter->handle(1) );
-            simulator().enter( handle );
             simulator().slide( handle, QPoint( 0, -20 ) );
             simulator().slide( handle, QPoint( 0, 20 ) );
 
             handle = ui.splitter->handle(2);
-            simulator().enter( handle );
             simulator().slide( handle, QPoint( 0, 20 ) );
             simulator().slide( handle, QPoint( 0, -20 ) );
         }

@@ -72,28 +72,23 @@ namespace Oxygen
         {
 
             // klineedit
-            simulator().enter( ui.klineedit );
             simulator().clearText( ui.klineedit );
             simulator().writeSampleText( ui.klineedit );
             simulator().clearText( ui.klineedit );
 
-            simulator().enter( ui.klineedit_2 );
             simulator().clearText( ui.klineedit_2 );
             simulator().writeSampleText( ui.klineedit_2 );
             simulator().clearText( ui.klineedit_2 );
 
-            simulator().enter( ui.kcombobox->lineEdit() );
             simulator().clearText( ui.kcombobox->lineEdit() );
             simulator().writeSampleText( ui.kcombobox->lineEdit() );
             simulator().clearText( ui.kcombobox->lineEdit() );
 
-            simulator().enter( ui.kcombobox );
             simulator().selectComboBoxItem( ui.kcombobox, 0 );
             simulator().selectComboBoxItem( ui.kcombobox, 1 );
             simulator().selectComboBoxItem( ui.kcombobox, 2 );
             simulator().selectComboBoxItem( ui.kcombobox, 0 );
 
-            simulator().enter( ui.kintspinbox );
             simulator().clearText( ui.kintspinbox );
             simulator().writeText( ui.kintspinbox, "10" );
             simulator().clearText( ui.kintspinbox );
@@ -105,7 +100,6 @@ namespace Oxygen
         {
 
             // toggle flat widgets
-            simulator().enter( ui.flatCheckBox );
             simulator().click( ui.flatCheckBox );
             simulator().click( ui.flatCheckBox );
 
@@ -114,11 +108,9 @@ namespace Oxygen
         if( true )
         {
             // toggle wrap mode
-            simulator().enter( ui.wrapCheckBox );
             simulator().click( ui.wrapCheckBox );
             simulator().click( ui.wrapCheckBox );
 
-            simulator().enter( ui.textedit );
             simulator().clearText( ui.textedit );
             simulator().writeSampleText( ui.textedit );
             simulator().clearText( ui.textedit );

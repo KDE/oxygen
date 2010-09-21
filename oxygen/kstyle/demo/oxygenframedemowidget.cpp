@@ -83,7 +83,6 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().enter( ui.directionComboBox );
             simulator().selectComboBoxItem( ui.directionComboBox, 1 );
             simulator().selectComboBoxItem( ui.directionComboBox, 2 );
             simulator().selectComboBoxItem( ui.directionComboBox, 3 );
@@ -92,22 +91,15 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().enter( ui.flatGroupBoxCheckBox );
             simulator().click( ui.flatGroupBoxCheckBox );
             simulator().click( ui.flatGroupBoxCheckBox );
         }
 
         if( true )
         {
-            simulator().enter( ui.plainFrameRadioButton );
             simulator().click( ui.plainFrameRadioButton );
-
-            simulator().enter( ui.sunkenFrameRadioButton );
             simulator().click( ui.sunkenFrameRadioButton );
-
-            simulator().enter( ui.raisedFrameRadioButton );
             simulator().click( ui.raisedFrameRadioButton );
-
         }
 
         simulator().run();

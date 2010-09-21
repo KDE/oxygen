@@ -108,44 +108,35 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().enter( ui.pushButton );
             simulator().click( ui.pushButton );
 
-            simulator().enter( ui.pushButton_2 );
             simulator().selectMenuItem( ui.pushButton_2, 0 );
             simulator().selectMenuItem( ui.pushButton_2, 1 );
             simulator().selectMenuItem( ui.pushButton_2, 2 );
 
-            simulator().enter( ui.kcombobox );
             simulator().selectComboBoxItem( ui.kcombobox, 0 );
             simulator().selectComboBoxItem( ui.kcombobox, 2 );
             simulator().selectComboBoxItem( ui.kcombobox, 1 );
 
-            simulator().enter( ui.toolButton );
             simulator().click( ui.toolButton );
 
-            simulator().enter( ui.pushButton_3 );
             simulator().click( ui.pushButton_3 );
 
-            simulator().enter( ui.pushButton_4 );
             simulator().selectMenuItem( ui.pushButton_4, 0 );
             simulator().selectMenuItem( ui.pushButton_4, 1 );
             simulator().selectMenuItem( ui.pushButton_4, 2 );
 
-            simulator().enter( ui.kcombobox_2 );
             simulator().selectComboBoxItem( ui.kcombobox_2, 1 );
             simulator().selectComboBoxItem( ui.kcombobox_2, 2 );
             simulator().selectComboBoxItem( ui.kcombobox_2, 3 );
             simulator().selectComboBoxItem( ui.kcombobox_2, 0 );
 
-            simulator().enter( ui.toolButton_2 );
             simulator().click( ui.toolButton_2 );
         }
 
         if( true )
         {
             // toggle flat mode and redo
-            simulator().enter( ui.flatButtonCheckBox );
             simulator().click( ui.flatButtonCheckBox );
             simulator().click( ui.flatButtonCheckBox );
         }
@@ -154,14 +145,12 @@ namespace Oxygen
         {
 
             // change text position
-            simulator().enter( ui.textPosition );
             simulator().selectComboBoxItem( ui.textPosition, 1 );
             simulator().selectComboBoxItem( ui.textPosition, 2 );
             simulator().selectComboBoxItem( ui.textPosition, 3 );
             simulator().selectComboBoxItem( ui.textPosition, 0 );
 
             // change icon sizes
-            simulator().enter( ui.iconSize );
             simulator().selectComboBoxItem( ui.iconSize, 0 );
             simulator().selectComboBoxItem( ui.iconSize, 1 );
             simulator().selectComboBoxItem( ui.iconSize, 3 );
@@ -171,14 +160,8 @@ namespace Oxygen
 
         if( true )
         {
-            simulator().enter( ui.radioButton );
-            simulator().enter( ui.radioButton_2 );
             simulator().click( ui.radioButton_2 );
-
-            simulator().enter( ui.radioButton_3 );
             simulator().click( ui.radioButton_3 );
-
-            simulator().enter( ui.radioButton );
             simulator().click( ui.radioButton );
         }
 
