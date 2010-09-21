@@ -65,4 +65,42 @@ namespace Oxygen
 
     }
 
+    //______________________________________________________________
+    void MdiDemoWidget::benchmark( void )
+    {
+        if( !isVisible() ) return;
+
+        if( true )
+        {
+            // slide windows
+            foreach( QMdiSubWindow* window, ui.mdiArea->findChildren<QMdiSubWindow*>() )
+            {
+                simulator().slide( window, QPoint( 20, 20 ) );
+                simulator().slide( window, QPoint( -20, -20 ) );
+            }
+
+        }
+
+        if( true )
+        {
+            simulator().writeSampleText( ui.lineEdit );
+            simulator().clearText( ui.lineEdit );
+
+            simulator().writeSampleText( ui.textEdit );
+            simulator().clearText( ui.textEdit );
+
+        }
+
+        if( true )
+        {
+            foreach( QAbstractButton* button, ui.toolBox->findChildren<QAbstractButton*>() )
+            { simulator().click( button ); }
+
+            foreach( QAbstractButton* button, ui.toolBox->findChildren<QAbstractButton*>() )
+            { simulator().click( button ); }
+        }
+
+        simulator().run();
+
+    }
 }

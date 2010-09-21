@@ -37,6 +37,7 @@
 #include <QtGui/QCursor>
 #include <QtGui/QFocusEvent>
 #include <QtGui/QHoverEvent>
+#include <QtGui/QMdiSubWindow>
 #include <QtGui/QMenu>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QPushButton>
@@ -47,6 +48,8 @@
 #include <QtGui/QStyleOptionComboBox>
 #include <QtGui/QStyleOptionSlider>
 #include <QtGui/QToolButton>
+
+#include <QtCore/QTextStream>
 
 #ifdef Q_OS_WIN
 /* need windows.h include for Sleep function*/
@@ -358,6 +361,20 @@ namespace Oxygen
 
                     if( !handleRect.isValid() ) break;
                     begin = handleRect.center();
+
+                } else if( const QMdiSubWindow* window = qobject_cast<QMdiSubWindow*>( receiver ) ) {
+
+
+                    QStyleOptionTitleBar option;
+                    option.initFrom( window );
+                    int titleBarHeight( window->style()->pixelMetric( QStyle::PM_TitleBarHeight, &option, window ) );
+                    QRect titleBarRect( QPoint(0,0), QSize( window->width(), titleBarHeight ) );
+
+
+                    //QRect titleBarRect( window->style()->subControlRect( QStyle::CC_TitleBar, &option, QStyle::SC_TitleBarLabel, window ) );
+                    //if( !titleBarRect.isValid() ) break;
+
+                    begin = titleBarRect.center();
 
                 } else {
 

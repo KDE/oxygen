@@ -49,6 +49,10 @@ namespace Oxygen
         virtual ~MdiDemoWidget( void )
         {}
 
+        public slots:
+
+        void benchmark( void );
+
         private:
 
         Ui_MdiDemoWidget ui;

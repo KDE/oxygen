@@ -42,6 +42,7 @@ namespace Oxygen
         ui.setupUi( this );
         ui.runButton->setIcon( KIcon( "system-run" ) );
         ui.grabMouseCheckBox->setChecked( Simulator::grabMouse() );
+        ui.groupBox_2->setVisible( false );
         connect( ui.runButton, SIGNAL( clicked( void ) ), SLOT( run( void ) ) );
 
     }
