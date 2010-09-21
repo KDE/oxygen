@@ -8842,7 +8842,6 @@ namespace Oxygen
     {
 
         const int s( qMin(rect.width(), rect.height()) );
-        //const int s( CheckBox_Size );
         const QRect r( centerRect(rect, s, s) );
 
         if( options & Sunken ) _helper.holeFlat( palette.color(QPalette::Window), 0.0 )->render( r, painter, TileSet::Full );
