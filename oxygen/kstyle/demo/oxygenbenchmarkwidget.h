@@ -66,6 +66,10 @@ namespace Oxygen
         //! button state
         void updateButtonState( void );
 
+        //! grabMouse
+        void updateGrabMouse( bool value )
+        { Simulator::setGrabMouse( value ); }
+
         //! run
         void run( void );
 

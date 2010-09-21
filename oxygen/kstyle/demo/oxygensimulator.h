@@ -173,6 +173,9 @@ namespace Oxygen
         //! delay
         void postDelay( int );
 
+        //! set focus to widget
+        void setFocus( QWidget* );
+
         //! move cursor
         void moveCursor( const QPoint&, int steps = 10 );
         //@}

@@ -75,6 +75,7 @@ namespace Oxygen
             // slide windows
             foreach( QMdiSubWindow* window, ui.mdiArea->findChildren<QMdiSubWindow*>() )
             {
+                simulator().click( window );
                 simulator().slide( window, QPoint( 20, 20 ) );
                 simulator().slide( window, QPoint( -20, -20 ) );
             }

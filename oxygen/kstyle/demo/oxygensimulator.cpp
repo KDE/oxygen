@@ -99,6 +99,15 @@ namespace Oxygen
                 &option,
                 radiobutton).center();
 
+        } else if( const QMdiSubWindow* window = qobject_cast<QMdiSubWindow*>( receiver ) ) {
+
+            QStyleOptionTitleBar option;
+            option.initFrom( window );
+            int titleBarHeight( window->style()->pixelMetric( QStyle::PM_TitleBarHeight, &option, window ) );
+            QRect titleBarRect( QPoint(0,0), QSize( window->width(), titleBarHeight ) );
+            if( !titleBarRect.isValid() ) return;
+            position = titleBarRect.center();
+
         } else {
 
             position = receiver->rect().center();
@@ -364,16 +373,11 @@ namespace Oxygen
 
                 } else if( const QMdiSubWindow* window = qobject_cast<QMdiSubWindow*>( receiver ) ) {
 
-
                     QStyleOptionTitleBar option;
                     option.initFrom( window );
                     int titleBarHeight( window->style()->pixelMetric( QStyle::PM_TitleBarHeight, &option, window ) );
                     QRect titleBarRect( QPoint(0,0), QSize( window->width(), titleBarHeight ) );
-
-
-                    //QRect titleBarRect( window->style()->subControlRect( QStyle::CC_TitleBar, &option, QStyle::SC_TitleBarLabel, window ) );
-                    //if( !titleBarRect.isValid() ) break;
-
+                    if( !titleBarRect.isValid() ) break;
                     begin = titleBarRect.center();
 
                 } else {
@@ -391,14 +395,14 @@ namespace Oxygen
 
                 const QPoint end( begin + delta );
                 postMouseEvent( receiver, QEvent::MouseButtonPress, Qt::LeftButton, begin, Qt::LeftButton );
-                receiver->setFocus();
+                setFocus( receiver );
                 postDelay( 50 );
                 const int steps = 10;
                 for( int i=0; i<steps; ++i )
                 {
                     QPoint current(
-                        begin.x() + qreal(i*( end.x()-begin.x() ))/(steps-1),
-                        begin.y() + qreal(i*( end.y()-begin.y() ))/(steps-1) );
+                        begin.x() + qreal((i+1)*( end.x()-begin.x() ))/steps,
+                        begin.y() + qreal((i+1)*( end.y()-begin.y() ))/steps );
                     moveCursor( receiver->mapToGlobal( current ), 1 );
                     postMouseEvent( receiver, QEvent::MouseMove, Qt::NoButton, current, Qt::LeftButton, Qt::NoModifier );
                     postDelay( 20 );
@@ -581,7 +585,7 @@ namespace Oxygen
             {
 
                 enter( receiver, receiver->rect().center(), event._delay );
-                receiver->setFocus();
+                setFocus( receiver );
                 const QString& text( event._text );
                 for( int i=0; i < text.length(); ++i )
                 {
@@ -599,7 +603,7 @@ namespace Oxygen
             {
 
                 enter( receiver, receiver->rect().center(), event._delay );
-                receiver->setFocus();
+                setFocus( receiver );
                 postKeyEvent( receiver, QEvent::KeyPress, Qt::Key_A, "a", Qt::ControlModifier );
                 postKeyEvent( receiver, QEvent::KeyRelease, Qt::Key_A, "a", Qt::ControlModifier );
                 postDelay( 20 );
@@ -689,7 +693,7 @@ namespace Oxygen
 
         // button press and button release
         postMouseEvent( receiver, QEvent::MouseButtonPress, button, position, button  );
-        receiver->setFocus();
+        setFocus( receiver );
         postDelay(50);
         postMouseEvent( receiver, QEvent::MouseButtonRelease, button, position, button );
 
@@ -816,17 +820,18 @@ namespace Oxygen
         const QPoint end( position );
         if( begin == end ) return;
 
-        // make some steps for smoothness
         if( steps > 1 )
         {
+
             for( int i = 0; i<steps; ++i )
             {
                 const QPoint current(
-                    begin.x() + qreal(i*( end.x()-begin.x() ))/(steps-1),
-                    begin.y() + qreal(i*( end.y()-begin.y() ))/(steps-1) );
+                    begin.x() + qreal((i+1)*( end.x()-begin.x() ))/steps,
+                    begin.y() + qreal((i+1)*( end.y()-begin.y() ))/steps );
                 QCursor::setPos( current );
                 postDelay( 10 );
             }
+
         } else {
 
             QCursor::setPos( end );
@@ -836,10 +841,20 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
+    void Simulator::setFocus( QWidget* receiver )
+    {
+        if( receiver->focusPolicy() != Qt::NoFocus )
+        { receiver->setFocus(); }
+    }
+
+    //_______________________________________________________________________
     Qt::Key Simulator::toKey( QChar a ) const
     { return (Qt::Key) QKeySequence( a )[0]; }
 
     //_______________________________________________________________________
     void Simulator::postQEvent( QWidget* receiver, QEvent* event ) const
-    { qApp->postEvent( receiver, event ); }
+    {
+        if( _aborted ) delete event;
+        else qApp->postEvent( receiver, event );
+    }
 }
