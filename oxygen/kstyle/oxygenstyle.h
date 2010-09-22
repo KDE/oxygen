@@ -449,6 +449,7 @@ namespace Oxygen
         bool drawPanelTipLabelPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelItemViewItemPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelLineEditPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawIndicatorMenuCheckMarkPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawQ3CheckListIndicatorPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawQ3CheckListExclusiveIndicatorPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorBranchPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;

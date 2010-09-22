@@ -994,6 +994,7 @@ namespace Oxygen
             case PE_PanelScrollAreaCorner: fcn = &Style::drawPanelScrollAreaCornerPrimitive; break;
             case PE_PanelTipLabel: fcn = &Style::drawPanelTipLabelPrimitive; break;
 
+            case PE_IndicatorMenuCheckMark: fcn = &Style::drawIndicatorMenuCheckMarkPrimitive; break;
             case PE_Q3CheckListIndicator: fcn = &Style::drawQ3CheckListIndicatorPrimitive; break;
             case PE_Q3CheckListExclusiveIndicator: fcn = &Style::drawQ3CheckListExclusiveIndicatorPrimitive; break;
             case PE_IndicatorBranch: fcn = &Style::drawIndicatorBranchPrimitive; break;
@@ -3528,6 +3529,23 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
+    bool Style::drawIndicatorMenuCheckMarkPrimitive( const QStyleOption *option, QPainter *painter, const QWidget *widget ) const
+    {
+        const QRect& r( option->rect );
+        const State& flags( option->state );
+        const QPalette& palette( option->palette );
+        const bool enabled( flags & State_Enabled );
+
+        StyleOptions opts(NoFill);
+        if( !enabled ) opts |= Disabled;
+        CheckBoxState state = CheckOn;
+
+        renderCheckBox( painter, r, palette, opts, state);
+        return true;
+
+    }
+
+    //___________________________________________________________________________________
     bool Style::drawQ3CheckListIndicatorPrimitive( const QStyleOption *option, QPainter *painter, const QWidget *widget ) const
     {
         const QStyleOptionQ3ListView* listViewOpt( qstyleoption_cast<const QStyleOptionQ3ListView*>( option ) );
@@ -4633,8 +4651,8 @@ namespace Oxygen
         if( tabPos != -1)
         {
 
-            text = menuItemOption->text.left(tabPos);
-            QString accl = menuItemOption->text.mid (tabPos + 1);
+            text = menuItemOption->text.left( tabPos );
+            QString accl = menuItemOption->text.mid( tabPos + 1 );
 
             drawItemText(
                 painter, textRect, Qt::AlignVCenter | Qt::TextShowMnemonic | Qt::AlignRight, palette,
@@ -8844,8 +8862,11 @@ namespace Oxygen
         const int s( qMin(rect.width(), rect.height()) );
         const QRect r( centerRect(rect, s, s) );
 
-        if( options & Sunken ) _helper.holeFlat( palette.color(QPalette::Window), 0.0 )->render( r, painter, TileSet::Full );
-        else renderSlab( painter, r, palette.color(QPalette::Button), options, opacity, mode, TileSet::Ring );
+        if( !( options & NoFill ) )
+        {
+            if( options & Sunken ) _helper.holeFlat( palette.color(QPalette::Window), 0.0 )->render( r, painter, TileSet::Full );
+            else renderSlab( painter, r, palette.color(QPalette::Button), options, opacity, mode, TileSet::Ring );
+        }
 
         // check mark
         const qreal x( r.center().x() - 3.5 );
