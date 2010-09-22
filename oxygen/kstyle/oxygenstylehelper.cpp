@@ -280,7 +280,7 @@ namespace Oxygen
         const qreal s( qreal(size) * (3.6 + (0.5 * _slabThickness)) / 7.0 );
         const QRectF r( QRectF(rect).adjusted(s, s, -s, -s) );
         if( !r.isValid() ) return;
-        p.drawRoundedRect( r, s, s );
+        p.drawRoundedRect( r, s-1, s-1 );
     }
 
     //__________________________________________________________________________________________________________
