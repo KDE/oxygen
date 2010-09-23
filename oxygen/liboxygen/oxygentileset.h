@@ -1,3 +1,6 @@
+#ifndef oxygentileset_h
+#define oxygentileset_h
+
 /*
  * Copyright 2009-2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
  * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
@@ -17,9 +20,6 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-
-#ifndef TILESET_H
-#define TILESET_H
 
 #include <QtGui/QPixmap>
 #include <QtCore/QRect>
