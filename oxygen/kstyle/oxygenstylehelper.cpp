@@ -773,7 +773,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     void StyleHelper::drawInverseShadow(
         QPainter &p, const QColor &color,
-        int pad, int size, qreal fuzz )
+        int pad, int size, qreal fuzz ) const
     {
 
         const qreal m( qreal(size)*0.5 );
@@ -783,8 +783,8 @@ namespace Oxygen
         for (int i = 0; i < 8; i++)
         {
             // sinusoidal gradient
-            qreal k1 = (qreal(8 - i) + k0 * qreal(i)) * 0.125;
-            qreal a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
+            const qreal k1( (qreal(8 - i) + k0 * qreal(i)) * 0.125 );
+            const qreal a( (cos(3.14159 * i * 0.125) + 1.0) * 0.25 );
             shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
         }
         shadowGradient.setColorAt(k0, alphaColor(color, 0.0));
