@@ -280,7 +280,8 @@ namespace Oxygen
         const qreal s( qreal(size) * (3.6 + (0.5 * _slabThickness)) / 7.0 );
         const QRectF r( QRectF(rect).adjusted(s, s, -s, -s) );
         if( !r.isValid() ) return;
-        p.drawRoundedRect( r, s-1, s-1 );
+
+        p.drawRoundedRect( r, s/2, s/2 );
     }
 
     //__________________________________________________________________________________________________________
@@ -776,7 +777,6 @@ namespace Oxygen
     {
 
         const qreal m( qreal(size)*0.5 );
-        const QColor shadow( calcShadowColor( color ) );
         const qreal offset( 0.8 );
         const qreal k0( (m-2) / qreal(m+2.0) );
         QRadialGradient shadowGradient(pad+m, pad+m+offset, m+2);
@@ -785,7 +785,7 @@ namespace Oxygen
             // sinusoidal gradient
             qreal k1 = (qreal(8 - i) + k0 * qreal(i)) * 0.125;
             qreal a = (cos(3.14159 * i * 0.125) + 1.0) * 0.25;
-            shadowGradient.setColorAt(k1, alphaColor(shadow, a * _shadowGain));
+            shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
         }
         shadowGradient.setColorAt(k0, alphaColor(color, 0.0));
         p.setBrush(shadowGradient);
