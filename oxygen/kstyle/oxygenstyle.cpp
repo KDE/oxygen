@@ -8236,17 +8236,17 @@ namespace Oxygen
             if( _helper.calcShadowColor(color).value() > color.value() && (options & Sunken) )
             {
 
-                QLinearGradient innerGradient(0, r.top(), 0, r.bottom() + r.height());
-                innerGradient.setColorAt(0.0, color);
-                innerGradient.setColorAt(1.0, _helper.calcLightColor(color));
-                painter->setBrush(innerGradient);
+                QLinearGradient innerGradient( 0, r.top(), 0, r.bottom() + r.height() );
+                innerGradient.setColorAt( 0.0, color );
+                innerGradient.setColorAt( 1.0, _helper.calcLightColor(color) );
+                painter->setBrush( innerGradient );
 
             } else {
 
-                QLinearGradient innerGradient(0, r.top() - r.height(), 0, r.bottom());
-                innerGradient.setColorAt(0.0, _helper.calcLightColor(color));
-                innerGradient.setColorAt(1.0, color);
-                painter->setBrush(innerGradient);
+                QLinearGradient innerGradient( 0, r.top() - r.height(), 0, r.bottom() );
+                innerGradient.setColorAt( 0.0, _helper.calcLightColor(color) );
+                innerGradient.setColorAt( 1.0, color );
+                painter->setBrush( innerGradient );
 
             }
 
@@ -8261,14 +8261,14 @@ namespace Oxygen
         TileSet *tile(0);
         if( (options & Sunken) && color.isValid() )
         {
-            tile = _helper.slabSunken(color, 0.0);
+            tile = _helper.slabSunken( color, 0.0 );
 
         } else {
 
             // calculate proper glow color based on current settings and opacity
-            QColor glow( slabShadowColor( color, options, opacity, mode ) );
-            if( glow.isValid() ) tile = _helper.slabFocused(color, glow , 0.0);
-            else if( color.isValid() ) tile = _helper.slab(color, 0.0);
+            const QColor glow( slabShadowColor( color, options, opacity, mode ) );
+            if( glow.isValid() ) tile = _helper.slabFocused( color, glow , 0.0 );
+            else if( color.isValid() ) tile = _helper.slab( color, 0.0 );
             else return;
 
         }
