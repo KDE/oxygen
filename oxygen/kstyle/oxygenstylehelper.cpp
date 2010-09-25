@@ -762,7 +762,7 @@ namespace Oxygen
         innerGradient.setColorAt( 1, base );
         p.setBrush( innerGradient );
         const qreal ic( 3.6 + _slabThickness );
-        const qreal is( 13.8 - 2.0*_slabThickness );
+        const qreal is( 21.0 - 2.0*ic );
         p.drawEllipse( QRectF( ic, ic, is, is ) );
 
         p.restore();
