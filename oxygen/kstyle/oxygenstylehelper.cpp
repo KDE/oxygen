@@ -739,7 +739,6 @@ namespace Oxygen
         // colors
         const QColor base( KColorUtils::shade( color, shade ) );
         const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-        const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
 
         // bevel, part 1
         QLinearGradient bevelGradient1( 0, 10, 0, 18 );
