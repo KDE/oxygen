@@ -744,8 +744,8 @@ namespace Oxygen
         p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
         p.setBrush(Qt::black);
 
-        const qreal ic = 3.6 + 0.5*_slabThickness;
-        const qreal is = 6.8 - (2.0*0.5*_slabThickness);
+        const qreal ic( 3.6 + 0.5*_slabThickness );
+        const qreal is( 14.0 - 2.0*ic );
         p.drawEllipse(QRectF(ic, ic, is, is));
         p.restore();
     }
@@ -763,7 +763,7 @@ namespace Oxygen
 
             // sinusoidal gradient
             const qreal k1( (k0 * qreal(8 - i) + qreal(i)) * 0.125 );
-            const qreal a( (cos(3.14159 * i * 0.125) + 1.0) * 0.30 );
+            const qreal a( (cos( M_PI * i * 0.125) + 1.0) * 0.30 );
             shadowGradient.setColorAt(k1, alphaColor(color, a * _shadowGain));
 
         }
