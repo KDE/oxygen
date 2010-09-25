@@ -3529,7 +3529,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawIndicatorMenuCheckMarkPrimitive( const QStyleOption *option, QPainter *painter, const QWidget *widget ) const
+    bool Style::drawIndicatorMenuCheckMarkPrimitive( const QStyleOption *option, QPainter *painter, const QWidget * ) const
     {
         const QRect& r( option->rect );
         const State& flags( option->state );
@@ -8876,8 +8876,8 @@ namespace Oxygen
         {
 
             qreal penThickness( 2.0 );
-            const QColor color( (options&Sunken) ? palette.color(QPalette::WindowText): palette.color(QPalette::ButtonText) );
-            const QColor background( (options&Sunken) ? palette.color(QPalette::Window): palette.color(QPalette::Button) );
+            const QColor color( palette.color( ( options&Sunken ) ? QPalette::WindowText:QPalette::ButtonText ) );
+            const QColor background( palette.color( ( options&Sunken ) ? QPalette::Window:QPalette::Button ) );
             QPen pen( _helper.decoColor( background, color ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
             QPen contrastPen( _helper.calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 
