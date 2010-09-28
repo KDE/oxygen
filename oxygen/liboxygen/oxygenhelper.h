@@ -113,7 +113,7 @@ namespace Oxygen
         Value* get( const QColor& color )
         {
             quint64 key = ( quint64( color.rgba() ) << 32 );
-            Value *cache = data_.object( key );
+            Value* cache = data_.object( key );
 
             if ( !cache )
             {
@@ -150,7 +150,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        Helper( const QByteArray &componentName );
+        Helper( const QByteArray& componentName );
 
         //! destructor
         virtual ~Helper()
@@ -175,7 +175,7 @@ namespace Oxygen
         \par gradientHeight: the height of the generated gradient.
         for different heights, the gradient is translated so that it is always at the same position from the bottom
         */
-        void renderWindowBackground( QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette & pal, int y_shift=-23, int gradientHeight = 64 )
+        void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette&  pal, int y_shift=-23, int gradientHeight = 64 )
         { renderWindowBackground( p, clipRect, widget, pal.color( widget->window()->backgroundRole() ), y_shift, gradientHeight ); }
 
         /*!
@@ -183,50 +183,50 @@ namespace Oxygen
         gradientHeight: the height of the generated gradient.
         for different heights, the gradient is translated so that it is always at the same position from the bottom
         */
-        void renderWindowBackground( QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QPalette & pal, int y_shift=-23, int gradientHeight = 64 )
+        void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QPalette&  pal, int y_shift=-23, int gradientHeight = 64 )
         { renderWindowBackground( p, clipRect, widget, window, pal.color( window->backgroundRole() ), y_shift, gradientHeight ); }
 
         //! render window background using a given color as a reference
-        void renderWindowBackground( QPainter *p, const QRect &clipRect, const QWidget *widget, const QColor& color, int y_shift=-23, int gradientHeight = 64 )
+        void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift=-23, int gradientHeight = 64 )
         { renderWindowBackground( p, clipRect, widget, widget->window(), color, y_shift, gradientHeight ); }
 
         //! render window background using a given color as a reference
-        void renderWindowBackground( QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64 );
+        void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64 );
 
         //! dots
         void renderDot( QPainter*, const QPoint&, const QColor& );
 
         //@}
 
-        bool lowThreshold( const QColor &color );
-        bool highThreshold( const QColor &color );
+        bool lowThreshold( const QColor& color );
+        bool highThreshold( const QColor& color );
 
         static QColor alphaColor( QColor color, qreal alpha );
 
-        virtual const QColor& calcLightColor( const QColor &color );
-        virtual const QColor& calcDarkColor( const QColor &color );
-        virtual const QColor& calcShadowColor( const QColor &color );
+        virtual const QColor& calcLightColor( const QColor& color );
+        virtual const QColor& calcDarkColor( const QColor& color );
+        virtual const QColor& calcShadowColor( const QColor& color );
 
         //! returns menu background color matching position in a given top level widget
-        virtual const QColor& backgroundColor( const QColor &color, const QWidget* w, const QPoint& point )
+        virtual const QColor& backgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
         {
             if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
             else return backgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
         }
 
         //! returns menu background color matching position in a top level widget of given height
-        virtual const QColor& backgroundColor( const QColor &color, int height, int y )
+        virtual const QColor& backgroundColor( const QColor& color, int height, int y )
         { return backgroundColor( color, qMin( qreal( 1.0 ), qreal( y )/qMin( 300, 3*height/4 ) ) ); }
 
-        virtual const QColor& backgroundRadialColor( const QColor &color );
-        virtual const QColor& backgroundTopColor( const QColor &color );
-        virtual const QColor& backgroundBottomColor( const QColor &color );
+        virtual const QColor& backgroundRadialColor( const QColor& color );
+        virtual const QColor& backgroundTopColor( const QColor& color );
+        virtual const QColor& backgroundBottomColor( const QColor& color );
 
-        virtual QPixmap verticalGradient( const QColor &color, int height, int offset = 0 );
-        virtual QPixmap radialGradient( const QColor &color, int width, int height = 64 );
+        virtual QPixmap verticalGradient( const QColor& color, int height, int offset = 0 );
+        virtual QPixmap radialGradient( const QColor& color, int width, int height = 64 );
 
         //! merge background and front color for check marks, arrows, etc. using _contrast
-        virtual const QColor& decoColor( const QColor &background, const QColor &color );
+        virtual const QColor& decoColor( const QColor& background, const QColor& color );
 
         //! returns a region matching given rect, with rounded corners, based on the multipliers
         /*! setting any of the multipliers to zero will result in no corners shown on the corresponding side */
@@ -235,15 +235,15 @@ namespace Oxygen
         //! draw frame that mimics some sort of shadows around a panel
         /*! it is used for menus, detached dock panels and toolbar, as well as window decoration when compositing is disabled */
         virtual void drawFloatFrame(
-            QPainter *p, const QRect r, const QColor &color,
+            QPainter* p, const QRect r, const QColor& color,
             bool drawUglyShadow=true, bool isActive=false,
-            const QColor &frameColor=QColor(),
+            const QColor& frameColor=QColor(),
             TileSet::Tiles tiles = TileSet::Ring
             );
 
-        virtual void drawSeparator( QPainter *p, const QRect &r, const QColor &color, Qt::Orientation orientation );
+        virtual void drawSeparator( QPainter* p, const QRect& r, const QColor& color, Qt::Orientation orientation );
 
-        virtual TileSet *slab( const QColor&, qreal shade, int size = 7 );
+        virtual TileSet* slab( const QColor&, qreal shade, int size = 7 );
 
         //! focus brush
         const KStatefulBrush& viewFocusBrush( void ) const
