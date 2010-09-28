@@ -1500,7 +1500,8 @@ namespace Oxygen
 
                     }
 
-                    drawPrimitive( QStyle::PE_IndicatorToolBarHandle, &opt, &painter, toolBar );
+                    drawIndicatorToolBarHandlePrimitive( &opt, &painter, toolBar );
+
                 }
 
                 // frame
@@ -4348,7 +4349,6 @@ namespace Oxygen
         } else renderHeaderBackground( r, palette, painter, widget, horizontal, reverseLayout );
 
         // dots
-        painter->setPen( palette.color( QPalette::Text ) );
         const QColor color( palette.color( QPalette::Window ) );
         if( horizontal )
         {
