@@ -8478,8 +8478,8 @@ namespace Oxygen
 
             if( animated || mouseOver )
             {
-                QColor highlight = _helper.alphaColor( _helper.calcLightColor( color ),0.5*( animated ? opacity:1.0 ) );
-                qreal a( r.height() > 30 ? 10.0/r.height():0.1 );
+                const QColor highlight = _helper.alphaColor( _helper.calcLightColor( color ),0.5*( animated ? opacity:1.0 ) );
+                const qreal a( r.height() > 30 ? 10.0/r.height():0.1 );
                 QLinearGradient lg( 0, r.top(), 0, r.bottom() );
                 lg.setColorAt( 0, Qt::transparent );
                 lg.setColorAt( a, highlight );
@@ -8513,7 +8513,7 @@ namespace Oxygen
 
             }
 
-            int ngroups = qMax( 1, w / 250 );
+            const int ngroups( qMax( 1, w / 250 ) );
             int center = ( w - ( ngroups-1 ) * 250 ) /2 + r.left();
             for( int k = 0; k < ngroups; k++, center += 250 )
             {
