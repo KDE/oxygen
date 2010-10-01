@@ -1154,10 +1154,12 @@ namespace Oxygen
             p.setRenderHints( QPainter::Antialiasing );
             p.setBrush( Qt::NoBrush );
             p.translate( 0.5, 0.5 );
-            QRect rect( 0.5,0.5,w-0.5,h-0. );
 
-            QColor light = calcLightColor( color );
-            QColor dark = calcDarkColor( color );
+            // create local rect
+            QRect rect( 0, 0, w-1, h );
+
+            const QColor light = calcLightColor( color );
+            const QColor dark = calcDarkColor( color );
 
             {
                 // left and right border
