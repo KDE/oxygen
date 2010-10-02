@@ -714,7 +714,14 @@ namespace Oxygen
             case PM_TitleBarHeight: return 20;
 
             // spacing between widget and scrollbars
-            case PM_ScrollView_ScrollBarSpacing: return -2;
+            case PM_ScrollView_ScrollBarSpacing:
+            if( const QFrame* frame = qobject_cast<const QFrame*>( widget ) )
+            {
+
+                const bool framed( frame->frameShape() != QFrame::NoFrame );
+                return framed ? -2:-1;
+
+            } else return -2;
 
             default: break;
         }
