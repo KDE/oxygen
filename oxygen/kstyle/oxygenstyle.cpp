@@ -9114,18 +9114,20 @@ namespace Oxygen
         if( StyleConfigData::scrollBarBevel() )
         {
             // don't let the pattern move
-            QPoint offset = horizontal ? QPoint( -rect.left(), 0 ) : QPoint( 0, -rect.top() );
-            QPoint periodEnd = offset + ( horizontal ? QPoint( 30, 0 ) : QPoint( 0, 30 ) );
-            QLinearGradient patternGradient( rect.topLeft()+offset, rect.topLeft()+periodEnd );
-            if( !StyleConfigData::scrollBarColored() )
+            QLinearGradient patternGradient( 0, 0, horizontal ? 30:0, horizontal? 0:30 );
+            patternGradient.setSpread( QGradient::ReflectSpread );
+            if( StyleConfigData::scrollBarColored() )
             {
-                patternGradient.setColorAt( 0.0, _helper.alphaColor( shadow, 0.1 ) );
-                patternGradient.setColorAt( 1.0, _helper.alphaColor( light, 0.1 ) );
-            } else {
+
                 patternGradient.setColorAt( 0.0, _helper.alphaColor( shadow, 0.15 ) );
                 patternGradient.setColorAt( 1.0, _helper.alphaColor( light, 0.15 ) );
+
+            } else {
+
+                patternGradient.setColorAt( 0.0, _helper.alphaColor( shadow, 0.1 ) );
+                patternGradient.setColorAt( 1.0, _helper.alphaColor( light, 0.1 ) );
+
             }
-            patternGradient.setSpread( QGradient::ReflectSpread );
 
             painter->setBrush( patternGradient );
             painter->drawRoundedRect( rect, 2, 2 );
