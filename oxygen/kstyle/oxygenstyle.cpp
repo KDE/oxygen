@@ -719,7 +719,7 @@ namespace Oxygen
             {
 
                 const bool framed( frame->frameShape() != QFrame::NoFrame );
-                return framed ? -2:-1;
+                return framed ? -2:0;
 
             } else return -2;
 
