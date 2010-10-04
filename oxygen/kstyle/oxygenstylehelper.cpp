@@ -963,7 +963,7 @@ namespace Oxygen
             TileSet *holeTileSet = hole( color, shade, size, outline );
 
             // hole
-            holeTileSet->render( QRect( 0,0,10,10 ), &p );
+            holeTileSet->render( QRect( 0, 0, rsize*2, rsize*2 ), &p );
 
             p.setWindow( 2,2,10,10 );
 
@@ -1115,9 +1115,9 @@ namespace Oxygen
             p.setRenderHint( QPainter::Antialiasing );
             QRadialGradient rg = QRadialGradient( 4.5, 4.5, 4.5, 4.5, 4.5 );
 
-            QColor tmpColor = glowColor;
-            tmpColor.setAlpha( 180*glowColor.alphaF() );
+            QColor tmpColor( alphaColor( glowColor, 180.0/255 ) );
             rg.setColorAt( 0.75, tmpColor );
+
             tmpColor.setAlpha( 0 );
             rg.setColorAt( 0.90, tmpColor );
             rg.setColorAt( 0.4, tmpColor );
