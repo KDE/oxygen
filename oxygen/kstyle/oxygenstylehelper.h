@@ -64,24 +64,24 @@ namespace Oxygen
         void renderMenuBackground( QPainter*, const QRect&, const QWidget*, const QColor& );
 
         //! returns menu background color matching position in a given menu widget
-        virtual const QColor& menuBackgroundColor( const QColor &color, const QWidget* w, const QPoint& point )
+        virtual const QColor& menuBackgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
         {
             if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
             else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
         }
 
         //! returns menu background color matching position in a menu widget of given height
-        virtual const QColor& menuBackgroundColor( const QColor &color, int height, int y )
+        virtual const QColor& menuBackgroundColor( const QColor& color, int height, int y )
         { return backgroundColor( color, qMin( qreal( 1.0 ), qreal( y )/qMin( 200, 3*height/4 ) ) ); }
 
         //! color
-        inline const QColor& calcMidColor( const QColor &color );
+        inline const QColor& calcMidColor( const QColor& color );
 
         //! merge active and inactive palettes based on ratio, for smooth enable state change transition
         QPalette mergePalettes( const QPalette&, qreal ratio ) const;
 
         //! overloaded window decoration buttons for MDI windows
-        virtual QPixmap windecoButton( const QColor &color, bool pressed, int size = 21 );
+        virtual QPixmap windecoButton( const QColor& color, bool pressed, int size = 21 );
 
         //! round corners( used for Menus, combobox drop-down, detached toolbars and dockwidgets
         TileSet *roundCorner( const QColor&, int size = 5 );
@@ -100,9 +100,9 @@ namespace Oxygen
         QPixmap dialSlab( const QColor&, qreal shade, int size = 7 );
         QPixmap dialSlabFocused( const QColor&, const QColor&, qreal shade, int size = 7 );
         QPixmap roundSlab( const QColor&, qreal shade, int size = 7 );
-        QPixmap roundSlabFocused( const QColor&, const QColor &glowColor, qreal shade, int size = 7 );
+        QPixmap roundSlabFocused( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
 
-        TileSet *slabFocused( const QColor&, const QColor &glowColor, qreal shade, int size = 7 );
+        TileSet *slabFocused( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
         TileSet *slabSunken( const QColor&, qreal shade, int size = 7 );
         TileSet *slabInverted( const QColor&, qreal shade, int size = 7 );
 
@@ -127,7 +127,7 @@ namespace Oxygen
 
         TileSet *hole( const QColor&, qreal shade, int size = 7, bool outline = false );
         TileSet *holeFlat( const QColor&, qreal shade, int size = 7 );
-        TileSet *holeFocused( const QColor&, const QColor &glowColor, qreal shade, int size = 7, bool outline = false );
+        TileSet *holeFocused( const QColor&, const QColor& glowColor, qreal shade, int size = 7, bool outline = false );
 
         //! scrollbar hole
         TileSet *scrollHole( const QColor&, Qt::Orientation orientation, bool smallShadow = false );

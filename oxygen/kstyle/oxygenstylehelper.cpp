@@ -150,7 +150,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    QPixmap StyleHelper::windecoButton( const QColor &color, bool pressed, int size )
+    QPixmap StyleHelper::windecoButton( const QColor& color, bool pressed, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( size << 1 ) | quint64( pressed ) );
         QPixmap *pixmap = m_windecoButtonCache.object( key );
@@ -188,7 +188,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::roundCorner( const QColor &color, int size )
+    TileSet *StyleHelper::roundCorner( const QColor& color, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 )|size );
         TileSet *tileSet = m_cornerCache.object( key );
@@ -226,7 +226,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::slope( const QColor &color, qreal shade, int size )
+    TileSet *StyleHelper::slope( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 )|( quint64( 256.0*shade )<<24 )|size );
         TileSet *tileSet = m_slopeCache.object( key );
@@ -275,7 +275,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    void StyleHelper::fillSlab( QPainter &p, const QRect &rect, int size ) const
+    void StyleHelper::fillSlab( QPainter& p, const QRect& rect, int size ) const
     {
         const qreal s( qreal( size ) * ( 3.6 + ( 0.5 * _slabThickness ) ) / 7.0 );
         const QRectF r( QRectF( rect ).adjusted( s, s, -s, -s ) );
@@ -380,7 +380,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    QPixmap StyleHelper::dialSlab( const QColor &color, qreal shade, int size )
+    QPixmap StyleHelper::dialSlab( const QColor& color, qreal shade, int size )
     {
         Oxygen::Cache<QPixmap>::Value *cache = m_dialSlabCache.get( color );
 
@@ -441,7 +441,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    QPixmap StyleHelper::dialSlabFocused( const QColor &color, const QColor& glowColor, qreal shade, int size )
+    QPixmap StyleHelper::dialSlabFocused( const QColor& color, const QColor& glowColor, qreal shade, int size )
     {
         Oxygen::Cache<QPixmap>::Value* cache =  m_dialSlabCache.get( color );
 
@@ -563,7 +563,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::slabFocused( const QColor &color, const QColor &glowColor, qreal shade, int size )
+    TileSet *StyleHelper::slabFocused( const QColor& color, const QColor& glowColor, qreal shade, int size )
     {
         Oxygen::Cache<TileSet>::Value* cache( m_slabCache.get( color ) );
 
@@ -601,7 +601,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::slabSunken( const QColor &color, qreal shade, int size )
+    TileSet *StyleHelper::slabSunken( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) );
         TileSet *tileSet = m_slabSunkenCache.object( key );
@@ -633,7 +633,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::slabInverted( const QColor &color, qreal shade, int size )
+    TileSet *StyleHelper::slabInverted( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) );
         TileSet *tileSet = m_slabInvertedCache.object( key );
@@ -695,7 +695,7 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    void StyleHelper::drawHole( QPainter &p, const QColor &color, qreal shade, int r )
+    void StyleHelper::drawHole( QPainter& p, const QColor& color, qreal shade, int r )
     {
         const int r2( 2*r );
         const QColor base( KColorUtils::shade( color, shade ) );
@@ -731,7 +731,7 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    void StyleHelper::drawRoundSlab( QPainter &p, const QColor &color, qreal shade )
+    void StyleHelper::drawRoundSlab( QPainter& p, const QColor& color, qreal shade )
     {
 
         p.save();
@@ -771,7 +771,7 @@ namespace Oxygen
 
     //________________________________________________________________________________________________________
     void StyleHelper::drawInverseShadow(
-        QPainter &p, const QColor &color,
+        QPainter& p, const QColor& color,
         int pad, int size, qreal fuzz ) const
     {
 
@@ -793,7 +793,7 @@ namespace Oxygen
 
     //________________________________________________________________________________________________________
     void StyleHelper::drawInverseGlow(
-        QPainter &p, const QColor &color,
+        QPainter& p, const QColor& color,
         int pad, int size, int rsize ) const
     {
 
@@ -819,14 +819,14 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    void StyleHelper::fillHole( QPainter &p, const QRect &rect, int size ) const
+    void StyleHelper::fillHole( QPainter& p, const QRect& rect, int size ) const
     {
         const qreal s( ( 3.0*size )/7.0 );
         p.drawRoundedRect( rect.adjusted( s,s,-s,-s ), 4, 4 );
     }
 
     //____________________________________________________________________________________
-    void StyleHelper::renderHole( QPainter *p, const QColor &base, const QRect &r, bool focus, bool hover, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles tiles, bool outline )
+    void StyleHelper::renderHole( QPainter* p, const QColor& base, const QRect& r, bool focus, bool hover, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles tiles, bool outline )
     {
         if( !r.isValid() ) return;
         if( opacity >= 0 && ( animationMode & Oxygen::AnimationFocus ) )
@@ -862,7 +862,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::hole( const QColor &color, qreal shade, int size, bool outline )
+    TileSet *StyleHelper::hole( const QColor& color, qreal shade, int size, bool outline )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size << 1 | outline );
         TileSet *tileSet = m_holeCache.object( key );
@@ -909,7 +909,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::holeFlat( const QColor &color, qreal shade, int size )
+    TileSet *StyleHelper::holeFlat( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         TileSet *tileSet = m_holeFlatCache.object( key );
@@ -942,7 +942,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::holeFocused( const QColor &color, const QColor &glowColor, qreal shade, int size, bool outline )
+    TileSet *StyleHelper::holeFocused( const QColor& color, const QColor& glowColor, qreal shade, int size, bool outline )
     {
         // FIXME must move to s/slabcache/cache/ b/c key is wrong
         Oxygen::Cache<TileSet>::Value* cache( m_holeFocusedCache.get( glowColor ) );
@@ -980,7 +980,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    TileSet *StyleHelper::scrollHole( const QColor &color, Qt::Orientation orientation, bool smallShadow )
+    TileSet *StyleHelper::scrollHole( const QColor& color, Qt::Orientation orientation, bool smallShadow )
     {
 
         const quint64 key( quint64( color.rgba() ) << 32 | ( orientation == Qt::Horizontal ? 2 : 0 ) | ( smallShadow ? 1 : 0 ) );
@@ -1063,7 +1063,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::groove( const QColor &color, qreal shade, int size )
+    TileSet *StyleHelper::groove( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         TileSet *tileSet = m_grooveCache.object( key );
@@ -1098,7 +1098,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::slitFocused( const QColor &glowColor )
+    TileSet *StyleHelper::slitFocused( const QColor& glowColor )
     {
         const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) );
         TileSet *tileSet = m_slitCache.object( key );
@@ -1134,7 +1134,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    TileSet *StyleHelper::dockFrame( const QColor &color, int w )
+    TileSet *StyleHelper::dockFrame( const QColor& color, int w )
     {
         const quint64 key( quint64( color.rgba() ) << 32 | w );
         TileSet *tileSet = m_dockFrameCache.object( key );
@@ -1199,7 +1199,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    TileSet *StyleHelper::selection( const QColor &color, int height, bool custom )
+    TileSet *StyleHelper::selection( const QColor& color, int height, bool custom )
     {
 
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( height << 1 ) | custom );
