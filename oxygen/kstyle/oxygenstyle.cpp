@@ -3642,28 +3642,40 @@ namespace Oxygen
                 // get size from option
                 QPolygonF a;
                 ArrowSize size = ArrowSmall;
+                qreal penThickness( 1.2 );
+                qreal offset( 0.5 );
+
                 switch( StyleConfigData::viewTriangularExpanderSize() )
                 {
-                    case StyleConfigData::TE_TINY: size = ArrowTiny; break;
-                    case StyleConfigData::TE_NORMAL: size = ArrowNormal; break;
+                    case StyleConfigData::TE_TINY:
+                    size = ArrowTiny;
+                    break;
+
                     default:
-                    case StyleConfigData::TE_SMALL: size = ArrowSmall; break;
+                    case StyleConfigData::TE_SMALL:
+                    size = ArrowSmall;
+                    break;
+
+                    case StyleConfigData::TE_NORMAL:
+                    penThickness = 1.6;
+                    offset = 0.0;
+                    size = ArrowNormal;
+                    break;
+
                 }
 
                 if( expanderOpen )
                 {
 
-                    painter->translate( 0, 0.5 );
+                    painter->translate( 0, offset );
                     a = genericArrow( ArrowDown, size );
 
                 } else {
 
-                    painter->translate( 0.5, 0 );
+                    painter->translate( offset, 0 );
                     a = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, size );
 
                 }
-
-                const qreal penThickness( 1.2 );
 
                 painter->setPen( QPen( expanderColor, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
                 painter->setRenderHint( QPainter::Antialiasing );
@@ -8332,7 +8344,6 @@ namespace Oxygen
         const QColor dark( _helper.calcDarkColor( color ) );
         const QColor shadow( _helper.calcShadowColor( color ) );
         const QColor light( _helper.calcLightColor( color ) );
-        const QColor hl( _helper.viewFocusBrush().brush( QPalette::Active ).color() );
         const QRect fillRect( r.adjusted( 4, 3,-4,-5 ) );
 
         QLinearGradient highlight;
