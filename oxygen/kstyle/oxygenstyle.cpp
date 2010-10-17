@@ -3135,7 +3135,8 @@ namespace Oxygen
             const QPalette local( widget->parentWidget() ? widget->parentWidget()->palette() : palette );
 
             // check whether parent has autofill background flag
-            if( const QWidget* parent = _helper.checkAutoFillBackground( widget ) ) painter->fillRect( r, parent->palette().color( parent->backgroundRole() ) );
+            const QWidget* parent = _helper.checkAutoFillBackground( widget );
+            if( parent && !qobject_cast<const QDockWidget*>( parent ) ) painter->fillRect( r, parent->palette().color( parent->backgroundRole() ) );
             else _helper.renderWindowBackground( painter, r, widget, local );
 
             return true;
