@@ -7522,7 +7522,6 @@ namespace Oxygen
     //______________________________________________________________
     bool Style::drawToolButtonComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
     {
-        if( !widget ) return false;
 
         // check autoRaise state
         const State flags( option->state );
@@ -7552,9 +7551,10 @@ namespace Oxygen
         }
 
         // toolbar animation
-        const bool toolBarAnimated( isInToolBar && animations().toolBarEngine().isAnimated( widget->parentWidget() ) );
-        const QRect animatedRect( animations().toolBarEngine().animatedRect( widget->parentWidget() ) );
-        const QRect currentRect( animations().toolBarEngine().currentRect( widget->parentWidget() ) );
+        QWidget* parent( widget ? widget->parentWidget():0 );
+        const bool toolBarAnimated( isInToolBar && animations().toolBarEngine().isAnimated( parent ) );
+        const QRect animatedRect( animations().toolBarEngine().animatedRect( parent ) );
+        const QRect currentRect( animations().toolBarEngine().currentRect( parent ) );
         const bool current( isInToolBar && currentRect.intersects( rect.translated( widget->mapToParent( QPoint( 0,0 ) ) ) ) );
         const bool toolBarTimerActive( isInToolBar && animations().toolBarEngine().isTimerActive( widget->parentWidget() ) );
 
