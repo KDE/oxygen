@@ -7522,6 +7522,8 @@ namespace Oxygen
     //______________________________________________________________
     bool Style::drawToolButtonComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
     {
+        if( !widget ) return false;
+
         // check autoRaise state
         const State flags( option->state );
         const bool isInToolBar( widget && qobject_cast<QToolBar*>( widget->parent() ) );
