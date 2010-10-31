@@ -4201,10 +4201,12 @@ namespace Oxygen
 
             if( !cb->currentText.isEmpty() && !cb->editable )
             {
+                const bool& hasFrame( cb->frame );
+                const QPalette::ColorRole role( hasFrame ? QPalette::ButtonText : QPalette::WindowText );
                 drawItemText(
                     painter, editRect.adjusted( 1, 0, -1, 0 ),
                     visualAlignment( cb->direction, Qt::AlignLeft | Qt::AlignVCenter ),
-                    cb->palette, cb->state & State_Enabled, cb->currentText, QPalette::ButtonText );
+                    cb->palette, cb->state & State_Enabled, cb->currentText, role );
             }
             painter->restore();
             return true;
@@ -4912,9 +4914,10 @@ namespace Oxygen
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
         const State& flags( option->state );
-        const bool active = ( flags & State_On ) || ( flags & State_Sunken );
-        const bool enabled = ( flags & State_Enabled );
-        const bool hasFocus = ( flags & State_HasFocus );
+        const bool active( ( flags & State_On ) || ( flags & State_Sunken ) );
+        const bool enabled( flags & State_Enabled );
+        const bool hasFocus( flags & State_HasFocus );
+        const bool flat( bOpt->features.testFlag( QStyleOptionButton::Flat ) );
 
         //Extract out coordinates for easier manipulation
         int x, y, w, h;
@@ -4923,6 +4926,7 @@ namespace Oxygen
         //Layout the stuff.
         if ( bOpt->features & QStyleOptionButton::HasMenu )
         {
+
             const int indicatorWidth( PushButton_MenuIndicatorSize );
             const int indicatorSpacing = PushButton_TextToIconSpace;
             w -= indicatorWidth + indicatorSpacing;
@@ -4931,8 +4935,9 @@ namespace Oxygen
             const QRect arrowRect( x + w + indicatorSpacing, y+1, indicatorWidth, h );
             const qreal penThickness = 1.6;
             QPolygonF a = genericArrow( ArrowDown, ArrowNormal );
-            const QColor color = palette.color( QPalette::ButtonText );
-            const QColor background = palette.color( QPalette::Button );
+
+            const QColor color = palette.color( flat ? QPalette::WindowText:QPalette::ButtonText );
+            const QColor background = palette.color( flat ? QPalette::Window:QPalette::Button );
 
             painter->save();
             painter->translate( arrowRect.center() );
@@ -4940,7 +4945,7 @@ namespace Oxygen
 
             const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
             painter->translate( 0,offset );
-            painter->setPen( QPen( _helper.calcLightColor(  palette.color( QPalette::Window ) ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+            painter->setPen( QPen( _helper.calcLightColor(  background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
             painter->drawPolyline( a );
             painter->translate( 0,-offset );
 
@@ -4956,6 +4961,7 @@ namespace Oxygen
 
             if ( !bOpt->text.isEmpty() )
             {
+
                 const int margin = PushButton_TextToIconSpace;
                 const int length = bOpt->iconSize.width() + margin + painter->fontMetrics().size( Qt::TextShowMnemonic, bOpt->text ).width();
 
@@ -4978,6 +4984,7 @@ namespace Oxygen
                 //new bounding rect for the text
                 x += offset + bOpt->iconSize.width() + margin;
                 w =  length - bOpt->iconSize.width() - margin;
+
             } else {
 
                 const QRect iconRect( x, y, w, h );
@@ -4993,16 +5000,21 @@ namespace Oxygen
                 painter->drawPixmap( centerRect( iconRect, icon.size() ), icon );
 
             }
+
         } else {
+
             //Center the text
             int textW = painter->fontMetrics().size( Qt::TextShowMnemonic, bOpt->text ).width();
             x += ( w - textW )/2;
             w =  textW;
+
         }
 
         QRect textRect( handleRTL( bOpt, QRect( x, y, w, h ) ) );
         if( !bOpt->icon.isNull() ) textRect.adjust( 0, 0, 0, 1 );
-        drawItemText( painter, textRect, Qt::AlignCenter | Qt::TextShowMnemonic, palette, enabled, bOpt->text, QPalette::ButtonText );
+
+        const QPalette::ColorRole role( flat ? QPalette::WindowText : QPalette::ButtonText );
+        drawItemText( painter, textRect, Qt::AlignCenter | Qt::TextShowMnemonic, palette, enabled, bOpt->text, role );
 
         return true;
     }
@@ -7176,9 +7188,13 @@ namespace Oxygen
 
             } else {
 
-                if( enabled && empty ) color = palette.color( QPalette::Disabled,  QPalette::ButtonText );
-                else color  = palette.color( QPalette::ButtonText );
-                background = palette.color( QPalette::Button );
+                // foreground color
+                const QPalette::ColorRole role( hasFrame ? QPalette::ButtonText : QPalette::WindowText );
+                if( enabled && empty ) color = palette.color( QPalette::Disabled,  role );
+                else color  = palette.color( role );
+
+                // background color
+                background = palette.color( hasFrame ? QPalette::Button : QPalette::Window );
 
             }
 
