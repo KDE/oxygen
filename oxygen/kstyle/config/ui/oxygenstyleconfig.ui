@@ -326,14 +326,14 @@
        <item row="1" column="0">
         <widget class="QRadioButton" name="_tabStyleSingle">
          <property name="text">
-          <string>Single</string>
+          <string comment="Renders each inactive tab in a tabbar as separate darker slab">Single</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
         <widget class="QRadioButton" name="_tabStylePlain">
          <property name="text">
-          <string>Plain</string>
+          <string comment="Renders inactive tabs in a tabbar as a unique darker slab">Plain</string>
          </property>
         </widget>
        </item>
