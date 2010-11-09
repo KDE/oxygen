@@ -333,7 +333,7 @@
        <item row="2" column="0">
         <widget class="QRadioButton" name="_tabStylePlain">
          <property name="text">
-          <string comment="Renders inactive tabs in a tabbar as a unique darker slab">Plain</string>
+          <string comment="Renders inactive tabs in a tabbar as a unique darker slab" extracomment="Renders inactive tabs in a tabbar as a unique darker slab">Plain</string>
          </property>
         </widget>
        </item>

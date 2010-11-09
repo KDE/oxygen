@@ -76,7 +76,7 @@
         <item>
          <widget class="QCheckBox" name="flatGroupBoxCheckBox">
           <property name="text">
-           <string>Flat</string>
+           <string extracomment="Flat group box. No frame is actually drawn">Flat</string>
           </property>
          </widget>
         </item>
@@ -131,7 +131,7 @@
            <bool>true</bool>
           </property>
           <property name="text">
-           <string>Plain</string>
+           <string extracomment="Flat frame. No frame is actually drawn.">Flat</string>
           </property>
          </widget>
         </item>
