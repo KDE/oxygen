@@ -7578,42 +7578,45 @@ namespace Oxygen
         const bool hoverAnimated( animations().widgetStateEngine().isAnimated( widget, AnimationHover ) );
         const bool focusAnimated( animations().widgetStateEngine().isAnimated( widget, AnimationFocus ) );
 
+        /* FIXME: this all logic is messy. The conditions to trigger the call to drawPrimitive can likely be simplified */
+
         // local copy of option
         QStyleOptionToolButton tOpt( *tool );
+        tOpt.palette = option->palette;
 
+        const QRect buttonRect( subControlRect( CC_ToolButton, tool, SC_ToolButton, widget ) );
+
+        bool drawn(false);
         if( enabled && !( mouseOver || hasFocus || sunken ) )
         {
 
             if( hoverAnimated || ( focusAnimated && !hasFocus ) || ( ( ( toolBarAnimated && animatedRect.isNull() )||toolBarTimerActive ) && current ) )
             {
-                QRect buttonRect = subControlRect( CC_ToolButton, option, SC_ToolButton, widget );
                 tOpt.rect = buttonRect;
                 tOpt.state = flags;
-                drawPrimitive( PE_PanelButtonTool, &tOpt, painter, widget );
+                drawPanelButtonToolPrimitive( &tOpt, painter, widget );
+                drawn = true;
             }
 
         }
-
-        QRect buttonRect = subControlRect( CC_ToolButton, tool, SC_ToolButton, widget );
-        QRect menuRect = subControlRect( CC_ToolButton, tool, SC_ToolButtonMenu, widget );
 
         // State_AutoRaise: only draw button when State_MouseOver
         State bflags = tool->state;
         if( bflags & State_AutoRaise && !( bflags & State_MouseOver ) )
         { bflags &= ~State_Raised; }
 
-        tOpt.palette = option->palette;
         tOpt.state = bflags;
 
-        if( tool->subControls & SC_ToolButton && ( bflags & ( State_Sunken | State_On | State_Raised ) ) )
+        if( tool->subControls & SC_ToolButton && ( bflags & ( State_Sunken | State_On | State_Raised ) ) && !drawn )
         {
             tOpt.rect = buttonRect;
-            drawPrimitive( PE_PanelButtonTool, &tOpt, painter, widget );
+            drawPanelButtonToolPrimitive( &tOpt, painter, widget );
         }
 
         if( tool->subControls & SC_ToolButtonMenu )
         {
-            tOpt.rect = menuRect;
+
+            tOpt.rect = subControlRect( CC_ToolButton, tool, SC_ToolButtonMenu, widget );
             painter->save();
             drawIndicatorButtonDropDownPrimitive( &tOpt, painter, widget );
             painter->restore();
@@ -7630,11 +7633,11 @@ namespace Oxygen
                 const int xOff( ToolButton_InlineMenuIndicatorXOff );
                 const int yOff( ToolButton_InlineMenuIndicatorYOff );
 
-                QRect r = QRect( buttonRect.right() + xOff + 1, buttonRect.bottom() + yOff + 1, size, size );
-                tOpt.rect  = r;
+                tOpt.rect = QRect( buttonRect.right() + xOff + 1, buttonRect.bottom() + yOff + 1, size, size );
                 painter->save();
                 drawIndicatorButtonDropDownPrimitive( &tOpt, painter, widget );
                 painter->restore();
+
             }
 
         }
