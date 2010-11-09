@@ -985,6 +985,8 @@ namespace Oxygen
             case PE_FrameTabWidget: fcn = &Style::drawFrameTabWidgetPrimitive; break;
 
             case PE_FrameWindow: fcn = &Style::drawFrameWindowPrimitive; break;
+
+            // arrows
             case PE_IndicatorArrowUp: fcn = &Style::drawIndicatorArrowUpPrimitive; break;
             case PE_IndicatorArrowDown: fcn = &Style::drawIndicatorArrowDownPrimitive; break;
             case PE_IndicatorArrowLeft: fcn = &Style::drawIndicatorArrowLeftPrimitive; break;
@@ -3872,16 +3874,7 @@ namespace Oxygen
 
         } else {
 
-            // toolbutton animation
-            // when the arrow is painted directly on the icon, button hover and arrow hover
-            // are identical. The generic widget engine is used.
-            animations().widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
-            const bool animated( animations().widgetStateEngine().isAnimated( widget, AnimationHover ) );
-            const qreal opacity( animations().widgetStateEngine().opacity( widget, AnimationHover ) );
-
-            if( animated ) color = KColorUtils::mix( color, highlight, opacity );
-            else if( mouseOver ) color = highlight;
-            else color = palette.color( autoRaise ? QPalette::WindowText:QPalette::ButtonText );
+            color = palette.color( autoRaise ? QPalette::WindowText:QPalette::ButtonText );
 
             // smaller down arrow for menu indication on toolbuttons
             penThickness = 1.4;
@@ -4546,7 +4539,7 @@ namespace Oxygen
                 toolButtonOpt.text = QFontMetrics( toolButtonOpt.font ).elidedText( menuItemOption->text, Qt::ElideRight, width );
 
                 toolButtonOpt.toolButtonStyle = Qt::ToolButtonTextBesideIcon;
-                drawComplexControl( CC_ToolButton, &toolButtonOpt, painter, widget );
+                drawToolButtonComplexControl( &toolButtonOpt, painter, widget );
                 return true;
 
             } else {
@@ -6969,19 +6962,25 @@ namespace Oxygen
 
         // need to customize palettes to deal with autoraised buttons
         const State& flags( option->state );
-        const bool autoRaised( flags & State_AutoRaise );
 
         // normal processing if not autoRaised
-        if( !autoRaised ) return false;
+        if( flags & State_AutoRaise )
+        {
 
+            const QStyleOptionToolButton* toolButtonOpt( qstyleoption_cast<const QStyleOptionToolButton*>( option ) );
+            if( !toolButtonOpt ) return true;
 
-        const QStyleOptionToolButton* toolButtonOpt( qstyleoption_cast<const QStyleOptionToolButton*>( option ) );
-        if( !toolButtonOpt ) return true;
+            QStyleOptionToolButton localOption( *toolButtonOpt );
+            localOption.palette.setColor( QPalette::ButtonText, option->palette.color( QPalette::WindowText ) );
 
-        QStyleOptionToolButton localOption( *toolButtonOpt );
-        localOption.palette.setColor( QPalette::ButtonText, option->palette.color( QPalette::WindowText ) );
+            QCommonStyle::drawControl( CE_ToolButtonLabel, &localOption, painter, widget );
 
-        QCommonStyle::drawControl( CE_ToolButtonLabel, &localOption, painter, widget );
+        } else {
+
+            QCommonStyle::drawControl( CE_ToolButtonLabel, option, painter, widget );
+
+        }
+
         return true;
 
     }
@@ -7645,7 +7644,7 @@ namespace Oxygen
         // CE_ToolButtonLabel expects a readjusted rect, for the button area proper
         QStyleOptionToolButton labelOpt = *tool;
         labelOpt.rect = buttonRect;
-        drawControl( CE_ToolButtonLabel, &labelOpt, painter, widget );
+        drawToolButtonLabelControl( &labelOpt, painter, widget );
 
         return true;
 
