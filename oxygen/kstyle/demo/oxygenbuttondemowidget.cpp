@@ -93,7 +93,11 @@ namespace Oxygen
             << ui.toolButton_5
             << ui.toolButton_6
             << ui.toolButton_7
-            << ui.toolButton_8;
+            << ui.toolButton_8
+            << ui.toolButton_9
+            << ui.toolButton_10
+            << ui.toolButton_11
+            << ui.toolButton_12;
 
         connect( ui.textPosition, SIGNAL( currentIndexChanged( int ) ), SLOT( textPosition( int ) ) );
         connect( ui.iconSize, SIGNAL( currentIndexChanged( int ) ), SLOT( iconSize( int ) ) );

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>395</width>
-    <height>366</height>
+    <height>370</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -245,6 +245,15 @@
       <item row="0" column="0" colspan="4">
        <widget class="QWidget" name="widget" native="true">
         <layout class="QGridLayout" name="gridLayout_2">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <item row="0" column="0">
           <widget class="QToolButton" name="toolButton_3">
            <property name="text">
@@ -285,7 +294,7 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="4" colspan="2">
+         <item row="0" column="4" colspan="4">
           <widget class="QWidget" name="toolBarContainer" native="true">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -331,6 +340,49 @@
            </property>
            <property name="autoRaise">
             <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QToolButton" name="toolButton_9">
+           <property name="text">
+            <string>Up Arrow</string>
+           </property>
+           <property name="arrowType">
+            <enum>Qt::UpArrow</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="5">
+          <widget class="QToolButton" name="toolButton_10">
+           <property name="text">
+            <string>Down Arrow</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="arrowType">
+            <enum>Qt::DownArrow</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="6">
+          <widget class="QToolButton" name="toolButton_11">
+           <property name="text">
+            <string>Left Arrow</string>
+           </property>
+           <property name="arrowType">
+            <enum>Qt::LeftArrow</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="7">
+          <widget class="QToolButton" name="toolButton_12">
+           <property name="text">
+            <string>Right Arrow</string>
+           </property>
+           <property name="arrowType">
+            <enum>Qt::RightArrow</enum>
            </property>
           </widget>
          </item>

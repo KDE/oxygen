@@ -2901,9 +2901,9 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawIndicatorArrowPrimitive( ArrowOrientation orientation, const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawIndicatorArrowPrimitive( ArrowOrientation orientation, const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-        const QRect& r( option->rect );
+        QRect r( option->rect );
         const QPalette& palette( option->palette );
         const State& flags( option->state );
         const bool enabled( flags & State_Enabled );
@@ -2912,18 +2912,36 @@ namespace Oxygen
         // define gradient and polygon for drawing arrow
         const QPolygonF a = genericArrow( orientation, ArrowNormal );
 
-        QColor color = palette.color( QPalette::WindowText );
-        const QColor background = palette.color( QPalette::Window );
-        const QColor highlight( _helper.viewHoverBrush().brush( palette ).color() );
         const qreal penThickness = 1.6;
         const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
 
-        if( mouseOver ) color = highlight;
+        QColor color;
+        const QToolButton* toolButton( qobject_cast<const QToolButton*>( widget ) );
+        if( toolButton && toolButton->arrowType() != Qt::NoArrow )
+        {
+
+            /*
+            arrows painted in toolbutton need a re-centered rect,
+            and have no highlight
+            */
+
+            r.translate( 1, 0 );
+
+        } else if( mouseOver ) {
+
+            color = _helper.viewHoverBrush().brush( palette ).color();
+
+        } else {
+
+            color = palette.color( QPalette::WindowText );
+
+        }
 
         painter->translate( r.center() );
         painter->setRenderHint( QPainter::Antialiasing );
 
         painter->translate( 0,offset );
+        const QColor background = palette.color( QPalette::Window );
         painter->setPen( QPen( _helper.calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
         painter->drawPolyline( a );
         painter->translate( 0,-offset );
