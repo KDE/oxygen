@@ -536,7 +536,9 @@ namespace Oxygen
 
         // abstract item views
         QAbstractItemView* itemView( NULL );
-        if( ( itemView = qobject_cast<QListView*>( widget->parentWidget() ) ) )
+        if(
+            ( itemView = qobject_cast<QListView*>( widget->parentWidget() ) ) ||
+            ( itemView = qobject_cast<QTreeView*>( widget->parentWidget() ) ) )
         {
             if( widget == itemView->viewport() )
             {
