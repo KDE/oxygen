@@ -19,15 +19,21 @@
     <entry name="ShowMnemonics" type = "Bool">
        <default>true</default>
     </entry>
+
+    <!-- tooltips -->
     <entry name="ToolTipTransparent" type = "Bool">
        <default>true</default>
     </entry>
     <entry name="ToolTipDrawStyledFrames" type = "Bool">
        <default>true</default>
     </entry>
+
+    <!-- toolbars -->
     <entry name="ToolBarDrawItemSeparator" type="Bool">
       <default>true</default>
     </entry>
+
+    <!-- views -->
     <entry name="ViewDrawTriangularExpander" type="Bool">
       <default>true</default>
     </entry>
@@ -45,6 +51,8 @@
     <entry name="ViewDrawTreeBranchLines" type="Bool">
       <default>true</default>
     </entry>
+
+    <!-- scrollbars -->
     <entry name="ScrollBarWidth" type="Int">
       <default>15</default>
     </entry>
@@ -54,6 +62,14 @@
     <entry name="ScrollBarSubLineButtons" type="Int">
       <default>1</default>
     </entry>
+    <entry name="ScrollBarColored" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="ScrollBarBevel" type="Bool">
+      <default>false</default>
+    </entry>
+
+    <!-- checkboxes -->
     <entry name="CheckBoxStyle" type="Enum">
       <choices>
           <choice name="CS_CHECK" />
@@ -61,15 +77,13 @@
       </choices>
       <default>CS_CHECK</default>
     </entry>
-    <entry name="ScrollBarColored" type="Bool">
-      <default>false</default>
-    </entry>
-    <entry name="ScrollBarBevel" type="Bool">
-      <default>false</default>
-    </entry>
+
+    <!-- progress bars -->
     <entry name="ProgressBarAnimated" type="Bool">
       <default>true</default>
     </entry>
+
+    <!-- menus -->
     <entry name="MenuHighlightMode" type="Enum">
       <choices>
           <choice name="MM_DARK" />
@@ -78,6 +92,8 @@
       </choices>
       <default>MM_DARK</default>
     </entry>
+
+    <!-- tabs -->
     <entry name="TabSubtleShadow" type="Bool">
       <default>false</default>
     </entry>
