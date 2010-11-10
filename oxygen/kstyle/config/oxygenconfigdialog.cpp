@@ -34,7 +34,7 @@
 #include <KConfigGroup>
 #include <KGlobalSettings>
 #include <KLocale>
-#include <KLibLoader>
+#include <KLibrary>
 #include <KPushButton>
 #include <KStandardShortcut>
 #include <KVBox>
@@ -175,10 +175,9 @@ namespace Oxygen
     {
 
         // load decoration from plugin
-        KLibLoader* loader( KLibLoader::self() );
-        KLibrary* library = loader->library( "kstyle_oxygen_config" );
+        KLibrary* library = new KLibrary( "kstyle_oxygen_config" );
 
-        if (library != NULL)
+        if (library->load())
         {
             KLibrary::void_function_ptr alloc_ptr = library->resolveFunction("allocate_kstyle_config");
             if (alloc_ptr != NULL)
@@ -206,6 +205,7 @@ namespace Oxygen
             }
 
         } else {
+            delete library;
 
             // fall back to warning label
             QLabel* label = new QLabel();
@@ -221,10 +221,9 @@ namespace Oxygen
     {
 
         // load decoration from plugin
-        KLibLoader* loader( KLibLoader::self() );
-        KLibrary* library = loader->library( "kwin_oxygen_config" );
+        KLibrary* library = new KLibrary( "kwin_oxygen_config" );
 
-        if (library != NULL)
+        if (library->load())
         {
             KLibrary::void_function_ptr alloc_ptr = library->resolveFunction("allocate_config");
             if (alloc_ptr != NULL)
@@ -252,6 +251,7 @@ namespace Oxygen
             }
 
         } else {
+            delete library;
 
             // fall back to warning label
             QLabel* label = new QLabel();
