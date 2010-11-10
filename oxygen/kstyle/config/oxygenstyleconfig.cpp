@@ -184,7 +184,7 @@ namespace Oxygen
             if( !_animationConfigWidget )
             {
                 _animationConfigWidget = new AnimationConfigWidget();
-                connect( _animationConfigWidget, SIGNAL( changed( bool ) ), SLOT( updateChanged() ) );
+                connect( _animationConfigWidget, SIGNAL( changed( bool ) ), SLOT( updateChanged( void ) ) );
                 connect( _animationConfigWidget, SIGNAL( layoutChanged( void ) ), SLOT( updateLayout() ) );
                 _animationConfigWidget->load();
             }
