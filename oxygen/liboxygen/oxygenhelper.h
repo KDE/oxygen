@@ -241,6 +241,7 @@ namespace Oxygen
             TileSet::Tiles tiles = TileSet::Ring
             );
 
+        //! draw dividing line
         virtual void drawSeparator( QPainter* p, const QRect& r, const QColor& color, Qt::Orientation orientation );
 
         virtual TileSet* slab( const QColor&, qreal shade, int size = 7 );
