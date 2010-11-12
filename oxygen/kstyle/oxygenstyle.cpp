@@ -2537,8 +2537,10 @@ namespace Oxygen
         if( !( qobject_cast<const QAbstractItemView*>( widget ) || widget->inherits( "Q3ListView" ) ) ) return true;
 
         const State& flags( option->state );
-        const QRect r( option->rect.adjusted( 0, 0, 0, -2 ) );
+        const QRect r( option->rect.adjusted( 0, 0, 0, -1 ) );
         const QPalette& palette( option->palette );
+
+        if( r.width() < 10 ) return true;
 
         QLinearGradient lg( r.bottomLeft(), r.bottomRight() );
 
@@ -7734,7 +7736,6 @@ namespace Oxygen
         }
 
         // frame focus
-
         if( StyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
         else _frameFocusPrimitive = &Style::emptyPrimitive;
 
