@@ -4789,7 +4789,7 @@ namespace Oxygen
 
         //Calculate width fraction
         qreal widthFrac( busyIndicator ?  ProgressBar_BusyIndicatorSize/100.0 : progress/steps );
-        widthFrac = qMin( 1.0, widthFrac );
+        widthFrac = qMin( (qreal)1.0, widthFrac );
 
         // And now the pixel width
         const int indicatorSize( widthFrac*( horizontal ? r.width():r.height() ) );
@@ -4888,7 +4888,7 @@ namespace Oxygen
         int indicatorSize( 0 );
         if( !busyIndicator )
         {
-            const qreal widthFrac = qMin( 1.0, progress / steps );
+            const qreal widthFrac = qMin( (qreal)1.0, progress / steps );
             indicatorSize = widthFrac*( horizontal ? r.width() : r.height() );
         }
 
