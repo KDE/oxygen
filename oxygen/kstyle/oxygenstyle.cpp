@@ -8089,10 +8089,9 @@ namespace Oxygen
             return;
         }
 
-
         // check frame style and background role
-        if( scrollArea->frameShape() != QFrame::NoFrame ) return;
-        if( scrollArea->backgroundRole() != QPalette::Window ) return;
+        if( !(scrollArea->frameShape() == QFrame::NoFrame || scrollArea->backgroundRole() == QPalette::Window ) )
+        { return; }
 
         // get viewport and check background role
         QWidget* viewport( scrollArea->viewport() );
