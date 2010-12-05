@@ -5540,6 +5540,11 @@ namespace Oxygen
         const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
 
+        const bool verticalTabs( isVerticalTab( tabOpt ) );
+        const QRect tabWidgetRect( tabWidget ?
+            insideMargin( tabWidget->rect(), -GlowWidth ).translated( -widget->geometry().topLeft() ) :
+            QRect() );
+
         // corner widgets
         const bool hasLeftCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget );
         const bool hasRightCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::RightCornerWidget );
@@ -5547,6 +5552,36 @@ namespace Oxygen
         // true if widget is aligned to the frame
         /* need to check for 'isRightOfSelected' because for some reason the isFirst flag is set when active tab is being moved */
         const bool isFrameAligned( !documentMode && isFirst && !hasLeftCornerWidget && !isRightOfSelected && !isDragged );
+        bool fillBackground( selected && isDragged );
+
+        bool isLeftFrameAligned( false );
+        bool isRightFrameAligned( false );
+        if( verticalTabs )
+        {
+
+            /*
+            for vertical tabs:
+            1/ leftFrameAligned corresponds to top side
+            2/ rightFrameAligned corresponds to the bottom side
+            3/ their value does not depend on reverseLayout
+            */
+            isLeftFrameAligned = isFrameAligned;
+            isRightFrameAligned = (!documentMode) && tabWidget && ( r.bottom() >= tabWidgetRect.bottom() - 2 );;
+            fillBackground |= selected && isRightFrameAligned;
+
+        } else if( reverseLayout ) {
+
+            isLeftFrameAligned = (!documentMode) && tabWidget && ( r.left() <= tabWidgetRect.left() + 2 );
+            isRightFrameAligned = isFrameAligned;
+            fillBackground |= selected && isLeftFrameAligned;
+
+        } else {
+
+            isLeftFrameAligned = isFrameAligned;
+            isRightFrameAligned = (!documentMode) && tabWidget && ( r.right() >= tabWidgetRect.right() - 2 );
+            fillBackground |= selected && isRightFrameAligned;
+
+        }
 
         // part of the tab in which the text is drawn
         QRect tabRect( r );
@@ -5576,7 +5611,7 @@ namespace Oxygen
                     if( isDragged ) break;
 
                     // left side
-                    if( isFrameAligned && !reverseLayout )
+                    if( isLeftFrameAligned )
                     {
 
                         QRect frameRect( r );
@@ -5596,7 +5631,7 @@ namespace Oxygen
                     }
 
                     // right side
-                    if( isFrameAligned && reverseLayout )
+                    if( isRightFrameAligned )
                     {
 
                         QRect frameRect( r );
@@ -5642,9 +5677,10 @@ namespace Oxygen
                         }
                     }
 
-                } else if( isFrameAligned ) {
+                } else {
 
-                    if( reverseLayout ) {
+                    if( isRightFrameAligned )
+                    {
 
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 7 );
@@ -5653,7 +5689,10 @@ namespace Oxygen
                         frameRect.setBottom( frameRect.bottom() + 7 - 2 );
                         slabs << SlabRect( frameRect, TileSet::Right );
 
-                    } else {
+                    }
+
+                    if( isLeftFrameAligned )
+                    {
 
                         QRect frameRect( r );
                         frameRect.setLeft( frameRect.left() - GlowWidth );
@@ -5663,6 +5702,7 @@ namespace Oxygen
                         slabs << SlabRect( frameRect, TileSet::Left );
 
                     }
+
                 }
 
                 break;
@@ -5688,7 +5728,7 @@ namespace Oxygen
                     if( isDragged ) break;
 
                     // left side
-                    if( isFrameAligned && !reverseLayout )
+                    if( isLeftFrameAligned )
                     {
 
                         QRect frameRect( r );
@@ -5708,7 +5748,7 @@ namespace Oxygen
                     }
 
                     // right side
-                    if( isFrameAligned && reverseLayout )
+                    if( isRightFrameAligned )
                     {
 
                         QRect frameRect( r );
@@ -5754,9 +5794,10 @@ namespace Oxygen
 
                     }
 
-                } else if( isFrameAligned ) {
+                } else {
 
-                    if( reverseLayout ) {
+                    if( isRightFrameAligned )
+                    {
 
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 7 );
@@ -5765,7 +5806,10 @@ namespace Oxygen
                         frameRect.setBottom( tabRect.top() + 13 );
                         slabs << SlabRect( frameRect, TileSet::Right );
 
-                    } else {
+                    }
+
+                    if( isLeftFrameAligned )
+                    {
 
                         QRect frameRect( r );
                         frameRect.setLeft( frameRect.left() - GlowWidth );
@@ -5775,6 +5819,7 @@ namespace Oxygen
                         slabs << SlabRect( frameRect, TileSet::Left );
 
                     }
+
                 }
 
                 break;
@@ -5800,7 +5845,7 @@ namespace Oxygen
                     if( isDragged ) break;
 
                     // top side
-                    if( isFrameAligned )
+                    if( isLeftFrameAligned )
                     {
 
                         QRect frameRect( r );
@@ -5820,11 +5865,26 @@ namespace Oxygen
                     }
 
                     // bottom side
-                    QRect frameRect( r );
-                    frameRect.setLeft( r.right() - 7 );
-                    frameRect.setTop( tabRect.bottom() - 7 - 3 );
-                    frameRect.setBottom( frameRect.bottom() + 7 );
-                    slabs << SlabRect( frameRect, TileSet::Left );
+                    if( isRightFrameAligned )
+                    {
+
+                        // FIXME:
+                        QRect frameRect( r );
+                        frameRect.setLeft( tabRect.right() - 13 );
+                        frameRect.setRight( frameRect.right() + 7 - 1 );
+                        frameRect.setTop( tabRect.bottom() - 7 );
+                        frameRect.setBottom( frameRect.bottom() + GlowWidth );
+                        slabs << SlabRect( frameRect, TileSet::Bottom );
+
+                    } else {
+
+                        QRect frameRect( r );
+                        frameRect.setLeft( r.right() - 7 );
+                        frameRect.setTop( tabRect.bottom() - 7 - 3 );
+                        frameRect.setBottom( frameRect.bottom() + 7 );
+                        slabs << SlabRect( frameRect, TileSet::Left );
+
+                    }
 
                     // extra base, to extend below tabbar buttons
                     if( tabBar )
@@ -5853,15 +5913,32 @@ namespace Oxygen
                         }
                     }
 
-                } else if( isFrameAligned ) {
+                } else {
 
-                    QRect frameRect( r );
-                    frameRect.setLeft( tabRect.right() - 13 );
-                    frameRect.setRight( frameRect.right() + 7 - 2 );
-                    frameRect.setTop( frameRect.top() - GlowWidth );
-                    frameRect.setBottom( tabRect.top() + 7 );
-                    slabs << SlabRect( frameRect, TileSet::Top );
+                    if( isLeftFrameAligned )
+                    {
 
+                        QRect frameRect( r );
+                        frameRect.setLeft( tabRect.right() - 13 );
+                        frameRect.setRight( frameRect.right() + 7 - 2 );
+                        frameRect.setTop( frameRect.top() - GlowWidth );
+                        frameRect.setBottom( tabRect.top() + 7 );
+                        slabs << SlabRect( frameRect, TileSet::Top );
+
+                    }
+
+                    if( isRightFrameAligned )
+                    {
+
+                        // FIXME:
+                        QRect frameRect( r );
+                        frameRect.setLeft( tabRect.right() - 13 );
+                        frameRect.setRight( frameRect.right() + 7 - 2 );
+                        frameRect.setTop( tabRect.bottom() - 7 );
+                        frameRect.setBottom( frameRect.bottom() + GlowWidth );
+                        slabs << SlabRect( frameRect, TileSet::Bottom );
+
+                    }
                 }
 
                 break;
@@ -5886,7 +5963,7 @@ namespace Oxygen
                     if( isDragged ) break;
 
                     // top side
-                    if( isFrameAligned )
+                    if( isLeftFrameAligned )
                     {
 
                         QRect frameRect( r );
@@ -5906,11 +5983,26 @@ namespace Oxygen
                     }
 
                     // bottom side
-                    QRect frameRect( r );
-                    frameRect.setRight( r.left() + 7 );
-                    frameRect.setTop( tabRect.bottom() - 7 - 3 );
-                    frameRect.setBottom( frameRect.bottom() + 7 );
-                    slabs << SlabRect( frameRect, TileSet::Right );
+                    if( isRightFrameAligned )
+                    {
+
+                        // FIXME:
+                        QRect frameRect( r );
+                        frameRect.setLeft( frameRect.left() - 7 + 1 );
+                        frameRect.setRight( tabRect.left() + 13 );
+                        frameRect.setTop( tabRect.bottom() - 7 );
+                        frameRect.setBottom( frameRect.bottom() + GlowWidth );
+                        slabs << SlabRect( frameRect, TileSet::Bottom );
+
+                    } else {
+
+                        QRect frameRect( r );
+                        frameRect.setRight( r.left() + 7 );
+                        frameRect.setTop( tabRect.bottom() - 7 - 3 );
+                        frameRect.setBottom( frameRect.bottom() + 7 );
+                        slabs << SlabRect( frameRect, TileSet::Right );
+
+                    }
 
                     // extra base, to extend below tabbar buttons
                     if( tabBar )
@@ -5939,14 +6031,32 @@ namespace Oxygen
                         }
                     }
 
-                } else if( isFrameAligned ) {
+                } else {
 
-                    QRect frameRect( r );
-                    frameRect.setLeft( frameRect.left() - 7 + 2 );
-                    frameRect.setRight( tabRect.left() + 13 );
-                    frameRect.setTop( frameRect.top() - GlowWidth );
-                    frameRect.setBottom( tabRect.top() + 7 );
-                    slabs << SlabRect( frameRect, TileSet::Top );
+                    if( isLeftFrameAligned )
+                    {
+
+                        QRect frameRect( r );
+                        frameRect.setLeft( frameRect.left() - 7 + 2 );
+                        frameRect.setRight( tabRect.left() + 13 );
+                        frameRect.setTop( frameRect.top() - GlowWidth );
+                        frameRect.setBottom( tabRect.top() + 7 );
+                        slabs << SlabRect( frameRect, TileSet::Top );
+
+                    }
+
+                    if( isRightFrameAligned )
+                    {
+
+                        // FIXME:
+                        QRect frameRect( r );
+                        frameRect.setLeft( frameRect.left() - 7 + 2 );
+                        frameRect.setRight( tabRect.left() + 13 );
+                        frameRect.setTop( tabRect.bottom() - 7 );
+                        frameRect.setBottom( frameRect.bottom() + GlowWidth );
+                        slabs << SlabRect( frameRect, TileSet::Bottom );
+
+                    }
 
                 }
 
@@ -5968,11 +6078,6 @@ namespace Oxygen
         // render connections to frame
         // extra care must be taken care of so that no slab
         // extends beyond tabWidget frame, if any
-        const bool verticalTabs( isVerticalTab( tabOpt ) );
-        const QRect tabWidgetRect( tabWidget ?
-            insideMargin( tabWidget->rect(), -GlowWidth ).translated( -widget->geometry().topLeft() ) :
-            QRect() );
-
         foreach( SlabRect slab, slabs ) // krazy:exclude=foreach
         {
             adjustSlabRect( slab, tabWidgetRect, documentMode, verticalTabs );
@@ -5998,8 +6103,10 @@ namespace Oxygen
         if( selected )
         {
 
+            // render window background first, if needed
+            if( fillBackground ) fillTabBackground( painter, tabRect, color, tabOpt->shape, widget );
+
             // render window background in case of dragged tabwidget
-            if( isDragged ) fillTabBackground( painter, tabRect, color, tabOpt->shape, widget );
             renderSlab( painter, tabRect, color, slabOptions, tiles );
 
         } else if( animated ) {
