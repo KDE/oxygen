@@ -174,6 +174,10 @@ namespace Oxygen
 
         protected:
 
+        //! helper
+        StyleHelper& helper( void ) const
+        { return *_helper; }
+
         //!@name enumerations and convenience classes
         //@{
 
@@ -888,7 +892,7 @@ namespace Oxygen
         Qt::TextFlag _mnemonic;
 
         //! helper
-        StyleHelper &_helper;
+        StyleHelper* _helper;
 
         //! animations
         Animations* _animations;
