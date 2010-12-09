@@ -99,7 +99,7 @@ namespace Oxygen
         virtual void setFollowMouseDuration( int duration )
         {
             followMouseDuration_ = duration;
-            foreach( const DataMap<ToolBarData>::Value& value, data_.values() )
+            foreach( const DataMap<ToolBarData>::Value& value, data_ )
             { if( value ) value.data()->setFollowMouseDuration( duration ); }
         }
 
