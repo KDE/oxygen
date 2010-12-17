@@ -5412,13 +5412,15 @@ namespace Oxygen
         // make room for left and right widgets
         // left widget
         const bool verticalTabs( isVerticalTab( tabOpt ) );
+        const bool hasLeftButton( !( option->direction == Qt::RightToLeft ? tabOptV3.rightButtonSize.isEmpty():tabOptV3.leftButtonSize.isEmpty() ) );
+        const bool hasRightButton( !( option->direction == Qt::RightToLeft ? tabOptV3.leftButtonSize.isEmpty():tabOptV3.rightButtonSize.isEmpty() ) );
 
-        if( !tabOptV3.leftButtonSize.isEmpty() )
+        if( hasLeftButton )
         { r.setLeft( r.left() + 4 + ( verticalTabs ? tabOptV3.leftButtonSize.height() : tabOptV3.leftButtonSize.width() ) ); }
 
         // make room for left and right widgets
         // left widget
-        if( !tabOptV3.rightButtonSize.isEmpty() )
+        if( hasRightButton )
         { r.setRight( r.right() - 4 - ( verticalTabs ? tabOptV3.rightButtonSize.height() : tabOptV3.rightButtonSize.width() ) ); }
 
         // compute textRect and iconRect
@@ -5446,10 +5448,10 @@ namespace Oxygen
 
         }
 
-        if( verticalTabs )
+        if( !verticalTabs )
         {
-            textRect = handleRTL( option, textRect );
-            iconRect = handleRTL( option, iconRect );
+            textRect = visualRect(option->direction, r, textRect );
+            iconRect = visualRect(option->direction, r, iconRect );
         }
 
         // render icon
