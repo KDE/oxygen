@@ -6,6 +6,11 @@ set(oxygenstyle_LIB_SRCS oxygenanimation.cpp
 kde4_add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
 
 target_link_libraries(oxygenstyle ${KDE4_KDEUI_LIBS})
+
+if ( X11_FOUND )
+   target_link_libraries(oxygenstyle ${X11_LIBRARIES})
+endif( X11_FOUND )
+
 set_target_properties(oxygenstyle PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
 install(TARGETS oxygenstyle ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

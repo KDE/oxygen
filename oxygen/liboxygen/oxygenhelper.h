@@ -33,6 +33,10 @@
 #include <QtGui/QLinearGradient>
 #include <QtCore/QCache>
 
+#ifdef Q_WS_X11
+#include <X11/Xdefs.h>
+#endif
+
 #include "oxygentileset.h"
 
 namespace Oxygen
@@ -264,6 +268,17 @@ namespace Oxygen
         */
         const QWidget* checkAutoFillBackground( const QWidget* ) const;
 
+        //!@name background gradient XProperty
+        //@{
+
+        //! set background gradient hint to widget
+        virtual void setHasBackgroundGradient( WId, bool ) const;
+
+        //! true if background gradient hint is set
+        virtual bool hasBackgroundGradient( WId ) const;
+
+        //@}
+
         protected:
 
         virtual void drawSlab( QPainter&, const QColor&, qreal shade );
@@ -323,6 +338,11 @@ namespace Oxygen
         typedef QMap<quint32, bool> ColorMap;
         ColorMap m_highThreshold;
         ColorMap m_lowThreshold;
+
+        #ifdef Q_WS_X11
+        //! argb hint atom
+        Atom _backgroundGradientAtom;
+        #endif
      };
 
 }
