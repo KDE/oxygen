@@ -233,7 +233,14 @@ namespace Oxygen
 
             case Qt::Window:
             case Qt::Dialog:
+
+            // set background as styled
             widget->setAttribute( Qt::WA_StyledBackground );
+
+            // install WM hint
+            if( widget->isWindow() )
+            { helper().setHasBackgroundGradient( widget->winId(), true ); }
+
             break;
 
             case Qt::ToolTip:
