@@ -68,6 +68,28 @@ namespace Oxygen
     class FrameShadowFactory;
     class WidgetExplorer;
 
+    //! toplevel manager
+    class TopLevelManager: public QObject
+    {
+        public:
+
+        //! constructor
+        TopLevelManager( QObject* parent, const StyleHelper& helper ):
+            QObject( parent ),
+            _helper( helper )
+        {}
+
+        //! event filter
+        virtual bool eventFilter(QObject *, QEvent *);
+
+        private:
+
+        //! helper
+        const StyleHelper& _helper;
+
+    };
+
+
     //! base class for oxygen style
     /*! it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */
     class Style: public QCommonStyle
@@ -902,6 +924,9 @@ namespace Oxygen
 
         //! window manager
         WindowManager* _windowManager;
+
+        //! toplevel manager
+        TopLevelManager* _topLevelManager;
 
         //! frame shadows
         FrameShadowFactory* _frameShadowFactory;

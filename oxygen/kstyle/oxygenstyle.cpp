@@ -134,6 +134,18 @@ namespace Oxygen
     static const QStyle::StyleHint SH_KCustomStyleElement = ( QStyle::StyleHint )0xff000001;
     static const int X_KdeBase = 0xff000000;
 
+    //_____________________________________________________________________
+    bool TopLevelManager::eventFilter( QObject *object, QEvent *event )
+    {
+
+        // cast to QWidget
+        QWidget *widget = static_cast<QWidget*>( object );
+        if( event->type() == QEvent::Show && _helper.hasDecoration( widget ) )
+        { _helper.setHasBackgroundGradient( widget->winId(), true ); }
+
+        return false;
+    }
+
     //______________________________________________________________
     Style::Style( void ):
         _addLineButtons( DoubleButton ),
@@ -145,6 +157,7 @@ namespace Oxygen
         _animations( new Animations( this ) ),
         _transitions( new Transitions( this ) ),
         _windowManager( new WindowManager( this ) ),
+        _topLevelManager( new TopLevelManager( this, *_helper ) ),
         _frameShadowFactory( new FrameShadowFactory( this ) ),
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
@@ -236,11 +249,7 @@ namespace Oxygen
 
             // set background as styled
             widget->setAttribute( Qt::WA_StyledBackground );
-
-            // install WM hint
-            if( widget->isWindow() )
-            { helper().setHasBackgroundGradient( widget->effectiveWinId(), true ); }
-
+            widget->installEventFilter( _topLevelManager );
             break;
 
             case Qt::ToolTip:
@@ -259,6 +268,10 @@ namespace Oxygen
             default: break;
 
         }
+
+//         // install WM hint
+//         if( helper().hasDecoration( widget ) )
+//         { helper().setHasBackgroundGradient( widget->winId(), true ); }
 
         if(
             qobject_cast<QAbstractItemView*>( widget )
