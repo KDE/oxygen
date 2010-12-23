@@ -239,7 +239,7 @@ namespace Oxygen
 
             // install WM hint
             if( widget->isWindow() )
-            { helper().setHasBackgroundGradient( widget->winId(), true ); }
+            { helper().setHasBackgroundGradient( widget->effectiveWinId(), true ); }
 
             break;
 
