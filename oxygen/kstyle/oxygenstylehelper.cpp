@@ -819,6 +819,15 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
+    bool StyleHelper::hasDecoration( const QWidget* widget ) const
+    {
+        if( !widget->isTopLevel() ) return false;
+        if( widget->windowFlags() & (Qt::X11BypassWindowManagerHint|Qt::FramelessWindowHint) )
+        { return false; }
+        return true;
+    }
+
+    //________________________________________________________________________________________________________
     void StyleHelper::fillHole( QPainter& p, const QRect& rect, int size ) const
     {
         const qreal s( ( 3.0*size )/7.0 );

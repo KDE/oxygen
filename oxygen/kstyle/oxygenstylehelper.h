@@ -159,6 +159,9 @@ namespace Oxygen
         //! returns true if a given widget supports alpha channel
         inline bool hasAlphaChannel( const QWidget* ) const;
 
+        //! returns true if given widget will get a decoration
+        bool hasDecoration( const QWidget* ) const;
+
         //@}
 
         protected:
