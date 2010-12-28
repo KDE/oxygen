@@ -1613,7 +1613,7 @@ namespace Oxygen
 
 
         // include margins
-        r = subElementRect( SE_TabWidgetTabPane, option, widget );
+        r = tabWidgetTabPaneRect( option, widget );
 
         // document mode
         const bool documentMode( tabOpt->lineWidth == 0 );
