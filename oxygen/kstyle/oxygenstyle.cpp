@@ -269,10 +269,6 @@ namespace Oxygen
 
         }
 
-//         // install WM hint
-//         if( helper().hasDecoration( widget ) )
-//         { helper().setHasBackgroundGradient( widget->winId(), true ); }
-
         if(
             qobject_cast<QAbstractItemView*>( widget )
             || qobject_cast<QAbstractSpinBox*>( widget )
