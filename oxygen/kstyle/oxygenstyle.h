@@ -888,8 +888,8 @@ namespace Oxygen
         int _singleButtonHeight;
         int _doubleButtonHeight;
 
-        // mnemonic state
-        Qt::TextFlag _mnemonic;
+        // true if keyboard accelerators must be drawn
+        bool _showMnemonics;
 
         //! helper
         StyleHelper* _helper;
