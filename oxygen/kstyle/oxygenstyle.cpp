@@ -152,7 +152,7 @@ namespace Oxygen
         _subLineButtons( SingleButton ),
         _singleButtonHeight( 14 ),
         _doubleButtonHeight( 28 ),
-        _mnemonic( Qt::TextShowMnemonic ),
+        _showMnemonics( true ),
         _helper( new StyleHelper( "oxygen" ) ),
         _animations( new Animations( this ) ),
         _transitions( new Transitions( this ) ),
@@ -1138,10 +1138,11 @@ namespace Oxygen
         const QString &text, QPalette::ColorRole textRole ) const
     {
 
-        if( ( flags & Qt::TextShowMnemonic ) || !( flags&Qt::TextHideMnemonic ) )
+        // hide mnemonics if requested
+        if( (!_showMnemonics) && ( flags & Qt::TextShowMnemonic ) && !( flags&Qt::TextHideMnemonic ) )
         {
             flags &= ~Qt::TextShowMnemonic;
-            flags |= _mnemonic;
+            flags |= Qt::TextHideMnemonic;
         }
 
         if( animations().widgetEnabilityEngine().enabled() )
@@ -7817,7 +7818,7 @@ namespace Oxygen
         _singleButtonHeight = qMax( StyleConfigData::scrollBarWidth() * 7 / 10, 14 );
         _doubleButtonHeight = 2*_singleButtonHeight;
 
-        _mnemonic = StyleConfigData::showMnemonics() ? Qt::TextShowMnemonic : Qt::TextHideMnemonic;
+        _showMnemonics = StyleConfigData::showMnemonics();
 
         // scrollbar buttons
         switch( StyleConfigData::scrollBarAddLineButtons() )
