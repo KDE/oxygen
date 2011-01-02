@@ -2921,6 +2921,9 @@ namespace Oxygen
 
             r.translate( 1, 0 );
 
+            // set color properly
+            color = (toolButton->autoRaise() ? palette.color( QPalette::WindowText ):palette.color( QPalette::ButtonText ) );
+
         } else if( mouseOver ) {
 
             color = helper().viewHoverBrush().brush( palette ).color();
