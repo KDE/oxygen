@@ -3409,9 +3409,6 @@ namespace Oxygen
     bool Style::drawPanelLineEditPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        const State& flags( option->state );
-        const bool enabled( flags & State_Enabled );
-
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
 
@@ -3419,7 +3416,7 @@ namespace Oxygen
         const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>( option );
         if( !panel ) return true;
 
-        const QBrush inputBrush( enabled ? palette.base() : palette.window() );
+        const QBrush inputBrush( palette.base() );
         const int lineWidth( panel->lineWidth );
 
         if( lineWidth > 0 )
@@ -7137,7 +7134,7 @@ namespace Oxygen
             if( hasFocus ) opts |= Focus;
             if( ( flags & ( State_Sunken|State_On ) ) && !editable ) opts |= Sunken;
 
-            const QColor inputColor( enabled ? palette.color( QPalette::Base ) : palette.color( QPalette::Window ) );
+            const QColor inputColor( palette.color( QPalette::Base ) );
             const QRect editField( subControlRect( CC_ComboBox, cb, SC_ComboBoxEditField, widget ) );
 
             if( editable )
@@ -7539,7 +7536,7 @@ namespace Oxygen
         const bool enabled( flags & State_Enabled );
         const bool mouseOver( enabled && ( flags & State_MouseOver ) );
         const bool hasFocus( flags & State_HasFocus );
-        const QColor inputColor( palette.color( enabled ? QPalette::Base : QPalette::Window ) );
+        const QColor inputColor( palette.color( QPalette::Base ) );
 
         if( sb->subControls & SC_SpinBoxFrame )
         {
