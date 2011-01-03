@@ -57,6 +57,7 @@ namespace Oxygen
         _eventTypes.insert( QEvent::FocusOut, "FocusOut" );
 
         // _eventTypes.insert( QEvent::Paint, "Paint" );
+
     }
 
     //________________________________________________
@@ -112,7 +113,7 @@ namespace Oxygen
                 if( !widget ) return false;
 
                 QTextStream( stdout )
-                    << "WidgetExplorer::eventFilter -"
+                    << "Oxygen::WidgetExplorer::eventFilter -"
                     << " event: " << event << " type: " << eventType( event->type() )
                     << " widget: " << widgetInformation( widget )
                     << endl;
