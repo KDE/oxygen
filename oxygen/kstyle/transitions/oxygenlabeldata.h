@@ -79,6 +79,10 @@ namespace Oxygen
 
         protected:
 
+        //! true if transparent
+        bool transparent( void ) const
+        { return transition() && transition().data()->testFlag( TransitionWidget::Transparent ); }
+
         //! timer event
         virtual void timerEvent( QTimerEvent* );
 

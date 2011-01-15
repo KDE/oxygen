@@ -78,7 +78,10 @@ namespace Oxygen
                     QString text( target_.data()->text().remove( '&' ) );
                     if( text == text_ )
                     {
-                        if( transition().data()->isAnimated() && TransitionWidget::paintEnabled() ) return true;
+                        if(
+                            transparent() &&
+                            transition().data()->isAnimated() &&
+                            TransitionWidget::paintEnabled() ) return true;
                         else break;
                     }
 
@@ -116,7 +119,8 @@ namespace Oxygen
                         // and disable this event painting
                         transition().data()->show();
                         transition().data()->raise();
-                        return true;
+                        if( transparent() ) return true;
+                        else break;
 
                     } else {
 
