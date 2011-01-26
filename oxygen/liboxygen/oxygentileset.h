@@ -113,6 +113,10 @@ namespace Oxygen
         bool isValid( void ) const
         { return size().isValid() && _pixmaps.size() == 9; }
 
+        //! save all pixmaps
+        /*! pixmap names will be \p basename-position.suffix. Other arguments are the same as for QPixmap::save */
+        void save( const QString& basename, const QString& suffix = "png", const char* format = 0, int quality = -1 ) const;
+
         protected:
 
         //! shortcut to pixmap list
