@@ -523,7 +523,7 @@ namespace Oxygen
             if( isActive )
             {
                 //window active - it's a glow - not a shadow
-                const QColor glow( KColorUtils::mix( QColor( 128,128,128 ),frameColor,0.7 ) );
+                const QColor glow( KColorUtils::mix( QColor( 128,128,128 ), frameColor, 0.7 ) );
                 p->setPen( glow );
 
                 if( tiles & TileSet::Top )
