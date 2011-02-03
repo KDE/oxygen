@@ -3747,7 +3747,6 @@ namespace Oxygen
         const bool sunken( enabled && ( flags & State_Sunken ) );
 
         // match button color to window background
-        const QToolButton *tool( qobject_cast<const QToolButton *>( widget ) );
         const QColor highlight( helper().viewHoverBrush().brush( palette ).color() );
         QColor color = palette.color( autoRaise ? QPalette::WindowText:QPalette::ButtonText );
         QColor background = palette.color( QPalette::Window );
@@ -3760,7 +3759,8 @@ namespace Oxygen
         bool drawContrast = true;
 
         // toolbuttons
-        if( tool->popupMode()==QToolButton::MenuButtonPopup )
+        const QToolButton *tool( qobject_cast<const QToolButton *>( widget ) );
+        if( tool && tool->popupMode()==QToolButton::MenuButtonPopup )
         {
 
             if( !autoRaise )
