@@ -117,6 +117,14 @@ namespace Oxygen
         /*! pixmap names will be \p basename-position.suffix. Other arguments are the same as for QPixmap::save */
         void save( const QString& basename, const QString& suffix = "png", const char* format = 0, int quality = -1 ) const;
 
+        //! side extend
+        /*!
+        it is used to (pre) tile the side pixmaps, in order to make further tiling faster when rendering, at the cost of
+        using more memory for the cache. Changes to this member only affects tilesets that are created afterwards.
+        */
+        void setSideExtent( int value )
+        { _sideExtent = value; }
+
         protected:
 
         //! shortcut to pixmap list
@@ -126,6 +134,13 @@ namespace Oxygen
         void initPixmap( PixmapList&, const QPixmap&, int w, int h, const QRect& );
 
         private:
+
+        //! side extend
+        /*!
+        it is used to (pre) tile the side pixmaps, in order to make further tiling faster when rendering, at the cost of
+        using more memory for the cache.
+        */
+        static int _sideExtent;
 
         //! pixmap arry
         PixmapList _pixmaps;
