@@ -24,6 +24,10 @@
 
 namespace Oxygen
 {
+
+    //______________________________________________________________
+    int TileSet::_sideExtent = 32;
+
     //______________________________________________________________
     void TileSet::initPixmap( PixmapList& pixmaps, const QPixmap &pix, int w, int h, const QRect &rect)
     {
@@ -64,8 +68,8 @@ namespace Oxygen
 
         _w3 = pix.width() - (w1 + w2);
         _h3 = pix.height() - (h1 + h2);
-        int w = w2; while (w < 32 && w2 > 0) w += w2;
-        int h = h2; while (h < 32 && h2 > 0) h += h2;
+        int w = w2; while (w < _sideExtent && w2 > 0) w += w2;
+        int h = h2; while (h < _sideExtent && h2 > 0) h += h2;
 
         // initialise pixmap array
         initPixmap( _pixmaps, pix, _w1, _h1, QRect(0, 0, _w1, _h1) );
@@ -88,8 +92,8 @@ namespace Oxygen
 
         int x2 = pix.width() - _w3;
         int y2 = pix.height() - _h3;
-        int w = w2; while (w < 32 && w2 > 0) w += w2;
-        int h = h2; while (h < 32 && h2 > 0) h += h2;
+        int w = w2; while (w < _sideExtent && w2 > 0) w += w2;
+        int h = h2; while (h < _sideExtent && h2 > 0) h += h2;
 
         // initialise pixmap array
         initPixmap( _pixmaps, pix, _w1, _h1, QRect(0, 0, _w1, _h1) );
