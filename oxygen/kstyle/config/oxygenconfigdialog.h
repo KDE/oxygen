@@ -93,9 +93,6 @@ namespace Oxygen
         bool changed( void ) const
         { return _styleChanged || _decorationChanged; }
 
-        //! convert decoration name to config library name
-        QString styleToConfigLib( const QString& ) const;
-
         //! load style config widget from plugin
         KPageWidgetItem* loadStyleConfig( void );
 
