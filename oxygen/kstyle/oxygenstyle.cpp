@@ -3443,7 +3443,7 @@ namespace Oxygen
             painter->setBrush( inputBrush );
 
             helper().fillHole( *painter, r.adjusted( 0, -1, 0, 0 ) );
-            drawPrimitive( PE_FrameLineEdit, panel, painter, widget );
+            drawFramePrimitive( panel, painter, widget );
 
             painter->restore();
 
