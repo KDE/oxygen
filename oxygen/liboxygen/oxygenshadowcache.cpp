@@ -29,6 +29,7 @@
 #include <cassert>
 #include <cmath>
 #include <KColorUtils>
+#include <KConfigGroup>
 #include <QtGui/QPainter>
 #include <QtCore/QTextStream>
 
@@ -48,6 +49,84 @@ namespace Oxygen
 
         setEnabled( true );
         setMaxIndex( 256 );
+
+    }
+
+    //_______________________________________________________
+    bool ShadowCache::readConfig( const KConfig& config )
+    {
+
+        bool changed( false );
+
+        // initialize shadowCacheMode
+        const KConfigGroup group( config.group("Windeco") );
+        const QString shadowCacheMode( group.readEntry( OxygenConfig::SHADOW_CACHE_MODE, "Variable" ) );
+
+        if( shadowCacheMode == "Disabled" )
+        {
+
+            if( enabled_ )
+            {
+                setEnabled( false );
+                changed = true;
+            }
+
+        } else if( shadowCacheMode == "Maximum" ) {
+
+            if( !enabled_ )
+            {
+                setEnabled( true );
+                changed = true;
+            }
+
+            if( maxIndex_ != 256 )
+            {
+                setMaxIndex( 256 );
+                changed = true;
+            }
+
+        } else {
+
+            if( !enabled_ )
+            {
+                setEnabled( true );
+                changed = true;
+            }
+
+            // get animation duration
+            const int duration( group.readEntry( OxygenConfig::ANIMATIONS_DURATION, 150 ) );
+            const int maxIndex( qMin( 256, int( (120*duration)/1000 ) ) );
+            if( maxIndex_ != maxIndex )
+            {
+                setMaxIndex( maxIndex );
+                changed = true;
+            }
+
+        }
+
+        // shadows enable state
+        const bool shadowsEnabled( group.readEntry( OxygenConfig::SHADOW_MODE, "Use Oxygen Shadows" ) == "Use Oxygen Shadows" );
+
+        // active shadows
+        ShadowConfiguration activeShadowConfiguration( QPalette::Active, config.group( "ActiveShadow" ) );
+        activeShadowConfiguration.setEnabled( shadowsEnabled && group.readEntry( OxygenConfig::USE_OXYGEN_SHADOWS, true ) );
+        if( shadowConfigurationChanged( activeShadowConfiguration ) )
+        {
+            setShadowConfiguration( activeShadowConfiguration );
+            changed = true;
+        }
+
+        // inactive shadows
+        ShadowConfiguration inactiveShadowConfiguration( QPalette::Inactive, config.group( "InactiveShadow" ) );
+        inactiveShadowConfiguration.setEnabled( shadowsEnabled && group.readEntry( OxygenConfig::USE_DROP_SHADOWS, true ) );
+        if( shadowConfigurationChanged( inactiveShadowConfiguration ) )
+        {
+            setShadowConfiguration( inactiveShadowConfiguration );
+            changed = true;
+        }
+
+        if( changed ) invalidateCaches();
+        return changed;
 
     }
 

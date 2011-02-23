@@ -32,6 +32,7 @@
 #include "oxygen_export.h"
 
 #include <cmath>
+#include <KConfig>
 #include <QtCore/QCache>
 #include <QtGui/QRadialGradient>
 
@@ -48,6 +49,10 @@ namespace Oxygen
         //! destructor
         virtual ~ShadowCache( void )
         {}
+
+        //! read configuration from KConfig
+        /*! returns true if changed */
+        bool readConfig( const KConfig& );
 
         //! cache size
         void setEnabled( bool enabled )

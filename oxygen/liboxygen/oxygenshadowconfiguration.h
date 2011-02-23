@@ -41,6 +41,14 @@ namespace OxygenConfig
     static const QString SHADOW_INNER_COLOR = "InnerColor";
     static const QString SHADOW_OUTER_COLOR = "OuterColor";
     static const QString SHADOW_USE_OUTER_COLOR = "UseOuterColor";
+
+    static const QString ANIMATIONS_DURATION = "AnimationsDuration";
+    static const QString SHADOW_CACHE_MODE = "ShadowCacheMode";
+    static const QString SHADOW_MODE = "ShadowMode";
+
+    static const QString USE_DROP_SHADOWS = "UseDropShadows";
+    static const QString USE_OXYGEN_SHADOWS = "UseOxygenShadows";
+
 }
 
 namespace Oxygen
