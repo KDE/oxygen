@@ -548,8 +548,8 @@ namespace Oxygen
                 else if(
                     itemView->selectionMode() != QAbstractItemView::NoSelection &&
                     itemView->selectionMode() != QAbstractItemView::SingleSelection &&
-                    itemView->model()->rowCount() ) return false;
-                else if( itemView->indexAt( position ).isValid() ) return false;
+                    itemView->model() && itemView->model()->rowCount() ) return false;
+                else if( itemView->model() && itemView->indexAt( position ).isValid() ) return false;
             }
 
         } else if( ( itemView = qobject_cast<QAbstractItemView*>( widget->parentWidget() ) ) ) {
