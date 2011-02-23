@@ -1,6 +1,8 @@
 set(oxygenstyle_LIB_SRCS oxygenanimation.cpp
                          oxygenhelper.cpp
                          oxygenitemmodel.cpp
+                         oxygenshadowcache.cpp
+                         oxygenshadowconfiguration.cpp
                          oxygentileset.cpp)
 
 kde4_add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})

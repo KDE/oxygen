@@ -29,6 +29,7 @@
 
 #include "oxygenshadowconfiguration.h"
 #include "oxygenhelper.h"
+#include "oxygen_export.h"
 
 #include <cmath>
 #include <QtCore/QCache>
@@ -37,7 +38,7 @@
 namespace Oxygen
 {
 
-    class ShadowCache
+    class OXYGEN_EXPORT ShadowCache
     {
         public:
 

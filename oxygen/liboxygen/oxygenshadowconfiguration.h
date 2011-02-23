@@ -27,6 +27,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygen_export.h"
+
 #include <KConfigGroup>
 #include <QtGui/QPalette>
 
@@ -44,7 +46,7 @@ namespace OxygenConfig
 namespace Oxygen
 {
 
-    class ShadowConfiguration
+    class OXYGEN_EXPORT ShadowConfiguration
     {
 
         public:
