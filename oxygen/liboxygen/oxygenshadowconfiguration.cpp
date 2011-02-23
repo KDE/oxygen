@@ -69,7 +69,7 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    ShadowConfiguration::ShadowConfiguration( QPalette::ColorGroup colorGroup, KConfigGroup group ):
+    ShadowConfiguration::ShadowConfiguration( QPalette::ColorGroup colorGroup, const KConfigGroup& group ):
         colorGroup_( colorGroup ),
         enabled_( true )
     {

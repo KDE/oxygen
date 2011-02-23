@@ -56,7 +56,7 @@ namespace Oxygen
         ShadowConfiguration( QPalette::ColorGroup );
 
         //! constructor from KConfig
-        ShadowConfiguration( QPalette::ColorGroup, KConfigGroup );
+        ShadowConfiguration( QPalette::ColorGroup, const KConfigGroup& );
 
         //! destructor
         virtual ~ShadowConfiguration( void )
