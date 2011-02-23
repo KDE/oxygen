@@ -47,7 +47,8 @@
 // Boston, MA 02110-1301, USA.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenstylehelper.h"
+#include "oxygenanimationmodes.h"
+#include "oxygentileset.h"
 
 #include <QtCore/QMap>
 #include <QtGui/QAbstractScrollArea>
@@ -63,9 +64,10 @@ namespace Oxygen
 {
 
     class Animations;
+    class FrameShadowFactory;
+    class StyleHelper;
     class Transitions;
     class WindowManager;
-    class FrameShadowFactory;
     class WidgetExplorer;
 
     //! toplevel manager
