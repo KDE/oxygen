@@ -165,8 +165,8 @@ namespace Oxygen
 
             }
 
-            menuBarEngine_->setEnabled( animationsEnabled &&  StyleConfigData::menuBarAnimationsEnabled() && menuBarAnimationType != StyleConfigData::MB_NONE );
-            menuEngine_->setEnabled( animationsEnabled &&  StyleConfigData::menuAnimationsEnabled() && menuAnimationType != StyleConfigData::ME_NONE );
+            menuBarEngine_->setEnabled( animationsEnabled && menuBarAnimationType != StyleConfigData::MB_NONE );
+            menuEngine_->setEnabled( animationsEnabled && menuAnimationType != StyleConfigData::ME_NONE );
 
             // toolbar engine
             int toolBarAnimationType( StyleConfigData::toolBarAnimationType() );

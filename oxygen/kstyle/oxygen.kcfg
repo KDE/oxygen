@@ -172,10 +172,6 @@
       <default>TB_FADE</default>
     </entry>
 
-    <entry name="MenuBarAnimationsEnabled" type="Bool">
-      <default>true</default>
-    </entry>
-
     <entry name="MenuBarAnimationType" type="Enum">
       <choices>
           <choice name="MB_NONE" />
@@ -183,10 +179,6 @@
           <choice name="MB_FOLLOW_MOUSE" />
       </choices>
       <default>MB_FADE</default>
-    </entry>
-
-    <entry name="MenuAnimationsEnabled" type="Bool">
-      <default>true</default>
     </entry>
 
     <entry name="MenuAnimationType" type="Enum">
