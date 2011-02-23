@@ -199,7 +199,8 @@
       <default>150</default>
     </entry>  
 
-    <!-- toolbar animation durations -->
+    <!-- toolbar follow-mouse animation durations -->
+    <!-- The duration for 'fade' animation mode is GenericAnimationsDuration -->
     <entry name="ToolBarAnimationsDuration" type="Int">
       <default>50</default>
     </entry>  
