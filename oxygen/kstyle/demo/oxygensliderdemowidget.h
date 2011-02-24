@@ -59,7 +59,7 @@ namespace Oxygen
 
         private:
 
-        bool locked_;
+        bool _locked;
 
         Ui_SliderDemoWidget ui;
 
