@@ -75,78 +75,78 @@ namespace Oxygen
 
         //! color group
         QPalette::ColorGroup colorGroup( void ) const
-        { return colorGroup_; }
+        { return _colorGroup; }
 
         //! enability
         void setEnabled( bool value )
-        { enabled_ = value; }
+        { _enabled = value; }
 
         //! enability
         bool isEnabled( void ) const
-        { return enabled_; }
+        { return _enabled; }
 
         //! shadow size
         qreal shadowSize( void ) const
-        { return shadowSize_; }
+        { return _shadowSize; }
 
         //! shadow size
         void setShadowSize( qreal value )
-        { shadowSize_ = value; }
+        { _shadowSize = value; }
 
         //! horizontal offset
         qreal horizontalOffset( void ) const
-        { return horizontalOffset_; }
+        { return _horizontalOffset; }
 
         //! horizontal offset
         void setHorizontalOffset( qreal value )
-        { horizontalOffset_ = value; }
+        { _horizontalOffset = value; }
 
         //! vertical offset
         qreal verticalOffset( void ) const
-        { return verticalOffset_; }
+        { return _verticalOffset; }
 
         //! vertical offset
         void setVerticalOffset( qreal value )
-        { verticalOffset_ = value; }
+        { _verticalOffset = value; }
 
         //! inner color
         QColor innerColor( void ) const
-        { return innerColor_; }
+        { return _innerColor; }
 
         //! inner color
         void setInnerColor( QColor );
 
         //! mid color
         QColor midColor( void ) const
-        { return midColor_; }
+        { return _midColor; }
 
         //! outer color
         QColor outerColor( void ) const
-        { return useOuterColor() ? outerColor_ : outerColor2_; }
+        { return useOuterColor() ? _outerColor : _outerColor2; }
 
         //! outer color
         void setOuterColor( QColor );
 
         //! use outer color
         bool useOuterColor( void ) const
-        { return useOuterColor_; }
+        { return _useOuterColor; }
 
         //! use outer color
         void setUseOuterColor( bool value )
-        { useOuterColor_ = value; }
+        { _useOuterColor = value; }
 
         //! equal to operator
         bool operator == (const ShadowConfiguration& other ) const
         {
             return
-                colorGroup_ == other.colorGroup_ &&
-                enabled_ == other.enabled_ &&
-                shadowSize_ == other.shadowSize_ &&
-                horizontalOffset_ == other.horizontalOffset_ &&
-                verticalOffset_ == other.verticalOffset_ &&
-                innerColor_ == other.innerColor_ &&
-                ( useOuterColor_ == false || outerColor_ == other.outerColor_ ) &&
-                useOuterColor_ == other.useOuterColor_;
+                _colorGroup == other._colorGroup &&
+                _enabled == other._enabled &&
+                _shadowSize == other._shadowSize &&
+                _horizontalOffset == other._horizontalOffset &&
+                _verticalOffset == other._verticalOffset &&
+                _innerColor == other._innerColor &&
+                ( _useOuterColor == false || _outerColor == other._outerColor ) &&
+                _useOuterColor == other._useOuterColor;
         }
 
         protected:
@@ -156,7 +156,7 @@ namespace Oxygen
 
         //! calculated outer color
         QColor outerColor2( void ) const
-        { return outerColor2_; }
+        { return _outerColor2; }
 
         //! calculated outer color
         void setOuterColor2( QColor );
@@ -170,34 +170,34 @@ namespace Oxygen
         private:
 
         //! color group
-        QPalette::ColorGroup colorGroup_;
+        QPalette::ColorGroup _colorGroup;
 
         //! enability
-        bool enabled_;
+        bool _enabled;
 
         //! shadow size
-        qreal shadowSize_;
+        qreal _shadowSize;
 
         //! horizontal offset
-        qreal horizontalOffset_;
+        qreal _horizontalOffset;
 
         //! vertical offset
-        qreal verticalOffset_;
+        qreal _verticalOffset;
 
         //! inner color
-        QColor innerColor_;
+        QColor _innerColor;
 
         //! mid color
-        QColor midColor_;
+        QColor _midColor;
 
         //! outer color
-        QColor outerColor_;
+        QColor _outerColor;
 
         //! calculated outer color
-        QColor outerColor2_;
+        QColor _outerColor2;
 
         //! use outer color
-        bool useOuterColor_;
+        bool _useOuterColor;
 
     };
 

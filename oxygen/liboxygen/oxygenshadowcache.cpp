@@ -42,9 +42,9 @@ namespace Oxygen
 
     //_______________________________________________________
     ShadowCache::ShadowCache( Helper& helper ):
-        helper_( helper ),
-        activeShadowConfiguration_( ShadowConfiguration( QPalette::Active ) ),
-        inactiveShadowConfiguration_( ShadowConfiguration( QPalette::Inactive ) )
+        _helper( helper ),
+        _activeShadowConfiguration( ShadowConfiguration( QPalette::Active ) ),
+        _inactiveShadowConfiguration( ShadowConfiguration( QPalette::Inactive ) )
     {
 
         setEnabled( true );
@@ -65,7 +65,7 @@ namespace Oxygen
         if( shadowCacheMode == "Disabled" )
         {
 
-            if( enabled_ )
+            if( _enabled )
             {
                 setEnabled( false );
                 changed = true;
@@ -73,13 +73,13 @@ namespace Oxygen
 
         } else if( shadowCacheMode == "Maximum" ) {
 
-            if( !enabled_ )
+            if( !_enabled )
             {
                 setEnabled( true );
                 changed = true;
             }
 
-            if( maxIndex_ != 256 )
+            if( _maxIndex != 256 )
             {
                 setMaxIndex( 256 );
                 changed = true;
@@ -87,7 +87,7 @@ namespace Oxygen
 
         } else {
 
-            if( !enabled_ )
+            if( !_enabled )
             {
                 setEnabled( true );
                 changed = true;
@@ -96,7 +96,7 @@ namespace Oxygen
             // get animation duration
             const int duration( group.readEntry( OxygenConfig::ANIMATIONS_DURATION, 150 ) );
             const int maxIndex( qMin( 256, int( (120*duration)/1000 ) ) );
-            if( maxIndex_ != maxIndex )
+            if( _maxIndex != maxIndex )
             {
                 setMaxIndex( maxIndex );
                 changed = true;
@@ -133,14 +133,14 @@ namespace Oxygen
     //_______________________________________________________
     bool ShadowCache::shadowConfigurationChanged( const ShadowConfiguration& other ) const
     {
-        const ShadowConfiguration& local = (other.colorGroup() == QPalette::Active ) ? activeShadowConfiguration_:inactiveShadowConfiguration_;
+        const ShadowConfiguration& local = (other.colorGroup() == QPalette::Active ) ? _activeShadowConfiguration:_inactiveShadowConfiguration;
         return !(local == other);
     }
 
     //_______________________________________________________
     void ShadowCache::setShadowConfiguration( const ShadowConfiguration& other )
     {
-        ShadowConfiguration& local = (other.colorGroup() == QPalette::Active ) ? activeShadowConfiguration_:inactiveShadowConfiguration_;
+        ShadowConfiguration& local = (other.colorGroup() == QPalette::Active ) ? _activeShadowConfiguration:_inactiveShadowConfiguration;
         local = other;
     }
 
@@ -150,12 +150,12 @@ namespace Oxygen
 
         // check if tileSet already in cache
         int hash( key.hash() );
-        if( enabled_ && shadowCache_.contains(hash) ) return shadowCache_.object(hash);
+        if( _enabled && _shadowCache.contains(hash) ) return _shadowCache.object(hash);
 
         // create tileSet otherwise
         qreal size( shadowSize() + overlap );
         TileSet* tileSet = new TileSet( shadowPixmap( key, key.active ), size, size, size, size, size, size, 1, 1);
-        shadowCache_.insert( hash, tileSet );
+        _shadowCache.insert( hash, tileSet );
 
         return tileSet;
 
@@ -165,15 +165,15 @@ namespace Oxygen
     TileSet* ShadowCache::tileSet( Key key, qreal opacity )
     {
 
-        int index( opacity*maxIndex_ );
-        assert( index <= maxIndex_ );
+        int index( opacity*_maxIndex );
+        assert( index <= _maxIndex );
 
         // construct key
         key.index = index;
 
         // check if tileSet already in cache
         int hash( key.hash() );
-        if( enabled_ && animatedShadowCache_.contains(hash) ) return animatedShadowCache_.object(hash);
+        if( _enabled && _animatedShadowCache.contains(hash) ) return _animatedShadowCache.object(hash);
 
         // create shadow and tileset otherwise
         qreal size( shadowSize() + overlap );
@@ -204,7 +204,7 @@ namespace Oxygen
         p.end();
 
         TileSet* tileSet = new TileSet(shadow, size, size, 1, 1);
-        animatedShadowCache_.insert( hash, tileSet );
+        _animatedShadowCache.insert( hash, tileSet );
         return tileSet;
 
     }
@@ -215,7 +215,7 @@ namespace Oxygen
 
         // local reference to relevant shadow configuration
         const ShadowConfiguration& shadowConfiguration(
-            active ? activeShadowConfiguration_:inactiveShadowConfiguration_ );
+            active ? _activeShadowConfiguration:_inactiveShadowConfiguration );
 
         static const qreal fixedSize = 25.5;
         qreal size( shadowSize() );
