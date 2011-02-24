@@ -28,8 +28,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "ui_oxygenshadowdemo.h"
-#include "../oxygendecohelper.h"
-#include "../oxygenshadowcache.h"
+#include "oxygenhelper.h"
+#include "oxygenshadowcache.h"
 
 #include <KDialog>
 #include <QtGui/QCheckBox>
@@ -64,7 +64,7 @@ namespace Oxygen
         Ui_ShadowDemo ui;
 
         //! helper
-        DecoHelper _helper;
+        Helper _helper;
 
         //! shadow cache
         ShadowCache _cache;

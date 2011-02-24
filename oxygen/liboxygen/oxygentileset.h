@@ -21,11 +21,11 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include "oxygen_export.h"
+
 #include <QtGui/QPixmap>
 #include <QtCore/QRect>
 #include <QtCore/QVector>
-
-#include "oxygen_export.h"
 
 //! handles proper scaling of pixmap to match widget rect.
 /*!

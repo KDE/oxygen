@@ -27,15 +27,14 @@
 #include "oxygenshadowconfiguration.h"
 
 #include <cassert>
-#include <kdecoration.h>
 
 namespace Oxygen
 {
 
     //_________________________________________________________
     ShadowConfiguration::ShadowConfiguration( QPalette::ColorGroup colorGroup ):
-        colorGroup_( colorGroup ),
-        enabled_( true )
+        _colorGroup( colorGroup ),
+        _enabled( true )
     {
 
         // check colorgroup
@@ -44,35 +43,35 @@ namespace Oxygen
         if( colorGroup == QPalette::Active )
         {
 
-            shadowSize_ = 40;
-            horizontalOffset_ = 0;
-            verticalOffset_ = 0.1;
+            _shadowSize = 40;
+            _horizontalOffset = 0;
+            _verticalOffset = 0.1;
 
-            innerColor_ = QColor( "#70EFFF" );
-            outerColor_ = QColor( "#54A7F0" );
-            outerColor2_ = calcOuterColor();
-            midColor_ = calcMidColor();
-            useOuterColor_ = true;
+            _innerColor = QColor( "#70EFFF" );
+            _outerColor = QColor( "#54A7F0" );
+            _outerColor2 = calcOuterColor();
+            _midColor = calcMidColor();
+            _useOuterColor = true;
 
         } else {
 
-            shadowSize_ = 40;
-            horizontalOffset_ = 0;
-            verticalOffset_ = 0.2;
+            _shadowSize = 40;
+            _horizontalOffset = 0;
+            _verticalOffset = 0.2;
 
-            innerColor_ = QColor( Qt::black );
-            outerColor_ = outerColor2_ = calcOuterColor();
-            midColor_ = calcMidColor();
-            useOuterColor_ = false;
+            _innerColor = QColor( Qt::black );
+            _outerColor = _outerColor2 = calcOuterColor();
+            _midColor = calcMidColor();
+            _useOuterColor = false;
 
         }
 
     }
 
     //_________________________________________________________
-    ShadowConfiguration::ShadowConfiguration( QPalette::ColorGroup colorGroup, KConfigGroup group ):
-        colorGroup_( colorGroup ),
-        enabled_( true )
+    ShadowConfiguration::ShadowConfiguration( QPalette::ColorGroup colorGroup, const KConfigGroup& group ):
+        _colorGroup( colorGroup ),
+        _enabled( true )
     {
 
         // get default configuration
@@ -92,7 +91,7 @@ namespace Oxygen
     //_________________________________________________________
     void ShadowConfiguration::write( KConfigGroup& group ) const
     {
-        ShadowConfiguration defaultConfiguration( colorGroup_ );
+        ShadowConfiguration defaultConfiguration( _colorGroup );
         if( shadowSize() != defaultConfiguration.shadowSize() ) group.writeEntry( OxygenConfig::SHADOW_SIZE, shadowSize() );
         if( horizontalOffset() != defaultConfiguration.horizontalOffset() ) group.writeEntry( OxygenConfig::SHADOW_HOFFSET, horizontalOffset() );
         if( verticalOffset() != defaultConfiguration.verticalOffset() ) group.writeEntry( OxygenConfig::SHADOW_VOFFSET, verticalOffset() );
@@ -103,19 +102,19 @@ namespace Oxygen
 
     //_________________________________________________________
     void ShadowConfiguration::setInnerColor( QColor color )
-    { innerColor_ = color.isValid() ? color : ShadowConfiguration( colorGroup() ).innerColor(); }
+    { _innerColor = color.isValid() ? color : ShadowConfiguration( colorGroup() ).innerColor(); }
 
     //_________________________________________________________
     void ShadowConfiguration::setMidColor( QColor color )
-    { midColor_ = color.isValid() ? color : ShadowConfiguration( colorGroup() ).midColor(); }
+    { _midColor = color.isValid() ? color : ShadowConfiguration( colorGroup() ).midColor(); }
 
     //_________________________________________________________
     void ShadowConfiguration::setOuterColor( QColor color )
-    { outerColor_ = color.isValid() ? color : ShadowConfiguration( colorGroup() ).outerColor(); }
+    { _outerColor = color.isValid() ? color : ShadowConfiguration( colorGroup() ).outerColor(); }
 
     //_________________________________________________________
     void ShadowConfiguration::setOuterColor2( QColor color )
-    { outerColor2_ = color.isValid() ? color : ShadowConfiguration( colorGroup() ).outerColor2(); }
+    { _outerColor2 = color.isValid() ? color : ShadowConfiguration( colorGroup() ).outerColor2(); }
 
     //_________________________________________________________
     QColor ShadowConfiguration::calcOuterColor( void ) const

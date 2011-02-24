@@ -47,7 +47,8 @@
 // Boston, MA 02110-1301, USA.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenstylehelper.h"
+#include "oxygenanimationmodes.h"
+#include "oxygentileset.h"
 
 #include <QtCore/QMap>
 #include <QtGui/QAbstractScrollArea>
@@ -63,9 +64,11 @@ namespace Oxygen
 {
 
     class Animations;
+    class FrameShadowFactory;
+    class ShadowCache;
+    class StyleHelper;
     class Transitions;
     class WindowManager;
-    class FrameShadowFactory;
     class WidgetExplorer;
 
     //! toplevel manager
@@ -199,6 +202,10 @@ namespace Oxygen
         //! helper
         StyleHelper& helper( void ) const
         { return *_helper; }
+
+        //! shadow cache
+        ShadowCache& shadowCache( void ) const
+        { return *_shadowCache; }
 
         //!@name enumerations and convenience classes
         //@{
@@ -915,6 +922,9 @@ namespace Oxygen
 
         //! helper
         StyleHelper* _helper;
+
+        //! shadow cache
+        ShadowCache* _shadowCache;
 
         //! animations
         Animations* _animations;

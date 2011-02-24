@@ -26,8 +26,7 @@
 
 #include "oxygenshadowdemodialog.h"
 #include "oxygenshadowdemodialog.moc"
-#include "../oxygenshadowconfiguration.h"
-#include "oxygenhelper.h"
+#include "oxygenshadowconfiguration.h"
 
 #include <QtGui/QDialogButtonBox>
 #include <QtDBus/QDBusConnection>
@@ -41,7 +40,7 @@ namespace Oxygen
     //_________________________________________________________
     ShadowDemoDialog::ShadowDemoDialog( QWidget* parent ):
         KDialog( parent ),
-        _helper( "oxygenDeco" ),
+        _helper( "oxygen" ),
         _cache( _helper )
     {
 
