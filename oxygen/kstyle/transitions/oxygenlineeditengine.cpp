@@ -43,9 +43,9 @@ namespace Oxygen
         if( widget->graphicsProxyWidget() ) return false;
 
         // insert in map if needed
-        if( !data_.contains( widget ) ) {
+        if( !_data.contains( widget ) ) {
 
-            data_.insert( widget, new LineEditData( this, widget, duration() ), enabled() );
+            _data.insert( widget, new LineEditData( this, widget, duration() ), enabled() );
 
         }
 

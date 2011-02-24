@@ -1,5 +1,5 @@
-#ifndef oxygenstackedwidgetdata_h
-#define oxygenstackedwidgetdata_h
+#ifndef oxygenstackedwidget_datah
+#define oxygenstackedwidget_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenstackedwidgetdata.h
@@ -66,10 +66,10 @@ namespace Oxygen
         private:
 
         //! target
-        QWeakPointer<QStackedWidget> target_;
+        QWeakPointer<QStackedWidget> _target;
 
         //! current index
-        int index_;
+        int _index;
 
     };
 

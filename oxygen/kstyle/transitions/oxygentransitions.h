@@ -58,19 +58,19 @@ namespace Oxygen
 
         //! qlabel engine
         ComboBoxEngine& comboBoxEngine( void ) const
-        { return *comboBoxEngine_; }
+        { return *_comboBoxEngine; }
 
         //! qlabel engine
         LabelEngine& labelEngine( void ) const
-        { return *labelEngine_; }
+        { return *_labelEngine; }
 
         //! qlineedit engine
         LineEditEngine& lineEditEngine( void ) const
-        { return *lineEditEngine_; }
+        { return *_lineEditEngine; }
 
         //! stacked widget engine
         StackedWidgetEngine& stackedWidgetEngine( void ) const
-        { return *stackedWidgetEngine_; }
+        { return *_stackedWidgetEngine; }
 
         public slots:
 
@@ -81,22 +81,22 @@ namespace Oxygen
 
         //! register new engine
         void registerEngine( BaseEngine* engine )
-        { engines_.push_back( engine ); }
+        { _engines.push_back( engine ); }
 
         //! qcombobox engine
-        ComboBoxEngine* comboBoxEngine_;
+        ComboBoxEngine* _comboBoxEngine;
 
         //! qlabel engine
-        LabelEngine* labelEngine_;
+        LabelEngine* _labelEngine;
 
         //! qlineedit engine
-        LineEditEngine* lineEditEngine_;
+        LineEditEngine* _lineEditEngine;
 
         //! stacked widget engine
-        StackedWidgetEngine* stackedWidgetEngine_;
+        StackedWidgetEngine* _stackedWidgetEngine;
 
         //! keep list of existing engines
-        QList< BaseEngine::Pointer > engines_;
+        QList< BaseEngine::Pointer > _engines;
 
     };
 

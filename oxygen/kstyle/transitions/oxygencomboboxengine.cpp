@@ -37,7 +37,7 @@ namespace Oxygen
     {
 
         if( !widget ) return false;
-        if( !data_.contains( widget ) ) { data_.insert( widget, new ComboBoxData( this, widget, duration() ), enabled() ); }
+        if( !_data.contains( widget ) ) { _data.insert( widget, new ComboBoxData( this, widget, duration() ), enabled() ); }
 
         // connect destruction signal
         disconnect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ) );

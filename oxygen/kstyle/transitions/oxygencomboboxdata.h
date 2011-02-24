@@ -1,5 +1,5 @@
-#ifndef oxygencomboboxdata_h
-#define oxygencomboboxdata_h
+#ifndef oxygencombobox_datah
+#define oxygencombobox_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygencomboboxdata.h
@@ -64,7 +64,7 @@ namespace Oxygen
         //! target rect
         /*! return rect corresponding to the area to be updated when animating */
         QRect targetRect( void ) const
-        { return target_ ? target_.data()->rect().adjusted( 5, 5, -5, -5 ):QRect(); }
+        { return _target ? _target.data()->rect().adjusted( 5, 5, -5, -5 ):QRect(); }
 
         protected slots:
 
@@ -83,10 +83,10 @@ namespace Oxygen
         private:
 
         //! needed to start animations out of parent paintEvent
-        QBasicTimer timer_;
+        QBasicTimer _timer;
 
         //! target
-        QWeakPointer<QComboBox> target_;
+        QWeakPointer<QComboBox> _target;
 
     };
 

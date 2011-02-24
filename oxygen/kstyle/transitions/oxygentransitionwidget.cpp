@@ -38,18 +38,18 @@ namespace Oxygen
 {
 
     //________________________________________________
-    bool TransitionWidget::paintEnabled_ = true;
+    bool TransitionWidget::_paintEnabled = true;
     bool TransitionWidget::paintEnabled( void )
-    { return paintEnabled_; }
+    { return _paintEnabled; }
 
-    int TransitionWidget::steps_ = 0;
+    int TransitionWidget::_steps = 0;
 
     //________________________________________________
     TransitionWidget::TransitionWidget( QWidget* parent, int duration ):
         QWidget( parent ),
-        flags_( None ),
-        animation_( new Animation( duration, this ) ),
-        opacity_( 0 )
+        _flags( None ),
+        _animation( new Animation( duration, this ) ),
+        _opacity( 0 )
     {
 
         // background flags
@@ -57,13 +57,13 @@ namespace Oxygen
         setAutoFillBackground( false );
 
         // setup animation
-        animation_.data()->setStartValue( 0 );
-        animation_.data()->setEndValue( 1.0 );
-        animation_.data()->setTargetObject( this );
-        animation_.data()->setPropertyName( "opacity" );
+        _animation.data()->setStartValue( 0 );
+        _animation.data()->setEndValue( 1.0 );
+        _animation.data()->setTargetObject( this );
+        _animation.data()->setPropertyName( "opacity" );
 
         // setup connections
-        connect( animation_.data(), SIGNAL( finished( void ) ), SIGNAL( finished( void ) ) );
+        connect( _animation.data(), SIGNAL( finished( void ) ), SIGNAL( finished( void ) ) );
 
     }
 
@@ -78,7 +78,7 @@ namespace Oxygen
         // initialize pixmap
         QPixmap out( rect.size() );
         out.fill( Qt::transparent );
-        paintEnabled_ = false;
+        _paintEnabled = false;
 
         if( testFlag( GrabFromWindow ) )
         {
@@ -94,7 +94,7 @@ namespace Oxygen
 
         }
 
-        paintEnabled_ = true;
+        _paintEnabled = true;
 
         return out;
 
@@ -106,7 +106,7 @@ namespace Oxygen
 
         // fully transparent case
         if( opacity() >= 1.0 && endPixmap().isNull() ) return;
-        if( !paintEnabled_ ) return;
+        if( !_paintEnabled ) return;
 
         // get rect
         QRect rect = event->rect();
@@ -117,13 +117,13 @@ namespace Oxygen
         if( !paintOnWidget )
         {
 
-            if( currentPixmap_.isNull() || currentPixmap_.size() != size() )
-            { currentPixmap_ = QPixmap( size() ); }
+            if( _currentPixmap.isNull() || _currentPixmap.size() != size() )
+            { _currentPixmap = QPixmap( size() ); }
 
         }
 
         // fill
-        currentPixmap_.fill( Qt::transparent );
+        _currentPixmap.fill( Qt::transparent );
 
         // copy local pixmap to current
         {
@@ -131,44 +131,44 @@ namespace Oxygen
             QPainter p;
 
             // draw end pixmap first, provided that opacity is small enough
-            if( opacity() >= 0.004 && !endPixmap_.isNull() )
+            if( opacity() >= 0.004 && !_endPixmap.isNull() )
             {
 
                 // faded endPixmap if parent target is transparent and opacity is
                 if( opacity() <= 0.996 && testFlag( Transparent ) )
                 {
 
-                    fade( endPixmap_, currentPixmap_, opacity(), rect );
-                    p.begin( &currentPixmap_ );
+                    fade( _endPixmap, _currentPixmap, opacity(), rect );
+                    p.begin( &_currentPixmap );
                     p.setClipRect( event->rect() );
 
                 } else {
 
                     if( paintOnWidget ) p.begin( this );
-                    else p.begin( &currentPixmap_ );
+                    else p.begin( &_currentPixmap );
                     p.setClipRect( event->rect() );
-                    p.drawPixmap( QPoint(), endPixmap_ );
+                    p.drawPixmap( QPoint(), _endPixmap );
 
                 }
 
             } else {
 
                 if( paintOnWidget ) p.begin( this );
-                else p.begin( &currentPixmap_ );
+                else p.begin( &_currentPixmap );
                 p.setClipRect( event->rect() );
 
             }
 
             // draw fading start pixmap
-            if( opacity() <= 0.996 && !startPixmap_.isNull() )
+            if( opacity() <= 0.996 && !_startPixmap.isNull() )
             {
                 if( opacity() >= 0.004 )
                 {
 
-                    fade( startPixmap_, localStartPixmap_, 1.0-opacity(), rect );
-                    p.drawPixmap( QPoint(), localStartPixmap_ );
+                    fade( _startPixmap, _localStartPixmap, 1.0-opacity(), rect );
+                    p.drawPixmap( QPoint(), _localStartPixmap );
 
-                } else p.drawPixmap( QPoint(), startPixmap_ );
+                } else p.drawPixmap( QPoint(), _startPixmap );
 
             }
 
@@ -180,7 +180,7 @@ namespace Oxygen
         {
             QPainter p( this );
             p.setClipRect( event->rect() );
-            p.drawPixmap( QPoint(0,0), currentPixmap_ );
+            p.drawPixmap( QPoint(0,0), _currentPixmap );
             p.end();
         }
     }

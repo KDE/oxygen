@@ -1,5 +1,5 @@
-#ifndef oxygenlabeldata_h
-#define oxygenlabeldata_h
+#ifndef oxygenlabel_datah
+#define oxygenlabel_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenlabeldata.h
@@ -56,15 +56,15 @@ namespace Oxygen
 
         //! returns true if animations are locked
         bool isLocked( void ) const
-        { return animationLockTimer_.isActive(); }
+        { return _animationLockTimer.isActive(); }
 
         //! start lock animation timer
         void lockAnimations( void )
-        { animationLockTimer_.start( lockTime_, this ); }
+        { _animationLockTimer.start( _lockTime, this ); }
 
         //! start lock animation timer
         void unlockAnimations( void )
-        { animationLockTimer_.stop(); }
+        { _animationLockTimer.stop(); }
 
         protected slots:
 
@@ -89,23 +89,23 @@ namespace Oxygen
         private:
 
         //! lock time (milliseconds
-        static const int lockTime_;
+        static const int _lockTime;
 
         //! timer used to disable animations when triggered too early
-        QBasicTimer animationLockTimer_;
+        QBasicTimer _animationLockTimer;
 
         //! needed to start animations out of parent paintEvent
-        QBasicTimer timer_;
+        QBasicTimer _timer;
 
         //! target
-        QWeakPointer<QLabel> target_;
+        QWeakPointer<QLabel> _target;
 
         //! old text
-        QString text_;
+        QString _text;
 
         //! widget rect
         /*! needed to properly handle QLabel geometry changes */
-        QRect widgetRect_;
+        QRect _widgetRect;
 
     };
 

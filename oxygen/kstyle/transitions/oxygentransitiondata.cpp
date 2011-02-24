@@ -33,10 +33,10 @@ namespace Oxygen
     //_________________________________________________________________
     TransitionData::TransitionData( QObject* parent, QWidget* target, int duration ):
         QObject( parent ),
-        enabled_( true ),
-        recursiveCheck_( false ),
-        maxRenderTime_( 200 ),
-        transition_( new TransitionWidget( target, duration ) )
+        _enabled( true ),
+        _recursiveCheck( false ),
+        _maxRenderTime( 200 ),
+        _transition( new TransitionWidget( target, duration ) )
     {
         transition().data()->hide();
         connect( transition().data(), SIGNAL( finished( void ) ), SLOT( finishAnimation( void ) ) );

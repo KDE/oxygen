@@ -70,45 +70,45 @@ namespace Oxygen
         Q_DECLARE_FLAGS(Flags, Flag)
 
         void setFlags( Flags value )
-        { flags_ = value; }
+        { _flags = value; }
 
         void setFlag( Flag flag, bool value = true )
         {
-            if( value ) flags_ |= flag;
-            else flags_ &= (~flag);
+            if( value ) _flags |= flag;
+            else _flags &= (~flag);
         }
 
         bool testFlag( Flag flag ) const
-        { return flags_.testFlag( flag ); }
+        { return _flags.testFlag( flag ); }
 
         //@}
 
         //! duration
         void setDuration( int duration )
         {
-            if( animation_ )
-            { animation_.data()->setDuration( duration ); }
+            if( _animation )
+            { _animation.data()->setDuration( duration ); }
         }
 
         //! duration
         int duration( void ) const
-        { return ( animation_ ) ? animation_.data()->duration() : 0; }
+        { return ( _animation ) ? _animation.data()->duration() : 0; }
 
         //! steps
         static void setSteps( int value )
-        { steps_ = value; }
+        { _steps = value; }
 
         //!@name opacity
         //@{
 
         virtual qreal opacity( void ) const
-        { return opacity_; }
+        { return _opacity; }
 
         virtual void setOpacity( qreal value )
         {
             value = digitize( value );
-            if( opacity_ == value ) return;
-            opacity_ = value;
+            if( _opacity == value ) return;
+            _opacity = value;
             update();
         }
 
@@ -123,11 +123,11 @@ namespace Oxygen
 
         //! start
         void setStartPixmap( QPixmap pixmap )
-        { startPixmap_ = pixmap; }
+        { _startPixmap = pixmap; }
 
         //! start
         const QPixmap& startPixmap( void ) const
-        { return startPixmap_; }
+        { return _startPixmap; }
 
         //! end
         void resetEndPixmap( void )
@@ -136,17 +136,17 @@ namespace Oxygen
         //! end
         void setEndPixmap( QPixmap pixmap )
         {
-            endPixmap_ = pixmap;
-            currentPixmap_ = pixmap;
+            _endPixmap = pixmap;
+            _currentPixmap = pixmap;
         }
 
         //! start
         const QPixmap& endPixmap( void ) const
-        { return endPixmap_; }
+        { return _endPixmap; }
 
         //! current
         const QPixmap& currentPixmap( void ) const
-        { return currentPixmap_; }
+        { return _currentPixmap; }
 
         //@}
 
@@ -155,17 +155,17 @@ namespace Oxygen
 
         //! true if animated
         virtual bool isAnimated( void ) const
-        { return animation_.data()->isRunning(); }
+        { return _animation.data()->isRunning(); }
 
         //! end animation
         virtual void endAnimation( void )
-        { if( animation_.data()->isRunning() ) animation_.data()->stop(); }
+        { if( _animation.data()->isRunning() ) _animation.data()->stop(); }
 
         //! animate transition
         virtual void animate( void )
         {
             endAnimation();
-            animation_.data()->start();
+            _animation.data()->start();
         }
 
         //! true if paint is enabled
@@ -198,41 +198,38 @@ namespace Oxygen
         //! apply step
         virtual qreal digitize( const qreal& value ) const
         {
-            if( steps_ > 0 ) return std::floor( value*steps_ )/steps_;
+            if( _steps > 0 ) return std::floor( value*_steps )/_steps;
             else return value;
         }
 
         private:
 
         //! Flags
-        Flags flags_;
+        Flags _flags;
 
         //! paint enabled
-        static bool paintEnabled_;
+        static bool _paintEnabled;
 
         //! internal transition animation
-        Animation::Pointer animation_;
+        Animation::Pointer _animation;
 
         //! animation starting pixmap
-        QPixmap startPixmap_;
+        QPixmap _startPixmap;
 
         //! animation starting pixmap
-        QPixmap endPixmap_;
+        QPixmap _localStartPixmap;
 
-        //! local start pixmap (used for fading)
-        QPixmap localStartPixmap_;
-
-        //! local end pixmap (used for fading)
-        QPixmap localEndPixmap_;
+        //! animation starting pixmap
+        QPixmap _endPixmap;
 
         //! current pixmap
-        QPixmap currentPixmap_;
+        QPixmap _currentPixmap;
 
         //! current state opacity
-        qreal opacity_;
+        qreal _opacity;
 
         //! steps
-        static int steps_;
+        static int _steps;
 
     };
 

@@ -41,41 +41,41 @@ namespace Oxygen
 {
 
     // use 20 milliseconds for animation lock
-    const int LineEditData::lockTime_ = 20;
+    const int LineEditData::_lockTime = 20;
 
     //______________________________________________________
     LineEditData::LineEditData( QObject* parent, QLineEdit* target, int duration ):
         TransitionData( parent, target, duration ),
-        target_( target ),
-        hasClearButton_( false ),
-        edited_( false )
+        _target( target ),
+        _hasClearButton( false ),
+        _edited( false )
     {
-        target_.data()->installEventFilter( this );
+        _target.data()->installEventFilter( this );
 
         checkClearButton();
 
-        connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
-        connect( target_.data(), SIGNAL( textEdited( const QString& ) ), SLOT( textEdited( void ) ) );
-        connect( target_.data(), SIGNAL( textChanged( const QString& ) ), SLOT( textChanged( void ) ) );
+        connect( _target.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
+        connect( _target.data(), SIGNAL( textEdited( const QString& ) ), SLOT( textEdited( void ) ) );
+        connect( _target.data(), SIGNAL( textChanged( const QString& ) ), SLOT( textChanged( void ) ) );
 
         /*
         Additional signal/slot connections depending on widget's parent.
         This is needed because parents sometime disable the textChanged signal of the embedded
         QLineEdit
         */
-        if( qobject_cast<QSpinBox*>( target_.data()->parentWidget() ) ||qobject_cast<QDoubleSpinBox*>( target_.data()->parentWidget() ) )
+        if( qobject_cast<QSpinBox*>( _target.data()->parentWidget() ) ||qobject_cast<QDoubleSpinBox*>( _target.data()->parentWidget() ) )
         {
 
-            connect( target_.data()->parentWidget(), SIGNAL( valueChanged( const QString& ) ), SLOT( textChanged( void ) ) );
+            connect( _target.data()->parentWidget(), SIGNAL( valueChanged( const QString& ) ), SLOT( textChanged( void ) ) );
 
-        } else if( qobject_cast<QDateTimeEdit*>( target_.data()->parentWidget() ) ) {
+        } else if( qobject_cast<QDateTimeEdit*>( _target.data()->parentWidget() ) ) {
 
-            connect( target_.data()->parentWidget(), SIGNAL( dateTimeChanged ( const QDateTime & ) ), SLOT( textChanged( void ) ) );
+            connect( _target.data()->parentWidget(), SIGNAL( dateTimeChanged ( const QDateTime & ) ), SLOT( textChanged( void ) ) );
 
         }
 
         // update cached pixmap on selection change
-        connect( target_.data(), SIGNAL( selectionChanged() ), SLOT( selectionChanged() ) );
+        connect( _target.data(), SIGNAL( selectionChanged() ), SLOT( selectionChanged() ) );
 
     }
 
@@ -83,7 +83,7 @@ namespace Oxygen
     bool LineEditData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( !( enabled() && object && object == target_.data() ) )
+        if( !( enabled() && object && object == _target.data() ) )
         { return TransitionData::eventFilter( object, event ); }
 
         switch ( event->type() )
@@ -104,19 +104,19 @@ namespace Oxygen
     //___________________________________________________________________
     void LineEditData::timerEvent( QTimerEvent* event )
     {
-        if( event->timerId() == timer_.timerId() )
+        if( event->timerId() == _timer.timerId() )
         {
 
-            timer_.stop();
+            _timer.stop();
             checkClearButton();
-            if( enabled() && transition() && target_ && target_.data()->isVisible() )
+            if( enabled() && transition() && _target && _target.data()->isVisible() )
             {
                 setRecursiveCheck( true );
-                transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
+                transition().data()->setEndPixmap( transition().data()->grab( _target.data(), targetRect() ) );
                 setRecursiveCheck( false );
             }
 
-        } else if( event->timerId() == animationLockTimer_.timerId() ) {
+        } else if( event->timerId() == _animationLockTimer.timerId() ) {
 
             unlockAnimations();
 
@@ -127,15 +127,15 @@ namespace Oxygen
     //___________________________________________________________________
     void LineEditData::checkClearButton( void )
     {
-        if( !target_ ) return;
-        QObjectList children( target_.data()->children() );
-        hasClearButton_ = false;
+        if( !_target ) return;
+        QObjectList children( _target.data()->children() );
+        _hasClearButton = false;
         foreach( QObject* child, children )
         {
             if( child->inherits( "KLineEditButton" ) )
             {
-                hasClearButton_ = true;
-                clearButtonRect_ = static_cast<QWidget*>(child)->geometry();
+                _hasClearButton = true;
+                _clearButtonRect = static_cast<QWidget*>(child)->geometry();
                 break;
             }
         }
@@ -146,9 +146,9 @@ namespace Oxygen
     //___________________________________________________________________
     void LineEditData::textEdited( void )
     {
-        edited_ = true;
+        _edited = true;
         if( !recursiveCheck() )
-        { timer_.start( 0, this ); }
+        { _timer.start( 0, this ); }
     }
 
 
@@ -156,7 +156,7 @@ namespace Oxygen
     void LineEditData::selectionChanged( void )
     {
         if( !recursiveCheck() )
-        { timer_.start( 0, this ); }
+        { _timer.start( 0, this ); }
     }
 
     //___________________________________________________________________
@@ -165,9 +165,9 @@ namespace Oxygen
 
         // check whether text change was triggered manually
         // in which case do not start transition
-        if( edited_ )
+        if( _edited )
         {
-            edited_ = false;
+            _edited = false;
             return;
         }
 
@@ -181,7 +181,7 @@ namespace Oxygen
             // animations are re-locked.
             transition().data()->hide();
             lockAnimations();
-            timer_.start( 0, this );
+            _timer.start( 0, this );
             return;
         }
 
@@ -201,7 +201,7 @@ namespace Oxygen
     //___________________________________________________________________
     bool LineEditData::initializeAnimation( void )
     {
-        if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
+        if( !( enabled() && _target && _target.data()->isVisible() ) ) return false;
 
         if( recursiveCheck() ) return false;
 
@@ -210,9 +210,9 @@ namespace Oxygen
         transition().data()->setOpacity(0);
         transition().data()->setGeometry( current );
 
-        if( widgetRect_.isValid() &&
+        if( _widgetRect.isValid() &&
             !transition().data()->currentPixmap().isNull() &&
-            widgetRect_ != current )
+            _widgetRect != current )
         {
 
           // if label geometry has changed since last animation
@@ -221,7 +221,7 @@ namespace Oxygen
           QPixmap pixmap( current.size() );
           pixmap.fill( Qt::transparent );
           QPainter p( &pixmap );
-          p.drawPixmap( widgetRect_.topLeft() - current.topLeft(), transition().data()->currentPixmap() );
+          p.drawPixmap( _widgetRect.topLeft() - current.topLeft(), transition().data()->currentPixmap() );
           p.end();
           transition().data()->setStartPixmap( pixmap );
 
@@ -239,7 +239,7 @@ namespace Oxygen
         }
 
         setRecursiveCheck( true );
-        transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
+        transition().data()->setEndPixmap( transition().data()->grab( _target.data(), targetRect() ) );
         setRecursiveCheck( false );
 
         return valid;
@@ -257,7 +257,7 @@ namespace Oxygen
     void LineEditData::targetDestroyed( void )
     {
         setEnabled( false );
-        target_.clear();
+        _target.clear();
     }
 
 }

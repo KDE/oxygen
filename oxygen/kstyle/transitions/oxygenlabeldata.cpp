@@ -35,18 +35,18 @@ namespace Oxygen
 {
 
     // use 300 milliseconds for animation lock
-    const int LabelData::lockTime_ = 300;
+    const int LabelData::_lockTime = 300;
 
     //______________________________________________________
     LabelData::LabelData( QObject* parent, QLabel* target, int duration ):
         TransitionData( parent, target, duration ),
-        target_( target )
+        _target( target )
     {
-        target_.data()->installEventFilter( this );
-        bool hasProxy( target_.data()->graphicsProxyWidget() );
+        _target.data()->installEventFilter( this );
+        bool hasProxy( _target.data()->graphicsProxyWidget() );
         transition().data()->setFlags( hasProxy ? TransitionWidget::Transparent : TransitionWidget::GrabFromWindow );
 
-        connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
+        connect( _target.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
 
     }
 
@@ -54,7 +54,7 @@ namespace Oxygen
     bool LabelData::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( object != target_.data() ) return TransitionData::eventFilter( object, event );
+        if( object != _target.data() ) return TransitionData::eventFilter( object, event );
         switch( event->type() )
         {
 
@@ -65,18 +65,18 @@ namespace Oxygen
             text mnemonic is always removed to avoid triggering the animation when only the
             latter is changed
             */
-            text_ = target_.data()->text().remove( '&' );
+            _text = _target.data()->text().remove( '&' );
             break;
 
             case QEvent::Paint:
             {
 
-                if( enabled() && target_  )
+                if( enabled() && _target  )
                 {
 
                     // remove showMnemonic from text before comparing
-                    QString text( target_.data()->text().remove( '&' ) );
-                    if( text == text_ )
+                    QString text( _target.data()->text().remove( '&' ) );
+                    if( text == _text )
                     {
                         if(
                             transparent() &&
@@ -86,9 +86,9 @@ namespace Oxygen
                     }
 
                     // update text and pixmap
-                    text_ = text;
+                    _text = text;
 
-                    if( !(transition() && target_.data()->isVisible() ) ) break;
+                    if( !(transition() && _target.data()->isVisible() ) ) break;
 
                     if( transition().data()->isAnimated() )
                     { transition().data()->endAnimation(); }
@@ -110,7 +110,7 @@ namespace Oxygen
                     // and prepare transition
                     lockAnimations();
                     initializeAnimation();
-                    timer_.start( 0, this );
+                    _timer.start( 0, this );
 
                     if( !transition().data()->startPixmap().isNull() && TransitionWidget::paintEnabled() )
                     {
@@ -149,29 +149,29 @@ namespace Oxygen
     //___________________________________________________________________
     void LabelData::timerEvent( QTimerEvent* event )
     {
-        if( event->timerId() == timer_.timerId() )
+        if( event->timerId() == _timer.timerId() )
         {
 
-            timer_.stop();
+            _timer.stop();
 
             // check transition and widget validity
-            if( !( enabled() && target_ && transition() ) ) return;
+            if( !( enabled() && _target && transition() ) ) return;
 
             // assign end pixmap
-            transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
+            transition().data()->setEndPixmap( transition().data()->grab( _target.data() ) );
 
             // start animation
             animate();
 
-        } else if( event->timerId() == animationLockTimer_.timerId() ) {
+        } else if( event->timerId() == _animationLockTimer.timerId() ) {
 
             unlockAnimations();
 
             // check transition and widget validity
-            if( !( enabled() && target_ && transition() ) ) return;
+            if( !( enabled() && _target && transition() ) ) return;
 
             // reassign end pixmap for the next transition to be properly initialized
-            transition().data()->setEndPixmap( transition().data()->grab( target_.data() ) );
+            transition().data()->setEndPixmap( transition().data()->grab( _target.data() ) );
 
         } else return TransitionData::timerEvent( event );
 
@@ -182,11 +182,11 @@ namespace Oxygen
     {
 
         transition().data()->setOpacity(0);
-        QRect current( target_.data()->geometry() );
-        if( widgetRect_.isValid() && widgetRect_ != current )
+        QRect current( _target.data()->geometry() );
+        if( _widgetRect.isValid() && _widgetRect != current )
         {
 
-            widgetRect_ = current;
+            _widgetRect = current;
             transition().data()->resetStartPixmap();
             transition().data()->resetEndPixmap();
             return false;
@@ -194,8 +194,8 @@ namespace Oxygen
         }
 
         transition().data()->setStartPixmap( transition().data()->currentPixmap() );
-        transition().data()->setGeometry( target_.data()->rect() );
-        widgetRect_ = current;
+        transition().data()->setGeometry( _target.data()->rect() );
+        _widgetRect = current;
         return true;
     }
 
@@ -214,7 +214,7 @@ namespace Oxygen
     void LabelData::targetDestroyed( void )
     {
         setEnabled( false );
-        target_.clear();
+        _target.clear();
     }
 
 }
