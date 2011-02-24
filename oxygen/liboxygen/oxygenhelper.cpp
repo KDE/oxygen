@@ -60,9 +60,9 @@ namespace Oxygen
         // when KGlobalSettings contrast value of 0.7
         _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
 
-        m_backgroundCache.setMaxCost( 64 );
-        m_windecoButtonCache.setMaxCost( 64 );
-        m_windecoButtonGlowCache.setMaxCost( 64 );
+        _backgroundCache.setMaxCost( 64 );
+        _windecoButtonCache.setMaxCost( 64 );
+        _windecoButtonGlowCache.setMaxCost( 64 );
 
         #ifdef Q_WS_X11
 
@@ -94,19 +94,19 @@ namespace Oxygen
         //____________________________________________________________________
     void Helper::invalidateCaches()
     {
-        m_slabCache.clear();
-        m_decoColorCache.clear();
-        m_lightColorCache.clear();
-        m_darkColorCache.clear();
-        m_shadowColorCache.clear();
-        m_backgroundTopColorCache.clear();
-        m_backgroundBottomColorCache.clear();
-        m_backgroundRadialColorCache.clear();
-        m_backgroundColorCache.clear();
-        m_backgroundCache.clear();
-        m_dotCache.clear();
-        m_windecoButtonCache.clear();
-        m_windecoButtonGlowCache.clear();
+        _slabCache.clear();
+        _decoColorCache.clear();
+        _lightColorCache.clear();
+        _darkColorCache.clear();
+        _shadowColorCache.clear();
+        _backgroundTopColorCache.clear();
+        _backgroundBottomColorCache.clear();
+        _backgroundRadialColorCache.clear();
+        _backgroundColorCache.clear();
+        _backgroundCache.clear();
+        _dotCache.clear();
+        _windecoButtonCache.clear();
+        _windecoButtonGlowCache.clear();
     }
 
     //____________________________________________________________________
@@ -114,11 +114,11 @@ namespace Oxygen
     {
 
         // assign value
-        m_windecoButtonCache.setMaxCost( value );
-        m_windecoButtonGlowCache.setMaxCost( value );
-        m_slabCache.setMaxCacheSize( value );
-        m_backgroundCache.setMaxCost( value );
-        m_dotCache.setMaxCost( value );
+        _windecoButtonCache.setMaxCost( value );
+        _windecoButtonGlowCache.setMaxCost( value );
+        _slabCache.setMaxCacheSize( value );
+        _backgroundCache.setMaxCost( value );
+        _dotCache.setMaxCost( value );
 
         /* note: we do not limit the size of the color caches on purpose, since they should be small anyway */
 
@@ -189,7 +189,7 @@ namespace Oxygen
     {
 
         const quint64 key( baseColor.rgba() );
-        QPixmap* pixmap( m_dotCache.object( key ) );
+        QPixmap* pixmap( _dotCache.object( key ) );
 
         if( !pixmap )
         {
@@ -213,7 +213,7 @@ namespace Oxygen
             painter.end();
 
             // store in cache
-            m_dotCache.insert( key, pixmap );
+            _dotCache.insert( key, pixmap );
 
         }
 
@@ -229,13 +229,13 @@ namespace Oxygen
     bool Helper::lowThreshold( const QColor& color )
     {
         const quint32 key( color.rgba() );
-        ColorMap::iterator iter( m_lowThreshold.find( key ) );
-        if( iter != m_lowThreshold.end() ) return iter.value();
+        ColorMap::iterator iter( _lowThreshold.find( key ) );
+        if( iter != _lowThreshold.end() ) return iter.value();
         else {
 
             const QColor darker( KColorScheme::shade( color, KColorScheme::MidShade, 0.5 ) );
             const bool result( KColorUtils::luma( darker ) > KColorUtils::luma( color ) );
-            m_lowThreshold.insert( key, result );
+            _lowThreshold.insert( key, result );
             return result;
 
         }
@@ -246,13 +246,13 @@ namespace Oxygen
     bool Helper::highThreshold( const QColor& color )
     {
         const quint32 key( color.rgba() );
-        ColorMap::iterator iter( m_highThreshold.find( key ) );
-        if( iter != m_highThreshold.end() ) return iter.value();
+        ColorMap::iterator iter( _highThreshold.find( key ) );
+        if( iter != _highThreshold.end() ) return iter.value();
         else {
 
             const QColor lighter( KColorScheme::shade( color, KColorScheme::LightShade, 0.5 ) );
             const bool result( KColorUtils::luma( lighter ) < KColorUtils::luma( color ) );
-            m_highThreshold.insert( key, result );
+            _highThreshold.insert( key, result );
             return result;
 
         }
@@ -270,13 +270,13 @@ namespace Oxygen
     const QColor& Helper::backgroundRadialColor( const QColor& color )
     {
         const quint64 key( color.rgba() );
-        QColor* out( m_backgroundRadialColorCache.object( key ) );
+        QColor* out( _backgroundRadialColorCache.object( key ) );
         if( !out )
         {
             if( lowThreshold( color ) ) out = new QColor( KColorScheme::shade( color, KColorScheme::LightShade, 0.0 ) );
             else if( highThreshold( color ) ) out = new QColor( color );
             else out = new QColor( KColorScheme::shade( color, KColorScheme::LightShade, _bgcontrast ) );
-            m_backgroundRadialColorCache.insert( key, out );
+            _backgroundRadialColorCache.insert( key, out );
         }
 
         return *out;
@@ -286,7 +286,7 @@ namespace Oxygen
     const QColor& Helper::backgroundTopColor( const QColor& color )
     {
         const quint64 key( color.rgba() );
-        QColor* out( m_backgroundTopColorCache.object( key ) );
+        QColor* out( _backgroundTopColorCache.object( key ) );
         if( !out )
         {
             if( lowThreshold( color ) ) out = new QColor( KColorScheme::shade( color, KColorScheme::MidlightShade, 0.0 ) );
@@ -296,7 +296,7 @@ namespace Oxygen
                 out = new QColor( KColorUtils::shade( color, ( my - by ) * _bgcontrast ) );
             }
 
-            m_backgroundTopColorCache.insert( key, out );
+            _backgroundTopColorCache.insert( key, out );
         }
 
         return *out;
@@ -307,7 +307,7 @@ namespace Oxygen
     const QColor& Helper::backgroundBottomColor( const QColor& color )
     {
         const quint64 key( color.rgba() );
-        QColor* out( m_backgroundBottomColorCache.object( key ) );
+        QColor* out( _backgroundBottomColorCache.object( key ) );
         if( !out )
         {
             const QColor midColor( KColorScheme::shade( color, KColorScheme::MidShade, 0.0 ) );
@@ -320,7 +320,7 @@ namespace Oxygen
 
             }
 
-            m_backgroundBottomColorCache.insert( key, out );
+            _backgroundBottomColorCache.insert( key, out );
         }
 
         return *out;
@@ -331,11 +331,11 @@ namespace Oxygen
     const QColor& Helper::calcLightColor( const QColor& color )
     {
         const quint64 key( color.rgba() );
-        QColor* out( m_lightColorCache.object( key ) );
+        QColor* out( _lightColorCache.object( key ) );
         if( !out )
         {
             out = new QColor( highThreshold( color ) ? color: KColorScheme::shade( color, KColorScheme::LightShade, _contrast ) );
-            m_lightColorCache.insert( key, out );
+            _lightColorCache.insert( key, out );
         }
 
         return *out;
@@ -346,13 +346,13 @@ namespace Oxygen
     const QColor& Helper::calcDarkColor( const QColor& color )
     {
         const quint64 key( color.rgba() );
-        QColor* out( m_darkColorCache.object( key ) );
+        QColor* out( _darkColorCache.object( key ) );
         if( !out )
         {
             out = new QColor( ( lowThreshold( color ) ) ?
                 KColorUtils::mix( calcLightColor( color ), color, 0.3 + 0.7 * _contrast ):
                 KColorScheme::shade( color, KColorScheme::MidShade, _contrast ) );
-            m_darkColorCache.insert( key, out );
+            _darkColorCache.insert( key, out );
         }
 
         return *out;
@@ -363,7 +363,7 @@ namespace Oxygen
     {
 
         const quint64 key( color.rgba() );
-        QColor* out( m_shadowColorCache.object( key ) );
+        QColor* out( _shadowColorCache.object( key ) );
         if( !out )
         {
             out = new QColor( ( lowThreshold( color ) ) ?
@@ -372,7 +372,7 @@ namespace Oxygen
                 KColorUtils::mix( Qt::black, color, color.alphaF() ),
                 KColorScheme::ShadowShade,
                 _contrast ) );
-            m_shadowColorCache.insert( key, out );
+            _shadowColorCache.insert( key, out );
         }
 
         return *out;
@@ -384,7 +384,7 @@ namespace Oxygen
     {
 
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | int( ratio*512 ) );
-        QColor *out( m_backgroundColorCache.object( key ) );
+        QColor *out( _backgroundColorCache.object( key ) );
         if( !out )
         {
             if( ratio < 0.5 )
@@ -400,7 +400,7 @@ namespace Oxygen
 
             }
 
-            m_backgroundColorCache.insert( key, out );
+            _backgroundColorCache.insert( key, out );
 
         }
 
@@ -413,7 +413,7 @@ namespace Oxygen
     QPixmap Helper::verticalGradient( const QColor& color, int height, int offset )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | height | 0x8000 );
-        QPixmap* pixmap( m_backgroundCache.object( key ) );
+        QPixmap* pixmap( _backgroundCache.object( key ) );
 
         if ( !pixmap )
         {
@@ -431,7 +431,7 @@ namespace Oxygen
 
             p.end();
 
-            m_backgroundCache.insert( key, pixmap );
+            _backgroundCache.insert( key, pixmap );
         }
 
         return *pixmap;
@@ -441,7 +441,7 @@ namespace Oxygen
     QPixmap Helper::radialGradient( const QColor& color, int width, int height )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | width | 0xb000 );
-        QPixmap* pixmap( m_backgroundCache.object( key ) );
+        QPixmap* pixmap( _backgroundCache.object( key ) );
 
         if ( !pixmap )
         {
@@ -465,7 +465,7 @@ namespace Oxygen
 
             p.end();
 
-            m_backgroundCache.insert( key, pixmap );
+            _backgroundCache.insert( key, pixmap );
         }
 
         return *pixmap;
@@ -475,11 +475,11 @@ namespace Oxygen
     const QColor& Helper::decoColor( const QColor& background, const QColor& color )
     {
         const quint64 key( ( quint64( background.rgba() ) << 32 ) | color.rgba() );
-        QColor* out( m_decoColorCache.object( key ) );
+        QColor* out( _decoColorCache.object( key ) );
         if( !out )
         {
             out = new QColor( KColorUtils::mix( background, color, 0.4 + 0.8*_contrast ) );
-            m_decoColorCache.insert( key, out );
+            _decoColorCache.insert( key, out );
         }
 
         return *out;
@@ -674,7 +674,7 @@ namespace Oxygen
     TileSet* Helper::slab( const QColor& color, qreal shade, int size )
     {
 
-        Oxygen::Cache<TileSet>::Value* cache( m_slabCache.get( color ) );
+        Oxygen::Cache<TileSet>::Value* cache( _slabCache.get( color ) );
         const quint64 key( ( ( int )( 256.0 * shade ) ) << 24 | size );
         TileSet* tileSet( cache->object( key ) );
 
