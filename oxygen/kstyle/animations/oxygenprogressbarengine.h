@@ -52,8 +52,8 @@ namespace Oxygen
         //! constructor
         ProgressBarEngine( QObject* object ):
         BaseEngine( object ),
-        busyIndicatorEnabled_( true ),
-        busyStepDuration_( 50 )
+        _busyIndicatorEnabled( true ),
+        _busyStepDuration( 50 )
         {}
 
         //! destructor
@@ -74,35 +74,35 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         //! busy indicator enability
         virtual void setBusyIndicatorEnabled( bool value )
-        { busyIndicatorEnabled_ = value; }
+        { _busyIndicatorEnabled = value; }
 
         virtual bool busyIndicatorEnabled( void ) const
-        { return busyIndicatorEnabled_; }
+        { return _busyIndicatorEnabled; }
 
         //! busy indicator step duration
         virtual void setBusyStepDuration( int value );
 
         //! busy indicator step duration
         virtual int busyStepDuration( void ) const
-        { return busyStepDuration_; }
+        { return _busyStepDuration; }
 
         //! start busy timer
         virtual void startBusyTimer( void )
         {
-            if( !timer_.isActive() )
-            { timer_.start( busyStepDuration(), this ); }
+            if( !_timer.isActive() )
+            { _timer.start( busyStepDuration(), this ); }
         }
 
         public slots:
@@ -111,8 +111,8 @@ namespace Oxygen
         virtual bool unregisterWidget( QObject* object )
         {
             if( !object ) return false;
-            dataSet_.remove( object );
-            return data_.unregisterWidget( object );
+            _dataSet.remove( object );
+            return _data.unregisterWidget( object );
         }
 
         protected:
@@ -126,20 +126,20 @@ namespace Oxygen
         private:
 
         //! map widgets to progressbar data
-        DataMap<ProgressBarData> data_;
+        DataMap<ProgressBarData> _data;
 
         //! store set of of progress bars
         typedef QSet<QObject*> ProgressBarSet;
-        ProgressBarSet dataSet_;
+        ProgressBarSet _dataSet;
 
         //! busy indicator enabled
-        bool busyIndicatorEnabled_;
+        bool _busyIndicatorEnabled;
 
         //! busy indicator step duration
-        int busyStepDuration_;
+        int _busyStepDuration;
 
         //! timer
-        QBasicTimer timer_;
+        QBasicTimer _timer;
 
     };
 

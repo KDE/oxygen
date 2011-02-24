@@ -38,8 +38,8 @@ namespace Oxygen
         if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new ProgressBarData( this, widget, duration() ), enabled() );
-        if( busyIndicatorEnabled() && !dataSet_.contains( widget ) ) dataSet_.insert( widget );
+        if( !_data.contains( widget ) ) _data.insert( widget, new ProgressBarData( this, widget, duration() ), enabled() );
+        if( busyIndicatorEnabled() && !_dataSet.contains( widget ) ) _dataSet.insert( widget );
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -60,14 +60,14 @@ namespace Oxygen
     //____________________________________________________________
     void ProgressBarEngine::setBusyStepDuration( int value )
     {
-        if( busyStepDuration_ == value ) return;
-        busyStepDuration_ = value;
+        if( _busyStepDuration == value ) return;
+        _busyStepDuration = value;
 
         // restart timer with specified time
-        if( timer_.isActive() )
+        if( _timer.isActive() )
         {
-            timer_.stop();
-            timer_.start( busyStepDuration(), this );
+            _timer.stop();
+            _timer.start( busyStepDuration(), this );
         }
 
     }
@@ -77,13 +77,13 @@ namespace Oxygen
     {
 
         // check enability and timer
-        if( !(busyIndicatorEnabled() && event->timerId() == timer_.timerId() ) )
+        if( !(busyIndicatorEnabled() && event->timerId() == _timer.timerId() ) )
         { return BaseEngine::timerEvent( event ); }
 
         bool animated( false );
 
         // loop over objects in map
-        for( ProgressBarSet::iterator iter = dataSet_.begin(); iter != dataSet_.end(); ++iter )
+        for( ProgressBarSet::iterator iter = _dataSet.begin(); iter != _dataSet.end(); ++iter )
         {
 
             // cast to progressbar
@@ -103,12 +103,12 @@ namespace Oxygen
             }
         }
 
-        if( !animated ) timer_.stop();
+        if( !animated ) _timer.stop();
 
     }
 
     //____________________________________________________________
     DataMap<ProgressBarData>::Value ProgressBarEngine::data( const QObject* object )
-    { return data_.find( object ).data(); }
+    { return _data.find( object ).data(); }
 
 }

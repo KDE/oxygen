@@ -48,7 +48,7 @@ namespace Oxygen
         if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuDataV1( this, widget, duration() ), enabled() );
+        if( !_data.contains( widget ) ) _data.insert( widget, new MenuDataV1( this, widget, duration() ), enabled() );
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -58,7 +58,7 @@ namespace Oxygen
     //____________________________________________________________
     bool MenuEngineV1::isAnimated( const QObject* object, WidgetIndex index )
     {
-        DataMap<MenuDataV1>::Value data( data_.find( object ) );
+        DataMap<MenuDataV1>::Value data( _data.find( object ) );
         if( !data )
         {
             return false;
@@ -79,7 +79,7 @@ namespace Oxygen
 
         // the typedef is needed to make Krazy happy
         typedef DataMap<MenuDataV1>::Value Value;
-        foreach( const Value& value, data_ )
+        foreach( const Value& value, _data )
         { if( value ) out.insert( value.data()->target().data() ); }
 
         return out;
@@ -89,7 +89,7 @@ namespace Oxygen
     //____________________________________________________________
     MenuEngineV2::MenuEngineV2( QObject* parent, MenuBaseEngine* other ):
         MenuBaseEngine( parent ),
-        followMouseDuration_( 150 )
+        _followMouseDuration( 150 )
     {
         if( other )
         {
@@ -105,11 +105,11 @@ namespace Oxygen
         if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) )
+        if( !_data.contains( widget ) )
         {
             DataMap<MenuDataV2>::Value value( new MenuDataV2( this, widget, duration() ) );
             value.data()->setFollowMouseDuration( followMouseDuration() );
-            data_.insert( widget, value, enabled() );
+            _data.insert( widget, value, enabled() );
         }
 
         // connect destruction signal
@@ -122,7 +122,7 @@ namespace Oxygen
     QRect MenuEngineV2::currentRect( const QObject* object, WidgetIndex )
     {
         if( !enabled() ) return QRect();
-        DataMap<MenuDataV2>::Value data( data_.find( object ) );
+        DataMap<MenuDataV2>::Value data( _data.find( object ) );
         return data ? data.data()->currentRect():QRect();
 
     }
@@ -130,7 +130,7 @@ namespace Oxygen
     //____________________________________________________________
     bool MenuEngineV2::isAnimated( const QObject* object, WidgetIndex index )
     {
-        DataMap<MenuDataV2>::Value data( data_.find( object ) );
+        DataMap<MenuDataV2>::Value data( _data.find( object ) );
         if( !data )
         {
             return false;
@@ -162,7 +162,7 @@ namespace Oxygen
     QRect MenuEngineV2::animatedRect( const QObject* object )
     {
         if( !enabled() ) return QRect();
-        DataMap<MenuDataV2>::Value data( data_.find( object ) );
+        DataMap<MenuDataV2>::Value data( _data.find( object ) );
         return data ? data.data()->animatedRect():QRect();
 
     }
@@ -171,7 +171,7 @@ namespace Oxygen
     bool MenuEngineV2::isTimerActive( const QObject* object )
     {
         if( !enabled() ) return false;
-        DataMap<MenuDataV2>::Value data( data_.find( object ) );
+        DataMap<MenuDataV2>::Value data( _data.find( object ) );
         return data ? data.data()->timer().isActive():false;
 
     }
@@ -184,7 +184,7 @@ namespace Oxygen
 
         // the typedef is needed to make Krazy happy
         typedef DataMap<MenuDataV2>::Value Value;
-        foreach( const Value& value, data_ )
+        foreach( const Value& value, _data )
         { if( value ) out.insert( value.data()->target().data() ); }
 
         return out;

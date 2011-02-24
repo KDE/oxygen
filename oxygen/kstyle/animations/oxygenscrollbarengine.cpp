@@ -44,7 +44,7 @@ namespace Oxygen
         if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new ScrollBarData( this, widget, duration() ), enabled() );
+        if( !_data.contains( widget ) ) _data.insert( widget, new ScrollBarData( this, widget, duration() ), enabled() );
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -56,7 +56,7 @@ namespace Oxygen
     bool ScrollBarEngine::isAnimated( const QObject* object, QStyle::SubControl control )
     {
 
-        if( DataMap<ScrollBarData>::Value data = data_.find( object ) )
+        if( DataMap<ScrollBarData>::Value data = _data.find( object ) )
         {
             if( Animation::Pointer animation = data.data()->animation( control ) ) return animation.data()->isRunning();
 

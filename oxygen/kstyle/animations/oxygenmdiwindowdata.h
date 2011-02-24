@@ -1,5 +1,5 @@
-#ifndef oxygenmdiwindowdata_h
-#define oxygenmdiwindowdata_h
+#ifndef oxygenmdiwindow_datah
+#define oxygenmdiwindow_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenmdiwindowdata.h
@@ -60,15 +60,15 @@ namespace Oxygen
         virtual bool isAnimated( int primitive ) const
         {
             return(
-                ( primitive == currentData_.primitive_ && currentAnimation().data()->isRunning() ) ||
-                ( primitive == previousData_.primitive_ && previousAnimation().data()->isRunning() ) );
+                ( primitive == _currentData._primitive && currentAnimation().data()->isRunning() ) ||
+                ( primitive == _previousData._primitive && previousAnimation().data()->isRunning() ) );
         }
 
         //! opacity
         virtual qreal opacity( int primitive ) const
         {
-            if( primitive == currentData_.primitive_ ) return currentOpacity();
-            else if( primitive == previousData_.primitive_ ) return previousOpacity();
+            if( primitive == _currentData._primitive ) return currentOpacity();
+            else if( primitive == _previousData._primitive ) return previousOpacity();
             else return OpacityInvalid;
         }
 
@@ -84,20 +84,20 @@ namespace Oxygen
 
         //! opacity
         qreal currentOpacity( void ) const
-        { return currentData_.opacity_; }
+        { return _currentData._opacity; }
 
         //! opacity
         void setCurrentOpacity( qreal value )
         {
             value = digitize( value );
-            if( currentData_.opacity_ == value ) return;
-            currentData_.opacity_ = value;
+            if( _currentData._opacity == value ) return;
+            _currentData._opacity = value;
             setDirty();
         }
 
         //! animation
         Animation::Pointer currentAnimation( void ) const
-        { return currentData_.animation_; }
+        { return _currentData._animation; }
 
         //@}
         //!@name previous animation
@@ -105,20 +105,20 @@ namespace Oxygen
 
         //! opacity
         qreal previousOpacity( void ) const
-        { return previousData_.opacity_; }
+        { return _previousData._opacity; }
 
         //! opacity
         void setPreviousOpacity( qreal value )
         {
             value = digitize( value );
-            if( previousData_.opacity_ == value ) return;
-            previousData_.opacity_ = value;
+            if( _previousData._opacity == value ) return;
+            _previousData._opacity = value;
             setDirty();
         }
 
         //! animation
         Animation::Pointer previousAnimation( void ) const
-        { return previousData_.animation_; }
+        { return _previousData._animation; }
 
         //@}
 
@@ -132,29 +132,29 @@ namespace Oxygen
 
             //! default constructor
             Data( void ):
-                primitive_( 0 ),
-                opacity_(0)
+                _primitive( 0 ),
+                _opacity(0)
                 {}
 
             //! subcontrol
             bool updateSubControl( int );
 
             //! subcontrol
-            int primitive_;
+            int _primitive;
 
             //! animation
-            Animation::Pointer animation_;
+            Animation::Pointer _animation;
 
             //! opacity
-            qreal opacity_;
+            qreal _opacity;
 
         };
 
         //! current data
-        Data currentData_;
+        Data _currentData;
 
         //! previous data
-        Data previousData_;
+        Data _previousData;
 
     };
 

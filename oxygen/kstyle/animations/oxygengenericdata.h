@@ -1,5 +1,5 @@
-#ifndef oxygengenericdata_h
-#define oxygengenericdata_h
+#ifndef oxygengeneric_datah
+#define oxygengeneric_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygengenericdata.h
@@ -56,24 +56,24 @@ namespace Oxygen
 
         //! return animation object
         virtual const Animation::Pointer& animation() const
-        { return animation_; }
+        { return _animation; }
 
         //! duration
         virtual void setDuration( int duration )
-        { animation_.data()->setDuration( duration ); }
+        { _animation.data()->setDuration( duration ); }
 
         //! opacity
         virtual qreal opacity( void ) const
-        { return opacity_; }
+        { return _opacity; }
 
         //! opacity
         virtual void setOpacity( qreal value )
         {
 
             value = digitize( value );
-            if( opacity_ == value ) return;
+            if( _opacity == value ) return;
 
-            opacity_ = value;
+            _opacity = value;
             setDirty();
 
         }
@@ -81,10 +81,10 @@ namespace Oxygen
         private:
 
         //! animation handling
-        Animation::Pointer animation_;
+        Animation::Pointer _animation;
 
         //! opacity variable
-        qreal opacity_;
+        qreal _opacity;
 
     };
 

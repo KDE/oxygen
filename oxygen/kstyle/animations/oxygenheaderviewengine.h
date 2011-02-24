@@ -60,39 +60,39 @@ namespace Oxygen
         //! true if widget is animated
         virtual bool isAnimated( const QObject* object, const QPoint& point )
         {
-            if( DataMap<HeaderViewData>::Value data = data_.find( object ) )
+            if( DataMap<HeaderViewData>::Value data = _data.find( object ) )
             { if( Animation::Pointer animation = data.data()->animation( point ) ) return animation.data()->isRunning(); }
             return false;
         }
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, const QPoint& point )
-        { return isAnimated( object, point ) ? data_.find( object ).data()->opacity( point ) : AnimationData::OpacityInvalid; }
+        { return isAnimated( object, point ) ? _data.find( object ).data()->opacity( point ) : AnimationData::OpacityInvalid; }
 
         //! enability
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         public slots:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! data map
-        DataMap<HeaderViewData> data_;
+        DataMap<HeaderViewData> _data;
 
     };
 

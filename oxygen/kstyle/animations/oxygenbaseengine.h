@@ -48,8 +48,8 @@ namespace Oxygen
         //! constructor
         BaseEngine( QObject* parent ):
         QObject( parent ),
-        enabled_( true ),
-        duration_( 200 )
+        _enabled( true ),
+        _duration( 200 )
         {}
 
         //! destructor
@@ -58,19 +58,19 @@ namespace Oxygen
 
         //! enability
         virtual void setEnabled( bool value )
-        { enabled_ = value; }
+        { _enabled = value; }
 
         //! enability
         virtual bool enabled( void ) const
-        { return enabled_; }
+        { return _enabled; }
 
         //! duration
         virtual void setDuration( int value )
-        { duration_ = value; }
+        { _duration = value; }
 
         //! duration
         virtual int duration( void ) const
-        { return duration_; }
+        { return _duration; }
 
         //! unregister widget
         virtual bool unregisterWidget( QObject* object ) = 0;
@@ -85,10 +85,10 @@ namespace Oxygen
         private:
 
         //! engine enability
-        bool enabled_;
+        bool _enabled;
 
         //! animation duration
-        int duration_;
+        int _duration;
 
     };
 

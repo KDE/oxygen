@@ -1,5 +1,5 @@
-#ifndef oxygendockseparatordata_h
-#define oxygendockseparatordata_h
+#ifndef oxygendockseparator_datah
+#define oxygendockseparator_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygendockseparatordata.h
@@ -62,7 +62,7 @@ namespace Oxygen
 
         //! returns true if current splitter is animated
         virtual bool isAnimated( QRect r, const Qt::Orientation& orientation ) const
-        { return orientation == Qt::Vertical ? verticalData_.isAnimated( r ):horizontalData_.isAnimated( r ); }
+        { return orientation == Qt::Vertical ? _verticalData.isAnimated( r ):_horizontalData.isAnimated( r ); }
 
         //! opacity for given orientation
         qreal opacity( const Qt::Orientation& orientation ) const
@@ -79,23 +79,23 @@ namespace Oxygen
         //@{
 
         Animation::Pointer horizontalAnimation( void ) const
-        { return horizontalData_.animation_; }
+        { return _horizontalData._animation; }
 
         const QRect& horizontalRect( void ) const
-        { return horizontalData_.rect_; }
+        { return _horizontalData._rect; }
 
         void setHorizontalRect( const QRect& r )
-        { horizontalData_.rect_ = r; }
+        { _horizontalData._rect = r; }
 
         qreal horizontalOpacity( void ) const
-        { return horizontalData_.opacity_; }
+        { return _horizontalData._opacity; }
 
         void setHorizontalOpacity( qreal value )
         {
 
             value = digitize( value );
-            if( horizontalData_.opacity_ == value ) return;
-            horizontalData_.opacity_ = value;
+            if( _horizontalData._opacity == value ) return;
+            _horizontalData._opacity = value;
             if( target() && !horizontalRect().isEmpty() ) target().data()->update( horizontalRect() );
 
         }
@@ -107,22 +107,22 @@ namespace Oxygen
         //@{
 
         Animation::Pointer verticalAnimation( void ) const
-        { return verticalData_.animation_; }
+        { return _verticalData._animation; }
 
         const QRect& verticalRect( void ) const
-        { return verticalData_.rect_; }
+        { return _verticalData._rect; }
 
         void setVerticalRect( const QRect& r )
-        { verticalData_.rect_ = r; }
+        { _verticalData._rect = r; }
 
         qreal verticalOpacity( void ) const
-        { return verticalData_.opacity_; }
+        { return _verticalData._opacity; }
 
         void setVerticalOpacity( qreal value )
         {
             value = digitize( value );
-            if( verticalData_.opacity_ == value ) return;
-            verticalData_.opacity_ = value;
+            if( _verticalData._opacity == value ) return;
+            _verticalData._opacity = value;
             if( target() && !verticalRect().isEmpty() ) target().data()->update( verticalRect() );
         }
 
@@ -139,29 +139,29 @@ namespace Oxygen
 
             //! constructor
             Data( void ):
-                opacity_( AnimationData::OpacityInvalid )
+                _opacity( AnimationData::OpacityInvalid )
                 {}
 
             //! true if is animated
             bool isAnimated( QRect r ) const
-            { return r == rect_ && animation_.data()->isRunning(); }
+            { return r == _rect && _animation.data()->isRunning(); }
 
             //! animation pointer
-            Animation::Pointer animation_;
+            Animation::Pointer _animation;
 
             //! opacity variable
-            qreal opacity_;
+            qreal _opacity;
 
             //! stores active separator rect
-            QRect rect_;
+            QRect _rect;
 
         };
 
         //! horizontal
-        Data horizontalData_;
+        Data _horizontalData;
 
         //! vertical
-        Data verticalData_;
+        Data _verticalData;
 
     };
 

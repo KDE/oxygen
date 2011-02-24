@@ -40,7 +40,7 @@ namespace Oxygen
     //______________________________________________
     bool SliderData::updateState( bool state )
     {
-        if( state == sliderHovered_ ) return false;
+        if( state == _sliderHovered ) return false;
         updateSlider( state ? QStyle::SC_SliderHandle : QStyle::SC_None );
         return true;
     }

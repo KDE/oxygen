@@ -45,7 +45,7 @@ namespace Oxygen
         //! constructor
         ToolBarEngine( QObject* parent ):
         BaseEngine( parent ),
-        followMouseDuration_( 150 )
+        _followMouseDuration( 150 )
         {}
 
         //! destructor
@@ -66,7 +66,7 @@ namespace Oxygen
 
         //! animation opacity
         virtual qreal opacity( const QObject* object )
-        { return isAnimated( object ) ? data_.find( object ).data()->opacity(): AnimationData::OpacityInvalid; }
+        { return isAnimated( object ) ? _data.find( object ).data()->opacity(): AnimationData::OpacityInvalid; }
 
         //! return 'hover' rect position when widget is animated
         virtual QRect currentRect( const QObject* );
@@ -81,25 +81,25 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         //! duration
         virtual int followMouseDuration( void ) const
-        { return followMouseDuration_; }
+        { return _followMouseDuration; }
 
         //! duration
         virtual void setFollowMouseDuration( int duration )
         {
-            followMouseDuration_ = duration;
-            foreach( const DataMap<ToolBarData>::Value& value, data_ )
+            _followMouseDuration = duration;
+            foreach( const DataMap<ToolBarData>::Value& value, _data )
             { if( value ) value.data()->setFollowMouseDuration( duration ); }
         }
 
@@ -107,15 +107,15 @@ namespace Oxygen
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! follow mouse animation duration
-        int followMouseDuration_;
+        int _followMouseDuration;
 
         //! data map
-        DataMap<ToolBarData> data_;
+        DataMap<ToolBarData> _data;
 
     };
 

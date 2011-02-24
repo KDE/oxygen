@@ -1,5 +1,5 @@
-#ifndef oxygenheaderviewdata_h
-#define oxygenheaderviewdata_h
+#ifndef oxygenheaderview_datah
+#define oxygenheaderview_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenheaderviewdata.h
@@ -67,28 +67,28 @@ namespace Oxygen
 
         //! current opacity
         virtual qreal currentOpacity( void ) const
-        { return current_.opacity_; }
+        { return _current._opacity; }
 
         //! current opacity
         virtual void setCurrentOpacity( qreal value )
         {
             value = digitize( value );
-            if( current_.opacity_ == value ) return;
-            current_.opacity_ = value;
+            if( _current._opacity == value ) return;
+            _current._opacity = value;
             setDirty();
         }
 
         //! current index
         virtual int currentIndex( void ) const
-        { return current_.index_; }
+        { return _current._index; }
 
         //! current index
         virtual void setCurrentIndex( int index )
-        { current_.index_ = index; }
+        { _current._index = index; }
 
         //! current index animation
         virtual const Animation::Pointer& currentIndexAnimation( void ) const
-        { return current_.animation_; }
+        { return _current._animation; }
 
         //@}
 
@@ -97,28 +97,28 @@ namespace Oxygen
 
         //! previous opacity
         virtual qreal previousOpacity( void ) const
-        { return previous_.opacity_; }
+        { return _previous._opacity; }
 
         //! previous opacity
         virtual void setPreviousOpacity( qreal value )
         {
             value = digitize( value );
-            if( previous_.opacity_ == value ) return;
-            previous_.opacity_ = value;
+            if( _previous._opacity == value ) return;
+            _previous._opacity = value;
             setDirty();
         }
 
         //! previous index
         virtual int previousIndex( void ) const
-        { return previous_.index_; }
+        { return _previous._index; }
 
         //! previous index
         virtual void setPreviousIndex( int index )
-        { previous_.index_ = index; }
+        { _previous._index = index; }
 
         //! previous index Animation
         virtual const Animation::Pointer& previousIndexAnimation( void ) const
-        { return previous_.animation_; }
+        { return _previous._animation; }
 
         //@}
 
@@ -142,20 +142,20 @@ namespace Oxygen
 
             //! default constructor
             Data( void ):
-                opacity_(0),
-                index_(-1)
+                _opacity(0),
+                _index(-1)
             {}
 
-            Animation::Pointer animation_;
-            qreal opacity_;
-            int index_;
+            Animation::Pointer _animation;
+            qreal _opacity;
+            int _index;
         };
 
         //! current tab animation data (for hover enter animations)
-        Data current_;
+        Data _current;
 
         //! previous tab animations data (for hover leave animations)
-        Data previous_;
+        Data _previous;
 
     };
 

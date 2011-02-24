@@ -43,8 +43,8 @@ namespace Oxygen
 
         target->installEventFilter( this );
 
-        addLineData_.animation_ = new Animation( duration, this );
-        subLineData_.animation_ = new Animation( duration, this );
+        _addLineData._animation = new Animation( duration, this );
+        _subLineData._animation = new Animation( duration, this );
 
         connect( addLineAnimation().data(), SIGNAL( finished( void ) ), SLOT( clearAddLineRect( void ) ) );
         connect( subLineAnimation().data(), SIGNAL( finished( void ) ), SLOT( clearSubLineRect( void ) ) );

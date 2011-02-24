@@ -39,7 +39,7 @@ namespace Oxygen
         if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new HeaderViewData( this, widget, duration() ), enabled() );
+        if( !_data.contains( widget ) ) _data.insert( widget, new HeaderViewData( this, widget, duration() ), enabled() );
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -50,7 +50,7 @@ namespace Oxygen
     //____________________________________________________________
     bool HeaderViewEngine::updateState( const QObject* object, const QPoint& position, bool value )
     {
-        DataMap<HeaderViewData>::Value data( data_.find( object ) );
+        DataMap<HeaderViewData>::Value data( _data.find( object ) );
         return ( data && data.data()->updateState( position, value ) );
     }
 

@@ -1,5 +1,5 @@
-#ifndef oxygenprogressbardata_h
-#define oxygenprogressbardata_h
+#ifndef oxygenprogressbar_datah
+#define oxygenprogressbar_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenprogressbardata.h
@@ -65,24 +65,24 @@ namespace Oxygen
         protected:
 
         const int& startValue( void ) const
-        { return startValue_; }
+        { return _startValue; }
 
         void setStartValue( int value )
-        { startValue_ = value; }
+        { _startValue = value; }
 
         const int& endValue( void ) const
-        { return endValue_; }
+        { return _endValue; }
 
         void setEndValue( int value )
-        { endValue_ = value; }
+        { _endValue = value; }
 
         private:
 
         //! animation starting value
-        int startValue_;
+        int _startValue;
 
         //! animation ending value
-        int endValue_;
+        int _endValue;
 
     };
 

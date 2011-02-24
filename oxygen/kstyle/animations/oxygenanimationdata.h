@@ -1,5 +1,5 @@
-#ifndef oxygenanimationdata_h
-#define oxygenanimationdata_h
+#ifndef oxygen_animationdatah
+#define oxygen_animationdatah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenanimationdata.h
@@ -50,9 +50,9 @@ namespace Oxygen
         //! constructor
         AnimationData( QObject* parent, QWidget* target ):
         QObject( parent ),
-        target_( target ),
-        enabled_( true )
-        { Q_ASSERT( target_ ); }
+        _target( target ),
+        _enabled( true )
+        { Q_ASSERT( _target ); }
 
         //! destructor
         virtual ~AnimationData( void )
@@ -63,19 +63,19 @@ namespace Oxygen
 
         //! steps
         static void setSteps( int value )
-        { steps_ = value; }
+        { _steps = value; }
 
         //! enability
         virtual bool enabled( void ) const
-        { return enabled_; }
+        { return _enabled; }
 
         //! enability
         virtual void setEnabled( bool value )
-        { enabled_ = value; }
+        { _enabled = value; }
 
         //! target
         const QWeakPointer<QWidget>& target( void ) const
-        { return target_; }
+        { return _target; }
 
         //! invalid opacity
         static qreal OpacityInvalid;
@@ -88,24 +88,24 @@ namespace Oxygen
         //! apply step
         virtual qreal digitize( const qreal& value ) const
         {
-            if( steps_ > 0 ) return std::floor( value*steps_ )/steps_;
+            if( _steps > 0 ) return std::floor( value*_steps )/_steps;
             else return value;
         }
 
         //! trigger target update
         virtual void setDirty( void ) const
-        { if( target_ ) target_.data()->update(); }
+        { if( _target ) _target.data()->update(); }
 
         private:
 
         //! guarded target
-        QWeakPointer<QWidget> target_;
+        QWeakPointer<QWidget> _target;
 
         //! enability
-        bool enabled_;
+        bool _enabled;
 
         //! steps
-        static int steps_;
+        static int _steps;
 
     };
 

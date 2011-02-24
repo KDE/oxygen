@@ -41,11 +41,11 @@ namespace Oxygen
 
         target->installEventFilter( this );
 
-        current_.animation_ = new Animation( duration, this );
+        _current._animation = new Animation( duration, this );
         setupAnimation( currentIndexAnimation(), "currentOpacity" );
         currentIndexAnimation().data()->setDirection( Animation::Forward );
 
-        previous_.animation_ = new Animation( duration, this );
+        _previous._animation = new Animation( duration, this );
         setupAnimation( previousIndexAnimation(), "previousOpacity" );
         previousIndexAnimation().data()->setDirection( Animation::Backward );
 

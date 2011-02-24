@@ -1,5 +1,5 @@
-#ifndef oxygenspinboxdata_h
-#define oxygenspinboxdata_h
+#ifndef oxygenspinbox_datah
+#define oxygenspinbox_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenspinboxdata.h
@@ -56,8 +56,8 @@ namespace Oxygen
         //! animation state
         virtual bool updateState( QStyle::SubControl subControl, bool value )
         {
-            if( subControl == QStyle::SC_SpinBoxUp ) return upArrowData_.updateState( value );
-            else if( subControl == QStyle::SC_SpinBoxDown ) return downArrowData_.updateState( value );
+            if( subControl == QStyle::SC_SpinBoxUp ) return _upArrowData.updateState( value );
+            else if( subControl == QStyle::SC_SpinBoxDown ) return _downArrowData.updateState( value );
             else return false;
         }
 
@@ -89,20 +89,20 @@ namespace Oxygen
 
         //! opacity
         qreal upArrowOpacity( void ) const
-        { return upArrowData_.opacity_; }
+        { return _upArrowData._opacity; }
 
         //! opacity
         void setUpArrowOpacity( qreal value )
         {
             value = digitize( value );
-            if( upArrowData_.opacity_ == value ) return;
-            upArrowData_.opacity_ = value;
+            if( _upArrowData._opacity == value ) return;
+            _upArrowData._opacity = value;
             setDirty();
         }
 
         //! animation
         Animation::Pointer upArrowAnimation( void ) const
-        { return upArrowData_.animation_; }
+        { return _upArrowData._animation; }
 
         //@}
 
@@ -111,20 +111,20 @@ namespace Oxygen
 
         //! opacity
         qreal downArrowOpacity( void ) const
-        { return downArrowData_.opacity_; }
+        { return _downArrowData._opacity; }
 
         //! opacity
         void setDownArrowOpacity( qreal value )
         {
             value = digitize( value );
-            if( downArrowData_.opacity_ == value ) return;
-            downArrowData_.opacity_ = value;
+            if( _downArrowData._opacity == value ) return;
+            _downArrowData._opacity = value;
             setDirty();
         }
 
         //! animation
         Animation::Pointer downArrowAnimation( void ) const
-        { return downArrowData_.animation_; }
+        { return _downArrowData._animation; }
 
         //@}
 
@@ -138,29 +138,29 @@ namespace Oxygen
 
             //! default constructor
             Data( void ):
-                state_( false ),
-                opacity_(0)
+                _state( false ),
+                _opacity(0)
                 {}
 
             //! state
             bool updateState( bool );
 
             //! arrow state
-            bool state_;
+            bool _state;
 
             //! animation
-            Animation::Pointer animation_;
+            Animation::Pointer _animation;
 
             //! opacity
-            qreal opacity_;
+            qreal _opacity;
 
         };
 
         //! up arrow data
-        Data upArrowData_;
+        Data _upArrowData;
 
         //! down arrow data
-        Data downArrowData_;
+        Data _downArrowData;
 
     };
 
