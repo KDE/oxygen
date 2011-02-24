@@ -18,7 +18,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QCheckBox" name="enableCheckBox_">
+    <widget class="QCheckBox" name="enableCheckBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -31,14 +31,14 @@
     </widget>
    </item>
    <item>
-    <widget class="KPushButton" name="configurationButton_">
+    <widget class="KPushButton" name="configurationButton">
      <property name="checkable">
       <bool>true</bool>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="KPushButton" name="descriptionButton_"/>
+    <widget class="KPushButton" name="descriptionButton"/>
    </item>
   </layout>
  </widget>

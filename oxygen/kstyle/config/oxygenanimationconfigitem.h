@@ -53,7 +53,7 @@ namespace Oxygen
 
         //! duration spin box
         QSpinBox* durationSpinBox( void ) const
-        { return ui.durationSpinBox_; }
+        { return ui.durationSpinBox; }
 
         private:
 
@@ -72,33 +72,33 @@ namespace Oxygen
         QFrame( parent )
         {
             ui.setupUi( this );
-            ui.followMouseDurationSpinBox_->setEnabled( false );
-            connect( ui.typeComboBox_, SIGNAL( currentIndexChanged( int ) ), SLOT( typeChanged( int ) ) );
+            ui.followMouseDurationSpinBox->setEnabled( false );
+            connect( ui.typeComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( typeChanged( int ) ) );
         }
 
         //! type ComboBox
         KComboBox* typeComboBox( void ) const
-        { return ui.typeComboBox_; }
+        { return ui.typeComboBox; }
 
         //! duration spin box
         QSpinBox* durationSpinBox( void ) const
-        { return ui.durationSpinBox_; }
+        { return ui.durationSpinBox; }
 
         //! duration spin box
         QLabel* durationLabel( void ) const
-        { return ui.durationLabel_; }
+        { return ui.durationLabel; }
 
         //! follow mouse duration spinbox
         QSpinBox* followMouseDurationSpinBox( void ) const
-        { return ui.followMouseDurationSpinBox_; }
+        { return ui.followMouseDurationSpinBox; }
 
         protected slots:
 
         //! type changed
         void typeChanged( int value )
         {
-            ui.followMouseDurationLabel_->setEnabled( value == 1 );
-            ui.followMouseDurationSpinBox_->setEnabled( value == 1 );
+            ui.followMouseDurationLabel->setEnabled( value == 1 );
+            ui.followMouseDurationSpinBox->setEnabled( value == 1 );
         }
 
         private:
@@ -119,30 +119,30 @@ namespace Oxygen
 
         //! title
         virtual void setTitle( const QString& value )
-        { ui.enableCheckBox_->setText( value ); }
+        { ui.enableCheckBox->setText( value ); }
 
         //! title
         virtual QString title( void ) const
-        { return ui.enableCheckBox_->text(); }
+        { return ui.enableCheckBox->text(); }
 
         //! description
         virtual void setDescription( const QString& value )
         {
-            description_ = value;
-            ui.descriptionButton_->setEnabled( !description_.isEmpty() );
+            _description = value;
+            ui.descriptionButton->setEnabled( !_description.isEmpty() );
         }
 
         //! description
         virtual const QString& description( void ) const
-        { return description_; }
+        { return _description; }
 
         //! enability
         virtual void setEnabled( const bool& value )
-        { ui.enableCheckBox_->setChecked( value ); }
+        { ui.enableCheckBox->setChecked( value ); }
 
         //! enability
         virtual bool enabled( void ) const
-        { return ui.enableCheckBox_->isChecked(); }
+        { return ui.enableCheckBox->isChecked(); }
 
         //! config widget
         virtual QWidget* configurationWidget( void ) const = 0;
@@ -152,7 +152,7 @@ namespace Oxygen
 
         //! configuration button
         KPushButton* configurationButton( void ) const
-        { return ui.configurationButton_; }
+        { return ui.configurationButton; }
 
         signals:
 
@@ -172,7 +172,7 @@ namespace Oxygen
         private:
 
         //! description
-        QString description_;
+        QString _description;
 
         //! ui
         Ui_AnimationConfigItem ui;
@@ -198,27 +198,27 @@ namespace Oxygen
         //! configuration widget
         virtual QWidget* configurationWidget( void ) const
         {
-            assert( configurationWidget_ );
-            return configurationWidget_.data();
+            assert( _configurationWidget );
+            return _configurationWidget.data();
         }
 
         //! duration
         virtual int duration( void ) const
-        { return (configurationWidget_) ? configurationWidget_.data()->durationSpinBox()->value():0; }
+        { return (_configurationWidget) ? _configurationWidget.data()->durationSpinBox()->value():0; }
 
         public slots:
 
         //! duration
         virtual void setDuration( int value )
         {
-            if( configurationWidget_ )
-            { configurationWidget_.data()->durationSpinBox()->setValue( value ); }
+            if( _configurationWidget )
+            { _configurationWidget.data()->durationSpinBox()->setValue( value ); }
         }
 
         private:
 
         //! configuration widget
-        QWeakPointer<GenericAnimationConfigBox> configurationWidget_;
+        QWeakPointer<GenericAnimationConfigBox> _configurationWidget;
 
     };
 
@@ -241,29 +241,29 @@ namespace Oxygen
         //! configuration widget
         virtual QWidget* configurationWidget( void ) const
         {
-            assert( configurationWidget_ );
-            return configurationWidget_.data();
+            assert( _configurationWidget );
+            return _configurationWidget.data();
         }
 
         //! type
         virtual int type( void ) const
-        { return (configurationWidget_) ? configurationWidget_.data()->typeComboBox()->currentIndex():0; }
+        { return (_configurationWidget) ? _configurationWidget.data()->typeComboBox()->currentIndex():0; }
 
         //! duration
         virtual int duration( void ) const
-        { return (configurationWidget_) ? configurationWidget_.data()->durationSpinBox()->value():0; }
+        { return (_configurationWidget) ? _configurationWidget.data()->durationSpinBox()->value():0; }
 
         //! duration
         virtual int followMouseDuration( void ) const
-        { return (configurationWidget_) ? configurationWidget_.data()->followMouseDurationSpinBox()->value():0; }
+        { return (_configurationWidget) ? _configurationWidget.data()->followMouseDurationSpinBox()->value():0; }
 
         //! hide duration spinbox
         virtual void hideDurationSpinBox( void )
         {
-            if( configurationWidget_ )
+            if( _configurationWidget )
             {
-                configurationWidget_.data()->durationLabel()->hide();
-                configurationWidget_.data()->durationSpinBox()->hide();
+                _configurationWidget.data()->durationLabel()->hide();
+                _configurationWidget.data()->durationSpinBox()->hide();
             }
         }
 
@@ -272,28 +272,28 @@ namespace Oxygen
         //! type
         virtual void setType( int value )
         {
-            if( configurationWidget_ )
-            { configurationWidget_.data()->typeComboBox()->setCurrentIndex( value ); }
+            if( _configurationWidget )
+            { _configurationWidget.data()->typeComboBox()->setCurrentIndex( value ); }
         }
 
         //! duration
         virtual void setDuration( int value )
         {
-            if( configurationWidget_ )
-            { configurationWidget_.data()->durationSpinBox()->setValue( value ); }
+            if( _configurationWidget )
+            { _configurationWidget.data()->durationSpinBox()->setValue( value ); }
         }
 
         //! follow mouse duration
         virtual void setFollowMouseDuration( int value )
         {
-            if( configurationWidget_ )
-            { configurationWidget_.data()->followMouseDurationSpinBox()->setValue( value ); }
+            if( _configurationWidget )
+            { _configurationWidget.data()->followMouseDurationSpinBox()->setValue( value ); }
         }
 
         private:
 
-       //! configuration widget
-        QWeakPointer<FollowMouseAnimationConfigBox> configurationWidget_;
+        //! configuration widget
+        QWeakPointer<FollowMouseAnimationConfigBox> _configurationWidget;
 
     };
 
