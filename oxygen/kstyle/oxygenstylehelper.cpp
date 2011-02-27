@@ -710,7 +710,7 @@ namespace Oxygen
         QLinearGradient bevelGradient1( 0, 2, 0, r2-2 );
         bevelGradient1.setColorAt( 0.2, dark );
         bevelGradient1.setColorAt( 0.5, mid );
-        bevelGradient1.setColorAt( 1.0, light );
+        bevelGradient1.setColorAt( 0.95, light );
         if( y < yl && y > yd )
         {
             // no middle when color is very light/dark
@@ -939,7 +939,8 @@ namespace Oxygen
 
             // hole inside
             p.setBrush( color );
-            p.drawEllipse( QRectF( 3.4,3.4,7.2,7.2 ) );
+            //p.drawEllipse( QRectF( 3.4,3.4,7.2,7.2 ) );
+            p.drawEllipse( QRectF( 3.7,3.7,6.6,6.6 ) );
 
             p.end();
 
