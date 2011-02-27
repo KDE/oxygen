@@ -939,7 +939,8 @@ namespace Oxygen
 
             // hole inside
             p.setBrush( color );
-            p.drawEllipse( QRectF( 3.4,3.4,7.2,7.2 ) );
+            //p.drawEllipse( QRectF( 3.4,3.4,7.2,7.2 ) );
+            p.drawEllipse( QRectF( 3.7,3.7,6.6,6.6 ) );
 
             p.end();
 
