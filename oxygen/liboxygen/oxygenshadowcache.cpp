@@ -33,6 +33,12 @@
 #include <QtGui/QPainter>
 #include <QtCore/QTextStream>
 
+#ifdef Q_WS_X11
+#include <QtGui/QX11Info>
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#endif
+
 namespace Oxygen
 {
 
@@ -49,6 +55,13 @@ namespace Oxygen
 
         setEnabled( true );
         setMaxIndex( 256 );
+
+        #ifdef Q_WS_X11
+
+        // create atom
+        _atom = XInternAtom( QX11Info::display(), "_KDE_NET_WM_SHADOW", False);
+
+        #endif
 
     }
 
@@ -161,6 +174,52 @@ namespace Oxygen
 
     }
 
+    //_______________________________________________________
+    void ShadowCache::installShadow( QWidget* widget, const Key& key )
+    {
+
+        /*!
+        shadow atom and property specification available at
+        http://community.kde.org/KWin/Shadow
+        */
+
+        #ifdef Q_WS_X11
+        #ifndef QT_NO_XRENDER
+        /*
+        directly from bespin code. Supposibly prevent playing with some 'pseudo-widgets'
+        that have winId matching some other -random- window
+        */
+        if( !(widget->testAttribute(Qt::WA_WState_Created) || widget->internalWinId() ))
+        { return; }
+
+        // get tileset
+        const TileSet& tiles( *tileSet( key ) );
+
+        // create data
+        // add pixmap handles
+        QVector<unsigned long> data;
+        data
+            << tiles.pixmap( 1 ).x11PictureHandle() // top
+            << tiles.pixmap( 2 ).x11PictureHandle() // top-right
+            << tiles.pixmap( 5 ).x11PictureHandle() // right
+            << tiles.pixmap( 8 ).x11PictureHandle() // bottom-right
+            << tiles.pixmap( 7 ).x11PictureHandle() // bottom
+            << tiles.pixmap( 6 ).x11PictureHandle() // bottom left
+            << tiles.pixmap( 3 ).x11PictureHandle() // left
+            << tiles.pixmap( 0 ).x11PictureHandle();
+
+        // add padding
+        /* all 4 paddings are identical, since offsets are handled when generating the pixmaps */
+        data << shadowSize() << shadowSize() << shadowSize() << shadowSize();
+
+        XChangeProperty(
+            QX11Info::display(), widget->winId(), _atom, XA_CARDINAL, 32, PropModeReplace,
+            reinterpret_cast<const unsigned char *>(data.constData()), data.size() );
+
+        #endif
+        #endif
+        return;
+    }
     //_______________________________________________________
     TileSet* ShadowCache::tileSet( Key key, qreal opacity )
     {

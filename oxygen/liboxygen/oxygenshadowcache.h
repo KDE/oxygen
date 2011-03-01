@@ -36,6 +36,10 @@
 #include <QtCore/QCache>
 #include <QtGui/QRadialGradient>
 
+#ifdef Q_WS_X11
+#include <X11/Xdefs.h>
+#endif
+
 namespace Oxygen
 {
 
@@ -169,6 +173,13 @@ namespace Oxygen
         //! get shadow matching client and opacity
         TileSet* tileSet( Key, qreal );
 
+        //! install shadow X11 property on given widget
+        /*!
+        shadow atom and property specification available at
+        http://community.kde.org/KWin/Shadow
+        */
+        void installShadow( QWidget*, const Key& = Key() );
+
         //! simple pixmap
         QPixmap shadowPixmap( const Key& key ) const
         { return shadowPixmap( key, key.active ); }
@@ -270,6 +281,11 @@ namespace Oxygen
 
         //! animated shadow cache
         TileSetCache _animatedShadowCache;
+
+        #ifdef Q_WS_X11
+        //! shadow atom
+        Atom _atom;
+        #endif
 
     };
 
