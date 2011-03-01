@@ -178,7 +178,14 @@ namespace Oxygen
         shadow atom and property specification available at
         http://community.kde.org/KWin/Shadow
         */
-        void installShadow( QWidget*, const Key& = Key() );
+        void installX11Shadows( QWidget*, const Key& = Key() );
+
+        //! install shadow X11 property on given widget
+        /*!
+        shadow atom and property specification available at
+        http://community.kde.org/KWin/Shadow
+        */
+        void uninstallX11Shadows( QWidget* ) const;
 
         //! simple pixmap
         QPixmap shadowPixmap( const Key& key ) const

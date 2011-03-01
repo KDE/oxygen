@@ -175,7 +175,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    void ShadowCache::installShadow( QWidget* widget, const Key& key )
+    void ShadowCache::installX11Shadows( QWidget* widget, const Key& key )
     {
 
         /*!
@@ -185,8 +185,14 @@ namespace Oxygen
 
         #ifdef Q_WS_X11
         #ifndef QT_NO_XRENDER
+
+        // check argument
+        if( !widget ) return;
+
+        // TODO: also check for NET_WM_SUPPORTED atom, before installing shadow
+
         /*
-        directly from bespin code. Supposibly prevent playing with some 'pseudo-widgets'
+        From bespin code. Supposibly prevent playing with some 'pseudo-widgets'
         that have winId matching some other -random- window
         */
         if( !(widget->testAttribute(Qt::WA_WState_Created) || widget->internalWinId() ))
@@ -220,6 +226,18 @@ namespace Oxygen
         #endif
         return;
     }
+
+    //_______________________________________________________
+    void ShadowCache::uninstallX11Shadows( QWidget* widget ) const
+    {
+
+        #ifdef Q_WS_X11
+        if( !widget ) return;
+        XDeleteProperty(QX11Info::display(), widget->winId(), _atom);
+        #endif
+
+    }
+
     //_______________________________________________________
     TileSet* ShadowCache::tileSet( Key key, qreal opacity )
     {
