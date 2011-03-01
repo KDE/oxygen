@@ -205,14 +205,14 @@ namespace Oxygen
         // add pixmap handles
         QVector<unsigned long> data;
         data
-            << tiles.pixmap( 1 ).x11PictureHandle() // top
-            << tiles.pixmap( 2 ).x11PictureHandle() // top-right
-            << tiles.pixmap( 5 ).x11PictureHandle() // right
-            << tiles.pixmap( 8 ).x11PictureHandle() // bottom-right
-            << tiles.pixmap( 7 ).x11PictureHandle() // bottom
-            << tiles.pixmap( 6 ).x11PictureHandle() // bottom left
-            << tiles.pixmap( 3 ).x11PictureHandle() // left
-            << tiles.pixmap( 0 ).x11PictureHandle();
+            << tiles.pixmap( 1 ).handle() // top
+            << tiles.pixmap( 2 ).handle() // top-right
+            << tiles.pixmap( 5 ).handle() // right
+            << tiles.pixmap( 8 ).handle() // bottom-right
+            << tiles.pixmap( 7 ).handle() // bottom
+            << tiles.pixmap( 6 ).handle() // bottom left
+            << tiles.pixmap( 3 ).handle() // left
+            << tiles.pixmap( 0 ).handle();
 
         // add padding
         /* all 4 paddings are identical, since offsets are handled when generating the pixmaps */
