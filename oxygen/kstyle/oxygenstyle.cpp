@@ -255,6 +255,7 @@ namespace Oxygen
             // set background as styled
             widget->setAttribute( Qt::WA_StyledBackground );
             widget->installEventFilter( _topLevelManager );
+
             break;
 
             case Qt::ToolTip:
@@ -270,9 +271,14 @@ namespace Oxygen
 
             break;
 
+            //
+
             default: break;
 
         }
+
+        if( qobject_cast<QMenu*>( widget ) || widget->inherits( "QComboBoxPrivateContainer" ) )
+        { shadowCache().installX11Shadows( widget ); }
 
         if(
             qobject_cast<QAbstractItemView*>( widget )
@@ -460,6 +466,7 @@ namespace Oxygen
         transitions().unregisterWidget( widget );
         windowManager().unregisterWidget( widget );
         frameShadowFactory().unregisterWidget( widget );
+        shadowCache().uninstallX11Shadows( widget );
 
         if( isKTextEditFrame( widget ) )
         { widget->setAttribute( Qt::WA_Hover, false  ); }
