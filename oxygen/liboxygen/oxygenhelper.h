@@ -197,10 +197,14 @@ namespace Oxygen
         //! render window background using a given color as a reference
         void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64 );
 
-        //! dots
-        void renderDot( QPainter*, const QPoint&, const QColor& );
+        //! background pixmap
+        void setBackgroundPixmap( const QPixmap& pixmap )
+        { _backgroundPixmap = pixmap; }
 
         //@}
+
+        //! dots
+        void renderDot( QPainter*, const QPoint&, const QColor& );
 
         bool lowThreshold( const QColor& color );
         bool highThreshold( const QColor& color );
@@ -343,6 +347,9 @@ namespace Oxygen
         typedef QMap<quint32, bool> ColorMap;
         ColorMap _highThreshold;
         ColorMap _lowThreshold;
+
+        //! background pixmap
+        QPixmap _backgroundPixmap;
 
         #ifdef Q_WS_X11
         //! argb hint atom
