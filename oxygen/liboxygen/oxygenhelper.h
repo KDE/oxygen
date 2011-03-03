@@ -201,6 +201,10 @@ namespace Oxygen
         void setBackgroundPixmap( const QPixmap& pixmap )
         { _backgroundPixmap = pixmap; }
 
+        //! offset
+        void setBackgroundPixmapOffset( const QPoint& offset )
+        { _backgroundPixmapOffset = offset; }
+
         //@}
 
         //! dots
@@ -350,6 +354,7 @@ namespace Oxygen
 
         //! background pixmap
         QPixmap _backgroundPixmap;
+        QPoint _backgroundPixmapOffset;
 
         #ifdef Q_WS_X11
         //! argb hint atom

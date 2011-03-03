@@ -184,7 +184,7 @@ namespace Oxygen
         if( !_backgroundPixmap.isNull() )
         {
             QRect source( -x, -y-y_shift, width, height );
-            if( y_shift > 0 ) source.translate( -30, 0 );
+            if( y_shift > 0 ) source.translate( -_backgroundPixmapOffset );
             p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
         }
 
