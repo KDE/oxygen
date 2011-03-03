@@ -51,7 +51,7 @@
 
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
-#include "oxygenshadowcache.h"
+#include "oxygenshadowhelper.h"
 #include "oxygenstyleconfigdata.h"
 #include "oxygentransitions.h"
 #include "oxygenwidgetexplorer.h"
@@ -155,7 +155,7 @@ namespace Oxygen
         _doubleButtonHeight( 28 ),
         _showMnemonics( true ),
         _helper( new StyleHelper( "oxygen" ) ),
-        _shadowCache( new ShadowCache( *_helper ) ),
+        _shadowHelper( new ShadowHelper( this, *_helper ) ),
         _animations( new Animations( this ) ),
         _transitions( new Transitions( this ) ),
         _windowManager( new WindowManager( this ) ),
@@ -201,7 +201,7 @@ namespace Oxygen
     //______________________________________________________________
     Style::~Style( void )
     {
-        delete _shadowCache;
+        delete _shadowHelper;
         delete _helper;
     }
 
@@ -215,6 +215,7 @@ namespace Oxygen
         transitions().registerWidget( widget );
         windowManager().registerWidget( widget );
         frameShadowFactory().registerWidget( widget, helper() );
+        shadowHelper().registerWidget( widget );
 
         // scroll areas
         if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) )
@@ -276,9 +277,6 @@ namespace Oxygen
             default: break;
 
         }
-
-        if( qobject_cast<QMenu*>( widget ) || widget->inherits( "QComboBoxPrivateContainer" ) )
-        { shadowCache().installX11Shadows( widget ); }
 
         if(
             qobject_cast<QAbstractItemView*>( widget )
@@ -466,7 +464,7 @@ namespace Oxygen
         transitions().unregisterWidget( widget );
         windowManager().unregisterWidget( widget );
         frameShadowFactory().unregisterWidget( widget );
-        shadowCache().uninstallX11Shadows( widget );
+        shadowHelper().unregisterWidget( widget );
 
         if( isKTextEditFrame( widget ) )
         { widget->setAttribute( Qt::WA_Hover, false  ); }
@@ -7815,13 +7813,11 @@ namespace Oxygen
 
         helper().setMaxCacheSize( cacheSize );
 
-        // shadow cache
-        shadowCache().readConfig( KConfig( "oxygenrc" ) );
-
         // reinitialize engines
         animations().setupEngines();
         transitions().setupEngines();
         windowManager().initialize();
+        shadowHelper().reloadConfig();
 
         // widget explorer
         widgetExplorer().setEnabled( StyleConfigData::widgetExplorerEnabled() );
