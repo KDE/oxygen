@@ -7809,7 +7809,8 @@ namespace Oxygen
         helper().setMaxCacheSize( cacheSize );
 
         // shadow cache
-        shadowCache().readConfig( KConfig( "oxygenrc" ) );
+        KConfig conf( "oxygenrc" );
+        shadowCache().readConfig( conf );
 
         // reinitialize engines
         animations().setupEngines();
