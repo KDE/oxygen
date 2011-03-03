@@ -923,11 +923,11 @@ namespace Oxygen
         //! helper
         StyleHelper* _helper;
 
-        //! animations
-        Animations* _animations;
-
         //! shadow helper
         ShadowHelper* _shadowHelper;
+
+        //! animations
+        Animations* _animations;
 
         //! transitions
         Transitions* _transitions;
