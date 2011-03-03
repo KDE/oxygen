@@ -3,6 +3,15 @@
 <kcfg> 
   <kcfgfile name="oxygenrc"/> 
 
+  <group name="Common"> 
+
+    <!-- background opacity -->
+    <entry name="BackgroundPixmap" type = "Path" >
+       <default></default>
+    </entry>
+
+  </group>
+
   <!-- widget style -->
   <group name="Style"> 
     

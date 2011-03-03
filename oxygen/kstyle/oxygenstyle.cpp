@@ -172,11 +172,6 @@ namespace Oxygen
 
     {
 
-        // background pixmap
-        QPixmap pixmap;
-        pixmap.load( "/home/hpereira/Pictures/Wallpapers/window.ornate.png" );
-        helper().setBackgroundPixmap( pixmap );
-
         // use DBus connection to update on oxygen configuration change
         QDBusConnection dbus = QDBusConnection::sessionBus();
         dbus.connect( QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT( oxygenConfigurationChanged( void ) ) );
@@ -7810,6 +7805,9 @@ namespace Oxygen
 
         // reset helper configuration
         helper().reloadConfig();
+
+        // background pixmap
+        helper().setBackgroundPixmap( StyleConfigData::backgroundPixmap() );
 
         // reset config
         StyleConfigData::self()->readConfig();
