@@ -183,13 +183,11 @@ namespace Oxygen
         // background pixmap
         if( !_backgroundPixmap.isNull() )
         {
-            QRect source( -x, -y-y_shift, width, height );
-            if( y_shift > 0 )
-            {
-                source.adjust(
-                    -_backgroundPixmapOffset.x(), -_backgroundPixmapOffset.y(),
-                    _backgroundPixmapOffset.x(), _backgroundPixmapOffset.y());
-            }
+            QRect source( 0, 0, width, height );
+
+            source.adjust(
+                -_backgroundPixmapOffset.x(), -_backgroundPixmapOffset.y(),
+                _backgroundPixmapOffset.x(), _backgroundPixmapOffset.y());
 
             p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
         }
