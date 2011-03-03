@@ -180,6 +180,14 @@ namespace Oxygen
             p->drawPixmap( radialRect, tile );
         }
 
+        // background pixmap
+        if( !_backgroundPixmap.isNull() )
+        {
+            QRect source( -x, -y-y_shift, width, height );
+            if( y_shift > 0 ) source.translate( -30, 0 );
+            p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
+        }
+
         if ( clipRect.isValid() )
         { p->restore(); }
     }
