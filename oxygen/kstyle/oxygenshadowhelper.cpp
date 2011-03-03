@@ -46,6 +46,7 @@ namespace Oxygen
 
     //_____________________________________________________
     ShadowHelper::ShadowHelper( QObject* parent, Helper& helper ):
+        QObject( parent ),
         _shadowCache( new ShadowCache( helper ) ),
         _shadowSize( 0 ),
         _atom( None )
@@ -79,8 +80,8 @@ namespace Oxygen
         if( _widgets.contains( widget ) ) return false;
 
         // check widget type
-        // if( !( qobject_cast<QMenu*>( widget ) || widget->inherits( "QComboBoxPrivateContainer" ) ) )
-        // { return false; }
+        if( !( qobject_cast<QMenu*>( widget ) || widget->inherits( "QComboBoxPrivateContainer" ) ) )
+        { return false; }
 
         // install pixmaps
         if( !installX11Shadows( widget ) ) return false;

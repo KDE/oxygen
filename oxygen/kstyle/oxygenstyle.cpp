@@ -200,10 +200,7 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::~Style( void )
-    {
-        delete _shadowHelper;
-        delete _helper;
-    }
+    { delete _helper; }
 
     //______________________________________________________________
     void Style::polish( QWidget* widget )
