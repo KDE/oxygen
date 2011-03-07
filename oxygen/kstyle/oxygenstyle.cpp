@@ -51,7 +51,6 @@
 
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
-#include "oxygenshadowcache.h"
 #include "oxygenstyleconfigdata.h"
 #include "oxygentransitions.h"
 #include "oxygenwidgetexplorer.h"
@@ -155,7 +154,6 @@ namespace Oxygen
         _doubleButtonHeight( 28 ),
         _showMnemonics( true ),
         _helper( new StyleHelper( "oxygen" ) ),
-        _shadowCache( new ShadowCache( *_helper ) ),
         _animations( new Animations( this ) ),
         _transitions( new Transitions( this ) ),
         _windowManager( new WindowManager( this ) ),
@@ -201,7 +199,6 @@ namespace Oxygen
     //______________________________________________________________
     Style::~Style( void )
     {
-        delete _shadowCache;
         delete _helper;
     }
 
@@ -7805,10 +7802,6 @@ namespace Oxygen
             StyleConfigData::maxCacheSize():0 );
 
         helper().setMaxCacheSize( cacheSize );
-
-        // shadow cache
-        KConfig conf( "oxygenrc" );
-        shadowCache().readConfig( conf );
 
         // reinitialize engines
         animations().setupEngines();
