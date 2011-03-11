@@ -296,11 +296,14 @@ namespace Oxygen
         //!@name pixmap caches
         //@{
         typedef BaseCache<QPixmap> PixmapCache;
-        PixmapCache m_windecoButtonCache;
-        PixmapCache m_windecoButtonGlowCache;
+        PixmapCache& windecoButtonCache( void )
+        { return _windecoButtonCache; }
+
+        PixmapCache& windecoButtonGlowCache( void )
+        { return _windecoButtonGlowCache; }
         //@}
 
-        Oxygen::Cache<TileSet> m_slabCache;
+        Oxygen::Cache<TileSet> _slabCache;
 
         //! shortcut to color caches
         /*! it is made protected because it is also used in the style helper */
@@ -321,23 +324,25 @@ namespace Oxygen
 
         //!@name color caches
         //@{
-        ColorCache m_decoColorCache;
-        ColorCache m_lightColorCache;
-        ColorCache m_darkColorCache;
-        ColorCache m_shadowColorCache;
-        ColorCache m_backgroundTopColorCache;
-        ColorCache m_backgroundBottomColorCache;
-        ColorCache m_backgroundRadialColorCache;
-        ColorCache m_backgroundColorCache;
+        ColorCache _decoColorCache;
+        ColorCache _lightColorCache;
+        ColorCache _darkColorCache;
+        ColorCache _shadowColorCache;
+        ColorCache _backgroundTopColorCache;
+        ColorCache _backgroundBottomColorCache;
+        ColorCache _backgroundRadialColorCache;
+        ColorCache _backgroundColorCache;
         //@}
 
-        PixmapCache m_backgroundCache;
-        PixmapCache m_dotCache;
+        PixmapCache _windecoButtonCache;
+        PixmapCache _windecoButtonGlowCache;
+        PixmapCache _backgroundCache;
+        PixmapCache _dotCache;
 
         //! high threshold colors
         typedef QMap<quint32, bool> ColorMap;
-        ColorMap m_highThreshold;
-        ColorMap m_lowThreshold;
+        ColorMap _highThreshold;
+        ColorMap _lowThreshold;
 
         #ifdef Q_WS_X11
         //! argb hint atom

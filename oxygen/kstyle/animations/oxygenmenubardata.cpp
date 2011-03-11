@@ -38,11 +38,11 @@ namespace Oxygen
         target->installEventFilter( this );
 
         // setup timeLine
-        current_.animation_ = new Animation( duration, this );
+        _current._animation = new Animation( duration, this );
         setupAnimation( currentAnimation(), "currentOpacity" );
         currentAnimation().data()->setDirection( Animation::Forward );
 
-        previous_.animation_ = new Animation( duration, this );
+        _previous._animation = new Animation( duration, this );
         setupAnimation( previousAnimation(), "previousOpacity" );
         previousAnimation().data()->setDirection( Animation::Backward );
 
@@ -106,21 +106,21 @@ namespace Oxygen
     //______________________________________________
     MenuBarDataV2::MenuBarDataV2( QObject* parent, QWidget* target, int duration ):
         AnimationData( parent, target ),
-        opacity_(0),
-        progress_(0),
-        entered_( true )
+        _opacity(0),
+        _progress(0),
+        _entered( true )
     {
 
         target->installEventFilter( this );
 
-        animation_ = new Animation( duration, this );
+        _animation = new Animation( duration, this );
         animation().data()->setDirection( Animation::Forward );
         animation().data()->setStartValue( 0.0 );
         animation().data()->setEndValue( 1.0 );
         animation().data()->setTargetObject( this );
         animation().data()->setPropertyName( "opacity" );
 
-        progressAnimation_ = new Animation( duration, this );
+        _progressAnimation = new Animation( duration, this );
         progressAnimation().data()->setDirection( Animation::Forward );
         progressAnimation().data()->setStartValue( 0 );
         progressAnimation().data()->setEndValue( 1 );
@@ -151,8 +151,8 @@ namespace Oxygen
             case QEvent::Leave:
             {
                 object->event( event );
-                if( timer_.isActive() ) timer_.stop();
-                timer_.start( 100, this );
+                if( _timer.isActive() ) _timer.stop();
+                _timer.start( 100, this );
                 break;
             }
 
@@ -179,15 +179,15 @@ namespace Oxygen
         // check rect validity
         if( !( currentRect().isValid() && previousRect().isValid() ) )
         {
-            animatedRect_ = QRect();
+            _animatedRect = QRect();
             return;
         }
 
         // compute rect located 'between' previous and current
-        animatedRect_.setLeft( previousRect().left() + progress()*(currentRect().left() - previousRect().left()) );
-        animatedRect_.setRight( previousRect().right() + progress()*(currentRect().right() - previousRect().right()) );
-        animatedRect_.setTop( previousRect().top() + progress()*(currentRect().top() - previousRect().top()) );
-        animatedRect_.setBottom( previousRect().bottom() + progress()*(currentRect().bottom() - previousRect().bottom()) );
+        _animatedRect.setLeft( previousRect().left() + progress()*(currentRect().left() - previousRect().left()) );
+        _animatedRect.setRight( previousRect().right() + progress()*(currentRect().right() - previousRect().right()) );
+        _animatedRect.setTop( previousRect().top() + progress()*(currentRect().top() - previousRect().top()) );
+        _animatedRect.setBottom( previousRect().bottom() + progress()*(currentRect().bottom() - previousRect().bottom()) );
 
         // trigger update
         setDirty();
@@ -200,8 +200,8 @@ namespace Oxygen
     void MenuBarDataV2::timerEvent( QTimerEvent *event )
     {
 
-        if( event->timerId() != timer_.timerId() ) return AnimationData::timerEvent( event );
-        timer_.stop();
+        if( event->timerId() != _timer.timerId() ) return AnimationData::timerEvent( event );
+        _timer.stop();
         leaveEvent( target().data() );
     }
 

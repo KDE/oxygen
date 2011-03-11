@@ -55,14 +55,14 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         //! register widget
@@ -88,7 +88,7 @@ namespace Oxygen
 
             // reinterpret_cast is safe here since only the address is used to find
             // data in the map
-            return data_.unregisterWidget( reinterpret_cast<QPaintDevice*>(data) );
+            return _data.unregisterWidget( reinterpret_cast<QPaintDevice*>(data) );
 
         }
 
@@ -96,18 +96,18 @@ namespace Oxygen
 
         //! returns data associated to widget
         PaintDeviceDataMap<WidgetStateData>::Value data( const QPaintDevice* object )
-        { return data_.find( object ).data(); }
+        { return _data.find( object ).data(); }
 
         private:
 
         //! engine enability
-        bool enabled_;
+        bool _enabled;
 
         //! animation duration
-        int duration_;
+        int _duration;
 
         //! map
-        PaintDeviceDataMap<WidgetStateData> data_;
+        PaintDeviceDataMap<WidgetStateData> _data;
 
     };
 

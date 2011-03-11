@@ -52,11 +52,11 @@ namespace Oxygen
 
         //! enability
         virtual void setEnabled( bool value )
-        { enabled_ = value; }
+        { _enabled = value; }
 
         //! enability
         virtual bool enabled( void ) const
-        { return enabled_; }
+        { return _enabled; }
 
         //! duration
         virtual void setDuration( int duration )
@@ -64,22 +64,22 @@ namespace Oxygen
 
         //! max render time
         void setMaxRenderTime( int value )
-        { maxRenderTime_ = value; }
+        { _maxRenderTime = value; }
 
         //! max renderTime
         const int& maxRenderTime( void ) const
-        { return maxRenderTime_; }
+        { return _maxRenderTime; }
 
         //! start clock
         void startClock( void )
         {
-            if( clock_.isNull() ) clock_.start();
-            else clock_.restart();
+            if( _clock.isNull() ) _clock.start();
+            else _clock.restart();
         }
 
         //! check if rendering is two slow
         bool slow( void ) const
-        { return !( clock_.isNull() || clock_.elapsed() <= maxRenderTime() ); }
+        { return !( _clock.isNull() || _clock.elapsed() <= maxRenderTime() ); }
 
         protected slots:
 
@@ -100,33 +100,33 @@ namespace Oxygen
 
         //! transition widget
         virtual const TransitionWidget::Pointer& transition( void ) const
-        { return transition_; }
+        { return _transition; }
 
         //! used to avoid recursion when grabbing widgets
         void setRecursiveCheck( bool value )
-        { recursiveCheck_ = value; }
+        { _recursiveCheck = value; }
 
         //! used to avoid recursion when grabbing widgets
         bool recursiveCheck( void ) const
-        { return recursiveCheck_; }
+        { return _recursiveCheck; }
 
         private:
 
         //! enability
-        bool enabled_;
+        bool _enabled;
 
         //! used to avoid recursion when grabbing widgets
-        bool recursiveCheck_;
+        bool _recursiveCheck;
 
         //! timer used to detect slow rendering
-        QTime clock_;
+        QTime _clock;
 
         //! max render time
         /*! used to detect slow rendering */
-        int maxRenderTime_;
+        int _maxRenderTime;
 
         //! animation handling
-        TransitionWidget::Pointer transition_;
+        TransitionWidget::Pointer _transition;
 
     };
 

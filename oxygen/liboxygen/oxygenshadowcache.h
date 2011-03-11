@@ -1,5 +1,5 @@
-#ifndef oxygenshadowcache_h
-#define oxygenshadowcache_h
+#ifndef oxygen_shadowCacheh
+#define oxygen_shadowCacheh
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenshadowcache.h
@@ -28,57 +28,63 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenshadowconfiguration.h"
-#include "oxygendecohelper.h"
+#include "oxygenhelper.h"
+#include "oxygen_export.h"
 
 #include <cmath>
+#include <KConfig>
 #include <QtCore/QCache>
 #include <QtGui/QRadialGradient>
 
 namespace Oxygen
 {
 
-    class ShadowCache
+    class OXYGEN_EXPORT ShadowCache
     {
         public:
 
         //! constructor
-        ShadowCache( DecoHelper& );
+        ShadowCache( Helper& );
 
         //! destructor
         virtual ~ShadowCache( void )
         {}
 
+        //! read configuration from KConfig
+        /*! returns true if changed */
+        bool readConfig( const KConfig& );
+
         //! cache size
         void setEnabled( bool enabled )
         {
-            enabled_ = enabled;
+            _enabled = enabled;
             if( enabled )
             {
 
-                shadowCache_.setMaxCost( 1<<6 );
-                animatedShadowCache_.setMaxCost( maxIndex_<<6 );
+                _shadowCache.setMaxCost( 1<<6 );
+                _animatedShadowCache.setMaxCost( _maxIndex<<6 );
 
             } else {
 
-                shadowCache_.setMaxCost( 1 );
-                animatedShadowCache_.setMaxCost( 1 );
+                _shadowCache.setMaxCost( 1 );
+                _animatedShadowCache.setMaxCost( 1 );
 
             }
         }
 
         //! max animation index
         int maxIndex( void ) const
-        { return maxIndex_; }
+        { return _maxIndex; }
 
         //! max animation index
         void setMaxIndex( int value )
         {
-            maxIndex_ = value;
-            if( enabled_ )
+            _maxIndex = value;
+            if( _enabled )
             {
 
-                shadowCache_.setMaxCost( 1<<6 );
-                animatedShadowCache_.setMaxCost( maxIndex_<<6 );
+                _shadowCache.setMaxCost( 1<<6 );
+                _animatedShadowCache.setMaxCost( _maxIndex<<6 );
 
             }
 
@@ -87,8 +93,8 @@ namespace Oxygen
         //! invalidate caches
         void invalidateCaches( void )
         {
-            shadowCache_.clear();
-            animatedShadowCache_.clear();
+            _shadowCache.clear();
+            _animatedShadowCache.clear();
         }
 
         //! returns true if provided shadow configuration changes with respect to stored
@@ -108,8 +114,8 @@ namespace Oxygen
         //! shadow size
         qreal shadowSize( void ) const
         {
-            qreal activeSize( activeShadowConfiguration_.isEnabled() ? activeShadowConfiguration_.shadowSize():0 );
-            qreal inactiveSize( inactiveShadowConfiguration_.isEnabled() ? inactiveShadowConfiguration_.shadowSize():0 );
+            qreal activeSize( _activeShadowConfiguration.isEnabled() ? _activeShadowConfiguration.shadowSize():0 );
+            qreal inactiveSize( _inactiveShadowConfiguration.isEnabled() ? _inactiveShadowConfiguration.shadowSize():0 );
 
             // even if shadows are disabled,
             return qMax( activeSize, inactiveSize );
@@ -172,8 +178,8 @@ namespace Oxygen
 
         protected:
 
-        DecoHelper& helper( void ) const
-        { return helper_; }
+        Helper& helper( void ) const
+        { return _helper; }
 
         //! square utility function
         static qreal square( qreal x )
@@ -238,32 +244,32 @@ namespace Oxygen
         private:
 
         //! helper
-        DecoHelper& helper_;
+        Helper& _helper;
 
         //! defines overlap between shadows and body
         enum { overlap = 4 };
 
         //! caching enable state
-        bool enabled_;
+        bool _enabled;
 
         //! max index
         /*! it is used to set caches max cost, and calculate animation opacity */
-        int maxIndex_;
+        int _maxIndex;
 
         //! shadow configuration
-        ShadowConfiguration activeShadowConfiguration_;
+        ShadowConfiguration _activeShadowConfiguration;
 
         //! shadow configuration
-        ShadowConfiguration inactiveShadowConfiguration_;
+        ShadowConfiguration _inactiveShadowConfiguration;
 
         //! cache
         typedef QCache<int, TileSet> TileSetCache;
 
         //! shadow cache
-        TileSetCache shadowCache_;
+        TileSetCache _shadowCache;
 
         //! animated shadow cache
-        TileSetCache animatedShadowCache_;
+        TileSetCache _animatedShadowCache;
 
     };
 

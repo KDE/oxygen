@@ -50,7 +50,7 @@ namespace Oxygen
 
         //! true if changed
         virtual bool isChanged( void ) const
-        { return changed_; }
+        { return _changed; }
 
         signals:
 
@@ -83,27 +83,27 @@ namespace Oxygen
         //! set changed state
         virtual void setChanged( bool value )
         {
-            changed_ = value;
+            _changed = value;
             emit changed( value );
         }
 
         private:
 
         //! changed state
-        bool changed_;
+        bool _changed;
 
         Ui_AnimationConfigWidget ui;
 
-        GenericAnimationConfigItem* genericAnimations_;
-        GenericAnimationConfigItem* progressBarAnimations_;
-        GenericAnimationConfigItem* progressBarBusyAnimations_;
-        GenericAnimationConfigItem* stackedWidgetAnimations_;
-        GenericAnimationConfigItem* labelAnimations_;
-        GenericAnimationConfigItem* lineEditAnimations_;
-        GenericAnimationConfigItem* comboBoxAnimations_;
-        FollowMouseAnimationConfigItem* toolBarAnimations_;
-        FollowMouseAnimationConfigItem* menuBarAnimations_;
-        FollowMouseAnimationConfigItem* menuAnimations_;
+        GenericAnimationConfigItem* _genericAnimations;
+        GenericAnimationConfigItem* _progressBarAnimations;
+        GenericAnimationConfigItem* _progressBarBusyAnimations;
+        GenericAnimationConfigItem* _stackedWidgetAnimations;
+        GenericAnimationConfigItem* _labelAnimations;
+        GenericAnimationConfigItem* _lineEditAnimations;
+        GenericAnimationConfigItem* _comboBoxAnimations;
+        FollowMouseAnimationConfigItem* _toolBarAnimations;
+        FollowMouseAnimationConfigItem* _menuBarAnimations;
+        FollowMouseAnimationConfigItem* _menuAnimations;
 
         //! grid running row. Used for layout
         int row_;

@@ -150,7 +150,7 @@ namespace Oxygen
         const T* local = qobject_cast<const T*>( object );
         if( !local ) return;
 
-        if( timer_.isActive() ) timer_.stop();
+        if( _timer.isActive() ) _timer.stop();
 
         // if the current action is still active, one does nothing
         if( currentAction() && local->activeAction() == currentAction().data() ) return;
@@ -213,7 +213,7 @@ namespace Oxygen
         if( local->activeAction() && local->activeAction()->isEnabled() && !local->activeAction()->isSeparator())
         {
 
-            if( timer_.isActive() ) timer_.stop();
+            if( _timer.isActive() ) _timer.stop();
 
             QAction* activeAction( local->activeAction() );
 
@@ -232,7 +232,7 @@ namespace Oxygen
                     // is unchanged after currentRect is updated
                     // this prevents from having jumps in the animation
                     qreal ratio = progress()/(1.0-progress());
-                    previousRect_.adjust(
+                    _previousRect.adjust(
                         ratio*( currentRect().left() - activeRect.left() ),
                         ratio*( currentRect().top() - activeRect.top() ),
                         ratio*( currentRect().right() - activeRect.right() ),
@@ -251,10 +251,10 @@ namespace Oxygen
                 // update current action
                 setCurrentAction( activeAction );
                 setCurrentRect( activeRect );
-                if( !entered_ )
+                if( !_entered )
                 {
 
-                    entered_ = true;
+                    _entered = true;
                     if( animation().data()->isRunning() ) animation().data()->stop();
                     if( !progressAnimation().data()->isRunning() ) progressAnimation().data()->start();
 
@@ -271,7 +271,7 @@ namespace Oxygen
 
         } else if( currentAction() ) {
 
-            timer_.start( 150, this );
+            _timer.start( 150, this );
 
         }
 

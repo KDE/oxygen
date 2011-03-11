@@ -58,26 +58,26 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         public slots:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! maps
-        DataMap<LineEditData> data_;
+        DataMap<LineEditData> _data;
 
     };
 

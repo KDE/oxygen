@@ -34,8 +34,8 @@ namespace Oxygen
     SpinBoxData::SpinBoxData( QObject* parent, QWidget* target, int duration ):
         AnimationData( parent, target )
     {
-        upArrowData_.animation_ = new Animation( duration, this );
-        downArrowData_.animation_ = new Animation( duration, this );
+        _upArrowData._animation = new Animation( duration, this );
+        _downArrowData._animation = new Animation( duration, this );
         setupAnimation( upArrowAnimation(), "upArrowOpacity" );
         setupAnimation( downArrowAnimation(), "downArrowOpacity" );
     }
@@ -43,12 +43,12 @@ namespace Oxygen
     //______________________________________________
     bool SpinBoxData::Data::updateState( bool value )
     {
-        if( state_ == value ) return false;
+        if( _state == value ) return false;
         else {
 
-            state_ = value;
-            animation_.data()->setDirection( state_ ? Animation::Forward : Animation::Backward );
-            if( !animation_.data()->isRunning() ) animation_.data()->start();
+            _state = value;
+            _animation.data()->setDirection( _state ? Animation::Forward : Animation::Backward );
+            if( !_animation.data()->isRunning() ) _animation.data()->start();
             return true;
 
         }

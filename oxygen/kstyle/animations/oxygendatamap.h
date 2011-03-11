@@ -49,8 +49,8 @@ namespace Oxygen
         //! constructor
         BaseDataMap( void ):
             QMap<Key, Value>(),
-            enabled_( true ),
-            lastKey_( NULL )
+            _enabled( true ),
+            _lastKey( NULL )
         {}
 
         //! destructor
@@ -68,13 +68,13 @@ namespace Oxygen
         Value find( Key key )
         {
             if( !( enabled() && key ) ) return Value();
-            if( key == lastKey_ ) return lastValue_;
+            if( key == _lastKey ) return _lastValue;
             else {
                 Value out;
                 typename QMap<Key, Value>::iterator iter( QMap<Key, Value>::find( key ) );
                 if( iter != QMap<Key, Value>::end() ) out = iter.value();
-                lastKey_ = key;
-                lastValue_ = out;
+                _lastKey = key;
+                _lastValue = out;
                 return out;
             }
         }
@@ -87,11 +87,11 @@ namespace Oxygen
             if( !key ) return false;
 
             // clear last value if needed
-            if( key == lastKey_ )
+            if( key == _lastKey )
             {
 
-                if( lastValue_ ) lastValue_.clear();
-                lastKey_ = NULL;
+                if( _lastValue ) _lastValue.clear();
+                _lastKey = NULL;
 
             }
 
@@ -110,14 +110,14 @@ namespace Oxygen
         //! maxFrame
         void setEnabled( bool enabled )
         {
-            enabled_ = enabled;
+            _enabled = enabled;
             foreach( const Value& value, *this )
             { if( value ) value.data()->setEnabled( enabled ); }
         }
 
         //! enability
         bool enabled( void ) const
-        { return enabled_; }
+        { return _enabled; }
 
         //! duration
         void setDuration( int duration ) const
@@ -129,13 +129,13 @@ namespace Oxygen
         private:
 
         //! enability
-        bool enabled_;
+        bool _enabled;
 
         //! last key
-        Key lastKey_;
+        Key _lastKey;
 
         //! last value
-        Value lastValue_;
+        Value _lastValue;
 
     };
 

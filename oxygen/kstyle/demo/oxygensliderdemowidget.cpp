@@ -36,7 +36,7 @@ namespace Oxygen
     //_____________________________________________________________
     SliderDemoWidget::SliderDemoWidget( QWidget* parent ):
         DemoWidget( parent ),
-        locked_( false )
+        _locked( false )
     {
 
         ui.setupUi( this );
@@ -77,8 +77,8 @@ namespace Oxygen
     //_____________________________________________________________
     void SliderDemoWidget::updateSliders( int value )
     {
-        if( locked_ ) return;
-        locked_ = true;
+        if( _locked ) return;
+        _locked = true;
         ui.horizontalSlider->setValue( value );
         ui.verticalSlider->setValue( value );
         ui.progressBar->setValue( value );
@@ -86,6 +86,6 @@ namespace Oxygen
         ui.horizontalScrollBar->setValue( value );
         ui.verticalScrollBar->setValue( value );
         ui.dial->setValue( value );
-        locked_ = false;
+        _locked = false;
     }
 }

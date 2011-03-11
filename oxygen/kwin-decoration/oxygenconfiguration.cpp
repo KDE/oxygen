@@ -25,6 +25,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenconfiguration.h"
+#include "oxygenshadowconfiguration.h"
 #include "oxygenexception.h"
 
 #include <QTextStream>
@@ -35,24 +36,24 @@ namespace Oxygen
 
     //__________________________________________________
     Configuration::Configuration( void ):
-        titleAlignment_( Qt::AlignHCenter ),
-        centerTitleOnFullWidth_( true ),
-        buttonSize_( ButtonDefault ),
-        frameBorder_( BorderTiny ),
-        blendColor_( BlendFromStyle ),
-        sizeGripMode_( SizeGripWhenNeeded ),
-        separatorMode_( SeparatorNever ),
-        drawTitleOutline_( false ),
-        hideTitleBar_( false ),
-        useDropShadows_( true ),
-        useOxygenShadows_( true ),
-        useAnimations_( true ),
-        animateTitleChange_( true ),
-        animationsDuration_( 150 ),
-        tabsEnabled_( true ),
-        useNarrowButtonSpacing_( false ),
-        shadowMode_( OxygenShadows ),
-        shadowCacheMode_( CacheVariable )
+        _titleAlignment( Qt::AlignHCenter ),
+        _centerTitleOnFullWidth( true ),
+        _buttonSize( ButtonDefault ),
+        _frameBorder( BorderTiny ),
+        _blendColor( BlendFromStyle ),
+        _sizeGripMode( SizeGripWhenNeeded ),
+        _separatorMode( SeparatorNever ),
+        _drawTitleOutline( false ),
+        _hideTitleBar( false ),
+        _useDropShadows( true ),
+        _useOxygenShadows( true ),
+        _useAnimations( true ),
+        _animateTitleChange( true ),
+        _animationsDuration( 150 ),
+        _tabsEnabled( true ),
+        _useNarrowButtonSpacing( false ),
+        _shadowMode( OxygenShadows ),
+        _shadowCacheMode( CacheVariable )
     {}
 
     //__________________________________________________

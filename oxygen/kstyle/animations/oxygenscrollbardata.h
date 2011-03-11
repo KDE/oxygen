@@ -1,5 +1,5 @@
-#ifndef oxygenscrollbardata_h
-#define oxygenscrollbardata_h
+#ifndef oxygenscrollbar_datah
+#define oxygenscrollbar_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenscrollbardata.h
@@ -80,8 +80,8 @@ namespace Oxygen
         {
             switch( control )
             {
-                case QStyle::SC_ScrollBarAddLine: return addLineData_.rect_;
-                case QStyle::SC_ScrollBarSubLine: return subLineData_.rect_;
+                case QStyle::SC_ScrollBarAddLine: return _addLineData._rect;
+                case QStyle::SC_ScrollBarSubLine: return _subLineData._rect;
                 default: return QRect();
             }
         }
@@ -93,11 +93,11 @@ namespace Oxygen
             switch( control )
             {
                 case QStyle::SC_ScrollBarAddLine:
-                addLineData_.rect_ = rect;
+                _addLineData._rect = rect;
                 break;
 
                 case QStyle::SC_ScrollBarSubLine:
-                subLineData_.rect_ = rect;
+                _subLineData._rect = rect;
                 break;
 
                 default: break;
@@ -116,27 +116,27 @@ namespace Oxygen
         virtual void setAddLineOpacity( qreal value )
         {
             value = digitize( value );
-            if( addLineData_.opacity_ == value ) return;
-            addLineData_.opacity_ = value;
+            if( _addLineData._opacity == value ) return;
+            _addLineData._opacity = value;
             setDirty();
         }
 
         //! addLine opacity
         virtual qreal addLineOpacity( void ) const
-        { return addLineData_.opacity_; }
+        { return _addLineData._opacity; }
 
         //! subLine opacity
         virtual void setSubLineOpacity( qreal value )
         {
             value = digitize( value );
-            if( subLineData_.opacity_ == value ) return;
-            subLineData_.opacity_ = value;
+            if( _subLineData._opacity == value ) return;
+            _subLineData._opacity = value;
             setDirty();
         }
 
         //! subLine opacity
         virtual qreal subLineOpacity( void ) const
-        { return subLineData_.opacity_; }
+        { return _subLineData._opacity; }
 
         protected slots:
 
@@ -144,14 +144,14 @@ namespace Oxygen
         void clearAddLineRect( void )
         {
             if( addLineAnimation().data()->direction() == Animation::Backward )
-            { addLineData_.rect_ = QRect(); }
+            { _addLineData._rect = QRect(); }
         }
 
         //! clear subLineRect
         void clearSubLineRect( void )
         {
             if( subLineAnimation().data()->direction() == Animation::Backward )
-            { subLineData_.rect_ = QRect(); }
+            { _subLineData._rect = QRect(); }
         }
 
         protected:
@@ -166,16 +166,16 @@ namespace Oxygen
         //@{
 
         virtual bool addLineArrowHovered( void ) const
-        { return addLineData_.hovered_; }
+        { return _addLineData._hovered; }
 
         virtual void setAddLineArrowHovered( bool value )
-        { addLineData_.hovered_ = value; }
+        { _addLineData._hovered = value; }
 
         virtual bool subLineArrowHovered( void ) const
-        { return subLineData_.hovered_; }
+        { return _subLineData._hovered; }
 
         virtual void setSubLineArrowHovered( bool value )
-        { subLineData_.hovered_ = value; }
+        { _subLineData._hovered = value; }
 
         //@}
 
@@ -189,10 +189,10 @@ namespace Oxygen
         //@{
 
         virtual const Animation::Pointer& addLineAnimation( void ) const
-        { return addLineData_.animation_; }
+        { return _addLineData._animation; }
 
         virtual const Animation::Pointer& subLineAnimation( void ) const
-        { return subLineData_.animation_; }
+        { return _subLineData._animation; }
 
         private:
 
@@ -204,30 +204,30 @@ namespace Oxygen
 
           //! constructor
           Data( void ):
-            hovered_( false ),
-            opacity_( AnimationData::OpacityInvalid )
+            _hovered( false ),
+            _opacity( AnimationData::OpacityInvalid )
           {}
 
           //! true if hovered
-          bool hovered_;
+          bool _hovered;
 
           //! animation
-          Animation::Pointer animation_;
+          Animation::Pointer _animation;
 
           //! opacity
-          qreal opacity_;
+          qreal _opacity;
 
           //! rect
-          QRect rect_;
+          QRect _rect;
 
         };
 
 
         //! add line data (down arrow)
-        Data addLineData_;
+        Data _addLineData;
 
         //! subtract line data (up arrow)
-        Data subLineData_;
+        Data _subLineData;
 
     };
 

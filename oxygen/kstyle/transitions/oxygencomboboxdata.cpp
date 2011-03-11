@@ -35,11 +35,11 @@ namespace Oxygen
     //______________________________________________________
     ComboBoxData::ComboBoxData( QObject* parent, QComboBox* target, int duration ):
         TransitionData( parent, target, duration ),
-        target_( target )
+        _target( target )
     {
-        target_.data()->installEventFilter( this );
-        connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
-        connect( target_.data(), SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged() ) );
+        _target.data()->installEventFilter( this );
+        connect( _target.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
+        connect( _target.data(), SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged() ) );
     }
 
     //___________________________________________________________________
@@ -61,11 +61,11 @@ namespace Oxygen
     {
 
         // make sure engine is enabled
-        if( !( enabled() && object == target_.data() ) )
+        if( !( enabled() && object == _target.data() ) )
         { return TransitionData::eventFilter( object, event ); }
 
         // make sure that target is not editable
-        if( target_.data()->isEditable() )
+        if( _target.data()->isEditable() )
         { return TransitionData::eventFilter( object, event ); }
 
         switch( event->type() )
@@ -74,8 +74,8 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             case QEvent::Move:
-            if( !recursiveCheck() && target_.data()->isVisible() )
-            { timer_.start( 0, this ); }
+            if( !recursiveCheck() && _target.data()->isVisible() )
+            { _timer.start( 0, this ); }
             break;
 
             default: break;
@@ -88,14 +88,14 @@ namespace Oxygen
     //___________________________________________________________________
     void ComboBoxData::timerEvent( QTimerEvent* event )
     {
-        if( event->timerId() == timer_.timerId() )
+        if( event->timerId() == _timer.timerId() )
         {
 
-            timer_.stop();
-            if( enabled() && transition() && target_ && !target_.data()->isVisible() )
+            _timer.stop();
+            if( enabled() && transition() && _target && !_target.data()->isVisible() )
             {
                 setRecursiveCheck( true );
-                transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
+                transition().data()->setEndPixmap( transition().data()->grab( _target.data(), targetRect() ) );
                 setRecursiveCheck( false );
             }
 
@@ -106,8 +106,8 @@ namespace Oxygen
     //___________________________________________________________________
     bool ComboBoxData::initializeAnimation( void )
     {
-        if( !( enabled() && target_ && target_.data()->isVisible() ) ) return false;
-        if( target_.data()->isEditable() )
+        if( !( enabled() && _target && _target.data()->isVisible() ) ) return false;
+        if( _target.data()->isEditable() )
         {
             /*
             do nothing for editable comboboxes because
@@ -133,7 +133,7 @@ namespace Oxygen
 
         // grab
         setRecursiveCheck( true );
-        transition().data()->setEndPixmap( transition().data()->grab( target_.data(), targetRect() ) );
+        transition().data()->setEndPixmap( transition().data()->grab( _target.data(), targetRect() ) );
         setRecursiveCheck( false );
 
         // start animation
@@ -147,7 +147,7 @@ namespace Oxygen
     void ComboBoxData::targetDestroyed( void )
     {
         setEnabled( false );
-        target_.clear();
+        _target.clear();
     }
 
 }

@@ -46,9 +46,9 @@ namespace Oxygen
 
     //___________________________________________________
     Factory::Factory():
-        initialized_( false ),
-        helper_( "oxygenDeco" ),
-        shadowCache_( helper_ )
+        _initialized( false ),
+        _helper( "oxygenDeco" ),
+        _shadowCache( _helper )
     {
         readConfig();
         setInitialized( true );
@@ -71,10 +71,10 @@ namespace Oxygen
 
         // read in the configuration
         setInitialized( false );
-        bool configuration_changed = readConfig();
+        bool _configurationchanged = readConfig();
         setInitialized( true );
 
-        if( configuration_changed || (changed & (SettingDecoration | SettingButtons | SettingBorder)) )
+        if( _configurationchanged || (changed & (SettingDecoration | SettingButtons | SettingBorder)) )
         {
 
             // returning true triggers all decorations to be re-created
@@ -115,38 +115,11 @@ namespace Oxygen
             changed = true;
         }
 
-        // initialize shadow cache
-        switch( defaultConfiguration().shadowCacheMode() )
-        {
-
-            case Configuration::CacheDisabled:
-            {
-                shadowCache_.setEnabled( false );
-                break;
-            }
-
-            default:
-            case Configuration::CacheVariable:
-            {
-                shadowCache_.setEnabled( true );
-                shadowCache_.setMaxIndex( qMin( 256, int( 120*defaultConfiguration().animationsDuration()/1000 ) ) );
-                break;
-            }
-
-            case Configuration::CacheMaximum:
-            {
-                shadowCache_.setEnabled( true );
-                shadowCache_.setMaxIndex( 256 );
-                break;
-            }
-
-        }
-
         // read exceptionsreadConfig
         ExceptionList exceptions( config );
-        if( !( exceptions == exceptions_ ) )
+        if( !( exceptions == _exceptions ) )
         {
-            exceptions_ = exceptions;
+            _exceptions = exceptions;
             changed = true;
         }
 
@@ -157,25 +130,8 @@ namespace Oxygen
             defaultConfiguration().setUseDropShadows( false );
         }
 
-        // read shadow configurations
-        ShadowConfiguration activeShadowConfiguration( QPalette::Active, config.group( "ActiveShadow" ) );
-        activeShadowConfiguration.setEnabled( defaultConfiguration().useOxygenShadows() );
-        if( shadowCache().shadowConfigurationChanged( activeShadowConfiguration ) )
-        {
-            shadowCache().setShadowConfiguration( activeShadowConfiguration );
-            shadowCache().invalidateCaches();
-            changed = true;
-        }
-
-        // read shadow configurations
-        ShadowConfiguration inactiveShadowConfiguration( QPalette::Inactive, config.group( "InactiveShadow" ) );
-        inactiveShadowConfiguration.setEnabled( defaultConfiguration().useDropShadows() );
-        if( shadowCache().shadowConfigurationChanged( inactiveShadowConfiguration ) )
-        {
-            shadowCache().setShadowConfiguration( inactiveShadowConfiguration );
-            shadowCache().invalidateCaches();
-            changed = true;
-        }
+        // read shadowCache configuration
+        changed |= shadowCache().readConfig( config );
 
         return changed;
 
@@ -233,7 +189,7 @@ namespace Oxygen
 
         QString window_title;
         QString class_name;
-        for( ExceptionList::const_iterator iter = exceptions_.constBegin(); iter != exceptions_.constEnd(); ++iter )
+        for( ExceptionList::const_iterator iter = _exceptions.constBegin(); iter != _exceptions.constEnd(); ++iter )
         {
 
             // discard disabled exceptions

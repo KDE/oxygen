@@ -50,7 +50,7 @@ namespace Oxygen
         if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) ) data_.insert( widget, new MenuBarDataV1( this, widget, duration() ), enabled() );
+        if( !_data.contains( widget ) ) _data.insert( widget, new MenuBarDataV1( this, widget, duration() ), enabled() );
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -61,7 +61,7 @@ namespace Oxygen
     //____________________________________________________________
     bool MenuBarEngineV1::isAnimated( const QObject* object, const QPoint& position )
     {
-        DataMap<MenuBarDataV1>::Value data( data_.find( object ) );
+        DataMap<MenuBarDataV1>::Value data( _data.find( object ) );
         if( !data ) return false;
         if( Animation::Pointer animation = data.data()->animation( position ) ) return animation.data()->isRunning();
         else return false;
@@ -75,7 +75,7 @@ namespace Oxygen
 
         // the typedef is needed to make Krazy happy
         typedef DataMap<MenuBarDataV1>::Value Value;
-        foreach( const Value& value, data_ )
+        foreach( const Value& value, _data )
         { if( value ) out.insert( value.data()->target().data() ); }
 
         return out;
@@ -85,7 +85,7 @@ namespace Oxygen
     //____________________________________________________________
     MenuBarEngineV2::MenuBarEngineV2( QObject* parent, MenuBarBaseEngine* other ):
         MenuBarBaseEngine( parent ),
-        followMouseDuration_( 150 )
+        _followMouseDuration( 150 )
     {
         if( other )
         {
@@ -101,11 +101,11 @@ namespace Oxygen
         if( !widget ) return false;
 
         // create new data class
-        if( !data_.contains( widget ) )
+        if( !_data.contains( widget ) )
         {
             DataMap<MenuBarDataV2>::Value value( new MenuBarDataV2( this, widget, duration() ) );
             value.data()->setFollowMouseDuration( followMouseDuration() );
-            data_.insert( widget, value, enabled() );
+            _data.insert( widget, value, enabled() );
         }
 
         // connect destruction signal
@@ -119,7 +119,7 @@ namespace Oxygen
     bool MenuBarEngineV2::isAnimated( const QObject* object, const QPoint& )
     {
         if( !enabled() ) return false;
-        DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
+        DataMap<MenuBarDataV2>::Value data( _data.find( object ) );
         if( !data ) return false;
         if( data.data()->animation() && data.data()->animation().data()->isRunning() ) return true;
         else if( Animation::Pointer animation = data.data()->progressAnimation() ) return animation.data()->isRunning();
@@ -131,7 +131,7 @@ namespace Oxygen
     QRect MenuBarEngineV2::currentRect( const QObject* object, const QPoint& )
     {
         if( !enabled() ) return QRect();
-        DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
+        DataMap<MenuBarDataV2>::Value data( _data.find( object ) );
         return data ? data.data()->currentRect():QRect();
     }
 
@@ -139,7 +139,7 @@ namespace Oxygen
     QRect MenuBarEngineV2::animatedRect( const QObject* object )
     {
         if( !enabled() ) return QRect();
-        DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
+        DataMap<MenuBarDataV2>::Value data( _data.find( object ) );
         return data ? data.data()->animatedRect():QRect();
 
     }
@@ -148,7 +148,7 @@ namespace Oxygen
     bool MenuBarEngineV2::isTimerActive( const QObject* object )
     {
         if( !enabled() ) return false;
-        DataMap<MenuBarDataV2>::Value data( data_.find( object ) );
+        DataMap<MenuBarDataV2>::Value data( _data.find( object ) );
         return data ? data.data()->timer().isActive():false;
     }
 
@@ -160,7 +160,7 @@ namespace Oxygen
 
         // the typedef is needed to make Krazy happy
         typedef DataMap<MenuBarDataV2>::Value Value;
-        foreach( const Value& value, data_ )
+        foreach( const Value& value, _data )
         { if( value ) out.insert( value.data()->target().data() ); }
 
         return out;

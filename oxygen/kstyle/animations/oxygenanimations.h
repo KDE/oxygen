@@ -71,75 +71,75 @@ namespace Oxygen
 
         //! enability engine
         WidgetStateEngine& widgetEnabilityEngine( void ) const
-        { return *widgetEnabilityEngine_; }
+        { return *_widgetEnabilityEngine; }
 
         //! abstractButton engine
         WidgetStateEngine& widgetStateEngine( void ) const
-        { return *widgetStateEngine_; }
+        { return *_widgetStateEngine; }
 
         //! editable combobox arrow hover engine
         WidgetStateEngine& comboBoxEngine( void ) const
-        { return *comboBoxEngine_; }
+        { return *_comboBoxEngine; }
 
         //! Tool buttons arrow hover engine
         WidgetStateEngine& toolButtonEngine( void ) const
-        { return *toolButtonEngine_; }
+        { return *_toolButtonEngine; }
 
         //! lineEdit engine
         WidgetStateEngine& lineEditEngine( void ) const
-        { return *lineEditEngine_; }
+        { return *_lineEditEngine; }
 
         //! splitter engine
         SplitterEngine& splitterEngine( void ) const
-        { return *splitterEngine_; }
+        { return *_splitterEngine; }
 
         //! dock separators engine
         DockSeparatorEngine& dockSeparatorEngine( void ) const
-        { return *dockSeparatorEngine_; }
+        { return *_dockSeparatorEngine; }
 
         //! header view engine
         HeaderViewEngine& headerViewEngine( void ) const
-        { return *headerViewEngine_; }
+        { return *_headerViewEngine; }
 
         //! progressbar engine
         ProgressBarEngine& progressBarEngine( void ) const
-        { return *progressBarEngine_; }
+        { return *_progressBarEngine; }
 
         //! menubar engine
         MenuBarBaseEngine& menuBarEngine( void ) const
-        { return *menuBarEngine_; }
+        { return *_menuBarEngine; }
 
         //! menu engine
         MenuBaseEngine& menuEngine( void ) const
-        { return *menuEngine_; }
+        { return *_menuEngine; }
 
         //! scrollbar engine
         ScrollBarEngine& scrollBarEngine( void ) const
-        { return *scrollBarEngine_; }
+        { return *_scrollBarEngine; }
 
         //! slider engine
         SliderEngine& sliderEngine( void ) const
-        { return *sliderEngine_; }
+        { return *_sliderEngine; }
 
         //! spinbox engine
         SpinBoxEngine& spinBoxEngine( void ) const
-        { return *spinBoxEngine_; }
+        { return *_spinBoxEngine; }
 
         //! tabbar
         TabBarEngine& tabBarEngine( void ) const
-        { return *tabBarEngine_; }
+        { return *_tabBarEngine; }
 
         //! toolbar
         ToolBarEngine& toolBarEngine( void ) const
-        { return *toolBarEngine_; }
+        { return *_toolBarEngine; }
 
         //! toolbox
         ToolBoxEngine& toolBoxEngine( void ) const
-        { return *toolBoxEngine_; }
+        { return *_toolBoxEngine; }
 
         //! mdi windows
         MdiWindowEngine& mdiWindowEngine( void ) const
-        { return *mdiWindowEngine_; }
+        { return *_mdiWindowEngine; }
 
         //! setup engines
         void setupEngines( void );
@@ -154,61 +154,61 @@ namespace Oxygen
         void registerEngine( BaseEngine* engine );
 
         //! dock separator handle hover effect
-        DockSeparatorEngine* dockSeparatorEngine_;
+        DockSeparatorEngine* _dockSeparatorEngine;
 
         //! headerview hover effect
-        HeaderViewEngine* headerViewEngine_;
+        HeaderViewEngine* _headerViewEngine;
 
         //! widget enability engine
-        WidgetStateEngine* widgetEnabilityEngine_;
+        WidgetStateEngine* _widgetEnabilityEngine;
 
         //! abstract button engine
-        WidgetStateEngine* widgetStateEngine_;
+        WidgetStateEngine* _widgetStateEngine;
 
         //! editable combobox arrow hover effect
-        WidgetStateEngine* comboBoxEngine_;
+        WidgetStateEngine* _comboBoxEngine;
 
         //! mennu toolbutton arrow hover effect
-        WidgetStateEngine* toolButtonEngine_;
+        WidgetStateEngine* _toolButtonEngine;
 
         //! line editor engine
-        WidgetStateEngine* lineEditEngine_;
+        WidgetStateEngine* _lineEditEngine;
 
         //! QSplitter engine
-        SplitterEngine* splitterEngine_;
+        SplitterEngine* _splitterEngine;
 
         //! progressbar engine
-        ProgressBarEngine* progressBarEngine_;
+        ProgressBarEngine* _progressBarEngine;
 
         //! menubar engine
-        MenuBarBaseEngine* menuBarEngine_;
+        MenuBarBaseEngine* _menuBarEngine;
 
         //! menu engine
-        MenuBaseEngine* menuEngine_;
+        MenuBaseEngine* _menuEngine;
 
         //! scrollbar engine
-        ScrollBarEngine* scrollBarEngine_;
+        ScrollBarEngine* _scrollBarEngine;
 
         //! slider engine
-        SliderEngine* sliderEngine_;
+        SliderEngine* _sliderEngine;
 
         //! spinbox engine
-        SpinBoxEngine* spinBoxEngine_;
+        SpinBoxEngine* _spinBoxEngine;
 
         //! tabbar engine
-        TabBarEngine* tabBarEngine_;
+        TabBarEngine* _tabBarEngine;
 
         //! toolbar engine
-        ToolBarEngine* toolBarEngine_;
+        ToolBarEngine* _toolBarEngine;
 
         //! toolbar engine
-        ToolBoxEngine* toolBoxEngine_;
+        ToolBoxEngine* _toolBoxEngine;
 
         //! mdi window
-        MdiWindowEngine* mdiWindowEngine_;
+        MdiWindowEngine* _mdiWindowEngine;
 
         //! keep list of existing engines
-        QList< BaseEngine::Pointer > engines_;
+        QList< BaseEngine::Pointer > _engines;
 
     };
 

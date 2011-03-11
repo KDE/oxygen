@@ -39,11 +39,11 @@ namespace Oxygen
         if( !widget ) return;
 
         // create new data class
-        if( !data_.contains( widget ) )
+        if( !_data.contains( widget ) )
         {
             DataMap<ToolBarData>::Value value( new ToolBarData( this, widget, duration() ) );
             value.data()->setFollowMouseDuration( followMouseDuration() );
-            data_.insert( widget, value, enabled() );
+            _data.insert( widget, value, enabled() );
         }
 
         // connect destruction signal
@@ -59,7 +59,7 @@ namespace Oxygen
 
         // the typedef is needed to make Krazy happy
         typedef DataMap<ToolBarData>::Value Value;
-        foreach( const Value& value, data_ )
+        foreach( const Value& value, _data )
         { if( value ) out.insert( value.data()->target().data() ); }
         return out;
     }
@@ -69,7 +69,7 @@ namespace Oxygen
     {
         if( !enabled() ) return false;
 
-        DataMap<ToolBarData>::Value data( data_.find( object ) );
+        DataMap<ToolBarData>::Value data( _data.find( object ) );
         if( !data ) return false;
         if( Animation::Pointer animation = data.data()->animation() ) return animation.data()->isRunning();
         else return false;
@@ -80,7 +80,7 @@ namespace Oxygen
     {
         if( !enabled() ) return false;
 
-        DataMap<ToolBarData>::Value data( data_.find( object ) );
+        DataMap<ToolBarData>::Value data( _data.find( object ) );
         if( !data ) return false;
         if( Animation::Pointer animation = data.data()->progressAnimation() ) return animation.data()->isRunning();
         else return false;
@@ -90,7 +90,7 @@ namespace Oxygen
     QRect ToolBarEngine::currentRect( const QObject* object )
     {
         if( !enabled() ) return QRect();
-        DataMap<ToolBarData>::Value data( data_.find( object ) );
+        DataMap<ToolBarData>::Value data( _data.find( object ) );
         return data ? data.data()->currentRect():QRect();
     }
 
@@ -98,7 +98,7 @@ namespace Oxygen
     QRect ToolBarEngine::animatedRect( const QObject* object )
     {
         if( !enabled() ) return QRect();
-        DataMap<ToolBarData>::Value data( data_.find( object ) );
+        DataMap<ToolBarData>::Value data( _data.find( object ) );
         return data ? data.data()->animatedRect():QRect();
     }
 
@@ -106,7 +106,7 @@ namespace Oxygen
     bool ToolBarEngine::isTimerActive( const QObject* object )
     {
         if( !enabled() ) return false;
-        DataMap<ToolBarData>::Value data( data_.find( object ) );
+        DataMap<ToolBarData>::Value data( _data.find( object ) );
         return data ? data.data()->timer().isActive():false;
     }
 

@@ -114,28 +114,28 @@ namespace Oxygen
         virtual qreal opacity( const QObject* object, WidgetIndex index )
         {
             if( !isAnimated( object, index ) ) return AnimationData::OpacityInvalid;
-            else return data_.find(object).data()->opacity( index );
+            else return _data.find(object).data()->opacity( index );
         }
 
         //! return 'hover' rect position when widget is animated
         virtual QRect currentRect( const QObject* object, WidgetIndex index )
         {
             if( !isAnimated( object, index ) ) return QRect();
-            else return data_.find(object).data()->currentRect( index );
+            else return _data.find(object).data()->currentRect( index );
         }
 
         //! enability
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int duration )
         {
             BaseEngine::setDuration( duration );
-            data_.setDuration( duration );
+            _data.setDuration( duration );
         }
 
         //! return list of registered widgets
@@ -145,12 +145,12 @@ namespace Oxygen
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! data map
-        DataMap<MenuDataV1> data_;
+        DataMap<MenuDataV1> _data;
 
     };
 
@@ -184,7 +184,7 @@ namespace Oxygen
         virtual qreal opacity( const QObject* object, WidgetIndex index )
         {
             if( !isAnimated( object, index ) ) return AnimationData::OpacityInvalid;
-            else return data_.find(object).data()->opacity();
+            else return _data.find(object).data()->opacity();
         }
 
         //! return 'hover' rect position when widget is animated
@@ -200,25 +200,25 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         //! duration
         virtual int followMouseDuration( void ) const
-        { return followMouseDuration_; }
+        { return _followMouseDuration; }
 
         //! duration
         virtual void setFollowMouseDuration( int duration )
         {
-            followMouseDuration_ = duration;
-            foreach( const DataMap<MenuDataV2>::Value& value, data_ )
+            _followMouseDuration = duration;
+            foreach( const DataMap<MenuDataV2>::Value& value, _data )
             { if( value ) value.data()->setFollowMouseDuration( duration ); }
         }
 
@@ -229,15 +229,15 @@ namespace Oxygen
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! follow mouse animation duration
-        int followMouseDuration_;
+        int _followMouseDuration;
 
         //! data map
-        DataMap<MenuDataV2> data_;
+        DataMap<MenuDataV2> _data;
 
     };
 

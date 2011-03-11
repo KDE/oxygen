@@ -57,7 +57,7 @@ namespace Oxygen
         //! true if widget is animated
         virtual bool isAnimated( const QObject* object )
         {
-            if( DataMap<SliderData>::Value data = data_.find( object ) )
+            if( DataMap<SliderData>::Value data = _data.find( object ) )
             {
 
                 return data.data()->animation().data()->isRunning();
@@ -70,7 +70,7 @@ namespace Oxygen
         virtual bool updateState( const QObject* object, bool state )
         {
 
-            if( DataMap<SliderData>::Value data = data_.find( object ) )
+            if( DataMap<SliderData>::Value data = _data.find( object ) )
             {
 
                 return data.data()->updateState( state );
@@ -81,32 +81,32 @@ namespace Oxygen
 
         //! animation opacity
         virtual qreal opacity( const QObject* object )
-        { return isAnimated( object ) ? data_.find( object ).data()->opacity() : AnimationData::OpacityInvalid; }
+        { return isAnimated( object ) ? _data.find( object ).data()->opacity() : AnimationData::OpacityInvalid; }
 
         //! enability
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         public slots:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! data map
-        DataMap<SliderData> data_;
+        DataMap<SliderData> _data;
 
     };
 

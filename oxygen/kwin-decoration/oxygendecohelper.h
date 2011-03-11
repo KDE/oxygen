@@ -1,5 +1,5 @@
-#ifndef oxygen_deco_helper_h
-#define oxygen_deco_helper_h
+#ifndef oxygendecohelper_h
+#define oxygendecohelper_h
 
 /*
  * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
@@ -42,7 +42,7 @@ namespace Oxygen
 
         //! dynamically allocated debug area
         int debugArea( void ) const
-        { return m_debugArea; }
+        { return _debugArea; }
 
         //! reset all caches
         virtual void invalidateCaches();
@@ -68,10 +68,10 @@ namespace Oxygen
         private:
 
         //! dynamically allocated debug area
-        int m_debugArea;
+        int _debugArea;
 
         //! titleBar text color cache
-        ColorCache m_titleBarTextColorCache;
+        ColorCache _titleBarTextColorCache;
 
 
     };

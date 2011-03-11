@@ -38,9 +38,9 @@ namespace Oxygen
     {
 
         if( !widget ) return false;
-        if( mode&AnimationHover && !hoverData_.contains( widget ) ) { hoverData_.insert( widget, new WidgetStateData( this, widget, duration() ), enabled() ); }
-        if( mode&AnimationFocus && !focusData_.contains( widget ) ) { focusData_.insert( widget, new WidgetStateData( this, widget, duration() ), enabled() ); }
-        if( mode&AnimationEnable && !enableData_.contains( widget ) ) { enableData_.insert( widget, new EnableData( this, widget, duration() ), enabled() ); }
+        if( mode&AnimationHover && !_hoverData.contains( widget ) ) { _hoverData.insert( widget, new WidgetStateData( this, widget, duration() ), enabled() ); }
+        if( mode&AnimationFocus && !_focusData.contains( widget ) ) { _focusData.insert( widget, new WidgetStateData( this, widget, duration() ), enabled() ); }
+        if( mode&AnimationEnable && !_enableData.contains( widget ) ) { _enableData.insert( widget, new EnableData( this, widget, duration() ), enabled() ); }
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -60,19 +60,19 @@ namespace Oxygen
 
         if( mode&AnimationHover )
         {
-            foreach( const Value& value, hoverData_ )
+            foreach( const Value& value, _hoverData )
             { if( value ) out.insert( value.data()->target().data() ); }
         }
 
         if( mode&AnimationFocus )
         {
-            foreach( const Value& value, focusData_ )
+            foreach( const Value& value, _focusData )
             { if( value ) out.insert( value.data()->target().data() ); }
         }
 
         if( mode&AnimationEnable )
         {
-            foreach( const Value& value, enableData_ )
+            foreach( const Value& value, _enableData )
             { if( value ) out.insert( value.data()->target().data() ); }
         }
 
@@ -102,9 +102,9 @@ namespace Oxygen
 
         switch( mode )
         {
-            case AnimationHover: return hoverData_.find( object ).data();
-            case AnimationFocus: return focusData_.find( object ).data();
-            case AnimationEnable: return enableData_.find( object ).data();
+            case AnimationHover: return _hoverData.find( object ).data();
+            case AnimationFocus: return _focusData.find( object ).data();
+            case AnimationEnable: return _enableData.find( object ).data();
             default: return DataMap<WidgetStateData>::Value();
         }
 

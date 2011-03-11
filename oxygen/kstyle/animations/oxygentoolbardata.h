@@ -1,5 +1,5 @@
-#ifndef oxygentoolbardata_h
-#define oxygentoolbardata_h
+#ifndef oxygentoolbar_datah
+#define oxygentoolbar_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygentoolbardata.h
@@ -55,11 +55,11 @@ namespace Oxygen
 
         //! return animation associated to action at given position, if any
         virtual const Animation::Pointer& animation( void ) const
-        { return animation_; }
+        { return _animation; }
 
         //! return animation associated to action at given position, if any
         virtual const Animation::Pointer& progressAnimation( void ) const
-        { return progressAnimation_; }
+        { return _progressAnimation; }
 
         //! duration
         virtual void setDuration( int duration )
@@ -71,39 +71,39 @@ namespace Oxygen
 
         //! return 'hover' rect position when widget is animated
         virtual const QRect& animatedRect( void ) const
-        { return animatedRect_; }
+        { return _animatedRect; }
 
         //! current rect
         virtual const QRect& currentRect( void ) const
-        { return currentRect_; }
+        { return _currentRect; }
 
         //! timer
         const QBasicTimer& timer( void ) const
-        { return timer_; }
+        { return _timer; }
 
         //! animation opacity
         virtual qreal opacity( void ) const
-        { return opacity_; }
+        { return _opacity; }
 
         //! animation opacity
         virtual void setOpacity( qreal value )
         {
             value = digitize( value );
-            if( opacity_ == value ) return;
-            opacity_ = value;
+            if( _opacity == value ) return;
+            _opacity = value;
             setDirty();
         }
 
         //! animation progress
         virtual qreal progress( void ) const
-        { return progress_; }
+        { return _progress; }
 
         //! animation progress
         virtual void setProgress( qreal value )
         {
             value = digitize( value );
-            if( progress_ == value ) return;
-            progress_ = value;
+            if( _progress == value ) return;
+            _progress = value;
             updateAnimatedRect();
         }
 
@@ -126,15 +126,15 @@ namespace Oxygen
 
         //! current object
         virtual const ObjectPointer& currentObject( void ) const
-        { return currentObject_; }
+        { return _currentObject; }
 
         //! current object
         virtual void setCurrentObject( const QObject* object )
-        { currentObject_ = ObjectPointer( object ); }
+        { _currentObject = ObjectPointer( object ); }
 
         //! current object
         virtual void clearCurrentObject( void )
-        { currentObject_ = NULL; }
+        { _currentObject = NULL; }
 
         //@}
 
@@ -143,27 +143,27 @@ namespace Oxygen
 
         //! current rect
         virtual void setCurrentRect( const QRect& rect )
-        { currentRect_ = rect; }
+        { _currentRect = rect; }
 
         //! current rect
         virtual void clearCurrentRect( void )
-        { currentRect_ = QRect(); }
+        { _currentRect = QRect(); }
 
         //! previous rect
         virtual const QRect& previousRect( void ) const
-        { return previousRect_; }
+        { return _previousRect; }
 
         //! previous rect
         virtual void setPreviousRect( const QRect& rect )
-        { previousRect_ = rect; }
+        { _previousRect = rect; }
 
         //! previous rect
         virtual void clearPreviousRect( void )
-        { previousRect_ = QRect(); }
+        { _previousRect = QRect(); }
 
         //! animated rect
         virtual void clearAnimatedRect( void )
-        { animatedRect_ = QRect(); }
+        { _animatedRect = QRect(); }
 
         //@}
 
@@ -182,35 +182,35 @@ namespace Oxygen
         private:
 
         //! fade animation
-        Animation::Pointer animation_;
+        Animation::Pointer _animation;
 
         //! progress animation
-        Animation::Pointer progressAnimation_;
+        Animation::Pointer _progressAnimation;
 
         //! opacity
-        qreal opacity_;
+        qreal _opacity;
 
         //! opacity
-        qreal progress_;
+        qreal _progress;
 
         //! timer
         /*! this allows to add some delay before starting leaveEvent animation */
-        QBasicTimer timer_;
+        QBasicTimer _timer;
 
         //! current object
-        ObjectPointer currentObject_;
+        ObjectPointer _currentObject;
 
         //! current rect
-        QRect currentRect_;
+        QRect _currentRect;
 
         //! previous rect
-        QRect previousRect_;
+        QRect _previousRect;
 
         //! animated rect
-        QRect animatedRect_;
+        QRect _animatedRect;
 
         //! true if toolbar was entered at least once (this prevents some initialization glitches)
-        bool entered_;
+        bool _entered;
 
     };
 

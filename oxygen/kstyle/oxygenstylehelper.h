@@ -48,7 +48,7 @@ namespace Oxygen
 
         //! dynamically allocated debug area
         int debugArea( void ) const
-        { return m_debugArea; }
+        { return _debugArea; }
 
         //! clear cache
         virtual void invalidateCaches();
@@ -170,30 +170,30 @@ namespace Oxygen
         void drawRoundSlab( QPainter&, const QColor&, qreal );
 
         //! dynamically allocated debug area
-        int m_debugArea;
+        int _debugArea;
 
-        Cache<QPixmap> m_dialSlabCache;
-        Cache<QPixmap> m_roundSlabCache;
-        Cache<TileSet> m_holeFocusedCache;
+        Cache<QPixmap> _dialSlabCache;
+        Cache<QPixmap> _roundSlabCache;
+        Cache<TileSet> _holeFocusedCache;
 
         //! mid color cache
-        ColorCache m_midColorCache;
+        ColorCache _midColorCache;
 
         //! progressbar cache
-        PixmapCache m_progressBarCache;
+        PixmapCache _progressBarCache;
 
         typedef BaseCache<TileSet> TileSetCache;
-        TileSetCache m_cornerCache;
-        TileSetCache m_slabSunkenCache;
-        TileSetCache m_slabInvertedCache;
-        TileSetCache m_holeCache;
-        TileSetCache m_holeFlatCache;
-        TileSetCache m_slopeCache;
-        TileSetCache m_grooveCache;
-        TileSetCache m_slitCache;
-        TileSetCache m_dockFrameCache;
-        TileSetCache m_scrollHoleCache;
-        TileSetCache m_selectionCache;
+        TileSetCache _cornerCache;
+        TileSetCache _slabSunkenCache;
+        TileSetCache _slabInvertedCache;
+        TileSetCache _holeCache;
+        TileSetCache _holeFlatCache;
+        TileSetCache _slopeCache;
+        TileSetCache _grooveCache;
+        TileSetCache _slitCache;
+        TileSetCache _dockFrameCache;
+        TileSetCache _scrollHoleCache;
+        TileSetCache _selectionCache;
 
     };
 
@@ -201,11 +201,11 @@ namespace Oxygen
     const QColor& StyleHelper::calcMidColor( const QColor& color )
     {
         const quint64 key( color.rgba() );
-        QColor* out( m_midColorCache.object( key ) );
+        QColor* out( _midColorCache.object( key ) );
         if( !out )
         {
             out = new QColor( KColorScheme::shade( color, KColorScheme::MidShade, _contrast - 1.0 ) );
-            m_midColorCache.insert( key, out );
+            _midColorCache.insert( key, out );
         }
 
         return *out;

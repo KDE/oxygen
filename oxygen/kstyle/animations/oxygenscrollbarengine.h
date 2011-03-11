@@ -59,33 +59,33 @@ namespace Oxygen
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, QStyle::SubControl control )
-        { return isAnimated( object, control ) ? data_.find( object ).data()->opacity( control ):AnimationData::OpacityInvalid; }
+        { return isAnimated( object, control ) ? _data.find( object ).data()->opacity( control ):AnimationData::OpacityInvalid; }
 
         //! return true if given subcontrol is hovered
         virtual bool isHovered( const QObject* object, QStyle::SubControl control )
         {
-            if( DataMap<ScrollBarData>::Value data = data_.find( object ) ) return data.data()->isHovered( control );
+            if( DataMap<ScrollBarData>::Value data = _data.find( object ) ) return data.data()->isHovered( control );
             else return false;
         }
 
         //! control rect associated to object
         virtual QRect subControlRect( const QObject* object, QStyle::SubControl control )
         {
-            if( DataMap<ScrollBarData>::Value data = data_.find( object ) ) return data.data()->subControlRect( control );
+            if( DataMap<ScrollBarData>::Value data = _data.find( object ) ) return data.data()->subControlRect( control );
             else return QRect();
         }
 
         //! control rect
         virtual void setSubControlRect( const QObject* object, QStyle::SubControl control, const QRect& rect )
         {
-            if( DataMap<ScrollBarData>::Value data = data_.find( object ) )
+            if( DataMap<ScrollBarData>::Value data = _data.find( object ) )
             { data.data()->setSubControlRect( control, rect ); }
         }
 
         //! control rect
         virtual void updateState( const QObject* object, bool state )
         {
-            if( DataMap<ScrollBarData>::Value data = data_.find( object ) )
+            if( DataMap<ScrollBarData>::Value data = _data.find( object ) )
             { data.data()->updateState( state ); }
         }
 
@@ -99,7 +99,7 @@ namespace Oxygen
             are also used in non animated mode to store scrollbar arrows rect. However
             do disable all contains DATA object, in order to prevent actual animations
             */
-            foreach( const DataMap<ScrollBarData>::Value data, data_ )
+            foreach( const DataMap<ScrollBarData>::Value data, _data )
             { if( data ) data.data()->setEnabled( value ); }
 
         }
@@ -108,19 +108,19 @@ namespace Oxygen
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         public slots:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! data map
-        DataMap<ScrollBarData> data_;
+        DataMap<ScrollBarData> _data;
 
     };
 

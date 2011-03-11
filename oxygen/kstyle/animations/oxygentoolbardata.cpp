@@ -35,15 +35,15 @@ namespace Oxygen
     //________________________________________________________________________
     ToolBarData::ToolBarData( QObject* parent, QWidget* target, int duration ):
         AnimationData( parent, target ),
-        opacity_( 0 ),
-        progress_( 0 ),
-        currentObject_( 0 ),
-        entered_( false )
+        _opacity( 0 ),
+        _progress( 0 ),
+        _currentObject( 0 ),
+        _entered( false )
     {
 
         target->installEventFilter( this );
 
-        animation_ = new Animation( duration, this );
+        _animation = new Animation( duration, this );
         animation().data()->setDirection( Animation::Forward );
         animation().data()->setStartValue( 0.0 );
         animation().data()->setEndValue( 1.0 );
@@ -51,7 +51,7 @@ namespace Oxygen
         animation().data()->setPropertyName( "opacity" );
 
         // progress animation
-        progressAnimation_ = new Animation( duration, this );
+        _progressAnimation = new Animation( duration, this );
         progressAnimation().data()->setDirection( Animation::Forward );
         progressAnimation().data()->setStartValue( 0 );
         progressAnimation().data()->setEndValue( 1 );
@@ -113,7 +113,7 @@ namespace Oxygen
                 break;
 
                 case QEvent::HoverLeave:
-                if( currentObject() && !timer_.isActive() ) timer_.start( 100, this );
+                if( currentObject() && !_timer.isActive() ) _timer.start( 100, this );
                 break;
 
                 default:
@@ -134,15 +134,15 @@ namespace Oxygen
         // check rect validity
         if( currentRect().isNull() || previousRect().isNull() )
         {
-            animatedRect_ = QRect();
+            _animatedRect = QRect();
             return;
         }
 
         // compute rect located 'between' previous and current
-        animatedRect_.setLeft( previousRect().left() + progress()*(currentRect().left() - previousRect().left()) );
-        animatedRect_.setRight( previousRect().right() + progress()*(currentRect().right() - previousRect().right()) );
-        animatedRect_.setTop( previousRect().top() + progress()*(currentRect().top() - previousRect().top()) );
-        animatedRect_.setBottom( previousRect().bottom() + progress()*(currentRect().bottom() - previousRect().bottom()) );
+        _animatedRect.setLeft( previousRect().left() + progress()*(currentRect().left() - previousRect().left()) );
+        _animatedRect.setRight( previousRect().right() + progress()*(currentRect().right() - previousRect().right()) );
+        _animatedRect.setTop( previousRect().top() + progress()*(currentRect().top() - previousRect().top()) );
+        _animatedRect.setBottom( previousRect().bottom() + progress()*(currentRect().bottom() - previousRect().bottom()) );
 
         // trigger update
         setDirty();
@@ -154,7 +154,7 @@ namespace Oxygen
     void ToolBarData::enterEvent( const QObject* )
     {
 
-        if( timer_.isActive() ) timer_.stop();
+        if( _timer.isActive() ) _timer.stop();
         if( animation().data()->isRunning() ) animation().data()->stop();
         if( progressAnimation().data()->isRunning() ) progressAnimation().data()->stop();
         clearPreviousRect();
@@ -199,7 +199,7 @@ namespace Oxygen
         if( local && local->isEnabled() )
         {
 
-            if( timer_.isActive() ) timer_.stop();
+            if( _timer.isActive() ) _timer.stop();
 
             // get rect
             QRect activeRect( local->rect().translated( local->mapToParent( QPoint(0,0) ) ) );
@@ -219,7 +219,7 @@ namespace Oxygen
                     // is unchanged after currentRect is updated
                     // this prevents from having jumps in the animation
                     qreal ratio = progress()/(1.0-progress());
-                    previousRect_.adjust(
+                    _previousRect.adjust(
                         ratio*( currentRect().left() - activeRect.left() ),
                         ratio*( currentRect().top() - activeRect.top() ),
                         ratio*( currentRect().right() - activeRect.right() ),
@@ -237,10 +237,10 @@ namespace Oxygen
 
                 setCurrentObject( local );
                 setCurrentRect( activeRect );
-                if( !entered_ )
+                if( !_entered )
                 {
 
-                    entered_ = true;
+                    _entered = true;
                     if( animation().data()->isRunning() ) animation().data()->stop();
                     if( !progressAnimation().data()->isRunning() ) progressAnimation().data()->start();
 
@@ -257,7 +257,7 @@ namespace Oxygen
 
         } else if( currentObject() ) {
 
-            if( !timer_.isActive() ) timer_.start( 100, this );
+            if( !_timer.isActive() ) _timer.start( 100, this );
 
         }
 
@@ -284,8 +284,8 @@ namespace Oxygen
     void ToolBarData::timerEvent( QTimerEvent *event )
     {
 
-        if( event->timerId() != timer_.timerId() ) return AnimationData::timerEvent( event );
-        timer_.stop();
+        if( event->timerId() != _timer.timerId() ) return AnimationData::timerEvent( event );
+        _timer.stop();
         leaveEvent( target().data() );
     }
 

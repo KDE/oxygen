@@ -33,13 +33,13 @@ namespace Oxygen
     //______________________________________________________
     StackedWidgetData::StackedWidgetData( QObject* parent, QStackedWidget* target, int duration ):
         TransitionData( parent, target, duration ),
-        target_( target ),
-        index_( target->currentIndex() )
+        _target( target ),
+        _index( target->currentIndex() )
     {
 
         // configure transition
-        connect( target_.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
-        connect( target_.data(), SIGNAL( currentChanged( int ) ), SLOT( animate() ) );
+        connect( _target.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
+        connect( _target.data(), SIGNAL( currentChanged( int ) ), SLOT( animate() ) );
 
         // disable focus
         transition().data()->setAttribute(Qt::WA_NoMousePropagation, true);
@@ -54,23 +54,23 @@ namespace Oxygen
     {
 
         // check enability
-        if( !( target_ && target_.data()->isVisible() ) )
+        if( !( _target && _target.data()->isVisible() ) )
         { return false; }
 
         // check index
-        if( target_.data()->currentIndex() == index_ )
+        if( _target.data()->currentIndex() == _index )
         { return false; }
 
         // do not animate if either index or currentIndex is not valid
-        // but update index_ none the less
-        if( target_.data()->currentIndex() < 0 || index_ < 0 )
+        // but update _index none the less
+        if( _target.data()->currentIndex() < 0 || _index < 0 )
         {
-            index_ = target_.data()->currentIndex();
+            _index = _target.data()->currentIndex();
             return false;
         }
 
-        // get old widget (matching index_) and initialize transition
-        if( QWidget *widget = target_.data()->widget( index_ ) )
+        // get old widget (matching _index) and initialize transition
+        if( QWidget *widget = _target.data()->widget( _index ) )
         {
 
             transition().data()->setOpacity( 0 );
@@ -78,12 +78,12 @@ namespace Oxygen
             transition().data()->setGeometry( widget->geometry() );
             transition().data()->setStartPixmap( transition().data()->grab( widget ) );
 
-            index_ = target_.data()->currentIndex();
+            _index = _target.data()->currentIndex();
             return !slow();
 
         } else {
 
-            index_ = target_.data()->currentIndex();
+            _index = _target.data()->currentIndex();
             return false;
 
         }
@@ -112,17 +112,17 @@ namespace Oxygen
     void StackedWidgetData::finishAnimation( void )
     {
         // disable updates on currentWidget
-        if( target_ && target_.data()->currentWidget() )
-        { target_.data()->currentWidget()->setUpdatesEnabled( false ); }
+        if( _target && _target.data()->currentWidget() )
+        { _target.data()->currentWidget()->setUpdatesEnabled( false ); }
 
         // hide transition
         transition().data()->hide();
 
         // reenable updates and repaint
-        if( target_ && target_.data()->currentWidget() )
+        if( _target && _target.data()->currentWidget() )
         {
-            target_.data()->currentWidget()->setUpdatesEnabled( true );
-            target_.data()->currentWidget()->repaint();
+            _target.data()->currentWidget()->setUpdatesEnabled( true );
+            _target.data()->currentWidget()->repaint();
         }
 
         // invalidate start widget
@@ -134,7 +134,7 @@ namespace Oxygen
     void StackedWidgetData::targetDestroyed( void )
     {
         setEnabled( false );
-        target_.clear();
+        _target.clear();
     }
 
 }

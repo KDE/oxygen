@@ -41,12 +41,12 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="buddy">
-      <cstring>durationSpinBox_</cstring>
+      <cstring>durationSpinBox</cstring>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="KIntSpinBox" name="durationSpinBox_">
+    <widget class="KIntSpinBox" name="durationSpinBox">
      <property name="minimum">
       <number>5</number>
      </property>

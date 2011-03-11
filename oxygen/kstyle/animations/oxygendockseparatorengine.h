@@ -57,14 +57,14 @@ namespace Oxygen
         //! update rect and hover value for data matching widget
         virtual void updateRect( const QObject* object, const QRect& r, const Qt::Orientation orientation, bool hovered )
         {
-            if( DataMap<DockSeparatorData>::Value data = data_.find( object ) )
+            if( DataMap<DockSeparatorData>::Value data = _data.find( object ) )
             { data.data()->updateRect( r, orientation, hovered ); }
         }
 
         //! returns true if object is animated
         virtual bool isAnimated( const QObject* object, const QRect& r, const Qt::Orientation orientation )
         {
-            if( DataMap<DockSeparatorData>::Value data = data_.find( object ) )
+            if( DataMap<DockSeparatorData>::Value data = _data.find( object ) )
             {
                 return data.data()->isAnimated( r, orientation );
             } else return false;
@@ -74,7 +74,7 @@ namespace Oxygen
         //! returns true if object is animated
         virtual qreal opacity( const QObject* object, const Qt::Orientation orientation )
         {
-            if( DataMap<DockSeparatorData>::Value data = data_.find( object ) )
+            if( DataMap<DockSeparatorData>::Value data = _data.find( object ) )
             {
                 return data.data()->opacity( orientation );
             } else return AnimationData::OpacityInvalid;
@@ -84,26 +84,26 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         public slots:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! data map
-        DataMap<DockSeparatorData> data_;
+        DataMap<DockSeparatorData> _data;
 
     };
 

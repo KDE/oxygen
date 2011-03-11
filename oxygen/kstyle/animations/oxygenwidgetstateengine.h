@@ -74,18 +74,18 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            hoverData_.setEnabled( value );
-            focusData_.setEnabled( value );
-            enableData_.setEnabled( value );
+            _hoverData.setEnabled( value );
+            _focusData.setEnabled( value );
+            _enableData.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            hoverData_.setDuration( value );
-            focusData_.setDuration( value );
-            enableData_.setDuration( value );
+            _hoverData.setDuration( value );
+            _focusData.setDuration( value );
+            _enableData.setDuration( value );
         }
 
         public slots:
@@ -95,9 +95,9 @@ namespace Oxygen
         {
             if( !object ) return false;
             bool found = false;
-            if( hoverData_.unregisterWidget( object ) ) found = true;
-            if( focusData_.unregisterWidget( object ) ) found = true;
-            if( enableData_.unregisterWidget( object ) ) found = true;
+            if( _hoverData.unregisterWidget( object ) ) found = true;
+            if( _focusData.unregisterWidget( object ) ) found = true;
+            if( _enableData.unregisterWidget( object ) ) found = true;
             return found;
         }
 
@@ -109,9 +109,9 @@ namespace Oxygen
         private:
 
         //! maps
-        DataMap<WidgetStateData> hoverData_;
-        DataMap<WidgetStateData> focusData_;
-        DataMap<WidgetStateData> enableData_;
+        DataMap<WidgetStateData> _hoverData;
+        DataMap<WidgetStateData> _focusData;
+        DataMap<WidgetStateData> _enableData;
 
     };
 

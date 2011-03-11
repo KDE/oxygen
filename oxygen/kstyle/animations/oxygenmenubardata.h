@@ -1,5 +1,5 @@
-#ifndef oxygenmenubardata_h
-#define oxygenmenubardata_h
+#ifndef oxygenmenubar_datah
+#define oxygenmenubar_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenmenubardata.h
@@ -66,11 +66,11 @@ namespace Oxygen
 
         //! animations
         virtual const Animation::Pointer& currentAnimation( void ) const
-        { return current_.animation_; }
+        { return _current._animation; }
 
         //! animations
         virtual const Animation::Pointer& previousAnimation( void ) const
-        { return previous_.animation_; }
+        { return _previous._animation; }
 
         //! return animation matching given point
         virtual Animation::Pointer animation( const QPoint& point ) const
@@ -117,37 +117,37 @@ namespace Oxygen
 
         //! current opacity
         virtual qreal currentOpacity( void ) const
-        { return current_.opacity_; }
+        { return _current._opacity; }
 
         //! current opacity
         virtual void setCurrentOpacity( qreal value )
         {
             value = digitize( value );
-            if( current_.opacity_ == value ) return;
-            current_.opacity_ = value;
+            if( _current._opacity == value ) return;
+            _current._opacity = value;
             setDirty();
         }
 
         //! current rect
         virtual const QRect& currentRect( void ) const
-        { return current_.rect_; }
+        { return _current._rect; }
 
         //! previous opacity
         virtual qreal previousOpacity( void ) const
-        { return previous_.opacity_; }
+        { return _previous._opacity; }
 
         //! previous opacity
         virtual void setPreviousOpacity( qreal value )
         {
             value = digitize( value );
-            if( previous_.opacity_ == value ) return;
-            previous_.opacity_ = value;
+            if( _previous._opacity == value ) return;
+            _previous._opacity = value;
             setDirty();
         }
 
         //! previous rect
         virtual const QRect& previousRect( void ) const
-        { return previous_.rect_; }
+        { return _previous._rect; }
 
         protected:
 
@@ -159,15 +159,15 @@ namespace Oxygen
 
         //! current action
         virtual const ActionPointer& currentAction( void ) const
-        { return currentAction_; }
+        { return _currentAction; }
 
         //! current action
         virtual void setCurrentAction( QAction* action )
-        { currentAction_ = ActionPointer( action ); }
+        { _currentAction = ActionPointer( action ); }
 
         //! current action
         virtual void clearCurrentAction( void )
-        { currentAction_ = ActionPointer(); }
+        { _currentAction = ActionPointer(); }
 
         //@}
 
@@ -176,19 +176,19 @@ namespace Oxygen
 
         //! current rect
         virtual void setCurrentRect( const QRect& rect )
-        { current_.rect_ = rect; }
+        { _current._rect = rect; }
 
         //! current rect
         virtual void clearCurrentRect( void )
-        { current_.rect_ = QRect(); }
+        { _current._rect = QRect(); }
 
         //! previous rect
         virtual void setPreviousRect( const QRect& rect )
-        { previous_.rect_ = rect; }
+        { _previous._rect = rect; }
 
         //! previous rect
         virtual void clearPreviousRect( void )
-        { previous_.rect_ = QRect(); }
+        { _previous._rect = QRect(); }
 
         //@}
 
@@ -229,22 +229,22 @@ namespace Oxygen
 
             //! default constructor
             Data( void ):
-                opacity_(0)
+                _opacity(0)
                 {}
 
-            Animation::Pointer animation_;
-            qreal opacity_;
-            QRect rect_;
+            Animation::Pointer _animation;
+            qreal _opacity;
+            QRect _rect;
         };
 
         //! current tab animation data (for hover enter animations)
-        Data current_;
+        Data _current;
 
         //! previous tab animations data (for hover leave animations)
-        Data previous_;
+        Data _previous;
 
         //! current action
-        ActionPointer currentAction_;
+        ActionPointer _currentAction;
 
     };
 
@@ -271,11 +271,11 @@ namespace Oxygen
 
         //! return animation associated to action at given position, if any
         virtual const Animation::Pointer& animation( void ) const
-        { return animation_; }
+        { return _animation; }
 
         //! return animation associated to action at given position, if any
         virtual const Animation::Pointer& progressAnimation( void ) const
-        { return progressAnimation_; }
+        { return _progressAnimation; }
 
         //! duration
         virtual void setDuration( int duration )
@@ -287,50 +287,50 @@ namespace Oxygen
 
         //! return 'hover' rect position when widget is animated
         virtual const QRect& animatedRect( void ) const
-        { return animatedRect_; }
+        { return _animatedRect; }
 
         //! current rect
         virtual const QRect& currentRect( void ) const
-        { return currentRect_; }
+        { return _currentRect; }
 
         //! timer
         const QBasicTimer& timer( void ) const
-        { return timer_; }
+        { return _timer; }
 
         //! animation opacity
         virtual qreal opacity( void ) const
-        { return opacity_; }
+        { return _opacity; }
 
         //! animation opacity
         virtual void setOpacity( qreal value )
         {
             value = digitize( value );
-            if( opacity_ == value ) return;
-            opacity_ = value;
+            if( _opacity == value ) return;
+            _opacity = value;
             setDirty();
         }
 
         //! animation progress
         virtual qreal progress( void ) const
-        { return progress_; }
+        { return _progress; }
 
         //! animation progress
         virtual void setProgress( qreal value )
         {
             value = digitize( value );
-            if( progress_ == value ) return;
-            progress_ = value;
+            if( _progress == value ) return;
+            _progress = value;
             updateAnimatedRect();
         }
 
         protected:
 
         virtual void setEntered( bool value )
-        { entered_ = value; }
+        { _entered = value; }
 
         //! animated rect
         virtual void clearAnimatedRect( void )
-        { animatedRect_ = QRect(); }
+        { _animatedRect = QRect(); }
 
         //! updated animated rect
         virtual void updateAnimatedRect( void );
@@ -346,15 +346,15 @@ namespace Oxygen
 
         //! current action
         virtual const ActionPointer& currentAction( void ) const
-        { return currentAction_; }
+        { return _currentAction; }
 
         //! current action
         virtual void setCurrentAction( QAction* action )
-        { currentAction_ = ActionPointer( action ); }
+        { _currentAction = ActionPointer( action ); }
 
         //! current action
         virtual void clearCurrentAction( void )
-        { currentAction_ = ActionPointer(); }
+        { _currentAction = ActionPointer(); }
 
         //@}
 
@@ -363,23 +363,23 @@ namespace Oxygen
 
         //! current rect
         virtual void setCurrentRect( const QRect& rect )
-        { currentRect_ = rect; }
+        { _currentRect = rect; }
 
         //! current rect
         virtual void clearCurrentRect( void )
-        { currentRect_ = QRect(); }
+        { _currentRect = QRect(); }
 
         //! previous rect
         virtual const QRect& previousRect( void ) const
-        { return previousRect_; }
+        { return _previousRect; }
 
         //! previous rect
         virtual void setPreviousRect( const QRect& rect )
-        { previousRect_ = rect; }
+        { _previousRect = rect; }
 
         //! previous rect
         virtual void clearPreviousRect( void )
-        { previousRect_ = QRect(); }
+        { _previousRect = QRect(); }
 
         //@}
 
@@ -407,35 +407,35 @@ namespace Oxygen
         private:
 
         //! fade animation
-        Animation::Pointer animation_;
+        Animation::Pointer _animation;
 
         //! progress animation
-        Animation::Pointer progressAnimation_;
+        Animation::Pointer _progressAnimation;
 
         //! opacity
-        qreal opacity_;
+        qreal _opacity;
 
         //! opacity
-        qreal progress_;
+        qreal _progress;
 
         //! timer
         /*! this allows to add some delay before starting leaveEvent animation */
-        QBasicTimer timer_;
+        QBasicTimer _timer;
 
         //! current action
-        ActionPointer currentAction_;
+        ActionPointer _currentAction;
 
         // current rect
-        QRect currentRect_;
+        QRect _currentRect;
 
         // previous rect
-        QRect previousRect_;
+        QRect _previousRect;
 
         // animated rect
-        QRect animatedRect_;
+        QRect _animatedRect;
 
         //! true if toolbar was entered at least once (this prevents some initialization glitches)
-        bool entered_;
+        bool _entered;
 
     };
 }

@@ -57,7 +57,7 @@ namespace Oxygen
         //! state
         virtual bool updateState( const QObject* object, QStyle::SubControl subControl, bool value )
         {
-            if( DataMap<SpinBoxData>::Value data = data_.find( object ) )
+            if( DataMap<SpinBoxData>::Value data = _data.find( object ) )
             {
                 return data.data()->updateState( subControl, value );
             } else return false;
@@ -66,7 +66,7 @@ namespace Oxygen
         //! true if widget is animated
         virtual bool isAnimated( const QObject* object, QStyle::SubControl subControl )
         {
-            if( DataMap<SpinBoxData>::Value data = data_.find( object ) )
+            if( DataMap<SpinBoxData>::Value data = _data.find( object ) )
             {
                 return data.data()->isAnimated( subControl );
             } else return false;
@@ -76,7 +76,7 @@ namespace Oxygen
         //! animation opacity
         virtual qreal opacity( const QObject* object, QStyle::SubControl subControl )
         {
-            if( DataMap<SpinBoxData>::Value data = data_.find( object ) )
+            if( DataMap<SpinBoxData>::Value data = _data.find( object ) )
             {
                 return data.data()->opacity( subControl );
             } else return AnimationData::OpacityInvalid;
@@ -86,14 +86,14 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
 
@@ -101,12 +101,12 @@ namespace Oxygen
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! data map
-        DataMap<SpinBoxData> data_;
+        DataMap<SpinBoxData> _data;
 
     };
 

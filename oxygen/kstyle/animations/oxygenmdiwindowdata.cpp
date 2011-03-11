@@ -34,8 +34,8 @@ namespace Oxygen
     MdiWindowData::MdiWindowData( QObject* parent, QWidget* target, int duration ):
         AnimationData( parent, target )
     {
-        currentData_.animation_ = new Animation( duration, this );
-        previousData_.animation_ = new Animation( duration, this );
+        _currentData._animation = new Animation( duration, this );
+        _previousData._animation = new Animation( duration, this );
         setupAnimation( currentAnimation(), "currentOpacity" );
         setupAnimation( previousAnimation(), "previousOpacity" );
 
@@ -50,11 +50,11 @@ namespace Oxygen
         if( state )
         {
 
-            if( primitive != currentData_.primitive_ )
+            if( primitive != _currentData._primitive )
             {
 
-                previousData_.updateSubControl( currentData_.primitive_ );
-                currentData_.updateSubControl( primitive );
+                _previousData.updateSubControl( _currentData._primitive );
+                _currentData.updateSubControl( primitive );
                 return true;
 
             } else return false;
@@ -62,10 +62,10 @@ namespace Oxygen
         } else {
 
             bool changed( false );
-            if( primitive == currentData_.primitive_ )
+            if( primitive == _currentData._primitive )
             {
-                changed |= currentData_.updateSubControl( 0 );
-                changed |= previousData_.updateSubControl( primitive );
+                changed |= _currentData.updateSubControl( 0 );
+                changed |= _previousData.updateSubControl( primitive );
             }
 
             return changed;
@@ -77,12 +77,12 @@ namespace Oxygen
     //______________________________________________
     bool MdiWindowData::Data::updateSubControl( int value )
     {
-        if( primitive_ == value ) return false;
+        if( _primitive == value ) return false;
         else {
 
-            primitive_ = value;
-            if( animation_.data()->isRunning() ) animation_.data()->stop();
-            if( primitive_ != 0 ) animation_.data()->start();
+            _primitive = value;
+            if( _animation.data()->isRunning() ) _animation.data()->stop();
+            if( _primitive != 0 ) _animation.data()->start();
             return true;
 
         }

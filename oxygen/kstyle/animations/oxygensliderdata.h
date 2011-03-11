@@ -1,5 +1,5 @@
-#ifndef oxygensliderdata_h
-#define oxygensliderdata_h
+#ifndef oxygenslider_datah
+#define oxygenslider_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygensliderdata.h
@@ -46,7 +46,7 @@ namespace Oxygen
         //! constructor
         SliderData( QObject* parent, QWidget* target, int duration ):
         GenericData( parent, target, duration ),
-        sliderHovered_( false )
+        _sliderHovered( false )
         {}
 
         //! destructor
@@ -60,11 +60,11 @@ namespace Oxygen
 
         //! hover
         virtual bool sliderHovered( void ) const
-        { return sliderHovered_; }
+        { return _sliderHovered; }
 
         //! hover
         virtual void setSliderHovered( bool value )
-        { sliderHovered_ = value; }
+        { _sliderHovered = value; }
 
         //! update slider
         virtual void updateSlider( QStyle::SubControl );
@@ -72,7 +72,7 @@ namespace Oxygen
         private:
 
         //! true when slider is hovered
-        bool sliderHovered_;
+        bool _sliderHovered;
 
     };
 

@@ -34,34 +34,34 @@ namespace Oxygen
     //______________________________________________________________________________
     StyleHelper::StyleHelper( const QByteArray &componentName ):
         Helper( componentName ),
-        m_debugArea( KDebug::registerArea( "Oxygen ( style )" ) )
+        _debugArea( KDebug::registerArea( "Oxygen ( style )" ) )
     {
-        m_dockFrameCache.setMaxCost( 1 );
-        m_scrollHoleCache.setMaxCost( 10 );
+        _dockFrameCache.setMaxCost( 1 );
+        _scrollHoleCache.setMaxCost( 10 );
     }
 
     //______________________________________________________________________________
     void StyleHelper::invalidateCaches( void )
     {
 
-        m_dialSlabCache.clear();
-        m_roundSlabCache.clear();
-        m_holeFocusedCache.clear();
+        _dialSlabCache.clear();
+        _roundSlabCache.clear();
+        _holeFocusedCache.clear();
 
-        m_midColorCache.clear();
+        _midColorCache.clear();
 
-        m_progressBarCache.clear();
-        m_cornerCache.clear();
-        m_selectionCache.clear();
-        m_slabSunkenCache.clear();
-        m_slabInvertedCache.clear();
-        m_holeCache.clear();
-        m_holeFlatCache.clear();
-        m_slopeCache.clear();
-        m_grooveCache.clear();
-        m_slitCache.clear();
-        m_dockFrameCache.clear();
-        m_scrollHoleCache.clear();
+        _progressBarCache.clear();
+        _cornerCache.clear();
+        _selectionCache.clear();
+        _slabSunkenCache.clear();
+        _slabInvertedCache.clear();
+        _holeCache.clear();
+        _holeFlatCache.clear();
+        _slopeCache.clear();
+        _grooveCache.clear();
+        _slitCache.clear();
+        _dockFrameCache.clear();
+        _scrollHoleCache.clear();
         Helper::invalidateCaches();
     }
 
@@ -74,22 +74,22 @@ namespace Oxygen
         Helper::setMaxCacheSize( value );
 
         // assign max cache size
-        m_dialSlabCache.setMaxCacheSize( value );
-        m_roundSlabCache.setMaxCacheSize( value );
-        m_holeFocusedCache.setMaxCacheSize( value );
+        _dialSlabCache.setMaxCacheSize( value );
+        _roundSlabCache.setMaxCacheSize( value );
+        _holeFocusedCache.setMaxCacheSize( value );
 
-        m_progressBarCache.setMaxCost( value );
-        m_cornerCache.setMaxCost( value );
-        m_selectionCache.setMaxCost( value );
-        m_slabSunkenCache.setMaxCost( value );
-        m_slabInvertedCache.setMaxCost( value );
-        m_holeCache.setMaxCost( value );
-        m_holeFlatCache.setMaxCost( value );
-        m_slopeCache.setMaxCost( value );
-        m_grooveCache.setMaxCost( value );
-        m_slitCache.setMaxCost( value );
-        m_dockFrameCache.setMaxCost( value );
-        m_scrollHoleCache.setMaxCost( value );
+        _progressBarCache.setMaxCost( value );
+        _cornerCache.setMaxCost( value );
+        _selectionCache.setMaxCost( value );
+        _slabSunkenCache.setMaxCost( value );
+        _slabInvertedCache.setMaxCost( value );
+        _holeCache.setMaxCost( value );
+        _holeFlatCache.setMaxCost( value );
+        _slopeCache.setMaxCost( value );
+        _grooveCache.setMaxCost( value );
+        _slitCache.setMaxCost( value );
+        _dockFrameCache.setMaxCost( value );
+        _scrollHoleCache.setMaxCost( value );
 
     }
 
@@ -153,7 +153,7 @@ namespace Oxygen
     QPixmap StyleHelper::windecoButton( const QColor& color, bool pressed, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( size << 1 ) | quint64( pressed ) );
-        QPixmap *pixmap = m_windecoButtonCache.object( key );
+        QPixmap *pixmap = windecoButtonCache().object( key );
 
         if ( !pixmap )
         {
@@ -181,7 +181,7 @@ namespace Oxygen
                 p.end();
             }
 
-            m_windecoButtonCache.insert( key, pixmap );
+            windecoButtonCache().insert( key, pixmap );
         }
 
         return *pixmap;
@@ -191,7 +191,7 @@ namespace Oxygen
     TileSet *StyleHelper::roundCorner( const QColor& color, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 )|size );
-        TileSet *tileSet = m_cornerCache.object( key );
+        TileSet *tileSet = _cornerCache.object( key );
 
         if ( !tileSet )
         {
@@ -218,7 +218,7 @@ namespace Oxygen
             p.drawEllipse( QRectF( size-3, size-3, 6, 6 ) );
 
             tileSet = new TileSet( pixmap, size, size, 1, 1 );
-            m_cornerCache.insert( key, tileSet );
+            _cornerCache.insert( key, tileSet );
 
         }
 
@@ -229,7 +229,7 @@ namespace Oxygen
     TileSet *StyleHelper::slope( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 )|( quint64( 256.0*shade )<<24 )|size );
-        TileSet *tileSet = m_slopeCache.object( key );
+        TileSet *tileSet = _slopeCache.object( key );
 
         if ( !tileSet )
         {
@@ -269,7 +269,7 @@ namespace Oxygen
 
             tileSet = new TileSet( pixmap, size, size, size*2, 2 );
 
-            m_slopeCache.insert( key, tileSet );
+            _slopeCache.insert( key, tileSet );
         }
         return tileSet;
     }
@@ -291,7 +291,7 @@ namespace Oxygen
         const QColor highlight( pal.color( QPalette::Highlight ) );
         const quint64 key( ( quint64( highlight.rgba() ) << 32 ) | ( rect.width() << 16 ) | ( rect.height() ) );
 
-        QPixmap *pixmap = m_progressBarCache.object( key );
+        QPixmap *pixmap = _progressBarCache.object( key );
         if ( !pixmap )
         {
 
@@ -372,7 +372,7 @@ namespace Oxygen
             p.drawLine( local.topLeft(), local.topRight() );
             p.end();
 
-            m_progressBarCache.insert( key, pixmap );
+            _progressBarCache.insert( key, pixmap );
         }
 
         return *pixmap;
@@ -382,7 +382,7 @@ namespace Oxygen
     //______________________________________________________________________________
     QPixmap StyleHelper::dialSlab( const QColor& color, qreal shade, int size )
     {
-        Oxygen::Cache<QPixmap>::Value *cache = m_dialSlabCache.get( color );
+        Oxygen::Cache<QPixmap>::Value *cache = _dialSlabCache.get( color );
 
         const quint64 key( ( quint64( 256.0 * shade ) << 24 ) | size );
         QPixmap *pixmap = cache->object( key );
@@ -443,7 +443,7 @@ namespace Oxygen
     //______________________________________________________________________________
     QPixmap StyleHelper::dialSlabFocused( const QColor& color, const QColor& glowColor, qreal shade, int size )
     {
-        Oxygen::Cache<QPixmap>::Value* cache =  m_dialSlabCache.get( color );
+        Oxygen::Cache<QPixmap>::Value* cache =  _dialSlabCache.get( color );
 
         const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         QPixmap *pixmap = cache->object( key );
@@ -506,7 +506,7 @@ namespace Oxygen
     QPixmap StyleHelper::roundSlab( const QColor& color, qreal shade, int size )
     {
 
-        Oxygen::Cache<QPixmap>::Value* cache( m_roundSlabCache.get( color ) );
+        Oxygen::Cache<QPixmap>::Value* cache( _roundSlabCache.get( color ) );
 
         const quint64 key( ( quint64( 256.0 * shade ) << 24 ) | size );
         QPixmap *pixmap = cache->object( key );
@@ -536,7 +536,7 @@ namespace Oxygen
     QPixmap StyleHelper::roundSlabFocused( const QColor& color, const QColor& glowColor, qreal shade, int size )
     {
 
-        Oxygen::Cache<QPixmap>::Value* cache( m_roundSlabCache.get( color ) );
+        Oxygen::Cache<QPixmap>::Value* cache( _roundSlabCache.get( color ) );
 
         const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         QPixmap *pixmap = cache->object( key );
@@ -565,7 +565,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::slabFocused( const QColor& color, const QColor& glowColor, qreal shade, int size )
     {
-        Oxygen::Cache<TileSet>::Value* cache( m_slabCache.get( color ) );
+        Oxygen::Cache<TileSet>::Value* cache( _slabCache.get( color ) );
 
         const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         TileSet *tileSet = cache->object( key );
@@ -604,7 +604,7 @@ namespace Oxygen
     TileSet *StyleHelper::slabSunken( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) );
-        TileSet *tileSet = m_slabSunkenCache.object( key );
+        TileSet *tileSet = _slabSunkenCache.object( key );
 
         if ( !tileSet )
         {
@@ -627,7 +627,7 @@ namespace Oxygen
 
             tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
 
-            m_slabSunkenCache.insert( key, tileSet );
+            _slabSunkenCache.insert( key, tileSet );
         }
         return tileSet;
     }
@@ -636,7 +636,7 @@ namespace Oxygen
     TileSet *StyleHelper::slabInverted( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) );
-        TileSet *tileSet = m_slabInvertedCache.object( key );
+        TileSet *tileSet = _slabInvertedCache.object( key );
 
         if ( !tileSet )
         {
@@ -689,7 +689,7 @@ namespace Oxygen
 
             tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
 
-            m_slabInvertedCache.insert( key, tileSet );
+            _slabInvertedCache.insert( key, tileSet );
         }
         return tileSet;
     }
@@ -710,7 +710,7 @@ namespace Oxygen
         QLinearGradient bevelGradient1( 0, 2, 0, r2-2 );
         bevelGradient1.setColorAt( 0.2, dark );
         bevelGradient1.setColorAt( 0.5, mid );
-        bevelGradient1.setColorAt( 1.0, light );
+        bevelGradient1.setColorAt( 0.95, light );
         if( y < yl && y > yd )
         {
             // no middle when color is very light/dark
@@ -874,7 +874,7 @@ namespace Oxygen
     TileSet *StyleHelper::hole( const QColor& color, qreal shade, int size, bool outline )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size << 1 | outline );
-        TileSet *tileSet = m_holeCache.object( key );
+        TileSet *tileSet = _holeCache.object( key );
 
         if ( !tileSet )
         {
@@ -912,7 +912,7 @@ namespace Oxygen
 
             tileSet = new TileSet( pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1 );
 
-            m_holeCache.insert( key, tileSet );
+            _holeCache.insert( key, tileSet );
         }
         return tileSet;
     }
@@ -921,7 +921,7 @@ namespace Oxygen
     TileSet *StyleHelper::holeFlat( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
-        TileSet *tileSet = m_holeFlatCache.object( key );
+        TileSet *tileSet = _holeFlatCache.object( key );
 
         if ( !tileSet )
         {
@@ -939,13 +939,14 @@ namespace Oxygen
 
             // hole inside
             p.setBrush( color );
-            p.drawEllipse( QRectF( 3.4,3.4,7.2,7.2 ) );
+            //p.drawEllipse( QRectF( 3.4,3.4,7.2,7.2 ) );
+            p.drawEllipse( QRectF( 3.7,3.7,6.6,6.6 ) );
 
             p.end();
 
             tileSet = new TileSet( pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1 );
 
-            m_holeFlatCache.insert( key, tileSet );
+            _holeFlatCache.insert( key, tileSet );
         }
         return tileSet;
     }
@@ -954,7 +955,7 @@ namespace Oxygen
     TileSet *StyleHelper::holeFocused( const QColor& color, const QColor& glowColor, qreal shade, int size, bool outline )
     {
         // FIXME must move to s/slabcache/cache/ b/c key is wrong
-        Oxygen::Cache<TileSet>::Value* cache( m_holeFocusedCache.get( glowColor ) );
+        Oxygen::Cache<TileSet>::Value* cache( _holeFocusedCache.get( glowColor ) );
 
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size << 1 | outline );
         TileSet *tileSet = cache->object( key );
@@ -993,7 +994,7 @@ namespace Oxygen
     {
 
         const quint64 key( quint64( color.rgba() ) << 32 | ( orientation == Qt::Horizontal ? 2 : 0 ) | ( smallShadow ? 1 : 0 ) );
-        TileSet *tileSet = m_scrollHoleCache.object( key );
+        TileSet *tileSet = _scrollHoleCache.object( key );
         if ( !tileSet )
         {
             QPixmap pm( 15, 15 );
@@ -1066,7 +1067,7 @@ namespace Oxygen
 
             tileSet = new TileSet( pm, 7, 7, 1, 1 );
 
-            m_scrollHoleCache.insert( key, tileSet );
+            _scrollHoleCache.insert( key, tileSet );
         }
         return tileSet;
     }
@@ -1075,7 +1076,7 @@ namespace Oxygen
     TileSet *StyleHelper::groove( const QColor& color, qreal shade, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
-        TileSet *tileSet = m_grooveCache.object( key );
+        TileSet *tileSet = _grooveCache.object( key );
 
         if ( !tileSet )
         {
@@ -1101,7 +1102,7 @@ namespace Oxygen
 
             tileSet = new TileSet( pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1 );
 
-            m_grooveCache.insert( key, tileSet );
+            _grooveCache.insert( key, tileSet );
         }
         return tileSet;
     }
@@ -1110,7 +1111,7 @@ namespace Oxygen
     TileSet *StyleHelper::slitFocused( const QColor& glowColor )
     {
         const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) );
-        TileSet *tileSet = m_slitCache.object( key );
+        TileSet *tileSet = _slitCache.object( key );
 
         if ( !tileSet )
         {
@@ -1137,7 +1138,7 @@ namespace Oxygen
 
             tileSet = new TileSet( pixmap, 4, 4, 1, 1 );
 
-            m_slitCache.insert( key, tileSet );
+            _slitCache.insert( key, tileSet );
         }
         return tileSet;
     }
@@ -1146,7 +1147,7 @@ namespace Oxygen
     TileSet *StyleHelper::dockFrame( const QColor& color, int w )
     {
         const quint64 key( quint64( color.rgba() ) << 32 | w );
-        TileSet *tileSet = m_dockFrameCache.object( key );
+        TileSet *tileSet = _dockFrameCache.object( key );
         if ( !tileSet )
         {
             // width should be odd
@@ -1202,7 +1203,7 @@ namespace Oxygen
 
             tileSet = new TileSet( pm, 4, 4, w-8, h-8 );
 
-            m_dockFrameCache.insert( key, tileSet );
+            _dockFrameCache.insert( key, tileSet );
         }
         return tileSet;
     }
@@ -1212,7 +1213,7 @@ namespace Oxygen
     {
 
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( height << 1 ) | custom );
-        TileSet *tileSet = m_selectionCache.object( key );
+        TileSet *tileSet = _selectionCache.object( key );
         if ( !tileSet )
         {
 
@@ -1257,7 +1258,7 @@ namespace Oxygen
             p.end();
 
             tileSet = new TileSet( pixmap, 8, 0, 32, height );
-            m_selectionCache.insert( key, tileSet );
+            _selectionCache.insert( key, tileSet );
 
         }
 

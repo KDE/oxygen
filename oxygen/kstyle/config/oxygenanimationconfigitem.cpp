@@ -43,11 +43,11 @@ namespace Oxygen
         ui.setupUi( this );
         layout()->setMargin(0);
 
-        ui.configurationButton_->setIcon( KIcon("configure") );
-        ui.descriptionButton_->setIcon(KIcon("dialog-information"));
+        ui.configurationButton->setIcon( KIcon("configure") );
+        ui.descriptionButton->setIcon(KIcon("dialog-information"));
 
-        connect( ui.enableCheckBox_, SIGNAL( toggled( bool ) ), SIGNAL( changed( void ) ) );
-        connect( ui.descriptionButton_, SIGNAL( clicked( void ) ), SLOT( about( void ) ) );
+        connect( ui.enableCheckBox, SIGNAL( toggled( bool ) ), SIGNAL( changed( void ) ) );
+        connect( ui.descriptionButton, SIGNAL( clicked( void ) ), SLOT( about( void ) ) );
 
         setTitle( title );
         setDescription( description );
@@ -57,9 +57,9 @@ namespace Oxygen
     //_______________________________________________
     void AnimationConfigItem::setConfigurationWidget( QWidget* widget )
     {
-        widget->setEnabled( ui.enableCheckBox_->isChecked() );
-        connect( ui.enableCheckBox_, SIGNAL( toggled( bool ) ), widget, SLOT( setEnabled( bool ) ) );
-        connect( ui.configurationButton_, SIGNAL( toggled( bool ) ), widget, SLOT( setVisible( bool ) ) );
+        widget->setEnabled( ui.enableCheckBox->isChecked() );
+        connect( ui.enableCheckBox, SIGNAL( toggled( bool ) ), widget, SLOT( setEnabled( bool ) ) );
+        connect( ui.configurationButton, SIGNAL( toggled( bool ) ), widget, SLOT( setVisible( bool ) ) );
     }
 
     //_______________________________________________
@@ -73,24 +73,24 @@ namespace Oxygen
     //_______________________________________________
     void GenericAnimationConfigItem::initializeConfigurationWidget( QWidget* parent )
     {
-        assert( !configurationWidget_ );
-        configurationWidget_ = new GenericAnimationConfigBox( parent );
-        setConfigurationWidget( configurationWidget_.data() );
+        assert( !_configurationWidget );
+        _configurationWidget = new GenericAnimationConfigBox( parent );
+        setConfigurationWidget( _configurationWidget.data() );
 
-        connect( configurationWidget_.data()->durationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
+        connect( _configurationWidget.data()->durationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
 
     }
 
     //_______________________________________________
     void FollowMouseAnimationConfigItem::initializeConfigurationWidget( QWidget* parent )
     {
-        assert( !configurationWidget_ );
-        configurationWidget_ = new FollowMouseAnimationConfigBox( parent );
-        setConfigurationWidget( configurationWidget_.data() );
+        assert( !_configurationWidget );
+        _configurationWidget = new FollowMouseAnimationConfigBox( parent );
+        setConfigurationWidget( _configurationWidget.data() );
 
-        connect( configurationWidget_.data()->typeComboBox(), SIGNAL( currentIndexChanged( int ) ), SIGNAL( changed() ) );
-        connect( configurationWidget_.data()->durationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
-        connect( configurationWidget_.data()->followMouseDurationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
+        connect( _configurationWidget.data()->typeComboBox(), SIGNAL( currentIndexChanged( int ) ), SIGNAL( changed() ) );
+        connect( _configurationWidget.data()->durationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
+        connect( _configurationWidget.data()->followMouseDurationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
 
     }
 

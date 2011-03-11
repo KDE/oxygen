@@ -198,7 +198,9 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::~Style( void )
-    { delete _helper; }
+    {
+        delete _helper;
+    }
 
     //______________________________________________________________
     void Style::polish( QWidget* widget )
@@ -252,19 +254,6 @@ namespace Oxygen
             widget->installEventFilter( _topLevelManager );
             break;
 
-            case Qt::ToolTip:
-            if( !widget->autoFillBackground() )
-            {
-                widget->setAttribute( Qt::WA_TranslucentBackground );
-
-                #ifdef Q_WS_WIN
-                //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
-                widget->setWindowFlags( widget->windowFlags() | Qt::FramelessWindowHint );
-                #endif
-            }
-
-            break;
-
             default: break;
 
         }
@@ -286,6 +275,17 @@ namespace Oxygen
             || qobject_cast<QToolButton*>( widget )
             )
         { widget->setAttribute( Qt::WA_Hover ); }
+
+        // transparent tooltips
+        if( widget->inherits( "QTipLabel" ) )
+        {
+            widget->setAttribute( Qt::WA_TranslucentBackground );
+
+            #ifdef Q_WS_WIN
+            //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+            widget->setWindowFlags( widget->windowFlags() | Qt::FramelessWindowHint );
+            #endif
+        }
 
         // also enable hover effects in itemviews' viewport
         if( QAbstractItemView *itemView = qobject_cast<QAbstractItemView*>( widget ) )

@@ -36,8 +36,8 @@ namespace Oxygen
     //______________________________________________
     ProgressBarData::ProgressBarData( QObject* parent, QWidget* target, int duration ):
         GenericData( parent, target, duration ),
-        startValue_(0),
-        endValue_(0)
+        _startValue(0),
+        _endValue(0)
     {
 
         target->installEventFilter( this );

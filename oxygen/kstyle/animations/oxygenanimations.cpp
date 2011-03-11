@@ -57,25 +57,25 @@ namespace Oxygen
         QObject( parent )
     {
 
-        widgetEnabilityEngine_ = new WidgetStateEngine( this );
-        spinBoxEngine_ = new SpinBoxEngine( this );
-        comboBoxEngine_ = new WidgetStateEngine( this );
-        toolButtonEngine_ = new WidgetStateEngine( this );
-        toolBoxEngine_ = new ToolBoxEngine( this );
+        _widgetEnabilityEngine = new WidgetStateEngine( this );
+        _spinBoxEngine = new SpinBoxEngine( this );
+        _comboBoxEngine = new WidgetStateEngine( this );
+        _toolButtonEngine = new WidgetStateEngine( this );
+        _toolBoxEngine = new ToolBoxEngine( this );
 
-        registerEngine( splitterEngine_ = new SplitterEngine( this ) );
-        registerEngine( dockSeparatorEngine_ = new DockSeparatorEngine( this ) );
-        registerEngine( headerViewEngine_ = new HeaderViewEngine( this ) );
-        registerEngine( widgetStateEngine_ = new WidgetStateEngine( this ) );
-        registerEngine( lineEditEngine_ = new WidgetStateEngine( this ) );
-        registerEngine( progressBarEngine_ = new ProgressBarEngine( this ) );
-        registerEngine( menuBarEngine_ = new MenuBarEngineV1( this ) );
-        registerEngine( menuEngine_ = new MenuEngineV1( this ) );
-        registerEngine( scrollBarEngine_ = new ScrollBarEngine( this ) );
-        registerEngine( sliderEngine_ = new SliderEngine( this ) );
-        registerEngine( tabBarEngine_ = new TabBarEngine( this ) );
-        registerEngine( toolBarEngine_ = new ToolBarEngine( this ) );
-        registerEngine( mdiWindowEngine_ = new MdiWindowEngine( this ) );
+        registerEngine( _splitterEngine = new SplitterEngine( this ) );
+        registerEngine( _dockSeparatorEngine = new DockSeparatorEngine( this ) );
+        registerEngine( _headerViewEngine = new HeaderViewEngine( this ) );
+        registerEngine( _widgetStateEngine = new WidgetStateEngine( this ) );
+        registerEngine( _lineEditEngine = new WidgetStateEngine( this ) );
+        registerEngine( _progressBarEngine = new ProgressBarEngine( this ) );
+        registerEngine( _menuBarEngine = new MenuBarEngineV1( this ) );
+        registerEngine( _menuEngine = new MenuEngineV1( this ) );
+        registerEngine( _scrollBarEngine = new ScrollBarEngine( this ) );
+        registerEngine( _sliderEngine = new SliderEngine( this ) );
+        registerEngine( _tabBarEngine = new TabBarEngine( this ) );
+        registerEngine( _toolBarEngine = new ToolBarEngine( this ) );
+        registerEngine( _mdiWindowEngine = new MdiWindowEngine( this ) );
     }
 
     //____________________________________________________________
@@ -90,83 +90,83 @@ namespace Oxygen
             bool animationsEnabled( StyleConfigData::animationsEnabled() );
 
             // enability
-            widgetEnabilityEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            widgetStateEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            comboBoxEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            toolButtonEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            toolBoxEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            lineEditEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            splitterEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            scrollBarEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            sliderEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            spinBoxEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            tabBarEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            dockSeparatorEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            headerViewEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            mdiWindowEngine_->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _widgetEnabilityEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _widgetStateEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _comboBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _toolButtonEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _toolBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _lineEditEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _splitterEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _scrollBarEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _sliderEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _spinBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _tabBarEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _dockSeparatorEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _headerViewEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _mdiWindowEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
 
-            progressBarEngine_->setEnabled( animationsEnabled &&  StyleConfigData::progressBarAnimationsEnabled() );
-            progressBarEngine_->setBusyIndicatorEnabled( animationsEnabled &&  StyleConfigData::progressBarAnimated() );
+            _progressBarEngine->setEnabled( animationsEnabled &&  StyleConfigData::progressBarAnimationsEnabled() );
+            _progressBarEngine->setBusyIndicatorEnabled( animationsEnabled &&  StyleConfigData::progressBarAnimated() );
 
             // menubar engine
             int menuBarAnimationType( StyleConfigData::menuBarAnimationType() );
-            if( menuBarAnimationType == StyleConfigData::MB_FADE && !qobject_cast<MenuBarEngineV1*>( menuBarEngine_ ) )
+            if( menuBarAnimationType == StyleConfigData::MB_FADE && !qobject_cast<MenuBarEngineV1*>( _menuBarEngine ) )
             {
-                if( menuBarEngine_ )
+                if( _menuBarEngine )
                 {
 
-                    MenuBarEngineV1* newEngine = new MenuBarEngineV1( this, menuBarEngine_ );
+                    MenuBarEngineV1* newEngine = new MenuBarEngineV1( this, _menuBarEngine );
                     registerEngine( newEngine );
-                    menuBarEngine_->deleteLater();
-                    menuBarEngine_ = newEngine;
+                    _menuBarEngine->deleteLater();
+                    _menuBarEngine = newEngine;
 
-                } else registerEngine( menuBarEngine_ = new MenuBarEngineV1( this ) );
+                } else registerEngine( _menuBarEngine = new MenuBarEngineV1( this ) );
 
-            } else if( menuBarAnimationType == StyleConfigData::MB_FOLLOW_MOUSE && !qobject_cast<MenuBarEngineV2*>( menuBarEngine_ ) ) {
+            } else if( menuBarAnimationType == StyleConfigData::MB_FOLLOW_MOUSE && !qobject_cast<MenuBarEngineV2*>( _menuBarEngine ) ) {
 
-                if( menuBarEngine_ )
+                if( _menuBarEngine )
                 {
 
-                    MenuBarEngineV2* newEngine = new MenuBarEngineV2( this, menuBarEngine_ );
+                    MenuBarEngineV2* newEngine = new MenuBarEngineV2( this, _menuBarEngine );
                     registerEngine( newEngine );
-                    menuBarEngine_->deleteLater();
-                    menuBarEngine_ = newEngine;
+                    _menuBarEngine->deleteLater();
+                    _menuBarEngine = newEngine;
 
-                } else registerEngine( menuBarEngine_ = new MenuBarEngineV1( this ) );
+                } else registerEngine( _menuBarEngine = new MenuBarEngineV1( this ) );
 
             }
 
             // menu engine
             int menuAnimationType( StyleConfigData::menuAnimationType() );
-            if( menuAnimationType == StyleConfigData::ME_FADE && !qobject_cast<MenuEngineV1*>( menuEngine_ ) )
+            if( menuAnimationType == StyleConfigData::ME_FADE && !qobject_cast<MenuEngineV1*>( _menuEngine ) )
             {
 
-                if( menuEngine_ )
+                if( _menuEngine )
                 {
 
-                    MenuEngineV1* newEngine = new MenuEngineV1( this, menuEngine_ );
+                    MenuEngineV1* newEngine = new MenuEngineV1( this, _menuEngine );
                     registerEngine( newEngine );
-                    menuEngine_->deleteLater();
-                    menuEngine_ = newEngine;
+                    _menuEngine->deleteLater();
+                    _menuEngine = newEngine;
 
-                } else registerEngine( menuEngine_ = new MenuEngineV1( this ) );
+                } else registerEngine( _menuEngine = new MenuEngineV1( this ) );
 
-            } else if( menuAnimationType == StyleConfigData::ME_FOLLOW_MOUSE && !qobject_cast<MenuEngineV2*>( menuEngine_ ) ) {
+            } else if( menuAnimationType == StyleConfigData::ME_FOLLOW_MOUSE && !qobject_cast<MenuEngineV2*>( _menuEngine ) ) {
 
-                if( menuEngine_ )
+                if( _menuEngine )
                 {
 
-                    MenuEngineV2* newEngine = new MenuEngineV2( this, menuEngine_ );
+                    MenuEngineV2* newEngine = new MenuEngineV2( this, _menuEngine );
                     registerEngine( newEngine );
-                    menuEngine_->deleteLater();
-                    menuEngine_ = newEngine;
+                    _menuEngine->deleteLater();
+                    _menuEngine = newEngine;
 
-                } else registerEngine( menuEngine_ = new MenuEngineV1( this ) );
+                } else registerEngine( _menuEngine = new MenuEngineV1( this ) );
 
             }
 
-            menuBarEngine_->setEnabled( animationsEnabled &&  StyleConfigData::menuBarAnimationsEnabled() && menuBarAnimationType != StyleConfigData::MB_NONE );
-            menuEngine_->setEnabled( animationsEnabled &&  StyleConfigData::menuAnimationsEnabled() && menuAnimationType != StyleConfigData::ME_NONE );
+            _menuBarEngine->setEnabled( animationsEnabled && menuBarAnimationType != StyleConfigData::MB_NONE );
+            _menuEngine->setEnabled( animationsEnabled && menuAnimationType != StyleConfigData::ME_NONE );
 
             // toolbar engine
             int toolBarAnimationType( StyleConfigData::toolBarAnimationType() );
@@ -174,29 +174,29 @@ namespace Oxygen
             {
 
                 // disable toolbar engine
-                toolBarEngine_->setEnabled( animationsEnabled && toolBarAnimationType == StyleConfigData::TB_FOLLOW_MOUSE );
+                _toolBarEngine->setEnabled( animationsEnabled && toolBarAnimationType == StyleConfigData::TB_FOLLOW_MOUSE );
 
                 // unregister all toolbuttons that belong to a toolbar
-                foreach( QWidget* widget, widgetStateEngine_->registeredWidgets( AnimationHover|AnimationFocus ) )
+                foreach( QWidget* widget, _widgetStateEngine->registeredWidgets( AnimationHover|AnimationFocus ) )
                 {
                     if( qobject_cast<QToolButton*>( widget ) && qobject_cast<QToolBar*>( widget->parentWidget() ) )
-                    { widgetStateEngine_->unregisterWidget( widget ); }
+                    { _widgetStateEngine->unregisterWidget( widget ); }
                 }
 
             } else if( toolBarAnimationType == StyleConfigData::TB_FADE ) {
 
                 // disable toolbar engine
-                toolBarEngine_->setEnabled( false );
+                _toolBarEngine->setEnabled( false );
 
                 // retrieve all registered toolbars
-                BaseEngine::WidgetList widgets( toolBarEngine_->registeredWidgets() );
+                BaseEngine::WidgetList widgets( _toolBarEngine->registeredWidgets() );
                 foreach( QWidget* widget, widgets )
                 {
                     // get all toolbuttons
                     foreach( QObject* child, widget->children() )
                     {
                         if( QToolButton* toolButton = qobject_cast<QToolButton*>( child ) )
-                        { widgetStateEngine_->registerWidget( toolButton, AnimationHover ); }
+                        { _widgetStateEngine->registerWidget( toolButton, AnimationHover ); }
                     }
                 }
 
@@ -208,32 +208,32 @@ namespace Oxygen
         {
 
             // durations
-            widgetEnabilityEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            widgetStateEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            comboBoxEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            toolButtonEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            toolBoxEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            lineEditEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            splitterEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            scrollBarEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            sliderEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            spinBoxEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            tabBarEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            dockSeparatorEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            headerViewEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            mdiWindowEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _widgetEnabilityEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _widgetStateEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _comboBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _toolButtonEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _toolBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _lineEditEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _splitterEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _scrollBarEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _sliderEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _spinBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _tabBarEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _dockSeparatorEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _headerViewEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _mdiWindowEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
 
-            progressBarEngine_->setDuration( StyleConfigData::progressBarAnimationsDuration() );
-            progressBarEngine_->setBusyStepDuration( StyleConfigData::progressBarBusyStepDuration() );
+            _progressBarEngine->setDuration( StyleConfigData::progressBarAnimationsDuration() );
+            _progressBarEngine->setBusyStepDuration( StyleConfigData::progressBarBusyStepDuration() );
 
-            toolBarEngine_->setDuration( StyleConfigData::genericAnimationsDuration() );
-            toolBarEngine_->setFollowMouseDuration( StyleConfigData::toolBarAnimationsDuration() );
+            _toolBarEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _toolBarEngine->setFollowMouseDuration( StyleConfigData::toolBarAnimationsDuration() );
 
-            menuBarEngine_->setDuration( StyleConfigData::menuBarAnimationsDuration() );
-            menuBarEngine_->setFollowMouseDuration( StyleConfigData::menuBarFollowMouseAnimationsDuration() );
+            _menuBarEngine->setDuration( StyleConfigData::menuBarAnimationsDuration() );
+            _menuBarEngine->setFollowMouseDuration( StyleConfigData::menuBarFollowMouseAnimationsDuration() );
 
-            menuEngine_->setDuration( StyleConfigData::menuAnimationsDuration() );
-            menuEngine_->setFollowMouseDuration( StyleConfigData::menuFollowMouseAnimationsDuration() );
+            _menuEngine->setDuration( StyleConfigData::menuAnimationsDuration() );
+            _menuEngine->setFollowMouseDuration( StyleConfigData::menuFollowMouseAnimationsDuration() );
 
         }
 
@@ -348,7 +348,7 @@ namespace Oxygen
         // the following allows some optimization of widget unregistration
         // it assumes that a widget can be registered atmost in one of the
         // engines stored in the list.
-        foreach( const BaseEngine::Pointer& engine, engines_ )
+        foreach( const BaseEngine::Pointer& engine, _engines )
         { if( engine && engine.data()->unregisterWidget( widget ) ) break; }
 
     }
@@ -356,14 +356,14 @@ namespace Oxygen
     //_______________________________________________________________
     void Animations::unregisterEngine( QObject* object )
     {
-        int index( engines_.indexOf( qobject_cast<BaseEngine*>(object) ) );
-        if( index >= 0 ) engines_.removeAt( index );
+        int index( _engines.indexOf( qobject_cast<BaseEngine*>(object) ) );
+        if( index >= 0 ) _engines.removeAt( index );
     }
 
     //_______________________________________________________________
     void Animations::registerEngine( BaseEngine* engine )
     {
-        engines_.push_back( engine );
+        _engines.push_back( engine );
         connect( engine, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterEngine( QObject* ) ) );
     }
 

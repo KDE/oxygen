@@ -114,24 +114,24 @@ namespace Oxygen
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, const QPoint& point )
-        { return isAnimated( object, point ) ? data_.find( object ).data()->opacity( point ): AnimationData::OpacityInvalid; }
+        { return isAnimated( object, point ) ? _data.find( object ).data()->opacity( point ): AnimationData::OpacityInvalid; }
 
         //! return 'hover' rect position when widget is animated
         virtual QRect currentRect( const QObject* object, const QPoint& point)
-        { return isAnimated( object, point ) ? data_.find( object ).data()->currentRect( point ): QRect(); }
+        { return isAnimated( object, point ) ? _data.find( object ).data()->currentRect( point ): QRect(); }
 
         //! enability
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int duration )
         {
             BaseEngine::setDuration( duration );
-            data_.setDuration( duration );
+            _data.setDuration( duration );
         }
 
         //! return list of registered widgets
@@ -141,12 +141,12 @@ namespace Oxygen
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! data map
-        DataMap<MenuBarDataV1> data_;
+        DataMap<MenuBarDataV1> _data;
 
     };
 
@@ -179,7 +179,7 @@ namespace Oxygen
 
         //! animation opacity
         virtual qreal opacity( const QObject* object, const QPoint& point )
-        { return isAnimated( object, point ) ? data_.find( object ).data()->opacity(): AnimationData::OpacityInvalid; }
+        { return isAnimated( object, point ) ? _data.find( object ).data()->opacity(): AnimationData::OpacityInvalid; }
 
         //! return 'hover' rect position when widget is animated
         virtual QRect currentRect( const QObject*, const QPoint& );
@@ -194,25 +194,25 @@ namespace Oxygen
         virtual void setEnabled( bool value )
         {
             BaseEngine::setEnabled( value );
-            data_.setEnabled( value );
+            _data.setEnabled( value );
         }
 
         //! duration
         virtual void setDuration( int value )
         {
             BaseEngine::setDuration( value );
-            data_.setDuration( value );
+            _data.setDuration( value );
         }
 
         //! duration
         virtual int followMouseDuration( void ) const
-        { return followMouseDuration_; }
+        { return _followMouseDuration; }
 
         //! duration
         virtual void setFollowMouseDuration( int duration )
         {
-            followMouseDuration_ = duration;
-            foreach( const DataMap<MenuBarDataV2>::Value& value, data_ )
+            _followMouseDuration = duration;
+            foreach( const DataMap<MenuBarDataV2>::Value& value, _data )
             { if( value ) value.data()->setFollowMouseDuration( duration ); }
         }
 
@@ -223,15 +223,15 @@ namespace Oxygen
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return data_.unregisterWidget( object ); }
+        { return _data.unregisterWidget( object ); }
 
         private:
 
         //! follow mouse animation duration
-        int followMouseDuration_;
+        int _followMouseDuration;
 
         //! data map
-        DataMap<MenuBarDataV2> data_;
+        DataMap<MenuBarDataV2> _data;
 
     };
 

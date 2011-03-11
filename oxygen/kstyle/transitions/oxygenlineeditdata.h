@@ -1,5 +1,5 @@
-#ifndef oxygenlineeditdata_h
-#define oxygenlineeditdata_h
+#ifndef oxygenlineedit_datah
+#define oxygenlineedit_datah
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenlineeditdata.h
@@ -56,15 +56,15 @@ namespace Oxygen
 
         //! returns true if animations are locked
         bool isLocked( void ) const
-        { return animationLockTimer_.isActive(); }
+        { return _animationLockTimer.isActive(); }
 
         //! start lock animation timer
         void lockAnimations( void )
-        { animationLockTimer_.start( lockTime_, this ); }
+        { _animationLockTimer.start( _lockTime, this ); }
 
         //! start lock animation timer
         void unlockAnimations( void )
-        { animationLockTimer_.stop(); }
+        { _animationLockTimer.stop(); }
 
         protected slots:
 
@@ -95,10 +95,10 @@ namespace Oxygen
         /*! return rect corresponding to the area to be updated when animating */
         QRect targetRect( void ) const
         {
-            if( !target_ ) return QRect();
-            QRect out( target_.data()->rect() );
-            if( hasClearButton_ && clearButtonRect_.isValid() )
-            { out.setRight( clearButtonRect_.left() ); }
+            if( !_target ) return QRect();
+            QRect out( _target.data()->rect() );
+            if( _hasClearButton && _clearButtonRect.isValid() )
+            { out.setRight( _clearButtonRect.left() ); }
 
             return out;
         }
@@ -109,33 +109,33 @@ namespace Oxygen
         private:
 
         //! lock time (milliseconds
-        static const int lockTime_;
+        static const int _lockTime;
 
         //! timer used to disable animations when triggered too early
-        QBasicTimer animationLockTimer_;
+        QBasicTimer _animationLockTimer;
 
         //! needed to start animations out of parent paintEvent
-        QBasicTimer timer_;
+        QBasicTimer _timer;
 
         //! target
-        QWeakPointer<QLineEdit> target_;
+        QWeakPointer<QLineEdit> _target;
 
         //! true if target has clean button
-        bool hasClearButton_;
+        bool _hasClearButton;
 
         //! clear button rect
-        QRect clearButtonRect_;
+        QRect _clearButtonRect;
 
         //! true if text was manually edited
         /*! needed to trigger animation only on programatically enabled text */
-        bool edited_;
+        bool _edited;
 
         //! old text
-        QString text_;
+        QString _text;
 
         //! widget rect
         /*! needed to properly handle QLabel geometry changes */
-        QRect widgetRect_;
+        QRect _widgetRect;
 
     };
 
