@@ -34,7 +34,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
-#include <QtCore/QSet>
+#include <QtCore/QMap>
 
 #ifdef Q_WS_X11
 #include <X11/Xdefs.h>
@@ -70,6 +70,9 @@ namespace Oxygen
         //! reload config
         void reloadConfig( void );
 
+        //! event filter
+        virtual bool eventFilter( QObject*, QEvent* );
+
         protected slots:
 
         //! unregister widget
@@ -98,6 +101,7 @@ namespace Oxygen
         http://community.kde.org/KWin/Shadow
         */
         void uninstallX11Shadows( QWidget* ) const;
+        void uninstallX11Shadows( WId ) const;
 
         private:
 
@@ -105,7 +109,7 @@ namespace Oxygen
         ShadowCache* _shadowCache;
 
         //! set of registered widgets
-        QSet<QWidget*> _widgets;
+        QMap<QWidget*, WId> _widgets;
 
         //! shadow
         TileSet _shadows;
