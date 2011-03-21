@@ -34,6 +34,7 @@
 #include <KConfig>
 
 #include <QtGui/QMenu>
+#include <QtCore/QTextStream>
 
 #ifdef Q_WS_X11
 #include <QtGui/QX11Info>
@@ -144,8 +145,8 @@ namespace Oxygen
         From bespin code. Supposibly prevent playing with some 'pseudo-widgets'
         that have winId matching some other -random- window
         */
-        if( !(widget->testAttribute(Qt::WA_WState_Created) || widget->internalWinId() ))
-        { return false; }
+        //if( !(widget->testAttribute(Qt::WA_WState_Created) || widget->internalWinId() ))
+        //{ return false; }
 
         // create data
         // add pixmap handles
@@ -167,6 +168,14 @@ namespace Oxygen
         XChangeProperty(
             QX11Info::display(), widget->winId(), _atom, XA_CARDINAL, 32, PropModeReplace,
             reinterpret_cast<const unsigned char *>(data.constData()), data.size() );
+
+        QTextStream( stdout )
+            << "Oxygen::ShadowHelper::installX11Shadows -"
+            << " registering " << widget
+            << " wid: " << widget->winId()
+            << " internal: " << widget->internalWinId()
+            << " effective: " << widget->effectiveWinId()
+            << endl;
 
         return true;
 

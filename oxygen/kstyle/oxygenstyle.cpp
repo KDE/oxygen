@@ -3487,6 +3487,7 @@ namespace Oxygen
         }
 
         helper().renderMenuBackground( painter, r, widget, mOpt->palette );
+        if( widget ) QTextStream( stdout ) << "Oxygen::Style::drawPanelMenuPrimitive - widget: " << widget << " wId: " << widget->winId() << endl;
 
         if( hasAlpha ) painter->setClipping( false );
         helper().drawFloatFrame( painter, r, color, !hasAlpha );
