@@ -9360,8 +9360,22 @@ namespace Oxygen
         const QPalette& palette( option->palette );
         QColor color( palette.color( QPalette::WindowText ) );
 
+        // check enabled state
         const bool enabled( option->state & State_Enabled );
         if( !enabled ) return color;
+
+        if( const QAbstractSlider* slider = qobject_cast<const QAbstractSlider*>( widget ) )
+        {
+            const int value( slider->value() );
+            if(
+                ( control == SC_ScrollBarSubLine && value == slider->minimum() ) ||
+                ( control == SC_ScrollBarAddLine && value == slider->maximum() ) ) {
+
+                // manually disable arrow, to indicate that scrollbar is at limit
+                return palette.color( QPalette::Disabled, QPalette::WindowText );
+            }
+        }
+
 
         const bool hover( animations().scrollBarEngine().isHovered( widget, control ) );
         const bool animated( animations().scrollBarEngine().isAnimated( widget, control ) );
