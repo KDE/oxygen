@@ -65,6 +65,7 @@
 #include <QtGui/QDial>
 #include <QtGui/QDialogButtonBox>
 #include <QtGui/QDockWidget>
+#include <QtGui/QDoubleSpinBox>
 #include <QtGui/QFormLayout>
 #include <QtGui/QFrame>
 #include <QtGui/QGraphicsView>
@@ -76,6 +77,7 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
 #include <QtGui/QScrollBar>
+#include <QtGui/QSpinBox>
 #include <QtGui/QSplitterHandle>
 #include <QtGui/QStylePlugin>
 #include <QtGui/QStyleOption>
@@ -8561,7 +8563,34 @@ namespace Oxygen
         const QPalette& palette( option->palette );
 
         const State& flags( option->state );
-        const bool enabled( flags & State_Enabled );
+
+        bool enabled( flags & State_Enabled );
+        bool atLimit( false );
+        if( enabled )
+        {
+
+            if( const QSpinBox* spinbox = qobject_cast<const QSpinBox*>( widget ) )
+            {
+
+                // cast to spinbox and check if at limit
+                const int value( spinbox->value() );
+                if( !spinbox->wrapping() && (( subControl == SC_SpinBoxUp && value == spinbox->maximum() ) ||
+                    ( subControl == SC_SpinBoxDown && value == spinbox->minimum() ) ) )
+                    { atLimit = true; }
+
+            } else if( const QDoubleSpinBox* spinbox = qobject_cast<const QDoubleSpinBox*>( widget ) ) {
+
+                // cast to spinbox and check if at limit
+                const double value( spinbox->value() );
+                if( !spinbox->wrapping() && (( subControl == SC_SpinBoxUp && value == spinbox->maximum() ) ||
+                    ( subControl == SC_SpinBoxDown && value == spinbox->minimum() ) ) )
+                    { atLimit = true; }
+
+            }
+
+        }
+
+        enabled &= !atLimit;
         const bool mouseOver( enabled && ( flags & State_MouseOver ) );
 
         // check animation state
@@ -8581,6 +8610,10 @@ namespace Oxygen
         } else if( subControlHover ) {
 
             color = helper().viewHoverBrush().brush( palette ).color();
+
+        } else if( atLimit ) {
+
+            color = palette.color( QPalette::Disabled, QPalette::Text );
 
         } else {
 
