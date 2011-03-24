@@ -3774,7 +3774,6 @@ namespace Oxygen
         QPolygonF a = genericArrow( ArrowDown, ArrowNormal );
 
         qreal penThickness = 1.6;
-        bool drawContrast = true;
 
         // toolbuttons
         const QToolButton *tool( qobject_cast<const QToolButton *>( widget ) );
@@ -3916,16 +3915,11 @@ namespace Oxygen
         painter->setRenderHint( QPainter::Antialiasing );
 
         // white reflection
-        if( drawContrast )
-        {
-
-            const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
-            painter->translate( 0,offset );
-            painter->setPen( QPen( helper().calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawPolyline( a );
-            painter->translate( 0,-offset );
-
-        }
+        const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+        painter->translate( 0,offset );
+        painter->setPen( QPen( helper().calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+        painter->drawPolyline( a );
+        painter->translate( 0,-offset );
 
         painter->setPen( QPen( helper().decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
         painter->drawPolyline( a );
