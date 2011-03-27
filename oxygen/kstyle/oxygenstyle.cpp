@@ -65,6 +65,7 @@
 #include <QtGui/QDial>
 #include <QtGui/QDialogButtonBox>
 #include <QtGui/QDockWidget>
+#include <QtGui/QDoubleSpinBox>
 #include <QtGui/QFormLayout>
 #include <QtGui/QFrame>
 #include <QtGui/QGraphicsView>
@@ -76,6 +77,7 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
 #include <QtGui/QScrollBar>
+#include <QtGui/QSpinBox>
 #include <QtGui/QSplitterHandle>
 #include <QtGui/QStylePlugin>
 #include <QtGui/QStyleOption>
@@ -3772,7 +3774,6 @@ namespace Oxygen
         QPolygonF a = genericArrow( ArrowDown, ArrowNormal );
 
         qreal penThickness = 1.6;
-        bool drawContrast = true;
 
         // toolbuttons
         const QToolButton *tool( qobject_cast<const QToolButton *>( widget ) );
@@ -3914,16 +3915,11 @@ namespace Oxygen
         painter->setRenderHint( QPainter::Antialiasing );
 
         // white reflection
-        if( drawContrast )
-        {
-
-            const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
-            painter->translate( 0,offset );
-            painter->setPen( QPen( helper().calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawPolyline( a );
-            painter->translate( 0,-offset );
-
-        }
+        const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+        painter->translate( 0,offset );
+        painter->setPen( QPen( helper().calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+        painter->drawPolyline( a );
+        painter->translate( 0,-offset );
 
         painter->setPen( QPen( helper().decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
         painter->drawPolyline( a );
@@ -8561,7 +8557,34 @@ namespace Oxygen
         const QPalette& palette( option->palette );
 
         const State& flags( option->state );
-        const bool enabled( flags & State_Enabled );
+
+        bool enabled( flags & State_Enabled );
+        bool atLimit( false );
+        if( enabled )
+        {
+
+            if( const QSpinBox* spinbox = qobject_cast<const QSpinBox*>( widget ) )
+            {
+
+                // cast to spinbox and check if at limit
+                const int value( spinbox->value() );
+                if( !spinbox->wrapping() && (( subControl == SC_SpinBoxUp && value == spinbox->maximum() ) ||
+                    ( subControl == SC_SpinBoxDown && value == spinbox->minimum() ) ) )
+                    { atLimit = true; }
+
+            } else if( const QDoubleSpinBox* spinbox = qobject_cast<const QDoubleSpinBox*>( widget ) ) {
+
+                // cast to spinbox and check if at limit
+                const double value( spinbox->value() );
+                if( !spinbox->wrapping() && (( subControl == SC_SpinBoxUp && value == spinbox->maximum() ) ||
+                    ( subControl == SC_SpinBoxDown && value == spinbox->minimum() ) ) )
+                    { atLimit = true; }
+
+            }
+
+        }
+
+        enabled &= !atLimit;
         const bool mouseOver( enabled && ( flags & State_MouseOver ) );
 
         // check animation state
@@ -8581,6 +8604,10 @@ namespace Oxygen
         } else if( subControlHover ) {
 
             color = helper().viewHoverBrush().brush( palette ).color();
+
+        } else if( atLimit ) {
+
+            color = palette.color( QPalette::Disabled, QPalette::Text );
 
         } else {
 
@@ -9360,8 +9387,22 @@ namespace Oxygen
         const QPalette& palette( option->palette );
         QColor color( palette.color( QPalette::WindowText ) );
 
+        // check enabled state
         const bool enabled( option->state & State_Enabled );
         if( !enabled ) return color;
+
+        if( const QAbstractSlider* slider = qobject_cast<const QAbstractSlider*>( widget ) )
+        {
+            const int value( slider->value() );
+            if(
+                ( control == SC_ScrollBarSubLine && value == slider->minimum() ) ||
+                ( control == SC_ScrollBarAddLine && value == slider->maximum() ) ) {
+
+                // manually disable arrow, to indicate that scrollbar is at limit
+                return palette.color( QPalette::Disabled, QPalette::WindowText );
+            }
+        }
+
 
         const bool hover( animations().scrollBarEngine().isHovered( widget, control ) );
         const bool animated( animations().scrollBarEngine().isAnimated( widget, control ) );
