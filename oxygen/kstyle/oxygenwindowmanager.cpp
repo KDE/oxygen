@@ -37,6 +37,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QComboBox>
 #include <QtGui/QDialog>
+#include <QtGui/QDockWidget>
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
 #include <QtGui/QListView>
