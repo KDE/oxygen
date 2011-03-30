@@ -118,7 +118,7 @@ namespace Oxygen
         _shadowSize = shadowCache().shadowSize();
 
         // update property for registered widgets
-        for( QMap<QWidget*,WId>::const_iterator iter = _widgets.begin(); iter != _widgets.end(); iter++ )
+        for( QMap<QWidget*,WId>::const_iterator iter = _widgets.begin(); iter != _widgets.end(); ++iter )
         { installX11Shadows( iter.key() ); }
 
     }
