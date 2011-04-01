@@ -450,8 +450,8 @@ namespace Oxygen
         {
 
             // bottom-left corner
-            const QRectF rect( hoffset, size+4+voffset, size-4, size );
-            QRadialGradient rg = QRadialGradient( size+hoffset-4, size+4+voffset, radius );
+            const QRectF rect( hoffset, size+voffset+4, size-4, size );
+            QRadialGradient rg = QRadialGradient( size+hoffset-4, size+voffset+4, radius );
             for( int i = 0; i<stops.size(); i++ )
             {
                 QColor c( stops[i].second );
@@ -460,7 +460,7 @@ namespace Oxygen
                 {
                     if( i < stops.size()-1 )
                     {
-                        qreal x1( stops[i+1].first -4.0/radius );
+                        const qreal x1( stops[i+1].first -4.0/radius );
                         c = KColorUtils::mix( c, stops[i+1].second, -xx/(x1-xx) );
                     }
                     xx = 0;
@@ -476,8 +476,8 @@ namespace Oxygen
 
         {
             // bottom-right corner
-            const QRectF rect( size+4+hoffset, size+4+voffset, size-4, size );
-            QRadialGradient rg = QRadialGradient( size+hoffset+4, size+4+voffset, radius );
+            const QRectF rect( size+hoffset+4, size+voffset+4, size-4, size );
+            QRadialGradient rg = QRadialGradient( size+hoffset+4, size+voffset+4, radius );
             for( int i = 0; i<stops.size(); i++ )
             {
                 QColor c( stops[i].second );
@@ -486,7 +486,7 @@ namespace Oxygen
                 {
                     if( i < stops.size()-1 )
                     {
-                        qreal x1( stops[i+1].first -4.0/radius );
+                        const qreal x1( stops[i+1].first -4.0/radius );
                         c = KColorUtils::mix( c, stops[i+1].second, -xx/(x1-xx) );
                     }
                     xx = 0;
