@@ -399,9 +399,9 @@ namespace Oxygen
             return;
         }
 
-        qreal size( rect.width()/2.0 );
-        qreal hoffset( rg.center().x() - size );
-        qreal voffset( rg.center().y() - size );
+        const qreal size( rect.width()/2.0 );
+        const qreal hoffset( rg.center().x() - size );
+        const qreal voffset( rg.center().y() - size );
 
         // load gradient stops
         QGradientStops stops( rg.stops() );
