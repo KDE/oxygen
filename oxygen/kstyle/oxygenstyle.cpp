@@ -681,7 +681,6 @@ namespace Oxygen
             case PM_MenuScrollerHeight: return 10;
             case PM_MenuTearoffHeight: return 10;
 
-            //! tabbar
             // tabbars
             case PM_TabBarTabHSpace: return 0;
             case PM_TabBarTabVSpace: return 0;
