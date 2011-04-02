@@ -184,8 +184,12 @@ namespace Oxygen
             << _shadows.pixmap( 0 ).handle();
 
         // add padding
-        /* all 4 paddings are identical, since offsets are handled when generating the pixmaps */
-        data << _shadowSize << _shadowSize << _shadowSize << _shadowSize;
+        /*
+        all 4 paddings are identical, since offsets are handled when generating the pixmaps.
+        there is one extra pixel needed with respect to actual shadow size, to deal with how
+        menu backgrounds are rendered
+        */
+        data << _shadowSize - 1 << _shadowSize - 1 << _shadowSize - 1 << _shadowSize - 1;
 
         XChangeProperty(
             QX11Info::display(), widget->winId(), _atom, XA_CARDINAL, 32, PropModeReplace,
