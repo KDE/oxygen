@@ -84,14 +84,21 @@ namespace Oxygen
         if( _widgets.contains( widget ) ) return false;
 
         // check widget type
-        if( !( qobject_cast<QMenu*>( widget ) || widget->inherits( "QComboBoxPrivateContainer" ) ) )
-        { return false; }
+        const bool accepted( qobject_cast<QMenu*>( widget ) || widget->inherits( "QComboBoxPrivateContainer" ) );
+        if( !accepted ) { return false; }
 
         // store in map and add destroy signal connection
         widget->removeEventFilter( this );
         widget->installEventFilter( this );
-
         _widgets.insert( widget, 0 );
+
+        /*
+        need to install shadow directly when widget "created" state is already set
+        since WinID changed is never called when this is the case
+        */
+        if( widget->testAttribute(Qt::WA_WState_Created) && installX11Shadows( widget ) )
+        {  _widgets.insert( widget, widget->winId() ); }
+
         connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( objectDeleted( QObject* ) ) );
 
         return true;
