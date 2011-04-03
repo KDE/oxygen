@@ -143,7 +143,7 @@ namespace Oxygen
         if( installX11Shadows( widget ) )
         { _widgets.insert( widget, widget->winId() ); }
 
-        return true;
+        return false;
 
     }
 
