@@ -61,6 +61,9 @@ namespace Oxygen
         //! destructor
         virtual ~ShadowHelper( void );
 
+        //! reset
+        void reset( void );
+
         //! register widget
         bool registerWidget( QWidget* );
 
@@ -88,12 +91,18 @@ namespace Oxygen
         ShadowCache& shadowCache( void )
         { return *_shadowCache; }
 
+        // create pixmap handles from tileset
+        void createPixmapHandles( void );
+
+        // create pixmap handle from pixmap
+        Qt::HANDLE createPixmap( const QPixmap& ) const;
+
         //! install shadow X11 property on given widget
         /*!
         shadow atom and property specification available at
         http://community.kde.org/KWin/Shadow
         */
-        bool installX11Shadows( QWidget* ) const;
+        bool installX11Shadows( QWidget* );
 
         //! uninstall shadow X11 property on given widget
         void uninstallX11Shadows( QWidget* ) const;
@@ -109,11 +118,17 @@ namespace Oxygen
         //! set of registered widgets
         QMap<QWidget*, WId> _widgets;
 
-        //! shadow
-        TileSet _shadows;
+        //! shadow tileset
+        TileSet _tiles;
+
+        //! number of pixmaps
+        enum { numPixmaps = 8 };
+
+        //! pixmaps
+        QVector<Qt::HANDLE> _pixmaps;
 
         //! shadow size
-        int _shadowSize;
+        int _size;
 
         #ifdef Q_WS_X11
         //! shadow atom

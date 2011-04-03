@@ -34,6 +34,7 @@
 #include <KConfig>
 
 #include <QtGui/QMenu>
+#include <QtGui/QPainter>
 #include <QtCore/QTextStream>
 #include <QtCore/QEvent>
 
@@ -50,20 +51,29 @@ namespace Oxygen
     ShadowHelper::ShadowHelper( QObject* parent, Helper& helper ):
         QObject( parent ),
         _shadowCache( new ShadowCache( helper ) ),
-        _shadowSize( 0 ),
+        _size( 0 ),
         _atom( None )
-    {
-
-        #ifdef Q_WS_X11
-        // create atom
-        _atom = XInternAtom( QX11Info::display(), "_KDE_NET_WM_SHADOW", False);
-        #endif
-
-    }
+    {}
 
     //_______________________________________________________
     ShadowHelper::~ShadowHelper( void )
     { delete _shadowCache; }
+
+    //______________________________________________
+    void ShadowHelper::reset( void )
+    {
+        #ifdef Q_WS_X11
+        // round pixmaps
+        foreach( const Qt::HANDLE& value, _pixmaps  )
+        { XFreePixmap( QX11Info::display(), value ); }
+        #endif
+
+        _pixmaps.clear();
+
+        // reset size
+        _size = 0;
+
+    }
 
     //_______________________________________________________
     bool ShadowHelper::registerWidget( QWidget* widget )
@@ -109,9 +119,12 @@ namespace Oxygen
         KConfig config( "oxygenrc" );
         if( !shadowCache().readConfig( config ) ) return;
 
-        // reset tileset and shadow size
-        _shadows = *shadowCache().tileSet( ShadowCache::Key() );
-        _shadowSize = shadowCache().shadowSize();
+        // reset
+        reset();
+
+        // recreate handles and store size
+        _size = shadowCache().shadowSize();
+        _tiles = *shadowCache().tileSet( ShadowCache::Key() );
 
         // update property for registered widgets
         for( QMap<QWidget*,WId>::const_iterator iter = _widgets.begin(); iter != _widgets.end(); ++iter )
@@ -141,8 +154,8 @@ namespace Oxygen
     void ShadowHelper::objectDeleted( QObject* object )
     { _widgets.remove( static_cast<QWidget*>( object ) ); }
 
-    //_______________________________________________________
-    bool ShadowHelper::installX11Shadows( QWidget* widget ) const
+    //______________________________________________
+    void ShadowHelper::createPixmapHandles( void )
     {
 
         /*!
@@ -150,12 +163,87 @@ namespace Oxygen
         http://community.kde.org/KWin/Shadow
         */
 
+        // create atom
         #ifdef Q_WS_X11
-        #ifndef QT_NO_XRENDER
+        if( !_atom ) _atom = XInternAtom( QX11Info::display(), "_KDE_NET_WM_SHADOW", False);
+        #endif
+
+        // make sure size is valid
+        if( _size <= 0 ) return;
+
+        // make sure pixmaps are not already initialized
+        if( _pixmaps.empty() )
+        {
+
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ) ) );
+
+        }
+
+    }
+
+    //______________________________________________
+    Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source ) const
+    {
+
+        // do nothing for invalid pixmaps
+        if( source.isNull() ) return 0;
+
+        // if available returns the pixmap handle directly
+        if( source.handle() )
+        {
+
+            return source.handle();
+
+        } else {
+
+            /*
+            in some cases, pixmap handle is invalid. This is the case notably
+            when Qt uses to RasterEngine. In this case, we create an X11 Pixmap
+            explicitly and draw the source pixmap on it.
+            */
+
+            #ifdef Q_WS_X11
+            const int width( source.width() );
+            const int height( source.height() );
+
+            // create X11 pixmap
+            Pixmap pixmap = XCreatePixmap( QX11Info::display(), QX11Info::appRootWindow(), width, height, 32 );
+
+            // create explicitly shared QPixmap from it
+            QPixmap dest( QPixmap::fromX11Pixmap( pixmap, QPixmap::ExplicitlyShared ) );
+
+            // create surface for pixmap
+            {
+                QPainter painter( &dest );
+                painter.setCompositionMode( QPainter::CompositionMode_Source );
+                painter.drawPixmap( 0, 0, source );
+            }
+
+            return pixmap;
+            #else
+            return 0;
+            #endif
+
+        }
+
+    }
+
+    //_______________________________________________________
+    bool ShadowHelper::installX11Shadows( QWidget* widget )
+    {
 
         // check widget and shadow
-        if( !( widget && _shadows.isValid() ) )
-        { return false; }
+        if( !widget ) return false;
+
+        #ifdef Q_WS_X11
+        #ifndef QT_NO_XRENDER
 
         // TODO: also check for NET_WM_SUPPORTED atom, before installing shadow
 
@@ -166,18 +254,14 @@ namespace Oxygen
         if( !(widget->testAttribute(Qt::WA_WState_Created) || widget->internalWinId() ))
         { return false; }
 
+        // create pixmap handles if needed
+        createPixmapHandles();
+
         // create data
         // add pixmap handles
         QVector<unsigned long> data;
-        data
-            << _shadows.pixmap( 1 ).handle() // top
-            << _shadows.pixmap( 2 ).handle() // top-right
-            << _shadows.pixmap( 5 ).handle() // right
-            << _shadows.pixmap( 8 ).handle() // bottom-right
-            << _shadows.pixmap( 7 ).handle() // bottom
-            << _shadows.pixmap( 6 ).handle() // bottom left
-            << _shadows.pixmap( 3 ).handle() // left
-            << _shadows.pixmap( 0 ).handle();
+        foreach( const Qt::HANDLE& value, _pixmaps )
+        { data.push_back( value ); }
 
         // add padding
         /*
@@ -185,7 +269,7 @@ namespace Oxygen
         there is one extra pixel needed with respect to actual shadow size, to deal with how
         menu backgrounds are rendered
         */
-        data << _shadowSize - 1 << _shadowSize - 1 << _shadowSize - 1 << _shadowSize - 1;
+        data << _size - 1 << _size - 1 << _size - 1 << _size - 1;
 
         XChangeProperty(
             QX11Info::display(), widget->winId(), _atom, XA_CARDINAL, 32, PropModeReplace,
