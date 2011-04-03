@@ -8,9 +8,6 @@
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
 //
-// Loosely inspired (and largely rewritten) from BeSpin style
-// Copyright (C) 2007 Thomas Luebking <thomas.luebking@web.de>
-//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
 // deal in the Software without restriction, including without limitation the
