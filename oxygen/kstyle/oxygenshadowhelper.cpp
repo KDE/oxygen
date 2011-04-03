@@ -63,18 +63,7 @@ namespace Oxygen
 
     //_______________________________________________________
     ShadowHelper::~ShadowHelper( void )
-    {
-
-        // unregister all stored widgets
-        /*
-        for( QMap<QWidget*,WId>::const_iterator iter = _widgets.begin(); iter != _widgets.end(); iter++ )
-        { uninstallX11Shadows( iter.value() ); }
-        */
-
-        // delete shadow cache
-        delete _shadowCache;
-
-    }
+    { delete _shadowCache; }
 
     //_______________________________________________________
     bool ShadowHelper::registerWidget( QWidget* widget )
