@@ -162,6 +162,9 @@ namespace Oxygen
         /*! right now this is true only for X11 */
         bool supportWMMoveResize( void ) const;
 
+        //! utility function
+        bool isDockWidgetTitle( const QWidget* ) const;
+
         //!@name lock
         //@{
 

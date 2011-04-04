@@ -132,7 +132,7 @@ namespace Oxygen
             page = new KPageWidgetItem( widget = new FrameDemoWidget() );
             page->setName( i18n("Frames") );
             page->setIcon( KIcon( "draw-rectangle" ) );
-            page->setHeader( i18n("Shows the appearance of tab widgets") );
+            page->setHeader( i18n("Shows the appearance of various framed widgets") );
             _pageWidget->addPage( page );
             _widgets.push_back( widget );
         }
