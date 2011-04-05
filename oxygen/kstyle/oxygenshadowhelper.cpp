@@ -78,10 +78,7 @@ namespace Oxygen
 
         // make sure widget is not already registered
         if( _widgets.contains( widget ) ) return false;
-
-        // check widget type
-        const bool accepted( qobject_cast<QMenu*>( widget ) || widget->inherits( "QComboBoxPrivateContainer" ) );
-        if( !accepted ) { return false; }
+        if( !acceptWidget( widget ) ) { return false; }
 
         // store in map and add destroy signal connection
         widget->removeEventFilter( this );
@@ -150,6 +147,22 @@ namespace Oxygen
     //_______________________________________________________
     void ShadowHelper::objectDeleted( QObject* object )
     { _widgets.remove( static_cast<QWidget*>( object ) ); }
+
+    //_______________________________________________________
+    bool ShadowHelper::acceptWidget( QWidget* widget ) const
+    {
+        // menus
+        if( qobject_cast<QMenu*>( widget ) ) return true;
+
+        // combobox dropdown lists
+        if( widget->inherits( "QComboBoxPrivateContainer" ) ) return true;
+
+        // tooltips
+        if( widget->inherits( "QTipLabel" ) ) return true;
+
+        // reject
+        return false;
+    }
 
     //______________________________________________
     void ShadowHelper::createPixmapHandles( void )
@@ -266,7 +279,16 @@ namespace Oxygen
         there is one extra pixel needed with respect to actual shadow size, to deal with how
         menu backgrounds are rendered
         */
-        data << _size - 1 << _size - 1 << _size - 1 << _size - 1;
+        if( widget->inherits( "QTipLabel" ) )
+        {
+
+            data << _size << _size << _size << _size;
+
+        } else {
+
+            data << _size - 1 << _size - 1 << _size - 1 << _size - 1;
+
+        }
 
         XChangeProperty(
             QX11Info::display(), widget->winId(), _atom, XA_CARDINAL, 32, PropModeReplace,

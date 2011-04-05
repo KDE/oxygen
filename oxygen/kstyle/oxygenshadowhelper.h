@@ -80,6 +80,9 @@ namespace Oxygen
 
         protected:
 
+        //! accept widget
+        bool acceptWidget( QWidget* ) const;
+
         //! shadow cache
         const ShadowCache& shadowCache( void ) const
         { return *_shadowCache; }
