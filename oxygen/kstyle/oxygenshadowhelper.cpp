@@ -194,15 +194,15 @@ namespace Oxygen
         if( _pixmaps.empty() )
         {
 
-            const int tooltipOpacity = 150;
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ), tooltipOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ), tooltipOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ), tooltipOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ), tooltipOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ), tooltipOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ), tooltipOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ), tooltipOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ), tooltipOpacity ) );
+            const int shadowOpacity = 150;
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ), shadowOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ), shadowOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ), shadowOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ), shadowOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ), shadowOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ), shadowOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ), shadowOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ), shadowOpacity ) );
 
         }
 
