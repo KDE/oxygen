@@ -80,6 +80,12 @@ namespace Oxygen
 
         protected:
 
+        //! true if widget is a menu
+        bool isMenu( QWidget* ) const;
+
+        //! true if widget is a tooltip
+        bool isToolTip( QWidget* ) const;
+
         //! accept widget
         bool acceptWidget( QWidget* ) const;
 
@@ -95,7 +101,7 @@ namespace Oxygen
         void createPixmapHandles( void );
 
         // create pixmap handle from pixmap
-        Qt::HANDLE createPixmap( const QPixmap& ) const;
+        Qt::HANDLE createPixmap( const QPixmap&, int opacity = 255 ) const;
 
         //! install shadow X11 property on given widget
         /*!

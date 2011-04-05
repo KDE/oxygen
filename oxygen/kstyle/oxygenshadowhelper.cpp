@@ -149,6 +149,14 @@ namespace Oxygen
     { _widgets.remove( static_cast<QWidget*>( object ) ); }
 
     //_______________________________________________________
+    bool ShadowHelper::isMenu( QWidget* widget ) const
+    { return qobject_cast<QMenu*>( widget ); }
+
+    //_______________________________________________________
+    bool ShadowHelper::isToolTip( QWidget* widget ) const
+    { return widget->inherits( "QTipLabel" ) || (widget->windowFlags() & Qt::WindowType_Mask) == Qt::ToolTip; }
+
+    //_______________________________________________________
     bool ShadowHelper::acceptWidget( QWidget* widget ) const
     {
         // menus
@@ -158,7 +166,8 @@ namespace Oxygen
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) return true;
 
         // tooltips
-        if( widget->inherits( "QTipLabel" ) ) return true;
+        if( widget->inherits( "QTipLabel" ) || (widget->windowFlags() & Qt::WindowType_Mask) == Qt::ToolTip )
+        { return true; }
 
         // reject
         return false;
@@ -185,28 +194,29 @@ namespace Oxygen
         if( _pixmaps.empty() )
         {
 
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ) ) );
+            const int tooltipOpacity = 150;
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ), tooltipOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ), tooltipOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ), tooltipOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ), tooltipOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ), tooltipOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ), tooltipOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ), tooltipOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ), tooltipOpacity ) );
 
         }
 
     }
 
     //______________________________________________
-    Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source ) const
+    Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source, int opacity ) const
     {
 
         // do nothing for invalid pixmaps
         if( source.isNull() ) return 0;
 
         // if available returns the pixmap handle directly
-        if( source.handle() )
+        if( source.handle() && opacity == 255 )
         {
 
             return source.handle();
@@ -234,7 +244,16 @@ namespace Oxygen
                 QPainter painter( &dest );
                 painter.setCompositionMode( QPainter::CompositionMode_Source );
                 painter.drawPixmap( 0, 0, source );
+
+                // add opacity
+                if( opacity < 255 )
+                {
+                    painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+                    painter.fillRect( dest.rect(), QColor( 0, 0, 0, opacity ) );
+                }
+
             }
+
 
             return pixmap;
             #else
@@ -279,7 +298,7 @@ namespace Oxygen
         there is one extra pixel needed with respect to actual shadow size, to deal with how
         menu backgrounds are rendered
         */
-        if( widget->inherits( "QTipLabel" ) )
+        if( isToolTip( widget ) )
         {
 
             data << _size << _size << _size << _size;

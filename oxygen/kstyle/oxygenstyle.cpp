@@ -3552,7 +3552,8 @@ namespace Oxygen
 
             painter->setBrush( Qt::NoBrush );
             painter->setPen( QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawRoundedRect( local, 4, 4 );
+            //painter->drawRoundedRect( local, 4, 4 );
+            painter->drawRoundedRect( local, 3.5, 3.5 );
 
         } else {
 
