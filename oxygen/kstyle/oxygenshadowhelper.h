@@ -62,7 +62,7 @@ namespace Oxygen
         void reset( void );
 
         //! register widget
-        bool registerWidget( QWidget* );
+        bool registerWidget( QWidget*, bool force = false );
 
         //! unregister widget
         void unregisterWidget( QWidget* );

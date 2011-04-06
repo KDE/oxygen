@@ -73,12 +73,15 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    bool ShadowHelper::registerWidget( QWidget* widget )
+    bool ShadowHelper::registerWidget( QWidget* widget, bool force )
     {
 
         // make sure widget is not already registered
         if( _widgets.contains( widget ) ) return false;
-        if( !acceptWidget( widget ) ) { return false; }
+
+        // check if widget qualifies
+        if( !( force || acceptWidget( widget ) ) )
+        { return false; }
 
         // store in map and add destroy signal connection
         widget->removeEventFilter( this );
