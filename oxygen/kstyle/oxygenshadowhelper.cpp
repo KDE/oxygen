@@ -169,7 +169,8 @@ namespace Oxygen
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) return true;
 
         // tooltips
-        if( widget->inherits( "QTipLabel" ) || (widget->windowFlags() & Qt::WindowType_Mask) == Qt::ToolTip )
+        if( (widget->inherits( "QTipLabel" ) || (widget->windowFlags() & Qt::WindowType_Mask) == Qt::ToolTip ) &&
+            !widget->inherits( "Plasma::ToolTip" ) )
         { return true; }
 
         // reject
