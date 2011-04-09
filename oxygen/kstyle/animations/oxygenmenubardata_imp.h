@@ -66,6 +66,9 @@ namespace Oxygen
             previousAnimation().data()->start();
         }
 
+        // trigger update
+        setDirty();
+
     }
 
     //________________________________________________________________________
@@ -197,6 +200,9 @@ namespace Oxygen
             animation().data()->setDirection( Animation::Backward );
             animation().data()->start();
         }
+
+        // trigger update
+        setDirty();
 
         return;
 
