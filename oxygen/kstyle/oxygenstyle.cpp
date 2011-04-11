@@ -3511,6 +3511,10 @@ namespace Oxygen
     bool Style::drawPanelTipLabelPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // force registration of widget
+        if( widget && widget->window() )
+        { shadowHelper().registerWidget( widget->window(), true ); }
+
         // parent style painting if frames should not be styled
         if( !StyleConfigData::toolTipDrawStyledFrames() ) return false;
 

@@ -30,8 +30,10 @@
 
 #include <KConfig>
 
+#include <QtGui/QDockWidget>
 #include <QtGui/QMenu>
 #include <QtGui/QPainter>
+#include <QtGui/QToolBar>
 #include <QtCore/QTextStream>
 #include <QtCore/QEvent>
 
@@ -162,6 +164,7 @@ namespace Oxygen
     //_______________________________________________________
     bool ShadowHelper::acceptWidget( QWidget* widget ) const
     {
+
         // menus
         if( qobject_cast<QMenu*>( widget ) ) return true;
 
@@ -171,6 +174,10 @@ namespace Oxygen
         // tooltips
         if( (widget->inherits( "QTipLabel" ) || (widget->windowFlags() & Qt::WindowType_Mask) == Qt::ToolTip ) &&
             !widget->inherits( "Plasma::ToolTip" ) )
+        { return true; }
+
+        // detached widgets
+        if( qobject_cast<QToolBar*>( widget ) || qobject_cast<QDockWidget*>( widget ) )
         { return true; }
 
         // reject
