@@ -5314,7 +5314,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawShapedFrameControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawShapedFrameControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
         // cast option and check
@@ -5332,13 +5332,15 @@ namespace Oxygen
 
             case QFrame::HLine:
             {
-                helper().drawSeparator( painter, option->rect, option->palette.color( QPalette::Window ), Qt::Horizontal );
+                const QColor color( helper().backgroundColor( option->palette.color( QPalette::Window ), widget, option->rect.center() ) );
+                helper().drawSeparator( painter, option->rect, color, Qt::Horizontal );
                 return true;
             }
 
             case QFrame::VLine:
             {
-                helper().drawSeparator( painter, option->rect, option->palette.color( QPalette::Window ), Qt::Vertical );
+                const QColor color( helper().backgroundColor( option->palette.color( QPalette::Window ), widget, option->rect.center() ) );
+                helper().drawSeparator( painter, option->rect, color, Qt::Vertical );
                 return true;
             }
 
