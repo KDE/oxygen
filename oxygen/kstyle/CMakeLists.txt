@@ -54,6 +54,7 @@ set(oxygen_PART_SRCS
     transitions/oxygentransitionwidget.cpp
     oxygenframeshadow.cpp
     oxygenpropertynames.cpp
+    oxygenshadowhelper.cpp
     oxygenstyle.cpp
     oxygenstylehelper.cpp
     oxygenwindowmanager.cpp

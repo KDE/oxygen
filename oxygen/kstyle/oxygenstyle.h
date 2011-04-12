@@ -65,6 +65,7 @@ namespace Oxygen
 
     class Animations;
     class FrameShadowFactory;
+    class ShadowHelper;
     class StyleHelper;
     class Transitions;
     class WindowManager;
@@ -201,6 +202,10 @@ namespace Oxygen
         //! helper
         StyleHelper& helper( void ) const
         { return *_helper; }
+
+        //! shadow Helper
+        ShadowHelper& shadowHelper( void ) const
+        { return *_shadowHelper; }
 
         //!@name enumerations and convenience classes
         //@{
@@ -917,6 +922,9 @@ namespace Oxygen
 
         //! helper
         StyleHelper* _helper;
+
+        //! shadow helper
+        ShadowHelper* _shadowHelper;
 
         //! animations
         Animations* _animations;

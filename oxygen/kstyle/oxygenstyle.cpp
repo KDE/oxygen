@@ -51,6 +51,7 @@
 
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
+#include "oxygenshadowhelper.h"
 #include "oxygenstyleconfigdata.h"
 #include "oxygentransitions.h"
 #include "oxygenwidgetexplorer.h"
@@ -156,6 +157,7 @@ namespace Oxygen
         _doubleButtonHeight( 28 ),
         _showMnemonics( true ),
         _helper( new StyleHelper( "oxygen" ) ),
+        _shadowHelper( new ShadowHelper( this, *_helper ) ),
         _animations( new Animations( this ) ),
         _transitions( new Transitions( this ) ),
         _windowManager( new WindowManager( this ) ),
@@ -200,9 +202,7 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::~Style( void )
-    {
-        delete _helper;
-    }
+    { delete _helper; }
 
     //______________________________________________________________
     void Style::polish( QWidget* widget )
@@ -214,6 +214,7 @@ namespace Oxygen
         transitions().registerWidget( widget );
         windowManager().registerWidget( widget );
         frameShadowFactory().registerWidget( widget, helper() );
+        shadowHelper().registerWidget( widget );
 
         // scroll areas
         if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) )
@@ -254,6 +255,7 @@ namespace Oxygen
             // set background as styled
             widget->setAttribute( Qt::WA_StyledBackground );
             widget->installEventFilter( _topLevelManager );
+
             break;
 
             default: break;
@@ -457,6 +459,7 @@ namespace Oxygen
         transitions().unregisterWidget( widget );
         windowManager().unregisterWidget( widget );
         frameShadowFactory().unregisterWidget( widget );
+        shadowHelper().unregisterWidget( widget );
 
         if( isKTextEditFrame( widget ) )
         { widget->setAttribute( Qt::WA_Hover, false  ); }
@@ -678,7 +681,6 @@ namespace Oxygen
             case PM_MenuScrollerHeight: return 10;
             case PM_MenuTearoffHeight: return 10;
 
-            //! tabbar
             // tabbars
             case PM_TabBarTabHSpace: return 0;
             case PM_TabBarTabVSpace: return 0;
@@ -3550,7 +3552,8 @@ namespace Oxygen
 
             painter->setBrush( Qt::NoBrush );
             painter->setPen( QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawRoundedRect( local, 4, 4 );
+            //painter->drawRoundedRect( local, 4, 4 );
+            painter->drawRoundedRect( local, 3.5, 3.5 );
 
         } else {
 
@@ -6187,7 +6190,7 @@ namespace Oxygen
         const bool hasLeftCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget );
         const bool hasRightCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::RightCornerWidget );
 
-        // true if widget is alligned to the frame
+        // true if widget is aligned to the frame
         /* need to check for 'isRightOfSelected' because for some reason the isFirst flag is set when active tab is being moved */
         const bool isFrameAligned( !documentMode && isFirst && !hasLeftCornerWidget && !isRightOfSelected && !isDragged );
         isFirst &= !isRightOfSelected;
@@ -7805,6 +7808,7 @@ namespace Oxygen
         animations().setupEngines();
         transitions().setupEngines();
         windowManager().initialize();
+        shadowHelper().reloadConfig();
 
         // widget explorer
         widgetExplorer().setEnabled( StyleConfigData::widgetExplorerEnabled() );
