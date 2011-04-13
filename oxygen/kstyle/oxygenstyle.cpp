@@ -595,7 +595,15 @@ namespace Oxygen
 
                 if( qobject_cast<const QLineEdit*>( widget ) ) return LineEdit_FrameWidth;
                 else if( qobject_cast<const QComboBox*>( widget ) ) return ComboBox_FrameWidth;
-                else if( qobject_cast<const QFrame*>( widget ) ) return Frame_FrameWidth;
+                else if( qobject_cast<const QFrame*>( widget ) )
+                {
+
+                    // special case for KTitleWidget: frameWidth is set to zero, since
+                    // no frame, nor background is painted for these
+                    if( widget->parent() && widget->parent()->inherits( "KTitleWidget" ) ) return 0;
+                    else return Frame_FrameWidth;
+
+                }
                 else if( qstyleoption_cast<const QStyleOptionGroupBox *>( option ) ) return GroupBox_FrameWidth;
                 else return 1;
 
