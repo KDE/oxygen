@@ -124,7 +124,7 @@ namespace Oxygen
         _tiles = *shadowCache().tileSet( ShadowCache::Key() );
 
         // update property for registered widgets
-        for( QMap<QWidget*,WId>::const_iterator iter = _widgets.begin(); iter != _widgets.end(); ++iter )
+        for( QMap<QWidget*,WId>::const_iterator iter = _widgets.constBegin(); iter != _widgets.constEnd(); ++iter )
         { installX11Shadows( iter.key() ); }
 
     }
