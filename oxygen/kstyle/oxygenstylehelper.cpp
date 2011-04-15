@@ -954,7 +954,8 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::holeFocused( const QColor& color, const QColor& glowColor, qreal shade, int size, bool outline )
     {
-        // FIXME must move to s/slabcache/cache/ b/c key is wrong
+
+        // get key
         Oxygen::Cache<TileSet>::Value* cache( _holeFocusedCache.get( glowColor ) );
 
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size << 1 | outline );
@@ -970,23 +971,42 @@ namespace Oxygen
             p.setRenderHints( QPainter::Antialiasing );
             p.setPen( Qt::NoPen );
 
-            TileSet *holeTileSet = hole( color, shade, size, outline );
-
-            // hole
-            holeTileSet->render( QRect( 0, 0, rsize*2, rsize*2 ), &p );
-
             p.setWindow( 2,2,10,10 );
+
+            // hole mask
+            p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
+            p.setBrush( Qt::black );
+            p.drawEllipse( 3,3,8,8 );
+
+            p.setCompositionMode( QPainter::CompositionMode_SourceOver );
+            if( outline )
+            {
+                QLinearGradient blend( 0, 3, 0, 11 );
+                blend.setColorAt( 0, Qt::transparent );
+                blend.setColorAt( 1, calcDarkColor( color ) );
+
+                p.setBrush( Qt::NoBrush );
+                p.setPen( QPen( blend, 1 ) );
+                p.drawEllipse( 3, 3.5, 8, 7 );
+                p.setPen( Qt::NoPen );
+            }
+
+            // shadow
+            int alpha( glowColor.alpha() );
+            QColor shadowColor( calcShadowColor( color ) );
+            shadowColor.setAlpha( 255-alpha );
+            drawInverseShadow( p, shadowColor, 3, 8, 0.0 );
 
             // glow
             drawInverseGlow( p, glowColor, 3, 8, size );
-
             p.end();
 
             tileSet = new TileSet( pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1 );
-
             cache->insert( key, tileSet );
         }
+
         return tileSet;
+
     }
 
     //______________________________________________________________________________
