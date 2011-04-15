@@ -1123,16 +1123,15 @@ namespace Oxygen
             p.begin( &pixmap );
             p.setPen( Qt::NoPen );
             p.setRenderHint( QPainter::Antialiasing );
-            QRadialGradient rg = QRadialGradient( 4.5, 4.5, 4.5, 4.5, 4.5 );
+            QRadialGradient rg = QRadialGradient( 4.5, 4.5, 3.5 );
 
             QColor tmpColor( alphaColor( glowColor, 180.0/255 ) );
-            rg.setColorAt( 0.75, tmpColor );
-
+            rg.setColorAt( 1.0, tmpColor );
             tmpColor.setAlpha( 0 );
-            rg.setColorAt( 0.90, tmpColor );
             rg.setColorAt( 0.4, tmpColor );
             p.setBrush( rg );
-            p.drawEllipse( QRectF( 0, 0, 9, 9 ) );
+
+            p.drawEllipse( QRectF( 1, 1, 7, 7 ) );
 
             p.end();
 
