@@ -9233,7 +9233,7 @@ namespace Oxygen
 
         // one need to make smaller shadow
         // notably on the size when rect height is too high
-        const bool smallShadow( r.height() < 10 );
+        const bool smallShadow( orientation == Qt::Horizontal ? r.height() < 10 : r.width() < 10 );
         helper().scrollHole( color, orientation, smallShadow )->render( r, painter, tiles );
 
     }
