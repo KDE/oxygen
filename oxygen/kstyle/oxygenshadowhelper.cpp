@@ -30,8 +30,10 @@
 
 #include <KConfig>
 
+#include <QtGui/QDockWidget>
 #include <QtGui/QMenu>
 #include <QtGui/QPainter>
+#include <QtGui/QToolBar>
 #include <QtCore/QTextStream>
 #include <QtCore/QEvent>
 
@@ -43,6 +45,10 @@
 
 namespace Oxygen
 {
+
+    const char* ShadowHelper::netWMShadowAtomName( "_KDE_NET_WM_SHADOW" );
+    const char* ShadowHelper::netWMForceShadowPropertyName( "_KDE_NET_WM_FORCE_SHADOW" );
+    const char* ShadowHelper::netWMSkipShadowPropertyName( "_KDE_NET_WM_SKIP_SHADOW" );
 
     //_____________________________________________________
     ShadowHelper::ShadowHelper( QObject* parent, Helper& helper ):
@@ -162,6 +168,10 @@ namespace Oxygen
     //_______________________________________________________
     bool ShadowHelper::acceptWidget( QWidget* widget ) const
     {
+
+        if( widget->property( netWMSkipShadowPropertyName ).toBool() ) return false;
+        if( widget->property( netWMForceShadowPropertyName ).toBool() ) return true;
+
         // menus
         if( qobject_cast<QMenu*>( widget ) ) return true;
 
@@ -171,6 +181,10 @@ namespace Oxygen
         // tooltips
         if( (widget->inherits( "QTipLabel" ) || (widget->windowFlags() & Qt::WindowType_Mask) == Qt::ToolTip ) &&
             !widget->inherits( "Plasma::ToolTip" ) )
+        { return true; }
+
+        // detached widgets
+        if( qobject_cast<QToolBar*>( widget ) || qobject_cast<QDockWidget*>( widget ) )
         { return true; }
 
         // reject
@@ -188,7 +202,7 @@ namespace Oxygen
 
         // create atom
         #ifdef Q_WS_X11
-        if( !_atom ) _atom = XInternAtom( QX11Info::display(), "_KDE_NET_WM_SHADOW", False);
+        if( !_atom ) _atom = XInternAtom( QX11Info::display(), netWMShadowAtomName, False);
         #endif
 
         // make sure size is valid

@@ -244,8 +244,8 @@ namespace Oxygen
 
                 // inner (sharp) gradient
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+fixedSize)/2 );
-                const qreal hoffset = shadowConfiguration.horizontalOffset()*gradientSize/fixedSize;
-                const qreal voffset = shadowConfiguration.verticalOffset()*gradientSize/fixedSize;
+                const qreal hoffset( 0 );
+                const qreal voffset( 0.2 );
 
                 QRadialGradient rg = QRadialGradient( size+12.0*hoffset, size+12.0*voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
@@ -299,8 +299,8 @@ namespace Oxygen
             {
                 // inner (sharp gradient)
                 const qreal gradientSize = qMin( shadowSize, fixedSize );
-                const qreal hoffset = shadowConfiguration.horizontalOffset()*gradientSize/fixedSize;
-                const qreal voffset = shadowConfiguration.verticalOffset()*gradientSize/fixedSize;
+                const qreal hoffset( 0 );
+                const qreal voffset( 0.2 );
 
                 QRadialGradient rg = QRadialGradient( size+hoffset, size+voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );

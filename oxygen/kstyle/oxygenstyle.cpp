@@ -3519,6 +3519,10 @@ namespace Oxygen
     bool Style::drawPanelTipLabelPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // force registration of widget
+        if( widget && widget->window() )
+        { shadowHelper().registerWidget( widget->window(), true ); }
+
         // parent style painting if frames should not be styled
         if( !StyleConfigData::toolTipDrawStyledFrames() ) return false;
 
@@ -5127,10 +5131,10 @@ namespace Oxygen
         if( horizontal )
         {
 
-            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left );
-            else renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom );
+            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left | TileSet::Center );
+            else renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom | TileSet::Center );
 
-        } else renderScrollBarHole( painter, QRect( r.left(), r.top()-5, r.width(), 5 ), background, Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right );
+        } else renderScrollBarHole( painter, QRect( r.left(), r.top()-5, r.width(), 5 ), background, Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right | TileSet::Center );
 
         // stop here if no buttons are defined
         if( _addLineButtons == NoButton ) return true;
@@ -5234,14 +5238,14 @@ namespace Oxygen
         if( horizontal )
         {
 
-            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom );
-            else renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom );
+            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom | TileSet::Center );
+            else renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom | TileSet::Center );
 
             r.translate( 1, 0 );
 
         } else {
 
-            renderScrollBarHole( painter, QRect( r.left(), r.bottom()+3, r.width(), 5 ), background, Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right );
+            renderScrollBarHole( painter, QRect( r.left(), r.bottom()+3, r.width(), 5 ), background, Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right | TileSet::Center );
             r.translate( 0, 2 );
 
         }
@@ -9229,7 +9233,7 @@ namespace Oxygen
 
         // one need to make smaller shadow
         // notably on the size when rect height is too high
-        const bool smallShadow( r.height() < 10 );
+        const bool smallShadow( orientation == Qt::Horizontal ? r.height() < 10 : r.width() < 10 );
         helper().scrollHole( color, orientation, smallShadow )->render( r, painter, tiles );
 
     }
