@@ -125,7 +125,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    void Helper::renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift, int gradientHeight )
+    void Helper::renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int yShift, int gradientHeight )
     {
 
         // get coordinates relative to the client area
@@ -133,7 +133,7 @@ namespace Oxygen
         // QWidget* as argument.
         const QWidget* w( widget );
         int x( 0 );
-        int y( -y_shift );
+        int y( -yShift );
 
         while ( w != window && !w->isWindow() && w != w->parentWidget() )
         {
@@ -154,21 +154,23 @@ namespace Oxygen
         const QRect r = window->rect();
         int height( window->frameGeometry().height() );
         int width( window->frameGeometry().width() );
-        if( y_shift > 0 )
+        if( yShift > 0 )
         {
-            height -= 2*y_shift;
-            width -= 2*y_shift;
+            height -= 2*yShift;
+            width -= 2*yShift;
+
         }
 
         const int splitY( qMin( 300, ( 3*height )/4 ) );
 
         // draw upper linear gradient
         const QRect upperRect( -x, -y, r.width(), splitY );
+
         QPixmap tile( verticalGradient( color, splitY, gradientHeight-64 ) );
         p->drawTiledPixmap( upperRect, tile );
 
         // draw lower flat part
-        const QRect lowerRect( -x, splitY-y, r.width(), r.height() - splitY-y_shift );
+        const QRect lowerRect( -x, splitY-y, r.width(), r.height() - splitY-yShift );
         p->fillRect( lowerRect, backgroundBottomColor( color ) );
 
         // draw upper radial gradient
