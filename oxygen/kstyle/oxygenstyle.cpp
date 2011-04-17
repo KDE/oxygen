@@ -4172,7 +4172,14 @@ namespace Oxygen
         if( !widget->isWindow() ) return false;
 
         // normal "window" background
-        helper().renderWindowBackground( painter, option->rect, widget, option->palette );
+        const QPalette& palette( option->palette );
+
+        // do not render background if palette brush has a texture (pixmap or image)
+        const QBrush brush( palette.brush( widget->backgroundRole() ) );
+        if( !( brush.texture().isNull() && brush.textureImage().isNull() ) )
+        { return false; }
+
+        helper().renderWindowBackground( painter, option->rect, widget, palette );
         return true;
 
     }
