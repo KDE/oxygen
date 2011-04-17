@@ -6959,15 +6959,15 @@ namespace Oxygen
         QRect tr;
         QRect ir;
         int ih( 0 );
-        if( pm.isNull() )
-        {
-            tr = cr;
-            tr.adjust( 4, 0, -8, 0 );
-        } else {
+
+        if( pm.isNull() )  tr = cr.adjusted( -1, 0, -8, 0 );
+        else {
+
             int iw = pm.width() + 4;
             ih = pm.height();
-            ir = QRect( cr.left() + 4, cr.top(), iw + 2, ih );
+            ir = QRect( cr.left() - 1, cr.top(), iw + 2, ih );
             tr = QRect( ir.right(), cr.top(), cr.width() - ir.right() - 4, cr.height() );
+
         }
 
         if( selected )
