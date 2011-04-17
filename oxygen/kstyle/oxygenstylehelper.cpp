@@ -1148,7 +1148,7 @@ namespace Oxygen
             QColor tmpColor( alphaColor( glowColor, 180.0/255 ) );
             rg.setColorAt( 1.0, tmpColor );
             tmpColor.setAlpha( 0 );
-            rg.setColorAt( 0.4, tmpColor );
+            rg.setColorAt( 0.5, tmpColor );
             p.setBrush( rg );
 
             p.drawEllipse( QRectF( 1, 1, 7, 7 ) );
