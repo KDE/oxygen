@@ -170,10 +170,11 @@ namespace Oxygen
         TileSet *hole( const QColor&, int size = 5, bool outline = false );
         TileSet *holeFocused( const QColor&, const QColor& glowColor, int size = 5, bool outline = false );
 
-        void drawHole( QPainter&, const QColor&, qreal shade, int r = 7 );
+        //@}
+
+        // round slabs
         void drawRoundSlab( QPainter&, const QColor&, qreal );
 
-        //@}
 
         private:
 

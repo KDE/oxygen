@@ -695,42 +695,6 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    void StyleHelper::drawHole( QPainter& p, const QColor& color, qreal shade, int r )
-    {
-        const int r2( 2*r );
-        const QColor base( KColorUtils::shade( color, shade ) );
-        const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-        const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
-        const QColor mid( KColorUtils::shade( calcMidColor( color ), shade ) );
-
-        // bevel
-        const qreal y( KColorUtils::luma( base ) );
-        const qreal yl( KColorUtils::luma( light ) );
-        const qreal yd( KColorUtils::luma( dark ) );
-        QLinearGradient bevelGradient1( 0, 2, 0, r2-2 );
-        bevelGradient1.setColorAt( 0.2, dark );
-        bevelGradient1.setColorAt( 0.5, mid );
-        bevelGradient1.setColorAt( 0.95, light );
-        if( y < yl && y > yd )
-        {
-            // no middle when color is very light/dark
-            bevelGradient1.setColorAt( 0.6, base );
-        }
-        p.setBrush( bevelGradient1 );
-        p.drawEllipse( 3,3,r2-6,r2-6 );
-
-        // mask
-        QRadialGradient maskGradient( r, r, r-2 );
-        maskGradient.setColorAt( 0.80, Qt::black );
-        maskGradient.setColorAt( 0.90, alphaColor( Qt::black, 0.55 ) );
-        maskGradient.setColorAt( 1.00, Qt::transparent );
-        p.setCompositionMode( QPainter::CompositionMode_DestinationIn );
-        p.setBrush( maskGradient );
-        p.drawRect( 0, 0, r2, r2 );
-        p.setCompositionMode( QPainter::CompositionMode_SourceOver );
-    }
-
-    //__________________________________________________________________________________________________________
     void StyleHelper::drawRoundSlab( QPainter& p, const QColor& color, qreal shade )
     {
 
@@ -940,7 +904,40 @@ namespace Oxygen
             p.setWindow( 2,2,10,10 );
 
             // hole
-            drawHole( p, color, shade, 7 );
+            const int r = 7;
+            const int r2( 2*r );
+            const QColor base( KColorUtils::shade( color, shade ) );
+            const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
+            const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
+            const QColor mid( KColorUtils::shade( calcMidColor( color ), shade ) );
+
+            // bevel
+            const qreal y( KColorUtils::luma( base ) );
+            const qreal yl( KColorUtils::luma( light ) );
+            const qreal yd( KColorUtils::luma( dark ) );
+            QLinearGradient bevelGradient1( 0, 2, 0, r2-2 );
+            bevelGradient1.setColorAt( 0.2, dark );
+            bevelGradient1.setColorAt( 0.5, mid );
+            bevelGradient1.setColorAt( 0.95, light );
+            if( y < yl && y > yd )
+            {
+
+                // no middle when color is very light/dark
+                bevelGradient1.setColorAt( 0.6, base );
+
+            }
+            p.setBrush( bevelGradient1 );
+            p.drawEllipse( 3,3,r2-6,r2-6 );
+
+            // mask
+            QRadialGradient maskGradient( r, r, r-2 );
+            maskGradient.setColorAt( 0.80, Qt::black );
+            maskGradient.setColorAt( 0.90, alphaColor( Qt::black, 0.55 ) );
+            maskGradient.setColorAt( 1.00, Qt::transparent );
+            p.setCompositionMode( QPainter::CompositionMode_DestinationIn );
+            p.setBrush( maskGradient );
+            p.drawRect( 0, 0, r2, r2 );
+            p.setCompositionMode( QPainter::CompositionMode_SourceOver );
 
             // hole inside
             p.setBrush( color );
