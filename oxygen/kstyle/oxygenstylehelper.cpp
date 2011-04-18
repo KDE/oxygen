@@ -894,58 +894,44 @@ namespace Oxygen
 
         if ( !tileSet )
         {
-            const int rsize( ( int )ceil( qreal( size ) * 5.0/7.0 ) );
-            QPixmap pixmap( rsize*2, rsize*2 );
+            QPixmap pixmap( size*2, size*2 );
             pixmap.fill( Qt::transparent );
 
             QPainter p( &pixmap );
             p.setRenderHints( QPainter::Antialiasing );
             p.setPen( Qt::NoPen );
-            p.setWindow( 2,2,10,10 );
-
-            // hole
-            const int r = 7;
-            const int r2( 2*r );
-            const QColor base( KColorUtils::shade( color, shade ) );
-            const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-            const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
-            const QColor mid( KColorUtils::shade( calcMidColor( color ), shade ) );
-
-            // bevel
-            const qreal y( KColorUtils::luma( base ) );
-            const qreal yl( KColorUtils::luma( light ) );
-            const qreal yd( KColorUtils::luma( dark ) );
-            QLinearGradient bevelGradient1( 0, 2, 0, r2-2 );
-            bevelGradient1.setColorAt( 0.2, dark );
-            bevelGradient1.setColorAt( 0.5, mid );
-            bevelGradient1.setColorAt( 0.95, light );
-            if( y < yl && y > yd )
-            {
-
-                // no middle when color is very light/dark
-                bevelGradient1.setColorAt( 0.6, base );
-
-            }
-            p.setBrush( bevelGradient1 );
-            p.drawEllipse( 3,3,r2-6,r2-6 );
-
-            // mask
-            QRadialGradient maskGradient( r, r, r-2 );
-            maskGradient.setColorAt( 0.80, Qt::black );
-            maskGradient.setColorAt( 0.90, alphaColor( Qt::black, 0.55 ) );
-            maskGradient.setColorAt( 1.00, Qt::transparent );
-            p.setCompositionMode( QPainter::CompositionMode_DestinationIn );
-            p.setBrush( maskGradient );
-            p.drawRect( 0, 0, r2, r2 );
-            p.setCompositionMode( QPainter::CompositionMode_SourceOver );
+            p.setWindow( 0,0,14,14 );
 
             // hole inside
             p.setBrush( color );
-            p.drawEllipse( QRectF( 3.7,3.7,6.6,6.6 ) );
+            p.drawRoundedRect( QRectF( 1, 1, 12, 12 ), 3.0, 3.0 );
+            p.setBrush( Qt::NoBrush );
+
+            // shadow (top)
+            {
+                const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
+                QLinearGradient gradient( 0, 0, 0, 14 );
+                gradient.setColorAt( 0.0, dark );
+                gradient.setColorAt( 0.5, Qt::transparent );
+
+                p.setPen( QPen( gradient, 1 ) );
+                p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 3.0, 3.0 );
+            }
+
+            // contrast pixel (bottom)
+            {
+                const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
+                QLinearGradient gradient( 0, 0, 0, 14 );
+                gradient.setColorAt( 0.5, Qt::transparent );
+                gradient.setColorAt( 1.0, light );
+
+                p.setPen( QPen( gradient, 1 ) );
+                p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 2.5, 2.5 );
+            }
 
             p.end();
 
-            tileSet = new TileSet( pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1 );
+            tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
 
             _holeFlatCache.insert( key, tileSet );
         }
