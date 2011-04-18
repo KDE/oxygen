@@ -119,15 +119,13 @@ namespace Oxygen
             TileSet::Tiles posFlags = TileSet::Ring, bool outline = false )
         { renderHole( p, color, r, focus, hover, -1, Oxygen::AnimationNone, posFlags, outline ); }
 
-        //! generic hole( with animated glow )
+        //! generic hole (with animated glow)
         void renderHole( QPainter *p, const QColor&, const QRect &r,
             bool focus, bool hover,
             qreal opacity, Oxygen::AnimationMode animationMode,
             TileSet::Tiles posFlags = TileSet::Ring, bool outline = false );
 
-        TileSet *hole( const QColor&, qreal shade, int size = 7, bool outline = false );
         TileSet *holeFlat( const QColor&, qreal shade, int size = 7 );
-        TileSet *holeFocused( const QColor&, const QColor& glowColor, qreal shade, int size = 7, bool outline = false );
 
         //! scrollbar hole
         TileSet *scrollHole( const QColor&, Qt::Orientation orientation, bool smallShadow = false );
@@ -166,8 +164,18 @@ namespace Oxygen
 
         protected:
 
+        //!@name holes
+        //@{
+
+        TileSet *hole( const QColor&, int size = 5, bool outline = false );
+        TileSet *holeFocused( const QColor&, const QColor& glowColor, int size = 5, bool outline = false );
+
         void drawHole( QPainter&, const QColor&, qreal shade, int r = 7 );
         void drawRoundSlab( QPainter&, const QColor&, qreal );
+
+        //@}
+
+        private:
 
         //! dynamically allocated debug area
         int _debugArea;
