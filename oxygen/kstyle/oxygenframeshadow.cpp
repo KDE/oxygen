@@ -446,14 +446,14 @@ namespace Oxygen
             case Left:
             {
                 tiles = TileSet::Left;
-                r.adjust( -2, -3, -1, 3 );
+                r.adjust( -2, -4, -1, 4 );
                 break;
             }
 
             case Right:
             {
                 tiles = TileSet::Right;
-                r.adjust( -1, -3, 2, 3 );
+                r.adjust( -1, -4, 2, 4 );
                 break;
             }
 

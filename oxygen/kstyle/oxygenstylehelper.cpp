@@ -55,7 +55,6 @@ namespace Oxygen
         _selectionCache.clear();
         _slabSunkenCache.clear();
         _slabInvertedCache.clear();
-        _holeCache.clear();
         _holeFlatCache.clear();
         _slopeCache.clear();
         _grooveCache.clear();
@@ -83,7 +82,6 @@ namespace Oxygen
         _selectionCache.setMaxCost( value );
         _slabSunkenCache.setMaxCost( value );
         _slabInvertedCache.setMaxCost( value );
-        _holeCache.setMaxCost( value );
         _holeFlatCache.setMaxCost( value );
         _slopeCache.setMaxCost( value );
         _grooveCache.setMaxCost( value );
@@ -810,80 +808,30 @@ namespace Oxygen
                 KColorUtils::mix( viewHoverBrush().brush( QPalette::Active ).color(), viewFocusBrush().brush( QPalette::Active ).color(), opacity ):
                 alphaColor(  viewFocusBrush().brush( QPalette::Active ).color(), opacity ) );
 
-            holeFocused( base, glow, 5, outline )->render( r, p, tiles );
+            holeFocused( base, glow, 7, outline )->render( r, p, tiles );
 
         } else if ( focus ) {
 
             const QColor glow( viewFocusBrush().brush( QPalette::Active ).color() );
-            holeFocused( base, glow, 5, outline )->render( r, p, tiles );
+            holeFocused( base, glow, 7, outline )->render( r, p, tiles );
 
         } else if( opacity >= 0 && ( animationMode & Oxygen::AnimationHover ) ) {
 
             // calculate proper glow color based on current settings and opacity
             const QColor glow( alphaColor(  viewHoverBrush().brush( QPalette::Active ).color(), opacity ) );
-            holeFocused( base, glow, 5, outline )->render( r, p, tiles );
+            holeFocused( base, glow, 7, outline )->render( r, p, tiles );
 
         } else if ( hover ) {
 
             const QColor glow( viewHoverBrush().brush( QPalette::Active ).color() );
-            holeFocused( base, glow, 5, outline )->render( r, p, tiles );
+            holeFocused( base, glow, 7, outline )->render( r, p, tiles );
 
         } else {
 
-            hole( base, 5, outline )->render( r, p, tiles );
+            hole( base, 7, outline )->render( r, p, tiles );
 
         }
 
-    }
-
-    //________________________________________________________________________________________________________
-    TileSet *StyleHelper::hole( const QColor& color, int size, bool outline )
-    {
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | size << 1 | outline );
-        TileSet *tileSet = _holeCache.object( key );
-
-        if ( !tileSet )
-        {
-
-            // create pixmap
-            QPixmap pixmap( size*2, size*2 );
-            pixmap.fill( Qt::transparent );
-
-            QPainter p( &pixmap );
-            p.setRenderHints( QPainter::Antialiasing );
-            p.setPen( Qt::NoPen );
-
-            p.setWindow( 0, 0, 10, 10 );
-
-            // hole mask
-            p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
-            p.setBrush( Qt::black );
-            p.drawEllipse( 1, 1, 8, 8 );
-            p.setCompositionMode( QPainter::CompositionMode_SourceOver );
-
-            if( outline )
-            {
-                QLinearGradient blend( 0, 1, 0, 9 );
-                blend.setColorAt( 0, Qt::transparent );
-                blend.setColorAt( 1, calcDarkColor( color ) );
-
-                p.setBrush( Qt::NoBrush );
-                p.setPen( QPen( blend, 1 ) );
-                p.drawEllipse( 1, 1.5, 8, 7 );
-                p.setPen( Qt::NoPen );
-            }
-
-            // fade out glow
-            drawInverseShadow( p, calcShadowColor( color ), 1, 8, 0.0 );
-
-            p.end();
-
-            tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
-            _holeCache.insert( key, tileSet );
-
-        }
-
-        return tileSet;
     }
 
     //________________________________________________________________________________________________________
@@ -984,48 +932,75 @@ namespace Oxygen
         if ( !tileSet )
         {
 
+            // first create shadow
+            int shadowSize( (size*5)/7 );
+            QPixmap shadowPixmap( shadowSize*2, shadowSize*2 );
+
+            {
+                shadowPixmap.fill( Qt::transparent );
+
+                QPainter p( &shadowPixmap );
+                p.setRenderHints( QPainter::Antialiasing );
+                p.setPen( Qt::NoPen );
+                p.setWindow( 0, 0, 10, 10 );
+
+                // calc alpha channel and fade
+                int alpha( glowColor.isValid() ? glowColor.alpha():0 );
+
+                // fade-in shadow
+                if( alpha < 255 )
+                {
+                    QColor shadowColor( calcShadowColor( color ) );
+                    shadowColor.setAlpha( 255-alpha );
+                    drawInverseShadow( p, calcShadowColor( color ), 1, 8, 0.0 );
+                }
+
+                // fade-out glow
+                if( alpha > 0 )
+                { drawInverseGlow( p, glowColor, 1, 8, size ); }
+
+                p.end();
+
+            }
+
+            // create pixmap
             QPixmap pixmap( size*2, size*2 );
             pixmap.fill( Qt::transparent );
 
             QPainter p( &pixmap );
             p.setRenderHints( QPainter::Antialiasing );
             p.setPen( Qt::NoPen );
-            p.setWindow( 0, 0, 10, 10 );
+            p.setWindow( 0, 0, 14, 14 );
 
             // hole mask
             p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
             p.setBrush( Qt::black );
-            p.drawEllipse( 1, 1, 8, 8 );
+
+            p.drawRoundedRect( 1, 1, 12, 12, 2.5, 2.5 );
             p.setCompositionMode( QPainter::CompositionMode_SourceOver );
+
+            // render shadow
+            TileSet(
+                shadowPixmap, shadowSize, shadowSize, shadowSize,
+                shadowSize, shadowSize-1, shadowSize, 2, 1 ).
+                render( pixmap.rect(), &p, TileSet::Full );
 
             if( outline )
             {
-                QLinearGradient blend( 0, 1, 0, 9 );
+
+                QLinearGradient blend( 0, 0, 0, 14 );
                 blend.setColorAt( 0, Qt::transparent );
-                blend.setColorAt( 1, calcDarkColor( color ) );
+                blend.setColorAt( 0.8, calcDarkColor( color ) );
 
                 p.setBrush( Qt::NoBrush );
                 p.setPen( QPen( blend, 1 ) );
-                p.drawEllipse( 1, 1.5, 8, 7 );
+                p.drawRoundedRect( 1.5, 1.5, 11, 11, 2.5, 2.5 );
                 p.setPen( Qt::NoPen );
             }
 
-            int alpha( glowColor.alpha() );
-
-            // fade-in shadow
-            if( alpha < 255 )
-            {
-                QColor shadowColor( calcShadowColor( color ) );
-                shadowColor.setAlpha( 255-alpha );
-                drawInverseShadow( p, calcShadowColor( color ), 1, 8, 0.0 );
-            }
-
-            // fade-out glow
-            if( alpha > 0 )
-            { drawInverseGlow( p, glowColor, 1, 8, size ); }
-
             p.end();
 
+            // create tileset and return
             tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
             cache->insert( key, tileSet );
         }

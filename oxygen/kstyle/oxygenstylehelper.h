@@ -167,8 +167,12 @@ namespace Oxygen
         //!@name holes
         //@{
 
-        TileSet *hole( const QColor&, int size = 5, bool outline = false );
-        TileSet *holeFocused( const QColor&, const QColor& glowColor, int size = 5, bool outline = false );
+        //! non focus hole
+        TileSet *hole( const QColor& color, int size = 7, bool outline = false )
+        { return holeFocused( color, QColor(), size, outline ); }
+
+        //! focused hole
+        TileSet *holeFocused( const QColor&, const QColor& glowColor, int size = 7, bool outline = false );
 
         //@}
 
@@ -195,7 +199,6 @@ namespace Oxygen
         TileSetCache _cornerCache;
         TileSetCache _slabSunkenCache;
         TileSetCache _slabInvertedCache;
-        TileSetCache _holeCache;
         TileSetCache _holeFlatCache;
         TileSetCache _slopeCache;
         TileSetCache _grooveCache;
