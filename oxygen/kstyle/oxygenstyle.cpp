@@ -7537,7 +7537,7 @@ namespace Oxygen
         if( slider->subControls & SC_SliderGroove )
         {
             const QRect groove = sliderSubControlRect( slider, SC_SliderGroove, widget );
-            if( groove.isValid() ) helper().groove( palette.color( QPalette::Window ), 0.0 )->render( groove, painter );
+            if( groove.isValid() ) helper().groove( palette.color( QPalette::Window ) )->render( groove, painter );
         }
 
         // handle

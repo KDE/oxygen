@@ -133,7 +133,7 @@ namespace Oxygen
         //@}
 
         //! scrollbar groove
-        TileSet *groove( const QColor&, qreal shade, int size = 7 );
+        TileSet *groove( const QColor&, int size = 7 );
 
         //! focus rect for flat toolbuttons
         TileSet *slitFocused( const QColor& );

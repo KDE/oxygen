@@ -1097,9 +1097,9 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::groove( const QColor& color, qreal shade, int size )
+    TileSet *StyleHelper::groove( const QColor& color, int size )
     {
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        const quint64 key( ( quint64( color.rgba() ) << 32 ) | size );
         TileSet *tileSet = _grooveCache.object( key );
 
         if ( !tileSet )
@@ -1111,23 +1111,25 @@ namespace Oxygen
             QPainter p( &pixmap );
             p.setRenderHints( QPainter::Antialiasing );
             p.setPen( Qt::NoPen );
-            p.setWindow( 2,2,6,6 );
+            p.setWindow( 0, 0, 6, 6 );
 
             // hole mask
             p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
             p.setBrush( Qt::black );
-            p.drawEllipse( 4,4,2,2 );
+            p.drawEllipse( 2, 2, 2, 2 );
 
             // shadow
             p.setCompositionMode( QPainter::CompositionMode_SourceOver );
-            drawInverseShadow( p, calcShadowColor( color ), 3, 4, 0.0 );
+            drawInverseShadow( p, calcShadowColor( color ), 1, 4, 0.0 );
 
             p.end();
 
             tileSet = new TileSet( pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1 );
 
             _grooveCache.insert( key, tileSet );
+
         }
+
         return tileSet;
     }
 
