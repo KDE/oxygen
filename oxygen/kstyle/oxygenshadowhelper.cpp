@@ -46,9 +46,9 @@
 namespace Oxygen
 {
 
-    const char* ShadowHelper::netWMShadowAtomName( "_KDE_NET_WM_SHADOW" );
-    const char* ShadowHelper::netWMForceShadowPropertyName( "_KDE_NET_WM_FORCE_SHADOW" );
-    const char* ShadowHelper::netWMSkipShadowPropertyName( "_KDE_NET_WM_SKIP_SHADOW" );
+    const char* const ShadowHelper::netWMShadowAtomName( "_KDE_NET_WM_SHADOW" );
+    const char* const ShadowHelper::netWMForceShadowPropertyName( "_KDE_NET_WM_FORCE_SHADOW" );
+    const char* const ShadowHelper::netWMSkipShadowPropertyName( "_KDE_NET_WM_SKIP_SHADOW" );
 
     //_____________________________________________________
     ShadowHelper::ShadowHelper( QObject* parent, Helper& helper ):
