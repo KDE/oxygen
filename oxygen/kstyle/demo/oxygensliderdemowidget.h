@@ -62,6 +62,9 @@ namespace Oxygen
         //! checkbox
         QCheckBox* _checkBox;
 
+        //! saved value
+        int _value;
+
     };
 
     class SliderDemoWidget: public DemoWidget

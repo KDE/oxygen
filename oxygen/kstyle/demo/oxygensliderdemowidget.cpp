@@ -37,7 +37,8 @@ namespace Oxygen
     ProgressBar::ProgressBar( QObject* parent, QProgressBar* progressBar, QCheckBox* checkBox ):
         QObject( parent ),
         _progressBar( progressBar ),
-        _checkBox( checkBox )
+        _checkBox( checkBox ),
+        _value( 0 )
     { connect( _checkBox, SIGNAL( toggled( bool ) ), SLOT( toggleBusy( bool ) ) ); }
 
     //_____________________________________________________________
@@ -46,12 +47,19 @@ namespace Oxygen
 
         if( value )
         {
+            _value = _progressBar->value();
             _progressBar->setMinimum( 0 );
             _progressBar->setMaximum( 0 );
+
         } else {
+
             _progressBar->setMinimum( 0 );
             _progressBar->setMaximum( 100 );
+            _progressBar->setValue( _value );
+
         }
+
+        _progressBar->update();
 
     }
 
