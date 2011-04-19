@@ -28,12 +28,42 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <QtGui/QWidget>
+#include <QtGui/QProgressBar>
+#include <QtGui/QCheckBox>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygensliderdemowidget.h"
 
 namespace Oxygen
 {
+
+    class ProgressBar: public QObject
+    {
+        Q_OBJECT
+
+        public:
+
+        //! constructor
+        ProgressBar( QObject*, QProgressBar*, QCheckBox* );
+
+        //! set value
+        void setValue( int );
+
+        protected slots:
+
+        //! toggle bussy state
+        void toggleBusy( bool );
+
+        private:
+
+        //! progressBar
+        QProgressBar* _progressBar;
+
+        //! checkbox
+        QCheckBox* _checkBox;
+
+    };
+
     class SliderDemoWidget: public DemoWidget
     {
 
@@ -62,6 +92,10 @@ namespace Oxygen
         bool _locked;
 
         Ui_SliderDemoWidget ui;
+
+        //! progressbars
+        ProgressBar* _progressBar1;
+        ProgressBar* _progressBar2;
 
     };
 
