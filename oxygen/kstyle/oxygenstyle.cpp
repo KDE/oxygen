@@ -4794,7 +4794,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawProgressBarContentsControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawProgressBarContentsControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
         const QStyleOptionProgressBar* pbOpt = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
@@ -4806,8 +4806,15 @@ namespace Oxygen
         const QPalette& palette( option->palette );
 
         // check if anything is to be drawn
-        const qreal progress = pbOpt->progress - pbOpt->minimum;
+        qreal progress = pbOpt->progress - pbOpt->minimum;
         const bool busyIndicator = ( pbOpt->minimum == 0 && pbOpt->maximum == 0 );
+        if( busyIndicator && widget )
+        {
+            // load busy value from widget property
+            QVariant busyValue( widget->property( ProgressBarEngine::busyValuePropertyName ) );
+            if( busyValue.isValid() ) progress = busyValue.toReal();
+        }
+
         if( !( progress || busyIndicator ) ) return true;
 
         const int steps = qMax( pbOpt->maximum  - pbOpt->minimum, 1 );

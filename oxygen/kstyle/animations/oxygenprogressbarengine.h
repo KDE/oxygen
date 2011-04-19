@@ -49,6 +49,9 @@ namespace Oxygen
 
         public:
 
+        //! busy value property name
+        static const char* busyValuePropertyName;
+
         //! constructor
         ProgressBarEngine( QObject* object ):
         BaseEngine( object ),
