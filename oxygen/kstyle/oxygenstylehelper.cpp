@@ -991,7 +991,8 @@ namespace Oxygen
 
             if( outline && alpha < 255 )
             {
-                const QColor dark( alphaColor( calcDarkColor( color ), 255 - alpha ) );
+                QColor dark( calcDarkColor( color ) );
+                dark.setAlpha( 255 - alpha );
                 QLinearGradient blend( 0, 0, 0, 14 );
                 blend.setColorAt( 0, Qt::transparent );
                 blend.setColorAt( 0.8, dark );
