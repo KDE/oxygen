@@ -961,7 +961,7 @@ namespace Oxygen
 
                 // fade-out glow
                 if( alpha > 0 )
-                { drawInverseGlow( p, glowColor, 1, 8, size ); }
+                { drawInverseGlow( p, glowColor, 1, 8, shadowSize ); }
 
                 p.end();
 
