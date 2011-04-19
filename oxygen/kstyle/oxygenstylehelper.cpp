@@ -956,7 +956,7 @@ namespace Oxygen
                 {
                     QColor shadowColor( calcShadowColor( color ) );
                     shadowColor.setAlpha( 255-alpha );
-                    drawInverseShadow( p, calcShadowColor( color ), 1, 8, 0.0 );
+                    drawInverseShadow( p, shadowColor, 1, 8, 0.0 );
                 }
 
                 // fade-out glow
