@@ -985,12 +985,12 @@ namespace Oxygen
                 shadowSize, shadowSize-1, shadowSize, 2, 1 ).
                 render( pixmap.rect(), &p, TileSet::Full );
 
-            if( outline )
+            if( outline && alpha < 255 )
             {
-
+                const QColor dark( alphaColor( calcDarkColor( color ), 255 - alpha ) );
                 QLinearGradient blend( 0, 0, 0, 14 );
                 blend.setColorAt( 0, Qt::transparent );
-                blend.setColorAt( 0.8, calcDarkColor( color ) );
+                blend.setColorAt( 0.8, dark );
 
                 p.setBrush( Qt::NoBrush );
                 p.setPen( QPen( blend, 1 ) );
