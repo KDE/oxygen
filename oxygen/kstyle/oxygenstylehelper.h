@@ -125,7 +125,7 @@ namespace Oxygen
             qreal opacity, Oxygen::AnimationMode animationMode,
             TileSet::Tiles posFlags = TileSet::Ring, bool outline = false );
 
-        TileSet *holeFlat( const QColor&, qreal shade, int size = 7 );
+        TileSet *holeFlat( const QColor&, qreal shade, bool fill = true, int size = 7 );
 
         //! scrollbar hole
         TileSet *scrollHole( const QColor&, Qt::Orientation orientation, bool smallShadow = false );

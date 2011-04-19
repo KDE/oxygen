@@ -887,9 +887,9 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::holeFlat( const QColor& color, qreal shade, int size )
+    TileSet *StyleHelper::holeFlat( const QColor& color, qreal shade, bool fill, int size )
     {
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size << 1 | fill );
         TileSet *tileSet = _holeFlatCache.object( key );
 
         if ( !tileSet )
@@ -903,30 +903,63 @@ namespace Oxygen
             p.setWindow( 0,0,14,14 );
 
             // hole inside
-            p.setBrush( color );
-            p.drawRoundedRect( QRectF( 1, 1, 12, 12 ), 3.0, 3.0 );
-            p.setBrush( Qt::NoBrush );
-
-            // shadow (top)
+            if( fill )
             {
-                const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
-                QLinearGradient gradient( 0, 0, 0, 14 );
-                gradient.setColorAt( 0.0, dark );
-                gradient.setColorAt( 0.5, Qt::transparent );
+                p.setBrush( color );
+                p.drawRoundedRect( QRectF( 1, 0, 12, 13 ), 3.0, 3.0 );
+                //p.drawRoundedRect( QRectF( 1, 0, 12, 13 ), 2.5, 2.5 );
+                p.setBrush( Qt::NoBrush );
 
-                p.setPen( QPen( gradient, 1 ) );
-                p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 3.0, 3.0 );
-            }
+                {
+                    const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
+                    QLinearGradient gradient( 0, 0, 0, 14 );
+                    gradient.setColorAt( 0.0, dark );
+                    gradient.setColorAt( 0.5, Qt::transparent );
 
-            // contrast pixel (bottom)
-            {
-                const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-                QLinearGradient gradient( 0, 0, 0, 14 );
-                gradient.setColorAt( 0.5, Qt::transparent );
-                gradient.setColorAt( 1.0, light );
+                    p.setPen( QPen( gradient, 1 ) );
+                    p.drawRoundedRect( QRectF( 1.5, 0.5, 11, 12 ), 3.0, 3.0 );
+                }
 
-                p.setPen( QPen( gradient, 1 ) );
-                p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 2.5, 2.5 );
+                {
+
+                    const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
+                    QLinearGradient gradient( 0, 0, 0, 14 );
+                    gradient.setColorAt( 0.5, Qt::transparent );
+                    gradient.setColorAt( 1.0, light );
+
+                    p.setPen( QPen( gradient, 1 ) );
+                    p.drawRoundedRect( QRectF( 0.5, 0.5, 13, 13 ), 3.5, 3.5 );
+                    //p.drawRoundedRect( QRectF( 0.5, 0.5, 13, 13 ), 3.0, 3.0 );
+
+                }
+
+            } else {
+
+                p.setBrush( color );
+                p.drawRoundedRect( QRectF( 1, 1, 12, 12 ), 3.0, 3.0 );
+                p.setBrush( Qt::NoBrush );
+
+                {
+                    const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
+                    QLinearGradient gradient( 0, 1, 0, 12 );
+                    gradient.setColorAt( 0.0, dark );
+                    gradient.setColorAt( 0.5, Qt::transparent );
+
+                    p.setPen( QPen( gradient, 1 ) );
+                    p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 2.5, 2.5 );
+                }
+
+                {
+                    const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
+                    QLinearGradient gradient( 0, 1, 0, 12 );
+                    gradient.setColorAt( 0.5, Qt::transparent );
+                    gradient.setColorAt( 1.0, light );
+
+                    p.setPen( QPen( gradient, 1 ) );
+                    p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 2.5, 2.5 );
+
+                }
+
             }
 
             p.end();
