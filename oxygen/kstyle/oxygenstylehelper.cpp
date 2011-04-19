@@ -850,26 +850,28 @@ namespace Oxygen
             p.setPen( Qt::NoPen );
             p.setWindow( 0,0,14,14 );
 
-            // hole inside
             if( fill )
             {
+
+                // hole inside
                 p.setBrush( color );
                 p.drawRoundedRect( QRectF( 1, 0, 12, 13 ), 3.0, 3.0 );
-                //p.drawRoundedRect( QRectF( 1, 0, 12, 13 ), 2.5, 2.5 );
                 p.setBrush( Qt::NoBrush );
 
                 {
+                    // shadow (top)
                     const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
                     QLinearGradient gradient( 0, 0, 0, 14 );
                     gradient.setColorAt( 0.0, dark );
                     gradient.setColorAt( 0.5, Qt::transparent );
 
                     p.setPen( QPen( gradient, 1 ) );
-                    p.drawRoundedRect( QRectF( 1.5, 0.5, 11, 12 ), 3.0, 3.0 );
+                    p.drawRoundedRect( QRectF( 1.5, 0.5, 11, 12 ), 2.5, 2.5 );
                 }
 
                 {
 
+                    // contrast (bottom)
                     const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
                     QLinearGradient gradient( 0, 0, 0, 14 );
                     gradient.setColorAt( 0.5, Qt::transparent );
@@ -877,17 +879,18 @@ namespace Oxygen
 
                     p.setPen( QPen( gradient, 1 ) );
                     p.drawRoundedRect( QRectF( 0.5, 0.5, 13, 13 ), 3.5, 3.5 );
-                    //p.drawRoundedRect( QRectF( 0.5, 0.5, 13, 13 ), 3.0, 3.0 );
 
                 }
 
             } else {
 
+                // hole inside
                 p.setBrush( color );
                 p.drawRoundedRect( QRectF( 1, 1, 12, 12 ), 3.0, 3.0 );
                 p.setBrush( Qt::NoBrush );
 
                 {
+                    // shadow (top)
                     const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
                     QLinearGradient gradient( 0, 1, 0, 12 );
                     gradient.setColorAt( 0.0, dark );
@@ -898,6 +901,7 @@ namespace Oxygen
                 }
 
                 {
+                    // contrast (bottom)
                     const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
                     QLinearGradient gradient( 0, 1, 0, 12 );
                     gradient.setColorAt( 0.5, Qt::transparent );
@@ -1145,10 +1149,8 @@ namespace Oxygen
             p.setRenderHint( QPainter::Antialiasing );
             QRadialGradient rg = QRadialGradient( 4.5, 4.5, 3.5 );
 
-            QColor tmpColor( alphaColor( glowColor, 180.0/255 ) );
-            rg.setColorAt( 1.0, tmpColor );
-            tmpColor.setAlpha( 0 );
-            rg.setColorAt( 0.5, tmpColor );
+            rg.setColorAt( 1.0, alphaColor( glowColor, 180.0/255 ) );
+            rg.setColorAt( 0.5, alphaColor( glowColor, 0 ) );
             p.setBrush( rg );
 
             p.drawEllipse( QRectF( 1, 1, 7, 7 ) );
