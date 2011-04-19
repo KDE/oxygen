@@ -936,6 +936,9 @@ namespace Oxygen
             int shadowSize( (size*5)/7 );
             QPixmap shadowPixmap( shadowSize*2, shadowSize*2 );
 
+            // calc alpha channel and fade
+            const int alpha( glowColor.isValid() ? glowColor.alpha():0 );
+
             {
                 shadowPixmap.fill( Qt::transparent );
 
@@ -943,9 +946,6 @@ namespace Oxygen
                 p.setRenderHints( QPainter::Antialiasing );
                 p.setPen( Qt::NoPen );
                 p.setWindow( 0, 0, 10, 10 );
-
-                // calc alpha channel and fade
-                int alpha( glowColor.isValid() ? glowColor.alpha():0 );
 
                 // fade-in shadow
                 if( alpha < 255 )
@@ -976,7 +976,7 @@ namespace Oxygen
             p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
             p.setBrush( Qt::black );
 
-            p.drawRoundedRect( 1, 1, 12, 12, 2.5, 2.5 );
+            p.drawRoundedRect( QRectF( 1, 1, 12, 12 ), 2.5, 2.5 );
             p.setCompositionMode( QPainter::CompositionMode_SourceOver );
 
             // render shadow
@@ -994,7 +994,7 @@ namespace Oxygen
 
                 p.setBrush( Qt::NoBrush );
                 p.setPen( QPen( blend, 1 ) );
-                p.drawRoundedRect( 1.5, 1.5, 11, 11, 2.5, 2.5 );
+                p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 2.5, 2.5 );
                 p.setPen( Qt::NoPen );
             }
 
