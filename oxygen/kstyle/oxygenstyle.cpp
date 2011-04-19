@@ -9091,7 +9091,7 @@ namespace Oxygen
 
         if( !( options & NoFill ) )
         {
-            if( options & Sunken ) helper().holeFlat( palette.color( QPalette::Window ), 0.0 )->render( r, painter, TileSet::Full );
+            if( options & Sunken ) helper().holeFlat( palette.color( QPalette::Window ), 0.0, false )->render( r, painter, TileSet::Full );
             else renderSlab( painter, r, palette.color( QPalette::Button ), options, opacity, mode, TileSet::Ring );
         }
 
