@@ -31,7 +31,7 @@ namespace Oxygen
 {
 
     //_______________________________________________
-    const char* ProgressBarEngine::busyValuePropertyName = "_OXYGEN_BUSY_VALUE";
+    const char* const ProgressBarEngine::busyValuePropertyName = "_OXYGEN_BUSY_VALUE";
 
     //_______________________________________________
     bool ProgressBarEngine::registerWidget( QWidget* widget )

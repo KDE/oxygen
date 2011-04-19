@@ -32,7 +32,7 @@
 namespace Oxygen
 {
 
-    const char* PropertyNames::noAnimations = "_kde_no_animations";
-    const char* PropertyNames::noWindowGrab = "_kde_no_window_grab";
+    const char* const PropertyNames::noAnimations = "_kde_no_animations";
+    const char* const PropertyNames::noWindowGrab = "_kde_no_window_grab";
 
 }

@@ -50,7 +50,7 @@ namespace Oxygen
         public:
 
         //! busy value property name
-        static const char* busyValuePropertyName;
+        static const char* const busyValuePropertyName;
 
         //! constructor
         ProgressBarEngine( QObject* object ):
