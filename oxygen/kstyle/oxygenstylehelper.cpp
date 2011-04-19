@@ -1034,16 +1034,14 @@ namespace Oxygen
             // use space for white border
             const QRect r( QRect( 0,0,15,15 ) );
             const QRect rect( r.adjusted( 1, 0, -1, -1 ) );
-            int shadowWidth( 0 );
-            if( smallShadow ) shadowWidth = ( orientation == Qt::Horizontal ) ? 2 : 1;
-            else shadowWidth = ( orientation == Qt::Horizontal ) ? 3 : 2;
 
             p.setRenderHints( QPainter::Antialiasing );
             p.setBrush( dark );
             p.setPen( Qt::NoPen );
 
             // base
-            p.drawRoundedRect( rect, 4.5, 4.5 );
+            qreal radius( 3.0 );
+            p.drawRoundedRect( rect, radius, radius );
 
             // slight shadow across the whole hole
             QLinearGradient shadowGradient( rect.topLeft(),
@@ -1053,32 +1051,33 @@ namespace Oxygen
             shadowGradient.setColorAt( 0.0, alphaColor( shadow, 0.1 ) );
             shadowGradient.setColorAt( 0.6, Qt::transparent );
             p.setBrush( shadowGradient );
-            p.drawRoundedRect( rect, 4.5, 4.5 );
+            p.drawRoundedRect( rect, radius, radius );
 
-            // strong shadow
+            // first create shadow
+            int shadowSize( 5 );
+            QPixmap shadowPixmap( shadowSize*2, shadowSize*2 );
 
-            // left
-            QLinearGradient l1 = QLinearGradient( rect.topLeft(), rect.topLeft()+QPoint( shadowWidth,0 ) );
-            l1.setColorAt( 0.0, alphaColor( shadow, orientation == Qt::Horizontal ? 0.3 : 0.2 ) );
-            l1.setColorAt( 0.5, alphaColor( shadow, orientation == Qt::Horizontal ? 0.1 : 0.1 ) );
-            l1.setColorAt( 1.0, Qt::transparent );
-            p.setBrush( l1 );
-            p.drawRoundedRect( QRect( rect.topLeft(), rect.bottomLeft()+QPoint( shadowWidth,0 ) ), 4.5, 4.5 );
+            {
+                shadowPixmap.fill( Qt::transparent );
 
-            // right
-            l1 = QLinearGradient( rect.topRight(), rect.topRight()-QPoint( shadowWidth,0 ) );
-            l1.setColorAt( 0.0, alphaColor( shadow, orientation == Qt::Horizontal ? 0.3 : 0.2 ) );
-            l1.setColorAt( 0.5, alphaColor( shadow, orientation == Qt::Horizontal ? 0.1 : 0.1 ) );
-            l1.setColorAt( 1.0, Qt::transparent );
-            p.setBrush( l1 );
-            p.drawRoundedRect( QRect( rect.topRight()-QPoint( shadowWidth,0 ), rect.bottomRight() ), 4.5, 4.5 );
+                QPainter p( &shadowPixmap );
+                p.setRenderHints( QPainter::Antialiasing );
+                p.setPen( Qt::NoPen );
 
-            //top
-            l1 = QLinearGradient( rect.topLeft(), rect.topLeft()+QPoint( 0,3 ) );
-            l1.setColorAt( 0.0, alphaColor( shadow, 0.3 ) );
-            l1.setColorAt( 1.0, Qt::transparent );
-            p.setBrush( l1 );
-            p.drawRoundedRect( QRect( rect.topLeft(),rect.topRight()+QPoint( 0,3 ) ), 4.5, 4.5 );
+                // fade-in shadow
+                QColor shadowColor( calcShadowColor( color ) );
+                if( smallShadow ) shadowColor = alphaColor( shadowColor, 0.6 );
+                drawInverseShadow( p, shadowColor, 1, 8, 0.0 );
+
+                p.end();
+
+            }
+
+            // render shadow
+            TileSet(
+                shadowPixmap, shadowSize, shadowSize, shadowSize,
+                shadowSize, shadowSize-1, shadowSize, 2, 1 ).
+                render( rect.adjusted( -1, -1, 1, 1 ), &p, TileSet::Full );
 
             // light border
             QLinearGradient borderGradient( r.topLeft()+QPoint( 0,r.height()/2-1 ), r.bottomLeft() );
@@ -1086,7 +1085,7 @@ namespace Oxygen
             borderGradient.setColorAt( 1.0, alphaColor( light, 0.8 ) );
             p.setPen( QPen( borderGradient, 1.0 ) );
             p.setBrush( Qt::NoBrush );
-            p.drawRoundedRect( r.adjusted( 0.5,0,-0.5,0 ), 5.0, 5.0 );
+            p.drawRoundedRect( r.adjusted( 0.5,0.5,-0.5,-0.5 ), 4.5, 4.5 );
 
             p.end();
 
