@@ -182,22 +182,65 @@ namespace Oxygen
             p->drawPixmap( radialRect, tile );
         }
 
+        if ( clipRect.isValid() )
+        { p->restore(); }
+    }
+
+
+    //____________________________________________________________________
+    void Helper::renderBackgroundPixmap( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, int yShift, int gradientHeight )
+    {
+
+        // get coordinates relative to the client area
+        // this is stupid. One could use mapTo if this was taking const QWidget* and not
+        // QWidget* as argument.
+        const QWidget* w( widget );
+        int x( 0 );
+        int y( -yShift );
+
+        while ( w != window && !w->isWindow() && w != w->parentWidget() )
+        {
+            x += w->geometry().x();
+            y += w->geometry().y();
+            w = w->parentWidget();
+        }
+
+        if ( clipRect.isValid() )
+        {
+            p->save();
+            p->setClipRegion( clipRect,Qt::IntersectClip );
+        }
+
+        // calculate upper part height
+        // special tricks are needed
+        // to handle both window contents and window decoration
+        const QRect r = window->rect();
+        int height( window->frameGeometry().height() );
+        int width( window->frameGeometry().width() );
+        if( yShift > 0 )
+        {
+            height -= 2*yShift;
+            width -= 2*yShift;
+
+        }
+
         // background pixmap
         if( !_backgroundPixmap.isNull() )
         {
+
+            // calculate source rect
             QRect source( 0, 0, width, height );
-
-            source.adjust(
-                -_backgroundPixmapOffset.x(), -_backgroundPixmapOffset.y(),
-                _backgroundPixmapOffset.x(), _backgroundPixmapOffset.y());
-
+            source.adjust( -_backgroundPixmapOffset.x(), -_backgroundPixmapOffset.y(), _backgroundPixmapOffset.x(), _backgroundPixmapOffset.y());
             source.translate( 0, 64 - gradientHeight );
 
+            // draw
             p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
+
         }
 
         if ( clipRect.isValid() )
         { p->restore(); }
+
     }
 
     //_____________________________________________________________
