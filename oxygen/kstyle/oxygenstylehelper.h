@@ -56,6 +56,18 @@ namespace Oxygen
         //! update maximum cache size
         virtual void setMaxCacheSize( int );
 
+        //! render window background using a given color as a reference
+        /*!
+        For the widget style, both the gradient and the background pixmap are rendered in the same method.
+        All the actual rendering is performed by the base class
+        */
+        using Helper::renderWindowBackground;
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64 )
+        {
+            Helper::renderWindowBackground( p, clipRect, widget, window, color, y_shift, gradientHeight );
+            Helper::renderBackgroundPixmap( p, clipRect, widget, window, y_shift, gradientHeight );
+        }
+
         // render menu background
         void renderMenuBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette& pal )
         { renderMenuBackground( p, clipRect, widget, pal.color( widget->window()->backgroundRole() ) ); }

@@ -572,6 +572,7 @@ namespace Oxygen
     void Client::renderWindowBackground( QPainter* painter, const QRect& rect, const QWidget* widget, const QPalette& palette ) const
     {
 
+        // window background
         if(
             configuration().blendColor() == Configuration::NoBlending ||
             ( configuration().blendColor() == Configuration::BlendFromStyle &&
@@ -594,8 +595,32 @@ namespace Oxygen
                 height -= 3;
             }
 
+            // background pixmap
+            QPoint backgroundPixmapOffset( layoutMetric( LM_OuterPaddingLeft ) + layoutMetric( LM_BorderLeft ), 0 );
+            if( isMaximized() ) backgroundPixmapOffset += QPoint( 0, 3 );
+            helper().setBackgroundPixmapOffset( backgroundPixmapOffset );
+
             const QWidget* window( isPreview() ? this->widget() : widget->window() );
             helper().renderWindowBackground(painter, rect, widget, window, palette, offset, height );
+
+        }
+
+        // background pixmap
+        if( helper().hasBackgroundPixmap( windowId() ) )
+        {
+            int offset = layoutMetric( LM_OuterPaddingTop );
+
+            // radial gradient positionning
+            int height = 64 - Configuration::ButtonDefault;
+            if( !hideTitleBar() ) height += configuration().buttonSize();
+            if( isMaximized() ) offset -= 3;
+
+            // background pixmap
+            QPoint backgroundPixmapOffset( layoutMetric( LM_OuterPaddingLeft ) + layoutMetric( LM_BorderLeft ), 0 );
+            helper().setBackgroundPixmapOffset( backgroundPixmapOffset );
+
+            const QWidget* window( isPreview() ? this->widget() : widget->window() );
+            helper().renderBackgroundPixmap(painter, rect, widget, window, offset, height );
 
         }
 

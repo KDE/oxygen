@@ -179,7 +179,7 @@ namespace Oxygen
         \par gradientHeight: the height of the generated gradient.
         for different heights, the gradient is translated so that it is always at the same position from the bottom
         */
-        void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette&  pal, int y_shift=-23, int gradientHeight = 64 )
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette&  pal, int y_shift=-23, int gradientHeight = 64 )
         { renderWindowBackground( p, clipRect, widget, pal.color( widget->window()->backgroundRole() ), y_shift, gradientHeight ); }
 
         /*!
@@ -187,20 +187,31 @@ namespace Oxygen
         gradientHeight: the height of the generated gradient.
         for different heights, the gradient is translated so that it is always at the same position from the bottom
         */
-        void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QPalette&  pal, int y_shift=-23, int gradientHeight = 64 )
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QPalette&  pal, int y_shift=-23, int gradientHeight = 64 )
         { renderWindowBackground( p, clipRect, widget, window, pal.color( window->backgroundRole() ), y_shift, gradientHeight ); }
 
         //! render window background using a given color as a reference
-        void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift=-23, int gradientHeight = 64 )
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift=-23, int gradientHeight = 64 )
         { renderWindowBackground( p, clipRect, widget, widget->window(), color, y_shift, gradientHeight ); }
 
         //! render window background using a given color as a reference
-        void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64 );
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64 );
+
+        //! background pixmap
+        void setBackgroundPixmap( const QPixmap& pixmap )
+        { _backgroundPixmap = pixmap; }
+
+        //! offset
+        void setBackgroundPixmapOffset( const QPoint& offset )
+        { _backgroundPixmapOffset = offset; }
+
+        //! render window background using a given color as a reference
+        virtual void renderBackgroundPixmap( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, int y_shift=-23, int gradientHeight = 64 );
+
+        //@}
 
         //! dots
         void renderDot( QPainter*, const QPoint&, const QColor& );
-
-        //@}
 
         bool lowThreshold( const QColor& color );
         bool highThreshold( const QColor& color );
@@ -277,6 +288,12 @@ namespace Oxygen
         //! true if background gradient hint is set
         virtual bool hasBackgroundGradient( WId ) const;
 
+        //! set background pixmap hint to widget
+        virtual void setHasBackgroundPixmap( WId, bool ) const;
+
+        //! true if background pixmap hint is set
+        virtual bool hasBackgroundPixmap( WId ) const;
+
         //@}
 
         protected:
@@ -344,9 +361,24 @@ namespace Oxygen
         ColorMap _highThreshold;
         ColorMap _lowThreshold;
 
+        //! background pixmap
+        QPixmap _backgroundPixmap;
+        QPoint _backgroundPixmapOffset;
+
         #ifdef Q_WS_X11
-        //! argb hint atom
+
+        //! set value for given hint
+        void setHasHint( WId, Atom, bool ) const;
+
+        //! value for given hint
+        bool hasHint( WId, Atom ) const;
+
+        //! background gradient hint atom
         Atom _backgroundGradientAtom;
+
+        //! background gradient hint atom
+        Atom _backgroundPixmapAtom;
+
         #endif
      };
 
