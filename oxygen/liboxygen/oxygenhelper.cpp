@@ -191,6 +191,8 @@ namespace Oxygen
                 -_backgroundPixmapOffset.x(), -_backgroundPixmapOffset.y(),
                 _backgroundPixmapOffset.x(), _backgroundPixmapOffset.y());
 
+            source.translate( 0, 64 - gradientHeight );
+
             p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
         }
 
