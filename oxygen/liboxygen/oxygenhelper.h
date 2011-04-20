@@ -288,6 +288,12 @@ namespace Oxygen
         //! true if background gradient hint is set
         virtual bool hasBackgroundGradient( WId ) const;
 
+        //! set background pixmap hint to widget
+        virtual void setHasBackgroundPixmap( WId, bool ) const;
+
+        //! true if background pixmap hint is set
+        virtual bool hasBackgroundPixmap( WId ) const;
+
         //@}
 
         protected:
@@ -360,8 +366,19 @@ namespace Oxygen
         QPoint _backgroundPixmapOffset;
 
         #ifdef Q_WS_X11
-        //! argb hint atom
+
+        //! set value for given hint
+        void setHasHint( WId, Atom, bool ) const;
+
+        //! value for given hint
+        bool hasHint( WId, Atom ) const;
+
+        //! background gradient hint atom
         Atom _backgroundGradientAtom;
+
+        //! background gradient hint atom
+        Atom _backgroundPixmapAtom;
+
         #endif
      };
 
