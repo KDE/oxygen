@@ -3301,6 +3301,18 @@ namespace Oxygen
         // normal ( auto-raised ) toolbuttons
         if( flags & ( State_Sunken|State_On ) )
         {
+
+            if( false )
+            {
+                // fill hole
+                painter->save();
+                painter->setRenderHint( QPainter::Antialiasing );
+                painter->setPen( Qt::NoPen );
+                painter->setBrush( helper().calcMidColor( palette.color( QPalette::Window ) ) );
+                painter->drawRoundedRect( slitRect.adjusted( 1, 1, -1, -1 ), 3.0, 3.0 );
+                painter->restore();
+            }
+
             if( enabled && hoverAnimated )
             {
 
