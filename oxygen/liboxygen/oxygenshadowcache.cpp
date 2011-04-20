@@ -33,12 +33,6 @@
 #include <QtGui/QPainter>
 #include <QtCore/QTextStream>
 
-#ifdef Q_WS_X11
-#include <QtGui/QX11Info>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#endif
-
 namespace Oxygen
 {
 
@@ -55,13 +49,6 @@ namespace Oxygen
 
         setEnabled( true );
         setMaxIndex( 256 );
-
-        #ifdef Q_WS_X11
-
-        // create atom
-        _atom = XInternAtom( QX11Info::display(), "_KDE_NET_WM_SHADOW", False);
-
-        #endif
 
     }
 
@@ -175,70 +162,6 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    void ShadowCache::installX11Shadows( QWidget* widget, const Key& key )
-    {
-
-        /*!
-        shadow atom and property specification available at
-        http://community.kde.org/KWin/Shadow
-        */
-
-        #ifdef Q_WS_X11
-        #ifndef QT_NO_XRENDER
-
-        // check argument
-        if( !widget ) return;
-
-        // TODO: also check for NET_WM_SUPPORTED atom, before installing shadow
-
-        /*
-        From bespin code. Supposibly prevent playing with some 'pseudo-widgets'
-        that have winId matching some other -random- window
-        */
-        if( !(widget->testAttribute(Qt::WA_WState_Created) || widget->internalWinId() ))
-        { return; }
-
-        // get tileset
-        const TileSet& tiles( *tileSet( key ) );
-
-        // create data
-        // add pixmap handles
-        QVector<unsigned long> data;
-        data
-            << tiles.pixmap( 1 ).handle() // top
-            << tiles.pixmap( 2 ).handle() // top-right
-            << tiles.pixmap( 5 ).handle() // right
-            << tiles.pixmap( 8 ).handle() // bottom-right
-            << tiles.pixmap( 7 ).handle() // bottom
-            << tiles.pixmap( 6 ).handle() // bottom left
-            << tiles.pixmap( 3 ).handle() // left
-            << tiles.pixmap( 0 ).handle();
-
-        // add padding
-        /* all 4 paddings are identical, since offsets are handled when generating the pixmaps */
-        data << shadowSize() << shadowSize() << shadowSize() << shadowSize();
-
-        XChangeProperty(
-            QX11Info::display(), widget->winId(), _atom, XA_CARDINAL, 32, PropModeReplace,
-            reinterpret_cast<const unsigned char *>(data.constData()), data.size() );
-
-        #endif
-        #endif
-        return;
-    }
-
-    //_______________________________________________________
-    void ShadowCache::uninstallX11Shadows( QWidget* widget ) const
-    {
-
-        #ifdef Q_WS_X11
-        if( !widget ) return;
-        XDeleteProperty(QX11Info::display(), widget->winId(), _atom);
-        #endif
-
-    }
-
-    //_______________________________________________________
     TileSet* ShadowCache::tileSet( Key key, qreal opacity )
     {
 
@@ -321,8 +244,8 @@ namespace Oxygen
 
                 // inner (sharp) gradient
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+fixedSize)/2 );
-                const qreal hoffset = shadowConfiguration.horizontalOffset()*gradientSize/fixedSize;
-                const qreal voffset = shadowConfiguration.verticalOffset()*gradientSize/fixedSize;
+                const qreal hoffset( 0 );
+                const qreal voffset( 0.2 );
 
                 QRadialGradient rg = QRadialGradient( size+12.0*hoffset, size+12.0*voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
@@ -376,8 +299,8 @@ namespace Oxygen
             {
                 // inner (sharp gradient)
                 const qreal gradientSize = qMin( shadowSize, fixedSize );
-                const qreal hoffset = shadowConfiguration.horizontalOffset()*gradientSize/fixedSize;
-                const qreal voffset = shadowConfiguration.verticalOffset()*gradientSize/fixedSize;
+                const qreal hoffset( 0 );
+                const qreal voffset( 0.2 );
 
                 QRadialGradient rg = QRadialGradient( size+hoffset, size+voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
@@ -476,13 +399,13 @@ namespace Oxygen
             return;
         }
 
-        qreal size( rect.width()/2.0 );
-        qreal hoffset( rg.center().x() - size );
-        qreal voffset( rg.center().y() - size );
+        const qreal size( rect.width()/2.0 );
+        const qreal hoffset( rg.center().x() - size );
+        const qreal voffset( rg.center().y() - size );
+        const qreal radius( rg.radius() );
 
         // load gradient stops
         QGradientStops stops( rg.stops() );
-        qreal radius( rg.radius() );
 
         // draw ellipse for the upper rect
         {
@@ -494,12 +417,12 @@ namespace Oxygen
         // draw square gradients for the lower rect
         {
             // vertical lines
-            QRectF rect( hoffset, size+voffset, 2*size-hoffset, 4 );
+            const QRectF rect( hoffset, size+voffset, 2*size-hoffset, 4 );
             QLinearGradient lg( hoffset, 0.0, 2*size+hoffset, 0.0 );
             for( int i = 0; i<stops.size(); i++ )
             {
-                QColor c( stops[i].second );
-                qreal xx( stops[i].first*radius );
+                const QColor c( stops[i].second );
+                const qreal xx( stops[i].first*radius );
                 lg.setColorAt( (size-xx)/(2.0*size), c );
                 lg.setColorAt( (size+xx)/(2.0*size), c );
             }
@@ -511,12 +434,12 @@ namespace Oxygen
 
         {
             // horizontal line
-            QRectF rect( size-4+hoffset, size+voffset, 8, size );
+            const QRectF rect( size-4+hoffset, size+voffset, 8, size );
             QLinearGradient lg = QLinearGradient( 0, voffset, 0, 2*size+voffset );
             for( int i = 0; i<stops.size(); i++ )
             {
-                QColor c( stops[i].second );
-                qreal xx( stops[i].first*radius );
+                const QColor c( stops[i].second );
+                const qreal xx( stops[i].first*radius );
                 lg.setColorAt( (size+xx)/(2.0*size), c );
             }
 
@@ -527,17 +450,17 @@ namespace Oxygen
         {
 
             // bottom-left corner
-            QRectF rect( hoffset, size+4+voffset, size-4, size );
-            QRadialGradient rg = QRadialGradient( size+hoffset-4, size+4+voffset, radius );
+            const QRectF rect( hoffset, size+voffset+4, size-4, size );
+            QRadialGradient rg = QRadialGradient( size+hoffset-4, size+voffset+4, radius );
             for( int i = 0; i<stops.size(); i++ )
             {
                 QColor c( stops[i].second );
-                qreal xx( stops[i].first -4.0/rg.radius() );
+                qreal xx( stops[i].first -4.0/radius );
                 if( xx<0 )
                 {
                     if( i < stops.size()-1 )
                     {
-                        qreal x1( stops[i+1].first -4.0/rg.radius() );
+                        const qreal x1( stops[i+1].first -4.0/radius );
                         c = KColorUtils::mix( c, stops[i+1].second, -xx/(x1-xx) );
                     }
                     xx = 0;
@@ -553,17 +476,17 @@ namespace Oxygen
 
         {
             // bottom-right corner
-            QRectF rect( size+4+hoffset, size+4+voffset, size-4, size );
-            QRadialGradient rg = QRadialGradient( size+hoffset+4, size+4+voffset, radius );
+            const QRectF rect( size+hoffset+4, size+voffset+4, size-4, size );
+            QRadialGradient rg = QRadialGradient( size+hoffset+4, size+voffset+4, radius );
             for( int i = 0; i<stops.size(); i++ )
             {
                 QColor c( stops[i].second );
-                qreal xx( stops[i].first -4.0/rg.radius() );
+                qreal xx( stops[i].first -4.0/radius );
                 if( xx<0 )
                 {
                     if( i < stops.size()-1 )
                     {
-                        qreal x1( stops[i+1].first -4.0/rg.radius() );
+                        const qreal x1( stops[i+1].first -4.0/radius );
                         c = KColorUtils::mix( c, stops[i+1].second, -xx/(x1-xx) );
                     }
                     xx = 0;

@@ -51,7 +51,7 @@
 
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
-#include "oxygenshadowcache.h"
+#include "oxygenshadowhelper.h"
 #include "oxygenstyleconfigdata.h"
 #include "oxygentransitions.h"
 #include "oxygenwidgetexplorer.h"
@@ -66,6 +66,7 @@
 #include <QtGui/QDial>
 #include <QtGui/QDialogButtonBox>
 #include <QtGui/QDockWidget>
+#include <QtGui/QDoubleSpinBox>
 #include <QtGui/QFormLayout>
 #include <QtGui/QFrame>
 #include <QtGui/QGraphicsView>
@@ -77,6 +78,7 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
 #include <QtGui/QScrollBar>
+#include <QtGui/QSpinBox>
 #include <QtGui/QSplitterHandle>
 #include <QtGui/QStylePlugin>
 #include <QtGui/QStyleOption>
@@ -155,7 +157,7 @@ namespace Oxygen
         _doubleButtonHeight( 28 ),
         _showMnemonics( true ),
         _helper( new StyleHelper( "oxygen" ) ),
-        _shadowCache( new ShadowCache( *_helper ) ),
+        _shadowHelper( new ShadowHelper( this, *_helper ) ),
         _animations( new Animations( this ) ),
         _transitions( new Transitions( this ) ),
         _windowManager( new WindowManager( this ) ),
@@ -200,10 +202,7 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::~Style( void )
-    {
-        delete _shadowCache;
-        delete _helper;
-    }
+    { delete _helper; }
 
     //______________________________________________________________
     void Style::polish( QWidget* widget )
@@ -215,6 +214,7 @@ namespace Oxygen
         transitions().registerWidget( widget );
         windowManager().registerWidget( widget );
         frameShadowFactory().registerWidget( widget, helper() );
+        shadowHelper().registerWidget( widget );
 
         // scroll areas
         if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) )
@@ -245,6 +245,11 @@ namespace Oxygen
 
         }
 
+        // adjust layout for K3B themed headers
+        // FIXME: to be removed when fixed upstream
+        if( widget->inherits( "K3b::ThemedHeader" ) && widget->layout() )
+        { widget->layout()->setMargin( 0 ); }
+
         // adjust flags for windows and dialogs
         switch( widget->windowFlags() & Qt::WindowType_Mask )
         {
@@ -258,27 +263,9 @@ namespace Oxygen
 
             break;
 
-            case Qt::ToolTip:
-            if( !widget->autoFillBackground() )
-            {
-                widget->setAttribute( Qt::WA_TranslucentBackground );
-
-                #ifdef Q_WS_WIN
-                //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
-                widget->setWindowFlags( widget->windowFlags() | Qt::FramelessWindowHint );
-                #endif
-            }
-
-            break;
-
-            //
-
             default: break;
 
         }
-
-        if( qobject_cast<QMenu*>( widget ) || widget->inherits( "QComboBoxPrivateContainer" ) )
-        { shadowCache().installX11Shadows( widget ); }
 
         if(
             qobject_cast<QAbstractItemView*>( widget )
@@ -297,6 +284,17 @@ namespace Oxygen
             || qobject_cast<QToolButton*>( widget )
             )
         { widget->setAttribute( Qt::WA_Hover ); }
+
+        // transparent tooltips
+        if( widget->inherits( "QTipLabel" ) )
+        {
+            widget->setAttribute( Qt::WA_TranslucentBackground );
+
+            #ifdef Q_WS_WIN
+            //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
+            widget->setWindowFlags( widget->windowFlags() | Qt::FramelessWindowHint );
+            #endif
+        }
 
         // also enable hover effects in itemviews' viewport
         if( QAbstractItemView *itemView = qobject_cast<QAbstractItemView*>( widget ) )
@@ -466,7 +464,7 @@ namespace Oxygen
         transitions().unregisterWidget( widget );
         windowManager().unregisterWidget( widget );
         frameShadowFactory().unregisterWidget( widget );
-        shadowCache().uninstallX11Shadows( widget );
+        shadowHelper().unregisterWidget( widget );
 
         if( isKTextEditFrame( widget ) )
         { widget->setAttribute( Qt::WA_Hover, false  ); }
@@ -602,7 +600,15 @@ namespace Oxygen
 
                 if( qobject_cast<const QLineEdit*>( widget ) ) return LineEdit_FrameWidth;
                 else if( qobject_cast<const QComboBox*>( widget ) ) return ComboBox_FrameWidth;
-                else if( qobject_cast<const QFrame*>( widget ) ) return Frame_FrameWidth;
+                else if( qobject_cast<const QFrame*>( widget ) )
+                {
+
+                    // special case for KTitleWidget: frameWidth is set to zero, since
+                    // no frame, nor background is painted for these
+                    if( widget->parent() && widget->parent()->inherits( "KTitleWidget" ) ) return 0;
+                    else return Frame_FrameWidth;
+
+                }
                 else if( qstyleoption_cast<const QStyleOptionGroupBox *>( option ) ) return GroupBox_FrameWidth;
                 else return 1;
 
@@ -688,7 +694,6 @@ namespace Oxygen
             case PM_MenuScrollerHeight: return 10;
             case PM_MenuTearoffHeight: return 10;
 
-            //! tabbar
             // tabbars
             case PM_TabBarTabHSpace: return 0;
             case PM_TabBarTabVSpace: return 0;
@@ -3296,6 +3301,18 @@ namespace Oxygen
         // normal ( auto-raised ) toolbuttons
         if( flags & ( State_Sunken|State_On ) )
         {
+
+            if( false )
+            {
+                // fill hole
+                painter->save();
+                painter->setRenderHint( QPainter::Antialiasing );
+                painter->setPen( Qt::NoPen );
+                painter->setBrush( helper().calcMidColor( palette.color( QPalette::Window ) ) );
+                painter->drawRoundedRect( slitRect.adjusted( 1, 1, -1, -1 ), 3.0, 3.0 );
+                painter->restore();
+            }
+
             if( enabled && hoverAnimated )
             {
 
@@ -3519,6 +3536,10 @@ namespace Oxygen
     bool Style::drawPanelTipLabelPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // force registration of widget
+        if( widget && widget->window() )
+        { shadowHelper().registerWidget( widget->window(), true ); }
+
         // parent style painting if frames should not be styled
         if( !StyleConfigData::toolTipDrawStyledFrames() ) return false;
 
@@ -3560,7 +3581,8 @@ namespace Oxygen
 
             painter->setBrush( Qt::NoBrush );
             painter->setPen( QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawRoundedRect( local, 4, 4 );
+            //painter->drawRoundedRect( local, 4, 4 );
+            painter->drawRoundedRect( local, 3.5, 3.5 );
 
         } else {
 
@@ -3784,7 +3806,6 @@ namespace Oxygen
         QPolygonF a = genericArrow( ArrowDown, ArrowNormal );
 
         qreal penThickness = 1.6;
-        bool drawContrast = true;
 
         // toolbuttons
         const QToolButton *tool( qobject_cast<const QToolButton *>( widget ) );
@@ -3926,16 +3947,11 @@ namespace Oxygen
         painter->setRenderHint( QPainter::Antialiasing );
 
         // white reflection
-        if( drawContrast )
-        {
-
-            const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
-            painter->translate( 0,offset );
-            painter->setPen( QPen( helper().calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawPolyline( a );
-            painter->translate( 0,-offset );
-
-        }
+        const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+        painter->translate( 0,offset );
+        painter->setPen( QPen( helper().calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+        painter->drawPolyline( a );
+        painter->translate( 0,-offset );
 
         painter->setPen( QPen( helper().decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
         painter->drawPolyline( a );
@@ -4173,7 +4189,14 @@ namespace Oxygen
         if( !widget->isWindow() ) return false;
 
         // normal "window" background
-        helper().renderWindowBackground( painter, option->rect, widget, option->palette );
+        const QPalette& palette( option->palette );
+
+        // do not render background if palette brush has a texture (pixmap or image)
+        const QBrush brush( palette.brush( widget->backgroundRole() ) );
+        if( !( brush.texture().isNull() && brush.textureImage().isNull() ) )
+        { return false; }
+
+        helper().renderWindowBackground( painter, option->rect, widget, palette );
         return true;
 
     }
@@ -4788,7 +4811,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawProgressBarContentsControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawProgressBarContentsControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
         const QStyleOptionProgressBar* pbOpt = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
@@ -4800,8 +4823,15 @@ namespace Oxygen
         const QPalette& palette( option->palette );
 
         // check if anything is to be drawn
-        const qreal progress = pbOpt->progress - pbOpt->minimum;
+        qreal progress = pbOpt->progress - pbOpt->minimum;
         const bool busyIndicator = ( pbOpt->minimum == 0 && pbOpt->maximum == 0 );
+        if( busyIndicator && widget )
+        {
+            // load busy value from widget property
+            QVariant busyValue( widget->property( ProgressBarEngine::busyValuePropertyName ) );
+            if( busyValue.isValid() ) progress = busyValue.toReal();
+        }
+
         if( !( progress || busyIndicator ) ) return true;
 
         const int steps = qMax( pbOpt->maximum  - pbOpt->minimum, 1 );
@@ -5132,10 +5162,10 @@ namespace Oxygen
         if( horizontal )
         {
 
-            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left );
-            else renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom );
+            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left | TileSet::Center );
+            else renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom | TileSet::Center );
 
-        } else renderScrollBarHole( painter, QRect( r.left(), r.top()-5, r.width(), 5 ), background, Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right );
+        } else renderScrollBarHole( painter, QRect( r.left(), r.top()-5, r.width(), 5 ), background, Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right | TileSet::Center );
 
         // stop here if no buttons are defined
         if( _addLineButtons == NoButton ) return true;
@@ -5239,14 +5269,14 @@ namespace Oxygen
         if( horizontal )
         {
 
-            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom );
-            else renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom );
+            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom | TileSet::Center );
+            else renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom | TileSet::Center );
 
             r.translate( 1, 0 );
 
         } else {
 
-            renderScrollBarHole( painter, QRect( r.left(), r.bottom()+3, r.width(), 5 ), background, Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right );
+            renderScrollBarHole( painter, QRect( r.left(), r.bottom()+3, r.width(), 5 ), background, Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right | TileSet::Center );
             r.translate( 0, 2 );
 
         }
@@ -5330,7 +5360,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawShapedFrameControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawShapedFrameControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
         // cast option and check
@@ -5348,13 +5378,15 @@ namespace Oxygen
 
             case QFrame::HLine:
             {
-                helper().drawSeparator( painter, option->rect, option->palette.color( QPalette::Window ), Qt::Horizontal );
+                const QColor color( helper().backgroundColor( option->palette.color( QPalette::Window ), widget, option->rect.center() ) );
+                helper().drawSeparator( painter, option->rect, color, Qt::Horizontal );
                 return true;
             }
 
             case QFrame::VLine:
             {
-                helper().drawSeparator( painter, option->rect, option->palette.color( QPalette::Window ), Qt::Vertical );
+                const QColor color( helper().backgroundColor( option->palette.color( QPalette::Window ), widget, option->rect.center() ) );
+                helper().drawSeparator( painter, option->rect, color, Qt::Vertical );
                 return true;
             }
 
@@ -6201,7 +6233,7 @@ namespace Oxygen
         const bool hasLeftCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget );
         const bool hasRightCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::RightCornerWidget );
 
-        // true if widget is alligned to the frame
+        // true if widget is aligned to the frame
         /* need to check for 'isRightOfSelected' because for some reason the isFirst flag is set when active tab is being moved */
         const bool isFrameAligned( !documentMode && isFirst && !hasLeftCornerWidget && !isRightOfSelected && !isDragged );
         isFirst &= !isRightOfSelected;
@@ -6958,15 +6990,15 @@ namespace Oxygen
         QRect tr;
         QRect ir;
         int ih( 0 );
-        if( pm.isNull() )
-        {
-            tr = cr;
-            tr.adjust( 4, 0, -8, 0 );
-        } else {
+
+        if( pm.isNull() )  tr = cr.adjusted( -1, 0, -8, 0 );
+        else {
+
             int iw = pm.width() + 4;
             ih = pm.height();
-            ir = QRect( cr.left() + 4, cr.top(), iw + 2, ih );
+            ir = QRect( cr.left() - 1, cr.top(), iw + 2, ih );
             tr = QRect( ir.right(), cr.top(), cr.width() - ir.right() - 4, cr.height() );
+
         }
 
         if( selected )
@@ -7522,7 +7554,7 @@ namespace Oxygen
         if( slider->subControls & SC_SliderGroove )
         {
             const QRect groove = sliderSubControlRect( slider, SC_SliderGroove, widget );
-            if( groove.isValid() ) helper().groove( palette.color( QPalette::Window ), 0.0 )->render( groove, painter );
+            if( groove.isValid() ) helper().groove( palette.color( QPalette::Window ) )->render( groove, painter );
         }
 
         // handle
@@ -7818,14 +7850,11 @@ namespace Oxygen
 
         helper().setMaxCacheSize( cacheSize );
 
-        // shadow cache
-        KConfig conf( "oxygenrc" );
-        shadowCache().readConfig( conf );
-
         // reinitialize engines
         animations().setupEngines();
         transitions().setupEngines();
         windowManager().initialize();
+        shadowHelper().reloadConfig();
 
         // widget explorer
         widgetExplorer().setEnabled( StyleConfigData::widgetExplorerEnabled() );
@@ -8580,7 +8609,34 @@ namespace Oxygen
         const QPalette& palette( option->palette );
 
         const State& flags( option->state );
-        const bool enabled( flags & State_Enabled );
+
+        bool enabled( flags & State_Enabled );
+        bool atLimit( false );
+        if( enabled )
+        {
+
+            if( const QSpinBox* spinbox = qobject_cast<const QSpinBox*>( widget ) )
+            {
+
+                // cast to spinbox and check if at limit
+                const int value( spinbox->value() );
+                if( !spinbox->wrapping() && (( subControl == SC_SpinBoxUp && value == spinbox->maximum() ) ||
+                    ( subControl == SC_SpinBoxDown && value == spinbox->minimum() ) ) )
+                    { atLimit = true; }
+
+            } else if( const QDoubleSpinBox* spinbox = qobject_cast<const QDoubleSpinBox*>( widget ) ) {
+
+                // cast to spinbox and check if at limit
+                const double value( spinbox->value() );
+                if( !spinbox->wrapping() && (( subControl == SC_SpinBoxUp && value == spinbox->maximum() ) ||
+                    ( subControl == SC_SpinBoxDown && value == spinbox->minimum() ) ) )
+                    { atLimit = true; }
+
+            }
+
+        }
+
+        enabled &= !atLimit;
         const bool mouseOver( enabled && ( flags & State_MouseOver ) );
 
         // check animation state
@@ -8600,6 +8656,10 @@ namespace Oxygen
         } else if( subControlHover ) {
 
             color = helper().viewHoverBrush().brush( palette ).color();
+
+        } else if( atLimit ) {
+
+            color = palette.color( QPalette::Disabled, QPalette::Text );
 
         } else {
 
@@ -9058,7 +9118,7 @@ namespace Oxygen
 
         if( !( options & NoFill ) )
         {
-            if( options & Sunken ) helper().holeFlat( palette.color( QPalette::Window ), 0.0 )->render( r, painter, TileSet::Full );
+            if( options & Sunken ) helper().holeFlat( palette.color( QPalette::Window ), 0.0, false )->render( r, painter, TileSet::Full );
             else renderSlab( painter, r, palette.color( QPalette::Button ), options, opacity, mode, TileSet::Ring );
         }
 
@@ -9207,7 +9267,7 @@ namespace Oxygen
 
         // one need to make smaller shadow
         // notably on the size when rect height is too high
-        const bool smallShadow( r.height() < 10 );
+        const bool smallShadow( orientation == Qt::Horizontal ? r.height() < 10 : r.width() < 10 );
         helper().scrollHole( color, orientation, smallShadow )->render( r, painter, tiles );
 
     }
@@ -9379,8 +9439,22 @@ namespace Oxygen
         const QPalette& palette( option->palette );
         QColor color( palette.color( QPalette::WindowText ) );
 
+        // check enabled state
         const bool enabled( option->state & State_Enabled );
         if( !enabled ) return color;
+
+        if( const QAbstractSlider* slider = qobject_cast<const QAbstractSlider*>( widget ) )
+        {
+            const int value( slider->value() );
+            if(
+                ( control == SC_ScrollBarSubLine && value == slider->minimum() ) ||
+                ( control == SC_ScrollBarAddLine && value == slider->maximum() ) ) {
+
+                // manually disable arrow, to indicate that scrollbar is at limit
+                return palette.color( QPalette::Disabled, QPalette::WindowText );
+            }
+        }
+
 
         const bool hover( animations().scrollBarEngine().isHovered( widget, control ) );
         const bool animated( animations().scrollBarEngine().isAnimated( widget, control ) );

@@ -316,15 +316,19 @@ namespace Oxygen
         // check widget
         if( !widget ) return false;
 
-        // all accepted default types
+        // accepted default types
         if(
             ( qobject_cast<QDialog*>( widget ) && widget->isWindow() ) ||
             ( qobject_cast<QMainWindow*>( widget ) && widget->isWindow() ) ||
-            qobject_cast<QGroupBox*>( widget ) ||
-            qobject_cast<QMenuBar*>( widget ) ||
+            qobject_cast<QGroupBox*>( widget ) )
+        { return true; }
+
+        // more accepted types, provided they are not dock widget titles
+        if( ( qobject_cast<QMenuBar*>( widget ) ||
             qobject_cast<QTabBar*>( widget ) ||
             qobject_cast<QStatusBar*>( widget ) ||
-            qobject_cast<QToolBar*>( widget ) )
+            qobject_cast<QToolBar*>( widget ) ) &&
+            !isDockWidgetTitle( widget ) )
         { return true; }
 
         if( widget->inherits( "KScreenSaver" ) && widget->inherits( "KCModule" ) )
@@ -641,6 +645,20 @@ namespace Oxygen
         #endif
 
         return false;
+
+    }
+
+    //____________________________________________________________
+    bool WindowManager::isDockWidgetTitle( const QWidget* widget ) const
+    {
+
+        if( !widget ) return false;
+        if( const QDockWidget* dockWidget = qobject_cast<const QDockWidget*>( widget->parent() ) )
+        {
+
+            return widget == dockWidget->titleBarWidget();
+
+        } else return false;
 
     }
 

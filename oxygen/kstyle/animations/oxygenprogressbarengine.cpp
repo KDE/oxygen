@@ -31,6 +31,9 @@ namespace Oxygen
 {
 
     //_______________________________________________
+    const char* const ProgressBarEngine::busyValuePropertyName = "_OXYGEN_BUSY_VALUE";
+
+    //_______________________________________________
     bool ProgressBarEngine::registerWidget( QWidget* widget )
     {
 
@@ -39,7 +42,11 @@ namespace Oxygen
 
         // create new data class
         if( !_data.contains( widget ) ) _data.insert( widget, new ProgressBarData( this, widget, duration() ), enabled() );
-        if( busyIndicatorEnabled() && !_dataSet.contains( widget ) ) _dataSet.insert( widget );
+        if( busyIndicatorEnabled() && !_dataSet.contains( widget ) )
+        {
+            widget->setProperty( busyValuePropertyName, 0 );
+            _dataSet.insert( widget );
+        }
 
         // connect destruction signal
         connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
@@ -97,10 +104,11 @@ namespace Oxygen
                 animated = true;
 
                 // update value
-                progressBar->setValue(progressBar->value()+1);
+                progressBar->setProperty( busyValuePropertyName, progressBar->property( busyValuePropertyName ).toInt()+1 );
                 progressBar->update();
 
-            }
+            } else if( *iter ) { (*iter)->setProperty( busyValuePropertyName, 0 ); }
+
         }
 
         if( !animated ) _timer.stop();

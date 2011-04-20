@@ -119,15 +119,13 @@ namespace Oxygen
             TileSet::Tiles posFlags = TileSet::Ring, bool outline = false )
         { renderHole( p, color, r, focus, hover, -1, Oxygen::AnimationNone, posFlags, outline ); }
 
-        //! generic hole( with animated glow )
+        //! generic hole (with animated glow)
         void renderHole( QPainter *p, const QColor&, const QRect &r,
             bool focus, bool hover,
             qreal opacity, Oxygen::AnimationMode animationMode,
             TileSet::Tiles posFlags = TileSet::Ring, bool outline = false );
 
-        TileSet *hole( const QColor&, qreal shade, int size = 7, bool outline = false );
-        TileSet *holeFlat( const QColor&, qreal shade, int size = 7 );
-        TileSet *holeFocused( const QColor&, const QColor& glowColor, qreal shade, int size = 7, bool outline = false );
+        TileSet *holeFlat( const QColor&, qreal shade, bool fill = true, int size = 7 );
 
         //! scrollbar hole
         TileSet *scrollHole( const QColor&, Qt::Orientation orientation, bool smallShadow = false );
@@ -135,7 +133,7 @@ namespace Oxygen
         //@}
 
         //! scrollbar groove
-        TileSet *groove( const QColor&, qreal shade, int size = 7 );
+        TileSet *groove( const QColor&, int size = 7 );
 
         //! focus rect for flat toolbuttons
         TileSet *slitFocused( const QColor& );
@@ -166,8 +164,23 @@ namespace Oxygen
 
         protected:
 
-        void drawHole( QPainter&, const QColor&, qreal shade, int r = 7 );
+        //!@name holes
+        //@{
+
+        //! non focus hole
+        TileSet *hole( const QColor& color, int size = 7, bool outline = false )
+        { return holeFocused( color, QColor(), size, outline ); }
+
+        //! focused hole
+        TileSet *holeFocused( const QColor&, const QColor& glowColor, int size = 7, bool outline = false );
+
+        //@}
+
+        // round slabs
         void drawRoundSlab( QPainter&, const QColor&, qreal );
+
+
+        private:
 
         //! dynamically allocated debug area
         int _debugArea;
@@ -186,7 +199,6 @@ namespace Oxygen
         TileSetCache _cornerCache;
         TileSetCache _slabSunkenCache;
         TileSetCache _slabInvertedCache;
-        TileSetCache _holeCache;
         TileSetCache _holeFlatCache;
         TileSetCache _slopeCache;
         TileSetCache _grooveCache;

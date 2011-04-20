@@ -34,12 +34,54 @@ namespace Oxygen
 {
 
     //_____________________________________________________________
+    ProgressBar::ProgressBar( QObject* parent, QProgressBar* progressBar, QCheckBox* checkBox ):
+        QObject( parent ),
+        _progressBar( progressBar ),
+        _checkBox( checkBox ),
+        _value( 0 )
+    { connect( _checkBox, SIGNAL( toggled( bool ) ), SLOT( toggleBusy( bool ) ) ); }
+
+    //_____________________________________________________________
+    void ProgressBar::toggleBusy( bool value )
+    {
+
+        if( value )
+        {
+            _value = _progressBar->value();
+            _progressBar->setMinimum( 0 );
+            _progressBar->setMaximum( 0 );
+
+        } else {
+
+            _progressBar->setMinimum( 0 );
+            _progressBar->setMaximum( 100 );
+            _progressBar->setValue( _value );
+
+        }
+
+        _progressBar->update();
+
+    }
+
+    //_____________________________________________________________
+    void ProgressBar::setValue( int value )
+    {
+        if( !_checkBox->isChecked() )
+        { _progressBar->setValue( value ); }
+    }
+
+    //_____________________________________________________________
     SliderDemoWidget::SliderDemoWidget( QWidget* parent ):
         DemoWidget( parent ),
         _locked( false )
     {
 
         ui.setupUi( this );
+
+        _progressBar1 = new ProgressBar( this, ui.progressBar, ui.checkBox );
+        _progressBar2 = new ProgressBar( this, ui.progressBar_2, ui.checkBox_2 );
+        ui.checkBox_2->setChecked( true );
+
         connect( ui.horizontalSlider, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
         connect( ui.horizontalScrollBar, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
         connect( ui.verticalSlider, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
@@ -78,14 +120,19 @@ namespace Oxygen
     void SliderDemoWidget::updateSliders( int value )
     {
         if( _locked ) return;
+
         _locked = true;
+        _progressBar1->setValue( value );
+        _progressBar2->setValue( value );
+
         ui.horizontalSlider->setValue( value );
         ui.verticalSlider->setValue( value );
-        ui.progressBar->setValue( value );
         ui.progressBar_3->setValue( value );
         ui.horizontalScrollBar->setValue( value );
         ui.verticalScrollBar->setValue( value );
         ui.dial->setValue( value );
+
         _locked = false;
+
     }
 }
