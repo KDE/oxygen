@@ -23,6 +23,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include "oxygentileset.h"
+
 #include <KSharedConfig>
 #include <KComponentData>
 #include <KColorScheme>
@@ -36,8 +38,6 @@
 #ifdef Q_WS_X11
 #include <X11/Xdefs.h>
 #endif
-
-#include "oxygentileset.h"
 
 namespace Oxygen
 {
