@@ -987,7 +987,7 @@ namespace Oxygen
             TileSet(
                 shadowPixmap, shadowSize, shadowSize, shadowSize,
                 shadowSize, shadowSize-1, shadowSize, 2, 1 ).
-                render( pixmap.rect(), &p, TileSet::Full );
+                render( pixmap.rect(), &p );
 
             if( outline && alpha < 255 )
             {
