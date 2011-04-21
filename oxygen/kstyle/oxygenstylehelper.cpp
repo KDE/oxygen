@@ -861,7 +861,7 @@ namespace Oxygen
                 {
                     // shadow (top)
                     const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
-                    QLinearGradient gradient( 0, 0, 0, 14 );
+                    QLinearGradient gradient( 0, -2, 0, 14 );
                     gradient.setColorAt( 0.0, dark );
                     gradient.setColorAt( 0.5, Qt::transparent );
 
@@ -873,7 +873,7 @@ namespace Oxygen
 
                     // contrast (bottom)
                     const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-                    QLinearGradient gradient( 0, 0, 0, 14 );
+                    QLinearGradient gradient( 0, 0, 0, 18 );
                     gradient.setColorAt( 0.5, Qt::transparent );
                     gradient.setColorAt( 1.0, light );
 
