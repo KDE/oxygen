@@ -999,7 +999,7 @@ namespace Oxygen
 
                 p.setBrush( Qt::NoBrush );
                 p.setPen( QPen( blend, 1 ) );
-                p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 2.5, 2.5 );
+                p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 3.0, 3.0 );
                 p.setPen( Qt::NoPen );
             }
 
