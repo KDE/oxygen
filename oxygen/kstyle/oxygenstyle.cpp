@@ -2539,8 +2539,12 @@ namespace Oxygen
 
             } else {
 
+                HoleOptions options( 0 );
+                if( focusHighlight ) options |= HoleFocus;
+                if( hoverHighlight ) options |= HoleHover;
+
                 helper().renderHole(
-                    painter, palette.color( QPalette::Window ), local, focusHighlight, hoverHighlight,
+                    painter, palette.color( QPalette::Window ), local, options,
                     opacity, mode, TileSet::Ring );
 
             }
@@ -3098,16 +3102,19 @@ namespace Oxygen
 
                 slitRect.adjust( 0, 0, 0, -1 );
 
+                HoleOptions options( 0 );
+                if( mouseOver ) options |= HoleHover;
+
                 // flat pressed-down buttons do not get focus effect,
                 // consistently with tool buttons
                 if( enabled && hoverAnimated )
                 {
 
-                    helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, false, mouseOver, hoverOpacity, AnimationHover, TileSet::Ring );
+                    helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, options, hoverOpacity, AnimationHover, TileSet::Ring );
 
                 } else {
 
-                    helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, false, mouseOver );
+                    helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, options );
 
                 }
 
@@ -3316,31 +3323,35 @@ namespace Oxygen
                 painter->restore();
             }
 
+            HoleOptions options( HoleContrast );
+            if( hasFocus && enabled ) options |= HoleFocus;
+            if( mouseOver && enabled ) options |= HoleHover;
+
             if( enabled && hoverAnimated )
             {
 
-                helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, hasFocus, mouseOver, hoverOpacity, AnimationHover, TileSet::Ring );
+                helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, options, hoverOpacity, AnimationHover, TileSet::Ring );
 
             } else if( toolBarAnimated ) {
 
                 if( enabled && animatedRect.isNull() && current  )
                 {
 
-                    helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, hasFocus, mouseOver, toolBarOpacity, AnimationHover, TileSet::Ring );
+                    helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, options, toolBarOpacity, AnimationHover, TileSet::Ring );
 
                 } else {
 
-                    helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, false, false );
+                    helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, HoleContrast );
 
                 }
 
             } else if( toolBarTimerActive && current ) {
 
-                helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, hasFocus, true );
+                helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, options | HoleHover );
 
             } else {
 
-                helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, hasFocus, mouseOver );
+                helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, options );
 
             }
 
@@ -7228,19 +7239,23 @@ namespace Oxygen
                     helper().fillHole( *painter, r.adjusted( 0, -1, 0, 0 ) );
                     painter->restore();
 
+                    HoleOptions options( 0 );
+                    if( hasFocus && enabled ) options |= HoleFocus;
+                    if( mouseOver && enabled ) options |= HoleHover;
+
                     const QColor color( palette.color( QPalette::Window ) );
                     if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationFocus ) )
                     {
 
-                        helper().renderHole( painter, color, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
+                        helper().renderHole( painter, color, fr, options, animations().lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
 
                     } else if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationHover ) ) {
 
-                        helper().renderHole( painter, color, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
+                        helper().renderHole( painter, color, fr, options, animations().lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
 
                     } else {
 
-                        helper().renderHole( painter, color, fr, hasFocus && enabled, mouseOver );
+                        helper().renderHole( painter, color, fr, options );
 
                     }
 
@@ -7286,16 +7301,19 @@ namespace Oxygen
 
                         slitRect.adjust( 0, 0, 0, -1 );
 
+                        HoleOptions options( HoleContrast );
+                        if( mouseOver && enabled ) options |= HoleHover;
+
                         // flat pressed-down buttons do not get focus effect,
                         // consistently with tool buttons
                         if( enabled && hoverAnimated )
                         {
 
-                            helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, false, mouseOver, hoverOpacity, AnimationHover, TileSet::Ring );
+                            helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, options, hoverOpacity, AnimationHover, TileSet::Ring );
 
                         } else {
 
-                            helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, false, mouseOver );
+                            helper().renderHole( painter, palette.color( QPalette::Window ), slitRect, options );
 
                         }
 
@@ -7623,21 +7641,25 @@ namespace Oxygen
                 helper().fillHole( *painter, r.adjusted( 0, -1, 0, 0 ) );
                 painter->restore();
 
+                HoleOptions options( 0 );
+                if( hasFocus && enabled ) options |= HoleFocus;
+                if( mouseOver && enabled ) options |= HoleHover;
+
                 QColor local( palette.color( QPalette::Window ) );
                 animations().lineEditEngine().updateState( widget, AnimationHover, mouseOver );
                 animations().lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
                 if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationFocus ) )
                 {
 
-                    helper().renderHole( painter, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
+                    helper().renderHole( painter, local, fr, options, animations().lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
 
                 } else if( enabled && animations().lineEditEngine().isAnimated( widget, AnimationHover ) ) {
 
-                    helper().renderHole( painter, local, fr, hasFocus, mouseOver, animations().lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
+                    helper().renderHole( painter, local, fr, options, animations().lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
 
                 } else {
 
-                    helper().renderHole( painter, local, fr, hasFocus, mouseOver );
+                    helper().renderHole( painter, local, fr, options );
 
                 }
 

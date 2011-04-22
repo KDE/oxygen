@@ -797,38 +797,38 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void StyleHelper::renderHole( QPainter* p, const QColor& base, const QRect& r, bool focus, bool hover, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles tiles, bool outline )
+    void StyleHelper::renderHole( QPainter* p, const QColor& base, const QRect& r, HoleOptions options, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles tiles )
     {
         if( !r.isValid() ) return;
         if( opacity >= 0 && ( animationMode & Oxygen::AnimationFocus ) )
         {
 
             // calculate proper glow color based on current settings and opacity
-            const QColor glow( hover ?
+            const QColor glow( (options&HoleHover) ?
                 KColorUtils::mix( viewHoverBrush().brush( QPalette::Active ).color(), viewFocusBrush().brush( QPalette::Active ).color(), opacity ):
                 alphaColor(  viewFocusBrush().brush( QPalette::Active ).color(), opacity ) );
 
-            holeFocused( base, glow, 7, outline )->render( r, p, tiles );
+            holeFocused( base, glow, 7, options )->render( r, p, tiles );
 
-        } else if ( focus ) {
+        } else if( options & HoleFocus ) {
 
             const QColor glow( viewFocusBrush().brush( QPalette::Active ).color() );
-            holeFocused( base, glow, 7, outline )->render( r, p, tiles );
+            holeFocused( base, glow, 7, options )->render( r, p, tiles );
 
         } else if( opacity >= 0 && ( animationMode & Oxygen::AnimationHover ) ) {
 
             // calculate proper glow color based on current settings and opacity
             const QColor glow( alphaColor(  viewHoverBrush().brush( QPalette::Active ).color(), opacity ) );
-            holeFocused( base, glow, 7, outline )->render( r, p, tiles );
+            holeFocused( base, glow, 7, options )->render( r, p, tiles );
 
-        } else if ( hover ) {
+        } else if( options & HoleHover ) {
 
             const QColor glow( viewHoverBrush().brush( QPalette::Active ).color() );
-            holeFocused( base, glow, 7, outline )->render( r, p, tiles );
+            holeFocused( base, glow, 7, options )->render( r, p, tiles );
 
         } else {
 
-            hole( base, 7, outline )->render( r, p, tiles );
+            hole( base, 7, options )->render( r, p, tiles );
 
         }
 
@@ -924,13 +924,13 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::holeFocused( const QColor& color, const QColor& glowColor, int size, bool outline )
+    TileSet *StyleHelper::holeFocused( const QColor& color, const QColor& glowColor, int size, HoleOptions options )
     {
 
         // get key
         Oxygen::Cache<TileSet>::Value* cache( _holeFocusedCache.get( glowColor ) );
 
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | size << 1 | outline );
+        const quint64 key( ( quint64( color.rgba() ) << 32 ) | (size << 4) | options );
         TileSet *tileSet = cache->object( key );
 
         if ( !tileSet )
@@ -989,7 +989,7 @@ namespace Oxygen
                 shadowSize, shadowSize-1, shadowSize, 2, 1 ).
                 render( pixmap.rect(), &p );
 
-            if( outline && alpha < 255 )
+            if( (options&HoleOutline) && alpha < 255 )
             {
                 QColor dark( calcDarkColor( color ) );
                 dark.setAlpha( 255 - alpha );
@@ -1000,6 +1000,19 @@ namespace Oxygen
                 p.setBrush( Qt::NoBrush );
                 p.setPen( QPen( blend, 1 ) );
                 p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 3.0, 3.0 );
+                p.setPen( Qt::NoPen );
+            }
+
+            if( options&HoleContrast )
+            {
+                QColor light( calcLightColor( color ) );
+                QLinearGradient blend( 0, 0, 0, 18 );
+                blend.setColorAt( 0.5, Qt::transparent );
+                blend.setColorAt( 1.0, light );
+
+                p.setBrush( Qt::NoBrush );
+                p.setPen( QPen( blend, 1 ) );
+                p.drawRoundedRect( QRectF( 0.5, 0.5, 13, 13 ), 4.0, 4.0 );
                 p.setPen( Qt::NoPen );
             }
 

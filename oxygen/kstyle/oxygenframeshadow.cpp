@@ -460,9 +460,13 @@ namespace Oxygen
             default: return;
         }
 
+        HoleOptions options( HoleOutline );
+        if( _focus ) options |= HoleFocus;
+        if( _hover ) options |= HoleHover;
+
         QPainter painter(this);
         painter.setClipRegion( event->region() );
-        _helper.renderHole( &painter, palette().color( QPalette::Window ), r, _focus, _hover, _opacity, _mode, tiles, true );
+        _helper.renderHole( &painter, palette().color( QPalette::Window ), r, options, _opacity, _mode, tiles );
 
         return;
 

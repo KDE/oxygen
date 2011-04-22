@@ -36,6 +36,18 @@
 /*! contains utility functions used at multiple places in oxygen style */
 namespace Oxygen
 {
+
+    enum HoleOption
+    {
+        HoleFocus = 0x1,
+        HoleHover = 0x2,
+        HoleOutline = 0x4,
+        HoleContrast = 0x8
+    };
+
+    Q_DECLARE_FLAGS(HoleOptions, HoleOption)
+
+
     class StyleHelper : public Helper
     {
         public:
@@ -127,15 +139,16 @@ namespace Oxygen
 
         //! generic hole
         void renderHole( QPainter *p, const QColor& color, const QRect &r,
-            bool focus=false, bool hover=false,
-            TileSet::Tiles posFlags = TileSet::Ring, bool outline = false )
-        { renderHole( p, color, r, focus, hover, -1, Oxygen::AnimationNone, posFlags, outline ); }
+            HoleOptions options = 0,
+            TileSet::Tiles tiles = TileSet::Ring )
+        { renderHole( p, color, r, options, -1, Oxygen::AnimationNone, tiles ); }
 
         //! generic hole (with animated glow)
-        void renderHole( QPainter *p, const QColor&, const QRect &r,
-            bool focus, bool hover,
+        void renderHole(
+            QPainter*, const QColor&, const QRect &r,
+            HoleOptions,
             qreal opacity, Oxygen::AnimationMode animationMode,
-            TileSet::Tiles posFlags = TileSet::Ring, bool outline = false );
+            TileSet::Tiles = TileSet::Ring );
 
         TileSet *holeFlat( const QColor&, qreal shade, bool fill = true, int size = 7 );
 
@@ -180,11 +193,11 @@ namespace Oxygen
         //@{
 
         //! non focus hole
-        TileSet *hole( const QColor& color, int size = 7, bool outline = false )
-        { return holeFocused( color, QColor(), size, outline ); }
+        TileSet *hole( const QColor& color, int size = 7, HoleOptions options = 0 )
+        { return holeFocused( color, QColor(), size, options ); }
 
         //! focused hole
-        TileSet *holeFocused( const QColor&, const QColor& glowColor, int size = 7, bool outline = false );
+        TileSet *holeFocused( const QColor&, const QColor& glowColor, int size = 7, HoleOptions = 0 );
 
         //@}
 
