@@ -146,7 +146,7 @@ namespace Oxygen
         if( event->type() == QEvent::Show && _helper.hasDecoration( widget ) )
         {
             _helper.setHasBackgroundGradient( widget->winId(), true );
-            _helper.setHasBackgroundPixmap( widget->winId(), true );
+            _helper.setHasBackgroundPixmap( widget->winId(), _helper.hasBackgroundPixmap() );
         }
 
         return false;
