@@ -599,9 +599,9 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::slabSunken( const QColor& color, qreal shade, int size )
+    TileSet *StyleHelper::slabSunken( const QColor& color, int size )
     {
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) );
+        const quint64 key( quint64( color.rgba() ) << 32 | size );
         TileSet *tileSet = _slabSunkenCache.object( key );
 
         if ( !tileSet )
@@ -614,12 +614,23 @@ namespace Oxygen
             p.setPen( Qt::NoPen );
             p.setWindow( 0,0,14,14 );
 
-            // slab
-            drawSlab( p, color, shade );
-
             // shadow
             p.setCompositionMode( QPainter::CompositionMode_SourceOver );
             drawInverseShadow( p, calcShadowColor( color ), 3, 8, 0.0 );
+
+            // contrast pixel
+            {
+                QColor light( calcLightColor( color ) );
+                QLinearGradient blend( 0, 2, 0, 16 );
+                blend.setColorAt( 0.5, Qt::transparent );
+                blend.setColorAt( 1.0, light );
+
+                p.setBrush( Qt::NoBrush );
+                p.setPen( QPen( blend, 1 ) );
+                p.drawRoundedRect( QRectF( 2.5, 2.5, 9, 9 ), 4.0, 4.0 );
+                p.setPen( Qt::NoPen );
+            }
+
 
             p.end();
 
