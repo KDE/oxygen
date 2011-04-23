@@ -230,8 +230,11 @@ namespace Oxygen
         {
 
             // calculate source rect
-            QRect source( 0, 0, width, height );
-            source.adjust( -_backgroundPixmapOffset.x(), -_backgroundPixmapOffset.y(), _backgroundPixmapOffset.x(), _backgroundPixmapOffset.y());
+            QPoint offset( 40, 48 - 20 );
+            QRect source( 0, 0, width + offset.x(), height + offset.y() );
+
+            offset -= _backgroundPixmapOffset;
+            source.translate( offset.x(), offset.y() );
             source.translate( 0, 64 - gradientHeight );
 
             // draw

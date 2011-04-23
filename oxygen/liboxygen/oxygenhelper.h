@@ -198,6 +198,10 @@ namespace Oxygen
         virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64 );
 
         //! background pixmap
+        bool hasBackgroundPixmap( void ) const
+        { return !_backgroundPixmap.isNull(); }
+
+        //! background pixmap
         void setBackgroundPixmap( const QPixmap& pixmap )
         { _backgroundPixmap = pixmap; }
 
