@@ -54,7 +54,6 @@ namespace Oxygen
         _cornerCache.clear();
         _selectionCache.clear();
         _slabSunkenCache.clear();
-        _slabInvertedCache.clear();
         _holeFlatCache.clear();
         _slopeCache.clear();
         _grooveCache.clear();
@@ -81,7 +80,6 @@ namespace Oxygen
         _cornerCache.setMaxCost( value );
         _selectionCache.setMaxCost( value );
         _slabSunkenCache.setMaxCost( value );
-        _slabInvertedCache.setMaxCost( value );
         _holeFlatCache.setMaxCost( value );
         _slopeCache.setMaxCost( value );
         _grooveCache.setMaxCost( value );
@@ -637,68 +635,6 @@ namespace Oxygen
             tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
 
             _slabSunkenCache.insert( key, tileSet );
-        }
-        return tileSet;
-    }
-
-    //________________________________________________________________________________________________________
-    TileSet *StyleHelper::slabInverted( const QColor& color, qreal shade, int size )
-    {
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) );
-        TileSet *tileSet = _slabInvertedCache.object( key );
-
-        if ( !tileSet )
-        {
-            QPixmap pixmap( size*2, size*2 );
-            pixmap.fill( Qt::transparent );
-
-            QPainter p( &pixmap );
-            p.setRenderHints( QPainter::Antialiasing );
-            p.setPen( Qt::NoPen );
-            p.setWindow( 0,0,14,14 );
-
-            const QColor base( KColorUtils::shade( color, shade ) );
-            const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-            const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
-
-            // bevel, part 2
-            QLinearGradient bevelGradient2( 0, 8, 0, -8 );
-            bevelGradient2.setColorAt( 0.0, light );
-            bevelGradient2.setColorAt( 0.9, base );
-            p.setBrush( bevelGradient2 );
-            p.drawEllipse( QRectF( 2.6,2.6,8.8,8.8 ) );
-
-            // bevel, part 1
-            qreal y = KColorUtils::luma( base );
-            qreal yl = KColorUtils::luma( light );
-            qreal yd = KColorUtils::luma( dark );
-            QLinearGradient bevelGradient1( 0, 7, 0, 4 );
-            bevelGradient1.setColorAt( 0.0, light );
-            bevelGradient1.setColorAt( 0.9, dark );
-
-            if ( y < yl && y > yd )
-            {
-                // no middle when color is very light/dark
-                bevelGradient1.setColorAt( 0.5, base );
-            }
-
-            p.setBrush( bevelGradient1 );
-            p.drawEllipse( QRectF( 3.4,3.4,7.2,7.2 ) );
-
-            // inside mask
-            p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
-            p.setBrush( QBrush( Qt::black ) );
-            p.drawEllipse( QRectF( 4.0,4.0,6.0,6.0 ) );
-
-            // shadow
-            p.setCompositionMode( QPainter::CompositionMode_DestinationOver );
-            drawInverseShadow( p, calcShadowColor( color ), 4, 6, 0.5 );
-
-            p.end();
-
-            tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
-
-            _slabInvertedCache.insert( key, tileSet );
         }
         return tileSet;
     }
