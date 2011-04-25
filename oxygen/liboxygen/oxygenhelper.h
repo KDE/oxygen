@@ -263,7 +263,12 @@ namespace Oxygen
         //! draw dividing line
         virtual void drawSeparator( QPainter* p, const QRect& r, const QColor& color, Qt::Orientation orientation );
 
-        virtual TileSet* slab( const QColor&, qreal shade, int size = 7 );
+        //! default slab
+        virtual TileSet* slab( const QColor& color, qreal shade, int size = 7 )
+        { return slab( color, QColor(), shade, size );  }
+
+        //! default slab (with glow)
+        virtual TileSet* slab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
 
         //! focus brush
         const KStatefulBrush& viewFocusBrush( void ) const

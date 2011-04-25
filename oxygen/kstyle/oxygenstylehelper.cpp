@@ -375,67 +375,6 @@ namespace Oxygen
 
     }
 
-//     //______________________________________________________________________________
-//     QPixmap StyleHelper::dialSlab( const QColor& color, qreal shade, int size )
-//     {
-//         Oxygen::Cache<QPixmap>::Value *cache = _dialSlabCache.get( color );
-//
-//         const quint64 key( ( quint64( 256.0 * shade ) << 24 ) | size );
-//         QPixmap *pixmap = cache->object( key );
-//         if ( !pixmap )
-//         {
-//             pixmap = new QPixmap( size, size );
-//             pixmap->fill( Qt::transparent );
-//
-//             const QRectF rect( pixmap->rect() );
-//
-//             QPainter p( pixmap );
-//             p.setPen( Qt::NoPen );
-//             p.setRenderHints( QPainter::Antialiasing );
-//
-//             // colors
-//             const QColor base( KColorUtils::shade( color, shade ) );
-//             const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-//             const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
-//             const QColor mid( KColorUtils::shade( calcMidColor( color ), shade ) );
-//             const QColor shadow( calcShadowColor( color ) );
-//
-//             // shadow
-//             drawShadow( p, shadow, rect.width() );
-//
-//             const qreal baseOffset = 3.5;
-//             {
-//                 //plain background
-//                 QLinearGradient lg( 0, baseOffset-0.5*rect.height(), 0, baseOffset+rect.height() );
-//                 lg.setColorAt( 0, light );
-//                 lg.setColorAt( 0.8, base );
-//
-//                 p.setBrush( lg );
-//                 const qreal offset( baseOffset );
-//                 p.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
-//             }
-//
-//             {
-//                 // outline circle
-//                 const qreal penWidth( 0.7 );
-//                 QLinearGradient lg( 0, baseOffset, 0, baseOffset + 2*rect.height() );
-//                 lg.setColorAt( 0, light );
-//                 lg.setColorAt( 1, mid );
-//                 p.setBrush( Qt::NoBrush );
-//                 p.setPen( QPen( lg, penWidth ) );
-//                 const qreal offset( baseOffset+0.5*penWidth );
-//                 p.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
-//             }
-//
-//
-//             cache->insert( key, pixmap );
-//
-//         }
-//
-//         return *pixmap;
-//
-//     }
-
     //______________________________________________________________________________
     QPixmap StyleHelper::dialSlab( const QColor& color, const QColor& glowColor, qreal shade, int size )
     {
@@ -533,44 +472,6 @@ namespace Oxygen
 
         }
         return *pixmap;
-    }
-
-    //________________________________________________________________________________________________________
-    TileSet *StyleHelper::slabFocused( const QColor& color, const QColor& glowColor, qreal shade, int size )
-    {
-        Oxygen::Cache<TileSet>::Value* cache( _slabCache.get( color ) );
-
-        const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
-        TileSet *tileSet = cache->object( key );
-
-        const qreal hScale( 1 );
-        const int hSize( size*hScale );
-        const int vSize( size );
-
-        if ( !tileSet )
-        {
-            QPixmap pixmap( hSize*2,vSize*2 );
-            pixmap.fill( Qt::transparent );
-
-            QPainter p( &pixmap );
-            p.setRenderHints( QPainter::Antialiasing );
-            p.setPen( Qt::NoPen );
-
-            const int fixedSize( 14 );
-            p.setWindow( 0,0,fixedSize*hScale, fixedSize );
-
-            // draw all components
-            if( color.isValid() ) drawShadow( p, calcShadowColor( color ), 14 );
-            if( glowColor.isValid() ) drawOuterGlow( p, glowColor, 14 );
-            if( color.isValid() ) drawSlab( p, color, shade );
-
-            p.end();
-
-            tileSet = new TileSet( pixmap, hSize, vSize, hSize, vSize, hSize-1, vSize, 2, 1 );
-
-            cache->insert( key, tileSet );
-        }
-        return tileSet;
     }
 
     //________________________________________________________________________________________________________

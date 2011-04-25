@@ -8451,7 +8451,7 @@ namespace Oxygen
         } else {
 
             QColor glow = slabShadowColor( color, options, opacity, mode );
-            tile = glow.isValid() ? helper().slabFocused( color, glow, 0.0 ) : helper().slab( color, 0.0 );
+            tile = helper().slab( color, glow, 0.0 );
 
         }
 
@@ -8520,8 +8520,7 @@ namespace Oxygen
 
             // calculate proper glow color based on current settings and opacity
             const QColor glow( slabShadowColor( color, options, opacity, mode ) );
-            if( glow.isValid() ) tile = helper().slabFocused( color, glow , 0.0 );
-            else if( color.isValid() ) tile = helper().slab( color, 0.0 );
+            if( color.isValid() || glow.isValid() ) tile = helper().slab( color, glow , 0.0 );
             else return;
 
         }

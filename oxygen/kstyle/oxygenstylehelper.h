@@ -135,7 +135,7 @@ namespace Oxygen
         // round slab
         QPixmap roundSlab( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
 
-        TileSet *slabFocused( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
+        // sunken slab
         TileSet *slabSunken( const QColor&, int size = 7 );
 
         //@}
