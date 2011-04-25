@@ -1045,7 +1045,7 @@ namespace Oxygen
             borderGradient.setColorAt( 1.0, alphaColor( light, 0.8 ) );
             p.setPen( QPen( borderGradient, 1.0 ) );
             p.setBrush( Qt::NoBrush );
-            p.drawRoundedRect( QRectF(r).adjusted( 0.5,0.5,-0.5,-0.5 ), 4.5, 4.5 );
+            p.drawRoundedRect( QRectF(r).adjusted( 0.5,0.5,-0.5,-0.5 ), radius+0.5, radius+0.5 );
 
             p.end();
 
