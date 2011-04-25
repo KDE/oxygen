@@ -5176,10 +5176,10 @@ namespace Oxygen
         if( horizontal )
         {
 
-            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Bottom | TileSet::Left | TileSet::Center );
-            else renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom | TileSet::Center );
+            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Left );
+            else renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Right );
 
-        } else renderScrollBarHole( painter, QRect( r.left(), r.top()-5, r.width(), 5 ), background, Qt::Vertical, TileSet::Bottom | TileSet::Left | TileSet::Right | TileSet::Center );
+        } else renderScrollBarHole( painter, QRect( r.left(), r.top()-5, r.width(), 5 ), background, Qt::Vertical, TileSet::Bottom | TileSet::Horizontal );
 
         // stop here if no buttons are defined
         if( _addLineButtons == NoButton ) return true;
@@ -5283,14 +5283,14 @@ namespace Oxygen
         if( horizontal )
         {
 
-            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Right | TileSet::Bottom | TileSet::Center );
-            else renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Top | TileSet::Left | TileSet::Bottom | TileSet::Center );
+            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Right );
+            else renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Left );
 
             r.translate( 1, 0 );
 
         } else {
 
-            renderScrollBarHole( painter, QRect( r.left(), r.bottom()+3, r.width(), 5 ), background, Qt::Vertical, TileSet::Top | TileSet::Left | TileSet::Right | TileSet::Center );
+            renderScrollBarHole( painter, QRect( r.left(), r.bottom()+3, r.width(), 5 ), background, Qt::Vertical, TileSet::Top | TileSet::Horizontal );
             r.translate( 0, 2 );
 
         }
