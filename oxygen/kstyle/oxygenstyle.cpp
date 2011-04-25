@@ -2032,17 +2032,18 @@ namespace Oxygen
                 QRect groove( QCommonStyle::subControlRect( CC_Slider, option, subControl, widget ) );
                 if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>( option ) )
                 {
+                    const int sliderHeight = 7;
                     const bool horizontal( slider->orientation == Qt::Horizontal );
                     if( horizontal )
                     {
 
                         const int center( groove.center().y() );
-                        groove = QRect( groove.left(), center-2, groove.width(), 5  ).adjusted( 3, 0, -3, 0 );
+                        groove = QRect( groove.left(), center-sliderHeight/2, groove.width(), sliderHeight  ).adjusted( 3, 0, -3, 0 );
 
                     } else {
 
                         const int center( groove.center().x() );
-                        groove = QRect( center-2, groove.top(), 5, groove.height() ).adjusted( 0, 3, 0, -3 );
+                        groove = QRect( center-sliderHeight/2, groove.top(), sliderHeight, groove.height() ).adjusted( 0, 3, 0, -3 );
 
                     }
 
@@ -7575,7 +7576,9 @@ namespace Oxygen
         if( slider->subControls & SC_SliderGroove )
         {
             const QRect groove = sliderSubControlRect( slider, SC_SliderGroove, widget );
-            if( groove.isValid() ) helper().groove( palette.color( QPalette::Window ) )->render( groove, painter );
+            //if( groove.isValid() ) helper().groove( palette.color( QPalette::Window ) )->render( groove, painter );
+            const Qt::Orientation orientation( groove.width() > groove.height() ? Qt::Horizontal : Qt::Vertical );
+            if( groove.isValid() ) helper().scrollHole( palette.color( QPalette::Window ), orientation, true )->render( groove, painter, TileSet::Full );
         }
 
         // handle

@@ -1000,7 +1000,7 @@ namespace Oxygen
             p.setPen( Qt::NoPen );
 
             // base
-            qreal radius( 3.0 );
+            qreal radius( smallShadow ? 2.5:3.0 );
             p.drawRoundedRect( rect, radius, radius );
 
             // slight shadow across the whole hole
@@ -1040,9 +1040,9 @@ namespace Oxygen
                 render( rect.adjusted( -1, -1, 1, 1 ), &p, TileSet::Full );
 
             // light border
-            QLinearGradient borderGradient( r.topLeft(), r.bottomLeft() );
+            QLinearGradient borderGradient( 0, r.top(), 0, r.bottom() );
             borderGradient.setColorAt( 0.5, Qt::transparent );
-            borderGradient.setColorAt( 1.0, alphaColor( light, 0.8 ) );
+            borderGradient.setColorAt( 1.0, light );
             p.setPen( QPen( borderGradient, 1.0 ) );
             p.setBrush( Qt::NoBrush );
             p.drawRoundedRect( QRectF(r).adjusted( 0.5,0.5,-0.5,-0.5 ), radius+0.5, radius+0.5 );
