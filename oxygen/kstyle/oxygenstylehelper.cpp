@@ -1040,12 +1040,12 @@ namespace Oxygen
                 render( rect.adjusted( -1, -1, 1, 1 ), &p, TileSet::Full );
 
             // light border
-            QLinearGradient borderGradient( r.topLeft()+QPoint( 0,r.height()/2-1 ), r.bottomLeft() );
-            borderGradient.setColorAt( 0.0, Qt::transparent );
+            QLinearGradient borderGradient( r.topLeft(), r.bottomLeft() );
+            borderGradient.setColorAt( 0.5, Qt::transparent );
             borderGradient.setColorAt( 1.0, alphaColor( light, 0.8 ) );
             p.setPen( QPen( borderGradient, 1.0 ) );
             p.setBrush( Qt::NoBrush );
-            p.drawRoundedRect( r.adjusted( 0.5,0.5,-0.5,-0.5 ), 4.5, 4.5 );
+            p.drawRoundedRect( QRectF(r).adjusted( 0.5,0.5,-0.5,-0.5 ), 4.5, 4.5 );
 
             p.end();
 
