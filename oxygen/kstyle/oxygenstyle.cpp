@@ -8333,7 +8333,7 @@ namespace Oxygen
         const QColor glow( slabShadowColor( color, opts, opacity, mode ) );
 
         // get main slab
-        QPixmap pix( glow.isValid() ? helper().dialSlabFocused( color, glow, 0.0, dimension ) : helper().dialSlab( color, 0.0, dimension ) );
+        QPixmap pix( helper().dialSlab( color, glow, 0.0, dimension ) );
         const qreal baseOffset( 3.5 );
 
         const QColor light( helper().calcLightColor( color ) );

@@ -118,11 +118,15 @@ namespace Oxygen
 
         void fillSlab( QPainter&, const QRect&, int size = 7 ) const;
 
-        // progressbar
+        //! progressbar
         QPixmap progressBarIndicator( const QPalette&, const QRect& );
 
-        QPixmap dialSlab( const QColor&, qreal shade, int size = 7 );
-        QPixmap dialSlabFocused( const QColor&, const QColor&, qreal shade, int size = 7 );
+        //! dial
+        QPixmap dialSlab( const QColor& color, qreal shade, int size = 7 )
+        { return dialSlab( color, QColor(), shade, size ); }
+
+        //! dial
+        QPixmap dialSlab( const QColor&, const QColor&, qreal shade, int size = 7 );
 
         // round slabs
         QPixmap roundSlab( const QColor& color, qreal shade, int size = 7 )

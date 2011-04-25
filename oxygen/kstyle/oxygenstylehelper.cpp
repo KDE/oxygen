@@ -375,69 +375,69 @@ namespace Oxygen
 
     }
 
+//     //______________________________________________________________________________
+//     QPixmap StyleHelper::dialSlab( const QColor& color, qreal shade, int size )
+//     {
+//         Oxygen::Cache<QPixmap>::Value *cache = _dialSlabCache.get( color );
+//
+//         const quint64 key( ( quint64( 256.0 * shade ) << 24 ) | size );
+//         QPixmap *pixmap = cache->object( key );
+//         if ( !pixmap )
+//         {
+//             pixmap = new QPixmap( size, size );
+//             pixmap->fill( Qt::transparent );
+//
+//             const QRectF rect( pixmap->rect() );
+//
+//             QPainter p( pixmap );
+//             p.setPen( Qt::NoPen );
+//             p.setRenderHints( QPainter::Antialiasing );
+//
+//             // colors
+//             const QColor base( KColorUtils::shade( color, shade ) );
+//             const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
+//             const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
+//             const QColor mid( KColorUtils::shade( calcMidColor( color ), shade ) );
+//             const QColor shadow( calcShadowColor( color ) );
+//
+//             // shadow
+//             drawShadow( p, shadow, rect.width() );
+//
+//             const qreal baseOffset = 3.5;
+//             {
+//                 //plain background
+//                 QLinearGradient lg( 0, baseOffset-0.5*rect.height(), 0, baseOffset+rect.height() );
+//                 lg.setColorAt( 0, light );
+//                 lg.setColorAt( 0.8, base );
+//
+//                 p.setBrush( lg );
+//                 const qreal offset( baseOffset );
+//                 p.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
+//             }
+//
+//             {
+//                 // outline circle
+//                 const qreal penWidth( 0.7 );
+//                 QLinearGradient lg( 0, baseOffset, 0, baseOffset + 2*rect.height() );
+//                 lg.setColorAt( 0, light );
+//                 lg.setColorAt( 1, mid );
+//                 p.setBrush( Qt::NoBrush );
+//                 p.setPen( QPen( lg, penWidth ) );
+//                 const qreal offset( baseOffset+0.5*penWidth );
+//                 p.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
+//             }
+//
+//
+//             cache->insert( key, pixmap );
+//
+//         }
+//
+//         return *pixmap;
+//
+//     }
+
     //______________________________________________________________________________
-    QPixmap StyleHelper::dialSlab( const QColor& color, qreal shade, int size )
-    {
-        Oxygen::Cache<QPixmap>::Value *cache = _dialSlabCache.get( color );
-
-        const quint64 key( ( quint64( 256.0 * shade ) << 24 ) | size );
-        QPixmap *pixmap = cache->object( key );
-        if ( !pixmap )
-        {
-            pixmap = new QPixmap( size, size );
-            pixmap->fill( Qt::transparent );
-
-            const QRectF rect( pixmap->rect() );
-
-            QPainter p( pixmap );
-            p.setPen( Qt::NoPen );
-            p.setRenderHints( QPainter::Antialiasing );
-
-            // colors
-            const QColor base( KColorUtils::shade( color, shade ) );
-            const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-            const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
-            const QColor mid( KColorUtils::shade( calcMidColor( color ), shade ) );
-            const QColor shadow( calcShadowColor( color ) );
-
-            // shadow
-            drawShadow( p, shadow, rect.width() );
-
-            const qreal baseOffset = 3.5;
-            {
-                //plain background
-                QLinearGradient lg( 0, baseOffset-0.5*rect.height(), 0, baseOffset+rect.height() );
-                lg.setColorAt( 0, light );
-                lg.setColorAt( 0.8, base );
-
-                p.setBrush( lg );
-                const qreal offset( baseOffset );
-                p.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
-            }
-
-            {
-                // outline circle
-                const qreal penWidth( 0.7 );
-                QLinearGradient lg( 0, baseOffset, 0, baseOffset + 2*rect.height() );
-                lg.setColorAt( 0, light );
-                lg.setColorAt( 1, mid );
-                p.setBrush( Qt::NoBrush );
-                p.setPen( QPen( lg, penWidth ) );
-                const qreal offset( baseOffset+0.5*penWidth );
-                p.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
-            }
-
-
-            cache->insert( key, pixmap );
-
-        }
-
-        return *pixmap;
-
-    }
-
-    //______________________________________________________________________________
-    QPixmap StyleHelper::dialSlabFocused( const QColor& color, const QColor& glowColor, qreal shade, int size )
+    QPixmap StyleHelper::dialSlab( const QColor& color, const QColor& glowColor, qreal shade, int size )
     {
         Oxygen::Cache<QPixmap>::Value* cache =  _dialSlabCache.get( color );
 
@@ -463,7 +463,9 @@ namespace Oxygen
 
             // shadow
             drawShadow( p, shadow, rect.width() );
-            drawOuterGlow( p, glowColor, rect.width() );
+
+            if( glowColor.isValid() )
+            { drawOuterGlow( p, glowColor, rect.width() ); }
 
             const qreal baseOffset( 3.5 );
             {
