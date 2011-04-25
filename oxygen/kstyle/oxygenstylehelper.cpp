@@ -46,7 +46,7 @@ namespace Oxygen
 
         _dialSlabCache.clear();
         _roundSlabCache.clear();
-        _holeFocusedCache.clear();
+        _holeCache.clear();
 
         _midColorCache.clear();
 
@@ -74,7 +74,7 @@ namespace Oxygen
         // assign max cache size
         _dialSlabCache.setMaxCacheSize( value );
         _roundSlabCache.setMaxCacheSize( value );
-        _holeFocusedCache.setMaxCacheSize( value );
+        _holeCache.setMaxCacheSize( value );
 
         _progressBarCache.setMaxCost( value );
         _cornerCache.setMaxCost( value );
@@ -498,38 +498,8 @@ namespace Oxygen
 
     }
 
-    //______________________________________________________________________________
-    QPixmap StyleHelper::roundSlab( const QColor& color, qreal shade, int size )
-    {
-
-        Oxygen::Cache<QPixmap>::Value* cache( _roundSlabCache.get( color ) );
-
-        const quint64 key( ( quint64( 256.0 * shade ) << 24 ) | size );
-        QPixmap *pixmap = cache->object( key );
-
-        if ( !pixmap )
-        {
-            pixmap = new QPixmap( size*3, size*3 );
-            pixmap->fill( Qt::transparent );
-
-            QPainter p( pixmap );
-            p.setRenderHints( QPainter::Antialiasing );
-            p.setPen( Qt::NoPen );
-            p.setWindow( 0,0,21,21 );
-
-            // shadow
-            drawShadow( p, calcShadowColor( color ), 21 );
-            drawRoundSlab( p, color, shade );
-            p.end();
-
-            cache->insert( key, pixmap );
-        }
-
-        return *pixmap;
-    }
-
     //__________________________________________________________________________________________________________
-    QPixmap StyleHelper::roundSlabFocused( const QColor& color, const QColor& glowColor, qreal shade, int size )
+    QPixmap StyleHelper::roundSlab( const QColor& color, const QColor& glowColor, qreal shade, int size )
     {
 
         Oxygen::Cache<QPixmap>::Value* cache( _roundSlabCache.get( color ) );
@@ -547,8 +517,13 @@ namespace Oxygen
             p.setPen( Qt::NoPen );
             p.setWindow( 0,0,21,21 );
 
+            // draw normal shadow
             drawShadow( p, calcShadowColor( color ), 21 );
-            drawOuterGlow( p, glowColor, 21 );
+
+            // draw glow.
+            if( glowColor.isValid() )
+            { drawOuterGlow( p, glowColor, 21 ); }
+
             drawRoundSlab( p, color, shade );
 
             p.end();
@@ -755,23 +730,23 @@ namespace Oxygen
                 KColorUtils::mix( viewHoverBrush().brush( QPalette::Active ).color(), viewFocusBrush().brush( QPalette::Active ).color(), opacity ):
                 alphaColor(  viewFocusBrush().brush( QPalette::Active ).color(), opacity ) );
 
-            holeFocused( base, glow, 7, options )->render( r, p, tiles );
+            hole( base, glow, 7, options )->render( r, p, tiles );
 
         } else if( options & HoleFocus ) {
 
             const QColor glow( viewFocusBrush().brush( QPalette::Active ).color() );
-            holeFocused( base, glow, 7, options )->render( r, p, tiles );
+            hole( base, glow, 7, options )->render( r, p, tiles );
 
         } else if( opacity >= 0 && ( animationMode & Oxygen::AnimationHover ) ) {
 
             // calculate proper glow color based on current settings and opacity
             const QColor glow( alphaColor(  viewHoverBrush().brush( QPalette::Active ).color(), opacity ) );
-            holeFocused( base, glow, 7, options )->render( r, p, tiles );
+            hole( base, glow, 7, options )->render( r, p, tiles );
 
         } else if( options & HoleHover ) {
 
             const QColor glow( viewHoverBrush().brush( QPalette::Active ).color() );
-            holeFocused( base, glow, 7, options )->render( r, p, tiles );
+            hole( base, glow, 7, options )->render( r, p, tiles );
 
         } else {
 
@@ -871,11 +846,11 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::holeFocused( const QColor& color, const QColor& glowColor, int size, HoleOptions options )
+    TileSet *StyleHelper::hole( const QColor& color, const QColor& glowColor, int size, HoleOptions options )
     {
 
         // get key
-        Oxygen::Cache<TileSet>::Value* cache( _holeFocusedCache.get( glowColor ) );
+        Oxygen::Cache<TileSet>::Value* cache( _holeCache.get( glowColor ) );
 
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | (size << 4) | options );
         TileSet *tileSet = cache->object( key );

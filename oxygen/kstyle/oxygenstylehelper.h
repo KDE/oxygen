@@ -123,8 +123,13 @@ namespace Oxygen
 
         QPixmap dialSlab( const QColor&, qreal shade, int size = 7 );
         QPixmap dialSlabFocused( const QColor&, const QColor&, qreal shade, int size = 7 );
-        QPixmap roundSlab( const QColor&, qreal shade, int size = 7 );
-        QPixmap roundSlabFocused( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
+
+        // round slabs
+        QPixmap roundSlab( const QColor& color, qreal shade, int size = 7 )
+        { return roundSlab( color, QColor(), shade, size ); }
+
+        // round slab
+        QPixmap roundSlab( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
 
         TileSet *slabFocused( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
         TileSet *slabSunken( const QColor&, int size = 7 );
@@ -191,12 +196,12 @@ namespace Oxygen
         //!@name holes
         //@{
 
-        //! non focus hole
+        //! focused hole
         TileSet *hole( const QColor& color, int size = 7, HoleOptions options = 0 )
-        { return holeFocused( color, QColor(), size, options ); }
+        { return hole( color, QColor(), size, options ); }
 
         //! focused hole
-        TileSet *holeFocused( const QColor&, const QColor& glowColor, int size = 7, HoleOptions = 0 );
+        TileSet *hole( const QColor&, const QColor& glowColor, int size = 7, HoleOptions = 0 );
 
         //@}
 
@@ -211,7 +216,7 @@ namespace Oxygen
 
         Cache<QPixmap> _dialSlabCache;
         Cache<QPixmap> _roundSlabCache;
-        Cache<TileSet> _holeFocusedCache;
+        Cache<TileSet> _holeCache;
 
         //! mid color cache
         ColorCache _midColorCache;

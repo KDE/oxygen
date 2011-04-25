@@ -9254,9 +9254,7 @@ namespace Oxygen
 
         const QColor color( palette.color( QPalette::Button ) );
         const QColor glow( slabShadowColor( color, options, opacity, mode ) );
-
-        QPixmap slabPixmap = glow.isValid() ? helper().roundSlabFocused( color, glow, 0.0 ):helper().roundSlab( color, 0.0 );
-        painter->drawPixmap( x, y, slabPixmap );
+        painter->drawPixmap( x, y, helper().roundSlab( color, glow, 0.0 ) );
 
         // draw the radio mark
         if( state == CheckOn )
