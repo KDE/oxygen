@@ -9347,12 +9347,13 @@ namespace Oxygen
         }
 
         // glow / shadow
+        qreal radius = 2.5;
         painter->setPen( Qt::NoPen );
         painter->setBrush( helper().alphaColor( glowColor, 0.6 ) );
-        painter->drawRoundedRect( rect.adjusted( -0.8,-0.8,0.8,0.8 ), 3, 3 );
+        painter->drawRoundedRect( rect.adjusted( -0.8,-0.8,0.8,0.8 ), radius, radius );
         painter->setPen( QPen( helper().alphaColor( glowColor, 0.3 ),  1.5 ) );
-        if( horizontal ) painter->drawRoundedRect( rect.adjusted( -1.2,-0.8,1.2,0.8 ), 3, 3 );
-        else painter->drawRoundedRect( rect.adjusted( -0.8,-1.2,0.8,1.2 ), 3, 3 );
+        if( horizontal ) painter->drawRoundedRect( rect.adjusted( -1.2,-0.8,1.2,0.8 ), radius, radius );
+        else painter->drawRoundedRect( rect.adjusted( -0.8,-1.2,0.8,1.2 ), radius, radius );
 
         // colored background
         painter->setPen( Qt::NoPen );
@@ -9362,13 +9363,16 @@ namespace Oxygen
             if( opacity >= 0 ) painter->setBrush( KColorUtils::mix( color, palette.color( QPalette::Highlight ), opacity ) );
             else if( hover ) painter->setBrush(  palette.color( QPalette::Highlight ) );
             else painter->setBrush( color );
-            painter->drawRoundedRect( rect, 2, 2 );
+            painter->drawRoundedRect( rect, radius-1.0, radius-1.0 );
 
         }
 
         // slider gradient
         {
-            QLinearGradient sliderGradient( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight() );
+            QLinearGradient sliderGradient;
+            if( horizontal ) sliderGradient = QLinearGradient( 0, r.top(), 0, r.bottom() );
+            else sliderGradient = QLinearGradient( r.left(), 0, r.right(), 0 );
+            ( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight() );
             if( !StyleConfigData::scrollBarColored() )
             {
                 sliderGradient.setColorAt( 0.0, color );
@@ -9380,7 +9384,7 @@ namespace Oxygen
             }
 
             painter->setBrush( sliderGradient );
-            painter->drawRoundedRect( rect, 2, 2 );
+            painter->drawRoundedRect( rect, radius-1.0, radius-1.0 );
         }
 
         // pattern
@@ -9403,7 +9407,7 @@ namespace Oxygen
             }
 
             painter->setBrush( patternGradient );
-            painter->drawRoundedRect( rect, 2, 2 );
+            painter->drawRoundedRect( rect, radius-1.0, radius-1.0 );
         }
 
         if( StyleConfigData::scrollBarColored() ) {
