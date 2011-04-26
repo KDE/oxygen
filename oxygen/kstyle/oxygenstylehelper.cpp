@@ -46,6 +46,7 @@ namespace Oxygen
 
         _dialSlabCache.clear();
         _roundSlabCache.clear();
+        _sliderSlabCache.clear();
         _holeCache.clear();
 
         _midColorCache.clear();
@@ -74,6 +75,7 @@ namespace Oxygen
         // assign max cache size
         _dialSlabCache.setMaxCacheSize( value );
         _roundSlabCache.setMaxCacheSize( value );
+        _sliderSlabCache.setMaxCacheSize( value );
         _holeCache.setMaxCacheSize( value );
 
         _progressBarCache.setMaxCost( value );
@@ -474,6 +476,43 @@ namespace Oxygen
         return *pixmap;
     }
 
+    //__________________________________________________________________________________________________________
+    QPixmap StyleHelper::sliderSlab( const QColor& color, const QColor& glowColor, qreal shade, int size )
+    {
+
+        Oxygen::Cache<QPixmap>::Value* cache( _sliderSlabCache.get( color ) );
+
+        const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        QPixmap *pixmap = cache->object( key );
+
+        if ( !pixmap )
+        {
+            pixmap = new QPixmap( size*3, size*3 );
+            pixmap->fill( Qt::transparent );
+
+            QPainter p( pixmap );
+            p.setRenderHints( QPainter::Antialiasing );
+            p.setPen( Qt::NoPen );
+            //p.setWindow( 0,0,21,21 );
+
+            p.setWindow( -2, -2, 25, 25 );
+
+            // draw normal shadow
+            drawShadow( p, calcShadowColor( color ), 21 );
+
+            // draw glow.
+            if( glowColor.isValid() )
+            { drawOuterGlow( p, glowColor, 21 ); }
+
+            drawSliderSlab( p, color, shade );
+
+            p.end();
+            cache->insert( key, pixmap );
+
+        }
+        return *pixmap;
+    }
+
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::slabSunken( const QColor& color, int size )
     {
@@ -551,6 +590,48 @@ namespace Oxygen
         const qreal ic( 3.6 + _slabThickness );
         const qreal is( 21.0 - 2.0*ic );
         p.drawEllipse( QRectF( ic, ic, is, is ) );
+
+        p.restore();
+
+    }
+
+    //__________________________________________________________________________________________________________
+    void StyleHelper::drawSliderSlab( QPainter& p, const QColor& color, qreal shade )
+    {
+
+        p.save();
+
+        const QColor light( KColorUtils::shade( calcLightColor(color), shade ) );
+        const QColor dark( KColorUtils::shade( calcDarkColor(color), shade ) );
+
+        p.setPen(Qt::NoPen);
+        //p.setWindow( 0, 0, 21, 21 );
+
+        {
+            //plain background
+            QLinearGradient lg( 0, 3, 0, 21 );
+            lg.setColorAt( 0, light );
+            lg.setColorAt( 1, dark );
+
+            const QRectF r( 3, 3, 15, 15 );
+            p.setBrush( lg );
+            p.drawEllipse( r );
+
+
+        }
+
+        {
+            // outline circle
+            const qreal penWidth( 1 );
+            QLinearGradient lg( 0, 3, 0, 30 );
+            lg.setColorAt( 0, light );
+            lg.setColorAt( 1, dark );
+
+            const QRectF r( 3.5, 3.5, 14, 14 );
+            p.setPen( QPen( lg, penWidth ) );
+            p.setBrush( Qt::NoBrush );
+            p.drawEllipse( r );
+        }
 
         p.restore();
 

@@ -714,9 +714,12 @@ namespace Oxygen
             case PM_TabBarTabShiftHorizontal: return 0;
 
             // sliders
+            // case PM_SliderThickness: return 23;
+            // case PM_SliderControlThickness: return 23;
+            // case PM_SliderLength: return 13;
             case PM_SliderThickness: return 23;
             case PM_SliderControlThickness: return 23;
-            case PM_SliderLength: return 13;
+            case PM_SliderLength: return 21;
 
             // spinboxes
             case PM_SpinBoxFrameWidth: return SpinBox_FrameWidth;
@@ -2020,8 +2023,7 @@ namespace Oxygen
                 if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>( option ) )
                 {
                     const bool horizontal( slider->orientation == Qt::Horizontal );
-                    if( horizontal ) handle.adjust( -1, 0, 1, 0 );
-                    else handle.adjust( 0, 0, 0, 2 );
+                    if( horizontal ) handle.translate( 0, -1 );
                 }
 
                 return handle;
@@ -2039,11 +2041,13 @@ namespace Oxygen
 
                         const int center( groove.center().y() );
                         groove = QRect( groove.left(), center-sliderHeight/2, groove.width(), sliderHeight  ).adjusted( 3, 0, -3, 0 );
+                        groove.adjust( 2, 0, -2, 0 );
 
                     } else {
 
                         const int center( groove.center().x() );
                         groove = QRect( center-sliderHeight/2, groove.top(), sliderHeight, groove.height() ).adjusted( 0, 3, 0, -3 );
+                        groove.adjust( 0, 2, 0, -2 );
 
                     }
 
@@ -7576,7 +7580,6 @@ namespace Oxygen
         if( slider->subControls & SC_SliderGroove )
         {
             const QRect groove = sliderSubControlRect( slider, SC_SliderGroove, widget );
-            //if( groove.isValid() ) helper().groove( palette.color( QPalette::Window ) )->render( groove, painter );
             const Qt::Orientation orientation( groove.width() > groove.height() ? Qt::Horizontal : Qt::Vertical );
             if( groove.isValid() ) helper().scrollHole( palette.color( QPalette::Window ), orientation, true )->render( groove, painter, TileSet::Full );
         }
@@ -7585,23 +7588,21 @@ namespace Oxygen
         if ( slider->subControls & SC_SliderHandle )
         {
             const QRect handle = sliderSubControlRect( slider, SC_SliderHandle, widget );
-            const QColor buttonColor( helper().backgroundColor( palette.color( QPalette::Button ), widget, handle.center() ) );
+            const QRect r = centerRect( handle, 21, 21 );
+
             const bool handleActive( slider->activeSubControls & SC_SliderHandle );
             StyleOptions opts( 0 );
             if( hasFocus ) opts |= Focus;
+            if( handleActive && mouseOver ) opts |= Hover;
 
             animations().sliderEngine().updateState( widget, enabled && handleActive );
-            if( enabled &&  animations().sliderEngine().isAnimated( widget ) )
-            {
+            const qreal opacity( animations().sliderEngine().opacity( widget ) );
 
-                renderSlab( painter, handle, buttonColor, opts,  animations().sliderEngine().opacity( widget ), AnimationHover, TileSet::Ring );
+            const QColor color( helper().backgroundColor( palette.color( QPalette::Button ), widget, handle.center() ) );
+            const QColor glow( slabShadowColor( color, opts, opacity, AnimationHover ) );
 
-            } else {
+            painter->drawPixmap( r.topLeft(), helper().sliderSlab( color, glow, 0.0 ) );
 
-                if( handleActive && mouseOver ) opts |= Hover;
-                renderSlab( painter, handle, buttonColor, opts );
-
-            }
         }
 
         return true;

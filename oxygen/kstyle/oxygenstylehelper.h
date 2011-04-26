@@ -135,6 +135,12 @@ namespace Oxygen
         // round slab
         QPixmap roundSlab( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
 
+        //! slider slab
+        QPixmap sliderSlab( const QColor& color, qreal shade, int size = 7 )
+        { return sliderSlab( color, QColor(), shade, size ); }
+
+        // slider slab
+        QPixmap sliderSlab( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
         // sunken slab
         TileSet *slabSunken( const QColor&, int size = 7 );
 
@@ -212,6 +218,9 @@ namespace Oxygen
         // round slabs
         void drawRoundSlab( QPainter&, const QColor&, qreal );
 
+        // slider slabs
+        void drawSliderSlab( QPainter&, const QColor&, qreal );
+
 
         private:
 
@@ -220,6 +229,7 @@ namespace Oxygen
 
         Cache<QPixmap> _dialSlabCache;
         Cache<QPixmap> _roundSlabCache;
+        Cache<QPixmap> _sliderSlabCache;
         Cache<TileSet> _holeCache;
 
         //! mid color cache
