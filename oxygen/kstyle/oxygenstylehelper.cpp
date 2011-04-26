@@ -311,28 +311,11 @@ namespace Oxygen
             const QColor dark( calcDarkColor( color ) );
             const QColor shadow( calcShadowColor( color ) );
 
-//             // fill
-//             local.adjust( 1, 0, -1, 0 );
-//             if( true )
-//             {
-//                 p.setPen( Qt::NoPen );
-//                 p.setBrush( KColorUtils::mix( highlight, dark, 0.2 ) );
-//                 p.drawRoundedRect( local, 2.5, 2.5 );
-//             }
-//
-//             // shadow
-//             local.adjust( -1, 0, 1, 0 );
-//             if( true )
-//             {
-//                 p.setPen( QPen( alphaColor( shadow, 0.4 ),0.6 ) );
-//                 p.drawRoundedRect( QRectF( local ).adjusted( 0.5, 0.5, -0.5, 0.5 ), 2.5, 2.5 );
-//             }
-
             // shadow
             if( true )
             {
                 p.setPen( QPen( alphaColor( shadow, 0.4 ),0.6 ) );
-                p.drawRoundedRect( QRectF( local ).adjusted( 0.5, 0.5, -0.5, 0.5 ), 2.5, 2.5 );
+                p.drawRoundedRect( QRectF( local ).adjusted( 0.5, 0.5, -0.5, 0.5 ), 3.0, 3.0 );
             }
 
             // fill
