@@ -387,11 +387,11 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    QPixmap StyleHelper::dialSlab( const QColor& color, const QColor& glowColor, qreal shade, int size )
+    QPixmap StyleHelper::dialSlab( const QColor& color, const QColor& glow, qreal shade, int size )
     {
         Oxygen::Cache<QPixmap>::Value* cache =  _dialSlabCache.get( color );
 
-        const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         QPixmap *pixmap = cache->object( key );
         if ( !pixmap )
         {
@@ -414,8 +414,8 @@ namespace Oxygen
             // shadow
             drawShadow( p, shadow, rect.width() );
 
-            if( glowColor.isValid() )
-            { drawOuterGlow( p, glowColor, rect.width() ); }
+            if( glow.isValid() )
+            { drawOuterGlow( p, glow, rect.width() ); }
 
             const qreal baseOffset( 3.5 );
             {
@@ -451,12 +451,12 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    QPixmap StyleHelper::roundSlab( const QColor& color, const QColor& glowColor, qreal shade, int size )
+    QPixmap StyleHelper::roundSlab( const QColor& color, const QColor& glow, qreal shade, int size )
     {
 
         Oxygen::Cache<QPixmap>::Value* cache( _roundSlabCache.get( color ) );
 
-        const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         QPixmap *pixmap = cache->object( key );
 
         if ( !pixmap )
@@ -473,8 +473,8 @@ namespace Oxygen
             drawShadow( p, calcShadowColor( color ), 21 );
 
             // draw glow.
-            if( glowColor.isValid() )
-            { drawOuterGlow( p, glowColor, 21 ); }
+            if( glow.isValid() )
+            { drawOuterGlow( p, glow, 21 ); }
 
             drawRoundSlab( p, color, shade );
 
@@ -486,12 +486,12 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    QPixmap StyleHelper::sliderSlab( const QColor& color, const QColor& glowColor, qreal shade, int size )
+    QPixmap StyleHelper::sliderSlab( const QColor& color, const QColor& glow, qreal shade, int size )
     {
 
         Oxygen::Cache<QPixmap>::Value* cache( _sliderSlabCache.get( color ) );
 
-        const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         QPixmap *pixmap = cache->object( key );
 
         if ( !pixmap )
@@ -509,8 +509,8 @@ namespace Oxygen
             drawShadow( p, alphaColor( calcShadowColor( color ), 0.8 ), 21 );
 
             // draw glow.
-            if( glowColor.isValid() )
-            { drawOuterGlow( p, glowColor, 21 ); }
+            if( glow.isValid() )
+            { drawOuterGlow( p, glow, 21 ); }
 
             // draw slab
             p.setWindow( -2, -2, 25, 25 );
@@ -518,6 +518,9 @@ namespace Oxygen
 
             p.end();
             cache->insert( key, pixmap );
+
+            if( !glow.isValid() )
+            { pixmap->save( "slider-slab-qt.png" ); }
 
         }
         return *pixmap;
@@ -840,11 +843,11 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::hole( const QColor& color, const QColor& glowColor, int size, HoleOptions options )
+    TileSet *StyleHelper::hole( const QColor& color, const QColor& glow, int size, HoleOptions options )
     {
 
         // get key
-        Oxygen::Cache<TileSet>::Value* cache( _holeCache.get( glowColor ) );
+        Oxygen::Cache<TileSet>::Value* cache( _holeCache.get( glow ) );
 
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | (size << 4) | options );
         TileSet *tileSet = cache->object( key );
@@ -857,7 +860,7 @@ namespace Oxygen
             QPixmap shadowPixmap( shadowSize*2, shadowSize*2 );
 
             // calc alpha channel and fade
-            const int alpha( glowColor.isValid() ? glowColor.alpha():0 );
+            const int alpha( glow.isValid() ? glow.alpha():0 );
 
             {
                 shadowPixmap.fill( Qt::transparent );
@@ -877,7 +880,7 @@ namespace Oxygen
 
                 // fade-out glow
                 if( alpha > 0 )
-                { drawInverseGlow( p, glowColor, 1, 8, shadowSize ); }
+                { drawInverseGlow( p, glow, 1, 8, shadowSize ); }
 
                 p.end();
 
@@ -1064,9 +1067,9 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::slitFocused( const QColor& glowColor )
+    TileSet *StyleHelper::slitFocused( const QColor& glow )
     {
-        const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) );
+        const quint64 key( ( quint64( glow.rgba() ) << 32 ) );
         TileSet *tileSet = _slitCache.object( key );
 
         if ( !tileSet )
@@ -1081,8 +1084,8 @@ namespace Oxygen
             p.setRenderHint( QPainter::Antialiasing );
             QRadialGradient rg = QRadialGradient( 4.5, 4.5, 3.5 );
 
-            rg.setColorAt( 1.0, alphaColor( glowColor, 180.0/255 ) );
-            rg.setColorAt( 0.5, alphaColor( glowColor, 0 ) );
+            rg.setColorAt( 1.0, alphaColor( glow, 180.0/255 ) );
+            rg.setColorAt( 0.5, alphaColor( glow, 0 ) );
             p.setBrush( rg );
 
             p.drawEllipse( QRectF( 1, 1, 7, 7 ) );
