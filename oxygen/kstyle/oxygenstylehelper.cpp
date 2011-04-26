@@ -526,7 +526,7 @@ namespace Oxygen
             p.setPen( Qt::NoPen );
             //p.setWindow( 0,0,21,21 );
 
-            p.setWindow( -2, -2, 25, 25 );
+            p.setWindow( -1, -1, 23, 23 );
 
             // draw normal shadow
             drawShadow( p, calcShadowColor( color ), 21 );
@@ -535,6 +535,7 @@ namespace Oxygen
             if( glowColor.isValid() )
             { drawOuterGlow( p, glowColor, 21 ); }
 
+            p.setWindow( -2, -2, 25, 25 );
             drawSliderSlab( p, color, shade );
 
             p.end();
