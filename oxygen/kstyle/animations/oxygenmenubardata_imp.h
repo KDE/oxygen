@@ -66,6 +66,9 @@ namespace Oxygen
             previousAnimation().data()->start();
         }
 
+        // trigger update
+        setDirty();
+
     }
 
     //________________________________________________________________________
@@ -185,10 +188,11 @@ namespace Oxygen
         if( !local ) return;
 
         // if the current action is still active, one does nothing
-        if( local->activeAction() == currentAction().data() ) return;
+        if( local->activeAction() && local->activeAction() == currentAction().data() )
+        { return; }
 
-        if( animation().data()->isRunning() ) animation().data()->stop();
         if( progressAnimation().data()->isRunning() ) progressAnimation().data()->stop();
+        if( animation().data()->isRunning() ) animation().data()->stop();
         clearAnimatedRect();
         clearPreviousRect();
         if( currentAction() )
@@ -197,6 +201,9 @@ namespace Oxygen
             animation().data()->setDirection( Animation::Backward );
             animation().data()->start();
         }
+
+        // trigger update
+        setDirty();
 
         return;
 

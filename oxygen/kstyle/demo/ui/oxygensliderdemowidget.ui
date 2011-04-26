@@ -19,8 +19,8 @@
      <property name="title">
       <string>Horizontal</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0" colspan="2">
        <widget class="QSlider" name="horizontalSlider">
         <property name="maximum">
          <number>100</number>
@@ -36,24 +36,41 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="1" column="0">
        <widget class="QProgressBar" name="progressBar">
         <property name="value">
          <number>25</number>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QProgressBar" name="progressBar_2">
-        <property name="maximum">
-         <number>0</number>
-        </property>
-        <property name="value">
-         <number>11476</number>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Busy</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="2" column="0">
+       <widget class="QProgressBar" name="progressBar_2">
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="value">
+         <number>25</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="checkBox_2">
+        <property name="text">
+         <string>Busy</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
        <widget class="QScrollBar" name="horizontalScrollBar">
         <property name="maximum">
          <number>100</number>
@@ -66,7 +83,7 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="4" column="0" colspan="2">
        <widget class="QDial" name="dial">
         <property name="maximum">
          <number>100</number>
@@ -82,7 +99,7 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="5" column="0" colspan="2">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>

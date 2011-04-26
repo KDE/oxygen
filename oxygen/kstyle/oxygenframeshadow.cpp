@@ -446,23 +446,27 @@ namespace Oxygen
             case Left:
             {
                 tiles = TileSet::Left;
-                r.adjust( -2, -3, -1, 3 );
+                r.adjust( -2, -4, -1, 4 );
                 break;
             }
 
             case Right:
             {
                 tiles = TileSet::Right;
-                r.adjust( -1, -3, 2, 3 );
+                r.adjust( -1, -4, 2, 4 );
                 break;
             }
 
             default: return;
         }
 
+        HoleOptions options( HoleOutline );
+        if( _focus ) options |= HoleFocus;
+        if( _hover ) options |= HoleHover;
+
         QPainter painter(this);
         painter.setClipRegion( event->region() );
-        _helper.renderHole( &painter, palette().color( QPalette::Window ), r, _focus, _hover, _opacity, _mode, tiles, true );
+        _helper.renderHole( &painter, palette().color( QPalette::Window ), r, options, _opacity, _mode, tiles );
 
         return;
 

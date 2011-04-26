@@ -36,8 +36,8 @@ namespace Oxygen
     struct PropertyNames
     {
 
-        static const char* noAnimations;
-        static const char* noWindowGrab;
+        static const char* const noAnimations;
+        static const char* const noWindowGrab;
 
     };
 

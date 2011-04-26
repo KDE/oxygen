@@ -66,8 +66,9 @@ namespace Oxygen
 
         #ifdef Q_WS_X11
 
-        // create background gradient atom
+        // create background atoms
         _backgroundGradientAtom = XInternAtom( QX11Info::display(), "_KDE_OXYGEN_BACKGROUND_GRADIENT", False);
+        _backgroundPixmapAtom = XInternAtom( QX11Info::display(), "_KDE_OXYGEN_BACKGROUND_PIXMAP", False);
 
         #endif
 
@@ -125,7 +126,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    void Helper::renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift, int gradientHeight )
+    void Helper::renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int yShift, int gradientHeight )
     {
 
         // get coordinates relative to the client area
@@ -133,7 +134,7 @@ namespace Oxygen
         // QWidget* as argument.
         const QWidget* w( widget );
         int x( 0 );
-        int y( -y_shift );
+        int y( -yShift );
 
         while ( w != window && !w->isWindow() && w != w->parentWidget() )
         {
@@ -154,21 +155,23 @@ namespace Oxygen
         const QRect r = window->rect();
         int height( window->frameGeometry().height() );
         int width( window->frameGeometry().width() );
-        if( y_shift > 0 )
+        if( yShift > 0 )
         {
-            height -= 2*y_shift;
-            width -= 2*y_shift;
+            height -= 2*yShift;
+            width -= 2*yShift;
+
         }
 
         const int splitY( qMin( 300, ( 3*height )/4 ) );
 
         // draw upper linear gradient
         const QRect upperRect( -x, -y, r.width(), splitY );
+
         QPixmap tile( verticalGradient( color, splitY, gradientHeight-64 ) );
         p->drawTiledPixmap( upperRect, tile );
 
         // draw lower flat part
-        const QRect lowerRect( -x, splitY-y, r.width(), r.height() - splitY-y_shift );
+        const QRect lowerRect( -x, splitY-y, r.width(), r.height() - splitY-yShift );
         p->fillRect( lowerRect, backgroundBottomColor( color ) );
 
         // draw upper radial gradient
@@ -182,6 +185,66 @@ namespace Oxygen
 
         if ( clipRect.isValid() )
         { p->restore(); }
+    }
+
+
+    //____________________________________________________________________
+    void Helper::renderBackgroundPixmap( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, int yShift, int gradientHeight )
+    {
+
+        // get coordinates relative to the client area
+        // this is stupid. One could use mapTo if this was taking const QWidget* and not
+        // QWidget* as argument.
+        const QWidget* w( widget );
+        int x( 0 );
+        int y( -yShift );
+
+        while ( w != window && !w->isWindow() && w != w->parentWidget() )
+        {
+            x += w->geometry().x();
+            y += w->geometry().y();
+            w = w->parentWidget();
+        }
+
+        if ( clipRect.isValid() )
+        {
+            p->save();
+            p->setClipRegion( clipRect,Qt::IntersectClip );
+        }
+
+        // calculate upper part height
+        // special tricks are needed
+        // to handle both window contents and window decoration
+        const QRect r = window->rect();
+        int height( window->frameGeometry().height() );
+        int width( window->frameGeometry().width() );
+        if( yShift > 0 )
+        {
+            height -= 2*yShift;
+            width -= 2*yShift;
+
+        }
+
+        // background pixmap
+        if( !_backgroundPixmap.isNull() )
+        {
+
+            // calculate source rect
+            QPoint offset( 40, 48 - 20 );
+            QRect source( 0, 0, width + offset.x(), height + offset.y() );
+
+            offset -= _backgroundPixmapOffset;
+            source.translate( offset.x(), offset.y() );
+            source.translate( 0, 64 - gradientHeight );
+
+            // draw
+            p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
+
+        }
+
+        if ( clipRect.isValid() )
+        { p->restore(); }
+
     }
 
     //_____________________________________________________________
@@ -671,36 +734,43 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet* Helper::slab( const QColor& color, qreal shade, int size )
+    TileSet *Helper::slab( const QColor& color, const QColor& glow, qreal shade, int size )
     {
-
         Oxygen::Cache<TileSet>::Value* cache( _slabCache.get( color ) );
-        const quint64 key( ( ( int )( 256.0 * shade ) ) << 24 | size );
-        TileSet* tileSet( cache->object( key ) );
+
+        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        TileSet *tileSet = cache->object( key );
+
+        const qreal hScale( 1 );
+        const int hSize( size*hScale );
+        const int vSize( size );
 
         if ( !tileSet )
         {
-            QPixmap pixmap( size*2, size*2 );
+            QPixmap pixmap( hSize*2,vSize*2 );
             pixmap.fill( Qt::transparent );
 
             QPainter p( &pixmap );
             p.setRenderHints( QPainter::Antialiasing );
             p.setPen( Qt::NoPen );
-            p.setWindow( 0,0,14,14 );
 
-            // shadow
-            drawShadow( p, calcShadowColor( color ), 14 );
-            drawSlab( p, color, shade );
+            const int fixedSize( 14 );
+            p.setWindow( 0,0,fixedSize*hScale, fixedSize );
+
+            // draw all components
+            if( color.isValid() ) drawShadow( p, calcShadowColor( color ), 14 );
+            if( glow.isValid() ) drawOuterGlow( p, glow, 14 );
+            if( color.isValid() ) drawSlab( p, color, shade );
 
             p.end();
 
-            tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
+            tileSet = new TileSet( pixmap, hSize, vSize, hSize, vSize, hSize-1, vSize, 2, 1 );
 
             cache->insert( key, tileSet );
         }
-
         return tileSet;
     }
+
 
     //____________________________________________________________________
     const QWidget* Helper::checkAutoFillBackground( const QWidget* w ) const
@@ -722,13 +792,8 @@ namespace Oxygen
     void Helper::setHasBackgroundGradient( WId id, bool value ) const
     {
 
-        if( !id ) return;
-
         #ifdef Q_WS_X11
-        unsigned long uLongValue( value );
-        XChangeProperty(
-            QX11Info::display(), id, _backgroundGradientAtom, XA_CARDINAL, 32, PropModeReplace,
-            reinterpret_cast<const unsigned char *>(&uLongValue), 1 );
+        setHasHint( id, _backgroundGradientAtom, value );
         #else
         Q_UNUSED( id );
         Q_UNUSED( value );
@@ -739,29 +804,37 @@ namespace Oxygen
     //____________________________________________________________________
     bool Helper::hasBackgroundGradient( WId id ) const
     {
-        if( !id ) return false;
 
         #ifdef Q_WS_X11
-        Atom type( None );
-        int format(0);
-        unsigned char *data(0);
-
-        unsigned long n(0), left(0);
-        XGetWindowProperty(
-            QX11Info::display(), id, _backgroundGradientAtom,
-            0, 1L, false,
-            XA_CARDINAL, &type,
-            &format, &n, &left,
-            &data);
-
-        // finish if no data is found
-        if( data == None || n != 1 ) return false;
-        else return *data;
-
+        return hasHint( id, _backgroundGradientAtom );
         #else
-
+        Q_UNUSED( id );
         return false;
+        #endif
+    }
 
+    //____________________________________________________________________
+    void Helper::setHasBackgroundPixmap( WId id, bool value ) const
+    {
+
+        #ifdef Q_WS_X11
+        setHasHint( id, _backgroundPixmapAtom, value );
+        #else
+        Q_UNUSED( id );
+        Q_UNUSED( value );
+        #endif
+        return;
+    }
+
+    //____________________________________________________________________
+    bool Helper::hasBackgroundPixmap( WId id ) const
+    {
+
+        #ifdef Q_WS_X11
+        return hasHint( id, _backgroundPixmapAtom );
+        #else
+        Q_UNUSED( id );
+        return false;
         #endif
     }
 
@@ -875,5 +948,46 @@ namespace Oxygen
         p.restore();
 
     }
+
+    #ifdef Q_WS_X11
+
+    //____________________________________________________________________
+    void Helper::setHasHint( WId id, Atom atom, bool value ) const
+    {
+
+        if( !id ) return;
+
+        unsigned long uLongValue( value );
+        XChangeProperty(
+            QX11Info::display(), id, atom, XA_CARDINAL, 32, PropModeReplace,
+            reinterpret_cast<const unsigned char *>(&uLongValue), 1 );
+
+        return;
+    }
+
+    //____________________________________________________________________
+    bool Helper::hasHint( WId id, Atom atom ) const
+    {
+        if( !id ) return false;
+
+        Atom type( None );
+        int format(0);
+        unsigned char *data(0);
+
+        unsigned long n(0), left(0);
+        XGetWindowProperty(
+            QX11Info::display(), id, atom,
+            0, 1L, false,
+            XA_CARDINAL, &type,
+            &format, &n, &left,
+            &data);
+
+        // finish if no data is found
+        if( data == None || n != 1 ) return false;
+        else return *data;
+
+    }
+
+    #endif
 
 }
