@@ -3317,14 +3317,13 @@ namespace Oxygen
         if( flags & ( State_Sunken|State_On ) )
         {
 
-            if( false )
             {
                 // fill hole
                 painter->save();
                 painter->setRenderHint( QPainter::Antialiasing );
                 painter->setPen( Qt::NoPen );
                 painter->setBrush( helper().calcMidColor( helper().backgroundColor( palette.color( QPalette::Window ), widget, slitRect.center() ) ) );
-                painter->drawRoundedRect( slitRect.adjusted( 1, 1, -1, -1 ), 3.0, 3.0 );
+                painter->drawRoundedRect( slitRect.adjusted( 1, 1, -1, -1 ), 3.5, 3.5 );
                 painter->restore();
             }
 
