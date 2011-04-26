@@ -524,7 +524,6 @@ namespace Oxygen
             QPainter p( pixmap );
             p.setRenderHints( QPainter::Antialiasing );
             p.setPen( Qt::NoPen );
-            //p.setWindow( 0,0,21,21 );
 
             p.setWindow( -1, -1, 23, 23 );
 
@@ -535,6 +534,7 @@ namespace Oxygen
             if( glowColor.isValid() )
             { drawOuterGlow( p, glowColor, 21 ); }
 
+            // draw slab
             p.setWindow( -2, -2, 25, 25 );
             drawSliderSlab( p, color, shade );
 
