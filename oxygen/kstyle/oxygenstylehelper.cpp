@@ -309,24 +309,41 @@ namespace Oxygen
             const QColor dark( calcDarkColor( color ) );
             const QColor shadow( calcShadowColor( color ) );
 
+//             // fill
+//             local.adjust( 1, 0, -1, 0 );
+//             if( true )
+//             {
+//                 p.setPen( Qt::NoPen );
+//                 p.setBrush( KColorUtils::mix( highlight, dark, 0.2 ) );
+//                 p.drawRoundedRect( local, 2.5, 2.5 );
+//             }
+//
+//             // shadow
+//             local.adjust( -1, 0, 1, 0 );
+//             if( true )
+//             {
+//                 p.setPen( QPen( alphaColor( shadow, 0.4 ),0.6 ) );
+//                 p.drawRoundedRect( QRectF( local ).adjusted( 0.5, 0.5, -0.5, 0.5 ), 2.5, 2.5 );
+//             }
+
             // shadow
             if( true )
             {
-                p.setPen( QPen( alphaColor( shadow, 0.6 ),0.6 ) );
-                p.drawRoundedRect( QRectF( local ).adjusted( 0.5, 0.5, -0.5, -0.5 ), 2, 2 );
+                p.setPen( QPen( alphaColor( shadow, 0.4 ),0.6 ) );
+                p.drawRoundedRect( QRectF( local ).adjusted( 0.5, 0.5, -0.5, 0.5 ), 2.5, 2.5 );
             }
 
             // fill
-            if( false )
+            local.adjust( 1, 1, -1, 0 );
+            if( true )
             {
                 p.setPen( Qt::NoPen );
                 p.setBrush( KColorUtils::mix( highlight, dark, 0.2 ) );
-                p.drawRect( local.adjusted( 1, 0, -1, 0 ) );
+                p.drawRoundedRect( local, 2.5, 2.5 );
             }
 
             // fake radial gradient
-            local.adjust( 0, 0, -1, 0 );
-            if( false )
+            if( true )
             {
                 QPixmap pm( local.size() );
                 pm.fill( Qt::transparent );
@@ -357,20 +374,19 @@ namespace Oxygen
             }
 
             // bevel
-            if( false )
+            if( true )
             {
-                p.setRenderHint( QPainter::Antialiasing, false );
                 QLinearGradient bevel( local.topLeft(), local.bottomLeft() );
                 bevel.setColorAt( 0, lhighlight );
                 bevel.setColorAt( 0.5, highlight );
                 bevel.setColorAt( 1, calcDarkColor( highlight ) );
                 p.setBrush( Qt::NoBrush );
                 p.setPen( QPen( bevel, 1 ) );
-                p.drawRoundedRect( local,2,2 );
+                p.drawRoundedRect( QRectF(local).adjusted( 0.5, 0.5, -0.5, -0.5 ), 2.5, 2.5 );
             }
 
             // bright top edge
-            if( false )
+            if( true )
             {
                 QLinearGradient lightHl( local.topLeft(),local.topRight() );
                 lightHl.setColorAt( 0, Qt::transparent );
@@ -378,7 +394,7 @@ namespace Oxygen
                 lightHl.setColorAt( 1, Qt::transparent );
 
                 p.setPen( QPen( lightHl, 1 ) );
-                p.drawLine( local.topLeft(), local.topRight() );
+                p.drawLine( local.topLeft()+QPointF( 0.5, 0.5 ), local.topRight()+QPointF( 0.5, 0.5 ) );
             }
 
             p.end();
