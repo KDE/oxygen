@@ -292,7 +292,6 @@ namespace Oxygen
         {
 
             QRect local( rect );
-            local.adjust( -1, -2, 1, 1 );
 
             // set topLeft corner to 0.0
             local.translate( -local.topLeft() );
@@ -304,7 +303,6 @@ namespace Oxygen
             p.setRenderHints( QPainter::Antialiasing );
             p.setBrush( Qt::NoBrush );
 
-            local.adjust( 1, 1, -1, -1 );
             const QColor lhighlight( calcLightColor( highlight ) );
             const QColor color( pal.color( QPalette::Active, QPalette::Window ) );
             const QColor light( calcLightColor( color ) );
@@ -315,11 +313,11 @@ namespace Oxygen
             if( true )
             {
                 p.setPen( QPen( alphaColor( shadow, 0.6 ),0.6 ) );
-                p.drawRoundedRect( QRectF( local ).adjusted( 0.5, -0.5, 0.5, 1.5 ), 2, 2 );
+                p.drawRoundedRect( QRectF( local ).adjusted( 0.5, 0.5, -0.5, -0.5 ), 2, 2 );
             }
 
             // fill
-            if( true )
+            if( false )
             {
                 p.setPen( Qt::NoPen );
                 p.setBrush( KColorUtils::mix( highlight, dark, 0.2 ) );
@@ -328,7 +326,7 @@ namespace Oxygen
 
             // fake radial gradient
             local.adjust( 0, 0, -1, 0 );
-            if( true )
+            if( false )
             {
                 QPixmap pm( local.size() );
                 pm.fill( Qt::transparent );
@@ -359,7 +357,7 @@ namespace Oxygen
             }
 
             // bevel
-            if( true )
+            if( false )
             {
                 p.setRenderHint( QPainter::Antialiasing, false );
                 QLinearGradient bevel( local.topLeft(), local.bottomLeft() );
@@ -372,7 +370,7 @@ namespace Oxygen
             }
 
             // bright top edge
-            if( true )
+            if( false )
             {
                 QLinearGradient lightHl( local.topLeft(),local.topRight() );
                 lightHl.setColorAt( 0, Qt::transparent );

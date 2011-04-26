@@ -4890,9 +4890,9 @@ namespace Oxygen
 
         // handle right to left
         indicatorRect = handleRTL( option, indicatorRect );
-
+        indicatorRect.adjust( -1, -1, 1, 1 );
         QPixmap pixmap( helper().progressBarIndicator( palette, indicatorRect ) );
-        painter->drawPixmap( indicatorRect.adjusted( -1, -2, 0, 0 ).topLeft(), pixmap );
+        painter->drawPixmap( indicatorRect.topLeft(), pixmap );
         return true;
 
     }
