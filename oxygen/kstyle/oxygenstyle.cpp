@@ -2031,19 +2031,18 @@ namespace Oxygen
                 QRect groove( QCommonStyle::subControlRect( CC_Slider, option, subControl, widget ) );
                 if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>( option ) )
                 {
-                    const int sliderHeight = 7;
                     const bool horizontal( slider->orientation == Qt::Horizontal );
                     if( horizontal )
                     {
 
                         const int center( groove.center().y() );
-                        groove = QRect( groove.left(), center-sliderHeight/2, groove.width(), sliderHeight  ).adjusted( 3, 0, -3, 0 );
+                        groove = QRect( groove.left(), center-Slider_GrooveWidth/2, groove.width(), Slider_GrooveWidth  ).adjusted( 3, 0, -3, 0 );
                         groove.adjust( 2, 0, -2, 0 );
 
                     } else {
 
                         const int center( groove.center().x() );
-                        groove = QRect( center-sliderHeight/2, groove.top(), sliderHeight, groove.height() ).adjusted( 0, 3, 0, -3 );
+                        groove = QRect( center-Slider_GrooveWidth/2, groove.top(), Slider_GrooveWidth, groove.height() ).adjusted( 0, 3, 0, -3 );
                         groove.adjust( 0, 2, 0, -2 );
 
                     }
