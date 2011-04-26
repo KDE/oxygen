@@ -3323,7 +3323,7 @@ namespace Oxygen
                 painter->save();
                 painter->setRenderHint( QPainter::Antialiasing );
                 painter->setPen( Qt::NoPen );
-                painter->setBrush( helper().calcMidColor( palette.color( QPalette::Window ) ) );
+                painter->setBrush( helper().calcMidColor( helper().backgroundColor( palette.color( QPalette::Window ), widget, slitRect.center() ) ) );
                 painter->drawRoundedRect( slitRect.adjusted( 1, 1, -1, -1 ), 3.0, 3.0 );
                 painter->restore();
             }
