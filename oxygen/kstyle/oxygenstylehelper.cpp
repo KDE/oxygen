@@ -378,7 +378,7 @@ namespace Oxygen
             // bevel
             if( true )
             {
-                QLinearGradient bevel( local.topLeft(), local.bottomLeft() );
+                QLinearGradient bevel( QPointF( 0, 0.5 ) + local.topLeft(), QPointF( 0, -0.5 ) + local.bottomLeft() );
                 bevel.setColorAt( 0, lhighlight );
                 bevel.setColorAt( 0.5, highlight );
                 bevel.setColorAt( 1, calcDarkColor( highlight ) );
@@ -396,7 +396,7 @@ namespace Oxygen
                 lightHl.setColorAt( 1, Qt::transparent );
 
                 p.setPen( QPen( lightHl, 1 ) );
-                p.drawLine( local.topLeft()+QPointF( 0.5, 0.5 ), local.topRight()+QPointF( 0.5, 0.5 ) );
+                p.drawLine( QPointF( 0.5, 0.5 ) + local.topLeft(), QPointF( 0.5, 0.5 ) + local.topRight() );
             }
 
             p.end();
