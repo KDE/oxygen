@@ -133,14 +133,15 @@ namespace Oxygen
         { return roundSlab( color, QColor(), shade, size ); }
 
         // round slab
-        QPixmap roundSlab( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
+        QPixmap roundSlab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
 
         //! slider slab
         QPixmap sliderSlab( const QColor& color, qreal shade, int size = 7 )
         { return sliderSlab( color, QColor(), shade, size ); }
 
         // slider slab
-        QPixmap sliderSlab( const QColor&, const QColor& glowColor, qreal shade, int size = 7 );
+        QPixmap sliderSlab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
+
         // sunken slab
         TileSet *slabSunken( const QColor&, int size = 7 );
 
@@ -211,7 +212,7 @@ namespace Oxygen
         { return hole( color, QColor(), size, options ); }
 
         //! focused hole
-        TileSet *hole( const QColor&, const QColor& glowColor, int size = 7, HoleOptions = 0 );
+        TileSet *hole( const QColor&, const QColor& glow, int size = 7, HoleOptions = 0 );
 
         //@}
 
