@@ -734,11 +734,11 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *Helper::slab( const QColor& color, const QColor& glowColor, qreal shade, int size )
+    TileSet *Helper::slab( const QColor& color, const QColor& glow, qreal shade, int size )
     {
         Oxygen::Cache<TileSet>::Value* cache( _slabCache.get( color ) );
 
-        const quint64 key( ( quint64( glowColor.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         TileSet *tileSet = cache->object( key );
 
         const qreal hScale( 1 );
@@ -759,7 +759,7 @@ namespace Oxygen
 
             // draw all components
             if( color.isValid() ) drawShadow( p, calcShadowColor( color ), 14 );
-            if( glowColor.isValid() ) drawOuterGlow( p, glowColor, 14 );
+            if( glow.isValid() ) drawOuterGlow( p, glow, 14 );
             if( color.isValid() ) drawSlab( p, color, shade );
 
             p.end();
