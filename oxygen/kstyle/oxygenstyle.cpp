@@ -714,9 +714,6 @@ namespace Oxygen
             case PM_TabBarTabShiftHorizontal: return 0;
 
             // sliders
-            // case PM_SliderThickness: return 23;
-            // case PM_SliderControlThickness: return 23;
-            // case PM_SliderLength: return 13;
             case PM_SliderThickness: return 23;
             case PM_SliderControlThickness: return 23;
             case PM_SliderLength: return 21;
@@ -3599,7 +3596,6 @@ namespace Oxygen
 
             painter->setBrush( Qt::NoBrush );
             painter->setPen( QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            //painter->drawRoundedRect( local, 4, 4 );
             painter->drawRoundedRect( local, 3.5, 3.5 );
 
         } else {
