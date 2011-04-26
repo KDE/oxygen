@@ -312,60 +312,77 @@ namespace Oxygen
             const QColor shadow( calcShadowColor( color ) );
 
             // shadow
-            p.setPen( QPen( alphaColor( shadow, 0.6 ),0.6 ) );
-            p.drawRoundedRect( QRectF( local ).adjusted( 0.5, -0.5, 0.5, 1.5 ), 2, 2 );
+            if( true )
+            {
+                p.setPen( QPen( alphaColor( shadow, 0.6 ),0.6 ) );
+                p.drawRoundedRect( QRectF( local ).adjusted( 0.5, -0.5, 0.5, 1.5 ), 2, 2 );
+            }
 
             // fill
-            p.setPen( Qt::NoPen );
-            p.setBrush( KColorUtils::mix( highlight, dark, 0.2 ) );
-            p.drawRect( local.adjusted( 1, 0, -1, 0 ) );
+            if( true )
+            {
+                p.setPen( Qt::NoPen );
+                p.setBrush( KColorUtils::mix( highlight, dark, 0.2 ) );
+                p.drawRect( local.adjusted( 1, 0, -1, 0 ) );
+            }
 
             // fake radial gradient
             local.adjust( 0, 0, -1, 0 );
-            QPixmap pm( local.size() );
-            pm.fill( Qt::transparent );
+            if( true )
             {
-                QRectF pmRect = pm.rect();
-                QLinearGradient mask( pmRect.topLeft(), pmRect.topRight() );
-                mask.setColorAt( 0.0, Qt::transparent );
-                mask.setColorAt( 0.4, Qt::black );
-                mask.setColorAt( 0.6, Qt::black );
-                mask.setColorAt( 1.0, Qt::transparent );
+                QPixmap pm( local.size() );
+                pm.fill( Qt::transparent );
+                {
+                    QRectF pmRect = pm.rect();
+                    QLinearGradient mask( pmRect.topLeft(), pmRect.topRight() );
+                    mask.setColorAt( 0.0, Qt::transparent );
+                    mask.setColorAt( 0.4, Qt::black );
+                    mask.setColorAt( 0.6, Qt::black );
+                    mask.setColorAt( 1.0, Qt::transparent );
 
-                QLinearGradient radial( pmRect.topLeft(), pmRect.bottomLeft() );
-                radial.setColorAt( 0.0, KColorUtils::mix( lhighlight, light, 0.3 ) );
-                radial.setColorAt( 0.5, Qt::transparent );
-                radial.setColorAt( 0.6, Qt::transparent );
-                radial.setColorAt( 1.0, KColorUtils::mix( lhighlight, light, 0.3 ) );
+                    QLinearGradient radial( pmRect.topLeft(), pmRect.bottomLeft() );
+                    radial.setColorAt( 0.0, KColorUtils::mix( lhighlight, light, 0.3 ) );
+                    radial.setColorAt( 0.5, Qt::transparent );
+                    radial.setColorAt( 0.6, Qt::transparent );
+                    radial.setColorAt( 1.0, KColorUtils::mix( lhighlight, light, 0.3 ) );
 
-                QPainter pp( &pm );
-                pp.fillRect( pm.rect(), mask );
-                pp.setCompositionMode( QPainter::CompositionMode_SourceIn );
-                pp.fillRect( pm.rect(), radial );
-                pp.end();
+                    QPainter pp( &pm );
+                    pp.fillRect( pm.rect(), mask );
+                    pp.setCompositionMode( QPainter::CompositionMode_SourceIn );
+                    pp.fillRect( pm.rect(), radial );
+                    pp.end();
+
+                }
+
+                p.drawPixmap( QPoint( 1,1 ), pm );
 
             }
 
-            p.drawPixmap( QPoint( 1,1 ), pm );
-
             // bevel
-            p.setRenderHint( QPainter::Antialiasing, false );
-            QLinearGradient bevel( local.topLeft(), local.bottomLeft() );
-            bevel.setColorAt( 0, lhighlight );
-            bevel.setColorAt( 0.5, highlight );
-            bevel.setColorAt( 1, calcDarkColor( highlight ) );
-            p.setBrush( Qt::NoBrush );
-            p.setPen( QPen( bevel, 1 ) );
-            p.drawRoundedRect( local,2,2 );
+            if( true )
+            {
+                p.setRenderHint( QPainter::Antialiasing, false );
+                QLinearGradient bevel( local.topLeft(), local.bottomLeft() );
+                bevel.setColorAt( 0, lhighlight );
+                bevel.setColorAt( 0.5, highlight );
+                bevel.setColorAt( 1, calcDarkColor( highlight ) );
+                p.setBrush( Qt::NoBrush );
+                p.setPen( QPen( bevel, 1 ) );
+                p.drawRoundedRect( local,2,2 );
+            }
 
             // bright top edge
-            QLinearGradient lightHl( local.topLeft(),local.topRight() );
-            lightHl.setColorAt( 0, Qt::transparent );
-            lightHl.setColorAt( 0.5, KColorUtils::mix( highlight, light, 0.8 ) );
-            lightHl.setColorAt( 1, Qt::transparent );
+            if( true )
+            {
+                QLinearGradient lightHl( local.topLeft(),local.topRight() );
+                lightHl.setColorAt( 0, Qt::transparent );
+                lightHl.setColorAt( 0.5, KColorUtils::mix( highlight, light, 0.8 ) );
+                lightHl.setColorAt( 1, Qt::transparent );
 
-            p.setPen( QPen( lightHl, 1 ) );
-            p.drawLine( local.topLeft(), local.topRight() );
+                p.setPen( QPen( lightHl, 1 ) );
+                p.drawLine( local.topLeft(), local.topRight() );
+            }
+
             p.end();
 
             _progressBarCache.insert( key, pixmap );
