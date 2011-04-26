@@ -312,7 +312,6 @@ namespace Oxygen
             const QColor shadow( calcShadowColor( color ) );
 
             // shadow
-            if( true )
             {
                 p.setPen( QPen( alphaColor( shadow, 0.4 ),0.6 ) );
                 p.drawRoundedRect( QRectF( local ).adjusted( 0.5, 0.5, -0.5, 0.5 ), 3.0, 3.0 );
@@ -320,7 +319,6 @@ namespace Oxygen
 
             // fill
             local.adjust( 1, 1, -1, 0 );
-            if( true )
             {
                 p.setPen( Qt::NoPen );
                 p.setBrush( KColorUtils::mix( highlight, dark, 0.2 ) );
@@ -328,7 +326,6 @@ namespace Oxygen
             }
 
             // fake radial gradient
-            if( true )
             {
                 QPixmap pm( local.size() );
                 pm.fill( Qt::transparent );
@@ -359,7 +356,6 @@ namespace Oxygen
             }
 
             // bevel
-            if( true )
             {
                 QLinearGradient bevel( QPointF( 0, 0.5 ) + local.topLeft(), QPointF( 0, -0.5 ) + local.bottomLeft() );
                 bevel.setColorAt( 0, lhighlight );
@@ -371,7 +367,6 @@ namespace Oxygen
             }
 
             // bright top edge
-            if( true )
             {
                 QLinearGradient lightHl( local.topLeft(),local.topRight() );
                 lightHl.setColorAt( 0, Qt::transparent );
