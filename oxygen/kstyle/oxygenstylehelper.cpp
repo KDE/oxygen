@@ -505,12 +505,8 @@ namespace Oxygen
 
             p.setWindow( -1, -1, 23, 23 );
 
-            // draw normal shadow
-            drawShadow( p, alphaColor( calcShadowColor( color ), 0.8 ), 21 );
-
-            // draw glow.
-            if( glow.isValid() )
-            { drawOuterGlow( p, glow, 21 ); }
+            if( color.isValid() ) drawShadow( p, alphaColor( calcShadowColor( color ), 0.8 ), 21 );
+            if( glow.isValid() ) drawOuterGlow( p, glow, 21 );
 
             // draw slab
             p.setWindow( -2, -2, 25, 25 );
