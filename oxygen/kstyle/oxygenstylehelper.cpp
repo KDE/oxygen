@@ -528,7 +528,7 @@ namespace Oxygen
             p.setWindow( -1, -1, 23, 23 );
 
             // draw normal shadow
-            drawShadow( p, calcShadowColor( color ), 21 );
+            drawShadow( p, alphaColor( calcShadowColor( color ), 0.8 ), 21 );
 
             // draw glow.
             if( glowColor.isValid() )
