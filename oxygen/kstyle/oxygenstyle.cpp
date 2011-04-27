@@ -8397,44 +8397,11 @@ namespace Oxygen
         r.translate( 0,-1 );
         if( !painter->clipRegion().isEmpty() ) painter->setClipRegion( painter->clipRegion().translated( 0,-1 ) );
 
+        // adjust rect
         if( options & Sunken ) r.adjust( -1, 0, 1, 1 );
 
         // fill
-        if( !( options & NoFill ) )
-        {
-            painter->save();
-            painter->setRenderHint( QPainter::Antialiasing );
-            painter->setPen( Qt::NoPen );
-
-            if( helper().calcShadowColor( color ).value() > color.value() && ( options & Sunken ) )
-            {
-
-                QLinearGradient innerGradient( 0, r.top(), 0, r.bottom() + r.height() );
-                innerGradient.setColorAt( 0.0, color );
-                innerGradient.setColorAt( 1.0, helper().calcLightColor( color ) );
-                painter->setBrush( innerGradient );
-
-            } else if( options & Sunken ) {
-
-
-                QLinearGradient innerGradient( 0, r.top() - r.height(), 0, r.bottom() );
-                innerGradient.setColorAt( 0.0, helper().calcLightColor( color ) );
-                innerGradient.setColorAt( 1.0, color );
-                painter->setBrush( innerGradient );
-
-            } else {
-
-                QLinearGradient innerGradient( 0, r.top()-0.2*r.height(), 0, r.bottom()+ 0.4*r.height() );
-                innerGradient.setColorAt( 0.0, helper().calcLightColor( color ) );
-                innerGradient.setColorAt( 0.6, color );
-                painter->setBrush( innerGradient );
-
-            }
-
-            helper().fillSlab( *painter, r );
-            painter->restore();
-
-        }
+        if( !( options & NoFill ) ) helper().fillButtonSlab( *painter, r, color, options&Sunken );
 
         // edges
         // for slabs, hover takes precedence over focus ( other way around for holes )
@@ -9368,7 +9335,6 @@ namespace Oxygen
             QLinearGradient sliderGradient;
             if( horizontal ) sliderGradient = QLinearGradient( 0, r.top(), 0, r.bottom() );
             else sliderGradient = QLinearGradient( r.left(), 0, r.right(), 0 );
-            ( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight() );
             if( !StyleConfigData::scrollBarColored() )
             {
                 sliderGradient.setColorAt( 0.0, color );

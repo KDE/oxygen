@@ -47,7 +47,6 @@ namespace Oxygen
 
     Q_DECLARE_FLAGS(HoleOptions, HoleOption)
 
-
     class StyleHelper : public Helper
     {
         public:
@@ -116,8 +115,6 @@ namespace Oxygen
         //!@name slabs
         //@{
 
-        void fillSlab( QPainter&, const QRect&, int size = 7 ) const;
-
         //! progressbar
         QPixmap progressBarIndicator( const QPalette&, const QRect& );
 
@@ -139,11 +136,8 @@ namespace Oxygen
         QPixmap sliderSlab( const QColor& color, qreal shade, int size = 7 )
         { return sliderSlab( color, QColor(), shade, size ); }
 
-        // slider slab
+        //! slider slab
         QPixmap sliderSlab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
-
-        // sunken slab
-        TileSet *slabSunken( const QColor&, int size = 7 );
 
         //@}
 
@@ -184,8 +178,8 @@ namespace Oxygen
         //! selection
         TileSet *selection( const QColor&, int height, bool custom );
 
-        // these two methods must be public because they are used directly by OxygenStyle to draw dials
-        void drawInverseShadow( QPainter&, const QColor&, int pad, int size, qreal fuzz ) const;
+        //! inverse glow
+        /*! this method must be public because it is used directly by OxygenStyle to draw dials */
         void drawInverseGlow( QPainter&, const QColor&, int pad, int size, int rsize ) const;
 
         //!@name utility functions
@@ -207,11 +201,11 @@ namespace Oxygen
         //!@name holes
         //@{
 
-        //! focused hole
+        //! holes
         TileSet *hole( const QColor& color, int size = 7, HoleOptions options = 0 )
         { return hole( color, QColor(), size, options ); }
 
-        //! focused hole
+        //! holes
         TileSet *hole( const QColor&, const QColor& glow, int size = 7, HoleOptions = 0 );
 
         //@}
@@ -241,7 +235,6 @@ namespace Oxygen
 
         typedef BaseCache<TileSet> TileSetCache;
         TileSetCache _cornerCache;
-        TileSetCache _slabSunkenCache;
         TileSetCache _holeFlatCache;
         TileSetCache _slopeCache;
         TileSetCache _grooveCache;
