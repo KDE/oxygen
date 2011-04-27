@@ -287,8 +287,15 @@ namespace Oxygen
         //! default slab (with glow)
         virtual TileSet* slab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
 
+        //! sunken slab
+        virtual TileSet *slabSunken( const QColor&, int size = 7 );
+
         //! fill a slab of given size with brush set on painter
         void fillSlab( QPainter&, const QRect&, int size = 7 ) const;
+
+        //! inverse (inner-hole) shadow
+        /*! this method must be public because it is used directly by OxygenStyle to draw dials */
+        void drawInverseShadow( QPainter&, const QColor&, int pad, int size, qreal fuzz ) const;
 
         //! focus brush
         const KStatefulBrush& viewFocusBrush( void ) const
@@ -363,14 +370,22 @@ namespace Oxygen
 
         //@}
 
-        //! slabs
-        Oxygen::Cache<TileSet> _slabCache;
-
         //! shortcut to color caches
         /*! it is made protected because it is also used in the style helper */
         typedef BaseCache<QColor> ColorCache;
 
         private:
+
+        //!@name tileset caches
+        //!@{
+
+        //! slabs
+        Oxygen::Cache<TileSet> _slabCache;
+
+        //! sunken slabs
+        BaseCache<TileSet> _slabSunkenCache;
+
+        //@}
 
         //!@name brushes
         //@{

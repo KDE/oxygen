@@ -96,6 +96,7 @@ namespace Oxygen
     void Helper::invalidateCaches()
     {
         _slabCache.clear();
+        _slabSunkenCache.clear();
         _decoColorCache.clear();
         _lightColorCache.clear();
         _darkColorCache.clear();
@@ -118,6 +119,7 @@ namespace Oxygen
         _windecoButtonCache.setMaxCost( value );
         _windecoButtonGlowCache.setMaxCost( value );
         _slabCache.setMaxCacheSize( value );
+        _slabSunkenCache.setMaxCost( value );
         _backgroundCache.setMaxCost( value );
         _dotCache.setMaxCost( value );
 
@@ -772,6 +774,52 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
+    TileSet *Helper::slabSunken( const QColor& color, int size )
+    {
+        const quint64 key( quint64( color.rgba() ) << 32 | size );
+        TileSet *tileSet = _slabSunkenCache.object( key );
+
+        if ( !tileSet )
+        {
+            QPixmap pixmap( size*2, size*2 );
+            pixmap.fill( Qt::transparent );
+
+            QPainter p( &pixmap );
+            p.setRenderHints( QPainter::Antialiasing );
+            p.setPen( Qt::NoPen );
+            p.setWindow( 0,0,14,14 );
+
+            // shadow
+            p.setCompositionMode( QPainter::CompositionMode_SourceOver );
+            drawInverseShadow( p, calcShadowColor( color ), 3, 8, 0.0 );
+
+            // contrast pixel
+            {
+                QColor light( calcLightColor( color ) );
+                QLinearGradient blend( 0, 2, 0, 16 );
+                blend.setColorAt( 0.5, Qt::transparent );
+                blend.setColorAt( 1.0, light );
+
+                p.setBrush( Qt::NoBrush );
+                p.setPen( QPen( blend, 1 ) );
+                p.drawRoundedRect( QRectF( 2.5, 2.5, 9, 9 ), 4.0, 4.0 );
+                p.setPen( Qt::NoPen );
+            }
+
+
+            p.end();
+
+            tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
+
+            _slabSunkenCache.insert( key, tileSet );
+
+        }
+
+        return tileSet;
+
+    }
+
+    //________________________________________________________________________________________________________
     void Helper::fillSlab( QPainter& p, const QRect& rect, int size ) const
     {
         const qreal s( qreal( size ) * ( 3.6 + ( 0.5 * _slabThickness ) ) / 7.0 );
@@ -779,6 +827,28 @@ namespace Oxygen
         if( !r.isValid() ) return;
 
         p.drawRoundedRect( r, s/2, s/2 );
+    }
+
+    //________________________________________________________________________________________________________
+    void Helper::drawInverseShadow(
+        QPainter& p, const QColor& color,
+        int pad, int size, qreal fuzz ) const
+    {
+
+        const qreal m( qreal( size )*0.5 );
+        const qreal offset( 0.8 );
+        const qreal k0( ( m-2 ) / qreal( m+2.0 ) );
+        QRadialGradient shadowGradient( pad+m, pad+m+offset, m+2 );
+        for ( int i = 0; i < 8; i++ )
+        {
+            // sinusoidal gradient
+            const qreal k1( ( qreal( 8 - i ) + k0 * qreal( i ) ) * 0.125 );
+            const qreal a( ( cos( 3.14159 * i * 0.125 ) + 1.0 ) * 0.25 );
+            shadowGradient.setColorAt( k1, alphaColor( color, a * _shadowGain ) );
+        }
+        shadowGradient.setColorAt( k0, alphaColor( color, 0.0 ) );
+        p.setBrush( shadowGradient );
+        p.drawEllipse( QRectF( pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0 ) );
     }
 
     //____________________________________________________________________

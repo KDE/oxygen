@@ -139,9 +139,6 @@ namespace Oxygen
         //! slider slab
         QPixmap sliderSlab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
 
-        //! sunken slab
-        TileSet *slabSunken( const QColor&, int size = 7 );
-
         //@}
 
         //!@name holes
@@ -181,8 +178,8 @@ namespace Oxygen
         //! selection
         TileSet *selection( const QColor&, int height, bool custom );
 
-        // these two methods must be public because they are used directly by OxygenStyle to draw dials
-        void drawInverseShadow( QPainter&, const QColor&, int pad, int size, qreal fuzz ) const;
+        //! inverse glow
+        /*! this method must be public because it is used directly by OxygenStyle to draw dials */
         void drawInverseGlow( QPainter&, const QColor&, int pad, int size, int rsize ) const;
 
         //!@name utility functions
@@ -238,7 +235,6 @@ namespace Oxygen
 
         typedef BaseCache<TileSet> TileSetCache;
         TileSetCache _cornerCache;
-        TileSetCache _slabSunkenCache;
         TileSetCache _holeFlatCache;
         TileSetCache _slopeCache;
         TileSetCache _grooveCache;
