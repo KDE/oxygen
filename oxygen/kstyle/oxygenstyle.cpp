@@ -9368,7 +9368,6 @@ namespace Oxygen
             QLinearGradient sliderGradient;
             if( horizontal ) sliderGradient = QLinearGradient( 0, r.top(), 0, r.bottom() );
             else sliderGradient = QLinearGradient( r.left(), 0, r.right(), 0 );
-            ( rect.topLeft(), horizontal ? rect.bottomLeft() : rect.topRight() );
             if( !StyleConfigData::scrollBarColored() )
             {
                 sliderGradient.setColorAt( 0.0, color );
