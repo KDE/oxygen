@@ -944,7 +944,7 @@ namespace Oxygen
         // inside mask
         p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
         p.setBrush( Qt::black );
-        p.drawEllipse( r.adjusted( width, width, -width, -width ) );
+        p.drawEllipse( r.adjusted( width+0.5, width+0.5, -width-1, -width-1 ) );
         p.restore();
 
     }
