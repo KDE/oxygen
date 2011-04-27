@@ -771,6 +771,15 @@ namespace Oxygen
         return tileSet;
     }
 
+    //________________________________________________________________________________________________________
+    void Helper::fillSlab( QPainter& p, const QRect& rect, int size ) const
+    {
+        const qreal s( qreal( size ) * ( 3.6 + ( 0.5 * _slabThickness ) ) / 7.0 );
+        const QRectF r( QRectF( rect ).adjusted( s, s, -s, -s ) );
+        if( !r.isValid() ) return;
+
+        p.drawRoundedRect( r, s/2, s/2 );
+    }
 
     //____________________________________________________________________
     const QWidget* Helper::checkAutoFillBackground( const QWidget* w ) const

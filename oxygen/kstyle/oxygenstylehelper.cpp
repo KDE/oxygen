@@ -272,16 +272,6 @@ namespace Oxygen
         return tileSet;
     }
 
-    //________________________________________________________________________________________________________
-    void StyleHelper::fillSlab( QPainter& p, const QRect& rect, int size ) const
-    {
-        const qreal s( qreal( size ) * ( 3.6 + ( 0.5 * _slabThickness ) ) / 7.0 );
-        const QRectF r( QRectF( rect ).adjusted( s, s, -s, -s ) );
-        if( !r.isValid() ) return;
-
-        p.drawRoundedRect( r, s/2, s/2 );
-    }
-
     //__________________________________________________________________________________________________________
     QPixmap StyleHelper::progressBarIndicator( const QPalette& pal, const QRect& rect )
     {
@@ -561,8 +551,11 @@ namespace Oxygen
             tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
 
             _slabSunkenCache.insert( key, tileSet );
+
         }
+
         return tileSet;
+
     }
 
     //__________________________________________________________________________________________________________

@@ -115,8 +115,6 @@ namespace Oxygen
         //!@name slabs
         //@{
 
-        void fillSlab( QPainter&, const QRect&, int size = 7 ) const;
-
         //! progressbar
         QPixmap progressBarIndicator( const QPalette&, const QRect& );
 
