@@ -47,7 +47,6 @@ namespace Oxygen
 
     Q_DECLARE_FLAGS(HoleOptions, HoleOption)
 
-
     class StyleHelper : public Helper
     {
         public:
@@ -139,10 +138,10 @@ namespace Oxygen
         QPixmap sliderSlab( const QColor& color, qreal shade, int size = 7 )
         { return sliderSlab( color, QColor(), shade, size ); }
 
-        // slider slab
+        //! slider slab
         QPixmap sliderSlab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
 
-        // sunken slab
+        //! sunken slab
         TileSet *slabSunken( const QColor&, int size = 7 );
 
         //@}
@@ -207,11 +206,11 @@ namespace Oxygen
         //!@name holes
         //@{
 
-        //! focused hole
+        //! holes
         TileSet *hole( const QColor& color, int size = 7, HoleOptions options = 0 )
         { return hole( color, QColor(), size, options ); }
 
-        //! focused hole
+        //! holes
         TileSet *hole( const QColor&, const QColor& glow, int size = 7, HoleOptions = 0 );
 
         //@}
