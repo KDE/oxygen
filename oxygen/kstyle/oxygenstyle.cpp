@@ -3315,25 +3315,27 @@ namespace Oxygen
             {
 
                 // fill hole
-                QColor color( helper().calcMidColor( helper().backgroundColor( palette.color( QPalette::Window ), widget, slitRect.center() ) ) );
-
+                qreal opacity = 1.0;
+                const qreal bias = 0.75;
                 if( enabled && hoverAnimated )
                 {
 
-                    color = helper().alphaColor( color, 1.0 - hoverOpacity );
+                    opacity = 1.0 - bias*hoverOpacity;
 
                 } else if( toolBarAnimated && enabled && animatedRect.isNull() && current  ) {
 
-                    color = helper().alphaColor( color, 1.0 - toolBarOpacity );
+                    opacity = 1.0 - bias*toolBarOpacity;
 
                 } else if( enabled && (( toolBarTimerActive && current ) || mouseOver ) ) {
 
-                    color = QColor();
+                    opacity = 1.0 - bias;
 
                 }
 
-                if( color.isValid() )
+                if( opacity > 0 )
                 {
+                    QColor color( helper().calcMidColor( helper().backgroundColor( palette.color( QPalette::Window ), widget, slitRect.center() ) ) );
+                    color = helper().alphaColor( color, opacity );
                     painter->save();
                     painter->setRenderHint( QPainter::Antialiasing );
                     painter->setPen( Qt::NoPen );
@@ -3343,6 +3345,7 @@ namespace Oxygen
                 }
 
             }
+
 
             HoleOptions options( HoleContrast );
             if( hasFocus && enabled ) options |= HoleFocus;
