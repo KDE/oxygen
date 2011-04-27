@@ -830,6 +830,44 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
+    void Helper::fillButtonSlab( QPainter& painter, const QRect& r, const QColor& color, bool sunken )
+    {
+
+        painter.save();
+        painter.setRenderHint( QPainter::Antialiasing );
+        painter.setPen( Qt::NoPen );
+
+        if( sunken && calcShadowColor( color ).value() > color.value() )
+        {
+
+            QLinearGradient innerGradient( 0, r.top(), 0, r.bottom() + r.height() );
+            innerGradient.setColorAt( 0.0, color );
+            innerGradient.setColorAt( 1.0, calcLightColor( color ) );
+            painter.setBrush( innerGradient );
+
+        } else if( sunken ) {
+
+
+            QLinearGradient innerGradient( 0, r.top() - r.height(), 0, r.bottom() );
+            innerGradient.setColorAt( 0.0, calcLightColor( color ) );
+            innerGradient.setColorAt( 1.0, color );
+            painter.setBrush( innerGradient );
+
+        } else {
+
+            QLinearGradient innerGradient( 0, r.top()-0.2*r.height(), 0, r.bottom()+ 0.4*r.height() );
+            innerGradient.setColorAt( 0.0, calcLightColor( color ) );
+            innerGradient.setColorAt( 0.6, color );
+            painter.setBrush( innerGradient );
+
+        }
+
+        fillSlab( painter, r );
+        painter.restore();
+
+    }
+
+    //________________________________________________________________________________________________________
     void Helper::drawInverseShadow(
         QPainter& p, const QColor& color,
         int pad, int size, qreal fuzz ) const

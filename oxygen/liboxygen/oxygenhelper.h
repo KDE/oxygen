@@ -278,7 +278,7 @@ namespace Oxygen
             );
 
         //! draw dividing line
-        virtual void drawSeparator( QPainter* p, const QRect& r, const QColor& color, Qt::Orientation orientation );
+        virtual void drawSeparator( QPainter*, const QRect&, const QColor&, Qt::Orientation orientation );
 
         //! default slab
         virtual TileSet* slab( const QColor& color, qreal shade, int size = 7 )
@@ -292,6 +292,9 @@ namespace Oxygen
 
         //! fill a slab of given size with brush set on painter
         void fillSlab( QPainter&, const QRect&, int size = 7 ) const;
+
+        //! linear gradient used to fill buttons
+        virtual void fillButtonSlab( QPainter&, const QRect&, const QColor&, bool sunken );
 
         //! inverse (inner-hole) shadow
         /*! this method must be public because it is used directly by OxygenStyle to draw dials */
