@@ -503,9 +503,6 @@ namespace Oxygen
             p.end();
             cache->insert( key, pixmap );
 
-            if( !glow.isValid() )
-            { pixmap->save( "slider-slab-qt.png" ); }
-
         }
         return *pixmap;
     }
