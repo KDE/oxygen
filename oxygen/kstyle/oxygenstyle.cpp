@@ -2629,9 +2629,8 @@ namespace Oxygen
         painter->setClipRect( r.adjusted( 0, 0, 0, -19 ) );
         helper().fillSlab( *painter, r );
 
-        TileSet *slopeTileSet = helper().slope( base, 0.0 );
         painter->setClipping( false );
-        slopeTileSet->render( r, painter );
+        helper().slope( base, 1.0 )->render( r, painter );
 
         painter->restore();
         return true;
