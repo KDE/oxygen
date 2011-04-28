@@ -929,8 +929,18 @@ namespace Oxygen
 
             // light border
             QLinearGradient borderGradient( 0, r.top(), 0, r.bottom() );
-            borderGradient.setColorAt( 0.5, Qt::transparent );
-            borderGradient.setColorAt( 1.0, alphaColor( light, 0.6 ) );
+            if( smallShadow && orientation == Qt::Vertical )
+            {
+
+                borderGradient.setColorAt( 0.8, Qt::transparent );
+                borderGradient.setColorAt( 1.0, alphaColor( light, 0.5 ) );
+
+            } else {
+
+                borderGradient.setColorAt( 0.5, Qt::transparent );
+                borderGradient.setColorAt( 1.0, alphaColor( light, 0.6 ) );
+
+            }
 
             p.setPen( QPen( borderGradient, 1.0 ) );
             p.setBrush( Qt::NoBrush );

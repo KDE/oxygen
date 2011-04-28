@@ -82,8 +82,11 @@ namespace Oxygen
         //! event filter
         virtual bool eventFilter( QObject*, QEvent*);
 
+        //! set contrast
+        void setHasContrast( const QWidget* widget, bool ) const;
+
         //! update state
-        void updateState( const QWidget* widget, bool focus, bool hover, qreal opacity, AnimationMode ) const;
+        void updateState( const QWidget*, bool focus, bool hover, qreal opacity, AnimationMode ) const;
 
         protected:
 
@@ -128,7 +131,8 @@ namespace Oxygen
 
         //! constructor
         explicit FrameShadowBase( ShadowArea area ):
-            _area( area )
+            _area( area ),
+            _contrast( false )
         {}
 
         //! destructor
@@ -142,6 +146,18 @@ namespace Oxygen
         //! shadow area
         const ShadowArea& shadowArea() const
         { return _area; }
+
+        //! set contrast
+        void setHasContrast( bool value )
+        {
+            if( _contrast == value ) return;
+            _contrast = value;
+            updateGeometry();
+        }
+
+        //! true if contrast pixel is enabled
+        bool hasContrast( void ) const
+        { return _contrast; }
 
         //! update geometry
         virtual void updateGeometry( void ) = 0;
@@ -165,6 +181,9 @@ namespace Oxygen
 
         //! shadow area
         ShadowArea _area;
+
+        //! contrast pixel
+        bool _contrast;
 
     };
 
