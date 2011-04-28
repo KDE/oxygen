@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Exec=oxygen-settings -caption "%c" %i
+Icon=oxygen
+GenericName=Oxygen Advanced Configuration
+Terminal=false
+Name=Oxygen Advanced Configuration
+Categories=Qt;KDE;Settings;
+X-KDE-ServiceTypes=DBUS/InstantMessenger
+X-DBUS-StartupType=Unique
+X-DBUS-ServiceName=org.kde.konversation
