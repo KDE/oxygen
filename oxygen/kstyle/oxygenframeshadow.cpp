@@ -216,6 +216,19 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
+    void FrameShadowFactory::setHasContrast( const QWidget* widget, bool value ) const
+    {
+
+        const QList<QObject *> children = widget->children();
+        foreach( QObject *child, children )
+        {
+            if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
+            { shadow->setHasContrast( value ); }
+        }
+
+    }
+
+    //____________________________________________________________________________________
     void FrameShadowFactory::updateState( const QWidget* widget, bool focus, bool hover, qreal opacity, AnimationMode mode ) const
     {
 
@@ -363,6 +376,7 @@ namespace Oxygen
             case Bottom:
             cr.setTop(cr.bottom() - SHADOW_SIZE_BOTTOM + 1);
             cr.adjust( -1, 0, 1, 1 );
+            if( hasContrast() ) cr.adjust( 0, 0, 0, 1 );
             break;
 
             case Right:
@@ -463,6 +477,7 @@ namespace Oxygen
         HoleOptions options( HoleOutline );
         if( _focus ) options |= HoleFocus;
         if( _hover ) options |= HoleHover;
+        if( hasContrast() ) options |= HoleContrast;
 
         QPainter painter(this);
         painter.setClipRegion( event->region() );
