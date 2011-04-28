@@ -251,7 +251,10 @@ namespace Oxygen
         // adjust layout for K3B themed headers
         // FIXME: to be removed when fixed upstream
         if( widget->inherits( "K3b::ThemedHeader" ) && widget->layout() )
-        { widget->layout()->setMargin( 0 ); }
+        {
+            widget->layout()->setMargin( 0 );
+            frameShadowFactory().setHasContrast( widget, true );
+        }
 
         // adjust flags for windows and dialogs
         switch( widget->windowFlags() & Qt::WindowType_Mask )
