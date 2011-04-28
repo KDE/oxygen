@@ -2,7 +2,7 @@
 Type=Application
 Exec=oxygen-settings -caption "%c" %i
 Icon=oxygen
-GenericName=Oxygen Advanced Configuration
+GenericName=Advanced Widget and Window Decoration Settings
 Terminal=false
 Name=Oxygen Advanced Configuration
 Categories=Qt;KDE;Settings;
