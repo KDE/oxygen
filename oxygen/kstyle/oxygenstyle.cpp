@@ -2633,7 +2633,7 @@ namespace Oxygen
         helper().fillSlab( *painter, r );
 
         painter->setClipping( false );
-        helper().slope( base, 1.0 )->render( r, painter );
+        helper().slope( base, 0.0 )->render( r, painter );
 
         painter->restore();
         return true;
