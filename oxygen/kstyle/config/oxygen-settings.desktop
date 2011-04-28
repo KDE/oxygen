@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=oxygen-settings -caption "%c" %i
+Icon=oxygen
+GenericName=Advanced Widget and Window Decoration Settings
+Terminal=false
+Name=Oxygen Advanced Configuration
+Categories=Qt;KDE;Settings;
