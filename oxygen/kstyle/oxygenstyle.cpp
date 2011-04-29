@@ -1580,6 +1580,15 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
+    QRect Style::progressBarContentsRect( const QStyleOption* option, const QWidget* ) const
+    {
+        const QRect out( insideMargin( option->rect, ProgressBar_GrooveMargin ) );
+        const QStyleOptionProgressBarV2 *pbOpt( qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option ) );
+        if( pbOpt && pbOpt->orientation == Qt::Vertical ) return out.adjusted( 0, 1, 0, -1 );
+        else return out.adjusted( 1, 0, -1, 0 );
+    }
+
+    //____________________________________________________________________
     QRect Style::tabBarTabButtonRect( SubElement element, const QStyleOption* option, const QWidget* widget ) const
     {
 
@@ -4931,7 +4940,12 @@ namespace Oxygen
         const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option );
         const Qt::Orientation orientation( pbOpt? pbOpt->orientation : Qt::Horizontal );
 
-        renderScrollBarHole( painter, option->rect, option->palette.color( QPalette::Window ), orientation );
+        // ajust rect for alignment
+        QRect rect( option->rect );
+        if( orientation == Qt::Horizontal ) rect.adjust( 1, 0, -1, 0 );
+        else rect.adjust( 0, 1, 0, -1 );
+
+        renderScrollBarHole( painter, rect, option->palette.color( QPalette::Window ), orientation );
 
         return true;
     }
