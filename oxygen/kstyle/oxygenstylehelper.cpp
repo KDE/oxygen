@@ -474,12 +474,12 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    QPixmap StyleHelper::sliderSlab( const QColor& color, const QColor& glow, qreal shade, int size )
+    QPixmap StyleHelper::sliderSlab( const QColor& color, const QColor& glow, bool sunken, qreal shade, int size )
     {
 
         Oxygen::Cache<QPixmap>::Value* cache( _sliderSlabCache.get( color ) );
 
-        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | (sunken << 23 ) | size );
         QPixmap *pixmap = cache->object( key );
 
         if ( !pixmap )
@@ -498,7 +498,7 @@ namespace Oxygen
 
             // draw slab
             p.setWindow( -2, -2, 25, 25 );
-            drawSliderSlab( p, color, shade );
+            drawSliderSlab( p, color, sunken, shade );
 
             p.end();
             cache->insert( key, pixmap );
@@ -547,7 +547,7 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    void StyleHelper::drawSliderSlab( QPainter& p, const QColor& color, qreal shade )
+    void StyleHelper::drawSliderSlab( QPainter& p, const QColor& color, bool sunken, qreal shade )
     {
 
         p.save();
@@ -561,8 +561,14 @@ namespace Oxygen
         {
             //plain background
             QLinearGradient lg( 0, 3, 0, 21 );
-            lg.setColorAt( 0, light );
-            lg.setColorAt( 1, dark );
+            if( sunken )
+            {
+                lg.setColorAt( 1, light );
+                lg.setColorAt( 0, dark );
+            } else {
+                lg.setColorAt( 0, light );
+                lg.setColorAt( 1, dark );
+            }
 
             const QRectF r( 3, 3, 15, 15 );
             p.setBrush( lg );

@@ -7639,7 +7639,9 @@ namespace Oxygen
             const QColor color( helper().backgroundColor( palette.color( QPalette::Button ), widget, handle.center() ) );
             const QColor glow( slabShadowColor( color, opts, opacity, AnimationHover ) );
 
-            painter->drawPixmap( r.topLeft(), helper().sliderSlab( color, glow, 0.0 ) );
+            //painter->drawPixmap( r.topLeft(), helper().sliderSlab( color, glow, 0.0 ) );
+            const bool sunken( flags & (State_On|State_Sunken) );
+            painter->drawPixmap( r.topLeft(), helper().sliderSlab( color, glow, sunken, 0.0 ) );
 
         }
 

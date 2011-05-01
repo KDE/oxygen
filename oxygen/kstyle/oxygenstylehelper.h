@@ -133,11 +133,7 @@ namespace Oxygen
         QPixmap roundSlab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
 
         //! slider slab
-        QPixmap sliderSlab( const QColor& color, qreal shade, int size = 7 )
-        { return sliderSlab( color, QColor(), shade, size ); }
-
-        //! slider slab
-        QPixmap sliderSlab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
+        QPixmap sliderSlab( const QColor&, const QColor& glow, bool sunken, qreal shade, int size = 7 );
 
         //@}
 
@@ -214,7 +210,7 @@ namespace Oxygen
         void drawRoundSlab( QPainter&, const QColor&, qreal );
 
         // slider slabs
-        void drawSliderSlab( QPainter&, const QColor&, qreal );
+        void drawSliderSlab( QPainter&, const QColor&, bool sunken, qreal );
 
 
         private:
