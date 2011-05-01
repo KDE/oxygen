@@ -2050,7 +2050,7 @@ namespace Oxygen
 
                         const int center( groove.center().y() );
                         groove = QRect( groove.left(), center-Slider_GrooveWidth/2, groove.width(), Slider_GrooveWidth  ).adjusted( 3, 0, -3, 0 );
-                        groove.adjust( 2, 0, -2, 0 );
+                        groove.adjust( 2, 1, -2, 0 );
 
                     } else {
 
