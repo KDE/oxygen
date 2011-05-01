@@ -209,7 +209,7 @@ namespace Oxygen
         if( _size <= 0 ) return;
 
         // make sure pixmaps are not already initialized
-        if( _pixmaps.empty() )
+        if( _pixmaps.empty() && _tiles.isValid() )
         {
 
             const int shadowOpacity = 150;
@@ -303,6 +303,9 @@ namespace Oxygen
 
         // create pixmap handles if needed
         createPixmapHandles();
+
+        // make sure that pixmaps are valid
+        if( _pixmaps.size() != numPixmaps ) return false;
 
         // create data
         // add pixmap handles
