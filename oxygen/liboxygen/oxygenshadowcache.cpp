@@ -104,12 +104,9 @@ namespace Oxygen
 
         }
 
-        // shadows enable state
-        const bool shadowsEnabled( group.readEntry( OxygenConfig::SHADOW_MODE, "Use Oxygen Shadows" ) == "Use Oxygen Shadows" );
-
         // active shadows
         ShadowConfiguration activeShadowConfiguration( QPalette::Active, config.group( "ActiveShadow" ) );
-        activeShadowConfiguration.setEnabled( shadowsEnabled && group.readEntry( OxygenConfig::USE_OXYGEN_SHADOWS, true ) );
+        activeShadowConfiguration.setEnabled( group.readEntry( OxygenConfig::USE_OXYGEN_SHADOWS, true ) );
         if( shadowConfigurationChanged( activeShadowConfiguration ) )
         {
             setShadowConfiguration( activeShadowConfiguration );
@@ -118,7 +115,7 @@ namespace Oxygen
 
         // inactive shadows
         ShadowConfiguration inactiveShadowConfiguration( QPalette::Inactive, config.group( "InactiveShadow" ) );
-        inactiveShadowConfiguration.setEnabled( shadowsEnabled && group.readEntry( OxygenConfig::USE_DROP_SHADOWS, true ) );
+        inactiveShadowConfiguration.setEnabled( group.readEntry( OxygenConfig::USE_DROP_SHADOWS, true ) );
         if( shadowConfigurationChanged( inactiveShadowConfiguration ) )
         {
             setShadowConfiguration( inactiveShadowConfiguration );
