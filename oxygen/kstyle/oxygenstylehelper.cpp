@@ -556,24 +556,29 @@ namespace Oxygen
         const QColor dark( KColorUtils::shade( calcDarkColor(color), shade ) );
 
         p.setPen(Qt::NoPen);
-        //p.setWindow( 0, 0, 21, 21 );
 
         {
             //plain background
             QLinearGradient lg( 0, 3, 0, 21 );
-            if( sunken )
-            {
-                lg.setColorAt( 1, light );
-                lg.setColorAt( 0, dark );
-            } else {
-                lg.setColorAt( 0, light );
-                lg.setColorAt( 1, dark );
-            }
+            lg.setColorAt( 0, light );
+            lg.setColorAt( 1, dark );
 
             const QRectF r( 3, 3, 15, 15 );
             p.setBrush( lg );
             p.drawEllipse( r );
 
+        }
+
+        if( sunken )
+        {
+            //plain background
+            QLinearGradient lg( 0, 3, 0, 21 );
+            lg.setColorAt( 0, dark );
+            lg.setColorAt( 1, light );
+
+            const QRectF r( 5, 5, 11, 11 );
+            p.setBrush( lg );
+            p.drawEllipse( r );
 
         }
 
