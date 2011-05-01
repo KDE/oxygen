@@ -1103,6 +1103,7 @@ namespace Oxygen
             case CE_ScrollBarSubPage: fcn = &Style::drawScrollBarSubPageControl; break;
 
             case CE_ShapedFrame: fcn = &Style::drawShapedFrameControl; break;
+            case CE_SizeGrip: fcn = &Style::drawSizeGripControl; break;
             case CE_Splitter: fcn = &Style::drawSplitterControl; break;
             case CE_TabBarTabLabel: fcn = &Style::drawTabBarTabLabelControl; break;
 

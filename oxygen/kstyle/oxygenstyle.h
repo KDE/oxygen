@@ -529,6 +529,13 @@ namespace Oxygen
 
         virtual bool drawShapedFrameControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
+        // size grip
+        virtual bool drawSizeGripControl( const QStyleOption*, QPainter*, const QWidget* ) const
+        {
+            // size grips, whose usage is discouraged in KDE, are not rendered at all by oxygen
+            return true;
+        }
+
         // splitters
         virtual bool drawSplitterControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
         {
