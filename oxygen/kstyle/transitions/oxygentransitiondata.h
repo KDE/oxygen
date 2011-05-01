@@ -98,6 +98,9 @@ namespace Oxygen
 
         protected:
 
+        //! returns true if one parent matches given class name
+        inline bool hasParent( const QWidget*, const char* ) const;
+
         //! transition widget
         virtual const TransitionWidget::Pointer& transition( void ) const
         { return _transition; }
@@ -129,6 +132,16 @@ namespace Oxygen
         TransitionWidget::Pointer _transition;
 
     };
+
+    //_____________________________________________________________________________________
+    bool TransitionData::hasParent( const QWidget* widget, const char* className ) const
+    {
+        if( !widget ) return false;
+        for( QWidget* parent = widget->parentWidget(); parent; parent = parent->parentWidget() )
+        { if( parent->inherits( className ) ) return true; }
+
+        return false;
+    }
 
 }
 

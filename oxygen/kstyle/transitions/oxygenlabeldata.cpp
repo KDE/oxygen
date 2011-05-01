@@ -43,8 +43,11 @@ namespace Oxygen
         _target( target )
     {
         _target.data()->installEventFilter( this );
-        bool hasProxy( _target.data()->graphicsProxyWidget() );
-        transition().data()->setFlags( hasProxy ? TransitionWidget::Transparent : TransitionWidget::GrabFromWindow );
+
+        const bool hasProxy( _target.data()->graphicsProxyWidget() );
+        const bool hasMessageWidget( hasParent( target, "KMessageWidget" ) );
+
+        transition().data()->setFlags( hasProxy||hasMessageWidget ? TransitionWidget::Transparent : TransitionWidget::GrabFromWindow );
 
         connect( _target.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
 
