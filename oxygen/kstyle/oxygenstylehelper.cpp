@@ -903,14 +903,18 @@ namespace Oxygen
             p.drawRoundedRect( rect, radius, radius );
 
             // slight shadow across the whole hole
-            QLinearGradient shadowGradient( rect.topLeft(),
-                orientation == Qt::Horizontal ?
-                rect.bottomLeft():rect.topRight() );
+            if( true )
+            {
+                QLinearGradient shadowGradient( rect.topLeft(),
+                    orientation == Qt::Horizontal ?
+                    rect.bottomLeft():rect.topRight() );
 
-            shadowGradient.setColorAt( 0.0, alphaColor( shadow, 0.1 ) );
-            shadowGradient.setColorAt( 0.6, Qt::transparent );
-            p.setBrush( shadowGradient );
-            p.drawRoundedRect( rect, radius, radius );
+                shadowGradient.setColorAt( 0.0, alphaColor( shadow, 0.1 ) );
+                shadowGradient.setColorAt( 0.6, Qt::transparent );
+                p.setBrush( shadowGradient );
+                p.drawRoundedRect( rect, radius, radius );
+
+            }
 
             // first create shadow
             int shadowSize( 5 );
