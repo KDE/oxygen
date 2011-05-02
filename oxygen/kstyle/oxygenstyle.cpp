@@ -2027,17 +2027,7 @@ namespace Oxygen
         switch( subControl )
         {
             case SC_SliderHandle:
-            {
-
-                QRect handle( QCommonStyle::subControlRect( CC_Slider, option, subControl, widget ) );
-                if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>( option ) )
-                {
-                    const bool horizontal( slider->orientation == Qt::Horizontal );
-                    if( horizontal ) handle.translate( 0, -1 );
-                }
-
-                return handle;
-            }
+            return QCommonStyle::subControlRect( CC_Slider, option, subControl, widget );
 
             case SC_SliderGroove:
             {
@@ -7639,7 +7629,6 @@ namespace Oxygen
             const QColor color( helper().backgroundColor( palette.color( QPalette::Button ), widget, handle.center() ) );
             const QColor glow( slabShadowColor( color, opts, opacity, AnimationHover ) );
 
-            //painter->drawPixmap( r.topLeft(), helper().sliderSlab( color, glow, 0.0 ) );
             const bool sunken( flags & (State_On|State_Sunken) );
             painter->drawPixmap( r.topLeft(), helper().sliderSlab( color, glow, sunken, 0.0 ) );
 
