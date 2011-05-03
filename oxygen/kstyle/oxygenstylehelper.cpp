@@ -997,7 +997,6 @@ namespace Oxygen
                 QPainter p( &shadowPixmap );
                 p.setRenderHints( QPainter::Antialiasing );
                 p.setPen( Qt::NoPen );
-                p.setWindow( 0, 0, 10, 10 );
 
                 // shadow/glow
                 drawOuterGlow( p, glow, 10 );
@@ -1005,7 +1004,7 @@ namespace Oxygen
                 p.end();
             }
 
-            TileSet( shadowPixmap, 4, 4, 1, 1 ).render( pm.rect(), &p, TileSet::Full );
+            TileSet( shadowPixmap, 4, 4, 1, 1 ).render( QRect( 0, 0, 14, 14 ), &p, TileSet::Full );
 
             // outline
             {
