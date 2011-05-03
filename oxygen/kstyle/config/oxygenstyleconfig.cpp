@@ -89,7 +89,6 @@ namespace Oxygen
         connect( _viewTriangularExpanderSize, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
         connect( _viewDrawFocusIndicator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _viewDrawTreeBranchLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _scrollBarColored, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _scrollBarBevel, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
         connect( _scrollBarWidth, SIGNAL( valueChanged(int) ), SLOT( updateChanged() ) );
         connect( _scrollBarAddLineButtons, SIGNAL( currentIndexChanged(int) ), SLOT( updateChanged() ) );
@@ -116,7 +115,6 @@ namespace Oxygen
         StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
         StyleConfigData::setViewDrawFocusIndicator( _viewDrawFocusIndicator->isChecked() );
         StyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
-        StyleConfigData::setScrollBarColored( _scrollBarColored->isChecked() );
         StyleConfigData::setScrollBarBevel( _scrollBarBevel->isChecked() );
         StyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
         StyleConfigData::setScrollBarAddLineButtons( _scrollBarAddLineButtons->currentIndex() );
@@ -248,7 +246,6 @@ namespace Oxygen
         else if( _viewDrawTriangularExpander->isChecked() != StyleConfigData::viewDrawTriangularExpander() ) modified = true;
         else if( _viewDrawFocusIndicator->isChecked() != StyleConfigData::viewDrawFocusIndicator() ) modified = true;
         else if( _viewDrawTreeBranchLines->isChecked() != StyleConfigData::viewDrawTreeBranchLines() ) modified = true;
-        else if( _scrollBarColored->isChecked() != StyleConfigData::scrollBarColored() ) modified = true;
         else if( _scrollBarBevel->isChecked() != StyleConfigData::scrollBarBevel() ) modified = true;
         else if( _scrollBarWidth->value() != StyleConfigData::scrollBarWidth() ) modified = true;
         else if( _scrollBarAddLineButtons->currentIndex() != StyleConfigData::scrollBarAddLineButtons() ) modified = true;
@@ -303,7 +300,6 @@ namespace Oxygen
         _scrollBarWidth->setValue(
             qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH,
             StyleConfigData::scrollBarWidth())) );
-        _scrollBarColored->setChecked( StyleConfigData::scrollBarColored() );
         _scrollBarBevel->setChecked( StyleConfigData::scrollBarBevel() );
 
         _scrollBarAddLineButtons->setCurrentIndex( StyleConfigData::scrollBarAddLineButtons() );

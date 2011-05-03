@@ -359,13 +359,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="_scrollBarColored">
-         <property name="text">
-          <string>Colorful hovered scrollbars</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QLabel" name="label">

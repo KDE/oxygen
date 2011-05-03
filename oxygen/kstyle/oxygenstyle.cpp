@@ -9321,7 +9321,6 @@ namespace Oxygen
 
         // draw the hole as background
         const bool horizontal( orientation == Qt::Horizontal );
-        const bool scrollBarColored( StyleConfigData::scrollBarColored() );
         const QRect holeRect( horizontal ? r.adjusted( -4,0,4,0 ) : r.adjusted( 0,-3,0,4 ) );
         renderScrollBarHole( painter, holeRect, palette.color( QPalette::Window ), orientation, horizontal ? TileSet::Vertical : TileSet::Horizontal );
 
@@ -9345,8 +9344,7 @@ namespace Oxygen
         const QColor shadow( helper().alphaColor( helper().calcShadowColor( color ), 0.4 ) );
         const QColor hovered( helper().viewHoverBrush().brush( QPalette::Active ).color() );
 
-        if( scrollBarColored ) glow = shadow;
-        else if( opacity >= 0 ) glow = KColorUtils::mix( shadow, hovered, opacity );
+        if( opacity >= 0 ) glow = KColorUtils::mix( shadow, hovered, opacity );
         else if( hover ) glow = hovered;
         else glow = shadow;
 
