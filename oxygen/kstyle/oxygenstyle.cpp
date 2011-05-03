@@ -9361,6 +9361,27 @@ namespace Oxygen
         painter->setBrush( lg );
         painter->drawRoundedRect( rect.adjusted( 1, 1, -1, -1), radius - 2, radius - 2 );
 
+        // bevel pattern
+        if( StyleConfigData::scrollBarBevel() )
+        {
+
+            QLinearGradient patternGradient( 0, 0, horizontal ? 30:0, horizontal? 0:30 );
+            patternGradient.setSpread( QGradient::ReflectSpread );
+            patternGradient.setColorAt( 0.0, Qt::transparent );
+            patternGradient.setColorAt( 1.0, helper().alphaColor( helper().calcLightColor( color ), 0.1 ) );
+
+            QRectF bevelRect( rect );
+            if( horizontal ) bevelRect.adjust( 0, 3, 0, -3 );
+            else bevelRect.adjust( 3, 0, -3, 0 );
+
+            if( bevelRect.isValid() )
+            {
+                painter->setBrush( patternGradient );
+                painter->drawRect( bevelRect );
+            }
+        }
+
+
         painter->restore();
 
     }

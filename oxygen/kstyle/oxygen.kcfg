@@ -72,7 +72,7 @@
       <default>1</default>
     </entry>
     <entry name="ScrollBarBevel" type="Bool">
-      <default>false</default>
+      <default>true</default>
     </entry>
 
     <!-- checkboxes -->
