@@ -3917,7 +3917,7 @@ namespace Oxygen
                 painter->restore();
 
                 // draw separating vertical line
-                const QColor color( palette.color( QPalette::Window ) );
+                const QColor color( palette.color( QPalette::Button ) );
                 QColor light =helper().alphaColor( helper().calcLightColor( color ), 0.6 );
                 QColor dark = helper().calcDarkColor( color );
                 dark.setAlpha( 200 );
@@ -3949,12 +3949,9 @@ namespace Oxygen
 
                 }
 
-            }
+            } else if( const QStyleOptionToolButton *tbOption = qstyleoption_cast<const QStyleOptionToolButton *>( option ) ) {
 
-            // handle arrow over animation
-            if( const QStyleOptionToolButton *tbOption = qstyleoption_cast<const QStyleOptionToolButton *>( option ) )
-            {
-
+                // handle arrow over animation
                 const bool arrowHover( enabled && mouseOver && ( tbOption->activeSubControls & SC_ToolButtonMenu ) );
                 animations().toolButtonEngine().updateState( widget, AnimationHover, arrowHover );
 
