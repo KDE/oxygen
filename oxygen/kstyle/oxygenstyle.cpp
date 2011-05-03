@@ -3898,11 +3898,7 @@ namespace Oxygen
                 {
 
                     QRect frameRect( r.adjusted( 0, 0, 10, 0 ) );
-                    if( flags & ( State_On|State_Sunken ) )
-                    {
-                        frameRect.adjust( 0, 0, -1, -1 );
-                        opts |= Sunken;
-                    }
+                    if( flags & ( State_On|State_Sunken ) ) opts |= Sunken;
 
                     painter->setClipRect( frameRect.adjusted( 0, 0, -8, 0 ), Qt::IntersectClip );
                     renderButtonSlab( painter, frameRect, background, opts, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Left );
@@ -3911,11 +3907,7 @@ namespace Oxygen
 
 
                     QRect frameRect( r.adjusted( -10,0,0,0 ) );
-                    if( flags & ( State_On|State_Sunken ) )
-                    {
-                        frameRect.adjust( 1, 0, 0, -1 );
-                        opts |= Sunken;
-                    }
+                    if( flags & ( State_On|State_Sunken ) ) opts |= Sunken;
 
                     painter->setClipRect( frameRect.adjusted( 8, 0, 0, 0 ), Qt::IntersectClip );
                     renderButtonSlab( painter, frameRect, background, opts, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right );
@@ -8432,9 +8424,6 @@ namespace Oxygen
 
         r.translate( 0,-1 );
         if( !painter->clipRegion().isEmpty() ) painter->setClipRegion( painter->clipRegion().translated( 0,-1 ) );
-
-        // adjust rect
-        if( options & Sunken ) r.adjust( -1, 0, 1, 1 );
 
         // fill
         if( !( options & NoFill ) ) helper().fillButtonSlab( *painter, r, color, options&Sunken );
