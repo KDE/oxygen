@@ -654,6 +654,8 @@ namespace Oxygen
             case PM_ScrollBarExtent:
             return StyleConfigData::scrollBarWidth() + 2;
 
+            case PM_ScrollBarSliderMin: return 100;
+
             // tooltip label
             case PM_ToolTipLabelFrameWidth:
             {
@@ -9305,14 +9307,9 @@ namespace Oxygen
 
         painter->save();
         painter->setRenderHints( QPainter::Antialiasing );
-        const QColor color( palette.color( QPalette::Button ) );
-        const QColor light( helper().calcLightColor( color ) );
-        const QColor mid( helper().calcMidColor( color ) );
-        const QColor dark( helper().calcDarkColor( color ) );
-        const QColor shadow( helper().calcShadowColor( color ) );
-        const bool horizontal( orientation == Qt::Horizontal );
 
         // draw the hole as background
+        const bool horizontal( orientation == Qt::Horizontal );
         const QRect holeRect( horizontal ? r.adjusted( -4,0,4,0 ) : r.adjusted( 0,-3,0,4 ) );
         renderScrollBarHole( painter, holeRect, palette.color( QPalette::Window ), orientation, horizontal ? TileSet::Vertical : TileSet::Horizontal );
 
@@ -9326,103 +9323,53 @@ namespace Oxygen
             return;
         }
 
+        const QColor color( palette.color( QPalette::Button ) );
+
         // draw the slider
-        QColor glowColor;
-        if( !StyleConfigData::scrollBarColored() )
-        {
-            QColor base = KColorUtils::mix( dark, shadow, 0.5 );
-            QColor hovered = helper().viewHoverBrush().brush( QPalette::Active ).color();
-
-            if( opacity >= 0 ) glowColor = KColorUtils::mix( base, hovered, opacity );
-            else if( hover ) glowColor = hovered;
-            else glowColor = base;
-
-        } else {
-
-            glowColor = KColorUtils::mix( dark, shadow, 0.5 );
-
-        }
+        const qreal radius = 3.5;
 
         // glow / shadow
-        qreal radius = 2.5;
+        QColor glow;
+        const QColor shadow( helper().alphaColor( helper().calcShadowColor( color ), 0.4 ) );
+        const QColor hovered( helper().viewHoverBrush().brush( QPalette::Active ).color() );
+
+        if( opacity >= 0 ) glow = KColorUtils::mix( shadow, hovered, opacity );
+        else if( hover ) glow = hovered;
+        else glow = shadow;
+
+        helper().scrollHandle( color, glow )->
+            render( rect.adjusted( -3, -3, 3, 3 ).toRect(),
+            painter, TileSet::Full );
+
+        // contents
+        const QColor mid( helper().calcMidColor( color ) );
+        QLinearGradient lg( 0, rect.top(), 0, rect.bottom() );
+        lg.setColorAt(0, color );
+        lg.setColorAt(1, mid );
         painter->setPen( Qt::NoPen );
-        painter->setBrush( helper().alphaColor( glowColor, 0.6 ) );
-        painter->drawRoundedRect( rect.adjusted( -0.8,-0.8,0.8,0.8 ), radius, radius );
-        painter->setPen( QPen( helper().alphaColor( glowColor, 0.3 ),  1.5 ) );
-        if( horizontal ) painter->drawRoundedRect( rect.adjusted( -1.2,-0.8,1.2,0.8 ), radius, radius );
-        else painter->drawRoundedRect( rect.adjusted( -0.8,-1.2,0.8,1.2 ), radius, radius );
+        painter->setBrush( lg );
+        painter->drawRoundedRect( rect.adjusted( 1, 1, -1, -1), radius - 2, radius - 2 );
 
-        // colored background
-        painter->setPen( Qt::NoPen );
-        if( StyleConfigData::scrollBarColored() )
-        {
-
-            if( opacity >= 0 ) painter->setBrush( KColorUtils::mix( color, palette.color( QPalette::Highlight ), opacity ) );
-            else if( hover ) painter->setBrush(  palette.color( QPalette::Highlight ) );
-            else painter->setBrush( color );
-            painter->drawRoundedRect( rect, radius-1.0, radius-1.0 );
-
-        }
-
-        // slider gradient
-        {
-            QLinearGradient sliderGradient;
-            if( horizontal ) sliderGradient = QLinearGradient( 0, r.top(), 0, r.bottom() );
-            else sliderGradient = QLinearGradient( r.left(), 0, r.right(), 0 );
-            if( !StyleConfigData::scrollBarColored() )
-            {
-                sliderGradient.setColorAt( 0.0, color );
-                sliderGradient.setColorAt( 1.0, mid );
-            } else {
-                sliderGradient.setColorAt( 0.0, helper().alphaColor( light, 0.6 ) );
-                sliderGradient.setColorAt( 0.3, helper().alphaColor( dark, 0.3 ) );
-                sliderGradient.setColorAt( 1.0, helper().alphaColor( light, 0.8 ) );
-            }
-
-            painter->setBrush( sliderGradient );
-            painter->drawRoundedRect( rect, radius-1.0, radius-1.0 );
-        }
-
-        // pattern
+        // bevel pattern
         if( StyleConfigData::scrollBarBevel() )
         {
-            // don't let the pattern move
+
             QLinearGradient patternGradient( 0, 0, horizontal ? 30:0, horizontal? 0:30 );
             patternGradient.setSpread( QGradient::ReflectSpread );
-            if( StyleConfigData::scrollBarColored() )
+            patternGradient.setColorAt( 0.0, Qt::transparent );
+            patternGradient.setColorAt( 1.0, helper().alphaColor( helper().calcLightColor( color ), 0.1 ) );
+
+            QRectF bevelRect( rect );
+            if( horizontal ) bevelRect.adjust( 0, 3, 0, -3 );
+            else bevelRect.adjust( 3, 0, -3, 0 );
+
+            if( bevelRect.isValid() )
             {
-
-                patternGradient.setColorAt( 0.0, helper().alphaColor( shadow, 0.15 ) );
-                patternGradient.setColorAt( 1.0, helper().alphaColor( light, 0.15 ) );
-
-            } else {
-
-                patternGradient.setColorAt( 0.0, helper().alphaColor( shadow, 0.1 ) );
-                patternGradient.setColorAt( 1.0, helper().alphaColor( light, 0.1 ) );
-
+                painter->setBrush( patternGradient );
+                painter->drawRect( bevelRect );
             }
-
-            painter->setBrush( patternGradient );
-            painter->drawRoundedRect( rect, radius-1.0, radius-1.0 );
         }
 
-        if( StyleConfigData::scrollBarColored() ) {
-            painter->restore();
-            return;
-        }
-
-        // bevel
-        {
-            QLinearGradient bevelGradient( rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft() );
-            bevelGradient.setColorAt( 0.0, Qt::transparent );
-            bevelGradient.setColorAt( 0.5, light );
-            bevelGradient.setColorAt( 1.0, Qt::transparent );
-
-            rect.adjust( 0.5, 0.5, -0.5, -0.5 ); // for sharper lines
-            painter->setPen( QPen( bevelGradient, 1.0 ) );
-            painter->drawLine( rect.topLeft(), horizontal ? rect.topRight() : rect.bottomLeft() );
-            painter->drawLine( rect.bottomRight(), horizontal ? rect.bottomLeft() : rect.topRight() );
-        }
 
         painter->restore();
 

@@ -35,10 +35,7 @@ namespace Oxygen
     StyleHelper::StyleHelper( const QByteArray &componentName ):
         Helper( componentName ),
         _debugArea( KDebug::registerArea( "Oxygen ( style )" ) )
-    {
-        _dockFrameCache.setMaxCost( 1 );
-        _scrollHoleCache.setMaxCost( 10 );
-    }
+    {}
 
     //______________________________________________________________________________
     void StyleHelper::invalidateCaches( void )
@@ -60,6 +57,7 @@ namespace Oxygen
         _slitCache.clear();
         _dockFrameCache.clear();
         _scrollHoleCache.clear();
+        _scrollHandleCache.clear();
         Helper::invalidateCaches();
     }
 
@@ -76,6 +74,7 @@ namespace Oxygen
         _roundSlabCache.setMaxCacheSize( value );
         _sliderSlabCache.setMaxCacheSize( value );
         _holeCache.setMaxCacheSize( value );
+        _scrollHandleCache.setMaxCacheSize( value );
 
         _progressBarCache.setMaxCost( value );
         _cornerCache.setMaxCost( value );
@@ -903,14 +902,18 @@ namespace Oxygen
             p.drawRoundedRect( rect, radius, radius );
 
             // slight shadow across the whole hole
-            QLinearGradient shadowGradient( rect.topLeft(),
-                orientation == Qt::Horizontal ?
-                rect.bottomLeft():rect.topRight() );
+            if( true )
+            {
+                QLinearGradient shadowGradient( rect.topLeft(),
+                    orientation == Qt::Horizontal ?
+                    rect.bottomLeft():rect.topRight() );
 
-            shadowGradient.setColorAt( 0.0, alphaColor( shadow, 0.1 ) );
-            shadowGradient.setColorAt( 0.6, Qt::transparent );
-            p.setBrush( shadowGradient );
-            p.drawRoundedRect( rect, radius, radius );
+                shadowGradient.setColorAt( 0.0, alphaColor( shadow, 0.1 ) );
+                shadowGradient.setColorAt( 0.6, Qt::transparent );
+                p.setBrush( shadowGradient );
+                p.drawRoundedRect( rect, radius, radius );
+
+            }
 
             // first create shadow
             int shadowSize( 5 );
@@ -967,6 +970,76 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
+    TileSet *StyleHelper::scrollHandle( const QColor& color, const QColor& glow, int size)
+    {
+
+        // get key
+        Oxygen::Cache<TileSet>::Value* cache( _scrollHandleCache.get( glow ) );
+
+        const quint64 key( ( quint64( color.rgba() ) << 32 ) | size );
+        TileSet *tileSet = cache->object( key );
+
+        if ( !tileSet )
+        {
+            QPixmap pm( 2*size, 2*size );
+            pm.fill( Qt::transparent );
+
+            QPainter p( &pm );
+            p.setRenderHints( QPainter::Antialiasing );
+            p.setPen( Qt::NoPen );
+            p.setWindow( 0, 0, 14, 14 );
+
+            QPixmap shadowPixmap( 10, 10 );
+            {
+
+                shadowPixmap.fill( Qt::transparent );
+
+                QPainter p( &shadowPixmap );
+                p.setRenderHints( QPainter::Antialiasing );
+                p.setPen( Qt::NoPen );
+                p.setWindow( 0, 0, 10, 10 );
+
+                // shadow/glow
+                drawOuterGlow( p, glow, 10 );
+
+                p.end();
+            }
+
+            TileSet( shadowPixmap, 4, 4, 1, 1 ).render( pm.rect(), &p, TileSet::Full );
+
+            // outline
+            {
+                const QColor mid( calcMidColor( color ) );
+                QLinearGradient lg( 0, 3, 0, 11 );
+                lg.setColorAt( 0, color );
+                lg.setColorAt( 1, mid );
+                p.setPen( Qt::NoPen );
+                p.setBrush( lg );
+                p.drawRoundedRect( QRectF( 3, 3, 8, 8 ), 2.5, 2.5 );
+            }
+
+            // contrast
+            {
+                const QColor light( calcLightColor( color ) );
+                QLinearGradient lg( 0, 3, 0, 11 );
+                lg.setColorAt( 0., alphaColor( light, 0.9 ) );
+                lg.setColorAt( 0.5, alphaColor( light, 0.44 ) );
+                p.setBrush( lg );
+                p.drawRoundedRect( QRectF( 3, 3, 8, 8 ), 2.5, 2.5 );
+            }
+
+            p.end();
+
+            // create tileset and return
+            tileSet = new TileSet( pm, size-1, size, 1, 1 );
+            cache->insert( key, tileSet );
+
+        }
+
+        return tileSet;
+    }
+
+    //______________________________________________________________________________
     TileSet *StyleHelper::groove( const QColor& color, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | size );
