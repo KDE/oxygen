@@ -9335,40 +9335,31 @@ namespace Oxygen
         }
 
         const QColor color( palette.color( QPalette::Button ) );
-        const QColor light( helper().calcLightColor( color ) );
-        const QColor mid( helper().calcMidColor( color ) );
-        const QColor dark( helper().calcDarkColor( color ) );
-        const QColor shadow( helper().calcShadowColor( color ) );
 
         // draw the slider
         const qreal radius = 3.5;
 
-        {
+        // glow / shadow
+        QColor glow;
+        const QColor shadow( helper().alphaColor( helper().calcShadowColor( color ), 0.4 ) );
+        const QColor hovered( helper().viewHoverBrush().brush( QPalette::Active ).color() );
 
-            // glow / shadow
-            QColor glow;
-            const QColor base( helper().alphaColor( KColorUtils::mix( dark, shadow, 0.5 ), 0.7 ) );
-            const QColor hovered( helper().viewHoverBrush().brush( QPalette::Active ).color() );
+        if( opacity >= 0 ) glow = KColorUtils::mix( shadow, hovered, opacity );
+        else if( hover ) glow = hovered;
+        else glow = shadow;
 
-            if( opacity >= 0 ) glow = KColorUtils::mix( base, hovered, opacity );
-            else if( hover ) glow = hovered;
-            else glow = base;
+        helper().scrollHandle( color, glow )->
+            render( rect.adjusted( -3, -3, 3, 3 ).toRect(),
+            painter, TileSet::Full );
 
-            helper().scrollHandle( color, glow )->
-                render( rect.adjusted( -3, -3, 3, 3 ).toRect(),
-                painter, TileSet::Full );
-
-        }
-
-        {
-            // contents
-            QLinearGradient lg( 0, rect.top(), 0, rect.bottom() );
-            lg.setColorAt(0, color );
-            lg.setColorAt(1, mid );
-            painter->setPen( Qt::NoPen );
-            painter->setBrush( lg );
-            painter->drawRoundedRect( rect.adjusted( 1, 1, -1, -1), radius - 2, radius - 2 );
-        }
+        // contents
+        const QColor mid( helper().calcMidColor( color ) );
+        QLinearGradient lg( 0, rect.top(), 0, rect.bottom() );
+        lg.setColorAt(0, color );
+        lg.setColorAt(1, mid );
+        painter->setPen( Qt::NoPen );
+        painter->setBrush( lg );
+        painter->drawRoundedRect( rect.adjusted( 1, 1, -1, -1), radius - 2, radius - 2 );
 
         painter->restore();
 
