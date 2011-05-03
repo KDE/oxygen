@@ -335,9 +335,6 @@ namespace Oxygen
 
         //@}
 
-        //! generic outer glow (to be stored in tilesets)
-        virtual void drawOuterGlow( QPainter&, const QColor&, int size );
-
         protected:
 
         //! generic slab painting (to be stored in tilesets)
@@ -345,6 +342,9 @@ namespace Oxygen
 
         //! generic outer shadow (to be stored in tilesets)
         virtual void drawShadow( QPainter&, const QColor&, int size );
+
+        //! generic outer glow (to be stored in tilesets)
+        virtual void drawOuterGlow( QPainter&, const QColor&, int size );
 
         //! return background adjusted color matching relative vertical position in window
         const QColor& backgroundColor( const QColor&, qreal ratio );

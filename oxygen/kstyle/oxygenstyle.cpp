@@ -654,6 +654,8 @@ namespace Oxygen
             case PM_ScrollBarExtent:
             return StyleConfigData::scrollBarWidth() + 2;
 
+            case PM_ScrollBarSliderMin: return 100;
+
             // tooltip label
             case PM_ToolTipLabelFrameWidth:
             {
@@ -9341,8 +9343,8 @@ namespace Oxygen
         // draw the slider
         const qreal radius = 3.5;
 
-        if( true )
         {
+
             // glow / shadow
             QColor glow;
             const QColor base( helper().alphaColor( KColorUtils::mix( dark, shadow, 0.5 ), 0.7 ) );
@@ -9352,22 +9354,12 @@ namespace Oxygen
             else if( hover ) glow = hovered;
             else glow = base;
 
-            QPixmap pixmap( 10, 10 );
-            pixmap.fill( Qt::transparent );
-            {
-                QPainter p( &pixmap );
-                p.setRenderHints( QPainter::Antialiasing );
-                p.setPen( Qt::NoPen );
-                helper().drawOuterGlow( p, glow, 10 );
-            }
-
-            TileSet( pixmap, 5, 5, 5, 5, 4, 5, 2, 1 ).
+            helper().scrollHandle( color, glow )->
                 render( rect.adjusted( -3, -3, 3, 3 ).toRect(),
                 painter, TileSet::Full );
 
         }
 
-        if( true )
         {
             // contents
             QLinearGradient lg( 0, rect.top(), 0, rect.bottom() );
@@ -9375,19 +9367,7 @@ namespace Oxygen
             lg.setColorAt(1, mid );
             painter->setPen( Qt::NoPen );
             painter->setBrush( lg );
-            painter->drawRoundedRect( rect, radius - 1, radius - 1 );
-        }
-
-        if( true )
-        {
-            QLinearGradient lg( 0, rect.top(), 0, rect.bottom() );
-            lg.setColorAt( 0, helper().alphaColor( light, 0.74 ) );
-            lg.setColorAt( 0.03, helper().alphaColor( light, 0.44 ) );
-
-            // contrast pixel
-            painter->setBrush( Qt::NoBrush );
-            painter->setPen( QPen( lg, 1.0 ) );
-            painter->drawRoundedRect( rect.adjusted( 0.5, 0.5, -0.5, -0.5 ), radius-1, radius-1 );
+            painter->drawRoundedRect( rect.adjusted( 1, 1, -1, -1), radius - 2, radius - 2 );
         }
 
         painter->restore();
