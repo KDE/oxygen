@@ -5320,7 +5320,7 @@ namespace Oxygen
         }
 
         // stop here if no buttons are defined
-        if( _addLineButtons == NoButton ) return true;
+        if( _subLineButtons == NoButton ) return true;
 
         QColor color;
         QStyleOption localOption( *option );
