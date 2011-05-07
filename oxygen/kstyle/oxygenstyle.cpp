@@ -654,7 +654,7 @@ namespace Oxygen
             case PM_ScrollBarExtent:
             return StyleConfigData::scrollBarWidth() + 2;
 
-            case PM_ScrollBarSliderMin: return 100;
+            case PM_ScrollBarSliderMin: return ScrollBar_MinimumSliderHeight;
 
             // tooltip label
             case PM_ToolTipLabelFrameWidth:

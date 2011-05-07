@@ -46,23 +46,23 @@ namespace Oxygen
             _shadowSize = 40;
             _horizontalOffset = 0;
             _verticalOffset = 0.1;
+            _useOuterColor = true;
 
             _innerColor = QColor( "#70EFFF" );
             _outerColor = QColor( "#54A7F0" );
             _outerColor2 = calcOuterColor();
             _midColor = calcMidColor();
-            _useOuterColor = true;
 
         } else {
 
             _shadowSize = 40;
             _horizontalOffset = 0;
             _verticalOffset = 0.2;
+            _useOuterColor = false;
 
             _innerColor = QColor( Qt::black );
             _outerColor = _outerColor2 = calcOuterColor();
             _midColor = calcMidColor();
-            _useOuterColor = false;
 
         }
 
@@ -80,9 +80,10 @@ namespace Oxygen
         setShadowSize( group.readEntry( OxygenConfig::SHADOW_SIZE, defaultConfiguration.shadowSize() ) );
         setHorizontalOffset( group.readEntry( OxygenConfig::SHADOW_HOFFSET, defaultConfiguration.horizontalOffset() ) );
         setVerticalOffset( group.readEntry( OxygenConfig::SHADOW_VOFFSET, defaultConfiguration.verticalOffset() ) );
+        setUseOuterColor( group.readEntry( OxygenConfig::SHADOW_USE_OUTER_COLOR, defaultConfiguration.useOuterColor() ) );
+
         setInnerColor( group.readEntry( OxygenConfig::SHADOW_INNER_COLOR, defaultConfiguration.innerColor() ) );
         setOuterColor( group.readEntry( OxygenConfig::SHADOW_OUTER_COLOR, defaultConfiguration.outerColor() ) );
-        setUseOuterColor( group.readEntry( OxygenConfig::SHADOW_USE_OUTER_COLOR, defaultConfiguration.useOuterColor() ) );
         setOuterColor2( calcOuterColor() );
         setMidColor( calcMidColor() );
 
