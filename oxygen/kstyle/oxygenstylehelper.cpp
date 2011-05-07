@@ -1124,7 +1124,8 @@ namespace Oxygen
             p.setRenderHints( QPainter::Antialiasing );
             p.setBrush( Qt::NoBrush );
 
-            const QColor light = alphaColor( calcLightColor( color ), 0.5 );
+            qreal alpha( 0.5 );
+            const QColor light = alphaColor( calcLightColor( color ), 0.7 );
             const QColor dark = alphaColor( calcDarkColor( color ), 0.5 );
 
             // dark frame
@@ -1139,7 +1140,7 @@ namespace Oxygen
                 lg.setColorAt( 0.0, alphaColor( light, 0 ) );
                 lg.setColorAt( 1.0, light );
                 p.setPen( QPen( lg, 1.0 ) );
-                p.drawRoundedRect( QRectF( 0.5, 0.5, size-1, size-1 ), 4, 4 );
+                p.drawRoundedRect( QRectF( 0.5, 0.5, size-1, size-1 ), 4.5, 4.5 );
             }
 
             // top contrast
@@ -1148,7 +1149,7 @@ namespace Oxygen
                 lg.setColorAt( 0.0, light );
                 lg.setColorAt( 1.0, alphaColor( light, 0 ) );
                 p.setPen( QPen( lg, 1.0 ) );
-                p.drawRoundedRect( QRectF( 2.5, 1.5, size-5, size-4 ), 4, 4 );
+                p.drawRoundedRect( QRectF( 2.5, 1.5, size-5, size-4 ), 3.5, 3.5 );
             }
 
             p.end();
