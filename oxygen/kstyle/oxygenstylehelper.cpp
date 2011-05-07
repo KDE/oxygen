@@ -1109,64 +1109,50 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    TileSet *StyleHelper::dockFrame( const QColor& color, int w )
+    TileSet *StyleHelper::dockFrame( const QColor& color )
     {
-        const quint64 key( quint64( color.rgba() ) << 32 | w );
+        const quint64 key( quint64( color.rgba() ) );
         TileSet *tileSet = _dockFrameCache.object( key );
         if ( !tileSet )
         {
-            // width should be odd
-            if( !w&1 ) --w;
 
-            // fixed height
-            const int h( 9 );
-
-            QPixmap pm( w, h );
+            int size( 9 );
+            QPixmap pm( size, size );
             pm.fill( Qt::transparent );
 
             QPainter p( &pm );
-            p.save();
             p.setRenderHints( QPainter::Antialiasing );
             p.setBrush( Qt::NoBrush );
-            p.translate( 0.5, 0.5 );
 
-            // create local rect
-            QRect rect( 0, 0, w-1, h );
+            const QColor light = alphaColor( calcLightColor( color ), 0.5 );
+            const QColor dark = alphaColor( calcDarkColor( color ), 0.5 );
 
-            const QColor light = calcLightColor( color );
-            const QColor dark = calcDarkColor( color );
-
+            // dark frame
             {
-                // left and right border
-                QLinearGradient lg( QPoint( 0,0 ), QPoint( w,0 ) );
-                lg.setColorAt( 0.0, alphaColor( light, 0.6 ) );
-                lg.setColorAt( 0.1, Qt::transparent );
-                lg.setColorAt( 0.9, Qt::transparent );
-                lg.setColorAt( 1.0, alphaColor( light, 0.6 ) );
-                p.setPen( QPen( lg,1 ) );
-                p.drawRoundedRect( rect.adjusted( 0,-1,0,-1 ),4,5 );
-                p.drawRoundedRect( rect.adjusted( 2,1,-2,-2 ),4,5 );
+                p.setPen( dark );
+                p.drawRoundedRect( QRectF( 1.5, 0.5, size-3, size-2 ), 4, 4 );
             }
 
+            // bottom contrast
             {
-                QLinearGradient lg( QPoint( 0,0 ), QPoint( w,0 ) );
-                lg.setColorAt( 0.0, dark );
-                lg.setColorAt( 0.1, Qt::transparent );
-                lg.setColorAt( 0.9, Qt::transparent );
-                lg.setColorAt( 1.0, dark );
-                p.setPen( QPen( lg, 1 ) );
-                p.drawRoundedRect( rect.adjusted( 1,0,-1,-2 ),4,5 );
+                QLinearGradient lg( 0, -0.5, 0, size-0.5 );
+                lg.setColorAt( 0.0, alphaColor( light, 0 ) );
+                lg.setColorAt( 1.0, light );
+                p.setPen( QPen( lg, 1.0 ) );
+                p.drawRoundedRect( QRectF( 0.5, 0.5, size-1, size-1 ), 4, 4 );
             }
 
-            p.restore();
-
-            // top and bottom border
-            drawSeparator( &p, QRect( 0,0,w,2 ), color, Qt::Horizontal );
-            drawSeparator( &p, QRect( 0,h-2,w,2 ), color, Qt::Horizontal );
+            // top contrast
+            {
+                QLinearGradient lg( 0, 1.5, 0, size-1.5 );
+                lg.setColorAt( 0.0, light );
+                lg.setColorAt( 1.0, alphaColor( light, 0 ) );
+                p.setPen( QPen( lg, 1.0 ) );
+                p.drawRoundedRect( QRectF( 2.5, 1.5, size-5, size-4 ), 4, 4 );
+            }
 
             p.end();
-
-            tileSet = new TileSet( pm, 4, 4, w-8, h-8 );
+            tileSet = new TileSet( pm, 4, 4, 1, 1 );
 
             _dockFrameCache.insert( key, tileSet );
         }

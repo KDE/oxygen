@@ -172,7 +172,7 @@ namespace Oxygen
         TileSet *slitFocused( const QColor& );
 
         //! dock frame
-        TileSet *dockFrame( const QColor&, int size );
+        TileSet *dockFrame( const QColor& );
 
         //! selection
         TileSet *selection( const QColor&, int height, bool custom );

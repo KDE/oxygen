@@ -1326,7 +1326,7 @@ namespace Oxygen
 
                     // adjust color
                     QColor local( helper().backgroundColor( color, dockWidget, r.center() ) );
-                    TileSet *tileSet = helper().dockFrame( local, r.width() );
+                    TileSet *tileSet = helper().dockFrame( local );
                     tileSet->render( r, &painter );
 
                 }
