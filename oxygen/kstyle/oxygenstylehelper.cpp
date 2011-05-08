@@ -1116,7 +1116,7 @@ namespace Oxygen
         if ( !tileSet )
         {
 
-            int size( 9 );
+            int size( 13 );
             QPixmap pm( size, size );
             pm.fill( Qt::transparent );
 
@@ -1158,7 +1158,7 @@ namespace Oxygen
             }
 
             p.end();
-            tileSet = new TileSet( pm, 4, 4, 1, 1 );
+            tileSet = new TileSet( pm, (size-1)/2, (size-1)/2, 1, 1 );
 
             _dockFrameCache.insert( key, tileSet );
         }
