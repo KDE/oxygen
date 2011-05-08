@@ -1109,9 +1109,9 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    TileSet *StyleHelper::dockFrame( const QColor& color )
+    TileSet *StyleHelper::dockFrame( const QColor& top, const QColor& bottom )
     {
-        const quint64 key( quint64( color.rgba() ) );
+        const quint64 key( quint64( top.rgba() ) << 32 | quint64( bottom.rgba() ) );
         TileSet *tileSet = _dockFrameCache.object( key );
         if ( !tileSet )
         {
@@ -1124,30 +1124,35 @@ namespace Oxygen
             p.setRenderHints( QPainter::Antialiasing );
             p.setBrush( Qt::NoBrush );
 
-            qreal alpha( 0.5 );
-            const QColor light = alphaColor( calcLightColor( color ), 0.7 );
-            const QColor dark = alphaColor( calcDarkColor( color ), 0.5 );
+            const QColor lightTop = alphaColor( calcLightColor( top ), 0.5 );
+            const QColor lightBottom = alphaColor( calcLightColor( bottom ), 0.5 );
+            const QColor darkTop = alphaColor( calcDarkColor( top ), 0.6 );
+            const QColor darkBottom = alphaColor( calcDarkColor( bottom ), 0.6 );
 
             // dark frame
             {
-                p.setPen( dark );
+                QLinearGradient lg( 0, 0.5, 0, size-1.5 );
+                lg.setColorAt( 0.0, darkTop );
+                lg.setColorAt( 1.0, darkBottom );
+
+                p.setPen( QPen( lg, 1 ) );
                 p.drawRoundedRect( QRectF( 1.5, 0.5, size-3, size-2 ), 4, 4 );
             }
 
             // bottom contrast
             {
-                QLinearGradient lg( 0, -0.5, 0, size-0.5 );
-                lg.setColorAt( 0.0, alphaColor( light, 0 ) );
-                lg.setColorAt( 1.0, light );
+                QLinearGradient lg( 0, 0.5, 0, size-0.5 );
+                lg.setColorAt( 0.0, Qt::transparent );
+                lg.setColorAt( 1.0, lightBottom );
                 p.setPen( QPen( lg, 1.0 ) );
                 p.drawRoundedRect( QRectF( 0.5, 0.5, size-1, size-1 ), 4.5, 4.5 );
             }
 
             // top contrast
             {
-                QLinearGradient lg( 0, 1.5, 0, size-1.5 );
-                lg.setColorAt( 0.0, light );
-                lg.setColorAt( 1.0, alphaColor( light, 0 ) );
+                QLinearGradient lg( 0, 1.5, 0, size-2.5 );
+                lg.setColorAt( 0.0, lightTop );
+                lg.setColorAt( 1.0, Qt::transparent );
                 p.setPen( QPen( lg, 1.0 ) );
                 p.drawRoundedRect( QRectF( 2.5, 1.5, size-5, size-4 ), 3.5, 3.5 );
             }
