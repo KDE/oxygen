@@ -38,7 +38,6 @@ target_link_libraries( oxygen-settings
 
 ########### install files ###############
 install (TARGETS oxygen-settings ${INSTALL_TARGETS_DEFAULT_ARGS} )
-# install (PROGRAMS oxygen-settings.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
 
 

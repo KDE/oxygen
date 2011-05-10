@@ -160,6 +160,9 @@ namespace Oxygen
         //! scrollbar hole
         TileSet *scrollHole( const QColor&, Qt::Orientation orientation, bool smallShadow = false );
 
+        //! scrollbar handle
+        TileSet *scrollHandle( const QColor&, const QColor&, int size = 7 );
+
         //@}
 
         //! scrollbar groove
@@ -169,7 +172,7 @@ namespace Oxygen
         TileSet *slitFocused( const QColor& );
 
         //! dock frame
-        TileSet *dockFrame( const QColor&, int size );
+        TileSet *dockFrame( const QColor&, const QColor& );
 
         //! selection
         TileSet *selection( const QColor&, int height, bool custom );
@@ -222,6 +225,7 @@ namespace Oxygen
         Cache<QPixmap> _roundSlabCache;
         Cache<QPixmap> _sliderSlabCache;
         Cache<TileSet> _holeCache;
+        Cache<TileSet> _scrollHandleCache;
 
         //! mid color cache
         ColorCache _midColorCache;
