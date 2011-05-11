@@ -215,7 +215,6 @@ namespace Oxygen
         // slider slabs
         void drawSliderSlab( QPainter&, const QColor&, bool sunken, qreal );
 
-
         private:
 
         //! dynamically allocated debug area
