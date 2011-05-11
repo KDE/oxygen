@@ -173,6 +173,14 @@ namespace Oxygen
         bool eventFilterTabBar( QWidget*, QEvent* );
         bool eventFilterToolBar( QToolBar*, QEvent* );
         bool eventFilterToolBox( QToolBox*, QEvent* );
+
+        //! install event filter to object, in a unique way
+        void addEventFilter( QObject* object )
+        {
+            object->removeEventFilter( this );
+            object->installEventFilter( this );
+        }
+
         //@}
 
         protected slots:

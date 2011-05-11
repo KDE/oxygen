@@ -227,7 +227,7 @@ namespace Oxygen
 
         } else if( widget->inherits( "Q3ListView" ) ) {
 
-            widget->installEventFilter( this );
+            addEventFilter( widget );
             widget->setAttribute( Qt::WA_Hover );
 
         }
@@ -361,7 +361,7 @@ namespace Oxygen
 
             widget->setBackgroundRole( QPalette::NoRole );
             widget->setAttribute( Qt::WA_TranslucentBackground );
-            widget->installEventFilter( this );
+            addEventFilter( widget );
 
             #ifdef Q_WS_WIN
             //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
@@ -370,7 +370,7 @@ namespace Oxygen
 
         } else if( qobject_cast<QTabBar*>( widget ) ) {
 
-            widget->installEventFilter( this );
+            addEventFilter( widget );
 
         } else if( widget->inherits( "QTipLabel" ) ) {
 
@@ -389,26 +389,26 @@ namespace Oxygen
             // when painted in konsole, one needs to paint the window background below
             // the scrollarea, otherwise an ugly flat background is used
             if( widget->parent() && widget->parent()->inherits( "Konsole::TerminalDisplay" ) )
-            { widget->installEventFilter( this ); }
+            { addEventFilter( widget ); }
 
         } else if( qobject_cast<QDockWidget*>( widget ) ) {
 
             widget->setBackgroundRole( QPalette::NoRole );
             widget->setAttribute( Qt::WA_TranslucentBackground );
             widget->setContentsMargins( 3,3,3,3 );
-            widget->installEventFilter( this );
+            addEventFilter( widget );
 
         } else if( qobject_cast<QMdiSubWindow*>( widget ) ) {
 
             widget->setAutoFillBackground( false );
-            widget->installEventFilter( this );
+            addEventFilter( widget );
 
         } else if( qobject_cast<QToolBox*>( widget ) ) {
 
             widget->setBackgroundRole( QPalette::NoRole );
             widget->setAutoFillBackground( false );
             widget->setContentsMargins( 5,5,5,5 );
-            widget->installEventFilter( this );
+            addEventFilter( widget );
 
         } else if( widget->parentWidget() && widget->parentWidget()->parentWidget() && qobject_cast<QToolBox*>( widget->parentWidget()->parentWidget()->parentWidget() ) ) {
 
@@ -426,7 +426,7 @@ namespace Oxygen
 
         } else if( widget->inherits( "QComboBoxPrivateContainer" ) ) {
 
-            widget->installEventFilter( this );
+            addEventFilter( widget );
             widget->setAttribute( Qt::WA_TranslucentBackground );
             #ifdef Q_WS_WIN
             //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
@@ -436,7 +436,7 @@ namespace Oxygen
         } else if( widget->inherits( "KWin::GeometryTip" ) ) {
 
             // special handling of kwin geometry tip widget
-            widget->installEventFilter( this );
+            addEventFilter( widget );
             widget->setAttribute( Qt::WA_NoSystemBackground );
             widget->setAttribute( Qt::WA_TranslucentBackground );
             if( QLabel* label = qobject_cast<QLabel*>( widget ) )
