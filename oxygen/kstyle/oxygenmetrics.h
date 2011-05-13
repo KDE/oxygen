@@ -96,7 +96,7 @@ namespace Oxygen
 
         // progress bar
         ProgressBar_BusyIndicatorSize = 10,
-        ProgressBar_GrooveMargin = 2,
+        ProgressBar_GrooveMargin = 0,
 
         // scrollbar
         ScrollBar_MinimumSliderHeight = 21,
