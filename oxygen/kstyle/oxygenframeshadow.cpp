@@ -42,6 +42,7 @@
 
 namespace Oxygen
 {
+
     //____________________________________________________________________________________
     bool FrameShadowFactory::registerWidget( QWidget* widget, StyleHelper& helper )
     {
@@ -106,8 +107,34 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void FrameShadowFactory::widgetDestroyed( QObject* o )
-    { _registeredWidgets.remove( o ); }
+    bool FrameShadowFactory::eventFilter( QObject* object, QEvent* event )
+    {
+
+        switch( event->type() )
+        {
+            // TODO: possibly implement ZOrderChange event, to make sure that
+            // the shadow is always painted on top
+            case QEvent::ZOrderChange:
+            {
+                raiseShadows( object );
+                break;
+            }
+
+            case QEvent::Show:
+            updateShadowsGeometry( object );
+            update( object );
+            break;
+
+            case QEvent::Resize:
+            updateShadowsGeometry( object );
+            break;
+
+            default: break;
+        }
+
+        return QObject::eventFilter( object, event );
+
+    }
 
     //____________________________________________________________________________________
     void FrameShadowFactory::installShadows( QWidget* widget, StyleHelper& helper, bool flat )
@@ -143,36 +170,6 @@ namespace Oxygen
                 shadow->deleteLater();
             }
         }
-
-    }
-
-    //____________________________________________________________________________________
-    bool FrameShadowFactory::eventFilter( QObject* object, QEvent* event )
-    {
-
-        switch( event->type() )
-        {
-            // TODO: possibly implement ZOrderChange event, to make sure that
-            // the shadow is always painted on top
-            case QEvent::ZOrderChange:
-            {
-                raiseShadows( object );
-                break;
-            }
-
-            case QEvent::Show:
-            updateShadowsGeometry( object );
-            update( object );
-            break;
-
-            case QEvent::Resize:
-            updateShadowsGeometry( object );
-            break;
-
-            default: break;
-        }
-
-        return QObject::eventFilter( object, event );
 
     }
 
@@ -251,6 +248,10 @@ namespace Oxygen
         shadow->updateGeometry();
         shadow->show();
     }
+
+    //____________________________________________________________________________________
+    void FrameShadowFactory::widgetDestroyed( QObject* object )
+    { _registeredWidgets.remove( object ); }
 
     //____________________________________________________________________________________
     void FrameShadowBase::init()

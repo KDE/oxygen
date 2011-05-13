@@ -91,22 +91,22 @@ namespace Oxygen
         protected:
 
         //! install shadows on given widget
-        virtual void installShadows( QWidget*, StyleHelper&, bool flat = false );
+        void installShadows( QWidget*, StyleHelper&, bool flat = false );
 
         //! remove shadows from widget
-        virtual void removeShadows( QWidget* );
+        void removeShadows( QWidget* );
 
         //! update shadows geometry
-        virtual void updateShadowsGeometry( QObject* ) const;
+        void updateShadowsGeometry( QObject* ) const;
 
         //! raise shadows
-        virtual void raiseShadows( QObject* ) const;
+        void raiseShadows( QObject* ) const;
 
         //! update shadows
-        virtual void update( QObject* ) const;
+        void update( QObject* ) const;
 
         //! install shadow on given side
-        virtual void installShadow( QWidget*, StyleHelper&, ShadowArea, bool flat = false ) const;
+        void installShadow( QWidget*, StyleHelper&, ShadowArea, bool flat = false ) const;
 
         protected slots:
 
