@@ -51,6 +51,7 @@
 
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
+#include "oxygenmdiwindowshadow.h"
 #include "oxygenshadowhelper.h"
 #include "oxygenstyleconfigdata.h"
 #include "oxygentransitions.h"
@@ -166,6 +167,7 @@ namespace Oxygen
         _windowManager( new WindowManager( this ) ),
         _topLevelManager( new TopLevelManager( this, *_helper ) ),
         _frameShadowFactory( new FrameShadowFactory( this ) ),
+        _mdiWindowShadowFactory( new MdiWindowShadowFactory( this, *_helper ) ),
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
         _frameFocusPrimitive( 0 ),
@@ -217,6 +219,7 @@ namespace Oxygen
         transitions().registerWidget( widget );
         windowManager().registerWidget( widget );
         frameShadowFactory().registerWidget( widget, helper() );
+        mdiWindowShadowFactory().registerWidget( widget );
         shadowHelper().registerWidget( widget );
 
         // scroll areas
@@ -470,6 +473,7 @@ namespace Oxygen
         transitions().unregisterWidget( widget );
         windowManager().unregisterWidget( widget );
         frameShadowFactory().unregisterWidget( widget );
+        mdiWindowShadowFactory().unregisterWidget( widget );
         shadowHelper().unregisterWidget( widget );
 
         if( isKTextEditFrame( widget ) )

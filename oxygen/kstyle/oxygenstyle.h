@@ -66,6 +66,7 @@ namespace Oxygen
 
     class Animations;
     class FrameShadowFactory;
+    class MdiWindowShadowFactory;
     class ShadowHelper;
     class StyleHelper;
     class Transitions;
@@ -344,6 +345,10 @@ namespace Oxygen
         //! frame shadows
         FrameShadowFactory& frameShadowFactory( void ) const
         { return *_frameShadowFactory; }
+
+        //! mdi window shadows
+        MdiWindowShadowFactory& mdiWindowShadowFactory( void ) const
+        { return *_mdiWindowShadowFactory; }
 
         //! widget explorer
         /*!
@@ -844,6 +849,9 @@ namespace Oxygen
 
         //! frame shadows
         FrameShadowFactory* _frameShadowFactory;
+
+        //! mdi window shadows
+        MdiWindowShadowFactory* _mdiWindowShadowFactory;
 
         //! widget explorer
         WidgetExplorer* _widgetExplorer;
