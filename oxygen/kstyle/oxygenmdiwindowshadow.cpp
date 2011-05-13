@@ -110,6 +110,7 @@ namespace Oxygen
     void MdiWindowShadowFactory::unregisterWidget( QWidget* widget )
     {
         if( !isRegistered( widget ) ) return;
+        widget->removeEventFilter( this );
         _registeredWidgets.remove( widget );
         removeShadow( widget );
     }
