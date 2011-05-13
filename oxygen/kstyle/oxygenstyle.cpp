@@ -4909,8 +4909,12 @@ namespace Oxygen
         indicatorRect = handleRTL( option, indicatorRect );
         indicatorRect.adjust( 1, 0, -1, -1 );
 
-        QPixmap pixmap( helper().progressBarIndicator( palette, indicatorRect ) );
-        painter->drawPixmap( indicatorRect.topLeft(), pixmap );
+        if( indicatorRect.isValid() )
+        {
+            QPixmap pixmap( helper().progressBarIndicator( palette, indicatorRect ) );
+            painter->drawPixmap( indicatorRect.topLeft(), pixmap );
+        }
+
         return true;
 
     }
