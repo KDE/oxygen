@@ -40,25 +40,11 @@ namespace Oxygen
 
     //____________________________________________________________________
     void MdiWindowShadow::updateGeometry( void )
-    {
-        if( !_widget ) return;
-        if( _widget->isHidden() ) hide();
-        else {
-
-            setGeometry( _widget->frameGeometry().adjusted( -ShadowSize, -ShadowSize, ShadowSize, ShadowSize ) );
-            show();
-
-        }
-
-    }
+    { setGeometry( _widget->frameGeometry().adjusted( -ShadowSize, -ShadowSize, ShadowSize, ShadowSize ) ); }
 
     //____________________________________________________________________
     void MdiWindowShadow::updateZOrder( void )
-    {
-        if( !_widget ) return;
-        if( _widget->isHidden() ) hide();
-        else stackUnder( _widget );
-    }
+    { stackUnder( _widget ); }
 
     //____________________________________________________________________
     void MdiWindowShadow::paintEvent( QPaintEvent* event )
@@ -153,7 +139,6 @@ namespace Oxygen
             installShadow( object );
             updateShadowGeometry( object );
             updateShadowZOrder( object );
-            update( object );
             break;
 
             case QEvent::Move:
@@ -201,6 +186,7 @@ namespace Oxygen
         // create new shadow
         MdiWindowShadow* windowShadow( new MdiWindowShadow( widget->parentWidget(), _tileSet ) );
         windowShadow->setWidget( widget );
+        windowShadow->show();
         return;
 
     }
