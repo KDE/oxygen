@@ -200,7 +200,7 @@ namespace Oxygen
         _animationsEnabled->setVisible( !_expertMode );
         _cacheEnabled->setVisible( _expertMode );
         _stackedTransitionWidget->setVisible( !_expertMode );
-        _generalExpertWidget->setVisible( _expertMode );
+        _useWMMoveResize->setVisible( _expertMode );
         _viewsExpertWidget->setVisible( _expertMode );
 
     }
