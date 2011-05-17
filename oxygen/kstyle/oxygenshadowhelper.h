@@ -106,7 +106,7 @@ namespace Oxygen
         void createPixmapHandles( void );
 
         // create pixmap handle from pixmap
-        Qt::HANDLE createPixmap( const QPixmap&, int opacity = 255 ) const;
+        Qt::HANDLE createPixmap( const QPixmap& ) const;
 
         //! install shadow X11 property on given widget
         /*!

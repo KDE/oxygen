@@ -60,7 +60,17 @@ namespace Oxygen
 
     //_______________________________________________________
     ShadowHelper::~ShadowHelper( void )
-    { delete _shadowCache; }
+    {
+
+        #ifdef Q_WS_X11
+        // round pixmaps
+        foreach( const Qt::HANDLE& value, _pixmaps  )
+        { XFreePixmap( QX11Info::display(), value ); }
+        #endif
+
+        delete _shadowCache;
+
+    }
 
     //______________________________________________
     void ShadowHelper::reset( void )
@@ -212,77 +222,63 @@ namespace Oxygen
         if( _pixmaps.empty() && _tiles.isValid() )
         {
 
-            const int shadowOpacity = 150;
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ), shadowOpacity ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ) ) );
 
         }
 
     }
 
     //______________________________________________
-    Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source, int opacity ) const
+    Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source ) const
     {
 
         // do nothing for invalid pixmaps
         if( source.isNull() ) return 0;
 
-        // if available returns the pixmap handle directly
-        if( source.handle() && opacity == 255 )
+        /*
+        in some cases, pixmap handle is invalid. This is the case notably
+        when Qt uses to RasterEngine. In this case, we create an X11 Pixmap
+        explicitly and draw the source pixmap on it.
+        */
+
+        #ifdef Q_WS_X11
+        const int width( source.width() );
+        const int height( source.height() );
+
+        // create X11 pixmap
+        Pixmap pixmap = XCreatePixmap( QX11Info::display(), QX11Info::appRootWindow(), width, height, 32 );
+
+        // create explicitly shared QPixmap from it
+        QPixmap dest( QPixmap::fromX11Pixmap( pixmap, QPixmap::ExplicitlyShared ) );
+
+        // create surface for pixmap
         {
+            QPainter painter( &dest );
+            painter.setCompositionMode( QPainter::CompositionMode_Source );
+            painter.drawPixmap( 0, 0, source );
 
-            return source.handle();
-
-        } else {
-
-            /*
-            in some cases, pixmap handle is invalid. This is the case notably
-            when Qt uses to RasterEngine. In this case, we create an X11 Pixmap
-            explicitly and draw the source pixmap on it.
-            */
-
-            #ifdef Q_WS_X11
-            const int width( source.width() );
-            const int height( source.height() );
-
-            // create X11 pixmap
-            Pixmap pixmap = XCreatePixmap( QX11Info::display(), QX11Info::appRootWindow(), width, height, 32 );
-
-            // create explicitly shared QPixmap from it
-            QPixmap dest( QPixmap::fromX11Pixmap( pixmap, QPixmap::ExplicitlyShared ) );
-
-            // create surface for pixmap
-            {
-                QPainter painter( &dest );
-                painter.setCompositionMode( QPainter::CompositionMode_Source );
-                painter.drawPixmap( 0, 0, source );
-
-                // add opacity
-                if( opacity < 255 )
-                {
-                    painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-                    painter.fillRect( dest.rect(), QColor( 0, 0, 0, opacity ) );
-                }
-
-            }
-
-
-            return pixmap;
-            #else
-            return 0;
-            #endif
+            // add opacity
+            painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+            painter.fillRect( dest.rect(), QColor( 0, 0, 0, 150 ) );
 
         }
 
+
+        return pixmap;
+        #else
+        return 0;
+        #endif
+
     }
 
-    //_______________________________________________________
+//_______________________________________________________
     bool ShadowHelper::installX11Shadows( QWidget* widget )
     {
 
