@@ -190,9 +190,6 @@ namespace Oxygen
         void oxygenConfigurationChanged( void );
 
         //! needed to update style when configuration is changed
-        void globalSettingsChanged( int, int );
-
-        //! needed to update style when configuration is changed
         void globalPaletteChanged( void );
 
         //! copied from kstyle

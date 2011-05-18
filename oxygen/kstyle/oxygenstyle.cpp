@@ -183,21 +183,9 @@ namespace Oxygen
         QDBusConnection dbus = QDBusConnection::sessionBus();
         dbus.connect( QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT( oxygenConfigurationChanged( void ) ) );
 
-//         #if KDE_IS_VERSION( 4, 5, 50 )
-//
-//         // for recent enough version of kde we use KGlobalSettings signal to detect palette changes
-//         KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
-//         connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
-//
-//         #else
-
-        /*
-        since the above Activate call is not available for older versions of KDE,
-        direct connection to dbus is used to detect global settings changes
-        */
-        dbus.connect( QString(), "/KGlobalSettings", "org.kde.KGlobalSettings", "notifyChange", this, SLOT( globalSettingsChanged( int,int ) ) );
-
-//         #endif
+        // for recent enough version of kde we use KGlobalSettings signal to detect palette changes
+        KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
+        connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
@@ -7961,13 +7949,6 @@ namespace Oxygen
         if( StyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
         else _frameFocusPrimitive = &Style::emptyPrimitive;
 
-    }
-
-    //_____________________________________________________________________
-    void Style::globalSettingsChanged( int type, int )
-    {
-        if( type == KGlobalSettings::PaletteChanged )
-        { globalPaletteChanged(); }
     }
 
     //_____________________________________________________________________
