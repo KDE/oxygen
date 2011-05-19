@@ -161,6 +161,7 @@ namespace Oxygen
         _blackList.clear();
         _blackList.insert( ExceptionId( "CustomTrackView@kdenlive" ) );
         _blackList.insert( ExceptionId( "MuseScore" ) );
+        _blackList.insert( ExceptionId( "KGameCanvasWidget" ) );
         foreach( const QString& exception, StyleConfigData::windowDragBlackList() )
         {
             ExceptionId id( exception );
