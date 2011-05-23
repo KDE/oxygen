@@ -183,9 +183,9 @@ namespace Oxygen
         QDBusConnection dbus = QDBusConnection::sessionBus();
         dbus.connect( QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT( oxygenConfigurationChanged( void ) ) );
 
-        // for recent enough version of kde we use KGlobalSettings signal to detect palette changes
-        KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
-        connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
+//         // for recent enough version of kde we use KGlobalSettings signal to detect palette changes
+//         KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
+//         connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
