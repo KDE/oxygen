@@ -206,6 +206,9 @@ namespace Oxygen
 
         protected:
 
+        //! initialize kGlobalSettings conections
+        void initializeKGlobalSettings( void );
+
         //! helper
         StyleHelper& helper( void ) const
         { return *_helper; }
@@ -814,16 +817,19 @@ namespace Oxygen
 
         private:
 
-        // scrollbar button types (for addLine and subLine )
+        //! true if KGlobalSettings signals are initialized
+        bool _kGlobalSettingsInitialized;
+
+        //! scrollbar button types (for addLine and subLine )
         ScrollBarButtonType _addLineButtons;
         ScrollBarButtonType _subLineButtons;
 
-        // metrics for scrollbar buttons
+        //! metrics for scrollbar buttons
         int _noButtonHeight;
         int _singleButtonHeight;
         int _doubleButtonHeight;
 
-        // true if keyboard accelerators must be drawn
+        //! true if keyboard accelerators must be drawn
         bool _showMnemonics;
 
         //! helper

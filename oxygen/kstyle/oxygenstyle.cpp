@@ -155,6 +155,7 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::Style( void ):
+        _kGlobalSettingsInitialized( false ),
         _addLineButtons( DoubleButton ),
         _subLineButtons( SingleButton ),
         _singleButtonHeight( 14 ),
@@ -182,10 +183,6 @@ namespace Oxygen
         // use DBus connection to update on oxygen configuration change
         QDBusConnection dbus = QDBusConnection::sessionBus();
         dbus.connect( QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT( oxygenConfigurationChanged( void ) ) );
-
-//         // for recent enough version of kde we use KGlobalSettings signal to detect palette changes
-//         KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
-//         connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
@@ -257,6 +254,13 @@ namespace Oxygen
             // set background as styled
             widget->setAttribute( Qt::WA_StyledBackground );
             widget->installEventFilter( _topLevelManager );
+
+            // initialize connections to kGlobalSettings
+            /*
+            this musts be done in ::polish and not before,
+            in order to be able to detect Qt-KDE vs Qt-only applications
+            */
+            if( !_kGlobalSettingsInitialized ) initializeKGlobalSettings();
 
             break;
 
@@ -8272,6 +8276,27 @@ namespace Oxygen
         }
     }
 
+    //_____________________________________________________________
+    void Style::initializeKGlobalSettings( void )
+    {
+
+        if( qApp && !qApp->inherits( "KApplication" ) )
+        {
+            /*
+            for Qt, non-KDE applications, needs to explicitely activate KGlobalSettings.
+            On the other hand, it is done internally in kApplication constructor,
+            so no need to duplicate here.
+            */
+            KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
+        }
+
+        // connect palette changes to local slot, to make sure caches are cleared
+        connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
+
+        // update flag
+        _kGlobalSettingsInitialized = true;
+
+    }
 
     //______________________________________________________________
     void Style::polishScrollArea( QAbstractScrollArea* scrollArea ) const
