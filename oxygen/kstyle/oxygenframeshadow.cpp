@@ -143,6 +143,8 @@ namespace Oxygen
         removeShadows(widget);
 
         widget->installEventFilter(this);
+
+        widget->installEventFilter( &_addEventFilter );
         if( !flat )
         {
             installShadow( widget, helper, Left );
@@ -151,6 +153,7 @@ namespace Oxygen
 
         installShadow( widget, helper, Top, flat );
         installShadow( widget, helper, Bottom, flat );
+        widget->removeEventFilter( &_addEventFilter );
 
     }
 
