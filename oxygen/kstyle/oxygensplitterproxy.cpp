@@ -27,33 +27,50 @@
 #include "oxygensplitterproxy.h"
 #include "oxygenmetrics.h"
 
+#include <QtCore/QTextStream>
 #include <QtCore/QCoreApplication>
 
 namespace Oxygen
 {
 
-
     //____________________________________________________________________
-    SplitterProxy::SplitterProxy( void ):
-        QWidget(),
-        _childAddEventFilter( new ChildAddEventFilter( this ) ),
-        _splitter( 0x0 )
-    { hide(); }
-
-    //____________________________________________________________________
-    bool SplitterProxy::registerWidget( QWidget *w )
+    bool SplitterFactory::registerWidget( QWidget *widget )
     {
 
         // check widget type
-        if( !( qobject_cast<QMainWindow*>(w) || qobject_cast<QSplitterHandle*>(w) ) )
-        { return false; }
+        if( qobject_cast<QMainWindow*>( widget ) )
+        {
 
-        // avoid double filtering
-        // possibly should keep track of registered widgets
-        w->removeEventFilter( this );
-        w->installEventFilter( this );
-        return true;
+            widget->installEventFilter( &_addEventFilter );
+            new SplitterProxy( widget, widget );
+            widget->removeEventFilter( &_addEventFilter );
+            return true;
+
+        } else if( qobject_cast<QSplitterHandle*>( widget ) ) {
+
+            QWidget* window( widget->window() );
+            window->installEventFilter( &_addEventFilter );
+            new SplitterProxy( widget->window(), widget );
+            window->removeEventFilter( &_addEventFilter );
+
+            return true;
+
+        } else return false;
+
     }
+
+    //____________________________________________________________________
+    SplitterProxy::SplitterProxy( QWidget* parent, QWidget* target ):
+        QWidget( parent ),
+        _splitter( target )
+    {
+        hide();
+        _splitter->installEventFilter( this );
+    }
+
+    //____________________________________________________________________
+    SplitterProxy::~SplitterProxy( void )
+    {}
 
     //____________________________________________________________________
     bool SplitterProxy::event( QEvent *event )
@@ -103,7 +120,7 @@ namespace Oxygen
                 // leave event and reset splitter
                 QWidget::leaveEvent( event );
                 if( !rect().contains( mapFromGlobal( QCursor::pos() ) ) )
-                { setSplitter(0); }
+                { setEnabled( false ); }
                 return true;
 
             }
@@ -128,12 +145,9 @@ namespace Oxygen
         {
 
             case QEvent::HoverEnter:
-            if( !isVisible() )
-            {
-                // cast to splitter handle
-                if( QSplitterHandle *handle = qobject_cast<QSplitterHandle*>( object ) )
-                { setSplitter(handle); }
-            }
+            // cast to splitter handle
+            if( !isVisible() && qobject_cast<QSplitterHandle*>( object ) )
+            { setEnabled( true ); }
 
             return false;
 
@@ -154,14 +168,27 @@ namespace Oxygen
             {
                 if (window->cursor().shape() == Qt::SplitHCursor ||
                     window->cursor().shape() == Qt::SplitVCursor)
-                    { setSplitter(window); }
+                    { setEnabled( true ); }
             }
             return false;
 
             case QEvent::MouseButtonRelease:
             if( qobject_cast<QSplitterHandle*>(object) || qobject_cast<QMainWindow*>(object) )
-            { setSplitter(0); }
+            { setEnabled( false ); }
             return false;
+
+            case QEvent::ParentChange:
+            {
+                QWidget* window( static_cast<QWidget*>( object )->window() );
+                if( window != parentWidget() )
+                {
+                    // need to reparent the proxy in case the window has changed
+                    if( isVisible() ) hide();
+                    window->installEventFilter( &_addEventFilter );
+                    setParent( window );
+                    window->removeEventFilter( &_addEventFilter );
+                }
+            }
 
             default:
             return false;
@@ -171,25 +198,20 @@ namespace Oxygen
         return false;
     }
 
-
     //____________________________________________________________________
-    void SplitterProxy::setSplitter( QWidget *widget )
+    void SplitterProxy::setEnabled( bool value )
     {
 
-        if( !widget )
+        if( !value )
         {
 
+            // release mouse
             if( mouseGrabber() == this ) releaseMouse();
-            if( QWidget *parent = parentWidget() )
-            {
 
-                // reparent
-                parent->setUpdatesEnabled(false);
-                setParent(0);
-                parent->setUpdatesEnabled(true);
+            // hide
+            hide();
 
-            }
-
+            // set hover event
             if( _splitter )
             {
                 QHoverEvent hoverEvent(
@@ -198,31 +220,21 @@ namespace Oxygen
                 QCoreApplication::sendEvent( _splitter, &hoverEvent );
             }
 
-            _splitter = 0;
             return;
 
+        } else {
+
+            _hook = _splitter->mapFromGlobal(QCursor::pos());
+
+            QRect r( 0, 0, 2*Splitter_ExtendedWidth, 2*Splitter_ExtendedWidth );
+            r.moveCenter( parentWidget()->mapFromGlobal( QCursor::pos() ) );
+            setGeometry(r);
+            setCursor( _splitter->cursor().shape() );
+
+            raise();
+            show();
+
         }
-
-        _splitter = widget;
-        _hook = _splitter->mapFromGlobal(QCursor::pos());
-
-        QWidget *w = _splitter->window();
-        QRect r( 0, 0, 2*Splitter_ExtendedWidth, 2*Splitter_ExtendedWidth );
-        r.moveCenter( w->mapFromGlobal( QCursor::pos() ) );
-
-        // disable target updates
-        // reparent oneself
-        w->setUpdatesEnabled(false);
-        w->installEventFilter( _childAddEventFilter );
-        setParent(w);
-        w->removeEventFilter( _childAddEventFilter );
-
-        setGeometry(r);
-        setCursor( _splitter->cursor().shape() );
-
-        raise();
-        show();
-        w->setUpdatesEnabled(true);
 
     }
 

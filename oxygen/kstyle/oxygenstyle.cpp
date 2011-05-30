@@ -172,7 +172,7 @@ namespace Oxygen
         _mdiWindowShadowFactory( new MdiWindowShadowFactory( this, *_helper ) ),
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
-        _splitterProxy( new SplitterProxy() ),
+        _splitterFactory( new SplitterFactory( this ) ),
         _frameFocusPrimitive( 0 ),
         _tabBarTabShapeControl( 0 ),
         _hintCounter( X_KdeBase+1 ),
@@ -194,10 +194,7 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::~Style( void )
-    {
-        delete _splitterProxy;
-        delete _helper;
-    }
+    { delete _helper; }
 
     //______________________________________________________________
     void Style::polish( QWidget* widget )
@@ -211,7 +208,7 @@ namespace Oxygen
         frameShadowFactory().registerWidget( widget, helper() );
         mdiWindowShadowFactory().registerWidget( widget );
         shadowHelper().registerWidget( widget );
-        splitterProxy().registerWidget( widget );
+        splitterFactory().registerWidget( widget );
 
         // scroll areas
         if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) )

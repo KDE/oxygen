@@ -34,8 +34,35 @@
 #include <QtGui/QSplitterHandle>
 #include <QtGui/QWidget>
 
+#include "oxygenaddeventfilter.h"
+
 namespace Oxygen
 {
+
+    //! factory
+    class SplitterFactory: public QObject
+    {
+
+        public:
+
+        //! constructor
+        SplitterFactory( QObject* parent ):
+            QObject( parent )
+            {}
+
+        //! destructor
+        virtual ~SplitterFactory( void )
+        {}
+
+        //! register widget
+        bool registerWidget( QWidget* );
+
+        private:
+
+        //! needed to block ChildAdded events when creating proxy
+        AddEventFilter _addEventFilter;
+
+    };
 
     //! splitter 'proxy' widget, with extended hit area
     class SplitterProxy : public QWidget
@@ -44,14 +71,10 @@ namespace Oxygen
         public:
 
         //! constructor
-        SplitterProxy( void );
+        SplitterProxy( QWidget*, QWidget* );
 
         //! destructor
-        virtual ~SplitterProxy( void )
-        {}
-
-        //! add widget on which splitter proxy is to be added
-        bool registerWidget( QWidget* );
+        virtual ~SplitterProxy( void );
 
         protected:
 
@@ -63,35 +86,13 @@ namespace Oxygen
 
         protected:
 
-        // store splitter
-        void setSplitter( QWidget* );
+        // set enabled
+        void setEnabled( bool );
 
         private:
 
-        //! child addition event filter
-        class ChildAddEventFilter : public QObject
-        {
-
-            public:
-
-            //! constructor
-            ChildAddEventFilter( QObject* parent ):
-                QObject( parent )
-                {}
-
-            //! destructor
-            virtual ~ChildAddEventFilter( void )
-            {}
-
-            //! event filter
-            virtual bool eventFilter( QObject*, QEvent *event )
-            // { return (ev->type() == QEvent::ChildAdded || ev->type() == QEvent::ChildInserted); }
-            { return event->type() == QEvent::ChildAdded; }
-
-        };
-
-        //! child add event filter
-        ChildAddEventFilter* _childAddEventFilter;
+        //! needed to block ChildAdded events when reparenting
+        AddEventFilter _addEventFilter;
 
         //! splitter object
         QWidget *_splitter;
