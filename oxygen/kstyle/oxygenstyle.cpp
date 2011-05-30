@@ -470,6 +470,7 @@ namespace Oxygen
         frameShadowFactory().unregisterWidget( widget );
         mdiWindowShadowFactory().unregisterWidget( widget );
         shadowHelper().unregisterWidget( widget );
+        splitterFactory().unregisterWidget( widget );
 
         if( isKTextEditFrame( widget ) )
         { widget->setAttribute( Qt::WA_Hover, false  ); }

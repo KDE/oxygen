@@ -27,7 +27,6 @@
 #include "oxygensplitterproxy.h"
 #include "oxygenmetrics.h"
 
-#include <QtCore/QTextStream>
 #include <QtCore/QCoreApplication>
 
 namespace Oxygen
@@ -41,17 +40,47 @@ namespace Oxygen
         if( qobject_cast<QMainWindow*>( widget ) )
         {
 
-            widget->installEventFilter( &_addEventFilter );
-            new SplitterProxy( widget, widget );
-            widget->removeEventFilter( &_addEventFilter );
+            WidgetMap::iterator iter( _widgets.find( widget ) );
+            if( iter == _widgets.end() )
+            {
+                widget->installEventFilter( &_addEventFilter );
+                SplitterProxy* proxy( new SplitterProxy( widget ) );
+                widget->removeEventFilter( &_addEventFilter );
+
+                widget->installEventFilter( proxy );
+
+                _widgets.insert( widget, proxy );
+
+            } else {
+
+                widget->removeEventFilter( iter.value() );
+                widget->installEventFilter( iter.value() );
+
+            }
+
             return true;
 
         } else if( qobject_cast<QSplitterHandle*>( widget ) ) {
 
             QWidget* window( widget->window() );
-            window->installEventFilter( &_addEventFilter );
-            new SplitterProxy( widget->window(), widget );
-            window->removeEventFilter( &_addEventFilter );
+            WidgetMap::iterator iter( _widgets.find( window ) );
+            if( iter == _widgets.end() )
+            {
+
+
+                window->installEventFilter( &_addEventFilter );
+                SplitterProxy* proxy( new SplitterProxy( window ) );
+                window->removeEventFilter( &_addEventFilter );
+
+                widget->installEventFilter( proxy );
+                _widgets.insert( window, proxy );
+
+            } else {
+
+                widget->removeEventFilter( iter.value() );
+                widget->installEventFilter( iter.value() );
+
+            }
 
             return true;
 
@@ -60,13 +89,22 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    SplitterProxy::SplitterProxy( QWidget* parent, QWidget* target ):
-        QWidget( parent ),
-        _splitter( target )
+    void SplitterFactory::unregisterWidget( QWidget *widget )
     {
-        hide();
-        _splitter->installEventFilter( this );
+
+        WidgetMap::iterator iter( _widgets.find( widget ) );
+        if( iter != _widgets.end() )
+        {
+            iter.value()->deleteLater();
+            _widgets.erase( iter );
+        }
+
     }
+
+    //____________________________________________________________________
+    SplitterProxy::SplitterProxy( QWidget* parent ):
+        QWidget( parent )
+    { hide(); }
 
     //____________________________________________________________________
     SplitterProxy::~SplitterProxy( void )
@@ -85,6 +123,10 @@ namespace Oxygen
             case QEvent::MouseButtonPress:
             case QEvent::MouseButtonRelease:
             {
+
+                // check splitter
+                if( !_splitter ) return false;
+
                 event->accept();
 
                 // grab on mouse press
@@ -98,13 +140,14 @@ namespace Oxygen
                 QMouseEvent *mouseEvent( static_cast<QMouseEvent*>( event ) );
 
                 // get relevant position to post mouse drag event to application
-                const QPoint pos( (event->type() == QEvent::MouseMove) ? _splitter->mapFromGlobal(QCursor::pos()) : _hook );
+                const QPoint pos( (event->type() == QEvent::MouseMove) ? _splitter.data()->mapFromGlobal(QCursor::pos()) : _hook );
                 QMouseEvent mouseEvent2(
-                    mouseEvent->type(), pos, _splitter->mapToGlobal(pos),
+                    mouseEvent->type(), pos,
+                    _splitter.data()->mapToGlobal(pos),
                     mouseEvent->button(),
                     mouseEvent->buttons(), mouseEvent->modifiers());
 
-                QCoreApplication::sendEvent(_splitter, &mouseEvent2 );
+                QCoreApplication::sendEvent( _splitter.data(), &mouseEvent2 );
 
                 // release grab on mouse-Release
                 if( event->type() == QEvent::MouseButtonRelease )
@@ -120,7 +163,7 @@ namespace Oxygen
                 // leave event and reset splitter
                 QWidget::leaveEvent( event );
                 if( !rect().contains( mapFromGlobal( QCursor::pos() ) ) )
-                { setEnabled( false ); }
+                { setSplitter( 0 ); }
                 return true;
 
             }
@@ -145,16 +188,20 @@ namespace Oxygen
         {
 
             case QEvent::HoverEnter:
-            // cast to splitter handle
-            if( !isVisible() && qobject_cast<QSplitterHandle*>( object ) )
-            { setEnabled( true ); }
+            if( !isVisible() )
+            {
 
+                // cast to splitter handle
+                if( QSplitterHandle* handle = qobject_cast<QSplitterHandle*>( object ) )
+                { setSplitter( handle ); }
+
+            }
             return false;
 
             case QEvent::HoverMove:
             case QEvent::HoverLeave:
-            if( isVisible() && object == _splitter )
-            return true;
+            if( isVisible() && object == _splitter.data() )
+            { return true; }
 
             case QEvent::MouseMove:
             case QEvent::Timer:
@@ -166,29 +213,15 @@ namespace Oxygen
             case QEvent::CursorChange:
             if( QWidget *window = qobject_cast<QMainWindow*>( object ) )
             {
-                if (window->cursor().shape() == Qt::SplitHCursor ||
-                    window->cursor().shape() == Qt::SplitVCursor)
-                    { setEnabled( true ); }
+                if( window->cursor().shape() == Qt::SplitHCursor || window->cursor().shape() == Qt::SplitVCursor )
+                { setSplitter( window ); }
             }
             return false;
 
             case QEvent::MouseButtonRelease:
             if( qobject_cast<QSplitterHandle*>(object) || qobject_cast<QMainWindow*>(object) )
-            { setEnabled( false ); }
+            { setSplitter( static_cast<QWidget*>( object ) ); }
             return false;
-
-            case QEvent::ParentChange:
-            {
-                QWidget* window( static_cast<QWidget*>( object )->window() );
-                if( window != parentWidget() )
-                {
-                    // need to reparent the proxy in case the window has changed
-                    if( isVisible() ) hide();
-                    window->installEventFilter( &_addEventFilter );
-                    setParent( window );
-                    window->removeEventFilter( &_addEventFilter );
-                }
-            }
 
             default:
             return false;
@@ -199,10 +232,10 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    void SplitterProxy::setEnabled( bool value )
+    void SplitterProxy::setSplitter( QWidget* widget )
     {
 
-        if( !value )
+        if( !widget )
         {
 
             // release mouse
@@ -215,21 +248,22 @@ namespace Oxygen
             if( _splitter )
             {
                 QHoverEvent hoverEvent(
-                    qobject_cast<QSplitterHandle*>(_splitter) ? QEvent::HoverLeave : QEvent::HoverMove,
-                    _splitter->mapFromGlobal(QCursor::pos()), _hook);
-                QCoreApplication::sendEvent( _splitter, &hoverEvent );
+                    qobject_cast<QSplitterHandle*>(_splitter.data()) ? QEvent::HoverLeave : QEvent::HoverMove,
+                    _splitter.data()->mapFromGlobal(QCursor::pos()), _hook);
+                QCoreApplication::sendEvent( _splitter.data(), &hoverEvent );
             }
 
-            return;
+            _splitter = widget;
 
         } else {
 
-            _hook = _splitter->mapFromGlobal(QCursor::pos());
+            _splitter = widget;
+            _hook = _splitter.data()->mapFromGlobal(QCursor::pos());
 
             QRect r( 0, 0, 2*Splitter_ExtendedWidth, 2*Splitter_ExtendedWidth );
             r.moveCenter( parentWidget()->mapFromGlobal( QCursor::pos() ) );
             setGeometry(r);
-            setCursor( _splitter->cursor().shape() );
+            setCursor( _splitter.data()->cursor().shape() );
 
             raise();
             show();

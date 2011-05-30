@@ -28,6 +28,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <QtCore/QEvent>
+#include <QtCore/QMap>
+#include <QtCore/QWeakPointer>
 #include <QtGui/QHoverEvent>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMouseEvent>
@@ -38,6 +40,8 @@
 
 namespace Oxygen
 {
+
+    class SplitterProxy;
 
     //! factory
     class SplitterFactory: public QObject
@@ -57,10 +61,17 @@ namespace Oxygen
         //! register widget
         bool registerWidget( QWidget* );
 
+        //! unregister widget
+        void unregisterWidget( QWidget* );
+
         private:
 
         //! needed to block ChildAdded events when creating proxy
         AddEventFilter _addEventFilter;
+
+        //! registered widgets
+        typedef QMap<QWidget*, SplitterProxy*> WidgetMap;
+        WidgetMap _widgets;
 
     };
 
@@ -71,7 +82,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        SplitterProxy( QWidget*, QWidget* );
+        SplitterProxy( QWidget* );
 
         //! destructor
         virtual ~SplitterProxy( void );
@@ -87,15 +98,12 @@ namespace Oxygen
         protected:
 
         // set enabled
-        void setEnabled( bool );
+        void setSplitter( QWidget* );
 
         private:
 
-        //! needed to block ChildAdded events when reparenting
-        AddEventFilter _addEventFilter;
-
         //! splitter object
-        QWidget *_splitter;
+        QWeakPointer<QWidget> _splitter;
 
         //! hook
         QPoint _hook;
