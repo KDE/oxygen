@@ -68,6 +68,7 @@ namespace Oxygen
     class FrameShadowFactory;
     class MdiWindowShadowFactory;
     class ShadowHelper;
+    class SplitterProxy;
     class StyleHelper;
     class Transitions;
     class WindowManager;
@@ -357,6 +358,10 @@ namespace Oxygen
         */
         WidgetExplorer& widgetExplorer( void ) const
         { return *_widgetExplorer; }
+
+        //! splitter proxy
+        SplitterProxy& splitterProxy( void ) const
+        { return *_splitterProxy; }
 
         //! tabBar data
         TabBarData& tabBarData( void ) const
@@ -861,6 +866,9 @@ namespace Oxygen
 
         //! tabBar data
         TabBarData* _tabBarData;
+
+        //! splitter proxy, to extend splitters hit area
+        SplitterProxy* _splitterProxy;
 
         //! pointer to primitive specialized function
         typedef bool (Style::*StylePrimitive)( const QStyleOption*, QPainter*, const QWidget* ) const;
