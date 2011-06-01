@@ -220,7 +220,7 @@ namespace Oxygen
 
             case QEvent::MouseButtonRelease:
             if( qobject_cast<QSplitterHandle*>(object) || qobject_cast<QMainWindow*>(object) )
-            { setSplitter( static_cast<QWidget*>( object ) ); }
+            { setSplitter( 0 ); }
             return false;
 
             default:
