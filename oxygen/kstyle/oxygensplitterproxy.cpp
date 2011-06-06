@@ -111,6 +111,58 @@ namespace Oxygen
     SplitterProxy::~SplitterProxy( void )
     {}
 
+
+    //____________________________________________________________________
+    bool SplitterProxy::eventFilter( QObject* object, QEvent* event )
+    {
+
+        if( mouseGrabber() ) return false;
+
+        switch( event->type() )
+        {
+
+            case QEvent::HoverEnter:
+            if( !isVisible() )
+            {
+
+                // cast to splitter handle
+                if( QSplitterHandle* handle = qobject_cast<QSplitterHandle*>( object ) )
+                { setSplitter( handle ); }
+
+            }
+            return false;
+
+            case QEvent::HoverMove:
+            case QEvent::HoverLeave:
+            if( isVisible() && object == _splitter.data() )
+            { return true; }
+
+            case QEvent::MouseMove:
+            case QEvent::Timer:
+            case QEvent::Move:
+
+            // just for performance - they can occur really often
+            return false;
+
+            case QEvent::CursorChange:
+            if( QWidget *window = qobject_cast<QMainWindow*>( object ) )
+            {
+                if( window->cursor().shape() == Qt::SplitHCursor || window->cursor().shape() == Qt::SplitVCursor )
+                { setSplitter( window ); }
+            }
+            return false;
+
+            case QEvent::MouseButtonRelease:
+            clearSplitter();
+            return false;
+
+            default:
+            return false;
+
+        }
+
+    }
+
     //____________________________________________________________________
     bool SplitterProxy::event( QEvent *event )
     {
@@ -180,61 +232,6 @@ namespace Oxygen
 
         }
 
-        // fallback
-        return QWidget::event( event );
-
-    }
-
-    //____________________________________________________________________
-    bool SplitterProxy::eventFilter( QObject* object, QEvent* event )
-    {
-
-        if( mouseGrabber() ) return false;
-
-        switch( event->type() )
-        {
-
-            case QEvent::HoverEnter:
-            if( !isVisible() )
-            {
-
-                // cast to splitter handle
-                if( QSplitterHandle* handle = qobject_cast<QSplitterHandle*>( object ) )
-                { setSplitter( handle ); }
-
-            }
-            return false;
-
-            case QEvent::HoverMove:
-            case QEvent::HoverLeave:
-            if( isVisible() && object == _splitter.data() )
-            { return true; }
-
-            case QEvent::MouseMove:
-            case QEvent::Timer:
-            case QEvent::Move:
-
-            // just for performance - they can occur really often
-            return false;
-
-            case QEvent::CursorChange:
-            if( QWidget *window = qobject_cast<QMainWindow*>( object ) )
-            {
-                if( window->cursor().shape() == Qt::SplitHCursor || window->cursor().shape() == Qt::SplitVCursor )
-                { setSplitter( window ); }
-            }
-            return false;
-
-            case QEvent::MouseButtonRelease:
-            clearSplitter();
-            return false;
-
-            default:
-            return false;
-
-        }
-
-        return false;
     }
 
     //____________________________________________________________________

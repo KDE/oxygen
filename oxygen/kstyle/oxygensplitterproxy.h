@@ -87,13 +87,13 @@ namespace Oxygen
         //! destructor
         virtual ~SplitterProxy( void );
 
+        //! event filter
+        virtual bool eventFilter( QObject*, QEvent* );
+
         protected:
 
         //! event handler
         virtual bool event( QEvent* );
-
-        //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
 
         protected:
 
