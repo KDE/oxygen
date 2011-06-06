@@ -3336,7 +3336,7 @@ namespace Oxygen
 
                 if( opacity > 0 )
                 {
-                    QColor color( helper().calcMidColor( helper().backgroundColor( palette.color( QPalette::Window ), widget, slitRect.center() ) ) );
+                    QColor color( helper().backgroundColor( helper().calcMidColor( palette.color( QPalette::Window ) ), widget, slitRect.center() ) );
                     color = helper().alphaColor( color, opacity );
                     painter->save();
                     painter->setRenderHint( QPainter::Antialiasing );
