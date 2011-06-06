@@ -97,7 +97,10 @@ namespace Oxygen
 
         protected:
 
-        // set enabled
+        //! reset 'true' splitter widget
+        void clearSplitter( void );
+
+        //! keep track of 'true' splitter widget
         void setSplitter( QWidget* );
 
         private:
