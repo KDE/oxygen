@@ -28,6 +28,7 @@
 #include "oxygenmetrics.h"
 
 #include <QtCore/QCoreApplication>
+#include <QtGui/QPainter>
 
 namespace Oxygen
 {
@@ -117,7 +118,13 @@ namespace Oxygen
         {
 
             case QEvent::Paint:
-            { return true; }
+            {
+//                 QPainter p( this );
+//                 p.setPen( Qt::NoPen );
+//                 p.setBrush( QColor( 255, 0, 0, 100 ) );
+//                 p.drawRect( rect() );
+                return true;
+            }
 
             case QEvent::MouseMove:
             case QEvent::MouseButtonPress:
@@ -253,7 +260,7 @@ namespace Oxygen
                 QCoreApplication::sendEvent( _splitter.data(), &hoverEvent );
             }
 
-            _splitter = widget;
+            _splitter.clear();
 
         } else {
 
