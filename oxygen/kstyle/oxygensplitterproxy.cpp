@@ -28,6 +28,7 @@
 #include "oxygenmetrics.h"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDebug>
 #include <QtGui/QPainter>
 
 namespace Oxygen
@@ -130,18 +131,16 @@ namespace Oxygen
                 { setSplitter( handle ); }
 
             }
+
             return false;
 
             case QEvent::HoverMove:
             case QEvent::HoverLeave:
-            if( isVisible() && object == _splitter.data() )
-            { return true; }
+            return isVisible() && object == _splitter.data();
 
             case QEvent::MouseMove:
             case QEvent::Timer:
             case QEvent::Move:
-
-            // just for performance - they can occur really often
             return false;
 
             case QEvent::CursorChange:
@@ -221,7 +220,7 @@ namespace Oxygen
 
                 // leave event and reset splitter
                 QWidget::leaveEvent( event );
-                if( !rect().contains( mapFromGlobal( QCursor::pos() ) ) )
+                if( isVisible() && !rect().contains( mapFromGlobal( QCursor::pos() ) ) )
                 { clearSplitter(); }
                 return true;
 
@@ -237,6 +236,9 @@ namespace Oxygen
     //____________________________________________________________________
     void SplitterProxy::setSplitter( QWidget* widget )
     {
+
+        // check if changed
+        if( _splitter.data() == widget ) return;
 
         _splitter = widget;
         _hook = _splitter.data()->mapFromGlobal(QCursor::pos());
@@ -256,6 +258,9 @@ namespace Oxygen
     void SplitterProxy::clearSplitter( void )
     {
 
+        // check if changed
+        if( !_splitter ) return;
+
         // release mouse
         if( mouseGrabber() == this ) releaseMouse();
 
@@ -269,9 +274,10 @@ namespace Oxygen
                 qobject_cast<QSplitterHandle*>(_splitter.data()) ? QEvent::HoverLeave : QEvent::HoverMove,
                 _splitter.data()->mapFromGlobal(QCursor::pos()), _hook);
             QCoreApplication::sendEvent( _splitter.data(), &hoverEvent );
+            _splitter.clear();
+
         }
 
-        _splitter.clear();
 
     }
 
