@@ -151,6 +151,7 @@ namespace Oxygen
             }
             return false;
 
+            case QEvent::WindowDeactivate:
             case QEvent::MouseButtonRelease:
             clearSplitter();
             return false;
