@@ -172,9 +172,9 @@ namespace Oxygen
             case QEvent::Paint:
             {
 //                 QPainter p( this );
-//                 p.setPen( Qt::NoPen );
-//                 p.setBrush( QColor( 255, 0, 0, 100 ) );
-//                 p.drawRect( rect() );
+//                 p.setBrush( Qt::NoBrush );
+//                 p.setPen( QColor( 255, 0, 0, 100 ) );
+//                 p.drawRect( rect().adjusted( 0, 0, -1, -1 ) );
                 return true;
             }
 
