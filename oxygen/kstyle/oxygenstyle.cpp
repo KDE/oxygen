@@ -8383,7 +8383,9 @@ namespace Oxygen
         if( sliderOption->maximum == sliderOption->minimum ) angle = M_PI / 2;
         else {
 
-            const qreal fraction( qreal( sliderOption->sliderValue - sliderOption->minimum )/qreal( sliderOption->maximum - sliderOption->minimum ) );
+            qreal fraction( qreal( sliderOption->sliderPosition - sliderOption->minimum )/qreal( sliderOption->maximum - sliderOption->minimum ) );
+            if( !sliderOption->upsideDown ) fraction = 1.0 - fraction;
+
             if( sliderOption->dialWrapping ) angle = 1.5*M_PI - fraction*2*M_PI;
             else  angle = ( M_PI*8 - fraction*10*M_PI )/6;
         }
