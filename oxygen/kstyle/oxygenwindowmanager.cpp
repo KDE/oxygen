@@ -161,6 +161,7 @@ namespace Oxygen
         _blackList.clear();
         _blackList.insert( ExceptionId( "CustomTrackView@kdenlive" ) );
         _blackList.insert( ExceptionId( "MuseScore" ) );
+        _blackList.insert( ExceptionId( "KGameCanvasWidget" ) );
         foreach( const QString& exception, StyleConfigData::windowDragBlackList() )
         {
             ExceptionId id( exception );
@@ -354,8 +355,8 @@ namespace Oxygen
         if( QTreeView* treeView = qobject_cast<QTreeView*>( widget->parentWidget() ) )
         { if( treeView->viewport() == widget && !isBlackListed( treeView ) ) return true; }
 
-        if( QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
-        { if( graphicsView->viewport() == widget && !isBlackListed( graphicsView ) ) return true; }
+        //if( QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
+        //{ if( graphicsView->viewport() == widget && !isBlackListed( graphicsView ) ) return true; }
 
         /*
         catch labels in status bars.

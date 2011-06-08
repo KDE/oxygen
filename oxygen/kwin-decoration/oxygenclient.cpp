@@ -371,7 +371,8 @@ namespace Oxygen
             case LM_OuterPaddingRight:
             case LM_OuterPaddingTop:
             case LM_OuterPaddingBottom:
-            return shadowCache().shadowSize();
+            if( maximized ) return 0;
+            else return shadowCache().shadowSize();
 
             default:
             return KCommonDecoration::layoutMetric(lm, respectWindowState, btn);
@@ -1385,7 +1386,7 @@ namespace Oxygen
         QColor color = palette.window().color();
 
         // draw shadows
-        if( compositingActive() && shadowCache().shadowSize() > 0 )
+        if( compositingActive() && shadowCache().shadowSize() > 0 && !isMaximized() )
         {
 
             TileSet *tileSet( 0 );

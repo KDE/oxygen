@@ -155,6 +155,7 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::Style( void ):
+        _kGlobalSettingsInitialized( false ),
         _addLineButtons( DoubleButton ),
         _subLineButtons( SingleButton ),
         _singleButtonHeight( 14 ),
@@ -182,22 +183,6 @@ namespace Oxygen
         // use DBus connection to update on oxygen configuration change
         QDBusConnection dbus = QDBusConnection::sessionBus();
         dbus.connect( QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT( oxygenConfigurationChanged( void ) ) );
-
-//         #if KDE_IS_VERSION( 4, 5, 50 )
-//
-//         // for recent enough version of kde we use KGlobalSettings signal to detect palette changes
-//         KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
-//         connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
-//
-//         #else
-
-        /*
-        since the above Activate call is not available for older versions of KDE,
-        direct connection to dbus is used to detect global settings changes
-        */
-        dbus.connect( QString(), "/KGlobalSettings", "org.kde.KGlobalSettings", "notifyChange", this, SLOT( globalSettingsChanged( int,int ) ) );
-
-//         #endif
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
@@ -269,6 +254,13 @@ namespace Oxygen
             // set background as styled
             widget->setAttribute( Qt::WA_StyledBackground );
             widget->installEventFilter( _topLevelManager );
+
+            // initialize connections to kGlobalSettings
+            /*
+            this musts be done in ::polish and not before,
+            in order to be able to detect Qt-KDE vs Qt-only applications
+            */
+            if( !_kGlobalSettingsInitialized ) initializeKGlobalSettings();
 
             break;
 
@@ -3344,7 +3336,7 @@ namespace Oxygen
 
                 if( opacity > 0 )
                 {
-                    QColor color( helper().calcMidColor( helper().backgroundColor( palette.color( QPalette::Window ), widget, slitRect.center() ) ) );
+                    QColor color( helper().backgroundColor( helper().calcMidColor( palette.color( QPalette::Window ) ), widget, slitRect.center() ) );
                     color = helper().alphaColor( color, opacity );
                     painter->save();
                     painter->setRenderHint( QPainter::Antialiasing );
@@ -7964,13 +7956,6 @@ namespace Oxygen
     }
 
     //_____________________________________________________________________
-    void Style::globalSettingsChanged( int type, int )
-    {
-        if( type == KGlobalSettings::PaletteChanged )
-        { globalPaletteChanged(); }
-    }
-
-    //_____________________________________________________________________
     void Style::globalPaletteChanged( void )
     {
         helper().reloadConfig();
@@ -8291,6 +8276,27 @@ namespace Oxygen
         }
     }
 
+    //_____________________________________________________________
+    void Style::initializeKGlobalSettings( void )
+    {
+
+        if( qApp && !qApp->inherits( "KApplication" ) )
+        {
+            /*
+            for Qt, non-KDE applications, needs to explicitely activate KGlobalSettings.
+            On the other hand, it is done internally in kApplication constructor,
+            so no need to duplicate here.
+            */
+            KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
+        }
+
+        // connect palette changes to local slot, to make sure caches are cleared
+        connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
+
+        // update flag
+        _kGlobalSettingsInitialized = true;
+
+    }
 
     //______________________________________________________________
     void Style::polishScrollArea( QAbstractScrollArea* scrollArea ) const
