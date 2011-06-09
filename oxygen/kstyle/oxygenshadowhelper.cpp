@@ -54,8 +54,10 @@ namespace Oxygen
     ShadowHelper::ShadowHelper( QObject* parent, Helper& helper ):
         QObject( parent ),
         _shadowCache( new ShadowCache( helper ) ),
-        _size( 0 ),
-        _atom( None )
+        _size( 0 )
+        #ifdef Q_WS_X11
+        ,_atom( None )
+        #endif
     {}
 
     //_______________________________________________________
