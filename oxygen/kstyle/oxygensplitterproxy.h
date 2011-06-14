@@ -111,6 +111,9 @@ namespace Oxygen
         //! hook
         QPoint _hook;
 
+        //! timer id
+        int _timerId;
+
     };
 
 }

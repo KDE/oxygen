@@ -105,7 +105,8 @@ namespace Oxygen
 
     //____________________________________________________________________
     SplitterProxy::SplitterProxy( QWidget* parent ):
-        QWidget( parent )
+        QWidget( parent ),
+        _timerId( 0 )
     { hide(); }
 
     //____________________________________________________________________
@@ -216,11 +217,23 @@ namespace Oxygen
 
             }
 
+            case QEvent::Timer:
+            if( static_cast<QTimerEvent*>( event )->timerId() != _timerId )
+            { return QWidget::event( event ); }
+
+            if( mouseGrabber() == this )
+            { return true; }
+
+            /*
+            Fall through is intended.
+            We somehow lost a QEvent::Leave and gonna fix that from here
+            */
+
+            case QEvent::HoverLeave:
             case QEvent::Leave:
             {
 
-                // leave event and reset splitter
-                QWidget::leaveEvent( event );
+                // reset splitter
                 if( isVisible() && !rect().contains( mapFromGlobal( QCursor::pos() ) ) )
                 { clearSplitter(); }
                 return true;
@@ -252,6 +265,11 @@ namespace Oxygen
         raise();
         show();
 
+        /*
+        timer used to automatically hide proxy
+        in case leave events are lost
+        */
+        if( !_timerId ) _timerId = startTimer(150);
     }
 
 
@@ -279,6 +297,12 @@ namespace Oxygen
 
         }
 
+        // kill timer if any
+        if( _timerId )
+        {
+            killTimer( _timerId );
+            _timerId = 0;
+        }
 
     }
 
