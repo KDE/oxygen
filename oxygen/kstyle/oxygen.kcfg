@@ -6,7 +6,7 @@
   <group name="Common">
 
     <!-- background opacity -->
-    <entry name="BackgroundPixmap" type = "Path" >
+    <entry name="BackgroundPixmap" type = "String" >
        <default></default>
     </entry>
 
