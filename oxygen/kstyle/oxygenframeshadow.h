@@ -30,6 +30,9 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygenaddeventfilter.h"
+#include "oxygenstylehelper.h"
+
 #include <QtCore/QEvent>
 #include <QtCore/QObject>
 #include <QtCore/QSet>
@@ -37,8 +40,6 @@
 #include <QtGui/QWidget>
 #include <QtGui/QPaintEvent>
 #include <KColorScheme>
-
-#include "oxygenstylehelper.h"
 
 namespace Oxygen
 {
@@ -114,6 +115,9 @@ namespace Oxygen
         void widgetDestroyed( QObject* );
 
         private:
+
+        //! needed to block ChildAdded events when creating shadows
+        AddEventFilter _addEventFilter;
 
         //! set of registered widgets
         QSet<const QObject*> _registeredWidgets;

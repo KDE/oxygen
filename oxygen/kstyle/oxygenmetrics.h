@@ -116,6 +116,9 @@ namespace Oxygen
         // splitter
         Splitter_Width = 3,
 
+        // splitter extended width
+        Splitter_ExtendedWidth = 12,
+
         // tabs
         TabBar_BaseOverlap = 7,
         TabBar_BaseHeight = 2,
