@@ -53,6 +53,7 @@
 #include "oxygenframeshadow.h"
 #include "oxygenmdiwindowshadow.h"
 #include "oxygenshadowhelper.h"
+#include "oxygensplitterproxy.h"
 #include "oxygenstyleconfigdata.h"
 #include "oxygentransitions.h"
 #include "oxygenwidgetexplorer.h"
@@ -171,6 +172,7 @@ namespace Oxygen
         _mdiWindowShadowFactory( new MdiWindowShadowFactory( this, *_helper ) ),
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
+        _splitterFactory( new SplitterFactory( this ) ),
         _frameFocusPrimitive( 0 ),
         _tabBarTabShapeControl( 0 ),
         _hintCounter( X_KdeBase+1 ),
@@ -206,6 +208,7 @@ namespace Oxygen
         frameShadowFactory().registerWidget( widget, helper() );
         mdiWindowShadowFactory().registerWidget( widget );
         shadowHelper().registerWidget( widget );
+        splitterFactory().registerWidget( widget );
 
         // scroll areas
         if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) )
@@ -467,6 +470,7 @@ namespace Oxygen
         frameShadowFactory().unregisterWidget( widget );
         mdiWindowShadowFactory().unregisterWidget( widget );
         shadowHelper().unregisterWidget( widget );
+        splitterFactory().unregisterWidget( widget );
 
         if( isKTextEditFrame( widget ) )
         { widget->setAttribute( Qt::WA_Hover, false  ); }
