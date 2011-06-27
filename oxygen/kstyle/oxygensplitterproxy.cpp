@@ -43,7 +43,7 @@ namespace Oxygen
         {
 
             WidgetMap::iterator iter( _widgets.find( widget ) );
-            if( iter == _widgets.end() )
+            if( iter == _widgets.end() || !iter.value() )
             {
                 widget->installEventFilter( &_addEventFilter );
                 SplitterProxy* proxy( new SplitterProxy( widget ) );
@@ -55,8 +55,8 @@ namespace Oxygen
 
             } else {
 
-                widget->removeEventFilter( iter.value() );
-                widget->installEventFilter( iter.value() );
+                widget->removeEventFilter( iter.value().data() );
+                widget->installEventFilter( iter.value().data() );
 
             }
 
@@ -66,7 +66,7 @@ namespace Oxygen
 
             QWidget* window( widget->window() );
             WidgetMap::iterator iter( _widgets.find( window ) );
-            if( iter == _widgets.end() )
+            if( iter == _widgets.end() || !iter.value() )
             {
 
 
@@ -79,8 +79,8 @@ namespace Oxygen
 
             } else {
 
-                widget->removeEventFilter( iter.value() );
-                widget->installEventFilter( iter.value() );
+                widget->removeEventFilter( iter.value().data() );
+                widget->installEventFilter( iter.value().data() );
 
             }
 
@@ -92,16 +92,7 @@ namespace Oxygen
 
     //____________________________________________________________________
     void SplitterFactory::unregisterWidget( QWidget *widget )
-    {
-
-        WidgetMap::iterator iter( _widgets.find( widget ) );
-        if( iter != _widgets.end() )
-        {
-            iter.value()->deleteLater();
-            _widgets.erase( iter );
-        }
-
-    }
+    { _widgets.remove( widget ); }
 
     //____________________________________________________________________
     SplitterProxy::SplitterProxy( QWidget* parent ):

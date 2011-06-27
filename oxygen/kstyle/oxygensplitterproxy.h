@@ -69,8 +69,11 @@ namespace Oxygen
         //! needed to block ChildAdded events when creating proxy
         AddEventFilter _addEventFilter;
 
+        //! pointer to SplitterProxy
+        typedef QWeakPointer<SplitterProxy> SplitterProxyPointer;
+
         //! registered widgets
-        typedef QMap<QWidget*, SplitterProxy*> WidgetMap;
+        typedef QMap<QWidget*, SplitterProxyPointer > WidgetMap;
         WidgetMap _widgets;
 
     };
