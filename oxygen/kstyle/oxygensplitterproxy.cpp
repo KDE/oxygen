@@ -92,7 +92,15 @@ namespace Oxygen
 
     //____________________________________________________________________
     void SplitterFactory::unregisterWidget( QWidget *widget )
-    { _widgets.remove( widget ); }
+    {
+        WidgetMap::iterator iter( _widgets.find( widget ) );
+        if( iter != _widgets.end() )
+        {
+            if( iter.value() ) iter.value().data()->deleteLater();
+            _widgets.erase( iter );
+        }
+
+    }
 
     //____________________________________________________________________
     SplitterProxy::SplitterProxy( QWidget* parent ):
