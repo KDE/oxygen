@@ -74,7 +74,7 @@ namespace Oxygen
         connect( _viewDrawTriangularExpander, SIGNAL( toggled( bool ) ), _viewTriangularExpanderSize, SLOT( setEnabled( bool ) ) );
 
         // toggle expert mode
-        toggleExpertMode( false );
+        toggleExpertModeInternal( false );
 
         // load setup from configData
         load();
@@ -168,7 +168,14 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::toggleExpertMode( bool value )
     {
+        toggleExpertModeInternal( value );
+    }
 
+    //__________________________________________________________________
+    void StyleConfig::toggleExpertModeInternal( bool value )
+    {
+
+        // store value
         _expertMode = value;
 
         // update widget visibility based on expert mode

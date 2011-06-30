@@ -83,6 +83,13 @@ namespace Oxygen
         //! update options enable state based on selected drag mode
         void windowDragModeChanged( int );
 
+        //! toggle expert mode
+        virtual void toggleExpertModeInternal( void )
+        { toggleExpertModeInternal( !_expertMode ); }
+
+        //! toggle expert mode
+        virtual void toggleExpertModeInternal( bool );
+
         protected:
 
         //! load setup from config data
