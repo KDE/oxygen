@@ -72,6 +72,9 @@ namespace Oxygen
         // connections
         connect( _windowDragMode, SIGNAL( currentIndexChanged( int ) ), SLOT( windowDragModeChanged( int ) ) );
         connect( _viewDrawTriangularExpander, SIGNAL( toggled( bool ) ), _viewTriangularExpanderSize, SLOT( setEnabled( bool ) ) );
+        connect( _expertModeButton, SIGNAL( pressed( void ) ), SLOT( toggleExpertModeInternal( void ) ) );
+
+        _expertModeButton->setIcon( KIcon("configure") );
 
         // toggle expert mode
         toggleExpertModeInternal( false );
@@ -168,6 +171,7 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::toggleExpertMode( bool value )
     {
+        _expertModeContainer->hide();
         toggleExpertModeInternal( value );
     }
 
@@ -177,6 +181,9 @@ namespace Oxygen
 
         // store value
         _expertMode = value;
+
+        // update button text
+        _expertModeButton->setText( _expertMode ? i18n( "Hide Advanced Configuration Options" ):i18n( "Show Advanced Configuration Options" ) );
 
         // update widget visibility based on expert mode
         if( _expertMode )
