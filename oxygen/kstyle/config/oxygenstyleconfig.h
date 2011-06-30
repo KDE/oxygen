@@ -68,8 +68,8 @@ namespace Oxygen
         //! toggle expert mode
         virtual void toggleExpertMode( bool );
 
-        //! event
-        virtual void showEvent( QShowEvent* );
+        //! event filter
+        virtual bool eventFilter( QObject*, QEvent* );
 
         protected Q_SLOTS:
 

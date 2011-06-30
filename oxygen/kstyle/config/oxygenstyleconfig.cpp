@@ -179,6 +179,7 @@ namespace Oxygen
             if( !_animationConfigWidget )
             {
                 _animationConfigWidget = new AnimationConfigWidget();
+                _animationConfigWidget->installEventFilter( this );
                 connect( _animationConfigWidget, SIGNAL( changed( bool ) ), SLOT( updateChanged( void ) ) );
                 connect( _animationConfigWidget, SIGNAL( layoutChanged( void ) ), SLOT( updateLayout() ) );
                 _animationConfigWidget->load();
@@ -204,20 +205,19 @@ namespace Oxygen
     }
 
     //__________________________________________________________________
-    void StyleConfig::showEvent( QShowEvent* )
+    bool StyleConfig::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( _expertMode && _animationConfigWidget )
+        switch( event->type() )
         {
-            if( const QWidget* widget = tabWidget->widget( tabWidget->currentIndex() ) )
-            {
-                int delta = qMax( 0, _animationConfigWidget->sizeHint().height() - widget->size().height() );
-                if( delta > 0 ) window()->setMinimumSize( QSize( window()->minimumSizeHint().width(), window()->size().height() + delta ) );
-            }
+            case QEvent::ShowToParent:
+            object->event( event );
+            updateLayout();
+            return true;
+
+            default:
+            return false;
         }
-
-        return;
-
     }
 
     //__________________________________________________________________
