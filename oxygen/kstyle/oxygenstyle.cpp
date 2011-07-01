@@ -4904,10 +4904,12 @@ namespace Oxygen
 
         // handle right to left
         indicatorRect = handleRTL( option, indicatorRect );
-        indicatorRect.adjust( 1, 0, -1, -1 );
 
-        if( indicatorRect.isValid() )
+        // make sure rect is large enough
+        /* this account for adjustments done here and in StyleHelper::progressBarIndicator */
+        if( indicatorRect.adjusted( 2, 1, -2, -1 ).isValid() )
         {
+            indicatorRect.adjust( 1, 0, -1, -1 );
             QPixmap pixmap( helper().progressBarIndicator( palette, indicatorRect ) );
             painter->drawPixmap( indicatorRect.topLeft(), pixmap );
         }
