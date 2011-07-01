@@ -355,9 +355,6 @@ namespace Oxygen
         if( QTreeView* treeView = qobject_cast<QTreeView*>( widget->parentWidget() ) )
         { if( treeView->viewport() == widget && !isBlackListed( treeView ) ) return true; }
 
-        //if( QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>( widget->parentWidget() ) )
-        //{ if( graphicsView->viewport() == widget && !isBlackListed( graphicsView ) ) return true; }
-
         /*
         catch labels in status bars.
         this is because of kstatusbar

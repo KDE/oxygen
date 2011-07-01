@@ -113,10 +113,10 @@ namespace Oxygen
         //! destructor
         virtual ~Style( void );
 
-        //! widget polishing/unpolishing
+        //! widget polishing
         virtual void polish( QWidget* );
 
-        //! widget polishing/unpolishing
+        //! widget unpolishing
         virtual void unpolish( QWidget* );
 
         //! needed to avoid warnings at compilation time
@@ -825,14 +825,18 @@ namespace Oxygen
         //! true if KGlobalSettings signals are initialized
         bool _kGlobalSettingsInitialized;
 
-        //! scrollbar button types (for addLine and subLine )
+        //!@name scrollbar button types (for addLine and subLine )
+        //@{
         ScrollBarButtonType _addLineButtons;
         ScrollBarButtonType _subLineButtons;
+        //@}
 
-        //! metrics for scrollbar buttons
+        //!@name metrics for scrollbar buttons
+        //@{
         int _noButtonHeight;
         int _singleButtonHeight;
         int _doubleButtonHeight;
+        //@}
 
         //! true if keyboard accelerators must be drawn
         bool _showMnemonics;
@@ -969,7 +973,6 @@ namespace Oxygen
 
         return;
     }
-
 
 }
 

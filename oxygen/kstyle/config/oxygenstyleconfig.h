@@ -47,6 +47,9 @@ namespace Oxygen
         virtual ~StyleConfig( void )
         {}
 
+        //! event filter
+        virtual bool eventFilter( QObject*, QEvent* );
+
         Q_SIGNALS:
 
         //! emmited whenever one option is changed.
@@ -67,9 +70,6 @@ namespace Oxygen
 
         //! toggle expert mode
         virtual void toggleExpertMode( bool );
-
-        //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
 
         protected Q_SLOTS:
 

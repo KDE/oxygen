@@ -4890,11 +4890,7 @@ namespace Oxygen
 
             int pstep =  int( progress )%( 2*remSize );
             if ( pstep > remSize )
-            {
-                // Bounce about.. We're remWidth + some delta, we want to be remWidth - delta...
-                // - ( ( remWidth + some delta ) - 2* remWidth )  = - ( some delta - remWidth ) = remWidth - some delta..
-                pstep = -( pstep - 2*remSize );
-            }
+            { pstep = -( pstep - 2*remSize ); }
 
             if ( horizontal ) indicatorRect = QRect( r.x() + pstep, r.y(), indicatorSize, r.height() );
             else indicatorRect = QRect( r.x(), r.y() + pstep, r.width(), indicatorSize );
