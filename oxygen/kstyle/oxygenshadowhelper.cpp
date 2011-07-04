@@ -67,9 +67,8 @@ namespace Oxygen
     {
 
         #ifdef Q_WS_X11
-        // round pixmaps
-        foreach( const Qt::HANDLE& value, _pixmaps  )
-        { XFreePixmap( QX11Info::display(), value ); }
+        foreach( const Qt::HANDLE& value, _pixmaps  ) XFreePixmap( QX11Info::display(), value );
+        foreach( const Qt::HANDLE& value, _dockPixmaps  ) XFreePixmap( QX11Info::display(), value );
         #endif
 
         delete _shadowCache;
@@ -81,11 +80,12 @@ namespace Oxygen
     {
         #ifdef Q_WS_X11
         // round pixmaps
-        foreach( const Qt::HANDLE& value, _pixmaps  )
-        { XFreePixmap( QX11Info::display(), value ); }
+        foreach( const Qt::HANDLE& value, _pixmaps  ) XFreePixmap( QX11Info::display(), value );
+        foreach( const Qt::HANDLE& value, _dockPixmaps  ) XFreePixmap( QX11Info::display(), value );
         #endif
 
         _pixmaps.clear();
+        _dockPixmaps.clear();
 
         // reset size
         _size = 0;
@@ -149,16 +149,22 @@ namespace Oxygen
             // add transparency
             painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
             painter.fillRect( pixmap.rect(), QColor( 0, 0, 0, 150 ) );
+        }
 
+        // recreate tileset
+        _tiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
+
+        {
+
+            QPainter painter( &pixmap );
             // add round corners
             const QRect cornerRect( (pixmap.width()-10)/2, (pixmap.height()-10)/2, 10, 10 );
-            painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
             _helper.roundCorner( QPalette().color( QPalette::Window ) )->render( cornerRect, &painter );
 
         }
 
         // recreate tileset
-        _tiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
+        _dockTiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
 
         // update property for registered widgets
         for( QMap<QWidget*,WId>::const_iterator iter = _widgets.constBegin(); iter != _widgets.constEnd(); ++iter )
@@ -223,7 +229,7 @@ namespace Oxygen
     }
 
     //______________________________________________
-    void ShadowHelper::createPixmapHandles( void )
+    const QVector<Qt::HANDLE>& ShadowHelper::createPixmapHandles( bool isDockWidget )
     {
 
         /*!
@@ -237,11 +243,27 @@ namespace Oxygen
         #endif
 
         // make sure size is valid
-        if( _size <= 0 ) return;
+        if( _size <= 0 ) return _pixmaps;
 
         // make sure pixmaps are not already initialized
-        if( _pixmaps.empty() && _tiles.isValid() )
+        if( isDockWidget )
         {
+            // make sure pixmaps are not already initialized
+            if( _dockPixmaps.empty() && _dockTiles.isValid() )
+            {
+
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 1 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 2 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 5 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 8 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 7 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 6 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 3 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 0 ) ) );
+
+            }
+
+        } else if( _pixmaps.empty() && _tiles.isValid() ) {
 
             _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ) ) );
             _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ) ) );
@@ -253,6 +275,9 @@ namespace Oxygen
             _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ) ) );
 
         }
+
+        // return relevant list of pixmap handles
+        return isDockWidget ? _dockPixmaps:_pixmaps;
 
     }
 
@@ -314,15 +339,14 @@ namespace Oxygen
         { return false; }
 
         // create pixmap handles if needed
-        createPixmapHandles();
-
-        // make sure that pixmaps are valid
-        if( _pixmaps.size() != numPixmaps ) return false;
+        const bool isDockWidget( qobject_cast<QDockWidget*>( widget ) );
+        const QVector<Qt::HANDLE>& pixmaps( createPixmapHandles( isDockWidget ) );
+        if( pixmaps.size() != numPixmaps ) return false;
 
         // create data
         // add pixmap handles
         QVector<unsigned long> data;
-        foreach( const Qt::HANDLE& value, _pixmaps )
+        foreach( const Qt::HANDLE& value, pixmaps )
         { data.push_back( value ); }
 
         // add padding

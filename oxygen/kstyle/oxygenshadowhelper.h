@@ -103,7 +103,7 @@ namespace Oxygen
         { return *_shadowCache; }
 
         // create pixmap handles from tileset
-        void createPixmapHandles( void );
+        const QVector<Qt::HANDLE>& createPixmapHandles( bool isDockWidget );
 
         // create pixmap handle from pixmap
         Qt::HANDLE createPixmap( const QPixmap& ) const;
@@ -132,14 +132,20 @@ namespace Oxygen
         //! set of registered widgets
         QMap<QWidget*, WId> _widgets;
 
-        //! shadow tileset
+        //!@name shadow tilesets
+        //@{
         TileSet _tiles;
+        TileSet _dockTiles;
+        //@}
 
         //! number of pixmaps
         enum { numPixmaps = 8 };
 
-        //! pixmaps
+        //!@name pixmaps
+        //@{
         QVector<Qt::HANDLE> _pixmaps;
+        QVector<Qt::HANDLE> _dockPixmaps;
+        //@}
 
         //! shadow size
         int _size;
