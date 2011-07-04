@@ -42,7 +42,7 @@ namespace Oxygen
 
     //! forward declaration
     class ShadowCache;
-    class Helper;
+    class StyleHelper;
 
     //! handle shadow pixmaps passed to window manager via X property
     class ShadowHelper: public QObject
@@ -58,7 +58,7 @@ namespace Oxygen
         static const char* const netWMSkipShadowPropertyName;
 
         //! constructor
-        ShadowHelper( QObject*, Helper& );
+        ShadowHelper( QObject*, StyleHelper& );
 
         //! destructor
         virtual ~ShadowHelper( void );
@@ -122,6 +122,9 @@ namespace Oxygen
         void uninstallX11Shadows( WId ) const;
 
         private:
+
+        //! helper
+        StyleHelper& _helper;
 
         //! cache
         ShadowCache* _shadowCache;

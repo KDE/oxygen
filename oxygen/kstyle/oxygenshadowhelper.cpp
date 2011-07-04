@@ -27,6 +27,7 @@
 #include "oxygenshadowhelper.h"
 #include "oxygenshadowhelper.moc"
 #include "oxygenshadowcache.h"
+#include "oxygenstylehelper.h"
 
 #include <KConfig>
 
@@ -51,8 +52,9 @@ namespace Oxygen
     const char* const ShadowHelper::netWMSkipShadowPropertyName( "_KDE_NET_WM_SKIP_SHADOW" );
 
     //_____________________________________________________
-    ShadowHelper::ShadowHelper( QObject* parent, Helper& helper ):
+    ShadowHelper::ShadowHelper( QObject* parent, StyleHelper& helper ):
         QObject( parent ),
+        _helper( helper ),
         _shadowCache( new ShadowCache( helper ) ),
         _size( 0 )
         #ifdef Q_WS_X11
@@ -140,12 +142,19 @@ namespace Oxygen
         // retrieve shadow pixmap
         _size = shadowCache().shadowSize();
 
-        // add transparency
         QPixmap pixmap( shadowCache().pixmap( ShadowCache::Key() ) );
         {
             QPainter painter( &pixmap );
+
+            // add transparency
             painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
             painter.fillRect( pixmap.rect(), QColor( 0, 0, 0, 150 ) );
+
+            // add round corners
+            const QRect cornerRect( (pixmap.width()-10)/2, (pixmap.height()-10)/2, 10, 10 );
+            painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            _helper.roundCorner( QPalette().color( QPalette::Window ) )->render( cornerRect, &painter );
+
         }
 
         // recreate tileset
