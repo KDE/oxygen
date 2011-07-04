@@ -137,9 +137,18 @@ namespace Oxygen
         // reset
         reset();
 
-        // recreate handles and store size
+        // retrieve shadow pixmap
         _size = shadowCache().shadowSize();
+
+        // add transparency
         QPixmap pixmap( shadowCache().pixmap( ShadowCache::Key() ) );
+        {
+            QPainter painter( &pixmap );
+            painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+            painter.fillRect( pixmap.rect(), QColor( 0, 0, 0, 150 ) );
+        }
+
+        // recreate tileset
         _tiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
 
         // update property for registered widgets
@@ -266,11 +275,6 @@ namespace Oxygen
             QPainter painter( &dest );
             painter.setCompositionMode( QPainter::CompositionMode_Source );
             painter.drawPixmap( 0, 0, source );
-
-            // add opacity
-            painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-            painter.fillRect( dest.rect(), QColor( 0, 0, 0, 150 ) );
-
         }
 
 
