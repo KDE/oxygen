@@ -139,7 +139,8 @@ namespace Oxygen
 
         // recreate handles and store size
         _size = shadowCache().shadowSize();
-        _tiles = *shadowCache().tileSet( ShadowCache::Key() );
+        QPixmap pixmap( shadowCache().pixmap( ShadowCache::Key() ) );
+        _tiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
 
         // update property for registered widgets
         for( QMap<QWidget*,WId>::const_iterator iter = _widgets.constBegin(); iter != _widgets.constEnd(); ++iter )
