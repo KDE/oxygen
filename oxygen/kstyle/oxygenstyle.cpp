@@ -1304,20 +1304,6 @@ namespace Oxygen
                 if( dockWidget->isWindow() )
                 {
 
-//                    #ifndef Q_WS_WIN
-//                     bool hasAlpha( helper().hasAlphaChannel( dockWidget ) );
-//                     if( hasAlpha )
-//                     {
-//                         painter.setCompositionMode( QPainter::CompositionMode_Source );
-//                         TileSet *tileSet( helper().roundCorner( color ) );
-//                         tileSet->render( r, &painter );
-//
-//                         // set clip region
-//                         painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-//                         painter.setClipRegion( helper().roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-//                     }
-//                     #endif
-
                     helper().renderWindowBackground( &painter, r, dockWidget, color );
 
                     #ifndef Q_WS_WIN
