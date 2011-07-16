@@ -28,10 +28,15 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenanimationconfigitem.h"
-#include "ui_oxygenfollowmouseanimationconfigbox.h"
+
+#include <KComboBox>
 
 #include <QtCore/QWeakPointer>
 #include <QtGui/QFrame>
+#include <QtGui/QLabel>
+#include <QtGui/QSpinBox>
+
+class Ui_FollowMouseAnimationConfigBox;
 
 namespace Oxygen
 {
@@ -43,42 +48,31 @@ namespace Oxygen
         public:
 
         //! constructor
-        FollowMouseAnimationConfigBox(QWidget* parent):
-        QFrame( parent )
-        {
-            ui.setupUi( this );
-            ui.followMouseDurationSpinBox->setEnabled( false );
-            connect( ui.typeComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( typeChanged( int ) ) );
-        }
+        FollowMouseAnimationConfigBox(QWidget*);
+
+        //! destructor
+        virtual ~FollowMouseAnimationConfigBox( void );
 
         //! type ComboBox
-        KComboBox* typeComboBox( void ) const
-        { return ui.typeComboBox; }
+        KComboBox* typeComboBox( void ) const;
 
         //! duration spin box
-        QSpinBox* durationSpinBox( void ) const
-        { return ui.durationSpinBox; }
+        QSpinBox* durationSpinBox( void ) const;
 
         //! duration spin box
-        QLabel* durationLabel( void ) const
-        { return ui.durationLabel; }
+        QLabel* durationLabel( void ) const;
 
         //! follow mouse duration spinbox
-        QSpinBox* followMouseDurationSpinBox( void ) const
-        { return ui.followMouseDurationSpinBox; }
+        QSpinBox* followMouseDurationSpinBox( void ) const;
 
         protected slots:
 
         //! type changed
-        void typeChanged( int value )
-        {
-            ui.followMouseDurationLabel->setEnabled( value == 1 );
-            ui.followMouseDurationSpinBox->setEnabled( value == 1 );
-        }
+        void typeChanged( int );
 
         private:
 
-        Ui_FollowMouseAnimationConfigBox ui;
+        Ui_FollowMouseAnimationConfigBox* ui;
 
     };
 
