@@ -70,28 +70,4 @@ namespace Oxygen
         return;
     }
 
-    //_______________________________________________
-    void GenericAnimationConfigItem::initializeConfigurationWidget( QWidget* parent )
-    {
-        assert( !_configurationWidget );
-        _configurationWidget = new GenericAnimationConfigBox( parent );
-        setConfigurationWidget( _configurationWidget.data() );
-
-        connect( _configurationWidget.data()->durationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
-
-    }
-
-    //_______________________________________________
-    void FollowMouseAnimationConfigItem::initializeConfigurationWidget( QWidget* parent )
-    {
-        assert( !_configurationWidget );
-        _configurationWidget = new FollowMouseAnimationConfigBox( parent );
-        setConfigurationWidget( _configurationWidget.data() );
-
-        connect( _configurationWidget.data()->typeComboBox(), SIGNAL( currentIndexChanged( int ) ), SIGNAL( changed() ) );
-        connect( _configurationWidget.data()->durationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
-        connect( _configurationWidget.data()->followMouseDurationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
-
-    }
-
 }

@@ -27,6 +27,8 @@
 #include "oxygenanimationconfigwidget.h"
 #include "oxygenanimationconfigwidget.moc"
 #include "oxygenanimationconfigitem.h"
+#include "oxygenfollowmouseanimationconfigitem.h"
+#include "oxygengenericanimationconfigitem.h"
 #include "oxygenstyleconfigdata.h"
 
 #include <QtGui/QButtonGroup>
