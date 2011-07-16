@@ -27,8 +27,24 @@
 #include "oxygengenericanimationconfigitem.h"
 #include "oxygengenericanimationconfigitem.moc"
 
+#include "ui_oxygengenericanimationconfigbox.h"
+
 namespace Oxygen
 {
+
+    //_______________________________________________
+    GenericAnimationConfigBox::GenericAnimationConfigBox(QWidget* parent):
+        QFrame( parent ),
+        ui( new Ui_GenericAnimationConfigBox() )
+    { ui->setupUi( this ); }
+
+    //_______________________________________________
+    GenericAnimationConfigBox::~GenericAnimationConfigBox( void )
+    { delete ui; }
+
+    //_______________________________________________
+    QSpinBox* GenericAnimationConfigBox::durationSpinBox( void ) const
+    { return ui->durationSpinBox; }
 
     //_______________________________________________
     void GenericAnimationConfigItem::initializeConfigurationWidget( QWidget* parent )

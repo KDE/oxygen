@@ -28,10 +28,12 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenanimationconfigitem.h"
-#include "ui_oxygengenericanimationconfigbox.h"
 
 #include <QtCore/QWeakPointer>
 #include <QtGui/QFrame>
+#include <QtGui/QSpinBox>
+
+class Ui_GenericAnimationConfigBox;
 
 namespace Oxygen
 {
@@ -44,17 +46,17 @@ namespace Oxygen
         public:
 
         //! constructor
-        GenericAnimationConfigBox(QWidget* parent):
-        QFrame( parent )
-        { ui.setupUi( this ); }
+        GenericAnimationConfigBox(QWidget*);
+
+        //! destructor
+        virtual ~GenericAnimationConfigBox( void );
 
         //! duration spin box
-        QSpinBox* durationSpinBox( void ) const
-        { return ui.durationSpinBox; }
+        QSpinBox* durationSpinBox( void ) const;
 
         private:
 
-        Ui_GenericAnimationConfigBox ui;
+        Ui_GenericAnimationConfigBox* ui;
 
     };
 
