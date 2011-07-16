@@ -30,7 +30,7 @@
 #include <QtGui/QWidget>
 #include <QtGui/QLayout>
 
-#include "ui_oxygenanimationconfigwidget.h"
+class Ui_AnimationConfigWidget;
 
 namespace Oxygen
 {
@@ -47,6 +47,9 @@ namespace Oxygen
 
         //! constructor
         explicit AnimationConfigWidget( QWidget* = 0 );
+
+        //! destructor
+        virtual ~AnimationConfigWidget( void );
 
         //! true if changed
         virtual bool isChanged( void ) const
@@ -92,7 +95,7 @@ namespace Oxygen
         //! changed state
         bool _changed;
 
-        Ui_AnimationConfigWidget ui;
+        Ui_AnimationConfigWidget* ui;
 
         GenericAnimationConfigItem* _genericAnimations;
         GenericAnimationConfigItem* _progressBarAnimations;
