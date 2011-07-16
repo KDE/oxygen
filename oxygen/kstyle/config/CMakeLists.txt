@@ -1,7 +1,26 @@
 include_directories( ${KDE4_KDEUI_INCLUDES} )
 
 ########### next target ###############
+set(oxygenstyleconfig_LIB_SRCS
+    oxygenanimationconfigitem.cpp
+    oxygenbaseanimationconfigwidget.cpp
+    oxygengenericanimationconfigitem.cpp
+)
 
+kde4_add_ui_files(oxygenstyleconfig_LIB_SRCS
+    ui/oxygenanimationconfigitem.ui
+    ui/oxygenanimationconfigwidget.ui
+    ui/oxygengenericanimationconfigbox.ui
+)
+
+kde4_add_library(oxygenstyleconfig SHARED ${oxygenstyleconfig_LIB_SRCS})
+
+target_link_libraries(oxygenstyleconfig ${KDE4_KDEUI_LIBS})
+
+set_target_properties(oxygenstyleconfig PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
+install(TARGETS oxygenstyleconfig ${INSTALL_TARGETS_DEFAULT_ARGS} )
+
+########### next target ###############
 set(kstyle_oxygen_config_PART_SRCS
     oxygenanimationconfigitem.cpp
     oxygenanimationconfigwidget.cpp
