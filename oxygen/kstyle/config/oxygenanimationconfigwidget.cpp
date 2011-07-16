@@ -31,6 +31,8 @@
 #include "oxygengenericanimationconfigitem.h"
 #include "oxygenstyleconfigdata.h"
 
+#include "ui_oxygenanimationconfigwidget.h"
+
 #include <QtGui/QButtonGroup>
 #include <QtGui/QHoverEvent>
 #include <QtCore/QTextStream>
@@ -43,10 +45,11 @@ namespace Oxygen
     AnimationConfigWidget::AnimationConfigWidget( QWidget* parent ):
         QWidget( parent ),
         _changed( false ),
+        ui( new Ui_AnimationConfigWidget() ),
         row_(0)
     {
 
-        ui.setupUi( this );
+        ui->setupUi( this );
         QGridLayout* layout( qobject_cast<QGridLayout*>( AnimationConfigWidget::layout() ) );
         row_ = layout->rowCount();
 
@@ -102,23 +105,27 @@ namespace Oxygen
         layout->addItem( new QSpacerItem( 0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding ), row_, 1, 1, 1 );
         ++row_;
 
-        connect( ui.animationsEnabled, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
+        connect( ui->animationsEnabled, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
         foreach( AnimationConfigItem* item, findChildren<AnimationConfigItem*>() )
         {
             if( item != _progressBarBusyAnimations )
             {
                 item->QWidget::setEnabled( false );
-                connect( ui.animationsEnabled, SIGNAL( toggled( bool ) ), item, SLOT( setEnabled( bool ) ) );
+                connect( ui->animationsEnabled, SIGNAL( toggled( bool ) ), item, SLOT( setEnabled( bool ) ) );
             }
         }
 
     }
 
     //_______________________________________________
+    AnimationConfigWidget::~AnimationConfigWidget( void )
+    { delete ui; }
+
+    //_______________________________________________
     void AnimationConfigWidget::load( void )
     {
 
-        ui.animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
+        ui->animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
         _genericAnimations->setEnabled( StyleConfigData::genericAnimationsEnabled() );
         _genericAnimations->setDuration( StyleConfigData::genericAnimationsDuration() );
 
@@ -191,7 +198,7 @@ namespace Oxygen
     void AnimationConfigWidget::save( void )
     {
 
-        StyleConfigData::setAnimationsEnabled( ui.animationsEnabled->isChecked() );
+        StyleConfigData::setAnimationsEnabled( ui->animationsEnabled->isChecked() );
         StyleConfigData::setGenericAnimationsEnabled( _genericAnimations->enabled() );
         StyleConfigData::setGenericAnimationsDuration( _genericAnimations->duration() );
 
@@ -238,7 +245,7 @@ namespace Oxygen
     {
 
         bool modified( false );
-        if( ui.animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
+        if( ui->animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
         else if( _genericAnimations->enabled() != StyleConfigData::genericAnimationsEnabled() ) modified = true;
         else if( _genericAnimations->duration() != StyleConfigData::genericAnimationsDuration() ) modified = true;
 
