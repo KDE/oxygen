@@ -41,9 +41,9 @@ namespace Oxygen
     //_______________________________________________
     BaseAnimationConfigWidget::BaseAnimationConfigWidget( QWidget* parent ):
         QWidget( parent ),
-        _changed( false ),
         ui( new Ui_AnimationConfigWidget() ),
-        _row(0)
+        _row(0),
+        _changed( false )
     {
 
         ui->setupUi( this );
