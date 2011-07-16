@@ -1,4 +1,4 @@
-include_directories( ${KDE4_KDEUI_INCLUDES} )
+include_directories( ${KDE4_KDEUI_INCLUDES} ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs/oxygen)
 
 ########### next target ###############
 set(kstyle_oxygen_config_PART_SRCS
