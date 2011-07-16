@@ -27,6 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygen_export.h"
 #include "oxygenanimationconfigitem.h"
 
 #include <QtCore/QWeakPointer>
@@ -38,7 +39,7 @@ class Ui_GenericAnimationConfigBox;
 namespace Oxygen
 {
 
-    class GenericAnimationConfigBox: public QFrame
+    class OXYGEN_EXPORT GenericAnimationConfigBox: public QFrame
     {
 
         Q_OBJECT
@@ -61,7 +62,7 @@ namespace Oxygen
     };
 
     //! generic animation config item
-    class GenericAnimationConfigItem: public AnimationConfigItem
+    class OXYGEN_EXPORT GenericAnimationConfigItem: public AnimationConfigItem
     {
 
         Q_OBJECT

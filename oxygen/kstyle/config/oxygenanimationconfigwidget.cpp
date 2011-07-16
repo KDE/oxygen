@@ -31,8 +31,6 @@
 #include "oxygengenericanimationconfigitem.h"
 #include "oxygenstyleconfigdata.h"
 
-#include "ui_oxygenanimationconfigwidget.h"
-
 #include <QtGui/QButtonGroup>
 #include <QtGui/QHoverEvent>
 #include <QtCore/QTextStream>

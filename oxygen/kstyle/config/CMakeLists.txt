@@ -1,48 +1,22 @@
 include_directories( ${KDE4_KDEUI_INCLUDES} )
 
 ########### next target ###############
-set(oxygenstyleconfig_LIB_SRCS
-    oxygenanimationconfigitem.cpp
-    oxygenbaseanimationconfigwidget.cpp
-    oxygengenericanimationconfigitem.cpp
-)
-
-kde4_add_ui_files(oxygenstyleconfig_LIB_SRCS
-    ui/oxygenanimationconfigitem.ui
-    ui/oxygenanimationconfigwidget.ui
-    ui/oxygengenericanimationconfigbox.ui
-)
-
-kde4_add_library(oxygenstyleconfig SHARED ${oxygenstyleconfig_LIB_SRCS})
-
-target_link_libraries(oxygenstyleconfig ${KDE4_KDEUI_LIBS})
-
-set_target_properties(oxygenstyleconfig PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
-install(TARGETS oxygenstyleconfig ${INSTALL_TARGETS_DEFAULT_ARGS} )
-
-########### next target ###############
 set(kstyle_oxygen_config_PART_SRCS
-    oxygenanimationconfigitem.cpp
     oxygenanimationconfigwidget.cpp
-    oxygenbaseanimationconfigwidget.cpp
     oxygenfollowmouseanimationconfigitem.cpp
-    oxygengenericanimationconfigitem.cpp
     oxygenstyleconfig.cpp
 )
 
 kde4_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
 
 kde4_add_ui_files(kstyle_oxygen_config_PART_SRCS
-    ui/oxygenanimationconfigitem.ui
-    ui/oxygenanimationconfigwidget.ui
     ui/oxygenfollowmouseanimationconfigbox.ui
-    ui/oxygengenericanimationconfigbox.ui
     ui/oxygenstyleconfig.ui
 )
 
 kde4_add_plugin(kstyle_oxygen_config ${kstyle_oxygen_config_PART_SRCS})
 
-target_link_libraries(kstyle_oxygen_config ${KDE4_KDEUI_LIBS})
+target_link_libraries(kstyle_oxygen_config ${KDE4_KDEUI_LIBS} oxygenstyleconfig )
 
 install(TARGETS kstyle_oxygen_config  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
