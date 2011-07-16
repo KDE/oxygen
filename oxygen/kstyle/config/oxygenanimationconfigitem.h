@@ -27,10 +27,11 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "ui_oxygenanimationconfigitem.h"
-
+#include <KPushButton>
 #include <QtGui/QWidget>
 #include <cassert>
+
+class Ui_AnimationConfigItem;
 
 namespace Oxygen
 {
@@ -45,32 +46,27 @@ namespace Oxygen
         //! constructor
         explicit AnimationConfigItem( QWidget* parent, const QString& title = QString(), const QString& description = QString() );
 
-        //! title
-        virtual void setTitle( const QString& value )
-        { ui.enableCheckBox->setText( value ); }
+        //! destructor
+        virtual ~AnimationConfigItem( void );
 
         //! title
-        virtual QString title( void ) const
-        { return ui.enableCheckBox->text(); }
+        virtual void setTitle( const QString& );
+
+        //! title
+        virtual QString title( void ) const;
 
         //! description
-        virtual void setDescription( const QString& value )
-        {
-            _description = value;
-            ui.descriptionButton->setEnabled( !_description.isEmpty() );
-        }
+        virtual void setDescription( const QString& );
 
         //! description
         virtual const QString& description( void ) const
         { return _description; }
 
         //! enability
-        virtual void setEnabled( const bool& value )
-        { ui.enableCheckBox->setChecked( value ); }
+        virtual void setEnabled( const bool& );
 
         //! enability
-        virtual bool enabled( void ) const
-        { return ui.enableCheckBox->isChecked(); }
+        virtual bool enabled( void ) const;
 
         //! config widget
         virtual QWidget* configurationWidget( void ) const = 0;
@@ -79,8 +75,7 @@ namespace Oxygen
         virtual void initializeConfigurationWidget( QWidget* ) = 0;
 
         //! configuration button
-        KPushButton* configurationButton( void ) const
-        { return ui.configurationButton; }
+        KPushButton* configurationButton( void ) const;
 
         signals:
 
@@ -103,7 +98,7 @@ namespace Oxygen
         QString _description;
 
         //! ui
-        Ui_AnimationConfigItem ui;
+        Ui_AnimationConfigItem* ui;
 
     };
 
