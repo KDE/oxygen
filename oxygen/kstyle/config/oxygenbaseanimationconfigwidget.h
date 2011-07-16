@@ -1,8 +1,8 @@
-#ifndef oxygenanimationconfigwidget_h
-#define oxygenanimationconfigwidget_h
+#ifndef oxygenbaseanimationconfigwidget_h
+#define oxygenbaseanimationconfigwidget_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygenanimationconfigwidget.h
+// oxygenbaseanimationconfigwidget.h
 // animation configuration item
 // -------------------
 //
@@ -27,14 +27,17 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenbaseanimationconfigwidget.h"
+#include <QtGui/QWidget>
+#include <QtGui/QLayout>
+#include <QtGui/QCheckBox>
+
+class Ui_AnimationConfigWidget;
 
 namespace Oxygen
 {
-    class GenericAnimationConfigItem;
-    class FollowMouseAnimationConfigItem;
+    class AnimationConfigItem;
 
-    class AnimationConfigWidget: public BaseAnimationConfigWidget
+    class BaseAnimationConfigWidget: public QWidget
     {
 
         Q_OBJECT
@@ -42,39 +45,68 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit AnimationConfigWidget( QWidget* = 0 );
+        explicit BaseAnimationConfigWidget( QWidget* = 0 );
 
         //! destructor
-        virtual ~AnimationConfigWidget( void );
+        virtual ~BaseAnimationConfigWidget( void );
+
+        //! true if changed
+        virtual bool isChanged( void ) const
+        { return _changed; }
+
+        signals:
+
+        //! emmited when layout is changed
+        void layoutChanged( void );
+
+        //! emmited when changed
+        void changed( bool );
 
         public slots:
 
         //! read current configuration
-        virtual void load( void );
+        virtual void load( void ) = 0;
 
         //! save current configuration
-        virtual void save( void );
+        virtual void save( void ) = 0;
 
         protected slots:
 
+        //! update visible ites
+        virtual void updateItems( bool );
+
         //! check whether configuration is changed and emit appropriate signal if yes
-        virtual void updateChanged();
+        virtual void updateChanged() = 0;
+
+        protected:
+
+        //! get global animations enabled checkbox
+        QCheckBox* animationsEnabled( void ) const;
+
+        //! add item to ui
+        virtual void setupItem( QGridLayout*, AnimationConfigItem* );
+
+        //! set changed state
+        virtual void setChanged( bool value )
+        {
+            _changed = value;
+            emit changed( value );
+        }
+
+        //! user interface
+        Ui_AnimationConfigWidget* ui;
+
+        //! row index
+        int _row;
 
         private:
 
-        GenericAnimationConfigItem* _genericAnimations;
-        GenericAnimationConfigItem* _progressBarAnimations;
-        GenericAnimationConfigItem* _progressBarBusyAnimations;
-        GenericAnimationConfigItem* _stackedWidgetAnimations;
-        GenericAnimationConfigItem* _labelAnimations;
-        GenericAnimationConfigItem* _lineEditAnimations;
-        GenericAnimationConfigItem* _comboBoxAnimations;
-        FollowMouseAnimationConfigItem* _toolBarAnimations;
-        FollowMouseAnimationConfigItem* _menuBarAnimations;
-        FollowMouseAnimationConfigItem* _menuAnimations;
+        //! changed state
+        bool _changed;
 
     };
 
 }
+
 
 #endif

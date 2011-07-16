@@ -5,6 +5,7 @@ include_directories( ${KDE4_KDEUI_INCLUDES} )
 set(kstyle_oxygen_config_PART_SRCS
     oxygenanimationconfigitem.cpp
     oxygenanimationconfigwidget.cpp
+    oxygenbaseanimationconfigwidget.cpp
     oxygenfollowmouseanimationconfigitem.cpp
     oxygengenericanimationconfigitem.cpp
     oxygenstyleconfig.cpp
