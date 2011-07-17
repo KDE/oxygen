@@ -60,48 +60,20 @@ namespace Oxygen
 
         // initialize shadowCacheMode
         const KConfigGroup group( config.group("Windeco") );
-        const QString shadowCacheMode( group.readEntry( OxygenConfig::SHADOW_CACHE_MODE, "Variable" ) );
 
-        if( shadowCacheMode == "Disabled" )
+        if( !_enabled )
         {
+            setEnabled( true );
+            changed = true;
+        }
 
-            if( _enabled )
-            {
-                setEnabled( false );
-                changed = true;
-            }
-
-        } else if( shadowCacheMode == "Maximum" ) {
-
-            if( !_enabled )
-            {
-                setEnabled( true );
-                changed = true;
-            }
-
-            if( _maxIndex != 256 )
-            {
-                setMaxIndex( 256 );
-                changed = true;
-            }
-
-        } else {
-
-            if( !_enabled )
-            {
-                setEnabled( true );
-                changed = true;
-            }
-
-            // get animation duration
-            const int duration( group.readEntry( OxygenConfig::ANIMATIONS_DURATION, 150 ) );
-            const int maxIndex( qMin( 256, int( (120*duration)/1000 ) ) );
-            if( _maxIndex != maxIndex )
-            {
-                setMaxIndex( maxIndex );
-                changed = true;
-            }
-
+        // get animation duration
+        const int duration( group.readEntry( OxygenConfig::ANIMATIONS_DURATION, 150 ) );
+        const int maxIndex( qMin( 256, int( (120*duration)/1000 ) ) );
+        if( _maxIndex != maxIndex )
+        {
+            setMaxIndex( maxIndex );
+            changed = true;
         }
 
         // active shadows
