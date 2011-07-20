@@ -38,46 +38,70 @@
 namespace Oxygen
 {
 
-  //_____________________________________________
-  class ConfigurationUi: public QWidget
-  {
+    class AnimationConfigWidget;
 
-    Q_OBJECT
+    //_____________________________________________
+    class ConfigurationUi: public QWidget
+    {
 
-    public:
+        Q_OBJECT
 
-    //! constructor
-    ConfigurationUi( QWidget* );
+        public:
 
-    //! ui
-    Ui_OxygenConfigurationUI ui;
+        //! constructor
+        ConfigurationUi( QWidget* );
 
-    //! shadow configuration
-    QVector<ShadowConfigurationUi*> shadowConfigurations;
+        //! destructor
+        virtual ~ConfigurationUi( void )
+        {}
 
-    //! toggle expert mode
-    void toggleExpertMode( bool );
+        //! ui
+        Ui_OxygenConfigurationUI ui;
 
-    protected slots:
+        //! shadow configuration
+        QVector<ShadowConfigurationUi*> shadowConfigurations;
 
-    //! toggle expert mode
-    void toggleExpertModeInternal( void )
-    { toggleExpertModeInternal( !_expertMode ); }
+        //! toggle expert mode
+        void toggleExpertMode( bool );
 
-    //! toggle expert mode
-    void toggleExpertModeInternal( bool );
+        //! expert mode
+        bool expertMode( void ) const
+        { return _expertMode; }
 
-    signals:
+        //! animation config widget
+        AnimationConfigWidget* animationConfigWidget( void ) const
+        { return _animationConfigWidget; }
 
-    //! emmited when changed
-    bool changed( void );
+        //! event filter
+        virtual bool eventFilter( QObject*, QEvent* );
 
-    private:
+        protected Q_SLOTS:
 
-    //! expert mode
-    bool _expertMode;
+        //! toggle expert mode
+        void toggleExpertModeInternal( void )
+        { toggleExpertModeInternal( !_expertMode ); }
 
-  };
+        //! toggle expert mode
+        void toggleExpertModeInternal( bool );
+
+        //! update layout
+        /*! needed in expert mode to accommodate with animations config widget size changes */
+        void updateLayout( void );
+
+        signals:
+
+        //! emmited when changed
+        void changed( void );
+
+        private:
+
+        //! expert mode
+        bool _expertMode;
+
+        //! animation config (expert mode only)
+        AnimationConfigWidget* _animationConfigWidget;
+
+    };
 
 }
 

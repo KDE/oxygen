@@ -28,12 +28,15 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenbaseanimationconfigwidget.h"
+#include "../oxygenconfiguration.h"
 
 namespace Oxygen
 {
-    class GenericAnimationConfigItem;
-    class FollowMouseAnimationConfigItem;
 
+    // forward declaration
+    class GenericAnimationConfigItem;
+
+    //! container to configure animations individually
     class AnimationConfigWidget: public BaseAnimationConfigWidget
     {
 
@@ -46,6 +49,14 @@ namespace Oxygen
 
         //! destructor
         virtual ~AnimationConfigWidget( void );
+
+        //! configuration
+        void setConfiguration( const Configuration& configuration )
+        { _configuration = configuration; }
+
+        //! configuration
+        const Configuration& configuration( void )  const
+        { return _configuration; }
 
         public slots:
 
@@ -62,16 +73,16 @@ namespace Oxygen
 
         private:
 
-        GenericAnimationConfigItem* _genericAnimations;
-        GenericAnimationConfigItem* _progressBarAnimations;
-        GenericAnimationConfigItem* _progressBarBusyAnimations;
-        GenericAnimationConfigItem* _stackedWidgetAnimations;
-        GenericAnimationConfigItem* _labelAnimations;
-        GenericAnimationConfigItem* _lineEditAnimations;
-        GenericAnimationConfigItem* _comboBoxAnimations;
-        FollowMouseAnimationConfigItem* _toolBarAnimations;
-        FollowMouseAnimationConfigItem* _menuBarAnimations;
-        FollowMouseAnimationConfigItem* _menuAnimations;
+        //! local configuration, needed to handle I/O
+        Configuration _configuration;
+
+        //!@name animations
+        //@{
+        GenericAnimationConfigItem* _buttonAnimations;
+        GenericAnimationConfigItem* _titleAnimations;
+        GenericAnimationConfigItem* _shadowAnimations;
+        GenericAnimationConfigItem* _tabAnimations;
+        //@}
 
     };
 

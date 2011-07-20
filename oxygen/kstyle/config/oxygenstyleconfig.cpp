@@ -205,7 +205,7 @@ namespace Oxygen
 
         } else if( _animationConfigWidget ) {
 
-            if( int index =tabWidget->indexOf( _animationConfigWidget ) >= 0 )
+            if( int index = tabWidget->indexOf( _animationConfigWidget ) >= 0 )
             { tabWidget->removeTab( index ); }
 
         }

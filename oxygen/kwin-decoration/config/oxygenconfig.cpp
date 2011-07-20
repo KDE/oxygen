@@ -30,9 +30,11 @@
 #include "oxygenconfig.h"
 #include "oxygenconfig.moc"
 
+#include "oxygenanimationconfigwidget.h"
 #include "oxygenshadowconfiguration.h"
 #include "../oxygenconfiguration.h"
 
+#include <QtCore/QTextStream>
 #include <QtDBus/QDBusConnection>
 #include <QtDBus/QDBusMessage>
 
@@ -114,13 +116,9 @@ namespace Oxygen
         else if( ui->ui.blendColor->currentIndex() != ui->ui.blendColor->findText( configuration.blendColorName( true ) ) ) modified = true;
         else if( ui->ui.frameBorder->currentIndex() != ui->ui.frameBorder->findText( configuration.frameBorderName( true ) ) ) modified = true;
         else if( ui->ui.sizeGripMode->currentIndex() != ui->ui.sizeGripMode->findText( configuration.sizeGripModeName( true ) ) ) modified = true;
-        else if( ui->ui.shadowCacheMode->currentIndex() != ui->ui.shadowCacheMode->findText( configuration.shadowCacheModeName( true ) ) ) modified = true;
 
         else if( ui->ui.separatorMode->currentIndex() != configuration.separatorMode() ) modified = true;
         else if( ui->ui.titleOutline->isChecked() !=  configuration.drawTitleOutline() ) modified = true;
-        else if( ui->ui.tabsEnabled->isChecked() !=  configuration.tabsEnabled() ) modified = true;
-        else if( ui->ui.useAnimations->isChecked() !=  configuration.useAnimations() ) modified = true;
-        else if( ui->ui.animateTitleChange->isChecked() !=  configuration.animateTitleChange() ) modified = true;
         else if( ui->ui.narrowButtonSpacing->isChecked() !=  configuration.useNarrowButtonSpacing() ) modified = true;
 
         // shadow configurations
@@ -131,6 +129,10 @@ namespace Oxygen
 
         // exceptions
         else if( exceptionListChanged() ) modified = true;
+
+        // animations
+        else if( !ui->expertMode() && ui->ui.animationsEnabled->isChecked() !=  configuration.animationsEnabled() ) modified = true;
+        else if( ui->expertMode() && ui->animationConfigWidget()->isChanged() ) modified = true;
 
         // emit relevant signals
         if( modified ) emit changed();
@@ -150,15 +152,24 @@ namespace Oxygen
         configuration.setBlendColor( Configuration::blendColor( ui->ui.blendColor->currentText(), true ) );
         configuration.setFrameBorder( Configuration::frameBorder( ui->ui.frameBorder->currentText(), true ) );
         configuration.setSizeGripMode( Configuration::sizeGripMode( ui->ui.sizeGripMode->currentText(), true ) );
-        configuration.setShadowCacheMode( Configuration::shadowCacheMode( ui->ui.shadowCacheMode->currentText(), true ) );
         configuration.setSeparatorMode( (Oxygen::Configuration::SeparatorMode) ui->ui.separatorMode->currentIndex() );
         configuration.setDrawTitleOutline( ui->ui.titleOutline->isChecked() );
         configuration.setUseDropShadows( ui->shadowConfigurations[1]->isChecked() );
         configuration.setUseOxygenShadows( ui->shadowConfigurations[0]->isChecked() );
-        configuration.setTabsEnabled( ui->ui.tabsEnabled->isChecked() );
-        configuration.setUseAnimations( ui->ui.useAnimations->isChecked() );
-        configuration.setAnimateTitleChange( ui->ui.animateTitleChange->isChecked() );
         configuration.setUseNarrowButtonSpacing( ui->ui.narrowButtonSpacing->isChecked() );
+
+        if( ui->expertMode() )
+        {
+
+            ui->animationConfigWidget()->setConfiguration( configuration );
+            ui->animationConfigWidget()->save();
+            configuration = ui->animationConfigWidget()->configuration();
+
+        } else {
+
+            configuration.setAnimationsEnabled( ui->ui.animationsEnabled->isChecked() );
+
+        }
 
         // save standard configuration
         KConfigGroup configurationGroup( _configuration, "Windeco");
@@ -233,11 +244,12 @@ namespace Oxygen
         ui->ui.titleOutline->setChecked( configuration.drawTitleOutline() );
         ui->shadowConfigurations[0]->setChecked( configuration.useOxygenShadows() );
         ui->shadowConfigurations[1]->setChecked( configuration.useDropShadows() );
-        ui->ui.tabsEnabled->setChecked( configuration.tabsEnabled() );
-        ui->ui.useAnimations->setChecked( configuration.useAnimations() );
-        ui->ui.animateTitleChange->setChecked( configuration.animateTitleChange() );
+        ui->ui.animationsEnabled->setChecked( configuration.animationsEnabled() );
         ui->ui.narrowButtonSpacing->setChecked( configuration.useNarrowButtonSpacing() );
-        ui->ui.shadowCacheMode->setCurrentIndex( ui->ui.shadowCacheMode->findText( configuration.shadowCacheModeName( true ) ) );
+
+        ui->animationConfigWidget()->setConfiguration( configuration );
+        ui->animationConfigWidget()->load();
+
     }
 
     //_______________________________________________________________________

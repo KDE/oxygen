@@ -106,7 +106,11 @@ namespace Oxygen
     SplitterProxy::SplitterProxy( QWidget* parent ):
         QWidget( parent ),
         _timerId( 0 )
-    { hide(); }
+    {
+        setAttribute( Qt::WA_TranslucentBackground, true );
+        setAttribute( Qt::WA_OpaquePaintEvent, false );
+        hide();
+    }
 
     //____________________________________________________________________
     SplitterProxy::~SplitterProxy( void )
@@ -168,15 +172,6 @@ namespace Oxygen
     {
         switch( event->type() )
         {
-
-            case QEvent::Paint:
-            {
-//                 QPainter p( this );
-//                 p.setBrush( Qt::NoBrush );
-//                 p.setPen( QColor( 255, 0, 0, 100 ) );
-//                 p.drawRect( rect().adjusted( 0, 0, -1, -1 ) );
-                return true;
-            }
 
             case QEvent::MouseMove:
             case QEvent::MouseButtonPress:

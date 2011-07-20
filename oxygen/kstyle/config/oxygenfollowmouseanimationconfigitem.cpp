@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// oxygenanimationconfigitem.cpp
+// oxygenfollowmouseanimationconfigitem.cpp
 // animation configuration item
 // -------------------
 //
@@ -24,61 +24,48 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenanimationconfigitem.h"
-#include "oxygenanimationconfigitem.moc"
-
-#include <QtCore/QTextStream>
-#include <KIcon>
-#include <KLocale>
-#include <KMessageBox>
+#include "oxygenfollowmouseanimationconfigitem.h"
+#include "oxygenfollowmouseanimationconfigitem.moc"
+#include "ui_oxygenfollowmouseanimationconfigbox.h"
 
 namespace Oxygen
 {
 
     //_______________________________________________
-    AnimationConfigItem::AnimationConfigItem( QWidget* parent, const QString& title, const QString& description ):
-        QWidget( parent )
+    FollowMouseAnimationConfigBox::FollowMouseAnimationConfigBox(QWidget* parent):
+        QFrame( parent ),
+        ui( new Ui_FollowMouseAnimationConfigBox() )
     {
-
-        ui.setupUi( this );
-        layout()->setMargin(0);
-
-        ui.configurationButton->setIcon( KIcon("configure") );
-        ui.descriptionButton->setIcon(KIcon("dialog-information"));
-
-        connect( ui.enableCheckBox, SIGNAL( toggled( bool ) ), SIGNAL( changed( void ) ) );
-        connect( ui.descriptionButton, SIGNAL( clicked( void ) ), SLOT( about( void ) ) );
-
-        setTitle( title );
-        setDescription( description );
-
+        ui->setupUi( this );
+        ui->followMouseDurationSpinBox->setEnabled( false );
+        connect( ui->typeComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( typeChanged( int ) ) );
     }
 
     //_______________________________________________
-    void AnimationConfigItem::setConfigurationWidget( QWidget* widget )
-    {
-        widget->setEnabled( ui.enableCheckBox->isChecked() );
-        connect( ui.enableCheckBox, SIGNAL( toggled( bool ) ), widget, SLOT( setEnabled( bool ) ) );
-        connect( ui.configurationButton, SIGNAL( toggled( bool ) ), widget, SLOT( setVisible( bool ) ) );
-    }
+    FollowMouseAnimationConfigBox::~FollowMouseAnimationConfigBox( void )
+    { delete ui; }
 
     //_______________________________________________
-    void AnimationConfigItem::about( void )
-    {
-        if( description().isEmpty() ) return;
-        KMessageBox::information( this, description(), i18n( "oxygen-settings - information" ) );
-        return;
-    }
+    KComboBox* FollowMouseAnimationConfigBox::typeComboBox( void ) const
+    { return ui->typeComboBox; }
 
     //_______________________________________________
-    void GenericAnimationConfigItem::initializeConfigurationWidget( QWidget* parent )
+    QSpinBox* FollowMouseAnimationConfigBox::durationSpinBox( void ) const
+    { return ui->durationSpinBox; }
+
+    //_______________________________________________
+    QLabel* FollowMouseAnimationConfigBox::durationLabel( void ) const
+    { return ui->durationLabel; }
+
+    //_______________________________________________
+    QSpinBox* FollowMouseAnimationConfigBox::followMouseDurationSpinBox( void ) const
+    { return ui->followMouseDurationSpinBox; }
+
+    //_______________________________________________
+    void FollowMouseAnimationConfigBox::typeChanged( int value )
     {
-        assert( !_configurationWidget );
-        _configurationWidget = new GenericAnimationConfigBox( parent );
-        setConfigurationWidget( _configurationWidget.data() );
-
-        connect( _configurationWidget.data()->durationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
-
+        ui->followMouseDurationLabel->setEnabled( value == 1 );
+        ui->followMouseDurationSpinBox->setEnabled( value == 1 );
     }
 
     //_______________________________________________
