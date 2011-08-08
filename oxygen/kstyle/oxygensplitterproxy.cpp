@@ -194,14 +194,33 @@ namespace Oxygen
                 QMouseEvent *mouseEvent( static_cast<QMouseEvent*>( event ) );
 
                 // get relevant position to post mouse drag event to application
-                QMouseEvent mouseEvent2(
-                    mouseEvent->type(),
-                    event->type() == QEvent::MouseMove ? _splitter.data()->mapFromGlobal( mouseEvent->globalPos() ) : _hook,
-                    event->type() == QEvent::MouseMove ? mouseEvent->globalPos() : _splitter.data()->mapToGlobal(_hook),
-                    mouseEvent->button(),
-                    mouseEvent->buttons(), mouseEvent->modifiers());
+                if( event->type() == QEvent::MouseButtonPress )
+                {
 
-                QCoreApplication::sendEvent( _splitter.data(), &mouseEvent2 );
+                    // use hook, to make sure splitter is properly dragged
+                    QMouseEvent mouseEvent2(
+                        mouseEvent->type(),
+                        _hook,
+                        _splitter.data()->mapToGlobal(_hook),
+                        mouseEvent->button(),
+                        mouseEvent->buttons(), mouseEvent->modifiers());
+
+                    QCoreApplication::sendEvent( _splitter.data(), &mouseEvent2 );
+
+                } else {
+
+                    // map event position to current splitter and post.
+                   QMouseEvent mouseEvent2(
+                        mouseEvent->type(),
+                        _splitter.data()->mapFromGlobal( mouseEvent->globalPos() ),
+                        mouseEvent->globalPos(),
+                        mouseEvent->button(),
+                        mouseEvent->buttons(), mouseEvent->modifiers());
+
+                    QCoreApplication::sendEvent( _splitter.data(), &mouseEvent2 );
+
+
+                }
 
                 // release grab on mouse-Release
                 if( event->type() == QEvent::MouseButtonRelease && mouseGrabber() == this )
