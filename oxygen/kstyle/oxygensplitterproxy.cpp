@@ -196,7 +196,7 @@ namespace Oxygen
                 // get relevant position to post mouse drag event to application
                 QMouseEvent mouseEvent2(
                     mouseEvent->type(),
-                    event->type() == QEvent::MouseMove ? mouseEvent->pos() : _hook,
+                    event->type() == QEvent::MouseMove ? _splitter.data()->mapFromGlobal( mouseEvent->globalPos() ) : _hook,
                     event->type() == QEvent::MouseMove ? mouseEvent->globalPos() : _splitter.data()->mapToGlobal(_hook),
                     mouseEvent->button(),
                     mouseEvent->buttons(), mouseEvent->modifiers());
