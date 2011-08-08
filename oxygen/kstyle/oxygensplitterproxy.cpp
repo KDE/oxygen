@@ -194,10 +194,10 @@ namespace Oxygen
                 QMouseEvent *mouseEvent( static_cast<QMouseEvent*>( event ) );
 
                 // get relevant position to post mouse drag event to application
-                const QPoint pos( (event->type() == QEvent::MouseMove) ? _splitter.data()->mapFromGlobal(QCursor::pos()) : _hook );
                 QMouseEvent mouseEvent2(
-                    mouseEvent->type(), pos,
-                    _splitter.data()->mapToGlobal(pos),
+                    mouseEvent->type(),
+                    event->type() == QEvent::MouseMove ? mouseEvent->pos() : _hook,
+                    event->type() == QEvent::MouseMove ? mouseEvent->globalPos() : _splitter.data()->mapToGlobal(_hook),
                     mouseEvent->button(),
                     mouseEvent->buttons(), mouseEvent->modifiers());
 
