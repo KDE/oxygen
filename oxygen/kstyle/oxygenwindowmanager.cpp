@@ -38,10 +38,12 @@
 #include <QtGui/QComboBox>
 #include <QtGui/QDialog>
 #include <QtGui/QDockWidget>
+#include <QtGui/QGraphicsView>
 #include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
 #include <QtGui/QListView>
 #include <QtGui/QMainWindow>
+#include <QtGui/QMdiSubWindow>
 #include <QtGui/QMenuBar>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QProgressBar>
@@ -53,10 +55,8 @@
 #include <QtGui/QToolBar>
 #include <QtGui/QToolButton>
 #include <QtGui/QTreeView>
-#include <QtGui/QGraphicsView>
 
 #include <QtCore/QTextStream>
-#include <QtGui/QTextDocument>
 
 #include <KGlobalSettings>
 
@@ -467,6 +467,9 @@ namespace Oxygen
         // check menubar
         if( QMenuBar* menuBar = qobject_cast<QMenuBar*>( widget ) )
         {
+
+            // do not drag from menubars embedded in Mdi windows
+            if( findParent<QMdiSubWindow*>( widget ) ) return false;
 
             // check if there is an active action
             if( menuBar->activeAction() && menuBar->activeAction()->isEnabled() ) return false;
