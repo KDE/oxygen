@@ -70,9 +70,9 @@ namespace Oxygen
         setupUi(this);
 
         // connections
-        connect( _windowDragMode, SIGNAL( currentIndexChanged( int ) ), SLOT( windowDragModeChanged( int ) ) );
-        connect( _viewDrawTriangularExpander, SIGNAL( toggled( bool ) ), _viewTriangularExpanderSize, SLOT( setEnabled( bool ) ) );
-        connect( _expertModeButton, SIGNAL( pressed( void ) ), SLOT( toggleExpertModeInternal( void ) ) );
+        connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(windowDragModeChanged(int)) );
+        connect( _viewDrawTriangularExpander, SIGNAL(toggled(bool)), _viewTriangularExpanderSize, SLOT(setEnabled(bool)) );
+        connect( _expertModeButton, SIGNAL(pressed()), SLOT(toggleExpertModeInternal()) );
 
         _expertModeButton->setIcon( KIcon("configure") );
 
@@ -82,25 +82,25 @@ namespace Oxygen
         // load setup from configData
         load();
 
-        connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _checkDrawX, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _showMnemonics, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _cacheEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _viewDrawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _viewTriangularExpanderSize, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
-        connect( _viewDrawFocusIndicator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _viewDrawTreeBranchLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _scrollBarWidth, SIGNAL( valueChanged(int) ), SLOT( updateChanged() ) );
-        connect( _scrollBarAddLineButtons, SIGNAL( currentIndexChanged(int) ), SLOT( updateChanged() ) );
-        connect( _scrollBarSubLineButtons, SIGNAL( currentIndexChanged(int) ), SLOT( updateChanged() ) );
-        connect( _menuHighlightDark, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _menuHighlightStrong, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _menuHighlightSubtle, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _tabStylePlain, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
-        connect( _tabStyleSingle, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
-        connect( _windowDragMode, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
-        connect( _useWMMoveResize, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
+        connect( _toolBarDrawItemSeparator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _checkDrawX, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _showMnemonics, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _animationsEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _cacheEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewDrawTriangularExpander, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewTriangularExpanderSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _viewDrawFocusIndicator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewDrawTreeBranchLines, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _scrollBarWidth, SIGNAL(valueChanged(int)), SLOT(updateChanged()) );
+        connect( _scrollBarAddLineButtons, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _scrollBarSubLineButtons, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _menuHighlightDark, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _menuHighlightStrong, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _menuHighlightSubtle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _tabStylePlain, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _tabStyleSingle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _useWMMoveResize, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
 
     }
 
@@ -194,8 +194,8 @@ namespace Oxygen
             {
                 _animationConfigWidget = new AnimationConfigWidget();
                 _animationConfigWidget->installEventFilter( this );
-                connect( _animationConfigWidget, SIGNAL( changed( bool ) ), SLOT( updateChanged( void ) ) );
-                connect( _animationConfigWidget, SIGNAL( layoutChanged( void ) ), SLOT( updateLayout() ) );
+                connect( _animationConfigWidget, SIGNAL(changed(bool)), SLOT(updateChanged()) );
+                connect( _animationConfigWidget, SIGNAL(layoutChanged()), SLOT(updateLayout()) );
                 _animationConfigWidget->load();
             }
 

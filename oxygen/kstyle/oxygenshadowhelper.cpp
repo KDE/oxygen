@@ -115,7 +115,7 @@ namespace Oxygen
         if( widget->testAttribute(Qt::WA_WState_Created) && installX11Shadows( widget ) )
         {  _widgets.insert( widget, widget->winId() ); }
 
-        connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( objectDeleted( QObject* ) ) );
+        connect( widget, SIGNAL(destroyed(QObject*)), SLOT(objectDeleted(QObject*)) );
 
         return true;
 

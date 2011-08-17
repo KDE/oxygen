@@ -89,7 +89,7 @@ namespace Oxygen
         _registeredWidgets.insert( widget );
 
         // catch object destruction
-        connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( widgetDestroyed( QObject* ) ) );
+        connect( widget, SIGNAL(destroyed(QObject*)), SLOT(widgetDestroyed(QObject*)) );
 
         // install shadow
         installShadows( widget, helper, flat );

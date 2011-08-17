@@ -49,7 +49,7 @@ namespace Oxygen
 
         transition().data()->setFlags( hasProxy||hasMessageWidget ? TransitionWidget::Transparent : TransitionWidget::GrabFromWindow );
 
-        connect( _target.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
+        connect( _target.data(), SIGNAL(destroyed()), SLOT(targetDestroyed()) );
 
     }
 

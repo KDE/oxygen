@@ -38,7 +38,7 @@ namespace Oxygen
     {
         ui->setupUi( this );
         ui->followMouseDurationSpinBox->setEnabled( false );
-        connect( ui->typeComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( typeChanged( int ) ) );
+        connect( ui->typeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(typeChanged(int)) );
     }
 
     //_______________________________________________
@@ -75,9 +75,9 @@ namespace Oxygen
         _configurationWidget = new FollowMouseAnimationConfigBox( parent );
         setConfigurationWidget( _configurationWidget.data() );
 
-        connect( _configurationWidget.data()->typeComboBox(), SIGNAL( currentIndexChanged( int ) ), SIGNAL( changed() ) );
-        connect( _configurationWidget.data()->durationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
-        connect( _configurationWidget.data()->followMouseDurationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
+        connect( _configurationWidget.data()->typeComboBox(), SIGNAL(currentIndexChanged(int)), SIGNAL(changed()) );
+        connect( _configurationWidget.data()->durationSpinBox(), SIGNAL(valueChanged(int)), SIGNAL(changed()) );
+        connect( _configurationWidget.data()->followMouseDurationSpinBox(), SIGNAL(valueChanged(int)), SIGNAL(changed()) );
 
     }
 

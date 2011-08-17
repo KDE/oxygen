@@ -74,15 +74,15 @@ namespace Oxygen
         layout->addWidget( item, _row, 0, 1, 2 );
         ++_row;
 
-        connect( item->configurationButton(), SIGNAL( toggled( bool ) ), SLOT( updateItems( bool ) ) );
+        connect( item->configurationButton(), SIGNAL(toggled(bool)), SLOT(updateItems(bool)) );
 
         item->initializeConfigurationWidget( this );
         layout->addWidget( item->configurationWidget(), _row, 1, 1, 1 );
         ++_row;
 
         item->configurationWidget()->setVisible( false );
-        connect( item->configurationButton(), SIGNAL( toggled( bool ) ), SIGNAL( layoutChanged( void ) ) );
-        connect( item, SIGNAL( changed( void ) ), SLOT( updateChanged( void ) ) );
+        connect( item->configurationButton(), SIGNAL(toggled(bool)), SIGNAL(layoutChanged()) );
+        connect( item, SIGNAL(changed()), SLOT(updateChanged()) );
     }
 
 }

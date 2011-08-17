@@ -48,8 +48,8 @@ namespace Oxygen
         ui->configurationButton->setIcon( KIcon("configure") );
         ui->descriptionButton->setIcon(KIcon("dialog-information"));
 
-        connect( ui->enableCheckBox, SIGNAL( toggled( bool ) ), SIGNAL( changed( void ) ) );
-        connect( ui->descriptionButton, SIGNAL( clicked( void ) ), SLOT( about( void ) ) );
+        connect( ui->enableCheckBox, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+        connect( ui->descriptionButton, SIGNAL(clicked()), SLOT(about()) );
 
         setTitle( title );
         setDescription( description );
@@ -91,8 +91,8 @@ namespace Oxygen
     void AnimationConfigItem::setConfigurationWidget( QWidget* widget )
     {
         widget->setEnabled( ui->enableCheckBox->isChecked() );
-        connect( ui->enableCheckBox, SIGNAL( toggled( bool ) ), widget, SLOT( setEnabled( bool ) ) );
-        connect( ui->configurationButton, SIGNAL( toggled( bool ) ), widget, SLOT( setVisible( bool ) ) );
+        connect( ui->enableCheckBox, SIGNAL(toggled(bool)), widget, SLOT(setEnabled(bool)) );
+        connect( ui->configurationButton, SIGNAL(toggled(bool)), widget, SLOT(setVisible(bool)) );
     }
 
     //_______________________________________________

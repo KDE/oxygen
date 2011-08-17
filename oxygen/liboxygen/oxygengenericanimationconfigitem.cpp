@@ -53,7 +53,7 @@ namespace Oxygen
         _configurationWidget = new GenericAnimationConfigBox( parent );
         setConfigurationWidget( _configurationWidget.data() );
 
-        connect( _configurationWidget.data()->durationSpinBox(), SIGNAL( valueChanged( int ) ), SIGNAL( changed() ) );
+        connect( _configurationWidget.data()->durationSpinBox(), SIGNAL(valueChanged(int)), SIGNAL(changed()) );
 
     }
 
