@@ -95,8 +95,8 @@ namespace Oxygen
     { return (!_forceInactive) && _client.isActive(); }
 
     //___________________________________________________
-    bool Button::animateButtonHover( void ) const
-    { return _client.useAnimations(); }
+    bool Button::buttonAnimationsEnabled( void ) const
+    { return _client.animationsEnabled() && _client.configuration().buttonAnimationsEnabled(); }
 
     //___________________________________________________
     QSize Button::sizeHint() const
@@ -107,16 +107,16 @@ namespace Oxygen
 
     //___________________________________________________
     void Button::reset( unsigned long )
-    { _glowAnimation->setDuration( _client.configuration().animationsDuration() ); }
+    { _glowAnimation->setDuration( _client.configuration().buttonAnimationsDuration() ); }
 
 
     //___________________________________________________
-    void Button::enterEvent(QEvent *e)
+    void Button::enterEvent( QEvent *event )
     {
 
-        KCommonDecorationButton::enterEvent(e);
-        if (_status != Oxygen::Pressed) _status = Oxygen::Hovered;
-        if( animateButtonHover() )
+        KCommonDecorationButton::enterEvent( event );
+        if( _status != Oxygen::Pressed ) _status = Oxygen::Hovered;
+        if( buttonAnimationsEnabled() )
         {
 
             _glowAnimation->setDirection( Animation::Forward );
@@ -127,12 +127,12 @@ namespace Oxygen
     }
 
     //___________________________________________________
-    void Button::leaveEvent(QEvent *e)
+    void Button::leaveEvent( QEvent *event )
     {
 
-        KCommonDecorationButton::leaveEvent(e);
+        KCommonDecorationButton::leaveEvent( event );
 
-        if( _status == Oxygen::Hovered && animateButtonHover() )
+        if( _status == Oxygen::Hovered && buttonAnimationsEnabled() )
         {
             _glowAnimation->setDirection( Animation::Backward );
             if( !isAnimated() ) _glowAnimation->start();
@@ -144,26 +144,39 @@ namespace Oxygen
     }
 
     //___________________________________________________
-    void Button::mousePressEvent(QMouseEvent *e)
+    void Button::mousePressEvent( QMouseEvent *event )
     {
 
-        if( _type == ButtonMax || e->button() == Qt::LeftButton )
+        if( _type == ButtonMax || event->button() == Qt::LeftButton )
         {
             _status = Oxygen::Pressed;
             update();
         }
 
-        KCommonDecorationButton::mousePressEvent(e);
+        KCommonDecorationButton::mousePressEvent( event );
     }
 
     //___________________________________________________
-    void Button::mouseReleaseEvent(QMouseEvent *e)
+    void Button::mouseReleaseEvent( QMouseEvent* event )
     {
 
-        _status = ( rect().contains( e->pos() ) ) ? Oxygen::Hovered:Oxygen::Normal;
+        _status = ( rect().contains( event->pos() ) ) ? Oxygen::Hovered:Oxygen::Normal;
         update();
 
-        KCommonDecorationButton::mouseReleaseEvent(e);
+        KCommonDecorationButton::mouseReleaseEvent( event );
+    }
+
+    //___________________________________________________
+    void Button::resizeEvent( QResizeEvent *event )
+    {
+
+        // resize backing store pixmap
+        if( !_client.compositingActive() )
+        { _pixmap = QPixmap( event->size() ); }
+
+        // base class implementation
+        KCommonDecorationButton::resizeEvent( event );
+
     }
 
     //___________________________________________________
@@ -172,9 +185,43 @@ namespace Oxygen
 
         if( _client.hideTitleBar() ) return;
 
-        QPainter painter(this);
-        painter.setClipRect(this->rect().intersected( event->rect() ) );
-        painter.setRenderHints(QPainter::Antialiasing);
+        if( _client.compositingActive() )
+        {
+            QPainter painter( this );
+            painter.setRenderHints(QPainter::Antialiasing);
+            painter.setClipRegion( event->region() );
+            paint( painter );
+
+        } else {
+
+            {
+
+                // create painter
+                QPainter painter( &_pixmap );
+                painter.setRenderHints(QPainter::Antialiasing);
+                painter.setClipRect( this->rect().intersected( event->rect() ) );
+
+                // render parent background
+                painter.translate( -geometry().topLeft() );
+                _client.paintBackground( painter );
+
+                // render buttons
+                painter.translate( geometry().topLeft() );
+                paint( painter );
+
+            }
+
+            QPainter painter(this);
+            painter.setClipRegion( event->region() );
+            painter.drawPixmap( QPoint(), _pixmap );
+
+        }
+
+    }
+
+    //___________________________________________________
+    void Button::paint( QPainter& painter )
+    {
 
         QPalette palette( this->palette() );
         palette.setCurrentColorGroup( isActive() ? QPalette::Active : QPalette::Inactive);
@@ -223,10 +270,14 @@ namespace Oxygen
             // draw shadow
             painter.drawPixmap( 0, 0, _helper.windecoButtonGlow( shadow, scale ) );
 
-            // draw button shape
-            const bool pressed( (_status == Oxygen::Pressed) ||
-                ( isChecked() && isToggleButton() ) );
+            // decide on pressed state
+            const bool pressed(
+                (_status == Oxygen::Pressed) ||
+                ( _type == ButtonSticky && _client.isOnAllDesktops()  ) ||
+                ( _type == ButtonAbove && _client.keepAbove() ) ||
+                ( _type == ButtonBelow && _client.keepBelow() ) );
 
+            // draw button shape
             painter.drawPixmap(0, 0, _helper.windecoButton( base, pressed, scale ) );
 
         }
@@ -261,7 +312,7 @@ namespace Oxygen
     }
 
     //___________________________________________________
-    void Button::drawIcon(QPainter *painter)
+    void Button::drawIcon( QPainter* painter )
     {
 
         painter->save();

@@ -53,6 +53,7 @@
 #include "oxygenframeshadow.h"
 #include "oxygenmdiwindowshadow.h"
 #include "oxygenshadowhelper.h"
+#include "oxygensplitterproxy.h"
 #include "oxygenstyleconfigdata.h"
 #include "oxygentransitions.h"
 #include "oxygenwidgetexplorer.h"
@@ -171,6 +172,7 @@ namespace Oxygen
         _mdiWindowShadowFactory( new MdiWindowShadowFactory( this, *_helper ) ),
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
+        _splitterFactory( new SplitterFactory( this ) ),
         _frameFocusPrimitive( 0 ),
         _tabBarTabShapeControl( 0 ),
         _hintCounter( X_KdeBase+1 ),
@@ -182,7 +184,7 @@ namespace Oxygen
 
         // use DBus connection to update on oxygen configuration change
         QDBusConnection dbus = QDBusConnection::sessionBus();
-        dbus.connect( QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT( oxygenConfigurationChanged( void ) ) );
+        dbus.connect( QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT(oxygenConfigurationChanged()) );
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
@@ -206,6 +208,7 @@ namespace Oxygen
         frameShadowFactory().registerWidget( widget, helper() );
         mdiWindowShadowFactory().registerWidget( widget );
         shadowHelper().registerWidget( widget );
+        splitterFactory().registerWidget( widget );
 
         // scroll areas
         if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) )
@@ -389,7 +392,6 @@ namespace Oxygen
         } else if( qobject_cast<QDockWidget*>( widget ) ) {
 
             widget->setBackgroundRole( QPalette::NoRole );
-            widget->setAttribute( Qt::WA_TranslucentBackground );
             widget->setContentsMargins( 3,3,3,3 );
             addEventFilter( widget );
 
@@ -467,6 +469,7 @@ namespace Oxygen
         frameShadowFactory().unregisterWidget( widget );
         mdiWindowShadowFactory().unregisterWidget( widget );
         shadowHelper().unregisterWidget( widget );
+        splitterFactory().unregisterWidget( widget );
 
         if( isKTextEditFrame( widget ) )
         { widget->setAttribute( Qt::WA_Hover, false  ); }
@@ -1271,10 +1274,19 @@ namespace Oxygen
             case QEvent::Resize:
             {
                 // make sure mask is appropriate
-                if( dockWidget->isFloating() && !helper().hasAlphaChannel( dockWidget ) )
+                if( dockWidget->isFloating() )
                 {
+                    if( helper().compositingActive() )
+                    {
 
-                    dockWidget->setMask( helper().roundedMask( dockWidget->rect() ) );
+                        // TODO: should not be needed
+                        dockWidget->setMask( helper().roundedMask( dockWidget->rect().adjusted( 1, 1, -1, -1 ) ) );
+
+                    } else {
+
+                        dockWidget->setMask( helper().roundedMask( dockWidget->rect() ) );
+
+                    }
 
                 } else dockWidget->clearMask();
 
@@ -1292,26 +1304,10 @@ namespace Oxygen
                 if( dockWidget->isWindow() )
                 {
 
-                    #ifndef Q_WS_WIN
-                    bool hasAlpha( helper().hasAlphaChannel( dockWidget ) );
-                    if( hasAlpha )
-                    {
-                        painter.setCompositionMode( QPainter::CompositionMode_Source );
-                        TileSet *tileSet( helper().roundCorner( color ) );
-                        tileSet->render( r, &painter );
-
-                        // set clip region
-                        painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-                        painter.setClipRegion( helper().roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-                    }
-                    #endif
-
                     helper().renderWindowBackground( &painter, r, dockWidget, color );
 
                     #ifndef Q_WS_WIN
-                    if( hasAlpha ) painter.setClipping( false );
-
-                    helper().drawFloatFrame( &painter, r, color, !hasAlpha );
+                    helper().drawFloatFrame( &painter, r, color, !helper().compositingActive() );
                     #endif
 
                 } else {
@@ -1749,7 +1745,6 @@ namespace Oxygen
             case QTabBar::RoundedWest:
             case QTabBar::TriangularWest:
             r = QRect( QPoint( paneRect.x() - w, paneRect.y() ), size );
-            r = visualRect( tabOpt->direction, tabOpt->rect, r );
             if( !documentMode ) r.translate( 2, 0 );
             else r.translate( -2, 0 );
             break;
@@ -1757,7 +1752,6 @@ namespace Oxygen
             case QTabBar::RoundedEast:
             case QTabBar::TriangularEast:
             r = QRect( QPoint( paneRect.x() + paneRect.width(), paneRect.y() ), size );
-            r = visualRect( tabOpt->direction, tabOpt->rect, r );
             if( !documentMode ) r.translate( -2, 0 );
             else r.translate( 2, 0 );
             break;
@@ -1807,7 +1801,6 @@ namespace Oxygen
             case QTabBar::RoundedWest:
             case QTabBar::TriangularWest:
             r = QRect( QPoint( paneRect.x() - w, paneRect.bottom() - h + 1 ), size );
-            r = visualRect( tabOpt->direction, tabOpt->rect, r );
             if( !documentMode ) r.translate( 2, 0 );
             else r.translate( -2, 0 );
             break;
@@ -1815,7 +1808,6 @@ namespace Oxygen
             case QTabBar::RoundedEast:
             case QTabBar::TriangularEast:
             r = QRect( QPoint( paneRect.x() + paneRect.width(), paneRect.bottom() - h + 1 ), size );
-            r = visualRect( tabOpt->direction, tabOpt->rect, r );
             if( !documentMode ) r.translate( -2, 0 );
             else r.translate( 2, 0 );
             break;
@@ -4886,11 +4878,7 @@ namespace Oxygen
 
             int pstep =  int( progress )%( 2*remSize );
             if ( pstep > remSize )
-            {
-                // Bounce about.. We're remWidth + some delta, we want to be remWidth - delta...
-                // - ( ( remWidth + some delta ) - 2* remWidth )  = - ( some delta - remWidth ) = remWidth - some delta..
-                pstep = -( pstep - 2*remSize );
-            }
+            { pstep = -( pstep - 2*remSize ); }
 
             if ( horizontal ) indicatorRect = QRect( r.x() + pstep, r.y(), indicatorSize, r.height() );
             else indicatorRect = QRect( r.x(), r.y() + pstep, r.width(), indicatorSize );
@@ -4904,10 +4892,12 @@ namespace Oxygen
 
         // handle right to left
         indicatorRect = handleRTL( option, indicatorRect );
-        indicatorRect.adjust( 1, 0, -1, -1 );
 
-        if( indicatorRect.isValid() )
+        // make sure rect is large enough
+        /* this account for adjustments done here and in StyleHelper::progressBarIndicator */
+        if( indicatorRect.adjusted( 2, 1, -2, -1 ).isValid() )
         {
+            indicatorRect.adjust( 1, 0, -1, -1 );
             QPixmap pixmap( helper().progressBarIndicator( palette, indicatorRect ) );
             painter->drawPixmap( indicatorRect.topLeft(), pixmap );
         }
@@ -8292,7 +8282,7 @@ namespace Oxygen
         }
 
         // connect palette changes to local slot, to make sure caches are cleared
-        connect( KGlobalSettings::self(), SIGNAL( kdisplayPaletteChanged( void ) ), this, SLOT( globalPaletteChanged( void ) ) );
+        connect( KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(globalPaletteChanged()) );
 
         // update flag
         _kGlobalSettingsInitialized = true;

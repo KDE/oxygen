@@ -95,28 +95,34 @@ namespace Oxygen
         protected:
 
         //! press event
-        void mousePressEvent(QMouseEvent* );
+        void mousePressEvent( QMouseEvent* );
 
         //! release event
-        void mouseReleaseEvent(QMouseEvent* );
+        void mouseReleaseEvent( QMouseEvent* );
 
         //! enter event
         void enterEvent( QEvent* );
 
         //! leave event
-        void leaveEvent(QEvent* );
+        void leaveEvent( QEvent* );
+
+        //! resize event
+        void resizeEvent( QResizeEvent* );
 
         //! paint
-        void paintEvent(QPaintEvent* );
+        void paintEvent( QPaintEvent* );
+
+        //! render buttn to provided painter
+        void paint(QPainter& );
 
         //! draw icon
-        void drawIcon(QPainter*);
+        void drawIcon( QPainter* );
 
         //! color
-        QColor buttonDetailColor(const QPalette& ) const;
+        QColor buttonDetailColor( const QPalette& ) const;
 
         //! color
-        QColor buttonDetailColor(const QPalette& palette, bool active ) const
+        QColor buttonDetailColor( const QPalette& palette, bool active ) const
         {
             if( _type == ButtonItemClose )
             {
@@ -143,7 +149,7 @@ namespace Oxygen
         bool isActive( void ) const;
 
         //! true if buttons hover are animated
-        bool animateButtonHover( void ) const;
+        bool buttonAnimationsEnabled( void ) const;
 
         //!@name button properties
         //@{
@@ -173,6 +179,9 @@ namespace Oxygen
 
         //! helper
         DecoHelper &_helper;
+
+        //! backing store pixmap (when compositing is not active)
+        QPixmap _pixmap;
 
         //! button type
         ButtonType _type;

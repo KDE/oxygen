@@ -47,12 +47,12 @@ namespace Oxygen
         group->addButton( ui.plainFrameRadioButton );
         group->addButton( ui.sunkenFrameRadioButton );
 
-        connect( ui.raisedFrameRadioButton, SIGNAL( toggled( bool ) ), SLOT( toggleRaisedFrame( bool ) ) );
-        connect( ui.plainFrameRadioButton, SIGNAL( toggled( bool ) ), SLOT( togglePlainFrame( bool ) ) );
-        connect( ui.sunkenFrameRadioButton, SIGNAL( toggled( bool ) ), SLOT( toggleSunkenFrame( bool ) ) );
+        connect( ui.raisedFrameRadioButton, SIGNAL(toggled(bool)), SLOT(toggleRaisedFrame(bool)) );
+        connect( ui.plainFrameRadioButton, SIGNAL(toggled(bool)), SLOT(togglePlainFrame(bool)) );
+        connect( ui.sunkenFrameRadioButton, SIGNAL(toggled(bool)), SLOT(toggleSunkenFrame(bool)) );
 
-        connect( ui.directionComboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( updateLayoutDirection( int ) ) );
-        connect( ui.flatGroupBoxCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleFlatGroupBox( bool ) ) );
+        connect( ui.directionComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateLayoutDirection(int)) );
+        connect( ui.flatGroupBoxCheckBox, SIGNAL(toggled(bool)), SLOT(toggleFlatGroupBox(bool)) );
 
     }
 

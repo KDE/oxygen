@@ -68,6 +68,7 @@ namespace Oxygen
     class FrameShadowFactory;
     class MdiWindowShadowFactory;
     class ShadowHelper;
+    class SplitterFactory;
     class StyleHelper;
     class Transitions;
     class WindowManager;
@@ -112,10 +113,10 @@ namespace Oxygen
         //! destructor
         virtual ~Style( void );
 
-        //! widget polishing/unpolishing
+        //! widget polishing
         virtual void polish( QWidget* );
 
-        //! widget polishing/unpolishing
+        //! widget unpolishing
         virtual void unpolish( QWidget* );
 
         //! needed to avoid warnings at compilation time
@@ -357,6 +358,10 @@ namespace Oxygen
         */
         WidgetExplorer& widgetExplorer( void ) const
         { return *_widgetExplorer; }
+
+        //! splitter factory
+        SplitterFactory& splitterFactory( void ) const
+        { return *_splitterFactory; }
 
         //! tabBar data
         TabBarData& tabBarData( void ) const
@@ -820,14 +825,18 @@ namespace Oxygen
         //! true if KGlobalSettings signals are initialized
         bool _kGlobalSettingsInitialized;
 
-        //! scrollbar button types (for addLine and subLine )
+        //!@name scrollbar button types (for addLine and subLine )
+        //@{
         ScrollBarButtonType _addLineButtons;
         ScrollBarButtonType _subLineButtons;
+        //@}
 
-        //! metrics for scrollbar buttons
+        //!@name metrics for scrollbar buttons
+        //@{
         int _noButtonHeight;
         int _singleButtonHeight;
         int _doubleButtonHeight;
+        //@}
 
         //! true if keyboard accelerators must be drawn
         bool _showMnemonics;
@@ -861,6 +870,9 @@ namespace Oxygen
 
         //! tabBar data
         TabBarData* _tabBarData;
+
+        //! splitter Factory, to extend splitters hit area
+        SplitterFactory* _splitterFactory;
 
         //! pointer to primitive specialized function
         typedef bool (Style::*StylePrimitive)( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -961,7 +973,6 @@ namespace Oxygen
 
         return;
     }
-
 
 }
 

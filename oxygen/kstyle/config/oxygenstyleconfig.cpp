@@ -70,36 +70,37 @@ namespace Oxygen
         setupUi(this);
 
         // connections
-        connect( _animationsEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
-        connect( _windowDragMode, SIGNAL( currentIndexChanged( int ) ), SLOT( windowDragModeChanged( int ) ) );
-        connect( _viewDrawTriangularExpander, SIGNAL( toggled( bool ) ), _viewTriangularExpanderSize, SLOT( setEnabled( bool ) ) );
+        connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(windowDragModeChanged(int)) );
+        connect( _viewDrawTriangularExpander, SIGNAL(toggled(bool)), _viewTriangularExpanderSize, SLOT(setEnabled(bool)) );
+        connect( _expertModeButton, SIGNAL(pressed()), SLOT(toggleExpertModeInternal()) );
+
+        _expertModeButton->setIcon( KIcon("configure") );
 
         // toggle expert mode
-        toggleExpertMode( false );
+        toggleExpertModeInternal( false );
 
         // load setup from configData
         load();
 
-        connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _checkDrawX, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _showMnemonics, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _cacheEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _viewDrawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _viewTriangularExpanderSize, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
-        connect( _viewDrawFocusIndicator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _viewDrawTreeBranchLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _scrollBarWidth, SIGNAL( valueChanged(int) ), SLOT( updateChanged() ) );
-        connect( _scrollBarAddLineButtons, SIGNAL( currentIndexChanged(int) ), SLOT( updateChanged() ) );
-        connect( _scrollBarSubLineButtons, SIGNAL( currentIndexChanged(int) ), SLOT( updateChanged() ) );
-        connect( _menuHighlightDark, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _menuHighlightStrong, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _menuHighlightSubtle, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _tabStylePlain, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
-        connect( _tabStyleSingle, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
-        connect( _windowDragMode, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
-        connect( _useWMMoveResize, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( _stackedWidgetTransitionsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+        connect( _toolBarDrawItemSeparator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _checkDrawX, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _showMnemonics, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _animationsEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _cacheEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewDrawTriangularExpander, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewTriangularExpanderSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _viewDrawFocusIndicator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewDrawTreeBranchLines, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _scrollBarWidth, SIGNAL(valueChanged(int)), SLOT(updateChanged()) );
+        connect( _scrollBarAddLineButtons, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _scrollBarSubLineButtons, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _menuHighlightDark, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _menuHighlightStrong, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _menuHighlightSubtle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _tabStylePlain, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _tabStyleSingle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _useWMMoveResize, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
 
     }
 
@@ -127,8 +128,9 @@ namespace Oxygen
             _animationConfigWidget->save();
 
         } else {
+
             StyleConfigData::setAnimationsEnabled( _animationsEnabled->isChecked() );
-            StyleConfigData::setStackedWidgetTransitionsEnabled( _stackedWidgetTransitionsEnabled->isChecked() );
+
         }
 
         StyleConfigData::setUseWMMoveResize( _useWMMoveResize->isChecked() );
@@ -169,8 +171,19 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::toggleExpertMode( bool value )
     {
+        _expertModeContainer->hide();
+        toggleExpertModeInternal( value );
+    }
 
+    //__________________________________________________________________
+    void StyleConfig::toggleExpertModeInternal( bool value )
+    {
+
+        // store value
         _expertMode = value;
+
+        // update button text
+        _expertModeButton->setText( _expertMode ? i18n( "Hide Advanced Configuration Options" ):i18n( "Show Advanced Configuration Options" ) );
 
         // update widget visibility based on expert mode
         if( _expertMode )
@@ -180,8 +193,9 @@ namespace Oxygen
             if( !_animationConfigWidget )
             {
                 _animationConfigWidget = new AnimationConfigWidget();
-                connect( _animationConfigWidget, SIGNAL( changed( bool ) ), SLOT( updateChanged( void ) ) );
-                connect( _animationConfigWidget, SIGNAL( layoutChanged( void ) ), SLOT( updateLayout() ) );
+                _animationConfigWidget->installEventFilter( this );
+                connect( _animationConfigWidget, SIGNAL(changed(bool)), SLOT(updateChanged()) );
+                connect( _animationConfigWidget, SIGNAL(layoutChanged()), SLOT(updateLayout()) );
                 _animationConfigWidget->load();
             }
 
@@ -191,7 +205,7 @@ namespace Oxygen
 
         } else if( _animationConfigWidget ) {
 
-            if( int index =tabWidget->indexOf( _animationConfigWidget ) >= 0 )
+            if( int index = tabWidget->indexOf( _animationConfigWidget ) >= 0 )
             { tabWidget->removeTab( index ); }
 
         }
@@ -199,27 +213,25 @@ namespace Oxygen
         _showMnemonics->setVisible( _expertMode );
         _animationsEnabled->setVisible( !_expertMode );
         _cacheEnabled->setVisible( _expertMode );
-        _stackedTransitionWidget->setVisible( !_expertMode );
         _useWMMoveResize->setVisible( _expertMode );
         _viewsExpertWidget->setVisible( _expertMode );
 
     }
 
     //__________________________________________________________________
-    void StyleConfig::showEvent( QShowEvent* )
+    bool StyleConfig::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( _expertMode && _animationConfigWidget )
+        switch( event->type() )
         {
-            if( const QWidget* widget = tabWidget->widget( tabWidget->currentIndex() ) )
-            {
-                int delta = qMax( 0, _animationConfigWidget->sizeHint().height() - widget->size().height() );
-                if( delta > 0 ) window()->setMinimumSize( QSize( window()->minimumSizeHint().width(), window()->size().height() + delta ) );
-            }
+            case QEvent::ShowToParent:
+            object->event( event );
+            updateLayout();
+            return true;
+
+            default:
+            return false;
         }
-
-        return;
-
     }
 
     //__________________________________________________________________
@@ -252,7 +264,6 @@ namespace Oxygen
         else if( tabStyle() != StyleConfigData::tabStyle() ) modified = true;
         else if( _animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
         else if( _cacheEnabled->isChecked() != StyleConfigData::cacheEnabled() ) modified = true;
-        else if( _stackedWidgetTransitionsEnabled->isChecked() != StyleConfigData::stackedWidgetTransitionsEnabled() ) modified = true;
         else if( _useWMMoveResize->isChecked() != StyleConfigData::useWMMoveResize() ) modified = true;
         else if( triangularExpanderSize() != StyleConfigData::viewTriangularExpanderSize() ) modified = true;
         else if( _animationConfigWidget && _animationConfigWidget->isChanged() ) modified = true;
@@ -309,9 +320,6 @@ namespace Oxygen
         // tab style
         _tabStyleSingle->setChecked( StyleConfigData::tabStyle() == StyleConfigData::TS_SINGLE );
         _tabStylePlain->setChecked( StyleConfigData::tabStyle() == StyleConfigData::TS_PLAIN );
-
-        _stackedWidgetTransitionsEnabled->setChecked( StyleConfigData::stackedWidgetTransitionsEnabled() );
-        _stackedWidgetTransitionsEnabled->setEnabled( false );
 
         _animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
         _cacheEnabled->setChecked( StyleConfigData::cacheEnabled() );

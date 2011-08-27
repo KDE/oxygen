@@ -106,7 +106,8 @@ namespace Oxygen
             w = w->parentWidget();
         }
 
-        if ( clipRect.isValid() ) {
+        if ( clipRect.isValid() )
+        {
             p->save();
             p->setClipRegion( clipRect,Qt::IntersectClip );
         }
@@ -199,9 +200,8 @@ namespace Oxygen
             p.setPen( Qt::NoPen );
 
             QLinearGradient lg = QLinearGradient( 0.0, size-4.5, 0.0, size+4.5 );
-            lg.setColorAt( 0.0, calcLightColor( backgroundTopColor( color ) ) );
+            lg.setColorAt( 0.50, calcLightColor( backgroundTopColor( color ) ) );
             lg.setColorAt( 0.51, backgroundBottomColor( color ) );
-            lg.setColorAt( 1.0, backgroundBottomColor( color ) );
 
             // draw ellipse.
             p.setBrush( lg );

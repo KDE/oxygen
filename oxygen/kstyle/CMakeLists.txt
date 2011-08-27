@@ -56,6 +56,7 @@ set(oxygen_PART_SRCS
     oxygenmdiwindowshadow.cpp
     oxygenpropertynames.cpp
     oxygenshadowhelper.cpp
+    oxygensplitterproxy.cpp
     oxygenstyle.cpp
     oxygenstylehelper.cpp
     oxygenwindowmanager.cpp
