@@ -220,12 +220,9 @@ namespace Oxygen
         const QRect r = window->rect();
         int height( window->frameGeometry().height() );
         int width( window->frameGeometry().width() );
-        if( yShift > 0 )
-        {
-            height -= 2*yShift;
-            width -= 2*yShift;
 
-        }
+        // account for vertical shift
+        if( yShift > 0 ) height -= 2*yShift;
 
         // background pixmap
         if( !_backgroundPixmap.isNull() )
