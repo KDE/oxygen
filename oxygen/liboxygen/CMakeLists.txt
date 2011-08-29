@@ -37,7 +37,7 @@ if ( X11_FOUND )
    target_link_libraries(oxygenstyleconfig ${X11_LIBRARIES})
 endif( X11_FOUND )
 
-set_target_properties(oxygenstyleconfig PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
+set_target_properties(oxygenstyleconfig PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} DEFINE_SYMBOL MAKE_OXYGENSTYLE_LIB)
 install(TARGETS oxygenstyleconfig ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 # Note: no headers installed
