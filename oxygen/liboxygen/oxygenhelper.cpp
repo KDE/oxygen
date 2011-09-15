@@ -61,8 +61,6 @@ namespace Oxygen
         _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
 
         _backgroundCache.setMaxCost( 64 );
-        _windecoButtonCache.setMaxCost( 64 );
-        _windecoButtonGlowCache.setMaxCost( 64 );
 
         #ifdef Q_WS_X11
 
@@ -107,8 +105,6 @@ namespace Oxygen
         _backgroundColorCache.clear();
         _backgroundCache.clear();
         _dotCache.clear();
-        _windecoButtonCache.clear();
-        _windecoButtonGlowCache.clear();
     }
 
     //____________________________________________________________________
@@ -116,8 +112,6 @@ namespace Oxygen
     {
 
         // assign value
-        _windecoButtonCache.setMaxCost( value );
-        _windecoButtonGlowCache.setMaxCost( value );
         _slabCache.setMaxCacheSize( value );
         _slabSunkenCache.setMaxCost( value );
         _backgroundCache.setMaxCost( value );

@@ -48,6 +48,7 @@ namespace Oxygen
 
         _midColorCache.clear();
 
+        _dockWidgetButtonCache.clear();
         _progressBarCache.clear();
         _cornerCache.clear();
         _selectionCache.clear();
@@ -76,6 +77,7 @@ namespace Oxygen
         _holeCache.setMaxCacheSize( value );
         _scrollHandleCache.setMaxCacheSize( value );
 
+        _dockWidgetButtonCache.setMaxCost( value );
         _progressBarCache.setMaxCost( value );
         _cornerCache.setMaxCost( value );
         _selectionCache.setMaxCost( value );
@@ -146,10 +148,10 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    QPixmap StyleHelper::windecoButton( const QColor& color, bool pressed, int size )
+    QPixmap StyleHelper::dockWidgetButton( const QColor& color, bool pressed, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( size << 1 ) | quint64( pressed ) );
-        QPixmap *pixmap = windecoButtonCache().object( key );
+        QPixmap *pixmap = _dockWidgetButtonCache.object( key );
 
         if ( !pixmap )
         {
@@ -177,7 +179,7 @@ namespace Oxygen
                 p.end();
             }
 
-            windecoButtonCache().insert( key, pixmap );
+            _dockWidgetButtonCache.insert( key, pixmap );
         }
 
         return *pixmap;

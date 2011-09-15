@@ -8072,7 +8072,7 @@ namespace Oxygen
             {
                 QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
                 realpm.fill( Qt::transparent );
-                QPixmap pm = helper().windecoButton( buttonColor, false, 15 );
+                QPixmap pm = helper().dockWidgetButton( buttonColor, false, 15 );
                 QPainter painter( &realpm );
                 painter.drawPixmap( 1,1,pm );
                 painter.setRenderHints( QPainter::Antialiasing );
@@ -8104,7 +8104,7 @@ namespace Oxygen
             {
                 QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
                 realpm.fill( Qt::transparent );
-                QPixmap pm = helper().windecoButton( buttonColor, false, 15 );
+                QPixmap pm = helper().dockWidgetButton( buttonColor, false, 15 );
                 QPainter painter( &realpm );
                 painter.drawPixmap( 1,1,pm );
                 painter.setRenderHints( QPainter::Antialiasing );
@@ -8138,7 +8138,7 @@ namespace Oxygen
             {
                 QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
                 realpm.fill( Qt::transparent );
-                QPixmap pm = helper().windecoButton( buttonColor, false, 15 );
+                QPixmap pm = helper().dockWidgetButton( buttonColor, false, 15 );
                 QPainter painter( &realpm );
                 painter.drawPixmap( 1,1,pm );
                 painter.setRenderHints( QPainter::Antialiasing );
@@ -8173,7 +8173,7 @@ namespace Oxygen
             {
                 QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
                 realpm.fill( Qt::transparent );
-                QPixmap pm = helper().windecoButton( buttonColor, false, 15 );
+                QPixmap pm = helper().dockWidgetButton( buttonColor, false, 15 );
                 QPainter painter( &realpm );
                 painter.drawPixmap( 1,1,pm );
                 painter.setRenderHints( QPainter::Antialiasing );
@@ -8810,7 +8810,7 @@ namespace Oxygen
         QPalette palette = option->palette;
 
         painter->save();
-        painter->drawPixmap( r, helper().windecoButton( palette.window().color(), true, r.height() ) );
+        painter->drawPixmap( r, helper().dockWidgetButton( palette.window().color(), true, r.height() ) );
         painter->setRenderHints( QPainter::Antialiasing );
         painter->setBrush( Qt::NoBrush );
 
