@@ -2561,8 +2561,9 @@ namespace Oxygen
 
         if( !widget ) return true;
 
-        // focus indicators are painted only in Q3ListView and QAbstractItemView
-        if( !( qobject_cast<const QAbstractItemView*>( widget ) || widget->inherits( "Q3ListView" ) ) ) return true;
+        // no focus indicator on buttons, since it is rendered elsewhere
+        if( qobject_cast< const QAbstractButton*>( widget ) )
+        { return true; }
 
         const State& flags( option->state );
         const QRect r( option->rect.adjusted( 0, 0, 0, -1 ) );
