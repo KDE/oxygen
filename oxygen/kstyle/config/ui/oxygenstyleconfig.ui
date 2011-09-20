@@ -144,7 +144,7 @@
           <widget class="KComboBox" name="_mnemonicsMode">
            <item>
             <property name="text">
-             <string>Always Show Keyboard Accelerators</string>
+             <string>Always Hide Keyboard Accelerators</string>
             </property>
            </item>
            <item>
@@ -154,7 +154,7 @@
            </item>
            <item>
             <property name="text">
-             <string>Always Hide Keyboard Accelerators</string>
+             <string>Always Show Keyboard Accelerators</string>
             </property>
            </item>
           </widget>
