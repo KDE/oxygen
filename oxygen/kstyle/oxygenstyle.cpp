@@ -8836,9 +8836,10 @@ namespace Oxygen
             // contrast pixel
             const QColor contrast = helper().calcLightColor( option->palette.color( QPalette::Active, QPalette::Window ) );
             const qreal width( 1.1 );
+
             painter->translate( 0, 0.5 );
             painter->setPen( QPen( contrast, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            renderTitleBarIcon( painter, QRectF( r ).adjusted( -2.5,-2.5,0,0 ), subControl );
+            renderTitleBarIcon( painter, r, subControl );
 
         }
 
@@ -8872,7 +8873,7 @@ namespace Oxygen
             const qreal width( 1.1 );
             painter->translate( 0,-1 );
             painter->setPen( QPen( color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            renderTitleBarIcon( painter, QRectF( r ).adjusted( -2.5,-2.5,0,0 ), subControl );
+            renderTitleBarIcon( painter, r, subControl );
 
         }
 
@@ -8881,60 +8882,63 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void Style::renderTitleBarIcon( QPainter *painter, const QRectF &r, const SubControl& subControl ) const
+    void Style::renderTitleBarIcon( QPainter *painter, const QRect &r, const SubControl& subControl ) const
     {
 
         painter->save();
         painter->translate( r.topLeft() );
+
         switch( subControl )
         {
             case SC_TitleBarContextHelpButton:
             {
-                painter->translate( 1.5, 1.5 );
-                painter->drawArc( 7,5,4,4,135*16, -180*16 );
-                painter->drawArc( 9,8,4,4,135*16,45*16 );
-                painter->drawPoint( 9,12 );
+                painter->drawArc( 6, 4, 3, 3, 135*16, -180*16 );
+                painter->drawArc( 8, 7, 3, 3, 135*16, 45*16 );
+                painter->drawPoint( 8, 11 );
                 break;
             }
+
             case SC_TitleBarMinButton:
             {
-                painter->drawLine( QPointF( 7.5, 9.5 ), QPointF( 10.5,12.5 ) );
-                painter->drawLine( QPointF( 10.5,12.5 ), QPointF( 13.5, 9.5 ) );
+                painter->drawPolyline( QPolygon() <<  QPoint( 5, 7 ) << QPoint( 8, 10 ) << QPoint( 11, 7 ) );
                 break;
             }
+
             case SC_TitleBarNormalButton:
             {
-                painter->translate( 1.5, 1.5 );
-                QPoint points[4] = {QPoint( 9, 6 ), QPoint( 12, 9 ), QPoint( 9, 12 ), QPoint( 6, 9 )};
-                painter->drawPolygon( points, 4 );
+                painter->drawPolygon( QPolygon() << QPoint( 8, 5 ) << QPoint( 11, 8 ) << QPoint( 8, 11 ) << QPoint( 5, 8 ) );
                 break;
             }
+
             case SC_TitleBarMaxButton:
             {
-                painter->drawLine( QPointF( 7.5,11.5 ), QPointF( 10.5, 8.5 ) );
-                painter->drawLine( QPointF( 10.5, 8.5 ), QPointF( 13.5,11.5 ) );
+                painter->drawPolyline( QPolygon() << QPoint( 5, 9 ) << QPoint( 8, 6 ) << QPoint( 11, 9 ) );
                 break;
             }
+
             case SC_TitleBarCloseButton:
             {
-                painter->drawLine( QPointF( 7.5,7.5 ), QPointF( 13.5,13.5 ) );
-                painter->drawLine( QPointF( 13.5,7.5 ), QPointF( 7.5,13.5 ) );
+
+                painter->drawLine( QPoint( 5, 5 ), QPoint( 11, 11 ) );
+                painter->drawLine( QPoint( 11, 5 ), QPoint( 5, 11 ) );
                 break;
+
             }
+
             case SC_TitleBarShadeButton:
             {
-                painter->drawLine( QPointF( 7.5, 13.5 ), QPointF( 13.5, 13.5 ) );
-                painter->drawLine( QPointF( 7.5, 7.5 ), QPointF( 10.5,10.5 ) );
-                painter->drawLine( QPointF( 10.5,10.5 ), QPointF( 13.5, 7.5 ) );
+                painter->drawLine( QPoint( 5, 11 ), QPoint( 11, 11 ) );
+                painter->drawPolyline( QPolygon() << QPoint( 5, 5 ) << QPoint( 8, 8 ) << QPoint( 11, 5 ) );
                 break;
             }
+
             case SC_TitleBarUnshadeButton:
             {
-                painter->drawLine( QPointF( 7.5,10.5 ), QPointF( 10.5, 7.5 ) );
-                painter->drawLine( QPointF( 10.5, 7.5 ), QPointF( 13.5,10.5 ) );
-                painter->drawLine( QPointF( 7.5,13.0 ), QPointF( 13.5,13.0 ) );
+                painter->drawPolyline( QPolygon() << QPoint( 5, 8 ) << QPoint( 8, 5 ) << QPoint( 11, 8 ) );
+                painter->drawLine( QPoint( 5, 11 ), QPoint( 11, 11 ) );
                 break;
             }
+
             default:
             break;
         }
