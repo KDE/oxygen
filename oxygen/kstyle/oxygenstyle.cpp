@@ -52,6 +52,7 @@
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
 #include "oxygenmdiwindowshadow.h"
+#include "oxygenmnemonics.h"
 #include "oxygenshadowhelper.h"
 #include "oxygensplitterproxy.h"
 #include "oxygenstyleconfigdata.h"
@@ -169,6 +170,7 @@ namespace Oxygen
         _topLevelManager( new TopLevelManager( this, *_helper ) ),
         _frameShadowFactory( new FrameShadowFactory( this ) ),
         _mdiWindowShadowFactory( new MdiWindowShadowFactory( this, *_helper ) ),
+        _mnemonics( new Mnemonics( this ) ),
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
         _splitterFactory( new SplitterFactory( this ) ),
@@ -1163,7 +1165,7 @@ namespace Oxygen
     {
 
         // hide mnemonics if requested
-        if( StyleConfigData::mnemonicsMode() == StyleConfigData::MN_NEVER && ( flags & Qt::TextShowMnemonic ) && !( flags&Qt::TextHideMnemonic ) )
+        if( !mnemonics().enabled() && ( flags & Qt::TextShowMnemonic ) && !( flags&Qt::TextHideMnemonic ) )
         {
             flags &= ~Qt::TextShowMnemonic;
             flags |= Qt::TextHideMnemonic;
@@ -7894,6 +7896,9 @@ namespace Oxygen
         transitions().setupEngines();
         windowManager().initialize();
         shadowHelper().reloadConfig();
+
+        // mnemonics
+        mnemonics().setMode( StyleConfigData::mnemonicsMode() );
 
         // widget explorer
         widgetExplorer().setEnabled( StyleConfigData::widgetExplorerEnabled() );
