@@ -3300,8 +3300,7 @@ namespace Oxygen
         }
 
         //! fine tuning of slitRect geometry
-        if( widget && widget->inherits( "QDockWidgetTitleButton" ) ) slitRect.adjust( 1, 0, 0, 0 );
-        else if( widget && widget->inherits( "QToolBarExtension" ) ) slitRect.adjust( 1, 1, -1, -1 );
+        if( widget && widget->inherits( "QToolBarExtension" ) ) slitRect.adjust( 1, 1, -1, -1 );
         else if( widget && widget->objectName() == "qt_menubar_ext_button" ) slitRect.adjust( -1, -1, 0, 0 );
 
         // normal ( auto-raised ) toolbuttons
@@ -8839,8 +8838,8 @@ namespace Oxygen
             case SC_TitleBarCloseButton:
             {
 
-                painter->drawLine( QPoint( 5, 5 ), QPoint( 11, 11 ) );
-                painter->drawLine( QPoint( 11, 5 ), QPoint( 5, 11 ) );
+                painter->drawLine( QPointF( 5.5, 5.5 ), QPointF( 10.5, 10.5 ) );
+                painter->drawLine( QPointF( 10.5, 5.5 ), QPointF( 5.5, 10.5 ) );
                 break;
 
             }
