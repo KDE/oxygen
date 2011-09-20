@@ -8066,201 +8066,118 @@ namespace Oxygen
 
         }
 
+        // contrast
+        const QColor contrast( helper().calcLightColor( buttonColor ) );
+
         switch( standardIcon )
         {
 
             case SP_TitleBarNormalButton:
             {
-                QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
-                realpm.fill( Qt::transparent );
-                QPixmap pm = helper().dockWidgetButton( buttonColor, false, 15 );
-                QPainter painter( &realpm );
-                painter.drawPixmap( 1,1,pm );
-                painter.setRenderHints( QPainter::Antialiasing );
+                QPixmap pixmap(
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
 
-                // should use the same icons as in the deco
-                QPointF points[4] = {QPointF( 8.5, 6 ), QPointF( 11, 8.5 ), QPointF( 8.5, 11 ), QPointF( 6, 8.5 )};
-                {
+                pixmap.fill( Qt::transparent );
 
-                    const qreal width( 1.1 );
-                    painter.translate( 0, 0.5 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawPolygon( points, 4 );
-                }
+                QPainter painter( &pixmap );
+                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarNormalButton );
 
-                {
-                    const qreal width( 1.1 );
-                    painter.translate( 0,-1 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawPolygon( points, 4 );
-                }
-                painter.end();
+                return QIcon( pixmap );
 
-                return QIcon( realpm );
             }
 
             case SP_TitleBarShadeButton:
             {
-                QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
-                realpm.fill( Qt::transparent );
-                QPixmap pm = helper().dockWidgetButton( buttonColor, false, 15 );
-                QPainter painter( &realpm );
-                painter.drawPixmap( 1,1,pm );
-                painter.setRenderHints( QPainter::Antialiasing );
-                {
+                QPixmap pixmap(
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
 
-                    qreal width( 1.1 );
-                    painter.translate( 0, 0.5 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawLine( QPointF( 6.5,6.5 ), QPointF( 8.75,8.75 ) );
-                    painter.drawLine( QPointF( 8.75,8.75 ), QPointF( 11.0,6.5 ) );
-                    painter.drawLine( QPointF( 6.5,11.0 ), QPointF( 11.0,11.0 ) );
-                }
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
+                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarShadeButton );
 
-                {
-                    qreal width( 1.1 );
-                    painter.translate( 0,-1 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawLine( QPointF( 6.5,6.5 ), QPointF( 8.75,8.75 ) );
-                    painter.drawLine( QPointF( 8.75,8.75 ), QPointF( 11.0,6.5 ) );
-                    painter.drawLine( QPointF( 6.5,11.0 ), QPointF( 11.0,11.0 ) );
-                }
-
-                painter.end();
-
-                return QIcon( realpm );
+                return QIcon( pixmap );
             }
 
             case SP_TitleBarUnshadeButton:
             {
-                QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
-                realpm.fill( Qt::transparent );
-                QPixmap pm = helper().dockWidgetButton( buttonColor, false, 15 );
-                QPainter painter( &realpm );
-                painter.drawPixmap( 1,1,pm );
-                painter.setRenderHints( QPainter::Antialiasing );
+                QPixmap pixmap(
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
 
-                {
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
+                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarUnshadeButton );
 
-                    qreal width( 1.1 );
-                    painter.translate( 0, 0.5 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawLine( QPointF( 6.5,8.75 ), QPointF( 8.75,6.5 ) );
-                    painter.drawLine( QPointF( 8.75,6.5 ), QPointF( 11.0,8.75 ) );
-                    painter.drawLine( QPointF( 6.5,11.0 ), QPointF( 11.0,11.0 ) );
-                }
-
-                {
-                    qreal width( 1.1 );
-                    painter.translate( 0,-1 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawLine( QPointF( 6.5,8.75 ), QPointF( 8.75,6.5 ) );
-                    painter.drawLine( QPointF( 8.75,6.5 ), QPointF( 11.0,8.75 ) );
-                    painter.drawLine( QPointF( 6.5,11.0 ), QPointF( 11.0,11.0 ) );
-                }
-                painter.end();
-
-                return QIcon( realpm );
+                return QIcon( pixmap );
             }
 
             case SP_TitleBarCloseButton:
             case SP_DockWidgetCloseButton:
             {
-                QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
-                realpm.fill( Qt::transparent );
-                QPixmap pm = helper().dockWidgetButton( buttonColor, false, 15 );
-                QPainter painter( &realpm );
-                painter.drawPixmap( 1,1,pm );
-                painter.setRenderHints( QPainter::Antialiasing );
-                painter.setBrush( Qt::NoBrush );
-                {
+                QPixmap pixmap(
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
 
-                    qreal width( 1.1 );
-                    painter.translate( 0, 0.5 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawLine( QPointF( 6.5,6.5 ), QPointF( 11.0,11.0 ) );
-                    painter.drawLine( QPointF( 11.0,6.5 ), QPointF( 6.5,11.0 ) );
-                }
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
+                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarCloseButton );
 
-                {
-                    qreal width( 1.1 );
-                    painter.translate( 0,-1 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawLine( QPointF( 6.5,6.5 ), QPointF( 11.0,11.0 ) );
-                    painter.drawLine( QPointF( 11.0,6.5 ), QPointF( 6.5,11.0 ) );
-                }
+                return QIcon( pixmap );
 
-                painter.end();
-
-                return QIcon( realpm );
             }
 
             case SP_ToolBarHorizontalExtensionButton:
             {
 
-                QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
-                realpm.fill( Qt::transparent );
-                QPainter painter( &realpm );
+                QPixmap pixmap( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
                 painter.setRenderHints( QPainter::Antialiasing );
                 painter.setBrush( Qt::NoBrush );
 
-                painter.translate( qreal( realpm.width() )/2.0, qreal( realpm.height() )/2.0 );
+                painter.translate( qreal( pixmap.width() )/2.0, qreal( pixmap.height() )/2.0 );
 
                 const bool reverseLayout( option && option->direction == Qt::RightToLeft );
                 QPolygonF a = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, ArrowTiny );
-                {
-                    qreal width( 1.1 );
-                    painter.translate( 0, 0.5 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawPolyline( a );
-                }
 
-                {
-                    qreal width( 1.1 );
-                    painter.translate( 0,-1 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawPolyline( a );
-                }
+                const qreal width( 1.1 );
+                painter.translate( 0, 0.5 );
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                painter.drawPolyline( a );
 
-                return QIcon( realpm );
+                painter.translate( 0,-1 );
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                painter.drawPolyline( a );
+
+                return QIcon( pixmap );
             }
 
             case SP_ToolBarVerticalExtensionButton:
             {
-                QPixmap realpm( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
-                realpm.fill( Qt::transparent );
-                QPainter painter( &realpm );
+                QPixmap pixmap( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
                 painter.setRenderHints( QPainter::Antialiasing );
                 painter.setBrush( Qt::NoBrush );
 
                 QPolygonF a = genericArrow( ArrowDown, ArrowTiny );
-                {
-                    qreal width( 1.1 );
-                    painter.translate( 0, 0.5 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawPolyline( a );
-                }
 
-                {
-                    qreal width( 1.1 );
-                    painter.translate( 0,-1 );
-                    painter.setBrush( Qt::NoBrush );
-                    painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                    painter.drawPolyline( a );
-                }
+                const qreal width( 1.1 );
+                painter.translate( 0, 0.5 );
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                painter.drawPolyline( a );
 
-                return QIcon( realpm );
+                painter.translate( 0,-1 );
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                painter.drawPolyline( a );
+
+                return QIcon( pixmap );
             }
 
             default:
@@ -8810,11 +8727,6 @@ namespace Oxygen
 
         QPalette palette = option->palette;
 
-        painter->save();
-        painter->drawPixmap( r, helper().dockWidgetButton( palette.window().color(), true, r.height() ) );
-        painter->setRenderHints( QPainter::Antialiasing );
-        painter->setBrush( Qt::NoBrush );
-
         const State& flags( option->state );
         const bool enabled( flags & State_Enabled );
         const bool active( enabled && ( option->titleBarState & Qt::WindowActive ) );
@@ -8831,51 +8743,59 @@ namespace Oxygen
         const bool animated( enabled && animations().mdiWindowEngine().isAnimated( widget, subControl ) );
         const qreal opacity( animations().mdiWindowEngine().opacity( widget, subControl ) );
 
+        // contrast color
+        const QColor base =option->palette.color( QPalette::Active, QPalette::Window );
+
+        // icon color
+        QColor color;
+        if( animated )
         {
 
-            // contrast pixel
-            const QColor contrast = helper().calcLightColor( option->palette.color( QPalette::Active, QPalette::Window ) );
-            const qreal width( 1.1 );
+            const QColor base( palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
+            const QColor glow( subControl == SC_TitleBarCloseButton ?
+                helper().viewNegativeTextBrush().brush( palette ).color():
+                helper().viewHoverBrush().brush( palette ).color() );
 
-            painter->translate( 0, 0.5 );
-            painter->setPen( QPen( contrast, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            renderTitleBarIcon( painter, r, subControl );
+            color = KColorUtils::mix( base, glow, opacity );
+
+        } else if( mouseOver ) {
+
+            color = ( subControl == SC_TitleBarCloseButton ) ?
+                helper().viewNegativeTextBrush().brush( palette ).color():
+                helper().viewHoverBrush().brush( palette ).color();
+
+        } else {
+
+            color = palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText );
 
         }
 
-        {
+        // rendering
+        renderTitleBarButton( painter, r, base, color, subControl );
 
-            // button color
-            QColor color;
-            if( animated )
-            {
+    }
 
-                const QColor base( palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
-                const QColor glow( subControl == SC_TitleBarCloseButton ?
-                    helper().viewNegativeTextBrush().brush( palette ).color():
-                    helper().viewHoverBrush().brush( palette ).color() );
+    //____________________________________________________________________________________________________
+    void Style::renderTitleBarButton( QPainter* painter, const QRect& rect, const QColor& base, const QColor& color, const SubControl& subControl ) const
+    {
 
-                color = KColorUtils::mix( base, glow, opacity );
+        painter->save();
+        painter->setRenderHints( QPainter::Antialiasing );
+        painter->setBrush( Qt::NoBrush );
 
-            } else if( mouseOver ) {
+        painter->drawPixmap( rect, helper().dockWidgetButton( base, true, rect.width() ) );
 
-                color = ( subControl == SC_TitleBarCloseButton ) ?
-                    helper().viewNegativeTextBrush().brush( palette ).color():
-                    helper().viewHoverBrush().brush( palette ).color();
+        const qreal width( 1.1 );
 
-            } else {
+        // contrast
+        painter->translate( 0, 0.5 );
+        painter->setPen( QPen( helper().calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+        renderTitleBarIcon( painter, rect, subControl );
 
-                color = palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText );
-
-            }
-
-            // main icon painting
-            const qreal width( 1.1 );
-            painter->translate( 0,-1 );
-            painter->setPen( QPen( color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            renderTitleBarIcon( painter, r, subControl );
-
-        }
+        // main icon painting
+        painter->translate( 0,-1 );
+        painter->setPen( QPen( color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+        renderTitleBarIcon( painter, rect, subControl );
 
         painter->restore();
 
