@@ -25,9 +25,16 @@
     <entry name="AnimationSteps" type = "Int">
        <default>10</default>
     </entry>
-    <entry name="ShowMnemonics" type = "Bool">
-       <default>true</default>
+
+    <entry name="MnemonicsMode" type="Enum">
+      <choices>
+          <choice name="MN_NEVER" />
+          <choice name="MN_AUTO" />
+          <choice name="MN_ALWAYS" />
+      </choices>
+      <default>MN_ALWAYS</default>
     </entry>
+
 
     <!-- tooltips -->
     <entry name="ToolTipTransparent" type = "Bool">

@@ -839,9 +839,6 @@ namespace Oxygen
         int _doubleButtonHeight;
         //@}
 
-        //! true if keyboard accelerators must be drawn
-        bool _showMnemonics;
-
         //! helper
         StyleHelper* _helper;
 
