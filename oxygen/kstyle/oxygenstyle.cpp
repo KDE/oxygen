@@ -52,6 +52,7 @@
 #include "oxygenanimations.h"
 #include "oxygenframeshadow.h"
 #include "oxygenmdiwindowshadow.h"
+#include "oxygenmnemonics.h"
 #include "oxygenshadowhelper.h"
 #include "oxygensplitterproxy.h"
 #include "oxygenstyleconfigdata.h"
@@ -161,7 +162,6 @@ namespace Oxygen
         _subLineButtons( SingleButton ),
         _singleButtonHeight( 14 ),
         _doubleButtonHeight( 28 ),
-        _showMnemonics( true ),
         _helper( new StyleHelper( "oxygen" ) ),
         _shadowHelper( new ShadowHelper( this, *_helper ) ),
         _animations( new Animations( this ) ),
@@ -170,6 +170,7 @@ namespace Oxygen
         _topLevelManager( new TopLevelManager( this, *_helper ) ),
         _frameShadowFactory( new FrameShadowFactory( this ) ),
         _mdiWindowShadowFactory( new MdiWindowShadowFactory( this, *_helper ) ),
+        _mnemonics( new Mnemonics( this ) ),
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
         _splitterFactory( new SplitterFactory( this ) ),
@@ -1164,7 +1165,7 @@ namespace Oxygen
     {
 
         // hide mnemonics if requested
-        if( (!_showMnemonics) && ( flags & Qt::TextShowMnemonic ) && !( flags&Qt::TextHideMnemonic ) )
+        if( !mnemonics().enabled() && ( flags & Qt::TextShowMnemonic ) && !( flags&Qt::TextHideMnemonic ) )
         {
             flags &= ~Qt::TextShowMnemonic;
             flags |= Qt::TextHideMnemonic;
@@ -7896,6 +7897,9 @@ namespace Oxygen
         windowManager().initialize();
         shadowHelper().reloadConfig();
 
+        // mnemonics
+        mnemonics().setMode( StyleConfigData::mnemonicsMode() );
+
         // widget explorer
         widgetExplorer().setEnabled( StyleConfigData::widgetExplorerEnabled() );
         widgetExplorer().setDrawWidgetRects( StyleConfigData::drawWidgetRects() );
@@ -7905,8 +7909,6 @@ namespace Oxygen
         _noButtonHeight = 0;
         _singleButtonHeight = qMax( StyleConfigData::scrollBarWidth() * 7 / 10, 14 );
         _doubleButtonHeight = 2*_singleButtonHeight;
-
-        _showMnemonics = StyleConfigData::showMnemonics();
 
         // scrollbar buttons
         switch( StyleConfigData::scrollBarAddLineButtons() )

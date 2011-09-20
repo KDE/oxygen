@@ -84,7 +84,7 @@ namespace Oxygen
 
         connect( _toolBarDrawItemSeparator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _checkDrawX, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
-        connect( _showMnemonics, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _mnemonicsMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
         connect( _animationsEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _cacheEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _viewDrawTriangularExpander, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
@@ -109,7 +109,7 @@ namespace Oxygen
     {
         StyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
         StyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? StyleConfigData::CS_X : StyleConfigData::CS_CHECK ) );
-        StyleConfigData::setShowMnemonics( _showMnemonics->isChecked() );
+        StyleConfigData::setMnemonicsMode( _mnemonicsMode->currentIndex() );
         StyleConfigData::setCacheEnabled( _cacheEnabled->isChecked() );
         StyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
         StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
@@ -210,7 +210,8 @@ namespace Oxygen
 
         }
 
-        _showMnemonics->setVisible( _expertMode );
+        _mnemonicsLabel->setVisible( _expertMode );
+        _mnemonicsMode->setVisible( _expertMode );
         _animationsEnabled->setVisible( !_expertMode );
         _cacheEnabled->setVisible( _expertMode );
         _useWMMoveResize->setVisible( _expertMode );
@@ -252,7 +253,7 @@ namespace Oxygen
 
         // check if any value was modified
         if ( _toolBarDrawItemSeparator->isChecked() != StyleConfigData::toolBarDrawItemSeparator() ) modified = true;
-        else if ( _showMnemonics->isChecked() != StyleConfigData::showMnemonics() ) modified = true;
+        else if ( _mnemonicsMode->currentIndex() != StyleConfigData::mnemonicsMode() ) modified = true;
         else if( _viewDrawTriangularExpander->isChecked() != StyleConfigData::viewDrawTriangularExpander() ) modified = true;
         else if( _viewDrawFocusIndicator->isChecked() != StyleConfigData::viewDrawFocusIndicator() ) modified = true;
         else if( _viewDrawTreeBranchLines->isChecked() != StyleConfigData::viewDrawTreeBranchLines() ) modified = true;
@@ -299,7 +300,7 @@ namespace Oxygen
     {
 
         _toolBarDrawItemSeparator->setChecked( StyleConfigData::toolBarDrawItemSeparator() );
-        _showMnemonics->setChecked( StyleConfigData::showMnemonics() );
+        _mnemonicsMode->setCurrentIndex( StyleConfigData::mnemonicsMode() );
         _checkDrawX->setChecked( StyleConfigData::checkBoxStyle() == StyleConfigData::CS_X );
         _viewDrawTriangularExpander->setChecked( StyleConfigData::viewDrawTriangularExpander() );
         _viewDrawFocusIndicator->setChecked( StyleConfigData::viewDrawFocusIndicator() );
