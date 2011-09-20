@@ -854,7 +854,7 @@ namespace Oxygen
             case SH_FormLayoutWrapPolicy: return QFormLayout::DontWrapRows;
             case SH_MessageBox_TextInteractionFlags: return true;
             case SH_WindowFrame_Mask: return false;
-
+            case SH_RequestSoftwareInputPanel: return RSIP_OnMouseClick;
             default: return QCommonStyle::styleHint( hint, option, widget, returnData );
         }
 
