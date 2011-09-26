@@ -364,7 +364,7 @@ namespace Oxygen
     void Animations::registerEngine( BaseEngine* engine )
     {
         _engines.push_back( engine );
-        connect( engine, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterEngine( QObject* ) ) );
+        connect( engine, SIGNAL(destroyed(QObject*)), this, SLOT(unregisterEngine(QObject*)) );
     }
 
 }

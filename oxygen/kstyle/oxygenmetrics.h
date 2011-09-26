@@ -96,7 +96,7 @@ namespace Oxygen
 
         // progress bar
         ProgressBar_BusyIndicatorSize = 10,
-        ProgressBar_GrooveMargin = 2,
+        ProgressBar_GrooveMargin = 0,
 
         // scrollbar
         ScrollBar_MinimumSliderHeight = 21,
@@ -115,6 +115,9 @@ namespace Oxygen
 
         // splitter
         Splitter_Width = 3,
+
+        // splitter extended width
+        Splitter_ExtendedWidth = 12,
 
         // tabs
         TabBar_BaseOverlap = 7,

@@ -49,17 +49,17 @@ namespace Oxygen
 
         QMenu* menu = menuBar->addMenu( "&Layout" );
         QAction* action;
-        connect( action = menu->addAction( i18n( "Tile" ) ), SIGNAL( triggered( void ) ), ui.mdiArea, SLOT( tileSubWindows( void ) ) );
+        connect( action = menu->addAction( i18n( "Tile" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(tileSubWindows()) );
         //action->trigger();
 
-        connect( action = menu->addAction( i18n( "Cascade" ) ), SIGNAL( triggered( void ) ), ui.mdiArea, SLOT( cascadeSubWindows( void ) ) );
+        connect( action = menu->addAction( i18n( "Cascade" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(cascadeSubWindows()) );
 
         menu = menuBar->addMenu( "&Tools" );
-        connect( action = menu->addAction( KIcon( "arrow-right" ), i18n( "Select Next Window" ) ), SIGNAL( triggered( void ) ), ui.mdiArea, SLOT( activateNextSubWindow() ) );
+        connect( action = menu->addAction( KIcon( "arrow-right" ), i18n( "Select Next Window" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(activateNextSubWindow()) );
         action->setShortcut( Qt::CTRL + Qt::Key_Tab );
         addAction( action );
 
-        connect( action = menu->addAction( KIcon( "arrow-left" ), i18n( "Select Previous Window" ) ), SIGNAL( triggered( void ) ), ui.mdiArea, SLOT( activatePreviousSubWindow() ) );
+        connect( action = menu->addAction( KIcon( "arrow-left" ), i18n( "Select Previous Window" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(activatePreviousSubWindow()) );
         action->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_Tab );
         addAction( action );
 

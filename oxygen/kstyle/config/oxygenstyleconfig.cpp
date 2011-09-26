@@ -70,38 +70,37 @@ namespace Oxygen
         setupUi(this);
 
         // connections
-        connect( _animationsEnabled, SIGNAL( toggled(bool) ), _stackedWidgetTransitionsEnabled, SLOT( setEnabled( bool) ) );
-        connect( _windowDragMode, SIGNAL( currentIndexChanged( int ) ), SLOT( windowDragModeChanged( int ) ) );
-        connect( _viewDrawTriangularExpander, SIGNAL( toggled( bool ) ), _viewTriangularExpanderSize, SLOT( setEnabled( bool ) ) );
+        connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(windowDragModeChanged(int)) );
+        connect( _viewDrawTriangularExpander, SIGNAL(toggled(bool)), _viewTriangularExpanderSize, SLOT(setEnabled(bool)) );
+        connect( _expertModeButton, SIGNAL(pressed()), SLOT(toggleExpertModeInternal()) );
+
+        _expertModeButton->setIcon( KIcon("configure") );
 
         // toggle expert mode
-        toggleExpertMode( false );
+        toggleExpertModeInternal( false );
 
         // load setup from configData
         load();
 
-        connect( _toolBarDrawItemSeparator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _checkDrawX, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _showMnemonics, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _animationsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _cacheEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _viewDrawTriangularExpander, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _viewTriangularExpanderSize, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
-        connect( _viewDrawFocusIndicator, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _viewDrawTreeBranchLines, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _scrollBarColored, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _scrollBarBevel, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _scrollBarWidth, SIGNAL( valueChanged(int) ), SLOT( updateChanged() ) );
-        connect( _scrollBarAddLineButtons, SIGNAL( currentIndexChanged(int) ), SLOT( updateChanged() ) );
-        connect( _scrollBarSubLineButtons, SIGNAL( currentIndexChanged(int) ), SLOT( updateChanged() ) );
-        connect( _menuHighlightDark, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _menuHighlightStrong, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _menuHighlightSubtle, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
-        connect( _tabStylePlain, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
-        connect( _tabStyleSingle, SIGNAL( toggled(bool)), SLOT( updateChanged() ) );
-        connect( _windowDragMode, SIGNAL( currentIndexChanged( int ) ), SLOT( updateChanged() ) );
-        connect( _useWMMoveResize, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
-        connect( _stackedWidgetTransitionsEnabled, SIGNAL( toggled(bool) ), SLOT( updateChanged() ) );
+        connect( _toolBarDrawItemSeparator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _checkDrawX, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _mnemonicsMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _animationsEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _cacheEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewDrawTriangularExpander, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewTriangularExpanderSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _viewDrawFocusIndicator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewDrawTreeBranchLines, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _scrollBarWidth, SIGNAL(valueChanged(int)), SLOT(updateChanged()) );
+        connect( _scrollBarAddLineButtons, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _scrollBarSubLineButtons, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _menuHighlightDark, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _menuHighlightStrong, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _menuHighlightSubtle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _tabStylePlain, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _tabStyleSingle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( _useWMMoveResize, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
 
     }
 
@@ -110,14 +109,12 @@ namespace Oxygen
     {
         StyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
         StyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? StyleConfigData::CS_X : StyleConfigData::CS_CHECK ) );
-        StyleConfigData::setShowMnemonics( _showMnemonics->isChecked() );
+        StyleConfigData::setMnemonicsMode( _mnemonicsMode->currentIndex() );
         StyleConfigData::setCacheEnabled( _cacheEnabled->isChecked() );
         StyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
         StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
         StyleConfigData::setViewDrawFocusIndicator( _viewDrawFocusIndicator->isChecked() );
         StyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
-        StyleConfigData::setScrollBarColored( _scrollBarColored->isChecked() );
-        StyleConfigData::setScrollBarBevel( _scrollBarBevel->isChecked() );
         StyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
         StyleConfigData::setScrollBarAddLineButtons( _scrollBarAddLineButtons->currentIndex() );
         StyleConfigData::setScrollBarSubLineButtons( _scrollBarSubLineButtons->currentIndex() );
@@ -131,8 +128,9 @@ namespace Oxygen
             _animationConfigWidget->save();
 
         } else {
+
             StyleConfigData::setAnimationsEnabled( _animationsEnabled->isChecked() );
-            StyleConfigData::setStackedWidgetTransitionsEnabled( _stackedWidgetTransitionsEnabled->isChecked() );
+
         }
 
         StyleConfigData::setUseWMMoveResize( _useWMMoveResize->isChecked() );
@@ -173,8 +171,19 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::toggleExpertMode( bool value )
     {
+        _expertModeContainer->hide();
+        toggleExpertModeInternal( value );
+    }
 
+    //__________________________________________________________________
+    void StyleConfig::toggleExpertModeInternal( bool value )
+    {
+
+        // store value
         _expertMode = value;
+
+        // update button text
+        _expertModeButton->setText( _expertMode ? i18n( "Hide Advanced Configuration Options" ):i18n( "Show Advanced Configuration Options" ) );
 
         // update widget visibility based on expert mode
         if( _expertMode )
@@ -184,8 +193,9 @@ namespace Oxygen
             if( !_animationConfigWidget )
             {
                 _animationConfigWidget = new AnimationConfigWidget();
-                connect( _animationConfigWidget, SIGNAL( changed( bool ) ), SLOT( updateChanged( void ) ) );
-                connect( _animationConfigWidget, SIGNAL( layoutChanged( void ) ), SLOT( updateLayout() ) );
+                _animationConfigWidget->installEventFilter( this );
+                connect( _animationConfigWidget, SIGNAL(changed(bool)), SLOT(updateChanged()) );
+                connect( _animationConfigWidget, SIGNAL(layoutChanged()), SLOT(updateLayout()) );
                 _animationConfigWidget->load();
             }
 
@@ -195,35 +205,34 @@ namespace Oxygen
 
         } else if( _animationConfigWidget ) {
 
-            if( int index =tabWidget->indexOf( _animationConfigWidget ) >= 0 )
+            if( int index = tabWidget->indexOf( _animationConfigWidget ) >= 0 )
             { tabWidget->removeTab( index ); }
 
         }
 
-        _showMnemonics->setVisible( _expertMode );
+        _mnemonicsLabel->setVisible( _expertMode );
+        _mnemonicsMode->setVisible( _expertMode );
         _animationsEnabled->setVisible( !_expertMode );
         _cacheEnabled->setVisible( _expertMode );
-        _stackedTransitionWidget->setVisible( !_expertMode );
-        _generalExpertWidget->setVisible( _expertMode );
+        _useWMMoveResize->setVisible( _expertMode );
         _viewsExpertWidget->setVisible( _expertMode );
 
     }
 
     //__________________________________________________________________
-    void StyleConfig::showEvent( QShowEvent* )
+    bool StyleConfig::eventFilter( QObject* object, QEvent* event )
     {
 
-        if( _expertMode && _animationConfigWidget )
+        switch( event->type() )
         {
-            if( const QWidget* widget = tabWidget->widget( tabWidget->currentIndex() ) )
-            {
-                int delta = qMax( 0, _animationConfigWidget->sizeHint().height() - widget->size().height() );
-                if( delta > 0 ) window()->setMinimumSize( QSize( window()->minimumSizeHint().width(), window()->size().height() + delta ) );
-            }
+            case QEvent::ShowToParent:
+            object->event( event );
+            updateLayout();
+            return true;
+
+            default:
+            return false;
         }
-
-        return;
-
     }
 
     //__________________________________________________________________
@@ -244,12 +253,10 @@ namespace Oxygen
 
         // check if any value was modified
         if ( _toolBarDrawItemSeparator->isChecked() != StyleConfigData::toolBarDrawItemSeparator() ) modified = true;
-        else if ( _showMnemonics->isChecked() != StyleConfigData::showMnemonics() ) modified = true;
+        else if( _mnemonicsMode->currentIndex() != StyleConfigData::mnemonicsMode() ) modified = true;
         else if( _viewDrawTriangularExpander->isChecked() != StyleConfigData::viewDrawTriangularExpander() ) modified = true;
         else if( _viewDrawFocusIndicator->isChecked() != StyleConfigData::viewDrawFocusIndicator() ) modified = true;
         else if( _viewDrawTreeBranchLines->isChecked() != StyleConfigData::viewDrawTreeBranchLines() ) modified = true;
-        else if( _scrollBarColored->isChecked() != StyleConfigData::scrollBarColored() ) modified = true;
-        else if( _scrollBarBevel->isChecked() != StyleConfigData::scrollBarBevel() ) modified = true;
         else if( _scrollBarWidth->value() != StyleConfigData::scrollBarWidth() ) modified = true;
         else if( _scrollBarAddLineButtons->currentIndex() != StyleConfigData::scrollBarAddLineButtons() ) modified = true;
         else if( _scrollBarSubLineButtons->currentIndex() != StyleConfigData::scrollBarSubLineButtons() ) modified = true;
@@ -258,7 +265,6 @@ namespace Oxygen
         else if( tabStyle() != StyleConfigData::tabStyle() ) modified = true;
         else if( _animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
         else if( _cacheEnabled->isChecked() != StyleConfigData::cacheEnabled() ) modified = true;
-        else if( _stackedWidgetTransitionsEnabled->isChecked() != StyleConfigData::stackedWidgetTransitionsEnabled() ) modified = true;
         else if( _useWMMoveResize->isChecked() != StyleConfigData::useWMMoveResize() ) modified = true;
         else if( triangularExpanderSize() != StyleConfigData::viewTriangularExpanderSize() ) modified = true;
         else if( _animationConfigWidget && _animationConfigWidget->isChanged() ) modified = true;
@@ -294,7 +300,7 @@ namespace Oxygen
     {
 
         _toolBarDrawItemSeparator->setChecked( StyleConfigData::toolBarDrawItemSeparator() );
-        _showMnemonics->setChecked( StyleConfigData::showMnemonics() );
+        _mnemonicsMode->setCurrentIndex( StyleConfigData::mnemonicsMode() );
         _checkDrawX->setChecked( StyleConfigData::checkBoxStyle() == StyleConfigData::CS_X );
         _viewDrawTriangularExpander->setChecked( StyleConfigData::viewDrawTriangularExpander() );
         _viewDrawFocusIndicator->setChecked( StyleConfigData::viewDrawFocusIndicator() );
@@ -303,8 +309,6 @@ namespace Oxygen
         _scrollBarWidth->setValue(
             qMin(SCROLLBAR_MAXIMUM_WIDTH, qMax(SCROLLBAR_MINIMUM_WIDTH,
             StyleConfigData::scrollBarWidth())) );
-        _scrollBarColored->setChecked( StyleConfigData::scrollBarColored() );
-        _scrollBarBevel->setChecked( StyleConfigData::scrollBarBevel() );
 
         _scrollBarAddLineButtons->setCurrentIndex( StyleConfigData::scrollBarAddLineButtons() );
         _scrollBarSubLineButtons->setCurrentIndex( StyleConfigData::scrollBarSubLineButtons() );
@@ -317,9 +321,6 @@ namespace Oxygen
         // tab style
         _tabStyleSingle->setChecked( StyleConfigData::tabStyle() == StyleConfigData::TS_SINGLE );
         _tabStylePlain->setChecked( StyleConfigData::tabStyle() == StyleConfigData::TS_PLAIN );
-
-        _stackedWidgetTransitionsEnabled->setChecked( StyleConfigData::stackedWidgetTransitionsEnabled() );
-        _stackedWidgetTransitionsEnabled->setEnabled( false );
 
         _animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
         _cacheEnabled->setChecked( StyleConfigData::cacheEnabled() );

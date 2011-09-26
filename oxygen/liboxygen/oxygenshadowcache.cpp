@@ -60,56 +60,25 @@ namespace Oxygen
 
         // initialize shadowCacheMode
         const KConfigGroup group( config.group("Windeco") );
-        const QString shadowCacheMode( group.readEntry( OxygenConfig::SHADOW_CACHE_MODE, "Variable" ) );
 
-        if( shadowCacheMode == "Disabled" )
+        if( !_enabled )
         {
-
-            if( _enabled )
-            {
-                setEnabled( false );
-                changed = true;
-            }
-
-        } else if( shadowCacheMode == "Maximum" ) {
-
-            if( !_enabled )
-            {
-                setEnabled( true );
-                changed = true;
-            }
-
-            if( _maxIndex != 256 )
-            {
-                setMaxIndex( 256 );
-                changed = true;
-            }
-
-        } else {
-
-            if( !_enabled )
-            {
-                setEnabled( true );
-                changed = true;
-            }
-
-            // get animation duration
-            const int duration( group.readEntry( OxygenConfig::ANIMATIONS_DURATION, 150 ) );
-            const int maxIndex( qMin( 256, int( (120*duration)/1000 ) ) );
-            if( _maxIndex != maxIndex )
-            {
-                setMaxIndex( maxIndex );
-                changed = true;
-            }
-
+            setEnabled( true );
+            changed = true;
         }
 
-        // shadows enable state
-        const bool shadowsEnabled( group.readEntry( OxygenConfig::SHADOW_MODE, "Use Oxygen Shadows" ) == "Use Oxygen Shadows" );
+        // get animation duration
+        const int duration( group.readEntry( OxygenConfig::ANIMATIONS_DURATION, 150 ) );
+        const int maxIndex( qMin( 256, int( (120*duration)/1000 ) ) );
+        if( _maxIndex != maxIndex )
+        {
+            setMaxIndex( maxIndex );
+            changed = true;
+        }
 
         // active shadows
         ShadowConfiguration activeShadowConfiguration( QPalette::Active, config.group( "ActiveShadow" ) );
-        activeShadowConfiguration.setEnabled( shadowsEnabled && group.readEntry( OxygenConfig::USE_OXYGEN_SHADOWS, true ) );
+        activeShadowConfiguration.setEnabled( group.readEntry( OxygenConfig::USE_OXYGEN_SHADOWS, true ) );
         if( shadowConfigurationChanged( activeShadowConfiguration ) )
         {
             setShadowConfiguration( activeShadowConfiguration );
@@ -118,7 +87,7 @@ namespace Oxygen
 
         // inactive shadows
         ShadowConfiguration inactiveShadowConfiguration( QPalette::Inactive, config.group( "InactiveShadow" ) );
-        inactiveShadowConfiguration.setEnabled( shadowsEnabled && group.readEntry( OxygenConfig::USE_DROP_SHADOWS, true ) );
+        inactiveShadowConfiguration.setEnabled( group.readEntry( OxygenConfig::USE_DROP_SHADOWS, true ) );
         if( shadowConfigurationChanged( inactiveShadowConfiguration ) )
         {
             setShadowConfiguration( inactiveShadowConfiguration );
@@ -154,7 +123,7 @@ namespace Oxygen
 
         // create tileSet otherwise
         qreal size( shadowSize() + overlap );
-        TileSet* tileSet = new TileSet( shadowPixmap( key, key.active ), size, size, size, size, size, size, 1, 1);
+        TileSet* tileSet = new TileSet( pixmap( key, key.active ), size, size, size, size, size, size, 1, 1);
         _shadowCache.insert( hash, tileSet );
 
         return tileSet;
@@ -183,7 +152,7 @@ namespace Oxygen
         QPainter p( &shadow );
         p.setRenderHint( QPainter::Antialiasing );
 
-        QPixmap inactiveShadow( shadowPixmap( key, false ) );
+        QPixmap inactiveShadow( pixmap( key, false ) );
         {
             QPainter pp( &inactiveShadow );
             pp.setRenderHint( QPainter::Antialiasing );
@@ -191,7 +160,7 @@ namespace Oxygen
             pp.fillRect( inactiveShadow.rect(), QColor( 0, 0, 0, 255*(1.0-opacity ) ) );
         }
 
-        QPixmap activeShadow( shadowPixmap( key, true ) );
+        QPixmap activeShadow( pixmap( key, true ) );
         {
             QPainter pp( &activeShadow );
             pp.setRenderHint( QPainter::Antialiasing );
@@ -210,7 +179,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    QPixmap ShadowCache::shadowPixmap( const Key& key, bool active ) const
+    QPixmap ShadowCache::pixmap( const Key& key, bool active ) const
     {
 
         // local reference to relevant shadow configuration
@@ -245,7 +214,7 @@ namespace Oxygen
                 // inner (sharp) gradient
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+fixedSize)/2 );
                 const qreal hoffset( 0 );
-                const qreal voffset( 0.2 );
+                const qreal voffset = shadowConfiguration.verticalOffset()*gradientSize/fixedSize;
 
                 QRadialGradient rg = QRadialGradient( size+12.0*hoffset, size+12.0*voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );

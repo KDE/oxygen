@@ -27,6 +27,8 @@
 #include "oxygenanimationconfigwidget.h"
 #include "oxygenanimationconfigwidget.moc"
 #include "oxygenanimationconfigitem.h"
+#include "oxygenfollowmouseanimationconfigitem.h"
+#include "oxygengenericanimationconfigitem.h"
 #include "oxygenstyleconfigdata.h"
 
 #include <QtGui/QButtonGroup>
@@ -39,14 +41,10 @@ namespace Oxygen
 
     //_______________________________________________
     AnimationConfigWidget::AnimationConfigWidget( QWidget* parent ):
-        QWidget( parent ),
-        _changed( false ),
-        row_(0)
+        BaseAnimationConfigWidget( parent )
     {
 
-        ui.setupUi( this );
-        QGridLayout* layout( qobject_cast<QGridLayout*>( AnimationConfigWidget::layout() ) );
-        row_ = layout->rowCount();
+        QGridLayout* layout( qobject_cast<QGridLayout*>( BaseAnimationConfigWidget::layout() ) );
 
         setupItem( layout, _genericAnimations = new GenericAnimationConfigItem( this,
             i18n("Focus, mouseover and widget state transition"),
@@ -84,39 +82,42 @@ namespace Oxygen
         // add a separator
         QFrame* frame = new QFrame( this );
         frame->setFrameStyle( QFrame::HLine|QFrame::Sunken );
-        layout->addWidget( frame, row_, 0, 1, 2 );
-        ++row_;
+        layout->addWidget( frame, _row, 0, 1, 2 );
+        ++_row;
 
         // progress bar busy animation
         setupItem( layout, _progressBarBusyAnimations = new GenericAnimationConfigItem( this,
             i18n( "Busy indicator steps" ),
             i18n( "Configure progress bars' busy indicator animation" ) ) );
 
-
         // add spacers to the first column, previous row to finalize layout
-        layout->addItem( new QSpacerItem( 25, 0 ), row_-1, 0, 1, 1 );
+        layout->addItem( new QSpacerItem( 25, 0 ), _row-1, 0, 1, 1 );
 
         // add vertical spacer
-        layout->addItem( new QSpacerItem( 0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding ), row_, 1, 1, 1 );
-        ++row_;
+        layout->addItem( new QSpacerItem( 0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding ), _row, 1, 1, 1 );
+        ++_row;
 
-        connect( ui.animationsEnabled, SIGNAL( toggled( bool ) ), SLOT( updateChanged() ) );
+        connect( animationsEnabled(), SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         foreach( AnimationConfigItem* item, findChildren<AnimationConfigItem*>() )
         {
             if( item != _progressBarBusyAnimations )
             {
                 item->QWidget::setEnabled( false );
-                connect( ui.animationsEnabled, SIGNAL( toggled( bool ) ), item, SLOT( setEnabled( bool ) ) );
+                connect( animationsEnabled(), SIGNAL(toggled(bool)), item, SLOT(setEnabled(bool)) );
             }
         }
 
     }
 
     //_______________________________________________
+    AnimationConfigWidget::~AnimationConfigWidget( void )
+    {}
+
+    //_______________________________________________
     void AnimationConfigWidget::load( void )
     {
 
-        ui.animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
+        animationsEnabled()->setChecked( StyleConfigData::animationsEnabled() );
         _genericAnimations->setEnabled( StyleConfigData::genericAnimationsEnabled() );
         _genericAnimations->setDuration( StyleConfigData::genericAnimationsDuration() );
 
@@ -189,7 +190,7 @@ namespace Oxygen
     void AnimationConfigWidget::save( void )
     {
 
-        StyleConfigData::setAnimationsEnabled( ui.animationsEnabled->isChecked() );
+        StyleConfigData::setAnimationsEnabled( animationsEnabled()->isChecked() );
         StyleConfigData::setGenericAnimationsEnabled( _genericAnimations->enabled() );
         StyleConfigData::setGenericAnimationsDuration( _genericAnimations->duration() );
 
@@ -236,7 +237,7 @@ namespace Oxygen
     {
 
         bool modified( false );
-        if( ui.animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
+        if( animationsEnabled()->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
         else if( _genericAnimations->enabled() != StyleConfigData::genericAnimationsEnabled() ) modified = true;
         else if( _genericAnimations->duration() != StyleConfigData::genericAnimationsDuration() ) modified = true;
 
@@ -278,31 +279,6 @@ namespace Oxygen
 
         setChanged( modified );
 
-    }
-
-    //_______________________________________________
-    void AnimationConfigWidget::updateItems( bool state )
-    {
-        if( !state ) return;
-        foreach( AnimationConfigItem* item, findChildren<AnimationConfigItem*>() )
-        { if( item->configurationWidget()->isVisible() ) item->configurationButton()->setChecked( false ); }
-    }
-
-    //_______________________________________________
-    void AnimationConfigWidget::setupItem( QGridLayout* layout, AnimationConfigItem* item )
-    {
-        layout->addWidget( item, row_, 0, 1, 2 );
-        ++row_;
-
-        connect( item->configurationButton(), SIGNAL( toggled( bool ) ), SLOT( updateItems( bool ) ) );
-
-        item->initializeConfigurationWidget( this );
-        layout->addWidget( item->configurationWidget(), row_, 1, 1, 1 );
-        ++row_;
-
-        item->configurationWidget()->setVisible( false );
-        connect( item->configurationButton(), SIGNAL( toggled( bool ) ), SIGNAL( layoutChanged( void ) ) );
-        connect( item, SIGNAL( changed( void ) ), SLOT( updateChanged( void ) ) );
     }
 
 }

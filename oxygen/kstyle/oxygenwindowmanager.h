@@ -177,6 +177,9 @@ namespace Oxygen
 
         //@}
 
+        //! returns first widget matching given class, or 0L if none
+        template<typename T> T findParent( const QWidget* ) const;
+
         private:
 
         //! enability
@@ -298,6 +301,18 @@ namespace Oxygen
         friend class AppEventFilter;
 
     };
+
+    //____________________________________________________________________
+    template<typename T>
+        T WindowManager::findParent( const QWidget* widget ) const
+    {
+
+        if( !widget ) return 0L;
+        for( QWidget* parent = widget->parentWidget(); parent; parent = parent->parentWidget() )
+        { if( T cast = qobject_cast<T>(parent) ) return cast; }
+
+        return 0L;
+    }
 
 }
 

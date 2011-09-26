@@ -27,6 +27,7 @@
 #include "oxygenshadowhelper.h"
 #include "oxygenshadowhelper.moc"
 #include "oxygenshadowcache.h"
+#include "oxygenstylehelper.h"
 
 #include <KConfig>
 
@@ -51,27 +52,40 @@ namespace Oxygen
     const char* const ShadowHelper::netWMSkipShadowPropertyName( "_KDE_NET_WM_SKIP_SHADOW" );
 
     //_____________________________________________________
-    ShadowHelper::ShadowHelper( QObject* parent, Helper& helper ):
+    ShadowHelper::ShadowHelper( QObject* parent, StyleHelper& helper ):
         QObject( parent ),
+        _helper( helper ),
         _shadowCache( new ShadowCache( helper ) ),
-        _size( 0 ),
-        _atom( None )
+        _size( 0 )
+        #ifdef Q_WS_X11
+        ,_atom( None )
+        #endif
     {}
 
     //_______________________________________________________
     ShadowHelper::~ShadowHelper( void )
-    { delete _shadowCache; }
+    {
+
+        #ifdef Q_WS_X11
+        foreach( const Qt::HANDLE& value, _pixmaps  ) XFreePixmap( QX11Info::display(), value );
+        foreach( const Qt::HANDLE& value, _dockPixmaps  ) XFreePixmap( QX11Info::display(), value );
+        #endif
+
+        delete _shadowCache;
+
+    }
 
     //______________________________________________
     void ShadowHelper::reset( void )
     {
         #ifdef Q_WS_X11
         // round pixmaps
-        foreach( const Qt::HANDLE& value, _pixmaps  )
-        { XFreePixmap( QX11Info::display(), value ); }
+        foreach( const Qt::HANDLE& value, _pixmaps  ) XFreePixmap( QX11Info::display(), value );
+        foreach( const Qt::HANDLE& value, _dockPixmaps  ) XFreePixmap( QX11Info::display(), value );
         #endif
 
         _pixmaps.clear();
+        _dockPixmaps.clear();
 
         // reset size
         _size = 0;
@@ -101,7 +115,7 @@ namespace Oxygen
         if( widget->testAttribute(Qt::WA_WState_Created) && installX11Shadows( widget ) )
         {  _widgets.insert( widget, widget->winId() ); }
 
-        connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( objectDeleted( QObject* ) ) );
+        connect( widget, SIGNAL(destroyed(QObject*)), SLOT(objectDeleted(QObject*)) );
 
         return true;
 
@@ -125,9 +139,32 @@ namespace Oxygen
         // reset
         reset();
 
-        // recreate handles and store size
+        // retrieve shadow pixmap
         _size = shadowCache().shadowSize();
-        _tiles = *shadowCache().tileSet( ShadowCache::Key() );
+
+        QPixmap pixmap( shadowCache().pixmap( ShadowCache::Key() ) );
+        {
+            QPainter painter( &pixmap );
+
+            // add transparency
+            painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+            painter.fillRect( pixmap.rect(), QColor( 0, 0, 0, 150 ) );
+        }
+
+        // recreate tileset
+        _tiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
+
+        {
+
+            QPainter painter( &pixmap );
+            // add round corners
+            const QRect cornerRect( (pixmap.width()-10)/2, (pixmap.height()-10)/2, 10, 10 );
+            _helper.roundCorner( QPalette().color( QPalette::Window ) )->render( cornerRect, &painter );
+
+        }
+
+        // recreate tileset
+        _dockTiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
 
         // update property for registered widgets
         for( QMap<QWidget*,WId>::const_iterator iter = _widgets.constBegin(); iter != _widgets.constEnd(); ++iter )
@@ -192,7 +229,7 @@ namespace Oxygen
     }
 
     //______________________________________________
-    void ShadowHelper::createPixmapHandles( void )
+    const QVector<Qt::HANDLE>& ShadowHelper::createPixmapHandles( bool isDockWidget )
     {
 
         /*!
@@ -206,79 +243,79 @@ namespace Oxygen
         #endif
 
         // make sure size is valid
-        if( _size <= 0 ) return;
+        if( _size <= 0 ) return _pixmaps;
 
         // make sure pixmaps are not already initialized
-        if( _pixmaps.empty() )
+        if( isDockWidget )
         {
+            // make sure pixmaps are not already initialized
+            if( _dockPixmaps.empty() && _dockTiles.isValid() )
+            {
 
-            const int shadowOpacity = 150;
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ), shadowOpacity ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ), shadowOpacity ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 1 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 2 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 5 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 8 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 7 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 6 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 3 ) ) );
+                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 0 ) ) );
+
+            }
+
+        } else if( _pixmaps.empty() && _tiles.isValid() ) {
+
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ) ) );
+            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ) ) );
 
         }
+
+        // return relevant list of pixmap handles
+        return isDockWidget ? _dockPixmaps:_pixmaps;
 
     }
 
     //______________________________________________
-    Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source, int opacity ) const
+    Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source ) const
     {
 
         // do nothing for invalid pixmaps
         if( source.isNull() ) return 0;
 
-        // if available returns the pixmap handle directly
-        if( source.handle() && opacity == 255 )
+        /*
+        in some cases, pixmap handle is invalid. This is the case notably
+        when Qt uses to RasterEngine. In this case, we create an X11 Pixmap
+        explicitly and draw the source pixmap on it.
+        */
+
+        #ifdef Q_WS_X11
+        const int width( source.width() );
+        const int height( source.height() );
+
+        // create X11 pixmap
+        Pixmap pixmap = XCreatePixmap( QX11Info::display(), QX11Info::appRootWindow(), width, height, 32 );
+
+        // create explicitly shared QPixmap from it
+        QPixmap dest( QPixmap::fromX11Pixmap( pixmap, QPixmap::ExplicitlyShared ) );
+
+        // create surface for pixmap
         {
-
-            return source.handle();
-
-        } else {
-
-            /*
-            in some cases, pixmap handle is invalid. This is the case notably
-            when Qt uses to RasterEngine. In this case, we create an X11 Pixmap
-            explicitly and draw the source pixmap on it.
-            */
-
-            #ifdef Q_WS_X11
-            const int width( source.width() );
-            const int height( source.height() );
-
-            // create X11 pixmap
-            Pixmap pixmap = XCreatePixmap( QX11Info::display(), QX11Info::appRootWindow(), width, height, 32 );
-
-            // create explicitly shared QPixmap from it
-            QPixmap dest( QPixmap::fromX11Pixmap( pixmap, QPixmap::ExplicitlyShared ) );
-
-            // create surface for pixmap
-            {
-                QPainter painter( &dest );
-                painter.setCompositionMode( QPainter::CompositionMode_Source );
-                painter.drawPixmap( 0, 0, source );
-
-                // add opacity
-                if( opacity < 255 )
-                {
-                    painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-                    painter.fillRect( dest.rect(), QColor( 0, 0, 0, opacity ) );
-                }
-
-            }
-
-
-            return pixmap;
-            #else
-            return 0;
-            #endif
-
+            QPainter painter( &dest );
+            painter.setCompositionMode( QPainter::CompositionMode_Source );
+            painter.drawPixmap( 0, 0, source );
         }
+
+
+        return pixmap;
+        #else
+        return 0;
+        #endif
 
     }
 
@@ -302,12 +339,14 @@ namespace Oxygen
         { return false; }
 
         // create pixmap handles if needed
-        createPixmapHandles();
+        const bool isDockWidget( qobject_cast<QDockWidget*>( widget ) );
+        const QVector<Qt::HANDLE>& pixmaps( createPixmapHandles( isDockWidget ) );
+        if( pixmaps.size() != numPixmaps ) return false;
 
         // create data
         // add pixmap handles
         QVector<unsigned long> data;
-        foreach( const Qt::HANDLE& value, _pixmaps )
+        foreach( const Qt::HANDLE& value, pixmaps )
         { data.push_back( value ); }
 
         // add padding
@@ -345,7 +384,7 @@ namespace Oxygen
     {
 
         #ifdef Q_WS_X11
-        if( !widget ) return;
+        if( !( widget && widget->testAttribute(Qt::WA_WState_Created) ) ) return;
         XDeleteProperty(QX11Info::display(), widget->winId(), _atom);
         #endif
 

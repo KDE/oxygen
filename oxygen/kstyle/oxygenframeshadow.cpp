@@ -42,6 +42,7 @@
 
 namespace Oxygen
 {
+
     //____________________________________________________________________________________
     bool FrameShadowFactory::registerWidget( QWidget* widget, StyleHelper& helper )
     {
@@ -88,7 +89,7 @@ namespace Oxygen
         _registeredWidgets.insert( widget );
 
         // catch object destruction
-        connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( widgetDestroyed( QObject* ) ) );
+        connect( widget, SIGNAL(destroyed(QObject*)), SLOT(widgetDestroyed(QObject*)) );
 
         // install shadow
         installShadows( widget, helper, flat );
@@ -103,47 +104,6 @@ namespace Oxygen
         if( !isRegistered( widget ) ) return;
         _registeredWidgets.remove( widget );
         removeShadows( widget );
-    }
-
-    //____________________________________________________________________________________
-    void FrameShadowFactory::widgetDestroyed( QObject* o )
-    { _registeredWidgets.remove( o ); }
-
-    //____________________________________________________________________________________
-    void FrameShadowFactory::installShadows( QWidget* widget, StyleHelper& helper, bool flat )
-    {
-
-        removeShadows(widget);
-
-        widget->installEventFilter(this);
-        if( !flat )
-        {
-            installShadow( widget, helper, Left );
-            installShadow( widget, helper, Right );
-        }
-
-        installShadow( widget, helper, Top, flat );
-        installShadow( widget, helper, Bottom, flat );
-
-    }
-
-    //____________________________________________________________________________________
-    void FrameShadowFactory::removeShadows( QWidget* widget )
-    {
-
-        widget->removeEventFilter( this );
-
-        const QList<QObject* > children = widget->children();
-        foreach( QObject *child, children )
-        {
-            if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase*>(child) )
-            {
-                shadow->hide();
-                shadow->setParent(0);
-                shadow->deleteLater();
-            }
-        }
-
     }
 
     //____________________________________________________________________________________
@@ -173,6 +133,46 @@ namespace Oxygen
         }
 
         return QObject::eventFilter( object, event );
+
+    }
+
+    //____________________________________________________________________________________
+    void FrameShadowFactory::installShadows( QWidget* widget, StyleHelper& helper, bool flat )
+    {
+
+        removeShadows(widget);
+
+        widget->installEventFilter(this);
+
+        widget->installEventFilter( &_addEventFilter );
+        if( !flat )
+        {
+            installShadow( widget, helper, Left );
+            installShadow( widget, helper, Right );
+        }
+
+        installShadow( widget, helper, Top, flat );
+        installShadow( widget, helper, Bottom, flat );
+        widget->removeEventFilter( &_addEventFilter );
+
+    }
+
+    //____________________________________________________________________________________
+    void FrameShadowFactory::removeShadows( QWidget* widget )
+    {
+
+        widget->removeEventFilter( this );
+
+        const QList<QObject* > children = widget->children();
+        foreach( QObject *child, children )
+        {
+            if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase*>(child) )
+            {
+                shadow->hide();
+                shadow->setParent(0);
+                shadow->deleteLater();
+            }
+        }
 
     }
 
@@ -251,6 +251,10 @@ namespace Oxygen
         shadow->updateGeometry();
         shadow->show();
     }
+
+    //____________________________________________________________________________________
+    void FrameShadowFactory::widgetDestroyed( QObject* object )
+    { _registeredWidgets.remove( object ); }
 
     //____________________________________________________________________________________
     void FrameShadowBase::init()
