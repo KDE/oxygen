@@ -1181,39 +1181,28 @@ namespace Oxygen
             QPixmap pixmap( 32+16, height );
             pixmap.fill( Qt::transparent );
 
-            QRect r( pixmap.rect().adjusted( 0, 0, -1, -1 ) );
+            QRectF r( pixmap.rect() );
+            r.adjust( 0.5, 0.5, -0.5, -0.5 );
 
             QPainter p( &pixmap );
             p.setRenderHint( QPainter::Antialiasing );
-            p.translate( .5, .5 );
 
-            {
+            // items with custom background brushes always have their background drawn
+            // regardless of whether they are hovered or selected or neither so
+            // the gradient effect needs to be more subtle
+            const int lightenAmount( custom ? 110 : 130 );
+            QLinearGradient gradient( 0, 0, 0, r.bottom() );
+            gradient.setColorAt( 0, color.lighter( lightenAmount ) );
+            gradient.setColorAt( 1, color );
 
-                // background
-                QPainterPath path;
-                path.addRoundedRect( r, rounding, rounding );
+            p.setPen( QPen( color, 1 ) );
+            p.setBrush( gradient );
+            p.drawRoundedRect( r, rounding, rounding );
 
-                // items with custom background brushes always have their background drawn
-                // regardless of whether they are hovered or selected or neither so
-                // the gradient effect needs to be more subtle
-                const int lightenAmount( custom ? 110 : 130 );
-                QLinearGradient gradient( 0, 0, 0, r.bottom() );
-                gradient.setColorAt( 0, color.lighter( lightenAmount ) );
-                gradient.setColorAt( 1, color );
-
-                p.setPen( QPen( color, 1 ) );
-                p.setBrush( gradient );
-                p.drawPath( path );
-
-            }
-
-            {
-                // contrast pixel
-                QPainterPath path;
-                path.addRoundedRect( r.adjusted( 1, 1, -1, -1 ), rounding - 1, rounding - 1 );
-                p.strokePath( path, QPen( QColor( 255, 255, 255, 64 ), 1 ) );
-            }
-
+            // contrast pixel
+            p.setPen( QPen( QColor( 255, 255, 255, 64 ), 1 ) );
+            p.setBrush( Qt::NoBrush );
+            p.drawRoundedRect( r.adjusted( 1, 1, -1, -1 ), rounding-1, rounding-1 );
             p.end();
 
             tileSet = new TileSet( pixmap, 8, 0, 32, height );
