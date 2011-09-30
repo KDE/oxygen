@@ -57,8 +57,8 @@ namespace Oxygen
         setWindowTitle( i18n( "Oxygen Demo" ) );
 
         // install Quit shortcut
-        connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL( activated() ), SLOT( close() ) );
-        connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL( activated() ), SLOT( close() ) );
+        connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL(activated()), SLOT(close()) );
+        connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL(activated()), SLOT(close()) );
 
         // customize button box
         QList<QDialogButtonBox*> children( findChildren<QDialogButtonBox*>() );
@@ -68,11 +68,11 @@ namespace Oxygen
 
             _enableCheckBox = new QCheckBox( i18n( "Enabled" ) );
             _enableCheckBox->setChecked( true );
-            connect( _enableCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleEnable( bool ) ) );
+            connect( _enableCheckBox, SIGNAL(toggled(bool)), SLOT(toggleEnable(bool)) );
             buttonBox->addButton( _enableCheckBox, QDialogButtonBox::ResetRole );
 
             _rightToLeftCheckBox = new QCheckBox( i18n( "Right to left layout" ) );
-            connect( _rightToLeftCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleRightToLeft( bool ) ) );
+            connect( _rightToLeftCheckBox, SIGNAL(toggled(bool)), SLOT(toggleRightToLeft(bool)) );
             buttonBox->addButton( _rightToLeftCheckBox, QDialogButtonBox::ResetRole );
 
         }
@@ -81,8 +81,8 @@ namespace Oxygen
         _pageWidget = new KPageWidget( this );
         setMainWidget( _pageWidget );
 
-        connect( _pageWidget, SIGNAL( currentPageChanged( KPageWidgetItem*, KPageWidgetItem* ) ), SLOT( updateWindowTitle( KPageWidgetItem* ) ) );
-        connect( _pageWidget, SIGNAL( currentPageChanged( KPageWidgetItem*, KPageWidgetItem* ) ), SLOT( updateEnableState( KPageWidgetItem* ) ) );
+        connect( _pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
+        connect( _pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateEnableState(KPageWidgetItem*)) );
         KPageWidgetItem *page;
         DemoWidget *widget;
 
@@ -175,9 +175,9 @@ namespace Oxygen
         foreach( DemoWidget* widget, _widgets )
         {
             if( widget->metaObject()->indexOfSlot( "benchmark()" ) >= 0 )
-            { connect( shortcut, SIGNAL( activated( void ) ), widget, SLOT( benchmark( void ) ) ); }
+            { connect( shortcut, SIGNAL(activated()), widget, SLOT(benchmark()) ); }
 
-            connect( this, SIGNAL( abortSimulations( void ) ), &widget->simulator(), SLOT( abort( void ) ) );
+            connect( this, SIGNAL(abortSimulations()), &widget->simulator(), SLOT(abort()) );
 
         }
 

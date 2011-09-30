@@ -47,12 +47,16 @@ namespace Oxygen
         _hideTitleBar( false ),
         _useDropShadows( true ),
         _useOxygenShadows( true ),
-        _useAnimations( true ),
-        _animateTitleChange( true ),
-        _animationsDuration( 150 ),
-        _tabsEnabled( true ),
         _useNarrowButtonSpacing( false ),
-        _shadowCacheMode( CacheVariable )
+        _animationsEnabled( true ),
+        _buttonAnimationsEnabled( true ),
+        _titleAnimationsEnabled( true ),
+        _shadowAnimationsEnabled( true ),
+        _tabAnimationsEnabled( true ),
+        _buttonAnimationsDuration( 150 ),
+        _titleAnimationsDuration( 150 ),
+        _shadowAnimationsDuration( 150 ),
+        _tabAnimationsDuration( 150 )
     {}
 
     //__________________________________________________
@@ -123,34 +127,48 @@ namespace Oxygen
             OxygenConfig::USE_OXYGEN_SHADOWS,
             defaultConfiguration.useOxygenShadows() ) );
 
-        // animations
-        setUseAnimations( group.readEntry(
-            OxygenConfig::USE_ANIMATIONS,
-            defaultConfiguration.useAnimations() ) );
-
-        // animations
-        setAnimateTitleChange( group.readEntry(
-            OxygenConfig::ANIMATE_TITLE_CHANGE,
-            defaultConfiguration.animateTitleChange() ) );
-
-        // animations
-        setAnimationsDuration( group.readEntry(
-            OxygenConfig::ANIMATIONS_DURATION,
-            defaultConfiguration.animationsDuration() ) );
-
-        // tabbing
-        setTabsEnabled( group.readEntry(
-            OxygenConfig::TABS_ENABLED,
-            defaultConfiguration.tabsEnabled() ) );
-
         // buttonSpacing
         setUseNarrowButtonSpacing( group.readEntry(
             OxygenConfig::NARROW_BUTTON_SPACING,
             defaultConfiguration.useNarrowButtonSpacing() ) );
 
-        // shadow cache mode
-        setShadowCacheMode( shadowCacheMode( group.readEntry(
-            OxygenConfig::SHADOW_CACHE_MODE, defaultConfiguration.shadowCacheModeName( false ) ), false ) );
+        // animations
+        setAnimationsEnabled( group.readEntry(
+            OxygenConfig::ANIMATIONS_ENABLED,
+            defaultConfiguration.animationsEnabled() ) );
+
+        setButtonAnimationsEnabled( group.readEntry(
+            OxygenConfig::BUTTON_ANIMATIONS_ENABLED,
+            defaultConfiguration.buttonAnimationsEnabled() ) );
+
+        setTitleAnimationsEnabled( group.readEntry(
+            OxygenConfig::TITLE_ANIMATIONS_ENABLED,
+            defaultConfiguration.titleAnimationsEnabled() ) );
+
+        setShadowAnimationsEnabled( group.readEntry(
+            OxygenConfig::SHADOW_ANIMATIONS_ENABLED,
+            defaultConfiguration.shadowAnimationsEnabled() ) );
+
+        setTabAnimationsEnabled( group.readEntry(
+            OxygenConfig::TAB_ANIMATIONS_ENABLED,
+            defaultConfiguration.tabAnimationsEnabled() ) );
+
+        // animations duration
+        setButtonAnimationsDuration( group.readEntry(
+            OxygenConfig::BUTTON_ANIMATIONS_DURATION,
+            defaultConfiguration.buttonAnimationsDuration() ) );
+
+        setTitleAnimationsDuration( group.readEntry(
+            OxygenConfig::TITLE_ANIMATIONS_DURATION,
+            defaultConfiguration.titleAnimationsDuration() ) );
+
+        setShadowAnimationsDuration( group.readEntry(
+            OxygenConfig::SHADOW_ANIMATIONS_DURATION,
+            defaultConfiguration.shadowAnimationsDuration() ) );
+
+        setTabAnimationsDuration( group.readEntry(
+            OxygenConfig::TAB_ANIMATIONS_DURATION,
+            defaultConfiguration.tabAnimationsDuration() ) );
 
     }
 
@@ -175,7 +193,6 @@ namespace Oxygen
         if( titleAlignment() != defaultConfiguration.titleAlignment() ) group.writeEntry( OxygenConfig::TITLE_ALIGNMENT, titleAlignmentName( false ) );
         if( centerTitleOnFullWidth() != defaultConfiguration.centerTitleOnFullWidth() ) group.writeEntry( OxygenConfig::CENTER_TITLE_ON_FULL_WIDTH, centerTitleOnFullWidth() );
         if( buttonSize() != defaultConfiguration.buttonSize() ) group.writeEntry( OxygenConfig::BUTTON_SIZE, buttonSizeName( false ) );
-
         if( blendColor() != defaultConfiguration.blendColor() ) group.writeEntry( OxygenConfig::BLEND_COLOR, blendColorName( false ) );
         if( frameBorder() != defaultConfiguration.frameBorder() ) group.writeEntry( OxygenConfig::FRAME_BORDER, frameBorderName( false ) );
         if( sizeGripMode() != defaultConfiguration.sizeGripMode() ) group.writeEntry( OxygenConfig::SIZE_GRIP_MODE, sizeGripModeName( false ) );
@@ -190,12 +207,20 @@ namespace Oxygen
         if( hideTitleBar() != defaultConfiguration.hideTitleBar() ) group.writeEntry( OxygenConfig::HIDE_TITLEBAR, hideTitleBar() );
         if( useDropShadows() != defaultConfiguration.useDropShadows() ) group.writeEntry( OxygenConfig::USE_DROP_SHADOWS, useDropShadows() );
         if( useOxygenShadows() != defaultConfiguration.useOxygenShadows() ) group.writeEntry( OxygenConfig::USE_OXYGEN_SHADOWS, useOxygenShadows() );
-        if( useAnimations() != defaultConfiguration.useAnimations() ) group.writeEntry( OxygenConfig::USE_ANIMATIONS, useAnimations() );
-        if( animateTitleChange() != defaultConfiguration.animateTitleChange() ) group.writeEntry( OxygenConfig::ANIMATE_TITLE_CHANGE, animateTitleChange() );
-        if( animationsDuration() != defaultConfiguration.animationsDuration() ) group.writeEntry( OxygenConfig::ANIMATIONS_DURATION, animationsDuration() );
-        if( tabsEnabled() != defaultConfiguration.tabsEnabled() ) group.writeEntry( OxygenConfig::TABS_ENABLED, tabsEnabled() );
         if( useNarrowButtonSpacing() != defaultConfiguration.useNarrowButtonSpacing() ) group.writeEntry( OxygenConfig::NARROW_BUTTON_SPACING, useNarrowButtonSpacing() );
-        if( shadowCacheMode() != defaultConfiguration.shadowCacheMode() ) group.writeEntry( OxygenConfig::SHADOW_CACHE_MODE, shadowCacheModeName( false ) );
+
+        // animations
+        if( animationsEnabled() != defaultConfiguration.animationsEnabled() ) group.writeEntry( OxygenConfig::ANIMATIONS_ENABLED, animationsEnabled() );
+        if( buttonAnimationsEnabled() != defaultConfiguration.buttonAnimationsEnabled() ) group.writeEntry( OxygenConfig::BUTTON_ANIMATIONS_ENABLED, buttonAnimationsEnabled() );
+        if( titleAnimationsEnabled() != defaultConfiguration.titleAnimationsEnabled() ) group.writeEntry( OxygenConfig::TITLE_ANIMATIONS_ENABLED, titleAnimationsEnabled() );
+        if( shadowAnimationsEnabled() != defaultConfiguration.shadowAnimationsEnabled() ) group.writeEntry( OxygenConfig::SHADOW_ANIMATIONS_ENABLED, shadowAnimationsEnabled() );
+        if( tabAnimationsEnabled() != defaultConfiguration.tabAnimationsEnabled() ) group.writeEntry( OxygenConfig::TAB_ANIMATIONS_ENABLED, tabAnimationsEnabled() );
+
+        // animations duration
+        if( buttonAnimationsDuration() != defaultConfiguration.buttonAnimationsDuration() ) group.writeEntry( OxygenConfig::BUTTON_ANIMATIONS_DURATION, buttonAnimationsDuration() );
+        if( titleAnimationsDuration() != defaultConfiguration.titleAnimationsDuration() ) group.writeEntry( OxygenConfig::TITLE_ANIMATIONS_DURATION, titleAnimationsDuration() );
+        if( shadowAnimationsDuration() != defaultConfiguration.shadowAnimationsDuration() ) group.writeEntry( OxygenConfig::SHADOW_ANIMATIONS_DURATION, shadowAnimationsDuration() );
+        if( tabAnimationsDuration() != defaultConfiguration.tabAnimationsDuration() ) group.writeEntry( OxygenConfig::TAB_ANIMATIONS_DURATION, tabAnimationsDuration() );
 
     }
 
@@ -375,38 +400,17 @@ namespace Oxygen
             hideTitleBar() == other.hideTitleBar() &&
             useDropShadows() == other.useDropShadows() &&
             useOxygenShadows() == other.useOxygenShadows() &&
-            useAnimations() == other.useAnimations() &&
-            animateTitleChange() == other.animateTitleChange() &&
-            animationsDuration() == other.animationsDuration() &&
-            tabsEnabled() == other.tabsEnabled() &&
             useNarrowButtonSpacing() == other.useNarrowButtonSpacing() &&
-            shadowCacheMode() == other.shadowCacheMode();
+            animationsEnabled() == other.animationsEnabled() &&
+            buttonAnimationsEnabled() == other.buttonAnimationsEnabled() &&
+            titleAnimationsEnabled() == other.titleAnimationsEnabled() &&
+            shadowAnimationsEnabled() == other.shadowAnimationsEnabled() &&
+            tabAnimationsEnabled() == other.tabAnimationsEnabled() &&
+            buttonAnimationsDuration() == other.buttonAnimationsDuration() &&
+            titleAnimationsDuration() == other.titleAnimationsDuration() &&
+            shadowAnimationsDuration() == other.shadowAnimationsDuration() &&
+            tabAnimationsDuration() == other.tabAnimationsDuration();
 
-    }
-
-    //__________________________________________________
-    QString Configuration::shadowCacheModeName( ShadowCacheMode value, bool translated )
-    {
-        QString out;
-        switch( value )
-        {
-            case CacheDisabled: out = translated ? i18n( "Disabled" ):"Disabled"; break;
-            case CacheVariable: out = translated ? i18n( "Variable" ):"Variable"; break;
-            case CacheMaximum: out = translated ? i18n( "Maximum" ):"Maximum"; break;
-            default: return Configuration().shadowCacheModeName( translated );
-        }
-
-        return out;
-
-    }
-
-    //__________________________________________________
-    Configuration::ShadowCacheMode Configuration::shadowCacheMode( QString value, bool translated )
-    {
-        if( value == shadowCacheModeName( CacheDisabled, translated ) ) return CacheDisabled;
-        else if( value == shadowCacheModeName( CacheVariable, translated ) ) return CacheVariable;
-        else if( value == shadowCacheModeName( CacheMaximum, translated ) ) return CacheMaximum;
-        else return Configuration().shadowCacheMode();
     }
 
 }

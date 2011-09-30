@@ -67,7 +67,9 @@ namespace Oxygen
     class Animations;
     class FrameShadowFactory;
     class MdiWindowShadowFactory;
+    class Mnemonics;
     class ShadowHelper;
+    class SplitterFactory;
     class StyleHelper;
     class Transitions;
     class WindowManager;
@@ -112,10 +114,10 @@ namespace Oxygen
         //! destructor
         virtual ~Style( void );
 
-        //! widget polishing/unpolishing
+        //! widget polishing
         virtual void polish( QWidget* );
 
-        //! widget polishing/unpolishing
+        //! widget unpolishing
         virtual void unpolish( QWidget* );
 
         //! needed to avoid warnings at compilation time
@@ -350,6 +352,10 @@ namespace Oxygen
         MdiWindowShadowFactory& mdiWindowShadowFactory( void ) const
         { return *_mdiWindowShadowFactory; }
 
+        //! mdi window shadows
+        Mnemonics& mnemonics( void ) const
+        { return *_mnemonics; }
+
         //! widget explorer
         /*!
         this is used for debugging. Provides information about
@@ -357,6 +363,10 @@ namespace Oxygen
         */
         WidgetExplorer& widgetExplorer( void ) const
         { return *_widgetExplorer; }
+
+        //! splitter factory
+        SplitterFactory& splitterFactory( void ) const
+        { return *_splitterFactory; }
 
         //! tabBar data
         TabBarData& tabBarData( void ) const
@@ -706,7 +716,8 @@ namespace Oxygen
 
         //! mdi subwindow titlebar button
         void renderTitleBarButton( QPainter*, const QStyleOptionTitleBar*, const QWidget*, const SubControl& ) const;
-        void renderTitleBarIcon( QPainter*, const QRectF&, const SubControl& ) const;
+        void renderTitleBarButton( QPainter*, const QRect& r, const QColor&, const QColor&, const SubControl& ) const;
+        void renderTitleBarIcon( QPainter*, const QRect&, const SubControl& ) const;
 
         //! header background
         void renderHeaderBackground( const QRect&, const QPalette&, QPainter*, const QWidget*, bool horizontal, bool reverse ) const;
@@ -725,7 +736,8 @@ namespace Oxygen
         {
             CheckOn,
             CheckOff,
-            CheckTriState
+            CheckTriState,
+            CheckSunken
         };
 
         //! checkbox
@@ -820,17 +832,18 @@ namespace Oxygen
         //! true if KGlobalSettings signals are initialized
         bool _kGlobalSettingsInitialized;
 
-        //! scrollbar button types (for addLine and subLine )
+        //!@name scrollbar button types (for addLine and subLine )
+        //@{
         ScrollBarButtonType _addLineButtons;
         ScrollBarButtonType _subLineButtons;
+        //@}
 
-        //! metrics for scrollbar buttons
+        //!@name metrics for scrollbar buttons
+        //@{
         int _noButtonHeight;
         int _singleButtonHeight;
         int _doubleButtonHeight;
-
-        //! true if keyboard accelerators must be drawn
-        bool _showMnemonics;
+        //@}
 
         //! helper
         StyleHelper* _helper;
@@ -856,11 +869,17 @@ namespace Oxygen
         //! mdi window shadows
         MdiWindowShadowFactory* _mdiWindowShadowFactory;
 
+        //! keyboard accelerators
+        Mnemonics* _mnemonics;
+
         //! widget explorer
         WidgetExplorer* _widgetExplorer;
 
         //! tabBar data
         TabBarData* _tabBarData;
+
+        //! splitter Factory, to extend splitters hit area
+        SplitterFactory* _splitterFactory;
 
         //! pointer to primitive specialized function
         typedef bool (Style::*StylePrimitive)( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -961,7 +980,6 @@ namespace Oxygen
 
         return;
     }
-
 
 }
 

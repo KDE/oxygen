@@ -39,7 +39,7 @@ namespace Oxygen
         _transition( new TransitionWidget( target, duration ) )
     {
         transition().data()->hide();
-        connect( transition().data(), SIGNAL( finished( void ) ), SLOT( finishAnimation( void ) ) );
+        connect( transition().data(), SIGNAL(finished()), SLOT(finishAnimation()) );
     }
 
     //_________________________________________________________________

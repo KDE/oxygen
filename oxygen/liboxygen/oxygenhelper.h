@@ -359,23 +359,12 @@ namespace Oxygen
 
         //@}
 
-        //!@name pixmap caches
-        //@{
-        typedef BaseCache<QPixmap> PixmapCache;
-
-        //! window decoration buttons
-        PixmapCache& windecoButtonCache( void )
-        { return _windecoButtonCache; }
-
-        //! window decoration button glow
-        PixmapCache& windecoButtonGlowCache( void )
-        { return _windecoButtonGlowCache; }
-
-        //@}
-
         //! shortcut to color caches
         /*! it is made protected because it is also used in the style helper */
         typedef BaseCache<QColor> ColorCache;
+
+        //! shortcut to pixmap cache
+        typedef BaseCache<QPixmap> PixmapCache;
 
         private:
 
@@ -413,8 +402,6 @@ namespace Oxygen
         ColorCache _backgroundColorCache;
         //@}
 
-        PixmapCache _windecoButtonCache;
-        PixmapCache _windecoButtonGlowCache;
         PixmapCache _backgroundCache;
         PixmapCache _dotCache;
 

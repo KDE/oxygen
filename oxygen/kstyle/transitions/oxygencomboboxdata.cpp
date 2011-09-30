@@ -38,8 +38,8 @@ namespace Oxygen
         _target( target )
     {
         _target.data()->installEventFilter( this );
-        connect( _target.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
-        connect( _target.data(), SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged() ) );
+        connect( _target.data(), SIGNAL(destroyed()), SLOT(targetDestroyed()) );
+        connect( _target.data(), SIGNAL(currentIndexChanged(int)), SLOT(indexChanged()) );
     }
 
     //___________________________________________________________________

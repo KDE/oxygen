@@ -27,18 +27,14 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtGui/QWidget>
-#include <QtGui/QLayout>
-
-#include "ui_oxygenanimationconfigwidget.h"
+#include "oxygenbaseanimationconfigwidget.h"
 
 namespace Oxygen
 {
-    class AnimationConfigItem;
     class GenericAnimationConfigItem;
     class FollowMouseAnimationConfigItem;
 
-    class AnimationConfigWidget: public QWidget
+    class AnimationConfigWidget: public BaseAnimationConfigWidget
     {
 
         Q_OBJECT
@@ -48,17 +44,8 @@ namespace Oxygen
         //! constructor
         explicit AnimationConfigWidget( QWidget* = 0 );
 
-        //! true if changed
-        virtual bool isChanged( void ) const
-        { return _changed; }
-
-        signals:
-
-        //! emmited when layout is changed
-        void layoutChanged( void );
-
-        //! emmited when changed
-        void changed( bool );
+        //! destructor
+        virtual ~AnimationConfigWidget( void );
 
         public slots:
 
@@ -70,29 +57,10 @@ namespace Oxygen
 
         protected slots:
 
-        //! update visible ites
-        virtual void updateItems( bool );
-
         //! check whether configuration is changed and emit appropriate signal if yes
         virtual void updateChanged();
 
-        protected:
-
-        virtual void setupItem( QGridLayout*, AnimationConfigItem* );
-
-        //! set changed state
-        virtual void setChanged( bool value )
-        {
-            _changed = value;
-            emit changed( value );
-        }
-
         private:
-
-        //! changed state
-        bool _changed;
-
-        Ui_AnimationConfigWidget ui;
 
         GenericAnimationConfigItem* _genericAnimations;
         GenericAnimationConfigItem* _progressBarAnimations;
@@ -104,9 +72,6 @@ namespace Oxygen
         FollowMouseAnimationConfigItem* _toolBarAnimations;
         FollowMouseAnimationConfigItem* _menuBarAnimations;
         FollowMouseAnimationConfigItem* _menuAnimations;
-
-        //! grid running row. Used for layout
-        int row_;
 
     };
 

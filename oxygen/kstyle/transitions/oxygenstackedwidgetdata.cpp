@@ -38,8 +38,8 @@ namespace Oxygen
     {
 
         // configure transition
-        connect( _target.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
-        connect( _target.data(), SIGNAL( currentChanged( int ) ), SLOT( animate() ) );
+        connect( _target.data(), SIGNAL(destroyed()), SLOT(targetDestroyed()) );
+        connect( _target.data(), SIGNAL(currentChanged(int)), SLOT(animate()) );
 
         // disable focus
         transition().data()->setAttribute(Qt::WA_NoMousePropagation, true);

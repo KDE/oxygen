@@ -100,7 +100,7 @@ namespace Oxygen
         widget->installEventFilter( this );
 
         // catch object destruction
-        connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( widgetDestroyed( QObject* ) ) );
+        connect( widget, SIGNAL(destroyed(QObject*)), SLOT(widgetDestroyed(QObject*)) );
 
         return true;
 

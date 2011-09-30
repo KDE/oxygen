@@ -57,8 +57,8 @@ namespace Oxygen
             "nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla "
             "pariatur?");
         ui.textedit->setLineWrapMode( QTextEdit::NoWrap );
-        connect( ui.flatCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleFlatWidgets( bool ) ) );
-        connect( ui.wrapCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleWrapMode( bool ) ) );
+        connect( ui.flatCheckBox, SIGNAL(toggled(bool)), SLOT(toggleFlatWidgets(bool)) );
+        connect( ui.wrapCheckBox, SIGNAL(toggled(bool)), SLOT(toggleWrapMode(bool)) );
         ui.wrapCheckBox->setChecked( true );
     }
 

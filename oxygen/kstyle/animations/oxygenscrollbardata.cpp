@@ -46,8 +46,8 @@ namespace Oxygen
         _addLineData._animation = new Animation( duration, this );
         _subLineData._animation = new Animation( duration, this );
 
-        connect( addLineAnimation().data(), SIGNAL( finished( void ) ), SLOT( clearAddLineRect( void ) ) );
-        connect( subLineAnimation().data(), SIGNAL( finished( void ) ), SLOT( clearSubLineRect( void ) ) );
+        connect( addLineAnimation().data(), SIGNAL(finished()), SLOT(clearAddLineRect()) );
+        connect( subLineAnimation().data(), SIGNAL(finished()), SLOT(clearSubLineRect()) );
 
         // setup animation
         setupAnimation( addLineAnimation(), "addLineOpacity" );

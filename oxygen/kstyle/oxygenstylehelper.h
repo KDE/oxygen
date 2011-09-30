@@ -104,7 +104,7 @@ namespace Oxygen
         QPalette mergePalettes( const QPalette&, qreal ratio ) const;
 
         //! overloaded window decoration buttons for MDI windows
-        virtual QPixmap windecoButton( const QColor& color, bool pressed, int size = 21 );
+        virtual QPixmap dockWidgetButton( const QColor& color, bool pressed, int size = 21 );
 
         //! round corners( used for Menus, combobox drop-down, detached toolbars and dockwidgets
         TileSet *roundCorner( const QColor&, int size = 5 );
@@ -228,6 +228,9 @@ namespace Oxygen
 
         //! mid color cache
         ColorCache _midColorCache;
+
+        //! dock button cache
+        PixmapCache _dockWidgetButtonCache;
 
         //! progressbar cache
         PixmapCache _progressBarCache;

@@ -39,7 +39,7 @@ namespace Oxygen
         _progressBar( progressBar ),
         _checkBox( checkBox ),
         _value( 0 )
-    { connect( _checkBox, SIGNAL( toggled( bool ) ), SLOT( toggleBusy( bool ) ) ); }
+    { connect( _checkBox, SIGNAL(toggled(bool)), SLOT(toggleBusy(bool)) ); }
 
     //_____________________________________________________________
     void ProgressBar::toggleBusy( bool value )
@@ -82,11 +82,11 @@ namespace Oxygen
         _progressBar2 = new ProgressBar( this, ui.progressBar_2, ui.checkBox_2 );
         ui.checkBox_2->setChecked( true );
 
-        connect( ui.horizontalSlider, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
-        connect( ui.horizontalScrollBar, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
-        connect( ui.verticalSlider, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
-        connect( ui.verticalScrollBar, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
-        connect( ui.dial, SIGNAL( valueChanged( int ) ), SLOT( updateSliders( int ) ) );
+        connect( ui.horizontalSlider, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
+        connect( ui.horizontalScrollBar, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
+        connect( ui.verticalSlider, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
+        connect( ui.verticalScrollBar, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
+        connect( ui.dial, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
 
     }
 
