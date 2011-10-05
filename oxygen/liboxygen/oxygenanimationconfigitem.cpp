@@ -84,7 +84,7 @@ namespace Oxygen
     { return ui->enableCheckBox->isChecked(); }
 
     //________________________________________________________________
-    KPushButton* AnimationConfigItem::configurationButton( void ) const
+    QAbstractButton* AnimationConfigItem::configurationButton( void ) const
     { return ui->configurationButton; }
 
     //_______________________________________________
