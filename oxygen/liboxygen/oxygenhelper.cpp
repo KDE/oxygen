@@ -428,6 +428,11 @@ namespace Oxygen
                 KColorUtils::mix( Qt::black, color, color.alphaF() ),
                 KColorScheme::ShadowShade,
                 _contrast ) );
+
+            // make sure shadow color has the same alpha channel as the input
+            out->setAlpha( color.alpha() );
+
+            // insert in cache
             _shadowColorCache.insert( key, out );
         }
 
