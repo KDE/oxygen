@@ -138,6 +138,10 @@ namespace Oxygen
         virtual qreal subLineOpacity( void ) const
         { return _subLineData._opacity; }
 
+        //! mouse position
+        QPoint position( void ) const
+        { return _position; }
+
         protected slots:
 
         //! clear addLineRect
@@ -228,6 +232,9 @@ namespace Oxygen
 
         //! subtract line data (up arrow)
         Data _subLineData;
+
+        //! mouse position
+        QPoint _position;
 
     };
 

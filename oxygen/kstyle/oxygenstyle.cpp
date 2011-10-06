@@ -9378,10 +9378,11 @@ namespace Oxygen
         const bool animated( animations().scrollBarEngine().isAnimated( widget, control ) );
         const qreal opacity( animations().scrollBarEngine().opacity( widget, control ) );
 
-        QPoint position( hover ? widget->mapFromGlobal( QCursor::pos() ) : QPoint( -1, -1 ) );
+        // retrieve mouse position from engine
+        QPoint position( hover ? animations().scrollBarEngine().position( widget ) : QPoint( -1, -1 ) );
         if( hover && r.contains( position ) )
         {
-            // we need to update the arrow controlRect on fly because there is no
+            // need to update the arrow controlRect on fly because there is no
             // way to get it from the styles directly, outside of repaint events
             animations().scrollBarEngine().setSubControlRect( widget, control, r );
         }

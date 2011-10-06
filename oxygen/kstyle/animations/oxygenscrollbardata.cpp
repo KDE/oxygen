@@ -38,7 +38,8 @@ namespace Oxygen
 
     //______________________________________________
     ScrollBarData::ScrollBarData( QObject* parent, QWidget* target, int duration ):
-        SliderData( parent, target, duration )
+        SliderData( parent, target, duration ),
+        _position( -1, -1 )
     {
 
         target->installEventFilter( this );
@@ -131,10 +132,15 @@ namespace Oxygen
         QStyleOptionSlider opt( qt_qscrollbarStyleOption( qobject_cast<QScrollBar*>( object ) ) );
 
         // cast event
-        QHoverEvent *he = static_cast<QHoverEvent*>(event);
-        QStyle::SubControl hoverControl = scrollBar->style()->hitTestComplexControl(QStyle::CC_ScrollBar, &opt, he->pos(), scrollBar);
+        QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
+        QStyle::SubControl hoverControl = scrollBar->style()->hitTestComplexControl(QStyle::CC_ScrollBar, &opt, hoverEvent->pos(), scrollBar);
+
+        // update hover state
         updateAddLineArrow( hoverControl );
         updateSubLineArrow( hoverControl );
+
+        // store position
+        _position = hoverEvent->pos();
 
     }
 
@@ -144,8 +150,13 @@ namespace Oxygen
     {
         Q_UNUSED( object );
         Q_UNUSED( event );
+
+        // reset hover state
         updateSubLineArrow( QStyle::SC_None );
         updateAddLineArrow( QStyle::SC_None );
+
+        // reset mouse position
+        _position = QPoint( -1, -1 );
     }
 
     //_____________________________________________________________________

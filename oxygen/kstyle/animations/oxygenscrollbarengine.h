@@ -89,6 +89,12 @@ namespace Oxygen
             { data.data()->updateState( state ); }
         }
 
+        //! mouse position
+        virtual QPoint position( const QObject* object )
+        {
+            if( DataMap<ScrollBarData>::Value data = _data.find( object ) ) return data.data()->position();
+            else return QPoint( -1, -1 );
+        }
 
         //! enability
         virtual void setEnabled( bool value )
