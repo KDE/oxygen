@@ -57,6 +57,7 @@
 #include <QtGui/QDockWidget>
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QStyleOption>
+#include <QtGui/QStyleOptionSlider>
 #include <QtGui/QToolBar>
 #include <QtGui/QToolBox>
 #include <QtGui/QWidget>
@@ -762,7 +763,7 @@ namespace Oxygen
         void renderScrollBarArrow( QPainter*, const QRect&, const QColor&, const QColor&, ArrowOrientation ) const;
 
         //! returns true if given scrollbar arrow is animated
-        QColor scrollBarArrowColor( const QStyleOption*, const SubControl&, const QWidget* ) const;
+        QColor scrollBarArrowColor( const QStyleOptionSlider*, const SubControl&, const QWidget* ) const;
 
         //! slider tickmarks
         void renderSliderTickmarks( QPainter*, const QStyleOptionSlider*, const QWidget* ) const;
