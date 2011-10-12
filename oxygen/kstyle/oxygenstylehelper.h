@@ -30,6 +30,7 @@
 
 #ifdef Q_WS_X11
 #include <QtGui/QX11Info>
+#include <X11/Xdefs.h>
 #endif
 
 //! helper class
@@ -184,8 +185,7 @@ namespace Oxygen
         //!@name utility functions
 
         //! returns true if compositing is active
-        bool compositingActive( void ) const
-        { return KWindowSystem::compositingActive(); }
+        bool compositingActive( void ) const;
 
         //! returns true if a given widget supports alpha channel
         inline bool hasAlphaChannel( const QWidget* ) const;
@@ -245,6 +245,13 @@ namespace Oxygen
         TileSetCache _scrollHoleCache;
         TileSetCache _selectionCache;
 
+        #ifdef Q_WS_X11
+
+        //! background gradient hint atom
+        Atom _compositingManagerAtom;
+
+        #endif
+
     };
 
     //____________________________________________________________________
@@ -264,6 +271,7 @@ namespace Oxygen
     //____________________________________________________________________
     bool StyleHelper::hasAlphaChannel( const QWidget* widget ) const
     {
+
         #ifdef Q_WS_X11
         if( compositingActive() )
         {
