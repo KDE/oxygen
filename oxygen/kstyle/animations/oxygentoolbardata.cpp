@@ -272,8 +272,8 @@ namespace Oxygen
         if( !widget ) return;
 
         // add connections
-        connect( animation().data(), SIGNAL( valueChanged( const QVariant& ) ), widget, SLOT( update() ), Qt::UniqueConnection  );
-        connect( progressAnimation().data(), SIGNAL( valueChanged( const QVariant& ) ), widget, SLOT( update() ), Qt::UniqueConnection  );
+        connect( animation().data(), SIGNAL(valueChanged(QVariant)), widget, SLOT(update()), Qt::UniqueConnection  );
+        connect( progressAnimation().data(), SIGNAL(valueChanged(QVariant)), widget, SLOT(update()), Qt::UniqueConnection  );
 
         // add event filter
         widget->removeEventFilter( this );

@@ -52,7 +52,7 @@ namespace Oxygen
             << ui.pushButton_3
             << ui.pushButton_4;
 
-        connect( ui.flatButtonCheckBox, SIGNAL( toggled( bool ) ), SLOT( toggleFlat( bool ) ) );
+        connect( ui.flatButtonCheckBox, SIGNAL(toggled(bool)), SLOT(toggleFlat(bool)) );
 
         ui.kcombobox_2->addItem( KIcon("oxygen"), i18n( "Normal" ) );
         ui.kcombobox_2->addItem( KIcon("document-new"), i18n( "New" ) );
@@ -101,8 +101,8 @@ namespace Oxygen
             << ui.toolButton_11
             << ui.toolButton_12;
 
-        connect( ui.textPosition, SIGNAL( currentIndexChanged( int ) ), SLOT( textPosition( int ) ) );
-        connect( ui.iconSize, SIGNAL( currentIndexChanged( int ) ), SLOT( iconSize( int ) ) );
+        connect( ui.textPosition, SIGNAL(currentIndexChanged(int)), SLOT(textPosition(int)) );
+        connect( ui.iconSize, SIGNAL(currentIndexChanged(int)), SLOT(iconSize(int)) );
         ui.iconSize->setCurrentIndex( 2 );
         textPosition(0);
     }

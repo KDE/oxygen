@@ -47,7 +47,7 @@ namespace Oxygen
         if( !_data.contains( widget ) ) _data.insert( widget, new ScrollBarData( this, widget, duration() ), enabled() );
 
         // connect destruction signal
-        connect( widget, SIGNAL( destroyed( QObject* ) ), this, SLOT( unregisterWidget( QObject* ) ), Qt::UniqueConnection );
+        connect( widget, SIGNAL(destroyed(QObject*)), this, SLOT(unregisterWidget(QObject*)), Qt::UniqueConnection );
         return true;
     }
 

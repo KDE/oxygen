@@ -54,9 +54,9 @@ namespace Oxygen
 
         checkClearButton();
 
-        connect( _target.data(), SIGNAL( destroyed() ), SLOT( targetDestroyed() ) );
-        connect( _target.data(), SIGNAL( textEdited( const QString& ) ), SLOT( textEdited( void ) ) );
-        connect( _target.data(), SIGNAL( textChanged( const QString& ) ), SLOT( textChanged( void ) ) );
+        connect( _target.data(), SIGNAL(destroyed()), SLOT(targetDestroyed()) );
+        connect( _target.data(), SIGNAL(textEdited(QString)), SLOT(textEdited()) );
+        connect( _target.data(), SIGNAL(textChanged(QString)), SLOT(textChanged()) );
 
         /*
         Additional signal/slot connections depending on widget's parent.
@@ -66,16 +66,16 @@ namespace Oxygen
         if( qobject_cast<QSpinBox*>( _target.data()->parentWidget() ) ||qobject_cast<QDoubleSpinBox*>( _target.data()->parentWidget() ) )
         {
 
-            connect( _target.data()->parentWidget(), SIGNAL( valueChanged( const QString& ) ), SLOT( textChanged( void ) ) );
+            connect( _target.data()->parentWidget(), SIGNAL(valueChanged(QString)), SLOT(textChanged()) );
 
         } else if( qobject_cast<QDateTimeEdit*>( _target.data()->parentWidget() ) ) {
 
-            connect( _target.data()->parentWidget(), SIGNAL( dateTimeChanged ( const QDateTime & ) ), SLOT( textChanged( void ) ) );
+            connect( _target.data()->parentWidget(), SIGNAL(dateTimeChanged(QDateTime)), SLOT(textChanged()) );
 
         }
 
         // update cached pixmap on selection change
-        connect( _target.data(), SIGNAL( selectionChanged() ), SLOT( selectionChanged() ) );
+        connect( _target.data(), SIGNAL(selectionChanged()), SLOT(selectionChanged()) );
 
     }
 

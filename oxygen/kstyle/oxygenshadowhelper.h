@@ -42,7 +42,7 @@ namespace Oxygen
 
     //! forward declaration
     class ShadowCache;
-    class Helper;
+    class StyleHelper;
 
     //! handle shadow pixmaps passed to window manager via X property
     class ShadowHelper: public QObject
@@ -58,7 +58,7 @@ namespace Oxygen
         static const char* const netWMSkipShadowPropertyName;
 
         //! constructor
-        ShadowHelper( QObject*, Helper& );
+        ShadowHelper( QObject*, StyleHelper& );
 
         //! destructor
         virtual ~ShadowHelper( void );
@@ -103,7 +103,7 @@ namespace Oxygen
         { return *_shadowCache; }
 
         // create pixmap handles from tileset
-        void createPixmapHandles( void );
+        const QVector<Qt::HANDLE>& createPixmapHandles( bool isDockWidget );
 
         // create pixmap handle from pixmap
         Qt::HANDLE createPixmap( const QPixmap& ) const;
@@ -123,20 +123,29 @@ namespace Oxygen
 
         private:
 
+        //! helper
+        StyleHelper& _helper;
+
         //! cache
         ShadowCache* _shadowCache;
 
         //! set of registered widgets
         QMap<QWidget*, WId> _widgets;
 
-        //! shadow tileset
+        //!@name shadow tilesets
+        //@{
         TileSet _tiles;
+        TileSet _dockTiles;
+        //@}
 
         //! number of pixmaps
         enum { numPixmaps = 8 };
 
-        //! pixmaps
+        //!@name pixmaps
+        //@{
         QVector<Qt::HANDLE> _pixmaps;
+        QVector<Qt::HANDLE> _dockPixmaps;
+        //@}
 
         //! shadow size
         int _size;

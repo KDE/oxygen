@@ -28,6 +28,11 @@
 
 #include <math.h>
 
+#ifdef Q_WS_X11
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#endif
+
 namespace Oxygen
 {
 
@@ -35,7 +40,20 @@ namespace Oxygen
     StyleHelper::StyleHelper( const QByteArray &componentName ):
         Helper( componentName ),
         _debugArea( KDebug::registerArea( "Oxygen ( style )" ) )
-    {}
+    {
+
+        #ifdef Q_WS_X11
+        // get display
+        Display *display = QX11Info::display();
+
+        // create compositing screen
+        QByteArray buffer;
+        QTextStream( &buffer ) << "_NET_WM_CM_S" << DefaultScreen( display );
+        _compositingManagerAtom = XInternAtom( display, buffer.constData(), False);
+
+        #endif
+
+    }
 
     //______________________________________________________________________________
     void StyleHelper::invalidateCaches( void )
@@ -48,6 +66,7 @@ namespace Oxygen
 
         _midColorCache.clear();
 
+        _dockWidgetButtonCache.clear();
         _progressBarCache.clear();
         _cornerCache.clear();
         _selectionCache.clear();
@@ -76,6 +95,7 @@ namespace Oxygen
         _holeCache.setMaxCacheSize( value );
         _scrollHandleCache.setMaxCacheSize( value );
 
+        _dockWidgetButtonCache.setMaxCost( value );
         _progressBarCache.setMaxCost( value );
         _cornerCache.setMaxCost( value );
         _selectionCache.setMaxCost( value );
@@ -106,7 +126,8 @@ namespace Oxygen
             w = w->parentWidget();
         }
 
-        if ( clipRect.isValid() ) {
+        if ( clipRect.isValid() )
+        {
             p->save();
             p->setClipRegion( clipRect,Qt::IntersectClip );
         }
@@ -145,10 +166,10 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    QPixmap StyleHelper::windecoButton( const QColor& color, bool pressed, int size )
+    QPixmap StyleHelper::dockWidgetButton( const QColor& color, bool pressed, int size )
     {
         const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( size << 1 ) | quint64( pressed ) );
-        QPixmap *pixmap = windecoButtonCache().object( key );
+        QPixmap *pixmap = _dockWidgetButtonCache.object( key );
 
         if ( !pixmap )
         {
@@ -176,7 +197,7 @@ namespace Oxygen
                 p.end();
             }
 
-            windecoButtonCache().insert( key, pixmap );
+            _dockWidgetButtonCache.insert( key, pixmap );
         }
 
         return *pixmap;
@@ -199,9 +220,8 @@ namespace Oxygen
             p.setPen( Qt::NoPen );
 
             QLinearGradient lg = QLinearGradient( 0.0, size-4.5, 0.0, size+4.5 );
-            lg.setColorAt( 0.0, calcLightColor( backgroundTopColor( color ) ) );
+            lg.setColorAt( 0.50, calcLightColor( backgroundTopColor( color ) ) );
             lg.setColorAt( 0.51, backgroundBottomColor( color ) );
-            lg.setColorAt( 1.0, backgroundBottomColor( color ) );
 
             // draw ellipse.
             p.setBrush( lg );
@@ -623,6 +643,18 @@ namespace Oxygen
         glowGradient.setColorAt( k0, alphaColor( color, 0.0 ) );
         p.setBrush( glowGradient );
         p.drawEllipse( r );
+    }
+
+    //________________________________________________________________________________________________________
+    bool StyleHelper::compositingActive( void ) const
+    {
+        #ifdef Q_WS_X11
+        // direct call to X
+        return XGetSelectionOwner( QX11Info::display(), _compositingManagerAtom ) != None;
+        #else
+        // use KWindowSystem
+        return KWindowSystem::compositingActive();
+        #endif
     }
 
     //________________________________________________________________________________________________________
@@ -1179,39 +1211,28 @@ namespace Oxygen
             QPixmap pixmap( 32+16, height );
             pixmap.fill( Qt::transparent );
 
-            QRect r( pixmap.rect().adjusted( 0, 0, -1, -1 ) );
+            QRectF r( pixmap.rect() );
+            r.adjust( 0.5, 0.5, -0.5, -0.5 );
 
             QPainter p( &pixmap );
             p.setRenderHint( QPainter::Antialiasing );
-            p.translate( .5, .5 );
 
-            {
+            // items with custom background brushes always have their background drawn
+            // regardless of whether they are hovered or selected or neither so
+            // the gradient effect needs to be more subtle
+            const int lightenAmount( custom ? 110 : 130 );
+            QLinearGradient gradient( 0, 0, 0, r.bottom() );
+            gradient.setColorAt( 0, color.lighter( lightenAmount ) );
+            gradient.setColorAt( 1, color );
 
-                // background
-                QPainterPath path;
-                path.addRoundedRect( r, rounding, rounding );
+            p.setPen( QPen( color, 1 ) );
+            p.setBrush( gradient );
+            p.drawRoundedRect( r, rounding, rounding );
 
-                // items with custom background brushes always have their background drawn
-                // regardless of whether they are hovered or selected or neither so
-                // the gradient effect needs to be more subtle
-                const int lightenAmount( custom ? 110 : 130 );
-                QLinearGradient gradient( 0, 0, 0, r.bottom() );
-                gradient.setColorAt( 0, color.lighter( lightenAmount ) );
-                gradient.setColorAt( 1, color );
-
-                p.setPen( QPen( color, 1 ) );
-                p.setBrush( gradient );
-                p.drawPath( path );
-
-            }
-
-            {
-                // contrast pixel
-                QPainterPath path;
-                path.addRoundedRect( r.adjusted( 1, 1, -1, -1 ), rounding - 1, rounding - 1 );
-                p.strokePath( path, QPen( QColor( 255, 255, 255, 64 ), 1 ) );
-            }
-
+            // contrast pixel
+            p.setPen( QPen( QColor( 255, 255, 255, 64 ), 1 ) );
+            p.setBrush( Qt::NoBrush );
+            p.drawRoundedRect( r.adjusted( 1, 1, -1, -1 ), rounding-1, rounding-1 );
             p.end();
 
             tileSet = new TileSet( pixmap, 8, 0, 32, height );

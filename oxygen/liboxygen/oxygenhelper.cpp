@@ -61,8 +61,6 @@ namespace Oxygen
         _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
 
         _backgroundCache.setMaxCost( 64 );
-        _windecoButtonCache.setMaxCost( 64 );
-        _windecoButtonGlowCache.setMaxCost( 64 );
 
         #ifdef Q_WS_X11
 
@@ -107,8 +105,6 @@ namespace Oxygen
         _backgroundColorCache.clear();
         _backgroundCache.clear();
         _dotCache.clear();
-        _windecoButtonCache.clear();
-        _windecoButtonGlowCache.clear();
     }
 
     //____________________________________________________________________
@@ -116,8 +112,6 @@ namespace Oxygen
     {
 
         // assign value
-        _windecoButtonCache.setMaxCost( value );
-        _windecoButtonGlowCache.setMaxCost( value );
         _slabCache.setMaxCacheSize( value );
         _slabSunkenCache.setMaxCost( value );
         _backgroundCache.setMaxCost( value );
@@ -194,6 +188,9 @@ namespace Oxygen
     void Helper::renderBackgroundPixmap( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, int yShift, int gradientHeight )
     {
 
+        // background pixmap
+        if( _backgroundPixmap.isNull() ) return;
+
         // get coordinates relative to the client area
         // this is stupid. One could use mapTo if this was taking const QWidget* and not
         // QWidget* as argument.
@@ -220,29 +217,20 @@ namespace Oxygen
         const QRect r = window->rect();
         int height( window->frameGeometry().height() );
         int width( window->frameGeometry().width() );
-        if( yShift > 0 )
-        {
-            height -= 2*yShift;
-            width -= 2*yShift;
 
-        }
+        // account for vertical shift
+        if( yShift > 0 ) height -= 2*yShift;
 
-        // background pixmap
-        if( !_backgroundPixmap.isNull() )
-        {
+        // calculate source rect
+        QPoint offset( 40, 48 - 20 );
+        QRect source( 0, 0, width + offset.x(), height + offset.y() );
 
-            // calculate source rect
-            QPoint offset( 40, 48 - 20 );
-            QRect source( 0, 0, width + offset.x(), height + offset.y() );
+        offset -= _backgroundPixmapOffset;
+        source.translate( offset.x(), offset.y() );
+        source.translate( 0, 64 - gradientHeight );
 
-            offset -= _backgroundPixmapOffset;
-            source.translate( offset.x(), offset.y() );
-            source.translate( 0, 64 - gradientHeight );
-
-            // draw
-            p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
-
-        }
+        // draw
+        p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
 
         if ( clipRect.isValid() )
         { p->restore(); }
@@ -437,6 +425,11 @@ namespace Oxygen
                 KColorUtils::mix( Qt::black, color, color.alphaF() ),
                 KColorScheme::ShadowShade,
                 _contrast ) );
+
+            // make sure shadow color has the same alpha channel as the input
+            out->setAlpha( color.alpha() );
+
+            // insert in cache
             _shadowColorCache.insert( key, out );
         }
 

@@ -30,6 +30,7 @@
 
 #ifdef Q_WS_X11
 #include <QtGui/QX11Info>
+#include <X11/Xdefs.h>
 #endif
 
 //! helper class
@@ -104,7 +105,7 @@ namespace Oxygen
         QPalette mergePalettes( const QPalette&, qreal ratio ) const;
 
         //! overloaded window decoration buttons for MDI windows
-        virtual QPixmap windecoButton( const QColor& color, bool pressed, int size = 21 );
+        virtual QPixmap dockWidgetButton( const QColor& color, bool pressed, int size = 21 );
 
         //! round corners( used for Menus, combobox drop-down, detached toolbars and dockwidgets
         TileSet *roundCorner( const QColor&, int size = 5 );
@@ -184,8 +185,7 @@ namespace Oxygen
         //!@name utility functions
 
         //! returns true if compositing is active
-        bool compositingActive( void ) const
-        { return KWindowSystem::compositingActive(); }
+        bool compositingActive( void ) const;
 
         //! returns true if a given widget supports alpha channel
         inline bool hasAlphaChannel( const QWidget* ) const;
@@ -229,6 +229,9 @@ namespace Oxygen
         //! mid color cache
         ColorCache _midColorCache;
 
+        //! dock button cache
+        PixmapCache _dockWidgetButtonCache;
+
         //! progressbar cache
         PixmapCache _progressBarCache;
 
@@ -241,6 +244,13 @@ namespace Oxygen
         TileSetCache _dockFrameCache;
         TileSetCache _scrollHoleCache;
         TileSetCache _selectionCache;
+
+        #ifdef Q_WS_X11
+
+        //! background gradient hint atom
+        Atom _compositingManagerAtom;
+
+        #endif
 
     };
 
@@ -261,6 +271,7 @@ namespace Oxygen
     //____________________________________________________________________
     bool StyleHelper::hasAlphaChannel( const QWidget* widget ) const
     {
+
         #ifdef Q_WS_X11
         if( compositingActive() )
         {
