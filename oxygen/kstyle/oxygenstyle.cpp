@@ -2058,19 +2058,15 @@ namespace Oxygen
     //___________________________________________________________________________________________________________________
     QRect Style::scrollBarSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
     {
-        const QRect& r = option->rect;
         const State& flags( option->state );
         const bool horizontal( flags&State_Horizontal );
 
         switch ( subControl )
         {
-            //For both arrows, we return -everything-,
-            //to get stuff to repaint right. See scrollBarInternalSubControlRect
-            //for the real thing
+
             case SC_ScrollBarSubLine:
             case SC_ScrollBarAddLine:
-            if( horizontal ) return r.adjusted( 0, 1, 0, -1 );
-            else return r.adjusted( 1, 0, -1, 0 );
+            return scrollBarInternalSubControlRect( option, subControl );
 
             //The main groove area. This is used to compute the others...
             case SC_ScrollBarGroove:
@@ -2088,41 +2084,40 @@ namespace Oxygen
                     botRightCorner = QPoint( bot.left()  - 1, top.bottom() );
 
                 } else {
+
                     topLeftCorner  = QPoint( top.left(),  top.bottom() + 1 );
                     botRightCorner = QPoint( top.right(), bot.top()    - 1 );
+
                 }
 
-                // define rect, and reduce margins
-                QRect r( topLeftCorner, botRightCorner );
-                if( horizontal ) r.adjust( 0, 1, 0, -1 );
-                else r.adjust( 1, 0, -1, 0 );
+                // define rect
+                return handleRTL( option, QRect( topLeftCorner, botRightCorner )  );
 
-                return handleRTL( option, r );
             }
 
             case SC_ScrollBarSlider:
             {
-                const QStyleOptionSlider* slOpt = qstyleoption_cast<const QStyleOptionSlider*>( option );
-                if( !slOpt ) return QRect();
+                const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+                if( !sliderOption ) return QRect();
 
                 //We do handleRTL here to unreflect things if need be
                 QRect groove = handleRTL( option, scrollBarSubControlRect( option, SC_ScrollBarGroove, widget ) );
 
-                if ( slOpt->minimum == slOpt->maximum ) return groove;
+                if ( sliderOption->minimum == sliderOption->maximum ) return groove;
 
                 //Figure out how much room we have..
                 int space( horizontal ? groove.width() : groove.height() );
 
                 //Calculate the portion of this space that the slider should take up.
-                int sliderSize = space * qreal( slOpt->pageStep ) / ( slOpt->maximum - slOpt->minimum + slOpt->pageStep );
+                int sliderSize = space * qreal( sliderOption->pageStep ) / ( sliderOption->maximum - sliderOption->minimum + sliderOption->pageStep );
                 sliderSize = qMax( sliderSize, ( int )ScrollBar_MinimumSliderHeight );
                 sliderSize = qMin( sliderSize, space );
 
                 space -= sliderSize;
                 if( space <= 0 ) return groove;
 
-                int pos = qRound( qreal( slOpt->sliderPosition - slOpt->minimum )/ ( slOpt->maximum - slOpt->minimum )*space );
-                if( slOpt->upsideDown ) pos = space - pos;
+                int pos = qRound( qreal( sliderOption->sliderPosition - sliderOption->minimum )/ ( sliderOption->maximum - sliderOption->minimum )*space );
+                if( sliderOption->upsideDown ) pos = space - pos;
                 if( horizontal ) return handleRTL( option, QRect( groove.x() + pos, groove.y(), sliderSize, groove.height() ) );
                 else return handleRTL( option, QRect( groove.x(), groove.y() + pos, groove.width(), sliderSize ) );
             }
@@ -5143,10 +5138,10 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>( option );
-        if( !slider ) return true;
+        const QStyleOptionSlider *sliderOption = qstyleoption_cast<const QStyleOptionSlider *>( option );
+        if( !sliderOption ) return true;
 
-        const QRect& r( option->rect );
+        QRect r( option->rect );
         const QPalette& palette( option->palette );
 
         const State& flags( option->state );
@@ -5155,17 +5150,87 @@ namespace Oxygen
         const bool mouseOver( enabled && ( flags&State_MouseOver ) );
 
         // enable animation state
-        animations().scrollBarEngine().updateState( widget, enabled && slider && ( slider->activeSubControls & SC_ScrollBarSlider ) );
-
+        animations().scrollBarEngine().updateState( widget, enabled && ( sliderOption->activeSubControls & SC_ScrollBarSlider ) );
         const bool animated( enabled && animations().scrollBarEngine().isAnimated( widget, SC_ScrollBarSlider ) );
 
         if( horizontal )
         {
+
+            // adjust rect
+            r.adjust( 0, 1, 0, -1 );
+            const bool reverseLayout( option->direction == Qt::RightToLeft );
+            if( reverseLayout )
+            {
+                if( _addLineButtons == NoButton ) r.adjust( -2, 0, 0, 0 );
+                if( _subLineButtons == NoButton ) r.adjust( 0, 0, -1, 0 );
+            } else {
+                if( _addLineButtons == NoButton ) r.adjust( 0, 0, 2, 0 );
+                if( _subLineButtons == NoButton ) r.adjust( 1, 0, 0, 0 );
+            }
+
+            // prepare hole rendering
+            QRect holeRect( r.adjusted( -4, 0, 4, 0 ) );
+            if( reverseLayout )
+            {
+                if( _addLineButtons == NoButton ) holeRect.adjust( -1, 0, 0, 0 );
+                if( _subLineButtons == NoButton ) holeRect.adjust( 0, 0, 1, 0 );
+            } else if( _subLineButtons == NoButton ) holeRect.adjust( -1, 0, 0, 0 );
+
+            // check if scrollbar is at maximum or minimum
+            TileSet::Tiles tiles( TileSet::Vertical );
+            if( _addLineButtons == NoButton && sliderOption->sliderValue == sliderOption->maximum )
+            {
+                if( reverseLayout )
+                {
+                    tiles |= TileSet::Left;
+                    holeRect.adjust( 5, 0, 0, 0 );
+                } else {
+                    tiles |= TileSet::Right;
+                    holeRect.adjust( 0, 0, -4, 0 );
+                }
+            }
+
+            if( _subLineButtons == NoButton && sliderOption->sliderValue == sliderOption->minimum )
+            {
+                if( reverseLayout )
+                {
+                    tiles |= TileSet::Right;
+                    holeRect.adjust( 0, 0, -5, 0 );
+                } else {
+                    tiles |= TileSet::Left;
+                    holeRect.adjust( 5, 0, 0, 0 );
+                }
+            }
+
+            // render
+            renderScrollBarHole( painter, holeRect, palette.color( QPalette::Window ), Qt::Horizontal, tiles );
             if( animated ) renderScrollBarHandle( painter, r, palette, Qt::Horizontal, mouseOver, animations().scrollBarEngine().opacity( widget, SC_ScrollBarSlider ) );
             else renderScrollBarHandle( painter, r, palette, Qt::Horizontal, mouseOver );
 
         } else {
 
+            // adjust rect
+            r.adjust( 1, 0, -1, 0 );
+
+            // prepare hole rendering
+            TileSet::Tiles tiles( TileSet::Horizontal );
+            QRect holeRect( r.adjusted( 0, -3, 0, 4 ) );
+
+            // check if scrollbar is at maximum or minimum
+            if( _addLineButtons == NoButton && sliderOption->sliderValue == sliderOption->maximum )
+            {
+                tiles |= TileSet::Bottom;
+                holeRect.adjust( 0, 0, 0, -4 );
+            }
+
+            if( _subLineButtons == NoButton && sliderOption->sliderValue == sliderOption->minimum )
+            {
+                tiles |= TileSet::Top;
+                holeRect.adjust( 0, 5, 0, 0 );
+            }
+
+            // render
+            renderScrollBarHole( painter, holeRect, palette.color( QPalette::Window ), Qt::Vertical, tiles );
             if( animated ) renderScrollBarHandle( painter, r, palette, Qt::Vertical, mouseOver, animations().scrollBarEngine().opacity( widget, SC_ScrollBarSlider ) );
             else renderScrollBarHandle( painter, r, palette, Qt::Vertical, mouseOver );
 
@@ -5178,9 +5243,12 @@ namespace Oxygen
     bool Style::drawScrollBarAddLineControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // do nothing if no buttons are defined
+        if( _addLineButtons == NoButton ) return true;
+
         // cast option and check
-        const QStyleOptionSlider* slOpt = qstyleoption_cast<const QStyleOptionSlider*>( option );
-        if ( !slOpt ) return true;
+        const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+        if ( !sliderOption ) return true;
 
         const State& flags( option->state );
         const bool horizontal( flags & State_Horizontal );
@@ -5191,22 +5259,24 @@ namespace Oxygen
         const QColor background( palette.color( QPalette::Window ) );
 
         // adjust rect, based on number of buttons to be drawn
-        const QRect r( scrollBarInternalSubControlRect( slOpt, SC_ScrollBarAddLine ) );
+        QRect r( scrollBarInternalSubControlRect( sliderOption, SC_ScrollBarAddLine ) );
 
         // draw the end of the scrollbar groove
         if( horizontal )
         {
 
-            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Left );
-            else renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Right );
+            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.right(), r.top()+1, 6, r.height()-2 ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Left );
+            else renderScrollBarHole( painter, QRect( r.left()-5, r.top()+1, 6, r.height()-2 ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Right );
 
-        } else renderScrollBarHole( painter, QRect( r.left(), r.top()-5, r.width(), 5 ), background, Qt::Vertical, TileSet::Bottom | TileSet::Horizontal );
+        } else {
 
-        // stop here if no buttons are defined
-        if( _addLineButtons == NoButton ) return true;
+            QRect holeRect( r.left()+1, r.top()-5, r.width()-2, 6 );
+            renderScrollBarHole( painter, holeRect, background, Qt::Vertical, TileSet::Bottom | TileSet::Horizontal );
+
+        }
 
         QColor color;
-        QStyleOption localOption( *option );
+        QStyleOptionSlider localOption( *sliderOption );
         if( _addLineButtons == DoubleButton )
         {
 
@@ -5259,22 +5329,56 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionSlider* slOpt = qstyleoption_cast<const QStyleOptionSlider*>( option );
-        if ( !slOpt ) return true;
+        const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+        if ( !sliderOption ) return true;
 
-        const QRect& r( option->rect );
+        QRect r( option->rect );
         const QPalette& palette( option->palette );
         const QColor color( palette.color( QPalette::Window ) );
 
         const State& flags( option->state );
         const bool horizontal( flags & State_Horizontal );
-        const bool reverseLayout( slOpt->direction == Qt::RightToLeft );
+        const bool reverseLayout( sliderOption->direction == Qt::RightToLeft );
 
+        // define tiles and adjust rect
         if( horizontal )
         {
-            if( reverseLayout ) renderScrollBarHole( painter, r.adjusted( 0,0,10,0 ), color, Qt::Horizontal, TileSet::Vertical );
-            else renderScrollBarHole( painter, r.adjusted( -10, 0,0,0 ), color, Qt::Horizontal, TileSet::Vertical );
-        } else renderScrollBarHole( painter, r.adjusted( 0,-10,0,0 ), color, Qt::Vertical, TileSet::Horizontal );
+
+            TileSet::Tiles tiles( TileSet::Vertical );
+            if( reverseLayout )
+            {
+
+                if( _addLineButtons == NoButton )
+                {
+
+                    tiles |= TileSet::Left;
+                    r.adjust( -2, 1, 10, -1 );
+
+                } else r.adjust( 0, 1, 10, -1 );
+
+            } else if( _addLineButtons == NoButton ) {
+
+                    tiles |= TileSet::Right;
+                    r.adjust( -10, 1, 2, -1 );
+
+            } else r.adjust( -10, 1, 0, -1 );
+
+            renderScrollBarHole( painter, r, color, Qt::Horizontal, tiles );
+
+        } else {
+
+            TileSet::Tiles tiles( TileSet::Horizontal );
+            if( _addLineButtons == NoButton )
+            {
+
+                tiles |= TileSet::Bottom;
+                r.adjust( 1, -10, -1, 0 );
+
+            } else r.adjust( 1, -10, -1, 0 );
+
+            renderScrollBarHole( painter, r, color, Qt::Vertical, tiles );
+
+        }
 
         return true;
 
@@ -5284,9 +5388,12 @@ namespace Oxygen
     bool Style::drawScrollBarSubLineControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // do nothing if no buttons are set
+        if( _subLineButtons == NoButton ) return true;
+
         // cast option and check
-        const QStyleOptionSlider* slOpt = qstyleoption_cast<const QStyleOptionSlider*>( option );
-        if ( !slOpt ) return true;
+        const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+        if ( !sliderOption ) return true;
 
         const State& flags( option->state );
         const bool horizontal( flags & State_Horizontal );
@@ -5298,29 +5405,25 @@ namespace Oxygen
 
 
         // adjust rect, based on number of buttons to be drawn
-        QRect r( scrollBarInternalSubControlRect( slOpt, SC_ScrollBarSubLine ) );
+        QRect r( scrollBarInternalSubControlRect( sliderOption, SC_ScrollBarSubLine ) );
 
         // draw the end of the scrollbar groove
         if( horizontal )
         {
 
-            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.left()-5, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Right );
-            else renderScrollBarHole( painter, QRect( r.right()+1, r.top(), 5, r.height() ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Left );
-
+            if( reverseLayout ) renderScrollBarHole( painter, QRect( r.left()-5, r.top()+1, 5, r.height()-2 ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Right );
+            else renderScrollBarHole( painter, QRect( r.right()+1, r.top()+1, 5, r.height()-2 ), background, Qt::Horizontal, TileSet::Vertical | TileSet::Left );
             r.translate( 1, 0 );
 
         } else {
 
-            renderScrollBarHole( painter, QRect( r.left(), r.bottom()+3, r.width(), 5 ), background, Qt::Vertical, TileSet::Top | TileSet::Horizontal );
+            renderScrollBarHole( painter, QRect( r.left()+1, r.bottom()+3, r.width()-2, 5 ), background, Qt::Vertical, TileSet::Top | TileSet::Horizontal );
             r.translate( 0, 2 );
 
         }
 
-        // stop here if no buttons are defined
-        if( _subLineButtons == NoButton ) return true;
-
         QColor color;
-        QStyleOption localOption( *option );
+        QStyleOptionSlider localOption( *sliderOption );
         if( _subLineButtons == DoubleButton )
         {
 
@@ -5373,22 +5476,48 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionSlider* slOpt = qstyleoption_cast<const QStyleOptionSlider*>( option );
-        if ( !slOpt ) return true;
+        const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+        if ( !sliderOption ) return true;
 
-        const QRect& r( option->rect );
+        QRect r( option->rect );
         const QPalette& palette( option->palette );
         const QColor color( palette.color( QPalette::Window ) );
 
         const State& flags( option->state );
         const bool horizontal( flags & State_Horizontal );
-        const bool reverseLayout( slOpt->direction == Qt::RightToLeft );
+        const bool reverseLayout( sliderOption->direction == Qt::RightToLeft );
 
         if( horizontal )
         {
-            if( reverseLayout ) renderScrollBarHole( painter, r.adjusted( -10, 0,0,0 ), color, Qt::Horizontal, TileSet::Vertical );
-            else renderScrollBarHole( painter, r.adjusted( 0,0,10,0 ), color, Qt::Horizontal, TileSet::Vertical );
-        } else renderScrollBarHole( painter, r.adjusted( 0,2,0,12 ), color, Qt::Vertical, TileSet::Horizontal );
+
+            TileSet::Tiles tiles( TileSet::Vertical );
+            if( reverseLayout )
+            {
+                if( _subLineButtons == NoButton )
+                {
+                    tiles |= TileSet::Right;
+                    r.adjust( -10, 1, -1, -1 );
+
+                } else r.adjust( -10, 1, 0, -1 );
+
+            } else if( _subLineButtons == NoButton ) {
+
+                tiles |= TileSet::Left;
+                r.adjust( 1, 1, 10, -1 );
+
+            } else r.adjust( 0, 1, 10, -1 );
+
+            renderScrollBarHole( painter, r, color, Qt::Horizontal, tiles );
+
+        } else {
+
+            TileSet::Tiles tiles( TileSet::Horizontal );
+            if( _subLineButtons == NoButton ) tiles |= TileSet::Top;
+
+            r.adjust( 1, 2, -1, 12 );
+            renderScrollBarHole( painter, r, color, Qt::Vertical, tiles );
+
+        }
 
         return true;
 
@@ -9240,24 +9369,14 @@ namespace Oxygen
 
         if( !r.isValid() ) return;
 
+        // define rect and check
+        const bool horizontal( orientation == Qt::Horizontal );
+        QRectF rect( horizontal ? r.adjusted( 3, 2, -3, -3 ):r.adjusted( 3, 4, -3, -3 ) );
+        if( !rect.isValid() ) return;
+
+
         painter->save();
         painter->setRenderHints( QPainter::Antialiasing );
-
-        // draw the hole as background
-        const bool horizontal( orientation == Qt::Horizontal );
-        const QRect holeRect( horizontal ? r.adjusted( -4,0,4,0 ) : r.adjusted( 0,-3,0,4 ) );
-        renderScrollBarHole( painter, holeRect, palette.color( QPalette::Window ), orientation, horizontal ? TileSet::Vertical : TileSet::Horizontal );
-
-        // draw the slider itself
-        QRectF rect( horizontal ? r.adjusted( 3, 2, -3, -3 ):r.adjusted( 3, 4, -3, -3 ) );
-
-        if( !rect.isValid() )
-        {
-            // e.g. not enough height
-            painter->restore();
-            return;
-        }
-
         const QColor color( palette.color( QPalette::Button ) );
 
         // draw the slider
@@ -9304,6 +9423,7 @@ namespace Oxygen
         }
 
         painter->restore();
+        return;
 
     }
 
@@ -9338,7 +9458,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    QColor Style::scrollBarArrowColor( const QStyleOption* option, const SubControl& control, const QWidget* widget ) const
+    QColor Style::scrollBarArrowColor( const QStyleOptionSlider* option, const SubControl& control, const QWidget* widget ) const
     {
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
@@ -9365,10 +9485,11 @@ namespace Oxygen
         const bool animated( animations().scrollBarEngine().isAnimated( widget, control ) );
         const qreal opacity( animations().scrollBarEngine().opacity( widget, control ) );
 
-        QPoint position( hover ? widget->mapFromGlobal( QCursor::pos() ) : QPoint( -1, -1 ) );
+        // retrieve mouse position from engine
+        QPoint position( hover ? animations().scrollBarEngine().position( widget ) : QPoint( -1, -1 ) );
         if( hover && r.contains( position ) )
         {
-            // we need to update the arrow controlRect on fly because there is no
+            // need to update the arrow controlRect on fly because there is no
             // way to get it from the styles directly, outside of repaint events
             animations().scrollBarEngine().setSubControlRect( widget, control, r );
         }

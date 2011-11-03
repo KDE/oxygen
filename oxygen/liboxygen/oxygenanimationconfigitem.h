@@ -29,7 +29,7 @@
 
 #include "oxygen_export.h"
 
-#include <KPushButton>
+#include <QtGui/QAbstractButton>
 #include <QtGui/QWidget>
 #include <cassert>
 
@@ -77,7 +77,7 @@ namespace Oxygen
         virtual void initializeConfigurationWidget( QWidget* ) = 0;
 
         //! configuration button
-        KPushButton* configurationButton( void ) const;
+        QAbstractButton* configurationButton( void ) const;
 
         signals:
 
