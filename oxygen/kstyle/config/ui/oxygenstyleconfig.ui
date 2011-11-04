@@ -53,13 +53,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="_showMnemonics">
-         <property name="text">
-          <string>Draw keyboard accelerators</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QCheckBox" name="_checkDrawX">
          <property name="text">
           <string>Use 'X' in checkboxes instead of check</string>
