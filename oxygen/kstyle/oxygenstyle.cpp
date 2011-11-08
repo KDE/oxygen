@@ -739,7 +739,8 @@ namespace Oxygen
             case PM_ToolBarSeparatorExtent: return 6;
 
             case PM_ToolBarExtensionExtent: return 16;
-            case PM_ToolBarItemMargin: return 1;
+
+            case PM_ToolBarItemMargin: return 0;
             case PM_ToolBarItemSpacing: return 1;
 
             // MDI windows titlebars
