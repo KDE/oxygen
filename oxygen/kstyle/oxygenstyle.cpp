@@ -2494,12 +2494,13 @@ namespace Oxygen
 
         const bool enabled( flags & State_Enabled );
         const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
+
+        // hover
         const bool hoverHighlight( enabled && isInputWidget && ( flags&State_MouseOver ) );
 
-
-        //const bool focusHighlight( enabled && isInputWidget && ( flags&State_HasFocus ) );
+        // focus
         bool focusHighlight( false );
-        if( enabled && isInputWidget && ( flags&State_HasFocus ) ) focusHighlight = true;
+        if( enabled && ( flags&State_HasFocus ) ) focusHighlight = true;
         else if( isKTextEditFrame( widget ) && widget->parentWidget()->hasFocus() )
         { focusHighlight = true; }
 

@@ -320,6 +320,13 @@ namespace Oxygen
         else if( qobject_cast<QAbstractItemView*>( widget ) || widget->inherits("Q3ListView") )
         { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
 
+        // scrollarea
+        else if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) ) {
+
+            if( scrollArea->frameShadow() == QFrame::Sunken && (widget->focusPolicy()&Qt::StrongFocus) )
+            { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+
+        }
         // mdi subwindows
         else if( qobject_cast<QMdiSubWindow*>( widget ) )
         { mdiWindowEngine().registerWidget( widget ); }
