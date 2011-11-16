@@ -301,14 +301,22 @@ namespace Oxygen
             #endif
         }
 
-        // also enable hover effects in itemviews' viewport
         if( QAbstractItemView *itemView = qobject_cast<QAbstractItemView*>( widget ) )
-        { itemView->viewport()->setAttribute( Qt::WA_Hover ); }
-
-        // checkable group boxes
-        if( QGroupBox* groupBox = qobject_cast<QGroupBox*>( widget ) )
         {
 
+            // enable hover effects in itemviews' viewport
+            itemView->viewport()->setAttribute( Qt::WA_Hover );
+
+
+        } else if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) ) {
+
+            // enable hover effect in sunken scrollareas that support focus
+            if( scrollArea->frameShadow() == QFrame::Sunken && widget->focusPolicy()&Qt::StrongFocus )
+            { widget->setAttribute( Qt::WA_Hover ); }
+
+        } else if( QGroupBox* groupBox = qobject_cast<QGroupBox*>( widget ) )  {
+
+            // checkable group boxes
             if( groupBox->isCheckable() )
             { groupBox->setAttribute( Qt::WA_Hover ); }
 
@@ -321,6 +329,8 @@ namespace Oxygen
             widget->setAttribute( Qt::WA_Hover );
 
         }
+
+
 
         /*
         add extra margins for widgets in toolbars
