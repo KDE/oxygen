@@ -1212,7 +1212,6 @@ namespace Oxygen
             pixmap.fill( Qt::transparent );
 
             QRectF r( pixmap.rect() );
-            r.adjust( 0.5, 0.5, -0.5, -0.5 );
 
             QPainter p( &pixmap );
             p.setRenderHint( QPainter::Antialiasing );
@@ -1225,15 +1224,20 @@ namespace Oxygen
             gradient.setColorAt( 0, color.lighter( lightenAmount ) );
             gradient.setColorAt( 1, color );
 
-            p.setPen( QPen( color, 1 ) );
+            p.setPen( Qt::NoPen );
             p.setBrush( gradient );
+            p.drawRoundedRect( r, rounding+0.5, rounding+0.5 );
+
+            r.adjust( 0.5, 0.5, -0.5, -0.5 );
+            p.setPen( QPen( color, 1 ) );
+            p.setBrush( Qt::NoBrush );
             p.drawRoundedRect( r, rounding, rounding );
 
-            // contrast pixel
-            p.setPen( QPen( QColor( 255, 255, 255, 64 ), 1 ) );
-            p.setBrush( Qt::NoBrush );
-            p.drawRoundedRect( r.adjusted( 1, 1, -1, -1 ), rounding-1, rounding-1 );
-            p.end();
+//             // contrast pixel
+//             p.setPen( QPen( QColor( 255, 255, 255, 64 ), 1 ) );
+//             p.setBrush( Qt::NoBrush );
+//             p.drawRoundedRect( r.adjusted( 1, 1, -1, -1 ), rounding-1, rounding-1 );
+//             p.end();
 
             tileSet = new TileSet( pixmap, 8, 0, 32, height );
             _selectionCache.insert( key, tileSet );
