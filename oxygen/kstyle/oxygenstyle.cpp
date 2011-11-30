@@ -8311,6 +8311,8 @@ namespace Oxygen
                 painter.setRenderHints( QPainter::Antialiasing );
                 painter.setBrush( Qt::NoBrush );
 
+                painter.translate( qreal( pixmap.width() )/2.0, qreal( pixmap.height() )/2.0 );
+
                 QPolygonF a = genericArrow( ArrowDown, ArrowTiny );
 
                 const qreal width( 1.1 );
