@@ -7679,8 +7679,8 @@ namespace Oxygen
     //______________________________________________________________
     bool Style::drawSliderComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
     {
-        const QStyleOptionSlider *slider( qstyleoption_cast<const QStyleOptionSlider *>( option ) );
-        if( !slider ) return true;
+        const QStyleOptionSlider *sliderOption( qstyleoption_cast<const QStyleOptionSlider *>( option ) );
+        if( !sliderOption ) return true;
 
         const QPalette& palette( option->palette );
         const State& flags( option->state );
@@ -7688,16 +7688,16 @@ namespace Oxygen
         const bool mouseOver( enabled && ( flags & State_MouseOver ) );
         const bool hasFocus( flags & State_HasFocus );
 
-        if( slider->subControls & SC_SliderTickmarks ) { renderSliderTickmarks( painter, slider, widget ); }
+        if( sliderOption->subControls & SC_SliderTickmarks ) { renderSliderTickmarks( painter, sliderOption, widget ); }
 
         // groove
-        if( slider->subControls & SC_SliderGroove )
+        if( sliderOption->subControls & SC_SliderGroove )
         {
             // get rect
-            QRect groove( subControlRect( CC_Slider, slider, SC_SliderGroove, widget ) );
+            QRect groove( subControlRect( CC_Slider, sliderOption, SC_SliderGroove, widget ) );
 
             // adjustments
-            if( slider->orientation == Qt::Horizontal )
+            if( sliderOption->orientation == Qt::Horizontal )
             {
 
                 const int center( groove.center().y() );
@@ -7714,18 +7714,18 @@ namespace Oxygen
 
             // render
             if( groove.isValid() )
-            { helper().scrollHole( palette.color( QPalette::Window ), slider->orientation, true )->render( groove, painter, TileSet::Full ); }
+            { helper().scrollHole( palette.color( QPalette::Window ), sliderOption->orientation, true )->render( groove, painter, TileSet::Full ); }
         }
 
         // handle
-        if ( slider->subControls & SC_SliderHandle )
+        if ( sliderOption->subControls & SC_SliderHandle )
         {
 
             // get rect and center
-            QRect r( subControlRect( CC_Slider, slider, SC_SliderHandle, widget ) );
+            QRect r( subControlRect( CC_Slider, sliderOption, SC_SliderHandle, widget ) );
             r = centerRect( r, 21, 21 );
 
-            const bool handleActive( slider->activeSubControls & SC_SliderHandle );
+            const bool handleActive( sliderOption->activeSubControls & SC_SliderHandle );
             StyleOptions opts( 0 );
             if( hasFocus ) opts |= Focus;
             if( handleActive && mouseOver ) opts |= Hover;
