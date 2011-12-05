@@ -430,7 +430,6 @@ namespace Oxygen
         QRect groupBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect comboBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect scrollBarSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
-        QRect sliderSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect spinBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
 
         //! this properly handles single/double or no scrollBar buttons
