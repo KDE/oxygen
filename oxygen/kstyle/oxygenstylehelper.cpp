@@ -1219,25 +1219,31 @@ namespace Oxygen
             // items with custom background brushes always have their background drawn
             // regardless of whether they are hovered or selected or neither so
             // the gradient effect needs to be more subtle
-            const int lightenAmount( custom ? 110 : 130 );
-            QLinearGradient gradient( 0, 0, 0, r.bottom() );
-            gradient.setColorAt( 0, color.lighter( lightenAmount ) );
-            gradient.setColorAt( 1, color );
 
-            p.setPen( Qt::NoPen );
-            p.setBrush( gradient );
-            p.drawRoundedRect( r, rounding+0.5, rounding+0.5 );
+            {
+                // fill
+                const int lightenAmount( custom ? 110 : 130 );
+                QLinearGradient gradient( 0, 0, 0, r.bottom() );
+                gradient.setColorAt( 0, color.lighter( lightenAmount ) );
+                gradient.setColorAt( 1, color );
 
-            r.adjust( 0.5, 0.5, -0.5, -0.5 );
-            p.setPen( QPen( color, 1 ) );
-            p.setBrush( Qt::NoBrush );
-            p.drawRoundedRect( r, rounding, rounding );
+                p.setPen( Qt::NoPen );
+                p.setBrush( gradient );
+                p.drawRoundedRect( r, rounding+0.5, rounding+0.5 );
 
-//             // contrast pixel
-//             p.setPen( QPen( QColor( 255, 255, 255, 64 ), 1 ) );
-//             p.setBrush( Qt::NoBrush );
-//             p.drawRoundedRect( r.adjusted( 1, 1, -1, -1 ), rounding-1, rounding-1 );
-//             p.end();
+            }
+
+            {
+                // highlight border
+                QLinearGradient gradient( 0, 0, 0, r.bottom() );
+                gradient.setColorAt( 0, color );
+                gradient.setColorAt( 1, Qt::transparent );
+
+                r.adjust( 0.5, 0.5, -0.5, -0.5 );
+                p.setPen( QPen( color, 1 ) );
+                p.setBrush( Qt::NoBrush );
+                p.drawRoundedRect( r, rounding, rounding );
+            }
 
             tileSet = new TileSet( pixmap, 8, 0, 32, height );
             _selectionCache.insert( key, tileSet );
