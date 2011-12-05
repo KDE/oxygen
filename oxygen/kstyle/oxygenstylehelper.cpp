@@ -1234,7 +1234,7 @@ namespace Oxygen
             }
 
             {
-                // highlight border
+                // contrast
                 QLinearGradient gradient( 0, 0, 0, r.bottom() );
                 gradient.setColorAt( 0, color );
                 gradient.setColorAt( 1, Qt::transparent );
