@@ -61,8 +61,6 @@ namespace Oxygen
         _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
 
         _backgroundCache.setMaxCost( 64 );
-        _windecoButtonCache.setMaxCost( 64 );
-        _windecoButtonGlowCache.setMaxCost( 64 );
 
         #ifdef Q_WS_X11
 
@@ -96,6 +94,7 @@ namespace Oxygen
     void Helper::invalidateCaches()
     {
         _slabCache.clear();
+        _slabSunkenCache.clear();
         _decoColorCache.clear();
         _lightColorCache.clear();
         _darkColorCache.clear();
@@ -106,8 +105,6 @@ namespace Oxygen
         _backgroundColorCache.clear();
         _backgroundCache.clear();
         _dotCache.clear();
-        _windecoButtonCache.clear();
-        _windecoButtonGlowCache.clear();
     }
 
     //____________________________________________________________________
@@ -115,9 +112,8 @@ namespace Oxygen
     {
 
         // assign value
-        _windecoButtonCache.setMaxCost( value );
-        _windecoButtonGlowCache.setMaxCost( value );
         _slabCache.setMaxCacheSize( value );
+        _slabSunkenCache.setMaxCost( value );
         _backgroundCache.setMaxCost( value );
         _dotCache.setMaxCost( value );
 
@@ -192,6 +188,9 @@ namespace Oxygen
     void Helper::renderBackgroundPixmap( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, int yShift, int gradientHeight )
     {
 
+        // background pixmap
+        if( _backgroundPixmap.isNull() ) return;
+
         // get coordinates relative to the client area
         // this is stupid. One could use mapTo if this was taking const QWidget* and not
         // QWidget* as argument.
@@ -218,29 +217,20 @@ namespace Oxygen
         const QRect r = window->rect();
         int height( window->frameGeometry().height() );
         int width( window->frameGeometry().width() );
-        if( yShift > 0 )
-        {
-            height -= 2*yShift;
-            width -= 2*yShift;
 
-        }
+        // account for vertical shift
+        if( yShift > 0 ) height -= 2*yShift;
 
-        // background pixmap
-        if( !_backgroundPixmap.isNull() )
-        {
+        // calculate source rect
+        QPoint offset( 40, 48 - 20 );
+        QRect source( 0, 0, width + offset.x(), height + offset.y() );
 
-            // calculate source rect
-            QPoint offset( 40, 48 - 20 );
-            QRect source( 0, 0, width + offset.x(), height + offset.y() );
+        offset -= _backgroundPixmapOffset;
+        source.translate( offset.x(), offset.y() );
+        source.translate( 0, 64 - gradientHeight );
 
-            offset -= _backgroundPixmapOffset;
-            source.translate( offset.x(), offset.y() );
-            source.translate( 0, 64 - gradientHeight );
-
-            // draw
-            p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
-
-        }
+        // draw
+        p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
 
         if ( clipRect.isValid() )
         { p->restore(); }
@@ -435,6 +425,11 @@ namespace Oxygen
                 KColorUtils::mix( Qt::black, color, color.alphaF() ),
                 KColorScheme::ShadowShade,
                 _contrast ) );
+
+            // make sure shadow color has the same alpha channel as the input
+            out->setAlpha( color.alpha() );
+
+            // insert in cache
             _shadowColorCache.insert( key, out );
         }
 
@@ -771,6 +766,121 @@ namespace Oxygen
         return tileSet;
     }
 
+    //________________________________________________________________________________________________________
+    TileSet *Helper::slabSunken( const QColor& color, int size )
+    {
+        const quint64 key( quint64( color.rgba() ) << 32 | size );
+        TileSet *tileSet = _slabSunkenCache.object( key );
+
+        if ( !tileSet )
+        {
+            QPixmap pixmap( size*2, size*2 );
+            pixmap.fill( Qt::transparent );
+
+            QPainter p( &pixmap );
+            p.setRenderHints( QPainter::Antialiasing );
+            p.setPen( Qt::NoPen );
+            p.setWindow( 0,0,14,14 );
+
+            // shadow
+            p.setCompositionMode( QPainter::CompositionMode_SourceOver );
+            drawInverseShadow( p, calcShadowColor( color ), 3, 8, 0.0 );
+
+            // contrast pixel
+            {
+                QColor light( calcLightColor( color ) );
+                QLinearGradient blend( 0, 2, 0, 16 );
+                blend.setColorAt( 0.5, Qt::transparent );
+                blend.setColorAt( 1.0, light );
+
+                p.setBrush( Qt::NoBrush );
+                p.setPen( QPen( blend, 1 ) );
+                p.drawRoundedRect( QRectF( 2.5, 2.5, 9, 9 ), 4.0, 4.0 );
+                p.setPen( Qt::NoPen );
+            }
+
+
+            p.end();
+
+            tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
+
+            _slabSunkenCache.insert( key, tileSet );
+
+        }
+
+        return tileSet;
+
+    }
+
+    //________________________________________________________________________________________________________
+    void Helper::fillSlab( QPainter& p, const QRect& rect, int size ) const
+    {
+        const qreal s( qreal( size ) * ( 3.6 + ( 0.5 * _slabThickness ) ) / 7.0 );
+        const QRectF r( QRectF( rect ).adjusted( s, s, -s, -s ) );
+        if( !r.isValid() ) return;
+
+        p.drawRoundedRect( r, s/2, s/2 );
+    }
+
+    //________________________________________________________________________________________________________
+    void Helper::fillButtonSlab( QPainter& painter, const QRect& r, const QColor& color, bool sunken )
+    {
+
+        painter.save();
+        painter.setRenderHint( QPainter::Antialiasing );
+        painter.setPen( Qt::NoPen );
+
+        if( sunken && calcShadowColor( color ).value() > color.value() )
+        {
+
+            QLinearGradient innerGradient( 0, r.top(), 0, r.bottom() + r.height() );
+            innerGradient.setColorAt( 0.0, color );
+            innerGradient.setColorAt( 1.0, calcLightColor( color ) );
+            painter.setBrush( innerGradient );
+
+        } else if( sunken ) {
+
+
+            QLinearGradient innerGradient( 0, r.top() - r.height(), 0, r.bottom() );
+            innerGradient.setColorAt( 0.0, calcLightColor( color ) );
+            innerGradient.setColorAt( 1.0, color );
+            painter.setBrush( innerGradient );
+
+        } else {
+
+            QLinearGradient innerGradient( 0, r.top()-0.2*r.height(), 0, r.bottom()+ 0.4*r.height() );
+            innerGradient.setColorAt( 0.0, calcLightColor( color ) );
+            innerGradient.setColorAt( 0.6, color );
+            painter.setBrush( innerGradient );
+
+        }
+
+        fillSlab( painter, r );
+        painter.restore();
+
+    }
+
+    //________________________________________________________________________________________________________
+    void Helper::drawInverseShadow(
+        QPainter& p, const QColor& color,
+        int pad, int size, qreal fuzz ) const
+    {
+
+        const qreal m( qreal( size )*0.5 );
+        const qreal offset( 0.8 );
+        const qreal k0( ( m-2 ) / qreal( m+2.0 ) );
+        QRadialGradient shadowGradient( pad+m, pad+m+offset, m+2 );
+        for ( int i = 0; i < 8; i++ )
+        {
+            // sinusoidal gradient
+            const qreal k1( ( qreal( 8 - i ) + k0 * qreal( i ) ) * 0.125 );
+            const qreal a( ( cos( 3.14159 * i * 0.125 ) + 1.0 ) * 0.25 );
+            shadowGradient.setColorAt( k1, alphaColor( color, a * _shadowGain ) );
+        }
+        shadowGradient.setColorAt( k0, alphaColor( color, 0.0 ) );
+        p.setBrush( shadowGradient );
+        p.drawEllipse( QRectF( pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0 ) );
+    }
 
     //____________________________________________________________________
     const QWidget* Helper::checkAutoFillBackground( const QWidget* w ) const
@@ -944,7 +1054,7 @@ namespace Oxygen
         // inside mask
         p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
         p.setBrush( Qt::black );
-        p.drawEllipse( r.adjusted( width, width, -width, -width ) );
+        p.drawEllipse( r.adjusted( width+0.5, width+0.5, -width-1, -width-1 ) );
         p.restore();
 
     }

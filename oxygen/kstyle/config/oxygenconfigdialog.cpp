@@ -56,14 +56,14 @@ namespace Oxygen
         setWindowTitle( i18n( "Oxygen Settings" ) );
 
         // install Quit shortcut
-        connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL( activated() ), SLOT( close() ) );
-        connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL( activated() ), SLOT( close() ) );
+        connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL(activated()), SLOT(close()) );
+        connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL(activated()), SLOT(close()) );
 
         // tab widget
         pageWidget_ = new KPageWidget( this );
         setMainWidget( pageWidget_ );
 
-        connect( pageWidget_, SIGNAL( currentPageChanged( KPageWidgetItem*, KPageWidgetItem* ) ), SLOT( updateWindowTitle( KPageWidgetItem* ) ) );
+        connect( pageWidget_, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
 
         KPageWidgetItem *page;
 
@@ -76,13 +76,13 @@ namespace Oxygen
 
         if( _stylePluginObject )
         {
-            connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT( updateStyleChanged(bool) ) );
-            connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT( updateChanged() ) );
+            connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateStyleChanged(bool)) );
+            connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( this, SIGNAL(pluginSave( KConfigGroup& )), _stylePluginObject, SLOT(save( void )) );
-            connect( this, SIGNAL(pluginDefault( void ) ), _stylePluginObject, SLOT(defaults( void )) );
-            connect( this, SIGNAL(pluginReset( const KConfigGroup& ) ), _stylePluginObject, SLOT(reset( void )) );
-            connect( this, SIGNAL(pluginToggleExpertMode( bool )), _stylePluginObject, SLOT(toggleExpertMode( bool )) );
+            connect( this, SIGNAL(pluginSave(KConfigGroup&)), _stylePluginObject, SLOT(save()) );
+            connect( this, SIGNAL(pluginDefault()), _stylePluginObject, SLOT(defaults()) );
+            connect( this, SIGNAL(pluginReset(KConfigGroup)), _stylePluginObject, SLOT(reset()) );
+            connect( this, SIGNAL(pluginToggleExpertMode(bool)), _stylePluginObject, SLOT(toggleExpertMode(bool)) );
 
         }
 
@@ -95,23 +95,23 @@ namespace Oxygen
 
         if( _decorationPluginObject )
         {
-            connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT( updateDecorationChanged( bool ) ) );
-            connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT( updateChanged( void ) ) );
+            connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateDecorationChanged(bool)) );
+            connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( this, SIGNAL(pluginSave( KConfigGroup& )), _decorationPluginObject, SLOT(save( KConfigGroup & )) );
-            connect( this, SIGNAL(pluginReset( const KConfigGroup& )), _decorationPluginObject, SLOT(load( const KConfigGroup & )) );
-            connect( this, SIGNAL(pluginDefault( void )), _decorationPluginObject, SLOT(defaults( void )) );
-            connect( this, SIGNAL(pluginToggleExpertMode( bool )), _decorationPluginObject, SLOT(toggleExpertMode( bool )) );
+            connect( this, SIGNAL(pluginSave(KConfigGroup&)), _decorationPluginObject, SLOT(save(KConfigGroup&)) );
+            connect( this, SIGNAL(pluginReset(KConfigGroup)), _decorationPluginObject, SLOT(load(KConfigGroup)) );
+            connect( this, SIGNAL(pluginDefault()), _decorationPluginObject, SLOT(defaults()) );
+            connect( this, SIGNAL(pluginToggleExpertMode(bool)), _decorationPluginObject, SLOT(toggleExpertMode(bool)) );
         }
 
         // expert mode
         emit pluginToggleExpertMode( true );
 
         // connections
-        connect( button( Default ), SIGNAL( clicked( void ) ), SLOT( defaults( void ) ) );
-        connect( button( Reset ), SIGNAL( clicked( void ) ), SLOT( reset( void ) ) );
-        connect( button( Apply ), SIGNAL( clicked( void ) ), SLOT( save( void ) ) );
-        connect( button( Ok ), SIGNAL( clicked( void ) ), SLOT( save( void ) ) );
+        connect( button( Default ), SIGNAL(clicked()), SLOT(defaults()) );
+        connect( button( Reset ), SIGNAL(clicked()), SLOT(reset()) );
+        connect( button( Apply ), SIGNAL(clicked()), SLOT(save()) );
+        connect( button( Ok ), SIGNAL(clicked()), SLOT(save()) );
         updateChanged();
 
     }

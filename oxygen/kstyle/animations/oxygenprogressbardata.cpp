@@ -52,7 +52,7 @@ namespace Oxygen
         setEndValue( progress->value() );
 
         // setup connections
-        connect( target, SIGNAL( valueChanged( int ) ), SLOT( valueChanged( int ) ) );
+        connect( target, SIGNAL(valueChanged(int)), SLOT(valueChanged(int)) );
 
     }
 

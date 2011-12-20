@@ -42,8 +42,8 @@ namespace Oxygen
         ui.setupUi( this );
         ui.runButton->setIcon( KIcon( "system-run" ) );
         ui.grabMouseCheckBox->setChecked( Simulator::grabMouse() );
-        connect( ui.grabMouseCheckBox, SIGNAL( toggled( bool ) ), SLOT( updateGrabMouse( bool ) ) );
-        connect( ui.runButton, SIGNAL( clicked( void ) ), SLOT( run( void ) ) );
+        connect( ui.grabMouseCheckBox, SIGNAL(toggled(bool)), SLOT(updateGrabMouse(bool)) );
+        connect( ui.runButton, SIGNAL(clicked()), SLOT(run()) );
 
     }
 
@@ -80,13 +80,13 @@ namespace Oxygen
             checkbox->setChecked( hasBenchmark );
 
             if( hasBenchmark )
-            { connect( this, SIGNAL( runBenchmark( void ) ), demoWidget, SLOT( benchmark( void ) ) ); }
+            { connect( this, SIGNAL(runBenchmark()), demoWidget, SLOT(benchmark()) ); }
 
             ui.verticalLayout->addWidget( checkbox );
 
             _widgets.push_back( WidgetPair(checkbox, demoWidget) );
 
-            connect( checkbox, SIGNAL( toggled( bool ) ), SLOT( updateButtonState( void ) ) );
+            connect( checkbox, SIGNAL(toggled(bool)), SLOT(updateButtonState()) );
 
         }
 

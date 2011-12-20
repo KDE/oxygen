@@ -170,11 +170,11 @@ namespace Oxygen
         TileSet* tileSet( Key, qreal );
 
         //! simple pixmap
-        QPixmap shadowPixmap( const Key& key ) const
-        { return shadowPixmap( key, key.active ); }
+        QPixmap pixmap( const Key& key ) const
+        { return pixmap( key, key.active ); }
 
         //! simple pixmap
-        QPixmap shadowPixmap( const Key&, bool active ) const;
+        QPixmap pixmap( const Key&, bool active ) const;
 
         protected:
 

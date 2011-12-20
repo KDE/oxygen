@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>259</height>
+    <height>557</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -44,131 +44,124 @@
       <attribute name="title">
        <string>General</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_6">
-       <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
         <widget class="QCheckBox" name="_toolBarDrawItemSeparator">
          <property name="text">
           <string>Draw toolbar item separators</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item>
         <widget class="QCheckBox" name="_checkDrawX">
          <property name="text">
           <string>Use 'X' in checkboxes instead of check</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item>
+        <widget class="QCheckBox" name="_cacheEnabled">
+         <property name="text">
+          <string>Enable pixmap cache</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="_animationsEnabled">
          <property name="text">
           <string>Enable animations</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QWidget" name="_stackedTransitionWidget" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="_stackedWidgetTransitionsEnabled">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Windows' drag mode:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="buddy">
+            <cstring>_windowDragMode</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="KComboBox" name="_windowDragMode">
+           <item>
             <property name="text">
-             <string>Animate tab transitions</string>
+             <string>Drag windows from titlebar only</string>
             </property>
-           </widget>
-          </item>
-         </layout>
+           </item>
+           <item>
+            <property name="text">
+             <string>Drag windows from titlebar, menubar and toolbars</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Drag windows from all empty areas</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="_mnemonicsLabel">
+           <property name="text">
+            <string>Keyboard accelerators visibility:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <widget class="QFrame" name="frame">
+           <property name="frameShape">
+            <enum>QFrame::HLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="KComboBox" name="_mnemonicsMode">
+           <item>
+            <property name="text">
+             <string>Always Hide Keyboard Accelerators</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Show Keyboard Accelerators When Needed</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Always Show Keyboard Accelerators</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="_useWMMoveResize">
+         <property name="text">
+          <string>Use window manager to perform windows' drag</string>
+         </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QWidget" name="_generalExpertWidget" native="true">
-         <layout class="QGridLayout" name="gridLayout">
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <item row="0" column="0" colspan="3">
-           <widget class="QFrame" name="frame">
-            <property name="frameShape">
-             <enum>QFrame::HLine</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Windows' drag mode:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="buddy">
-             <cstring>_windowDragMode</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="2">
-           <widget class="KComboBox" name="_windowDragMode">
-            <item>
-             <property name="text">
-              <string>Drag windows from titlebar only</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Drag windows from titlebar, menubar and toolbars</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Drag windows from all empty areas</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="0" colspan="3">
-           <widget class="QCheckBox" name="_useWMMoveResize">
-            <property name="text">
-             <string>Use window manager to perform windows' drag</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="7" column="0">
+       <item>
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -180,20 +173,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="_cacheEnabled">
-         <property name="text">
-          <string>Enable pixmap cache</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="_showMnemonics">
-         <property name="text">
-          <string>Draw keyboard accelerators</string>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>
@@ -333,7 +312,7 @@
        <item row="2" column="0">
         <widget class="QRadioButton" name="_tabStylePlain">
          <property name="text">
-          <string comment="Renders inactive tabs in a tabbar as a unique darker slab" extracomment="Renders inactive tabs in a tabbar as a unique darker slab">Plain</string>
+          <string comment="Renders inactive tabs in a tabbar as a unique darker slab">Plain</string>
          </property>
         </widget>
        </item>
@@ -351,20 +330,6 @@
        <string>Scrollbars</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QCheckBox" name="_scrollBarBevel">
-         <property name="text">
-          <string>Draw scrollbar bevel</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="_scrollBarColored">
-         <property name="text">
-          <string>Colorful hovered scrollbars</string>
-         </property>
-        </widget>
-       </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
@@ -563,18 +528,41 @@
      </widget>
     </widget>
    </item>
+   <item>
+    <widget class="QWidget" name="_expertModeContainer" native="true">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="1">
+       <widget class="QPushButton" name="_expertModeButton">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="3">
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::HLine</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KTabWidget</class>

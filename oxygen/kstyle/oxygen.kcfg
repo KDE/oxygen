@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
-<kcfg> 
-  <kcfgfile name="oxygenrc"/> 
+<kcfg>
+  <kcfgfile name="oxygenrc"/>
 
-  <group name="Common"> 
+  <group name="Common">
 
     <!-- background opacity -->
-    <entry name="BackgroundPixmap" type = "Path" >
+    <entry name="BackgroundPixmap" type = "String" >
        <default></default>
     </entry>
 
   </group>
 
   <!-- widget style -->
-  <group name="Style"> 
-    
+  <group name="Style">
+
     <!-- cache size -->
     <entry name="CacheEnabled" type = "Bool">
        <default>true</default>
@@ -25,9 +25,16 @@
     <entry name="AnimationSteps" type = "Int">
        <default>10</default>
     </entry>
-    <entry name="ShowMnemonics" type = "Bool">
-       <default>true</default>
+
+    <entry name="MnemonicsMode" type="Enum">
+      <choices>
+          <choice name="MN_NEVER" />
+          <choice name="MN_AUTO" />
+          <choice name="MN_ALWAYS" />
+      </choices>
+      <default>MN_ALWAYS</default>
     </entry>
+
 
     <!-- tooltips -->
     <entry name="ToolTipTransparent" type = "Bool">
@@ -70,12 +77,6 @@
     </entry>
     <entry name="ScrollBarSubLineButtons" type="Int">
       <default>1</default>
-    </entry>
-    <entry name="ScrollBarColored" type="Bool">
-      <default>false</default>
-    </entry>
-    <entry name="ScrollBarBevel" type="Bool">
-      <default>false</default>
     </entry>
 
     <!-- checkboxes -->
@@ -127,9 +128,9 @@
       <default>WD_FULL</default>
     </entry>
 
-    <!-- 
+    <!--
         this enables WidgetExplorer debugging tool.
-        it provides information about widgets, 
+        it provides information about widgets,
         widgets' geometry, and ancestry tree
     -->
     <entry name="WidgetExplorerEnabled" type="Bool">
@@ -140,7 +141,7 @@
       <default>false</default>
     </entry>
 
-    <!-- 
+    <!--
         this is the comma separated list of special per-app widgets on which
         window dragging can be installed (in addition to the build-in list of
         standard widgets. They are reference by the widget class name.
@@ -149,7 +150,7 @@
        <default></default>
     </entry>
 
-    <!-- 
+    <!--
         this is the comma separated list of special per-app widgets on which
         window dragging must be disabled (in addition to the build-in list of
         standard widgets). They are reference by the widget class name.
@@ -206,43 +207,43 @@
     <!-- generic animation durations -->
     <entry name="GenericAnimationsDuration" type="Int">
       <default>150</default>
-    </entry>  
+    </entry>
 
     <!-- toolbar follow-mouse animation durations -->
     <!-- The duration for 'fade' animation mode is GenericAnimationsDuration -->
     <entry name="ToolBarAnimationsDuration" type="Int">
       <default>50</default>
-    </entry>  
+    </entry>
 
     <!-- menubar animation durations -->
     <entry name="MenuBarAnimationsDuration" type="Int">
       <default>150</default>
-    </entry>  
+    </entry>
 
     <!-- menubar animation durations -->
     <entry name="MenuBarFollowMouseAnimationsDuration" type="Int">
       <default>80</default>
-    </entry>  
+    </entry>
 
     <!-- menu animation durations -->
     <entry name="MenuAnimationsDuration" type="Int">
       <default>150</default>
-    </entry>  
+    </entry>
 
    <!-- menu animation durations -->
     <entry name="MenuFollowMouseAnimationsDuration" type="Int">
       <default>40</default>
-    </entry>  
+    </entry>
 
     <!-- progress bar animation durations -->
     <entry name="ProgressBarAnimationsDuration" type="Int">
       <default>250</default>
-    </entry>  
+    </entry>
 
     <!-- progress bar animation durations -->
     <entry name="ProgressBarBusyStepDuration" type="Int">
       <default>50</default>
-    </entry>  
+    </entry>
 
    <!-- transition flags -->
     <entry name="StackedWidgetTransitionsEnabled" type="Bool">
@@ -264,20 +265,20 @@
     <!-- transition durations -->
     <entry name="StackedWidgetTransitionsDuration" type="Int">
       <default>150</default>
-    </entry>  
+    </entry>
 
     <entry name="LabelTransitionsDuration" type="Int">
       <default>75</default>
-    </entry>  
+    </entry>
 
     <entry name="ComboBoxTransitionsDuration" type="Int">
       <default>75</default>
-    </entry>  
+    </entry>
 
     <entry name="LineEditTransitionsDuration" type="Int">
       <default>150</default>
-    </entry>  
+    </entry>
 
-  </group> 
+  </group>
 
 </kcfg>

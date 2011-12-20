@@ -217,13 +217,22 @@ namespace Oxygen
         //! dots
         void renderDot( QPainter*, const QPoint&, const QColor& );
 
+        //! returns true for too 'dark' colors
         bool lowThreshold( const QColor& color );
+
+        //! returns true for too 'light' colors
         bool highThreshold( const QColor& color );
 
+        //! add alpha channel multiplier to color
         static QColor alphaColor( QColor color, qreal alpha );
 
+        //! calculated light color from argument
         virtual const QColor& calcLightColor( const QColor& color );
+
+        //! calculated dark color from argument
         virtual const QColor& calcDarkColor( const QColor& color );
+
+        //! calculated shadow color from argument
         virtual const QColor& calcShadowColor( const QColor& color );
 
         //! returns menu background color matching position in a given top level widget
@@ -237,11 +246,19 @@ namespace Oxygen
         virtual const QColor& backgroundColor( const QColor& color, int height, int y )
         { return backgroundColor( color, qMin( qreal( 1.0 ), qreal( y )/qMin( 300, 3*height/4 ) ) ); }
 
+        //! color used for background radial gradient
         virtual const QColor& backgroundRadialColor( const QColor& color );
+
+        //! color used at the top of window background
         virtual const QColor& backgroundTopColor( const QColor& color );
+
+        //! color used at the bottom of window background
         virtual const QColor& backgroundBottomColor( const QColor& color );
 
+        //! vertical gradient for window background
         virtual QPixmap verticalGradient( const QColor& color, int height, int offset = 0 );
+
+        //! radial gradient for window background
         virtual QPixmap radialGradient( const QColor& color, int width, int height = 64 );
 
         //! merge background and front color for check marks, arrows, etc. using _contrast
@@ -261,7 +278,7 @@ namespace Oxygen
             );
 
         //! draw dividing line
-        virtual void drawSeparator( QPainter* p, const QRect& r, const QColor& color, Qt::Orientation orientation );
+        virtual void drawSeparator( QPainter*, const QRect&, const QColor&, Qt::Orientation );
 
         //! default slab
         virtual TileSet* slab( const QColor& color, qreal shade, int size = 7 )
@@ -269,6 +286,19 @@ namespace Oxygen
 
         //! default slab (with glow)
         virtual TileSet* slab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
+
+        //! sunken slab
+        virtual TileSet *slabSunken( const QColor&, int size = 7 );
+
+        //! fill a slab of given size with brush set on painter
+        void fillSlab( QPainter&, const QRect&, int size = 7 ) const;
+
+        //! linear gradient used to fill buttons
+        virtual void fillButtonSlab( QPainter&, const QRect&, const QColor&, bool sunken );
+
+        //! inverse (inner-hole) shadow
+        /*! this method must be public because it is used directly by OxygenStyle to draw dials */
+        void drawInverseShadow( QPainter&, const QColor&, int pad, int size, qreal fuzz ) const;
 
         //! focus brush
         const KStatefulBrush& viewFocusBrush( void ) const
@@ -307,35 +337,47 @@ namespace Oxygen
 
         protected:
 
+        //! generic slab painting (to be stored in tilesets)
         virtual void drawSlab( QPainter&, const QColor&, qreal shade );
+
+        //! generic outer shadow (to be stored in tilesets)
         virtual void drawShadow( QPainter&, const QColor&, int size );
+
+        //! generic outer glow (to be stored in tilesets)
         virtual void drawOuterGlow( QPainter&, const QColor&, int size );
 
         //! return background adjusted color matching relative vertical position in window
         const QColor& backgroundColor( const QColor&, qreal ratio );
+
+        //!@name global configuration parameters
+        //@{
 
         static const qreal _glowBias;
         static const qreal _slabThickness;
         static const qreal _shadowGain;
         qreal _contrast;
 
-        //!@name pixmap caches
-        //@{
-        typedef BaseCache<QPixmap> PixmapCache;
-        PixmapCache& windecoButtonCache( void )
-        { return _windecoButtonCache; }
-
-        PixmapCache& windecoButtonGlowCache( void )
-        { return _windecoButtonGlowCache; }
         //@}
-
-        Oxygen::Cache<TileSet> _slabCache;
 
         //! shortcut to color caches
         /*! it is made protected because it is also used in the style helper */
         typedef BaseCache<QColor> ColorCache;
 
+        //! shortcut to pixmap cache
+        typedef BaseCache<QPixmap> PixmapCache;
+
         private:
+
+        //!@name tileset caches
+        //!@{
+
+        //! slabs
+        Oxygen::Cache<TileSet> _slabCache;
+
+        //! sunken slabs
+        BaseCache<TileSet> _slabSunkenCache;
+
+        //@}
 
         //!@name brushes
         //@{
@@ -360,8 +402,6 @@ namespace Oxygen
         ColorCache _backgroundColorCache;
         //@}
 
-        PixmapCache _windecoButtonCache;
-        PixmapCache _windecoButtonGlowCache;
         PixmapCache _backgroundCache;
         PixmapCache _dotCache;
 
@@ -372,6 +412,8 @@ namespace Oxygen
 
         //! background pixmap
         QPixmap _backgroundPixmap;
+
+        //! background pixmap offsets
         QPoint _backgroundPixmapOffset;
 
         #ifdef Q_WS_X11
