@@ -8793,6 +8793,7 @@ namespace Oxygen
 
         if( horizontal )
         {
+            const int hCenter = r.center().x();
             const int h = r.height();
 
             if( animated || mouseOver )
@@ -8811,13 +8812,14 @@ namespace Oxygen
             int center( ( h - ( ngroups-1 ) * 250 ) /2 + r.top() );
             for( int k = 0; k < ngroups; k++, center += 250 )
             {
-                helper().renderDot( painter, QPoint( r.left()+1, center-3 ), color );
-                helper().renderDot( painter, QPoint( r.left()+1, center ), color );
-                helper().renderDot( painter, QPoint( r.left()+1, center+3 ), color );
+                helper().renderDot( painter, QPoint( hCenter, center-3 ), color );
+                helper().renderDot( painter, QPoint( hCenter, center ), color );
+                helper().renderDot( painter, QPoint( hCenter, center+3 ), color );
             }
 
         } else {
 
+            const int vCenter( r.center().y() );
             const int w( r.width() );
             if( animated || mouseOver )
             {
@@ -8836,9 +8838,9 @@ namespace Oxygen
             int center = ( w - ( ngroups-1 ) * 250 ) /2 + r.left();
             for( int k = 0; k < ngroups; k++, center += 250 )
             {
-                helper().renderDot( painter, QPoint( center-3, r.top()+1 ), color );
-                helper().renderDot( painter, QPoint( center, r.top()+1 ), color );
-                helper().renderDot( painter, QPoint( center+3, r.top()+1 ), color );
+                helper().renderDot( painter, QPoint( center-3, vCenter ), color );
+                helper().renderDot( painter, QPoint( center, vCenter ), color );
+                helper().renderDot( painter, QPoint( center+3, vCenter ), color );
             }
 
         }
