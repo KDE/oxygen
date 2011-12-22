@@ -4242,8 +4242,9 @@ namespace Oxygen
 
                 drawItemPixmap( painter, iconRect, Qt::AlignCenter, pixmap );
 
-                if( cb->direction == Qt::RightToLeft ) editRect.translate( -4 - cb->iconSize.width(), 0 );
-                else editRect.translate( cb->iconSize.width() + 4, 0 );
+                if( cb->direction == Qt::RightToLeft ) editRect.adjust( 0, 0, -4-cb->iconSize.width(), 0 );
+                else editRect.adjust( cb->iconSize.width() + 4, 0, 0, 0 );
+
             }
 
             if( !cb->currentText.isEmpty() && !cb->editable )
