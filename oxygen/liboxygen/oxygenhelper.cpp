@@ -36,6 +36,7 @@
 #include <QtGui/QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
+#include <fixx11h.h>
 #endif
 
 namespace Oxygen
