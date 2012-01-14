@@ -27,7 +27,7 @@
 #include "oxygenexceptionlistwidget.moc"
 #include "oxygenexceptiondialog.h"
 
-#include <QtCore/QSharedPointer>
+#include <QtCore/QPointer>
 #include <KLocale>
 #include <KMessageBox>
 
@@ -113,12 +113,24 @@ namespace Oxygen
     {
 
         // map dialog
-        QSharedPointer<ExceptionDialog> dialog( new ExceptionDialog( this ) );
+        QPointer<ExceptionDialog> dialog = new ExceptionDialog( this );
         dialog->setException( _defaultConfiguration );
-        if( dialog->exec() == QDialog::Rejected ) return;
+
+        // run dialog and check existence
+        if( dialog->exec() == QDialog::Rejected )
+        {
+            delete dialog;
+            return;
+        }
+
+        // check dialog
+        if( !dialog ) return;
 
         // retrieve exception and check
         Exception exception( dialog->exception() );
+        delete dialog;
+
+        // check exceptions
         if( !checkException( exception ) ) return;
 
         // create new item
@@ -149,12 +161,22 @@ namespace Oxygen
         Exception& exception( model().get( current ) );
 
         // create dialog
-        QSharedPointer<ExceptionDialog> dialog( new ExceptionDialog( this ) );
+        QPointer<ExceptionDialog> dialog( new ExceptionDialog( this ) );
         dialog->setException( exception );
 
         // map dialog
-        if( dialog->exec() == QDialog::Rejected ) return;
+        if( dialog->exec() == QDialog::Rejected )
+        {
+            delete dialog;
+            return;
+        }
+
+        // check dialog
+        if( !dialog ) return;
+
+        // retrieve exception
         Exception newException = dialog->exception();
+        delete dialog;
 
         // check if exception was changed
         if( exception == newException ) return;
@@ -164,6 +186,7 @@ namespace Oxygen
 
         // asign new exception
         *&exception = newException;
+
         resizeColumns();
         emit changed();
         return;
@@ -310,11 +333,16 @@ namespace Oxygen
         {
 
             KMessageBox::error( this, i18n("Regular Expression syntax is incorrect") );
-            QSharedPointer<ExceptionDialog> dialog( new ExceptionDialog( this ) );
+            QPointer<ExceptionDialog> dialog( new ExceptionDialog( this ) );
             dialog->setException( exception );
-            if( dialog->exec() == QDialog::Rejected ) return false;
-            exception = dialog->exception();
+            if( dialog->exec() == QDialog::Rejected )
+            {
+                delete dialog;
+                return false;
+            }
 
+            exception = dialog->exception();
+            delete dialog;
         }
 
         return true;
