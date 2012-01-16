@@ -111,6 +111,9 @@ namespace Oxygen
         */
         void setShadowConfiguration( const ShadowConfiguration& );
 
+        //! set shadow size manually
+        void setShadowSize( QPalette::ColorGroup, qreal );
+
         //! shadow size
         qreal shadowSize( void ) const
         {
