@@ -1212,7 +1212,6 @@ namespace Oxygen
             pixmap.fill( Qt::transparent );
 
             QRectF r( pixmap.rect() );
-            r.adjust( 0.5, 0.5, -0.5, -0.5 );
 
             QPainter p( &pixmap );
             p.setRenderHint( QPainter::Antialiasing );
@@ -1220,20 +1219,31 @@ namespace Oxygen
             // items with custom background brushes always have their background drawn
             // regardless of whether they are hovered or selected or neither so
             // the gradient effect needs to be more subtle
-            const int lightenAmount( custom ? 110 : 130 );
-            QLinearGradient gradient( 0, 0, 0, r.bottom() );
-            gradient.setColorAt( 0, color.lighter( lightenAmount ) );
-            gradient.setColorAt( 1, color );
 
-            p.setPen( QPen( color, 1 ) );
-            p.setBrush( gradient );
-            p.drawRoundedRect( r, rounding, rounding );
+            {
+                // fill
+                const int lightenAmount( custom ? 110 : 130 );
+                QLinearGradient gradient( 0, 0, 0, r.bottom() );
+                gradient.setColorAt( 0, color.lighter( lightenAmount ) );
+                gradient.setColorAt( 1, color );
 
-            // contrast pixel
-            p.setPen( QPen( QColor( 255, 255, 255, 64 ), 1 ) );
-            p.setBrush( Qt::NoBrush );
-            p.drawRoundedRect( r.adjusted( 1, 1, -1, -1 ), rounding-1, rounding-1 );
-            p.end();
+                p.setPen( Qt::NoPen );
+                p.setBrush( gradient );
+                p.drawRoundedRect( r, rounding+0.5, rounding+0.5 );
+
+            }
+
+            {
+                // contrast
+                QLinearGradient gradient( 0, 0, 0, r.bottom() );
+                gradient.setColorAt( 0, color );
+                gradient.setColorAt( 1, Qt::transparent );
+
+                r.adjust( 0.5, 0.5, -0.5, -0.5 );
+                p.setPen( QPen( color, 1 ) );
+                p.setBrush( Qt::NoBrush );
+                p.drawRoundedRect( r, rounding, rounding );
+            }
 
             tileSet = new TileSet( pixmap, 8, 0, 32, height );
             _selectionCache.insert( key, tileSet );
