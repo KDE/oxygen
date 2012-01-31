@@ -114,6 +114,15 @@ namespace Oxygen
     }
 
     //_______________________________________________________
+    void ShadowCache::setShadowSize( QPalette::ColorGroup group, qreal size )
+    {
+        ShadowConfiguration& local = (group == QPalette::Active ) ? _activeShadowConfiguration:_inactiveShadowConfiguration;
+        if( local.shadowSize() == size ) return;
+        local.setShadowSize( size );
+        invalidateCaches();
+    }
+
+    //_______________________________________________________
     TileSet* ShadowCache::tileSet( const Key& key )
     {
 

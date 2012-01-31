@@ -301,14 +301,22 @@ namespace Oxygen
             #endif
         }
 
-        // also enable hover effects in itemviews' viewport
         if( QAbstractItemView *itemView = qobject_cast<QAbstractItemView*>( widget ) )
-        { itemView->viewport()->setAttribute( Qt::WA_Hover ); }
-
-        // checkable group boxes
-        if( QGroupBox* groupBox = qobject_cast<QGroupBox*>( widget ) )
         {
 
+            // enable hover effects in itemviews' viewport
+            itemView->viewport()->setAttribute( Qt::WA_Hover );
+
+
+        } else if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) ) {
+
+            // enable hover effect in sunken scrollareas that support focus
+            if( scrollArea->frameShadow() == QFrame::Sunken && widget->focusPolicy()&Qt::StrongFocus )
+            { widget->setAttribute( Qt::WA_Hover ); }
+
+        } else if( QGroupBox* groupBox = qobject_cast<QGroupBox*>( widget ) )  {
+
+            // checkable group boxes
             if( groupBox->isCheckable() )
             { groupBox->setAttribute( Qt::WA_Hover ); }
 
@@ -321,6 +329,8 @@ namespace Oxygen
             widget->setAttribute( Qt::WA_Hover );
 
         }
+
+
 
         /*
         add extra margins for widgets in toolbars
@@ -914,7 +924,6 @@ namespace Oxygen
 
             case CC_GroupBox: return groupBoxSubControlRect( option, subControl, widget );
             case CC_ComboBox: return comboBoxSubControlRect( option, subControl, widget );
-            case CC_Slider: return sliderSubControlRect( option, subControl, widget );
             case CC_ScrollBar: return scrollBarSubControlRect( option, subControl, widget );
             case CC_SpinBox: return spinBoxSubControlRect( option, subControl, widget );
             default: return QCommonStyle::subControlRect( element, option, subControl, widget );
@@ -2015,48 +2024,6 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________________________________________
-    QRect Style::sliderSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
-    {
-        switch( subControl )
-        {
-            case SC_SliderHandle:
-            return QCommonStyle::subControlRect( CC_Slider, option, subControl, widget );
-
-            case SC_SliderGroove:
-            {
-                QRect groove( QCommonStyle::subControlRect( CC_Slider, option, subControl, widget ) );
-                if( const QStyleOptionSlider *slider = qstyleoption_cast<const QStyleOptionSlider *>( option ) )
-                {
-                    const bool horizontal( slider->orientation == Qt::Horizontal );
-                    if( horizontal )
-                    {
-
-                        const int center( groove.center().y() );
-                        groove = QRect( groove.left(), center-Slider_GrooveWidth/2, groove.width(), Slider_GrooveWidth  ).adjusted( 3, 0, -3, 0 );
-                        groove.adjust( 2, 1, -2, 0 );
-
-                    } else {
-
-                        const int center( groove.center().x() );
-                        groove = QRect( center-Slider_GrooveWidth/2, groove.top(), Slider_GrooveWidth, groove.height() ).adjusted( 0, 3, 0, -3 );
-                        groove.adjust( 0, 2, 0, -2 );
-
-                    }
-
-                }
-
-                return groove;
-
-            }
-
-            default:
-            return QCommonStyle::subControlRect( CC_Slider, option, subControl, widget );
-
-        }
-
-    }
-
-    //___________________________________________________________________________________________________________________
     QRect Style::scrollBarSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
     {
         const State& flags( option->state );
@@ -2494,12 +2461,13 @@ namespace Oxygen
 
         const bool enabled( flags & State_Enabled );
         const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
+
+        // hover
         const bool hoverHighlight( enabled && isInputWidget && ( flags&State_MouseOver ) );
 
-
-        //const bool focusHighlight( enabled && isInputWidget && ( flags&State_HasFocus ) );
+        // focus
         bool focusHighlight( false );
-        if( enabled && isInputWidget && ( flags&State_HasFocus ) ) focusHighlight = true;
+        if( enabled && ( flags&State_HasFocus ) ) focusHighlight = true;
         else if( isKTextEditFrame( widget ) && widget->parentWidget()->hasFocus() )
         { focusHighlight = true; }
 
@@ -4274,8 +4242,9 @@ namespace Oxygen
 
                 drawItemPixmap( painter, iconRect, Qt::AlignCenter, pixmap );
 
-                if( cb->direction == Qt::RightToLeft ) editRect.translate( -4 - cb->iconSize.width(), 0 );
-                else editRect.translate( cb->iconSize.width() + 4, 0 );
+                if( cb->direction == Qt::RightToLeft ) editRect.adjust( 0, 0, -4-cb->iconSize.width(), 0 );
+                else editRect.adjust( cb->iconSize.width() + 4, 0, 0, 0 );
+
             }
 
             if( !cb->currentText.isEmpty() && !cb->editable )
@@ -7711,8 +7680,8 @@ namespace Oxygen
     //______________________________________________________________
     bool Style::drawSliderComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
     {
-        const QStyleOptionSlider *slider( qstyleoption_cast<const QStyleOptionSlider *>( option ) );
-        if( !slider ) return true;
+        const QStyleOptionSlider *sliderOption( qstyleoption_cast<const QStyleOptionSlider *>( option ) );
+        if( !sliderOption ) return true;
 
         const QPalette& palette( option->palette );
         const State& flags( option->state );
@@ -7720,23 +7689,44 @@ namespace Oxygen
         const bool mouseOver( enabled && ( flags & State_MouseOver ) );
         const bool hasFocus( flags & State_HasFocus );
 
-        if( slider->subControls & SC_SliderTickmarks ) { renderSliderTickmarks( painter, slider, widget ); }
+        if( sliderOption->subControls & SC_SliderTickmarks ) { renderSliderTickmarks( painter, sliderOption, widget ); }
 
         // groove
-        if( slider->subControls & SC_SliderGroove )
+        if( sliderOption->subControls & SC_SliderGroove )
         {
-            const QRect groove = sliderSubControlRect( slider, SC_SliderGroove, widget );
-            const Qt::Orientation orientation( groove.width() > groove.height() ? Qt::Horizontal : Qt::Vertical );
-            if( groove.isValid() ) helper().scrollHole( palette.color( QPalette::Window ), orientation, true )->render( groove, painter, TileSet::Full );
+            // get rect
+            QRect groove( subControlRect( CC_Slider, sliderOption, SC_SliderGroove, widget ) );
+
+            // adjustments
+            if( sliderOption->orientation == Qt::Horizontal )
+            {
+
+                const int center( groove.center().y() );
+                groove = QRect( groove.left(), center-Slider_GrooveWidth/2, groove.width(), Slider_GrooveWidth  ).adjusted( 3, 0, -3, 0 );
+                groove.adjust( 2, 1, -2, 0 );
+
+            } else {
+
+                const int center( groove.center().x() );
+                groove = QRect( center-Slider_GrooveWidth/2, groove.top(), Slider_GrooveWidth, groove.height() ).adjusted( 0, 3, 0, -3 );
+                groove.adjust( 0, 2, 0, -2 );
+
+            }
+
+            // render
+            if( groove.isValid() )
+            { helper().scrollHole( palette.color( QPalette::Window ), sliderOption->orientation, true )->render( groove, painter, TileSet::Full ); }
         }
 
         // handle
-        if ( slider->subControls & SC_SliderHandle )
+        if ( sliderOption->subControls & SC_SliderHandle )
         {
-            const QRect handle = sliderSubControlRect( slider, SC_SliderHandle, widget );
-            const QRect r = centerRect( handle, 21, 21 );
 
-            const bool handleActive( slider->activeSubControls & SC_SliderHandle );
+            // get rect and center
+            QRect r( subControlRect( CC_Slider, sliderOption, SC_SliderHandle, widget ) );
+            r = centerRect( r, 21, 21 );
+
+            const bool handleActive( sliderOption->activeSubControls & SC_SliderHandle );
             StyleOptions opts( 0 );
             if( hasFocus ) opts |= Focus;
             if( handleActive && mouseOver ) opts |= Hover;
@@ -7744,7 +7734,7 @@ namespace Oxygen
             animations().sliderEngine().updateState( widget, enabled && handleActive );
             const qreal opacity( animations().sliderEngine().opacity( widget ) );
 
-            const QColor color( helper().backgroundColor( palette.color( QPalette::Button ), widget, handle.center() ) );
+            const QColor color( helper().backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
             const QColor glow( slabShadowColor( color, opts, opacity, AnimationHover ) );
 
             const bool sunken( flags & (State_On|State_Sunken) );
@@ -8300,6 +8290,8 @@ namespace Oxygen
                 painter.setRenderHints( QPainter::Antialiasing );
                 painter.setBrush( Qt::NoBrush );
 
+                painter.translate( qreal( pixmap.width() )/2.0, qreal( pixmap.height() )/2.0 );
+
                 QPolygonF a = genericArrow( ArrowDown, ArrowTiny );
 
                 const qreal width( 1.1 );
@@ -8802,6 +8794,7 @@ namespace Oxygen
 
         if( horizontal )
         {
+            const int hCenter = r.center().x();
             const int h = r.height();
 
             if( animated || mouseOver )
@@ -8820,13 +8813,14 @@ namespace Oxygen
             int center( ( h - ( ngroups-1 ) * 250 ) /2 + r.top() );
             for( int k = 0; k < ngroups; k++, center += 250 )
             {
-                helper().renderDot( painter, QPoint( r.left()+1, center-3 ), color );
-                helper().renderDot( painter, QPoint( r.left()+1, center ), color );
-                helper().renderDot( painter, QPoint( r.left()+1, center+3 ), color );
+                helper().renderDot( painter, QPoint( hCenter, center-3 ), color );
+                helper().renderDot( painter, QPoint( hCenter, center ), color );
+                helper().renderDot( painter, QPoint( hCenter, center+3 ), color );
             }
 
         } else {
 
+            const int vCenter( r.center().y() );
             const int w( r.width() );
             if( animated || mouseOver )
             {
@@ -8845,9 +8839,9 @@ namespace Oxygen
             int center = ( w - ( ngroups-1 ) * 250 ) /2 + r.left();
             for( int k = 0; k < ngroups; k++, center += 250 )
             {
-                helper().renderDot( painter, QPoint( center-3, r.top()+1 ), color );
-                helper().renderDot( painter, QPoint( center, r.top()+1 ), color );
-                helper().renderDot( painter, QPoint( center+3, r.top()+1 ), color );
+                helper().renderDot( painter, QPoint( center-3, vCenter ), color );
+                helper().renderDot( painter, QPoint( center, vCenter ), color );
+                helper().renderDot( painter, QPoint( center+3, vCenter ), color );
             }
 
         }
