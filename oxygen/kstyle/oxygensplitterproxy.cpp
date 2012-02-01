@@ -297,7 +297,9 @@ namespace Oxygen
         if( mouseGrabber() == this ) releaseMouse();
 
         // hide
+        parentWidget()->setUpdatesEnabled(false);
         hide();
+        parentWidget()->setUpdatesEnabled(true);
 
         // set hover event
         if( _splitter )
