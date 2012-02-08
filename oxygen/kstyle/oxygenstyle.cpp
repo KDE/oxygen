@@ -1025,8 +1025,8 @@ namespace Oxygen
             // TabBar
             case PE_FrameTabBarBase: fcn = &Style::drawFrameTabBarBasePrimitive; break;
             case PE_FrameTabWidget: fcn = &Style::drawFrameTabWidgetPrimitive; break;
-
             case PE_FrameWindow: fcn = &Style::drawFrameWindowPrimitive; break;
+            case PE_IndicatorTabClose: fcn = &Style::drawIndicatorTabClose; break;
 
             // arrows
             case PE_IndicatorArrowUp: fcn = &Style::drawIndicatorArrowUpPrimitive; break;
@@ -2893,6 +2893,29 @@ namespace Oxygen
 
         return true;
 
+    }
+    //___________________________________________________________________________________
+    bool Style::drawIndicatorTabClose( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    {
+
+        if( _tabCloseIcon.isNull() ) return false;
+        const int size( pixelMetric(QStyle::PM_SmallIconSize) );
+        QIcon::Mode mode;
+        if( option->state & State_Enabled )
+        {
+            if( option->state & State_Raised ) mode = QIcon::Active;
+            else mode = QIcon::Normal;
+        } else mode = QIcon::Disabled;
+
+        if (!(option->state & State_Raised)
+            && !(option->state & State_Sunken)
+            && !(option->state & QStyle::State_Selected))
+            mode = QIcon::Disabled;
+
+        QIcon::State state = option->state & State_Sunken ? QIcon::On:QIcon::Off;
+        QPixmap pixmap = _tabCloseIcon.pixmap(size, mode, state);
+        drawItemPixmap( painter, option->rect, Qt::AlignCenter, pixmap );
+        return true;
     }
 
     //___________________________________________________________________________________
@@ -8070,6 +8093,9 @@ namespace Oxygen
         // frame focus
         if( StyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
         else _frameFocusPrimitive = &Style::emptyPrimitive;
+
+        // load tab close icon
+        _tabCloseIcon = KIcon( "dialog-close" );
 
     }
 
