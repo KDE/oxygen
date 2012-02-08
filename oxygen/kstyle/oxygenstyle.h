@@ -62,6 +62,8 @@
 #include <QtGui/QToolBox>
 #include <QtGui/QWidget>
 
+#include <KIcon>
+
 namespace Oxygen
 {
 
@@ -474,6 +476,7 @@ namespace Oxygen
         bool drawFrameTabBarBasePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameTabWidgetPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameWindowPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawIndicatorTabClose( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const;
 
         bool drawIndicatorArrowUpPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
         { return drawIndicatorArrowPrimitive( ArrowUp, option, painter, widget ); }
@@ -903,6 +906,9 @@ namespace Oxygen
         QStyle::ControlElement CE_CapacityBar;
 
         //@}
+
+        //! tab close button icon
+        KIcon _tabCloseIcon;
 
     };
 
