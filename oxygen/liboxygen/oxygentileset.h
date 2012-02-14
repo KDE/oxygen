@@ -49,7 +49,7 @@ namespace Oxygen
         @param w2 width of the not-left-or-right chunks
         @param h2 height of the not-top-or-bottom chunks
         */
-        TileSet(const QPixmap&, int w1, int h1, int w2, int h2);
+        TileSet(const QPixmap&, int w1, int h1, int w2, int h2, bool stretch = false );
 
         /*!
         Create a TileSet from a pixmap. The size of the top/left and bottom/right
@@ -67,7 +67,7 @@ namespace Oxygen
         @param w2 width of the not-left-or-right chunks
         @param h2 height of the not-top-or-bottom chunks
         */
-        TileSet(const QPixmap &pix, int w1, int h1, int w3, int h3, int x2, int y2, int w2, int h2);
+        TileSet(const QPixmap &pix, int w1, int h1, int w3, int h3, int x2, int y2, int w2, int h2, bool stretch = false );
 
         //! empty constructor
         TileSet();
@@ -153,6 +153,9 @@ namespace Oxygen
 
         //! pixmap arry
         PixmapList _pixmaps;
+
+        // stretch pixmaps
+        bool _stretch;
 
         // dimensions
         int _w1;

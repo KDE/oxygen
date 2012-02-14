@@ -53,6 +53,7 @@ namespace Oxygen
 
     //______________________________________________________________
     TileSet::TileSet( void ):
+        _stretch( false ),
         _w1(0),
         _h1(0),
         _w3(0),
@@ -60,16 +61,25 @@ namespace Oxygen
     { _pixmaps.reserve(9); }
 
     //______________________________________________________________
-    TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w2, int h2):
-        _w1(w1), _h1(h1), _w3(0), _h3(0)
+    TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w2, int h2, bool stretch ):
+        _stretch( stretch ),
+        _w1(w1),
+        _h1(h1),
+        _w3(0),
+        _h3(0)
     {
         _pixmaps.reserve(9);
         if (pix.isNull()) return;
 
         _w3 = pix.width() - (w1 + w2);
         _h3 = pix.height() - (h1 + h2);
-        int w = w2; while (w < _sideExtent && w2 > 0) w += w2;
-        int h = h2; while (h < _sideExtent && h2 > 0) h += h2;
+        int w = w2;
+        int h = h2;
+        if( !_stretch )
+        {
+            while (w < _sideExtent && w2 > 0) w += w2;
+            while (h < _sideExtent && h2 > 0) h += h2;
+        }
 
         // initialise pixmap array
         initPixmap( _pixmaps, pix, _w1, _h1, QRect(0, 0, _w1, _h1) );
@@ -84,16 +94,25 @@ namespace Oxygen
     }
 
     //______________________________________________________________
-    TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w3, int h3, int x1, int y1, int w2, int h2)
-        : _w1(w1), _h1(h1), _w3(w3), _h3(h3)
+    TileSet::TileSet(const QPixmap &pix, int w1, int h1, int w3, int h3, int x1, int y1, int w2, int h2, bool stretch ):
+        _stretch( stretch ),
+        _w1(w1),
+        _h1(h1),
+        _w3(w3),
+        _h3(h3)
     {
         _pixmaps.reserve(9);
         if (pix.isNull()) return;
 
         int x2 = pix.width() - _w3;
         int y2 = pix.height() - _h3;
-        int w = w2; while (w < _sideExtent && w2 > 0) w += w2;
-        int h = h2; while (h < _sideExtent && h2 > 0) h += h2;
+        int w = w2;
+        int h = h2;
+        if( !_stretch )
+        {
+            while (w < _sideExtent && w2 > 0) w += w2;
+            while (h < _sideExtent && h2 > 0) h += h2;
+        }
 
         // initialise pixmap array
         initPixmap( _pixmaps, pix, _w1, _h1, QRect(0, 0, _w1, _h1) );
@@ -145,10 +164,13 @@ namespace Oxygen
         // calculate corner locations
         w -= wLeft + wRight;
         h -= hTop + hBottom;
-        int x1 = x0 + wLeft;
-        int x2 = x1 + w;
-        int y1 = y0 + hTop;
-        int y2 = y1 + h;
+        const int x1 = x0 + wLeft;
+        const int x2 = x1 + w;
+        const int y1 = y0 + hTop;
+        const int y2 = y1 + h;
+
+        const int w2 = _pixmaps.at(7).width();
+        const int h2 = _pixmaps.at(5).width();
 
         // corner
         if( bits(t, Top|Left) )  p->drawPixmap(x0, y0, _pixmaps.at(0), 0, 0, wLeft, hTop);
@@ -159,19 +181,43 @@ namespace Oxygen
         // top and bottom
         if( w > 0 )
         {
-            if (t & Top )    p->drawTiledPixmap(x1, y0, w, hTop, _pixmaps.at(1));
-            if (t & Bottom ) p->drawTiledPixmap(x1, y2, w, hBottom, _pixmaps.at(7), 0, _h3-hBottom);
+            if (t & Top )
+            {
+                if( _stretch ) p->drawPixmap(x1, y0, w, hTop, _pixmaps.at(1));
+                else p->drawTiledPixmap(x1, y0, w, hTop, _pixmaps.at(1));
+            }
+
+            if (t & Bottom )
+            {
+                if( _stretch ) p->drawPixmap(x1, y2, w, hBottom, _pixmaps.at(7), 0, _h3-hBottom, w2, hBottom );
+                else p->drawTiledPixmap(x1, y2, w, hBottom, _pixmaps.at(7), 0, _h3-hBottom );
+            }
+
         }
 
         // left and right
         if( h > 0 )
         {
-            if (t & Left )   p->drawTiledPixmap(x0, y1, wLeft, h, _pixmaps.at(3));
-            if (t & Right )  p->drawTiledPixmap(x2, y1, wRight, h, _pixmaps.at(5), _w3-wRight, 0);
+            if (t & Left )
+            {
+                if( _stretch ) p->drawPixmap(x0, y1, wLeft, h, _pixmaps.at(3));
+                else p->drawTiledPixmap(x0, y1, wLeft, h, _pixmaps.at(3));
+            }
+
+            if (t & Right )
+            {
+                if( _stretch ) p->drawPixmap(x2, y1, wRight, h, _pixmaps.at(5), _w3-wRight, 0, wRight, h2 );
+                else p->drawTiledPixmap(x2, y1, wRight, h, _pixmaps.at(5), _w3-wRight, 0 );
+            }
         }
 
         // center
-        if ( (t & Center) && h > 0 && w > 0 ) p->drawTiledPixmap(x1, y1, w, h, _pixmaps.at(4));
+        if ( (t & Center) && h > 0 && w > 0 )
+        {
+            if( _stretch ) p->drawPixmap(x1, y1, w, h, _pixmaps.at(4));
+            else p->drawTiledPixmap(x1, y1, w, h, _pixmaps.at(4));
+        }
+
     }
 
     //___________________________________________________________
