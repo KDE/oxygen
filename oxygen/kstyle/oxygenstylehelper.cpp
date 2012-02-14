@@ -290,25 +290,22 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________________________________________
-    QPixmap StyleHelper::progressBarIndicator( const QPalette& pal, const QRect& rect )
+    TileSet* StyleHelper::progressBarIndicator( const QPalette& pal, int dimension )
     {
 
         const QColor highlight( pal.color( QPalette::Highlight ) );
-        const quint64 key( ( quint64( highlight.rgba() ) << 32 ) | ( rect.width() << 16 ) | ( rect.height() ) );
+        const quint64 key( ( quint64( highlight.rgba() ) << 32 ) | dimension );
 
-        QPixmap *pixmap = _progressBarCache.object( key );
-        if ( !pixmap )
+        TileSet *tileSet = _progressBarCache.object( key );
+        if ( !tileSet )
         {
 
-            QRect local( rect );
+            QRect local( 0, 0, dimension, dimension );
 
-            // set topLeft corner to 0.0
-            local.translate( -local.topLeft() );
+            QPixmap pixmap( local.size() );
+            pixmap.fill( Qt::transparent );
 
-            pixmap = new QPixmap( local.size() );
-            pixmap->fill( Qt::transparent );
-
-            QPainter p( pixmap );
+            QPainter p( &pixmap );
             p.setRenderHints( QPainter::Antialiasing );
             p.setBrush( Qt::NoBrush );
 
@@ -386,10 +383,13 @@ namespace Oxygen
 
             p.end();
 
-            _progressBarCache.insert( key, pixmap );
+            // generate tileSet and save in cache
+            const int radius = qMin( 3, pixmap.width()/2 );
+            tileSet = new TileSet( pixmap, radius, radius, pixmap.width()-2*radius, pixmap.height()-2*radius, true );
+            _progressBarCache.insert( key, tileSet );
         }
 
-        return *pixmap;
+        return tileSet;
 
     }
 

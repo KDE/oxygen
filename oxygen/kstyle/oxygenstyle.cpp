@@ -4892,8 +4892,12 @@ namespace Oxygen
         if( indicatorRect.adjusted( 2, 1, -2, -1 ).isValid() )
         {
             indicatorRect.adjust( 1, 0, -1, -1 );
-            QPixmap pixmap( helper().progressBarIndicator( palette, indicatorRect ) );
-            painter->drawPixmap( indicatorRect.topLeft(), pixmap );
+
+            // calculate dimension
+            int dimension( 20 );
+            if( pbOpt2 ) dimension = horizontal ? indicatorRect.height() : indicatorRect.width();
+            TileSet* tileSet( helper().progressBarIndicator( palette, dimension ) );
+            tileSet->render( indicatorRect, painter, TileSet::Full );
         }
 
         return true;
