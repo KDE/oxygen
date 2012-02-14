@@ -117,7 +117,7 @@ namespace Oxygen
         //@{
 
         //! progressbar
-        QPixmap progressBarIndicator( const QPalette&, const QRect& );
+        TileSet *progressBarIndicator( const QPalette&, int );
 
         //! dial
         QPixmap dialSlab( const QColor& color, qreal shade, int size = 7 )
@@ -232,9 +232,6 @@ namespace Oxygen
         //! dock button cache
         PixmapCache _dockWidgetButtonCache;
 
-        //! progressbar cache
-        PixmapCache _progressBarCache;
-
         typedef BaseCache<TileSet> TileSetCache;
         TileSetCache _cornerCache;
         TileSetCache _holeFlatCache;
@@ -244,6 +241,7 @@ namespace Oxygen
         TileSetCache _dockFrameCache;
         TileSetCache _scrollHoleCache;
         TileSetCache _selectionCache;
+        TileSetCache _progressBarCache;
 
         #ifdef Q_WS_X11
 
