@@ -135,6 +135,9 @@ namespace Oxygen
     void TileSet::render(const QRect &r, QPainter *p, Tiles t) const
     {
 
+        const bool oldHint( p->testRenderHint( QPainter::SmoothPixmapTransform ) );
+        if( _stretch ) p->setRenderHint( QPainter::SmoothPixmapTransform, true );
+
         // check initialization
         if( _pixmaps.size() < 9 ) return;
 
@@ -217,6 +220,8 @@ namespace Oxygen
             if( _stretch ) p->drawPixmap(x1, y1, w, h, _pixmaps.at(4));
             else p->drawTiledPixmap(x1, y1, w, h, _pixmaps.at(4));
         }
+
+        if( _stretch ) p->setRenderHint( QPainter::SmoothPixmapTransform, oldHint );
 
     }
 
