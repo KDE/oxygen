@@ -907,8 +907,8 @@ namespace Oxygen
 
         //@}
 
-        //! tab close button icon
-        KIcon _tabCloseIcon;
+        //! tab close button icon (cached)
+        mutable KIcon _tabCloseIcon;
 
     };
 

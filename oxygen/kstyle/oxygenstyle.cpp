@@ -2897,8 +2897,10 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawIndicatorTabClose( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
-
-        if( _tabCloseIcon.isNull() ) return false;
+        if( _tabCloseIcon.isNull() ) { // load the icon on-demand: in the constructor, KDE is not yet ready to find it!
+            _tabCloseIcon = KIcon( "dialog-close" );
+            if( _tabCloseIcon.isNull() ) return false; // still not found? cancel
+        }
         const int size( pixelMetric(QStyle::PM_SmallIconSize) );
         QIcon::Mode mode;
         if( option->state & State_Enabled )
@@ -8097,10 +8099,6 @@ namespace Oxygen
         // frame focus
         if( StyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
         else _frameFocusPrimitive = &Style::emptyPrimitive;
-
-        // load tab close icon
-        _tabCloseIcon = KIcon( "dialog-close" );
-
     }
 
     //_____________________________________________________________________
