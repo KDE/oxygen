@@ -173,7 +173,7 @@ namespace Oxygen
         const int y2 = y1 + h;
 
         const int w2 = _pixmaps.at(7).width();
-        const int h2 = _pixmaps.at(5).width();
+        const int h2 = _pixmaps.at(5).height();
 
         // corner
         if( bits(t, Top|Left) )  p->drawPixmap(x0, y0, _pixmaps.at(0), 0, 0, wLeft, hTop);
