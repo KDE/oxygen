@@ -32,7 +32,7 @@ namespace Oxygen
     void TileSet::initPixmap( PixmapList& pixmaps, const QPixmap &pix, int w, int h, const QRect &rect)
     {
         QSize size( w, h );
-        if( !size.isValid() )
+        if( !( size.isValid() && rect.isValid() ) )
         {
             pixmaps.push_back( QPixmap() );
 
