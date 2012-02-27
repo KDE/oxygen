@@ -4897,7 +4897,7 @@ namespace Oxygen
 
             // calculate dimension
             int dimension( 20 );
-            if( pbOpt2 ) dimension = horizontal ? indicatorRect.height() : indicatorRect.width();
+            if( pbOpt2 ) dimension = qMax( 5, horizontal ? indicatorRect.height() : indicatorRect.width() );
             TileSet* tileSet( helper().progressBarIndicator( palette, dimension ) );
             tileSet->render( indicatorRect, painter, TileSet::Full );
         }
