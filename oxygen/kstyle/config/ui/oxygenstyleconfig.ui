@@ -38,7 +38,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="tab_1">
       <attribute name="title">
@@ -571,6 +571,30 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>_toolBarDrawItemSeparator</tabstop>
+  <tabstop>_checkDrawX</tabstop>
+  <tabstop>_cacheEnabled</tabstop>
+  <tabstop>_animationsEnabled</tabstop>
+  <tabstop>_mnemonicsMode</tabstop>
+  <tabstop>_windowDragMode</tabstop>
+  <tabstop>_useWMMoveResize</tabstop>
+  <tabstop>_expertModeButton</tabstop>
+  <tabstop>_viewDrawFocusIndicator</tabstop>
+  <tabstop>_viewDrawTreeBranchLines</tabstop>
+  <tabstop>_viewDrawTriangularExpander</tabstop>
+  <tabstop>_viewTriangularExpanderSize</tabstop>
+  <tabstop>_tabStyleSingle</tabstop>
+  <tabstop>_tabStylePlain</tabstop>
+  <tabstop>_scrollBarWidthSlider</tabstop>
+  <tabstop>_scrollBarWidth</tabstop>
+  <tabstop>_scrollBarSubLineButtons</tabstop>
+  <tabstop>_scrollBarAddLineButtons</tabstop>
+  <tabstop>_menuHighlightDark</tabstop>
+  <tabstop>_menuHighlightStrong</tabstop>
+  <tabstop>_menuHighlightSubtle</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
