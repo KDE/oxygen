@@ -1065,7 +1065,7 @@ namespace Oxygen
 
         // try find primitive in map, and run.
         // exit if result is true, otherwise fallback to generic case
-        if( !( fcn && ( this->*fcn )( option, painter, widget ) ) )
+        if( widget && !( fcn && ( this->*fcn )( option, painter, widget ) ) )
         { QCommonStyle::drawPrimitive( element, option, painter, widget ); }
 
         painter->restore();
