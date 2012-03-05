@@ -1065,7 +1065,7 @@ namespace Oxygen
 
         // try find primitive in map, and run.
         // exit if result is true, otherwise fallback to generic case
-        if( widget && !( fcn && ( this->*fcn )( option, painter, widget ) ) )
+        if( !( fcn && ( this->*fcn )( option, painter, widget ) ) )
         { QCommonStyle::drawPrimitive( element, option, painter, widget ); }
 
         painter->restore();
@@ -4134,7 +4134,8 @@ namespace Oxygen
         grad.setColorAt( 0, Qt::transparent );
         grad.setColorAt( 0.6, Qt::black );
 
-        helper().renderWindowBackground( &pp, pm.rect(), widget, palette );
+	if( widget ) 
+          helper().renderWindowBackground( &pp, pm.rect(), widget, palette );
         pp.setCompositionMode( QPainter::CompositionMode_DestinationAtop );
         pp.fillRect( pm.rect(), QBrush( grad ) );
         pp.end();
