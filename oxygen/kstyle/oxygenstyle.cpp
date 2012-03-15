@@ -441,22 +441,6 @@ namespace Oxygen
             widget->setWindowFlags( widget->windowFlags() | Qt::FramelessWindowHint );
             #endif
 
-        } else if( widget->inherits( "KWin::GeometryTip" ) ) {
-
-            // special handling of kwin geometry tip widget
-            addEventFilter( widget );
-            widget->setAttribute( Qt::WA_NoSystemBackground );
-            widget->setAttribute( Qt::WA_TranslucentBackground );
-            if( QLabel* label = qobject_cast<QLabel*>( widget ) )
-            {
-                label->setFrameStyle( QFrame::NoFrame );
-                label->setMargin( 5 );
-            }
-
-            #ifdef Q_WS_WIN
-            widget->setWindowFlags( widget->windowFlags() | Qt::FramelessWindowHint );
-            #endif
-
         } else if( qobject_cast<QFrame*>( widget ) && widget->parent() && widget->parent()->inherits( "KTitleWidget" ) ) {
 
             widget->setAutoFillBackground( false );
@@ -1226,7 +1210,6 @@ namespace Oxygen
 
         if( widget->inherits( "Q3ListView" ) ) { return eventFilterQ3ListView( widget, event ); }
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, event ); }
-        if( widget->inherits( "KWin::GeometryTip" ) ) { return eventFilterGeometryTip( widget, event ); }
 
         return QCommonStyle::eventFilter( object, event );
 
@@ -1346,64 +1329,6 @@ namespace Oxygen
             default: return false;
 
         }
-
-    }
-
-    //____________________________________________________________________________
-    bool Style::eventFilterGeometryTip( QWidget* widget, QEvent* event )
-    {
-        switch( event->type() )
-        {
-
-            case QEvent::Show:
-            case QEvent::Resize:
-            {
-
-                // make sure mask is appropriate
-                if( !helper().hasAlphaChannel( widget ) ) widget->setMask( helper().roundedMask( widget->rect() ) );
-                else widget->clearMask();
-                return false;
-            }
-
-            case QEvent::Paint:
-            {
-
-                const QColor color( widget->palette().window().color() );
-                const QRect r( widget->rect() );
-
-                QPainter painter( widget );
-                QPaintEvent *paintEvent = static_cast<QPaintEvent*>( event );
-                painter.setClipRegion( paintEvent->region() );
-
-                const bool hasAlpha( helper().hasAlphaChannel( widget ) );
-                if( hasAlpha )
-                {
-
-                    painter.setCompositionMode( QPainter::CompositionMode_Source );
-                    TileSet *tileSet( helper().roundCorner( color ) );
-                    tileSet->render( r, &painter );
-
-                    painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-                    painter.setClipRegion( helper().roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-
-                }
-
-                helper().renderMenuBackground( &painter, r, widget,color );
-
-                // frame
-                if( hasAlpha ) painter.setClipping( false );
-                helper().drawFloatFrame( &painter, r, color, !hasAlpha );
-
-            }
-
-            return false;
-
-            default: return false;
-
-        }
-
-        // continue with normal painting
-        return false;
 
     }
 
