@@ -867,6 +867,11 @@ namespace Oxygen
             case SH_MessageBox_TextInteractionFlags: return true;
             case SH_WindowFrame_Mask: return false;
             case SH_RequestSoftwareInputPanel: return RSIP_OnMouseClick;
+
+            case SH_ProgressDialog_CenterCancelButton:
+            case SH_MessageBox_CenterButtons:
+            return false;
+
             default: return QCommonStyle::styleHint( hint, option, widget, returnData );
         }
 
@@ -4134,7 +4139,7 @@ namespace Oxygen
         grad.setColorAt( 0, Qt::transparent );
         grad.setColorAt( 0.6, Qt::black );
 
-	if( widget ) 
+	if( widget )
           helper().renderWindowBackground( &pp, pm.rect(), widget, palette );
         pp.setCompositionMode( QPainter::CompositionMode_DestinationAtop );
         pp.fillRect( pm.rect(), QBrush( grad ) );
