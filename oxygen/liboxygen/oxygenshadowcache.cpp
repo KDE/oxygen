@@ -162,6 +162,7 @@ namespace Oxygen
         p.setRenderHint( QPainter::Antialiasing );
 
         QPixmap inactiveShadow( pixmap( key, false ) );
+        if( !inactiveShadow.isNull() )
         {
             QPainter pp( &inactiveShadow );
             pp.setRenderHint( QPainter::Antialiasing );
@@ -170,6 +171,7 @@ namespace Oxygen
         }
 
         QPixmap activeShadow( pixmap( key, true ) );
+        if( !activeShadow.isNull() )
         {
             QPainter pp( &activeShadow );
             pp.setRenderHint( QPainter::Antialiasing );

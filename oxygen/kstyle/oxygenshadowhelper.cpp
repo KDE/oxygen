@@ -87,6 +87,9 @@ namespace Oxygen
         _pixmaps.clear();
         _dockPixmaps.clear();
 
+        _tiles = TileSet();
+        _dockTiles = TileSet();
+
         // reset size
         _size = 0;
 
@@ -143,6 +146,7 @@ namespace Oxygen
         _size = shadowCache().shadowSize();
 
         QPixmap pixmap( shadowCache().pixmap( ShadowCache::Key() ) );
+        if( !pixmap.isNull() )
         {
             QPainter painter( &pixmap );
 
@@ -154,6 +158,7 @@ namespace Oxygen
         // recreate tileset
         _tiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
 
+        if( !pixmap.isNull() )
         {
             QPainter painter( &pixmap );
 
