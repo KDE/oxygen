@@ -8632,36 +8632,20 @@ namespace Oxygen
     {
 
         const QPalette& palette( option->palette );
-
         const State& flags( option->state );
 
+        // enable state
         bool enabled( flags & State_Enabled );
-        bool atLimit( false );
-        if( enabled )
-        {
 
-            if( const QSpinBox* spinbox = qobject_cast<const QSpinBox*>( widget ) )
-            {
+        // check steps enable step
+        const bool atLimit(
+            (subControl == SC_SpinBoxUp && !(option->stepEnabled & QAbstractSpinBox::StepUpEnabled )) ||
+            (subControl == SC_SpinBoxDown && !(option->stepEnabled & QAbstractSpinBox::StepDownEnabled ) ) );
 
-                // cast to spinbox and check if at limit
-                const int value( spinbox->value() );
-                if( !spinbox->wrapping() && (( subControl == SC_SpinBoxUp && value == spinbox->maximum() ) ||
-                    ( subControl == SC_SpinBoxDown && value == spinbox->minimum() ) ) )
-                    { atLimit = true; }
-
-            } else if( const QDoubleSpinBox* spinbox = qobject_cast<const QDoubleSpinBox*>( widget ) ) {
-
-                // cast to spinbox and check if at limit
-                const double value( spinbox->value() );
-                if( !spinbox->wrapping() && (( subControl == SC_SpinBoxUp && value == spinbox->maximum() ) ||
-                    ( subControl == SC_SpinBoxDown && value == spinbox->minimum() ) ) )
-                    { atLimit = true; }
-
-            }
-
-        }
-
+        // update enabled state accordingly
         enabled &= !atLimit;
+
+        // update mouse-over effect
         const bool mouseOver( enabled && ( flags & State_MouseOver ) );
 
         // check animation state
