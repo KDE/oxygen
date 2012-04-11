@@ -215,7 +215,6 @@ namespace Oxygen
         // calculate upper part height
         // special tricks are needed
         // to handle both window contents and window decoration
-        const QRect r = window->rect();
         int height( window->frameGeometry().height() );
         int width( window->frameGeometry().width() );
 
