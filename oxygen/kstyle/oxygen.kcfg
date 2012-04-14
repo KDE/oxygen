@@ -35,7 +35,6 @@
       <default>MN_ALWAYS</default>
     </entry>
 
-
     <!-- tooltips -->
     <entry name="ToolTipTransparent" type = "Bool">
        <default>true</default>
@@ -126,6 +125,15 @@
           <choice name="WD_FULL" />
       </choices>
       <default>WD_FULL</default>
+    </entry>
+
+    <!-- splitter proxy -->
+    <entry name="SplitterProxyEnabled" type="Bool">
+      <default>true</default>
+    </entry>
+
+    <entry name="SplitterProxyWidth" type="Int">
+      <default>12</default>
     </entry>
 
     <!--

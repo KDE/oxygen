@@ -25,6 +25,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygensplitterproxy.h"
+#include "oxygenstyleconfigdata.h"
 #include "oxygenmetrics.h"
 
 #include <QtCore/QCoreApplication>
@@ -33,6 +34,20 @@
 
 namespace Oxygen
 {
+
+    //____________________________________________________________________
+    void SplitterFactory::setEnabled( bool value )
+    {
+        if( _enabled != value )
+        {
+            // store
+            _enabled = value;
+
+            // assign to existing splitters
+            for( WidgetMap::iterator iter = _widgets.begin(); iter != _widgets.end(); ++iter )
+            { if( iter.value() ) iter.value().data()->setEnabled( value ); }
+        }
+    }
 
     //____________________________________________________________________
     bool SplitterFactory::registerWidget( QWidget *widget )
@@ -46,11 +61,10 @@ namespace Oxygen
             if( iter == _widgets.end() || !iter.value() )
             {
                 widget->installEventFilter( &_addEventFilter );
-                SplitterProxy* proxy( new SplitterProxy( widget ) );
+                SplitterProxy* proxy( new SplitterProxy( widget, _enabled ) );
                 widget->removeEventFilter( &_addEventFilter );
 
                 widget->installEventFilter( proxy );
-
                 _widgets.insert( widget, proxy );
 
             } else {
@@ -71,7 +85,7 @@ namespace Oxygen
 
 
                 window->installEventFilter( &_addEventFilter );
-                SplitterProxy* proxy( new SplitterProxy( window ) );
+                SplitterProxy* proxy( new SplitterProxy( window, _enabled ) );
                 window->removeEventFilter( &_addEventFilter );
 
                 widget->installEventFilter( proxy );
@@ -103,8 +117,9 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    SplitterProxy::SplitterProxy( QWidget* parent ):
+    SplitterProxy::SplitterProxy( QWidget* parent, bool enabled ):
         QWidget( parent ),
+        _enabled( enabled ),
         _timerId( 0 )
     {
         setAttribute( Qt::WA_TranslucentBackground, true );
@@ -116,11 +131,25 @@ namespace Oxygen
     SplitterProxy::~SplitterProxy( void )
     {}
 
+    //____________________________________________________________________
+    void SplitterProxy::setEnabled( bool value )
+    {
+        // make sure status has changed
+        if( _enabled != value )
+        {
+            _enabled = value;
+            if( _enabled ) clearSplitter();
+        }
+    }
 
     //____________________________________________________________________
     bool SplitterProxy::eventFilter( QObject* object, QEvent* event )
     {
 
+        // do nothing if disabled
+        if( !_enabled ) return false;
+
+        // do nothing in case of mouse grab
         if( mouseGrabber() ) return false;
 
         switch( event->type() )
@@ -270,7 +299,8 @@ namespace Oxygen
         _splitter = widget;
         _hook = _splitter.data()->mapFromGlobal(QCursor::pos());
 
-        QRect r( 0, 0, 2*Splitter_ExtendedWidth, 2*Splitter_ExtendedWidth );
+        //
+        QRect r( 0, 0, 2*StyleConfigData::splitterProxyWidth(), 2*StyleConfigData::splitterProxyWidth() );
         r.moveCenter( parentWidget()->mapFromGlobal( QCursor::pos() ) );
         setGeometry(r);
         setCursor( _splitter.data()->cursor().shape() );

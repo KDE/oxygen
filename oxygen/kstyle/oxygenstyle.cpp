@@ -7989,6 +7989,9 @@ namespace Oxygen
         widgetExplorer().setEnabled( StyleConfigData::widgetExplorerEnabled() );
         widgetExplorer().setDrawWidgetRects( StyleConfigData::drawWidgetRects() );
 
+        // splitter proxy
+        splitterFactory().setEnabled( StyleConfigData::splitterProxyEnabled() );
+
         // scrollbar button dimentions.
         /* it has to be reinitialized here because scrollbar width might have changed */
         _noButtonHeight = 0;
