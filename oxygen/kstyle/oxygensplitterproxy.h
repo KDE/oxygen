@@ -51,12 +51,16 @@ namespace Oxygen
 
         //! constructor
         SplitterFactory( QObject* parent ):
-            QObject( parent )
+            QObject( parent ),
+            _enabled( false )
             {}
 
         //! destructor
         virtual ~SplitterFactory( void )
         {}
+
+        //! enabled state
+        void setEnabled( bool );
 
         //! register widget
         bool registerWidget( QWidget* );
@@ -65,6 +69,9 @@ namespace Oxygen
         void unregisterWidget( QWidget* );
 
         private:
+
+        //! enabled state
+        bool _enabled;
 
         //! needed to block ChildAdded events when creating proxy
         AddEventFilter _addEventFilter;
@@ -85,13 +92,20 @@ namespace Oxygen
         public:
 
         //! constructor
-        SplitterProxy( QWidget* );
+        SplitterProxy( QWidget*, bool = false );
 
         //! destructor
         virtual ~SplitterProxy( void );
 
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );
+
+        //! enable state
+        void setEnabled( bool );
+
+        //! enable state
+        bool enabled( void ) const
+        { return _enabled; }
 
         protected:
 
@@ -107,6 +121,9 @@ namespace Oxygen
         void setSplitter( QWidget* );
 
         private:
+
+        //! enabled state
+        bool _enabled;
 
         //! splitter object
         QWeakPointer<QWidget> _splitter;
