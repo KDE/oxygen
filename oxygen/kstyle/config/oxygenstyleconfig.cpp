@@ -84,6 +84,7 @@ namespace Oxygen
 
         connect( _toolBarDrawItemSeparator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _checkDrawX, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _splitterProxyEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _mnemonicsMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
         connect( _animationsEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _cacheEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
@@ -109,6 +110,7 @@ namespace Oxygen
     {
         StyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
         StyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? StyleConfigData::CS_X : StyleConfigData::CS_CHECK ) );
+        StyleConfigData::setSplitterProxyEnabled( _splitterProxyEnabled->isChecked() );
         StyleConfigData::setMnemonicsMode( _mnemonicsMode->currentIndex() );
         StyleConfigData::setCacheEnabled( _cacheEnabled->isChecked() );
         StyleConfigData::setViewDrawTriangularExpander( _viewDrawTriangularExpander->isChecked() );
@@ -260,6 +262,7 @@ namespace Oxygen
         else if( _scrollBarWidth->value() != StyleConfigData::scrollBarWidth() ) modified = true;
         else if( _scrollBarAddLineButtons->currentIndex() != StyleConfigData::scrollBarAddLineButtons() ) modified = true;
         else if( _scrollBarSubLineButtons->currentIndex() != StyleConfigData::scrollBarSubLineButtons() ) modified = true;
+        else if( _splitterProxyEnabled->isChecked() != StyleConfigData::splitterProxyEnabled() ) modified = true;
         else if( (_checkDrawX->isChecked() ? StyleConfigData::CS_X : StyleConfigData::CS_CHECK) != StyleConfigData::checkBoxStyle() ) modified = true;
         else if( menuMode() != StyleConfigData::menuHighlightMode() ) modified = true;
         else if( tabStyle() != StyleConfigData::tabStyle() ) modified = true;
@@ -301,6 +304,7 @@ namespace Oxygen
 
         _toolBarDrawItemSeparator->setChecked( StyleConfigData::toolBarDrawItemSeparator() );
         _mnemonicsMode->setCurrentIndex( StyleConfigData::mnemonicsMode() );
+        _splitterProxyEnabled->setChecked( StyleConfigData::splitterProxyEnabled() );
         _checkDrawX->setChecked( StyleConfigData::checkBoxStyle() == StyleConfigData::CS_X );
         _viewDrawTriangularExpander->setChecked( StyleConfigData::viewDrawTriangularExpander() );
         _viewDrawFocusIndicator->setChecked( StyleConfigData::viewDrawFocusIndicator() );

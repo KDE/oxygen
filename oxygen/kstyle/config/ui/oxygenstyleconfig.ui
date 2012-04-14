@@ -60,6 +60,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="_splitterProxyEnabled">
+         <property name="text">
+          <string>Enable extended resize handles</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="_cacheEnabled">
          <property name="text">
           <string>Enable pixmap cache</string>
