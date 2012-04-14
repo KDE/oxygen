@@ -25,6 +25,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygensplitterproxy.h"
+#include "oxygenstyleconfigdata.h"
 #include "oxygenmetrics.h"
 
 #include <QtCore/QCoreApplication>
@@ -298,7 +299,8 @@ namespace Oxygen
         _splitter = widget;
         _hook = _splitter.data()->mapFromGlobal(QCursor::pos());
 
-        QRect r( 0, 0, 2*Splitter_ExtendedWidth, 2*Splitter_ExtendedWidth );
+        //
+        QRect r( 0, 0, 2*StyleConfigData::splitterProxyWidth(), 2*StyleConfigData::splitterProxyWidth() );
         r.moveCenter( parentWidget()->mapFromGlobal( QCursor::pos() ) );
         setGeometry(r);
         setCursor( _splitter.data()->cursor().shape() );

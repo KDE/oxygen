@@ -132,6 +132,10 @@
       <default>true</default>
     </entry>
 
+    <entry name="SplitterProxyWidth" type="Int">
+      <default>12</default>
+    </entry>
+
     <!--
         this enables WidgetExplorer debugging tool.
         it provides information about widgets,
