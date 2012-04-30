@@ -2917,6 +2917,9 @@ namespace Oxygen
         else if( flags&State_DownArrow || ( headerOpt && headerOpt->sortIndicator==QStyleOptionHeader::SortDown ) ) orientation = ArrowDown;
         if( orientation == ArrowNone ) return true;
 
+        // invert arrows if requested by (hidden) options
+        if( StyleConfigData::viewInvertSortIndicator() ) orientation = (orientation == ArrowUp) ? ArrowDown:ArrowUp;
+
         // flags, rect and palette
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
