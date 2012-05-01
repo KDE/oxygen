@@ -179,6 +179,7 @@ namespace Oxygen
         _hintCounter( X_KdeBase+1 ),
         _controlCounter( X_KdeBase ),
         _subElementCounter( X_KdeBase ),
+        SH_ArgbDndWindow( newStyleHint( "SH_ArgbDndWindow" ) ),
         CE_CapacityBar( newControlElement( "CE_CapacityBar" ) )
 
     {
@@ -770,8 +771,10 @@ namespace Oxygen
         // to avoid warning at compilation
         if( hint == SH_KCustomStyleElement )
         {
+
             if( widget ) return _styleElements.value( widget->objectName(), 0 );
             else return 0;
+
         }
 
         /*
