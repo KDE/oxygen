@@ -179,7 +179,7 @@ namespace Oxygen
         \par gradientHeight: the height of the generated gradient.
         for different heights, the gradient is translated so that it is always at the same position from the bottom
         */
-        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette&  pal, int y_shift=-23, int gradientHeight = 64 )
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette&  pal, int y_shift=-23, int gradientHeight = 20 )
         { renderWindowBackground( p, clipRect, widget, pal.color( widget->window()->backgroundRole() ), y_shift, gradientHeight ); }
 
         /*!
@@ -210,7 +210,7 @@ namespace Oxygen
         { _backgroundPixmapOffset = offset; }
 
         //! render window background using a given color as a reference
-        virtual void renderBackgroundPixmap( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, int y_shift=-23, int gradientHeight = 64 );
+        virtual void renderBackgroundPixmap( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, int y_shift=-23, int gradientHeight = 20 );
 
         //@}
 

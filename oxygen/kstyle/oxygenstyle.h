@@ -902,6 +902,10 @@ namespace Oxygen
         int _subElementCounter;
         QHash<QString, int> _styleElements;
 
+        //! use Argb Drag and Drop Window
+        QStyle::StyleHint SH_ArgbDndWindow;
+
+        //! styled painting for KCapacityBar
         QStyle::ControlElement CE_CapacityBar;
 
         //@}

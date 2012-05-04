@@ -179,6 +179,7 @@ namespace Oxygen
         _hintCounter( X_KdeBase+1 ),
         _controlCounter( X_KdeBase ),
         _subElementCounter( X_KdeBase ),
+        SH_ArgbDndWindow( newStyleHint( "SH_ArgbDndWindow" ) ),
         CE_CapacityBar( newControlElement( "CE_CapacityBar" ) )
 
     {
@@ -271,6 +272,10 @@ namespace Oxygen
             default: break;
 
         }
+
+        // enforce translucency for drag and drop window
+        if( widget->testAttribute( Qt::WA_X11NetWmWindowTypeDND ) && helper().compositingActive() )
+        { widget->setAttribute( Qt::WA_TranslucentBackground ); }
 
         if(
             qobject_cast<QAbstractItemView*>( widget )
@@ -766,8 +771,10 @@ namespace Oxygen
         // to avoid warning at compilation
         if( hint == SH_KCustomStyleElement )
         {
+
             if( widget ) return _styleElements.value( widget->objectName(), 0 );
             else return 0;
+
         }
 
         /*
@@ -2916,6 +2923,9 @@ namespace Oxygen
         if( flags&State_UpArrow || ( headerOpt && headerOpt->sortIndicator==QStyleOptionHeader::SortUp ) ) orientation = ArrowUp;
         else if( flags&State_DownArrow || ( headerOpt && headerOpt->sortIndicator==QStyleOptionHeader::SortDown ) ) orientation = ArrowDown;
         if( orientation == ArrowNone ) return true;
+
+        // invert arrows if requested by (hidden) options
+        if( StyleConfigData::viewInvertSortIndicator() ) orientation = (orientation == ArrowUp) ? ArrowDown:ArrowUp;
 
         // flags, rect and palette
         const QRect& r( option->rect );

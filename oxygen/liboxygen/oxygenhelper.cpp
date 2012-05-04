@@ -159,12 +159,13 @@ namespace Oxygen
 
         }
 
-        const int splitY( qMin( 300, ( 3*height )/4 ) );
+        // gradient offset
+        const int offset( gradientHeight - 20 );
 
         // draw upper linear gradient
+        const int splitY( offset + qMin( 300, ( 3*height )/4 ) );
         const QRect upperRect( -x, -y, r.width(), splitY );
-
-        QPixmap tile( verticalGradient( color, splitY, gradientHeight-64 ) );
+        QPixmap tile( verticalGradient( color, splitY, offset ) );
         p->drawTiledPixmap( upperRect, tile );
 
         // draw lower flat part
@@ -173,10 +174,10 @@ namespace Oxygen
 
         // draw upper radial gradient
         const int radialW( qMin( 600, width ) );
-        const QRect radialRect( ( r.width() - radialW ) / 2-x, -y, radialW, gradientHeight );
+        const QRect radialRect( ( r.width() - radialW ) / 2-x, -y, radialW, offset + 64 );
         if ( clipRect.intersects( radialRect ) )
         {
-            tile = radialGradient( color, radialW, gradientHeight );
+            tile = radialGradient( color, radialW, offset + 64 );
             p->drawPixmap( radialRect, tile );
         }
 
@@ -227,7 +228,7 @@ namespace Oxygen
 
         offset -= _backgroundPixmapOffset;
         source.translate( offset.x(), offset.y() );
-        source.translate( 0, 64 - gradientHeight );
+        source.translate( 0, 20 - gradientHeight );
 
         // draw
         p->drawPixmap( QPoint( -x, -y ), _backgroundPixmap, source );
@@ -478,7 +479,7 @@ namespace Oxygen
             pixmap = new QPixmap( 1, height );
             pixmap->fill( Qt::transparent );
 
-            QLinearGradient gradient( 0, offset, 0, height+offset );
+            QLinearGradient gradient( 0, offset, 0, height );
             gradient.setColorAt( 0.0, backgroundTopColor( color ) );
             gradient.setColorAt( 0.5, color );
             gradient.setColorAt( 1.0, backgroundBottomColor( color ) );
@@ -506,22 +507,18 @@ namespace Oxygen
             pixmap = new QPixmap( width, height );
             pixmap->fill( Qt::transparent );
 
-            QColor radialColor = backgroundRadialColor( color );
-            radialColor.setAlpha( 255 );
             QRadialGradient gradient( 64, height-64, 64 );
-            gradient.setColorAt( 0, radialColor );
-            radialColor.setAlpha( 101 );
-            gradient.setColorAt( 0.5, radialColor );
-            radialColor.setAlpha( 37 );
-            gradient.setColorAt( 0.75, radialColor );
-            radialColor.setAlpha( 0 );
-            gradient.setColorAt( 1, radialColor );
+            QColor radialColor = backgroundRadialColor( color );
+            radialColor.setAlpha( 255 ); gradient.setColorAt( 0, radialColor );
+            radialColor.setAlpha( 101 ); gradient.setColorAt( 0.5, radialColor );
+            radialColor.setAlpha( 37 );  gradient.setColorAt( 0.75, radialColor );
+            radialColor.setAlpha( 0 );   gradient.setColorAt( 1, radialColor );
 
-            QPainter p( pixmap );
-            p.scale( width/128.0,1 );
-            p.fillRect( QRect( 0,0,128,height ), gradient );
+            QPainter painter( pixmap );
+            painter.setWindow( 0, 0, 128, height );
+            painter.fillRect( QRect( 0,0,128,height ), gradient );
 
-            p.end();
+            painter.end();
 
             _backgroundCache.insert( key, pixmap );
         }
