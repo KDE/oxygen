@@ -31,6 +31,7 @@
 #include "oxygenmdiwindowshadow.moc"
 #include "oxygenshadowcache.h"
 
+#include <QtGui/QMdiArea>
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QPainter>
 #include <QtCore/QTextStream>
@@ -40,7 +41,26 @@ namespace Oxygen
 
     //____________________________________________________________________
     void MdiWindowShadow::updateGeometry( void )
-    { setGeometry( _widget->frameGeometry().adjusted( -ShadowSize, -ShadowSize, ShadowSize, ShadowSize ) ); }
+    {
+        if( !_widget ) return;
+
+        // get tileSet rect
+        _tileSetRect = _widget->frameGeometry().adjusted( -ShadowSize, -ShadowSize, ShadowSize, ShadowSize );
+
+        // get parent MDI area
+        QWidget *parent( parentWidget() );
+        if (parent && !qobject_cast<QMdiArea *>(parent) && qobject_cast<QMdiArea*>(parent->parentWidget()))
+        { parent = parent->parentWidget(); }
+
+        // set geometry
+        QRect geometry( _tileSetRect );
+        if( parent ) geometry &= parent->rect();
+        setGeometry( geometry );
+
+        // translate rendering rect
+        _tileSetRect.translate( -geometry.topLeft() );
+
+    }
 
     //____________________________________________________________________
     void MdiWindowShadow::updateZOrder( void )
@@ -55,7 +75,7 @@ namespace Oxygen
         QPainter p( this );
         p.setRenderHints( QPainter::Antialiasing );
         p.setClipRegion( event->region() );
-        _tileSet.render( rect(), &p );
+        _tileSet.render( _tileSetRect, &p );
 
     }
 

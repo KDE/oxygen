@@ -95,6 +95,9 @@ namespace Oxygen
         //! associated widget
         QWidget* _widget;
 
+        //! tileset rect, used for painting
+        QRect _tileSetRect;
+
         //! tileset used to draw shadow
         TileSet _tileSet;
 
