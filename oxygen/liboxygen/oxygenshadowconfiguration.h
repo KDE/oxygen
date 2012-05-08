@@ -36,7 +36,6 @@ namespace OxygenConfig
 {
 
     static const QString SHADOW_SIZE = "Size";
-    static const QString SHADOW_HOFFSET= "HorizontalOffset";
     static const QString SHADOW_VOFFSET= "VerticalOffset";
     static const QString SHADOW_INNER_COLOR = "InnerColor";
     static const QString SHADOW_OUTER_COLOR = "OuterColor";
@@ -90,14 +89,6 @@ namespace Oxygen
         void setShadowSize( qreal value )
         { _shadowSize = value; }
 
-        //! horizontal offset
-        qreal horizontalOffset( void ) const
-        { return _horizontalOffset; }
-
-        //! horizontal offset
-        void setHorizontalOffset( qreal value )
-        { _horizontalOffset = value; }
-
         //! vertical offset
         qreal verticalOffset( void ) const
         { return _verticalOffset; }
@@ -113,13 +104,9 @@ namespace Oxygen
         //! inner color
         void setInnerColor( QColor );
 
-        //! mid color
-        QColor midColor( void ) const
-        { return _midColor; }
-
         //! outer color
         QColor outerColor( void ) const
-        { return useOuterColor() ? _outerColor : _outerColor2; }
+        { return _outerColor; }
 
         //! outer color
         void setOuterColor( QColor );
@@ -139,30 +126,11 @@ namespace Oxygen
                 _colorGroup == other._colorGroup &&
                 _enabled == other._enabled &&
                 _shadowSize == other._shadowSize &&
-                _horizontalOffset == other._horizontalOffset &&
                 _verticalOffset == other._verticalOffset &&
                 _innerColor == other._innerColor &&
                 ( _useOuterColor == false || _outerColor == other._outerColor ) &&
                 _useOuterColor == other._useOuterColor;
         }
-
-        protected:
-
-        //! mid color
-        void setMidColor( QColor );
-
-        //! calculated outer color
-        QColor outerColor2( void ) const
-        { return _outerColor2; }
-
-        //! calculated outer color
-        void setOuterColor2( QColor );
-
-        //! calculate mid color
-        QColor calcMidColor( void ) const;
-
-        //! calculate outer color
-        QColor calcOuterColor( void ) const;
 
         private:
 
@@ -175,23 +143,14 @@ namespace Oxygen
         //! shadow size
         qreal _shadowSize;
 
-        //! horizontal offset
-        qreal _horizontalOffset;
-
         //! vertical offset
         qreal _verticalOffset;
 
         //! inner color
         QColor _innerColor;
 
-        //! mid color
-        QColor _midColor;
-
         //! outer color
         QColor _outerColor;
-
-        //! calculated outer color
-        QColor _outerColor2;
 
         //! use outer color
         bool _useOuterColor;
