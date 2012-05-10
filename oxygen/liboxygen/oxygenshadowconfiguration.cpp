@@ -87,8 +87,8 @@ namespace Oxygen
         ShadowConfiguration defaultConfiguration( _colorGroup );
         if( shadowSize() != defaultConfiguration.shadowSize() ) group.writeEntry( OxygenConfig::SHADOW_SIZE, shadowSize() );
         if( verticalOffset() != defaultConfiguration.verticalOffset() ) group.writeEntry( OxygenConfig::SHADOW_VOFFSET, verticalOffset() );
-        if( innerColor() != defaultConfiguration.innerColor() ) group.writeEntry( OxygenConfig::SHADOW_INNER_COLOR, innerColor().name() );
-        if( outerColor() != defaultConfiguration.outerColor() ) group.writeEntry( OxygenConfig::SHADOW_OUTER_COLOR, outerColor().name() );
+        if( innerColor() != defaultConfiguration.innerColor() ) group.writeEntry( OxygenConfig::SHADOW_INNER_COLOR, innerColor() );
+        if( outerColor() != defaultConfiguration.outerColor() ) group.writeEntry( OxygenConfig::SHADOW_OUTER_COLOR, outerColor() );
         if( useOuterColor() != defaultConfiguration.useOuterColor() ) group.writeEntry( OxygenConfig::SHADOW_USE_OUTER_COLOR, useOuterColor() );
     }
 
