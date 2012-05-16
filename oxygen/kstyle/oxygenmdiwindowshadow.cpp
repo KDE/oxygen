@@ -147,13 +147,16 @@ namespace Oxygen
             updateShadowZOrder( object );
             break;
 
-            case QEvent::Hide:
             case QEvent::Destroy:
             if( isRegistered( object ) )
             {
                 _registeredWidgets.remove( object );
                 removeShadow( object );
             }
+            break;
+
+            case QEvent::Hide:
+            hideShadows( object );
             break;
 
             case QEvent::Show:
