@@ -440,6 +440,8 @@ namespace Oxygen
         { if (frame->frameStyle() != (QFrame::StyledPanel | QFrame::Sunken)) return; }
 
         QWidget *parent = parentWidget();
+	if(!parent)
+	  return;
         QRect r = parent->contentsRect();
         r.translate(mapFromParent(QPoint(0, 0)));
 
