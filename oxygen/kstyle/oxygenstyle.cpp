@@ -4909,10 +4909,10 @@ namespace Oxygen
         if( !busyIndicator )
         {
             const qreal widthFrac = qMin( (qreal)1.0, progress / steps );
-            indicatorSize = widthFrac*( horizontal ? r.width() : r.height() );
+            indicatorSize = widthFrac*( horizontal ? r.width() : r.height() ) - 2;
         }
 
-        if( indicatorSize )
+        if( indicatorSize > 0 )
         {
             if ( horizontal ) painter->setClipRect( handleRTL( option, QRect( r.x(), r.y(), indicatorSize, r.height() ) ) );
             else if ( !reverseLayout )  painter->setClipRect( QRect( r.height()-indicatorSize, 0, r.height(), r.width() ) );
