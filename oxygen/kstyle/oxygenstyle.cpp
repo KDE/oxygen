@@ -4909,7 +4909,7 @@ namespace Oxygen
         if( !busyIndicator )
         {
             const qreal widthFrac = qMin( (qreal)1.0, progress / steps );
-            indicatorSize = widthFrac*( horizontal ? r.width() : r.height() ) - 2;
+            indicatorSize = widthFrac*( horizontal ? r.width() : r.height() ) - (horizontal ? 2:1);
         }
 
         if( indicatorSize > 0 )
