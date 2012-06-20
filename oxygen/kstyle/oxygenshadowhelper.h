@@ -91,6 +91,12 @@ namespace Oxygen
         //! true if widget is a tooltip
         bool isToolTip( QWidget* ) const;
 
+        //! dock widget
+        bool isDockWidget( QWidget* ) const;
+
+        //! toolbar
+        bool isToolBar( QWidget* ) const;
+
         //! accept widget
         bool acceptWidget( QWidget* ) const;
 

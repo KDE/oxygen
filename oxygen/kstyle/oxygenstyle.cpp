@@ -374,13 +374,7 @@ namespace Oxygen
         } else if( widget->inherits( "Q3ToolBar" ) || qobject_cast<QToolBar*>( widget ) ) {
 
             widget->setBackgroundRole( QPalette::NoRole );
-            widget->setAttribute( Qt::WA_TranslucentBackground );
             addEventFilter( widget );
-
-            #ifdef Q_WS_WIN
-            //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
-            widget->setWindowFlags( widget->windowFlags() | Qt::FramelessWindowHint );
-            #endif
 
         } else if( qobject_cast<QTabBar*>( widget ) ) {
 
@@ -1282,20 +1276,9 @@ namespace Oxygen
                 // make sure mask is appropriate
                 if( dockWidget->isFloating() )
                 {
-                    if( helper().compositingActive() )
-                    {
-
-                        // TODO: should not be needed
-                        dockWidget->setMask( helper().roundedMask( dockWidget->rect().adjusted( 1, 1, -1, -1 ) ) );
-
-                    } else {
-
-                        dockWidget->setMask( helper().roundedMask( dockWidget->rect() ) );
-
-                    }
-
+                    if( helper().compositingActive() ) dockWidget->setMask( helper().roundedMask( dockWidget->rect().adjusted( 1, 1, -1, -1 ) ) );
+                    else dockWidget->setMask( helper().roundedMask( dockWidget->rect() ) );
                 } else dockWidget->clearMask();
-
                 return false;
             }
 
@@ -1420,14 +1403,17 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             {
+
                 // make sure mask is appropriate
-                if( toolBar->isFloating() && !helper().hasAlphaChannel( toolBar ) )
+                if( toolBar->isFloating() )
                 {
 
+                    // TODO: should not be needed
                     toolBar->setMask( helper().roundedMask( toolBar->rect() ) );
 
-                } else  toolBar->clearMask();
+                } else toolBar->clearMask();
                 return false;
+
             }
 
             case QEvent::Paint:
@@ -1451,49 +1437,42 @@ namespace Oxygen
 
                     return false;
 
-                }
+                } else {
 
-                const bool hasAlpha( helper().hasAlphaChannel( toolBar ) );
-                if( hasAlpha )
-                {
-                    painter.setCompositionMode( QPainter::CompositionMode_Source );
-                    TileSet *tileSet( helper().roundCorner( color ) );
-                    tileSet->render( r, &painter );
+                    // background
+                    helper().renderWindowBackground( &painter, r, toolBar, color );
 
-                    painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-                    painter.setClipRegion( helper().roundedMask( r.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
-                }
-
-                // background
-                helper().renderWindowBackground( &painter, r, toolBar, color );
-
-                if( toolBar->isMovable() )
-                {
-                    // remaining painting: need to add handle
-                    // this is copied from QToolBar::paintEvent
-                    QStyleOptionToolBar opt;
-                    opt.initFrom( toolBar );
-                    if( toolBar->orientation() == Qt::Horizontal )
+                    if( toolBar->isMovable() )
                     {
+                        // remaining painting: need to add handle
+                        // this is copied from QToolBar::paintEvent
+                        QStyleOptionToolBar opt;
+                        opt.initFrom( toolBar );
+                        if( toolBar->orientation() == Qt::Horizontal )
+                        {
 
-                        opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( 8, r.height() ) ) );
-                        opt.state |= QStyle::State_Horizontal;
+                            opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( 8, r.height() ) ) );
+                            opt.state |= QStyle::State_Horizontal;
 
-                    } else {
+                        } else {
 
-                        opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( r.width(), 8 ) ) );
+                            opt.rect = handleRTL( &opt, QRect( r.topLeft(), QSize( r.width(), 8 ) ) );
+
+                        }
+
+                        drawIndicatorToolBarHandlePrimitive( &opt, &painter, toolBar );
 
                     }
 
-                    drawIndicatorToolBarHandlePrimitive( &opt, &painter, toolBar );
+                    #ifndef Q_WS_WIN
+                    if( helper().compositingActive() ) helper().drawFloatFrame( &painter, r.adjusted( -1, -1, 1, 1 ), color, false );
+                    else helper().drawFloatFrame( &painter, r, color, true );
+                    #endif
+
+                    // do not propagate
+                    return true;
 
                 }
-
-                // frame
-                if( hasAlpha ) painter.setClipping( false );
-                helper().drawFloatFrame( &painter, r, color, !hasAlpha );
-
-                return true;
 
             }
             default: return false;
