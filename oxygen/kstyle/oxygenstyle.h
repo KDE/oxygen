@@ -595,7 +595,7 @@ namespace Oxygen
 
         //! true if widget is child of KTextEdit
         bool isKTextEditFrame( const QWidget* widget ) const
-        { return ( widget && widget->parentWidget() && widget->parentWidget()->inherits( "KTextEditor::View" ) ); }
+        { return ( widget && widget->parentWidget() && qobject_cast<const QFrame*>( widget ) && widget->parentWidget()->inherits( "KTextEditor::View" ) ); }
 
         //! adjust rect based on provided margins
         QRect insideMargin( const QRect& r, int main, int left = 0, int top = 0, int right = 0, int bottom = 0 ) const
