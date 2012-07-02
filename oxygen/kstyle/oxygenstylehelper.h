@@ -74,7 +74,7 @@ namespace Oxygen
         All the actual rendering is performed by the base class
         */
         using Helper::renderWindowBackground;
-        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift=-23, int gradientHeight = 64 )
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift=-23, int gradientHeight = 20 )
         {
             Helper::renderWindowBackground( p, clipRect, widget, widget->window(), color, y_shift, gradientHeight );
             Helper::renderBackgroundPixmap( p, clipRect, widget, widget->window(), y_shift, gradientHeight );
