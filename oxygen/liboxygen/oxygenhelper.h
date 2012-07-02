@@ -187,15 +187,15 @@ namespace Oxygen
         gradientHeight: the height of the generated gradient.
         for different heights, the gradient is translated so that it is always at the same position from the bottom
         */
-        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QPalette&  pal, int y_shift=-23, int gradientHeight = 64 )
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QPalette&  pal, int y_shift=-23, int gradientHeight = 20 )
         { renderWindowBackground( p, clipRect, widget, window, pal.color( window->backgroundRole() ), y_shift, gradientHeight ); }
 
         //! render window background using a given color as a reference
-        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift=-23, int gradientHeight = 64 )
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift=-23, int gradientHeight = 20 )
         { renderWindowBackground( p, clipRect, widget, widget->window(), color, y_shift, gradientHeight ); }
 
         //! render window background using a given color as a reference
-        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 64 );
+        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 20 );
 
         //! background pixmap
         bool hasBackgroundPixmap( void ) const
@@ -259,7 +259,7 @@ namespace Oxygen
         virtual QPixmap verticalGradient( const QColor& color, int height, int offset = 0 );
 
         //! radial gradient for window background
-        virtual QPixmap radialGradient( const QColor& color, int width, int height = 64 );
+        virtual QPixmap radialGradient( const QColor& color, int width, int height = 20 );
 
         //! merge background and front color for check marks, arrows, etc. using _contrast
         virtual const QColor& decoColor( const QColor& background, const QColor& color );
@@ -431,7 +431,7 @@ namespace Oxygen
         Atom _backgroundPixmapAtom;
 
         #endif
-     };
+    };
 
 }
 
