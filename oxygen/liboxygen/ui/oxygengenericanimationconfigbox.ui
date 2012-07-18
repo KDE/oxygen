@@ -35,7 +35,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Duration (ms):</string>
+      <string>Duration:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -47,6 +47,9 @@
    </item>
    <item row="0" column="1">
     <widget class="KIntSpinBox" name="durationSpinBox">
+     <property name="suffix">
+      <string>ms</string>
+     </property>
      <property name="minimum">
       <number>5</number>
      </property>
