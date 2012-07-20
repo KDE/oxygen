@@ -29,6 +29,7 @@
 #include "ui_oxygenanimationconfigitem.h"
 
 #include <QtCore/QTextStream>
+#include <KGlobal>
 #include <KIcon>
 #include <KLocale>
 #include <KMessageBox>
@@ -42,6 +43,7 @@ namespace Oxygen
         ui( new Ui_AnimationConfigItem() )
     {
 
+        KGlobal::locale()->insertCatalog("liboxygenstyleconfig");
         ui->setupUi( this );
         layout()->setMargin(0);
 
