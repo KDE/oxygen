@@ -91,6 +91,12 @@ namespace Oxygen
         //! true if widget is a tooltip
         bool isToolTip( QWidget* ) const;
 
+        //! dock widget
+        bool isDockWidget( QWidget* ) const;
+
+        //! toolbar
+        bool isToolBar( QWidget* ) const;
+
         //! accept widget
         bool acceptWidget( QWidget* ) const;
 
@@ -117,9 +123,6 @@ namespace Oxygen
 
         //! uninstall shadow X11 property on given widget
         void uninstallX11Shadows( QWidget* ) const;
-
-        //! uninstall shadow X11 property on given window
-        void uninstallX11Shadows( WId ) const;
 
         private:
 

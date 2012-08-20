@@ -16,6 +16,12 @@
    </property>
    <item>
     <widget class="QMdiArea" name="mdiArea">
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAsNeeded</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAsNeeded</enum>
+     </property>
      <widget class="QWidget" name="Editors">
       <property name="minimumSize">
        <size>
@@ -71,7 +77,7 @@
             <x>0</x>
             <y>0</y>
             <width>282</width>
-            <height>82</height>
+            <height>72</height>
            </rect>
           </property>
           <attribute name="label">
@@ -84,8 +90,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>94</width>
-            <height>42</height>
+            <width>83</width>
+            <height>40</height>
            </rect>
           </property>
           <attribute name="label">
@@ -126,8 +132,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>94</width>
-            <height>24</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <attribute name="label">

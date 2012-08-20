@@ -95,6 +95,9 @@ namespace Oxygen
         //! associated widget
         QWidget* _widget;
 
+        //! tileset rect, used for painting
+        QRect _tileSetRect;
+
         //! tileset used to draw shadow
         TileSet _tileSet;
 
@@ -139,11 +142,21 @@ namespace Oxygen
         //! remove shadows from widget
         void removeShadow( QObject* );
 
+        //! hide shadows
+        void hideShadows( QObject* object ) const
+        {
+            if( MdiWindowShadow* windowShadow = findShadow( object ) )
+            { windowShadow->hide(); }
+        }
+
         //! update ZOrder
         void updateShadowZOrder( QObject* object ) const
         {
             if( MdiWindowShadow* windowShadow = findShadow( object ) )
-            { windowShadow->updateZOrder(); }
+            {
+                if( !windowShadow->isVisible() ) windowShadow->show();
+                windowShadow->updateZOrder();
+            }
         }
 
         //! update shadows geometry

@@ -31,8 +31,15 @@ namespace Oxygen
 {
 
     //______________________________________________
+    MenuBarData::MenuBarData( QObject* parent, QWidget* target ):
+        AnimationData( parent, target ),
+        _isMenu( qobject_cast<QMenu*>( target ) ),
+        _motions( -1 )
+    {}
+
+    //______________________________________________
     MenuBarDataV1::MenuBarDataV1( QObject* parent, QWidget* target, int duration ):
-        AnimationData( parent, target )
+        MenuBarData( parent, target )
     {
 
         target->installEventFilter( this );
@@ -65,6 +72,7 @@ namespace Oxygen
                 // then implement transition
                 object->event( event );
                 enterEvent( object );
+                if( !_isMenu ) _motions = -1;
                 break;
             }
 
@@ -81,7 +89,7 @@ namespace Oxygen
             {
                 // first need to call proper event processing
                 // then implement transition
-                object->event( event );
+                if( !_isMenu || _motions++ > 0  ) object->event( event );
                 mouseMoveEvent( object );
                 break;
             }
@@ -105,7 +113,7 @@ namespace Oxygen
 
     //______________________________________________
     MenuBarDataV2::MenuBarDataV2( QObject* parent, QWidget* target, int duration ):
-        AnimationData( parent, target ),
+        MenuBarData( parent, target ),
         _opacity(0),
         _progress(0),
         _entered( true )
@@ -142,14 +150,19 @@ namespace Oxygen
 
             case QEvent::Enter:
             {
+                // first need to call proper event processing
+                // then implement transition
                 object->event( event );
                 enterEvent( object );
+                if( !_isMenu ) _motions = -1;
                 break;
             }
 
             case QEvent::Hide:
             case QEvent::Leave:
             {
+                // first need to call proper event processing
+                // then implement transition
                 object->event( event );
                 if( _timer.isActive() ) _timer.stop();
                 _timer.start( 100, this );
@@ -158,7 +171,9 @@ namespace Oxygen
 
             case QEvent::MouseMove:
             {
-                object->event( event );
+                // first need to call proper event processing
+                // then implement transition
+                if( !_isMenu || _motions++ > 0  ) object->event( event );
                 mouseMoveEvent( object );
                 break;
             }

@@ -43,7 +43,29 @@ namespace Oxygen
     };
 
     //! menubar data
-    class MenuBarDataV1: public AnimationData
+    class MenuBarData: public AnimationData
+    {
+
+        Q_OBJECT
+
+        public:
+
+        //! constructor
+        MenuBarData( QObject* parent, QWidget* target );
+
+        //! destructor
+        virtual ~MenuBarData( void )
+        {}
+
+        protected:
+
+        bool _isMenu;
+        int _motions;
+
+    };
+
+    //! menubar data
+    class MenuBarDataV1: public MenuBarData
     {
 
         Q_OBJECT
@@ -250,7 +272,7 @@ namespace Oxygen
 
 
     //! menubar data
-    class MenuBarDataV2: public AnimationData
+    class MenuBarDataV2: public MenuBarData
     {
 
         Q_OBJECT

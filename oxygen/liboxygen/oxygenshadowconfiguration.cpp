@@ -44,25 +44,20 @@ namespace Oxygen
         {
 
             _shadowSize = 40;
-            _horizontalOffset = 0;
             _verticalOffset = 0.1;
             _useOuterColor = true;
 
             _innerColor = QColor( "#70EFFF" );
             _outerColor = QColor( "#54A7F0" );
-            _outerColor2 = calcOuterColor();
-            _midColor = calcMidColor();
 
         } else {
 
             _shadowSize = 40;
-            _horizontalOffset = 0;
             _verticalOffset = 0.2;
             _useOuterColor = false;
 
             _innerColor = QColor( Qt::black );
-            _outerColor = _outerColor2 = calcOuterColor();
-            _midColor = calcMidColor();
+            _outerColor = QColor( Qt::black );
 
         }
 
@@ -78,14 +73,11 @@ namespace Oxygen
         ShadowConfiguration defaultConfiguration( ShadowConfiguration::colorGroup() );
 
         setShadowSize( group.readEntry( OxygenConfig::SHADOW_SIZE, defaultConfiguration.shadowSize() ) );
-        setHorizontalOffset( group.readEntry( OxygenConfig::SHADOW_HOFFSET, defaultConfiguration.horizontalOffset() ) );
         setVerticalOffset( group.readEntry( OxygenConfig::SHADOW_VOFFSET, defaultConfiguration.verticalOffset() ) );
         setUseOuterColor( group.readEntry( OxygenConfig::SHADOW_USE_OUTER_COLOR, defaultConfiguration.useOuterColor() ) );
 
         setInnerColor( group.readEntry( OxygenConfig::SHADOW_INNER_COLOR, defaultConfiguration.innerColor() ) );
         setOuterColor( group.readEntry( OxygenConfig::SHADOW_OUTER_COLOR, defaultConfiguration.outerColor() ) );
-        setOuterColor2( calcOuterColor() );
-        setMidColor( calcMidColor() );
 
     }
 
@@ -94,10 +86,9 @@ namespace Oxygen
     {
         ShadowConfiguration defaultConfiguration( _colorGroup );
         if( shadowSize() != defaultConfiguration.shadowSize() ) group.writeEntry( OxygenConfig::SHADOW_SIZE, shadowSize() );
-        if( horizontalOffset() != defaultConfiguration.horizontalOffset() ) group.writeEntry( OxygenConfig::SHADOW_HOFFSET, horizontalOffset() );
         if( verticalOffset() != defaultConfiguration.verticalOffset() ) group.writeEntry( OxygenConfig::SHADOW_VOFFSET, verticalOffset() );
-        if( innerColor() != defaultConfiguration.innerColor() ) group.writeEntry( OxygenConfig::SHADOW_INNER_COLOR, innerColor().name() );
-        if( outerColor() != defaultConfiguration.outerColor() ) group.writeEntry( OxygenConfig::SHADOW_OUTER_COLOR, outerColor().name() );
+        if( innerColor() != defaultConfiguration.innerColor() ) group.writeEntry( OxygenConfig::SHADOW_INNER_COLOR, innerColor() );
+        if( outerColor() != defaultConfiguration.outerColor() ) group.writeEntry( OxygenConfig::SHADOW_OUTER_COLOR, outerColor() );
         if( useOuterColor() != defaultConfiguration.useOuterColor() ) group.writeEntry( OxygenConfig::SHADOW_USE_OUTER_COLOR, useOuterColor() );
     }
 
@@ -106,38 +97,7 @@ namespace Oxygen
     { _innerColor = color.isValid() ? color : ShadowConfiguration( colorGroup() ).innerColor(); }
 
     //_________________________________________________________
-    void ShadowConfiguration::setMidColor( QColor color )
-    { _midColor = color.isValid() ? color : ShadowConfiguration( colorGroup() ).midColor(); }
-
-    //_________________________________________________________
     void ShadowConfiguration::setOuterColor( QColor color )
     { _outerColor = color.isValid() ? color : ShadowConfiguration( colorGroup() ).outerColor(); }
-
-    //_________________________________________________________
-    void ShadowConfiguration::setOuterColor2( QColor color )
-    { _outerColor2 = color.isValid() ? color : ShadowConfiguration( colorGroup() ).outerColor2(); }
-
-    //_________________________________________________________
-    QColor ShadowConfiguration::calcOuterColor( void ) const
-    {
-        QColor innerColor( ShadowConfiguration::innerColor() );
-        assert( innerColor.isValid() );
-
-        // should contain a more ellaborate mathematical formula
-        // to calculate outer color from inner color
-        return innerColor;
-    }
-
-    //_________________________________________________________
-    QColor ShadowConfiguration::calcMidColor( void ) const
-    {
-        QColor innerColor( ShadowConfiguration::innerColor() );
-        QColor outerColor( ShadowConfiguration::outerColor() );
-        assert( innerColor.isValid() && outerColor.isValid() );
-
-        // should contain a more ellaborate mathematical formula
-        // to calculate mid color from inner and outer colors
-        return outerColor;
-    }
 
 }

@@ -47,6 +47,7 @@
 #include <QtGui/QMenuBar>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QProgressBar>
+#include <QtGui/QScrollBar>
 #include <QtGui/QStatusBar>
 #include <QtGui/QStyle>
 #include <QtGui/QStyleOptionGroupBox>
@@ -453,8 +454,9 @@ namespace Oxygen
         even if mousePress/Move has been passed to the parent
         */
         if( child && (
-          qobject_cast<QComboBox*>(child ) ||
-          qobject_cast<QProgressBar*>( child ) ) )
+            qobject_cast<QComboBox*>(child ) ||
+            qobject_cast<QProgressBar*>( child ) ||
+            qobject_cast<QScrollBar*>( child ) ) )
         { return false; }
 
         // tool buttons
