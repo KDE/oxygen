@@ -804,12 +804,21 @@ namespace Oxygen
                     // in order to still preserve rubberband in MainWindow and QGraphicsView
                     // in QMainWindow because it looks better
                     // in QGraphicsView because the painting fails completely otherwise
-                    if( !( widget && (
+                    if( widget && (
                         qobject_cast<const QGraphicsView*>( widget->parent() ) ||
-                        qobject_cast<const QMainWindow*>( widget->parent() ) ) ) )
-                        { mask->region -= option->rect.adjusted( 1,1,-1,-1 ); }
+                        qobject_cast<const QMainWindow*>( widget->parent() ) ) )
+                    { return true; }
 
-                        return true;
+                    // also check if widget's parent is some itemView viewport
+                    if( widget && widget->parent() &&
+                        qobject_cast<const QAbstractItemView*>( widget->parent()->parent() ) &&
+                        static_cast<const QAbstractItemView*>( widget->parent()->parent() )->viewport() == widget->parent() )
+                    { return true; }
+
+                    // mask out center
+                    mask->region -= option->rect.adjusted( 1,1,-1,-1 );
+
+                    return true;
                 }
                 return false;
             }
