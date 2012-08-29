@@ -849,7 +849,7 @@ namespace Oxygen
             case SH_FormLayoutLabelAlignment: return Qt::AlignRight;
             case SH_FormLayoutFieldGrowthPolicy: return QFormLayout::ExpandingFieldsGrow;
             case SH_FormLayoutWrapPolicy: return QFormLayout::DontWrapRows;
-            case SH_MessageBox_TextInteractionFlags: return true;
+            case SH_MessageBox_TextInteractionFlags: return Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse;
             case SH_WindowFrame_Mask: return false;
             case SH_RequestSoftwareInputPanel: return RSIP_OnMouseClick;
 
