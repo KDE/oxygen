@@ -805,6 +805,7 @@ namespace Oxygen
                     // in QMainWindow because it looks better
                     // in QGraphicsView because the painting fails completely otherwise
                     if( widget && (
+                        qobject_cast<const QAbstractItemView*>( widget->parent() ) ||
                         qobject_cast<const QGraphicsView*>( widget->parent() ) ||
                         qobject_cast<const QMainWindow*>( widget->parent() ) ) )
                     { return true; }
