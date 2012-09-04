@@ -116,7 +116,7 @@ namespace Oxygen
         typedef BaseCache<T> Value;
         Value* get( const QColor& color )
         {
-            quint64 key = ( quint64( color.rgba() ) << 32 );
+            const quint64 key = ( color.isValid() ? color.rgba():0 );
             Value* cache = data_.object( key );
 
             if ( !cache )
@@ -336,6 +336,10 @@ namespace Oxygen
         //@}
 
         protected:
+
+        //! return color key for a given color, properly accounting for invalid colors
+        quint64 colorKey( const QColor& color ) const
+        { return color.isValid() ? color.rgba():0; }
 
         //! generic slab painting (to be stored in tilesets)
         virtual void drawSlab( QPainter&, const QColor&, qreal shade );

@@ -245,17 +245,17 @@
            <widget class="KComboBox" name="_viewTriangularExpanderSize">
             <item>
              <property name="text">
-              <string>Tiny</string>
+              <string comment="triangle size">Tiny</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Small</string>
+              <string comment="triangle size">Small</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Normal</string>
+              <string comment="triangle size">Normal</string>
              </property>
             </item>
            </widget>

@@ -27,6 +27,8 @@
 #include "oxygenmenubardata.h"
 #include "oxygenmenubardata.moc"
 
+#include <QtCore/QTextStream>
+
 namespace Oxygen
 {
 
@@ -72,7 +74,7 @@ namespace Oxygen
                 // then implement transition
                 object->event( event );
                 enterEvent( object );
-                if( !_isMenu ) _motions = -1;
+                if( _isMenu ) _motions = -1;
                 break;
             }
 
@@ -87,11 +89,13 @@ namespace Oxygen
 
             case QEvent::MouseMove:
             {
+
                 // first need to call proper event processing
                 // then implement transition
                 if( !_isMenu || _motions++ > 0  ) object->event( event );
                 mouseMoveEvent( object );
                 break;
+
             }
 
             case QEvent::MouseButtonPress:

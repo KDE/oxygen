@@ -805,6 +805,7 @@ namespace Oxygen
                     // in QMainWindow because it looks better
                     // in QGraphicsView because the painting fails completely otherwise
                     if( widget && (
+                        qobject_cast<const QAbstractItemView*>( widget->parent() ) ||
                         qobject_cast<const QGraphicsView*>( widget->parent() ) ||
                         qobject_cast<const QMainWindow*>( widget->parent() ) ) )
                     { return true; }
@@ -858,7 +859,7 @@ namespace Oxygen
             case SH_FormLayoutLabelAlignment: return Qt::AlignRight;
             case SH_FormLayoutFieldGrowthPolicy: return QFormLayout::ExpandingFieldsGrow;
             case SH_FormLayoutWrapPolicy: return QFormLayout::DontWrapRows;
-            case SH_MessageBox_TextInteractionFlags: return true;
+            case SH_MessageBox_TextInteractionFlags: return Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse;
             case SH_WindowFrame_Mask: return false;
             case SH_RequestSoftwareInputPanel: return RSIP_OnMouseClick;
 
