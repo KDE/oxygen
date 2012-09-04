@@ -47,10 +47,12 @@ namespace Oxygen
         // get tileSet rect
         _tileSetRect = _widget->frameGeometry().adjusted( -ShadowSize, -ShadowSize, ShadowSize, ShadowSize );
 
-        // get parent MDI area
+        // get parent MDI area's viewport
         QWidget *parent( parentWidget() );
         if (parent && !qobject_cast<QMdiArea *>(parent) && qobject_cast<QMdiArea*>(parent->parentWidget()))
         { parent = parent->parentWidget(); }
+        if( qobject_cast<QAbstractScrollArea *>( parent ) )
+        { parent = qobject_cast<QAbstractScrollArea *>( parent )->viewport(); }
 
         // set geometry
         QRect geometry( _tileSetRect );

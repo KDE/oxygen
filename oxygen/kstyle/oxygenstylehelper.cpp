@@ -168,7 +168,7 @@ namespace Oxygen
     //______________________________________________________________________________
     QPixmap StyleHelper::dockWidgetButton( const QColor& color, bool pressed, int size )
     {
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( size << 1 ) | quint64( pressed ) );
+        const quint64 key( ( colorKey(color) << 32 ) | ( size << 1 ) | quint64( pressed ) );
         QPixmap *pixmap = _dockWidgetButtonCache.object( key );
 
         if ( !pixmap )
@@ -206,7 +206,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::roundCorner( const QColor& color, int size )
     {
-        const quint64 key( ( quint64( color.rgba() ) << 32 )|size );
+        const quint64 key( ( colorKey(color) << 32 )|size );
         TileSet *tileSet = _cornerCache.object( key );
 
         if ( !tileSet )
@@ -243,7 +243,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::slope( const QColor& color, qreal shade, int size )
     {
-        const quint64 key( ( quint64( color.rgba() ) << 32 )|( quint64( 256.0*shade )<<24 )|size );
+        const quint64 key( ( colorKey(color) << 32 )|( quint64( 256.0*shade )<<24 )|size );
         TileSet *tileSet = _slopeCache.object( key );
 
         if ( !tileSet )
@@ -294,7 +294,7 @@ namespace Oxygen
     {
 
         const QColor highlight( pal.color( QPalette::Highlight ) );
-        const quint64 key( ( quint64( highlight.rgba() ) << 32 ) | dimension );
+        const quint64 key( ( colorKey(highlight) << 32 ) | dimension );
 
         TileSet *tileSet = _progressBarCache.object( key );
         if ( !tileSet )
@@ -398,7 +398,7 @@ namespace Oxygen
     {
         Oxygen::Cache<QPixmap>::Value* cache =  _dialSlabCache.get( color );
 
-        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         QPixmap *pixmap = cache->object( key );
         if ( !pixmap )
         {
@@ -463,7 +463,7 @@ namespace Oxygen
 
         Oxygen::Cache<QPixmap>::Value* cache( _roundSlabCache.get( color ) );
 
-        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
+        const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         QPixmap *pixmap = cache->object( key );
 
         if ( !pixmap )
@@ -498,7 +498,7 @@ namespace Oxygen
 
         Oxygen::Cache<QPixmap>::Value* cache( _sliderSlabCache.get( color ) );
 
-        const quint64 key( ( quint64( glow.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | (sunken << 23 ) | size );
+        const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | (sunken << 23 ) | size );
         QPixmap *pixmap = cache->object( key );
 
         if ( !pixmap )
@@ -714,7 +714,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::holeFlat( const QColor& color, qreal shade, bool fill, int size )
     {
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size << 1 | fill );
+        const quint64 key( ( colorKey(color) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size << 1 | fill );
         TileSet *tileSet = _holeFlatCache.object( key );
 
         if ( !tileSet )
@@ -807,7 +807,7 @@ namespace Oxygen
         // get key
         Oxygen::Cache<TileSet>::Value* cache( _holeCache.get( glow ) );
 
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | (size << 4) | options );
+        const quint64 key( ( colorKey(color) << 32 ) | (size << 4) | options );
         TileSet *tileSet = cache->object( key );
 
         if ( !tileSet )
@@ -908,7 +908,7 @@ namespace Oxygen
     TileSet *StyleHelper::scrollHole( const QColor& color, Qt::Orientation orientation, bool smallShadow )
     {
 
-        const quint64 key( quint64( color.rgba() ) << 32 | ( orientation == Qt::Horizontal ? 2 : 0 ) | ( smallShadow ? 1 : 0 ) );
+        const quint64 key( colorKey(color) << 32 | ( orientation == Qt::Horizontal ? 2 : 0 ) | ( smallShadow ? 1 : 0 ) );
         TileSet *tileSet = _scrollHoleCache.object( key );
         if ( !tileSet )
         {
@@ -1008,7 +1008,7 @@ namespace Oxygen
         // get key
         Oxygen::Cache<TileSet>::Value* cache( _scrollHandleCache.get( glow ) );
 
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | size );
+        const quint64 key( ( colorKey(color) << 32 ) | size );
         TileSet *tileSet = cache->object( key );
 
         if ( !tileSet )
@@ -1073,7 +1073,7 @@ namespace Oxygen
     //______________________________________________________________________________
     TileSet *StyleHelper::groove( const QColor& color, int size )
     {
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | size );
+        const quint64 key( ( colorKey(color) << 32 ) | size );
         TileSet *tileSet = _grooveCache.object( key );
 
         if ( !tileSet )
@@ -1110,7 +1110,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet *StyleHelper::slitFocused( const QColor& glow )
     {
-        const quint64 key( ( quint64( glow.rgba() ) << 32 ) );
+        const quint64 key( ( colorKey(glow) << 32 ) );
         TileSet *tileSet = _slitCache.object( key );
 
         if ( !tileSet )
@@ -1143,7 +1143,7 @@ namespace Oxygen
     //____________________________________________________________________
     TileSet *StyleHelper::dockFrame( const QColor& top, const QColor& bottom )
     {
-        const quint64 key( quint64( top.rgba() ) << 32 | quint64( bottom.rgba() ) );
+        const quint64 key( colorKey(top) << 32 | colorKey(bottom) );
         TileSet *tileSet = _dockFrameCache.object( key );
         if ( !tileSet )
         {
@@ -1201,7 +1201,7 @@ namespace Oxygen
     TileSet *StyleHelper::selection( const QColor& color, int height, bool custom )
     {
 
-        const quint64 key( ( quint64( color.rgba() ) << 32 ) | ( height << 1 ) | custom );
+        const quint64 key( ( colorKey(color) << 32 ) | ( height << 1 ) | custom );
         TileSet *tileSet = _selectionCache.object( key );
         if ( !tileSet )
         {
