@@ -60,7 +60,10 @@ namespace Oxygen
 
         //! duration
         virtual void setDuration( int duration )
-        { transition().data()->setDuration( duration ); }
+        {
+            if( transition() )
+            { transition().data()->setDuration( duration ); }
+        }
 
         //! max render time
         void setMaxRenderTime( int value )
