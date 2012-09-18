@@ -79,9 +79,12 @@ namespace Oxygen
         // cleanup on destruction
         connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( widgetDestroyed( QObject* ) ) );
 
-        // schedule shadow area repaint
-        _pendingWidgets.insert( widget, widget );
-        delayedUpdate();
+        if( enabled() )
+        {
+            // schedule shadow area repaint
+            _pendingWidgets.insert( widget, widget );
+            delayedUpdate();
+        }
 
     }
 
