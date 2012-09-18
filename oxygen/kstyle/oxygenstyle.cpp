@@ -7965,6 +7965,7 @@ namespace Oxygen
     void Style::oxygenConfigurationChanged( void )
     {
 
+
         // reset helper configuration
         helper().reloadConfig();
 
@@ -7979,6 +7980,9 @@ namespace Oxygen
             StyleConfigData::maxCacheSize():0 );
 
         helper().setMaxCacheSize( cacheSize );
+
+        // always enable blur helper
+        blurHelper().setEnabled( true );
 
         // reinitialize engines
         animations().setupEngines();
