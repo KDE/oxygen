@@ -485,7 +485,6 @@ namespace Oxygen
             gradient.setColorAt( 1.0, backgroundBottomColor( color ) );
 
             QPainter p( pixmap );
-            p.setCompositionMode( QPainter::CompositionMode_Source );
             p.fillRect( pixmap->rect(), gradient );
 
             p.end();
