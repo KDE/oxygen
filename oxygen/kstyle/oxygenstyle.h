@@ -77,6 +77,7 @@ namespace Oxygen
     class Transitions;
     class WindowManager;
     class WidgetExplorer;
+    class BlurHelper;
 
     //! toplevel manager
     class TopLevelManager: public QObject
@@ -353,6 +354,10 @@ namespace Oxygen
         //! mdi window shadows
         MdiWindowShadowFactory& mdiWindowShadowFactory( void ) const
         { return *_mdiWindowShadowFactory; }
+
+        //! blur helper
+        BlurHelper& blurHelper( void ) const
+        { return *_blurHelper; }
 
         //! mdi window shadows
         Mnemonics& mnemonics( void ) const
@@ -873,6 +878,9 @@ namespace Oxygen
 
         //! keyboard accelerators
         Mnemonics* _mnemonics;
+
+        //! blur helper
+        BlurHelper* _blurHelper;
 
         //! widget explorer
         WidgetExplorer* _widgetExplorer;

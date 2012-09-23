@@ -52,6 +52,7 @@ set(oxygen_PART_SRCS
     transitions/oxygentransitiondata.cpp
     transitions/oxygentransitions.cpp
     transitions/oxygentransitionwidget.cpp
+    oxygenblurhelper.cpp
     oxygenframeshadow.cpp
     oxygenmdiwindowshadow.cpp
     oxygenmnemonics.cpp

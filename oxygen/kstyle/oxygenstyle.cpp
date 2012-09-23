@@ -50,6 +50,7 @@
 #include "oxygenstyle.moc"
 
 #include "oxygenanimations.h"
+#include "oxygenblurhelper.h"
 #include "oxygenframeshadow.h"
 #include "oxygenmdiwindowshadow.h"
 #include "oxygenmnemonics.h"
@@ -171,6 +172,7 @@ namespace Oxygen
         _frameShadowFactory( new FrameShadowFactory( this ) ),
         _mdiWindowShadowFactory( new MdiWindowShadowFactory( this, *_helper ) ),
         _mnemonics( new Mnemonics( this ) ),
+        _blurHelper( new BlurHelper( this, helper() ) ),
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new TabBarData( this ) ),
         _splitterFactory( new SplitterFactory( this ) ),
@@ -464,6 +466,7 @@ namespace Oxygen
         mdiWindowShadowFactory().unregisterWidget( widget );
         shadowHelper().unregisterWidget( widget );
         splitterFactory().unregisterWidget( widget );
+        blurHelper().unregisterWidget( widget );
 
         if( isKTextEditFrame( widget ) )
         { widget->setAttribute( Qt::WA_Hover, false  ); }
@@ -3505,6 +3508,8 @@ namespace Oxygen
         const bool hasAlpha( helper().hasAlphaChannel( widget ) );
         if(  hasAlpha && StyleConfigData::toolTipTransparent() )
         {
+
+            blurHelper().registerWidget( widget->window() );
             topColor.setAlpha( 220 );
             bottomColor.setAlpha( 220 );
         }
@@ -7960,6 +7965,7 @@ namespace Oxygen
     void Style::oxygenConfigurationChanged( void )
     {
 
+
         // reset helper configuration
         helper().reloadConfig();
 
@@ -7974,6 +7980,9 @@ namespace Oxygen
             StyleConfigData::maxCacheSize():0 );
 
         helper().setMaxCacheSize( cacheSize );
+
+        // always enable blur helper
+        blurHelper().setEnabled( true );
 
         // reinitialize engines
         animations().setupEngines();
