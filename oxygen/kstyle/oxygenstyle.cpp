@@ -8872,6 +8872,7 @@ namespace Oxygen
 
         painter->save();
         painter->translate( r.topLeft() );
+        painter->setWindow( 0, 0, 16, 16 );
 
         switch( subControl )
         {
