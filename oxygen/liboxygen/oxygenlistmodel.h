@@ -25,12 +25,13 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <algorithm>
-#include <assert.h>
-#include <set>
-#include <vector>
-
 #include "oxygenitemmodel.h"
+
+#include <QtCore/QSet>
+#include <QtCore/QList>
+
+#include <cassert>
+#include <algorithm>
 
 namespace Oxygen
 {
@@ -49,11 +50,13 @@ namespace Oxygen
         //! pointer
         typedef T* Pointer;
 
-        //! list of vector
-        typedef std::vector<ValueType> List;
+        //! value list and iterators
+        typedef QList<ValueType> List;
+        typedef QListIterator<ValueType> ListIterator;
+        typedef QMutableListIterator<ValueType> MutableListIterator;
 
         //! list of vector
-        typedef std::set<ValueType> Set;
+        // typedef QSet<ValueType> Set;
 
         //! constructor
         ListModel(QObject *parent = 0):
@@ -162,33 +165,6 @@ namespace Oxygen
         }
 
 
-        //! add values
-        /*! this method uses a Set to add the values. It speeds up the updating of existing values */
-        virtual void add( Set values )
-        {
-
-            emit layoutAboutToBeChanged();
-
-            for( typename List::iterator iter = _values.begin(); iter != _values.end(); iter++ )
-            {
-                // see if current iterator is found in values set
-                typename Set::iterator found_iter( values.find( *iter ) );
-                if( found_iter != values.end() )
-                {
-                    *iter = *found_iter;
-                    values.erase( found_iter );
-                }
-            }
-
-            // insert remaining values at the end
-            _values.insert( _values.end(), values.begin(), values.end() );
-
-            privateSort();
-            emit layoutChanged();
-
-        }
-
-
         //! insert values
         virtual void insert( const QModelIndex& index, const ValueType& value )
         {
@@ -203,9 +179,13 @@ namespace Oxygen
             emit layoutAboutToBeChanged();
 
             // need to loop in reverse order so that the "values" ordering is preserved
-            for( typename List::const_reverse_iterator iter = values.rbegin(); iter != values.rend(); iter++ )
-                _insert( index, *iter );
+            ListIterator iter( values );
+            iter.toBack();
+            while( iter.hasPrevious() )
+            { _insert( index, iter.previous() ); }
+
             emit layoutChanged();
+
         }
 
         //! insert values
@@ -333,7 +313,7 @@ namespace Oxygen
         //! return index associated to a given value
         virtual QModelIndex index( const ValueType& value, int column = 0 ) const
         {
-            for( unsigned int row=0; row<_values.size(); row++ )
+            for( int row = 0; row < _values.size(); ++row )
             { if( value == _values[row] ) return index( row, column ); }
             return QModelIndex();
         }
