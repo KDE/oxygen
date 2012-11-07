@@ -4209,10 +4209,13 @@ namespace Oxygen
 
             if( !cb->currentText.isEmpty() && !cb->editable )
             {
-                const bool& hasFrame( cb->frame );
+                const bool hasFrame( cb->frame );
+
+                // extra vertical translation is added to fix positioning issue introduced with Qt-4.8
+                const QRect textRect( editRect.adjusted( 1, 0, -1, 0 ).translated( 0, -1 ) );
                 const QPalette::ColorRole role( hasFrame ? QPalette::ButtonText : QPalette::WindowText );
                 drawItemText(
-                    painter, editRect.adjusted( 1, 0, -1, 0 ),
+                    painter, textRect,
                     visualAlignment( cb->direction, Qt::AlignLeft | Qt::AlignVCenter ),
                     cb->palette, cb->state & State_Enabled, cb->currentText, role );
             }
