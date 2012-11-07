@@ -27,6 +27,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygendemowidget.h"
+
 #include <KDialog>
 #include <KPageWidget>
 #include <KPushButton>
@@ -34,8 +36,6 @@
 #include <QtCore/QList>
 #include <QtGui/QWidget>
 #include <QtGui/QCheckBox>
-
-#include "oxygendemowidget.h"
 
 namespace Oxygen
 {
