@@ -125,6 +125,8 @@ namespace Oxygen
 
         }
 
+        setAlphaEnabled(!isMaximized());
+
         _initialized = true;
 
         // first reset is needed to store Oxygen configuration
@@ -210,7 +212,10 @@ namespace Oxygen
         switch (type) {
 
             case MenuButton:
-            return new Button(*this, i18n("Menu"), ButtonMenu);
+            return new Button(*this, i18n("Window Actions Menu"), ButtonMenu);
+
+            case AppMenuButton:
+            return new Button(*this, i18n("Application Menu"), ButtonApplicationMenu);
 
             case HelpButton:
             return new Button(*this, i18n("Help"), ButtonHelp);
@@ -1257,6 +1262,7 @@ namespace Oxygen
     void Client::maximizeChange( void  )
     {
         if( hasSizeGrip() ) sizeGrip().setVisible( !( isShade() || isMaximized() ) );
+        setAlphaEnabled(!isMaximized());
         KCommonDecorationUnstable::maximizeChange();
     }
 
@@ -1421,6 +1427,27 @@ namespace Oxygen
         if( !compositingActive() )
         { painter.drawPixmap( QPoint(), _pixmap ); }
     }
+
+    //_________________________________________________________
+    QRegion Client::region( KDecorationDefines::Region r )
+    {
+
+        if( r == KDecorationDefines::ExtendedBorderRegion && configuration().frameBorder() <= Configuration::BorderNoSide )
+        {
+
+            const QRect rect = widget()->rect().adjusted(
+                0, 0,
+                -layoutMetric( LM_OuterPaddingLeft ) - layoutMetric( LM_OuterPaddingRight ),
+                -layoutMetric( LM_OuterPaddingTop ) - layoutMetric( LM_OuterPaddingBottom ) );
+
+            // only return non-empty region on the sides for which there is no border
+            if( configuration().frameBorder() == Configuration::BorderNone ) return QRegion( rect.adjusted( -3, 0, 3, 3 ) ) - rect;
+            else return QRegion( rect.adjusted( -3, 0, 3, 0 ) ) - rect;
+
+        } else return QRegion();
+
+    }
+
 
     //_________________________________________________________
     void Client::paintEvent( QPaintEvent* event )

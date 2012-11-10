@@ -93,7 +93,7 @@ namespace Oxygen
             page->setIcon( KIcon( "edit-rename" ) );
             page->setHeader( i18n("Shows the appearance of text input widgets") );
             _pageWidget->addPage( page );
-            _widgets.push_back( widget );
+            _widgets.append( widget );
         }
 
         // tab
@@ -103,7 +103,7 @@ namespace Oxygen
             page->setIcon( KIcon( "tab-detach" ) );
             page->setHeader( i18n("Shows the appearance of tab widgets") );
             _pageWidget->addPage( page );
-            _widgets.push_back( widget );
+            _widgets.append( widget );
         }
 
         // buttons
@@ -113,7 +113,7 @@ namespace Oxygen
             page->setIcon( KIcon( "go-jump-locationbar" ) );
             page->setHeader( i18n("Shows the appearance of buttons") );
             _pageWidget->addPage( page );
-            _widgets.push_back( widget );
+            _widgets.append( widget );
         }
 
         // lists
@@ -123,7 +123,7 @@ namespace Oxygen
             page->setIcon( KIcon( "view-list-tree" ) );
             page->setHeader( i18n("Shows the appearance of lists, trees and tables") );
             _pageWidget->addPage( page );
-            _widgets.push_back( widget );
+            _widgets.append( widget );
 
         }
 
@@ -134,7 +134,7 @@ namespace Oxygen
             page->setIcon( KIcon( "draw-rectangle" ) );
             page->setHeader( i18n("Shows the appearance of various framed widgets") );
             _pageWidget->addPage( page );
-            _widgets.push_back( widget );
+            _widgets.append( widget );
         }
 
         // mdi
@@ -144,7 +144,7 @@ namespace Oxygen
             page->setIcon( KIcon( "preferences-system-windows" ) );
             page->setHeader( "Shows the appearance of MDI windows" );
             _pageWidget->addPage( page );
-            _widgets.push_back( widget );
+            _widgets.append( widget );
         }
 
         // sliders
@@ -154,7 +154,7 @@ namespace Oxygen
             page->setIcon( KIcon( "measure" ) );
             page->setHeader( i18n("Shows the appearance of sliders, progress bars and scrollbars") );
             _pageWidget->addPage( page );
-            _widgets.push_back( widget );
+            _widgets.append( widget );
         }
 
         // benchmark
@@ -167,7 +167,7 @@ namespace Oxygen
             benchmarkWidget->init( _pageWidget );
 
             _pageWidget->addPage( page );
-            _widgets.push_back( benchmarkWidget );
+            _widgets.append( benchmarkWidget );
         }
 
         // connections

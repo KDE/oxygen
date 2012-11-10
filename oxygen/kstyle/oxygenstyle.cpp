@@ -4209,10 +4209,17 @@ namespace Oxygen
 
             if( !cb->currentText.isEmpty() && !cb->editable )
             {
-                const bool& hasFrame( cb->frame );
+                const bool hasFrame( cb->frame );
+
+                // add extra 1 pixel horizontal margin
+                QRect textRect( editRect.adjusted( 1, 0, -1, 0 ) );
+
+                // add extra vertical translation to fix positioning issue introduced with Qt-4.8
+                // when no icon is set
+                if( cb->currentIcon.isNull() ) textRect.translate( 0, -1 );
                 const QPalette::ColorRole role( hasFrame ? QPalette::ButtonText : QPalette::WindowText );
                 drawItemText(
-                    painter, editRect.adjusted( 1, 0, -1, 0 ),
+                    painter, textRect,
                     visualAlignment( cb->direction, Qt::AlignLeft | Qt::AlignVCenter ),
                     cb->palette, cb->state & State_Enabled, cb->currentText, role );
             }
@@ -7486,6 +7493,8 @@ namespace Oxygen
             // draw the arrow
             QRect arrowRect = comboBoxSubControlRect( option, SC_ComboBoxArrow, widget );
 
+            if( cb->currentIcon.isNull() && !cb->editable ) arrowRect.translate( 0, -1 );
+
             const QPolygonF a( genericArrow( ArrowDown, ArrowNormal ) );
             const qreal penThickness = 1.6;
 
@@ -8890,8 +8899,9 @@ namespace Oxygen
     {
 
         painter->save();
+
         painter->translate( r.topLeft() );
-        painter->setWindow( 0, 0, 16, 16 );
+        painter->scale( qreal( r.width() )/16, qreal( r.height() )/16 );
 
         switch( subControl )
         {
