@@ -261,11 +261,11 @@ namespace Oxygen
             }
 
             // remove values that have not been found in new list
-            for( typename List::const_iterator iter = removed_values.begin(); iter != removed_values.end(); iter++ )
+            for( typename List::const_iterator iter = removed_values.constBegin(); iter != removed_values.constEnd(); iter++ )
             { _remove( *iter ); }
 
             // add remaining values
-            for( typename List::const_iterator iter = values.begin(); iter != values.end(); iter++ )
+            for( typename List::const_iterator iter = values.constBegin(); iter != values.constEnd(); iter++ )
             { _add( *iter ); }
 
             privateSort();
