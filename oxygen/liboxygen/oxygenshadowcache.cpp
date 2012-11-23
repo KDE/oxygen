@@ -25,11 +25,12 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenshadowcache.h"
+#include "oxygenactiveshadowconfiguration.h"
+#include "oxygeninactiveshadowconfiguration.h"
 
 #include <cassert>
 #include <cmath>
 #include <KColorUtils>
-#include <KConfigGroup>
 #include <QtGui/QPainter>
 #include <QtCore/QTextStream>
 
@@ -37,14 +38,8 @@ namespace Oxygen
 {
 
     //_______________________________________________________
-    qreal sqr( qreal x )
-    { return x*x; }
-
-    //_______________________________________________________
     ShadowCache::ShadowCache( Helper& helper ):
-        _helper( helper ),
-        _activeShadowConfiguration( ShadowConfiguration( QPalette::Active ) ),
-        _inactiveShadowConfiguration( ShadowConfiguration( QPalette::Inactive ) )
+        _helper( helper )
     {
 
         setEnabled( true );
@@ -53,73 +48,66 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    bool ShadowCache::readConfig( const KConfig& config )
+    void ShadowCache::readConfig( void )
     {
 
-        bool changed( false );
-
-        // initialize shadowCacheMode
-        const KConfigGroup group( config.group("Windeco") );
-
-        if( !_enabled )
-        {
-            setEnabled( true );
-            changed = true;
-        }
-
-        // get animation duration
-        const int duration( group.readEntry( OxygenConfig::ANIMATIONS_DURATION, 150 ) );
-        const int maxIndex( qMin( 256, int( (120*duration)/1000 ) ) );
-        if( _maxIndex != maxIndex )
-        {
-            setMaxIndex( maxIndex );
-            changed = true;
-        }
+        if( !_enabled ) setEnabled( true );
 
         // active shadows
-        ShadowConfiguration activeShadowConfiguration( QPalette::Active, config.group( "ActiveShadow" ) );
-        activeShadowConfiguration.setEnabled( group.readEntry( OxygenConfig::USE_OXYGEN_SHADOWS, true ) );
-        if( shadowConfigurationChanged( activeShadowConfiguration ) )
-        {
-            setShadowConfiguration( activeShadowConfiguration );
-            changed = true;
-        }
+        ActiveShadowConfiguration::self()->readConfig();
 
         // inactive shadows
-        ShadowConfiguration inactiveShadowConfiguration( QPalette::Inactive, config.group( "InactiveShadow" ) );
-        inactiveShadowConfiguration.setEnabled( group.readEntry( OxygenConfig::USE_DROP_SHADOWS, true ) );
-        if( shadowConfigurationChanged( inactiveShadowConfiguration ) )
+        InactiveShadowConfiguration::self()->readConfig();
+
+        // invalidate caches
+        invalidateCaches();
+
+        // for now, always return true (meaning that config has changed)
+        return;
+
+    }
+
+    //_______________________________________________________
+    void ShadowCache::setAnimationsDuration( int value )
+    {
+        setMaxIndex( qMin( 256, int( (120*value)/1000 ) ) );
+        invalidateCaches();
+    }
+
+    //_______________________________________________________
+    bool ShadowCache::isEnabled( QPalette::ColorGroup group ) const
+    {
+        if( group == QPalette::Active ) return ActiveShadowConfiguration::enabled();
+        else if( group == QPalette::Inactive ) return InactiveShadowConfiguration::enabled();
+        else return false;
+    }
+
+    //_______________________________________________________
+    void ShadowCache::setShadowSize( QPalette::ColorGroup group, int size )
+    {
+        if( group == QPalette::Active && ActiveShadowConfiguration::shadowSize() != size )
         {
-            setShadowConfiguration( inactiveShadowConfiguration );
-            changed = true;
+
+            ActiveShadowConfiguration::setShadowSize( size );
+            invalidateCaches();
+
+        } else if( group == QPalette::Inactive && InactiveShadowConfiguration::shadowSize() != size ) {
+
+            InactiveShadowConfiguration::setShadowSize( size );
+            invalidateCaches();
+
         }
 
-        if( changed ) invalidateCaches();
-        return changed;
-
     }
 
     //_______________________________________________________
-    bool ShadowCache::shadowConfigurationChanged( const ShadowConfiguration& other ) const
+    int ShadowCache::shadowSize( void ) const
     {
-        const ShadowConfiguration& local = (other.colorGroup() == QPalette::Active ) ? _activeShadowConfiguration:_inactiveShadowConfiguration;
-        return !(local == other);
-    }
+        int activeSize( ActiveShadowConfiguration::enabled() ? ActiveShadowConfiguration::shadowSize():0 );
+        int inactiveSize( InactiveShadowConfiguration::enabled() ? InactiveShadowConfiguration::shadowSize():0 );
 
-    //_______________________________________________________
-    void ShadowCache::setShadowConfiguration( const ShadowConfiguration& other )
-    {
-        ShadowConfiguration& local = (other.colorGroup() == QPalette::Active ) ? _activeShadowConfiguration:_inactiveShadowConfiguration;
-        local = other;
-    }
-
-    //_______________________________________________________
-    void ShadowCache::setShadowSize( QPalette::ColorGroup group, qreal size )
-    {
-        ShadowConfiguration& local = (group == QPalette::Active ) ? _activeShadowConfiguration:_inactiveShadowConfiguration;
-        if( local.shadowSize() == size ) return;
-        local.setShadowSize( size );
-        invalidateCaches();
+        // even if shadows are disabled,
+        return qMax( activeSize, inactiveSize );
     }
 
     //_______________________________________________________
@@ -193,13 +181,12 @@ namespace Oxygen
     QPixmap ShadowCache::pixmap( const Key& key, bool active ) const
     {
 
-        // local reference to relevant shadow configuration
-        const ShadowConfiguration& shadowConfiguration(
-            active ? _activeShadowConfiguration:_inactiveShadowConfiguration );
-
         static const qreal fixedSize = 25.5;
         qreal size( shadowSize() );
-        qreal shadowSize( shadowConfiguration.isEnabled() ? shadowConfiguration.shadowSize():0 );
+        qreal shadowSize( 0 );
+
+        if( active && ActiveShadowConfiguration::enabled() ) shadowSize = ActiveShadowConfiguration::shadowSize();
+        else if( !active && InactiveShadowConfiguration::enabled() ) shadowSize = InactiveShadowConfiguration::shadowSize();
 
         if( !shadowSize ) return QPixmap();
 
@@ -224,7 +211,7 @@ namespace Oxygen
 
                 // inner (sharp) gradient
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+fixedSize)/2 );
-                const qreal voffset = shadowConfiguration.verticalOffset()*gradientSize/fixedSize;
+                const qreal voffset = (gradientSize*ActiveShadowConfiguration::verticalOffset())/(10*fixedSize);
 
                 QRadialGradient rg = QRadialGradient( size, size+12.0*voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
@@ -232,7 +219,7 @@ namespace Oxygen
                 // gaussian shadow is used
                 int nPoints( (10*gradientSize)/fixedSize );
                 Gaussian f( 0.85, 0.17 );
-                QColor c = shadowConfiguration.innerColor();
+                QColor c = ActiveShadowConfiguration::innerColor();
                 for( int i = 0; i < nPoints; i++ )
                 {
                     qreal x = qreal(i)/nPoints;
@@ -250,7 +237,7 @@ namespace Oxygen
 
                 // outer (spread) gradient
                 const qreal gradientSize = shadowSize;
-                const qreal voffset = shadowConfiguration.verticalOffset()*gradientSize/fixedSize;
+                const qreal voffset = (gradientSize*ActiveShadowConfiguration::verticalOffset())/(10*fixedSize);
 
                 QRadialGradient rg = QRadialGradient( size, size+12.0*voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
@@ -258,7 +245,7 @@ namespace Oxygen
                 // gaussian shadow is used
                 int nPoints( (10*gradientSize)/fixedSize );
                 Gaussian f( 0.46, 0.34 );
-                QColor c = shadowConfiguration.useOuterColor() ? shadowConfiguration.outerColor():shadowConfiguration.innerColor();
+                QColor c = ActiveShadowConfiguration::useOuterColor() ? ActiveShadowConfiguration::outerColor():ActiveShadowConfiguration::innerColor();
                 for( int i = 0; i < nPoints; i++ )
                 {
                     qreal x = qreal(i)/nPoints;
@@ -285,7 +272,7 @@ namespace Oxygen
                 // parabolic shadow is used
                 int nPoints( (10*gradientSize)/fixedSize );
                 Parabolic f( 1.0, 0.22 );
-                QColor c = shadowConfiguration.useOuterColor() ? shadowConfiguration.outerColor():shadowConfiguration.innerColor();
+                QColor c = InactiveShadowConfiguration::useOuterColor() ? InactiveShadowConfiguration::outerColor():InactiveShadowConfiguration::innerColor();
                 for( int i = 0; i < nPoints; i++ )
                 {
                     qreal x = qreal(i)/nPoints;
@@ -304,7 +291,7 @@ namespace Oxygen
 
                 // mid gradient
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+2*fixedSize)/3 );
-                const qreal voffset = shadowConfiguration.verticalOffset()*gradientSize/fixedSize;
+                const qreal voffset = (gradientSize*InactiveShadowConfiguration::verticalOffset())/(10*fixedSize);
 
                 // gaussian shadow is used
                 QRadialGradient rg = QRadialGradient( size, size+8.0*voffset, gradientSize );
@@ -312,7 +299,7 @@ namespace Oxygen
 
                 int nPoints( (10*gradientSize)/fixedSize );
                 Gaussian f( 0.54, 0.21);
-                QColor c = shadowConfiguration.useOuterColor() ? shadowConfiguration.outerColor():shadowConfiguration.innerColor();
+                QColor c = InactiveShadowConfiguration::useOuterColor() ? InactiveShadowConfiguration::outerColor():InactiveShadowConfiguration::innerColor();
                 for( int i = 0; i < nPoints; i++ )
                 {
                     qreal x = qreal(i)/nPoints;
@@ -330,7 +317,7 @@ namespace Oxygen
 
                 // outer (spread) gradient
                 const qreal gradientSize = shadowSize;
-                const qreal voffset = shadowConfiguration.verticalOffset()*gradientSize/fixedSize;
+                const qreal voffset = (gradientSize*InactiveShadowConfiguration::verticalOffset())/(10*fixedSize);
 
                 // gaussian shadow is used
                 QRadialGradient rg = QRadialGradient( size, size+20.0*voffset, gradientSize );
@@ -338,7 +325,7 @@ namespace Oxygen
 
                 int nPoints( (20*gradientSize)/fixedSize );
                 Gaussian f( 0.155, 0.445);
-                QColor c = shadowConfiguration.useOuterColor() ? shadowConfiguration.outerColor():shadowConfiguration.innerColor();
+                QColor c = InactiveShadowConfiguration::useOuterColor() ? InactiveShadowConfiguration::outerColor():InactiveShadowConfiguration::innerColor();
                 for( int i = 0; i < nPoints; i++ )
                 {
                     qreal x = qreal(i)/nPoints;

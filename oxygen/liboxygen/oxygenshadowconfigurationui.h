@@ -1,12 +1,10 @@
-#ifndef oxygenanimationconfigwidget_h
-#define oxygenanimationconfigwidget_h
-
+#ifndef ShadowConfigurationUi_h
+#define ShadowConfigurationUi_h
 //////////////////////////////////////////////////////////////////////////////
-// oxygenanimationconfigwidget.h
-// animation configuration item
+// ShadowConfigurationUi.h
 // -------------------
 //
-// Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -27,17 +25,18 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "../oxygendecorationdefines.h"
-#include "oxygenbaseanimationconfigwidget.h"
+#include <KConfig>
+#include <QtGui/QCheckBox>
+#include <QtGui/QGroupBox>
+
+// forward declaration
+class Ui_ShadowConfiguraionUI;
 
 namespace Oxygen
 {
 
-    // forward declaration
-    class GenericAnimationConfigItem;
-
-    //! container to configure animations individually
-    class AnimationConfigWidget: public BaseAnimationConfigWidget
+    //! shadow configuration widget
+    class ShadowConfigurationUi: public QGroupBox
     {
 
         Q_OBJECT
@@ -45,40 +44,51 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit AnimationConfigWidget( QWidget* = 0 );
+        explicit ShadowConfigurationUi( QWidget* );
 
         //! destructor
-        virtual ~AnimationConfigWidget( void );
+        virtual ~ShadowConfigurationUi( void );
 
-        //! configuration
-        void setConfiguration( ConfigurationPtr configuration )
-        { _configuration = configuration; }
+        //! group
+        void setGroup( QPalette::ColorGroup group )
+        { _group = group; }
 
-        public slots:
+        //! read defaults
+        void readDefaults( KConfig* config )
+        { readConfig( config, true ); }
 
-        //! read current configuration
-        virtual void load( void );
+        //! read config
+        void readConfig( KConfig* config )
+        { readConfig( config, false ); }
 
-        //! save current configuration
-        virtual void save( void );
+        //! write config
+        void writeConfig( KConfig* ) const;
+
+        //! true if modified
+        bool isModified( void ) const;
+
+        signals:
+
+        //! emmitted when configuration is changed
+        void changed( void );
 
         protected slots:
 
-        //! check whether configuration is changed and emit appropriate signal if yes
-        virtual void updateChanged();
+        //! update enable state of outer color chooser
+        void enableOuterColor( void );
+
+        protected:
+
+        //! read config
+        void readConfig( KConfig*, bool );
 
         private:
 
-        //! local configuration, needed to handle I/O
-        ConfigurationPtr _configuration;
+        //! ui
+        Ui_ShadowConfiguraionUI* ui;
 
-        //!@name animations
-        //@{
-        GenericAnimationConfigItem* _buttonAnimations;
-        GenericAnimationConfigItem* _titleAnimations;
-        GenericAnimationConfigItem* _shadowAnimations;
-        GenericAnimationConfigItem* _tabAnimations;
-        //@}
+        //! color group
+        QPalette::ColorGroup _group;
 
     };
 

@@ -3,8 +3,14 @@ set(oxygenstyle_LIB_SRCS
     oxygenhelper.cpp
     oxygenitemmodel.cpp
     oxygenshadowcache.cpp
-    oxygenshadowconfiguration.cpp
-    oxygentileset.cpp)
+    oxygentileset.cpp
+    oxygenutil.cpp
+)
+
+kde4_add_kcfg_files(oxygenstyle_LIB_SRCS
+  oxygenactiveshadowconfiguration.kcfgc
+  oxygeninactiveshadowconfiguration.kcfgc
+)
 
 kde4_add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
 
@@ -21,12 +27,15 @@ install(TARGETS oxygenstyle ${INSTALL_TARGETS_DEFAULT_ARGS} )
 set(oxygenstyleconfig_LIB_SRCS
     oxygenanimationconfigitem.cpp
     oxygenbaseanimationconfigwidget.cpp
-    oxygengenericanimationconfigitem.cpp)
+    oxygengenericanimationconfigitem.cpp
+    oxygenshadowconfigurationui.cpp
+)
 
 kde4_add_ui_files(oxygenstyleconfig_LIB_SRCS
     ui/oxygenanimationconfigitem.ui
     ui/oxygenanimationconfigwidget.ui
     ui/oxygengenericanimationconfigbox.ui
+    ui/oxygenshadowconfigurationui.ui
 )
 
 kde4_add_library(oxygenstyleconfig SHARED ${oxygenstyleconfig_LIB_SRCS})
