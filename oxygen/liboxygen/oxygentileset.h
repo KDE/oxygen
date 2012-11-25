@@ -27,8 +27,6 @@
 #include <QtCore/QRect>
 #include <QtCore/QVector>
 
-#include <cassert>
-
 //! handles proper scaling of pixmap to match widget rect.
 /*!
 tilesets are collections of stretchable pixmaps corresponding to a given widget corners, sides, and center.
@@ -129,10 +127,7 @@ namespace Oxygen
 
         //! returns pixmap for given index
         QPixmap pixmap( int index ) const
-        {
-            assert( index >= 0 && index < _pixmaps.size() );
-            return _pixmaps[index];
-        }
+        { return _pixmaps[index]; }
 
         protected:
 
