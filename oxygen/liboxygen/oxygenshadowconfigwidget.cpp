@@ -23,7 +23,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenshadowconfigurationui.h"
+#include "oxygenshadowconfigwidget.h"
 #include "oxygenactiveshadowconfiguration.h"
 #include "oxygeninactiveshadowconfiguration.h"
 #include "ui_oxygenshadowconfigurationui.h"
@@ -39,7 +39,7 @@ namespace Oxygen
 {
 
     //_________________________________________________________
-    ShadowConfigurationUi::ShadowConfigurationUi( QWidget* parent ):
+    ShadowConfigWidget::ShadowConfigWidget( QWidget* parent ):
         QGroupBox( parent ),
         ui( new Ui_ShadowConfiguraionUI() ),
         _group( QPalette::Inactive )
@@ -63,11 +63,11 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    ShadowConfigurationUi::~ShadowConfigurationUi( void )
+    ShadowConfigWidget::~ShadowConfigWidget( void )
     { delete ui; }
 
     //_________________________________________________________
-    void ShadowConfigurationUi::writeConfig( KConfig* config ) const
+    void ShadowConfigWidget::writeConfig( KConfig* config ) const
     {
 
         if( _group == QPalette::Active )
@@ -98,7 +98,7 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    bool ShadowConfigurationUi::isModified( void ) const
+    bool ShadowConfigWidget::isModified( void ) const
     {
         if( _group == QPalette::Active )
         {
@@ -126,11 +126,11 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    void ShadowConfigurationUi::enableOuterColor( void )
+    void ShadowConfigWidget::enableOuterColor( void )
     { ui->outerColor->setEnabled( isChecked() && ui->useOuterColor->isChecked() ); }
 
     //_________________________________________________________
-    void ShadowConfigurationUi::readConfig( KConfig* config, bool defaults )
+    void ShadowConfigWidget::readConfig( KConfig* config, bool defaults )
     {
         if( _group == QPalette::Active )
         {

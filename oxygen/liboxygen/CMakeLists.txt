@@ -28,7 +28,7 @@ set(oxygenstyleconfig_LIB_SRCS
     oxygenanimationconfigitem.cpp
     oxygenbaseanimationconfigwidget.cpp
     oxygengenericanimationconfigitem.cpp
-    oxygenshadowconfigurationui.cpp
+    oxygenshadowconfigwidget.cpp
 )
 
 kde4_add_ui_files(oxygenstyleconfig_LIB_SRCS

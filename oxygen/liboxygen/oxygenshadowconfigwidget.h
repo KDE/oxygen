@@ -1,7 +1,7 @@
-#ifndef ShadowConfigurationUi_h
-#define ShadowConfigurationUi_h
+#ifndef ShadowConfigWidget_h
+#define ShadowConfigWidget_h
 //////////////////////////////////////////////////////////////////////////////
-// ShadowConfigurationUi.h
+// ShadowConfigWidget.h
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -36,7 +36,7 @@ namespace Oxygen
 {
 
     //! shadow configuration widget
-    class ShadowConfigurationUi: public QGroupBox
+    class ShadowConfigWidget: public QGroupBox
     {
 
         Q_OBJECT
@@ -44,10 +44,10 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit ShadowConfigurationUi( QWidget* );
+        explicit ShadowConfigWidget( QWidget* );
 
         //! destructor
-        virtual ~ShadowConfigurationUi( void );
+        virtual ~ShadowConfigWidget( void );
 
         //! group
         void setGroup( QPalette::ColorGroup group )
