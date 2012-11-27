@@ -65,17 +65,30 @@ namespace Oxygen
         void writeConfig( KConfig* ) const;
 
         //! true if modified
-        bool isModified( void ) const;
+        bool isChanged( void ) const
+        { return _changed; }
 
         signals:
 
         //! emmitted when configuration is changed
-        void changed( void );
+        void changed( bool );
+
+        protected slots:
+
+        //! update changed state
+        virtual void updateChanged();
 
         protected:
 
         //! read config
         void readConfig( KConfig*, bool );
+
+        //! set changed state
+        virtual void setChanged( bool value )
+        {
+            _changed = value;
+            emit changed( value );
+        }
 
         private:
 
@@ -84,6 +97,9 @@ namespace Oxygen
 
         //! color group
         QPalette::ColorGroup _group;
+
+        //! changed state
+        bool _changed;
 
     };
 

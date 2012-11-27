@@ -42,7 +42,8 @@ namespace Oxygen
     ShadowConfigWidget::ShadowConfigWidget( QWidget* parent ):
         QGroupBox( parent ),
         ui( new Ui_ShadowConfiguraionUI() ),
-        _group( QPalette::Inactive )
+        _group( QPalette::Inactive ),
+        _changed( false )
     {
 
         KGlobal::locale()->insertCatalog("liboxygenstyleconfig");
@@ -51,11 +52,13 @@ namespace Oxygen
         ui->setupUi( this );
 
         // connections
-        connect( ui->shadowSize, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
-        connect( ui->verticalOffset, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
-        connect( ui->innerColor, SIGNAL(changed(QColor)), SIGNAL(changed()) );
-        connect( ui->outerColor, SIGNAL(changed(QColor)), SIGNAL(changed()) );
-        connect( ui->useOuterColor, SIGNAL(toggled(bool)), SIGNAL(changed()) );
+        connect( ui->shadowSize, SIGNAL( valueChanged( int ) ), SLOT( updateChanged( void ) ) );
+        connect( ui->verticalOffset, SIGNAL( valueChanged( int ) ), SLOT( updateChanged( void ) ) );
+        connect( ui->innerColor, SIGNAL( changed( QColor ) ), SLOT( updateChanged( void ) ) );
+        connect( ui->outerColor, SIGNAL( changed( QColor ) ), SLOT( updateChanged( void ) ) );
+        connect( ui->useOuterColor, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( this, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+
     }
 
     //_________________________________________________________
@@ -94,30 +97,30 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    bool ShadowConfigWidget::isModified( void ) const
+    void ShadowConfigWidget::updateChanged( void )
     {
         if( _group == QPalette::Active )
         {
 
-            return
+            setChanged(
                 ( ui->shadowSize->value() != ActiveShadowConfiguration::shadowSize() ) ||
                 ( ui->verticalOffset->value() != ActiveShadowConfiguration::verticalOffset() ) ||
                 ( ui->innerColor->color() != ActiveShadowConfiguration::innerColor() ) ||
                 ( ui->useOuterColor->isChecked() != ActiveShadowConfiguration::useOuterColor() ) ||
                 ( ui->outerColor->color() != ActiveShadowConfiguration::outerColor() ) ||
-                ( isChecked() != ActiveShadowConfiguration::enabled() );
+                ( isChecked() != ActiveShadowConfiguration::enabled() ) );
 
         } else if( _group == QPalette::Inactive ) {
 
-            return
+            setChanged(
                 ( ui->shadowSize->value() != InactiveShadowConfiguration::shadowSize() ) ||
                 ( ui->verticalOffset->value() != InactiveShadowConfiguration::verticalOffset() ) ||
                 ( ui->innerColor->color() != InactiveShadowConfiguration::innerColor() ) ||
                 ( ui->useOuterColor->isChecked() != InactiveShadowConfiguration::useOuterColor() ) ||
                 ( ui->outerColor->color() != InactiveShadowConfiguration::outerColor() ) ||
-                ( isChecked() != InactiveShadowConfiguration::enabled() );
+                ( isChecked() != InactiveShadowConfiguration::enabled() ) );
 
-        } else return false;
+        }
 
     }
 
