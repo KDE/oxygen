@@ -52,7 +52,7 @@
    <item row="3" column="1">
     <widget class="KColorButton" name="outerColor">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -125,5 +125,22 @@
   <tabstop>useOuterColor</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>useOuterColor</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>outerColor</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>110</x>
+     <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

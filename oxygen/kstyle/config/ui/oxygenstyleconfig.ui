@@ -614,12 +614,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>200</x>
-     <y>275</y>
+     <x>107</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
-     <x>112</x>
-     <y>275</y>
+     <x>107</x>
+     <y>55</y>
     </hint>
    </hints>
   </connection>
@@ -630,12 +630,44 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>112</x>
-     <y>275</y>
+     <x>107</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
-     <x>200</x>
-     <y>275</y>
+     <x>107</x>
+     <y>55</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>_viewDrawTriangularExpander</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_4</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>93</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>59</x>
+     <y>112</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>_viewDrawTriangularExpander</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>_viewTriangularExpanderSize</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>144</x>
+     <y>88</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>144</x>
+     <y>104</y>
     </hint>
    </hints>
   </connection>

@@ -71,7 +71,6 @@ namespace Oxygen
 
         // connections
         connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(windowDragModeChanged(int)) );
-        connect( _viewDrawTriangularExpander, SIGNAL(toggled(bool)), _viewTriangularExpanderSize, SLOT(setEnabled(bool)) );
         connect( _expertModeButton, SIGNAL(pressed()), SLOT(toggleExpertModeInternal()) );
 
         _expertModeButton->setIcon( KIcon("configure") );

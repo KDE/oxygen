@@ -51,10 +51,6 @@ namespace Oxygen
         ui->setupUi( this );
 
         // connections
-        ui->outerColor->setEnabled( false );
-        connect( ui->useOuterColor, SIGNAL(toggled(bool)), SLOT(enableOuterColor()) );
-        connect( this, SIGNAL(toggled(bool)), SLOT(enableOuterColor()) );
-
         connect( ui->shadowSize, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
         connect( ui->verticalOffset, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
         connect( ui->innerColor, SIGNAL(changed(QColor)), SIGNAL(changed()) );
@@ -124,10 +120,6 @@ namespace Oxygen
         } else return false;
 
     }
-
-    //_________________________________________________________
-    void ShadowConfigWidget::enableOuterColor( void )
-    { ui->outerColor->setEnabled( isChecked() && ui->useOuterColor->isChecked() ); }
 
     //_________________________________________________________
     void ShadowConfigWidget::readConfig( KConfig* config, bool defaults )

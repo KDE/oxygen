@@ -72,11 +72,6 @@ namespace Oxygen
         //! emmitted when configuration is changed
         void changed( void );
 
-        protected slots:
-
-        //! update enable state of outer color chooser
-        void enableOuterColor( void );
-
         protected:
 
         //! read config
