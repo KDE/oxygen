@@ -134,7 +134,7 @@ namespace Oxygen
             else Util::readConfig( ActiveShadowConfiguration::self(), config );
 
             ui->shadowSize->setValue( ActiveShadowConfiguration::shadowSize() );
-            ui->verticalOffset->setValue( 10*ActiveShadowConfiguration::verticalOffset() );
+            ui->verticalOffset->setValue( ActiveShadowConfiguration::verticalOffset() );
             ui->innerColor->setColor( ActiveShadowConfiguration::innerColor() );
             ui->outerColor->setColor( ActiveShadowConfiguration::outerColor() );
             ui->useOuterColor->setChecked( ActiveShadowConfiguration::useOuterColor() );
