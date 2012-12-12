@@ -83,7 +83,7 @@ namespace Oxygen
         {
             // schedule shadow area repaint
             _pendingWidgets.insert( widget, widget );
-            delayedUpdate();
+            update();
         }
 
     }
@@ -117,7 +117,7 @@ namespace Oxygen
                 {
                     QWidget* window( widget->window() );
                     _pendingWidgets.insert( window, window );
-                    delayedUpdate();
+                    update();
                 }
                 break;
 
@@ -134,7 +134,7 @@ namespace Oxygen
                 {
 
                     _pendingWidgets.insert( widget, widget );
-                    delayedUpdate();
+                    update();
 
                 } else if( isOpaque( widget ) ) {
 
@@ -142,7 +142,7 @@ namespace Oxygen
                     if( isTransparent( window ) )
                     {
                         _pendingWidgets.insert( window, window );
-                        delayedUpdate();
+                        update();
                     }
 
                 }

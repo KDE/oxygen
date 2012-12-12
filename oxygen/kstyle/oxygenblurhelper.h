@@ -110,14 +110,6 @@ namespace Oxygen
         void trimBlurRegion( QWidget*, QWidget*, QRegion& ) const;
 
         //! update blur region for all pending widgets
-        /*! a timer is used to allow some buffering of the update requests */
-        void delayedUpdate( void )
-        {
-            if( !_timer.isActive() )
-            { _timer.start( 10, this ); }
-        }
-
-        //! update blur region for all pending widgets
         void update( void )
         {
 
