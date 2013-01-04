@@ -73,7 +73,7 @@ namespace Oxygen
         {
 
             ActiveShadowConfiguration::setShadowSize( ui->shadowSize->value() );
-            ActiveShadowConfiguration::setVerticalOffset( ui->verticalOffset->value() );
+            ActiveShadowConfiguration::setVerticalOffset( 0.1*ui->verticalOffset->value() );
             ActiveShadowConfiguration::setInnerColor( ui->innerColor->color() );
             ActiveShadowConfiguration::setOuterColor( ui->outerColor->color() );
             ActiveShadowConfiguration::setUseOuterColor( ui->useOuterColor->isChecked() );
@@ -84,7 +84,7 @@ namespace Oxygen
         } else if( _group == QPalette::Inactive ) {
 
             InactiveShadowConfiguration::setShadowSize( ui->shadowSize->value() );
-            InactiveShadowConfiguration::setVerticalOffset( ui->verticalOffset->value() );
+            InactiveShadowConfiguration::setVerticalOffset( 0.1*ui->verticalOffset->value() );
             InactiveShadowConfiguration::setInnerColor( ui->innerColor->color() );
             InactiveShadowConfiguration::setOuterColor( ui->outerColor->color() );
             InactiveShadowConfiguration::setUseOuterColor( ui->useOuterColor->isChecked() );
@@ -104,7 +104,7 @@ namespace Oxygen
 
             setChanged(
                 ( ui->shadowSize->value() != ActiveShadowConfiguration::shadowSize() ) ||
-                ( ui->verticalOffset->value() != ActiveShadowConfiguration::verticalOffset() ) ||
+                ( ui->verticalOffset->value() != 10*ActiveShadowConfiguration::verticalOffset() ) ||
                 ( ui->innerColor->color() != ActiveShadowConfiguration::innerColor() ) ||
                 ( ui->useOuterColor->isChecked() != ActiveShadowConfiguration::useOuterColor() ) ||
                 ( ui->outerColor->color() != ActiveShadowConfiguration::outerColor() ) ||
@@ -114,7 +114,7 @@ namespace Oxygen
 
             setChanged(
                 ( ui->shadowSize->value() != InactiveShadowConfiguration::shadowSize() ) ||
-                ( ui->verticalOffset->value() != InactiveShadowConfiguration::verticalOffset() ) ||
+                ( ui->verticalOffset->value() != 10*InactiveShadowConfiguration::verticalOffset() ) ||
                 ( ui->innerColor->color() != InactiveShadowConfiguration::innerColor() ) ||
                 ( ui->useOuterColor->isChecked() != InactiveShadowConfiguration::useOuterColor() ) ||
                 ( ui->outerColor->color() != InactiveShadowConfiguration::outerColor() ) ||
@@ -134,7 +134,7 @@ namespace Oxygen
             else Util::readConfig( ActiveShadowConfiguration::self(), config );
 
             ui->shadowSize->setValue( ActiveShadowConfiguration::shadowSize() );
-            ui->verticalOffset->setValue( ActiveShadowConfiguration::verticalOffset() );
+            ui->verticalOffset->setValue( 10*ActiveShadowConfiguration::verticalOffset() );
             ui->innerColor->setColor( ActiveShadowConfiguration::innerColor() );
             ui->outerColor->setColor( ActiveShadowConfiguration::outerColor() );
             ui->useOuterColor->setChecked( ActiveShadowConfiguration::useOuterColor() );
@@ -147,7 +147,7 @@ namespace Oxygen
             else Util::readConfig( InactiveShadowConfiguration::self(), config );
 
             ui->shadowSize->setValue( InactiveShadowConfiguration::shadowSize() );
-            ui->verticalOffset->setValue( InactiveShadowConfiguration::verticalOffset() );
+            ui->verticalOffset->setValue( 10*InactiveShadowConfiguration::verticalOffset() );
             ui->innerColor->setColor( InactiveShadowConfiguration::innerColor() );
             ui->outerColor->setColor( InactiveShadowConfiguration::outerColor() );
             ui->useOuterColor->setChecked( InactiveShadowConfiguration::useOuterColor() );

@@ -211,7 +211,7 @@ namespace Oxygen
 
                 // inner (sharp) gradient
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+fixedSize)/2 );
-                const qreal voffset = (gradientSize*ActiveShadowConfiguration::verticalOffset())/(10*fixedSize);
+                const qreal voffset = (gradientSize*ActiveShadowConfiguration::verticalOffset())/fixedSize;
 
                 QRadialGradient rg = QRadialGradient( size, size+12.0*voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
@@ -237,7 +237,7 @@ namespace Oxygen
 
                 // outer (spread) gradient
                 const qreal gradientSize = shadowSize;
-                const qreal voffset = (gradientSize*ActiveShadowConfiguration::verticalOffset())/(10*fixedSize);
+                const qreal voffset = (gradientSize*ActiveShadowConfiguration::verticalOffset())/fixedSize;
 
                 QRadialGradient rg = QRadialGradient( size, size+12.0*voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
@@ -291,7 +291,7 @@ namespace Oxygen
 
                 // mid gradient
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+2*fixedSize)/3 );
-                const qreal voffset = (gradientSize*InactiveShadowConfiguration::verticalOffset())/(10*fixedSize);
+                const qreal voffset = (gradientSize*InactiveShadowConfiguration::verticalOffset())/fixedSize;
 
                 // gaussian shadow is used
                 QRadialGradient rg = QRadialGradient( size, size+8.0*voffset, gradientSize );
@@ -317,7 +317,7 @@ namespace Oxygen
 
                 // outer (spread) gradient
                 const qreal gradientSize = shadowSize;
-                const qreal voffset = (gradientSize*InactiveShadowConfiguration::verticalOffset())/(10*fixedSize);
+                const qreal voffset = (gradientSize*InactiveShadowConfiguration::verticalOffset())/fixedSize;
 
                 // gaussian shadow is used
                 QRadialGradient rg = QRadialGradient( size, size+20.0*voffset, gradientSize );

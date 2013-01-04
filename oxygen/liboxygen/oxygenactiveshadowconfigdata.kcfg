@@ -13,7 +13,7 @@
        <default>40</default>
     </entry>
 
-    <entry name="VerticalOffset" type = "Int">
+    <entry name="VerticalOffset" type = "Double">
        <default>0</default>
     </entry>
 

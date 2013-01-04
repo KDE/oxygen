@@ -13,8 +13,8 @@
        <default>40</default>
     </entry>
 
-    <entry name="VerticalOffset" type = "Int">
-       <default>2</default>
+    <entry name="VerticalOffset" type = "Double">
+       <default>0.2</default>
     </entry>
 
     <entry name="InnerColor" type = "Color">
