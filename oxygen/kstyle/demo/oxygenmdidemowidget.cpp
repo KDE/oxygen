@@ -48,13 +48,13 @@ namespace Oxygen
         ui.setupUi( widget );
 
         QMenu* menu = menuBar->addMenu( "&Layout" );
-        QAction* action;
-        connect( action = menu->addAction( i18n( "Tile" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(tileSubWindows()) );
+        connect( menu->addAction( i18n( "Tile" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(tileSubWindows()) );
         //action->trigger();
 
-        connect( action = menu->addAction( i18n( "Cascade" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(cascadeSubWindows()) );
+        connect( menu->addAction( i18n( "Cascade" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(cascadeSubWindows()) );
 
         menu = menuBar->addMenu( "&Tools" );
+	QAction* action;
         connect( action = menu->addAction( KIcon( "arrow-right" ), i18n( "Select Next Window" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(activateNextSubWindow()) );
         action->setShortcut( Qt::CTRL + Qt::Key_Tab );
         addAction( action );
