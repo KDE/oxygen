@@ -38,6 +38,11 @@ kde4_add_ui_files(oxygenstyleconfig_LIB_SRCS
     ui/oxygenshadowconfigurationui.ui
 )
 
+kde4_add_kcfg_files(oxygenstyleconfig_LIB_SRCS
+  oxygenactiveshadowconfiguration.kcfgc
+  oxygeninactiveshadowconfiguration.kcfgc
+)
+
 kde4_add_library(oxygenstyleconfig SHARED ${oxygenstyleconfig_LIB_SRCS})
 
 target_link_libraries(oxygenstyleconfig oxygenstyle)
