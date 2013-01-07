@@ -76,13 +76,13 @@ namespace Oxygen
 
         if( _stylePluginObject )
         {
-            connect( _stylePluginObject, SIGNAL( changed( bool ) ), this, SLOT( updateStyleChanged( bool ) ) );
-            connect( _stylePluginObject, SIGNAL( changed( bool ) ), this, SLOT( updateChanged( void ) ) );
+            connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateStyleChanged(bool)) );
+            connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( button( Reset ), SIGNAL( clicked( void ) ), _stylePluginObject, SLOT( reset( void ) ) );
-            connect( button( Default ), SIGNAL( clicked( void ) ), _stylePluginObject, SLOT( defaults( void ) ) );
-            connect( this, SIGNAL( pluginSave( void ) ), _stylePluginObject, SLOT( save( void ) ) );
-            connect( this, SIGNAL( pluginToggleExpertMode( bool ) ), _stylePluginObject, SLOT( toggleExpertMode( bool ) ) );
+            connect( button( Reset ), SIGNAL(clicked()), _stylePluginObject, SLOT(reset()) );
+            connect( button( Default ), SIGNAL(clicked()), _stylePluginObject, SLOT(defaults()) );
+            connect( this, SIGNAL(pluginSave()), _stylePluginObject, SLOT(save()) );
+            connect( this, SIGNAL(pluginToggleExpertMode(bool)), _stylePluginObject, SLOT(toggleExpertMode(bool)) );
 
         }
 
@@ -95,14 +95,14 @@ namespace Oxygen
 
         if( _decorationPluginObject )
         {
-            connect( _decorationPluginObject, SIGNAL( changed( bool ) ), this, SLOT( updateDecorationChanged( bool ) ) );
-            connect( _decorationPluginObject, SIGNAL( changed( bool ) ), this, SLOT( updateChanged( void ) ) );
+            connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateDecorationChanged(bool)) );
+            connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( button( Reset ), SIGNAL( clicked( void ) ), _decorationPluginObject, SLOT( load( void ) ) );
-            connect( button( Default ), SIGNAL( clicked( void ) ), _decorationPluginObject, SLOT( defaults( void ) ) );
+            connect( button( Reset ), SIGNAL(clicked()), _decorationPluginObject, SLOT(load()) );
+            connect( button( Default ), SIGNAL(clicked()), _decorationPluginObject, SLOT(defaults()) );
 
-            connect( this, SIGNAL( pluginSave( void ) ), _decorationPluginObject, SLOT( save( void ) ) );
-            connect( this, SIGNAL( pluginToggleExpertMode( bool ) ), _decorationPluginObject, SLOT( toggleExpertMode( bool ) ) );
+            connect( this, SIGNAL(pluginSave()), _decorationPluginObject, SLOT(save()) );
+            connect( this, SIGNAL(pluginToggleExpertMode(bool)), _decorationPluginObject, SLOT(toggleExpertMode(bool)) );
 
         }
 
@@ -110,8 +110,8 @@ namespace Oxygen
         emit pluginToggleExpertMode( true );
 
         // button connections
-        connect( button( Apply ), SIGNAL( clicked( void ) ), SLOT( save( void ) ) );
-        connect( button( Ok ), SIGNAL( clicked( void ) ), SLOT( save( void ) ) );
+        connect( button( Apply ), SIGNAL(clicked()), SLOT(save()) );
+        connect( button( Ok ), SIGNAL(clicked()), SLOT(save()) );
         updateChanged();
 
     }

@@ -62,7 +62,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        FrameShadowFactory( QObject* parent ):
+        explicit FrameShadowFactory( QObject* parent ):
         QObject( parent )
         {}
 

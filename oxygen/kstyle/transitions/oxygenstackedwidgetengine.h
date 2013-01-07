@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        StackedWidgetEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit StackedWidgetEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

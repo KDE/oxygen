@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        MenuBarBaseEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit MenuBarBaseEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor
@@ -95,8 +95,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        MenuBarEngineV1( QObject* parent ):
-        MenuBarBaseEngine( parent )
+        explicit MenuBarEngineV1( QObject* parent ):
+            MenuBarBaseEngine( parent )
         {}
 
         //! constructor
@@ -159,8 +159,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        MenuBarEngineV2( QObject* parent ):
-        MenuBarBaseEngine( parent )
+        explicit MenuBarEngineV2( QObject* parent ):
+            MenuBarBaseEngine( parent )
         {}
 
         //! constructor

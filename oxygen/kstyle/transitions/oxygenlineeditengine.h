@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        LineEditEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit LineEditEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

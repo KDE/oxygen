@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        DockSeparatorEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit DockSeparatorEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

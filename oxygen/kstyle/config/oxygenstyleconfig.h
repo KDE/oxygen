@@ -41,7 +41,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        StyleConfig(QWidget* parent);
+        explicit StyleConfig(QWidget*);
 
         //! destructor
         virtual ~StyleConfig( void )

@@ -44,7 +44,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        TabDemoWidget( QWidget* parent = 0 );
+        explicit TabDemoWidget( QWidget* = 0 );
 
         //! destructor
         virtual ~TabDemoWidget( void )

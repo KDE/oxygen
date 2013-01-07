@@ -48,7 +48,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        FollowMouseAnimationConfigBox(QWidget*);
+        explicit FollowMouseAnimationConfigBox(QWidget*);
 
         //! destructor
         virtual ~FollowMouseAnimationConfigBox( void );

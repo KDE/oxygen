@@ -53,10 +53,10 @@ namespace Oxygen
         static const char* const busyValuePropertyName;
 
         //! constructor
-        ProgressBarEngine( QObject* object ):
-        BaseEngine( object ),
-        _busyIndicatorEnabled( true ),
-        _busyStepDuration( 50 )
+        explicit ProgressBarEngine( QObject* object ):
+            BaseEngine( object ),
+            _busyIndicatorEnabled( true ),
+            _busyStepDuration( 50 )
         {}
 
         //! destructor

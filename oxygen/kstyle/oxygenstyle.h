@@ -292,7 +292,7 @@ namespace Oxygen
             public:
 
             //! constructor
-            TabBarData( Style* parent ):
+            explicit TabBarData( Style* parent ):
                 QObject( parent ),
                 _style( parent ),
                 _dirty( false )

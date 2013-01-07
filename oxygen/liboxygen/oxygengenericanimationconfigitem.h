@@ -47,7 +47,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        GenericAnimationConfigBox(QWidget*);
+        explicit GenericAnimationConfigBox(QWidget*);
 
         //! destructor
         virtual ~GenericAnimationConfigBox( void );

@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        SplitterEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit SplitterEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

@@ -52,12 +52,12 @@ namespace Oxygen
         ui->setupUi( this );
 
         // connections
-        connect( ui->shadowSize, SIGNAL( valueChanged( int ) ), SLOT( updateChanged( void ) ) );
-        connect( ui->verticalOffset, SIGNAL( valueChanged( int ) ), SLOT( updateChanged( void ) ) );
-        connect( ui->innerColor, SIGNAL( changed( QColor ) ), SLOT( updateChanged( void ) ) );
-        connect( ui->outerColor, SIGNAL( changed( QColor ) ), SLOT( updateChanged( void ) ) );
-        connect( ui->useOuterColor, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
-        connect( this, SIGNAL( toggled( bool ) ), SLOT( updateChanged( void ) ) );
+        connect( ui->shadowSize, SIGNAL(valueChanged(int)), SLOT(updateChanged()) );
+        connect( ui->verticalOffset, SIGNAL(valueChanged(int)), SLOT(updateChanged()) );
+        connect( ui->innerColor, SIGNAL(changed(QColor)), SLOT(updateChanged()) );
+        connect( ui->outerColor, SIGNAL(changed(QColor)), SLOT(updateChanged()) );
+        connect( ui->useOuterColor, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( this, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
 
     }
 

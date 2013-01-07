@@ -42,7 +42,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        ShadowCache( Helper& );
+        explicit ShadowCache( Helper& );
 
         //! destructor
         virtual ~ShadowCache( void )
@@ -122,7 +122,7 @@ namespace Oxygen
             {}
 
             //! constructor from int
-            Key( int hash ):
+            explicit Key( int hash ):
                 index( hash >> 3 ),
                 active( ( hash >> 2 )&1 ),
                 isShade( ( hash >> 1)&1 ),

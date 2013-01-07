@@ -151,7 +151,7 @@ namespace Oxygen
         {
             ExceptionId id( exception );
             if( !id.className().isEmpty() )
-            { _whiteList.insert( exception ); }
+            { _whiteList.insert( ExceptionId( exception ) ); }
         }
     }
 
@@ -167,7 +167,7 @@ namespace Oxygen
         {
             ExceptionId id( exception );
             if( !id.className().isEmpty() )
-            { _blackList.insert( exception ); }
+            { _blackList.insert( ExceptionId( exception ) ); }
         }
 
     }

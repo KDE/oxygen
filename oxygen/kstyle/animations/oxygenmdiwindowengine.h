@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        MdiWindowEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit MdiWindowEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

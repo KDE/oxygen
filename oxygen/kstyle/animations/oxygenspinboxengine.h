@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        SpinBoxEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit SpinBoxEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        HeaderViewEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit HeaderViewEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

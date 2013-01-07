@@ -45,7 +45,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        ButtonDemoWidget( QWidget* parent = 0 );
+        explicit ButtonDemoWidget( QWidget* = 0 );
 
         //! destructor
         virtual ~ButtonDemoWidget( void )
