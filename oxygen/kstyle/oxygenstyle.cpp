@@ -277,7 +277,10 @@ namespace Oxygen
 
         // enforce translucency for drag and drop window
         if( widget->testAttribute( Qt::WA_X11NetWmWindowTypeDND ) && helper().compositingActive() )
-        { widget->setAttribute( Qt::WA_TranslucentBackground ); }
+        {
+            widget->setAttribute( Qt::WA_TranslucentBackground );
+            widget->clearMask();
+        }
 
         if(
             qobject_cast<QAbstractItemView*>( widget )
