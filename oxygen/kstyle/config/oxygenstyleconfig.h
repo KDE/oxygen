@@ -73,6 +73,9 @@ namespace Oxygen
 
         protected Q_SLOTS:
 
+        //! update minimum size
+        void updateMinimumSize( void );
+
         //! update layout
         /*! needed in expert mode to accommodate with animations config widget size changes */
         void updateLayout( void );
@@ -91,6 +94,9 @@ namespace Oxygen
         virtual void toggleExpertModeInternal( bool );
 
         protected:
+
+        //! event processing
+        virtual bool event( QEvent* );
 
         //! load setup from config data
         void load( void );
