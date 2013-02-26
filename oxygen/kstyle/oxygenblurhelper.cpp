@@ -299,7 +299,8 @@ namespace Oxygen
             ( widget->testAttribute( Qt::WA_StyledBackground ) ||
             qobject_cast<const QMenu*>( widget ) ||
             qobject_cast<const QDockWidget*>( widget ) ||
-            qobject_cast<const QToolBar*>( widget ) ) &&
+            qobject_cast<const QToolBar*>( widget ) ||
+            widget->windowType() == Qt::ToolTip ) &&
             _helper.hasAlphaChannel( widget );
     }
 
