@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        SliderEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit SliderEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

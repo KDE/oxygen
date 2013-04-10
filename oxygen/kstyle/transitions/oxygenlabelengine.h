@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        LabelEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit LabelEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

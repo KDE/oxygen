@@ -47,7 +47,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit BenchmarkWidget( QWidget* parent = 0 );
+        explicit BenchmarkWidget( QWidget* = 0 );
 
         //! destructor
         virtual ~BenchmarkWidget( void )

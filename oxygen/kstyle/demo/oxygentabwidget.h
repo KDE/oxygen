@@ -40,8 +40,8 @@ namespace Oxygen
 
         public:
 
-        TabWidget( QWidget* parent ):
-        KTabWidget( parent )
+        explicit TabWidget( QWidget* parent ):
+            KTabWidget( parent )
         {
 
             // make tabs movable, for further debugging

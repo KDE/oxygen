@@ -43,9 +43,9 @@ namespace Oxygen
         public:
 
         //! constructor
-        ToolBarEngine( QObject* parent ):
-        BaseEngine( parent ),
-        _followMouseDuration( 150 )
+        explicit ToolBarEngine( QObject* parent ):
+            BaseEngine( parent ),
+            _followMouseDuration( 150 )
         {}
 
         //! destructor

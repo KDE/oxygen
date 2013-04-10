@@ -50,7 +50,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        SplitterFactory( QObject* parent ):
+        explicit SplitterFactory( QObject* parent ):
             QObject( parent ),
             _enabled( false )
             {}
@@ -92,7 +92,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        SplitterProxy( QWidget*, bool = false );
+        explicit SplitterProxy( QWidget*, bool = false );
 
         //! destructor
         virtual ~SplitterProxy( void );

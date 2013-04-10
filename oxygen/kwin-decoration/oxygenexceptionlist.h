@@ -27,39 +27,44 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <KConfig>
-#include <QtCore/QList>
+#include "oxygenconfiguration.h"
+#include "oxygendecorationdefines.h"
 
-#include "oxygenexception.h"
+#include <KSharedConfig>
 
 namespace Oxygen
 {
 
     //! oxygen exceptions list
-    class ExceptionList: public QList<Exception>
+    class ExceptionList
     {
 
         public:
 
-        //! default constructor
-        ExceptionList( void )
+        //! constructor from list
+        explicit ExceptionList( const ConfigurationList& exceptions = ConfigurationList() ):
+            _exceptions( exceptions )
         {}
 
-        //! default constructor
-        ExceptionList( const KConfig& config )
-        { read( config ); }
+        //! exceptions
+        const ConfigurationList& get( void ) const
+        { return _exceptions; }
 
         //! read from KConfig
-        void read( const KConfig& );
+        void readConfig( KSharedConfig::Ptr );
 
         //! write to kconfig
-        void write( KConfig& );
+        void writeConfig( KSharedConfig::Ptr );
 
-        //! default exception list
-        static ExceptionList defaultList( void );
+        protected:
 
         //! generate exception group name for given exception index
         static QString exceptionGroupName( int index );
+
+        private:
+
+        //! exceptions
+        ConfigurationList _exceptions;
 
     };
 

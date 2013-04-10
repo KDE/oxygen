@@ -44,7 +44,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        FrameDemoWidget( QWidget* parent = 0 );
+        explicit FrameDemoWidget( QWidget* = 0 );
 
         //! destructor
         virtual ~FrameDemoWidget( void )

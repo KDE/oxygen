@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        ComboBoxEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit ComboBoxEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

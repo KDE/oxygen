@@ -27,7 +27,6 @@
 
 #include "ui_oxygenexceptionlistwidget.h"
 #include "oxygenexceptionmodel.h"
-#include "../oxygenexceptionlist.h"
 
 //! QDialog used to commit selected files
 namespace Oxygen
@@ -42,18 +41,22 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit ExceptionListWidget( QWidget* = 0, Configuration defaultConfiguration = Configuration() );
+        explicit ExceptionListWidget( QWidget* = 0 );
 
         //! set exceptions
-        void setExceptions( const ExceptionList& );
+        void setExceptions( const ConfigurationList& );
 
         //! get exceptions
-        ExceptionList exceptions( void ) const;
+        ConfigurationList exceptions( void );
+
+        //! true if changed
+        virtual bool isChanged( void ) const
+        { return _changed; }
 
         signals:
 
-        //! emitted when list is changed
-        void changed( void );
+        //! emitted when changed
+        void changed( bool );
 
         protected:
 
@@ -94,18 +97,25 @@ namespace Oxygen
         void resizeColumns( void ) const;
 
         //! check exception
-        bool checkException( Exception& );
+        bool checkException( ConfigurationPtr );
+
+        //! set changed state
+        virtual void setChanged( bool value )
+        {
+            _changed = value;
+            emit changed( value );
+        }
 
         private:
-
-        //! default configuration
-        Configuration _defaultConfiguration;
 
         //! model
         ExceptionModel _model;
 
         //! ui
         Ui_OxygenExceptionListWidget ui;
+
+        //! changed state
+        bool _changed;
 
     };
 

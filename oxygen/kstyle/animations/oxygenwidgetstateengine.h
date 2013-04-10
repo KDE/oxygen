@@ -44,8 +44,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        WidgetStateEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit WidgetStateEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

@@ -8302,7 +8302,7 @@ namespace Oxygen
         if( qApp && !qApp->inherits( "KApplication" ) )
         {
             /*
-            for Qt, non-KDE applications, needs to explicitely activate KGlobalSettings.
+            for Qt, non-KDE applications, needs to explicitly activate KGlobalSettings.
             On the other hand, it is done internally in kApplication constructor,
             so no need to duplicate here.
             */

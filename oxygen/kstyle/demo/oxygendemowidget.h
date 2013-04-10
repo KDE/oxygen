@@ -42,7 +42,7 @@ namespace Oxygen
         public:
 
         //! constructo
-        DemoWidget( QWidget* parent ):
+        explicit DemoWidget( QWidget* parent ):
             QWidget( parent ),
             _simulator( new Simulator( this ) )
         {}

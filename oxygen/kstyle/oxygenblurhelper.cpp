@@ -77,7 +77,7 @@ namespace Oxygen
         _widgets.insert( widget );
 
         // cleanup on destruction
-        connect( widget, SIGNAL( destroyed( QObject* ) ), SLOT( widgetDestroyed( QObject* ) ) );
+        connect( widget, SIGNAL(destroyed(QObject*)), SLOT(widgetDestroyed(QObject*)) );
 
         if( enabled() )
         {

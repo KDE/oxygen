@@ -25,15 +25,14 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "ui_oxygenexceptiondialog.h"
+#include "../oxygendecorationdefines.h"
+
 #include <KDialog>
 #include <KLineEdit>
 #include <KComboBox>
 #include <QtGui/QCheckBox>
-
-#include <map>
-
-#include "../oxygenexception.h"
-#include "ui_oxygenexceptiondialog.h"
+#include <QtCore/QMap>
 
 namespace Oxygen
 {
@@ -49,18 +48,47 @@ namespace Oxygen
         public:
 
         //! constructor
-        ExceptionDialog( QWidget* parent );
+        explicit ExceptionDialog( QWidget* parent );
+
+        //! destructor
+        virtual ~ExceptionDialog( void )
+        {}
 
         //! set exception
-        void setException( Exception );
+        void setException( ConfigurationPtr );
 
-        //! get exception
-        Exception exception( void ) const;
+        //! save exception
+        void save( void );
+
+        //! true if changed
+        virtual bool isChanged( void ) const
+        { return _changed; }
+
+        signals:
+
+        //! emmited when changed
+        void changed( bool );
+
+        protected:
+
+        //! set changed state
+        virtual void setChanged( bool value )
+        {
+            _changed = value;
+            emit changed( value );
+        }
+
+        protected slots:
+
+        //! check whether configuration is changed and emit appropriate signal if yes
+        virtual void updateChanged();
 
         private slots:
 
+        //! select window properties from grabbed pointers
         void selectWindowProperties( void );
 
+        //! read properties of selected window
         void readWindowProperties( bool );
 
         private:
@@ -68,16 +96,19 @@ namespace Oxygen
         Ui_OxygenExceptionWidget ui;
 
         //! map mask and checkbox
-        typedef std::map< Exception::AttributesMask, QCheckBox*> CheckBoxMap;
+        typedef QMap< ExceptionMask, QCheckBox*> CheckBoxMap;
 
         //! map mask and checkbox
         CheckBoxMap _checkBoxes;
 
         //! internal exception
-        Exception _exception;
+        ConfigurationPtr _exception;
 
         //! detection dialog
         DetectDialog* _detectDialog;
+
+        //! changed state
+        bool _changed;
 
     };
 

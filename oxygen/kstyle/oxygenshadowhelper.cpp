@@ -29,8 +29,6 @@
 #include "oxygenshadowcache.h"
 #include "oxygenstylehelper.h"
 
-#include <KConfig>
-
 #include <QtGui/QDockWidget>
 #include <QtGui/QMenu>
 #include <QtGui/QPainter>
@@ -136,8 +134,7 @@ namespace Oxygen
     {
 
         // shadow cache
-        KConfig config( "oxygenrc" );
-        if( !shadowCache().readConfig( config ) ) return;
+        shadowCache().readConfig();
 
         // reset
         reset();

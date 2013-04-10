@@ -31,8 +31,9 @@
 #include "oxygenconfig.moc"
 
 #include "oxygenanimationconfigwidget.h"
-#include "oxygenshadowconfiguration.h"
-#include "../oxygenconfiguration.h"
+#include "oxygenconfiguration.h"
+#include "oxygenutil.h"
+#include "../oxygenexceptionlist.h"
 
 #include <QtCore/QTextStream>
 #include <QtDBus/QDBusConnection>
@@ -59,47 +60,45 @@ namespace Oxygen
         QObject( parent )
     {
 
+        // cataloh
         KGlobal::locale()->insertCatalog("kwin_clients");
 
-        _configuration = new KConfig( "oxygenrc" );
-        KConfigGroup configurationGroup( _configuration, "Windeco");
+        // configuration
+        _configuration = KSharedConfig::openConfig( "oxygenrc" );
 
-        ui = new ConfigurationUi( parent );
+        _configWidget = new ConfigWidget( parent );
 
-        load( configurationGroup );
-        connect( ui, SIGNAL(changed()), SLOT(updateChanged()) );
-        ui->show();
+        load();
+        connect( _configWidget, SIGNAL(changed(bool)), SLOT(updateChanged()) );
+        _configWidget->show();
 
     }
 
     //_______________________________________________________________________
     Config::~Config()
-    {
-        delete ui;
-        delete _configuration;
-    }
+    { delete _configWidget; }
 
     //_______________________________________________________________________
     void Config::toggleExpertMode( bool value )
-    { ui->toggleExpertMode( value ); }
+    { _configWidget->toggleExpertMode( value ); }
 
     //_______________________________________________________________________
-    void Config::load( const KConfigGroup& )
+    void Config::load( void )
     {
 
         // load standard configuration
-        loadConfiguration( Configuration( KConfigGroup( _configuration, "Windeco") ) );
-        loadShadowConfiguration( QPalette::Active, ShadowConfiguration( QPalette::Active, KConfigGroup( _configuration, "ActiveShadow") ) );
-        loadShadowConfiguration( QPalette::Inactive, ShadowConfiguration( QPalette::Inactive, KConfigGroup( _configuration, "InactiveShadow") ) );
+        ConfigurationPtr configuration( new Configuration() );
+        configuration->readConfig();
+        loadConfiguration( configuration );
+
+        // load shadows
+        foreach( ShadowConfigWidget* ui, _configWidget->shadowConfigurations )
+        { ui->readConfig( _configuration.data() ); }
 
         // load exceptions
         ExceptionList exceptions;
-        exceptions.read( *_configuration );
-        if( exceptions.empty() )
-        { exceptions = ExceptionList::defaultList(); }
-
-        // install in ui
-        ui->ui.exceptions->setExceptions( exceptions );
+        exceptions.readConfig( _configuration );
+        _configWidget->exceptionListWidget()->setExceptions( exceptions.get() );
         updateChanged();
 
     }
@@ -108,31 +107,12 @@ namespace Oxygen
     void Config::updateChanged( void )
     {
 
-        Configuration configuration( KConfigGroup( _configuration, "Windeco") );
+        ConfigurationPtr configuration( new Configuration() );
+        configuration->readConfig();
         bool modified( false );
 
-        if( ui->ui.titleAlignment->currentIndex() != ui->ui.titleAlignment->findText( configuration.titleAlignmentName( true ) ) ) modified = true;
-        else if( ui->ui.buttonSize->currentIndex() != ui->ui.buttonSize->findText( configuration.buttonSizeName( true ) ) ) modified = true;
-        else if( ui->ui.blendColor->currentIndex() != ui->ui.blendColor->findText( configuration.blendColorName( true ) ) ) modified = true;
-        else if( ui->ui.frameBorder->currentIndex() != ui->ui.frameBorder->findText( configuration.frameBorderName( true ) ) ) modified = true;
-        else if( ui->ui.sizeGripMode->currentIndex() != ui->ui.sizeGripMode->findText( configuration.sizeGripModeName( true ) ) ) modified = true;
-
-        else if( ui->ui.separatorMode->currentIndex() != configuration.separatorMode() ) modified = true;
-        else if( ui->ui.titleOutline->isChecked() !=  configuration.drawTitleOutline() ) modified = true;
-        else if( ui->ui.narrowButtonSpacing->isChecked() !=  configuration.useNarrowButtonSpacing() ) modified = true;
-
-        // shadow configurations
-        else if( ui->shadowConfigurations[0]->isChecked() !=  configuration.useOxygenShadows() ) modified = true;
-        else if( ui->shadowConfigurations[1]->isChecked() !=  configuration.useDropShadows() ) modified = true;
-        else if( shadowConfigurationChanged( ShadowConfiguration( QPalette::Active, KConfigGroup( _configuration, "ActiveShadow") ), *ui->shadowConfigurations[0] ) ) modified = true;
-        else if( shadowConfigurationChanged( ShadowConfiguration( QPalette::Inactive, KConfigGroup( _configuration, "InactiveShadow") ), *ui->shadowConfigurations[1] ) ) modified = true;
-
         // exceptions
-        else if( exceptionListChanged() ) modified = true;
-
-        // animations
-        else if( !ui->expertMode() && ui->ui.animationsEnabled->isChecked() !=  configuration.animationsEnabled() ) modified = true;
-        else if( ui->expertMode() && ui->animationConfigWidget()->isChanged() ) modified = true;
+        if( _configWidget->isChanged() ) modified = true;
 
         // emit relevant signals
         if( modified ) emit changed();
@@ -141,50 +121,27 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Config::save( KConfigGroup& )
+    void Config::save( void )
     {
 
         // create configuration from group
-        KConfigGroup configurationGroup( _configuration, "Windeco" );
-        Configuration configuration( configurationGroup );
+        ConfigurationPtr configuration( new Configuration() );
+        configuration->readConfig();
 
-        // apply modifications from ui
-        configuration.setTitleAlignment( Configuration::titleAlignment( ui->ui.titleAlignment->currentText(), true ) );
-        configuration.setCenterTitleOnFullWidth( ui->ui.titleAlignment->currentText() == Configuration::titleAlignmentName( Qt::AlignHCenter, true, true ) );
-        configuration.setButtonSize( Configuration::buttonSize( ui->ui.buttonSize->currentText(), true ) );
-        configuration.setBlendColor( Configuration::blendColor( ui->ui.blendColor->currentText(), true ) );
-        configuration.setFrameBorder( Configuration::frameBorder( ui->ui.frameBorder->currentText(), true ) );
-        configuration.setSizeGripMode( Configuration::sizeGripMode( ui->ui.sizeGripMode->currentText(), true ) );
-        configuration.setSeparatorMode( (Oxygen::Configuration::SeparatorMode) ui->ui.separatorMode->currentIndex() );
-        configuration.setDrawTitleOutline( ui->ui.titleOutline->isChecked() );
-        configuration.setUseDropShadows( ui->shadowConfigurations[1]->isChecked() );
-        configuration.setUseOxygenShadows( ui->shadowConfigurations[0]->isChecked() );
-        configuration.setUseNarrowButtonSpacing( ui->ui.narrowButtonSpacing->isChecked() );
-        configuration.setCloseFromMenuButton( ui->ui.closeFromMenuButton->isChecked() );
-
-        if( ui->expertMode() )
-        {
-
-            ui->animationConfigWidget()->setConfiguration( configuration );
-            ui->animationConfigWidget()->save();
-            configuration = ui->animationConfigWidget()->configuration();
-
-        } else {
-
-            configuration.setAnimationsEnabled( ui->ui.animationsEnabled->isChecked() );
-
-        }
+        // save config widget
+        _configWidget->setConfiguration( configuration );
+        _configWidget->save();
 
         // save standard configuration
-        configurationGroup.deleteGroup();
-        configuration.write( configurationGroup );
+        Util::writeConfig( configuration.data(), _configuration.data() );
 
-        // write exceptions
-        ui->ui.exceptions->exceptions().write( *_configuration );
+        // get list of exceptions and write
+        ConfigurationList exceptions( _configWidget->exceptionListWidget()->exceptions() );
+        ExceptionList( exceptions ).writeConfig( _configuration );
 
         // write shadow configuration
-        saveShadowConfiguration( QPalette::Active, *ui->shadowConfigurations[0] );
-        saveShadowConfiguration( QPalette::Inactive, *ui->shadowConfigurations[1] );
+        foreach( ShadowConfigWidget* ui, _configWidget->shadowConfigurations )
+        { ui->writeConfig( _configuration.data() ); }
 
         // sync configuration
         _configuration->sync();
@@ -195,104 +152,28 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    void Config::saveShadowConfiguration( QPalette::ColorGroup colorGroup, const ShadowConfigurationUi& ui ) const
-    {
-
-        assert( colorGroup == QPalette::Active || colorGroup == QPalette::Inactive );
-
-        // create shadow configuration
-        ShadowConfiguration configuration( colorGroup );
-        configuration.setShadowSize( ui.ui.shadowSize->value() );
-        configuration.setVerticalOffset( 0.1*ui.ui.verticalOffset->value() );
-        configuration.setInnerColor( ui.ui.innerColor->color() );
-        configuration.setOuterColor( ui.ui.outerColor->color() );
-        configuration.setUseOuterColor( ui.ui.useOuterColor->isChecked() );
-
-        // save shadow configuration
-        KConfigGroup configurationGroup( _configuration, ( (colorGroup == QPalette::Active) ? "ActiveShadow":"InactiveShadow" ) );
-        configurationGroup.deleteGroup();
-        configuration.write( configurationGroup );
-
-    }
-
-    //_______________________________________________________________________
-    void Config::defaults()
+    void Config::defaults( void )
     {
 
         // install default configuration
-        loadConfiguration( Configuration() );
+        ConfigurationPtr configuration( new Configuration() );
+        configuration->setDefaults();
+        loadConfiguration( configuration );
 
         // load shadows
-        loadShadowConfiguration( QPalette::Active, ShadowConfiguration( QPalette::Active ) );
-        loadShadowConfiguration( QPalette::Inactive, ShadowConfiguration( QPalette::Inactive ) );
-
-        // install default exceptions
-        ui->ui.exceptions->setExceptions( ExceptionList::defaultList() );
+        foreach( ShadowConfigWidget* ui, _configWidget->shadowConfigurations )
+        { ui->readDefaults( _configuration.data() ); }
 
         updateChanged();
 
     }
 
     //_______________________________________________________________________
-    void Config::loadConfiguration( const Configuration& configuration )
+    void Config::loadConfiguration( ConfigurationPtr configuration )
     {
 
-        ui->ui.titleAlignment->setCurrentIndex( ui->ui.titleAlignment->findText( configuration.titleAlignmentName( true ) ) );
-        ui->ui.buttonSize->setCurrentIndex( ui->ui.buttonSize->findText( configuration.buttonSizeName( true ) ) );
-        ui->ui.blendColor->setCurrentIndex( ui->ui.blendColor->findText( configuration.blendColorName( true ) ) );
-        ui->ui.frameBorder->setCurrentIndex( ui->ui.frameBorder->findText( configuration.frameBorderName( true ) ) );
-        ui->ui.sizeGripMode->setCurrentIndex( ui->ui.sizeGripMode->findText( configuration.sizeGripModeName( true ) ) );
-
-        ui->ui.separatorMode->setCurrentIndex( configuration.separatorMode() );
-        ui->ui.titleOutline->setChecked( configuration.drawTitleOutline() );
-        ui->shadowConfigurations[0]->setChecked( configuration.useOxygenShadows() );
-        ui->shadowConfigurations[1]->setChecked( configuration.useDropShadows() );
-        ui->ui.animationsEnabled->setChecked( configuration.animationsEnabled() );
-        ui->ui.narrowButtonSpacing->setChecked( configuration.useNarrowButtonSpacing() );
-        ui->ui.closeFromMenuButton->setChecked( configuration.closeFromMenuButton() );
-
-        ui->animationConfigWidget()->setConfiguration( configuration );
-        ui->animationConfigWidget()->load();
-
-    }
-
-    //_______________________________________________________________________
-    void Config::loadShadowConfiguration( QPalette::ColorGroup colorGroup, const ShadowConfiguration& configuration )
-    {
-        assert( colorGroup == QPalette::Active || colorGroup == QPalette::Inactive );
-        ShadowConfigurationUi* ui = this->ui->shadowConfigurations[ (colorGroup == QPalette::Active) ? 0:1 ];
-        ui->ui.shadowSize->setValue( configuration.shadowSize() );
-        ui->ui.verticalOffset->setValue( 10*configuration.verticalOffset() );
-        ui->ui.innerColor->setColor( configuration.innerColor() );
-        ui->ui.outerColor->setColor( configuration.outerColor() );
-        ui->ui.useOuterColor->setChecked( configuration.useOuterColor() );
-    }
-
-    //_______________________________________________________________________
-    bool Config::shadowConfigurationChanged( const ShadowConfiguration& configuration, const ShadowConfigurationUi& ui ) const
-    {
-        bool modified( false );
-
-        if( ui.ui.shadowSize->value() != configuration.shadowSize() ) modified = true;
-        else if( 0.1*ui.ui.verticalOffset->value() != configuration.verticalOffset() ) modified = true;
-        else if( ui.ui.innerColor->color() != configuration.innerColor() ) modified = true;
-        else if( ui.ui.useOuterColor->isChecked() != configuration.useOuterColor() ) modified = true;
-        else if( ui.ui.useOuterColor->isChecked() && ui.ui.outerColor->color() != configuration.outerColor() ) modified = true;
-        return modified;
-    }
-
-    //_______________________________________________________________________
-    bool Config::exceptionListChanged( void ) const
-    {
-
-        // get saved list
-        ExceptionList exceptions;
-        exceptions.read( *_configuration );
-        if( exceptions.empty() )
-        { exceptions = ExceptionList::defaultList(); }
-
-        // compare to current
-        return exceptions != ui->ui.exceptions->exceptions();
+        _configWidget->setConfiguration( configuration );
+        _configWidget->load();
 
     }
 

@@ -46,10 +46,10 @@ namespace Oxygen
         typedef QWeakPointer<BaseEngine> Pointer;
 
         //! constructor
-        BaseEngine( QObject* parent ):
-        QObject( parent ),
-        _enabled( true ),
-        _duration( 200 )
+        explicit BaseEngine( QObject* parent ):
+            QObject( parent ),
+            _enabled( true ),
+            _duration( 200 )
         {}
 
         //! destructor

@@ -45,7 +45,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        WidgetExplorer( QObject* parent );
+        explicit WidgetExplorer( QObject* );
 
         //! enable
         bool enabled( void ) const;

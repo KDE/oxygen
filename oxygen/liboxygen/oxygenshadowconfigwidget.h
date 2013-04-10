@@ -1,7 +1,7 @@
-#ifndef ShadowConfigurationUi_h
-#define ShadowConfigurationUi_h
+#ifndef ShadowConfigWidget_h
+#define ShadowConfigWidget_h
 //////////////////////////////////////////////////////////////////////////////
-// ShadowConfigurationUi.h
+// ShadowConfigWidget.h
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -25,14 +25,20 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include <KConfig>
 #include <QtGui/QCheckBox>
 #include <QtGui/QGroupBox>
-#include <ui_oxygenshadowconfigurationui.h>
+
+#include "oxygen_export.h"
+
+// forward declaration
+class Ui_ShadowConfiguraionUI;
+
 namespace Oxygen
 {
 
-    //_____________________________________________
-    class ShadowConfigurationUi: public QGroupBox
+    //! shadow configuration widget
+    class OXYGEN_EXPORT ShadowConfigWidget: public QGroupBox
     {
 
         Q_OBJECT
@@ -40,19 +46,62 @@ namespace Oxygen
         public:
 
         //! constructor
-        ShadowConfigurationUi( QWidget* );
-        Ui_ShadowConfiguraionUI ui;
+        explicit ShadowConfigWidget( QWidget* );
+
+        //! destructor
+        virtual ~ShadowConfigWidget( void );
+
+        //! group
+        void setGroup( QPalette::ColorGroup group )
+        { _group = group; }
+
+        //! read defaults
+        void readDefaults( KConfig* config )
+        { readConfig( config, true ); }
+
+        //! read config
+        void readConfig( KConfig* config )
+        { readConfig( config, false ); }
+
+        //! write config
+        void writeConfig( KConfig* ) const;
+
+        //! true if modified
+        bool isChanged( void ) const
+        { return _changed; }
 
         signals:
 
         //! emmitted when configuration is changed
-        void changed( void );
+        void changed( bool );
 
         protected slots:
 
-        //! update enable state of outer color chooser
-        void enableOuterColor( void )
-        { ui.outerColor->setEnabled( isChecked() && ui.useOuterColor->isChecked() ); }
+        //! update changed state
+        virtual void updateChanged();
+
+        protected:
+
+        //! read config
+        void readConfig( KConfig*, bool );
+
+        //! set changed state
+        virtual void setChanged( bool value )
+        {
+            _changed = value;
+            emit changed( value );
+        }
+
+        private:
+
+        //! ui
+        Ui_ShadowConfiguraionUI* ui;
+
+        //! color group
+        QPalette::ColorGroup _group;
+
+        //! changed state
+        bool _changed;
 
     };
 

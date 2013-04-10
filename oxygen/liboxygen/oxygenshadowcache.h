@@ -27,14 +27,12 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenshadowconfiguration.h"
 #include "oxygenhelper.h"
 #include "oxygen_export.h"
 
-#include <cmath>
-#include <KConfig>
 #include <QtCore/QCache>
 #include <QtGui/QRadialGradient>
+#include <cmath>
 
 namespace Oxygen
 {
@@ -44,15 +42,17 @@ namespace Oxygen
         public:
 
         //! constructor
-        ShadowCache( Helper& );
+        explicit ShadowCache( Helper& );
 
         //! destructor
         virtual ~ShadowCache( void )
         {}
 
-        //! read configuration from KConfig
-        /*! returns true if changed */
-        bool readConfig( const KConfig& );
+        //! read configuration
+        void readConfig( void );
+
+        //! animations duration
+        void setAnimationsDuration( int );
 
         //! cache size
         void setEnabled( bool enabled )
@@ -97,32 +97,14 @@ namespace Oxygen
             _animatedShadowCache.clear();
         }
 
-        //! returns true if provided shadow configuration changes with respect to stored
-        /*!
-        use ShadowConfiguration::colorRole() to decide whether it should be stored
-        as active or inactive
-        */
-        bool shadowConfigurationChanged( const ShadowConfiguration& ) const;
-
-        //! set shadowConfiguration
-        /*!
-        use ShadowConfiguration::colorRole() to decide whether it should be stored
-        as active or inactive
-        */
-        void setShadowConfiguration( const ShadowConfiguration& );
+        //! true if shadow is enabled for a given group
+        bool isEnabled( QPalette::ColorGroup ) const;
 
         //! set shadow size manually
-        void setShadowSize( QPalette::ColorGroup, qreal );
+        void setShadowSize( QPalette::ColorGroup, int );
 
         //! shadow size
-        qreal shadowSize( void ) const
-        {
-            qreal activeSize( _activeShadowConfiguration.isEnabled() ? _activeShadowConfiguration.shadowSize():0 );
-            qreal inactiveSize( _inactiveShadowConfiguration.isEnabled() ? _inactiveShadowConfiguration.shadowSize():0 );
-
-            // even if shadows are disabled,
-            return qMax( activeSize, inactiveSize );
-        }
+        int shadowSize( void ) const;
 
         //! Key class to be used into QCache
         /*! class is entirely inline for optimization */
@@ -140,7 +122,7 @@ namespace Oxygen
             {}
 
             //! constructor from int
-            Key( int hash ):
+            explicit Key( int hash ):
                 index( hash >> 3 ),
                 active( ( hash >> 2 )&1 ),
                 isShade( ( hash >> 1)&1 ),
@@ -258,12 +240,6 @@ namespace Oxygen
         //! max index
         /*! it is used to set caches max cost, and calculate animation opacity */
         int _maxIndex;
-
-        //! shadow configuration
-        ShadowConfiguration _activeShadowConfiguration;
-
-        //! shadow configuration
-        ShadowConfiguration _inactiveShadowConfiguration;
 
         //! cache
         typedef QCache<int, TileSet> TileSetCache;

@@ -30,15 +30,16 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <KConfig>
-#include <QtGui/QPalette>
+#include "oxygenconfigwidget.h"
+#include "oxygenconfiguration.h"
+#include "../oxygendecorationdefines.h"
 
-#include "oxygenconfigurationui.h"
+#include <KSharedConfig>
+#include <QtGui/QPalette>
 
 namespace Oxygen {
 
     class Configuration;
-    class ShadowConfiguration;
 
     // oxygen configuration object
     class Config: public QObject
@@ -65,10 +66,20 @@ namespace Oxygen {
         public slots:
 
         //! load configuration
-        void load( const KConfigGroup& );
+        /*! although kconfiggroup argument is not used. It is required by KWin API */
+        void load( const KConfigGroup& )
+        { load(); }
 
         //! save configuration
-        void save( KConfigGroup& );
+        /*! although kconfiggroup argument is not used. It is required by KWin API */
+        void save( KConfigGroup& )
+        { save(); }
+
+        //! load configuration
+        void load( void );
+
+        //! save configuration
+        void save( void );
 
         //! restore defaults
         void defaults( void );
@@ -84,25 +95,13 @@ namespace Oxygen {
         private:
 
         //! load configuration
-        void loadConfiguration( const Configuration& );
-
-        //! load configuration
-        void loadShadowConfiguration( QPalette::ColorGroup, const ShadowConfiguration& );
-
-        //! load configuration
-        void saveShadowConfiguration( QPalette::ColorGroup, const ShadowConfigurationUi& ) const;
-
-        //! returns true if shadow configuration changed
-        bool shadowConfigurationChanged( const ShadowConfiguration&, const ShadowConfigurationUi& ) const;
-
-        //! returns true if exception list is changed
-        bool exceptionListChanged( void ) const;
+        void loadConfiguration( ConfigurationPtr );
 
         //! user interface
-        ConfigurationUi *ui;
+        ConfigWidget* _configWidget;
 
         //! kconfiguration object
-        KConfig *_configuration;
+        KSharedConfig::Ptr _configuration;
 
     };
 

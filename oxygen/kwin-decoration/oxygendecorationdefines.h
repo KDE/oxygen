@@ -1,5 +1,7 @@
+#ifndef oxygendecorationdefines_h
+#define oxygendecorationdefines_h
 //////////////////////////////////////////////////////////////////////////////
-// ShadowConfigurationUi.cpp
+// oxygendecorationdefines.h
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -23,31 +25,60 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenshadowconfigurationui.h"
+#include "oxygenconfiguration.h"
 
-#include <KLocale>
-#include <QtGui/QLabel>
-#include <QtGui/QLayout>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QList>
 
 namespace Oxygen
 {
 
-    //_________________________________________________________
-    ShadowConfigurationUi::ShadowConfigurationUi( QWidget* parent ):
-        QGroupBox( parent )
+    //! this should move to some global declaration
+    typedef QSharedPointer<Configuration> ConfigurationPtr;
+    typedef QList<ConfigurationPtr> ConfigurationList;
+    typedef QListIterator<ConfigurationPtr> ConfigurationListIterator;
+
+    //! buttons
+    enum ButtonType {
+        ButtonHelp=0,
+        ButtonMax,
+        ButtonMin,
+        ButtonClose,
+        ButtonMenu,
+        ButtonSticky,
+        ButtonAbove,
+        ButtonBelow,
+        ButtonShade,
+        ButtonApplicationMenu,
+        ButtonTypeCount,
+
+        // Close only one tab
+        ButtonItemClose=100,
+
+        // shows the window menu for one tab
+        ButtonItemMenu
+
+    };
+
+    //! buttons status
+    enum ButtonStatus {
+        Normal = 0,
+        Hovered = 1<<0,
+        Pressed = 1<<1
+    };
+
+    //! exception
+    enum ExceptionMask
     {
-        ui.setupUi( this );
-
-        // connections
-        ui.outerColor->setEnabled( false );
-        connect( ui.useOuterColor, SIGNAL(toggled(bool)), SLOT(enableOuterColor()) );
-        connect( this, SIGNAL(toggled(bool)), SLOT(enableOuterColor()) );
-
-        connect( ui.shadowSize, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
-        connect( ui.verticalOffset, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
-        connect( ui.innerColor, SIGNAL(changed(QColor)), SIGNAL(changed()) );
-        connect( ui.outerColor, SIGNAL(changed(QColor)), SIGNAL(changed()) );
-        connect( ui.useOuterColor, SIGNAL(toggled(bool)), SIGNAL(changed()) );
-    }
+        None = 0,
+        TitleAlignment = 1<<0,
+        DrawSeparator = 1<<2,
+        TitleOutline = 1<<3,
+        FrameBorder = 1<<4,
+        BlendColor = 1<<5,
+        SizeGripMode = 1<<6,
+    };
 
 }
+
+#endif

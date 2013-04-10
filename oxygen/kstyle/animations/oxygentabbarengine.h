@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        TabBarEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit TabBarEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

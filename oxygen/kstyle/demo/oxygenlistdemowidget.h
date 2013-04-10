@@ -43,7 +43,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        ListDemoWidget( QWidget* parent = 0 );
+        explicit ListDemoWidget( QWidget* = 0 );
 
         //! destructor
         virtual ~ListDemoWidget( void )

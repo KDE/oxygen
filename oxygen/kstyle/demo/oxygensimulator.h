@@ -50,7 +50,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        Simulator( QObject* parent ):
+        explicit Simulator( QObject* parent ):
             QObject( parent ),
             _previousPosition( -1, -1 ),
             _aborted( false )

@@ -75,7 +75,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        SliderDemoWidget( QWidget* parent = 0 );
+        explicit SliderDemoWidget( QWidget* = 0 );
 
         //! destructor
         virtual ~SliderDemoWidget( void )

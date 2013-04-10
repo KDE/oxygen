@@ -43,8 +43,8 @@ namespace Oxygen
         public:
 
         //! constructor
-        ScrollBarEngine( QObject* parent ):
-        BaseEngine( parent )
+        explicit ScrollBarEngine( QObject* parent ):
+            BaseEngine( parent )
         {}
 
         //! destructor

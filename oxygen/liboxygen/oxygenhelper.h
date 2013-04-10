@@ -154,7 +154,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        Helper( const QByteArray& componentName );
+        explicit Helper( const QByteArray& componentName );
 
         //! destructor
         virtual ~Helper()

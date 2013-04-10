@@ -48,25 +48,13 @@ namespace Oxygen
 
         signals:
 
-        //! restore default configuration
-        void pluginDefault( void );
-
-        //! reset local changes
-        void pluginReset( const KConfigGroup& );
-
         //! save local changes
-        void pluginSave( KConfigGroup& );
+        void pluginSave( void );
 
         //! expert mode
         void pluginToggleExpertMode( bool );
 
         public slots:
-
-        //! restore default configuration
-        virtual void defaults( void );
-
-        //! reset local changes
-        virtual void reset( void );
 
         //! save local changes
         virtual void save( void );

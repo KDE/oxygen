@@ -38,7 +38,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        Mnemonics( QObject* parent ):
+        explicit Mnemonics( QObject* parent ):
             QObject( parent ),
             _enabled( true )
             {}

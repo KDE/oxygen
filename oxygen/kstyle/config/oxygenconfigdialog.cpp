@@ -79,9 +79,9 @@ namespace Oxygen
             connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateStyleChanged(bool)) );
             connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( this, SIGNAL(pluginSave(KConfigGroup&)), _stylePluginObject, SLOT(save()) );
-            connect( this, SIGNAL(pluginDefault()), _stylePluginObject, SLOT(defaults()) );
-            connect( this, SIGNAL(pluginReset(KConfigGroup)), _stylePluginObject, SLOT(reset()) );
+            connect( button( Reset ), SIGNAL(clicked()), _stylePluginObject, SLOT(reset()) );
+            connect( button( Default ), SIGNAL(clicked()), _stylePluginObject, SLOT(defaults()) );
+            connect( this, SIGNAL(pluginSave()), _stylePluginObject, SLOT(save()) );
             connect( this, SIGNAL(pluginToggleExpertMode(bool)), _stylePluginObject, SLOT(toggleExpertMode(bool)) );
 
         }
@@ -98,18 +98,18 @@ namespace Oxygen
             connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateDecorationChanged(bool)) );
             connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( this, SIGNAL(pluginSave(KConfigGroup&)), _decorationPluginObject, SLOT(save(KConfigGroup&)) );
-            connect( this, SIGNAL(pluginReset(KConfigGroup)), _decorationPluginObject, SLOT(load(KConfigGroup)) );
-            connect( this, SIGNAL(pluginDefault()), _decorationPluginObject, SLOT(defaults()) );
+            connect( button( Reset ), SIGNAL(clicked()), _decorationPluginObject, SLOT(load()) );
+            connect( button( Default ), SIGNAL(clicked()), _decorationPluginObject, SLOT(defaults()) );
+
+            connect( this, SIGNAL(pluginSave()), _decorationPluginObject, SLOT(save()) );
             connect( this, SIGNAL(pluginToggleExpertMode(bool)), _decorationPluginObject, SLOT(toggleExpertMode(bool)) );
+
         }
 
         // expert mode
         emit pluginToggleExpertMode( true );
 
-        // connections
-        connect( button( Default ), SIGNAL(clicked()), SLOT(defaults()) );
-        connect( button( Reset ), SIGNAL(clicked()), SLOT(reset()) );
+        // button connections
         connect( button( Apply ), SIGNAL(clicked()), SLOT(save()) );
         connect( button( Ok ), SIGNAL(clicked()), SLOT(save()) );
         updateChanged();
@@ -117,23 +117,11 @@ namespace Oxygen
     }
 
     //_______________________________________________________________
-    void ConfigDialog::defaults( void )
-    { emit pluginDefault(); }
-
-    //_______________________________________________________________
-    void ConfigDialog::reset( void )
-    {
-        KConfigGroup config;
-        emit pluginReset( config );
-    }
-
-    //_______________________________________________________________
     void ConfigDialog::save( void )
     {
 
         // trigger pluggins to save themselves
-        KConfigGroup config;
-        emit pluginSave( config );
+        emit pluginSave();
 
         // this is needed to trigger decoration update
         KGlobalSettings::self()->emitChange(KGlobalSettings::StyleChanged);
@@ -142,6 +130,7 @@ namespace Oxygen
         updateStyleChanged( false );
         updateDecorationChanged( false );
         updateChanged();
+
     }
 
     //_______________________________________________________________

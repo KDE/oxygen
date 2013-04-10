@@ -27,16 +27,14 @@
 #include "oxygenexceptiondialog.moc"
 #include "oxygendetectwidget.h"
 
-#include <cassert>
-
-
 namespace Oxygen
 {
 
     //___________________________________________
     ExceptionDialog::ExceptionDialog( QWidget* parent ):
         KDialog( parent ),
-        _detectDialog(0)
+        _detectDialog(0),
+        _changed( false )
     {
 
         // define buttons
@@ -45,114 +43,105 @@ namespace Oxygen
         ui.setupUi( local );
         setMainWidget( local );
 
-        // exception type
-        ui.exceptionType->insertItems( 0, QStringList()
-            << Exception::typeName( Exception::WindowClassName, true )
-            << Exception::typeName( Exception::WindowTitle, true )
-            );
+        // store checkboxes from ui into list
+        _checkBoxes.insert( FrameBorder, ui.frameBorderCheckBox );
+        _checkBoxes.insert( BlendColor, ui.blendColorCheckBox );
+        _checkBoxes.insert( SizeGripMode, ui.sizeGripCheckBox );
+        _checkBoxes.insert( TitleOutline, ui.titleOutlineCheckBox );
+        _checkBoxes.insert( DrawSeparator, ui.separatorCheckBox );
 
+        // detect window properties
         connect( ui.detectDialogButton, SIGNAL(clicked()), SLOT(selectWindowProperties()) );
 
-        // border size
-        ui.frameBorderComboBox->insertItems(0, QStringList()
-            << Configuration::frameBorderName( Configuration::BorderNone, true )
-            << Configuration::frameBorderName( Configuration::BorderNoSide, true )
-            << Configuration::frameBorderName( Configuration::BorderTiny, true )
-            << Configuration::frameBorderName( Configuration::BorderDefault, true )
-            << Configuration::frameBorderName( Configuration::BorderLarge, true )
-            << Configuration::frameBorderName( Configuration::BorderVeryLarge, true )
-            << Configuration::frameBorderName( Configuration::BorderHuge, true )
-            << Configuration::frameBorderName( Configuration::BorderVeryHuge, true )
-            << Configuration::frameBorderName( Configuration::BorderOversized, true )
-            );
-        ui.frameBorderComboBox->setEnabled( false );
-        _checkBoxes.insert( std::make_pair( Exception::FrameBorder, ui.frameBorderCheckBox ) );
-        connect( ui.frameBorderCheckBox, SIGNAL(toggled(bool)), ui.frameBorderComboBox, SLOT(setEnabled(bool)) );
+        // connections
+        connect( ui.exceptionType, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( ui.exceptionEditor, SIGNAL(textChanged(QString)), SLOT(updateChanged()) );
+        connect( ui.frameBorderComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( ui.blendColorComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( ui.sizeGripComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( ui.titleOutlineComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
+        connect( ui.separatorComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
 
-        // blend color
-        ui.blendColorComboBox->insertItems(0, QStringList()
-            << Exception::blendColorName( Exception::NoBlending, true )
-            << Exception::blendColorName( Exception::RadialBlending, true )
-            << Exception::blendColorName( Exception::BlendFromStyle, true )
-            );
-        ui.blendColorComboBox->setEnabled( false );
-        _checkBoxes.insert( std::make_pair( Exception::BlendColor, ui.blendColorCheckBox ) );
-        connect( ui.blendColorCheckBox, SIGNAL(toggled(bool)), ui.blendColorComboBox, SLOT(setEnabled(bool)) );
+        for( CheckBoxMap::iterator iter = _checkBoxes.begin(); iter != _checkBoxes.end(); ++iter )
+        { connect( iter.value(), SIGNAL(clicked()), SLOT(updateChanged()) ); }
 
-        // size grip
-        ui.sizeGripComboBox->insertItems(0, QStringList()
-            << Configuration::sizeGripModeName( Configuration::SizeGripNever, true )
-            << Configuration::sizeGripModeName( Configuration::SizeGripWhenNeeded, true )
-            );
-        ui.sizeGripComboBox->setEnabled( false );
-        _checkBoxes.insert( std::make_pair( Exception::SizeGripMode, ui.sizeGripCheckBox ) );
-        connect( ui.sizeGripCheckBox, SIGNAL(toggled(bool)), ui.sizeGripComboBox, SLOT(setEnabled(bool)) );
-
-        // outline active window title
-        ui.titleOutlineComboBox->insertItems(0, QStringList() << i18nc( "outline window title", "Enabled" ) << i18nc( "outline window title", "Disabled" ) );
-        ui.titleOutlineComboBox->setEnabled( false );
-        _checkBoxes.insert( std::make_pair( Exception::TitleOutline, ui.titleOutlineCheckBox ) );
-        connect( ui.titleOutlineCheckBox, SIGNAL(toggled(bool)), ui.titleOutlineComboBox, SLOT(setEnabled(bool)) );
-
-        // separator
-        ui.separatorComboBox->setEnabled( false );
-        _checkBoxes.insert( std::make_pair( Exception::DrawSeparator, ui.separatorCheckBox ) );
-        connect( ui.separatorCheckBox, SIGNAL(toggled(bool)), ui.separatorComboBox, SLOT(setEnabled(bool)) );
-
+        connect( ui.hideTitleBar, SIGNAL(clicked()), SLOT(updateChanged()) );
     }
 
     //___________________________________________
-    void ExceptionDialog::setException( Exception exception )
+    void ExceptionDialog::setException( ConfigurationPtr exception )
     {
 
         // store exception internally
         _exception = exception;
 
         // type
-        ui.exceptionType->setCurrentIndex( ui.exceptionType->findText( exception.typeName( true ) ) );
-        ui.exceptionEditor->setText( exception.regExp().pattern() );
-        ui.frameBorderComboBox->setCurrentIndex( ui.frameBorderComboBox->findText( exception.frameBorderName( true ) ) );
-        ui.blendColorComboBox->setCurrentIndex( ui.blendColorComboBox->findText( exception.blendColorName( true ) ) );
-        ui.sizeGripComboBox->setCurrentIndex( ui.sizeGripComboBox->findText( exception.sizeGripModeName( true ) ) );
-        ui.separatorComboBox->setCurrentIndex( exception.separatorMode() );
-        ui.titleOutlineComboBox->setCurrentIndex( ui.titleOutlineComboBox->findText( exception.drawTitleOutline() ? i18nc( "outline window title", "Enabled" ) : i18nc( "outline window title", "Disabled" ) ) );
-        ui.hideTitleBar->setChecked( exception.hideTitleBar() );
+        ui.exceptionType->setCurrentIndex(_exception->exceptionType() );
+        ui.exceptionEditor->setText( _exception->exceptionPattern() );
+        ui.frameBorderComboBox->setCurrentIndex( _exception->frameBorder() );
+        ui.blendColorComboBox->setCurrentIndex( _exception->blendStyle() );
+        ui.sizeGripComboBox->setCurrentIndex( _exception->drawSizeGrip() );
+        ui.separatorComboBox->setCurrentIndex( _exception->separatorMode() );
+        ui.titleOutlineComboBox->setCurrentIndex( _exception->drawTitleOutline() );
+        ui.hideTitleBar->setChecked( _exception->hideTitleBar() );
 
         // mask
         for( CheckBoxMap::iterator iter = _checkBoxes.begin(); iter != _checkBoxes.end(); ++iter )
-        { iter->second->setChecked( exception.mask() & iter->first ); }
+        { iter.value()->setChecked( _exception->mask() & iter.key() ); }
+
+        setChanged( false );
 
     }
 
     //___________________________________________
-    Exception ExceptionDialog::exception( void ) const
+    void ExceptionDialog::save( void )
     {
-        Exception exception( _exception );
-        exception.setType( Exception::type( ui.exceptionType->currentText(), true ) );
-        exception.regExp().setPattern( ui.exceptionEditor->text() );
-        exception.setFrameBorder( Exception::frameBorder( ui.frameBorderComboBox->currentText(), true ) );
-        exception.setBlendColor( Exception::blendColor( ui.blendColorComboBox->currentText(), true ) );
-        exception.setSizeGripMode( Exception::sizeGripMode( ui.sizeGripComboBox->currentText(), true ) );
-
-        // flags
-        switch( ui.separatorComboBox->currentIndex() )
-        {
-            default:
-            case 0: exception.setSeparatorMode( Configuration::SeparatorNever ); break;
-            case 1: exception.setSeparatorMode( Configuration::SeparatorActive ); break;
-            case 2: exception.setSeparatorMode( Configuration::SeparatorAlways ); break;
-        }
-
-        exception.setDrawTitleOutline( ui.titleOutlineComboBox->currentText() == i18nc( "outline window title", "Enabled" ) );
-        exception.setHideTitleBar( ui.hideTitleBar->isChecked() );
+        _exception->setExceptionType( ui.exceptionType->currentIndex() );
+        _exception->setExceptionPattern( ui.exceptionEditor->text() );
+        _exception->setFrameBorder( ui.frameBorderComboBox->currentIndex() );
+        _exception->setBlendStyle( ui.blendColorComboBox->currentIndex() );
+        _exception->setDrawSizeGrip( ui.sizeGripComboBox->currentIndex() );
+        _exception->setSeparatorMode( ui.separatorComboBox->currentIndex() );
+        _exception->setDrawTitleOutline( ui.titleOutlineComboBox->currentIndex() );
+        _exception->setHideTitleBar( ui.hideTitleBar->isChecked() );
 
         // mask
-        unsigned int mask = Exception::None;
-        for( CheckBoxMap::const_iterator iter = _checkBoxes.begin(); iter != _checkBoxes.end(); ++iter )
-        { if( iter->second->isChecked() ) mask |= iter->first; }
+        unsigned int mask = None;
+        for( CheckBoxMap::iterator iter = _checkBoxes.begin(); iter != _checkBoxes.end(); ++iter )
+        { if( iter.value()->isChecked() ) mask |= iter.key(); }
 
-        exception.setMask( mask );
-        return exception;
+        _exception->setMask( mask );
+
+        setChanged( false );
+
+    }
+
+    //___________________________________________
+    void ExceptionDialog::updateChanged( void )
+    {
+        bool modified( false );
+        if( _exception->exceptionType() != ui.exceptionType->currentIndex() ) modified = true;
+        else if( _exception->exceptionPattern() != ui.exceptionEditor->text() ) modified = true;
+        else if( _exception->frameBorder() != ui.frameBorderComboBox->currentIndex() ) modified = true;
+        else if( _exception->blendStyle() != ui.blendColorComboBox->currentIndex() ) modified = true;
+        else if( _exception->drawSizeGrip() != ui.sizeGripComboBox->currentIndex() ) modified = true;
+        else if( _exception->separatorMode() != ui.separatorComboBox->currentIndex() ) modified = true;
+        else if( _exception->drawTitleOutline() != ui.titleOutlineComboBox->currentIndex() ) modified = true;
+        else if( _exception->hideTitleBar() != ui.hideTitleBar->isChecked() ) modified = true;
+        else
+        {
+            // check mask
+            for( CheckBoxMap::iterator iter = _checkBoxes.begin(); iter != _checkBoxes.end(); ++iter )
+            {
+                if( iter.value()->isChecked() != (bool)( _exception->mask() & iter.key() ) )
+                {
+                    modified = true;
+                    break;
+                }
+            }
+        }
+
+        setChanged( modified );
 
     }
 
@@ -174,27 +163,27 @@ namespace Oxygen
     //___________________________________________
     void ExceptionDialog::readWindowProperties( bool valid )
     {
-        assert( _detectDialog );
+        Q_CHECK_PTR( _detectDialog );
         if( valid )
         {
 
             // type
-            ui.exceptionType->setCurrentIndex( ui.exceptionType->findText( Exception::typeName( _detectDialog->exceptionType(), true ) ) );
+            ui.exceptionType->setCurrentIndex( _detectDialog->exceptionType() );
 
             // window info
             const KWindowInfo& info( _detectDialog->windowInfo() );
 
             switch( _detectDialog->exceptionType() )
             {
-                case Exception::WindowClassName:
+
+                default:
+                case Configuration::ExceptionWindowClassName:
                 ui.exceptionEditor->setText( info.windowClassClass() );
                 break;
 
-                case Exception::WindowTitle:
+                case Configuration::ExceptionWindowTitle:
                 ui.exceptionEditor->setText( info.name() );
                 break;
-
-                default: assert( false );
 
             }
 
