@@ -3511,8 +3511,8 @@ namespace Oxygen
         const bool hasAlpha( helper().hasAlphaChannel( widget ) );
         if(  hasAlpha && StyleConfigData::toolTipTransparent() )
         {
-
-            blurHelper().registerWidget( widget->window() );
+            if( widget && widget->window() )
+            { blurHelper().registerWidget( widget->window() ); }
             topColor.setAlpha( 220 );
             bottomColor.setAlpha( 220 );
         }
