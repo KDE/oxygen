@@ -28,10 +28,10 @@
 
 #include <kdeversion.h>
 
-#include <QtGui/QLabel>
-#include <QtGui/QLayout>
-#include <QtGui/QGroupBox>
-#include <KLocale>
+#include <QLabel>
+#include <QLayout>
+#include <QGroupBox>
+#include <KLocalizedString>
 #include <KTabWidget>
 
 namespace Oxygen
@@ -137,8 +137,9 @@ namespace Oxygen
 
         setChanged( false );
 
-        if( _expertMode )
-        { _animationConfigWidget->save(); }
+        if( _expertMode ) _animationConfigWidget->save();
+        else _configuration->setAnimationsEnabled( ui.animationsEnabled->isChecked() );
+
 
     }
 

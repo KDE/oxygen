@@ -31,11 +31,10 @@
 #include "oxygendetectwidget.moc"
 
 #include <cassert>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QLayout>
-#include <QtGui/QGroupBox>
+#include <QButtonGroup>
+#include <QLayout>
+#include <QGroupBox>
 #include <QtGui/QMouseEvent>
-#include <KLocale>
 
 #include <QtGui/QX11Info>
 #include <X11/Xlib.h>

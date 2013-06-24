@@ -29,10 +29,10 @@
 #include "oxygenanimationconfigitem.h"
 #include "oxygengenericanimationconfigitem.h"
 
-#include <QtGui/QButtonGroup>
+#include <QButtonGroup>
 #include <QtGui/QHoverEvent>
-#include <QtCore/QTextStream>
-#include <KLocale>
+#include <QTextStream>
+#include <KDE/KLocalizedString>
 
 namespace Oxygen
 {
