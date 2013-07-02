@@ -31,21 +31,21 @@
 #include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
 
-#include <QtGui/QAbstractItemView>
-#include <QtGui/QComboBox>
-#include <QtGui/QDial>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLineEdit>
-#include <QtGui/QMainWindow>
-#include <QtGui/QMdiSubWindow>
-#include <QtGui/QScrollBar>
-#include <QtGui/QSpinBox>
-#include <QtGui/QSplitterHandle>
-#include <QtGui/QTextEdit>
-#include <QtGui/QToolBar>
-#include <QtGui/QToolBox>
-#include <QtGui/QToolButton>
-#include <QtGui/QGroupBox>
+#include <QAbstractItemView>
+#include <QComboBox>
+#include <QDial>
+#include <QHeaderView>
+#include <QLineEdit>
+#include <QMainWindow>
+#include <QMdiSubWindow>
+#include <QScrollBar>
+#include <QSpinBox>
+#include <QSplitterHandle>
+#include <QTextEdit>
+#include <QToolBar>
+#include <QToolBox>
+#include <QToolButton>
+#include <QGroupBox>
 
 #include <KDebug>
 

@@ -29,7 +29,7 @@
 
 #include "oxygenanimationdata.h"
 
-#include <QtGui/QStyle>
+#include <QStyle>
 
 namespace Oxygen
 {

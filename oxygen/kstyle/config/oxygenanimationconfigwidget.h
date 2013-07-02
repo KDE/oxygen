@@ -47,7 +47,7 @@ namespace Oxygen
         //! destructor
         virtual ~AnimationConfigWidget( void );
 
-        public slots:
+        public Q_SLOTS:
 
         //! read current configuration
         virtual void load( void );
@@ -55,7 +55,7 @@ namespace Oxygen
         //! save current configuration
         virtual void save( void );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! check whether configuration is changed and emit appropriate signal if yes
         virtual void updateChanged();

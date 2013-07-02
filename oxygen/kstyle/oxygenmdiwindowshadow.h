@@ -30,12 +30,12 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtCore/QEvent>
-#include <QtCore/QObject>
-#include <QtCore/QSet>
+#include <QEvent>
+#include <QObject>
+#include <QSet>
 
-#include <QtGui/QWidget>
-#include <QtGui/QPaintEvent>
+#include <QWidget>
+#include <QPaintEvent>
 #include <KColorScheme>
 
 #include "oxygenstylehelper.h"
@@ -173,7 +173,7 @@ namespace Oxygen
             { windowShadow->update(); }
         }
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! triggered by object destruction
         void widgetDestroyed( QObject* );

@@ -27,7 +27,7 @@
 #include "oxygenspinboxengine.h"
 #include "oxygenspinboxengine.moc"
 
-#include <QtCore/QEvent>
+#include <QEvent>
 
 namespace Oxygen
 {

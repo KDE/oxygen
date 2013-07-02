@@ -27,10 +27,10 @@
 #include "oxygenwidgetexplorer.h"
 #include "oxygenwidgetexplorer.moc"
 
-#include <QtCore/QTextStream>
-#include <QtGui/QApplication>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QPainter>
+#include <QTextStream>
+#include <QApplication>
+#include <QMouseEvent>
+#include <QPainter>
 
 namespace Oxygen
 {

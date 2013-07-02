@@ -27,9 +27,9 @@
 #include "oxygenmdidemowidget.h"
 #include "oxygenmdidemowidget.moc"
 
-#include <QtGui/QMdiSubWindow>
-#include <QtGui/QMenuBar>
-#include <QtGui/QMenu>
+#include <QMdiSubWindow>
+#include <QMenuBar>
+#include <QMenu>
 #include <KIcon>
 
 namespace Oxygen

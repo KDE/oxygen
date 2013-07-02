@@ -27,11 +27,11 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtGui/QWidget>
-#include <QtGui/QCheckBox>
-#include <QtCore/QPair>
-#include <QtCore/QVector>
-#include <QtCore/QWeakPointer>
+#include <QWidget>
+#include <QCheckBox>
+#include <QPair>
+#include <QVector>
+#include <QPointer>
 #include <KPageWidget>
 
 #include "oxygendemowidget.h"
@@ -57,11 +57,11 @@ namespace Oxygen
         //! setup widgets
         void init( KPageWidget* );
 
-        signals:
+        Q_SIGNALS:
 
         void runBenchmark( void );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! button state
         void updateButtonState( void );
@@ -84,10 +84,10 @@ namespace Oxygen
         Ui_BenchmarkWidget ui;
 
         //! pointer to pagewidget
-        QWeakPointer<KPageWidget> _pageWidget;
+        QPointer<KPageWidget> _pageWidget;
 
         //! map checkboxes to demo widgets
-        typedef QWeakPointer<DemoWidget> DemoWidgetPointer;
+        typedef QPointer<DemoWidget> DemoWidgetPointer;
         typedef QPair<QCheckBox*, DemoWidgetPointer> WidgetPair;
         typedef QVector<WidgetPair> WidgetList;
         WidgetList _widgets;

@@ -30,13 +30,13 @@
 #include "oxygenframeshadow.h"
 #include "oxygenframeshadow.moc"
 
-#include <QtCore/QDebug>
-#include <QtGui/QAbstractScrollArea>
-#include <QtGui/QApplication>
-#include <QtGui/QFrame>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QPainter>
-#include <QtGui/QSplitter>
+#include <QDebug>
+#include <QAbstractScrollArea>
+#include <QApplication>
+#include <QFrame>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QSplitter>
 
 #include <KColorUtils>
 

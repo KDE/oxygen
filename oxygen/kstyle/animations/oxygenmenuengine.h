@@ -141,7 +141,7 @@ namespace Oxygen
         //! return list of registered widgets
         virtual WidgetList registeredWidgets( void ) const;
 
-        public slots:
+        public Q_SLOTS:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
@@ -225,7 +225,7 @@ namespace Oxygen
         //! return list of registered widgets
         virtual WidgetList registeredWidgets( void ) const;
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )

@@ -27,7 +27,7 @@
 #include "oxygensliderengine.h"
 #include "oxygensliderengine.moc"
 
-#include <QtCore/QEvent>
+#include <QEvent>
 
 namespace Oxygen
 {

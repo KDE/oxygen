@@ -30,9 +30,9 @@
 #include "oxygen_export.h"
 #include "oxygenanimationconfigitem.h"
 
-#include <QtCore/QWeakPointer>
-#include <QtGui/QFrame>
-#include <QtGui/QSpinBox>
+#include <QPointer>
+#include <QFrame>
+#include <QSpinBox>
 
 class Ui_GenericAnimationConfigBox;
 
@@ -88,7 +88,7 @@ namespace Oxygen
         virtual int duration( void ) const
         { return (_configurationWidget) ? _configurationWidget.data()->durationSpinBox()->value():0; }
 
-        public slots:
+        public Q_SLOTS:
 
         //! duration
         virtual void setDuration( int value )
@@ -100,7 +100,7 @@ namespace Oxygen
         private:
 
         //! configuration widget
-        QWeakPointer<GenericAnimationConfigBox> _configurationWidget;
+        QPointer<GenericAnimationConfigBox> _configurationWidget;
 
     };
 

@@ -27,11 +27,11 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtCore/QEvent>
-#include <QtCore/QObject>
-#include <QtCore/QMap>
-#include <QtCore/QSet>
-#include <QtGui/QWidget>
+#include <QEvent>
+#include <QObject>
+#include <QMap>
+#include <QSet>
+#include <QWidget>
 
 namespace Oxygen
 {

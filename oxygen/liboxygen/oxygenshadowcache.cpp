@@ -31,8 +31,8 @@
 #include <cassert>
 #include <cmath>
 #include <KColorUtils>
-#include <QtGui/QPainter>
-#include <QtCore/QTextStream>
+#include <QPainter>
+#include <QTextStream>
 
 namespace Oxygen
 {

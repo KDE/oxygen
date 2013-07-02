@@ -32,9 +32,9 @@ DEALINGS IN THE SOFTWARE.
 #include "oxygenanimationconfigwidget.h"
 #include "oxygenstyleconfigdata.h"
 
-#include <QtCore/QTextStream>
-#include <QtDBus/QDBusMessage>
-#include <QtDBus/QDBusConnection>
+#include <QTextStream>
+#include <QDBusMessage>
+#include <QDBusConnection>
 
 #include <KGlobal>
 #include <KLocale>

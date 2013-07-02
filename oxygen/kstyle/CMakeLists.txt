@@ -1,10 +1,6 @@
-
 project(kstyle-oxygen)
 
-add_subdirectory( config )
-add_subdirectory( demo )
-
-include_directories (animations debug transitions ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs/oxygen)
+include_directories (animations debug transitions /home/hpereira/kf5/src/kde-workspace/libs/oxygen)
 
 ########### next target ###############
 
@@ -64,17 +60,19 @@ set(oxygen_PART_SRCS
     oxygenwindowmanager.cpp
 )
 
-kde4_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
+kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 
-kde4_add_plugin(oxygen ${oxygen_PART_SRCS})
+add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
-target_link_libraries(oxygen  ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} oxygenstyle)
+qt5_use_modules( oxygen Core Gui Widgets DBus Svg )
+target_link_libraries(oxygen ${KConfig_LIBRARIES} ${kguiaddons_LIBRARIES} ${kwidgets_LIBRARIES} ${KIconThemes_LIBRARIES} ${KWindowSystem_LIBRARIES})
+target_link_libraries(oxygen oxygenstyle)
 
 if ( X11_FOUND )
    target_link_libraries(oxygen ${X11_LIBRARIES})
 endif( X11_FOUND )
 
-install(TARGETS oxygen  DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/ )
+install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/ )
 
 ########### install files ###############
 

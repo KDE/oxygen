@@ -29,8 +29,8 @@
 
 #include "oxygen_export.h"
 
-#include <QtGui/QAbstractButton>
-#include <QtGui/QWidget>
+#include <QAbstractButton>
+#include <QWidget>
 #include <cassert>
 
 class Ui_AnimationConfigItem;
@@ -79,12 +79,12 @@ namespace Oxygen
         //! configuration button
         QAbstractButton* configurationButton( void ) const;
 
-        signals:
+        Q_SIGNALS:
 
         //! emmited when changed
         void changed( void );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! about info
         virtual void about( void );

@@ -29,7 +29,7 @@
 #include <KDebug>
 
 #ifdef Q_WS_X11
-#include <QtGui/QX11Info>
+#include <QX11Info>
 #include <X11/Xdefs.h>
 #endif
 
@@ -53,14 +53,10 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit StyleHelper( const QByteArray &componentName );
+        explicit StyleHelper( void );
 
         //! destructor
         virtual ~StyleHelper() {}
-
-        //! dynamically allocated debug area
-        int debugArea( void ) const
-        { return _debugArea; }
 
         //! clear cache
         virtual void invalidateCaches();
@@ -217,9 +213,6 @@ namespace Oxygen
 
         private:
 
-        //! dynamically allocated debug area
-        int _debugArea;
-
         Cache<QPixmap> _dialSlabCache;
         Cache<QPixmap> _roundSlabCache;
         Cache<QPixmap> _sliderSlabCache;
@@ -280,6 +273,7 @@ namespace Oxygen
         } else return false;
 
         #else
+        Q_UNUSED( widget );
         return compositingActive();
         #endif
 

@@ -30,8 +30,8 @@
 #include "oxygenanimationdata.h"
 #include "oxygenanimation.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QTextStream>
+#include <QObject>
+#include <QTextStream>
 namespace Oxygen
 {
 

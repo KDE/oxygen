@@ -27,9 +27,9 @@
 #include "oxygenscrollbardata.h"
 #include "oxygenscrollbardata.moc"
 
-#include <QtGui/QHoverEvent>
-#include <QtGui/QScrollBar>
-#include <QtGui/QStyleOptionSlider>
+#include <QHoverEvent>
+#include <QScrollBar>
+#include <QStyleOptionSlider>
 
 Q_GUI_EXPORT QStyleOptionSlider qt_qscrollbarStyleOption(QScrollBar*);
 

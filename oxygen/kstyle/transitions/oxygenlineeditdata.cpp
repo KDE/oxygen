@@ -29,13 +29,13 @@
 #include "oxygenlineeditdata.h"
 #include "oxygenlineeditdata.moc"
 
-#include <QtCore/QEvent>
-#include <QtGui/QDateTimeEdit>
-#include <QtGui/QDoubleSpinBox>
-#include <QtGui/QPainter>
-#include <QtGui/QSpinBox>
-#include <QtGui/QStyle>
-#include <QtGui/QStyleOptionFrameV2>
+#include <QEvent>
+#include <QDateTimeEdit>
+#include <QDoubleSpinBox>
+#include <QPainter>
+#include <QSpinBox>
+#include <QStyle>
+#include <QStyleOptionFrameV2>
 
 namespace Oxygen
 {

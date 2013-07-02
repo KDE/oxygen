@@ -23,9 +23,9 @@
 // Boston, MA 02110-1301, USA.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtCore/QEvent>
-#include <QtCore/QObject>
-#include <QtGui/QApplication>
+#include <QEvent>
+#include <QObject>
+#include <QApplication>
 
 #include "oxygenstyleconfigdata.h"
 

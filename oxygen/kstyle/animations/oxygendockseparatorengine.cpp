@@ -27,7 +27,7 @@
 #include "oxygendockseparatorengine.h"
 #include "oxygendockseparatorengine.moc"
 
-#include <QtCore/QEvent>
+#include <QEvent>
 
 namespace Oxygen
 {

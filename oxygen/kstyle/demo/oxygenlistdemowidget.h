@@ -27,7 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygenlistdemowidget.h"
@@ -49,7 +49,7 @@ namespace Oxygen
         virtual ~ListDemoWidget( void )
         {}
 
-        public slots:
+        public Q_SLOTS:
 
         //! benchmark
         void benchmark( void );

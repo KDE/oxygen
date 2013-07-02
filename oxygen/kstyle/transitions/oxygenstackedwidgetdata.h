@@ -29,7 +29,7 @@
 
 #include "oxygentransitiondata.h"
 
-#include <QtGui/QStackedWidget>
+#include <QStackedWidget>
 
 namespace Oxygen
 {
@@ -49,7 +49,7 @@ namespace Oxygen
         virtual ~StackedWidgetData( void )
         {}
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! initialize animation
         virtual bool initializeAnimation( void );
@@ -66,7 +66,7 @@ namespace Oxygen
         private:
 
         //! target
-        QWeakPointer<QStackedWidget> _target;
+        QPointer<QStackedWidget> _target;
 
         //! current index
         int _index;

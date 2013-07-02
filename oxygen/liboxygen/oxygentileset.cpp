@@ -20,7 +20,7 @@
 
 #include "oxygentileset.h"
 
-#include <QtGui/QPainter>
+#include <QPainter>
 
 namespace Oxygen
 {
@@ -222,25 +222,6 @@ namespace Oxygen
         }
 
         if( _stretch ) p->setRenderHint( QPainter::SmoothPixmapTransform, oldHint );
-
-    }
-
-    //___________________________________________________________
-    void TileSet::save( const QString& basename, const QString& suffix, const char* format, int quality ) const
-    {
-        // check saved pixmaps
-        if( _pixmaps.size() < 9 ) return;
-
-        const char* location[9] = { "top-left", "top", "top-right", "left", "center", "right", "bottom-left", "bottom", "bottom-right" };
-        for( int i=0; i < _pixmaps.size(); i++ )
-        {
-
-            // check pixmap validity
-            if( _pixmaps[i].isNull() ) continue;
-
-            const QString filename = basename + "-" + location[i] + "." + suffix;
-            _pixmaps[i].save( filename, format, quality );
-        }
 
     }
 

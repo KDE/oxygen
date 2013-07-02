@@ -31,10 +31,10 @@
 #include "oxygenmdiwindowshadow.moc"
 #include "oxygenshadowcache.h"
 
-#include <QtGui/QMdiArea>
-#include <QtGui/QMdiSubWindow>
-#include <QtGui/QPainter>
-#include <QtCore/QTextStream>
+#include <QMdiArea>
+#include <QMdiSubWindow>
+#include <QPainter>
+#include <QTextStream>
 
 namespace Oxygen
 {

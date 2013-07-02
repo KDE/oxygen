@@ -42,8 +42,8 @@
 #include "oxygentoolboxengine.h"
 #include "oxygenwidgetstateengine.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QList>
+#include <QObject>
+#include <QList>
 
 namespace Oxygen
 {
@@ -144,7 +144,7 @@ namespace Oxygen
         //! setup engines
         void setupEngines( void );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! enregister engine
         void unregisterEngine( QObject* );

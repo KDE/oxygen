@@ -27,8 +27,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtGui/QWidget>
-#include <QtGui/QToolButton>
+#include <QWidget>
+#include <QToolButton>
 
 #include "ui_oxygentabdemowidget.h"
 #include "oxygendemowidget.h"
@@ -50,12 +50,12 @@ namespace Oxygen
         virtual ~TabDemoWidget( void )
         {}
 
-        public slots:
+        public Q_SLOTS:
 
         //! benchmark
         void benchmark( void );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! show/hide corner buttons
         void toggleCornerWidgets( bool value )

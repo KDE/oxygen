@@ -30,8 +30,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtCore/QObject>
-#include <QtCore/QEvent>
+#include <QObject>
+#include <QEvent>
 
 namespace Oxygen
 {

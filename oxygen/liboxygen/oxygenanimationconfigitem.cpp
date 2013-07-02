@@ -28,7 +28,7 @@
 #include "oxygenanimationconfigitem.moc"
 #include "ui_oxygenanimationconfigitem.h"
 
-#include <QtCore/QTextStream>
+#include <QTextStream>
 #include <KGlobal>
 #include <KIcon>
 #include <KLocale>

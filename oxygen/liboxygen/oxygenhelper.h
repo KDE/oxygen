@@ -26,14 +26,13 @@
 #include "oxygentileset.h"
 
 #include <KSharedConfig>
-#include <KComponentData>
 #include <KColorScheme>
 
-#include <QtGui/QColor>
-#include <QtGui/QPixmap>
-#include <QtGui/QWidget>
-#include <QtGui/QLinearGradient>
-#include <QtCore/QCache>
+#include <QColor>
+#include <QPixmap>
+#include <QWidget>
+#include <QLinearGradient>
+#include <QCache>
 
 #ifdef Q_WS_X11
 #include <X11/Xdefs.h>
@@ -154,7 +153,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit Helper( const QByteArray& componentName );
+        explicit Helper( void );
 
         //! destructor
         virtual ~Helper()
@@ -236,11 +235,7 @@ namespace Oxygen
         virtual const QColor& calcShadowColor( const QColor& color );
 
         //! returns menu background color matching position in a given top level widget
-        virtual const QColor& backgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
-        {
-            if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
-            else return backgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
-        }
+        virtual const QColor& backgroundColor( const QColor&, const QWidget*, const QPoint& );
 
         //! returns menu background color matching position in a top level widget of given height
         virtual const QColor& backgroundColor( const QColor& color, int height, int y )
@@ -390,7 +385,6 @@ namespace Oxygen
         KStatefulBrush _viewNegativeTextBrush;
         //@}
 
-        KComponentData _componentData;
         KSharedConfigPtr _config;
         qreal _bgcontrast;
 

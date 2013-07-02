@@ -27,13 +27,13 @@
 #include <KDebug>
 #include <KGlobalSettings>
 
-#include <QtGui/QWidget>
-#include <QtGui/QPainter>
+#include <QWidget>
+#include <QPainter>
 
 #include <math.h>
 
 #ifdef Q_WS_X11
-#include <QtGui/QX11Info>
+#include <QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <fixx11h.h>
@@ -51,11 +51,10 @@ namespace Oxygen
     // Since the ctor order causes a SEGV if we try to pass in a KConfig here from
     // a KComponentData constructed in the OxygenStyleHelper ctor, we'll just keep
     // one here, even though the window decoration doesn't really need it.
-    Helper::Helper( const QByteArray& componentName ):
-        _componentData( componentName, 0, KComponentData::SkipMainComponentRegistration )
+    Helper::Helper( void )
     {
-        _config = _componentData.config();
-        _contrast = KGlobalSettings::contrastF( _config );
+        _config = KSharedConfig::openConfig( "oxygenrc" );
+        _contrast = KColorScheme::contrastF( _config );
 
         // background contrast is calculated so that it is 0.9
         // when KGlobalSettings contrast value of 0.7
@@ -82,12 +81,12 @@ namespace Oxygen
     {
 
         _config->reparseConfiguration();
-        _contrast = KGlobalSettings::contrastF( _config );
+        _contrast = KColorScheme::contrastF( _config );
         _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
 
-        _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, config() );
-        _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, config() );
-        _viewNegativeTextBrush = KStatefulBrush( KColorScheme::View, KColorScheme::NegativeText, config() );
+        _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
+        _viewHoverBrush = KStatefulBrush( KColorScheme::View, KColorScheme::HoverColor, _config );
+        _viewNegativeTextBrush = KStatefulBrush( KColorScheme::View, KColorScheme::NegativeText, _config );
 
     }
 
@@ -435,6 +434,23 @@ namespace Oxygen
         }
 
         return *out;
+
+    }
+
+    //____________________________________________________________________
+    const QColor& Helper::backgroundColor( const QColor& color, const QWidget* w, const QPoint& constPoint )
+    {
+        if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
+        // else return backgroundColor( color, w->window()->height(), w->window()->mapFromGlobal( w->mapToGlobal( point ) ).y() );
+        else
+        {
+            QPoint point( constPoint );
+            for( const QWidget* widget = w; widget != w->window(); widget = widget->parentWidget() )
+            { point = widget->mapToParent( point ); }
+
+            return backgroundColor( color, w->window()->height(), point.y() );
+
+        }
 
     }
 

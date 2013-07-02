@@ -28,8 +28,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygengenericdata.h"
-#include <QtCore/QObject>
-#include <QtCore/QTextStream>
+#include <QObject>
+#include <QTextStream>
 
 namespace Oxygen
 {
@@ -57,7 +57,7 @@ namespace Oxygen
         virtual int value( void ) const
         { return startValue() + opacity()*( endValue() - startValue() ); }
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! triggered by progressBar::valueChanged
         void valueChanged( int );

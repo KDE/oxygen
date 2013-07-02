@@ -27,7 +27,7 @@
 #include "oxygentabbarengine.h"
 #include "oxygentabbarengine.moc"
 
-#include <QtCore/QEvent>
+#include <QEvent>
 
 namespace Oxygen
 {

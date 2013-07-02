@@ -28,9 +28,9 @@
 #include "oxygenstyleconfigdata.h"
 #include "oxygenmetrics.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
-#include <QtGui/QPainter>
+#include <QCoreApplication>
+#include <QDebug>
+#include <QPainter>
 
 namespace Oxygen
 {

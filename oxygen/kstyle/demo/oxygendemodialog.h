@@ -33,9 +33,9 @@
 #include <KPageWidget>
 #include <KPushButton>
 
-#include <QtCore/QList>
-#include <QtGui/QWidget>
-#include <QtGui/QCheckBox>
+#include <QList>
+#include <QWidget>
+#include <QCheckBox>
 
 namespace Oxygen
 {
@@ -60,12 +60,12 @@ namespace Oxygen
         virtual ~DemoDialog( void )
         {}
 
-        signals:
+        Q_SIGNALS:
 
         //! emitted when dialog is closed
         void abortSimulations( void );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! update window title when page is changed
         virtual void updateWindowTitle( KPageWidgetItem* );

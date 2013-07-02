@@ -28,11 +28,11 @@
 #include "oxygentransitionwidget.moc"
 
 #include <cassert>
-#include <QtGui/QPainter>
-#include <QtGui/QPaintEvent>
-#include <QtGui/QStyleOption>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QTextStream>
+#include <QPainter>
+#include <QPaintEvent>
+#include <QStyleOption>
+#include <QCoreApplication>
+#include <QTextStream>
 
 namespace Oxygen
 {
@@ -85,7 +85,7 @@ namespace Oxygen
 
             rect = rect.translated( widget->mapTo( widget->window(), widget->rect().topLeft() ) );
             widget = widget->window();
-            out = QPixmap::grabWidget( widget, rect );
+            out = widget->grab( rect );
 
         } else {
 

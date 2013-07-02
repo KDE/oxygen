@@ -27,8 +27,8 @@
 
 #include "oxygenitemmodel.h"
 
-#include <QtCore/QSet>
-#include <QtCore/QList>
+#include <QSet>
+#include <QList>
 
 #include <cassert>
 #include <algorithm>

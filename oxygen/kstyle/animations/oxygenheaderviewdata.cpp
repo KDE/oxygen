@@ -29,7 +29,7 @@
 #include "oxygenheaderviewdata.h"
 #include "oxygenheaderviewdata.moc"
 
-#include <QtGui/QHoverEvent>
+#include <QHoverEvent>
 
 namespace Oxygen
 {

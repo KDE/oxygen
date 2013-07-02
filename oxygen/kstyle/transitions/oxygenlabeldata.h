@@ -29,9 +29,9 @@
 
 #include "oxygentransitiondata.h"
 
-#include <QtCore/QString>
-#include <QtCore/QBasicTimer>
-#include <QtGui/QLabel>
+#include <QString>
+#include <QBasicTimer>
+#include <QLabel>
 
 namespace Oxygen
 {
@@ -66,7 +66,7 @@ namespace Oxygen
         void unlockAnimations( void )
         { _animationLockTimer.stop(); }
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! initialize animation
         virtual bool initializeAnimation( void );
@@ -98,7 +98,7 @@ namespace Oxygen
         QBasicTimer _timer;
 
         //! target
-        QWeakPointer<QLabel> _target;
+        QPointer<QLabel> _target;
 
         //! old text
         QString _text;

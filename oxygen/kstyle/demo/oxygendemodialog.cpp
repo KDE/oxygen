@@ -35,9 +35,9 @@
 #include "oxygensliderdemowidget.h"
 #include "oxygentabdemowidget.h"
 
-#include <QtCore/QTextStream>
-#include <QtGui/QShortcut>
-#include <QtGui/QDialogButtonBox>
+#include <QTextStream>
+#include <QShortcut>
+#include <QDialogButtonBox>
 
 #include <KIcon>
 #include <KLocale>

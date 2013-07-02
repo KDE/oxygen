@@ -30,9 +30,9 @@
 
 #include "ui_oxygenanimationconfigwidget.h"
 
-#include <QtGui/QButtonGroup>
-#include <QtGui/QHoverEvent>
-#include <QtCore/QTextStream>
+#include <QButtonGroup>
+#include <QHoverEvent>
+#include <QTextStream>
 #include <KLocale>
 
 namespace Oxygen

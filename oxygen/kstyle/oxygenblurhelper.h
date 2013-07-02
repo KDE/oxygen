@@ -32,17 +32,17 @@
 
 #include "oxygenstylehelper.h"
 
-#include <QtCore/QBasicTimer>
-#include <QtCore/QHash>
-#include <QtCore/QObject>
-#include <QtCore/QPointer>
-#include <QtCore/QSet>
-#include <QtCore/QTimerEvent>
+#include <QBasicTimer>
+#include <QHash>
+#include <QObject>
+#include <QPointer>
+#include <QSet>
+#include <QTimerEvent>
 
-#include <QtGui/QDockWidget>
-#include <QtGui/QMenu>
-#include <QtGui/QRegion>
-#include <QtGui/QToolBar>
+#include <QDockWidget>
+#include <QMenu>
+#include <QRegion>
+#include <QToolBar>
 
 #ifdef Q_WS_X11
 #include <X11/Xdefs.h>
@@ -134,7 +134,7 @@ namespace Oxygen
         don't get their blur region overwritten */
         bool isTransparent( const QWidget* widget ) const;
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! wiget destroyed
         void widgetDestroyed( QObject* object )

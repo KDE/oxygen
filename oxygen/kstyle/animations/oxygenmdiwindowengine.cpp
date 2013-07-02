@@ -27,7 +27,7 @@
 #include "oxygenmdiwindowengine.h"
 #include "oxygenmdiwindowengine.moc"
 
-#include <QtCore/QEvent>
+#include <QEvent>
 
 namespace Oxygen
 {

@@ -31,12 +31,12 @@
 #include "oxygenprogressbardata.h"
 #include "oxygendatamap.h"
 
-#include <QtCore/QBasicTimer>
-#include <QtCore/QSet>
-#include <QtCore/QObject>
-#include <QtCore/QTimerEvent>
-#include <QtGui/QWidget>
-#include <QtGui/QProgressBar>
+#include <QBasicTimer>
+#include <QSet>
+#include <QObject>
+#include <QTimerEvent>
+#include <QWidget>
+#include <QProgressBar>
 
 namespace Oxygen
 {
@@ -108,7 +108,7 @@ namespace Oxygen
             { _timer.start( busyStepDuration(), this ); }
         }
 
-        public slots:
+        public Q_SLOTS:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )

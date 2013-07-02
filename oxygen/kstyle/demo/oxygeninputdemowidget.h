@@ -27,8 +27,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtGui/QWidget>
-#include <QtGui/QToolButton>
+#include <QWidget>
+#include <QToolButton>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygeninputdemowidget.h"
@@ -49,12 +49,12 @@ namespace Oxygen
         virtual ~InputDemoWidget( void )
         {}
 
-        public slots:
+        public Q_SLOTS:
 
         //! run benchmark
         void benchmark( void );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! flat widgets
         void toggleFlatWidgets( bool );

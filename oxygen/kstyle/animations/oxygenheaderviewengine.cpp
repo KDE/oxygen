@@ -27,7 +27,7 @@
 #include "oxygenheaderviewengine.h"
 #include "oxygenheaderviewengine.moc"
 
-#include <QtCore/QEvent>
+#include <QEvent>
 
 namespace Oxygen
 {

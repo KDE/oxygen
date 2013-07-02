@@ -28,9 +28,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenanimationdata.h"
-#include <QtGui/QMenuBar>
-#include <QtCore/QBasicTimer>
-#include <QtCore/QWeakPointer>
+#include <QMenuBar>
+#include <QBasicTimer>
+#include <QPointer>
 
 namespace Oxygen
 {
@@ -177,7 +177,7 @@ namespace Oxygen
         //@{
 
         //! guarded action pointer
-        typedef QWeakPointer<QAction> ActionPointer;
+        typedef QPointer<QAction> ActionPointer;
 
         //! current action
         virtual const ActionPointer& currentAction( void ) const
@@ -364,7 +364,7 @@ namespace Oxygen
         //@{
 
         //! guarded action pointer
-        typedef QWeakPointer<QAction> ActionPointer;
+        typedef QPointer<QAction> ActionPointer;
 
         //! current action
         virtual const ActionPointer& currentAction( void ) const

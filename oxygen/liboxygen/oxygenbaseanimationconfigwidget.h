@@ -29,9 +29,9 @@
 
 #include "oxygen_export.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QLayout>
-#include <QtGui/QCheckBox>
+#include <QWidget>
+#include <QLayout>
+#include <QCheckBox>
 
 class Ui_AnimationConfigWidget;
 
@@ -56,7 +56,7 @@ namespace Oxygen
         virtual bool isChanged( void ) const
         { return _changed; }
 
-        signals:
+        Q_SIGNALS:
 
         //! emmited when layout is changed
         void layoutChanged( void );
@@ -64,7 +64,7 @@ namespace Oxygen
         //! emmited when changed
         void changed( bool );
 
-        public slots:
+        public Q_SLOTS:
 
         //! read current configuration
         virtual void load( void ) = 0;
@@ -72,7 +72,7 @@ namespace Oxygen
         //! save current configuration
         virtual void save( void ) = 0;
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! update visible ites
         virtual void updateItems( bool );

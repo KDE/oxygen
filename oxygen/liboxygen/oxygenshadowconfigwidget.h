@@ -26,8 +26,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <KConfig>
-#include <QtGui/QCheckBox>
-#include <QtGui/QGroupBox>
+#include <QCheckBox>
+#include <QGroupBox>
 
 #include "oxygen_export.h"
 
@@ -70,12 +70,12 @@ namespace Oxygen
         bool isChanged( void ) const
         { return _changed; }
 
-        signals:
+        Q_SIGNALS:
 
         //! emmitted when configuration is changed
         void changed( bool );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! update changed state
         virtual void updateChanged();

@@ -72,7 +72,7 @@ namespace Oxygen
         StackedWidgetEngine& stackedWidgetEngine( void ) const
         { return *_stackedWidgetEngine; }
 
-        public slots:
+        public Q_SLOTS:
 
         //! setup engines
         void setupEngines( void );

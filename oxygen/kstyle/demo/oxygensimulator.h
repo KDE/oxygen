@@ -27,17 +27,17 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtGui/QAbstractButton>
-#include <QtGui/QTabBar>
-#include <QtGui/QTabWidget>
-#include <QtGui/QWidget>
+#include <QAbstractButton>
+#include <QTabBar>
+#include <QTabWidget>
+#include <QWidget>
 
-#include <QtCore/QBasicTimer>
-#include <QtCore/QEvent>
-#include <QtCore/QList>
-#include <QtCore/QObject>
-#include <QtCore/QTimerEvent>
-#include <QtCore/QWeakPointer>
+#include <QBasicTimer>
+#include <QEvent>
+#include <QList>
+#include <QObject>
+#include <QTimerEvent>
+#include <QPointer>
 
 #include <KLocale>
 
@@ -120,12 +120,12 @@ namespace Oxygen
         static void setDefaultDelay( int value )
         { _defaultDelay = value; }
 
-        signals:
+        Q_SIGNALS:
 
         //! emitted when simulator starts and stops
         void stateChanged( bool );
 
-        public slots:
+        public Q_SLOTS:
 
         //! abort simulations
         void abort( void );
@@ -182,7 +182,7 @@ namespace Oxygen
 
         private:
 
-        typedef QWeakPointer<QWidget> WidgetPointer;
+        typedef QPointer<QWidget> WidgetPointer;
 
         //! event
         class Event

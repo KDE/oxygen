@@ -29,9 +29,9 @@
 
 #include "oxygentransitiondata.h"
 
-#include <QtCore/QString>
-#include <QtCore/QBasicTimer>
-#include <QtGui/QLineEdit>
+#include <QString>
+#include <QBasicTimer>
+#include <QLineEdit>
 
 namespace Oxygen
 {
@@ -66,7 +66,7 @@ namespace Oxygen
         void unlockAnimations( void )
         { _animationLockTimer.stop(); }
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! text edited
         virtual void textEdited( void );
@@ -118,7 +118,7 @@ namespace Oxygen
         QBasicTimer _timer;
 
         //! target
-        QWeakPointer<QLineEdit> _target;
+        QPointer<QLineEdit> _target;
 
         //! true if target has clean button
         bool _hasClearButton;

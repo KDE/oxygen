@@ -33,12 +33,12 @@
 #include "oxygenaddeventfilter.h"
 #include "oxygenstylehelper.h"
 
-#include <QtCore/QEvent>
-#include <QtCore/QObject>
-#include <QtCore/QSet>
+#include <QEvent>
+#include <QObject>
+#include <QSet>
 
-#include <QtGui/QWidget>
-#include <QtGui/QPaintEvent>
+#include <QWidget>
+#include <QPaintEvent>
 #include <KColorScheme>
 
 namespace Oxygen
@@ -109,7 +109,7 @@ namespace Oxygen
         //! install shadow on given side
         void installShadow( QWidget*, StyleHelper&, ShadowArea, bool flat = false ) const;
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! triggered by object destruction
         void widgetDestroyed( QObject* );

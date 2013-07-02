@@ -29,9 +29,9 @@
 
 #include "oxygentileset.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QPointer>
-#include <QtCore/QMap>
+#include <QObject>
+#include <QPointer>
+#include <QMap>
 
 #ifdef Q_WS_X11
 #include <X11/Xdefs.h>
@@ -78,7 +78,7 @@ namespace Oxygen
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! unregister widget
         void objectDeleted( QObject* );

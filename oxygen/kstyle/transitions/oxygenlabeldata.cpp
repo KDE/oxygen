@@ -27,9 +27,9 @@
 #include "oxygenlabeldata.h"
 #include "oxygenlabeldata.moc"
 
-#include <QtCore/QEvent>
-#include <QtCore/QTextStream>
-#include <QtGui/QPainter>
+#include <QEvent>
+#include <QTextStream>
+#include <QPainter>
 
 namespace Oxygen
 {

@@ -34,32 +34,30 @@
 #include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
 
-#include <QtGui/QApplication>
-#include <QtGui/QComboBox>
-#include <QtGui/QDialog>
-#include <QtGui/QDockWidget>
-#include <QtGui/QGraphicsView>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QListView>
-#include <QtGui/QMainWindow>
-#include <QtGui/QMdiSubWindow>
-#include <QtGui/QMenuBar>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QProgressBar>
-#include <QtGui/QScrollBar>
-#include <QtGui/QStatusBar>
-#include <QtGui/QStyle>
-#include <QtGui/QStyleOptionGroupBox>
-#include <QtGui/QTabBar>
-#include <QtGui/QTabWidget>
-#include <QtGui/QToolBar>
-#include <QtGui/QToolButton>
-#include <QtGui/QTreeView>
+#include <QApplication>
+#include <QComboBox>
+#include <QDialog>
+#include <QDockWidget>
+#include <QGraphicsView>
+#include <QGroupBox>
+#include <QLabel>
+#include <QListView>
+#include <QMainWindow>
+#include <QMdiSubWindow>
+#include <QMenuBar>
+#include <QMouseEvent>
+#include <QProgressBar>
+#include <QScrollBar>
+#include <QStatusBar>
+#include <QStyle>
+#include <QStyleOptionGroupBox>
+#include <QTabBar>
+#include <QTabWidget>
+#include <QToolBar>
+#include <QToolButton>
+#include <QTreeView>
 
-#include <QtCore/QTextStream>
-
-#include <KGlobalSettings>
+#include <QTextStream>
 
 #ifdef Q_WS_X11
 #include <QX11Info>
@@ -75,7 +73,7 @@ namespace Oxygen
         _enabled( true ),
         _useWMMoveResize( true ),
         _dragMode( StyleConfigData::WD_FULL ),
-        _dragDistance( KGlobalSettings::dndEventDelay() ),
+        _dragDistance( QApplication::startDragDistance() ),
         _dragDelay( QApplication::startDragTime() ),
         _dragAboutToStart( false ),
         _dragInProgress( false ),
@@ -97,7 +95,7 @@ namespace Oxygen
         setDragMode( StyleConfigData::windowDragMode() );
         setUseWMMoveResize( StyleConfigData::useWMMoveResize() );
 
-        setDragDistance( KGlobalSettings::dndEventDelay() );
+        setDragDistance( QApplication::startDragDistance() );
         setDragDelay( QApplication::startDragTime() );
 
         initializeWhiteList();
@@ -620,6 +618,8 @@ namespace Oxygen
             XUngrabPointer(QX11Info::display(), QX11Info::appTime());
             NETRootInfo rootInfo(QX11Info::display(), NET::WMMoveResize);
             rootInfo.moveResizeRequest( widget->window()->winId(), position.x(), position.y(), NET::Move);
+            #else
+            Q_UNUSED( position );
             #endif
 
         }

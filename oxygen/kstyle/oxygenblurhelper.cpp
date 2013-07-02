@@ -32,13 +32,13 @@
 
 #include "oxygenstyleconfigdata.h"
 
-#include <QtCore/QEvent>
-#include <QtCore/QVector>
-#include <QtGui/QProgressBar>
-#include <QtGui/QPushButton>
+#include <QEvent>
+#include <QVector>
+#include <QProgressBar>
+#include <QPushButton>
 
 #ifdef Q_WS_X11
-#include <QtGui/QX11Info>
+#include <QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #endif

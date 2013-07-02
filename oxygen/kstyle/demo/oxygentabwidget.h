@@ -88,7 +88,7 @@ namespace Oxygen
             tabBar()->setTabText( 3, "" );
         }
 
-        public slots:
+        public Q_SLOTS:
 
         // toggle tabbar visibility
         void toggleTabBarVisibility( bool value )

@@ -29,11 +29,11 @@
 
 #include "oxygentransitiondata.h"
 
-#include <QtCore/QString>
-#include <QtCore/QBasicTimer>
-#include <QtCore/QTimerEvent>
-#include <QtGui/QComboBox>
-#include <QtGui/QLineEdit>
+#include <QString>
+#include <QBasicTimer>
+#include <QTimerEvent>
+#include <QComboBox>
+#include <QLineEdit>
 
 namespace Oxygen
 {
@@ -66,7 +66,7 @@ namespace Oxygen
         QRect targetRect( void ) const
         { return _target ? _target.data()->rect().adjusted( 5, 5, -5, -5 ):QRect(); }
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! triggered when item is activated in combobox
         virtual void  indexChanged( void );
@@ -86,7 +86,7 @@ namespace Oxygen
         QBasicTimer _timer;
 
         //! target
-        QWeakPointer<QComboBox> _target;
+        QPointer<QComboBox> _target;
 
     };
 

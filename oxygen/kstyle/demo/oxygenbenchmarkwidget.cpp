@@ -28,7 +28,7 @@
 #include "oxygenbenchmarkwidget.moc"
 
 #include <KIcon>
-#include <QtGui/QAbstractItemView>
+#include <QAbstractItemView>
 
 namespace Oxygen
 {

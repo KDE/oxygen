@@ -27,8 +27,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtGui/QWidget>
-#include <QtGui/QToolButton>
+#include <QWidget>
+#include <QToolButton>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygenmdidemowidget.h"
@@ -49,7 +49,7 @@ namespace Oxygen
         virtual ~MdiDemoWidget( void )
         {}
 
-        public slots:
+        public Q_SLOTS:
 
         void benchmark( void );
 

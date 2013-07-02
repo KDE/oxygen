@@ -23,9 +23,9 @@
 
 #include "oxygen_export.h"
 
-#include <QtGui/QPixmap>
-#include <QtCore/QRect>
-#include <QtCore/QVector>
+#include <QPixmap>
+#include <QRect>
+#include <QVector>
 
 //! handles proper scaling of pixmap to match widget rect.
 /*!
@@ -112,10 +112,6 @@ namespace Oxygen
         //! is valid
         bool isValid( void ) const
         { return _pixmaps.size() == 9; }
-
-        //! save all pixmaps
-        /*! pixmap names will be \p basename-position.suffix. Other arguments are the same as for QPixmap::save */
-        void save( const QString& basename, const QString& suffix = "png", const char* format = 0, int quality = -1 ) const;
 
         //! side extend
         /*!

@@ -27,9 +27,9 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtGui/QWidget>
-#include <QtGui/QProgressBar>
-#include <QtGui/QCheckBox>
+#include <QWidget>
+#include <QProgressBar>
+#include <QCheckBox>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygensliderdemowidget.h"
@@ -49,7 +49,7 @@ namespace Oxygen
         //! set value
         void setValue( int );
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! toggle bussy state
         void toggleBusy( bool );
@@ -81,12 +81,12 @@ namespace Oxygen
         virtual ~SliderDemoWidget( void )
         {}
 
-        public slots:
+        public Q_SLOTS:
 
         //! benchmark
         void benchmark( void );
 
-        protected slots:
+        protected Q_SLOTS:
 
         void updateSliders( int );
 

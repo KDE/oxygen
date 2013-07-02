@@ -78,7 +78,7 @@ namespace Oxygen
         virtual qreal opacity( const QPaintDevice* object )
         { return isAnimated( object ) ? data( object ).data()->opacity(): AnimationData::OpacityInvalid; }
 
-        public slots:
+        public Q_SLOTS:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* data )

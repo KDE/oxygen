@@ -142,7 +142,7 @@ namespace Oxygen
         QPoint position( void ) const
         { return _position; }
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! clear addLineRect
         void clearAddLineRect( void )

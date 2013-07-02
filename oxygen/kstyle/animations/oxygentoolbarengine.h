@@ -103,7 +103,7 @@ namespace Oxygen
             { if( value ) value.data()->setFollowMouseDuration( duration ); }
         }
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )

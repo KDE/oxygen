@@ -28,7 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenanimationdata.h"
-#include <QtCore/QBasicTimer>
+#include <QBasicTimer>
 
 namespace Oxygen
 {
@@ -107,7 +107,7 @@ namespace Oxygen
             updateAnimatedRect();
         }
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! updated animated rect
         virtual void updateAnimatedRect( void );

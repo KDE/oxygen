@@ -46,7 +46,7 @@ namespace Oxygen
         virtual ~ConfigDialog( void )
         {}
 
-        signals:
+        Q_SIGNALS:
 
         //! save local changes
         void pluginSave( void );
@@ -54,12 +54,12 @@ namespace Oxygen
         //! expert mode
         void pluginToggleExpertMode( bool );
 
-        public slots:
+        public Q_SLOTS:
 
         //! save local changes
         virtual void save( void );
 
-        protected slots:
+        protected Q_SLOTS:
 
         // update decoration changed state
         void updateStyleChanged( bool state = true )

@@ -88,7 +88,7 @@ namespace Oxygen
             _enableData.setDuration( value );
         }
 
-        public slots:
+        public Q_SLOTS:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
@@ -120,4 +120,3 @@ namespace Oxygen
 Q_DECLARE_OPERATORS_FOR_FLAGS(Oxygen::AnimationModes)
 
 #endif
-

@@ -27,7 +27,7 @@
 #include "oxygenmenubardata.h"
 #include "oxygenmenubardata.moc"
 
-#include <QtCore/QTextStream>
+#include <QTextStream>
 
 namespace Oxygen
 {

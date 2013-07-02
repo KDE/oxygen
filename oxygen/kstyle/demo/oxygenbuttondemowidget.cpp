@@ -27,7 +27,7 @@
 #include "oxygenbuttondemowidget.h"
 #include "oxygenbuttondemowidget.moc"
 
-#include <QtGui/QMenu>
+#include <QMenu>
 #include <KIcon>
 
 namespace Oxygen

@@ -28,8 +28,8 @@
 
 #include "oxygenanimation.h"
 
-#include <QtCore/QWeakPointer>
-#include <QtGui/QWidget>
+#include <QPointer>
+#include <QWidget>
 
 #include <cmath>
 
@@ -48,7 +48,7 @@ namespace Oxygen
         public:
 
         //! shortcut to painter
-        typedef QWeakPointer<TransitionWidget> Pointer;
+        typedef QPointer<TransitionWidget> Pointer;
 
         //! constructor
         TransitionWidget( QWidget* parent, int duration );
@@ -171,7 +171,7 @@ namespace Oxygen
         //! true if paint is enabled
         static bool paintEnabled( void );
 
-        signals:
+        Q_SIGNALS:
 
         //! emmitted when animation is finished/aborder
         void finished( void );

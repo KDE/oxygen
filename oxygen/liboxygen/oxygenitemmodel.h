@@ -28,7 +28,7 @@
 
 #include "oxygen_export.h"
 
-#include <QtCore/QAbstractItemModel>
+#include <QAbstractItemModel>
 
 namespace Oxygen
 {

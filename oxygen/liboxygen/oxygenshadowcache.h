@@ -30,8 +30,8 @@
 #include "oxygenhelper.h"
 #include "oxygen_export.h"
 
-#include <QtCore/QCache>
-#include <QtGui/QRadialGradient>
+#include <QCache>
+#include <QRadialGradient>
 #include <cmath>
 
 namespace Oxygen

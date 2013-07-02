@@ -27,9 +27,9 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QtGui/QWidget>
-#include <QtGui/QBoxLayout>
-#include <QtGui/QFrame>
+#include <QWidget>
+#include <QBoxLayout>
+#include <QFrame>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygenframedemowidget.h"
@@ -50,7 +50,7 @@ namespace Oxygen
         virtual ~FrameDemoWidget( void )
         {}
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! groupbox
         void toggleFlatGroupBox( bool value )
@@ -69,7 +69,7 @@ namespace Oxygen
         //! layout direction
         void updateLayoutDirection( int );
 
-        public slots:
+        public Q_SLOTS:
 
         // benchmarking
         void benchmark( void );

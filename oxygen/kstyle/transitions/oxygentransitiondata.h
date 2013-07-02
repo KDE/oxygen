@@ -29,9 +29,9 @@
 
 #include "oxygentransitionwidget.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QTime>
-#include <QtGui/QWidget>
+#include <QObject>
+#include <QTime>
+#include <QWidget>
 
 namespace Oxygen
 {
@@ -84,7 +84,7 @@ namespace Oxygen
         bool slow( void ) const
         { return !( _clock.isNull() || _clock.elapsed() <= maxRenderTime() ); }
 
-        protected slots:
+        protected Q_SLOTS:
 
         //! initialize animation
         virtual bool initializeAnimation( void ) = 0;
@@ -149,4 +149,3 @@ namespace Oxygen
 }
 
 #endif
-

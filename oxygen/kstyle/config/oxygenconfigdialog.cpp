@@ -26,10 +26,10 @@
 #include "oxygenconfigdialog.h"
 #include "oxygenconfigdialog.moc"
 
-#include <QtCore/QTextStream>
-#include <QtCore/QTimer>
-#include <QtGui/QLabel>
-#include <QtGui/QShortcut>
+#include <QTextStream>
+#include <QTimer>
+#include <QLabel>
+#include <QShortcut>
 
 #include <KConfigGroup>
 #include <KGlobalSettings>
