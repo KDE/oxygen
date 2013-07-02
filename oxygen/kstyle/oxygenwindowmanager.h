@@ -207,7 +207,7 @@ namespace Oxygen
             //! constructor
             explicit ExceptionId( const QString& value )
             {
-                const QStringList args( value.split( "@" ) );
+                const QStringList args( value.split( QChar::fromLatin1( '@' ) ) );
                 if( args.isEmpty() ) return;
                 second = args[0].trimmed();
                 if( args.size()>1 ) first = args[1].trimmed();

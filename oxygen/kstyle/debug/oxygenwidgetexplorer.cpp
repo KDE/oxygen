@@ -42,19 +42,19 @@ namespace Oxygen
         _drawWidgetRects( false )
     {
 
-        _eventTypes.insert( QEvent::Enter, "Enter" );
-        _eventTypes.insert( QEvent::Leave, "Leave" );
+        _eventTypes.insert( QEvent::Enter, QString::fromLatin1( "Enter" ) );
+        _eventTypes.insert( QEvent::Leave, QString::fromLatin1( "Leave" ) );
 
-        _eventTypes.insert( QEvent::HoverMove, "HoverMove" );
-        _eventTypes.insert( QEvent::HoverEnter, "HoverEnter" );
-        _eventTypes.insert( QEvent::HoverLeave, "HoverLeave" );
+        _eventTypes.insert( QEvent::HoverMove, QString::fromLatin1( "HoverMove" ) );
+        _eventTypes.insert( QEvent::HoverEnter, QString::fromLatin1( "HoverEnter" ) );
+        _eventTypes.insert( QEvent::HoverLeave, QString::fromLatin1( "HoverLeave" ) );
 
-        _eventTypes.insert( QEvent::MouseMove, "MouseMove" );
-        _eventTypes.insert( QEvent::MouseButtonPress, "MouseButtonPress" );
-        _eventTypes.insert( QEvent::MouseButtonRelease, "MouseButtonRelease" );
+        _eventTypes.insert( QEvent::MouseMove, QString::fromLatin1( "MouseMove" ) );
+        _eventTypes.insert( QEvent::MouseButtonPress, QString::fromLatin1( "MouseButtonPress" ) );
+        _eventTypes.insert( QEvent::MouseButtonRelease, QString::fromLatin1( "MouseButtonRelease" ) );
 
-        _eventTypes.insert( QEvent::FocusIn, "FocusIn" );
-        _eventTypes.insert( QEvent::FocusOut, "FocusOut" );
+        _eventTypes.insert( QEvent::FocusIn, QString::fromLatin1( "FocusIn" ) );
+        _eventTypes.insert( QEvent::FocusOut, QString::fromLatin1( "FocusOut" ) );
 
         // _eventTypes.insert( QEvent::Paint, "Paint" );
 
@@ -144,10 +144,10 @@ namespace Oxygen
     {
         switch( type )
         {
-            case QEvent::MouseButtonPress: return "MouseButtonPress";
-            case QEvent::MouseButtonRelease: return "MouseButtonRelease";
-            case QEvent::MouseMove: return "MouseMove";
-            default: return "Unknown";
+            case QEvent::MouseButtonPress: return QString::fromLatin1( "MouseButtonPress" );
+            case QEvent::MouseButtonRelease: return QString::fromLatin1( "MouseButtonRelease" );
+            case QEvent::MouseMove: return QString::fromLatin1( "MouseMove" );
+            default: return QString::fromLatin1( "Unknown" );
         }
     }
 
@@ -156,7 +156,7 @@ namespace Oxygen
     {
 
         QRect r( widget->geometry() );
-        QString className( widget->metaObject()->className() );
+        const char* className( widget->metaObject()->className() );
         QString out;
         QTextStream( &out ) << widget << " (" << className << ")"
             << " position: " << r.x() << "," << r.y()

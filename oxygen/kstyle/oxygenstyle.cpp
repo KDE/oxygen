@@ -165,7 +165,7 @@ namespace Oxygen
     //_________________________________________________
     QStyle* Oxygen::StylePlugin::create( const QString &key )
     {
-        if( key.toLower() == "oxygen" ) return new Style();
+        if( key.toLower() == QString::fromLatin1( "oxygen" ) ) return new Style();
         else return 0;
     }
 
@@ -214,8 +214,8 @@ namespace Oxygen
         _hintCounter( X_KdeBase+1 ),
         _controlCounter( X_KdeBase ),
         _subElementCounter( X_KdeBase ),
-        SH_ArgbDndWindow( newStyleHint( "SH_ArgbDndWindow" ) ),
-        CE_CapacityBar( newControlElement( "CE_CapacityBar" ) )
+        SH_ArgbDndWindow( newStyleHint( QString::fromLatin1( "SH_ArgbDndWindow" ) ) ),
+        CE_CapacityBar( newControlElement( QString::fromLatin1( "CE_CapacityBar" ) ) )
 
     {
 
@@ -2864,7 +2864,7 @@ namespace Oxygen
         if( _tabCloseIcon.isNull() ) {
 
             // load the icon on-demand: in the constructor, KDE is not yet ready to find it!
-            _tabCloseIcon = QIcon::fromTheme( "dialog-close" );
+            _tabCloseIcon = QIcon::fromTheme( QString::fromLatin1( "dialog-close" ) );
             if( _tabCloseIcon.isNull() ) return false; // still not found? cancel
         }
 
@@ -3261,7 +3261,7 @@ namespace Oxygen
 
         //! fine tuning of slitRect geometry
         if( widget && widget->inherits( "QToolBarExtension" ) ) slitRect.adjust( 1, 1, -1, -1 );
-        else if( widget && widget->objectName() == "qt_menubar_ext_button" ) slitRect.adjust( -1, -1, 0, 0 );
+        else if( widget && widget->objectName() == QString::fromLatin1( "qt_menubar_ext_button" ) ) slitRect.adjust( -1, -1, 0, 0 );
 
         // normal ( auto-raised ) toolbuttons
         if( flags & ( State_Sunken|State_On ) )
@@ -4311,10 +4311,10 @@ namespace Oxygen
 
         // this is quite suboptimal
         // and does not really work
-        if( tmpTitle.contains( "&" ) )
+        if( tmpTitle.contains( QChar::fromLatin1( '&' ) ) )
         {
-            int pos = tmpTitle.indexOf( "&" );
-            if( !( tmpTitle.size()-1 > pos && tmpTitle.at( pos+1 ) == QChar( '&' ) ) ) tmpTitle.remove( pos, 1 );
+            int pos = tmpTitle.indexOf( QChar::fromLatin1( '&' ) );
+            if( !( tmpTitle.size()-1 > pos && tmpTitle.at( pos+1 ) == QChar::fromLatin1( '&' ) ) ) tmpTitle.remove( pos, 1 );
 
         }
 

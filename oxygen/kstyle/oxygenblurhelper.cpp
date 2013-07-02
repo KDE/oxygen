@@ -257,6 +257,10 @@ namespace Oxygen
         if( widget->isVisible() )
         { widget->update(); }
 
+        #else
+
+        Q_UNUSED( widget )
+
         #endif
 
     }
@@ -268,6 +272,8 @@ namespace Oxygen
         #ifdef Q_WS_X11
         XDeleteProperty( QX11Info::display(), widget->winId(), _blurAtom );
         XDeleteProperty( QX11Info::display(), widget->winId(), _opaqueAtom );
+        #else
+        Q_UNUSED( widget )
         #endif
 
     }

@@ -250,7 +250,7 @@ namespace Oxygen
         if( propertyValue.isValid() && propertyValue.toBool() ) return;
 
         // these are needed to not register animations for kwin widgets
-        if( widget->objectName() == "decoration widget" ) return;
+        // if( widget->objectName() == "decoration widget" ) return;
         if( widget->inherits( "KCommonDecorationButton" ) ) return;
         if( widget->inherits( "QShapedPixmapWidget" ) ) return;
 

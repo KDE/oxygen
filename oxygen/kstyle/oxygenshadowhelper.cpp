@@ -395,6 +395,8 @@ namespace Oxygen
         #ifdef Q_WS_X11
         if( !( widget && widget->testAttribute(Qt::WA_WState_Created) ) ) return;
         XDeleteProperty(QX11Info::display(), widget->winId(), _atom);
+        #else
+        Q_UNUSED( widget )
         #endif
 
     }

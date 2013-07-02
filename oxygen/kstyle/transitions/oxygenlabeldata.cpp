@@ -68,7 +68,7 @@ namespace Oxygen
             text mnemonic is always removed to avoid triggering the animation when only the
             latter is changed
             */
-            _text = _target.data()->text().remove( '&' );
+            _text = _target.data()->text().remove( QChar::fromLatin1( '&' ) );
             break;
 
             case QEvent::Paint:
@@ -78,7 +78,7 @@ namespace Oxygen
                 {
 
                     // remove showMnemonic from text before comparing
-                    QString text( _target.data()->text().remove( '&' ) );
+                    QString text( _target.data()->text().remove( QChar::fromLatin1( '&' ) ) );
                     if( text == _text )
                     {
                         if(
