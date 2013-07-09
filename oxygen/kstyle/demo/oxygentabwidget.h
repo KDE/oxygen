@@ -2,8 +2,7 @@
 #define oxygentabwidget_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygendemodialog.h
-// oxygen demo dialog
+// oxygentabwidget.h
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -27,29 +26,25 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <KTabWidget>
-#include <KTabBar>
-#include <KIcon>
+#include <QTabWidget>
+#include <QTabBar>
+#include <QIcon>
 
 namespace Oxygen
 {
-    class TabWidget: public KTabWidget
+    class TabWidget: public QTabWidget
     {
 
         Q_OBJECT
 
         public:
 
+        //! constructor
         explicit TabWidget( QWidget* parent ):
-            KTabWidget( parent )
-        {
+            QTabWidget( parent )
+        { tabBar()->setMovable( true ); }
 
-            // make tabs movable, for further debugging
-            tabBar()->setMovable( true );
-
-        }
-
-
+        // adjust tabbar size
         void adjustTabBarSize( void )
         {  if( tabBar() ) tabBar()->adjustSize(); }
 
@@ -57,10 +52,10 @@ namespace Oxygen
         void showIcons( void )
         {
             // add icons to tabs
-            tabBar()->setTabIcon( 0, KIcon( "document-open-folder" ) );
-            tabBar()->setTabIcon( 1, KIcon( "document-open-folder" ) );
-            tabBar()->setTabIcon( 2, KIcon( "document-open-folder" ) );
-            tabBar()->setTabIcon( 3, KIcon( "document-open-folder" ) );
+            tabBar()->setTabIcon( 0, QIcon::fromTheme( QString::fromLatin1( "document-open-folder" ) ) );
+            tabBar()->setTabIcon( 1, QIcon::fromTheme( QString::fromLatin1( "document-open-folder" ) ) );
+            tabBar()->setTabIcon( 2, QIcon::fromTheme( QString::fromLatin1( "document-open-folder" ) ) );
+            tabBar()->setTabIcon( 3, QIcon::fromTheme( QString::fromLatin1( "document-open-folder" ) ) );
         }
 
         void hideIcons( void )
@@ -74,18 +69,18 @@ namespace Oxygen
 
         void showText( void )
         {
-            tabBar()->setTabText( 0, "First Tab" );
-            tabBar()->setTabText( 1, "Second Tab" );
-            tabBar()->setTabText( 2, "Third Tab" );
-            tabBar()->setTabText( 3, "Fourth Tab" );
+            tabBar()->setTabText( 0, QString::fromLatin1( "First Tab" ) );
+            tabBar()->setTabText( 1, QString::fromLatin1( "Second Tab" ) );
+            tabBar()->setTabText( 2, QString::fromLatin1( "Third Tab" ) );
+            tabBar()->setTabText( 3, QString::fromLatin1( "Fourth Tab" ) );
         }
 
         void hideText( void )
         {
-            tabBar()->setTabText( 0, "" );
-            tabBar()->setTabText( 1, "" );
-            tabBar()->setTabText( 2, "" );
-            tabBar()->setTabText( 3, "" );
+            tabBar()->setTabText( 0, QString() );
+            tabBar()->setTabText( 1, QString() );
+            tabBar()->setTabText( 2, QString());
+            tabBar()->setTabText( 3, QString() );
         }
 
         public Q_SLOTS:

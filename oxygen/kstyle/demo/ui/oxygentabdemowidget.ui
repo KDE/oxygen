@@ -154,7 +154,7 @@
            </widget>
           </item>
           <item>
-           <widget class="KTextEdit" name="textEdit"/>
+           <widget class="QTextEdit" name="textEdit"/>
           </item>
          </layout>
         </widget>
@@ -202,7 +202,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="KTextEdit" name="textEdit_2">
+           <widget class="QTextEdit" name="textEdit_2">
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
             </property>
@@ -219,25 +219,20 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>KTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
   </customwidget>
   <customwidget>
    <class>Oxygen::TabWidget</class>

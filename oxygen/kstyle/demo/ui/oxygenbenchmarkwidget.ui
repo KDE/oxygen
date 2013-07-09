@@ -81,7 +81,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="KPushButton" name="runButton">
+      <widget class="QPushButton" name="runButton">
        <property name="text">
         <string>Run Simulation</string>
        </property>
@@ -91,13 +91,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

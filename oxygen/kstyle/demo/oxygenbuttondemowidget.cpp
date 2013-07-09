@@ -28,7 +28,7 @@
 #include "oxygenbuttondemowidget.moc"
 
 #include <QMenu>
-#include <KIcon>
+#include <QIcon>
 
 namespace Oxygen
 {
@@ -40,8 +40,8 @@ namespace Oxygen
 
         ui.setupUi( this );
 
-        ui.pushButton_3->setIcon( KIcon("oxygen") );
-        ui.pushButton_4->setIcon( KIcon("oxygen") );
+        ui.pushButton_3->setIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
+        ui.pushButton_4->setIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen") ) );
 
         installMenu( ui.pushButton_2 );
         installMenu( ui.pushButton_4 );
@@ -54,30 +54,30 @@ namespace Oxygen
 
         connect( ui.flatButtonCheckBox, SIGNAL(toggled(bool)), SLOT(toggleFlat(bool)) );
 
-        ui.kcombobox_2->addItem( KIcon("oxygen"), i18n( "Normal" ) );
-        ui.kcombobox_2->addItem( KIcon("document-new"), i18n( "New" ) );
-        ui.kcombobox_2->addItem( KIcon("document-open"), i18n( "Open" ) );
-        ui.kcombobox_2->addItem( KIcon("document-save"), i18n( "Save" ) );
+        ui.kcombobox_2->addItem( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ), i18n( "Normal" ) );
+        ui.kcombobox_2->addItem( QIcon::fromTheme( QString::fromLatin1( "document-new" ) ), i18n( "New" ) );
+        ui.kcombobox_2->addItem( QIcon::fromTheme( QString::fromLatin1( "document-open" ) ), i18n( "Open" ) );
+        ui.kcombobox_2->addItem( QIcon::fromTheme( QString::fromLatin1( "document-save" ) ), i18n( "Save" ) );
 
-        ui.toolButton_2->setIcon( KIcon("oxygen") );
+        ui.toolButton_2->setIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
         ui.toolButton_2->setIconSize( QSize(16,16 ) );
         ui.toolButton_2->setToolButtonStyle( Qt::ToolButtonTextBesideIcon	);
 
-        ui.toolButton_3->setIcon( KIcon("oxygen") );
-        ui.toolButton_4->setIcon( KIcon("oxygen") );
-        ui.toolButton_5->setIcon( KIcon("oxygen") );
-        ui.toolButton_6->setIcon( KIcon("oxygen") );
-        ui.toolButton_7->setIcon( KIcon("oxygen") );
-        ui.toolButton_8->setIcon( KIcon("oxygen") );
+        ui.toolButton_3->setIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
+        ui.toolButton_4->setIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
+        ui.toolButton_5->setIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
+        ui.toolButton_6->setIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
+        ui.toolButton_7->setIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
+        ui.toolButton_8->setIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
 
         // add toolbar
         ui.toolBarContainer->setLayout( new QVBoxLayout() );
         _toolBar = new KToolBar( ui.toolBarContainer );
         ui.toolBarContainer->layout()->addWidget( _toolBar );
-        _toolBar->addAction( KIcon("document-new"), i18n( "New" ) );
-        _toolBar->addAction( KIcon("document-open"), i18n( "Open" ) );
-        _toolBar->addAction( KIcon("document-save"), i18n( "Save" ) );
-        QAction* action( _toolBar->addAction( KIcon("dialog-password"), i18n( "Toggle authentication" ) ) );
+        _toolBar->addAction( QIcon::fromTheme( QString::fromLatin1( "document-new" ) ), i18n( "New" ) );
+        _toolBar->addAction( QIcon::fromTheme( QString::fromLatin1( "document-open" ) ), i18n( "Open" ) );
+        _toolBar->addAction( QIcon::fromTheme( QString::fromLatin1( "document-save" ) ), i18n( "Save" ) );
+        QAction* action( _toolBar->addAction( QIcon::fromTheme( QString::fromLatin1( "dialog-password" ) ), i18n( "Toggle authentication" ) ) );
         action->setCheckable( true );
         action->setChecked( true );
 
@@ -246,9 +246,9 @@ namespace Oxygen
     void ButtonDemoWidget::installMenu( QToolButton* button )
     {
         QMenu* menu = new QMenu();
-        menu->addAction( KIcon( "document-new" ), i18n( "New" ) );
-        menu->addAction( KIcon( "document-open" ), i18n( "Open" ) );
-        menu->addAction( KIcon( "document-save" ), i18n( "Save" ) );
+        menu->addAction( QIcon::fromTheme( QString::fromLatin1( "document-new" ) ), i18n( "New" ) );
+        menu->addAction( QIcon::fromTheme( QString::fromLatin1( "document-open" ) ), i18n( "Open" ) );
+        menu->addAction( QIcon::fromTheme( QString::fromLatin1( "document-save" ) ), i18n( "Save" ) );
         button->setMenu( menu );
     }
 
@@ -256,9 +256,9 @@ namespace Oxygen
     void ButtonDemoWidget::installMenu( QPushButton* button )
     {
         QMenu* menu = new QMenu();
-        menu->addAction( KIcon( "document-new" ), i18n( "New" ) );
-        menu->addAction( KIcon( "document-open" ), i18n( "Open" ) );
-        menu->addAction( KIcon( "document-save" ), i18n( "Save" ) );
+        menu->addAction( QIcon::fromTheme( QString::fromLatin1( "document-new" ) ), i18n( "New" ) );
+        menu->addAction( QIcon::fromTheme( QString::fromLatin1( "document-open" ) ), i18n( "Open" ) );
+        menu->addAction( QIcon::fromTheme( QString::fromLatin1( "document-save" ) ), i18n( "Save" ) );
         button->setMenu( menu );
     }
 

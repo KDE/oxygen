@@ -1,6 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// main.cpp
-// oxygen-demo main
+// oxygentabwidget.cpp
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
@@ -24,20 +23,5 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygendemodialog.h"
-#include <QApplication>
-#include <QIcon>
-
-#include <cassert>
-
-int main(int argc, char *argv[])
-{
-
-    QApplication app( argc, argv );
-    app.setApplicationName( QString::fromLatin1( "Oxygen Demo" ) );
-    app.setWindowIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
-    Oxygen::DemoDialog dialog;
-    dialog.show();
-    bool result = app.exec();
-    return result;
-}
+#include "oxygentabwidget.h"
+#include "oxygentabwidget.moc"

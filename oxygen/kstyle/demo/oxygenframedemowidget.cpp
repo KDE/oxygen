@@ -31,7 +31,6 @@
 
 #include <KComboBox>
 #include <KLocale>
-#include <KTabWidget>
 
 namespace Oxygen
 {

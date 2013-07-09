@@ -39,7 +39,7 @@
 #include <QTimerEvent>
 #include <QPointer>
 
-#include <KLocale>
+#include <KLocalizedString>
 
 namespace Oxygen
 {

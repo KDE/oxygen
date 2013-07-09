@@ -602,8 +602,8 @@ namespace Oxygen
 
                 enter( receiver, receiver->rect().center(), event._delay );
                 setFocus( receiver );
-                postKeyEvent( receiver, QEvent::KeyPress, Qt::Key_A, "a", Qt::ControlModifier );
-                postKeyEvent( receiver, QEvent::KeyRelease, Qt::Key_A, "a", Qt::ControlModifier );
+                postKeyEvent( receiver, QEvent::KeyPress, Qt::Key_A, QString::fromLatin1( "a" ), Qt::ControlModifier );
+                postKeyEvent( receiver, QEvent::KeyRelease, Qt::Key_A, QString::fromLatin1( "a" ), Qt::ControlModifier );
                 postDelay( 20 );
                 postKeyClickEvent( receiver, Qt::Key_Backspace, QString() );
 

@@ -46,7 +46,7 @@ set(oxygenstyleconfig_LIB_SRCS
     oxygenshadowconfigwidget.cpp
 )
 
-set(oxygenstyleconfig_LIB_FORMS 
+set(oxygenstyleconfig_LIB_FORMS
     ui/oxygenanimationconfigitem.ui
     ui/oxygenanimationconfigwidget.ui
     ui/oxygengenericanimationconfigbox.ui
@@ -56,15 +56,24 @@ set(oxygenstyleconfig_LIB_FORMS
 qt5_wrap_ui(oxygenstyleconfig_LIB_FORMS_HEADERS ${oxygenstyleconfig_LIB_FORMS})
 
 kconfig_add_kcfg_files(oxygenstyleconfig_LIB_SRCS
-  oxygenactiveshadowconfiguration.kcfgc
-  oxygeninactiveshadowconfiguration.kcfgc
+    oxygenactiveshadowconfiguration.kcfgc
+    oxygeninactiveshadowconfiguration.kcfgc
 )
 
 add_library(oxygenstyleconfig SHARED
-  ${oxygenstyleconfig_LIB_SRCS}
-  ${oxygenstyleconfig_LIB_FORMS_HEADERS} )
+    ${oxygenstyleconfig_LIB_SRCS}
+    ${oxygenstyleconfig_LIB_FORMS_HEADERS} )
 
-qt5_use_modules( oxygenstyleconfig Core Gui Widgets PrintSupport Xml Network Concurrent X11Extras)
+qt5_use_modules( oxygenstyleconfig
+    Core
+    Gui
+    Widgets
+    # needed for KDEUI
+    PrintSupport
+    Xml
+    Network
+    Concurrent
+    X11Extras )
 
 target_link_libraries(oxygenstyleconfig oxygenstyle)
 target_link_libraries(oxygenstyleconfig

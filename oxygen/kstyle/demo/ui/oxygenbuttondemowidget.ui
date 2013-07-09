@@ -136,26 +136,6 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="KPushButton" name="pushButton">
-        <property name="toolTip">
-         <string>This is a normal, text only button</string>
-        </property>
-        <property name="text">
-         <string>Normal</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="KPushButton" name="pushButton_2">
-        <property name="toolTip">
-         <string>This is a normal, text only button with menu</string>
-        </property>
-        <property name="text">
-         <string>Normal</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="4">
        <widget class="KComboBox" name="kcombobox">
         <property name="toolTip">
@@ -204,26 +184,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="KPushButton" name="pushButton_3">
-        <property name="toolTip">
-         <string>This is a normal, text and icon button</string>
-        </property>
-        <property name="text">
-         <string>Normal</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="KPushButton" name="pushButton_4">
-        <property name="toolTip">
-         <string>This is a normal, text and icon button with menu</string>
-        </property>
-        <property name="text">
-         <string>Normal</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0" colspan="2">
        <widget class="QCheckBox" name="flatButtonCheckBox">
         <property name="text">
@@ -252,6 +212,46 @@
        <widget class="QToolButton" name="toolButton_2">
         <property name="toolTip">
          <string>This is a normal, text and icon tool button</string>
+        </property>
+        <property name="text">
+         <string>Normal</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="pushButton">
+        <property name="toolTip">
+         <string>This is a normal, text only button</string>
+        </property>
+        <property name="text">
+         <string>Normal</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="toolTip">
+         <string>This is a normal, text only button with menu</string>
+        </property>
+        <property name="text">
+         <string>Normal</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="toolTip">
+         <string>This is a normal, text and icon button</string>
+        </property>
+        <property name="text">
+         <string>Normal</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="toolTip">
+         <string>This is a normal, text and icon button with menu</string>
         </property>
         <property name="text">
          <string>Normal</string>
@@ -511,11 +511,6 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -51,7 +51,7 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="2">
-        <widget class="KTextEdit" name="textEdit"/>
+        <widget class="QTextEdit" name="textEdit"/>
        </item>
       </layout>
      </widget>
@@ -90,7 +90,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>83</width>
+            <width>94</width>
             <height>40</height>
            </rect>
           </property>
@@ -132,8 +132,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>100</width>
-            <height>30</height>
+            <width>94</width>
+            <height>24</height>
            </rect>
           </property>
           <attribute name="label">
@@ -153,11 +153,6 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

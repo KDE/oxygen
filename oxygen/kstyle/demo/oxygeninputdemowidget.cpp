@@ -38,7 +38,7 @@ namespace Oxygen
         ui.setupUi( this );
         ui.klineedit->setText( i18n( "Example text" ) );
         ui.klineedit_2->setText( i18n( "password" ) );
-        ui.textedit->setPlainText(
+        ui.textedit->setPlainText( QString::fromLatin1(
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor "
             "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud "
             "exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute "
@@ -55,7 +55,7 @@ namespace Oxygen
             "nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi "
             "consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam "
             "nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla "
-            "pariatur?");
+            "pariatur?" ) );
         ui.textedit->setLineWrapMode( QTextEdit::NoWrap );
         connect( ui.flatCheckBox, SIGNAL(toggled(bool)), SLOT(toggleFlatWidgets(bool)) );
         connect( ui.wrapCheckBox, SIGNAL(toggled(bool)), SLOT(toggleWrapMode(bool)) );
@@ -90,9 +90,9 @@ namespace Oxygen
             simulator().selectComboBoxItem( ui.kcombobox, 0 );
 
             simulator().clearText( ui.kintspinbox );
-            simulator().writeText( ui.kintspinbox, "10" );
+            simulator().writeText( ui.kintspinbox, QString::fromLatin1( "10" ) );
             simulator().clearText( ui.kintspinbox );
-            simulator().writeText( ui.kintspinbox, "0" );
+            simulator().writeText( ui.kintspinbox, QString::fromLatin1( "0" ) );
 
         }
 

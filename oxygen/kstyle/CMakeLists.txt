@@ -1,5 +1,8 @@
 project(kstyle-oxygen)
 
+# add_subdirectory( config )
+add_subdirectory( demo )
+
 ################# X11 #################
 find_package(X11)
 if(X11_FOUND)
@@ -77,8 +80,21 @@ kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 
 add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
-qt5_use_modules( oxygen Core Gui Widgets DBus Svg )
-target_link_libraries(oxygen ${KConfig_LIBRARIES} ${kguiaddons_LIBRARIES} ${kwidgets_LIBRARIES} ${KIconThemes_LIBRARIES} ${KWindowSystem_LIBRARIES})
+qt5_use_modules( oxygen
+    Core
+    Gui
+    Widgets
+    DBus
+    Svg )
+
+target_link_libraries(oxygen
+    ${KConfig_LIBRARIES}
+    ${kguiaddons_LIBRARIES}
+    ${kwidgets_LIBRARIES}
+    ${KIconThemes_LIBRARIES}
+    ${KWindowSystem_LIBRARIES}
+)
+
 target_link_libraries(oxygen oxygenstyle)
 
 if(X11_FOUND)

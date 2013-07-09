@@ -29,13 +29,13 @@
 
 #include "oxygendemowidget.h"
 
-#include <KDialog>
 #include <KPageWidget>
 #include <KPushButton>
 
 #include <QList>
 #include <QWidget>
 #include <QCheckBox>
+#include <QDialog>
 
 namespace Oxygen
 {
@@ -47,7 +47,7 @@ namespace Oxygen
     class MdiDemoWidget;
     class SliderDemoWidget;
     class TabDemoWidget;
-    class DemoDialog: public KDialog
+    class DemoDialog: public QDialog
     {
         Q_OBJECT
 
