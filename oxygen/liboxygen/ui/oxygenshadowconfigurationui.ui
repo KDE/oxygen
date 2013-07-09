@@ -90,14 +90,14 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="KIntSpinBox" name="shadowSize">
+    <widget class="QSpinBox" name="shadowSize">
      <property name="suffix">
       <string>px</string>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="KIntSpinBox" name="verticalOffset">
+    <widget class="QSpinBox" name="verticalOffset">
      <property name="suffix">
       <string>px</string>
      </property>
@@ -110,11 +110,6 @@
    <class>KColorButton</class>
    <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
