@@ -63,6 +63,7 @@ namespace Oxygen
         setLayout( new QVBoxLayout() );
 
         QDialogButtonBox* buttonBox = new QDialogButtonBox( QDialogButtonBox::Ok, Qt::Horizontal, this );
+        connect( buttonBox->button( QDialogButtonBox::Ok ), SIGNAL(clicked()), SLOT(close()) );
 
         // customize button box
         _enableCheckBox = new QCheckBox( i18n( "Enabled" ) );

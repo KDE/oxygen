@@ -70,6 +70,8 @@ namespace Oxygen
             QDialogButtonBox::Cancel,
             Qt::Horizontal, this );
 
+        connect( _buttonBox->button( QDialogButtonBox::Cancel ), SIGNAL(clicked()), SLOT(close()) );
+
         // tab widget
         _pageWidget = new KPageWidget( this );
         layout()->addWidget( _pageWidget );
