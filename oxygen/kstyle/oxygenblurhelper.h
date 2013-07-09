@@ -44,7 +44,7 @@
 #include <QRegion>
 #include <QToolBar>
 
-#ifdef Q_WS_X11
+#if HAVE_X11
 #include <X11/Xdefs.h>
 #endif
 
@@ -159,7 +159,7 @@ namespace Oxygen
         //! delayed update timer
         QBasicTimer _timer;
 
-        #ifdef Q_WS_X11
+        #if HAVE_X11
         //! blur atom
         Atom _blurAtom;
         Atom _opaqueAtom;

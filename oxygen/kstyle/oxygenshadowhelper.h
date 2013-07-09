@@ -33,7 +33,7 @@
 #include <QPointer>
 #include <QMap>
 
-#ifdef Q_WS_X11
+#if HAVE_X11
 #include <X11/Xdefs.h>
 #endif
 
@@ -153,7 +153,7 @@ namespace Oxygen
         //! shadow size
         int _size;
 
-        #ifdef Q_WS_X11
+        #if HAVE_X11
         //! shadow atom
         Atom _atom;
         #endif

@@ -1,5 +1,18 @@
 project(kstyle-oxygen)
 
+################# X11 #################
+find_package(X11)
+if(X11_FOUND)
+  find_package(Qt5X11Extras REQUIRED NO_MODULE)
+  include_directories( ${X11_X11_INCLUDE_PATH} )
+  set (HAVE_X11 1)
+else(X11_FOUND)
+   set (HAVE_X11 0)
+endif(X11_FOUND)
+
+add_definitions( -DHAVE_X11=${HAVE_X11} )
+
+################# includes #################
 include_directories (animations debug transitions /home/hpereira/kf5/src/kde-workspace/libs/oxygen)
 
 ########### next target ###############
@@ -68,9 +81,10 @@ qt5_use_modules( oxygen Core Gui Widgets DBus Svg )
 target_link_libraries(oxygen ${KConfig_LIBRARIES} ${kguiaddons_LIBRARIES} ${kwidgets_LIBRARIES} ${KIconThemes_LIBRARIES} ${KWindowSystem_LIBRARIES})
 target_link_libraries(oxygen oxygenstyle)
 
-if ( X11_FOUND )
-   target_link_libraries(oxygen ${X11_LIBRARIES})
-endif( X11_FOUND )
+if(X11_FOUND)
+  target_link_libraries(oxygen ${X11_LIBRARIES})
+  qt5_use_modules(oxygen X11Extras)
+endif(X11_FOUND)
 
 install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/ )
 

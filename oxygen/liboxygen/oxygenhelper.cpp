@@ -32,7 +32,7 @@
 
 #include <math.h>
 
-#ifdef Q_WS_X11
+#if HAVE_X11
 #include <QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -62,7 +62,7 @@ namespace Oxygen
 
         _backgroundCache.setMaxCost( 64 );
 
-        #ifdef Q_WS_X11
+        #if HAVE_X11
 
         // create background atoms
         _backgroundGradientAtom = XInternAtom( QX11Info::display(), "_KDE_OXYGEN_BACKGROUND_GRADIENT", False);
@@ -914,7 +914,7 @@ namespace Oxygen
     void Helper::setHasBackgroundGradient( WId id, bool value ) const
     {
 
-        #ifdef Q_WS_X11
+        #if HAVE_X11
         setHasHint( id, _backgroundGradientAtom, value );
         #else
         Q_UNUSED( id );
@@ -927,7 +927,7 @@ namespace Oxygen
     bool Helper::hasBackgroundGradient( WId id ) const
     {
 
-        #ifdef Q_WS_X11
+        #if HAVE_X11
         return hasHint( id, _backgroundGradientAtom );
         #else
         Q_UNUSED( id );
@@ -939,7 +939,7 @@ namespace Oxygen
     void Helper::setHasBackgroundPixmap( WId id, bool value ) const
     {
 
-        #ifdef Q_WS_X11
+        #if HAVE_X11
         setHasHint( id, _backgroundPixmapAtom, value );
         #else
         Q_UNUSED( id );
@@ -952,7 +952,7 @@ namespace Oxygen
     bool Helper::hasBackgroundPixmap( WId id ) const
     {
 
-        #ifdef Q_WS_X11
+        #if HAVE_X11
         return hasHint( id, _backgroundPixmapAtom );
         #else
         Q_UNUSED( id );
@@ -1071,7 +1071,7 @@ namespace Oxygen
 
     }
 
-    #ifdef Q_WS_X11
+    #if HAVE_X11
 
     //____________________________________________________________________
     void Helper::setHasHint( WId id, Atom atom, bool value ) const

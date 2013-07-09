@@ -34,7 +34,7 @@
 #include <QLinearGradient>
 #include <QCache>
 
-#ifdef Q_WS_X11
+#if HAVE_X11
 #include <X11/Xdefs.h>
 #endif
 
@@ -414,7 +414,7 @@ namespace Oxygen
         //! background pixmap offsets
         QPoint _backgroundPixmapOffset;
 
-        #ifdef Q_WS_X11
+        #if HAVE_X11
 
         //! set value for given hint
         void setHasHint( WId, Atom, bool ) const;

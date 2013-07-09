@@ -28,7 +28,7 @@
 #include <KWindowSystem>
 #include <KDebug>
 
-#ifdef Q_WS_X11
+#if HAVE_X11
 #include <QX11Info>
 #include <X11/Xdefs.h>
 #endif
@@ -184,7 +184,7 @@ namespace Oxygen
         bool compositingActive( void ) const;
 
         //! returns true if a given widget supports alpha channel
-        inline bool hasAlphaChannel( const QWidget* ) const;
+        bool hasAlphaChannel( const QWidget* ) const;
 
         //! returns true if given widget will get a decoration
         bool hasDecoration( const QWidget* ) const;
@@ -236,7 +236,7 @@ namespace Oxygen
         TileSetCache _selectionCache;
         TileSetCache _progressBarCache;
 
-        #ifdef Q_WS_X11
+        #if HAVE_X11
 
         //! background gradient hint atom
         Atom _compositingManagerAtom;
@@ -257,26 +257,6 @@ namespace Oxygen
         }
 
         return *out;
-    }
-
-    //____________________________________________________________________
-    bool StyleHelper::hasAlphaChannel( const QWidget* widget ) const
-    {
-
-        #ifdef Q_WS_X11
-        if( compositingActive() )
-        {
-
-            if( widget ) return widget->x11Info().depth() == 32;
-            else return QX11Info().appDepth() == 32;
-
-        } else return false;
-
-        #else
-        Q_UNUSED( widget );
-        return compositingActive();
-        #endif
-
     }
 
 }
