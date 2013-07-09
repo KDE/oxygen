@@ -9,19 +9,36 @@ set(kstyle_oxygen_config_PART_SRCS
 
 kde4_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
 
-kde4_add_ui_files(kstyle_oxygen_config_PART_SRCS
+set( kstyle_oxygen_config_PART_FORMS
     ui/oxygenfollowmouseanimationconfigbox.ui
     ui/oxygenstyleconfig.ui
 )
 
-kde4_add_plugin(kstyle_oxygen_config ${kstyle_oxygen_config_PART_SRCS})
+qt5_wrap_ui(kstyle_oxygen_config_PART_FORMS_HEADERS ${kstyle_oxygen_config_PART_FORMS})
 
-target_link_libraries(
-    kstyle_oxygen_config
-    ${KDE4_KDEUI_LIBS}
-    oxygenstyleconfig )
+add_library(kstyle_oxygen_config
+    ${kstyle_oxygen_config_PART_SRCS}
+    ${kstyle_oxygen_config_PART_FORMS_HEADERS}
+)
 
-install(TARGETS kstyle_oxygen_config  DESTINATION ${PLUGIN_INSTALL_DIR} )
+qt5_use_modules( kstyle_oxygen_config
+    Core
+    Gui
+    Widgets
+    DBus
+)
+
+target_link_libraries( kstyle_oxygen_config oxygenstyleconfig )
+
+target_link_libraries( kstyle_oxygen_config
+  ${KConfig_LIBRARIES}
+  ${KCompletion_LIBRARIES}
+  ${kguiaddons_LIBRARIES}
+  ${kwidgets_LIBRARIES}
+  ${ki18n_LIBRARIES}
+)
+
+install(TARGETS kstyle_oxygen_config DESTINATION ${QT_PLUGIN_INSTALL_DIR}/kf5 )
 
 ########### next target ###############
 set( oxygen_settings_SOURCES
@@ -30,11 +47,20 @@ set( oxygen_settings_SOURCES
 
 kde4_add_executable( oxygen-settings ${oxygen_settings_SOURCES} )
 
-target_link_libraries( oxygen-settings
-    ${KDE4_KDEUI_LIBS}
-    ${QT_QTCORE_LIBRARY}
-    ${QT_QTGUI_LIBRARY})
+qt5_use_modules( oxygen-settings
+    Core
+    Gui
+    Widgets
+)
 
+target_link_libraries(oxygen-settings
+    ${KConfig_LIBRARIES}
+    ${kservice_LIBRARIES}
+    ${kguiaddons_LIBRARIES}
+    ${kwidgets_LIBRARIES}
+    ${KWidgetsAddons_LIBRARIES}
+    ${ki18n_LIBRARIES}
+)
 ########### install files ###############
 install (TARGETS oxygen-settings ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

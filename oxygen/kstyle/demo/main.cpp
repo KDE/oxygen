@@ -25,16 +25,17 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygendemodialog.h"
+
 #include <QApplication>
 #include <QIcon>
 
-#include <cassert>
+#include <KLocalizedString>
 
 int main(int argc, char *argv[])
 {
 
     QApplication app( argc, argv );
-    app.setApplicationName( QString::fromLatin1( "Oxygen Demo" ) );
+    app.setApplicationName( i18n( "Oxygen Demo" ) );
     app.setWindowIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
     Oxygen::DemoDialog dialog;
     dialog.show();

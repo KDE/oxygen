@@ -66,22 +66,6 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="KIntSpinBox" name="durationSpinBox">
-     <property name="suffix">
-      <string>ms</string>
-     </property>
-     <property name="minimum">
-      <number>5</number>
-     </property>
-     <property name="maximum">
-      <number>2000</number>
-     </property>
-     <property name="singleStep">
-      <number>5</number>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0">
     <widget class="QLabel" name="followMouseDurationLabel">
      <property name="text">
@@ -92,22 +76,6 @@
      </property>
      <property name="buddy">
       <cstring>followMouseDurationSpinBox</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="KIntSpinBox" name="followMouseDurationSpinBox">
-     <property name="suffix">
-      <string>ms</string>
-     </property>
-     <property name="minimum">
-      <number>5</number>
-     </property>
-     <property name="maximum">
-      <number>2000</number>
-     </property>
-     <property name="singleStep">
-      <number>5</number>
      </property>
     </widget>
    </item>
@@ -124,6 +92,38 @@
      </property>
     </spacer>
    </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="durationSpinBox">
+     <property name="suffix">
+      <string>ms</string>
+     </property>
+     <property name="minimum">
+      <number>5</number>
+     </property>
+     <property name="maximum">
+      <number>2000</number>
+     </property>
+     <property name="singleStep">
+      <number>5</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="followMouseDurationSpinBox">
+     <property name="suffix">
+      <string>ms</string>
+     </property>
+     <property name="minimum">
+      <number>5</number>
+     </property>
+     <property name="maximum">
+      <number>2000</number>
+     </property>
+     <property name="singleStep">
+      <number>5</number>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -131,11 +131,6 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="KTabWidget" name="tabWidget">
+    <widget class="QTabWidget" name="tabWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -375,7 +375,7 @@
           </widget>
          </item>
          <item>
-          <widget class="KIntSpinBox" name="_scrollBarWidth">
+          <widget class="QSpinBox" name="_scrollBarWidth">
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -569,17 +569,6 @@
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
   </customwidget>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
-  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
@@ -607,38 +596,6 @@
  </tabstops>
  <resources/>
  <connections>
-  <connection>
-   <sender>_scrollBarWidth</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>_scrollBarWidthSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>107</x>
-     <y>55</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>107</x>
-     <y>55</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>_scrollBarWidthSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>_scrollBarWidth</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>107</x>
-     <y>55</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>107</x>
-     <y>55</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>_viewDrawTriangularExpander</sender>
    <signal>toggled(bool)</signal>

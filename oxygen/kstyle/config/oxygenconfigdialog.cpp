@@ -26,61 +26,75 @@
 #include "oxygenconfigdialog.h"
 #include "oxygenconfigdialog.moc"
 
+#include <QIcon>
+#include <QLabel>
+#include <QLayout>
+#include <QPushButton>
+#include <QShortcut>
 #include <QTextStream>
 #include <QTimer>
-#include <QLabel>
-#include <QShortcut>
 
 #include <KConfigGroup>
-#include <KGlobalSettings>
-#include <KLocale>
+// #include <KGlobalSettings>
+#include <KLocalizedString>
 #include <KLibrary>
-#include <KPushButton>
 #include <KStandardShortcut>
-#include <KVBox>
 
 namespace Oxygen
 {
     //_______________________________________________________________
     ConfigDialog::ConfigDialog( QWidget* parent ):
-        KDialog( parent ),
+        QDialog( parent ),
         _stylePluginObject(0),
         _decorationPluginObject( 0 ),
         _styleChanged( false ),
         _decorationChanged( false )
    {
-        setButtons( Default|Reset|Apply|Ok|Cancel );
 
         updateWindowTitle();
 
         setWindowTitle( i18n( "Oxygen Settings" ) );
 
         // install Quit shortcut
-        connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL(activated()), SLOT(close()) );
-        connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL(activated()), SLOT(close()) );
+        foreach( const QKeySequence& sequence, KStandardShortcut::quit() )
+        { connect( new QShortcut( sequence, this ), SIGNAL(activated()), SLOT(close()) ); }
+
+        setLayout( new QVBoxLayout() );
+
+        // button box
+        _buttonBox = new QDialogButtonBox(
+            QDialogButtonBox::RestoreDefaults|
+            QDialogButtonBox::Reset|
+            QDialogButtonBox::Apply|
+            QDialogButtonBox::Ok|
+            QDialogButtonBox::Cancel,
+            Qt::Horizontal, this );
 
         // tab widget
-        pageWidget_ = new KPageWidget( this );
-        setMainWidget( pageWidget_ );
+        _pageWidget = new KPageWidget( this );
+        layout()->addWidget( _pageWidget );
+        layout()->addWidget( _buttonBox );
 
-        connect( pageWidget_, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
+        // connections
+        connect( _pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
 
+        // generic page
         KPageWidgetItem *page;
 
         // style
         page = loadStyleConfig();
         page->setName( i18n("Widget Style") );
         page->setHeader( i18n("Modify the appearance of widgets") );
-        page->setIcon( KIcon( "preferences-desktop-theme" ) );
-        pageWidget_->addPage( page );
+        page->setIcon( QIcon::fromTheme( QString::fromLatin1( "preferences-desktop-theme" ) ) );
+        _pageWidget->addPage( page );
 
         if( _stylePluginObject )
         {
             connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateStyleChanged(bool)) );
             connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( button( Reset ), SIGNAL(clicked()), _stylePluginObject, SLOT(reset()) );
-            connect( button( Default ), SIGNAL(clicked()), _stylePluginObject, SLOT(defaults()) );
+            connect( _buttonBox->button( QDialogButtonBox::Reset ), SIGNAL(clicked()), _stylePluginObject, SLOT(reset()) );
+            connect( _buttonBox->button( QDialogButtonBox::RestoreDefaults ), SIGNAL(clicked()), _stylePluginObject, SLOT(defaults()) );
             connect( this, SIGNAL(pluginSave()), _stylePluginObject, SLOT(save()) );
             connect( this, SIGNAL(pluginToggleExpertMode(bool)), _stylePluginObject, SLOT(toggleExpertMode(bool)) );
 
@@ -90,16 +104,16 @@ namespace Oxygen
         page = loadDecorationConfig();
         page->setName( i18n("Window Decorations") );
         page->setHeader( i18n("Modify the appearance of window decorations") );
-        page->setIcon( KIcon( "preferences-system-windows" ) );
-        pageWidget_->addPage( page );
+        page->setIcon( QIcon::fromTheme( QString::fromLatin1( "preferences-system-windows" ) ) );
+        _pageWidget->addPage( page );
 
         if( _decorationPluginObject )
         {
             connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateDecorationChanged(bool)) );
             connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( button( Reset ), SIGNAL(clicked()), _decorationPluginObject, SLOT(load()) );
-            connect( button( Default ), SIGNAL(clicked()), _decorationPluginObject, SLOT(defaults()) );
+            connect( _buttonBox->button( QDialogButtonBox::Reset ), SIGNAL(clicked()), _decorationPluginObject, SLOT(load()) );
+            connect( _buttonBox->button( QDialogButtonBox::RestoreDefaults ), SIGNAL(clicked()), _decorationPluginObject, SLOT(defaults()) );
 
             connect( this, SIGNAL(pluginSave()), _decorationPluginObject, SLOT(save()) );
             connect( this, SIGNAL(pluginToggleExpertMode(bool)), _decorationPluginObject, SLOT(toggleExpertMode(bool)) );
@@ -110,8 +124,8 @@ namespace Oxygen
         emit pluginToggleExpertMode( true );
 
         // button connections
-        connect( button( Apply ), SIGNAL(clicked()), SLOT(save()) );
-        connect( button( Ok ), SIGNAL(clicked()), SLOT(save()) );
+        connect( _buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), SLOT(save()) );
+        connect( _buttonBox->button( QDialogButtonBox::Ok ), SIGNAL(clicked()), SLOT(save()) );
         updateChanged();
 
     }
@@ -124,7 +138,7 @@ namespace Oxygen
         emit pluginSave();
 
         // this is needed to trigger decoration update
-        KGlobalSettings::self()->emitChange(KGlobalSettings::StyleChanged);
+        // KGlobalSettings::self()->emitChange(KGlobalSettings::StyleChanged);
 
         // reset 'changed' flags
         updateStyleChanged( false );
@@ -137,10 +151,10 @@ namespace Oxygen
     void ConfigDialog::updateChanged( void )
     {
         bool modified( changed() );
-        button( Apply )->setEnabled( modified );
-        button( Reset )->setEnabled( modified );
-        button( Ok )->setEnabled( modified );
-        updateWindowTitle( pageWidget_->currentPage() );
+        _buttonBox->button( QDialogButtonBox::Apply )->setEnabled( modified );
+        _buttonBox->button( QDialogButtonBox::Reset )->setEnabled( modified );
+        _buttonBox->button( QDialogButtonBox::Ok )->setEnabled( modified );
+        updateWindowTitle( _pageWidget->currentPage() );
     }
 
     //_______________________________________________________________
@@ -164,11 +178,12 @@ namespace Oxygen
     {
 
         // load decoration from plugin
-        KLibrary* library = new KLibrary( "kstyle_oxygen_config" );
+        // KLibrary* library = new KLibrary( QString::fromLatin1( "kstyle_oxygen_config" ) );
+        KLibrary* library = new KLibrary( QString::fromLatin1( "libkstyle_oxygen_config" ) );
 
         if (library->load())
         {
-            KLibrary::void_function_ptr alloc_ptr = library->resolveFunction("allocate_kstyle_config");
+            KLibrary::void_function_ptr alloc_ptr = library->resolveFunction( "allocate_kstyle_config" );
             if (alloc_ptr != NULL)
             {
 
@@ -177,11 +192,13 @@ namespace Oxygen
                 allocator = (QWidget* (*)(QWidget* parent))alloc_ptr;
 
                 // create container
-                KVBox* container = new KVBox();
-                container->setObjectName( "oxygen-settings-container" );
+                QWidget* container = new QWidget();
+                container->setLayout( new QVBoxLayout() );
+                container->setObjectName( QString::fromLatin1( "oxygen-settings-container" ) );
 
                 // allocate config object
                 _stylePluginObject = (QObject*)(allocator( container ));
+                container->layout()->addWidget( static_cast<QWidget*>( _stylePluginObject ) );
                 return new KPageWidgetItem( container );
 
             } else {
@@ -194,6 +211,7 @@ namespace Oxygen
             }
 
         } else {
+
             delete library;
 
             // fall back to warning label
@@ -210,11 +228,11 @@ namespace Oxygen
     {
 
         // load decoration from plugin
-        KLibrary* library = new KLibrary( "kwin_oxygen_config" );
+        KLibrary* library = new KLibrary( QString::fromLatin1( "kwin_oxygen_config" ) );
 
         if (library->load())
         {
-            KLibrary::void_function_ptr alloc_ptr = library->resolveFunction("allocate_config");
+            KLibrary::void_function_ptr alloc_ptr = library->resolveFunction( "allocate_config" );
             if (alloc_ptr != NULL)
             {
 
@@ -223,7 +241,8 @@ namespace Oxygen
                 allocator = (QObject* (*)(KConfigGroup& conf, QWidget* parent))alloc_ptr;
 
                 // create container
-                KVBox* container = new KVBox();
+                QWidget* container = new QWidget();
+                container->setLayout( new QVBoxLayout() );
 
                 // allocate config object
                 KConfigGroup config;

@@ -27,13 +27,15 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <KDialog>
+#include <QDialog>
+#include <QDialogButtonBox>
+
 #include <KPageWidget>
 
 namespace Oxygen
 {
 
-    class ConfigDialog: public KDialog
+    class ConfigDialog: public QDialog
     {
         Q_OBJECT
 
@@ -87,8 +89,11 @@ namespace Oxygen
         //! load decoration config widget from plugin
         KPageWidgetItem* loadDecorationConfig( void );
 
+        //! button box
+        QDialogButtonBox* _buttonBox;
+
         //! central widget
-        KPageWidget* pageWidget_;
+        KPageWidget* _pageWidget;
 
         //! style plugin widget
         QObject *_stylePluginObject;

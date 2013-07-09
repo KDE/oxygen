@@ -1,6 +1,6 @@
 project(kstyle-oxygen)
 
-# add_subdirectory( config )
+add_subdirectory( config )
 add_subdirectory( demo )
 
 ################# X11 #################
