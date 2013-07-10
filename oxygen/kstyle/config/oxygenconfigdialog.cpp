@@ -35,7 +35,6 @@
 #include <QTimer>
 
 #include <KConfigGroup>
-// #include <KGlobalSettings>
 #include <KLocalizedString>
 #include <KLibrary>
 #include <KStandardShortcut>
@@ -139,9 +138,6 @@ namespace Oxygen
         // trigger pluggins to save themselves
         emit pluginSave();
 
-        // this is needed to trigger decoration update
-        // KGlobalSettings::self()->emitChange(KGlobalSettings::StyleChanged);
-
         // reset 'changed' flags
         updateStyleChanged( false );
         updateDecorationChanged( false );
@@ -180,7 +176,6 @@ namespace Oxygen
     {
 
         // load decoration from plugin
-        // KLibrary* library = new KLibrary( QLatin1String( "kstyle_oxygen_config" ) );
         KLibrary* library = new KLibrary( QLatin1String( "libkstyle_oxygen_config" ) );
 
         if (library->load())
