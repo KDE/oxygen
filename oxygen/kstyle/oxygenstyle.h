@@ -197,7 +197,6 @@ namespace Oxygen
         bool eventFilterComboBoxContainer( QWidget*, QEvent* );
         bool eventFilterDockWidget( QDockWidget*, QEvent* );
         bool eventFilterMdiSubWindow( QMdiSubWindow*, QEvent* );
-        bool eventFilterQ3ListView( QWidget*, QEvent* );
         bool eventFilterScrollBar( QWidget*, QEvent* );
         bool eventFilterTabBar( QWidget*, QEvent* );
         bool eventFilterToolBar( QToolBar*, QEvent* );
@@ -481,8 +480,6 @@ namespace Oxygen
         bool drawPanelItemViewItemPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelLineEditPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorMenuCheckMarkPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-//         bool drawQ3CheckListIndicatorPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-//         bool drawQ3CheckListExclusiveIndicatorPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorBranchPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorButtonDropDownPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorCheckBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -557,7 +554,6 @@ namespace Oxygen
         bool drawComboBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawDialComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawGroupBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
-//         bool drawQ3ListViewComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawSliderComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawSpinBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawTitleBarComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
