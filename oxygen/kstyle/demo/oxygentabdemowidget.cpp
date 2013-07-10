@@ -47,10 +47,10 @@ namespace Oxygen
         connect( ui.tabBarVisibilityCheckBox, SIGNAL(toggled(bool)), ui.tabWidget, SLOT(toggleTabBarVisibility(bool)) );
         ui.textPositionComboBox->setCurrentIndex( 1 );
 
-        _left->setIcon( QIcon::fromTheme( QString::fromLatin1( "tab-new" ) ) );
+        _left->setIcon( QIcon::fromTheme( QLatin1String( "tab-new" ) ) );
         _left->setVisible( false );
 
-        _right->setIcon( QIcon::fromTheme( QString::fromLatin1( "tab-close" ) ) );
+        _right->setIcon( QIcon::fromTheme( QLatin1String( "tab-close" ) ) );
         _right->setVisible( false );
 
     }

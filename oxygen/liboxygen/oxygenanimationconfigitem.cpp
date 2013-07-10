@@ -42,12 +42,12 @@ namespace Oxygen
         ui( new Ui_AnimationConfigItem() )
     {
 
-        KLocalizedString::insertCatalog( QString::fromLatin1("liboxygenstyleconfig" ) );
+        KLocalizedString::insertCatalog( QLatin1String("liboxygenstyleconfig" ) );
         ui->setupUi( this );
         layout()->setMargin(0);
 
-        ui->configurationButton->setIcon( QIcon::fromTheme( QString::fromLatin1("configure") ) );
-        ui->descriptionButton->setIcon( QIcon::fromTheme( QString::fromLatin1( "dialog-information") ) );
+        ui->configurationButton->setIcon( QIcon::fromTheme( QLatin1String("configure") ) );
+        ui->descriptionButton->setIcon( QIcon::fromTheme( QLatin1String( "dialog-information") ) );
 
         connect( ui->enableCheckBox, SIGNAL(toggled(bool)), SIGNAL(changed()) );
         connect( ui->descriptionButton, SIGNAL(clicked()), SLOT(about()) );

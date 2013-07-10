@@ -90,7 +90,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new InputDemoWidget() );
             page->setName( i18n("Input Widgets") );
-            page->setIcon( QIcon::fromTheme( QString::fromLatin1( "edit-rename" ) ) );
+            page->setIcon( QIcon::fromTheme( QLatin1String( "edit-rename" ) ) );
             page->setHeader( i18n("Shows the appearance of text input widgets") );
             _pageWidget->addPage( page );
             _widgets.append( widget );
@@ -100,7 +100,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new TabDemoWidget() );
             page->setName( i18n("Tab Widgets") );
-            page->setIcon( QIcon::fromTheme( QString::fromLatin1( "tab-detach" ) ) );
+            page->setIcon( QIcon::fromTheme( QLatin1String( "tab-detach" ) ) );
             page->setHeader( i18n("Shows the appearance of tab widgets") );
             _pageWidget->addPage( page );
             _widgets.append( widget );
@@ -110,7 +110,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new ButtonDemoWidget() );
             page->setName( i18n("Buttons") );
-            page->setIcon( QIcon::fromTheme( QString::fromLatin1( "go-jump-locationbar" ) ) );
+            page->setIcon( QIcon::fromTheme( QLatin1String( "go-jump-locationbar" ) ) );
             page->setHeader( i18n("Shows the appearance of buttons") );
             _pageWidget->addPage( page );
             _widgets.append( widget );
@@ -120,7 +120,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new ListDemoWidget() );
             page->setName( i18n("Lists") );
-            page->setIcon( QIcon::fromTheme( QString::fromLatin1( "view-list-tree" ) ) );
+            page->setIcon( QIcon::fromTheme( QLatin1String( "view-list-tree" ) ) );
             page->setHeader( i18n("Shows the appearance of lists, trees and tables") );
             _pageWidget->addPage( page );
             _widgets.append( widget );
@@ -131,7 +131,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new FrameDemoWidget() );
             page->setName( i18n("Frames") );
-            page->setIcon( QIcon::fromTheme( QString::fromLatin1( "draw-rectangle" ) ) );
+            page->setIcon( QIcon::fromTheme( QLatin1String( "draw-rectangle" ) ) );
             page->setHeader( i18n("Shows the appearance of various framed widgets") );
             _pageWidget->addPage( page );
             _widgets.append( widget );
@@ -141,7 +141,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new MdiDemoWidget() );
             page->setName( i18n( "MDI Windows" ) );
-            page->setIcon( QIcon::fromTheme( QString::fromLatin1( "preferences-system-windows" ) ) );
+            page->setIcon( QIcon::fromTheme( QLatin1String( "preferences-system-windows" ) ) );
             page->setHeader( i18n( "Shows the appearance of MDI windows" ) );
             _pageWidget->addPage( page );
             _widgets.append( widget );
@@ -151,7 +151,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new SliderDemoWidget() );
             page->setName( i18n("Sliders") );
-            page->setIcon( QIcon::fromTheme( QString::fromLatin1( "measure" ) ) );
+            page->setIcon( QIcon::fromTheme( QLatin1String( "measure" ) ) );
             page->setHeader( i18n("Shows the appearance of sliders, progress bars and scrollbars") );
             _pageWidget->addPage( page );
             _widgets.append( widget );
@@ -162,7 +162,7 @@ namespace Oxygen
             BenchmarkWidget* benchmarkWidget( new BenchmarkWidget() );
             page = new KPageWidgetItem( benchmarkWidget );
             page->setName( i18n("Benchmark") );
-            page->setIcon( QIcon::fromTheme( QString::fromLatin1( "system-run" ) ) );
+            page->setIcon( QIcon::fromTheme( QLatin1String( "system-run" ) ) );
             page->setHeader( i18n("Emulates user interaction with widgets for benchmarking") );
             benchmarkWidget->init( _pageWidget );
 

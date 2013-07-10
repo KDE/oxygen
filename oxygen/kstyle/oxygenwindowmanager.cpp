@@ -141,9 +141,9 @@ namespace Oxygen
         _whiteList.clear();
 
         // add user specified whitelisted classnames
-        _whiteList.insert( ExceptionId( QString::fromLatin1( "MplayerWindow" ) ) );
-        _whiteList.insert( ExceptionId( QString::fromLatin1( "ViewSliders@kmix" ) ) );
-        _whiteList.insert( ExceptionId( QString::fromLatin1( "Sidebar_Widget@konqueror" ) ) );
+        _whiteList.insert( ExceptionId( QLatin1String( "MplayerWindow" ) ) );
+        _whiteList.insert( ExceptionId( QLatin1String( "ViewSliders@kmix" ) ) );
+        _whiteList.insert( ExceptionId( QLatin1String( "Sidebar_Widget@konqueror" ) ) );
 
         foreach( const QString& exception, StyleConfigData::windowDragWhiteList() )
         {
@@ -158,9 +158,9 @@ namespace Oxygen
     {
 
         _blackList.clear();
-        _blackList.insert( ExceptionId( QString::fromLatin1( "CustomTrackView@kdenlive" ) ) );
-        _blackList.insert( ExceptionId( QString::fromLatin1( "MuseScore" ) ) );
-        _blackList.insert( ExceptionId( QString::fromLatin1( "KGameCanvasWidget" ) ) );
+        _blackList.insert( ExceptionId( QLatin1String( "CustomTrackView@kdenlive" ) ) );
+        _blackList.insert( ExceptionId( QLatin1String( "MuseScore" ) ) );
+        _blackList.insert( ExceptionId( QLatin1String( "KGameCanvasWidget" ) ) );
         foreach( const QString& exception, StyleConfigData::windowDragBlackList() )
         {
             ExceptionId id( exception );
@@ -388,7 +388,7 @@ namespace Oxygen
         foreach( const ExceptionId& id, _blackList )
         {
             if( !id.appName().isEmpty() && id.appName() != appName ) continue;
-            if( id.className() == QString::fromLatin1( "*" ) && !id.appName().isEmpty() )
+            if( id.className() == QLatin1String( "*" ) && !id.appName().isEmpty() )
             {
                 // if application name matches and all classes are selected
                 // disable the grabbing entirely

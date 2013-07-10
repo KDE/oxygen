@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 
     QApplication app( argc, argv );
     app.setApplicationName( i18n( "Oxygen Demo" ) );
-    app.setWindowIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
+    app.setWindowIcon( QIcon::fromTheme( QLatin1String( "oxygen" ) ) );
     Oxygen::DemoDialog dialog;
     dialog.show();
     bool result = app.exec();

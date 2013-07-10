@@ -45,7 +45,7 @@ namespace Oxygen
         _changed( false )
     {
 
-        KLocalizedString::insertCatalog( QString::fromLatin1("liboxygenstyleconfig") );
+        KLocalizedString::insertCatalog( QLatin1String("liboxygenstyleconfig") );
 
         setCheckable( true );
         ui->setupUi( this );

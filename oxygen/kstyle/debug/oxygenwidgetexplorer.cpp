@@ -42,19 +42,19 @@ namespace Oxygen
         _drawWidgetRects( false )
     {
 
-        _eventTypes.insert( QEvent::Enter, QString::fromLatin1( "Enter" ) );
-        _eventTypes.insert( QEvent::Leave, QString::fromLatin1( "Leave" ) );
+        _eventTypes.insert( QEvent::Enter, QLatin1String( "Enter" ) );
+        _eventTypes.insert( QEvent::Leave, QLatin1String( "Leave" ) );
 
-        _eventTypes.insert( QEvent::HoverMove, QString::fromLatin1( "HoverMove" ) );
-        _eventTypes.insert( QEvent::HoverEnter, QString::fromLatin1( "HoverEnter" ) );
-        _eventTypes.insert( QEvent::HoverLeave, QString::fromLatin1( "HoverLeave" ) );
+        _eventTypes.insert( QEvent::HoverMove, QLatin1String( "HoverMove" ) );
+        _eventTypes.insert( QEvent::HoverEnter, QLatin1String( "HoverEnter" ) );
+        _eventTypes.insert( QEvent::HoverLeave, QLatin1String( "HoverLeave" ) );
 
-        _eventTypes.insert( QEvent::MouseMove, QString::fromLatin1( "MouseMove" ) );
-        _eventTypes.insert( QEvent::MouseButtonPress, QString::fromLatin1( "MouseButtonPress" ) );
-        _eventTypes.insert( QEvent::MouseButtonRelease, QString::fromLatin1( "MouseButtonRelease" ) );
+        _eventTypes.insert( QEvent::MouseMove, QLatin1String( "MouseMove" ) );
+        _eventTypes.insert( QEvent::MouseButtonPress, QLatin1String( "MouseButtonPress" ) );
+        _eventTypes.insert( QEvent::MouseButtonRelease, QLatin1String( "MouseButtonRelease" ) );
 
-        _eventTypes.insert( QEvent::FocusIn, QString::fromLatin1( "FocusIn" ) );
-        _eventTypes.insert( QEvent::FocusOut, QString::fromLatin1( "FocusOut" ) );
+        _eventTypes.insert( QEvent::FocusIn, QLatin1String( "FocusIn" ) );
+        _eventTypes.insert( QEvent::FocusOut, QLatin1String( "FocusOut" ) );
 
         // _eventTypes.insert( QEvent::Paint, "Paint" );
 
@@ -144,10 +144,10 @@ namespace Oxygen
     {
         switch( type )
         {
-            case QEvent::MouseButtonPress: return QString::fromLatin1( "MouseButtonPress" );
-            case QEvent::MouseButtonRelease: return QString::fromLatin1( "MouseButtonRelease" );
-            case QEvent::MouseMove: return QString::fromLatin1( "MouseMove" );
-            default: return QString::fromLatin1( "Unknown" );
+            case QEvent::MouseButtonPress: return QLatin1String( "MouseButtonPress" );
+            case QEvent::MouseButtonRelease: return QLatin1String( "MouseButtonRelease" );
+            case QEvent::MouseMove: return QLatin1String( "MouseMove" );
+            default: return QLatin1String( "Unknown" );
         }
     }
 

@@ -34,9 +34,9 @@
 int main(int argc, char *argv[])
 {
     QApplication app( argc, argv );
-    // app.setApplicationName( QString::fromLatin1( "Oxygen Settings" ) );
+    // app.setApplicationName( QLatin1String( "Oxygen Settings" ) );
     app.setApplicationName( i18n( "Oxygen Settings" ) );
-    app.setWindowIcon( QIcon::fromTheme( QString::fromLatin1( "oxygen" ) ) );
+    app.setWindowIcon( QIcon::fromTheme( QLatin1String( "oxygen" ) ) );
     Oxygen::ConfigDialog dialog;
     dialog.show();
     return app.exec();

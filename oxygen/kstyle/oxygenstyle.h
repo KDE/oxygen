@@ -775,7 +775,7 @@ namespace Oxygen
         int newStyleElement( const QString &element, const char *check, int &counter )
         {
 
-            if( !element.contains( QString::fromLatin1( check ) ) ) return 0;
+            if( !element.contains( QLatin1String( check ) ) ) return 0;
             int id = _styleElements.value(element, 0);
             if( !id )
             {

@@ -39,7 +39,7 @@ namespace Oxygen
         QFrame( parent ),
         ui( new Ui_GenericAnimationConfigBox() )
     {
-        KLocalizedString::insertCatalog( QString::fromLatin1("liboxygenstyleconfig") );
+        KLocalizedString::insertCatalog( QLatin1String("liboxygenstyleconfig") );
         ui->setupUi( this );
     }
 

@@ -52,10 +52,10 @@ namespace Oxygen
         void showIcons( void )
         {
             // add icons to tabs
-            tabBar()->setTabIcon( 0, QIcon::fromTheme( QString::fromLatin1( "document-open-folder" ) ) );
-            tabBar()->setTabIcon( 1, QIcon::fromTheme( QString::fromLatin1( "document-open-folder" ) ) );
-            tabBar()->setTabIcon( 2, QIcon::fromTheme( QString::fromLatin1( "document-open-folder" ) ) );
-            tabBar()->setTabIcon( 3, QIcon::fromTheme( QString::fromLatin1( "document-open-folder" ) ) );
+            tabBar()->setTabIcon( 0, QIcon::fromTheme( QLatin1String( "document-open-folder" ) ) );
+            tabBar()->setTabIcon( 1, QIcon::fromTheme( QLatin1String( "document-open-folder" ) ) );
+            tabBar()->setTabIcon( 2, QIcon::fromTheme( QLatin1String( "document-open-folder" ) ) );
+            tabBar()->setTabIcon( 3, QIcon::fromTheme( QLatin1String( "document-open-folder" ) ) );
         }
 
         void hideIcons( void )
@@ -69,10 +69,10 @@ namespace Oxygen
 
         void showText( void )
         {
-            tabBar()->setTabText( 0, QString::fromLatin1( "First Tab" ) );
-            tabBar()->setTabText( 1, QString::fromLatin1( "Second Tab" ) );
-            tabBar()->setTabText( 2, QString::fromLatin1( "Third Tab" ) );
-            tabBar()->setTabText( 3, QString::fromLatin1( "Fourth Tab" ) );
+            tabBar()->setTabText( 0, QLatin1String( "First Tab" ) );
+            tabBar()->setTabText( 1, QLatin1String( "Second Tab" ) );
+            tabBar()->setTabText( 2, QLatin1String( "Third Tab" ) );
+            tabBar()->setTabText( 3, QLatin1String( "Fourth Tab" ) );
         }
 
         void hideText( void )

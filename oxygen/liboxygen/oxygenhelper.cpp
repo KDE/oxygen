@@ -53,7 +53,7 @@ namespace Oxygen
     // one here, even though the window decoration doesn't really need it.
     Helper::Helper( void )
     {
-        _config = KSharedConfig::openConfig( QString::fromLatin1( "oxygenrc" ) );
+        _config = KSharedConfig::openConfig( QLatin1String( "oxygenrc" ) );
         _contrast = KColorScheme::contrastF( _config );
 
         // background contrast is calculated so that it is 0.9
