@@ -4248,10 +4248,10 @@ namespace Oxygen
 
         // this is quite suboptimal
         // and does not really work
-        if( tmpTitle.contains( QChar::fromLatin1( '&' ) ) )
+        if( tmpTitle.contains( QLatin1Char( '&' ) ) )
         {
-            int pos = tmpTitle.indexOf( QChar::fromLatin1( '&' ) );
-            if( !( tmpTitle.size()-1 > pos && tmpTitle.at( pos+1 ) == QChar::fromLatin1( '&' ) ) ) tmpTitle.remove( pos, 1 );
+            int pos = tmpTitle.indexOf( QLatin1Char( '&' ) );
+            if( !( tmpTitle.size()-1 > pos && tmpTitle.at( pos+1 ) == QLatin1Char( '&' ) ) ) tmpTitle.remove( pos, 1 );
 
         }
 
@@ -7864,238 +7864,238 @@ namespace Oxygen
         helper().invalidateCaches();
     }
 
-//     //____________________________________________________________________
-//     QIcon Style::standardIconImplementation(
-//         StandardPixmap standardIcon,
-//         const QStyleOption *option,
-//         const QWidget *widget ) const
-//     {
-//
-//         switch( standardIcon )
-//         {
-//
-//             // copied from kstyle
-//             case SP_DesktopIcon: return KIcon( "user-desktop" );
-//             case SP_TrashIcon: return KIcon( "user-trash" );
-//             case SP_ComputerIcon: return KIcon( "computer" );
-//             case SP_DriveFDIcon: return KIcon( "media-floppy" );
-//             case SP_DriveHDIcon: return KIcon( "drive-harddisk" );
-//             case SP_DriveCDIcon: return KIcon( "drive-optical" );
-//             case SP_DriveDVDIcon: return KIcon( "drive-optical" );
-//             case SP_DriveNetIcon: return KIcon( "folder-remote" );
-//             case SP_DirHomeIcon: return KIcon( "user-home" );
-//             case SP_DirOpenIcon: return KIcon( "document-open-folder" );
-//             case SP_DirClosedIcon: return KIcon( "folder" );
-//             case SP_DirIcon: return KIcon( "folder" );
-//
-//             //TODO: generate ( !? ) folder with link emblem
-//             case SP_DirLinkIcon: return KIcon( "folder" );
-//
-//             //TODO: look for a better icon
-//             case SP_FileIcon: return KIcon( "text-plain" );
-//
-//             //TODO: generate ( !? ) file with link emblem
-//             case SP_FileLinkIcon: return KIcon( "text-plain" );
-//
-//             //TODO: find correct icon
-//             case SP_FileDialogStart: return KIcon( "media-playback-start" );
-//
-//             //TODO: find correct icon
-//             case SP_FileDialogEnd: return KIcon( "media-playback-stop" );
-//
-//             case SP_FileDialogToParent: return KIcon( "go-up" );
-//             case SP_FileDialogNewFolder: return KIcon( "folder-new" );
-//             case SP_FileDialogDetailedView: return KIcon( "view-list-details" );
-//             case SP_FileDialogInfoView: return KIcon( "document-properties" );
-//             case SP_FileDialogContentsView: return KIcon( "view-list-icons" );
-//             case SP_FileDialogListView: return KIcon( "view-list-text" );
-//             case SP_FileDialogBack: return KIcon( "go-previous" );
-//             case SP_MessageBoxInformation: return KIcon( "dialog-information" );
-//             case SP_MessageBoxWarning: return KIcon( "dialog-warning" );
-//             case SP_MessageBoxCritical: return KIcon( "dialog-error" );
-//             case SP_MessageBoxQuestion: return KIcon( "dialog-information" );
-//             case SP_DialogOkButton: return KIcon( "dialog-ok" );
-//             case SP_DialogCancelButton: return KIcon( "dialog-cancel" );
-//             case SP_DialogHelpButton: return KIcon( "help-contents" );
-//             case SP_DialogOpenButton: return KIcon( "document-open" );
-//             case SP_DialogSaveButton: return KIcon( "document-save" );
-//             case SP_DialogCloseButton: return KIcon( "dialog-close" );
-//             case SP_DialogApplyButton: return KIcon( "dialog-ok-apply" );
-//             case SP_DialogResetButton: return KIcon( "document-revert" );
-//             case SP_DialogDiscardButton: return KIcon( "dialog-cancel" );
-//             case SP_DialogYesButton: return KIcon( "dialog-ok-apply" );
-//             case SP_DialogNoButton: return KIcon( "dialog-cancel" );
-//             case SP_ArrowUp: return KIcon( "go-up" );
-//             case SP_ArrowDown: return KIcon( "go-down" );
-//             case SP_ArrowLeft: return KIcon( "go-previous-view" );
-//             case SP_ArrowRight: return KIcon( "go-next-view" );
-//             case SP_ArrowBack: return KIcon( "go-previous" );
-//             case SP_ArrowForward: return KIcon( "go-next" );
-//             case SP_BrowserReload: return KIcon( "view-refresh" );
-//             case SP_BrowserStop: return KIcon( "process-stop" );
-//             case SP_MediaPlay: return KIcon( "media-playback-start" );
-//             case SP_MediaStop: return KIcon( "media-playback-stop" );
-//             case SP_MediaPause: return KIcon( "media-playback-pause" );
-//             case SP_MediaSkipForward: return KIcon( "media-skip-forward" );
-//             case SP_MediaSkipBackward: return KIcon( "media-skip-backward" );
-//             case SP_MediaSeekForward: return KIcon( "media-seek-forward" );
-//             case SP_MediaSeekBackward: return KIcon( "media-seek-backward" );
-//             case SP_MediaVolume: return KIcon( "audio-volume-medium" );
-//             case SP_MediaVolumeMuted: return KIcon( "audio-volume-muted" );
-//
-//             default: break;
-//
-//         }
-//
-//         // MDI windows buttons
-//         // get button color ( unfortunately option and widget might not be set )
-//         QColor buttonColor;
-//         QColor iconColor;
-//         if( option )
-//         {
-//
-//             buttonColor = option->palette.window().color();
-//             iconColor   = option->palette.windowText().color();
-//
-//         } else if( widget ) {
-//
-//             buttonColor = widget->palette().window().color();
-//             iconColor   = widget->palette().windowText().color();
-//
-//         } else if( qApp ) {
-//
-//             // might not have a QApplication
-//             buttonColor = qApp->palette().window().color();
-//             iconColor   = qApp->palette().windowText().color();
-//
-//         } else {
-//
-//             // KCS is always safe
-//             buttonColor = KColorScheme( QPalette::Active, KColorScheme::Window, helper().config() ).background().color();
-//             iconColor   = KColorScheme( QPalette::Active, KColorScheme::Window, helper().config() ).foreground().color();
-//
-//         }
-//
-//         // contrast
-//         const QColor contrast( helper().calcLightColor( buttonColor ) );
-//
-//         switch( standardIcon )
-//         {
-//
-//             case SP_TitleBarNormalButton:
-//             {
-//                 QPixmap pixmap(
-//                     pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
-//                     pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
-//
-//                 pixmap.fill( Qt::transparent );
-//
-//                 QPainter painter( &pixmap );
-//                 renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarNormalButton );
-//
-//                 return QIcon( pixmap );
-//
-//             }
-//
-//             case SP_TitleBarShadeButton:
-//             {
-//                 QPixmap pixmap(
-//                     pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
-//                     pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
-//
-//                 pixmap.fill( Qt::transparent );
-//                 QPainter painter( &pixmap );
-//                 renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarShadeButton );
-//
-//                 return QIcon( pixmap );
-//             }
-//
-//             case SP_TitleBarUnshadeButton:
-//             {
-//                 QPixmap pixmap(
-//                     pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
-//                     pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
-//
-//                 pixmap.fill( Qt::transparent );
-//                 QPainter painter( &pixmap );
-//                 renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarUnshadeButton );
-//
-//                 return QIcon( pixmap );
-//             }
-//
-//             case SP_TitleBarCloseButton:
-//             case SP_DockWidgetCloseButton:
-//             {
-//                 QPixmap pixmap(
-//                     pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
-//                     pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
-//
-//                 pixmap.fill( Qt::transparent );
-//                 QPainter painter( &pixmap );
-//                 renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarCloseButton );
-//
-//                 return QIcon( pixmap );
-//
-//             }
-//
-//             case SP_ToolBarHorizontalExtensionButton:
-//             {
-//
-//                 QPixmap pixmap( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
-//                 pixmap.fill( Qt::transparent );
-//                 QPainter painter( &pixmap );
-//                 painter.setRenderHints( QPainter::Antialiasing );
-//                 painter.setBrush( Qt::NoBrush );
-//
-//                 painter.translate( qreal( pixmap.width() )/2.0, qreal( pixmap.height() )/2.0 );
-//
-//                 const bool reverseLayout( option && option->direction == Qt::RightToLeft );
-//                 QPolygonF a = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, ArrowTiny );
-//
-//                 const qreal width( 1.1 );
-//                 painter.translate( 0, 0.5 );
-//                 painter.setBrush( Qt::NoBrush );
-//                 painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-//                 painter.drawPolyline( a );
-//
-//                 painter.translate( 0,-1 );
-//                 painter.setBrush( Qt::NoBrush );
-//                 painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-//                 painter.drawPolyline( a );
-//
-//                 return QIcon( pixmap );
-//             }
-//
-//             case SP_ToolBarVerticalExtensionButton:
-//             {
-//                 QPixmap pixmap( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
-//                 pixmap.fill( Qt::transparent );
-//                 QPainter painter( &pixmap );
-//                 painter.setRenderHints( QPainter::Antialiasing );
-//                 painter.setBrush( Qt::NoBrush );
-//
-//                 painter.translate( qreal( pixmap.width() )/2.0, qreal( pixmap.height() )/2.0 );
-//
-//                 QPolygonF a = genericArrow( ArrowDown, ArrowTiny );
-//
-//                 const qreal width( 1.1 );
-//                 painter.translate( 0, 0.5 );
-//                 painter.setBrush( Qt::NoBrush );
-//                 painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-//                 painter.drawPolyline( a );
-//
-//                 painter.translate( 0,-1 );
-//                 painter.setBrush( Qt::NoBrush );
-//                 painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-//                 painter.drawPolyline( a );
-//
-//                 return QIcon( pixmap );
-//             }
-//
-//             default:
-//             return QCommonStyle::standardIconImplementation( standardIcon, option, widget );
-//         }
-//     }
+    //____________________________________________________________________
+    QIcon Style::standardIcon(
+        StandardPixmap standardIcon,
+        const QStyleOption *option,
+        const QWidget *widget ) const
+    {
+
+        switch( standardIcon )
+        {
+
+            // copied from kstyle
+            case SP_DesktopIcon: return QIcon::fromTheme( QLatin1String( "user-desktop" ) );
+            case SP_TrashIcon: return QIcon::fromTheme( QLatin1String( "user-trash" ) );
+            case SP_ComputerIcon: return QIcon::fromTheme( QLatin1String( "computer" ) );
+            case SP_DriveFDIcon: return QIcon::fromTheme( QLatin1String( "media-floppy" ) );
+            case SP_DriveHDIcon: return QIcon::fromTheme( QLatin1String( "drive-harddisk" ) );
+            case SP_DriveCDIcon: return QIcon::fromTheme( QLatin1String( "drive-optical" ) );
+            case SP_DriveDVDIcon: return QIcon::fromTheme( QLatin1String( "drive-optical" ) );
+            case SP_DriveNetIcon: return QIcon::fromTheme( QLatin1String( "folder-remote" ) );
+            case SP_DirHomeIcon: return QIcon::fromTheme( QLatin1String( "user-home" ) );
+            case SP_DirOpenIcon: return QIcon::fromTheme( QLatin1String( "document-open-folder" ) );
+            case SP_DirClosedIcon: return QIcon::fromTheme( QLatin1String( "folder" ) );
+            case SP_DirIcon: return QIcon::fromTheme( QLatin1String( "folder" ) );
+
+            //TODO: generate ( !? ) folder with link emblem
+            case SP_DirLinkIcon: return QIcon::fromTheme( QLatin1String( "folder" ) );
+
+            //TODO: look for a better icon
+            case SP_FileIcon: return QIcon::fromTheme( QLatin1String( "text-plain" ) );
+
+            //TODO: generate ( !? ) file with link emblem
+            case SP_FileLinkIcon: return QIcon::fromTheme( QLatin1String( "text-plain" ) );
+
+            //TODO: find correct icon
+            case SP_FileDialogStart: return QIcon::fromTheme( QLatin1String( "media-playback-start" ) );
+
+            //TODO: find correct icon
+            case SP_FileDialogEnd: return QIcon::fromTheme( QLatin1String( "media-playback-stop" ) );
+
+            case SP_FileDialogToParent: return QIcon::fromTheme( QLatin1String( "go-up" ) );
+            case SP_FileDialogNewFolder: return QIcon::fromTheme( QLatin1String( "folder-new" ) );
+            case SP_FileDialogDetailedView: return QIcon::fromTheme( QLatin1String( "view-list-details" ) );
+            case SP_FileDialogInfoView: return QIcon::fromTheme( QLatin1String( "document-properties" ) );
+            case SP_FileDialogContentsView: return QIcon::fromTheme( QLatin1String( "view-list-icons" ) );
+            case SP_FileDialogListView: return QIcon::fromTheme( QLatin1String( "view-list-text" ) );
+            case SP_FileDialogBack: return QIcon::fromTheme( QLatin1String( "go-previous" ) );
+            case SP_MessageBoxInformation: return QIcon::fromTheme( QLatin1String( "dialog-information" ) );
+            case SP_MessageBoxWarning: return QIcon::fromTheme( QLatin1String( "dialog-warning" ) );
+            case SP_MessageBoxCritical: return QIcon::fromTheme( QLatin1String( "dialog-error" ) );
+            case SP_MessageBoxQuestion: return QIcon::fromTheme( QLatin1String( "dialog-information" ) );
+            case SP_DialogOkButton: return QIcon::fromTheme( QLatin1String( "dialog-ok" ) );
+            case SP_DialogCancelButton: return QIcon::fromTheme( QLatin1String( "dialog-cancel" ) );
+            case SP_DialogHelpButton: return QIcon::fromTheme( QLatin1String( "help-contents" ) );
+            case SP_DialogOpenButton: return QIcon::fromTheme( QLatin1String( "document-open" ) );
+            case SP_DialogSaveButton: return QIcon::fromTheme( QLatin1String( "document-save" ) );
+            case SP_DialogCloseButton: return QIcon::fromTheme( QLatin1String( "dialog-close" ) );
+            case SP_DialogApplyButton: return QIcon::fromTheme( QLatin1String( "dialog-ok-apply" ) );
+            case SP_DialogResetButton: return QIcon::fromTheme( QLatin1String( "document-revert" ) );
+            case SP_DialogDiscardButton: return QIcon::fromTheme( QLatin1String( "dialog-cancel" ) );
+            case SP_DialogYesButton: return QIcon::fromTheme( QLatin1String( "dialog-ok-apply" ) );
+            case SP_DialogNoButton: return QIcon::fromTheme( QLatin1String( "dialog-cancel" ) );
+            case SP_ArrowUp: return QIcon::fromTheme( QLatin1String( "go-up" ) );
+            case SP_ArrowDown: return QIcon::fromTheme( QLatin1String( "go-down" ) );
+            case SP_ArrowLeft: return QIcon::fromTheme( QLatin1String( "go-previous-view" ) );
+            case SP_ArrowRight: return QIcon::fromTheme( QLatin1String( "go-next-view" ) );
+            case SP_ArrowBack: return QIcon::fromTheme( QLatin1String( "go-previous" ) );
+            case SP_ArrowForward: return QIcon::fromTheme( QLatin1String( "go-next" ) );
+            case SP_BrowserReload: return QIcon::fromTheme( QLatin1String( "view-refresh" ) );
+            case SP_BrowserStop: return QIcon::fromTheme( QLatin1String( "process-stop" ) );
+            case SP_MediaPlay: return QIcon::fromTheme( QLatin1String( "media-playback-start" ) );
+            case SP_MediaStop: return QIcon::fromTheme( QLatin1String( "media-playback-stop" ) );
+            case SP_MediaPause: return QIcon::fromTheme( QLatin1String( "media-playback-pause" ) );
+            case SP_MediaSkipForward: return QIcon::fromTheme( QLatin1String( "media-skip-forward" ) );
+            case SP_MediaSkipBackward: return QIcon::fromTheme( QLatin1String( "media-skip-backward" ) );
+            case SP_MediaSeekForward: return QIcon::fromTheme( QLatin1String( "media-seek-forward" ) );
+            case SP_MediaSeekBackward: return QIcon::fromTheme( QLatin1String( "media-seek-backward" ) );
+            case SP_MediaVolume: return QIcon::fromTheme( QLatin1String( "audio-volume-medium" ) );
+            case SP_MediaVolumeMuted: return QIcon::fromTheme( QLatin1String( "audio-volume-muted" ) );
+
+            default: break;
+
+        }
+
+        // MDI windows buttons
+        // get button color ( unfortunately option and widget might not be set )
+        QColor buttonColor;
+        QColor iconColor;
+        if( option )
+        {
+
+            buttonColor = option->palette.window().color();
+            iconColor   = option->palette.windowText().color();
+
+        } else if( widget ) {
+
+            buttonColor = widget->palette().window().color();
+            iconColor   = widget->palette().windowText().color();
+
+        } else if( qApp ) {
+
+            // might not have a QApplication
+            buttonColor = qApp->palette().window().color();
+            iconColor   = qApp->palette().windowText().color();
+
+        } else {
+
+            // KCS is always safe
+            buttonColor = KColorScheme( QPalette::Active, KColorScheme::Window, helper().config() ).background().color();
+            iconColor   = KColorScheme( QPalette::Active, KColorScheme::Window, helper().config() ).foreground().color();
+
+        }
+
+        // contrast
+        const QColor contrast( helper().calcLightColor( buttonColor ) );
+
+        switch( standardIcon )
+        {
+
+            case SP_TitleBarNormalButton:
+            {
+                QPixmap pixmap(
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
+
+                pixmap.fill( Qt::transparent );
+
+                QPainter painter( &pixmap );
+                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarNormalButton );
+
+                return QIcon( pixmap );
+
+            }
+
+            case SP_TitleBarShadeButton:
+            {
+                QPixmap pixmap(
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
+
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
+                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarShadeButton );
+
+                return QIcon( pixmap );
+            }
+
+            case SP_TitleBarUnshadeButton:
+            {
+                QPixmap pixmap(
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
+
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
+                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarUnshadeButton );
+
+                return QIcon( pixmap );
+            }
+
+            case SP_TitleBarCloseButton:
+            case SP_DockWidgetCloseButton:
+            {
+                QPixmap pixmap(
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
+                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
+
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
+                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarCloseButton );
+
+                return QIcon( pixmap );
+
+            }
+
+            case SP_ToolBarHorizontalExtensionButton:
+            {
+
+                QPixmap pixmap( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
+                painter.setRenderHints( QPainter::Antialiasing );
+                painter.setBrush( Qt::NoBrush );
+
+                painter.translate( qreal( pixmap.width() )/2.0, qreal( pixmap.height() )/2.0 );
+
+                const bool reverseLayout( option && option->direction == Qt::RightToLeft );
+                QPolygonF a = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, ArrowTiny );
+
+                const qreal width( 1.1 );
+                painter.translate( 0, 0.5 );
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                painter.drawPolyline( a );
+
+                painter.translate( 0,-1 );
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                painter.drawPolyline( a );
+
+                return QIcon( pixmap );
+            }
+
+            case SP_ToolBarVerticalExtensionButton:
+            {
+                QPixmap pixmap( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
+                painter.setRenderHints( QPainter::Antialiasing );
+                painter.setBrush( Qt::NoBrush );
+
+                painter.translate( qreal( pixmap.width() )/2.0, qreal( pixmap.height() )/2.0 );
+
+                QPolygonF a = genericArrow( ArrowDown, ArrowTiny );
+
+                const qreal width( 1.1 );
+                painter.translate( 0, 0.5 );
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( helper().calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                painter.drawPolyline( a );
+
+                painter.translate( 0,-1 );
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                painter.drawPolyline( a );
+
+                return QIcon( pixmap );
+            }
+
+            default:
+            return QCommonStyle::standardIcon( standardIcon, option, widget );
+        }
+    }
 
     //_____________________________________________________________
     void Style::initializeKGlobalSettings( void )

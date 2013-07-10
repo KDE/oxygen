@@ -225,11 +225,8 @@ namespace Oxygen
             const QStyleOption* option, const QWidget* widget ) const
         { return pixelMetric(PM_DefaultLayoutSpacing, option, widget); }
 
-//         //! standard icons
-//         virtual QIcon standardIconImplementation(
-//             StandardPixmap standardIcon,
-//             const QStyleOption *option,
-//             const QWidget *widget) const;
+        //! standard icons
+        virtual QIcon standardIcon( StandardPixmap, const QStyleOption* = 0, const QWidget* = 0) const;
 
         protected:
 
