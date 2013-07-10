@@ -72,7 +72,7 @@ namespace Oxygen
 
         // add toolbar
         ui.toolBarContainer->setLayout( new QVBoxLayout() );
-        _toolBar = new KToolBar( ui.toolBarContainer );
+        _toolBar = new QToolBar( ui.toolBarContainer );
         ui.toolBarContainer->layout()->addWidget( _toolBar );
         _toolBar->addAction( QIcon::fromTheme( QString::fromLatin1( "document-new" ) ), i18n( "New" ) );
         _toolBar->addAction( QIcon::fromTheme( QString::fromLatin1( "document-open" ) ), i18n( "Open" ) );

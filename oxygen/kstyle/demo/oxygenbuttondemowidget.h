@@ -27,13 +27,13 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QWidget>
-#include <QToolButton>
-#include <QList>
-#include <KToolBar>
-
 #include "oxygendemowidget.h"
 #include "ui_oxygenbuttondemowidget.h"
+
+#include <QWidget>
+#include <QList>
+#include <QToolBar>
+#include <QToolButton>
 
 namespace Oxygen
 {
@@ -74,7 +74,7 @@ namespace Oxygen
         private:
 
         Ui_ButtonDemoWidget ui;
-        KToolBar* _toolBar;
+        QToolBar* _toolBar;
         QList<QPushButton*> _pushButtons;
         QList<QToolButton*> _toolButtons;
     };
