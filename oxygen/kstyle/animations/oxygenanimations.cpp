@@ -47,8 +47,6 @@
 #include <QToolButton>
 #include <QGroupBox>
 
-#include <KDebug>
-
 namespace Oxygen
 {
 
