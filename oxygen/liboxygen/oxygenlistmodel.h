@@ -30,7 +30,6 @@
 #include <QSet>
 #include <QList>
 
-#include <cassert>
 #include <algorithm>
 
 namespace Oxygen
@@ -297,7 +296,7 @@ namespace Oxygen
         //! return value for given index
         virtual ValueType& get( const QModelIndex& index )
         {
-            assert( index.isValid() && index.row() < int( _values.size() ) );
+            Q_ASSERT( index.isValid() && index.row() < int( _values.size() ) );
             return _values[index.row()];
         }
 

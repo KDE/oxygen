@@ -54,7 +54,7 @@ namespace Oxygen
     //_______________________________________________
     void GenericAnimationConfigItem::initializeConfigurationWidget( QWidget* parent )
     {
-        assert( !_configurationWidget );
+        Q_ASSERT( !_configurationWidget );
         _configurationWidget = new GenericAnimationConfigBox( parent );
         setConfigurationWidget( _configurationWidget.data() );
 

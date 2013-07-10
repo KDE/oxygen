@@ -95,7 +95,7 @@ namespace Oxygen
         //! configuration widget
         virtual QWidget* configurationWidget( void ) const
         {
-            assert( _configurationWidget );
+            Q_CHECK_PTR( _configurationWidget );
             return _configurationWidget.data();
         }
 

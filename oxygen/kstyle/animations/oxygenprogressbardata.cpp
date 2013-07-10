@@ -28,7 +28,6 @@
 #include "oxygenprogressbardata.moc"
 
 #include <QProgressBar>
-#include <cassert>
 
 namespace Oxygen
 {
@@ -47,7 +46,7 @@ namespace Oxygen
 
         // make sure target is a progressbar and store relevant values
         QProgressBar* progress = qobject_cast<QProgressBar*>( target );
-        assert( progress );
+        Q_CHECK_PTR( progress );
         setStartValue( progress->value() );
         setEndValue( progress->value() );
 

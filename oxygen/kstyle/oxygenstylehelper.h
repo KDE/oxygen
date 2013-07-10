@@ -184,7 +184,7 @@ namespace Oxygen
         bool compositingActive( void ) const;
 
         //! returns true if a given widget supports alpha channel
-        bool hasAlphaChannel( const QWidget* ) const;
+        inline bool hasAlphaChannel( const QWidget* ) const;
 
         //! returns true if given widget will get a decoration
         bool hasDecoration( const QWidget* ) const;
@@ -258,6 +258,10 @@ namespace Oxygen
 
         return *out;
     }
+
+    //____________________________________________________________________
+    bool StyleHelper::hasAlphaChannel( const QWidget* widget ) const
+    { return compositingActive() && widget && widget->testAttribute( Qt::WA_TranslucentBackground ); }
 
 }
 #endif

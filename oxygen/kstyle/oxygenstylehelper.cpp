@@ -655,10 +655,6 @@ namespace Oxygen
         #endif
     }
 
-    //____________________________________________________________________
-    bool StyleHelper::hasAlphaChannel( const QWidget* widget ) const
-    { return compositingActive() && widget && widget->testAttribute( Qt::WA_TranslucentBackground ); }
-
     //________________________________________________________________________________________________________
     bool StyleHelper::hasDecoration( const QWidget* widget ) const
     {

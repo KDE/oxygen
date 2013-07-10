@@ -31,7 +31,6 @@
 
 #include <QAbstractButton>
 #include <QWidget>
-#include <cassert>
 
 class Ui_AnimationConfigItem;
 

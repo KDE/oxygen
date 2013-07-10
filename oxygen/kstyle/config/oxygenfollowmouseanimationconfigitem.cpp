@@ -71,7 +71,7 @@ namespace Oxygen
     //_______________________________________________
     void FollowMouseAnimationConfigItem::initializeConfigurationWidget( QWidget* parent )
     {
-        assert( !_configurationWidget );
+        Q_ASSERT( !_configurationWidget );
         _configurationWidget = new FollowMouseAnimationConfigBox( parent );
         setConfigurationWidget( _configurationWidget.data() );
 
