@@ -438,23 +438,6 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    const QColor& Helper::backgroundColor( const QColor& color, const QWidget* w, const QPoint& constPoint )
-    {
-        if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
-        // else return backgroundColor( color, w->window()->height(), w->window()->mapFromGlobal( w->mapToGlobal( point ) ).y() );
-        else
-        {
-            QPoint point( constPoint );
-            for( const QWidget* widget = w; widget != w->window(); widget = widget->parentWidget() )
-            { point = widget->mapToParent( point ); }
-
-            return backgroundColor( color, w->window()->height(), point.y() );
-
-        }
-
-    }
-
-    //____________________________________________________________________
     const QColor& Helper::backgroundColor( const QColor& color, qreal ratio )
     {
 
