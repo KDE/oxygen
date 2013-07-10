@@ -67,6 +67,7 @@
 #include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QDBusConnection>
 #include <QDial>
 #include <QDialogButtonBox>
 #include <QDockWidget>
@@ -219,9 +220,12 @@ namespace Oxygen
 
     {
 
-//         // use DBus connection to update on oxygen configuration change
-//         QDBusConnection dbus = QDBusConnection::sessionBus();
-//         dbus.connect( QString(), "/OxygenStyle", "org.kde.Oxygen.Style", "reparseConfiguration", this, SLOT(oxygenConfigurationChanged()) );
+        // use DBus connection to update on oxygen configuration change
+        QDBusConnection dbus = QDBusConnection::sessionBus();
+        dbus.connect( QString(),
+            QLatin1String( "/OxygenStyle" ),
+            QLatin1String( "org.kde.Oxygen.Style" ),
+            QLatin1String( "reparseConfiguration" ), this, SLOT(oxygenConfigurationChanged()) );
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
