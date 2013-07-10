@@ -45,7 +45,7 @@ set( oxygen_settings_SOURCES
     oxygenconfigdialog.cpp
     main.cpp)
 
-kde4_add_executable( oxygen-settings ${oxygen_settings_SOURCES} )
+add_executable( oxygen-settings ${oxygen_settings_SOURCES} )
 
 qt5_use_modules( oxygen-settings
     Core
@@ -63,8 +63,3 @@ target_link_libraries(oxygen-settings
 )
 ########### install files ###############
 install (TARGETS oxygen-settings ${INSTALL_TARGETS_DEFAULT_ARGS} )
-
-
-
-
-

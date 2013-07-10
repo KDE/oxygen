@@ -1,5 +1,3 @@
-include_directories( ${KDE4_KDEUI_INCLUDES} )
-
 
 ########### next target ###############
 set( oxygen_demo_SOURCES
@@ -30,7 +28,7 @@ set( oxygen_demo_FORMS
 
 qt5_wrap_ui(oxygen_demo_FORMS_HEADERS ${oxygen_demo_FORMS})
 
-kde4_add_executable( oxygen-demo
+add_executable( oxygen-demo
     ${oxygen_demo_SOURCES}
     ${oxygen_demo_FORMS_HEADERS}
  )
@@ -39,20 +37,14 @@ qt5_use_modules( oxygen-demo
     Core
     Gui
     Widgets
-    # needed for KDEUI
-    PrintSupport
-    Xml
-    Network
-    Concurrent
-    X11Extras
 )
 
 target_link_libraries(oxygen-demo
+    ${KCompletion_LIBRARIES}
     ${kguiaddons_LIBRARIES}
     ${kwidgets_LIBRARIES}
     ${KWidgetsAddons_LIBRARIES}
     ${ki18n_LIBRARIES}
-    ${KDE4_KDEUI_LIBS}
 )
 
 ########### install files ###############

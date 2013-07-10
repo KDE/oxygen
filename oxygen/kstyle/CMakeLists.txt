@@ -1,7 +1,47 @@
-project(kstyle-oxygen)
+cmake_minimum_required(VERSION 2.8.10.1)
 
-add_subdirectory( config )
-add_subdirectory( demo )
+project(kstyle-oxygen)
+include(FeatureSummary)
+
+################# set KDE specific information #################
+find_package(ECM 0.0.8 REQUIRED NO_MODULE)
+
+# where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
+
+################# Qt5 #################
+find_package(Qt5Core REQUIRED NO_MODULE)
+find_package(Qt5Gui REQUIRED NO_MODULE)
+find_package(Qt5Widgets REQUIRED NO_MODULE)
+find_package(Qt5DBus REQUIRED NO_MODULE)
+find_package(Qt5Svg REQUIRED NO_MODULE)
+
+################# KF5 #################
+find_package(kdeqt5staging REQUIRED)
+find_package(KF5 MODULE REQUIRED COMPONENTS
+    CMake
+    Compiler
+    InstallDirs
+    KCoreAddons
+    KConfig
+    kguiaddons
+    KWidgetsAddons
+    KWindowSystem
+    KCodecs KAuth
+    ki18n
+    kservice
+    kwidgets
+    ItemViews
+    KIconThemes
+    KNotifications
+    KCompletion
+)
+
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${KF5_INCLUDE_DIRS}
+    ${KF5_INCLUDE_DIRS}/KDE
+)
 
 ################# X11 #################
 find_package(X11)
@@ -16,10 +56,15 @@ endif(X11_FOUND)
 add_definitions( -DHAVE_X11=${HAVE_X11} )
 
 ################# includes #################
-include_directories (animations debug transitions /home/hpereira/kf5/src/kde-workspace/libs/oxygen)
+include_directories(
+    animations
+    debug
+    transitions
+    #FIXME: should use KDEBASE_WORKSPACE_SOURCE_DIR
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../libs/oxygen
+)
 
 ########### next target ###############
-
 set(oxygen_PART_SRCS
     animations/oxygenanimations.cpp
     animations/oxygenanimationdata.cpp
@@ -105,5 +150,8 @@ endif(X11_FOUND)
 install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/ )
 
 ########### install files ###############
-
 install( FILES oxygen.themerc  DESTINATION  ${DATA_INSTALL_DIR}/kstyle/themes )
+
+########### subdirectories ###############
+add_subdirectory( config )
+add_subdirectory( demo )
