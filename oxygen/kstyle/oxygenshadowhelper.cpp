@@ -294,39 +294,43 @@ namespace Oxygen
     Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source ) const
     {
 
-        return 0;
+        #if 0
+        // do nothing for invalid pixmaps
+        if( source.isNull() ) return 0;
 
-//         // do nothing for invalid pixmaps
-//         if( source.isNull() ) return 0;
-//
-//         /*
-//         in some cases, pixmap handle is invalid. This is the case notably
-//         when Qt uses to RasterEngine. In this case, we create an X11 Pixmap
-//         explicitly and draw the source pixmap on it.
-//         */
-//
-//         #if HAVE_X11
-//         const int width( source.width() );
-//         const int height( source.height() );
-//
-//         // create X11 pixmap
-//         Pixmap pixmap = XCreatePixmap( QX11Info::display(), QX11Info::appRootWindow(), width, height, 32 );
-//
-//         // create explicitly shared QPixmap from it
-//         QPixmap dest( QPixmap::fromX11Pixmap( pixmap, QPixmap::ExplicitlyShared ) );
-//
-//         // create surface for pixmap
-//         {
-//             QPainter painter( &dest );
-//             painter.setCompositionMode( QPainter::CompositionMode_Source );
-//             painter.drawPixmap( 0, 0, source );
-//         }
-//
-//
-//         return pixmap;
-//         #else
-//         return 0;
-//         #endif
+        /*
+        in some cases, pixmap handle is invalid. This is the case notably
+        when Qt uses to RasterEngine. In this case, we create an X11 Pixmap
+        explicitly and draw the source pixmap on it.
+        */
+
+        #if HAVE_X11
+        const int width( source.width() );
+        const int height( source.height() );
+
+        // create X11 pixmap
+        Pixmap pixmap = XCreatePixmap( QX11Info::display(), QX11Info::appRootWindow(), width, height, 32 );
+
+        // create explicitly shared QPixmap from it
+        QPixmap dest( QPixmap::fromX11Pixmap( pixmap, QPixmap::ExplicitlyShared ) );
+
+        // create surface for pixmap
+        {
+            QPainter painter( &dest );
+            painter.setCompositionMode( QPainter::CompositionMode_Source );
+            painter.drawPixmap( 0, 0, source );
+        }
+
+
+        return pixmap;
+        #else
+        return 0;
+        #endif
+
+        #else
+        Q_UNUSED( source )
+        return 0;
+        #endif
 
     }
 
