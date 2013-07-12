@@ -38,7 +38,7 @@ namespace Oxygen
         ui.setupUi( this );
         ui.klineedit->setText( i18n( "Example text" ) );
         ui.klineedit_2->setText( i18n( "password" ) );
-        ui.textedit->setPlainText( QLatin1String(
+        ui.textedit->setPlainText( QStringLiteral(
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor "
             "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud "
             "exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute "
@@ -90,9 +90,9 @@ namespace Oxygen
             simulator().selectComboBoxItem( ui.kcombobox, 0 );
 
             simulator().clearText( ui.kintspinbox );
-            simulator().writeText( ui.kintspinbox, QLatin1String( "10" ) );
+            simulator().writeText( ui.kintspinbox, QStringLiteral( "10" ) );
             simulator().clearText( ui.kintspinbox );
-            simulator().writeText( ui.kintspinbox, QLatin1String( "0" ) );
+            simulator().writeText( ui.kintspinbox, QStringLiteral( "0" ) );
 
         }
 

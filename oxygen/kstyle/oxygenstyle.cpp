@@ -166,7 +166,7 @@ namespace Oxygen
     //_________________________________________________
     QStyle* Oxygen::StylePlugin::create( const QString &key )
     {
-        if( key.toLower() == QLatin1String( "oxygen" ) ) return new Style();
+        if( key.toLower() == QStringLiteral( "oxygen" ) ) return new Style();
         else return 0;
     }
 
@@ -215,17 +215,17 @@ namespace Oxygen
         _hintCounter( X_KdeBase+1 ),
         _controlCounter( X_KdeBase ),
         _subElementCounter( X_KdeBase ),
-        SH_ArgbDndWindow( newStyleHint( QLatin1String( "SH_ArgbDndWindow" ) ) ),
-        CE_CapacityBar( newControlElement( QLatin1String( "CE_CapacityBar" ) ) )
+        SH_ArgbDndWindow( newStyleHint( QStringLiteral( "SH_ArgbDndWindow" ) ) ),
+        CE_CapacityBar( newControlElement( QStringLiteral( "CE_CapacityBar" ) ) )
 
     {
 
         // use DBus connection to update on oxygen configuration change
         QDBusConnection dbus = QDBusConnection::sessionBus();
         dbus.connect( QString(),
-            QLatin1String( "/OxygenStyle" ),
-            QLatin1String( "org.kde.Oxygen.Style" ),
-            QLatin1String( "reparseConfiguration" ), this, SLOT(oxygenConfigurationChanged()) );
+            QStringLiteral( "/OxygenStyle" ),
+            QStringLiteral( "org.kde.Oxygen.Style" ),
+            QStringLiteral( "reparseConfiguration" ), this, SLOT(oxygenConfigurationChanged()) );
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
@@ -1818,7 +1818,7 @@ namespace Oxygen
 
                 QFontMetrics fontMetrics = QFontMetrics( font );
                 const int h( fontMetrics.height() );
-                const int tw( fontMetrics.size( Qt::TextShowMnemonic, gbOpt->text + QLatin1String( "  " ) ).width() );
+                const int tw( fontMetrics.size( Qt::TextShowMnemonic, gbOpt->text + QStringLiteral( "  " ) ).width() );
                 r.setHeight( h );
 
                 // translate down by 6 pixels in non flat mode,
@@ -2831,7 +2831,7 @@ namespace Oxygen
         if( _tabCloseIcon.isNull() ) {
 
             // load the icon on-demand: in the constructor, KDE is not yet ready to find it!
-            _tabCloseIcon = QIcon::fromTheme( QLatin1String( "dialog-close" ) );
+            _tabCloseIcon = QIcon::fromTheme( QStringLiteral( "dialog-close" ) );
             if( _tabCloseIcon.isNull() ) return false; // still not found? cancel
         }
 
@@ -3228,7 +3228,7 @@ namespace Oxygen
 
         //! fine tuning of slitRect geometry
         if( widget && widget->inherits( "QToolBarExtension" ) ) slitRect.adjust( 1, 1, -1, -1 );
-        else if( widget && widget->objectName() == QLatin1String( "qt_menubar_ext_button" ) ) slitRect.adjust( -1, -1, 0, 0 );
+        else if( widget && widget->objectName() == QStringLiteral( "qt_menubar_ext_button" ) ) slitRect.adjust( -1, -1, 0, 0 );
 
         // normal ( auto-raised ) toolbuttons
         if( flags & ( State_Sunken|State_On ) )
@@ -7875,73 +7875,73 @@ namespace Oxygen
         {
 
             // copied from kstyle
-            case SP_DesktopIcon: return QIcon::fromTheme( QLatin1String( "user-desktop" ) );
-            case SP_TrashIcon: return QIcon::fromTheme( QLatin1String( "user-trash" ) );
-            case SP_ComputerIcon: return QIcon::fromTheme( QLatin1String( "computer" ) );
-            case SP_DriveFDIcon: return QIcon::fromTheme( QLatin1String( "media-floppy" ) );
-            case SP_DriveHDIcon: return QIcon::fromTheme( QLatin1String( "drive-harddisk" ) );
-            case SP_DriveCDIcon: return QIcon::fromTheme( QLatin1String( "drive-optical" ) );
-            case SP_DriveDVDIcon: return QIcon::fromTheme( QLatin1String( "drive-optical" ) );
-            case SP_DriveNetIcon: return QIcon::fromTheme( QLatin1String( "folder-remote" ) );
-            case SP_DirHomeIcon: return QIcon::fromTheme( QLatin1String( "user-home" ) );
-            case SP_DirOpenIcon: return QIcon::fromTheme( QLatin1String( "document-open-folder" ) );
-            case SP_DirClosedIcon: return QIcon::fromTheme( QLatin1String( "folder" ) );
-            case SP_DirIcon: return QIcon::fromTheme( QLatin1String( "folder" ) );
+            case SP_DesktopIcon: return QIcon::fromTheme( QStringLiteral( "user-desktop" ) );
+            case SP_TrashIcon: return QIcon::fromTheme( QStringLiteral( "user-trash" ) );
+            case SP_ComputerIcon: return QIcon::fromTheme( QStringLiteral( "computer" ) );
+            case SP_DriveFDIcon: return QIcon::fromTheme( QStringLiteral( "media-floppy" ) );
+            case SP_DriveHDIcon: return QIcon::fromTheme( QStringLiteral( "drive-harddisk" ) );
+            case SP_DriveCDIcon: return QIcon::fromTheme( QStringLiteral( "drive-optical" ) );
+            case SP_DriveDVDIcon: return QIcon::fromTheme( QStringLiteral( "drive-optical" ) );
+            case SP_DriveNetIcon: return QIcon::fromTheme( QStringLiteral( "folder-remote" ) );
+            case SP_DirHomeIcon: return QIcon::fromTheme( QStringLiteral( "user-home" ) );
+            case SP_DirOpenIcon: return QIcon::fromTheme( QStringLiteral( "document-open-folder" ) );
+            case SP_DirClosedIcon: return QIcon::fromTheme( QStringLiteral( "folder" ) );
+            case SP_DirIcon: return QIcon::fromTheme( QStringLiteral( "folder" ) );
 
             //TODO: generate ( !? ) folder with link emblem
-            case SP_DirLinkIcon: return QIcon::fromTheme( QLatin1String( "folder" ) );
+            case SP_DirLinkIcon: return QIcon::fromTheme( QStringLiteral( "folder" ) );
 
             //TODO: look for a better icon
-            case SP_FileIcon: return QIcon::fromTheme( QLatin1String( "text-plain" ) );
+            case SP_FileIcon: return QIcon::fromTheme( QStringLiteral( "text-plain" ) );
 
             //TODO: generate ( !? ) file with link emblem
-            case SP_FileLinkIcon: return QIcon::fromTheme( QLatin1String( "text-plain" ) );
+            case SP_FileLinkIcon: return QIcon::fromTheme( QStringLiteral( "text-plain" ) );
 
             //TODO: find correct icon
-            case SP_FileDialogStart: return QIcon::fromTheme( QLatin1String( "media-playback-start" ) );
+            case SP_FileDialogStart: return QIcon::fromTheme( QStringLiteral( "media-playback-start" ) );
 
             //TODO: find correct icon
-            case SP_FileDialogEnd: return QIcon::fromTheme( QLatin1String( "media-playback-stop" ) );
+            case SP_FileDialogEnd: return QIcon::fromTheme( QStringLiteral( "media-playback-stop" ) );
 
-            case SP_FileDialogToParent: return QIcon::fromTheme( QLatin1String( "go-up" ) );
-            case SP_FileDialogNewFolder: return QIcon::fromTheme( QLatin1String( "folder-new" ) );
-            case SP_FileDialogDetailedView: return QIcon::fromTheme( QLatin1String( "view-list-details" ) );
-            case SP_FileDialogInfoView: return QIcon::fromTheme( QLatin1String( "document-properties" ) );
-            case SP_FileDialogContentsView: return QIcon::fromTheme( QLatin1String( "view-list-icons" ) );
-            case SP_FileDialogListView: return QIcon::fromTheme( QLatin1String( "view-list-text" ) );
-            case SP_FileDialogBack: return QIcon::fromTheme( QLatin1String( "go-previous" ) );
-            case SP_MessageBoxInformation: return QIcon::fromTheme( QLatin1String( "dialog-information" ) );
-            case SP_MessageBoxWarning: return QIcon::fromTheme( QLatin1String( "dialog-warning" ) );
-            case SP_MessageBoxCritical: return QIcon::fromTheme( QLatin1String( "dialog-error" ) );
-            case SP_MessageBoxQuestion: return QIcon::fromTheme( QLatin1String( "dialog-information" ) );
-            case SP_DialogOkButton: return QIcon::fromTheme( QLatin1String( "dialog-ok" ) );
-            case SP_DialogCancelButton: return QIcon::fromTheme( QLatin1String( "dialog-cancel" ) );
-            case SP_DialogHelpButton: return QIcon::fromTheme( QLatin1String( "help-contents" ) );
-            case SP_DialogOpenButton: return QIcon::fromTheme( QLatin1String( "document-open" ) );
-            case SP_DialogSaveButton: return QIcon::fromTheme( QLatin1String( "document-save" ) );
-            case SP_DialogCloseButton: return QIcon::fromTheme( QLatin1String( "dialog-close" ) );
-            case SP_DialogApplyButton: return QIcon::fromTheme( QLatin1String( "dialog-ok-apply" ) );
-            case SP_DialogResetButton: return QIcon::fromTheme( QLatin1String( "document-revert" ) );
-            case SP_DialogDiscardButton: return QIcon::fromTheme( QLatin1String( "dialog-cancel" ) );
-            case SP_DialogYesButton: return QIcon::fromTheme( QLatin1String( "dialog-ok-apply" ) );
-            case SP_DialogNoButton: return QIcon::fromTheme( QLatin1String( "dialog-cancel" ) );
-            case SP_ArrowUp: return QIcon::fromTheme( QLatin1String( "go-up" ) );
-            case SP_ArrowDown: return QIcon::fromTheme( QLatin1String( "go-down" ) );
-            case SP_ArrowLeft: return QIcon::fromTheme( QLatin1String( "go-previous-view" ) );
-            case SP_ArrowRight: return QIcon::fromTheme( QLatin1String( "go-next-view" ) );
-            case SP_ArrowBack: return QIcon::fromTheme( QLatin1String( "go-previous" ) );
-            case SP_ArrowForward: return QIcon::fromTheme( QLatin1String( "go-next" ) );
-            case SP_BrowserReload: return QIcon::fromTheme( QLatin1String( "view-refresh" ) );
-            case SP_BrowserStop: return QIcon::fromTheme( QLatin1String( "process-stop" ) );
-            case SP_MediaPlay: return QIcon::fromTheme( QLatin1String( "media-playback-start" ) );
-            case SP_MediaStop: return QIcon::fromTheme( QLatin1String( "media-playback-stop" ) );
-            case SP_MediaPause: return QIcon::fromTheme( QLatin1String( "media-playback-pause" ) );
-            case SP_MediaSkipForward: return QIcon::fromTheme( QLatin1String( "media-skip-forward" ) );
-            case SP_MediaSkipBackward: return QIcon::fromTheme( QLatin1String( "media-skip-backward" ) );
-            case SP_MediaSeekForward: return QIcon::fromTheme( QLatin1String( "media-seek-forward" ) );
-            case SP_MediaSeekBackward: return QIcon::fromTheme( QLatin1String( "media-seek-backward" ) );
-            case SP_MediaVolume: return QIcon::fromTheme( QLatin1String( "audio-volume-medium" ) );
-            case SP_MediaVolumeMuted: return QIcon::fromTheme( QLatin1String( "audio-volume-muted" ) );
+            case SP_FileDialogToParent: return QIcon::fromTheme( QStringLiteral( "go-up" ) );
+            case SP_FileDialogNewFolder: return QIcon::fromTheme( QStringLiteral( "folder-new" ) );
+            case SP_FileDialogDetailedView: return QIcon::fromTheme( QStringLiteral( "view-list-details" ) );
+            case SP_FileDialogInfoView: return QIcon::fromTheme( QStringLiteral( "document-properties" ) );
+            case SP_FileDialogContentsView: return QIcon::fromTheme( QStringLiteral( "view-list-icons" ) );
+            case SP_FileDialogListView: return QIcon::fromTheme( QStringLiteral( "view-list-text" ) );
+            case SP_FileDialogBack: return QIcon::fromTheme( QStringLiteral( "go-previous" ) );
+            case SP_MessageBoxInformation: return QIcon::fromTheme( QStringLiteral( "dialog-information" ) );
+            case SP_MessageBoxWarning: return QIcon::fromTheme( QStringLiteral( "dialog-warning" ) );
+            case SP_MessageBoxCritical: return QIcon::fromTheme( QStringLiteral( "dialog-error" ) );
+            case SP_MessageBoxQuestion: return QIcon::fromTheme( QStringLiteral( "dialog-information" ) );
+            case SP_DialogOkButton: return QIcon::fromTheme( QStringLiteral( "dialog-ok" ) );
+            case SP_DialogCancelButton: return QIcon::fromTheme( QStringLiteral( "dialog-cancel" ) );
+            case SP_DialogHelpButton: return QIcon::fromTheme( QStringLiteral( "help-contents" ) );
+            case SP_DialogOpenButton: return QIcon::fromTheme( QStringLiteral( "document-open" ) );
+            case SP_DialogSaveButton: return QIcon::fromTheme( QStringLiteral( "document-save" ) );
+            case SP_DialogCloseButton: return QIcon::fromTheme( QStringLiteral( "dialog-close" ) );
+            case SP_DialogApplyButton: return QIcon::fromTheme( QStringLiteral( "dialog-ok-apply" ) );
+            case SP_DialogResetButton: return QIcon::fromTheme( QStringLiteral( "document-revert" ) );
+            case SP_DialogDiscardButton: return QIcon::fromTheme( QStringLiteral( "dialog-cancel" ) );
+            case SP_DialogYesButton: return QIcon::fromTheme( QStringLiteral( "dialog-ok-apply" ) );
+            case SP_DialogNoButton: return QIcon::fromTheme( QStringLiteral( "dialog-cancel" ) );
+            case SP_ArrowUp: return QIcon::fromTheme( QStringLiteral( "go-up" ) );
+            case SP_ArrowDown: return QIcon::fromTheme( QStringLiteral( "go-down" ) );
+            case SP_ArrowLeft: return QIcon::fromTheme( QStringLiteral( "go-previous-view" ) );
+            case SP_ArrowRight: return QIcon::fromTheme( QStringLiteral( "go-next-view" ) );
+            case SP_ArrowBack: return QIcon::fromTheme( QStringLiteral( "go-previous" ) );
+            case SP_ArrowForward: return QIcon::fromTheme( QStringLiteral( "go-next" ) );
+            case SP_BrowserReload: return QIcon::fromTheme( QStringLiteral( "view-refresh" ) );
+            case SP_BrowserStop: return QIcon::fromTheme( QStringLiteral( "process-stop" ) );
+            case SP_MediaPlay: return QIcon::fromTheme( QStringLiteral( "media-playback-start" ) );
+            case SP_MediaStop: return QIcon::fromTheme( QStringLiteral( "media-playback-stop" ) );
+            case SP_MediaPause: return QIcon::fromTheme( QStringLiteral( "media-playback-pause" ) );
+            case SP_MediaSkipForward: return QIcon::fromTheme( QStringLiteral( "media-skip-forward" ) );
+            case SP_MediaSkipBackward: return QIcon::fromTheme( QStringLiteral( "media-skip-backward" ) );
+            case SP_MediaSeekForward: return QIcon::fromTheme( QStringLiteral( "media-seek-forward" ) );
+            case SP_MediaSeekBackward: return QIcon::fromTheme( QStringLiteral( "media-seek-backward" ) );
+            case SP_MediaVolume: return QIcon::fromTheme( QStringLiteral( "audio-volume-medium" ) );
+            case SP_MediaVolumeMuted: return QIcon::fromTheme( QStringLiteral( "audio-volume-muted" ) );
 
             default: break;
 

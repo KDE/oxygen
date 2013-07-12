@@ -49,7 +49,7 @@ extern "C"
 {
     KDE_EXPORT QWidget* allocate_kstyle_config(QWidget* parent)
     {
-        KLocalizedString::insertCatalog( QLatin1String( "kstyle_config" ) );
+        KLocalizedString::insertCatalog( QStringLiteral( "kstyle_config" ) );
         return new Oxygen::StyleConfig(parent);
     }
 }
@@ -63,7 +63,7 @@ namespace Oxygen
         _expertMode( false ),
         _animationConfigWidget(0)
     {
-        KLocalizedString::insertCatalog( QLatin1String( "kstyle_config" ) );
+        KLocalizedString::insertCatalog( QStringLiteral( "kstyle_config" ) );
 
         setupUi(this);
 
@@ -71,7 +71,7 @@ namespace Oxygen
         connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(windowDragModeChanged(int)) );
         connect( _expertModeButton, SIGNAL(pressed()), SLOT(toggleExpertModeInternal()) );
 
-        _expertModeButton->setIcon( QIcon::fromTheme( QLatin1String( "configure" ) ) );
+        _expertModeButton->setIcon( QIcon::fromTheme( QStringLiteral( "configure" ) ) );
 
         // toggle expert mode
         toggleExpertModeInternal( false );
@@ -148,7 +148,7 @@ namespace Oxygen
         StyleConfigData::self()->writeConfig();
 
         // emit dbus signal
-        QDBusMessage message( QDBusMessage::createSignal( QLatin1String( "/OxygenStyle" ),  QLatin1String( "org.kde.Oxygen.Style" ), QLatin1String( "reparseConfiguration" ) ) );
+        QDBusMessage message( QDBusMessage::createSignal( QStringLiteral( "/OxygenStyle" ),  QStringLiteral( "org.kde.Oxygen.Style" ), QStringLiteral( "reparseConfiguration" ) ) );
         QDBusConnection::sessionBus().send(message);
 
     }

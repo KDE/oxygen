@@ -141,9 +141,9 @@ namespace Oxygen
         _whiteList.clear();
 
         // add user specified whitelisted classnames
-        _whiteList.insert( ExceptionId( QLatin1String( "MplayerWindow" ) ) );
-        _whiteList.insert( ExceptionId( QLatin1String( "ViewSliders@kmix" ) ) );
-        _whiteList.insert( ExceptionId( QLatin1String( "Sidebar_Widget@konqueror" ) ) );
+        _whiteList.insert( ExceptionId( QStringLiteral( "MplayerWindow" ) ) );
+        _whiteList.insert( ExceptionId( QStringLiteral( "ViewSliders@kmix" ) ) );
+        _whiteList.insert( ExceptionId( QStringLiteral( "Sidebar_Widget@konqueror" ) ) );
 
         foreach( const QString& exception, StyleConfigData::windowDragWhiteList() )
         {
@@ -158,9 +158,9 @@ namespace Oxygen
     {
 
         _blackList.clear();
-        _blackList.insert( ExceptionId( QLatin1String( "CustomTrackView@kdenlive" ) ) );
-        _blackList.insert( ExceptionId( QLatin1String( "MuseScore" ) ) );
-        _blackList.insert( ExceptionId( QLatin1String( "KGameCanvasWidget" ) ) );
+        _blackList.insert( ExceptionId( QStringLiteral( "CustomTrackView@kdenlive" ) ) );
+        _blackList.insert( ExceptionId( QStringLiteral( "MuseScore" ) ) );
+        _blackList.insert( ExceptionId( QStringLiteral( "KGameCanvasWidget" ) ) );
         foreach( const QString& exception, StyleConfigData::windowDragBlackList() )
         {
             ExceptionId id( exception );
@@ -178,15 +178,15 @@ namespace Oxygen
         switch ( event->type() )
         {
             case QEvent::MouseButtonPress:
-                return mousePressEvent( object, event );
+            return mousePressEvent( object, event );
             break;
 
             case QEvent::MouseMove:
-                if ( object == _target.data() ) return mouseMoveEvent( object, event );
+            if ( object == _target.data() ) return mouseMoveEvent( object, event );
             break;
 
             case QEvent::MouseButtonRelease:
-                if ( _target ) return mouseReleaseEvent( object, event );
+            if ( _target ) return mouseReleaseEvent( object, event );
             break;
 
             default:
@@ -204,6 +204,7 @@ namespace Oxygen
 
         if( event->timerId() == _dragTimer.timerId() )
         {
+                        
             _dragTimer.stop();
             if( _target )
             { startDrag( _target.data(), _globalDragPoint ); }
@@ -284,8 +285,12 @@ namespace Oxygen
 
                 } else resetDrag();
 
-            } else if( QPoint( mouseEvent->globalPos() - _globalDragPoint ).manhattanLength() >= _dragDistance )
-            { _dragTimer.start( 0, this ); }
+            } else if( QPoint( mouseEvent->globalPos() - _globalDragPoint ).manhattanLength() >= _dragDistance ) { 
+                
+                _dragTimer.start( 0, this ); 
+            
+            }
+            
             return true;
 
         } else if( !useWMMoveResize() ) {
@@ -303,6 +308,7 @@ namespace Oxygen
     //_____________________________________________________________
     bool WindowManager::mouseReleaseEvent( QObject* object, QEvent* event )
     {
+        
         Q_UNUSED( object );
         Q_UNUSED( event );
         resetDrag();
@@ -388,7 +394,7 @@ namespace Oxygen
         foreach( const ExceptionId& id, _blackList )
         {
             if( !id.appName().isEmpty() && id.appName() != appName ) continue;
-            if( id.className() == QLatin1String( "*" ) && !id.appName().isEmpty() )
+            if( id.className() == QStringLiteral( "*" ) && !id.appName().isEmpty() )
             {
                 // if application name matches and all classes are selected
                 // disable the grabbing entirely
@@ -700,8 +706,8 @@ namespace Oxygen
     bool WindowManager::AppEventFilter::appMouseEvent( QObject* object, QEvent* event )
     {
 
-        Q_UNUSED( object );
-
+        Q_UNUSED( object );        
+        
         // store target window (see later)
         QWidget* window( _parent->_target.data()->window() );
 

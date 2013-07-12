@@ -86,7 +86,7 @@ namespace Oxygen
         page = loadStyleConfig();
         page->setName( i18n("Widget Style") );
         page->setHeader( i18n("Modify the appearance of widgets") );
-        page->setIcon( QIcon::fromTheme( QLatin1String( "preferences-desktop-theme" ) ) );
+        page->setIcon( QIcon::fromTheme( QStringLiteral( "preferences-desktop-theme" ) ) );
         _pageWidget->addPage( page );
 
         if( _stylePluginObject )
@@ -105,7 +105,7 @@ namespace Oxygen
         page = loadDecorationConfig();
         page->setName( i18n("Window Decorations") );
         page->setHeader( i18n("Modify the appearance of window decorations") );
-        page->setIcon( QIcon::fromTheme( QLatin1String( "preferences-system-windows" ) ) );
+        page->setIcon( QIcon::fromTheme( QStringLiteral( "preferences-system-windows" ) ) );
         _pageWidget->addPage( page );
 
         if( _decorationPluginObject )
@@ -176,7 +176,7 @@ namespace Oxygen
     {
 
         // load decoration from plugin
-        KLibrary* library = new KLibrary( QLatin1String( "libkstyle_oxygen_config" ) );
+        KLibrary* library = new KLibrary( QStringLiteral( "libkstyle_oxygen_config" ) );
 
         if (library->load())
         {
@@ -191,7 +191,7 @@ namespace Oxygen
                 // create container
                 QWidget* container = new QWidget();
                 container->setLayout( new QVBoxLayout() );
-                container->setObjectName( QLatin1String( "oxygen-settings-container" ) );
+                container->setObjectName( QStringLiteral( "oxygen-settings-container" ) );
 
                 // allocate config object
                 _stylePluginObject = (QObject*)(allocator( container ));
@@ -225,7 +225,7 @@ namespace Oxygen
     {
 
         // load decoration from plugin
-        KLibrary* library = new KLibrary( QLatin1String( "kwin_oxygen_config" ) );
+        KLibrary* library = new KLibrary( QStringLiteral( "kwin_oxygen_config" ) );
 
         if (library->load())
         {
