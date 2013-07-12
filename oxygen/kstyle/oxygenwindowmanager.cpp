@@ -107,19 +107,15 @@ namespace Oxygen
     void WindowManager::registerWidget( QWidget* widget )
     {
 
-        if( isBlackListed( widget ) )
+        if( isBlackListed( widget ) || isDragable( widget ) )
         {
 
             /*
+            install filter for dragable widgets.
             also install filter for blacklisted widgets
             to be able to catch the relevant events and prevent
             the drag to happen
             */
-            widget->removeEventFilter( this );
-            widget->installEventFilter( this );
-
-        } else if( isDragable( widget ) ) {
-
             widget->removeEventFilter( this );
             widget->installEventFilter( this );
 
@@ -628,15 +624,11 @@ namespace Oxygen
             Q_UNUSED( position );
             #endif
 
-        }
-
-        if( !useWMMoveResize() )
-        {
-            if( !_cursorOverride )
-            {
-                qApp->setOverrideCursor( Qt::SizeAllCursor );
-                _cursorOverride = true;
-            }
+        } else if( !_cursorOverride ) {
+            
+            qApp->setOverrideCursor( Qt::SizeAllCursor );
+            _cursorOverride = true;
+            
         }
 
         _dragInProgress = true;
