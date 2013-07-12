@@ -39,6 +39,7 @@
 #if HAVE_X11
 #include <QX11Info>
 #include <X11/Xlib.h>
+#include <X11/Xlib-xcb.h>
 #include <X11/Xatom.h>
 #endif
 
@@ -56,7 +57,9 @@ namespace Oxygen
         _shadowCache( new ShadowCache( helper ) ),
         _size( 0 )
         #if HAVE_X11
-        ,_atom( None )
+        ,_connection( 0x0 ),
+        _gc( 0x0 ),
+        _atom( None )
         #endif
     {}
 
@@ -291,10 +294,9 @@ namespace Oxygen
     }
 
     //______________________________________________
-    Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source ) const
+    Qt::HANDLE ShadowHelper::createPixmap( const QPixmap& source )
     {
 
-        #if 0
         // do nothing for invalid pixmaps
         if( source.isNull() ) return 0;
 
@@ -305,30 +307,45 @@ namespace Oxygen
         */
 
         #if HAVE_X11
+        
+        // check connection 
+        if( !_connection ) _connection = XGetXCBConnection( QX11Info::display() );
+        
         const int width( source.width() );
         const int height( source.height() );
 
         // create X11 pixmap
         Pixmap pixmap = XCreatePixmap( QX11Info::display(), QX11Info::appRootWindow(), width, height, 32 );
 
-        // create explicitly shared QPixmap from it
-        QPixmap dest( QPixmap::fromX11Pixmap( pixmap, QPixmap::ExplicitlyShared ) );
-
-        // create surface for pixmap
+        // check gc
+        if( !_gc ) 
         {
-            QPainter painter( &dest );
-            painter.setCompositionMode( QPainter::CompositionMode_Source );
-            painter.drawPixmap( 0, 0, source );
+            _gc = xcb_generate_id( _connection );
+            xcb_create_gc( _connection, _gc, pixmap, 0, 0x0 );
         }
-
-
-        return pixmap;
+        
+//         // create explicitly shared QPixmap from it
+//         QPixmap dest( QPixmap::fromX11Pixmap( pixmap, QPixmap::ExplicitlyShared ) );
+// 
+//         // create surface for pixmap
+//         {
+//             QPainter painter( &dest );
+//             painter.setCompositionMode( QPainter::CompositionMode_Source );
+//             painter.drawPixmap( 0, 0, source );
+//         }
+// 
+// 
+//         return pixmap;
+        QImage image( source.toImage() );
+        xcb_put_image(
+            _connection, XCB_IMAGE_FORMAT_Z_PIXMAP, pixmap, _gc,
+            image.width(), image.height(), 0, 0,
+            0, 32, 
+            image.byteCount(), image.constBits());
+       
+        return (Qt::HANDLE)pixmap;
+        
         #else
-        return 0;
-        #endif
-
-        #else
-        Q_UNUSED( source )
         return 0;
         #endif
 

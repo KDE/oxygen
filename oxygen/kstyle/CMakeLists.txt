@@ -3,6 +3,13 @@ project(kstyle-oxygen)
 ################# X11 #################
 add_definitions( -DHAVE_X11=${X11_FOUND} )
 
+
+if(X11_FOUND)
+    # FIXME: remove when upstream CMakeLists is fixed
+    find_package(XCB REQUIRED)
+    find_package(X11_XCB)
+endif()
+
 ################# includes #################
 include_directories(
     animations
@@ -84,6 +91,11 @@ target_link_libraries(oxygen
     ${kwidgets_LIBRARIES}
     ${KIconThemes_LIBRARIES}
     ${KWindowSystem_LIBRARIES}
+)
+
+target_link_libraries(oxygen
+    ${XCB_XCB_LIBRARIES}
+    ${X11_XCB_LIBRARIES}
 )
 
 target_link_libraries(oxygen oxygenstyle)

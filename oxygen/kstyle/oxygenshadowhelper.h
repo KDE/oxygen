@@ -34,6 +34,7 @@
 #include <QMap>
 
 #if HAVE_X11
+#include <xcb/xcb.h>
 #include <X11/Xdefs.h>
 #endif
 
@@ -112,7 +113,7 @@ namespace Oxygen
         const QVector<Qt::HANDLE>& createPixmapHandles( bool isDockWidget );
 
         // create pixmap handle from pixmap
-        Qt::HANDLE createPixmap( const QPixmap& ) const;
+        Qt::HANDLE createPixmap( const QPixmap& );
 
         //! install shadow X11 property on given widget
         /*!
@@ -154,6 +155,13 @@ namespace Oxygen
         int _size;
 
         #if HAVE_X11
+        
+        //! xcb connection
+        xcb_connection_t* _connection;
+
+        //! graphical context
+        xcb_gcontext_t _gc;
+        
         //! shadow atom
         Atom _atom;
         #endif
