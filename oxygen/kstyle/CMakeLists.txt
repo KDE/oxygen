@@ -87,8 +87,8 @@ qt5_use_modules( oxygen
 
 target_link_libraries(oxygen
     ${KConfig_LIBRARIES}
-    ${kguiaddons_LIBRARIES}
-    ${kwidgets_LIBRARIES}
+    ${KGuiAddons_LIBRARIES}
+    ${KWidgets_LIBRARIES}
     ${KIconThemes_LIBRARIES}
     ${KWindowSystem_LIBRARIES}
 )

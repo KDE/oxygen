@@ -41,10 +41,10 @@ qt5_use_modules( oxygen-demo
 
 target_link_libraries(oxygen-demo
     ${KCompletion_LIBRARIES}
-    ${kguiaddons_LIBRARIES}
-    ${kwidgets_LIBRARIES}
+    ${KGuiAddons_LIBRARIES}
+    ${KWidgets_LIBRARIES}
     ${KWidgetsAddons_LIBRARIES}
-    ${ki18n_LIBRARIES}
+    ${KI18n_LIBRARIES}
 )
 
 ########### install files ###############

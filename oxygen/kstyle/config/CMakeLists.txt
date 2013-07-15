@@ -33,9 +33,9 @@ target_link_libraries( kstyle_oxygen_config oxygenstyleconfig )
 target_link_libraries( kstyle_oxygen_config
   ${KConfig_LIBRARIES}
   ${KCompletion_LIBRARIES}
-  ${kguiaddons_LIBRARIES}
-  ${kwidgets_LIBRARIES}
-  ${ki18n_LIBRARIES}
+  ${KGuiAddons_LIBRARIES}
+  ${KWidgets_LIBRARIES}
+  ${KI18n_LIBRARIES}
 )
 
 install(TARGETS kstyle_oxygen_config DESTINATION ${QT_PLUGIN_INSTALL_DIR}/kf5 )
@@ -55,11 +55,11 @@ qt5_use_modules( oxygen-settings
 
 target_link_libraries(oxygen-settings
     ${KConfig_LIBRARIES}
-    ${kservice_LIBRARIES}
-    ${kguiaddons_LIBRARIES}
-    ${kwidgets_LIBRARIES}
+    ${KService_LIBRARIES}
+    ${KGuiAddons_LIBRARIES}
+    ${KWidgets_LIBRARIES}
     ${KWidgetsAddons_LIBRARIES}
-    ${ki18n_LIBRARIES}
+    ${KI18n_LIBRARIES}
 )
 ########### install files ###############
 install (TARGETS oxygen-settings ${INSTALL_TARGETS_DEFAULT_ARGS} )

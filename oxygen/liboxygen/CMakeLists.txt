@@ -19,7 +19,7 @@ kconfig_add_kcfg_files(oxygenstyle_LIB_SRCS
 add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
 
 qt5_use_modules( oxygenstyle Core Gui Widgets )
-target_link_libraries(oxygenstyle ${KConfig_LIBRARIES} ${kguiaddons_LIBRARIES} ${kwidgets_LIBRARIES})
+target_link_libraries(oxygenstyle ${KConfig_LIBRARIES} ${KGuiAddons_LIBRARIES} ${KWidgets_LIBRARIES})
 
 if( X11_FOUND )
   target_link_libraries(oxygenstyle ${X11_LIBRARIES})
@@ -69,9 +69,9 @@ qt5_use_modules( oxygenstyleconfig
 target_link_libraries(oxygenstyleconfig oxygenstyle)
 target_link_libraries(oxygenstyleconfig
   ${KConfig_LIBRARIES}
-  ${kguiaddons_LIBRARIES}
-  ${kwidgets_LIBRARIES}
-  ${ki18n_LIBRARIES}
+  ${KGuiaddons_LIBRARIES}
+  ${KWidgets_LIBRARIES}
+  ${KI18n_LIBRARIES}
   ${KDE4_KDEUI_LIBS}
 )
 
