@@ -30,7 +30,6 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QStyleOption>
-#include <QCoreApplication>
 #include <QTextStream>
 
 namespace Oxygen
@@ -234,9 +233,8 @@ namespace Oxygen
             option.rect.translate( widget->mapTo( parent, rect.topLeft() ) );
             p.translate(-option.rect.topLeft());
             parent->style()->drawPrimitive ( QStyle::PE_Widget, &option, &p, parent );
+            p.translate(option.rect.topLeft());
         }
-
-        p.end();
 
         // draw all widgets in parent list
         // backward
@@ -244,11 +242,11 @@ namespace Oxygen
         for( int i = widgets.size() - 1; i>=0; i-- )
         {
             QWidget* w = widgets.at(i);
-            QPainter::setRedirected( w, &pixmap, widget->mapTo(w, rect.topLeft() ) );
-            event = QPaintEvent(QRect( QPoint(), rect.size()));
-            QCoreApplication::sendEvent(w, &event);
-            QPainter::restoreRedirected(w);
+            w->render( &p, -widget->mapTo( w, rect.topLeft() ), rect, 0 );
         }
+        
+        // end
+        p.end();
 
     }
 
