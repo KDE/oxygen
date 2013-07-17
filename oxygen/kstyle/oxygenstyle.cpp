@@ -23,7 +23,7 @@
 // ( c ) 2002,2003 Maksim Orlovich <mo002j@mail.rochester.edu>
 // based on the KDE3 HighColor Style
 // Copyright ( C ) 2001-2002 Karol Szwed <gallium@kde.org>
-// ( C ) 2001-2002 Fredrik HÃ¶glund <fredrik@kde.org>
+// ( C ) 2001-2002 Fredrik Höglund <fredrik@kde.org>
 // Drawing routines adapted from the KDE2 HCStyle,
 // Copyright ( C ) 2000 Daniel M. Duley <mosfet@kde.org>
 // ( C ) 2000 Dirk Mueller <mueller@kde.org>
@@ -261,16 +261,6 @@ namespace Oxygen
         if( widget->inherits( "MessageList::Core::Widget" ) )
         { widget->setAutoFillBackground( false ); }
 
-        // KTextEdit frames
-        // static cast is safe here, since isKTextEdit already checks that widget inherits from QFrame
-        if( isKTextEditFrame( widget ) && static_cast<QFrame*>( widget )->frameStyle() == ( QFrame::StyledPanel | QFrame::Sunken ) )
-        {
-
-            widget->setAttribute( Qt::WA_Hover );
-            animations().lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
-
-        }
-
         // adjust layout for K3B themed headers
         // FIXME: to be removed when fixed upstream
         if( widget->inherits( "K3b::ThemedHeader" ) && widget->layout() )
@@ -498,9 +488,6 @@ namespace Oxygen
         shadowHelper().unregisterWidget( widget );
         splitterFactory().unregisterWidget( widget );
         blurHelper().unregisterWidget( widget );
-
-        if( isKTextEditFrame( widget ) )
-        { widget->setAttribute( Qt::WA_Hover, false  ); }
 
         // event filters
         switch ( widget->windowFlags() & Qt::WindowType_Mask )
@@ -2399,8 +2386,6 @@ namespace Oxygen
         // focus
         bool focusHighlight( false );
         if( enabled && ( flags&State_HasFocus ) ) focusHighlight = true;
-        else if( isKTextEditFrame( widget ) && widget->parentWidget()->hasFocus() )
-        { focusHighlight = true; }
 
         // assume focus takes precedence over hover
         animations().lineEditEngine().updateState( widget, AnimationFocus, focusHighlight );

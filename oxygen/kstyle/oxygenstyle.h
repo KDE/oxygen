@@ -24,7 +24,7 @@
 // (c) 2002,2003 Maksim Orlovich <mo002j@mail.rochester.edu>
 // based on the KDE3 HighColor Style
 // Copyright (C) 2001-2002 Karol Szwed      <gallium@kde.org>
-// (C) 2001-2002 Fredrik HÃ¶glund  <fredrik@kde.org>
+// (C) 2001-2002 Fredrik Höglund  <fredrik@kde.org>
 // Drawing routines adapted from the KDE2 HCStyle,
 // Copyright (C) 2000 Daniel M. Duley       <mosfet@kde.org>
 // (C) 2000 Dirk Mueller          <mueller@kde.org>
@@ -556,10 +556,6 @@ namespace Oxygen
         bool drawTitleBarComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawToolButtonComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         //@}
-
-        //! true if widget is child of KTextEdit
-        bool isKTextEditFrame( const QWidget* widget ) const
-        { return ( widget && widget->parentWidget() && qobject_cast<const QFrame*>( widget ) && widget->parentWidget()->inherits( "KTextEditor::View" ) ); }
 
         //! adjust rect based on provided margins
         QRect insideMargin( const QRect& r, int main, int left = 0, int top = 0, int right = 0, int bottom = 0 ) const
