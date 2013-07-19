@@ -18,13 +18,12 @@ kconfig_add_kcfg_files(oxygenstyle_LIB_SRCS
 
 add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
 
-#qt5_use_modules( oxygenstyle Core Gui Widgets )
-target_link_libraries(oxygenstyle Qt5::Gui Qt5::Widgets )
+target_link_libraries(oxygenstyle Qt5::Core Qt5::Gui Qt5::Widgets )
 target_link_libraries(oxygenstyle ${KConfig_LIBRARIES} ${KGuiAddons_LIBRARIES} ${KWidgets_LIBRARIES})
 
 if( X11_FOUND )
   target_link_libraries(oxygenstyle ${X11_LIBRARIES})
-  target_link_libraries(oxygenstyle Qt5::X11Extras Qt5::Widgets )
+  target_link_libraries(oxygenstyle Qt5::X11Extras )
 endif( X11_FOUND )
 
 set_target_properties(oxygenstyle PROPERTIES VERSION 5.0.0 SOVERSION 5 )
@@ -56,7 +55,7 @@ add_library(oxygenstyleconfig SHARED
     ${oxygenstyleconfig_LIB_SRCS}
     ${oxygenstyleconfig_LIB_FORMS_HEADERS} )
 
-target_link_libraries( oxygenstyleconfig Qt5::Gui Qt5::Widgets )
+target_link_libraries( oxygenstyleconfig Qt5::Core Qt5::Gui Qt5::Widgets )
 
 target_link_libraries(oxygenstyleconfig oxygenstyle)
 target_link_libraries(oxygenstyleconfig

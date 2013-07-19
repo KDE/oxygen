@@ -21,16 +21,11 @@ add_library(kstyle_oxygen_config
     ${kstyle_oxygen_config_PART_FORMS_HEADERS}
 )
 
-target_link_libraries( kstyle_oxygen_config
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-    Qt5::DBus
-)
+target_link_libraries(kstyle_oxygen_config Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
 
-target_link_libraries( kstyle_oxygen_config oxygenstyleconfig )
+target_link_libraries(kstyle_oxygen_config oxygenstyleconfig)
 
-target_link_libraries( kstyle_oxygen_config
+target_link_libraries(kstyle_oxygen_config
   ${KConfig_LIBRARIES}
   ${KCompletion_LIBRARIES}
   ${KGuiAddons_LIBRARIES}
@@ -47,12 +42,7 @@ set( oxygen_settings_SOURCES
 
 add_executable( oxygen-settings ${oxygen_settings_SOURCES} )
 
-target_link_libraries( oxygen-settings
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-)
-
+target_link_libraries(oxygen-settings Qt5::Core Qt5::Gui Qt5::Widgets)
 target_link_libraries(oxygen-settings
     ${KConfig_LIBRARIES}
     ${KService_LIBRARIES}
