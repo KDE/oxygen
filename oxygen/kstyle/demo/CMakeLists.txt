@@ -33,10 +33,10 @@ add_executable( oxygen-demo
     ${oxygen_demo_FORMS_HEADERS}
  )
 
-qt5_use_modules( oxygen-demo
-    Core
-    Gui
-    Widgets
+target_link_libraries( oxygen-demo
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
 )
 
 target_link_libraries(oxygen-demo
