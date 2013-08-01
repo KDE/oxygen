@@ -50,34 +50,20 @@ namespace Oxygen
         _decorationChanged( false )
    {
 
+        setWindowTitle( i18n( "Oxygen Settings" ) );
         updateWindowTitle();
 
-        setWindowTitle( i18n( "Oxygen Settings" ) );
+        // ui
+        setupUi(this);
 
         // install Quit shortcut
         foreach( const QKeySequence& sequence, KStandardShortcut::quit() )
         { connect( new QShortcut( sequence, this ), SIGNAL(activated()), SLOT(close()) ); }
 
-        setLayout( new QVBoxLayout() );
-
-        // button box
-        _buttonBox = new QDialogButtonBox(
-            QDialogButtonBox::RestoreDefaults|
-            QDialogButtonBox::Reset|
-            QDialogButtonBox::Apply|
-            QDialogButtonBox::Ok|
-            QDialogButtonBox::Cancel,
-            Qt::Horizontal, this );
-
-        connect( _buttonBox->button( QDialogButtonBox::Cancel ), SIGNAL(clicked()), SLOT(close()) );
-
-        // tab widget
-        _pageWidget = new KPageWidget( this );
-        layout()->addWidget( _pageWidget );
-        layout()->addWidget( _buttonBox );
+        connect( buttonBox->button( QDialogButtonBox::Cancel ), SIGNAL(clicked()), SLOT(close()) );
 
         // connections
-        connect( _pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
+        connect( pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
 
         // generic page
         KPageWidgetItem *page;
@@ -87,15 +73,15 @@ namespace Oxygen
         page->setName( i18n("Widget Style") );
         page->setHeader( i18n("Modify the appearance of widgets") );
         page->setIcon( QIcon::fromTheme( QStringLiteral( "preferences-desktop-theme" ) ) );
-        _pageWidget->addPage( page );
+        pageWidget->addPage( page );
 
         if( _stylePluginObject )
         {
             connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateStyleChanged(bool)) );
             connect( _stylePluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( _buttonBox->button( QDialogButtonBox::Reset ), SIGNAL(clicked()), _stylePluginObject, SLOT(reset()) );
-            connect( _buttonBox->button( QDialogButtonBox::RestoreDefaults ), SIGNAL(clicked()), _stylePluginObject, SLOT(defaults()) );
+            connect( buttonBox->button( QDialogButtonBox::Reset ), SIGNAL(clicked()), _stylePluginObject, SLOT(reset()) );
+            connect( buttonBox->button( QDialogButtonBox::RestoreDefaults ), SIGNAL(clicked()), _stylePluginObject, SLOT(defaults()) );
             connect( this, SIGNAL(pluginSave()), _stylePluginObject, SLOT(save()) );
             connect( this, SIGNAL(pluginToggleExpertMode(bool)), _stylePluginObject, SLOT(toggleExpertMode(bool)) );
 
@@ -106,15 +92,15 @@ namespace Oxygen
         page->setName( i18n("Window Decorations") );
         page->setHeader( i18n("Modify the appearance of window decorations") );
         page->setIcon( QIcon::fromTheme( QStringLiteral( "preferences-system-windows" ) ) );
-        _pageWidget->addPage( page );
+        pageWidget->addPage( page );
 
         if( _decorationPluginObject )
         {
             connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateDecorationChanged(bool)) );
             connect( _decorationPluginObject, SIGNAL(changed(bool)), this, SLOT(updateChanged()) );
 
-            connect( _buttonBox->button( QDialogButtonBox::Reset ), SIGNAL(clicked()), _decorationPluginObject, SLOT(load()) );
-            connect( _buttonBox->button( QDialogButtonBox::RestoreDefaults ), SIGNAL(clicked()), _decorationPluginObject, SLOT(defaults()) );
+            connect( buttonBox->button( QDialogButtonBox::Reset ), SIGNAL(clicked()), _decorationPluginObject, SLOT(load()) );
+            connect( buttonBox->button( QDialogButtonBox::RestoreDefaults ), SIGNAL(clicked()), _decorationPluginObject, SLOT(defaults()) );
 
             connect( this, SIGNAL(pluginSave()), _decorationPluginObject, SLOT(save()) );
             connect( this, SIGNAL(pluginToggleExpertMode(bool)), _decorationPluginObject, SLOT(toggleExpertMode(bool)) );
@@ -125,8 +111,8 @@ namespace Oxygen
         emit pluginToggleExpertMode( true );
 
         // button connections
-        connect( _buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), SLOT(save()) );
-        connect( _buttonBox->button( QDialogButtonBox::Ok ), SIGNAL(clicked()), SLOT(save()) );
+        connect( buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), SLOT(save()) );
+        connect( buttonBox->button( QDialogButtonBox::Ok ), SIGNAL(clicked()), SLOT(save()) );
         updateChanged();
 
     }
@@ -149,10 +135,10 @@ namespace Oxygen
     void ConfigDialog::updateChanged( void )
     {
         bool modified( changed() );
-        _buttonBox->button( QDialogButtonBox::Apply )->setEnabled( modified );
-        _buttonBox->button( QDialogButtonBox::Reset )->setEnabled( modified );
-        _buttonBox->button( QDialogButtonBox::Ok )->setEnabled( modified );
-        updateWindowTitle( _pageWidget->currentPage() );
+        buttonBox->button( QDialogButtonBox::Apply )->setEnabled( modified );
+        buttonBox->button( QDialogButtonBox::Reset )->setEnabled( modified );
+        buttonBox->button( QDialogButtonBox::Ok )->setEnabled( modified );
+        updateWindowTitle( pageWidget->currentPage() );
     }
 
     //_______________________________________________________________

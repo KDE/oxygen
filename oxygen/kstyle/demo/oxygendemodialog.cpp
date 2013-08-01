@@ -55,14 +55,13 @@ namespace Oxygen
 
         setWindowTitle( i18n( "Oxygen Demo" ) );
 
+        // ui
+        setupUi(this);
+
         // install Quit shortcut
         foreach( const QKeySequence& sequence, KStandardShortcut::quit() )
         { connect( new QShortcut( sequence, this ), SIGNAL(activated()), SLOT(close()) ); }
 
-        // main widget
-        setLayout( new QVBoxLayout() );
-
-        QDialogButtonBox* buttonBox = new QDialogButtonBox( QDialogButtonBox::Ok, Qt::Horizontal, this );
         connect( buttonBox->button( QDialogButtonBox::Ok ), SIGNAL(clicked()), SLOT(close()) );
 
         // customize button box
@@ -75,14 +74,9 @@ namespace Oxygen
         connect( _rightToLeftCheckBox, SIGNAL(toggled(bool)), SLOT(toggleRightToLeft(bool)) );
         buttonBox->addButton( _rightToLeftCheckBox, QDialogButtonBox::ResetRole );
 
-        // page widget
-        _pageWidget = new KPageWidget( this );
-        layout()->addWidget( _pageWidget );
-        layout()->addWidget( buttonBox );
-
         // connections
-        connect( _pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
-        connect( _pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateEnableState(KPageWidgetItem*)) );
+        connect( pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
+        connect( pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateEnableState(KPageWidgetItem*)) );
         KPageWidgetItem *page;
         DemoWidget *widget;
 
@@ -92,7 +86,7 @@ namespace Oxygen
             page->setName( i18n("Input Widgets") );
             page->setIcon( QIcon::fromTheme( QStringLiteral( "edit-rename" ) ) );
             page->setHeader( i18n("Shows the appearance of text input widgets") );
-            _pageWidget->addPage( page );
+            pageWidget->addPage( page );
             _widgets.append( widget );
         }
 
@@ -102,7 +96,7 @@ namespace Oxygen
             page->setName( i18n("Tab Widgets") );
             page->setIcon( QIcon::fromTheme( QStringLiteral( "tab-detach" ) ) );
             page->setHeader( i18n("Shows the appearance of tab widgets") );
-            _pageWidget->addPage( page );
+            pageWidget->addPage( page );
             _widgets.append( widget );
         }
 
@@ -112,7 +106,7 @@ namespace Oxygen
             page->setName( i18n("Buttons") );
             page->setIcon( QIcon::fromTheme( QStringLiteral( "go-jump-locationbar" ) ) );
             page->setHeader( i18n("Shows the appearance of buttons") );
-            _pageWidget->addPage( page );
+            pageWidget->addPage( page );
             _widgets.append( widget );
         }
 
@@ -122,7 +116,7 @@ namespace Oxygen
             page->setName( i18n("Lists") );
             page->setIcon( QIcon::fromTheme( QStringLiteral( "view-list-tree" ) ) );
             page->setHeader( i18n("Shows the appearance of lists, trees and tables") );
-            _pageWidget->addPage( page );
+            pageWidget->addPage( page );
             _widgets.append( widget );
 
         }
@@ -133,7 +127,7 @@ namespace Oxygen
             page->setName( i18n("Frames") );
             page->setIcon( QIcon::fromTheme( QStringLiteral( "draw-rectangle" ) ) );
             page->setHeader( i18n("Shows the appearance of various framed widgets") );
-            _pageWidget->addPage( page );
+            pageWidget->addPage( page );
             _widgets.append( widget );
         }
 
@@ -143,7 +137,7 @@ namespace Oxygen
             page->setName( i18n( "MDI Windows" ) );
             page->setIcon( QIcon::fromTheme( QStringLiteral( "preferences-system-windows" ) ) );
             page->setHeader( i18n( "Shows the appearance of MDI windows" ) );
-            _pageWidget->addPage( page );
+            pageWidget->addPage( page );
             _widgets.append( widget );
         }
 
@@ -153,7 +147,7 @@ namespace Oxygen
             page->setName( i18n("Sliders") );
             page->setIcon( QIcon::fromTheme( QStringLiteral( "measure" ) ) );
             page->setHeader( i18n("Shows the appearance of sliders, progress bars and scrollbars") );
-            _pageWidget->addPage( page );
+            pageWidget->addPage( page );
             _widgets.append( widget );
         }
 
@@ -164,9 +158,9 @@ namespace Oxygen
             page->setName( i18n("Benchmark") );
             page->setIcon( QIcon::fromTheme( QStringLiteral( "system-run" ) ) );
             page->setHeader( i18n("Emulates user interaction with widgets for benchmarking") );
-            benchmarkWidget->init( _pageWidget );
+            benchmarkWidget->init( pageWidget );
 
-            _pageWidget->addPage( page );
+            pageWidget->addPage( page );
             _widgets.append( benchmarkWidget );
         }
 
@@ -211,8 +205,8 @@ namespace Oxygen
     //_______________________________________________________________
     void DemoDialog::toggleEnable( bool value )
     {
-        if( !( _pageWidget->currentPage() && _pageWidget->currentPage()->widget() ) ) return;
-        _pageWidget->currentPage()->widget()->setEnabled( value );
+        if( !( pageWidget->currentPage() && pageWidget->currentPage()->widget() ) ) return;
+        pageWidget->currentPage()->widget()->setEnabled( value );
     }
 
     //_______________________________________________________________

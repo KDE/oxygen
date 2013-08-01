@@ -28,14 +28,11 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygendemowidget.h"
-
-#include <KPageWidget>
-#include <KPushButton>
+#include "ui_oxygendemodialog.h"
 
 #include <QList>
 #include <QWidget>
 #include <QCheckBox>
-#include <QDialog>
 
 namespace Oxygen
 {
@@ -47,7 +44,7 @@ namespace Oxygen
     class MdiDemoWidget;
     class SliderDemoWidget;
     class TabDemoWidget;
-    class DemoDialog: public QDialog
+    class DemoDialog: public QDialog, public Ui::OxygenDemoDialog
     {
         Q_OBJECT
 
@@ -88,9 +85,6 @@ namespace Oxygen
         virtual void hideEvent( QHideEvent* );
 
         private:
-
-        //! main paged widget
-        KPageWidget* _pageWidget;
 
         //! list of demo widget
         QList<DemoWidget*> _widgets;
