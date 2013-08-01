@@ -3,7 +3,6 @@ project(kstyle-oxygen)
 ################# X11 #################
 add_definitions( -DHAVE_X11=${X11_FOUND} )
 
-
 if(X11_FOUND)
     # FIXME: remove when upstream CMakeLists is fixed
     find_package(XCB REQUIRED)

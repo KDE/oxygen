@@ -45,4 +45,4 @@ target_link_libraries(oxygen-demo
 )
 
 ########### install files ###############
-install (TARGETS oxygen-demo ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS oxygen-demo ${INSTALL_TARGETS_DEFAULT_ARGS} )
