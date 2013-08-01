@@ -32,7 +32,7 @@
 namespace Oxygen
 {
 
-    class ConfigDialog: public QDialog, public Ui::OxygenConfigDialog
+    class ConfigDialog: public QDialog, Ui::OxygenConfigDialog
     {
         Q_OBJECT
 
