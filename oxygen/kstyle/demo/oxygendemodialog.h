@@ -44,7 +44,7 @@ namespace Oxygen
     class MdiDemoWidget;
     class SliderDemoWidget;
     class TabDemoWidget;
-    class DemoDialog: public QDialog, public Ui::OxygenDemoDialog
+    class DemoDialog: public QDialog, Ui::OxygenDemoDialog
     {
         Q_OBJECT
 
