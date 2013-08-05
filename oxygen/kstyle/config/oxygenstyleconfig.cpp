@@ -49,7 +49,6 @@ extern "C"
 {
     KDE_EXPORT QWidget* allocate_kstyle_config(QWidget* parent)
     {
-        KLocalizedString::insertCatalog( QStringLiteral( "kstyle_config" ) );
         return new Oxygen::StyleConfig(parent);
     }
 }
@@ -63,8 +62,6 @@ namespace Oxygen
         _expertMode( false ),
         _animationConfigWidget(0)
     {
-        KLocalizedString::insertCatalog( QStringLiteral( "kstyle_config" ) );
-
         setupUi(this);
 
         // connections

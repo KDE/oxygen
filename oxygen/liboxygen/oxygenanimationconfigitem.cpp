@@ -42,7 +42,6 @@ namespace Oxygen
         ui( new Ui_AnimationConfigItem() )
     {
 
-        KLocalizedString::insertCatalog( QStringLiteral("liboxygenstyleconfig" ) );
         ui->setupUi( this );
         layout()->setMargin(0);
 
