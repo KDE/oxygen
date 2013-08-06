@@ -26,7 +26,6 @@
 #include "oxygenanimationmodes.h"
 
 #include <KWindowSystem>
-#include <KDebug>
 
 #if HAVE_X11
 #include <QX11Info>

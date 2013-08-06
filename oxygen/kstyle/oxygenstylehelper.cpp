@@ -23,8 +23,9 @@
 #include <KColorUtils>
 #include <KColorScheme>
 
-#include <QPainter>
 #include <QLinearGradient>
+#include <QPainter>
+#include <QTextStream>
 
 #include <math.h>
 
