@@ -60,7 +60,6 @@ target_link_libraries( oxygenstyleconfig Qt5::Core Qt5::Gui Qt5::Widgets )
 target_link_libraries(oxygenstyleconfig oxygenstyle)
 target_link_libraries(oxygenstyleconfig
   ${KConfig_LIBRARIES}
-  ${KGuiaddons_LIBRARIES}
   ${KWidgets_LIBRARIES}
   ${KWidgetsAddons_LIBRARIES}
   ${KI18n_LIBRARIES}
