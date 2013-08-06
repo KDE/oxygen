@@ -62,8 +62,8 @@ target_link_libraries(oxygenstyleconfig
   ${KConfig_LIBRARIES}
   ${KGuiaddons_LIBRARIES}
   ${KWidgets_LIBRARIES}
+  ${KWidgetsAddons_LIBRARIES}
   ${KI18n_LIBRARIES}
-  ${KDE4_KDEUI_LIBS}
 )
 
 if ( X11_FOUND )
