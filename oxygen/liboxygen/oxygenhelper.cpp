@@ -3,7 +3,7 @@
  * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
  * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
  * Copyright 2007 Casper Boemann <cbr@boemann.dk>
- * Copyright 2007 Fredrik HÃ¶glund <fredrik@kde.org>
+ * Copyright 2007 Fredrik Höglund <fredrik@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -24,7 +24,6 @@
 
 #include <KColorUtils>
 #include <KColorScheme>
-#include <KDebug>
 #include <KGlobalSettings>
 
 #include <QWidget>
