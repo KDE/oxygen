@@ -40,6 +40,7 @@ target_link_libraries(oxygen-demo
     ${KCompletion_LIBRARIES}
     ${KGuiAddons_LIBRARIES}
     ${KWidgetsAddons_LIBRARIES}
+    KF5::KConfigGui
     ${KI18n_LIBRARIES}
 )
 

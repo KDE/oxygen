@@ -19,7 +19,7 @@ kconfig_add_kcfg_files(oxygenstyle_LIB_SRCS
 add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
 
 target_link_libraries(oxygenstyle Qt5::Core Qt5::Gui Qt5::Widgets )
-target_link_libraries(oxygenstyle ${KConfig_LIBRARIES} ${KGuiAddons_LIBRARIES})
+target_link_libraries(oxygenstyle ${KConfig_LIBRARIES} ${KGuiAddons_LIBRARIES} KF5::KConfigWidgets)
 
 if( X11_FOUND )
   target_link_libraries(oxygenstyle ${X11_LIBRARIES})
