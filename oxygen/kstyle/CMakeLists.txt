@@ -82,7 +82,6 @@ target_link_libraries(oxygen Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
 target_link_libraries(oxygen
     ${KConfig_LIBRARIES}
     ${KGuiAddons_LIBRARIES}
-    ${KWidgets_LIBRARIES}
     ${KIconThemes_LIBRARIES}
     ${KWindowSystem_LIBRARIES}
 )

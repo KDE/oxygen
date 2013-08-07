@@ -39,7 +39,6 @@ target_link_libraries( oxygen-demo Qt5::Core Qt5::Gui Qt5::Widgets )
 target_link_libraries(oxygen-demo
     ${KCompletion_LIBRARIES}
     ${KGuiAddons_LIBRARIES}
-    ${KWidgets_LIBRARIES}
     ${KWidgetsAddons_LIBRARIES}
     ${KI18n_LIBRARIES}
 )

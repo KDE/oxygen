@@ -27,7 +27,6 @@ target_link_libraries(kstyle_oxygen_config
   ${KConfig_LIBRARIES}
   ${KCompletion_LIBRARIES}
   ${KGuiAddons_LIBRARIES}
-  ${KWidgets_LIBRARIES}
   ${KI18n_LIBRARIES}
 )
 
