@@ -78,23 +78,11 @@ kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
 target_link_libraries(oxygen Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
-
-target_link_libraries(oxygen
-    ${KConfig_LIBRARIES}
-    ${KGuiAddons_LIBRARIES}
-    ${KIconThemes_LIBRARIES}
-    ${KWindowSystem_LIBRARIES}
-)
-
-target_link_libraries(oxygen
-    ${XCB_XCB_LIBRARIES}
-    ${X11_XCB_LIBRARIES}
-)
-
+target_link_libraries(oxygen KF5::KConfigCore KF5::KGuiAddons KF5::KIconThemes KF5::KWindowSystem)
 target_link_libraries(oxygen oxygenstyle)
 
 if(X11_FOUND)
-  target_link_libraries(oxygen ${X11_LIBRARIES})
+  target_link_libraries(oxygen ${X11_LIBRARIES} ${XCB_XCB_LIBRARIES} ${X11_XCB_LIBRARIES} )
   target_link_libraries(oxygen Qt5::X11Extras)
 endif(X11_FOUND)
 

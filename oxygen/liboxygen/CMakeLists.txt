@@ -19,7 +19,7 @@ kconfig_add_kcfg_files(oxygenstyle_LIB_SRCS
 add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
 
 target_link_libraries(oxygenstyle Qt5::Core Qt5::Gui Qt5::Widgets )
-target_link_libraries(oxygenstyle ${KConfig_LIBRARIES} ${KGuiAddons_LIBRARIES} KF5::KConfigWidgets)
+target_link_libraries(oxygenstyle KF5::KConfigCore KF5::KGuiAddons KF5::KConfigWidgets)
 
 if( X11_FOUND )
   target_link_libraries(oxygenstyle ${X11_LIBRARIES})
@@ -55,18 +55,13 @@ add_library(oxygenstyleconfig SHARED
     ${oxygenstyleconfig_LIB_SRCS}
     ${oxygenstyleconfig_LIB_FORMS_HEADERS} )
 
-target_link_libraries( oxygenstyleconfig Qt5::Core Qt5::Gui Qt5::Widgets )
-
+target_link_libraries(oxygenstyleconfig Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(oxygenstyleconfig KF5::KConfigCore KF5::KConfigGui KF5::KWidgetsAddons KF5::KI18n )
 target_link_libraries(oxygenstyleconfig oxygenstyle)
-target_link_libraries(oxygenstyleconfig
-  ${KConfig_LIBRARIES}
-  ${KWidgetsAddons_LIBRARIES}
-  ${KI18n_LIBRARIES}
-)
 
 if ( X11_FOUND )
   target_link_libraries(oxygenstyleconfig ${X11_LIBRARIES})
-  qt5_use_modules( oxygenstyle X11Extras )
+  target_link_libraries(oxygenstyleconfig Qt5::X11Extras )
 endif( X11_FOUND )
 
 set_target_properties(oxygenstyleconfig PROPERTIES VERSION 5.0.0 SOVERSION 5 DEFINE_SYMBOL MAKE_OXYGENSTYLE_LIB )

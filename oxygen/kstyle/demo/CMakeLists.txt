@@ -34,15 +34,8 @@ add_executable( oxygen-demo
     ${oxygen_demo_FORMS_HEADERS}
  )
 
-target_link_libraries( oxygen-demo Qt5::Core Qt5::Gui Qt5::Widgets )
-
-target_link_libraries(oxygen-demo
-    ${KCompletion_LIBRARIES}
-    ${KGuiAddons_LIBRARIES}
-    ${KWidgetsAddons_LIBRARIES}
-    KF5::KConfigGui
-    ${KI18n_LIBRARIES}
-)
+target_link_libraries(oxygen-demo Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(oxygen-demo KF5::KCompletion KF5::KGuiAddons KF5::KWidgetsAddons KF5::KConfigGui KF5::KI18n )
 
 ########### install files ###############
 install(TARGETS oxygen-demo ${INSTALL_TARGETS_DEFAULT_ARGS} )
