@@ -309,7 +309,7 @@ namespace Oxygen
         #if HAVE_X11
         
         // check connection 
-        if( !_connection ) _connection = XGetXCBConnection( QX11Info::display() );
+        if( !_connection ) _connection = QX11Info::connection();
         
         const int width( source.width() );
         const int height( source.height() );

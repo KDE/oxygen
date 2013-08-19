@@ -6,7 +6,6 @@ add_definitions( -DHAVE_X11=${X11_FOUND} )
 if(X11_FOUND)
     # FIXME: remove when upstream CMakeLists is fixed
     find_package(XCB REQUIRED)
-    find_package(X11_XCB)
 endif()
 
 ################# includes #################
@@ -82,7 +81,7 @@ target_link_libraries(oxygen KF5::KConfigCore KF5::KGuiAddons KF5::KIconThemes K
 target_link_libraries(oxygen oxygenstyle)
 
 if(X11_FOUND)
-  target_link_libraries(oxygen ${X11_LIBRARIES} ${XCB_XCB_LIBRARIES} ${X11_XCB_LIBRARIES} )
+  target_link_libraries(oxygen ${X11_LIBRARIES} ${XCB_XCB_LIBRARIES} )
   target_link_libraries(oxygen Qt5::X11Extras)
 endif(X11_FOUND)
 
