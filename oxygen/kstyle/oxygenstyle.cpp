@@ -1812,8 +1812,12 @@ namespace Oxygen
                 if( !gbOpt ) break;
 
                 const bool isFlat( gbOpt->features & QStyleOptionFrameV2::Flat );
-                QFont font = widget->font();
-
+                QFont font;
+                if (widget) {
+                    font = widget->font();
+                } else {
+                    font = QApplication::font();
+                }
                 // calculate text width assuming bold text in flat group boxes
                 if( isFlat ) font.setBold( true );
 
