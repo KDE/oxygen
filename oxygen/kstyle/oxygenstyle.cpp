@@ -622,8 +622,26 @@ namespace Oxygen
 
                 }
                 else if( qstyleoption_cast<const QStyleOptionGroupBox *>( option ) ) return GroupBox_FrameWidth;
-                else return 1;
-
+                else if( option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" ) )
+                {
+                    const QString &elementType = option->styleObject->property( "elementType" ).toString();
+                    if ( elementType == QLatin1String( "edit" ) || elementType == QLatin1String( "spinbox" ) )
+                    {
+                        return LineEdit_FrameWidth;
+                    }
+                    else if ( elementType == QLatin1String( "combobox" ) )
+                    {
+                        return ComboBox_FrameWidth;
+                    }
+                    else if ( elementType == QLatin1String( "groupbox" ) )
+                    {
+                        return GroupBox_FrameWidth;
+                    }
+                }
+                else
+                {
+                    return 1;
+                }
             }
 
             case PM_LayoutLeftMargin:
