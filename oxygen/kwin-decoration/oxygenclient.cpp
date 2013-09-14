@@ -55,7 +55,7 @@ namespace Oxygen
 
     //___________________________________________
     Client::Client(KDecorationBridge *b, Factory *f):
-        KCommonDecorationUnstable(b, f),
+        KCommonDecoration(b, f),
         _factory( f ),
         _sizeGrip( 0 ),
         _glowAnimation( new Animation( 200, this ) ),
@@ -67,7 +67,10 @@ namespace Oxygen
         _itemData( this ),
         _sourceItem( -1 ),
         _shadowAtom( 0 )
-    {}
+    {
+        connect(options(), &KDecorationOptions::compositingChanged, this, &Client::updateCompositing);
+        connect(options(), &KDecorationOptions::configChanged, this, &Client::updateConfig);
+    }
 
     //___________________________________________
     Client::~Client()
@@ -133,22 +136,24 @@ namespace Oxygen
         _initialized = true;
 
         // first reset is needed to store Oxygen configuration
-        reset(0);
+        updateConfig();
 
     }
 
     //___________________________________________
-    void Client::reset( unsigned long changed )
+    void Client::updateCompositing()
     {
-        KCommonDecorationUnstable::reset( changed );
-
         // update window mask when compositing is changed
         if( !_initialized ) return;
-        if( changed & SettingCompositing )
-        {
-            updateWindowShape();
-            widget()->update();
-        }
+        updateWindowShape();
+        widget()->update();
+        updateConfig();
+    }
+
+    //___________________________________________
+    void Client::updateConfig()
+    {
+        if( !_initialized ) return;
 
         _configuration = _factory->configuration( *this );
 
@@ -1240,7 +1245,7 @@ namespace Oxygen
     void Client::activeChange( void )
     {
 
-        KCommonDecorationUnstable::activeChange();
+        KCommonDecoration::activeChange();
         _itemData.setDirty( true );
 
         // reset animation
@@ -1266,21 +1271,21 @@ namespace Oxygen
     {
         if( hasSizeGrip() ) sizeGrip().setVisible( !( isShade() || isMaximized() ) );
         setAlphaEnabled(!isMaximized());
-        KCommonDecorationUnstable::maximizeChange();
+        KCommonDecoration::maximizeChange();
     }
 
     //_________________________________________________________
     void Client::shadeChange( void  )
     {
         if( hasSizeGrip() ) sizeGrip().setVisible( !( isShade() || isMaximized() ) );
-        KCommonDecorationUnstable::shadeChange();
+        KCommonDecoration::shadeChange();
     }
 
     //_________________________________________________________
     void Client::captionChange( void  )
     {
 
-        KCommonDecorationUnstable::captionChange();
+        KCommonDecoration::captionChange();
         _itemData.setDirty( true );
         if( titleAnimationsEnabled() )
         { _titleAnimationData->setDirty( true ); }
@@ -1401,7 +1406,7 @@ namespace Oxygen
             default: break;
 
         }
-        return state || KCommonDecorationUnstable::eventFilter( object, event );
+        return state || KCommonDecoration::eventFilter( object, event );
 
     }
 
@@ -1421,7 +1426,7 @@ namespace Oxygen
         { _pixmap = QPixmap( event->size() ); }
 
         // base class implementation
-        KCommonDecorationUnstable::resizeEvent( event );
+        KCommonDecoration::resizeEvent( event );
     }
 
     //_________________________________________________________
@@ -1901,7 +1906,7 @@ namespace Oxygen
     {
 
         if( event->timerId() != _dragStartTimer.timerId() )
-        { return KCommonDecorationUnstable::timerEvent( event ); }
+        { return KCommonDecoration::timerEvent( event ); }
 
         _dragStartTimer.stop();
 

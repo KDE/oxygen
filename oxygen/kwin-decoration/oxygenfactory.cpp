@@ -40,13 +40,24 @@ namespace Oxygen
 {
 
     //___________________________________________________
-    Factory::Factory():
+    Factory::Factory(QObject *parent):
+        KDecorationFactory(parent),
         _initialized( false ),
         _helper(),
         _shadowCache( _helper )
     {
         readConfig();
         setInitialized( true );
+        connect(options(), &KDecorationOptions::colorsChanged, [this]() {
+            _shadowCache.invalidateCaches();
+        });
+        connect(options(), &KDecorationOptions::configChanged, [this]() {
+            // read in the configuration
+            setInitialized( false );
+            readConfig();
+            setInitialized( true );
+            emit recreateDecorations();
+        });
     }
 
     //___________________________________________________
@@ -56,21 +67,6 @@ namespace Oxygen
     //___________________________________________________
     KDecoration* Factory::createDecoration(KDecorationBridge* bridge )
     { return (new Client( bridge, this ))->decoration(); }
-
-    //___________________________________________________
-    bool Factory::reset(unsigned long changed)
-    {
-
-        if( changed & SettingColors )
-        { _shadowCache.invalidateCaches(); }
-
-        // read in the configuration
-        setInitialized( false );
-        readConfig();
-        setInitialized( true );
-        return true;
-
-    }
 
     //___________________________________________________
     void Factory::readConfig()
@@ -117,7 +113,6 @@ namespace Oxygen
 
             // announce
             case AbilityAnnounceButtons:
-            case AbilityAnnounceColors:
 
             // buttons
             case AbilityButtonMenu:
