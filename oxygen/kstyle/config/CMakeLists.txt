@@ -7,7 +7,7 @@ set(kstyle_oxygen_config_PART_SRCS
     oxygenstyleconfig.cpp
 )
 
-kde4_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
+kconfig_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
 
 set( kstyle_oxygen_config_PART_FORMS
     ui/oxygenfollowmouseanimationconfigbox.ui
