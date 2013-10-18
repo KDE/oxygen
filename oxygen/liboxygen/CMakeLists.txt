@@ -22,8 +22,8 @@ target_link_libraries(oxygenstyle Qt5::Core Qt5::Gui Qt5::Widgets )
 target_link_libraries(oxygenstyle KF5::KConfigCore KF5::KGuiAddons KF5::KConfigWidgets)
 
 if( X11_FOUND )
-  target_link_libraries(oxygenstyle ${X11_LIBRARIES})
-  target_link_libraries(oxygenstyle Qt5::X11Extras )
+  target_link_libraries(oxygenstyle ${XCB_LIBRARIES})
+  target_link_libraries(oxygenstyle Qt5::X11Extras)
 endif( X11_FOUND )
 
 set_target_properties(oxygenstyle PROPERTIES VERSION 5.0.0 SOVERSION 5 )
@@ -58,11 +58,6 @@ add_library(oxygenstyleconfig SHARED
 target_link_libraries(oxygenstyleconfig Qt5::Core Qt5::Gui Qt5::Widgets)
 target_link_libraries(oxygenstyleconfig KF5::KConfigCore KF5::KConfigGui KF5::KWidgetsAddons KF5::KI18n )
 target_link_libraries(oxygenstyleconfig oxygenstyle)
-
-if ( X11_FOUND )
-  target_link_libraries(oxygenstyleconfig ${X11_LIBRARIES})
-  target_link_libraries(oxygenstyleconfig Qt5::X11Extras )
-endif( X11_FOUND )
 
 set_target_properties(oxygenstyleconfig PROPERTIES VERSION 5.0.0 SOVERSION 5 DEFINE_SYMBOL MAKE_OXYGENSTYLE_LIB )
 install(TARGETS oxygenstyleconfig ${INSTALL_TARGETS_DEFAULT_ARGS} )

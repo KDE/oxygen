@@ -3,7 +3,7 @@
  * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
  * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
  * Copyright 2007 Casper Boemann <cbr@boemann.dk>
- * Copyright 2007 Fredrik Höglund <fredrik@kde.org>
+ * Copyright 2007 Fredrik H?glund <fredrik@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -28,14 +28,11 @@
 
 #include <QWidget>
 #include <QPainter>
-
+#include <QTextStream>
 #include <math.h>
 
 #if HAVE_X11
 #include <QX11Info>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <fixx11h.h>
 #endif
 
 namespace Oxygen
@@ -63,10 +60,10 @@ namespace Oxygen
 
         #if HAVE_X11
 
-        // create background atoms
-        _backgroundGradientAtom = XInternAtom( QX11Info::display(), "_KDE_OXYGEN_BACKGROUND_GRADIENT", False);
-        _backgroundPixmapAtom = XInternAtom( QX11Info::display(), "_KDE_OXYGEN_BACKGROUND_PIXMAP", False);
-
+        // initialize xcb connection
+        _xcbConnection = QX11Info::connection();
+        _backgroundGradientAtom = createAtom( QLatin1String( "_KDE_OXYGEN_BACKGROUND_GRADIENT" ) );
+        _backgroundPixmapAtom = createAtom( QLatin1String( "_KDE_OXYGEN_BACKGROUND_PIXMAP" ) );
         #endif
 
     }
@@ -942,6 +939,21 @@ namespace Oxygen
         #endif
     }
 
+
+    #if HAVE_X11
+
+    //____________________________________________________________________
+    xcb_atom_t Helper::createAtom( const QString& name ) const
+    {
+
+        xcb_intern_atom_cookie_t cookie( xcb_intern_atom( _xcbConnection, false, name.size(), qPrintable( name ) ) );
+        xcb_intern_atom_reply_t* reply( xcb_intern_atom_reply( _xcbConnection, cookie, 0) );
+        return reply ? reply->atom:0;
+
+    }
+
+    #endif
+
     //______________________________________________________________________________________
     void Helper::drawSlab( QPainter& p, const QColor& color, qreal shade )
     {
@@ -1056,39 +1068,29 @@ namespace Oxygen
     #if HAVE_X11
 
     //____________________________________________________________________
-    void Helper::setHasHint( WId id, Atom atom, bool value ) const
+    void Helper::setHasHint( xcb_window_t id, xcb_atom_t atom, bool value ) const
     {
 
+        // check window id
         if( !id ) return;
 
-        unsigned long uLongValue( value );
-        XChangeProperty(
-            QX11Info::display(), id, atom, XA_CARDINAL, 32, PropModeReplace,
-            reinterpret_cast<const unsigned char *>(&uLongValue), 1 );
-
+        uint32_t uLongValue( value );
+        xcb_change_property( _xcbConnection, XCB_PROP_MODE_REPLACE, id, atom, XCB_ATOM_CARDINAL, 32, 1, &uLongValue );
+        xcb_flush( _xcbConnection );
         return;
+
     }
 
     //____________________________________________________________________
-    bool Helper::hasHint( WId id, Atom atom ) const
+    bool Helper::hasHint( xcb_window_t id, xcb_atom_t atom ) const
     {
+
+        // check window id
         if( !id ) return false;
 
-        Atom type( None );
-        int format(0);
-        unsigned char *data(0);
-
-        unsigned long n(0), left(0);
-        XGetWindowProperty(
-            QX11Info::display(), id, atom,
-            0, 1L, false,
-            XA_CARDINAL, &type,
-            &format, &n, &left,
-            &data);
-
-        // finish if no data is found
-        if( data == None || n != 1 ) return false;
-        else return *data;
+        xcb_get_property_cookie_t cookie( xcb_get_property( _xcbConnection, 0, id, atom, XCB_ATOM_CARDINAL, 0, 1) );
+        xcb_get_property_reply_t* reply( xcb_get_property_reply( _xcbConnection, cookie, 0 ) );
+        return reply && *reinterpret_cast<int32_t*>(xcb_get_property_value(reply));
 
     }
 
