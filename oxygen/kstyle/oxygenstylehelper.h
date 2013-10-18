@@ -28,8 +28,7 @@
 #include <KWindowSystem>
 
 #if HAVE_X11
-#include <QX11Info>
-#include <X11/Xdefs.h>
+#include <xcb/xcb.h>
 #endif
 
 //! helper class
@@ -237,8 +236,8 @@ namespace Oxygen
 
         #if HAVE_X11
 
-        //! background gradient hint atom
-        Atom _compositingManagerAtom;
+        //! atom used for compositing manager
+        xcb_atom_t _compositingManagerAtom;
 
         #endif
 

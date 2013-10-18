@@ -45,7 +45,7 @@
 #include <QToolBar>
 
 #if HAVE_X11
-#include <X11/Xdefs.h>
+#include <xcb/xcb.h>
 #endif
 
 namespace Oxygen
@@ -161,8 +161,8 @@ namespace Oxygen
 
         #if HAVE_X11
         //! blur atom
-        Atom _blurAtom;
-        Atom _opaqueAtom;
+        xcb_atom_t _blurAtom;
+        xcb_atom_t _opaqueAtom;
         #endif
 
     };

@@ -61,7 +61,6 @@
 
 #if HAVE_X11
 #include <QX11Info>
-#include <NETRootInfo>
 #endif
 
 namespace Oxygen
@@ -84,6 +83,16 @@ namespace Oxygen
         // install application wise event filter
         _appEventFilter = new AppEventFilter( this );
         qApp->installEventFilter( _appEventFilter );
+
+        #if HAVE_X11
+        // create move-resize atom
+        xcb_connection_t* connection( QX11Info::connection() );
+        const QString atomName( QLatin1String( "_NET_WM_MOVERESIZE" ) );
+        xcb_intern_atom_cookie_t cookie( xcb_intern_atom( connection, false, atomName.size(), qPrintable( atomName ) ) );
+        xcb_intern_atom_reply_t* reply( xcb_intern_atom_reply( connection, cookie, 0) );
+        if( reply ) _moveResizeAtom = reply->atom;
+        else _moveResizeAtom = 0;
+        #endif
 
     }
 
@@ -200,7 +209,7 @@ namespace Oxygen
 
         if( event->timerId() == _dragTimer.timerId() )
         {
-                        
+
             _dragTimer.stop();
             if( _target )
             { startDrag( _target.data(), _globalDragPoint ); }
@@ -281,12 +290,12 @@ namespace Oxygen
 
                 } else resetDrag();
 
-            } else if( QPoint( mouseEvent->globalPos() - _globalDragPoint ).manhattanLength() >= _dragDistance ) { 
-                
-                _dragTimer.start( 0, this ); 
-            
+            } else if( QPoint( mouseEvent->globalPos() - _globalDragPoint ).manhattanLength() >= _dragDistance ) {
+
+                _dragTimer.start( 0, this );
+
             }
-            
+
             return true;
 
         } else if( !useWMMoveResize() ) {
@@ -304,7 +313,7 @@ namespace Oxygen
     //_____________________________________________________________
     bool WindowManager::mouseReleaseEvent( QObject* object, QEvent* event )
     {
-        
+
         Q_UNUSED( object );
         Q_UNUSED( event );
         resetDrag();
@@ -617,18 +626,42 @@ namespace Oxygen
         {
 
             #if HAVE_X11
-            XUngrabPointer(QX11Info::display(), QX11Info::appTime());
-            NETRootInfo rootInfo(QX11Info::display(), NET::WMMoveResize);
-            rootInfo.moveResizeRequest( widget->window()->winId(), position.x(), position.y(), NET::Move);
+            xcb_connection_t* connection( QX11Info::connection() );
+            xcb_ungrab_pointer( connection, XCB_TIME_CURRENT_TIME );
+
+            // from QtCurve
+            union {
+                char _buffer[32];
+                xcb_client_message_event_t event;
+            } buffer;
+            memset(&buffer, 0, sizeof(buffer));
+
+            xcb_client_message_event_t *xcbEvent = &buffer.event;
+            xcbEvent->response_type = XCB_CLIENT_MESSAGE;
+            xcbEvent->format = 32;
+            xcbEvent->window =  widget->window()->winId();
+            xcbEvent->type = _moveResizeAtom;
+            xcbEvent->data.data32[0] = position.x();
+            xcbEvent->data.data32[1] = position.y();
+            xcbEvent->data.data32[2] = 8; // NET::Move
+            xcbEvent->data.data32[3] = XCB_KEY_BUT_MASK_BUTTON_1;
+            xcb_send_event( connection, false, QX11Info::appRootWindow(),
+                XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY |
+                XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT, (const char*)xcbEvent );
+
+            xcb_flush( connection );
+
             #else
+
             Q_UNUSED( position );
+
             #endif
 
         } else if( !_cursorOverride ) {
-            
+
             qApp->setOverrideCursor( Qt::SizeAllCursor );
             _cursorOverride = true;
-            
+
         }
 
         _dragInProgress = true;
@@ -698,8 +731,8 @@ namespace Oxygen
     bool WindowManager::AppEventFilter::appMouseEvent( QObject* object, QEvent* event )
     {
 
-        Q_UNUSED( object );        
-        
+        Q_UNUSED( object );
+
         // store target window (see later)
         QWidget* window( _parent->_target.data()->window() );
 

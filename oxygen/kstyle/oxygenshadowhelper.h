@@ -35,7 +35,6 @@
 
 #if HAVE_X11
 #include <xcb/xcb.h>
-#include <X11/Xdefs.h>
 #endif
 
 namespace Oxygen
@@ -110,10 +109,10 @@ namespace Oxygen
         { return *_shadowCache; }
 
         // create pixmap handles from tileset
-        const QVector<Qt::HANDLE>& createPixmapHandles( bool isDockWidget );
+        const QVector<uint32_t>& createPixmapHandles( bool isDockWidget );
 
         // create pixmap handle from pixmap
-        Qt::HANDLE createPixmap( const QPixmap& );
+        uint32_t createPixmap( const QPixmap& );
 
         //! install shadow X11 property on given widget
         /*!
@@ -147,23 +146,21 @@ namespace Oxygen
 
         //!@name pixmaps
         //@{
-        QVector<Qt::HANDLE> _pixmaps;
-        QVector<Qt::HANDLE> _dockPixmaps;
+        QVector<uint32_t> _pixmaps;
+        QVector<uint32_t> _dockPixmaps;
         //@}
 
         //! shadow size
         int _size;
 
         #if HAVE_X11
-        
-        //! xcb connection
-        xcb_connection_t* _connection;
 
         //! graphical context
         xcb_gcontext_t _gc;
-        
+
         //! shadow atom
-        Atom _atom;
+        xcb_atom_t _atom;
+
         #endif
 
     };

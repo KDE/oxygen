@@ -40,6 +40,10 @@
 
 #include <QWidget>
 
+#if HAVE_X11
+#include <xcb/xcb.h>
+#endif
+
 namespace Oxygen
 {
 
@@ -296,6 +300,10 @@ namespace Oxygen
 
         //! application event filter
         AppEventFilter* _appEventFilter;
+
+        #if HAVE_X11
+        xcb_atom_t _moveResizeAtom;
+        #endif
 
         //! allow access of all private members to the app event filter
         friend class AppEventFilter;
