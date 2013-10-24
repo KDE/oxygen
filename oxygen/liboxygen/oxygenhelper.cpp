@@ -24,7 +24,6 @@
 
 #include <KColorUtils>
 #include <KColorScheme>
-#include <KGlobalSettings>
 
 #include <QWidget>
 #include <QPainter>
