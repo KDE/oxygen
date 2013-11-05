@@ -335,6 +335,9 @@ namespace Oxygen
 
         //@}
 
+        //! set color scheme as XProperty
+        void setColorScheme( WId, const QString& ) const;
+
         template <typename T> class ScopedPointer: public QScopedPointer<T, QScopedPointerPodDeleter>
         {
             public:

@@ -177,10 +177,20 @@ namespace Oxygen
 
         // cast to QWidget
         QWidget *widget = static_cast<QWidget*>( object );
+        const char *schemePropertyName = "KDE_COLOR_SCHEME_PATH";
         if( event->type() == QEvent::Show && _helper.hasDecoration( widget ) )
         {
             _helper.setHasBackgroundGradient( widget->winId(), true );
             _helper.setHasBackgroundPixmap( widget->winId(), _helper.hasBackgroundPixmap() );
+
+            if( qApp->property( schemePropertyName ).isValid() )
+            {
+                _helper.setColorScheme( widget->winId(), qApp->property( schemePropertyName ).toString() );
+            }
+        }
+        if( event->type() == QEvent::PaletteChange && _helper.hasDecoration( widget ) )
+        {
+            _helper.setColorScheme( widget->winId(), qApp->property( schemePropertyName ).toString() );
         }
 
         return false;
