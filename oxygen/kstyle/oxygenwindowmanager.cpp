@@ -87,7 +87,7 @@ namespace Oxygen
         #if HAVE_X11
         // create move-resize atom
         xcb_connection_t* connection( QX11Info::connection() );
-        const QString atomName( QLatin1String( "_NET_WM_MOVERESIZE" ) );
+        const QString atomName( QStringLiteral( "_NET_WM_MOVERESIZE" ) );
         xcb_intern_atom_cookie_t cookie( xcb_intern_atom( connection, false, atomName.size(), qPrintable( atomName ) ) );
         xcb_intern_atom_reply_t* reply( xcb_intern_atom_reply( connection, cookie, 0) );
         if( reply ) _moveResizeAtom = reply->atom;

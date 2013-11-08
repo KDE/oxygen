@@ -61,8 +61,8 @@ namespace Oxygen
 
         // initialize xcb connection
         _xcbConnection = QX11Info::connection();
-        _backgroundGradientAtom = createAtom( QLatin1String( "_KDE_OXYGEN_BACKGROUND_GRADIENT" ) );
-        _backgroundPixmapAtom = createAtom( QLatin1String( "_KDE_OXYGEN_BACKGROUND_PIXMAP" ) );
+        _backgroundGradientAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_GRADIENT" ) );
+        _backgroundPixmapAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_PIXMAP" ) );
         #endif
 
     }

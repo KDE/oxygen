@@ -50,8 +50,8 @@ namespace Oxygen
         #if HAVE_X11
 
         // create atom
-        _blurAtom = _helper.createAtom( QLatin1String( "_KDE_NET_WM_BLUR_BEHIND_REGION" ) );
-        _opaqueAtom = _helper.createAtom( QLatin1String( "_NET_WM_OPAQUE_REGION" ) );
+        _blurAtom = _helper.createAtom( QStringLiteral( "_KDE_NET_WM_BLUR_BEHIND_REGION" ) );
+        _opaqueAtom = _helper.createAtom( QStringLiteral( "_NET_WM_OPAQUE_REGION" ) );
 
         #endif
 
