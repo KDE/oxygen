@@ -2831,11 +2831,11 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawIndicatorTabClose( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
-        if( _tabCloseIcon.isNull() ) {
-
+        if( _tabCloseIcon.isNull() )
+        {
             // load the icon on-demand: in the constructor, KDE is not yet ready to find it!
             _tabCloseIcon = QIcon::fromTheme( QStringLiteral( "dialog-close" ) );
-            if( _tabCloseIcon.isNull() ) return false; // still not found? cancel
+            if( _tabCloseIcon.isNull() ) return false;
         }
 
         const int size( pixelMetric(QStyle::PM_SmallIconSize) );

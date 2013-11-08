@@ -48,9 +48,7 @@ DEALINGS IN THE SOFTWARE.
 extern "C"
 {
     KDE_EXPORT QWidget* allocate_kstyle_config(QWidget* parent)
-    {
-        return new Oxygen::StyleConfig(parent);
-    }
+    { return new Oxygen::StyleConfig(parent); }
 }
 
 namespace Oxygen

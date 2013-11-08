@@ -33,7 +33,6 @@ set(oxygen_settings_SOURCES
     main.cpp)
 
 set(oxygen_settings_FORMS ui/oxygenconfigdialog.ui)
-
 qt5_wrap_ui(oxygen_settings_FORMS_HEADERS ${oxygen_settings_FORMS})
 
 add_executable(oxygen-settings
@@ -44,5 +43,4 @@ add_executable(oxygen-settings
 target_link_libraries(oxygen-settings Qt5::Core Qt5::Gui Qt5::Widgets)
 target_link_libraries(oxygen-settings KF5::KConfigCore KF5::KConfigGui KF5::KService KF5::KGuiAddons KF5::KWidgetsAddons KF5::KI18n )
 
-########### install files ###############
 install (TARGETS oxygen-settings ${INSTALL_TARGETS_DEFAULT_ARGS} )
