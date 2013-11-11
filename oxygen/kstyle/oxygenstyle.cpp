@@ -808,7 +808,7 @@ namespace Oxygen
 
             case SH_GroupBox_TextLabelColor:
             if( option ) return option->palette.color( QPalette::WindowText ).rgba();
-            else return qApp->palette().color( QPalette::WindowText ).rgba();
+            else return QPalette().color( QPalette::WindowText ).rgba();
 
             case SH_ItemView_ActivateItemOnSingleClick:
             return false;
@@ -7968,8 +7968,8 @@ namespace Oxygen
         } else if( qApp ) {
 
             // might not have a QApplication
-            buttonColor = qApp->palette().window().color();
-            iconColor   = qApp->palette().windowText().color();
+            buttonColor = QPalette().window().color();
+            iconColor   = QPalette().windowText().color();
 
         } else {
 
