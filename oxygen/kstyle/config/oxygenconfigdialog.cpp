@@ -161,7 +161,7 @@ namespace Oxygen
     KPageWidgetItem* ConfigDialog::loadStyleConfig( void )
     {
 
-        // load decoration from plugin
+        // load style from plugin
         KLibrary* library = new KLibrary( QStringLiteral( "libkstyle_oxygen_config" ) );
 
         if (library->load())
