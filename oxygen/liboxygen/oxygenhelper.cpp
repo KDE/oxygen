@@ -27,6 +27,7 @@
 
 #include <QWidget>
 #include <QPainter>
+#include <QScopedPointer>
 #include <QTextStream>
 #include <math.h>
 
@@ -946,9 +947,8 @@ namespace Oxygen
     {
 
         xcb_intern_atom_cookie_t cookie( xcb_intern_atom( _xcbConnection, false, name.size(), qPrintable( name ) ) );
-        xcb_intern_atom_reply_t* reply( xcb_intern_atom_reply( _xcbConnection, cookie, 0) );
+        QScopedPointer<xcb_intern_atom_reply_t, QScopedPointerPodDeleter> reply( xcb_intern_atom_reply( _xcbConnection, cookie, nullptr) );
         return reply ? reply->atom:0;
-
     }
 
     #endif
@@ -1088,8 +1088,9 @@ namespace Oxygen
         if( !id ) return false;
 
         xcb_get_property_cookie_t cookie( xcb_get_property( _xcbConnection, 0, id, atom, XCB_ATOM_CARDINAL, 0, 1) );
-        xcb_get_property_reply_t* reply( xcb_get_property_reply( _xcbConnection, cookie, 0 ) );
-        return reply && *reinterpret_cast<int32_t*>(xcb_get_property_value(reply));
+        QScopedPointer<xcb_get_property_reply_t, QScopedPointerPodDeleter> reply( xcb_get_property_reply( _xcbConnection, cookie, nullptr ) );
+
+        return reply && *reinterpret_cast<int32_t*>(xcb_get_property_value( reply.data() ) );
 
     }
 
