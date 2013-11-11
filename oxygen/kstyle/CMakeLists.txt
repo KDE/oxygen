@@ -81,7 +81,7 @@ target_link_libraries(oxygen KF5::KConfigCore KF5::KConfigGui KF5::KConfigWidget
 target_link_libraries(oxygen oxygenstyle)
 
 if(X11_FOUND)
-  target_link_libraries(oxygen ${X11_LIBRARIES} ${XCB_XCB_LIBRARIES} )
+  target_link_libraries(oxygen ${XCB_XCB_LIBRARIES} )
   target_link_libraries(oxygen Qt5::X11Extras)
 endif(X11_FOUND)
 
