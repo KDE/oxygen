@@ -28,11 +28,12 @@
 #include <KSharedConfig>
 #include <KColorScheme>
 
+#include <QCache>
 #include <QColor>
 #include <QPixmap>
 #include <QWidget>
 #include <QLinearGradient>
-#include <QCache>
+#include <QScopedPointer>
 
 #if HAVE_X11
 #include <xcb/xcb.h>
@@ -333,6 +334,21 @@ namespace Oxygen
         virtual bool hasBackgroundPixmap( WId ) const;
 
         //@}
+
+        template <typename T> class ScopedPointer: public QScopedPointer<T, QScopedPointerPodDeleter>
+        {
+            public:
+
+            //! constructor
+            ScopedPointer( T* t ):
+                QScopedPointer<T, QScopedPointerPodDeleter>( t )
+            {}
+
+            //! destructor
+            virtual ~ScopedPointer( void )
+            {}
+
+        };
 
         #if HAVE_X11
 

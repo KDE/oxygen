@@ -33,6 +33,7 @@
 #include "oxygenwindowmanager.moc"
 #include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
+#include "oxygenstylehelper.h"
 
 #include <QApplication>
 #include <QComboBox>
@@ -47,7 +48,6 @@
 #include <QMenuBar>
 #include <QMouseEvent>
 #include <QProgressBar>
-#include <QScopedPointer>
 #include <QScrollBar>
 #include <QStatusBar>
 #include <QStyle>
@@ -91,7 +91,7 @@ namespace Oxygen
         xcb_connection_t* connection( QX11Info::connection() );
         const QString atomName( QStringLiteral( "_NET_WM_MOVERESIZE" ) );
         xcb_intern_atom_cookie_t cookie( xcb_intern_atom( connection, false, atomName.size(), qPrintable( atomName ) ) );
-        QScopedPointer<xcb_intern_atom_reply_t, QScopedPointerPodDeleter> reply( xcb_intern_atom_reply( connection, cookie, nullptr) );
+        Helper::ScopedPointer<xcb_intern_atom_reply_t> reply( xcb_intern_atom_reply( connection, cookie, nullptr) );
         _moveResizeAtom = reply ? reply->atom:0;
         #endif
 

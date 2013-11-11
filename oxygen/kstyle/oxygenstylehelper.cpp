@@ -25,7 +25,6 @@
 
 #include <QLinearGradient>
 #include <QPainter>
-#include <QScopedPointer>
 #include <QTextStream>
 
 #include <math.h>
@@ -645,7 +644,7 @@ namespace Oxygen
         #if HAVE_X11
         // direct call to X
         xcb_get_selection_owner_cookie_t cookie( xcb_get_selection_owner( xcbConnection(), _compositingManagerAtom ) );
-        QScopedPointer<xcb_get_selection_owner_reply_t, QScopedPointerPodDeleter> reply( xcb_get_selection_owner_reply( xcbConnection(), cookie, nullptr ) );
+        ScopedPointer<xcb_get_selection_owner_reply_t> reply( xcb_get_selection_owner_reply( xcbConnection(), cookie, nullptr ) );
         return reply && reply->owner;
         #else
         // use KWindowSystem
