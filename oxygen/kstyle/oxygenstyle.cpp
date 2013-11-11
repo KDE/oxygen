@@ -23,7 +23,7 @@
 // ( c ) 2002,2003 Maksim Orlovich <mo002j@mail.rochester.edu>
 // based on the KDE3 HighColor Style
 // Copyright ( C ) 2001-2002 Karol Szwed <gallium@kde.org>
-// ( C ) 2001-2002 Fredrik Höglund <fredrik@kde.org>
+// ( C ) 2001-2002 Fredrik H?glund <fredrik@kde.org>
 // Drawing routines adapted from the KDE2 HCStyle,
 // Copyright ( C ) 2000 Daniel M. Duley <mosfet@kde.org>
 // ( C ) 2000 Dirk Mueller <mueller@kde.org>
@@ -163,7 +163,7 @@ namespace Oxygen
     QStyle* Oxygen::StylePlugin::create( const QString &key )
     {
         if( key.toLower() == QStringLiteral( "oxygen" ) ) return new Style();
-        else return 0;
+        else return nullptr;
     }
 
     // hardcoded index offsets for custom widgets
@@ -206,8 +206,8 @@ namespace Oxygen
         _widgetExplorer( new WidgetExplorer( this ) ),
         _tabBarData( new OxygenPrivate::TabBarData( this ) ),
         _splitterFactory( new SplitterFactory( this ) ),
-        _frameFocusPrimitive( 0 ),
-        _tabBarTabShapeControl( 0 ),
+        _frameFocusPrimitive( nullptr ),
+        _tabBarTabShapeControl( nullptr ),
         _hintCounter( X_KdeBase+1 ),
         _controlCounter( X_KdeBase ),
         _subElementCounter( X_KdeBase ),
@@ -1030,7 +1030,7 @@ namespace Oxygen
 
         painter->save();
 
-        StylePrimitive fcn( 0 );
+        StylePrimitive fcn( nullptr );
         switch( element )
         {
 
@@ -1100,7 +1100,7 @@ namespace Oxygen
 
         painter->save();
 
-        StyleControl fcn( 0 );
+        StyleControl fcn( nullptr );
         if( element == CE_CapacityBar )
         {
 
@@ -1166,7 +1166,7 @@ namespace Oxygen
 
         painter->save();
 
-        StyleComplexControl fcn( 0 );
+        StyleComplexControl fcn( nullptr );
         switch( element )
         {
 

@@ -43,7 +43,7 @@ namespace Oxygen
 
         #if HAVE_X11
         // create compositing screen
-        QString atomName = QString::fromLatin1( "_NET_WM_CM_S%1" ).arg( QX11Info::appScreen() );
+        const QString atomName( QStringLiteral( "_NET_WM_CM_S%1" ).arg( QX11Info::appScreen() ) );
         _compositingManagerAtom = createAtom( atomName );
         #endif
 
