@@ -16,7 +16,7 @@ set( kstyle_oxygen_config_PART_FORMS
 
 qt5_wrap_ui(kstyle_oxygen_config_PART_FORMS_HEADERS ${kstyle_oxygen_config_PART_FORMS})
 
-add_library(kstyle_oxygen_config
+add_library(kstyle_oxygen_config MODULE
     ${kstyle_oxygen_config_PART_SRCS}
     ${kstyle_oxygen_config_PART_FORMS_HEADERS}
 )

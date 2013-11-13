@@ -162,7 +162,7 @@ namespace Oxygen
     {
 
         // load style from plugin
-        KLibrary* library = new KLibrary( QStringLiteral( "libkstyle_oxygen_config" ) );
+        KLibrary* library = new KLibrary( QStringLiteral( "kstyle_oxygen_config" ) );
 
         if (library->load())
         {
@@ -211,7 +211,7 @@ namespace Oxygen
     {
 
         // load decoration from plugin
-        KLibrary* library = new KLibrary( QStringLiteral( "libkwin_oxygen_config" ) );
+        KLibrary* library = new KLibrary( QStringLiteral( "kwin_oxygen_config" ) );
 
         if (library->load())
         {
