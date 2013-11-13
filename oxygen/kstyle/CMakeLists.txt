@@ -4,7 +4,6 @@ project(kstyle-oxygen)
 add_definitions( -DHAVE_X11=${X11_FOUND} )
 
 if(X11_FOUND)
-    # FIXME: remove when upstream CMakeLists is fixed
     find_package(XCB REQUIRED)
 endif()
 
@@ -77,7 +76,7 @@ kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
 target_link_libraries(oxygen Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
-target_link_libraries(oxygen KF5::KConfigCore KF5::KConfigGui KF5::KConfigWidgets KF5::KGuiAddons KF5::KIconThemes KF5::KWindowSystem)
+target_link_libraries(oxygen KF5::KIconThemes)
 target_link_libraries(oxygen oxygenstyle)
 
 if(X11_FOUND)
