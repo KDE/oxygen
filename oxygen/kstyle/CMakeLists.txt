@@ -82,7 +82,7 @@ target_link_libraries(oxygen oxygenstyle)
 if(X11_FOUND)
   target_link_libraries(oxygen ${XCB_XCB_LIBRARIES} )
   target_link_libraries(oxygen Qt5::X11Extras)
-endif(X11_FOUND)
+endif()
 
 install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/ )
 

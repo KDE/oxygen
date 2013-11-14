@@ -24,7 +24,7 @@ target_link_libraries(oxygenstyle KF5::KConfigCore KF5::KConfigWidgets KF5::KGui
 if( X11_FOUND )
   target_link_libraries(oxygenstyle ${XCB_LIBRARIES})
   target_link_libraries(oxygenstyle Qt5::X11Extras)
-endif( X11_FOUND )
+endif()
 
 set_target_properties(oxygenstyle PROPERTIES VERSION 5.0.0 SOVERSION 5 )
 install(TARGETS oxygenstyle ${INSTALL_TARGETS_DEFAULT_ARGS} )
