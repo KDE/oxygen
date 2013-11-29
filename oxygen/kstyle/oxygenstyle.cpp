@@ -3050,7 +3050,14 @@ namespace Oxygen
             const QRect slabRect( r.adjusted( -1, 0, 1, 0 ) );
 
             // match color to the window background
-            const QColor buttonColor( helper().backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
+            QColor buttonColor( helper().backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
+
+            // merge button color with highlight in case of default button
+            if( enabled && bOpt && (bOpt->features&QStyleOptionButton::DefaultButton) )
+            {
+                const QColor tintColor( helper().calcLightColor( buttonColor ) );
+                buttonColor = KColorUtils::mix( buttonColor, tintColor, 0.5 );
+            }
 
             if( enabled && hoverAnimated && !( opts & Sunken ) )
             {
