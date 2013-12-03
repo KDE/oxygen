@@ -643,6 +643,10 @@ namespace Oxygen
                     {
                         return GroupBox_FrameWidth;
                     }
+                    else
+                    {
+                        return Frame_FrameWidth;
+                    }
                 }
                 else
                 {
