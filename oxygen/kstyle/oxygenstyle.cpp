@@ -2410,7 +2410,9 @@ namespace Oxygen
         const QPalette& palette( option->palette );
 
         const bool enabled( flags & State_Enabled );
-        const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
+        const bool isQtQuickControl = !widget && option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" );
+        const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) )
+                                  || ( isQtQuickControl && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
 
         // hover
         const bool hoverHighlight( enabled && isInputWidget && ( flags&State_MouseOver ) );
