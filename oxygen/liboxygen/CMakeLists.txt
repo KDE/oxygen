@@ -19,7 +19,7 @@ kconfig_add_kcfg_files(oxygenstyle_LIB_SRCS
 add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
 
 target_link_libraries(oxygenstyle Qt5::Core Qt5::Gui Qt5::Widgets )
-target_link_libraries(oxygenstyle KF5::KConfigCore KF5::KConfigWidgets KF5::KGuiAddons)
+target_link_libraries(oxygenstyle KF5::ConfigCore KF5::ConfigWidgets KF5::GuiAddons)
 
 if( X11_FOUND )
   target_link_libraries(oxygenstyle ${XCB_LIBRARIES})
@@ -56,7 +56,7 @@ add_library(oxygenstyleconfig SHARED
     ${oxygenstyleconfig_LIB_FORMS_HEADERS} )
 
 target_link_libraries(oxygenstyleconfig Qt5::Core Qt5::Gui Qt5::Widgets)
-target_link_libraries(oxygenstyleconfig KF5::KI18n )
+target_link_libraries(oxygenstyleconfig KF5::I18n )
 target_link_libraries(oxygenstyleconfig oxygenstyle)
 
 set_target_properties(oxygenstyleconfig PROPERTIES VERSION 5.0.0 SOVERSION 5 DEFINE_SYMBOL MAKE_OXYGENSTYLE_LIB )

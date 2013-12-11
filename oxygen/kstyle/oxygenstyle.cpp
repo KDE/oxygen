@@ -246,6 +246,7 @@ namespace Oxygen
     //______________________________________________________________
     void Style::polish( QWidget* widget )
     {
+        qDebug() << "polish requested";
         if( !widget ) return;
 
         // register widget to animations
@@ -1111,7 +1112,9 @@ namespace Oxygen
     //______________________________________________________________
     void Style::drawControl( ControlElement element, const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-
+        if (element == CE_FocusFrame) {
+            qDebug() << "focus frame detected!";
+        }
         painter->save();
 
         StyleControl fcn( nullptr );
@@ -2073,6 +2076,7 @@ namespace Oxygen
 
         const QRect& r( option->rect );
         const QStyleOptionSpinBox *sb = qstyleoption_cast<const QStyleOptionSpinBox *>( option );
+        qDebug() << "spinBoxSubControlRect" << sb->frame;
         if( !sb ) return r;
 
         int fw = SpinBox_FrameWidth;
@@ -2113,6 +2117,7 @@ namespace Oxygen
             case SC_SpinBoxEditField:
             {
                 const QRect labelRect( r.left()+fw, r.top()+fw, r.width()-fw-bw, r.height()-2*fw );
+                qDebug() << "##########################" << labelRect << handleRTL( option, labelRect ) << option->rect;
                 return handleRTL( option, labelRect );
             }
 
@@ -2414,6 +2419,7 @@ namespace Oxygen
         const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) )
                                   || ( isQtQuickControl && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
 
+        qDebug() << option->styleObject->property( "elementType" ).toString();
         // hover
         const bool hoverHighlight( enabled && isInputWidget && ( flags&State_MouseOver ) );
 
