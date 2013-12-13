@@ -214,22 +214,22 @@ namespace Oxygen
     bool ShadowHelper::acceptWidget( QWidget* widget ) const
     {
 
+        // flags
         if( widget->property( netWMSkipShadowPropertyName ).toBool() ) return false;
         if( widget->property( netWMForceShadowPropertyName ).toBool() ) return true;
 
         // menus
-        if( qobject_cast<QMenu*>( widget ) ) return true;
+        if( isMenu( widget ) ) return true;
 
         // combobox dropdown lists
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) return true;
 
         // tooltips
-        if( (widget->inherits( "QTipLabel" ) || (widget->windowFlags() & Qt::WindowType_Mask) == Qt::ToolTip ) &&
-            !widget->inherits( "Plasma::ToolTip" ) )
+        if( isToolTip( widget ) && !widget->inherits( "Plasma::ToolTip" ) )
         { return true; }
 
         // detached widgets
-        if( qobject_cast<QToolBar*>( widget ) || qobject_cast<QDockWidget*>( widget ) )
+        if( isDockWidget( widget ) || isToolBar( widget ) )
         { return true; }
 
         // reject
