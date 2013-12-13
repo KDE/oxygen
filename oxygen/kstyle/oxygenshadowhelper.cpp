@@ -360,12 +360,34 @@ namespace Oxygen
 
         // add padding
         /*
-        all 4 paddings are identical, since offsets are handled when generating the pixmaps.
-        there is one extra pixel needed with respect to actual shadow size, to deal with how
-        menu backgrounds are rendered
+        in most cases all 4 paddings are identical, since offsets are handled when generating the pixmaps.
+        There is one extra pixel needed with respect to actual shadow size, to deal with how
+        menu backgrounds are rendered.
+        Some special care is needed for QBalloonTip, since the later have an arrow
         */
-        if( isToolTip( widget ) || isToolBar( widget ) )
+
+        if( isToolTip( widget ) )
         {
+            if( widget->inherits( "QBalloonTip" ) )
+            {
+
+                // balloon tip needs special margins to deal with the arrow
+                int top = 0;
+                int bottom = 0;
+                widget->getContentsMargins(NULL, &top, NULL, &bottom );
+
+                // also need to decrement default size further due to extra hard coded round corner
+                const int size = _size - 2;
+
+                // it seems arrow can be either to the top or the bottom. Adjust margins accordingly
+                if( top > bottom ) data << size - (top - bottom) << size << size << size;
+                else data << size << size << size - (bottom - top) << size;
+
+            } else {
+                data << _size << _size << _size << _size;
+            }
+
+        } else if( isToolBar( widget ) ) {
 
             data << _size << _size << _size << _size;
 
