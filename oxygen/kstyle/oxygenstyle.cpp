@@ -61,7 +61,6 @@
 #include "oxygenwidgetexplorer.h"
 #include "oxygenwindowmanager.h"
 
-#include <QDebug>
 #include <QAbstractButton>
 #include <QAbstractItemView>
 #include <QApplication>
@@ -78,6 +77,7 @@
 #include <QGroupBox>
 #include <QLayout>
 #include <QLineEdit>
+#include <QLoggingCategory>
 #include <QMainWindow>
 #include <QMdiSubWindow>
 #include <QPushButton>
@@ -97,6 +97,8 @@
 #include <kdeversion.h>
 
 #include <cmath>
+
+Q_LOGGING_CATEGORY(OXYGEN, "oxygen")
 
 namespace OxygenPrivate
 {
@@ -225,6 +227,9 @@ namespace Oxygen
             QStringLiteral( "org.kde.Oxygen.Style" ),
             QStringLiteral( "reparseConfiguration" ), this, SLOT(oxygenConfigurationChanged()) );
 
+        // enable debugging
+        QLoggingCategory::setFilterRules(QStringLiteral("oxygen.debug = false"));
+
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
         oxygenConfigurationChanged();
@@ -238,7 +243,7 @@ namespace Oxygen
     //______________________________________________________________
     void Style::polish( QWidget* widget )
     {
-        qDebug() << "polish requested";
+        qCDebug( OXYGEN ) << "polish requested";
         if( !widget ) return;
 
         // register widget to animations
@@ -1073,7 +1078,7 @@ namespace Oxygen
     void Style::drawControl( ControlElement element, const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
         if (element == CE_FocusFrame) {
-            qDebug() << "focus frame detected!";
+            qCDebug( OXYGEN ) << "focus frame detected!";
         }
         painter->save();
 
@@ -2036,7 +2041,7 @@ namespace Oxygen
 
         const QRect& r( option->rect );
         const QStyleOptionSpinBox *sb = qstyleoption_cast<const QStyleOptionSpinBox *>( option );
-        qDebug() << "spinBoxSubControlRect" << sb->frame;
+        qCDebug( OXYGEN ) << "spinBoxSubControlRect" << sb->frame;
         if( !sb ) return r;
 
         int fw = SpinBox_FrameWidth;
@@ -2077,7 +2082,7 @@ namespace Oxygen
             case SC_SpinBoxEditField:
             {
                 const QRect labelRect( r.left()+fw, r.top()+fw, r.width()-fw-bw, r.height()-2*fw );
-                qDebug() << "##########################" << labelRect << handleRTL( option, labelRect ) << option->rect;
+                qCDebug( OXYGEN ) << "spinbox edit field: " << labelRect << handleRTL( option, labelRect ) << option->rect;
                 return handleRTL( option, labelRect );
             }
 
@@ -2379,7 +2384,7 @@ namespace Oxygen
         const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) )
                                   || ( isQtQuickControl && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
 
-        qDebug() << option->styleObject->property( "elementType" ).toString();
+        qCDebug( OXYGEN ) << "element type: " << option->styleObject->property( "elementType" ).toString();
         // hover
         const bool hoverHighlight( enabled && isInputWidget && ( flags&State_MouseOver ) );
 
