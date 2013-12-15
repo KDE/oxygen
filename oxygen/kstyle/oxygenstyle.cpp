@@ -7992,6 +7992,9 @@ namespace Oxygen
         // reset helper configuration
         helper().reloadConfig();
 
+        // background gradient
+        helper().setUseBackgroundGradient( StyleConfigData::useBackgroundGradient() );
+
         // background pixmap
         helper().setBackgroundPixmap( StyleConfigData::backgroundPixmap() );
 
