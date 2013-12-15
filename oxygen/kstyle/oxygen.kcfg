@@ -6,7 +6,12 @@
   <kcfgfile name="oxygenrc"/>
   <group name="Common">
 
-    <!-- background opacity -->
+    <!-- background gradient -->
+    <entry name="UseBackgroundGradient" type = "Bool" >
+       <default>true</default>
+    </entry>
+
+    <!-- background pixmap -->
     <entry name="BackgroundPixmap" type = "String" >
        <default></default>
     </entry>

@@ -62,17 +62,20 @@ namespace Oxygen
         //! update maximum cache size
         virtual void setMaxCacheSize( int );
 
+        //! background gradient
+        virtual void setUseBackgroundGradient( bool value )
+        { _useBackgroundGradient = value; }
+
         //! render window background using a given color as a reference
         /*!
         For the widget style, both the gradient and the background pixmap are rendered in the same method.
         All the actual rendering is performed by the base class
         */
         using Helper::renderWindowBackground;
-        virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift=-23, int gradientHeight = 20 )
-        {
-            Helper::renderWindowBackground( p, clipRect, widget, widget->window(), color, y_shift, gradientHeight );
-            Helper::renderBackgroundPixmap( p, clipRect, widget, widget->window(), y_shift, gradientHeight );
-        }
+        virtual void renderWindowBackground( QPainter*, const QRect&, const QWidget*, const QColor&, int y_shift=-23, int gradientHeight = 20 );
+
+        //! set background gradient hint to widget
+        virtual void setHasBackgroundGradient( WId, bool ) const;
 
         // render menu background
         void renderMenuBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette& pal )
@@ -210,6 +213,9 @@ namespace Oxygen
         void drawSliderSlab( QPainter&, const QColor&, bool sunken, qreal );
 
         private:
+
+        //! background grandient
+        bool _useBackgroundGradient;
 
         Cache<QPixmap> _dialSlabCache;
         Cache<QPixmap> _roundSlabCache;

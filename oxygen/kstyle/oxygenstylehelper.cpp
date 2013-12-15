@@ -37,7 +37,8 @@ namespace Oxygen
 {
 
     //______________________________________________________________________________
-    StyleHelper::StyleHelper( void )
+    StyleHelper::StyleHelper( void ):
+        _useBackgroundGradient( true )
     {
 
         #if HAVE_X11
@@ -99,6 +100,37 @@ namespace Oxygen
         _dockFrameCache.setMaxCost( value );
         _scrollHoleCache.setMaxCost( value );
 
+    }
+
+    //____________________________________________________________________
+    void StyleHelper::renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift, int gradientHeight)
+    {
+
+        if( _useBackgroundGradient )
+        {
+
+            // normal background gradient
+            Helper::renderWindowBackground( p, clipRect, widget, widget->window(), color, y_shift, gradientHeight );
+
+        } else {
+
+            // if background gradient is disabled, simply render flat background
+            if ( clipRect.isValid() )
+            { p->setClipRegion( clipRect,Qt::IntersectClip ); }
+
+            p->fillRect( widget->rect(), color );
+        }
+
+        // background pixmap
+        Helper::renderBackgroundPixmap( p, clipRect, widget, widget->window(), y_shift, gradientHeight );
+
+    }
+
+    //____________________________________________________________________
+    void StyleHelper::setHasBackgroundGradient( WId id, bool value ) const
+    {
+        if( _useBackgroundGradient )
+        { Helper::setHasBackgroundGradient( id, value ); }
     }
 
     //____________________________________________________________________
