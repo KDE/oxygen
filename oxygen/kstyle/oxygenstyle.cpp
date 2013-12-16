@@ -1077,9 +1077,6 @@ namespace Oxygen
     //______________________________________________________________
     void Style::drawControl( ControlElement element, const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-        if (element == CE_FocusFrame) {
-            qCDebug( OXYGEN ) << "focus frame detected!";
-        }
         painter->save();
 
         StyleControl fcn( nullptr );
