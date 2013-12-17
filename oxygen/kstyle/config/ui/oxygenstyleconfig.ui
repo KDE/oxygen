@@ -46,6 +46,13 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
+        <widget class="QCheckBox" name="_useBackgroundGradient">
+         <property name="text">
+          <string>Draw window background gradient</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="_toolBarDrawItemSeparator">
          <property name="text">
           <string>Draw toolbar item separators</string>

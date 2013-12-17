@@ -74,6 +74,7 @@ namespace Oxygen
         // load setup from configData
         load();
 
+        connect( _useBackgroundGradient, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _toolBarDrawItemSeparator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _checkDrawX, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _splitterProxyEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
@@ -100,6 +101,7 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::save( void )
     {
+        StyleConfigData::setUseBackgroundGradient( _useBackgroundGradient->isChecked() );
         StyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
         StyleConfigData::setCheckBoxStyle( ( _checkDrawX->isChecked() ? StyleConfigData::CS_X : StyleConfigData::CS_CHECK ) );
         StyleConfigData::setSplitterProxyEnabled( _splitterProxyEnabled->isChecked() );
@@ -271,6 +273,7 @@ namespace Oxygen
         bool modified( false );
 
         // check if any value was modified
+        if ( _useBackgroundGradient->isChecked() != StyleConfigData::useBackgroundGradient() ) modified = true;
         if ( _toolBarDrawItemSeparator->isChecked() != StyleConfigData::toolBarDrawItemSeparator() ) modified = true;
         else if( _mnemonicsMode->currentIndex() != StyleConfigData::mnemonicsMode() ) modified = true;
         else if( _viewDrawTriangularExpander->isChecked() != StyleConfigData::viewDrawTriangularExpander() ) modified = true;
@@ -319,6 +322,7 @@ namespace Oxygen
     void StyleConfig::load( void )
     {
 
+        _useBackgroundGradient->setChecked( StyleConfigData::useBackgroundGradient() );
         _toolBarDrawItemSeparator->setChecked( StyleConfigData::toolBarDrawItemSeparator() );
         _mnemonicsMode->setCurrentIndex( StyleConfigData::mnemonicsMode() );
         _splitterProxyEnabled->setChecked( StyleConfigData::splitterProxyEnabled() );
