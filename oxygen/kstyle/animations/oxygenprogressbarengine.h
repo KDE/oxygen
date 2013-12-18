@@ -53,11 +53,11 @@ namespace Oxygen
         virtual ~ProgressBarEngine( void )
         {}
 
-        //! register menubar
+        //! register progressbar
         virtual bool registerWidget( QWidget* );
 
         //! true if widget is animated
-        virtual bool isAnimated( const QObject* object );
+        virtual bool isAnimated( const QObject* );
 
         //! animation opacity
         virtual int value( const QObject* object )

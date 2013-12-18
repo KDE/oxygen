@@ -1,5 +1,5 @@
-#ifndef oxygenprogressbar_datah
-#define oxygenprogressbar_datah
+#ifndef oxygenprogressbardata_h
+#define oxygenprogressbardata_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenprogressbardata.h
@@ -55,26 +55,12 @@ namespace Oxygen
 
         //! progressbar value (during animation)
         virtual int value( void ) const
-        { return startValue() + opacity()*( endValue() - startValue() ); }
+        { return _startValue + opacity()*( _endValue - _startValue ); }
 
         protected Q_SLOTS:
 
         //! triggered by progressBar::valueChanged
         void valueChanged( int );
-
-        protected:
-
-        const int& startValue( void ) const
-        { return _startValue; }
-
-        void setStartValue( int value )
-        { _startValue = value; }
-
-        const int& endValue( void ) const
-        { return _endValue; }
-
-        void setEndValue( int value )
-        { _endValue = value; }
 
         private:
 

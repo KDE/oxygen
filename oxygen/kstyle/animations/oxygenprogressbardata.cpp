@@ -47,8 +47,8 @@ namespace Oxygen
         // make sure target is a progressbar and store relevant values
         QProgressBar* progress = qobject_cast<QProgressBar*>( target );
         Q_CHECK_PTR( progress );
-        setStartValue( progress->value() );
-        setEndValue( progress->value() );
+        _startValue = progress->value();
+        _endValue = progress->value();
 
         // setup connections
         connect( target, SIGNAL(valueChanged(int)), SLOT(valueChanged(int)) );
@@ -67,8 +67,8 @@ namespace Oxygen
 
                 // reset start and end value
                 QProgressBar* progress = static_cast<QProgressBar*>( target().data() );
-                setStartValue( progress->value() );
-                setEndValue( progress->value() );
+                _startValue = progress->value();
+                _endValue = progress->value();
                 break;
 
             }
@@ -107,8 +107,8 @@ namespace Oxygen
             // in case next value arrives while animation is running,
             // end animation, set value immediately
             // and trigger target update. This increases responsiveness of progressbars
-            setStartValue( value );
-            setEndValue( value );
+            _startValue = value;
+            _endValue = value;
             animation().data()->stop();
             setOpacity(0);
 
@@ -118,14 +118,14 @@ namespace Oxygen
 
         }
 
-        setStartValue( endValue() );
-        setEndValue( value );
+        _startValue = _endValue;
+        _endValue = value;
 
         // start animation only if target is enabled, visible, not running,
         // and if end and start values are different enough
         // (with end value being larger than start value)
         if( !(target() && target().data()->isEnabled() && target().data()->isVisible()) ) return;
-        if( isRunning || endValue()-startValue() < 2 ) return;
+        if( isRunning || _endValue-_startValue < 2 ) return;
 
         animation().data()->start();
 
