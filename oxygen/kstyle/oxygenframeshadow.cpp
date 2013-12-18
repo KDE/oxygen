@@ -3,7 +3,7 @@
 // handle sunken frames' shadows
 // -------------------
 //
-// Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+// Copyright (c) 2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 //
 // Largely inspired from skulpture widget style
 // Copyright (c) 2007-2009 Christoph Feck <christoph@maxiom.de>

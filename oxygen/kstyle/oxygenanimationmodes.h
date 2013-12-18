@@ -6,7 +6,7 @@
 * animation modes
 * -------------------
 *
-* Copyright (c) 2012 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+* Copyright (c) 2012 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 *
 * Largely inspired from Qtcurve style
 * Copyright (C) Craig Drummond, 2003 - 2010 craig.p.drummond@gmail.com

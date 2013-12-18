@@ -3,7 +3,7 @@
 // handle regions passed to kwin for blurring
 // -------------------
 //
-// Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+// Copyright (c) 2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 //
 // Loosely inspired (and largely rewritten) from BeSpin style
 // Copyright (C) 2007 Thomas Luebking <thomas.luebking@web.de>
