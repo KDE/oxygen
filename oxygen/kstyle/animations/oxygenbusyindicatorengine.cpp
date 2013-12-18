@@ -27,37 +27,36 @@
 #include "oxygenbusyindicatorengine.h"
 #include "oxygenbusyindicatorengine.moc"
 
-#include <QProgressBar>
 #include <QVariant>
 
 namespace Oxygen
 {
 
     //_______________________________________________
-    const char* const BusyIndicatorEngine::busyValuePropertyName = "_kde_oxygen_busy_value";
-
-    //_______________________________________________
-    bool BusyIndicatorEngine::registerWidget( QWidget* widget )
+    bool BusyIndicatorEngine::registerWidget( QObject* object )
     {
 
         // check widget validity
-        if( !widget ) return false;
+        if( !object ) return false;
 
-        // insert
-        if( enabled() && !_dataSet.contains( widget ) )
-        {
-            widget->setProperty( busyValuePropertyName, 0 );
-            _dataSet.insert( widget );
+         // create new data class
+        if( !_data.contains( object ) ) _data.insert( object, new BusyIndicatorData( this ) );
 
-            // connect destruction signal
-            connect( widget, SIGNAL(destroyed(QObject*)), this, SLOT(unregisterWidget(QObject*)), Qt::UniqueConnection );
+        // connect destruction signal
+        connect( object, SIGNAL(destroyed(QObject*)), this, SLOT(unregisterWidget(QObject*)), Qt::UniqueConnection );
 
-            return true;
-
-        } else return false;
+        return true;
 
     }
 
+    //____________________________________________________________
+    bool BusyIndicatorEngine::isAnimated( const QObject* object )
+    {
+
+        DataMap<BusyIndicatorData>::Value data( BusyIndicatorEngine::data( object ) );
+        return data && data.data()->isAnimated();
+
+    }
 
     //____________________________________________________________
     void BusyIndicatorEngine::setDuration( int value )
@@ -75,6 +74,31 @@ namespace Oxygen
 
     }
 
+    //____________________________________________________________
+    void BusyIndicatorEngine::setAnimated( const QObject* object, bool value )
+    {
+
+        DataMap<BusyIndicatorData>::Value data( BusyIndicatorEngine::data( object ) );
+        if( data )
+        {
+            // update data
+            data.data()->setAnimated( value );
+
+            // start timer if needed
+            if( value && !_timer.isActive() )
+            { _timer.start( duration(), this ); }
+
+        }
+
+        return;
+
+    }
+
+
+    //____________________________________________________________
+    DataMap<BusyIndicatorData>::Value BusyIndicatorEngine::data( const QObject* object )
+    { return _data.find( object ).data(); }
+
     //_______________________________________________
     void BusyIndicatorEngine::timerEvent( QTimerEvent* event )
     {
@@ -86,24 +110,22 @@ namespace Oxygen
         bool animated( false );
 
         // loop over objects in map
-        for( ProgressBarSet::iterator iter = _dataSet.begin(); iter != _dataSet.end(); ++iter )
+        for( DataMap<BusyIndicatorData>::iterator iter = _data.begin(); iter != _data.end(); ++iter )
         {
 
-            // cast to progressbar
-            QProgressBar* progressBar( qobject_cast<QProgressBar*>( *iter ) );
-
-            // check cast, visibility and range
-            if( progressBar && progressBar->isVisible() && progressBar->minimum() == 0 && progressBar->maximum() == 0  )
+            if( iter.value()->isAnimated() )
             {
 
                 // update animation flag
                 animated = true;
 
-                // update value
-                progressBar->setProperty( busyValuePropertyName, progressBar->property( busyValuePropertyName ).toInt()+1 );
-                progressBar->update();
+                // increment value
+                iter.value()->increment();
 
-            } else if( *iter ) { (*iter)->setProperty( busyValuePropertyName, 0 ); }
+                // emit update signal on object
+                QMetaObject::invokeMethod( const_cast<QObject*>( iter.key() ), "update", Qt::QueuedConnection);
+
+            }
 
         }
 

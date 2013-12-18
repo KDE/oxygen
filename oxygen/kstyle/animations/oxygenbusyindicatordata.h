@@ -1,9 +1,9 @@
-#ifndef oxygenbusyindicatorengine_h
-#define oxygenbusyindicatorengine_h
+#ifndef oxygenbusyindicatordata_h
+#define oxygenbusyindicatordata_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygenbusyindicatorengine.h
-// handle progress bar busy indicator
+// oxygenbusyindicatordata.h
+// data container for progressbar busy indicator
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -27,82 +27,72 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenbaseengine.h"
-#include "oxygenbusyindicatordata.h"
-#include "oxygendatamap.h"
-
-#include <QBasicTimer>
-#include <QSet>
-#include <QWidget>
-#include <QTimerEvent>
+#include <QObject>
 
 namespace Oxygen
 {
 
-    //! handles progress bar animations
-    class BusyIndicatorEngine: public BaseEngine
+    class BusyIndicatorData: public QObject
     {
-
-        Q_OBJECT
 
         public:
 
         //! constructor
-        explicit BusyIndicatorEngine( QObject* object ):
-            BaseEngine( object )
+        BusyIndicatorData( QObject* parent ):
+            QObject( parent ),
+            _animated( false ),
+            _value( 0 )
         {}
 
         //! destructor
-        virtual ~BusyIndicatorEngine( void )
+        virtual ~BusyIndicatorData( void )
         {}
 
         //!@name accessors
         //@{
 
-        //! true if widget is animated
-        virtual bool isAnimated( const QObject* );
+        //! animated
+        bool isAnimated( void ) const
+        { return _animated; }
 
-        //! animation opacity
-        virtual int value( const QObject* object )
-        { return isAnimated( object ) ? data( object ).data()->value():0; }
+        //! value
+        int value( void ) const
+        { return _value; }
 
         //@}
 
         //!@name modifiers
         //@{
 
-        //! register progressbar
-        virtual bool registerWidget( QObject* );
+        //! enabled
+        void setEnabled( bool )
+        {}
 
-        //! duration
-        virtual void setDuration( int );
+        //! enabled
+        void setDuration( int )
+        {}
 
-        //! set object as animated
-        virtual void setAnimated( const QObject*, bool );
+        //! animated
+        void setAnimated( bool value )
+        { _animated = value; }
+
+        //! value
+        void setValue( bool value )
+        { _value = value; }
+
+        //! increment
+        void increment( void )
+        { _value++; }
 
         //@}
 
-        public Q_SLOTS:
-
-        //! remove widget from map
-        virtual bool unregisterWidget( QObject* object )
-        { return _data.unregisterWidget( object ); }
-
-        protected:
-
-        //! timer event
-        virtual void timerEvent( QTimerEvent* );
-
-        //! returns data associated to widget
-        DataMap<BusyIndicatorData>::Value data( const QObject* );
-
         private:
 
-        //! map widgets to progressbar data
-        DataMap<BusyIndicatorData> _data;
+        //! animated
+        bool _animated;
 
-        //! timer
-        QBasicTimer _timer;
+        //! value
+        int _value;
 
     };
 
