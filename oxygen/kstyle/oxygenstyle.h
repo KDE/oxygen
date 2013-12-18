@@ -6,7 +6,7 @@
 // Oxygen widget style for KDE 4
 // -------------------
 //
-// Copyright (C) 2009-2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+// Copyright (C) 2009-2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 // Copyright (C) 2008 Long Huynh Huu <long.upcase@googlemail.com>
 // Copyright (C) 2007-2008 Casper Boemann <cbr@boemann.dk>
 // Copyright (C) 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>

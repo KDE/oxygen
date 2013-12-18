@@ -1,7 +1,7 @@
 #ifndef oxygenstyleconfig_h
 #define oxygenstyleconfig_h
 /*
-Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+Copyright (c) 2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 Copyright (C) 2003 Sandro Giessl <ceebx@users.sourceforge.net>
 
 based on the Keramik configuration dialog:

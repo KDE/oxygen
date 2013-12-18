@@ -6,7 +6,7 @@
 // data container for QHeaderView animations
 // -------------------
 //
-// Copyright (c) 2009 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to

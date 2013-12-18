@@ -6,7 +6,7 @@
 // used to block add a child to a widget, blocking AddChild parent events
 // -------------------
 //
-// Copyright (c) 2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+// Copyright (c) 2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 //
 // Largely inspired from BeSpin style
 // Copyright (C) 2007 Thomas Luebking <thomas.luebking@web.de>
