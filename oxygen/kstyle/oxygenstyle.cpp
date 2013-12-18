@@ -4713,8 +4713,8 @@ namespace Oxygen
             subopt.rect = subElementRect( SE_ProgressBarGroove, pb, widget );
             drawProgressBarGrooveControl( &subopt, painter, widget );
 
-            if( animations().progressBarEngine().busyIndicatorEnabled() && pb->maximum == 0 && pb->minimum == 0 )
-            { animations().progressBarEngine().startBusyTimer(); }
+            if( animations().busyIndicatorEngine().enabled() && pb->maximum == 0 && pb->minimum == 0 )
+            { animations().busyIndicatorEngine().startBusyTimer(); }
 
             if( animations().progressBarEngine().isAnimated( widget ) )
             { subopt.progress = animations().progressBarEngine().value( widget ); }
@@ -4752,7 +4752,7 @@ namespace Oxygen
         if( busyIndicator && widget )
         {
             // load busy value from widget property
-            QVariant busyValue( widget->property( ProgressBarEngine::busyValuePropertyName ) );
+            QVariant busyValue( widget->property( BusyIndicatorEngine::busyValuePropertyName ) );
             if( busyValue.isValid() ) progress = busyValue.toReal();
         }
 

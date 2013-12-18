@@ -27,6 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygenbusyindicatorengine.h"
 #include "oxygendockseparatorengine.h"
 #include "oxygenheaderviewengine.h"
 #include "oxygenmdiwindowengine.h"
@@ -93,6 +94,10 @@ namespace Oxygen
         SplitterEngine& splitterEngine( void ) const
         { return *_splitterEngine; }
 
+        //! busy indicator
+        BusyIndicatorEngine& busyIndicatorEngine( void ) const
+        { return *_busyIndicatorEngine; }
+
         //! dock separators engine
         DockSeparatorEngine& dockSeparatorEngine( void ) const
         { return *_dockSeparatorEngine; }
@@ -152,6 +157,9 @@ namespace Oxygen
 
         //! register new engine
         void registerEngine( BaseEngine* engine );
+
+        //! busy indicator
+        BusyIndicatorEngine* _busyIndicatorEngine;
 
         //! dock separator handle hover effect
         DockSeparatorEngine* _dockSeparatorEngine;

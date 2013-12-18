@@ -1,9 +1,9 @@
-#ifndef oxygenprogressbarengine_h
-#define oxygenprogressbarengine_h
+#ifndef oxygenbusyindicatorengine_h
+#define oxygenbusyindicatorengine_h
 
 //////////////////////////////////////////////////////////////////////////////
-// oxygenprogressbarengine.h
-// handle progress bar animations
+// oxygenbusyindicatorengine.h
+// handle progress bar busy indicator
 // -------------------
 //
 // Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
@@ -28,70 +28,74 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenbaseengine.h"
-#include "oxygenprogressbardata.h"
-#include "oxygendatamap.h"
 
+#include <QBasicTimer>
+#include <QSet>
 #include <QWidget>
+#include <QTimerEvent>
 
 namespace Oxygen
 {
 
     //! handles progress bar animations
-    class ProgressBarEngine: public BaseEngine
+    class BusyIndicatorEngine: public BaseEngine
     {
 
         Q_OBJECT
 
         public:
 
+        //! busy value property name
+        static const char* const busyValuePropertyName;
+
         //! constructor
-        explicit ProgressBarEngine( QObject* object ):
+        explicit BusyIndicatorEngine( QObject* object ):
             BaseEngine( object )
         {}
 
         //! destructor
-        virtual ~ProgressBarEngine( void )
+        virtual ~BusyIndicatorEngine( void )
         {}
 
         //! register menubar
         virtual bool registerWidget( QWidget* );
 
-        //! true if widget is animated
-        virtual bool isAnimated( const QObject* object );
-
-        //! animation opacity
-        virtual int value( const QObject* object )
-        { return isAnimated( object ) ? data( object ).data()->value():0 ; }
-
-        //! enability
-        virtual void setEnabled( bool value )
+        //! start busy timer
+        virtual void startBusyTimer( void )
         {
-            BaseEngine::setEnabled( value );
-            _data.setEnabled( value );
+            if( !_timer.isActive() )
+            { _timer.start( duration(), this ); }
         }
 
         //! duration
-        virtual void setDuration( int value )
-        {
-            BaseEngine::setDuration( value );
-            _data.setDuration( value );
-        }
+        virtual void setDuration( int );
 
         public Q_SLOTS:
 
         //! remove widget from map
         virtual bool unregisterWidget( QObject* object )
-        { return _data.unregisterWidget( object ); }
+        {
+
+            if( !object ) return false;
+            ProgressBarSet::iterator iter( _dataSet.find( object ) );
+            if( iter == _dataSet.end() ) return false;
+
+            _dataSet.erase( iter );
+            return true;
+
+        }
 
         protected:
 
-        //! returns data associated to widget
-        DataMap<ProgressBarData>::Value data( const QObject* );
+        //! timer event
+        virtual void timerEvent( QTimerEvent* );
 
-        private:
+        //! store set of of progress bars
+        typedef QSet<QObject*> ProgressBarSet;
+        ProgressBarSet _dataSet;
 
-        //! map widgets to progressbar data
-        DataMap<ProgressBarData> _data;
+        //! timer
+        QBasicTimer _timer;
 
     };
 

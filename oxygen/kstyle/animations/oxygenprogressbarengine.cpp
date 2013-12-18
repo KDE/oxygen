@@ -31,22 +31,14 @@ namespace Oxygen
 {
 
     //_______________________________________________
-    const char* const ProgressBarEngine::busyValuePropertyName = "_kde_oxygen_busy_value";
-
-    //_______________________________________________
     bool ProgressBarEngine::registerWidget( QWidget* widget )
     {
 
-        // check enability
+        // check widget validity
         if( !widget ) return false;
 
         // create new data class
         if( !_data.contains( widget ) ) _data.insert( widget, new ProgressBarData( this, widget, duration() ), enabled() );
-        if( busyIndicatorEnabled() && !_dataSet.contains( widget ) )
-        {
-            widget->setProperty( busyValuePropertyName, 0 );
-            _dataSet.insert( widget );
-        }
 
         // connect destruction signal
         connect( widget, SIGNAL(destroyed(QObject*)), this, SLOT(unregisterWidget(QObject*)), Qt::UniqueConnection );
@@ -61,57 +53,6 @@ namespace Oxygen
 
         DataMap<ProgressBarData>::Value data( ProgressBarEngine::data( object ) );
         return ( data && data.data()->animation() && data.data()->animation().data()->isRunning() );
-
-    }
-
-    //____________________________________________________________
-    void ProgressBarEngine::setBusyStepDuration( int value )
-    {
-        if( _busyStepDuration == value ) return;
-        _busyStepDuration = value;
-
-        // restart timer with specified time
-        if( _timer.isActive() )
-        {
-            _timer.stop();
-            _timer.start( busyStepDuration(), this );
-        }
-
-    }
-
-    //_______________________________________________
-    void ProgressBarEngine::timerEvent( QTimerEvent* event )
-    {
-
-        // check enability and timer
-        if( !(busyIndicatorEnabled() && event->timerId() == _timer.timerId() ) )
-        { return BaseEngine::timerEvent( event ); }
-
-        bool animated( false );
-
-        // loop over objects in map
-        for( ProgressBarSet::iterator iter = _dataSet.begin(); iter != _dataSet.end(); ++iter )
-        {
-
-            // cast to progressbar
-            QProgressBar* progressBar( qobject_cast<QProgressBar*>( *iter ) );
-
-            // check cast, visibility and range
-            if( progressBar && progressBar->isVisible() && progressBar->minimum() == 0 && progressBar->maximum() == 0  )
-            {
-
-                // update animation flag
-                animated = true;
-
-                // update value
-                progressBar->setProperty( busyValuePropertyName, progressBar->property( busyValuePropertyName ).toInt()+1 );
-                progressBar->update();
-
-            } else if( *iter ) { (*iter)->setProperty( busyValuePropertyName, 0 ); }
-
-        }
-
-        if( !animated ) _timer.stop();
 
     }
 

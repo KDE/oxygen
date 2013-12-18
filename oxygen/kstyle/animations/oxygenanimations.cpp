@@ -38,6 +38,7 @@
 #include <QLineEdit>
 #include <QMainWindow>
 #include <QMdiSubWindow>
+#include <QProgressBar>
 #include <QScrollBar>
 #include <QSpinBox>
 #include <QSplitterHandle>
@@ -60,8 +61,8 @@ namespace Oxygen
         _comboBoxEngine = new WidgetStateEngine( this );
         _toolButtonEngine = new WidgetStateEngine( this );
         _toolBoxEngine = new ToolBoxEngine( this );
+        _busyIndicatorEngine = new BusyIndicatorEngine( this );
 
-        registerEngine( _splitterEngine = new SplitterEngine( this ) );
         registerEngine( _dockSeparatorEngine = new DockSeparatorEngine( this ) );
         registerEngine( _headerViewEngine = new HeaderViewEngine( this ) );
         registerEngine( _widgetStateEngine = new WidgetStateEngine( this ) );
@@ -71,6 +72,7 @@ namespace Oxygen
         registerEngine( _menuEngine = new MenuEngineV1( this ) );
         registerEngine( _scrollBarEngine = new ScrollBarEngine( this ) );
         registerEngine( _sliderEngine = new SliderEngine( this ) );
+        registerEngine( _splitterEngine = new SplitterEngine( this ) );
         registerEngine( _tabBarEngine = new TabBarEngine( this ) );
         registerEngine( _toolBarEngine = new ToolBarEngine( this ) );
         registerEngine( _mdiWindowEngine = new MdiWindowEngine( this ) );
@@ -102,9 +104,10 @@ namespace Oxygen
             _dockSeparatorEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _headerViewEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _mdiWindowEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-
             _progressBarEngine->setEnabled( animationsEnabled &&  StyleConfigData::progressBarAnimationsEnabled() );
-            _progressBarEngine->setBusyIndicatorEnabled( StyleConfigData::progressBarAnimated() );
+
+            // busy indicator
+            _busyIndicatorEngine->setEnabled( StyleConfigData::progressBarAnimated() );
 
             // menubar engine
             int menuBarAnimationType( StyleConfigData::menuBarAnimationType() );
@@ -222,7 +225,7 @@ namespace Oxygen
             _mdiWindowEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
 
             _progressBarEngine->setDuration( StyleConfigData::progressBarAnimationsDuration() );
-            _progressBarEngine->setBusyStepDuration( StyleConfigData::progressBarBusyStepDuration() );
+            _busyIndicatorEngine->setDuration( StyleConfigData::progressBarBusyStepDuration() );
 
             _toolBarEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _toolBarEngine->setFollowMouseDuration( StyleConfigData::toolBarAnimationsDuration() );
@@ -253,33 +256,33 @@ namespace Oxygen
         if( widget->inherits( "QShapedPixmapWidget" ) ) return;
 
         // all widgets are registered to the enability engine.
-        widgetEnabilityEngine().registerWidget( widget, AnimationEnable );
+        _widgetEnabilityEngine->registerWidget( widget, AnimationEnable );
 
         // install animation timers
         // for optimization, one should put with most used widgets here first
         if( qobject_cast<QToolButton*>(widget) )
         {
 
-            toolButtonEngine().registerWidget( widget, AnimationHover );
+            _toolButtonEngine->registerWidget( widget, AnimationHover );
             bool isInToolBar( qobject_cast<QToolBar*>(widget->parent()) );
             if( isInToolBar )
             {
 
                 if( StyleConfigData::toolBarAnimationType() == StyleConfigData::TB_FADE )
-                { widgetStateEngine().registerWidget( widget, AnimationHover ); }
+                { _widgetStateEngine->registerWidget( widget, AnimationHover ); }
 
-            } else widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+            } else _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus );
 
         } else if( qobject_cast<QAbstractButton*>(widget) ) {
 
             if( qobject_cast<QToolBox*>( widget->parent() ) )
-            { toolBoxEngine().registerWidget( widget ); }
+            { _toolBoxEngine->registerWidget( widget ); }
 
-            widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+            _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus );
 
         } else if( qobject_cast<QDial*>(widget) ) {
 
-            widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+            _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus );
 
         }
 
@@ -287,47 +290,52 @@ namespace Oxygen
         else if( QGroupBox* groupBox = qobject_cast<QGroupBox*>( widget ) )
         {
             if( groupBox->isCheckable() )
-            { widgetStateEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+            { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
         }
 
         // scrollbar
-        else if( qobject_cast<QScrollBar*>( widget ) ) { scrollBarEngine().registerWidget( widget ); }
-        else if( qobject_cast<QSlider*>( widget ) ) { sliderEngine().registerWidget( widget ); }
-        else if( qobject_cast<QProgressBar*>( widget ) ) { progressBarEngine().registerWidget( widget ); }
-        else if( qobject_cast<QSplitterHandle*>( widget ) ) { splitterEngine().registerWidget( widget ); }
-        else if( qobject_cast<QMainWindow*>( widget ) ) { dockSeparatorEngine().registerWidget( widget ); }
-        else if( qobject_cast<QHeaderView*>( widget ) ) { headerViewEngine().registerWidget( widget ); }
+        else if( qobject_cast<QScrollBar*>( widget ) ) { _scrollBarEngine->registerWidget( widget ); }
+        else if( qobject_cast<QSlider*>( widget ) ) { _sliderEngine->registerWidget( widget ); }
+        else if( qobject_cast<QProgressBar*>( widget ) )
+        {
+            _progressBarEngine->registerWidget( widget );
+            _busyIndicatorEngine->registerWidget( widget );
+        }
+        else if( qobject_cast<QSplitterHandle*>( widget ) ) { _splitterEngine->registerWidget( widget ); }
+        else if( qobject_cast<QMainWindow*>( widget ) ) { _dockSeparatorEngine->registerWidget( widget ); }
+        else if( qobject_cast<QHeaderView*>( widget ) ) { _headerViewEngine->registerWidget( widget ); }
+
         // menu
-        else if( qobject_cast<QMenu*>( widget ) ) { menuEngine().registerWidget( widget ); }
-        else if( qobject_cast<QMenuBar*>( widget ) ) { menuBarEngine().registerWidget( widget ); }
-        else if( qobject_cast<QTabBar*>( widget ) ) { tabBarEngine().registerWidget( widget ); }
-        else if( qobject_cast<QToolBar*>( widget ) ) { toolBarEngine().registerWidget( widget ); }
+        else if( qobject_cast<QMenu*>( widget ) ) { _menuEngine->registerWidget( widget ); }
+        else if( qobject_cast<QMenuBar*>( widget ) ) { _menuBarEngine->registerWidget( widget ); }
+        else if( qobject_cast<QTabBar*>( widget ) ) { _tabBarEngine->registerWidget( widget ); }
+        else if( qobject_cast<QToolBar*>( widget ) ) { _toolBarEngine->registerWidget( widget ); }
 
         // editors
         else if( qobject_cast<QComboBox*>( widget ) ) {
-            comboBoxEngine().registerWidget( widget, AnimationHover );
-            lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+            _comboBoxEngine->registerWidget( widget, AnimationHover );
+            _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus );
         } else if( qobject_cast<QSpinBox*>( widget ) ) {
-            spinBoxEngine().registerWidget( widget );
-            lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus );
+            _spinBoxEngine->registerWidget( widget );
+            _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus );
         }
-        else if( qobject_cast<QLineEdit*>( widget ) ) { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( qobject_cast<QTextEdit*>( widget ) ) { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( qobject_cast<QLineEdit*>( widget ) ) { _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( qobject_cast<QTextEdit*>( widget ) ) { _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // lists
         else if( qobject_cast<QAbstractItemView*>( widget ) || widget->inherits("Q3ListView") )
-        { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+        { _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // scrollarea
         else if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) ) {
 
             if( scrollArea->frameShadow() == QFrame::Sunken && (widget->focusPolicy()&Qt::StrongFocus) )
-            { lineEditEngine().registerWidget( widget, AnimationHover|AnimationFocus ); }
+            { _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         }
         // mdi subwindows
         else if( qobject_cast<QMdiSubWindow*>( widget ) )
-        { mdiWindowEngine().registerWidget( widget ); }
+        { _mdiWindowEngine->registerWidget( widget ); }
 
         return;
 
@@ -344,11 +352,12 @@ namespace Oxygen
         inside the list, because they can be register widgets in combination
         with other engines
         */
-        widgetEnabilityEngine().unregisterWidget( widget );
-        spinBoxEngine().unregisterWidget( widget );
-        comboBoxEngine().unregisterWidget( widget );
-        toolButtonEngine().unregisterWidget( widget );
-        toolBoxEngine().unregisterWidget( widget );
+        _widgetEnabilityEngine->unregisterWidget( widget );
+        _spinBoxEngine->unregisterWidget( widget );
+        _comboBoxEngine->unregisterWidget( widget );
+        _toolButtonEngine->unregisterWidget( widget );
+        _toolBoxEngine->unregisterWidget( widget );
+        _busyIndicatorEngine->unregisterWidget( widget );
 
         // the following allows some optimization of widget unregistration
         // it assumes that a widget can be registered atmost in one of the
