@@ -4713,11 +4713,16 @@ namespace Oxygen
             subopt.rect = subElementRect( SE_ProgressBarGroove, pb, widget );
             drawProgressBarGrooveControl( &subopt, painter, widget );
 
-            if( widget && animations().busyIndicatorEngine().enabled() )
-            { animations().busyIndicatorEngine().setAnimated( widget, pb->maximum == 0 && pb->minimum == 0 ); }
+            if(( widget || pb->styleObject ) && animations().busyIndicatorEngine().enabled() )
+            {
+                if( !widget && pb->styleObject ) {
+                    animations().busyIndicatorEngine().registerWidget( pb->styleObject );
+                }
+                animations().busyIndicatorEngine().setAnimated( widget ? widget : pb->styleObject, pb->maximum == 0 && pb->minimum == 0 );
+            }
 
-            if( animations().progressBarEngine().isAnimated( widget ) )
-            { subopt.progress = animations().progressBarEngine().value( widget ); }
+            if( animations().busyIndicatorEngine().isAnimated( widget ? widget : pb->styleObject ) )
+            { subopt.progress = animations().busyIndicatorEngine().value( widget ? widget : pb->styleObject ); }
 
             subopt.rect = subElementRect( SE_ProgressBarContents, &subopt, widget );
             drawProgressBarContentsControl( &subopt, painter, widget );
@@ -4749,8 +4754,8 @@ namespace Oxygen
         // check if anything is to be drawn
         qreal progress = pbOpt->progress - pbOpt->minimum;
         const bool busyIndicator = ( pbOpt->minimum == 0 && pbOpt->maximum == 0 );
-        if( busyIndicator && widget )
-        { progress = animations().busyIndicatorEngine().value( widget ); }
+        if( busyIndicator )
+        { progress = animations().busyIndicatorEngine().value( widget ? widget : pbOpt->styleObject ); }
 
         if( !( progress || busyIndicator ) ) return true;
 

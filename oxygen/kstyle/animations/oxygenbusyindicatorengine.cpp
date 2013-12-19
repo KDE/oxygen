@@ -40,10 +40,13 @@ namespace Oxygen
         if( !object ) return false;
 
          // create new data class
-        if( !_data.contains( object ) ) _data.insert( object, new BusyIndicatorData( this ) );
+        if( !_data.contains( object ) )
+        {
+            _data.insert( object, new BusyIndicatorData( this ) );
 
-        // connect destruction signal
-        connect( object, SIGNAL(destroyed(QObject*)), this, SLOT(unregisterWidget(QObject*)), Qt::UniqueConnection );
+            // connect destruction signal
+            connect( object, SIGNAL(destroyed(QObject*)), this, SLOT(unregisterWidget(QObject*)), Qt::UniqueConnection );
+        }
 
         return true;
 
@@ -123,7 +126,12 @@ namespace Oxygen
                 iter.value()->increment();
 
                 // emit update signal on object
-                QMetaObject::invokeMethod( const_cast<QObject*>( iter.key() ), "update", Qt::QueuedConnection);
+                if( const_cast<QObject*>( iter.key() )->inherits( "QQuickStyleItem" )) {
+                    //QtQuickControls "rerender" method is updateItem
+                    QMetaObject::invokeMethod( const_cast<QObject*>( iter.key() ), "updateItem", Qt::QueuedConnection);
+                } else {
+                    QMetaObject::invokeMethod( const_cast<QObject*>( iter.key() ), "update", Qt::QueuedConnection);
+                }
 
             }
 
