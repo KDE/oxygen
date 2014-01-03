@@ -2521,6 +2521,10 @@ namespace Oxygen
         {
             helper().renderWindowBackground( painter, option->rect, widget, option->palette );
             helper().drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
+        } else if( option->styleObject && option->styleObject->inherits( "QQuickItem" ) )
+        {
+            // QtQuick Control case
+            helper().drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
         }
 
         return true;
