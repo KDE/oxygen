@@ -2881,7 +2881,8 @@ namespace Oxygen
             and have no highlight
             */
 
-            r.translate( 1, 0 );
+            if( toolButton->arrowType() != Qt::LeftArrow )
+            { r.translate( 1, 0 ); }
 
             // set color properly
             color = (toolButton->autoRaise() ? palette.color( QPalette::WindowText ):palette.color( QPalette::ButtonText ) );
