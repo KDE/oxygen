@@ -938,24 +938,6 @@ namespace Oxygen
         #endif
     }
 
-    void Helper::setColorScheme( WId id, const QString& path ) const
-    {
-        #if HAVE_X11
-        if( !QX11Info::isPlatformX11() )
-            return;
-        xcb_atom_t atom = createAtom( QStringLiteral("_KDE_NET_WM_COLOR_SCHEME") );
-        if( path.isEmpty() ) {
-            xcb_delete_property( _xcbConnection, id, atom );
-        } else {
-            xcb_change_property( _xcbConnection, XCB_PROP_MODE_REPLACE, id, atom, XCB_ATOM_STRING,
-                                 8, path.size(), qPrintable( path ) );
-        }
-        #else
-        Q_UNUSED( id )
-        Q_UNUSED( path )
-        #endif
-    }
-
 
     #if HAVE_X11
 
