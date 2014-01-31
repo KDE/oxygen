@@ -210,9 +210,9 @@ namespace Oxygen
 
                 // inner (sharp) gradient
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+fixedSize)/2 );
-                const qreal voffset = (gradientSize*ActiveShadowConfiguration::verticalOffset())/fixedSize;
+                const qreal voffset = qMin( 12.0*(gradientSize*ActiveShadowConfiguration::verticalOffset())/fixedSize, 4.0 );
 
-                QRadialGradient rg = QRadialGradient( size, size+12.0*voffset, gradientSize );
+                QRadialGradient rg = QRadialGradient( size, size + voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
 
                 // gaussian shadow is used
@@ -236,9 +236,9 @@ namespace Oxygen
 
                 // outer (spread) gradient
                 const qreal gradientSize = shadowSize;
-                const qreal voffset = (gradientSize*ActiveShadowConfiguration::verticalOffset())/fixedSize;
+                const qreal voffset = qMin( 12.0*(gradientSize*ActiveShadowConfiguration::verticalOffset())/fixedSize, 4.0 );
 
-                QRadialGradient rg = QRadialGradient( size, size+12.0*voffset, gradientSize );
+                QRadialGradient rg = QRadialGradient( size, size+voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
 
                 // gaussian shadow is used
@@ -290,10 +290,10 @@ namespace Oxygen
 
                 // mid gradient
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+2*fixedSize)/3 );
-                const qreal voffset = (gradientSize*InactiveShadowConfiguration::verticalOffset())/fixedSize;
+                const qreal voffset = qMin( 8.0*(gradientSize*InactiveShadowConfiguration::verticalOffset())/fixedSize, 4.0 );
 
                 // gaussian shadow is used
-                QRadialGradient rg = QRadialGradient( size, size+8.0*voffset, gradientSize );
+                QRadialGradient rg = QRadialGradient( size, size+voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
 
                 int nPoints( (10*gradientSize)/fixedSize );
@@ -316,10 +316,10 @@ namespace Oxygen
 
                 // outer (spread) gradient
                 const qreal gradientSize = shadowSize;
-                const qreal voffset = (gradientSize*InactiveShadowConfiguration::verticalOffset())/fixedSize;
+                const qreal voffset = qMin( 20.0*(gradientSize*InactiveShadowConfiguration::verticalOffset())/fixedSize, 4.0 );
 
                 // gaussian shadow is used
-                QRadialGradient rg = QRadialGradient( size, size+20.0*voffset, gradientSize );
+                QRadialGradient rg = QRadialGradient( size, size+voffset, gradientSize );
                 rg.setColorAt(1, Qt::transparent );
 
                 int nPoints( (20*gradientSize)/fixedSize );
