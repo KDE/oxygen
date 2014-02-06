@@ -25,6 +25,7 @@
 #include <KColorUtils>
 #include <KColorScheme>
 
+#include <QGuiApplication>
 #include <QWidget>
 #include <QPainter>
 #include <QTextStream>
@@ -47,6 +48,7 @@ namespace Oxygen
     // a KComponentData constructed in the OxygenStyleHelper ctor, we'll just keep
     // one here, even though the window decoration doesn't really need it.
     Helper::Helper( void )
+        : _isX11( false )
     {
         _config = KSharedConfig::openConfig( QStringLiteral( "oxygenrc" ) );
         _contrast = KColorScheme::contrastF( _config );
@@ -58,11 +60,20 @@ namespace Oxygen
         _backgroundCache.setMaxCost( 64 );
 
         #if HAVE_X11
+        _isX11 = QGuiApplication::platformName() == QStringLiteral("xcb");
+        if( _isX11 )
+        {
 
-        // initialize xcb connection
-        _xcbConnection = QX11Info::connection();
-        _backgroundGradientAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_GRADIENT" ) );
-        _backgroundPixmapAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_PIXMAP" ) );
+            // initialize xcb connection
+            _xcbConnection = QX11Info::connection();
+            _backgroundGradientAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_GRADIENT" ) );
+            _backgroundPixmapAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_PIXMAP" ) );
+        } else
+        {
+            _xcbConnection = Q_NULLPTR;
+            _backgroundGradientAtom = 0;
+            _backgroundPixmapAtom = 0;
+        }
         #endif
 
     }
@@ -944,7 +955,7 @@ namespace Oxygen
     //____________________________________________________________________
     xcb_atom_t Helper::createAtom( const QString& name ) const
     {
-
+        if( !isX11() ) return 0;
         xcb_intern_atom_cookie_t cookie( xcb_intern_atom( _xcbConnection, false, name.size(), qPrintable( name ) ) );
         ScopedPointer<xcb_intern_atom_reply_t> reply( xcb_intern_atom_reply( _xcbConnection, cookie, nullptr) );
         return reply ? reply->atom:0;
@@ -1068,6 +1079,7 @@ namespace Oxygen
     //____________________________________________________________________
     void Helper::setHasHint( xcb_window_t id, xcb_atom_t atom, bool value ) const
     {
+        if( !isX11() ) return;
 
         // check window id
         if( !id ) return;
@@ -1082,6 +1094,7 @@ namespace Oxygen
     //____________________________________________________________________
     bool Helper::hasHint( xcb_window_t id, xcb_atom_t atom ) const
     {
+        if( !isX11() ) return false;
 
         // check window id
         if( !id ) return false;

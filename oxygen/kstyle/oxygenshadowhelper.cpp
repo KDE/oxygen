@@ -64,8 +64,11 @@ namespace Oxygen
     {
 
         #if HAVE_X11
-        foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
-        foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
+        if( _helper.isX11() )
+        {
+            foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
+            foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
+        }
         #endif
 
         delete _shadowCache;
@@ -76,9 +79,12 @@ namespace Oxygen
     void ShadowHelper::reset( void )
     {
         #if HAVE_X11
-        // round pixmaps
-        foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
-        foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
+        if( _helper.isX11() )
+        {
+            // round pixmaps
+            foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
+            foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
+        }
         #endif
 
         _pixmaps.clear();
@@ -247,7 +253,7 @@ namespace Oxygen
 
         // create atom
         #if HAVE_X11
-        if( !_atom ) _atom = _helper.createAtom( QLatin1String( netWMShadowAtomName ) );
+        if( !_atom && _helper.isX11() ) _atom = _helper.createAtom( QLatin1String( netWMShadowAtomName ) );
         #endif
 
         // make sure size is valid
@@ -295,6 +301,7 @@ namespace Oxygen
 
         // do nothing for invalid pixmaps
         if( source.isNull() ) return 0;
+        if( !_helper.isX11() ) return 0;
 
         /*
         in some cases, pixmap handle is invalid. This is the case notably
@@ -336,6 +343,7 @@ namespace Oxygen
 
         // check widget and shadow
         if( !widget ) return false;
+        if( !_helper.isX11() ) return false;
 
         #if HAVE_X11
         #ifndef QT_NO_XRENDER
@@ -415,6 +423,7 @@ namespace Oxygen
     void ShadowHelper::uninstallX11Shadows( QWidget* widget ) const
     {
 
+        if( !_helper.isX11() ) return;
         #if HAVE_X11
         if( !( widget && widget->testAttribute(Qt::WA_WState_Created) ) ) return;
         xcb_delete_property( _helper.xcbConnection(), widget->winId(), _atom);

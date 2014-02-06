@@ -78,7 +78,8 @@ namespace Oxygen
         _dragAboutToStart( false ),
         _dragInProgress( false ),
         _locked( false ),
-        _cursorOverride( false )
+        _cursorOverride( false ),
+        _isX11( false )
     {
 
         // install application wise event filter
@@ -86,13 +87,17 @@ namespace Oxygen
         qApp->installEventFilter( _appEventFilter );
 
         #if HAVE_X11
-        // create move-resize atom
+        _isX11 = QGuiApplication::platformName() == QStringLiteral("xcb");
         _moveResizeAtom = 0;
-        xcb_connection_t* connection( QX11Info::connection() );
-        const QString atomName( QStringLiteral( "_NET_WM_MOVERESIZE" ) );
-        xcb_intern_atom_cookie_t cookie( xcb_intern_atom( connection, false, atomName.size(), qPrintable( atomName ) ) );
-        Helper::ScopedPointer<xcb_intern_atom_reply_t> reply( xcb_intern_atom_reply( connection, cookie, nullptr) );
-        _moveResizeAtom = reply ? reply->atom:0;
+        if( _isX11 )
+        {
+            // create move-resize atom
+            xcb_connection_t* connection( QX11Info::connection() );
+            const QString atomName( QStringLiteral( "_NET_WM_MOVERESIZE" ) );
+            xcb_intern_atom_cookie_t cookie( xcb_intern_atom( connection, false, atomName.size(), qPrintable( atomName ) ) );
+            Helper::ScopedPointer<xcb_intern_atom_reply_t> reply( xcb_intern_atom_reply( connection, cookie, nullptr) );
+            _moveResizeAtom = reply ? reply->atom:0;
+        }
         #endif
 
     }
@@ -676,7 +681,7 @@ namespace Oxygen
     {
 
         #if HAVE_X11
-        return true;
+        return _isX11;
         #endif
 
         return false;

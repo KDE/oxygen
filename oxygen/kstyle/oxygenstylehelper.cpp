@@ -43,9 +43,12 @@ namespace Oxygen
     {
 
         #if HAVE_X11
-        // create compositing screen
-        const QString atomName( QStringLiteral( "_NET_WM_CM_S%1" ).arg( QX11Info::appScreen() ) );
-        _compositingManagerAtom = createAtom( atomName );
+        if( isX11() )
+        {
+            // create compositing screen
+            const QString atomName( QStringLiteral( "_NET_WM_CM_S%1" ).arg( QX11Info::appScreen() ) );
+            _compositingManagerAtom = createAtom( atomName );
+        }
         #endif
 
     }
@@ -675,10 +678,17 @@ namespace Oxygen
     bool StyleHelper::compositingActive( void ) const
     {
         #if HAVE_X11
-        // direct call to X
-        xcb_get_selection_owner_cookie_t cookie( xcb_get_selection_owner( xcbConnection(), _compositingManagerAtom ) );
-        ScopedPointer<xcb_get_selection_owner_reply_t> reply( xcb_get_selection_owner_reply( xcbConnection(), cookie, nullptr ) );
-        return reply && reply->owner;
+        if( isX11() )
+        {
+            // direct call to X
+            xcb_get_selection_owner_cookie_t cookie( xcb_get_selection_owner( xcbConnection(), _compositingManagerAtom ) );
+            ScopedPointer<xcb_get_selection_owner_reply_t> reply( xcb_get_selection_owner_reply( xcbConnection(), cookie, nullptr ) );
+            return reply && reply->owner;
+        } else
+        {
+            // use KWindowSystem
+            return KWindowSystem::compositingActive();
+        }
         #else
         // use KWindowSystem
         return KWindowSystem::compositingActive();

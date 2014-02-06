@@ -49,9 +49,16 @@ namespace Oxygen
 
         #if HAVE_X11
 
-        // create atom
-        _blurAtom = _helper.createAtom( QStringLiteral( "_KDE_NET_WM_BLUR_BEHIND_REGION" ) );
-        _opaqueAtom = _helper.createAtom( QStringLiteral( "_NET_WM_OPAQUE_REGION" ) );
+        if( _helper.isX11() )
+        {
+            // create atom
+            _blurAtom = _helper.createAtom( QStringLiteral( "_KDE_NET_WM_BLUR_BEHIND_REGION" ) );
+            _opaqueAtom = _helper.createAtom( QStringLiteral( "_NET_WM_OPAQUE_REGION" ) );
+        } else
+        {
+            _blurAtom = 0;
+            _opaqueAtom = 0;
+        }
 
         #endif
 
@@ -214,6 +221,7 @@ namespace Oxygen
     {
 
         #if HAVE_X11
+        if( !_helper.isX11() ) return;
 
         /*
         directly from bespin code. Supposibly prevent playing with some 'pseudo-widgets'
@@ -262,6 +270,8 @@ namespace Oxygen
     void BlurHelper::clear( QWidget* widget ) const
     {
         #if HAVE_X11
+        if( !_helper.isX11() ) return;
+
         xcb_delete_property( _helper.xcbConnection(), widget->winId(), _blurAtom );
         xcb_delete_property( _helper.xcbConnection(), widget->winId(), _opaqueAtom );
         #else

@@ -361,6 +361,9 @@ namespace Oxygen
 
         #endif
 
+        bool isX11() const
+        { return _isX11; }
+
         protected:
 
         //! return color key for a given color, properly accounting for invalid colors
@@ -463,6 +466,8 @@ namespace Oxygen
         xcb_atom_t _backgroundPixmapAtom;
 
         #endif
+
+        bool _isX11;
     };
 
 }
