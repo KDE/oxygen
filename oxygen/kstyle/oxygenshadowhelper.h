@@ -72,8 +72,11 @@ namespace Oxygen
         //! unregister widget
         void unregisterWidget( QWidget* );
 
-        //! reload config
-        void reloadConfig( void );
+        //! reparse cache config (must be followed by loadConfig)
+        void reparseCacheConfig( void );
+
+        //! load config
+        void loadConfig( void );
 
         //! event filter
         virtual bool eventFilter( QObject*, QEvent* );

@@ -38,7 +38,8 @@ namespace Oxygen
 {
 
     //______________________________________________________________________________
-    StyleHelper::StyleHelper( void ):
+    StyleHelper::StyleHelper( KSharedConfigPtr config ):
+        Helper( config ),
         _useBackgroundGradient( true )
     {
 

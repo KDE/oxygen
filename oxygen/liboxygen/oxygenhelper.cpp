@@ -43,14 +43,10 @@ namespace Oxygen
     const qreal Helper::_glowBias = 0.6;
 
     //____________________________________________________________________
-    // NOTE: Oxygen::StyleHelper needs to use a KConfig from its own KComponentData
-    // Since the ctor order causes a SEGV if we try to pass in a KConfig here from
-    // a KComponentData constructed in the OxygenStyleHelper ctor, we'll just keep
-    // one here, even though the window decoration doesn't really need it.
-    Helper::Helper( void )
-        : _isX11( false )
+    Helper::Helper( KSharedConfig::Ptr config )
+        : _config( config ),
+          _isX11( false )
     {
-        _config = KSharedConfig::openConfig( QStringLiteral( "oxygenrc" ) );
         _contrast = KColorScheme::contrastF( _config );
 
         // background contrast is calculated so that it is 0.9
@@ -83,10 +79,8 @@ namespace Oxygen
     { return _config; }
 
     //____________________________________________________________________
-    void Helper::reloadConfig()
+    void Helper::loadConfig()
     {
-
-        _config->reparseConfiguration();
         _contrast = KColorScheme::contrastF( _config );
         _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
 

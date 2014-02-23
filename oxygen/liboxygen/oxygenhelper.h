@@ -154,14 +154,14 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit Helper( void );
+        explicit Helper( KSharedConfigPtr config );
 
         //! destructor
         virtual ~Helper()
         {}
 
-        //! reload configuration
-        virtual void reloadConfig();
+        //! load configuration
+        virtual void loadConfig();
 
         //! pointer to shared config
         KSharedConfigPtr config() const;

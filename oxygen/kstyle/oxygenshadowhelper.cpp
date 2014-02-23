@@ -135,11 +135,15 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    void ShadowHelper::reloadConfig( void )
+    void ShadowHelper::reparseCacheConfig( void )
     {
-
         // shadow cache
         shadowCache().readConfig();
+    }
+
+    //_______________________________________________________
+    void ShadowHelper::loadConfig( void )
+    {
 
         // reset
         reset();

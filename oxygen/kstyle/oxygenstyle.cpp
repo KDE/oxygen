@@ -190,7 +190,7 @@ namespace Oxygen
         _subLineButtons( SingleButton ),
         _singleButtonHeight( 14 ),
         _doubleButtonHeight( 28 ),
-        _helper( new StyleHelper() ),
+        _helper( new StyleHelper( StyleConfigData::self()->sharedConfig() ) ),
         _shadowHelper( new ShadowHelper( this, *_helper ) ),
         _animations( new Animations( this ) ),
         _transitions( new Transitions( this ) ),
@@ -222,7 +222,7 @@ namespace Oxygen
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
-        oxygenConfigurationChanged();
+        loadConfiguration();
 
     }
 
@@ -7762,21 +7762,27 @@ namespace Oxygen
     }
 
     //_____________________________________________________________________
-    void Style::oxygenConfigurationChanged( void )
+    void Style::oxygenConfigurationChanged()
     {
+        // reload config (reparses oxygenrc)
+        StyleConfigData::self()->readConfig();
 
+        shadowHelper().reparseCacheConfig();
 
-        // reset helper configuration
-        helper().reloadConfig();
+        loadConfiguration();
+    }
+
+    //_____________________________________________________________________
+    void Style::loadConfiguration()
+    {
+        // set helper configuration
+        helper().loadConfig();
 
         // background gradient
         helper().setUseBackgroundGradient( StyleConfigData::useBackgroundGradient() );
 
         // background pixmap
         helper().setBackgroundPixmap( StyleConfigData::backgroundPixmap() );
-
-        // reset config
-        StyleConfigData::self()->readConfig();
 
         // update caches size
         int cacheSize( StyleConfigData::cacheEnabled() ?
@@ -7791,7 +7797,7 @@ namespace Oxygen
         animations().setupEngines();
         transitions().setupEngines();
         windowManager().initialize();
-        shadowHelper().reloadConfig();
+        shadowHelper().loadConfig();
 
         // mnemonics
         mnemonics().setMode( StyleConfigData::mnemonicsMode() );
@@ -7847,9 +7853,9 @@ namespace Oxygen
     }
 
     //_____________________________________________________________________
-    void Style::globalPaletteChanged( void )
+    void Style::globalPaletteChanged( void ) // TODO REMOVE
     {
-        helper().reloadConfig();
+        helper().loadConfig();
         helper().invalidateCaches();
     }
 

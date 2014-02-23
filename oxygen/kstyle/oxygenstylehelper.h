@@ -51,7 +51,7 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit StyleHelper( void );
+        explicit StyleHelper( KSharedConfigPtr config );
 
         //! destructor
         virtual ~StyleHelper() {}

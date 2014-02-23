@@ -231,6 +231,9 @@ namespace Oxygen
 
         protected:
 
+        //! load configuration
+        void loadConfiguration();
+
         //! initialize kGlobalSettings conections
         void initializeKGlobalSettings( void );
 
