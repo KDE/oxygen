@@ -185,7 +185,6 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::Style( void ):
-        _kGlobalSettingsInitialized( false ),
         _addLineButtons( DoubleButton ),
         _subLineButtons( SingleButton ),
         _singleButtonHeight( 14 ),
@@ -272,13 +271,6 @@ namespace Oxygen
             // set background as styled
             widget->setAttribute( Qt::WA_StyledBackground );
             widget->installEventFilter( _topLevelManager );
-
-            // initialize connections to kGlobalSettings
-            /*
-            this musts be done in ::polish and not before,
-            in order to be able to detect Qt-KDE vs Qt-only applications
-            */
-            if( !_kGlobalSettingsInitialized ) initializeKGlobalSettings();
 
             break;
 
@@ -7769,6 +7761,8 @@ namespace Oxygen
 
         shadowHelper().reparseCacheConfig();
 
+        helper().invalidateCaches();
+
         loadConfiguration();
     }
 
@@ -7850,13 +7844,6 @@ namespace Oxygen
         // frame focus
         if( StyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
         else _frameFocusPrimitive = &Style::emptyPrimitive;
-    }
-
-    //_____________________________________________________________________
-    void Style::globalPaletteChanged( void ) // TODO REMOVE
-    {
-        helper().loadConfig();
-        helper().invalidateCaches();
     }
 
     //____________________________________________________________________
@@ -8014,28 +8001,6 @@ namespace Oxygen
             default:
             return KStyle::standardIcon( standardIcon, option, widget );
         }
-    }
-
-    //_____________________________________________________________
-    void Style::initializeKGlobalSettings( void )
-    {
-
-        if( qApp && !qApp->inherits( "KApplication" ) )
-        {
-            /*
-            for Qt, non-KDE applications, needs to explicitly activate KGlobalSettings.
-            On the other hand, it is done internally in kApplication constructor,
-            so no need to duplicate here.
-            */
-            // KGlobalSettings::self()->activate( KGlobalSettings::ListenForChanges );
-        }
-
-        // connect palette changes to local slot, to make sure caches are cleared
-        // connect( KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(globalPaletteChanged()) );
-
-        // update flag
-        _kGlobalSettingsInitialized = true;
-
     }
 
     //______________________________________________________________

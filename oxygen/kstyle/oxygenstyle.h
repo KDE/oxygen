@@ -217,9 +217,6 @@ namespace Oxygen
         //! update oxygen configuration
         void oxygenConfigurationChanged( void );
 
-        //! needed to update style when configuration is changed
-        void globalPaletteChanged( void );
-
         //! copied from kstyle
         int layoutSpacingImplementation(
             QSizePolicy::ControlType, QSizePolicy::ControlType, Qt::Orientation,
@@ -233,9 +230,6 @@ namespace Oxygen
 
         //! load configuration
         void loadConfiguration();
-
-        //! initialize kGlobalSettings conections
-        void initializeKGlobalSettings( void );
 
         //! helper
         StyleHelper& helper( void ) const
@@ -762,9 +756,6 @@ namespace Oxygen
         }
 
         private:
-
-        //! true if KGlobalSettings signals are initialized
-        bool _kGlobalSettingsInitialized;
 
         //!@name scrollbar button types (for addLine and subLine )
         //@{
