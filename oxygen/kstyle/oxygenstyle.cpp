@@ -93,8 +93,6 @@
 #include <QToolButton>
 
 #include <KColorUtils>
-#include <KIconLoader>
-#include <kdeversion.h>
 
 #include <cmath>
 

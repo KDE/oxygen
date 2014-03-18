@@ -30,7 +30,6 @@
 #include <QButtonGroup>
 
 #include <KComboBox>
-#include <KLocale>
 
 namespace Oxygen
 {

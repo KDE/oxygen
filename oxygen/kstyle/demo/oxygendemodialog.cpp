@@ -40,8 +40,6 @@
 #include <QDialogButtonBox>
 
 #include <QIcon>
-#include <KLocale>
-#include <KPushButton>
 #include <KStandardShortcut>
 
 namespace Oxygen

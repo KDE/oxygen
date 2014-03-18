@@ -229,12 +229,6 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>Oxygen::TabWidget</class>
    <extends>KTabWidget</extends>
    <header>oxygentabwidget.h</header>
