@@ -16,7 +16,8 @@ kconfig_add_kcfg_files(oxygenstyle_LIB_SRCS
   oxygeninactiveshadowconfiguration.kcfgc
 )
 
-add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
+add_library(oxygenstyle ${oxygenstyle_LIB_SRCS})
+generate_export_header(oxygenstyle BASE_NAME "OXYGEN" EXPORT_FILE_NAME oxygen_export.h)
 
 target_link_libraries(oxygenstyle Qt5::Core Qt5::Gui Qt5::Widgets )
 target_link_libraries(oxygenstyle KF5::ConfigCore KF5::ConfigWidgets KF5::GuiAddons)
