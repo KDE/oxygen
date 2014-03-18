@@ -52,13 +52,12 @@ kconfig_add_kcfg_files(oxygenstyleconfig_LIB_SRCS
     oxygeninactiveshadowconfiguration.kcfgc
 )
 
-add_library(oxygenstyleconfig SHARED
+add_library(oxygenstyleconfig
     ${oxygenstyleconfig_LIB_SRCS}
     ${oxygenstyleconfig_LIB_FORMS_HEADERS} )
 
-target_link_libraries(oxygenstyleconfig Qt5::Core Qt5::Gui Qt5::Widgets)
-target_link_libraries(oxygenstyleconfig KF5::I18n )
-target_link_libraries(oxygenstyleconfig oxygenstyle)
+target_link_libraries(oxygenstyleconfig Qt5::Core Qt5::Gui Qt5::Widgets
+                                        KF5::I18n KF5::KDE4Support oxygenstyle)
 
 set_target_properties(oxygenstyleconfig PROPERTIES VERSION 5.0.0 SOVERSION 5 DEFINE_SYMBOL MAKE_OXYGENSTYLE_LIB )
 install(TARGETS oxygenstyleconfig ${INSTALL_TARGETS_DEFAULT_ARGS} )
