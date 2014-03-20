@@ -12,3 +12,4 @@ if(X11_FOUND)
 endif()
 
 add_subdirectory(liboxygen)
+add_subdirectory(kstyle)
