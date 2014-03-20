@@ -19,12 +19,11 @@ kconfig_add_kcfg_files(oxygenstyle_LIB_SRCS
 add_library(oxygenstyle ${oxygenstyle_LIB_SRCS})
 generate_export_header(oxygenstyle BASE_NAME "OXYGEN" EXPORT_FILE_NAME oxygen_export.h)
 
-target_link_libraries(oxygenstyle Qt5::Core Qt5::Gui Qt5::Widgets )
-target_link_libraries(oxygenstyle KF5::ConfigCore KF5::ConfigWidgets KF5::GuiAddons)
-
+target_link_libraries(oxygenstyle Qt5::Core Qt5::Gui Qt5::Widgets
+                                  KF5::ConfigCore KF5::ConfigWidgets KF5::GuiAddons)
+target_include_directories(oxygenstyle PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 if( X11_FOUND )
-  target_link_libraries(oxygenstyle ${XCB_LIBRARIES})
-  target_link_libraries(oxygenstyle Qt5::X11Extras)
+  target_link_libraries(oxygenstyle ${XCB_LIBRARIES} Qt5::X11Extras)
 endif()
 
 set_target_properties(oxygenstyle PROPERTIES VERSION 5.0.0 SOVERSION 5 )

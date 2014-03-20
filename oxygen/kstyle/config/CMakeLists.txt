@@ -1,6 +1,3 @@
-include_directories( ${KDEBASE_WORKSPACE_SOURCE_DIR}/libs/oxygen)
-
-########### next target ###############
 set(kstyle_oxygen_config_PART_SRCS
     oxygenanimationconfigwidget.cpp
     oxygenfollowmouseanimationconfigitem.cpp
