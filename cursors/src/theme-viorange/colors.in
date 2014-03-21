@@ -1,0 +1,3 @@
+set(lighterColor "#fcaf3e")
+set(mediumColor "#f57900")
+set(darkerColor "#ce5c00")

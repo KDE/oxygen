@@ -1,0 +1,17 @@
+How to generate all the pngs and the SVGs and the cursor files:
+
+mkdir build
+cd build
+cmake ../src
+make [-j <n>] [theme-<color>|package-<color>]
+
+Where <n> is the number of jobs to run in parallel (man make), and <color> is the color you want generated if you want just one of them.
+
+The build system is still young, with rough edges (e.g. doesn't check if inkscape is found). Hopefully it will work,
+but there may still be problems.
+
+All of what you see here is to be considered a work in progress, and therefore must be considered as unreleased.
+
+Information on the graphics: Riccardo "ruphy" Iaconelli <riccardo@kde.org>
+Information on the build system: Matthew Woehlke <mw_triad@users.sourceforge.net> and Diego 'Flameeyes' Pettenò.
+Preferred place to get help: #oxygen on irc.freenode.net (http://freenode.net/)

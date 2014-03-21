@@ -13,3 +13,5 @@ endif()
 
 add_subdirectory(liboxygen)
 add_subdirectory(kstyle)
+add_subdirectory(cursors)
+

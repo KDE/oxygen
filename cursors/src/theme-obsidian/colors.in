@@ -1,0 +1,6 @@
+set(lighterColor "#787775")
+set(mediumColor "#201F1F")
+set(darkerColor "#0F0E0E")
+set(altLighterColor "#5177A6")
+set(altMediumColor "#184880")
+set(altDarkerColor "#122F50")
