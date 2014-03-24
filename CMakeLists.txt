@@ -8,8 +8,18 @@ find_package(ECM 0.0.9 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
 find_package(Qt5 REQUIRED CONFIG COMPONENTS Widgets)
-find_package(KF5 REQUIRED CONFIG COMPONENTS I18n Config GuiAddons WidgetsAddons Service Completion FrameworkIntegration KDE4Support)
+find_package(KF5 REQUIRED CONFIG COMPONENTS
+    I18n
+    Config
+    GuiAddons
+    WidgetsAddons
+    Service
+    Completion
+    FrameworkIntegration
+    WindowSystem
+    KDE4Support)
 
+find_package(KDecorations REQUIRED CONFIG)
 find_package(X11)
 set_package_properties(X11 PROPERTIES DESCRIPTION "X11 libraries"
                         URL "http://www.x.org"
@@ -33,6 +43,7 @@ include(GenerateExportHeader)
 add_subdirectory(liboxygen)
 add_subdirectory(kstyle)
 add_subdirectory(cursors)
+add_subdirectory(kwin-decoration)
 
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
