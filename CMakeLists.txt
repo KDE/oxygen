@@ -19,7 +19,9 @@ find_package(KF5 REQUIRED CONFIG COMPONENTS
     WindowSystem
     KDE4Support)
 
-find_package(KDecorations REQUIRED CONFIG)
+if(NOT _kdeworkspace_combined_build)
+    find_package(KDecorations REQUIRED CONFIG)
+endif()
 find_package(X11)
 set_package_properties(X11 PROPERTIES DESCRIPTION "X11 libraries"
                         URL "http://www.x.org"
