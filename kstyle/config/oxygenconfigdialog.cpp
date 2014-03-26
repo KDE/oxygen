@@ -29,6 +29,7 @@
 #include <QIcon>
 #include <QLabel>
 #include <QLayout>
+#include <QLibrary>
 #include <QPushButton>
 #include <QShortcut>
 #include <QTextStream>
@@ -36,7 +37,7 @@
 
 #include <KConfigGroup>
 #include <KLocalizedString>
-#include <KLibrary>
+#include <KPluginLoader>
 #include <KStandardShortcut>
 
 namespace Oxygen
@@ -162,11 +163,11 @@ namespace Oxygen
     {
 
         // load style from plugin
-        KLibrary* library = new KLibrary( QStringLiteral( "kstyle_oxygen_config" ) );
+        QLibrary library( KPluginLoader::findPlugin( QStringLiteral( "kstyle_oxygen_config" ) ) );
 
-        if (library->load())
+        if (library.load())
         {
-            KLibrary::void_function_ptr alloc_ptr = library->resolveFunction( "allocate_kstyle_config" );
+            QFunctionPointer alloc_ptr = library.resolve( "allocate_kstyle_config" );
             if (alloc_ptr != NULL)
             {
 
@@ -195,11 +196,10 @@ namespace Oxygen
 
         } else {
 
-            delete library;
-
             // fall back to warning label
             QLabel* label = new QLabel();
             label->setText( i18n( "Unable to find oxygen style configuration plugin" ) );
+
             return new KPageWidgetItem( label );
 
         }
@@ -211,11 +211,11 @@ namespace Oxygen
     {
 
         // load decoration from plugin
-        KLibrary* library = new KLibrary( QStringLiteral( "kwin_oxygen_config" ) );
+        QLibrary library( KPluginLoader::findPlugin( QStringLiteral( "kwin_oxygen_config" ) ) );
 
-        if (library->load())
+        if (library.load())
         {
-            KLibrary::void_function_ptr alloc_ptr = library->resolveFunction( "allocate_config" );
+            QFunctionPointer alloc_ptr = library.resolve( "allocate_config" );
             if (alloc_ptr != NULL)
             {
 
@@ -242,7 +242,6 @@ namespace Oxygen
             }
 
         } else {
-            delete library;
 
             // fall back to warning label
             QLabel* label = new QLabel();
