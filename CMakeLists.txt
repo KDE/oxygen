@@ -19,7 +19,7 @@ find_package(KF5 REQUIRED CONFIG COMPONENTS
     WindowSystem
     KDE4Support)
 
-if(NOT _kdeworkspace_combined_build)
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     find_package(KDecorations REQUIRED CONFIG)
 endif()
 find_package(X11)
