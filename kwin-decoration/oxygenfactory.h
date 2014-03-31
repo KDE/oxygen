@@ -33,9 +33,7 @@
 #include "oxygenshadowcache.h"
 
 #include <QObject>
-//FIXME: #include <kdecorationfactory.h>
-//#include <kdecorationfactory.h>
-#include "../../kwin/libkdecorations/kdecorationfactory.h"
+#include <kdecorationfactory.h>
 
 namespace Oxygen
 {
