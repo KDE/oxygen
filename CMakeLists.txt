@@ -19,9 +19,8 @@ find_package(KF5 REQUIRED CONFIG COMPONENTS
     WindowSystem
     KDE4Support)
 
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
-    find_package(KDecorations REQUIRED CONFIG)
-endif()
+find_package(KDecorations REQUIRED CONFIG)
+
 find_package(X11)
 set_package_properties(X11 PROPERTIES DESCRIPTION "X11 libraries"
                         URL "http://www.x.org"
@@ -47,6 +46,4 @@ add_subdirectory(kstyle)
 add_subdirectory(cursors)
 add_subdirectory(kwin-decoration)
 
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
-    feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
-endif()
+feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
