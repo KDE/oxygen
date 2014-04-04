@@ -45,5 +45,6 @@ add_subdirectory(liboxygen)
 add_subdirectory(kstyle)
 add_subdirectory(cursors)
 add_subdirectory(kwin-decoration)
+add_subdirectory(sounds)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
