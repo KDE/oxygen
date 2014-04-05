@@ -75,7 +75,6 @@ target_link_libraries(oxygenstyleconfig
         Qt5::Widgets
     PRIVATE
         KF5::I18n
-        KF5::KDE4Support
 )
 
 set_target_properties(oxygenstyleconfig PROPERTIES VERSION 5.0.0 SOVERSION 5 DEFINE_SYMBOL MAKE_OXYGENSTYLE_LIB )

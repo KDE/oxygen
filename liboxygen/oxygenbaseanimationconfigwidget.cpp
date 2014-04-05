@@ -33,7 +33,6 @@
 #include <QButtonGroup>
 #include <QHoverEvent>
 #include <QTextStream>
-#include <KLocale>
 
 namespace Oxygen
 {
