@@ -18,7 +18,11 @@ find_package(KF5 REQUIRED CONFIG COMPONENTS
     FrameworkIntegration
     WindowSystem)
 
-find_package(KDecorations REQUIRED CONFIG)
+find_package(KDecorations CONFIG)
+set_package_properties(KDecorations PROPERTIES
+                       TYPE OPTIONAL
+                       PURPOSE "Required to oxygen window decoration for kwin"
+                      )
 
 find_package(X11)
 set_package_properties(X11 PROPERTIES DESCRIPTION "X11 libraries"
@@ -41,7 +45,10 @@ include(GenerateExportHeader)
 add_subdirectory(liboxygen)
 add_subdirectory(kstyle)
 add_subdirectory(cursors)
-add_subdirectory(kwin-decoration)
+if( KDecorations_FOUND )
+  add_subdirectory(kwin-decoration)
+endif()
+
 add_subdirectory(sounds)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
