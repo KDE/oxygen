@@ -189,6 +189,8 @@ namespace Oxygen
 
                 // fall back to warning label
                 QLabel* label = new QLabel();
+                label->setMargin(5);
+                label->setAlignment( Qt::AlignCenter );
                 label->setText( i18n( "Unable to find oxygen style configuration plugin" ) );
                 return new KPageWidgetItem( label );
 
@@ -198,6 +200,8 @@ namespace Oxygen
 
             // fall back to warning label
             QLabel* label = new QLabel();
+            label->setMargin(5);
+            label->setAlignment( Qt::AlignCenter );
             label->setText( i18n( "Unable to find oxygen style configuration plugin" ) );
 
             return new KPageWidgetItem( label );
@@ -236,6 +240,8 @@ namespace Oxygen
 
                 // fall back to warning label
                 QLabel* label = new QLabel();
+                label->setMargin(5);
+                label->setAlignment( Qt::AlignCenter );
                 label->setText( i18n( "Unable to find oxygen decoration configuration plugin" ) );
                 return new KPageWidgetItem( label );
 
@@ -245,6 +251,8 @@ namespace Oxygen
 
             // fall back to warning label
             QLabel* label = new QLabel();
+            label->setMargin(5);
+            label->setAlignment( Qt::AlignCenter );
             label->setText( i18n( "Unable to find oxygen decoration configuration plugin" ) );
             return new KPageWidgetItem( label );
 
