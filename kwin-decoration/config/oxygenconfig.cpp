@@ -87,7 +87,7 @@ namespace Oxygen
 
         // load standard configuration
         ConfigurationPtr configuration( new Configuration() );
-        configuration->readConfig();
+        configuration->load();
         loadConfiguration( configuration );
 
         // load shadows
@@ -107,7 +107,7 @@ namespace Oxygen
     {
 
         ConfigurationPtr configuration( new Configuration() );
-        configuration->readConfig();
+        configuration->load();
         bool modified( false );
 
         // exceptions
@@ -125,7 +125,7 @@ namespace Oxygen
 
         // create configuration from group
         ConfigurationPtr configuration( new Configuration() );
-        configuration->readConfig();
+        configuration->load();
 
         // save config widget
         _configWidget->setConfiguration( configuration );

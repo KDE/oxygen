@@ -82,7 +82,7 @@ namespace Oxygen
         // initialize default configuration and read
         if( !_defaultConfiguration ) _defaultConfiguration = ConfigurationPtr(new Configuration());
         _defaultConfiguration->setCurrentGroup( QStringLiteral("Windeco") );
-        _defaultConfiguration->readConfig();
+        _defaultConfiguration->load();
 
         // clear exceptions and read
         ExceptionList exceptions;
