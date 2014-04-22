@@ -38,6 +38,7 @@
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KPluginLoader>
+#include <KPluginTrader>
 #include <KStandardShortcut>
 
 namespace Oxygen
@@ -214,40 +215,22 @@ namespace Oxygen
     KPageWidgetItem* ConfigDialog::loadDecorationConfig( void )
     {
 
-        // load decoration from plugin
-        QLibrary library( KPluginLoader::findPlugin( QStringLiteral( "kwin_oxygen_config" ) ) );
+        // create container
+        QWidget* container = new QWidget();
+        container->setLayout( new QVBoxLayout() );
 
-        if (library.load())
-        {
-            QFunctionPointer alloc_ptr = library.resolve( "allocate_config" );
-            if (alloc_ptr != NULL)
-            {
+        _decorationPluginObject = KPluginTrader::self()->createInstanceFromQuery<QObject>(
+            QStringLiteral("kf5/kwin/kdecorations/config"),
+            QString(),
+            QStringLiteral("[X-KDE-PluginInfo-Name] == 'Oxygen'"),
+            container,
+            0,
+            QVariantList() );
 
-                // pointer to decoration plugin allocation function
-                QObject* (*allocator)( KConfigGroup&, QWidget* );
-                allocator = (QObject* (*)(KConfigGroup& conf, QWidget* parent))alloc_ptr;
+        if( _decorationPluginObject ) return new KPageWidgetItem( container );
+        else {
 
-                // create container
-                QWidget* container = new QWidget();
-                container->setLayout( new QVBoxLayout() );
-
-                // allocate config object
-                KConfigGroup config;
-                _decorationPluginObject = (QObject*)(allocator( config, container ));
-                return new KPageWidgetItem( container );
-
-            } else {
-
-                // fall back to warning label
-                QLabel* label = new QLabel();
-                label->setMargin(5);
-                label->setAlignment( Qt::AlignCenter );
-                label->setText( i18n( "Unable to find oxygen decoration configuration plugin" ) );
-                return new KPageWidgetItem( label );
-
-            }
-
-        } else {
+            delete container;
 
             // fall back to warning label
             QLabel* label = new QLabel();
