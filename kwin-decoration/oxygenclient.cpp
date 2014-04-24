@@ -1508,14 +1508,6 @@ namespace Oxygen
             painter.setClipRegion( event->region() );
             painter.drawPixmap( QPoint(), _pixmap );
 
-            // update buttons
-            QList<Button*> buttons( widget()->findChildren<Button*>() );
-            foreach( Button* button, buttons )
-            {
-                if( event->rect().intersects( button->geometry() ) )
-                { button->update(); }
-            }
-
         }
 
 
