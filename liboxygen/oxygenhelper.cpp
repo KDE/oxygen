@@ -1096,7 +1096,7 @@ namespace Oxygen
         xcb_get_property_cookie_t cookie( xcb_get_property( _xcbConnection, 0, id, atom, XCB_ATOM_CARDINAL, 0, 1) );
         ScopedPointer<xcb_get_property_reply_t> reply( xcb_get_property_reply( _xcbConnection, cookie, nullptr ) );
 
-        return reply && *reinterpret_cast<int32_t*>(xcb_get_property_value( reply.data() ) );
+        return reply && xcb_get_property_value_length( reply.data() ) && reinterpret_cast<int32_t*>(xcb_get_property_value( reply.data() ) )[0];
 
     }
 
