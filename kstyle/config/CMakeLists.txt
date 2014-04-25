@@ -32,12 +32,12 @@ set(oxygen_settings_SOURCES
 set(oxygen_settings_FORMS ui/oxygenconfigdialog.ui)
 qt5_wrap_ui(oxygen_settings_FORMS_HEADERS ${oxygen_settings_FORMS})
 
-add_executable(oxygen-settings
+add_executable(oxygen-settings5
     ${oxygen_settings_SOURCES}
     ${oxygen_settings_FORMS_HEADERS}
 )
 
-target_link_libraries(oxygen-settings Qt5::Core Qt5::Gui Qt5::Widgets)
-target_link_libraries(oxygen-settings KF5::I18n KF5::WidgetsAddons KF5::ConfigCore KF5::ConfigGui KF5::Service)
+target_link_libraries(oxygen-settings5 Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(oxygen-settings5 KF5::I18n KF5::WidgetsAddons KF5::ConfigCore KF5::ConfigGui KF5::Service)
 
-install (TARGETS oxygen-settings ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install (TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS} )

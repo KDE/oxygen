@@ -29,13 +29,13 @@ set( oxygen_demo_FORMS
 
 qt5_wrap_ui(oxygen_demo_FORMS_HEADERS ${oxygen_demo_FORMS})
 
-add_executable( oxygen-demo
+add_executable( oxygen-demo5
     ${oxygen_demo_SOURCES}
     ${oxygen_demo_FORMS_HEADERS}
  )
 
-target_link_libraries(oxygen-demo Qt5::Core Qt5::Gui Qt5::Widgets)
-target_link_libraries(oxygen-demo KF5::Completion KF5::ConfigGui KF5::WidgetsAddons KF5::I18n )
+target_link_libraries(oxygen-demo5 Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(oxygen-demo5 KF5::Completion KF5::ConfigGui KF5::WidgetsAddons KF5::I18n )
 
 ########### install files ###############
-install(TARGETS oxygen-demo ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS oxygen-demo5 ${INSTALL_TARGETS_DEFAULT_ARGS} )
