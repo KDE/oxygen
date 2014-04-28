@@ -220,7 +220,7 @@ namespace Oxygen
         container->setLayout( new QVBoxLayout() );
 
         _decorationPluginObject = KPluginTrader::self()->createInstanceFromQuery<QObject>(
-            QStringLiteral("kf5/kwin/kdecorations/config"),
+            QStringLiteral("kwin/kdecorations/config"),
             QString(),
             QStringLiteral("[X-KDE-PluginInfo-Name] == 'Oxygen'"),
             container,
