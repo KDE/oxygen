@@ -164,7 +164,7 @@ namespace Oxygen
     {
 
         // load style from plugin
-        QLibrary library( KPluginLoader::findPlugin( QStringLiteral( "kstyle_oxygen_config" ) ) );
+        QLibrary library( KPluginLoader::findPlugin( QStringLiteral( "kf5/kstyle_oxygen_config" ) ) );
 
         if (library.load())
         {
