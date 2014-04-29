@@ -90,24 +90,19 @@ namespace Oxygen
     //_____________________________________________
     void SizeGrip::embed( void )
     {
-        xcb_window_t window_id = _client->windowId();
+        xcb_window_t windowId = _client->windowId();
         if( _client->isPreview() ) {
 
             setParent( _client->widget() );
 
-        } else if( window_id ) {
+        } else if( windowId ) {
 
-            xcb_window_t current = window_id;
+            // find client's parent
+            xcb_window_t current = windowId;
             xcb_connection_t* connection = _client->helper().xcbConnection();
-            while( true )
-            {
-                xcb_query_tree_cookie_t cookie = xcb_query_tree_unchecked( connection, current );
-                Helper::ScopedPointer<xcb_query_tree_reply_t> tree(xcb_query_tree_reply( connection, cookie, nullptr ) );
-                if (tree.isNull()) break;
-
-                if (tree->parent && tree->parent != tree->root && tree->parent != current) current = tree->parent;
-                else break;
-            }
+            xcb_query_tree_cookie_t cookie = xcb_query_tree_unchecked( connection, current );
+            Helper::ScopedPointer<xcb_query_tree_reply_t> tree(xcb_query_tree_reply( connection, cookie, nullptr ) );
+            if( !tree.isNull() && tree->parent ) current = tree->parent;
 
             // reparent
             xcb_reparent_window( connection, winId(), current, 0, 0 );
