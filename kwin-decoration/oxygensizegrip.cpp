@@ -84,7 +84,6 @@ namespace Oxygen
     {
         static const uint32_t value = XCB_STACK_MODE_ABOVE;
         xcb_configure_window( _client->helper().xcbConnection(), winId(), XCB_CONFIG_WINDOW_STACK_MODE, &value );
-        xcb_map_window( _client->helper().xcbConnection(), winId() );
     }
 
     //_____________________________________________
@@ -222,11 +221,11 @@ namespace Oxygen
 
         } else {
 
-            position -= QPoint(
-                _client->layoutMetric( Client::LM_BorderRight ),
-                _client->layoutMetric( Client::LM_BorderBottom ) );
+            position.ry() -= 1 + 2*( _client->titleRect().height() + _client->layoutMetric( Client::LM_TitleEdgeTop ) );
+
         }
 
+        // 540 - GripSize - Offset - 40;
         move( position );
 
     }
