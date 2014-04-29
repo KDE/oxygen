@@ -17,4 +17,4 @@ if(X11_FOUND)
   target_link_libraries(oxygen-shadow-demo5 ${X11_LIBRARIES})
 endif()
 
-install(TARGETS oxygen-shadow-demo5 ${INSTALL_TARGETS_DEFAULT_ARGS})
+# install(TARGETS oxygen-shadow-demo5 ${INSTALL_TARGETS_DEFAULT_ARGS})
