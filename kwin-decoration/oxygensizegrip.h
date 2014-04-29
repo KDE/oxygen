@@ -85,8 +85,8 @@ namespace Oxygen
 
         //! grip size
         enum {
-            OFFSET = 0,
-            GRIP_SIZE = 14
+            Offset = 0,
+            GripSize = 14
         };
 
         // oxygen client

@@ -52,14 +52,14 @@ namespace Oxygen
         setCursor( Qt::SizeFDiagCursor );
 
         // size
-        setFixedSize( QSize( GRIP_SIZE, GRIP_SIZE ) );
+        setFixedSize( QSize( GripSize, GripSize ) );
 
         // mask
         QPolygon p;
-        p << QPoint( 0, GRIP_SIZE )
-            << QPoint( GRIP_SIZE, 0 )
-            << QPoint( GRIP_SIZE, GRIP_SIZE )
-            << QPoint( 0, GRIP_SIZE );
+        p << QPoint( 0, GripSize )
+            << QPoint( GripSize, 0 )
+            << QPoint( GripSize, GripSize )
+            << QPoint( 0, GripSize );
 
         setMask( QRegion( p ) );
 
@@ -146,21 +146,21 @@ namespace Oxygen
 
         // polygon
         QPolygon p;
-        p << QPoint( 0, GRIP_SIZE )
-            << QPoint( GRIP_SIZE, 0 )
-            << QPoint( GRIP_SIZE, GRIP_SIZE )
-            << QPoint( 0, GRIP_SIZE );
+        p << QPoint( 0, GripSize )
+            << QPoint( GripSize, 0 )
+            << QPoint( GripSize, GripSize )
+            << QPoint( 0, GripSize );
         painter.drawPolygon( p );
 
         // diagonal border
         painter.setBrush( Qt::NoBrush );
         painter.setPen( QPen( dark, 3 ) );
-        painter.drawLine( QPoint( 0, GRIP_SIZE ), QPoint( GRIP_SIZE, 0 ) );
+        painter.drawLine( QPoint( 0, GripSize ), QPoint( GripSize, 0 ) );
 
         // side borders
         painter.setPen( QPen( light, 1.5 ) );
-        painter.drawLine( QPoint( 1, GRIP_SIZE ), QPoint( GRIP_SIZE, GRIP_SIZE ) );
-        painter.drawLine( QPoint( GRIP_SIZE, 1 ), QPoint( GRIP_SIZE, GRIP_SIZE ) );
+        painter.drawLine( QPoint( 1, GripSize ), QPoint( GripSize, GripSize ) );
+        painter.drawLine( QPoint( GripSize, 1 ), QPoint( GripSize, GripSize ) );
         painter.end();
 
     }
@@ -211,8 +211,8 @@ namespace Oxygen
     {
 
         QPoint position(
-            _client->width() - GRIP_SIZE - OFFSET,
-            _client->height() - GRIP_SIZE - OFFSET );
+            _client->width() - GripSize - Offset,
+            _client->height() - GripSize - Offset );
 
         if( _client->isPreview() )
         {

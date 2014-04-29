@@ -1450,8 +1450,10 @@ namespace Oxygen
             else mask.translate( -layoutMetric( LM_OuterPaddingLeft ), -layoutMetric( LM_OuterPaddingTop ) );
 
             // only return non-empty region on the sides for which there is no border
-            if( configuration()->frameBorder() == Configuration::BorderNone ) return QRegion( rect.adjusted( -3, 0, 3, 3 ) ) - mask;
-            else if( configuration()->frameBorder() == Configuration::BorderNoSide ) return QRegion( rect.adjusted( -3, 0, 3, 0 ) ) - mask;
+            enum { extendedBorderSize = 3 };
+
+            if( configuration()->frameBorder() == Configuration::BorderNone ) return QRegion( rect.adjusted( -extendedBorderSize, 0, extendedBorderSize, extendedBorderSize ) ) - mask;
+            else if( configuration()->frameBorder() == Configuration::BorderNoSide ) return QRegion( rect.adjusted( -extendedBorderSize, 0, extendedBorderSize, 0 ) ) - mask;
             else if( !compositingActive() ) return QRegion( rect ) - mask;
 
         }
