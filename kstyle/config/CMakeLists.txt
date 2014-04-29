@@ -22,7 +22,7 @@ target_link_libraries(kstyle_oxygen_config Qt5::Core Qt5::Gui Qt5::Widgets Qt5::
 target_link_libraries(kstyle_oxygen_config KF5::Completion KF5::I18n)
 target_link_libraries(kstyle_oxygen_config oxygenstyleconfig)
 
-install(TARGETS kstyle_oxygen_config DESTINATION ${QT_PLUGIN_INSTALL_DIR}/kf5 )
+install(TARGETS kstyle_oxygen_config DESTINATION ${QT_PLUGIN_INSTALL_DIR} )
 
 ########### next target ###############
 set(oxygen_settings_SOURCES
