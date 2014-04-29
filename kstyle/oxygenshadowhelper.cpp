@@ -401,13 +401,9 @@ namespace Oxygen
                 data << _size << _size << _size << _size;
             }
 
-        } else if( isToolBar( widget ) ) {
-
-            data << _size << _size << _size << _size;
-
         } else {
 
-            data << _size - 1 << _size - 1 << _size - 1 << _size - 1;
+            data << _size << _size << _size << _size;
 
         }
 
