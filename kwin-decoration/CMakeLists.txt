@@ -3,7 +3,6 @@ add_definitions (-DAPP_VERSION=\\\"${KWIN_VERSION}\\\")
 add_definitions(-DHAVE_X11=${X11_FOUND})
 add_subdirectory(config)
 add_subdirectory(demo)
-add_subdirectory(data)
 
 ########### next target ###############
 set(kwin_oxygen_SRCS
