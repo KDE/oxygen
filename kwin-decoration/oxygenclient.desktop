@@ -1,10 +1,12 @@
 # KDE Desktop Entry
 [Desktop Entry]
 Name=Oxygen
+Name[nl]=Oxygen
 Name[uk]=Oxygen
 Name[x-test]=xxOxygenxx
 
 Comment=Styling of the next generation desktop
+Comment[nl]=De stijl voor de volgende generatie bureaubladen
 Comment[uk]=Стиль стільниці наступного покоління
 Comment[x-test]=xxStyling of the next generation desktopxx
 

@@ -1,9 +1,11 @@
 [Misc]
 Name=Oxygen
+Name[nl]=Oxygen
 Name[uk]=Oxygen
 Name[x-test]=xxOxygenxx
 ConfigPage=kstyle_oxygen_config
 Comment=Styling of the next generation desktop
+Comment[nl]=De stijl voor de volgende generatie bureaubladen
 Comment[uk]=Стиль стільниці наступного покоління
 Comment[x-test]=xxStyling of the next generation desktopxx
 [KDE]
