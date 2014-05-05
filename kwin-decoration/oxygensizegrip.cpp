@@ -111,6 +111,7 @@ namespace Oxygen
 
             // reparent
             xcb_reparent_window( connection, winId(), current, 0, 0 );
+            setWindowTitle( "Oxygen::SizeGrip" );
 
         } else {
 
