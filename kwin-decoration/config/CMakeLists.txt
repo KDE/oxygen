@@ -25,7 +25,7 @@ add_library(kwin_oxygen_config MODULE
 
 target_link_libraries(kwin_oxygen_config Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
 target_link_libraries(kwin_oxygen_config KF5::I18n KF5::WindowSystem KF5::Completion)
-target_link_libraries(kwin_oxygen_config kdecorations oxygenstyle  oxygenstyleconfig)
+target_link_libraries(kwin_oxygen_config kdecorations oxygenstyle5  oxygenstyleconfig5)
 
 if(X11_FOUND)
   target_link_libraries(kwin_oxygen_config XCB::XCB)

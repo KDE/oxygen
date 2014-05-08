@@ -24,7 +24,7 @@ target_link_libraries(kwin3_oxygen KF5::GuiAddons KF5::I18n KF5::WindowSystem KF
 
 target_link_libraries(kwin3_oxygen kdecorations)
 
-target_link_libraries(kwin3_oxygen oxygenstyle)
+target_link_libraries(kwin3_oxygen oxygenstyle5)
 
 kservice_desktop_to_json(kwin3_oxygen oxygenclient.desktop)
 

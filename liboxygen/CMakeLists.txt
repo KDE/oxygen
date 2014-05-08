@@ -16,12 +16,12 @@ kconfig_add_kcfg_files(oxygenstyle_LIB_SRCS
   oxygeninactiveshadowconfiguration.kcfgc
 )
 
-add_library(oxygenstyle ${oxygenstyle_LIB_SRCS})
-generate_export_header(oxygenstyle BASE_NAME "OXYGEN" EXPORT_FILE_NAME oxygen_export.h)
+add_library(oxygenstyle5 ${oxygenstyle_LIB_SRCS})
+generate_export_header(oxygenstyle5 BASE_NAME "OXYGEN" EXPORT_FILE_NAME oxygen_export.h)
 
 # NB: although we install no headers, we still need to have a link
 #     interface, since other Oxygen targets link to this library
-target_link_libraries(oxygenstyle
+target_link_libraries(oxygenstyle5
     PUBLIC
         Qt5::Core
         Qt5::Gui
@@ -31,13 +31,13 @@ target_link_libraries(oxygenstyle
     PRIVATE
         KF5::GuiAddons
 )
-target_include_directories(oxygenstyle PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
+target_include_directories(oxygenstyle5 PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 if( X11_FOUND )
-    target_link_libraries(oxygenstyle PRIVATE ${XCB_LIBRARIES} Qt5::X11Extras)
+    target_link_libraries(oxygenstyle5 PRIVATE ${XCB_LIBRARIES} Qt5::X11Extras)
 endif()
 
-set_target_properties(oxygenstyle PROPERTIES VERSION 5.0.0 SOVERSION 5 )
-install(TARGETS oxygenstyle ${INSTALL_TARGETS_DEFAULT_ARGS} )
+set_target_properties(oxygenstyle5 PROPERTIES VERSION 5.0.0 SOVERSION 5 )
+install(TARGETS oxygenstyle5 ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ################# liboxygenstyleconfig #################
 set(oxygenstyleconfig_LIB_SRCS
@@ -61,15 +61,15 @@ kconfig_add_kcfg_files(oxygenstyleconfig_LIB_SRCS
     oxygeninactiveshadowconfiguration.kcfgc
 )
 
-add_library(oxygenstyleconfig
+add_library(oxygenstyleconfig5
     ${oxygenstyleconfig_LIB_SRCS}
     ${oxygenstyleconfig_LIB_FORMS_HEADERS} )
 
 # NB: although we install no headers, we still need to have a link
 #     interface, since other Oxygen targets link to this library
-target_link_libraries(oxygenstyleconfig
+target_link_libraries(oxygenstyleconfig5
     PUBLIC
-        oxygenstyle
+        oxygenstyle5
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
@@ -77,7 +77,7 @@ target_link_libraries(oxygenstyleconfig
         KF5::I18n
 )
 
-set_target_properties(oxygenstyleconfig PROPERTIES VERSION 5.0.0 SOVERSION 5 DEFINE_SYMBOL MAKE_OXYGENSTYLE_LIB )
-install(TARGETS oxygenstyleconfig ${INSTALL_TARGETS_DEFAULT_ARGS} )
+set_target_properties(oxygenstyleconfig5 PROPERTIES VERSION 5.0.0 SOVERSION 5 DEFINE_SYMBOL MAKE_OXYGENSTYLE_LIB )
+install(TARGETS oxygenstyleconfig5 ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 # Note: no headers installed

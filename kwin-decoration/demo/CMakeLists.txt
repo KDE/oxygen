@@ -11,7 +11,7 @@ add_executable(oxygen-shadow-demo5 ${oxygen_shadow_demo_SOURCES} ${oxygen_shadow
 
 target_link_libraries(oxygen-shadow-demo5 Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
 target_link_libraries(oxygen-shadow-demo5 KF5::I18n)
-target_link_libraries(oxygen-shadow-demo5 oxygenstyle )
+target_link_libraries(oxygen-shadow-demo5 oxygenstyle5 )
 
 if(X11_FOUND)
   target_link_libraries(oxygen-shadow-demo5 ${X11_LIBRARIES})

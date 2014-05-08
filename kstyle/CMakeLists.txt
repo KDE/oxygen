@@ -78,7 +78,7 @@ add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
 target_link_libraries(oxygen Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
 target_link_libraries(oxygen KF5::GuiAddons KF5::Style KF5::WindowSystem)
-target_link_libraries(oxygen oxygenstyle)
+target_link_libraries(oxygen oxygenstyle5)
 
 if(X11_FOUND)
   target_link_libraries(oxygen ${XCB_LIBRARIES})
