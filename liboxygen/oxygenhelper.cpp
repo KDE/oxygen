@@ -151,12 +151,6 @@ namespace Oxygen
         const QRect r = window->rect();
         int height( window->frameGeometry().height() );
         int width( window->frameGeometry().width() );
-        if( yShift > 0 )
-        {
-            height -= 2*yShift;
-            width -= 2*yShift;
-
-        }
 
         // gradient offset
         const int offset( gradientHeight - 20 );
