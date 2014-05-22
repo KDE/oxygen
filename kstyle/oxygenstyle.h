@@ -231,14 +231,6 @@ namespace Oxygen
         //! load configuration
         void loadConfiguration();
 
-        //! helper
-        StyleHelper& helper( void ) const
-        { return *_helper; }
-
-        //! shadow Helper
-        ShadowHelper& shadowHelper( void ) const
-        { return *_shadowHelper; }
-
         //!@name enumerations and convenience classes
         //@{
 
