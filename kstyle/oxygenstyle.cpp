@@ -660,11 +660,10 @@ namespace Oxygen
                 else break;
             }
 
-            case PM_DefaultChildMargin: return 4;
-            case PM_DefaultTopLevelMargin: return 11;
-            case PM_DefaultLayoutSpacing: return 4;
-            case PM_LayoutHorizontalSpacing: return -1;
-            case PM_LayoutVerticalSpacing: return -1;
+            case PM_DefaultChildMargin: return 4; //NOTE deprecated. We still define as the replacement (PM_LayoutLeftMargin) still uses this
+            case PM_DefaultTopLevelMargin: return 11; //NOTE deprecated
+            case PM_LayoutHorizontalSpacing: return 4;
+            case PM_LayoutVerticalSpacing: return 4;
 
             // buttons
             case PM_ButtonDefaultIndicator: return 0;
@@ -742,7 +741,7 @@ namespace Oxygen
             case PM_TitleBarHeight: return 20;
 
             // spacing between widget and scrollbars
-            case PM_ScrollView_ScrollBarSpacing:
+            case PM_ScrollView_ScrollBarSpacing: //NOTE Deprecated
             if( const QFrame* frame = qobject_cast<const QFrame*>( widget ) )
             {
 
