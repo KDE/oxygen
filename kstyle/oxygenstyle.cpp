@@ -830,6 +830,7 @@ namespace Oxygen
             case SH_Menu_MouseTracking: return true;
 
             case SH_Menu_SubMenuPopupDelay: return 150;
+            case SH_Menu_SloppySubMenus: return true;
             case SH_Menu_SupportsSections: return true;
 
             case SH_TitleBar_NoBorder: return 0;
