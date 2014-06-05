@@ -27,7 +27,7 @@ set( oxygen_demo_FORMS
     ui/oxygentabdemowidget.ui
 )
 
-qt5_wrap_ui(oxygen_demo_FORMS_HEADERS ${oxygen_demo_FORMS})
+ki18n_wrap_ui(oxygen_demo_FORMS_HEADERS ${oxygen_demo_FORMS})
 
 add_executable( oxygen-demo5
     ${oxygen_demo_SOURCES}

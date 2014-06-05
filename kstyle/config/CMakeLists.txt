@@ -1,3 +1,4 @@
+add_definitions(-DTRANSLATION_DOMAIN=\"oxygen_style_config\")
 set(kstyle_oxygen_config_PART_SRCS
     oxygenanimationconfigwidget.cpp
     oxygenfollowmouseanimationconfigitem.cpp
@@ -11,7 +12,7 @@ set( kstyle_oxygen_config_PART_FORMS
     ui/oxygenstyleconfig.ui
 )
 
-qt5_wrap_ui(kstyle_oxygen_config_PART_FORMS_HEADERS ${kstyle_oxygen_config_PART_FORMS})
+ki18n_wrap_ui(kstyle_oxygen_config_PART_FORMS_HEADERS ${kstyle_oxygen_config_PART_FORMS})
 
 add_library(kstyle_oxygen_config MODULE
     ${kstyle_oxygen_config_PART_SRCS}
@@ -30,7 +31,7 @@ set(oxygen_settings_SOURCES
     main.cpp)
 
 set(oxygen_settings_FORMS ui/oxygenconfigdialog.ui)
-qt5_wrap_ui(oxygen_settings_FORMS_HEADERS ${oxygen_settings_FORMS})
+ki18n_wrap_ui(oxygen_settings_FORMS_HEADERS ${oxygen_settings_FORMS})
 
 add_executable(oxygen-settings5
     ${oxygen_settings_SOURCES}

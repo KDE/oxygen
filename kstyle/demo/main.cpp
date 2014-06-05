@@ -33,7 +33,7 @@
 
 int main(int argc, char *argv[])
 {
-
+    KLocalizedString::setApplicationDomain("oxygen_style_demo");
     QApplication app( argc, argv );
     app.setApplicationName( i18n( "Oxygen Demo" ) );
     app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
