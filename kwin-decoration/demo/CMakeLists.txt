@@ -5,7 +5,7 @@ set(oxygen_shadow_demo_SOURCES
 
 set(oxygen_shadow_demo_FORMS ui/oxygenshadowdemo.ui)
 
-qt5_wrap_ui(oxygen_shadow_demo_FORMS_HEADERS ${oxygen_shadow_demo_FORMS})
+ki18n_wrap_ui(oxygen_shadow_demo_FORMS_HEADERS ${oxygen_shadow_demo_FORMS})
 
 add_executable(oxygen-shadow-demo5 ${oxygen_shadow_demo_SOURCES} ${oxygen_shadow_demo_FORMS_HEADERS})
 

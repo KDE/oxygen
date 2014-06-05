@@ -18,7 +18,7 @@ set( kwin_oxygen_config_PART_FORMS
    ui/oxygenexceptionlistwidget.ui
 )
 
-qt5_wrap_ui(kwin_oxygen_config_PART_FORMS_HEADERS ${kwin_oxygen_config_PART_FORMS})
+ki18n_wrap_ui(kwin_oxygen_config_PART_FORMS_HEADERS ${kwin_oxygen_config_PART_FORMS})
 add_library(kwin_oxygen_config MODULE
     ${kwin_oxygen_config_PART_SRCS}
     ${kwin_oxygen_config_PART_FORMS_HEADERS})

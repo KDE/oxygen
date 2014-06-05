@@ -1,6 +1,7 @@
 ########### add version number into compilation defines
 add_definitions (-DAPP_VERSION=\\\"${KWIN_VERSION}\\\")
 add_definitions(-DHAVE_X11=${X11_FOUND})
+add_definitions(-DTRANSLATION_DOMAIN=\"oxygen_kwin_deco\")
 add_subdirectory(config)
 add_subdirectory(demo)
 
