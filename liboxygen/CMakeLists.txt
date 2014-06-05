@@ -1,5 +1,6 @@
 ################# X11 #################
 add_definitions( -DHAVE_X11=${X11_FOUND} )
+add_definitions(-DTRANSLATION_DOMAIN=\"liboxygenstyleconfig\")
 
 ################# liboxygenstyle #################
 set(oxygenstyle_LIB_SRCS
@@ -54,7 +55,7 @@ set(oxygenstyleconfig_LIB_FORMS
     ui/oxygenshadowconfigurationui.ui
 )
 
-qt5_wrap_ui(oxygenstyleconfig_LIB_FORMS_HEADERS ${oxygenstyleconfig_LIB_FORMS})
+ki18n_wrap_ui(oxygenstyleconfig_LIB_FORMS_HEADERS ${oxygenstyleconfig_LIB_FORMS})
 
 kconfig_add_kcfg_files(oxygenstyleconfig_LIB_SRCS
     oxygenactiveshadowconfiguration.kcfgc
