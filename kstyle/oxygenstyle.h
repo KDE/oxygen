@@ -97,6 +97,7 @@ namespace Oxygen
         StylePlugin(QObject *parent = 0):
             QStylePlugin(parent)
         {}
+        ~StylePlugin();
 
         //! create style
         QStyle* create( const QString& );

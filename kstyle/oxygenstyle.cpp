@@ -165,6 +165,12 @@ namespace Oxygen
         if( key.toLower() == QStringLiteral( "oxygen" ) ) return new Style();
         else return nullptr;
     }
+    Oxygen::StylePlugin::~StylePlugin()
+    {
+        // Delete style when using ::exit() otherwise it'll outlive the unloaded plugin and we'll get a crash
+        if (qApp)
+            delete qApp->style();
+    }
 
     //_____________________________________________________________________
     bool TopLevelManager::eventFilter( QObject *object, QEvent *event )
