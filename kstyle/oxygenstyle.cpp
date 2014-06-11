@@ -231,7 +231,13 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::~Style( void )
-    { delete _helper; }
+    {
+        // _shadowHelper is a child of us, but its destructor uses _helper so we
+        // delete it manually to ensure it is deleted *before* _helper is
+        // deleted
+        delete _shadowHelper;
+        delete _helper;
+    }
 
     //______________________________________________________________
     void Style::polish( QWidget* widget )
