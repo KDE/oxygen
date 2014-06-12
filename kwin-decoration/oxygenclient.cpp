@@ -396,8 +396,11 @@ namespace Oxygen
 
             case LM_TitleHeight:
             {
-                const int titleHeight = QFontMetrics(options()->font(true)).height();
-                return qMax(buttonSize, titleHeight);
+                if( hideTitleBar() ) return 0;
+                else {
+                    const int titleHeight = QFontMetrics(options()->font(true)).height();
+                    return qMax(buttonSize, titleHeight);
+                }
             }
 
             case LM_ButtonSpacing:
