@@ -38,7 +38,9 @@ namespace Oxygen
 
     //_______________________________________________________
     ShadowCache::ShadowCache( Helper& helper ):
-        _helper( helper )
+        _helper( helper ),
+        _activeShadowSize( 40 ),
+        _inactiveShadowSize( 40 )
     {
 
         setEnabled( true );
@@ -57,6 +59,10 @@ namespace Oxygen
 
         // inactive shadows
         InactiveShadowConfiguration::self()->readConfig();
+
+        // copy sizes to local
+        _activeShadowSize = ActiveShadowConfiguration::shadowSize();
+        _inactiveShadowSize = InactiveShadowConfiguration::shadowSize();
 
         // invalidate caches
         invalidateCaches();
@@ -84,15 +90,15 @@ namespace Oxygen
     //_______________________________________________________
     void ShadowCache::setShadowSize( QPalette::ColorGroup group, int size )
     {
-        if( group == QPalette::Active && ActiveShadowConfiguration::shadowSize() != size )
-        {
 
-            ActiveShadowConfiguration::setShadowSize( size );
+        if( group == QPalette::Active && _activeShadowSize != size )
+        {
+            _activeShadowSize = size;
             invalidateCaches();
 
-        } else if( group == QPalette::Inactive && InactiveShadowConfiguration::shadowSize() != size ) {
+        } else if( group == QPalette::Inactive && _inactiveShadowSize != size ) {
 
-            InactiveShadowConfiguration::setShadowSize( size );
+            _inactiveShadowSize = size;
             invalidateCaches();
 
         }
@@ -102,8 +108,8 @@ namespace Oxygen
     //_______________________________________________________
     int ShadowCache::shadowSize( void ) const
     {
-        int activeSize( ActiveShadowConfiguration::enabled() ? ActiveShadowConfiguration::shadowSize():0 );
-        int inactiveSize( InactiveShadowConfiguration::enabled() ? InactiveShadowConfiguration::shadowSize():0 );
+        int activeSize( ActiveShadowConfiguration::enabled() ? _activeShadowSize:0 );
+        int inactiveSize( InactiveShadowConfiguration::enabled() ? _inactiveShadowSize:0 );
 
         // even if shadows are disabled,
         return qMax( activeSize, inactiveSize );
@@ -184,8 +190,8 @@ namespace Oxygen
         qreal size( shadowSize() );
         qreal shadowSize( 0 );
 
-        if( active && ActiveShadowConfiguration::enabled() ) shadowSize = ActiveShadowConfiguration::shadowSize();
-        else if( !active && InactiveShadowConfiguration::enabled() ) shadowSize = InactiveShadowConfiguration::shadowSize();
+        if( active && ActiveShadowConfiguration::enabled() ) shadowSize = _activeShadowSize;
+        else if( !active && InactiveShadowConfiguration::enabled() ) shadowSize = _inactiveShadowSize;
 
         if( !shadowSize ) return QPixmap();
 

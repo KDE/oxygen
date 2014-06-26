@@ -237,6 +237,12 @@ namespace Oxygen
         //! caching enable state
         bool _enabled;
 
+        //! shadow size
+        int _activeShadowSize;
+
+        //! shadow size
+        int _inactiveShadowSize;
+
         //! max index
         /*! it is used to set caches max cost, and calculate animation opacity */
         int _maxIndex;
