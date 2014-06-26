@@ -53,9 +53,11 @@ namespace Oxygen
         public:
 
         //!@name property names
+        //@{
         static const char* const netWMShadowAtomName;
         static const char* const netWMForceShadowPropertyName;
         static const char* const netWMSkipShadowPropertyName;
+        //@}
 
         //! constructor
         ShadowHelper( QObject*, StyleHelper& );
