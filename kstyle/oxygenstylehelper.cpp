@@ -133,10 +133,7 @@ namespace Oxygen
 
     //____________________________________________________________________
     void StyleHelper::setHasBackgroundGradient( WId id, bool value ) const
-    {
-        if( _useBackgroundGradient )
-        { Helper::setHasBackgroundGradient( id, value ); }
-    }
+    { Helper::setHasBackgroundGradient( id, value && _useBackgroundGradient ); }
 
     //____________________________________________________________________
     void StyleHelper::renderMenuBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QColor& color )
