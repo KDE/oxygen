@@ -7789,6 +7789,20 @@ namespace Oxygen
         // background pixmap
         _helper->setBackgroundPixmap( StyleConfigData::backgroundPixmap() );
 
+        // update top level window hints
+        foreach( QWidget* widget, qApp->topLevelWidgets() )
+        {
+            // make sure widget has a valid WId
+            if( !(widget->testAttribute(Qt::WA_WState_Created) || widget->internalWinId() ) ) continue;
+
+            // make sure widget has a decoration
+            if( !_helper->hasDecoration( widget ) ) continue;
+
+            // update flags
+            _helper->setHasBackgroundGradient( widget->winId(), true );
+            _helper->setHasBackgroundPixmap( widget->winId(), _helper->hasBackgroundPixmap() );
+        }
+
         // update caches size
         int cacheSize( StyleConfigData::cacheEnabled() ?
             StyleConfigData::maxCacheSize():0 );
