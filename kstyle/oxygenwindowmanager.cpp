@@ -632,28 +632,48 @@ namespace Oxygen
         {
 
             #if HAVE_X11
+            // connection
             xcb_connection_t* connection( QX11Info::connection() );
+
+            // window
+            const WId window( widget->window()->winId() );
+
+            // from bespin/virtuality
+            xcb_button_release_event_t releaseEvent;
+            memset(&releaseEvent, 0, sizeof(releaseEvent));
+
+            releaseEvent.response_type = XCB_BUTTON_RELEASE;
+            //     releaseEvent.sequence = ??;
+            releaseEvent.event = window;
+            releaseEvent.child = XCB_WINDOW_NONE;
+            releaseEvent.root = QX11Info::appRootWindow();
+            releaseEvent.event_x = _dragPoint.x();
+            releaseEvent.event_y = _dragPoint.x();
+            releaseEvent.root_x = position.x();
+            releaseEvent.root_y = position.y();
+            releaseEvent.detail = XCB_BUTTON_INDEX_1;
+            releaseEvent.state = XCB_BUTTON_MASK_1;
+            releaseEvent.time = XCB_CURRENT_TIME;
+            releaseEvent.same_screen = true;
+            xcb_send_event( connection, false, window, XCB_EVENT_MASK_BUTTON_RELEASE, reinterpret_cast<const char*>(&releaseEvent));
+
             xcb_ungrab_pointer( connection, XCB_TIME_CURRENT_TIME );
 
             // from QtCurve
-            union {
-                char _buffer[32];
-                xcb_client_message_event_t event;
-            } buffer;
-            memset(&buffer, 0, sizeof(buffer));
+            xcb_client_message_event_t clientMessageEvent;
+            memset(&clientMessageEvent, 0, sizeof(clientMessageEvent));
 
-            xcb_client_message_event_t *xcbEvent = &buffer.event;
-            xcbEvent->response_type = XCB_CLIENT_MESSAGE;
-            xcbEvent->format = 32;
-            xcbEvent->window =  widget->window()->winId();
-            xcbEvent->type = _moveResizeAtom;
-            xcbEvent->data.data32[0] = position.x();
-            xcbEvent->data.data32[1] = position.y();
-            xcbEvent->data.data32[2] = 8; // NET::Move
-            xcbEvent->data.data32[3] = XCB_KEY_BUT_MASK_BUTTON_1;
+            clientMessageEvent.response_type = XCB_CLIENT_MESSAGE;
+            clientMessageEvent.format = 32;
+            clientMessageEvent.window = window;
+            clientMessageEvent.type = _moveResizeAtom;
+            clientMessageEvent.data.data32[0] = position.x();
+            clientMessageEvent.data.data32[1] = position.y();
+            clientMessageEvent.data.data32[2] = 8; // NET::Move
+            clientMessageEvent.data.data32[3] = XCB_KEY_BUT_MASK_BUTTON_1;
             xcb_send_event( connection, false, QX11Info::appRootWindow(),
                 XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY |
-                XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT, (const char*)xcbEvent );
+                XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT, reinterpret_cast<const char*>(&clientMessageEvent) );
 
             xcb_flush( connection );
 
