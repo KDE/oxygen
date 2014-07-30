@@ -293,45 +293,6 @@ namespace Oxygen
 
         //@}
 
-        //! animations
-        Animations& animations( void ) const
-        { return *_animations; }
-
-        Transitions& transitions( void ) const
-        { return *_transitions; }
-
-        //! window manager
-        WindowManager& windowManager( void ) const
-        { return *_windowManager; }
-
-        //! frame shadows
-        FrameShadowFactory& frameShadowFactory( void ) const
-        { return *_frameShadowFactory; }
-
-        //! mdi window shadows
-        MdiWindowShadowFactory& mdiWindowShadowFactory( void ) const
-        { return *_mdiWindowShadowFactory; }
-
-        //! blur helper
-        BlurHelper& blurHelper( void ) const
-        { return *_blurHelper; }
-
-        //! mdi window shadows
-        Mnemonics& mnemonics( void ) const
-        { return *_mnemonics; }
-
-        //! widget explorer
-        /*!
-        this is used for debugging. Provides information about
-        widgets, widgets' geometry, and ancestry tree
-        */
-        WidgetExplorer& widgetExplorer( void ) const
-        { return *_widgetExplorer; }
-
-        //! splitter factory
-        SplitterFactory& splitterFactory( void ) const
-        { return *_splitterFactory; }
-
         //!@name subelementRect specialized functions
         //@{
 
