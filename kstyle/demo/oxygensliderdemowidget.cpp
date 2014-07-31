@@ -78,9 +78,8 @@ namespace Oxygen
 
         ui.setupUi( this );
 
-        _progressBar1 = new ProgressBar( this, ui.progressBar, ui.checkBox );
-        _progressBar2 = new ProgressBar( this, ui.progressBar_2, ui.checkBox_2 );
-        ui.checkBox_2->setChecked( true );
+        _horizontalProgressBar = new ProgressBar( this, ui.horizontalProgressBar, ui.checkBox );
+        _verticalProgressBar = new ProgressBar( this, ui.verticalProgressBar, ui.checkBox );
 
         connect( ui.horizontalSlider, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
         connect( ui.horizontalScrollBar, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
@@ -122,12 +121,11 @@ namespace Oxygen
         if( _locked ) return;
 
         _locked = true;
-        _progressBar1->setValue( value );
-        _progressBar2->setValue( value );
+        _horizontalProgressBar->setValue( value );
+        _verticalProgressBar->setValue( value );
 
         ui.horizontalSlider->setValue( value );
         ui.verticalSlider->setValue( value );
-        ui.progressBar_3->setValue( value );
         ui.horizontalScrollBar->setValue( value );
         ui.verticalScrollBar->setValue( value );
         ui.dial->setValue( value );

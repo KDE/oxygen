@@ -97,8 +97,8 @@ namespace Oxygen
         Ui_SliderDemoWidget ui;
 
         //! progressbars
-        ProgressBar* _progressBar1;
-        ProgressBar* _progressBar2;
+        ProgressBar* _horizontalProgressBar;
+        ProgressBar* _verticalProgressBar;
 
     };
 
