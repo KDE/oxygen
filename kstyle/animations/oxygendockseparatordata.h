@@ -1,5 +1,5 @@
-#ifndef oxygendockseparator_datah
-#define oxygendockseparator_datah
+#ifndef oxygendockseparator_data_h
+#define oxygendockseparator_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygendockseparatordata.h

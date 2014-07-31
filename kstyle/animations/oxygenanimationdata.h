@@ -1,5 +1,5 @@
-#ifndef oxygen_animationdatah
-#define oxygen_animationdatah
+#ifndef oxygen_animationdata_h
+#define oxygen_animationdata_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenanimationdata.h

@@ -1,5 +1,5 @@
-#ifndef oxygenheaderview_datah
-#define oxygenheaderview_datah
+#ifndef oxygenheaderview_data_h
+#define oxygenheaderview_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenheaderviewdata.h

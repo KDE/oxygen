@@ -1,5 +1,5 @@
-#ifndef oxygenslider_datah
-#define oxygenslider_datah
+#ifndef oxygenslider_data_h
+#define oxygenslider_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygensliderdata.h

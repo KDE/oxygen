@@ -1,5 +1,5 @@
-#ifndef oxygengeneric_datah
-#define oxygengeneric_datah
+#ifndef oxygengeneric_data_h
+#define oxygengeneric_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygengenericdata.h

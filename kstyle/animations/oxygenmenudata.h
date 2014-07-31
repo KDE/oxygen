@@ -1,5 +1,5 @@
-#ifndef oxygenmenu_datah
-#define oxygenmenu_datah
+#ifndef oxygenmenu_data_h
+#define oxygenmenu_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenmenudata.h

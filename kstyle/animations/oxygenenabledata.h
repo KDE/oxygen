@@ -1,5 +1,5 @@
-#ifndef oxygenenable_datah
-#define oxygenenable_datah
+#ifndef oxygenenable_data_h
+#define oxygenenable_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenenabledata.h

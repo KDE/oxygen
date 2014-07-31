@@ -1,5 +1,5 @@
-#ifndef oxygenscrollbar_datah
-#define oxygenscrollbar_datah
+#ifndef oxygenscrollbar_data_h
+#define oxygenscrollbar_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenscrollbardata.h

@@ -1,5 +1,5 @@
-#ifndef oxygentoolbar_datah
-#define oxygentoolbar_datah
+#ifndef oxygentoolbar_data_h
+#define oxygentoolbar_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygentoolbardata.h

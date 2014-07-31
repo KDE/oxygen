@@ -1,5 +1,5 @@
-#ifndef oxygenspinbox_datah
-#define oxygenspinbox_datah
+#ifndef oxygenspinbox_data_h
+#define oxygenspinbox_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenspinboxdata.h

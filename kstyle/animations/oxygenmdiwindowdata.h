@@ -1,5 +1,5 @@
-#ifndef oxygenmdiwindow_datah
-#define oxygenmdiwindow_datah
+#ifndef oxygenmdiwindow_data_h
+#define oxygenmdiwindow_data_h
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenmdiwindowdata.h
