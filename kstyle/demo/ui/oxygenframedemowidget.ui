@@ -11,12 +11,24 @@
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Layout direction:</string>
+        <string>&amp;Layout direction:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -138,7 +150,7 @@
         <item>
          <widget class="QRadioButton" name="sunkenFrameRadioButton">
           <property name="text">
-           <string>Sunken</string>
+           <string>S&amp;unken</string>
           </property>
          </widget>
         </item>
