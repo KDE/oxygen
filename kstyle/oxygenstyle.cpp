@@ -1575,7 +1575,6 @@ namespace Oxygen
     QRect Style::tabWidgetTabPaneRect( const QStyleOption* option, const QWidget* ) const
     {
 
-
         const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
         if( !tabOpt ) return option->rect;
 
