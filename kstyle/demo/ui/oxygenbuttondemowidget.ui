@@ -11,7 +11,16 @@
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item row="2" column="0">
@@ -98,7 +107,7 @@
         <item>
          <widget class="QRadioButton" name="radioButton_3">
           <property name="text">
-           <string>Third Choice</string>
+           <string>&amp;Third Choice</string>
           </property>
          </widget>
         </item>
@@ -273,7 +282,16 @@
          <property name="sizeConstraint">
           <enum>QLayout::SetDefaultConstraint</enum>
          </property>
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <property name="spacing">
@@ -417,7 +435,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_11">
         <property name="text">
-         <string>Text position:</string>
+         <string>Te&amp;xt position:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -467,7 +485,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_12">
         <property name="text">
-         <string>Icon size:</string>
+         <string>Icon si&amp;ze:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -531,6 +549,10 @@
   <tabstop>toolButton_8</tabstop>
   <tabstop>textPosition</tabstop>
   <tabstop>iconSize</tabstop>
+  <tabstop>toolButton_9</tabstop>
+  <tabstop>toolButton_10</tabstop>
+  <tabstop>toolButton_11</tabstop>
+  <tabstop>toolButton_12</tabstop>
   <tabstop>checkBox</tabstop>
   <tabstop>checkBox_2</tabstop>
   <tabstop>checkBox_3</tabstop>

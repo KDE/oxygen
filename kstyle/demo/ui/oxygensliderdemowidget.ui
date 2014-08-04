@@ -154,6 +154,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>checkBox</tabstop>
+  <tabstop>horizontalSlider</tabstop>
+  <tabstop>dial</tabstop>
+  <tabstop>verticalSlider</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
