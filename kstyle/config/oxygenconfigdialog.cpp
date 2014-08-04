@@ -180,6 +180,7 @@ namespace Oxygen
                 QWidget* container = new QWidget();
                 container->setLayout( new QVBoxLayout() );
                 container->setObjectName( QStringLiteral( "oxygen-settings-container" ) );
+                container->layout()->setMargin( 0 );
 
                 // allocate config object
                 _stylePluginObject = (QObject*)(allocator( container ));
@@ -218,6 +219,7 @@ namespace Oxygen
         // create container
         QWidget* container = new QWidget();
         container->setLayout( new QVBoxLayout() );
+        container->layout()->setMargin( 0 );
 
         _decorationPluginObject = KPluginTrader::self()->createInstanceFromQuery<QObject>(
             QStringLiteral("kwin/kdecorations/config"),
