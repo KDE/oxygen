@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>413</width>
-    <height>416</height>
+    <width>421</width>
+    <height>420</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -120,6 +120,13 @@
     <widget class="QCheckBox" name="cornerWidgetsCheckBox">
      <property name="text">
       <string>Show Corner Buttons</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="tabCloseButtonsCheckBox">
+     <property name="text">
+      <string>Show Tab Close Buttons</string>
      </property>
     </widget>
    </item>
@@ -283,6 +290,19 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabPositionComboBox</tabstop>
+  <tabstop>textPositionComboBox</tabstop>
+  <tabstop>documentModeCheckBox</tabstop>
+  <tabstop>cornerWidgetsCheckBox</tabstop>
+  <tabstop>tabCloseButtonsCheckBox</tabstop>
+  <tabstop>tabBarVisibilityCheckBox</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>textEdit</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>textEdit_2</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -44,6 +44,7 @@ namespace Oxygen
         connect( ui.textPositionComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeTextPosition(int)) );
         connect( ui.documentModeCheckBox, SIGNAL(toggled(bool)), SLOT(toggleDocumentMode(bool)) );
         connect( ui.cornerWidgetsCheckBox, SIGNAL(toggled(bool)), SLOT(toggleCornerWidgets(bool)) );
+        connect( ui.tabCloseButtonsCheckBox, SIGNAL(toggled(bool)), SLOT(toggleTabCloseButtons(bool)) );
         connect( ui.tabBarVisibilityCheckBox, SIGNAL(toggled(bool)), ui.tabWidget, SLOT(toggleTabBarVisibility(bool)) );
         ui.textPositionComboBox->setCurrentIndex( 1 );
 
@@ -80,6 +81,9 @@ namespace Oxygen
 
             simulator().click( ui.cornerWidgetsCheckBox );
             simulator().click( ui.cornerWidgetsCheckBox );
+
+            simulator().click( ui.tabCloseButtonsCheckBox );
+            simulator().click( ui.tabCloseButtonsCheckBox );
 
             simulator().click( ui.tabBarVisibilityCheckBox );
             simulator().click( ui.tabBarVisibilityCheckBox );

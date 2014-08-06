@@ -79,6 +79,10 @@ namespace Oxygen
         void toggleDocumentMode( bool value )
         { ui.tabWidget->setDocumentMode( value ); }
 
+        //! show tab close buttons
+        void toggleTabCloseButtons( bool value )
+        { ui.tabWidget->setTabsClosable( value ); }
+
         // change tab position
         void changeTabPosition( int index )
         {
