@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>557</height>
+    <width>494</width>
+    <height>629</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,7 +26,16 @@
    <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -235,13 +244,22 @@
        <item row="3" column="1">
         <widget class="QWidget" name="_viewsExpertWidget" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Triangle size:</string>
+             <string>Triangle si&amp;ze:</string>
             </property>
             <property name="buddy">
              <cstring>_viewTriangularExpanderSize</cstring>
@@ -510,7 +528,7 @@
        <item row="0" column="0">
         <widget class="QRadioButton" name="_menuHighlightDark">
          <property name="text">
-          <string>Use dark color</string>
+          <string>Use dar&amp;k color</string>
          </property>
         </widget>
        </item>
@@ -579,8 +597,10 @@
  </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
+  <tabstop>_useBackgroundGradient</tabstop>
   <tabstop>_toolBarDrawItemSeparator</tabstop>
   <tabstop>_checkDrawX</tabstop>
+  <tabstop>_splitterProxyEnabled</tabstop>
   <tabstop>_cacheEnabled</tabstop>
   <tabstop>_animationsEnabled</tabstop>
   <tabstop>_mnemonicsMode</tabstop>
@@ -610,12 +630,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>59</x>
-     <y>93</y>
+     <x>63</x>
+     <y>46</y>
     </hint>
     <hint type="destinationlabel">
-     <x>59</x>
-     <y>112</y>
+     <x>63</x>
+     <y>81</y>
     </hint>
    </hints>
   </connection>
@@ -626,12 +646,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>144</x>
-     <y>88</y>
+     <x>97</x>
+     <y>46</y>
     </hint>
     <hint type="destinationlabel">
-     <x>144</x>
-     <y>104</y>
+     <x>140</x>
+     <y>81</y>
     </hint>
    </hints>
   </connection>
