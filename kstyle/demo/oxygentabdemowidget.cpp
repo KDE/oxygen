@@ -49,9 +49,11 @@ namespace Oxygen
         ui.textPositionComboBox->setCurrentIndex( 1 );
 
         _left->setIcon( QIcon::fromTheme( QStringLiteral( "tab-new" ) ) );
+        _left->setAutoRaise( true );
         _left->setVisible( false );
 
         _right->setIcon( QIcon::fromTheme( QStringLiteral( "tab-close" ) ) );
+        _right->setAutoRaise( true );
         _right->setVisible( false );
 
     }
