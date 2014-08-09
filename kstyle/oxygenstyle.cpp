@@ -1210,7 +1210,6 @@ namespace Oxygen
 
         // cast to QWidget
         QWidget *widget = static_cast<QWidget*>( object );
-
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, event ); }
 
         return KStyle::eventFilter( object, event );
