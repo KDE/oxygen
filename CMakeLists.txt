@@ -35,6 +35,8 @@ if(X11_FOUND)
   set_package_properties(XCB PROPERTIES TYPE REQUIRED)
 
   find_package(Qt5 REQUIRED CONFIG COMPONENTS X11Extras)
+else()
+    set(X11_FOUND 0)
 endif()
 
 include(KDEInstallDirs)

@@ -27,7 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygen_export.h"
+#include "oxygen_config_export.h"
 
 #include <QWidget>
 #include <QLayout>
@@ -39,7 +39,7 @@ namespace Oxygen
 {
     class AnimationConfigItem;
 
-    class OXYGEN_EXPORT BaseAnimationConfigWidget: public QWidget
+    class OXYGEN_CONFIG_EXPORT BaseAnimationConfigWidget: public QWidget
     {
 
         Q_OBJECT

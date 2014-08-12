@@ -18,7 +18,7 @@ kconfig_add_kcfg_files(oxygenstyle_LIB_SRCS
 )
 
 add_library(oxygenstyle5 ${oxygenstyle_LIB_SRCS})
-generate_export_header(oxygenstyle5 BASE_NAME "OXYGEN" EXPORT_FILE_NAME oxygen_export.h)
+generate_export_header(oxygenstyle5 EXPORT_MACRO_NAME OXYGEN_EXPORT EXPORT_FILE_NAME oxygen_export.h)
 
 # NB: although we install no headers, we still need to have a link
 #     interface, since other Oxygen targets link to this library
@@ -38,6 +38,11 @@ if( X11_FOUND )
 endif()
 
 set_target_properties(oxygenstyle5 PROPERTIES VERSION 5.0.0 SOVERSION 5 )
+if(WIN32)
+    # As stated in http://msdn.microsoft.com/en-us/library/4hwaceh6.aspx M_PI only gets defined
+    # when using MSVC if _USE_MATH_DEFINES is defined (this is needed for angle.cpp)
+    target_compile_definitions(oxygenstyle5 PRIVATE _USE_MATH_DEFINES _GNU_SOURCE)
+endif()
 install(TARGETS oxygenstyle5 ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ################# liboxygenstyleconfig #################
@@ -62,9 +67,12 @@ kconfig_add_kcfg_files(oxygenstyleconfig_LIB_SRCS
     oxygeninactiveshadowconfiguration.kcfgc
 )
 
-add_library(oxygenstyleconfig5
+add_library(oxygenstyleconfig5 SHARED
     ${oxygenstyleconfig_LIB_SRCS}
     ${oxygenstyleconfig_LIB_FORMS_HEADERS} )
+    
+generate_export_header(oxygenstyleconfig5 EXPORT_MACRO_NAME OXYGEN_CONFIG_EXPORT EXPORT_FILE_NAME oxygen_config_export.h)    
+
 
 # NB: although we install no headers, we still need to have a link
 #     interface, since other Oxygen targets link to this library
@@ -78,7 +86,7 @@ target_link_libraries(oxygenstyleconfig5
         KF5::I18n
 )
 
-set_target_properties(oxygenstyleconfig5 PROPERTIES VERSION 5.0.0 SOVERSION 5 DEFINE_SYMBOL MAKE_OXYGENSTYLE_LIB )
+set_target_properties(oxygenstyleconfig5 PROPERTIES VERSION 5.0.0 SOVERSION 5)
 install(TARGETS oxygenstyleconfig5 ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 # Note: no headers installed

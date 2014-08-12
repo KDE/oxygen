@@ -27,7 +27,7 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygen_export.h"
+#include "oxygen_config_export.h"
 #include "oxygenanimationconfigitem.h"
 
 #include <QPointer>
@@ -39,7 +39,7 @@ class Ui_GenericAnimationConfigBox;
 namespace Oxygen
 {
 
-    class OXYGEN_EXPORT GenericAnimationConfigBox: public QFrame
+    class OXYGEN_CONFIG_EXPORT GenericAnimationConfigBox: public QFrame
     {
 
         Q_OBJECT
@@ -62,7 +62,7 @@ namespace Oxygen
     };
 
     //! generic animation config item
-    class OXYGEN_EXPORT GenericAnimationConfigItem: public AnimationConfigItem
+    class OXYGEN_CONFIG_EXPORT GenericAnimationConfigItem: public AnimationConfigItem
     {
 
         Q_OBJECT

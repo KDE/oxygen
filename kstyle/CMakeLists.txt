@@ -76,6 +76,12 @@ kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 
 add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
+if(WIN32)
+    # As stated in http://msdn.microsoft.com/en-us/library/4hwaceh6.aspx M_PI only gets defined
+    # when using MSVC if _USE_MATH_DEFINES is defined (this is needed for angle.cpp)
+    target_compile_definitions(oxygen PRIVATE _USE_MATH_DEFINES _GNU_SOURCE)
+endif()
+
 target_link_libraries(oxygen Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
 target_link_libraries(oxygen KF5::GuiAddons KF5::Style KF5::WindowSystem)
 target_link_libraries(oxygen oxygenstyle5)

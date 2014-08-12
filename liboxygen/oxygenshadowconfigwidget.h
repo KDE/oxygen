@@ -29,7 +29,7 @@
 #include <QCheckBox>
 #include <QGroupBox>
 
-#include "oxygen_export.h"
+#include "oxygen_config_export.h"
 
 // forward declaration
 class Ui_ShadowConfiguraionUI;
@@ -38,7 +38,7 @@ namespace Oxygen
 {
 
     //! shadow configuration widget
-    class OXYGEN_EXPORT ShadowConfigWidget: public QGroupBox
+    class OXYGEN_CONFIG_EXPORT ShadowConfigWidget: public QGroupBox
     {
 
         Q_OBJECT
