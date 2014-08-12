@@ -1,0 +1,9 @@
+[KDE]
+widgetStyle=oxygen
+ColorScheme=Oxygen
+
+[Icons]
+Theme=oxygen
+
+[PlasmaTheme]
+name=air
