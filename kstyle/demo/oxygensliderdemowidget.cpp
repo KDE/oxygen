@@ -83,6 +83,7 @@ namespace Oxygen
 
         connect( ui.invertProgressBarCheckBox, SIGNAL(toggled(bool)), _horizontalProgressBar, SLOT(toggleInvertedAppearance(bool)));
         connect( ui.invertProgressBarCheckBox, SIGNAL(toggled(bool)), _verticalProgressBar, SLOT(toggleInvertedAppearance(bool)));
+        connect( ui.tickPositionComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateTickPosition(int)) );
 
         connect( ui.horizontalSlider, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
         connect( ui.horizontalScrollBar, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
@@ -135,5 +136,13 @@ namespace Oxygen
 
         _locked = false;
 
+    }
+
+    //_____________________________________________________________
+    void SliderDemoWidget::updateTickPosition( int value )
+    {
+        ui.horizontalSlider->setTickPosition( QSlider::TickPosition( value ) );
+        ui.verticalSlider->setTickPosition( QSlider::TickPosition( value ) );
+        ui.dial->setNotchesVisible( value > 0 );
     }
 }

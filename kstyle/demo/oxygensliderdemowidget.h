@@ -96,6 +96,8 @@ namespace Oxygen
 
         void updateSliders( int );
 
+        void updateTickPosition( int );
+
         private:
 
         bool _locked;

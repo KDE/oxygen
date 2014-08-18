@@ -333,6 +333,7 @@ namespace Oxygen
             { _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         }
+
         // mdi subwindows
         else if( qobject_cast<QMdiSubWindow*>( widget ) )
         { _mdiWindowEngine->registerWidget( widget ); }
