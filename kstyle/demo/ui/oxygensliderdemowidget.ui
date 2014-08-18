@@ -23,7 +23,7 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <item row="1" column="2">
+   <item row="2" column="2">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Vertical</string>
@@ -69,13 +69,13 @@
     </widget>
    </item>
    <item row="0" column="0" colspan="3">
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="animateProgressBarCheckBox">
      <property name="text">
       <string>Animate Progress Bars</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="2" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Horizontal</string>
@@ -152,10 +152,17 @@
      </layout>
     </widget>
    </item>
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="invertProgressBarCheckBox">
+     <property name="text">
+      <string>Invert Progress Bars</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>checkBox</tabstop>
+  <tabstop>animateProgressBarCheckBox</tabstop>
   <tabstop>horizontalSlider</tabstop>
   <tabstop>dial</tabstop>
   <tabstop>verticalSlider</tabstop>

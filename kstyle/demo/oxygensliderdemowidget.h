@@ -49,6 +49,12 @@ namespace Oxygen
         //! set value
         void setValue( int );
 
+        public Q_SLOTS:
+
+        //! toggle invertex appearance
+        void toggleInvertedAppearance( bool value )
+        { _progressBar->setInvertedAppearance( value ); }
+
         protected Q_SLOTS:
 
         //! toggle bussy state

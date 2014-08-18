@@ -78,8 +78,11 @@ namespace Oxygen
 
         ui.setupUi( this );
 
-        _horizontalProgressBar = new ProgressBar( this, ui.horizontalProgressBar, ui.checkBox );
-        _verticalProgressBar = new ProgressBar( this, ui.verticalProgressBar, ui.checkBox );
+        _horizontalProgressBar = new ProgressBar( this, ui.horizontalProgressBar, ui.animateProgressBarCheckBox );
+        _verticalProgressBar = new ProgressBar( this, ui.verticalProgressBar, ui.animateProgressBarCheckBox );
+
+        connect( ui.invertProgressBarCheckBox, SIGNAL(toggled(bool)), _horizontalProgressBar, SLOT(toggleInvertedAppearance(bool)));
+        connect( ui.invertProgressBarCheckBox, SIGNAL(toggled(bool)), _verticalProgressBar, SLOT(toggleInvertedAppearance(bool)));
 
         connect( ui.horizontalSlider, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
         connect( ui.horizontalScrollBar, SIGNAL(valueChanged(int)), SLOT(updateSliders(int)) );
