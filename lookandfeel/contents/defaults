@@ -1,9 +1,12 @@
-[KDE]
+[kdeglobals][KDE]
 widgetStyle=oxygen
 ColorScheme=Oxygen
 
-[Icons]
+[kdeglobals][Icons]
 Theme=oxygen
 
-[Theme]
+[plasmarc][Theme]
 name=air
+
+[kcminputrc][Mouse]
+cursorTheme=Oxygen_Black
