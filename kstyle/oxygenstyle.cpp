@@ -4076,18 +4076,28 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawIndicatorToolBarSeparatorPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawIndicatorToolBarSeparatorPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
+        /*
+        do nothing if disabled from options
+        also need to check if widget is a combobox, because of Qt hack using 'toolbar' separator primitive
+        for rendering separators in comboboxes
+        */
+        if( !( StyleConfigData::toolBarDrawItemSeparator() || qobject_cast<const QComboBox*>( widget ) ) )
+        { return true; }
 
-        const State& flags( option->state );
-        const QRect& r( option->rect );
+        // store rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
-        if( StyleConfigData::toolBarDrawItemSeparator() )
-        {
-            const QColor color( palette.color( QPalette::Window ) );
-            if( flags & State_Horizontal ) _helper->drawSeparator( painter, r, color, Qt::Vertical );
-            else _helper->drawSeparator( painter, r, color, Qt::Horizontal );
-        }
+
+        // store state
+        const State& state( option->state );
+        const bool separatorIsVertical( state & State_Horizontal );
+
+        // define color and render
+        const QColor color( palette.color( QPalette::Window ) );
+        if( separatorIsVertical ) _helper->drawSeparator( painter, rect, color, Qt::Vertical );
+        else _helper->drawSeparator( painter, rect, color, Qt::Horizontal );
 
         return true;
     }
