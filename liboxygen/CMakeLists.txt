@@ -37,7 +37,7 @@ if( X11_FOUND )
     target_link_libraries(oxygenstyle5 PRIVATE ${XCB_LIBRARIES} Qt5::X11Extras)
 endif()
 
-set_target_properties(oxygenstyle5 PROPERTIES VERSION 5.0.0 SOVERSION 5 )
+set_target_properties(oxygenstyle5 PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR} )
 if(WIN32)
     # As stated in http://msdn.microsoft.com/en-us/library/4hwaceh6.aspx M_PI only gets defined
     # when using MSVC if _USE_MATH_DEFINES is defined (this is needed for angle.cpp)
@@ -86,7 +86,7 @@ target_link_libraries(oxygenstyleconfig5
         KF5::I18n
 )
 
-set_target_properties(oxygenstyleconfig5 PROPERTIES VERSION 5.0.0 SOVERSION 5)
+set_target_properties(oxygenstyleconfig5 PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
 install(TARGETS oxygenstyleconfig5 ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 # Note: no headers installed
