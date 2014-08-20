@@ -38,6 +38,7 @@ namespace Oxygen
         ui.setupUi( this );
         ui.klineedit->setText( i18n( "Example text" ) );
         ui.klineedit_2->setText( i18n( "password" ) );
+        ui.kcombobox->insertSeparator( 2 );
         ui.textedit->setPlainText( QStringLiteral(
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor "
             "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud "
