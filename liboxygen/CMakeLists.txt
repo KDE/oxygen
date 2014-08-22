@@ -34,7 +34,7 @@ target_link_libraries(oxygenstyle5
 )
 target_include_directories(oxygenstyle5 PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 if( X11_FOUND )
-    target_link_libraries(oxygenstyle5 PRIVATE ${XCB_LIBRARIES} Qt5::X11Extras)
+    target_link_libraries(oxygenstyle5 PRIVATE XCB::XCB Qt5::X11Extras)
 endif()
 
 set_target_properties(oxygenstyle5 PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR} )

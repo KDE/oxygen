@@ -3,10 +3,6 @@ project(kstyle-oxygen)
 ################# X11 #################
 add_definitions( -DHAVE_X11=${X11_FOUND} )
 
-if(X11_FOUND)
-    find_package(XCB REQUIRED)
-endif()
-
 ################# includes #################
 include_directories(
     animations
@@ -87,7 +83,7 @@ target_link_libraries(oxygen KF5::GuiAddons KF5::Style KF5::WindowSystem)
 target_link_libraries(oxygen oxygenstyle5)
 
 if(X11_FOUND)
-  target_link_libraries(oxygen ${XCB_LIBRARIES})
+  target_link_libraries(oxygen XCB::XCB)
   target_link_libraries(oxygen Qt5::X11Extras)
 endif()
 
