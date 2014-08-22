@@ -55,10 +55,10 @@ namespace Oxygen
         if( !_enabled ) setEnabled( true );
 
         // active shadows
-        ActiveShadowConfiguration::self()->readConfig();
+        ActiveShadowConfiguration::self()->load();
 
         // inactive shadows
-        InactiveShadowConfiguration::self()->readConfig();
+        InactiveShadowConfiguration::self()->load();
 
         // copy sizes to local
         _activeShadowSize = ActiveShadowConfiguration::shadowSize();

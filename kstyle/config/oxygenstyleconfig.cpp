@@ -141,7 +141,7 @@ namespace Oxygen
 
         }
 
-        StyleConfigData::self()->writeConfig();
+        StyleConfigData::self()->save();
 
         // emit dbus signal
         QDBusMessage message( QDBusMessage::createSignal( QStringLiteral( "/OxygenStyle" ),  QStringLiteral( "org.kde.Oxygen.Style" ), QStringLiteral( "reparseConfiguration" ) ) );
@@ -159,7 +159,7 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::reset( void )
     {
-        StyleConfigData::self()->readConfig();
+        StyleConfigData::self()->load();
         load();
     }
 

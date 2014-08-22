@@ -7778,7 +7778,7 @@ namespace Oxygen
     void Style::oxygenConfigurationChanged()
     {
         // reload config (reparses oxygenrc)
-        StyleConfigData::self()->readConfig();
+        StyleConfigData::self()->load();
 
         _shadowHelper->reparseCacheConfig();
 
