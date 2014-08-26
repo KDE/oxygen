@@ -213,11 +213,11 @@ namespace Oxygen
                 event->accept();
 
                 // grab on mouse press
-                if( event->type() == QEvent::MouseButtonPress) grabMouse();
-
-                parentWidget()->setUpdatesEnabled(false);
-                resize(1,1);
-                parentWidget()->setUpdatesEnabled(true);
+                if( event->type() == QEvent::MouseButtonPress)
+                {
+                    grabMouse();
+                    resize(1,1);
+                }
 
                 // cast to mouse event
                 QMouseEvent *mouseEvent( static_cast<QMouseEvent*>( event ) );
@@ -263,17 +263,17 @@ namespace Oxygen
             if( static_cast<QTimerEvent*>( event )->timerId() != _timerId )
             { return QWidget::event( event ); }
 
-            if( mouseGrabber() == this )
-            { return true; }
-
             /*
             Fall through is intended.
-            We somehow lost a QEvent::Leave and gonna fix that from here
+            We somehow lost a QEvent::Leave before timeout. We fix it from here
             */
 
             case QEvent::HoverLeave:
             case QEvent::Leave:
             {
+
+                if( mouseGrabber() == this )
+                { return true; }
 
                 // reset splitter
                 if( isVisible() && !rect().contains( mapFromGlobal( QCursor::pos() ) ) )
@@ -301,17 +301,14 @@ namespace Oxygen
 
         //
         QRect r( 0, 0, 2*StyleConfigData::splitterProxyWidth(), 2*StyleConfigData::splitterProxyWidth() );
-        r.moveCenter( parentWidget()->mapFromGlobal( QCursor::pos() ) );
+        r.moveCenter( _hook );
         setGeometry(r);
         setCursor( _splitter.data()->cursor().shape() );
 
         raise();
         show();
 
-        /*
-        timer used to automatically hide proxy
-        in case leave events are lost
-        */
+        // timer used to automatically hide proxy in case leave events are lost
         if( !_timerId ) _timerId = startTimer(150);
     }
 
@@ -331,7 +328,7 @@ namespace Oxygen
         hide();
         parentWidget()->setUpdatesEnabled(true);
 
-        // set hover event
+        // send hover event
         if( _splitter )
         {
             QHoverEvent hoverEvent(
