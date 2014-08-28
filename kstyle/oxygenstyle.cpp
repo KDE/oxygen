@@ -2137,12 +2137,12 @@ namespace Oxygen
     QSize Style::headerSectionSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
     {
 
-        const QStyleOptionHeader* headerOpt( qstyleoption_cast<const QStyleOptionHeader *>( option ) );
-        if( !headerOpt ) return contentsSize;
+        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader *>( option ) );
+        if( !headerOption ) return contentsSize;
 
         //TODO: check if hardcoded icon size is the right thing to do
-        QSize iconSize = headerOpt->icon.isNull() ? QSize( 0,0 ) : QSize( 22,22 );
-        QSize textSize = headerOpt->fontMetrics.size( 0, headerOpt->text );
+        QSize iconSize = headerOption->icon.isNull() ? QSize( 0,0 ) : QSize( 22,22 );
+        QSize textSize = headerOption->fontMetrics.size( 0, headerOption->text );
 
         int iconSpacing = Header_TextToIconSpace;
         int w = iconSize.width() + iconSpacing + textSize.width();
@@ -2837,14 +2837,14 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawIndicatorArrowPrimitive( ArrowOrientation orientation, const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-        QRect r( option->rect );
+        const QRect rect( option->rect );
         const QPalette& palette( option->palette );
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
 
         // define gradient and polygon for drawing arrow
-        const QPolygonF a = genericArrow( orientation, ArrowNormal );
+        const QPolygonF arrow = genericArrow( orientation, ArrowNormal );
 
         const qreal penThickness = 1.6;
         const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
@@ -2853,14 +2853,6 @@ namespace Oxygen
         const QToolButton* toolButton( qobject_cast<const QToolButton*>( widget ) );
         if( toolButton && toolButton->arrowType() != Qt::NoArrow )
         {
-
-            /*
-            arrows painted in toolbutton need a re-centered rect,
-            and have no highlight
-            */
-
-            if( toolButton->arrowType() != Qt::LeftArrow )
-            { r.translate( 1, 0 ); }
 
             // set color properly
             color = (toolButton->autoRaise() ? palette.color( QPalette::WindowText ):palette.color( QPalette::ButtonText ) );
@@ -2875,17 +2867,17 @@ namespace Oxygen
 
         }
 
-        painter->translate( r.center() );
+        painter->translate( QRectF( rect ).center() );
         painter->setRenderHint( QPainter::Antialiasing );
 
         painter->translate( 0,offset );
         const QColor background = palette.color( QPalette::Window );
         painter->setPen( QPen( _helper->calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( a );
+        painter->drawPolyline( arrow );
         painter->translate( 0,-offset );
 
         painter->setPen( QPen( _helper->decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( a );
+        painter->drawPolyline( arrow );
 
         return true;
     }
@@ -2893,29 +2885,29 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawIndicatorHeaderArrowPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-        const QStyleOptionHeader *headerOpt = qstyleoption_cast<const QStyleOptionHeader *>( option );
+        const QStyleOptionHeader *headerOption = qstyleoption_cast<const QStyleOptionHeader *>( option );
         const State& state( option->state );
 
         // arrow orientation
         ArrowOrientation orientation( ArrowNone );
-        if( state&State_UpArrow || ( headerOpt && headerOpt->sortIndicator==QStyleOptionHeader::SortUp ) ) orientation = ArrowUp;
-        else if( state&State_DownArrow || ( headerOpt && headerOpt->sortIndicator==QStyleOptionHeader::SortDown ) ) orientation = ArrowDown;
+        if( state&State_UpArrow || ( headerOption && headerOption->sortIndicator==QStyleOptionHeader::SortUp ) ) orientation = ArrowUp;
+        else if( state&State_DownArrow || ( headerOption && headerOption->sortIndicator==QStyleOptionHeader::SortDown ) ) orientation = ArrowDown;
         if( orientation == ArrowNone ) return true;
 
         // invert arrows if requested by (hidden) options
         if( StyleConfigData::viewInvertSortIndicator() ) orientation = (orientation == ArrowUp) ? ArrowDown:ArrowUp;
 
         // flags, rect and palette
-        const QRect& r( option->rect );
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
 
-        _animations->headerViewEngine().updateState( widget, r.topLeft(), mouseOver );
-        const bool animated( enabled && _animations->headerViewEngine().isAnimated( widget, r.topLeft() ) );
+        _animations->headerViewEngine().updateState( widget, rect.topLeft(), mouseOver );
+        const bool animated( enabled && _animations->headerViewEngine().isAnimated( widget, rect.topLeft() ) );
 
         // define gradient and polygon for drawing arrow
-        const QPolygonF a = genericArrow( orientation, ArrowNormal );
+        const QPolygonF arrow = genericArrow( orientation, ArrowNormal );
         QColor color = palette.color( QPalette::WindowText );
         const QColor background = palette.color( QPalette::Window );
         const QColor highlight( _helper->viewHoverBrush().brush( palette ).color() );
@@ -2925,22 +2917,22 @@ namespace Oxygen
         if( animated )
         {
 
-            const qreal opacity( _animations->headerViewEngine().opacity( widget, r.topLeft() ) );
+            const qreal opacity( _animations->headerViewEngine().opacity( widget, rect.topLeft() ) );
             color = KColorUtils::mix( color, highlight, opacity );
 
         } else if( mouseOver ) color = highlight;
 
-        painter->translate( r.center() );
+        painter->translate( QRectF(rect).center() );
         painter->translate( 0, 1 );
         painter->setRenderHint( QPainter::Antialiasing );
 
         painter->translate( 0,offset );
         painter->setPen( QPen( _helper->calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( a );
+        painter->drawPolyline( arrow );
         painter->translate( 0,-offset );
 
         painter->setPen( QPen( _helper->decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( a );
+        painter->drawPolyline( arrow );
 
         return true;
     }
@@ -2977,16 +2969,16 @@ namespace Oxygen
         Note: in principle one should also check for the button text height
         */
 
-        const QRect& r( option->rect );
+        const QRect& rect( option->rect );
         const QStyleOptionButton* bOpt( qstyleoption_cast< const QStyleOptionButton* >( option ) );
         bool flat = ( bOpt && (
             bOpt->features.testFlag( QStyleOptionButton::Flat ) ||
-            ( ( !bOpt->icon.isNull() ) && sizeFromContents( CT_PushButton, option, bOpt->iconSize, widget ).height() > r.height() ) ) );
+            ( ( !bOpt->icon.isNull() ) && sizeFromContents( CT_PushButton, option, bOpt->iconSize, widget ).height() > rect.height() ) ) );
 
         if( flat )
         {
 
-            QRect slitRect( r );
+            QRect slitRect( rect );
             if( !( styleOptions & Sunken ) )
             {
                 // hover rect
@@ -3026,10 +3018,10 @@ namespace Oxygen
 
         } else {
 
-            const QRect slabRect( r.adjusted( -1, 0, 1, 0 ) );
+            const QRect slabRect( rect.adjusted( -1, 0, 1, 0 ) );
 
             // match color to the window background
-            QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
+            QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
 
             // merge button color with highlight in case of default button
             if( enabled && bOpt && (bOpt->features&QStyleOptionButton::DefaultButton) )
@@ -3572,30 +3564,21 @@ namespace Oxygen
     {
 
         const State& state( option->state );
-        const QRect& r( option->rect );
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
-        const QPoint center( r.center() );
 
         const bool reverseLayout( option->direction == Qt::RightToLeft );
 
-        const int centerX = center.x();
-        const int centerY = center.y();
-
-        int expanderAdjust = 0;
-
         //draw expander
+        int expanderAdjust = 0;
         if ( state & State_Children )
         {
 
-            int sizeLimit = qMin( qMin( r.width(), r.height() ), ( int ) Tree_MaxExpanderSize );
+            int sizeLimit = qMin( qMin( rect.width(), rect.height() ), ( int ) Tree_MaxExpanderSize );
             const bool expanderOpen( state & State_Open );
 
             // make sure size limit is odd
-            if( !( sizeLimit&1 ) ) --sizeLimit;
             expanderAdjust = sizeLimit/2 + 1;
-
-            QRect expanderRect = centerRect( r, sizeLimit, sizeLimit );
-            const int radius( ( expanderRect.width() - 4 ) / 2 );
 
             // flags
             const bool enabled( state & State_Enabled );
@@ -3608,6 +3591,8 @@ namespace Oxygen
             {
 
                 // plus or minus sign used for expanders
+                const QPoint center( rect.center() );
+                const int radius( ( sizeLimit - 4 ) / 2 );
                 painter->save();
                 painter->setPen( expanderColor );
                 painter->drawLine( center - QPoint( radius, 0 ), center + QPoint( radius, 0 ) );
@@ -3619,16 +3604,9 @@ namespace Oxygen
 
             } else {
 
-                // arrows
-                painter->save();
-                painter->translate( center );
-
-                // get size from option
-                QPolygonF a;
+                // get arrow size from option
                 ArrowSize size = ArrowSmall;
                 qreal penThickness( 1.2 );
-                qreal offset( 0.5 );
-
                 switch( StyleConfigData::viewTriangularExpanderSize() )
                 {
                     case StyleConfigData::TE_TINY:
@@ -3642,28 +3620,22 @@ namespace Oxygen
 
                     case StyleConfigData::TE_NORMAL:
                     penThickness = 1.6;
-                    offset = 0.0;
                     size = ArrowNormal;
                     break;
 
                 }
 
-                if( expanderOpen )
-                {
+                // get arrows polygon
+                QPolygonF arrow;
+                if( expanderOpen ) arrow = genericArrow( ArrowDown, size );
+                else arrow = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, size );
 
-                    painter->translate( 0, offset );
-                    a = genericArrow( ArrowDown, size );
-
-                } else {
-
-                    painter->translate( offset, 0 );
-                    a = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, size );
-
-                }
-
+                // render
+                painter->save();
+                painter->translate( QRectF( rect ).center() );
                 painter->setPen( QPen( expanderColor, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
                 painter->setRenderHint( QPainter::Antialiasing );
-                painter->drawPolyline( a );
+                painter->drawPolyline( arrow );
                 painter->restore();
             }
 
@@ -3673,10 +3645,13 @@ namespace Oxygen
         // tree branches
         if( !StyleConfigData::viewDrawTreeBranchLines() ) return true;
 
-        painter->setPen( KColorUtils::mix( palette.color( QPalette::Text ), palette.color( QPalette::Background ), 0.8 ) );
+        const QPoint center( rect.center() );
+        const QColor lineColor( KColorUtils::mix( palette.color( QPalette::Text ), palette.color( QPalette::Background ), 0.8 ) );
+        painter->setRenderHint( QPainter::Antialiasing, false );
+        painter->setPen( lineColor );
         if ( state & ( State_Item | State_Children | State_Sibling ) )
         {
-            const QLine line( QPoint( centerX, r.top() ), QPoint( centerX, centerY - expanderAdjust ) );
+            const QLine line( QPoint( center.x(), rect.top() ), QPoint( center.x(), center.y() - expanderAdjust ) );
             painter->drawLine( line );
         }
 
@@ -3684,8 +3659,8 @@ namespace Oxygen
         if ( state & State_Item )
         {
             const QLine line = reverseLayout ?
-                QLine( QPoint( r.left(), centerY ), QPoint( centerX - expanderAdjust, centerY ) ):
-                QLine( QPoint( centerX + expanderAdjust, centerY ), QPoint( r.right(), centerY ) );
+                QLine( QPoint( rect.left(), center.y() ), QPoint( center.x() - expanderAdjust, center.y() ) ):
+                QLine( QPoint( center.x() + expanderAdjust, center.y() ), QPoint( rect.right(), center.y() ) );
             painter->drawLine( line );
 
         }
@@ -3693,7 +3668,7 @@ namespace Oxygen
         //The bottom if we have a sibling
         if ( state & State_Sibling )
         {
-            const QLine line( QPoint( centerX, centerY + expanderAdjust ), QPoint( centerX, r.bottom() ) );
+            const QLine line( QPoint( center.x(), center.y() + expanderAdjust ), QPoint( center.x(), rect.bottom() ) );
             painter->drawLine( line );
         }
 
@@ -3704,10 +3679,12 @@ namespace Oxygen
     bool Style::drawIndicatorButtonDropDownPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // copy palette and rect
         const QPalette& palette( option->palette );
-        const QRect& r( option->rect );
-        const State& state( option->state );
+        const QRect& rect( option->rect );
 
+        // store state
+        const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool reverseLayout( option->direction == Qt::RightToLeft );
@@ -3721,7 +3698,7 @@ namespace Oxygen
         StyleOptions styleOptions = 0;
 
         // define gradient and polygon for drawing arrow
-        QPolygonF a = genericArrow( ArrowDown, ArrowNormal );
+        QPolygonF arrow = genericArrow( ArrowDown, ArrowNormal );
 
         qreal penThickness = 1.6;
 
@@ -3747,7 +3724,7 @@ namespace Oxygen
                 const qreal focusOpacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
 
                 color = palette.color( QPalette::ButtonText );
-                background = _helper->backgroundColor( palette.color( QPalette::Button ), widget, r.center() );
+                background = _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() );
 
                 if( hasFocus ) styleOptions |= Focus;
                 if( mouseOver ) styleOptions |= Hover;
@@ -3773,20 +3750,18 @@ namespace Oxygen
                 if( reverseLayout )
                 {
 
-                    QRect frameRect( r.adjusted( 0, 0, 10, 0 ) );
                     if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
 
-                    painter->setClipRect( frameRect.adjusted( 0, 0, -8, 0 ), Qt::IntersectClip );
-                    renderButtonSlab( painter, frameRect, background, styleOptions, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Left );
+                    painter->setClipRect( rect, Qt::IntersectClip );
+                    renderButtonSlab( painter, rect, background, styleOptions, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Left );
 
                 } else {
 
 
-                    QRect frameRect( r.adjusted( -10,0,0,0 ) );
                     if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
 
-                    painter->setClipRect( frameRect.adjusted( 8, 0, 0, 0 ), Qt::IntersectClip );
-                    renderButtonSlab( painter, frameRect, background, styleOptions, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right );
+                    painter->setClipRect( rect, Qt::IntersectClip );
+                    renderButtonSlab( painter, rect, background, styleOptions, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right );
 
                 }
 
@@ -3798,30 +3773,30 @@ namespace Oxygen
                 QColor dark = _helper->calcDarkColor( color );
                 dark.setAlpha( 200 );
 
-                int yTop( r.top()+2 );
-                if( sunken ) yTop += 1;
 
-                const int yBottom( r.bottom()-4 );
+                const int top( rect.top()+ sunken ? 3:2 );
+                const int bottom( rect.bottom()-4 );
+
                 painter->setPen( QPen( light,1 ) );
 
                 if( reverseLayout )
                 {
 
-                    painter->drawLine( r.right()+5, yTop+1, r.right()+5, yBottom );
-                    painter->drawLine( r.right()+3, yTop+2, r.right()+3, yBottom );
+                    painter->drawLine( rect.right()+5, top+1, rect.right()+5, bottom );
+                    painter->drawLine( rect.right()+3, top+2, rect.right()+3, bottom );
                     painter->setPen( QPen( dark,1 ) );
-                    painter->drawLine( r.right()+4, yTop, r.right()+4, yBottom );
+                    painter->drawLine( rect.right()+4, top, rect.right()+4, bottom );
 
-                    a.translate( 3, 1 );
+                    arrow.translate( 3, 1 );
 
                 } else {
 
-                    painter->drawLine( r.x()-5, yTop+1, r.x()-5, yBottom-1 );
-                    painter->drawLine( r.x()-3, yTop+1, r.x()-3, yBottom-1 );
+                    painter->drawLine( rect.left()-5, top+1, rect.left()-5, bottom-1 );
+                    painter->drawLine( rect.left()-3, top+1, rect.left()-3, bottom-1 );
                     painter->setPen( QPen( dark,1 ) );
-                    painter->drawLine( r.x()-4, yTop, r.x()-4, yBottom );
+                    painter->drawLine( rect.left()-4, top, rect.left()-4, bottom );
 
-                    a.translate( -3,1 );
+                    arrow.translate( -3,1 );
 
                 }
 
@@ -3846,22 +3821,22 @@ namespace Oxygen
 
             // smaller down arrow for menu indication on toolbuttons
             penThickness = 1.4;
-            a = genericArrow( ArrowDown, ArrowSmall );
+            arrow = genericArrow( ArrowDown, ArrowSmall );
 
         }
 
-        painter->translate( r.center() );
+        painter->translate( QRectF( rect ).center() );
         painter->setRenderHint( QPainter::Antialiasing );
 
         // white reflection
         const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
         painter->translate( 0,offset );
         painter->setPen( QPen( _helper->calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( a );
+        painter->drawPolyline( arrow );
         painter->translate( 0,-offset );
 
         painter->setPen( QPen( _helper->decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( a );
+        painter->drawPolyline( arrow );
 
         return true;
 
@@ -4304,31 +4279,31 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawHeaderLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
-        const QStyleOptionHeader* headerOpt( qstyleoption_cast<const QStyleOptionHeader *>( option ) );
-        if( !headerOpt ) return true;
+        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader *>( option ) );
+        if( !headerOption ) return true;
 
-        QRect rect( headerOpt->rect );
+        QRect rect( headerOption->rect );
 
-        if ( !headerOpt->icon.isNull() )
+        if ( !headerOption->icon.isNull() )
         {
-            const QPixmap pixmap( headerOpt->icon.pixmap(
+            const QPixmap pixmap( headerOption->icon.pixmap(
                 pixelMetric( PM_SmallIconSize ),
-                ( headerOpt->state & State_Enabled ) ? QIcon::Normal : QIcon::Disabled ) );
+                ( headerOption->state & State_Enabled ) ? QIcon::Normal : QIcon::Disabled ) );
 
             int pixw = pixmap.width();
 
-            QRect aligned = alignedRect( headerOpt->direction, QFlag( headerOpt->iconAlignment ), pixmap.size(), rect );
+            QRect aligned = alignedRect( headerOption->direction, QFlag( headerOption->iconAlignment ), pixmap.size(), rect );
             QRect inter = aligned.intersected( rect );
             painter->drawPixmap( inter.x(), inter.y(), pixmap, inter.x() - aligned.x(), inter.y() - aligned.y(), inter.width(), inter.height() );
 
-            if ( headerOpt->direction == Qt::LeftToRight ) rect.setLeft( rect.left() + pixw + 2 );
+            if ( headerOption->direction == Qt::LeftToRight ) rect.setLeft( rect.left() + pixw + 2 );
             else rect.setRight( rect.right() - pixw - 2 );
 
         }
 
         drawItemText(
-            painter, rect, headerOpt->textAlignment, headerOpt->palette,
-            ( headerOpt->state & State_Enabled ), headerOpt->text, QPalette::WindowText );
+            painter, rect, headerOption->textAlignment, headerOption->palette,
+            ( headerOption->state & State_Enabled ), headerOption->text, QPalette::WindowText );
 
         return true;
     }
@@ -4340,12 +4315,12 @@ namespace Oxygen
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
 
-        const QStyleOptionHeader* headerOpt( qstyleoption_cast<const QStyleOptionHeader *>( option ) );
-        if( !headerOpt ) return true;
+        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader *>( option ) );
+        if( !headerOption ) return true;
 
-        const bool horizontal( headerOpt->orientation == Qt::Horizontal );
+        const bool horizontal( headerOption->orientation == Qt::Horizontal );
         const bool reverseLayout( option->direction == Qt::RightToLeft );
-        const bool isFirst( horizontal && ( headerOpt->position == QStyleOptionHeader::Beginning ) );
+        const bool isFirst( horizontal && ( headerOption->position == QStyleOptionHeader::Beginning ) );
         const bool isCorner( widget && widget->inherits( "QTableCornerButton" ) );
 
         // corner header lines
@@ -4364,7 +4339,7 @@ namespace Oxygen
         if( horizontal )
         {
 
-            if( headerOpt->section != 0 || isFirst )
+            if( headerOption->section != 0 || isFirst )
             {
                 const int center( r.center().y() );
                 const int pos( reverseLayout ? r.left()+1 : r.right()-1 );
@@ -4688,20 +4663,20 @@ namespace Oxygen
             QRect arrowRect = visualRect( option, QRect( ir.x() + ir.width() - aw, ir.y(), aw, ir.height() ) );
 
             // get arrow shape
-            QPolygonF a = genericArrow( option->direction == Qt::LeftToRight ? ArrowRight : ArrowLeft, ArrowNormal );
+            QPolygonF arrow = genericArrow( option->direction == Qt::LeftToRight ? ArrowRight : ArrowLeft, ArrowNormal );
 
-            painter->translate( arrowRect.center() );
+            painter->translate( QRectF( arrowRect ).center() );
             painter->setRenderHint( QPainter::Antialiasing );
 
             // white reflection
             const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
             painter->translate( 0,offset );
             painter->setPen( QPen( _helper->calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawPolyline( a );
+            painter->drawPolyline( arrow );
             painter->translate( 0,-offset );
 
             painter->setPen( QPen( _helper->decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawPolyline( a );
+            painter->drawPolyline( arrow );
 
 
         }
@@ -4943,23 +4918,23 @@ namespace Oxygen
             // arrow
             const QRect arrowRect( x + w + indicatorSpacing, y+1, indicatorWidth, h );
             const qreal penThickness = 1.6;
-            QPolygonF a = genericArrow( ArrowDown, ArrowNormal );
+            QPolygonF arrow = genericArrow( ArrowDown, ArrowNormal );
 
             const QColor color = palette.color( flat ? QPalette::WindowText:QPalette::ButtonText );
             const QColor background = palette.color( flat ? QPalette::Window:QPalette::Button );
 
             painter->save();
-            painter->translate( arrowRect.center() );
+            painter->translate( QRectF( arrowRect ).center() );
             painter->setRenderHint( QPainter::Antialiasing );
 
             const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
             painter->translate( 0,offset );
             painter->setPen( QPen( _helper->calcLightColor(  background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawPolyline( a );
+            painter->drawPolyline( arrow );
             painter->translate( 0,-offset );
 
             painter->setPen( QPen( _helper->decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawPolyline( a );
+            painter->drawPolyline( arrow );
             painter->restore();
 
         }
@@ -6923,8 +6898,8 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionComboBox* cb( qstyleoption_cast<const QStyleOptionComboBox *>( option ) );
-        if( !cb ) return true;
+        const QStyleOptionComboBox* comboBoxOption( qstyleoption_cast<const QStyleOptionComboBox *>( option ) );
+        if( !comboBoxOption ) return true;
 
         const State& state( option->state );
         const QRect& r( option->rect );
@@ -6932,11 +6907,11 @@ namespace Oxygen
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( state & State_HasFocus );
-        const bool& editable( cb->editable );
-        const bool& hasFrame( cb->frame );
+        const bool& editable( comboBoxOption->editable );
+        const bool& hasFrame( comboBoxOption->frame );
 
         // frame
-        if( cb->subControls & SC_ComboBoxFrame )
+        if( comboBoxOption->subControls & SC_ComboBoxFrame )
         {
 
 
@@ -6947,7 +6922,7 @@ namespace Oxygen
             if( ( state & ( State_Sunken|State_On ) ) && !editable ) styleOptions |= Sunken;
 
             const QColor inputColor( palette.color( QPalette::Base ) );
-            const QRect editField( subControlRect( CC_ComboBox, cb, SC_ComboBoxEditField, widget ) );
+            const QRect editField( subControlRect( CC_ComboBox, comboBoxOption, SC_ComboBoxEditField, widget ) );
 
             if( editable )
             {
@@ -7080,7 +7055,7 @@ namespace Oxygen
 
         }
 
-        if( cb->subControls & SC_ComboBoxArrow )
+        if( comboBoxOption->subControls & SC_ComboBoxArrow )
         {
 
             const QComboBox* comboBox = qobject_cast<const QComboBox*>( widget );
@@ -7090,14 +7065,14 @@ namespace Oxygen
             QColor background;
             bool drawContrast( true );
 
-            if( cb->editable )
+            if( comboBoxOption->editable )
             {
 
                 if( enabled && empty ) color = palette.color( QPalette::Disabled,  QPalette::Text );
                 else {
 
                     // check animation state
-                    const bool subControlHover( enabled && mouseOver && cb->activeSubControls&SC_ComboBoxArrow );
+                    const bool subControlHover( enabled && mouseOver && comboBoxOption->activeSubControls&SC_ComboBoxArrow );
                     _animations->comboBoxEngine().updateState( widget, AnimationHover, subControlHover  );
 
                     const bool animated( enabled && _animations->comboBoxEngine().isAnimated( widget, AnimationHover ) );
@@ -7140,13 +7115,13 @@ namespace Oxygen
             // draw the arrow
             QRect arrowRect = comboBoxSubControlRect( option, SC_ComboBoxArrow, widget );
 
-            if( cb->currentIcon.isNull() && !cb->editable ) arrowRect.translate( 0, -1 );
+            if( comboBoxOption->currentIcon.isNull() && !comboBoxOption->editable ) arrowRect.translate( 0, -1 );
 
-            const QPolygonF a( genericArrow( ArrowDown, ArrowNormal ) );
+            const QPolygonF arrow( genericArrow( ArrowDown, ArrowNormal ) );
             const qreal penThickness = 1.6;
 
             painter->save();
-            painter->translate( arrowRect.center() );
+            painter->translate( QRectF( arrowRect ).center() );
             painter->setRenderHint( QPainter::Antialiasing );
 
             if( drawContrast )
@@ -7155,13 +7130,13 @@ namespace Oxygen
                 const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
                 painter->translate( 0,offset );
                 painter->setPen( QPen( _helper->calcLightColor( palette.color( QPalette::Window ) ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter->drawPolyline( a );
+                painter->drawPolyline( arrow );
                 painter->translate( 0,-offset );
 
             }
 
             painter->setPen( QPen( _helper->decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawPolyline( a );
+            painter->drawPolyline( arrow );
             painter->restore();
 
         }
@@ -7807,21 +7782,21 @@ namespace Oxygen
                 painter.setRenderHints( QPainter::Antialiasing );
                 painter.setBrush( Qt::NoBrush );
 
-                painter.translate( qreal( pixmap.width() )/2.0, qreal( pixmap.height() )/2.0 );
+                painter.translate( QRectF( pixmap.rect() ).center() );
 
                 const bool reverseLayout( option && option->direction == Qt::RightToLeft );
-                QPolygonF a = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, ArrowTiny );
+                QPolygonF arrow = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, ArrowTiny );
 
                 const qreal width( 1.1 );
                 painter.translate( 0, 0.5 );
                 painter.setBrush( Qt::NoBrush );
                 painter.setPen( QPen( _helper->calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter.drawPolyline( a );
+                painter.drawPolyline( arrow );
 
                 painter.translate( 0,-1 );
                 painter.setBrush( Qt::NoBrush );
                 painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter.drawPolyline( a );
+                painter.drawPolyline( arrow );
 
                 return QIcon( pixmap );
             }
@@ -7834,20 +7809,20 @@ namespace Oxygen
                 painter.setRenderHints( QPainter::Antialiasing );
                 painter.setBrush( Qt::NoBrush );
 
-                painter.translate( qreal( pixmap.width() )/2.0, qreal( pixmap.height() )/2.0 );
+                painter.translate( QRectF( pixmap.rect() ).center() );
 
-                QPolygonF a = genericArrow( ArrowDown, ArrowTiny );
+                QPolygonF arrow = genericArrow( ArrowDown, ArrowTiny );
 
                 const qreal width( 1.1 );
                 painter.translate( 0, 0.5 );
                 painter.setBrush( Qt::NoBrush );
                 painter.setPen( QPen( _helper->calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter.drawPolyline( a );
+                painter.drawPolyline( arrow );
 
                 painter.translate( 0,-1 );
                 painter.setBrush( Qt::NoBrush );
                 painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter.drawPolyline( a );
+                painter.drawPolyline( arrow );
 
                 return QIcon( pixmap );
             }
@@ -8242,15 +8217,15 @@ namespace Oxygen
         const qreal penThickness = 1.6;
         const QColor background = palette.color( QPalette::Background );
 
-        const QPolygonF a( genericArrow( ( subControl == SC_SpinBoxUp ) ? ArrowUp:ArrowDown, ArrowNormal ) );
+        const QPolygonF arrow( genericArrow( ( subControl == SC_SpinBoxUp ) ? ArrowUp:ArrowDown, ArrowNormal ) );
         const QRect arrowRect( subControlRect( CC_SpinBox, option, subControl, widget ) );
 
         painter->save();
-        painter->translate( arrowRect.center() );
+        painter->translate( QRectF( arrowRect ).center() );
         painter->setRenderHint( QPainter::Antialiasing );
 
         painter->setPen( QPen( _helper->decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( a );
+        painter->drawPolyline( arrow );
         painter->restore();
 
         return;
@@ -8935,7 +8910,7 @@ namespace Oxygen
     {
 
         const qreal penThickness = 1.6;
-        QPolygonF a( genericArrow( orientation, ArrowNormal ) );
+        QPolygonF arrow( genericArrow( orientation, ArrowNormal ) );
 
         const QColor contrast( _helper->calcLightColor( background ) );
         const QColor base( _helper->decoColor( background, color ) );
@@ -8947,11 +8922,11 @@ namespace Oxygen
         const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
         painter->translate( 0,offset );
         painter->setPen( QPen( contrast, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( a );
+        painter->drawPolyline( arrow );
         painter->translate( 0,-offset );
 
         painter->setPen( QPen( base, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( a );
+        painter->drawPolyline( arrow );
         painter->restore();
 
         return;
