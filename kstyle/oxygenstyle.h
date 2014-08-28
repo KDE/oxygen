@@ -125,10 +125,12 @@ namespace Oxygen
 
     };
 
+    //* convenience typedef or parent class
+    using ParentStyleClass = KStyle;
 
     //! base class for oxygen style
     /*! it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */
-    class Style: public KStyle
+    class Style: public ParentStyleClass
     {
         Q_OBJECT
 
@@ -150,8 +152,8 @@ namespace Oxygen
         virtual void unpolish( QWidget* );
 
         //! needed to avoid warnings at compilation time
-        using  KStyle::polish;
-        using  KStyle::unpolish;
+        using  ParentStyleClass::polish;
+        using  ParentStyleClass::unpolish;
 
         //! pixel metrics
         virtual int pixelMetric(PixelMetric, const QStyleOption* = 0, const QWidget* = 0) const;
@@ -333,7 +335,7 @@ namespace Oxygen
 
         // tabbar tab text
         QRect tabBarTabTextRect( const QStyleOption* option, const QWidget* widget ) const
-        { return KStyle::subElementRect( SE_TabBarTabText, option, widget ).adjusted( 6, 0, -6, 0 ); }
+        { return ParentStyleClass::subElementRect( SE_TabBarTabText, option, widget ).adjusted( 6, 0, -6, 0 ); }
 
         // tab widgets
         QRect tabWidgetTabContentsRect( const QStyleOption*, const QWidget* ) const;
@@ -466,8 +468,6 @@ namespace Oxygen
         virtual bool drawScrollBarSliderControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawScrollBarAddLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawScrollBarSubLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawScrollBarAddPageControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawScrollBarSubPageControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         virtual bool drawShapedFrameControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
@@ -505,6 +505,7 @@ namespace Oxygen
         bool drawGroupBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawSliderComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawSpinBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
+        bool drawScrollBarComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawTitleBarComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawToolButtonComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         //@}
@@ -680,6 +681,9 @@ namespace Oxygen
 
         //! slider tickmarks
         void renderSliderTickmarks( QPainter*, const QStyleOptionSlider*, const QWidget* ) const;
+
+        //* debug frame
+        void renderDebugFrame( QPainter*, const QRect& ) const;
 
         //@}
 
