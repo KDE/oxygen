@@ -919,6 +919,7 @@ namespace Oxygen
         {
 
             case CC_GroupBox: return groupBoxSubControlRect( option, subControl, widget );
+            case CC_ToolButton: return toolButtonSubControlRect( option, subControl, widget );
             case CC_ComboBox: return comboBoxSubControlRect( option, subControl, widget );
             case CC_ScrollBar: return scrollBarSubControlRect( option, subControl, widget );
             case CC_SpinBox: return spinBoxSubControlRect( option, subControl, widget );
@@ -1495,8 +1496,8 @@ namespace Oxygen
     QRect Style::progressBarContentsRect( const QStyleOption* option, const QWidget* ) const
     {
         const QRect out( insideMargin( option->rect, ProgressBar_GrooveMargin ) );
-        const QStyleOptionProgressBarV2 *pbOpt( qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option ) );
-        if( pbOpt && pbOpt->orientation == Qt::Vertical ) return out.adjusted( 0, 1, 0, -1 );
+        const QStyleOptionProgressBarV2 *progressBarOption( qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option ) );
+        if( progressBarOption && progressBarOption->orientation == Qt::Vertical ) return out.adjusted( 0, 1, 0, -1 );
         else return out.adjusted( 1, 0, -1, 0 );
     }
 
@@ -1739,86 +1740,103 @@ namespace Oxygen
     QRect Style::groupBoxSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
     {
 
-        QRect r = option->rect;
+        QRect rect = option->rect;
 
         //
         switch ( subControl )
         {
 
-            case SC_GroupBoxFrame: return r.adjusted( -1, -2, 1, 0 );
+            case SC_GroupBoxFrame: return rect;
 
             case SC_GroupBoxContents:
             {
 
                 // cast option and check
-                const QStyleOptionGroupBox *gbOpt = qstyleoption_cast<const QStyleOptionGroupBox *>( option );
-                if( !gbOpt ) break;
+                const QStyleOptionGroupBox *groupBoxOption = qstyleoption_cast<const QStyleOptionGroupBox*>( option );
+                if( !groupBoxOption ) break;
 
-                const bool isFlat( gbOpt->features & QStyleOptionFrameV2::Flat );
-                const int th( gbOpt->fontMetrics.height() + 8 );
-                const QRect cr( subElementRect( SE_CheckBoxIndicator, option, widget ) );
-                const int fw( pixelMetric( PM_DefaultFrameWidth, option, widget ) );
-                const bool checkable( gbOpt->subControls & QStyle::SC_GroupBoxCheckBox );
-                const bool emptyText( gbOpt->text.isEmpty() );
+                // take out frame width
+                rect = insideMargin( rect, Metrics::Frame_FrameWidth );
 
-                r.adjust( fw, fw, -fw, -fw );
-                if( checkable && !emptyText ) r.adjust( 0, qMax( th, cr.height() ), 0, 0 );
-                else if( checkable ) r.adjust( 0, cr.height(), 0, 0 );
-                else if( !emptyText ) r.adjust( 0, th, 0, 0 );
+                // get state
+                const bool checkable( groupBoxOption->subControls & QStyle::SC_GroupBoxCheckBox );
+                const bool emptyText( groupBoxOption->text.isEmpty() );
 
-                // add additional indentation to flat group boxes
-                if( isFlat )
-                {
-                    const int leftMarginExtension( 16 );
-                    r = visualRect( option->direction, r, r.adjusted( leftMarginExtension,0,0,0 ) );
-                }
+                // calculate title height
+                int titleHeight( 0 );
+                if( !emptyText ) titleHeight = groupBoxOption->fontMetrics.height();
+                if( checkable ) titleHeight = qMax( titleHeight, int(Metrics::CheckBox_Size) );
 
-                return r;
+                // add margin
+                if( titleHeight > 0 ) titleHeight += 2*Metrics::GroupBox_TitleMarginWidth;
+
+                rect.adjust( 0, titleHeight, 0, 0 );
+                return rect;
+
             }
 
             case SC_GroupBoxCheckBox:
             case SC_GroupBoxLabel:
             {
+
                 // cast option and check
-                const QStyleOptionGroupBox *gbOpt = qstyleoption_cast<const QStyleOptionGroupBox *>( option );
-                if( !gbOpt ) break;
+                const QStyleOptionGroupBox *groupBoxOption = qstyleoption_cast<const QStyleOptionGroupBox*>( option );
+                if( !groupBoxOption ) break;
 
-                const bool isFlat( gbOpt->features & QStyleOptionFrameV2::Flat );
-                QFont font;
-                if (widget) {
-                    font = widget->font();
-                } else {
-                    font = QApplication::font();
-                }
-                // calculate text width assuming bold text in flat group boxes
-                if( isFlat ) font.setBold( true );
+                // take out frame width
+                rect = insideMargin( rect, Metrics::Frame_FrameWidth );
 
-                QFontMetrics fontMetrics = QFontMetrics( font );
-                const int h( fontMetrics.height() );
-                const int tw( fontMetrics.size( Qt::TextShowMnemonic, gbOpt->text + QStringLiteral( "  " ) ).width() );
-                r.setHeight( h );
+                const bool emptyText( groupBoxOption->text.isEmpty() );
+                const bool checkable( groupBoxOption->subControls & QStyle::SC_GroupBoxCheckBox );
 
-                // translate down by 6 pixels in non flat mode,
-                // to avoid collision with groupbox frame
-                if( !isFlat ) r.moveTop( 6 );
-
-                QRect cr;
-                if( gbOpt->subControls & QStyle::SC_GroupBoxCheckBox )
+                // calculate title height
+                int titleHeight( 0 );
+                int titleWidth( 0 );
+                if( !emptyText )
                 {
-                    cr = subElementRect( SE_CheckBoxIndicator, option, widget );
-                    QRect gcr( ( gbOpt->rect.width() - tw -cr.width() )/2 , ( h-cr.height() )/2+r.y(), cr.width(), cr.height() );
-                    if( subControl == SC_GroupBoxCheckBox )
-                    {
-                        if( !isFlat ) return visualRect( option->direction, option->rect, gcr );
-                        else return visualRect( option->direction, option->rect, QRect( 0,0,cr.width(),cr.height() ) );
-                    }
+                    const QFontMetrics fontMetrics = option->fontMetrics;
+                    titleHeight = qMax( titleHeight, fontMetrics.height() );
+                    titleWidth += fontMetrics.size( _mnemonics->textFlags(), groupBoxOption->text ).width();
                 }
 
-                // left align labels in flat group boxes, center align labels in framed group boxes
-                if( isFlat ) r = QRect( cr.width(),r.y(),tw,r.height() );
-                else r = QRect( ( gbOpt->rect.width() - tw - cr.width() )/2 + cr.width(), r.y(), tw, r.height() );
+                if( checkable )
+                {
+                    titleHeight = qMax( titleHeight, int(Metrics::CheckBox_Size) );
+                    titleWidth += Metrics::CheckBox_Size;
+                    if( !emptyText ) titleWidth += Metrics::CheckBox_ItemSpacing;
+                }
 
-                return visualRect( option->direction, option->rect, r );
+                // adjust height
+                QRect titleRect( rect );
+                titleRect.setHeight( titleHeight );
+                titleRect.translate( 0, Metrics::GroupBox_TitleMarginWidth );
+
+                // center
+                titleRect = centerRect( titleRect, titleWidth, titleHeight );
+
+                if( subControl == SC_GroupBoxCheckBox )
+                {
+
+                    // vertical centering
+                    titleRect = centerRect( titleRect, titleWidth, Metrics::CheckBox_Size );
+
+                    // horizontal positioning
+                    const QRect subRect( titleRect.topLeft(), QSize( Metrics::CheckBox_Size, titleRect.height() ) );
+                    return visualRect( option->direction, titleRect, subRect );
+
+                } else {
+
+                    // vertical centering
+                    QFontMetrics fontMetrics = option->fontMetrics;
+                    titleRect = centerRect( titleRect, titleWidth, fontMetrics.height() );
+
+                    // horizontal positioning
+                    QRect subRect( titleRect );
+                    if( checkable ) subRect.adjust( Metrics::CheckBox_Size + Metrics::CheckBox_ItemSpacing, 0, 0, 0 );
+                    return visualRect( option->direction, titleRect, subRect );
+
+                }
+
             }
 
             default: break;
@@ -1826,6 +1844,57 @@ namespace Oxygen
         }
 
         return ParentStyleClass::subControlRect( CC_GroupBox, option, subControl, widget );
+    }
+
+    //___________________________________________________________________________________________________________________
+    QRect Style::toolButtonSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
+    {
+
+        // cast option and check
+        const QStyleOptionToolButton* toolButtonOption = qstyleoption_cast<const QStyleOptionToolButton*>( option );
+        if( !toolButtonOption ) return ParentStyleClass::subControlRect( CC_ToolButton, option, subControl, widget );
+
+        const bool hasPopupMenu( toolButtonOption->features & QStyleOptionToolButton::MenuButtonPopup );
+        const bool hasInlineIndicator( toolButtonOption->features & QStyleOptionToolButton::HasMenu && !hasPopupMenu );
+
+        // store rect
+        const QRect& rect( option->rect );
+        const int menuButtonWidth( Metrics::MenuButton_IndicatorWidth );
+        switch( subControl )
+        {
+            case SC_ToolButtonMenu:
+            {
+
+                // check fratures
+                if( !(hasPopupMenu || hasInlineIndicator ) ) return QRect();
+
+                // check features
+                QRect menuRect( rect );
+                menuRect.setLeft( rect.right() - menuButtonWidth + 1 );
+                if( hasInlineIndicator )
+                { menuRect.setTop( menuRect.bottom() - menuButtonWidth + 1 ); }
+
+                return visualRect( option, menuRect );
+            }
+
+            case SC_ToolButton:
+            {
+
+                if( hasPopupMenu )
+                {
+
+                    QRect contentsRect( rect );
+                    contentsRect.setRight( rect.right() - menuButtonWidth );
+                    return visualRect( option, contentsRect );
+
+                } else return rect;
+
+            }
+
+            default: return QRect();
+
+        }
+
     }
 
     //___________________________________________________________________________________________________________________
@@ -1955,13 +2024,13 @@ namespace Oxygen
                 if( horizontal )
                 {
 
-                    topLeftCorner  = QPoint( topRect.right() + 1, topRect.top() );
-                    botRightCorner = QPoint( bottomRect.left()  - 1, topRect.bottom() );
+                    topLeftCorner  = QPoint( topRect.right() + 2, topRect.top() );
+                    botRightCorner = QPoint( bottomRect.left() - 2, topRect.bottom() );
 
                 } else {
 
-                    topLeftCorner  = QPoint( topRect.left(),  topRect.bottom() + 1 );
-                    botRightCorner = QPoint( topRect.right(), bottomRect.top() - 1 );
+                    topLeftCorner  = QPoint( topRect.left(),  topRect.bottom() + 2 );
+                    botRightCorner = QPoint( topRect.right(), bottomRect.top() - 2 );
 
                 }
 
@@ -2097,7 +2166,7 @@ namespace Oxygen
         size.setHeight( qMax( size.height(), indicator ) );
 
         //Add space for the indicator and the icon
-        const int spacer( CheckBox_BoxTextSpace );
+        const int spacer( CheckBox_ItemSpacing );
         size.rwidth() += indicator + spacer;
 
         return size;
@@ -3065,7 +3134,7 @@ namespace Oxygen
         {
 
             const QPalette& palette( option->palette );
-            QRect r( option->rect );
+            QRect rect( option->rect );
 
             // adjust rect depending on shape
             const QTabBar* tabBar( static_cast<const QTabBar*>( widget->parent() ) );
@@ -3073,22 +3142,22 @@ namespace Oxygen
             {
                 case QTabBar::RoundedNorth:
                 case QTabBar::TriangularNorth:
-                r.setBottom( r.bottom()-6 );
+                rect.adjust( 0, 0, 0, -6 );
                 break;
 
                 case QTabBar::RoundedSouth:
                 case QTabBar::TriangularSouth:
-                r.setTop( r.top() + 6 );
+                rect.adjust( 0, 6, 0, 0 );
                 break;
 
                 case QTabBar::RoundedWest:
                 case QTabBar::TriangularWest:
-                r.setRight( r.right() - 6 );
+                rect.adjust( 0, 0, -6, 0 );
                 break;
 
                 case QTabBar::RoundedEast:
                 case QTabBar::TriangularEast:
-                r.setLeft( r.left() + 6 );
+                rect.adjust( 6, 0, 0, 0 );
                 break;
 
                 default: break;
@@ -3099,17 +3168,19 @@ namespace Oxygen
 
             // check whether parent has autofill background flag
             const QWidget* parent = _helper->checkAutoFillBackground( widget );
-            if( parent && !qobject_cast<const QDockWidget*>( parent ) ) painter->fillRect( r, parent->palette().color( parent->backgroundRole() ) );
-            else _helper->renderWindowBackground( painter, r, widget, local );
+            if( parent && !qobject_cast<const QDockWidget*>( parent ) ) painter->fillRect( rect, parent->palette().color( parent->backgroundRole() ) );
+            else _helper->renderWindowBackground( painter, rect, widget, local );
 
             return true;
 
         }
 
-        const QRect& r( option->rect );
-        const State& state( option->state );
+        // copy rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
 
+        // store state
+        const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( enabled && ( state & State_HasFocus ) );
@@ -3122,15 +3193,16 @@ namespace Oxygen
         // toolbar engine
         const bool toolBarAnimated( isInToolBar && widget && ( _animations->toolBarEngine().isAnimated( widget->parentWidget() ) || _animations->toolBarEngine().isFollowMouseAnimated( widget->parentWidget() ) ) );
         const QRect animatedRect( ( isInToolBar && widget ) ? _animations->toolBarEngine().animatedRect( widget->parentWidget() ):QRect() );
-        const QRect childRect( ( widget && widget->parentWidget() ) ? r.translated( widget->mapToParent( QPoint( 0,0 ) ) ):QRect() );
+        const QRect childRect( ( widget && widget->parentWidget() ) ? rect.translated( widget->mapToParent( QPoint( 0,0 ) ) ):QRect() );
         const QRect currentRect(  widget ? _animations->toolBarEngine().currentRect( widget->parentWidget() ):QRect() );
-        const bool current( isInToolBar && widget && widget->parentWidget() && currentRect.intersects( r.translated( widget->mapToParent( QPoint( 0,0 ) ) ) ) );
+        const bool current( isInToolBar && widget && widget->parentWidget() && currentRect.intersects( rect.translated( widget->mapToParent( QPoint( 0,0 ) ) ) ) );
         const bool toolBarTimerActive( isInToolBar && widget && _animations->toolBarEngine().isTimerActive( widget->parentWidget() ) );
         const qreal toolBarOpacity( ( isInToolBar && widget ) ? _animations->toolBarEngine().opacity( widget->parentWidget() ):0 );
 
         // toolbutton engine
         if( isInToolBar && !toolBarAnimated )
         {
+
 
             _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
 
@@ -3149,14 +3221,13 @@ namespace Oxygen
         qreal focusOpacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
 
         // slit rect
-        QRect slitRect( r );
+        QRect slitRect( rect );
 
         // non autoraised tool buttons get same slab as regular buttons
         if( widget && !autoRaised )
         {
 
-            StyleOptions styleOptions = 0;
-            slitRect.adjust( -1, 0, 1, 0 );
+            StyleOptions styleOptions;
 
             // "normal" parent, and non "autoraised" ( that is: always raised ) buttons
             if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
@@ -3166,19 +3237,13 @@ namespace Oxygen
             TileSet::Tiles tiles( TileSet::Ring );
 
             // adjust tiles and rect in case of menubutton
-            const QToolButton* t = qobject_cast<const QToolButton*>( widget );
-            if( t && t->popupMode()==QToolButton::MenuButtonPopup )
+            const QToolButton* toolButton = qobject_cast<const QToolButton*>( widget );
+            const bool hasPopupMenu( toolButton && toolButton->popupMode() == QToolButton::MenuButtonPopup );
+
+            if( hasPopupMenu )
             {
-                if( reverseLayout )
-                {
-
-                    tiles = TileSet::Bottom | TileSet::Top | TileSet::Right;
-                    slitRect.adjust( -4, 0, 0, 0 );
-
-                } else {
-                    tiles = TileSet::Bottom | TileSet::Top | TileSet::Left;
-                    slitRect.adjust( 0, 0, 4, 0 );
-                }
+                if( reverseLayout ) tiles &= ~TileSet::Left;
+                else tiles &= ~TileSet::Right;
             }
 
             // adjust opacity and animation mode
@@ -3197,7 +3262,7 @@ namespace Oxygen
             }
 
             // match button color to window background
-            const QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
+            const QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
 
             // render slab
             renderButtonSlab( painter, slitRect, buttonColor, styleOptions, opacity, mode, tiles );
@@ -3747,24 +3812,24 @@ namespace Oxygen
 
                 // paint frame
                 painter->save();
+                TileSet::Tiles tiles( TileSet::Ring );
                 if( reverseLayout )
                 {
 
                     if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
-
-                    painter->setClipRect( rect, Qt::IntersectClip );
-                    renderButtonSlab( painter, rect, background, styleOptions, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Left );
+                    tiles &= ~TileSet::Right;
 
                 } else {
 
 
                     if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
+                    tiles &= ~TileSet::Left;
 
-                    painter->setClipRect( rect, Qt::IntersectClip );
-                    renderButtonSlab( painter, rect, background, styleOptions, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right );
 
                 }
 
+                painter->setClipRect( rect, Qt::IntersectClip );
+                renderButtonSlab( painter, rect, background, styleOptions, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right );
                 painter->restore();
 
                 // draw separating vertical line
@@ -3774,7 +3839,7 @@ namespace Oxygen
                 dark.setAlpha( 200 );
 
 
-                const int top( rect.top()+ sunken ? 3:2 );
+                const int top( rect.top()+ (sunken ? 3:2) );
                 const int bottom( rect.bottom()-4 );
 
                 painter->setPen( QPen( light,1 ) );
@@ -3782,21 +3847,17 @@ namespace Oxygen
                 if( reverseLayout )
                 {
 
-                    painter->drawLine( rect.right()+5, top+1, rect.right()+5, bottom );
-                    painter->drawLine( rect.right()+3, top+2, rect.right()+3, bottom );
-                    painter->setPen( QPen( dark,1 ) );
-                    painter->drawLine( rect.right()+4, top, rect.right()+4, bottom );
-
-                    arrow.translate( 3, 1 );
+                    painter->drawLine( rect.right()+1, top+1, rect.right()+1, bottom );
+                    painter->drawLine( rect.right()-1, top+2, rect.right()-1, bottom );
+                    painter->setPen( dark );
+                    painter->drawLine( rect.right(), top, rect.right(), bottom );
 
                 } else {
 
-                    painter->drawLine( rect.left()-5, top+1, rect.left()-5, bottom-1 );
-                    painter->drawLine( rect.left()-3, top+1, rect.left()-3, bottom-1 );
-                    painter->setPen( QPen( dark,1 ) );
-                    painter->drawLine( rect.left()-4, top, rect.left()-4, bottom );
-
-                    arrow.translate( -3,1 );
+                    painter->drawLine( rect.left()-1, top+1, rect.left()-1, bottom-1 );
+                    painter->drawLine( rect.left()+1, top+1, rect.left()+1, bottom-1 );
+                    painter->setPen( dark );
+                    painter->drawLine( rect.left(), top, rect.left(), bottom );
 
                 }
 
@@ -4688,35 +4749,43 @@ namespace Oxygen
     bool Style::drawProgressBarControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        if( const QStyleOptionProgressBar *pb = qstyleoption_cast<const QStyleOptionProgressBar *>( option ) )
+        const QStyleOptionProgressBar* progressBarOption( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
+        if( !progressBarOption ) return true;
+
+        QStyleOptionProgressBarV2 progressBarOption2 = *progressBarOption;
+        progressBarOption2.rect = subElementRect( SE_ProgressBarGroove, progressBarOption, widget );
+        drawProgressBarGrooveControl( &progressBarOption2, painter, widget );
+
+        // enable busy animations
+        #if QT_VERSION >= 0x050000
+        const QObject* styleObject( widget ? widget:progressBarOption->styleObject );
+        #else
+        const QObject* styleObject( widget );
+        #endif
+
+        if( styleObject && _animations->busyIndicatorEngine().enabled() )
         {
 
-            // same as ParentStyleClass::drawControl, except that it handles animations
-            QStyleOptionProgressBarV2 subopt = *pb;
-            subopt.rect = subElementRect( SE_ProgressBarGroove, pb, widget );
-            drawProgressBarGrooveControl( &subopt, painter, widget );
+            #if QT_VERSION >= 0x050000
+            // register QML object if defined
+            if( !widget && progressBarOption->styleObject )
+            { _animations->busyIndicatorEngine().registerWidget( progressBarOption->styleObject ); }
+            #endif
 
-            // enable busy animations
-            if(( widget || pb->styleObject ) && _animations->busyIndicatorEngine().enabled() )
-            {
-                if( !widget && pb->styleObject ) {
-                    _animations->busyIndicatorEngine().registerWidget( pb->styleObject );
-                }
-                _animations->busyIndicatorEngine().setAnimated( widget ? widget : pb->styleObject, pb->maximum == 0 && pb->minimum == 0 );
-            }
+            _animations->busyIndicatorEngine().setAnimated( styleObject, progressBarOption->maximum == 0 && progressBarOption->minimum == 0 );
 
-            if( _animations->busyIndicatorEngine().isAnimated( widget ? widget : pb->styleObject ) )
-            { subopt.progress = _animations->busyIndicatorEngine().value( widget ? widget : pb->styleObject ); }
+        }
 
-            subopt.rect = subElementRect( SE_ProgressBarContents, &subopt, widget );
-            drawProgressBarContentsControl( &subopt, painter, widget );
+        if( _animations->busyIndicatorEngine().isAnimated( styleObject ) )
+        { progressBarOption2.progress = _animations->busyIndicatorEngine().value( styleObject ); }
 
-            if( pb->textVisible )
-            {
-                subopt.rect = subElementRect( SE_ProgressBarLabel, pb, widget );
-                drawProgressBarLabelControl( &subopt, painter, widget );
-            }
+        progressBarOption2.rect = subElementRect( SE_ProgressBarContents, &progressBarOption2, widget );
+        drawProgressBarContentsControl( &progressBarOption2, painter, widget );
 
+        if( progressBarOption->textVisible )
+        {
+            progressBarOption2.rect = subElementRect( SE_ProgressBarLabel, progressBarOption, widget );
+            drawProgressBarLabelControl( &progressBarOption2, painter, widget );
         }
 
         return true;
@@ -4727,24 +4796,24 @@ namespace Oxygen
     bool Style::drawProgressBarContentsControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        const QStyleOptionProgressBar* pbOpt = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
-        if ( !pbOpt ) return true;
+        const QStyleOptionProgressBar* progressBarOption = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
+        if ( !progressBarOption ) return true;
 
-        const QStyleOptionProgressBarV2* pbOpt2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
+        const QStyleOptionProgressBarV2* progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
 
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
 
         // check if anything is to be drawn
-        qreal progress = pbOpt->progress - pbOpt->minimum;
-        const bool busyIndicator = ( pbOpt->minimum == 0 && pbOpt->maximum == 0 );
+        qreal progress = progressBarOption->progress - progressBarOption->minimum;
+        const bool busyIndicator = ( progressBarOption->minimum == 0 && progressBarOption->maximum == 0 );
         if( busyIndicator )
-        { progress = _animations->busyIndicatorEngine().value( widget ? widget : pbOpt->styleObject ); }
+        { progress = _animations->busyIndicatorEngine().value( widget ? widget : progressBarOption->styleObject ); }
 
         if( !( progress || busyIndicator ) ) return true;
 
-        const int steps = qMax( pbOpt->maximum  - pbOpt->minimum, 1 );
-        const bool horizontal = !pbOpt2 || pbOpt2->orientation == Qt::Horizontal;
+        const int steps = qMax( progressBarOption->maximum  - progressBarOption->minimum, 1 );
+        const bool horizontal = !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal;
 
         //Calculate width fraction
         qreal widthFrac( busyIndicator ?  ProgressBar_BusyIndicatorSize/100.0 : progress/steps );
@@ -4789,7 +4858,7 @@ namespace Oxygen
 
             // calculate dimension
             int dimension( 20 );
-            if( pbOpt2 ) dimension = qMax( 5, horizontal ? indicatorRect.height() : indicatorRect.width() );
+            if( progressBarOption2 ) dimension = qMax( 5, horizontal ? indicatorRect.height() : indicatorRect.width() );
             TileSet* tileSet( _helper->progressBarIndicator( palette, dimension ) );
             tileSet->render( indicatorRect, painter, TileSet::Full );
         }
@@ -4802,8 +4871,8 @@ namespace Oxygen
     bool Style::drawProgressBarGrooveControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
-        const QStyleOptionProgressBarV2 *pbOpt = qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option );
-        const Qt::Orientation orientation( pbOpt? pbOpt->orientation : Qt::Horizontal );
+        const QStyleOptionProgressBarV2 *progressBarOption = qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option );
+        const Qt::Orientation orientation( progressBarOption? progressBarOption->orientation : Qt::Horizontal );
 
         // ajust rect for alignment
         QRect rect( option->rect );
@@ -4818,16 +4887,16 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawProgressBarLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
-        const QStyleOptionProgressBar* pbOpt = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
-        if( !pbOpt ) return true;
+        const QStyleOptionProgressBar* progressBarOption = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
+        if( !progressBarOption ) return true;
 
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
         const State& state( option->state );
         const bool enabled( state&State_Enabled );
 
-        const QStyleOptionProgressBarV2* pbOpt2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
-        const bool horizontal = !pbOpt2 || pbOpt2->orientation == Qt::Horizontal;
+        const QStyleOptionProgressBarV2* progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
+        const bool horizontal = !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal;
         const bool reverseLayout = ( option->direction == Qt::RightToLeft );
 
         // rotate label for vertical layout
@@ -4844,7 +4913,7 @@ namespace Oxygen
 
         }
 
-        Qt::Alignment hAlign( ( pbOpt->textAlignment == Qt::AlignLeft ) ? Qt::AlignHCenter : pbOpt->textAlignment );
+        Qt::Alignment hAlign( ( progressBarOption->textAlignment == Qt::AlignLeft ) ? Qt::AlignHCenter : progressBarOption->textAlignment );
 
         /*
         Figure out the geometry of the indicator.
@@ -4852,8 +4921,8 @@ namespace Oxygen
         */
         QRect progressRect;
         const QRect textRect( horizontal? r : QRect( 0, 0, r.height(), r.width() ) );
-        const qreal progress = pbOpt->progress - pbOpt->minimum;
-        const int steps = qMax( pbOpt->maximum  - pbOpt->minimum, 1 );
+        const qreal progress = progressBarOption->progress - progressBarOption->minimum;
+        const int steps = qMax( progressBarOption->maximum  - progressBarOption->minimum, 1 );
         const bool busyIndicator = ( steps <= 1 );
 
         int indicatorSize( 0 );
@@ -4870,17 +4939,17 @@ namespace Oxygen
             else painter->setClipRect( QRect( 0, 0, indicatorSize, r.width() ) );
 
             // first pass ( highlighted )
-            drawItemText( painter, textRect, Qt::AlignVCenter | hAlign, palette, enabled, pbOpt->text, QPalette::HighlightedText );
+            drawItemText( painter, textRect, Qt::AlignVCenter | hAlign, palette, enabled, progressBarOption->text, QPalette::HighlightedText );
 
             // second pass ( normal )
             if( horizontal ) painter->setClipRect( visualRect( option, QRect( r.x() + indicatorSize, r.y(), r.width() - indicatorSize, r.height() ) ) );
             else if( !reverseLayout ) painter->setClipRect( QRect( 0, 0, r.height() - indicatorSize, r.width() ) );
             else painter->setClipRect( QRect( indicatorSize, 0, r.height()- indicatorSize, r.width() ) );
-            drawItemText( painter, textRect, Qt::AlignVCenter | hAlign, palette, enabled, pbOpt->text, QPalette::WindowText );
+            drawItemText( painter, textRect, Qt::AlignVCenter | hAlign, palette, enabled, progressBarOption->text, QPalette::WindowText );
 
         } else {
 
-            drawItemText( painter, textRect, Qt::AlignVCenter | hAlign, palette, enabled, pbOpt->text, QPalette::WindowText );
+            drawItemText( painter, textRect, Qt::AlignVCenter | hAlign, palette, enabled, progressBarOption->text, QPalette::WindowText );
 
         }
 

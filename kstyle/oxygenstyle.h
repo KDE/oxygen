@@ -319,7 +319,7 @@ namespace Oxygen
 
         //! checkbox contents
         QRect checkBoxContentsRect( const QStyleOption* option, const QWidget* ) const
-        { return visualRect( option, option->rect.adjusted( CheckBox_Size + CheckBox_BoxTextSpace, 0, 0, 0 ) ); }
+        { return visualRect( option, option->rect.adjusted( CheckBox_Size + CheckBox_ItemSpacing, 0, 0, 0 ) ); }
 
         //! progressbar contents
         QRect progressBarContentsRect( const QStyleOption* option, const QWidget* ) const;
@@ -350,6 +350,7 @@ namespace Oxygen
         //@{
 
         QRect groupBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
+        QRect toolButtonSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect comboBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect scrollBarSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect spinBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
