@@ -34,7 +34,7 @@ namespace Oxygen
         // checkbox. Do not change, unless
         // changing the actual cached pixmap size
         CheckBox_Size = 21,
-        CheckBox_BoxTextSpace = 4,
+        CheckBox_ItemSpacing = 4,
 
         // combobox
         ComboBox_FrameWidth = 3,
@@ -61,6 +61,7 @@ namespace Oxygen
 
         // group boxes
         GroupBox_FrameWidth = 3,
+        GroupBox_TitleMarginWidth = 4,
 
         // header
         Header_TextToIconSpace = 3,
@@ -79,6 +80,7 @@ namespace Oxygen
         MenuItem_IconSpace = 3,
         MenuItem_Margin = 2,
         MenuItem_MinHeight = 20,
+        MenuButton_IndicatorWidth = 20,
 
         // menu bar item
         MenuBarItem_Margin = 3,
