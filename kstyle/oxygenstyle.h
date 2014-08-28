@@ -319,7 +319,7 @@ namespace Oxygen
 
         //! checkbox contents
         QRect checkBoxContentsRect( const QStyleOption* option, const QWidget* ) const
-        { return handleRTL( option, option->rect.adjusted( CheckBox_Size + CheckBox_BoxTextSpace, 0, 0, 0 ) ); }
+        { return visualRect( option, option->rect.adjusted( CheckBox_Size + CheckBox_BoxTextSpace, 0, 0, 0 ) ); }
 
         //! progressbar contents
         QRect progressBarContentsRect( const QStyleOption* option, const QWidget* ) const;
@@ -545,11 +545,12 @@ namespace Oxygen
         }
 
         //! right to left alignment handling
-        QRect handleRTL(const QStyleOption* opt, const QRect& subRect) const
+        QRect visualRect(const QStyleOption* opt, const QRect& subRect) const
         { return visualRect(opt->direction, opt->rect, subRect); }
 
         //! right to left alignment handling
-        QPoint handleRTL(const QStyleOption* opt, const QPoint& pos) const
+        using ParentStyleClass::visualRect;
+        QPoint visualRect(const QStyleOption* opt, const QPoint& pos) const
         { return visualPos(opt->direction, opt->rect, pos); }
 
         QRect centerRect(const QRect &in, const QSize& s ) const
