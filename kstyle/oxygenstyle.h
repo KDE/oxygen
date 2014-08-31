@@ -302,24 +302,9 @@ namespace Oxygen
         QRect defaultSubElementRect( const QStyleOption* option, const QWidget* ) const
         { return option->rect; }
 
-        //! pushbutton contents
-        QRect pushButtonContentsRect( const QStyleOption* option, const QWidget* ) const
-        {
-            return insideMargin( option->rect,
-                PushButton_ContentsMargin,
-                PushButton_ContentsMargin_Left,
-                PushButton_ContentsMargin_Top,
-                PushButton_ContentsMargin_Right,
-                PushButton_ContentsMargin_Bottom );
-        }
-
-        //! toolbox tab
-        QRect toolBoxTabContentsRect( const QStyleOption* option, const QWidget* ) const
-        { return insideMargin( option->rect, 0, 5, 0, 5, 0 ); }
-
-        //! checkbox contents
-        QRect checkBoxContentsRect( const QStyleOption* option, const QWidget* ) const
-        { return visualRect( option, option->rect.adjusted( CheckBox_Size + CheckBox_ItemSpacing, 0, 0, 0 ) ); }
+        QRect pushButtonContentsRect( const QStyleOption* option, const QWidget* ) const;
+        QRect checkBoxContentsRect( const QStyleOption* option, const QWidget* ) const;
+        QRect toolBoxTabContentsRect( const QStyleOption* option, const QWidget* ) const;
 
         //! progressbar contents
         QRect progressBarContentsRect( const QStyleOption* option, const QWidget* ) const;
@@ -362,23 +347,16 @@ namespace Oxygen
 
         //!@name sizeFromContents
         //@{
+        QSize defaultSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const
+        { return size; }
 
         QSize checkBoxSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize comboBoxSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize headerSectionSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
-
-        QSize menuBarSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const
-        { return size; }
-
-        QSize menuBarItemSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const
-        { return expandSize( size, MenuBarItem_Margin, MenuBarItem_Margin_Left, 0, MenuBarItem_Margin_Right, 0 ); }
-
+        QSize menuBarItemSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const;
         QSize menuItemSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize pushButtonSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
-
-        QSize tabWidgetSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const
-        { return expandSize( size, TabWidget_ContentsMargin - 2 ); }
-
+        QSize tabWidgetSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const;
         QSize tabBarTabSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const;
         QSize toolButtonSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
 
@@ -714,6 +692,13 @@ namespace Oxygen
                 default: return 0;
             }
         }
+
+        /**
+        separator can have a title and an icon
+        in that case they are rendered as sunken flat toolbuttons
+        return toolbutton option that matches named separator menu items
+        */
+        QStyleOptionToolButton separatorMenuItemOption( const QStyleOptionMenuItem*, const QWidget* ) const;
 
         private:
 

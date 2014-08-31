@@ -589,45 +589,29 @@ namespace Oxygen
         {
 
             case PM_DefaultFrameWidth:
+            if( qobject_cast<const QLineEdit*>( widget ) ) return LineEdit_FrameWidth;
+            else if( option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" ) )
             {
-
-                if( qobject_cast<const QLineEdit*>( widget ) ) return LineEdit_FrameWidth;
-                else if( qobject_cast<const QComboBox*>( widget ) ) return ComboBox_FrameWidth;
-                else if( qobject_cast<const QFrame*>( widget ) )
+                const QString &elementType = option->styleObject->property( "elementType" ).toString();
+                if ( elementType == QLatin1String( "edit" ) || elementType == QLatin1String( "spinbox" ) )
                 {
 
-                    // special case for KTitleWidget: frameWidth is set to zero, since
-                    // no frame, nor background is painted for these
-                    if( widget->parent() && widget->parent()->inherits( "KTitleWidget" ) ) return 0;
-                    else return Frame_FrameWidth;
+                    return LineEdit_FrameWidth;
+
+                } else if ( elementType == QLatin1String( "combobox" ) ) {
+
+                    return ComboBox_FrameWidth;
+
+                } else {
+
+                    return Frame_FrameWidth;
 
                 }
-                else if( qstyleoption_cast<const QStyleOptionGroupBox *>( option ) ) return GroupBox_FrameWidth;
-                else if( option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" ) )
-                {
-                    const QString &elementType = option->styleObject->property( "elementType" ).toString();
-                    if ( elementType == QLatin1String( "edit" ) || elementType == QLatin1String( "spinbox" ) )
-                    {
-                        return LineEdit_FrameWidth;
-                    }
-                    else if ( elementType == QLatin1String( "combobox" ) )
-                    {
-                        return ComboBox_FrameWidth;
-                    }
-                    else if ( elementType == QLatin1String( "groupbox" ) )
-                    {
-                        return GroupBox_FrameWidth;
-                    }
-                    else
-                    {
-                        return Frame_FrameWidth;
-                    }
-                }
-                else
-                {
-                    return 1;
-                }
+
             }
+
+            // fallback
+            return Frame_FrameWidth;
 
             case PM_LayoutLeftMargin:
             case PM_LayoutTopMargin:
@@ -654,16 +638,12 @@ namespace Oxygen
             case PM_ButtonMargin:
             { return ( widget && widget->inherits( "KCalcButton" ) ) ? 8:5; }
 
-            case PM_MenuButtonIndicator:
-            {
-                if( qstyleoption_cast<const QStyleOptionToolButton*>( option ) ) return MenuButton_IndicatorWidth;
-                else return PushButton_MenuIndicatorSize;
-            }
+            case PM_MenuButtonIndicator: return MenuButton_IndicatorWidth;
 
             case PM_ScrollBarExtent:
             return StyleConfigData::scrollBarWidth() + 2;
 
-            case PM_ScrollBarSliderMin: return ScrollBar_MinimumSliderHeight;
+            case PM_ScrollBarSliderMin: return ScrollBar_MinSliderHeight;
 
             // tooltip label
             case PM_ToolTipLabelFrameWidth:
@@ -689,10 +669,11 @@ namespace Oxygen
             case PM_ExclusiveIndicatorHeight: return CheckBox_Size;
 
             // splitters and dock widgets
-            case PM_SplitterWidth: return Splitter_Width;
-            case PM_DockWidgetFrameWidth: return DockWidget_FrameWidth;
-            case PM_DockWidgetSeparatorExtent: return DockWidget_SeparatorExtend;
-            case PM_DockWidgetTitleMargin: return DockWidget_TitleMargin;
+            case PM_SplitterWidth: return Splitter_SplitterWidth;
+            case PM_DockWidgetSeparatorExtent: return Splitter_SplitterWidth;
+            case PM_DockWidgetFrameWidth: return 0;
+            case PM_DockWidgetTitleMargin: return Frame_FrameWidth;
+            case PM_DockWidgetTitleBarButtonMargin: return ToolButton_MarginWidth;
 
             // progress bar
             case PM_ProgressBarChunkWidth: return 1;
@@ -709,20 +690,12 @@ namespace Oxygen
             case PM_MenuTearoffHeight: return 10;
 
             // tabbars
-            case PM_TabBarTabHSpace: return 0;
-            case PM_TabBarTabVSpace: return 0;
-            case PM_TabBarBaseHeight: return TabBar_BaseHeight;
             case PM_TabBarBaseOverlap: return TabBar_BaseOverlap;
-            case PM_TabBarTabOverlap: return 0;
-            case PM_TabBarScrollButtonWidth: return TabBar_ScrollButtonWidth;
-
-            /*
-            disable shifts: return because last time I checked it did not work well
-            for South and East tabs. Instead the shifts are added directly in
-            drawTabBarTabLabel. ( Hugo )
-            */
+            case PM_TabBarTabOverlap: return TabBar_TabOverlap;
             case PM_TabBarTabShiftVertical: return 0;
             case PM_TabBarTabShiftHorizontal: return 0;
+            case PM_TabBarTabHSpace: return 2*TabBar_TabMarginWidth;
+            case PM_TabBarTabVSpace: return 2*TabBar_TabMarginHeight;
 
             // sliders
             case PM_SliderThickness: return 23;
@@ -938,7 +911,7 @@ namespace Oxygen
             case CT_ComboBox: return comboBoxSizeFromContents( option, size, widget );
             case CT_HeaderSection: return headerSectionSizeFromContents( option, size, widget );
             case CT_PushButton: return pushButtonSizeFromContents( option, size, widget );
-            case CT_MenuBar: return menuBarSizeFromContents( option, size, widget );
+            case CT_MenuBar: return defaultSizeFromContents( option, size, widget );
             case CT_MenuBarItem: return menuBarItemSizeFromContents( option, size, widget );
             case CT_MenuItem: return menuItemSizeFromContents( option, size, widget );
             case CT_RadioButton: return checkBoxSizeFromContents( option, size, widget );
@@ -1492,13 +1465,21 @@ namespace Oxygen
         return false;
     }
 
+    //___________________________________________________________________________________________________________________
+    QRect Style::pushButtonContentsRect( const QStyleOption* option, const QWidget* ) const
+    { return insideMargin( option->rect, Frame_FrameWidth ); }
+
+    //___________________________________________________________________________________________________________________
+    QRect Style::checkBoxContentsRect( const QStyleOption* option, const QWidget* ) const
+    { return visualRect( option, option->rect.adjusted( CheckBox_Size + CheckBox_ItemSpacing, 0, 0, 0 ) ); }
+
     //____________________________________________________________________
     QRect Style::progressBarContentsRect( const QStyleOption* option, const QWidget* ) const
     {
-        const QRect out( insideMargin( option->rect, ProgressBar_GrooveMargin ) );
+        const QRect rect( option->rect );
         const QStyleOptionProgressBarV2 *progressBarOption( qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option ) );
-        if( progressBarOption && progressBarOption->orientation == Qt::Vertical ) return out.adjusted( 0, 1, 0, -1 );
-        else return out.adjusted( 1, 0, -1, 0 );
+        if( progressBarOption && progressBarOption->orientation == Qt::Vertical ) return rect.adjusted( 0, 1, 0, -1 );
+        else return rect.adjusted( 1, 0, -1, 0 );
     }
 
     //____________________________________________________________________
@@ -1566,7 +1547,7 @@ namespace Oxygen
 
         if( !documentMode )
         {
-            r = insideMargin( r, TabWidget_ContentsMargin );
+            r = insideMargin( r, TabWidget_MarginWidth );
             r.translate( 0, -1 );
         }
 
@@ -1584,7 +1565,7 @@ namespace Oxygen
         QRect r( option->rect );
         const bool documentMode( tabOpt->lineWidth == 0 );
         int overlap( TabBar_BaseOverlap );
-        if( documentMode ) overlap -= TabWidget_ContentsMargin;
+        if( documentMode ) overlap -= TabWidget_MarginWidth;
 
         switch( tabOpt->shape )
         {
@@ -1733,6 +1714,40 @@ namespace Oxygen
         }
 
         return r;
+
+    }
+
+    //____________________________________________________________________
+    QRect Style::toolBoxTabContentsRect( const QStyleOption* option, const QWidget* widget ) const
+    {
+
+        // cast option and check
+        const QStyleOptionToolBox* toolBoxOption( qstyleoption_cast<const QStyleOptionToolBox *>( option ) );
+        if( !toolBoxOption ) return option->rect;
+
+        // copy rect
+        const QRect& rect( option->rect );
+
+        int contentsWidth(0);
+        if( !toolBoxOption->icon.isNull() )
+        {
+            const int iconSize( pixelMetric( QStyle::PM_SmallIconSize, option, widget ) );
+            contentsWidth += iconSize;
+
+            if( !toolBoxOption->text.isEmpty() ) contentsWidth += ToolBox_TabItemSpacing;
+        }
+
+        if( !toolBoxOption->text.isEmpty() )
+        {
+
+            const int textWidth = toolBoxOption->fontMetrics.size( _mnemonics->textFlags(), toolBoxOption->text ).width();
+            contentsWidth += textWidth;
+
+        }
+
+        contentsWidth = qMin( contentsWidth, rect.width() );
+        contentsWidth = qMax( contentsWidth, int(ToolBox_TabMinWidth) );
+        return centerRect( rect, contentsWidth, rect.height() );
 
     }
 
@@ -1900,64 +1915,53 @@ namespace Oxygen
     //___________________________________________________________________________________________________________________
     QRect Style::comboBoxSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
     {
+        // cast option and check
+        const QStyleOptionComboBox *comboBoxOption( qstyleoption_cast<const QStyleOptionComboBox*>( option ) );
+        if( !comboBoxOption ) return ParentStyleClass::subControlRect( CC_ComboBox, option, subControl, widget );
 
-        const QRect& r( option->rect );
-        const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>( option );
-        if( !cb ) return ParentStyleClass::subControlRect( CC_ComboBox, option, subControl, widget );
+        const bool editable( comboBoxOption->editable );
+        const bool flat( editable && !comboBoxOption->frame );
+
+        // copy rect
+        QRect rect( option->rect );
 
         switch( subControl )
         {
-            case SC_ComboBoxFrame:
-            { return cb->frame ? r : QRect(); }
-
-            case SC_ComboBoxListBoxPopup:
-            { return r.adjusted( 1,0,-1,0 ); }
+            case SC_ComboBoxFrame: return flat ? rect : QRect();
+            case SC_ComboBoxListBoxPopup: return rect;
 
             case SC_ComboBoxArrow:
+            {
+
+                // take out frame width
+                if( !flat ) rect = insideMargin( rect, Frame_FrameWidth );
+
+                QRect arrowRect(
+                    rect.right() - MenuButton_IndicatorWidth + 1,
+                    rect.top(),
+                    MenuButton_IndicatorWidth,
+                    rect.height() );
+
+                arrowRect = centerRect( arrowRect, MenuButton_IndicatorWidth, MenuButton_IndicatorWidth );
+                return visualRect( option, arrowRect );
+
+            }
+
             case SC_ComboBoxEditField:
             {
-                // frame width
-                int fw = ComboBox_FrameWidth;
 
-                // button width
-                int bw = ComboBox_ButtonWidth;
+                QRect labelRect;
+                const int frameWidth( pixelMetric( PM_ComboBoxFrameWidth, option, widget ) );
+                labelRect = QRect(
+                    rect.left(), rect.top(),
+                    rect.width() - MenuButton_IndicatorWidth,
+                    rect.height() );
 
-                // button margin
-                int bm = ComboBox_ButtonMargin;
-                int bml = bm + ComboBox_ButtonMargin_Left;
-                int bmr = bm + ComboBox_ButtonMargin_Right;
-                int bmt = bm + ComboBox_ButtonMargin_Top;
-                int bmb = bm + ComboBox_ButtonMargin_Bottom;
+                // remove margins
+                if( !flat && rect.height() > option->fontMetrics.height() + 2*frameWidth )
+                { labelRect.adjust( frameWidth, frameWidth, 0, -frameWidth ); }
 
-                // ComboBox without a frame, set the corresponding layout values to 0, reduce button width.
-                if( !cb->frame )
-                {
-                    bw = bw - bmr; // reduce button with as the right button margin will be ignored.
-                    fw = 0;
-
-                    // TODO: why is bml not also set to 0
-                    bmt = bmb = 0;
-                }
-
-                if( subControl == SC_ComboBoxArrow )
-                {
-
-                    return
-                        visualRect( option,
-                        QRect( r.right()-bw+bml+1, r.top()+bmt, bw-bml-bmr, r.height()-bmt-bmb ) );
-
-                } else {
-
-                    QRect labelRect( r.left()+fw, r.top()+fw, r.width()-fw-bw, r.height()-2*fw );
-                    labelRect = insideMargin( labelRect,
-                        ComboBox_ContentsMargin,
-                        ComboBox_ContentsMargin_Left,
-                        ComboBox_ContentsMargin_Top,
-                        ComboBox_ContentsMargin_Right,
-                        ComboBox_ContentsMargin_Bottom );
-                    return visualRect( option, labelRect );
-
-                }
+                return visualRect( option, labelRect );
 
             }
 
@@ -2054,7 +2058,7 @@ namespace Oxygen
 
                 //Calculate the portion of this space that the slider should take up.
                 int sliderSize = space * qreal( sliderOption->pageStep ) / ( sliderOption->maximum - sliderOption->minimum + sliderOption->pageStep );
-                sliderSize = qMax( sliderSize, ( int )ScrollBar_MinimumSliderHeight );
+                sliderSize = qMax( sliderSize, ( int )ScrollBar_MinSliderHeight );
                 sliderSize = qMin( sliderSize, space );
 
                 space -= sliderSize;
@@ -2097,62 +2101,66 @@ namespace Oxygen
     QRect Style::spinBoxSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
     {
 
-        const QRect& r( option->rect );
-        const QStyleOptionSpinBox *sb = qstyleoption_cast<const QStyleOptionSpinBox *>( option );
-        if( !sb ) return r;
+        // cast option and check
+        const QStyleOptionSpinBox *spinBoxOption( qstyleoption_cast<const QStyleOptionSpinBox*>( option ) );
+        if( !spinBoxOption ) return ParentStyleClass::subControlRect( CC_SpinBox, option, subControl, widget );
+        const bool flat( !spinBoxOption->frame );
 
-        int fw = SpinBox_FrameWidth;
-        int bw = SpinBox_ButtonWidth;
-        int bm = SpinBox_ButtonMargin;
-        int bml = bm + SpinBox_ButtonMargin_Left;
-        int bmt = bm + SpinBox_ButtonMargin_Top;
-        int bmr = bm + SpinBox_ButtonMargin_Right;
-        int bmb = bm + SpinBox_ButtonMargin_Bottom;
-        int bs = 0 ;
+        // copy rect
+        QRect rect( option->rect );
 
-        if( !sb->frame )
+        switch( subControl )
         {
-            bw = bw - bmr;
-            fw = 0;
-
-            // TODO: why is bml not also set to 0
-            bmt = bmb = bmr = 0;
-        }
-
-        const int buttonsWidth = bw-bml-bmr;
-        const int buttonsLeft = r.right()-bw+bml+1;
-
-        // compute the height of each button...
-        const int availableButtonHeight = r.height()-bmt-bmb - bs;
-        const int heightUp = availableButtonHeight / 2;
-        const int heightDown = availableButtonHeight - heightUp;
-
-        switch ( subControl )
-        {
+            case SC_SpinBoxFrame: return flat ? QRect():rect;
 
             case SC_SpinBoxUp:
-            return visualRect( option, QRect( buttonsLeft, r.top()+bmt, buttonsWidth, heightUp ) );
-
             case SC_SpinBoxDown:
-            return visualRect( option, QRect( buttonsLeft, r.bottom()-bmb-heightDown, buttonsWidth, heightDown ) );
+            {
+
+                // take out frame width
+                if( !flat && rect.height() >= 2*Frame_FrameWidth + SpinBox_ArrowButtonWidth ) rect = insideMargin( rect, Frame_FrameWidth );
+
+                QRect arrowRect;
+                arrowRect = QRect(
+                    rect.right() - SpinBox_ArrowButtonWidth + 1,
+                    rect.top(),
+                    SpinBox_ArrowButtonWidth,
+                    rect.height() );
+
+                const int arrowHeight( qMin( rect.height(), int(SpinBox_ArrowButtonWidth) ) );
+                arrowRect = centerRect( arrowRect, SpinBox_ArrowButtonWidth, arrowHeight );
+                arrowRect.setHeight( arrowHeight/2 );
+                if( subControl == SC_SpinBoxDown ) arrowRect.translate( 0, arrowHeight/2 );
+
+                return visualRect( option, arrowRect );
+
+            }
 
             case SC_SpinBoxEditField:
             {
-                const QRect labelRect( r.left()+fw, r.top()+fw, r.width()-fw-bw, r.height()-2*fw );
+
+                QRect labelRect;
+                labelRect = QRect(
+                    rect.left(), rect.top(),
+                    rect.width() - SpinBox_ArrowButtonWidth,
+                    rect.height() );
+
+                // remove right side line editor margins
+                const int frameWidth( pixelMetric( PM_SpinBoxFrameWidth, option, widget ) );
+                if( !flat && labelRect.height() > option->fontMetrics.height() + 2*frameWidth )
+                { labelRect.adjust( frameWidth, frameWidth, 0, -frameWidth ); }
+
                 return visualRect( option, labelRect );
+
             }
 
-            case SC_SpinBoxFrame:
-            return sb->frame ? r : QRect();
-
-            default:
-            break;
+            default: break;
 
         }
 
         return ParentStyleClass::subControlRect( CC_SpinBox, option, subControl, widget );
 
-   }
+    }
 
     //______________________________________________________________
     QSize Style::checkBoxSizeFromContents( const QStyleOption*, const QSize& contentsSize, const QWidget* ) const
@@ -2174,30 +2182,27 @@ namespace Oxygen
     }
 
     //______________________________________________________________
-    QSize Style::comboBoxSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
+    QSize Style::comboBoxSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
     {
 
-        QSize size = expandSize( contentsSize,
-            ComboBox_ContentsMargin,
-            ComboBox_ContentsMargin_Left,
-            ComboBox_ContentsMargin_Top,
-            ComboBox_ContentsMargin_Right,
-            ComboBox_ContentsMargin_Bottom );
+        // cast option and check
+        const QStyleOptionComboBox* comboBoxOption( qstyleoption_cast<const QStyleOptionComboBox*>( option ) );
+        if( !comboBoxOption ) return contentsSize;
 
-        // add frame width
-        size = expandSize( size, ComboBox_FrameWidth );
+        // copy size
+        QSize size( contentsSize );
 
-        // Add the button width
-        size.rwidth() += ComboBox_ButtonWidth;
+        // add relevant margin
+        const bool flat( !comboBoxOption->frame );
+        const int frameWidth( pixelMetric( PM_ComboBoxFrameWidth, option, widget ) );
+        if( !flat ) size = expandSize( size, frameWidth );
 
-        // TODO: For some reason the size is not right in the following configurations
-        // this is still to be understood and might reveal some deeper issue.
-        // notably, should compare to zhqt is done for PushButtons
-        const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>( option );
-        if( cb && !cb->editable && ( !cb->currentIcon.isNull() || cb->fontMetrics.height() > 13 ) ) size.rheight()+=1;
+        // make sure there is enough height for the button
+        size.setHeight( qMax( size.height(), int(MenuButton_IndicatorWidth) ) );
 
-        // also expand to account for scrollbar
-        size.rwidth() += StyleConfigData::scrollBarWidth() - 6;
+        // add button width and spacing
+        size.rwidth() += MenuButton_IndicatorWidth;
+
         return size;
 
     }
@@ -2206,176 +2211,218 @@ namespace Oxygen
     QSize Style::headerSectionSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
     {
 
-        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader *>( option ) );
+        // cast option and check
+        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader*>( option ) );
         if( !headerOption ) return contentsSize;
 
-        //TODO: check if hardcoded icon size is the right thing to do
-        QSize iconSize = headerOption->icon.isNull() ? QSize( 0,0 ) : QSize( 22,22 );
-        QSize textSize = headerOption->fontMetrics.size( 0, headerOption->text );
+        // get text size
+        const bool horizontal( headerOption->orientation == Qt::Horizontal );
+        const bool hasText( !headerOption->text.isEmpty() );
+        const bool hasIcon( !headerOption->icon.isNull() );
 
-        int iconSpacing = Header_TextToIconSpace;
-        int w = iconSize.width() + iconSpacing + textSize.width();
-        int h = qMax( iconSize.height(), textSize.height() );
+        const QSize textSize( hasText ? headerOption->fontMetrics.size( 0, headerOption->text ) : QSize() );
+        const QSize iconSize( hasIcon ? QSize( 22,22 ) : QSize() );
 
-        return expandSize( QSize( w, h ), Header_ContentsMargin );
+        // contents width
+        int contentsWidth( 0 );
+        if( hasText ) contentsWidth += textSize.width();
+        if( hasIcon )
+        {
+            contentsWidth += iconSize.width();
+            if( hasText ) contentsWidth += Header_ItemSpacing;
+        }
+
+        // contents height
+        int contentsHeight( headerOption->fontMetrics.height() );
+        if( hasIcon ) contentsHeight = qMax( contentsHeight, iconSize.height() );
+
+        if( horizontal )
+        {
+            // also add space for icon
+            contentsWidth += Header_ArrowSize + Header_ItemSpacing;
+            contentsHeight = qMax( contentsHeight, int(Header_ArrowSize) );
+        }
+
+        // update contents size, add margins and return
+        const QSize size( contentsSize.expandedTo( QSize( contentsWidth, contentsHeight ) ) );
+        return expandSize( size, Header_MarginWidth );
 
     }
 
     //______________________________________________________________
+    QSize Style::menuBarItemSizeFromContents( const QStyleOption*, const QSize& contentsSize, const QWidget* ) const
+    { return expandSize( contentsSize, MenuBarItem_MarginWidth, MenuBarItem_MarginHeight ); }
+
+    //______________________________________________________________
     QSize Style::menuItemSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
     {
+
+        // cast option and check
         const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>( option );
         if( !menuItemOption ) return contentsSize;
 
         // First, we calculate the intrinsic size of the item.
-        // this must be kept consistent with what's in drawMenuItemContol
-        QSize insideSize;
-
+        // this must be kept consistent with what's in drawMenuItemControl
+        QSize size( contentsSize );
         switch ( menuItemOption->menuItemType )
         {
+
             case QStyleOptionMenuItem::Normal:
             case QStyleOptionMenuItem::DefaultItem:
             case QStyleOptionMenuItem::SubMenu:
             {
-                int iconColW = qMax( menuItemOption->maxIconWidth, ( int ) MenuItem_IconWidth );
-                int leftColW = iconColW;
+
+                const int iconWidth( menuItemOption->maxIconWidth );
+                int leftColumnWidth( iconWidth );
+
+                // add space with respect to text
+                leftColumnWidth += MenuItem_ItemSpacing;
+
+                // add checkbox indicator width
                 if( menuItemOption->menuHasCheckableItems )
-                { leftColW += MenuItem_CheckWidth + MenuItem_CheckSpace; }
+                { leftColumnWidth += CheckBox_Size + MenuItem_ItemSpacing; }
 
-                leftColW += MenuItem_IconSpace;
+                // add spacing for accelerator
+                /*
+                Note:
+                The width of the accelerator itself is not included here since
+                Qt will add that on separately after obtaining the
+                sizeFromContents() for each menu item in the menu to be shown
+                ( see QMenuPrivate::calcActionRects() )
+                */
+                const bool hasAccelerator( menuItemOption->text.indexOf( QLatin1Char( '\t' ) ) >= 0 );
+                if( hasAccelerator ) size.rwidth() += MenuItem_AcceleratorSpace;
 
-                int rightColW = MenuItem_ArrowSpace + MenuItem_ArrowWidth;
+                // right column
+                const int rightColumnWidth = MenuButton_IndicatorWidth + MenuItem_ItemSpacing;
+                size.rwidth() += leftColumnWidth + rightColumnWidth;
 
-                QFontMetrics fm( menuItemOption->font );
-                int textW;
-                int tabPos = menuItemOption->text.indexOf( QLatin1Char( '\t' ) );
-                if( tabPos == -1 ) textW = contentsSize.width();
-                else {
+                // make sure height is large enough for icon and arrow
+                size.setHeight( qMax( size.height(), int(MenuButton_IndicatorWidth) ) );
+                size.setHeight( qMax( size.height(), int(CheckBox_Size) ) );
+                size.setHeight( qMax( size.height(), iconWidth ) );
+                return expandSize( size, MenuItem_MarginWidth );
 
-                    // The width of the accelerator is not included here since
-                    // Qt will add that on separately after obtaining the
-                    // sizeFromContents() for each menu item in the menu to be shown
-                    // ( see QMenuPrivate::calcActionRects() )
-                    textW = contentsSize.width() + MenuItem_AccelSpace;
-
-                }
-
-                int h = qMax( contentsSize.height(), ( int ) MenuItem_MinHeight );
-                insideSize = QSize( leftColW + textW + rightColW, h );
-                break;
             }
 
             case QStyleOptionMenuItem::Separator:
             {
 
-                // separator can have a title and an icon
-                // in that case they are rendered as menubar 'title', which
-                // corresponds to checked toolbuttons.
-                // a rectangle identical to the one of normal items is returned.
-                if( !( menuItemOption->text.isEmpty() && menuItemOption->icon.isNull() ) )
+                if( menuItemOption->text.isEmpty() && menuItemOption->icon.isNull() )
                 {
 
-                    QStyleOptionMenuItem local( *menuItemOption );
-                    local.menuItemType = QStyleOptionMenuItem::Normal;
-                    return menuItemSizeFromContents( &local, contentsSize, widget );
+                    return expandSize( QSize(0,1), MenuItem_MarginWidth );
+
 
                 } else {
 
-                    insideSize = QSize( 10, 0 );
-                    break;
+                    // build toolbutton option
+                    const QStyleOptionToolButton toolButtonOption( separatorMenuItemOption( menuItemOption, widget ) );
+
+                    // make sure height is large enough for icon and text
+                    const int iconWidth( menuItemOption->maxIconWidth );
+                    const int textHeight( menuItemOption->fontMetrics.height() );
+                    if( !menuItemOption->icon.isNull() ) size.setHeight( qMax( size.height(), iconWidth ) );
+                    if( !menuItemOption->text.isEmpty() ) size.setHeight( qMax( size.height(), textHeight ) );
+
+                    return sizeFromContents( CT_ToolButton, &toolButtonOption, size, widget );
 
                 }
 
             }
 
-            case QStyleOptionMenuItem::Scroller:
-            case QStyleOptionMenuItem::TearOff:
-            case QStyleOptionMenuItem::Margin:
-            case QStyleOptionMenuItem::EmptyArea:
-            return contentsSize;
+            // for all other cases, return input
+            default: return contentsSize;
         }
-
-        // apply the outermost margin.
-        return expandSize( insideSize, MenuItem_Margin );
 
     }
 
     //______________________________________________________________
-    QSize Style::pushButtonSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
+    QSize Style::pushButtonSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
     {
 
-        const QStyleOptionButton* bOpt = qstyleoption_cast<const QStyleOptionButton*>( option );
-        if( !bOpt ) return contentsSize;
+        // cast option and check
+        const QStyleOptionButton* buttonOption( qstyleoption_cast<const QStyleOptionButton*>( option ) );
+        if( !buttonOption ) return contentsSize;
 
-        // adjust to handle button margins
-        QSize size = expandSize( contentsSize,
-            PushButton_ContentsMargin,
-            PushButton_ContentsMargin_Left,
-            PushButton_ContentsMargin_Top,
-            PushButton_ContentsMargin_Right,
-            PushButton_ContentsMargin_Bottom );
+        QSize size( contentsSize );
 
-        if( bOpt->features & QStyleOptionButton::HasMenu )
-        { size.rwidth() += PushButton_TextToIconSpace; }
+        // add space for arrow
+        if( buttonOption->features & QStyleOptionButton::HasMenu )
+        {
+            size.rheight() += 2*Button_MarginWidth;
+            size.setHeight( qMax( size.height(), int( MenuButton_IndicatorWidth ) ) );
+            size.rwidth() += Button_MarginWidth;
 
-        if( !bOpt->text.isEmpty() && !bOpt->icon.isNull() )
+            if( !( buttonOption->icon.isNull() && buttonOption->text.isEmpty() ) )
+            { size.rwidth() += Button_ItemSpacing; }
+
+        }  else size = expandSize( size, Button_MarginWidth );
+
+        // add space for icon
+        if( !buttonOption->icon.isNull() )
         {
 
-            // Incorporate the spacing between the icon and text. Qt sticks 4 there,
-            // but we use PushButton::TextToIconSpace.
-            size.rwidth() += PushButton_TextToIconSpace -4;
+            QSize iconSize = buttonOption->iconSize;
+            if( !iconSize.isValid() ) iconSize = QSize( pixelMetric( PM_SmallIconSize, option, widget ), pixelMetric( PM_SmallIconSize, option, widget ) );
+
+            size.setHeight( qMax( size.height(), iconSize.height() ) );
+
+            if( !buttonOption->text.isEmpty() )
+            { size.rwidth() += Button_ItemSpacing; }
+
         }
 
-        return size;
+        // make sure buttons have a minimum width
+        if( !buttonOption->text.isEmpty() )
+        { size.rwidth() = qMax( size.rwidth(), int( Button_MinWidth ) ); }
+
+        // finally add margins
+        return expandSize( size, Frame_FrameWidth );
 
     }
 
     //______________________________________________________________
-    QSize Style::tabBarTabSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
+    QSize Style::tabWidgetSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
     {
 
-        const QStyleOptionTab *tabOpt( qstyleoption_cast<const QStyleOptionTab*>( option ) );
+        // cast option and check
+        const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
+        if( !tabOption ) return expandSize( contentsSize, Frame_FrameWidth );
 
-        QSize size;
-        const bool verticalTabs( tabOpt && isVerticalTab( tabOpt ) );
+        // tab orientation
+        const bool verticalTabs( tabOption && isVerticalTab( tabOption->shape ) );
+
+        // need to reduce the size in the tabbar direction, due to a bug in QTabWidget::minimumSize
+        return verticalTabs ?
+            expandSize( contentsSize, Frame_FrameWidth, Frame_FrameWidth - 1 ):
+            expandSize( contentsSize, Frame_FrameWidth - 1, Frame_FrameWidth );
+
+    }
+
+    //______________________________________________________________
+    QSize Style::tabBarTabSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
+    {
+
+        const QStyleOptionTab *tabOption( qstyleoption_cast<const QStyleOptionTab*>( option ) );
+
+        // add margins
+        QSize size( contentsSize );
+
+        // compare to minimum size
+        const bool verticalTabs( tabOption && isVerticalTab( tabOption ) );
         if( verticalTabs )
         {
 
-            size = expandSize( contentsSize,
-                TabBar_TabContentsMargin,
-                TabBar_TabContentsMargin_Top,
-                TabBar_TabContentsMargin_Right,
-                TabBar_TabContentsMargin_Bottom,
-                TabBar_TabContentsMargin_Left );
+            size = expandSize( size, TabBar_TabMarginHeight, TabBar_TabMarginWidth );
+            size = size.expandedTo( QSize( TabBar_TabMinHeight, TabBar_TabMinWidth ) );
 
         } else {
 
-            size = expandSize( contentsSize,
-                TabBar_TabContentsMargin,
-                TabBar_TabContentsMargin_Left,
-                TabBar_TabContentsMargin_Top,
-                TabBar_TabContentsMargin_Right,
-                TabBar_TabContentsMargin_Bottom );
+            size = expandSize( size, TabBar_TabMarginWidth, TabBar_TabMarginHeight );
+            size = size.expandedTo( QSize( TabBar_TabMinWidth, TabBar_TabMinHeight ) );
 
         }
-
-        // need to add extra size to match corner buttons
-        // try cast parent for tabWidget
-        const QTabWidget* tabWidget( widget ? qobject_cast<const QTabWidget*>( widget->parent() ):0 );
-        if( !tabWidget ) return size;
-
-        // try get corner widgets
-        const QWidget* leftWidget( tabWidget->cornerWidget( Qt::TopLeftCorner ) );
-        const QWidget* rightWidget( tabWidget->cornerWidget( Qt::TopRightCorner ) );
-        QSize cornerSize;
-        if( leftWidget && leftWidget->isVisible() ) cornerSize = leftWidget->minimumSizeHint();
-        if( rightWidget && rightWidget->isVisible() ) cornerSize = cornerSize.expandedTo( rightWidget->minimumSizeHint() );
-        if( !cornerSize.isValid() ) return size;
-
-        // expand size
-        // note: the extra pixels added to the relevant dimension are fine-tuned.
-        if( verticalTabs ) size.setWidth( qMax( size.width(), cornerSize.width() + 6 ) );
-        else size.setHeight( qMax( size.height(), cornerSize.height() + 4 ) );
 
         return size;
 
@@ -2601,7 +2648,7 @@ namespace Oxygen
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
             {
-                frameRect.adjust( -7, -GlowWidth, 7, GlowWidth );
+                frameRect.adjust( -7, 0, 7, 0 );
                 frameRect.translate( 0, 4 );
                 slab = SlabRect( frameRect, TileSet::Top );
                 break;
@@ -2610,7 +2657,7 @@ namespace Oxygen
             case QTabBar::RoundedSouth:
             case QTabBar::TriangularSouth:
             {
-                frameRect.adjust( -7, -GlowWidth, 7, GlowWidth );
+                frameRect.adjust( -7, 0, 7, 0 );
                 frameRect.translate( 0, -4 );
                 slab = SlabRect( frameRect, TileSet::Bottom );
                 break;
@@ -2619,7 +2666,7 @@ namespace Oxygen
             case QTabBar::RoundedWest:
             case QTabBar::TriangularWest:
             {
-                frameRect.adjust( -GlowWidth, -7, GlowWidth, 7 + 1 );
+                frameRect.adjust( 0, -7, 0, 7 + 1 );
                 frameRect.translate( 5, 0 );
                 slab = SlabRect( frameRect, TileSet::Left );
                 break;
@@ -2628,7 +2675,7 @@ namespace Oxygen
             case QTabBar::RoundedEast:
             case QTabBar::TriangularEast:
             {
-                frameRect.adjust( -GlowWidth, -7, GlowWidth, 7 + 1 );
+                frameRect.adjust( 0, -7, 0, 7 + 1 );
                 frameRect.translate( -5, 0 );
                 slab = SlabRect( frameRect, TileSet::Right );
                 break;
@@ -2677,7 +2724,7 @@ namespace Oxygen
         SlabRectList slabs;
 
         // expand rect by glow width.
-        QRect baseSlabRect( insideMargin( r, -GlowWidth ) );
+        QRect baseSlabRect( insideMargin( r, 0 ) );
 
         // render the three free sides
         switch( tabOpt->shape )
@@ -3611,7 +3658,7 @@ namespace Oxygen
         if ( state & State_Children )
         {
 
-            int sizeLimit = qMin( qMin( rect.width(), rect.height() ), ( int ) Tree_MaxExpanderSize );
+            int sizeLimit = qMin( rect.width(), rect.height() );
             const bool expanderOpen( state & State_Open );
 
             // make sure size limit is odd
@@ -3997,25 +4044,25 @@ namespace Oxygen
             case QTabBar::TriangularNorth:
             case QTabBar::RoundedNorth:
             gradientRect.adjust( 0, 0, 0, -5 );
-            if( !reverseLayout ) gradientRect.translate( -GlowWidth,0 );
+            if( !reverseLayout ) gradientRect.translate( 0,0 );
             break;
 
             case QTabBar::TriangularSouth:
             case QTabBar::RoundedSouth:
             gradientRect.adjust( 0, 5, 0, 0 );
-            if( !reverseLayout ) gradientRect.translate( -GlowWidth,0 );
+            if( !reverseLayout ) gradientRect.translate( 0,0 );
             break;
 
             case QTabBar::TriangularWest:
             case QTabBar::RoundedWest:
             gradientRect.adjust( 0, 0, -5, 0 );
-            gradientRect.translate( 0,-GlowWidth );
+            gradientRect.translate( 0,0 );
             break;
 
             case QTabBar::TriangularEast:
             case QTabBar::RoundedEast:
             gradientRect.adjust( 5, 0, 0, 0 );
-            gradientRect.translate( 0,-GlowWidth );
+            gradientRect.translate( 0,0 );
             break;
 
             default: return true;
@@ -4216,8 +4263,8 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionDockWidget* dwOpt = ::qstyleoption_cast<const QStyleOptionDockWidget*>( option );
-        if ( !dwOpt ) return true;
+        const QStyleOptionDockWidget* dockWidgetOption = ::qstyleoption_cast<const QStyleOptionDockWidget*>( option );
+        if ( !dockWidgetOption ) return true;
 
         const QPalette& palette( option->palette );
         const State& state( option->state );
@@ -4228,28 +4275,28 @@ namespace Oxygen
         const QStyleOptionDockWidgetV2 *v2 = qstyleoption_cast<const QStyleOptionDockWidgetV2*>( option );
         const bool verticalTitleBar( v2 ? v2->verticalTitleBar : false );
 
-        const QRect btnr( subElementRect( dwOpt->floatable ? SE_DockWidgetFloatButton : SE_DockWidgetCloseButton, option, widget ) );
+        const QRect buttonRect( subElementRect( dockWidgetOption->floatable ? SE_DockWidgetFloatButton : SE_DockWidgetCloseButton, option, widget ) );
 
         // get rectangle and adjust to properly accounts for buttons
-        QRect r( insideMargin( dwOpt->rect, DockWidget_TitleMargin ) );
+        QRect r( insideMargin( dockWidgetOption->rect, Frame_FrameWidth ) );
         if( verticalTitleBar )
         {
 
-            if( btnr.isValid() ) r.setTop( btnr.bottom()+1 );
+            if( buttonRect.isValid() ) r.setTop( buttonRect.bottom()+1 );
 
         } else if( reverseLayout ) {
 
-            if( btnr.isValid() ) r.setLeft( btnr.right()+1 );
+            if( buttonRect.isValid() ) r.setLeft( buttonRect.right()+1 );
             r.adjust( 0,0,-4,0 );
 
         } else {
 
-            if( btnr.isValid() ) r.setRight( btnr.left()-1 );
+            if( buttonRect.isValid() ) r.setRight( buttonRect.left()-1 );
             r.adjust( 4,0,0,0 );
 
         }
 
-        QString title( dwOpt->title );
+        QString title( dockWidgetOption->title );
         QString tmpTitle = title;
 
         // this is quite suboptimal
@@ -4261,9 +4308,9 @@ namespace Oxygen
 
         }
 
-        int tw = dwOpt->fontMetrics.width( tmpTitle );
+        int tw = dockWidgetOption->fontMetrics.width( tmpTitle );
         int width = verticalTitleBar ? r.height() : r.width();
-        if( width < tw ) title = dwOpt->fontMetrics.elidedText( title, Qt::ElideRight, width, Qt::TextShowMnemonic );
+        if( width < tw ) title = dockWidgetOption->fontMetrics.elidedText( title, Qt::ElideRight, width, Qt::TextShowMnemonic );
 
         if( verticalTitleBar )
         {
@@ -4497,9 +4544,9 @@ namespace Oxygen
         if( !menuItemOption || menuItemOption->menuItemType == QStyleOptionMenuItem::EmptyArea ) return true;
 
         //First, figure out the left column width.
-        const int iconColW = qMax( menuItemOption->maxIconWidth, ( int )MenuItem_IconWidth );
-        const int checkColW = MenuItem_CheckWidth;
-        const int checkSpace = MenuItem_CheckSpace;
+        const int iconColW = menuItemOption->maxIconWidth;
+        const int checkColW = CheckBox_Size;
+        const int checkSpace = MenuItem_ItemSpacing;
 
         int leftColW = iconColW;
 
@@ -4508,7 +4555,7 @@ namespace Oxygen
         if( hasCheckableItems ) leftColW += checkColW + checkSpace;
 
         // right arrow column...
-        int rightColW = MenuItem_ArrowSpace + MenuItem_ArrowWidth;
+        int rightColW = MenuItem_ItemSpacing + MenuButton_IndicatorWidth;
 
         //Separators: done with the bg, can paint them and bail them out.
         if( menuItemOption->menuItemType == QStyleOptionMenuItem::Separator )
@@ -4556,8 +4603,8 @@ namespace Oxygen
 
         }
 
-        //Remove the margin ( for everything but the column background )
-        const QRect ir( insideMargin( r, MenuItem_Margin ) );
+        // Remove the margin ( for everything but the column background )
+        const QRect ir( insideMargin( r, MenuItem_MarginWidth ) );
 
         //Active indicator...
         if( active && enabled )
@@ -4658,7 +4705,7 @@ namespace Oxygen
 
 
         //Now include the spacing when calculating the next columns
-        leftColW += MenuItem_IconSpace;
+        leftColW += MenuItem_ItemSpacing;
 
         //Render the text, including any accel.
         QString text = menuItemOption->text;
@@ -4692,7 +4739,7 @@ namespace Oxygen
             const QColor color = palette.color( textRole );
             const QColor background = palette.color( QPalette::Window );
 
-            const int aw = MenuItem_ArrowWidth;
+            const int aw = MenuButton_IndicatorWidth;
             QRect arrowRect = visualRect( option, QRect( ir.x() + ir.width() - aw, ir.y(), aw, ir.height() ) );
 
             // get arrow shape
@@ -4952,8 +4999,8 @@ namespace Oxygen
         if ( bOpt->features & QStyleOptionButton::HasMenu )
         {
 
-            const int indicatorWidth( PushButton_MenuIndicatorSize );
-            const int indicatorSpacing = PushButton_TextToIconSpace;
+            const int indicatorWidth( MenuButton_IndicatorWidth );
+            const int indicatorSpacing = Button_ItemSpacing;
             w -= indicatorWidth + indicatorSpacing;
 
             // arrow
@@ -4987,7 +5034,7 @@ namespace Oxygen
             if ( !bOpt->text.isEmpty() )
             {
 
-                const int margin = PushButton_TextToIconSpace;
+                const int margin = Button_ItemSpacing;
                 const int length = bOpt->iconSize.width() + margin + painter->fontMetrics().size( Qt::TextShowMnemonic, bOpt->text ).width();
 
                 //Calculate offset.
@@ -5445,7 +5492,7 @@ namespace Oxygen
 
         // this is needed to complete the base frame when there are widgets in tabbar
         const QTabBar* tabBar( qobject_cast<const QTabBar*>( widget ) );
-        const QRect tabBarRect( tabBar ? insideMargin( tabBar->rect(), -GlowWidth ):QRect() );
+        const QRect tabBarRect( tabBar ? insideMargin( tabBar->rect(), 0 ):QRect() );
 
         // check if tab is being dragged
         const bool isDragged( selected && painter->device() != tabBar );
@@ -5477,7 +5524,7 @@ namespace Oxygen
 
         const bool verticalTabs( isVerticalTab( tabOpt ) );
         const QRect tabWidgetRect( tabWidget ?
-            insideMargin( tabWidget->rect(), -GlowWidth ).translated( -widget->geometry().topLeft() ) :
+            insideMargin( tabWidget->rect(), 0 ).translated( -widget->geometry().topLeft() ) :
             QRect() );
 
         // corner widgets
@@ -5535,9 +5582,6 @@ namespace Oxygen
                 if( selected ) tabRect.adjust( 0, -1, 0, 2 );
                 else tabRect.adjust( 0, 1, 0, 2 );
 
-                // reduces the space between tabs
-                tabRect.adjust( -GlowWidth,0,GlowWidth,0 );
-
                 // connection to the main frame
                 if( selected )
                 {
@@ -5550,7 +5594,7 @@ namespace Oxygen
                     {
 
                         QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - GlowWidth );
+                        frameRect.setLeft( frameRect.left() );
                         frameRect.setRight( tabRect.left() + 7 );
                         frameRect.setTop( tabRect.bottom() - 13 );
                         frameRect.setBottom( frameRect.bottom() + 7 - 1 );
@@ -5571,7 +5615,7 @@ namespace Oxygen
 
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() + GlowWidth );
+                        frameRect.setRight( frameRect.right() );
                         frameRect.setTop( tabRect.bottom() - 13 );
                         frameRect.setBottom( frameRect.bottom() + 7 - 1 );
                         slabs << SlabRect( frameRect, TileSet::Right );
@@ -5619,7 +5663,7 @@ namespace Oxygen
 
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() + GlowWidth );
+                        frameRect.setRight( frameRect.right() );
                         frameRect.setTop( tabRect.bottom() - 13 );
                         frameRect.setBottom( frameRect.bottom() + 7 - 2 );
                         slabs << SlabRect( frameRect, TileSet::Right );
@@ -5630,7 +5674,7 @@ namespace Oxygen
                     {
 
                         QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - GlowWidth );
+                        frameRect.setLeft( frameRect.left() );
                         frameRect.setRight( tabRect.left() + 7 );
                         frameRect.setTop( tabRect.bottom() - 13 );
                         frameRect.setBottom( frameRect.bottom() + 7 - 2 );
@@ -5652,9 +5696,6 @@ namespace Oxygen
                 if( selected ) tabRect.adjust( 0, -2, 0, 1 );
                 else tabRect.adjust( 0, -2, 0, -1 );
 
-                // reduces the space between tabs
-                tabRect.adjust( -GlowWidth,0,GlowWidth,0 );
-
                 // connection to the main frame
                 if( selected )
                 {
@@ -5667,7 +5708,7 @@ namespace Oxygen
                     {
 
                         QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - GlowWidth );
+                        frameRect.setLeft( frameRect.left() );
                         frameRect.setRight( tabRect.left() + 7 );
                         frameRect.setTop( frameRect.top() - 7 + 1 );
                         frameRect.setBottom( tabRect.top() + 13 );
@@ -5688,7 +5729,7 @@ namespace Oxygen
 
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() + GlowWidth );
+                        frameRect.setRight( frameRect.right() );
                         frameRect.setTop( frameRect.top() - 7 + 1 );
                         frameRect.setBottom( tabRect.top() + 13 );
                         slabs << SlabRect( frameRect, TileSet::Right );
@@ -5736,7 +5777,7 @@ namespace Oxygen
 
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() + GlowWidth );
+                        frameRect.setRight( frameRect.right() );
                         frameRect.setTop( frameRect.top() - 7 + 2 );
                         frameRect.setBottom( tabRect.top() + 13 );
                         slabs << SlabRect( frameRect, TileSet::Right );
@@ -5747,7 +5788,7 @@ namespace Oxygen
                     {
 
                         QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - GlowWidth );
+                        frameRect.setLeft( frameRect.left() );
                         frameRect.setRight( tabRect.left() + 7 );
                         frameRect.setTop( frameRect.top() - 7 + 2 );
                         frameRect.setBottom( tabRect.top() + 13 );
@@ -5769,9 +5810,6 @@ namespace Oxygen
                 if( selected ) tabRect.adjust( -1, 0, 2, 0 );
                 else tabRect.adjust( 1, 0, 2, 0 );
 
-                // reduces the space between tabs
-                tabRect.adjust( 0, -GlowWidth,0,GlowWidth );
-
                 // connection to the main frame
                 if( selected )
                 {
@@ -5786,7 +5824,7 @@ namespace Oxygen
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 13 );
                         frameRect.setRight( frameRect.right() + 7 - 1 );
-                        frameRect.setTop( frameRect.top() - GlowWidth );
+                        frameRect.setTop( frameRect.top() );
                         frameRect.setBottom( tabRect.top() + 7 );
                         slabs << SlabRect( frameRect, TileSet::Top );
 
@@ -5808,7 +5846,7 @@ namespace Oxygen
                         frameRect.setLeft( tabRect.right() - 13 );
                         frameRect.setRight( frameRect.right() + 7 - 1 );
                         frameRect.setTop( tabRect.bottom() - 7 );
-                        frameRect.setBottom( frameRect.bottom() + GlowWidth );
+                        frameRect.setBottom( frameRect.bottom() );
                         slabs << SlabRect( frameRect, TileSet::Bottom );
 
                     } else {
@@ -5856,7 +5894,7 @@ namespace Oxygen
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 13 );
                         frameRect.setRight( frameRect.right() + 7 - 2 );
-                        frameRect.setTop( frameRect.top() - GlowWidth );
+                        frameRect.setTop( frameRect.top() );
                         frameRect.setBottom( tabRect.top() + 7 );
                         slabs << SlabRect( frameRect, TileSet::Top );
 
@@ -5870,7 +5908,7 @@ namespace Oxygen
                         frameRect.setLeft( tabRect.right() - 13 );
                         frameRect.setRight( frameRect.right() + 7 - 2 );
                         frameRect.setTop( tabRect.bottom() - 7 );
-                        frameRect.setBottom( frameRect.bottom() + GlowWidth );
+                        frameRect.setBottom( frameRect.bottom() );
                         slabs << SlabRect( frameRect, TileSet::Bottom );
 
                     }
@@ -5887,9 +5925,6 @@ namespace Oxygen
                 if( selected ) tabRect.adjust( -2, 0, 1, 0 );
                 else tabRect.adjust( -2, 0, -1, 0 );
 
-                // reduces the space between tabs
-                tabRect.adjust( 0, -GlowWidth,0,GlowWidth );
-
                 // connection to the main frame
                 if( selected )
                 {
@@ -5904,7 +5939,7 @@ namespace Oxygen
                         QRect frameRect( r );
                         frameRect.setLeft( frameRect.left() - 7 + 1 );
                         frameRect.setRight( tabRect.left() + 13 );
-                        frameRect.setTop( frameRect.top() - GlowWidth );
+                        frameRect.setTop( frameRect.top() );
                         frameRect.setBottom( tabRect.top() + 7 );
                         slabs << SlabRect( frameRect, TileSet::Top );
 
@@ -5926,7 +5961,7 @@ namespace Oxygen
                         frameRect.setLeft( frameRect.left() - 7 + 1 );
                         frameRect.setRight( tabRect.left() + 13 );
                         frameRect.setTop( tabRect.bottom() - 7 );
-                        frameRect.setBottom( frameRect.bottom() + GlowWidth );
+                        frameRect.setBottom( frameRect.bottom() );
                         slabs << SlabRect( frameRect, TileSet::Bottom );
 
                     } else {
@@ -5974,7 +6009,7 @@ namespace Oxygen
                         QRect frameRect( r );
                         frameRect.setLeft( frameRect.left() - 7 + 2 );
                         frameRect.setRight( tabRect.left() + 13 );
-                        frameRect.setTop( frameRect.top() - GlowWidth );
+                        frameRect.setTop( frameRect.top() );
                         frameRect.setBottom( tabRect.top() + 7 );
                         slabs << SlabRect( frameRect, TileSet::Top );
 
@@ -5988,7 +6023,7 @@ namespace Oxygen
                         frameRect.setLeft( frameRect.left() - 7 + 2 );
                         frameRect.setRight( tabRect.left() + 13 );
                         frameRect.setTop( tabRect.bottom() - 7 );
-                        frameRect.setBottom( frameRect.bottom() + GlowWidth );
+                        frameRect.setBottom( frameRect.bottom() );
                         slabs << SlabRect( frameRect, TileSet::Bottom );
 
                     }
@@ -6091,7 +6126,7 @@ namespace Oxygen
 
         // this is needed to complete the base frame when there are widgets in tabbar
         const QTabBar* tabBar( qobject_cast<const QTabBar*>( widget ) );
-        const QRect tabBarRect( tabBar ? insideMargin( tabBar->rect(), -GlowWidth ):QRect() );
+        const QRect tabBarRect( tabBar ? insideMargin( tabBar->rect(), 0 ):QRect() );
 
         // check if tab is being dragged
         const bool isDragged( selected && painter->device() != tabBar );
@@ -6155,9 +6190,6 @@ namespace Oxygen
                 if( selected )
                 {
 
-                    // reduces the space between tabs
-                    tabRect.adjust( -GlowWidth,0,GlowWidth,0 );
-
                     // do nothing if dragged
                     if( isDragged ) break;
 
@@ -6166,7 +6198,7 @@ namespace Oxygen
                     {
 
                         QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - GlowWidth );
+                        frameRect.setLeft( frameRect.left() );
                         frameRect.setRight( tabRect.left() + 7 );
                         frameRect.setTop( tabRect.bottom() - 13 );
                         frameRect.setBottom( frameRect.bottom() + 7 - 1 );
@@ -6187,7 +6219,7 @@ namespace Oxygen
 
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() + GlowWidth );
+                        frameRect.setRight( frameRect.right() );
                         frameRect.setTop( tabRect.bottom() - 13 );
                         frameRect.setBottom( frameRect.bottom() + 7 - 1 );
                         slabs << SlabRect( frameRect, TileSet::Right );
@@ -6237,7 +6269,6 @@ namespace Oxygen
                     if( isFirst )
                     {
 
-                        tabRect.adjust( GlowWidth, 0, 0, 0 );
                         if( isFrameAligned ) path.moveTo( tabRect.bottomLeft() + QPoint( 0, 2 ) );
                         else path.moveTo( tabRect.bottomLeft() );
                         path.lineTo( tabRect.topLeft() + QPointF( 0, radius ) );
@@ -6248,7 +6279,7 @@ namespace Oxygen
 
                     } else if( isLast ) {
 
-                        tabRect.adjust( 0, 0, -GlowWidth-1, 0 );
+                        tabRect.adjust( 0, 0, -1, 0 );
                         path.moveTo( tabRect.bottomLeft() );
                         path.lineTo( tabRect.topLeft() );
                         path.lineTo( tabRect.topRight() - QPointF( radius, 0 ) );
@@ -6289,9 +6320,6 @@ namespace Oxygen
                 if( selected )
                 {
 
-                    // reduces the space between tabs
-                    tabRect.adjust( -GlowWidth,0,GlowWidth,0 );
-
                     // do nothing if dragged
                     if( isDragged ) break;
 
@@ -6300,7 +6328,7 @@ namespace Oxygen
                     {
 
                         QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - GlowWidth );
+                        frameRect.setLeft( frameRect.left() );
                         frameRect.setRight( tabRect.left() + 7 );
                         frameRect.setTop( frameRect.top() - 7 + 1 );
                         frameRect.setBottom( tabRect.top() + 13 );
@@ -6321,7 +6349,7 @@ namespace Oxygen
 
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() + GlowWidth );
+                        frameRect.setRight( frameRect.right() );
                         frameRect.setTop( frameRect.top() - 7 + 1 );
                         frameRect.setBottom( tabRect.top() + 13 );
                         slabs << SlabRect( frameRect, TileSet::Right );
@@ -6371,7 +6399,6 @@ namespace Oxygen
                     if( isFirst )
                     {
 
-                        tabRect.adjust( GlowWidth, 0, 0, 0 );
                         if( isFrameAligned ) path.moveTo( tabRect.topLeft() - QPoint( 0, 2 ) );
                         else path.moveTo( tabRect.topLeft() );
                         path.lineTo( tabRect.bottomLeft() - QPointF( 0, radius ) );
@@ -6381,7 +6408,7 @@ namespace Oxygen
 
                     } else if( isLast ) {
 
-                        tabRect.adjust( 0, 0, -GlowWidth-1, 0 );
+                        tabRect.adjust( 0, 0, -1, 0 );
                         path.moveTo( tabRect.topLeft() );
                         path.lineTo( tabRect.bottomLeft() );
                         path.lineTo( tabRect.bottomRight() - QPointF( radius, 0 ) );
@@ -6422,9 +6449,6 @@ namespace Oxygen
                 if( selected )
                 {
 
-                    // reduces the space between tabs
-                    tabRect.adjust( 0, -GlowWidth,0,GlowWidth );
-
                     // do nothing if dragged
                     if( isDragged ) break;
 
@@ -6435,7 +6459,7 @@ namespace Oxygen
                         QRect frameRect( r );
                         frameRect.setLeft( tabRect.right() - 13 );
                         frameRect.setRight( frameRect.right() + 7 - 1 );
-                        frameRect.setTop( frameRect.top() - GlowWidth );
+                        frameRect.setTop( frameRect.top() );
                         frameRect.setBottom( tabRect.top() + 7 );
                         slabs << SlabRect( frameRect, TileSet::Top );
 
@@ -6491,7 +6515,6 @@ namespace Oxygen
                     if( isFirst )
                     {
 
-                        tabRect.adjust( 0, GlowWidth, 0, 0 );
                         if( isFrameAligned ) path.moveTo( tabRect.topRight() + QPoint( 2, 0 ) );
                         else path.moveTo( tabRect.topRight() );
                         path.lineTo( tabRect.topLeft() + QPointF( radius, 0 ) );
@@ -6501,7 +6524,6 @@ namespace Oxygen
 
                     } else if( isLast ) {
 
-                        tabRect.adjust( 0, 0, 0, -GlowWidth );
                         path.moveTo( tabRect.topRight() );
                         path.lineTo( tabRect.topLeft() );
                         path.lineTo( tabRect.bottomLeft() - QPointF( 0, radius ) );
@@ -6540,9 +6562,6 @@ namespace Oxygen
                 if( selected )
                 {
 
-                    // reduces the space between tabs
-                    tabRect.adjust( 0, -GlowWidth,0,GlowWidth );
-
                     // do nothing if dragged
                     if( isDragged ) break;
 
@@ -6553,7 +6572,7 @@ namespace Oxygen
                         QRect frameRect( r );
                         frameRect.setLeft( frameRect.left() - 7 + 1 );
                         frameRect.setRight( tabRect.left() + 13 );
-                        frameRect.setTop( frameRect.top() - GlowWidth );
+                        frameRect.setTop( frameRect.top() );
                         frameRect.setBottom( tabRect.top() + 7 );
                         slabs << SlabRect( frameRect, TileSet::Top );
 
@@ -6609,7 +6628,6 @@ namespace Oxygen
                     if( isFirst )
                     {
 
-                        tabRect.adjust( 0, GlowWidth, 0, 0 );
                         if( isFrameAligned ) path.moveTo( tabRect.topLeft() - QPoint( 2, 0 ) );
                         else path.moveTo( tabRect.topLeft() );
                         path.lineTo( tabRect.topRight() - QPointF( radius, 0 ) );
@@ -6619,7 +6637,6 @@ namespace Oxygen
 
                     } else if( isLast ) {
 
-                        tabRect.adjust( 0, 0, 0, -GlowWidth );
                         path.moveTo( tabRect.topLeft() );
                         path.lineTo( tabRect.topRight() );
                         path.lineTo( tabRect.bottomRight() - QPointF( 0, radius ) );
@@ -6655,7 +6672,7 @@ namespace Oxygen
         // extra care must be taken care of so that no slab
         // extends beyond tabWidget frame, if any
         const QRect tabWidgetRect( tabWidget ?
-            insideMargin( tabWidget->rect(), -GlowWidth ).translated( -widget->geometry().topLeft() ) :
+            insideMargin( tabWidget->rect(), 0 ).translated( -widget->geometry().topLeft() ) :
             QRect() );
 
         foreach( SlabRect slab, slabs ) // krazy:exclude=foreach
@@ -7403,13 +7420,13 @@ namespace Oxygen
             {
 
                 const int center( groove.center().y() );
-                groove = QRect( groove.left(), center-Slider_GrooveWidth/2, groove.width(), Slider_GrooveWidth  ).adjusted( 3, 0, -3, 0 );
+                groove = QRect( groove.left(), center-Slider_GrooveThickness/2, groove.width(), Slider_GrooveThickness  ).adjusted( 3, 0, -3, 0 );
                 groove.adjust( 2, 1, -2, 0 );
 
             } else {
 
                 const int center( groove.center().x() );
-                groove = QRect( center-Slider_GrooveWidth/2, groove.top(), Slider_GrooveWidth, groove.height() ).adjusted( 0, 3, 0, -3 );
+                groove = QRect( center-Slider_GrooveThickness/2, groove.top(), Slider_GrooveThickness, groove.height() ).adjusted( 0, 3, 0, -3 );
                 groove.adjust( 0, 2, 0, -2 );
 
             }
@@ -9267,6 +9284,30 @@ namespace Oxygen
 
     }
 
+    //____________________________________________________________________________________
+    QStyleOptionToolButton Style::separatorMenuItemOption( const QStyleOptionMenuItem* menuItemOption, const QWidget* widget ) const
+    {
+
+        // separator can have a title and an icon
+        // in that case they are rendered as sunken flat toolbuttons
+        QStyleOptionToolButton toolButtonOption;
+        toolButtonOption.initFrom( widget );
+        toolButtonOption.rect = menuItemOption->rect;
+        toolButtonOption.features = QStyleOptionToolButton::None;
+        toolButtonOption.state = State_On|State_Sunken|State_Enabled;
+        toolButtonOption.subControls = SC_ToolButton;
+        toolButtonOption.icon =  menuItemOption->icon;
+
+        int iconWidth( pixelMetric( PM_SmallIconSize, menuItemOption, widget ) );
+        toolButtonOption.iconSize = QSize( iconWidth, iconWidth );
+        toolButtonOption.text = menuItemOption->text;
+
+        toolButtonOption.toolButtonStyle = Qt::ToolButtonTextBesideIcon;
+
+        return toolButtonOption;
+
+    }
+
 }
 
 namespace OxygenPrivate
@@ -9298,7 +9339,7 @@ namespace OxygenPrivate
         const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
 
-        const QRect tabBarRect( _style.data()->insideMargin( tabBar->rect(), -Oxygen::GlowWidth ) );
+        const QRect tabBarRect( _style.data()->insideMargin( tabBar->rect(), 0 ) );
 
         // define slab
         Oxygen::Style::SlabRect slab;
@@ -9372,7 +9413,7 @@ namespace OxygenPrivate
 
         const bool verticalTabs( _style.data()->isVerticalTab( tabOpt ) );
         const QRect tabWidgetRect( tabWidget ?
-            _style.data()->insideMargin( tabWidget->rect(), -Oxygen::GlowWidth ).translated( -widget->geometry().topLeft() ) :
+            _style.data()->insideMargin( tabWidget->rect(), 0 ).translated( -widget->geometry().topLeft() ) :
             QRect() );
 
         const QPalette& palette( tabOpt->palette );

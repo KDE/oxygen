@@ -29,119 +29,112 @@ namespace Oxygen
     /*! these are copied from the old KStyle WidgetProperties */
     enum Metrics
     {
-        GlowWidth = 1,
+        // frames
+        Frame_FrameWidth = 2,
+        Frame_FrameRadius = 3,
+
+        // layout
+        Layout_TopLevelMarginWidth = 10,
+        Layout_ChildMarginWidth = 6,
+        Layout_DefaultSpacing = 6,
+
+        // line editors
+        LineEdit_FrameWidth = 8,
+
+        // menu items
+        MenuItem_MarginWidth = 4,
+        MenuItem_ItemSpacing = 4,
+        MenuItem_AcceleratorSpace = 16,
+        MenuButton_IndicatorWidth = 20,
+
+        // combobox
+        ComboBox_FrameWidth = 6,
+
+        // spinbox
+        SpinBox_FrameWidth = LineEdit_FrameWidth,
+        SpinBox_ArrowButtonWidth = 20,
+
+        // groupbox title margin
+        GroupBox_TitleMarginWidth = 4,
 
         // buttons
         Button_MinWidth = 80,
         Button_MarginWidth = 6,
         Button_ItemSpacing = 4,
 
-        // checkbox. Do not change, unless
-        // changing the actual cached pixmap size
-        CheckBox_Size = 21,
-        CheckBox_ItemSpacing = 4,
-
-        // combobox
-        ComboBox_FrameWidth = 3,
-        ComboBox_ButtonWidth = 19,
-        ComboBox_ButtonMargin = 2,
-        ComboBox_ButtonMargin_Left = 0,
-        ComboBox_ButtonMargin_Right = 4,
-        ComboBox_ButtonMargin_Top = 2,
-        ComboBox_ButtonMargin_Bottom = 1,
-
-        ComboBox_ContentsMargin = 0,
-        ComboBox_ContentsMargin_Left = 2,
-        ComboBox_ContentsMargin_Right = 0,
-        ComboBox_ContentsMargin_Top = 0,
-        ComboBox_ContentsMargin_Bottom = 0,
-
-        // dockwidgets
-        DockWidget_FrameWidth = 0,
-        DockWidget_SeparatorExtend = 3,
-        DockWidget_TitleMargin = 3,
-
-        // generic frames
-        Frame_FrameWidth = 3,
-
-        // group boxes
-        GroupBox_FrameWidth = 3,
-        GroupBox_TitleMarginWidth = 4,
-
-        // header
-        Header_TextToIconSpace = 3,
-        Header_ContentsMargin = 3,
-
-        // line edit
-        LineEdit_FrameWidth = 3,
-
-        // menu item
-        MenuItem_AccelSpace = 16,
-        MenuItem_ArrowWidth = 11,
-        MenuItem_ArrowSpace = 3,
-        MenuItem_CheckWidth = 16,
-        MenuItem_CheckSpace = 3,
-        MenuItem_IconWidth = 12,
-        MenuItem_IconSpace = 3,
-        MenuItem_Margin = 2,
-        MenuItem_MinHeight = 20,
-        MenuButton_IndicatorWidth = 20,
-
-        // menu bar item
-        MenuBarItem_Margin = 3,
-        MenuBarItem_Margin_Left = 5,
-        MenuBarItem_Margin_Right = 5,
-
-        // pushbuttons
-        PushButton_ContentsMargin = 5,
-        PushButton_ContentsMargin_Left = 8,
-        PushButton_ContentsMargin_Top = -1,
-        PushButton_ContentsMargin_Right = 8,
-        PushButton_ContentsMargin_Bottom = 0,
-        PushButton_MenuIndicatorSize = 8,
-        PushButton_TextToIconSpace = 6,
-
-        // progress bar
-        ProgressBar_BusyIndicatorSize = 10,
-        ProgressBar_GrooveMargin = 0,
-
-        // scrollbar
-        ScrollBar_MinimumSliderHeight = 21,
-
-        // slider groove height
-        Slider_GrooveWidth = 7,
-
-        // spin boxes
-        SpinBox_FrameWidth = 3,
-        SpinBox_ButtonWidth = 19,
-        SpinBox_ButtonMargin = 0,
-        SpinBox_ButtonMargin_Left = 2,
-        SpinBox_ButtonMargin_Right = 6,
-        SpinBox_ButtonMargin_Top = 4,
-        SpinBox_ButtonMargin_Bottom = 2,
-
-        // splitter
-        Splitter_Width = 3,
-
-        // tabs
-        TabBar_BaseOverlap = 7,
-        TabBar_BaseHeight = 2,
-        TabBar_ScrollButtonWidth = 18,
-        TabBar_TabContentsMargin = 4,
-        TabBar_TabContentsMargin_Left = 5,
-        TabBar_TabContentsMargin_Right = 5,
-        TabBar_TabContentsMargin_Top = 2,
-        TabBar_TabContentsMargin_Bottom = 4,
-        TabBar_TabOverlap =0,
-
-        TabWidget_ContentsMargin = 4,
-
-        // toolbuttons
+        // tool buttons
         ToolButton_MarginWidth = 6,
         ToolButton_ItemSpacing = 4,
-        ToolButton_InlineIndicatorWidth = 14,
+        ToolButton_InlineIndicatorWidth = 12,
 
-        Tree_MaxExpanderSize = 9
+        // checkboxes and radio buttons
+        CheckBox_Size = 22,
+        CheckBox_FocusMarginWidth = 2,
+        CheckBox_ItemSpacing = 8,
+
+        // menubar items
+        MenuBarItem_MarginWidth = 10,
+        MenuBarItem_MarginHeight = 8,
+
+        // scrollbars
+        ScrollBar_Extend = 20,
+        ScrollBar_SliderWidth = 10,
+        ScrollBar_MinSliderHeight = 10,
+        ScrollBar_NoButtonHeight = (ScrollBar_Extend-ScrollBar_SliderWidth)/2,
+        ScrollBar_SingleButtonHeight = ScrollBar_Extend,
+        ScrollBar_DoubleButtonHeight = 2*ScrollBar_Extend,
+
+        // toolbars
+        ToolBar_FrameWidth = 2,
+        ToolBar_HandleExtent = 10,
+        ToolBar_HandleWidth = 6,
+        ToolBar_SeparatorWidth = 8,
+        ToolBar_ExtensionWidth = 20,
+        ToolBar_ItemSpacing = 0,
+
+        // progressbars
+        ProgressBar_BusyIndicatorSize = 14,
+        ProgressBar_Thickness = 6,
+        ProgressBar_ItemSpacing = 4,
+
+        // mdi title bar
+        TitleBar_MarginWidth = 4,
+
+        // sliders
+        Slider_TickLength = 8,
+        Slider_TickMarginWidth = 2,
+        Slider_GrooveThickness = 6,
+        Slider_ControlThickness = 20,
+
+        // tabbar
+        TabBar_TabMarginHeight = 4,
+        TabBar_TabMarginWidth = 8,
+        TabBar_TabMinWidth = 80,
+        TabBar_TabMinHeight = 28,
+        TabBar_TabOverlap = 1,
+        TabBar_BaseOverlap = 2,
+
+        // tab widget
+        TabWidget_MarginWidth = 4,
+
+        // toolbox
+        ToolBox_TabMinWidth = 80,
+        ToolBox_TabItemSpacing = 4,
+
+        // tooltips
+        ToolTip_FrameWidth = 3,
+
+        // list headers
+        Header_MarginWidth = 8,
+        Header_ItemSpacing = 4,
+        Header_ArrowSize = 10,
+
+        // tree view
+        ItemView_ArrowSize = 10,
+        ItemView_ItemMarginWidth = 4,
+
+        // splitter
+        Splitter_SplitterWidth = 3,
 
     };
 
