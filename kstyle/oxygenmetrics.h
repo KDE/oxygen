@@ -31,6 +31,11 @@ namespace Oxygen
     {
         GlowWidth = 1,
 
+        // buttons
+        Button_MinWidth = 80,
+        Button_MarginWidth = 6,
+        Button_ItemSpacing = 4,
+
         // checkbox. Do not change, unless
         // changing the actual cached pixmap size
         CheckBox_Size = 21,
@@ -132,8 +137,8 @@ namespace Oxygen
         TabWidget_ContentsMargin = 4,
 
         // toolbuttons
-        ToolButton_ContentsMargin = 4,
-        ToolButton_InlineMenuIndicatorSize = 8,
+        ToolButton_MarginWidth = 6,
+        ToolButton_InlineIndicatorWidth = 12,
         ToolButton_InlineMenuIndicatorXOff = -11,
         ToolButton_InlineMenuIndicatorYOff = -10,
         ToolButton_MenuIndicatorSize = 11,

@@ -1756,7 +1756,7 @@ namespace Oxygen
                 if( !groupBoxOption ) break;
 
                 // take out frame width
-                rect = insideMargin( rect, Metrics::Frame_FrameWidth );
+                rect = insideMargin( rect, Frame_FrameWidth );
 
                 // get state
                 const bool checkable( groupBoxOption->subControls & QStyle::SC_GroupBoxCheckBox );
@@ -1765,10 +1765,10 @@ namespace Oxygen
                 // calculate title height
                 int titleHeight( 0 );
                 if( !emptyText ) titleHeight = groupBoxOption->fontMetrics.height();
-                if( checkable ) titleHeight = qMax( titleHeight, int(Metrics::CheckBox_Size) );
+                if( checkable ) titleHeight = qMax( titleHeight, int(CheckBox_Size) );
 
                 // add margin
-                if( titleHeight > 0 ) titleHeight += 2*Metrics::GroupBox_TitleMarginWidth;
+                if( titleHeight > 0 ) titleHeight += 2*GroupBox_TitleMarginWidth;
 
                 rect.adjust( 0, titleHeight, 0, 0 );
                 return rect;
@@ -1784,7 +1784,7 @@ namespace Oxygen
                 if( !groupBoxOption ) break;
 
                 // take out frame width
-                rect = insideMargin( rect, Metrics::Frame_FrameWidth );
+                rect = insideMargin( rect, Frame_FrameWidth );
 
                 const bool emptyText( groupBoxOption->text.isEmpty() );
                 const bool checkable( groupBoxOption->subControls & QStyle::SC_GroupBoxCheckBox );
@@ -1801,15 +1801,15 @@ namespace Oxygen
 
                 if( checkable )
                 {
-                    titleHeight = qMax( titleHeight, int(Metrics::CheckBox_Size) );
-                    titleWidth += Metrics::CheckBox_Size;
-                    if( !emptyText ) titleWidth += Metrics::CheckBox_ItemSpacing;
+                    titleHeight = qMax( titleHeight, int(CheckBox_Size) );
+                    titleWidth += CheckBox_Size;
+                    if( !emptyText ) titleWidth += CheckBox_ItemSpacing;
                 }
 
                 // adjust height
                 QRect titleRect( rect );
                 titleRect.setHeight( titleHeight );
-                titleRect.translate( 0, Metrics::GroupBox_TitleMarginWidth );
+                titleRect.translate( 0, GroupBox_TitleMarginWidth );
 
                 // center
                 titleRect = centerRect( titleRect, titleWidth, titleHeight );
@@ -1818,10 +1818,10 @@ namespace Oxygen
                 {
 
                     // vertical centering
-                    titleRect = centerRect( titleRect, titleWidth, Metrics::CheckBox_Size );
+                    titleRect = centerRect( titleRect, titleWidth, CheckBox_Size );
 
                     // horizontal positioning
-                    const QRect subRect( titleRect.topLeft(), QSize( Metrics::CheckBox_Size, titleRect.height() ) );
+                    const QRect subRect( titleRect.topLeft(), QSize( CheckBox_Size, titleRect.height() ) );
                     return visualRect( option->direction, titleRect, subRect );
 
                 } else {
@@ -1832,7 +1832,7 @@ namespace Oxygen
 
                     // horizontal positioning
                     QRect subRect( titleRect );
-                    if( checkable ) subRect.adjust( Metrics::CheckBox_Size + Metrics::CheckBox_ItemSpacing, 0, 0, 0 );
+                    if( checkable ) subRect.adjust( CheckBox_Size + CheckBox_ItemSpacing, 0, 0, 0 );
                     return visualRect( option->direction, titleRect, subRect );
 
                 }
@@ -1859,7 +1859,7 @@ namespace Oxygen
 
         // store rect
         const QRect& rect( option->rect );
-        const int menuButtonWidth( Metrics::MenuButton_IndicatorWidth );
+        const int menuButtonWidth( MenuButton_IndicatorWidth );
         switch( subControl )
         {
             case SC_ToolButtonMenu:
@@ -2382,49 +2382,27 @@ namespace Oxygen
     }
 
     //______________________________________________________________
-    QSize Style::toolButtonSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
+    QSize Style::toolButtonSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
     {
 
+        // cast option and check
+        const QStyleOptionToolButton* toolButtonOption = qstyleoption_cast<const QStyleOptionToolButton*>( option );
+        if( !toolButtonOption ) return contentsSize;
+
+        // copy size
         QSize size = contentsSize;
-        const QStyleOptionToolButton* tbOpt = qstyleoption_cast<const QStyleOptionToolButton*>( option );
-        if( tbOpt && !tbOpt->icon.isNull() && !tbOpt->text.isEmpty() && tbOpt->toolButtonStyle == Qt::ToolButtonTextUnderIcon )
-        { size.rheight() -= 5; }
 
-        // We want to avoid super-skiny buttons, for things like "up" when icons + text
-        // For this, we would like to make width >= height.
-        // However, once we get here, QToolButton may have already put in the menu area
-        // ( PM_MenuButtonIndicator ) into the width. So we may have to take it out, fix things
-        // up, and add it back in. So much for class-independent rendering...
-        int menuAreaWidth = 0;
-        if( tbOpt )
-        {
+        // get relevant state flags
+        const State& state( option->state );
+        const bool autoRaise( state & State_AutoRaise );
+        const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
+        const bool hasInlineIndicator( toolButtonOption->features & QStyleOptionToolButton::HasMenu && !hasPopupMenu );
+        const int marginWidth( autoRaise ? ToolButton_MarginWidth : Button_MarginWidth + Frame_FrameWidth );
 
-            if( tbOpt->features & QStyleOptionToolButton::MenuButtonPopup )
-            {
+        if( hasInlineIndicator ) size.rwidth() += ToolButton_InlineIndicatorWidth;
+        size = expandSize( size, marginWidth );
 
-                menuAreaWidth = pixelMetric( QStyle::PM_MenuButtonIndicator, option, widget );
-
-            } else if( tbOpt->features & QStyleOptionToolButton::HasMenu ) {
-
-                // TODO: something wrong here: The size is not properly accounted for
-                // when drawing the slab.
-                size.rwidth() += ToolButton_InlineMenuIndicatorSize;
-
-            }
-
-        }
-
-        size.rwidth() -= menuAreaWidth;
-        if( size.width() < size.height() ) size.setWidth( size.height() );
-
-        size.rwidth() += menuAreaWidth;
-
-        const QToolButton* t( qobject_cast<const QToolButton*>( widget ) );
-        if( t && t->autoRaise() ) return expandSize( size, ToolButton_ContentsMargin ); // these are toolbutton margins
-        else return expandSize( size,
-            PushButton_ContentsMargin, 0,
-            PushButton_ContentsMargin_Top, 0,
-            PushButton_ContentsMargin_Bottom );
+        return size;
 
     }
 
@@ -4566,7 +4544,7 @@ namespace Oxygen
                 int width( r.width() );
                 if( !menuItemOption->icon.isNull() )
                 { width -= toolButtonOpt.iconSize.width() + 2; }
-                width -= 2*ToolButton_ContentsMargin;
+                width -= 2*ToolButton_MarginWidth;
                 toolButtonOpt.text = QFontMetrics( toolButtonOpt.font ).elidedText( menuItemOption->text, Qt::ElideRight, width );
 
                 toolButtonOpt.toolButtonStyle = Qt::ToolButtonTextBesideIcon;
@@ -7612,14 +7590,17 @@ namespace Oxygen
             // This is requesting KDE3-style arrow indicator, per Qt 4.4 behavior. Qt 4.3 prefers to hide
             // the fact of the menu's existence. Whee! Since we don't know how to paint this right,
             // though, we have to have some metrics set for it to look nice.
-            const int size( ToolButton_InlineMenuIndicatorSize );
+            const int size( ToolButton_InlineIndicatorWidth );
             if( size )
             {
 
                 const int xOff( ToolButton_InlineMenuIndicatorXOff );
                 const int yOff( ToolButton_InlineMenuIndicatorYOff );
 
-                copy.rect = QRect( buttonRect.right() + xOff + 1, buttonRect.bottom() + yOff + 1, size, size );
+                copy.rect = QRect(
+                    buttonRect.right() - ToolButton_InlineIndicatorWidth - 2,
+                    buttonRect.bottom() - ToolButton_InlineIndicatorWidth - 2,
+                    size, size );
                 painter->save();
                 drawIndicatorButtonDropDownPrimitive( &copy, painter, widget );
                 painter->restore();
@@ -7631,7 +7612,7 @@ namespace Oxygen
         // CE_ToolButtonLabel expects a readjusted rect, for the button area proper
         QStyleOptionToolButton labelOpt = *toolButtonOption;
         labelOpt.rect = buttonRect;
-        drawToolButtonLabelControl( &labelOpt, painter, widget );
+        drawControl( CE_ToolButtonLabel, &labelOpt, painter, widget );
 
         return true;
 
