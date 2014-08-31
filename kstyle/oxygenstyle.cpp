@@ -656,7 +656,7 @@ namespace Oxygen
 
             case PM_MenuButtonIndicator:
             {
-                if( qstyleoption_cast<const QStyleOptionToolButton*>( option ) ) return ToolButton_MenuIndicatorSize;
+                if( qstyleoption_cast<const QStyleOptionToolButton*>( option ) ) return MenuButton_IndicatorWidth;
                 else return PushButton_MenuIndicatorSize;
             }
 
@@ -3181,7 +3181,6 @@ namespace Oxygen
         if( isInToolBar && !toolBarAnimated )
         {
 
-
             _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
 
         } else {
@@ -3198,7 +3197,6 @@ namespace Oxygen
         qreal hoverOpacity( _animations->widgetStateEngine().opacity( widget, AnimationHover ) );
         qreal focusOpacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
 
-        // slit rect
         QRect slitRect( rect );
 
         // non autoraised tool buttons get same slab as regular buttons
@@ -3243,15 +3241,11 @@ namespace Oxygen
             const QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
 
             // render slab
-            renderButtonSlab( painter, slitRect, buttonColor, styleOptions, opacity, mode, tiles );
+            renderButtonSlab( painter, rect, buttonColor, styleOptions, opacity, mode, tiles );
 
             return true;
 
         }
-
-        //! fine tuning of slitRect geometry
-        if( widget && widget->inherits( "QToolBarExtension" ) ) slitRect.adjust( 1, 1, -1, -1 );
-        else if( widget && widget->objectName() == QStringLiteral( "qt_menubar_ext_button" ) ) slitRect.adjust( -1, -1, 0, 0 );
 
         // normal ( auto-raised ) toolbuttons
         if( state & ( State_Sunken|State_On ) )
@@ -3285,7 +3279,7 @@ namespace Oxygen
                     painter->setRenderHint( QPainter::Antialiasing );
                     painter->setPen( Qt::NoPen );
                     painter->setBrush( color );
-                    painter->drawRoundedRect( slitRect.adjusted( 1, 1, -1, -1 ), 3.5, 3.5 );
+                    painter->drawRoundedRect( rect.adjusted( 1, 1, -1, -1 ), 3.5, 3.5 );
                     painter->restore();
                 }
 
@@ -6915,24 +6909,111 @@ namespace Oxygen
     bool Style::drawToolButtonLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        // need to customize palettes to deal with autoraised buttons
-        const State& state( option->state );
+        // cast option and check
+        const QStyleOptionToolButton* toolButtonOption( qstyleoption_cast<const QStyleOptionToolButton*>(option) );
 
-        // normal processing if not autoRaised
-        if( state & State_AutoRaise )
+        // copy rect and palette
+        const QRect& rect = option->rect;
+        const QPalette& palette = option->palette;
+
+        // state
+        const State& state( option->state );
+        const bool enabled( state & State_Enabled );
+        const bool sunken( ( state & State_On ) || ( state & State_Sunken ) );
+        const bool mouseOver( enabled && (option->state & State_MouseOver) );
+        const bool hasFocus( enabled && !mouseOver && (option->state & State_HasFocus) );
+        const bool flat( state & State_AutoRaise );
+
+        const bool hasArrow( toolButtonOption->features & QStyleOptionToolButton::Arrow );
+        const bool hasIcon( !( hasArrow || toolButtonOption->icon.isNull() ) );
+        const bool hasText( !toolButtonOption->text.isEmpty() );
+
+        // icon size
+        const QSize iconSize( toolButtonOption->iconSize );
+
+        // text size
+        int textFlags( _mnemonics->textFlags() );
+        const QSize textSize( option->fontMetrics.size( textFlags, toolButtonOption->text ) );
+
+        // adjust text and icon rect based on options
+        QRect iconRect;
+        QRect textRect;
+
+        if( hasText && ( !(hasArrow||hasIcon) || toolButtonOption->toolButtonStyle == Qt::ToolButtonTextOnly ) )
         {
 
-            const QStyleOptionToolButton* toolButtonOpt( qstyleoption_cast<const QStyleOptionToolButton*>( option ) );
-            if( !toolButtonOpt ) return true;
+            // text only
+            textRect = rect;
+            textFlags |= Qt::AlignCenter;
 
-            QStyleOptionToolButton copy( *toolButtonOpt );
-            copy.palette.setColor( QPalette::ButtonText, option->palette.color( QPalette::WindowText ) );
+        } else if( (hasArrow||hasIcon) && (!hasText || toolButtonOption->toolButtonStyle == Qt::ToolButtonIconOnly ) ) {
 
-            ParentStyleClass::drawControl( CE_ToolButtonLabel, &copy, painter, widget );
+            // icon only
+            iconRect = rect;
+
+        } else if( toolButtonOption->toolButtonStyle == Qt::ToolButtonTextUnderIcon ) {
+
+            const int contentsHeight( iconSize.height() + textSize.height() + ToolButton_ItemSpacing );
+            iconRect = QRect( QPoint( rect.left() + (rect.width() - iconSize.width())/2, rect.top() + (rect.height() - contentsHeight)/2 ), iconSize );
+            textRect = QRect( QPoint( rect.left() + (rect.width() - textSize.width())/2, iconRect.bottom() + ToolButton_ItemSpacing + 1 ), textSize );
+            textFlags |= Qt::AlignCenter;
 
         } else {
 
-            ParentStyleClass::drawControl( CE_ToolButtonLabel, option, painter, widget );
+            const int contentsWidth( iconSize.width() + textSize.width() + ToolButton_ItemSpacing );
+            iconRect = QRect( QPoint( rect.left() + (rect.width() - contentsWidth )/2, rect.top() + (rect.height() - iconSize.height())/2 ), iconSize );
+            textRect = QRect( QPoint( iconRect.right() + ToolButton_ItemSpacing + 1, rect.top() + (rect.height() - textSize.height())/2 ), textSize );
+
+            // handle right to left layouts
+            iconRect = visualRect( option, iconRect );
+            textRect = visualRect( option, textRect );
+
+            textFlags |= Qt::AlignLeft | Qt::AlignVCenter;
+
+        }
+
+        // make sure there is enough room for icon
+        if( iconRect.isValid() ) iconRect = centerRect( iconRect, iconSize );
+
+        // render arrow or icon
+        if( hasArrow && iconRect.isValid() )
+        {
+
+            QStyleOptionToolButton copy( *toolButtonOption );
+            copy.rect = iconRect;
+            switch( toolButtonOption->arrowType )
+            {
+                case Qt::LeftArrow: drawPrimitive( PE_IndicatorArrowLeft, &copy, painter, widget ); break;
+                case Qt::RightArrow: drawPrimitive( PE_IndicatorArrowRight, &copy, painter, widget ); break;
+                case Qt::UpArrow: drawPrimitive( PE_IndicatorArrowUp, &copy, painter, widget ); break;
+                case Qt::DownArrow: drawPrimitive( PE_IndicatorArrowDown, &copy, painter, widget ); break;
+                default: break;
+            }
+
+        } else if( hasIcon && iconRect.isValid() ) {
+
+            // icon state and mode
+            const QIcon::State iconState( sunken ? QIcon::On : QIcon::Off );
+            QIcon::Mode iconMode;
+            if( !enabled ) iconMode = QIcon::Disabled;
+            else if( mouseOver && flat ) iconMode = QIcon::Active;
+            else iconMode = QIcon::Normal;
+
+            const QPixmap pixmap = toolButtonOption->icon.pixmap( iconSize, iconMode, iconState );
+            drawItemPixmap( painter, iconRect, Qt::AlignCenter, pixmap );
+
+        }
+
+        // render text
+        if( hasText && textRect.isValid() )
+        {
+
+            QPalette::ColorRole textRole( QPalette::ButtonText );
+            if( flat ) textRole = (sunken&&!mouseOver) ? QPalette::HighlightedText: QPalette::WindowText;
+            else if( hasFocus&&!mouseOver ) textRole = QPalette::HighlightedText;
+
+            painter->setFont(toolButtonOption->font);
+            drawItemText( painter, textRect, textFlags, palette, enabled, toolButtonOption->text, textRole );
 
         }
 
@@ -7594,12 +7675,9 @@ namespace Oxygen
             if( size )
             {
 
-                const int xOff( ToolButton_InlineMenuIndicatorXOff );
-                const int yOff( ToolButton_InlineMenuIndicatorYOff );
-
                 copy.rect = QRect(
-                    buttonRect.right() - ToolButton_InlineIndicatorWidth - 2,
-                    buttonRect.bottom() - ToolButton_InlineIndicatorWidth - 2,
+                    buttonRect.right() - ToolButton_InlineIndicatorWidth,
+                    buttonRect.bottom() - ToolButton_InlineIndicatorWidth,
                     size, size );
                 painter->save();
                 drawIndicatorButtonDropDownPrimitive( &copy, painter, widget );
@@ -8013,17 +8091,14 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    void Style::renderButtonSlab( QPainter *painter, QRect r, const QColor &color, StyleOptions options, qreal opacity,
+    void Style::renderButtonSlab( QPainter *painter, QRect rect, const QColor &color, StyleOptions options, qreal opacity,
         AnimationMode mode,
         TileSet::Tiles tiles ) const
     {
-        if( ( r.width() <= 0 ) || ( r.height() <= 0 ) ) return;
-
-        r.translate( 0,-1 );
-        if( !painter->clipRegion().isEmpty() ) painter->setClipRegion( painter->clipRegion().translated( 0,-1 ) );
+        if( ( rect.width() <= 0 ) || ( rect.height() <= 0 ) ) return;
 
         // fill
-        if( !( options & NoFill ) ) _helper->fillButtonSlab( *painter, r, color, options&Sunken );
+        if( !( options & NoFill ) ) _helper->fillButtonSlab( *painter, rect, color, options&Sunken );
 
         // edges
         // for slabs, hover takes precedence over focus ( other way around for holes )
@@ -8041,7 +8116,7 @@ namespace Oxygen
         }
 
         if( tile )
-        { tile->render( r, painter, tiles ); }
+        { tile->render( rect, painter, tiles ); }
 
     }
 
@@ -8058,11 +8133,7 @@ namespace Oxygen
         if( !r.isValid() ) return;
 
         // this is needed for button vertical alignment
-        r.translate( 0,-1 );
-        if( !painter->clipRegion().isEmpty() ) painter->setClipRegion( painter->clipRegion().translated( 0,-1 ) );
-
-        // additional adjustment for sunken frames
-        if( options & Sunken ) r.adjust( -1,0,1,2 );
+        if( !painter->clipRegion().isEmpty() ) painter->setClipRegion( painter->clipRegion() );
 
         // fill
         if( !( options & NoFill ) )

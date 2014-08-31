@@ -138,10 +138,8 @@ namespace Oxygen
 
         // toolbuttons
         ToolButton_MarginWidth = 6,
-        ToolButton_InlineIndicatorWidth = 12,
-        ToolButton_InlineMenuIndicatorXOff = -11,
-        ToolButton_InlineMenuIndicatorYOff = -10,
-        ToolButton_MenuIndicatorSize = 11,
+        ToolButton_ItemSpacing = 4,
+        ToolButton_InlineIndicatorWidth = 14,
 
         Tree_MaxExpanderSize = 9
 
