@@ -138,7 +138,7 @@ namespace Oxygen
         //!@name holes
         //@{
 
-        void fillHole( QPainter&, const QRect&, int size = 7 ) const;
+        void fillHole( QPainter&, const QRect&, int offset = 2 ) const;
 
         //! generic hole
         void renderHole( QPainter *p, const QColor& color, const QRect &r,

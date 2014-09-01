@@ -306,6 +306,7 @@ namespace Oxygen
         { return true; }
 
         bool drawFramePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawFrameLineEditPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameFocusRectPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameMenuPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameGroupBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -343,7 +344,6 @@ namespace Oxygen
         bool drawPanelTipLabelPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelScrollAreaCornerPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelItemViewItemPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawPanelLineEditPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorMenuCheckMarkPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorCheckBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorRadioButtonPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;

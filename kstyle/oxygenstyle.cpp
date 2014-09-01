@@ -1039,7 +1039,7 @@ namespace Oxygen
             case PE_FrameFocusRect: fcn = _frameFocusPrimitive; break;
 
             case PE_FrameGroupBox: fcn = &Style::drawFrameGroupBoxPrimitive; break;
-            case PE_FrameLineEdit: fcn = &Style::drawFramePrimitive; break;
+            case PE_FrameLineEdit: fcn = &Style::drawFrameLineEditPrimitive; break;
             case PE_FrameMenu: fcn = &Style::drawFrameMenuPrimitive; break;
 
             // TabBar
@@ -1061,7 +1061,6 @@ namespace Oxygen
             case PE_PanelButtonTool: fcn = &Style::drawPanelButtonToolPrimitive; break;
 
             case PE_PanelItemViewItem: fcn = &Style::drawPanelItemViewItemPrimitive; break;
-            case PE_PanelLineEdit: fcn = &Style::drawPanelLineEditPrimitive; break;
             case PE_PanelMenu: fcn = &Style::drawPanelMenuPrimitive; break;
             case PE_PanelScrollAreaCorner: fcn = &Style::drawPanelScrollAreaCornerPrimitive; break;
             case PE_PanelTipLabel: fcn = &Style::drawPanelTipLabelPrimitive; break;
@@ -2693,11 +2692,63 @@ namespace Oxygen
 
         } else if( state & State_Raised ) {
 
-            // const QRect local( r.adjusted( -1, -1, 1, 1 ) );
             const QRect local( rect );
             renderSlab( painter, local, palette.color( QPalette::Background ), NoFill );
 
         }
+
+        return true;
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawFrameLineEditPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    {
+
+        // copy rect and palette
+        const QRect& rect( option->rect );
+        const QPalette& palette( option->palette );
+
+        // store state
+        const State& state( option->state );
+        const bool enabled( state & State_Enabled );
+
+        // hover
+        const bool hoverHighlight( enabled && ( state&State_MouseOver ) );
+
+        // focus
+        bool focusHighlight( false );
+        if( enabled && ( state&State_HasFocus ) ) focusHighlight = true;
+
+        // assume focus takes precedence over hover
+        _animations->lineEditEngine().updateState( widget, AnimationFocus, focusHighlight );
+        _animations->lineEditEngine().updateState( widget, AnimationHover, hoverHighlight && !focusHighlight );
+
+        const QRect local( rect );
+        qreal opacity( -1 );
+        AnimationMode mode = AnimationNone;
+        if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
+        {
+
+            opacity = _animations->lineEditEngine().opacity( widget, AnimationFocus  );
+            mode = AnimationFocus;
+
+        } else if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationHover ) ) {
+
+            opacity = _animations->lineEditEngine().opacity( widget, AnimationHover );
+            mode = AnimationHover;
+
+        }
+
+        HoleOptions options( 0 );
+        if( focusHighlight ) options |= HoleFocus;
+        if( hoverHighlight ) options |= HoleHover;
+
+        painter->setPen( Qt::NoPen );
+        painter->setBrush( palette.color( QPalette::Base ) );
+        _helper->fillHole( *painter, rect );
+        _helper->renderHole(
+            painter, palette.color( QPalette::Window ), local, options,
+            opacity, mode, TileSet::Ring );
 
         return true;
     }
@@ -3653,42 +3704,6 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawPanelLineEditPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
-    {
-
-        const QRect& r( option->rect );
-        const QPalette& palette( option->palette );
-
-        // cast option and check
-        const QStyleOptionFrame *panel = qstyleoption_cast<const QStyleOptionFrame*>( option );
-        if( !panel ) return true;
-
-        const QBrush inputBrush( palette.base() );
-        const int lineWidth( panel->lineWidth );
-
-        if( lineWidth > 0 )
-        {
-            painter->save();
-            painter->setRenderHint( QPainter::Antialiasing );
-            painter->setPen( Qt::NoPen );
-            painter->setBrush( inputBrush );
-
-            _helper->fillHole( *painter, r.adjusted( 0, -1, 0, 0 ) );
-            drawFramePrimitive( panel, painter, widget );
-
-            painter->restore();
-
-        } else  {
-
-            painter->fillRect( r.adjusted( 2,2,-2,-2 ), inputBrush );
-
-        }
-
-        return true;
-
-    }
-
-    //___________________________________________________________________________________
     bool Style::drawPanelMenuPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
@@ -4229,31 +4244,34 @@ namespace Oxygen
         }
 
         // fade tabbar
-        QPixmap pm( gradientRect.size() );
-        pm.fill( Qt::transparent );
-        QPainter pp( &pm );
+        QPixmap pixmap( gradientRect.size() );
+        {
+            pixmap.fill( Qt::transparent );
+            QPainter painter( &pixmap );
 
-        const bool verticalTabs( isVerticalTab( tabOpt ) );
+            const bool verticalTabs( isVerticalTab( tabOpt ) );
 
-        int w = 0, h = 0;
-        if( verticalTabs ) h = gradientRect.height();
-        else w = gradientRect.width();
+            int width = 0;
+            int height = 0;
+            if( verticalTabs ) height = gradientRect.height();
+            else width = gradientRect.width();
 
-        QLinearGradient grad;
-        if( reverseLayout && !verticalTabs ) grad = QLinearGradient( 0, 0, w, h );
-        else grad = QLinearGradient( w, h, 0, 0 );
+            QLinearGradient grad;
+            if( reverseLayout && !verticalTabs ) grad = QLinearGradient( 0, 0, width, height );
+            else grad = QLinearGradient( width, height, 0, 0 );
 
-        grad.setColorAt( 0, Qt::transparent );
-        grad.setColorAt( 0.6, Qt::black );
+            grad.setColorAt( 0, Qt::transparent );
+            grad.setColorAt( 0.6, Qt::black );
 
-	if( widget )
-          _helper->renderWindowBackground( &pp, pm.rect(), widget, palette );
-        pp.setCompositionMode( QPainter::CompositionMode_DestinationAtop );
-        pp.fillRect( pm.rect(), QBrush( grad ) );
-        pp.end();
+            if( widget )
+            { _helper->renderWindowBackground( &painter, pixmap.rect(), widget, palette ); }
+            painter.setCompositionMode( QPainter::CompositionMode_DestinationAtop );
+            painter.fillRect( pixmap.rect(), QBrush( grad ) );
+            painter.end();
+        }
 
         // draw pixmap
-        painter->drawPixmap( gradientRect.topLeft()+QPoint( 0,-1 ),pm );
+        painter->drawPixmap( gradientRect.topLeft() + QPoint( 0,-1 ), pixmap );
 
         return true;
     }
@@ -8197,7 +8215,7 @@ namespace Oxygen
     }
 
     //__________________________________________________________________________
-    void Style::renderMenuItemRect( const QStyleOption* opt, const QRect& r, const QColor& base, const QPalette& palette, QPainter* painter, qreal opacity ) const
+    void Style::renderMenuItemRect( const QStyleOption* option, const QRect& rect, const QColor& base, const QPalette& palette, QPainter* painter, qreal opacity ) const
     {
 
         if( opacity == 0 ) return;
@@ -8218,49 +8236,52 @@ namespace Oxygen
         }
 
         // special painting for items with submenus
-        const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>( opt );
+        const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>( option );
         if( menuItemOption && menuItemOption->menuItemType == QStyleOptionMenuItem::SubMenu )
         {
 
-            QPixmap pm( r.size() );
-            pm.fill( Qt::transparent );
-            QPainter pp( &pm );
-            QRect rr( QPoint( 0,0 ), r.size() );
-
-            pp.setRenderHint( QPainter::Antialiasing );
-            pp.setPen( Qt::NoPen );
-
-            pp.setBrush( color );
-            _helper->fillHole( pp, rr );
-
-            _helper->holeFlat( color, 0.0 )->render( rr.adjusted( 1, 2, -2, -1 ), &pp );
-
-            QRect maskr( visualRect( opt->direction, rr, QRect( rr.width()-40, 0, 40,rr.height() ) ) );
-            QLinearGradient gradient(
-                visualPos( opt->direction, maskr, QPoint( maskr.left(), 0 ) ),
-                visualPos( opt->direction, maskr, QPoint( maskr.right()-4, 0 ) ) );
-            gradient.setColorAt( 0.0, Qt::black );
-            gradient.setColorAt( 1.0, Qt::transparent );
-            pp.setBrush( gradient );
-            pp.setCompositionMode( QPainter::CompositionMode_DestinationIn );
-            pp.drawRect( maskr );
-
-            if( opacity >= 0 && opacity < 1 )
+            QPixmap pixmap( rect.size() );
             {
-                pp.setCompositionMode( QPainter::CompositionMode_DestinationIn );
-                pp.fillRect( pm.rect(), _helper->alphaColor( Qt::black, opacity ) );
+                pixmap.fill( Qt::transparent );
+                QPainter painter( &pixmap );
+                const QRect pixmapRect( pixmap.rect() );
+
+                painter.setRenderHint( QPainter::Antialiasing );
+                painter.setPen( Qt::NoPen );
+
+                painter.setBrush( color );
+                _helper->fillHole( painter, pixmapRect );
+
+                _helper->holeFlat( color, 0.0 )->render( pixmapRect.adjusted( 1, 2, -2, -1 ), &painter );
+
+                QRect maskRect( visualRect( option->direction, pixmapRect, QRect( pixmapRect.width()-40, 0, 40, pixmapRect.height() ) ) );
+                QLinearGradient gradient(
+                    visualPos( option->direction, maskRect, QPoint( maskRect.left(), 0 ) ),
+                    visualPos( option->direction, maskRect, QPoint( maskRect.right()-4, 0 ) ) );
+                gradient.setColorAt( 0.0, Qt::black );
+                gradient.setColorAt( 1.0, Qt::transparent );
+                painter.setBrush( gradient );
+                painter.setCompositionMode( QPainter::CompositionMode_DestinationIn );
+                painter.drawRect( maskRect );
+
+                if( opacity >= 0 && opacity < 1 )
+                {
+                    painter.setCompositionMode( QPainter::CompositionMode_DestinationIn );
+                    painter.fillRect( pixmapRect, _helper->alphaColor( Qt::black, opacity ) );
+                }
+
+                painter.end();
+
             }
 
-            pp.end();
-
-            painter->drawPixmap( visualRect( opt, r ), pm );
+            painter->drawPixmap( visualRect( option, rect ), pixmap );
 
         } else {
 
             if( opacity >= 0 && opacity < 1 )
             { color.setAlphaF( opacity ); }
 
-            _helper->holeFlat( color, 0.0 )->render( r.adjusted( 1,2,-2,-1 ), painter, TileSet::Full );
+            _helper->holeFlat( color, 0.0 )->render( rect.adjusted( 1,2,-2,-1 ), painter, TileSet::Full );
 
         }
 
@@ -8728,7 +8749,7 @@ namespace Oxygen
 namespace OxygenPrivate
 {
 
-    void TabBarData::drawTabBarBaseControl( const QStyleOptionTab* tabOpt, QPainter* painter, const QWidget* widget )
+    void TabBarData::drawTabBarBaseControl( const QStyleOptionTab* tabOption, QPainter* painter, const QWidget* widget )
     {
 
 
@@ -8746,11 +8767,11 @@ namespace OxygenPrivate
         if( !tabBar ) return;
 
         // get reverseLayout flag
-        const bool reverseLayout( tabOpt->direction == Qt::RightToLeft );
+        const bool reverseLayout( tabOption->direction == Qt::RightToLeft );
 
         // get documentMode flag
-        const QStyleOptionTabV3 *tabOptV3 = qstyleoption_cast<const QStyleOptionTabV3 *>( tabOpt );
-        bool documentMode = tabOptV3 ? tabOptV3->documentMode : false;
+        const QStyleOptionTabV3 *tabOptionV3 = qstyleoption_cast<const QStyleOptionTabV3 *>( tabOption );
+        bool documentMode = tabOptionV3 ? tabOptionV3->documentMode : false;
         const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
 
@@ -8760,7 +8781,7 @@ namespace OxygenPrivate
         Oxygen::Style::SlabRect slab;
 
         // switch on tab shape
-        switch( tabOpt->shape )
+        switch( tabOption->shape )
         {
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
@@ -8826,12 +8847,12 @@ namespace OxygenPrivate
             break;
         }
 
-        const bool verticalTabs( _style.data()->isVerticalTab( tabOpt ) );
+        const bool verticalTabs( _style.data()->isVerticalTab( tabOption ) );
         const QRect tabWidgetRect( tabWidget ?
             _style.data()->insideMargin( tabWidget->rect(), 0 ).translated( -widget->geometry().topLeft() ) :
             QRect() );
 
-        const QPalette& palette( tabOpt->palette );
+        const QPalette& palette( tabOption->palette );
         const QColor color( palette.color( QPalette::Window ) );
         _style.data()->adjustSlabRect( slab, tabWidgetRect, documentMode, verticalTabs );
         _style.data()->renderSlab( painter, slab, color, Oxygen::Style::NoFill );
