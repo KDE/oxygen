@@ -75,6 +75,7 @@
 #include <QFrame>
 #include <QGraphicsView>
 #include <QGroupBox>
+#include <QItemDelegate>
 #include <QLayout>
 #include <QLineEdit>
 #include <QLoggingCategory>
@@ -151,6 +152,56 @@ namespace OxygenPrivate
 
         //! if true, will paint on next TabBarTabShapeControlCall
         bool _dirty;
+
+    };
+
+    //! needed to have spacing added to items in combobox
+    class ComboBoxItemDelegate: public QItemDelegate
+    {
+
+        public:
+
+        //! constructor
+        ComboBoxItemDelegate( QAbstractItemView* parent ):
+            QItemDelegate( parent ),
+            _proxy( parent->itemDelegate() ),
+            _itemMargin( Oxygen::ItemView_ItemMarginWidth )
+        {}
+
+        //! destructor
+        virtual ~ComboBoxItemDelegate( void )
+        {}
+
+        //! paint
+        void paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+        {
+            // call either proxy or parent class
+            if( _proxy ) _proxy.data()->paint( painter, option, index );
+            else QItemDelegate::paint( painter, option, index );
+        }
+
+        //! size hint for index
+        virtual QSize sizeHint( const QStyleOptionViewItem& option, const QModelIndex& index ) const
+        {
+
+            // get size from either proxy or parent class
+            QSize size( _proxy ?
+                _proxy.data()->sizeHint( option, index ):
+                QItemDelegate::sizeHint( option, index ) );
+
+            // adjust and return
+            if( size.isValid() ) { size.rheight() += _itemMargin*2; }
+            return size;
+
+        }
+
+        private:
+
+        //! proxy
+        Oxygen::WeakPointer<QAbstractItemDelegate> _proxy;
+
+        //! margin
+        int _itemMargin;
 
     };
 
@@ -447,6 +498,12 @@ namespace Oxygen
             //FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
             widget->setWindowFlags( widget->windowFlags() | Qt::FramelessWindowHint );
             #endif
+
+        } else if( QComboBox *comboBox = qobject_cast<QComboBox*>( widget ) ) {
+
+            QAbstractItemView *itemView( comboBox->view() );
+            if( itemView && itemView->itemDelegate() && itemView->itemDelegate()->inherits( "QComboBoxDelegate" ) )
+            { itemView->setItemDelegate( new OxygenPrivate::ComboBoxItemDelegate( itemView ) ); }
 
         } else if( widget->inherits( "QComboBoxPrivateContainer" ) ) {
 
@@ -908,7 +965,6 @@ namespace Oxygen
         {
             case CT_CheckBox: return checkBoxSizeFromContents( option, size, widget );
             case CT_ComboBox: return comboBoxSizeFromContents( option, size, widget );
-            case CT_HeaderSection: return headerSectionSizeFromContents( option, size, widget );
             case CT_PushButton: return pushButtonSizeFromContents( option, size, widget );
             case CT_MenuBar: return defaultSizeFromContents( option, size, widget );
             case CT_MenuBarItem: return menuBarItemSizeFromContents( option, size, widget );
@@ -917,6 +973,11 @@ namespace Oxygen
             case CT_TabBarTab: return tabBarTabSizeFromContents( option, size, widget );
             case CT_TabWidget: return tabWidgetSizeFromContents( option, size, widget );
             case CT_ToolButton: return toolButtonSizeFromContents( option, size, widget );
+
+            // item views
+            case CT_HeaderSection: return headerSectionSizeFromContents( option, size, widget );
+            case CT_ItemViewItem: return itemViewItemSizeFromContents( option, size, widget );
+
             default: return ParentStyleClass::sizeFromContents( element, option, size, widget );
         }
 
@@ -2207,48 +2268,6 @@ namespace Oxygen
     }
 
     //______________________________________________________________
-    QSize Style::headerSectionSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
-    {
-
-        // cast option and check
-        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader*>( option ) );
-        if( !headerOption ) return contentsSize;
-
-        // get text size
-        const bool horizontal( headerOption->orientation == Qt::Horizontal );
-        const bool hasText( !headerOption->text.isEmpty() );
-        const bool hasIcon( !headerOption->icon.isNull() );
-
-        const QSize textSize( hasText ? headerOption->fontMetrics.size( 0, headerOption->text ) : QSize() );
-        const QSize iconSize( hasIcon ? QSize( 22,22 ) : QSize() );
-
-        // contents width
-        int contentsWidth( 0 );
-        if( hasText ) contentsWidth += textSize.width();
-        if( hasIcon )
-        {
-            contentsWidth += iconSize.width();
-            if( hasText ) contentsWidth += Header_ItemSpacing;
-        }
-
-        // contents height
-        int contentsHeight( headerOption->fontMetrics.height() );
-        if( hasIcon ) contentsHeight = qMax( contentsHeight, iconSize.height() );
-
-        if( horizontal )
-        {
-            // also add space for icon
-            contentsWidth += Header_ArrowSize + Header_ItemSpacing;
-            contentsHeight = qMax( contentsHeight, int(Header_ArrowSize) );
-        }
-
-        // update contents size, add margins and return
-        const QSize size( contentsSize.expandedTo( QSize( contentsWidth, contentsHeight ) ) );
-        return expandSize( size, Header_MarginWidth );
-
-    }
-
-    //______________________________________________________________
     QSize Style::menuBarItemSizeFromContents( const QStyleOption*, const QSize& contentsSize, const QWidget* ) const
     { return expandSize( contentsSize, MenuBarItem_MarginWidth, MenuBarItem_MarginHeight ); }
 
@@ -2378,6 +2397,59 @@ namespace Oxygen
 
         // finally add margins
         return expandSize( size, Frame_FrameWidth );
+
+    }
+
+    //______________________________________________________________
+    QSize Style::headerSectionSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
+    {
+
+        // cast option and check
+        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader*>( option ) );
+        if( !headerOption ) return contentsSize;
+
+        // get text size
+        const bool horizontal( headerOption->orientation == Qt::Horizontal );
+        const bool hasText( !headerOption->text.isEmpty() );
+        const bool hasIcon( !headerOption->icon.isNull() );
+
+        const QSize textSize( hasText ? headerOption->fontMetrics.size( 0, headerOption->text ) : QSize() );
+        const QSize iconSize( hasIcon ? QSize( 22,22 ) : QSize() );
+
+        // contents width
+        int contentsWidth( 0 );
+        if( hasText ) contentsWidth += textSize.width();
+        if( hasIcon )
+        {
+            contentsWidth += iconSize.width();
+            if( hasText ) contentsWidth += Header_ItemSpacing;
+        }
+
+        // contents height
+        int contentsHeight( headerOption->fontMetrics.height() );
+        if( hasIcon ) contentsHeight = qMax( contentsHeight, iconSize.height() );
+
+        if( horizontal )
+        {
+            // also add space for icon
+            contentsWidth += Header_ArrowSize + Header_ItemSpacing;
+            contentsHeight = qMax( contentsHeight, int(Header_ArrowSize) );
+        }
+
+        // update contents size, add margins and return
+        const QSize size( contentsSize.expandedTo( QSize( contentsWidth, contentsHeight ) ) );
+        return expandSize( size, Header_MarginWidth );
+
+    }
+
+    //______________________________________________________________
+    QSize Style::itemViewItemSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
+    {
+        // call base class
+        QSize size( ParentStyleClass::sizeFromContents( CT_ItemViewItem, option, contentsSize, widget ) );
+
+        // add margins
+        return expandSize( size, ItemView_ItemMarginWidth );
 
     }
 
@@ -3669,7 +3741,7 @@ namespace Oxygen
 
             // color
             const QColor expanderColor( mouseOver ? _helper->viewHoverBrush().brush( palette ).color():palette.color( QPalette::Text ) );
-            
+
             // get arrow size from option
             ArrowSize size = ArrowSmall;
             qreal penThickness( 1.2 );
@@ -4938,11 +5010,11 @@ namespace Oxygen
 
             // define rect
             QRect arrowRect( contentsRect );
-            arrowRect.setLeft( contentsRect.right() - Metrics::MenuButton_IndicatorWidth + 1 );
-            arrowRect = centerRect( arrowRect, Metrics::MenuButton_IndicatorWidth, Metrics::MenuButton_IndicatorWidth );
+            arrowRect.setLeft( contentsRect.right() - MenuButton_IndicatorWidth + 1 );
+            arrowRect = centerRect( arrowRect, MenuButton_IndicatorWidth, MenuButton_IndicatorWidth );
 
-            contentsRect.setRight( arrowRect.left() - Metrics::Button_ItemSpacing - 1  );
-            contentsRect.adjust( Metrics::Button_MarginWidth, 0, 0, 0 );
+            contentsRect.setRight( arrowRect.left() - Button_ItemSpacing - 1  );
+            contentsRect.adjust( Button_MarginWidth, 0, 0, 0 );
 
             arrowRect = visualRect( option, arrowRect );
 
@@ -4967,7 +5039,7 @@ namespace Oxygen
             painter->drawPolyline( arrow );
             painter->restore();
 
-        } else contentsRect.adjust( Metrics::Button_MarginWidth, 0, -Metrics::Button_MarginWidth, 0 );
+        } else contentsRect.adjust( Button_MarginWidth, 0, -Button_MarginWidth, 0 );
 
         // icon size
         QSize iconSize( buttonOption->iconSize );
@@ -4989,9 +5061,9 @@ namespace Oxygen
         else if( hasIcon && !hasText ) iconRect = contentsRect;
         else {
 
-            const int contentsWidth( iconSize.width() + textSize.width() + Metrics::Button_ItemSpacing );
+            const int contentsWidth( iconSize.width() + textSize.width() + Button_ItemSpacing );
             iconRect = QRect( QPoint( contentsRect.left() + (contentsRect.width() - contentsWidth )/2, contentsRect.top() + (contentsRect.height() - iconSize.height())/2 ), iconSize );
-            textRect = QRect( QPoint( iconRect.right() + Metrics::ToolButton_ItemSpacing + 1, contentsRect.top() + (contentsRect.height() - textSize.height())/2 ), textSize );
+            textRect = QRect( QPoint( iconRect.right() + ToolButton_ItemSpacing + 1, contentsRect.top() + (contentsRect.height() - textSize.height())/2 ), textSize );
 
         }
 
