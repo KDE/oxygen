@@ -8236,7 +8236,7 @@ namespace Oxygen
 
     //___________________________________________________________________
     void Style::renderRadioButton(
-        QPainter* painter, const QRect& rect,
+        QPainter* painter, const QRect& constRect,
         const QPalette& palette,
         StyleOptions options,
         CheckBoxState state,
@@ -8244,21 +8244,20 @@ namespace Oxygen
         AnimationMode mode ) const
     {
 
-        const int s( CheckBox_Size );
-        const QRect r( centerRect( rect, s, s ) );
-        const int x = r.x();
-        const int y = r.y();
+        const int size( CheckBox_Size );
+        const QRect rect( centerRect( constRect, size, size ) );
 
         const QColor color( palette.color( QPalette::Button ) );
         const QColor glow( slabShadowColor( options, opacity, mode ) );
-        painter->drawPixmap( x, y, _helper->roundSlab( color, glow, 0.0 ) );
+        painter->drawPixmap( rect.topLeft(), _helper->roundSlab( color, glow, 0.0 ) );
 
         // draw the radio mark
         if( state != CheckOff )
         {
             const qreal radius( 2.6 );
-            const qreal dx( 0.5*r.width() - radius );
-            const qreal dy( 0.5*r.height() - radius );
+            const qreal dx( 0.5*rect.width() - radius );
+            const qreal dy( 0.5*rect.height() - radius );
+            const QRectF symbolRect( QRectF( rect ).adjusted( dx, dy, -dx, -dy ) );
 
             painter->save();
             painter->setRenderHints( QPainter::Antialiasing );
@@ -8271,13 +8270,13 @@ namespace Oxygen
             if( state == CheckOn ) painter->setBrush( _helper->calcLightColor( background ) );
             else painter->setBrush( _helper->alphaColor( _helper->calcLightColor( background ), 0.3 ) );
             painter->translate( 0, radius/2 );
-            painter->drawEllipse( QRectF( r ).adjusted( dx, dy, -dx, -dy ) );
+            painter->drawEllipse( symbolRect );
 
             // symbol
             if( state == CheckOn ) painter->setBrush( _helper->decoColor( background, color ) );
             else painter->setBrush( _helper->alphaColor( _helper->decoColor( background, color ), 0.3 ) );
             painter->translate( 0, -radius/2 );
-            painter->drawEllipse( QRectF( r ).adjusted( dx, dy, -dx, -dy ) );
+            painter->drawEllipse( symbolRect );
             painter->restore();
 
         }
