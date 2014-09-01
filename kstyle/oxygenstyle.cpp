@@ -4991,7 +4991,6 @@ namespace Oxygen
         const bool enabled( state & State_Enabled );
         const bool sunken( ( state & State_On ) || ( state & State_Sunken ) );
         const bool mouseOver( enabled && (option->state & State_MouseOver) );
-        const bool hasFocus( enabled && !mouseOver && (option->state & State_HasFocus) );
         const bool flat( buttonOption->features & QStyleOptionButton::Flat );
 
         // content
@@ -6321,7 +6320,6 @@ namespace Oxygen
         const bool enabled( state & State_Enabled );
         const bool sunken( ( state & State_On ) || ( state & State_Sunken ) );
         const bool mouseOver( enabled && (option->state & State_MouseOver) );
-        const bool hasFocus( enabled && !mouseOver && (option->state & State_HasFocus) );
         const bool flat( state & State_AutoRaise );
 
         const bool hasArrow( toolButtonOption->features & QStyleOptionToolButton::Arrow );
@@ -7510,7 +7508,7 @@ namespace Oxygen
 
     //____________________________________________________________________________________
     void Style::renderSlab(
-        QPainter *painter, QRect r,
+        QPainter *painter, QRect rect,
         const QColor &color,
         StyleOptions options, qreal opacity,
         AnimationMode mode,
@@ -7518,10 +7516,7 @@ namespace Oxygen
     {
 
         // check rect
-        if( !r.isValid() ) return;
-
-        // this is needed for button vertical alignment
-        if( !painter->clipRegion().isEmpty() ) painter->setClipRegion( painter->clipRegion() );
+        if( !rect.isValid() ) return;
 
         // fill
         if( !( options & NoFill ) )
@@ -7533,21 +7528,21 @@ namespace Oxygen
             if( _helper->calcShadowColor( color ).value() > color.value() && ( options & Sunken ) )
             {
 
-                QLinearGradient innerGradient( 0, r.top(), 0, r.bottom() + r.height() );
+                QLinearGradient innerGradient( 0, rect.top(), 0, rect.bottom() + rect.height() );
                 innerGradient.setColorAt( 0.0, color );
                 innerGradient.setColorAt( 1.0, _helper->calcLightColor( color ) );
                 painter->setBrush( innerGradient );
 
             } else {
 
-                QLinearGradient innerGradient( 0, r.top() - r.height(), 0, r.bottom() );
+                QLinearGradient innerGradient( 0, rect.top() - rect.height(), 0, rect.bottom() );
                 innerGradient.setColorAt( 0.0, _helper->calcLightColor( color ) );
                 innerGradient.setColorAt( 1.0, color );
                 painter->setBrush( innerGradient );
 
             }
 
-            _helper->fillSlab( *painter, r );
+            _helper->fillSlab( *painter, rect );
 
             painter->restore();
         }
@@ -7570,7 +7565,7 @@ namespace Oxygen
         }
 
         // render tileset
-        if( tile ) tile->render( r, painter, tiles );
+        if( tile ) tile->render( rect, painter, tiles );
 
     }
 
@@ -8174,68 +8169,66 @@ namespace Oxygen
 
     //________________________________________________________________________
     void Style::renderCheckBox(
-        QPainter *painter, const QRect &rect, const QPalette &palette,
+        QPainter *painter, const QRect &constRect, const QPalette &palette,
         StyleOptions options, CheckBoxState state,
         qreal opacity,
         AnimationMode mode ) const
     {
 
-        const int s( qMin( rect.width(), rect.height() ) );
-        const QRect r( centerRect( rect, s, s ) );
+        const int size( qMin( constRect.width(), constRect.height() ) );
+        const QRect rect( centerRect( constRect, size, size ) );
 
         if( !( options & NoFill ) )
         {
-            if( options & Sunken ) _helper->holeFlat( palette.color( QPalette::Window ), 0.0, false )->render( r, painter, TileSet::Full );
-            else renderSlab( painter, r, palette.color( QPalette::Button ), options, opacity, mode, TileSet::Ring );
+            if( options & Sunken ) _helper->holeFlat( palette.color( QPalette::Window ), 0.0, false )->render( rect.adjusted( 1, 1, -1, -1 ), painter, TileSet::Full );
+            else renderSlab( painter, rect, palette.color( QPalette::Button ), options, opacity, mode, TileSet::Ring );
         }
+
+        if( state == CheckOff ) return;
 
         // check mark
-        const qreal x( r.center().x() - 3.5 );
-        const qreal y( r.center().y() - 2.5 );
-
-        if( state != CheckOff )
+        qreal penThickness( 2.0 );
+        const QColor color( palette.color( ( options&Sunken ) ? QPalette::WindowText:QPalette::ButtonText ) );
+        const QColor background( palette.color( ( options&Sunken ) ? QPalette::Window:QPalette::Button ) );
+        QPen pen( _helper->decoColor( background, color ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin );
+        QPen contrastPen( _helper->calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin );
+        if( state == CheckTriState )
         {
 
-            qreal penThickness( 2.0 );
-            const QColor color( palette.color( ( options&Sunken ) ? QPalette::WindowText:QPalette::ButtonText ) );
-            const QColor background( palette.color( ( options&Sunken ) ? QPalette::Window:QPalette::Button ) );
-            QPen pen( _helper->decoColor( background, color ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin );
-            QPen contrastPen( _helper->calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin );
-            if( state == CheckTriState )
-            {
+            QVector<qreal> dashes;
+            dashes << 1.0 << 2.0;
+            penThickness = 1.3;
+            pen.setWidthF( penThickness );
+            contrastPen.setWidthF( penThickness );
+            pen.setDashPattern( dashes );
+            contrastPen.setDashPattern( dashes );
 
-                QVector<qreal> dashes;
-                dashes << 1.0 << 2.0;
-                penThickness = 1.3;
-                pen.setWidthF( penThickness );
-                contrastPen.setWidthF( penThickness );
-                pen.setDashPattern( dashes );
-                contrastPen.setDashPattern( dashes );
+        } else if( state == CheckSunken ) {
 
-            } else if( state == CheckSunken ) {
+            pen.setColor( _helper->alphaColor( pen.color(), 0.3 ) );
+            contrastPen.setColor( _helper->alphaColor( contrastPen.color(), 0.3 ) );
 
-                pen.setColor( _helper->alphaColor( pen.color(), 0.3 ) );
-                contrastPen.setColor( _helper->alphaColor( contrastPen.color(), 0.3 ) );
-
-            }
-
-            painter->save();
-            if( !( options&Sunken ) ) painter->translate( 0, -1 );
-            painter->setRenderHint( QPainter::Antialiasing );
-
-            const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
-            painter->setPen( contrastPen );
-            painter->translate( 0, offset );
-            painter->drawLine( QPointF( x+9, y ), QPointF( x+3,y+7 ) );
-            painter->drawLine( QPointF( x, y+4 ), QPointF( x+3,y+7 ) );
-
-            painter->setPen( pen );
-            painter->translate( 0, -offset );
-            painter->drawLine( QPointF( x+9, y ), QPointF( x+3,y+7 ) );
-            painter->drawLine( QPointF( x, y+4 ), QPointF( x+3,y+7 ) );
-
-            painter->restore();
         }
+
+        painter->save();
+        painter->translate( QRectF( rect ).center() );
+
+        if( !( options&Sunken ) ) painter->translate( 0, -1 );
+        painter->setRenderHint( QPainter::Antialiasing );
+
+        QPolygonF checkMark;
+        checkMark << QPointF( 5, -2 ) << QPointF( -1, 5 ) << QPointF( -4, 2 );
+
+        const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+        painter->setPen( contrastPen );
+        painter->translate( 0, offset );
+        painter->drawPolyline( checkMark );
+
+        painter->setPen( pen );
+        painter->translate( 0, -offset );
+        painter->drawPolyline( checkMark );
+
+        painter->restore();
 
         return;
 

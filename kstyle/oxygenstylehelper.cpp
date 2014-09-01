@@ -799,7 +799,7 @@ namespace Oxygen
 
                 // hole inside
                 p.setBrush( color );
-                p.drawRoundedRect( QRectF( 1, 1, 12, 12 ), 3.0, 3.0 );
+                p.drawRoundedRect( QRectF( 2, 2, 10, 10 ), 3.0, 3.0 );
                 p.setBrush( Qt::NoBrush );
 
                 {
@@ -810,7 +810,7 @@ namespace Oxygen
                     gradient.setColorAt( 0.5, Qt::transparent );
 
                     p.setPen( QPen( gradient, 1 ) );
-                    p.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 2.5, 2.5 );
+                    p.drawRoundedRect( QRectF( 2.5, 2.5, 10, 10 ), 2.5, 2.5 );
                 }
 
                 {
@@ -833,6 +833,8 @@ namespace Oxygen
 
             _holeFlatCache.insert( key, tileSet );
         }
+
+
         return tileSet;
     }
 
