@@ -2226,7 +2226,7 @@ namespace Oxygen
                 grooveRect = insideMargin( grooveRect, pixelMetric( PM_DefaultFrameWidth, option, widget ) );
 
                 // centering
-                if( horizontal ) grooveRect = centerRect( grooveRect, grooveRect.width(), Metrics::Slider_GrooveThickness ).adjusted( 3, 1, -3, 0 );
+                if( horizontal ) grooveRect = centerRect( grooveRect, grooveRect.width(), Metrics::Slider_GrooveThickness ).adjusted( 3, 0, -3, 0 );
                 else grooveRect = centerRect( grooveRect, Metrics::Slider_GrooveThickness, grooveRect.height() ).adjusted( 0, 3, 0, -3 );
                 return grooveRect;
 
@@ -4966,7 +4966,7 @@ namespace Oxygen
         /* this account for adjustments done here and in StyleHelper::progressBarIndicator */
         if( indicatorRect.adjusted( 2, 1, -2, -1 ).isValid() )
         {
-            indicatorRect.adjust( 1, 0, -1, -1 );
+            indicatorRect.adjust( 1, 1, -1, -1 );
 
             // calculate dimension
             int dimension( 20 );
@@ -5233,7 +5233,7 @@ namespace Oxygen
         _animations->scrollBarEngine().updateState( widget, enabled && ( sliderOption->activeSubControls & SC_ScrollBarSlider ) );
         const bool animated( enabled && _animations->scrollBarEngine().isAnimated( widget, SC_ScrollBarSlider ) );
 
-        if( orientation == Qt::Horizontal ) rect.adjust( 0, 0, 0, -1 );
+        if( orientation == Qt::Horizontal ) rect.adjust( 0, 1, 0, -1 );
         else rect.adjust( 1, 0, -1, 0 );
 
         // render
@@ -6820,12 +6820,7 @@ namespace Oxygen
             const bool horizontal( state & State_Horizontal );
 
             if( horizontal ) grooveRect = centerRect( grooveRect, grooveRect.width(), StyleConfigData::scrollBarWidth() );
-            else {
-
-                grooveRect = centerRect( grooveRect, StyleConfigData::scrollBarWidth(), grooveRect.height() );
-                grooveRect.adjust( 0, 1, 0, 0 );
-
-            }
+            else grooveRect = centerRect( grooveRect, StyleConfigData::scrollBarWidth(), grooveRect.height() );
 
             // render
             renderScrollBarHole( painter, grooveRect, color, Qt::Horizontal );

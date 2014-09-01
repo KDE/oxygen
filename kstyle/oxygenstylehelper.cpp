@@ -947,26 +947,26 @@ namespace Oxygen
         TileSet *tileSet = _scrollHoleCache.object( key );
         if ( !tileSet )
         {
-            QPixmap pm( 15, 15 );
-            pm.fill( Qt::transparent );
+            QPixmap pixmap( 15, 15 );
+            pixmap.fill( Qt::transparent );
 
-            QPainter p( &pm );
+            QPainter painter( &pixmap );
 
             const QColor dark( calcDarkColor( color ) );
             const QColor light( calcLightColor( color ) );
             const QColor shadow( calcShadowColor( color ) );
 
             // use space for white border
-            const QRect r( QRect( 0,0,15,15 ) );
-            const QRect rect( r.adjusted( 1, 0, -1, -1 ) );
+            const QRect pixmapRect( pixmap.rect() );
+            const QRect rect( pixmapRect.adjusted( 1, 1, -1, -1 ) );
 
-            p.setRenderHints( QPainter::Antialiasing );
-            p.setBrush( dark );
-            p.setPen( Qt::NoPen );
+            painter.setRenderHints( QPainter::Antialiasing );
+            painter.setBrush( dark );
+            painter.setPen( Qt::NoPen );
 
             // base
             const qreal radius( smallShadow ? 2.5:3.0 );
-            p.drawRoundedRect( rect, radius, radius );
+            painter.drawRoundedRect( rect, radius, radius );
 
             // slight shadow across the whole hole
             if( true )
@@ -977,8 +977,8 @@ namespace Oxygen
 
                 shadowGradient.setColorAt( 0.0, alphaColor( shadow, 0.1 ) );
                 shadowGradient.setColorAt( 0.6, Qt::transparent );
-                p.setBrush( shadowGradient );
-                p.drawRoundedRect( rect, radius, radius );
+                painter.setBrush( shadowGradient );
+                painter.drawRoundedRect( rect, radius, radius );
 
             }
 
@@ -989,16 +989,16 @@ namespace Oxygen
             {
                 shadowPixmap.fill( Qt::transparent );
 
-                QPainter p( &shadowPixmap );
-                p.setRenderHints( QPainter::Antialiasing );
-                p.setPen( Qt::NoPen );
+                QPainter painter( &shadowPixmap );
+                painter.setRenderHints( QPainter::Antialiasing );
+                painter.setPen( Qt::NoPen );
 
                 // fade-in shadow
                 QColor shadowColor( calcShadowColor( color ) );
                 if( smallShadow ) shadowColor = alphaColor( shadowColor, 0.6 );
-                drawInverseShadow( p, shadowColor, 1, 8, 0.0 );
+                drawInverseShadow( painter, shadowColor, 1, 8, 0.0 );
 
-                p.end();
+                painter.end();
 
             }
 
@@ -1006,10 +1006,10 @@ namespace Oxygen
             TileSet(
                 shadowPixmap, shadowSize, shadowSize, shadowSize,
                 shadowSize, shadowSize-1, shadowSize, 2, 1 ).
-                render( rect.adjusted( -1, -1, 1, 1 ), &p, TileSet::Full );
+                render( rect.adjusted( -1, -1, 1, 1 ), &painter, TileSet::Full );
 
             // light border
-            QLinearGradient borderGradient( 0, r.top(), 0, r.bottom() );
+            QLinearGradient borderGradient( 0, pixmapRect.top(), 0, pixmapRect.bottom() );
             if( smallShadow && orientation == Qt::Vertical )
             {
 
@@ -1023,13 +1023,12 @@ namespace Oxygen
 
             }
 
-            p.setPen( QPen( borderGradient, 1.0 ) );
-            p.setBrush( Qt::NoBrush );
-            p.drawRoundedRect( QRectF(r).adjusted( 0.5,0.5,-0.5,-0.5 ), radius+0.5, radius+0.5 );
+            painter.setPen( QPen( borderGradient, 1.0 ) );
+            painter.setBrush( Qt::NoBrush );
+            painter.drawRoundedRect( QRectF( pixmapRect ).adjusted( 0.5, 0.5, -0.5, -0.5 ), radius+0.5, radius+0.5 );
 
-            p.end();
-
-            tileSet = new TileSet( pm, 7, 7, 1, 1 );
+            painter.end();
+            tileSet = new TileSet( pixmap, 7, 7, 1, 1 );
 
             _scrollHoleCache.insert( key, tileSet );
         }
