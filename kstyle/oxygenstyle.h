@@ -428,7 +428,6 @@ namespace Oxygen
         { return true; }
 
         virtual bool drawCapacityBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawComboBoxLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawDockWidgetTitleControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawHeaderEmptyAreaControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawHeaderLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;

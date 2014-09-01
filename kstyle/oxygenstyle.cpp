@@ -1052,7 +1052,7 @@ namespace Oxygen
 
         } else switch( element ) {
 
-            case CE_ComboBoxLabel: fcn = &Style::drawComboBoxLabelControl; break;
+            case CE_ComboBoxLabel: break;
             case CE_DockWidgetTitle: fcn = &Style::drawDockWidgetTitleControl; break;
             case CE_HeaderEmptyArea: fcn = &Style::drawHeaderEmptyAreaControl; break;
             case CE_HeaderLabel: fcn = &Style::drawHeaderLabelControl; break;
@@ -4201,59 +4201,6 @@ namespace Oxygen
         drawProgressBarLabelControl( &sub_opt, painter, widget );
 
         return true;
-
-    }
-
-    //___________________________________________________________________________________
-    bool Style::drawComboBoxLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
-    {
-
-        //same as CommonStyle, except for filling behind icon
-        if( const QStyleOptionComboBox *cb = qstyleoption_cast<const QStyleOptionComboBox *>( option ) )
-        {
-
-            QRect editRect( subControlRect( CC_ComboBox, cb, SC_ComboBoxEditField, widget ) );
-
-            painter->save();
-            if( !cb->currentIcon.isNull() )
-            {
-
-                QIcon::Mode mode = cb->state & State_Enabled ? QIcon::Normal : QIcon::Disabled;
-                QPixmap pixmap( cb->currentIcon.pixmap( cb->iconSize, mode ) );
-                QRect iconRect( editRect );
-                iconRect.setWidth( cb->iconSize.width() + 4 );
-                iconRect = alignedRect(
-                    cb->direction,
-                    Qt::AlignLeft | Qt::AlignVCenter,
-                    iconRect.size(), editRect );
-
-                drawItemPixmap( painter, iconRect, Qt::AlignCenter, pixmap );
-
-                if( cb->direction == Qt::RightToLeft ) editRect.adjust( 0, 0, -4-cb->iconSize.width(), 0 );
-                else editRect.adjust( cb->iconSize.width() + 4, 0, 0, 0 );
-
-            }
-
-            if( !cb->currentText.isEmpty() && !cb->editable )
-            {
-                const bool hasFrame( cb->frame );
-
-                // add extra 1 pixel horizontal margin
-                QRect textRect( editRect.adjusted( 1, 0, -1, 0 ) );
-
-                // add extra vertical translation to fix positioning issue introduced with Qt-4.8
-                // when no icon is set
-                if( cb->currentIcon.isNull() ) textRect.translate( 0, -1 );
-                const QPalette::ColorRole role( hasFrame ? QPalette::ButtonText : QPalette::WindowText );
-                drawItemText(
-                    painter, textRect,
-                    visualAlignment( cb->direction, Qt::AlignLeft | Qt::AlignVCenter ),
-                    cb->palette, cb->state & State_Enabled, cb->currentText, role );
-            }
-            painter->restore();
-            return true;
-
-        } else return false;
 
     }
 
