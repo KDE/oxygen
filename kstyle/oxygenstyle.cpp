@@ -7493,7 +7493,7 @@ namespace Oxygen
         }
 
         // adjust rect to account for missing tiles
-        if( tile ) tile->adjust( rect, tiles );
+        if( tile ) rect = tile->adjust( rect, tiles );
 
         // fill
         if( !( options & NoFill ) ) _helper->fillButtonSlab( *painter, rect, color, options&Sunken );
