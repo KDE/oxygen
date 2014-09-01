@@ -8114,9 +8114,6 @@ namespace Oxygen
     {
         if( ( rect.width() <= 0 ) || ( rect.height() <= 0 ) ) return;
 
-        // fill
-        if( !( options & NoFill ) ) _helper->fillButtonSlab( *painter, rect, color, options&Sunken );
-
         // edges
         // for slabs, hover takes precedence over focus ( other way around for holes )
         // but in any case if the button is sunken we don't show focus nor hover
@@ -8132,8 +8129,15 @@ namespace Oxygen
 
         }
 
-        if( tile )
-        { tile->render( rect, painter, tiles ); }
+        // adjust rect to account for missing tiles
+        if( tile ) tile->adjust( rect, tiles );
+
+
+        // fill
+        if( !( options & NoFill ) ) _helper->fillButtonSlab( *painter, rect, color, options&Sunken );
+
+        // render slab
+        if( tile ) tile->render( rect, painter, tiles );
 
     }
 
