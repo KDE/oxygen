@@ -3105,11 +3105,16 @@ namespace Oxygen
     //______________________________________________________________
     bool Style::drawPanelButtonCommandPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
+
+        // copy rect and palette
+        const QRect& rect( option->rect );
+        const QPalette& palette( option->palette );
+
+        // store state
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( enabled && ( state & State_HasFocus ) );
-        const QPalette& palette( option->palette );
 
         StyleOptions styleOptions = 0;
         if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
@@ -3134,7 +3139,6 @@ namespace Oxygen
         Note: in principle one should also check for the button text height
         */
 
-        const QRect& rect( option->rect );
         const QStyleOptionButton* bOpt( qstyleoption_cast< const QStyleOptionButton* >( option ) );
         bool flat = ( bOpt && (
             bOpt->features.testFlag( QStyleOptionButton::Flat ) ||
@@ -3143,7 +3147,6 @@ namespace Oxygen
         if( flat )
         {
 
-            QRect slitRect( rect );
             if( !( styleOptions & Sunken ) )
             {
                 // hover rect
@@ -3151,17 +3154,15 @@ namespace Oxygen
                 {
 
                     QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( QPalette::Active ).color(), hoverOpacity ) );
-                    _helper->slitFocused( glow )->render( slitRect, painter );
+                    _helper->slitFocused( glow )->render( rect, painter );
 
                 } else if( mouseOver ) {
 
-                    _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( slitRect, painter );
+                    _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( rect, painter );
 
                 }
 
             } else {
-
-                slitRect.adjust( 0, 0, 0, -1 );
 
                 HoleOptions options( 0 );
                 if( mouseOver ) options |= HoleHover;
@@ -3171,19 +3172,17 @@ namespace Oxygen
                 if( enabled && hoverAnimated )
                 {
 
-                    _helper->renderHole( painter, palette.color( QPalette::Window ), slitRect, options, hoverOpacity, AnimationHover, TileSet::Ring );
+                    _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options, hoverOpacity, AnimationHover, TileSet::Ring );
 
                 } else {
 
-                    _helper->renderHole( painter, palette.color( QPalette::Window ), slitRect, options );
+                    _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options );
 
                 }
 
             }
 
         } else {
-
-            const QRect slabRect( rect.adjusted( -1, 0, 1, 0 ) );
 
             // match color to the window background
             QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
@@ -3198,15 +3197,15 @@ namespace Oxygen
             if( enabled && hoverAnimated && !( styleOptions & Sunken ) )
             {
 
-                renderButtonSlab( painter, slabRect, buttonColor, styleOptions, hoverOpacity, AnimationHover, TileSet::Ring );
+                renderButtonSlab( painter, rect, buttonColor, styleOptions, hoverOpacity, AnimationHover, TileSet::Ring );
 
             } else if( enabled && !mouseOver && focusAnimated && !( styleOptions & Sunken ) ) {
 
-                renderButtonSlab( painter, slabRect, buttonColor, styleOptions, focusOpacity, AnimationFocus, TileSet::Ring );
+                renderButtonSlab( painter, rect, buttonColor, styleOptions, focusOpacity, AnimationFocus, TileSet::Ring );
 
             } else {
 
-                renderButtonSlab( painter, slabRect, buttonColor, styleOptions );
+                renderButtonSlab( painter, rect, buttonColor, styleOptions );
 
             }
 
@@ -3315,8 +3314,6 @@ namespace Oxygen
         qreal hoverOpacity( _animations->widgetStateEngine().opacity( widget, AnimationHover ) );
         qreal focusOpacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
 
-        QRect slitRect( rect );
-
         // non autoraised tool buttons get same slab as regular buttons
         if( widget && !autoRaised )
         {
@@ -3391,7 +3388,7 @@ namespace Oxygen
 
                 if( opacity > 0 )
                 {
-                    QColor color( _helper->backgroundColor( _helper->calcMidColor( palette.color( QPalette::Window ) ), widget, slitRect.center() ) );
+                    QColor color( _helper->backgroundColor( _helper->calcMidColor( palette.color( QPalette::Window ) ), widget, rect.center() ) );
                     color = _helper->alphaColor( color, opacity );
                     painter->save();
                     painter->setRenderHint( QPainter::Antialiasing );
@@ -3411,28 +3408,28 @@ namespace Oxygen
             if( enabled && hoverAnimated )
             {
 
-                _helper->renderHole( painter, palette.color( QPalette::Window ), slitRect, options, hoverOpacity, AnimationHover, TileSet::Ring );
+                _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options, hoverOpacity, AnimationHover, TileSet::Ring );
 
             } else if( toolBarAnimated ) {
 
                 if( enabled && animatedRect.isNull() && current  )
                 {
 
-                    _helper->renderHole( painter, palette.color( QPalette::Window ), slitRect, options, toolBarOpacity, AnimationHover, TileSet::Ring );
+                    _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options, toolBarOpacity, AnimationHover, TileSet::Ring );
 
                 } else {
 
-                    _helper->renderHole( painter, palette.color( QPalette::Window ), slitRect, HoleContrast );
+                    _helper->renderHole( painter, palette.color( QPalette::Window ), rect, HoleContrast );
 
                 }
 
             } else if( toolBarTimerActive && current ) {
 
-                _helper->renderHole( painter, palette.color( QPalette::Window ), slitRect, options | HoleHover );
+                _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options | HoleHover );
 
             } else {
 
-                _helper->renderHole( painter, palette.color( QPalette::Window ), slitRect, options );
+                _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options );
 
             }
 
@@ -3442,19 +3439,19 @@ namespace Oxygen
             {
 
                 QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( QPalette::Active ).color(), hoverOpacity ) );
-                _helper->slitFocused( glow )->render( slitRect, painter );
+                _helper->slitFocused( glow )->render( rect, painter );
 
             } else if( toolBarAnimated ) {
 
                 if( enabled && animatedRect.isNull() && current )
                 {
                     QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( QPalette::Active ).color(), toolBarOpacity ) );
-                    _helper->slitFocused( glow )->render( slitRect, painter );
+                    _helper->slitFocused( glow )->render( rect, painter );
                 }
 
             } else if( hasFocus || mouseOver || ( toolBarTimerActive && current ) ) {
 
-                _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( slitRect, painter );
+                _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( rect, painter );
 
             }
 
@@ -6525,7 +6522,6 @@ namespace Oxygen
                 if( flat )
                 {
 
-                    QRect slitRect( rect );
                     if( !( styleOptions & Sunken ) )
                     {
                         // hover rect
@@ -6533,11 +6529,11 @@ namespace Oxygen
                         {
 
                             QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( QPalette::Active ).color(), hoverOpacity ) );
-                            _helper->slitFocused( glow )->render( slitRect, painter );
+                            _helper->slitFocused( glow )->render( rect, painter );
 
                         } else if( mouseOver ) {
 
-                            _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( slitRect, painter );
+                            _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( rect, painter );
 
                         }
 
@@ -6551,11 +6547,11 @@ namespace Oxygen
                         if( enabled && hoverAnimated )
                         {
 
-                            _helper->renderHole( painter, palette.color( QPalette::Window ), slitRect, options, hoverOpacity, AnimationHover, TileSet::Ring );
+                            _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options, hoverOpacity, AnimationHover, TileSet::Ring );
 
                         } else {
 
-                            _helper->renderHole( painter, palette.color( QPalette::Window ), slitRect, options );
+                            _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options );
 
                         }
 
@@ -7480,7 +7476,9 @@ namespace Oxygen
         AnimationMode mode,
         TileSet::Tiles tiles ) const
     {
-        if( ( rect.width() <= 0 ) || ( rect.height() <= 0 ) ) return;
+
+        // check rect
+        if( !rect.isValid() ) return;
 
         // edges
         // for slabs, hover takes precedence over focus ( other way around for holes )
