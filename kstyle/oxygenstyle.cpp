@@ -4084,23 +4084,12 @@ namespace Oxygen
                 // paint frame
                 painter->save();
                 TileSet::Tiles tiles( TileSet::Ring );
-                if( reverseLayout )
-                {
-
-                    if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
-                    tiles &= ~TileSet::Right;
-
-                } else {
-
-
-                    if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
-                    tiles &= ~TileSet::Left;
-
-
-                }
+                if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
+                if( reverseLayout ) tiles &= ~TileSet::Right;
+                else tiles &= ~TileSet::Left;
 
                 painter->setClipRect( rect, Qt::IntersectClip );
-                renderButtonSlab( painter, rect, background, styleOptions, opacity, mode, TileSet::Bottom | TileSet::Top | TileSet::Right );
+                renderButtonSlab( painter, rect, background, styleOptions, opacity, mode, tiles );
                 painter->restore();
 
                 // draw separating vertical line
