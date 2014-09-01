@@ -98,6 +98,14 @@ namespace Oxygen
         Q_DECLARE_FLAGS(Tiles, Tile)
 
         /*!
+        Adjust rect to deal with missing tiles
+        This will extend the relevant side so that the missing tiles extends beyond the
+        rect passed as argument
+        */
+
+        QRect adjust( const QRect&, Tiles ) const;
+
+        /*!
         Fills the specified rect with tiled chunks. Corners are never tiled,
         edges are tiled in one direction, and the center chunk is tiled in both
         directions. Partial tiles are used as needed so that the entire rect is

@@ -132,6 +132,21 @@ namespace Oxygen
     { return (flags & testFlags) == testFlags; }
 
     //___________________________________________________________
+    QRect TileSet::adjust(const QRect &constRect, Tiles tiles ) const
+    {
+
+        // adjust rect to deal with missing edges
+        QRect rect( constRect );
+        if( !(tiles&Left) ) rect.adjust( -_w1, 0, 0, 0 );
+        if( !(tiles&Right) ) rect.adjust( 0, 0, _w3, 0 );
+        if( !(tiles&Top) ) rect.adjust( 0, -_h1, 0, 0 );
+        if( !(tiles&Bottom) ) rect.adjust( 0, 0, 0, _h3 );
+
+        return rect;
+
+    }
+
+    //___________________________________________________________
     void TileSet::render(const QRect &constRect, QPainter *painter, Tiles tiles) const
     {
 
@@ -141,12 +156,8 @@ namespace Oxygen
         // check initialization
         if( _pixmaps.size() < 9 ) return;
 
-        // adjust rect to deal with missing edges
+        // copy source rect
         QRect rect( constRect );
-        if( !(tiles&Left) ) rect.adjust( -_w1, 0, 0, 0 );
-        if( !(tiles&Right) ) rect.adjust( 0, 0, _w3, 0 );
-        if( !(tiles&Top) ) rect.adjust( 0, -_h1, 0, 0 );
-        if( !(tiles&Bottom) ) rect.adjust( 0, 0, 0, _h3 );
 
         // get rect dimensions
         int x0, y0, w, h;
