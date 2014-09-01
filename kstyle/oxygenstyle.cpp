@@ -4975,35 +4975,50 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawPushButtonLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawPushButtonLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
         // cast option and check
-        const QStyleOptionButton* bOpt = qstyleoption_cast<const QStyleOptionButton*>( option );
-        if ( !bOpt ) return true;
+        const QStyleOptionButton* buttonOption( qstyleoption_cast<const QStyleOptionButton*>( option ) );
+        if( !buttonOption ) return true;
 
-        const QRect& r( option->rect );
+        // copy rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
+
+        // state
         const State& state( option->state );
-        const bool active( ( state & State_On ) || ( state & State_Sunken ) );
         const bool enabled( state & State_Enabled );
-        const bool hasFocus( state & State_HasFocus );
-        const bool flat( bOpt->features.testFlag( QStyleOptionButton::Flat ) );
+        const bool sunken( ( state & State_On ) || ( state & State_Sunken ) );
+        const bool mouseOver( enabled && (option->state & State_MouseOver) );
+        const bool hasFocus( enabled && !mouseOver && (option->state & State_HasFocus) );
+        const bool flat( buttonOption->features & QStyleOptionButton::Flat );
 
-        //Extract out coordinates for easier manipulation
-        int x, y, w, h;
-        r.getRect( &x, &y, &w, &h );
+        // content
+        const bool hasIcon( !buttonOption->icon.isNull() );
+        const bool hasText( !buttonOption->text.isEmpty() );
 
-        //Layout the stuff.
-        if ( bOpt->features & QStyleOptionButton::HasMenu )
+        // contents
+        QRect contentsRect( rect );
+
+        // color role
+        const QPalette::ColorRole textRole( flat ? QPalette::WindowText:QPalette::ButtonText );
+
+        // menu arrow
+        if( buttonOption->features & QStyleOptionButton::HasMenu )
         {
 
-            const int indicatorWidth( MenuButton_IndicatorWidth );
-            const int indicatorSpacing = Button_ItemSpacing;
-            w -= indicatorWidth + indicatorSpacing;
+            // define rect
+            QRect arrowRect( contentsRect );
+            arrowRect.setLeft( contentsRect.right() - Metrics::MenuButton_IndicatorWidth + 1 );
+            arrowRect = centerRect( arrowRect, Metrics::MenuButton_IndicatorWidth, Metrics::MenuButton_IndicatorWidth );
+
+            contentsRect.setRight( arrowRect.left() - Metrics::Button_ItemSpacing - 1  );
+            contentsRect.adjust( Metrics::Button_MarginWidth, 0, 0, 0 );
+
+            arrowRect = visualRect( option, arrowRect );
 
             // arrow
-            const QRect arrowRect( x + w + indicatorSpacing, y+1, indicatorWidth, h );
             const qreal penThickness = 1.6;
             QPolygonF arrow = genericArrow( ArrowDown, ArrowNormal );
 
@@ -5024,70 +5039,62 @@ namespace Oxygen
             painter->drawPolyline( arrow );
             painter->restore();
 
-        }
+        } else contentsRect.adjust( Metrics::Button_MarginWidth, 0, -Metrics::Button_MarginWidth, 0 );
 
-        // Draw the icon if there is one
-        if( !bOpt->icon.isNull() )
+        // icon size
+        QSize iconSize( buttonOption->iconSize );
+        if( !iconSize.isValid() )
         {
+            const int metric( pixelMetric( PM_SmallIconSize, option, widget ) );
+            iconSize = QSize( metric, metric );
+        }
 
-            if ( !bOpt->text.isEmpty() )
-            {
+        // text size
+        const int textFlags( _mnemonics->textFlags() | Qt::AlignCenter );
+        const QSize textSize( option->fontMetrics.size( textFlags, buttonOption->text ) );
 
-                const int margin = Button_ItemSpacing;
-                const int length = bOpt->iconSize.width() + margin + painter->fontMetrics().size( Qt::TextShowMnemonic, bOpt->text ).width();
+        // adjust text and icon rect based on options
+        QRect iconRect;
+        QRect textRect;
 
-                //Calculate offset.
-                const int offset = ( w - length )/2;
+        if( hasText && !hasIcon ) textRect = contentsRect;
+        else if( hasIcon && !hasText ) iconRect = contentsRect;
+        else {
 
-                const QRect iconRect( visualRect( bOpt, QRect( QPoint( x + offset, y + h/2 - bOpt->iconSize.height()/2 ), bOpt->iconSize ) ) );
-
-                QIcon::Mode mode;
-                if( enabled ) mode = ( hasFocus ) ? QIcon::Active: QIcon::Normal;
-                else mode = QIcon::Disabled;
-
-                QIcon::State iconState = active ? QIcon::On : QIcon::Off;
-
-                QSize size = bOpt->iconSize;
-                if( !size.isValid() ) size = QSize( pixelMetric( PM_SmallIconSize ), pixelMetric( PM_SmallIconSize ) );
-                QPixmap icon = bOpt->icon.pixmap( size, mode, iconState );
-                painter->drawPixmap( centerRect( iconRect, icon.size() ), icon );
-
-                //new bounding rect for the text
-                x += offset + bOpt->iconSize.width() + margin;
-                w =  length - bOpt->iconSize.width() - margin;
-
-            } else {
-
-                const QRect iconRect( x, y, w, h );
-                QIcon::Mode mode;
-                if( enabled ) mode = ( hasFocus ) ? QIcon::Active: QIcon::Normal;
-                else mode = QIcon::Disabled;
-
-                QIcon::State iconState = active ? QIcon::On : QIcon::Off;
-
-                QSize size = bOpt->iconSize;
-                if( !size.isValid() ) size = QSize( pixelMetric( PM_SmallIconSize ), pixelMetric( PM_SmallIconSize ) );
-                QPixmap icon = bOpt->icon.pixmap( size, mode, iconState );
-                painter->drawPixmap( centerRect( iconRect, icon.size() ), icon );
-
-            }
-
-        } else {
-
-            //Center the text
-            int textW = painter->fontMetrics().size( Qt::TextShowMnemonic, bOpt->text ).width();
-            x += ( w - textW )/2;
-            w =  textW;
+            const int contentsWidth( iconSize.width() + textSize.width() + Metrics::Button_ItemSpacing );
+            iconRect = QRect( QPoint( contentsRect.left() + (contentsRect.width() - contentsWidth )/2, contentsRect.top() + (contentsRect.height() - iconSize.height())/2 ), iconSize );
+            textRect = QRect( QPoint( iconRect.right() + Metrics::ToolButton_ItemSpacing + 1, contentsRect.top() + (contentsRect.height() - textSize.height())/2 ), textSize );
 
         }
 
-        QRect textRect( visualRect( bOpt, QRect( x, y, w, h ) ) );
-        if( !bOpt->icon.isNull() ) textRect.adjust( 0, 0, 0, 1 );
+        // handle right to left
+        if( iconRect.isValid() ) iconRect = visualRect( option, iconRect );
+        if( textRect.isValid() ) textRect = visualRect( option, textRect );
 
-        const QPalette::ColorRole role( flat ? QPalette::WindowText : QPalette::ButtonText );
-        drawItemText( painter, textRect, Qt::AlignCenter | Qt::TextShowMnemonic, palette, enabled, bOpt->text, role );
+        // make sure there is enough room for icon
+        if( iconRect.isValid() ) iconRect = centerRect( iconRect, iconSize );
+
+        // render icon
+        if( hasIcon && iconRect.isValid() ) {
+
+            // icon state and mode
+            const QIcon::State iconState( sunken ? QIcon::On : QIcon::Off );
+            QIcon::Mode iconMode;
+            if( !enabled ) iconMode = QIcon::Disabled;
+            else if( mouseOver && flat ) iconMode = QIcon::Active;
+            else iconMode = QIcon::Normal;
+
+            const QPixmap pixmap = buttonOption->icon.pixmap( iconSize, iconMode, iconState );
+            drawItemPixmap( painter, iconRect, Qt::AlignCenter, pixmap );
+
+        }
+
+        // render text
+        if( hasText && textRect.isValid() )
+        { drawItemText( painter, textRect, textFlags, palette, enabled, buttonOption->text, textRole ); }
 
         return true;
+
     }
 
     //___________________________________________________________________________________
@@ -6401,9 +6408,7 @@ namespace Oxygen
         if( hasText && textRect.isValid() )
         {
 
-            QPalette::ColorRole textRole( QPalette::ButtonText );
-            if( flat ) textRole = (sunken&&!mouseOver) ? QPalette::HighlightedText: QPalette::WindowText;
-            else if( hasFocus&&!mouseOver ) textRole = QPalette::HighlightedText;
+            const QPalette::ColorRole textRole( flat ? QPalette::WindowText: QPalette::ButtonText );
 
             painter->setFont(toolButtonOption->font);
             drawItemText( painter, textRect, textFlags, palette, enabled, toolButtonOption->text, textRole );
