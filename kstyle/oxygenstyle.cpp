@@ -787,12 +787,20 @@ namespace Oxygen
             case PM_SplitterWidth: return Metrics::Splitter_SplitterWidth;
             case PM_DockWidgetSeparatorExtent: return Metrics::Splitter_SplitterWidth;
 
+            // spacing between widget and scrollbars
+            case PM_ScrollView_ScrollBarSpacing:
+            if( const QFrame* frame = qobject_cast<const QFrame*>( widget ) )
+            {
+
+                const bool framed( frame->frameShape() != QFrame::NoFrame );
+                return framed ? -1:0;
+
+            } else return -1;
+
+            // fallback
             default: return ParentStyleClass::pixelMetric( metric, option, widget );
 
         }
-
-        // fallback
-        return ParentStyleClass::pixelMetric( metric, option, widget );
 
     }
 
@@ -909,6 +917,8 @@ namespace Oxygen
             case SE_ProgressBarGroove: return progressBarGrooveRect( option, widget );
             case SE_ProgressBarContents: return progressBarContentsRect( option, widget );
             case SE_ProgressBarLabel: return defaultSubElementRect( option, widget );
+            case SE_HeaderArrow: return headerArrowRect( option, widget );
+            case SE_HeaderLabel: return headerLabelRect( option, widget );
             case SE_TabWidgetTabBar: return tabWidgetTabBarRect( option, widget );
             case SE_TabWidgetTabContents: return tabWidgetTabContentsRect( option, widget );
             case SE_TabWidgetTabPane: return tabWidgetTabPaneRect( option, widget );
@@ -1628,6 +1638,41 @@ namespace Oxygen
         // adjust
         indicatorRect.adjust( 1, 1, -1, -1 );
         return indicatorRect;
+
+    }
+
+    //___________________________________________________________________________________________________________________
+    QRect Style::headerArrowRect( const QStyleOption* option, const QWidget* ) const
+    {
+
+        // cast option and check
+        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader*>( option ) );
+        if( !headerOption ) return option->rect;
+
+        // check if arrow is necessary
+        if( headerOption->sortIndicator == QStyleOptionHeader::None ) return QRect();
+
+        QRect arrowRect( insideMargin( option->rect, Metrics::Header_MarginWidth ) );
+        arrowRect.setLeft( arrowRect.right() - Metrics::Header_ArrowSize + 1 );
+
+        return visualRect( option, arrowRect );
+
+    }
+
+    //___________________________________________________________________________________________________________________
+    QRect Style::headerLabelRect( const QStyleOption* option, const QWidget* ) const
+    {
+
+        // cast option and check
+        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader*>( option ) );
+        if( !headerOption ) return option->rect;
+
+        // check if arrow is necessary
+        QRect labelRect( insideMargin( option->rect, Metrics::Header_MarginWidth ) );
+        if( headerOption->sortIndicator == QStyleOptionHeader::None ) return labelRect;
+
+        labelRect.adjust( 0, 0, -Metrics::Header_ArrowSize-Metrics::Header_ItemSpacing, 0 );
+        return visualRect( option, labelRect );
 
     }
 

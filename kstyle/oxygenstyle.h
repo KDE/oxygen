@@ -258,6 +258,8 @@ namespace Oxygen
         QRect lineEditContentsRect( const QStyleOption*, const QWidget* ) const;
         QRect progressBarGrooveRect( const QStyleOption* option, const QWidget* ) const;
         QRect progressBarContentsRect( const QStyleOption* option, const QWidget* ) const;
+        QRect headerArrowRect( const QStyleOption* option, const QWidget* ) const;
+        QRect headerLabelRect( const QStyleOption* option, const QWidget* ) const;
         QRect tabWidgetTabBarRect( const QStyleOption*, const QWidget* ) const;
         QRect tabWidgetTabContentsRect( const QStyleOption*, const QWidget* ) const;
         QRect tabWidgetTabPaneRect( const QStyleOption*, const QWidget* ) const;
@@ -290,11 +292,11 @@ namespace Oxygen
         QSize spinBoxSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize sliderSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize pushButtonSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
+        QSize toolButtonSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize menuBarItemSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize menuItemSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize tabWidgetSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize tabBarTabSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
-        QSize toolButtonSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize headerSectionSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize itemViewItemSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
 
@@ -341,9 +343,9 @@ namespace Oxygen
         bool drawIndicatorHeaderArrowPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelButtonCommandPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelButtonToolPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawPanelScrollAreaCornerPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelMenuPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelTipLabelPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawPanelScrollAreaCornerPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelItemViewItemPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorMenuCheckMarkPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorCheckBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
