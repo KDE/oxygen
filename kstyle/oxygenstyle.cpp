@@ -2034,6 +2034,71 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________________________________________
+    QRect Style::spinBoxSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
+    {
+
+        // cast option and check
+        const QStyleOptionSpinBox *spinBoxOption( qstyleoption_cast<const QStyleOptionSpinBox*>( option ) );
+        if( !spinBoxOption ) return ParentStyleClass::subControlRect( CC_SpinBox, option, subControl, widget );
+        const bool flat( !spinBoxOption->frame );
+
+        // copy rect
+        QRect rect( option->rect );
+
+        switch( subControl )
+        {
+            case SC_SpinBoxFrame: return flat ? QRect():rect;
+
+            case SC_SpinBoxUp:
+            case SC_SpinBoxDown:
+            {
+
+                // take out frame width
+                if( !flat && rect.height() >= 2*Frame_FrameWidth + SpinBox_ArrowButtonWidth ) rect = insideMargin( rect, Frame_FrameWidth );
+
+                QRect arrowRect;
+                arrowRect = QRect(
+                    rect.right() - SpinBox_ArrowButtonWidth + 1,
+                    rect.top(),
+                    SpinBox_ArrowButtonWidth,
+                    rect.height() );
+
+                const int arrowHeight( qMin( rect.height(), int(SpinBox_ArrowButtonWidth) ) );
+                arrowRect = centerRect( arrowRect, SpinBox_ArrowButtonWidth, arrowHeight );
+                arrowRect.setHeight( arrowHeight/2 );
+                if( subControl == SC_SpinBoxDown ) arrowRect.translate( 0, arrowHeight/2 );
+
+                return visualRect( option, arrowRect );
+
+            }
+
+            case SC_SpinBoxEditField:
+            {
+
+                QRect labelRect;
+                labelRect = QRect(
+                    rect.left(), rect.top(),
+                    rect.width() - SpinBox_ArrowButtonWidth,
+                    rect.height() );
+
+                // remove right side line editor margins
+                const int frameWidth( pixelMetric( PM_SpinBoxFrameWidth, option, widget ) );
+                if( !flat && labelRect.height() > option->fontMetrics.height() + 2*frameWidth )
+                { labelRect.adjust( frameWidth, frameWidth, 0, -frameWidth ); }
+
+                return visualRect( option, labelRect );
+
+            }
+
+            default: break;
+
+        }
+
+        return ParentStyleClass::subControlRect( CC_SpinBox, option, subControl, widget );
+
+    }
+
+    //___________________________________________________________________________________________________________________
     QRect Style::scrollBarInternalSubControlRect( const QStyleOptionComplex* option, SubControl subControl ) const
     {
 
@@ -2155,71 +2220,6 @@ namespace Oxygen
 
             default: return QRect();
         }
-    }
-
-    //___________________________________________________________________________________________________________________
-    QRect Style::spinBoxSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
-    {
-
-        // cast option and check
-        const QStyleOptionSpinBox *spinBoxOption( qstyleoption_cast<const QStyleOptionSpinBox*>( option ) );
-        if( !spinBoxOption ) return ParentStyleClass::subControlRect( CC_SpinBox, option, subControl, widget );
-        const bool flat( !spinBoxOption->frame );
-
-        // copy rect
-        QRect rect( option->rect );
-
-        switch( subControl )
-        {
-            case SC_SpinBoxFrame: return flat ? QRect():rect;
-
-            case SC_SpinBoxUp:
-            case SC_SpinBoxDown:
-            {
-
-                // take out frame width
-                if( !flat && rect.height() >= 2*Frame_FrameWidth + SpinBox_ArrowButtonWidth ) rect = insideMargin( rect, Frame_FrameWidth );
-
-                QRect arrowRect;
-                arrowRect = QRect(
-                    rect.right() - SpinBox_ArrowButtonWidth + 1,
-                    rect.top(),
-                    SpinBox_ArrowButtonWidth,
-                    rect.height() );
-
-                const int arrowHeight( qMin( rect.height(), int(SpinBox_ArrowButtonWidth) ) );
-                arrowRect = centerRect( arrowRect, SpinBox_ArrowButtonWidth, arrowHeight );
-                arrowRect.setHeight( arrowHeight/2 );
-                if( subControl == SC_SpinBoxDown ) arrowRect.translate( 0, arrowHeight/2 );
-
-                return visualRect( option, arrowRect );
-
-            }
-
-            case SC_SpinBoxEditField:
-            {
-
-                QRect labelRect;
-                labelRect = QRect(
-                    rect.left(), rect.top(),
-                    rect.width() - SpinBox_ArrowButtonWidth,
-                    rect.height() );
-
-                // remove right side line editor margins
-                const int frameWidth( pixelMetric( PM_SpinBoxFrameWidth, option, widget ) );
-                if( !flat && labelRect.height() > option->fontMetrics.height() + 2*frameWidth )
-                { labelRect.adjust( frameWidth, frameWidth, 0, -frameWidth ); }
-
-                return visualRect( option, labelRect );
-
-            }
-
-            default: break;
-
-        }
-
-        return ParentStyleClass::subControlRect( CC_SpinBox, option, subControl, widget );
-
     }
 
     //______________________________________________________________
@@ -4029,8 +4029,10 @@ namespace Oxygen
     bool Style::drawIndicatorRadioButtonPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        // get rect
-        const QRect& r( option->rect );
+        // copy rect
+        const QRect& rect( option->rect );
+
+        // store state
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
@@ -4043,7 +4045,7 @@ namespace Oxygen
 
         // match button color to window background
         QPalette palette( option->palette );
-        palette.setColor( QPalette::Button, _helper->backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
+        palette.setColor( QPalette::Button, _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
 
         // mouseOver has precedence over focus
         _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
@@ -4058,18 +4060,19 @@ namespace Oxygen
         {
 
             const qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationHover ) );
-            renderRadioButton( painter, r, palette, styleOptions, checkBoxState, opacity, AnimationHover );
+            renderRadioButton( painter, rect, palette, styleOptions, checkBoxState, opacity, AnimationHover );
 
         } else if(  enabled && _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) ) {
 
             const qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
-            renderRadioButton( painter, r, palette, styleOptions, checkBoxState, opacity, AnimationFocus );
+            renderRadioButton( painter, rect, palette, styleOptions, checkBoxState, opacity, AnimationFocus );
 
-        } else renderRadioButton( painter, r, palette, styleOptions, checkBoxState );
+        } else renderRadioButton( painter, rect, palette, styleOptions, checkBoxState );
 
         return true;
 
     }
+
 
     //___________________________________________________________________________________
     bool Style::drawIndicatorTabTearPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
@@ -6422,18 +6425,23 @@ namespace Oxygen
     bool Style::drawComboBoxComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
     {
 
+
         // cast option and check
-        const QStyleOptionComboBox* comboBoxOption( qstyleoption_cast<const QStyleOptionComboBox *>( option ) );
+        const QStyleOptionComboBox* comboBoxOption( qstyleoption_cast<const QStyleOptionComboBox*>( option ) );
         if( !comboBoxOption ) return true;
 
-        const State& state( option->state );
-        const QRect& r( option->rect );
+        // rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
+
+        // state
+        const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( state & State_HasFocus );
-        const bool& editable( comboBoxOption->editable );
-        const bool& hasFrame( comboBoxOption->frame );
+        const bool editable( comboBoxOption->editable );
+        const bool sunken( state & (State_On|State_Sunken) );
+        const bool flat( !comboBoxOption->frame );
 
         // frame
         if( comboBoxOption->subControls & SC_ComboBoxFrame )
@@ -6444,7 +6452,7 @@ namespace Oxygen
             StyleOptions styleOptions = 0;
             if( mouseOver ) styleOptions |= Hover;
             if( hasFocus ) styleOptions |= Focus;
-            if( ( state & ( State_Sunken|State_On ) ) && !editable ) styleOptions |= Sunken;
+            if( sunken && !editable ) styleOptions |= Sunken;
 
             const QColor inputColor( palette.color( QPalette::Base ) );
             const QRect editField( subControlRect( CC_ComboBox, comboBoxOption, SC_ComboBoxEditField, widget ) );
@@ -6457,24 +6465,22 @@ namespace Oxygen
                 _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
                 _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
 
-                const QRect fr( r.adjusted( 1,1,-1,-1 ) );
-
                 // input area
                 painter->save();
                 painter->setRenderHint( QPainter::Antialiasing );
                 painter->setPen( Qt::NoPen );
                 painter->setBrush( inputColor );
 
-                if( !hasFrame )
+                if( flat )
                 {
 
                     // adjust rect to match frameLess editors
-                    painter->fillRect( r, inputColor );
+                    painter->fillRect( rect, inputColor );
                     painter->restore();
 
                 } else {
 
-                    _helper->fillHole( *painter, r.adjusted( 0, -1, 0, 0 ) );
+                    _helper->fillHole( *painter, rect );
                     painter->restore();
 
                     HoleOptions options( 0 );
@@ -6485,15 +6491,15 @@ namespace Oxygen
                     if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
                     {
 
-                        _helper->renderHole( painter, color, fr, options, _animations->lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
+                        _helper->renderHole( painter, color, rect, options, _animations->lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
 
                     } else if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationHover ) ) {
 
-                        _helper->renderHole( painter, color, fr, options, _animations->lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
+                        _helper->renderHole( painter, color, rect, options, _animations->lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
 
                     } else {
 
-                        _helper->renderHole( painter, color, fr, options );
+                        _helper->renderHole( painter, color, rect, options );
 
                     }
 
@@ -6513,13 +6519,13 @@ namespace Oxygen
                 const qreal focusOpacity( _animations->lineEditEngine().opacity( widget, AnimationFocus ) );
 
                 // blend button color to the background
-                const QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
-                const QRect slabRect( r.adjusted( -1, 0, 1, 0 ) );
+                const QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
+                const QRect slabRect( rect );
 
-                if( !hasFrame )
+                if( flat )
                 {
 
-                    QRect slitRect( r );
+                    QRect slitRect( rect );
                     if( !( styleOptions & Sunken ) )
                     {
                         // hover rect
@@ -6536,8 +6542,6 @@ namespace Oxygen
                         }
 
                     } else {
-
-                        slitRect.adjust( 0, 0, 0, -1 );
 
                         HoleOptions options( HoleContrast );
                         if( mouseOver && enabled ) options |= HoleHover;
@@ -6628,20 +6632,17 @@ namespace Oxygen
             } else {
 
                 // foreground color
-                const QPalette::ColorRole role( hasFrame ? QPalette::ButtonText : QPalette::WindowText );
+                const QPalette::ColorRole role( flat ? QPalette::WindowText : QPalette::ButtonText );
                 if( enabled && empty ) color = palette.color( QPalette::Disabled,  role );
                 else color  = palette.color( role );
 
                 // background color
-                background = palette.color( hasFrame ? QPalette::Button : QPalette::Window );
+                background = palette.color( flat ? QPalette::Window : QPalette::Button );
 
             }
 
             // draw the arrow
             QRect arrowRect = comboBoxSubControlRect( option, SC_ComboBoxArrow, widget );
-
-            if( comboBoxOption->currentIcon.isNull() && !comboBoxOption->editable ) arrowRect.translate( 0, -1 );
-
             const QPolygonF arrow( genericArrow( ArrowDown, ArrowNormal ) );
             const qreal penThickness = 1.6;
 
