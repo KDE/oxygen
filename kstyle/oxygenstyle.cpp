@@ -49,6 +49,7 @@
 #include "oxygenstyle.h"
 #include "oxygenstyle.moc"
 
+#include "oxygen.h"
 #include "oxygenanimations.h"
 #include "oxygenblurhelper.h"
 #include "oxygenframeshadow.h"
@@ -86,7 +87,6 @@
 #include <QScrollBar>
 #include <QSpinBox>
 #include <QSplitterHandle>
-#include <QStylePlugin>
 #include <QStyleOption>
 #include <QTextEdit>
 #include <QToolBar>
@@ -210,33 +210,38 @@ namespace OxygenPrivate
 namespace Oxygen
 {
 
-    //_________________________________________________
-    QStyle* Oxygen::StylePlugin::create( const QString &key )
+    //! toplevel manager
+    class TopLevelManager: public QObject
     {
-        if( key.toLower() == QStringLiteral( "oxygen" ) ) return new Style();
-        else return nullptr;
-    }
-    Oxygen::StylePlugin::~StylePlugin()
-    {
-        // Delete style when using ::exit() otherwise it'll outlive the unloaded plugin and we'll get a crash
-        if (qApp)
-            delete qApp->style();
-    }
+        public:
 
-    //_____________________________________________________________________
-    bool TopLevelManager::eventFilter( QObject *object, QEvent *event )
-    {
+        //! constructor
+        TopLevelManager( QObject* parent, const StyleHelper& helper ):
+            QObject( parent ),
+            _helper( helper )
+        {}
 
-        // cast to QWidget
-        QWidget *widget = static_cast<QWidget*>( object );
-        if( event->type() == QEvent::Show && _helper.hasDecoration( widget ) )
+        //! event filter
+        virtual bool eventFilter(QObject* object, QEvent* event )
         {
-            _helper.setHasBackgroundGradient( widget->winId(), true );
-            _helper.setHasBackgroundPixmap( widget->winId(), _helper.hasBackgroundPixmap() );
+
+            // cast to QWidget
+            QWidget *widget = static_cast<QWidget*>( object );
+            if( event->type() == QEvent::Show && _helper.hasDecoration( widget ) )
+            {
+                _helper.setHasBackgroundGradient( widget->winId(), true );
+                _helper.setHasBackgroundPixmap( widget->winId(), _helper.hasBackgroundPixmap() );
+            }
+
+            return false;
         }
 
-        return false;
-    }
+        private:
+
+        //! helper
+        const StyleHelper& _helper;
+
+    };
 
     //______________________________________________________________
     Style::Style( void ):
@@ -268,7 +273,7 @@ namespace Oxygen
         dbus.connect( QString(),
             QStringLiteral( "/OxygenStyle" ),
             QStringLiteral( "org.kde.Oxygen.Style" ),
-            QStringLiteral( "reparseConfiguration" ), this, SLOT(oxygenConfigurationChanged()) );
+            QStringLiteral( "reparseConfiguration" ), this, SLOT(configurationChanged()) );
 
         // enable debugging
         QLoggingCategory::setFilterRules(QStringLiteral("oxygen.debug = false"));
@@ -905,33 +910,19 @@ namespace Oxygen
         switch( element )
         {
 
-            // push buttons
             case SE_PushButtonContents: return pushButtonContentsRect( option, widget );
-            case SE_PushButtonFocusRect: return defaultSubElementRect( option, widget );
-
-            // checkboxes
             case SE_CheckBoxContents: return checkBoxContentsRect( option, widget );
-            case SE_CheckBoxFocusRect: return defaultSubElementRect( option, widget );
-
-            // progress bars
+            case SE_RadioButtonContents: return checkBoxContentsRect( option, widget );
+            case SE_LineEditContents: return lineEditContentsRect( option, widget );
             case SE_ProgressBarGroove: return defaultSubElementRect( option, widget );
             case SE_ProgressBarContents: return progressBarContentsRect( option, widget );
             case SE_ProgressBarLabel: return defaultSubElementRect( option, widget );
-
-            // radio buttons
-            case SE_RadioButtonContents: return checkBoxContentsRect( option, widget );
-            case SE_RadioButtonFocusRect: return defaultSubElementRect( option, widget );
-
-            // tab widget
-            case SE_TabBarTabLeftButton: return tabBarTabLeftButtonRect( option, widget );
-            case SE_TabBarTabRightButton: return tabBarTabRightButtonRect( option, widget );
-            case SE_TabBarTabText: return tabBarTabTextRect( option, widget );
+            case SE_TabWidgetTabBar: return tabWidgetTabBarRect( option, widget );
             case SE_TabWidgetTabContents: return tabWidgetTabContentsRect( option, widget );
             case SE_TabWidgetTabPane: return tabWidgetTabPaneRect( option, widget );
-            case SE_TabWidgetLeftCorner: return tabWidgetLeftCornerRect( option, widget );
-            case SE_TabWidgetRightCorner: return tabWidgetRightCornerRect( option, widget );
+            case SE_TabWidgetLeftCorner: return tabWidgetCornerRect( SE_TabWidgetLeftCorner, option, widget );
+            case SE_TabWidgetRightCorner: return tabWidgetCornerRect( SE_TabWidgetRightCorner, option, widget );
 
-            // toolboxes
             case SE_ToolBoxTabContents: return toolBoxTabContentsRect( option, widget );
 
             default: return ParentStyleClass::subElementRect( element, option, widget );
@@ -950,9 +941,13 @@ namespace Oxygen
             case CC_GroupBox: return groupBoxSubControlRect( option, subControl, widget );
             case CC_ToolButton: return toolButtonSubControlRect( option, subControl, widget );
             case CC_ComboBox: return comboBoxSubControlRect( option, subControl, widget );
-            case CC_ScrollBar: return scrollBarSubControlRect( option, subControl, widget );
             case CC_SpinBox: return spinBoxSubControlRect( option, subControl, widget );
+            case CC_ScrollBar: return scrollBarSubControlRect( option, subControl, widget );
+            case CC_Slider: return sliderSubControlRect( option, subControl, widget );
+
+            // fallback
             default: return ParentStyleClass::subControlRect( element, option, subControl, widget );
+
         }
 
     }
@@ -964,15 +959,18 @@ namespace Oxygen
         switch( element )
         {
             case CT_CheckBox: return checkBoxSizeFromContents( option, size, widget );
+            case CT_RadioButton: return checkBoxSizeFromContents( option, size, widget );
+            case CT_LineEdit: return lineEditSizeFromContents( option, size, widget );
             case CT_ComboBox: return comboBoxSizeFromContents( option, size, widget );
+            case CT_SpinBox: return spinBoxSizeFromContents( option, size, widget );
+            case CT_Slider: return sliderSizeFromContents( option, size, widget );
             case CT_PushButton: return pushButtonSizeFromContents( option, size, widget );
+            case CT_ToolButton: return toolButtonSizeFromContents( option, size, widget );
             case CT_MenuBar: return defaultSizeFromContents( option, size, widget );
             case CT_MenuBarItem: return menuBarItemSizeFromContents( option, size, widget );
             case CT_MenuItem: return menuItemSizeFromContents( option, size, widget );
-            case CT_RadioButton: return checkBoxSizeFromContents( option, size, widget );
             case CT_TabBarTab: return tabBarTabSizeFromContents( option, size, widget );
             case CT_TabWidget: return tabWidgetSizeFromContents( option, size, widget );
-            case CT_ToolButton: return toolButtonSizeFromContents( option, size, widget );
 
             // item views
             case CT_HeaderSection: return headerSectionSizeFromContents( option, size, widget );
@@ -1045,7 +1043,7 @@ namespace Oxygen
 
             case PE_Frame: fcn = &Style::drawFramePrimitive; break;
 
-            // frame focus primitive is set at run time, in oxygenConfigurationChanged
+            // frame focus primitive is set at run time, in configurationChanged
             case PE_FrameFocusRect: fcn = _frameFocusPrimitive; break;
 
             case PE_FrameGroupBox: fcn = &Style::drawFrameGroupBoxPrimitive; break;
@@ -1056,7 +1054,7 @@ namespace Oxygen
             case PE_FrameTabBarBase: fcn = &Style::drawFrameTabBarBasePrimitive; break;
             case PE_FrameTabWidget: fcn = &Style::drawFrameTabWidgetPrimitive; break;
             case PE_FrameWindow: fcn = &Style::drawFrameWindowPrimitive; break;
-            case PE_IndicatorTabClose: fcn = &Style::drawIndicatorTabClose; break;
+            case PE_IndicatorTabClose: fcn = &Style::drawIndicatorTabClosePrimitive; break;
 
             // arrows
             case PE_IndicatorArrowUp: fcn = &Style::drawIndicatorArrowUpPrimitive; break;
@@ -1116,7 +1114,7 @@ namespace Oxygen
             case CE_ComboBoxLabel: break;
             case CE_DockWidgetTitle: fcn = &Style::drawDockWidgetTitleControl; break;
             case CE_HeaderEmptyArea: fcn = &Style::drawHeaderEmptyAreaControl; break;
-            case CE_HeaderLabel: fcn = &Style::drawHeaderLabelControl; break;
+            case CE_HeaderLabel: break;
             case CE_HeaderSection: fcn = &Style::drawHeaderSectionControl; break;
             case CE_MenuBarEmptyArea: fcn = &Style::emptyControl; break;
             case CE_MenuBarItem: fcn = &Style::drawMenuBarItemControl; break;
@@ -1144,7 +1142,7 @@ namespace Oxygen
             case CE_ScrollBarSubPage: fcn = &Style::emptyControl; break;
 
             case CE_ShapedFrame: fcn = &Style::drawShapedFrameControl; break;
-            case CE_SizeGrip: fcn = &Style::drawSizeGripControl; break;
+            case CE_SizeGrip: fcn = &Style::emptyControl; break;
             case CE_Splitter: fcn = &Style::drawSplitterControl; break;
             case CE_TabBarTabLabel: fcn = &Style::drawTabBarTabLabelControl; break;
 
@@ -1179,7 +1177,7 @@ namespace Oxygen
 
             case CC_ComboBox: fcn = &Style::drawComboBoxComplexControl; break;
             case CC_Dial: fcn = &Style::drawDialComplexControl; break;
-            case CC_GroupBox: fcn = &Style::drawGroupBoxComplexControl; break;
+            case CC_GroupBox: break;
             case CC_Slider: fcn = &Style::drawSliderComplexControl; break;
             case CC_SpinBox: fcn = &Style::drawSpinBoxComplexControl; break;
             case CC_TitleBar: fcn = &Style::drawTitleBarComplexControl; break;
@@ -1533,6 +1531,26 @@ namespace Oxygen
     QRect Style::checkBoxContentsRect( const QStyleOption* option, const QWidget* ) const
     { return visualRect( option, option->rect.adjusted( CheckBox_Size + CheckBox_ItemSpacing, 0, 0, 0 ) ); }
 
+    //___________________________________________________________________________________________________________________
+    QRect Style::lineEditContentsRect( const QStyleOption* option, const QWidget* widget ) const
+    {
+        // cast option and check
+        const QStyleOptionFrame* frameOption( qstyleoption_cast<const QStyleOptionFrame*>( option ) );
+        if( !frameOption ) return option->rect;
+
+        // check flatness
+        const bool flat( frameOption->lineWidth == 0 );
+        if( flat ) return option->rect;
+
+        // copy rect and take out margins
+        QRect rect( option->rect );
+
+        // take out margins if there is enough room
+        const int frameWidth( pixelMetric( PM_DefaultFrameWidth, option, widget ) );
+        if( rect.height() > option->fontMetrics.height() + 2*frameWidth ) return insideMargin( rect, frameWidth );
+        else return rect;
+    }
+
     //____________________________________________________________________
     QRect Style::progressBarContentsRect( const QStyleOption* option, const QWidget* ) const
     {
@@ -1543,46 +1561,88 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QRect Style::tabBarTabButtonRect( SubElement element, const QStyleOption* option, const QWidget* widget ) const
+    QRect Style::tabWidgetTabBarRect( const QStyleOption* option, const QWidget* widget ) const
     {
 
-        const QStyleOptionTab* tabOpt( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-        if ( !tabOpt ) return QRect();
+        // cast option and check
+        const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
+        if( !tabOption ) return option->rect;
 
-        QRect r( ParentStyleClass::subElementRect( element, option, widget ) );
-        const bool selected( option->state&State_Selected );
+        // do nothing if tabbar is hidden
+        const QSize tabBarSize( tabOption->tabBarSize );
+        if( tabBarSize.isEmpty() ) return option->rect;
 
-        switch( tabOpt->shape )
+        QRect rect( option->rect );
+        QRect tabBarRect( QPoint(0, 0), tabBarSize );
+
+        Qt::Alignment tabBarAlignment( styleHint( SH_TabBar_Alignment, option, widget ) );
+
+        // horizontal positioning
+        const bool verticalTabs( isVerticalTab( tabOption->shape ) );
+        if( verticalTabs )
         {
 
+            tabBarRect.setHeight( qMin( tabBarRect.height(), rect.height() - 2 ) );
+            if( tabBarAlignment == Qt::AlignCenter ) tabBarRect.moveTop( rect.top() + ( rect.height() - tabBarRect.height() )/2 );
+            else tabBarRect.moveTop( rect.top()+1 );
+
+        } else {
+
+            // adjust rect to deal with corner buttons
+            // need to properly deal with reverse layout
+            const bool reverseLayout( option->direction == Qt::RightToLeft );
+            if( !tabOption->leftCornerWidgetSize.isEmpty() )
+            {
+                const QRect buttonRect( subElementRect( SE_TabWidgetLeftCorner, option, widget ) );
+                if( reverseLayout ) rect.setRight( buttonRect.left() - 1 );
+                else rect.setLeft( buttonRect.width() );
+            }
+
+            if( !tabOption->rightCornerWidgetSize.isEmpty() )
+            {
+                const QRect buttonRect( subElementRect( SE_TabWidgetRightCorner, option, widget ) );
+                if( reverseLayout ) rect.setLeft( buttonRect.width() );
+                else rect.setRight( buttonRect.left() - 1 );
+            }
+
+            tabBarRect.setWidth( qMin( tabBarRect.width(), rect.width() - 2 ) );
+            if( tabBarAlignment == Qt::AlignCenter ) tabBarRect.moveLeft( rect.left() + (rect.width() - tabBarRect.width())/2 );
+            else {
+
+                tabBarRect.moveLeft( rect.left() + 1 );
+                tabBarRect = visualRect( option, tabBarRect );
+            }
+        }
+
+        // vertical positioning
+        switch( tabOption->shape )
+        {
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
-            r.translate( 0, -1 );
-            if( selected ) r.translate( 0, -1 );
+            tabBarRect.moveTop( rect.top()+1 );
             break;
 
             case QTabBar::RoundedSouth:
             case QTabBar::TriangularSouth:
-            r.translate( 0, -1 );
-            if( selected ) r.translate( 0, 1 );
+            tabBarRect.moveBottom( rect.bottom()-1 );
             break;
 
             case QTabBar::RoundedWest:
             case QTabBar::TriangularWest:
-            r.translate( 0, 1 );
-            if( selected )  r.translate( -1, 0 );
+            tabBarRect.moveLeft( rect.left()+1 );
             break;
 
             case QTabBar::RoundedEast:
             case QTabBar::TriangularEast:
-            r.translate( 0, -2 );
-            if( selected ) r.translate( 1, 0 );
+            tabBarRect.moveRight( rect.right()-1 );
             break;
 
             default: break;
 
         }
-        return r;
+
+        return tabBarRect;
+
     }
 
     //____________________________________________________________________
@@ -1666,114 +1726,45 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QRect Style::tabWidgetLeftCornerRect( const QStyleOption* option, const QWidget* widget ) const
+    QRect Style::tabWidgetCornerRect( SubElement element, const QStyleOption* option, const QWidget* ) const
     {
 
-        const QStyleOptionTabWidgetFrame *tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>( option );
-        if( !tabOpt ) return QRect();
+        // cast option and check
+        const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
+        if( !tabOption ) return option->rect;
 
-        QRect r( option->rect );
-        const QRect paneRect( subElementRect( SE_TabWidgetTabPane, option, widget ) );
+        // do nothing if tabbar is hidden
+        const QSize tabBarSize( tabOption->tabBarSize );
+        if( tabBarSize.isEmpty() ) return QRect();
 
-        const QTabWidget* tabWidget( qobject_cast<const QTabWidget*>( widget ) );
-        const bool documentMode( tabWidget ? tabWidget->documentMode() : false );
+        // do nothing for vertical tabs
+        const bool verticalTabs( isVerticalTab( tabOption->shape ) );
+        if( verticalTabs ) return QRect();
 
-        const QSize& size( tabOpt->leftCornerWidgetSize );
-        const int h( size.height() );
-        const int w( size.width() );
+        const QRect rect( option->rect );
+        QRect cornerRect( QPoint( 0, 0 ), QSize( tabBarSize.height(), tabBarSize.height() + 1 ) );
 
-        switch( tabOpt->shape )
+        if( element == SE_TabWidgetRightCorner ) cornerRect.moveRight( rect.right() );
+        else cornerRect.moveLeft( rect.left() );
+
+        switch( tabOption->shape )
         {
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
-            r = QRect( QPoint( paneRect.x(), paneRect.y() - h ), size );
-            r = visualRect( tabOpt->direction, tabOpt->rect, r );
-            if( !documentMode ) r.translate( 0, 3 );
+            cornerRect.moveTop( rect.top() );
             break;
 
             case QTabBar::RoundedSouth:
             case QTabBar::TriangularSouth:
-            r = QRect( QPoint( paneRect.x(), paneRect.height() ), size );
-            r = visualRect( tabOpt->direction, tabOpt->rect, r );
-            if( !documentMode ) r.translate( 0, -3 );
-            else r.translate( 0, 2 );
+            cornerRect.moveBottom( rect.bottom() );
             break;
 
-            case QTabBar::RoundedWest:
-            case QTabBar::TriangularWest:
-            r = QRect( QPoint( paneRect.x() - w, paneRect.y() ), size );
-            if( !documentMode ) r.translate( 2, 0 );
-            else r.translate( -2, 0 );
-            break;
-
-            case QTabBar::RoundedEast:
-            case QTabBar::TriangularEast:
-            r = QRect( QPoint( paneRect.x() + paneRect.width(), paneRect.y() ), size );
-            if( !documentMode ) r.translate( -2, 0 );
-            else r.translate( 2, 0 );
-            break;
-
-            default:
-            break;
+            default: break;
         }
 
-        return r;
-
-    }
-
-    //____________________________________________________________________
-    QRect Style::tabWidgetRightCornerRect( const QStyleOption* option, const QWidget* widget ) const
-    {
-
-        const QStyleOptionTabWidgetFrame *tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>( option );
-        if( !tabOpt ) return QRect();
-
-        QRect r( option->rect );
-        const QRect paneRect( subElementRect( SE_TabWidgetTabPane, option, widget ) );
-
-        const QTabWidget* tabWidget( qobject_cast<const QTabWidget*>( widget ) );
-        const bool documentMode( tabWidget ? tabWidget->documentMode() : false );
-
-        const QSize& size( tabOpt->rightCornerWidgetSize );
-        const int h( size.height() );
-        const int w( size.width() );
-
-        switch( tabOpt->shape )
-        {
-            case QTabBar::RoundedNorth:
-            case QTabBar::TriangularNorth:
-            r = QRect( QPoint( paneRect.right() - w + 1, paneRect.y() - h ), size );
-            r = visualRect( tabOpt->direction, tabOpt->rect, r );
-            if( !documentMode ) r.translate( 0, 3 );
-            break;
-
-            case QTabBar::RoundedSouth:
-            case QTabBar::TriangularSouth:
-            r = QRect( QPoint( paneRect.right() - w + 1, paneRect.height() ), size );
-            r = visualRect( tabOpt->direction, tabOpt->rect, r );
-            if( !documentMode ) r.translate( 0, -3 );
-            else r.translate( 0, 2 );
-            break;
-
-            case QTabBar::RoundedWest:
-            case QTabBar::TriangularWest:
-            r = QRect( QPoint( paneRect.x() - w, paneRect.bottom() - h + 1 ), size );
-            if( !documentMode ) r.translate( 2, 0 );
-            else r.translate( -2, 0 );
-            break;
-
-            case QTabBar::RoundedEast:
-            case QTabBar::TriangularEast:
-            r = QRect( QPoint( paneRect.x() + paneRect.width(), paneRect.bottom() - h + 1 ), size );
-            if( !documentMode ) r.translate( -2, 0 );
-            else r.translate( 2, 0 );
-            break;
-
-            default:
-            break;
-        }
-
-        return r;
+        // return cornerRect;
+        cornerRect = visualRect( option, cornerRect );
+        return cornerRect;
 
     }
 
@@ -2222,6 +2213,39 @@ namespace Oxygen
         }
     }
 
+
+    //___________________________________________________________________________________________________________________
+    QRect Style::sliderSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
+    {
+
+        // cast option and check
+        const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+        if( !sliderOption ) return ParentStyleClass::subControlRect( CC_Slider, option, subControl, widget );
+
+        switch( subControl )
+        {
+            case SC_SliderGroove:
+            {
+
+                // direction
+                const bool horizontal( sliderOption->orientation == Qt::Horizontal );
+
+                // get base class rect
+                QRect grooveRect( ParentStyleClass::subControlRect( CC_Slider, option, subControl, widget ) );
+                grooveRect = insideMargin( grooveRect, pixelMetric( PM_DefaultFrameWidth, option, widget ) );
+
+                // centering
+                if( horizontal ) grooveRect = centerRect( grooveRect, grooveRect.width(), Metrics::Slider_GrooveThickness ).adjusted( 3, 0, -3, 0 );
+                else grooveRect = centerRect( grooveRect, Metrics::Slider_GrooveThickness, grooveRect.height() ).adjusted( 0, 3, 0, -3 );
+                return grooveRect;
+
+            }
+
+            default: return ParentStyleClass::subControlRect( CC_Slider, option, subControl, widget );
+        }
+
+    }
+
     //______________________________________________________________
     QSize Style::checkBoxSizeFromContents( const QStyleOption*, const QSize& contentsSize, const QWidget* ) const
     {
@@ -2239,6 +2263,18 @@ namespace Oxygen
 
         return size;
 
+    }
+
+    //______________________________________________________________
+    QSize Style::lineEditSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
+    {
+        // cast option and check
+        const QStyleOptionFrame* frameOption( qstyleoption_cast<const QStyleOptionFrame*>( option ) );
+        if( !frameOption ) return contentsSize;
+
+        const bool flat( frameOption->lineWidth == 0 );
+        const int frameWidth( pixelMetric( PM_DefaultFrameWidth, option, widget ) );
+        return flat ? contentsSize : expandSize( contentsSize, frameWidth );
     }
 
     //______________________________________________________________
@@ -2262,6 +2298,76 @@ namespace Oxygen
 
         // add button width and spacing
         size.rwidth() += MenuButton_IndicatorWidth;
+
+        return size;
+
+    }
+
+    //______________________________________________________________
+    QSize Style::spinBoxSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
+    {
+
+        // cast option and check
+        const QStyleOptionSpinBox *spinBoxOption( qstyleoption_cast<const QStyleOptionSpinBox*>( option ) );
+        if( !spinBoxOption ) return contentsSize;
+
+        const bool flat( !spinBoxOption->frame );
+
+        // copy size
+        QSize size( contentsSize );
+
+        // add editor margins
+        const int frameWidth( pixelMetric( PM_SpinBoxFrameWidth, option, widget ) );
+        if( !flat ) size = expandSize( size, frameWidth );
+
+        // make sure there is enough height for the button
+        size.setHeight( qMax( size.height(), int(Metrics::SpinBox_ArrowButtonWidth) ) );
+
+        // add button width and spacing
+        size.rwidth() += Metrics::SpinBox_ArrowButtonWidth;
+
+        return size;
+
+    }
+
+    //______________________________________________________________
+    QSize Style::sliderSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
+    {
+
+        // cast option and check
+        const QStyleOptionSlider *sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+        if( !sliderOption ) return contentsSize;
+
+        // store tick position and orientation
+        const QSlider::TickPosition& tickPosition( sliderOption->tickPosition );
+        const bool horizontal( sliderOption->orientation == Qt::Horizontal );
+        // const bool disableTicks( !StyleConfigData::sliderDrawTickMarks() );
+        const bool disableTicks( false );
+
+        /*
+        Qt adds its own tick length directly inside QSlider.
+        Take it out and replace by ours, if needed
+        */
+        const int tickLength( disableTicks ? 0 : (
+            Metrics::Slider_TickLength + Metrics::Slider_TickMarginWidth +
+            (Metrics::Slider_GrooveThickness - Slider_ControlThickness)/2 ) );
+
+        const int builtInTickLength( 5 );
+        if( tickPosition == QSlider::NoTicks ) return contentsSize;
+
+        QSize size( contentsSize );
+        if( horizontal )
+        {
+
+            if(tickPosition & QSlider::TicksAbove) size.rheight() += tickLength - builtInTickLength;
+            if(tickPosition & QSlider::TicksBelow) size.rheight() += tickLength - builtInTickLength;
+
+        } else {
+
+            if(tickPosition & QSlider::TicksAbove) size.rwidth() += tickLength - builtInTickLength;
+            if(tickPosition & QSlider::TicksBelow) size.rwidth() += tickLength - builtInTickLength;
+
+        }
 
         return size;
 
@@ -2971,7 +3077,7 @@ namespace Oxygen
 
     }
     //___________________________________________________________________________________
-    bool Style::drawIndicatorTabClose( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawIndicatorTabClosePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
         if( _tabCloseIcon.isNull() )
         {
@@ -4354,38 +4460,6 @@ namespace Oxygen
 
         return true;
 
-    }
-
-    //___________________________________________________________________________________
-    bool Style::drawHeaderLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
-    {
-        const QStyleOptionHeader* headerOption( qstyleoption_cast<const QStyleOptionHeader *>( option ) );
-        if( !headerOption ) return true;
-
-        QRect rect( headerOption->rect );
-
-        if ( !headerOption->icon.isNull() )
-        {
-            const QPixmap pixmap( headerOption->icon.pixmap(
-                pixelMetric( PM_SmallIconSize ),
-                ( headerOption->state & State_Enabled ) ? QIcon::Normal : QIcon::Disabled ) );
-
-            int pixw = pixmap.width();
-
-            QRect aligned = alignedRect( headerOption->direction, QFlag( headerOption->iconAlignment ), pixmap.size(), rect );
-            QRect inter = aligned.intersected( rect );
-            painter->drawPixmap( inter.x(), inter.y(), pixmap, inter.x() - aligned.x(), inter.y() - aligned.y(), inter.width(), inter.height() );
-
-            if ( headerOption->direction == Qt::LeftToRight ) rect.setLeft( rect.left() + pixw + 2 );
-            else rect.setRight( rect.right() - pixw - 2 );
-
-        }
-
-        drawItemText(
-            painter, rect, headerOption->textAlignment, headerOption->palette,
-            ( headerOption->state & State_Enabled ), headerOption->text, QPalette::WindowText );
-
-        return true;
     }
 
     //___________________________________________________________________________________
@@ -6746,39 +6820,18 @@ namespace Oxygen
     }
 
     //______________________________________________________________
-    bool Style::drawGroupBoxComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
-    {
-        const QStyleOptionGroupBox *groupBox = qstyleoption_cast<const QStyleOptionGroupBox *>( option );
-        if( groupBox && groupBox->features & QStyleOptionFrameV2::Flat )
-        {
-
-            // for flat groupboxes, the groupBox title is rendered bold
-            /*
-            TODO: talk to pinheiro. This is not an optimal design
-            I would rather
-            1/ keep the font unchanged
-            2/ add an horizontal separator next to the title
-            ( Hugo )
-            */
-            const QFont oldFont = painter->font();
-            QFont font = oldFont;
-            font.setBold( true );
-            painter->setFont( font );
-            ParentStyleClass::drawComplexControl( CC_GroupBox, option, painter, widget );
-            painter->setFont( oldFont );
-            return true;
-
-        } else return false;
-    }
-
-    //______________________________________________________________
     bool Style::drawSliderComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // cast option and check
         const QStyleOptionSlider *sliderOption( qstyleoption_cast<const QStyleOptionSlider *>( option ) );
         if( !sliderOption ) return true;
 
+
+        // copy rect and palette
         const QPalette& palette( option->palette );
+
+        // copy state
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
@@ -6790,27 +6843,15 @@ namespace Oxygen
         if( sliderOption->subControls & SC_SliderGroove )
         {
             // get rect
-            QRect groove( subControlRect( CC_Slider, sliderOption, SC_SliderGroove, widget ) );
+            QRect grooveRect( subControlRect( CC_Slider, sliderOption, SC_SliderGroove, widget ) );
 
-            // adjustments
+           // adjustments
             if( sliderOption->orientation == Qt::Horizontal )
-            {
-
-                const int center( groove.center().y() );
-                groove = QRect( groove.left(), center-Slider_GrooveThickness/2, groove.width(), Slider_GrooveThickness  ).adjusted( 3, 0, -3, 0 );
-                groove.adjust( 2, 1, -2, 0 );
-
-            } else {
-
-                const int center( groove.center().x() );
-                groove = QRect( center-Slider_GrooveThickness/2, groove.top(), Slider_GrooveThickness, groove.height() ).adjusted( 0, 3, 0, -3 );
-                groove.adjust( 0, 2, 0, -2 );
-
-            }
+            { grooveRect.adjust( 0, 1, 0, 0 ); }
 
             // render
-            if( groove.isValid() )
-            { _helper->scrollHole( palette.color( QPalette::Window ), sliderOption->orientation, true )->render( groove, painter, TileSet::Full ); }
+            _helper->scrollHole( palette.color( QPalette::Window ), sliderOption->orientation, true )->render( grooveRect, painter, TileSet::Full );
+
         }
 
         // handle
@@ -6818,8 +6859,8 @@ namespace Oxygen
         {
 
             // get rect and center
-            QRect r( subControlRect( CC_Slider, sliderOption, SC_SliderHandle, widget ) );
-            r = centerRect( r, 21, 21 );
+            QRect handleRect( subControlRect( CC_Slider, sliderOption, SC_SliderHandle, widget ) );
+            handleRect = centerRect( handleRect, Slider_ControlThickness, Slider_ControlThickness );
 
             const bool handleActive( sliderOption->activeSubControls & SC_SliderHandle );
             StyleOptions styleOptions( 0 );
@@ -6829,11 +6870,11 @@ namespace Oxygen
             _animations->sliderEngine().updateState( widget, enabled && handleActive );
             const qreal opacity( _animations->sliderEngine().opacity( widget ) );
 
-            const QColor color( _helper->backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
+            const QColor color( _helper->backgroundColor( palette.color( QPalette::Button ), widget, handleRect.center() ) );
             const QColor glow( slabShadowColor( styleOptions, opacity, AnimationHover ) );
 
             const bool sunken( state & (State_On|State_Sunken) );
-            painter->drawPixmap( r.topLeft(), _helper->sliderSlab( color, glow, sunken, 0.0 ) );
+            painter->drawPixmap( handleRect.topLeft(), _helper->sliderSlab( color, glow, sunken, 0.0 ) );
 
         }
 
@@ -7091,7 +7132,7 @@ namespace Oxygen
     }
 
     //_____________________________________________________________________
-    void Style::oxygenConfigurationChanged()
+    void Style::configurationChanged()
     {
         // reload config (reparses oxygenrc)
         StyleConfigData::self()->load();
@@ -7185,8 +7226,8 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QIcon Style::standardIcon(
-        StandardPixmap standardIcon,
+    QIcon Style::standardIconImplementation(
+        StandardPixmap standardPixmap,
         const QStyleOption *option,
         const QWidget *widget ) const
     {
@@ -7223,7 +7264,7 @@ namespace Oxygen
         // contrast
         const QColor contrast( _helper->calcLightColor( buttonColor ) );
 
-        switch( standardIcon )
+        switch( standardPixmap )
         {
 
             case SP_TitleBarNormalButton:
@@ -7337,7 +7378,13 @@ namespace Oxygen
             }
 
             default:
-            return ParentStyleClass::standardIcon( standardIcon, option, widget );
+            // do not cache parent style icon, since it may change at runtime
+            #if QT_VERSION >= 0x050000
+            return  ParentStyleClass::standardIcon( standardPixmap, option, widget );
+            #else
+            return  ParentStyleClass::standardIconImplementation( standardPixmap, option, widget );
+            #endif
+
         }
     }
 

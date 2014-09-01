@@ -65,6 +65,7 @@ set(oxygen_PART_SRCS
     oxygensplitterproxy.cpp
     oxygenstyle.cpp
     oxygenstylehelper.cpp
+    oxygenstyleplugin.cpp
     oxygenwindowmanager.cpp
 )
 

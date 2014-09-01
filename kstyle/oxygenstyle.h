@@ -51,9 +51,8 @@
 #include "oxygenmetrics.h"
 #include "oxygentileset.h"
 
-#include "kstyle.h"
+#include <KStyle>
 
-#include <QMap>
 #include <QAbstractScrollArea>
 #include <QDockWidget>
 #include <QMdiSubWindow>
@@ -74,26 +73,6 @@ namespace OxygenPrivate
 namespace Oxygen
 {
 
-    //*@name convenience typedef
-    //@{
-
-    #if QT_VERSION >= 0x050000
-    //* scoped pointer convenience typedef
-    template <typename T> using WeakPointer = QPointer<T>;
-    #else
-    //* scoped pointer convenience typedef
-    template <typename T> using WeakPointer = QWeakPointer<T>;
-    #endif
-
-    //* scoped pointer convenience typedef
-    template <typename T> using ScopedPointer = QScopedPointer<T, QScopedPointerPodDeleter>;
-
-    //* disable QStringLiteral for older Qt version
-    #if QT_VERSION < 0x050000
-    using QStringLiteral = QString;
-    #endif
-
-    //@}
     class Animations;
     class FrameShadowFactory;
     class MdiWindowShadowFactory;
@@ -102,54 +81,17 @@ namespace Oxygen
     class SplitterFactory;
     class StyleHelper;
     class Transitions;
+    class TopLevelManager;
     class WindowManager;
     class WidgetExplorer;
     class BlurHelper;
 
-    class StylePlugin : public QStylePlugin
-    {
-        Q_OBJECT
-        Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QStyleFactoryInterface" FILE "oxygen.json" )
-
-        public:
-
-        //! constructor
-        StylePlugin(QObject *parent = 0):
-            QStylePlugin(parent)
-        {}
-        ~StylePlugin();
-
-        //! create style
-        QStyle* create( const QString& );
-
-    };
-
-    //! toplevel manager
-    class TopLevelManager: public QObject
-    {
-        public:
-
-        //! constructor
-        TopLevelManager( QObject* parent, const StyleHelper& helper ):
-            QObject( parent ),
-            _helper( helper )
-        {}
-
-        //! event filter
-        virtual bool eventFilter(QObject *, QEvent *);
-
-        private:
-
-        //! helper
-        const StyleHelper& _helper;
-
-    };
 
     //* convenience typedef or parent class
     using ParentStyleClass = KStyle;
 
-    //! base class for oxygen style
-    /*! it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */
+    //* base class for oxygen style
+    /** it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */
     class Style: public ParentStyleClass
     {
         Q_OBJECT
@@ -159,65 +101,58 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit Style( void );
 
-        //! destructor
+        //* destructor
         virtual ~Style( void );
 
-        //! widget polishing
+        //* widget polishing
         virtual void polish( QWidget* );
 
-        //! widget unpolishing
+        //* widget unpolishing
         virtual void unpolish( QWidget* );
 
-        //! needed to avoid warnings at compilation time
+        //* needed to avoid warnings at compilation time
         using  ParentStyleClass::polish;
         using  ParentStyleClass::unpolish;
 
-        //! pixel metrics
-        virtual int pixelMetric(PixelMetric, const QStyleOption* = 0, const QWidget* = 0) const;
+        //* pixel metrics
+        virtual int pixelMetric(PixelMetric, const QStyleOption* = nullptr, const QWidget* = nullptr) const;
 
-        //! style hints
-        virtual int styleHint(StyleHint, const QStyleOption* = 0, const QWidget* = 0, QStyleHintReturn* = 0) const;
+        //* style hints
+        virtual int styleHint(StyleHint, const QStyleOption* = nullptr, const QWidget* = nullptr, QStyleHintReturn* = nullptr) const;
 
-        //! returns rect corresponding to one widget's subelement
-        virtual QRect subElementRect( SubElement subRect, const QStyleOption*, const QWidget* ) const;
+        //* returns rect corresponding to one widget's subelement
+        virtual QRect subElementRect( SubElement, const QStyleOption*, const QWidget* ) const;
 
-        //! returns rect corresponding to one widget's subcontrol
+        //* returns rect corresponding to one widget's subcontrol
         virtual QRect subControlRect( ComplexControl, const QStyleOptionComplex*, SubControl, const QWidget* ) const;
 
-        //! returns size matching contents
+        //* returns size matching contents
         QSize sizeFromContents( ContentsType, const QStyleOption*, const QSize&, const QWidget* ) const;
 
-        //! returns which subcontrol given QPoint corresponds to
+        //* returns which subcontrol given QPoint corresponds to
         SubControl hitTestComplexControl( ComplexControl, const QStyleOptionComplex*, const QPoint&, const QWidget* ) const;
 
-        //! primitives
+        //* primitives
         void drawPrimitive( PrimitiveElement, const QStyleOption*, QPainter*, const QWidget* ) const;
 
-        //! controls
+        //* controls
         void drawControl( ControlElement, const QStyleOption*, QPainter*, const QWidget* ) const;
 
-        //! complex controls
+        //* complex controls
         void drawComplexControl( ComplexControl, const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
 
-        //! generic text rendering
+        //* generic text rendering
         virtual void drawItemText(
             QPainter*, const QRect&, int alignment, const QPalette&, bool enabled,
             const QString&, QPalette::ColorRole = QPalette::NoRole) const;
 
-        //! event filters
-        virtual bool eventFilter(QObject *, QEvent *);
-
-        //!@name specialized event filters
-        /*!
-        Note: one could use separate objects to install these event filters
-        This would have the advantage to avoid the big 'if' statement in the
-        Style::eventFilter method
-        */
-
+        //*@name event filters
         //@{
+
+        virtual bool eventFilter(QObject *, QEvent *);
         bool eventFilterComboBoxContainer( QWidget*, QEvent* );
         bool eventFilterDockWidget( QDockWidget*, QEvent* );
         bool eventFilterMdiSubWindow( QMdiSubWindow*, QEvent* );
@@ -226,7 +161,7 @@ namespace Oxygen
         bool eventFilterToolBar( QToolBar*, QEvent* );
         bool eventFilterToolBox( QToolBox*, QEvent* );
 
-        //! install event filter to object, in a unique way
+        //* install event filter to object, in a unique way
         void addEventFilter( QObject* object )
         {
             object->removeEventFilter( this );
@@ -237,27 +172,25 @@ namespace Oxygen
 
         protected Q_SLOTS:
 
-        //! update oxygen configuration
-        void oxygenConfigurationChanged( void );
+        //* update oxygen configuration
+        void configurationChanged( void );
 
-        //! copied from kstyle
-        int layoutSpacingImplementation(
-            QSizePolicy::ControlType, QSizePolicy::ControlType, Qt::Orientation,
-            const QStyleOption* option, const QWidget* widget ) const
-        { return pixelMetric(PM_DefaultLayoutSpacing, option, widget); }
-
-        //! standard icons
-        virtual QIcon standardIcon( StandardPixmap, const QStyleOption* = 0, const QWidget* = 0) const;
+        //* standard icons
+        virtual QIcon standardIconImplementation( StandardPixmap, const QStyleOption*, const QWidget* ) const;
 
         protected:
 
-        //! load configuration
+        //* standard icons
+        virtual QIcon standardIcon( StandardPixmap pixmap, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const
+        { return standardIconImplementation( pixmap, option, widget ); }
+
+        //* load configuration
         void loadConfiguration();
 
-        //!@name enumerations and convenience classes
+        //*@name enumerations and convenience classes
         //@{
 
-        //! arrow orientation
+        //* arrow orientation
         enum ArrowOrientation
         {
             ArrowNone,
@@ -268,7 +201,7 @@ namespace Oxygen
         };
 
 
-        //! get polygon corresponding to generic arrow
+        //* get polygon corresponding to generic arrow
         enum ArrowSize
         {
             ArrowNormal,
@@ -276,7 +209,7 @@ namespace Oxygen
             ArrowTiny
         };
 
-        //! internal option flags to pass arguments around
+        //* internal option flags to pass arguments around
         enum StyleOption
         {
             Sunken = 0x1,
@@ -288,17 +221,17 @@ namespace Oxygen
 
         Q_DECLARE_FLAGS(StyleOptions, StyleOption)
 
-        //! used to store slab characteristics
+        //* used to store slab characteristics
         class SlabRect
         {
             public:
 
-            //! constructor
+            //* constructor
             SlabRect(void):
                 _tiles( TileSet::Ring )
             {}
 
-            //! constructor
+            //* constructor
             SlabRect( const QRect& r, const int& tiles ):
                 _r( r ),
                 _tiles( TileSet::Tiles( tiles ) )
@@ -309,80 +242,65 @@ namespace Oxygen
 
         };
 
-        //! list of slabs
+        //* list of slabs
         typedef QList<SlabRect> SlabRectList;
 
         //@}
 
-        //!@name subelementRect specialized functions
+        //*@name subelementRect specialized functions
         //@{
 
-        //! default implementation. Does not change anything
+        //* default implementation. Does not change anything
         QRect defaultSubElementRect( const QStyleOption* option, const QWidget* ) const
         { return option->rect; }
 
         QRect pushButtonContentsRect( const QStyleOption* option, const QWidget* ) const;
         QRect checkBoxContentsRect( const QStyleOption* option, const QWidget* ) const;
-        QRect toolBoxTabContentsRect( const QStyleOption* option, const QWidget* ) const;
-
-        //! progressbar contents
+        QRect lineEditContentsRect( const QStyleOption*, const QWidget* ) const;
         QRect progressBarContentsRect( const QStyleOption* option, const QWidget* ) const;
-
-        //! tabBar buttons
-        QRect tabBarTabLeftButtonRect( const QStyleOption* option, const QWidget* widget ) const
-        { return tabBarTabButtonRect( SE_TabBarTabLeftButton, option, widget ); }
-
-        QRect tabBarTabRightButtonRect( const QStyleOption* option, const QWidget* widget ) const
-        { return tabBarTabButtonRect( SE_TabBarTabRightButton, option, widget ); }
-
-        QRect tabBarTabButtonRect( SubElement, const QStyleOption*, const QWidget* ) const;
-
-        // tabbar tab text
-        QRect tabBarTabTextRect( const QStyleOption* option, const QWidget* widget ) const
-        { return ParentStyleClass::subElementRect( SE_TabBarTabText, option, widget ).adjusted( 6, 0, -6, 0 ); }
-
-        // tab widgets
+        QRect tabWidgetTabBarRect( const QStyleOption*, const QWidget* ) const;
         QRect tabWidgetTabContentsRect( const QStyleOption*, const QWidget* ) const;
         QRect tabWidgetTabPaneRect( const QStyleOption*, const QWidget* ) const;
-
-        QRect tabWidgetLeftCornerRect( const QStyleOption* option, const QWidget* widget ) const;
-        QRect tabWidgetRightCornerRect( const QStyleOption* option, const QWidget* widget ) const;
+        QRect tabWidgetCornerRect( SubElement, const QStyleOption* option, const QWidget* widget ) const;
+        QRect toolBoxTabContentsRect( const QStyleOption* option, const QWidget* ) const;
 
         //@}
 
-        //!@name subcontrol Rect specialized functions
+        //*@name subcontrol Rect specialized functions
         //@{
 
         QRect groupBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect toolButtonSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect comboBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
-        QRect scrollBarSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
         QRect spinBoxSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
-
-        //! this properly handles single/double or no scrollBar buttons
         QRect scrollBarInternalSubControlRect( const QStyleOptionComplex*, SubControl ) const;
+        QRect scrollBarSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
+        QRect sliderSubControlRect( const QStyleOptionComplex*, SubControl, const QWidget* ) const;
 
         //@}
 
-        //!@name sizeFromContents
+        //*@name sizeFromContents
         //@{
         QSize defaultSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const
         { return size; }
 
         QSize checkBoxSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
+        QSize lineEditSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize comboBoxSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
-        QSize menuBarItemSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const;
-        QSize menuItemSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
+        QSize spinBoxSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
+        QSize sliderSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize pushButtonSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
-        QSize tabWidgetSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const;
-        QSize tabBarTabSizeFromContents( const QStyleOption*, const QSize& size, const QWidget* ) const;
+        QSize menuBarItemSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
+        QSize menuItemSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
+        QSize tabWidgetSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
+        QSize tabBarTabSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize toolButtonSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize headerSectionSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
         QSize itemViewItemSizeFromContents( const QStyleOption*, const QSize&, const QWidget* ) const;
 
         //@}
 
-        //!@name primitives specialized functions
+        //*@name primitives specialized functions
         //@{
 
         bool emptyPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const
@@ -390,12 +308,12 @@ namespace Oxygen
 
         bool drawFramePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameFocusRectPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawFrameGroupBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameMenuPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawFrameTabBarBasePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawFrameGroupBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameTabWidgetPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawFrameTabBarBasePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameWindowPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawIndicatorTabClose( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const;
+        bool drawIndicatorTabClosePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const;
 
         bool drawIndicatorArrowUpPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
         { return drawIndicatorArrowPrimitive( ArrowUp, option, painter, widget ); }
@@ -411,48 +329,43 @@ namespace Oxygen
 
         bool drawIndicatorArrowPrimitive( ArrowOrientation, const QStyleOption*, QPainter*, const QWidget* ) const;
 
-        //! dock widget separators
-        /*! it uses the same painting as QSplitter, but due to Qt, the horizontal/vertical convention is inverted */
+        //* dock widget separators
+        /** it uses the same painting as QSplitter, but due to Qt, the horizontal/vertical convention is inverted */
         bool drawIndicatorDockWidgetResizeHandlePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget) const
         {
-
             renderSplitter( option, painter, widget, !(option->state & State_Horizontal ) );
             return true;
-
         }
 
         bool drawIndicatorHeaderArrowPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelButtonCommandPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawPanelMenuPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelButtonToolPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawPanelScrollAreaCornerPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawPanelMenuPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelTipLabelPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawPanelScrollAreaCornerPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelItemViewItemPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelLineEditPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorMenuCheckMarkPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawIndicatorBranchPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawIndicatorButtonDropDownPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorCheckBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorRadioButtonPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawIndicatorButtonDropDownPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorTabTearPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorToolBarHandlePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorToolBarSeparatorPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawIndicatorBranchPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         bool drawWidgetPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         //@}
 
-        //!@name controls specialized functions
+        //*@name controls specialized functions
         //@{
 
         bool emptyControl( const QStyleOption*, QPainter*, const QWidget* ) const
         { return true; }
 
         virtual bool drawCapacityBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawDockWidgetTitleControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawHeaderEmptyAreaControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawHeaderLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawHeaderSectionControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawToolButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawMenuBarItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawMenuItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawProgressBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -460,21 +373,27 @@ namespace Oxygen
         virtual bool drawProgressBarGrooveControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawProgressBarLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawPushButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawRubberBandControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
-        //! scrollbar
+        //* scrollbar
         virtual bool drawScrollBarSliderControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawScrollBarAddLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawScrollBarSubLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         virtual bool drawShapedFrameControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawRubberBandControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawHeaderSectionControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawHeaderEmptyAreaControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
-        // size grip
-        virtual bool drawSizeGripControl( const QStyleOption*, QPainter*, const QWidget* ) const
-        {
-            // size grips, whose usage is discouraged in KDE, are not rendered at all by oxygen
-            return true;
-        }
+        //* tabbar tabs.
+        virtual bool drawTabBarTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawTabBarTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+
+        virtual bool drawToolBoxTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawToolBoxTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+
+        virtual bool drawDockWidgetTitleControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+
+        virtual bool drawToolBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         // splitters
         virtual bool drawSplitterControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
@@ -483,38 +402,36 @@ namespace Oxygen
             return true;
         }
 
-        virtual bool drawTabBarTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        //*@}
 
-        //! tabbar tabs.
-        virtual bool drawTabBarTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawToolBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawToolBoxTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawToolBoxTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawToolButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-
-        //!@}
-
-        //!@name complex ontrols specialized functions
+        //*@name complex ontrols specialized functions
         //@{
+        bool drawToolButtonComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawComboBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
-        bool drawDialComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
-        bool drawGroupBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
-        bool drawSliderComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawSpinBoxComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
+        bool drawSliderComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
+        bool drawDialComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawScrollBarComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawTitleBarComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
-        bool drawToolButtonComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         //@}
 
-        //! adjust rect based on provided margins
-        QRect insideMargin( const QRect& r, int main, int left = 0, int top = 0, int right = 0, int bottom = 0 ) const
-        { return r.adjusted( main+left, main+top, -main-right, -main-bottom ); }
+        //* adjust rect based on provided margins
+        QRect insideMargin( const QRect& r, int margin ) const
+        { return insideMargin( r, margin, margin ); }
 
-        //! expand size based on margins
-        QSize expandSize( const QSize& size, int main, int left = 0, int top = 0, int right = 0, int bottom = 0 ) const
-        { return size + QSize( 2*main+left+right, 2*main+top+bottom ); }
+        //* adjust rect based on provided margins
+        QRect insideMargin( const QRect& r, int marginWidth, int marginHeight ) const
+        { return r.adjusted( marginWidth, marginHeight, -marginWidth, -marginHeight ); }
 
-        //! returns true for vertical tabs
+        //* expand size based on margins
+        QSize expandSize( const QSize& size, int margin ) const
+        { return expandSize( size, margin, margin ); }
+
+        //* expand size based on margins
+        QSize expandSize( const QSize& size, int marginWidth, int marginHeight ) const
+        { return size + 2*QSize( marginWidth, marginHeight ); }
+
+        //* returns true for vertical tabs
         bool isVerticalTab( const QStyleOptionTab* option ) const
         { return isVerticalTab( option->shape ); }
 
@@ -527,115 +444,100 @@ namespace Oxygen
 
         }
 
-        //! returns true for reflected tabs
-        bool isReflected( const QStyleOptionTab* option ) const
-        { return isReflected( option->shape ); }
-
-        bool isReflected( const QTabBar::Shape& shape ) const
-        {
-            return shape == QTabBar::RoundedEast
-                || shape == QTabBar::RoundedSouth
-                || shape == QTabBar::TriangularEast
-                || shape == QTabBar::TriangularSouth;
-
-        }
-
-        //! right to left alignment handling
-        QRect visualRect(const QStyleOption* opt, const QRect& subRect) const
-        { return visualRect(opt->direction, opt->rect, subRect); }
-
-        //! right to left alignment handling
+        //* right to left alignment handling
         using ParentStyleClass::visualRect;
-        QPoint visualRect(const QStyleOption* opt, const QPoint& pos) const
-        { return visualPos(opt->direction, opt->rect, pos); }
+        QRect visualRect(const QStyleOption* opt, const QRect& subRect) const
+        { return ParentStyleClass::visualRect(opt->direction, opt->rect, subRect); }
 
-        QRect centerRect(const QRect &in, const QSize& s ) const
-        { return centerRect( in, s.width(), s.height() ); }
+        //* centering
+        QRect centerRect(const QRect &rect, const QSize& size ) const
+        { return centerRect( rect, size.width(), size.height() ); }
 
-        QRect centerRect(const QRect &in, int w, int h) const
-        { return QRect(in.x() + (in.width() - w)/2, in.y() + (in.height() - h)/2, w, h); }
+        QRect centerRect(const QRect &rect, int width, int height) const
+        { return QRect(rect.left() + (rect.width() - width)/2, rect.top() + (rect.height() - height)/2, width, height); }
 
         /*
-        Checks whether the point is before the bound rect for
-        bound of given orientation
+        Checks whether the point is before the bound rect for bound of given orientation.
+        This is needed to implement custom number of buttons in scrollbars,
+        as well as proper mouse-hover
         */
         inline bool preceeds( const QPoint&, const QRect&, const QStyleOption* ) const;
 
-        //! return which arrow button is hit by point for scrollbar double buttons
+        //* return which arrow button is hit by point for scrollbar double buttons
         inline QStyle::SubControl scrollBarHitTest( const QRect&, const QPoint&, const QStyleOption* ) const;
 
-        //! polish scrollarea
+        //* polish scrollarea
         void polishScrollArea( QAbstractScrollArea* ) const;
 
-        //! tiles from tab orientation
+        //* tiles from tab orientation
         inline TileSet::Tiles tilesByShape( const QTabBar::Shape& shape) const;
 
-        //! toolbar mask
-        /*! this masks out toolbar expander buttons, when visible, from painting */
+        //* toolbar mask
+        /** this masks out toolbar expander buttons, when visible, from painting */
         QRegion tabBarClipRegion( const QTabBar* ) const;
 
-        //! adjusted slabRect
+        //* adjusted slabRect
         inline void adjustSlabRect( SlabRect& slab, const QRect&, bool documentMode, bool vertical ) const;
 
-        //!@name internal rendering methods
-        /*! here mostly to avoid code duplication */
+        //*@name internal rendering methods
+        /** here mostly to avoid code duplication */
         //@{
 
-        //! qdial slab
+        //* qdial slab
         void renderDialSlab( QPainter* p, const QRect& r, const QColor& c, const QStyleOption* option, StyleOptions opts = 0 ) const
         { renderDialSlab( p, r, c, option, opts, -1,  AnimationNone ); }
 
-        //! qdial slab
+        //* qdial slab
         void renderDialSlab( QPainter*, const QRect&, const QColor&, const QStyleOption*, StyleOptions, qreal, AnimationMode ) const;
 
-        //! generic button slab
+        //* generic button slab
         void renderButtonSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opts = 0, TileSet::Tiles tiles = TileSet::Ring) const
         { renderButtonSlab( p, r, c, opts, -1,  AnimationNone, tiles ); }
 
-        //! generic button slab
+        //* generic button slab
         void renderButtonSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, AnimationMode, TileSet::Tiles ) const;
 
-        //! generic slab
+        //* generic slab
         void renderSlab( QPainter* painter, const SlabRect& slab, const QColor& color, StyleOptions options = 0 ) const
         { renderSlab( painter, slab._r, color, options, slab._tiles ); }
 
-        //! generic slab
+        //* generic slab
         void renderSlab( QPainter* painter, QRect rect, const QColor& color, StyleOptions options = 0, TileSet::Tiles tiles = TileSet::Ring) const
         { renderSlab( painter, rect, color, options, -1, AnimationNone, tiles ); }
 
-        //! generic slab
+        //* generic slab
         void renderSlab( QPainter* painter, const SlabRect& slab, const QColor& color, StyleOptions options, qreal opacity, AnimationMode mode ) const
         { renderSlab( painter, slab._r, color, options, opacity, mode, slab._tiles ); }
 
-        //! generic slab
+        //* generic slab
         void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, AnimationMode, TileSet::Tiles ) const;
 
         // render tab background
         void renderTabBackground( QPainter*, const QRect&, const QPalette&, const QTabBar::Shape, const QWidget* ) const;
 
-        //! tab background
-        /*! this paints window background behind tab when tab is being dragged */
+        //* tab background
+        /** this paints window background behind tab when tab is being dragged */
         void fillTabBackground( QPainter*, const QRect&, const QColor&, const QTabBar::Shape, const QWidget* ) const;
 
-        //! tab filling
+        //* tab filling
         void fillTab( QPainter*, const QRect&, const QColor&, const QTabBar::Shape, bool active ) const;
 
-        //! spinbox arrows
+        //* spinbox arrows
         void renderSpinBoxArrow( QPainter*, const QStyleOptionSpinBox*, const QWidget*, const SubControl& ) const;
 
-        //! splitter
+        //* splitter
         void renderSplitter( const QStyleOption*, QPainter*, const QWidget*, bool ) const;
 
-        //! mdi subwindow titlebar button
+        //* mdi subwindow titlebar button
         void renderTitleBarButton( QPainter*, const QStyleOptionTitleBar*, const QWidget*, const SubControl& ) const;
         void renderTitleBarButton( QPainter*, const QRect& r, const QColor&, const QColor&, const SubControl& ) const;
         void renderTitleBarIcon( QPainter*, const QRect&, const SubControl& ) const;
 
-        //! header background
+        //* header background
         void renderHeaderBackground( const QRect&, const QPalette&, QPainter*, const QWidget*, bool horizontal, bool reverse ) const;
         void renderHeaderLines( const QRect&, const QPalette&, QPainter*, TileSet::Tiles ) const;
 
-        //! menu item background
+        //* menu item background
         void renderMenuItemBackground( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         void renderMenuItemRect( const QStyleOption* opt, const QRect& rect, const QPalette& pal, QPainter* p, qreal opacity = -1 ) const
@@ -643,7 +545,7 @@ namespace Oxygen
 
         void renderMenuItemRect( const QStyleOption*, const QRect&, const QColor&, const QPalette&, QPainter* p, qreal opacity = -1 ) const;
 
-        //! checkbox state (used for checkboxes _and_ radio buttons)
+        //* checkbox state (used for checkboxes _and_ radio buttons)
         enum CheckBoxState
         {
             CheckOn,
@@ -652,31 +554,31 @@ namespace Oxygen
             CheckSunken
         };
 
-        //! checkbox
+        //* checkbox
         void renderCheckBox( QPainter*, const QRect&, const QPalette&, StyleOptions, CheckBoxState, qreal opacity = -1, AnimationMode mode = AnimationNone ) const;
 
-        //! radio button
+        //* radio button
         void renderRadioButton( QPainter*, const QRect&, const QPalette&, StyleOptions, CheckBoxState, qreal opacity = -1, AnimationMode mode = AnimationNone ) const;
 
-        //! scrollbar hole
+        //* scrollbar hole
         void renderScrollBarHole( QPainter*, const QRect&, const QColor&, const Qt::Orientation&, const TileSet::Tiles& = TileSet::Full ) const;
 
-        //! scrollbar handle (non animated)
+        //* scrollbar handle (non animated)
         void renderScrollBarHandle(
             QPainter* painter, const QRect& r, const QPalette& palette,
             const Qt::Orientation& orientation, const bool& hover) const
         { renderScrollBarHandle( painter, r, palette, orientation, hover, -1 ); }
 
-        //! scrollbar handle (animated)
+        //* scrollbar handle (animated)
         void renderScrollBarHandle( QPainter*, const QRect&, const QPalette&, const Qt::Orientation&, const bool&, const qreal& ) const;
 
-        //! scrollbar arrow
+        //* scrollbar arrow
         void renderScrollBarArrow( QPainter*, const QRect&, const QColor&, const QColor&, ArrowOrientation ) const;
 
-        //! returns true if given scrollbar arrow is animated
+        //* returns true if given scrollbar arrow is animated
         QColor scrollBarArrowColor( const QStyleOptionSlider*, const SubControl&, const QWidget* ) const;
 
-        //! slider tickmarks
+        //* slider tickmarks
         void renderSliderTickmarks( QPainter*, const QStyleOptionSlider*, const QWidget* ) const;
 
         //* debug frame
@@ -684,13 +586,13 @@ namespace Oxygen
 
         //@}
 
-        //! slab glowing color
+        //* slab glowing color
         QColor slabShadowColor( StyleOptions, qreal, AnimationMode ) const;
 
-        //! returns point position for generic arrows
+        //* returns point position for generic arrows
         QPolygonF genericArrow( ArrowOrientation, ArrowSize = ArrowNormal ) const;
 
-        //! scrollbar buttons
+        //* scrollbar buttons
         enum ScrollBarButtonType
         {
             NoButton,
@@ -698,7 +600,7 @@ namespace Oxygen
             DoubleButton
         };
 
-        //! returns height for scrollbar buttons depending of button types
+        //* returns height for scrollbar buttons depending of button types
         int scrollBarButtonHeight( const ScrollBarButtonType& type ) const
         {
             switch( type )
@@ -719,80 +621,80 @@ namespace Oxygen
 
         private:
 
-        //!@name scrollbar button types (for addLine and subLine )
+        //*@name scrollbar button types (for addLine and subLine )
         //@{
         ScrollBarButtonType _addLineButtons;
         ScrollBarButtonType _subLineButtons;
         //@}
 
-        //!@name metrics for scrollbar buttons
+        //*@name metrics for scrollbar buttons
         //@{
         int _noButtonHeight;
         int _singleButtonHeight;
         int _doubleButtonHeight;
         //@}
 
-        //! helper
+        //* helper
         StyleHelper* _helper;
 
-        //! shadow helper
+        //* shadow helper
         ShadowHelper* _shadowHelper;
 
-        //! animations
+        //* animations
         Animations* _animations;
 
-        //! transitions
+        //* transitions
         Transitions* _transitions;
 
-        //! window manager
+        //* window manager
         WindowManager* _windowManager;
 
-        //! toplevel manager
+        //* toplevel manager
         TopLevelManager* _topLevelManager;
 
-        //! frame shadows
+        //* frame shadows
         FrameShadowFactory* _frameShadowFactory;
 
-        //! mdi window shadows
+        //* mdi window shadows
         MdiWindowShadowFactory* _mdiWindowShadowFactory;
 
-        //! keyboard accelerators
+        //* keyboard accelerators
         Mnemonics* _mnemonics;
 
-        //! blur helper
+        //* blur helper
         BlurHelper* _blurHelper;
 
-        //! widget explorer
+        //* widget explorer
         WidgetExplorer* _widgetExplorer;
 
-        //! tabBar data
+        //* tabBar data
         OxygenPrivate::TabBarData* _tabBarData;
 
-        //! splitter Factory, to extend splitters hit area
+        //* splitter Factory, to extend splitters hit area
         SplitterFactory* _splitterFactory;
 
-        //! pointer to primitive specialized function
+        //* pointer to primitive specialized function
         typedef bool (Style::*StylePrimitive)( const QStyleOption*, QPainter*, const QWidget* ) const;
         StylePrimitive _frameFocusPrimitive;
 
-        //! pointer to control specialized function
+        //* pointer to control specialized function
         typedef bool (Style::*StyleControl)( const QStyleOption*, QPainter*, const QWidget* ) const;
 
-        //! pointer to control specialized function
+        //* pointer to control specialized function
         typedef bool (Style::*StyleComplexControl)( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
 
-        //!@name custom elements
+        //*@name custom elements
         //@{
 
-        //! use Argb Drag and Drop Window
+        //* use Argb Drag and Drop Window
         QStyle::StyleHint SH_ArgbDndWindow;
 
-        //! styled painting for KCapacityBar
+        //* styled painting for KCapacityBar
         QStyle::ControlElement CE_CapacityBar;
 
         //@}
 
-        //! tab close button icon (cached)
+        //* tab close button icon (cached)
         mutable QIcon _tabCloseIcon;
 
         friend class OxygenPrivate::TabBarData;
