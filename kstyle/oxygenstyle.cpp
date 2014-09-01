@@ -3669,58 +3669,40 @@ namespace Oxygen
 
             // color
             const QColor expanderColor( mouseOver ? _helper->viewHoverBrush().brush( palette ).color():palette.color( QPalette::Text ) );
-
-            if( !StyleConfigData::viewDrawTriangularExpander() )
+            
+            // get arrow size from option
+            ArrowSize size = ArrowSmall;
+            qreal penThickness( 1.2 );
+            switch( StyleConfigData::viewTriangularExpanderSize() )
             {
+                case StyleConfigData::TE_TINY:
+                size = ArrowTiny;
+                break;
 
-                // plus or minus sign used for expanders
-                const QPoint center( rect.center() );
-                const int radius( ( sizeLimit - 4 ) / 2 );
-                painter->save();
-                painter->setPen( expanderColor );
-                painter->drawLine( center - QPoint( radius, 0 ), center + QPoint( radius, 0 ) );
+                default:
+                case StyleConfigData::TE_SMALL:
+                size = ArrowSmall;
+                break;
 
-                if( !expanderOpen )
-                { painter->drawLine( center - QPoint( 0, radius ), center + QPoint( 0, radius ) ); }
+                case StyleConfigData::TE_NORMAL:
+                penThickness = 1.6;
+                size = ArrowNormal;
+                break;
 
-                painter->restore();
-
-            } else {
-
-                // get arrow size from option
-                ArrowSize size = ArrowSmall;
-                qreal penThickness( 1.2 );
-                switch( StyleConfigData::viewTriangularExpanderSize() )
-                {
-                    case StyleConfigData::TE_TINY:
-                    size = ArrowTiny;
-                    break;
-
-                    default:
-                    case StyleConfigData::TE_SMALL:
-                    size = ArrowSmall;
-                    break;
-
-                    case StyleConfigData::TE_NORMAL:
-                    penThickness = 1.6;
-                    size = ArrowNormal;
-                    break;
-
-                }
-
-                // get arrows polygon
-                QPolygonF arrow;
-                if( expanderOpen ) arrow = genericArrow( ArrowDown, size );
-                else arrow = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, size );
-
-                // render
-                painter->save();
-                painter->translate( QRectF( rect ).center() );
-                painter->setPen( QPen( expanderColor, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter->setRenderHint( QPainter::Antialiasing );
-                painter->drawPolyline( arrow );
-                painter->restore();
             }
+
+            // get arrows polygon
+            QPolygonF arrow;
+            if( expanderOpen ) arrow = genericArrow( ArrowDown, size );
+            else arrow = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, size );
+
+            // render
+            painter->save();
+            painter->translate( QRectF( rect ).center() );
+            painter->setPen( QPen( expanderColor, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+            painter->setRenderHint( QPainter::Antialiasing );
+            painter->drawPolyline( arrow );
+            painter->restore();
 
         }
 

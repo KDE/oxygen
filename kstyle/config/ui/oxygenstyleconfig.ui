@@ -100,7 +100,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Windows' d&amp;rag mode:</string>
+            <string>Windows' &amp;drag mode:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -211,30 +211,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QCheckBox" name="_viewDrawTriangularExpander">
-         <property name="text">
-          <string>Use triangle tree expander instead of +/-</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>25</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="1">
+       <item row="2" column="1">
         <widget class="QWidget" name="_viewsExpertWidget" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <property name="leftMargin">
@@ -252,7 +229,7 @@
           <item>
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Triangle si&amp;ze:</string>
+             <string>&amp;Tree expander size</string>
             </property>
             <property name="buddy">
              <cstring>_viewTriangularExpanderSize</cstring>
@@ -294,7 +271,7 @@
          </layout>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="3" column="0" colspan="2">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -319,7 +296,7 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>S&amp;crollbar width:</string>
+            <string>Scrollbar wi&amp;dth:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -487,14 +464,14 @@
        <item row="1" column="0">
         <widget class="QRadioButton" name="_menuHighlightStrong">
          <property name="text">
-          <string>Use selection color (plain)</string>
+          <string>&amp;Use selection color (plain)</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
         <widget class="QRadioButton" name="_menuHighlightSubtle">
          <property name="text">
-          <string>Use selection color (subtle)</string>
+          <string>Use selec&amp;tion color (subtle)</string>
          </property>
         </widget>
        </item>
@@ -560,7 +537,6 @@
   <tabstop>_expertModeButton</tabstop>
   <tabstop>_viewDrawFocusIndicator</tabstop>
   <tabstop>_viewDrawTreeBranchLines</tabstop>
-  <tabstop>_viewDrawTriangularExpander</tabstop>
   <tabstop>_viewTriangularExpanderSize</tabstop>
   <tabstop>_scrollBarWidthSlider</tabstop>
   <tabstop>_scrollBarWidth</tabstop>
@@ -571,38 +547,5 @@
   <tabstop>_menuHighlightSubtle</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>_viewDrawTriangularExpander</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>_viewTriangularExpanderSize</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>97</x>
-     <y>46</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>140</x>
-     <y>81</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>_viewDrawTriangularExpander</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_4</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>63</x>
-     <y>46</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>63</x>
-     <y>81</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

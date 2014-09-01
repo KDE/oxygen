@@ -55,9 +55,6 @@
     </entry>
 
     <!-- views -->
-    <entry name="ViewDrawTriangularExpander" type="Bool">
-      <default>true</default>
-    </entry>
     <entry name="ViewTriangularExpanderSize" type="Enum">
       <choices>
           <choice name="TE_TINY" />
