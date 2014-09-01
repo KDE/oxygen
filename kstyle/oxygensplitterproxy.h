@@ -27,9 +27,10 @@
 // Boston, MA 02110-1301, USA.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygen.h"
+
 #include <QEvent>
 #include <QMap>
-#include <QPointer>
 #include <QHoverEvent>
 #include <QMainWindow>
 #include <QMouseEvent>
@@ -77,7 +78,7 @@ namespace Oxygen
         AddEventFilter _addEventFilter;
 
         //! pointer to SplitterProxy
-        typedef QPointer<SplitterProxy> SplitterProxyPointer;
+        typedef WeakPointer<SplitterProxy> SplitterProxyPointer;
 
         //! registered widgets
         typedef QMap<QWidget*, SplitterProxyPointer > WidgetMap;
@@ -126,7 +127,7 @@ namespace Oxygen
         bool _enabled;
 
         //! splitter object
-        QPointer<QWidget> _splitter;
+        WeakPointer<QWidget> _splitter;
 
         //! hook
         QPoint _hook;

@@ -27,6 +27,9 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "../oxygen.h"
+
+#include <KLocalizedString>
 #include <QAbstractButton>
 #include <QTabBar>
 #include <QTabWidget>
@@ -37,9 +40,6 @@
 #include <QList>
 #include <QObject>
 #include <QTimerEvent>
-#include <QPointer>
-
-#include <KLocalizedString>
 
 namespace Oxygen
 {
@@ -182,7 +182,7 @@ namespace Oxygen
 
         private:
 
-        typedef QPointer<QWidget> WidgetPointer;
+        typedef WeakPointer<QWidget> WidgetPointer;
 
         //! event
         class Event

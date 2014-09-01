@@ -28,10 +28,10 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenanimationconfigitem.h"
+#include "../oxygen.h"
 
 #include <KComboBox>
 
-#include <QPointer>
 #include <QFrame>
 #include <QLabel>
 #include <QSpinBox>
@@ -147,7 +147,7 @@ namespace Oxygen
         private:
 
         //! configuration widget
-        QPointer<FollowMouseAnimationConfigBox> _configurationWidget;
+        WeakPointer<FollowMouseAnimationConfigBox> _configurationWidget;
 
     };
 

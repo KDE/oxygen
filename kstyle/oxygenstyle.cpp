@@ -145,10 +145,10 @@ namespace OxygenPrivate
         private:
 
         //! pointer to parent style object
-        QPointer<const Oxygen::Style> _style;
+        Oxygen::WeakPointer<const Oxygen::Style> _style;
 
         //! pointer to target tabBar
-        QPointer<const QWidget> _tabBar;
+        Oxygen::WeakPointer<const QWidget> _tabBar;
 
         //! if true, will paint on next TabBarTabShapeControlCall
         bool _dirty;
@@ -165,7 +165,7 @@ namespace OxygenPrivate
         ComboBoxItemDelegate( QAbstractItemView* parent ):
             QItemDelegate( parent ),
             _proxy( parent->itemDelegate() ),
-            _itemMargin( Oxygen::ItemView_ItemMarginWidth )
+            _itemMargin( Oxygen::Metrics::ItemView_ItemMarginWidth )
         {}
 
         //! destructor
@@ -650,153 +650,145 @@ namespace Oxygen
         {
 
             case PM_DefaultFrameWidth:
-            if( qobject_cast<const QLineEdit*>( widget ) ) return LineEdit_FrameWidth;
+            if( qobject_cast<const QLineEdit*>( widget ) ) return Metrics::LineEdit_FrameWidth;
             else if( option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" ) )
             {
                 const QString &elementType = option->styleObject->property( "elementType" ).toString();
                 if ( elementType == QLatin1String( "edit" ) || elementType == QLatin1String( "spinbox" ) )
                 {
 
-                    return LineEdit_FrameWidth;
+                    return Metrics::LineEdit_FrameWidth;
 
                 } else if ( elementType == QLatin1String( "combobox" ) ) {
 
-                    return ComboBox_FrameWidth;
+                    return Metrics::ComboBox_FrameWidth;
 
                 } else {
 
-                    return Frame_FrameWidth;
+                    return Metrics::Frame_FrameWidth;
 
                 }
 
             }
 
             // fallback
-            return Frame_FrameWidth;
+            return Metrics::Frame_FrameWidth;
+
+            case PM_ComboBoxFrameWidth:
+            {
+                const QStyleOptionComboBox* comboBoxOption( qstyleoption_cast< const QStyleOptionComboBox*>( option ) );
+                return comboBoxOption && comboBoxOption->editable ? Metrics::LineEdit_FrameWidth : Metrics::ComboBox_FrameWidth;
+            }
+
+            case PM_SpinBoxFrameWidth:
+            return Metrics::SpinBox_FrameWidth;
+
+            case PM_ToolBarFrameWidth:
+            return Metrics::ToolBar_FrameWidth;
+
+            case PM_ToolTipLabelFrameWidth:
+            return Metrics::ToolTip_FrameWidth;
+
+            // layout
 
             case PM_LayoutLeftMargin:
             case PM_LayoutTopMargin:
             case PM_LayoutRightMargin:
             case PM_LayoutBottomMargin:
             {
-                // use either Child margin or TopLevel margin, depending on
-                // widget type
+                /*
+                use either Child margin or TopLevel margin,
+                depending on  widget type
+                */
                 if( ( option && ( option->state & QStyle::State_Window ) ) || ( widget && widget->isWindow() ) )
                 {
 
-                    return pixelMetric( PM_DefaultTopLevelMargin, option, widget );
+                    return Metrics::Layout_TopLevelMarginWidth;
 
                 } else {
 
-                    return pixelMetric( PM_DefaultChildMargin, option, widget );
+                    return Metrics::Layout_ChildMarginWidth;
 
                 }
 
             }
 
-            // push buttons
-            /* HACK: needs special case for kcalc buttons, to prevent the application to set too small margins */
+            case PM_LayoutHorizontalSpacing: return Metrics::Layout_DefaultSpacing;
+            case PM_LayoutVerticalSpacing: return Metrics::Layout_DefaultSpacing;
+
+            // buttons
             case PM_ButtonMargin:
-            { return ( widget && widget->inherits( "KCalcButton" ) ) ? 8:5; }
-
-            case PM_MenuButtonIndicator: return MenuButton_IndicatorWidth;
-
-            case PM_ScrollBarExtent:
-            return StyleConfigData::scrollBarWidth() + 2;
-
-            case PM_ScrollBarSliderMin: return ScrollBar_MinSliderHeight;
-
-            // tooltip label
-            case PM_ToolTipLabelFrameWidth:
             {
-                if( StyleConfigData::toolTipDrawStyledFrames() ) return 3;
-                else break;
+                /* HACK: needs special case for kcalc buttons, to prevent the application to set too small margins */
+                if( widget && widget->inherits( "KCalcButton" ) ) return Metrics::Button_MarginWidth + 4;
+                else return Metrics::Button_MarginWidth;
             }
-
-            case PM_DefaultChildMargin: return 4; //NOTE deprecated. We still define as the replacement (PM_LayoutLeftMargin) still uses this
-            case PM_DefaultTopLevelMargin: return 11; //NOTE deprecated
-            case PM_LayoutHorizontalSpacing: return 4;
-            case PM_LayoutVerticalSpacing: return 4;
 
             // buttons
             case PM_ButtonDefaultIndicator: return 0;
             case PM_ButtonShiftHorizontal: return 0;
             case PM_ButtonShiftVertical: return 0;
 
-            // checkboxes: return radiobutton sizes
-            case PM_IndicatorWidth: return CheckBox_Size;
-            case PM_IndicatorHeight: return CheckBox_Size;
-            case PM_ExclusiveIndicatorWidth: return CheckBox_Size;
-            case PM_ExclusiveIndicatorHeight: return CheckBox_Size;
-
-            // splitters and dock widgets
-            case PM_SplitterWidth: return Splitter_SplitterWidth;
-            case PM_DockWidgetSeparatorExtent: return Splitter_SplitterWidth;
-            case PM_DockWidgetFrameWidth: return 0;
-            case PM_DockWidgetTitleMargin: return Frame_FrameWidth;
-            case PM_DockWidgetTitleBarButtonMargin: return ToolButton_MarginWidth;
-
-            // progress bar
-            case PM_ProgressBarChunkWidth: return 1;
-
-            // menu bars
+            // menubars
             case PM_MenuBarPanelWidth: return 0;
             case PM_MenuBarHMargin: return 0;
             case PM_MenuBarVMargin: return 0;
             case PM_MenuBarItemSpacing: return 0;
             case PM_MenuDesktopFrameWidth: return 0;
-            case PM_MenuPanelWidth: return 5;
 
-            case PM_MenuScrollerHeight: return 10;
-            case PM_MenuTearoffHeight: return 10;
-
-            // tabbars
-            case PM_TabBarBaseOverlap: return TabBar_BaseOverlap;
-            case PM_TabBarTabOverlap: return TabBar_TabOverlap;
-            case PM_TabBarTabShiftVertical: return 0;
-            case PM_TabBarTabShiftHorizontal: return 0;
-            case PM_TabBarTabHSpace: return 2*TabBar_TabMarginWidth;
-            case PM_TabBarTabVSpace: return 2*TabBar_TabMarginHeight;
-
-            // sliders
-            case PM_SliderThickness: return 23;
-            case PM_SliderControlThickness: return 23;
-            case PM_SliderLength: return 21;
-
-            // spinboxes
-            case PM_SpinBoxFrameWidth: return SpinBox_FrameWidth;
-
-            // comboboxes
-            case PM_ComboBoxFrameWidth: return ComboBox_FrameWidth;
-
-            // tree view header
-            case PM_HeaderMarkSize: return 9;
-            case PM_HeaderMargin: return 3;
+            // menu buttons
+            case PM_MenuButtonIndicator: return Metrics::MenuButton_IndicatorWidth;
 
             // toolbars
-            case PM_ToolBarFrameWidth: return 0;
-            case PM_ToolBarHandleExtent: return 6;
-            case PM_ToolBarSeparatorExtent: return 6;
-
-            case PM_ToolBarExtensionExtent: return 16;
+            case PM_ToolBarHandleExtent: return Metrics::ToolBar_HandleExtent;
+            case PM_ToolBarSeparatorExtent: return Metrics::ToolBar_SeparatorWidth;
+            case PM_ToolBarExtensionExtent:
+            return pixelMetric( PM_SmallIconSize, option, widget ) + 2*Metrics::ToolButton_MarginWidth;
 
             case PM_ToolBarItemMargin: return 0;
-            case PM_ToolBarItemSpacing: return 1;
+            case PM_ToolBarItemSpacing: return Metrics::ToolBar_ItemSpacing;
 
-            // MDI windows titlebars
-            case PM_TitleBarHeight: return 20;
+            // tabbars
+            case PM_TabBarTabShiftVertical: return 0;
+            case PM_TabBarTabShiftHorizontal: return 0;
+            case PM_TabBarTabOverlap: return Metrics::TabBar_TabOverlap;
+            case PM_TabBarBaseOverlap: return Metrics::TabBar_BaseOverlap;
+            case PM_TabBarTabHSpace: return 2*Metrics::TabBar_TabMarginWidth;
+            case PM_TabBarTabVSpace: return 2*Metrics::TabBar_TabMarginHeight;
 
-            // spacing between widget and scrollbars
-            case PM_ScrollView_ScrollBarSpacing: //NOTE Deprecated
-            if( const QFrame* frame = qobject_cast<const QFrame*>( widget ) )
-            {
+            // scrollbars
+            case PM_ScrollBarExtent: return StyleConfigData::scrollBarWidth() + 2;
+            case PM_ScrollBarSliderMin: return Metrics::ScrollBar_MinSliderHeight;
 
-                const bool framed( frame->frameShape() != QFrame::NoFrame );
-                return framed ? -2:0;
+            // title bar
+            case PM_TitleBarHeight: return 2*Metrics::TitleBar_MarginWidth + pixelMetric( PM_SmallIconSize, option, widget );
 
-            } else return -2;
+            // sliders
+            case PM_SliderThickness: return Metrics::Slider_ControlThickness;
+            case PM_SliderControlThickness: return Metrics::Slider_ControlThickness;
+            case PM_SliderLength: return Metrics::Slider_ControlThickness;
 
-            default: break;
+            // checkboxes and radio buttons
+            case PM_IndicatorWidth: return Metrics::CheckBox_Size;
+            case PM_IndicatorHeight: return Metrics::CheckBox_Size;
+            case PM_ExclusiveIndicatorWidth: return Metrics::CheckBox_Size;
+            case PM_ExclusiveIndicatorHeight: return Metrics::CheckBox_Size;
+
+            // list heaaders
+            case PM_HeaderMarkSize: return Metrics::Header_ArrowSize;
+            case PM_HeaderMargin: return Metrics::Header_MarginWidth;
+
+            // dock widget
+            // return 0 here, since frame is handled directly in polish
+            case PM_DockWidgetFrameWidth: return 0;
+            case PM_DockWidgetTitleMargin: return Metrics::Frame_FrameWidth;
+            case PM_DockWidgetTitleBarButtonMargin: return Metrics::ToolButton_MarginWidth;
+
+            case PM_SplitterWidth: return Metrics::Splitter_SplitterWidth;
+            case PM_DockWidgetSeparatorExtent: return Metrics::Splitter_SplitterWidth;
+
+            default: return ParentStyleClass::pixelMetric( metric, option, widget );
+
         }
 
         // fallback
@@ -1525,11 +1517,11 @@ namespace Oxygen
 
     //___________________________________________________________________________________________________________________
     QRect Style::pushButtonContentsRect( const QStyleOption* option, const QWidget* ) const
-    { return insideMargin( option->rect, Frame_FrameWidth ); }
+    { return insideMargin( option->rect, Metrics::Frame_FrameWidth ); }
 
     //___________________________________________________________________________________________________________________
     QRect Style::checkBoxContentsRect( const QStyleOption* option, const QWidget* ) const
-    { return visualRect( option, option->rect.adjusted( CheckBox_Size + CheckBox_ItemSpacing, 0, 0, 0 ) ); }
+    { return visualRect( option, option->rect.adjusted( Metrics::CheckBox_Size + Metrics::CheckBox_ItemSpacing, 0, 0, 0 ) ); }
 
     //___________________________________________________________________________________________________________________
     QRect Style::lineEditContentsRect( const QStyleOption* option, const QWidget* widget ) const
@@ -1667,7 +1659,7 @@ namespace Oxygen
 
         if( !documentMode )
         {
-            r = insideMargin( r, TabWidget_MarginWidth );
+            r = insideMargin( r, Metrics::TabWidget_MarginWidth );
             r.translate( 0, -1 );
         }
 
@@ -1684,8 +1676,8 @@ namespace Oxygen
 
         QRect r( option->rect );
         const bool documentMode( tabOpt->lineWidth == 0 );
-        int overlap( TabBar_BaseOverlap );
-        if( documentMode ) overlap -= TabWidget_MarginWidth;
+        int overlap( Metrics::TabBar_BaseOverlap );
+        if( documentMode ) overlap -= Metrics::TabWidget_MarginWidth;
 
         switch( tabOpt->shape )
         {
@@ -1785,7 +1777,7 @@ namespace Oxygen
             const int iconSize( pixelMetric( QStyle::PM_SmallIconSize, option, widget ) );
             contentsWidth += iconSize;
 
-            if( !toolBoxOption->text.isEmpty() ) contentsWidth += ToolBox_TabItemSpacing;
+            if( !toolBoxOption->text.isEmpty() ) contentsWidth += Metrics::ToolBox_TabItemSpacing;
         }
 
         if( !toolBoxOption->text.isEmpty() )
@@ -1797,7 +1789,7 @@ namespace Oxygen
         }
 
         contentsWidth = qMin( contentsWidth, rect.width() );
-        contentsWidth = qMax( contentsWidth, int(ToolBox_TabMinWidth) );
+        contentsWidth = qMax( contentsWidth, int(Metrics::ToolBox_TabMinWidth) );
         return centerRect( rect, contentsWidth, rect.height() );
 
     }
@@ -1822,7 +1814,7 @@ namespace Oxygen
                 if( !groupBoxOption ) break;
 
                 // take out frame width
-                rect = insideMargin( rect, Frame_FrameWidth );
+                rect = insideMargin( rect, Metrics::Frame_FrameWidth );
 
                 // get state
                 const bool checkable( groupBoxOption->subControls & QStyle::SC_GroupBoxCheckBox );
@@ -1831,10 +1823,10 @@ namespace Oxygen
                 // calculate title height
                 int titleHeight( 0 );
                 if( !emptyText ) titleHeight = groupBoxOption->fontMetrics.height();
-                if( checkable ) titleHeight = qMax( titleHeight, int(CheckBox_Size) );
+                if( checkable ) titleHeight = qMax( titleHeight, int(Metrics::CheckBox_Size) );
 
                 // add margin
-                if( titleHeight > 0 ) titleHeight += 2*GroupBox_TitleMarginWidth;
+                if( titleHeight > 0 ) titleHeight += 2*Metrics::GroupBox_TitleMarginWidth;
 
                 rect.adjust( 0, titleHeight, 0, 0 );
                 return rect;
@@ -1850,7 +1842,7 @@ namespace Oxygen
                 if( !groupBoxOption ) break;
 
                 // take out frame width
-                rect = insideMargin( rect, Frame_FrameWidth );
+                rect = insideMargin( rect, Metrics::Frame_FrameWidth );
 
                 const bool emptyText( groupBoxOption->text.isEmpty() );
                 const bool checkable( groupBoxOption->subControls & QStyle::SC_GroupBoxCheckBox );
@@ -1867,15 +1859,15 @@ namespace Oxygen
 
                 if( checkable )
                 {
-                    titleHeight = qMax( titleHeight, int(CheckBox_Size) );
-                    titleWidth += CheckBox_Size;
-                    if( !emptyText ) titleWidth += CheckBox_ItemSpacing;
+                    titleHeight = qMax( titleHeight, int(Metrics::CheckBox_Size) );
+                    titleWidth += Metrics::CheckBox_Size;
+                    if( !emptyText ) titleWidth += Metrics::CheckBox_ItemSpacing;
                 }
 
                 // adjust height
                 QRect titleRect( rect );
                 titleRect.setHeight( titleHeight );
-                titleRect.translate( 0, GroupBox_TitleMarginWidth );
+                titleRect.translate( 0, Metrics::GroupBox_TitleMarginWidth );
 
                 // center
                 titleRect = centerRect( titleRect, titleWidth, titleHeight );
@@ -1884,10 +1876,10 @@ namespace Oxygen
                 {
 
                     // vertical centering
-                    titleRect = centerRect( titleRect, titleWidth, CheckBox_Size );
+                    titleRect = centerRect( titleRect, titleWidth, Metrics::CheckBox_Size );
 
                     // horizontal positioning
-                    const QRect subRect( titleRect.topLeft(), QSize( CheckBox_Size, titleRect.height() ) );
+                    const QRect subRect( titleRect.topLeft(), QSize( Metrics::CheckBox_Size, titleRect.height() ) );
                     return visualRect( option->direction, titleRect, subRect );
 
                 } else {
@@ -1898,7 +1890,7 @@ namespace Oxygen
 
                     // horizontal positioning
                     QRect subRect( titleRect );
-                    if( checkable ) subRect.adjust( CheckBox_Size + CheckBox_ItemSpacing, 0, 0, 0 );
+                    if( checkable ) subRect.adjust( Metrics::CheckBox_Size + Metrics::CheckBox_ItemSpacing, 0, 0, 0 );
                     return visualRect( option->direction, titleRect, subRect );
 
                 }
@@ -1925,7 +1917,7 @@ namespace Oxygen
 
         // store rect
         const QRect& rect( option->rect );
-        const int menuButtonWidth( MenuButton_IndicatorWidth );
+        const int menuButtonWidth( Metrics::MenuButton_IndicatorWidth );
         switch( subControl )
         {
             case SC_ToolButtonMenu:
@@ -1985,15 +1977,15 @@ namespace Oxygen
             {
 
                 // take out frame width
-                if( !flat ) rect = insideMargin( rect, Frame_FrameWidth );
+                if( !flat ) rect = insideMargin( rect, Metrics::Frame_FrameWidth );
 
                 QRect arrowRect(
-                    rect.right() - MenuButton_IndicatorWidth + 1,
+                    rect.right() - Metrics::MenuButton_IndicatorWidth + 1,
                     rect.top(),
-                    MenuButton_IndicatorWidth,
+                    Metrics::MenuButton_IndicatorWidth,
                     rect.height() );
 
-                arrowRect = centerRect( arrowRect, MenuButton_IndicatorWidth, MenuButton_IndicatorWidth );
+                arrowRect = centerRect( arrowRect, Metrics::MenuButton_IndicatorWidth, Metrics::MenuButton_IndicatorWidth );
                 return visualRect( option, arrowRect );
 
             }
@@ -2005,7 +1997,7 @@ namespace Oxygen
                 const int frameWidth( pixelMetric( PM_ComboBoxFrameWidth, option, widget ) );
                 labelRect = QRect(
                     rect.left(), rect.top(),
-                    rect.width() - MenuButton_IndicatorWidth,
+                    rect.width() - Metrics::MenuButton_IndicatorWidth,
                     rect.height() );
 
                 // remove margins
@@ -2045,17 +2037,17 @@ namespace Oxygen
             {
 
                 // take out frame width
-                if( !flat && rect.height() >= 2*Frame_FrameWidth + SpinBox_ArrowButtonWidth ) rect = insideMargin( rect, Frame_FrameWidth );
+                if( !flat && rect.height() >= 2*Metrics::Frame_FrameWidth + Metrics::SpinBox_ArrowButtonWidth ) rect = insideMargin( rect, Metrics::Frame_FrameWidth );
 
                 QRect arrowRect;
                 arrowRect = QRect(
-                    rect.right() - SpinBox_ArrowButtonWidth + 1,
+                    rect.right() - Metrics::SpinBox_ArrowButtonWidth + 1,
                     rect.top(),
-                    SpinBox_ArrowButtonWidth,
+                    Metrics::SpinBox_ArrowButtonWidth,
                     rect.height() );
 
-                const int arrowHeight( qMin( rect.height(), int(SpinBox_ArrowButtonWidth) ) );
-                arrowRect = centerRect( arrowRect, SpinBox_ArrowButtonWidth, arrowHeight );
+                const int arrowHeight( qMin( rect.height(), int(Metrics::SpinBox_ArrowButtonWidth) ) );
+                arrowRect = centerRect( arrowRect, Metrics::SpinBox_ArrowButtonWidth, arrowHeight );
                 arrowRect.setHeight( arrowHeight/2 );
                 if( subControl == SC_SpinBoxDown ) arrowRect.translate( 0, arrowHeight/2 );
 
@@ -2069,7 +2061,7 @@ namespace Oxygen
                 QRect labelRect;
                 labelRect = QRect(
                     rect.left(), rect.top(),
-                    rect.width() - SpinBox_ArrowButtonWidth,
+                    rect.width() - Metrics::SpinBox_ArrowButtonWidth,
                     rect.height() );
 
                 // remove right side line editor margins
@@ -2174,7 +2166,7 @@ namespace Oxygen
 
                 //Calculate the portion of this space that the slider should take up.
                 int sliderSize = space * qreal( sliderOption->pageStep ) / ( sliderOption->maximum - sliderOption->minimum + sliderOption->pageStep );
-                sliderSize = qMax( sliderSize, ( int )ScrollBar_MinSliderHeight );
+                sliderSize = qMax( sliderSize, ( int )Metrics::ScrollBar_MinSliderHeight );
                 sliderSize = qMin( sliderSize, space );
 
                 space -= sliderSize;
@@ -2245,7 +2237,7 @@ namespace Oxygen
             {
 
                 QRect handleRect( ParentStyleClass::subControlRect( CC_Slider, option, subControl, widget ) );
-                handleRect = centerRect( handleRect, Slider_ControlThickness, Slider_ControlThickness );
+                handleRect = centerRect( handleRect, Metrics::Slider_ControlThickness, Metrics::Slider_ControlThickness );
                 return handleRect;
 
             }
@@ -2260,14 +2252,14 @@ namespace Oxygen
     {
 
         //Add size for indicator
-        const int indicator( CheckBox_Size );
+        const int indicator( Metrics::CheckBox_Size );
 
         //Make sure we can fit the indicator
         QSize size( contentsSize );
         size.setHeight( qMax( size.height(), indicator ) );
 
         //Add space for the indicator and the icon
-        const int spacer( CheckBox_ItemSpacing );
+        const int spacer( Metrics::CheckBox_ItemSpacing );
         size.rwidth() += indicator + spacer;
 
         return size;
@@ -2303,10 +2295,10 @@ namespace Oxygen
         if( !flat ) size = expandSize( size, frameWidth );
 
         // make sure there is enough height for the button
-        size.setHeight( qMax( size.height(), int(MenuButton_IndicatorWidth) ) );
+        size.setHeight( qMax( size.height(), int(Metrics::MenuButton_IndicatorWidth) ) );
 
         // add button width and spacing
-        size.rwidth() += MenuButton_IndicatorWidth;
+        size.rwidth() += Metrics::MenuButton_IndicatorWidth;
 
         return size;
 
@@ -2358,7 +2350,7 @@ namespace Oxygen
         */
         const int tickLength( disableTicks ? 0 : (
             Metrics::Slider_TickLength + Metrics::Slider_TickMarginWidth +
-            (Metrics::Slider_GrooveThickness - Slider_ControlThickness)/2 ) );
+            (Metrics::Slider_GrooveThickness - Metrics::Slider_ControlThickness)/2 ) );
 
         const int builtInTickLength( 5 );
         if( tickPosition == QSlider::NoTicks ) return contentsSize;
@@ -2383,7 +2375,7 @@ namespace Oxygen
 
     //______________________________________________________________
     QSize Style::menuBarItemSizeFromContents( const QStyleOption*, const QSize& contentsSize, const QWidget* ) const
-    { return expandSize( contentsSize, MenuBarItem_MarginWidth, MenuBarItem_MarginHeight ); }
+    { return expandSize( contentsSize, Metrics::MenuBarItem_MarginWidth, Metrics::MenuBarItem_MarginHeight ); }
 
     //______________________________________________________________
     QSize Style::menuItemSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
@@ -2408,11 +2400,11 @@ namespace Oxygen
                 int leftColumnWidth( iconWidth );
 
                 // add space with respect to text
-                leftColumnWidth += MenuItem_ItemSpacing;
+                leftColumnWidth += Metrics::MenuItem_ItemSpacing;
 
                 // add checkbox indicator width
                 if( menuItemOption->menuHasCheckableItems )
-                { leftColumnWidth += CheckBox_Size + MenuItem_ItemSpacing; }
+                { leftColumnWidth += Metrics::CheckBox_Size + Metrics::MenuItem_ItemSpacing; }
 
                 // add spacing for accelerator
                 /*
@@ -2423,17 +2415,17 @@ namespace Oxygen
                 ( see QMenuPrivate::calcActionRects() )
                 */
                 const bool hasAccelerator( menuItemOption->text.indexOf( QLatin1Char( '\t' ) ) >= 0 );
-                if( hasAccelerator ) size.rwidth() += MenuItem_AcceleratorSpace;
+                if( hasAccelerator ) size.rwidth() += Metrics::MenuItem_AcceleratorSpace;
 
                 // right column
-                const int rightColumnWidth = MenuButton_IndicatorWidth + MenuItem_ItemSpacing;
+                const int rightColumnWidth = Metrics::MenuButton_IndicatorWidth + Metrics::MenuItem_ItemSpacing;
                 size.rwidth() += leftColumnWidth + rightColumnWidth;
 
                 // make sure height is large enough for icon and arrow
-                size.setHeight( qMax( size.height(), int(MenuButton_IndicatorWidth) ) );
-                size.setHeight( qMax( size.height(), int(CheckBox_Size) ) );
+                size.setHeight( qMax( size.height(), int(Metrics::MenuButton_IndicatorWidth) ) );
+                size.setHeight( qMax( size.height(), int(Metrics::CheckBox_Size) ) );
                 size.setHeight( qMax( size.height(), iconWidth ) );
-                return expandSize( size, MenuItem_MarginWidth );
+                return expandSize( size, Metrics::MenuItem_MarginWidth );
 
             }
 
@@ -2443,7 +2435,7 @@ namespace Oxygen
                 if( menuItemOption->text.isEmpty() && menuItemOption->icon.isNull() )
                 {
 
-                    return expandSize( QSize(0,1), MenuItem_MarginWidth );
+                    return expandSize( QSize(0,1), Metrics::MenuItem_MarginWidth );
 
 
                 } else {
@@ -2482,14 +2474,14 @@ namespace Oxygen
         // add space for arrow
         if( buttonOption->features & QStyleOptionButton::HasMenu )
         {
-            size.rheight() += 2*Button_MarginWidth;
-            size.setHeight( qMax( size.height(), int( MenuButton_IndicatorWidth ) ) );
-            size.rwidth() += Button_MarginWidth;
+            size.rheight() += 2*Metrics::Button_MarginWidth;
+            size.setHeight( qMax( size.height(), int( Metrics::MenuButton_IndicatorWidth ) ) );
+            size.rwidth() += Metrics::Button_MarginWidth;
 
             if( !( buttonOption->icon.isNull() && buttonOption->text.isEmpty() ) )
-            { size.rwidth() += Button_ItemSpacing; }
+            { size.rwidth() += Metrics::Button_ItemSpacing; }
 
-        }  else size = expandSize( size, Button_MarginWidth );
+        }  else size = expandSize( size, Metrics::Button_MarginWidth );
 
         // add space for icon
         if( !buttonOption->icon.isNull() )
@@ -2501,16 +2493,16 @@ namespace Oxygen
             size.setHeight( qMax( size.height(), iconSize.height() ) );
 
             if( !buttonOption->text.isEmpty() )
-            { size.rwidth() += Button_ItemSpacing; }
+            { size.rwidth() += Metrics::Button_ItemSpacing; }
 
         }
 
         // make sure buttons have a minimum width
         if( !buttonOption->text.isEmpty() )
-        { size.rwidth() = qMax( size.rwidth(), int( Button_MinWidth ) ); }
+        { size.rwidth() = qMax( size.rwidth(), int( Metrics::Button_MinWidth ) ); }
 
         // finally add margins
-        return expandSize( size, Frame_FrameWidth );
+        return expandSize( size, Metrics::Frame_FrameWidth );
 
     }
 
@@ -2536,7 +2528,7 @@ namespace Oxygen
         if( hasIcon )
         {
             contentsWidth += iconSize.width();
-            if( hasText ) contentsWidth += Header_ItemSpacing;
+            if( hasText ) contentsWidth += Metrics::Header_ItemSpacing;
         }
 
         // contents height
@@ -2546,13 +2538,13 @@ namespace Oxygen
         if( horizontal )
         {
             // also add space for icon
-            contentsWidth += Header_ArrowSize + Header_ItemSpacing;
-            contentsHeight = qMax( contentsHeight, int(Header_ArrowSize) );
+            contentsWidth += Metrics::Header_ArrowSize + Metrics::Header_ItemSpacing;
+            contentsHeight = qMax( contentsHeight, int(Metrics::Header_ArrowSize) );
         }
 
         // update contents size, add margins and return
         const QSize size( contentsSize.expandedTo( QSize( contentsWidth, contentsHeight ) ) );
-        return expandSize( size, Header_MarginWidth );
+        return expandSize( size, Metrics::Header_MarginWidth );
 
     }
 
@@ -2563,7 +2555,7 @@ namespace Oxygen
         QSize size( ParentStyleClass::sizeFromContents( CT_ItemViewItem, option, contentsSize, widget ) );
 
         // add margins
-        return expandSize( size, ItemView_ItemMarginWidth );
+        return expandSize( size, Metrics::ItemView_ItemMarginWidth );
 
     }
 
@@ -2573,15 +2565,15 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
-        if( !tabOption ) return expandSize( contentsSize, Frame_FrameWidth );
+        if( !tabOption ) return expandSize( contentsSize, Metrics::Frame_FrameWidth );
 
         // tab orientation
         const bool verticalTabs( tabOption && isVerticalTab( tabOption->shape ) );
 
         // need to reduce the size in the tabbar direction, due to a bug in QTabWidget::minimumSize
         return verticalTabs ?
-            expandSize( contentsSize, Frame_FrameWidth, Frame_FrameWidth - 1 ):
-            expandSize( contentsSize, Frame_FrameWidth - 1, Frame_FrameWidth );
+            expandSize( contentsSize, Metrics::Frame_FrameWidth, Metrics::Frame_FrameWidth - 1 ):
+            expandSize( contentsSize, Metrics::Frame_FrameWidth - 1, Metrics::Frame_FrameWidth );
 
     }
 
@@ -2599,13 +2591,13 @@ namespace Oxygen
         if( verticalTabs )
         {
 
-            size = expandSize( size, TabBar_TabMarginHeight, TabBar_TabMarginWidth );
-            size = size.expandedTo( QSize( TabBar_TabMinHeight, TabBar_TabMinWidth ) );
+            size = expandSize( size, Metrics::TabBar_TabMarginHeight, Metrics::TabBar_TabMarginWidth );
+            size = size.expandedTo( QSize( Metrics::TabBar_TabMinHeight, Metrics::TabBar_TabMinWidth ) );
 
         } else {
 
-            size = expandSize( size, TabBar_TabMarginWidth, TabBar_TabMarginHeight );
-            size = size.expandedTo( QSize( TabBar_TabMinWidth, TabBar_TabMinHeight ) );
+            size = expandSize( size, Metrics::TabBar_TabMarginWidth, Metrics::TabBar_TabMarginHeight );
+            size = size.expandedTo( QSize( Metrics::TabBar_TabMinWidth, Metrics::TabBar_TabMinHeight ) );
 
         }
 
@@ -2629,9 +2621,9 @@ namespace Oxygen
         const bool autoRaise( state & State_AutoRaise );
         const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
         const bool hasInlineIndicator( toolButtonOption->features & QStyleOptionToolButton::HasMenu && !hasPopupMenu );
-        const int marginWidth( autoRaise ? ToolButton_MarginWidth : Button_MarginWidth + Frame_FrameWidth );
+        const int marginWidth( autoRaise ? Metrics::ToolButton_MarginWidth : Metrics::Button_MarginWidth + Metrics::Frame_FrameWidth );
 
-        if( hasInlineIndicator ) size.rwidth() += ToolButton_InlineIndicatorWidth;
+        if( hasInlineIndicator ) size.rwidth() += Metrics::ToolButton_InlineIndicatorWidth;
         size = expandSize( size, marginWidth );
 
         return size;
@@ -3750,9 +3742,6 @@ namespace Oxygen
         if( widget && widget->window() )
         { _shadowHelper->registerWidget( widget->window(), true ); }
 
-        // parent style painting if frames should not be styled
-        if( !StyleConfigData::toolTipDrawStyledFrames() ) return false;
-
         const QRect& r( option->rect );
         const QColor color( option->palette.brush( QPalette::ToolTipBase ).color() );
         QColor topColor( _helper->backgroundTopColor( color ) );
@@ -4396,7 +4385,7 @@ namespace Oxygen
         const QRect buttonRect( subElementRect( dockWidgetOption->floatable ? SE_DockWidgetFloatButton : SE_DockWidgetCloseButton, option, widget ) );
 
         // get rectangle and adjust to properly accounts for buttons
-        QRect r( insideMargin( dockWidgetOption->rect, Frame_FrameWidth ) );
+        QRect r( insideMargin( dockWidgetOption->rect, Metrics::Frame_FrameWidth ) );
         if( verticalTitleBar )
         {
 
@@ -4631,8 +4620,8 @@ namespace Oxygen
 
         //First, figure out the left column width.
         const int iconColW = menuItemOption->maxIconWidth;
-        const int checkColW = CheckBox_Size;
-        const int checkSpace = MenuItem_ItemSpacing;
+        const int checkColW = Metrics::CheckBox_Size;
+        const int checkSpace = Metrics::MenuItem_ItemSpacing;
 
         int leftColW = iconColW;
 
@@ -4641,7 +4630,7 @@ namespace Oxygen
         if( hasCheckableItems ) leftColW += checkColW + checkSpace;
 
         // right arrow column...
-        int rightColW = MenuItem_ItemSpacing + MenuButton_IndicatorWidth;
+        int rightColW = Metrics::MenuItem_ItemSpacing + Metrics::MenuButton_IndicatorWidth;
 
         //Separators: done with the bg, can paint them and bail them out.
         if( menuItemOption->menuItemType == QStyleOptionMenuItem::Separator )
@@ -4671,7 +4660,7 @@ namespace Oxygen
                 int width( r.width() );
                 if( !menuItemOption->icon.isNull() )
                 { width -= toolButtonOpt.iconSize.width() + 2; }
-                width -= 2*ToolButton_MarginWidth;
+                width -= 2*Metrics::ToolButton_MarginWidth;
                 toolButtonOpt.text = QFontMetrics( toolButtonOpt.font ).elidedText( menuItemOption->text, Qt::ElideRight, width );
 
                 toolButtonOpt.toolButtonStyle = Qt::ToolButtonTextBesideIcon;
@@ -4690,7 +4679,7 @@ namespace Oxygen
         }
 
         // Remove the margin ( for everything but the column background )
-        const QRect ir( insideMargin( r, MenuItem_MarginWidth ) );
+        const QRect ir( insideMargin( r, Metrics::MenuItem_MarginWidth ) );
 
         //Active indicator...
         if( active && enabled )
@@ -4791,7 +4780,7 @@ namespace Oxygen
 
 
         //Now include the spacing when calculating the next columns
-        leftColW += MenuItem_ItemSpacing;
+        leftColW += Metrics::MenuItem_ItemSpacing;
 
         //Render the text, including any accel.
         QString text = menuItemOption->text;
@@ -4825,7 +4814,7 @@ namespace Oxygen
             const QColor color = palette.color( textRole );
             const QColor background = palette.color( QPalette::Window );
 
-            const int aw = MenuButton_IndicatorWidth;
+            const int aw = Metrics::MenuButton_IndicatorWidth;
             QRect arrowRect = visualRect( option, QRect( ir.x() + ir.width() - aw, ir.y(), aw, ir.height() ) );
 
             // get arrow shape
@@ -4921,7 +4910,7 @@ namespace Oxygen
         const bool horizontal = !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal;
 
         //Calculate width fraction
-        qreal widthFrac( busyIndicator ?  ProgressBar_BusyIndicatorSize/100.0 : progress/steps );
+        qreal widthFrac( busyIndicator ?  Metrics::ProgressBar_BusyIndicatorSize/100.0 : progress/steps );
         widthFrac = qMin( (qreal)1.0, widthFrac );
 
         // And now the pixel width
@@ -5096,11 +5085,11 @@ namespace Oxygen
 
             // define rect
             QRect arrowRect( contentsRect );
-            arrowRect.setLeft( contentsRect.right() - MenuButton_IndicatorWidth + 1 );
-            arrowRect = centerRect( arrowRect, MenuButton_IndicatorWidth, MenuButton_IndicatorWidth );
+            arrowRect.setLeft( contentsRect.right() - Metrics::MenuButton_IndicatorWidth + 1 );
+            arrowRect = centerRect( arrowRect, Metrics::MenuButton_IndicatorWidth, Metrics::MenuButton_IndicatorWidth );
 
-            contentsRect.setRight( arrowRect.left() - Button_ItemSpacing - 1  );
-            contentsRect.adjust( Button_MarginWidth, 0, 0, 0 );
+            contentsRect.setRight( arrowRect.left() - Metrics::Button_ItemSpacing - 1  );
+            contentsRect.adjust( Metrics::Button_MarginWidth, 0, 0, 0 );
 
             arrowRect = visualRect( option, arrowRect );
 
@@ -5125,7 +5114,7 @@ namespace Oxygen
             painter->drawPolyline( arrow );
             painter->restore();
 
-        } else contentsRect.adjust( Button_MarginWidth, 0, -Button_MarginWidth, 0 );
+        } else contentsRect.adjust( Metrics::Button_MarginWidth, 0, -Metrics::Button_MarginWidth, 0 );
 
         // icon size
         QSize iconSize( buttonOption->iconSize );
@@ -5147,9 +5136,9 @@ namespace Oxygen
         else if( hasIcon && !hasText ) iconRect = contentsRect;
         else {
 
-            const int contentsWidth( iconSize.width() + textSize.width() + Button_ItemSpacing );
+            const int contentsWidth( iconSize.width() + textSize.width() + Metrics::Button_ItemSpacing );
             iconRect = QRect( QPoint( contentsRect.left() + (contentsRect.width() - contentsWidth )/2, contentsRect.top() + (contentsRect.height() - iconSize.height())/2 ), iconSize );
-            textRect = QRect( QPoint( iconRect.right() + ToolButton_ItemSpacing + 1, contentsRect.top() + (contentsRect.height() - textSize.height())/2 ), textSize );
+            textRect = QRect( QPoint( iconRect.right() + Metrics::ToolButton_ItemSpacing + 1, contentsRect.top() + (contentsRect.height() - textSize.height())/2 ), textSize );
 
         }
 
@@ -6438,16 +6427,16 @@ namespace Oxygen
 
         } else if( toolButtonOption->toolButtonStyle == Qt::ToolButtonTextUnderIcon ) {
 
-            const int contentsHeight( iconSize.height() + textSize.height() + ToolButton_ItemSpacing );
+            const int contentsHeight( iconSize.height() + textSize.height() + Metrics::ToolButton_ItemSpacing );
             iconRect = QRect( QPoint( rect.left() + (rect.width() - iconSize.width())/2, rect.top() + (rect.height() - contentsHeight)/2 ), iconSize );
-            textRect = QRect( QPoint( rect.left() + (rect.width() - textSize.width())/2, iconRect.bottom() + ToolButton_ItemSpacing + 1 ), textSize );
+            textRect = QRect( QPoint( rect.left() + (rect.width() - textSize.width())/2, iconRect.bottom() + Metrics::ToolButton_ItemSpacing + 1 ), textSize );
             textFlags |= Qt::AlignCenter;
 
         } else {
 
-            const int contentsWidth( iconSize.width() + textSize.width() + ToolButton_ItemSpacing );
+            const int contentsWidth( iconSize.width() + textSize.width() + Metrics::ToolButton_ItemSpacing );
             iconRect = QRect( QPoint( rect.left() + (rect.width() - contentsWidth )/2, rect.top() + (rect.height() - iconSize.height())/2 ), iconSize );
-            textRect = QRect( QPoint( iconRect.right() + ToolButton_ItemSpacing + 1, rect.top() + (rect.height() - textSize.height())/2 ), textSize );
+            textRect = QRect( QPoint( iconRect.right() + Metrics::ToolButton_ItemSpacing + 1, rect.top() + (rect.height() - textSize.height())/2 ), textSize );
 
             // handle right to left layouts
             iconRect = visualRect( option, iconRect );
@@ -7169,13 +7158,13 @@ namespace Oxygen
             // This is requesting KDE3-style arrow indicator, per Qt 4.4 behavior. Qt 4.3 prefers to hide
             // the fact of the menu's existence. Whee! Since we don't know how to paint this right,
             // though, we have to have some metrics set for it to look nice.
-            const int size( ToolButton_InlineIndicatorWidth );
+            const int size( Metrics::ToolButton_InlineIndicatorWidth );
             if( size )
             {
 
                 copy.rect = QRect(
-                    buttonRect.right() - ToolButton_InlineIndicatorWidth,
-                    buttonRect.bottom() - ToolButton_InlineIndicatorWidth,
+                    buttonRect.right() - Metrics::ToolButton_InlineIndicatorWidth,
+                    buttonRect.bottom() - Metrics::ToolButton_InlineIndicatorWidth,
                     size, size );
                 painter->save();
                 drawIndicatorButtonDropDownPrimitive( &copy, painter, widget );
@@ -8354,7 +8343,7 @@ namespace Oxygen
         AnimationMode mode ) const
     {
 
-        const int size( CheckBox_Size );
+        const int size( Metrics::CheckBox_Size );
         const QRect rect( centerRect( constRect, size, size ) );
 
         const QColor color( palette.color( QPalette::Button ) );

@@ -27,9 +27,10 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygen.h"
+
 #include <QObject>
 #include <QMap>
-#include <QPointer>
 
 #include <QPaintDevice>
 
@@ -38,13 +39,13 @@ namespace Oxygen
 
     //! data map
     /*! it maps templatized data object to associated object */
-    template< typename K, typename T > class BaseDataMap: public QMap< const K*, QPointer<T> >
+    template< typename K, typename T > class BaseDataMap: public QMap< const K*, WeakPointer<T> >
     {
 
         public:
 
         typedef const K* Key;
-        typedef QPointer<T> Value;
+        typedef WeakPointer<T> Value;
 
         //! constructor
         BaseDataMap( void ):

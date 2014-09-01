@@ -30,13 +30,14 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygen.h"
+
 #include <QEvent>
 
 #include <QBasicTimer>
 #include <QObject>
 #include <QSet>
 #include <QString>
-#include <QPointer>
 
 #include <QWidget>
 
@@ -250,8 +251,8 @@ namespace Oxygen
         QBasicTimer _dragTimer;
 
         //! target being dragged
-        /*! QPointer is used in case the target gets deleted while drag is in progress */
-        QPointer<QWidget> _target;
+        /*! WeakPointer is used in case the target gets deleted while drag is in progress */
+        WeakPointer<QWidget> _target;
 
         //! true if drag is about to start
         bool _dragAboutToStart;

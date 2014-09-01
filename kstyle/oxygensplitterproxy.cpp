@@ -26,7 +26,6 @@
 
 #include "oxygensplitterproxy.h"
 #include "oxygenstyleconfigdata.h"
-#include "oxygenmetrics.h"
 
 #include <QCoreApplication>
 #include <QDebug>

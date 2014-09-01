@@ -48,7 +48,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenanimationmodes.h"
-#include "oxygenmetrics.h"
 #include "oxygentileset.h"
 
 #include <KStyle>

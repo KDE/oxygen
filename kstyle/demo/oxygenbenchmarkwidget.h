@@ -27,15 +27,15 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygendemowidget.h"
+#include "ui_oxygenbenchmarkwidget.h"
+#include "../oxygen.h"
+
 #include <QWidget>
 #include <QCheckBox>
 #include <QPair>
 #include <QVector>
-#include <QPointer>
 #include <KPageWidget>
-
-#include "oxygendemowidget.h"
-#include "ui_oxygenbenchmarkwidget.h"
 
 namespace Oxygen
 {
@@ -84,10 +84,10 @@ namespace Oxygen
         Ui_BenchmarkWidget ui;
 
         //! pointer to pagewidget
-        QPointer<KPageWidget> _pageWidget;
+        WeakPointer<KPageWidget> _pageWidget;
 
         //! map checkboxes to demo widgets
-        typedef QPointer<DemoWidget> DemoWidgetPointer;
+        typedef WeakPointer<DemoWidget> DemoWidgetPointer;
         typedef QPair<QCheckBox*, DemoWidgetPointer> WidgetPair;
         typedef QVector<WidgetPair> WidgetList;
         WidgetList _widgets;

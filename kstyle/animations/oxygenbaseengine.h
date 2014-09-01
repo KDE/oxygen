@@ -27,9 +27,10 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygen.h"
+
 #include <QObject>
 #include <QSet>
-#include <QPointer>
 
 namespace Oxygen
 {
@@ -43,7 +44,7 @@ namespace Oxygen
 
         public:
 
-        typedef QPointer<BaseEngine> Pointer;
+        typedef WeakPointer<BaseEngine> Pointer;
 
         //! constructor
         explicit BaseEngine( QObject* parent ):

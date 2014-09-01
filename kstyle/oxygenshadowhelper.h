@@ -27,10 +27,10 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygen.h"
 #include "oxygentileset.h"
 
 #include <QObject>
-#include <QPointer>
 #include <QMap>
 
 #if HAVE_X11

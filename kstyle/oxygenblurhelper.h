@@ -31,11 +31,11 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenstylehelper.h"
+#include "oxygen.h"
 
 #include <QBasicTimer>
 #include <QHash>
 #include <QObject>
-#include <QPointer>
 #include <QSet>
 #include <QTimerEvent>
 
@@ -149,7 +149,7 @@ namespace Oxygen
         bool _enabled;
 
         //! list of widgets for which blur region must be updated
-        typedef QPointer<QWidget> WidgetPointer;
+        typedef WeakPointer<QWidget> WidgetPointer;
         typedef QHash<QWidget*, WidgetPointer> WidgetSet;
         WidgetSet _pendingWidgets;
 
