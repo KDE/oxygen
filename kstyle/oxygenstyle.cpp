@@ -3430,10 +3430,10 @@ namespace Oxygen
         Note: in principle one should also check for the button text height
         */
 
-        const QStyleOptionButton* bOpt( qstyleoption_cast< const QStyleOptionButton* >( option ) );
-        bool flat = ( bOpt && (
-            bOpt->features.testFlag( QStyleOptionButton::Flat ) ||
-            ( ( !bOpt->icon.isNull() ) && sizeFromContents( CT_PushButton, option, bOpt->iconSize, widget ).height() > rect.height() ) ) );
+        const QStyleOptionButton* buttonOption( qstyleoption_cast< const QStyleOptionButton* >( option ) );
+        bool flat = ( buttonOption && (
+            buttonOption->features.testFlag( QStyleOptionButton::Flat ) ||
+            ( ( !buttonOption->icon.isNull() ) && sizeFromContents( CT_PushButton, option, buttonOption->iconSize, widget ).height() > rect.height() ) ) );
 
         if( flat )
         {
@@ -3479,7 +3479,7 @@ namespace Oxygen
             QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
 
             // merge button color with highlight in case of default button
-            if( enabled && bOpt && (bOpt->features&QStyleOptionButton::DefaultButton) )
+            if( enabled && buttonOption && (buttonOption->features&QStyleOptionButton::DefaultButton) )
             {
                 const QColor tintColor( _helper->calcLightColor( buttonColor ) );
                 buttonColor = KColorUtils::mix( buttonColor, tintColor, 0.5 );
@@ -3752,85 +3752,14 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawPanelItemViewItemPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    bool Style::drawPanelScrollAreaCornerPrimitive( const QStyleOption*, QPainter*, const QWidget* widget ) const
     {
-
-        const QStyleOptionViewItemV4 *opt = qstyleoption_cast<const QStyleOptionViewItemV4*>( option );
-        const QAbstractItemView *view = qobject_cast<const QAbstractItemView *>( widget );
-        const bool hover = ( option->state & State_MouseOver ) && ( !view || view->selectionMode() != QAbstractItemView::NoSelection );
-
-        const bool hasCustomBackground = opt->backgroundBrush.style() != Qt::NoBrush && !( option->state & State_Selected );
-        const bool hasSolidBackground = !hasCustomBackground || opt->backgroundBrush.style() == Qt::SolidPattern;
-
-        if( !hover && !( option->state & State_Selected ) && !hasCustomBackground && !( opt->features & QStyleOptionViewItemV2::Alternate ) )
-        { return true; }
-
-        QPalette::ColorGroup cg;
-        if( option->state & State_Enabled ) cg = ( option->state & State_Active ) ? QPalette::Normal : QPalette::Inactive;
-        else cg = QPalette::Disabled;
-
-        QColor color;
-        if( hasCustomBackground && hasSolidBackground ) color = opt->backgroundBrush.color();
-        else color = option->palette.color( cg, QPalette::Highlight );
-
-        if( hover && !hasCustomBackground )
-        {
-            if( !( option->state & State_Selected ) ) color.setAlphaF( 0.2 );
-            else color = color.lighter( 110 );
-        }
-
-        if( opt && ( opt->features & QStyleOptionViewItemV2::Alternate ) )
-        { painter->fillRect( option->rect, option->palette.brush( cg, QPalette::AlternateBase ) ); }
-
-        if( !hover && !( option->state & State_Selected ) && !hasCustomBackground )
-        { return true; }
-
-        if( hasCustomBackground && !hasSolidBackground )
-        {
-
-            const QPointF oldBrushOrigin = painter->brushOrigin();
-            painter->setBrushOrigin( opt->rect.topLeft() );
-            painter->setBrush( opt->backgroundBrush );
-            painter->setPen( Qt::NoPen );
-            painter->drawRect( opt->rect );
-            painter->setBrushOrigin( oldBrushOrigin );
-
-        } else {
-
-            // get selection tileset
-            QRect r = option->rect;
-            TileSet *tileSet( _helper->selection( color, r.height(), hasCustomBackground ) );
-
-            bool roundedLeft  = false;
-            bool roundedRight = false;
-            if( opt )
-            {
-
-                roundedLeft  = ( opt->viewItemPosition == QStyleOptionViewItemV4::Beginning );
-                roundedRight = ( opt->viewItemPosition == QStyleOptionViewItemV4::End );
-                if( opt->viewItemPosition == QStyleOptionViewItemV4::OnlyOne ||
-                    opt->viewItemPosition == QStyleOptionViewItemV4::Invalid ||
-                    ( view && view->selectionBehavior() != QAbstractItemView::SelectRows ) )
-                {
-                    roundedLeft  = true;
-                    roundedRight = true;
-                }
-
-            }
-
-            const bool reverseLayout( option->direction == Qt::RightToLeft );
-
-            TileSet::Tiles tiles( TileSet::Center );
-            if( !reverseLayout ? roundedLeft : roundedRight ) tiles |= TileSet::Left;
-            else r.adjust( -8, 0, 0, 0 );
-
-            if( !reverseLayout ? roundedRight : roundedLeft ) tiles |= TileSet::Right;
-            else r.adjust( 0, 0, 8, 0 );
-
-            if( r.isValid() ) tileSet->render( r, painter, tiles );
-        }
-
-        return true;
+        // disable painting of PE_PanelScrollAreaCorner
+        // the default implementation fills the rect with the window background color
+        // which does not work for windows that have gradients.
+        // unfortunately, this does not work when scrollbars are children of QWebView,
+        // in which case, false is returned, in order to fall back to the parent style implementation
+        return !( widget && widget->inherits( "QWebView" ) );
     }
 
     //___________________________________________________________________________________
@@ -3841,10 +3770,10 @@ namespace Oxygen
         // this corresponds to having a transparent background
         if( widget && !widget->isWindow() ) return true;
 
-        const QStyleOptionMenuItem* mOpt( qstyleoption_cast<const QStyleOptionMenuItem*>( option ) );
-        if( !( mOpt && widget ) ) return true;
-        const QRect& r = mOpt->rect;
-        const QColor color = mOpt->palette.color( widget->window()->backgroundRole() );
+        const QStyleOptionMenuItem* menuItemOption( qstyleoption_cast<const QStyleOptionMenuItem*>( option ) );
+        if( !( menuItemOption && widget ) ) return true;
+        const QRect& r = menuItemOption->rect;
+        const QColor color = menuItemOption->palette.color( widget->window()->backgroundRole() );
 
         const bool hasAlpha( _helper->hasAlphaChannel( widget ) );
         if( hasAlpha )
@@ -3859,24 +3788,13 @@ namespace Oxygen
 
         }
 
-        _helper->renderMenuBackground( painter, r, widget, mOpt->palette );
+        _helper->renderMenuBackground( painter, r, widget, menuItemOption->palette );
 
         if( hasAlpha ) painter->setClipping( false );
         _helper->drawFloatFrame( painter, r, color, !hasAlpha );
 
         return true;
 
-    }
-
-    //___________________________________________________________________________________
-    bool Style::drawPanelScrollAreaCornerPrimitive( const QStyleOption*, QPainter*, const QWidget* widget ) const
-    {
-        // disable painting of PE_PanelScrollAreaCorner
-        // the default implementation fills the rect with the window background color
-        // which does not work for windows that have gradients.
-        // unfortunately, this does not work when scrollbars are children of QWebView,
-        // in which case, false is returned, in order to fall back to the parent style implementation
-        return !( widget && widget->inherits( "QWebView" ) );
     }
 
     //___________________________________________________________________________________
@@ -3887,7 +3805,7 @@ namespace Oxygen
         if( widget && widget->window() )
         { _shadowHelper->registerWidget( widget->window(), true ); }
 
-        const QRect& r( option->rect );
+        const QRect& rect( option->rect );
         const QColor color( option->palette.brush( QPalette::ToolTipBase ).color() );
         QColor topColor( _helper->backgroundTopColor( color ) );
         QColor bottomColor( _helper->backgroundBottomColor( color ) );
@@ -3903,14 +3821,14 @@ namespace Oxygen
             bottomColor.setAlpha( 220 );
         }
 
-        QLinearGradient gr( 0, r.top(), 0, r.bottom() );
-        gr.setColorAt( 0, topColor );
-        gr.setColorAt( 1, bottomColor );
+        QLinearGradient gradient( 0, rect.top(), 0, rect.bottom() );
+        gradient.setColorAt( 0, topColor );
+        gradient.setColorAt( 1, bottomColor );
 
         // contrast pixmap
-        QLinearGradient gr2( 0, r.top(), 0, r.bottom() );
-        gr2.setColorAt( 0.5, _helper->calcLightColor( bottomColor ) );
-        gr2.setColorAt( 0.9, bottomColor );
+        QLinearGradient gradient2( 0, rect.top(), 0, rect.bottom() );
+        gradient2.setColorAt( 0.5, _helper->calcLightColor( bottomColor ) );
+        gradient2.setColorAt( 0.9, bottomColor );
 
         painter->save();
 
@@ -3918,26 +3836,26 @@ namespace Oxygen
         {
             painter->setRenderHint( QPainter::Antialiasing );
 
-            QRectF local( r );
+            QRectF local( rect );
             local.adjust( 0.5, 0.5, -0.5, -0.5 );
 
             painter->setPen( Qt::NoPen );
-            painter->setBrush( gr );
+            painter->setBrush( gradient );
             painter->drawRoundedRect( local, 4, 4 );
 
             painter->setBrush( Qt::NoBrush );
-            painter->setPen( QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+            painter->setPen( QPen( gradient2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
             painter->drawRoundedRect( local, 3.5, 3.5 );
 
         } else {
 
             painter->setPen( Qt::NoPen );
-            painter->setBrush( gr );
-            painter->drawRect( r );
+            painter->setBrush( gradient );
+            painter->drawRect( rect );
 
             painter->setBrush( Qt::NoBrush );
-            painter->setPen( QPen( gr2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter->drawRect( r );
+            painter->setPen( QPen( gradient2, 1.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+            painter->drawRect( rect );
 
         }
 
@@ -3945,6 +3863,101 @@ namespace Oxygen
 
         return true;
 
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawPanelItemViewItemPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    {
+
+        // cast option and check
+        const QStyleOptionViewItemV4 *viewItemOption = qstyleoption_cast<const QStyleOptionViewItemV4*>( option );
+        if( !viewItemOption ) return false;
+
+        // try cast widget
+        const QAbstractItemView *view = qobject_cast<const QAbstractItemView *>( widget );
+
+        // store palette and rect
+        const QPalette& palette( option->palette );
+        QRect rect( option->rect );
+
+        // store flags
+        const State& state( option->state );
+        const bool mouseOver( ( state & State_MouseOver ) && (!view || view->selectionMode() != QAbstractItemView::NoSelection) );
+        const bool selected( state & State_Selected );
+        const bool enabled( state & State_Enabled );
+        const bool active( state & State_Active );
+        const bool hasCustomBackground( viewItemOption->backgroundBrush.style() != Qt::NoBrush && !selected );
+        const bool hasSolidBackground( !hasCustomBackground || viewItemOption->backgroundBrush.style() == Qt::SolidPattern );
+
+        if( !mouseOver && !selected && !hasCustomBackground && !( viewItemOption->features & QStyleOptionViewItemV2::Alternate ) )
+        { return true; }
+
+        QPalette::ColorGroup colorGroup;
+        if( enabled ) colorGroup = active ? QPalette::Normal : QPalette::Inactive;
+        else colorGroup = QPalette::Disabled;
+
+        QColor color;
+        if( hasCustomBackground && hasSolidBackground ) color = viewItemOption->backgroundBrush.color();
+        else color = palette.color( colorGroup, QPalette::Highlight );
+
+        if( mouseOver && !hasCustomBackground )
+        {
+            if( !selected ) color.setAlphaF( 0.2 );
+            else color = color.lighter( 110 );
+        }
+
+        if( viewItemOption && ( viewItemOption->features & QStyleOptionViewItemV2::Alternate ) )
+        { painter->fillRect( option->rect, palette.brush( colorGroup, QPalette::AlternateBase ) ); }
+
+        if( !mouseOver && !selected && !hasCustomBackground )
+        { return true; }
+
+        if( hasCustomBackground && !hasSolidBackground )
+        {
+
+            const QPointF oldBrushOrigin = painter->brushOrigin();
+            painter->setBrushOrigin( viewItemOption->rect.topLeft() );
+            painter->setBrush( viewItemOption->backgroundBrush );
+            painter->setPen( Qt::NoPen );
+            painter->drawRect( viewItemOption->rect );
+            painter->setBrushOrigin( oldBrushOrigin );
+
+        } else {
+
+            // get selection tileset
+            TileSet *tileSet( _helper->selection( color, rect.height(), hasCustomBackground ) );
+
+            bool roundedLeft  = false;
+            bool roundedRight = false;
+            if( viewItemOption )
+            {
+
+                roundedLeft  = ( viewItemOption->viewItemPosition == QStyleOptionViewItemV4::Beginning );
+                roundedRight = ( viewItemOption->viewItemPosition == QStyleOptionViewItemV4::End );
+                if( viewItemOption->viewItemPosition == QStyleOptionViewItemV4::OnlyOne ||
+                    viewItemOption->viewItemPosition == QStyleOptionViewItemV4::Invalid ||
+                    ( view && view->selectionBehavior() != QAbstractItemView::SelectRows ) )
+                {
+                    roundedLeft  = true;
+                    roundedRight = true;
+                }
+
+            }
+
+            const bool reverseLayout( option->direction == Qt::RightToLeft );
+
+            // define tiles
+            TileSet::Tiles tiles( TileSet::Center );
+            if( !reverseLayout ? roundedLeft : roundedRight ) tiles |= TileSet::Left;
+            if( !reverseLayout ? roundedRight : roundedLeft ) tiles |= TileSet::Right;
+
+            // adjust rect and render
+            rect = tileSet->adjust( rect, tiles );
+            if( rect.isValid() ) tileSet->render( rect, painter, tiles );
+
+        }
+
+        return true;
     }
 
     //___________________________________________________________________________________
@@ -3967,10 +3980,12 @@ namespace Oxygen
     bool Style::drawIndicatorBranchPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
-        const State& state( option->state );
+        // copy rect and palette
         const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
 
+        // state
+        const State& state( option->state );
         const bool reverseLayout( option->direction == Qt::RightToLeft );
 
         //draw expander
@@ -4171,10 +4186,10 @@ namespace Oxygen
 
                 }
 
-            } else if( const QStyleOptionToolButton *tbOption = qstyleoption_cast<const QStyleOptionToolButton *>( option ) ) {
+            } else if( const QStyleOptionToolButton *toolButtonOption = qstyleoption_cast<const QStyleOptionToolButton *>( option ) ) {
 
                 // handle arrow over animation
-                const bool arrowHover( enabled && mouseOver && ( tbOption->activeSubControls & SC_ToolButtonMenu ) );
+                const bool arrowHover( enabled && mouseOver && ( toolButtonOption->activeSubControls & SC_ToolButtonMenu ) );
                 _animations->toolButtonEngine().updateState( widget, AnimationHover, arrowHover );
 
                 const bool animated( enabled && _animations->toolButtonEngine().isAnimated( widget, AnimationHover ) );
@@ -4482,7 +4497,7 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionDockWidget* dockWidgetOption = ::qstyleoption_cast<const QStyleOptionDockWidget*>( option );
+        const QStyleOptionDockWidget* dockWidgetOption = qstyleoption_cast<const QStyleOptionDockWidget*>( option );
         if( !dockWidgetOption ) return true;
 
         const QPalette& palette( option->palette );
@@ -4633,8 +4648,8 @@ namespace Oxygen
     bool Style::drawMenuBarItemControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        const QStyleOptionMenuItem* menuOpt = ::qstyleoption_cast<const QStyleOptionMenuItem*>( option );
-        if( !menuOpt ) return true;
+        const QStyleOptionMenuItem* menuOption = qstyleoption_cast<const QStyleOptionMenuItem*>( option );
+        if( !menuOption ) return true;
 
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
@@ -4706,7 +4721,7 @@ namespace Oxygen
         if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG && ( state & State_Sunken ) && enabled )
         { role = QPalette::HighlightedText; }
 
-        drawItemText( painter, r, Qt::AlignCenter | Qt::TextShowMnemonic, palette, enabled, menuOpt->text, role );
+        drawItemText( painter, r, Qt::AlignCenter | Qt::TextShowMnemonic, palette, enabled, menuOption->text, role );
 
         return true;
 
@@ -4715,86 +4730,30 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawMenuItemControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-        const QRect& r( option->rect );
-        const QPalette& palette( option->palette );
-        const State& state( option->state );
-        const bool active( state & State_Selected );
-        const bool enabled( state & State_Enabled );
-        const bool hasFocus( enabled && ( state & State_HasFocus ) );
-        const bool mouseOver( enabled && ( state & State_MouseOver ) );
 
-        //First of all,render the background.
+        // cast option and check
+        const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>( option );
+        if( !menuItemOption ) return true;
+        if( menuItemOption->menuItemType == QStyleOptionMenuItem::EmptyArea ) return true;
+
+        // copy rect and palette
+        const QRect& rect( option->rect );
+        const QPalette& palette( option->palette );
+
+        // render background
         renderMenuItemBackground( option, painter, widget );
 
-        // do nothing if invalid option, or empty area
-        const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>( option );
-        if( !menuItemOption || menuItemOption->menuItemType == QStyleOptionMenuItem::EmptyArea ) return true;
+        // store state
+        const State& state( option->state );
+        const bool enabled( state & State_Enabled );
+        const bool selected( enabled && (state & State_Selected) );
+        const bool sunken( enabled && (state & (State_On|State_Sunken) ) );
+        const bool hasFocus( enabled && ( state & State_HasFocus ) );
+        const bool mouseOver( enabled && ( state & State_MouseOver ) );
+        const bool reverseLayout( option->direction == Qt::RightToLeft );
 
-        //First, figure out the left column width.
-        const int iconColW = menuItemOption->maxIconWidth;
-        const int checkColW = Metrics::CheckBox_Size;
-        const int checkSpace = Metrics::MenuItem_ItemSpacing;
-
-        int leftColW = iconColW;
-
-        // only use the additional check row if the menu has checkable menuItems.
-        bool hasCheckableItems = menuItemOption->menuHasCheckableItems;
-        if( hasCheckableItems ) leftColW += checkColW + checkSpace;
-
-        // right arrow column...
-        int rightColW = Metrics::MenuItem_ItemSpacing + Metrics::MenuButton_IndicatorWidth;
-
-        //Separators: done with the bg, can paint them and bail them out.
-        if( menuItemOption->menuItemType == QStyleOptionMenuItem::Separator )
-        {
-            // check text and icon
-            // separators with non empty text are rendered as checked toolbuttons
-            if( !menuItemOption->text.isEmpty() )
-            {
-
-                QStyleOptionToolButton toolButtonOpt;
-                toolButtonOpt.features = QStyleOptionToolButton::None;
-                toolButtonOpt.state = State_On|State_Sunken|State_Enabled;
-                toolButtonOpt.rect = r.adjusted( 0, 0, 0, 1 );
-                toolButtonOpt.subControls = SC_ToolButton;
-                toolButtonOpt.icon =  menuItemOption->icon;
-
-                toolButtonOpt.font = widget->font();
-                toolButtonOpt.font.setBold( true );
-
-                toolButtonOpt.iconSize = QSize(
-                    pixelMetric( QStyle::PM_SmallIconSize,0,0 ),
-                    pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
-
-                // for now menu size is not calculated properly
-                // ( meaning it doesn't account for titled separators width
-                // as a fallback, we elide the text to be displayed
-                int width( r.width() );
-                if( !menuItemOption->icon.isNull() )
-                { width -= toolButtonOpt.iconSize.width() + 2; }
-                width -= 2*Metrics::ToolButton_MarginWidth;
-                toolButtonOpt.text = QFontMetrics( toolButtonOpt.font ).elidedText( menuItemOption->text, Qt::ElideRight, width );
-
-                toolButtonOpt.toolButtonStyle = Qt::ToolButtonTextBesideIcon;
-                drawToolButtonComplexControl( &toolButtonOpt, painter, widget );
-                return true;
-
-            } else {
-
-                // in all other cases draw regular separator
-                const QColor color( _helper->menuBackgroundColor( palette.color( QPalette::Window ), widget, r.center() ) );
-                _helper->drawSeparator( painter, r, color, Qt::Horizontal );
-                return true;
-
-            }
-
-        }
-
-        // Remove the margin ( for everything but the column background )
-        const QRect ir( insideMargin( r, Metrics::MenuItem_MarginWidth ) );
-
-        //Active indicator...
-        if( active && enabled )
+        // Active indicator
+        if( selected )
         {
 
             // check if there is a 'sliding' animation in progress, in which case, do nothing
@@ -4804,33 +4763,61 @@ namespace Oxygen
 
                 const bool animated( _animations->menuEngine().isAnimated( widget, Current ) );
                 const QRect currentRect( _animations->menuEngine().currentRect( widget, Current ) );
-                const bool intersected( currentRect.contains( r.topLeft() ) );
+                const bool intersected( currentRect.contains( rect.topLeft() ) );
 
-                const QColor color( _helper->menuBackgroundColor( _helper->calcMidColor( palette.color( QPalette::Window ) ), widget, r.center() ) );
+                const QColor color( _helper->menuBackgroundColor( _helper->calcMidColor( palette.color( QPalette::Window ) ), widget, rect.center() ) );
 
-                if( animated && intersected ) renderMenuItemRect( option, r, color, palette, painter, _animations->menuEngine().opacity( widget, Current ) );
-                else renderMenuItemRect( option, r, color, palette, painter );
+                if( animated && intersected ) renderMenuItemRect( option, rect, color, palette, painter, _animations->menuEngine().opacity( widget, Current ) );
+                else renderMenuItemRect( option, rect, color, palette, painter );
 
             }
 
         }
 
-        // color
-        QPalette::ColorRole textRole( ( active && enabled && StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG ) ?
-            QPalette::HighlightedText:
-            QPalette::WindowText );
+        // get rect available for contents
+        QRect contentsRect( insideMargin( rect,  Metrics::MenuItem_MarginWidth ) );
 
-        //Readjust the column rectangle back to proper height
-        QRect leftColRect( ir.x(), ir.y(), leftColW, ir.height() );
+        // deal with separators
+        if( menuItemOption->menuItemType == QStyleOptionMenuItem::Separator )
+        {
 
-        // paint a normal check- resp. radiomark.
-        const QRect checkColRect(
-            leftColRect.x(), leftColRect.y(),
-            checkColW, leftColRect.height() );
+            // normal separator
+            if( menuItemOption->text.isEmpty() && menuItemOption->icon.isNull() )
+            {
 
+                // in all other cases draw regular separator
+                const QColor color( _helper->menuBackgroundColor( palette.color( QPalette::Window ), widget, rect.center() ) );
+                _helper->drawSeparator( painter, rect, color, Qt::Horizontal );
+                return true;
+
+            } else {
+
+                // separator can have a title and an icon
+                // in that case they are rendered as sunken flat toolbuttons
+                QStyleOptionToolButton toolButtonOption( separatorMenuItemOption( menuItemOption, widget ) );
+                toolButtonOption.state = State_On|State_Sunken|State_Enabled;
+                drawComplexControl( CC_ToolButton, &toolButtonOption, painter, widget );
+                return true;
+
+            }
+
+        }
+
+        // define relevant rectangles
+        // checkbox
+        QRect checkBoxRect;
+        if( menuItemOption->menuHasCheckableItems )
+        {
+            checkBoxRect = QRect( contentsRect.left(), contentsRect.top() + (contentsRect.height()-Metrics::CheckBox_Size)/2 - 1, Metrics::CheckBox_Size, Metrics::CheckBox_Size );
+            contentsRect.setLeft( checkBoxRect.right() + Metrics::MenuItem_ItemSpacing + 1 );
+        }
+
+        // render checkbox indicator
         const CheckBoxState checkBoxState( menuItemOption->checked ? CheckOn:CheckOff );
         if( menuItemOption->checkType == QStyleOptionMenuItem::NonExclusive )
         {
+
+            checkBoxRect = visualRect( option, checkBoxRect );
 
             StyleOptions styleOptions( 0 );
             styleOptions |= Sunken;
@@ -4838,100 +4825,71 @@ namespace Oxygen
             if( mouseOver ) styleOptions |= Hover;
             if( hasFocus ) styleOptions |= Focus;
 
-            const QRect r( visualRect( option, checkColRect ) );
             QPalette localPalette( palette );
-            localPalette.setColor( QPalette::Window, _helper->menuBackgroundColor( palette.color( QPalette::Window ), widget, r.topLeft() ) );
-            renderCheckBox( painter, r.adjusted( 2,-2,2,2 ), localPalette, styleOptions, checkBoxState );
+            localPalette.setColor( QPalette::Window, _helper->menuBackgroundColor( palette.color( QPalette::Window ), widget, rect.topLeft() ) );
+            renderCheckBox( painter, checkBoxRect, localPalette, styleOptions, checkBoxState );
 
         } else if( menuItemOption->checkType == QStyleOptionMenuItem::Exclusive ) {
+
+            checkBoxRect = visualRect( option, checkBoxRect );
 
             StyleOptions styleOptions( 0 );
             if( !enabled ) styleOptions |= Disabled;
             if( mouseOver ) styleOptions |= Hover;
             if( hasFocus ) styleOptions |= Focus;
 
-            const QRect r( visualRect( option, checkColRect ) );
             QPalette localPalette( palette );
-            localPalette.setColor( QPalette::Window, _helper->menuBackgroundColor( palette.color( QPalette::Window ), widget, r.topLeft() ) );
-            renderRadioButton( painter, r.adjusted( 2,-2,2,2 ), localPalette, styleOptions, checkBoxState );
+            localPalette.setColor( QPalette::Window, _helper->menuBackgroundColor( palette.color( QPalette::Window ), widget, rect.topLeft() ) );
+            renderRadioButton( painter, checkBoxRect, localPalette, styleOptions, checkBoxState );
 
         }
 
-        // Paint the menu icon.
+        // icon
+        const int iconWidth( menuItemOption->maxIconWidth );
+
+        QRect iconRect( contentsRect.left(), contentsRect.top() + (contentsRect.height()-iconWidth)/2, iconWidth, iconWidth );
+        contentsRect.setLeft( iconRect.right() + Metrics::MenuItem_ItemSpacing + 1 );
+
         if( !menuItemOption->icon.isNull() )
         {
 
-            QRect iconColRect;
-
-            if( hasCheckableItems )
-            {
-
-                iconColRect = QRect(
-                    leftColRect.x()+checkColW+checkSpace, leftColRect.y(),
-                    leftColRect.width()-( checkColW+checkSpace ), leftColRect.height() );
-
-            } else iconColRect = leftColRect;
+            const QSize iconSize( pixelMetric( PM_SmallIconSize, option, widget ), pixelMetric( PM_SmallIconSize, option, widget ) );
+            iconRect = centerRect( iconRect, iconSize );
+            iconRect = visualRect( option, iconRect );
 
             // icon mode
             QIcon::Mode mode;
-            if( enabled ) mode = active ? QIcon::Active: QIcon::Normal;
+            if( selected ) mode = QIcon::Active;
+            else if( enabled ) mode = QIcon::Normal;
             else mode = QIcon::Disabled;
 
             // icon state
-            const QIcon::State iconState(
-                ( ( state & State_On ) || ( state & State_Sunken ) ) ?
-                QIcon::On:QIcon::Off );
-
-            // icon size
-            const QSize size( pixelMetric( PM_SmallIconSize ), pixelMetric( PM_SmallIconSize ) );
-            const QRect r( visualRect( option, centerRect( iconColRect, size ) ) );
-            const QPixmap icon = menuItemOption->icon.pixmap( size, mode, iconState );
-            painter->drawPixmap( centerRect( r, size ), icon );
+            const QIcon::State iconState( sunken ? QIcon::On:QIcon::Off );
+            const QPixmap icon = menuItemOption->icon.pixmap( iconRect.size(), mode, iconState );
+            painter->drawPixmap( iconRect, icon );
 
         }
 
+        // text role
+        const QPalette::ColorRole textRole( ( selected && StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG ) ?
+            QPalette::HighlightedText:
+            QPalette::WindowText );
 
-        //Now include the spacing when calculating the next columns
-        leftColW += Metrics::MenuItem_ItemSpacing;
-
-        //Render the text, including any accel.
-        QString text = menuItemOption->text;
-        const QRect textRect( visualRect( option, QRect( ir.x() + leftColW, ir.y(), ir.width() - leftColW - rightColW, ir.height() ) ) );
-
-        painter->setFont( menuItemOption->font );
-
-        int tabPos = menuItemOption->text.indexOf( QLatin1Char( '\t' ) );
-        if( tabPos != -1 )
-        {
-
-            text = menuItemOption->text.left( tabPos );
-            QString accl = menuItemOption->text.mid( tabPos + 1 );
-
-            drawItemText(
-                painter, textRect, Qt::AlignVCenter | Qt::TextShowMnemonic | Qt::AlignRight, palette,
-                enabled, accl, textRole );
-
-        }
-
-        //Draw the text.
-        drawItemText(
-            painter, textRect, Qt::AlignVCenter | Qt::TextShowMnemonic, palette,
-            enabled, text, textRole );
-
-        //Render arrow, if need be.
+        // arrow
         if( menuItemOption->menuItemType == QStyleOptionMenuItem::SubMenu )
         {
+
+            QRect arrowRect( contentsRect.right() - Metrics::MenuButton_IndicatorWidth + 1, contentsRect.top() + (contentsRect.height()-Metrics::MenuButton_IndicatorWidth)/2, Metrics::MenuButton_IndicatorWidth, Metrics::MenuButton_IndicatorWidth );
+            contentsRect.setRight( arrowRect.left() -  Metrics::MenuItem_ItemSpacing - 1 );
 
             const qreal penThickness = 1.6;
             const QColor color = palette.color( textRole );
             const QColor background = palette.color( QPalette::Window );
 
-            const int aw = Metrics::MenuButton_IndicatorWidth;
-            QRect arrowRect = visualRect( option, QRect( ir.x() + ir.width() - aw, ir.y(), aw, ir.height() ) );
-
             // get arrow shape
             QPolygonF arrow = genericArrow( option->direction == Qt::LeftToRight ? ArrowRight : ArrowLeft, ArrowNormal );
 
+            painter->save();
             painter->translate( QRectF( arrowRect ).center() );
             painter->setRenderHint( QPainter::Antialiasing );
 
@@ -4944,7 +4902,36 @@ namespace Oxygen
 
             painter->setPen( QPen( _helper->decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
             painter->drawPolyline( arrow );
+            painter->restore();
 
+        }
+
+        QRect textRect = contentsRect;
+        if( !menuItemOption->text.isEmpty() )
+        {
+
+            // adjust textRect
+            QString text = menuItemOption->text;
+            textRect = centerRect( textRect, textRect.width(), option->fontMetrics.size( _mnemonics->textFlags(), text ).height() );
+            textRect = visualRect( option, textRect );
+
+            // set font
+            painter->setFont( menuItemOption->font );
+
+            // locate accelerator and render
+            const int tabPosition( text.indexOf( QLatin1Char( '\t' ) ) );
+            if( tabPosition >= 0 )
+            {
+                QString accelerator( text.mid( tabPosition + 1 ) );
+                text = text.left( tabPosition );
+                drawItemText( painter, textRect, Qt::AlignRight | Qt::AlignVCenter | _mnemonics->textFlags(), palette, enabled, accelerator, QPalette::WindowText );
+            }
+
+            // render text
+            const int textFlags( Qt::AlignVCenter | (reverseLayout ? Qt::AlignRight : Qt::AlignLeft ) | _mnemonics->textFlags() );
+
+            textRect = option->fontMetrics.boundingRect( textRect, textFlags, text );
+            drawItemText( painter, textRect, textFlags, palette, enabled, text, textRole );
 
         }
 
@@ -5019,8 +5006,7 @@ namespace Oxygen
         const QPalette& palette( option->palette );
 
         // make sure rect is large enough
-        /* this account for adjustments done here and in StyleHelper::progressBarIndicator */
-        if( rect.adjusted( 1, 0, -1, 0 ).isValid() )
+        if( rect.isValid() )
         {
             // calculate dimension
             int dimension( 20 );
@@ -5242,20 +5228,16 @@ namespace Oxygen
     bool Style::drawRubberBandControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
-        if( const QStyleOptionRubberBand *rbOpt = qstyleoption_cast<const QStyleOptionRubberBand *>( option ) )
-        {
+        const QPalette& palette( option->palette );
+        const QRect rect( option->rect );
 
-            painter->save();
-            QColor color = rbOpt->palette.color( QPalette::Highlight );
-            painter->setPen( KColorUtils::mix( color, rbOpt->palette.color( QPalette::Active, QPalette::WindowText ) ) );
-            color.setAlpha( 50 );
-            painter->setBrush( color );
-            painter->setClipRegion( rbOpt->rect );
-            painter->drawRect( rbOpt->rect.adjusted( 0,0,-1,-1 ) );
-            painter->restore();
-            return true;
-
-        } else return false;
+        QColor color = palette.color( QPalette::Highlight );
+        painter->setPen( KColorUtils::mix( color, palette.color( QPalette::Active, QPalette::WindowText ) ) );
+        color.setAlpha( 50 );
+        painter->setBrush( color );
+        painter->setClipRegion( rect );
+        painter->drawRect( rect.adjusted( 0, 0, -1, -1 ) );
+        return true;
 
     }
 
@@ -5439,10 +5421,10 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionFrameV3* frameOpt = qstyleoption_cast<const QStyleOptionFrameV3*>( option );
-        if( !frameOpt ) return false;
+        const QStyleOptionFrameV3* frameOption = qstyleoption_cast<const QStyleOptionFrameV3*>( option );
+        if( !frameOption ) return false;
 
-        switch( frameOpt->frameShape )
+        switch( frameOption->frameShape )
         {
 
             case QFrame::Box:
@@ -8549,8 +8531,12 @@ namespace Oxygen
     //______________________________________________________________________________
     QColor Style::scrollBarArrowColor( const QStyleOptionSlider* option, const SubControl& control, const QWidget* widget ) const
     {
-        const QRect& r( option->rect );
+
+        // copy rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
+
+        // color
         QColor color( palette.color( QPalette::WindowText ) );
 
         // check enabled state
@@ -8567,21 +8553,21 @@ namespace Oxygen
 
         }
 
-        const bool hover( _animations->scrollBarEngine().isHovered( widget, control ) );
+        const bool mouseOver( _animations->scrollBarEngine().isHovered( widget, control ) );
         const bool animated( _animations->scrollBarEngine().isAnimated( widget, control ) );
         const qreal opacity( _animations->scrollBarEngine().opacity( widget, control ) );
 
         // retrieve mouse position from engine
-        QPoint position( hover ? _animations->scrollBarEngine().position( widget ) : QPoint( -1, -1 ) );
-        if( hover && r.contains( position ) )
+        QPoint position( mouseOver ? _animations->scrollBarEngine().position( widget ) : QPoint( -1, -1 ) );
+        if( mouseOver && rect.contains( position ) )
         {
             // need to update the arrow controlRect on fly because there is no
             // way to get it from the styles directly, outside of repaint events
-            _animations->scrollBarEngine().setSubControlRect( widget, control, r );
+            _animations->scrollBarEngine().setSubControlRect( widget, control, rect );
         }
 
 
-        if( r.intersects(  _animations->scrollBarEngine().subControlRect( widget, control ) ) )
+        if( rect.intersects(  _animations->scrollBarEngine().subControlRect( widget, control ) ) )
         {
 
             QColor highlight = _helper->viewHoverBrush().brush( palette ).color();
@@ -8589,7 +8575,7 @@ namespace Oxygen
             {
                 color = KColorUtils::mix( color, highlight, opacity );
 
-            } else if( hover ) {
+            } else if( mouseOver ) {
 
                 color = highlight;
 
