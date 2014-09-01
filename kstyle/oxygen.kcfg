@@ -41,6 +41,11 @@
       <default>MN_ALWAYS</default>
     </entry>
 
+    <!-- sliders -->
+    <entry name="SliderDrawTickMarks" type="Bool">
+      <default>true</default>
+    </entry>
+
     <!-- tooltips -->
     <entry name="ToolTipTransparent" type = "Bool">
        <default>true</default>

@@ -2235,9 +2235,18 @@ namespace Oxygen
                 grooveRect = insideMargin( grooveRect, pixelMetric( PM_DefaultFrameWidth, option, widget ) );
 
                 // centering
-                if( horizontal ) grooveRect = centerRect( grooveRect, grooveRect.width(), Metrics::Slider_GrooveThickness ).adjusted( 3, 0, -3, 0 );
+                if( horizontal ) grooveRect = centerRect( grooveRect, grooveRect.width(), Metrics::Slider_GrooveThickness ).adjusted( 3, 1, -3, 0 );
                 else grooveRect = centerRect( grooveRect, Metrics::Slider_GrooveThickness, grooveRect.height() ).adjusted( 0, 3, 0, -3 );
                 return grooveRect;
+
+            }
+
+            case SC_SliderHandle:
+            {
+
+                QRect handleRect( ParentStyleClass::subControlRect( CC_Slider, option, subControl, widget ) );
+                handleRect = centerRect( handleRect, Slider_ControlThickness, Slider_ControlThickness );
+                return handleRect;
 
             }
 
@@ -2341,8 +2350,7 @@ namespace Oxygen
         // store tick position and orientation
         const QSlider::TickPosition& tickPosition( sliderOption->tickPosition );
         const bool horizontal( sliderOption->orientation == Qt::Horizontal );
-        // const bool disableTicks( !StyleConfigData::sliderDrawTickMarks() );
-        const bool disableTicks( false );
+        const bool disableTicks( !StyleConfigData::sliderDrawTickMarks() );
 
         /*
         Qt adds its own tick length directly inside QSlider.
@@ -6829,6 +6837,7 @@ namespace Oxygen
 
 
         // copy rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
 
         // copy state
@@ -6837,17 +6846,65 @@ namespace Oxygen
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( state & State_HasFocus );
 
-        if( sliderOption->subControls & SC_SliderTickmarks ) { renderSliderTickmarks( painter, sliderOption, widget ); }
+        // direction
+        const bool horizontal( sliderOption->orientation == Qt::Horizontal );
+
+        if( sliderOption->subControls & SC_SliderTickmarks )
+        {
+            const bool upsideDown( sliderOption->upsideDown );
+            const int tickPosition( sliderOption->tickPosition );
+            const int available( pixelMetric( PM_SliderSpaceAvailable, option, widget ) );
+            int interval = sliderOption->tickInterval;
+            if( interval < 1 ) interval = sliderOption->pageStep;
+            if( interval >= 1 )
+            {
+                const int fudge( pixelMetric( PM_SliderLength, option, widget ) / 2 );
+                int current( sliderOption->minimum );
+
+                // store tick lines
+                const QRect grooveRect( subControlRect( CC_Slider, sliderOption, SC_SliderGroove, widget ) );
+                QList<QLine> tickLines;
+                if( horizontal )
+                {
+
+                    if( tickPosition & QSlider::TicksAbove ) tickLines.append( QLine( rect.left(), grooveRect.top() - Metrics::Slider_TickMarginWidth, rect.left(), grooveRect.top() - Metrics::Slider_TickMarginWidth - Metrics::Slider_TickLength ) );
+                    if( tickPosition & QSlider::TicksBelow ) tickLines.append( QLine( rect.left(), grooveRect.bottom() + Metrics::Slider_TickMarginWidth, rect.left(), grooveRect.bottom() + Metrics::Slider_TickMarginWidth + Metrics::Slider_TickLength ) );
+
+                } else {
+
+                    if( tickPosition & QSlider::TicksAbove ) tickLines.append( QLine( grooveRect.left() - Metrics::Slider_TickMarginWidth, rect.top(), grooveRect.left() - Metrics::Slider_TickMarginWidth - Metrics::Slider_TickLength, rect.top() ) );
+                    if( tickPosition & QSlider::TicksBelow ) tickLines.append( QLine( grooveRect.right() + Metrics::Slider_TickMarginWidth, rect.top(), grooveRect.right() + Metrics::Slider_TickMarginWidth + Metrics::Slider_TickLength, rect.top() ) );
+
+                }
+
+                // colors
+                QColor base( _helper->backgroundColor( palette.color( QPalette::Window ), widget, rect.center() ) );
+                base = _helper->calcDarkColor( base );
+                painter->setPen( base );
+
+                while( current <= sliderOption->maximum )
+                {
+
+                    // calculate positions and draw lines
+                    int position( sliderPositionFromValue( sliderOption->minimum, sliderOption->maximum, current, available ) + fudge );
+                    foreach( const QLine& tickLine, tickLines )
+                    {
+                        if( horizontal ) painter->drawLine( tickLine.translated( upsideDown ? (rect.width() - position) : position, 0 ) );
+                        else painter->drawLine( tickLine.translated( 0, upsideDown ? (rect.height() - position):position ) );
+                    }
+
+                    // go to next position
+                    current += interval;
+
+                }
+            }
+        }
 
         // groove
         if( sliderOption->subControls & SC_SliderGroove )
         {
             // get rect
             QRect grooveRect( subControlRect( CC_Slider, sliderOption, SC_SliderGroove, widget ) );
-
-           // adjustments
-            if( sliderOption->orientation == Qt::Horizontal )
-            { grooveRect.adjust( 0, 1, 0, 0 ); }
 
             // render
             _helper->scrollHole( palette.color( QPalette::Window ), sliderOption->orientation, true )->render( grooveRect, painter, TileSet::Full );
@@ -6860,7 +6917,6 @@ namespace Oxygen
 
             // get rect and center
             QRect handleRect( subControlRect( CC_Slider, sliderOption, SC_SliderHandle, widget ) );
-            handleRect = centerRect( handleRect, Slider_ControlThickness, Slider_ControlThickness );
 
             const bool handleActive( sliderOption->activeSubControls & SC_SliderHandle );
             StyleOptions styleOptions( 0 );
