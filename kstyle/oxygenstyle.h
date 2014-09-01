@@ -264,7 +264,6 @@ namespace Oxygen
             Hover = 0x4,
             Disabled = 0x8,
             NoFill = 0x10,
-            SubtleShadow = 0x20
         };
 
         Q_DECLARE_FLAGS(StyleOptions, StyleOption)
@@ -467,9 +466,7 @@ namespace Oxygen
         virtual bool drawTabBarTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         //! tabbar tabs.
-        /*! there are two methods (_Single and _Plain) implemented, to deal with tabbar appearance selected from options */
-        virtual bool drawTabBarTabShapeControl_Single( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawTabBarTabShapeControl_Plain( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawTabBarTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolBoxTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolBoxTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -668,7 +665,7 @@ namespace Oxygen
         //@}
 
         //! slab glowing color
-        QColor slabShadowColor( QColor, StyleOptions, qreal, AnimationMode ) const;
+        QColor slabShadowColor( StyleOptions, qreal, AnimationMode ) const;
 
         //! returns point position for generic arrows
         QPolygonF genericArrow( ArrowOrientation, ArrowSize = ArrowNormal ) const;
@@ -760,7 +757,6 @@ namespace Oxygen
 
         //! pointer to control specialized function
         typedef bool (Style::*StyleControl)( const QStyleOption*, QPainter*, const QWidget* ) const;
-        StyleControl _tabBarTabShapeControl;
 
         //! pointer to control specialized function
         typedef bool (Style::*StyleComplexControl)( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;

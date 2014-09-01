@@ -89,8 +89,6 @@ namespace Oxygen
         connect( _menuHighlightDark, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _menuHighlightStrong, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _menuHighlightSubtle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
-        connect( _tabStylePlain, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
-        connect( _tabStyleSingle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
         connect( _useWMMoveResize, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
 
@@ -112,7 +110,6 @@ namespace Oxygen
         StyleConfigData::setScrollBarAddLineButtons( _scrollBarAddLineButtons->currentIndex() );
         StyleConfigData::setScrollBarSubLineButtons( _scrollBarSubLineButtons->currentIndex() );
         StyleConfigData::setMenuHighlightMode( menuMode() );
-        StyleConfigData::setTabStyle( tabStyle() );
         StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
 
         if( _expertMode )
@@ -281,7 +278,6 @@ namespace Oxygen
         else if( _scrollBarSubLineButtons->currentIndex() != StyleConfigData::scrollBarSubLineButtons() ) modified = true;
         else if( _splitterProxyEnabled->isChecked() != StyleConfigData::splitterProxyEnabled() ) modified = true;
         else if( menuMode() != StyleConfigData::menuHighlightMode() ) modified = true;
-        else if( tabStyle() != StyleConfigData::tabStyle() ) modified = true;
         else if( _animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
         else if( _cacheEnabled->isChecked() != StyleConfigData::cacheEnabled() ) modified = true;
         else if( _useWMMoveResize->isChecked() != StyleConfigData::useWMMoveResize() ) modified = true;
@@ -338,10 +334,6 @@ namespace Oxygen
         _menuHighlightStrong->setChecked( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG );
         _menuHighlightSubtle->setChecked( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_SUBTLE );
 
-        // tab style
-        _tabStyleSingle->setChecked( StyleConfigData::tabStyle() == StyleConfigData::TS_SINGLE );
-        _tabStylePlain->setChecked( StyleConfigData::tabStyle() == StyleConfigData::TS_PLAIN );
-
         _animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
         _cacheEnabled->setChecked( StyleConfigData::cacheEnabled() );
 
@@ -373,13 +365,6 @@ namespace Oxygen
         if (_menuHighlightDark->isChecked()) return StyleConfigData::MM_DARK;
         else if (_menuHighlightSubtle->isChecked()) return StyleConfigData::MM_SUBTLE;
         else return StyleConfigData::MM_STRONG;
-    }
-
-    //____________________________________________________________
-    int StyleConfig::tabStyle( void ) const
-    {
-        if( _tabStylePlain->isChecked() ) return StyleConfigData::TS_PLAIN;
-        else return StyleConfigData::TS_SINGLE;
     }
 
     //____________________________________________________________

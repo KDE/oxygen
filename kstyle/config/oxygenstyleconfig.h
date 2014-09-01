@@ -102,7 +102,6 @@ namespace Oxygen
         void load( void );
 
         int menuMode( void ) const;
-        int tabStyle( void ) const;
         int windowDragMode( void ) const;
         int triangularExpanderSize( void ) const;
 

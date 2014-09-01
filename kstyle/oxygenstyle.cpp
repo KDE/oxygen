@@ -207,7 +207,6 @@ namespace Oxygen
         _tabBarData( new OxygenPrivate::TabBarData( this ) ),
         _splitterFactory( new SplitterFactory( this ) ),
         _frameFocusPrimitive( nullptr ),
-        _tabBarTabShapeControl( nullptr ),
         SH_ArgbDndWindow( newStyleHint( QStringLiteral( "SH_ArgbDndWindow" ) ) ),
         CE_CapacityBar( newControlElement( QStringLiteral( "CE_CapacityBar" ) ) )
 
@@ -1089,7 +1088,7 @@ namespace Oxygen
             case CE_TabBarTabLabel: fcn = &Style::drawTabBarTabLabelControl; break;
 
             // default tab style is 'SINGLE'
-            case CE_TabBarTabShape: fcn = _tabBarTabShapeControl; break;
+            case CE_TabBarTabShape: fcn = &Style::drawTabBarTabShapeControl; break;
 
             case CE_ToolBar: fcn = &Style::drawToolBarControl; break;
             case CE_ToolBoxTabLabel: fcn = &Style::drawToolBoxTabLabelControl; break;
@@ -5476,628 +5475,7 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawTabBarTabShapeControl_Single( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
-    {
-
-        const QStyleOptionTab* tabOpt( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-        if( !tabOpt ) return true;
-
-        const State& state( option->state );
-        const QRect& r( option->rect );
-        const QPalette& palette( option->palette );
-
-        const bool enabled( state & State_Enabled );
-        const bool selected( state&State_Selected );
-        const bool reverseLayout( option->direction == Qt::RightToLeft );
-
-        // this is needed to complete the base frame when there are widgets in tabbar
-        const QTabBar* tabBar( qobject_cast<const QTabBar*>( widget ) );
-        const QRect tabBarRect( tabBar ? insideMargin( tabBar->rect(), 0 ):QRect() );
-
-        // check if tab is being dragged
-        const bool isDragged( selected && painter->device() != tabBar );
-
-        // hover and animation flags
-        /* all are disabled when tabBar is locked ( drag in progress ) */
-        const bool tabBarLocked( _tabBarData->locks( tabBar ) );
-        const bool mouseOver( enabled && !tabBarLocked && ( state & State_MouseOver ) );
-
-        // animation state
-        _animations->tabBarEngine().updateState( widget, r.topLeft(), mouseOver );
-        const bool animated( enabled && !selected && !tabBarLocked && _animations->tabBarEngine().isAnimated( widget, r.topLeft() ) );
-
-        // handle base frame painting, for tabbars in which tab is being dragged
-        _tabBarData->drawTabBarBaseControl( tabOpt, painter, widget );
-        if( selected && tabBar && isDragged ) _tabBarData->lock( tabBar );
-        else if( selected  && _tabBarData->locks( tabBar ) ) _tabBarData->release();
-
-        // tab position and flags
-        const QStyleOptionTab::TabPosition& position = tabOpt->position;
-        const bool isFirst( position == QStyleOptionTab::OnlyOneTab || position == QStyleOptionTab::Beginning );
-        const bool isRightOfSelected( tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected );
-
-        // document mode
-        const QStyleOptionTabV3 *tabOptV3 = qstyleoption_cast<const QStyleOptionTabV3 *>( option );
-        bool documentMode = tabOptV3 ? tabOptV3->documentMode : false;
-        const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
-        documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
-
-        const bool verticalTabs( isVerticalTab( tabOpt ) );
-        const QRect tabWidgetRect( tabWidget ?
-            insideMargin( tabWidget->rect(), 0 ).translated( -widget->geometry().topLeft() ) :
-            QRect() );
-
-        // corner widgets
-        const bool hasLeftCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget );
-        const bool hasRightCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::RightCornerWidget );
-
-        // true if widget is aligned to the frame
-        /* need to check for 'isRightOfSelected' because for some reason the isFirst flag is set when active tab is being moved */
-        const bool isFrameAligned( !documentMode && isFirst && !hasLeftCornerWidget && !isRightOfSelected && !isDragged );
-        bool fillBackground( selected && isDragged );
-
-        bool isLeftFrameAligned( false );
-        bool isRightFrameAligned( false );
-        if( verticalTabs )
-        {
-
-            /*
-            for vertical tabs:
-            1/ leftFrameAligned corresponds to top side
-            2/ rightFrameAligned corresponds to the bottom side
-            3/ their value does not depend on reverseLayout
-            */
-            isLeftFrameAligned = isFrameAligned;
-            isRightFrameAligned = (!documentMode) && tabWidget && ( r.bottom() >= tabWidgetRect.bottom() - 2 );;
-            fillBackground |= selected && isRightFrameAligned;
-
-        } else if( reverseLayout ) {
-
-            isLeftFrameAligned = (!documentMode) && tabWidget && ( r.left() <= tabWidgetRect.left() + 2 );
-            isRightFrameAligned = isFrameAligned;
-            fillBackground |= selected && isLeftFrameAligned;
-
-        } else {
-
-            isLeftFrameAligned = isFrameAligned;
-            isRightFrameAligned = (!documentMode) && tabWidget && ( r.right() >= tabWidgetRect.right() - 2 );
-            fillBackground |= selected && isRightFrameAligned;
-
-        }
-
-        // part of the tab in which the text is drawn
-        QRect tabRect( r );
-
-        // connection to the frame
-        SlabRectList slabs;
-
-        switch( tabOpt->shape )
-        {
-            case QTabBar::RoundedNorth:
-            case QTabBar::TriangularNorth:
-            {
-
-                // part of the tab in which the text is drawn
-                // larger tabs when selected
-                if( selected ) tabRect.adjust( 0, -1, 0, 2 );
-                else tabRect.adjust( 0, 1, 0, 2 );
-
-                // connection to the main frame
-                if( selected )
-                {
-
-                    // do nothing if dragged
-                    if( isDragged ) break;
-
-                    // left side
-                    if( isLeftFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() );
-                        frameRect.setRight( tabRect.left() + 7 );
-                        frameRect.setTop( tabRect.bottom() - 13 );
-                        frameRect.setBottom( frameRect.bottom() + 7 - 1 );
-                        slabs << SlabRect( frameRect, TileSet::Left );
-
-                    } else {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - 7 );
-                        frameRect.setRight( tabRect.left() + 7 + 3 );
-                        frameRect.setTop( r.bottom() - 7 );
-                        slabs << SlabRect( frameRect, TileSet::Top );
-                    }
-
-                    // right side
-                    if( isRightFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() );
-                        frameRect.setTop( tabRect.bottom() - 13 );
-                        frameRect.setBottom( frameRect.bottom() + 7 - 1 );
-                        slabs << SlabRect( frameRect, TileSet::Right );
-
-                    } else {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 7 - 3 );
-                        frameRect.setRight( frameRect.right() + 7 );
-                        frameRect.setTop( r.bottom() - 7 );
-                        slabs << SlabRect( frameRect, TileSet::Top );
-
-                    }
-
-                    // extra base, to extend below inactive tabs and buttons
-                    if( tabBar )
-                    {
-                        if( r.left() > tabBarRect.left() + 1 )
-                        {
-                            QRect frameRect( r );
-                            frameRect.setLeft( tabBarRect.left() - 7 + 1 );
-                            frameRect.setRight( r.left() + 7 - 1 );
-                            frameRect.setTop( r.bottom() - 7 );
-                            if( documentMode || reverseLayout ) slabs << SlabRect( frameRect, TileSet::Top );
-                            else slabs << SlabRect( frameRect, TileSet::TopLeft );
-
-                        }
-
-                        if( r.right() < tabBarRect.right() - 1 )
-                        {
-
-                            QRect frameRect( r );
-                            frameRect.setLeft( r.right() - 7 + 1 );
-                            frameRect.setRight( tabBarRect.right() + 7 - 1 );
-                            frameRect.setTop( r.bottom() - 7 );
-                            if( documentMode || !reverseLayout ) slabs << SlabRect( frameRect, TileSet::Top );
-                            else slabs << SlabRect( frameRect, TileSet::TopRight );
-                        }
-                    }
-
-                } else {
-
-                    if( isRightFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() );
-                        frameRect.setTop( tabRect.bottom() - 13 );
-                        frameRect.setBottom( frameRect.bottom() + 7 - 2 );
-                        slabs << SlabRect( frameRect, TileSet::Right );
-
-                    }
-
-                    if( isLeftFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() );
-                        frameRect.setRight( tabRect.left() + 7 );
-                        frameRect.setTop( tabRect.bottom() - 13 );
-                        frameRect.setBottom( frameRect.bottom() + 7 - 2 );
-                        slabs << SlabRect( frameRect, TileSet::Left );
-
-                    }
-
-                }
-
-                break;
-
-            }
-
-            case QTabBar::RoundedSouth:
-            case QTabBar::TriangularSouth:
-            {
-
-                // larger tabs when selected
-                if( selected ) tabRect.adjust( 0, -2, 0, 1 );
-                else tabRect.adjust( 0, -2, 0, -1 );
-
-                // connection to the main frame
-                if( selected )
-                {
-
-                    // do nothing if dragged
-                    if( isDragged ) break;
-
-                    // left side
-                    if( isLeftFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() );
-                        frameRect.setRight( tabRect.left() + 7 );
-                        frameRect.setTop( frameRect.top() - 7 + 1 );
-                        frameRect.setBottom( tabRect.top() + 13 );
-                        slabs << SlabRect( frameRect, TileSet::Left );
-
-                    } else {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - 7 );
-                        frameRect.setRight( tabRect.left() + 7 + 3 );
-                        frameRect.setBottom( r.top() + 7 );
-                        slabs << SlabRect( frameRect, TileSet::Bottom );
-                    }
-
-                    // right side
-                    if( isRightFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() );
-                        frameRect.setTop( frameRect.top() - 7 + 1 );
-                        frameRect.setBottom( tabRect.top() + 13 );
-                        slabs << SlabRect( frameRect, TileSet::Right );
-
-                    } else {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 7 - 3 );
-                        frameRect.setRight( frameRect.right() + 7 );
-                        frameRect.setBottom( r.top() + 7 );
-                        slabs << SlabRect( frameRect, TileSet::Bottom );
-
-                    }
-
-                    // extra base, to extend below tabbar buttons
-                    if( tabBar )
-                    {
-                        if( r.left() > tabBarRect.left() + 1 )
-                        {
-                            QRect frameRect( r );
-                            frameRect.setLeft( tabBarRect.left() - 7 + 1 );
-                            frameRect.setRight( r.left() + 7 - 1 );
-                            frameRect.setBottom( r.top() + 7 );
-                            if( documentMode || reverseLayout ) slabs << SlabRect( frameRect, TileSet::Bottom );
-                            else slabs << SlabRect( frameRect, TileSet::BottomLeft );
-                        }
-
-                        if( r.right() < tabBarRect.right() - 1 )
-                        {
-
-                            QRect frameRect( r );
-                            frameRect.setLeft( r.right() - 7 + 1 );
-                            frameRect.setRight( tabBarRect.right() + 7 - 1 );
-                            frameRect.setBottom( r.top() + 7 );
-                            if( documentMode || !reverseLayout ) slabs << SlabRect( frameRect, TileSet::Bottom );
-                            else slabs << SlabRect( frameRect, TileSet::BottomRight );
-                        }
-
-                    }
-
-                } else {
-
-                    if( isRightFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 7 );
-                        frameRect.setRight( frameRect.right() );
-                        frameRect.setTop( frameRect.top() - 7 + 2 );
-                        frameRect.setBottom( tabRect.top() + 13 );
-                        slabs << SlabRect( frameRect, TileSet::Right );
-
-                    }
-
-                    if( isLeftFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() );
-                        frameRect.setRight( tabRect.left() + 7 );
-                        frameRect.setTop( frameRect.top() - 7 + 2 );
-                        frameRect.setBottom( tabRect.top() + 13 );
-                        slabs << SlabRect( frameRect, TileSet::Left );
-
-                    }
-
-                }
-
-                break;
-
-            }
-
-            case QTabBar::RoundedWest:
-            case QTabBar::TriangularWest:
-            {
-
-                // larger tabs when selected
-                if( selected ) tabRect.adjust( -1, 0, 2, 0 );
-                else tabRect.adjust( 1, 0, 2, 0 );
-
-                // connection to the main frame
-                if( selected )
-                {
-
-                    // do nothing if dragged
-                    if( isDragged ) break;
-
-                    // top side
-                    if( isLeftFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 13 );
-                        frameRect.setRight( frameRect.right() + 7 - 1 );
-                        frameRect.setTop( frameRect.top() );
-                        frameRect.setBottom( tabRect.top() + 7 );
-                        slabs << SlabRect( frameRect, TileSet::Top );
-
-                    } else {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( r.right() - 7 );
-                        frameRect.setTop( frameRect.top() - 7 );
-                        frameRect.setBottom( tabRect.top() + 7 + 3 );
-                        slabs << SlabRect( frameRect, TileSet::Left );
-                    }
-
-                    // bottom side
-                    if( isRightFrameAligned )
-                    {
-
-                        // FIXME:
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 13 );
-                        frameRect.setRight( frameRect.right() + 7 - 1 );
-                        frameRect.setTop( tabRect.bottom() - 7 );
-                        frameRect.setBottom( frameRect.bottom() );
-                        slabs << SlabRect( frameRect, TileSet::Bottom );
-
-                    } else {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( r.right() - 7 );
-                        frameRect.setTop( tabRect.bottom() - 7 - 3 );
-                        frameRect.setBottom( frameRect.bottom() + 7 );
-                        slabs << SlabRect( frameRect, TileSet::Left );
-
-                    }
-
-                    // extra base, to extend below tabbar buttons
-                    if( tabBar )
-                    {
-                        if( r.top() > tabBarRect.top() + 1 )
-                        {
-
-                            QRect frameRect( r );
-                            frameRect.setTop( tabBarRect.top() - 7 + 1 );
-                            frameRect.setBottom( r.top() + 7 - 1 );
-                            frameRect.setLeft( r.right() - 7 );
-                            if( documentMode ) slabs << SlabRect( frameRect, TileSet::Left );
-                            else slabs << SlabRect( frameRect, TileSet::TopLeft );
-                        }
-
-                        if( r.bottom() < tabBarRect.bottom() - 1 )
-                        {
-
-                            QRect frameRect( r );
-                            frameRect.setTop( r.bottom() - 7 + 1 );
-                            if( hasRightCornerWidget && documentMode ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
-                            else frameRect.setBottom( tabBarRect.bottom() + 7 );
-                            frameRect.setLeft( r.right() - 7 );
-                            slabs << SlabRect( frameRect, TileSet::Left );
-
-                        }
-                    }
-
-                } else {
-
-                    if( isLeftFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 13 );
-                        frameRect.setRight( frameRect.right() + 7 - 2 );
-                        frameRect.setTop( frameRect.top() );
-                        frameRect.setBottom( tabRect.top() + 7 );
-                        slabs << SlabRect( frameRect, TileSet::Top );
-
-                    }
-
-                    if( isRightFrameAligned )
-                    {
-
-                        // FIXME:
-                        QRect frameRect( r );
-                        frameRect.setLeft( tabRect.right() - 13 );
-                        frameRect.setRight( frameRect.right() + 7 - 2 );
-                        frameRect.setTop( tabRect.bottom() - 7 );
-                        frameRect.setBottom( frameRect.bottom() );
-                        slabs << SlabRect( frameRect, TileSet::Bottom );
-
-                    }
-                }
-
-                break;
-            }
-
-            case QTabBar::RoundedEast:
-            case QTabBar::TriangularEast:
-            {
-
-                // larger tabs when selected
-                if( selected ) tabRect.adjust( -2, 0, 1, 0 );
-                else tabRect.adjust( -2, 0, -1, 0 );
-
-                // connection to the main frame
-                if( selected )
-                {
-
-                    // do nothing if dragged
-                    if( isDragged ) break;
-
-                    // top side
-                    if( isLeftFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - 7 + 1 );
-                        frameRect.setRight( tabRect.left() + 13 );
-                        frameRect.setTop( frameRect.top() );
-                        frameRect.setBottom( tabRect.top() + 7 );
-                        slabs << SlabRect( frameRect, TileSet::Top );
-
-                    } else {
-
-                        QRect frameRect( r );
-                        frameRect.setRight( r.left() + 7 );
-                        frameRect.setTop( frameRect.top() - 7 );
-                        frameRect.setBottom( tabRect.top() + 7 + 3 );
-                        slabs << SlabRect( frameRect, TileSet::Right );
-                    }
-
-                    // bottom side
-                    if( isRightFrameAligned )
-                    {
-
-                        // FIXME:
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - 7 + 1 );
-                        frameRect.setRight( tabRect.left() + 13 );
-                        frameRect.setTop( tabRect.bottom() - 7 );
-                        frameRect.setBottom( frameRect.bottom() );
-                        slabs << SlabRect( frameRect, TileSet::Bottom );
-
-                    } else {
-
-                        QRect frameRect( r );
-                        frameRect.setRight( r.left() + 7 );
-                        frameRect.setTop( tabRect.bottom() - 7 - 3 );
-                        frameRect.setBottom( frameRect.bottom() + 7 );
-                        slabs << SlabRect( frameRect, TileSet::Right );
-
-                    }
-
-                    // extra base, to extend below tabbar buttons
-                    if( tabBar )
-                    {
-                        if( r.top() > tabBarRect.top() + 1 )
-                        {
-
-                            QRect frameRect( r );
-                            frameRect.setTop( tabBarRect.top() - 7 + 1 );
-                            frameRect.setBottom( r.top() + 7 - 1 );
-                            frameRect.setRight( r.left() + 7 );
-                            if( documentMode ) slabs << SlabRect( frameRect, TileSet::Right );
-                            else slabs << SlabRect( frameRect, TileSet::TopRight );
-                        }
-
-                        if( r.bottom() < tabBarRect.bottom() - 1 )
-                        {
-
-                            QRect frameRect( r );
-                            frameRect.setTop( r.bottom() - 7 + 1 );
-                            if( hasRightCornerWidget && documentMode ) frameRect.setBottom( tabBarRect.bottom() + 7 - 1 );
-                            else frameRect.setBottom( tabBarRect.bottom() + 7 );
-                            frameRect.setRight( r.left() + 7 );
-                            slabs << SlabRect( frameRect, TileSet::Right );
-
-                        }
-                    }
-
-                } else {
-
-                    if( isLeftFrameAligned )
-                    {
-
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - 7 + 2 );
-                        frameRect.setRight( tabRect.left() + 13 );
-                        frameRect.setTop( frameRect.top() );
-                        frameRect.setBottom( tabRect.top() + 7 );
-                        slabs << SlabRect( frameRect, TileSet::Top );
-
-                    }
-
-                    if( isRightFrameAligned )
-                    {
-
-                        // FIXME:
-                        QRect frameRect( r );
-                        frameRect.setLeft( frameRect.left() - 7 + 2 );
-                        frameRect.setRight( tabRect.left() + 13 );
-                        frameRect.setTop( tabRect.bottom() - 7 );
-                        frameRect.setBottom( frameRect.bottom() );
-                        slabs << SlabRect( frameRect, TileSet::Bottom );
-
-                    }
-
-                }
-
-                break;
-            }
-
-            default: break;
-        }
-
-
-        // slab options
-        StyleOptions slabOptions( NoFill );
-        if( StyleConfigData::tabSubtleShadow() ) slabOptions |= SubtleShadow;
-        if( ( !selected ) && ( mouseOver || animated ) ) slabOptions |= Hover;
-
-        // color
-        const QColor color( palette.color( QPalette::Window ) );
-
-        // render connections to frame
-        // extra care must be taken care of so that no slab
-        // extends beyond tabWidget frame, if any
-        foreach( SlabRect slab, slabs ) // krazy:exclude=foreach
-        {
-            adjustSlabRect( slab, tabWidgetRect, documentMode, verticalTabs );
-            if( selected || !animated ) renderSlab( painter, slab, color, slabOptions );
-            else {
-
-                const qreal opacity( _animations->tabBarEngine().opacity( widget, r.topLeft() ) );
-                renderSlab( painter, slab, color, slabOptions, opacity, AnimationHover );
-
-            }
-
-        }
-
-        //  adjust clip rect and render tabs
-        if( tabBar )
-        {
-            painter->save();
-            painter->setClipRegion( tabBarClipRegion( tabBar ) );
-        }
-
-        // draw tab
-        TileSet::Tiles tiles( tilesByShape( tabOpt->shape ) );
-        if( selected )
-        {
-
-            // render window background first, if needed
-            if( fillBackground ) fillTabBackground( painter, tabRect, color, tabOpt->shape, widget );
-
-            // render window background in case of dragged tabwidget
-            renderSlab( painter, tabRect, color, slabOptions, tiles );
-
-        } else if( animated ) {
-
-            const qreal opacity( _animations->tabBarEngine().opacity( widget, r.topLeft() ) );
-            renderSlab( painter, tabRect, color, slabOptions, opacity, AnimationHover, tiles );
-
-        } else renderSlab( painter, tabRect, color, slabOptions, tiles );
-
-        // fill tab
-        fillTab( painter, tabRect, color, tabOpt->shape, selected );
-
-        // restore clip region
-        if( tabBar ) painter->restore();
-
-        return true;
-
-    }
-
-    //___________________________________________________________________________________
-    bool Style::drawTabBarTabShapeControl_Plain( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    bool Style::drawTabBarTabShapeControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
         const QStyleOptionTab* tabOpt( qstyleoption_cast<const QStyleOptionTab*>( option ) );
@@ -6697,8 +6075,6 @@ namespace Oxygen
 
             // slab options
             StyleOptions selectedTabOpts( NoFill );
-            if( StyleConfigData::tabSubtleShadow() ) selectedTabOpts |= SubtleShadow;
-
             TileSet::Tiles tiles( tilesByShape( tabOpt->shape ) );
             renderSlab( painter, tabRect, color, selectedTabOpts, tiles );
             fillTab( painter, tabRect, color, tabOpt->shape, selected );
@@ -7453,7 +6829,7 @@ namespace Oxygen
             const qreal opacity( _animations->sliderEngine().opacity( widget ) );
 
             const QColor color( _helper->backgroundColor( palette.color( QPalette::Button ), widget, r.center() ) );
-            const QColor glow( slabShadowColor( color, styleOptions, opacity, AnimationHover ) );
+            const QColor glow( slabShadowColor( styleOptions, opacity, AnimationHover ) );
 
             const bool sunken( state & (State_On|State_Sunken) );
             painter->drawPixmap( r.topLeft(), _helper->sliderSlab( color, glow, sunken, 0.0 ) );
@@ -7802,19 +7178,6 @@ namespace Oxygen
             case 2: _subLineButtons = DoubleButton; break;
         }
 
-        // tabbar shape
-        switch( StyleConfigData::tabStyle() )
-        {
-            case StyleConfigData::TS_PLAIN:
-            _tabBarTabShapeControl = &Style::drawTabBarTabShapeControl_Plain;
-            break;
-
-            default:
-            case StyleConfigData::TS_SINGLE:
-            _tabBarTabShapeControl = &Style::drawTabBarTabShapeControl_Single;
-            break;
-        }
-
         // frame focus
         if( StyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
         else _frameFocusPrimitive = &Style::emptyPrimitive;
@@ -8044,7 +7407,7 @@ namespace Oxygen
         const QRect rect( centerRect( r, dimension, dimension ) );
 
         // calculate glow color
-        const QColor glow( slabShadowColor( color, styleOptions, opacity, mode ) );
+        const QColor glow( slabShadowColor( styleOptions, opacity, mode ) );
 
         // get main slab
         QPixmap pix( _helper->dialSlab( color, glow, 0.0, dimension ) );
@@ -8124,7 +7487,7 @@ namespace Oxygen
 
         } else {
 
-            QColor glow = slabShadowColor( color, options, opacity, mode );
+            QColor glow = slabShadowColor( options, opacity, mode );
             tile = _helper->slab( color, glow, 0.0 );
 
         }
@@ -8195,7 +7558,7 @@ namespace Oxygen
         } else {
 
             // calculate proper glow color based on current settings and opacity
-            const QColor glow( slabShadowColor( color, options, opacity, mode ) );
+            const QColor glow( slabShadowColor( options, opacity, mode ) );
             if( color.isValid() || glow.isValid() ) tile = _helper->slab( color, glow , 0.0 );
             else return;
 
@@ -8889,7 +8252,7 @@ namespace Oxygen
         const int y = r.y();
 
         const QColor color( palette.color( QPalette::Button ) );
-        const QColor glow( slabShadowColor( color, options, opacity, mode ) );
+        const QColor glow( slabShadowColor( options, opacity, mode ) );
         painter->drawPixmap( x, y, _helper->roundSlab( color, glow, 0.0 ) );
 
         // draw the radio mark
@@ -9164,7 +8527,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    QColor Style::slabShadowColor( QColor color, StyleOptions options, qreal opacity, AnimationMode mode ) const
+    QColor Style::slabShadowColor( StyleOptions options, qreal opacity, AnimationMode mode ) const
     {
 
         QColor glow;
@@ -9173,23 +8536,17 @@ namespace Oxygen
 
             if( options & Hover ) glow = _helper->viewHoverBrush().brush( QPalette::Active ).color();
             else if( options & Focus ) glow = _helper->viewFocusBrush().brush( QPalette::Active ).color();
-            else if( ( options & SubtleShadow ) && color.isValid() ) glow = _helper->alphaColor( _helper->calcShadowColor( color ), 0.15 );
-
 
         } else if( mode == AnimationHover ) {
 
             // animated color, hover
             if( options & Focus ) glow = _helper->viewFocusBrush().brush( QPalette::Active ).color();
-            else if( ( options & SubtleShadow ) && color.isValid() ) glow = _helper->alphaColor( _helper->calcShadowColor( color ), 0.15 );
-
             if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->viewHoverBrush().brush( QPalette::Active ).color(), opacity );
             else glow = _helper->alphaColor(  _helper->viewHoverBrush().brush( QPalette::Active ).color(), opacity );
 
         } else if( mode == AnimationFocus ) {
 
             if( options & Hover ) glow = _helper->viewHoverBrush().brush( QPalette::Active ).color();
-            else if( ( options & SubtleShadow ) && color.isValid() ) glow = _helper->alphaColor( _helper->calcShadowColor( color ), 0.15 );
-
             if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
             else glow = _helper->alphaColor(  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
 
