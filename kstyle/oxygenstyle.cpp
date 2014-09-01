@@ -906,7 +906,7 @@ namespace Oxygen
             case SE_CheckBoxContents: return checkBoxContentsRect( option, widget );
             case SE_RadioButtonContents: return checkBoxContentsRect( option, widget );
             case SE_LineEditContents: return lineEditContentsRect( option, widget );
-            case SE_ProgressBarGroove: return defaultSubElementRect( option, widget );
+            case SE_ProgressBarGroove: return progressBarGrooveRect( option, widget );
             case SE_ProgressBarContents: return progressBarContentsRect( option, widget );
             case SE_ProgressBarLabel: return defaultSubElementRect( option, widget );
             case SE_TabWidgetTabBar: return tabWidgetTabBarRect( option, widget );
@@ -1098,7 +1098,7 @@ namespace Oxygen
         if( element == CE_CapacityBar )
         {
 
-            fcn = &Style::drawCapacityBarControl;
+            fcn = &Style::drawProgressBarControl;
 
         } else switch( element ) {
 
@@ -1543,12 +1543,92 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QRect Style::progressBarContentsRect( const QStyleOption* option, const QWidget* ) const
+    QRect Style::progressBarGrooveRect( const QStyleOption* option, const QWidget* ) const
     {
         const QRect rect( option->rect );
-        const QStyleOptionProgressBarV2 *progressBarOption( qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option ) );
-        if( progressBarOption && progressBarOption->orientation == Qt::Vertical ) return rect.adjusted( 0, 1, 0, -1 );
-        else return rect.adjusted( 1, 0, -1, 0 );
+        const QStyleOptionProgressBarV2 *progressBarOption2( qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option ) );
+        const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
+        if( horizontal ) return rect.adjusted( 1, 0, -1, 0 );
+        else return rect.adjusted( 0, 1, 0, -1 );
+    }
+
+    //____________________________________________________________________
+    QRect Style::progressBarContentsRect( const QStyleOption* option, const QWidget* widget ) const
+    {
+
+        // cast option and check
+        const QStyleOptionProgressBar* progressBarOption( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
+        if( !progressBarOption ) return QRect();
+
+        // get orientation
+        const QStyleOptionProgressBarV2* progressBarOption2( qstyleoption_cast<const QStyleOptionProgressBarV2*>( option ) );
+        const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
+
+        // check inverted appearance
+        const bool inverted( progressBarOption2 ? progressBarOption2->invertedAppearance : false );
+
+        // get groove rect
+        const QRect rect( progressBarGrooveRect( option, widget ) );
+
+        // get progress
+        qreal progress = progressBarOption->progress - progressBarOption->minimum;
+        const bool busy = ( progressBarOption->minimum == 0 && progressBarOption->maximum == 0 );
+        if( busy ) progress = _animations->busyIndicatorEngine().value( widget ? widget : progressBarOption->styleObject );
+        if( !( progress || busy ) ) return QRect();
+
+        const int steps = qMax( progressBarOption->maximum  - progressBarOption->minimum, 1 );
+
+        //Calculate width fraction
+        qreal widthFrac( busy ?  Metrics::ProgressBar_BusyIndicatorSize/100.0 : progress/steps );
+        widthFrac = qMin( (qreal)1.0, widthFrac );
+
+        // And now the pixel width
+        const int indicatorSize( widthFrac*( horizontal ? rect.width():rect.height() ) );
+
+        // do nothing if indicator size is too small
+        if( indicatorSize < 4 ) return QRect();
+        QRect indicatorRect;
+        if( busy )
+        {
+
+            // The space around which we move around...
+            int remSize = ( ( 1.0 - widthFrac )*( horizontal ? rect.width():rect.height() ) );
+            remSize = qMax( remSize, 1 );
+
+            int pstep =  int( progress )%( 2*remSize );
+            if ( pstep > remSize )
+            { pstep = -( pstep - 2*remSize ); }
+
+            if ( horizontal ) {
+
+                indicatorRect = QRect( inverted ? (rect.right() - pstep - indicatorSize + 1) : (rect.left() + pstep), rect.top(), indicatorSize, rect.height() );
+                indicatorRect = visualRect( option->direction, rect, indicatorRect );
+
+            } else {
+
+                indicatorRect = QRect( rect.left(), inverted ? (rect.bottom() - pstep - indicatorSize + 1) : (rect.top() + pstep), rect.width(), indicatorSize );
+
+            }
+
+        } else {
+
+            if ( horizontal )
+            {
+
+                indicatorRect = QRect( inverted ? (rect.right() - indicatorSize + 1) : rect.left(), rect.top(), indicatorSize, rect.height() );
+                indicatorRect = visualRect( option->direction, rect, indicatorRect );
+
+            } else {
+
+                indicatorRect = QRect( rect.left(), inverted ? rect.top() : (rect.bottom()- indicatorSize + 1), rect.width(), indicatorSize );
+
+            }
+        }
+
+        // adjust
+        indicatorRect.adjust( 1, 1, -1, -1 );
+        return indicatorRect;
+
     }
 
     //____________________________________________________________________
@@ -4359,31 +4439,6 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawCapacityBarControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
-    {
-
-        // cast option
-        const QStyleOptionProgressBar* cbOption( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
-        if( !cbOption ) return true;
-
-        // draw container
-        QStyleOptionProgressBarV2 sub_opt( *cbOption );
-        sub_opt.rect = subElementRect( QStyle::SE_ProgressBarGroove, cbOption, widget );
-        drawProgressBarGrooveControl( &sub_opt, painter, widget );
-
-        // draw bar
-        sub_opt.rect = subElementRect( QStyle::SE_ProgressBarContents, cbOption, widget );
-        drawProgressBarContentsControl( &sub_opt, painter, widget );
-
-        // draw label
-        sub_opt.rect = subElementRect( QStyle::SE_ProgressBarLabel, cbOption, widget );
-        drawProgressBarLabelControl( &sub_opt, painter, widget );
-
-        return true;
-
-    }
-
-    //___________________________________________________________________________________
     bool Style::drawDockWidgetTitleControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
@@ -4891,7 +4946,7 @@ namespace Oxygen
         if( _animations->busyIndicatorEngine().isAnimated( styleObject ) )
         { progressBarOption2.progress = _animations->busyIndicatorEngine().value( styleObject ); }
 
-        progressBarOption2.rect = subElementRect( SE_ProgressBarContents, &progressBarOption2, widget );
+        progressBarOption2.rect = subElementRect( SE_ProgressBarContents, progressBarOption, widget );
         drawProgressBarContentsControl( &progressBarOption2, painter, widget );
 
         if( progressBarOption->textVisible )
@@ -4905,74 +4960,30 @@ namespace Oxygen
     }
 
     //___________________________________________________________________________________
-    bool Style::drawProgressBarContentsControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    bool Style::drawProgressBarContentsControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
+        // cast option and check
         const QStyleOptionProgressBar* progressBarOption = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
         if ( !progressBarOption ) return true;
 
+        // get orientation
         const QStyleOptionProgressBarV2* progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
+        const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
 
-        const QRect& r( option->rect );
+        // copy rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
-
-        // check if anything is to be drawn
-        qreal progress = progressBarOption->progress - progressBarOption->minimum;
-        const bool busyIndicator = ( progressBarOption->minimum == 0 && progressBarOption->maximum == 0 );
-        if( busyIndicator )
-        { progress = _animations->busyIndicatorEngine().value( widget ? widget : progressBarOption->styleObject ); }
-
-        if( !( progress || busyIndicator ) ) return true;
-
-        const int steps = qMax( progressBarOption->maximum  - progressBarOption->minimum, 1 );
-        const bool horizontal = !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal;
-
-        //Calculate width fraction
-        qreal widthFrac( busyIndicator ?  Metrics::ProgressBar_BusyIndicatorSize/100.0 : progress/steps );
-        widthFrac = qMin( (qreal)1.0, widthFrac );
-
-        // And now the pixel width
-        const int indicatorSize( widthFrac*( horizontal ? r.width():r.height() ) );
-
-        // do nothing if indicator size is too small
-        if( indicatorSize < 4 ) return true;
-
-        QRect indicatorRect;
-        if ( busyIndicator )
-        {
-
-            // The space around which we move around...
-            int remSize = ( ( 1.0 - widthFrac )*( horizontal ? r.width():r.height() ) );
-            remSize = qMax( remSize, 1 );
-
-            int pstep =  int( progress )%( 2*remSize );
-            if ( pstep > remSize )
-            { pstep = -( pstep - 2*remSize ); }
-
-            if ( horizontal ) indicatorRect = QRect( r.x() + pstep, r.y(), indicatorSize, r.height() );
-            else indicatorRect = QRect( r.x(), r.y() + pstep, r.width(), indicatorSize );
-
-        } else {
-
-            if ( horizontal ) indicatorRect = QRect( r.x(), r.y(), indicatorSize, r.height() );
-            else indicatorRect = QRect( r.x(), r.bottom()- indicatorSize + 1, r.width(), indicatorSize );
-
-        }
-
-        // handle right to left
-        indicatorRect = visualRect( option, indicatorRect );
 
         // make sure rect is large enough
         /* this account for adjustments done here and in StyleHelper::progressBarIndicator */
-        if( indicatorRect.adjusted( 2, 1, -2, -1 ).isValid() )
+        if( rect.adjusted( 1, 0, -1, 0 ).isValid() )
         {
-            indicatorRect.adjust( 1, 1, -1, -1 );
-
             // calculate dimension
             int dimension( 20 );
-            if( progressBarOption2 ) dimension = qMax( 5, horizontal ? indicatorRect.height() : indicatorRect.width() );
+            if( progressBarOption2 ) dimension = qMax( 5, horizontal ? rect.height() : rect.width() );
             TileSet* tileSet( _helper->progressBarIndicator( palette, dimension ) );
-            tileSet->render( indicatorRect, painter, TileSet::Full );
+            tileSet->render( rect, painter, TileSet::Full );
         }
 
         return true;
@@ -4985,45 +4996,46 @@ namespace Oxygen
 
         const QStyleOptionProgressBarV2 *progressBarOption = qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option );
         const Qt::Orientation orientation( progressBarOption? progressBarOption->orientation : Qt::Horizontal );
-
-        // ajust rect for alignment
-        QRect rect( option->rect );
-        if( orientation == Qt::Horizontal ) rect.adjust( 1, 0, -1, 0 );
-        else rect.adjust( 0, 1, 0, -1 );
-
-        renderScrollBarHole( painter, rect, option->palette.color( QPalette::Window ), orientation );
+        renderScrollBarHole( painter, option->rect, option->palette.color( QPalette::Window ), orientation );
 
         return true;
     }
 
     //___________________________________________________________________________________
-    bool Style::drawProgressBarLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
+    bool Style::drawProgressBarLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
+
+        // cast option and check
         const QStyleOptionProgressBar* progressBarOption = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
         if( !progressBarOption ) return true;
 
-        const QRect& r( option->rect );
+        // copy rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
+
+        // store state
         const State& state( option->state );
         const bool enabled( state&State_Enabled );
-
-        const QStyleOptionProgressBarV2* progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
-        const bool horizontal = !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal;
         const bool reverseLayout = ( option->direction == Qt::RightToLeft );
 
+        // get orientation
+        const QStyleOptionProgressBarV2* progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
+        const bool horizontal = !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal;
+
+        // check inverted appearance
+        const bool inverted( progressBarOption2 ? progressBarOption2->invertedAppearance : false );
+
         // rotate label for vertical layout
-        if( ! ( horizontal || reverseLayout ) )
+        QTransform transform;
+        if( !horizontal )
         {
-
-            painter->translate( r.topRight() );
-            painter->rotate( 90.0 );
-
-        } else if( !horizontal ) {
-
-            painter->translate( r.bottomLeft() );
-            painter->rotate( -90.0 );
-
+            if( reverseLayout ) transform.rotate( -90 );
+            else transform.rotate( 90 );
         }
+
+        painter->setTransform( transform );
+        const QRect progressRect( transform.inverted().mapRect( subElementRect( SE_ProgressBarContents, progressBarOption, widget ) ) );
+        QRect textRect( transform.inverted().mapRect( rect ) );
 
         Qt::Alignment hAlign( ( progressBarOption->textAlignment == Qt::AlignLeft ) ? Qt::AlignHCenter : progressBarOption->textAlignment );
 
@@ -5031,33 +5043,26 @@ namespace Oxygen
         Figure out the geometry of the indicator.
         This is copied from drawProgressBarContentsControl
         */
-        QRect progressRect;
-        const QRect textRect( horizontal? r : QRect( 0, 0, r.height(), r.width() ) );
-        const qreal progress = progressBarOption->progress - progressBarOption->minimum;
-        const int steps = qMax( progressBarOption->maximum  - progressBarOption->minimum, 1 );
-        const bool busyIndicator = ( steps <= 1 );
-
-        int indicatorSize( 0 );
-        if( !busyIndicator )
+        if( progressRect.isValid() )
         {
-            const qreal widthFrac = qMin( (qreal)1.0, progress / steps );
-            indicatorSize = widthFrac*( horizontal ? r.width() : r.height() ) - (horizontal ? 2:1);
-        }
+            // first pass ( normal )
+            QRect textClipRect( textRect );
 
-        if( indicatorSize > 0 )
-        {
-            if ( horizontal ) painter->setClipRect( visualRect( option, QRect( r.x(), r.y(), indicatorSize, r.height() ) ) );
-            else if ( !reverseLayout )  painter->setClipRect( QRect( r.height()-indicatorSize, 0, r.height(), r.width() ) );
-            else painter->setClipRect( QRect( 0, 0, indicatorSize, r.width() ) );
+            if( horizontal )
+            {
 
-            // first pass ( highlighted )
-            drawItemText( painter, textRect, Qt::AlignVCenter | hAlign, palette, enabled, progressBarOption->text, QPalette::HighlightedText );
+                if( (reverseLayout && !inverted) || (inverted && !reverseLayout) ) textClipRect.setRight( progressRect.left() );
+                else textClipRect.setLeft( progressRect.right() + 1 );
 
-            // second pass ( normal )
-            if( horizontal ) painter->setClipRect( visualRect( option, QRect( r.x() + indicatorSize, r.y(), r.width() - indicatorSize, r.height() ) ) );
-            else if( !reverseLayout ) painter->setClipRect( QRect( 0, 0, r.height() - indicatorSize, r.width() ) );
-            else painter->setClipRect( QRect( indicatorSize, 0, r.height()- indicatorSize, r.width() ) );
+            } else if( (reverseLayout && !inverted) || (inverted && !reverseLayout) ) textClipRect.setLeft( progressRect.right() + 1 );
+            else textClipRect.setRight( progressRect.left() );
+
+            painter->setClipRect( textClipRect );
             drawItemText( painter, textRect, Qt::AlignVCenter | hAlign, palette, enabled, progressBarOption->text, QPalette::WindowText );
+
+            // second pass ( highlighted )
+            painter->setClipRect( progressRect );
+            drawItemText( painter, textRect, Qt::AlignVCenter | hAlign, palette, enabled, progressBarOption->text, QPalette::HighlightedText );
 
         } else {
 
@@ -5555,7 +5560,7 @@ namespace Oxygen
                 ( tabOptV3.state & State_Enabled ) ? QIcon::Normal : QIcon::Disabled,
                 ( tabOptV3.state & State_Selected ) ? QIcon::On : QIcon::Off );
 
-            painter->drawPixmap( iconRect.x(), iconRect.y(), tabIcon );
+            painter->drawPixmap( iconRect.topLeft(), tabIcon );
         }
 
         // render text
@@ -7534,17 +7539,7 @@ namespace Oxygen
         p.setRenderHints( QPainter::Antialiasing );
 
         // indicator
-        qreal angle( 0 );
-        if( sliderOption->maximum == sliderOption->minimum ) angle = M_PI / 2;
-        else {
-
-            qreal fraction( qreal( sliderOption->sliderPosition - sliderOption->minimum )/qreal( sliderOption->maximum - sliderOption->minimum ) );
-            if( !sliderOption->upsideDown ) fraction = 1.0 - fraction;
-
-            if( sliderOption->dialWrapping ) angle = 1.5*M_PI - fraction*2*M_PI;
-            else  angle = ( M_PI*8 - fraction*10*M_PI )/6;
-        }
-
+        const qreal angle( dialAngle( sliderOption, sliderOption->sliderPosition ) );
         QPointF center( pix.rect().center() );
         const int sliderWidth( dimension/6 );
         const qreal radius( 0.5*( dimension - 2*sliderWidth ) );
@@ -8564,70 +8559,6 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________
-    void Style::renderSliderTickmarks( QPainter* painter, const QStyleOptionSlider* option,  const QWidget* widget ) const
-    {
-
-        const int& ticks( option->tickPosition );
-        const int available( pixelMetric( PM_SliderSpaceAvailable, option, widget ) );
-        int interval = option->tickInterval;
-        if( interval < 1 ) interval = option->pageStep;
-        if( interval < 1 ) return;
-
-        const QRect& r( option->rect );
-        const QPalette& palette( option->palette );
-
-        const int fudge( pixelMetric( PM_SliderLength, option, widget ) / 2 );
-        int current( option->minimum );
-
-        // Since there is no subrect for tickmarks do a translation here.
-        painter->save();
-        painter->translate( r.x(), r.y() );
-
-        if( option->orientation == Qt::Horizontal )
-        {
-            QColor base( _helper->backgroundColor( palette.color( QPalette::Window ), widget, r.center() ) );
-            painter->setPen( _helper->calcDarkColor( base ) );
-        }
-
-        int tickSize( option->orientation == Qt::Horizontal ? r.height()/3:r.width()/3 );
-
-        while( current <= option->maximum )
-        {
-
-            const int position( sliderPositionFromValue( option->minimum, option->maximum, current, available ) + fudge );
-
-            // calculate positions
-            if( option->orientation == Qt::Horizontal )
-            {
-                if( ticks == QSlider::TicksAbove ) painter->drawLine( position, 0, position, tickSize );
-                else if( ticks == QSlider::TicksBelow ) painter->drawLine( position, r.height()-tickSize, position, r.height() );
-                else {
-                    painter->drawLine( position, 0, position, tickSize );
-                    painter->drawLine( position, r.height()-tickSize, position, r.height() );
-                }
-
-            } else {
-
-                QColor base( _helper->backgroundColor( palette.color( QPalette::Window ), widget, QPoint( r.center().x(), position ) ) );
-                painter->setPen( _helper->calcDarkColor( base ) );
-
-                if( ticks == QSlider::TicksAbove ) painter->drawLine( 0, position, tickSize, position );
-                else if( ticks == QSlider::TicksBelow ) painter->drawLine( r.width()-tickSize, position, r.width(), position );
-                else {
-                    painter->drawLine( 0, position, tickSize, position );
-                    painter->drawLine( r.width()-tickSize, position, r.width(), position );
-                }
-            }
-
-            // go to next position
-            current += interval;
-
-        }
-
-        painter->restore();
-    }
-
-    //______________________________________________________________________________
     void Style::renderDebugFrame( QPainter* painter, const QRect& rect ) const
     {
         painter->save();
@@ -8736,6 +8667,27 @@ namespace Oxygen
         toolButtonOption.toolButtonStyle = Qt::ToolButtonTextBesideIcon;
 
         return toolButtonOption;
+
+    }
+
+    //______________________________________________________________________________
+    qreal Style::dialAngle( const QStyleOptionSlider* sliderOption, int value ) const
+    {
+
+        // calculate angle at which handle needs to be drawn
+        qreal angle( 0 );
+        if( sliderOption->maximum == sliderOption->minimum ) angle = M_PI / 2;
+        else {
+
+            qreal fraction( qreal( value - sliderOption->minimum )/qreal( sliderOption->maximum - sliderOption->minimum ) );
+            if( !sliderOption->upsideDown ) fraction = 1.0 - fraction;
+
+            if( sliderOption->dialWrapping ) angle = 1.5*M_PI - fraction*2*M_PI;
+            else  angle = ( M_PI*8 - fraction*10*M_PI )/6;
+
+        }
+
+        return angle;
 
     }
 

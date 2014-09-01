@@ -256,6 +256,7 @@ namespace Oxygen
         QRect pushButtonContentsRect( const QStyleOption* option, const QWidget* ) const;
         QRect checkBoxContentsRect( const QStyleOption* option, const QWidget* ) const;
         QRect lineEditContentsRect( const QStyleOption*, const QWidget* ) const;
+        QRect progressBarGrooveRect( const QStyleOption* option, const QWidget* ) const;
         QRect progressBarContentsRect( const QStyleOption* option, const QWidget* ) const;
         QRect tabWidgetTabBarRect( const QStyleOption*, const QWidget* ) const;
         QRect tabWidgetTabContentsRect( const QStyleOption*, const QWidget* ) const;
@@ -363,7 +364,6 @@ namespace Oxygen
         bool emptyControl( const QStyleOption*, QPainter*, const QWidget* ) const
         { return true; }
 
-        virtual bool drawCapacityBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawMenuBarItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawMenuItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -454,6 +454,9 @@ namespace Oxygen
 
         QRect centerRect(const QRect &rect, int width, int height) const
         { return QRect(rect.left() + (rect.width() - width)/2, rect.top() + (rect.height() - height)/2, width, height); }
+
+        //* return dial angle based on option and value
+        qreal dialAngle( const QStyleOptionSlider*, int ) const;
 
         /*
         Checks whether the point is before the bound rect for bound of given orientation.
@@ -576,9 +579,6 @@ namespace Oxygen
 
         //* returns true if given scrollbar arrow is animated
         QColor scrollBarArrowColor( const QStyleOptionSlider*, const SubControl&, const QWidget* ) const;
-
-        //* slider tickmarks
-        void renderSliderTickmarks( QPainter*, const QStyleOptionSlider*, const QWidget* ) const;
 
         //* debug frame
         void renderDebugFrame( QPainter*, const QRect& ) const;
