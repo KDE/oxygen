@@ -27,82 +27,82 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygenanimation.h"
 #include "oxygenbaseengine.h"
 #include "oxygenbusyindicatordata.h"
 #include "oxygendatamap.h"
 
-#include <QBasicTimer>
-#include <QSet>
-#include <QWidget>
-#include <QTimerEvent>
-
 namespace Oxygen
 {
 
-    //! handles progress bar animations
+    //* handles progress bar animations
     class BusyIndicatorEngine: public BaseEngine
     {
 
         Q_OBJECT
 
+        //* declare opacity property
+        Q_PROPERTY( qreal value READ value WRITE setValue )
+
         public:
 
-        //! constructor
-        explicit BusyIndicatorEngine( QObject* object ):
-            BaseEngine( object )
-        {}
+        //* constructor
+        explicit BusyIndicatorEngine( QObject* );
 
-        //! destructor
+        //* destructor
         virtual ~BusyIndicatorEngine( void )
         {}
 
-        //!@name accessors
+        //*@name accessors
         //@{
 
-        //! true if widget is animated
+        //* true if widget is animated
         virtual bool isAnimated( const QObject* );
 
-        //! animation opacity
-        virtual int value( const QObject* object )
-        { return isAnimated( object ) ? data( object ).data()->value():0; }
+        //* value
+        virtual qreal value( void ) const
+        { return _value; }
 
         //@}
 
-        //!@name modifiers
+        //*@name modifiers
         //@{
 
-        //! register progressbar
+        //* register progressbar
         virtual bool registerWidget( QObject* );
 
-        //! duration
+        //* duration
         virtual void setDuration( int );
 
-        //! set object as animated
+        //* set object as animated
         virtual void setAnimated( const QObject*, bool );
+
+        //* opacity
+        virtual void setValue( qreal value );
 
         //@}
 
         public Q_SLOTS:
 
-        //! remove widget from map
+        //* remove widget from map
         virtual bool unregisterWidget( QObject* object )
         { return _data.unregisterWidget( object ); }
 
         protected:
 
-        //! timer event
-        virtual void timerEvent( QTimerEvent* );
-
-        //! returns data associated to widget
+        //* returns data associated to widget
         DataMap<BusyIndicatorData>::Value data( const QObject* );
 
         private:
 
-        //! map widgets to progressbar data
+        //* map widgets to progressbar data
         DataMap<BusyIndicatorData> _data;
 
-        //! timer
-        QBasicTimer _timer;
+        //* animation
+        Animation::Pointer _animation;
+
+        //* value
+        qreal _value;
 
     };
 

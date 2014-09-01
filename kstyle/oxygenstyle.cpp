@@ -1573,7 +1573,7 @@ namespace Oxygen
         // get progress
         qreal progress = progressBarOption->progress - progressBarOption->minimum;
         const bool busy = ( progressBarOption->minimum == 0 && progressBarOption->maximum == 0 );
-        if( busy ) progress = _animations->busyIndicatorEngine().value( widget ? widget : progressBarOption->styleObject );
+        if( busy ) progress = _animations->busyIndicatorEngine().value();
         if( !( progress || busy ) ) return QRect();
 
         const int steps = qMax( progressBarOption->maximum  - progressBarOption->minimum, 1 );
@@ -1595,8 +1595,8 @@ namespace Oxygen
             int remSize = ( ( 1.0 - widthFrac )*( horizontal ? rect.width():rect.height() ) );
             remSize = qMax( remSize, 1 );
 
-            int pstep =  int( progress )%( 2*remSize );
-            if ( pstep > remSize )
+            int pstep =  remSize*2*progress;
+            if( pstep > remSize )
             { pstep = -( pstep - 2*remSize ); }
 
             if ( horizontal ) {
@@ -4933,12 +4933,16 @@ namespace Oxygen
         }
 
         if( _animations->busyIndicatorEngine().isAnimated( styleObject ) )
-        { progressBarOption2.progress = _animations->busyIndicatorEngine().value( styleObject ); }
+        { progressBarOption2.progress = _animations->busyIndicatorEngine().value(); }
 
+        // render contents
         progressBarOption2.rect = subElementRect( SE_ProgressBarContents, progressBarOption, widget );
         drawProgressBarContentsControl( &progressBarOption2, painter, widget );
 
-        if( progressBarOption->textVisible )
+        // render text
+        const bool textVisible( progressBarOption->textVisible );
+        const bool busy( progressBarOption->minimum == 0 && progressBarOption->maximum == 0 );
+        if( textVisible && !busy )
         {
             progressBarOption2.rect = subElementRect( SE_ProgressBarLabel, progressBarOption, widget );
             drawProgressBarLabelControl( &progressBarOption2, painter, widget );

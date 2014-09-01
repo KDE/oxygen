@@ -15,6 +15,7 @@ set(oxygen_PART_SRCS
     animations/oxygenanimations.cpp
     animations/oxygenanimationdata.cpp
     animations/oxygenbaseengine.cpp
+    animations/oxygenbusyindicatordata.cpp
     animations/oxygenbusyindicatorengine.cpp
     animations/oxygendockseparatordata.cpp
     animations/oxygendockseparatorengine.cpp

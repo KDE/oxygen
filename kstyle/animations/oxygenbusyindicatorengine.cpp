@@ -33,6 +33,21 @@ namespace Oxygen
 {
 
     //_______________________________________________
+    BusyIndicatorEngine::BusyIndicatorEngine( QObject* object ):
+        BaseEngine( object ),
+        _animation( new Animation( duration(), this ) )
+    {
+
+        // setup animation
+        _animation.data()->setStartValue( 0 );
+        _animation.data()->setEndValue( 1 );
+        _animation.data()->setTargetObject( this );
+        _animation.data()->setPropertyName( "value" );
+        _animation.data()->setLoopCount( -1 );
+
+    }
+
+    //_______________________________________________
     bool BusyIndicatorEngine::registerWidget( QObject* object )
     {
 
@@ -69,11 +84,7 @@ namespace Oxygen
         BaseEngine::setDuration( value );
 
         // restart timer with specified time
-        if( _timer.isActive() )
-        {
-            _timer.stop();
-            _timer.start( value, this );
-        }
+        _animation.data()->setDuration( value*100 );
 
     }
 
@@ -88,8 +99,8 @@ namespace Oxygen
             data.data()->setAnimated( value );
 
             // start timer if needed
-            if( value && !_timer.isActive() )
-            { _timer.start( duration(), this ); }
+            if( value && !_animation.data()->isRunning() )
+            { _animation.data()->start(); }
 
         }
 
@@ -103,12 +114,11 @@ namespace Oxygen
     { return _data.find( object ).data(); }
 
     //_______________________________________________
-    void BusyIndicatorEngine::timerEvent( QTimerEvent* event )
+    void BusyIndicatorEngine::setValue( qreal value )
     {
 
-        // check enability and timer
-        if( !( enabled() && event->timerId() == _timer.timerId() ) )
-        { return BaseEngine::timerEvent( event ); }
+        // update
+        _value = value;
 
         bool animated( false );
 
@@ -116,28 +126,30 @@ namespace Oxygen
         for( DataMap<BusyIndicatorData>::iterator iter = _data.begin(); iter != _data.end(); ++iter )
         {
 
-            if( iter.value()->isAnimated() )
+            if( iter.value().data()->isAnimated() )
             {
 
                 // update animation flag
                 animated = true;
 
-                // increment value
-                iter.value()->increment();
-
                 // emit update signal on object
-                if( const_cast<QObject*>( iter.key() )->inherits( "QQuickStyleItem" )) {
+                if( const_cast<QObject*>( iter.key() )->inherits( "QQuickStyleItem" ))
+                {
+
                     //QtQuickControls "rerender" method is updateItem
                     QMetaObject::invokeMethod( const_cast<QObject*>( iter.key() ), "updateItem", Qt::QueuedConnection);
+
                 } else {
+
                     QMetaObject::invokeMethod( const_cast<QObject*>( iter.key() ), "update", Qt::QueuedConnection);
+
                 }
 
             }
 
         }
 
-        if( !animated ) _timer.stop();
+        if( !animated ) _animation.data()->stop();
 
     }
 
