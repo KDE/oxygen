@@ -97,6 +97,8 @@
 
 #include <cmath>
 
+#define USE_KDE4 0
+
 Q_LOGGING_CATEGORY(OXYGEN, "oxygen")
 
 namespace OxygenPrivate
@@ -546,7 +548,7 @@ namespace Oxygen
         _blurHelper->unregisterWidget( widget );
 
         // event filters
-        switch ( widget->windowFlags() & Qt::WindowType_Mask )
+        switch( widget->windowFlags() & Qt::WindowType_Mask )
         {
 
             case Qt::Window:
@@ -654,12 +656,12 @@ namespace Oxygen
             else if( option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" ) )
             {
                 const QString &elementType = option->styleObject->property( "elementType" ).toString();
-                if ( elementType == QLatin1String( "edit" ) || elementType == QLatin1String( "spinbox" ) )
+                if( elementType == QLatin1String( "edit" ) || elementType == QLatin1String( "spinbox" ) )
                 {
 
                     return Metrics::LineEdit_FrameWidth;
 
-                } else if ( elementType == QLatin1String( "combobox" ) ) {
+                } else if( elementType == QLatin1String( "combobox" ) ) {
 
                     return Metrics::ComboBox_FrameWidth;
 
@@ -814,15 +816,9 @@ namespace Oxygen
         */
         switch( hint )
         {
-            case SH_GroupBox_TextLabelColor:
-            if( option ) return option->palette.color( QPalette::WindowText ).rgba();
-            else return QPalette().color( QPalette::WindowText ).rgba();
 
             case SH_RubberBand_Mask:
             {
-
-                const QStyleOptionRubberBand *opt = qstyleoption_cast<const QStyleOptionRubberBand *>( option );
-                if( !opt ) return false;
 
                 if( QStyleHintReturnMask *mask = qstyleoption_cast<QStyleHintReturnMask*>( returnData ) )
                 {
@@ -846,7 +842,7 @@ namespace Oxygen
                     { return true; }
 
                     // mask out center
-                    mask->region -= option->rect.adjusted( 1,1,-1,-1 );
+                    mask->region -= insideMargin( option->rect, 1 );
 
                     return true;
                 }
@@ -875,22 +871,23 @@ namespace Oxygen
             case SH_MenuBar_MouseTracking: return true;
             case SH_Menu_MouseTracking: return true;
 
+            // menus
             case SH_Menu_SubMenuPopupDelay: return 150;
             case SH_Menu_SloppySubMenus: return true;
-            case SH_Menu_SupportsSections: return true;
 
-            case SH_TitleBar_NoBorder: return 0;
+            #if QT_VERSION >= 0x050000
+            case SH_Menu_SupportsSections: return true;
+            #endif
+
+            case SH_TitleBar_NoBorder: return false;
             case SH_GroupBox_TextLabelVerticalAlignment: return Qt::AlignVCenter;
-            case SH_DialogButtonLayout: return QDialogButtonBox::KdeLayout;
             case SH_ScrollBar_MiddleClickAbsolutePosition: return true;
-            case SH_ItemView_ShowDecorationSelected: return false;
             case SH_ScrollView_FrameOnlyAroundContents: return true;
             case SH_FormLayoutFormAlignment: return Qt::AlignLeft | Qt::AlignTop;
             case SH_FormLayoutLabelAlignment: return Qt::AlignRight;
             case SH_FormLayoutFieldGrowthPolicy: return QFormLayout::ExpandingFieldsGrow;
             case SH_FormLayoutWrapPolicy: return QFormLayout::DontWrapRows;
             case SH_MessageBox_TextInteractionFlags: return Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse;
-            case SH_WindowFrame_Mask: return false;
             case SH_RequestSoftwareInputPanel: return RSIP_OnMouseClick;
 
             case SH_ProgressDialog_CenterCancelButton:
@@ -905,7 +902,6 @@ namespace Oxygen
     //______________________________________________________________
     QRect Style::subElementRect( SubElement element, const QStyleOption* option, const QWidget* widget ) const
     {
-
 
         switch( element )
         {
@@ -924,7 +920,6 @@ namespace Oxygen
             case SE_TabWidgetTabPane: return tabWidgetTabPaneRect( option, widget );
             case SE_TabWidgetLeftCorner: return tabWidgetCornerRect( SE_TabWidgetLeftCorner, option, widget );
             case SE_TabWidgetRightCorner: return tabWidgetCornerRect( SE_TabWidgetRightCorner, option, widget );
-
             case SE_ToolBoxTabContents: return toolBoxTabContentsRect( option, widget );
 
             default: return ParentStyleClass::subElementRect( element, option, widget );
@@ -971,10 +966,8 @@ namespace Oxygen
             case CT_MenuBar: return defaultSizeFromContents( option, size, widget );
             case CT_MenuBarItem: return menuBarItemSizeFromContents( option, size, widget );
             case CT_MenuItem: return menuItemSizeFromContents( option, size, widget );
-            case CT_TabBarTab: return tabBarTabSizeFromContents( option, size, widget );
             case CT_TabWidget: return tabWidgetSizeFromContents( option, size, widget );
-
-            // item views
+            case CT_TabBarTab: return tabBarTabSizeFromContents( option, size, widget );
             case CT_HeaderSection: return headerSectionSizeFromContents( option, size, widget );
             case CT_ItemViewItem: return itemViewItemSizeFromContents( option, size, widget );
 
@@ -991,21 +984,21 @@ namespace Oxygen
             case CC_ScrollBar:
             {
 
-                QRect groove = scrollBarSubControlRect( option, SC_ScrollBarGroove, widget );
-                if ( groove.contains( point ) )
+                QRect grooveRect = scrollBarSubControlRect( option, SC_ScrollBarGroove, widget );
+                if( grooveRect.contains( point ) )
                 {
                     //Must be either page up/page down, or just click on the slider.
                     //Grab the slider to compare
-                    QRect slider = scrollBarSubControlRect( option, SC_ScrollBarSlider, widget );
+                    QRect sliderRect = scrollBarSubControlRect( option, SC_ScrollBarSlider, widget );
 
-                    if( slider.contains( point ) ) return SC_ScrollBarSlider;
-                    else if( preceeds( point, slider, option ) ) return SC_ScrollBarSubPage;
+                    if( sliderRect.contains( point ) ) return SC_ScrollBarSlider;
+                    else if( preceeds( point, sliderRect, option ) ) return SC_ScrollBarSubPage;
                     else return SC_ScrollBarAddPage;
 
                 }
 
                 //This is one of the up/down buttons. First, decide which one it is.
-                if( preceeds( point, groove, option ) )
+                if( preceeds( point, grooveRect, option ) )
                 {
 
                     if( _subLineButtons == DoubleButton )
@@ -1034,8 +1027,6 @@ namespace Oxygen
     void Style::drawPrimitive( PrimitiveElement element, const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        painter->save();
-
         StylePrimitive fcn( nullptr );
         switch( element )
         {
@@ -1063,18 +1054,14 @@ namespace Oxygen
             case PE_IndicatorArrowDown: fcn = &Style::drawIndicatorArrowDownPrimitive; break;
             case PE_IndicatorArrowLeft: fcn = &Style::drawIndicatorArrowLeftPrimitive; break;
             case PE_IndicatorArrowRight: fcn = &Style::drawIndicatorArrowRightPrimitive; break;
-
             case PE_IndicatorDockWidgetResizeHandle: fcn = &Style::drawIndicatorDockWidgetResizeHandlePrimitive; break;
             case PE_IndicatorHeaderArrow: fcn = &Style::drawIndicatorHeaderArrowPrimitive; break;
-
             case PE_PanelButtonCommand: fcn = &Style::drawPanelButtonCommandPrimitive; break;
             case PE_PanelButtonTool: fcn = &Style::drawPanelButtonToolPrimitive; break;
-
             case PE_PanelItemViewItem: fcn = &Style::drawPanelItemViewItemPrimitive; break;
             case PE_PanelMenu: fcn = &Style::drawPanelMenuPrimitive; break;
             case PE_PanelScrollAreaCorner: fcn = &Style::drawPanelScrollAreaCornerPrimitive; break;
             case PE_PanelTipLabel: fcn = &Style::drawPanelTipLabelPrimitive; break;
-
             case PE_IndicatorMenuCheckMark: fcn = &Style::drawIndicatorMenuCheckMarkPrimitive; break;
             case PE_IndicatorBranch: fcn = &Style::drawIndicatorBranchPrimitive; break;
             case PE_IndicatorButtonDropDown: fcn = &Style::drawIndicatorButtonDropDownPrimitive; break;
@@ -1083,15 +1070,16 @@ namespace Oxygen
             case PE_IndicatorTabTear: fcn = &Style::drawIndicatorTabTearPrimitive; break;
             case PE_IndicatorToolBarHandle: fcn = &Style::drawIndicatorToolBarHandlePrimitive; break;
             case PE_IndicatorToolBarSeparator: fcn = &Style::drawIndicatorToolBarSeparatorPrimitive; break;
-
             case PE_Widget: fcn = &Style::drawWidgetPrimitive; break;
 
+            // fallback
             default: break;
 
         }
 
-        // try find primitive in map, and run.
-        // exit if result is true, otherwise fallback to generic case
+        painter->save();
+
+        // call function if implemented
         if( !( fcn && ( this->*fcn )( option, painter, widget ) ) )
         { ParentStyleClass::drawPrimitive( element, option, painter, widget ); }
 
@@ -1102,15 +1090,17 @@ namespace Oxygen
     //______________________________________________________________
     void Style::drawControl( ControlElement element, const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-        painter->save();
 
         StyleControl fcn( nullptr );
+        #if !USE_KDE4
         if( element == CE_CapacityBar )
         {
 
             fcn = &Style::drawProgressBarControl;
 
-        } else switch( element ) {
+        } else
+        #endif
+        switch( element ) {
 
             case CE_ComboBoxLabel: break;
             case CE_DockWidgetTitle: fcn = &Style::drawDockWidgetTitleControl; break;
@@ -1159,6 +1149,9 @@ namespace Oxygen
 
         }
 
+        painter->save();
+
+        // call function if implemented
         if( !( fcn && ( this->*fcn )( option, painter, widget ) ) )
         { ParentStyleClass::drawControl( element, option, painter, widget ); }
 
@@ -1170,24 +1163,25 @@ namespace Oxygen
     void Style::drawComplexControl( ComplexControl element, const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        painter->save();
-
         StyleComplexControl fcn( nullptr );
         switch( element )
         {
-
-            case CC_ComboBox: fcn = &Style::drawComboBoxComplexControl; break;
-            case CC_Dial: fcn = &Style::drawDialComplexControl; break;
             case CC_GroupBox: break;
-            case CC_Slider: fcn = &Style::drawSliderComplexControl; break;
-            case CC_SpinBox: fcn = &Style::drawSpinBoxComplexControl; break;
-            case CC_TitleBar: fcn = &Style::drawTitleBarComplexControl; break;
-            case CC_ScrollBar: fcn = &Style::drawScrollBarComplexControl; break;
             case CC_ToolButton: fcn = &Style::drawToolButtonComplexControl; break;
-            default: break;
+            case CC_ComboBox: fcn = &Style::drawComboBoxComplexControl; break;
+            case CC_SpinBox: fcn = &Style::drawSpinBoxComplexControl; break;
+            case CC_Slider: fcn = &Style::drawSliderComplexControl; break;
+            case CC_Dial: fcn = &Style::drawDialComplexControl; break;
+            case CC_ScrollBar: fcn = &Style::drawScrollBarComplexControl; break;
+            case CC_TitleBar: fcn = &Style::drawTitleBarComplexControl; break;
 
+            // fallback
+            default: break;
         }
 
+        painter->save();
+
+        // call function if implemented
         if( !( fcn && ( this->*fcn )( option, painter, widget ) ) )
         { ParentStyleClass::drawComplexControl( element, option, painter, widget ); }
 
@@ -1198,7 +1192,7 @@ namespace Oxygen
 
     //___________________________________________________________________________________
     void Style::drawItemText(
-        QPainter* painter, const QRect& r, int flags, const QPalette& palette, bool enabled,
+        QPainter* painter, const QRect& rect, int flags, const QPalette& palette, bool enabled,
         const QString &text, QPalette::ColorRole textRole ) const
     {
 
@@ -1221,14 +1215,15 @@ namespace Oxygen
             if( _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
             {
 
-                const QPalette pal = _helper->mergePalettes( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  );
-                return ParentStyleClass::drawItemText( painter, r, flags, pal, enabled, text, textRole );
+                const QPalette copy( _helper->mergePalettes( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable ) ) );
+                return ParentStyleClass::drawItemText( painter, rect, flags, copy, enabled, text, textRole );
 
             }
 
         }
 
-        return ParentStyleClass::drawItemText( painter, r, flags, palette, enabled, text, textRole );
+        // fallback
+        return ParentStyleClass::drawItemText( painter, rect, flags, palette, enabled, text, textRole );
 
     }
 
@@ -1248,6 +1243,7 @@ namespace Oxygen
         QWidget *widget = static_cast<QWidget*>( object );
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, event ); }
 
+        // fallback
         return ParentStyleClass::eventFilter( object, event );
 
     }
@@ -1609,7 +1605,7 @@ namespace Oxygen
             if( pstep > remSize )
             { pstep = -( pstep - 2*remSize ); }
 
-            if ( horizontal ) {
+            if( horizontal ) {
 
                 indicatorRect = QRect( inverted ? (rect.right() - pstep - indicatorSize + 1) : (rect.left() + pstep), rect.top(), indicatorSize, rect.height() );
                 indicatorRect = visualRect( option->direction, rect, indicatorRect );
@@ -1622,7 +1618,7 @@ namespace Oxygen
 
         } else {
 
-            if ( horizontal )
+            if( horizontal )
             {
 
                 indicatorRect = QRect( inverted ? (rect.right() - indicatorSize + 1) : rect.left(), rect.top(), indicatorSize, rect.height() );
@@ -1766,28 +1762,41 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
-        if( !tabOpt ) return option->rect;
+        // cast option and check
+        const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
+        if( !tabOption ) return option->rect;
 
         // do nothing if tabbar is hidden
-        if( tabOpt->tabBarSize.isEmpty() ) return option->rect;
+        if( tabOption->tabBarSize.isEmpty() ) return option->rect;
+        const QRect rect = tabWidgetTabPaneRect( option, widget );
 
-        QRect r( option->rect );
-
-
-        // include margins
-        r = tabWidgetTabPaneRect( option, widget );
-
-        // document mode
-        const bool documentMode( tabOpt->lineWidth == 0 );
-
-        if( !documentMode )
+        const bool documentMode( tabOption->lineWidth == 0 );
+        if( documentMode )
         {
-            r = insideMargin( r, Metrics::TabWidget_MarginWidth );
-            r.translate( 0, -1 );
-        }
 
-        return r;
+            // add margin only to the relevant side
+            switch( tabOption->shape )
+            {
+                case QTabBar::RoundedNorth:
+                case QTabBar::TriangularNorth:
+                return rect.adjusted( 0, Metrics::TabWidget_MarginWidth, 0, 0 );
+
+                case QTabBar::RoundedSouth:
+                case QTabBar::TriangularSouth:
+                return rect.adjusted( 0, 0, 0, -Metrics::TabWidget_MarginWidth );
+
+                case QTabBar::RoundedWest:
+                case QTabBar::TriangularWest:
+                return rect.adjusted( Metrics::TabWidget_MarginWidth, 0, 0, 0 );
+
+                case QTabBar::RoundedEast:
+                case QTabBar::TriangularEast:
+                return rect.adjusted( 0, 0, -Metrics::TabWidget_MarginWidth, 0 );
+
+                default: return rect;
+            }
+
+        } else return insideMargin( rect, Metrics::TabWidget_MarginWidth );
 
     }
 
@@ -1795,49 +1804,39 @@ namespace Oxygen
     QRect Style::tabWidgetTabPaneRect( const QStyleOption* option, const QWidget* ) const
     {
 
-        const QStyleOptionTabWidgetFrame* tabOpt = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
-        if( !tabOpt ) return option->rect;
+        const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
+        if( !tabOption || tabOption->tabBarSize.isEmpty() ) return option->rect;
 
-        QRect r( option->rect );
-        const bool documentMode( tabOpt->lineWidth == 0 );
-        int overlap( Metrics::TabBar_BaseOverlap );
-        if( documentMode ) overlap -= Metrics::TabWidget_MarginWidth;
+        const int overlap = Metrics::TabBar_BaseOverlap - 1;
+        const QSize tabBarSize( tabOption->tabBarSize - QSize( overlap, overlap ) );
 
-        switch( tabOpt->shape )
+        QRect rect( option->rect );
+        switch( tabOption->shape )
         {
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
-            {
-                if( documentMode ) overlap++;
-                r.setTop( r.top() + qMax( tabOpt->tabBarSize.height() - overlap, 0 ) );
-                break;
-            }
+            rect.adjust( 0, tabBarSize.height(), 0, 0 );
+            break;
 
             case QTabBar::RoundedSouth:
             case QTabBar::TriangularSouth:
-            {
-                if( documentMode ) overlap--;
-                r.setBottom( r.bottom() - qMax( tabOpt->tabBarSize.height() - overlap, 0 ) );
-                break;
-            }
+            rect.adjust( 0, 0, 0, -tabBarSize.height() );
+            break;
 
             case QTabBar::RoundedWest:
             case QTabBar::TriangularWest:
-            {
-                r.setLeft( r.left() + qMax( tabOpt->tabBarSize.width() - overlap, 0 ) );
-                break;
-            }
+            rect.adjust( tabBarSize.width(), 0, 0, 0 );
+            break;
 
             case QTabBar::RoundedEast:
             case QTabBar::TriangularEast:
-            {
-                r.setRight( r.right() - qMax( tabOpt->tabBarSize.width() - overlap, 0 ) );
-                break;
-            }
+            rect.adjust( 0, 0, -tabBarSize.width(), 0 );
+            break;
 
+            default: break;
         }
 
-        return r;
+        return rect;
 
     }
 
@@ -1923,9 +1922,7 @@ namespace Oxygen
     {
 
         QRect rect = option->rect;
-
-        //
-        switch ( subControl )
+        switch( subControl )
         {
 
             case SC_GroupBoxFrame: return rect;
@@ -2211,9 +2208,9 @@ namespace Oxygen
 
         const QRect& rect = option->rect;
         const State& state( option->state );
-        const bool horizontal( state&State_Horizontal );
+        const bool horizontal( state & State_Horizontal );
 
-        switch ( subControl )
+        switch( subControl )
         {
 
             case SC_ScrollBarSubLine:
@@ -2238,17 +2235,21 @@ namespace Oxygen
     //___________________________________________________________________________________________________________________
     QRect Style::scrollBarSubControlRect( const QStyleOptionComplex* option, SubControl subControl, const QWidget* widget ) const
     {
-        const State& state( option->state );
-        const bool horizontal( state&State_Horizontal );
+        // cast option and check
+        const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
+        if( !sliderOption ) return ParentStyleClass::subControlRect( CC_ScrollBar, option, subControl, widget );
 
-        switch ( subControl )
+        // get relevant state
+        const State& state( option->state );
+        const bool horizontal( state & State_Horizontal );
+
+        switch( subControl )
         {
 
             case SC_ScrollBarSubLine:
             case SC_ScrollBarAddLine:
             return scrollBarInternalSubControlRect( option, subControl );
 
-            //The main groove area. This is used to compute the others...
             case SC_ScrollBarGroove:
             {
                 QRect topRect = visualRect( option, scrollBarInternalSubControlRect( option, SC_ScrollBarSubLine ) );
@@ -2260,13 +2261,13 @@ namespace Oxygen
                 if( horizontal )
                 {
 
-                    topLeftCorner  = QPoint( topRect.right() + 2, topRect.top() );
-                    botRightCorner = QPoint( bottomRect.left() - 2, topRect.bottom() );
+                    topLeftCorner  = QPoint( topRect.right() + 1, topRect.top() );
+                    botRightCorner = QPoint( bottomRect.left()  - 1, topRect.bottom() );
 
                 } else {
 
-                    topLeftCorner  = QPoint( topRect.left(),  topRect.bottom() + 2 );
-                    botRightCorner = QPoint( topRect.right(), bottomRect.top() - 2 );
+                    topLeftCorner  = QPoint( topRect.left(),  topRect.bottom() + 1 );
+                    botRightCorner = QPoint( topRect.right(), bottomRect.top() - 1 );
 
                 }
 
@@ -2277,20 +2278,18 @@ namespace Oxygen
 
             case SC_ScrollBarSlider:
             {
-                const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
-                if( !sliderOption ) return QRect();
 
-                //We do handleRTL here to unreflect things if need be
+                // We handle RTL here to unreflect things if need be
                 QRect groove = visualRect( option, scrollBarSubControlRect( option, SC_ScrollBarGroove, widget ) );
 
-                if ( sliderOption->minimum == sliderOption->maximum ) return groove;
+                if( sliderOption->minimum == sliderOption->maximum ) return groove;
 
                 //Figure out how much room we have..
                 int space( horizontal ? groove.width() : groove.height() );
 
                 //Calculate the portion of this space that the slider should take up.
                 int sliderSize = space * qreal( sliderOption->pageStep ) / ( sliderOption->maximum - sliderOption->minimum + sliderOption->pageStep );
-                sliderSize = qMax( sliderSize, ( int )Metrics::ScrollBar_MinSliderHeight );
+                sliderSize = qMax( sliderSize, static_cast<int>(Metrics::ScrollBar_MinSliderHeight ) );
                 sliderSize = qMin( sliderSize, space );
 
                 space -= sliderSize;
@@ -2298,34 +2297,34 @@ namespace Oxygen
 
                 int pos = qRound( qreal( sliderOption->sliderPosition - sliderOption->minimum )/ ( sliderOption->maximum - sliderOption->minimum )*space );
                 if( sliderOption->upsideDown ) pos = space - pos;
-                if( horizontal ) return visualRect( option, QRect( groove.x() + pos, groove.y(), sliderSize, groove.height() ) );
-                else return visualRect( option, QRect( groove.x(), groove.y() + pos, groove.width(), sliderSize ) );
+                if( horizontal ) return visualRect( option, QRect( groove.left() + pos, groove.top(), sliderSize, groove.height() ) );
+                else return visualRect( option, QRect( groove.left(), groove.top() + pos, groove.width(), sliderSize ) );
             }
 
             case SC_ScrollBarSubPage:
             {
 
-                //We do handleRTL here to unreflect things if need be
+                //We do visualRect here to unreflect things if need be
                 QRect slider = visualRect( option, scrollBarSubControlRect( option, SC_ScrollBarSlider, widget ) );
                 QRect groove = visualRect( option, scrollBarSubControlRect( option, SC_ScrollBarGroove, widget ) );
 
-                if( horizontal ) return visualRect( option, QRect( groove.x(), groove.y(), slider.x() - groove.x(), groove.height() ) );
-                else return visualRect( option, QRect( groove.x(), groove.y(), groove.width(), slider.y() - groove.y() ) );
+                if( horizontal ) return visualRect( option, QRect( groove.left(), groove.top(), slider.left() - groove.left(), groove.height() ) );
+                else return visualRect( option, QRect( groove.left(), groove.top(), groove.width(), slider.top() - groove.top() ) );
             }
 
             case SC_ScrollBarAddPage:
             {
 
-                //We do handleRTL here to unreflect things if need be
+                //We do visualRect here to unreflect things if need be
                 QRect slider = visualRect( option, scrollBarSubControlRect( option, SC_ScrollBarSlider, widget ) );
                 QRect groove = visualRect( option, scrollBarSubControlRect( option, SC_ScrollBarGroove, widget ) );
 
-                if( horizontal ) return visualRect( option, QRect( slider.right() + 1, groove.y(), groove.right() - slider.right(), groove.height() ) );
-                else return visualRect( option, QRect( groove.x(), slider.bottom() + 1, groove.width(), groove.bottom() - slider.bottom() ) );
+                if( horizontal ) return visualRect( option, QRect( slider.right() + 1, groove.top(), groove.right() - slider.right(), groove.height() ) );
+                else return visualRect( option, QRect( groove.left(), slider.bottom() + 1, groove.width(), groove.bottom() - slider.bottom() ) );
 
             }
 
-            default: return QRect();
+            default: return ParentStyleClass::subControlRect( CC_ScrollBar, option, subControl, widget );;
         }
     }
 
@@ -2374,17 +2373,20 @@ namespace Oxygen
     //______________________________________________________________
     QSize Style::checkBoxSizeFromContents( const QStyleOption*, const QSize& contentsSize, const QWidget* ) const
     {
-
-        //Add size for indicator
-        const int indicator( Metrics::CheckBox_Size );
-
-        //Make sure we can fit the indicator
+        // get contents size
         QSize size( contentsSize );
-        size.setHeight( qMax( size.height(), indicator ) );
 
-        //Add space for the indicator and the icon
-        const int spacer( Metrics::CheckBox_ItemSpacing );
-        size.rwidth() += indicator + spacer;
+        // add focus height
+        size = expandSize( size, 0, Metrics::CheckBox_FocusMarginWidth );
+
+        // make sure there is enough height for indicator
+        size.setHeight( qMax( size.height(), int(Metrics::CheckBox_Size) ) );
+
+        // Add space for the indicator and the icon
+        size.rwidth() += Metrics::CheckBox_Size + Metrics::CheckBox_ItemSpacing;
+
+        // also add extra space, to leave room to the right of the label
+        size.rwidth() += Metrics::CheckBox_ItemSpacing;
 
         return size;
 
@@ -2498,6 +2500,76 @@ namespace Oxygen
     }
 
     //______________________________________________________________
+    QSize Style::pushButtonSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
+    {
+
+        // cast option and check
+        const QStyleOptionButton* buttonOption( qstyleoption_cast<const QStyleOptionButton*>( option ) );
+        if( !buttonOption ) return contentsSize;
+
+        QSize size( contentsSize );
+
+        // add space for arrow
+        if( buttonOption->features & QStyleOptionButton::HasMenu )
+        {
+            size.rheight() += 2*Metrics::Button_MarginWidth;
+            size.setHeight( qMax( size.height(), int( Metrics::MenuButton_IndicatorWidth ) ) );
+            size.rwidth() += Metrics::Button_MarginWidth;
+
+            if( !( buttonOption->icon.isNull() && buttonOption->text.isEmpty() ) )
+            { size.rwidth() += Metrics::Button_ItemSpacing; }
+
+        }  else size = expandSize( size, Metrics::Button_MarginWidth );
+
+        // add space for icon
+        if( !buttonOption->icon.isNull() )
+        {
+
+            QSize iconSize = buttonOption->iconSize;
+            if( !iconSize.isValid() ) iconSize = QSize( pixelMetric( PM_SmallIconSize, option, widget ), pixelMetric( PM_SmallIconSize, option, widget ) );
+
+            size.setHeight( qMax( size.height(), iconSize.height() ) );
+
+            if( !buttonOption->text.isEmpty() )
+            { size.rwidth() += Metrics::Button_ItemSpacing; }
+
+        }
+
+        // make sure buttons have a minimum width
+        if( !buttonOption->text.isEmpty() )
+        { size.rwidth() = qMax( size.rwidth(), int( Metrics::Button_MinWidth ) ); }
+
+        // finally add margins
+        return expandSize( size, Metrics::Frame_FrameWidth );
+
+    }
+
+    //______________________________________________________________
+    QSize Style::toolButtonSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
+    {
+
+        // cast option and check
+        const QStyleOptionToolButton* toolButtonOption = qstyleoption_cast<const QStyleOptionToolButton*>( option );
+        if( !toolButtonOption ) return contentsSize;
+
+        // copy size
+        QSize size = contentsSize;
+
+        // get relevant state flags
+        const State& state( option->state );
+        const bool autoRaise( state & State_AutoRaise );
+        const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
+        const bool hasInlineIndicator( toolButtonOption->features & QStyleOptionToolButton::HasMenu && !hasPopupMenu );
+        const int marginWidth( autoRaise ? Metrics::ToolButton_MarginWidth : Metrics::Button_MarginWidth + Metrics::Frame_FrameWidth );
+
+        if( hasInlineIndicator ) size.rwidth() += Metrics::ToolButton_InlineIndicatorWidth;
+        size = expandSize( size, marginWidth );
+
+        return size;
+
+    }
+
+    //______________________________________________________________
     QSize Style::menuBarItemSizeFromContents( const QStyleOption*, const QSize& contentsSize, const QWidget* ) const
     { return expandSize( contentsSize, Metrics::MenuBarItem_MarginWidth, Metrics::MenuBarItem_MarginHeight ); }
 
@@ -2512,7 +2584,7 @@ namespace Oxygen
         // First, we calculate the intrinsic size of the item.
         // this must be kept consistent with what's in drawMenuItemControl
         QSize size( contentsSize );
-        switch ( menuItemOption->menuItemType )
+        switch( menuItemOption->menuItemType )
         {
 
             case QStyleOptionMenuItem::Normal:
@@ -2586,47 +2658,48 @@ namespace Oxygen
     }
 
     //______________________________________________________________
-    QSize Style::pushButtonSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
+    QSize Style::tabWidgetSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
     {
 
         // cast option and check
-        const QStyleOptionButton* buttonOption( qstyleoption_cast<const QStyleOptionButton*>( option ) );
-        if( !buttonOption ) return contentsSize;
+        const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
+        if( !tabOption ) return expandSize( contentsSize, Metrics::Frame_FrameWidth );
 
+        // tab orientation
+        const bool verticalTabs( tabOption && isVerticalTab( tabOption->shape ) );
+
+        // need to reduce the size in the tabbar direction, due to a bug in QTabWidget::minimumSize
+        return verticalTabs ?
+            expandSize( contentsSize, Metrics::Frame_FrameWidth, Metrics::Frame_FrameWidth - 1 ):
+            expandSize( contentsSize, Metrics::Frame_FrameWidth - 1, Metrics::Frame_FrameWidth );
+
+    }
+
+    //______________________________________________________________
+    QSize Style::tabBarTabSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
+    {
+
+        const QStyleOptionTab *tabOption( qstyleoption_cast<const QStyleOptionTab*>( option ) );
+
+        // add margins
         QSize size( contentsSize );
 
-        // add space for arrow
-        if( buttonOption->features & QStyleOptionButton::HasMenu )
-        {
-            size.rheight() += 2*Metrics::Button_MarginWidth;
-            size.setHeight( qMax( size.height(), int( Metrics::MenuButton_IndicatorWidth ) ) );
-            size.rwidth() += Metrics::Button_MarginWidth;
-
-            if( !( buttonOption->icon.isNull() && buttonOption->text.isEmpty() ) )
-            { size.rwidth() += Metrics::Button_ItemSpacing; }
-
-        }  else size = expandSize( size, Metrics::Button_MarginWidth );
-
-        // add space for icon
-        if( !buttonOption->icon.isNull() )
+        // compare to minimum size
+        const bool verticalTabs( tabOption && isVerticalTab( tabOption ) );
+        if( verticalTabs )
         {
 
-            QSize iconSize = buttonOption->iconSize;
-            if( !iconSize.isValid() ) iconSize = QSize( pixelMetric( PM_SmallIconSize, option, widget ), pixelMetric( PM_SmallIconSize, option, widget ) );
+            size = expandSize( size, Metrics::TabBar_TabMarginHeight, Metrics::TabBar_TabMarginWidth );
+            size = size.expandedTo( QSize( Metrics::TabBar_TabMinHeight, Metrics::TabBar_TabMinWidth ) );
 
-            size.setHeight( qMax( size.height(), iconSize.height() ) );
+        } else {
 
-            if( !buttonOption->text.isEmpty() )
-            { size.rwidth() += Metrics::Button_ItemSpacing; }
+            size = expandSize( size, Metrics::TabBar_TabMarginWidth, Metrics::TabBar_TabMarginHeight );
+            size = size.expandedTo( QSize( Metrics::TabBar_TabMinWidth, Metrics::TabBar_TabMinHeight ) );
 
         }
 
-        // make sure buttons have a minimum width
-        if( !buttonOption->text.isEmpty() )
-        { size.rwidth() = qMax( size.rwidth(), int( Metrics::Button_MinWidth ) ); }
-
-        // finally add margins
-        return expandSize( size, Metrics::Frame_FrameWidth );
+        return size;
 
     }
 
@@ -2683,77 +2756,6 @@ namespace Oxygen
 
     }
 
-    //______________________________________________________________
-    QSize Style::tabWidgetSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
-    {
-
-        // cast option and check
-        const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
-        if( !tabOption ) return expandSize( contentsSize, Metrics::Frame_FrameWidth );
-
-        // tab orientation
-        const bool verticalTabs( tabOption && isVerticalTab( tabOption->shape ) );
-
-        // need to reduce the size in the tabbar direction, due to a bug in QTabWidget::minimumSize
-        return verticalTabs ?
-            expandSize( contentsSize, Metrics::Frame_FrameWidth, Metrics::Frame_FrameWidth - 1 ):
-            expandSize( contentsSize, Metrics::Frame_FrameWidth - 1, Metrics::Frame_FrameWidth );
-
-    }
-
-    //______________________________________________________________
-    QSize Style::tabBarTabSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
-    {
-
-        const QStyleOptionTab *tabOption( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-
-        // add margins
-        QSize size( contentsSize );
-
-        // compare to minimum size
-        const bool verticalTabs( tabOption && isVerticalTab( tabOption ) );
-        if( verticalTabs )
-        {
-
-            size = expandSize( size, Metrics::TabBar_TabMarginHeight, Metrics::TabBar_TabMarginWidth );
-            size = size.expandedTo( QSize( Metrics::TabBar_TabMinHeight, Metrics::TabBar_TabMinWidth ) );
-
-        } else {
-
-            size = expandSize( size, Metrics::TabBar_TabMarginWidth, Metrics::TabBar_TabMarginHeight );
-            size = size.expandedTo( QSize( Metrics::TabBar_TabMinWidth, Metrics::TabBar_TabMinHeight ) );
-
-        }
-
-        return size;
-
-    }
-
-    //______________________________________________________________
-    QSize Style::toolButtonSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
-    {
-
-        // cast option and check
-        const QStyleOptionToolButton* toolButtonOption = qstyleoption_cast<const QStyleOptionToolButton*>( option );
-        if( !toolButtonOption ) return contentsSize;
-
-        // copy size
-        QSize size = contentsSize;
-
-        // get relevant state flags
-        const State& state( option->state );
-        const bool autoRaise( state & State_AutoRaise );
-        const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
-        const bool hasInlineIndicator( toolButtonOption->features & QStyleOptionToolButton::HasMenu && !hasPopupMenu );
-        const int marginWidth( autoRaise ? Metrics::ToolButton_MarginWidth : Metrics::Button_MarginWidth + Metrics::Frame_FrameWidth );
-
-        if( hasInlineIndicator ) size.rwidth() += Metrics::ToolButton_InlineIndicatorWidth;
-        size = expandSize( size, marginWidth );
-
-        return size;
-
-    }
-
     //___________________________________________________________________________________
     bool Style::drawFramePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
@@ -2770,11 +2772,11 @@ namespace Oxygen
                                   || ( isQtQuickControl && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
 
         // hover
-        const bool hoverHighlight( enabled && isInputWidget && ( state&State_MouseOver ) );
+        const bool hoverHighlight( enabled && isInputWidget && ( state & State_MouseOver ) );
 
         // focus
         bool focusHighlight( false );
-        if( enabled && ( state&State_HasFocus ) ) focusHighlight = true;
+        if( enabled && ( state & State_HasFocus ) ) focusHighlight = true;
 
         // assume focus takes precedence over hover
         _animations->lineEditEngine().updateState( widget, AnimationFocus, focusHighlight );
@@ -2838,11 +2840,11 @@ namespace Oxygen
         const bool enabled( state & State_Enabled );
 
         // hover
-        const bool hoverHighlight( enabled && ( state&State_MouseOver ) );
+        const bool hoverHighlight( enabled && ( state & State_MouseOver ) );
 
         // focus
         bool focusHighlight( false );
-        if( enabled && ( state&State_HasFocus ) ) focusHighlight = true;
+        if( enabled && ( state & State_HasFocus ) ) focusHighlight = true;
 
         // assume focus takes precedence over hover
         _animations->lineEditEngine().updateState( widget, AnimationFocus, focusHighlight );
@@ -2924,7 +2926,7 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionFrame *frameOption = qstyleoption_cast<const QStyleOptionFrame *>( option );
+        const QStyleOptionFrame *frameOption( qstyleoption_cast<const QStyleOptionFrame*>( option ) );
         if( !frameOption ) return true;
 
         // no frame for flat groupboxes
@@ -2963,12 +2965,15 @@ namespace Oxygen
         // do nothing for other cases
         if( qobject_cast<const QToolBar*>( widget ) )
         {
+
             _helper->renderWindowBackground( painter, option->rect, widget, option->palette );
             _helper->drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
-        } else if( option->styleObject && option->styleObject->inherits( "QQuickItem" ) )
-        {
+
+        } else if( option->styleObject && option->styleObject->inherits( "QQuickItem" ) ) {
+
             // QtQuick Control case
             _helper->drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
+
         }
 
         return true;
@@ -2980,10 +2985,10 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionTabBarBase* tabOpt( qstyleoption_cast<const QStyleOptionTabBarBase*>( option ) );
-        if( !tabOpt ) return true;
+        const QStyleOptionTabBarBase* tabOption( qstyleoption_cast<const QStyleOptionTabBarBase*>( option ) );
+        if( !tabOption ) return true;
 
-        if( tabOpt->tabBarRect.isValid() )
+        if( tabOption->tabBarRect.isValid() )
         {
 
             // if tabBar rect is valid, all the frame is handled in tabBarTabShapeControl
@@ -3000,7 +3005,7 @@ namespace Oxygen
 
         QRect frameRect( r );
         SlabRect slab;
-        switch( tabOpt->shape )
+        switch( tabOption->shape )
         {
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
@@ -3052,8 +3057,8 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionTabWidgetFrame* tabOpt( qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option ) );
-        if( !tabOpt ) return true;
+        const QStyleOptionTabWidgetFrame* tabOption( qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option ) );
+        if( !tabOption ) return true;
 
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
@@ -3063,19 +3068,19 @@ namespace Oxygen
         no frame is drawn when tabbar is empty.
         this is consistent with the tabWidgetTabContents subelementRect
         */
-        if( tabOpt->tabBarSize.isEmpty() ) return true;
+        if( tabOption->tabBarSize.isEmpty() ) return true;
 
         // get tabbar dimentions
-        const int w( tabOpt->tabBarSize.width() );
-        const int h( tabOpt->tabBarSize.height() );
+        const int w( tabOption->tabBarSize.width() );
+        const int h( tabOption->tabBarSize.height() );
 
         // left corner widget
-        const int lw( tabOpt->leftCornerWidgetSize.width() );
-        const int lh( tabOpt->leftCornerWidgetSize.height() );
+        const int lw( tabOption->leftCornerWidgetSize.width() );
+        const int lh( tabOption->leftCornerWidgetSize.height() );
 
         // right corner
-        const int rw( tabOpt->rightCornerWidgetSize.width() );
-        const int rh( tabOpt->rightCornerWidgetSize.height() );
+        const int rw( tabOption->rightCornerWidgetSize.width() );
+        const int rh( tabOption->rightCornerWidgetSize.height() );
 
         // list of slabs to be drawn
         SlabRectList slabs;
@@ -3084,7 +3089,7 @@ namespace Oxygen
         QRect baseSlabRect( insideMargin( r, 0 ) );
 
         // render the three free sides
-        switch( tabOpt->shape )
+        switch( tabOption->shape )
         {
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
@@ -3274,7 +3279,7 @@ namespace Oxygen
             else mode = QIcon::Normal;
         } else mode = QIcon::Disabled;
 
-        if (!(option->state & State_Raised)
+        if( !(option->state & State_Raised)
             && !(option->state & State_Sunken)
             && !(option->state & QStyle::State_Selected))
             mode = QIcon::Disabled;
@@ -3341,8 +3346,8 @@ namespace Oxygen
 
         // arrow orientation
         ArrowOrientation orientation( ArrowNone );
-        if( state&State_UpArrow || ( headerOption && headerOption->sortIndicator==QStyleOptionHeader::SortUp ) ) orientation = ArrowUp;
-        else if( state&State_DownArrow || ( headerOption && headerOption->sortIndicator==QStyleOptionHeader::SortDown ) ) orientation = ArrowDown;
+        if( state & State_UpArrow || ( headerOption && headerOption->sortIndicator==QStyleOptionHeader::SortUp ) ) orientation = ArrowUp;
+        else if( state & State_DownArrow || ( headerOption && headerOption->sortIndicator==QStyleOptionHeader::SortDown ) ) orientation = ArrowDown;
         if( orientation == ArrowNone ) return true;
 
         // invert arrows if requested by (hidden) options
@@ -3890,7 +3895,7 @@ namespace Oxygen
         // make tooltip semi transparents when possible
         // alpha is copied from "kdebase/apps/dolphin/tooltips/filemetadatatooltip.cpp"
         const bool hasAlpha( _helper->hasAlphaChannel( widget ) );
-        if(  hasAlpha && StyleConfigData::toolTipTransparent() )
+        if( hasAlpha && StyleConfigData::toolTipTransparent() )
         {
             if( widget && widget->window() )
             { _blurHelper->registerWidget( widget->window() ); }
@@ -3970,7 +3975,7 @@ namespace Oxygen
 
         //draw expander
         int expanderAdjust = 0;
-        if ( state & State_Children )
+        if( state & State_Children )
         {
 
             int sizeLimit = qMin( rect.width(), rect.height() );
@@ -4030,14 +4035,14 @@ namespace Oxygen
         const QColor lineColor( KColorUtils::mix( palette.color( QPalette::Text ), palette.color( QPalette::Background ), 0.8 ) );
         painter->setRenderHint( QPainter::Antialiasing, false );
         painter->setPen( lineColor );
-        if ( state & ( State_Item | State_Children | State_Sibling ) )
+        if( state & ( State_Item | State_Children | State_Sibling ) )
         {
             const QLine line( QPoint( center.x(), rect.top() ), QPoint( center.x(), center.y() - expanderAdjust ) );
             painter->drawLine( line );
         }
 
         //The right/left ( depending on dir ) line gets drawn if we have an item
-        if ( state & State_Item )
+        if( state & State_Item )
         {
             const QLine line = reverseLayout ?
                 QLine( QPoint( rect.left(), center.y() ), QPoint( center.x() - expanderAdjust, center.y() ) ):
@@ -4047,7 +4052,7 @@ namespace Oxygen
         }
 
         //The bottom if we have a sibling
-        if ( state & State_Sibling )
+        if( state & State_Sibling )
         {
             const QLine line( QPoint( center.x(), center.y() + expanderAdjust ), QPoint( center.x(), rect.bottom() ) );
             painter->drawLine( line );
@@ -4295,7 +4300,7 @@ namespace Oxygen
             const qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationHover ) );
             renderRadioButton( painter, rect, palette, styleOptions, checkBoxState, opacity, AnimationHover );
 
-        } else if(  enabled && _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) ) {
+        } else if( enabled && _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) ) {
 
             const qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
             renderRadioButton( painter, rect, palette, styleOptions, checkBoxState, opacity, AnimationFocus );
@@ -4311,8 +4316,8 @@ namespace Oxygen
     bool Style::drawIndicatorTabTearPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        const QStyleOptionTab* tabOpt( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-        if( !tabOpt ) return true;
+        const QStyleOptionTab* tabOption( qstyleoption_cast<const QStyleOptionTab*>( option ) );
+        if( !tabOption ) return true;
 
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
@@ -4320,14 +4325,14 @@ namespace Oxygen
 
         // in fact with current version of Qt ( 4.6.0 ) the cast fails and document mode is always false
         // this will hopefully be fixed in later versions
-        const QStyleOptionTabV3* tabOptV3( qstyleoption_cast<const QStyleOptionTabV3*>( option ) );
-        bool documentMode( tabOptV3 ? tabOptV3->documentMode : false );
+        const QStyleOptionTabV3* tabOptionV3( qstyleoption_cast<const QStyleOptionTabV3*>( option ) );
+        bool documentMode( tabOptionV3 ? tabOptionV3->documentMode : false );
 
         const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
 
         QRect gradientRect( r );
-        switch( tabOpt->shape )
+        switch( tabOption->shape )
         {
 
             case QTabBar::TriangularNorth:
@@ -4363,7 +4368,7 @@ namespace Oxygen
             pixmap.fill( Qt::transparent );
             QPainter painter( &pixmap );
 
-            const bool verticalTabs( isVerticalTab( tabOpt ) );
+            const bool verticalTabs( isVerticalTab( tabOption ) );
 
             int width = 0;
             int height = 0;
@@ -4478,7 +4483,7 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionDockWidget* dockWidgetOption = ::qstyleoption_cast<const QStyleOptionDockWidget*>( option );
-        if ( !dockWidgetOption ) return true;
+        if( !dockWidgetOption ) return true;
 
         const QPalette& palette( option->palette );
         const State& state( option->state );
@@ -4629,7 +4634,7 @@ namespace Oxygen
     {
 
         const QStyleOptionMenuItem* menuOpt = ::qstyleoption_cast<const QStyleOptionMenuItem*>( option );
-        if ( !menuOpt ) return true;
+        if( !menuOpt ) return true;
 
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
@@ -5003,7 +5008,7 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionProgressBar* progressBarOption = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
-        if ( !progressBarOption ) return true;
+        if( !progressBarOption ) return true;
 
         // get orientation
         const QStyleOptionProgressBarV2* progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
@@ -5053,7 +5058,7 @@ namespace Oxygen
 
         // store state
         const State& state( option->state );
-        const bool enabled( state&State_Enabled );
+        const bool enabled( state & State_Enabled );
         const bool reverseLayout = ( option->direction == Qt::RightToLeft );
 
         // get orientation
@@ -5268,9 +5273,9 @@ namespace Oxygen
 
         // store state
         const State& state( option->state );
-        const Qt::Orientation orientation( (state&State_Horizontal) ? Qt::Horizontal : Qt::Vertical );
-        const bool enabled( state&State_Enabled );
-        const bool mouseOver( enabled && ( state&State_MouseOver ) );
+        const Qt::Orientation orientation( (state & State_Horizontal) ? Qt::Horizontal : Qt::Vertical );
+        const bool enabled( state & State_Enabled );
+        const bool mouseOver( enabled && ( state & State_MouseOver ) );
 
         // update animations
         _animations->scrollBarEngine().updateState( widget, enabled && ( sliderOption->activeSubControls & SC_ScrollBarSlider ) );
@@ -5295,7 +5300,7 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
-        if ( !sliderOption ) return true;
+        if( !sliderOption ) return true;
 
         const State& state( option->state );
         const bool horizontal( state & State_Horizontal );
@@ -5366,7 +5371,7 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
-        if ( !sliderOption ) return true;
+        if( !sliderOption ) return true;
 
         const State& state( option->state );
         const bool horizontal( state & State_Horizontal );
@@ -5472,13 +5477,13 @@ namespace Oxygen
     bool Style::drawTabBarTabLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
-        const QStyleOptionTab *tabOpt = qstyleoption_cast< const QStyleOptionTab* >( option );
-        if( !tabOpt ) return true;
+        const QStyleOptionTab *tabOption = qstyleoption_cast< const QStyleOptionTab* >( option );
+        if( !tabOption ) return true;
 
         // add extra offset for selected tas
-        QStyleOptionTabV3 tabOptV3( *tabOpt );
+        QStyleOptionTabV3 tabOptionV3( *tabOption );
 
-        const bool selected( option->state&State_Selected );
+        const bool selected( option->state & State_Selected );
 
         // get rect
         QRect r( option->rect );
@@ -5488,7 +5493,7 @@ namespace Oxygen
         painter is rotated and translated to deal with various orientations
         rect is translated to 0,0, and possibly transposed
         */
-        switch( tabOptV3.shape )
+        switch( tabOptionV3.shape )
         {
 
 
@@ -5542,33 +5547,33 @@ namespace Oxygen
 
         // make room for left and right widgets
         // left widget
-        const bool verticalTabs( isVerticalTab( tabOpt ) );
-        const bool hasLeftButton( !( option->direction == Qt::RightToLeft ? tabOptV3.rightButtonSize.isEmpty():tabOptV3.leftButtonSize.isEmpty() ) );
-        const bool hasRightButton( !( option->direction == Qt::RightToLeft ? tabOptV3.leftButtonSize.isEmpty():tabOptV3.rightButtonSize.isEmpty() ) );
+        const bool verticalTabs( isVerticalTab( tabOption ) );
+        const bool hasLeftButton( !( option->direction == Qt::RightToLeft ? tabOptionV3.rightButtonSize.isEmpty():tabOptionV3.leftButtonSize.isEmpty() ) );
+        const bool hasRightButton( !( option->direction == Qt::RightToLeft ? tabOptionV3.leftButtonSize.isEmpty():tabOptionV3.rightButtonSize.isEmpty() ) );
 
         if( hasLeftButton )
-        { r.setLeft( r.left() + 4 + ( verticalTabs ? tabOptV3.leftButtonSize.height() : tabOptV3.leftButtonSize.width() ) ); }
+        { r.setLeft( r.left() + 4 + ( verticalTabs ? tabOptionV3.leftButtonSize.height() : tabOptionV3.leftButtonSize.width() ) ); }
 
         // make room for left and right widgets
         // left widget
         if( hasRightButton )
-        { r.setRight( r.right() - 4 - ( verticalTabs ? tabOptV3.rightButtonSize.height() : tabOptV3.rightButtonSize.width() ) ); }
+        { r.setRight( r.right() - 4 - ( verticalTabs ? tabOptionV3.rightButtonSize.height() : tabOptionV3.rightButtonSize.width() ) ); }
 
         // compute textRect and iconRect
         // now that orientation is properly dealt with, everything is handled as a 'north' orientation
         QRect textRect;
         QRect iconRect;
 
-        if( tabOptV3.icon.isNull() )
+        if( tabOptionV3.icon.isNull() )
         {
 
             textRect = r.adjusted( 6, 0, -6, 0 );
 
         } else {
 
-            const QSize& iconSize( tabOptV3.iconSize );
+            const QSize& iconSize( tabOptionV3.iconSize );
             iconRect = centerRect( r, iconSize );
-            if( !tabOptV3.text.isEmpty() )
+            if( !tabOptionV3.text.isEmpty() )
             {
 
                 iconRect.moveLeft( r.left() + 8 );
@@ -5590,13 +5595,13 @@ namespace Oxygen
         {
 
             // not sure why this is necessary
-            if( tabOptV3.shape == QTabBar::RoundedNorth || tabOptV3.shape == QTabBar::TriangularNorth )
+            if( tabOptionV3.shape == QTabBar::RoundedNorth || tabOptionV3.shape == QTabBar::TriangularNorth )
             { iconRect.translate( 0, -1 ); }
 
-            const QPixmap tabIcon = tabOptV3.icon.pixmap(
-                tabOptV3.iconSize,
-                ( tabOptV3.state & State_Enabled ) ? QIcon::Normal : QIcon::Disabled,
-                ( tabOptV3.state & State_Selected ) ? QIcon::On : QIcon::Off );
+            const QPixmap tabIcon = tabOptionV3.icon.pixmap(
+                tabOptionV3.iconSize,
+                ( tabOptionV3.state & State_Enabled ) ? QIcon::Normal : QIcon::Disabled,
+                ( tabOptionV3.state & State_Selected ) ? QIcon::On : QIcon::Off );
 
             painter->drawPixmap( iconRect.topLeft(), tabIcon );
         }
@@ -5606,7 +5611,7 @@ namespace Oxygen
         {
 
             const QPalette& palette( option->palette );
-            const QString& text( tabOptV3.text );
+            const QString& text( tabOptionV3.text );
             const bool enabled( option->state & State_Enabled );
             const int alignment( Qt::AlignCenter|Qt::TextShowMnemonic );
             drawItemText( painter, textRect, alignment, palette, enabled, text, QPalette::WindowText );
@@ -5621,27 +5626,27 @@ namespace Oxygen
     bool Style::drawTabBarTabShapeControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        const QStyleOptionTab* tabOpt( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-        if( !tabOpt ) return true;
+        const QStyleOptionTab* tabOption( qstyleoption_cast<const QStyleOptionTab*>( option ) );
+        if( !tabOption ) return true;
 
         const State& state( option->state );
         const QRect& r( option->rect );
         const QPalette& palette( option->palette );
 
         const bool enabled( state & State_Enabled );
-        const bool selected( state&State_Selected );
+        const bool selected( state & State_Selected );
         const bool reverseLayout( option->direction == Qt::RightToLeft );
 
         // tab position and flags
-        const QStyleOptionTab::TabPosition& position = tabOpt->position;
+        const QStyleOptionTab::TabPosition& position = tabOption->position;
         bool isFirst( position == QStyleOptionTab::OnlyOneTab || position == QStyleOptionTab::Beginning );
         bool isLast( position == QStyleOptionTab::OnlyOneTab || position == QStyleOptionTab::End );
-        bool isLeftOfSelected( tabOpt->selectedPosition == QStyleOptionTab::NextIsSelected );
-        bool isRightOfSelected( tabOpt->selectedPosition == QStyleOptionTab::PreviousIsSelected );
+        bool isLeftOfSelected( tabOption->selectedPosition == QStyleOptionTab::NextIsSelected );
+        bool isRightOfSelected( tabOption->selectedPosition == QStyleOptionTab::PreviousIsSelected );
 
         // document mode
-        const QStyleOptionTabV3 *tabOptV3 = qstyleoption_cast<const QStyleOptionTabV3 *>( option );
-        bool documentMode = tabOptV3 ? tabOptV3->documentMode : false;
+        const QStyleOptionTabV3 *tabOptionV3 = qstyleoption_cast<const QStyleOptionTabV3 *>( option );
+        bool documentMode = tabOptionV3 ? tabOptionV3->documentMode : false;
         const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
 
@@ -5662,13 +5667,13 @@ namespace Oxygen
         const bool animated( enabled && !selected && !tabBarLocked && _animations->tabBarEngine().isAnimated( widget, r.topLeft() ) );
 
         // handle base frame painting, for tabbars in which tab is being dragged
-        _tabBarData->drawTabBarBaseControl( tabOpt, painter, widget );
+        _tabBarData->drawTabBarBaseControl( tabOption, painter, widget );
         if( selected && tabBar && isDragged ) _tabBarData->lock( tabBar );
         else if( selected  && _tabBarData->locks( tabBar ) ) _tabBarData->release();
 
         // corner widgets
-        const bool hasLeftCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::LeftCornerWidget );
-        const bool hasRightCornerWidget( tabOpt->cornerWidgets & QStyleOptionTab::RightCornerWidget );
+        const bool hasLeftCornerWidget( tabOption->cornerWidgets & QStyleOptionTab::LeftCornerWidget );
+        const bool hasRightCornerWidget( tabOption->cornerWidgets & QStyleOptionTab::RightCornerWidget );
 
         // true if widget is aligned to the frame
         /* need to check for 'isRightOfSelected' because for some reason the isFirst flag is set when active tab is being moved */
@@ -5677,7 +5682,7 @@ namespace Oxygen
         isLast &= !isLeftOfSelected;
 
         // swap flags based on reverse layout, so that they become layout independent
-        const bool verticalTabs( isVerticalTab( tabOpt ) );
+        const bool verticalTabs( isVerticalTab( tabOption ) );
         if( reverseLayout && !verticalTabs )
         {
             qSwap( isFirst, isLast );
@@ -5696,7 +5701,7 @@ namespace Oxygen
         // highlighted slab ( if any )
         SlabRect highlightSlab;
 
-        switch( tabOpt->shape )
+        switch( tabOption->shape )
         {
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
@@ -6214,13 +6219,13 @@ namespace Oxygen
         {
 
             // render window background in case of dragged tabwidget
-            if( isDragged ) fillTabBackground( painter, tabRect, color, tabOpt->shape, widget );
+            if( isDragged ) fillTabBackground( painter, tabRect, color, tabOption->shape, widget );
 
             // slab options
-            StyleOptions selectedTabOpts( NoFill );
-            TileSet::Tiles tiles( tilesByShape( tabOpt->shape ) );
-            renderSlab( painter, tabRect, color, selectedTabOpts, tiles );
-            fillTab( painter, tabRect, color, tabOpt->shape, selected );
+            StyleOptions selectedTabOptions( NoFill );
+            TileSet::Tiles tiles( tilesByShape( tabOption->shape ) );
+            renderSlab( painter, tabRect, color, selectedTabOptions, tiles );
+            fillTab( painter, tabRect, color, tabOption->shape, selected );
 
         } else {
 
@@ -6246,12 +6251,12 @@ namespace Oxygen
         {
 
             const qreal opacity( _animations->tabBarEngine().opacity( widget, r.topLeft() ) );
-            const StyleOptions hoverTabOpts( NoFill | Hover );
+            const StyleOptions hoverTabOptions( NoFill | Hover );
             adjustSlabRect( highlightSlab, tabWidgetRect, documentMode, verticalTabs );
 
             // pass an invalid color to have only the glow painted
-            if( animated ) renderSlab( painter, highlightSlab, QColor(), hoverTabOpts, opacity, AnimationHover );
-            else renderSlab( painter, highlightSlab, QColor(), hoverTabOpts );
+            if( animated ) renderSlab( painter, highlightSlab, QColor(), hoverTabOptions, opacity, AnimationHover );
+            else renderSlab( painter, highlightSlab, QColor(), hoverTabOptions );
 
         }
 
@@ -6330,9 +6335,9 @@ namespace Oxygen
         const QPalette& palette( option->palette );
         const State& state( option->state );
 
-        const bool enabled( state&State_Enabled );
-        const bool selected( state&State_Selected );
-        const bool mouseOver( enabled && !selected && ( state&State_MouseOver ) );
+        const bool enabled( state & State_Enabled );
+        const bool selected( state & State_Selected );
+        const bool mouseOver( enabled && !selected && ( state & State_MouseOver ) );
         const bool reverseLayout( option->direction == Qt::RightToLeft );
 
 
@@ -6961,7 +6966,7 @@ namespace Oxygen
         }
 
         // handle
-        if ( sliderOption->subControls & SC_SliderHandle )
+        if( sliderOption->subControls & SC_SliderHandle )
         {
 
             // get rect and center
@@ -7140,7 +7145,7 @@ namespace Oxygen
 
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
-        const bool hasFocus( enabled && ( state&State_HasFocus ) );
+        const bool hasFocus( enabled && ( state & State_HasFocus ) );
         const bool sunken( state & ( State_Sunken|State_On ) );
 
         if( isInToolBar )
@@ -7192,10 +7197,10 @@ namespace Oxygen
 
         // State_AutoRaise: only draw button when State_MouseOver
         copy.state = state;
-        if( (copy.state&State_AutoRaise) && !(copy.state&State_MouseOver ) )
+        if( (copy.state & State_AutoRaise) && !(copy.state & State_MouseOver ) )
         { copy.state &= ~State_Raised; }
 
-        if( toolButtonOption->subControls & SC_ToolButton && ( copy.state&( State_Sunken | State_On | State_Raised ) ) && !drawn )
+        if( toolButtonOption->subControls & SC_ToolButton && ( copy.state & ( State_Sunken | State_On | State_Raised ) ) && !drawn )
         {
             copy.rect = buttonRect;
             drawPanelButtonToolPrimitive( &copy, painter, widget );
@@ -7906,7 +7911,7 @@ namespace Oxygen
                 animated = _animations->dockSeparatorEngine().isAnimated( widget, r, orientation );
                 opacity = animated ? _animations->dockSeparatorEngine().opacity( widget, orientation ) : AnimationData::OpacityInvalid;
 
-            } else if(  QPaintDevice* device = painter->device() ) {
+            } else if( QPaintDevice* device = painter->device() ) {
 
                 /*
                 try update QSplitterHandle using painter device, because Qt passes
@@ -7996,7 +8001,7 @@ namespace Oxygen
         if( _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
         { palette = _helper->mergePalettes( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
 
-        const bool sunken( state&State_Sunken );
+        const bool sunken( state & State_Sunken );
         const bool mouseOver( ( !sunken ) && widget && r.translated( widget->mapToGlobal( QPoint( 0,0 ) ) ).contains( QCursor::pos() ) );
 
         _animations->mdiWindowEngine().updateState( widget, subControl, enabled && mouseOver );
