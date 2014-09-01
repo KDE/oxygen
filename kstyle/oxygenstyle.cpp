@@ -8132,7 +8132,6 @@ namespace Oxygen
         // adjust rect to account for missing tiles
         if( tile ) tile->adjust( rect, tiles );
 
-
         // fill
         if( !( options & NoFill ) ) _helper->fillButtonSlab( *painter, rect, color, options&Sunken );
 
@@ -8838,19 +8837,10 @@ namespace Oxygen
             {
 
                 QVector<qreal> dashes;
-                if( StyleConfigData::checkBoxStyle() == StyleConfigData::CS_CHECK )
-                {
-
-                    dashes << 1.0 << 2.0;
-                    penThickness = 1.3;
-                    pen.setWidthF( penThickness );
-                    contrastPen.setWidthF( penThickness );
-
-                } else {
-
-                    dashes << 0.4 << 2.0;
-
-                }
+                dashes << 1.0 << 2.0;
+                penThickness = 1.3;
+                pen.setWidthF( penThickness );
+                contrastPen.setWidthF( penThickness );
                 pen.setDashPattern( dashes );
                 contrastPen.setDashPattern( dashes );
 
@@ -8866,48 +8856,16 @@ namespace Oxygen
             painter->setRenderHint( QPainter::Antialiasing );
 
             const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
-            if( StyleConfigData::checkBoxStyle() == StyleConfigData::CS_CHECK )
-            {
+            painter->setPen( contrastPen );
+            painter->translate( 0, offset );
+            painter->drawLine( QPointF( x+9, y ), QPointF( x+3,y+7 ) );
+            painter->drawLine( QPointF( x, y+4 ), QPointF( x+3,y+7 ) );
 
-                painter->setPen( contrastPen );
-                painter->translate( 0, offset );
-                painter->drawLine( QPointF( x+9, y ), QPointF( x+3,y+7 ) );
-                painter->drawLine( QPointF( x, y+4 ), QPointF( x+3,y+7 ) );
+            painter->setPen( pen );
+            painter->translate( 0, -offset );
+            painter->drawLine( QPointF( x+9, y ), QPointF( x+3,y+7 ) );
+            painter->drawLine( QPointF( x, y+4 ), QPointF( x+3,y+7 ) );
 
-                painter->setPen( pen );
-                painter->translate( 0, -offset );
-                painter->drawLine( QPointF( x+9, y ), QPointF( x+3,y+7 ) );
-                painter->drawLine( QPointF( x, y+4 ), QPointF( x+3,y+7 ) );
-
-            } else {
-
-                if( options&Sunken )
-                {
-
-                    painter->setPen( contrastPen );
-                    painter->translate( 0, offset );
-                    painter->drawLine( QPointF( x+8, y ), QPointF( x+1,y+7 ) );
-                    painter->drawLine( QPointF( x+8, y+7 ), QPointF( x+1,y ) );
-
-                    painter->setPen( pen );
-                    painter->translate( 0, -offset );
-                    painter->drawLine( QPointF( x+8, y ), QPointF( x+1,y+7 ) );
-                    painter->drawLine( QPointF( x+8, y+7 ), QPointF( x+1,y ) );
-
-                } else {
-
-                    painter->setPen( contrastPen );
-                    painter->translate( 0, offset );
-                    painter->drawLine( QPointF( x+8, y-1 ), QPointF( x,y+7 ) );
-                    painter->drawLine( QPointF( x+8, y+7 ), QPointF( x,y-1 ) );
-
-                    painter->setPen( pen );
-                    painter->translate( 0, -offset );
-                    painter->drawLine( QPointF( x+8, y-1 ), QPointF( x,y+7 ) );
-                    painter->drawLine( QPointF( x+8, y+7 ), QPointF( x,y-1 ) );
-
-                }
-            }
             painter->restore();
         }
 

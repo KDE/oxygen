@@ -69,13 +69,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="_checkDrawX">
-         <property name="text">
-          <string>Use 'X' in checkboxes instead of check</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QCheckBox" name="_splitterProxyEnabled">
          <property name="text">
           <string>Enable extended resize handles</string>
@@ -599,7 +592,6 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>_useBackgroundGradient</tabstop>
   <tabstop>_toolBarDrawItemSeparator</tabstop>
-  <tabstop>_checkDrawX</tabstop>
   <tabstop>_splitterProxyEnabled</tabstop>
   <tabstop>_cacheEnabled</tabstop>
   <tabstop>_animationsEnabled</tabstop>

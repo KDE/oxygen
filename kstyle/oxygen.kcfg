@@ -88,15 +88,6 @@
       <default>1</default>
     </entry>
 
-    <!-- checkboxes -->
-    <entry name="CheckBoxStyle" type="Enum">
-      <choices>
-          <choice name="CS_CHECK" />
-          <choice name="CS_X" />
-      </choices>
-      <default>CS_CHECK</default>
-    </entry>
-
     <!-- progress bars -->
     <entry name="ProgressBarAnimated" type="Bool">
       <default>true</default>
