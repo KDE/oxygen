@@ -2641,10 +2641,13 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawFramePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-        const State& state( option->state );
-        const QRect& r( option->rect );
+
+        // copy rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
 
+        // store state
+        const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool isQtQuickControl = !widget && option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" );
         const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) )
@@ -2663,7 +2666,7 @@ namespace Oxygen
 
         if( state & State_Sunken )
         {
-            const QRect local( r.adjusted( 1, 1, -1, -1 ) );
+            const QRect local( rect );
             qreal opacity( -1 );
             AnimationMode mode = AnimationNone;
             if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
@@ -2698,7 +2701,8 @@ namespace Oxygen
 
         } else if( state & State_Raised ) {
 
-            const QRect local( r.adjusted( -1, -1, 1, 1 ) );
+            // const QRect local( r.adjusted( -1, -1, 1, 1 ) );
+            const QRect local( rect );
             renderSlab( painter, local, palette.color( QPalette::Background ), NoFill );
 
         }
@@ -2717,12 +2721,12 @@ namespace Oxygen
         { return true; }
 
         const State& state( option->state );
-        const QRect r( option->rect.adjusted( 0, 0, 0, -1 ) );
+        const QRect rect( option->rect.adjusted( 0, 0, 0, -1 ) );
         const QPalette& palette( option->palette );
 
-        if( r.width() < 10 ) return true;
+        if( rect.width() < 10 ) return true;
 
-        QLinearGradient lg( r.bottomLeft(), r.bottomRight() );
+        QLinearGradient lg( rect.bottomLeft(), rect.bottomRight() );
 
         lg.setColorAt( 0.0, Qt::transparent );
         lg.setColorAt( 1.0, Qt::transparent );
@@ -2741,7 +2745,7 @@ namespace Oxygen
 
         painter->setRenderHint( QPainter::Antialiasing, false );
         painter->setPen( QPen( lg, 1 ) );
-        painter->drawLine( r.bottomLeft(), r.bottomRight() );
+        painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
 
         return true;
 
@@ -2752,32 +2756,32 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionFrame *fOpt = qstyleoption_cast<const QStyleOptionFrame *>( option );
-        if( !fOpt ) return true;
+        const QStyleOptionFrame *frameOption = qstyleoption_cast<const QStyleOptionFrame *>( option );
+        if( !frameOption ) return true;
 
         // no frame for flat groupboxes
-        QStyleOptionFrameV2 fOpt2( *fOpt );
-        if( fOpt2.features & QStyleOptionFrameV2::Flat ) return true;
+        QStyleOptionFrameV2 frameOption2( *frameOption );
+        if( frameOption2.features & QStyleOptionFrameV2::Flat ) return true;
 
         // normal frame
         const QPalette& palette( option->palette );
-        const QRect& r( option->rect );
-        const QColor base( _helper->backgroundColor( palette.color( QPalette::Window ), widget, r.center() ) );
+        const QRect& rect( option->rect );
+        const QColor base( _helper->backgroundColor( palette.color( QPalette::Window ), widget, rect.center() ) );
 
         painter->save();
         painter->setRenderHint( QPainter::Antialiasing );
         painter->setPen( Qt::NoPen );
 
-        QLinearGradient innerGradient( 0, r.top()-r.height()+12, 0, r.bottom()+r.height()-19 );
+        QLinearGradient innerGradient( 0, rect.top()-rect.height()+12, 0, rect.bottom()+rect.height()-19 );
         QColor light( _helper->calcLightColor( base ) );
         light.setAlphaF( 0.4 ); innerGradient.setColorAt( 0.0, light );
         light.setAlphaF( 0.0 ); innerGradient.setColorAt( 1.0, light );
         painter->setBrush( innerGradient );
-        painter->setClipRect( r.adjusted( 0, 0, 0, -19 ) );
-        _helper->fillSlab( *painter, r );
+        painter->setClipRect( rect.adjusted( 0, 0, 0, -19 ) );
+        _helper->fillSlab( *painter, rect );
 
         painter->setClipping( false );
-        _helper->slope( base, 0.0 )->render( r, painter );
+        _helper->slope( base, 0.0 )->render( rect, painter );
 
         painter->restore();
         return true;
@@ -6940,38 +6944,41 @@ namespace Oxygen
     //______________________________________________________________
     bool Style::drawSpinBoxComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
     {
-        const QStyleOptionSpinBox *sb = qstyleoption_cast<const QStyleOptionSpinBox *>( option );
-        if( !sb ) return true;
 
-        const QRect& r( option->rect );
+        // cast option and check
+        const QStyleOptionSpinBox *spinBoxOption = qstyleoption_cast<const QStyleOptionSpinBox *>( option );
+        if( !spinBoxOption ) return true;
+
+        // copy rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
 
+        // store state
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( state & State_HasFocus );
         const QColor inputColor( palette.color( QPalette::Base ) );
 
-        if( sb->subControls & SC_SpinBoxFrame )
+        if( spinBoxOption->subControls & SC_SpinBoxFrame )
         {
 
-            QRect fr( r.adjusted( 1,1,-1,-1 ) );
             painter->save();
             painter->setRenderHint( QPainter::Antialiasing );
             painter->setPen( Qt::NoPen );
             painter->setBrush( inputColor );
 
-            if( !sb->frame )
+            if( !spinBoxOption->frame )
             {
                 // frameless spinbox
                 // frame is adjusted to have the same dimensions as a frameless editor
-                painter->fillRect( r, inputColor );
+                painter->fillRect( rect, inputColor );
                 painter->restore();
 
             } else {
 
                 // normal spinbox
-                _helper->fillHole( *painter, r.adjusted( 0, -1, 0, 0 ) );
+                _helper->fillHole( *painter, rect );
                 painter->restore();
 
                 HoleOptions options( 0 );
@@ -6984,23 +6991,23 @@ namespace Oxygen
                 if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
                 {
 
-                    _helper->renderHole( painter, local, fr, options, _animations->lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
+                    _helper->renderHole( painter, local, rect, options, _animations->lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
 
                 } else if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationHover ) ) {
 
-                    _helper->renderHole( painter, local, fr, options, _animations->lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
+                    _helper->renderHole( painter, local, rect, options, _animations->lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
 
                 } else {
 
-                    _helper->renderHole( painter, local, fr, options );
+                    _helper->renderHole( painter, local, rect, options );
 
                 }
 
             }
         }
 
-        if( sb->subControls & SC_SpinBoxUp ) renderSpinBoxArrow( painter, sb, widget, SC_SpinBoxUp );
-        if( sb->subControls & SC_SpinBoxDown ) renderSpinBoxArrow( painter, sb, widget, SC_SpinBoxDown );
+        if( spinBoxOption->subControls & SC_SpinBoxUp ) renderSpinBoxArrow( painter, spinBoxOption, widget, SC_SpinBoxUp );
+        if( spinBoxOption->subControls & SC_SpinBoxDown ) renderSpinBoxArrow( painter, spinBoxOption, widget, SC_SpinBoxDown );
 
         return true;
 
