@@ -1280,7 +1280,7 @@ namespace Oxygen
                     TileSet *tileSet( _helper->roundCorner( color ) );
                     tileSet->render( rect, &painter );
                     painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-                    painter.setClipRegion( _helper->roundedMask( rect.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+                    painter.setClipRegion( _helper->roundedMask( insideMargin( rect, 1 ) ), Qt::IntersectClip );
 
                 }
 
@@ -1309,7 +1309,7 @@ namespace Oxygen
                 // make sure mask is appropriate
                 if( dockWidget->isFloating() )
                 {
-                    if( _helper->compositingActive() ) dockWidget->setMask( _helper->roundedMask( dockWidget->rect().adjusted( 1, 1, -1, -1 ) ) );
+                    if( _helper->compositingActive() ) dockWidget->setMask( _helper->roundedMask( insideMargin( dockWidget->rect(), 1 ) ) );
                     else dockWidget->setMask( _helper->roundedMask( dockWidget->rect() ) );
                 } else dockWidget->clearMask();
                 return false;
@@ -1373,7 +1373,7 @@ namespace Oxygen
                 TileSet *tileSet( _helper->roundCorner( subWindow->palette().color( subWindow->backgroundRole() ) ) );
                 tileSet->render( rect, &painter );
 
-                painter.setClipRegion( _helper->roundedMask( rect.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+                painter.setClipRegion( _helper->roundedMask( insideMargin( rect, 1 ) ), Qt::IntersectClip );
                 _helper->renderWindowBackground( &painter, clip, subWindow, subWindow, subWindow->palette(), 0, 58 );
 
             }
@@ -1484,7 +1484,7 @@ namespace Oxygen
                     }
 
                     #ifndef Q_WS_WIN
-                    if( _helper->compositingActive() ) _helper->drawFloatFrame( &painter, rect.adjusted( -1, -1, 1, 1 ), color, false );
+                    if( _helper->compositingActive() ) _helper->drawFloatFrame( &painter, insideMargin( rect, -1 ), color, false );
                     else _helper->drawFloatFrame( &painter, rect, color, true );
                     #endif
 
@@ -1555,8 +1555,8 @@ namespace Oxygen
         const QRect rect( option->rect );
         const QStyleOptionProgressBarV2 *progressBarOption2( qstyleoption_cast<const QStyleOptionProgressBarV2 *>( option ) );
         const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
-        if( horizontal ) return rect.adjusted( 1, 0, -1, 0 );
-        else return rect.adjusted( 0, 1, 0, -1 );
+        if( horizontal ) return insideMargin( rect, 1, 0 );
+        else return insideMargin( rect, 0, 1 );
     }
 
     //____________________________________________________________________
@@ -1633,8 +1633,7 @@ namespace Oxygen
         }
 
         // adjust
-        indicatorRect.adjust( 1, 1, -1, -1 );
-        return indicatorRect;
+        return insideMargin( indicatorRect, 1 );
 
     }
 
@@ -2352,8 +2351,19 @@ namespace Oxygen
                 grooveRect = insideMargin( grooveRect, pixelMetric( PM_DefaultFrameWidth, option, widget ) );
 
                 // centering
-                if( horizontal ) grooveRect = centerRect( grooveRect, grooveRect.width(), Metrics::Slider_GrooveThickness ).adjusted( 3, 0, -3, 0 );
-                else grooveRect = centerRect( grooveRect, Metrics::Slider_GrooveThickness, grooveRect.height() ).adjusted( 0, 3, 0, -3 );
+                if( horizontal )
+                {
+
+                    grooveRect = centerRect( grooveRect, grooveRect.width(), Metrics::Slider_GrooveThickness );
+                    grooveRect = insideMargin( grooveRect, 3, 0 );
+
+                } else {
+
+                    grooveRect = centerRect( grooveRect, Metrics::Slider_GrooveThickness, grooveRect.height() );
+                    grooveRect = insideMargin( grooveRect, 0, 3 );
+
+                }
+
                 return grooveRect;
 
             }
@@ -3645,7 +3655,7 @@ namespace Oxygen
                     painter->setRenderHint( QPainter::Antialiasing );
                     painter->setPen( Qt::NoPen );
                     painter->setBrush( color );
-                    painter->drawRoundedRect( rect.adjusted( 1, 1, -1, -1 ), 3.5, 3.5 );
+                    painter->drawRoundedRect( insideMargin( rect, 1 ), 3.5, 3.5 );
                     painter->restore();
                 }
 
@@ -3746,7 +3756,7 @@ namespace Oxygen
             tileSet->render( rect, painter );
 
             painter->setCompositionMode( QPainter::CompositionMode_SourceOver );
-            painter->setClipRegion( _helper->roundedMask( rect.adjusted( 1, 1, -1, -1 ) ), Qt::IntersectClip );
+            painter->setClipRegion( _helper->roundedMask( insideMargin( rect, 1 ) ), Qt::IntersectClip );
 
         }
 
@@ -4617,20 +4627,20 @@ namespace Oxygen
                 if( animated && intersected )
                 {
 
-                    _helper->holeFlat( color, 0.0 )->render( animatedRect.adjusted( 1,1,-1,-1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0.0 )->render( insideMargin( animatedRect, 1 ), painter, TileSet::Full );
 
                 } else if( timerIsActive && current ) {
 
-                    _helper->holeFlat( color, 0.0 )->render( rect.adjusted( 1,1,-1,-1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0.0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
 
                 } else if( animated && current ) {
 
                     color.setAlphaF( opacity );
-                    _helper->holeFlat( color, 0.0 )->render( rect.adjusted( 1,1,-1,-1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0.0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
 
                 } else if( active ) {
 
-                    _helper->holeFlat( color, 0.0 )->render( rect.adjusted( 1,1,-1,-1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0.0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
 
                 }
 
@@ -5089,7 +5099,7 @@ namespace Oxygen
             painter->drawPolyline( arrow );
             painter->restore();
 
-        } else contentsRect.adjust( Metrics::Button_MarginWidth, 0, -Metrics::Button_MarginWidth, 0 );
+        } else contentsRect = insideMargin( contentsRect, Metrics::Button_MarginWidth, 0 );
 
         // icon size
         QSize iconSize( buttonOption->iconSize );
@@ -5186,8 +5196,8 @@ namespace Oxygen
         _animations->scrollBarEngine().updateState( widget, enabled && ( sliderOption->activeSubControls & SC_ScrollBarSlider ) );
         const bool animated( enabled && _animations->scrollBarEngine().isAnimated( widget, SC_ScrollBarSlider ) );
 
-        if( orientation == Qt::Horizontal ) rect.adjust( 0, 1, 0, -1 );
-        else rect.adjust( 1, 0, -1, 0 );
+        if( orientation == Qt::Horizontal ) rect = insideMargin( rect, 0, 1 );
+        else rect = insideMargin( rect, 1, 0 );
 
         // render
         if( animated ) renderScrollBarHandle( painter, rect, palette, orientation, mouseOver, _animations->scrollBarEngine().opacity( widget, SC_ScrollBarSlider ) );
@@ -8088,7 +8098,7 @@ namespace Oxygen
             else if( tiles& TileSet::Right ) painter->drawPoint( rect.bottomRight() );
             else painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
 
-            rect.adjust( 0,0,0,-1 );
+            rect.adjust( 0, 0, 0, -1 );
             painter->setPen( light );
             if( tiles & TileSet::Left )
             {
@@ -8109,7 +8119,7 @@ namespace Oxygen
             painter->setPen( dark );
             painter->drawLine( rect.topLeft(), rect.bottomLeft() );
 
-            rect.adjust( 1,0,0,0 );
+            rect.adjust( 1, 0, 0, 0 );
             painter->setPen( light );
             painter->drawLine( rect.topLeft(), rect.bottomLeft() );
 
@@ -8118,7 +8128,7 @@ namespace Oxygen
             painter->setPen( dark );
             painter->drawLine( rect.topRight(), rect.bottomRight() );
 
-            rect.adjust( 0,0,-1,0 );
+            rect.adjust( 0, 0, -1, 0 );
             painter->setPen( light );
             painter->drawLine( rect.topRight(), rect.bottomRight() );
 
@@ -8237,7 +8247,7 @@ namespace Oxygen
             if( opacity >= 0 && opacity < 1 )
             { color.setAlphaF( opacity ); }
 
-            _helper->holeFlat( color, 0.0 )->render( rect.adjusted( 1,2,-2,-1 ), painter, TileSet::Full );
+            _helper->holeFlat( color, 0.0 )->render( rect.adjusted( 1, 2, -2, -1 ), painter, TileSet::Full );
 
         }
 
@@ -8256,7 +8266,7 @@ namespace Oxygen
 
         if( !( options & NoFill ) )
         {
-            if( options & Sunken ) _helper->holeFlat( palette.color( QPalette::Window ), 0.0, false )->render( rect.adjusted( 1, 1, -1, -1 ), painter, TileSet::Full );
+            if( options & Sunken ) _helper->holeFlat( palette.color( QPalette::Window ), 0.0, false )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
             else renderSlab( painter, rect, palette.color( QPalette::Button ), options, opacity, mode, TileSet::Ring );
         }
 
@@ -8384,8 +8394,7 @@ namespace Oxygen
         if( !constRect.isValid() ) return;
 
         // define rect and check
-        const bool horizontal( orientation == Qt::Horizontal );
-        QRect rect( horizontal ? constRect.adjusted( 3, 3, -3, -3 ):constRect.adjusted( 3, 3, -3, -3 ) );
+        QRect rect( insideMargin( constRect, 3 ) );
 
         painter->save();
         painter->setRenderHints( QPainter::Antialiasing );
@@ -8414,19 +8423,20 @@ namespace Oxygen
         gradient.setColorAt(1, mid );
         painter->setPen( Qt::NoPen );
         painter->setBrush( gradient );
-        painter->drawRoundedRect( rect.adjusted( 1, 1, -1, -1), radius - 2, radius - 2 );
+        painter->drawRoundedRect( insideMargin( rect, 1 ), radius - 2, radius - 2 );
 
         // bevel pattern
         const QColor light( _helper->calcLightColor( color ) );
 
+        const bool horizontal( orientation == Qt::Horizontal );
         QLinearGradient patternGradient( 0, 0, horizontal ? 30:0, horizontal? 0:30 );
         patternGradient.setSpread( QGradient::ReflectSpread );
         patternGradient.setColorAt( 0.0, Qt::transparent );
         patternGradient.setColorAt( 1.0, _helper->alphaColor( light, 0.1 ) );
 
         QRect bevelRect( rect );
-        if( horizontal ) bevelRect.adjust( 0, 3, 0, -3 );
-        else bevelRect.adjust( 3, 0, -3, 0 );
+        if( horizontal ) bevelRect = insideMargin( bevelRect, 0, 3 );
+        else bevelRect = insideMargin( bevelRect, 3, 0 );
 
         if( bevelRect.isValid() )
         {
