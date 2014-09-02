@@ -30,7 +30,7 @@
 #include "oxygenbaseengine.h"
 #include "oxygendatamap.h"
 #include "oxygenwidgetstatedata.h"
-#include "oxygenanimationmodes.h"
+#include "oxygen.h"
 
 namespace Oxygen
 {
@@ -116,7 +116,5 @@ namespace Oxygen
     };
 
 }
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(Oxygen::AnimationModes)
 
 #endif

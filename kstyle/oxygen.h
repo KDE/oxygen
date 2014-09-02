@@ -158,5 +158,20 @@ namespace Oxygen
 
     };
 
+    //* animation mode
+    enum AnimationMode
+    {
+        AnimationNone = 0,
+        AnimationHover = 0x1,
+        AnimationFocus = 0x2,
+        AnimationEnable = 0x4,
+        AnimationPressed = 0x8
+    };
+
+    Q_DECLARE_FLAGS(AnimationModes, AnimationMode)
+
 }
+
+Q_DECLARE_OPERATORS_FOR_FLAGS( Oxygen::AnimationModes );
+
 #endif

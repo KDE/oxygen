@@ -3410,12 +3410,12 @@ namespace Oxygen
                 if( enabled && hoverAnimated )
                 {
 
-                    QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( QPalette::Active ).color(), hoverOpacity ) );
+                    QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( palette ).color(), hoverOpacity ) );
                     _helper->slitFocused( glow )->render( rect, painter );
 
                 } else if( mouseOver ) {
 
-                    _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( rect, painter );
+                    _helper->slitFocused( _helper->viewFocusBrush().brush( palette ).color() )->render( rect, painter );
 
                 }
 
@@ -3689,20 +3689,20 @@ namespace Oxygen
             if( enabled && hoverAnimated )
             {
 
-                QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( QPalette::Active ).color(), hoverOpacity ) );
+                QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( palette ).color(), hoverOpacity ) );
                 _helper->slitFocused( glow )->render( rect, painter );
 
             } else if( toolBarAnimated ) {
 
                 if( enabled && animatedRect.isNull() && current )
                 {
-                    QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( QPalette::Active ).color(), toolBarOpacity ) );
+                    QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( palette ).color(), toolBarOpacity ) );
                     _helper->slitFocused( glow )->render( rect, painter );
                 }
 
             } else if( hasFocus || mouseOver || ( toolBarTimerActive && current ) ) {
 
-                _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( rect, painter );
+                _helper->slitFocused( _helper->viewFocusBrush().brush( palette ).color() )->render( rect, painter );
 
             }
 
@@ -5384,6 +5384,86 @@ namespace Oxygen
         // call parent style method
         ParentStyleClass::drawControl( CE_TabBarTabLabel, option, painter, widget );
 
+        // store rect and palette
+        const QRect& rect( option->rect );
+        const QPalette& palette( option->palette );
+
+        // check focus
+        const State& state( option->state );
+        const bool enabled( state & State_Enabled );
+        const bool selected( state & State_Selected );
+        const bool hasFocus( enabled && selected && (state & State_HasFocus) );
+
+        // update mouse over animation state
+        _animations->tabBarEngine().updateState( widget, rect.topLeft(), AnimationFocus, hasFocus );
+        const bool animated( enabled && selected && _animations->tabBarEngine().isAnimated( widget, rect.topLeft(), AnimationFocus ) );
+        const qreal opacity( _animations->tabBarEngine().opacity( widget, rect.topLeft(), AnimationFocus ) );
+
+        if( !( hasFocus || animated ) ) return true;
+
+        // code is copied from QCommonStyle, but adds focus
+        // cast option and check
+        const QStyleOptionTab *tabOption( qstyleoption_cast<const QStyleOptionTab*>(option) );
+        if( !tabOption || tabOption->text.isEmpty() ) return true;
+
+        // tab option rect
+        const bool verticalTabs( isVerticalTab( tabOption ) );
+        const int alignment = Qt::AlignCenter | _mnemonics->textFlags();
+
+        // text rect
+        QRect textRect( subElementRect(SE_TabBarTabText, option, widget) );
+
+        if( verticalTabs )
+        {
+
+            // properly rotate painter
+            painter->save();
+            int newX, newY, newRot;
+            if( tabOption->shape == QTabBar::RoundedEast || tabOption->shape == QTabBar::TriangularEast)
+            {
+
+                newX = rect.width() + rect.x();
+                newY = rect.y();
+                newRot = 90;
+
+            } else {
+
+                newX = rect.x();
+                newY = rect.y() + rect.height();
+                newRot = -90;
+
+            }
+
+            QTransform transform;
+            transform.translate( newX, newY );
+            transform.rotate(newRot);
+            painter->setTransform( transform, true );
+
+        }
+
+        // adjust text rect based on font metrics
+        textRect = option->fontMetrics.boundingRect( textRect, alignment, tabOption->text );
+
+        // focus color
+        QColor focusColor;
+        if( animated ) focusColor = _helper->alphaColor( _helper->viewFocusBrush().brush( palette ).color(), opacity );
+        else if( hasFocus ) focusColor =  _helper->viewFocusBrush().brush( palette ).color();
+
+        // render focus line
+        if( focusColor.isValid() )
+        {
+            painter->save();
+            painter->setRenderHint( QPainter::Antialiasing, false );
+            painter->setBrush( Qt::NoBrush );
+            painter->setPen( focusColor );
+
+            painter->translate( 0, 2 );
+            painter->drawLine( textRect.bottomLeft(), textRect.bottomRight() );
+            painter->restore();
+        }
+
+        if( verticalTabs ) painter->restore();
+
         return true;
 
     }
@@ -5440,7 +5520,7 @@ namespace Oxygen
         const bool mouseOver( enabled && !tabBarLocked && ( state & State_MouseOver ) );
 
         // animation state
-        _animations->tabBarEngine().updateState( widget, rect.topLeft(), mouseOver );
+        _animations->tabBarEngine().updateState( widget, rect.topLeft(), AnimationHover, mouseOver );
 
         // handle base frame painting, for tabbars in which tab is being dragged
         _tabBarData->drawTabBarBaseControl( tabOption, painter, widget );
@@ -5829,8 +5909,8 @@ namespace Oxygen
         const bool mouseOver( enabled && !tabBarLocked && ( state & State_MouseOver ) );
 
         // animation state
-        _animations->tabBarEngine().updateState( widget, rect.topLeft(), mouseOver );
-        const bool animated( enabled && !tabBarLocked && _animations->tabBarEngine().isAnimated( widget, rect.topLeft() ) );
+        _animations->tabBarEngine().updateState( widget, rect.topLeft(), AnimationHover, mouseOver );
+        const bool animated( enabled && !tabBarLocked && _animations->tabBarEngine().isAnimated( widget, rect.topLeft(), AnimationHover ) );
 
         // corner widgets
         const bool verticalTabs( isVerticalTab( tabOption ) );
@@ -6093,7 +6173,7 @@ namespace Oxygen
 
             const QRect tabWidgetRect( tabWidget ? tabWidget->rect().translated( -widget->geometry().topLeft() ) : QRect() );
 
-            const qreal opacity( _animations->tabBarEngine().opacity( widget, rect.topLeft() ) );
+            const qreal opacity( _animations->tabBarEngine().opacity( widget, rect.topLeft(), AnimationHover ) );
             const StyleOptions hoverTabOpts( NoFill | Hover );
             adjustSlabRect( highlightSlab, tabWidgetRect, documentMode, verticalTabs );
 
@@ -6111,14 +6191,16 @@ namespace Oxygen
     bool Style::drawToolBarControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // copy rect and palette
         const QRect& rect( option->rect );
+        const QPalette& palette( option->palette );
 
         // when timeLine is running draw border event if not hovered
         const bool toolBarAnimated( _animations->toolBarEngine().isFollowMouseAnimated( widget ) );
         const QRect animatedRect( _animations->toolBarEngine().animatedRect( widget ) );
         const bool toolBarIntersected( toolBarAnimated && animatedRect.intersects( rect ) );
         if( toolBarIntersected )
-        { _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( animatedRect, painter ); }
+        { _helper->slitFocused( _helper->viewFocusBrush().brush( palette ).color() )->render( animatedRect, painter ); }
 
         // draw nothing otherwise ( toolbars are transparent )
 
@@ -6547,12 +6629,12 @@ namespace Oxygen
                         if( enabled && hoverAnimated )
                         {
 
-                            QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( QPalette::Active ).color(), hoverOpacity ) );
+                            QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( palette ).color(), hoverOpacity ) );
                             _helper->slitFocused( glow )->render( rect, painter );
 
                         } else if( mouseOver ) {
 
-                            _helper->slitFocused( _helper->viewFocusBrush().brush( QPalette::Active ).color() )->render( rect, painter );
+                            _helper->slitFocused( _helper->viewFocusBrush().brush( palette ).color() )->render( rect, painter );
 
                         }
 
@@ -8314,7 +8396,7 @@ namespace Oxygen
         // glow / shadow
         QColor glow;
         const QColor shadow( _helper->alphaColor( _helper->calcShadowColor( color ), 0.4 ) );
-        const QColor hovered( _helper->viewHoverBrush().brush( QPalette::Active ).color() );
+        const QColor hovered( _helper->viewHoverBrush().brush( palette ).color() );
 
         if( opacity >= 0 ) glow = KColorUtils::mix( shadow, hovered, opacity );
         else if( hover ) glow = hovered;

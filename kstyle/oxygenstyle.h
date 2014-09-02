@@ -47,7 +47,7 @@
 // Boston, MA 02110-1301, USA.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenanimationmodes.h"
+#include "oxygen.h"
 #include "oxygentileset.h"
 
 #include <KStyle>

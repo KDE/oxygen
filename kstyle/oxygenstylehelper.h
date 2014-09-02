@@ -23,7 +23,7 @@
  */
 
 #include "oxygenhelper.h"
-#include "oxygenanimationmodes.h"
+#include "oxygen.h"
 
 #include <KWindowSystem>
 
