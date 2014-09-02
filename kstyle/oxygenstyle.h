@@ -379,28 +379,20 @@ namespace Oxygen
         virtual bool drawProgressBarGrooveControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawProgressBarLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawPushButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-
-        //* scrollbar
         virtual bool drawScrollBarSliderControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawScrollBarAddLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawScrollBarSubLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-
         virtual bool drawShapedFrameControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawRubberBandControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawHeaderSectionControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawHeaderEmptyAreaControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-
-        //* tabbar tabs.
         virtual bool drawTabBarTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawTabBarTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawTabBarTabShapeControl_selected( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawTabBarTabShapeControl_unselected( const QStyleOption*, QPainter*, const QWidget* ) const;
-
         virtual bool drawToolBoxTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolBoxTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-
         virtual bool drawDockWidgetTitleControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-
         virtual bool drawToolBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         // splitters

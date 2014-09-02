@@ -6129,42 +6129,77 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawToolBoxTabLabelControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
+        // rendering is similar to drawPushButtonLabelControl
 
+        // cast option and check
         const QStyleOptionToolBox* toolBoxOption( qstyleoption_cast<const QStyleOptionToolBox *>( option ) );
-        const bool enabled( toolBoxOption->state & State_Enabled );
-        const bool selected( toolBoxOption->state & State_Selected );
-        QPixmap pm(
-            toolBoxOption->icon.pixmap( pixelMetric( QStyle::PM_SmallIconSize, toolBoxOption, widget ),
-            enabled ? QIcon::Normal : QIcon::Disabled ) );
+        if( !toolBoxOption ) return true;
 
-        const QRect cr( toolBoxTabContentsRect( toolBoxOption, widget ) );
-        QRect tr;
-        QRect ir;
-        int ih( 0 );
+        // copy palette
+        const QPalette& palette( option->palette );
 
-        if( pm.isNull() )  tr = cr.adjusted( -1, 0, -8, 0 );
-        else {
+        const State& state( option->state );
+        const bool enabled( state & State_Enabled );
 
-            int iw = pm.width() + 4;
-            ih = pm.height();
-            ir = QRect( cr.left() - 1, cr.top(), iw + 2, ih );
-            tr = QRect( ir.right(), cr.top(), cr.width() - ir.right() - 4, cr.height() );
+        // text alignment
+        const int alignment = _mnemonics->textFlags() | Qt::AlignCenter;
 
-        }
+        // contents rect
+        const QRect rect( toolBoxTabContentsRect( option, widget ) );
 
-        if( selected )
+        // store icon size
+        const int iconSize( pixelMetric( QStyle::PM_SmallIconSize, option, widget ) );
+
+        // find contents size and rect
+        QRect contentsRect( rect );
+        QSize contentsSize;
+        if( !toolBoxOption->text.isEmpty() )
         {
-            QFont f( painter->font() );
-            f.setBold( true );
-            painter->setFont( f );
+            contentsSize = option->fontMetrics.size( _mnemonics->textFlags(), toolBoxOption->text );
+            if( !toolBoxOption->icon.isNull() ) contentsSize.rwidth() += Metrics::ToolBox_TabItemSpacing;
         }
 
-        QString txt( toolBoxOption->fontMetrics.elidedText( toolBoxOption->text, Qt::ElideRight, tr.width() ) );
+        // icon size
+        if( !toolBoxOption->icon.isNull() )
+        {
 
-        if( ih ) painter->drawPixmap( ir.left(), ( toolBoxOption->rect.height() - ih ) / 2, pm );
+            contentsSize.setHeight( qMax( contentsSize.height(), iconSize ) );
+            contentsSize.rwidth() += iconSize;
 
-        int alignment( Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic );
-        drawItemText( painter, tr, alignment, toolBoxOption->palette, enabled, txt, QPalette::WindowText );
+        }
+
+        // adjust contents rect
+        contentsRect = centerRect( contentsRect, contentsSize );
+
+        // render icon
+        if( !toolBoxOption->icon.isNull() )
+        {
+
+            // icon rect
+            QRect iconRect;
+            if( toolBoxOption->text.isEmpty() ) iconRect = centerRect( contentsRect, iconSize, iconSize );
+            else {
+
+                iconRect = contentsRect;
+                iconRect.setWidth( iconSize );
+                iconRect = centerRect( iconRect, iconSize, iconSize );
+                contentsRect.setLeft( iconRect.right() + Metrics::ToolBox_TabItemSpacing + 1 );
+
+            }
+
+            iconRect = visualRect( option, iconRect );
+            const QIcon::Mode mode( enabled ? QIcon::Normal : QIcon::Disabled );
+            const QPixmap pixmap( toolBoxOption->icon.pixmap( iconSize, mode ) );
+            drawItemPixmap( painter, iconRect, alignment, pixmap );
+
+        }
+
+        // render text
+        if( !toolBoxOption->text.isEmpty() )
+        {
+            contentsRect = visualRect( option, contentsRect );
+            drawItemText( painter, contentsRect, alignment, palette, enabled, toolBoxOption->text, QPalette::WindowText );
+        }
 
         return true;
     }
