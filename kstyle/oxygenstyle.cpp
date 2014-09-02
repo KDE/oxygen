@@ -6258,20 +6258,21 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawToolBoxTabShapeControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-
-        const QRect& r( option->rect );
+        // copy rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
-        const State& state( option->state );
 
+        // copy state
+        const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool selected( state & State_Selected );
         const bool mouseOver( enabled && !selected && ( state & State_MouseOver ) );
         const bool reverseLayout( option->direction == Qt::RightToLeft );
 
-
-        // cast to v2 and disable paint is tab is first
+        // cast option and check
         const QStyleOptionToolBoxV2 *v2 = qstyleoption_cast<const QStyleOptionToolBoxV2 *>( option );
         if( v2 && v2->position == QStyleOptionToolBoxV2::Beginning && selected ) return true;
+
 
         /*
         the proper widget ( the toolbox tab ) is not passed as argument by Qt.
@@ -6321,23 +6322,23 @@ namespace Oxygen
         // create path
         painter->save();
         QPainterPath path;
-        const int y( r.height()*15/100 );
+        const int y( rect.height()*15/100 );
         if( reverseLayout )
         {
 
-            path.moveTo( r.left()+52, r.top() );
-            path.cubicTo( QPointF( r.left()+50-8, r.top() ), QPointF( r.left()+50-10, r.top()+y ), QPointF( r.left()+50-10, r.top()+y ) );
-            path.lineTo( r.left()+18+9, r.bottom()-y );
-            path.cubicTo( QPointF( r.left()+18+9, r.bottom()-y ), QPointF( r.left()+19+6, r.bottom()-1-0.3 ), QPointF( r.left()+19, r.bottom()-1-0.3 ) );
-            painter->setClipRect( QRect( r.left()+21, r.top(), 28, r.height() ) );
+            path.moveTo( rect.left()+52, rect.top() );
+            path.cubicTo( QPointF( rect.left()+50-8, rect.top() ), QPointF( rect.left()+50-10, rect.top()+y ), QPointF( rect.left()+50-10, rect.top()+y ) );
+            path.lineTo( rect.left()+18+9, rect.bottom()-y );
+            path.cubicTo( QPointF( rect.left()+18+9, rect.bottom()-y ), QPointF( rect.left()+19+6, rect.bottom()-1-0.3 ), QPointF( rect.left()+19, rect.bottom()-1-0.3 ) );
+            painter->setClipRect( QRect( rect.left()+21, rect.top(), 28, rect.height() ) );
 
         } else {
 
-            path.moveTo( r.right()-52, r.top() );
-            path.cubicTo( QPointF( r.right()-50+8, r.top() ), QPointF( r.right()-50+10, r.top()+y ), QPointF( r.right()-50+10, r.top()+y ) );
-            path.lineTo( r.right()-18-9, r.bottom()-y );
-            path.cubicTo( QPointF( r.right()-18-9, r.bottom()-y ), QPointF( r.right()-19-6, r.bottom()-1-0.3 ), QPointF( r.right()-19, r.bottom()-1-0.3 ) );
-            painter->setClipRect( QRect( r.right()-48, r.top(), 32, r.height() ) );
+            path.moveTo( rect.right()-52, rect.top() );
+            path.cubicTo( QPointF( rect.right()-50+8, rect.top() ), QPointF( rect.right()-50+10, rect.top()+y ), QPointF( rect.right()-50+10, rect.top()+y ) );
+            path.lineTo( rect.right()-18-9, rect.bottom()-y );
+            path.cubicTo( QPointF( rect.right()-18-9, rect.bottom()-y ), QPointF( rect.right()-19-6, rect.bottom()-1-0.3 ), QPointF( rect.right()-19, rect.bottom()-1-0.3 ) );
+            painter->setClipRect( QRect( rect.right()-48, rect.top(), 32, rect.height() ) );
 
         }
 
@@ -6360,11 +6361,11 @@ namespace Oxygen
         {
             painter->setPen( color );
             if( reverseLayout ) {
-                painter->drawLine( r.left()+50-1, r.top(), r.right(), r.top() );
-                painter->drawLine( r.left()+20, r.bottom()-2, r.left(), r.bottom()-2 );
+                painter->drawLine( rect.left()+50-1, rect.top(), rect.right(), rect.top() );
+                painter->drawLine( rect.left()+20, rect.bottom()-2, rect.left(), rect.bottom()-2 );
             } else {
-                painter->drawLine( r.left(), r.top(), r.right()-50+1, r.top() );
-                painter->drawLine( r.right()-20, r.bottom()-2, r.right(), r.bottom()-2 );
+                painter->drawLine( rect.left(), rect.top(), rect.right()-50+1, rect.top() );
+                painter->drawLine( rect.right()-20, rect.bottom()-2, rect.right(), rect.bottom()-2 );
             }
             painter->translate( 0,-1 );
         }
