@@ -227,17 +227,21 @@ namespace Oxygen
 
             //* constructor
             SlabRect(void):
-                _tiles( TileSet::Ring )
+                tiles( TileSet::Ring )
             {}
 
             //* constructor
-            SlabRect( const QRect& r, const int& tiles ):
-                _r( r ),
-                _tiles( TileSet::Tiles( tiles ) )
+            SlabRect( const QRect& rect, int tiles ):
+                rect( rect ),
+                tiles( TileSet::Tiles(tiles) )
             {}
 
-            QRect _r;
-            TileSet::Tiles _tiles;
+            //* validity
+            bool isValid( void ) const
+            { return rect.isValid() && tiles; }
+
+            QRect rect;
+            TileSet::Tiles tiles;
 
         };
 
@@ -389,6 +393,8 @@ namespace Oxygen
         //* tabbar tabs.
         virtual bool drawTabBarTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawTabBarTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawTabBarTabShapeControl_selected( const QStyleOption*, QPainter*, const QWidget* ) const;
+        virtual bool drawTabBarTabShapeControl_unselected( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         virtual bool drawToolBoxTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolBoxTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -504,7 +510,7 @@ namespace Oxygen
 
         //* generic slab
         void renderSlab( QPainter* painter, const SlabRect& slab, const QColor& color, StyleOptions options = 0 ) const
-        { renderSlab( painter, slab._r, color, options, slab._tiles ); }
+        { renderSlab( painter, slab.rect, color, options, slab.tiles ); }
 
         //* generic slab
         void renderSlab( QPainter* painter, QRect rect, const QColor& color, StyleOptions options = 0, TileSet::Tiles tiles = TileSet::Ring) const
@@ -512,7 +518,7 @@ namespace Oxygen
 
         //* generic slab
         void renderSlab( QPainter* painter, const SlabRect& slab, const QColor& color, StyleOptions options, qreal opacity, AnimationMode mode ) const
-        { renderSlab( painter, slab._r, color, options, opacity, mode, slab._tiles ); }
+        { renderSlab( painter, slab.rect, color, options, opacity, mode, slab.tiles ); }
 
         //* generic slab
         void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, AnimationMode, TileSet::Tiles ) const;
@@ -522,7 +528,7 @@ namespace Oxygen
 
         //* tab background
         /** this paints window background behind tab when tab is being dragged */
-        void fillTabBackground( QPainter*, const QRect&, const QColor&, const QTabBar::Shape, const QWidget* ) const;
+        void fillTabBackground( QPainter*, const QRect&, const QColor&, const QWidget* ) const;
 
         //* tab filling
         void fillTab( QPainter*, const QRect&, const QColor&, const QTabBar::Shape, bool active ) const;
@@ -765,13 +771,13 @@ namespace Oxygen
         else if( vertical )
         {
 
-            slab._r.setTop( qMax( slab._r.top(), tabWidgetRect.top() ) );
-            slab._r.setBottom( qMin( slab._r.bottom(), tabWidgetRect.bottom() ) );
+            slab.rect.setTop( qMax( slab.rect.top(), tabWidgetRect.top() ) );
+            slab.rect.setBottom( qMin( slab.rect.bottom(), tabWidgetRect.bottom() ) );
 
         } else {
 
-            slab._r.setLeft( qMax( slab._r.left(), tabWidgetRect.left() ) );
-            slab._r.setRight( qMin( slab._r.right(), tabWidgetRect.right() ) );
+            slab.rect.setLeft( qMax( slab.rect.left(), tabWidgetRect.left() ) );
+            slab.rect.setRight( qMin( slab.rect.right(), tabWidgetRect.right() ) );
 
         }
 

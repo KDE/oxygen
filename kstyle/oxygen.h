@@ -44,7 +44,7 @@ namespace Oxygen
 
     //* disable QStringLiteral for older Qt version
     #if QT_VERSION < 0x050000
-    using QStringLiteral = QString;
+    using QStringLiteral = QString;B
     #endif
 
     //@}
@@ -131,7 +131,8 @@ namespace Oxygen
         TabBar_TabMinWidth = 80,
         TabBar_TabMinHeight = 28,
         TabBar_TabOverlap = 1,
-        TabBar_BaseOverlap = 2,
+        TabBar_TabOffset = 4,
+        TabBar_BaseOverlap = 7,
 
         // tab widget
         TabWidget_MarginWidth = 4,
