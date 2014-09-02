@@ -2984,6 +2984,8 @@ namespace Oxygen
     bool Style::drawFrameTabBarBasePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
+        // tabbar frame used either for 'separate' tabbar, or in 'document mode'
+
         // cast option and check
         const QStyleOptionTabBarBase* tabOption( qstyleoption_cast<const QStyleOptionTabBarBase*>( option ) );
         if( !tabOption ) return true;
@@ -3507,59 +3509,53 @@ namespace Oxygen
     }
 
     //______________________________________________________________
-    bool Style::drawPanelButtonToolPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    bool Style::drawTabBarPanelButtonToolPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
-        /*
-        For toolbutton in TabBars, corresponding to expanding arrows, no frame is drawn
-        However one needs to draw the window background, because the button rect might
-        overlap with some tab below. ( this is a Qt bug )
-        */
-        const bool isInTabBar( widget && qobject_cast<const QTabBar*>( widget->parent() ) );
-        if( isInTabBar )
+        const QPalette& palette( option->palette );
+        QRect rect( option->rect );
+
+        // adjust rect depending on shape
+        const QTabBar* tabBar( static_cast<const QTabBar*>( widget->parent() ) );
+        switch( tabBar->shape() )
         {
+            case QTabBar::RoundedNorth:
+            case QTabBar::TriangularNorth:
+            rect.adjust( 0, 0, 0, -6 );
+            break;
 
-            const QPalette& palette( option->palette );
-            QRect rect( option->rect );
+            case QTabBar::RoundedSouth:
+            case QTabBar::TriangularSouth:
+            rect.adjust( 0, 6, 0, 0 );
+            break;
 
-            // adjust rect depending on shape
-            const QTabBar* tabBar( static_cast<const QTabBar*>( widget->parent() ) );
-            switch( tabBar->shape() )
-            {
-                case QTabBar::RoundedNorth:
-                case QTabBar::TriangularNorth:
-                rect.adjust( 0, 0, 0, -6 );
-                break;
+            case QTabBar::RoundedWest:
+            case QTabBar::TriangularWest:
+            rect.adjust( 0, 0, -6, 0 );
+            break;
 
-                case QTabBar::RoundedSouth:
-                case QTabBar::TriangularSouth:
-                rect.adjust( 0, 6, 0, 0 );
-                break;
+            case QTabBar::RoundedEast:
+            case QTabBar::TriangularEast:
+            rect.adjust( 6, 0, 0, 0 );
+            break;
 
-                case QTabBar::RoundedWest:
-                case QTabBar::TriangularWest:
-                rect.adjust( 0, 0, -6, 0 );
-                break;
-
-                case QTabBar::RoundedEast:
-                case QTabBar::TriangularEast:
-                rect.adjust( 6, 0, 0, 0 );
-                break;
-
-                default: break;
-
-            }
-
-            const QPalette local( widget->parentWidget() ? widget->parentWidget()->palette() : palette );
-
-            // check whether parent has autofill background flag
-            const QWidget* parent = _helper->checkAutoFillBackground( widget );
-            if( parent && !qobject_cast<const QDockWidget*>( parent ) ) painter->fillRect( rect, parent->palette().color( parent->backgroundRole() ) );
-            else _helper->renderWindowBackground( painter, rect, widget, local );
-
-            return true;
+            default: break;
 
         }
+
+        const QPalette local( widget->parentWidget() ? widget->parentWidget()->palette() : palette );
+
+        // check whether parent has autofill background flag
+        const QWidget* parent = _helper->checkAutoFillBackground( widget );
+        if( parent && !qobject_cast<const QDockWidget*>( parent ) ) painter->fillRect( rect, parent->palette().color( parent->backgroundRole() ) );
+        else _helper->renderWindowBackground( painter, rect, widget, local );
+
+        return true;
+    }
+
+    //______________________________________________________________
+    bool Style::drawPanelButtonToolPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    {
 
         // copy rect and palette
         const QRect& rect( option->rect );
@@ -4080,149 +4076,99 @@ namespace Oxygen
     bool Style::drawIndicatorButtonDropDownPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // cast option and check
+        const QStyleOptionToolButton* toolButtonOption( qstyleoption_cast<const QStyleOptionToolButton*>( option ) );
+        if( !toolButtonOption ) return true;
+
         // copy palette and rect
         const QPalette& palette( option->palette );
         const QRect& rect( option->rect );
 
         // store state
         const State& state( option->state );
-        const bool enabled( state & State_Enabled );
-        const bool mouseOver( enabled && ( state & State_MouseOver ) );
-        const bool reverseLayout( option->direction == Qt::RightToLeft );
         const bool autoRaise( state & State_AutoRaise );
+
+        // do nothing for autoraise buttons
+        if( autoRaise || !(toolButtonOption->subControls & SC_ToolButtonMenu) ) return true;
+
+        // store state
+        const bool enabled( state & State_Enabled );
+        const bool hasFocus( enabled && ( state & State_HasFocus ) );
+        const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool sunken( enabled && ( state & State_Sunken ) );
+        const bool reverseLayout( option->direction == Qt::RightToLeft );
 
         // match button color to window background
         const QColor highlight( _helper->viewHoverBrush().brush( palette ).color() );
-        QColor color = palette.color( autoRaise ? QPalette::WindowText:QPalette::ButtonText );
-        QColor background = palette.color( QPalette::Window );
+        const QColor background( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
         StyleOptions styleOptions = 0;
 
-        // define gradient and polygon for drawing arrow
-        QPolygonF arrow = genericArrow( ArrowDown, ArrowNormal );
+        // handle animations
+        // mouseOver has precedence over focus
+        _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
+        _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus && !mouseOver );
 
-        qreal penThickness = 1.6;
+        const bool hoverAnimated( _animations->widgetStateEngine().isAnimated( widget, AnimationHover ) );
+        const bool focusAnimated( _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) );
 
-        // toolbuttons
-        const QToolButton *tool( qobject_cast<const QToolButton *>( widget ) );
-        if( tool && tool->popupMode()==QToolButton::MenuButtonPopup )
+        const qreal hoverOpacity( _animations->widgetStateEngine().opacity( widget, AnimationHover ) );
+        const qreal focusOpacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
+
+        if( hasFocus ) styleOptions |= Focus;
+        if( mouseOver ) styleOptions |= Hover;
+
+        // adjust opacity and animation mode
+        qreal opacity( -1 );
+        AnimationMode mode( AnimationNone );
+        if( enabled && hoverAnimated )
         {
 
-            if( !autoRaise )
-            {
+            opacity = hoverOpacity;
+            mode = AnimationHover;
 
-                const bool hasFocus( enabled && ( state & State_HasFocus ) );
+        } else if( enabled && !hasFocus && focusAnimated ) {
 
-                // handle animations
-                // mouseOver has precedence over focus
-                _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
-                _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus && !mouseOver );
-
-                const bool hoverAnimated( _animations->widgetStateEngine().isAnimated( widget, AnimationHover ) );
-                const bool focusAnimated( _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) );
-
-                const qreal hoverOpacity( _animations->widgetStateEngine().opacity( widget, AnimationHover ) );
-                const qreal focusOpacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
-
-                color = palette.color( QPalette::ButtonText );
-                background = _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() );
-
-                if( hasFocus ) styleOptions |= Focus;
-                if( mouseOver ) styleOptions |= Hover;
-
-                // adjust opacity and animation mode
-                qreal opacity( -1 );
-                AnimationMode mode( AnimationNone );
-                if( enabled && hoverAnimated )
-                {
-
-                    opacity = hoverOpacity;
-                    mode = AnimationHover;
-
-                } else if( enabled && !hasFocus && focusAnimated ) {
-
-                    opacity = focusOpacity;
-                    mode = AnimationFocus;
-
-                }
-
-                // paint frame
-                painter->save();
-                TileSet::Tiles tiles( TileSet::Ring );
-                if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
-                if( reverseLayout ) tiles &= ~TileSet::Right;
-                else tiles &= ~TileSet::Left;
-
-                painter->setClipRect( rect, Qt::IntersectClip );
-                renderButtonSlab( painter, rect, background, styleOptions, opacity, mode, tiles );
-                painter->restore();
-
-                // draw separating vertical line
-                const QColor color( palette.color( QPalette::Button ) );
-                QColor light =_helper->alphaColor( _helper->calcLightColor( color ), 0.6 );
-                QColor dark = _helper->calcDarkColor( color );
-                dark.setAlpha( 200 );
-
-
-                const int top( rect.top()+ (sunken ? 3:2) );
-                const int bottom( rect.bottom()-4 );
-
-                painter->setPen( QPen( light,1 ) );
-
-                if( reverseLayout )
-                {
-
-                    painter->drawLine( rect.right()+1, top+1, rect.right()+1, bottom );
-                    painter->drawLine( rect.right()-1, top+2, rect.right()-1, bottom );
-                    painter->setPen( dark );
-                    painter->drawLine( rect.right(), top, rect.right(), bottom );
-
-                } else {
-
-                    painter->drawLine( rect.left()-1, top+1, rect.left()-1, bottom-1 );
-                    painter->drawLine( rect.left()+1, top+1, rect.left()+1, bottom-1 );
-                    painter->setPen( dark );
-                    painter->drawLine( rect.left(), top, rect.left(), bottom );
-
-                }
-
-            } else if( const QStyleOptionToolButton *toolButtonOption = qstyleoption_cast<const QStyleOptionToolButton *>( option ) ) {
-
-                // handle arrow over animation
-                const bool arrowHover( enabled && mouseOver && ( toolButtonOption->activeSubControls & SC_ToolButtonMenu ) );
-                _animations->toolButtonEngine().updateState( widget, AnimationHover, arrowHover );
-
-                const bool animated( enabled && _animations->toolButtonEngine().isAnimated( widget, AnimationHover ) );
-                const qreal opacity( _animations->toolButtonEngine().opacity( widget, AnimationHover ) );
-
-                if( animated ) color = KColorUtils::mix( color, highlight, opacity );
-                else if( arrowHover ) color = highlight;
-                else color = palette.color( autoRaise ? QPalette::WindowText:QPalette::ButtonText );
-
-            }
-
-        } else {
-
-            color = palette.color( autoRaise ? QPalette::WindowText:QPalette::ButtonText );
-
-            // smaller down arrow for menu indication on toolbuttons
-            penThickness = 1.4;
-            arrow = genericArrow( ArrowDown, ArrowSmall );
+            opacity = focusOpacity;
+            mode = AnimationFocus;
 
         }
 
-        painter->translate( QRectF( rect ).center() );
-        painter->setRenderHint( QPainter::Antialiasing );
+        // paint frame
+        TileSet::Tiles tiles( TileSet::Ring );
+        if( state & ( State_On|State_Sunken ) ) styleOptions |= Sunken;
+        if( reverseLayout ) tiles &= ~TileSet::Right;
+        else tiles &= ~TileSet::Left;
 
-        // white reflection
-        const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
-        painter->translate( 0,offset );
-        painter->setPen( QPen( _helper->calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( arrow );
-        painter->translate( 0,-offset );
+        painter->setClipRect( rect, Qt::IntersectClip );
+        renderButtonSlab( painter, rect, background, styleOptions, opacity, mode, tiles );
 
-        painter->setPen( QPen( _helper->decoColor( background, color ) , penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-        painter->drawPolyline( arrow );
+        // draw separating vertical line
+        const QColor color( palette.color( QPalette::Button ) );
+        const QColor light =_helper->alphaColor( _helper->calcLightColor( color ), 0.6 );
+        QColor dark = _helper->calcDarkColor( color );
+        dark.setAlpha( 200 );
+
+        const int top( rect.top()+ (sunken ? 3:2) );
+        const int bottom( rect.bottom()-4 );
+
+        painter->setPen( QPen( light,1 ) );
+
+        if( reverseLayout )
+        {
+
+            painter->drawLine( rect.right()+1, top+1, rect.right()+1, bottom );
+            painter->drawLine( rect.right()-1, top+2, rect.right()-1, bottom );
+            painter->setPen( dark );
+            painter->drawLine( rect.right(), top, rect.right(), bottom );
+
+        } else {
+
+            painter->drawLine( rect.left()-1, top+1, rect.left()-1, bottom-1 );
+            painter->drawLine( rect.left()+1, top+1, rect.left()+1, bottom-1 );
+            painter->setPen( dark );
+            painter->drawLine( rect.left(), top, rect.left(), bottom );
+
+        }
 
         return true;
 
@@ -7129,6 +7075,7 @@ namespace Oxygen
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( enabled && ( state & State_HasFocus ) );
         const bool sunken( state & ( State_Sunken|State_On ) );
+        const bool autoRaise( state & State_AutoRaise );
 
         if( isInToolBar )
         {
@@ -7155,72 +7102,54 @@ namespace Oxygen
         const bool hoverAnimated( _animations->widgetStateEngine().isAnimated( widget, AnimationHover ) );
         const bool focusAnimated( _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) );
 
-        /* FIXME: this all logic is messy. The conditions to trigger the call to drawPrimitive can likely be simplified */
+        // detect buttons in tabbar, for which special rendering is needed
+        const bool inTabBar( widget && qobject_cast<const QTabBar*>( widget->parentWidget() ) );
 
         // local copy of option
         QStyleOptionToolButton copy( *toolButtonOption );
-        copy.palette = option->palette;
 
-        const QRect buttonRect( subControlRect( CC_ToolButton, toolButtonOption, SC_ToolButton, widget ) );
+        const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
+        const bool hasInlineIndicator( toolButtonOption->features & QStyleOptionToolButton::HasMenu && !hasPopupMenu );
 
-        bool drawn(false);
-        if( enabled && !( mouseOver || hasFocus || sunken ) )
-        {
+        const QRect buttonRect( subControlRect( CC_ToolButton, option, SC_ToolButton, widget ) );
+        const QRect menuRect( subControlRect( CC_ToolButton, option, SC_ToolButtonMenu, widget ) );
 
-            if( hoverAnimated || ( focusAnimated && !hasFocus ) || ( ( ( toolBarAnimated && animatedRect.isNull() )||toolBarTimerActive ) && current ) )
-            {
-                copy.rect = buttonRect;
-                copy.state = state;
-                drawPanelButtonToolPrimitive( &copy, painter, widget );
-                drawn = true;
-            }
-
-        }
-
-        // State_AutoRaise: only draw button when State_MouseOver
-        copy.state = state;
-        if( (copy.state & State_AutoRaise) && !(copy.state & State_MouseOver ) )
-        { copy.state &= ~State_Raised; }
-
-        if( toolButtonOption->subControls & SC_ToolButton && ( copy.state & ( State_Sunken | State_On | State_Raised ) ) && !drawn )
+        // frame
+        const bool drawFrame(
+            (enabled && !( mouseOver || hasFocus || sunken ) &&
+            (hoverAnimated || ( focusAnimated && !hasFocus ) || ( ( ( toolBarAnimated && animatedRect.isNull() )||toolBarTimerActive ) && current )) ) ||
+            (toolButtonOption->subControls & SC_ToolButton) );
+        if( drawFrame )
         {
             copy.rect = buttonRect;
-            drawPanelButtonToolPrimitive( &copy, painter, widget );
+            if( inTabBar ) drawTabBarPanelButtonToolPrimitive( &copy, painter, widget );
+            else drawPrimitive( PE_PanelButtonTool, &copy, painter, widget);
         }
 
-        if( toolButtonOption->subControls & SC_ToolButtonMenu )
+        if( hasPopupMenu )
         {
 
-            copy.rect = subControlRect( CC_ToolButton, toolButtonOption, SC_ToolButtonMenu, widget );
-            painter->save();
-            drawIndicatorButtonDropDownPrimitive( &copy, painter, widget );
-            painter->restore();
-
-        } else if( toolButtonOption->features & QStyleOptionToolButton::HasMenu ) {
-
-            // This is requesting KDE3-style arrow indicator, per Qt 4.4 behavior. Qt 4.3 prefers to hide
-            // the fact of the menu's existence. Whee! Since we don't know how to paint this right,
-            // though, we have to have some metrics set for it to look nice.
-            const int size( Metrics::ToolButton_InlineIndicatorWidth );
-            if( size )
+            copy.rect = menuRect;
+            if( !autoRaise )
             {
-
-                copy.rect = QRect(
-                    buttonRect.right() - Metrics::ToolButton_InlineIndicatorWidth,
-                    buttonRect.bottom() - Metrics::ToolButton_InlineIndicatorWidth,
-                    size, size );
-                painter->save();
-                drawIndicatorButtonDropDownPrimitive( &copy, painter, widget );
-                painter->restore();
-
+                drawPrimitive( PE_IndicatorButtonDropDown, &copy, painter, widget );
+                copy.state &= ~(State_MouseOver|State_HasFocus);
             }
+
+            drawPrimitive( PE_IndicatorArrowDown, &copy, painter, widget );
+
+        } else if( hasInlineIndicator ) {
+
+            copy.rect = menuRect;
+            copy.state &= ~(State_MouseOver|State_HasFocus);
+            drawPrimitive( PE_IndicatorArrowDown, &copy, painter, widget );
 
         }
 
-        // CE_ToolButtonLabel expects a readjusted rect, for the button area proper
-        QStyleOptionToolButton labelOpt = *toolButtonOption;
-        labelOpt.rect = buttonRect;
-        drawControl( CE_ToolButtonLabel, &labelOpt, painter, widget );
+        // label
+        copy.state = state;
+        copy.rect = buttonRect;
+        drawControl( CE_ToolButtonLabel, &copy, painter, widget );
 
         return true;
 
