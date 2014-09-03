@@ -63,7 +63,7 @@ namespace Oxygen
         Layout_DefaultSpacing = 6,
 
         // line editors
-        LineEdit_FrameWidth = 8,
+        LineEdit_FrameWidth = 6,
 
         // menu items
         MenuItem_MarginWidth = 4,
@@ -98,7 +98,7 @@ namespace Oxygen
 
         // menubar items
         MenuBarItem_MarginWidth = 10,
-        MenuBarItem_MarginHeight = 8,
+        MenuBarItem_MarginHeight = 6,
 
         // scrollbars
         ScrollBar_MinSliderHeight = 21,
@@ -169,7 +169,7 @@ namespace Oxygen
     };
 
     Q_DECLARE_FLAGS(AnimationModes, AnimationMode)
-        
+
     //* arrow orientation
     enum ArrowOrientation
     {
@@ -179,8 +179,8 @@ namespace Oxygen
         ArrowLeft,
         ArrowRight
     };
-    
-    
+
+
     //* get polygon corresponding to generic arrow
     enum ArrowSize
     {
@@ -188,7 +188,7 @@ namespace Oxygen
         ArrowSmall,
         ArrowTiny
     };
-    
+
     //* internal option flags to pass arguments around
     enum StyleOption
     {
