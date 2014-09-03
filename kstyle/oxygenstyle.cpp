@@ -1586,8 +1586,8 @@ namespace Oxygen
         const int steps = qMax( progressBarOption->maximum  - progressBarOption->minimum, 1 );
 
         //Calculate width fraction
-        qreal widthFrac( busy ?  Metrics::ProgressBar_BusyIndicatorSize/100.0 : progress/steps );
-        widthFrac = qMin( (qreal)1.0, widthFrac );
+        qreal widthFrac( busy ?  Metrics::ProgressBar_BusyIndicatorSize/100 : progress/steps );
+        widthFrac = qMin( (qreal)1, widthFrac );
 
         // And now the pixel width
         const int indicatorSize( widthFrac*( horizontal ? rect.width():rect.height() ) );
@@ -1599,7 +1599,7 @@ namespace Oxygen
         {
 
             // The space around which we move around...
-            int remSize = ( ( 1.0 - widthFrac )*( horizontal ? rect.width():rect.height() ) );
+            int remSize = ( ( 1 - widthFrac )*( horizontal ? rect.width():rect.height() ) );
             remSize = qMax( remSize, 1 );
 
             int pstep =  remSize*2*progress;
@@ -2910,8 +2910,8 @@ namespace Oxygen
 
         QLinearGradient gradient( rect.bottomLeft(), rect.bottomRight() );
 
-        gradient.setColorAt( 0.0, Qt::transparent );
-        gradient.setColorAt( 1.0, Qt::transparent );
+        gradient.setColorAt( 0, Qt::transparent );
+        gradient.setColorAt( 1, Qt::transparent );
         if( state & State_Selected )
         {
 
@@ -2956,14 +2956,14 @@ namespace Oxygen
 
         QLinearGradient innerGradient( 0, rect.top()-rect.height()+12, 0, rect.bottom()+rect.height()-19 );
         QColor light( _helper->calcLightColor( base ) );
-        light.setAlphaF( 0.4 ); innerGradient.setColorAt( 0.0, light );
-        light.setAlphaF( 0.0 ); innerGradient.setColorAt( 1.0, light );
+        light.setAlphaF( 0.4 ); innerGradient.setColorAt( 0, light );
+        light.setAlphaF( 0 ); innerGradient.setColorAt( 1, light );
         painter->setBrush( innerGradient );
         painter->setClipRect( rect.adjusted( 0, 0, 0, -19 ) );
         _helper->fillSlab( *painter, rect );
 
         painter->setClipping( false );
-        _helper->slope( base, 0.0 )->render( rect, painter );
+        _helper->slope( base, 0 )->render( rect, painter );
 
         painter->restore();
         return true;
@@ -3279,7 +3279,7 @@ namespace Oxygen
         const QPolygonF arrow = genericArrow( orientation, ArrowNormal );
 
         const qreal penThickness = 1.6;
-        const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+        const qreal offset( qMin( penThickness, qreal( 1 ) ) );
 
         QColor color;
         const QToolButton* toolButton( qobject_cast<const QToolButton*>( widget ) );
@@ -3344,7 +3344,7 @@ namespace Oxygen
         const QColor background = palette.color( QPalette::Window );
         const QColor highlight( _helper->viewHoverBrush().brush( palette ).color() );
         const qreal penThickness = 1.6;
-        const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+        const qreal offset( qMin( penThickness, qreal( 1 ) ) );
 
         if( animated )
         {
@@ -3630,20 +3630,20 @@ namespace Oxygen
             {
 
                 // fill hole
-                qreal opacity = 1.0;
+                qreal opacity = 1;
                 const qreal bias = 0.75;
                 if( enabled && hoverAnimated )
                 {
 
-                    opacity = 1.0 - bias*hoverOpacity;
+                    opacity = 1 - bias*hoverOpacity;
 
                 } else if( toolBarAnimated && enabled && animatedRect.isNull() && current  ) {
 
-                    opacity = 1.0 - bias*toolBarOpacity;
+                    opacity = 1 - bias*toolBarOpacity;
 
                 } else if( enabled && (( toolBarTimerActive && current ) || mouseOver ) ) {
 
-                    opacity = 1.0 - bias;
+                    opacity = 1 - bias;
 
                 }
 
@@ -4275,25 +4275,21 @@ namespace Oxygen
             case QTabBar::TriangularNorth:
             case QTabBar::RoundedNorth:
             gradientRect.adjust( 0, 0, 0, -5 );
-            if( !reverseLayout ) gradientRect.translate( 0,0 );
             break;
 
             case QTabBar::TriangularSouth:
             case QTabBar::RoundedSouth:
             gradientRect.adjust( 0, 5, 0, 0 );
-            if( !reverseLayout ) gradientRect.translate( 0,0 );
             break;
 
             case QTabBar::TriangularWest:
             case QTabBar::RoundedWest:
             gradientRect.adjust( 0, 0, -5, 0 );
-            gradientRect.translate( 0,0 );
             break;
 
             case QTabBar::TriangularEast:
             case QTabBar::RoundedEast:
             gradientRect.adjust( 5, 0, 0, 0 );
-            gradientRect.translate( 0,0 );
             break;
 
             default: return true;
@@ -4450,30 +4446,19 @@ namespace Oxygen
         } else if( reverseLayout ) {
 
             if( buttonRect.isValid() ) rect.setLeft( buttonRect.right()+1 );
-            rect.adjust( 0,0,-4,0 );
+            rect.adjust( 0, 0, -4, 0 );
 
         } else {
 
             if( buttonRect.isValid() ) rect.setRight( buttonRect.left()-1 );
-            rect.adjust( 4,0,0,0 );
+            rect.adjust( 4, 0, 0, 0 );
 
         }
 
         QString title( dockWidgetOption->title );
-        QString tmpTitle = title;
-
-        // this is quite suboptimal
-        // and does not really work
-        if( tmpTitle.contains( QLatin1Char( '&' ) ) )
-        {
-            int pos = tmpTitle.indexOf( QLatin1Char( '&' ) );
-            if( !( tmpTitle.size()-1 > pos && tmpTitle.at( pos+1 ) == QLatin1Char( '&' ) ) ) tmpTitle.remove( pos, 1 );
-
-        }
-
-        int tw = dockWidgetOption->fontMetrics.width( tmpTitle );
+        int titleWidth = dockWidgetOption->fontMetrics.size( _mnemonics->textFlags(), title ).width();
         int width = verticalTitleBar ? rect.height() : rect.width();
-        if( width < tw ) title = dockWidgetOption->fontMetrics.elidedText( title, Qt::ElideRight, width, Qt::TextShowMnemonic );
+        if( width < titleWidth ) title = dockWidgetOption->fontMetrics.elidedText( title, Qt::ElideRight, width, Qt::TextShowMnemonic );
 
         if( verticalTitleBar )
         {
@@ -4486,13 +4471,13 @@ namespace Oxygen
             painter->translate( rect.left(), rect.top() + rect.width() );
             painter->rotate( -90 );
             painter->translate( - rect.left(), - rect.top() );
-            drawItemText( painter, rect, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic, palette, enabled, title, QPalette::WindowText );
+            drawItemText( painter, rect, Qt::AlignLeft | Qt::AlignVCenter | _mnemonics->textFlags(), palette, enabled, title, QPalette::WindowText );
             painter->restore();
 
 
         } else {
 
-            drawItemText( painter, rect, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextShowMnemonic, palette, enabled, title, QPalette::WindowText );
+            drawItemText( painter, rect, Qt::AlignLeft | Qt::AlignVCenter | _mnemonics->textFlags(), palette, enabled, title, QPalette::WindowText );
 
         }
 
@@ -4580,14 +4565,17 @@ namespace Oxygen
     bool Style::drawMenuBarItemControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
 
+        // cast option and check
         const QStyleOptionMenuItem* menuOption = qstyleoption_cast<const QStyleOptionMenuItem*>( option );
         if( !menuOption ) return true;
 
-        const State& state( option->state );
-        const bool enabled( state & State_Enabled );
-
+        // copy rect and palette
         const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
+
+        // store state
+        const State& state( option->state );
+        const bool enabled( state & State_Enabled );
 
         if( enabled )
         {
@@ -4627,20 +4615,20 @@ namespace Oxygen
                 if( animated && intersected )
                 {
 
-                    _helper->holeFlat( color, 0.0 )->render( insideMargin( animatedRect, 1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0 )->render( insideMargin( animatedRect, 1 ), painter, TileSet::Full );
 
                 } else if( timerIsActive && current ) {
 
-                    _helper->holeFlat( color, 0.0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
 
                 } else if( animated && current ) {
 
                     color.setAlphaF( opacity );
-                    _helper->holeFlat( color, 0.0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
 
                 } else if( active ) {
 
-                    _helper->holeFlat( color, 0.0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
 
                 }
 
@@ -4648,12 +4636,14 @@ namespace Oxygen
 
         }
 
-        // text
+        // text role
         QPalette::ColorRole role( QPalette::WindowText );
         if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG && ( state & State_Sunken ) && enabled )
         { role = QPalette::HighlightedText; }
 
-        drawItemText( painter, rect, Qt::AlignCenter | Qt::TextShowMnemonic, palette, enabled, menuOption->text, role );
+        // text flags
+        const int textFlags( Qt::AlignCenter|_mnemonics->textFlags() );
+        drawItemText( painter, rect, textFlags, palette, enabled, menuOption->text, role );
 
         return true;
 
@@ -4826,7 +4816,7 @@ namespace Oxygen
             painter->setRenderHint( QPainter::Antialiasing );
 
             // white outline
-            const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+            const qreal offset( qMin( penThickness, qreal( 1 ) ) );
             painter->translate( 0,offset );
             painter->setPen( QPen( _helper->calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
             painter->drawPolyline( arrow );
@@ -4862,8 +4852,6 @@ namespace Oxygen
 
             // render text
             const int textFlags( Qt::AlignVCenter | (reverseLayout ? Qt::AlignRight : Qt::AlignLeft ) | _mnemonics->textFlags() );
-
-            textRect = option->fontMetrics.boundingRect( textRect, textFlags, text );
             drawItemText( painter, textRect, textFlags, palette, enabled, text, textRole );
 
         }
@@ -5089,7 +5077,7 @@ namespace Oxygen
             painter->translate( QRectF( arrowRect ).center() );
             painter->setRenderHint( QPainter::Antialiasing );
 
-            const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+            const qreal offset( qMin( penThickness, qreal( 1 ) ) );
             painter->translate( 0,offset );
             painter->setPen( QPen( _helper->calcLightColor(  background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
             painter->drawPolyline( arrow );
@@ -5419,7 +5407,7 @@ namespace Oxygen
 
         // tab option rect
         const bool verticalTabs( isVerticalTab( tabOption ) );
-        const int alignment = Qt::AlignCenter | _mnemonics->textFlags();
+        const int textFlags( Qt::AlignCenter | _mnemonics->textFlags() );
 
         // text rect
         QRect textRect( subElementRect(SE_TabBarTabText, option, widget) );
@@ -5453,7 +5441,7 @@ namespace Oxygen
         }
 
         // adjust text rect based on font metrics
-        textRect = option->fontMetrics.boundingRect( textRect, alignment, tabOption->text );
+        textRect = option->fontMetrics.boundingRect( textRect, textFlags, tabOption->text );
 
         // focus color
         QColor focusColor;
@@ -6235,7 +6223,7 @@ namespace Oxygen
         const bool enabled( state & State_Enabled );
 
         // text alignment
-        const int alignment = _mnemonics->textFlags() | Qt::AlignCenter;
+        const int textFlags( _mnemonics->textFlags() | Qt::AlignCenter );
 
         // contents rect
         const QRect rect( toolBoxTabContentsRect( option, widget ) );
@@ -6283,7 +6271,7 @@ namespace Oxygen
             iconRect = visualRect( option, iconRect );
             const QIcon::Mode mode( enabled ? QIcon::Normal : QIcon::Disabled );
             const QPixmap pixmap( toolBoxOption->icon.pixmap( iconSize, mode ) );
-            drawItemPixmap( painter, iconRect, alignment, pixmap );
+            drawItemPixmap( painter, iconRect, textFlags, pixmap );
 
         }
 
@@ -6291,7 +6279,7 @@ namespace Oxygen
         if( !toolBoxOption->text.isEmpty() )
         {
             contentsRect = visualRect( option, contentsRect );
-            drawItemText( painter, contentsRect, alignment, palette, enabled, toolBoxOption->text, QPalette::WindowText );
+            drawItemText( painter, contentsRect, textFlags, palette, enabled, toolBoxOption->text, QPalette::WindowText );
         }
 
         return true;
@@ -6761,7 +6749,7 @@ namespace Oxygen
             if( drawContrast )
             {
 
-                const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+                const qreal offset( qMin( penThickness, qreal( 1 ) ) );
                 painter->translate( 0,offset );
                 painter->setPen( QPen( _helper->calcLightColor( palette.color( QPalette::Window ) ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
                 painter->drawPolyline( arrow );
@@ -6955,7 +6943,7 @@ namespace Oxygen
             const QColor glow( slabShadowColor( styleOptions, opacity, AnimationHover ) );
 
             const bool sunken( state & (State_On|State_Sunken) );
-            painter->drawPixmap( handleRect.topLeft(), _helper->sliderSlab( color, glow, sunken, 0.0 ) );
+            painter->drawPixmap( handleRect.topLeft(), _helper->sliderSlab( color, glow, sunken, 0 ) );
 
         }
 
@@ -7525,7 +7513,7 @@ namespace Oxygen
         const QColor glow( slabShadowColor( styleOptions, opacity, mode ) );
 
         // get main slab
-        QPixmap pixmap( _helper->dialSlab( color, glow, 0.0, dimension ) );
+        QPixmap pixmap( _helper->dialSlab( color, glow, 0, dimension ) );
         {
             const QColor light( _helper->calcLightColor( color ) );
             const QColor shadow( _helper->calcShadowColor( color ) );
@@ -7560,10 +7548,10 @@ namespace Oxygen
 
             // shadow
             painter.translate( sliderRect.topLeft() );
-            _helper->drawInverseShadow( painter, shadow.darker( 200 ), 0.0, sliderRect.width(), 0.0 );
+            _helper->drawInverseShadow( painter, shadow.darker( 200 ), 0, sliderRect.width(), 0 );
 
             // glow
-            if( glow.isValid() ) _helper->drawInverseGlow( painter, glow, 0.0, sliderRect.width(),  sliderRect.width() );
+            if( glow.isValid() ) _helper->drawInverseGlow( painter, glow, 0, sliderRect.width(),  sliderRect.width() );
 
             painter.end();
         }
@@ -7594,7 +7582,7 @@ namespace Oxygen
         } else {
 
             QColor glow = slabShadowColor( options, opacity, mode );
-            tile = _helper->slab( color, glow, 0.0 );
+            tile = _helper->slab( color, glow, 0 );
 
         }
 
@@ -7632,15 +7620,15 @@ namespace Oxygen
             {
 
                 QLinearGradient innerGradient( 0, rect.top(), 0, rect.bottom() + rect.height() );
-                innerGradient.setColorAt( 0.0, color );
-                innerGradient.setColorAt( 1.0, _helper->calcLightColor( color ) );
+                innerGradient.setColorAt( 0, color );
+                innerGradient.setColorAt( 1, _helper->calcLightColor( color ) );
                 painter->setBrush( innerGradient );
 
             } else {
 
                 QLinearGradient innerGradient( 0, rect.top() - rect.height(), 0, rect.bottom() );
-                innerGradient.setColorAt( 0.0, _helper->calcLightColor( color ) );
-                innerGradient.setColorAt( 1.0, color );
+                innerGradient.setColorAt( 0, _helper->calcLightColor( color ) );
+                innerGradient.setColorAt( 1, color );
                 painter->setBrush( innerGradient );
 
             }
@@ -7662,7 +7650,7 @@ namespace Oxygen
 
             // calculate proper glow color based on current settings and opacity
             const QColor glow( slabShadowColor( options, opacity, mode ) );
-            if( color.isValid() || glow.isValid() ) tile = _helper->slab( color, glow , 0.0 );
+            if( color.isValid() || glow.isValid() ) tile = _helper->slab( color, glow , 0 );
             else return;
 
         }
@@ -7721,7 +7709,7 @@ namespace Oxygen
 
         if( active ) {
 
-            gradient.setColorAt( 0.0, _helper->alphaColor( light, 0.5 ) );
+            gradient.setColorAt( 0, _helper->alphaColor( light, 0.5 ) );
             gradient.setColorAt( 0.1, _helper->alphaColor( light, 0.5 ) );
             gradient.setColorAt( 0.25, _helper->alphaColor( light, 0.3 ) );
             gradient.setColorAt( 0.5, _helper->alphaColor( light, 0.2 ) );
@@ -7731,7 +7719,7 @@ namespace Oxygen
         } else {
 
             // inactive
-            gradient.setColorAt( 0.0, _helper->alphaColor( light, 0.1 ) );
+            gradient.setColorAt( 0, _helper->alphaColor( light, 0.1 ) );
             gradient.setColorAt( 0.4, _helper->alphaColor( dark, 0.5 ) );
             gradient.setColorAt( 0.8, _helper->alphaColor( dark, 0.4 ) );
             gradient.setColorAt( 0.9, Qt::transparent );
@@ -7864,12 +7852,12 @@ namespace Oxygen
 
             if( animated || mouseOver )
             {
-                const QColor highlight = _helper->alphaColor( _helper->calcLightColor( color ),0.5*( animated ? opacity:1.0 ) );
-                const qreal fraction( rect.height() > 30 ? 10.0/rect.height():0.1 );
+                const QColor highlight = _helper->alphaColor( _helper->calcLightColor( color ),0.5*( animated ? opacity:1 ) );
+                const qreal fraction( rect.height() > 30 ? 10/rect.height():0.1 );
                 QLinearGradient gradient( rect.topLeft(), rect.bottomLeft() );
                 gradient.setColorAt( 0, Qt::transparent );
                 gradient.setColorAt( fraction, highlight );
-                gradient.setColorAt( 1.0-fraction, highlight );
+                gradient.setColorAt( 1-fraction, highlight );
                 gradient.setColorAt( 1, Qt::transparent );
                 painter->fillRect( rect, gradient );
             }
@@ -7889,12 +7877,12 @@ namespace Oxygen
             const int w( rect.width() );
             if( animated || mouseOver )
             {
-                const QColor highlight( _helper->alphaColor( _helper->calcLightColor( color ),0.5*( animated ? opacity:1.0 ) ) );
-                const qreal fraction( rect.width() > 30 ? 10.0 / rect.width():0.1 );
+                const QColor highlight( _helper->alphaColor( _helper->calcLightColor( color ),0.5*( animated ? opacity:1 ) ) );
+                const qreal fraction( rect.width() > 30 ? 10 / rect.width():0.1 );
                 QLinearGradient gradient( rect.topLeft(), rect.topRight() );
                 gradient.setColorAt( 0, Qt::transparent );
                 gradient.setColorAt( fraction, highlight );
-                gradient.setColorAt( 1.0 - fraction, highlight );
+                gradient.setColorAt( 1 - fraction, highlight );
                 gradient.setColorAt( 1, Qt::transparent );
                 painter->fillRect( rect, gradient );
 
@@ -8218,14 +8206,14 @@ namespace Oxygen
                 painter.setBrush( color );
                 _helper->fillHole( painter, pixmapRect );
 
-                _helper->holeFlat( color, 0.0 )->render( pixmapRect.adjusted( 1, 2, -2, -1 ), &painter );
+                _helper->holeFlat( color, 0 )->render( pixmapRect.adjusted( 1, 2, -2, -1 ), &painter );
 
                 QRect maskRect( visualRect( option->direction, pixmapRect, QRect( pixmapRect.width()-40, 0, 40, pixmapRect.height() ) ) );
                 QLinearGradient gradient(
                     visualPos( option->direction, maskRect, QPoint( maskRect.left(), 0 ) ),
                     visualPos( option->direction, maskRect, QPoint( maskRect.right()-4, 0 ) ) );
-                gradient.setColorAt( 0.0, Qt::black );
-                gradient.setColorAt( 1.0, Qt::transparent );
+                gradient.setColorAt( 0, Qt::black );
+                gradient.setColorAt( 1, Qt::transparent );
                 painter.setBrush( gradient );
                 painter.setCompositionMode( QPainter::CompositionMode_DestinationIn );
                 painter.drawRect( maskRect );
@@ -8247,7 +8235,7 @@ namespace Oxygen
             if( opacity >= 0 && opacity < 1 )
             { color.setAlphaF( opacity ); }
 
-            _helper->holeFlat( color, 0.0 )->render( rect.adjusted( 1, 2, -2, -1 ), painter, TileSet::Full );
+            _helper->holeFlat( color, 0 )->render( rect.adjusted( 1, 2, -2, -1 ), painter, TileSet::Full );
 
         }
 
@@ -8266,14 +8254,14 @@ namespace Oxygen
 
         if( !( options & NoFill ) )
         {
-            if( options & Sunken ) _helper->holeFlat( palette.color( QPalette::Window ), 0.0, false )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
+            if( options & Sunken ) _helper->holeFlat( palette.color( QPalette::Window ), 0, false )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
             else renderSlab( painter, rect, palette.color( QPalette::Button ), options, opacity, mode, TileSet::Ring );
         }
 
         if( state == CheckOff ) return;
 
         // check mark
-        qreal penThickness( 2.0 );
+        qreal penThickness( 2 );
         const QColor color( palette.color( ( options&Sunken ) ? QPalette::WindowText:QPalette::ButtonText ) );
         const QColor background( palette.color( ( options&Sunken ) ? QPalette::Window:QPalette::Button ) );
         QPen pen( _helper->decoColor( background, color ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin );
@@ -8282,7 +8270,7 @@ namespace Oxygen
         {
 
             QVector<qreal> dashes;
-            dashes << 1.0 << 2.0;
+            dashes << 1 << 2;
             penThickness = 1.3;
             pen.setWidthF( penThickness );
             contrastPen.setWidthF( penThickness );
@@ -8305,7 +8293,7 @@ namespace Oxygen
         QPolygonF checkMark;
         checkMark << QPointF( 5, -2 ) << QPointF( -1, 5 ) << QPointF( -4, 2 );
 
-        const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+        const qreal offset( qMin( penThickness, qreal( 1 ) ) );
         painter->setPen( contrastPen );
         painter->translate( 0, offset );
         painter->drawPolyline( checkMark );
@@ -8335,7 +8323,7 @@ namespace Oxygen
 
         const QColor color( palette.color( QPalette::Button ) );
         const QColor glow( slabShadowColor( options, opacity, mode ) );
-        painter->drawPixmap( rect.topLeft(), _helper->roundSlab( color, glow, 0.0 ) );
+        painter->drawPixmap( rect.topLeft(), _helper->roundSlab( color, glow, 0 ) );
 
         // draw the radio mark
         if( state != CheckOff )
@@ -8431,8 +8419,8 @@ namespace Oxygen
         const bool horizontal( orientation == Qt::Horizontal );
         QLinearGradient patternGradient( 0, 0, horizontal ? 30:0, horizontal? 0:30 );
         patternGradient.setSpread( QGradient::ReflectSpread );
-        patternGradient.setColorAt( 0.0, Qt::transparent );
-        patternGradient.setColorAt( 1.0, _helper->alphaColor( light, 0.1 ) );
+        patternGradient.setColorAt( 0, Qt::transparent );
+        patternGradient.setColorAt( 1, _helper->alphaColor( light, 0.1 ) );
 
         QRect bevelRect( rect );
         if( horizontal ) bevelRect = insideMargin( bevelRect, 0, 3 );
@@ -8465,7 +8453,7 @@ namespace Oxygen
         painter->translate( QRectF(rect).center() );
         painter->setRenderHint( QPainter::Antialiasing );
 
-        const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
+        const qreal offset( qMin( penThickness, qreal( 1 ) ) );
         painter->translate( 0,offset );
         painter->setPen( QPen( contrast, penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
         painter->drawPolyline( arrow );
@@ -8660,7 +8648,7 @@ namespace Oxygen
         else {
 
             qreal fraction( qreal( value - sliderOption->minimum )/qreal( sliderOption->maximum - sliderOption->minimum ) );
-            if( !sliderOption->upsideDown ) fraction = 1.0 - fraction;
+            if( !sliderOption->upsideDown ) fraction = 1 - fraction;
 
             if( sliderOption->dialWrapping ) angle = 1.5*M_PI - fraction*2*M_PI;
             else  angle = ( M_PI*8 - fraction*10*M_PI )/6;
