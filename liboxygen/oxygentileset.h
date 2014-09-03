@@ -37,6 +37,13 @@ namespace Oxygen
     class OXYGEN_EXPORT TileSet
     {
         public:
+
+        // default size for tileset tiles
+        enum
+        {
+            DefaultSize = 7
+        };
+
         /*!
         Create a TileSet from a pixmap. The size of the bottom/right chunks is
         whatever is left over from the other chunks, whose size is specified

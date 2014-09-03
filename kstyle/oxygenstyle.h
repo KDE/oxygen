@@ -195,19 +195,25 @@ namespace Oxygen
             public:
 
             //* constructor
-            SlabRect(void):
-                tiles( TileSet::Ring )
-            {}
+            explicit SlabRect(void);
 
             //* constructor
-            SlabRect( const QRect& rect, int tiles ):
-                rect( rect ),
-                tiles( TileSet::Tiles(tiles) )
-            {}
+            SlabRect( const QRect& rect, int tiles );
 
             //* validity
-            bool isValid( void ) const
-            { return rect.isValid() && tiles; }
+            bool isValid( void ) const;
+
+            /**
+            adjust rectangle depending on tiles and tileSize
+            so that it is rendered properly
+            **/
+            void adjust( int );
+
+            /**
+            adjust rectangle depending on tiles and tileSize
+            so that it is rendered properly
+            **/
+            SlabRect adjusted( int ) const;
 
             QRect rect;
             TileSet::Tiles tiles;

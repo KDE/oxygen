@@ -108,7 +108,7 @@ namespace Oxygen
         TileSet *roundCorner( const QColor&, int size = 5 );
 
         //! groupbox background
-        TileSet *slope( const QColor&, qreal shade, int size = 7 );
+        TileSet *slope( const QColor&, qreal shade, int size = TileSet::DefaultSize );
 
         //!@name slabs
         //@{
@@ -117,21 +117,21 @@ namespace Oxygen
         TileSet *progressBarIndicator( const QPalette&, int );
 
         //! dial
-        QPixmap dialSlab( const QColor& color, qreal shade, int size = 7 )
+        QPixmap dialSlab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
         { return dialSlab( color, QColor(), shade, size ); }
 
         //! dial
-        QPixmap dialSlab( const QColor&, const QColor&, qreal shade, int size = 7 );
+        QPixmap dialSlab( const QColor&, const QColor&, qreal shade, int size = TileSet::DefaultSize );
 
         // round slabs
-        QPixmap roundSlab( const QColor& color, qreal shade, int size = 7 )
+        QPixmap roundSlab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
         { return roundSlab( color, QColor(), shade, size ); }
 
         // round slab
-        QPixmap roundSlab( const QColor&, const QColor& glow, qreal shade, int size = 7 );
+        QPixmap roundSlab( const QColor&, const QColor& glow, qreal shade, int size = TileSet::DefaultSize );
 
         //! slider slab
-        QPixmap sliderSlab( const QColor&, const QColor& glow, bool sunken, qreal shade, int size = 7 );
+        QPixmap sliderSlab( const QColor&, const QColor& glow, bool sunken, qreal shade, int size = TileSet::DefaultSize );
 
         //@}
 
@@ -153,18 +153,18 @@ namespace Oxygen
             qreal opacity, Oxygen::AnimationMode animationMode,
             TileSet::Tiles = TileSet::Ring );
 
-        TileSet *holeFlat( const QColor&, qreal shade, bool fill = true, int size = 7 );
+        TileSet *holeFlat( const QColor&, qreal shade, bool fill = true, int size = TileSet::DefaultSize );
 
         //! scrollbar hole
         TileSet *scrollHole( const QColor&, Qt::Orientation orientation, bool smallShadow = false );
 
         //! scrollbar handle
-        TileSet *scrollHandle( const QColor&, const QColor&, int size = 7 );
+        TileSet *scrollHandle( const QColor&, const QColor&, int size = TileSet::DefaultSize );
 
         //@}
 
         //! scrollbar groove
-        TileSet *groove( const QColor&, int size = 7 );
+        TileSet *groove( const QColor&, int size = TileSet::DefaultSize );
 
         //! focus rect for flat toolbuttons
         TileSet *slitFocused( const QColor& );
@@ -198,11 +198,11 @@ namespace Oxygen
         //@{
 
         //! holes
-        TileSet *hole( const QColor& color, int size = 7, HoleOptions options = 0 )
+        TileSet *hole( const QColor& color, int size = TileSet::DefaultSize, HoleOptions options = 0 )
         { return hole( color, QColor(), size, options ); }
 
         //! holes
-        TileSet *hole( const QColor&, const QColor& glow, int size = 7, HoleOptions = 0 );
+        TileSet *hole( const QColor&, const QColor& glow, int size = TileSet::DefaultSize, HoleOptions = 0 );
 
         //@}
 
