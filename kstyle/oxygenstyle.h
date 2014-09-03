@@ -283,13 +283,11 @@ namespace Oxygen
 
         bool drawFramePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameLineEditPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawFrameFocusRectPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameMenuPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameGroupBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameTabWidgetPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameTabBarBasePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameWindowPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawIndicatorTabClosePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const;
 
         bool drawIndicatorArrowUpPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
         { return drawIndicatorArrowPrimitive( ArrowUp, option, painter, widget ); }
@@ -303,8 +301,6 @@ namespace Oxygen
         bool drawIndicatorArrowRightPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
         { return drawIndicatorArrowPrimitive( ArrowRight, option, painter, widget ); }
 
-        bool drawIndicatorArrowPrimitive( ArrowOrientation, const QStyleOption*, QPainter*, const QWidget* ) const;
-
         //* dock widget separators
         /** it uses the same painting as QSplitter, but due to Qt, the horizontal/vertical convention is inverted */
         bool drawIndicatorDockWidgetResizeHandlePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget) const
@@ -313,10 +309,11 @@ namespace Oxygen
             return true;
         }
 
+        bool drawIndicatorArrowPrimitive( ArrowOrientation, const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorHeaderArrowPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelButtonCommandPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-        bool drawTabBarPanelButtonToolPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelButtonToolPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawTabBarPanelButtonToolPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelScrollAreaCornerPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelMenuPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawPanelTipLabelPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -325,11 +322,11 @@ namespace Oxygen
         bool drawIndicatorCheckBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorRadioButtonPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorButtonDropDownPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawIndicatorTabClosePrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const;
         bool drawIndicatorTabTearPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorToolBarHandlePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorToolBarSeparatorPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawIndicatorBranchPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
-
         bool drawWidgetPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
 
         //@}
@@ -340,6 +337,7 @@ namespace Oxygen
         bool emptyControl( const QStyleOption*, QPainter*, const QWidget* ) const
         { return true; }
 
+        virtual bool drawPushButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawMenuBarItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawMenuItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -347,7 +345,6 @@ namespace Oxygen
         virtual bool drawProgressBarContentsControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawProgressBarGrooveControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawProgressBarLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawPushButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawScrollBarSliderControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawScrollBarAddLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawScrollBarSubLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -363,8 +360,6 @@ namespace Oxygen
         virtual bool drawToolBoxTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawDockWidgetTitleControl( const QStyleOption*, QPainter*, const QWidget* ) const;
         virtual bool drawToolBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-
-        // splitters
         virtual bool drawSplitterControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
         {
             renderSplitter( option, painter, widget, option->state & State_Horizontal );
@@ -383,73 +378,6 @@ namespace Oxygen
         bool drawScrollBarComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         bool drawTitleBarComplexControl( const QStyleOptionComplex*, QPainter*, const QWidget* ) const;
         //@}
-
-        //* adjust rect based on provided margins
-        QRect insideMargin( const QRect& r, int margin ) const
-        { return insideMargin( r, margin, margin ); }
-
-        //* adjust rect based on provided margins
-        QRect insideMargin( const QRect& r, int marginWidth, int marginHeight ) const
-        { return r.adjusted( marginWidth, marginHeight, -marginWidth, -marginHeight ); }
-
-        //* expand size based on margins
-        QSize expandSize( const QSize& size, int margin ) const
-        { return expandSize( size, margin, margin ); }
-
-        //* expand size based on margins
-        QSize expandSize( const QSize& size, int marginWidth, int marginHeight ) const
-        { return size + 2*QSize( marginWidth, marginHeight ); }
-
-        //* returns true for vertical tabs
-        bool isVerticalTab( const QStyleOptionTab* option ) const
-        { return isVerticalTab( option->shape ); }
-
-        bool isVerticalTab( const QTabBar::Shape& shape ) const
-        {
-            return shape == QTabBar::RoundedEast
-                || shape == QTabBar::RoundedWest
-                || shape == QTabBar::TriangularEast
-                || shape == QTabBar::TriangularWest;
-
-        }
-
-        //* right to left alignment handling
-        using ParentStyleClass::visualRect;
-        QRect visualRect(const QStyleOption* opt, const QRect& subRect) const
-        { return ParentStyleClass::visualRect(opt->direction, opt->rect, subRect); }
-
-        //* centering
-        QRect centerRect(const QRect &rect, const QSize& size ) const
-        { return centerRect( rect, size.width(), size.height() ); }
-
-        QRect centerRect(const QRect &rect, int width, int height) const
-        { return QRect(rect.left() + (rect.width() - width)/2, rect.top() + (rect.height() - height)/2, width, height); }
-
-        //* return dial angle based on option and value
-        qreal dialAngle( const QStyleOptionSlider*, int ) const;
-
-        /*
-        Checks whether the point is before the bound rect for bound of given orientation.
-        This is needed to implement custom number of buttons in scrollbars,
-        as well as proper mouse-hover
-        */
-        inline bool preceeds( const QPoint&, const QRect&, const QStyleOption* ) const;
-
-        //* return which arrow button is hit by point for scrollbar double buttons
-        inline QStyle::SubControl scrollBarHitTest( const QRect&, const QPoint&, const QStyleOption* ) const;
-
-        //* polish scrollarea
-        void polishScrollArea( QAbstractScrollArea* ) const;
-
-        //* tiles from tab orientation
-        inline TileSet::Tiles tilesByShape( const QTabBar::Shape& shape) const;
-
-        //* toolbar mask
-        /** this masks out toolbar expander buttons, when visible, from painting */
-        QRegion tabBarClipRegion( const QTabBar* ) const;
-
-        //* adjusted slabRect
-        inline void adjustSlabRect( SlabRect& slab, const QRect&, bool documentMode, bool vertical ) const;
 
         //*@name internal rendering methods
         /** here mostly to avoid code duplication */
@@ -483,9 +411,6 @@ namespace Oxygen
 
         //* generic slab
         void renderSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, AnimationMode, TileSet::Tiles ) const;
-
-        // render tab background
-        void renderTabBackground( QPainter*, const QRect&, const QPalette&, const QTabBar::Shape, const QWidget* ) const;
 
         //* tab background
         /** this paints window background behind tab when tab is being dragged */
@@ -555,6 +480,19 @@ namespace Oxygen
 
         //@}
 
+        //!*@name various utilty functions
+        //@{
+
+        //* return dial angle based on option and value
+        qreal dialAngle( const QStyleOptionSlider*, int ) const;
+
+        //* polish scrollarea
+        void polishScrollArea( QAbstractScrollArea* ) const;
+
+        //* toolbar mask
+        /** this masks out toolbar expander buttons, when visible, from painting */
+        QRegion tabBarClipRegion( const QTabBar* ) const;
+
         //* slab glowing color
         QColor slabShadowColor( StyleOptions, qreal, AnimationMode ) const;
 
@@ -587,6 +525,62 @@ namespace Oxygen
         return toolbutton option that matches named separator menu items
         */
         QStyleOptionToolButton separatorMenuItemOption( const QStyleOptionMenuItem*, const QWidget* ) const;
+
+        //@}
+
+        //* adjust rect based on provided margins
+        QRect insideMargin( const QRect& r, int margin ) const
+        { return insideMargin( r, margin, margin ); }
+
+        //* adjust rect based on provided margins
+        QRect insideMargin( const QRect& r, int marginWidth, int marginHeight ) const
+        { return r.adjusted( marginWidth, marginHeight, -marginWidth, -marginHeight ); }
+
+        //* expand size based on margins
+        QSize expandSize( const QSize& size, int margin ) const
+        { return expandSize( size, margin, margin ); }
+
+        //* expand size based on margins
+        QSize expandSize( const QSize& size, int marginWidth, int marginHeight ) const
+        { return size + 2*QSize( marginWidth, marginHeight ); }
+
+        //* returns true for vertical tabs
+        bool isVerticalTab( const QStyleOptionTab* option ) const
+        { return isVerticalTab( option->shape ); }
+
+        bool isVerticalTab( const QTabBar::Shape& shape ) const
+        {
+            return shape == QTabBar::RoundedEast
+                || shape == QTabBar::RoundedWest
+                || shape == QTabBar::TriangularEast
+                || shape == QTabBar::TriangularWest;
+
+        }
+
+        //* right to left alignment handling
+        using ParentStyleClass::visualRect;
+        QRect visualRect(const QStyleOption* opt, const QRect& subRect) const
+        { return ParentStyleClass::visualRect(opt->direction, opt->rect, subRect); }
+
+        //* centering
+        QRect centerRect(const QRect &rect, const QSize& size ) const
+        { return centerRect( rect, size.width(), size.height() ); }
+
+        QRect centerRect(const QRect &rect, int width, int height) const
+        { return QRect(rect.left() + (rect.width() - width)/2, rect.top() + (rect.height() - height)/2, width, height); }
+
+        /*
+        Checks whether the point is before the bound rect for bound of given orientation.
+        This is needed to implement custom number of buttons in scrollbars,
+        as well as proper mouse-hover
+        */
+        inline bool preceeds( const QPoint&, const QRect&, const QStyleOption* ) const;
+
+        //* return which arrow button is hit by point for scrollbar double buttons
+        inline QStyle::SubControl scrollBarHitTest( const QRect&, const QPoint&, const QStyleOption* ) const;
+
+        //* adjusted slabRect
+        inline void adjustSlabRect( SlabRect& slab, const QRect&, bool documentMode, bool vertical ) const;
 
         private:
 

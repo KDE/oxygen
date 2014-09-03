@@ -80,7 +80,6 @@ namespace Oxygen
         connect( _animationsEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _cacheEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _viewTriangularExpanderSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
-        connect( _viewDrawFocusIndicator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _viewDrawTreeBranchLines, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _scrollBarWidth, SIGNAL(valueChanged(int)), SLOT(updateChanged()) );
         connect( _scrollBarAddLineButtons, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
@@ -102,7 +101,6 @@ namespace Oxygen
         StyleConfigData::setMnemonicsMode( _mnemonicsMode->currentIndex() );
         StyleConfigData::setCacheEnabled( _cacheEnabled->isChecked() );
         StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
-        StyleConfigData::setViewDrawFocusIndicator( _viewDrawFocusIndicator->isChecked() );
         StyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
         StyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
         StyleConfigData::setScrollBarAddLineButtons( _scrollBarAddLineButtons->currentIndex() );
@@ -268,7 +266,6 @@ namespace Oxygen
         if ( _useBackgroundGradient->isChecked() != StyleConfigData::useBackgroundGradient() ) modified = true;
         if ( _toolBarDrawItemSeparator->isChecked() != StyleConfigData::toolBarDrawItemSeparator() ) modified = true;
         else if( _mnemonicsMode->currentIndex() != StyleConfigData::mnemonicsMode() ) modified = true;
-        else if( _viewDrawFocusIndicator->isChecked() != StyleConfigData::viewDrawFocusIndicator() ) modified = true;
         else if( _viewDrawTreeBranchLines->isChecked() != StyleConfigData::viewDrawTreeBranchLines() ) modified = true;
         else if( _scrollBarWidth->value() != StyleConfigData::scrollBarWidth() ) modified = true;
         else if( _scrollBarAddLineButtons->currentIndex() != StyleConfigData::scrollBarAddLineButtons() ) modified = true;
@@ -315,7 +312,6 @@ namespace Oxygen
         _toolBarDrawItemSeparator->setChecked( StyleConfigData::toolBarDrawItemSeparator() );
         _mnemonicsMode->setCurrentIndex( StyleConfigData::mnemonicsMode() );
         _splitterProxyEnabled->setChecked( StyleConfigData::splitterProxyEnabled() );
-        _viewDrawFocusIndicator->setChecked( StyleConfigData::viewDrawFocusIndicator() );
         _viewDrawTreeBranchLines->setChecked(StyleConfigData::viewDrawTreeBranchLines() );
 
         _scrollBarWidth->setValue(

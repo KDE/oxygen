@@ -65,9 +65,7 @@
       </choices>
       <default>TE_SMALL</default>
     </entry>
-    <entry name="ViewDrawFocusIndicator" type="Bool">
-      <default>true</default>
-    </entry>
+
     <entry name="ViewDrawTreeBranchLines" type="Bool">
       <default>true</default>
     </entry>
