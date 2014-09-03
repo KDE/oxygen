@@ -1009,7 +1009,9 @@ namespace Oxygen
                 } else return SC_ScrollBarAddLine;
             }
 
+            // fallback
             default: return ParentStyleClass::hitTestComplexControl( control, option, point, widget );
+
         }
 
     }
@@ -1022,36 +1024,36 @@ namespace Oxygen
         switch( element )
         {
 
-            case PE_FrameStatusBar: fcn = &Style::emptyPrimitive; break;
-            case PE_Frame: fcn = &Style::drawFramePrimitive; break;
-            case PE_FrameFocusRect: fcn = &Style::emptyPrimitive; break;
-            case PE_FrameGroupBox: fcn = &Style::drawFrameGroupBoxPrimitive; break;
-            case PE_FrameLineEdit: fcn = &Style::drawFrameLineEditPrimitive; break;
-            case PE_FrameMenu: fcn = &Style::drawFrameMenuPrimitive; break;
-            case PE_FrameTabBarBase: fcn = &Style::drawFrameTabBarBasePrimitive; break;
-            case PE_FrameTabWidget: fcn = &Style::drawFrameTabWidgetPrimitive; break;
-            case PE_FrameWindow: fcn = &Style::drawFrameWindowPrimitive; break;
+            case PE_PanelButtonCommand: fcn = &Style::drawPanelButtonCommandPrimitive; break;
+            case PE_PanelButtonTool: fcn = &Style::drawPanelButtonToolPrimitive; break;
+            case PE_PanelScrollAreaCorner: fcn = &Style::drawPanelScrollAreaCornerPrimitive; break;
+            case PE_PanelMenu: fcn = &Style::drawPanelMenuPrimitive; break;
+            case PE_PanelTipLabel: fcn = &Style::drawPanelTipLabelPrimitive; break;
+            case PE_PanelItemViewItem: fcn = &Style::drawPanelItemViewItemPrimitive; break;
+            case PE_IndicatorCheckBox: fcn = &Style::drawIndicatorCheckBoxPrimitive; break;
+            case PE_IndicatorRadioButton: fcn = &Style::drawIndicatorRadioButtonPrimitive; break;
+            case PE_IndicatorButtonDropDown: fcn = &Style::drawIndicatorButtonDropDownPrimitive; break;
             case PE_IndicatorTabClose: fcn = &Style::drawIndicatorTabClosePrimitive; break;
+            case PE_IndicatorTabTear: fcn = &Style::drawIndicatorTabTearPrimitive; break;
             case PE_IndicatorArrowUp: fcn = &Style::drawIndicatorArrowUpPrimitive; break;
             case PE_IndicatorArrowDown: fcn = &Style::drawIndicatorArrowDownPrimitive; break;
             case PE_IndicatorArrowLeft: fcn = &Style::drawIndicatorArrowLeftPrimitive; break;
             case PE_IndicatorArrowRight: fcn = &Style::drawIndicatorArrowRightPrimitive; break;
-            case PE_IndicatorDockWidgetResizeHandle: fcn = &Style::drawIndicatorDockWidgetResizeHandlePrimitive; break;
-            case PE_IndicatorHeaderArrow: fcn = &Style::drawIndicatorHeaderArrowPrimitive; break;
-            case PE_PanelButtonCommand: fcn = &Style::drawPanelButtonCommandPrimitive; break;
-            case PE_PanelButtonTool: fcn = &Style::drawPanelButtonToolPrimitive; break;
-            case PE_PanelItemViewItem: fcn = &Style::drawPanelItemViewItemPrimitive; break;
-            case PE_PanelMenu: fcn = &Style::drawPanelMenuPrimitive; break;
-            case PE_PanelScrollAreaCorner: fcn = &Style::drawPanelScrollAreaCornerPrimitive; break;
-            case PE_PanelTipLabel: fcn = &Style::drawPanelTipLabelPrimitive; break;
             case PE_IndicatorMenuCheckMark: fcn = &Style::drawIndicatorMenuCheckMarkPrimitive; break;
-            case PE_IndicatorBranch: fcn = &Style::drawIndicatorBranchPrimitive; break;
-            case PE_IndicatorButtonDropDown: fcn = &Style::drawIndicatorButtonDropDownPrimitive; break;
-            case PE_IndicatorCheckBox: fcn = &Style::drawIndicatorCheckBoxPrimitive; break;
-            case PE_IndicatorRadioButton: fcn = &Style::drawIndicatorRadioButtonPrimitive; break;
-            case PE_IndicatorTabTear: fcn = &Style::drawIndicatorTabTearPrimitive; break;
+            case PE_IndicatorHeaderArrow: fcn = &Style::drawIndicatorHeaderArrowPrimitive; break;
             case PE_IndicatorToolBarHandle: fcn = &Style::drawIndicatorToolBarHandlePrimitive; break;
             case PE_IndicatorToolBarSeparator: fcn = &Style::drawIndicatorToolBarSeparatorPrimitive; break;
+            case PE_IndicatorBranch: fcn = &Style::drawIndicatorBranchPrimitive; break;
+            case PE_IndicatorDockWidgetResizeHandle: fcn = &Style::drawIndicatorDockWidgetResizeHandlePrimitive; break;
+            case PE_FrameStatusBar: fcn = &Style::emptyPrimitive; break;
+            case PE_Frame: fcn = &Style::drawFramePrimitive; break;
+            case PE_FrameLineEdit: fcn = &Style::drawFrameLineEditPrimitive; break;
+            case PE_FrameMenu: fcn = &Style::drawFrameMenuPrimitive; break;
+            case PE_FrameGroupBox: fcn = &Style::drawFrameGroupBoxPrimitive; break;
+            case PE_FrameTabWidget: fcn = &Style::drawFrameTabWidgetPrimitive; break;
+            case PE_FrameTabBarBase: fcn = &Style::drawFrameTabBarBasePrimitive; break;
+            case PE_FrameWindow: fcn = &Style::drawFrameWindowPrimitive; break;
+            case PE_FrameFocusRect: fcn = &Style::emptyPrimitive; break;
             case PE_Widget: fcn = &Style::drawWidgetPrimitive; break;
 
             // fallback
