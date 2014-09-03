@@ -1849,11 +1849,6 @@ namespace Oxygen
 
         // copy rect
         const QRect paneRect( subElementRect( SE_TabWidgetTabPane, option, widget ) );
-
-        // document mode
-        const QTabWidget* tabWidget( qobject_cast<const QTabWidget*>( widget ) );
-        const bool documentMode( tabWidget ? tabWidget->documentMode() : false );
-
         const QSize& cornerSize( tabOption->leftCornerWidgetSize );
         QRect rect( QPoint( 0, 0 ), cornerSize );
 
@@ -1865,14 +1860,13 @@ namespace Oxygen
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
             rect.moveBottom( paneRect.top() - 1 );
-            if( !documentMode ) rect.translate( 0, 3 );
+            rect.translate( 0, 3 );
             break;
 
             case QTabBar::RoundedSouth:
             case QTabBar::TriangularSouth:
             rect.moveTop( paneRect.bottom() + 1 );
-            if( !documentMode ) rect.translate( 0, -3 );
-            else rect.translate( 0, 2 );
+            rect.translate( 0, -3 );
             break;
 
             default:
@@ -3026,7 +3020,7 @@ namespace Oxygen
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
             {
-                frameRect.adjust( -7, 0, 7, 0 );
+                frameRect = insideMargin( frameRect, -8, 0 );
                 frameRect.translate( 0, 4 );
                 slab = SlabRect( frameRect, TileSet::Top );
                 break;
@@ -3035,7 +3029,7 @@ namespace Oxygen
             case QTabBar::RoundedSouth:
             case QTabBar::TriangularSouth:
             {
-                frameRect.adjust( -7, 0, 7, 0 );
+                frameRect = insideMargin( frameRect, -8, 0 );
                 frameRect.translate( 0, -4 );
                 slab = SlabRect( frameRect, TileSet::Bottom );
                 break;
@@ -5537,7 +5531,8 @@ namespace Oxygen
         if( reverseLayout && !verticalTabs ) qSwap( isFirst, isLast );
 
         // part of the tab in which the text is drawn
-        QRect tabRect( rect );
+        QRect tabRect( insideMargin( rect, -1 ) );
+        SlabRect tabSlab( insideMargin( rect, -1 ), TileSet::Ring );
 
         // connection to the frame
         SlabRectList slabs;
@@ -5548,7 +5543,8 @@ namespace Oxygen
             case QTabBar::TriangularNorth:
             {
 
-                tabRect.adjust( -1, -1, 1, 3 );
+                tabSlab.tiles &= ~TileSet::Bottom;
+                tabSlab.rect.adjust( 0, 0, 0, 2 );
                 if( isDragged ) break;
 
                 // left side
@@ -5558,7 +5554,7 @@ namespace Oxygen
                     QRect frameRect( rect );
                     frameRect.setLeft( frameRect.left() - 1 );
                     frameRect.setRight( tabRect.left() + 7 );
-                    frameRect.setTop( tabRect.bottom() - 13 );
+                    frameRect.setTop( tabRect.bottom() - 11 );
                     frameRect.setBottom( frameRect.bottom() + 7 );
                     slabs << SlabRect( frameRect, TileSet::Left );
 
@@ -5579,7 +5575,7 @@ namespace Oxygen
                     QRect frameRect( rect );
                     frameRect.setLeft( tabRect.right() - 7 );
                     frameRect.setRight( frameRect.right() + 1 );
-                    frameRect.setTop( tabRect.bottom() - 13 );
+                    frameRect.setTop( tabRect.bottom() - 11 );
                     frameRect.setBottom( frameRect.bottom() + 7 );
                     slabs << SlabRect( frameRect, TileSet::Right );
 
@@ -5629,7 +5625,8 @@ namespace Oxygen
             case QTabBar::TriangularSouth:
             {
 
-                tabRect.adjust( -1, -3, 1, 1 );
+                tabSlab.tiles &= ~TileSet::Top;
+                tabSlab.rect.adjust( 0, -2, 0, 0 );
                 if( isDragged ) break;
 
                 // left side
@@ -5640,7 +5637,7 @@ namespace Oxygen
                     frameRect.setLeft( frameRect.left() - 1 );
                     frameRect.setRight( tabRect.left() + 7 );
                     frameRect.setTop( frameRect.top() - 7 );
-                    frameRect.setBottom( tabRect.top() + 13 );
+                    frameRect.setBottom( tabRect.top() + 11 );
                     slabs << SlabRect( frameRect, TileSet::Left );
 
                 } else {
@@ -5660,7 +5657,7 @@ namespace Oxygen
                     frameRect.setLeft( tabRect.right() - 7 );
                     frameRect.setRight( frameRect.right() + 1 );
                     frameRect.setTop( frameRect.top() - 7 );
-                    frameRect.setBottom( tabRect.top() + 13 );
+                    frameRect.setBottom( tabRect.top() + 11 );
                     slabs << SlabRect( frameRect, TileSet::Right );
 
                 } else {
@@ -5707,7 +5704,8 @@ namespace Oxygen
             case QTabBar::TriangularWest:
             {
 
-                tabRect.adjust( -1, -1, 3, 1 );
+                tabSlab.tiles &= ~TileSet::Right;
+                tabSlab.rect.adjust( 0, 0, 2, 0 );
                 if( isDragged ) break;
 
                 // top side
@@ -5715,7 +5713,7 @@ namespace Oxygen
                 {
 
                     QRect frameRect( rect );
-                    frameRect.setLeft( tabRect.right() - 13 );
+                    frameRect.setLeft( tabRect.right() - 11 );
                     frameRect.setRight( frameRect.right() + 7 );
                     frameRect.setTop( frameRect.top() - 1 );
                     frameRect.setBottom( tabRect.top() + 7 );
@@ -5769,7 +5767,8 @@ namespace Oxygen
             case QTabBar::TriangularEast:
             {
 
-                tabRect.adjust( -3, -1, 1, 1 );
+                tabSlab.tiles &= ~TileSet::Left;
+                tabSlab.rect.adjust( -2, 0, 0, 0 );
                 if( isDragged ) break;
 
                 // top side
@@ -5778,7 +5777,7 @@ namespace Oxygen
 
                     QRect frameRect( rect );
                     frameRect.setLeft( frameRect.left() - 7 );
-                    frameRect.setRight( tabRect.left() + 13 );
+                    frameRect.setRight( tabRect.left() + 11 );
                     frameRect.setTop( frameRect.top() - 1 );
                     frameRect.setBottom( tabRect.top() + 7 );
                     slabs << SlabRect( frameRect, TileSet::Top );
@@ -5856,10 +5855,8 @@ namespace Oxygen
         if( isDragged ) fillTabBackground( painter, tabRect, color, widget );
 
         // slab options
-        StyleOptions selectedTabOpts( NoFill );
-        TileSet::Tiles tiles( tilesByShape( tabOption->shape ) );
-        renderSlab( painter, tabRect, color, selectedTabOpts, tiles );
-        fillTab( painter, tabRect, color, tabOption->shape, true );
+        renderSlab( painter, tabSlab, color, NoFill );
+        fillTab( painter, tabRect, color, tabOption->shape );
 
         // restore clip region
         if( tabBar ) painter->restore();
@@ -5946,8 +5943,8 @@ namespace Oxygen
                 tabRect.adjust( 0, 3, 1, -4 );
 
                 // adjust sides when slab is adjacent to selected slab
-                if( isLeftOfSelected ) tabRect.setRight( tabRect.right() + 2 );
-                else if( isRightOfSelected ) tabRect.setLeft( tabRect.left() - 2 );
+                if( isLeftOfSelected ) tabRect.adjust( 0, 0, 2, 0 );
+                else if( isRightOfSelected ) tabRect.adjust( -2, 0, 0, 0 );
 
                 if( isFirst )
                 {
@@ -5996,8 +5993,8 @@ namespace Oxygen
                 tabRect.adjust( 0, 4, 1, -3 );
 
                 // adjust sides when slab is adjacent to selected slab
-                if( isLeftOfSelected ) tabRect.setRight( tabRect.right() + 2 );
-                else if( isRightOfSelected ) tabRect.setLeft( tabRect.left() - 2 );
+                if( isLeftOfSelected ) tabRect.adjust( 0, 0, 2, 0 );
+                else if( isRightOfSelected ) tabRect.adjust( -2, 0, 0, 0 );
 
                 if( isFirst )
                 {
@@ -6046,8 +6043,8 @@ namespace Oxygen
                 tabRect.adjust( 3, 0, -4, 1 );
 
                 // adjust sides when slab is adjacent to selected slab
-                if( isLeftOfSelected ) tabRect.setBottom( tabRect.bottom() + 2 );
-                else if( isRightOfSelected ) tabRect.setTop( tabRect.top() - 2 );
+                if( isLeftOfSelected ) tabRect.adjust( 0, 0, 0, 2 );
+                else if( isRightOfSelected ) tabRect.adjust( 0, -2, 0, 0 );
 
                 if( isFirst )
                 {
@@ -6082,7 +6079,7 @@ namespace Oxygen
                 QRect highlightRect( tabRect.right() - 3, tabRect.top(), 7, tabRect.height() );
                 if( isFrameAligned && isFirst ) highlightSlab = SlabRect( highlightRect.adjusted( 0, -2, 0, 7 ), TileSet::TopLeft );
                 else if( isFrameAligned && isLast ) highlightSlab = SlabRect( highlightRect.adjusted( 0, -7, 0, 2 ), TileSet::BottomLeft );
-                else highlightSlab = SlabRect( highlightRect.adjusted( 0, -7 + 1, 0, 7 + 1 ), TileSet::Left );
+                else highlightSlab = SlabRect( highlightRect.adjusted( 0, -7, 0, 7 ), TileSet::Left );
 
                 break;
             }
@@ -6094,8 +6091,8 @@ namespace Oxygen
                 tabRect.adjust( 4, 0, -3, 1 );
 
                 // adjust sides when slab is adjacent to selected slab
-                if( isLeftOfSelected ) tabRect.setBottom( tabRect.bottom() + 2 );
-                else if( isRightOfSelected ) tabRect.setTop( tabRect.top() - 2 );
+                if( isLeftOfSelected ) tabRect.adjust( 0, 0, 0, 2 );
+                else if( isRightOfSelected ) tabRect.adjust( 0, -2, 0, 0 );
 
                 if( isFirst )
                 {
@@ -6130,7 +6127,7 @@ namespace Oxygen
                 QRect highlightRect( tabRect.left() - 3, tabRect.top(), 7, tabRect.height() );
                 if( isFrameAligned && isFirst ) highlightSlab = SlabRect( highlightRect.adjusted( 0, -2, 0, 7 ), TileSet::TopRight );
                 else if( isFrameAligned && isLast ) highlightSlab = SlabRect( highlightRect.adjusted( 0, -7, 0, 2 ), TileSet::BottomRight );
-                else highlightSlab = SlabRect( highlightRect.adjusted( 0, -7 + 1, 0, 7 + 1 ), TileSet::Right );
+                else highlightSlab = SlabRect( highlightRect.adjusted( 0, -7, 0, 7 ), TileSet::Right );
 
                 break;
             }
@@ -7672,7 +7669,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________________________________________________________________________
-    void Style::fillTab( QPainter* painter, const QRect &rect, const QColor &color, QTabBar::Shape shape, bool active ) const
+    void Style::fillTab( QPainter* painter, const QRect &rect, const QColor &color, QTabBar::Shape shape ) const
     {
 
         const QColor dark( _helper->calcDarkColor( color ) );
@@ -7707,24 +7704,12 @@ namespace Oxygen
 
         }
 
-        if( active ) {
-
-            gradient.setColorAt( 0, _helper->alphaColor( light, 0.5 ) );
-            gradient.setColorAt( 0.1, _helper->alphaColor( light, 0.5 ) );
-            gradient.setColorAt( 0.25, _helper->alphaColor( light, 0.3 ) );
-            gradient.setColorAt( 0.5, _helper->alphaColor( light, 0.2 ) );
-            gradient.setColorAt( 0.75, _helper->alphaColor( light, 0.1 ) );
-            gradient.setColorAt( 0.9, Qt::transparent );
-
-        } else {
-
-            // inactive
-            gradient.setColorAt( 0, _helper->alphaColor( light, 0.1 ) );
-            gradient.setColorAt( 0.4, _helper->alphaColor( dark, 0.5 ) );
-            gradient.setColorAt( 0.8, _helper->alphaColor( dark, 0.4 ) );
-            gradient.setColorAt( 0.9, Qt::transparent );
-
-        }
+        gradient.setColorAt( 0, _helper->alphaColor( light, 0.5 ) );
+        gradient.setColorAt( 0.1, _helper->alphaColor( light, 0.5 ) );
+        gradient.setColorAt( 0.25, _helper->alphaColor( light, 0.3 ) );
+        gradient.setColorAt( 0.5, _helper->alphaColor( light, 0.2 ) );
+        gradient.setColorAt( 0.75, _helper->alphaColor( light, 0.1 ) );
+        gradient.setColorAt( 0.9, Qt::transparent );
 
         painter->setRenderHints( QPainter::Antialiasing );
         painter->setPen( Qt::NoPen );

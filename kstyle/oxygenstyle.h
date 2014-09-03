@@ -523,7 +523,7 @@ namespace Oxygen
         void fillTabBackground( QPainter*, const QRect&, const QColor&, const QWidget* ) const;
 
         //* tab filling
-        void fillTab( QPainter*, const QRect&, const QColor&, const QTabBar::Shape, bool active ) const;
+        void fillTab( QPainter*, const QRect&, const QColor&, const QTabBar::Shape ) const;
 
         //* spinbox arrows
         void renderSpinBoxArrow( QPainter*, const QStyleOptionSpinBox*, const QWidget*, const SubControl& ) const;
@@ -723,35 +723,6 @@ namespace Oxygen
             if( option->direction == Qt::LeftToRight ) return point.x() < rect.center().x() ? QStyle::SC_ScrollBarSubLine : QStyle::SC_ScrollBarAddLine;
             else return point.x() > rect.center().x() ? QStyle::SC_ScrollBarSubLine : QStyle::SC_ScrollBarAddLine;
         } else return point.y() < rect.center().y() ? QStyle::SC_ScrollBarSubLine : QStyle::SC_ScrollBarAddLine;
-    }
-
-    //_____________________________________________________________
-    TileSet::Tiles Style::tilesByShape( const QTabBar::Shape& shape ) const
-    {
-        switch( shape )
-        {
-
-            case QTabBar::RoundedNorth:
-            case QTabBar::TriangularNorth:
-            return TileSet::Top | TileSet::Left | TileSet::Right;
-
-            case QTabBar::RoundedSouth:
-            case QTabBar::TriangularSouth:
-            return TileSet::Bottom | TileSet::Left | TileSet::Right;
-
-            case QTabBar::RoundedEast:
-            case QTabBar::TriangularEast:
-            return TileSet::Right | TileSet::Top | TileSet::Bottom;
-
-            case QTabBar::RoundedWest:
-            case QTabBar::TriangularWest:
-            return TileSet::Left | TileSet::Top | TileSet::Bottom;
-
-            default:
-            return TileSet::Ring;
-
-        }
-
     }
 
     //___________________________________________________________________________________
