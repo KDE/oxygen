@@ -7171,10 +7171,45 @@ namespace Oxygen
 
         }
 
-        // label
-        copy.state = state;
-        copy.rect = buttonRect;
-        drawControl( CE_ToolButtonLabel, &copy, painter, widget );
+        // contents
+        {
+
+            // restore state
+            copy.state = state;
+
+            // define contents rect
+            QRect contentsRect( buttonRect );
+
+            // detect dock widget title button
+            /* for dockwidget title buttons, do not take out margins, so that icon do not get scaled down */
+            const bool isDockWidgetTitleButton( widget && widget->inherits( "QDockWidgetTitleButton" ) );
+            if( isDockWidgetTitleButton )
+            {
+
+                // cast to abstract button
+                // adjust state to have correct icon rendered
+                const QAbstractButton* button( qobject_cast<const QAbstractButton*>( widget ) );
+                if( button->isChecked() || button->isDown() ) copy.state |= State_On;
+
+            } else if( !inTabBar ) {
+
+                // take out margins
+                const int marginWidth( autoRaise ? Metrics::ToolButton_MarginWidth : Metrics::Button_MarginWidth + Metrics::Frame_FrameWidth );
+                contentsRect = insideMargin( contentsRect, marginWidth, 0 );
+                if( hasInlineIndicator )
+                {
+                    contentsRect.setRight( contentsRect.right() - Metrics::ToolButton_InlineIndicatorWidth );
+                    contentsRect = visualRect( option, contentsRect );
+                }
+
+            }
+
+            copy.rect = contentsRect;
+
+            // render
+            drawControl( CE_ToolButtonLabel, &copy, painter, widget);
+
+        }
 
         return true;
 
