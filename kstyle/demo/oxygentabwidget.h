@@ -26,6 +26,8 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "../oxygen.h"
+
 #include <QTabWidget>
 #include <QTabBar>
 #include <QIcon>

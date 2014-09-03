@@ -33,6 +33,11 @@
 namespace Oxygen
 {
 
+    //* disable QStringLiteral for older Qt version
+    #if QT_VERSION < 0x050000
+    using QStringLiteral = QString;
+    #endif
+
     //! this should move to some global declaration
     typedef QSharedPointer<Configuration> ConfigurationPtr;
     typedef QList<ConfigurationPtr> ConfigurationList;

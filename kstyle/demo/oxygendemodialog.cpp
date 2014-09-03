@@ -56,9 +56,15 @@ namespace Oxygen
         // ui
         setupUi(this);
 
+        #if USE_KDE4
+        // install Quit shortcut
+        connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL(activated()), SLOT(close()) );
+        connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL(activated()), SLOT(close()) );
+        #else
         // install Quit shortcut
         foreach( const QKeySequence& sequence, KStandardShortcut::quit() )
         { connect( new QShortcut( sequence, this ), SIGNAL(activated()), SLOT(close()) ); }
+        #endif
 
         connect( buttonBox->button( QDialogButtonBox::Ok ), SIGNAL(clicked()), SLOT(close()) );
 
@@ -82,7 +88,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new InputDemoWidget() );
             page->setName( i18n("Input Widgets") );
-            page->setIcon( QIcon::fromTheme( QStringLiteral( "edit-rename" ) ) );
+            setPageIcon( page, QStringLiteral( "edit-rename" ) );
             page->setHeader( i18n("Shows the appearance of text input widgets") );
             pageWidget->addPage( page );
             _widgets.append( widget );
@@ -92,7 +98,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new TabDemoWidget() );
             page->setName( i18n("Tab Widgets") );
-            page->setIcon( QIcon::fromTheme( QStringLiteral( "tab-detach" ) ) );
+            setPageIcon( page, QStringLiteral( "tab-detach" ) );
             page->setHeader( i18n("Shows the appearance of tab widgets") );
             pageWidget->addPage( page );
             _widgets.append( widget );
@@ -102,7 +108,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new ButtonDemoWidget() );
             page->setName( i18n("Buttons") );
-            page->setIcon( QIcon::fromTheme( QStringLiteral( "go-jump-locationbar" ) ) );
+            setPageIcon( page, QStringLiteral( "go-jump-locationbar" ) );
             page->setHeader( i18n("Shows the appearance of buttons") );
             pageWidget->addPage( page );
             _widgets.append( widget );
@@ -112,7 +118,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new ListDemoWidget() );
             page->setName( i18n("Lists") );
-            page->setIcon( QIcon::fromTheme( QStringLiteral( "view-list-tree" ) ) );
+            setPageIcon( page, QStringLiteral( "view-list-tree" ) );
             page->setHeader( i18n("Shows the appearance of lists, trees and tables") );
             pageWidget->addPage( page );
             _widgets.append( widget );
@@ -123,7 +129,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new FrameDemoWidget() );
             page->setName( i18n("Frames") );
-            page->setIcon( QIcon::fromTheme( QStringLiteral( "draw-rectangle" ) ) );
+            setPageIcon( page, QStringLiteral( "draw-rectangle" ) );
             page->setHeader( i18n("Shows the appearance of various framed widgets") );
             pageWidget->addPage( page );
             _widgets.append( widget );
@@ -133,7 +139,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new MdiDemoWidget() );
             page->setName( i18n( "MDI Windows" ) );
-            page->setIcon( QIcon::fromTheme( QStringLiteral( "preferences-system-windows" ) ) );
+            setPageIcon( page, QStringLiteral( "preferences-system-windows" ) );
             page->setHeader( i18n( "Shows the appearance of MDI windows" ) );
             pageWidget->addPage( page );
             _widgets.append( widget );
@@ -143,7 +149,7 @@ namespace Oxygen
         {
             page = new KPageWidgetItem( widget = new SliderDemoWidget() );
             page->setName( i18n("Sliders") );
-            page->setIcon( QIcon::fromTheme( QStringLiteral( "measure" ) ) );
+            setPageIcon( page, QStringLiteral( "measure" ) );
             page->setHeader( i18n("Shows the appearance of sliders, progress bars and scrollbars") );
             pageWidget->addPage( page );
             _widgets.append( widget );
@@ -154,7 +160,7 @@ namespace Oxygen
             BenchmarkWidget* benchmarkWidget( new BenchmarkWidget() );
             page = new KPageWidgetItem( benchmarkWidget );
             page->setName( i18n("Benchmark") );
-            page->setIcon( QIcon::fromTheme( QStringLiteral( "system-run" ) ) );
+            setPageIcon( page, QStringLiteral( "system-run" ) );
             page->setHeader( i18n("Emulates user interaction with widgets for benchmarking") );
             benchmarkWidget->init( pageWidget );
 
@@ -223,6 +229,16 @@ namespace Oxygen
     {
         emit abortSimulations();
         QDialog::hideEvent( event );
+    }
+
+    //_______________________________________________________________
+    void DemoDialog::setPageIcon( KPageWidgetItem* page, const QString& iconName ) const
+    {
+        #if USE_KDE4
+        page->setIcon( KIcon( iconName ) );
+        #else
+        page->setIcon( QIcon::fromTheme( iconName ) );
+        #endif
     }
 
 }

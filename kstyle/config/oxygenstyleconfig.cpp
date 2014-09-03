@@ -32,6 +32,8 @@ DEALINGS IN THE SOFTWARE.
 #include "oxygenanimationconfigwidget.h"
 #include "oxygenstyleconfigdata.h"
 
+#include "../oxygen.h"
+
 #include <QTextStream>
 #include <QDBusMessage>
 #include <QDBusConnection>
@@ -105,6 +107,7 @@ namespace Oxygen
         StyleConfigData::setScrollBarSubLineButtons( _scrollBarSubLineButtons->currentIndex() );
         StyleConfigData::setMenuHighlightMode( menuMode() );
         StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
+        StyleConfigData::setWindowDragMode( _windowDragMode->currentIndex()  );
 
         if( _expertMode )
         {
@@ -117,19 +120,11 @@ namespace Oxygen
 
         }
 
-        if( _windowDragMode->currentIndex() == 0 )
-        {
-
-            StyleConfigData::setWindowDragEnabled( false  );
-
-        } else {
-
-            StyleConfigData::setWindowDragEnabled( true  );
-            StyleConfigData::setWindowDragMode( windowDragMode()  );
-
-        }
-
+        #if USE_KDE4
+        StyleConfigData::self()->writeConfig();
+        #else
         StyleConfigData::self()->save();
+        #endif
 
         // emit dbus signal
         QDBusMessage message( QDBusMessage::createSignal( QStringLiteral( "/OxygenStyle" ),  QStringLiteral( "org.kde.Oxygen.Style" ), QStringLiteral( "reparseConfiguration" ) ) );
@@ -147,7 +142,13 @@ namespace Oxygen
     //__________________________________________________________________
     void StyleConfig::reset( void )
     {
+        // reparse configuration
+        #if USE_KDE4
+        StyleConfigData::self()->readConfig();
+        #else
         StyleConfigData::self()->load();
+        #endif
+
         load();
     }
 
@@ -272,28 +273,7 @@ namespace Oxygen
         else if( _cacheEnabled->isChecked() != StyleConfigData::cacheEnabled() ) modified = true;
         else if( triangularExpanderSize() != StyleConfigData::viewTriangularExpanderSize() ) modified = true;
         else if( _animationConfigWidget && _animationConfigWidget->isChanged() ) modified = true;
-
-        if( !modified )
-        {
-            switch( _windowDragMode->currentIndex() )
-            {
-                case 0:
-                {
-                    if( StyleConfigData::windowDragEnabled() ) modified = true;
-                    break;
-                }
-
-                case 1:
-                case 2:
-                default:
-                {
-                    if( !StyleConfigData::windowDragEnabled() || windowDragMode() != StyleConfigData::windowDragMode() )
-                    { modified = true; }
-                    break;
-                }
-
-            }
-        }
+        else if( _windowDragMode->currentIndex() != StyleConfigData::windowDragMode() ) modified = true;
 
         emit changed(modified);
 
@@ -323,10 +303,7 @@ namespace Oxygen
 
         _animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
         _cacheEnabled->setChecked( StyleConfigData::cacheEnabled() );
-
-        if( !StyleConfigData::windowDragEnabled() ) _windowDragMode->setCurrentIndex(0);
-        else if( StyleConfigData::windowDragMode() == StyleConfigData::WD_MINIMAL ) _windowDragMode->setCurrentIndex(1);
-        else _windowDragMode->setCurrentIndex(2);
+        _windowDragMode->setCurrentIndex( StyleConfigData::windowDragMode() );
 
         switch( StyleConfigData::viewTriangularExpanderSize() )
         {
@@ -346,16 +323,6 @@ namespace Oxygen
         if (_menuHighlightDark->isChecked()) return StyleConfigData::MM_DARK;
         else if (_menuHighlightSubtle->isChecked()) return StyleConfigData::MM_SUBTLE;
         else return StyleConfigData::MM_STRONG;
-    }
-
-    //____________________________________________________________
-    int StyleConfig::windowDragMode( void ) const
-    {
-        switch( _windowDragMode->currentIndex() )
-        {
-            case 1: return StyleConfigData::WD_MINIMAL;
-            case 2: default: return StyleConfigData::WD_FULL;
-        }
     }
 
     //____________________________________________________________

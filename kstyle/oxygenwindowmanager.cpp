@@ -1,11 +1,28 @@
-// krazy:excludeall=qclasses
+/*************************************************************************
+ * Copyright (C) 2014 by Hugo Pereira Da Costa <hugo.pereira@free.fr>    *
+ *                                                                       *
+ * This program is free software; you can redistribute it and/or modify  *
+ * it under the terms of the GNU General Public License as published by  *
+ * the Free Software Foundation; either version 2 of the License, or     *
+ * (at your option) any later version.                                   *
+ *                                                                       *
+ * This program is distributed in the hope that it will be useful,       *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ * GNU General Public License for more details.                          *
+ *                                                                       *
+ * You should have received a copy of the GNU General Public License     *
+ * along with this program; if not, write to the                         *
+ * Free Software Foundation, Inc.,                                       *
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
+ *************************************************************************/
 
 //////////////////////////////////////////////////////////////////////////////
 // oxygenwindowmanager.cpp
 // pass some window mouse press/release/move event actions to window manager
 // -------------------
 //
-// Copyright (c) 2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+// Copyright (c) 2014 Hugo Pereira Da Costa <hugo.pereira@free.fr>
 //
 // Largely inspired from BeSpin style
 // Copyright (C) 2007 Thomas Luebking <thomas.luebking@web.de>
@@ -33,7 +50,7 @@
 #include "oxygenwindowmanager.moc"
 #include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
-#include "oxygenstylehelper.h"
+#include "oxygenhelper.h"
 
 #include <QApplication>
 #include <QComboBox>
@@ -67,6 +84,94 @@
 namespace Oxygen
 {
 
+    //* provide application-wise event filter
+    /**
+    it us used to unlock dragging and make sure event look is properly restored
+    after a drag has occurred
+    */
+    class AppEventFilter: public QObject
+    {
+
+        public:
+
+        //* constructor
+        explicit AppEventFilter( WindowManager* parent ):
+            QObject( parent ),
+            _parent( parent )
+        {}
+
+        //* event filter
+        virtual bool eventFilter( QObject* object, QEvent* event )
+        {
+
+            if( event->type() == QEvent::MouseButtonRelease )
+            {
+
+                // stop drag timer
+                if( _parent->_dragTimer.isActive() )
+                { _parent->resetDrag(); }
+
+                // unlock
+                if( _parent->isLocked() )
+                { _parent->setLocked( false ); }
+
+            }
+
+            if( !_parent->enabled() ) return false;
+
+            /*
+            if a drag is in progress, the widget will not receive any event
+            we trigger on the first MouseMove or MousePress events that are received
+            by any widget in the application to detect that the drag is finished
+            */
+            if( _parent->useWMMoveResize() && _parent->_dragInProgress && _parent->_target && ( event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ) )
+            { return appMouseEvent( object, event ); }
+
+            return false;
+
+        }
+
+        protected:
+
+        //* application-wise event.
+        /** needed to catch end of XMoveResize events */
+        bool appMouseEvent( QObject*, QEvent* event )
+        {
+
+            // store target window (see later)
+            QWidget* window( _parent->_target.data()->window() );
+
+            /*
+            post some mouseRelease event to the target, in order to counter balance
+            the mouse press that triggered the drag. Note that it triggers a resetDrag
+            */
+            QMouseEvent mouseEvent( QEvent::MouseButtonRelease, _parent->_dragPoint, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
+            qApp->sendEvent( _parent->_target.data(), &mouseEvent );
+
+            if( event->type() == QEvent::MouseMove )
+            {
+                /*
+                HACK: quickly move the main cursor out of the window and back
+                this is needed to get the focus right for the window children
+                the origin of this issue is unknown at the moment
+                */
+                const QPoint cursor = QCursor::pos();
+                QCursor::setPos(window->mapToGlobal( window->rect().topRight() ) + QPoint(1, 0) );
+                QCursor::setPos(cursor);
+
+            }
+
+            return false;
+
+        }
+
+        private:
+
+        //* parent
+        WindowManager* _parent;
+
+    };
+
     //_____________________________________________________________
     WindowManager::WindowManager( QObject* parent ):
         QObject( parent ),
@@ -78,8 +183,7 @@ namespace Oxygen
         _dragAboutToStart( false ),
         _dragInProgress( false ),
         _locked( false ),
-        _cursorOverride( false ),
-        _isX11( false )
+        _cursorOverride( false )
     {
 
         // install application wise event filter
@@ -87,15 +191,14 @@ namespace Oxygen
         qApp->installEventFilter( _appEventFilter );
 
         #if HAVE_X11
-        _isX11 = QGuiApplication::platformName() == QStringLiteral("xcb");
         _moveResizeAtom = 0;
-        if( _isX11 )
+        if( Helper::isX11() )
         {
             // create move-resize atom
-            xcb_connection_t* connection( QX11Info::connection() );
+            xcb_connection_t* connection( Helper::connection() );
             const QString atomName( QStringLiteral( "_NET_WM_MOVERESIZE" ) );
             xcb_intern_atom_cookie_t cookie( xcb_intern_atom( connection, false, atomName.size(), qPrintable( atomName ) ) );
-            Helper::ScopedPointer<xcb_intern_atom_reply_t> reply( xcb_intern_atom_reply( connection, cookie, nullptr) );
+            ScopedPointer<xcb_intern_atom_reply_t> reply( xcb_intern_atom_reply( connection, cookie, nullptr) );
             _moveResizeAtom = reply ? reply->atom:0;
         }
         #endif
@@ -106,7 +209,7 @@ namespace Oxygen
     void WindowManager::initialize( void )
     {
 
-        setEnabled( StyleConfigData::windowDragEnabled() );
+        setEnabled( StyleConfigData::windowDragMode() != StyleConfigData::WD_NONE );
         setDragMode( StyleConfigData::windowDragMode() );
         setUseWMMoveResize( StyleConfigData::useWMMoveResize() );
 
@@ -633,7 +736,7 @@ namespace Oxygen
 
             #if HAVE_X11
             // connection
-            xcb_connection_t* connection( QX11Info::connection() );
+            xcb_connection_t* connection( Helper::connection() );
 
             // window
             const WId window( widget->window()->winId() );
@@ -700,10 +803,10 @@ namespace Oxygen
     {
 
         #if HAVE_X11
-        return _isX11;
-        #endif
-
+        return Helper::isX11();
+        #else
         return false;
+        #endif
 
     }
 
@@ -720,70 +823,5 @@ namespace Oxygen
         } else return false;
 
     }
-
-    //____________________________________________________________
-    bool WindowManager::AppEventFilter::eventFilter( QObject* object, QEvent* event )
-    {
-
-        if( event->type() == QEvent::MouseButtonRelease )
-        {
-
-            // stop drag timer
-            if( _parent->_dragTimer.isActive() )
-            { _parent->resetDrag(); }
-
-            // unlock
-            if( _parent->isLocked() )
-            { _parent->setLocked( false ); }
-
-        }
-
-        if( !_parent->enabled() ) return false;
-
-        /*
-        if a drag is in progress, the widget will not receive any event
-        we trigger on the first MouseMove or MousePress events that are received
-        by any widget in the application to detect that the drag is finished
-        */
-        if( _parent->useWMMoveResize() && _parent->_dragInProgress && _parent->_target && ( event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ) )
-        { return appMouseEvent( object, event ); }
-
-        return false;
-
-    }
-
-    //_____________________________________________________________
-    bool WindowManager::AppEventFilter::appMouseEvent( QObject* object, QEvent* event )
-    {
-
-        Q_UNUSED( object );
-
-        // store target window (see later)
-        QWidget* window( _parent->_target.data()->window() );
-
-        /*
-        post some mouseRelease event to the target, in order to counter balance
-        the mouse press that triggered the drag. Note that it triggers a resetDrag
-        */
-        QMouseEvent mouseEvent( QEvent::MouseButtonRelease, _parent->_dragPoint, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
-        qApp->sendEvent( _parent->_target.data(), &mouseEvent );
-
-        if( event->type() == QEvent::MouseMove )
-        {
-            /*
-            HACK: quickly move the main cursor out of the window and back
-            this is needed to get the focus right for the window children
-            the origin of this issue is unknown at the moment
-            */
-            const QPoint cursor = QCursor::pos();
-            QCursor::setPos(window->mapToGlobal( window->rect().topRight() ) + QPoint(1, 0) );
-            QCursor::setPos(cursor);
-
-        }
-
-        return false;
-
-    }
-
 
 }

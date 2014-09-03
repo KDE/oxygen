@@ -113,7 +113,12 @@ namespace Oxygen
     void Button::paint( QPainter& painter )
     {
 
+        #if USE_KDE4
+        QPalette palette( this->palette() );
+        #else
         QPalette palette( _client.palette() );
+        #endif
+
         palette.setCurrentColorGroup( isActive() ? QPalette::Active : QPalette::Inactive);
 
         if(
@@ -325,7 +330,11 @@ namespace Oxygen
     void Button::parentUpdate( void )
     {
 
+        #if USE_KDE4
+        if( ( _client.compositingActive() || _client.isPreview() ) && parentWidget() ) parentWidget()->update( geometry().adjusted( -1, -1, 1, 1 ) );
+        #else
         if( _client.compositingActive() || _client.isPreview() ) _client.update( geometry().adjusted( -1, -1, 1, 1 ) );
+        #endif
         else if( parentWidget() ) parentWidget()->update( geometry().adjusted( -1, -1, 1, 1 ) );
         else this->update();
 

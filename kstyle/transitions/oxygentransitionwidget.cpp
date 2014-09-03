@@ -83,7 +83,11 @@ namespace Oxygen
 
             rect = rect.translated( widget->mapTo( widget->window(), widget->rect().topLeft() ) );
             widget = widget->window();
+            #if QT_VERSION < 0x050000
+            out = QPixmap::grabWidget( widget, rect );
+            #else
             out = widget->grab( rect );
+            #endif
 
         } else {
 
@@ -244,7 +248,7 @@ namespace Oxygen
             QWidget* w = widgets.at(i);
             w->render( &p, -widget->mapTo( w, rect.topLeft() ), rect, 0 );
         }
-        
+
         // end
         p.end();
 

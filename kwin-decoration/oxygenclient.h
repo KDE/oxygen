@@ -37,6 +37,7 @@
 #include "oxygentitleanimationdata.h"
 
 #include <kcommondecoration.h>
+
 #include <QBasicTimer>
 #include <QTextStream>
 #include <QTimerEvent>
@@ -46,8 +47,15 @@
 namespace Oxygen
 {
 
+    //* convenience typedef for base class
+    #if USE_KDE4
+    using ParentDecorationClass = KCommonDecorationUnstable;
+    #else
+    using ParentDecorationClass = KCommonDecoration;
+    #endif
+
     class SizeGrip;
-    class Client : public KCommonDecoration
+    class Client : public ParentDecorationClass
     {
 
         Q_OBJECT

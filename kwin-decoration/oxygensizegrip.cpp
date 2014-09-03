@@ -83,7 +83,7 @@ namespace Oxygen
     void SizeGrip::activeChange( void )
     {
         static const uint32_t value = XCB_STACK_MODE_ABOVE;
-        xcb_configure_window( _client->helper().xcbConnection(), winId(), XCB_CONFIG_WINDOW_STACK_MODE, &value );
+        xcb_configure_window( _client->helper().connection(), winId(), XCB_CONFIG_WINDOW_STACK_MODE, &value );
     }
 
     //_____________________________________________
@@ -98,7 +98,7 @@ namespace Oxygen
 
             // find client's parent
             xcb_window_t current = windowId;
-            xcb_connection_t* connection = _client->helper().xcbConnection();
+            xcb_connection_t* connection = _client->helper().connection();
             xcb_query_tree_cookie_t cookie = xcb_query_tree_unchecked( connection, current );
             Helper::ScopedPointer<xcb_query_tree_reply_t> tree(xcb_query_tree_reply( connection, cookie, nullptr ) );
             if( !tree.isNull() && tree->parent ) current = tree->parent;

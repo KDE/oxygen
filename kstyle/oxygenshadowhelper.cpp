@@ -67,8 +67,8 @@ namespace Oxygen
         #if HAVE_X11
         if( _helper.isX11() )
         {
-            foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
-            foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
+            foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.connection(), value );
+            foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.connection(), value );
         }
         #endif
 
@@ -83,8 +83,8 @@ namespace Oxygen
         if( _helper.isX11() )
         {
             // round pixmaps
-            foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
-            foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.xcbConnection(), value );
+            foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.connection(), value );
+            foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.connection(), value );
         }
         #endif
 
@@ -223,7 +223,7 @@ namespace Oxygen
         if( !netSupportedAtom ) return false;
 
         // store connection locally
-        xcb_connection_t* connection( _helper.xcbConnection() );
+        xcb_connection_t* connection( _helper.connection() );
 
         // get property
         const uint32_t maxLength = std::string().max_size();
@@ -374,19 +374,19 @@ namespace Oxygen
         const int height( source.height() );
 
         // create X11 pixmap
-        xcb_pixmap_t pixmap = xcb_generate_id( _helper.xcbConnection() );
-        xcb_create_pixmap( _helper.xcbConnection(), 32, pixmap, QX11Info::appRootWindow(), width, height );
+        xcb_pixmap_t pixmap = xcb_generate_id( _helper.connection() );
+        xcb_create_pixmap( _helper.connection(), 32, pixmap, QX11Info::appRootWindow(), width, height );
 
         // create gc
         if( !_gc )
         {
-            _gc = xcb_generate_id( _helper.xcbConnection() );
-            xcb_create_gc( _helper.xcbConnection(), _gc, pixmap, 0, 0x0 );
+            _gc = xcb_generate_id( _helper.connection() );
+            xcb_create_gc( _helper.connection(), _gc, pixmap, 0, 0x0 );
         }
 
         // create image from QPixmap and assign to pixmap
         QImage image( source.toImage() );
-        xcb_put_image( _helper.xcbConnection(), XCB_IMAGE_FORMAT_Z_PIXMAP, pixmap, _gc, image.width(), image.height(), 0, 0, 0, 32, image.byteCount(), image.constBits());
+        xcb_put_image( _helper.connection(), XCB_IMAGE_FORMAT_Z_PIXMAP, pixmap, _gc, image.width(), image.height(), 0, 0, 0, 32, image.byteCount(), image.constBits());
 
         return pixmap;
 
@@ -465,8 +465,8 @@ namespace Oxygen
 
         }
 
-        xcb_change_property( _helper.xcbConnection(), XCB_PROP_MODE_REPLACE, widget->winId(), _atom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );
-        xcb_flush( _helper.xcbConnection() );
+        xcb_change_property( _helper.connection(), XCB_PROP_MODE_REPLACE, widget->winId(), _atom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );
+        xcb_flush( _helper.connection() );
 
         return true;
 
@@ -485,7 +485,7 @@ namespace Oxygen
         if( !_supported ) return;
         if( !_helper.isX11() ) return;
         if( !( widget && widget->testAttribute(Qt::WA_WState_Created) ) ) return;
-        xcb_delete_property( _helper.xcbConnection(), widget->winId(), _atom);
+        xcb_delete_property( _helper.connection(), widget->winId(), _atom);
         #else
         Q_UNUSED( widget )
         #endif

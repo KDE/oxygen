@@ -43,17 +43,31 @@
 #include <KPluginFactory>
 
 //_______________________________________________________________________
+// plugin definition
+#if USE_KDE4
+extern "C"
+{
+    KDE_EXPORT QObject* allocate_config( KConfig*, QWidget* parent )
+    { return ( new Oxygen::Config( parent ) ); }
+}
 
-K_PLUGIN_FACTORY_WITH_JSON(OxygenConfigPlugin,
-                           "config.json",
-                           registerPlugin<Oxygen::Config>(QString(), &Oxygen::Config::create); )
+#else
+K_PLUGIN_FACTORY_WITH_JSON(
+    OxygenConfigPlugin,
+    "config.json",
+    registerPlugin<Oxygen::Config>(QString(), &Oxygen::Config::create); )
+#endif
+
+#include "oxygenconfig.moc"
 
 namespace Oxygen
 {
+
+    #if !USE_KDE4
+    // create new configuration
     QObject *Config::create(QWidget *parentWidget, QObject *, const QList<QVariant> &)
-    {
-        return new Config(parentWidget);
-    }
+    { return new Config(parentWidget); }
+    #endif
 
     //_______________________________________________________________________
     Config::Config(QWidget* parent ):
@@ -70,7 +84,6 @@ namespace Oxygen
 
         load();
         connect( _configWidget, SIGNAL(changed(bool)), SLOT(updateChanged()) );
-
     }
 
     //_______________________________________________________________________
@@ -87,7 +100,12 @@ namespace Oxygen
 
         // load standard configuration
         ConfigurationPtr configuration( new Configuration() );
+
+        #if USE_KDE4
+        configuration->readConfig();
+        #else
         configuration->load();
+        #endif
         loadConfiguration( configuration );
 
         // load shadows
@@ -107,7 +125,12 @@ namespace Oxygen
     {
 
         ConfigurationPtr configuration( new Configuration() );
+        #if USE_KDE4
+        configuration->readConfig();
+        #else
         configuration->load();
+        #endif
+
         bool modified( false );
 
         // exceptions
@@ -125,7 +148,11 @@ namespace Oxygen
 
         // create configuration from group
         ConfigurationPtr configuration( new Configuration() );
+        #if USE_KDE4
+        configuration->readConfig();
+        #else
         configuration->load();
+        #endif
 
         // save config widget
         _configWidget->setConfiguration( configuration );
@@ -177,5 +204,3 @@ namespace Oxygen
     }
 
 }
-
-#include "oxygenconfig.moc"

@@ -25,20 +25,36 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygendemodialog.h"
+#include "../oxygen.h"
 
 #include <QApplication>
 #include <QIcon>
 
 #include <KLocalizedString>
 
+namespace Oxygen
+{
+
+    int run(int argc, char *argv[])
+    {
+        QApplication app( argc, argv );
+        app.setApplicationName( i18n( "Oxygen Demo" ) );
+        app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
+        DemoDialog dialog;
+        dialog.show();
+        bool result = app.exec();
+        return result;
+    }
+
+}
+
+//__________________________________________
 int main(int argc, char *argv[])
 {
+    #if !USE_KDE4
     KLocalizedString::setApplicationDomain("oxygen_style_demo");
-    QApplication app( argc, argv );
-    app.setApplicationName( i18n( "Oxygen Demo" ) );
-    app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
-    Oxygen::DemoDialog dialog;
-    dialog.show();
-    bool result = app.exec();
-    return result;
+    #endif
+
+    return Oxygen::run( argc, argv );
+
 }

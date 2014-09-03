@@ -28,6 +28,8 @@
 #include "oxygenanimationconfigitem.moc"
 #include "ui_oxygenanimationconfigitem.h"
 
+#include "liboxygen.h"
+
 #include <QTextStream>
 #include <QIcon>
 #include <KLocalizedString>

@@ -242,14 +242,14 @@ namespace Oxygen
             foreach( const QRect& rect, blurRegion.rects() )
             { data << rect.x() << rect.y() << rect.width() << rect.height(); }
 
-            xcb_change_property( _helper.xcbConnection(), XCB_PROP_MODE_REPLACE, widget->winId(), _blurAtom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );
+            xcb_change_property( _helper.connection(), XCB_PROP_MODE_REPLACE, widget->winId(), _blurAtom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );
 
             data.clear();
             foreach( const QRect& rect, opaqueRegion.rects() )
             { data << rect.x() << rect.y() << rect.width() << rect.height(); }
 
-            xcb_change_property( _helper.xcbConnection(), XCB_PROP_MODE_REPLACE, widget->winId(), _opaqueAtom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );
-            xcb_flush( _helper.xcbConnection() );
+            xcb_change_property( _helper.connection(), XCB_PROP_MODE_REPLACE, widget->winId(), _opaqueAtom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );
+            xcb_flush( _helper.connection() );
 
         }
 
@@ -272,8 +272,8 @@ namespace Oxygen
         #if HAVE_X11
         if( !_helper.isX11() ) return;
 
-        xcb_delete_property( _helper.xcbConnection(), widget->winId(), _blurAtom );
-        xcb_delete_property( _helper.xcbConnection(), widget->winId(), _opaqueAtom );
+        xcb_delete_property( _helper.connection(), widget->winId(), _blurAtom );
+        xcb_delete_property( _helper.connection(), widget->winId(), _opaqueAtom );
         #else
         Q_UNUSED( widget )
         #endif

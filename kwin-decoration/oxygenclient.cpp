@@ -51,7 +51,7 @@ namespace Oxygen
 
     //___________________________________________
     Client::Client(KDecorationBridge *b, Factory *f):
-        KCommonDecoration(b, f),
+        ParentDecorationClass(b, f),
         _factory( f ),
         _sizeGrip( nullptr ),
         _glowAnimation( new Animation( 200, this ) ),
@@ -64,8 +64,10 @@ namespace Oxygen
         _sourceItem( -1 ),
         _shadowAtom( 0 )
     {
+        #if !USE_KDE4
         connect(options(), &KDecorationOptions::compositingChanged, this, &Client::updateCompositing);
         connect(options(), &KDecorationOptions::configChanged, this, &Client::updateConfig);
+        #endif
     }
 
     //___________________________________________
@@ -88,7 +90,7 @@ namespace Oxygen
         // make sure valid configuration is set
         if( !_configuration ) _configuration = _factory->configuration( *this );
 
-        KCommonDecoration::init();
+        ParentDecorationClass::init();
 
         widget()->setAttribute(Qt::WA_NoSystemBackground );
         widget()->setAutoFillBackground( false );
@@ -205,7 +207,7 @@ namespace Oxygen
             return false;
 
             default:
-            return KCommonDecoration::decorationBehaviour(behaviour);
+            return ParentDecorationClass::decorationBehaviour(behaviour);
         }
     }
 
@@ -418,7 +420,7 @@ namespace Oxygen
             else return shadowCache().shadowSize();
 
             default:
-            return KCommonDecoration::layoutMetric(lm, respectWindowState, btn);
+            return ParentDecorationClass::layoutMetric(lm, respectWindowState, btn);
         }
 
     }
@@ -1245,7 +1247,7 @@ namespace Oxygen
     void Client::activeChange( void )
     {
 
-        KCommonDecoration::activeChange();
+        ParentDecorationClass::activeChange();
         _itemData.setDirty( true );
 
         // reset animation
@@ -1271,21 +1273,21 @@ namespace Oxygen
     {
         if( hasSizeGrip() ) sizeGrip().setVisible( !( isShade() || isMaximized() ) );
         setAlphaEnabled(!isMaximized());
-        KCommonDecoration::maximizeChange();
+        ParentDecorationClass::maximizeChange();
     }
 
     //_________________________________________________________
     void Client::shadeChange( void  )
     {
         if( hasSizeGrip() ) sizeGrip().setVisible( !( isShade() || isMaximized() ) );
-        KCommonDecoration::shadeChange();
+        ParentDecorationClass::shadeChange();
     }
 
     //_________________________________________________________
     void Client::captionChange( void  )
     {
 
-        KCommonDecoration::captionChange();
+        ParentDecorationClass::captionChange();
         _itemData.setDirty( true );
         if( titleAnimationsEnabled() )
         { _titleAnimationData->setDirty( true ); }
@@ -1398,7 +1400,7 @@ namespace Oxygen
             default: break;
 
         }
-        return state || KCommonDecoration::eventFilter( object, event );
+        return state || ParentDecorationClass::eventFilter( object, event );
 
     }
 
@@ -1418,7 +1420,7 @@ namespace Oxygen
         { _pixmap = QPixmap( event->size() ); }
 
         // base class implementation
-        KCommonDecoration::resizeEvent( event );
+        ParentDecorationClass::resizeEvent( event );
     }
 
     //_________________________________________________________
@@ -1529,7 +1531,12 @@ namespace Oxygen
     {
 
         // palette
-        QPalette palette = KCommonDecoration::palette();
+        #if USE_KDE4
+        QPalette palette = widget()->palette();
+        #else
+        QPalette palette = ParentDecorationClass::palette();
+        #endif
+
         palette.setCurrentColorGroup( (isActive() ) ? QPalette::Active : QPalette::Inactive );
 
         // define frame
@@ -1892,7 +1899,7 @@ namespace Oxygen
     {
 
         if( event->timerId() != _dragStartTimer.timerId() )
-        { return KCommonDecoration::timerEvent( event ); }
+        { return ParentDecorationClass::timerEvent( event ); }
 
         _dragStartTimer.stop();
 
@@ -2030,7 +2037,7 @@ namespace Oxygen
         if( !_shadowAtom )
         { _shadowAtom = helper().createAtom( QStringLiteral( "_KDE_NET_WM_SHADOW" ) ); }
 
-        xcb_delete_property( helper().xcbConnection(), (xcb_window_t) windowId(), _shadowAtom);
+        xcb_delete_property( helper().connection(), (xcb_window_t) windowId(), _shadowAtom);
     }
 
 }

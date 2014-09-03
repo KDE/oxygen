@@ -40,7 +40,14 @@ namespace Oxygen
 
     class Client;
 
-    enum {
+    #if USE_KDE4
+    using ParentFactoryClass = KDecorationFactoryUnstable;
+    #else
+    using ParentFactoryClass = KDecorationFactory;
+    #endif
+
+    enum
+    {
 
         //! this is the top title bar edge
         TFRAMESIZE = 3,
@@ -53,16 +60,26 @@ namespace Oxygen
     };
 
     //! window decoration factory
-    class Factory: public KDecorationFactory
+    class Factory: public ParentFactoryClass
     {
 
+        #if !USE_KDE4
         Q_OBJECT
+        #endif
 
         public:
+
+        #if USE_KDE4
+
+        //! constructor
+        explicit Factory( void );
+
+        #else
 
         //! constructor
         explicit Factory(QObject *parent = nullptr);
 
+        #endif
         //! destructor
         virtual ~Factory();
 

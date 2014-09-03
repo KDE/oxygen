@@ -79,7 +79,6 @@
 #include <QItemDelegate>
 #include <QLayout>
 #include <QLineEdit>
-#include <QLoggingCategory>
 #include <QMainWindow>
 #include <QMdiSubWindow>
 #include <QPushButton>
@@ -96,10 +95,6 @@
 #include <KColorUtils>
 
 #include <cmath>
-
-#define USE_KDE4 0
-
-Q_LOGGING_CATEGORY(OXYGEN, "oxygen")
 
 namespace OxygenPrivate
 {
@@ -247,26 +242,31 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::Style( void ):
-        _addLineButtons( DoubleButton ),
-        _subLineButtons( SingleButton ),
-        _singleButtonHeight( 14 ),
-        _doubleButtonHeight( 28 ),
-        _helper( new StyleHelper( StyleConfigData::self()->sharedConfig() ) ),
-        _shadowHelper( new ShadowHelper( this, *_helper ) ),
-        _animations( new Animations( this ) ),
-        _transitions( new Transitions( this ) ),
-        _windowManager( new WindowManager( this ) ),
-        _topLevelManager( new TopLevelManager( this, *_helper ) ),
-        _frameShadowFactory( new FrameShadowFactory( this ) ),
-        _mdiWindowShadowFactory( new MdiWindowShadowFactory( this, *_helper ) ),
-        _mnemonics( new Mnemonics( this ) ),
-        _blurHelper( new BlurHelper( this, *_helper ) ),
-        _widgetExplorer( new WidgetExplorer( this ) ),
-        _tabBarData( new OxygenPrivate::TabBarData( this ) ),
-        _splitterFactory( new SplitterFactory( this ) ),
-        SH_ArgbDndWindow( newStyleHint( QStringLiteral( "SH_ArgbDndWindow" ) ) ),
-        CE_CapacityBar( newControlElement( QStringLiteral( "CE_CapacityBar" ) ) )
-
+        _addLineButtons( DoubleButton )
+        ,_subLineButtons( SingleButton )
+        ,_singleButtonHeight( 14 )
+        ,_doubleButtonHeight( 28 )
+        #if USE_KDE4
+        , _helper( new StyleHelper( "oxygen" ) )
+        #else
+        , _helper( new StyleHelper( StyleConfigData::self()->sharedConfig() ) )
+        #endif
+        ,_shadowHelper( new ShadowHelper( this, *_helper ) )
+        ,_animations( new Animations( this ) )
+        ,_transitions( new Transitions( this ) )
+        ,_windowManager( new WindowManager( this ) )
+        ,_topLevelManager( new TopLevelManager( this, *_helper ) )
+        ,_frameShadowFactory( new FrameShadowFactory( this ) )
+        ,_mdiWindowShadowFactory( new MdiWindowShadowFactory( this, *_helper ) )
+        ,_mnemonics( new Mnemonics( this ) )
+        ,_blurHelper( new BlurHelper( this, *_helper ) )
+        ,_widgetExplorer( new WidgetExplorer( this ) )
+        ,_tabBarData( new OxygenPrivate::TabBarData( this ) )
+        ,_splitterFactory( new SplitterFactory( this ) )
+        #if !USE_KDE4
+        ,SH_ArgbDndWindow( newStyleHint( QStringLiteral( "SH_ArgbDndWindow" ) ) )
+        ,CE_CapacityBar( newControlElement( QStringLiteral( "CE_CapacityBar" ) ) )
+        #endif
     {
 
         // use DBus connection to update on oxygen configuration change
@@ -275,9 +275,6 @@ namespace Oxygen
             QStringLiteral( "/OxygenStyle" ),
             QStringLiteral( "org.kde.Oxygen.Style" ),
             QStringLiteral( "reparseConfiguration" ), this, SLOT(configurationChanged()) );
-
-        // enable debugging
-        QLoggingCategory::setFilterRules(QStringLiteral("oxygen.debug = false"));
 
         // call the slot directly; this initial call will set up things that also
         // need to be reset when the system palette changes
@@ -652,6 +649,7 @@ namespace Oxygen
 
             case PM_DefaultFrameWidth:
             if( qobject_cast<const QLineEdit*>( widget ) ) return Metrics::LineEdit_FrameWidth;
+            #if QT_VERSION >= 0x050000
             else if( option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" ) )
             {
                 const QString &elementType = option->styleObject->property( "elementType" ).toString();
@@ -664,13 +662,10 @@ namespace Oxygen
 
                     return Metrics::ComboBox_FrameWidth;
 
-                } else {
-
-                    return Metrics::Frame_FrameWidth;
-
                 }
 
             }
+            #endif
 
             // fallback
             return Metrics::Frame_FrameWidth;
@@ -1491,8 +1486,13 @@ namespace Oxygen
     //_____________________________________________________________________
     void Style::configurationChanged()
     {
-        // reload config (reparses oxygenrc)
+
+        // reload
+        #if USE_KDE4
+        StyleConfigData::self()->readConfig();
+        #else
         StyleConfigData::self()->load();
+        #endif
 
         _shadowHelper->reparseCacheConfig();
 
@@ -2996,9 +2996,13 @@ namespace Oxygen
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
 
+        #if QT_VERSION >= 0x050000
         const bool isQtQuickControl = !widget && option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" );
-        const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) )
-                                  || ( isQtQuickControl && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
+        const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) ) ||
+            ( isQtQuickControl && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
+        #else
+        const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) ) );
+        #endif
 
         const bool mouseOver( enabled && isInputWidget && ( state & State_MouseOver ) );
         const bool hasFocus( enabled && isInputWidget && ( state & State_HasFocus ) );
@@ -3088,11 +3092,12 @@ namespace Oxygen
             _helper->renderWindowBackground( painter, option->rect, widget, option->palette );
             _helper->drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
 
+        #if !USE_KDE4
         } else if( option->styleObject && option->styleObject->inherits( "QQuickItem" ) ) {
 
             // QtQuick Control case
             _helper->drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
-
+        #endif
         }
 
         return true;

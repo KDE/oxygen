@@ -25,8 +25,12 @@
 
 #include "oxygentileset.h"
 
-#include <KSharedConfig>
 #include <KColorScheme>
+#include <KSharedConfig>
+
+#if USE_KDE4
+#include <KComponentData>
+#endif
 
 #include <QCache>
 #include <QColor>
@@ -153,8 +157,13 @@ namespace Oxygen
     {
         public:
 
+        //! constructor
+        explicit Helper( KSharedConfig::Ptr config );
+
+        #if USE_KDE4
         //* constructor
-        explicit Helper( KSharedConfigPtr config );
+        explicit Helper( const QByteArray& );
+        #endif
 
         //* destructor
         virtual ~Helper()
@@ -163,8 +172,8 @@ namespace Oxygen
         //* load configuration
         virtual void loadConfig();
 
-        //* pointer to shared config
-        KSharedConfigPtr config() const;
+        //! pointer to shared config
+        KSharedConfig::Ptr config() const;
 
         //* reset all caches
         virtual void invalidateCaches();
@@ -348,34 +357,26 @@ namespace Oxygen
 
         //@}
 
-        template <typename T> class ScopedPointer: public QScopedPointer<T, QScopedPointerPodDeleter>
-        {
-            public:
+        //*@name compositing utilities
+        //@{
 
-            //* constructor
-            ScopedPointer( T* t ):
-                QScopedPointer<T, QScopedPointerPodDeleter>( t )
-            {}
+        //* true if style was compiled for and is running on X11
+        static bool isX11( void );
 
-            //* destructor
-            virtual ~ScopedPointer( void )
-            {}
-
-        };
+        //@}
 
         #if HAVE_X11
 
-        //* xcb connection
-        xcb_connection_t* xcbConnection( void ) const
-        { return _xcbConnection; }
+        //! xcb connection
+        static xcb_connection_t* connection( void );
 
         //* create xcb atom
         xcb_atom_t createAtom( const QString& ) const;
 
         #endif
 
-        bool isX11() const
-        { return _isX11; }
+        //* scoped pointer convenience typedef
+        template <typename T> using ScopedPointer = QScopedPointer<T, QScopedPointerPodDeleter>;
 
         protected:
 
@@ -414,8 +415,20 @@ namespace Oxygen
 
         private:
 
-        //*@name tileset caches
-        //*@{
+        //* initialize
+        void init( void );
+
+        #if USE_KDE4
+        //* component data
+        KComponentData _componentData;
+        #endif
+
+        //* configuration
+        KSharedConfig::Ptr _config;
+        qreal _bgcontrast;
+
+        //!@name tileset caches
+        //!@{
 
         //* slabs
         Oxygen::Cache<TileSet> _slabCache;
@@ -432,10 +445,7 @@ namespace Oxygen
         KStatefulBrush _viewNegativeTextBrush;
         //@}
 
-        KSharedConfigPtr _config;
-        qreal _bgcontrast;
-
-        //*@name color caches
+        //!@name color caches
         //@{
         ColorCache _decoColorCache;
         ColorCache _lightColorCache;
@@ -469,10 +479,7 @@ namespace Oxygen
         //* value for given hint
         bool hasHint( xcb_window_t, xcb_atom_t ) const;
 
-        //* xcb connection
-        xcb_connection_t* _xcbConnection;
-
-        //* background gradient hint atom
+        //! background gradient hint atom
         xcb_atom_t _backgroundGradientAtom;
 
         //* background gradient hint atom

@@ -87,7 +87,7 @@ namespace Oxygen
 
         // progress bar busy animation
         setupItem( layout, _progressBarBusyAnimations = new GenericAnimationConfigItem( this,
-            i18n( "Busy indicator steps" ),
+            i18n( "Progress bar busy indicator" ),
             i18n( "Configure progress bars' busy indicator animation" ) ) );
 
         // add spacers to the first column, previous row to finalize layout

@@ -43,6 +43,11 @@ namespace Oxygen
         //! constructor
         explicit StyleHelper( KSharedConfigPtr config );
 
+        #if USE_KDE4
+        //* constructor
+        explicit StyleHelper( const QByteArray& );
+        #endif
+
         //! destructor
         virtual ~StyleHelper() {}
 
@@ -203,6 +208,9 @@ namespace Oxygen
         void drawSliderSlab( QPainter&, const QColor&, bool sunken, qreal );
 
         private:
+
+        //* initialize
+        void init( void );
 
         //! background grandient
         bool _useBackgroundGradient;

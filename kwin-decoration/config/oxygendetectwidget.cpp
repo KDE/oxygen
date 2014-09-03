@@ -30,6 +30,8 @@
 #include "oxygendetectwidget.h"
 #include "oxygendetectwidget.moc"
 
+#include "../oxygendecorationdefines.h"
+
 #include <QButtonGroup>
 #include <QLayout>
 #include <QGroupBox>
@@ -38,6 +40,10 @@
 
 #include <QX11Info>
 #include <xcb/xcb.h>
+
+#if QT_VERSION < 0x050000
+#include <X11/Xlib-xcb.h>
+#endif
 
 namespace Oxygen
 {
@@ -56,7 +62,7 @@ namespace Oxygen
         windowClassCheckBox->setChecked( true );
 
         // create atom
-        xcb_connection_t* connection( QX11Info::connection() );
+        xcb_connection_t* connection( this->connection() );
         const QString atomName( QStringLiteral( "WM_STATE" ) );
         xcb_intern_atom_cookie_t cookie( xcb_intern_atom( connection, false, atomName.size(), qPrintable( atomName ) ) );
         QScopedPointer<xcb_intern_atom_reply_t, QScopedPointerPodDeleter> reply( xcb_intern_atom_reply( connection, cookie, nullptr) );
@@ -81,7 +87,11 @@ namespace Oxygen
             return;
         }
 
+        #if USE_KDE4
+        _info.reset(new KWindowInfo( window, -1U, -1U ) );
+        #else
         _info.reset(new KWindowInfo( window, NET::WMAllProperties, NET::WM2AllProperties ));
+        #endif
         if( !_info->valid())
         {
             emit detectionDone( false );
@@ -148,7 +158,7 @@ namespace Oxygen
         // check atom
         if( !_wmStateAtom ) return 0;
 
-        xcb_connection_t* connection( QX11Info::connection() );
+        xcb_connection_t* connection( this->connection() );
         xcb_window_t parent( QX11Info::appRootWindow() );
 
         // why is there a loop of only 10 here
@@ -170,6 +180,23 @@ namespace Oxygen
 
         return 0;
 
+    }
+
+    //____________________________________________________________________
+    xcb_connection_t* DetectDialog::connection( void )
+    {
+
+        #if QT_VERSION >= 0x050000
+        return QX11Info::connection();
+        #else
+        static xcb_connection_t* connection = nullptr;
+        if( !connection )
+        {
+            Display* display = QX11Info::display();
+            if( display ) connection = XGetXCBConnection( display );
+        }
+        return connection;
+        #endif
     }
 
 }

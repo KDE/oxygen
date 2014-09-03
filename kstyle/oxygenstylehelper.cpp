@@ -39,20 +39,15 @@ namespace Oxygen
 
     //______________________________________________________________________________
     StyleHelper::StyleHelper( KSharedConfigPtr config ):
-        Helper( config ),
-        _useBackgroundGradient( true )
-    {
+        Helper( config )
+    { init(); }
 
-        #if HAVE_X11
-        if( isX11() )
-        {
-            // create compositing screen
-            const QString atomName( QStringLiteral( "_NET_WM_CM_S%1" ).arg( QX11Info::appScreen() ) );
-            _compositingManagerAtom = createAtom( atomName );
-        }
-        #endif
-
-    }
+    //______________________________________________________________________________
+    #if USE_KDE4
+    StyleHelper::StyleHelper( const QByteArray& name ):
+        Helper( name )
+    { init(); }
+    #endif
 
     //______________________________________________________________________________
     void StyleHelper::invalidateCaches( void )
@@ -679,8 +674,8 @@ namespace Oxygen
         if( isX11() )
         {
             // direct call to X
-            xcb_get_selection_owner_cookie_t cookie( xcb_get_selection_owner( xcbConnection(), _compositingManagerAtom ) );
-            ScopedPointer<xcb_get_selection_owner_reply_t> reply( xcb_get_selection_owner_reply( xcbConnection(), cookie, nullptr ) );
+            xcb_get_selection_owner_cookie_t cookie( xcb_get_selection_owner( connection(), _compositingManagerAtom ) );
+            ScopedPointer<xcb_get_selection_owner_reply_t> reply( xcb_get_selection_owner_reply( connection(), cookie, nullptr ) );
             return reply && reply->owner;
         } else
         {
@@ -1277,6 +1272,22 @@ namespace Oxygen
 
         return tileSet;
 
+    }
+
+    //______________________________________________________________________________
+    void StyleHelper::init( void )
+    {
+
+        _useBackgroundGradient = true;
+
+        #if HAVE_X11
+        if( isX11() )
+        {
+            // create compositing screen
+            const QString atomName( QStringLiteral( "_NET_WM_CM_S%1" ).arg( QX11Info::appScreen() ) );
+            _compositingManagerAtom = createAtom( atomName );
+        }
+        #endif
     }
 
 }

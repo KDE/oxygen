@@ -86,6 +86,9 @@ namespace Oxygen
 
         private:
 
+        //! set page icon
+        void setPageIcon( KPageWidgetItem*, const QString& ) const;
+
         //! list of demo widget
         QList<DemoWidget*> _widgets;
 

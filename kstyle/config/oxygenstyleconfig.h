@@ -98,8 +98,10 @@ namespace Oxygen
         //! load setup from config data
         void load( void );
 
+        // menu mode from ui
         int menuMode( void ) const;
-        int windowDragMode( void ) const;
+
+        // expander size from ui
         int triangularExpanderSize( void ) const;
 
         private:

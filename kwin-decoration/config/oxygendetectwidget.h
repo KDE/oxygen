@@ -95,6 +95,9 @@ namespace Oxygen
         //! execute
         void executeDialog( void );
 
+        //! xcb connection
+        static xcb_connection_t* connection( void );
+
         //! invisible dialog used to grab mouse
         QDialog* _grabber;
 

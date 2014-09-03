@@ -85,9 +85,12 @@ namespace Oxygen
     class WidgetExplorer;
     class BlurHelper;
 
-
-    //* convenience typedef or parent class
+    //* convenience typedef for base class
+    #if USE_KDE4
+    using ParentStyleClass = QCommonStyle;
+    #else
     using ParentStyleClass = KStyle;
+    #endif
 
     //* base class for oxygen style
     /** it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */

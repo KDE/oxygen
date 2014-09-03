@@ -25,6 +25,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenfactory.h"
+
 #include "oxygenclient.h"
 #include "oxygenexceptionlist.h"
 
@@ -32,21 +33,36 @@
 #include <KConfigGroup>
 #include <KWindowInfo>
 
+#if USE_KDE4
+KWIN_DECORATION(Oxygen::Factory)
+#else
 KWIN_DECORATION(OxygenPluginFactory, "oxygenclient.json", Oxygen::Factory)
+#endif
+
+#if !USE_KDE4
+#include "oxygenfactory.moc"
+#endif
 
 namespace Oxygen
 {
 
     //___________________________________________________
+    #if USE_KDE4
+    Factory::Factory( void ):
+
+    #else
     Factory::Factory(QObject *parent):
-        KDecorationFactory(parent),
-        _initialized( false ),
-        _config( KSharedConfig::openConfig( QStringLiteral("oxygenrc") ) ),
-        _helper( _config ),
-        _shadowCache( _helper )
+        ParentFactoryClass(parent),
+    #endif
+        _initialized( false )
+        ,_config( KSharedConfig::openConfig( QStringLiteral("oxygenrc") ) )
+        ,_helper( _config )
+        ,_shadowCache( _helper )
     {
         readConfig();
         setInitialized( true );
+
+        #if !USE_KDE4
         connect(options(), &KDecorationOptions::colorsChanged, this, [this]() {
             _shadowCache.invalidateCaches();
         });
@@ -57,6 +73,9 @@ namespace Oxygen
             setInitialized( true );
             emit recreateDecorations();
         });
+
+        #endif
+
     }
 
     //___________________________________________________
@@ -82,8 +101,12 @@ namespace Oxygen
         // initialize default configuration and read
         if( !_defaultConfiguration ) _defaultConfiguration = ConfigurationPtr(new Configuration());
         _defaultConfiguration->setCurrentGroup( QStringLiteral("Windeco") );
-        _defaultConfiguration->load();
 
+        #if USE_KDE4
+        _defaultConfiguration->readConfig();
+        #else
+        _defaultConfiguration->load();
+        #endif
         // clear exceptions and read
         ExceptionList exceptions;
         exceptions.readConfig( _config );
@@ -200,5 +223,3 @@ namespace Oxygen
     }
 
 }
-
-#include "oxygenfactory.moc"

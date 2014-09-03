@@ -21,11 +21,16 @@
  */
 
 #include "oxygenhelper.h"
+#include "liboxygen.h"
 
 #include <KColorUtils>
 #include <KColorScheme>
 
-#include <QGuiApplication>
+#if USE_KDE4
+#include <KGlobalSettings>
+#endif
+
+#include <QApplication>
 #include <QWidget>
 #include <QPainter>
 #include <QTextStream>
@@ -33,6 +38,10 @@
 
 #if HAVE_X11
 #include <QX11Info>
+#endif
+
+#if HAVE_X11 && QT_VERSION < 0x050000
+#include <X11/Xlib-xcb.h>
 #endif
 
 namespace Oxygen
@@ -43,45 +52,32 @@ namespace Oxygen
     const qreal Helper::_glowBias = 0.6;
 
     //____________________________________________________________________
-    Helper::Helper( KSharedConfig::Ptr config )
-        : _config( config ),
-          _isX11( false )
-    {
-        _contrast = KColorScheme::contrastF( _config );
-
-        // background contrast is calculated so that it is 0.9
-        // when KGlobalSettings contrast value of 0.7
-        _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
-
-        _backgroundCache.setMaxCost( 64 );
-
-        #if HAVE_X11
-        _isX11 = QGuiApplication::platformName() == QStringLiteral("xcb");
-        if( _isX11 )
-        {
-
-            // initialize xcb connection
-            _xcbConnection = QX11Info::connection();
-            _backgroundGradientAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_GRADIENT" ) );
-            _backgroundPixmapAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_PIXMAP" ) );
-        } else
-        {
-            _xcbConnection = Q_NULLPTR;
-            _backgroundGradientAtom = 0;
-            _backgroundPixmapAtom = 0;
-        }
-        #endif
-
-    }
+    Helper::Helper( KSharedConfig::Ptr config ):
+        _config( config )
+    { init(); }
 
     //____________________________________________________________________
-    KSharedConfigPtr Helper::config() const
+    #if USE_KDE4
+    Helper::Helper( const QByteArray& name ):
+        _componentData( name, 0, KComponentData::SkipMainComponentRegistration ),
+        _config( _componentData.config() )
+    { init(); }
+    #endif
+
+    //____________________________________________________________________
+    KSharedConfig::Ptr Helper::config() const
     { return _config; }
 
     //____________________________________________________________________
     void Helper::loadConfig()
     {
+
+        #if USE_KDE4
+        _contrast = KGlobalSettings::contrastF( _config );
+        #else
         _contrast = KColorScheme::contrastF( _config );
+        #endif
+
         _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
 
         _viewFocusBrush = KStatefulBrush( KColorScheme::View, KColorScheme::FocusColor, _config );
@@ -937,15 +933,47 @@ namespace Oxygen
         #endif
     }
 
+    //______________________________________________________________________________
+    bool Helper::isX11( void )
+    {
+        #if HAVE_X11
+        #if QT_VERSION >= 0x050000
+        static bool isX11 = QApplication::platformName() == QStringLiteral("xcb");
+        return isX11;
+        #else
+        return true;
+        #endif
+        #endif
+
+        return false;
+
+    }
 
     #if HAVE_X11
+
+    //____________________________________________________________________
+    xcb_connection_t* Helper::connection( void )
+    {
+
+        #if QT_VERSION >= 0x050000
+        return QX11Info::connection();
+        #else
+        static xcb_connection_t* connection = nullptr;
+        if( !connection )
+        {
+            Display* display = QX11Info::display();
+            if( display ) connection = XGetXCBConnection( display );
+        }
+        return connection;
+        #endif
+    }
 
     //____________________________________________________________________
     xcb_atom_t Helper::createAtom( const QString& name ) const
     {
         if( !isX11() ) return 0;
-        xcb_intern_atom_cookie_t cookie( xcb_intern_atom( _xcbConnection, false, name.size(), qPrintable( name ) ) );
-        ScopedPointer<xcb_intern_atom_reply_t> reply( xcb_intern_atom_reply( _xcbConnection, cookie, nullptr) );
+        xcb_intern_atom_cookie_t cookie( xcb_intern_atom( connection(), false, name.size(), qPrintable( name ) ) );
+        ScopedPointer<xcb_intern_atom_reply_t> reply( xcb_intern_atom_reply( connection(), cookie, nullptr) );
         return reply ? reply->atom:0;
     }
 
@@ -1073,8 +1101,8 @@ namespace Oxygen
         if( !id ) return;
 
         uint32_t uLongValue( value );
-        xcb_change_property( _xcbConnection, XCB_PROP_MODE_REPLACE, id, atom, XCB_ATOM_CARDINAL, 32, 1, &uLongValue );
-        xcb_flush( _xcbConnection );
+        xcb_change_property( connection(), XCB_PROP_MODE_REPLACE, id, atom, XCB_ATOM_CARDINAL, 32, 1, &uLongValue );
+        xcb_flush( connection() );
         return;
 
     }
@@ -1087,13 +1115,48 @@ namespace Oxygen
         // check window id
         if( !id ) return false;
 
-        xcb_get_property_cookie_t cookie( xcb_get_property( _xcbConnection, 0, id, atom, XCB_ATOM_CARDINAL, 0, 1) );
-        ScopedPointer<xcb_get_property_reply_t> reply( xcb_get_property_reply( _xcbConnection, cookie, nullptr ) );
+        xcb_get_property_cookie_t cookie( xcb_get_property( connection(), 0, id, atom, XCB_ATOM_CARDINAL, 0, 1) );
+        ScopedPointer<xcb_get_property_reply_t> reply( xcb_get_property_reply( connection(), cookie, nullptr ) );
 
         return reply && xcb_get_property_value_length( reply.data() ) && reinterpret_cast<int32_t*>(xcb_get_property_value( reply.data() ) )[0];
 
     }
 
     #endif
+
+
+    //____________________________________________________________________
+    void Helper::init( void )
+    {
+
+        #if USE_KDE4
+        _contrast = KGlobalSettings::contrastF( _config );
+        #else
+        _contrast = KColorScheme::contrastF( _config );
+        #endif
+
+        // background contrast is calculated so that it is 0.9
+        // when KGlobalSettings contrast value of 0.7
+        _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
+
+        _backgroundCache.setMaxCost( 64 );
+
+        #if HAVE_X11
+        if( isX11() )
+        {
+
+            _backgroundGradientAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_GRADIENT" ) );
+            _backgroundPixmapAtom = createAtom( QStringLiteral( "_KDE_OXYGEN_BACKGROUND_PIXMAP" ) );
+
+        } else {
+
+            _backgroundGradientAtom = 0;
+            _backgroundPixmapAtom = 0;
+
+        }
+
+        #endif
+
+    }
 
 }
