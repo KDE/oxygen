@@ -1808,7 +1808,7 @@ namespace Oxygen
         const int steps = qMax( progressBarOption->maximum  - progressBarOption->minimum, 1 );
 
         //Calculate width fraction
-        qreal widthFrac( busy ?  Metrics::ProgressBar_BusyIndicatorSize/100 : progress/steps );
+        qreal widthFrac( busy ?  qreal(Metrics::ProgressBar_BusyIndicatorSize)/100 : progress/steps );
         widthFrac = qMin( (qreal)1, widthFrac );
 
         // And now the pixel width
