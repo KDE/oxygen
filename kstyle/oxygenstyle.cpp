@@ -1307,11 +1307,8 @@ namespace Oxygen
             case QEvent::Resize:
             {
                 // make sure mask is appropriate
-                if( dockWidget->isFloating() )
-                {
-                    if( _helper->compositingActive() ) dockWidget->setMask( _helper->roundedMask( insideMargin( dockWidget->rect(), 1 ) ) );
-                    else dockWidget->setMask( _helper->roundedMask( dockWidget->rect() ) );
-                } else dockWidget->clearMask();
+                if( dockWidget->isFloating() ) dockWidget->setMask( _helper->roundedMask( dockWidget->rect() ) );
+                else dockWidget->clearMask();
                 return false;
             }
 
