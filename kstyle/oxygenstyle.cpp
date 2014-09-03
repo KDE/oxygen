@@ -4797,12 +4797,12 @@ namespace Oxygen
             QPalette::HighlightedText:
             QPalette::WindowText );
 
+        QRect arrowRect( contentsRect.right() - Metrics::MenuButton_IndicatorWidth + 1, contentsRect.top() + (contentsRect.height()-Metrics::MenuButton_IndicatorWidth)/2, Metrics::MenuButton_IndicatorWidth, Metrics::MenuButton_IndicatorWidth );
+        contentsRect.setRight( arrowRect.left() -  Metrics::MenuItem_ItemSpacing - 1 );
+
         // arrow
         if( menuItemOption->menuItemType == QStyleOptionMenuItem::SubMenu )
         {
-
-            QRect arrowRect( contentsRect.right() - Metrics::MenuButton_IndicatorWidth + 1, contentsRect.top() + (contentsRect.height()-Metrics::MenuButton_IndicatorWidth)/2, Metrics::MenuButton_IndicatorWidth, Metrics::MenuButton_IndicatorWidth );
-            contentsRect.setRight( arrowRect.left() -  Metrics::MenuItem_ItemSpacing - 1 );
 
             const qreal penThickness = 1.6;
             const QColor color = palette.color( textRole );
@@ -4815,7 +4815,7 @@ namespace Oxygen
             painter->translate( QRectF( arrowRect ).center() );
             painter->setRenderHint( QPainter::Antialiasing );
 
-            // white reflection
+            // white outline
             const qreal offset( qMin( penThickness, qreal( 1.0 ) ) );
             painter->translate( 0,offset );
             painter->setPen( QPen( _helper->calcLightColor( background ), penThickness, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
@@ -4828,6 +4828,7 @@ namespace Oxygen
 
         }
 
+        // text
         QRect textRect = contentsRect;
         if( !menuItemOption->text.isEmpty() )
         {
