@@ -501,7 +501,7 @@ namespace Oxygen
             QPainter p( pixmap );
             p.setRenderHints( QPainter::Antialiasing );
             p.setPen( Qt::NoPen );
-            p.setWindow( 0,0,21,21 );
+            p.setWindow( 0, 0, 21, 21 );
 
             // draw normal shadow
             drawShadow( p, calcShadowColor( color ), 21 );

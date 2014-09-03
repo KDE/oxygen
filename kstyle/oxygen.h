@@ -92,7 +92,7 @@ namespace Oxygen
         ToolButton_InlineIndicatorWidth = 12,
 
         // checkboxes and radio buttons
-        CheckBox_Size = 21,
+        CheckBox_Size = 23,
         CheckBox_FocusMarginWidth = 2,
         CheckBox_ItemSpacing = 8,
 

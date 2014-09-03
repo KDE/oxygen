@@ -8318,8 +8318,8 @@ namespace Oxygen
         AnimationMode mode ) const
     {
 
-        const int size( Metrics::CheckBox_Size );
-        const QRect rect( centerRect( constRect, size, size ) );
+        const int roundSlabSize( 21 ); // must be aligned with helper
+        const QRect rect( centerRect( constRect, roundSlabSize, roundSlabSize ) );
 
         const QColor color( palette.color( QPalette::Button ) );
         const QColor glow( slabShadowColor( options, opacity, mode ) );
