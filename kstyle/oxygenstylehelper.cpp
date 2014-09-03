@@ -703,8 +703,8 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    void StyleHelper::fillHole( QPainter& p, const QRect& rect, int offset ) const
-    { p.drawRoundedRect( rect.adjusted( offset, offset, -offset, -offset ), 4, 4 ); }
+    void StyleHelper::fillHole( QPainter& painter, const QRect& rect, int offset ) const
+    { painter.drawRoundedRect( rect.adjusted( offset, offset, -offset, -offset ), 4 - offset, 4 - offset ); }
 
     //____________________________________________________________________________________
     void StyleHelper::renderHole( QPainter* p, const QColor& base, const QRect& r, HoleOptions options, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles tiles )
