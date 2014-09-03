@@ -3070,7 +3070,7 @@ namespace Oxygen
         const int rightWidth( tabOpt->rightCornerWidgetSize.width() );
 
         // list of slabs to be drawn
-        SlabRectList slabs;
+        SlabRect::List slabs;
 
         QRect baseSlabRect( rect );
 
@@ -5532,7 +5532,7 @@ namespace Oxygen
         SlabRect tabSlab( insideMargin( rect, -1 ), TileSet::Ring );
 
         // connection to the frame
-        SlabRectList slabs;
+        SlabRect::List slabs;
 
         switch( tabOption->shape )
         {
@@ -8584,7 +8584,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    QPolygonF Style::genericArrow( Style::ArrowOrientation orientation, Style::ArrowSize size ) const
+    QPolygonF Style::genericArrow( ArrowOrientation orientation, ArrowSize size ) const
     {
 
         QPolygonF arrow;
@@ -8786,7 +8786,7 @@ namespace OxygenPrivate
         const QPalette& palette( tabOption->palette );
         const QColor color( palette.color( QPalette::Window ) );
         _style.data()->adjustSlabRect( slab, tabWidgetRect, documentMode, verticalTabs );
-        _style.data()->renderSlab( painter, slab, color, Oxygen::Style::NoFill );
+        _style.data()->renderSlab( painter, slab, color, Oxygen::NoFill );
 
         setDirty( false );
         return;

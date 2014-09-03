@@ -106,15 +106,15 @@ namespace Oxygen
         //* destructor
         virtual ~Style( void );
 
+        //* needed to avoid warnings at compilation time
+        using  ParentStyleClass::polish;
+        using  ParentStyleClass::unpolish;
+
         //* widget polishing
         virtual void polish( QWidget* );
 
         //* widget unpolishing
         virtual void unpolish( QWidget* );
-
-        //* needed to avoid warnings at compilation time
-        using  ParentStyleClass::polish;
-        using  ParentStyleClass::unpolish;
 
         //* pixel metrics
         virtual int pixelMetric(PixelMetric, const QStyleOption* = nullptr, const QWidget* = nullptr) const;
@@ -171,7 +171,7 @@ namespace Oxygen
 
         protected Q_SLOTS:
 
-        //* update oxygen configuration
+        //* update configuration
         void configurationChanged( void );
 
         //* standard icons
@@ -188,37 +188,6 @@ namespace Oxygen
 
         //*@name enumerations and convenience classes
         //@{
-
-        //* arrow orientation
-        enum ArrowOrientation
-        {
-            ArrowNone,
-            ArrowUp,
-            ArrowDown,
-            ArrowLeft,
-            ArrowRight
-        };
-
-
-        //* get polygon corresponding to generic arrow
-        enum ArrowSize
-        {
-            ArrowNormal,
-            ArrowSmall,
-            ArrowTiny
-        };
-
-        //* internal option flags to pass arguments around
-        enum StyleOption
-        {
-            Sunken = 0x1,
-            Focus = 0x2,
-            Hover = 0x4,
-            Disabled = 0x8,
-            NoFill = 0x10,
-        };
-
-        Q_DECLARE_FLAGS(StyleOptions, StyleOption)
 
         //* used to store slab characteristics
         class SlabRect
@@ -243,10 +212,10 @@ namespace Oxygen
             QRect rect;
             TileSet::Tiles tiles;
 
-        };
+            //* list of slabs
+            using List = QList<SlabRect>;
 
-        //* list of slabs
-        typedef QList<SlabRect> SlabRectList;
+        };
 
         //@}
 

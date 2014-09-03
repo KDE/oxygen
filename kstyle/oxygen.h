@@ -169,9 +169,41 @@ namespace Oxygen
     };
 
     Q_DECLARE_FLAGS(AnimationModes, AnimationMode)
+        
+    //* arrow orientation
+    enum ArrowOrientation
+    {
+        ArrowNone,
+        ArrowUp,
+        ArrowDown,
+        ArrowLeft,
+        ArrowRight
+    };
+    
+    
+    //* get polygon corresponding to generic arrow
+    enum ArrowSize
+    {
+        ArrowNormal,
+        ArrowSmall,
+        ArrowTiny
+    };
+    
+    //* internal option flags to pass arguments around
+    enum StyleOption
+    {
+        Sunken = 0x1,
+        Focus = 0x2,
+        Hover = 0x4,
+        Disabled = 0x8,
+        NoFill = 0x10,
+    };
+
+    Q_DECLARE_FLAGS(StyleOptions, StyleOption)
 
 }
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( Oxygen::AnimationModes );
+Q_DECLARE_OPERATORS_FOR_FLAGS( Oxygen::StyleOptions );
 
 #endif
