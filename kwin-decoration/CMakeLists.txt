@@ -7,9 +7,6 @@ if(USE_KDE4)
 endif()
 
 add_subdirectory(config)
-if(NOT USE_KDE4)
-  add_subdirectory(demo)
-endif()
 
 ########### next target ###############
 set(kwin_oxygen_SRCS
