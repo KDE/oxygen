@@ -99,9 +99,22 @@ namespace Oxygen
             // find client's parent
             xcb_window_t current = windowId;
             xcb_connection_t* connection = _client->helper().connection();
+            #if USE_KDE4
+            while( true )
+            {
+
+                xcb_query_tree_cookie_t cookie = xcb_query_tree_unchecked( connection, current );
+                Helper::ScopedPointer<xcb_query_tree_reply_t> tree(xcb_query_tree_reply( connection, cookie, nullptr ) );
+                if( !tree.isNull() && tree->parent && tree->parent != tree->root && tree->parent != current ) current = tree->parent;
+                else break;
+
+            }
+
+            #else
             xcb_query_tree_cookie_t cookie = xcb_query_tree_unchecked( connection, current );
             Helper::ScopedPointer<xcb_query_tree_reply_t> tree(xcb_query_tree_reply( connection, cookie, nullptr ) );
             if( !tree.isNull() && tree->parent ) current = tree->parent;
+            #endif
 
             // reparent
             xcb_reparent_window( connection, winId(), current, 0, 0 );
@@ -221,11 +234,16 @@ namespace Oxygen
 
         } else {
 
+            #if USE_KDE4
+            position -= QPoint(
+                _client->layoutMetric( Client::LM_BorderRight ),
+                _client->layoutMetric( Client::LM_BorderBottom ) );
+            #else
             position.ry() -= 1 + 2*( _client->titleRect().height() + _client->layoutMetric( Client::LM_TitleEdgeTop ) );
+            #endif
 
         }
 
-        // 540 - GripSize - Offset - 40;
         move( position );
 
     }
