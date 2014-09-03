@@ -83,9 +83,6 @@ namespace Oxygen
         //! update modified state when option is checked/unchecked
         void updateChanged( void );
 
-        //! update options enable state based on selected drag mode
-        void windowDragModeChanged( int );
-
         //! toggle expert mode
         virtual void toggleExpertModeInternal( void )
         { toggleExpertModeInternal( !_expertMode ); }

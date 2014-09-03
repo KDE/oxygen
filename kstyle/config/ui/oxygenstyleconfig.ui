@@ -171,13 +171,6 @@
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="_useWMMoveResize">
-         <property name="text">
-          <string>Use window manager to perform windows' drag</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -526,7 +519,6 @@
   <tabstop>_animationsEnabled</tabstop>
   <tabstop>_mnemonicsMode</tabstop>
   <tabstop>_windowDragMode</tabstop>
-  <tabstop>_useWMMoveResize</tabstop>
   <tabstop>_expertModeButton</tabstop>
   <tabstop>_viewDrawTreeBranchLines</tabstop>
   <tabstop>_viewTriangularExpanderSize</tabstop>

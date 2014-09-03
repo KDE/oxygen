@@ -62,7 +62,6 @@ namespace Oxygen
         setupUi(this);
 
         // connections
-        connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(windowDragModeChanged(int)) );
         connect( _expertModeButton, SIGNAL(pressed()), SLOT(toggleExpertModeInternal()) );
 
         _expertModeButton->setIcon( QIcon::fromTheme( QStringLiteral( "configure" ) ) );
@@ -88,7 +87,6 @@ namespace Oxygen
         connect( _menuHighlightStrong, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _menuHighlightSubtle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
-        connect( _useWMMoveResize, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
 
     }
 
@@ -119,7 +117,6 @@ namespace Oxygen
 
         }
 
-        StyleConfigData::setUseWMMoveResize( _useWMMoveResize->isChecked() );
         if( _windowDragMode->currentIndex() == 0 )
         {
 
@@ -200,7 +197,6 @@ namespace Oxygen
         _mnemonicsMode->setVisible( _expertMode );
         _animationsEnabled->setVisible( !_expertMode );
         _cacheEnabled->setVisible( _expertMode );
-        _useWMMoveResize->setVisible( _expertMode );
         _viewsExpertWidget->setVisible( _expertMode );
 
         updateMinimumSize();
@@ -274,7 +270,6 @@ namespace Oxygen
         else if( menuMode() != StyleConfigData::menuHighlightMode() ) modified = true;
         else if( _animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
         else if( _cacheEnabled->isChecked() != StyleConfigData::cacheEnabled() ) modified = true;
-        else if( _useWMMoveResize->isChecked() != StyleConfigData::useWMMoveResize() ) modified = true;
         else if( triangularExpanderSize() != StyleConfigData::viewTriangularExpanderSize() ) modified = true;
         else if( _animationConfigWidget && _animationConfigWidget->isChanged() ) modified = true;
 
@@ -340,16 +335,10 @@ namespace Oxygen
             case StyleConfigData::TE_NORMAL: _viewTriangularExpanderSize->setCurrentIndex(2); break;
         }
 
-        _useWMMoveResize->setChecked( StyleConfigData::useWMMoveResize() );
-
         // animation config widget
         if( _animationConfigWidget ) _animationConfigWidget->load();
 
     }
-
-    //__________________________________________________________________
-    void StyleConfig::windowDragModeChanged( int value )
-    { _useWMMoveResize->setEnabled( value != 0 ); }
 
     //____________________________________________________________
     int StyleConfig::menuMode( void ) const
