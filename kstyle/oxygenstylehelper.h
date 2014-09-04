@@ -31,8 +31,8 @@
 #include <xcb/xcb.h>
 #endif
 
-//! helper class
-/*! contains utility functions used at multiple places in oxygen style */
+//* helper class
+/** contains utility functions used at multiple places in oxygen style */
 namespace Oxygen
 {
 
@@ -40,7 +40,7 @@ namespace Oxygen
     {
         public:
 
-        //! constructor
+        //* constructor
         explicit StyleHelper( KSharedConfigPtr config );
 
         #if USE_KDE4
@@ -48,28 +48,28 @@ namespace Oxygen
         explicit StyleHelper( const QByteArray& );
         #endif
 
-        //! destructor
+        //* destructor
         virtual ~StyleHelper() {}
 
-        //! clear cache
+        //* clear cache
         virtual void invalidateCaches();
 
-        //! update maximum cache size
+        //* update maximum cache size
         virtual void setMaxCacheSize( int );
 
-        //! background gradient
+        //* background gradient
         virtual void setUseBackgroundGradient( bool value )
         { _useBackgroundGradient = value; }
 
-        //! render window background using a given color as a reference
-        /*!
+        //* render window background using a given color as a reference
+        /**
         For the widget style, both the gradient and the background pixmap are rendered in the same method.
         All the actual rendering is performed by the base class
         */
         using Helper::renderWindowBackground;
         virtual void renderWindowBackground( QPainter*, const QRect&, const QWidget*, const QColor&, int y_shift=-23, int gradientHeight = 20 );
 
-        //! set background gradient hint to widget
+        //* set background gradient hint to widget
         virtual void setHasBackgroundGradient( WId, bool ) const;
 
         // render menu background
@@ -79,43 +79,65 @@ namespace Oxygen
         // render menu background
         void renderMenuBackground( QPainter*, const QRect&, const QWidget*, const QColor& );
 
-        //! returns menu background color matching position in a given menu widget
+        //*@name color utilities
+        //@{
+
+        //* glow color for buttons (mouse-over takes precedence over focus)
+        QColor buttonGlowColor( const QPalette& palette, StyleOptions options, qreal opacity, AnimationMode mode ) const
+        { return buttonGlowColor( palette.currentColorGroup(), options, opacity, mode ); }
+
+        //* glow color for frames (focus takes precedence over mouse-over)
+        QColor frameGlowColor( const QPalette& palette, StyleOptions options, qreal opacity, AnimationMode mode ) const
+        { return frameGlowColor( palette.currentColorGroup(), options, opacity, mode ); }
+
+        //* glow color for arrows (mouse-over takes precedence over focus)
+        QColor arrowColor( const QPalette& palette, StyleOptions options, qreal opacity, AnimationMode mode ) const;
+
+        //* glow color for buttons (mouse-over takes precedence over focus)
+        QColor buttonGlowColor( QPalette::ColorGroup, StyleOptions, qreal, AnimationMode ) const;
+
+        //* glow color for frames (focus takes precedence over mouse-over)
+        QColor frameGlowColor( QPalette::ColorGroup, StyleOptions, qreal, AnimationMode ) const;
+
+        //* returns menu background color matching position in a given menu widget
         virtual const QColor& menuBackgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
         {
             if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
             else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
         }
 
-        //! returns menu background color matching position in a menu widget of given height
+        //* returns menu background color matching position in a menu widget of given height
         virtual const QColor& menuBackgroundColor( const QColor& color, int height, int y )
         { return backgroundColor( color, qMin( qreal( 1.0 ), qreal( y )/qMin( 200, 3*height/4 ) ) ); }
 
-        //! color
+        //* color
         inline const QColor& calcMidColor( const QColor& color );
 
-        //! merge active and inactive palettes based on ratio, for smooth enable state change transition
-        QPalette mergePalettes( const QPalette&, qreal ratio ) const;
+        //* merge active and inactive palettes based on ratio, for smooth enable state change transition
+        QPalette disabledPalette( const QPalette&, qreal ratio ) const;
 
-        //! overloaded window decoration buttons for MDI windows
+        //@}
+
+        //* overloaded window decoration buttons for MDI windows
         virtual QPixmap dockWidgetButton( const QColor& color, bool pressed, int size = 21 );
 
-        //! round corners( used for Menus, combobox drop-down, detached toolbars and dockwidgets
+        //* round corners( used for Menus, combobox drop-down, detached toolbars and dockwidgets
         TileSet *roundCorner( const QColor&, int size = 5 );
 
-        //! groupbox background
+        //* groupbox background
         TileSet *slope( const QColor&, qreal shade, int size = TileSet::DefaultSize );
 
-        //!@name slabs
+        //*@name slabs
         //@{
 
-        //! progressbar
+        //* progressbar
         TileSet *progressBarIndicator( const QPalette&, int );
 
-        //! dial
+        //* dial
         QPixmap dialSlab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
         { return dialSlab( color, QColor(), shade, size ); }
 
-        //! dial
+        //* dial
         QPixmap dialSlab( const QColor&, const QColor&, qreal shade, int size = TileSet::DefaultSize );
 
         // round slabs
@@ -125,23 +147,23 @@ namespace Oxygen
         // round slab
         QPixmap roundSlab( const QColor&, const QColor& glow, qreal shade, int size = TileSet::DefaultSize );
 
-        //! slider slab
+        //* slider slab
         QPixmap sliderSlab( const QColor&, const QColor& glow, bool sunken, qreal shade, int size = TileSet::DefaultSize );
 
         //@}
 
-        //!@name holes
+        //*@name holes
         //@{
 
         void fillHole( QPainter&, const QRect&, int offset = 2 ) const;
 
-        //! generic hole
+        //* generic hole
         void renderHole( QPainter *p, const QColor& color, const QRect &r,
             StyleOptions options = 0,
             TileSet::Tiles tiles = TileSet::Ring )
         { renderHole( p, color, r, options, -1, Oxygen::AnimationNone, tiles ); }
 
-        //! generic hole (with animated glow)
+        //* generic hole (with animated glow)
         void renderHole(
             QPainter*, const QColor&, const QRect &r,
             StyleOptions,
@@ -150,53 +172,53 @@ namespace Oxygen
 
         TileSet *holeFlat( const QColor&, qreal shade, bool fill = true, int size = TileSet::DefaultSize );
 
-        //! scrollbar hole
+        //* scrollbar hole
         TileSet *scrollHole( const QColor&, Qt::Orientation orientation, bool smallShadow = false );
 
-        //! scrollbar handle
+        //* scrollbar handle
         TileSet *scrollHandle( const QColor&, const QColor&, int size = TileSet::DefaultSize );
 
         //@}
 
-        //! scrollbar groove
+        //* scrollbar groove
         TileSet *groove( const QColor&, int size = TileSet::DefaultSize );
 
-        //! focus rect for flat toolbuttons
+        //* focus rect for flat toolbuttons
         TileSet *slitFocused( const QColor& );
 
-        //! dock frame
+        //* dock frame
         TileSet *dockFrame( const QColor&, const QColor& );
 
-        //! selection
+        //* selection
         TileSet *selection( const QColor&, int height, bool custom );
 
-        //! inverse glow
-        /*! this method must be public because it is used directly by OxygenStyle to draw dials */
+        //* inverse glow
+        /** this method must be public because it is used directly by OxygenStyle to draw dials */
         void drawInverseGlow( QPainter&, const QColor&, int pad, int size, int rsize ) const;
 
-        //!@name utility functions
+        //*@name utility functions
 
-        //! returns true if compositing is active
+        //* returns true if compositing is active
         bool compositingActive( void ) const;
 
-        //! returns true if a given widget supports alpha channel
+        //* returns true if a given widget supports alpha channel
         inline bool hasAlphaChannel( const QWidget* ) const;
 
-        //! returns true if given widget will get a decoration
+        //* returns true if given widget will get a decoration
         bool hasDecoration( const QWidget* ) const;
 
         //@}
 
         protected:
 
-        //!@name holes
+        //*@name holes
         //@{
 
-        //! holes
+        //* holes
         TileSet *hole( const QColor& color, int size = TileSet::DefaultSize, StyleOptions options = 0 )
         { return hole( color, QColor(), size, options ); }
 
-        //! holes
+        //* holes
         TileSet *hole( const QColor&, const QColor& glow, int size = TileSet::DefaultSize, StyleOptions = 0 );
 
         //@}
@@ -212,7 +234,7 @@ namespace Oxygen
         //* initialize
         void init( void );
 
-        //! background grandient
+        //* background grandient
         bool _useBackgroundGradient;
 
         Cache<QPixmap> _dialSlabCache;
@@ -221,10 +243,10 @@ namespace Oxygen
         Cache<TileSet> _holeCache;
         Cache<TileSet> _scrollHandleCache;
 
-        //! mid color cache
+        //* mid color cache
         ColorCache _midColorCache;
 
-        //! dock button cache
+        //* dock button cache
         PixmapCache _dockWidgetButtonCache;
 
         typedef BaseCache<TileSet> TileSetCache;
@@ -240,7 +262,7 @@ namespace Oxygen
 
         #if HAVE_X11
 
-        //! atom used for compositing manager
+        //* atom used for compositing manager
         xcb_atom_t _compositingManagerAtom;
 
         #endif

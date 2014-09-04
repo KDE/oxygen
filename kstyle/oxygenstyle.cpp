@@ -1181,7 +1181,7 @@ namespace Oxygen
             if( _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
             {
 
-                const QPalette copy( _helper->mergePalettes( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable ) ) );
+                const QPalette copy( _helper->disabledPalette( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable ) ) );
                 return ParentStyleClass::drawItemText( painter, rect, flags, copy, enabled, text, textRole );
 
             }
@@ -3389,35 +3389,73 @@ namespace Oxygen
     //___________________________________________________________________________________
     bool Style::drawIndicatorArrowPrimitive( ArrowOrientation orientation, const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
     {
-        const QRect rect( option->rect );
+        // store rect and palette
+        const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
+
+        // store state
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
-        const bool mouseOver( enabled && ( state & State_MouseOver ) );
+        bool mouseOver( enabled && ( state & State_MouseOver ) );
+        bool hasFocus( enabled && ( state & State_HasFocus ) );
 
-        // define gradient and polygon for drawing arrow
+        // detect special buttons
+        const bool inTabBar( widget && qobject_cast<const QTabBar*>( widget->parentWidget() ) );
+        const bool inToolButton( qstyleoption_cast<const QStyleOptionToolButton *>( option ) );
+
+                // color
+        QColor color;
+        if( mouseOver && !inToolButton ) color = _helper->hoverColor( palette );
+        else if( inTabBar && hasFocus ) {
+
+            // for tabbar arrows one uses animations to get the arrow color
+            // get animation state
+            /* there is no need to update the engine since this was already done when rendering the frame */
+            const AnimationMode mode( _animations->widgetStateEngine().buttonAnimationMode( widget ) );
+            const qreal opacity( _animations->widgetStateEngine().buttonOpacity( widget ) );
+
+            StyleOptions styleOptions;
+            if( mouseOver ) styleOptions |= Hover;
+            if( hasFocus ) styleOptions |= Focus;
+
+            color = _helper->arrowColor( palette, styleOptions, opacity, mode );
+
+        } else if( inToolButton ) {
+
+            const bool flat( state & State_AutoRaise );
+
+            // cast option
+            const QStyleOptionToolButton* toolButtonOption( static_cast<const QStyleOptionToolButton*>( option ) );
+            const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
+            if( flat && hasPopupMenu )
+            {
+
+                // for menu arrows in flat toolbutton one uses animations to get the arrow color
+                // handle arrow over animation
+                const bool arrowHover( mouseOver && ( toolButtonOption->activeSubControls & SC_ToolButtonMenu ) );
+                _animations->toolButtonEngine().updateState( widget, AnimationHover, arrowHover );
+
+                const bool animated( _animations->toolButtonEngine().isAnimated( widget, AnimationHover ) );
+                const qreal opacity( _animations->toolButtonEngine().opacity( widget, AnimationHover ) );
+
+                StyleOptions styleOptions;
+                if( arrowHover ) styleOptions |= Hover;
+
+                color = _helper->arrowColor( palette, styleOptions, opacity, animated ? AnimationHover:AnimationNone );
+
+            } else {
+
+                color = palette.color( flat ? QPalette::WindowText : QPalette::ButtonText );
+
+            }
+
+        } else color = palette.color( QPalette::WindowText );
+
+        // get arrow polygon
         const QPolygonF arrow = genericArrow( orientation, ArrowNormal );
 
         const qreal penThickness = 1.6;
         const qreal offset( qMin( penThickness, qreal( 1 ) ) );
-
-        QColor color;
-        const QToolButton* toolButton( qobject_cast<const QToolButton*>( widget ) );
-        if( toolButton && toolButton->arrowType() != Qt::NoArrow )
-        {
-
-            // set color properly
-            color = (toolButton->autoRaise() ? palette.color( QPalette::WindowText ):palette.color( QPalette::ButtonText ) );
-
-        } else if( mouseOver ) {
-
-            color = _helper->hoverColor( palette );
-
-        } else {
-
-            color = palette.color( QPalette::WindowText );
-
-        }
 
         painter->translate( QRectF( rect ).center() );
         painter->setRenderHint( QPainter::Antialiasing );
@@ -3536,7 +3574,7 @@ namespace Oxygen
             if( !sunken )
             {
 
-                const QColor glow( buttonGlowColor( styleOptions, opacity, mode ) );
+                const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, mode ) );
                 if( glow.isValid() ) _helper->slitFocused( glow )->render( rect, painter );
 
             } else {
@@ -3686,7 +3724,7 @@ namespace Oxygen
 
         } else {
 
-            const QColor glow( buttonGlowColor( styleOptions, opacity, mode ) );
+            const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, mode ) );
             if( mode != AnimationNone ) _helper->slitFocused( glow )->render( rect, painter );
             else if( toolBarAnimated ) {
 
@@ -5433,7 +5471,7 @@ namespace Oxygen
         QPalette palette( option->palette );
 
         if( widget && _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
-        { palette = _helper->mergePalettes( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
+        { palette = _helper->disabledPalette( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
 
         const bool horizontal( option->state & QStyle::State_Horizontal );
         const bool reverseLayout( option->direction == Qt::RightToLeft );
@@ -6748,7 +6786,7 @@ namespace Oxygen
                     if( !sunken )
                     {
                         // hover rect
-                        const QColor glow( buttonGlowColor( styleOptions, opacity, mode ) );
+                        const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, mode ) );
                         if( glow.isValid() ) _helper->slitFocused( glow )->render( rect, painter );
 
                     } else {
@@ -7016,7 +7054,7 @@ namespace Oxygen
             const qreal opacity( _animations->sliderEngine().opacity( widget ) );
 
             const QColor color( _helper->backgroundColor( palette.color( QPalette::Button ), widget, handleRect.center() ) );
-            const QColor glow( buttonGlowColor( styleOptions, opacity, AnimationHover ) );
+            const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, AnimationHover ) );
 
             const bool sunken( state & (State_On|State_Sunken) );
             painter->drawPixmap( handleRect.topLeft(), _helper->sliderSlab( color, glow, sunken, 0 ) );
@@ -7107,7 +7145,7 @@ namespace Oxygen
             QPalette palette( option->palette );
 
             if( _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
-            { palette = _helper->mergePalettes( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
+            { palette = _helper->disabledPalette( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
 
             palette.setCurrentColorGroup( active ? QPalette::Active: QPalette::Disabled );
             ParentStyleClass::drawItemText( painter, textRect, Qt::AlignCenter, palette, active, tb->text, QPalette::WindowText );
@@ -7156,16 +7194,19 @@ namespace Oxygen
     void Style::renderDialSlab( QPainter *painter, const QRect& constRect, const QColor &color, const QStyleOption *option, StyleOptions styleOptions, qreal opacity, AnimationMode mode ) const
     {
 
-        // cast option
+        // cast option and check
         const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
         if( !sliderOption ) return;
+
+        // copy palette
+        const QPalette& palette( option->palette );
 
         // adjust rect to be square, and centered
         const int dimension( qMin( constRect.width(), constRect.height() ) );
         const QRect rect( centerRect( constRect, dimension, dimension ) );
 
         // calculate glow color
-        const QColor glow( buttonGlowColor( styleOptions, opacity, mode ) );
+        const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, mode ) );
 
         // get main slab
         QPixmap pixmap( _helper->dialSlab( color, glow, 0, dimension ) );
@@ -7236,7 +7277,7 @@ namespace Oxygen
 
         } else {
 
-            QColor glow = buttonGlowColor( options, opacity, mode );
+            QColor glow = _helper->buttonGlowColor( QPalette::Active, options, opacity, mode );
             tile = _helper->slab( color, glow, 0 );
 
         }
@@ -7304,7 +7345,7 @@ namespace Oxygen
         } else {
 
             // calculate proper glow color based on current settings and opacity
-            const QColor glow( buttonGlowColor( options, opacity, mode ) );
+            const QColor glow( _helper->buttonGlowColor( QPalette::Active, options, opacity, mode ) );
             if( color.isValid() || glow.isValid() ) tile = _helper->slab( color, glow , 0 );
             else return;
 
@@ -7563,7 +7604,7 @@ namespace Oxygen
         // enable state transition
         _animations->widgetEnabilityEngine().updateState( widget, AnimationEnable, active );
         if( _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
-        { palette = _helper->mergePalettes( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
+        { palette = _helper->disabledPalette( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
 
         const bool sunken( state & State_Sunken );
         const bool mouseOver( ( !sunken ) && widget && rect.translated( widget->mapToGlobal( QPoint( 0,0 ) ) ).contains( QCursor::pos() ) );
@@ -7963,7 +8004,7 @@ namespace Oxygen
 
         // get pixmap
         const QColor color( palette.color( QPalette::Button ) );
-        const QColor glow( buttonGlowColor( options, opacity, mode ) );
+        const QColor glow( _helper->buttonGlowColor( palette, options, opacity, mode ) );
         QPixmap pixmap( _helper->roundSlab( color, glow, 0 ) );
 
         // center rect
@@ -8259,64 +8300,6 @@ namespace Oxygen
 
         return mask;
 
-    }
-
-    //____________________________________________________________________________________
-    QColor Style::buttonGlowColor( StyleOptions options, qreal opacity, AnimationMode mode ) const
-    {
-
-        QColor glow;
-        if( mode == AnimationNone || opacity < 0 )
-        {
-
-            if( options & Hover ) glow = _helper->hoverColor( QPalette::Active );
-            else if( options & Focus ) glow = _helper->focusColor( QPalette::Active );
-
-        } else if( mode == AnimationHover ) {
-
-            // animated color, hover
-            if( options & Focus ) glow = _helper->focusColor( QPalette::Active );
-            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->hoverColor( QPalette::Active ), opacity );
-            else glow = _helper->alphaColor(  _helper->hoverColor( QPalette::Active ), opacity );
-
-        } else if( mode == AnimationFocus ) {
-
-            if( options & Hover ) glow = _helper->hoverColor( QPalette::Active );
-            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->focusColor( QPalette::Active ), opacity );
-            else glow = _helper->alphaColor(  _helper->focusColor( QPalette::Active ), opacity );
-
-        }
-
-        return glow;
-    }
-
-    //____________________________________________________________________________________
-    QColor Style::frameGlowColor( StyleOptions options, qreal opacity, AnimationMode mode ) const
-    {
-
-        QColor glow;
-        if( mode == AnimationNone || opacity < 0 )
-        {
-
-            if( options & Focus ) glow = _helper->focusColor( QPalette::Active );
-            else if( options & Hover ) glow = _helper->hoverColor( QPalette::Active );
-
-        } else if( mode == AnimationFocus ) {
-
-            if( options & Hover ) glow = _helper->hoverColor( QPalette::Active );
-            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->focusColor( QPalette::Active ), opacity );
-            else glow = _helper->alphaColor(  _helper->focusColor( QPalette::Active ), opacity );
-
-        } else if( mode == AnimationHover ) {
-
-            // animated color, hover
-            if( options & Focus ) glow = _helper->focusColor( QPalette::Active );
-            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->hoverColor( QPalette::Active ), opacity );
-            else glow = _helper->alphaColor(  _helper->hoverColor( QPalette::Active ), opacity );
-
-        }
-
-        return glow;
     }
 
     //____________________________________________________________________________________

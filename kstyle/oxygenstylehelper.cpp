@@ -173,8 +173,93 @@ namespace Oxygen
 
     }
 
+    //____________________________________________________________________________________
+    QColor StyleHelper::arrowColor( const QPalette& palette, StyleOptions options, qreal opacity, AnimationMode mode ) const
+    {
+
+        QColor glow( palette.color( QPalette::WindowText ) );
+        if( mode == AnimationNone || opacity < 0 )
+        {
+
+            if( options & Hover ) glow = hoverColor( palette );
+            else if( options & Focus ) glow = focusColor( palette );
+
+        } else if( mode == AnimationHover ) {
+
+            // animated color, hover
+            if( options & Focus ) glow = focusColor( palette );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  hoverColor( palette ), opacity );
+
+        } else if( mode == AnimationFocus ) {
+
+            if( options & Hover ) glow = hoverColor( palette );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  focusColor( palette ), opacity );
+
+        }
+
+        return glow;
+    }
+
+    //____________________________________________________________________________________
+    QColor StyleHelper::buttonGlowColor( QPalette::ColorGroup colorGroup, StyleOptions options, qreal opacity, AnimationMode mode ) const
+    {
+
+        QColor glow;
+        if( mode == AnimationNone || opacity < 0 )
+        {
+
+            if( options & Hover ) glow = hoverColor( colorGroup );
+            else if( options & Focus ) glow = focusColor( colorGroup );
+
+        } else if( mode == AnimationHover ) {
+
+            // animated color, hover
+            if( options & Focus ) glow = focusColor( colorGroup );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  hoverColor( colorGroup ), opacity );
+            else glow = alphaColor(  hoverColor( colorGroup ), opacity );
+
+        } else if( mode == AnimationFocus ) {
+
+            if( options & Hover ) glow = hoverColor( colorGroup );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  focusColor( colorGroup ), opacity );
+            else glow = alphaColor(  focusColor( colorGroup ), opacity );
+
+        }
+
+        return glow;
+    }
+
+    //____________________________________________________________________________________
+    QColor StyleHelper::frameGlowColor( QPalette::ColorGroup colorGroup, StyleOptions options, qreal opacity, AnimationMode mode ) const
+    {
+
+        QColor glow;
+        if( mode == AnimationNone || opacity < 0 )
+        {
+
+            if( options & Focus ) glow = focusColor( colorGroup );
+            else if( options & Hover ) glow = hoverColor( colorGroup );
+
+        } else if( mode == AnimationFocus ) {
+
+            if( options & Hover ) glow = hoverColor( colorGroup );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  focusColor( colorGroup ), opacity );
+            else glow = alphaColor(  focusColor( colorGroup ), opacity );
+
+        } else if( mode == AnimationHover ) {
+
+            // animated color, hover
+            if( options & Focus ) glow = focusColor( colorGroup );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  hoverColor( colorGroup ), opacity );
+            else glow = alphaColor(  hoverColor( colorGroup ), opacity );
+
+        }
+
+        return glow;
+    }
+
     //______________________________________________________________________________
-    QPalette StyleHelper::mergePalettes( const QPalette& source, qreal ratio ) const
+    QPalette StyleHelper::disabledPalette( const QPalette& source, qreal ratio ) const
     {
 
         QPalette out( source );
