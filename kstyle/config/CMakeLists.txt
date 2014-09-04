@@ -22,7 +22,7 @@ if(USE_KDE4)
 
   target_link_libraries(kstyle_oxygen_config ${KDE4_KDEUI_LIBS})
   target_link_libraries(kstyle_oxygen_config oxygenstyleconfig)
-  install(TARGETS kstyle_oxygen_config DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/)
+  install(TARGETS kstyle_oxygen_config DESTINATION ${PLUGIN_INSTALL_DIR}/)
 
 else()
 
