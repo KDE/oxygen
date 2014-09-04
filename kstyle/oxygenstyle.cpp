@@ -8059,12 +8059,16 @@ namespace Oxygen
         AnimationMode mode ) const
     {
 
-        const int roundSlabSize( 21 ); // must be aligned with helper
-        const QRect rect( centerRect( constRect, roundSlabSize, roundSlabSize ) );
-
+        // get pixmap
         const QColor color( palette.color( QPalette::Button ) );
         const QColor glow( slabShadowColor( options, opacity, mode ) );
-        painter->drawPixmap( rect.topLeft(), _helper->roundSlab( color, glow, 0 ) );
+        QPixmap pixmap( _helper->roundSlab( color, glow, 0 ) );
+
+        // center rect
+        const QRect rect( centerRect( constRect, pixmap.size() ) );
+
+        // render
+        painter->drawPixmap( rect.topLeft(), pixmap );
 
         // draw the radio mark
         if( state != CheckOff )
