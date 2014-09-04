@@ -74,6 +74,11 @@ namespace Oxygen
         QObject( parent )
     {
 
+        #if USE_KDE4
+        // catalog
+        KGlobal::locale()->insertCatalog("kwin_clients");
+        #endif
+
         // configuration
         _configuration = KSharedConfig::openConfig( QStringLiteral( "oxygenrc" ) );
 
