@@ -6833,15 +6833,14 @@ namespace Oxygen
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
-        const bool hasFocus( state & State_HasFocus );
+        const bool hasFocus( enabled && ( state & State_HasFocus ) );
         const bool editable( comboBoxOption->editable );
         const bool sunken( state & (State_On|State_Sunken) );
-        const bool flat( !comboBoxOption->frame );
+        bool flat( !comboBoxOption->frame );
 
         // frame
         if( comboBoxOption->subControls & SC_ComboBoxFrame )
         {
-
 
             // style options
             StyleOptions styleOptions = 0;
@@ -6849,9 +6848,7 @@ namespace Oxygen
             if( hasFocus ) styleOptions |= Focus;
             if( sunken && !editable ) styleOptions |= Sunken;
 
-            const QColor inputColor( palette.color( QPalette::Base ) );
-            const QRect editField( subControlRect( CC_ComboBox, comboBoxOption, SC_ComboBoxEditField, widget ) );
-
+            const QColor background( palette.color( QPalette::Base ) );
             if( editable )
             {
 
@@ -6861,26 +6858,25 @@ namespace Oxygen
                 _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
 
                 // input area
-                painter->save();
                 painter->setRenderHint( QPainter::Antialiasing );
                 painter->setPen( Qt::NoPen );
-                painter->setBrush( inputColor );
+                painter->setBrush( background );
 
+                flat |= ( rect.height() <= 2*Metrics::Frame_FrameWidth + Metrics::MenuButton_IndicatorWidth );
+                flat |= ( rect.height() <= 2*Metrics::LineEdit_FrameWidth + option->fontMetrics.height() );
                 if( flat )
                 {
 
                     // adjust rect to match frameLess editors
-                    painter->fillRect( rect, inputColor );
-                    painter->restore();
+                    painter->drawRect( rect );
 
                 } else {
 
                     _helper->fillHole( *painter, rect );
-                    painter->restore();
 
                     HoleOptions options( 0 );
-                    if( hasFocus && enabled ) options |= HoleFocus;
-                    if( mouseOver && enabled ) options |= HoleHover;
+                    if( hasFocus ) options |= HoleFocus;
+                    if( mouseOver ) options |= HoleHover;
 
                     const QColor color( palette.color( QPalette::Window ) );
                     if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
@@ -6920,10 +6916,10 @@ namespace Oxygen
                 if( flat )
                 {
 
-                    if( !( styleOptions & Sunken ) )
+                    if( !sunken )
                     {
                         // hover rect
-                        if( enabled && hoverAnimated )
+                        if( hoverAnimated )
                         {
 
                             QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( palette ).color(), hoverOpacity ) );
@@ -6942,7 +6938,7 @@ namespace Oxygen
 
                         // flat pressed-down buttons do not get focus effect,
                         // consistently with tool buttons
-                        if( enabled && hoverAnimated )
+                        if( hoverAnimated )
                         {
 
                             _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options, hoverOpacity, AnimationHover, TileSet::Ring );
@@ -6957,12 +6953,12 @@ namespace Oxygen
 
                 } else {
 
-                    if( enabled && hoverAnimated )
+                    if( hoverAnimated )
                     {
 
                         renderButtonSlab( painter, slabRect, buttonColor, styleOptions, hoverOpacity, AnimationHover, TileSet::Ring );
 
-                    } else if( enabled && focusAnimated ) {
+                    } else if( focusAnimated ) {
 
                         renderButtonSlab( painter, slabRect, buttonColor, styleOptions, focusOpacity, AnimationFocus, TileSet::Ring );
 
@@ -7082,48 +7078,47 @@ namespace Oxygen
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( state & State_HasFocus );
-        const QColor inputColor( palette.color( QPalette::Base ) );
+        bool flat( !spinBoxOption->frame );
 
         if( spinBoxOption->subControls & SC_SpinBoxFrame )
         {
 
-            painter->save();
+            const QColor background( palette.color( QPalette::Base ) );
             painter->setRenderHint( QPainter::Antialiasing );
             painter->setPen( Qt::NoPen );
-            painter->setBrush( inputColor );
+            painter->setBrush( background );
 
-            if( !spinBoxOption->frame )
+            flat |= ( rect.height() <= 2*Metrics::Frame_FrameWidth + Metrics::MenuButton_IndicatorWidth );
+            flat |= ( rect.height() <= 2*Metrics::LineEdit_FrameWidth + option->fontMetrics.height() );
+            if( flat )
             {
-                // frameless spinbox
-                // frame is adjusted to have the same dimensions as a frameless editor
-                painter->fillRect( rect, inputColor );
-                painter->restore();
+
+                painter->drawRect( rect );
 
             } else {
 
                 // normal spinbox
                 _helper->fillHole( *painter, rect );
-                painter->restore();
 
                 HoleOptions options( 0 );
                 if( hasFocus && enabled ) options |= HoleFocus;
                 if( mouseOver && enabled ) options |= HoleHover;
 
-                QColor local( palette.color( QPalette::Window ) );
+                QColor color( palette.color( QPalette::Window ) );
                 _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver );
                 _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
                 if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
                 {
 
-                    _helper->renderHole( painter, local, rect, options, _animations->lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
+                    _helper->renderHole( painter, color, rect, options, _animations->lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
 
                 } else if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationHover ) ) {
 
-                    _helper->renderHole( painter, local, rect, options, _animations->lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
+                    _helper->renderHole( painter, color, rect, options, _animations->lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
 
                 } else {
 
-                    _helper->renderHole( painter, local, rect, options );
+                    _helper->renderHole( painter, color, rect, options );
 
                 }
 
