@@ -3528,7 +3528,7 @@ namespace Oxygen
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( enabled && ( state & State_HasFocus ) );
-        const bool sunken( State_On|State_Sunken );
+        const bool sunken( state & ( State_On|State_Sunken ) );
 
         StyleOptions styleOptions = 0;
         if( sunken ) styleOptions |= Sunken;
@@ -4045,7 +4045,7 @@ namespace Oxygen
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
-        const bool hasFocus( state & State_HasFocus );
+        const bool hasFocus( enabled && ( state & State_HasFocus ) );
 
         StyleOptions styleOptions( 0 );
         if( !enabled ) styleOptions |= Disabled;
@@ -4061,27 +4061,15 @@ namespace Oxygen
 
         // match button color to window background
         QPalette palette( option->palette );
-        palette.setColor(
-            QPalette::Button,
-            _helper->backgroundColor(
-            palette.color( QPalette::Button ), widget, rect.center() ) );
+        palette.setColor( QPalette::Button, _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
 
-        // mouseOver has precedence over focus
+        // animation state: mouseOver has precedence over focus
         _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
         _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus&&!mouseOver );
 
-        if( enabled && _animations->widgetStateEngine().isAnimated( widget, AnimationHover ) )
-        {
-
-            const qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationHover ) );
-            renderCheckBox( painter, rect, palette, styleOptions, checkBoxState, opacity, AnimationHover );
-
-        } else if( enabled && !hasFocus && _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) ) {
-
-            const qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
-            renderCheckBox( painter, rect, palette, styleOptions, checkBoxState, opacity, AnimationFocus );
-
-        } else renderCheckBox( painter, rect, palette, styleOptions, checkBoxState );
+        const AnimationMode mode( _animations->widgetStateEngine().buttonAnimationMode( widget ) );
+        const qreal opacity( _animations->widgetStateEngine().buttonOpacity( widget ) );
+        renderCheckBox( painter, rect, palette, styleOptions, checkBoxState, opacity, mode );
 
         return true;
     }
@@ -4104,31 +4092,22 @@ namespace Oxygen
         if( mouseOver ) styleOptions |= Hover;
         if( hasFocus ) styleOptions |= Focus;
 
-        // match button color to window background
-        QPalette palette( option->palette );
-        palette.setColor( QPalette::Button, _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
-
-        // mouseOver has precedence over focus
-        _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
-        _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus && !mouseOver );
-
         CheckBoxState checkBoxState;
         if( state & State_Sunken ) checkBoxState = CheckSunken;
         else if( state & State_On ) checkBoxState = CheckOn;
         else checkBoxState = CheckOff;
 
-        if( enabled && _animations->widgetStateEngine().isAnimated( widget, AnimationHover ) )
-        {
+        // match button color to window background
+        QPalette palette( option->palette );
+        palette.setColor( QPalette::Button, _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
 
-            const qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationHover ) );
-            renderRadioButton( painter, rect, palette, styleOptions, checkBoxState, opacity, AnimationHover );
+         // animation state: mouseOver has precedence over focus
+        _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
+        _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus&&!mouseOver );
 
-        } else if( enabled && _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) ) {
-
-            const qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
-            renderRadioButton( painter, rect, palette, styleOptions, checkBoxState, opacity, AnimationFocus );
-
-        } else renderRadioButton( painter, rect, palette, styleOptions, checkBoxState );
+        const AnimationMode mode( _animations->widgetStateEngine().buttonAnimationMode( widget ) );
+        const qreal opacity( _animations->widgetStateEngine().buttonOpacity( widget ) );
+        renderRadioButton( painter, rect, palette, styleOptions, checkBoxState, opacity, mode );
 
         return true;
 
