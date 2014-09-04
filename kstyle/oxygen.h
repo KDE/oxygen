@@ -197,6 +197,8 @@ namespace Oxygen
         Hover = 0x4,
         Disabled = 0x8,
         NoFill = 0x10,
+        HoleOutline = 0x20,
+        HoleContrast = 0x80
     };
 
     Q_DECLARE_FLAGS(StyleOptions, StyleOption)

@@ -707,20 +707,20 @@ namespace Oxygen
     { painter.drawRoundedRect( rect.adjusted( offset, offset, -offset, -offset ), 4 - offset, 4 - offset ); }
 
     //____________________________________________________________________________________
-    void StyleHelper::renderHole( QPainter* p, const QColor& base, const QRect& r, HoleOptions options, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles tiles )
+    void StyleHelper::renderHole( QPainter* p, const QColor& base, const QRect& r, StyleOptions options, qreal opacity, Oxygen::AnimationMode animationMode,  TileSet::Tiles tiles )
     {
         if( !r.isValid() ) return;
         if( opacity >= 0 && ( animationMode & Oxygen::AnimationFocus ) )
         {
 
             // calculate proper glow color based on current settings and opacity
-            const QColor glow( (options&HoleHover) ?
+            const QColor glow( (options&Hover) ?
                 KColorUtils::mix( viewHoverBrush().brush( QPalette::Active ).color(), viewFocusBrush().brush( QPalette::Active ).color(), opacity ):
                 alphaColor(  viewFocusBrush().brush( QPalette::Active ).color(), opacity ) );
 
             hole( base, glow, 7, options )->render( r, p, tiles );
 
-        } else if( options & HoleFocus ) {
+        } else if( options & Focus ) {
 
             const QColor glow( viewFocusBrush().brush( QPalette::Active ).color() );
             hole( base, glow, 7, options )->render( r, p, tiles );
@@ -731,7 +731,7 @@ namespace Oxygen
             const QColor glow( alphaColor(  viewHoverBrush().brush( QPalette::Active ).color(), opacity ) );
             hole( base, glow, 7, options )->render( r, p, tiles );
 
-        } else if( options & HoleHover ) {
+        } else if( options & Hover ) {
 
             const QColor glow( viewHoverBrush().brush( QPalette::Active ).color() );
             hole( base, glow, 7, options )->render( r, p, tiles );
@@ -836,7 +836,7 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *StyleHelper::hole( const QColor& color, const QColor& glow, int size, HoleOptions options )
+    TileSet *StyleHelper::hole( const QColor& color, const QColor& glow, int size, StyleOptions options )
     {
 
         // get key

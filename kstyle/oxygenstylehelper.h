@@ -36,16 +36,6 @@
 namespace Oxygen
 {
 
-    enum HoleOption
-    {
-        HoleFocus = 0x1,
-        HoleHover = 0x2,
-        HoleOutline = 0x4,
-        HoleContrast = 0x8
-    };
-
-    Q_DECLARE_FLAGS(HoleOptions, HoleOption)
-
     class StyleHelper : public Helper
     {
         public:
@@ -142,14 +132,14 @@ namespace Oxygen
 
         //! generic hole
         void renderHole( QPainter *p, const QColor& color, const QRect &r,
-            HoleOptions options = 0,
+            StyleOptions options = 0,
             TileSet::Tiles tiles = TileSet::Ring )
         { renderHole( p, color, r, options, -1, Oxygen::AnimationNone, tiles ); }
 
         //! generic hole (with animated glow)
         void renderHole(
             QPainter*, const QColor&, const QRect &r,
-            HoleOptions,
+            StyleOptions,
             qreal opacity, Oxygen::AnimationMode animationMode,
             TileSet::Tiles = TileSet::Ring );
 
@@ -198,11 +188,11 @@ namespace Oxygen
         //@{
 
         //! holes
-        TileSet *hole( const QColor& color, int size = TileSet::DefaultSize, HoleOptions options = 0 )
+        TileSet *hole( const QColor& color, int size = TileSet::DefaultSize, StyleOptions options = 0 )
         { return hole( color, QColor(), size, options ); }
 
         //! holes
-        TileSet *hole( const QColor&, const QColor& glow, int size = TileSet::DefaultSize, HoleOptions = 0 );
+        TileSet *hole( const QColor&, const QColor& glow, int size = TileSet::DefaultSize, StyleOptions = 0 );
 
         //@}
 

@@ -480,9 +480,9 @@ namespace Oxygen
             default: return;
         }
 
-        HoleOptions options( HoleOutline );
-        if( _focus ) options |= HoleFocus;
-        if( _hover ) options |= HoleHover;
+        StyleOptions options( HoleOutline );
+        if( _focus ) options |= Focus;
+        if( _hover ) options |= Hover;
         if( hasContrast() ) options |= HoleContrast;
 
         QPainter painter(this);

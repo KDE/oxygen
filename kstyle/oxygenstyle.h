@@ -499,7 +499,10 @@ namespace Oxygen
         /** this masks out toolbar expander buttons, when visible, from painting */
         QRegion tabBarClipRegion( const QTabBar* ) const;
 
-        //* slab glowing color
+        //* shadow/glow color for toolbuttons
+        QColor slitGlowColor( StyleOptions, qreal, AnimationMode ) const;
+
+        //* shadow/glow color for buttons and normal holes
         QColor slabShadowColor( StyleOptions, qreal, AnimationMode ) const;
 
         //* returns point position for generic arrows
