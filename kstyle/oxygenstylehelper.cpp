@@ -1150,21 +1150,12 @@ namespace Oxygen
         if ( !tileSet )
         {
             QPixmap pixmap( 9,9 );
-            QPainter p;
-
             pixmap.fill( Qt::transparent );
 
-            p.begin( &pixmap );
-            p.setPen( Qt::NoPen );
-            p.setRenderHint( QPainter::Antialiasing );
-            QRadialGradient rg = QRadialGradient( 4.5, 4.5, 3.5 );
-
-            rg.setColorAt( 1.0, alphaColor( glow, 180.0/255 ) );
-            rg.setColorAt( 0.5, alphaColor( glow, 0 ) );
-            p.setBrush( rg );
-
-            p.drawEllipse( QRectF( 1, 1, 7, 7 ) );
-
+            QPainter p( &pixmap );
+            p.setRenderHints( QPainter::Antialiasing );
+            p.setPen( glow );
+            p.drawRoundedRect( QRectF( 1.5, 1.5, 6, 6 ), 2.5, 2.5 );
             p.end();
 
             tileSet = new TileSet( pixmap, 4, 4, 1, 1 );
