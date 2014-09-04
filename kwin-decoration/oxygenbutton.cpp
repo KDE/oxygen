@@ -140,8 +140,8 @@ namespace Oxygen
         if( isAnimated() || (_status&Hovered) )
         {
             glow = isCloseButton() ?
-                _helper.viewNegativeTextBrush().brush(palette).color():
-                _helper.viewHoverBrush().brush(palette).color();
+                _helper.negativeTextColor(palette):
+                _helper.hoverColor(palette);
 
             if( isAnimated() )
             {

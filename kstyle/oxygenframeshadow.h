@@ -203,8 +203,6 @@ namespace Oxygen
         SunkenFrameShadow( ShadowArea area, StyleHelper& helper ):
             FrameShadowBase( area ),
             _helper( helper ),
-            _viewFocusBrush( helper.viewFocusBrush() ),
-            _viewHoverBrush( helper.viewHoverBrush() ),
             _focus( false ),
             _hover( false ),
             _opacity( -1 ),
@@ -240,9 +238,6 @@ namespace Oxygen
 
         //! helper
         StyleHelper& _helper;
-
-        KStatefulBrush _viewFocusBrush;
-        KStatefulBrush _viewHoverBrush;
 
         //!@name widget state
         //@{

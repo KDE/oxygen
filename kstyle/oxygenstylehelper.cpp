@@ -715,25 +715,25 @@ namespace Oxygen
 
             // calculate proper glow color based on current settings and opacity
             const QColor glow( (options&Hover) ?
-                KColorUtils::mix( viewHoverBrush().brush( QPalette::Active ).color(), viewFocusBrush().brush( QPalette::Active ).color(), opacity ):
-                alphaColor(  viewFocusBrush().brush( QPalette::Active ).color(), opacity ) );
+                KColorUtils::mix( hoverColor( QPalette::Active ), focusColor( QPalette::Active ), opacity ):
+                alphaColor(  focusColor( QPalette::Active ), opacity ) );
 
             hole( base, glow, 7, options )->render( r, p, tiles );
 
         } else if( options & Focus ) {
 
-            const QColor glow( viewFocusBrush().brush( QPalette::Active ).color() );
+            const QColor glow( focusColor( QPalette::Active ) );
             hole( base, glow, 7, options )->render( r, p, tiles );
 
         } else if( opacity >= 0 && ( animationMode & Oxygen::AnimationHover ) ) {
 
             // calculate proper glow color based on current settings and opacity
-            const QColor glow( alphaColor(  viewHoverBrush().brush( QPalette::Active ).color(), opacity ) );
+            const QColor glow( alphaColor(  hoverColor( QPalette::Active ), opacity ) );
             hole( base, glow, 7, options )->render( r, p, tiles );
 
         } else if( options & Hover ) {
 
-            const QColor glow( viewHoverBrush().brush( QPalette::Active ).color() );
+            const QColor glow( hoverColor( QPalette::Active ) );
             hole( base, glow, 7, options )->render( r, p, tiles );
 
         } else {

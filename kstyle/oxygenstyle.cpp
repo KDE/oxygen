@@ -3406,7 +3406,7 @@ namespace Oxygen
 
         } else if( mouseOver ) {
 
-            color = _helper->viewHoverBrush().brush( palette ).color();
+            color = _helper->hoverColor( palette );
 
         } else {
 
@@ -3457,7 +3457,7 @@ namespace Oxygen
         const QPolygonF arrow = genericArrow( orientation, ArrowNormal );
         QColor color = palette.color( QPalette::WindowText );
         const QColor background = palette.color( QPalette::Window );
-        const QColor highlight( _helper->viewHoverBrush().brush( palette ).color() );
+        const QColor highlight( _helper->hoverColor( palette ) );
         const qreal penThickness = 1.6;
         const qreal offset( qMin( penThickness, qreal( 1 ) ) );
 
@@ -3687,7 +3687,7 @@ namespace Oxygen
 
                 if( enabled && animatedRect.isNull() && current )
                 {
-                    QColor glow( _helper->alphaColor( _helper->viewHoverBrush().brush( palette ).color(), toolBarOpacity ) );
+                    QColor glow( _helper->alphaColor( _helper->hoverColor( palette ), toolBarOpacity ) );
                     _helper->slitFocused( glow )->render( rect, painter );
                 }
 
@@ -3697,7 +3697,7 @@ namespace Oxygen
 
             } else if( toolBarTimerActive && current ) {
 
-                _helper->slitFocused( _helper->viewHoverBrush().brush( palette ).color() )->render( rect, painter );
+                _helper->slitFocused( _helper->hoverColor( palette ) )->render( rect, painter );
 
             }
 
@@ -4082,7 +4082,7 @@ namespace Oxygen
         const bool reverseLayout( option->direction == Qt::RightToLeft );
 
         // match button color to window background
-        const QColor highlight( _helper->viewHoverBrush().brush( palette ).color() );
+        const QColor highlight( _helper->hoverColor( palette ) );
         const QColor background( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
         StyleOptions styleOptions;
         if( hasFocus ) styleOptions |= Focus;
@@ -4341,7 +4341,7 @@ namespace Oxygen
             const bool mouseOver( enabled && ( state & State_MouseOver ) );
 
             // color
-            const QColor expanderColor( mouseOver ? _helper->viewHoverBrush().brush( palette ).color():palette.color( QPalette::Text ) );
+            const QColor expanderColor( mouseOver ? _helper->hoverColor( palette ):palette.color( QPalette::Text ) );
 
             // get arrow size from option
             ArrowSize size = ArrowSmall;
@@ -4714,8 +4714,8 @@ namespace Oxygen
 
                     } else {
 
-                        if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG ) color = KColorUtils::tint( color, _helper->viewHoverBrush().brush( palette ).color() );
-                        else color = KColorUtils::mix( color, KColorUtils::tint( color, _helper->viewHoverBrush().brush( palette ).color() ) );
+                        if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG ) color = KColorUtils::tint( color, _helper->hoverColor( palette ) );
+                        else color = KColorUtils::mix( color, KColorUtils::tint( color, _helper->hoverColor( palette ) ) );
                     }
 
                 } else color = _helper->backgroundColor( color, widget, rect.center() );
@@ -5507,8 +5507,8 @@ namespace Oxygen
 
         // focus color
         QColor focusColor;
-        if( animated ) focusColor = _helper->alphaColor( _helper->viewFocusBrush().brush( palette ).color(), opacity );
-        else if( hasFocus ) focusColor =  _helper->viewFocusBrush().brush( palette ).color();
+        if( animated ) focusColor = _helper->alphaColor( _helper->focusColor( palette ), opacity );
+        else if( hasFocus ) focusColor =  _helper->focusColor( palette );
 
         // render focus line
         if( focusColor.isValid() )
@@ -6362,7 +6362,7 @@ namespace Oxygen
         if( mouseOver || animated )
         {
 
-            QColor highlight = _helper->viewHoverBrush().brush( palette ).color();
+            QColor highlight = _helper->hoverColor( palette );
             if( animated )
             {
 
@@ -6519,7 +6519,7 @@ namespace Oxygen
         const QRect animatedRect( _animations->toolBarEngine().animatedRect( widget ) );
         const bool toolBarIntersected( toolBarAnimated && animatedRect.intersects( rect ) );
         if( toolBarIntersected )
-        { _helper->slitFocused( _helper->viewFocusBrush().brush( palette ).color() )->render( animatedRect, painter ); }
+        { _helper->slitFocused( _helper->focusColor( palette ) )->render( animatedRect, painter ); }
 
         // draw nothing otherwise ( toolbars are transparent )
 
@@ -6789,12 +6789,12 @@ namespace Oxygen
                     if( animated )
                     {
 
-                        QColor highlight = _helper->viewHoverBrush().brush( palette ).color();
+                        QColor highlight = _helper->hoverColor( palette );
                         color = KColorUtils::mix( palette.color( QPalette::Text ), highlight, opacity );
 
                     } else if( subControlHover ) {
 
-                        color = _helper->viewHoverBrush().brush( palette ).color();
+                        color = _helper->hoverColor( palette );
 
                     } else {
 
@@ -7404,12 +7404,12 @@ namespace Oxygen
         if( animated )
         {
 
-            QColor highlight = _helper->viewHoverBrush().brush( palette ).color();
+            QColor highlight = _helper->hoverColor( palette );
             color = KColorUtils::mix( palette.color( QPalette::Text ), highlight, opacity );
 
         } else if( subControlHover ) {
 
-            color = _helper->viewHoverBrush().brush( palette ).color();
+            color = _helper->hoverColor( palette );
 
         } else if( atLimit ) {
 
@@ -7577,16 +7577,16 @@ namespace Oxygen
 
             const QColor base( palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ) );
             const QColor glow( subControl == SC_TitleBarCloseButton ?
-                _helper->viewNegativeTextBrush().brush( palette ).color():
-                _helper->viewHoverBrush().brush( palette ).color() );
+                _helper->negativeTextColor( palette ):
+                _helper->hoverColor( palette ) );
 
             color = KColorUtils::mix( base, glow, opacity );
 
         } else if( mouseOver ) {
 
             color = ( subControl == SC_TitleBarCloseButton ) ?
-                _helper->viewNegativeTextBrush().brush( palette ).color():
-                _helper->viewHoverBrush().brush( palette ).color();
+                _helper->negativeTextColor( palette ):
+                _helper->hoverColor( palette );
 
         } else {
 
@@ -8036,7 +8036,7 @@ namespace Oxygen
         // glow / shadow
         QColor glow;
         const QColor shadow( _helper->alphaColor( _helper->calcShadowColor( color ), 0.4 ) );
-        const QColor hovered( _helper->viewHoverBrush().brush( palette ).color() );
+        const QColor hovered( _helper->hoverColor( palette ) );
 
         if( opacity >= 0 ) glow = KColorUtils::mix( shadow, hovered, opacity );
         else if( hover ) glow = hovered;
@@ -8151,7 +8151,7 @@ namespace Oxygen
         if( rect.intersects(  _animations->scrollBarEngine().subControlRect( widget, control ) ) )
         {
 
-            QColor highlight = _helper->viewHoverBrush().brush( palette ).color();
+            QColor highlight = _helper->hoverColor( palette );
             if( animated )
             {
                 color = KColorUtils::mix( color, highlight, opacity );
@@ -8264,21 +8264,21 @@ namespace Oxygen
         if( mode == AnimationNone || opacity < 0 )
         {
 
-            if( options & Hover ) glow = _helper->viewHoverBrush().brush( QPalette::Active ).color();
-            else if( options & Focus ) glow = _helper->viewFocusBrush().brush( QPalette::Active ).color();
+            if( options & Hover ) glow = _helper->hoverColor( QPalette::Active );
+            else if( options & Focus ) glow = _helper->focusColor( QPalette::Active );
 
         } else if( mode == AnimationHover ) {
 
             // animated color, hover
-            if( options & Focus ) glow = _helper->viewFocusBrush().brush( QPalette::Active ).color();
-            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->viewHoverBrush().brush( QPalette::Active ).color(), opacity );
-            else glow = _helper->alphaColor(  _helper->viewHoverBrush().brush( QPalette::Active ).color(), opacity );
+            if( options & Focus ) glow = _helper->focusColor( QPalette::Active );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->hoverColor( QPalette::Active ), opacity );
+            else glow = _helper->alphaColor(  _helper->hoverColor( QPalette::Active ), opacity );
 
         } else if( mode == AnimationFocus ) {
 
-            if( options & Hover ) glow = _helper->viewHoverBrush().brush( QPalette::Active ).color();
-            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
-            else glow = _helper->alphaColor(  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
+            if( options & Hover ) glow = _helper->hoverColor( QPalette::Active );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->focusColor( QPalette::Active ), opacity );
+            else glow = _helper->alphaColor(  _helper->focusColor( QPalette::Active ), opacity );
 
         }
 
@@ -8293,21 +8293,21 @@ namespace Oxygen
         if( mode == AnimationNone || opacity < 0 )
         {
 
-            if( options & Focus ) glow = _helper->viewFocusBrush().brush( QPalette::Active ).color();
-            else if( options & Hover ) glow = _helper->viewHoverBrush().brush( QPalette::Active ).color();
+            if( options & Focus ) glow = _helper->focusColor( QPalette::Active );
+            else if( options & Hover ) glow = _helper->hoverColor( QPalette::Active );
 
         } else if( mode == AnimationFocus ) {
 
-            if( options & Hover ) glow = _helper->viewHoverBrush().brush( QPalette::Active ).color();
-            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
-            else glow = _helper->alphaColor(  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
+            if( options & Hover ) glow = _helper->hoverColor( QPalette::Active );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->focusColor( QPalette::Active ), opacity );
+            else glow = _helper->alphaColor(  _helper->focusColor( QPalette::Active ), opacity );
 
         } else if( mode == AnimationHover ) {
 
             // animated color, hover
-            if( options & Focus ) glow = _helper->viewFocusBrush().brush( QPalette::Active ).color();
-            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->viewHoverBrush().brush( QPalette::Active ).color(), opacity );
-            else glow = _helper->alphaColor(  _helper->viewHoverBrush().brush( QPalette::Active ).color(), opacity );
+            if( options & Focus ) glow = _helper->focusColor( QPalette::Active );
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->hoverColor( QPalette::Active ), opacity );
+            else glow = _helper->alphaColor(  _helper->hoverColor( QPalette::Active ), opacity );
 
         }
 
