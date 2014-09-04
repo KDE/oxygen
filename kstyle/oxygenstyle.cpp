@@ -2995,52 +2995,38 @@ namespace Oxygen
         // store state
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
+
         const bool isQtQuickControl = !widget && option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" );
         const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) )
                                   || ( isQtQuickControl && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
 
-        // hover
-        const bool hoverHighlight( enabled && isInputWidget && ( state & State_MouseOver ) );
-
-        // focus
-        bool focusHighlight( false );
-        if( enabled && ( state & State_HasFocus ) ) focusHighlight = true;
+        const bool mouseOver( enabled && isInputWidget && ( state & State_MouseOver ) );
+        const bool hasFocus( enabled && isInputWidget && ( state & State_HasFocus ) );
 
         // assume focus takes precedence over hover
-        _animations->lineEditEngine().updateState( widget, AnimationFocus, focusHighlight );
-        _animations->lineEditEngine().updateState( widget, AnimationHover, hoverHighlight && !focusHighlight );
+        _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
+        _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
 
         if( state & State_Sunken )
         {
-            const QRect local( rect );
-            qreal opacity( -1 );
-            AnimationMode mode = AnimationNone;
-            if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
-            {
 
-                opacity = _animations->lineEditEngine().opacity( widget, AnimationFocus  );
-                mode = AnimationFocus;
-
-            } else if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationHover ) ) {
-
-                opacity = _animations->lineEditEngine().opacity( widget, AnimationHover );
-                mode = AnimationHover;
-
-            }
+            // retrieve animation mode and opacity
+            const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
+            const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
 
             if( _frameShadowFactory->isRegistered( widget ) )
             {
 
-                _frameShadowFactory->updateState( widget, focusHighlight, hoverHighlight, opacity, mode );
+                _frameShadowFactory->updateState( widget, hasFocus, mouseOver, opacity, mode );
 
             } else {
 
-                StyleOptions options( 0 );
-                if( focusHighlight ) options |= Focus;
-                if( hoverHighlight ) options |= Hover;
+                StyleOptions options;
+                if( hasFocus ) options |= Focus;
+                if( mouseOver ) options |= Hover;
 
                 _helper->renderHole(
-                    painter, palette.color( QPalette::Window ), local, options,
+                    painter, palette.color( QPalette::Window ), rect, options,
                     opacity, mode, TileSet::Ring );
 
             }
@@ -3048,7 +3034,7 @@ namespace Oxygen
         } else if( state & State_Raised ) {
 
             const QRect local( rect );
-            renderSlab( painter, local, palette.color( QPalette::Background ), NoFill );
+            renderSlab( painter, rect, palette.color( QPalette::Background ), NoFill );
 
         }
 
@@ -3066,44 +3052,27 @@ namespace Oxygen
         // store state
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
-
-        // hover
-        const bool hoverHighlight( enabled && ( state & State_MouseOver ) );
-
-        // focus
-        bool focusHighlight( false );
-        if( enabled && ( state & State_HasFocus ) ) focusHighlight = true;
+        const bool mouseOver( enabled && ( state & State_MouseOver ) );
+        const bool hasFocus( enabled && ( state & State_HasFocus ) );
 
         // assume focus takes precedence over hover
-        _animations->lineEditEngine().updateState( widget, AnimationFocus, focusHighlight );
-        _animations->lineEditEngine().updateState( widget, AnimationHover, hoverHighlight && !focusHighlight );
+        _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
+        _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
 
-        const QRect local( rect );
-        qreal opacity( -1 );
-        AnimationMode mode = AnimationNone;
-        if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
-        {
+        // retrieve animation mode and opacity
+        const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
+        const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
 
-            opacity = _animations->lineEditEngine().opacity( widget, AnimationFocus  );
-            mode = AnimationFocus;
-
-        } else if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationHover ) ) {
-
-            opacity = _animations->lineEditEngine().opacity( widget, AnimationHover );
-            mode = AnimationHover;
-
-        }
-
-        StyleOptions options( 0 );
-        if( focusHighlight ) options |= Focus;
-        if( hoverHighlight ) options |= Hover;
-
+        // fill
         painter->setPen( Qt::NoPen );
         painter->setBrush( palette.color( QPalette::Base ) );
         _helper->fillHole( *painter, rect );
-        _helper->renderHole(
-            painter, palette.color( QPalette::Window ), local, options,
-            opacity, mode, TileSet::Ring );
+
+        // render hole
+        StyleOptions options;
+        if( hasFocus ) options |= Focus;
+        if( mouseOver ) options |= Hover;
+        _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options, opacity, mode, TileSet::Ring );
 
         return true;
     }
@@ -3530,7 +3499,7 @@ namespace Oxygen
         const bool hasFocus( enabled && ( state & State_HasFocus ) );
         const bool sunken( state & ( State_On|State_Sunken ) );
 
-        StyleOptions styleOptions = 0;
+        StyleOptions styleOptions;
         if( sunken ) styleOptions |= Sunken;
         if( hasFocus ) styleOptions |= Focus;
         if( mouseOver ) styleOptions |= Hover;
@@ -3562,7 +3531,7 @@ namespace Oxygen
             if( !sunken )
             {
 
-                const QColor glow( slabShadowColor( styleOptions, opacity, mode ) );
+                const QColor glow( buttonGlowColor( styleOptions, opacity, mode ) );
                 if( glow.isValid() ) _helper->slitFocused( glow )->render( rect, painter );
 
             } else {
@@ -3712,7 +3681,7 @@ namespace Oxygen
 
         } else {
 
-            const QColor glow( slabShadowColor( styleOptions, opacity, mode ) );
+            const QColor glow( buttonGlowColor( styleOptions, opacity, mode ) );
             if( mode != AnimationNone ) _helper->slitFocused( glow )->render( rect, painter );
             else if( toolBarAnimated ) {
 
@@ -4020,7 +3989,7 @@ namespace Oxygen
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( enabled && ( state & State_HasFocus ) );
 
-        StyleOptions styleOptions( 0 );
+        StyleOptions styleOptions;
         if( !enabled ) styleOptions |= Disabled;
         if( mouseOver ) styleOptions |= Hover;
         if( hasFocus ) styleOptions |= Focus;
@@ -4060,7 +4029,7 @@ namespace Oxygen
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( state & State_HasFocus );
 
-        StyleOptions styleOptions( 0 );
+        StyleOptions styleOptions;
         if( !enabled ) styleOptions |= Disabled;
         if( mouseOver ) styleOptions |= Hover;
         if( hasFocus ) styleOptions |= Focus;
@@ -4115,7 +4084,7 @@ namespace Oxygen
         // match button color to window background
         const QColor highlight( _helper->viewHoverBrush().brush( palette ).color() );
         const QColor background( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
-        StyleOptions styleOptions = 0;
+        StyleOptions styleOptions;
         if( hasFocus ) styleOptions |= Focus;
         if( mouseOver ) styleOptions |= Hover;
 
@@ -4881,7 +4850,7 @@ namespace Oxygen
 
             checkBoxRect = visualRect( option, checkBoxRect );
 
-            StyleOptions styleOptions( 0 );
+            StyleOptions styleOptions;
             styleOptions |= Sunken;
             if( !enabled ) styleOptions |= Disabled;
             if( mouseOver ) styleOptions |= Hover;
@@ -4895,7 +4864,7 @@ namespace Oxygen
 
             checkBoxRect = visualRect( option, checkBoxRect );
 
-            StyleOptions styleOptions( 0 );
+            StyleOptions styleOptions;
             if( !enabled ) styleOptions |= Disabled;
             if( mouseOver ) styleOptions |= Hover;
             if( hasFocus ) styleOptions |= Focus;
@@ -6599,8 +6568,7 @@ namespace Oxygen
         const bool toolBarTimerActive( isInToolBar && _animations->toolBarEngine().isTimerActive( widget->parentWidget() ) );
 
         // normal toolbutton animation
-        const bool hoverAnimated( _animations->widgetStateEngine().isAnimated( widget, AnimationHover ) );
-        const bool focusAnimated( _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) );
+        const AnimationMode mode( _animations->widgetStateEngine().buttonAnimationMode( widget ) );
 
         // detect buttons in tabbar, for which special rendering is needed
         const bool inTabBar( widget && qobject_cast<const QTabBar*>( widget->parentWidget() ) );
@@ -6617,7 +6585,7 @@ namespace Oxygen
         // frame
         const bool drawFrame(
             (enabled && !( mouseOver || hasFocus || sunken ) &&
-            (hoverAnimated || ( focusAnimated && !hasFocus ) || ( ( ( toolBarAnimated && animatedRect.isNull() )||toolBarTimerActive ) && current )) ) ||
+            ((mode != AnimationNone) || ( ( ( toolBarAnimated && animatedRect.isNull() )||toolBarTimerActive ) && current )) ) ||
             (toolButtonOption->subControls & SC_ToolButton) );
         if( drawFrame )
         {
@@ -6713,7 +6681,7 @@ namespace Oxygen
         bool flat( !comboBoxOption->frame );
 
         // style options
-        StyleOptions styleOptions = 0;
+        StyleOptions styleOptions;
         if( mouseOver ) styleOptions |= Hover;
         if( hasFocus ) styleOptions |= Focus;
         if( sunken && !editable ) styleOptions |= Sunken;
@@ -6748,21 +6716,10 @@ namespace Oxygen
 
                     _helper->fillHole( *painter, rect );
 
+                    const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
+                    const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
                     const QColor color( palette.color( QPalette::Window ) );
-                    if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
-                    {
-
-                        _helper->renderHole( painter, color, rect, styleOptions, _animations->lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
-
-                    } else if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationHover ) ) {
-
-                        _helper->renderHole( painter, color, rect, styleOptions, _animations->lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
-
-                    } else {
-
-                        _helper->renderHole( painter, color, rect, styleOptions );
-
-                    }
+                    _helper->renderHole( painter, color, rect, styleOptions, opacity, mode, TileSet::Ring );
 
                 }
 
@@ -6773,11 +6730,8 @@ namespace Oxygen
                 _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver );
                 _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus && !mouseOver );
 
-                // store animation state
-                const bool hoverAnimated( _animations->lineEditEngine().isAnimated( widget, AnimationHover ) );
-                const bool focusAnimated( _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) );
-                const qreal hoverOpacity( _animations->lineEditEngine().opacity( widget, AnimationHover ) );
-                const qreal focusOpacity( _animations->lineEditEngine().opacity( widget, AnimationFocus ) );
+                const AnimationMode mode( _animations->lineEditEngine().buttonAnimationMode( widget ) );
+                const qreal opacity( _animations->lineEditEngine().buttonOpacity( widget ) );
 
                 // blend button color to the background
                 const QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
@@ -6789,53 +6743,19 @@ namespace Oxygen
                     if( !sunken )
                     {
                         // hover rect
-                        if( hoverAnimated )
-                        {
-
-                            QColor glow( _helper->alphaColor( _helper->viewFocusBrush().brush( palette ).color(), hoverOpacity ) );
-                            _helper->slitFocused( glow )->render( rect, painter );
-
-                        } else if( mouseOver ) {
-
-                            _helper->slitFocused( _helper->viewFocusBrush().brush( palette ).color() )->render( rect, painter );
-
-                        }
+                        const QColor glow( buttonGlowColor( styleOptions, opacity, mode ) );
+                        if( glow.isValid() ) _helper->slitFocused( glow )->render( rect, painter );
 
                     } else {
 
                         styleOptions |= HoleContrast;
-
-                        // flat pressed-down buttons do not get focus effect,
-                        // consistently with tool buttons
-                        if( hoverAnimated )
-                        {
-
-                            _helper->renderHole( painter, palette.color( QPalette::Window ), rect, styleOptions, hoverOpacity, AnimationHover, TileSet::Ring );
-
-                        } else {
-
-                            _helper->renderHole( painter, palette.color( QPalette::Window ), rect, styleOptions );
-
-                        }
+                        _helper->renderHole( painter, palette.color( QPalette::Window ), rect, styleOptions, opacity, mode );
 
                     }
 
                 } else {
 
-                    if( hoverAnimated )
-                    {
-
-                        renderButtonSlab( painter, slabRect, buttonColor, styleOptions, hoverOpacity, AnimationHover, TileSet::Ring );
-
-                    } else if( focusAnimated ) {
-
-                        renderButtonSlab( painter, slabRect, buttonColor, styleOptions, focusOpacity, AnimationFocus, TileSet::Ring );
-
-                    } else {
-
-                        renderButtonSlab( painter, slabRect, buttonColor, styleOptions );
-
-                    }
+                    renderButtonSlab( painter, slabRect, buttonColor, styleOptions, opacity, mode, TileSet::Ring );
 
                 }
 
@@ -6976,20 +6896,10 @@ namespace Oxygen
                 QColor color( palette.color( QPalette::Window ) );
                 _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver );
                 _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
-                if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationFocus ) )
-                {
 
-                    _helper->renderHole( painter, color, rect, styleOptions, _animations->lineEditEngine().opacity( widget, AnimationFocus ), AnimationFocus, TileSet::Ring );
-
-                } else if( enabled && _animations->lineEditEngine().isAnimated( widget, AnimationHover ) ) {
-
-                    _helper->renderHole( painter, color, rect, styleOptions, _animations->lineEditEngine().opacity( widget, AnimationHover ), AnimationHover, TileSet::Ring );
-
-                } else {
-
-                    _helper->renderHole( painter, color, rect, styleOptions );
-
-                }
+                const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
+                const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
+                _helper->renderHole( painter, color, rect, styleOptions, opacity, mode, TileSet::Ring );
 
             }
         }
@@ -7093,7 +7003,7 @@ namespace Oxygen
             QRect handleRect( subControlRect( CC_Slider, sliderOption, SC_SliderHandle, widget ) );
 
             const bool handleActive( sliderOption->activeSubControls & SC_SliderHandle );
-            StyleOptions styleOptions( 0 );
+            StyleOptions styleOptions;
             if( hasFocus ) styleOptions |= Focus;
             if( handleActive && mouseOver ) styleOptions |= Hover;
 
@@ -7101,7 +7011,7 @@ namespace Oxygen
             const qreal opacity( _animations->sliderEngine().opacity( widget ) );
 
             const QColor color( _helper->backgroundColor( palette.color( QPalette::Button ), widget, handleRect.center() ) );
-            const QColor glow( slabShadowColor( styleOptions, opacity, AnimationHover ) );
+            const QColor glow( buttonGlowColor( styleOptions, opacity, AnimationHover ) );
 
             const bool sunken( state & (State_On|State_Sunken) );
             painter->drawPixmap( handleRect.topLeft(), _helper->sliderSlab( color, glow, sunken, 0 ) );
@@ -7121,7 +7031,7 @@ namespace Oxygen
         const bool hasFocus( enabled && ( state & State_HasFocus ) );
         const bool sunken( state & ( State_On|State_Sunken ) );
 
-        StyleOptions styleOptions = 0;
+        StyleOptions styleOptions;
         if( sunken ) styleOptions |= Sunken;
         if( hasFocus ) styleOptions |= Focus;
         if( mouseOver ) styleOptions |= Hover;
@@ -7130,26 +7040,13 @@ namespace Oxygen
         _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
         _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus && !mouseOver );
 
+        const AnimationMode mode( _animations->widgetStateEngine().buttonAnimationMode( widget ) );
+        const qreal opacity( _animations->widgetStateEngine().buttonOpacity( widget ) );
+
         const QRect rect( option->rect );
         const QPalette &palette( option->palette );
         const QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
-
-        if( enabled && _animations->widgetStateEngine().isAnimated( widget, AnimationHover ) && !( styleOptions & Sunken ) )
-        {
-
-            qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationHover ) );
-            renderDialSlab( painter, rect, buttonColor, option, styleOptions, opacity, AnimationHover );
-
-        } else if( enabled && !mouseOver && _animations->widgetStateEngine().isAnimated( widget, AnimationFocus ) && !( styleOptions & Sunken ) ) {
-
-            qreal opacity( _animations->widgetStateEngine().opacity( widget, AnimationFocus ) );
-            renderDialSlab( painter, rect, buttonColor, option, styleOptions, opacity, AnimationFocus );
-
-        } else {
-
-            renderDialSlab( painter, rect, buttonColor, option, styleOptions );
-
-        }
+        renderDialSlab( painter, rect, buttonColor, option, styleOptions, opacity, mode );
 
         return true;
 
@@ -7263,7 +7160,7 @@ namespace Oxygen
         const QRect rect( centerRect( constRect, dimension, dimension ) );
 
         // calculate glow color
-        const QColor glow( slabShadowColor( styleOptions, opacity, mode ) );
+        const QColor glow( buttonGlowColor( styleOptions, opacity, mode ) );
 
         // get main slab
         QPixmap pixmap( _helper->dialSlab( color, glow, 0, dimension ) );
@@ -7334,7 +7231,7 @@ namespace Oxygen
 
         } else {
 
-            QColor glow = slabShadowColor( options, opacity, mode );
+            QColor glow = buttonGlowColor( options, opacity, mode );
             tile = _helper->slab( color, glow, 0 );
 
         }
@@ -7402,7 +7299,7 @@ namespace Oxygen
         } else {
 
             // calculate proper glow color based on current settings and opacity
-            const QColor glow( slabShadowColor( options, opacity, mode ) );
+            const QColor glow( buttonGlowColor( options, opacity, mode ) );
             if( color.isValid() || glow.isValid() ) tile = _helper->slab( color, glow , 0 );
             else return;
 
@@ -8061,7 +7958,7 @@ namespace Oxygen
 
         // get pixmap
         const QColor color( palette.color( QPalette::Button ) );
-        const QColor glow( slabShadowColor( options, opacity, mode ) );
+        const QColor glow( buttonGlowColor( options, opacity, mode ) );
         QPixmap pixmap( _helper->roundSlab( color, glow, 0 ) );
 
         // center rect
@@ -8360,7 +8257,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________________
-    QColor Style::slabShadowColor( StyleOptions options, qreal opacity, AnimationMode mode ) const
+    QColor Style::buttonGlowColor( StyleOptions options, qreal opacity, AnimationMode mode ) const
     {
 
         QColor glow;
@@ -8382,6 +8279,35 @@ namespace Oxygen
             if( options & Hover ) glow = _helper->viewHoverBrush().brush( QPalette::Active ).color();
             if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
             else glow = _helper->alphaColor(  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
+
+        }
+
+        return glow;
+    }
+
+    //____________________________________________________________________________________
+    QColor Style::frameGlowColor( StyleOptions options, qreal opacity, AnimationMode mode ) const
+    {
+
+        QColor glow;
+        if( mode == AnimationNone || opacity < 0 )
+        {
+
+            if( options & Focus ) glow = _helper->viewFocusBrush().brush( QPalette::Active ).color();
+            else if( options & Hover ) glow = _helper->viewHoverBrush().brush( QPalette::Active ).color();
+
+        } else if( mode == AnimationFocus ) {
+
+            if( options & Hover ) glow = _helper->viewHoverBrush().brush( QPalette::Active ).color();
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
+            else glow = _helper->alphaColor(  _helper->viewFocusBrush().brush( QPalette::Active ).color(), opacity );
+
+        } else if( mode == AnimationHover ) {
+
+            // animated color, hover
+            if( options & Focus ) glow = _helper->viewFocusBrush().brush( QPalette::Active ).color();
+            if( glow.isValid() ) glow = KColorUtils::mix( glow,  _helper->viewHoverBrush().brush( QPalette::Active ).color(), opacity );
+            else glow = _helper->alphaColor(  _helper->viewHoverBrush().brush( QPalette::Active ).color(), opacity );
 
         }
 

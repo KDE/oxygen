@@ -502,8 +502,11 @@ namespace Oxygen
         //* shadow/glow color for toolbuttons
         QColor slitGlowColor( StyleOptions, qreal, AnimationMode ) const;
 
-        //* shadow/glow color for buttons and normal holes
-        QColor slabShadowColor( StyleOptions, qreal, AnimationMode ) const;
+        //* glow color for buttons (mouse-over takes precedence over focus)
+        QColor buttonGlowColor( StyleOptions, qreal, AnimationMode ) const;
+
+        //* glow color for frames (focus takes precedence over mouse-over)
+        QColor frameGlowColor( StyleOptions, qreal, AnimationMode ) const;
 
         //* returns point position for generic arrows
         QPolygonF genericArrow( ArrowOrientation, ArrowSize = ArrowNormal ) const;
