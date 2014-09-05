@@ -3053,30 +3053,45 @@ namespace Oxygen
         const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
 
-        // store state
-        const State& state( option->state );
-        const bool enabled( state & State_Enabled );
-        const bool mouseOver( enabled && ( state & State_MouseOver ) );
-        const bool hasFocus( enabled && ( state & State_HasFocus ) );
+        // make sure there is enough room to render frame
+        if( rect.height() <= 2*Metrics::LineEdit_FrameWidth + option->fontMetrics.height() )
+        {
 
-        // assume focus takes precedence over hover
-        _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
-        _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
+            const QColor background( palette.color( QPalette::Base ) );
 
-        // retrieve animation mode and opacity
-        const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
-        const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
+            painter->setPen( Qt::NoPen );
+            painter->setBrush( background );
+            painter->drawRect( rect );
+            return true;
 
-        // fill
-        painter->setPen( Qt::NoPen );
-        painter->setBrush( palette.color( QPalette::Base ) );
-        _helper->fillHole( *painter, rect );
+        } else {
 
-        // render hole
-        StyleOptions options;
-        if( hasFocus ) options |= Focus;
-        if( mouseOver ) options |= Hover;
-        _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options, opacity, mode, TileSet::Ring );
+            // store state
+            const State& state( option->state );
+            const bool enabled( state & State_Enabled );
+            const bool mouseOver( enabled && ( state & State_MouseOver ) );
+            const bool hasFocus( enabled && ( state & State_HasFocus ) );
+
+            // assume focus takes precedence over hover
+            _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
+            _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
+
+            // retrieve animation mode and opacity
+            const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
+            const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
+
+            // fill
+            painter->setPen( Qt::NoPen );
+            painter->setBrush( palette.color( QPalette::Base ) );
+            _helper->fillHole( *painter, rect );
+
+            // render hole
+            StyleOptions options;
+            if( hasFocus ) options |= Focus;
+            if( mouseOver ) options |= Hover;
+            _helper->renderHole( painter, palette.color( QPalette::Window ), rect, options, opacity, mode, TileSet::Ring );
+
+        }
 
         return true;
     }
@@ -6733,7 +6748,6 @@ namespace Oxygen
         if( comboBoxOption->subControls & SC_ComboBoxFrame )
         {
 
-            const QColor background( palette.color( QPalette::Base ) );
             if( editable )
             {
 
@@ -6744,25 +6758,19 @@ namespace Oxygen
 
                 // input area
                 painter->setRenderHint( QPainter::Antialiasing );
-                painter->setPen( Qt::NoPen );
-                painter->setBrush( background );
-
                 flat |= ( rect.height() <= 2*Metrics::Frame_FrameWidth + Metrics::MenuButton_IndicatorWidth );
-                flat |= ( rect.height() <= 2*Metrics::LineEdit_FrameWidth + option->fontMetrics.height() );
                 if( flat )
                 {
 
-                    // adjust rect to match frameLess editors
+                    const QColor background( palette.color( QPalette::Base ) );
+
+                    painter->setPen( Qt::NoPen );
+                    painter->setBrush( background );
                     painter->drawRect( rect );
 
                 } else {
 
-                    _helper->fillHole( *painter, rect );
-
-                    const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
-                    const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
-                    const QColor color( palette.color( QPalette::Window ) );
-                    _helper->renderHole( painter, color, rect, styleOptions, opacity, mode, TileSet::Ring );
+                    drawPrimitive( PE_FrameLineEdit, option, painter, widget );
 
                 }
 
@@ -6915,34 +6923,20 @@ namespace Oxygen
         if( spinBoxOption->subControls & SC_SpinBoxFrame )
         {
 
-            const QColor background( palette.color( QPalette::Base ) );
-            painter->setRenderHint( QPainter::Antialiasing );
-            painter->setPen( Qt::NoPen );
-            painter->setBrush( background );
-
             flat |= ( rect.height() <= 2*Metrics::Frame_FrameWidth + Metrics::MenuButton_IndicatorWidth );
-            flat |= ( rect.height() <= 2*Metrics::LineEdit_FrameWidth + option->fontMetrics.height() );
             if( flat )
             {
 
+                const QColor background( palette.color( QPalette::Base ) );
+
+                painter->setRenderHint( QPainter::Antialiasing );
+                painter->setPen( Qt::NoPen );
+                painter->setBrush( background );
                 painter->drawRect( rect );
 
             } else {
 
-                // normal spinbox
-                _helper->fillHole( *painter, rect );
-
-                StyleOptions styleOptions;
-                if( hasFocus ) styleOptions |= Focus;
-                if( mouseOver ) styleOptions |= Hover;
-
-                QColor color( palette.color( QPalette::Window ) );
-                _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver );
-                _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
-
-                const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
-                const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
-                _helper->renderHole( painter, color, rect, styleOptions, opacity, mode, TileSet::Ring );
+                drawPrimitive( PE_FrameLineEdit, option, painter, widget );
 
             }
         }
