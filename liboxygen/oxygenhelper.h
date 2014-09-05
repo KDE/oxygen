@@ -24,11 +24,12 @@
  */
 
 #include "oxygentileset.h"
+#include "config-liboxygen.h"
 
 #include <KColorScheme>
 #include <KSharedConfig>
 
-#if USE_KDE4
+#if OXYGEN_USE_KDE4
 #include <KComponentData>
 #endif
 
@@ -39,7 +40,7 @@
 #include <QLinearGradient>
 #include <QScopedPointer>
 
-#if HAVE_X11
+#if OXYGEN_HAVE_X11
 #include <xcb/xcb.h>
 #endif
 
@@ -160,7 +161,7 @@ namespace Oxygen
         //! constructor
         explicit Helper( KSharedConfig::Ptr config );
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         //* constructor
         explicit Helper( const QByteArray& );
         #endif
@@ -365,7 +366,7 @@ namespace Oxygen
 
         //@}
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
 
         //! xcb connection
         static xcb_connection_t* connection( void );
@@ -418,7 +419,7 @@ namespace Oxygen
         //* initialize
         void init( void );
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         //* component data
         KComponentData _componentData;
         #endif
@@ -471,7 +472,7 @@ namespace Oxygen
         //* background pixmap offsets
         QPoint _backgroundPixmapOffset;
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
 
         //* set value for given hint
         void setHasHint( xcb_window_t, xcb_atom_t, bool ) const;

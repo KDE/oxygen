@@ -246,7 +246,7 @@ namespace Oxygen
         ,_subLineButtons( SingleButton )
         ,_singleButtonHeight( 14 )
         ,_doubleButtonHeight( 28 )
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         , _helper( new StyleHelper( "oxygen" ) )
         #else
         , _helper( new StyleHelper( StyleConfigData::self()->sharedConfig() ) )
@@ -263,7 +263,7 @@ namespace Oxygen
         ,_widgetExplorer( new WidgetExplorer( this ) )
         ,_tabBarData( new OxygenPrivate::TabBarData( this ) )
         ,_splitterFactory( new SplitterFactory( this ) )
-        #if !USE_KDE4
+        #if !OXYGEN_USE_KDE4
         ,SH_ArgbDndWindow( newStyleHint( QStringLiteral( "SH_ArgbDndWindow" ) ) )
         ,CE_CapacityBar( newControlElement( QStringLiteral( "CE_CapacityBar" ) ) )
         #endif
@@ -1071,7 +1071,7 @@ namespace Oxygen
     {
 
         StyleControl fcn( nullptr );
-        #if !USE_KDE4
+        #if !OXYGEN_USE_KDE4
         if( element == CE_CapacityBar )
         {
 
@@ -1488,7 +1488,7 @@ namespace Oxygen
     {
 
         // reload
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         StyleConfigData::self()->readConfig();
         #else
         StyleConfigData::self()->load();
@@ -3107,7 +3107,7 @@ namespace Oxygen
             _helper->renderWindowBackground( painter, option->rect, widget, option->palette );
             _helper->drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
 
-        #if !USE_KDE4
+        #if !OXYGEN_USE_KDE4
         } else if( option->styleObject && option->styleObject->inherits( "QQuickItem" ) ) {
 
             // QtQuick Control case

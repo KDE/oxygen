@@ -40,7 +40,7 @@ namespace Oxygen
 
     class Client;
 
-    #if USE_KDE4
+    #if OXYGEN_USE_KDE4
     using ParentFactoryClass = KDecorationFactoryUnstable;
     #else
     using ParentFactoryClass = KDecorationFactory;
@@ -63,13 +63,13 @@ namespace Oxygen
     class Factory: public ParentFactoryClass
     {
 
-        #if !USE_KDE4
+        #if !OXYGEN_USE_KDE4
         Q_OBJECT
         #endif
 
         public:
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
 
         //! constructor
         explicit Factory( void );

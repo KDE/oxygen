@@ -47,7 +47,7 @@ namespace Oxygen
         _enabled( false )
     {
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
 
         if( _helper.isX11() )
         {
@@ -220,7 +220,7 @@ namespace Oxygen
     void BlurHelper::update( QWidget* widget ) const
     {
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         if( !_helper.isX11() ) return;
 
         /*
@@ -269,7 +269,7 @@ namespace Oxygen
     //___________________________________________________________
     void BlurHelper::clear( QWidget* widget ) const
     {
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         if( !_helper.isX11() ) return;
 
         xcb_delete_property( _helper.connection(), widget->winId(), _blurAtom );

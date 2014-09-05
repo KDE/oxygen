@@ -31,8 +31,8 @@ DEALINGS IN THE SOFTWARE.
 #include "oxygenstyleconfig.moc"
 #include "oxygenanimationconfigwidget.h"
 #include "oxygenstyleconfigdata.h"
-
 #include "../oxygen.h"
+#include "config-liboxygen.h"
 
 #include <QTextStream>
 #include <QDBusMessage>
@@ -120,7 +120,7 @@ namespace Oxygen
 
         }
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         StyleConfigData::self()->writeConfig();
         #else
         StyleConfigData::self()->save();
@@ -143,7 +143,7 @@ namespace Oxygen
     void StyleConfig::reset( void )
     {
         // reparse configuration
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         StyleConfigData::self()->readConfig();
         #else
         StyleConfigData::self()->load();

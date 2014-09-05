@@ -34,6 +34,7 @@
 #include "oxygenmdidemowidget.h"
 #include "oxygensliderdemowidget.h"
 #include "oxygentabdemowidget.h"
+#include "config-liboxygen.h"
 
 #include <QTextStream>
 #include <QShortcut>
@@ -56,7 +57,7 @@ namespace Oxygen
         // ui
         setupUi(this);
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         // install Quit shortcut
         connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL(activated()), SLOT(close()) );
         connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL(activated()), SLOT(close()) );
@@ -234,7 +235,7 @@ namespace Oxygen
     //_______________________________________________________________
     void DemoDialog::setPageIcon( KPageWidgetItem* page, const QString& iconName ) const
     {
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         page->setIcon( KIcon( iconName ) );
         #else
         page->setIcon( QIcon::fromTheme( iconName ) );

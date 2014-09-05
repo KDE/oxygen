@@ -33,6 +33,7 @@
 #include "oxygenconfiguration.h"
 #include "oxygenutil.h"
 #include "../oxygenexceptionlist.h"
+#include "config-liboxygen.h"
 
 #include <QTextStream>
 #include <QDBusConnection>
@@ -44,7 +45,7 @@
 
 //_______________________________________________________________________
 // plugin definition
-#if USE_KDE4
+#if OXYGEN_USE_KDE4
 extern "C"
 {
     KDE_EXPORT QObject* allocate_config( KConfig*, QWidget* parent )
@@ -63,7 +64,7 @@ K_PLUGIN_FACTORY_WITH_JSON(
 namespace Oxygen
 {
 
-    #if !USE_KDE4
+    #if !OXYGEN_USE_KDE4
     // create new configuration
     QObject *Config::create(QWidget *parentWidget, QObject *, const QList<QVariant> &)
     { return new Config(parentWidget); }
@@ -74,7 +75,7 @@ namespace Oxygen
         QObject( parent )
     {
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         // catalog
         KGlobal::locale()->insertCatalog("kwin_clients");
         #endif
@@ -106,7 +107,7 @@ namespace Oxygen
         // load standard configuration
         ConfigurationPtr configuration( new Configuration() );
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         configuration->readConfig();
         #else
         configuration->load();
@@ -130,7 +131,7 @@ namespace Oxygen
     {
 
         ConfigurationPtr configuration( new Configuration() );
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         configuration->readConfig();
         #else
         configuration->load();
@@ -153,7 +154,7 @@ namespace Oxygen
 
         // create configuration from group
         ConfigurationPtr configuration( new Configuration() );
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         configuration->readConfig();
         #else
         configuration->load();

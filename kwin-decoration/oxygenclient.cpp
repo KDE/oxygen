@@ -64,7 +64,7 @@ namespace Oxygen
         _sourceItem( -1 ),
         _shadowAtom( 0 )
     {
-        #if !USE_KDE4
+        #if !OXYGEN_USE_KDE4
         connect(options(), &KDecorationOptions::compositingChanged, this, &Client::updateCompositing);
         connect(options(), &KDecorationOptions::configChanged, this, &Client::updateConfig);
         #endif
@@ -1531,7 +1531,7 @@ namespace Oxygen
     {
 
         // palette
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         QPalette palette = widget()->palette();
         #else
         QPalette palette = ParentDecorationClass::palette();

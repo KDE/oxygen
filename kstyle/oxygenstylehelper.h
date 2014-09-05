@@ -27,7 +27,7 @@
 
 #include <KWindowSystem>
 
-#if HAVE_X11
+#if OXYGEN_HAVE_X11
 #include <xcb/xcb.h>
 #endif
 
@@ -43,7 +43,7 @@ namespace Oxygen
         //* constructor
         explicit StyleHelper( KSharedConfigPtr config );
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         //* constructor
         explicit StyleHelper( const QByteArray& );
         #endif
@@ -254,7 +254,7 @@ namespace Oxygen
         TileSetCache _selectionCache;
         TileSetCache _progressBarCache;
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
 
         //* atom used for compositing manager
         xcb_atom_t _compositingManagerAtom;

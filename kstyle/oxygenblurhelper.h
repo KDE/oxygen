@@ -44,7 +44,7 @@
 #include <QRegion>
 #include <QToolBar>
 
-#if HAVE_X11
+#if OXYGEN_HAVE_X11
 #include <xcb/xcb.h>
 #endif
 
@@ -159,7 +159,7 @@ namespace Oxygen
         //! delayed update timer
         QBasicTimer _timer;
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         //! blur atom
         xcb_atom_t _blurAtom;
         xcb_atom_t _opaqueAtom;

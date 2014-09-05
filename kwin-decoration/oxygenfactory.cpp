@@ -33,13 +33,13 @@
 #include <KConfigGroup>
 #include <KWindowInfo>
 
-#if USE_KDE4
+#if OXYGEN_USE_KDE4
 KWIN_DECORATION(Oxygen::Factory)
 #else
 KWIN_DECORATION(OxygenPluginFactory, "oxygenclient.json", Oxygen::Factory)
 #endif
 
-#if !USE_KDE4
+#if !OXYGEN_USE_KDE4
 #include "oxygenfactory.moc"
 #endif
 
@@ -47,7 +47,7 @@ namespace Oxygen
 {
 
     //___________________________________________________
-    #if USE_KDE4
+    #if OXYGEN_USE_KDE4
     Factory::Factory( void ):
 
     #else
@@ -62,7 +62,7 @@ namespace Oxygen
         readConfig();
         setInitialized( true );
 
-        #if !USE_KDE4
+        #if !OXYGEN_USE_KDE4
         connect(options(), &KDecorationOptions::colorsChanged, this, [this]() {
             _shadowCache.invalidateCaches();
         });
@@ -102,7 +102,7 @@ namespace Oxygen
         if( !_defaultConfiguration ) _defaultConfiguration = ConfigurationPtr(new Configuration());
         _defaultConfiguration->setCurrentGroup( QStringLiteral("Windeco") );
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         _defaultConfiguration->readConfig();
         #else
         _defaultConfiguration->load();

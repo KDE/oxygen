@@ -26,7 +26,7 @@
 #include <KColorUtils>
 #include <KColorScheme>
 
-#if USE_KDE4
+#if OXYGEN_USE_KDE4
 #include <KGlobalSettings>
 #endif
 
@@ -36,11 +36,11 @@
 #include <QTextStream>
 #include <math.h>
 
-#if HAVE_X11
+#if OXYGEN_HAVE_X11
 #include <QX11Info>
 #endif
 
-#if HAVE_X11 && QT_VERSION < 0x050000
+#if OXYGEN_HAVE_X11 && QT_VERSION < 0x050000
 #include <X11/Xlib-xcb.h>
 #endif
 
@@ -57,7 +57,7 @@ namespace Oxygen
     { init(); }
 
     //____________________________________________________________________
-    #if USE_KDE4
+    #if OXYGEN_USE_KDE4
     Helper::Helper( const QByteArray& name ):
         _componentData( name, 0, KComponentData::SkipMainComponentRegistration ),
         _config( _componentData.config() )
@@ -72,7 +72,7 @@ namespace Oxygen
     void Helper::loadConfig()
     {
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         _contrast = KGlobalSettings::contrastF( _config );
         #else
         _contrast = KColorScheme::contrastF( _config );
@@ -887,7 +887,7 @@ namespace Oxygen
     void Helper::setHasBackgroundGradient( WId id, bool value ) const
     {
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         setHasHint( id, _backgroundGradientAtom, value );
         #else
         Q_UNUSED( id );
@@ -900,7 +900,7 @@ namespace Oxygen
     bool Helper::hasBackgroundGradient( WId id ) const
     {
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         return hasHint( id, _backgroundGradientAtom );
         #else
         Q_UNUSED( id );
@@ -912,7 +912,7 @@ namespace Oxygen
     void Helper::setHasBackgroundPixmap( WId id, bool value ) const
     {
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         setHasHint( id, _backgroundPixmapAtom, value );
         #else
         Q_UNUSED( id );
@@ -925,7 +925,7 @@ namespace Oxygen
     bool Helper::hasBackgroundPixmap( WId id ) const
     {
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         return hasHint( id, _backgroundPixmapAtom );
         #else
         Q_UNUSED( id );
@@ -936,7 +936,7 @@ namespace Oxygen
     //______________________________________________________________________________
     bool Helper::isX11( void )
     {
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         #if QT_VERSION >= 0x050000
         static bool isX11 = QApplication::platformName() == QStringLiteral("xcb");
         return isX11;
@@ -949,7 +949,7 @@ namespace Oxygen
 
     }
 
-    #if HAVE_X11
+    #if OXYGEN_HAVE_X11
 
     //____________________________________________________________________
     xcb_connection_t* Helper::connection( void )
@@ -1090,7 +1090,7 @@ namespace Oxygen
 
     }
 
-    #if HAVE_X11
+    #if OXYGEN_HAVE_X11
 
     //____________________________________________________________________
     void Helper::setHasHint( xcb_window_t id, xcb_atom_t atom, bool value ) const
@@ -1129,7 +1129,7 @@ namespace Oxygen
     void Helper::init( void )
     {
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         _contrast = KGlobalSettings::contrastF( _config );
         #else
         _contrast = KColorScheme::contrastF( _config );
@@ -1141,7 +1141,7 @@ namespace Oxygen
 
         _backgroundCache.setMaxCost( 64 );
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         if( isX11() )
         {
 

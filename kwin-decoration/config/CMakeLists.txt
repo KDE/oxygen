@@ -7,16 +7,16 @@ set(kwin_oxygen_config_PART_SRCS
     oxygenexceptionlistwidget.cpp
     oxygenexceptionmodel.cpp
     ../oxygenexceptionlist.cpp
-  )
+ )
 
-set( kwin_oxygen_config_PART_FORMS
+set(kwin_oxygen_config_PART_FORMS
    ui/oxygenconfigurationui.ui
    ui/oxygendetectwidget.ui
    ui/oxygenexceptiondialog.ui
    ui/oxygenexceptionlistwidget.ui
 )
 
-if(USE_KDE4)
+if(OXYGEN_USE_KDE4)
   kde4_add_kcfg_files(kwin_oxygen_config_PART_SRCS ../oxygenconfiguration.kcfgc)
   kde4_add_ui_files(kwin_oxygen_config_PART_FORMS_HEADERS ${kwin_oxygen_config_PART_FORMS})
   kde4_add_plugin(kwin_oxygen_config
@@ -28,10 +28,9 @@ if(USE_KDE4)
       ${KDE4_KDEUI_LIBS}
       ${KDE4WORKSPACE_KDECORATIONS_LIBS}
       oxygenstyle oxygenstyleconfig
-  )
+ )
 
-  if(X11_FOUND)
-    target_link_libraries(kwin_oxygen_config ${X11_X11_LIB})
+  if(OXYGEN_HAVE_X11)
     target_link_libraries(kwin_oxygen_config ${X11_XCB_LIBRARIES})
     target_link_libraries(kwin_oxygen_config ${XCB_LIBRARIES})
   endif()
@@ -50,7 +49,7 @@ else()
   target_link_libraries(kwin_oxygen_config KF5::I18n KF5::WindowSystem KF5::Completion)
   target_link_libraries(kwin_oxygen_config kdecorations oxygenstyle5  oxygenstyleconfig5)
 
-  if(X11_FOUND)
+  if(OXYGEN_HAVE_X11)
     target_link_libraries(kwin_oxygen_config XCB::XCB)
     target_link_libraries(kwin_oxygen_config Qt5::X11Extras)
   endif()

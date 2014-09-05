@@ -55,7 +55,7 @@ namespace Oxygen
         if( !_enabled ) setEnabled( true );
 
         // shadows
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         ActiveShadowConfiguration::self()->readConfig();
         InactiveShadowConfiguration::self()->readConfig();
         #else

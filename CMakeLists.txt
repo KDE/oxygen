@@ -6,7 +6,8 @@ cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 include(WriteBasicConfigVersionFile)
 include(FeatureSummary)
 
-if(USE_KDE4)
+set(OXYGEN_USE_KDE4 ${USE_KDE4})
+if(OXYGEN_USE_KDE4)
 
   ############ Language and toolchain features
   ############ copied from ECM
@@ -16,27 +17,10 @@ if(USE_KDE4)
       set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
   endif()
 
-  add_definitions( -DUSE_KDE4=1 )
-
-else()
-
-  add_definitions( -DUSE_KDE4=0 )
-
 endif()
 
-
-################# X11 #################
-find_package(X11)
-set_package_properties(X11 PROPERTIES DESCRIPTION "X11 libraries"
-    URL "http://www.x.org"
-    TYPE OPTIONAL
-    PURPOSE "Required for building the X11 based workspace"
-)
-
-add_definitions( -DHAVE_X11=${X11_FOUND} )
-
 ################# Qt/KDE #################
-if(USE_KDE4)
+if(OXYGEN_USE_KDE4)
 
   find_package(KDE4 REQUIRED)
   include(KDE4Defaults)
@@ -45,22 +29,21 @@ if(USE_KDE4)
   add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
   include_directories(${KDE4_INCLUDES})
 
+  ### KDE workspace (needed for window decoration)
   find_package(KDE4Workspace 4.9.80)
   set_package_properties(
     KDE4Workspace PROPERTIES
     TYPE OPTIONAL
     PURPOSE "Required to oxygen window decoration for kwin"
-  )
+ )
 
-  if(X11_FOUND)
-    ### XCB
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules( XCB REQUIRED xcb x11-xcb)
-  endif()
+  ### XCB
+  pkg_check_modules(XCB xcb x11-xcb)
+  set(OXYGEN_HAVE_X11 ${XCB_FOUND})
 
   add_subdirectory(liboxygen)
   add_subdirectory(kstyle)
-  if( KDE4Workspace_FOUND )
+  if(KDE4Workspace_FOUND)
      add_subdirectory(kwin-decoration)
   endif()
 
@@ -85,15 +68,23 @@ else()
     KDecorations PROPERTIES
     TYPE OPTIONAL
     PURPOSE "Required to oxygen window decoration for kwin"
-  )
+ )
 
-  if(X11_FOUND)
-    ### XCB
-    find_package(XCB REQUIRED COMPONENTS XCB)
-    set_package_properties(XCB PROPERTIES TYPE REQUIRED)
-    find_package(Qt5 REQUIRED CONFIG COMPONENTS X11Extras)
-  else()
-    set(X11_FOUND 0)
+  find_package(XCB COMPONENTS XCB)
+  set_package_properties(XCB PROPERTIES
+      DESCRIPTION "X protocol C-language Binding"
+      URL "http://xcb.freedesktop.org"
+      TYPE OPTIONAL
+      PURPOSE "Required to pass style properties to native Windows on X11 Platform"
+ )
+
+  if(NOT APPLE)
+
+    set(OXYGEN_HAVE_X11 ${XCB_XCB_FOUND})
+    if (XCB_XCB_FOUND)
+      find_package(Qt5 REQUIRED CONFIG COMPONENTS X11Extras)
+    endif()
+
   endif()
 
   include(KDEInstallDirs)
@@ -104,7 +95,7 @@ else()
   add_subdirectory(liboxygen)
   add_subdirectory(kstyle)
   add_subdirectory(cursors)
-  if( KDecorations_FOUND )
+  if(KDecorations_FOUND)
     add_subdirectory(kwin-decoration)
   endif()
 

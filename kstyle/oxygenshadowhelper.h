@@ -29,11 +29,12 @@
 
 #include "oxygen.h"
 #include "oxygentileset.h"
+#include "config-liboxygen.h"
 
 #include <QObject>
 #include <QMap>
 
-#if HAVE_X11
+#if OXYGEN_HAVE_X11
 #include <xcb/xcb.h>
 #endif
 
@@ -168,7 +169,7 @@ namespace Oxygen
         //! shadow size
         int _size;
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
 
         //! graphical context
         xcb_gcontext_t _gc;

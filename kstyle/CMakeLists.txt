@@ -1,8 +1,5 @@
 project(kstyle-oxygen)
 
-################# X11 #################
-add_definitions( -DHAVE_X11=${X11_FOUND} )
-
 ################# includes #################
 include_directories(
     animations
@@ -10,8 +7,9 @@ include_directories(
     transitions
 )
 
-if(USE_KDE4)
-  include_directories ( ../liboxygen)
+if(OXYGEN_USE_KDE4)
+  include_directories(${CMAKE_SOURCE_DIR}/liboxygen)
+  include_directories(${CMAKE_BINARY_DIR}/liboxygen)
 endif()
 
 ########### next target ###############
@@ -74,20 +72,19 @@ set(oxygen_PART_SRCS
     oxygenwindowmanager.cpp
 )
 
-if(USE_KDE4)
+if(OXYGEN_USE_KDE4)
 
   kde4_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
   kde4_add_plugin(oxygen ${oxygen_PART_SRCS})
-  target_link_libraries(oxygen ${KDE4_KDEUI_LIBS} )
+  target_link_libraries(oxygen ${KDE4_KDEUI_LIBS})
   target_link_libraries(oxygen oxygenstyle)
 
-  if(X11_FOUND)
-    target_link_libraries(oxygen ${X11_X11_LIB} )
-    target_link_libraries(oxygen ${X11_XCB_LIBRARIES} )
-    target_link_libraries(oxygen ${XCB_LIBRARIES} )
+  if(OXYGEN_HAVE_X11)
+    target_link_libraries(oxygen ${X11_XCB_LIBRARIES})
+    target_link_libraries(oxygen ${XCB_LIBRARIES})
   endif()
 
-  install(TARGETS oxygen DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/ )
+  install(TARGETS oxygen DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/)
 
 else()
 
@@ -98,12 +95,12 @@ else()
   target_link_libraries(oxygen KF5::GuiAddons KF5::Style KF5::WindowSystem)
   target_link_libraries(oxygen oxygenstyle5)
 
-  if(X11_FOUND)
+  if(OXYGEN_HAVE_X11)
     target_link_libraries(oxygen XCB::XCB)
     target_link_libraries(oxygen Qt5::X11Extras)
   endif()
 
-  install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/ )
+  install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/)
 
 endif()
 
@@ -114,8 +111,8 @@ if(WIN32)
 endif()
 
 ########### install files ###############
-install( FILES oxygen.themerc  DESTINATION  ${DATA_INSTALL_DIR}/kstyle/themes )
+install(FILES oxygen.themerc  DESTINATION  ${DATA_INSTALL_DIR}/kstyle/themes)
 
 ########### subdirectories ###############
-add_subdirectory( config )
-add_subdirectory( demo )
+add_subdirectory(config)
+add_subdirectory(demo)

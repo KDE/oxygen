@@ -26,6 +26,7 @@
 #include "oxygenexceptionlistwidget.h"
 #include "oxygenexceptionlistwidget.moc"
 #include "oxygenexceptiondialog.h"
+#include "config-liboxygen.h"
 
 #include <QMessageBox>
 #include <QPointer>
@@ -112,7 +113,7 @@ namespace Oxygen
         QPointer<ExceptionDialog> dialog = new ExceptionDialog( this );
         ConfigurationPtr exception( new Configuration() );
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         exception->readConfig();
         #else
         exception->load();

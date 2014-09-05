@@ -26,6 +26,7 @@
 
 #include "oxygendemodialog.h"
 #include "../oxygen.h"
+#include "config-liboxygen.h"
 
 #include <QApplication>
 #include <QIcon>
@@ -51,7 +52,7 @@ namespace Oxygen
 //__________________________________________
 int main(int argc, char *argv[])
 {
-    #if !USE_KDE4
+    #if !OXYGEN_USE_KDE4
     KLocalizedString::setApplicationDomain("oxygen_style_demo");
     #endif
 

@@ -31,6 +31,7 @@
 #include "oxygendetectwidget.moc"
 
 #include "../oxygendecorationdefines.h"
+#include "config-liboxygen.h"
 
 #include <QButtonGroup>
 #include <QLayout>
@@ -87,7 +88,7 @@ namespace Oxygen
             return;
         }
 
-        #if USE_KDE4
+        #if OXYGEN_USE_KDE4
         _info.reset(new KWindowInfo( window, -1U, -1U ) );
         #else
         _info.reset(new KWindowInfo( window, NET::WMAllProperties, NET::WM2AllProperties ));

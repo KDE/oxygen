@@ -48,7 +48,7 @@ namespace Oxygen
 {
 
     //* convenience typedef for base class
-    #if USE_KDE4
+    #if OXYGEN_USE_KDE4
     using ParentDecorationClass = KCommonDecorationUnstable;
     #else
     using ParentDecorationClass = KCommonDecoration;

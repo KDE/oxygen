@@ -99,7 +99,7 @@ namespace Oxygen
             // find client's parent
             xcb_window_t current = windowId;
             xcb_connection_t* connection = _client->helper().connection();
-            #if USE_KDE4
+            #if OXYGEN_USE_KDE4
             while( true )
             {
 
@@ -234,7 +234,7 @@ namespace Oxygen
 
         } else {
 
-            #if USE_KDE4
+            #if OXYGEN_USE_KDE4
             position -= QPoint(
                 _client->layoutMetric( Client::LM_BorderRight ),
                 _client->layoutMetric( Client::LM_BorderBottom ) );

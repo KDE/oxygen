@@ -49,6 +49,7 @@
 
 #include "oxygen.h"
 #include "oxygentileset.h"
+#include "config-liboxygen.h"
 
 #include <KStyle>
 
@@ -86,7 +87,7 @@ namespace Oxygen
     class BlurHelper;
 
     //* convenience typedef for base class
-    #if USE_KDE4
+    #if OXYGEN_USE_KDE4
     using ParentStyleClass = QCommonStyle;
     #else
     using ParentStyleClass = KStyle;

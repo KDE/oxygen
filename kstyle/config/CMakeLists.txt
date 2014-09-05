@@ -5,12 +5,12 @@ set(kstyle_oxygen_config_PART_SRCS
     oxygenstyleconfig.cpp
 )
 
-set( kstyle_oxygen_config_PART_FORMS
+set(kstyle_oxygen_config_PART_FORMS
     ui/oxygenfollowmouseanimationconfigbox.ui
     ui/oxygenstyleconfig.ui
 )
 
-if(USE_KDE4)
+if(OXYGEN_USE_KDE4)
   kde4_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
 
   kde4_add_ui_files(kstyle_oxygen_config_PART_FORMS_HEADERS ${kstyle_oxygen_config_PART_FORMS})
@@ -18,7 +18,7 @@ if(USE_KDE4)
   kde4_add_plugin(kstyle_oxygen_config
       ${kstyle_oxygen_config_PART_SRCS}
       ${kstyle_oxygen_config_PART_FORMS_HEADERS}
-  )
+ )
 
   target_link_libraries(kstyle_oxygen_config ${KDE4_KDEUI_LIBS})
   target_link_libraries(kstyle_oxygen_config oxygenstyleconfig)
@@ -28,28 +28,28 @@ else()
 
   kconfig_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
 
-  set( kstyle_oxygen_config_PART_FORMS
+  set(kstyle_oxygen_config_PART_FORMS
     ui/oxygenfollowmouseanimationconfigbox.ui
     ui/oxygenstyleconfig.ui
-  )
+ )
 
   ki18n_wrap_ui(kstyle_oxygen_config_PART_FORMS_HEADERS ${kstyle_oxygen_config_PART_FORMS})
 
   add_library(kstyle_oxygen_config MODULE
       ${kstyle_oxygen_config_PART_SRCS}
       ${kstyle_oxygen_config_PART_FORMS_HEADERS}
-  )
+ )
 
   target_link_libraries(kstyle_oxygen_config Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
   target_link_libraries(kstyle_oxygen_config KF5::Completion KF5::I18n)
   target_link_libraries(kstyle_oxygen_config oxygenstyleconfig5)
 
-  install(TARGETS kstyle_oxygen_config DESTINATION ${QT_PLUGIN_INSTALL_DIR} )
+  install(TARGETS kstyle_oxygen_config DESTINATION ${QT_PLUGIN_INSTALL_DIR})
 endif()
 
 
 ########### next target ###############
-if(NOT USE_KDE4)
+if(NOT OXYGEN_USE_KDE4)
   set(oxygen_settings_SOURCES
       oxygenconfigdialog.cpp
       main.cpp)
@@ -60,11 +60,11 @@ if(NOT USE_KDE4)
   add_executable(oxygen-settings5
       ${oxygen_settings_SOURCES}
       ${oxygen_settings_FORMS_HEADERS}
-  )
+ )
 
   target_link_libraries(oxygen-settings5 Qt5::Core Qt5::Gui Qt5::Widgets)
   target_link_libraries(oxygen-settings5 KF5::I18n KF5::WidgetsAddons KF5::ConfigCore KF5::ConfigGui KF5::Service)
 
-  install (TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS} )
+  install (TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 endif()

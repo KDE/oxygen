@@ -30,7 +30,7 @@
 
 #include <math.h>
 
-#if HAVE_X11
+#if OXYGEN_HAVE_X11
 #include <QX11Info>
 #endif
 
@@ -43,7 +43,7 @@ namespace Oxygen
     { init(); }
 
     //______________________________________________________________________________
-    #if USE_KDE4
+    #if OXYGEN_USE_KDE4
     StyleHelper::StyleHelper( const QByteArray& name ):
         Helper( name )
     { init(); }
@@ -755,7 +755,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     bool StyleHelper::compositingActive( void ) const
     {
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         if( isX11() )
         {
             // direct call to X
@@ -1335,7 +1335,7 @@ namespace Oxygen
 
         _useBackgroundGradient = true;
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         if( isX11() )
         {
             // create compositing screen

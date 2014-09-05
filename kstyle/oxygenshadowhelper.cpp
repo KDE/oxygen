@@ -36,7 +36,7 @@
 #include <QTextStream>
 #include <QEvent>
 
-#if HAVE_X11
+#if OXYGEN_HAVE_X11
 #include <QX11Info>
 #endif
 
@@ -54,7 +54,7 @@ namespace Oxygen
         _supported( checkSupported() ),
         _shadowCache( new ShadowCache( helper ) ),
         _size( 0 )
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         ,_gc( 0 ),
         _atom( 0 )
         #endif
@@ -64,7 +64,7 @@ namespace Oxygen
     ShadowHelper::~ShadowHelper( void )
     {
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         if( _helper.isX11() )
         {
             foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.connection(), value );
@@ -79,7 +79,7 @@ namespace Oxygen
     //______________________________________________
     void ShadowHelper::reset( void )
     {
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         if( _helper.isX11() )
         {
             // round pixmaps
@@ -213,7 +213,7 @@ namespace Oxygen
     {
 
         // create atom
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
 
         // make sure we are on X11
         if( !_helper.isX11() ) return false;
@@ -311,7 +311,7 @@ namespace Oxygen
         */
 
         // create atom
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         if( !_atom && _helper.isX11() ) _atom = _helper.createAtom( QLatin1String( netWMShadowAtomName ) );
         #endif
 
@@ -368,7 +368,7 @@ namespace Oxygen
         explicitly and draw the source pixmap on it.
         */
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
 
         const int width( source.width() );
         const int height( source.height() );
@@ -407,7 +407,7 @@ namespace Oxygen
         if( !widget ) return false;
         if( !_helper.isX11() ) return false;
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         #ifndef QT_NO_XRENDER
 
         // TODO: also check for NET_WM_SUPPORTED atom, before installing shadow
@@ -481,7 +481,7 @@ namespace Oxygen
     void ShadowHelper::uninstallX11Shadows( QWidget* widget ) const
     {
 
-        #if HAVE_X11
+        #if OXYGEN_HAVE_X11
         if( !_supported ) return;
         if( !_helper.isX11() ) return;
         if( !( widget && widget->testAttribute(Qt::WA_WState_Created) ) ) return;
