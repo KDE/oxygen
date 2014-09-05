@@ -5715,13 +5715,13 @@ namespace Oxygen
                 if( tabBar )
                 {
                     QRect frameRect( rect );
-                    frameRect.setTop( rect.bottom() - TileSet::DefaultSize + 1 );
+                    frameRect.setTop( rect.bottom() - Metrics::TabBar_BaseOverlap + 1 );
 
                     if( rect.left() > tabBarRect.left() )
                     {
 
-                        frameRect.setLeft( tabBarRect.left() - TileSet::DefaultSize );
-                        frameRect.setRight( rect.left() + TileSet::DefaultSize - 1 );
+                        frameRect.setLeft( tabBarRect.left() - Metrics::TabBar_BaseOverlap );
+                        frameRect.setRight( rect.left() + Metrics::TabBar_BaseOverlap - 1 );
                         if( documentMode || reverseLayout ) slabs << SlabRect( frameRect, TileSet::Top );
                         else slabs << SlabRect( frameRect, TileSet::TopLeft );
 
@@ -5730,8 +5730,8 @@ namespace Oxygen
                     if( rect.right() < tabBarRect.right() )
                     {
 
-                        frameRect.setLeft( rect.right() - TileSet::DefaultSize + 1 );
-                        frameRect.setRight( tabBarRect.right() + TileSet::DefaultSize );
+                        frameRect.setLeft( rect.right() - Metrics::TabBar_BaseOverlap + 1 );
+                        frameRect.setRight( tabBarRect.right() + Metrics::TabBar_BaseOverlap );
                         if( documentMode || !reverseLayout ) slabs << SlabRect( frameRect, TileSet::Top );
                         else slabs << SlabRect( frameRect, TileSet::TopRight );
 
@@ -5793,12 +5793,12 @@ namespace Oxygen
                 {
 
                     QRect frameRect( rect );
-                    frameRect.setBottom( rect.top() + TileSet::DefaultSize - 1 );
+                    frameRect.setBottom( rect.top() + Metrics::TabBar_BaseOverlap - 1 );
 
                     if( rect.left() > tabBarRect.left() )
                     {
-                        frameRect.setLeft( tabBarRect.left() - TileSet::DefaultSize );
-                        frameRect.setRight( rect.left() + TileSet::DefaultSize - 1 );
+                        frameRect.setLeft( tabBarRect.left() - Metrics::TabBar_BaseOverlap );
+                        frameRect.setRight( rect.left() + Metrics::TabBar_BaseOverlap - 1 );
                         if( documentMode || reverseLayout ) slabs << SlabRect( frameRect, TileSet::Bottom );
                         else slabs << SlabRect( frameRect, TileSet::BottomLeft );
                     }
@@ -5806,8 +5806,8 @@ namespace Oxygen
                     if( rect.right() < tabBarRect.right() )
                     {
 
-                        frameRect.setLeft( rect.right() - TileSet::DefaultSize + 1 );
-                        frameRect.setRight( tabBarRect.right() + TileSet::DefaultSize );
+                        frameRect.setLeft( rect.right() - Metrics::TabBar_BaseOverlap + 1 );
+                        frameRect.setRight( tabBarRect.right() + Metrics::TabBar_BaseOverlap );
                         if( documentMode || !reverseLayout ) slabs << SlabRect( frameRect, TileSet::Bottom );
                         else slabs << SlabRect( frameRect, TileSet::BottomRight );
                     }
@@ -5855,12 +5855,12 @@ namespace Oxygen
                 {
 
                     QRect frameRect( rect );
-                    frameRect.setLeft( rect.right() - TileSet::DefaultSize + 1 );
+                    frameRect.setLeft( rect.right() - Metrics::TabBar_BaseOverlap + 1 );
                     if( rect.top() > tabBarRect.top() )
                     {
 
-                        frameRect.setTop( tabBarRect.top() - TileSet::DefaultSize );
-                        frameRect.setBottom( rect.top() + TileSet::DefaultSize - 1 );
+                        frameRect.setTop( tabBarRect.top() - Metrics::TabBar_BaseOverlap );
+                        frameRect.setBottom( rect.top() + Metrics::TabBar_BaseOverlap - 1 );
                         if( documentMode ) slabs << SlabRect( frameRect, TileSet::Left );
                         else slabs << SlabRect( frameRect, TileSet::TopLeft );
                     }
@@ -5868,8 +5868,8 @@ namespace Oxygen
                     if( rect.bottom() < tabBarRect.bottom() )
                     {
 
-                        frameRect.setTop( rect.bottom() - TileSet::DefaultSize + 1 );
-                        frameRect.setBottom( tabBarRect.bottom() + TileSet::DefaultSize - 1 );
+                        frameRect.setTop( rect.bottom() - Metrics::TabBar_BaseOverlap + 1 );
+                        frameRect.setBottom( tabBarRect.bottom() + Metrics::TabBar_BaseOverlap - 1 );
                         slabs << SlabRect( frameRect, TileSet::Left );
 
                     }
@@ -5915,13 +5915,13 @@ namespace Oxygen
                 {
 
                     QRect frameRect( rect );
-                    frameRect.setRight( rect.left() + TileSet::DefaultSize - 1 );
+                    frameRect.setRight( rect.left() + Metrics::TabBar_BaseOverlap - 1 );
 
                     if( rect.top() > tabBarRect.top() )
                     {
 
-                        frameRect.setTop( tabBarRect.top() - TileSet::DefaultSize );
-                        frameRect.setBottom( rect.top() + TileSet::DefaultSize - 1 );
+                        frameRect.setTop( tabBarRect.top() - Metrics::TabBar_BaseOverlap );
+                        frameRect.setBottom( rect.top() + Metrics::TabBar_BaseOverlap - 1 );
                         if( documentMode ) slabs << SlabRect( frameRect, TileSet::Right );
                         else slabs << SlabRect( frameRect, TileSet::TopRight );
                     }
@@ -5929,8 +5929,8 @@ namespace Oxygen
                     if( rect.bottom() < tabBarRect.bottom() )
                     {
 
-                        frameRect.setTop( rect.bottom() - TileSet::DefaultSize + 1 );
-                        frameRect.setBottom( tabBarRect.bottom() + TileSet::DefaultSize - 1 );
+                        frameRect.setTop( rect.bottom() - Metrics::TabBar_BaseOverlap + 1 );
+                        frameRect.setBottom( tabBarRect.bottom() + Metrics::TabBar_BaseOverlap - 1 );
                         slabs << SlabRect( frameRect, TileSet::Right );
 
                     }
@@ -6089,7 +6089,7 @@ namespace Oxygen
                 }
 
                 // highlight
-                QRect highlightRect( tabRect.left(), tabRect.bottom() - 3, tabRect.width(), 1 );
+                QRect highlightRect( tabRect.left(), tabRect.bottom() - Metrics::TabBar_BaseOverlap + Metrics::TabBar_TabOffset, tabRect.width(), 1 );
                 if( isFrameAligned && isFirst ) highlightSlab = SlabRect( highlightRect.adjusted( -2, 0, 0, 0 ), TileSet::TopLeft );
                 else if( isFrameAligned && isLast ) highlightSlab = SlabRect( highlightRect.adjusted( 0, 0, 2, 0 ), TileSet::TopRight );
                 else highlightSlab = SlabRect( highlightRect, TileSet::Top );
@@ -6138,7 +6138,7 @@ namespace Oxygen
                 }
 
                 // highlight
-                QRect highlightRect( tabRect.left(), tabRect.top() - 3, tabRect.width(), TileSet::DefaultSize );
+                QRect highlightRect( tabRect.left(), tabRect.top() - Metrics::TabBar_BaseOverlap + Metrics::TabBar_TabOffset, tabRect.width(), TileSet::DefaultSize );
                 if( isFrameAligned && isFirst ) highlightSlab = SlabRect( highlightRect.adjusted( -2, 0, 0, 0 ), TileSet::BottomLeft );
                 else if( isFrameAligned && isLast ) highlightSlab = SlabRect( highlightRect.adjusted( 0, 0, 2, 0 ), TileSet::BottomRight );
                 else highlightSlab = SlabRect( highlightRect, TileSet::Bottom );
@@ -6187,7 +6187,7 @@ namespace Oxygen
                 }
 
                 // highlight
-                QRect highlightRect( tabRect.right() - 3, tabRect.top(), 1, tabRect.height() );
+                QRect highlightRect( tabRect.right() - Metrics::TabBar_BaseOverlap + Metrics::TabBar_TabOffset, tabRect.top(), 1, tabRect.height() );
                 if( isFrameAligned && isFirst ) highlightSlab = SlabRect( highlightRect.adjusted( 0, -2, 0, 0 ), TileSet::TopLeft );
                 else if( isFrameAligned && isLast ) highlightSlab = SlabRect( highlightRect.adjusted( 0, 0, 0, 2 ), TileSet::BottomLeft );
                 else highlightSlab = SlabRect( highlightRect, TileSet::Left );
@@ -6235,7 +6235,7 @@ namespace Oxygen
                 }
 
                 // highlight
-                QRect highlightRect( tabRect.left() - 3, tabRect.top(), TileSet::DefaultSize, tabRect.height() );
+                QRect highlightRect( tabRect.left() - Metrics::TabBar_BaseOverlap + Metrics::TabBar_TabOffset, tabRect.top(), TileSet::DefaultSize, tabRect.height() );
                 if( isFrameAligned && isFirst ) highlightSlab = SlabRect( highlightRect.adjusted( 0, -2, 0, 0 ), TileSet::TopRight );
                 else if( isFrameAligned && isLast ) highlightSlab = SlabRect( highlightRect.adjusted( 0, 0, 0, 2 ), TileSet::BottomRight );
                 else highlightSlab = SlabRect( highlightRect, TileSet::Right );
