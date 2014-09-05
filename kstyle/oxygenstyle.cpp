@@ -6913,15 +6913,11 @@ namespace Oxygen
         const QRect& rect( option->rect );
         const QPalette& palette( option->palette );
 
-        // store state
-        const State& state( option->state );
-        const bool enabled( state & State_Enabled );
-        const bool hasFocus( enabled && ( state & State_HasFocus ) );
-        bool flat( !spinBoxOption->frame );
-
         if( spinBoxOption->subControls & SC_SpinBoxFrame )
         {
 
+            // detect flat spinboxes
+            bool flat( !spinBoxOption->frame );
             flat |= ( rect.height() <= 2*Metrics::Frame_FrameWidth + Metrics::MenuButton_IndicatorWidth );
             if( flat )
             {
