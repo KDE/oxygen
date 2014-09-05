@@ -86,10 +86,6 @@ namespace Oxygen
         WidgetStateEngine& toolButtonEngine( void ) const
         { return *_toolButtonEngine; }
 
-        //! lineEdit engine
-        WidgetStateEngine& lineEditEngine( void ) const
-        { return *_lineEditEngine; }
-
         //! splitter engine
         SplitterEngine& splitterEngine( void ) const
         { return *_splitterEngine; }
@@ -178,9 +174,6 @@ namespace Oxygen
 
         //! mennu toolbutton arrow hover effect
         WidgetStateEngine* _toolButtonEngine;
-
-        //! line editor engine
-        WidgetStateEngine* _lineEditEngine;
 
         //! QSplitter engine
         SplitterEngine* _splitterEngine;

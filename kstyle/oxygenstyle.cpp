@@ -3008,15 +3008,15 @@ namespace Oxygen
         const bool hasFocus( enabled && isInputWidget && ( state & State_HasFocus ) );
 
         // assume focus takes precedence over hover
-        _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
-        _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
+        _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus );
+        _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
 
         if( state & State_Sunken )
         {
 
             // retrieve animation mode and opacity
-            const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
-            const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
+            const AnimationMode mode( _animations->widgetStateEngine().frameAnimationMode( widget ) );
+            const qreal opacity( _animations->widgetStateEngine().frameOpacity( widget ) );
 
             if( _frameShadowFactory->isRegistered( widget ) )
             {
@@ -3073,12 +3073,12 @@ namespace Oxygen
             const bool hasFocus( enabled && ( state & State_HasFocus ) );
 
             // assume focus takes precedence over hover
-            _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
-            _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
+            _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus );
+            _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
 
             // retrieve animation mode and opacity
-            const AnimationMode mode( _animations->lineEditEngine().frameAnimationMode( widget ) );
-            const qreal opacity( _animations->lineEditEngine().frameOpacity( widget ) );
+            const AnimationMode mode( _animations->widgetStateEngine().frameAnimationMode( widget ) );
+            const qreal opacity( _animations->widgetStateEngine().frameOpacity( widget ) );
 
             // fill
             painter->setPen( Qt::NoPen );
@@ -6753,8 +6753,8 @@ namespace Oxygen
 
                 // editable combobox. Make it look like a LineEdit
                 // focus takes precedence over hover
-                _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus );
-                _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
+                _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus );
+                _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver && !hasFocus );
 
                 // input area
                 painter->setRenderHint( QPainter::Antialiasing );
@@ -6778,11 +6778,11 @@ namespace Oxygen
 
                 // non editable combobox. Make it look like a PushButton
                 // hover takes precedence over focus
-                _animations->lineEditEngine().updateState( widget, AnimationHover, mouseOver );
-                _animations->lineEditEngine().updateState( widget, AnimationFocus, hasFocus && !mouseOver );
+                _animations->widgetStateEngine().updateState( widget, AnimationHover, mouseOver );
+                _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus && !mouseOver );
 
-                const AnimationMode mode( _animations->lineEditEngine().buttonAnimationMode( widget ) );
-                const qreal opacity( _animations->lineEditEngine().buttonOpacity( widget ) );
+                const AnimationMode mode( _animations->widgetStateEngine().buttonAnimationMode( widget ) );
+                const qreal opacity( _animations->widgetStateEngine().buttonOpacity( widget ) );
 
                 // blend button color to the background
                 const QColor buttonColor( _helper->backgroundColor( palette.color( QPalette::Button ), widget, rect.center() ) );
@@ -6916,7 +6916,6 @@ namespace Oxygen
         // store state
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
-        const bool mouseOver( enabled && ( state & State_MouseOver ) );
         const bool hasFocus( enabled && ( state & State_HasFocus ) );
         bool flat( !spinBoxOption->frame );
 

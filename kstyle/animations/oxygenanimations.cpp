@@ -66,7 +66,6 @@ namespace Oxygen
         registerEngine( _dockSeparatorEngine = new DockSeparatorEngine( this ) );
         registerEngine( _headerViewEngine = new HeaderViewEngine( this ) );
         registerEngine( _widgetStateEngine = new WidgetStateEngine( this ) );
-        registerEngine( _lineEditEngine = new WidgetStateEngine( this ) );
         registerEngine( _progressBarEngine = new ProgressBarEngine( this ) );
         registerEngine( _menuBarEngine = new MenuBarEngineV1( this ) );
         registerEngine( _menuEngine = new MenuEngineV1( this ) );
@@ -95,7 +94,6 @@ namespace Oxygen
             _comboBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _toolButtonEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _toolBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            _lineEditEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _splitterEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _scrollBarEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _sliderEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
@@ -214,7 +212,6 @@ namespace Oxygen
             _comboBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _toolButtonEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _toolBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
-            _lineEditEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _splitterEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _scrollBarEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _sliderEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
@@ -314,23 +311,23 @@ namespace Oxygen
         // editors
         else if( qobject_cast<QComboBox*>( widget ) ) {
             _comboBoxEngine->registerWidget( widget, AnimationHover );
-            _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus );
+            _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus );
         } else if( qobject_cast<QSpinBox*>( widget ) ) {
             _spinBoxEngine->registerWidget( widget );
-            _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus );
+            _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus );
         }
-        else if( qobject_cast<QLineEdit*>( widget ) ) { _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( qobject_cast<QTextEdit*>( widget ) ) { _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( qobject_cast<QLineEdit*>( widget ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( qobject_cast<QTextEdit*>( widget ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // lists
         else if( qobject_cast<QAbstractItemView*>( widget ) || widget->inherits("Q3ListView") )
-        { _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // scrollarea
         else if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) ) {
 
             if( scrollArea->frameShadow() == QFrame::Sunken && (widget->focusPolicy()&Qt::StrongFocus) )
-            { _lineEditEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+            { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         }
 
