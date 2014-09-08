@@ -1,4 +1,4 @@
-add_definitions(-DTRANSLATION_DOMAIN=\"oxygen_demo\")
+add_definitions(-DTRANSLATION_DOMAIN=\"oxygen_style_demo\")
 
 include_directories(${CMAKE_BINARY_DIR}/liboxygen)
 
