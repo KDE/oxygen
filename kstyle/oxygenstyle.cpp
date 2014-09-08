@@ -467,11 +467,6 @@ namespace Oxygen
             if( widget->parent() && widget->parent()->inherits( "Konsole::TerminalDisplay" ) )
             { addEventFilter( widget ); }
 
-            if( widget->parentWidget() &&
-                widget->parentWidget()->parentWidget() &&
-                widget->parentWidget()->parentWidget()->inherits( "Gwenview::SideBarGroup" ) )
-            { widget->setProperty( PropertyNames::toolButtonAlignment, Qt::AlignLeft ); }
-
         } else if( qobject_cast<QDockWidget*>( widget ) ) {
 
             widget->setBackgroundRole( QPalette::NoRole );
@@ -4671,8 +4666,7 @@ namespace Oxygen
 
         } else {
 
-            const QVariant alignmentProperty( widget ? widget->property( PropertyNames::toolButtonAlignment ) : QVariant() );
-            const bool leftAlign = alignmentProperty.isValid() && alignmentProperty.toInt() == Qt::AlignLeft;
+            const bool leftAlign( widget && widget->property( PropertyNames::toolButtonAlignment ).toInt() == Qt::AlignLeft );
 
             if( leftAlign ) iconRect = QRect( QPoint( rect.left(), rect.top() + (rect.height() - iconSize.height())/2 ), iconSize );
             else {
