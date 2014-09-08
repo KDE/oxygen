@@ -33,6 +33,10 @@
 
 int main(int argc, char *argv[])
 {
+    #if !OXYGEN_USE_KDE4
+    KLocalizedString::setApplicationDomain("oxygen_style_config");
+    #endif
+
     QApplication app( argc, argv );
     app.setApplicationName( i18n( "Oxygen Settings" ) );
     app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
