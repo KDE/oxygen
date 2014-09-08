@@ -55,6 +55,7 @@
 #include "oxygenframeshadow.h"
 #include "oxygenmdiwindowshadow.h"
 #include "oxygenmnemonics.h"
+#include "oxygenpropertynames.h"
 #include "oxygenshadowhelper.h"
 #include "oxygensplitterproxy.h"
 #include "oxygenstyleconfigdata.h"
@@ -406,15 +407,6 @@ namespace Oxygen
 
         }
 
-
-
-        /*
-        add extra margins for widgets in toolbars
-        this allows to preserve alignment with respect to actions
-        */
-        if( qobject_cast<QToolBar*>( widget->parent() ) )
-        { widget->setContentsMargins( 0,0,0,1 ); }
-
         if( qobject_cast<QToolButton*>( widget ) )
         {
             if( qobject_cast<QToolBar*>( widget->parent() ) )
@@ -431,6 +423,11 @@ namespace Oxygen
             }
 
             widget->setBackgroundRole( QPalette::NoRole );
+
+            if( widget->parentWidget() &&
+                widget->parentWidget()->parentWidget() &&
+                widget->parentWidget()->parentWidget()->inherits( "Gwenview::SideBarGroup" ) )
+            { widget->setProperty( PropertyNames::toolButtonAlignment, Qt::AlignLeft ); }
 
         } else if( qobject_cast<QMenuBar*>( widget ) ) {
 
@@ -469,6 +466,11 @@ namespace Oxygen
             // the scrollarea, otherwise an ugly flat background is used
             if( widget->parent() && widget->parent()->inherits( "Konsole::TerminalDisplay" ) )
             { addEventFilter( widget ); }
+
+            if( widget->parentWidget() &&
+                widget->parentWidget()->parentWidget() &&
+                widget->parentWidget()->parentWidget()->inherits( "Gwenview::SideBarGroup" ) )
+            { widget->setProperty( PropertyNames::toolButtonAlignment, Qt::AlignLeft ); }
 
         } else if( qobject_cast<QDockWidget*>( widget ) ) {
 
@@ -4669,8 +4671,17 @@ namespace Oxygen
 
         } else {
 
-            const int contentsWidth( iconSize.width() + textSize.width() + Metrics::ToolButton_ItemSpacing );
-            iconRect = QRect( QPoint( rect.left() + (rect.width() - contentsWidth )/2, rect.top() + (rect.height() - iconSize.height())/2 ), iconSize );
+            const QVariant alignmentProperty( widget ? widget->property( PropertyNames::toolButtonAlignment ) : QVariant() );
+            const bool leftAlign = alignmentProperty.isValid() && alignmentProperty.toInt() == Qt::AlignLeft;
+
+            if( leftAlign ) iconRect = QRect( QPoint( rect.left(), rect.top() + (rect.height() - iconSize.height())/2 ), iconSize );
+            else {
+
+                const int contentsWidth( iconSize.width() + textSize.width() + Metrics::ToolButton_ItemSpacing );
+                iconRect = QRect( QPoint( rect.left() + (rect.width() - contentsWidth )/2, rect.top() + (rect.height() - iconSize.height())/2 ), iconSize );
+
+            }
+
             textRect = QRect( QPoint( iconRect.right() + Metrics::ToolButton_ItemSpacing + 1, rect.top() + (rect.height() - textSize.height())/2 ), textSize );
 
             // handle right to left layouts
