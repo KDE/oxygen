@@ -22,7 +22,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  *************************************************************************/
 
-/* Define to 1 if you compile against X11*/
+/* Define to 1 if you compile against KDE4*/
 #cmakedefine01 OXYGEN_USE_KDE4
 
 /* Define to 1 if you have XCB libraries */
