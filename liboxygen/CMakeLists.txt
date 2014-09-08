@@ -1,6 +1,5 @@
 add_definitions(-DTRANSLATION_DOMAIN=\"liboxygenstyleconfig\")
 
-
 ################# configuration #################
 configure_file(config-liboxygen.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-liboxygen.h)
 
