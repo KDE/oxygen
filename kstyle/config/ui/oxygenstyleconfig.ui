@@ -26,7 +26,16 @@
    <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -63,13 +72,6 @@
         <widget class="QCheckBox" name="_splitterProxyEnabled">
          <property name="text">
           <string>Enable extended resize handles</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="_cacheEnabled">
-         <property name="text">
-          <string>Enable pixmap cache</string>
          </property>
         </widget>
        </item>
@@ -191,7 +193,16 @@
        <item row="1" column="1">
         <widget class="QWidget" name="_viewsExpertWidget" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -497,7 +508,6 @@
   <tabstop>_useBackgroundGradient</tabstop>
   <tabstop>_toolBarDrawItemSeparator</tabstop>
   <tabstop>_splitterProxyEnabled</tabstop>
-  <tabstop>_cacheEnabled</tabstop>
   <tabstop>_animationsEnabled</tabstop>
   <tabstop>_mnemonicsMode</tabstop>
   <tabstop>_windowDragMode</tabstop>

@@ -79,7 +79,6 @@ namespace Oxygen
         connect( _splitterProxyEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _mnemonicsMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
         connect( _animationsEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
-        connect( _cacheEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _viewTriangularExpanderSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
         connect( _viewDrawTreeBranchLines, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _scrollBarWidth, SIGNAL(valueChanged(int)), SLOT(updateChanged()) );
@@ -99,7 +98,6 @@ namespace Oxygen
         StyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
         StyleConfigData::setSplitterProxyEnabled( _splitterProxyEnabled->isChecked() );
         StyleConfigData::setMnemonicsMode( _mnemonicsMode->currentIndex() );
-        StyleConfigData::setCacheEnabled( _cacheEnabled->isChecked() );
         StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
         StyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
         StyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
@@ -197,7 +195,6 @@ namespace Oxygen
         _mnemonicsLabel->setVisible( _expertMode );
         _mnemonicsMode->setVisible( _expertMode );
         _animationsEnabled->setVisible( !_expertMode );
-        _cacheEnabled->setVisible( _expertMode );
         _viewsExpertWidget->setVisible( _expertMode );
 
         updateMinimumSize();
@@ -270,7 +267,6 @@ namespace Oxygen
         else if( _splitterProxyEnabled->isChecked() != StyleConfigData::splitterProxyEnabled() ) modified = true;
         else if( menuMode() != StyleConfigData::menuHighlightMode() ) modified = true;
         else if( _animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
-        else if( _cacheEnabled->isChecked() != StyleConfigData::cacheEnabled() ) modified = true;
         else if( triangularExpanderSize() != StyleConfigData::viewTriangularExpanderSize() ) modified = true;
         else if( _animationConfigWidget && _animationConfigWidget->isChanged() ) modified = true;
         else if( _windowDragMode->currentIndex() != StyleConfigData::windowDragMode() ) modified = true;
@@ -302,7 +298,6 @@ namespace Oxygen
         _menuHighlightSubtle->setChecked( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_SUBTLE );
 
         _animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
-        _cacheEnabled->setChecked( StyleConfigData::cacheEnabled() );
         _windowDragMode->setCurrentIndex( StyleConfigData::windowDragMode() );
 
         switch( StyleConfigData::viewTriangularExpanderSize() )
