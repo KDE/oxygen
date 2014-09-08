@@ -1,3 +1,5 @@
+add_definitions(-DTRANSLATION_DOMAIN=\"oxygen_decoration_config\")
+
 set(kwin_oxygen_config_PART_SRCS
     oxygenanimationconfigwidget.cpp
     oxygenconfig.cpp
