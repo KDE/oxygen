@@ -3018,6 +3018,7 @@ namespace Oxygen
             if( _frameShadowFactory->isRegistered( widget ) )
             {
 
+                _frameShadowFactory->updateShadowsGeometry( widget, rect );
                 _frameShadowFactory->updateState( widget, hasFocus, mouseOver, opacity, mode );
 
             } else {

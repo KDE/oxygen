@@ -49,7 +49,7 @@ namespace Oxygen
 
     //@}
 
-    //! metrics
+    //* metrics
     /*! these are copied from the old KStyle WidgetProperties */
     enum Metrics
     {
@@ -202,6 +202,15 @@ namespace Oxygen
     };
 
     Q_DECLARE_FLAGS(StyleOptions, StyleOption)
+
+    //* shadow area
+    enum ShadowArea
+    {
+        ShadowAreaTop,
+        ShadowAreaBottom,
+        ShadowAreaLeft,
+        ShadowAreaRight
+    };
 
 }
 
