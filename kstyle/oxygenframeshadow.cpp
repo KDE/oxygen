@@ -375,8 +375,9 @@ namespace Oxygen
         // store parent rect
         setParentRect( rect.translated( mapFromParent( QPoint(0,0) ) ) );
 
-        // adjust geometry
-        const int shadowSize( 4 );
+        // adjust geometry to take out part that is not rendered anyway
+        rect.adjust( 1, 1, -1, -1 );
+        const int shadowSize( 3 );
         switch( shadowArea() )
         {
 
