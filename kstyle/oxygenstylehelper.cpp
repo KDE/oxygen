@@ -633,153 +633,15 @@ namespace Oxygen
         return *pixmap;
     }
 
-    //__________________________________________________________________________________________________________
-    void StyleHelper::drawRoundSlab( QPainter& painter, const QColor& color, qreal shade )
+    //______________________________________________________________________________
+    void StyleHelper::renderDebugFrame( QPainter* painter, const QRect& rect ) const
     {
-
-        painter.save();
-
-        // colors
-        const QColor base( KColorUtils::shade( color, shade ) );
-        const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-
-        // bevel, part 1
-        QLinearGradient bevelGradient1( 0, 10, 0, 18 );
-        bevelGradient1.setColorAt( 0.0, light );
-        bevelGradient1.setColorAt( 0.9, alphaColor( light, 0.85 ) );
-        painter.setBrush( bevelGradient1 );
-        painter.drawEllipse( QRectF( 3.0,3.0,15.0,15.0 ) );
-
-        // bevel, part 2
-        if ( _slabThickness > 0.0 ) {
-            QLinearGradient bevelGradient2( 0, 7, 0, 28 );
-            bevelGradient2.setColorAt( 0.0, light );
-            bevelGradient2.setColorAt( 0.9, base );
-            painter.setBrush( bevelGradient2 );
-            painter.drawEllipse( QRectF( 3.6,3.6,13.8,13.8 ) );
-        }
-
-        // inside
-        QLinearGradient innerGradient( 0, -17, 0, 20 );
-        innerGradient.setColorAt( 0, light );
-        innerGradient.setColorAt( 1, base );
-        painter.setBrush( innerGradient );
-        const qreal ic( 3.6 + _slabThickness );
-        const qreal is( 21.0 - 2.0*ic );
-        painter.drawEllipse( QRectF( ic, ic, is, is ) );
-
-        painter.restore();
-
-    }
-
-    //__________________________________________________________________________________________________________
-    void StyleHelper::drawSliderSlab( QPainter& painter, const QColor& color, bool sunken, qreal shade )
-    {
-
-        painter.save();
-
-        const QColor light( KColorUtils::shade( calcLightColor(color), shade ) );
-        const QColor dark( KColorUtils::shade( calcDarkColor(color), shade ) );
-
-        painter.setPen(Qt::NoPen);
-
-        {
-            //plain background
-            QLinearGradient lg( 0, 3, 0, 21 );
-            lg.setColorAt( 0, light );
-            lg.setColorAt( 1, dark );
-
-            const QRectF r( 3, 3, 15, 15 );
-            painter.setBrush( lg );
-            painter.drawEllipse( r );
-
-        }
-
-        if( sunken )
-        {
-            //plain background
-            QLinearGradient lg( 0, 3, 0, 21 );
-            lg.setColorAt( 0, dark );
-            lg.setColorAt( 1, light );
-
-            const QRectF r( 5, 5, 11, 11 );
-            painter.setBrush( lg );
-            painter.drawEllipse( r );
-
-        }
-
-        {
-            // outline circle
-            const qreal penWidth( 1 );
-            QLinearGradient lg( 0, 3, 0, 30 );
-            lg.setColorAt( 0, light );
-            lg.setColorAt( 1, dark );
-
-            const QRectF r( 3.5, 3.5, 14, 14 );
-            painter.setPen( QPen( lg, penWidth ) );
-            painter.setBrush( Qt::NoBrush );
-            painter.drawEllipse( r );
-        }
-
-        painter.restore();
-
-    }
-
-    //________________________________________________________________________________________________________
-    void StyleHelper::drawInverseGlow(
-        QPainter& painter, const QColor& color,
-        int pad, int size, int rsize ) const
-    {
-
-        const QRectF r( pad, pad, size, size );
-        const qreal m( qreal( size )*0.5 );
-
-        const qreal width( 3.5 );
-        const qreal bias( _glowBias*7.0/rsize );
-        const qreal k0( ( m-width )/( m-bias ) );
-        QRadialGradient glowGradient( pad+m, pad+m, m-bias );
-        for ( int i = 0; i < 8; i++ )
-        {
-            // inverse parabolic gradient
-            qreal k1 = ( k0 * qreal( i ) + qreal( 8 - i ) ) * 0.125;
-            qreal a = 1.0 - sqrt( i * 0.125 );
-            glowGradient.setColorAt( k1, alphaColor( color, a ) );
-
-        }
-
-        glowGradient.setColorAt( k0, alphaColor( color, 0.0 ) );
-        painter.setBrush( glowGradient );
-        painter.drawEllipse( r );
-    }
-
-    //________________________________________________________________________________________________________
-    bool StyleHelper::compositingActive( void ) const
-    {
-        #if OXYGEN_HAVE_X11
-        if( isX11() )
-        {
-            // direct call to X
-            xcb_get_selection_owner_cookie_t cookie( xcb_get_selection_owner( connection(), _compositingManagerAtom ) );
-            ScopedPointer<xcb_get_selection_owner_reply_t> reply( xcb_get_selection_owner_reply( connection(), cookie, nullptr ) );
-            return reply && reply->owner;
-        } else
-        {
-            // use KWindowSystem
-            return KWindowSystem::compositingActive();
-        }
-        #else
-        // use KWindowSystem
-        return KWindowSystem::compositingActive();
-        #endif
-    }
-
-    //________________________________________________________________________________________________________
-    bool StyleHelper::hasDecoration( const QWidget* widget ) const
-    {
-        if( !widget->isTopLevel() ) return false;
-        if( widget->windowFlags() & (Qt::X11BypassWindowManagerHint|Qt::FramelessWindowHint) )
-        { return false; }
-        return true;
+        painter->save();
+        painter->setRenderHints( QPainter::Antialiasing );
+        painter->setBrush( Qt::NoBrush );
+        painter->setPen( Qt::red );
+        painter->drawRect( QRectF( rect ).adjusted( 0.5, 0.5, -0.5, -0.5 ) );
+        painter->restore();
     }
 
     //________________________________________________________________________________________________________
@@ -885,109 +747,6 @@ namespace Oxygen
         return tileSet;
     }
 
-    //________________________________________________________________________________________________________
-    TileSet *StyleHelper::hole( const QColor& color, const QColor& glow, int size, StyleOptions options )
-    {
-
-        // get key
-        Oxygen::Cache<TileSet>::Value* cache( _holeCache.get( glow ) );
-
-        const quint64 key( ( colorKey(color) << 32 ) | (size << 4) | options );
-        TileSet *tileSet = cache->object( key );
-
-        if ( !tileSet )
-        {
-
-            // first create shadow
-            int shadowSize( (size*5)/7 );
-            QPixmap shadowPixmap( shadowSize*2, shadowSize*2 );
-
-            // calc alpha channel and fade
-            const int alpha( glow.isValid() ? glow.alpha():0 );
-
-            {
-                shadowPixmap.fill( Qt::transparent );
-
-                QPainter painter( &shadowPixmap );
-                painter.setRenderHints( QPainter::Antialiasing );
-                painter.setPen( Qt::NoPen );
-                painter.setWindow( 0, 0, 10, 10 );
-
-                // fade-in shadow
-                if( alpha < 255 )
-                {
-                    QColor shadowColor( calcShadowColor( color ) );
-                    shadowColor.setAlpha( 255-alpha );
-                    drawInverseShadow( painter, shadowColor, 1, 8, 0.0 );
-                }
-
-                // fade-out glow
-                if( alpha > 0 )
-                { drawInverseGlow( painter, glow, 1, 8, shadowSize ); }
-
-                painter.end();
-
-            }
-
-            // create pixmap
-            QPixmap pixmap( size*2, size*2 );
-            pixmap.fill( Qt::transparent );
-
-            QPainter painter( &pixmap );
-            painter.setRenderHints( QPainter::Antialiasing );
-            painter.setPen( Qt::NoPen );
-            painter.setWindow( 0, 0, 14, 14 );
-
-            // hole mask
-            painter.setCompositionMode( QPainter::CompositionMode_DestinationOut );
-            painter.setBrush( Qt::black );
-
-            painter.drawRoundedRect( QRectF( 1, 1, 12, 12 ), 2.5, 2.5 );
-            painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-
-            // render shadow
-            TileSet(
-                shadowPixmap, shadowSize, shadowSize, shadowSize,
-                shadowSize, shadowSize-1, shadowSize, 2, 1 ).
-                render( pixmap.rect(), &painter );
-
-            if( (options&HoleOutline) && alpha < 255 )
-            {
-                QColor dark( calcDarkColor( color ) );
-                dark.setAlpha( 255 - alpha );
-                QLinearGradient blend( 0, 0, 0, 14 );
-                blend.setColorAt( 0, Qt::transparent );
-                blend.setColorAt( 0.8, dark );
-
-                painter.setBrush( Qt::NoBrush );
-                painter.setPen( QPen( blend, 1 ) );
-                painter.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 3.0, 3.0 );
-                painter.setPen( Qt::NoPen );
-            }
-
-            if( options&HoleContrast )
-            {
-                QColor light( calcLightColor( color ) );
-                QLinearGradient blend( 0, 0, 0, 18 );
-                blend.setColorAt( 0.5, Qt::transparent );
-                blend.setColorAt( 1.0, light );
-
-                painter.setBrush( Qt::NoBrush );
-                painter.setPen( QPen( blend, 1 ) );
-                painter.drawRoundedRect( QRectF( 0.5, 0.5, 13, 13 ), 4.0, 4.0 );
-                painter.setPen( Qt::NoPen );
-            }
-
-            painter.end();
-
-            // create tileset and return
-            tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
-            cache->insert( key, tileSet );
-        }
-
-        return tileSet;
-
-    }
 
     //______________________________________________________________________________
     TileSet *StyleHelper::scrollHole( const QColor& color, Qt::Orientation orientation, bool smallShadow )
@@ -1326,6 +1085,260 @@ namespace Oxygen
         }
 
         return tileSet;
+
+    }
+
+    //________________________________________________________________________________________________________
+    void StyleHelper::drawInverseGlow(
+        QPainter& painter, const QColor& color,
+        int pad, int size, int rsize ) const
+    {
+
+        const QRectF r( pad, pad, size, size );
+        const qreal m( qreal( size )*0.5 );
+
+        const qreal width( 3.5 );
+        const qreal bias( _glowBias*7.0/rsize );
+        const qreal k0( ( m-width )/( m-bias ) );
+        QRadialGradient glowGradient( pad+m, pad+m, m-bias );
+        for ( int i = 0; i < 8; i++ )
+        {
+            // inverse parabolic gradient
+            qreal k1 = ( k0 * qreal( i ) + qreal( 8 - i ) ) * 0.125;
+            qreal a = 1.0 - sqrt( i * 0.125 );
+            glowGradient.setColorAt( k1, alphaColor( color, a ) );
+
+        }
+
+        glowGradient.setColorAt( k0, alphaColor( color, 0.0 ) );
+        painter.setBrush( glowGradient );
+        painter.drawEllipse( r );
+    }
+
+    //________________________________________________________________________________________________________
+    bool StyleHelper::compositingActive( void ) const
+    {
+        #if OXYGEN_HAVE_X11
+        if( isX11() )
+        {
+            // direct call to X
+            xcb_get_selection_owner_cookie_t cookie( xcb_get_selection_owner( connection(), _compositingManagerAtom ) );
+            ScopedPointer<xcb_get_selection_owner_reply_t> reply( xcb_get_selection_owner_reply( connection(), cookie, nullptr ) );
+            return reply && reply->owner;
+        } else
+        {
+            // use KWindowSystem
+            return KWindowSystem::compositingActive();
+        }
+        #else
+        // use KWindowSystem
+        return KWindowSystem::compositingActive();
+        #endif
+    }
+
+    //________________________________________________________________________________________________________
+    bool StyleHelper::hasDecoration( const QWidget* widget ) const
+    {
+        if( !widget->isTopLevel() ) return false;
+        if( widget->windowFlags() & (Qt::X11BypassWindowManagerHint|Qt::FramelessWindowHint) )
+        { return false; }
+        return true;
+    }
+
+
+    //________________________________________________________________________________________________________
+    TileSet *StyleHelper::hole( const QColor& color, const QColor& glow, int size, StyleOptions options )
+    {
+
+        // get key
+        Oxygen::Cache<TileSet>::Value* cache( _holeCache.get( glow ) );
+
+        const quint64 key( ( colorKey(color) << 32 ) | (size << 4) | options );
+        TileSet *tileSet = cache->object( key );
+
+        if ( !tileSet )
+        {
+
+            // first create shadow
+            int shadowSize( (size*5)/7 );
+            QPixmap shadowPixmap( shadowSize*2, shadowSize*2 );
+
+            // calc alpha channel and fade
+            const int alpha( glow.isValid() ? glow.alpha():0 );
+
+            {
+                shadowPixmap.fill( Qt::transparent );
+
+                QPainter painter( &shadowPixmap );
+                painter.setRenderHints( QPainter::Antialiasing );
+                painter.setPen( Qt::NoPen );
+                painter.setWindow( 0, 0, 10, 10 );
+
+                // fade-in shadow
+                if( alpha < 255 )
+                {
+                    QColor shadowColor( calcShadowColor( color ) );
+                    shadowColor.setAlpha( 255-alpha );
+                    drawInverseShadow( painter, shadowColor, 1, 8, 0.0 );
+                }
+
+                // fade-out glow
+                if( alpha > 0 )
+                { drawInverseGlow( painter, glow, 1, 8, shadowSize ); }
+
+                painter.end();
+
+            }
+
+            // create pixmap
+            QPixmap pixmap( size*2, size*2 );
+            pixmap.fill( Qt::transparent );
+
+            QPainter painter( &pixmap );
+            painter.setRenderHints( QPainter::Antialiasing );
+            painter.setPen( Qt::NoPen );
+            painter.setWindow( 0, 0, 14, 14 );
+
+            // hole mask
+            painter.setCompositionMode( QPainter::CompositionMode_DestinationOut );
+            painter.setBrush( Qt::black );
+
+            painter.drawRoundedRect( QRectF( 1, 1, 12, 12 ), 2.5, 2.5 );
+            painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
+
+            // render shadow
+            TileSet(
+                shadowPixmap, shadowSize, shadowSize, shadowSize,
+                shadowSize, shadowSize-1, shadowSize, 2, 1 ).
+                render( pixmap.rect(), &painter );
+
+            if( (options&HoleOutline) && alpha < 255 )
+            {
+                QColor dark( calcDarkColor( color ) );
+                dark.setAlpha( 255 - alpha );
+                QLinearGradient blend( 0, 0, 0, 14 );
+                blend.setColorAt( 0, Qt::transparent );
+                blend.setColorAt( 0.8, dark );
+
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( blend, 1 ) );
+                painter.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 3.0, 3.0 );
+                painter.setPen( Qt::NoPen );
+            }
+
+            if( options&HoleContrast )
+            {
+                QColor light( calcLightColor( color ) );
+                QLinearGradient blend( 0, 0, 0, 18 );
+                blend.setColorAt( 0.5, Qt::transparent );
+                blend.setColorAt( 1.0, light );
+
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( blend, 1 ) );
+                painter.drawRoundedRect( QRectF( 0.5, 0.5, 13, 13 ), 4.0, 4.0 );
+                painter.setPen( Qt::NoPen );
+            }
+
+            painter.end();
+
+            // create tileset and return
+            tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
+            cache->insert( key, tileSet );
+        }
+
+        return tileSet;
+
+    }
+
+    //__________________________________________________________________________________________________________
+    void StyleHelper::drawRoundSlab( QPainter& painter, const QColor& color, qreal shade )
+    {
+
+        painter.save();
+
+        // colors
+        const QColor base( KColorUtils::shade( color, shade ) );
+        const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
+
+        // bevel, part 1
+        QLinearGradient bevelGradient1( 0, 10, 0, 18 );
+        bevelGradient1.setColorAt( 0.0, light );
+        bevelGradient1.setColorAt( 0.9, alphaColor( light, 0.85 ) );
+        painter.setBrush( bevelGradient1 );
+        painter.drawEllipse( QRectF( 3.0,3.0,15.0,15.0 ) );
+
+        // bevel, part 2
+        if ( _slabThickness > 0.0 ) {
+            QLinearGradient bevelGradient2( 0, 7, 0, 28 );
+            bevelGradient2.setColorAt( 0.0, light );
+            bevelGradient2.setColorAt( 0.9, base );
+            painter.setBrush( bevelGradient2 );
+            painter.drawEllipse( QRectF( 3.6,3.6,13.8,13.8 ) );
+        }
+
+        // inside
+        QLinearGradient innerGradient( 0, -17, 0, 20 );
+        innerGradient.setColorAt( 0, light );
+        innerGradient.setColorAt( 1, base );
+        painter.setBrush( innerGradient );
+        const qreal ic( 3.6 + _slabThickness );
+        const qreal is( 21.0 - 2.0*ic );
+        painter.drawEllipse( QRectF( ic, ic, is, is ) );
+
+        painter.restore();
+
+    }
+
+    //__________________________________________________________________________________________________________
+    void StyleHelper::drawSliderSlab( QPainter& painter, const QColor& color, bool sunken, qreal shade )
+    {
+
+        painter.save();
+
+        const QColor light( KColorUtils::shade( calcLightColor(color), shade ) );
+        const QColor dark( KColorUtils::shade( calcDarkColor(color), shade ) );
+
+        painter.setPen(Qt::NoPen);
+
+        {
+            //plain background
+            QLinearGradient lg( 0, 3, 0, 21 );
+            lg.setColorAt( 0, light );
+            lg.setColorAt( 1, dark );
+
+            const QRectF r( 3, 3, 15, 15 );
+            painter.setBrush( lg );
+            painter.drawEllipse( r );
+
+        }
+
+        if( sunken )
+        {
+            //plain background
+            QLinearGradient lg( 0, 3, 0, 21 );
+            lg.setColorAt( 0, dark );
+            lg.setColorAt( 1, light );
+
+            const QRectF r( 5, 5, 11, 11 );
+            painter.setBrush( lg );
+            painter.drawEllipse( r );
+
+        }
+
+        {
+            // outline circle
+            const qreal penWidth( 1 );
+            QLinearGradient lg( 0, 3, 0, 30 );
+            lg.setColorAt( 0, light );
+            lg.setColorAt( 1, dark );
+
+            const QRectF r( 3.5, 3.5, 14, 14 );
+            painter.setPen( QPen( lg, penWidth ) );
+            painter.setBrush( Qt::NoBrush );
+            painter.drawEllipse( r );
+        }
+
+        painter.restore();
 
     }
 

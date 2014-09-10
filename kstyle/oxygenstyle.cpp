@@ -364,6 +364,7 @@ namespace Oxygen
             || qobject_cast<QTabBar*>( widget )
             || qobject_cast<QTextEdit*>( widget )
             || qobject_cast<QToolButton*>( widget )
+            || widget->inherits( "KTextEditor::View" )
             )
         { widget->setAttribute( Qt::WA_Hover ); }
 
@@ -2998,7 +2999,7 @@ namespace Oxygen
         const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) ) ||
             ( isQtQuickControl && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
         #else
-        const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) ) );
+        const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
         #endif
 
         const bool mouseOver( enabled && isInputWidget && ( state & State_MouseOver ) );
@@ -8208,18 +8209,6 @@ namespace Oxygen
         return color;
 
     }
-
-    //______________________________________________________________________________
-    void Style::renderDebugFrame( QPainter* painter, const QRect& rect ) const
-    {
-        painter->save();
-        painter->setRenderHints( QPainter::Antialiasing );
-        painter->setBrush( Qt::NoBrush );
-        painter->setPen( Qt::red );
-        painter->drawRect( QRectF( rect ).adjusted( 0.5, 0.5, -0.5, -0.5 ) );
-        painter->restore();
-    }
-
 
     //______________________________________________________________________________
     qreal Style::dialAngle( const QStyleOptionSlider* sliderOption, int value ) const

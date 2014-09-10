@@ -318,6 +318,7 @@ namespace Oxygen
         }
         else if( qobject_cast<QLineEdit*>( widget ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
         else if( qobject_cast<QTextEdit*>( widget ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "KTextEditor::View" ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // lists
         else if( qobject_cast<QAbstractItemView*>( widget ) || widget->inherits("Q3ListView") )

@@ -152,6 +152,9 @@ namespace Oxygen
 
         //@}
 
+        //* debug frame
+        void renderDebugFrame( QPainter*, const QRect& ) const;
+
         //*@name holes
         //@{
 

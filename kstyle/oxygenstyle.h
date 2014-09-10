@@ -485,9 +485,6 @@ namespace Oxygen
         //* returns true if given scrollbar arrow is animated
         QColor scrollBarArrowColor( const QStyleOptionSlider*, const SubControl&, const QWidget* ) const;
 
-        //* debug frame
-        void renderDebugFrame( QPainter*, const QRect& ) const;
-
         //@}
 
         //!*@name various utilty functions
