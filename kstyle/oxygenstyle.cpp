@@ -3553,7 +3553,7 @@ namespace Oxygen
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
         const bool mouseOver( enabled && ( state & State_MouseOver ) );
-        const bool hasFocus( enabled && ( state & State_HasFocus ) );
+        const bool hasFocus( enabled && ( state & State_HasFocus ) && !( widget && widget->focusProxy() ) );
         const bool sunken( state & ( State_On|State_Sunken ) );
 
         StyleOptions styleOptions;
