@@ -168,9 +168,6 @@ namespace Oxygen
 
         protected:
 
-        //* event handler
-        virtual bool event( QEvent* );
-
         //* initialization
         virtual void init();
 
