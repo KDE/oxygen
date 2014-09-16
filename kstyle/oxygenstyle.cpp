@@ -2818,7 +2818,8 @@ namespace Oxygen
             case QStyleOptionMenuItem::SubMenu:
             {
 
-                const int iconWidth( menuItemOption->maxIconWidth );
+
+                const int iconWidth( qMax( pixelMetric(PM_SmallIconSize, option, widget ), menuItemOption->maxIconWidth ) );
                 int leftColumnWidth( iconWidth );
 
                 // add space with respect to text
@@ -2866,7 +2867,7 @@ namespace Oxygen
                     const QStyleOptionToolButton toolButtonOption( separatorMenuItemOption( menuItemOption, widget ) );
 
                     // make sure height is large enough for icon and text
-                    const int iconWidth( menuItemOption->maxIconWidth );
+                    const int iconWidth( qMax( pixelMetric(PM_SmallIconSize, option, widget ), menuItemOption->maxIconWidth ) );
                     const int textHeight( menuItemOption->fontMetrics.height() );
                     if( !menuItemOption->icon.isNull() ) size.setHeight( qMax( size.height(), iconWidth ) );
                     if( !menuItemOption->text.isEmpty() ) size.setHeight( qMax( size.height(), textHeight ) );
