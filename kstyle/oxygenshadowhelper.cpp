@@ -26,6 +26,8 @@
 
 #include "oxygenshadowhelper.h"
 #include "oxygenshadowhelper.moc"
+
+#include "oxygenpropertynames.h"
 #include "oxygenshadowcache.h"
 #include "oxygenstylehelper.h"
 
@@ -44,8 +46,6 @@ namespace Oxygen
 {
 
     const char* const ShadowHelper::netWMShadowAtomName( "_KDE_NET_WM_SHADOW" );
-    const char* const ShadowHelper::netWMForceShadowPropertyName( "_KDE_NET_WM_FORCE_SHADOW" );
-    const char* const ShadowHelper::netWMSkipShadowPropertyName( "_KDE_NET_WM_SKIP_SHADOW" );
 
     //_____________________________________________________
     ShadowHelper::ShadowHelper( QObject* parent, StyleHelper& helper ):
@@ -280,8 +280,8 @@ namespace Oxygen
     {
 
         // flags
-        if( widget->property( netWMSkipShadowPropertyName ).toBool() ) return false;
-        if( widget->property( netWMForceShadowPropertyName ).toBool() ) return true;
+        if( widget->property( PropertyNames::netWMSkipShadow ).toBool() ) return false;
+        if( widget->property( PropertyNames::netWMForceShadow ).toBool() ) return true;
 
         // menus
         if( isMenu( widget ) ) return true;

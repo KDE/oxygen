@@ -35,6 +35,8 @@ namespace Oxygen
 
         static const char* const noAnimations;
         static const char* const noWindowGrab;
+        static const char* const netWMForceShadow;
+        static const char* const netWMSkipShadow;
         static const char* const toolButtonAlignment;
 
     };
