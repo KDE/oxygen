@@ -7,10 +7,8 @@ include_directories(
     transitions
 )
 
-if(OXYGEN_USE_KDE4)
-  include_directories(${CMAKE_SOURCE_DIR}/liboxygen)
-  include_directories(${CMAKE_BINARY_DIR}/liboxygen)
-endif()
+include_directories(${CMAKE_SOURCE_DIR}/liboxygen)
+include_directories(${CMAKE_BINARY_DIR}/liboxygen)
 
 ########### next target ###############
 set(oxygen_PART_SRCS

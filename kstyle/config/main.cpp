@@ -25,6 +25,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenconfigdialog.h"
+#include "config-liboxygen.h"
 
 #include <QApplication>
 #include <QIcon>
