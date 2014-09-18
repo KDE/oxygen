@@ -152,34 +152,35 @@ namespace Oxygen
         // create shadow and tileset otherwise
         qreal size( shadowSize() + overlap );
 
-        QPixmap shadow( size*2, size*2 );
+        // QPixmap shadow( size*2, size*2 );
+        QPixmap shadow( _helper.highDpiPixmap( size*2 ) );
         shadow.fill( Qt::transparent );
-        QPainter p( &shadow );
-        p.setRenderHint( QPainter::Antialiasing );
+        QPainter painter( &shadow );
+        painter.setRenderHint( QPainter::Antialiasing );
 
         QPixmap inactiveShadow( pixmap( key, false ) );
         if( !inactiveShadow.isNull() )
         {
-            QPainter pp( &inactiveShadow );
-            pp.setRenderHint( QPainter::Antialiasing );
-            pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-            pp.fillRect( inactiveShadow.rect(), QColor( 0, 0, 0, 255*(1.0-opacity ) ) );
+            QPainter local( &inactiveShadow );
+            local.setRenderHint( QPainter::Antialiasing );
+            local.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+            local.fillRect( inactiveShadow.rect(), QColor( 0, 0, 0, 255*(1.0-opacity ) ) );
         }
 
         QPixmap activeShadow( pixmap( key, true ) );
         if( !activeShadow.isNull() )
         {
-            QPainter pp( &activeShadow );
-            pp.setRenderHint( QPainter::Antialiasing );
-            pp.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-            pp.fillRect( activeShadow.rect(), QColor( 0, 0, 0, 255*( opacity ) ) );
+            QPainter local( &activeShadow );
+            local.setRenderHint( QPainter::Antialiasing );
+            local.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+            local.fillRect( activeShadow.rect(), QColor( 0, 0, 0, 255*( opacity ) ) );
         }
 
-        p.drawPixmap( QPointF(0,0), inactiveShadow );
-        p.drawPixmap( QPointF(0,0), activeShadow );
-        p.end();
+        painter.drawPixmap( QPointF(0,0), inactiveShadow );
+        painter.drawPixmap( QPointF(0,0), activeShadow );
+        painter.end();
 
-        TileSet* tileSet = new TileSet(shadow, size, size, 1, 1);
+        TileSet* tileSet = new TileSet( shadow, size, size, 1, 1);
         _animatedShadowCache.insert( hash, tileSet );
         return tileSet;
 
@@ -202,12 +203,12 @@ namespace Oxygen
         size += overlap;
         shadowSize += overlap;
 
-        QPixmap shadow = QPixmap( size*2, size*2 );
+        QPixmap shadow( _helper.highDpiPixmap( size*2 ) );
         shadow.fill( Qt::transparent );
 
-        QPainter p( &shadow );
-        p.setRenderHint( QPainter::Antialiasing );
-        p.setPen( Qt::NoPen );
+        QPainter painter( &shadow );
+        painter.setRenderHint( QPainter::Antialiasing );
+        painter.setPen( Qt::NoPen );
 
         // some gradients rendering are different at bottom corners if client has no border
         bool hasBorder( key.hasBorder || key.isShade );
@@ -221,8 +222,8 @@ namespace Oxygen
                 const qreal gradientSize = qMin( shadowSize, (shadowSize+fixedSize)/2 );
                 const qreal voffset = qMin( 12.0*(gradientSize*ActiveShadowConfiguration::verticalOffset())/fixedSize, 4.0 );
 
-                QRadialGradient rg = QRadialGradient( size, size + voffset, gradientSize );
-                rg.setColorAt(1, Qt::transparent );
+                QRadialGradient radialGradient = QRadialGradient( size, size + voffset, gradientSize );
+                radialGradient.setColorAt(1, Qt::transparent );
 
                 // gaussian shadow is used
                 int nPoints( (10*gradientSize)/fixedSize );
@@ -232,12 +233,12 @@ namespace Oxygen
                 {
                     qreal x = qreal(i)/nPoints;
                     c.setAlphaF( f(x) );
-                    rg.setColorAt( x, c );
+                    radialGradient.setColorAt( x, c );
 
                 }
 
-                p.setBrush( rg );
-                renderGradient( p, shadow.rect(), rg, hasBorder );
+                painter.setBrush( radialGradient );
+                renderGradient( painter, shadow.rect(), radialGradient, hasBorder );
 
             }
 
@@ -247,8 +248,8 @@ namespace Oxygen
                 const qreal gradientSize = shadowSize;
                 const qreal voffset = qMin( 12.0*(gradientSize*ActiveShadowConfiguration::verticalOffset())/fixedSize, 4.0 );
 
-                QRadialGradient rg = QRadialGradient( size, size+voffset, gradientSize );
-                rg.setColorAt(1, Qt::transparent );
+                QRadialGradient radialGradient = QRadialGradient( size, size+voffset, gradientSize );
+                radialGradient.setColorAt(1, Qt::transparent );
 
                 // gaussian shadow is used
                 int nPoints( (10*gradientSize)/fixedSize );
@@ -258,12 +259,12 @@ namespace Oxygen
                 {
                     qreal x = qreal(i)/nPoints;
                     c.setAlphaF( f(x) );
-                    rg.setColorAt( x, c );
+                    radialGradient.setColorAt( x, c );
 
                 }
 
-                p.setBrush( rg );
-                p.drawRect( shadow.rect() );
+                painter.setBrush( radialGradient );
+                painter.drawRect( shadow.rect() );
 
             }
 
@@ -274,8 +275,8 @@ namespace Oxygen
                 const qreal gradientSize = qMin( shadowSize, fixedSize );
                 const qreal voffset( 0.2 );
 
-                QRadialGradient rg = QRadialGradient( size, size+voffset, gradientSize );
-                rg.setColorAt(1, Qt::transparent );
+                QRadialGradient radialGradient = QRadialGradient( size, size+voffset, gradientSize );
+                radialGradient.setColorAt(1, Qt::transparent );
 
                 // parabolic shadow is used
                 int nPoints( (10*gradientSize)/fixedSize );
@@ -285,13 +286,13 @@ namespace Oxygen
                 {
                     qreal x = qreal(i)/nPoints;
                     c.setAlphaF( f(x) );
-                    rg.setColorAt( x, c );
+                    radialGradient.setColorAt( x, c );
 
                 }
 
 
-                p.setBrush( rg );
-                renderGradient( p, shadow.rect(), rg, hasBorder );
+                painter.setBrush( radialGradient );
+                renderGradient( painter, shadow.rect(), radialGradient, hasBorder );
 
             }
 
@@ -302,8 +303,8 @@ namespace Oxygen
                 const qreal voffset = qMin( 8.0*(gradientSize*InactiveShadowConfiguration::verticalOffset())/fixedSize, 4.0 );
 
                 // gaussian shadow is used
-                QRadialGradient rg = QRadialGradient( size, size+voffset, gradientSize );
-                rg.setColorAt(1, Qt::transparent );
+                QRadialGradient radialGradient = QRadialGradient( size, size+voffset, gradientSize );
+                radialGradient.setColorAt(1, Qt::transparent );
 
                 int nPoints( (10*gradientSize)/fixedSize );
                 Gaussian f( 0.54, 0.21);
@@ -312,12 +313,12 @@ namespace Oxygen
                 {
                     qreal x = qreal(i)/nPoints;
                     c.setAlphaF( f(x) );
-                    rg.setColorAt( x, c );
+                    radialGradient.setColorAt( x, c );
 
                 }
 
-                p.setBrush( rg );
-                p.drawRect( shadow.rect() );
+                painter.setBrush( radialGradient );
+                painter.drawRect( shadow.rect() );
 
             }
 
@@ -328,8 +329,8 @@ namespace Oxygen
                 const qreal voffset = qMin( 20.0*(gradientSize*InactiveShadowConfiguration::verticalOffset())/fixedSize, 4.0 );
 
                 // gaussian shadow is used
-                QRadialGradient rg = QRadialGradient( size, size+voffset, gradientSize );
-                rg.setColorAt(1, Qt::transparent );
+                QRadialGradient radialGradient = QRadialGradient( size, size+voffset, gradientSize );
+                radialGradient.setColorAt(1, Qt::transparent );
 
                 int nPoints( (20*gradientSize)/fixedSize );
                 Gaussian f( 0.155, 0.445);
@@ -338,50 +339,50 @@ namespace Oxygen
                 {
                     qreal x = qreal(i)/nPoints;
                     c.setAlphaF( f(x) );
-                    rg.setColorAt( x, c );
+                    radialGradient.setColorAt( x, c );
                 }
 
-                p.setBrush( rg );
-                p.drawRect( shadow.rect() );
+                painter.setBrush( radialGradient );
+                painter.drawRect( shadow.rect() );
 
             }
 
         }
 
         // mask
-        p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-        p.setBrush( Qt::black );
-        p.drawEllipse( QRectF( size-3, size-3, 6, 6 ) );
+        painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+        painter.setBrush( Qt::black );
+        painter.drawEllipse( QRectF( size-3, size-3, 6, 6 ) );
 
-        p.end();
+        painter.end();
         return shadow;
 
     }
 
     //_______________________________________________________
-    void ShadowCache::renderGradient( QPainter& p, const QRectF& rect, const QRadialGradient& rg, bool hasBorder ) const
+    void ShadowCache::renderGradient( QPainter& painter, const QRectF& rect, const QRadialGradient& radialGradient, bool hasBorder ) const
     {
 
         if( hasBorder )
         {
-            p.setBrush( rg );
-            p.drawRect( rect );
+            painter.setBrush( radialGradient );
+            painter.drawRect( rect );
             return;
         }
 
         const qreal size( rect.width()/2.0 );
-        const qreal hoffset( rg.center().x() - size );
-        const qreal voffset( rg.center().y() - size );
-        const qreal radius( rg.radius() );
+        const qreal hoffset( radialGradient.center().x() - size );
+        const qreal voffset( radialGradient.center().y() - size );
+        const qreal radius( radialGradient.radius() );
 
         // load gradient stops
-        QGradientStops stops( rg.stops() );
+        QGradientStops stops( radialGradient.stops() );
 
         // draw ellipse for the upper rect
         {
             QRectF rect( hoffset, voffset, 2*size-hoffset, size );
-            p.setBrush( rg );
-            p.drawRect( rect );
+            painter.setBrush( radialGradient );
+            painter.drawRect( rect );
         }
 
         // draw square gradients for the lower rect
@@ -397,8 +398,8 @@ namespace Oxygen
                 lg.setColorAt( (size+xx)/(2.0*size), c );
             }
 
-            p.setBrush( lg );
-            p.drawRect( rect );
+            painter.setBrush( lg );
+            painter.drawRect( rect );
 
         }
 
@@ -413,15 +414,15 @@ namespace Oxygen
                 lg.setColorAt( (size+xx)/(2.0*size), c );
             }
 
-            p.setBrush( lg );
-            p.drawRect( rect );
+            painter.setBrush( lg );
+            painter.drawRect( rect );
         }
 
         {
 
             // bottom-left corner
             const QRectF rect( hoffset, size+voffset+4, size-4, size );
-            QRadialGradient rg = QRadialGradient( size+hoffset-4, size+voffset+4, radius );
+            QRadialGradient radialGradient = QRadialGradient( size+hoffset-4, size+voffset+4, radius );
             for( int i = 0; i<stops.size(); i++ )
             {
                 QColor c( stops[i].second );
@@ -436,18 +437,18 @@ namespace Oxygen
                     xx = 0;
                 }
 
-                rg.setColorAt( xx, c );
+                radialGradient.setColorAt( xx, c );
             }
 
-            p.setBrush( rg );
-            p.drawRect( rect );
+            painter.setBrush( radialGradient );
+            painter.drawRect( rect );
 
         }
 
         {
             // bottom-right corner
             const QRectF rect( size+hoffset+4, size+voffset+4, size-4, size );
-            QRadialGradient rg = QRadialGradient( size+hoffset+4, size+voffset+4, radius );
+            QRadialGradient radialGradient = QRadialGradient( size+hoffset+4, size+voffset+4, radius );
             for( int i = 0; i<stops.size(); i++ )
             {
                 QColor c( stops[i].second );
@@ -462,11 +463,11 @@ namespace Oxygen
                     xx = 0;
                 }
 
-                rg.setColorAt( xx, c );
+                radialGradient.setColorAt( xx, c );
             }
 
-            p.setBrush( rg );
-            p.drawRect( rect );
+            painter.setBrush( radialGradient );
+            painter.drawRect( rect );
 
         }
 
