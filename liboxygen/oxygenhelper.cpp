@@ -721,8 +721,7 @@ namespace Oxygen
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         TileSet *tileSet = cache->object( key );
 
-        const qreal hScale( 1 );
-        const int hSize( size*hScale );
+        const int hSize( size );
         const int vSize( size );
 
         if ( !tileSet )
@@ -735,7 +734,7 @@ namespace Oxygen
             p.setPen( Qt::NoPen );
 
             const int fixedSize( 14 );
-            p.setWindow( 0,0,fixedSize*hScale, fixedSize );
+            p.setWindow( 0,0,fixedSize, fixedSize );
 
             // draw all components
             if( color.isValid() ) drawShadow( p, calcShadowColor( color ), 14 );
