@@ -7211,7 +7211,7 @@ namespace Oxygen
 
             // indicator
             const qreal angle( dialAngle( sliderOption, sliderOption->sliderPosition ) );
-            QPointF center( pixmap.rect().center()/pixmap.devicePixelRatio() );
+            QPointF center( pixmap.rect().center()/_helper->devicePixelRatio( pixmap ) );
             const int sliderWidth( dimension/6 );
             const qreal radius( 0.5*( dimension - 2*sliderWidth ) );
             center += QPointF( radius*cos( angle ), -radius*sin( angle ) );
@@ -7999,7 +7999,7 @@ namespace Oxygen
         QPixmap pixmap( _helper->roundSlab( color, glow, 0 ) );
 
         // center rect
-        const QRect rect( centerRect( constRect, pixmap.size()/pixmap.devicePixelRatio() ) );
+        const QRect rect( centerRect( constRect, pixmap.size()/_helper->devicePixelRatio( pixmap ) ) );
 
         // render
         painter->drawPixmap( rect.topLeft(), pixmap );

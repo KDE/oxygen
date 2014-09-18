@@ -26,6 +26,32 @@
 namespace Oxygen
 {
 
+    //___________________________________________________________
+    inline bool bits(TileSet::Tiles flags, TileSet::Tiles testFlags)
+    { return (flags & testFlags) == testFlags; }
+
+    //______________________________________________________________________________________
+    inline qreal devicePixelRatio( const QPixmap& pixmap )
+    {
+        #if QT_VERSION >= 0x050300
+        return pixmap.devicePixelRatio();
+        #else
+        Q_UNUSED( pixmap );
+        return 1;
+        #endif
+    }
+
+    //______________________________________________________________________________________
+    inline void setDevicePixelRatio( QPixmap& pixmap, qreal value )
+    {
+        #if QT_VERSION >= 0x050300
+        return pixmap.setDevicePixelRatio( value );
+        #else
+        Q_UNUSED( pixmap );
+        Q_UNUSED( value );
+        #endif
+    }
+
     //______________________________________________________________
     int TileSet::_sideExtent = 32;
 
@@ -39,7 +65,7 @@ namespace Oxygen
 
         } else if( size != rect.size() ) {
 
-            const qreal dpiRatio( source.devicePixelRatio() );
+            const qreal dpiRatio( devicePixelRatio( source ) );
             const QRect scaledRect( rect.topLeft()*dpiRatio, rect.size()*dpiRatio );
             const QSize scaledSize( size*dpiRatio );
             const QPixmap tile( source.copy(scaledRect) );
@@ -48,15 +74,15 @@ namespace Oxygen
             pixmap.fill(Qt::transparent);
             QPainter p(&pixmap);
             p.drawTiledPixmap(0, 0, scaledSize.width(), scaledSize.height(), tile);
-            pixmap.setDevicePixelRatio( dpiRatio );
+            setDevicePixelRatio( pixmap, dpiRatio );
             pixmaps.append( pixmap );
 
         } else {
 
-            const qreal dpiRatio( source.devicePixelRatio() );
+            const qreal dpiRatio( devicePixelRatio( source ) );
             const QRect scaledRect( rect.topLeft()*dpiRatio, rect.size()*dpiRatio );
             QPixmap pixmap( source.copy( scaledRect ) );
-            pixmap.setDevicePixelRatio( dpiRatio );
+            setDevicePixelRatio( pixmap, dpiRatio );
             pixmaps.append( pixmap );
 
         }
@@ -81,8 +107,8 @@ namespace Oxygen
         _pixmaps.reserve(9);
         if( source.isNull() ) return;
 
-        _w3 = source.width()/source.devicePixelRatio() - (w1 + w2);
-        _h3 = source.height()/source.devicePixelRatio() - (h1 + h2);
+        _w3 = source.width()/devicePixelRatio( source ) - (w1 + w2);
+        _h3 = source.height()/devicePixelRatio( source ) - (h1 + h2);
         int w = w2;
         int h = h2;
 
@@ -108,8 +134,8 @@ namespace Oxygen
         _pixmaps.reserve(9);
         if( source.isNull() ) return;
 
-        int x2 = source.width()/source.devicePixelRatio() - _w3;
-        int y2 = source.height()/source.devicePixelRatio() - _h3;
+        int x2 = source.width()/devicePixelRatio( source ) - _w3;
+        int y2 = source.height()/devicePixelRatio( source ) - _h3;
         int w = w2;
         int h = h2;
 
@@ -125,10 +151,6 @@ namespace Oxygen
         initPixmap( _pixmaps, source, _w3, _h3, QRect(x2, y2, _w3, _h3) );
 
     }
-
-    //___________________________________________________________
-    inline bool bits(TileSet::Tiles flags, TileSet::Tiles testFlags)
-    { return (flags & testFlags) == testFlags; }
 
     //___________________________________________________________
     QRect TileSet::adjust(const QRect &constRect, Tiles tiles ) const
@@ -190,27 +212,27 @@ namespace Oxygen
         const int y1 = y0 + hTop;
         const int y2 = y1 + h;
 
-        const int w2 = _pixmaps.at(7).width()/_pixmaps.at(7).devicePixelRatio();
-        const int h2 = _pixmaps.at(5).height()/_pixmaps.at(5).devicePixelRatio();
+        const int w2 = _pixmaps.at(7).width()/devicePixelRatio( _pixmaps.at(7) );
+        const int h2 = _pixmaps.at(5).height()/devicePixelRatio( _pixmaps.at(5) );
 
         // corner
-        if( bits( tiles, Top|Left) )  painter->drawPixmap(x0, y0, _pixmaps.at(0), 0, 0, wLeft*_pixmaps.at(0).devicePixelRatio(), hTop*_pixmaps.at(0).devicePixelRatio());
-        if( bits( tiles, Top|Right) ) painter->drawPixmap(x2, y0, _pixmaps.at(2), (_w3-wRight)*_pixmaps.at(2).devicePixelRatio(), 0, wRight*_pixmaps.at(2).devicePixelRatio(), hTop*_pixmaps.at(2).devicePixelRatio());
-        if( bits( tiles, Bottom|Left) )  painter->drawPixmap(x0, y2, _pixmaps.at(6), 0, (_h3-hBottom)*_pixmaps.at(6).devicePixelRatio(), wLeft*_pixmaps.at(6).devicePixelRatio(),  hBottom*_pixmaps.at(6).devicePixelRatio());
-        if( bits( tiles, Bottom|Right) ) painter->drawPixmap(x2, y2, _pixmaps.at(8), (_w3-wRight)*_pixmaps.at(8).devicePixelRatio(), (_h3-hBottom)*_pixmaps.at(8).devicePixelRatio(), wRight*_pixmaps.at(8).devicePixelRatio(), hBottom*_pixmaps.at(8).devicePixelRatio() );
+        if( bits( tiles, Top|Left) )  painter->drawPixmap(x0, y0, _pixmaps.at(0), 0, 0, wLeft*devicePixelRatio( _pixmaps.at(0) ), hTop*devicePixelRatio( _pixmaps.at(0) ));
+        if( bits( tiles, Top|Right) ) painter->drawPixmap(x2, y0, _pixmaps.at(2), (_w3-wRight)*devicePixelRatio( _pixmaps.at(2) ), 0, wRight*devicePixelRatio( _pixmaps.at(2) ), hTop*devicePixelRatio( _pixmaps.at(2) ) );
+        if( bits( tiles, Bottom|Left) )  painter->drawPixmap(x0, y2, _pixmaps.at(6), 0, (_h3-hBottom)*devicePixelRatio( _pixmaps.at(6) ), wLeft*devicePixelRatio( _pixmaps.at(6) ),  hBottom*devicePixelRatio( _pixmaps.at(6) ));
+        if( bits( tiles, Bottom|Right) ) painter->drawPixmap(x2, y2, _pixmaps.at(8), (_w3-wRight)*devicePixelRatio( _pixmaps.at(8) ), (_h3-hBottom)*devicePixelRatio( _pixmaps.at(8) ), wRight*devicePixelRatio( _pixmaps.at(8) ), hBottom*devicePixelRatio( _pixmaps.at(8) ) );
 
         // top and bottom
         if( w > 0 )
         {
-            if( tiles&Top ) painter->drawPixmap(x1, y0, w, hTop, _pixmaps.at(1), 0, 0, w2*_pixmaps.at(1).devicePixelRatio(), hTop*_pixmaps.at(1).devicePixelRatio() );
-            if( tiles&Bottom ) painter->drawPixmap(x1, y2, w, hBottom, _pixmaps.at(7), 0, (_h3-hBottom)*_pixmaps.at(7).devicePixelRatio(), w2*_pixmaps.at(7).devicePixelRatio(), hBottom*_pixmaps.at(7).devicePixelRatio() );
+            if( tiles&Top ) painter->drawPixmap(x1, y0, w, hTop, _pixmaps.at(1), 0, 0, w2*devicePixelRatio( _pixmaps.at(1) ), hTop*devicePixelRatio( _pixmaps.at(1) ) );
+            if( tiles&Bottom ) painter->drawPixmap(x1, y2, w, hBottom, _pixmaps.at(7), 0, (_h3-hBottom)*devicePixelRatio( _pixmaps.at(7) ), w2*devicePixelRatio( _pixmaps.at(7) ), hBottom*devicePixelRatio( _pixmaps.at(7) ) );
         }
 
         // left and right
         if( h > 0 )
         {
-            if( tiles&Left ) painter->drawPixmap(x0, y1, wLeft, h, _pixmaps.at(3), 0, 0, wLeft*_pixmaps.at(3).devicePixelRatio(), h2*_pixmaps.at(3).devicePixelRatio() );
-            if( tiles&Right ) painter->drawPixmap(x2, y1, wRight, h, _pixmaps.at(5), (_w3-wRight)*_pixmaps.at(5).devicePixelRatio(), 0, wRight*_pixmaps.at(5).devicePixelRatio(), h2*_pixmaps.at(5).devicePixelRatio() );
+            if( tiles&Left ) painter->drawPixmap(x0, y1, wLeft, h, _pixmaps.at(3), 0, 0, wLeft*devicePixelRatio( _pixmaps.at(3) ), h2*devicePixelRatio( _pixmaps.at(3) ) );
+            if( tiles&Right ) painter->drawPixmap(x2, y1, wRight, h, _pixmaps.at(5), (_w3-wRight)*devicePixelRatio( _pixmaps.at(5) ), 0, wRight*devicePixelRatio( _pixmaps.at(5) ), h2*devicePixelRatio( _pixmaps.at(5) ) );
         }
 
         // center

@@ -729,7 +729,7 @@ namespace Oxygen
             painter.setRenderHints( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
 
-            const int fixedSize( 14*pixmap.devicePixelRatio() );
+            const int fixedSize( 14*devicePixelRatio( pixmap ) );
             painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             // draw all components
@@ -766,7 +766,7 @@ namespace Oxygen
             painter.setRenderHints( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
 
-            const int fixedSize( 14*pixmap.devicePixelRatio() );
+            const int fixedSize( 14*devicePixelRatio( pixmap ) );
             painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             // shadow
@@ -984,10 +984,24 @@ namespace Oxygen
     //______________________________________________________________________________________
     QPixmap Helper::highDpiPixmap( int width, int height ) const
     {
+        #if QT_VERSION >= 0x050300
         const qreal dpiRatio( qApp->devicePixelRatio() );
         QPixmap pixmap( width*dpiRatio, height*dpiRatio );
         pixmap.setDevicePixelRatio( dpiRatio );
         return pixmap;
+        #else
+        return QPixmap( width, height );
+        #endif
+    }
+
+    //______________________________________________________________________________________
+    qreal Helper::devicePixelRatio( const QPixmap& pixmap ) const
+    {
+        #if QT_VERSION >= 0x050300
+        return pixmap.devicePixelRatio();
+        #else
+        return 1;
+        #endif
     }
 
     //______________________________________________________________________________________

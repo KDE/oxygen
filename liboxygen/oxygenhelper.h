@@ -358,6 +358,9 @@ namespace Oxygen
 
         //@}
 
+        //@name high dpi utility functions
+        //@{
+
         //* return dpi-aware pixmap of given size
         virtual QPixmap highDpiPixmap( const QSize& size ) const
         { return highDpiPixmap( size.width(), size.height() ); }
@@ -368,6 +371,11 @@ namespace Oxygen
 
         //* return dpi-aware pixmap of given size
         virtual QPixmap highDpiPixmap( int width, int height ) const;
+
+        //* return device pixel ratio for a given pixmap
+        virtual qreal devicePixelRatio( const QPixmap& ) const;
+
+        //@}
 
         //*@name compositing utilities
         //@{

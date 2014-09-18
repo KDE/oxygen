@@ -365,7 +365,7 @@ namespace Oxygen
             slabTileSet->render( QRect( 0, 0, size*4, size*5 ), &painter,
                 TileSet::Left | TileSet::Right | TileSet::Top );
 
-            int fixedSize( 28*pixmap.devicePixelRatio() );
+            int fixedSize( 28*devicePixelRatio( pixmap ) );
             painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             // bottom
@@ -581,7 +581,7 @@ namespace Oxygen
             painter.setRenderHints( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
 
-            const int fixedSize( 21*pixmap->devicePixelRatio() );
+            const int fixedSize( 21*devicePixelRatio( *pixmap ) );
             painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             // draw normal shadow
@@ -669,7 +669,7 @@ namespace Oxygen
             painter.setRenderHints( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
 
-            const int fixedSize( 14*pixmap.devicePixelRatio() );
+            const int fixedSize( 14*devicePixelRatio( pixmap ) );
             painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             if( fill )
@@ -863,7 +863,7 @@ namespace Oxygen
             painter.setRenderHints( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
 
-            const int fixedSize( 14*pixmap.devicePixelRatio() );
+            const int fixedSize( 14*devicePixelRatio( pixmap ) );
             painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             QPixmap shadowPixmap( highDpiPixmap( 10 ) );
@@ -1137,7 +1137,7 @@ namespace Oxygen
                 QPainter painter( &shadowPixmap );
                 painter.setRenderHints( QPainter::Antialiasing );
                 painter.setPen( Qt::NoPen );
-                const int fixedSize( 10*shadowPixmap.devicePixelRatio() );
+                const int fixedSize( 10*devicePixelRatio( shadowPixmap ) );
                 painter.setWindow( 0, 0, fixedSize, fixedSize );
 
                 // fade-in shadow
@@ -1163,7 +1163,7 @@ namespace Oxygen
             QPainter painter( &pixmap );
             painter.setRenderHints( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
-            const int fixedSize( 14*pixmap.devicePixelRatio() );
+            const int fixedSize( 14*devicePixelRatio( pixmap ) );
             painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             // hole mask
@@ -1177,7 +1177,7 @@ namespace Oxygen
             TileSet(
                 shadowPixmap, shadowSize, shadowSize, shadowSize,
                 shadowSize, shadowSize-1, shadowSize, 2, 1 ).
-                render( QRect( QPoint(0, 0), pixmap.size()/pixmap.devicePixelRatio() ), &painter );
+                render( QRect( QPoint(0, 0), pixmap.size()/devicePixelRatio( pixmap ) ), &painter );
 
             if( (options&HoleOutline) && alpha < 255 )
             {
