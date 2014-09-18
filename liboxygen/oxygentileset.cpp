@@ -39,24 +39,24 @@ namespace Oxygen
 
         } else if( size != rect.size() ) {
 
-            const qreal devicePixelRatio( source.devicePixelRatio() );
-            const QRect scaledRect( rect.topLeft()*devicePixelRatio, rect.size()*devicePixelRatio );
-            const QSize scaledSize( size*devicePixelRatio );
+            const qreal dpiRatio( source.devicePixelRatio() );
+            const QRect scaledRect( rect.topLeft()*dpiRatio, rect.size()*dpiRatio );
+            const QSize scaledSize( size*dpiRatio );
             const QPixmap tile( source.copy(scaledRect) );
             QPixmap pixmap( scaledSize );
 
             pixmap.fill(Qt::transparent);
             QPainter p(&pixmap);
             p.drawTiledPixmap(0, 0, scaledSize.width(), scaledSize.height(), tile);
-            pixmap.setDevicePixelRatio( devicePixelRatio );
+            pixmap.setDevicePixelRatio( dpiRatio );
             pixmaps.append( pixmap );
 
         } else {
 
-            const qreal devicePixelRatio( source.devicePixelRatio() );
-            const QRect scaledRect( rect.topLeft()*devicePixelRatio, rect.size()*devicePixelRatio );
+            const qreal dpiRatio( source.devicePixelRatio() );
+            const QRect scaledRect( rect.topLeft()*dpiRatio, rect.size()*dpiRatio );
             QPixmap pixmap( source.copy( scaledRect ) );
-            pixmap.setDevicePixelRatio( devicePixelRatio );
+            pixmap.setDevicePixelRatio( dpiRatio );
             pixmaps.append( pixmap );
 
         }
