@@ -66,7 +66,6 @@ namespace Oxygen
         _selectionCache.clear();
         _holeFlatCache.clear();
         _slopeCache.clear();
-        _grooveCache.clear();
         _slitCache.clear();
         _dockFrameCache.clear();
         _scrollHoleCache.clear();
@@ -95,7 +94,6 @@ namespace Oxygen
         _selectionCache.setMaxCost( value );
         _holeFlatCache.setMaxCost( value );
         _slopeCache.setMaxCost( value );
-        _grooveCache.setMaxCost( value );
         _slitCache.setMaxCost( value );
         _dockFrameCache.setMaxCost( value );
         _scrollHoleCache.setMaxCost( value );
@@ -907,43 +905,6 @@ namespace Oxygen
             // create tileset and return
             tileSet = new TileSet( pm, size-1, size, 1, 1 );
             cache->insert( key, tileSet );
-
-        }
-
-        return tileSet;
-    }
-
-    //______________________________________________________________________________
-    TileSet *StyleHelper::groove( const QColor& color, int size )
-    {
-        const quint64 key( ( colorKey(color) << 32 ) | size );
-        TileSet *tileSet = _grooveCache.object( key );
-
-        if ( !tileSet )
-        {
-            const int rsize( ( int )ceil( qreal( size ) * 3.0/7.0 ) );
-            QPixmap pixmap( rsize*2, rsize*2 );
-            pixmap.fill( Qt::transparent );
-
-            QPainter painter( &pixmap );
-            painter.setRenderHints( QPainter::Antialiasing );
-            painter.setPen( Qt::NoPen );
-            painter.setWindow( 0, 0, 6, 6 );
-
-            // hole mask
-            painter.setCompositionMode( QPainter::CompositionMode_DestinationOut );
-            painter.setBrush( Qt::black );
-            painter.drawEllipse( 2, 2, 2, 2 );
-
-            // shadow
-            painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-            drawInverseShadow( painter, calcShadowColor( color ), 1, 4, 0.0 );
-
-            painter.end();
-
-            tileSet = new TileSet( pixmap, rsize, rsize, rsize, rsize, rsize-1, rsize, 2, 1 );
-
-            _grooveCache.insert( key, tileSet );
 
         }
 

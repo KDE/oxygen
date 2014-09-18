@@ -177,9 +177,6 @@ namespace Oxygen
 
         //@}
 
-        //* scrollbar groove
-        TileSet *groove( const QColor&, int size = TileSet::DefaultSize );
-
         //* focus rect for flat toolbuttons
         TileSet *slitFocused( const QColor& );
 
@@ -250,7 +247,6 @@ namespace Oxygen
         TileSetCache _cornerCache;
         TileSetCache _holeFlatCache;
         TileSetCache _slopeCache;
-        TileSetCache _grooveCache;
         TileSetCache _slitCache;
         TileSetCache _dockFrameCache;
         TileSetCache _scrollHoleCache;
