@@ -81,8 +81,8 @@ namespace Oxygen
         _pixmaps.reserve(9);
         if( source.isNull() ) return;
 
-        _w3 = source.width() - (w1 + w2);
-        _h3 = source.height() - (h1 + h2);
+        _w3 = source.width()/source.devicePixelRatio() - (w1 + w2);
+        _h3 = source.height()/source.devicePixelRatio() - (h1 + h2);
         int w = w2;
         int h = h2;
 

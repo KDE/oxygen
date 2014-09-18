@@ -1537,20 +1537,20 @@ namespace Oxygen
 
         // contrast
         const QColor contrast( _helper->calcLightColor( buttonColor ) );
+        const int iconSize( pixelMetric( QStyle::PM_SmallIconSize ) );
+        const QRect rect( 0, 0, iconSize, iconSize );
 
         switch( standardPixmap )
         {
 
             case SP_TitleBarNormalButton:
             {
-                QPixmap pixmap(
-                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
-                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
+                QPixmap pixmap( _helper->highDpiPixmap( rect.size() ) );
 
                 pixmap.fill( Qt::transparent );
 
                 QPainter painter( &pixmap );
-                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarNormalButton );
+                renderTitleBarButton( &painter, rect, buttonColor, iconColor, SC_TitleBarNormalButton );
 
                 return QIcon( pixmap );
 
@@ -1558,26 +1558,22 @@ namespace Oxygen
 
             case SP_TitleBarShadeButton:
             {
-                QPixmap pixmap(
-                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
-                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
+                QPixmap pixmap( _helper->highDpiPixmap( rect.size() ) );
 
                 pixmap.fill( Qt::transparent );
                 QPainter painter( &pixmap );
-                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarShadeButton );
+                renderTitleBarButton( &painter, rect, buttonColor, iconColor, SC_TitleBarShadeButton );
 
                 return QIcon( pixmap );
             }
 
             case SP_TitleBarUnshadeButton:
             {
-                QPixmap pixmap(
-                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
-                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
+                QPixmap pixmap( _helper->highDpiPixmap( rect.size() ) );
 
                 pixmap.fill( Qt::transparent );
                 QPainter painter( &pixmap );
-                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarUnshadeButton );
+                renderTitleBarButton( &painter, rect, buttonColor, iconColor, SC_TitleBarUnshadeButton );
 
                 return QIcon( pixmap );
             }
@@ -1585,13 +1581,11 @@ namespace Oxygen
             case SP_TitleBarCloseButton:
             case SP_DockWidgetCloseButton:
             {
-                QPixmap pixmap(
-                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ),
-                    pixelMetric( QStyle::PM_SmallIconSize, 0, 0 ) );
+                QPixmap pixmap( _helper->highDpiPixmap( rect.size() ) );
 
                 pixmap.fill( Qt::transparent );
                 QPainter painter( &pixmap );
-                renderTitleBarButton( &painter, pixmap.rect(), buttonColor, iconColor, SC_TitleBarCloseButton );
+                renderTitleBarButton( &painter, rect, buttonColor, iconColor, SC_TitleBarCloseButton );
 
                 return QIcon( pixmap );
 
@@ -1600,13 +1594,13 @@ namespace Oxygen
             case SP_ToolBarHorizontalExtensionButton:
             {
 
-                QPixmap pixmap( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
+                QPixmap pixmap( _helper->highDpiPixmap( rect.size() ) );
                 pixmap.fill( Qt::transparent );
                 QPainter painter( &pixmap );
                 painter.setRenderHints( QPainter::Antialiasing );
                 painter.setBrush( Qt::NoBrush );
 
-                painter.translate( QRectF( pixmap.rect() ).center() );
+                painter.translate( QRectF( rect ).center() );
 
                 const bool reverseLayout( option && option->direction == Qt::RightToLeft );
                 QPolygonF arrow = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, ArrowTiny );
@@ -1627,13 +1621,13 @@ namespace Oxygen
 
             case SP_ToolBarVerticalExtensionButton:
             {
-                QPixmap pixmap( pixelMetric( QStyle::PM_SmallIconSize,0,0 ), pixelMetric( QStyle::PM_SmallIconSize,0,0 ) );
+                QPixmap pixmap( _helper->highDpiPixmap( rect.size() ) );
                 pixmap.fill( Qt::transparent );
                 QPainter painter( &pixmap );
                 painter.setRenderHints( QPainter::Antialiasing );
                 painter.setBrush( Qt::NoBrush );
 
-                painter.translate( QRectF( pixmap.rect() ).center() );
+                painter.translate( QRectF( rect ).center() );
 
                 QPolygonF arrow = genericArrow( ArrowDown, ArrowTiny );
 
@@ -7217,7 +7211,7 @@ namespace Oxygen
 
             // indicator
             const qreal angle( dialAngle( sliderOption, sliderOption->sliderPosition ) );
-            QPointF center( pixmap.rect().center() );
+            QPointF center( pixmap.rect().center()/pixmap.devicePixelRatio() );
             const int sliderWidth( dimension/6 );
             const qreal radius( 0.5*( dimension - 2*sliderWidth ) );
             center += QPointF( radius*cos( angle ), -radius*sin( angle ) );
@@ -8005,7 +7999,7 @@ namespace Oxygen
         QPixmap pixmap( _helper->roundSlab( color, glow, 0 ) );
 
         // center rect
-        const QRect rect( centerRect( constRect, pixmap.size() ) );
+        const QRect rect( centerRect( constRect, pixmap.size()/pixmap.devicePixelRatio() ) );
 
         // render
         painter->drawPixmap( rect.topLeft(), pixmap );

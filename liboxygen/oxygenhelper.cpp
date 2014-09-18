@@ -236,7 +236,7 @@ namespace Oxygen
 
         if( !pixmap )
         {
-            pixmap = new QPixmap( 4, 4 );
+            pixmap = new QPixmap( highDpiPixmap( 4 ) );
             pixmap->fill( Qt::transparent );
             const qreal diameter( 1.8 );
 
@@ -244,7 +244,7 @@ namespace Oxygen
             painter.setRenderHint( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
 
-            const QPoint center( pixmap->rect().center() );
+            const QPoint center( QRect( 0, 0, 4, 4 ).center() );
 
             // light ellipse
             painter.setBrush( calcLightColor( baseColor ) );
