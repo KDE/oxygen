@@ -702,7 +702,6 @@ namespace Oxygen
         lg.setColorAt( 1.0, light );
         p->setPen( QPen( lg,1 ) );
 
-
         if ( orientation == Qt::Horizontal ) p->drawLine( start+offset,end+offset );
         else
         {
@@ -726,15 +725,17 @@ namespace Oxygen
 
         if ( !tileSet )
         {
-            QPixmap pixmap( hSize*2,vSize*2 );
+            const qreal devicePixelRatio( qApp->devicePixelRatio() );
+            QPixmap pixmap( hSize*2*devicePixelRatio,vSize*2*devicePixelRatio );
+            pixmap.setDevicePixelRatio( devicePixelRatio );
             pixmap.fill( Qt::transparent );
 
             QPainter p( &pixmap );
             p.setRenderHints( QPainter::Antialiasing );
             p.setPen( Qt::NoPen );
 
-            const int fixedSize( 14 );
-            p.setWindow( 0,0,fixedSize, fixedSize );
+            const int fixedSize( 14*devicePixelRatio );
+            p.setWindow( 0, 0, fixedSize, fixedSize );
 
             // draw all components
             if( color.isValid() ) drawShadow( p, calcShadowColor( color ), 14 );
@@ -743,9 +744,14 @@ namespace Oxygen
 
             p.end();
 
-            tileSet = new TileSet( pixmap, hSize, vSize, hSize, vSize, hSize-1, vSize, 2, 1 );
+            tileSet = new TileSet( pixmap,
+                hSize, vSize,
+                hSize, vSize,
+                (hSize-1), vSize,
+                2, 1 );
 
             cache->insert( key, tileSet );
+
         }
         return tileSet;
     }
