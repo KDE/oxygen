@@ -358,6 +358,17 @@ namespace Oxygen
 
         //@}
 
+        //* return dpi-aware pixmap of given size
+        virtual QPixmap highDpiPixmap( const QSize& size ) const
+        { return highDpiPixmap( size.width(), size.height() ); }
+
+        //* return dpi-aware pixmap of given size
+        virtual QPixmap highDpiPixmap( int width ) const
+        { return highDpiPixmap( width, width ); }
+
+        //* return dpi-aware pixmap of given size
+        virtual QPixmap highDpiPixmap( int width, int height ) const;
+
         //*@name compositing utilities
         //@{
 

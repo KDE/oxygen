@@ -473,10 +473,10 @@ namespace Oxygen
             gradient.setColorAt( 0.5, color );
             gradient.setColorAt( 1.0, backgroundBottomColor( color ) );
 
-            QPainter p( pixmap );
-            p.fillRect( pixmap->rect(), gradient );
+            QPainter painter( pixmap );
+            painter.fillRect( pixmap->rect(), gradient );
 
-            p.end();
+            painter.end();
 
             _backgroundCache.insert( key, pixmap );
         }
@@ -720,34 +720,29 @@ namespace Oxygen
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         TileSet *tileSet = cache->object( key );
 
-        const int hSize( size );
-        const int vSize( size );
-
         if ( !tileSet )
         {
-            const qreal devicePixelRatio( qApp->devicePixelRatio() );
-            QPixmap pixmap( hSize*2*devicePixelRatio,vSize*2*devicePixelRatio );
-            pixmap.setDevicePixelRatio( devicePixelRatio );
+            QPixmap pixmap( highDpiPixmap( size*2 ) );
             pixmap.fill( Qt::transparent );
 
-            QPainter p( &pixmap );
-            p.setRenderHints( QPainter::Antialiasing );
-            p.setPen( Qt::NoPen );
+            QPainter painter( &pixmap );
+            painter.setRenderHints( QPainter::Antialiasing );
+            painter.setPen( Qt::NoPen );
 
-            const int fixedSize( 14*devicePixelRatio );
-            p.setWindow( 0, 0, fixedSize, fixedSize );
+            const int fixedSize( 14*pixmap.devicePixelRatio() );
+            painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             // draw all components
-            if( color.isValid() ) drawShadow( p, calcShadowColor( color ), 14 );
-            if( glow.isValid() ) drawOuterGlow( p, glow, 14 );
-            if( color.isValid() ) drawSlab( p, color, shade );
+            if( color.isValid() ) drawShadow( painter, calcShadowColor( color ), 14 );
+            if( glow.isValid() ) drawOuterGlow( painter, glow, 14 );
+            if( color.isValid() ) drawSlab( painter, color, shade );
 
-            p.end();
+            painter.end();
 
             tileSet = new TileSet( pixmap,
-                hSize, vSize,
-                hSize, vSize,
-                (hSize-1), vSize,
+                size, size,
+                size, size,
+                size-1, size,
                 2, 1 );
 
             cache->insert( key, tileSet );
@@ -764,17 +759,19 @@ namespace Oxygen
 
         if ( !tileSet )
         {
-            QPixmap pixmap( size*2, size*2 );
+            QPixmap pixmap( highDpiPixmap( size*2 ) );
             pixmap.fill( Qt::transparent );
 
-            QPainter p( &pixmap );
-            p.setRenderHints( QPainter::Antialiasing );
-            p.setPen( Qt::NoPen );
-            p.setWindow( 0,0,14,14 );
+            QPainter painter( &pixmap );
+            painter.setRenderHints( QPainter::Antialiasing );
+            painter.setPen( Qt::NoPen );
+
+            const int fixedSize( 14*pixmap.devicePixelRatio() );
+            painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             // shadow
-            p.setCompositionMode( QPainter::CompositionMode_SourceOver );
-            drawInverseShadow( p, calcShadowColor( color ), 3, 8, 0.0 );
+            painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
+            drawInverseShadow( painter, calcShadowColor( color ), 3, 8, 0.0 );
 
             // contrast pixel
             {
@@ -783,14 +780,14 @@ namespace Oxygen
                 blend.setColorAt( 0.5, Qt::transparent );
                 blend.setColorAt( 1.0, light );
 
-                p.setBrush( Qt::NoBrush );
-                p.setPen( QPen( blend, 1 ) );
-                p.drawRoundedRect( QRectF( 2.5, 2.5, 9, 9 ), 4.0, 4.0 );
-                p.setPen( Qt::NoPen );
+                painter.setBrush( Qt::NoBrush );
+                painter.setPen( QPen( blend, 1 ) );
+                painter.drawRoundedRect( QRectF( 2.5, 2.5, 9, 9 ), 4.0, 4.0 );
+                painter.setPen( Qt::NoPen );
             }
 
 
-            p.end();
+            painter.end();
 
             tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
 
@@ -803,13 +800,13 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    void Helper::fillSlab( QPainter& p, const QRect& rect, int size ) const
+    void Helper::fillSlab( QPainter& painter, const QRect& rect, int size ) const
     {
         const qreal s( qreal( size ) * ( 3.6 + ( 0.5 * _slabThickness ) ) / 7.0 );
         const QRectF r( QRectF( rect ).adjusted( s, s, -s, -s ) );
         if( !r.isValid() ) return;
 
-        p.drawRoundedRect( r, s/2, s/2 );
+        painter.drawRoundedRect( r, s/2, s/2 );
     }
 
     //________________________________________________________________________________________________________
@@ -852,7 +849,7 @@ namespace Oxygen
 
     //________________________________________________________________________________________________________
     void Helper::drawInverseShadow(
-        QPainter& p, const QColor& color,
+        QPainter& painter, const QColor& color,
         int pad, int size, qreal fuzz ) const
     {
 
@@ -868,8 +865,8 @@ namespace Oxygen
             shadowGradient.setColorAt( k1, alphaColor( color, a * _shadowGain ) );
         }
         shadowGradient.setColorAt( k0, alphaColor( color, 0.0 ) );
-        p.setBrush( shadowGradient );
-        p.drawEllipse( QRectF( pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0 ) );
+        painter.setBrush( shadowGradient );
+        painter.drawEllipse( QRectF( pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0 ) );
     }
 
     //____________________________________________________________________
@@ -985,7 +982,16 @@ namespace Oxygen
     #endif
 
     //______________________________________________________________________________________
-    void Helper::drawSlab( QPainter& p, const QColor& color, qreal shade )
+    QPixmap Helper::highDpiPixmap( int width, int height ) const
+    {
+        const qreal dpiRatio( qApp->devicePixelRatio() );
+        QPixmap pixmap( width*dpiRatio, height*dpiRatio );
+        pixmap.setDevicePixelRatio( dpiRatio );
+        return pixmap;
+    }
+
+    //______________________________________________________________________________________
+    void Helper::drawSlab( QPainter& painter, const QColor& color, qreal shade )
     {
 
         const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
@@ -993,7 +999,7 @@ namespace Oxygen
         const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
 
         // bevel, part 1
-        p.save();
+        painter.save();
         const qreal y( KColorUtils::luma( base ) );
         const qreal yl( KColorUtils::luma( light ) );
         const qreal yd( KColorUtils::luma( dark ) );
@@ -1006,8 +1012,8 @@ namespace Oxygen
         }
 
         bevelGradient1.setColorAt( 0.9, base );
-        p.setBrush( bevelGradient1 );
-        p.drawRoundedRect( QRectF( 3.0,3.0,8.0,8.0 ), 3.5, 3.5 );
+        painter.setBrush( bevelGradient1 );
+        painter.drawRoundedRect( QRectF( 3.0,3.0,8.0,8.0 ), 3.5, 3.5 );
 
         // bevel, part 2
         if ( _slabThickness > 0.0 )
@@ -1016,23 +1022,23 @@ namespace Oxygen
             QLinearGradient bevelGradient2( 0, 6, 0, 19 );
             bevelGradient2.setColorAt( 0.0, light );
             bevelGradient2.setColorAt( 0.9, base );
-            p.setBrush( bevelGradient2 );
-            p.drawEllipse( QRectF( 3.6,3.6,6.8,6.8 ) );
+            painter.setBrush( bevelGradient2 );
+            painter.drawEllipse( QRectF( 3.6,3.6,6.8,6.8 ) );
 
         }
 
         // inside mask
-        p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
-        p.setBrush( Qt::black );
+        painter.setCompositionMode( QPainter::CompositionMode_DestinationOut );
+        painter.setBrush( Qt::black );
 
         const qreal ic( 3.6 + 0.5*_slabThickness );
         const qreal is( 14.0 - 2.0*ic );
-        p.drawEllipse( QRectF( ic, ic, is, is ) );
-        p.restore();
+        painter.drawEllipse( QRectF( ic, ic, is, is ) );
+        painter.restore();
     }
 
     //___________________________________________________________________________________________
-    void Helper::drawShadow( QPainter& p, const QColor& color, int size )
+    void Helper::drawShadow( QPainter& painter, const QColor& color, int size )
     {
         const qreal m( qreal( size-2 )*0.5 );
         const qreal offset( 0.8 );
@@ -1050,15 +1056,15 @@ namespace Oxygen
         }
 
         shadowGradient.setColorAt( 1.0, alphaColor( color, 0.0 ) );
-        p.save();
-        p.setBrush( shadowGradient );
-        p.drawEllipse( QRectF( 0, 0, size, size ) );
-        p.restore();
+        painter.save();
+        painter.setBrush( shadowGradient );
+        painter.drawEllipse( QRectF( 0, 0, size, size ) );
+        painter.restore();
 
     }
 
     //_______________________________________________________________________
-    void Helper::drawOuterGlow( QPainter& p, const QColor& color, int size )
+    void Helper::drawOuterGlow( QPainter& painter, const QColor& color, int size )
     {
 
         const QRectF r( 0, 0, size, size );
@@ -1083,15 +1089,15 @@ namespace Oxygen
         }
 
         // glow
-        p.save();
-        p.setBrush( glowGradient );
-        p.drawEllipse( r );
+        painter.save();
+        painter.setBrush( glowGradient );
+        painter.drawEllipse( r );
 
         // inside mask
-        p.setCompositionMode( QPainter::CompositionMode_DestinationOut );
-        p.setBrush( Qt::black );
-        p.drawEllipse( r.adjusted( width+0.5, width+0.5, -width-1, -width-1 ) );
-        p.restore();
+        painter.setCompositionMode( QPainter::CompositionMode_DestinationOut );
+        painter.setBrush( Qt::black );
+        painter.drawEllipse( r.adjusted( width+0.5, width+0.5, -width-1, -width-1 ) );
+        painter.restore();
 
     }
 
