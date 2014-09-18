@@ -195,21 +195,21 @@ namespace Oxygen
 
         // corner
         if( bits( tiles, Top|Left) )  painter->drawPixmap(x0, y0, _pixmaps.at(0), 0, 0, wLeft*_pixmaps.at(0).devicePixelRatio(), hTop*_pixmaps.at(0).devicePixelRatio());
-        if( bits( tiles, Top|Right) ) painter->drawPixmap(x2, y0, _pixmaps.at(2), _w3-wRight, 0, wRight*_pixmaps.at(2).devicePixelRatio(), hTop*_pixmaps.at(2).devicePixelRatio());
-        if( bits( tiles, Bottom|Left) )  painter->drawPixmap(x0, y2, _pixmaps.at(6), 0, _h3-hBottom, wLeft*_pixmaps.at(6).devicePixelRatio(),  hBottom*_pixmaps.at(6).devicePixelRatio());
-        if( bits( tiles, Bottom|Right) ) painter->drawPixmap(x2, y2, _pixmaps.at(8), _w3-wRight, _h3-hBottom, wRight*_pixmaps.at(8).devicePixelRatio(), hBottom*_pixmaps.at(8).devicePixelRatio() );
+        if( bits( tiles, Top|Right) ) painter->drawPixmap(x2, y0, _pixmaps.at(2), (_w3-wRight)*_pixmaps.at(2).devicePixelRatio(), 0, wRight*_pixmaps.at(2).devicePixelRatio(), hTop*_pixmaps.at(2).devicePixelRatio());
+        if( bits( tiles, Bottom|Left) )  painter->drawPixmap(x0, y2, _pixmaps.at(6), 0, (_h3-hBottom)*_pixmaps.at(6).devicePixelRatio(), wLeft*_pixmaps.at(6).devicePixelRatio(),  hBottom*_pixmaps.at(6).devicePixelRatio());
+        if( bits( tiles, Bottom|Right) ) painter->drawPixmap(x2, y2, _pixmaps.at(8), (_w3-wRight)*_pixmaps.at(8).devicePixelRatio(), (_h3-hBottom)*_pixmaps.at(8).devicePixelRatio(), wRight*_pixmaps.at(8).devicePixelRatio(), hBottom*_pixmaps.at(8).devicePixelRatio() );
 
         // top and bottom
         if( w > 0 )
         {
-            if( tiles&Top ) painter->drawPixmap(x1, y0, w, hTop, _pixmaps.at(1) );
+            if( tiles&Top ) painter->drawPixmap(x1, y0, w, hTop, _pixmaps.at(1), 0, 0, w2*_pixmaps.at(1).devicePixelRatio(), hTop*_pixmaps.at(1).devicePixelRatio() );
             if( tiles&Bottom ) painter->drawPixmap(x1, y2, w, hBottom, _pixmaps.at(7), 0, (_h3-hBottom)*_pixmaps.at(7).devicePixelRatio(), w2*_pixmaps.at(7).devicePixelRatio(), hBottom*_pixmaps.at(7).devicePixelRatio() );
         }
 
         // left and right
         if( h > 0 )
         {
-            if( tiles&Left ) painter->drawPixmap(x0, y1, wLeft, h, _pixmaps.at(3));
+            if( tiles&Left ) painter->drawPixmap(x0, y1, wLeft, h, _pixmaps.at(3), 0, 0, wLeft*_pixmaps.at(3).devicePixelRatio(), h2*_pixmaps.at(3).devicePixelRatio() );
             if( tiles&Right ) painter->drawPixmap(x2, y1, wRight, h, _pixmaps.at(5), (_w3-wRight)*_pixmaps.at(5).devicePixelRatio(), 0, wRight*_pixmaps.at(5).devicePixelRatio(), h2*_pixmaps.at(5).devicePixelRatio() );
         }
 
