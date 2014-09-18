@@ -293,11 +293,11 @@ namespace Oxygen
             {
                 // outline circle
                 qreal penWidth = 1.2;
-                QLinearGradient lg( 0, u*( 1.665-penWidth ), 0, u*( 12.33+1.665-penWidth ) );
-                lg.setColorAt( 0, dark );
-                lg.setColorAt( 1, light );
+                QLinearGradient linearGradient( 0, u*( 1.665-penWidth ), 0, u*( 12.33+1.665-penWidth ) );
+                linearGradient.setColorAt( 0, dark );
+                linearGradient.setColorAt( 1, light );
                 QRectF r( u*0.5*( 17-12.33+penWidth ), u*( 1.665+penWidth ), u*( 12.33-penWidth ), u*( 12.33-penWidth ) );
-                painter.setPen( QPen( lg, penWidth*u ) );
+                painter.setPen( QPen( linearGradient, penWidth*u ) );
                 painter.drawEllipse( r );
                 painter.end();
             }
@@ -324,12 +324,12 @@ namespace Oxygen
             painter.setRenderHint( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
 
-            QLinearGradient lg = QLinearGradient( 0.0, size-4.5, 0.0, size+4.5 );
-            lg.setColorAt( 0.50, calcLightColor( backgroundTopColor( color ) ) );
-            lg.setColorAt( 0.51, backgroundBottomColor( color ) );
+            QLinearGradient linearGradient = QLinearGradient( 0.0, size-4.5, 0.0, size+4.5 );
+            linearGradient.setColorAt( 0.50, calcLightColor( backgroundTopColor( color ) ) );
+            linearGradient.setColorAt( 0.51, backgroundBottomColor( color ) );
 
             // draw ellipse.
-            painter.setBrush( lg );
+            painter.setBrush( linearGradient );
             painter.drawEllipse( QRectF( size-4, size-4, 8, 8 ) );
 
             // mask
@@ -532,11 +532,11 @@ namespace Oxygen
             const qreal baseOffset( 3.5 );
             {
                 //plain background
-                QLinearGradient lg( 0, baseOffset-0.5*rect.height(), 0, baseOffset+rect.height() );
-                lg.setColorAt( 0, light );
-                lg.setColorAt( 0.8, base );
+                QLinearGradient linearGradient( 0, baseOffset-0.5*rect.height(), 0, baseOffset+rect.height() );
+                linearGradient.setColorAt( 0, light );
+                linearGradient.setColorAt( 0.8, base );
 
-                painter.setBrush( lg );
+                painter.setBrush( linearGradient );
                 const qreal offset( baseOffset );
                 painter.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
             }
@@ -544,11 +544,11 @@ namespace Oxygen
             {
                 // outline circle
                 const qreal penWidth( 0.7 );
-                QLinearGradient lg( 0, baseOffset, 0, baseOffset + 2*rect.height() );
-                lg.setColorAt( 0, light );
-                lg.setColorAt( 1, mid );
+                QLinearGradient linearGradient( 0, baseOffset, 0, baseOffset + 2*rect.height() );
+                linearGradient.setColorAt( 0, light );
+                linearGradient.setColorAt( 1, mid );
                 painter.setBrush( Qt::NoBrush );
-                painter.setPen( QPen( lg, penWidth ) );
+                painter.setPen( QPen( linearGradient, penWidth ) );
                 const qreal offset( baseOffset+0.5*penWidth );
                 painter.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
             }
@@ -662,13 +662,15 @@ namespace Oxygen
 
         if ( !tileSet )
         {
-            QPixmap pixmap( size*2, size*2 );
+            QPixmap pixmap( highDpiPixmap( size*2 ) );
             pixmap.fill( Qt::transparent );
 
             QPainter painter( &pixmap );
             painter.setRenderHints( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
-            painter.setWindow( 0,0,14,14 );
+
+            const int fixedSize( 14*pixmap.devicePixelRatio() );
+            painter.setWindow( 0, 0, fixedSize, fixedSize );
 
             if( fill )
             {
@@ -882,21 +884,21 @@ namespace Oxygen
             // outline
             {
                 const QColor mid( calcMidColor( color ) );
-                QLinearGradient lg( 0, 3, 0, 11 );
-                lg.setColorAt( 0, color );
-                lg.setColorAt( 1, mid );
+                QLinearGradient linearGradient( 0, 3, 0, 11 );
+                linearGradient.setColorAt( 0, color );
+                linearGradient.setColorAt( 1, mid );
                 painter.setPen( Qt::NoPen );
-                painter.setBrush( lg );
+                painter.setBrush( linearGradient );
                 painter.drawRoundedRect( QRectF( 3, 3, 8, 8 ), 2.5, 2.5 );
             }
 
             // contrast
             {
                 const QColor light( calcLightColor( color ) );
-                QLinearGradient lg( 0, 3, 0, 11 );
-                lg.setColorAt( 0., alphaColor( light, 0.9 ) );
-                lg.setColorAt( 0.5, alphaColor( light, 0.44 ) );
-                painter.setBrush( lg );
+                QLinearGradient linearGradient( 0, 3, 0, 11 );
+                linearGradient.setColorAt( 0., alphaColor( light, 0.9 ) );
+                linearGradient.setColorAt( 0.5, alphaColor( light, 0.44 ) );
+                painter.setBrush( linearGradient );
                 painter.drawRoundedRect( QRectF( 3, 3, 8, 8 ), 2.5, 2.5 );
             }
 
@@ -958,29 +960,29 @@ namespace Oxygen
 
             // dark frame
             {
-                QLinearGradient lg( 0, 0.5, 0, size-1.5 );
-                lg.setColorAt( 0.0, darkTop );
-                lg.setColorAt( 1.0, darkBottom );
+                QLinearGradient linearGradient( 0, 0.5, 0, size-1.5 );
+                linearGradient.setColorAt( 0.0, darkTop );
+                linearGradient.setColorAt( 1.0, darkBottom );
 
-                painter.setPen( QPen( lg, 1 ) );
+                painter.setPen( QPen( linearGradient, 1 ) );
                 painter.drawRoundedRect( QRectF( 1.5, 0.5, size-3, size-2 ), 4, 4 );
             }
 
             // bottom contrast
             {
-                QLinearGradient lg( 0, 0.5, 0, size-0.5 );
-                lg.setColorAt( 0.0, Qt::transparent );
-                lg.setColorAt( 1.0, lightBottom );
-                painter.setPen( QPen( lg, 1.0 ) );
+                QLinearGradient linearGradient( 0, 0.5, 0, size-0.5 );
+                linearGradient.setColorAt( 0.0, Qt::transparent );
+                linearGradient.setColorAt( 1.0, lightBottom );
+                painter.setPen( QPen( linearGradient, 1.0 ) );
                 painter.drawRoundedRect( QRectF( 0.5, 0.5, size-1, size-1 ), 4.5, 4.5 );
             }
 
             // top contrast
             {
-                QLinearGradient lg( 0, 1.5, 0, size-2.5 );
-                lg.setColorAt( 0.0, lightTop );
-                lg.setColorAt( 1.0, Qt::transparent );
-                painter.setPen( QPen( lg, 1.0 ) );
+                QLinearGradient linearGradient( 0, 1.5, 0, size-2.5 );
+                linearGradient.setColorAt( 0.0, lightTop );
+                linearGradient.setColorAt( 1.0, Qt::transparent );
+                painter.setPen( QPen( linearGradient, 1.0 ) );
                 painter.drawRoundedRect( QRectF( 2.5, 1.5, size-5, size-4 ), 3.5, 3.5 );
             }
 
@@ -1263,12 +1265,12 @@ namespace Oxygen
 
         {
             //plain background
-            QLinearGradient lg( 0, 3, 0, 21 );
-            lg.setColorAt( 0, light );
-            lg.setColorAt( 1, dark );
+            QLinearGradient linearGradient( 0, 3, 0, 21 );
+            linearGradient.setColorAt( 0, light );
+            linearGradient.setColorAt( 1, dark );
 
             const QRectF r( 3, 3, 15, 15 );
-            painter.setBrush( lg );
+            painter.setBrush( linearGradient );
             painter.drawEllipse( r );
 
         }
@@ -1276,12 +1278,12 @@ namespace Oxygen
         if( sunken )
         {
             //plain background
-            QLinearGradient lg( 0, 3, 0, 21 );
-            lg.setColorAt( 0, dark );
-            lg.setColorAt( 1, light );
+            QLinearGradient linearGradient( 0, 3, 0, 21 );
+            linearGradient.setColorAt( 0, dark );
+            linearGradient.setColorAt( 1, light );
 
             const QRectF r( 5, 5, 11, 11 );
-            painter.setBrush( lg );
+            painter.setBrush( linearGradient );
             painter.drawEllipse( r );
 
         }
@@ -1289,12 +1291,12 @@ namespace Oxygen
         {
             // outline circle
             const qreal penWidth( 1 );
-            QLinearGradient lg( 0, 3, 0, 30 );
-            lg.setColorAt( 0, light );
-            lg.setColorAt( 1, dark );
+            QLinearGradient linearGradient( 0, 3, 0, 30 );
+            linearGradient.setColorAt( 0, light );
+            linearGradient.setColorAt( 1, dark );
 
             const QRectF r( 3.5, 3.5, 14, 14 );
-            painter.setPen( QPen( lg, penWidth ) );
+            painter.setPen( QPen( linearGradient, penWidth ) );
             painter.setBrush( Qt::NoBrush );
             painter.drawEllipse( r );
         }
