@@ -743,6 +743,9 @@ namespace Oxygen
             case PM_TabBarBaseOverlap: return Metrics::TabBar_BaseOverlap;
             case PM_TabBarTabHSpace: return 2*Metrics::TabBar_TabMarginWidth;
             case PM_TabBarTabVSpace: return 2*Metrics::TabBar_TabMarginHeight;
+            case PM_TabCloseIndicatorWidth:
+            case PM_TabCloseIndicatorHeight:
+            return pixelMetric( PM_SmallIconSize, option, widget );
 
             // scrollbars
             case PM_ScrollBarExtent: return StyleConfigData::scrollBarWidth() + 2;
@@ -4213,7 +4216,7 @@ namespace Oxygen
             mode = QIcon::Disabled;
 
         QIcon::State state = option->state & State_Sunken ? QIcon::On:QIcon::Off;
-        QPixmap pixmap = _tabCloseIcon.pixmap(size, mode, state);
+        QPixmap pixmap( _tabCloseIcon.pixmap(size, mode, state) );
         drawItemPixmap( painter, option->rect, Qt::AlignCenter, pixmap );
         return true;
     }
