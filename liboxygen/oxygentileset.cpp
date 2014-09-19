@@ -21,7 +21,6 @@
 #include "oxygentileset.h"
 
 #include <QPainter>
-#include <QTextStream>
 
 namespace Oxygen
 {
@@ -56,9 +55,9 @@ namespace Oxygen
     int TileSet::_sideExtent = 32;
 
     //______________________________________________________________
-    void TileSet::initPixmap( PixmapList& pixmaps, const QPixmap &source, int w, int h, const QRect &rect)
+    void TileSet::initPixmap( PixmapList& pixmaps, const QPixmap &source, int width, int height, const QRect &rect)
     {
-        QSize size( w, h );
+        QSize size( width, height );
         if( !( size.isValid() && rect.isValid() ) )
         {
             pixmaps.append( QPixmap() );
@@ -72,8 +71,8 @@ namespace Oxygen
             QPixmap pixmap( scaledSize );
 
             pixmap.fill(Qt::transparent);
-            QPainter p(&pixmap);
-            p.drawTiledPixmap(0, 0, scaledSize.width(), scaledSize.height(), tile);
+            QPainter painter(&pixmap);
+            painter.drawTiledPixmap(0, 0, scaledSize.width(), scaledSize.height(), tile);
             setDevicePixelRatio( pixmap, dpiRatio );
             pixmaps.append( pixmap );
 

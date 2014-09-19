@@ -935,6 +935,29 @@ namespace Oxygen
         #endif
     }
 
+    //______________________________________________________________________________________
+    QPixmap Helper::highDpiPixmap( int width, int height ) const
+    {
+        #if QT_VERSION >= 0x050300
+        const qreal dpiRatio( qApp->devicePixelRatio() );
+        QPixmap pixmap( width*dpiRatio, height*dpiRatio );
+        pixmap.setDevicePixelRatio( dpiRatio );
+        return pixmap;
+        #else
+        return QPixmap( width, height );
+        #endif
+    }
+
+    //______________________________________________________________________________________
+    qreal Helper::devicePixelRatio( const QPixmap& pixmap ) const
+    {
+        #if QT_VERSION >= 0x050300
+        return pixmap.devicePixelRatio();
+        #else
+        return 1;
+        #endif
+    }
+
     //______________________________________________________________________________
     bool Helper::isX11( void )
     {
@@ -980,29 +1003,6 @@ namespace Oxygen
     }
 
     #endif
-
-    //______________________________________________________________________________________
-    QPixmap Helper::highDpiPixmap( int width, int height ) const
-    {
-        #if QT_VERSION >= 0x050300
-        const qreal dpiRatio( qApp->devicePixelRatio() );
-        QPixmap pixmap( width*dpiRatio, height*dpiRatio );
-        pixmap.setDevicePixelRatio( dpiRatio );
-        return pixmap;
-        #else
-        return QPixmap( width, height );
-        #endif
-    }
-
-    //______________________________________________________________________________________
-    qreal Helper::devicePixelRatio( const QPixmap& pixmap ) const
-    {
-        #if QT_VERSION >= 0x050300
-        return pixmap.devicePixelRatio();
-        #else
-        return 1;
-        #endif
-    }
 
     //______________________________________________________________________________________
     void Helper::drawSlab( QPainter& painter, const QColor& color, qreal shade )

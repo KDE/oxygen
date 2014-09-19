@@ -158,7 +158,7 @@ namespace Oxygen
     {
         public:
 
-        //! constructor
+        //* constructor
         explicit Helper( KSharedConfig::Ptr config );
 
         #if OXYGEN_USE_KDE4
@@ -173,7 +173,7 @@ namespace Oxygen
         //* load configuration
         virtual void loadConfig();
 
-        //! pointer to shared config
+        //* pointer to shared config
         KSharedConfig::Ptr config() const;
 
         //* reset all caches
@@ -387,7 +387,7 @@ namespace Oxygen
 
         #if OXYGEN_HAVE_X11
 
-        //! xcb connection
+        //* xcb connection
         static xcb_connection_t* connection( void );
 
         //* create xcb atom
@@ -447,8 +447,8 @@ namespace Oxygen
         KSharedConfig::Ptr _config;
         qreal _bgcontrast;
 
-        //!@name tileset caches
-        //!@{
+        //*@name tileset caches
+        //*@{
 
         //* slabs
         Oxygen::Cache<TileSet> _slabCache;
@@ -465,7 +465,7 @@ namespace Oxygen
         KStatefulBrush _viewNegativeTextBrush;
         //@}
 
-        //!@name color caches
+        //*@name color caches
         //@{
         ColorCache _decoColorCache;
         ColorCache _lightColorCache;
@@ -499,7 +499,7 @@ namespace Oxygen
         //* value for given hint
         bool hasHint( xcb_window_t, xcb_atom_t ) const;
 
-        //! background gradient hint atom
+        //* background gradient hint atom
         xcb_atom_t _backgroundGradientAtom;
 
         //* background gradient hint atom
