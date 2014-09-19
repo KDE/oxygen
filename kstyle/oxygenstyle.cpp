@@ -7105,16 +7105,16 @@ namespace Oxygen
     //______________________________________________________________
     bool Style::drawTitleBarComplexControl( const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget ) const
     {
-        const QStyleOptionTitleBar *tb( qstyleoption_cast<const QStyleOptionTitleBar *>( option ) );
-        if( !tb ) return true;
+        const QStyleOptionTitleBar *titleBarOption( qstyleoption_cast<const QStyleOptionTitleBar *>( option ) );
+        if( !titleBarOption ) return true;
 
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
-        const bool active( enabled && ( tb->titleBarState & Qt::WindowActive ) );
+        const bool active( enabled && ( titleBarOption->titleBarState & Qt::WindowActive ) );
 
         // draw title text
         {
-            QRect textRect = subControlRect( CC_TitleBar, tb, SC_TitleBarLabel, widget );
+            QRect textRect = subControlRect( CC_TitleBar, titleBarOption, SC_TitleBarLabel, widget );
 
             // enable state transition
             _animations->widgetEnabilityEngine().updateState( widget, AnimationEnable, active );
@@ -7126,44 +7126,48 @@ namespace Oxygen
             { palette = _helper->disabledPalette( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
 
             palette.setCurrentColorGroup( active ? QPalette::Active: QPalette::Disabled );
-            ParentStyleClass::drawItemText( painter, textRect, Qt::AlignCenter, palette, active, tb->text, QPalette::WindowText );
+            ParentStyleClass::drawItemText( painter, textRect, Qt::AlignCenter, palette, active, titleBarOption->text, QPalette::WindowText );
 
         }
 
 
         // menu button
-        if( ( tb->subControls & SC_TitleBarSysMenu ) && ( tb->titleBarFlags & Qt::WindowSystemMenuHint ) && !tb->icon.isNull() )
+        if( ( titleBarOption->subControls & SC_TitleBarSysMenu ) && ( titleBarOption->titleBarFlags & Qt::WindowSystemMenuHint ) && !titleBarOption->icon.isNull() )
         {
 
-            const QRect br = subControlRect( CC_TitleBar, tb, SC_TitleBarSysMenu, widget );
-            tb->icon.paint( painter, br );
+            QRect iconRect = subControlRect( CC_TitleBar, titleBarOption, SC_TitleBarSysMenu, widget );
+            const int iconWidth( pixelMetric( PM_SmallIconSize, option, widget ) );
+            const QSize iconSize( iconWidth, iconWidth );
+            iconRect = centerRect( iconRect, iconSize );
+            const QPixmap pixmap = titleBarOption->icon.pixmap( iconSize, QIcon::Normal, QIcon::On );
+            painter->drawPixmap( iconRect, pixmap );
 
         }
 
-        if( ( tb->subControls & SC_TitleBarMinButton ) && ( tb->titleBarFlags & Qt::WindowMinimizeButtonHint ) )
-        { renderTitleBarButton( painter, tb, widget, SC_TitleBarMinButton ); }
+        if( ( titleBarOption->subControls & SC_TitleBarMinButton ) && ( titleBarOption->titleBarFlags & Qt::WindowMinimizeButtonHint ) )
+        { renderTitleBarButton( painter, titleBarOption, widget, SC_TitleBarMinButton ); }
 
-        if( ( tb->subControls & SC_TitleBarMaxButton ) && ( tb->titleBarFlags & Qt::WindowMaximizeButtonHint ) )
-        { renderTitleBarButton( painter, tb, widget, SC_TitleBarMaxButton ); }
+        if( ( titleBarOption->subControls & SC_TitleBarMaxButton ) && ( titleBarOption->titleBarFlags & Qt::WindowMaximizeButtonHint ) )
+        { renderTitleBarButton( painter, titleBarOption, widget, SC_TitleBarMaxButton ); }
 
-        if( ( tb->subControls & SC_TitleBarCloseButton ) )
-        { renderTitleBarButton( painter, tb, widget, SC_TitleBarCloseButton ); }
+        if( ( titleBarOption->subControls & SC_TitleBarCloseButton ) )
+        { renderTitleBarButton( painter, titleBarOption, widget, SC_TitleBarCloseButton ); }
 
-        if( ( tb->subControls & SC_TitleBarNormalButton ) &&
-            ( ( ( tb->titleBarFlags & Qt::WindowMinimizeButtonHint ) &&
-            ( tb->titleBarState & Qt::WindowMinimized ) ) ||
-            ( ( tb->titleBarFlags & Qt::WindowMaximizeButtonHint ) &&
-            ( tb->titleBarState & Qt::WindowMaximized ) ) ) )
-        { renderTitleBarButton( painter, tb, widget, SC_TitleBarNormalButton ); }
+        if( ( titleBarOption->subControls & SC_TitleBarNormalButton ) &&
+            ( ( ( titleBarOption->titleBarFlags & Qt::WindowMinimizeButtonHint ) &&
+            ( titleBarOption->titleBarState & Qt::WindowMinimized ) ) ||
+            ( ( titleBarOption->titleBarFlags & Qt::WindowMaximizeButtonHint ) &&
+            ( titleBarOption->titleBarState & Qt::WindowMaximized ) ) ) )
+        { renderTitleBarButton( painter, titleBarOption, widget, SC_TitleBarNormalButton ); }
 
-        if( tb->subControls & SC_TitleBarShadeButton )
-        { renderTitleBarButton( painter, tb, widget, SC_TitleBarShadeButton ); }
+        if( titleBarOption->subControls & SC_TitleBarShadeButton )
+        { renderTitleBarButton( painter, titleBarOption, widget, SC_TitleBarShadeButton ); }
 
-        if( tb->subControls & SC_TitleBarUnshadeButton )
-        { renderTitleBarButton( painter, tb, widget, SC_TitleBarUnshadeButton ); }
+        if( titleBarOption->subControls & SC_TitleBarUnshadeButton )
+        { renderTitleBarButton( painter, titleBarOption, widget, SC_TitleBarUnshadeButton ); }
 
-        if( ( tb->subControls & SC_TitleBarContextHelpButton ) && ( tb->titleBarFlags & Qt::WindowContextHelpButtonHint ) )
-        { renderTitleBarButton( painter, tb, widget, SC_TitleBarContextHelpButton ); }
+        if( ( titleBarOption->subControls & SC_TitleBarContextHelpButton ) && ( titleBarOption->titleBarFlags & Qt::WindowContextHelpButtonHint ) )
+        { renderTitleBarButton( painter, titleBarOption, widget, SC_TitleBarContextHelpButton ); }
 
         return true;
     }
