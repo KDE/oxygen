@@ -534,7 +534,7 @@ namespace Oxygen
         const int items( tabCount() );
 
         // make sure item data have the correct number of items
-        while( _itemData.count() < items ) _itemData.push_back( ClientGroupItemData() );
+        while( _itemData.count() < items ) _itemData.append( ClientGroupItemData() );
         while( _itemData.count() > items )
         {
             if( _itemData.back()._closeButton ) delete _itemData.back()._closeButton.data();

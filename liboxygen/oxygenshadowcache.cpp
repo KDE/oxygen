@@ -152,8 +152,8 @@ namespace Oxygen
         // create shadow and tileset otherwise
         qreal size( shadowSize() + overlap );
 
-        // QPixmap shadow( size*2, size*2 );
         QPixmap shadow( _helper.highDpiPixmap( size*2 ) );
+        // QPixmap shadow( size*2, size*2 );
         shadow.fill( Qt::transparent );
         QPainter painter( &shadow );
         painter.setRenderHint( QPainter::Antialiasing );
@@ -204,6 +204,7 @@ namespace Oxygen
         shadowSize += overlap;
 
         QPixmap shadow( _helper.highDpiPixmap( size*2 ) );
+        // QPixmap shadow( size*2, size*2 );
         shadow.fill( Qt::transparent );
 
         QPainter painter( &shadow );

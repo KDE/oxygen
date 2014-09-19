@@ -84,7 +84,7 @@ namespace Oxygen
 
             ui.verticalLayout->addWidget( checkbox );
 
-            _widgets.push_back( WidgetPair(checkbox, demoWidget) );
+            _widgets.append( WidgetPair(checkbox, demoWidget) );
 
             connect( checkbox, SIGNAL(toggled(bool)), SLOT(updateButtonState()) );
 

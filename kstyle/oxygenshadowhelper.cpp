@@ -326,27 +326,27 @@ namespace Oxygen
             if( _dockPixmaps.empty() && _dockTiles.isValid() )
             {
 
-                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 1 ) ) );
-                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 2 ) ) );
-                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 5 ) ) );
-                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 8 ) ) );
-                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 7 ) ) );
-                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 6 ) ) );
-                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 3 ) ) );
-                _dockPixmaps.push_back( createPixmap( _dockTiles.pixmap( 0 ) ) );
+                _dockPixmaps.append( createPixmap( _dockTiles.pixmap( 1 ) ) );
+                _dockPixmaps.append( createPixmap( _dockTiles.pixmap( 2 ) ) );
+                _dockPixmaps.append( createPixmap( _dockTiles.pixmap( 5 ) ) );
+                _dockPixmaps.append( createPixmap( _dockTiles.pixmap( 8 ) ) );
+                _dockPixmaps.append( createPixmap( _dockTiles.pixmap( 7 ) ) );
+                _dockPixmaps.append( createPixmap( _dockTiles.pixmap( 6 ) ) );
+                _dockPixmaps.append( createPixmap( _dockTiles.pixmap( 3 ) ) );
+                _dockPixmaps.append( createPixmap( _dockTiles.pixmap( 0 ) ) );
 
             }
 
         } else if( _pixmaps.empty() && _tiles.isValid() ) {
 
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 1 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 2 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 5 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 8 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 7 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 6 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 3 ) ) );
-            _pixmaps.push_back( createPixmap( _tiles.pixmap( 0 ) ) );
+            _pixmaps.append( createPixmap( _tiles.pixmap( 1 ) ) );
+            _pixmaps.append( createPixmap( _tiles.pixmap( 2 ) ) );
+            _pixmaps.append( createPixmap( _tiles.pixmap( 5 ) ) );
+            _pixmaps.append( createPixmap( _tiles.pixmap( 8 ) ) );
+            _pixmaps.append( createPixmap( _tiles.pixmap( 7 ) ) );
+            _pixmaps.append( createPixmap( _tiles.pixmap( 6 ) ) );
+            _pixmaps.append( createPixmap( _tiles.pixmap( 3 ) ) );
+            _pixmaps.append( createPixmap( _tiles.pixmap( 0 ) ) );
 
         }
 
@@ -429,7 +429,7 @@ namespace Oxygen
         // add pixmap handles
         QVector<uint32_t> data;
         foreach( const uint32_t& value, pixmaps )
-        { data.push_back( value ); }
+        { data.append( value ); }
 
         // add padding
         /*
@@ -457,7 +457,9 @@ namespace Oxygen
                 else data << size << size << size - (bottom - top) << size;
 
             } else {
+
                 data << _size << _size << _size << _size;
+
             }
 
         } else {

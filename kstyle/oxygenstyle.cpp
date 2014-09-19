@@ -6417,7 +6417,7 @@ namespace Oxygen
         const QColor color( widget ? widget->palette().color( widget->backgroundRole() ) : palette.color( QPalette::Window ) );
         const QColor dark( _helper->calcDarkColor( color ) );
         QList<QColor> colors;
-        colors.push_back( _helper->calcLightColor( color ) );
+        colors.append( _helper->calcLightColor( color ) );
 
         if( mouseOver || animated )
         {
@@ -6426,17 +6426,17 @@ namespace Oxygen
             if( animated )
             {
 
-                colors.push_back( KColorUtils::mix( dark, highlight, opacity ) );
-                colors.push_back( _helper->alphaColor( highlight, 0.2*opacity ) );
+                colors.append( KColorUtils::mix( dark, highlight, opacity ) );
+                colors.append( _helper->alphaColor( highlight, 0.2*opacity ) );
 
             } else {
 
-                colors.push_back( highlight );
-                colors.push_back( _helper->alphaColor( highlight, 0.2 ) );
+                colors.append( highlight );
+                colors.append( _helper->alphaColor( highlight, 0.2 ) );
 
             }
 
-        } else colors.push_back( dark );
+        } else colors.append( dark );
 
         // create path
         const qreal radius( 8 );

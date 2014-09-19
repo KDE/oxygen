@@ -194,7 +194,7 @@ namespace Oxygen
 
         QWidgetList widgets;
         if( widget->autoFillBackground() )
-        { widgets.push_back( widget ); }
+        { widgets.append( widget ); }
 
         QWidget *parent(0);
 
@@ -205,7 +205,7 @@ namespace Oxygen
             if( !( parent->isVisible() && parent->rect().isValid() ) ) continue;
 
             // store in list
-            widgets.push_back( parent );
+            widgets.append( parent );
 
             // stop at topLevel
             if( parent->isTopLevel() || parent->autoFillBackground() ) break;

@@ -71,7 +71,7 @@ namespace Oxygen
 
     //_______________________________________________________________________
     void Simulator::wait( int delay )
-    { _events.push_back( Event( Event::Wait, 0, delay ) ); }
+    { _events.append( Event( Event::Wait, 0, delay ) ); }
 
     //_______________________________________________________________________
     void Simulator::click( QWidget* receiver, int delay  )
@@ -121,7 +121,7 @@ namespace Oxygen
     {
         Event event( Event::Click, receiver, delay );
         event._position = position;
-        _events.push_back( event );
+        _events.append( event );
     }
 
     //_______________________________________________________________________
@@ -129,7 +129,7 @@ namespace Oxygen
     {
         Event event( Event::Slide, receiver, delay );
         event._position = position;
-        _events.push_back( event );
+        _events.append( event );
 
     }
 
@@ -138,7 +138,7 @@ namespace Oxygen
     {
         Event event( Event::SelectItem, receiver, delay );
         event._position = QPoint( column, row );
-        _events.push_back( event );
+        _events.append( event );
     }
 
     //_______________________________________________________________________
@@ -146,7 +146,7 @@ namespace Oxygen
     {
         Event event( Event::SelectComboBoxItem, receiver, delay );
         event._position.setX( index );
-        _events.push_back( event );
+        _events.append( event );
     }
 
     //_______________________________________________________________________
@@ -154,7 +154,7 @@ namespace Oxygen
     {
         Event event( Event::SelectMenuItem, receiver, delay );
         event._position.setX( index );
-        _events.push_back( event );
+        _events.append( event );
     }
 
     //_______________________________________________________________________
@@ -175,7 +175,7 @@ namespace Oxygen
     {
         Event event( Event::SelectTab, receiver, delay );
         event._position.setX( index );
-        _events.push_back( event );
+        _events.append( event );
     }
 
     //_______________________________________________________________________
@@ -183,12 +183,12 @@ namespace Oxygen
     {
         Event event( Event::WriteText, receiver, delay );
         event._text = text;
-        _events.push_back( event );
+        _events.append( event );
     }
 
     //_______________________________________________________________________
     void Simulator::clearText( QWidget* receiver, int delay )
-    { _events.push_back( Event( Event::ClearText, receiver, delay ) ); }
+    { _events.append( Event( Event::ClearText, receiver, delay ) ); }
 
     //_______________________________________________________________________
     void Simulator::run( void )
@@ -516,21 +516,21 @@ namespace Oxygen
                 */
                 QPoint position( r.center() );
                 _pendingWidget = menu;
-                _pendingEvents.push_back( new QMouseEvent(
+                _pendingEvents.append( new QMouseEvent(
                     QEvent::MouseMove,
                     position,
                     Qt::NoButton,
                     Qt::NoButton,
                     Qt::NoModifier ) );
 
-                _pendingEvents.push_back( new QMouseEvent(
+                _pendingEvents.append( new QMouseEvent(
                     QEvent::MouseButtonPress,
                     position,
                     Qt::LeftButton,
                     Qt::NoButton,
                     Qt::NoModifier ) );
 
-                _pendingEvents.push_back( new QMouseEvent(
+                _pendingEvents.append( new QMouseEvent(
                     QEvent::MouseButtonRelease,
                     position,
                     Qt::LeftButton,
