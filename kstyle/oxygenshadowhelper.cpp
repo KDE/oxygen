@@ -156,6 +156,7 @@ namespace Oxygen
         _size = shadowCache().shadowSize();
 
         QPixmap pixmap( shadowCache().pixmap( ShadowCache::Key() ) );
+        const QSize pixmapSize( pixmap.size()/_helper.devicePixelRatio( pixmap ) );
         if( !pixmap.isNull() )
         {
             QPainter painter( &pixmap );
@@ -166,7 +167,7 @@ namespace Oxygen
         }
 
         // recreate tileset
-        _tiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
+        _tiles = TileSet( pixmap, pixmapSize.width()/2, pixmapSize.height()/2, 1, 1 );
 
         if( !pixmap.isNull() )
         {
@@ -178,7 +179,7 @@ namespace Oxygen
         }
 
         // recreate tileset
-        _dockTiles = TileSet( pixmap, pixmap.width()/2, pixmap.height()/2, 1, 1 );
+        _dockTiles = TileSet( pixmap, pixmapSize.width()/2, pixmapSize.height()/2, 1, 1 );
 
         // update property for registered widgets
         for( QMap<QWidget*,WId>::const_iterator iter = _widgets.constBegin(); iter != _widgets.constEnd(); ++iter )
