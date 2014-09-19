@@ -169,7 +169,7 @@ namespace Oxygen
         if (library.load())
         {
             QFunctionPointer alloc_ptr = library.resolve( "allocate_kstyle_config" );
-            if (alloc_ptr != NULL)
+            if (alloc_ptr != nullptr)
             {
 
                 // pointer to decoration plugin allocation function

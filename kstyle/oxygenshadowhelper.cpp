@@ -447,7 +447,7 @@ namespace Oxygen
                 // balloon tip needs special margins to deal with the arrow
                 int top = 0;
                 int bottom = 0;
-                widget->getContentsMargins(NULL, &top, NULL, &bottom );
+                widget->getContentsMargins(nullptr, &top, nullptr, &bottom );
 
                 // also need to decrement default size further due to extra hard coded round corner
                 const int size = _size - 2;

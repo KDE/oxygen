@@ -4234,7 +4234,7 @@ namespace Oxygen
         const QStyleOptionTabV3* tabOptionV3( qstyleoption_cast<const QStyleOptionTabV3*>( option ) );
         bool documentMode( tabOptionV3 ? tabOptionV3->documentMode : false );
 
-        const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
+        const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : nullptr;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
 
         QRect gradientRect( rect );
@@ -5625,7 +5625,7 @@ namespace Oxygen
         // document mode
         const QStyleOptionTabV3 *tabOptionV3 = qstyleoption_cast<const QStyleOptionTabV3 *>( option );
         bool documentMode = tabOptionV3 ? tabOptionV3->documentMode : false;
-        const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
+        const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : nullptr;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
 
         // this is needed to complete the base frame when there are widgets in tabbar
@@ -6006,7 +6006,7 @@ namespace Oxygen
         // document mode
         const QStyleOptionTabV3 *tabOptV3 = qstyleoption_cast<const QStyleOptionTabV3 *>( option );
         bool documentMode = tabOptV3 ? tabOptV3->documentMode : false;
-        const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
+        const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : nullptr;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
 
         // this is needed to complete the base frame when there are widgets in tabbar
@@ -8401,7 +8401,7 @@ namespace OxygenPrivate
         // get documentMode flag
         const QStyleOptionTabV3 *tabOptionV3 = qstyleoption_cast<const QStyleOptionTabV3 *>( tabOption );
         bool documentMode = tabOptionV3 ? tabOptionV3->documentMode : false;
-        const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : NULL;
+        const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : nullptr;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
 
         const QRect tabBarRect( tabBar->rect() );

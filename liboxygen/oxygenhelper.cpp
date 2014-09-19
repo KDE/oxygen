@@ -872,7 +872,7 @@ namespace Oxygen
     //____________________________________________________________________
     const QWidget* Helper::checkAutoFillBackground( const QWidget* w ) const
     {
-        if( !w ) return NULL;
+        if( !w ) return nullptr;
         if( w->autoFillBackground() ) return w;
         if( w->isWindow() ) return 0;
 
@@ -882,7 +882,7 @@ namespace Oxygen
             if( parent == w->window() ) break;
         }
 
-        return NULL;
+        return nullptr;
     }
 
     //____________________________________________________________________
