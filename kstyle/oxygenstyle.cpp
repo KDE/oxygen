@@ -6439,57 +6439,44 @@ namespace Oxygen
         } else colors.push_back( dark );
 
         // create path
-        painter->save();
+        const qreal radius( 8 );
+        const qreal offset( radius * std::tan( M_PI/8 ) );
+        const QRectF rectf( rect );
+
         QPainterPath path;
-        const int y( rect.height()*15/100 );
         if( reverseLayout )
         {
 
-            path.moveTo( rect.left()+52, rect.top() );
-            path.cubicTo( QPointF( rect.left()+50-8, rect.top() ), QPointF( rect.left()+50-10, rect.top()+y ), QPointF( rect.left()+50-10, rect.top()+y ) );
-            path.lineTo( rect.left()+18+9, rect.bottom()-y );
-            path.cubicTo( QPointF( rect.left()+18+9, rect.bottom()-y ), QPointF( rect.left()+19+6, rect.bottom()-1-0.3 ), QPointF( rect.left()+19, rect.bottom()-1-0.3 ) );
-            painter->setClipRect( QRect( rect.left()+21, rect.top(), 28, rect.height() ) );
+            path.moveTo( rectf.right()-1, rectf.top() );
+            path.lineTo( rectf.left() + 50 + radius + offset, rectf.top() );
+            path.arcTo( QRectF( rectf.left() + 50 + radius + offset - 2*radius, rectf.top(), radius*2, radius*2 ), 90, 45 );
+            path.lineTo( rectf.left() + 50 - rectf.height() + 3 + offset/std::sqrt(2), rectf.bottom() - 3 - offset/std::sqrt(2) );
+            path.arcTo( QRectF( rectf.left() + 50 - rectf.height() + 3 + radius - offset - 2*radius, rectf.bottom() - 3 - 2*radius, 2*radius, 2*radius ), 315, -45 );
+            path.lineTo( rectf.left(), rectf.bottom() - 3 );
 
         } else {
 
-            path.moveTo( rect.right()-52, rect.top() );
-            path.cubicTo( QPointF( rect.right()-50+8, rect.top() ), QPointF( rect.right()-50+10, rect.top()+y ), QPointF( rect.right()-50+10, rect.top()+y ) );
-            path.lineTo( rect.right()-18-9, rect.bottom()-y );
-            path.cubicTo( QPointF( rect.right()-18-9, rect.bottom()-y ), QPointF( rect.right()-19-6, rect.bottom()-1-0.3 ), QPointF( rect.right()-19, rect.bottom()-1-0.3 ) );
-            painter->setClipRect( QRect( rect.right()-48, rect.top(), 32, rect.height() ) );
+            path.moveTo( rectf.left(), rectf.top() );
+            path.lineTo( rectf.right()- 50 - radius - offset, rectf.top() );
+            path.arcTo( QRectF( rectf.right() - 50 - radius - offset, rectf.top(), radius*2, radius*2 ), 90, -45 );
+            path.lineTo( rectf.right() - 50 + rectf.height() - 3 - offset/std::sqrt(2), rectf.bottom() - 3 - offset/std::sqrt(2) );
+            path.arcTo( QRectF( rectf.right() - 50 + rectf.height() - 3 - radius + offset, rectf.bottom() - 3 - 2*radius, 2*radius, 2*radius ), 225, 45 );
+            path.lineTo( rectf.right() - 1, rectf.bottom() - 3 );
 
         }
 
 
         // paint
         painter->setRenderHint( QPainter::Antialiasing, true );
-        painter->translate( 0,2 );
+        painter->translate(0.5, 0.5 );
+        painter->translate( 0, 2 );
         foreach( const QColor& color, colors )
         {
             painter->setPen( color );
             painter->drawPath( path );
             painter->translate( 0,-1 );
         }
-        painter->restore();
 
-        painter->save();
-        painter->setRenderHint( QPainter::Antialiasing, false );
-        painter->translate( 0,2 );
-        foreach( const QColor& color, colors )
-        {
-            painter->setPen( color );
-            if( reverseLayout ) {
-                painter->drawLine( rect.left()+50-1, rect.top(), rect.right(), rect.top() );
-                painter->drawLine( rect.left()+20, rect.bottom()-2, rect.left(), rect.bottom()-2 );
-            } else {
-                painter->drawLine( rect.left(), rect.top(), rect.right()-50+1, rect.top() );
-                painter->drawLine( rect.right()-20, rect.bottom()-2, rect.right(), rect.bottom()-2 );
-            }
-            painter->translate( 0,-1 );
-        }
-
-        painter->restore();
         return true;
 
     }
