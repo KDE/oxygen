@@ -1596,56 +1596,81 @@ namespace Oxygen
 
             case SP_ToolBarHorizontalExtensionButton:
             {
+                QIcon icon;
 
-                QPixmap pixmap( _helper->highDpiPixmap( rect.size() ) );
-                pixmap.fill( Qt::transparent );
-                QPainter painter( &pixmap );
-                painter.setRenderHints( QPainter::Antialiasing );
-                painter.setBrush( Qt::NoBrush );
+                // default icon sizes
+                static const QList<int> iconSizes = { 8, 16, 22, 32, 48 };
+                foreach( const int& iconSize, iconSizes )
+                {
 
-                painter.translate( QRectF( rect ).center() );
+                    QPixmap pixmap(  iconSize, iconSize );
+                    pixmap.fill( Qt::transparent );
+                    QPainter painter( &pixmap );
+                    painter.setRenderHints( QPainter::Antialiasing );
+                    painter.setWindow( rect );
+                    painter.setBrush( Qt::NoBrush );
 
-                const bool reverseLayout( option && option->direction == Qt::RightToLeft );
-                QPolygonF arrow = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, ArrowTiny );
+                    painter.translate( QRectF( rect ).center() );
 
-                const qreal width( 1.1 );
-                painter.translate( 0, 0.5 );
-                painter.setBrush( Qt::NoBrush );
-                painter.setPen( QPen( _helper->calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter.drawPolyline( arrow );
+                    const bool reverseLayout( option && option->direction == Qt::RightToLeft );
+                    QPolygonF arrow = genericArrow( reverseLayout ? ArrowLeft:ArrowRight, ArrowTiny );
 
-                painter.translate( 0,-1 );
-                painter.setBrush( Qt::NoBrush );
-                painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter.drawPolyline( arrow );
+                    const qreal width( 1.1 );
+                    painter.translate( 0, 0.5 );
+                    painter.setBrush( Qt::NoBrush );
+                    painter.setPen( QPen( _helper->calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                    painter.drawPolyline( arrow );
 
-                return QIcon( pixmap );
+                    painter.translate( 0,-1 );
+                    painter.setBrush( Qt::NoBrush );
+                    painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                    painter.drawPolyline( arrow );
+                    painter.end();
+                    icon.addPixmap( pixmap );
+
+                }
+
+                return icon;
+
             }
 
             case SP_ToolBarVerticalExtensionButton:
             {
-                QPixmap pixmap( _helper->highDpiPixmap( rect.size() ) );
-                pixmap.fill( Qt::transparent );
-                QPainter painter( &pixmap );
-                painter.setRenderHints( QPainter::Antialiasing );
-                painter.setBrush( Qt::NoBrush );
+                QIcon icon;
 
-                painter.translate( QRectF( rect ).center() );
+                // default icon sizes
+                static const QList<int> iconSizes = { 8, 16, 22, 32, 48 };
+                foreach( const int& iconSize, iconSizes )
+                {
+                    QPixmap pixmap( iconSize, iconSize );
+                    pixmap.fill( Qt::transparent );
+                    QPainter painter( &pixmap );
+                    painter.setRenderHints( QPainter::Antialiasing );
+                    painter.setWindow( rect );
+                    painter.setBrush( Qt::NoBrush );
 
-                QPolygonF arrow = genericArrow( ArrowDown, ArrowTiny );
+                    painter.translate( QRectF( rect ).center() );
 
-                const qreal width( 1.1 );
-                painter.translate( 0, 0.5 );
-                painter.setBrush( Qt::NoBrush );
-                painter.setPen( QPen( _helper->calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter.drawPolyline( arrow );
+                    QPolygonF arrow = genericArrow( ArrowDown, ArrowTiny );
 
-                painter.translate( 0,-1 );
-                painter.setBrush( Qt::NoBrush );
-                painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-                painter.drawPolyline( arrow );
+                    const qreal width( 1.1 );
+                    painter.translate( 0, 0.5 );
+                    painter.setBrush( Qt::NoBrush );
+                    painter.setPen( QPen( _helper->calcLightColor( buttonColor ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                    painter.drawPolyline( arrow );
 
-                return QIcon( pixmap );
+                    painter.translate( 0,-1 );
+                    painter.setBrush( Qt::NoBrush );
+                    painter.setPen( QPen( iconColor, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+                    painter.drawPolyline( arrow );
+                    painter.end();
+
+                    icon.addPixmap( pixmap );
+
+                }
+
+                return icon;
+
             }
 
             default:
