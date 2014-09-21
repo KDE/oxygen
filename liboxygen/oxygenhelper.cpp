@@ -529,11 +529,11 @@ namespace Oxygen
     }
 
     //_______________________________________________________________________
-    QRegion Helper::roundedMask( const QRect& r, int left, int right, int top, int bottom ) const
+    QRegion Helper::roundedMask( const QRect& rect, int left, int right, int top, int bottom ) const
     {
         // get rect geometry
         int x, y, w, h;
-        r.getRect( &x, &y, &w, &h );
+        rect.getRect( &x, &y, &w, &h );
 
         QRegion mask( x + 4*left, y + 0*top, w-4*( left+right ), h-0*( top+bottom ) );
         mask += QRegion( x + 0*left, y + 4*top, w-0*( left+right ), h-4*( top+bottom ) );
@@ -541,6 +541,100 @@ namespace Oxygen
         mask += QRegion( x + 1*left, y + 2*top, w-1*( left+right ), h-2*( top+bottom ) );
 
         return mask;
+    }
+
+    //______________________________________________________________________________
+    QBitmap Helper::roundedMask( const QSize& size, Corners corners, qreal radius ) const
+    {
+        QBitmap bitmap( highDpiPixmap( size ) );
+        if( corners == 0 )
+        {
+
+            bitmap.fill( Qt::color1 );
+
+        } else {
+
+            // initialize bitmap
+            bitmap.fill( Qt::color0 );
+
+            // setup painter
+            QPainter painter( &bitmap );
+            painter.setPen( Qt::NoPen );
+            painter.setBrush( Qt::color1 );
+
+            // get path
+            const QPainterPath path( roundedPath( bitmap.rect(), corners, radius ) );
+            painter.drawPath( path );
+
+        }
+
+        return bitmap;
+    }
+
+    //______________________________________________________________________________
+    QPainterPath Helper::roundedPath( const QRect& rect, Corners corners, qreal radius ) const
+    {
+
+        QPainterPath path;
+
+        // simple cases
+        if( corners == 0 )
+        {
+
+            path.addRect( rect );
+            return path;
+
+        }
+
+        if( corners == AllCorners ) {
+
+            path.addRoundedRect( rect, radius, radius );
+            return path;
+
+        }
+
+        const QSizeF cornerSize( 2*radius, 2*radius );
+
+        // rotate counterclockwise
+        // top left corner
+        if( corners & CornerTopLeft )
+        {
+
+            path.moveTo( rect.topLeft() + QPointF( radius, 0 ) );
+            path.arcTo( QRectF( rect.topLeft(), cornerSize ), 90, 90 );
+
+        } else path.moveTo( rect.topLeft() );
+
+        // bottom left corner
+        if( corners & CornerBottomLeft )
+        {
+
+            path.lineTo( rect.bottomLeft() - QPointF( 0, radius ) );
+            path.arcTo( QRectF( rect.bottomLeft() - QPointF( 0, 2*radius ), cornerSize ), 180, 90 );
+
+        } else path.lineTo( rect.bottomLeft() );
+
+        // bottom right corner
+        if( corners & CornerBottomRight )
+        {
+
+            path.lineTo( rect.bottomRight() - QPointF( radius, 0 ) );
+            path.arcTo( QRectF( rect.bottomRight() - QPointF( 2*radius, 2*radius ), cornerSize ), 270, 90 );
+
+        } else path.lineTo( rect.bottomRight() );
+
+        // top right corner
+        if( corners & CornerTopRight )
+        {
+
+            path.lineTo( rect.topRight() + QPointF( 0, radius ) );
+            path.arcTo( QRectF( rect.topRight() - QPointF( 2*radius, 0 ), cornerSize ), 0, 90 );
+
+        } else path.lineTo( rect.topRight() );
+
+        path.closeSubpath();
+        return path;
+
     }
 
     //______________________________________________________________________

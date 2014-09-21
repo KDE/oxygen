@@ -1224,7 +1224,7 @@ namespace Oxygen
             case QEvent::Show:
             case QEvent::Resize:
             {
-                if( !_helper->hasAlphaChannel( widget ) ) widget->setMask( _helper->roundedMask( widget->rect() ) );
+                if( !_helper->hasAlphaChannel( widget ) ) widget->setMask( _helper->roundedMask( widget->size() ) );
                 else widget->clearMask();
                 return false;
             }
@@ -1246,7 +1246,7 @@ namespace Oxygen
                     TileSet *tileSet( _helper->roundCorner( color ) );
                     tileSet->render( rect, &painter );
                     painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-                    painter.setClipRegion( _helper->roundedMask( insideMargin( rect, 1 ) ), Qt::IntersectClip );
+                    painter.setClipPath( _helper->roundedPath( insideMargin( rect, 1 ) ), Qt::IntersectClip );
 
                 }
 
@@ -1273,7 +1273,7 @@ namespace Oxygen
             case QEvent::Resize:
             {
                 // make sure mask is appropriate
-                if( dockWidget->isFloating() ) dockWidget->setMask( _helper->roundedMask( dockWidget->rect() ) );
+                if( dockWidget->isFloating() ) dockWidget->setMask( _helper->roundedMask( dockWidget->size() ) );
                 else dockWidget->clearMask();
                 return false;
             }
@@ -1336,7 +1336,7 @@ namespace Oxygen
                 TileSet *tileSet( _helper->roundCorner( subWindow->palette().color( subWindow->backgroundRole() ) ) );
                 tileSet->render( rect, &painter );
 
-                painter.setClipRegion( _helper->roundedMask( insideMargin( rect, 1 ) ), Qt::IntersectClip );
+                painter.setClipPath( _helper->roundedPath( insideMargin( rect, 1 ) ), Qt::IntersectClip );
                 _helper->renderWindowBackground( &painter, clip, subWindow, subWindow, subWindow->palette(), 0, 58 );
 
             }
@@ -1391,7 +1391,7 @@ namespace Oxygen
                 {
 
                     // TODO: should not be needed
-                    toolBar->setMask( _helper->roundedMask( toolBar->rect() ) );
+                    toolBar->setMask( _helper->roundedMask( toolBar->size() ) );
 
                 } else toolBar->clearMask();
                 return false;
@@ -3841,7 +3841,7 @@ namespace Oxygen
             tileSet->render( rect, painter );
 
             painter->setCompositionMode( QPainter::CompositionMode_SourceOver );
-            painter->setClipRegion( _helper->roundedMask( insideMargin( rect, 1 ) ), Qt::IntersectClip );
+            painter->setClipPath( _helper->roundedPath( insideMargin( rect, 1 ) ), Qt::IntersectClip );
 
         }
 

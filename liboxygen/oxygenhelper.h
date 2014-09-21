@@ -26,6 +26,8 @@
 #include "oxygentileset.h"
 #include "config-liboxygen.h"
 
+#include "liboxygen.h"
+
 #include <KColorScheme>
 #include <KSharedConfig>
 
@@ -33,11 +35,12 @@
 #include <KComponentData>
 #endif
 
+#include <QBitmap>
 #include <QCache>
 #include <QColor>
 #include <QPixmap>
 #include <QWidget>
-#include <QLinearGradient>
+#include <QPainterPath>
 #include <QScopedPointer>
 
 #if OXYGEN_HAVE_X11
@@ -277,6 +280,12 @@ namespace Oxygen
         //* returns a region matching given rect, with rounded corners, based on the multipliers
         /** setting any of the multipliers to zero will result in no corners shown on the corresponding side */
         virtual QRegion roundedMask( const QRect&, int left = 1, int right = 1, int top = 1, int bottom = 1 ) const;
+
+        //* returns a region matching given rect, with rounded corners
+        virtual QBitmap roundedMask( const QSize&, Corners corners = AllCorners, qreal radius = 4 ) const;
+
+        //* return rounded path in a given rect, with only selected corners rounded, and for a given radius
+        QPainterPath roundedPath( const QRect&, Corners = AllCorners, qreal = 4 ) const;
 
         //* draw frame that mimics some sort of shadows around a panel
         /** it is used for menus, detached dock panels and toolbar, as well as window decoration when compositing is disabled */
