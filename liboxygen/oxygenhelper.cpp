@@ -954,6 +954,7 @@ namespace Oxygen
         #if QT_VERSION >= 0x050300
         return pixmap.devicePixelRatio();
         #else
+        Q_UNUSED(pixmap);
         return 1;
         #endif
     }
