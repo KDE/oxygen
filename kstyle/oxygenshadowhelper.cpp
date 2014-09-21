@@ -411,8 +411,6 @@ namespace Oxygen
         #if OXYGEN_HAVE_X11
         #ifndef QT_NO_XRENDER
 
-        // TODO: also check for NET_WM_SUPPORTED atom, before installing shadow
-
         /*
         From bespin code. Supposibly prevent playing with some 'pseudo-widgets'
         that have winId matching some other -random- window
@@ -431,6 +429,12 @@ namespace Oxygen
         foreach( const uint32_t& value, pixmaps )
         { data.append( value ); }
 
+        // get devicePixelRatio
+        // for testing purposes only
+        // const qreal devicePixelRatio( _helper.devicePixelRatio( isDockWidget ?
+        // _dockTiles.pixmap( 0 ):_tiles.pixmap( 0 ) ) );
+        const qreal devicePixelRatio( 1.0 );
+
         // add padding
         /*
         in most cases all 4 paddings are identical, since offsets are handled when generating the pixmaps.
@@ -439,32 +443,25 @@ namespace Oxygen
         Some special care is needed for QBalloonTip, since the later have an arrow
         */
 
-        if( isToolTip( widget ) )
+        if( isToolTip( widget ) && widget->inherits( "QBalloonTip" ) )
         {
-            if( widget->inherits( "QBalloonTip" ) )
-            {
 
-                // balloon tip needs special margins to deal with the arrow
-                int top = 0;
-                int bottom = 0;
-                widget->getContentsMargins(nullptr, &top, nullptr, &bottom );
+            // balloon tip needs special margins to deal with the arrow
+            int top = 0;
+            int bottom = 0;
+            widget->getContentsMargins(nullptr, &top, nullptr, &bottom );
 
-                // also need to decrement default size further due to extra hard coded round corner
-                const int size = _size - 2;
+            // also need to decrement default size further due to extra hard coded round corner
+            const int size = (_size - 2)*devicePixelRatio;
 
-                // it seems arrow can be either to the top or the bottom. Adjust margins accordingly
-                if( top > bottom ) data << size - (top - bottom) << size << size << size;
-                else data << size << size << size - (bottom - top) << size;
-
-            } else {
-
-                data << _size << _size << _size << _size;
-
-            }
+            // it seems arrow can be either to the top or the bottom. Adjust margins accordingly
+            if( top > bottom ) data << size - (top - bottom) << size << size << size;
+            else data << size << size << size - (bottom - top) << size;
 
         } else {
 
-            data << _size << _size << _size << _size;
+            const int size = _size*devicePixelRatio;
+            data << size << size << size << size;
 
         }
 
