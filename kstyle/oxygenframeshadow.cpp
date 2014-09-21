@@ -448,7 +448,7 @@ namespace Oxygen
 
 
         const QRect rect( parentRect() );
-        QPixmap pixmap( size() );
+        QPixmap pixmap( _helper.highDpiPixmap( size() ) );
         {
 
             pixmap.fill( Qt::transparent );
