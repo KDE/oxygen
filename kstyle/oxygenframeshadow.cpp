@@ -263,7 +263,7 @@ namespace Oxygen
         if( flat ) shadow = new FlatFrameShadow( area, helper );
         else shadow = new SunkenFrameShadow( area, helper );
         shadow->setParent(widget);
-        shadow->show();
+        shadow->hide();
     }
 
     //____________________________________________________________________________________
@@ -306,6 +306,9 @@ namespace Oxygen
     //____________________________________________________________________________________
     void SunkenFrameShadow::updateGeometry( QRect rect )
     {
+
+        // show on first call
+        if( !parentRect().isValid() ) show();
 
         // store parent rect
         setParentRect( rect.translated( mapFromParent( QPoint(0,0) ) ) );
