@@ -38,7 +38,7 @@ namespace Oxygen
 
     //______________________________________________
     ScrollBarData::ScrollBarData( QObject* parent, QWidget* target, int duration ):
-        SliderData( parent, target, duration ),
+        WidgetStateData( parent, target, duration ),
         _position( -1, -1 )
     {
 
@@ -61,7 +61,7 @@ namespace Oxygen
     {
 
         if( object != target().data() )
-        { return SliderData::eventFilter( object, event ); }
+        { return WidgetStateData::eventFilter( object, event ); }
 
         // check event type
         switch( event->type() )
@@ -80,7 +80,7 @@ namespace Oxygen
 
         }
 
-        return SliderData::eventFilter( object, event );
+        return WidgetStateData::eventFilter( object, event );
 
     }
 
