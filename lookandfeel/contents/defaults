@@ -1,5 +1,7 @@
 [kdeglobals][KDE]
 widgetStyle=oxygen
+
+[kdeglobals][General]
 ColorScheme=Oxygen
 
 [kdeglobals][Icons]
