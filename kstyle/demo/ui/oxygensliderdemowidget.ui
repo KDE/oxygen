@@ -202,6 +202,8 @@
  </widget>
  <tabstops>
   <tabstop>animateProgressBarCheckBox</tabstop>
+  <tabstop>invertProgressBarCheckBox</tabstop>
+  <tabstop>tickPositionComboBox</tabstop>
   <tabstop>horizontalSlider</tabstop>
   <tabstop>dial</tabstop>
   <tabstop>verticalSlider</tabstop>
