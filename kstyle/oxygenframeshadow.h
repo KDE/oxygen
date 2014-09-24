@@ -174,21 +174,24 @@ namespace Oxygen
         //* return viewport associated to parent widget
         virtual QWidget* viewport( void ) const;
 
-        //* parent rect
-        virtual void setParentRect( const QRect& rect )
-        { _parentRect = rect; }
+        //* parent margins
+        /** offsets between update rect and parent widget rect. It is set via updateGeometry */
+        virtual const QMargins& margins( void ) const
+        { return _margins; }
 
-        //* parent rect
-        virtual const QRect& parentRect( void ) const
-        { return _parentRect; }
+        //* margins
+        /** offsets between update rect and parent widget rect. It is set via updateGeometry */
+        virtual void setMargins( const QMargins& margins )
+        { _margins = margins; }
 
         private:
 
         //* shadow area
         ShadowArea _area;
 
-        //* parent rect
-        QRect _parentRect;
+        //* margins
+        /** offsets between update rect and parent widget rect. It is set via updateGeometry */
+        QMargins _margins;
 
         //* contrast pixel
         bool _contrast;

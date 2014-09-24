@@ -308,13 +308,20 @@ namespace Oxygen
     {
 
         // show on first call
-        if( !parentRect().isValid() ) show();
+        if( isHidden() ) show();
 
-        // store parent rect
-        setParentRect( rect.translated( mapFromParent( QPoint(0,0) ) ) );
+        // store offsets between passed rect and parent widget rect
+        QRect parentRect( parentWidget()->contentsRect() );
+        setMargins( QMargins(
+            rect.left() - parentRect.left(),
+            rect.top() - parentRect.top(),
+            rect.right() - parentRect.right(),
+            rect.bottom() - parentRect.bottom() ) );
 
         // adjust geometry to take out part that is not rendered anyway
         rect.adjust( 1, 1, -1, -1 );
+
+        // adjust geometry
         const int shadowSize( 3 );
         switch( shadowArea() )
         {
@@ -389,7 +396,8 @@ namespace Oxygen
         if( QFrame *frame = qobject_cast<QFrame *>( parentWidget() ) )
         { if (frame->frameStyle() != (QFrame::StyledPanel | QFrame::Sunken)) return; }
 
-        const QRect rect( parentRect() );
+        const QRect parentRect( parentWidget()->contentsRect().translated( mapFromParent( QPoint( 0, 0 ) ) ) );
+        const QRect rect( parentRect.adjusted( margins().left(), margins().top(), margins().right(), margins().bottom() ) );
 
         // render
         QPainter painter(this);
@@ -413,9 +421,16 @@ namespace Oxygen
     void FlatFrameShadow::updateGeometry( QRect rect )
     {
 
+        // show on first call
+        if( isHidden() ) show();
 
-        // store parent rect
-        setParentRect( rect );
+        // store offsets between passed rect and parent widget rect
+        QRect parentRect( parentWidget()->contentsRect() );
+        setMargins( QMargins(
+            rect.left() - parentRect.left(),
+            rect.top() - parentRect.top(),
+            rect.right() - parentRect.right(),
+            rect.bottom() - parentRect.bottom() ) );
 
         const int shadowSize( 3 );
         switch( shadowArea() )
@@ -441,16 +456,14 @@ namespace Oxygen
     void FlatFrameShadow::paintEvent(QPaintEvent *event )
     {
 
-
         // this fixes shadows in frames that change frameStyle() after polish()
         if( QFrame *frame = qobject_cast<QFrame *>( parentWidget() ) )
         { if( frame->frameStyle() != QFrame::NoFrame ) return; }
 
-        QWidget *parent = parentWidget();
-        if( !parent ) return;
+        const QWidget* parent( parentWidget() );
+        const QRect parentRect( parent->contentsRect() );
+        const QRect rect( parentRect.adjusted( margins().left(), margins().top(), margins().right(), margins().bottom() ) );
 
-
-        const QRect rect( parentRect() );
         QPixmap pixmap( _helper.highDpiPixmap( size() ) );
         {
 
