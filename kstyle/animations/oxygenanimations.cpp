@@ -70,7 +70,6 @@ namespace Oxygen
         registerEngine( _menuBarEngine = new MenuBarEngineV1( this ) );
         registerEngine( _menuEngine = new MenuEngineV1( this ) );
         registerEngine( _scrollBarEngine = new ScrollBarEngine( this ) );
-        registerEngine( _sliderEngine = new SliderEngine( this ) );
         registerEngine( _splitterEngine = new SplitterEngine( this ) );
         registerEngine( _tabBarEngine = new TabBarEngine( this ) );
         registerEngine( _toolBarEngine = new ToolBarEngine( this ) );
@@ -96,7 +95,6 @@ namespace Oxygen
             _toolBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _splitterEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _scrollBarEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
-            _sliderEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _spinBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _tabBarEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _dockSeparatorEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
@@ -214,7 +212,6 @@ namespace Oxygen
             _toolBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _splitterEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _scrollBarEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
-            _sliderEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _spinBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _tabBarEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _dockSeparatorEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
@@ -292,7 +289,7 @@ namespace Oxygen
 
         // scrollbar
         else if( qobject_cast<QScrollBar*>( widget ) ) { _scrollBarEngine->registerWidget( widget ); }
-        else if( qobject_cast<QSlider*>( widget ) ) { _sliderEngine->registerWidget( widget ); }
+        else if( qobject_cast<QSlider*>( widget ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
         else if( qobject_cast<QProgressBar*>( widget ) )
         {
             _progressBarEngine->registerWidget( widget );

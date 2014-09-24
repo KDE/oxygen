@@ -35,7 +35,6 @@
 #include "oxygenmenuengine.h"
 #include "oxygenprogressbarengine.h"
 #include "oxygenscrollbarengine.h"
-#include "oxygensliderengine.h"
 #include "oxygenspinboxengine.h"
 #include "oxygensplitterengine.h"
 #include "oxygentabbarengine.h"
@@ -118,10 +117,6 @@ namespace Oxygen
         ScrollBarEngine& scrollBarEngine( void ) const
         { return *_scrollBarEngine; }
 
-        //! slider engine
-        SliderEngine& sliderEngine( void ) const
-        { return *_sliderEngine; }
-
         //! spinbox engine
         SpinBoxEngine& spinBoxEngine( void ) const
         { return *_spinBoxEngine; }
@@ -189,9 +184,6 @@ namespace Oxygen
 
         //! scrollbar engine
         ScrollBarEngine* _scrollBarEngine;
-
-        //! slider engine
-        SliderEngine* _sliderEngine;
 
         //! spinbox engine
         SpinBoxEngine* _spinBoxEngine;

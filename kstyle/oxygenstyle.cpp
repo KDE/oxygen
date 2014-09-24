@@ -7051,18 +7051,24 @@ namespace Oxygen
             // get rect and center
             QRect handleRect( subControlRect( CC_Slider, sliderOption, SC_SliderHandle, widget ) );
 
+            // handle state
             const bool handleActive( sliderOption->activeSubControls & SC_SliderHandle );
+            const bool sunken( state & (State_On|State_Sunken) );
             StyleOptions styleOptions;
             if( hasFocus ) styleOptions |= Focus;
             if( handleActive && mouseOver ) styleOptions |= Hover;
 
-            _animations->sliderEngine().updateState( widget, enabled && handleActive );
-            const qreal opacity( _animations->sliderEngine().opacity( widget ) );
+            // animation state
+            _animations->widgetStateEngine().updateState( widget, AnimationHover, handleActive && mouseOver );
+            _animations->widgetStateEngine().updateState( widget, AnimationFocus, hasFocus );
+            const AnimationMode mode( _animations->widgetStateEngine().buttonAnimationMode( widget ) );
+            const qreal opacity( _animations->widgetStateEngine().buttonOpacity( widget ) );
 
+            // define colors
             const QColor color( _helper->backgroundColor( palette.color( QPalette::Button ), widget, handleRect.center() ) );
-            const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, AnimationHover ) );
+            const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, mode ) );
 
-            const bool sunken( state & (State_On|State_Sunken) );
+            // render
             painter->drawPixmap( handleRect.topLeft(), _helper->sliderSlab( color, glow, sunken, 0 ) );
 
         }
