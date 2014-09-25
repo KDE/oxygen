@@ -381,12 +381,7 @@ namespace Oxygen
         QColor titlebarTextColor(const QPalette&) const;
 
         //! text color
-        QColor titlebarTextColor(const QPalette& palette, bool active) const
-        {
-            return active ?
-                palette.color(QPalette::Active, QPalette::WindowText):
-                helper().inactiveTitleBarTextColor( palette );
-        }
+        QColor titlebarTextColor(const QPalette& palette, bool active) const;
 
         //! text color
         QColor titlebarContrastColor(const QPalette& palette ) const
