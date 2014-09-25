@@ -608,18 +608,31 @@ namespace Oxygen
     QColor Client::titlebarTextColor(const QPalette &palette) const
     {
         if( glowIsAnimated() ) return KColorUtils::mix(
-            titlebarTextColor( palette, false ),
-            titlebarTextColor( palette, true ),
+            titlebarTextColor( palette, false, true ),
+            titlebarTextColor( palette, true, true ),
             glowIntensity() );
-        else return titlebarTextColor( palette, isActive() );
+        else return titlebarTextColor( palette, isActive(), true );
     }
 
     //_________________________________________________________
-    QColor Client::titlebarTextColor(const QPalette &palette, bool active ) const
+    QColor Client::titlebarTextColor(const QPalette &palette, bool windowActive, bool itemActive ) const
     {
-        return active ?
-            palette.color(QPalette::Active, QPalette::WindowText):
-            helper().inactiveTitleBarTextColor( palette );
+        if( itemActive )
+        {
+            return windowActive ?
+                palette.color(QPalette::Active, QPalette::WindowText):
+                helper().inactiveTitleBarTextColor( palette );
+
+        } else if( _configuration->drawTitleOutline() ) {
+
+            return options()->color( KDecoration::ColorFont, windowActive );
+
+        } else {
+
+            return helper().inactiveTitleBarTextColor( palette );
+
+        }
+
     }
 
     //_________________________________________________________
@@ -1103,7 +1116,7 @@ namespace Oxygen
             // otherwise current caption is rendered directly
             renderTitleText(
                 painter, textRect, caption,
-                titlebarTextColor( backgroundPalette( widget(), palette ), false ),
+                titlebarTextColor( backgroundPalette( widget(), palette ), isActive(), false ),
                 titlebarContrastColor( background ) );
 
         }
@@ -1966,11 +1979,22 @@ namespace Oxygen
         // mask
         painter.setClipRegion( helper().roundedMask( geometry ), Qt::IntersectClip );
 
-        // render window background
-        renderWindowBackground( &painter, geometry, widget(), widget()->palette() );
-
         // darken background if item is inactive
         const bool itemActive = (tabCount() <= 1) || !( itemValid && tabId(index) != currentTabId() );
+        QPalette palette( widget()->palette() );
+
+        if( _configuration->drawTitleOutline() && !itemActive )
+        {
+
+            const QColor color =  options()->color( KDecorationDefines::ColorTitleBar, isActive() );
+            palette.setColor( QPalette::Window, color );
+            palette.setColor( QPalette::Button, color );
+
+        }
+
+        // render window background
+        renderWindowBackground( &painter, geometry, widget(), palette );
+
         if( !itemActive )
         {
 
@@ -1994,8 +2018,8 @@ namespace Oxygen
 
         renderTitleText(
             &painter, textRect, caption,
-            titlebarTextColor( widget()->palette(), isActive() && itemActive ),
-            titlebarContrastColor( widget()->palette() ) );
+            titlebarTextColor( palette, isActive(), itemActive ),
+            titlebarContrastColor( palette ) );
 
         // adjust geometry for floatFrame when compositing is on.
         if( drawShadow )
@@ -2003,7 +2027,7 @@ namespace Oxygen
 
         // floating frame
         helper().drawFloatFrame(
-            &painter, geometry, widget()->palette().window().color(),
+            &painter, geometry, palette.color( QPalette::Window ),
             !drawShadow, false,
             KDecoration::options()->color(ColorTitleBar)
             );
