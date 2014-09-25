@@ -36,54 +36,54 @@ namespace Oxygen
 
     class Client;
 
-    //! implements size grip for all widgets
+    //* implements size grip for all widgets
     class SizeGrip: public QWidget
     {
 
         public:
 
-        //! constructor
+        //* constructor
         explicit SizeGrip( Client* );
 
-        //! constructor
+        //* constructor
         virtual ~SizeGrip( void );
 
-        //! event filter
+        //* event filter
         virtual bool eventFilter( QObject*, QEvent* );
 
         public Q_SLOTS:
 
-        //! update background color
+        //* update background color
         void activeChange( void );
 
         protected Q_SLOTS:
 
-        //! embed into parent widget
+        //* embed into parent widget
         void embed( void );
 
         protected:
 
-        //!@name event handlers
+        //*@name event handlers
         //@{
 
-        //! paint
+        //* paint
         virtual void paintEvent( QPaintEvent* );
 
-        //! mouse press
+        //* mouse press
         virtual void mousePressEvent( QMouseEvent* );
 
         //@}
 
-        //! client
+        //* client
         Client& client( void ) const
         { return *_client; }
 
-        //! update position
+        //* update position
         void updatePosition( void );
 
         private:
 
-        //! grip size
+        //* grip size
         enum {
             Offset = 0,
             GripSize = 14

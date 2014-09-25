@@ -354,7 +354,7 @@ namespace Oxygen
 
                 } else if( !( respectWindowState && maximized )) {
 
-                    border = TFRAMESIZE;
+                    border = Metrics::TitleBar_TopMargin;
 
                 }
 
@@ -442,7 +442,7 @@ namespace Oxygen
                 titleRect.setRight( widget()->rect().right() - layoutMetric( LM_OuterPaddingRight ) );
             }
 
-            const QRect textRect( titleBoundingRect( options()->font( true, false),  titleRect, caption() ) );
+            const QRect textRect( titleBoundingRect( options()->font( true, false ),  titleRect, caption() ) );
             titleRect.setLeft( textRect.left() - layoutMetric( LM_TitleBorderLeft ) );
             titleRect.setRight( textRect.right() + layoutMetric( LM_TitleBorderRight ) );
 
@@ -744,7 +744,7 @@ namespace Oxygen
             if( _configuration->drawTitleOutline() && ( isActive() || glowIsAnimated() ) && !isMaximized() )
             {
                 if( _configuration->frameBorder() == Configuration::BorderTiny ) rect.adjust( 1, 0, -1, 0 );
-                else if( _configuration->frameBorder() > Configuration::BorderTiny ) rect.adjust( HFRAMESIZE-1, 0, -HFRAMESIZE+1, 0 );
+                else if( _configuration->frameBorder() > Configuration::BorderTiny ) rect.adjust( Metrics::TitleBar_OutlineMargin-1, 0, -Metrics::TitleBar_OutlineMargin+1, 0 );
             }
 
             if( rect.isValid() )
@@ -765,12 +765,12 @@ namespace Oxygen
             QRect frame;
 
             // bottom line
-            const int leftOffset = qMin( layoutMetric( LM_BorderLeft ), int(HFRAMESIZE) );
-            const int rightOffset = qMin( layoutMetric( LM_BorderRight ), int(HFRAMESIZE) );
+            const int leftOffset = qMin( layoutMetric( LM_BorderLeft ), int(Metrics::TitleBar_OutlineMargin) );
+            const int rightOffset = qMin( layoutMetric( LM_BorderRight ), int(Metrics::TitleBar_OutlineMargin) );
             if( _configuration->frameBorder() > Configuration::BorderNone )
             {
 
-                const int height = qMax( 0, layoutMetric( LM_BorderBottom ) - HFRAMESIZE );
+                const int height = qMax( 0, layoutMetric( LM_BorderBottom ) - Metrics::TitleBar_OutlineMargin );
                 const int width = r.width() - leftOffset - rightOffset - 1;
 
                 const QRect rect( r.bottomLeft()-position + QPoint( leftOffset, -layoutMetric( LM_BorderBottom ) ), QSize( width, height ) );
@@ -784,7 +784,7 @@ namespace Oxygen
 
             // left and right
             const int topOffset = titleHeight;
-            const int bottomOffset = qMin( layoutMetric( LM_BorderBottom ), int(HFRAMESIZE) );
+            const int bottomOffset = qMin( layoutMetric( LM_BorderBottom ), int(Metrics::TitleBar_OutlineMargin) );
             const int height = r.height() - topOffset - bottomOffset - 1;
 
             if( _configuration->frameBorder() >= Configuration::BorderTiny )
@@ -794,14 +794,14 @@ namespace Oxygen
                 painter->setPen( shadow );
 
                 // left
-                int width = qMax( 0, layoutMetric( LM_BorderLeft ) - HFRAMESIZE );
+                int width = qMax( 0, layoutMetric( LM_BorderLeft ) - Metrics::TitleBar_OutlineMargin );
                 QRect rect( r.topLeft()-position + QPoint( layoutMetric( LM_BorderLeft ) - width, topOffset ), QSize( width, height ) );
                 if( width > 0 ) { mask += rect; frame |= rect; }
 
                 painter->drawLine( rect.topLeft()-QPoint(1,0), rect.bottomLeft()-QPoint(1, 0) );
 
                 // right
-                width = qMax( 0, layoutMetric( LM_BorderRight ) - HFRAMESIZE );
+                width = qMax( 0, layoutMetric( LM_BorderRight ) - Metrics::TitleBar_OutlineMargin );
                 rect = QRect(r.topRight()-position + QPoint( -layoutMetric( LM_BorderRight ), topOffset ), QSize( width, height ));
                 if( width > 0 ) { mask += rect; frame |= rect; }
 

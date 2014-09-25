@@ -38,12 +38,12 @@ namespace Oxygen
     using QStringLiteral = QString;
     #endif
 
-    //! this should move to some global declaration
+    //* this should move to some global declaration
     typedef QSharedPointer<Configuration> ConfigurationPtr;
     typedef QList<ConfigurationPtr> ConfigurationList;
     typedef QListIterator<ConfigurationPtr> ConfigurationListIterator;
 
-    //! buttons
+    //* buttons
     enum ButtonType {
         ButtonHelp=0,
         ButtonMax,
@@ -65,14 +65,14 @@ namespace Oxygen
 
     };
 
-    //! buttons status
+    //* buttons status
     enum ButtonStatus {
         Normal = 0,
         Hovered = 1<<0,
         Pressed = 1<<1
     };
 
-    //! exception
+    //* exception
     enum ExceptionMask
     {
         None = 0,
@@ -81,6 +81,20 @@ namespace Oxygen
         TitleOutline = 1<<3,
         FrameBorder = 1<<4,
         SizeGripMode = 1<<6
+    };
+
+    //* metrics
+    enum Metrics
+    {
+
+        //* top title bar edge
+        TitleBar_TopMargin = 3,
+
+        /** the extra edge
+        needed to outline active window title
+        */
+        TitleBar_OutlineMargin = 4
+
     };
 
 }
