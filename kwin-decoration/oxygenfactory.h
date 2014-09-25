@@ -46,20 +46,7 @@ namespace Oxygen
     using ParentFactoryClass = KDecorationFactory;
     #endif
 
-    enum
-    {
-
-        //! this is the top title bar edge
-        TFRAMESIZE = 3,
-
-        /*!
-        this is the extra title bar top and bottom edges
-        needed to outline active window title bar
-        */
-        HFRAMESIZE = 4
-    };
-
-    //! window decoration factory
+    //* window decoration factory
     class Factory: public ParentFactoryClass
     {
 
@@ -71,56 +58,56 @@ namespace Oxygen
 
         #if OXYGEN_USE_KDE4
 
-        //! constructor
+        //* constructor
         explicit Factory( void );
 
         #else
 
-        //! constructor
+        //* constructor
         explicit Factory(QObject *parent = nullptr);
 
         #endif
-        //! destructor
+        //* destructor
         virtual ~Factory();
 
-        //! create decoration
+        //* create decoration
         virtual KDecoration *createDecoration(KDecorationBridge *b);
 
-        //! configuration capabilities
+        //* configuration capabilities
         virtual bool supports( Ability ability ) const;
 
-        //! true if initialized
+        //* true if initialized
         virtual bool initialized()
         { return _initialized; }
 
-        //! helper
+        //* helper
         virtual DecoHelper& helper( void )
         { return _helper; }
 
-        //! shadow cache
+        //* shadow cache
         virtual ShadowCache& shadowCache( void )
         { return _shadowCache; }
 
-        //! shadow cache
+        //* shadow cache
         virtual const ShadowCache& shadowCache( void ) const
         { return _shadowCache; }
 
-        //! pointer to configuration
+        //* pointer to configuration
         typedef QSharedPointer<Configuration> ConfigurationPtr;
 
-        //! get configuration for a give client
+        //* get configuration for a give client
         virtual ConfigurationPtr configuration( const Client& );
 
         protected:
 
-        //! read configuration from KConfig
+        //* read configuration from KConfig
         void readConfig();
 
-        //! initialization
+        //* initialization
         void setInitialized( bool value )
         { _initialized = value; }
 
-        //! exception group name
+        //* exception group name
         QString exceptionGroupName( int index ) const
         {
             QString out;
@@ -130,22 +117,22 @@ namespace Oxygen
 
         private:
 
-        //! initialization flag
+        //* initialization flag
         bool _initialized;
 
-        //! config object
+        //* config object
         KSharedConfigPtr _config;
 
-        //! helper
+        //* helper
         DecoHelper _helper;
 
-        //! shadow cache
+        //* shadow cache
         ShadowCache _shadowCache;
 
-        //! default configuration
+        //* default configuration
         ConfigurationPtr _defaultConfiguration;
 
-        //! list of exceptiosn
+        //* list of exceptiosn
         QList<ConfigurationPtr> _exceptions;
 
     };
