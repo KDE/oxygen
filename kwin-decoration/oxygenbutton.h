@@ -118,24 +118,7 @@ namespace Oxygen
         QColor buttonDetailColor( const QPalette& ) const;
 
         //! color
-        QColor buttonDetailColor( const QPalette& palette, bool active ) const
-        {
-            if( _type == ButtonItemClose )
-            {
-
-                return active ?
-                    palette.color(QPalette::Active, QPalette::WindowText ):
-                    _helper.inactiveTitleBarTextColor( palette );
-
-            } else {
-
-                return active ?
-                    palette.color(QPalette::Active, QPalette::ButtonText ):
-                    _helper.inactiveButtonTextColor( palette );
-
-            }
-
-        }
+        QColor buttonDetailColor( const QPalette& palette, bool active ) const;
 
         //! true if animation is in progress
         bool isAnimated( void ) const
