@@ -706,7 +706,7 @@ namespace Oxygen
         r.adjust(0,0, 1, 1);
 
         // base color
-        QColor color( palette.window().color() );
+        QColor color( palette.color( QPalette::Window ) );
 
         // add alpha channel
         if( _itemData.count() == 1 && glowIsAnimated() )
@@ -1117,7 +1117,7 @@ namespace Oxygen
 
             // separators
             // draw Left separator
-            const QColor color( backgroundPalette( widget(), palette ).window().color() );
+            const QColor color( backgroundPalette( widget(), palette ).color( QPalette::Window ) );
             const bool isFirstItem(  index == 0 || (index == 1 && !_itemData[0]._boundingRect.isValid() ) );
             if( !active && ( ( isFirstItem && buttonsLeftWidth() > 0 ) || _itemData.isTarget( index ) ) )
             {
@@ -1554,7 +1554,7 @@ namespace Oxygen
         QRect frame = widget()->rect();
 
         // base color
-        QColor color = palette.window().color();
+        QColor color = palette.color( QPalette::Window );
 
         // draw shadows
         if( compositingActive() && shadowCache().shadowSize() > 0 && !isMaximized() )
