@@ -131,8 +131,8 @@ namespace Oxygen
 
         // base button color
         QColor base;
-        if( _type == ButtonItemClose && _forceInactive ) base = _client.backgroundPalette( this, palette ).window().color();
-        else if( _type == ButtonItemClose ) base = palette.window().color();
+        if( _type == ButtonItemClose && _forceInactive ) base = _client.backgroundPalette( this, palette ).color( QPalette::Window );
+        else if( _type == ButtonItemClose ) base = palette.color( QPalette::Window );
         else base = palette.button().color();
 
         // text color
