@@ -1066,26 +1066,16 @@ namespace Oxygen
         if( itemCount == 1 )
         {
 
-            // no title outline if the window caption is empty
-            if( !caption.trimmed().isEmpty() )
-            {
-                if( _itemData.isAnimated() ) {
+            /*
+             * render outline if
+             * - caption is not empty
+             * - item is animated (because of tabbing)
+             * - window is active or glow-animated and titleoutlines are to be drawn
+             */
 
-                    renderTitleOutline( painter, item._boundingRect, palette );
-
-                } else if( (isActive()||glowIsAnimated()) && _configuration->drawTitleOutline() ) {
-
-                    // adjusts boundingRect accordingly
-                    QRect boundingRect( item._boundingRect );
-                    boundingRect.setLeft( textRect.left() - layoutMetric( LM_TitleBorderLeft ) );
-                    boundingRect.setRight( textRect.right() + layoutMetric( LM_TitleBorderRight ) );
-
-                    // render bounding rect around it with extra margins
-                    renderTitleOutline( painter, boundingRect, palette );
-
-                }
-
-            }
+            if( !caption.trimmed().isEmpty() &&
+                ( _itemData.isAnimated() || ( (isActive()||glowIsAnimated()) && _configuration->drawTitleOutline() ) ) )
+            { renderTitleOutline( painter, item._boundingRect, palette ); }
 
         } else if( active ) {
 
