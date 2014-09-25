@@ -1320,11 +1320,15 @@ namespace Oxygen
                 palette.setColor( QPalette::Window, mixed );
                 palette.setColor( QPalette::Button, mixed );
 
-            } else if( isActive() || isForcedActive() ) {
+            } else {
 
-                const QColor color =  options()->color( KDecorationDefines::ColorTitleBar, true );
-                palette.setColor( QPalette::Window, color );
-                palette.setColor( QPalette::Button, color );
+                const QColor background( options()->color( KDecorationDefines::ColorTitleBar, isActive() || isForcedActive() ) );
+                palette.setColor( QPalette::Window, background );
+                palette.setColor( QPalette::Button, background );
+
+                const QColor foreground( options()->color( KDecorationDefines::ColorFont, isActive() || isForcedActive() ) );
+                palette.setColor( QPalette::WindowText, foreground );
+                palette.setColor( QPalette::ButtonText, foreground );
 
             }
 
