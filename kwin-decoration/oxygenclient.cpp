@@ -615,6 +615,14 @@ namespace Oxygen
     }
 
     //_________________________________________________________
+    QColor Client::titlebarTextColor(const QPalette &palette, bool active ) const
+    {
+        return active ?
+            palette.color(QPalette::Active, QPalette::WindowText):
+            helper().inactiveTitleBarTextColor( palette );
+    }
+
+    //_________________________________________________________
     void Client::renderWindowBackground( QPainter* painter, const QRect& rect, const QWidget* widget, const QPalette& palette ) const
     {
 
