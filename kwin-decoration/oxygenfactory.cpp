@@ -87,8 +87,26 @@ namespace Oxygen
     { return (new Client( bridge, this ))->decoration(); }
 
     //___________________________________________________
+    bool Factory::reset(unsigned long changed)
+    {
+
+        #if OXYGEN_USE_KDE4
+        if( changed & SettingColors )
+        { _shadowCache.invalidateCaches(); }
+
+        // read in the configuration
+        setInitialized( false );
+        readConfig();
+        setInitialized( true );
+        #endif
+        return true;
+
+    }
+
+    //___________________________________________________
     void Factory::readConfig()
     {
+
         /*
         always reload helper
         this is needed to properly handle
