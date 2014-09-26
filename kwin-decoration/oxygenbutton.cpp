@@ -180,8 +180,6 @@ namespace Oxygen
 
         if( hasDecoration() )
         {
-            // scale
-            qreal scale( (21.0*_client.buttonSize())/22.0 );
 
             // pressed state
             const bool pressed(
@@ -191,7 +189,7 @@ namespace Oxygen
                 ( _type == ButtonBelow && _client.keepBelow() ) );
 
             // draw button shape
-            painter.drawPixmap(0, 0, _helper.windecoButton( base, glow, pressed, scale ) );
+            painter.drawPixmap(0, 0, _helper.windecoButton( base, glow, pressed, _client.buttonSize() ) );
 
         }
 
@@ -223,12 +221,12 @@ namespace Oxygen
 
             // contrast
             painter.setBrush(Qt::NoBrush);
+            painter.translate(0, 0.5);
             painter.setPen(QPen( _helper.calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             drawIcon(&painter);
 
             // main
             painter.translate(0,-1.5);
-            painter.setBrush(Qt::NoBrush);
             painter.setPen(QPen(color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             drawIcon(&painter);
 
@@ -365,7 +363,7 @@ namespace Oxygen
     {
 
         painter->save();
-        painter->setWindow( 0, 0, 22, 22 );
+        painter->setWindow( 0, 0, 21, 21 );
 
         switch(_type)
         {
@@ -399,8 +397,8 @@ namespace Oxygen
                 case Client::MaximizeRestore:
                 case Client::MaximizeVertical:
                 case Client::MaximizeHorizontal:
-                painter->drawLine(QPointF( 7.5,11.5), QPointF(10.5, 8.5));
-                painter->drawLine(QPointF(10.5, 8.5), QPointF(13.5,11.5));
+                painter->drawLine(QPointF( 7.5, 11.5 ), QPointF( 10.5, 8.5) );
+                painter->drawLine(QPointF( 10.5, 8.5 ), QPointF( 13.5, 11.5) );
                 break;
 
                 case Client::MaximizeFull:
