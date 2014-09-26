@@ -403,10 +403,10 @@ namespace Oxygen
 
                 case Client::MaximizeFull:
                 {
-                    painter->translate(1.5, 1.5);
+                    painter->translate(1.5, 1.0 );
                     QPoint points[4] = {QPoint(9, 6), QPoint(12, 9), QPoint(9, 12), QPoint(6, 9)};
                     painter->drawPolygon(points, 4);
-                    painter->translate(-1.5, -1.5);
+                    painter->translate(-1.5, -1.0 );
                     break;
                 }
             }
