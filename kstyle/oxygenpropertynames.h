@@ -33,11 +33,11 @@ namespace Oxygen
     struct PropertyNames
     {
 
-        static const char* const noAnimations;
-        static const char* const noWindowGrab;
-        static const char* const netWMForceShadow;
-        static const char* const netWMSkipShadow;
-        static const char* const toolButtonAlignment;
+        static const char noAnimations[];
+        static const char noWindowGrab[];
+        static const char netWMForceShadow[];
+        static const char netWMSkipShadow[];
+        static const char toolButtonAlignment[];
 
     };
 
