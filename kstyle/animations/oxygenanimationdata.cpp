@@ -30,7 +30,7 @@
 namespace Oxygen
 {
 
-    qreal AnimationData::OpacityInvalid = -1;
+    const qreal AnimationData::OpacityInvalid = -1;
     int AnimationData::_steps = 0;
 
     //_________________________________________________________________________________

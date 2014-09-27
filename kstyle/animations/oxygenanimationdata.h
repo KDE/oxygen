@@ -77,7 +77,7 @@ namespace Oxygen
         { return _target; }
 
         //! invalid opacity
-        static qreal OpacityInvalid;
+        static const qreal OpacityInvalid;
 
         protected:
 
