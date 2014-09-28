@@ -1,7 +1,26 @@
 [Desktop Entry]
 Comment=Oxygen Desktop Design Language
+Comment[ca]=Llenguatge de disseny per a l'escriptori Oxygen
+Comment[es]=Lenguaje de diseño del escritorio Oxígeno
+Comment[hu]=Oxygen asztali designnyelv
+Comment[nl]=Ontwerptaal van Oxygen bureaublad
+Comment[sk]=Jazyk dizajnu plochy Oxygen
+Comment[sl]=Kisik, oblikovalni jezik namizja
+Comment[sv]=Oxygen konstruktionsspråk för skrivbord
+Comment[uk]=Мова компонування стільниці Oxygen
+Comment[x-test]=xxOxygen Desktop Design Languagexx
 Encoding=UTF-8
 Keywords=Desktop, Workspace, Appearance, Look and Feel, Logout, Lock, Suspend, Shutdown, Hibernate,
+Keywords[ca]=Escriptori, Espai de treball, Aparença, Aparença i comportament, Sortida, Bloqueig, Suspensió, Aturada, Hibernació,
+Keywords[es]=Escritorio, Espacio de trabajo, Apariencia, Aspecto, Cerrar sesión, Bloquear, Suspender, Apagar, Hibernar,
+Keywords[hu]=Asztal, Munkaterület, Megjelenés, Kinézet, Kijelentkezés, Zárolás, Felfüggesztés, Leállítás, Hibernálás
+Keywords[nl]=Bureaublad, werkruimte, uiterlijk, uiterlijk en gedrag, afmelden, vergrendelen, onderbreken, afsluiten, slapen,
+Keywords[pt_BR]=Área de trabalho, Espaço de trabalho, Aparência, Visual, Sair, Bloquear, Suspender, Desligar, Hibernar,
+Keywords[sk]=Plocha, pracovná plocha, vzhľad, nastavenie, odhlásenie, zamknutie, uspanie, vypnutie, hibernácia,
+Keywords[sl]=Namizje, delovni prostor, videz, videz in občutek, odjava, zaklep, pripravljenost, izklop, mirovanje,
+Keywords[sv]=Skrivbord, Arbetsområde, Utseende, Utseende och känsla, Utloggning, Lås, Viloläge, Avstängning, Dvala,
+Keywords[uk]=Desktop,Workspace,Appearance,Look and Feel,Logout,Lock,Suspend,Shutdown,Hibernate,стільниця,робочий простір,воркспейс,вигляд,вигляд і поведінка,вихід,вийти,заблокувати,замкнути,призупинити,вимкнути,приспати,
+Keywords[x-test]=xxDesktop, Workspace, Appearance, Look and Feel, Logout, Lock, Suspend, Shutdown, Hibernate,xx
 Name=Oxygen
 Name[af]=Oxygen
 Name[ar]=أكسجين
