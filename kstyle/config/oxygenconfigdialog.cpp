@@ -41,6 +41,9 @@
 #include <KPluginTrader>
 #include <KStandardShortcut>
 
+#include <QDBusConnection>
+#include <QDBusMessage>
+
 namespace Oxygen
 {
     //_______________________________________________________________
@@ -125,6 +128,13 @@ namespace Oxygen
 
         // trigger pluggins to save themselves
         emit pluginSave();
+
+        /*
+         * emit dbus message to kwin instances
+         * this is copied from kwin/kcmkwin/kwindecoration/kwindecoration.cpp
+         */
+        QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "reloadConfig");
+        QDBusConnection::sessionBus().send(message);
 
         // reset 'changed' flags
         updateStyleChanged( false );
