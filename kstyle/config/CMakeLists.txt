@@ -62,7 +62,7 @@ if(NOT OXYGEN_USE_KDE4)
       ${oxygen_settings_FORMS_HEADERS}
  )
 
-  target_link_libraries(oxygen-settings5 Qt5::Core Qt5::Gui Qt5::Widgets)
+  target_link_libraries(oxygen-settings5 Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
   target_link_libraries(oxygen-settings5 KF5::I18n KF5::WidgetsAddons KF5::ConfigCore KF5::ConfigGui KF5::Service)
 
   install (TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS})
