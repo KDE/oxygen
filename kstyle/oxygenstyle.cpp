@@ -502,9 +502,12 @@ namespace Oxygen
 
         } else if( QComboBox *comboBox = qobject_cast<QComboBox*>( widget ) ) {
 
-            QAbstractItemView *itemView( comboBox->view() );
-            if( itemView && itemView->itemDelegate() && itemView->itemDelegate()->inherits( "QComboBoxDelegate" ) )
-            { itemView->setItemDelegate( new OxygenPrivate::ComboBoxItemDelegate( itemView ) ); }
+            if( !hasParent( widget, "QWebView" ) )
+            {
+                QAbstractItemView *itemView( comboBox->view() );
+                if( itemView && itemView->itemDelegate() && itemView->itemDelegate()->inherits( "QComboBoxDelegate" ) )
+                { itemView->setItemDelegate( new OxygenPrivate::ComboBoxItemDelegate( itemView ) ); }
+            }
 
         } else if( widget->inherits( "QComboBoxPrivateContainer" ) ) {
 
