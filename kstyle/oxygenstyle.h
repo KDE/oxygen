@@ -24,7 +24,7 @@
 // (c) 2002,2003 Maksim Orlovich <mo002j@mail.rochester.edu>
 // based on the KDE3 HighColor Style
 // Copyright (C) 2001-2002 Karol Szwed      <gallium@kde.org>
-// (C) 2001-2002 Fredrik Höglund  <fredrik@kde.org>
+// (C) 2001-2002 Fredrik Hï¿½glund  <fredrik@kde.org>
 // Drawing routines adapted from the KDE2 HCStyle,
 // Copyright (C) 2000 Daniel M. Duley       <mosfet@kde.org>
 // (C) 2000 Dirk Mueller          <mueller@kde.org>
@@ -586,6 +586,12 @@ namespace Oxygen
         //* adjusted slabRect
         inline void adjustSlabRect( SlabRect& slab, const QRect&, bool documentMode, bool vertical ) const;
 
+        //! return true if one of the widget's parent inherits requested type
+        inline bool hasParent( const QWidget*, const char* ) const;
+
+        //* return true if one of the widget's parent inherits requested type
+        template<typename T> bool hasParent( const QWidget* ) const;
+
         private:
 
         //*@name scrollbar button types (for addLine and subLine )
@@ -712,6 +718,32 @@ namespace Oxygen
         }
 
         return;
+    }
+
+    //_________________________________________________________________________
+    bool Style::hasParent( const QWidget* widget, const char* className ) const
+    {
+
+        if( !widget ) return false;
+
+        while( (widget = widget->parentWidget()) )
+        { if( widget->inherits( className ) ) return true; }
+
+        return false;
+
+    }
+
+    //_________________________________________________________________________
+    template< typename T > bool Style::hasParent( const QWidget* widget ) const
+    {
+
+        if( !widget ) return false;
+
+        while( (widget = widget->parentWidget()) )
+        { if( qobject_cast<const T*>( widget ) ) return true; }
+
+        return false;
+
     }
 
 }
