@@ -1220,7 +1220,7 @@ namespace Oxygen
         // check window id
         if( !id ) return;
 
-        uint32_t uLongValue( value );
+        quint32 uLongValue( value );
         xcb_change_property( connection(), XCB_PROP_MODE_REPLACE, id, atom, XCB_ATOM_CARDINAL, 32, 1, &uLongValue );
         xcb_flush( connection() );
         return;
