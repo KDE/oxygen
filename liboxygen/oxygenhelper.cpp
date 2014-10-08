@@ -521,7 +521,7 @@ namespace Oxygen
         QColor* out( _decoColorCache.object( key ) );
         if( !out )
         {
-            out = new QColor( KColorUtils::mix( background, color, 0.4 + 0.8*_contrast ) );
+            out = new QColor( KColorUtils::mix( background, color, 0.8*( 1.0 + _contrast ) ) );
             _decoColorCache.insert( key, out );
         }
 
