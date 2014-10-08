@@ -120,10 +120,10 @@ namespace Oxygen
         { return *_shadowCache; }
 
         // create pixmap handles from tileset
-        const QVector<uint32_t>& createPixmapHandles( bool isDockWidget );
+        const QVector<quint32>& createPixmapHandles( bool isDockWidget );
 
         // create pixmap handle from pixmap
-        uint32_t createPixmap( const QPixmap& );
+        quint32 createPixmap( const QPixmap& );
 
         //! install shadow X11 property on given widget
         /*!
@@ -160,8 +160,8 @@ namespace Oxygen
 
         //!@name pixmaps
         //@{
-        QVector<uint32_t> _pixmaps;
-        QVector<uint32_t> _dockPixmaps;
+        QVector<quint32> _pixmaps;
+        QVector<quint32> _dockPixmaps;
         //@}
 
         //! shadow size

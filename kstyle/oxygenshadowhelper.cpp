@@ -67,8 +67,8 @@ namespace Oxygen
         #if OXYGEN_HAVE_X11
         if( _helper.isX11() )
         {
-            foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.connection(), value );
-            foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.connection(), value );
+            foreach( const quint32& value, _pixmaps  ) xcb_free_pixmap( _helper.connection(), value );
+            foreach( const quint32& value, _dockPixmaps  ) xcb_free_pixmap( _helper.connection(), value );
         }
         #endif
 
@@ -83,8 +83,8 @@ namespace Oxygen
         if( _helper.isX11() )
         {
             // round pixmaps
-            foreach( const uint32_t& value, _pixmaps  ) xcb_free_pixmap( _helper.connection(), value );
-            foreach( const uint32_t& value, _dockPixmaps  ) xcb_free_pixmap( _helper.connection(), value );
+            foreach( const quint32& value, _pixmaps  ) xcb_free_pixmap( _helper.connection(), value );
+            foreach( const quint32& value, _dockPixmaps  ) xcb_free_pixmap( _helper.connection(), value );
         }
         #endif
 
@@ -227,7 +227,7 @@ namespace Oxygen
         xcb_connection_t* connection( _helper.connection() );
 
         // get property
-        const uint32_t maxLength = std::string().max_size();
+        const quint32 maxLength = std::string().max_size();
         xcb_get_property_cookie_t cookie( xcb_get_property( connection, 0, QX11Info::appRootWindow(), netSupportedAtom, XCB_ATOM_ATOM, 0, (maxLength+3) / 4 ) );
         Helper::ScopedPointer<xcb_get_property_reply_t> reply( xcb_get_property_reply( connection, cookie, nullptr ) );
         if( !reply ) return false;
@@ -303,7 +303,7 @@ namespace Oxygen
     }
 
     //______________________________________________
-    const QVector<uint32_t>& ShadowHelper::createPixmapHandles( bool isDockWidget )
+    const QVector<quint32>& ShadowHelper::createPixmapHandles( bool isDockWidget )
     {
 
         /*!
@@ -356,7 +356,7 @@ namespace Oxygen
     }
 
     //______________________________________________
-    uint32_t ShadowHelper::createPixmap( const QPixmap& source )
+    quint32 ShadowHelper::createPixmap( const QPixmap& source )
     {
 
         // do nothing for invalid pixmaps
@@ -420,13 +420,13 @@ namespace Oxygen
 
         // create pixmap handles if needed
         const bool isDockWidget( this->isDockWidget( widget ) || this->isToolBar( widget ) );
-        const QVector<uint32_t>& pixmaps( createPixmapHandles( isDockWidget ) );
+        const QVector<quint32>& pixmaps( createPixmapHandles( isDockWidget ) );
         if( pixmaps.size() != numPixmaps ) return false;
 
         // create data
         // add pixmap handles
-        QVector<uint32_t> data;
-        foreach( const uint32_t& value, pixmaps )
+        QVector<quint32> data;
+        foreach( const quint32& value, pixmaps )
         { data.append( value ); }
 
         // get devicePixelRatio

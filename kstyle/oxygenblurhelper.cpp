@@ -238,7 +238,7 @@ namespace Oxygen
 
         } else {
 
-            QVector<uint32_t> data;
+            QVector<quint32> data;
             foreach( const QRect& rect, blurRegion.rects() )
             { data << rect.x() << rect.y() << rect.width() << rect.height(); }
 

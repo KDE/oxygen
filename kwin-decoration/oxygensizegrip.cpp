@@ -82,7 +82,7 @@ namespace Oxygen
     //_____________________________________________
     void SizeGrip::activeChange( void )
     {
-        static const uint32_t value = XCB_STACK_MODE_ABOVE;
+        static const quint32 value = XCB_STACK_MODE_ABOVE;
         xcb_configure_window( _client->helper().connection(), winId(), XCB_CONFIG_WINDOW_STACK_MODE, &value );
     }
 
