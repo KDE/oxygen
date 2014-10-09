@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>395</width>
-    <height>370</height>
+    <width>410</width>
+    <height>410</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -90,7 +90,7 @@
            <bool>true</bool>
           </property>
           <property name="text">
-           <string>First Choice</string>
+           <string>F&amp;irst Choice</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -100,7 +100,7 @@
         <item>
          <widget class="QRadioButton" name="radioButton_2">
           <property name="text">
-           <string>Second Choice</string>
+           <string>Seco&amp;nd Choice</string>
           </property>
          </widget>
         </item>
@@ -547,12 +547,12 @@
   <tabstop>toolButton_6</tabstop>
   <tabstop>toolButton_7</tabstop>
   <tabstop>toolButton_8</tabstop>
-  <tabstop>textPosition</tabstop>
-  <tabstop>iconSize</tabstop>
   <tabstop>toolButton_9</tabstop>
   <tabstop>toolButton_10</tabstop>
   <tabstop>toolButton_11</tabstop>
   <tabstop>toolButton_12</tabstop>
+  <tabstop>textPosition</tabstop>
+  <tabstop>iconSize</tabstop>
   <tabstop>checkBox</tabstop>
   <tabstop>checkBox_2</tabstop>
   <tabstop>checkBox_3</tabstop>
