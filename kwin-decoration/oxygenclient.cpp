@@ -1062,33 +1062,13 @@ namespace Oxygen
         // adjust textRect
         textRect = titleBoundingRect( painter->font(), textRect, caption );
 
-        // title outline
-        if( itemCount == 1 )
+        // render text and outline if needed
+        if( active && itemCount != 1 )
         {
-
-            /*
-             * render outline if
-             * - caption is not empty
-             * - item is animated (because of tabbing)
-             * - window is active or glow-animated and titleoutlines are to be drawn
-             */
-
-            if( !caption.trimmed().isEmpty() &&
-                ( _itemData.isAnimated() || ( (isActive()||glowIsAnimated()) && _configuration->drawTitleOutline() ) ) )
-            { renderTitleOutline( painter, item._boundingRect, palette ); }
-
-        } else if( active ) {
 
             // in multiple tabs render title outline in all cases
-            renderTitleOutline( painter, item._boundingRect, palette );
-
-        }
-
-        // render text
-        if( active || itemCount == 1 )
-        {
-
             // for active tab, current caption is "merged" with old caption, if any
+            renderTitleOutline( painter, item._boundingRect, palette );
             renderTitleText(
                 painter, textRect,
                 titlebarTextColor( palette ),
@@ -1106,8 +1086,7 @@ namespace Oxygen
             // otherwise current caption is rendered directly
             renderTitleText(
                 painter, textRect, caption,
-                titlebarTextColor( backgroundPalette( widget(), palette ), isActive(), false ),
-                titlebarContrastColor( background ) );
+                titlebarTextColor( backgroundPalette( widget(), palette ), isActive(), false ), QColor() );
 
         }
 
@@ -1604,7 +1583,6 @@ namespace Oxygen
                 const int top = 1;
                 int bottom = 1;
 
-                // disable bottom corners when border frame is too small and window is not shaded
                 if( _configuration->frameBorder() == Configuration::BorderNone && !isShade() ) bottom = 0;
                 QRegion mask( helper().roundedMask( frame, left, right, top, bottom ) );
 
