@@ -114,6 +114,9 @@ namespace Oxygen
         //! draw icon
         void drawIcon( QPainter* );
 
+        //! draw icon
+        void drawIcon( QPainter*, QColor foreground, QColor background );
+
         //! color
         QColor buttonDetailColor( const QPalette& ) const;
 

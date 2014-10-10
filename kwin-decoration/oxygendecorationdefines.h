@@ -89,7 +89,7 @@ namespace Oxygen
 
         //* top title bar edge
         TitleBar_TopMargin = 5,
-        TitleBar_BottomMargin = 2,
+        TitleBar_BottomMargin = 5,
 
         /** the extra edge
         needed to outline active window title

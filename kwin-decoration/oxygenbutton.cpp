@@ -149,48 +149,23 @@ namespace Oxygen
         // translate buttons down if window maximized
         if( _client.isMaximized() ) painter.translate( 0, 1 );
 
-        // base button color
-        QColor base;
-        if( _type == ButtonItemClose && _forceInactive ) base = _client.backgroundPalette( this, palette ).color( QPalette::Window );
-        else if( _type == ButtonItemClose ) base = palette.color( QPalette::Window );
-        else base = palette.button().color();
+        QColor foreground = _client.backgroundPalette( this, palette ).color( QPalette::ButtonText );
+        QColor background = _client.backgroundPalette( this, palette ).color( QPalette::Button );
 
-        // text color
-        QColor color = (_type == ButtonItemClose && _forceInactive ) ?
-            buttonDetailColor( _client.backgroundPalette( this, palette ) ):
-            buttonDetailColor( palette );
+        const bool mouseOver( _status&Hovered );
 
-        // decide decoration color
-        QColor glow;
-        if( isAnimated() || (_status&Hovered) )
-        {
-            glow = isCloseButton() ?
-                _helper.negativeTextColor(palette):
-                _helper.hoverColor(palette);
-
-            if( isAnimated() )
-            {
-
-                color = KColorUtils::mix( color, glow, glowIntensity() );
-                glow = _helper.alphaColor( glow, glowIntensity() );
-
-            } else if( _status&Hovered  ) color = glow;
-
-        }
-
-        if( hasDecoration() )
+        if( _type == ButtonItemClose || _type == ButtonClose )
         {
 
-            // pressed state
-            const bool pressed(
-                (_status&Pressed) ||
-                ( _type == ButtonSticky && _client.isOnAllDesktops()  ) ||
-                ( _type == ButtonAbove && _client.keepAbove() ) ||
-                ( _type == ButtonBelow && _client.keepBelow() ) );
+            qSwap( foreground, background );
+            if( mouseOver ) background = _helper.negativeTextColor(palette);
 
-            // draw button shape
-            painter.drawPixmap(0, 0, _helper.windecoButton( base, glow, pressed, _client.buttonSize() ) );
+        } else if( mouseOver ) {
 
+            qSwap( foreground, background );
+
+            if( isActive() || _client.isForcedActive() )
+            { background = _helper.alphaColor( background, 0.5 ); }
         }
 
         // Icon
@@ -216,19 +191,8 @@ namespace Oxygen
 
         } else {
 
-            painter.setRenderHints(QPainter::Antialiasing);
-            qreal width( 1.2 );
 
-            // contrast
-            painter.setBrush(Qt::NoBrush);
-            painter.translate(0, 0.5);
-            painter.setPen(QPen( _helper.calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            drawIcon(&painter);
-
-            // main
-            painter.translate(0,-1.5);
-            painter.setPen(QPen(color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            drawIcon(&painter);
+            drawIcon( &painter, foreground, background );
 
         }
 
@@ -458,6 +422,98 @@ namespace Oxygen
         return;
     }
 
+    //___________________________________________________
+    void Button::drawIcon( QPainter* painter, QColor foreground, QColor background )
+    {
+
+        painter->save();
+        painter->setWindow( 0, 0, 18, 18 );
+        painter->setRenderHints( QPainter::Antialiasing );
+
+        // outside circle
+        if( background.isValid() )
+        {
+
+            // render circle
+            painter->setPen( Qt::NoPen );
+            painter->setBrush( background );
+            painter->drawEllipse( QRectF( 0, 0, 18, 18 ) );
+
+        }
+
+        if( foreground.isValid() )
+        {
+            // render mark
+            QPen pen;
+            pen.setCapStyle( Qt::RoundCap );
+            pen.setJoinStyle( Qt::MiterJoin );
+            pen.setColor( foreground );
+
+            const qreal penWidth( 1 );
+            pen.setWidth( 2*penWidth );
+
+            painter->setBrush( Qt::NoBrush );
+            painter->setPen( pen );
+
+            switch(_type)
+            {
+
+                case ButtonItemClose:
+                case ButtonClose:
+
+                // render
+                painter->drawLine( QPointF( 5 + penWidth, 5 + penWidth ), QPointF( 13 - penWidth, 13 - penWidth ) );
+                painter->drawLine( 13 - penWidth, 5 + penWidth, 5 + penWidth, 13 - penWidth );
+                break;
+
+                case ButtonMax:
+                switch(_client.maximizeMode())
+                {
+                    case Client::MaximizeRestore:
+                    case Client::MaximizeVertical:
+                    case Client::MaximizeHorizontal:
+
+                    painter->drawPolyline( QPolygonF()
+                        << QPointF( 3.5 + penWidth, 11.5 - penWidth )
+                        << QPointF( 9, 5.5 + penWidth )
+                        << QPointF( 14.5 - penWidth, 11.5 - penWidth ) );
+
+                    break;
+
+                    case Client::MaximizeFull:
+                    pen.setJoinStyle( Qt::RoundJoin );
+                    painter->setPen( pen );
+
+                    painter->drawPolygon( QPolygonF()
+                        << QPointF( 3.5 + penWidth, 9 )
+                        << QPointF( 9, 3.5 + penWidth )
+                        << QPointF( 14.5 - penWidth, 9 )
+                        << QPointF( 9, 14.5 - penWidth ) );
+
+                    break;
+
+                }
+                break;
+
+                case ButtonMin:
+                painter->drawPolyline( QPolygonF()
+                    << QPointF( 3.5 + penWidth, 6.5 + penWidth )
+                    << QPointF( 9, 12.5 - penWidth )
+                    << QPointF( 14.5 - penWidth, 6.5 + penWidth ) );
+
+                break;
+
+                default: break;
+
+            }
+
+        }
+
+        painter->restore();
+
+    }
+
+    //___________________________________________________
     void Button::slotAppMenuHidden()
     {
         _status = Normal;
