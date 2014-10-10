@@ -112,9 +112,6 @@ namespace Oxygen
         void parentUpdate( void );
 
         //! draw icon
-        void drawIcon( QPainter* );
-
-        //! draw icon
         void drawIcon( QPainter*, QColor foreground, QColor background );
 
         //! color

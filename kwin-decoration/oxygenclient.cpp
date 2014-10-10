@@ -406,7 +406,7 @@ namespace Oxygen
             }
 
             case LM_ButtonSpacing:
-            return narrowSpacing ? 1:5;
+            return narrowSpacing ? 1:3;
 
             case LM_ButtonMarginTop:
             return 0;
