@@ -149,8 +149,8 @@ namespace Oxygen
         // translate buttons down if window maximized
         if( _client.isMaximized() ) painter.translate( 0, 1 );
 
-        QColor foreground = _client.backgroundPalette( this, palette ).color( QPalette::ButtonText );
-        QColor background = _client.backgroundPalette( this, palette ).color( QPalette::Button );
+        QColor foreground = _client.backgroundPalette( this, palette ).color( QPalette::WindowText );
+        QColor background = _client.backgroundPalette( this, palette ).color( QPalette::Window );
 
         const bool mouseOver( _status&Hovered );
 
@@ -158,7 +158,17 @@ namespace Oxygen
         {
 
             qSwap( foreground, background );
-            if( mouseOver ) background = _helper.negativeTextColor(palette);
+            if( isAnimated() ) background = KColorUtils::mix( background, _helper.negativeTextColor(palette), glowIntensity() );
+            else if( mouseOver ) background = _helper.negativeTextColor(palette);
+
+        } else if( isAnimated() ) {
+
+            QColor copy( background );
+            background = KColorUtils::mix( background, foreground, glowIntensity() );
+            foreground = KColorUtils::mix( foreground, copy, glowIntensity() );
+
+            if( isActive() || _client.isForcedActive() )
+            { background = _helper.alphaColor( background, 0.5 ); }
 
         } else if( mouseOver ) {
 
@@ -166,6 +176,7 @@ namespace Oxygen
 
             if( isActive() || _client.isForcedActive() )
             { background = _helper.alphaColor( background, 0.5 ); }
+
         }
 
         // Icon
