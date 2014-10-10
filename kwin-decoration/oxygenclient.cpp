@@ -1293,11 +1293,17 @@ namespace Oxygen
             if( glowIsAnimated() && !isForcedActive() )
             {
 
-                const QColor inactiveColor( backgroundColor( widget, palette, false ) );
-                const QColor activeColor( backgroundColor( widget, palette, true ) );
-                const QColor mixed( KColorUtils::mix( inactiveColor, activeColor, glowIntensity() ) );
-                palette.setColor( QPalette::Window, mixed );
-                palette.setColor( QPalette::Button, mixed );
+                const QColor inactiveBackground( backgroundColor( widget, palette, false ) );
+                const QColor activeBackground( backgroundColor( widget, palette, true ) );
+                const QColor mixedBackground( KColorUtils::mix( inactiveBackground, activeBackground, glowIntensity() ) );
+                palette.setColor( QPalette::Window, mixedBackground );
+                palette.setColor( QPalette::Button, mixedBackground );
+
+                const QColor inactiveForeground( options()->color( KDecorationDefines::ColorFont, false ) );
+                const QColor activeForeground( options()->color( KDecorationDefines::ColorFont, true ) );
+                const QColor mixedForeground( KColorUtils::mix( inactiveForeground, activeForeground, glowIntensity() ) );
+                palette.setColor( QPalette::WindowText, mixedForeground );
+                palette.setColor( QPalette::ButtonText, mixedForeground );
 
             } else {
 
