@@ -364,7 +364,7 @@ namespace Oxygen
 
             case LM_TitleEdgeBottom:
             {
-                return 0;
+                return Metrics::TitleBar_BottomMargin;
             }
 
             case LM_TitleEdgeLeft:
@@ -429,7 +429,7 @@ namespace Oxygen
     QRect Client::defaultTitleRect( bool active ) const
     {
 
-        QRect titleRect( this->titleRect().adjusted( 0, -layoutMetric( LM_TitleEdgeTop ), 0, 0 ) );
+        QRect titleRect( this->titleRect().adjusted( 0, -layoutMetric( LM_TitleEdgeTop ), 0, layoutMetric( LM_TitleEdgeBottom ) ) );
 
         // when drawing title outline, shrink the rect so that it matches the actual caption size
         if( active && _configuration->drawTitleOutline() && isActive() )
@@ -552,7 +552,7 @@ namespace Oxygen
             { delete _itemData.front()._closeButton.data(); }
 
             // set active rect
-            _itemData.front()._activeRect = titleRect.adjusted( 0, -layoutMetric( LM_TitleEdgeTop ), 0, 0 );
+            _itemData.front()._activeRect = titleRect.adjusted( 0, -layoutMetric( LM_TitleEdgeTop ), 0, layoutMetric( LM_TitleEdgeBottom ) );
 
         } else {
 
@@ -573,7 +573,7 @@ namespace Oxygen
 
                 // set active rect
                 QRect local(  QPoint( left, titleRect.top() ), QSize( width, titleRect.height() ) );
-                local.adjust( 0, -layoutMetric( LM_TitleEdgeTop ), 0, 0 );
+                local.adjust( 0, -layoutMetric( LM_TitleEdgeTop ), 0, layoutMetric( LM_TitleEdgeBottom ) );
                 item._activeRect = local;
                 left += width;
 
@@ -1040,7 +1040,7 @@ namespace Oxygen
         if( !item._boundingRect.isValid() ) return;
 
         // create rect in which text is to be drawn
-        QRect textRect( item._boundingRect.adjusted( 0, layoutMetric( LM_TitleEdgeTop )-1, 0, -1 ) );
+        QRect textRect( item._boundingRect.adjusted( 0, layoutMetric( LM_TitleEdgeTop )-1, 0, -layoutMetric( LM_TitleEdgeBottom )-1 ) );
 
         // add extra space needed for title outline
         if( itemCount > 1 || _itemData.isAnimated() )
@@ -1981,7 +1981,7 @@ namespace Oxygen
 
         // render title text
         painter.setFont( options()->font(isActive(), false) );
-        QRect textRect( geometry.adjusted( 0, layoutMetric( LM_TitleEdgeTop )-1, 0, -1 ) );
+        QRect textRect( geometry.adjusted( 0, layoutMetric( LM_TitleEdgeTop )-1, 0, -layoutMetric( LM_TitleEdgeBottom )-1 ) );
 
         if( itemValid )
         { textRect.adjust( layoutMetric( LM_TitleBorderLeft ), 0, -layoutMetric(LM_TitleBorderRight), 0 ); }
