@@ -158,12 +158,17 @@ namespace Oxygen
         {
 
             qSwap( foreground, background );
-            if( isAnimated() ) background = KColorUtils::mix( background, _helper.negativeTextColor(palette), glowIntensity() );
-            else if( mouseOver ) background = _helper.negativeTextColor(palette);
+            const QColor negativeColor(
+                isActive() || _client.isForcedActive() ?
+                KColorUtils::mix( background, _helper.negativeTextColor(palette), 0.5 ):
+                _helper.alphaColor( _helper.negativeTextColor(palette), 0.5 ) );
+
+            if( isAnimated() ) background = KColorUtils::mix( background, negativeColor, glowIntensity() );
+            else if( mouseOver ) background = negativeColor;
 
         } else if( isAnimated() ) {
 
-            QColor copy( background );
+            const QColor copy( background );
             background = KColorUtils::mix( background, foreground, glowIntensity() );
             foreground = KColorUtils::mix( foreground, copy, glowIntensity() );
 
