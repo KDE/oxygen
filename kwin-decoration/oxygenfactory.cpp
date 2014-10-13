@@ -113,8 +113,8 @@ namespace Oxygen
         color contrast settings changed
         */
         _config->reparseConfiguration(); // could be skipped on startup
-        helper().invalidateCaches();
-        helper().loadConfig();
+        _helper.invalidateCaches();
+        _helper.loadConfig();
 
         // initialize default configuration and read
         if( !_defaultConfiguration ) _defaultConfiguration = ConfigurationPtr(new Configuration());
@@ -137,7 +137,7 @@ namespace Oxygen
         // background pixmap
         {
             KConfigGroup group( _config->group("Common") );
-            helper().setBackgroundPixmap( group.readEntry( "BackgroundPixmap", "" ) );
+            _helper.setBackgroundPixmap( group.readEntry( "BackgroundPixmap", "" ) );
         }
 
     }
