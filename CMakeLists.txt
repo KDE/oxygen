@@ -68,7 +68,7 @@ else()
     KDecorations PROPERTIES
     TYPE OPTIONAL
     PURPOSE "Required to oxygen window decoration for kwin"
- )
+  )
 
   find_package(XCB COMPONENTS XCB)
   set_package_properties(XCB PROPERTIES
@@ -76,7 +76,7 @@ else()
       URL "http://xcb.freedesktop.org"
       TYPE OPTIONAL
       PURPOSE "Required to pass style properties to native Windows on X11 Platform"
- )
+  )
 
   if(NOT APPLE)
 
@@ -103,6 +103,12 @@ else()
 
   install(DIRECTORY lookandfeel/ DESTINATION ${CMAKE_INSTALL_PREFIX}/share/plasma/look-and-feel/org.kde.oxygen
           PATTERN "Messages.sh" EXCLUDE PATTERN "CMakeLists.txt" EXCLUDE)
+
+  # po/ dir added by packaging scripts
+  if(EXISTS ${CMAKE_SOURCE_DIR}/po AND IS_DIRECTORY ${CMAKE_SOURCE_DIR}/po)
+    find_package(KF5I18n CONFIG REQUIRED)
+    ki18n_install(po)
+  endif()
 
 endif()
 
