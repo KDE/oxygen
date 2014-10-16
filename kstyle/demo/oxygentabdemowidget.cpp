@@ -57,6 +57,83 @@ namespace Oxygen
     }
 
     //______________________________________________________________
+    void TabDemoWidget::toggleCornerWidgets( bool value )
+    {
+        if( value )
+        {
+            ui.tabWidget->setCornerWidget( _left, Qt::TopLeftCorner );
+            ui.tabWidget->setCornerWidget( _right, Qt::TopRightCorner );
+        } else {
+            ui.tabWidget->setCornerWidget( 0, Qt::TopLeftCorner );
+            ui.tabWidget->setCornerWidget( 0, Qt::TopRightCorner );
+        }
+
+        _left->setVisible( value );
+        _right->setVisible( value );
+        ui.tabWidget->adjustSize();
+
+    }
+
+
+    //______________________________________________________________
+    void TabDemoWidget::toggleDocumentMode( bool value )
+    { ui.tabWidget->setDocumentMode( value ); }
+
+    //______________________________________________________________
+    void TabDemoWidget::toggleTabCloseButtons( bool value )
+    { ui.tabWidget->setTabsClosable( value ); }
+
+    //______________________________________________________________
+    void TabDemoWidget::changeTabPosition( int index )
+    {
+        switch( index )
+        {
+            case 1:
+            ui.tabWidget->setTabPosition( QTabWidget::South );
+            break;
+
+            case 2:
+            ui.tabWidget->setTabPosition( QTabWidget::West );
+            break;
+
+            case 3:
+            ui.tabWidget->setTabPosition( QTabWidget::East );
+            break;
+
+            default:
+            case 0:
+            ui.tabWidget->setTabPosition( QTabWidget::North );
+            break;
+        }
+
+    }
+
+    //______________________________________________________________
+    void TabDemoWidget::changeTextPosition( int index )
+    {
+        switch( index )
+        {
+
+            case 0:
+            ui.tabWidget->hideText();
+            ui.tabWidget->showIcons();
+            break;
+
+            case 1:
+            ui.tabWidget->showText();
+            ui.tabWidget->hideIcons();
+            break;
+
+            default:
+            case 2:
+            ui.tabWidget->showText();
+            ui.tabWidget->showIcons();
+            break;
+
+        }
+    }
+
+    //______________________________________________________________
     void TabDemoWidget::benchmark( void )
     {
         if( !isVisible() ) return;
