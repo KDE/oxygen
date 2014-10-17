@@ -44,15 +44,18 @@
 #include <KPluginFactory>
 
 //_______________________________________________________________________
-// plugin definition
-#if OXYGEN_USE_KDE4
+//* plugin definition
+/**
+ * this is the old style/KDE4 plugin declaration.
+ * it is used in oxygen-settings for both KDE4 and KF5
+ */
 extern "C"
 {
-    KDE_EXPORT QObject* allocate_config( KConfig*, QWidget* parent )
+    Q_DECL_EXPORT QObject* allocate_config( KConfig*, QWidget* parent )
     { return ( new Oxygen::Config( parent ) ); }
 }
 
-#else
+#if !OXYGEN_USE_KDE4
 K_PLUGIN_FACTORY_WITH_JSON(
     OxygenConfigPlugin,
     "config.json",
