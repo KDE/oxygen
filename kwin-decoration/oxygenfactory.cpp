@@ -98,6 +98,8 @@ namespace Oxygen
         setInitialized( false );
         readConfig();
         setInitialized( true );
+        #else
+        Q_UNUSED( changed )
         #endif
         return true;
 
