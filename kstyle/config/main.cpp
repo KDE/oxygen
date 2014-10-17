@@ -25,6 +25,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenconfigdialog.h"
+#include "../oxygen.h"
 #include "config-liboxygen.h"
 
 #include <QApplication>
@@ -32,16 +33,28 @@
 
 #include <KLocalizedString>
 
+namespace Oxygen
+{
+
+    int run(int argc, char *argv[])
+    {
+        QApplication app( argc, argv );
+        app.setApplicationName( i18n( "Oxygen Settings" ) );
+        app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
+        Oxygen::ConfigDialog dialog;
+        dialog.show();
+        bool result = app.exec();
+        return result;
+    }
+
+}
+
+//__________________________________________
 int main(int argc, char *argv[])
 {
     #if !OXYGEN_USE_KDE4
     KLocalizedString::setApplicationDomain("oxygen_style_config");
     #endif
 
-    QApplication app( argc, argv );
-    app.setApplicationName( i18n( "Oxygen Settings" ) );
-    app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
-    Oxygen::ConfigDialog dialog;
-    dialog.show();
-    return app.exec();
+    return Oxygen::run( argc, argv );
 }
