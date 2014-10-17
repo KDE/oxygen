@@ -49,12 +49,23 @@ endif()
 
 
 ########### next target ###############
-if(NOT OXYGEN_USE_KDE4)
-  set(oxygen_settings_SOURCES
-      oxygenconfigdialog.cpp
-      main.cpp)
+set(oxygen_settings_SOURCES
+    oxygenconfigdialog.cpp
+    main.cpp)
 
-  set(oxygen_settings_FORMS ui/oxygenconfigdialog.ui)
+set(oxygen_settings_FORMS ui/oxygenconfigdialog.ui)
+
+if(OXYGEN_USE_KDE4)
+
+  kde4_add_ui_files(oxygen_settings_SOURCES ${oxygen_settings_FORMS})
+  kde4_add_executable(oxygen-settings ${oxygen_settings_SOURCES})
+  target_link_libraries(oxygen-settings ${KDE4_KDEUI_LIBS})
+  target_link_libraries(oxygen-settings ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+
+  install(TARGETS oxygen-settings ${INSTALL_TARGETS_DEFAULT_ARGS})
+
+else()
+
   ki18n_wrap_ui(oxygen_settings_FORMS_HEADERS ${oxygen_settings_FORMS})
 
   add_executable(oxygen-settings5
@@ -65,6 +76,6 @@ if(NOT OXYGEN_USE_KDE4)
   target_link_libraries(oxygen-settings5 Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
   target_link_libraries(oxygen-settings5 KF5::I18n KF5::WidgetsAddons KF5::ConfigCore KF5::ConfigGui KF5::Service)
 
-  install (TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS})
+  install(TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 endif()
