@@ -25,6 +25,8 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "oxygenconfigdialog.h"
 #include "oxygenconfigdialog.moc"
+#include "../oxygen.h"
+#include "config-liboxygen.h"
 
 #include <QIcon>
 #include <QLabel>
@@ -33,12 +35,15 @@
 #include <QPushButton>
 #include <QShortcut>
 #include <QTextStream>
-#include <QTimer>
+
+#if OXYGEN_USE_KDE4
+#include <KIcon>
+#include <KLibrary>
+#endif
 
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KPluginLoader>
-#include <KPluginTrader>
 #include <KStandardShortcut>
 
 #include <QDBusConnection>
@@ -61,9 +66,14 @@ namespace Oxygen
         // ui
         setupUi(this);
 
+        #if OXYGEN_USE_KDE4
         // install Quit shortcut
+        connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL(activated()), SLOT(close()) );
+        connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL(activated()), SLOT(close()) );
+        #else
         foreach( const QKeySequence& sequence, KStandardShortcut::quit() )
         { connect( new QShortcut( sequence, this ), SIGNAL(activated()), SLOT(close()) ); }
+        #endif
 
         connect( buttonBox->button( QDialogButtonBox::Cancel ), SIGNAL(clicked()), SLOT(close()) );
 
@@ -77,7 +87,11 @@ namespace Oxygen
         page = loadStyleConfig();
         page->setName( i18n("Widget Style") );
         page->setHeader( i18n("Modify the appearance of widgets") );
+        #if OXYGEN_USE_KDE4
+        page->setIcon( KIcon( "preferences-desktop-theme" ) );
+        #else
         page->setIcon( QIcon::fromTheme( QStringLiteral( "preferences-desktop-theme" ) ) );
+        #endif
         pageWidget->addPage( page );
 
         if( _stylePluginObject )
@@ -96,7 +110,11 @@ namespace Oxygen
         page = loadDecorationConfig();
         page->setName( i18n("Window Decorations") );
         page->setHeader( i18n("Modify the appearance of window decorations") );
+        #if OXYGEN_USE_KDE4
+        page->setIcon( KIcon( "preferences-system-windows" ) );
+        #else
         page->setIcon( QIcon::fromTheme( QStringLiteral( "preferences-system-windows" ) ) );
+        #endif
         pageWidget->addPage( page );
 
         if( _decorationPluginObject )
@@ -174,12 +192,21 @@ namespace Oxygen
     {
 
         // load style from plugin
+        #if OXYGEN_USE_KDE4
+        KLibrary library( "kstyle_oxygen_config" );
+        #else
         QLibrary library( KPluginLoader::findPlugin( QStringLiteral( "kstyle_oxygen_config" ) ) );
+        #endif
 
-        if (library.load())
+        if( library.load() )
         {
+
+            #if OXYGEN_USE_KDE4
+            KLibrary::void_function_ptr alloc_ptr = library.resolveFunction("allocate_kstyle_config");
+            #else
             QFunctionPointer alloc_ptr = library.resolve( "allocate_kstyle_config" );
-            if (alloc_ptr != nullptr)
+            #endif
+            if( alloc_ptr != nullptr )
             {
 
                 // pointer to decoration plugin allocation function
@@ -197,28 +224,16 @@ namespace Oxygen
                 container->layout()->addWidget( static_cast<QWidget*>( _stylePluginObject ) );
                 return new KPageWidgetItem( container );
 
-            } else {
-
-                // fall back to warning label
-                QLabel* label = new QLabel();
-                label->setMargin(5);
-                label->setAlignment( Qt::AlignCenter );
-                label->setText( i18n( "Unable to find oxygen style configuration plugin" ) );
-                return new KPageWidgetItem( label );
-
             }
 
-        } else {
-
-            // fall back to warning label
-            QLabel* label = new QLabel();
-            label->setMargin(5);
-            label->setAlignment( Qt::AlignCenter );
-            label->setText( i18n( "Unable to find oxygen style configuration plugin" ) );
-
-            return new KPageWidgetItem( label );
-
         }
+
+        // fall back to warning label
+        QLabel* label = new QLabel();
+        label->setMargin(5);
+        label->setAlignment( Qt::AlignCenter );
+        label->setText( i18n( "Unable to find oxygen style configuration plugin" ) );
+        return new KPageWidgetItem( label );
 
     }
 
@@ -226,32 +241,48 @@ namespace Oxygen
     KPageWidgetItem* ConfigDialog::loadDecorationConfig( void )
     {
 
-        // create container
-        QWidget* container = new QWidget();
-        container->setLayout( new QVBoxLayout() );
-        container->layout()->setMargin( 0 );
+        // load style from plugin
+        #if OXYGEN_USE_KDE4
+        KLibrary library( "kwin_oxygen_config" );
+        #else
+        QLibrary library( KPluginLoader::findPlugin( QStringLiteral( "kwin/kdecorations/config/kwin_oxygen_config" ) ) );
+        #endif
 
-        _decorationPluginObject = KPluginTrader::self()->createInstanceFromQuery<QObject>(
-            QStringLiteral("kwin/kdecorations/config"),
-            QString(),
-            QStringLiteral("[X-KDE-PluginInfo-Name] == 'Oxygen'"),
-            container,
-            0,
-            QVariantList() );
+        if( library.load() )
+        {
 
-        if( _decorationPluginObject ) return new KPageWidgetItem( container );
-        else {
+            #if OXYGEN_USE_KDE4
+            KLibrary::void_function_ptr alloc_ptr = library.resolveFunction("allocate_config");
+            #else
+            QFunctionPointer alloc_ptr = library.resolve( "allocate_config" );
+            #endif
 
-            delete container;
+            if( alloc_ptr != nullptr )
+            {
 
-            // fall back to warning label
-            QLabel* label = new QLabel();
-            label->setMargin(5);
-            label->setAlignment( Qt::AlignCenter );
-            label->setText( i18n( "Unable to find oxygen decoration configuration plugin" ) );
-            return new KPageWidgetItem( label );
+                // cast resolved function
+                QObject* (*allocator)( KConfig*, QWidget* );
+                allocator = ( QObject* (*)(KConfig*, QWidget*) )alloc_ptr;
 
-        }
+                // create container
+                QWidget* container = new QWidget();
+                container->setLayout( new QVBoxLayout() );
+                container->layout()->setMargin( 0 );
+
+                _decorationPluginObject = (QObject*)(allocator( nullptr, container ));
+
+                if( _decorationPluginObject ) return new KPageWidgetItem( container );
+
+            } else { QTextStream( stdout ) << "unable to resolve function allocate_config" << endl; }
+
+        } else { QTextStream( stdout ) << "unable to load plugin kwin_oxygen_config" << endl; }
+
+        // fall back to warning label
+        QLabel* label = new QLabel();
+        label->setMargin(5);
+        label->setAlignment( Qt::AlignCenter );
+        label->setText( i18n( "Unable to find oxygen decoration configuration plugin" ) );
+        return new KPageWidgetItem( label );
 
     }
 
