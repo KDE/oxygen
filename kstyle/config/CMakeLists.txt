@@ -47,7 +47,6 @@ else()
   install(TARGETS kstyle_oxygen_config DESTINATION ${QT_PLUGIN_INSTALL_DIR})
 endif()
 
-
 ########### next target ###############
 set(oxygen_settings_SOURCES
     oxygenconfigdialog.cpp

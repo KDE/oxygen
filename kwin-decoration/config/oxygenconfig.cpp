@@ -56,6 +56,7 @@ extern "C"
 }
 
 #if !OXYGEN_USE_KDE4
+/** this is the new style/KF5 plugin declaration, used internally by KWin */
 K_PLUGIN_FACTORY_WITH_JSON(
     OxygenConfigPlugin,
     "config.json",
