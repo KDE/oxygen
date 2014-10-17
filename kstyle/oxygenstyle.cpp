@@ -2085,57 +2085,56 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    QRect Style::tabWidgetCornerRect( SubElement element, const QStyleOption* option, const QWidget* ) const
+    QRect Style::tabWidgetCornerRect( SubElement element, const QStyleOption* option, const QWidget* widget ) const
     {
 
         // cast option and check
-        const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
-        if( !tabOption ) return option->rect;
+        const QStyleOptionTabWidgetFrame *tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame *>( option );
+        if( !tabOption ) return QRect();
 
-        // do nothing if tabbar is hidden
-        const QSize tabBarSize( tabOption->tabBarSize );
-        if( tabBarSize.isEmpty() ) return QRect();
+        // copy rect
+        const QRect paneRect( subElementRect( SE_TabWidgetTabPane, option, widget ) );
+        QRect rect;
 
-        // do nothing for vertical tabs
-        const bool verticalTabs( isVerticalTab( tabOption->shape ) );
-        if( verticalTabs ) return QRect();
-
-        const QRect rect( option->rect );
-        QRect cornerRect;
         switch( element )
         {
             case SE_TabWidgetLeftCorner:
-            cornerRect = QRect( QPoint(0,0), tabOption->leftCornerWidgetSize );
-            cornerRect.moveLeft( rect.left() );
+            rect = QRect( QPoint(0,0), tabOption->leftCornerWidgetSize );
             break;
 
             case SE_TabWidgetRightCorner:
-            cornerRect = QRect( QPoint(0,0), tabOption->rightCornerWidgetSize );
-            cornerRect.moveRight( rect.right() );
+            rect = QRect( QPoint(0,0), tabOption->rightCornerWidgetSize );
             break;
 
             default: break;
 
         }
+
+
+        if( element == SE_TabWidgetRightCorner ) rect.moveRight( paneRect.right() );
+        else rect.moveLeft( paneRect.left() );
 
         switch( tabOption->shape )
         {
             case QTabBar::RoundedNorth:
             case QTabBar::TriangularNorth:
-            cornerRect.moveTop( rect.top() );
+            rect.moveBottom( paneRect.top() - 1 );
+            rect.translate( 0, 3 );
             break;
 
             case QTabBar::RoundedSouth:
             case QTabBar::TriangularSouth:
-            cornerRect.moveBottom( rect.bottom() );
+            rect.moveTop( paneRect.bottom() + 1 );
+            rect.translate( 0, -3 );
             break;
 
-            default: break;
+            default:
+            return QRect();
+
         }
 
-        // return cornerRect;
-        cornerRect = visualRect( option, cornerRect );
-        return cornerRect;
+        rect = visualRect( tabOption, rect );
+        return rect;
 
     }
 
