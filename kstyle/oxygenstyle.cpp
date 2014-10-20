@@ -1909,7 +1909,8 @@ namespace Oxygen
         if( !headerOption ) return option->rect;
 
         // check if arrow is necessary
-        QRect labelRect( insideMargin( option->rect, Metrics::Header_MarginWidth ) );
+        // QRect labelRect( insideMargin( option->rect, Metrics::Header_MarginWidth ) );
+        QRect labelRect( insideMargin( option->rect, Metrics::Header_MarginWidth, 0 ) );
         if( headerOption->sortIndicator == QStyleOptionHeader::None ) return labelRect;
 
         labelRect.adjust( 0, 0, -Metrics::Header_ArrowSize-Metrics::Header_ItemSpacing, 0 );
@@ -1932,43 +1933,29 @@ namespace Oxygen
         QRect rect( option->rect );
         QRect tabBarRect( QPoint(0, 0), tabBarSize );
 
-        Qt::Alignment tabBarAlignment( styleHint( SH_TabBar_Alignment, option, widget ) );
-
         // horizontal positioning
         const bool verticalTabs( isVerticalTab( tabOption->shape ) );
         if( verticalTabs )
         {
 
             tabBarRect.setHeight( qMin( tabBarRect.height(), rect.height() - 2 ) );
-            if( tabBarAlignment == Qt::AlignCenter ) tabBarRect.moveTop( rect.top() + ( rect.height() - tabBarRect.height() )/2 );
-            else tabBarRect.moveTop( rect.top()+1 );
+            tabBarRect.moveTop( rect.top()+1 );
 
         } else {
 
-            // adjust rect to deal with corner buttons
-            // need to properly deal with reverse layout
-            const bool reverseLayout( option->direction == Qt::RightToLeft );
-            if( !tabOption->leftCornerWidgetSize.isEmpty() )
-            {
-                const QRect buttonRect( subElementRect( SE_TabWidgetLeftCorner, option, widget ) );
-                if( reverseLayout ) rect.setRight( buttonRect.left() - 1 );
-                else rect.setLeft( buttonRect.width() );
-            }
+            // account for corner rects
+            // need to re-run visualRect to remove right-to-left handling, since it is re-added on tabBarRect at the end
+            const QRect leftButtonRect( visualRect( option, subElementRect( SE_TabWidgetLeftCorner, option, widget ) ) );
+            const QRect rightButtonRect( visualRect( option, subElementRect( SE_TabWidgetRightCorner, option, widget ) ) );
 
-            if( !tabOption->rightCornerWidgetSize.isEmpty() )
-            {
-                const QRect buttonRect( subElementRect( SE_TabWidgetRightCorner, option, widget ) );
-                if( reverseLayout ) rect.setLeft( buttonRect.width() );
-                else rect.setRight( buttonRect.left() - 1 );
-            }
+            rect.setLeft( leftButtonRect.width() );
+            rect.setRight( rightButtonRect.left() - 1 );
 
             tabBarRect.setWidth( qMin( tabBarRect.width(), rect.width() - 2 ) );
-            if( tabBarAlignment == Qt::AlignCenter ) tabBarRect.moveLeft( rect.left() + (rect.width() - tabBarRect.width())/2 );
-            else {
+            tabBarRect.moveLeft( rect.left() + 1 );
 
-                tabBarRect.moveLeft( rect.left() + 1 );
-                tabBarRect = visualRect( option, tabBarRect );
-            }
+            tabBarRect = visualRect( option, tabBarRect );
+
         }
 
         // vertical positioning
