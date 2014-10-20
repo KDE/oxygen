@@ -52,6 +52,8 @@ namespace Oxygen
         _left->setVisible( false );
 
         _right->setIcon( QIcon::fromTheme( QStringLiteral( "tab-close" ) ) );
+        _right->setText( tr( "Right Corner Button" ) );
+        _right->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
         _right->setVisible( false );
 
     }
