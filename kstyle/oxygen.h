@@ -126,10 +126,11 @@ namespace Oxygen
         Slider_ControlThickness = 21,
 
         // tabbar
-        TabBar_TabMarginHeight = 3,
-        TabBar_TabMarginWidth = 6,
+        TabBar_TabMarginHeight = 6,
+        TabBar_TabMarginWidth = 12,
         TabBar_TabMinWidth = 80,
         TabBar_TabMinHeight = 28,
+        TabBar_TabItemSpacing = 8,
         TabBar_TabOverlap = 1,
         TabBar_TabOffset = 4,
         TabBar_BaseOverlap = 7,

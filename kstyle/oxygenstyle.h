@@ -243,6 +243,8 @@ namespace Oxygen
         QRect progressBarContentsRect( const QStyleOption* option, const QWidget* ) const;
         QRect headerArrowRect( const QStyleOption* option, const QWidget* ) const;
         QRect headerLabelRect( const QStyleOption* option, const QWidget* ) const;
+        QRect tabBarTabLeftButtonRect( const QStyleOption*, const QWidget* ) const;
+        QRect tabBarTabRightButtonRect( const QStyleOption*, const QWidget* ) const;
         QRect tabWidgetTabBarRect( const QStyleOption*, const QWidget* ) const;
         QRect tabWidgetTabContentsRect( const QStyleOption*, const QWidget* ) const;
         QRect tabWidgetTabPaneRect( const QStyleOption*, const QWidget* ) const;
