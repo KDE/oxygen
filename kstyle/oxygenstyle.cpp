@@ -6819,16 +6819,12 @@ namespace Oxygen
                 const QAbstractButton* button( qobject_cast<const QAbstractButton*>( widget ) );
                 if( button->isChecked() || button->isDown() ) copy.state |= State_On;
 
-            } else if( !inTabBar ) {
+            } else if( !inTabBar && hasInlineIndicator ) {
 
-                // take out margins
                 const int marginWidth( autoRaise ? Metrics::ToolButton_MarginWidth : Metrics::Button_MarginWidth + Metrics::Frame_FrameWidth );
                 contentsRect = insideMargin( contentsRect, marginWidth, 0 );
-                if( hasInlineIndicator )
-                {
-                    contentsRect.setRight( contentsRect.right() - Metrics::ToolButton_InlineIndicatorWidth );
-                    contentsRect = visualRect( option, contentsRect );
-                }
+                contentsRect.setRight( contentsRect.right() - Metrics::ToolButton_InlineIndicatorWidth );
+                contentsRect = visualRect( option, contentsRect );
 
             }
 
