@@ -21,9 +21,6 @@
  *************************************************************************/
 
 #include <QFlags>
-#include <QPointer>
-#include <QScopedPointer>
-#include <QWeakPointer>
 
 namespace Oxygen
 {
