@@ -41,6 +41,7 @@ DEALINGS IN THE SOFTWARE.
 #include <KLocalizedString>
 #include <KSharedConfig>
 #include <KConfigGroup>
+#include <Kdelibs4Migration>
 
 #define SCROLLBAR_DEFAULT_WIDTH 15
 #define SCROLLBAR_MINIMUM_WIDTH 10
@@ -122,6 +123,15 @@ namespace Oxygen
         StyleConfigData::self()->writeConfig();
         #else
         StyleConfigData::self()->save();
+
+        //update the KDE4 config to match
+        Kdelibs4Migration migration;
+        const QString kde4ConfigDirPath = migration.saveLocation("config");
+
+        QScopedPointer<KConfig> kde4Config(new KConfig);
+        StyleConfigData::self()->config()->copyTo(kde4ConfigDirPath+"/oxygenrc", kde4Config.data());
+        kde4Config->sync();
+
         #endif
 
         // emit dbus signal
