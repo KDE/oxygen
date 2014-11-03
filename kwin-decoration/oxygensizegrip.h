@@ -27,6 +27,9 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
+#include "oxygenclient.h"
+#include "oxygendecorationdefines.h"
+
 #include <QWidget>
 #include <QPaintEvent>
 #include <QMouseEvent>
@@ -74,10 +77,6 @@ namespace Oxygen
 
         //@}
 
-        //* client
-        Client& client( void ) const
-        { return *_client; }
-
         //* update position
         void updatePosition( void );
 
@@ -90,7 +89,7 @@ namespace Oxygen
         };
 
         // oxygen client
-        Client* _client;
+        WeakPointer<Client> _client;
 
     };
 

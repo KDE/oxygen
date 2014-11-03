@@ -83,22 +83,23 @@ namespace Oxygen
     void SizeGrip::activeChange( void )
     {
         static const quint32 value = XCB_STACK_MODE_ABOVE;
-        xcb_configure_window( _client->helper().connection(), winId(), XCB_CONFIG_WINDOW_STACK_MODE, &value );
+        xcb_configure_window( _client.data()->helper().connection(), winId(), XCB_CONFIG_WINDOW_STACK_MODE, &value );
     }
 
     //_____________________________________________
     void SizeGrip::embed( void )
     {
-        xcb_window_t windowId = _client->windowId();
-        if( _client->isPreview() ) {
 
-            setParent( _client->widget() );
+        xcb_window_t windowId = _client.data()->windowId();
+        if( _client.data()->isPreview() ) {
+
+            setParent( _client.data()->widget() );
 
         } else if( windowId ) {
 
             // find client's parent
             xcb_window_t current = windowId;
-            xcb_connection_t* connection = _client->helper().connection();
+            xcb_connection_t* connection = _client.data()->helper().connection();
             #if OXYGEN_USE_KDE4
             while( true )
             {
@@ -140,10 +141,13 @@ namespace Oxygen
     void SizeGrip::paintEvent( QPaintEvent* )
     {
 
+        // do nothing if client is invalid
+        if( !_client ) return;
+
         // get relevant colors
-        QColor base( _client->backgroundColor( this, palette(), _client->isActive() ) );
-        QColor light( _client->helper().calcDarkColor( base ) );
-        QColor dark( _client->helper().calcDarkColor( base.darker(150) ) );
+        QColor base( _client.data()->backgroundColor( this, palette(), _client.data()->isActive() ) );
+        QColor light( _client.data()->helper().calcDarkColor( base ) );
+        QColor dark( _client.data()->helper().calcDarkColor( base.darker(150) ) );
 
         // create and configure painter
         QPainter painter(this);
@@ -198,10 +202,10 @@ namespace Oxygen
             {
 
                 // check client window id
-                if( !_client->windowId() ) break;
-                _client->widget()->setFocus();
-                if( _client->decoration() )
-                { _client->decoration()->performWindowOperation( KDecorationDefines::ResizeOp ); }
+                if( !_client.data()->windowId() ) break;
+                _client.data()->widget()->setFocus();
+                if( _client.data()->decoration() )
+                { _client.data()->decoration()->performWindowOperation( KDecorationDefines::ResizeOp ); }
 
             }
             break;
@@ -219,27 +223,27 @@ namespace Oxygen
     {
 
         QPoint position(
-            _client->width() - GripSize - Offset,
-            _client->height() - GripSize - Offset );
+            _client.data()->width() - GripSize - Offset,
+            _client.data()->height() - GripSize - Offset );
 
-        if( _client->isPreview() )
+        if( _client.data()->isPreview() )
         {
 
             position -= QPoint(
-                _client->layoutMetric( Client::LM_BorderRight )+
-                _client->layoutMetric( Client::LM_OuterPaddingRight ),
-                _client->layoutMetric( Client::LM_OuterPaddingBottom )+
-                _client->layoutMetric( Client::LM_BorderBottom )
+                _client.data()->layoutMetric( Client::LM_BorderRight )+
+                _client.data()->layoutMetric( Client::LM_OuterPaddingRight ),
+                _client.data()->layoutMetric( Client::LM_OuterPaddingBottom )+
+                _client.data()->layoutMetric( Client::LM_BorderBottom )
                 );
 
         } else {
 
             #if OXYGEN_USE_KDE4
             position -= QPoint(
-                _client->layoutMetric( Client::LM_BorderRight ),
-                _client->layoutMetric( Client::LM_BorderBottom ) );
+                _client.data()->layoutMetric( Client::LM_BorderRight ),
+                _client.data()->layoutMetric( Client::LM_BorderBottom ) );
             #else
-            position.ry() -= 1 + 2*( _client->titleRect().height() + _client->layoutMetric( Client::LM_TitleEdgeTop ) );
+            position.ry() -= 1 + 2*( _client.data()->titleRect().height() + _client.data()->layoutMetric( Client::LM_TitleEdgeTop ) );
             #endif
 
         }
