@@ -41,7 +41,9 @@ DEALINGS IN THE SOFTWARE.
 #include <KLocalizedString>
 #include <KSharedConfig>
 #include <KConfigGroup>
+#if OXYGEN_USE_KDE4
 #include <Kdelibs4Migration>
+#endif
 
 #define SCROLLBAR_DEFAULT_WIDTH 15
 #define SCROLLBAR_MINIMUM_WIDTH 10
