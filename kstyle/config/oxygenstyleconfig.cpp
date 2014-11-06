@@ -41,7 +41,7 @@ DEALINGS IN THE SOFTWARE.
 #include <KLocalizedString>
 #include <KSharedConfig>
 #include <KConfigGroup>
-#if OXYGEN_USE_KDE4
+#if !OXYGEN_USE_KDE4
 #include <Kdelibs4Migration>
 #endif
 
