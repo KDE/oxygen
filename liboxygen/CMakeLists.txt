@@ -21,6 +21,8 @@ if(OXYGEN_USE_KDE4)
 
   kde4_add_library(oxygenstyle SHARED ${oxygenstyle_LIB_SRCS})
 
+  generate_export_header(oxygenstyle BASE_NAME oxygen EXPORT_FILE_NAME oxygen_export.h)
+
   target_link_libraries(oxygenstyle ${KDE4_KDEUI_LIBS})
 
   if(OXYGEN_HAVE_X11)
@@ -45,6 +47,8 @@ else()
  )
 
   add_library(oxygenstyle5 ${oxygenstyle_LIB_SRCS})
+
+  generate_export_header(oxygenstyle5 BASE_NAME oxygen EXPORT_FILE_NAME oxygen_export.h)
 
   # NB: although we install no headers, we still need to have a link
   #     interface, since other Oxygen targets link to this library
@@ -102,6 +106,8 @@ if(OXYGEN_USE_KDE4)
       ${oxygenstyleconfig_LIB_SRCS}
       ${oxygenstyleconfig_LIB_FORMS_HEADERS})
 
+  generate_export_header(oxygenstyleconfig BASE_NAME oxygen_config EXPORT_FILE_NAME oxygen_config_export.h)
+
   target_link_libraries(oxygenstyleconfig ${KDE4_KDEUI_LIBS})
 
   set_target_properties(oxygenstyleconfig PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
@@ -123,6 +129,8 @@ else()
   add_library(oxygenstyleconfig5 SHARED
       ${oxygenstyleconfig_LIB_SRCS}
       ${oxygenstyleconfig_LIB_FORMS_HEADERS})
+
+  generate_export_header(oxygenstyleconfig5 BASE_NAME oxygen_config EXPORT_FILE_NAME oxygen_config_export.h)
 
   # NB: although we install no headers, we still need to have a link
   #     interface, since other Oxygen targets link to this library
