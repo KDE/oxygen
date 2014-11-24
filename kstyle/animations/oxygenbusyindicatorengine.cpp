@@ -35,7 +35,8 @@ namespace Oxygen
     //_______________________________________________
     BusyIndicatorEngine::BusyIndicatorEngine( QObject* object ):
         BaseEngine( object ),
-        _animation( new Animation( duration(), this ) )
+        _animation( new Animation( duration(), this ) ),
+        _value( 0 )
     {
 
         // setup animation
