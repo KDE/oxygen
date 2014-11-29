@@ -39,7 +39,7 @@ if(OXYGEN_USE_KDE4)
  )
 
   ### XCB
-  include(FindPkgConfig)
+  find_package(PkgConfig)
   pkg_check_modules(XCB xcb x11-xcb)
   set(OXYGEN_HAVE_X11 ${XCB_FOUND})
 

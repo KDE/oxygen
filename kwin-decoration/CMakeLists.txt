@@ -4,6 +4,7 @@ add_definitions(-DTRANSLATION_DOMAIN=\"oxygen_kwin_deco\")
 if(OXYGEN_USE_KDE4)
   include_directories(${CMAKE_SOURCE_DIR}/liboxygen)
   include_directories(${CMAKE_BINARY_DIR}/liboxygen)
+  include_directories(${KDE4WORKSPACE_INCLUDE_DIR})
 endif()
 
 add_subdirectory(config)
