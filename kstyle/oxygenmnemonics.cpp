@@ -74,6 +74,12 @@ namespace Oxygen
             { setEnabled( false ); }
             break;
 
+            #if QT_VERSION >= 0x050000
+            case QEvent::ApplicationStateChange:
+            { setEnabled( false ); }
+            break;
+            #endif
+
             default: break;
 
         }
