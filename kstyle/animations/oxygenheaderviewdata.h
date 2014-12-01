@@ -131,7 +131,7 @@ namespace Oxygen
         protected:
 
         //! dirty
-        inline virtual void setDirty( void ) const;
+        virtual void setDirty( void ) const;
 
         private:
 
@@ -158,20 +158,6 @@ namespace Oxygen
         Data _previous;
 
     };
-
-
-    //__________________________________________________________
-    void HeaderViewData::setDirty( void ) const
-    {
-        if( QHeaderView* header = qobject_cast<QHeaderView*>( target().data() ) )
-        {
-            const int firstIndex( qMin( previousIndex(), currentIndex() ) );
-            const int lastIndex( qMax( previousIndex(), currentIndex() ) );
-            if( firstIndex >= 0 ) header->headerDataChanged( header->orientation(), firstIndex, lastIndex );
-            else if( lastIndex >= 0 ) header->headerDataChanged( header->orientation(), lastIndex, lastIndex );
-        }
-    }
-
 
 }
 
