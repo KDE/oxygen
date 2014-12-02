@@ -65,13 +65,6 @@ else()
       FrameworkIntegration
       WindowSystem)
 
-  find_package(KDecorations CONFIG)
-  set_package_properties(
-    KDecorations PROPERTIES
-    TYPE OPTIONAL
-    PURPOSE "Required to oxygen window decoration for kwin"
-  )
-
   find_package(XCB COMPONENTS XCB)
   set_package_properties(XCB PROPERTIES
       DESCRIPTION "X protocol C-language Binding"
@@ -96,9 +89,6 @@ else()
   add_subdirectory(liboxygen)
   add_subdirectory(kstyle)
   add_subdirectory(cursors)
-  if(KDecorations_FOUND)
-    add_subdirectory(kwin-decoration)
-  endif()
 
   add_subdirectory(sounds)
 
