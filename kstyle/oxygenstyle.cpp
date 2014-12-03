@@ -5154,7 +5154,7 @@ namespace Oxygen
             {
                 QString accelerator( text.mid( tabPosition + 1 ) );
                 text = text.left( tabPosition );
-                drawItemText( painter, textRect, Qt::AlignRight | Qt::AlignVCenter | _mnemonics->textFlags(), palette, enabled, accelerator, QPalette::WindowText );
+                drawItemText( painter, textRect, Qt::AlignRight | Qt::AlignVCenter | _mnemonics->textFlags(), palette, enabled, accelerator, textRole );
             }
 
             // render text
