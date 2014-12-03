@@ -318,14 +318,14 @@ namespace Oxygen
         else if( widget->inherits( "KTextEditor::View" ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // lists
-        else if( qobject_cast<QAbstractItemView*>( widget ) || widget->inherits("Q3ListView") )
-        { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( qobject_cast<QAbstractItemView*>( widget ) )
+        { _inputWidgetEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // scrollarea
         else if( QAbstractScrollArea* scrollArea = qobject_cast<QAbstractScrollArea*>( widget ) ) {
 
             if( scrollArea->frameShadow() == QFrame::Sunken && (widget->focusPolicy()&Qt::StrongFocus) )
-            { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+            { _inputWidgetEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         }
 
