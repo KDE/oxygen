@@ -70,6 +70,7 @@ namespace Oxygen
         registerEngine( _menuBarEngine = new MenuBarEngineV1( this ) );
         registerEngine( _menuEngine = new MenuEngineV1( this ) );
         registerEngine( _scrollBarEngine = new ScrollBarEngine( this ) );
+        registerEngine( _inputWidgetEngine = new WidgetStateEngine( this ) );
         registerEngine( _splitterEngine = new SplitterEngine( this ) );
         registerEngine( _tabBarEngine = new TabBarEngine( this ) );
         registerEngine( _toolBarEngine = new ToolBarEngine( this ) );
@@ -90,6 +91,7 @@ namespace Oxygen
             // enability
             _widgetEnabilityEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _widgetStateEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _inputWidgetEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _comboBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _toolButtonEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _toolBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
@@ -207,6 +209,7 @@ namespace Oxygen
             // durations
             _widgetEnabilityEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _widgetStateEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _inputWidgetEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _comboBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _toolButtonEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _toolBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
@@ -308,14 +311,14 @@ namespace Oxygen
         // editors
         else if( qobject_cast<QComboBox*>( widget ) ) {
             _comboBoxEngine->registerWidget( widget, AnimationHover );
-            _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus );
+            _inputWidgetEngine->registerWidget( widget, AnimationHover|AnimationFocus );
         } else if( qobject_cast<QSpinBox*>( widget ) ) {
             _spinBoxEngine->registerWidget( widget );
-            _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus );
+            _inputWidgetEngine->registerWidget( widget, AnimationHover|AnimationFocus );
         }
-        else if( qobject_cast<QLineEdit*>( widget ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( qobject_cast<QTextEdit*>( widget ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
-        else if( widget->inherits( "KTextEditor::View" ) ) { _widgetStateEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( qobject_cast<QLineEdit*>( widget ) ) { _inputWidgetEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( qobject_cast<QTextEdit*>( widget ) ) { _inputWidgetEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
+        else if( widget->inherits( "KTextEditor::View" ) ) { _inputWidgetEngine->registerWidget( widget, AnimationHover|AnimationFocus ); }
 
         // lists
         else if( qobject_cast<QAbstractItemView*>( widget ) )
