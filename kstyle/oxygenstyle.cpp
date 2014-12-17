@@ -243,14 +243,10 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::Style( void ):
-        _addLineButtons( DoubleButton )
-        ,_subLineButtons( SingleButton )
-        ,_singleButtonHeight( 14 )
-        ,_doubleButtonHeight( 28 )
         #if OXYGEN_USE_KDE4
-        , _helper( new StyleHelper( "oxygen" ) )
+        _helper( new StyleHelper( "oxygen" ) )
         #else
-        , _helper( new StyleHelper( StyleConfigData::self()->sharedConfig() ) )
+        _helper( new StyleHelper( StyleConfigData::self()->sharedConfig() ) )
         #endif
         ,_shadowHelper( new ShadowHelper( this, *_helper ) )
         ,_animations( new Animations( this ) )
@@ -1054,7 +1050,7 @@ namespace Oxygen
             case PE_FrameTabWidget: fcn = &Style::drawFrameTabWidgetPrimitive; break;
             case PE_FrameTabBarBase: fcn = &Style::drawFrameTabBarBasePrimitive; break;
             case PE_FrameWindow: fcn = &Style::drawFrameWindowPrimitive; break;
-            case PE_FrameFocusRect: fcn = &Style::emptyPrimitive; break;
+            case PE_FrameFocusRect: fcn = _frameFocusPrimitive; break;
             case PE_Widget: fcn = &Style::drawWidgetPrimitive; break;
 
             // fallback
@@ -1765,6 +1761,10 @@ namespace Oxygen
             default:
             case 2: _subLineButtons = DoubleButton; break;
         }
+
+        // frame focus
+        if( StyleConfigData::viewDrawFocusIndicator() ) _frameFocusPrimitive = &Style::drawFrameFocusRectPrimitive;
+        else _frameFocusPrimitive = &Style::emptyPrimitive;
 
     }
 
@@ -3226,6 +3226,31 @@ namespace Oxygen
         }
 
         return true;
+    }
+
+    //___________________________________________________________________________________
+    bool Style::drawFrameFocusRectPrimitive( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+    {
+
+        if( !widget ) return true;
+
+        // no focus indicator on buttons, since it is rendered elsewhere
+        if( qobject_cast< const QAbstractButton*>( widget ) )
+        { return true; }
+
+        const State& state( option->state );
+        const QRect rect( option->rect.adjusted( 0, 0, 0, 1 ) );
+        const QPalette& palette( option->palette );
+
+        if( rect.width() < 10 ) return true;
+
+        const QColor outlineColor( state & State_Selected ? palette.color( QPalette::HighlightedText ):palette.color( QPalette::Highlight ) );
+        painter->setRenderHint( QPainter::Antialiasing, false );
+        painter->setPen( outlineColor );
+        painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
+
+        return true;
+
     }
 
     //___________________________________________________________________________________

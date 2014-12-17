@@ -82,6 +82,7 @@ namespace Oxygen
         connect( _splitterProxyEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _mnemonicsMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
         connect( _animationsEnabled, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
+        connect( _viewDrawFocusIndicator, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _viewTriangularExpanderSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
         connect( _viewDrawTreeBranchLines, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _scrollBarWidth, SIGNAL(valueChanged(int)), SLOT(updateChanged()) );
@@ -101,13 +102,13 @@ namespace Oxygen
         StyleConfigData::setToolBarDrawItemSeparator( _toolBarDrawItemSeparator->isChecked() );
         StyleConfigData::setSplitterProxyEnabled( _splitterProxyEnabled->isChecked() );
         StyleConfigData::setMnemonicsMode( _mnemonicsMode->currentIndex() );
+        StyleConfigData::setViewDrawFocusIndicator( _viewDrawFocusIndicator->isChecked() );
         StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
         StyleConfigData::setViewDrawTreeBranchLines( _viewDrawTreeBranchLines->isChecked() );
         StyleConfigData::setScrollBarWidth( _scrollBarWidth->value() );
         StyleConfigData::setScrollBarAddLineButtons( _scrollBarAddLineButtons->currentIndex() );
         StyleConfigData::setScrollBarSubLineButtons( _scrollBarSubLineButtons->currentIndex() );
         StyleConfigData::setMenuHighlightMode( menuMode() );
-        StyleConfigData::setViewTriangularExpanderSize( triangularExpanderSize() );
         StyleConfigData::setWindowDragMode( _windowDragMode->currentIndex()  );
 
         if( _expertMode )
@@ -279,6 +280,7 @@ namespace Oxygen
         else if( _splitterProxyEnabled->isChecked() != StyleConfigData::splitterProxyEnabled() ) modified = true;
         else if( menuMode() != StyleConfigData::menuHighlightMode() ) modified = true;
         else if( _animationsEnabled->isChecked() != StyleConfigData::animationsEnabled() ) modified = true;
+        else if( _viewDrawFocusIndicator->isChecked() != StyleConfigData::viewDrawFocusIndicator() ) modified = true;
         else if( triangularExpanderSize() != StyleConfigData::viewTriangularExpanderSize() ) modified = true;
         else if( _animationConfigWidget && _animationConfigWidget->isChanged() ) modified = true;
         else if( _windowDragMode->currentIndex() != StyleConfigData::windowDragMode() ) modified = true;
@@ -312,6 +314,7 @@ namespace Oxygen
         _animationsEnabled->setChecked( StyleConfigData::animationsEnabled() );
         _windowDragMode->setCurrentIndex( StyleConfigData::windowDragMode() );
 
+        _viewDrawFocusIndicator->setChecked( StyleConfigData::viewDrawFocusIndicator() );
         switch( StyleConfigData::viewTriangularExpanderSize() )
         {
             case StyleConfigData::TE_TINY: _viewTriangularExpanderSize->setCurrentIndex(0); break;

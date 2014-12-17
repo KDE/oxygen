@@ -295,6 +295,7 @@ namespace Oxygen
 
         bool drawFramePrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameLineEditPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawFrameFocusRectPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameMenuPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameGroupBoxPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
         bool drawFrameTabWidgetPrimitive( const QStyleOption*, QPainter*, const QWidget* ) const;
@@ -598,15 +599,15 @@ namespace Oxygen
 
         //*@name scrollbar button types (for addLine and subLine )
         //@{
-        ScrollBarButtonType _addLineButtons;
-        ScrollBarButtonType _subLineButtons;
+        ScrollBarButtonType _addLineButtons = DoubleButton;
+        ScrollBarButtonType _subLineButtons = SingleButton;
         //@}
 
         //*@name metrics for scrollbar buttons
         //@{
-        int _noButtonHeight;
-        int _singleButtonHeight;
-        int _doubleButtonHeight;
+        int _noButtonHeight = 0;
+        int _singleButtonHeight = 14;
+        int _doubleButtonHeight = 28;
         //@}
 
         //* helper
@@ -650,7 +651,7 @@ namespace Oxygen
 
         //* pointer to primitive specialized function
         typedef bool (Style::*StylePrimitive)( const QStyleOption*, QPainter*, const QWidget* ) const;
-        StylePrimitive _frameFocusPrimitive;
+        StylePrimitive _frameFocusPrimitive = nullptr;
 
         //* pointer to control specialized function
         typedef bool (Style::*StyleControl)( const QStyleOption*, QPainter*, const QWidget* ) const;
