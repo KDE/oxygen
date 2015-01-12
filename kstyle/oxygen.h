@@ -66,7 +66,7 @@ namespace Oxygen
         LineEdit_FrameWidth = 6,
 
         // menu items
-        MenuItem_MarginWidth = 2,
+        MenuItem_MarginWidth = 3,
         MenuItem_ItemSpacing = 4,
         MenuItem_AcceleratorSpace = 16,
         MenuButton_IndicatorWidth = 20,
