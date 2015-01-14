@@ -78,7 +78,7 @@ target_link_libraries(oxygendecoration
         Qt5::Gui
         Qt5::DBus
     PRIVATE
-        liboxygen
+        oxygenstyle5
         KDecoration2::KDecoration
         KF5::ConfigCore
         KF5::CoreAddons

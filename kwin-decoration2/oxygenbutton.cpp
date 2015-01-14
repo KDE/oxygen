@@ -75,28 +75,33 @@ namespace Oxygen
         _forceInactive( false ),
         _glowAnimation( new Animation( 150, this ) ),
         _glowIntensity(0),
-        _helper(SettingsProvider::self()->m_config) //FIXME!
+        m_internalSettings(qobject_cast<Decoration*>(decoration)->internalSettings())
     {
         // setup animation
+
+        //setup geometry
+        const int height = buttonHeight();
+
+        qDebug() << "my button height is " << height;
+
+        setGeometry(QRect(0, 0, height, height));
+
         _glowAnimation->setStartValue( 0 );
         _glowAnimation->setEndValue( 1.0 );
         _glowAnimation->setTargetObject( this );
         _glowAnimation->setPropertyName( "glowIntensity" );
         _glowAnimation->setEasingCurve( QEasingCurve::InOutQuad );
-
-        m_internalSettings = qobject_cast<Decoration*>(decoration().data())->internalSettings;
         // setup connections
         reset(0);
     }
 
-    Button::Button(QObject *parent, const QVariantList &args):
-        KDecoration2::DecorationButton(type, decoration, parent),
+    Button::Button(QObject *parent, const QVariantList &args)
+        : KDecoration2::DecorationButton(args.at(0).value<KDecoration2::DecorationButtonType>(), args.at(1).value<Decoration*>(), parent),
         _forceInactive( false ),
         _glowAnimation( new Animation( 150, this ) ),
-        _glowIntensity(0),
-        _helper(SettingsProvider::self()->m_config) //FIXME!
+        _glowIntensity(0)
     {
-        //weird standalone mode
+        //weird standalone mode that is going to crash
     }
 
 
@@ -111,7 +116,7 @@ namespace Oxygen
         if( m_internalSettings->animationsEnabled() && !_forceInactive ) return KColorUtils::mix(
             buttonDetailColor( palette, false ),
             buttonDetailColor( palette, true ),
-            m_internalSettings-> );
+            16 ); //FIXME
         else return buttonDetailColor( palette, isActive());
     }
 
@@ -123,13 +128,13 @@ namespace Oxygen
 
             return active ?
                 palette.color(QPalette::Active, QPalette::WindowText ):
-                _helper.inactiveTitleBarTextColor( palette );
+                DecoHelper::self()->inactiveTitleBarTextColor( palette );
 
         } else {
 
             return active ?
                 palette.color(QPalette::Active, QPalette::ButtonText ):
-                _helper.inactiveButtonTextColor( palette );
+                DecoHelper::self()->inactiveButtonTextColor( palette );
 
         }
 
@@ -157,22 +162,27 @@ namespace Oxygen
     //___________________________________________________
     void Button::paint( QPainter* painter, const QRect &repaintArea )
     {
-        QPalette palette( decoration().data()->client()->palette() );
+        painter->save();
+        painter->translate(geometry().topLeft());
+
+        QPalette palette( decoration().data()->client().data()->palette() );
 
         palette.setCurrentColorGroup( isActive() ? QPalette::Active : QPalette::Inactive);
 
         //translate buttons down if window maximized
-        if( decoration().data()->client().data()->isMaximized() ) painter.translate( 0, 1 );
+        if( decoration().data()->client().data()->isMaximized() ) painter->translate( 0, 1 );
 
         // base button color
         QColor base;
-        if( type() == KDecoration2::DecorationButtonType::Close && _forceInactive ) base = _client.backgroundPalette( this, palette ).color( QPalette::Window );
-        else if( type() == KDecoration2::DecorationButtonType::Close ) base = palette.color( QPalette::Window );
-        else base = palette.button().color();
+//         if( type() == KDecoration2::DecorationButtonType::Close && _forceInactive ) base = _client.backgroundPalette( this, palette ).color( QPalette::Window );
+//         else if( type() == KDecoration2::DecorationButtonType::Close ) base = palette.color( QPalette::Window );
+//         else
+            base = palette.button().color();
 
         // text color
-        QColor color = (type() == KDecoration2::DecorationButtonType::Close && _forceInactive ) ?
-            buttonDetailColor( _client.backgroundPalette( this, palette ) ):
+        //FIXME
+        QColor color = /*(type() == KDecoration2::DecorationButtonType::Close && _forceInactive ) ?
+            buttonDetailColor( _client.backgroundPalette( this, palette ) ):*/
             buttonDetailColor( palette );
 
         // decide decoration color
@@ -180,14 +190,14 @@ namespace Oxygen
         if( isAnimated() || (isHovered()) )
         {
             glow = isCloseButton() ?
-                _helper.negativeTextColor(palette):
-                _helper.hoverColor(palette);
+                DecoHelper::self()->negativeTextColor(palette):
+                DecoHelper::self()->hoverColor(palette);
 
             if( isAnimated() )
             {
 
                 color = KColorUtils::mix( color, glow, glowIntensity() );
-                glow = _helper.alphaColor( glow, glowIntensity() );
+                glow = DecoHelper::self()->alphaColor( glow, glowIntensity() );
 
             } else if( isHovered() ) color = glow;
 
@@ -196,7 +206,7 @@ namespace Oxygen
         if( hasDecoration() )
         {
             // draw button shape
-            painter->drawPixmap(0, 0, _helper.windecoButton( base, glow, isPressed(), m_internalSettings->buttonSize()) );
+            painter->drawPixmap(0, 0, DecoHelper::self()->windecoButton( base, glow, isPressed(), buttonHeight()+3 ) );//FIXME!!!
 
         }
 
@@ -217,8 +227,8 @@ namespace Oxygen
 //                 case Configuration::ButtonHuge: iconScale = 35; break;
 //             }
 
-            const QPixmap& pixmap( _client.icon().pixmap( iconScale ) );
-            const double offset = 0.5*(width()-pixmap.width() );
+            const QPixmap pixmap = decoration()->client().data()->icon().pixmap(size().toSize());
+            const double offset = 0;//FIXME ? 0.5*(width()-pixmap.width() );
             painter->drawPixmap(offset, offset-1, pixmap );
 
         } else {
@@ -229,7 +239,7 @@ namespace Oxygen
             // contrast
             painter->setBrush(Qt::NoBrush);
             painter->translate(0, 0.5);
-            painter->setPen(QPen( _helper.calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+            painter->setPen(QPen( DecoHelper::self()->calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             drawIcon(painter);
 
             // main
@@ -237,14 +247,22 @@ namespace Oxygen
             painter->setPen(QPen(color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             drawIcon(painter);
         }
+
+        painter->restore();
+
     }
 
     //___________________________________________________
     void Button::drawIcon( QPainter* painter )
     {
-
         painter->save();
-        painter->setWindow( 0, 0, 21, 21 );
+
+        //FIXME daves test code, remove
+
+        painter->scale( geometry().width()/21, geometry().height()/21 );
+        painter->translate( 1, 1 );
+
+//         painter->drawRect(0,0, 21, 21);
 
         switch(type())
         {

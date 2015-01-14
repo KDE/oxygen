@@ -31,6 +31,8 @@
 #include "oxygenanimation.h"
 #include "oxygen.h"
 #include "oxygendecohelper.h"
+#include "oxygendecoration.h"
+
 
 #include <KDecoration2/DecorationButton>
 
@@ -107,6 +109,10 @@ namespace Oxygen
         //! true if buttons hover are animated
         bool buttonAnimationsEnabled( void ) const;
 
+
+        int buttonHeight( void ) const
+        { return qobject_cast<Decoration*>(decoration().data())->buttonHeight(); }
+
         //!@name button properties
         //@{
 
@@ -128,14 +134,8 @@ namespace Oxygen
 
         //@}
 
-        private Q_SLOTS:
-            void slotAppMenuHidden();
-
         private:
            explicit Button(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
-
-        //! helper
-        DecoHelper _helper;
 
         //! backing store pixmap (when compositing is not active)
         QPixmap _pixmap;
@@ -146,7 +146,6 @@ namespace Oxygen
         bool _forceInactive;
 
         //! glow animation
-        //Animation::Pointer _glowAnimation;
         Animation* _glowAnimation;
 
         //! glow intensity

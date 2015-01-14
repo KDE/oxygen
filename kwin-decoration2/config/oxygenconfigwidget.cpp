@@ -71,7 +71,7 @@ namespace Oxygen
         m_ui.drawBorderOnMaximizedWindows->setChecked( m_internalSettings->drawBorderOnMaximizedWindows() );
         m_ui.drawSizeGrip->setChecked( m_internalSettings->drawSizeGrip() );
         m_ui.animationsEnabled->setChecked( m_internalSettings->animationsEnabled() );
-        m_ui.animationsDuration->setValue( m_internalSettings->animationsDuration() );
+//         m_ui.animationsDuration->setValue( m_internalSettings->animationsDuration() );
         setChanged( false );
 
     }
@@ -88,7 +88,7 @@ namespace Oxygen
         m_internalSettings->setDrawBorderOnMaximizedWindows( m_ui.drawBorderOnMaximizedWindows->isChecked() );
         m_internalSettings->setDrawSizeGrip( m_ui.drawSizeGrip->isChecked() );
         m_internalSettings->setAnimationsEnabled( m_ui.animationsEnabled->isChecked() );
-        m_internalSettings->setAnimationsDuration( m_ui.animationsDuration->value() );
+//         m_internalSettings->setAnimationsDuration( m_ui.animationsDuration->value() );
         setChanged( false );
 
     }
@@ -113,7 +113,7 @@ namespace Oxygen
 
         // animations
         else if( m_ui.animationsEnabled->isChecked() !=  m_internalSettings->animationsEnabled() ) modified = true;
-        else if( m_ui.animationsDuration->value() != m_internalSettings->animationsDuration() ) modified = true;
+//         else if( m_ui.animationsDuration->value() != m_internalSettings->animationsDuration() ) modified = true;
 
         setChanged( modified );
 
