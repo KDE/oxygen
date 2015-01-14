@@ -256,7 +256,7 @@ namespace Oxygen
         // m_internalSettings->read();
 
         // animation
-        m_animation->setDuration( m_internalSettings->animationsDuration() );
+        m_animation->setDuration( m_internalSettings->buttonAnimationsDuration() ); //FIXME wrong animation value
 
         // borders
         recalculateBorders();

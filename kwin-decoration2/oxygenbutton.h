@@ -1,100 +1,160 @@
-#ifndef OXYGEN_BUTTONS_H
-#define OXYGEN_BUTTONS_H
+#ifndef oxygenbutton_h
+#define oxygenbutton_h
 
-/*
-* Copyright 2014  Martin Gräßlin <mgraesslin@kde.org>
-* Copyright 2014  Hugo Pereira Da Costa <hugo.pereira@free.fr>
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License as
-* published by the Free Software Foundation; either version 2 of
-* the License or (at your option) version 3 or any later version
-* accepted by the membership of KDE e.V. (or its successor approved
-* by the membership of KDE e.V.), which shall act as a proxy
-* defined in Section 14 of version 3 of the license.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+//////////////////////////////////////////////////////////////////////////////
+// Button.h
+// -------------------
+//
+// Copyright (c) 2006, 2007 Riccardo Iaconelli <riccardo@kde.org>
+// Copyright (c) 2006, 2007 Casper Boemann <cbr@boemann.dk>
+// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//////////////////////////////////////////////////////////////////////////////
+
+#include "oxygenanimation.h"
+#include "oxygen.h"
+#include "oxygendecohelper.h"
+
 #include <KDecoration2/DecorationButton>
-#include "oxygendecoration.h"
-
-#include <QHash>
-#include <QImage>
-#include <QPropertyAnimation>
 
 namespace Oxygen
 {
+    class Client;
 
-    class Button : public KDecoration2::DecorationButton
+    enum ButtonStatus {
+    };
+
+    Q_DECLARE_FLAGS(ButtonState, ButtonStatus)
+
+        class Button : public KDecoration2::DecorationButton
     {
+
         Q_OBJECT
 
-        //* declare active state opacity
-        Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
+        //! declare animation progress property
+        Q_PROPERTY( qreal glowIntensity READ glowIntensity WRITE setGlowIntensity )
 
         public:
-
-        //* constructor
-        explicit Button(QObject *parent, const QVariantList &args);
-
-        //* destructor
-        virtual ~Button();
-
-        //* render
-        void paint(QPainter *painter, const QRect &repaintRegion) override;
-
-        //* create
+        Button (QObject *parent, const QVariantList &args);
         static Button *create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
 
-        //* standalone buttons
-        bool isStandAlone() const { return m_standalone; }
+        //! destructor
+        ~Button();
 
-        //*@name active state change animation
+        //! destructor
+        QSize sizeHint() const;
+
+        //! set force inactive
+        /*! returns true if value was actually changed */
+        void setForceInactive( const bool& value )
+        { _forceInactive = value; }
+
+        //! configuration reset
+        virtual void reset( unsigned long );
+
+        //!@name glow animation
         //@{
-        void setOpacity( qreal value )
+        void setGlowIntensity( qreal value )
         {
-            if( m_opacity == value ) return;
-            m_opacity = value;
+            if( _glowIntensity == value ) return;
+            _glowIntensity = value;
             update();
         }
 
-        qreal opacity( void ) const
-        { return m_opacity; }
+        qreal glowIntensity( void ) const
+        { return _glowIntensity; }
+
+        //@}
+
+        //! render buttn to provided painter
+        virtual void paint(QPainter *painter, const QRect &repaintRegion) Q_DECL_OVERRIDE;
+
+        protected:
+
+        //! draw icon
+        void drawIcon( QPainter* );
+
+        //! color
+        QColor buttonDetailColor( const QPalette& ) const;
+
+        //! color
+        QColor buttonDetailColor( const QPalette& palette, bool active ) const;
+
+        //! true if animation is in progress
+        bool isAnimated( void ) const
+        { return _glowAnimation->isRunning(); }
+
+        //! true if button is active
+        bool isActive( void ) const;
+
+        //! true if buttons hover are animated
+        bool buttonAnimationsEnabled( void ) const;
+
+        //!@name button properties
+        //@{
+
+        //! true if button if of menu type
+        bool isMenuButton( void ) const
+        { return type() == KDecoration2::DecorationButtonType::Menu || type() == KDecoration2::DecorationButtonType::ApplicationMenu; }
+
+        //! true if button is of toggle type
+        bool isToggleButton( void ) const
+        { return type() == KDecoration2::DecorationButtonType::OnAllDesktops || type() == KDecoration2::DecorationButtonType::KeepAbove || type() == KDecoration2::DecorationButtonType::KeepBelow; }
+
+        //! true if button if of close type
+        bool isCloseButton( void ) const
+        { return type() == KDecoration2::DecorationButtonType::Close; }
+
+        //! true if button has decoration
+        bool hasDecoration( void ) const
+        { return !isMenuButton() && type() != KDecoration2::DecorationButtonType::Close; }
 
         //@}
 
         private Q_SLOTS:
-        void updateAnimationState(bool);
+            void slotAppMenuHidden();
 
         private:
+           explicit Button(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
 
-        //* private constructor
-        explicit Button(KDecoration2::DecorationButtonType type, Decoration *decoration, QObject *parent = nullptr);
+        //! helper
+        DecoHelper _helper;
 
-        //* draw button icon
-        void drawIcon( QPainter *) const;
+        //! backing store pixmap (when compositing is not active)
+        QPixmap _pixmap;
 
-        //*@name colors
-        //@{
-        QColor foregroundColor( void ) const;
-        QColor backgroundColor( void ) const;
-        //@}
+        InternalSettingsPtr m_internalSettings;
 
-        bool m_standalone = false;
+        //! true if button should be forced inactive
+        bool _forceInactive;
 
-        //* active state change animation
-        QPropertyAnimation *m_animation;
+        //! glow animation
+        //Animation::Pointer _glowAnimation;
+        Animation* _glowAnimation;
 
-        //* active state change opacity
-        qreal m_opacity = 0;
+        //! glow intensity
+        qreal _glowIntensity;
+
+
     };
 
-} // namespace
+} //namespace Oxygen
 
 #endif

@@ -13,6 +13,9 @@ set_package_properties(XCB PROPERTIES
   PURPOSE "Required to pass style properties to native Windows on X11 Platform"
 )
 
+include_directories(${CMAKE_SOURCE_DIR}/liboxygen)
+include_directories(${CMAKE_BINARY_DIR}/liboxygen)
+
 if(UNIX AND NOT APPLE)
 
   set(OXYGEN_HAVE_X11 ${XCB_XCB_FOUND})
@@ -34,6 +37,7 @@ configure_file(config-oxygen.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-oxygen.h
 set(oxygendecoration_SRCS
     oxygencolorsettings.cpp
     oxygenbutton.cpp
+    oxygendecohelper.cpp
     oxygendecoration.cpp
     oxygenexceptionlist.cpp
     oxygensettingsprovider.cpp
@@ -74,6 +78,7 @@ target_link_libraries(oxygendecoration
         Qt5::Gui
         Qt5::DBus
     PRIVATE
+        liboxygen
         KDecoration2::KDecoration
         KF5::ConfigCore
         KF5::CoreAddons

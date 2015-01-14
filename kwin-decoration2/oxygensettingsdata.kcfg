@@ -5,11 +5,36 @@
 
   <group name="Windeco">
 
-    <!-- border size -->
-    <!--
-      this one is used only for window specific settings, since the default is globally set by kwin
-      the enumeration must be kept in sync with kwin's global settings
-    -->
+    <entry name="TitleAlignment" type="Enum">
+      <choices>
+          <choice name="AlignLeft" />
+          <choice name="AlignCenter" />
+          <choice name="AlignCenterFullWidth" />
+          <choice name="AlignRight" />
+      </choices>
+      <default>AlignCenterFullWidth</default>
+    </entry>
+
+    <entry name="ButtonSize" type="Enum">
+      <choices>
+          <choice name="ButtonSmall" />
+          <choice name="ButtonDefault" />
+          <choice name="ButtonLarge" />
+          <choice name="ButtonVeryLarge" />
+          <choice name="ButtonHuge" />
+      </choices>
+      <default>ButtonDefault</default>
+    </entry>
+
+    <entry name="SeparatorMode" type = "Enum">
+      <choices>
+          <choice name="SeparatorNever" />
+          <choice name="SeparatorActive" />
+          <choice name="SeparatorAlways" />
+      </choices>
+      <default>SeparatorNever</default>
+    </entry>
+
     <entry name="BorderSize" type = "Enum">
       <choices>
           <choice name="BorderNone" />
@@ -25,36 +50,33 @@
       <default>BorderNoSides</default>
     </entry>
 
-    <!-- title alignment -->
-    <entry name="TitleAlignment" type="Enum">
-      <choices>
-          <choice name="AlignLeft" />
-          <choice name="AlignCenter" />
-          <choice name="AlignCenterFullWidth" />
-          <choice name="AlignRight" />
-      </choices>
-      <default>AlignCenterFullWidth</default>
+    <entry name="DrawSizeGrip" type = "Bool">
+      <default>true</default>
     </entry>
 
-    <!-- button size -->
-    <entry name="ButtonSize" type="Enum">
-      <choices>
-          <choice name="ButtonSmall" />
-          <choice name="ButtonDefault" />
-          <choice name="ButtonLarge" />
-          <choice name="ButtonVeryLarge" />
-      </choices>
-      <default>ButtonDefault</default>
+    <entry name="DrawTitleOutline" type = "Bool">
+       <default>false</default>
+    </entry>
+
+    <entry name="HideTitleBar" type = "Bool">
+       <default>false</default>
+    </entry>
+
+    <entry name="UseNarrowButtonSpacing" type = "Bool">
+       <default>false</default>
+    </entry>
+
+    <entry name="CloseWindowFromMenuButton" type = "Bool">
+       <default>false</default>
+    </entry>
+
+    <entry name="UseExtendedWindowBorders" type = "Bool">
+       <default>true</default>
     </entry>
 
     <!-- maximized windows -->
-	    <entry name="DrawBorderOnMaximizedWindows" type = "Bool">
-	       <default>false</default>
-	    </entry>
-
-    <!-- size grip -->
-    <entry name="DrawSizeGrip" type = "Bool">
-      <default>true</default>
+    <entry name="DrawBorderOnMaximizedWindows" type = "Bool">
+       <default>false</default>
     </entry>
 
     <!-- animations -->
@@ -62,16 +84,39 @@
        <default>true</default>
     </entry>
 
-    <entry name="AnimationsDuration" type = "Int">
+    <entry name="ButtonAnimationsEnabled" type = "Bool">
+       <default>true</default>
+    </entry>
+
+    <entry name="TitleAnimationsEnabled" type = "Bool">
+       <default>true</default>
+    </entry>
+    
+    <entry name="ShadowAnimationsEnabled" type = "Bool">
+       <default>true</default>
+    </entry>
+
+    <entry name="TabAnimationsEnabled" type = "Bool">
+       <default>true</default>
+    </entry>
+
+    <entry name="ButtonAnimationsDuration" type = "Int">
        <default>150</default>
     </entry>
 
-    <!-- hide title bar -->
-    <entry name="HideTitleBar" type = "Bool">
-       <default>false</default>
+    <entry name="TitleAnimationsDuration" type = "Int">
+       <default>150</default>
     </entry>
 
-    <!-- window specific settings -->
+    <entry name="ShadowAnimationsDuration" type = "Int">
+       <default>150</default>
+    </entry>
+
+    <entry name="TabAnimationsDuration" type = "Int">
+       <default>150</default>
+    </entry>
+
+    <!-- exceptions -->
     <entry name="ExceptionType" type="Enum">
       <choices>
           <choice name="ExceptionWindowClassName" />
