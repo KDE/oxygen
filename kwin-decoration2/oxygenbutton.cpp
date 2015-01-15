@@ -206,8 +206,7 @@ namespace Oxygen
         if( hasDecoration() )
         {
             // draw button shape
-            painter->drawPixmap(0, 0, DecoHelper::self()->windecoButton( base, glow, isPressed(), buttonHeight()+3 ) );//FIXME!!!
-
+            painter->drawPixmap(0, 0, DecoHelper::self()->windecoButton( base, glow, isPressed(), buttonHeight()) );
         }
 
         // Icon
@@ -247,9 +246,7 @@ namespace Oxygen
             painter->setPen(QPen(color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
             drawIcon(painter);
         }
-
         painter->restore();
-
     }
 
     //___________________________________________________
@@ -257,11 +254,10 @@ namespace Oxygen
     {
         painter->save();
 
-        //FIXME daves test code, remove
+        //keep all co-ordinates between 0 and 21
+        painter->scale(geometry().width()/21.0, geometry().height()/21.0);
 
-        painter->scale( geometry().width()/21, geometry().height()/21 );
-        painter->translate( 1, 1 );
-
+        //FIXME dave's debug below
 //         painter->drawRect(0,0, 21, 21);
 
         switch(type())

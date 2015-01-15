@@ -130,7 +130,7 @@ namespace Oxygen
 
         //! true if button has decoration
         bool hasDecoration( void ) const
-        { return !isMenuButton() && type() != KDecoration2::DecorationButtonType::Close; }
+        { return !isMenuButton();}
 
         //@}
 

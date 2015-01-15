@@ -414,7 +414,7 @@ namespace Oxygen
     //________________________________________________________________
     int Decoration::buttonHeight() const
     {
-        const int baseSize = settings()->gridUnit();
+        const int baseSize = settings()->gridUnit() + 2; //oxygen icons were always slightly larger
         switch( m_internalSettings->buttonSize() )
         {
             case Oxygen::InternalSettings::ButtonSmall: return baseSize*1.5;
