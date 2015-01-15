@@ -77,8 +77,6 @@ namespace Oxygen
         _glowIntensity(0),
         m_internalSettings(qobject_cast<Decoration*>(decoration)->internalSettings())
     {
-        qDebug() << "DAVE" << sizeHint().height();
-
         //setup geometry
         setGeometry(QRectF(QPointF(0, 0), sizeHint()));
 
@@ -100,8 +98,6 @@ namespace Oxygen
     {
         //weird standalone mode that is going to crash
     }
-
-
 
     //_______________________________________________
     Button::~Button()
@@ -219,19 +215,6 @@ namespace Oxygen
         // for menu button the application icon is used
         if( isMenuButton() )
         {
-
-            int iconScale( 16 );
-//             switch( _client.buttonSize() ) FIXME
-//             {
-//                 case Configuration::ButtonSmall: iconScale = 13; break;
-//
-//                 default:
-//                 case Configuration::ButtonDefault: iconScale = 16; break;
-//                 case Configuration::ButtonLarge: iconScale = 20; break;
-//                 case Configuration::ButtonVeryLarge: iconScale = 24; break;
-//                 case Configuration::ButtonHuge: iconScale = 35; break;
-//             }
-
             const QPixmap pixmap = decoration()->client().data()->icon().pixmap(size().toSize());
             const double offset = 0;//FIXME ? 0.5*(width()-pixmap.width() );
             painter->drawPixmap(offset, offset-1, pixmap );
