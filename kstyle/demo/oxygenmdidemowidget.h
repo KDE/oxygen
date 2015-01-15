@@ -51,6 +51,10 @@ namespace Oxygen
 
         public Q_SLOTS:
 
+        void setLayoutTiled( void );
+        void setLayoutCascade( void );
+        void setLayoutTabbed( void );
+
         void benchmark( void );
 
         private:
