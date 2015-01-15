@@ -45,26 +45,6 @@
 
 namespace Oxygen
 {
-    //_______________________________________________
-//     Button::Button(
-//         Client &parent,
-//         const QString& tip,
-//         ButtonType type):
-//         KCommonDecorationButton((::ButtonType)type, &parent),
-
-//     {
-//         setAutoFillBackground(false);
-//         setAttribute(Qt::WA_NoSystemBackground);
-//
-//         int size( _client.buttonSize() );
-//         setFixedSize( size, size );
-//
-//         setCursor(Qt::ArrowCursor);
-//         setToolTip(tip);
-//
-
-//     }
-
     Button* Button::create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent)
     {
         return new Button(type, decoration, parent);
@@ -73,7 +53,7 @@ namespace Oxygen
     Button::Button(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent):
         KDecoration2::DecorationButton(type, decoration, parent),
         _forceInactive( false ),
-        _glowAnimation( new Animation( 1500, this ) ),
+        _glowAnimation( new Animation( 150, this ) ),
         _glowIntensity(0),
         m_internalSettings(qobject_cast<Decoration*>(decoration)->internalSettings())
     {
@@ -88,6 +68,23 @@ namespace Oxygen
         _glowAnimation->setEasingCurve( QEasingCurve::InOutQuad );
         // setup connections
         reset(0);
+
+
+        //FIXME what if this gets toggled at runtime
+
+        //FIXME I would expect some connect(_glowAnimation, changed, this, update)
+        //but it doesn't seem to be neeed. I don't understand why it's not needed
+
+        if( buttonAnimationsEnabled() ) {
+            connect(this, &DecorationButton::pointerEntered, this, [=](){
+                    _glowAnimation->setDirection( Animation::Forward );
+                    if( !isAnimated() ) _glowAnimation->start();
+                });
+            connect(this, &DecorationButton::pointerLeft, this, [=](){
+                    _glowAnimation->setDirection( Animation::Backward);
+                    if( !isAnimated() ) _glowAnimation->start();
+                });
+        }
     }
 
     Button::Button(QObject *parent, const QVariantList &args)
@@ -197,7 +194,7 @@ namespace Oxygen
 
             if( isAnimated() )
             {
-
+                qDebug() << "animating" << glowIntensity();
                 color = KColorUtils::mix( color, glow, glowIntensity() );
                 glow = DecoHelper::self()->alphaColor( glow, glowIntensity() );
 
