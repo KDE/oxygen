@@ -34,6 +34,10 @@ namespace Oxygen
     //______________________________________________________________________________
     DecoHelper* DecoHelper::self()
     {
+        if (!s_helper.exists()) {
+            //-> operator creates an instance
+            s_helper->loadConfig();
+        }
         return s_helper;
     }
 
