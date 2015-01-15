@@ -60,7 +60,6 @@ namespace Oxygen
         //! destructor
         ~Button();
 
-        //! destructor
         QSize sizeHint() const;
 
         //! set force inactive
@@ -108,10 +107,6 @@ namespace Oxygen
 
         //! true if buttons hover are animated
         bool buttonAnimationsEnabled( void ) const;
-
-
-        int buttonHeight( void ) const
-        { return qobject_cast<Decoration*>(decoration().data())->buttonHeight(); }
 
         //!@name button properties
         //@{

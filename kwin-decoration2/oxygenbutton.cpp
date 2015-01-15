@@ -73,19 +73,16 @@ namespace Oxygen
     Button::Button(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent):
         KDecoration2::DecorationButton(type, decoration, parent),
         _forceInactive( false ),
-        _glowAnimation( new Animation( 150, this ) ),
+        _glowAnimation( new Animation( 1500, this ) ),
         _glowIntensity(0),
         m_internalSettings(qobject_cast<Decoration*>(decoration)->internalSettings())
     {
-        // setup animation
+        qDebug() << "DAVE" << sizeHint().height();
 
         //setup geometry
-        const int height = buttonHeight();
+        setGeometry(QRectF(QPointF(0, 0), sizeHint()));
 
-        qDebug() << "my button height is " << height;
-
-        setGeometry(QRect(0, 0, height, height));
-
+        // setup animation
         _glowAnimation->setStartValue( 0 );
         _glowAnimation->setEndValue( 1.0 );
         _glowAnimation->setTargetObject( this );
@@ -151,7 +148,16 @@ namespace Oxygen
     //___________________________________________________
     QSize Button::sizeHint() const
     {
-        unsigned int size( m_internalSettings->buttonAnimationsEnabled());
+        const int baseSize = decoration()->settings()->gridUnit() + 2; //kde4 oxygen buttons were 18px, make them match
+        unsigned int size = 0;
+        switch( m_internalSettings->buttonSize() )
+        {
+            case Oxygen::InternalSettings::ButtonSmall: size = baseSize*1.5; break;
+            default:
+            case Oxygen::InternalSettings::ButtonDefault: size = baseSize*2; break;
+            case Oxygen::InternalSettings::ButtonLarge: size = baseSize*2.5; break;
+            case Oxygen::InternalSettings::ButtonVeryLarge: size = baseSize*3.5; break;
+        }
         return QSize( size, size );
     }
 
@@ -206,7 +212,7 @@ namespace Oxygen
         if( hasDecoration() )
         {
             // draw button shape
-            painter->drawPixmap(0, 0, DecoHelper::self()->windecoButton( base, glow, isPressed(), buttonHeight()) );
+            painter->drawPixmap(0, 0, DecoHelper::self()->windecoButton( base, glow, isPressed(), sizeHint().height()) );
         }
 
         // Icon
