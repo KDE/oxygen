@@ -36,7 +36,7 @@ namespace Oxygen
         void update(const QPalette &pal);
 
         const QColor &titleBar(bool active) const {
-            return active ? m_activeTitleBarColor : m_inactiveTitleBarColor;
+            return m_inactiveTitleBarColor;
         }
         const QColor &activeTitleBar() const {
             return m_activeTitleBarColor;
