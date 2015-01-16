@@ -68,26 +68,20 @@ namespace Oxygen
         _glowAnimation->setEasingCurve( QEasingCurve::InOutQuad );
         // setup connections
         reset(0);
+        //FIXME I would expect some connect(_glowAnimation, changed, this, update)
+        //but it doesn't seem to be neeed. I don't understand why it's not needed
 
         if( isMenuButton() ) {
             connect(decoration->client().data(), SIGNAL(iconChanged(QIcon)), this, SLOT(update()));
         }
 
-        //FIXME what if this gets toggled at runtime
 
-        //FIXME I would expect some connect(_glowAnimation, changed, this, update)
-        //but it doesn't seem to be neeed. I don't understand why it's not needed
-
-        if( buttonAnimationsEnabled() && hasDecoration() ) {
-            connect(this, &DecorationButton::pointerEntered, this, [=](){
-                    _glowAnimation->setDirection( Animation::Forward );
+        connect(this, &DecorationButton::hoveredChanged, this, [this](bool hovered){
+            if( buttonAnimationsEnabled() && hasDecoration() ) {
+                _glowAnimation->setDirection( hovered ? Animation::Forward : Animation::Backward );
                     if( !isAnimated() ) _glowAnimation->start();
-                });
-            connect(this, &DecorationButton::pointerLeft, this, [=](){
-                    _glowAnimation->setDirection( Animation::Backward);
-                    if( !isAnimated() ) _glowAnimation->start();
-                });
-        }
+            }
+        });
     }
 
     Button::Button(QObject *parent, const QVariantList &args)
@@ -159,7 +153,7 @@ namespace Oxygen
 
     //___________________________________________________
     void Button::reset( unsigned long )
-    { _glowAnimation->setDuration( m_internalSettings->buttonAnimationsDuration()*10 ); }
+    { _glowAnimation->setDuration( m_internalSettings->buttonAnimationsDuration() ); }
 
     //___________________________________________________
     void Button::paint( QPainter* painter, const QRect &repaintArea )
