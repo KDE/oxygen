@@ -69,13 +69,16 @@ namespace Oxygen
         // setup connections
         reset(0);
 
+        if( isMenuButton() ) {
+            connect(decoration->client().data(), SIGNAL(iconChanged(QIcon)), this, SLOT(update()));
+        }
 
         //FIXME what if this gets toggled at runtime
 
         //FIXME I would expect some connect(_glowAnimation, changed, this, update)
         //but it doesn't seem to be neeed. I don't understand why it's not needed
 
-        if( buttonAnimationsEnabled() ) {
+        if( buttonAnimationsEnabled() && hasDecoration() ) {
             connect(this, &DecorationButton::pointerEntered, this, [=](){
                     _glowAnimation->setDirection( Animation::Forward );
                     if( !isAnimated() ) _glowAnimation->start();
@@ -156,11 +159,12 @@ namespace Oxygen
 
     //___________________________________________________
     void Button::reset( unsigned long )
-    { _glowAnimation->setDuration( m_internalSettings->buttonAnimationsDuration() ); }
+    { _glowAnimation->setDuration( m_internalSettings->buttonAnimationsDuration()*10 ); }
 
     //___________________________________________________
     void Button::paint( QPainter* painter, const QRect &repaintArea )
     {
+        qDebug() << "A" << QDateTime::currentDateTime();
         painter->save();
         painter->translate(geometry().topLeft());
 
@@ -194,7 +198,6 @@ namespace Oxygen
 
             if( isAnimated() )
             {
-                qDebug() << "animating" << glowIntensity();
                 color = KColorUtils::mix( color, glow, glowIntensity() );
                 glow = DecoHelper::self()->alphaColor( glow, glowIntensity() );
 
