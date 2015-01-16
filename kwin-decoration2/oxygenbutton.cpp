@@ -164,7 +164,6 @@ namespace Oxygen
     //___________________________________________________
     void Button::paint( QPainter* painter, const QRect &repaintArea )
     {
-        qDebug() << "A" << QDateTime::currentDateTime();
         painter->save();
         painter->translate(geometry().topLeft());
 
@@ -176,17 +175,10 @@ namespace Oxygen
         if( decoration().data()->client().data()->isMaximized() ) painter->translate( 0, 1 );
 
         // base button color
-        QColor base;
-//         if( type() == KDecoration2::DecorationButtonType::Close && _forceInactive ) base = _client.backgroundPalette( this, palette ).color( QPalette::Window );
-//         else if( type() == KDecoration2::DecorationButtonType::Close ) base = palette.color( QPalette::Window );
-//         else
-            base = palette.button().color();
+        QColor base = palette.button().color();
 
         // text color
-        //FIXME
-        QColor color = /*(type() == KDecoration2::DecorationButtonType::Close && _forceInactive ) ?
-            buttonDetailColor( _client.backgroundPalette( this, palette ) ):*/
-            buttonDetailColor( palette );
+        QColor color = buttonDetailColor( palette );
 
         // decide decoration color
         QColor glow;
