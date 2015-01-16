@@ -62,11 +62,6 @@ namespace Oxygen
 
         QSize sizeHint() const;
 
-        //! set force inactive
-        /*! returns true if value was actually changed */
-        void setForceInactive( const bool& value )
-        { _forceInactive = value; }
-
         //! configuration reset
         virtual void reset( unsigned long );
 
@@ -132,13 +127,7 @@ namespace Oxygen
         private:
            explicit Button(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
 
-        //! backing store pixmap (when compositing is not active)
-        QPixmap _pixmap;
-
         InternalSettingsPtr m_internalSettings;
-
-        //! true if button should be forced inactive
-        bool _forceInactive;
 
         //! glow animation
         Animation* _glowAnimation;

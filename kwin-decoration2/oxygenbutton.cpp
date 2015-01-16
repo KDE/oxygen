@@ -52,7 +52,6 @@ namespace Oxygen
 
     Button::Button(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent):
         KDecoration2::DecorationButton(type, decoration, parent),
-        _forceInactive( false ),
         _glowAnimation( new Animation( 150, this ) ),
         _glowIntensity(0),
         m_internalSettings(qobject_cast<Decoration*>(decoration)->internalSettings())
@@ -68,8 +67,6 @@ namespace Oxygen
         _glowAnimation->setEasingCurve( QEasingCurve::InOutQuad );
         // setup connections
         reset(0);
-        //FIXME I would expect some connect(_glowAnimation, changed, this, update)
-        //but it doesn't seem to be neeed. I don't understand why it's not needed
 
         if( isMenuButton() ) {
             connect(decoration->client().data(), SIGNAL(iconChanged(QIcon)), this, SLOT(update()));
@@ -86,7 +83,6 @@ namespace Oxygen
 
     Button::Button(QObject *parent, const QVariantList &args)
         : KDecoration2::DecorationButton(args.at(0).value<KDecoration2::DecorationButtonType>(), args.at(1).value<Decoration*>(), parent),
-        _forceInactive( false ),
         _glowAnimation( new Animation( 150, this ) ),
         _glowIntensity(0)
     {
@@ -100,7 +96,7 @@ namespace Oxygen
     //_______________________________________________
     QColor Button::buttonDetailColor(const QPalette &palette) const
     {
-        if( m_internalSettings->animationsEnabled() && !_forceInactive ) return KColorUtils::mix(
+        if( m_internalSettings->animationsEnabled() ) return KColorUtils::mix(
             buttonDetailColor( palette, false ),
             buttonDetailColor( palette, true ),
             16 ); //FIXME
@@ -129,7 +125,7 @@ namespace Oxygen
 
     //___________________________________________________
     bool Button::isActive( void ) const
-    { return (!_forceInactive) && decoration().data()->client().data()->isActive(); }
+    { return decoration().data()->client().data()->isActive(); }
 
     //___________________________________________________
     bool Button::buttonAnimationsEnabled( void ) const
