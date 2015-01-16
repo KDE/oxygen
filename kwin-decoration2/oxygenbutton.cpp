@@ -238,9 +238,6 @@ namespace Oxygen
         //keep all co-ordinates between 0 and 21
         painter->scale(geometry().width()/21.0, geometry().height()/21.0);
 
-        //FIXME dave's debug below
-//         painter->drawRect(0,0, 21, 21);
-
         switch(type())
         {
 
