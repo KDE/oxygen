@@ -210,6 +210,8 @@ namespace Oxygen
         //* render window background using a given color as a reference
         virtual void renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int y_shift=-23, int gradientHeight = 20 );
 
+//         void renderWindowBackground( QPainter* p, const QRect& clipRect, const QRect &widgetRect, const QRect &windowRect, const QColor& color, int y_shift=-23, int gradientHeight = 20 );
+
         //* background pixmap
         bool hasBackgroundPixmap( void ) const
         { return !_backgroundPixmap.isNull(); }

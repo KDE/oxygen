@@ -401,6 +401,9 @@ namespace Oxygen
         m_rightButtons->paint(painter, repaintRegion);
     }
 
+
+
+
     //________________________________________________________________
     int Decoration::buttonHeight() const
     {
@@ -531,6 +534,348 @@ namespace Oxygen
         g_sShadow = decorationShadow;
         setShadow(decorationShadow);
     }
+
+      //_________________________________________________________
+    void Decoration::renderWindowBackground( QPainter* painter, const QRect& rect, const QPalette& palette ) const
+    {
+        // window background
+        if( DecoHelper::self()->hasBackgroundGradient( client().data()->windowId() ) )
+        {
+
+            int offset = layoutMetric( LM_OuterPaddingTop );
+
+            // radial gradient positionning
+            const int height = hideTitleBar() ? 0:layoutMetric(LM_TitleHeight);
+            if( isMaximized() ) offset -= 3;
+
+            //FIXME
+            qDebug() << "in the broken bit";
+//             DecoHelper::self()->renderWindowBackground(painter, rect, palette, offset, height );
+
+        } else {
+            painter->fillRect( rect, palette.color( QPalette::Window ) );
+        }
+
+        //David E 2015 - I can't figure out where in the UI one sets a background picture
+
+//         // background pixmap
+//         if( isPreview() || DecoHelper::self()->hasBackgroundPixmap( windowId() ) )
+//         {
+//             int offset = layoutMetric( LM_OuterPaddingTop );
+//
+//             // radial gradient positionning
+//             const int height = hideTitleBar() ? 0:layoutMetric(LM_TitleHeight);
+//             if( isMaximized() ) offset -= 3;
+//
+//             // background pixmap
+//             QPoint backgroundPixmapOffset( layoutMetric( LM_OuterPaddingLeft ) + layoutMetric( LM_BorderLeft ), 0 );
+//             DecoHelper::self()->setBackgroundPixmapOffset( backgroundPixmapOffset );
+//
+//             DecoHelper::self()->renderBackgroundPixmap(painter, rect, offset, height );
+//
+//         }
+
+    }
+
+    //_________________________________________________________
+    void Decoration::renderWindowBorder( QPainter* painter, const QRect& clipRect, const QPalette& palette ) const
+    {
+        //I might need to pass this...
+        // get coordinates relative to the client area
+        QPoint position( 0, 0 );
+
+        // save painter
+        if( clipRect.isValid() )
+        {
+            painter->save();
+            painter->setClipRegion(clipRect,Qt::IntersectClip);
+        }
+
+        
+
+        QRect r = (isPreview()) ? this->widget()->rect():window->rect();
+        r.adjust( layoutMetric( LM_OuterPaddingLeft ), layoutMetric( LM_OuterPaddingTop ), -layoutMetric( LM_OuterPaddingRight ), -layoutMetric( LM_OuterPaddingBottom ) );
+        r.adjust(0,0, 1, 1);
+
+        // base color
+        QColor color( palette.color( QPalette::Window ) );
+
+        // add alpha channel
+        if( _itemData.count() == 1 && glowIsAnimated() )
+        { color = DecoHelper::self()->alphaColor( color, glowIntensity() ); }
+
+        // title height
+        const int titleHeight( layoutMetric( LM_TitleEdgeTop ) + layoutMetric( LM_TitleEdgeBottom ) + layoutMetric( LM_TitleHeight ) );
+
+        // make titlebar background darker for tabbed, non-outline window
+        if( ( tabCount() >= 2 || _itemData.isAnimated() ) && !(_configuration->drawTitleOutline() && isActive() ) )
+        {
+
+            const QPoint topLeft( r.topLeft()-position );
+            const QRect rect( topLeft, QSize( r.width(), titleHeight ) );
+
+            QLinearGradient lg( rect.topLeft(), rect.bottomLeft() );
+            lg.setColorAt( 0, DecoHelper::self()->alphaColor( Qt::black, 0.05 ) );
+            lg.setColorAt( 1, DecoHelper::self()->alphaColor( Qt::black, 0.10 ) );
+            painter->setBrush( lg );
+            painter->setPen( Qt::NoPen );
+            painter->drawRect( rect );
+
+        }
+
+        // horizontal line
+        {
+            const int shadowSize = 7;
+            const int height = shadowSize-3;
+
+            const QPoint topLeft( r.topLeft()+QPoint(0,titleHeight-height)-position );
+            QRect rect( topLeft, QSize( r.width(), height ) );
+
+            // adjustements to cope with shadow size and outline border.
+            rect.adjust( -shadowSize, 0, shadowSize-1, 0 );
+            if( _configuration->drawTitleOutline() && ( isActive() || glowIsAnimated() ) && !isMaximized() )
+            {
+                if( _configuration->frameBorder() == Configuration::BorderTiny ) rect.adjust( 1, 0, -1, 0 );
+                else if( _configuration->frameBorder() > Configuration::BorderTiny ) rect.adjust( Metrics::TitleBar_OutlineMargin-1, 0, -Metrics::TitleBar_OutlineMargin+1, 0 );
+            }
+
+            if( rect.isValid() )
+            { DecoHelper::self()->slab( color, 0, shadowSize )->render( rect, painter, TileSet::Top ); }
+
+        }
+
+        //FIXME
+        if (true)
+//         if( _configuration->drawTitleOutline() && ( isActive() || glowIsAnimated() ) )
+        {
+
+            // save old hints and turn off anti-aliasing
+            const QPainter::RenderHints hints( painter->renderHints() );
+            painter->setRenderHint( QPainter::Antialiasing, false );
+
+            // save mask and frame to where
+            // grey window background is to be rendered
+            QRegion mask;
+            QRect frame;
+
+            // bottom line
+            const int leftOffset = qMin( layoutMetric( LM_BorderLeft ), int(Metrics::TitleBar_OutlineMargin) );
+            const int rightOffset = qMin( layoutMetric( LM_BorderRight ), int(Metrics::TitleBar_OutlineMargin) );
+            if( _configuration->frameBorder() > Configuration::BorderNone )
+            {
+
+                const int height = qMax( 0, layoutMetric( LM_BorderBottom ) - Metrics::TitleBar_OutlineMargin );
+                const int width = r.width() - leftOffset - rightOffset - 1;
+
+                const QRect rect( r.bottomLeft()-position + QPoint( leftOffset, -layoutMetric( LM_BorderBottom ) ), QSize( width, height ) );
+                if( height > 0 ) { mask += rect; frame |= rect; }
+
+                const QColor shadow( DecoHelper::self()->calcDarkColor( color ) );
+                painter->setPen( shadow );
+                painter->drawLine( rect.bottomLeft()+QPoint(-1,1), rect.bottomRight()+QPoint(1,1) );
+
+            }
+
+            // left and right
+            const int topOffset = titleHeight;
+            const int bottomOffset = qMin( layoutMetric( LM_BorderBottom ), int(Metrics::TitleBar_OutlineMargin) );
+            const int height = r.height() - topOffset - bottomOffset - 1;
+
+            if( _configuration->frameBorder() >= Configuration::BorderTiny )
+            {
+
+                const QColor shadow( DecoHelper::self()->calcLightColor( color ) );
+                painter->setPen( shadow );
+
+                // left
+                int width = qMax( 0, layoutMetric( LM_BorderLeft ) - Metrics::TitleBar_OutlineMargin );
+                QRect rect( r.topLeft()-position + QPoint( layoutMetric( LM_BorderLeft ) - width, topOffset ), QSize( width, height ) );
+                if( width > 0 ) { mask += rect; frame |= rect; }
+
+                painter->drawLine( rect.topLeft()-QPoint(1,0), rect.bottomLeft()-QPoint(1, 0) );
+
+                // right
+                width = qMax( 0, layoutMetric( LM_BorderRight ) - Metrics::TitleBar_OutlineMargin );
+                rect = QRect(r.topRight()-position + QPoint( -layoutMetric( LM_BorderRight ), topOffset ), QSize( width, height ));
+                if( width > 0 ) { mask += rect; frame |= rect; }
+
+                painter->drawLine( rect.topRight()+QPoint(1,0), rect.bottomRight()+QPoint(1, 0) );
+            }
+
+            // restore old hints
+            painter->setRenderHints( hints );
+
+            // in preview mode also adds center square
+            if( isPreview() )
+            {
+                const QRect rect( r.topLeft()-position + QPoint( layoutMetric( LM_BorderLeft ), topOffset ), QSize(r.width()-layoutMetric( LM_BorderLeft )-layoutMetric( LM_BorderRight ),height) );
+                mask += rect; frame |= rect;
+            }
+
+            // paint
+            if( !mask.isEmpty() )
+            {
+                painter->setClipRegion( mask, Qt::IntersectClip);
+                renderWindowBackground(painter, frame, widget, palette );
+            }
+
+        }
+
+        // restore painter
+        if( clipRect.isValid() )
+        { painter->restore(); }
+
+    }
+
+    //_________________________________________________________
+    void Decoration::renderTitleOutline(  QPainter* painter, const QRect& rect, const QPalette& palette ) const
+    {
+
+        // center (for active windows only)
+        {
+            painter->save();
+            QRect adjustedRect( rect.adjusted( 1, 1, -1, 1 ) );
+
+            // prepare painter mask
+            QRegion mask( adjustedRect.adjusted( 1, 0, -1, 0 ) );
+            mask += adjustedRect.adjusted( 0, 1, 0, 0 );
+            painter->setClipRegion( mask, Qt::IntersectClip );
+
+            // draw window background
+            renderWindowBackground(painter, adjustedRect, widget(), palette );
+            painter->restore();
+        }
+
+        // shadow
+        const int shadowSize( 7 );
+        const int offset( -3 );
+        const int voffset( 5-shadowSize );
+        const QRect adjustedRect( rect.adjusted(offset, voffset, -offset, shadowSize) );
+        QColor color( palette.color( widget()->backgroundRole() ) );
+
+        // add alpha channel
+        if( _itemData.count() == 1 && glowIsAnimated() )
+        { color = DecoHelper::self()->alphaColor( color, glowIntensity() ); }
+
+        // render slab
+        DecoHelper::self()->slab( color, 0, shadowSize )->render( adjustedRect, painter, TileSet::Tiles(TileSet::Top|TileSet::Left|TileSet::Right) );
+
+    }
+
+    //_________________________________________________________
+    void Decoration::renderTitleText( QPainter* painter, const QRect& rect, const QColor& color, const QColor& contrast ) const
+    {
+
+        if( !_titleAnimationData->isValid() )
+        {
+            // contrast pixmap
+            _titleAnimationData->reset(
+                rect,
+                renderTitleText( rect, caption(), color ),
+                renderTitleText( rect, caption(), contrast ) );
+        }
+
+        if( _titleAnimationData->isDirty() )
+        {
+
+            // clear dirty flags
+            _titleAnimationData->setDirty( false );
+
+            // finish current animation if running
+            if( _titleAnimationData->isAnimated() )
+            { _titleAnimationData->finishAnimation(); }
+
+            if( !_titleAnimationData->isLocked() )
+            {
+
+                // set pixmaps
+                _titleAnimationData->setPixmaps(
+                    rect,
+                    renderTitleText( rect, caption(), color ),
+                    renderTitleText( rect, caption(), contrast ) );
+
+                _titleAnimationData->startAnimation();
+                renderTitleText( painter, rect, color, contrast );
+
+            } else if( !caption().isEmpty() ) {
+
+                renderTitleText( painter, rect, caption(), color, contrast );
+
+            }
+
+            // lock animations (this must be done whether or not
+            // animation was actually started, in order to extend locking
+            // every time title get changed too rapidly
+            _titleAnimationData->lockAnimations();
+
+        } else if( _titleAnimationData->isAnimated() ) {
+
+            if( isMaximized() ) painter->translate( 0, 2 );
+            if( !_titleAnimationData->contrastPixmap().isNull() )
+            {
+                painter->translate( 0, 1 );
+                painter->drawPixmap( rect.topLeft(), _titleAnimationData->contrastPixmap() );
+                painter->translate( 0, -1 );
+            }
+
+            painter->drawPixmap( rect.topLeft(), _titleAnimationData->pixmap() );
+
+            if( isMaximized() ) painter->translate( 0, -2 );
+
+        } else if( !caption().isEmpty() ) {
+            renderTitleText( painter, rect, caption(), color, contrast );
+
+        }
+    }
+
+    //_______________________________________________________________________
+    void Decoration::renderTitleText( QPainter* painter, const QRect& rect, const QString& caption, const QColor& color, const QColor& contrast, bool elide ) const
+    {
+
+        const Qt::Alignment alignment( titleAlignment() | Qt::AlignVCenter );
+        const QString local( elide ? QFontMetrics( painter->font() ).elidedText( caption, Qt::ElideRight, rect.width() ):caption );
+
+        // translate title down in case of maximized window
+        if( isMaximized() ) painter->translate( 0, 2 );
+
+        if( contrast.isValid() )
+        {
+            painter->setPen( contrast );
+            painter->translate( 0, 1 );
+            painter->drawText( rect, alignment, local );
+            painter->translate( 0, -1 );
+        }
+
+        painter->setPen( color );
+        painter->drawText( rect, alignment, local );
+
+        // translate back
+        if( isMaximized() ) painter->translate( 0, -2 );
+
+    }
+
+    //_______________________________________________________________________
+    QPixmap Decoration::renderTitleText( const QRect& rect, const QString& caption, const QColor& color, bool elide ) const
+    {
+
+        if( !rect.isValid() ) return QPixmap();
+
+        QPixmap out( rect.size() );
+        out.fill( Qt::transparent );
+        if( caption.isEmpty() || !color.isValid() ) return out;
+
+        QPainter painter( &out );
+        painter.setFont( options()->font(isActive(), false) );
+        const Qt::Alignment alignment( titleAlignment() | Qt::AlignVCenter );
+        const QString local( elide ? QFontMetrics( painter.font() ).elidedText( caption, Qt::ElideRight, rect.width() ):caption );
+
+        painter.setPen( color );
+        painter.drawText( out.rect(), alignment, local );
+        painter.end();
+        return out;
+
+    }
+
 
     //_________________________________________________________________
     void Decoration::createSizeGrip( void )
