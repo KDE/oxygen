@@ -43,6 +43,11 @@ namespace KDecoration2
 namespace Oxygen
 {
     class SizeGrip;
+    class TitleAnimationData;
+
+
+
+
     class Decoration : public KDecoration2::Decoration
     {
         Q_OBJECT
@@ -71,6 +76,10 @@ namespace Oxygen
 
         //* caption height
         int captionHeight() const;
+
+        int layoutMetric() const {
+            return 2;
+        }
 
         //* button height
         int buttonHeight() const;
@@ -133,6 +142,8 @@ namespace Oxygen
         //* title text
         virtual QPixmap renderTitleText( const QRect&, const QString&, const QColor&, bool elide = true ) const;
 
+        //* title alignment
+        inline Qt::Alignment titleAlignment( void ) const;
 
         bool hideTitleBar() const
         {return false;}
@@ -170,7 +181,9 @@ namespace Oxygen
         SizeGrip *m_sizeGrip = nullptr;
 
         //* active state change animation
-        QPropertyAnimation *m_animation;
+        QPropertyAnimation *m_animation; //FIXME redundant soon
+
+        TitleAnimationData *_titleAnimationData;
 
         //* active state change opacity
         qreal m_opacity = 0;

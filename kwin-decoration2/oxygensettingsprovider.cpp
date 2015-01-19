@@ -69,7 +69,7 @@ namespace Oxygen
     }
 
     //__________________________________________________________________
-    InternalSettingsPtr SettingsProvider::internalSettings( Decoration *decoration ) const
+    InternalSettingsPtr SettingsProvider::internalSettings(const Decoration *decoration ) const
     {
 
         QString windowTitle;

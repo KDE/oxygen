@@ -45,7 +45,7 @@ namespace Oxygen
         static SettingsProvider *self();
 
         //* internal settings for given decoration
-        InternalSettingsPtr internalSettings(Decoration *) const;
+        InternalSettingsPtr internalSettings(const Decoration *) const;
 
         public Q_SLOTS:
 

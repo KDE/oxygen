@@ -49,7 +49,12 @@ namespace Oxygen
         // shadow dimensions (pixels)
         Shadow_Size = 16,
         Shadow_Offset = 6,
-        Shadow_Overlap = 2
+        Shadow_Overlap = 2,
+
+        /** the extra edge
+        needed to outline active window title
+        */
+        TitleBar_OutlineMargin = 4
 
     };
 

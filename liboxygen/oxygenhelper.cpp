@@ -117,6 +117,51 @@ namespace Oxygen
 
     }
 
+    void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& innerWindowRect, const QRect& outerWindowRect, const QColor& color, int yShift, int gradientHeight)
+    {
+        int x( 0 );
+        int y( -yShift );
+
+        if ( clipRect.isValid() )
+        {
+            p->save();
+            p->setClipRegion( clipRect,Qt::IntersectClip );
+        }
+
+        // calculate upper part height
+        // special tricks are needed
+        // to handle both window contents and window decoration
+        const QRect r = innerWindowRect;
+        int height( outerWindowRect.height() );
+        int width( outerWindowRect.width() );
+
+        // gradient offset
+        const int offset( gradientHeight - 20 );
+
+        // draw upper linear gradient
+        const int splitY( offset + qMin( 300, ( 3*height )/4 ) );
+        const QRect upperRect( -x, -y, r.width(), splitY );
+        QPixmap tile( verticalGradient( color, splitY, offset ) );
+        p->drawTiledPixmap( upperRect, tile );
+
+        // draw lower flat part
+        const QRect lowerRect( -x, splitY-y, r.width(), r.height() - splitY-yShift );
+        p->fillRect( lowerRect, backgroundBottomColor( color ) );
+
+        // draw upper radial gradient
+        const int radialW( qMin( 600, width ) );
+        const QRect radialRect( ( r.width() - radialW ) / 2-x, -y, radialW, offset + 64 );
+        if ( clipRect.intersects( radialRect ) )
+        {
+            tile = radialGradient( color, radialW, offset + 64 );
+            p->drawPixmap( radialRect, tile );
+        }
+
+        if ( clipRect.isValid() )
+        { p->restore(); }
+    }
+
+
     //____________________________________________________________________
     void Helper::renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int yShift, int gradientHeight )
     {
