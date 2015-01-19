@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygendockseparatorengine.h"
-#include "oxygendockseparatorengine.moc"
 
 #include <QEvent>
 

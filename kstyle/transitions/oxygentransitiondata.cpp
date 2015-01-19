@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygentransitiondata.h"
-#include "oxygentransitiondata.moc"
 
 namespace Oxygen
 {

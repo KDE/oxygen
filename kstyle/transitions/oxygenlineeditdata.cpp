@@ -27,7 +27,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenlineeditdata.h"
-#include "oxygenlineeditdata.moc"
 
 #include <QEvent>
 #include <QDateTimeEdit>

@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenmdidemowidget.h"
-#include "oxygenmdidemowidget.moc"
 
 #include <QMdiSubWindow>
 #include <QMenuBar>

@@ -26,7 +26,6 @@
 
 
 #include "oxygensplitterengine.h"
-#include "oxygensplitterengine.moc"
 
 namespace Oxygen
 {

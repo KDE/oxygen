@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenanimationconfigwidget.h"
-#include "oxygenanimationconfigwidget.moc"
 #include "oxygenanimationconfigitem.h"
 #include "oxygenfollowmouseanimationconfigitem.h"
 #include "oxygengenericanimationconfigitem.h"

@@ -27,7 +27,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenlineeditengine.h"
-#include "oxygenlineeditengine.moc"
 
 namespace Oxygen
 {

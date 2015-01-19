@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenwidgetstatedata.h"
-#include "oxygenwidgetstatedata.moc"
 
 namespace Oxygen
 {

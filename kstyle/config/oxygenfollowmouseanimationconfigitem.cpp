@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenfollowmouseanimationconfigitem.h"
-#include "oxygenfollowmouseanimationconfigitem.moc"
 #include "ui_oxygenfollowmouseanimationconfigbox.h"
 
 namespace Oxygen

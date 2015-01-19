@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenstackedwidgetdata.h"
-#include "oxygenstackedwidgetdata.moc"
 
 namespace Oxygen
 {

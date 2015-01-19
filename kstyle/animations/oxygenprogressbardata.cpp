@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenprogressbardata.h"
-#include "oxygenprogressbardata.moc"
 
 #include <QProgressBar>
 

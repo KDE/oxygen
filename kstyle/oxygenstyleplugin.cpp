@@ -19,7 +19,6 @@
  *************************************************************************/
 
 #include "oxygenstyleplugin.h"
-#include "oxygenstyleplugin.moc"
 #include "oxygenstyle.h"
 
 #include <QApplication>

@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygentitleanimationdata.h"
-#include "oxygentitleanimationdata.moc"
 
 #include <QPainter>
 

@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenheaderviewengine.h"
-#include "oxygenheaderviewengine.moc"
 
 #include <QEvent>
 

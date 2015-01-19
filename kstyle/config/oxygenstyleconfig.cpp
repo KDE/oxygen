@@ -28,7 +28,6 @@ DEALINGS IN THE SOFTWARE.
 */
 
 #include "oxygenstyleconfig.h"
-#include "oxygenstyleconfig.moc"
 #include "oxygenanimationconfigwidget.h"
 #include "oxygenstyleconfigdata.h"
 #include "../oxygen.h"

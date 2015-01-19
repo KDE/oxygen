@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygendockseparatordata.h"
-#include "oxygendockseparatordata.moc"
 
 #include <QTextStream>
 namespace Oxygen

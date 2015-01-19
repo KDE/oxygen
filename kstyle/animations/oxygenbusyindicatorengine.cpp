@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenbusyindicatorengine.h"
-#include "oxygenbusyindicatorengine.moc"
 
 #include <QVariant>
 

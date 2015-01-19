@@ -26,7 +26,6 @@
 
 
 #include "oxygentoolboxengine.h"
-#include "oxygentoolboxengine.moc"
 
 namespace Oxygen
 {

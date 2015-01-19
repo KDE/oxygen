@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygentransitionwidget.h"
-#include "oxygentransitionwidget.moc"
 
 #include <QPainter>
 #include <QPaintEvent>

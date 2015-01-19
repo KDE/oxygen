@@ -18,7 +18,6 @@
  *************************************************************************/
 
 #include "oxygentabbarengine.h"
-#include "oxygentabbarengine.moc"
 
 #include <QEvent>
 

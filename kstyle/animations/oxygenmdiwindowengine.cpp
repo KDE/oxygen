@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenmdiwindowengine.h"
-#include "oxygenmdiwindowengine.moc"
 
 #include <QEvent>
 

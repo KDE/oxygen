@@ -28,7 +28,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenmdiwindowshadow.h"
-#include "oxygenmdiwindowshadow.moc"
 #include "oxygenshadowcache.h"
 
 #include <QMdiArea>

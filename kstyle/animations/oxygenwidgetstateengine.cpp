@@ -26,7 +26,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenwidgetstateengine.h"
-#include "oxygenwidgetstateengine.moc"
 
 #include "oxygenenabledata.h"
 

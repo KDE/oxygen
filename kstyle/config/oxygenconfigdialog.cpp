@@ -24,7 +24,6 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 #include "oxygenconfigdialog.h"
-#include "oxygenconfigdialog.moc"
 #include "../oxygen.h"
 #include "config-liboxygen.h"
 

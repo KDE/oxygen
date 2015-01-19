@@ -40,7 +40,6 @@ KWIN_DECORATION(OxygenPluginFactory, "oxygenclient.json", Oxygen::Factory)
 #endif
 
 #if !OXYGEN_USE_KDE4
-#include "oxygenfactory.moc"
 #endif
 
 namespace Oxygen

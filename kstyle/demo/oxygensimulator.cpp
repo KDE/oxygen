@@ -27,7 +27,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygensimulator.h"
-#include "oxygensimulator.moc"
 
 
 #include <QAbstractItemView>

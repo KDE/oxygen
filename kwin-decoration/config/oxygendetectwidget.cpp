@@ -28,7 +28,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygendetectwidget.h"
-#include "oxygendetectwidget.moc"
 
 #include "../oxygendecorationdefines.h"
 #include "config-liboxygen.h"

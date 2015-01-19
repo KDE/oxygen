@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygengenericanimationconfigitem.h"
-#include "oxygengenericanimationconfigitem.moc"
 
 #include "ui_oxygengenericanimationconfigbox.h"
 

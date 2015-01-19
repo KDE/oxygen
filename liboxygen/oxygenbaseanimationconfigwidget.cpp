@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenbaseanimationconfigwidget.h"
-#include "oxygenbaseanimationconfigwidget.moc"
 #include "oxygenanimationconfigitem.h"
 
 #include "ui_oxygenanimationconfigwidget.h"

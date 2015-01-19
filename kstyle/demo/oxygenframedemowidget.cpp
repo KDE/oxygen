@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenframedemowidget.h"
-#include "oxygenframedemowidget.moc"
 
 #include <QButtonGroup>
 

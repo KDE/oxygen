@@ -27,7 +27,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygencomboboxengine.h"
-#include "oxygencomboboxengine.moc"
 
 namespace Oxygen
 {

@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenbenchmarkwidget.h"
-#include "oxygenbenchmarkwidget.moc"
 
 #include <QIcon>
 #include <QAbstractItemView>

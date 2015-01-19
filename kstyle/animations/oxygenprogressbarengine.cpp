@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenprogressbarengine.h"
-#include "oxygenprogressbarengine.moc"
 
 namespace Oxygen
 {

@@ -18,4 +18,3 @@
  *************************************************************************/
 
 #include "oxygenbusyindicatordata.h"
-#include "oxygenbusyindicatordata.moc"

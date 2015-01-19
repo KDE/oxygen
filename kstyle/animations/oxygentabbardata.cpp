@@ -44,7 +44,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygentabbardata.h"
-#include "oxygentabbardata.moc"
 
 #include <QHoverEvent>
 #include <QTabBar>

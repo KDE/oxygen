@@ -24,7 +24,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenexceptionlistwidget.h"
-#include "oxygenexceptionlistwidget.moc"
 #include "oxygenexceptiondialog.h"
 #include "config-liboxygen.h"
 

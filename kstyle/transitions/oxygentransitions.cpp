@@ -27,7 +27,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygentransitions.h"
-#include "oxygentransitions.moc"
 #include "oxygenpropertynames.h"
 #include "oxygenstyleconfigdata.h"
 

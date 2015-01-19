@@ -25,7 +25,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenlabeldata.h"
-#include "oxygenlabeldata.moc"
 
 #include <QEvent>
 #include <QTextStream>

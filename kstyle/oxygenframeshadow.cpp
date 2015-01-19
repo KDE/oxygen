@@ -28,7 +28,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenframeshadow.h"
-#include "oxygenframeshadow.moc"
 
 #include <QDebug>
 #include <QAbstractScrollArea>
