@@ -339,10 +339,14 @@ namespace Oxygen
         // TODO: optimize based on repaintRegion
         QRect clientSize = QRect(0, 0, client().data()->width(), client().data()->height());
 
-        renderWindowBackground(painter, clientSize, client().data()->palette());
+        renderWindowBorder(painter, clientSize, client().data()->palette());
 
         m_leftButtons->paint(painter, repaintRegion);
         m_rightButtons->paint(painter, repaintRegion);
+
+        const QRect titleRect(QPoint(0, 0), QSize(size().width(), borderTop()));
+        renderTitleText(painter, titleRect, Qt::black, Qt::red); //fixme
+
         return;
 
         // paint background
@@ -499,6 +503,7 @@ namespace Oxygen
     //________________________________________________________________
     void Decoration::createShadow()
     {
+        //KILL
         if (g_sShadow) {
             setShadow(g_sShadow);
             return;
@@ -563,7 +568,9 @@ namespace Oxygen
             const int height = hideTitleBar() ? 0 : 20;//FIXME //layoutMetric(LM_TitleHeight);
             if( isMaximized() ) offset -= 3;
 
-            DecoHelper::self()->renderWindowBackground(painter, rect, rect, rect,  palette.color(QPalette::Background), offset, height );
+                        qDebug() << "in the sexy bit";
+
+            DecoHelper::self()->renderWindowBackground(painter, rect, rect, rect,  palette.color(QPalette::Window), offset, height );
 
         } else {
             qDebug() << "in the boring bit";
@@ -632,8 +639,8 @@ namespace Oxygen
             //FIXME
 //             if( _configuration->drawTitleOutline() && ( client().data()->isActive() || glowIsAnimated() ) && !isMaximized() )
 //             {
-//                 if( _configuration->frameBorder() == Configuration::BorderTiny ) rect.adjust( 1, 0, -1, 0 );
-//                 else if( _configuration->frameBorder() > Configuration::BorderTiny ) rect.adjust( Metrics::TitleBar_OutlineMargin-1, 0, -Metrics::TitleBar_OutlineMargin+1, 0 );
+                if( internalSettings()->borderSize() == InternalSettings::BorderTiny ) rect.adjust( 1, 0, -1, 0 );
+                else if( internalSettings()->borderSize() > InternalSettings::BorderTiny ) rect.adjust( Metrics::TitleBar_OutlineMargin-1, 0, -Metrics::TitleBar_OutlineMargin+1, 0 );
 //             }
 
             if( rect.isValid() )
@@ -659,7 +666,7 @@ namespace Oxygen
 //             // bottom line
 //             const int leftOffset = qMin( layoutMetric( LM_BorderLeft ), int(Metrics::TitleBar_OutlineMargin) );
 //             const int rightOffset = qMin( layoutMetric( LM_BorderRight ), int(Metrics::TitleBar_OutlineMargin) );
-// //             if( _configuration->frameBorder() > Configuration::BorderNone )
+//             if( internalSettings()->frameBorder() > InternalSettings::BorderNone )
 //             {
 //
 //                 const int height = qMax( 0, layoutMetric( LM_BorderBottom ) - Metrics::TitleBar_OutlineMargin );
@@ -704,11 +711,11 @@ namespace Oxygen
             painter->setRenderHints( hints );
 
             // paint
-            if( !mask.isEmpty() )
-            {
-                painter->setClipRegion( mask, Qt::IntersectClip);
-                renderWindowBackground(painter, frame, palette );
-            }
+//             if( !mask.isEmpty() )
+//             {
+//                 painter->setClipRegion( mask, Qt::IntersectClip);
+                renderWindowBackground(painter, clipRect, palette );
+//             }
 
         }
 
@@ -770,7 +777,6 @@ namespace Oxygen
 
         if( _titleAnimationData->isDirty() )
         {
-
             // clear dirty flags
             _titleAnimationData->setDirty( false );
 
