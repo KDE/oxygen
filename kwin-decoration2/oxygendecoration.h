@@ -119,28 +119,31 @@ namespace Oxygen
         void paintTitleBar(QPainter *painter, const QRect &repaintRegion);
         void createShadow();
 
-        //FIXME why on Earth were these virtual?
-
         //* window background
-        virtual void renderWindowBackground( QPainter*, const QRect&, const QPalette& ) const;
+        void renderWindowBackground( QPainter*, const QRect&, const QPalette& ) const;
 
         //* window border
         // this draws a "blue" border around active window
-        virtual void renderWindowBorder( QPainter*, const QRect&, const QPalette& ) const;
+        void renderWindowBorder( QPainter*, const QRect&, const QPalette& ) const;
 
         //* title outline
-        virtual void renderTitleOutline( QPainter*, const QRect&, const QPalette& ) const;
+        void renderTitleOutline( QPainter*, const QRect&, const QPalette& ) const;
 
         //* title text
         /** second color, if valid, is for contrast pixel */
-        virtual void renderTitleText( QPainter*, const QRect&, const QColor&, const QColor& = QColor() ) const;
+        void renderTitleText( QPainter*, const QRect&, const QColor&, const QColor& = QColor() ) const;
 
         //* title text
         /** second color, if valid, is for contrast pixel */
-        virtual void renderTitleText( QPainter*, const QRect&, const QString&, const QColor&, const QColor& = QColor(), bool elide = true ) const;
+        void renderTitleText( QPainter*, const QRect&, const QString&, const QColor&, const QColor& = QColor(), bool elide = true ) const;
 
         //* title text
-        virtual QPixmap renderTitleText( const QRect&, const QString&, const QColor&, bool elide = true ) const;
+        QPixmap renderTitleText( const QRect&, const QString&, const QColor&, bool elide = true ) const;
+
+        //* corners
+        void renderCorners( QPainter*, const QRect &frame, const QPalette &) const;
+
+        void renderFloatFrame( QPainter*, const QRect &frame, const QPalette &) const;
 
         //* title alignment
         inline Qt::Alignment titleAlignment( void ) const;

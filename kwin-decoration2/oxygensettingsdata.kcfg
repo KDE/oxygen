@@ -49,7 +49,6 @@
       </choices>
       <default>BorderNoSides</default>
     </entry>
-
     <entry name="DrawSizeGrip" type = "Bool">
       <default>true</default>
     </entry>

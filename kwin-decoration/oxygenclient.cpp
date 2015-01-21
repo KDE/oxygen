@@ -748,7 +748,15 @@ namespace Oxygen
             }
 
             if( rect.isValid() )
-            { helper().slab( color, 0, shadowSize )->render( rect, painter, TileSet::Top ); }
+            {
+                QPixmap dave(rect.size());
+                dave.fill(Qt::blue);
+                QPainter davePainter(&dave);
+                color = Qt::red;
+                helper().slab( color, 0, shadowSize )->render( rect, painter, TileSet::Top );
+                                dave.save("/tmp/ou4t.png");
+
+            }
 
         }
 
@@ -1211,7 +1219,6 @@ namespace Oxygen
                 );
 
         }
-
     }
 
     //____________________________________________________________________________

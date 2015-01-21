@@ -334,12 +334,17 @@ namespace Oxygen
     //________________________________________________________________
     void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
     {
-        //TO REPLACE
 
         // TODO: optimize based on repaintRegion
-        QRect clientSize = QRect(0, 0, client().data()->width(), client().data()->height());
+        const QPalette palette = client().data()->palette();
 
-        renderWindowBorder(painter, clientSize, client().data()->palette());
+        renderCorners(painter, rect(), palette);
+//         renderWindowBackground();
+
+        renderWindowBorder(painter, rect(), palette);
+
+        renderFloatFrame(painter, rect(), palette);
+
 
         m_leftButtons->paint(painter, repaintRegion);
         m_rightButtons->paint(painter, repaintRegion);
@@ -348,6 +353,9 @@ namespace Oxygen
         renderTitleText(painter, titleRect, Qt::black, Qt::red); //fixme
 
         return;
+
+                //TO KILL
+
 
         // paint background
         if( !client().data()->isShaded() )
@@ -416,9 +424,6 @@ namespace Oxygen
         m_leftButtons->paint(painter, repaintRegion);
         m_rightButtons->paint(painter, repaintRegion);
     }
-
-
-
 
     //________________________________________________________________
     int Decoration::buttonHeight() const
@@ -555,6 +560,21 @@ namespace Oxygen
         setShadow(decorationShadow);
     }
 
+    void Decoration::renderCorners( QPainter* painter, const QRect& frame, const QPalette& palette ) const
+    {
+
+        const QColor color(palette.color(QPalette::Background));
+
+        QLinearGradient lg = QLinearGradient(0, -0.5, 0, qreal( frame.height() )+0.5);
+        lg.setColorAt(0.0, DecoHelper::self()->calcLightColor( DecoHelper::self()->backgroundTopColor(color) ));
+        lg.setColorAt(0.51, DecoHelper::self()->backgroundBottomColor(color) );
+        lg.setColorAt(1.0, DecoHelper::self()->backgroundBottomColor(color) );
+
+        painter->setPen( QPen( lg, 1 ) );
+        painter->setBrush( Qt::NoBrush );
+        painter->drawRoundedRect( QRectF( frame ).adjusted( 0.5, 0.5, -0.5, -0.5 ), 3.5,  3.5 );
+    }
+
       //_________________________________________________________
     void Decoration::renderWindowBackground( QPainter* painter, const QRect& rect, const QPalette& palette ) const
     {
@@ -568,12 +588,9 @@ namespace Oxygen
             const int height = hideTitleBar() ? 0 : 20;//FIXME //layoutMetric(LM_TitleHeight);
             if( isMaximized() ) offset -= 3;
 
-                        qDebug() << "in the sexy bit";
-
-            DecoHelper::self()->renderWindowBackground(painter, rect, rect, rect,  palette.color(QPalette::Window), offset, height );
+            DecoHelper::self()->renderWindowBackground(painter, rect /*clip rect*/, rect, Decoration::rect(),  palette.color(QPalette::Window), offset, height );
 
         } else {
-            qDebug() << "in the boring bit";
             painter->fillRect( rect, palette.color( QPalette::Window ) );
         }
 
@@ -609,10 +626,10 @@ namespace Oxygen
         if( clipRect.isValid() )
         {
             painter->save();
-            painter->setClipRegion(clipRect,Qt::IntersectClip);
+//             painter->setClipRegion(clipRect,Qt::IntersectClip);
         }
 
-        QRect r;//FIXME = (isPreview()) ? this->widget()->rect():window->rect();
+        QRect r(0,0, client().data()->width(), client().data()->height());
 //         r.adjust( layoutMetric( LM_OuterPaddingLeft ), layoutMetric( LM_OuterPaddingTop ), -layoutMetric( LM_OuterPaddingRight ), -layoutMetric( LM_OuterPaddingBottom ) );
         r.adjust(0,0, 1, 1);
 
@@ -643,14 +660,14 @@ namespace Oxygen
                 else if( internalSettings()->borderSize() > InternalSettings::BorderTiny ) rect.adjust( Metrics::TitleBar_OutlineMargin-1, 0, -Metrics::TitleBar_OutlineMargin+1, 0 );
 //             }
 
-            if( rect.isValid() )
-            { DecoHelper::self()->slab( color, 0, shadowSize )->render( rect, painter, TileSet::Top ); }
-
+            if( rect.isValid() ) {
+                DecoHelper::self()->slab( color, 0, shadowSize )->render( rect, painter, TileSet::Top );
+            }
         }
 
         //FIXME
         if (true)
-//         if( _configuration->drawTitleOutline() && ( isActive() || glowIsAnimated() ) )
+//         if( internalSettings()->drawTitleOutline() && ( client().data()->isActive() || glowIsAnimated() ) )
         {
 
             // save old hints and turn off anti-aliasing
@@ -666,8 +683,8 @@ namespace Oxygen
 //             // bottom line
 //             const int leftOffset = qMin( layoutMetric( LM_BorderLeft ), int(Metrics::TitleBar_OutlineMargin) );
 //             const int rightOffset = qMin( layoutMetric( LM_BorderRight ), int(Metrics::TitleBar_OutlineMargin) );
-//             if( internalSettings()->frameBorder() > InternalSettings::BorderNone )
-//             {
+            if( internalSettings()->borderSize() > InternalSettings::BorderNone )
+            {
 //
 //                 const int height = qMax( 0, layoutMetric( LM_BorderBottom ) - Metrics::TitleBar_OutlineMargin );
 //                 const int width = r.width() - leftOffset - rightOffset - 1;
@@ -679,14 +696,14 @@ namespace Oxygen
 //                 painter->setPen( shadow );
 //                 painter->drawLine( rect.bottomLeft()+QPoint(-1,1), rect.bottomRight()+QPoint(1,1) );
 //
-//             }
-//
-//             // left and right
+            }
+
+            // left and right
             const int topOffset = titleHeight;
 //             const int bottomOffset = qMin( layoutMetric( LM_BorderBottom ), int(Metrics::TitleBar_OutlineMargin) );
             const int height = r.height();// - topOffset - bottomOffset - 1;
 
-            if( SettingsProvider::self()->internalSettings(this)->borderSize() >= 2 ) //FIXME BorderTiny
+            if( SettingsProvider::self()->internalSettings(this)->borderSize() >= 2 )
             {
 
                 const QColor shadow( DecoHelper::self()->calcLightColor( color ) );
@@ -711,11 +728,10 @@ namespace Oxygen
             painter->setRenderHints( hints );
 
             // paint
-//             if( !mask.isEmpty() )
-//             {
-//                 painter->setClipRegion( mask, Qt::IntersectClip);
-                renderWindowBackground(painter, clipRect, palette );
-//             }
+            if( !mask.isEmpty() ) {
+                painter->setClipRegion( mask, Qt::IntersectClip);
+            }
+            renderWindowBackground(painter, rect().adjusted(2,2,0,0) , palette );
 
         }
 
@@ -872,7 +888,46 @@ namespace Oxygen
         painter.drawText( out.rect(), alignment, local );
         painter.end();
         return out;
+    }
 
+    void Decoration::renderFloatFrame( QPainter* painter, const QRect& frame, const QPalette& palette ) const
+    {
+
+        // shadow and resize handles
+        if( !isMaximized() )
+        {
+
+//             if( _configuration->frameBorder() >= Configuration::BorderTiny )
+//             {
+//
+//                 helper().drawFloatFrame(
+//                     painter, frame, backgroundColor( widget(), palette ),
+//                     !compositingActive(), isActive() && shadowCache().isEnabled( QPalette::Active ),
+//                     KDecoration::options()->color(ColorTitleBar)
+//                     );
+//
+//             } else {
+
+                // for small borders, use a frame that matches the titlebar only
+
+                DecoHelper::self()->drawFloatFrame(
+                    painter, frame, palette.color(QPalette::Background),
+                    false, true ,
+                    Qt::red
+                    );
+//             }
+//
+//         } else if( isShade() ) {
+//
+//             // for shaded maximized windows adjust frame and draw the bottom part of it
+//             DecoHelper::self()->drawFloatFrame(
+//                 painter, frame, backgroundColor( widget(), palette ),
+//                 !( compositingActive() || _configuration->frameBorder() == Configuration::BorderNone ), isActive(),
+//                 KDecoration::options()->color(ColorTitleBar),
+//                 TileSet::Bottom
+//                 );
+//
+        }
     }
 
     Qt::Alignment Decoration::titleAlignment(void) const
