@@ -37,8 +37,12 @@ namespace Oxygen
     //_________________________________________________
     StylePlugin::~StylePlugin()
     {
-        // Delete style when using ::exit() otherwise it'll outlive the unloaded plugin and we'll get a crash
-        if (qApp) delete qApp->style();
+        // Delete style when using ::exit() otherwise it'll outlive the unloaded plugin
+        // and we'll get a crash
+        // doesn't seem needed in Qt5
+        #if QT_VERSION < 0x050000
+            if (qApp) delete qApp->style();
+        #endif
     }
 
     //_________________________________________________
