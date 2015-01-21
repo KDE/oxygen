@@ -57,6 +57,9 @@ namespace Oxygen
 
         public Q_SLOTS:
 
+        //! load setup from config data
+        void load( void );
+
         //! save current state
         void save( void );
 
@@ -94,9 +97,6 @@ namespace Oxygen
 
         //! event processing
         virtual bool event( QEvent* );
-
-        //! load setup from config data
-        void load( void );
 
         // menu mode from ui
         int menuMode( void ) const;

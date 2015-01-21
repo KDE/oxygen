@@ -11,6 +11,7 @@ set(kstyle_oxygen_config_PART_FORMS
 )
 
 if(OXYGEN_USE_KDE4)
+
   kde4_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
 
   kde4_add_ui_files(kstyle_oxygen_config_PART_FORMS_HEADERS ${kstyle_oxygen_config_PART_FORMS})
@@ -25,6 +26,8 @@ if(OXYGEN_USE_KDE4)
   install(TARGETS kstyle_oxygen_config DESTINATION ${PLUGIN_INSTALL_DIR}/)
 
 else()
+
+  set(kstyle_oxygen_config_PART_SRCS ${kstyle_oxygen_config_PART_SRCS} oxygenstyleconfigmodule.cpp)
 
   kconfig_add_kcfg_files(kstyle_oxygen_config_PART_SRCS ../oxygenstyleconfigdata.kcfgc)
 
@@ -45,6 +48,8 @@ else()
   target_link_libraries(kstyle_oxygen_config oxygenstyleconfig5)
 
   install(TARGETS kstyle_oxygen_config DESTINATION ${QT_PLUGIN_INSTALL_DIR})
+  install(FILES oxygenstyleconfig.desktop DESTINATION  ${SERVICES_INSTALL_DIR})
+
 endif()
 
 ########### next target ###############
