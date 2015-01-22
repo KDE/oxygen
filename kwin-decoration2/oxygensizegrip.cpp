@@ -26,6 +26,7 @@
 #include <QPainter>
 #include <QPolygon>
 #include <QTimer>
+#include <QPalette>
 
 #if OXYGEN_HAVE_X11
 #include <QX11Info>
@@ -138,7 +139,7 @@ namespace Oxygen
         if( !m_decoration ) return;
 
         // get relevant colors
-        const QColor backgroundColor( m_decoration.data()->titleBarColor() );
+        const QColor backgroundColor( m_decoration->client().data()->palette().color(QPalette::Background) );
 
         // create and configure painter
         QPainter painter(this);

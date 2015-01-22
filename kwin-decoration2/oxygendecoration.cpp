@@ -65,7 +65,6 @@ namespace Oxygen
 
     Decoration::Decoration(QObject *parent, const QVariantList &args)
         : KDecoration2::Decoration(parent, args)
-        , m_colorSettings(client().data()->palette())
         , m_animation( new QPropertyAnimation( this ) )
         , _titleAnimationData(new TitleAnimationData(this) )
     {
@@ -90,41 +89,6 @@ namespace Oxygen
         update();
 
         if( m_sizeGrip ) m_sizeGrip->update();
-    }
-
-    //________________________________________________________________
-    QColor Decoration::titleBarColor() const
-    {
-
-        if( m_animation->state() == QPropertyAnimation::Running )
-        {
-            return KColorUtils::mix( m_colorSettings.inactiveTitleBar(), m_colorSettings.activeTitleBar(), m_opacity );
-        } else return m_colorSettings.titleBar( client().data()->isActive() );
-
-    }
-
-    //________________________________________________________________
-    QColor Decoration::outlineColor() const
-    {
-
-        if( m_animation->state() == QPropertyAnimation::Running )
-        {
-            QColor color( client().data()->palette().color( QPalette::Highlight ) );
-            color.setAlpha( color.alpha()*m_opacity );
-            return color;
-        } else if( client().data()->isActive() ) return client().data()->palette().color( QPalette::Highlight );
-        else return QColor();
-    }
-
-    //________________________________________________________________
-    QColor Decoration::fontColor() const
-    {
-
-        if( m_animation->state() == QPropertyAnimation::Running )
-        {
-            return KColorUtils::mix( m_colorSettings.inactiveFont(), m_colorSettings.activeFont(), m_opacity );
-        } else return m_colorSettings.font( client().data()->isActive() );
-
     }
 
     //________________________________________________________________
@@ -163,12 +127,8 @@ namespace Oxygen
         );
 
         connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, &Decoration::updateAnimationState);
-        connect(client().data(), &KDecoration2::DecoratedClient::paletteChanged,   this,
-            [this]() {
-                m_colorSettings.update(client().data()->palette());
-                update();
-            }
-        );
+        //decoration has an overloaded update function, force the compiler to choose the right one
+        connect(client().data(), &KDecoration2::DecoratedClient::paletteChanged,   this,  static_cast<void (Decoration::*)()>(&Decoration::update));
         connect(client().data(), &KDecoration2::DecoratedClient::widthChanged,     this, &Decoration::updateTitleBar);
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateTitleBar);
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::setOpaque);

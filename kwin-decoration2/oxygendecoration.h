@@ -22,7 +22,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "oxygencolorsettings.h"
 #include "oxygen.h"
 #include "oxygensettings.h"
 
@@ -66,10 +65,6 @@ namespace Oxygen
         //* paint
         void paint(QPainter *painter, const QRect &repaintRegion) override;
 
-        //* color settings
-        const ColorSettings &colorSettings()
-        { return m_colorSettings; }
-
         //* internal settings
         InternalSettingsPtr internalSettings() const
         { return m_internalSettings; }
@@ -91,14 +86,6 @@ namespace Oxygen
         qreal opacity( void ) const
         { return m_opacity; }
 
-        //@}
-
-
-        //*@name colors
-        //@{
-        QColor titleBarColor( void ) const;
-        QColor outlineColor( void ) const;
-        QColor fontColor( void ) const;
         //@}
 
         public Q_SLOTS:
@@ -187,7 +174,6 @@ namespace Oxygen
         { return m_sizeGrip; }
         //@}
 
-        ColorSettings m_colorSettings;
         InternalSettingsPtr m_internalSettings;
 
         QList<KDecoration2::DecorationButton*> m_buttons;
