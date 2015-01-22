@@ -116,7 +116,6 @@ namespace Oxygen
 
         void createButtons();
 
-        void paintTitleBar(QPainter *painter, const QRect &repaintRegion);
         void createShadow();
 
         bool glowIsAnimated() const {return false;}

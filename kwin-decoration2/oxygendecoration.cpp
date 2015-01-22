@@ -354,78 +354,6 @@ namespace Oxygen
                 painter, titleRect,
                 titlebarTextColor( palette ),
                 titlebarContrastColor( palette ) );
-
-        return;
-
-                //TO KILL
-
-
-        // paint background
-        if( !client().data()->isShaded() )
-        {
-            painter->fillRect(rect(), Qt::transparent);
-            painter->save();
-            painter->setRenderHint(QPainter::Antialiasing);
-            painter->setPen(Qt::NoPen);
-            painter->setBrush(m_colorSettings.frame(client().data()->isActive()));
-
-            // clip away the top part
-            painter->setClipRect(0, borderTop(), size().width(), size().height() - borderTop(), Qt::IntersectClip);
-            painter->drawRoundedRect(rect(), Metrics::Frame_FrameRadius, Metrics::Frame_FrameRadius);
-            painter->restore();
-        }
-
-        paintTitleBar(painter, repaintRegion);
-    }
-
-    //________________________________________________________________
-    void Decoration::paintTitleBar(QPainter *painter, const QRect &repaintRegion)
-    {
-        //TO KILL
-        const auto c = client().data();
-        const QRect titleRect(QPoint(0, 0), QSize(size().width(), borderTop()));
-
-        // render a linear gradient on title area
-        const QColor titleBarColor( this->titleBarColor() );
-        QLinearGradient gradient( 0, 0, 0, titleRect.height() );
-        gradient.setColorAt(0.0, titleBarColor.lighter(100.0));
-        gradient.setColorAt(0.8, titleBarColor);
-
-        painter->save();
-        painter->setBrush(gradient);
-        painter->setPen(Qt::NoPen);
-
-        if (isMaximized())
-        {
-
-            painter->drawRect(titleRect);
-
-        } else if( c->isShaded() ) {
-
-            painter->drawRoundedRect(titleRect, Metrics::Frame_FrameRadius, Metrics::Frame_FrameRadius);
-
-        } else {
-
-            // we make the rect a little bit larger to be able to clip away the rounded corners on bottom
-            painter->setClipRect(titleRect, Qt::IntersectClip);
-            painter->drawRoundedRect(titleRect.adjusted(0, 0, 0, Metrics::Frame_FrameRadius), Metrics::Frame_FrameRadius, Metrics::Frame_FrameRadius);
-
-        }
-
-        auto s = settings();
-
-        painter->restore();
-
-        // draw caption
-        painter->setFont(s->font());
-        const QRect cR = captionRect();
-        const QString caption = painter->fontMetrics().elidedText(c->caption(), Qt::ElideMiddle, cR.width());
-        painter->setPen(m_colorSettings.font(c->isActive()));
-        painter->drawText(cR, Qt::AlignVCenter| Qt::AlignLeft | Qt::TextSingleLine, caption);
-
-        // draw all buttons
-        m_leftButtons->paint(painter, repaintRegion);
-        m_rightButtons->paint(painter, repaintRegion);
     }
 
     //________________________________________________________________
@@ -598,9 +526,6 @@ namespace Oxygen
         return DecoHelper::self()->calcLightColor( color );
 
     }
-
-
-
 
     void Decoration::renderCorners( QPainter* painter, const QRect& frame, const QPalette& palette ) const
     {
