@@ -119,6 +119,21 @@ namespace Oxygen
         void paintTitleBar(QPainter *painter, const QRect &repaintRegion);
         void createShadow();
 
+        bool glowIsAnimated() const {return false;}
+        qreal glowIntensity() const {return 1.0;}
+
+        //* text color
+        QColor titlebarTextColor(const QPalette&) const;
+
+        //* text color
+        QColor titlebarTextColor(const QPalette& palette, bool windowActive, bool itemActive ) const;
+
+        //* text color
+        QColor titlebarContrastColor(const QPalette& palette ) const;
+
+        //* text color
+        QColor titlebarContrastColor(const QColor& color ) const;
+
         //* window background
         void renderWindowBackground( QPainter*, const QRect&, const QPalette& ) const;
 

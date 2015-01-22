@@ -350,7 +350,10 @@ namespace Oxygen
         m_rightButtons->paint(painter, repaintRegion);
 
         const QRect titleRect(QPoint(0, 0), QSize(size().width(), borderTop()));
-        renderTitleText(painter, titleRect, Qt::black, Qt::red); //fixme
+        renderTitleText(
+                painter, titleRect,
+                titlebarTextColor( palette ),
+                titlebarContrastColor( palette ) );
 
         return;
 
@@ -502,7 +505,6 @@ namespace Oxygen
         }
 
         return boundingRect;
-
     }
 
     //________________________________________________________________
@@ -560,6 +562,46 @@ namespace Oxygen
         setShadow(decorationShadow);
     }
 
+
+    //_________________________________________________________
+    QColor Decoration::titlebarTextColor(const QPalette &palette) const
+    {
+        if( glowIsAnimated() ) return KColorUtils::mix(
+            titlebarTextColor( palette, false, true ),
+            titlebarTextColor( palette, true, true ),
+            glowIntensity() );
+        else return titlebarTextColor( palette, client().data()->isActive(), true );
+    }
+
+    //_________________________________________________________
+    QColor Decoration::titlebarTextColor(const QPalette &palette, bool windowActive, bool itemActive ) const
+    {
+        if( itemActive )
+        {
+            return windowActive ?
+                palette.color(QPalette::Active, QPalette::WindowText):
+                DecoHelper::self()->inactiveTitleBarTextColor( palette );
+        } else if( internalSettings()->drawTitleOutline() ) {
+            return palette.color(QPalette::Foreground);
+        } else {
+            return DecoHelper::self()->inactiveTitleBarTextColor( palette );
+        }
+    }
+
+    QColor Decoration::titlebarContrastColor(const QPalette& palette) const
+    {
+        return titlebarContrastColor( palette.color(QPalette::Background) );
+    }
+
+    QColor Decoration::titlebarContrastColor(const QColor& color) const
+    {
+        return DecoHelper::self()->calcLightColor( color );
+
+    }
+
+
+
+
     void Decoration::renderCorners( QPainter* painter, const QRect& frame, const QPalette& palette ) const
     {
 
@@ -576,7 +618,7 @@ namespace Oxygen
     }
 
       //_________________________________________________________
-    void Decoration::renderWindowBackground( QPainter* painter, const QRect& rect, const QPalette& palette ) const
+    void Decoration::renderWindowBackground( QPainter* painter, const QRect& clipRect, const QPalette& palette ) const
     {
         // window background
         if( DecoHelper::self()->hasBackgroundGradient( client().data()->windowId() ) || true)
@@ -588,31 +630,11 @@ namespace Oxygen
             const int height = hideTitleBar() ? 0 : 20;//FIXME //layoutMetric(LM_TitleHeight);
             if( isMaximized() ) offset -= 3;
 
-            DecoHelper::self()->renderWindowBackground(painter, rect /*clip rect*/, rect, Decoration::rect(),  palette.color(QPalette::Window), offset, height );
+            DecoHelper::self()->renderWindowBackground(painter, clipRect /*clip rect*/, clipRect, Decoration::rect(),  palette.color(QPalette::Window), offset, height );
 
         } else {
-            painter->fillRect( rect, palette.color( QPalette::Window ) );
+            painter->fillRect( clipRect, palette.color( QPalette::Window ) );
         }
-
-        //David E 2015 - I can't figure out where in the UI one sets a background picture
-
-//         // background pixmap
-//         if( isPreview() || DecoHelper::self()->hasBackgroundPixmap( windowId() ) )
-//         {
-//             int offset = layoutMetric( LM_OuterPaddingTop );
-//
-//             // radial gradient positionning
-//             const int height = hideTitleBar() ? 0:layoutMetric(LM_TitleHeight);
-//             if( isMaximized() ) offset -= 3;
-//
-//             // background pixmap
-//             QPoint backgroundPixmapOffset( layoutMetric( LM_OuterPaddingLeft ) + layoutMetric( LM_BorderLeft ), 0 );
-//             DecoHelper::self()->setBackgroundPixmapOffset( backgroundPixmapOffset );
-//
-//             DecoHelper::self()->renderBackgroundPixmap(painter, rect, offset, height );
-//
-//         }
-
     }
 
     //_________________________________________________________
