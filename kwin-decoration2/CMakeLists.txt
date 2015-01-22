@@ -35,7 +35,6 @@ configure_file(config-oxygen.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-oxygen.h
 ################# newt target #################
 ### plugin classes
 set(oxygendecoration_SRCS
-    oxygencolorsettings.cpp
     oxygenbutton.cpp
     oxygendecohelper.cpp
     oxygendecoration.cpp
