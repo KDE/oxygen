@@ -326,8 +326,6 @@ namespace Oxygen
     //________________________________________________________________
     int Decoration::captionHeight() const
     {
-        //TO KILL
-
         return isMaximized() ?
             borderTop() - settings()->smallSpacing()*Metrics::TitleBar_BottomMargin - 1:
             borderTop() - settings()->smallSpacing()*(Metrics::TitleBar_BottomMargin + Metrics::TitleBar_TopMargin ) - 1;
@@ -512,10 +510,6 @@ namespace Oxygen
     //_________________________________________________________
     void Decoration::renderWindowBorder( QPainter* painter, const QRect& clipRect, const QPalette& palette ) const
     {
-        //I might need to pass this...
-        // get coordinates relative to the client area
-        QPoint position( 0, 0 );
-
         // save painter
         if( clipRect.isValid() )
         {
@@ -528,19 +522,15 @@ namespace Oxygen
         // base color
         QColor color( palette.color( QPalette::Window ) );
 
-        // add alpha channel
-//         if( _itemData.count() == 1 && glowIsAnimated() )
-//         { color = DecoHelper::self()->alphaColor( color, glowIntensity() ); }
-
         // title height
-        const int titleHeight(7);//FIXME layoutMetric( LM_TitleEdgeTop ) + layoutMetric( LM_TitleEdgeBottom ) + layoutMetric( LM_TitleHeight ) );
+        const int titleHeight(7);
 
         // horizontal line
         {
             const int shadowSize = 7;
             const int height = shadowSize-3;
 
-            const QPoint topLeft( r.topLeft()+QPoint(0,titleHeight-height)-position );
+            const QPoint topLeft( r.topLeft()+QPoint(0,titleHeight-height));
             QRect rect( topLeft, QSize( r.width(), height ) );
 
             // adjustements to cope with shadow size and outline border.
@@ -580,14 +570,14 @@ namespace Oxygen
 
                 // left
                 int width = 2;;// qMax( 0, layoutMetric( LM_BorderLeft ) - Metrics::TitleBar_OutlineMargin );
-                QRect rect( r.topLeft()-position + QPoint( layoutMetric(  ) - width, topOffset ), QSize( width, height ) );
+                QRect rect( r.topLeft() + QPoint( layoutMetric(  ) - width, topOffset ), QSize( width, height ) );
                 if( width > 0 ) { mask += rect; frame |= rect; }
 
                 painter->drawLine( rect.topLeft()-QPoint(1,0), rect.bottomLeft()-QPoint(1, 0) );
 
                 // right
                 width = 2; //qMax( 0, layoutMetric( LM_BorderRight ) - Metrics::TitleBar_OutlineMargin );
-                rect = QRect(r.topRight()-position + QPoint( -layoutMetric(  ), topOffset ), QSize( width, height ));
+                rect = QRect(r.topRight() + QPoint( -layoutMetric(  ), topOffset ), QSize( width, height ));
                 if( width > 0 ) { mask += rect; frame |= rect; }
 
                 painter->drawLine( rect.topRight()+QPoint(1,0), rect.bottomRight()+QPoint(1, 0) );
@@ -601,6 +591,8 @@ namespace Oxygen
                 painter->setClipRegion( mask, Qt::IntersectClip);
             }
         }
+        renderWindowBackground(painter, clipRect, palette );
+
         renderWindowBackground(painter, clipRect, palette );
 
         // restore painter
