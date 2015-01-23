@@ -144,8 +144,6 @@ namespace Oxygen
         //* corners
         void renderCorners( QPainter*, const QRect &frame, const QPalette &) const;
 
-        void renderFloatFrame( QPainter*, const QRect &frame, const QPalette &) const;
-
         //* title alignment
         inline Qt::Alignment titleAlignment( void ) const;
 

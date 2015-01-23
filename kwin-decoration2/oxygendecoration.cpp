@@ -294,11 +294,8 @@ namespace Oxygen
     //________________________________________________________________
     void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
     {
-
-        // TODO: optimize based on repaintRegion
         const QPalette palette = client().data()->palette();
 
-        renderFloatFrame(painter, rect(), palette);
         renderWindowBorder(painter, rect(), palette);
         renderCorners(painter, rect(), palette);
 
@@ -548,21 +545,18 @@ namespace Oxygen
 
             // adjustements to cope with shadow size and outline border.
             rect.adjust( -shadowSize, 0, shadowSize-1, 0 );
-            //FIXME
-//             if( _configuration->drawTitleOutline() && ( client().data()->isActive() || glowIsAnimated() ) && !isMaximized() )
-//             {
+            if( internalSettings()->drawTitleOutline() && ( client().data()->isActive() || glowIsAnimated() ) && !isMaximized() )
+            {
                 if( internalSettings()->borderSize() == InternalSettings::BorderTiny ) rect.adjust( 1, 0, -1, 0 );
                 else if( internalSettings()->borderSize() > InternalSettings::BorderTiny ) rect.adjust( Metrics::TitleBar_OutlineMargin-1, 0, -Metrics::TitleBar_OutlineMargin+1, 0 );
-//             }
+            }
 
             if( rect.isValid() ) {
                 DecoHelper::self()->slab( color, 0, shadowSize )->render( rect, painter, TileSet::Top );
             }
         }
 
-        //FIXME
-        if (true)
-//         if( internalSettings()->drawTitleOutline() && ( client().data()->isActive() || glowIsAnimated() ) )
+        if( internalSettings()->drawTitleOutline() && ( client().data()->isActive() || glowIsAnimated() ) )
         {
 
             // save old hints and turn off anti-aliasing
@@ -574,28 +568,8 @@ namespace Oxygen
             QRegion mask;
             QRect frame;
 
-            //FIXME
-//             // bottom line
-//             const int leftOffset = qMin( layoutMetric( LM_BorderLeft ), int(Metrics::TitleBar_OutlineMargin) );
-//             const int rightOffset = qMin( layoutMetric( LM_BorderRight ), int(Metrics::TitleBar_OutlineMargin) );
-            if( internalSettings()->borderSize() > InternalSettings::BorderNone )
-            {
-//
-//                 const int height = qMax( 0, layoutMetric( LM_BorderBottom ) - Metrics::TitleBar_OutlineMargin );
-//                 const int width = r.width() - leftOffset - rightOffset - 1;
-//
-//                 const QRect rect( r.bottomLeft()-position + QPoint( leftOffset, -layoutMetric( LM_BorderBottom ) ), QSize( width, height ) );
-//                 if( height > 0 ) { mask += rect; frame |= rect; }
-//
-//                 const QColor shadow( DecoHelper::self()->calcDarkColor( color ) );
-//                 painter->setPen( shadow );
-//                 painter->drawLine( rect.bottomLeft()+QPoint(-1,1), rect.bottomRight()+QPoint(1,1) );
-//
-            }
-
             // left and right
             const int topOffset = titleHeight;
-//             const int bottomOffset = qMin( layoutMetric( LM_BorderBottom ), int(Metrics::TitleBar_OutlineMargin) );
             const int height = r.height();// - topOffset - bottomOffset - 1;
 
             if( SettingsProvider::self()->internalSettings(this)->borderSize() >= 2 )
@@ -626,9 +600,8 @@ namespace Oxygen
             if( !mask.isEmpty() ) {
                 painter->setClipRegion( mask, Qt::IntersectClip);
             }
-            renderWindowBackground(painter, clipRect, palette );
-
         }
+        renderWindowBackground(painter, clipRect, palette );
 
         // restore painter
         if( clipRect.isValid() )
@@ -660,12 +633,7 @@ namespace Oxygen
         const int offset( -3 );
         const int voffset( 5-shadowSize );
         const QRect adjustedRect( rect.adjusted(offset, voffset, -offset, shadowSize) );
-        QColor color; //FIXME
-//         ( palette.color( widget()->backgroundRole() ) );
-
-        // add alpha channel
-//         if( _itemData.count() == 1 && glowIsAnimated() )
-//         { color = DecoHelper::self()->alphaColor( color, glowIntensity() ); }
+        QColor color = palette.color(QPalette::Background);
 
         // render slab
         DecoHelper::self()->slab( color, 0, shadowSize )->render( adjustedRect, painter, TileSet::Tiles(TileSet::Top|TileSet::Left|TileSet::Right) );
@@ -783,46 +751,6 @@ namespace Oxygen
         painter.drawText( out.rect(), alignment, local );
         painter.end();
         return out;
-    }
-
-    void Decoration::renderFloatFrame( QPainter* painter, const QRect& frame, const QPalette& palette ) const
-    {
-
-        // shadow and resize handles
-        if( !isMaximized() )
-        {
-
-//             if( _configuration->frameBorder() >= Configuration::BorderTiny )
-//             {
-//
-//                 helper().drawFloatFrame(
-//                     painter, frame, backgroundColor( widget(), palette ),
-//                     !compositingActive(), isActive() && shadowCache().isEnabled( QPalette::Active ),
-//                     KDecoration::options()->color(ColorTitleBar)
-//                     );
-//
-//             } else {
-
-                // for small borders, use a frame that matches the titlebar only
-
-                DecoHelper::self()->drawFloatFrame(
-                    painter, frame,Qt::red,
-                    false, true ,
-                    Qt::red
-                    );
-//             }
-//
-//         } else if( isShade() ) {
-//
-//             // for shaded maximized windows adjust frame and draw the bottom part of it
-//             DecoHelper::self()->drawFloatFrame(
-//                 painter, frame, backgroundColor( widget(), palette ),
-//                 !( compositingActive() || _configuration->frameBorder() == Configuration::BorderNone ), isActive(),
-//                 KDecoration::options()->color(ColorTitleBar),
-//                 TileSet::Bottom
-//                 );
-//
-        }
     }
 
     Qt::Alignment Decoration::titleAlignment(void) const
