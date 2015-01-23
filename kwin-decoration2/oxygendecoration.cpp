@@ -473,7 +473,7 @@ namespace Oxygen
         }
         //without compositing without a mask we get black boxes in the corner, just paint a big rectangle over everything
 
-        if( DecoHelper::self()->hasBackgroundGradient( client().data()->windowId() ) || true )
+        if( DecoHelper::self()->hasBackgroundGradient( client().data()->windowId() ) )
         {
             DecoHelper::self()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), 0, 20 );
         } else {
