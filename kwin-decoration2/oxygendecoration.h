@@ -79,13 +79,6 @@ namespace Oxygen
         //* button height
         int buttonHeight() const;
 
-        //*@name active state change animation
-        //@{
-        void setOpacity( qreal );
-
-        qreal opacity( void ) const
-        { return m_opacity; }
-
         //@}
 
         public Q_SLOTS:

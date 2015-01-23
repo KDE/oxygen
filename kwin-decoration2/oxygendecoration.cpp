@@ -81,16 +81,6 @@ namespace Oxygen
     }
 
     //________________________________________________________________
-    void Decoration::setOpacity( qreal value )
-    {
-        if( m_opacity == value ) return;
-        m_opacity = value;
-        update();
-
-        if( m_sizeGrip ) m_sizeGrip->update();
-    }
-
-    //________________________________________________________________
     void Decoration::init()
     {
         reconfigure();
@@ -534,7 +524,7 @@ namespace Oxygen
 
             // left and right
             const int topOffset = titleHeight;
-            const int height = r.height();// - topOffset - bottomOffset - 1;
+            const int height = r.height();
 
             if( SettingsProvider::self()->internalSettings(this)->borderSize() >= 2 )
             {
