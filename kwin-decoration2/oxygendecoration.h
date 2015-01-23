@@ -51,9 +51,6 @@ namespace Oxygen
     {
         Q_OBJECT
 
-        //* declare active state opacity
-        Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
-
         public:
 
         //* constructor
@@ -136,9 +133,6 @@ namespace Oxygen
         //* corners
         void renderCorners( QPainter*, const QRect &frame, const QPalette &) const;
 
-        //* title alignment
-        inline Qt::Alignment titleAlignment( void ) const;
-
         bool hideTitleBar() const
         {return false;}
 
@@ -174,10 +168,6 @@ namespace Oxygen
         SizeGrip *m_sizeGrip = nullptr;
 
         TitleAnimationData *_titleAnimationData;
-
-        //* active state change opacity
-        qreal m_opacity = 0;
-
     };
 
     bool Decoration::hasNoBorders( void ) const

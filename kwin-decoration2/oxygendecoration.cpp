@@ -270,6 +270,7 @@ namespace Oxygen
                 painter, captionRect(),
                 titlebarTextColor( palette ),
                 titlebarContrastColor( palette ) );
+
     }
 
     //________________________________________________________________
@@ -308,7 +309,7 @@ namespace Oxygen
 
         /* need to increase the bounding rect because it is sometime (font dependent)
         too small, resulting in text being elided */
-        boundingRect.setWidth( boundingRect.width()+4 );
+        boundingRect.setWidth( boundingRect.width()+12 );
 
         switch( m_internalSettings->titleAlignment() )
         {
@@ -663,8 +664,6 @@ namespace Oxygen
     //_______________________________________________________________________
     void Decoration::renderTitleText( QPainter* painter, const QRect& rect, const QString& caption, const QColor& color, const QColor& contrast, bool elide ) const
     {
-
-        const Qt::Alignment alignment( titleAlignment() | Qt::AlignVCenter );
         const QString local( elide ? QFontMetrics( painter->font() ).elidedText( caption, Qt::ElideRight, rect.width() ):caption );
 
         // translate title down in case of maximized window
@@ -674,12 +673,12 @@ namespace Oxygen
         {
             painter->setPen( contrast );
             painter->translate( 0, 1 );
-            painter->drawText( rect, alignment, local );
+            painter->drawText( rect, Qt::AlignCenter, local ); //align center as we've already put the caption rect in the right place
             painter->translate( 0, -1 );
         }
 
         painter->setPen( color );
-        painter->drawText( rect, alignment, local );
+        painter->drawText( rect, Qt::AlignCenter, local );
 
         // translate back
         if( isMaximized() ) painter->translate( 0, -2 );
@@ -698,18 +697,12 @@ namespace Oxygen
 
         QPainter painter( &out );
 //         painter.setFont( options()->font(client().data()->isActive(), false) ); FIXME
-        const Qt::Alignment alignment( titleAlignment() | Qt::AlignVCenter );
         const QString local( elide ? QFontMetrics( painter.font() ).elidedText( caption, Qt::ElideRight, rect.width() ):caption );
 
         painter.setPen( color );
-        painter.drawText( out.rect(), alignment, local );
+        painter.drawText( out.rect(), Qt::AlignCenter, local );
         painter.end();
         return out;
-    }
-
-    Qt::Alignment Decoration::titleAlignment(void) const
-    {
-        return Qt::AlignCenter;
     }
 
     //_________________________________________________________________
