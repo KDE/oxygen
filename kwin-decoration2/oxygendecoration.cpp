@@ -503,7 +503,7 @@ namespace Oxygen
 
         if( DecoHelper::self()->hasBackgroundGradient( client().data()->windowId() ) || true )
         {
-            DecoHelper::self()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), 0, 0 );
+            DecoHelper::self()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), 0, 20 );
         } else {
             painter->fillRect( innerClientRect, palette.color( QPalette::Window ) );
         }

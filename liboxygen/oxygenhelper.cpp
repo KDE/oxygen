@@ -30,7 +30,6 @@
 #include <KGlobalSettings>
 #endif
 
-#include <QDebug>
 #include <QApplication>
 #include <QWidget>
 #include <QPainter>
@@ -151,13 +150,6 @@ namespace Oxygen
             tile = radialGradient( color, radialW, offset + 64 );
             p->drawPixmap( radialRect, tile );
         }
-
-        qDebug() << "innerrect is " << windowRect;
-        qDebug() << "upperRect is " << upperRect;
-        qDebug() << "lowerRect is " << lowerRect;
-        qDebug() << "radialRect is " << radialRect;
-        qDebug() << "************************\n\n\n\n";
-
 
         if ( clipRect.isValid() )
         { p->restore(); }
