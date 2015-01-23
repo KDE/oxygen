@@ -534,15 +534,15 @@ namespace Oxygen
                 painter->setPen( shadow );
 
                 // left
-                int width = 2;;// qMax( 0, layoutMetric( LM_BorderLeft ) - Metrics::TitleBar_OutlineMargin );
-                QRect rect( r.topLeft() + QPoint( layoutMetric(  ) - width, topOffset ), QSize( width, height ) );
+                int width = borderSize();
+                QRect rect( r.topLeft() + QPoint( - width, topOffset ), QSize( width, height ) );
                 if( width > 0 ) { mask += rect; frame |= rect; }
 
                 painter->drawLine( rect.topLeft()-QPoint(1,0), rect.bottomLeft()-QPoint(1, 0) );
 
                 // right
-                width = 2; //qMax( 0, layoutMetric( LM_BorderRight ) - Metrics::TitleBar_OutlineMargin );
-                rect = QRect(r.topRight() + QPoint( -layoutMetric(  ), topOffset ), QSize( width, height ));
+                width = borderSize();
+                rect = QRect(r.topRight() + QPoint( 0, topOffset ), QSize( width, height ));
                 if( width > 0 ) { mask += rect; frame |= rect; }
 
                 painter->drawLine( rect.topRight()+QPoint(1,0), rect.bottomRight()+QPoint(1, 0) );

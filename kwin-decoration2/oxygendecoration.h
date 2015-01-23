@@ -69,10 +69,6 @@ namespace Oxygen
         //* caption height
         int captionHeight() const;
 
-        int layoutMetric() const {
-            return 2;
-        }
-
         //* button height
         int buttonHeight() const;
 
