@@ -65,7 +65,6 @@ namespace Oxygen
 
     Decoration::Decoration(QObject *parent, const QVariantList &args)
         : KDecoration2::Decoration(parent, args)
-        , m_animation( new QPropertyAnimation( this ) )
         , _titleAnimationData(new TitleAnimationData(this) )
     {
         g_sDecoCount++;
@@ -94,14 +93,6 @@ namespace Oxygen
     //________________________________________________________________
     void Decoration::init()
     {
-
-        // active state change animation
-        m_animation->setStartValue( 0 );
-        m_animation->setEndValue( 1.0 );
-        m_animation->setTargetObject( this );
-        m_animation->setPropertyName( "opacity" );
-        m_animation->setEasingCurve( QEasingCurve::InOutQuad );
-
         reconfigure();
         updateTitleBar();
         auto s = settings();
@@ -126,7 +117,6 @@ namespace Oxygen
             }
         );
 
-        connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, &Decoration::updateAnimationState);
         //decoration has an overloaded update function, force the compiler to choose the right one
         connect(client().data(), &KDecoration2::DecoratedClient::paletteChanged,   this,  static_cast<void (Decoration::*)()>(&Decoration::update));
         connect(client().data(), &KDecoration2::DecoratedClient::widthChanged,     this, &Decoration::updateTitleBar);
@@ -152,16 +142,6 @@ namespace Oxygen
         const int x = maximized ? 0 : s->largeSpacing()*Metrics::TitleBar_SideMargin;
         const int y = maximized ? 0 : s->smallSpacing()*Metrics::TitleBar_TopMargin;
         setTitleBar(QRect(x, y, width, height));
-    }
-
-    //________________________________________________________________
-    void Decoration::updateAnimationState()
-    {
-        if( m_internalSettings->animationsEnabled() )
-        {
-            m_animation->setDirection( client().data()->isActive() ? QPropertyAnimation::Forward : QPropertyAnimation::Backward );
-            if( m_animation->state() != QPropertyAnimation::Running ) m_animation->start();
-        }
     }
 
     //________________________________________________________________
@@ -213,12 +193,6 @@ namespace Oxygen
     {
 
         m_internalSettings = SettingsProvider::self()->internalSettings( this );
-
-        // read internal settings
-        // m_internalSettings->read();
-
-        // animation
-        m_animation->setDuration( m_internalSettings->buttonAnimationsDuration() ); //FIXME wrong animation value
 
         // borders
         recalculateBorders();

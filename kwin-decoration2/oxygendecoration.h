@@ -96,7 +96,6 @@ namespace Oxygen
         void recalculateBorders();
         void updateButtonPositions();
         void updateTitleBar();
-        void updateAnimationState();
 
         private:
         QRect captionRect() const;
@@ -180,9 +179,6 @@ namespace Oxygen
 
         //* size grip widget
         SizeGrip *m_sizeGrip = nullptr;
-
-        //* active state change animation
-        QPropertyAnimation *m_animation; //FIXME redundant soon
 
         TitleAnimationData *_titleAnimationData;
 
