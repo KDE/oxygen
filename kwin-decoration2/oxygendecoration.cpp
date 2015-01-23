@@ -102,8 +102,10 @@ namespace Oxygen
         connect(client().data(), &KDecoration2::DecoratedClient::captionChanged, this,
             [this]()
             {
-                // update the caption area
-                update(titleBar());
+                if (m_internalSettings->animationsEnabled()) {
+                    _titleAnimationData->setDirty( true );
+                }
+                update();
             }
         );
 
@@ -118,8 +120,12 @@ namespace Oxygen
         connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::recalculateBorders);
         connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::updateButtonPositions);
 
+        connect(_titleAnimationData, &TitleAnimationData::pixmapsChanged, this,  static_cast<void (Decoration::*)()>(&Decoration::update));
+
         createButtons();
         createShadow();
+
+        _titleAnimationData->initialize();
     }
 
     //________________________________________________________________
