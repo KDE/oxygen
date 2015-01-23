@@ -10,6 +10,24 @@ X-KDE-ParentApp=kcontrol
 X-KDE-Weight=50
 
 Name=Widget Style
+Name[nl]=Widget-stijl
+Name[pt]=Estilo Gráfico
+Name[sv]=Stil för grafiska komponenter
+Name[uk]=Стиль віджетів
+Name[x-test]=xxWidget Stylexx
+Name[zh_CN]=部件样式
 Comment=Modify the appearance of widgets
+Comment[nl]=Wijzig het uiterlijk van widgets
+Comment[pt]=Modificar a aparência dos elementos gráficos
+Comment[sv]=Ändra utseende hos grafiska komponenter
+Comment[uk]=Зміна вигляду віджетів
+Comment[x-test]=xxModify the appearance of widgetsxx
+Comment[zh_CN]=修改部件外观
 
 X-KDE-Keywords=oxygen,widget,style
+X-KDE-Keywords[nl]=oxygen,widget,stijl
+X-KDE-Keywords[pt]=oxygen,elemento,estilo
+X-KDE-Keywords[sv]=oxygen,grafisk komponent,stil
+X-KDE-Keywords[uk]=oxygen,widget,style,оксиген,кисень,віджет,стиль
+X-KDE-Keywords[x-test]=xxoxygenxx,xxwidgetxx,xxstylexx
+X-KDE-Keywords[zh_CN]=oxygen,widget,style,部件,样式
