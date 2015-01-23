@@ -567,8 +567,6 @@ namespace Oxygen
         }
         renderWindowBackground(painter, clipRect, palette );
 
-        renderWindowBackground(painter, clipRect, palette );
-
         // restore painter
         if( clipRect.isValid() )
         { painter->restore(); }
