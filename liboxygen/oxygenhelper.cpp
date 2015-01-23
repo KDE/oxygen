@@ -30,6 +30,7 @@
 #include <KGlobalSettings>
 #endif
 
+#include <QDebug>
 #include <QApplication>
 #include <QWidget>
 #include <QPainter>
@@ -117,45 +118,46 @@ namespace Oxygen
 
     }
 
-    void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& innerWindowRect, const QRect& outerWindowRect, const QColor& color, int yShift, int gradientHeight)
+    void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& windowRect, const QColor& color, int yShift, int gradientHeight)
     {
-        int x( 0 );
-        int y( -yShift );
-
         if ( clipRect.isValid() )
         {
             p->save();
             p->setClipRegion( clipRect,Qt::IntersectClip );
         }
 
-        // calculate upper part height
-        // special tricks are needed
-        // to handle both window contents and window decoration
-        const QRect r = innerWindowRect;
-        int height( outerWindowRect.height() );
-        int width( outerWindowRect.width() );
-
         // gradient offset
         const int offset( gradientHeight - 20 );
 
         // draw upper linear gradient
-        const int splitY( offset + qMin( 300, ( 3*height )/4 ) );
-        const QRect upperRect( -x, -y, r.width(), splitY );
+        const int splitY( offset + qMin( 300, ( 3*windowRect.height() )/4 ) );
+
+        //
+        QRect upperRect = windowRect;
+        upperRect.setHeight(splitY);
         QPixmap tile( verticalGradient( color, splitY, offset ) );
         p->drawTiledPixmap( upperRect, tile );
 
+
         // draw lower flat part
-        const QRect lowerRect( -x, splitY-y, r.width(), r.height() - splitY-yShift );
+        const QRect lowerRect = windowRect.adjusted(0, splitY, 0,  0);
         p->fillRect( lowerRect, backgroundBottomColor( color ) );
 
         // draw upper radial gradient
-        const int radialW( qMin( 600, width ) );
-        const QRect radialRect( ( r.width() - radialW ) / 2-x, -y, radialW, offset + 64 );
+        const int radialW( qMin( 600, windowRect.width() ) );
+        const QRect radialRect( ( windowRect.width() - radialW ) / 2 + windowRect.x(), windowRect.y(), radialW, offset + 64 );
         if ( clipRect.intersects( radialRect ) )
         {
             tile = radialGradient( color, radialW, offset + 64 );
             p->drawPixmap( radialRect, tile );
         }
+
+        qDebug() << "innerrect is " << windowRect;
+        qDebug() << "upperRect is " << upperRect;
+        qDebug() << "lowerRect is " << lowerRect;
+        qDebug() << "radialRect is " << radialRect;
+        qDebug() << "************************\n\n\n\n";
+
 
         if ( clipRect.isValid() )
         { p->restore(); }
