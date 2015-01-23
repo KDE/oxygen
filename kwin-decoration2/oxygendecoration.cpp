@@ -497,9 +497,12 @@ namespace Oxygen
       //_________________________________________________________
     void Decoration::renderWindowBackground( QPainter* painter, const QRect& clipRect, const QPalette& palette ) const
     {
-        // size of window minus the outlines
         QRect innerClientRect = rect();
-        innerClientRect.adjust(1,1,-1,-1);
+        if (settings()->isAlphaChannelSupported()) {
+            // size of window minus the outlines for the rounded corners
+            innerClientRect.adjust(1,1,-1,-1);
+        }
+        //without compositing without a mask we get black boxes in the corner, just paint a big rectangle over everything
 
         if( DecoHelper::self()->hasBackgroundGradient( client().data()->windowId() ) || true )
         {
