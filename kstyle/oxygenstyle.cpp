@@ -2365,7 +2365,10 @@ namespace Oxygen
         if( !toolButtonOption ) return ParentStyleClass::subControlRect( CC_ToolButton, option, subControl, widget );
 
         const bool hasPopupMenu( toolButtonOption->features & QStyleOptionToolButton::MenuButtonPopup );
-        const bool hasInlineIndicator( toolButtonOption->features & QStyleOptionToolButton::HasMenu && !hasPopupMenu );
+        const bool hasInlineIndicator( 
+            toolButtonOption->features&QStyleOptionToolButton::HasMenu 
+            && toolButtonOption->features&QStyleOptionToolButton::PopupDelay
+            && !hasPopupMenu );
 
         // store rect
         const QRect& rect( option->rect );
@@ -2901,7 +2904,11 @@ namespace Oxygen
         const State& state( option->state );
         const bool autoRaise( state & State_AutoRaise );
         const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
-        const bool hasInlineIndicator( toolButtonOption->features & QStyleOptionToolButton::HasMenu && !hasPopupMenu );
+        const bool hasInlineIndicator( 
+            toolButtonOption->features&QStyleOptionToolButton::HasMenu 
+            && toolButtonOption->features&QStyleOptionToolButton::PopupDelay
+            && !hasPopupMenu );
+
         const int marginWidth( autoRaise ? Metrics::ToolButton_MarginWidth : Metrics::Button_MarginWidth + Metrics::Frame_FrameWidth );
 
         if( hasInlineIndicator ) size.rwidth() += Metrics::ToolButton_InlineIndicatorWidth;
@@ -6786,7 +6793,10 @@ namespace Oxygen
         QStyleOptionToolButton copy( *toolButtonOption );
 
         const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
-        const bool hasInlineIndicator( toolButtonOption->features & QStyleOptionToolButton::HasMenu && !hasPopupMenu );
+        const bool hasInlineIndicator( 
+            toolButtonOption->features&QStyleOptionToolButton::HasMenu 
+            && toolButtonOption->features&QStyleOptionToolButton::PopupDelay
+            && !hasPopupMenu );
 
         const QRect buttonRect( subControlRect( CC_ToolButton, option, SC_ToolButton, widget ) );
         const QRect menuRect( subControlRect( CC_ToolButton, option, SC_ToolButtonMenu, widget ) );
