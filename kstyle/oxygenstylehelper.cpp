@@ -730,7 +730,7 @@ namespace Oxygen
                     gradient.setColorAt( 1.0, light );
 
                     painter.setPen( QPen( gradient, 1 ) );
-                    painter.drawRoundedRect( QRectF( 1.5, 1.5, 11, 11 ), 2.5, 2.5 );
+                    painter.drawRoundedRect( QRectF( 2, 1.5, 10, 11 ), 3.0, 2.5 );
 
                 }
 
