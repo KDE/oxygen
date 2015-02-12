@@ -117,6 +117,45 @@ namespace Oxygen
 
     }
 
+    void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& windowRect, const QColor& color, int yShift, int gradientHeight)
+    {
+        if ( clipRect.isValid() )
+        {
+            p->save();
+            p->setClipRegion( clipRect,Qt::IntersectClip );
+        }
+
+        // gradient offset
+        const int offset( gradientHeight - 20 );
+
+        // draw upper linear gradient
+        const int splitY( offset + qMin( 300, ( 3*windowRect.height() )/4 ) );
+
+        //
+        QRect upperRect = windowRect;
+        upperRect.setHeight(splitY);
+        QPixmap tile( verticalGradient( color, splitY, offset ) );
+        p->drawTiledPixmap( upperRect, tile );
+
+
+        // draw lower flat part
+        const QRect lowerRect = windowRect.adjusted(0, splitY, 0,  0);
+        p->fillRect( lowerRect, backgroundBottomColor( color ) );
+
+        // draw upper radial gradient
+        const int radialW( qMin( 600, windowRect.width() ) );
+        const QRect radialRect( ( windowRect.width() - radialW ) / 2 + windowRect.x(), windowRect.y(), radialW, offset + 64 );
+        if ( clipRect.intersects( radialRect ) )
+        {
+            tile = radialGradient( color, radialW, offset + 64 );
+            p->drawPixmap( radialRect, tile );
+        }
+
+        if ( clipRect.isValid() )
+        { p->restore(); }
+    }
+
+
     //____________________________________________________________________
     void Helper::renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int yShift, int gradientHeight )
     {
