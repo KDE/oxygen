@@ -31,6 +31,7 @@ Comment[zh_CN]=Oxygen 桌面设计语言
 Comment[zh_TW]=Oxygen 桌面設計語言
 Encoding=UTF-8
 Keywords=Desktop;Workspace;Appearance;Look and Feel;Logout;Lock;Suspend;Shutdown;Hibernate;
+Keywords[bs]=Radna površ;radni prostor;izgled;izgled i osjećaj;odjavljivanje;zaključavanje;suspenzija;gašenje;hiberniranje;
 Keywords[ca]=Escriptori;Espai de treball;Aparença;Aparença i comportament;Sortida;Bloqueig;Suspensió;Aturada;Hibernació;
 Keywords[da]=Skrivebord;Desktop;Arbejdsområde;Udseende;log ud;Lås;Suspendér;Nedlukning;dvale;
 Keywords[de]=Desktop;Arbeitsfläche;Erscheinungsbild;Erscheinungsbild und Verhalten;Abmelden;Sperren;Ruhezustand;Tiefschlaf;Herunterfahren;
