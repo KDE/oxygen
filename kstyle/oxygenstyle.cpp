@@ -2013,11 +2013,10 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
-        if( !tabOption ) return option->rect;
+        if( !tabOption ) return ParentStyleClass::subElementRect( SE_TabWidgetTabBar, option, widget );
 
         // do nothing if tabbar is hidden
         const QSize tabBarSize( tabOption->tabBarSize );
-        if( tabBarSize.isEmpty() ) return option->rect;
 
         QRect rect( option->rect );
         QRect tabBarRect( QPoint(0, 0), tabBarSize );
