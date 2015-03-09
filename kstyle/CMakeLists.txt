@@ -1,5 +1,3 @@
-project(kstyle-oxygen)
-
 ################# includes #################
 include_directories(
     animations
