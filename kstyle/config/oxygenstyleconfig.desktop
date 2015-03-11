@@ -11,6 +11,7 @@ X-KDE-Weight=50
 
 Name=Widget Style
 Name[ca]=Estil dels estris
+Name[de]=Stil der Bedienelemente
 Name[el]=Στιλ γραφικών συστατικών
 Name[en_GB]=Widget Style
 Name[es]=Estilo de los elementos gráficos
@@ -34,6 +35,7 @@ Name[zh_CN]=部件样式
 Name[zh_TW]=元件樣式
 Comment=Modify the appearance of widgets
 Comment[ca]=Modifica l'aparença dels estris
+Comment[de]=Das Erscheinungsbild der Bedienelemente ändern
 Comment[el]=Τροποποίηση εμφάνισης συστατικών
 Comment[en_GB]=Modify the appearance of widgets
 Comment[es]=Modificar el aspecto de los elementos gráficos
@@ -58,6 +60,7 @@ Comment[zh_TW]=變更元件外觀
 
 X-KDE-Keywords=oxygen,widget,style
 X-KDE-Keywords[ca]=oxygen,estri,estil
+X-KDE-Keywords[de]=Oxygen,Bedienelement,Stil
 X-KDE-Keywords[el]=oxygen,γραφικό συστατικό,στιλ
 X-KDE-Keywords[en_GB]=oxygen,widget,style
 X-KDE-Keywords[es]=oxygen,oxígeno,elemento gráfico,widget,estilo
