@@ -54,7 +54,7 @@ else()
   find_package(ECM 0.0.9 REQUIRED NO_MODULE)
   set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
-  find_package(Qt5 REQUIRED CONFIG COMPONENTS Widgets)
+  find_package(Qt5 REQUIRED CONFIG COMPONENTS Widgets DBus)
   find_package(KF5 REQUIRED COMPONENTS
       I18n
       Config
