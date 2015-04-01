@@ -71,7 +71,7 @@ set(oxygen_PART_SRCS
 if(OXYGEN_USE_KDE4)
 
   kde4_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
-  kde4_add_plugin(oxygen ${oxygen_PART_SRCS})
+  kde4_add_plugin(oxygen ${oxygen_PART_SRCS} kstylekde4compat.cpp)
   target_link_libraries(oxygen ${KDE4_KDEUI_LIBS})
   target_link_libraries(oxygen oxygenstyle)
 
