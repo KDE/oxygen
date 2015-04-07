@@ -64,10 +64,6 @@ namespace Oxygen
         //! destructor
         virtual ~ShadowHelper( void );
 
-        //! true if supported
-        bool isSupported( void ) const
-        { return _supported; }
-
         //! reset
         void reset( void );
 
@@ -92,9 +88,6 @@ namespace Oxygen
         void objectDeleted( QObject* );
 
         protected:
-
-        //! true if shadows are supported
-        bool checkSupported( void ) const;
 
         //! true if widget is a menu
         bool isMenu( QWidget* ) const;
@@ -139,9 +132,6 @@ namespace Oxygen
 
         //! helper
         StyleHelper& _helper;
-
-        //! true if supported
-        bool _supported;
 
         //! cache
         ShadowCache* _shadowCache;

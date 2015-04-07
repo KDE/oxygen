@@ -50,7 +50,6 @@ namespace Oxygen
     ShadowHelper::ShadowHelper( QObject* parent, StyleHelper& helper ):
         QObject( parent ),
         _helper( helper ),
-        _supported( checkSupported() ),
         _shadowCache( new ShadowCache( helper ) ),
         _size( 0 )
         #if OXYGEN_HAVE_X11
@@ -101,9 +100,6 @@ namespace Oxygen
     //_______________________________________________________
     bool ShadowHelper::registerWidget( QWidget* widget, bool force )
     {
-
-        // do nothing if not supported
-        if( !_supported ) return false;
 
         // make sure widget is not already registered
         if( _widgets.contains( widget ) ) return false;
@@ -207,57 +203,6 @@ namespace Oxygen
     //_______________________________________________________
     void ShadowHelper::objectDeleted( QObject* object )
     { _widgets.remove( static_cast<QWidget*>( object ) ); }
-
-    //_______________________________________________________
-    bool ShadowHelper::checkSupported( void ) const
-    {
-
-        // create atom
-        #if OXYGEN_HAVE_X11
-
-        // make sure we are on X11
-        if( !_helper.isX11() ) return false;
-
-        // create atom
-        xcb_atom_t netSupportedAtom( _helper.createAtom( "_NET_SUPPORTED" ) );
-        if( !netSupportedAtom ) return false;
-
-        // store connection locally
-        xcb_connection_t* connection( _helper.connection() );
-
-        // get property
-        const quint32 maxLength = std::string().max_size();
-        xcb_get_property_cookie_t cookie( xcb_get_property( connection, 0, QX11Info::appRootWindow(), netSupportedAtom, XCB_ATOM_ATOM, 0, (maxLength+3) / 4 ) );
-        Helper::ScopedPointer<xcb_get_property_reply_t> reply( xcb_get_property_reply( connection, cookie, nullptr ) );
-        if( !reply ) return false;
-
-        // get reply length and data
-        const int count( xcb_get_property_value_length( reply.data() )/sizeof( xcb_atom_t ) );
-        xcb_atom_t *atoms = reinterpret_cast<xcb_atom_t*>( xcb_get_property_value( reply.data() ) );
-
-        bool found( false );
-        for( int i = 0; i < count && !found; ++i )
-        {
-            // get atom name and print
-            xcb_atom_t atom( atoms[i] );
-
-            xcb_get_atom_name_cookie_t cookie( xcb_get_atom_name( connection, atom ) );
-            Helper::ScopedPointer<xcb_get_atom_name_reply_t> reply( xcb_get_atom_name_reply( connection, cookie, 0 ) );
-            if( !reply ) continue;
-
-            // get name and compare
-            const QString name( QByteArray( xcb_get_atom_name_name( reply.data() ), xcb_get_atom_name_name_length( reply.data() ) ) );
-            if( strcmp( netWMShadowAtomName, xcb_get_atom_name_name( reply.data() ) ) == 0 ) found = true;
-
-        }
-
-        return found;
-
-        #else
-        return false;
-        #endif
-
-    }
 
     //_______________________________________________________
     bool ShadowHelper::isMenu( QWidget* widget ) const
@@ -400,9 +345,6 @@ namespace Oxygen
     bool ShadowHelper::installX11Shadows( QWidget* widget )
     {
 
-        // do nothing if not supported
-        if( !_supported ) return false;
-
         // check widget and shadow
         if( !widget ) return false;
         if( !_helper.isX11() ) return false;
@@ -481,7 +423,6 @@ namespace Oxygen
     {
 
         #if OXYGEN_HAVE_X11
-        if( !_supported ) return;
         if( !_helper.isX11() ) return;
         if( !( widget && widget->testAttribute(Qt::WA_WState_Created) ) ) return;
         xcb_delete_property( _helper.connection(), widget->winId(), _atom);
