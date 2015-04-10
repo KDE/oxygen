@@ -61,8 +61,8 @@ namespace Oxygen
         //! duration
         virtual void setDuration( int duration )
         {
-            if( transition() )
-            { transition().data()->setDuration( duration ); }
+            if( _transition )
+            { _transition.data()->setDuration( duration ); }
         }
 
         //! max render time
@@ -112,17 +112,17 @@ namespace Oxygen
         private:
 
         //! enability
-        bool _enabled;
+        bool _enabled = true;
 
         //! used to avoid recursion when grabbing widgets
-        bool _recursiveCheck;
+        bool _recursiveCheck = false;
 
         //! timer used to detect slow rendering
         QTime _clock;
 
         //! max render time
         /*! used to detect slow rendering */
-        int _maxRenderTime;
+        int _maxRenderTime = 200;
 
         //! animation handling
         TransitionWidget::Pointer _transition;

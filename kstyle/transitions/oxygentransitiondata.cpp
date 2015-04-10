@@ -32,14 +32,11 @@ namespace Oxygen
     //_________________________________________________________________
     TransitionData::TransitionData( QObject* parent, QWidget* target, int duration ):
         QObject( parent ),
-        _enabled( true ),
-        _recursiveCheck( false ),
-        _maxRenderTime( 200 ),
         _transition( new TransitionWidget( target, duration ) )
-    { transition().data()->hide(); }
+    { _transition.data()->hide(); }
 
     //_________________________________________________________________
     TransitionData::~TransitionData( void )
-    { if( transition() ) transition().data()->deleteLater(); }
+    { if( _transition ) _transition.data()->deleteLater(); }
 
 }
