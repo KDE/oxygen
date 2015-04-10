@@ -54,8 +54,7 @@ namespace Oxygen
         TransitionWidget( QWidget* parent, int duration );
 
         //! destructor
-        virtual ~TransitionWidget( void )
-        {}
+        virtual ~TransitionWidget( void ) = default;
 
         //!@name flags
         //@{
@@ -164,19 +163,17 @@ namespace Oxygen
         //! animate transition
         virtual void animate( void )
         {
-            endAnimation();
+            if( _animation.data()->isRunning() ) _animation.data()->stop();
             _animation.data()->start();
         }
 
         //! true if paint is enabled
         static bool paintEnabled( void );
 
-        Q_SIGNALS:
-
-        //! emmitted when animation is finished/aborder
-        void finished( void );
-
         protected:
+
+        //! generic event filter
+        virtual bool event( QEvent* );
 
         //! paint event
         virtual void paintEvent( QPaintEvent* );
@@ -205,7 +202,7 @@ namespace Oxygen
         private:
 
         //! Flags
-        Flags _flags;
+        Flags _flags = None;
 
         //! paint enabled
         static bool _paintEnabled;
@@ -226,7 +223,7 @@ namespace Oxygen
         QPixmap _currentPixmap;
 
         //! current state opacity
-        qreal _opacity;
+        qreal _opacity = 0;
 
         //! steps
         static int _steps;

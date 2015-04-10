@@ -44,13 +44,11 @@ namespace Oxygen
     //________________________________________________
     TransitionWidget::TransitionWidget( QWidget* parent, int duration ):
         QWidget( parent ),
-        _flags( None ),
-        _animation( new Animation( duration, this ) ),
-        _opacity( 0 )
+        _animation( new Animation( duration, this ) )
     {
 
         // background flags
-        setAttribute(Qt::WA_NoSystemBackground );
+        setAttribute( Qt::WA_NoSystemBackground );
         setAutoFillBackground( false );
 
         // setup animation
@@ -59,8 +57,8 @@ namespace Oxygen
         _animation.data()->setTargetObject( this );
         _animation.data()->setPropertyName( "opacity" );
 
-        // setup connections
-        connect( _animation.data(), SIGNAL(finished()), SIGNAL(finished()) );
+        // hide when animation is finished
+        connect( _animation.data(), SIGNAL(finished()), SLOT(hide()) );
 
     }
 
@@ -98,6 +96,25 @@ namespace Oxygen
         _paintEnabled = true;
 
         return out;
+
+    }
+
+    //________________________________________________
+    bool TransitionWidget::event( QEvent* event )
+    {
+        switch( event->type() )
+        {
+            case QEvent::MouseButtonPress:
+            case QEvent::MouseButtonRelease:
+            case QEvent::KeyPress:
+            case QEvent::KeyRelease:
+            endAnimation();
+            hide();
+            event->ignore();
+            return false;
+
+            default: return QWidget::event( event );
+        }
 
     }
 

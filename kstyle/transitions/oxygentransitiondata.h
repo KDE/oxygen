@@ -92,13 +92,6 @@ namespace Oxygen
         //! animate
         virtual bool animate( void ) = 0;
 
-        //! finish animation
-        virtual void finishAnimation( void )
-        {
-            if( transition() )
-            { transition().data()->hide(); }
-        }
-
         protected:
 
         //! returns true if one parent matches given class name

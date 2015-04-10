@@ -36,10 +36,7 @@ namespace Oxygen
         _recursiveCheck( false ),
         _maxRenderTime( 200 ),
         _transition( new TransitionWidget( target, duration ) )
-    {
-        transition().data()->hide();
-        connect( transition().data(), SIGNAL(finished()), SLOT(finishAnimation()) );
-    }
+    { transition().data()->hide(); }
 
     //_________________________________________________________________
     TransitionData::~TransitionData( void )
