@@ -1,5 +1,6 @@
 [Desktop Entry]
 Comment=Oxygen Desktop Design Language
+Comment[ar]=لغة تصميم سطح مكتب أكسجين
 Comment[bs]=Oxygen Desktop dizajnerski jezik
 Comment[ca]=Llenguatge de disseny per a l'escriptori Oxygen
 Comment[cs]=Jazyk pro návrh pracovní plochy Oxygen
@@ -36,6 +37,7 @@ Comment[zh_CN]=Oxygen 桌面设计语言
 Comment[zh_TW]=Oxygen 桌面設計語言
 Encoding=UTF-8
 Keywords=Desktop;Workspace;Appearance;Look and Feel;Logout;Lock;Suspend;Shutdown;Hibernate;
+Keywords[ar]=سطح المكتب;مساحة العمل;المظهر;المظهر والملمس;الخروج;القفل;التّعليق;الإطفاء;الإسبات;
 Keywords[ca]=Escriptori;Espai de treball;Aparença;Aparença i comportament;Sortida;Bloqueig;Suspensió;Aturada;Hibernació;
 Keywords[de]=Desktop;Arbeitsfläche;Erscheinungsbild;Erscheinungsbild und Verhalten;Abmelden;Sperren;Ruhezustand;Tiefschlaf;Herunterfahren;
 Keywords[el]=Επιφάνεια εργασίας;Χώρος εργασίας; Εμφάνιση;Όψη και Αίσθηση;Αποσύνδεση;Κλείδωμα;Αναστολή;Τερματισμός;Νάρκη;
