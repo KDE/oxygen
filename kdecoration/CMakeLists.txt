@@ -1,4 +1,4 @@
-add_definitions(-DTRANSLATION_DOMAIN="oxygen_kwin_deco")
+add_definitions(-DTRANSLATION_DOMAIN="oxygen_kdecoration")
 
 find_package(KDecoration2 REQUIRED)
 find_package(KF5 REQUIRED COMPONENTS CoreAddons ConfigWidgets WindowSystem)
