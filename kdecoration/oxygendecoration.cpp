@@ -28,7 +28,6 @@
 #include "config/oxygenconfig.h"
 
 #include "oxygenbutton.h"
-#include "oxygentitleanimationdata.h"
 #include "oxygensizegrip.h"
 
 #include <KDecoration2/DecoratedClient>
@@ -66,7 +65,6 @@ namespace Oxygen
 
     Decoration::Decoration(QObject *parent, const QVariantList &args)
         : KDecoration2::Decoration(parent, args)
-        , _titleAnimationData(new TitleAnimationData(this) )
     {
         g_sDecoCount++;
     }
@@ -100,16 +98,7 @@ namespace Oxygen
         connect(client().data(), &KDecoration2::DecoratedClient::adjacentScreenEdgesChanged, this, &Decoration::recalculateBorders);
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedHorizontallyChanged, this, &Decoration::recalculateBorders);
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedVerticallyChanged, this, &Decoration::recalculateBorders);
-
-        auto updateCaption = [this]()
-        {
-            if (m_internalSettings->animationsEnabled())
-            { _titleAnimationData->setDirty( true ); }
-            update();
-        };
-
-        connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, updateCaption );
-        connect(client().data(), &KDecoration2::DecoratedClient::captionChanged, this, updateCaption );
+        connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, [this]() { update(); } );
 
         //decoration has an overloaded update function, force the compiler to choose the right one
         connect(client().data(), &KDecoration2::DecoratedClient::paletteChanged,   this,  static_cast<void (Decoration::*)()>(&Decoration::update));
@@ -122,12 +111,9 @@ namespace Oxygen
         connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::recalculateBorders);
         connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::updateButtonPositions);
 
-        connect(_titleAnimationData, &TitleAnimationData::pixmapsChanged, this,  static_cast<void (Decoration::*)()>(&Decoration::update));
-
         createButtons();
         createShadow();
 
-        _titleAnimationData->initialize();
     }
 
     //________________________________________________________________
@@ -286,10 +272,7 @@ namespace Oxygen
         m_leftButtons->paint(painter, repaintRegion);
         m_rightButtons->paint(painter, repaintRegion);
 
-        renderTitleText(
-                painter, captionRect(),
-                titlebarTextColor( palette ),
-                titlebarContrastColor( palette ) );
+        renderTitleText( painter, palette );
 
     }
 
@@ -317,55 +300,46 @@ namespace Oxygen
     }
 
     //________________________________________________________________
-    QRect Decoration::captionRect() const
+    QPair<QRect,Qt::Alignment> Decoration::captionRect() const
     {
+
         const int leftOffset = m_leftButtons->geometry().x() + m_leftButtons->geometry().width() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
         const int rightOffset = size().width() - m_rightButtons->geometry().x() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
-        const int yOffset = isMaximized() ? 0 : settings()->smallSpacing()*Metrics::TitleBar_TopMargin;
-
-        QRect boundingRect( settings()->fontMetrics().boundingRect( client().data()->caption()).toRect() );
-        boundingRect.setTop( yOffset );
-        boundingRect.setHeight( captionHeight() );
-
-        /* need to increase the bounding rect because it is sometime (font dependent)
-        too small, resulting in text being elided */
-        boundingRect.setWidth( boundingRect.width()+12 );
+        const int yOffset = settings()->smallSpacing()*Metrics::TitleBar_TopMargin;
+        const QRect maxRect( leftOffset, yOffset, size().width() - leftOffset - rightOffset, captionHeight() );
 
         switch( m_internalSettings->titleAlignment() )
         {
-            case Oxygen::InternalSettings::AlignLeft:
-            boundingRect.moveLeft( leftOffset );
-            break;
+            case InternalSettings::AlignLeft:
+            return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignLeft );
 
-            case Oxygen::InternalSettings::AlignRight:
-            boundingRect.moveRight( size().width() - rightOffset - 1 );
-            break;
+            case InternalSettings::AlignRight:
+            return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignRight );
 
-            case Oxygen::InternalSettings::AlignCenter:
-            boundingRect.moveLeft( leftOffset + (size().width() - leftOffset - rightOffset - boundingRect.width() )/2 );
-            break;
+            case InternalSettings::AlignCenter:
+            return qMakePair( maxRect, Qt::AlignCenter );
 
             default:
-            case Oxygen::InternalSettings::AlignCenterFullWidth:
-            boundingRect.moveLeft( ( size().width() - boundingRect.width() )/2 );
-            break;
+            case InternalSettings::AlignCenterFullWidth:
+            {
+
+                // full caption rect
+                const QRect fullRect = QRect( 0, yOffset, size().width(), captionHeight() );
+                QRect boundingRect( settings()->fontMetrics().boundingRect( client().data()->caption()).toRect() );
+
+                // text bounding rect
+                boundingRect.setTop( yOffset );
+                boundingRect.setHeight( captionHeight() );
+                boundingRect.moveLeft( ( size().width() - boundingRect.width() )/2 );
+
+                if( boundingRect.left() < leftOffset ) return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignLeft );
+                else if( boundingRect.right() > size().width() - rightOffset ) return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignRight );
+                else return qMakePair(fullRect, Qt::AlignCenter);
+
+            }
 
         }
 
-        // make sure there is no overlap with buttons
-        if( boundingRect.left() < leftOffset )
-        {
-
-            boundingRect.moveLeft( leftOffset );
-            boundingRect.setRight( qMin( boundingRect.right(), size().width() - rightOffset - 1 ) );
-
-        } else if( boundingRect.right() >  size().width() - rightOffset - 1 ) {
-
-            boundingRect.moveRight( size().width() - rightOffset - 1 );
-            boundingRect.setLeft( qMax( boundingRect.left(), leftOffset ) );
-        }
-
-        return boundingRect;
     }
 
     //________________________________________________________________
@@ -425,27 +399,14 @@ namespace Oxygen
 
     //_________________________________________________________
     QColor Decoration::titlebarTextColor(const QPalette &palette) const
-    {
-        if( glowIsAnimated() ) return KColorUtils::mix(
-            titlebarTextColor( palette, false, true ),
-            titlebarTextColor( palette, true, true ),
-            glowIntensity() );
-        else return titlebarTextColor( palette, client().data()->isActive(), true );
-    }
+    { return titlebarTextColor( palette, client().data()->isActive() ); }
 
     //_________________________________________________________
-    QColor Decoration::titlebarTextColor(const QPalette &palette, bool windowActive, bool itemActive ) const
+    QColor Decoration::titlebarTextColor(const QPalette &palette, bool windowActive ) const
     {
-        if( itemActive )
-        {
-            return windowActive ?
-                palette.color(QPalette::Active, QPalette::WindowText):
-                DecoHelper::self()->inactiveTitleBarTextColor( palette );
-        } else if( internalSettings()->drawTitleOutline() ) {
-            return palette.color(QPalette::Foreground);
-        } else {
-            return DecoHelper::self()->inactiveTitleBarTextColor( palette );
-        }
+        return windowActive ?
+            palette.color(QPalette::Active, QPalette::WindowText):
+            DecoHelper::self()->inactiveTitleBarTextColor( palette );
     }
 
     //_________________________________________________________
@@ -509,80 +470,7 @@ namespace Oxygen
             painter->setClipRegion(clipRect,Qt::IntersectClip);
         }
 
-        QRect r = rect();
-
-        // base color
-        QColor color( palette.color( QPalette::Window ) );
-
         // title height
-        const int titleHeight(7);
-
-        // horizontal line
-        {
-            const int shadowSize = 7;
-            const int height = shadowSize-3;
-
-            const QPoint topLeft( r.topLeft()+QPoint(0,titleHeight-height));
-            QRect rect( topLeft, QSize( r.width(), height ) );
-
-            // adjustements to cope with shadow size and outline border.
-            rect.adjust( -shadowSize, 0, shadowSize-1, 0 );
-            if( internalSettings()->drawTitleOutline() && ( client().data()->isActive() || glowIsAnimated() ) && !isMaximized() )
-            {
-                if( internalSettings()->borderSize() == InternalSettings::BorderTiny ) rect.adjust( 1, 0, -1, 0 );
-                else if( internalSettings()->borderSize() > InternalSettings::BorderTiny ) rect.adjust( Metrics::TitleBar_OutlineMargin-1, 0, -Metrics::TitleBar_OutlineMargin+1, 0 );
-            }
-
-            if( rect.isValid() ) {
-                DecoHelper::self()->slab( color, 0, shadowSize )->render( rect, painter, TileSet::Top );
-            }
-        }
-
-        if( internalSettings()->drawTitleOutline() && ( client().data()->isActive() || glowIsAnimated() ) )
-        {
-
-            // save old hints and turn off anti-aliasing
-            const QPainter::RenderHints hints( painter->renderHints() );
-            painter->setRenderHint( QPainter::Antialiasing, false );
-
-            // save mask and frame to where
-            // grey window background is to be rendered
-            QRegion mask;
-            QRect frame;
-
-            // left and right
-            const int topOffset = titleHeight;
-            const int height = r.height();
-
-            if( SettingsProvider::self()->internalSettings(this)->borderSize() >= 2 )
-            {
-
-                const QColor shadow( DecoHelper::self()->calcLightColor( color ) );
-                painter->setPen( shadow );
-
-                // left
-                int width = borderSize();
-                QRect rect( r.topLeft() + QPoint( - width, topOffset ), QSize( width, height ) );
-                if( width > 0 ) { mask += rect; frame |= rect; }
-
-                painter->drawLine( rect.topLeft()-QPoint(1,0), rect.bottomLeft()-QPoint(1, 0) );
-
-                // right
-                width = borderSize();
-                rect = QRect(r.topRight() + QPoint( 0, topOffset ), QSize( width, height ));
-                if( width > 0 ) { mask += rect; frame |= rect; }
-
-                painter->drawLine( rect.topRight()+QPoint(1,0), rect.bottomRight()+QPoint(1, 0) );
-            }
-
-            // restore old hints
-            painter->setRenderHints( hints );
-
-            // paint
-            if( !mask.isEmpty() ) {
-                painter->setClipRegion( mask, Qt::IntersectClip);
-            }
-        }
         renderWindowBackground(painter, clipRect, palette );
 
         // restore painter
@@ -592,148 +480,32 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    void Decoration::renderTitleOutline(  QPainter* painter, const QRect& rect, const QPalette& palette ) const
+    void Decoration::renderTitleText( QPainter* painter, const QPalette& palette ) const
     {
-
-        // center (for active windows only)
-        {
-            painter->save();
-            QRect adjustedRect( rect.adjusted( 1, 1, -1, 1 ) );
-
-            // prepare painter mask
-            QRegion mask( adjustedRect.adjusted( 1, 0, -1, 0 ) );
-            mask += adjustedRect.adjusted( 0, 1, 0, 0 );
-            painter->setClipRegion( mask, Qt::IntersectClip );
-
-            // draw window background
-            renderWindowBackground(painter, adjustedRect, palette );
-            painter->restore();
-        }
-
-        // shadow
-        const int shadowSize( 7 );
-        const int offset( -3 );
-        const int voffset( 5-shadowSize );
-        const QRect adjustedRect( rect.adjusted(offset, voffset, -offset, shadowSize) );
-        QColor color = palette.color(QPalette::Background);
-
-        // render slab
-        DecoHelper::self()->slab( color, 0, shadowSize )->render( adjustedRect, painter, TileSet::Tiles(TileSet::Top|TileSet::Left|TileSet::Right) );
-
-    }
-
-    //_________________________________________________________
-    void Decoration::renderTitleText( QPainter* painter, const QRect& rect, const QColor& color, const QColor& contrast ) const
-    {
-        const QString caption = client().data()->caption();
-
-        if( !_titleAnimationData->isValid() )
-        {
-            // contrast pixmap
-            _titleAnimationData->reset(
-                rect,
-                renderTitleText( rect, caption, color ),
-                renderTitleText( rect, caption, contrast ) );
-        }
-
-        if( _titleAnimationData->isDirty() )
-        {
-            // clear dirty flags
-            _titleAnimationData->setDirty( false );
-
-            // finish current animation if running
-            if( _titleAnimationData->isAnimated() )
-            { _titleAnimationData->finishAnimation(); }
-
-            if( !_titleAnimationData->isLocked() )
-            {
-
-                // set pixmaps
-                _titleAnimationData->setPixmaps(
-                    rect,
-                    renderTitleText( rect, caption, color ),
-                    renderTitleText( rect, caption, contrast ) );
-
-                _titleAnimationData->startAnimation();
-                renderTitleText( painter, rect, color, contrast );
-
-            } else if( !caption.isEmpty() ) {
-
-                renderTitleText( painter, rect, caption, color, contrast );
-
-            }
-
-            // lock animations (this must be done whether or not
-            // animation was actually started, in order to extend locking
-            // every time title get changed too rapidly
-            _titleAnimationData->lockAnimations();
-
-        } else if( _titleAnimationData->isAnimated() ) {
-
-            if( isMaximized() ) painter->translate( 0, 2 );
-            if( !_titleAnimationData->contrastPixmap().isNull() )
-            {
-                painter->translate( 0, 1 );
-                painter->drawPixmap( rect.topLeft(), _titleAnimationData->contrastPixmap() );
-                painter->translate( 0, -1 );
-            }
-
-            painter->drawPixmap( rect.topLeft(), _titleAnimationData->pixmap() );
-
-            if( isMaximized() ) painter->translate( 0, -2 );
-
-        } else if( !client().data()->caption().isEmpty() ) {
-
-            renderTitleText( painter, rect, client().data()->caption(), color, contrast );
-
-        }
-    }
-
-    //_______________________________________________________________________
-    void Decoration::renderTitleText( QPainter* painter, const QRect& rect, const QString& caption, const QColor& color, const QColor& contrast, bool elide ) const
-    {
-        const QString local( elide ? QFontMetrics( painter->font() ).elidedText( caption, Qt::ElideRight, rect.width() ):caption );
 
         // setup font
         painter->setFont( settings()->font() );
 
-        // translate title down in case of maximized window
-        if( isMaximized() ) painter->translate( 0, 2 );
+        // caption rect
+        const auto cR = captionRect();
 
+        // copy caption
+        const auto c = client().data();
+        const QString caption = painter->fontMetrics().elidedText(c->caption(), Qt::ElideMiddle, cR.first.width());
+
+        const auto contrast( titlebarContrastColor( palette ) );
         if( contrast.isValid() )
         {
             painter->setPen( contrast );
             painter->translate( 0, 1 );
-            painter->drawText( rect, Qt::AlignCenter, local ); //align center as we've already put the caption rect in the right place
+            painter->drawText( cR.first, cR.second | Qt::TextSingleLine, caption );
             painter->translate( 0, -1 );
         }
 
+        const auto color( titlebarTextColor( palette ) );
         painter->setPen( color );
-        painter->drawText( rect, Qt::AlignCenter, local );
+        painter->drawText( cR.first, cR.second | Qt::TextSingleLine, caption );
 
-        // translate back
-        if( isMaximized() ) painter->translate( 0, -2 );
-
-    }
-
-    //_______________________________________________________________________
-    QPixmap Decoration::renderTitleText( const QRect& rect, const QString& caption, const QColor& color, bool elide ) const
-    {
-
-        if( !rect.isValid() ) return QPixmap();
-
-        QPixmap out( rect.size() );
-        out.fill( Qt::transparent );
-        if( caption.isEmpty() || !color.isValid() ) return out;
-
-        QPainter painter( &out );
-        painter.setFont( settings()->font() );
-        const QString local( elide ? QFontMetrics( painter.font() ).elidedText( caption, Qt::ElideRight, rect.width() ):caption );
-
-        painter.setPen( color );
-        painter.drawText( out.rect(), Qt::AlignCenter, local );
-        painter.end();
-        return out;
     }
 
     //_________________________________________________________________

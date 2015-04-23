@@ -43,7 +43,6 @@ namespace KDecoration2
 namespace Oxygen
 {
     class SizeGrip;
-    class TitleAnimationData;
 
     class Decoration : public KDecoration2::Decoration
     {
@@ -70,8 +69,6 @@ namespace Oxygen
         //* button height
         int buttonHeight() const;
 
-        //@}
-
         public Q_SLOTS:
         void init() override;
 
@@ -82,20 +79,19 @@ namespace Oxygen
         void updateTitleBar();
 
         private:
-        QRect captionRect() const;
+
+        //* return the rect in which caption will be drawn
+        QPair<QRect,Qt::Alignment> captionRect( void ) const;
 
         void createButtons();
 
         void createShadow();
 
-        bool glowIsAnimated() const {return false;}
-        qreal glowIntensity() const {return 1.0;}
-
         //* text color
         QColor titlebarTextColor(const QPalette&) const;
 
         //* text color
-        QColor titlebarTextColor(const QPalette& palette, bool windowActive, bool itemActive ) const;
+        QColor titlebarTextColor(const QPalette& palette, bool windowActive ) const;
 
         //* text color
         QColor titlebarContrastColor(const QPalette& palette ) const;
@@ -107,25 +103,13 @@ namespace Oxygen
         void renderWindowBackground( QPainter*, const QRect&, const QPalette& ) const;
 
         //* window border
-        // this draws a "blue" border around active window
         void renderWindowBorder( QPainter*, const QRect&, const QPalette& ) const;
 
-        //* title outline
-        void renderTitleOutline( QPainter*, const QRect&, const QPalette& ) const;
-
         //* title text
-        /** second color, if valid, is for contrast pixel */
-        void renderTitleText( QPainter*, const QRect&, const QColor&, const QColor& = QColor() ) const;
-
-        //* title text
-        /** second color, if valid, is for contrast pixel */
-        void renderTitleText( QPainter*, const QRect&, const QString&, const QColor&, const QColor& = QColor(), bool elide = true ) const;
-
-        //* title text
-        QPixmap renderTitleText( const QRect&, const QString&, const QColor&, bool elide = true ) const;
+        void renderTitleText( QPainter*, const QPalette& ) const;
 
         //* corners
-        void renderCorners( QPainter*, const QRect &frame, const QPalette &) const;
+        void renderCorners( QPainter*, const QRect&, const QPalette& ) const;
 
         bool hideTitleBar() const
         {return false;}
@@ -161,7 +145,6 @@ namespace Oxygen
         //* size grip widget
         SizeGrip *m_sizeGrip = nullptr;
 
-        TitleAnimationData *_titleAnimationData;
     };
 
     bool Decoration::hasNoBorders( void ) const

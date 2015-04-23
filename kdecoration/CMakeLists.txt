@@ -40,7 +40,6 @@ set(oxygendecoration_SRCS
     oxygendecoration.cpp
     oxygenexceptionlist.cpp
     oxygensettingsprovider.cpp
-    oxygentitleanimationdata.cpp
     oxygensizegrip.cpp)
 
 kconfig_add_kcfg_files(oxygendecoration_SRCS oxygensettings.kcfgc)
