@@ -341,25 +341,14 @@ namespace Oxygen
         const auto c = client().data();
         const auto palette = c->palette();
 
-        if( c->isShaded() )
-        {
-
-            const QRect titleRect(QPoint(0, 0), QSize(size().width(), borderTop()));
-            renderWindowBorder(painter, titleRect, palette);
-            renderCorners(painter, titleRect, palette);
-
-        } else {
-
-            renderWindowBorder(painter, rect(), palette);
-            renderCorners(painter, rect(), palette);
-
-        }
+        const auto rect = c->isShaded() ? QRect( QPoint(0, 0), QSize(size().width(), borderTop()) ) : this->rect();
+        renderWindowBorder(painter, rect, palette);
+        if( !isMaximized() ) renderCorners( painter, rect, palette);
 
         m_leftButtons->paint(painter, repaintRegion);
         m_rightButtons->paint(painter, repaintRegion);
 
         renderTitleText( painter, palette );
-
     }
 
     //________________________________________________________________
@@ -504,7 +493,7 @@ namespace Oxygen
             rect();
 
         // size of window minus the outlines for the rounded corners
-        if (settings()->isAlphaChannelSupported())
+        if( settings()->isAlphaChannelSupported() && !isMaximized() )
         { innerClientRect.adjust(1,1,-1,-1); }
 
         //without compositing without a mask we get black boxes in the corner, just paint a big rectangle over everything
