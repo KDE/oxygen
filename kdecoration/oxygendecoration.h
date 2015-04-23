@@ -45,9 +45,6 @@ namespace Oxygen
     class SizeGrip;
     class TitleAnimationData;
 
-
-
-
     class Decoration : public KDecoration2::Decoration
     {
         Q_OBJECT
