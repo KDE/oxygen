@@ -24,37 +24,33 @@
 // IN THE SOFTWARE.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenconfigdialog.h"
-#include "../oxygen.h"
-#include "config-liboxygen.h"
-
+#include <QAbstractScrollArea>
 #include <QApplication>
 #include <QIcon>
 
+#include <KCMultiDialog>
 #include <KLocalizedString>
-
-namespace Oxygen
-{
-
-    int run(int argc, char *argv[])
-    {
-        QApplication app( argc, argv );
-        app.setApplicationName( i18n( "Oxygen Settings" ) );
-        app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
-        Oxygen::ConfigDialog dialog;
-        dialog.show();
-        bool result = app.exec();
-        return result;
-    }
-
-}
 
 //__________________________________________
 int main(int argc, char *argv[])
 {
-    #if !OXYGEN_USE_KDE4
     KLocalizedString::setApplicationDomain("oxygen_style_config");
-    #endif
 
-    return Oxygen::run( argc, argv );
+    QApplication app( argc, argv );
+    app.setApplicationName( i18n( "Oxygen Settings" ) );
+    app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen-settings" ) ) );
+
+    KCMultiDialog dialog;
+    dialog.setWindowTitle( i18n( "Oxygen Settings" ) );
+    dialog.addModule( QStringLiteral( "oxygenstyleconfig" ) );
+    dialog.addModule( QStringLiteral( "oxygendecorationconfig" ) );
+    dialog.show();
+
+    foreach( auto child, dialog.findChildren<QAbstractScrollArea*>() )
+    {
+        child->adjustSize();
+        child->viewport()->adjustSize();
+    }
+
+    return app.exec();
 }

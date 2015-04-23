@@ -1,3 +1,4 @@
+### configuration plugin
 add_definitions(-DTRANSLATION_DOMAIN=\"oxygen_style_config\")
 set(kstyle_oxygen_config_PART_SRCS
     oxygenanimationconfigwidget.cpp
@@ -53,33 +54,27 @@ else()
 endif()
 
 ########### next target ###############
-set(oxygen_settings_SOURCES
-    oxygenconfigdialog.cpp
-    main.cpp)
+if(NOT OXYGEN_USE_KDE4)
 
-set(oxygen_settings_FORMS ui/oxygenconfigdialog.ui)
+  find_package(KF5KCMUtils CONFIG)
+  set_package_properties(KF5KCMUtils PROPERTIES
+      DESCRIPTION "KF5 KCM utils Framework"
+      URL "https://projects.kde.org/projects/frameworks/kcmutils"
+      TYPE OPTIONAL
+      PURPOSE "Required for oxygen-settings5 application to build")
 
-if(OXYGEN_USE_KDE4)
+  if( KF5KCMUtils_FOUND )
 
-  kde4_add_ui_files(oxygen_settings_SOURCES ${oxygen_settings_FORMS})
-  kde4_add_executable(oxygen-settings ${oxygen_settings_SOURCES})
-  target_link_libraries(oxygen-settings ${KDE4_KDEUI_LIBS})
-  target_link_libraries(oxygen-settings ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+      set(oxygen_settings_SOURCES main.cpp)
+      add_executable(oxygen-settings5 ${oxygen_settings_SOURCES} )
+      target_link_libraries(oxygen-settings5 Qt5::Core Qt5::Gui Qt5::Widgets )
+      target_link_libraries(oxygen-settings5 KF5::I18n KF5::KCMUtils)
 
-  install(TARGETS oxygen-settings ${INSTALL_TARGETS_DEFAULT_ARGS})
+      install(TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS})
 
-else()
-
-  ki18n_wrap_ui(oxygen_settings_FORMS_HEADERS ${oxygen_settings_FORMS})
-
-  add_executable(oxygen-settings5
-      ${oxygen_settings_SOURCES}
-      ${oxygen_settings_FORMS_HEADERS}
- )
-
-  target_link_libraries(oxygen-settings5 Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
-  target_link_libraries(oxygen-settings5 KF5::I18n KF5::WidgetsAddons KF5::ConfigCore KF5::ConfigGui KF5::Service)
-
-  install(TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS})
-
+      # icon
+      ecm_install_icons(ICONS 256-apps-oxygen.png
+          DESTINATION ${ICON_INSTALL_DIR}
+          THEME hicolor )
+    endif()
 endif()

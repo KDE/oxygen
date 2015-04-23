@@ -82,6 +82,7 @@ else()
 
   endif()
 
+  include(ECMInstallIcons)
   include(KDEInstallDirs)
   include(KDECMakeSettings)
   include(KDECompilerSettings)
