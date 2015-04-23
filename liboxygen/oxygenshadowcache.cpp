@@ -36,6 +36,62 @@
 namespace Oxygen
 {
 
+    //* square utility function
+    static qreal square( qreal x )
+    { return x*x; }
+
+    //* functions used to draw shadows
+    class Parabolic
+    {
+        public:
+
+        //* constructor
+        Parabolic( qreal amplitude, qreal width ):
+            amplitude_( amplitude ),
+            width_( width )
+        {}
+
+        //* destructor
+        virtual ~Parabolic( void )
+        {}
+
+        //* value
+        virtual qreal operator() ( qreal x ) const
+        { return qMax( 0.0, amplitude_*(1.0 - square(x/width_) ) ); }
+
+        private:
+
+        qreal amplitude_;
+        qreal width_;
+
+    };
+
+    //* functions used to draw shadows
+    class Gaussian
+    {
+        public:
+
+        //* constructor
+        Gaussian( qreal amplitude, qreal width ):
+            amplitude_( amplitude ),
+            width_( width )
+        {}
+
+        //* destructor
+        virtual ~Gaussian( void )
+        {}
+
+        //* value
+        virtual qreal operator() ( qreal x ) const
+        { return qMax( 0.0, amplitude_*(std::exp( -square(x/width_) -0.05 ) ) ); }
+
+        private:
+
+        qreal amplitude_;
+        qreal width_;
+
+    };
+
     //_______________________________________________________
     ShadowCache::ShadowCache( Helper& helper ):
         _helper( helper ),
@@ -127,8 +183,8 @@ namespace Oxygen
         if( _enabled && _shadowCache.contains(hash) ) return _shadowCache.object(hash);
 
         // create tileSet otherwise
-        qreal size( shadowSize() + overlap );
-        TileSet* tileSet = new TileSet( pixmap( key, key.active ), size, size, size, size, size, size, 1, 1);
+        const qreal size( shadowSize() + overlap );
+        TileSet* tileSet = new TileSet( pixmap( key ), size, size, size, size, size, size, 1, 1);
         _shadowCache.insert( hash, tileSet );
 
         return tileSet;
@@ -150,10 +206,22 @@ namespace Oxygen
         if( _enabled && _animatedShadowCache.contains(hash) ) return _animatedShadowCache.object(hash);
 
         // create shadow and tileset otherwise
-        qreal size( shadowSize() + overlap );
+        const qreal size( shadowSize() + overlap );
+        TileSet* tileSet = new TileSet( animatedPixmap( key, opacity ), size, size, 1, 1);
+        _animatedShadowCache.insert( hash, tileSet );
+        return tileSet;
+
+    }
+
+
+    //_______________________________________________________
+    QPixmap ShadowCache::animatedPixmap( const Key& key, qreal opacity )
+    {
+
+        // create shadow and tileset otherwise
+        const qreal size( shadowSize() + overlap );
 
         QPixmap shadow( _helper.highDpiPixmap( size*2 ) );
-        // QPixmap shadow( size*2, size*2 );
         shadow.fill( Qt::transparent );
         QPainter painter( &shadow );
         painter.setRenderHint( QPainter::Antialiasing );
@@ -180,9 +248,7 @@ namespace Oxygen
         painter.drawPixmap( QPointF(0,0), activeShadow );
         painter.end();
 
-        TileSet* tileSet = new TileSet( shadow, size, size, 1, 1);
-        _animatedShadowCache.insert( hash, tileSet );
-        return tileSet;
+        return shadow;
 
     }
 
@@ -204,7 +270,6 @@ namespace Oxygen
         shadowSize += overlap;
 
         QPixmap shadow( _helper.highDpiPixmap( size*2 ) );
-        // QPixmap shadow( size*2, size*2 );
         shadow.fill( Qt::transparent );
 
         QPainter painter( &shadow );

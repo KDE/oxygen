@@ -61,9 +61,11 @@ namespace Oxygen
 
 
     //________________________________________________________________
+    using DecorationShadowPointer = QSharedPointer<KDecoration2::DecorationShadow>;
+    using ShadowMap = QMap<int,DecorationShadowPointer>;
+
     static int g_sDecoCount = 0;
-    static QSharedPointer<KDecoration2::DecorationShadow> g_sShadowActive;
-    static QSharedPointer<KDecoration2::DecorationShadow> g_sShadowInactive;
+    static ShadowMap g_sShadows;
 
     Decoration::Decoration(QObject *parent, const QVariantList &args)
         : KDecoration2::Decoration(parent, args)
@@ -76,11 +78,7 @@ namespace Oxygen
     Decoration::~Decoration()
     {
         g_sDecoCount--;
-        if (g_sDecoCount == 0) {
-            // last deco destroyed, clean up shadow
-            g_sShadowActive.clear();
-            g_sShadowInactive.clear();
-        }
+        if (g_sDecoCount == 0) g_sShadows.clear();
     }
 
 
@@ -89,6 +87,7 @@ namespace Oxygen
     {
         if( m_opacity == value ) return;
         m_opacity = value;
+        updateShadow();
         update();
 
         if( m_sizeGrip ) m_sizeGrip->update();
@@ -454,41 +453,43 @@ namespace Oxygen
     //________________________________________________________________
     void Decoration::updateShadow()
     {
-        if( !g_sShadowActive )
+
+        // generate key
+        ShadowCache::Key key;
+        key.active = client().data()->isActive();
+
+        const bool animated( m_animation->state() == QPropertyAnimation::Running );
+        if( animated )
         {
 
-            // setup shadow
-            auto decorationShadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
+            static const int maxIndex = 255;
+            key.index = m_opacity * maxIndex;
 
+        }
 
-            QPixmap shadowPixmap = SettingsProvider::self()->shadowCache()->pixmap( ShadowCache::Key(), true );
+        const int hash( key.hash() );
+
+        // find key in map
+        const auto iter = g_sShadows.find( hash );
+        if( iter != g_sShadows.end() ) setShadow( iter.value() );
+        else {
+
+            auto decorationShadow = DecorationShadowPointer::create();
+            QPixmap shadowPixmap = animated ?
+                SettingsProvider::self()->shadowCache()->animatedPixmap( key, m_opacity ):
+                SettingsProvider::self()->shadowCache()->pixmap( key );
+
             const int shadowSize( shadowPixmap.width()/2 );
             const int overlap = 4;
             decorationShadow->setPadding( QMargins( shadowSize-overlap, shadowSize-overlap, shadowSize-overlap, shadowSize-overlap ) );
             decorationShadow->setInnerShadowRect( QRect( shadowSize, shadowSize, 1, 1 ) );
             decorationShadow->setShadow( shadowPixmap.toImage() );
+            setShadow( decorationShadow );
 
-            g_sShadowActive = decorationShadow;
+            g_sShadows.insert( hash, decorationShadow );
+
         }
 
-        if( !g_sShadowInactive )
-        {
-
-            // setup shadow
-            auto decorationShadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
-
-
-            QPixmap shadowPixmap = SettingsProvider::self()->shadowCache()->pixmap( ShadowCache::Key(), false );
-            const int shadowSize( shadowPixmap.width()/2 );
-            const int overlap = 4;
-            decorationShadow->setPadding( QMargins( shadowSize-overlap, shadowSize-overlap, shadowSize-overlap, shadowSize-overlap ) );
-            decorationShadow->setInnerShadowRect( QRect( shadowSize, shadowSize, 1, 1 ) );
-            decorationShadow->setShadow( shadowPixmap.toImage() );
-
-            g_sShadowInactive = decorationShadow;
-        }
-
-        setShadow( client().data()->isActive() ? g_sShadowActive:g_sShadowInactive );
 
     }
 

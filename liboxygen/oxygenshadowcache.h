@@ -114,11 +114,7 @@ namespace Oxygen
             public:
 
             //* explicit constructor
-            explicit Key( void ):
-                index(0),
-                active(false),
-                isShade(false),
-                hasBorder( true )
+            explicit Key( void )
             {}
 
             //* constructor from int
@@ -132,19 +128,17 @@ namespace Oxygen
             //* hash function
             int hash( void ) const
             {
-
                 return
                     ( index << 3 ) |
                     ( active << 2 ) |
                     ( isShade<< 1 ) |
                     ( hasBorder );
-
             }
 
-            int index;
-            bool active;
-            bool isShade;
-            bool hasBorder;
+            int index = 0;
+            bool active = false;
+            bool isShade = false;
+            bool hasBorder = false;
 
         };
 
@@ -158,69 +152,16 @@ namespace Oxygen
         QPixmap pixmap( const Key& key ) const
         { return pixmap( key, key.active ); }
 
-        //* simple pixmap
-        QPixmap pixmap( const Key&, bool active ) const;
+        //* simple pixmap, with opacity
+        QPixmap animatedPixmap( const Key&, qreal opacity );
 
         protected:
 
         Helper& helper( void ) const
         { return _helper; }
 
-        //* square utility function
-        static qreal square( qreal x )
-        { return x*x; }
-
-        //* functions used to draw shadows
-        class Parabolic
-        {
-            public:
-
-            //* constructor
-            Parabolic( qreal amplitude, qreal width ):
-                amplitude_( amplitude ),
-                width_( width )
-            {}
-
-            //* destructor
-            virtual ~Parabolic( void )
-            {}
-
-            //* value
-            virtual qreal operator() ( qreal x ) const
-            { return qMax( 0.0, amplitude_*(1.0 - square(x/width_) ) ); }
-
-            private:
-
-            qreal amplitude_;
-            qreal width_;
-
-        };
-
-        //* functions used to draw shadows
-        class Gaussian
-        {
-            public:
-
-            //* constructor
-            Gaussian( qreal amplitude, qreal width ):
-                amplitude_( amplitude ),
-                width_( width )
-            {}
-
-            //* destructor
-            virtual ~Gaussian( void )
-            {}
-
-            //* value
-            virtual qreal operator() ( qreal x ) const
-            { return qMax( 0.0, amplitude_*(std::exp( -square(x/width_) -0.05 ) ) ); }
-
-            private:
-
-            qreal amplitude_;
-            qreal width_;
-
-        };
+        //* simple pixmap
+        QPixmap pixmap( const Key&, bool active ) const;
 
         //* draw gradient into rect
         /*! a separate method is used in order to properly account for corners */
