@@ -70,6 +70,8 @@ namespace Oxygen
         }
 
         m_decoHelper->invalidateCaches();
+        m_decoHelper->loadConfig();
+
         m_shadowCache->readConfig();
         m_defaultSettings->load();
 
