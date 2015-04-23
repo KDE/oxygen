@@ -496,7 +496,6 @@ namespace Oxygen
         if( settings()->isAlphaChannelSupported() && !isMaximized() )
         { innerClientRect.adjust(1,1,-1,-1); }
 
-        //without compositing without a mask we get black boxes in the corner, just paint a big rectangle over everything
         if( DecoHelper::self()->hasBackgroundGradient( c->windowId() ) )
         {
 
