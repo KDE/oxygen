@@ -41,20 +41,20 @@ namespace Oxygen
     {
         public:
 
-        //! constructor
+        //* constructor
         explicit ShadowCache( Helper& );
 
-        //! destructor
+        //* destructor
         virtual ~ShadowCache( void )
         {}
 
-        //! read configuration
+        //* read configuration
         void readConfig( void );
 
-        //! animations duration
+        //* animations duration
         void setAnimationsDuration( int );
 
-        //! cache size
+        //* cache size
         void setEnabled( bool enabled )
         {
             _enabled = enabled;
@@ -72,11 +72,11 @@ namespace Oxygen
             }
         }
 
-        //! max animation index
+        //* max animation index
         int maxIndex( void ) const
         { return _maxIndex; }
 
-        //! max animation index
+        //* max animation index
         void setMaxIndex( int value )
         {
             _maxIndex = value;
@@ -90,30 +90,30 @@ namespace Oxygen
 
         }
 
-        //! invalidate caches
+        //* invalidate caches
         void invalidateCaches( void )
         {
             _shadowCache.clear();
             _animatedShadowCache.clear();
         }
 
-        //! true if shadow is enabled for a given group
+        //* true if shadow is enabled for a given group
         bool isEnabled( QPalette::ColorGroup ) const;
 
-        //! set shadow size manually
+        //* set shadow size manually
         void setShadowSize( QPalette::ColorGroup, int );
 
-        //! shadow size
+        //* shadow size
         int shadowSize( void ) const;
 
-        //! Key class to be used into QCache
+        //* Key class to be used into QCache
         /*! class is entirely inline for optimization */
         class Key
         {
 
             public:
 
-            //! explicit constructor
+            //* explicit constructor
             explicit Key( void ):
                 index(0),
                 active(false),
@@ -121,7 +121,7 @@ namespace Oxygen
                 hasBorder( true )
             {}
 
-            //! constructor from int
+            //* constructor from int
             explicit Key( int hash ):
                 index( hash >> 3 ),
                 active( ( hash >> 2 )&1 ),
@@ -129,7 +129,7 @@ namespace Oxygen
                 hasBorder( (hash)&1 )
             {}
 
-            //! hash function
+            //* hash function
             int hash( void ) const
             {
 
@@ -148,17 +148,17 @@ namespace Oxygen
 
         };
 
-        //! get shadow matching client
+        //* get shadow matching client
         TileSet* tileSet( const Key& );
 
-        //! get shadow matching client and opacity
+        //* get shadow matching client and opacity
         TileSet* tileSet( Key, qreal );
 
-        //! simple pixmap
+        //* simple pixmap
         QPixmap pixmap( const Key& key ) const
         { return pixmap( key, key.active ); }
 
-        //! simple pixmap
+        //* simple pixmap
         QPixmap pixmap( const Key&, bool active ) const;
 
         protected:
@@ -166,26 +166,26 @@ namespace Oxygen
         Helper& helper( void ) const
         { return _helper; }
 
-        //! square utility function
+        //* square utility function
         static qreal square( qreal x )
         { return x*x; }
 
-        //! functions used to draw shadows
+        //* functions used to draw shadows
         class Parabolic
         {
             public:
 
-            //! constructor
+            //* constructor
             Parabolic( qreal amplitude, qreal width ):
                 amplitude_( amplitude ),
                 width_( width )
             {}
 
-            //! destructor
+            //* destructor
             virtual ~Parabolic( void )
             {}
 
-            //! value
+            //* value
             virtual qreal operator() ( qreal x ) const
             { return qMax( 0.0, amplitude_*(1.0 - square(x/width_) ) ); }
 
@@ -196,22 +196,22 @@ namespace Oxygen
 
         };
 
-        //! functions used to draw shadows
+        //* functions used to draw shadows
         class Gaussian
         {
             public:
 
-            //! constructor
+            //* constructor
             Gaussian( qreal amplitude, qreal width ):
                 amplitude_( amplitude ),
                 width_( width )
             {}
 
-            //! destructor
+            //* destructor
             virtual ~Gaussian( void )
             {}
 
-            //! value
+            //* value
             virtual qreal operator() ( qreal x ) const
             { return qMax( 0.0, amplitude_*(std::exp( -square(x/width_) -0.05 ) ) ); }
 
@@ -222,38 +222,38 @@ namespace Oxygen
 
         };
 
-        //! draw gradient into rect
+        //* draw gradient into rect
         /*! a separate method is used in order to properly account for corners */
         void renderGradient( QPainter&, const QRectF&, const QRadialGradient&, bool hasBorder = true ) const;
 
         private:
 
-        //! helper
+        //* helper
         Helper& _helper;
 
-        //! defines overlap between shadows and body
+        //* defines overlap between shadows and body
         enum { overlap = 4 };
 
-        //! caching enable state
+        //* caching enable state
         bool _enabled;
 
-        //! shadow size
+        //* shadow size
         int _activeShadowSize;
 
-        //! shadow size
+        //* shadow size
         int _inactiveShadowSize;
 
-        //! max index
+        //* max index
         /*! it is used to set caches max cost, and calculate animation opacity */
         int _maxIndex;
 
-        //! cache
+        //* cache
         typedef QCache<int, TileSet> TileSetCache;
 
-        //! shadow cache
+        //* shadow cache
         TileSetCache _shadowCache;
 
-        //! animated shadow cache
+        //* animated shadow cache
         TileSetCache _animatedShadowCache;
 
     };
