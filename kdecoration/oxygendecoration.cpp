@@ -99,15 +99,16 @@ namespace Oxygen
         connect(client().data(), &KDecoration2::DecoratedClient::adjacentScreenEdgesChanged, this, &Decoration::recalculateBorders);
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedHorizontallyChanged, this, &Decoration::recalculateBorders);
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedVerticallyChanged, this, &Decoration::recalculateBorders);
-        connect(client().data(), &KDecoration2::DecoratedClient::captionChanged, this,
-            [this]()
-            {
-                if (m_internalSettings->animationsEnabled()) {
-                    _titleAnimationData->setDirty( true );
-                }
-                update();
-            }
-        );
+
+        auto updateCaption = [this]()
+        {
+            if (m_internalSettings->animationsEnabled())
+            { _titleAnimationData->setDirty( true ); }
+            update();
+        };
+
+        connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, updateCaption );
+        connect(client().data(), &KDecoration2::DecoratedClient::captionChanged, this, updateCaption );
 
         //decoration has an overloaded update function, force the compiler to choose the right one
         connect(client().data(), &KDecoration2::DecoratedClient::paletteChanged,   this,  static_cast<void (Decoration::*)()>(&Decoration::update));
@@ -434,17 +435,20 @@ namespace Oxygen
         }
     }
 
+    //_________________________________________________________
     QColor Decoration::titlebarContrastColor(const QPalette& palette) const
     {
         return titlebarContrastColor( palette.color(QPalette::Background) );
     }
 
+    //_________________________________________________________
     QColor Decoration::titlebarContrastColor(const QColor& color) const
     {
         return DecoHelper::self()->calcLightColor( color );
 
     }
 
+    //_________________________________________________________
     void Decoration::renderCorners( QPainter* painter, const QRect& frame, const QPalette& palette ) const
     {
 
@@ -460,22 +464,29 @@ namespace Oxygen
         painter->drawRoundedRect( QRectF( frame ).adjusted( 0.5, 0.5, -0.5, -0.5 ), 3.5,  3.5 );
     }
 
-      //_________________________________________________________
+    //_________________________________________________________
     void Decoration::renderWindowBackground( QPainter* painter, const QRect& clipRect, const QPalette& palette ) const
     {
+
         QRect innerClientRect = rect();
-        if (settings()->isAlphaChannelSupported()) {
+        if (settings()->isAlphaChannelSupported())
+        {
             // size of window minus the outlines for the rounded corners
             innerClientRect.adjust(1,1,-1,-1);
         }
-        //without compositing without a mask we get black boxes in the corner, just paint a big rectangle over everything
 
+        //without compositing without a mask we get black boxes in the corner, just paint a big rectangle over everything
         if( DecoHelper::self()->hasBackgroundGradient( client().data()->windowId() ) )
         {
+
             DecoHelper::self()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), 0, 20 );
+
         } else {
+
             painter->fillRect( innerClientRect, palette.color( QPalette::Window ) );
+
         }
+
     }
 
     //_________________________________________________________
@@ -662,6 +673,7 @@ namespace Oxygen
             if( isMaximized() ) painter->translate( 0, -2 );
 
         } else if( !client().data()->caption().isEmpty() ) {
+
             renderTitleText( painter, rect, client().data()->caption(), color, contrast );
 
         }
@@ -671,6 +683,9 @@ namespace Oxygen
     void Decoration::renderTitleText( QPainter* painter, const QRect& rect, const QString& caption, const QColor& color, const QColor& contrast, bool elide ) const
     {
         const QString local( elide ? QFontMetrics( painter->font() ).elidedText( caption, Qt::ElideRight, rect.width() ):caption );
+
+        // setup font
+        painter->setFont( settings()->font() );
 
         // translate title down in case of maximized window
         if( isMaximized() ) painter->translate( 0, 2 );
@@ -702,7 +717,7 @@ namespace Oxygen
         if( caption.isEmpty() || !color.isValid() ) return out;
 
         QPainter painter( &out );
-//         painter.setFont( options()->font(client().data()->isActive(), false) ); FIXME
+        painter.setFont( settings()->font() );
         const QString local( elide ? QFontMetrics( painter.font() ).elidedText( caption, Qt::ElideRight, rect.width() ):caption );
 
         painter.setPen( color );
