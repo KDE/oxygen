@@ -22,15 +22,16 @@
  */
 
 #include "oxygendecoration.h"
-#include "oxygensettings.h"
 #include "oxygen.h"
 
 #include <KSharedConfig>
-
 #include <QObject>
 
 namespace Oxygen
 {
+
+    class DecoHelper;
+    class ShadowCache;
 
     class SettingsProvider: public QObject
     {
@@ -44,6 +45,14 @@ namespace Oxygen
 
         //* singleton
         static SettingsProvider *self();
+
+        //* helper
+        DecoHelper* helper( void ) const
+        { return m_decoHelper; }
+
+        //* shadow cache
+        ShadowCache* shadowCache( void ) const
+        { return m_shadowCache; }
 
         //* internal settings for given decoration
         InternalSettingsPtr internalSettings(const Decoration *) const;
@@ -66,6 +75,12 @@ namespace Oxygen
 
         //* config object
         KSharedConfigPtr m_config;
+
+        //* decoration helper
+        DecoHelper* m_decoHelper = nullptr;
+
+        //* shadow cache
+        ShadowCache* m_shadowCache = nullptr;
 
         //* singleton
         static SettingsProvider *s_self;

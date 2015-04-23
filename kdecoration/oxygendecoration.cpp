@@ -120,7 +120,7 @@ namespace Oxygen
 
     //_________________________________________________________
     QColor Decoration::titlebarContrastColor(const QColor& color) const
-    { return DecoHelper::self()->calcLightColor( color ); }
+    { return SettingsProvider::self()->helper()->calcLightColor( color ); }
 
     //________________________________________________________________
     void Decoration::init()
@@ -508,9 +508,9 @@ namespace Oxygen
         const QColor color(palette.color(QPalette::Background));
 
         QLinearGradient lg = QLinearGradient(0, -0.5, 0, qreal( frame.height() )+0.5);
-        lg.setColorAt(0.0, DecoHelper::self()->calcLightColor( DecoHelper::self()->backgroundTopColor(color) ));
-        lg.setColorAt(0.51, DecoHelper::self()->backgroundBottomColor(color) );
-        lg.setColorAt(1.0, DecoHelper::self()->backgroundBottomColor(color) );
+        lg.setColorAt(0.0, SettingsProvider::self()->helper()->calcLightColor( SettingsProvider::self()->helper()->backgroundTopColor(color) ));
+        lg.setColorAt(0.51, SettingsProvider::self()->helper()->backgroundBottomColor(color) );
+        lg.setColorAt(1.0, SettingsProvider::self()->helper()->backgroundBottomColor(color) );
 
         painter->setPen( QPen( lg, 1 ) );
         painter->setBrush( Qt::NoBrush );
@@ -530,10 +530,10 @@ namespace Oxygen
         if( settings()->isAlphaChannelSupported() && !isMaximized() )
         { innerClientRect.adjust(1,1,-1,-1); }
 
-        if( DecoHelper::self()->hasBackgroundGradient( c->windowId() ) )
+        if( SettingsProvider::self()->helper()->hasBackgroundGradient( c->windowId() ) )
         {
 
-            DecoHelper::self()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), 0, 20 );
+            SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), 0, 20 );
 
         } else {
 

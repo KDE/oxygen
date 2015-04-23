@@ -30,18 +30,6 @@
 namespace Oxygen
 {
 
-    Q_GLOBAL_STATIC(DecoHelper, s_helper)
-
-    //______________________________________________________________________________
-    DecoHelper* DecoHelper::self()
-    {
-        if (!s_helper.exists()) {
-            //-> operator creates an instance
-            s_helper->loadConfig();
-        }
-        return s_helper;
-    }
-
     //______________________________________________________________________________
     DecoHelper::DecoHelper():
         Helper(KSharedConfig::openConfig("oxygenrc"))

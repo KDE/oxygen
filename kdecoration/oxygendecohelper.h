@@ -35,7 +35,6 @@ namespace Oxygen
     {
 
         public:
-        static DecoHelper* self();
 
         //* constructor
         explicit DecoHelper();

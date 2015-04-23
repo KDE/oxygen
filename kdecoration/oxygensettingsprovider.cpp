@@ -20,7 +20,9 @@
  */
 
 #include "oxygensettingsprovider.h"
-#include "oxygensettingsprovider.moc"
+
+#include "oxygendecohelper.h"
+#include "oxygenshadowcache.h"
 
 #include "oxygenexceptionlist.h"
 
@@ -35,12 +37,18 @@ namespace Oxygen
 
     //__________________________________________________________________
     SettingsProvider::SettingsProvider():
-        m_config( KSharedConfig::openConfig( QStringLiteral("oxygenrc") ) )
+        m_config( KSharedConfig::openConfig( QStringLiteral("oxygenrc") ) ),
+        m_decoHelper( new DecoHelper() ),
+        m_shadowCache( new ShadowCache( *m_decoHelper ) )
     { reconfigure(); }
 
     //__________________________________________________________________
     SettingsProvider::~SettingsProvider()
-    { s_self = nullptr; }
+    {
+        s_self = nullptr;
+        delete m_shadowCache;
+        delete m_decoHelper;
+    }
 
     //__________________________________________________________________
     SettingsProvider *SettingsProvider::self()
@@ -61,6 +69,8 @@ namespace Oxygen
             m_defaultSettings->setCurrentGroup( QStringLiteral("Windeco") );
         }
 
+        m_decoHelper->invalidateCaches();
+        m_shadowCache->readConfig();
         m_defaultSettings->load();
 
         ExceptionList exceptions;

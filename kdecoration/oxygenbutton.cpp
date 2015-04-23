@@ -22,6 +22,7 @@
  */
 
 #include "oxygenbutton.h"
+#include "oxygensettingsprovider.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KColorUtils>
@@ -154,13 +155,13 @@ namespace Oxygen
         if( isAnimated() || isHovered() )
         {
             glow = isCloseButton() ?
-                DecoHelper::self()->negativeTextColor(palette):
-                DecoHelper::self()->hoverColor(palette);
+                SettingsProvider::self()->helper()->negativeTextColor(palette):
+                SettingsProvider::self()->helper()->hoverColor(palette);
 
             if( isAnimated() )
             {
                 color = KColorUtils::mix( color, glow, m_opacity );
-                glow = DecoHelper::self()->alphaColor( glow, m_opacity );
+                glow = SettingsProvider::self()->helper()->alphaColor( glow, m_opacity );
 
             } else if( isHovered() ) color = glow;
 
@@ -171,7 +172,7 @@ namespace Oxygen
         const QSizeF iconSize( size().width()-m_offset.x(), size().height()-m_offset.y() );
         const QRectF iconRect( geometry().topLeft(), iconSize );
         const QPixmap pixmap = decoration()->client().data()->icon().pixmap( iconSize.toSize());
-        painter->drawPixmap(iconRect.center() - QPoint(pixmap.width()/2, pixmap.height()/2), DecoHelper::self()->windecoButton( base, glow, sunken, iconSize.height()) );
+        painter->drawPixmap(iconRect.center() - QPoint(pixmap.width()/2, pixmap.height()/2), SettingsProvider::self()->helper()->windecoButton( base, glow, sunken, iconSize.height()) );
 
         // Icon
         painter->setRenderHints(QPainter::Antialiasing);
@@ -182,7 +183,7 @@ namespace Oxygen
         // contrast
         painter->setBrush(Qt::NoBrush);
         painter->translate(0, 0.5);
-        painter->setPen(QPen( DecoHelper::self()->calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        painter->setPen(QPen( SettingsProvider::self()->helper()->calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         drawIcon(painter);
 
         // main
