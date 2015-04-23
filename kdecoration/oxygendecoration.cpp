@@ -24,6 +24,7 @@
 
 #include "oxygen.h"
 #include "oxygensettingsprovider.h"
+#include "oxygenshadowcache.h"
 #include "config-oxygen.h"
 #include "config/oxygenconfigwidget.h"
 
@@ -457,45 +458,14 @@ namespace Oxygen
 
         // setup shadow
         auto decorationShadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
-        decorationShadow->setPadding( QMargins(
-            Metrics::Shadow_Size-Metrics::Shadow_Offset,
-            Metrics::Shadow_Size-Metrics::Shadow_Offset,
-            Metrics::Shadow_Size,
-            Metrics::Shadow_Size ) );
 
-        decorationShadow->setInnerShadowRect(QRect(
-            Metrics::Shadow_Size-Metrics::Shadow_Offset+Metrics::Shadow_Overlap,
-            Metrics::Shadow_Size-Metrics::Shadow_Offset+Metrics::Shadow_Overlap,
-            Metrics::Shadow_Offset - 2*Metrics::Shadow_Overlap,
-            Metrics::Shadow_Offset - 2*Metrics::Shadow_Overlap ) );
 
-        // create image
-        QImage image(2*Metrics::Shadow_Size, 2*Metrics::Shadow_Size, QImage::Format_ARGB32_Premultiplied);
-        image.fill(Qt::transparent);
-
-        QPainter p(&image);
-        p.setCompositionMode(QPainter::CompositionMode_Source);
-
-        // create gradient
-        auto gradientStopColor = [](QColor color, qreal alpha) {
-            color.setAlphaF(alpha);
-            return color;
-        };
-
-        const QColor shadowColor( client().data()->palette().color( QPalette::Shadow ) );
-
-        QRadialGradient radialGradient( Metrics::Shadow_Size, Metrics::Shadow_Size, Metrics::Shadow_Size);
-        radialGradient.setColorAt(0.0,  gradientStopColor(shadowColor, 0.35));
-        radialGradient.setColorAt(0.25, gradientStopColor(shadowColor, 0.25));
-        radialGradient.setColorAt(0.5,  gradientStopColor(shadowColor, 0.13));
-        radialGradient.setColorAt(0.75, gradientStopColor(shadowColor, 0.04));
-        radialGradient.setColorAt(1.0,  gradientStopColor(shadowColor, 0.0));
-
-        // fill
-        p.fillRect( image.rect(), radialGradient);
-
-        // assign to shadow
-        decorationShadow->setShadow(image);
+        QPixmap shadowPixmap = SettingsProvider::self()->shadowCache()->pixmap( ShadowCache::Key() );
+        const int shadowSize( shadowPixmap.width()/2 );
+        const int overlap = 4;
+        decorationShadow->setPadding( QMargins( shadowSize-overlap, shadowSize-overlap, shadowSize-overlap, shadowSize-overlap ) );
+        decorationShadow->setInnerShadowRect( QRect( shadowSize, shadowSize, 1, 1 ) );
+        decorationShadow->setShadow( shadowPixmap.toImage() );
 
         g_sShadow = decorationShadow;
         setShadow(decorationShadow);
