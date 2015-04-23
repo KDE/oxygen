@@ -1,99 +1,82 @@
-//////////////////////////////////////////////////////////////////////////////
-// Button.cpp
-// -------------------
-//
-// Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
-// Copyright (c) 2006, 2007 Riccardo Iaconelli <riccardo@kde.org>
-// Copyright (c) 2006, 2007 Casper Boemann <cbr@boemann.dk>
-// Copyright (c) 2015 David Edmundson <davidedmundson@kde.org>
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to
-// deal in the Software without restriction, including without limitation the
-// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-// sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-// IN THE SOFTWARE.
-//////////////////////////////////////////////////////////////////////////////
+/*
+ * Copyright (c) 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+ * Copyright (c) 2006, 2007 Riccardo Iaconelli <riccardo@kde.org>
+ * Copyright (c) 2006, 2007 Casper Boemann <cbr@boemann.dk>
+ * Copyright (c) 2015 David Edmundson <davidedmundson@kde.org>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License or (at your option) version 3 or any later version
+ * accepted by the membership of KDE e.V. (or its successor approved
+ * by the membership of KDE e.V.), which shall act as a proxy
+ * defined in Section 14 of version 3 of the license.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "oxygenbutton.h"
 
-#include "oxygen.h"
-#include "oxygendecoration.h"
-#include "oxygensettingsprovider.h"
-
-#include <cmath>
-
-#include <QPainter>
-#include <QPen>
-
+#include <KDecoration2/DecoratedClient>
 #include <KColorUtils>
 #include <KColorScheme>
 
-#include <kdecoration2/decorationbutton.h>
-#include <kdecoration2/decoration.h>
-#include <kdecoration2/decoratedclient.h>
+#include <QPainter>
 
 namespace Oxygen
 {
 
     //____________________________________________________________________________________
     Button* Button::create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent)
-    { return new Button(type, decoration, parent); }
+    {
+        if (auto d = qobject_cast<Decoration*>(decoration))
+        {
+
+            return new Button(type, d, parent);
+
+        } else return nullptr;
+    }
 
     //____________________________________________________________________________________
-    Button::Button(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent):
+    Button::Button(KDecoration2::DecorationButtonType type, Decoration* decoration, QObject* parent):
         KDecoration2::DecorationButton(type, decoration, parent)
-        ,m_internalSettings(qobject_cast<Decoration*>(decoration)->internalSettings())
-        ,_glowAnimation( new Animation( 150, this ) )
-        ,_glowIntensity(0)
+        , m_animation( new QPropertyAnimation( this ) )
+        , m_opacity(0)
     {
-        //setup geometry
-        setGeometry(QRectF(QPointF(0, 0), sizeHint()));
 
         // setup animation
-        _glowAnimation->setStartValue( 0 );
-        _glowAnimation->setEndValue( 1.0 );
-        _glowAnimation->setTargetObject( this );
-        _glowAnimation->setPropertyName( "glowIntensity" );
-        _glowAnimation->setEasingCurve( QEasingCurve::InOutQuad );
-        // setup connections
+        m_animation->setStartValue( 0 );
+        m_animation->setEndValue( 1.0 );
+        m_animation->setTargetObject( this );
+        m_animation->setPropertyName( "opacity" );
+        m_animation->setEasingCurve( QEasingCurve::InOutQuad );
+
+        // setup default geometry
+        const int height = decoration->buttonHeight();
+        setGeometry(QRect(0, 0, height, height));
+
         reset(0);
 
-        if( isMenuButton() ) {
-            connect(decoration->client().data(), SIGNAL(iconChanged(QIcon)), this, SLOT(update()));
-        }
+        // setup connections
+        if( isMenuButton() )
+        { connect(decoration->client().data(), SIGNAL(iconChanged(QIcon)), this, SLOT(update())); }
 
+        connect( this, &KDecoration2::DecorationButton::hoveredChanged, this, &Button::updateAnimationState );
 
-        connect(this, &DecorationButton::hoveredChanged, this, [this](bool hovered){
-            if( buttonAnimationsEnabled() && hasDecoration() ) {
-                _glowAnimation->setDirection( hovered ? Animation::Forward : Animation::Backward );
-                    if( !isAnimated() ) _glowAnimation->start();
-            }
-        });
     }
 
     //_______________________________________________
     Button::Button(QObject *parent, const QVariantList &args)
-        : KDecoration2::DecorationButton(args.at(0).value<KDecoration2::DecorationButtonType>(), args.at(1).value<Decoration*>(), parent),
-        _glowAnimation( new Animation( 150, this ) ),
-        _glowIntensity(0)
-    {
-        //weird standalone mode that is going to crash
-    }
-
-    //_______________________________________________
-    Button::~Button() = default;
+        : KDecoration2::DecorationButton(args.at(0).value<KDecoration2::DecorationButtonType>(), args.at(1).value<Decoration*>(), parent)
+        , m_flag(FlagStandalone)
+        , m_animation( new QPropertyAnimation( this ) )
+    {}
 
     //_______________________________________________
     QColor Button::buttonDetailColor(const QPalette &palette) const
@@ -125,40 +108,40 @@ namespace Oxygen
 
     //___________________________________________________
     bool Button::buttonAnimationsEnabled( void ) const
-    { return m_internalSettings->buttonAnimationsEnabled(); }
-
-    //___________________________________________________
-    QSize Button::sizeHint() const
-    {
-        const int baseSize = decoration()->settings()->gridUnit() + 2; //kde4 oxygen buttons were 18px, make them match
-        unsigned int size = 0;
-        switch( m_internalSettings->buttonSize() )
-        {
-            case Oxygen::InternalSettings::ButtonSmall: size = baseSize*1.5; break;
-            default:
-            case Oxygen::InternalSettings::ButtonDefault: size = baseSize*2; break;
-            case Oxygen::InternalSettings::ButtonLarge: size = baseSize*2.5; break;
-            case Oxygen::InternalSettings::ButtonVeryLarge: size = baseSize*3.5; break;
-        }
-        return QSize( size, size );
-    }
+    { return static_cast<Decoration*>(decoration().data())->internalSettings()->buttonAnimationsEnabled(); }
 
     //___________________________________________________
     void Button::reset( unsigned long )
-    { _glowAnimation->setDuration( m_internalSettings->buttonAnimationsDuration() ); }
+    { m_animation->setDuration( static_cast<Decoration*>(decoration().data())->internalSettings()->buttonAnimationsDuration() ); }
 
     //___________________________________________________
-    void Button::paint( QPainter* painter, const QRect& )
+    void Button::paint( QPainter* painter, const QRect& repaintRegion)
     {
+        Q_UNUSED(repaintRegion)
+
+        if (!decoration()) return;
+
         painter->save();
-        painter->translate(geometry().topLeft());
 
+        // translate from offset
+        if( m_flag == FlagFirstInList ) painter->translate( m_offset );
+        else painter->translate( 0, m_offset.y() );
+
+        // menu buttons
+        if( isMenuButton() )
+        {
+
+            const QSizeF iconSize( size().width()-m_offset.x(), size().height()-m_offset.y() );
+            const QRectF iconRect( geometry().topLeft(), iconSize );
+            const QPixmap pixmap = decoration()->client().data()->icon().pixmap( iconSize.toSize());
+            painter->drawPixmap(iconRect.center() - QPoint(pixmap.width()/2, pixmap.height()/2), pixmap);
+            return;
+
+        }
+
+        // palette
         QPalette palette( decoration().data()->client().data()->palette() );
-
         palette.setCurrentColorGroup( isActive() ? QPalette::Active : QPalette::Inactive);
-
-        //translate buttons down if window maximized
-        if( decoration().data()->client().data()->isMaximized() ) painter->translate( 0, 1 );
 
         // base button color
         QColor base = palette.button().color();
@@ -168,7 +151,7 @@ namespace Oxygen
 
         // decide decoration color
         QColor glow;
-        if( isAnimated() || (isHovered()) )
+        if( isAnimated() || isHovered() )
         {
             glow = isCloseButton() ?
                 DecoHelper::self()->negativeTextColor(palette):
@@ -176,49 +159,37 @@ namespace Oxygen
 
             if( isAnimated() )
             {
-                color = KColorUtils::mix( color, glow, glowIntensity() );
-                glow = DecoHelper::self()->alphaColor( glow, glowIntensity() );
+                color = KColorUtils::mix( color, glow, m_opacity );
+                glow = DecoHelper::self()->alphaColor( glow, m_opacity );
 
             } else if( isHovered() ) color = glow;
 
         }
 
-        if( hasDecoration() )
-        {
-            // draw button shape
-            const bool sunken =
-                isPressed() ||
-                ( type() == KDecoration2::DecorationButtonType::OnAllDesktops && isChecked() ) ||
-                ( type() == KDecoration2::DecorationButtonType::KeepAbove && isChecked() ) ||
-                ( type() == KDecoration2::DecorationButtonType::KeepBelow && isChecked() );
-
-            painter->drawPixmap(0, 0, DecoHelper::self()->windecoButton( base, glow, sunken, sizeHint().height()) );
-        }
+        // draw button shape
+        const bool sunken = isPressed() || ( isToggleButton() && isChecked() );
+        const QSizeF iconSize( size().width()-m_offset.x(), size().height()-m_offset.y() );
+        const QRectF iconRect( geometry().topLeft(), iconSize );
+        const QPixmap pixmap = decoration()->client().data()->icon().pixmap( iconSize.toSize());
+        painter->drawPixmap(iconRect.center() - QPoint(pixmap.width()/2, pixmap.height()/2), DecoHelper::self()->windecoButton( base, glow, sunken, iconSize.height()) );
 
         // Icon
-        // for menu button the application icon is used
-        if( isMenuButton() )
-        {
-            const QPixmap pixmap = decoration()->client().data()->icon().pixmap(size().toSize());
-            const double offset = 0;
-            painter->drawPixmap(offset, offset-1, pixmap );
+        painter->setRenderHints(QPainter::Antialiasing);
+        painter->translate( geometry().topLeft() );
 
-        } else {
+        qreal width( 1.2 );
 
-            painter->setRenderHints(QPainter::Antialiasing);
-            qreal width( 1.2 );
+        // contrast
+        painter->setBrush(Qt::NoBrush);
+        painter->translate(0, 0.5);
+        painter->setPen(QPen( DecoHelper::self()->calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        drawIcon(painter);
 
-            // contrast
-            painter->setBrush(Qt::NoBrush);
-            painter->translate(0, 0.5);
-            painter->setPen(QPen( DecoHelper::self()->calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            drawIcon(painter);
+        // main
+        painter->translate(0,-1.5);
+        painter->setPen(QPen(color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+        drawIcon(painter);
 
-            // main
-            painter->translate(0,-1.5);
-            painter->setPen(QPen(color, width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-            drawIcon(painter);
-        }
         painter->restore();
     }
 
@@ -228,7 +199,8 @@ namespace Oxygen
         painter->save();
 
         //keep all co-ordinates between 0 and 21
-        painter->scale(geometry().width()/21.0, geometry().height()/21.0);
+        const qreal width( geometry().width() - m_offset.x() );
+        painter->scale( width/21, width/21 );
 
         switch(type())
         {
@@ -315,4 +287,17 @@ namespace Oxygen
         painter->restore();
         return;
     }
+
+    //__________________________________________________________________
+    void Button::updateAnimationState( bool hovered )
+    {
+
+        auto d = qobject_cast<Decoration*>(decoration());
+        if( !(d && d->internalSettings()->animationsEnabled() ) ) return;
+
+        m_animation->setDirection( hovered ? QPropertyAnimation::Forward : QPropertyAnimation::Backward );
+        if( m_animation->state() != QPropertyAnimation::Running ) m_animation->start();
+
+    }
+
 }

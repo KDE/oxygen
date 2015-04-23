@@ -100,7 +100,7 @@ namespace Oxygen
         private Q_SLOTS:
         void reconfigure();
         void recalculateBorders();
-        void updateButtonPositions();
+        void updateButtonsGeometry();
         void updateTitleBar();
         void updateAnimationState();
         void updateSizeGripVisibility();

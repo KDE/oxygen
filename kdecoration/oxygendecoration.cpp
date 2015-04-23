@@ -165,10 +165,10 @@ namespace Oxygen
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateTitleBar);
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::setOpaque);
 
-        connect(client().data(), &KDecoration2::DecoratedClient::widthChanged,     this, &Decoration::updateButtonPositions);
-        connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateButtonPositions);
+        connect(client().data(), &KDecoration2::DecoratedClient::widthChanged,     this, &Decoration::updateButtonsGeometry);
+        connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateButtonsGeometry);
         connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::recalculateBorders);
-        connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::updateButtonPositions);
+        connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::updateButtonsGeometry);
 
         createButtons();
         createShadow();
@@ -319,14 +319,48 @@ namespace Oxygen
     {
         m_leftButtons = new KDecoration2::DecorationButtonGroup(KDecoration2::DecorationButtonGroup::Position::Left, this, &Button::create);
         m_rightButtons = new KDecoration2::DecorationButtonGroup(KDecoration2::DecorationButtonGroup::Position::Right, this, &Button::create);
-        updateButtonPositions();
+        updateButtonsGeometry();
     }
 
     //________________________________________________________________
-    void Decoration::updateButtonPositions()
+    void Decoration::updateButtonsGeometry()
     {
         auto s = settings();
-        const int vPadding = (isMaximized() ? 0 : s->smallSpacing()*Metrics::TitleBar_TopMargin) + (captionHeight()-buttonHeight())/2;
+
+        // adjust button position
+        const int bHeight = captionHeight() + (isMaximized() ? s->smallSpacing()*Metrics::TitleBar_TopMargin:0);
+        const int bWidth = buttonHeight();
+        const int verticalOffset = (isMaximized() ? s->smallSpacing()*Metrics::TitleBar_TopMargin:0) + (captionHeight()-buttonHeight())/2;
+        foreach( const QPointer<KDecoration2::DecorationButton>& button, m_leftButtons->buttons() + m_rightButtons->buttons() )
+        {
+            button.data()->setGeometry( QRectF( QPoint( 0, 0 ), QSizeF( bWidth, bHeight ) ) );
+            static_cast<Button*>( button.data() )->setOffset( QPointF( 0, verticalOffset ) );
+        }
+
+        if( isMaximized() )
+        {
+            // add offsets on the side buttons, to preserve padding, but satisfy Fitts law
+            const int hOffset = s->smallSpacing()*Metrics::TitleBar_SideMargin;
+            if( !m_leftButtons->buttons().isEmpty() )
+            {
+                auto button = static_cast<Button*>( m_leftButtons->buttons().front().data() );
+                button->setGeometry( QRectF( QPoint( 0, 0 ), QSizeF( bWidth + hOffset, bHeight ) ) );
+                button->setFlag( Button::FlagFirstInList );
+                button->setHorizontalOffset( hOffset );
+            }
+
+            if( !m_rightButtons->buttons().isEmpty() )
+            {
+                auto button = static_cast<Button*>( m_rightButtons->buttons().back().data() );
+                button->setGeometry( QRectF( QPoint( 0, 0 ), QSizeF( bWidth + hOffset, bHeight ) ) );
+                button->setFlag( Button::FlagLastInList );
+                button->setHorizontalOffset( hOffset );
+            }
+
+        }
+
+        // adjust buttons position
+        const int vPadding = isMaximized() ? 0 : s->smallSpacing()*Metrics::TitleBar_TopMargin;
         const int hPadding = isMaximized() ? 0 : s->smallSpacing()*Metrics::TitleBar_SideMargin;
 
         m_rightButtons->setSpacing(s->smallSpacing()*Metrics::TitleBar_ButtonSpacing);
