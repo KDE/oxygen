@@ -186,7 +186,13 @@ namespace Oxygen
         if( hasDecoration() )
         {
             // draw button shape
-            painter->drawPixmap(0, 0, DecoHelper::self()->windecoButton( base, glow, isPressed(), sizeHint().height()) );
+            const bool sunken =
+                isPressed() ||
+                ( type() == KDecoration2::DecorationButtonType::OnAllDesktops && isChecked() ) ||
+                ( type() == KDecoration2::DecorationButtonType::KeepAbove && isChecked() ) ||
+                ( type() == KDecoration2::DecorationButtonType::KeepBelow && isChecked() );
+
+            painter->drawPixmap(0, 0, DecoHelper::self()->windecoButton( base, glow, sunken, sizeHint().height()) );
         }
 
         // Icon
@@ -194,7 +200,7 @@ namespace Oxygen
         if( isMenuButton() )
         {
             const QPixmap pixmap = decoration()->client().data()->icon().pixmap(size().toSize());
-            const double offset = 0;//FIXME ? 0.5*(width()-pixmap.width() );
+            const double offset = 0;
             painter->drawPixmap(offset, offset-1, pixmap );
 
         } else {
