@@ -53,10 +53,10 @@ namespace Oxygen
 
     //____________________________________________________________________________________
     Button::Button(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent):
-        KDecoration2::DecorationButton(type, decoration, parent),
-        _glowAnimation( new Animation( 150, this ) ),
-        _glowIntensity(0),
-        m_internalSettings(qobject_cast<Decoration*>(decoration)->internalSettings())
+        KDecoration2::DecorationButton(type, decoration, parent)
+        ,m_internalSettings(qobject_cast<Decoration*>(decoration)->internalSettings())
+        ,_glowAnimation( new Animation( 150, this ) )
+        ,_glowIntensity(0)
     {
         //setup geometry
         setGeometry(QRectF(QPointF(0, 0), sizeHint()));
@@ -98,32 +98,26 @@ namespace Oxygen
     //_______________________________________________
     QColor Button::buttonDetailColor(const QPalette &palette) const
     {
-        if( m_internalSettings->animationsEnabled() ) return KColorUtils::mix(
-            buttonDetailColor( palette, false ),
-            buttonDetailColor( palette, true ),
-            16 ); //FIXME
-        else return buttonDetailColor( palette, isActive());
-    }
-
-    //___________________________________________________
-    QColor Button::buttonDetailColor( const QPalette& palette, bool active ) const
-    {
-        if( type() == KDecoration2::DecorationButtonType::Close)
+        auto d( qobject_cast<Decoration*>( decoration().data() ) );
+        if( d->isAnimated() )
         {
 
-            return active ?
-                palette.color(QPalette::Active, QPalette::WindowText ):
-                DecoHelper::self()->inactiveTitleBarTextColor( palette );
+            return KColorUtils::mix(
+                buttonDetailColor( palette, false ),
+                buttonDetailColor( palette, true ),
+                d->opacity() );
 
         } else {
 
-            return active ?
-                palette.color(QPalette::Active, QPalette::ButtonText ):
-                DecoHelper::self()->inactiveButtonTextColor( palette );
+            return buttonDetailColor( palette, isActive());
 
         }
 
     }
+
+    //___________________________________________________
+    QColor Button::buttonDetailColor( const QPalette& palette, bool active ) const
+    { return palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::ButtonText ); }
 
     //___________________________________________________
     bool Button::isActive( void ) const
@@ -154,7 +148,7 @@ namespace Oxygen
     { _glowAnimation->setDuration( m_internalSettings->buttonAnimationsDuration() ); }
 
     //___________________________________________________
-    void Button::paint( QPainter* painter, const QRect &repaintArea )
+    void Button::paint( QPainter* painter, const QRect& )
     {
         painter->save();
         painter->translate(geometry().topLeft());

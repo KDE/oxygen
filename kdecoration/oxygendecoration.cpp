@@ -65,6 +65,7 @@ namespace Oxygen
 
     Decoration::Decoration(QObject *parent, const QVariantList &args)
         : KDecoration2::Decoration(parent, args)
+        , m_animation( new QPropertyAnimation( this ) )
     {
         g_sDecoCount++;
     }
@@ -79,9 +80,59 @@ namespace Oxygen
         }
     }
 
+
+    //________________________________________________________________
+    void Decoration::setOpacity( qreal value )
+    {
+        if( m_opacity == value ) return;
+        m_opacity = value;
+        update();
+
+        if( m_sizeGrip ) m_sizeGrip->update();
+    }
+
+    //_________________________________________________________
+    QColor Decoration::titlebarTextColor(const QPalette &palette) const
+    {
+        if( m_animation->state() == QPropertyAnimation::Running )
+        {
+
+            return KColorUtils::mix(
+                titlebarTextColor( palette, false ),
+                titlebarTextColor( palette, true ),
+                m_opacity );
+
+        } else {
+
+            return titlebarTextColor( palette, client().data()->isActive() );
+
+        }
+
+    }
+
+    //_________________________________________________________
+    QColor Decoration::titlebarTextColor(const QPalette &palette, bool active ) const
+    { return palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ); }
+
+    //_________________________________________________________
+    QColor Decoration::titlebarContrastColor(const QPalette& palette) const
+    { return titlebarContrastColor( palette.color(QPalette::Background) ); }
+
+    //_________________________________________________________
+    QColor Decoration::titlebarContrastColor(const QColor& color) const
+    { return DecoHelper::self()->calcLightColor( color ); }
+
     //________________________________________________________________
     void Decoration::init()
     {
+
+        // active state change animation
+        m_animation->setStartValue( 0 );
+        m_animation->setEndValue( 1.0 );
+        m_animation->setTargetObject( this );
+        m_animation->setPropertyName( "opacity" );
+        m_animation->setEasingCurve( QEasingCurve::InOutQuad );
+
         reconfigure();
         updateTitleBar();
         auto s = settings();
@@ -98,7 +149,15 @@ namespace Oxygen
         connect(client().data(), &KDecoration2::DecoratedClient::adjacentScreenEdgesChanged, this, &Decoration::recalculateBorders);
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedHorizontallyChanged, this, &Decoration::recalculateBorders);
         connect(client().data(), &KDecoration2::DecoratedClient::maximizedVerticallyChanged, this, &Decoration::recalculateBorders);
-        connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, [this]() { update(); } );
+        connect(client().data(), &KDecoration2::DecoratedClient::captionChanged, this,
+            [this]()
+            {
+                // update the caption area
+                update(titleBar());
+            }
+        );
+
+        connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, &Decoration::updateAnimationState);
 
         //decoration has an overloaded update function, force the compiler to choose the right one
         connect(client().data(), &KDecoration2::DecoratedClient::paletteChanged,   this,  static_cast<void (Decoration::*)()>(&Decoration::update));
@@ -126,6 +185,24 @@ namespace Oxygen
         const int x = maximized ? 0 : s->largeSpacing()*Metrics::TitleBar_SideMargin;
         const int y = maximized ? 0 : s->smallSpacing()*Metrics::TitleBar_TopMargin;
         setTitleBar(QRect(x, y, width, height));
+    }
+
+    //________________________________________________________________
+    void Decoration::updateAnimationState()
+    {
+        if( m_internalSettings->animationsEnabled() )
+        {
+            m_animation->setDirection( client().data()->isActive() ? QPropertyAnimation::Forward : QPropertyAnimation::Backward );
+            if( m_animation->state() != QPropertyAnimation::Running ) m_animation->start();
+        }
+    }
+
+    //________________________________________________________________
+    void Decoration::updateSizeGripVisibility()
+    {
+        auto c = client().data();
+        if( m_sizeGrip )
+        { m_sizeGrip->setVisible( c->isResizeable() && !isMaximized() && !c->isShaded() ); }
     }
 
     //________________________________________________________________
@@ -396,27 +473,6 @@ namespace Oxygen
         setShadow(decorationShadow);
     }
 
-
-    //_________________________________________________________
-    QColor Decoration::titlebarTextColor(const QPalette &palette) const
-    { return titlebarTextColor( palette, client().data()->isActive() ); }
-
-    //_________________________________________________________
-    QColor Decoration::titlebarTextColor(const QPalette &palette, bool windowActive ) const
-    {
-        return windowActive ?
-            palette.color(QPalette::Active, QPalette::WindowText):
-            DecoHelper::self()->inactiveTitleBarTextColor( palette );
-    }
-
-    //_________________________________________________________
-    QColor Decoration::titlebarContrastColor(const QPalette& palette) const
-    { return titlebarContrastColor( palette.color(QPalette::Background) ); }
-
-    //_________________________________________________________
-    QColor Decoration::titlebarContrastColor(const QColor& color) const
-    { return DecoHelper::self()->calcLightColor( color ); }
-
     //_________________________________________________________
     void Decoration::renderCorners( QPainter* painter, const QRect& frame, const QPalette& palette ) const
     {
@@ -522,10 +578,12 @@ namespace Oxygen
         KDecoration2::DecoratedClient *c( client().data() );
         if( !c ) return;
 
-        if( ( c->isResizeable() && c->windowId() != 0 ) )
+        if( c->windowId() != 0 )
         {
             m_sizeGrip = new SizeGrip( this );
-            m_sizeGrip->setVisible( !( isMaximized() || c->isShaded() ) );
+            connect( client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility );
+            connect( client().data(), &KDecoration2::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility );
+            connect( client().data(), &KDecoration2::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility );
         }
         #endif
 

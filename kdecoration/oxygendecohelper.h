@@ -26,7 +26,7 @@
 #include "oxygenhelper.h"
 #include <ksharedconfig.h>
 
-//! helper class
+//* helper class
 /*! contains utility functions used at multiple places in oxygen style */
 namespace Oxygen
 {
@@ -37,46 +37,23 @@ namespace Oxygen
         public:
         static DecoHelper* self();
 
-        //! constructor
+        //* constructor
         explicit DecoHelper();
 
-        //! destructor
+        //* destructor
         virtual ~DecoHelper()
         {}
 
-        //! reset all caches
+        //* reset all caches
         virtual void invalidateCaches();
 
-        //!@name decoration specific helper functions
-        //!
-        //@{
+        //* windeco buttons
         virtual QPixmap windecoButton(const QColor &color, const QColor& glow, bool sunken, int size = 21);
-        //@}
-
-        //
-        virtual QRegion decoRoundedMask( const QRect&, int left = 1, int right = 1, int top = 1, int bottom = 1 ) const;
-
-        //! title bar text color
-        const QColor& inactiveTitleBarTextColor( const QPalette& );
-
-        //! button text color
-        const QColor& inactiveButtonTextColor( const QPalette& );
-
-        protected:
-
-        //! reduce contrast between two colors
-        QColor reduceContrast(const QColor&, const QColor&, double) const;
 
         private:
 
-        //! windeco buttons
+        //* windeco buttons
         Cache<QPixmap> _windecoButtonCache;
-
-        //! titleBar text color cache
-        ColorCache _titleBarTextColorCache;
-
-        //! button text color cache
-        ColorCache _buttonTextColorCache;
 
     };
 

@@ -55,8 +55,6 @@ namespace Oxygen
 
         // local caches
         _windecoButtonCache.clear();
-        _titleBarTextColorCache.clear();
-        _buttonTextColorCache.clear();
 
     }
 
@@ -142,89 +140,6 @@ namespace Oxygen
         }
 
         return *pixmap;
-    }
-
-    //_______________________________________________________________________
-    QRegion DecoHelper::decoRoundedMask( const QRect& r, int left, int right, int top, int bottom ) const
-    {
-        // get rect geometry
-        int x, y, w, h;
-        r.getRect(&x, &y, &w, &h);
-
-        QRegion mask(x + 3*left, y + 0*top, w-3*(left+right), h-0*(top+bottom));
-        mask += QRegion(x + 0*left, y + 3*top, w-0*(left+right), h-3*(top+bottom));
-        mask += QRegion(x + 1*left, y + 1*top, w-1*(left+right), h-1*(top+bottom));
-
-        return mask;
-    }
-
-    //______________________________________________________________________________
-    const QColor& DecoHelper::inactiveTitleBarTextColor( const QPalette& palette )
-    {
-
-        const quint32 key( colorKey( palette.color(QPalette::Active, QPalette::Window) ) );
-        QColor* out( _titleBarTextColorCache.object( key ) );
-        if( !out )
-        {
-
-            // todo: reimplement cache
-            const QColor ab = palette.color(QPalette::Active, QPalette::Window);
-            const QColor af = palette.color(QPalette::Active, QPalette::WindowText);
-            const QColor nb = palette.color(QPalette::Inactive, QPalette::Window);
-            const QColor nf = palette.color(QPalette::Inactive, QPalette::WindowText);
-            out = new QColor( reduceContrast(nb, nf, qMax(qreal(2.5), KColorUtils::contrastRatio(ab, KColorUtils::mix(ab, af, 0.4)))) );
-            _titleBarTextColorCache.insert( key, out );
-        }
-
-        return *out;
-    }
-
-
-    //______________________________________________________________________________
-    const QColor& DecoHelper::inactiveButtonTextColor( const QPalette& palette )
-    {
-
-        const quint32 key( colorKey( palette.color(QPalette::Active, QPalette::Window) ) );
-        QColor* out( _buttonTextColorCache.object( key ) );
-        if( !out )
-        {
-
-            // todo: reimplement cache
-            const QColor ab = palette.color(QPalette::Active, QPalette::Button);
-            const QColor af = palette.color(QPalette::Active, QPalette::ButtonText);
-            const QColor nb = palette.color(QPalette::Inactive, QPalette::Button);
-            const QColor nf = palette.color(QPalette::Inactive, QPalette::ButtonText);
-            out = new QColor( reduceContrast(nb, nf, qMax(qreal(2.5), KColorUtils::contrastRatio(ab, KColorUtils::mix(ab, af, 0.4)))) );
-            _buttonTextColorCache.insert( key, out );
-        }
-
-        return *out;
-    }
-
-    //_________________________________________________________
-    QColor DecoHelper::reduceContrast(const QColor &c0, const QColor &c1, double t) const
-    {
-        const double s( KColorUtils::contrastRatio(c0, c1) );
-        if( s < t ) return c1;
-
-        double l(0);
-        double h(1.0);
-        double x(s);
-        double a;
-        QColor r( c1 );
-        for (int maxiter = 16; maxiter; --maxiter)
-        {
-
-            a = 0.5 * (l + h);
-            r = KColorUtils::mix(c0, c1, a);
-            x = KColorUtils::contrastRatio(c0, r);
-
-            if ( std::abs(x - t) < 0.01) break;
-            if (x > t) h = a;
-            else l = a;
-        }
-
-        return r;
     }
 
 }

@@ -48,6 +48,9 @@ namespace Oxygen
     {
         Q_OBJECT
 
+        //* declare active state opacity
+        Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
+
         public:
 
         //* constructor
@@ -69,6 +72,28 @@ namespace Oxygen
         //* button height
         int buttonHeight() const;
 
+        //*@name active state change animation
+        //@{
+        bool isAnimated( void ) const
+        { return m_animation->state() == QPropertyAnimation::Running; }
+
+        void setOpacity( qreal );
+
+        qreal opacity( void ) const
+        { return m_opacity; }
+
+        //@}
+
+        //*@name colors
+        //@{
+
+        QColor titlebarTextColor(const QPalette&) const;
+        QColor titlebarTextColor(const QPalette& palette, bool active ) const;
+        QColor titlebarContrastColor(const QPalette& palette ) const;
+        QColor titlebarContrastColor(const QColor& color ) const;
+
+        //@}
+
         public Q_SLOTS:
         void init() override;
 
@@ -77,6 +102,8 @@ namespace Oxygen
         void recalculateBorders();
         void updateButtonPositions();
         void updateTitleBar();
+        void updateAnimationState();
+        void updateSizeGripVisibility();
 
         private:
 
@@ -84,20 +111,7 @@ namespace Oxygen
         QPair<QRect,Qt::Alignment> captionRect( void ) const;
 
         void createButtons();
-
         void createShadow();
-
-        //* text color
-        QColor titlebarTextColor(const QPalette&) const;
-
-        //* text color
-        QColor titlebarTextColor(const QPalette& palette, bool windowActive ) const;
-
-        //* text color
-        QColor titlebarContrastColor(const QPalette& palette ) const;
-
-        //* text color
-        QColor titlebarContrastColor(const QColor& color ) const;
 
         //* window background
         void renderWindowBackground( QPainter*, const QRect&, const QPalette& ) const;
@@ -144,6 +158,12 @@ namespace Oxygen
 
         //* size grip widget
         SizeGrip *m_sizeGrip = nullptr;
+
+        //* active state change animation
+        QPropertyAnimation *m_animation;
+
+        //* active state change opacity
+        qreal m_opacity = 0;
 
     };
 
