@@ -30,6 +30,9 @@
 #include "oxygensettings.h"
 #include "oxygen.h"
 
+#include <KCModule>
+#include <KSharedConfig>
+
 #include <QWidget>
 #include <QSharedPointer>
 
@@ -37,7 +40,7 @@ namespace Oxygen
 {
 
     //_____________________________________________
-    class ConfigWidget: public QWidget
+    class ConfigWidget: public KCModule
     {
 
         Q_OBJECT
@@ -45,20 +48,19 @@ namespace Oxygen
         public:
 
         //* constructor
-        explicit ConfigWidget( QWidget* );
+        explicit ConfigWidget( QWidget*, const QVariantList& );
 
         //* destructor
-        virtual ~ConfigWidget( void )
-        {}
+        virtual ~ConfigWidget( void ) = default;
 
-        //* set configuration
-        void setInternalSettings( InternalSettingsPtr );
+        //* default
+        void defaults() override;
 
         //* load configuration
-        void load( void );
+        void load( void ) override;
 
         //* save configuration
-        void save( void );
+        void save( void ) override;
 
         //* true if changed
         virtual bool isChanged( void ) const
@@ -67,11 +69,6 @@ namespace Oxygen
         //* exceptions
         ExceptionListWidget* exceptionListWidget( void ) const
         { return m_ui.exceptions; }
-
-        Q_SIGNALS:
-
-        //* emmited when changed
-        void changed( bool );
 
         protected Q_SLOTS:
 
@@ -91,6 +88,9 @@ namespace Oxygen
 
         //* ui
         Ui_OxygenConfigurationUI m_ui;
+
+        //* kconfiguration object
+        KSharedConfig::Ptr m_configuration;
 
         //* internal exception
         InternalSettingsPtr m_internalSettings;

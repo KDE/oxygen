@@ -25,7 +25,7 @@
 #include "oxygen.h"
 #include "oxygensettingsprovider.h"
 #include "config-oxygen.h"
-#include "config/oxygenconfig.h"
+#include "config/oxygenconfigwidget.h"
 
 #include "oxygenbutton.h"
 #include "oxygensizegrip.h"
@@ -52,7 +52,7 @@ K_PLUGIN_FACTORY_WITH_JSON(
     "oxygen.json",
     registerPlugin<Oxygen::Decoration>();
     registerPlugin<Oxygen::Button>(QStringLiteral("button"));
-    registerPlugin<Oxygen::ConfigurationModule>(QStringLiteral("kcmodule"));
+    registerPlugin<Oxygen::ConfigWidget>(QStringLiteral("kcmodule"));
 )
 
 namespace Oxygen

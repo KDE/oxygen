@@ -47,7 +47,6 @@ kconfig_add_kcfg_files(oxygendecoration_SRCS oxygensettings.kcfgc)
 ### config classes
 ### they are kept separately because they might move in a separate library in the future
 set(oxygendecoration_config_SRCS
-    config/oxygenconfig.cpp
     config/oxygenconfigwidget.cpp
     config/oxygendetectwidget.cpp
     config/oxygenexceptiondialog.cpp
@@ -95,3 +94,4 @@ endif()
 
 
 install(TARGETS oxygendecoration DESTINATION ${PLUGIN_INSTALL_DIR}/org.kde.kdecoration2)
+install(FILES config/oxygendecorationconfig.desktop DESTINATION  ${SERVICES_INSTALL_DIR})

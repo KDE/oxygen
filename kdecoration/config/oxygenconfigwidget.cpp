@@ -32,12 +32,16 @@
 
 #include <KLocalizedString>
 
+#include <QDBusConnection>
+#include <QDBusMessage>
+
 namespace Oxygen
 {
 
     //_________________________________________________________
-    ConfigWidget::ConfigWidget( QWidget* parent ):
-        QWidget( parent ),
+    ConfigWidget::ConfigWidget( QWidget* parent, const QVariantList &args ):
+        KCModule(parent, args),
+        m_configuration( KSharedConfig::openConfig( QStringLiteral( "oxygenrc" ) ) ),
         m_changed( false )
     {
 
@@ -59,13 +63,14 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    void ConfigWidget::setInternalSettings( InternalSettingsPtr internalSettings )
-    { m_internalSettings = internalSettings; }
-
-    //_________________________________________________________
     void ConfigWidget::load( void )
     {
-        if( !m_internalSettings ) return;
+
+        // create internal settings and load from rc files
+        m_internalSettings = InternalSettingsPtr( new InternalSettings() );
+        m_internalSettings->load();
+
+        // assign to ui
         m_ui.titleAlignment->setCurrentIndex( m_internalSettings->titleAlignment() );
         m_ui.buttonSize->setCurrentIndex( m_internalSettings->buttonSize() );
         m_ui.drawBorderOnMaximizedWindows->setChecked( m_internalSettings->drawBorderOnMaximizedWindows() );
@@ -80,7 +85,9 @@ namespace Oxygen
     void ConfigWidget::save( void )
     {
 
-        if( !m_internalSettings ) return;
+        // create internal settings and load from rc files
+        m_internalSettings = InternalSettingsPtr( new InternalSettings() );
+        m_internalSettings->load();
 
         // apply modifications from ui
         m_internalSettings->setTitleAlignment( m_ui.titleAlignment->currentIndex() );
@@ -89,6 +96,43 @@ namespace Oxygen
         m_internalSettings->setDrawSizeGrip( m_ui.drawSizeGrip->isChecked() );
         m_internalSettings->setAnimationsEnabled( m_ui.animationsEnabled->isChecked() );
 //         m_internalSettings->setAnimationsDuration( m_ui.animationsDuration->value() );
+
+        // save configuration
+        m_internalSettings->save();
+
+        // sync configuration
+        m_configuration->sync();
+        setChanged( false );
+
+        // needed to tell kwin to reload when running from external kcmshell
+        {
+            QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "reloadConfig");
+            QDBusConnection::sessionBus().send(message);
+        }
+
+        // needed for oxygen style to reload shadows
+        {
+            QDBusMessage message( QDBusMessage::createSignal("/OxygenDecoration",  "org.kde.Oxygen.Style", "reparseConfiguration") );
+            QDBusConnection::sessionBus().send(message);
+        }
+
+    }
+
+    //_________________________________________________________
+    void ConfigWidget::defaults( void )
+    {
+
+        // create internal settings and load from rc files
+        m_internalSettings = InternalSettingsPtr( new InternalSettings() );
+        m_internalSettings->setDefaults();
+
+        // assign to ui
+        m_ui.titleAlignment->setCurrentIndex( m_internalSettings->titleAlignment() );
+        m_ui.buttonSize->setCurrentIndex( m_internalSettings->buttonSize() );
+        m_ui.drawBorderOnMaximizedWindows->setChecked( m_internalSettings->drawBorderOnMaximizedWindows() );
+        m_ui.drawSizeGrip->setChecked( m_internalSettings->drawSizeGrip() );
+        m_ui.animationsEnabled->setChecked( m_internalSettings->animationsEnabled() );
+//         m_ui.animationsDuration->setValue( m_internalSettings->animationsDuration() );
         setChanged( false );
 
     }
