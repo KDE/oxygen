@@ -265,10 +265,22 @@ namespace Oxygen
     //________________________________________________________________
     void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
     {
-        const QPalette palette = client().data()->palette();
+        const auto c = client().data();
+        const auto palette = c->palette();
 
-        renderWindowBorder(painter, rect(), palette);
-        renderCorners(painter, rect(), palette);
+        if( c->isShaded() )
+        {
+
+            const QRect titleRect(QPoint(0, 0), QSize(size().width(), borderTop()));
+            renderWindowBorder(painter, titleRect, palette);
+            renderCorners(painter, titleRect, palette);
+
+        } else {
+
+            renderWindowBorder(painter, rect(), palette);
+            renderCorners(painter, rect(), palette);
+
+        }
 
         m_leftButtons->paint(painter, repaintRegion);
         m_rightButtons->paint(painter, repaintRegion);
@@ -437,16 +449,11 @@ namespace Oxygen
 
     //_________________________________________________________
     QColor Decoration::titlebarContrastColor(const QPalette& palette) const
-    {
-        return titlebarContrastColor( palette.color(QPalette::Background) );
-    }
+    { return titlebarContrastColor( palette.color(QPalette::Background) ); }
 
     //_________________________________________________________
     QColor Decoration::titlebarContrastColor(const QColor& color) const
-    {
-        return DecoHelper::self()->calcLightColor( color );
-
-    }
+    { return DecoHelper::self()->calcLightColor( color ); }
 
     //_________________________________________________________
     void Decoration::renderCorners( QPainter* painter, const QRect& frame, const QPalette& palette ) const
@@ -468,15 +475,17 @@ namespace Oxygen
     void Decoration::renderWindowBackground( QPainter* painter, const QRect& clipRect, const QPalette& palette ) const
     {
 
-        QRect innerClientRect = rect();
+        const auto c = client().data();
+        auto innerClientRect = c->isShaded() ?
+            QRect(QPoint(0, 0), QSize(size().width(), borderTop())):
+            rect();
+
+        // size of window minus the outlines for the rounded corners
         if (settings()->isAlphaChannelSupported())
-        {
-            // size of window minus the outlines for the rounded corners
-            innerClientRect.adjust(1,1,-1,-1);
-        }
+        { innerClientRect.adjust(1,1,-1,-1); }
 
         //without compositing without a mask we get black boxes in the corner, just paint a big rectangle over everything
-        if( DecoHelper::self()->hasBackgroundGradient( client().data()->windowId() ) )
+        if( DecoHelper::self()->hasBackgroundGradient( c->windowId() ) )
         {
 
             DecoHelper::self()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), 0, 20 );
