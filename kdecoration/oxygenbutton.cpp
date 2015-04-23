@@ -46,11 +46,12 @@
 
 namespace Oxygen
 {
-    Button* Button::create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent)
-    {
-        return new Button(type, decoration, parent);
-    }
 
+    //____________________________________________________________________________________
+    Button* Button::create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent)
+    { return new Button(type, decoration, parent); }
+
+    //____________________________________________________________________________________
     Button::Button(KDecoration2::DecorationButtonType type, KDecoration2::Decoration* decoration, QObject* parent):
         KDecoration2::DecorationButton(type, decoration, parent),
         _glowAnimation( new Animation( 150, this ) ),
@@ -82,6 +83,7 @@ namespace Oxygen
         });
     }
 
+    //_______________________________________________
     Button::Button(QObject *parent, const QVariantList &args)
         : KDecoration2::DecorationButton(args.at(0).value<KDecoration2::DecorationButtonType>(), args.at(1).value<Decoration*>(), parent),
         _glowAnimation( new Animation( 150, this ) ),
@@ -91,8 +93,7 @@ namespace Oxygen
     }
 
     //_______________________________________________
-    Button::~Button()
-    {}
+    Button::~Button() = default;
 
     //_______________________________________________
     QColor Button::buttonDetailColor(const QPalette &palette) const
