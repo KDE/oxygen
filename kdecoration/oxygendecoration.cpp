@@ -62,7 +62,8 @@ namespace Oxygen
 
     //________________________________________________________________
     static int g_sDecoCount = 0;
-    static QSharedPointer<KDecoration2::DecorationShadow> g_sShadow;
+    static QSharedPointer<KDecoration2::DecorationShadow> g_sShadowActive;
+    static QSharedPointer<KDecoration2::DecorationShadow> g_sShadowInactive;
 
     Decoration::Decoration(QObject *parent, const QVariantList &args)
         : KDecoration2::Decoration(parent, args)
@@ -77,7 +78,8 @@ namespace Oxygen
         g_sDecoCount--;
         if (g_sDecoCount == 0) {
             // last deco destroyed, clean up shadow
-            g_sShadow.clear();
+            g_sShadowActive.clear();
+            g_sShadowInactive.clear();
         }
     }
 
@@ -159,6 +161,7 @@ namespace Oxygen
         );
 
         connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, &Decoration::updateAnimationState);
+        connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, &Decoration::updateShadow);
 
         //decoration has an overloaded update function, force the compiler to choose the right one
         connect(client().data(), &KDecoration2::DecoratedClient::paletteChanged,   this,  static_cast<void (Decoration::*)()>(&Decoration::update));
@@ -172,7 +175,7 @@ namespace Oxygen
         connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::updateButtonsGeometry);
 
         createButtons();
-        createShadow();
+        updateShadow();
 
     }
 
@@ -449,26 +452,44 @@ namespace Oxygen
     }
 
     //________________________________________________________________
-    void Decoration::createShadow()
+    void Decoration::updateShadow()
     {
-        if (g_sShadow) {
-            setShadow(g_sShadow);
-            return;
+        if( !g_sShadowActive )
+        {
+
+            // setup shadow
+            auto decorationShadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
+
+
+            QPixmap shadowPixmap = SettingsProvider::self()->shadowCache()->pixmap( ShadowCache::Key(), true );
+            const int shadowSize( shadowPixmap.width()/2 );
+            const int overlap = 4;
+            decorationShadow->setPadding( QMargins( shadowSize-overlap, shadowSize-overlap, shadowSize-overlap, shadowSize-overlap ) );
+            decorationShadow->setInnerShadowRect( QRect( shadowSize, shadowSize, 1, 1 ) );
+            decorationShadow->setShadow( shadowPixmap.toImage() );
+
+            g_sShadowActive = decorationShadow;
         }
 
-        // setup shadow
-        auto decorationShadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
+        if( !g_sShadowInactive )
+        {
+
+            // setup shadow
+            auto decorationShadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
 
 
-        QPixmap shadowPixmap = SettingsProvider::self()->shadowCache()->pixmap( ShadowCache::Key() );
-        const int shadowSize( shadowPixmap.width()/2 );
-        const int overlap = 4;
-        decorationShadow->setPadding( QMargins( shadowSize-overlap, shadowSize-overlap, shadowSize-overlap, shadowSize-overlap ) );
-        decorationShadow->setInnerShadowRect( QRect( shadowSize, shadowSize, 1, 1 ) );
-        decorationShadow->setShadow( shadowPixmap.toImage() );
+            QPixmap shadowPixmap = SettingsProvider::self()->shadowCache()->pixmap( ShadowCache::Key(), false );
+            const int shadowSize( shadowPixmap.width()/2 );
+            const int overlap = 4;
+            decorationShadow->setPadding( QMargins( shadowSize-overlap, shadowSize-overlap, shadowSize-overlap, shadowSize-overlap ) );
+            decorationShadow->setInnerShadowRect( QRect( shadowSize, shadowSize, 1, 1 ) );
+            decorationShadow->setShadow( shadowPixmap.toImage() );
 
-        g_sShadow = decorationShadow;
-        setShadow(decorationShadow);
+            g_sShadowInactive = decorationShadow;
+        }
+
+        setShadow( client().data()->isActive() ? g_sShadowActive:g_sShadowInactive );
+
     }
 
     //_________________________________________________________

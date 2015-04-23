@@ -104,6 +104,7 @@ namespace Oxygen
         void updateTitleBar();
         void updateAnimationState();
         void updateSizeGripVisibility();
+        void updateShadow();
 
         private:
 
@@ -111,7 +112,6 @@ namespace Oxygen
         QPair<QRect,Qt::Alignment> captionRect( void ) const;
 
         void createButtons();
-        void createShadow();
 
         //* window background
         void renderWindowBackground( QPainter*, const QRect&, const QPalette& ) const;
