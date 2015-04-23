@@ -117,6 +117,7 @@ namespace Oxygen
 
     }
 
+    //____________________________________________________________________
     void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& windowRect, const QColor& color, int yShift, int gradientHeight)
     {
         if ( clipRect.isValid() )
@@ -136,7 +137,6 @@ namespace Oxygen
         upperRect.setHeight(splitY);
         QPixmap tile( verticalGradient( color, splitY, offset ) );
         p->drawTiledPixmap( upperRect, tile );
-
 
         // draw lower flat part
         const QRect lowerRect = windowRect.adjusted(0, splitY, 0,  0);
