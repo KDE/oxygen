@@ -270,21 +270,30 @@ namespace Oxygen
         auto s = settings();
         const auto c = client().data();
         const Qt::Edges edges = c->adjacentScreenEdges();
-        int left   = isMaximizedHorizontally() || edges.testFlag(Qt::LeftEdge) ? 0 : borderSize();
-        int right  = isMaximizedHorizontally() || edges.testFlag(Qt::RightEdge) ? 0 : borderSize();
 
-        QFontMetrics fm(s->font());
-        int top = qMax(fm.boundingRect(c->caption()).height(), buttonHeight() );
+        // left, right and bottom borders
+        auto testFlag = [&]( Qt::Edge edge ) { return edges.testFlag(edge) && !m_internalSettings->drawBorderOnMaximizedWindows(); };
+        const int left   = isMaximizedHorizontally() || testFlag(Qt::LeftEdge) ? 0 : borderSize();
+        const int right  = isMaximizedHorizontally() || testFlag(Qt::RightEdge) ? 0 : borderSize();
+        const int bottom = isMaximizedVertically() || c->isShaded() || testFlag(Qt::BottomEdge) ? 0 : borderSize(true);
 
-        // padding below
-        // extra pixel is used for the active window outline
-        const int baseSize = settings()->smallSpacing();
-        top += baseSize*Metrics::TitleBar_TopMargin + 1;
+        int top = 0;
+        if( hideTitleBar() ) top = bottom;
+        else {
 
-        // padding above
-        if (!isMaximized()) top += baseSize*TitleBar_BottomMargin;
+            QFontMetrics fm(s->font());
+            top += qMax(fm.boundingRect(c->caption()).height(), buttonHeight() );
 
-        int bottom = isMaximizedVertically() || c->isShaded() || edges.testFlag(Qt::BottomEdge) ? 0 : borderSize(true);
+            // padding below
+            // extra pixel is used for the active window outline
+            const int baseSize = settings()->smallSpacing();
+            top += baseSize*Metrics::TitleBar_BottomMargin + 1;
+
+            // padding above
+            top += baseSize*TitleBar_TopMargin;
+
+        }
+
         setBorders(QMargins(left, top, right, bottom));
 
         // extended sizes
@@ -370,11 +379,7 @@ namespace Oxygen
 
     //________________________________________________________________
     int Decoration::captionHeight() const
-    {
-        return isMaximized() ?
-            borderTop() - settings()->smallSpacing()*Metrics::TitleBar_BottomMargin - 1:
-            borderTop() - settings()->smallSpacing()*(Metrics::TitleBar_BottomMargin + Metrics::TitleBar_TopMargin ) - 1;
-    }
+    { return hideTitleBar() ? borderTop() : borderTop() - settings()->smallSpacing()*(Metrics::TitleBar_BottomMargin + Metrics::TitleBar_TopMargin ) - 1; }
 
     //________________________________________________________________
     QPair<QRect,Qt::Alignment> Decoration::captionRect() const
