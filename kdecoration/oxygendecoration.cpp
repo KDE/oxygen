@@ -300,9 +300,8 @@ namespace Oxygen
             top += qMax(fm.boundingRect(c->caption()).height(), buttonHeight() );
 
             // padding below
-            // extra pixel is used for the active window outline
             const int baseSize = settings()->smallSpacing();
-            top += baseSize*Metrics::TitleBar_BottomMargin + 1;
+            top += baseSize*Metrics::TitleBar_BottomMargin;
 
             // padding above
             top += baseSize*TitleBar_TopMargin;
@@ -417,7 +416,7 @@ namespace Oxygen
 
     //________________________________________________________________
     int Decoration::captionHeight() const
-    { return hideTitleBar() ? borderTop() : borderTop() - settings()->smallSpacing()*(Metrics::TitleBar_BottomMargin + Metrics::TitleBar_TopMargin ) - 1; }
+    { return hideTitleBar() ? borderTop() : borderTop() - settings()->smallSpacing()*(Metrics::TitleBar_BottomMargin + Metrics::TitleBar_TopMargin ); }
 
     //________________________________________________________________
     QPair<QRect,Qt::Alignment> Decoration::captionRect() const
