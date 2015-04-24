@@ -153,6 +153,46 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>Shadows</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="Oxygen::ShadowConfigWidget" name="activeShadowConfiguration">
+         <property name="title">
+          <string>Active Window Glow</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="Oxygen::ShadowConfigWidget" name="inactiveShadowConfiguration">
+         <property name="title">
+          <string>Window Drop-Down Shadow</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
        <string>Window-Specific Overrides</string>
@@ -178,6 +218,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>Oxygen::ShadowConfigWidget</class>
+   <extends>QGroupBox</extends>
+   <header>oxygenshadowconfigwidget.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>Oxygen::ExceptionListWidget</class>
    <extends>QWidget</extends>

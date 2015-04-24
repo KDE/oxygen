@@ -48,6 +48,10 @@ namespace Oxygen
 
         m_ui.setupUi( this );
 
+        // shadow configuration
+        m_ui.activeShadowConfiguration->setGroup( QPalette::Active );
+        m_ui.inactiveShadowConfiguration->setGroup( QPalette::Inactive );
+
         // track ui changes
         connect( m_ui.titleAlignment, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
         connect( m_ui.buttonSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
@@ -57,6 +61,10 @@ namespace Oxygen
 
         // track exception changes
         connect( m_ui.exceptions, SIGNAL(changed(bool)), SLOT(updateChanged()) );
+
+        // track shadow configuration changes
+        connect( m_ui.activeShadowConfiguration, SIGNAL(changed(bool)), SLOT(updateChanged()) );
+        connect( m_ui.inactiveShadowConfiguration, SIGNAL(changed(bool)), SLOT(updateChanged()) );
 
     }
 
@@ -77,6 +85,10 @@ namespace Oxygen
         // load animations
         m_ui.animationConfigWidget->setInternalSettings( m_internalSettings );
         m_ui.animationConfigWidget->load();
+
+        // load shadows
+        m_ui.activeShadowConfiguration->readConfig( m_configuration.data() );
+        m_ui.inactiveShadowConfiguration->readConfig( m_configuration.data() );
 
         // load exceptions
         ExceptionList exceptions;
@@ -110,6 +122,10 @@ namespace Oxygen
 
         // save standard configuration
         ExceptionList::writeConfig( m_internalSettings.data(), m_configuration.data() );
+
+        // save shadows
+        m_ui.activeShadowConfiguration->writeConfig( m_configuration.data() );
+        m_ui.inactiveShadowConfiguration->writeConfig( m_configuration.data() );
 
         // get list of exceptions and write
         InternalSettingsList exceptions( m_ui.exceptions->exceptions() );
@@ -148,6 +164,10 @@ namespace Oxygen
         m_ui.drawBorderOnMaximizedWindows->setChecked( m_internalSettings->drawBorderOnMaximizedWindows() );
         m_ui.drawSizeGrip->setChecked( m_internalSettings->drawSizeGrip() );
 
+        // load shadows
+        m_ui.activeShadowConfiguration->readDefaults( m_configuration.data() );
+        m_ui.inactiveShadowConfiguration->readDefaults( m_configuration.data() );
+
         // load animations
         m_ui.animationConfigWidget->setInternalSettings( m_internalSettings );
         m_ui.animationConfigWidget->load();
@@ -176,6 +196,10 @@ namespace Oxygen
 
         // exceptions
         else if( m_ui.exceptions->isChanged() ) modified = true;
+
+        // shadow configurations
+        else if( m_ui.activeShadowConfiguration->isChanged() ) modified = true;
+        else if( m_ui.inactiveShadowConfiguration->isChanged() ) modified = true;
 
         setChanged( modified );
 

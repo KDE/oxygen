@@ -28,6 +28,7 @@
 #include "ui_oxygenconfigurationui.h"
 #include "oxygenexceptionlistwidget.h"
 #include "oxygensettings.h"
+#include "oxygenshadowconfigwidget.h"
 #include "oxygen.h"
 
 #include <KCModule>

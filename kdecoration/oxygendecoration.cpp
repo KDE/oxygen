@@ -466,13 +466,23 @@ namespace Oxygen
     void Decoration::updateShadow()
     {
 
+        // do nothing if palettes are disabled
+        if( !(
+            SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Active ) ||
+            SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Inactive ) ) )
+        { return; }
+
         // generate key
         ShadowCache::Key key;
-        key.active = client().data()->isActive();
+        key.active = SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Active ) && client().data()->isActive();
         key.isShade = client().data()->isShaded();
         key.hasBorder = !hasNoBorders();
 
-        const bool animated( m_animation->state() == QPropertyAnimation::Running );
+        const bool animated(
+            m_animation->state() == QPropertyAnimation::Running &&
+            SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Active ) &&
+            SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Inactive )
+            );
         if( animated )
         {
 
