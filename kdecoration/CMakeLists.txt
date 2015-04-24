@@ -47,6 +47,7 @@ kconfig_add_kcfg_files(oxygendecoration_SRCS oxygensettings.kcfgc)
 ### config classes
 ### they are kept separately because they might move in a separate library in the future
 set(oxygendecoration_config_SRCS
+    config/oxygenanimationconfigwidget.cpp
     config/oxygenconfigwidget.cpp
     config/oxygendetectwidget.cpp
     config/oxygenexceptiondialog.cpp
@@ -77,6 +78,7 @@ target_link_libraries(oxygendecoration
         Qt5::DBus
     PRIVATE
         oxygenstyle5
+        oxygenstyleconfig5
         KDecoration2::KDecoration
         KF5::ConfigCore
         KF5::CoreAddons

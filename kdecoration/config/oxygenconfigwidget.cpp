@@ -24,6 +24,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenconfigwidget.h"
+#include "oxygenexceptionlist.h"
 
 #include <QGroupBox>
 #include <QIcon>
@@ -52,13 +53,10 @@ namespace Oxygen
         connect( m_ui.buttonSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
         connect( m_ui.drawBorderOnMaximizedWindows, SIGNAL(clicked()), SLOT(updateChanged()) );
         connect( m_ui.drawSizeGrip, SIGNAL(clicked()), SLOT(updateChanged()) );
+        connect( m_ui.animationConfigWidget, SIGNAL(changed(bool)), SLOT(updateChanged()) );
 
         // track exception changes
         connect( m_ui.exceptions, SIGNAL(changed(bool)), SLOT(updateChanged()) );
-
-        // track animations changes
-        connect( m_ui.animationsEnabled, SIGNAL(clicked()), SLOT(updateChanged()) );
-        connect( m_ui.animationsDuration, SIGNAL(valueChanged(int)), SLOT(updateChanged()) );
 
     }
 
@@ -75,8 +73,16 @@ namespace Oxygen
         m_ui.buttonSize->setCurrentIndex( m_internalSettings->buttonSize() );
         m_ui.drawBorderOnMaximizedWindows->setChecked( m_internalSettings->drawBorderOnMaximizedWindows() );
         m_ui.drawSizeGrip->setChecked( m_internalSettings->drawSizeGrip() );
-        m_ui.animationsEnabled->setChecked( m_internalSettings->animationsEnabled() );
-//         m_ui.animationsDuration->setValue( m_internalSettings->animationsDuration() );
+
+        // load animations
+        m_ui.animationConfigWidget->setInternalSettings( m_internalSettings );
+        m_ui.animationConfigWidget->load();
+
+        // load exceptions
+        ExceptionList exceptions;
+        exceptions.readConfig( m_configuration );
+        m_ui.exceptions->setExceptions( exceptions.get() );
+
         setChanged( false );
 
     }
@@ -94,11 +100,20 @@ namespace Oxygen
         m_internalSettings->setButtonSize( m_ui.buttonSize->currentIndex() );
         m_internalSettings->setDrawBorderOnMaximizedWindows( m_ui.drawBorderOnMaximizedWindows->isChecked() );
         m_internalSettings->setDrawSizeGrip( m_ui.drawSizeGrip->isChecked() );
-        m_internalSettings->setAnimationsEnabled( m_ui.animationsEnabled->isChecked() );
-//         m_internalSettings->setAnimationsDuration( m_ui.animationsDuration->value() );
+
+        // save animations
+        m_ui.animationConfigWidget->setInternalSettings( m_internalSettings );
+        m_ui.animationConfigWidget->save();
 
         // save configuration
         m_internalSettings->save();
+
+        // save standard configuration
+        ExceptionList::writeConfig( m_internalSettings.data(), m_configuration.data() );
+
+        // get list of exceptions and write
+        InternalSettingsList exceptions( m_ui.exceptions->exceptions() );
+        ExceptionList( exceptions ).writeConfig( m_configuration );
 
         // sync configuration
         m_configuration->sync();
@@ -124,6 +139,7 @@ namespace Oxygen
 
         // create internal settings and load from rc files
         m_internalSettings = InternalSettingsPtr( new InternalSettings() );
+        m_ui.animationConfigWidget->setInternalSettings( m_internalSettings );
         m_internalSettings->setDefaults();
 
         // assign to ui
@@ -131,8 +147,11 @@ namespace Oxygen
         m_ui.buttonSize->setCurrentIndex( m_internalSettings->buttonSize() );
         m_ui.drawBorderOnMaximizedWindows->setChecked( m_internalSettings->drawBorderOnMaximizedWindows() );
         m_ui.drawSizeGrip->setChecked( m_internalSettings->drawSizeGrip() );
-        m_ui.animationsEnabled->setChecked( m_internalSettings->animationsEnabled() );
-//         m_ui.animationsDuration->setValue( m_internalSettings->animationsDuration() );
+
+        // load animations
+        m_ui.animationConfigWidget->setInternalSettings( m_internalSettings );
+        m_ui.animationConfigWidget->load();
+
         setChanged( false );
 
     }
@@ -152,12 +171,11 @@ namespace Oxygen
         else if( m_ui.drawBorderOnMaximizedWindows->isChecked() !=  m_internalSettings->drawBorderOnMaximizedWindows() ) modified = true;
         else if( m_ui.drawSizeGrip->isChecked() !=  m_internalSettings->drawSizeGrip() ) modified = true;
 
+        // animations
+        else if( m_ui.animationConfigWidget->isChanged() ) modified = true;
+
         // exceptions
         else if( m_ui.exceptions->isChanged() ) modified = true;
-
-        // animations
-        else if( m_ui.animationsEnabled->isChecked() !=  m_internalSettings->animationsEnabled() ) modified = true;
-//         else if( m_ui.animationsDuration->value() != m_internalSettings->animationsDuration() ) modified = true;
 
         setChanged( modified );
 
