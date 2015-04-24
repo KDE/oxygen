@@ -120,6 +120,9 @@ namespace Oxygen
     //____________________________________________________________________
     void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& windowRect, const QColor& color, int yShift, int gradientHeight)
     {
+
+        Q_UNUSED( yShift );
+
         if ( clipRect.isValid() )
         {
             p->save();
