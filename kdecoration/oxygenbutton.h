@@ -57,9 +57,6 @@ namespace Oxygen
         //* render
         virtual void paint(QPainter *painter, const QRect &repaintRegion) Q_DECL_OVERRIDE;
 
-        //* configuration reset
-        virtual void reset( unsigned long );
-
         //* flag
         enum Flag
         {
@@ -120,9 +117,6 @@ namespace Oxygen
         //* true if button is active
         bool isActive( void ) const;
 
-        //* true if buttons hover are animated
-        bool buttonAnimationsEnabled( void ) const;
-
         //*@name button properties
         //@{
 
@@ -145,6 +139,9 @@ namespace Oxygen
         //@}
 
         private Q_SLOTS:
+
+        //* apply configuration changes
+        void reconfigure();
 
         //* animation state
         void updateAnimationState(bool);

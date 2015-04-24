@@ -62,12 +62,13 @@ namespace Oxygen
         const int height = decoration->buttonHeight();
         setGeometry(QRect(0, 0, height, height));
 
-        reset(0);
+        reconfigure();
 
         // setup connections
         if( isMenuButton() )
         { connect(decoration->client().data(), SIGNAL(iconChanged(QIcon)), this, SLOT(update())); }
 
+        connect(decoration->settings().data(), &KDecoration2::DecorationSettings::reconfigured, this, &Button::reconfigure);
         connect( this, &KDecoration2::DecorationButton::hoveredChanged, this, &Button::updateAnimationState );
 
     }
@@ -108,12 +109,14 @@ namespace Oxygen
     { return decoration().data()->client().data()->isActive(); }
 
     //___________________________________________________
-    bool Button::buttonAnimationsEnabled( void ) const
-    { return static_cast<Decoration*>(decoration().data())->internalSettings()->buttonAnimationsEnabled(); }
+    void Button::reconfigure( void )
+    {
 
-    //___________________________________________________
-    void Button::reset( unsigned long )
-    { m_animation->setDuration( static_cast<Decoration*>(decoration().data())->internalSettings()->buttonAnimationsDuration() ); }
+        // animation
+        auto d = qobject_cast<Decoration*>(decoration());
+        if( d ) m_animation->setDuration( d->internalSettings()->buttonAnimationsDuration() );
+
+    }
 
     //___________________________________________________
     void Button::paint( QPainter* painter, const QRect& repaintRegion)
