@@ -264,8 +264,14 @@ namespace Oxygen
 
         m_internalSettings = SettingsProvider::self()->internalSettings( this );
 
+        // animation
+        m_animation->setDuration( m_internalSettings->shadowAnimationsDuration() );
+
         // borders
         recalculateBorders();
+
+        // clear shadows
+        g_sShadows.clear();
 
         // size grip
         if( hasNoBorders() && m_internalSettings->drawSizeGrip() ) createSizeGrip();
@@ -463,6 +469,8 @@ namespace Oxygen
         // generate key
         ShadowCache::Key key;
         key.active = client().data()->isActive();
+        key.isShade = client().data()->isShaded();
+        key.hasBorder = !hasNoBorders();
 
         const bool animated( m_animation->state() == QPropertyAnimation::Running );
         if( animated )
