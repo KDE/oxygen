@@ -62,7 +62,7 @@ namespace Oxygen
 
     //________________________________________________________________
     using DecorationShadowPointer = QSharedPointer<KDecoration2::DecorationShadow>;
-    using ShadowMap = QMap<int,DecorationShadowPointer>;
+    using ShadowMap = QHash<int,DecorationShadowPointer>;
 
     static int g_sDecoCount = 0;
     static ShadowMap g_sShadows;
@@ -476,17 +476,19 @@ namespace Oxygen
             SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Inactive ) ) )
         { return; }
 
+        // see if shadow should be animated
+        const bool animated(
+            m_animation->state() == QPropertyAnimation::Running &&
+            SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Active ) &&
+            SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Inactive )
+            );
+
         // generate key
         ShadowCache::Key key;
         key.active = SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Active ) && client().data()->isActive();
         key.isShade = client().data()->isShaded();
         key.hasBorder = !hasNoBorders();
 
-        const bool animated(
-            m_animation->state() == QPropertyAnimation::Running &&
-            SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Active ) &&
-            SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Inactive )
-            );
         if( animated )
         {
 
@@ -498,9 +500,9 @@ namespace Oxygen
         const int hash( key.hash() );
 
         // find key in map
-        const auto iter = g_sShadows.find( hash );
-        if( iter != g_sShadows.end() ) setShadow( iter.value() );
-        else {
+        auto iter = g_sShadows.find( hash );
+        if( iter == g_sShadows.end() )
+        {
 
             auto decorationShadow = DecorationShadowPointer::create();
             QPixmap shadowPixmap = animated ?
@@ -514,10 +516,12 @@ namespace Oxygen
             decorationShadow->setShadow( shadowPixmap.toImage() );
             setShadow( decorationShadow );
 
-            g_sShadows.insert( hash, decorationShadow );
+            iter = g_sShadows.insert( hash, decorationShadow );
 
         }
 
+        // assign
+        setShadow( iter.value() );
 
     }
 
