@@ -40,76 +40,46 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit StyleConfig(QWidget*);
 
-        //! destructor
+        //* destructor
         virtual ~StyleConfig( void )
         {}
 
-        //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
-
         Q_SIGNALS:
 
-        //! emmited whenever one option is changed.
+        //* emmited whenever one option is changed.
         void changed(bool);
 
         public Q_SLOTS:
 
-        //! load setup from config data
+        //* load setup from config data
         void load( void );
 
-        //! save current state
+        //* save current state
         void save( void );
 
-        //! restore all default values
+        //* restore all default values
         void defaults( void );
 
         //Everything below this is internal.
 
-        //! reset to saved configuration
+        //* reset to saved configuration
         void reset( void );
-
-        //! toggle expert mode
-        virtual void toggleExpertMode( bool );
 
         protected Q_SLOTS:
 
-        //! update minimum size
-        void updateMinimumSize( void );
-
-        //! update layout
-        /*! needed in expert mode to accommodate with animations config widget size changes */
-        void updateLayout( void );
-
-        //! update modified state when option is checked/unchecked
+        //* update modified state when option is checked/unchecked
         void updateChanged( void );
 
-        //! toggle expert mode
-        virtual void toggleExpertModeInternal( void )
-        { toggleExpertModeInternal( !_expertMode ); }
-
-        //! toggle expert mode
-        virtual void toggleExpertModeInternal( bool );
-
         protected:
-
-        //! event processing
-        virtual bool event( QEvent* );
 
         // menu mode from ui
         int menuMode( void ) const;
 
         // expander size from ui
         int triangularExpanderSize( void ) const;
-
-        private:
-
-        bool _expertMode;
-
-        //! animation config (expert mode only)
-        AnimationConfigWidget* _animationConfigWidget;
 
     };
 
