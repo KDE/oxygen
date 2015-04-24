@@ -514,13 +514,11 @@ namespace Oxygen
             decorationShadow->setPadding( QMargins( shadowSize-overlap, shadowSize-overlap, shadowSize-overlap, shadowSize-overlap ) );
             decorationShadow->setInnerShadowRect( QRect( shadowSize, shadowSize, 1, 1 ) );
             decorationShadow->setShadow( shadowPixmap.toImage() );
-            setShadow( decorationShadow );
 
             iter = g_sShadows.insert( hash, decorationShadow );
 
         }
 
-        // assign
         setShadow( iter.value() );
 
     }
