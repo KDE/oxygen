@@ -96,6 +96,7 @@ namespace Oxygen
     //_________________________________________________________
     QColor Decoration::titlebarTextColor(const QPalette &palette) const
     {
+        if( hideTitleBar() ) return titlebarTextColor( palette, false );
         if( m_animation->state() == QPropertyAnimation::Running )
         {
 
@@ -393,10 +394,14 @@ namespace Oxygen
         renderWindowBorder(painter, rect, palette);
         if( !isMaximized() ) renderCorners( painter, rect, palette);
 
-        m_leftButtons->paint(painter, repaintRegion);
-        m_rightButtons->paint(painter, repaintRegion);
+        if( !hideTitleBar() )
+        {
+            m_leftButtons->paint(painter, repaintRegion);
+            m_rightButtons->paint(painter, repaintRegion);
 
-        renderTitleText( painter, palette );
+            renderTitleText( painter, palette );
+        }
+
     }
 
     //________________________________________________________________
