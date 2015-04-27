@@ -137,7 +137,7 @@ namespace Oxygen
     void ShadowHelper::reparseCacheConfig( void )
     {
         // shadow cache
-        shadowCache().readConfig();
+        _shadowCache->readConfig();
     }
 
     //_______________________________________________________
@@ -148,9 +148,9 @@ namespace Oxygen
         reset();
 
         // retrieve shadow pixmap
-        _size = shadowCache().shadowSize();
+        _size = _shadowCache->shadowSize();
 
-        QPixmap pixmap( shadowCache().pixmap( ShadowCache::Key() ) );
+        QPixmap pixmap( _shadowCache->pixmap( ShadowCache::Key() ) );
         const QSize pixmapSize( pixmap.size()/_helper.devicePixelRatio( pixmap ) );
         if( !pixmap.isNull() )
         {
