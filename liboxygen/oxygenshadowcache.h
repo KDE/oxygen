@@ -138,7 +138,7 @@ namespace Oxygen
             int index = 0;
             bool active = false;
             bool isShade = false;
-            bool hasBorder = false;
+            bool hasBorder = true;
 
         };
 
