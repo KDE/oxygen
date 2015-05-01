@@ -79,6 +79,9 @@ namespace Oxygen
     {
         g_sDecoCount--;
         if (g_sDecoCount == 0) g_sShadows.clear();
+
+        deleteSizeGrip();
+
     }
 
 
