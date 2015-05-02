@@ -174,8 +174,7 @@ namespace Oxygen
         const bool sunken = isPressed() || ( isToggleButton() && isChecked() );
         const QSizeF iconSize( size().width()-m_offset.x(), size().height()-m_offset.y() );
         const QRectF iconRect( geometry().topLeft(), iconSize );
-        const QPixmap pixmap = decoration()->client().data()->icon().pixmap( iconSize.toSize());
-        painter->drawPixmap(iconRect.center() - QPoint(pixmap.width()/2, pixmap.height()/2), SettingsProvider::self()->helper()->windecoButton( base, glow, sunken, iconSize.height()) );
+        painter->drawPixmap(iconRect.topLeft(), SettingsProvider::self()->helper()->windecoButton( base, glow, sunken, iconSize.height()) );
 
         // Icon
         painter->setRenderHints(QPainter::Antialiasing);
@@ -205,6 +204,11 @@ namespace Oxygen
         //keep all co-ordinates between 0 and 21
         const qreal width( geometry().width() - m_offset.x() );
         painter->scale( width/21, width/21 );
+
+        // make sure pen width is always larger than 1.1 in "real" coordinates
+        QPen pen( painter->pen() );
+        pen.setWidthF( qMax( 1.1*21/width, pen.widthF() ) );
+        painter->setPen( pen );
 
         switch(type())
         {
