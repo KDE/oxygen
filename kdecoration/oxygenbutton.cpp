@@ -221,7 +221,7 @@ namespace Oxygen
 
         // contrast
         painter->setBrush(Qt::NoBrush);
-        painter->translate(0, 0.5);
+        painter->translate(0, 1.5);
         painter->setPen(QPen( SettingsProvider::self()->helper()->calcLightColor( base ), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
         drawIcon(painter);
 
@@ -269,22 +269,31 @@ namespace Oxygen
             break;
 
             case KDecoration2::DecorationButtonType::Minimize:
-            painter->drawLine(QPointF( 7.5, 9.5), QPointF(10.5,12.5));
-            painter->drawLine(QPointF(10.5,12.5), QPointF(13.5, 9.5));
-            break;
+            {
+                painter->drawPolyline( QPolygonF()
+                    << QPointF(7.5, 9.5)
+                    << QPointF(10.5, 12.5)
+                    << QPointF(13.5, 9.5) );
+                break;
+            }
 
             case KDecoration2::DecorationButtonType::Maximize:
             if(decoration()->client().data()->isMaximized())
             {
-                painter->translate(1.5, 1.0 );
-                QPoint points[4] = {QPoint(9, 6), QPoint(12, 9), QPoint(9, 12), QPoint(6, 9)};
-                painter->drawPolygon(points, 4);
-                painter->translate(-1.5, -1.0 );
-            }
-            else
-            {
-                painter->drawLine(QPointF( 7.5, 11.5 ), QPointF( 10.5, 8.5) );
-                painter->drawLine(QPointF( 10.5, 8.5 ), QPointF( 13.5, 11.5) );
+
+                painter->drawPolygon( QPolygonF()
+                    << QPointF(7.5, 10.5)
+                    << QPointF(10.5, 7.5)
+                    << QPointF(13.5, 10.5)
+                    << QPointF(10.5, 13.5) );
+
+            } else {
+
+                painter->drawPolyline( QPolygonF()
+                    << QPointF(7.5, 11.5)
+                    << QPointF(10.5, 8.5)
+                    << QPointF(13.5, 11.5) );
+
             }
             break;
 
@@ -294,33 +303,54 @@ namespace Oxygen
             break;
 
             case KDecoration2::DecorationButtonType::KeepAbove:
-            painter->drawLine(QPointF( 7.5,14), QPointF(10.5,11));
-            painter->drawLine(QPointF(10.5,11), QPointF(13.5,14));
-            painter->drawLine(QPointF( 7.5,10), QPointF(10.5, 7));
-            painter->drawLine(QPointF(10.5, 7), QPointF(13.5,10));
-            break;
+            {
+                painter->drawPolyline( QPolygonF()
+                    << QPointF( 7.5, 14)
+                    << QPointF(10.5, 11)
+                    << QPointF(13.5, 14) );
+
+                painter->drawPolyline( QPolygonF()
+                    << QPointF(7.5, 10)
+                    << QPointF(10.5, 7)
+                    << QPointF(13.5, 10) );
+                break;
+
+            }
 
             case KDecoration2::DecorationButtonType::KeepBelow:
-            painter->drawLine(QPointF( 7.5,11), QPointF(10.5,14));
-            painter->drawLine(QPointF(10.5,14), QPointF(13.5,11));
-            painter->drawLine(QPointF( 7.5, 7), QPointF(10.5,10));
-            painter->drawLine(QPointF(10.5,10), QPointF(13.5, 7));
-            break;
+            {
+                painter->drawPolyline( QPolygonF()
+                    << QPointF( 7.5, 11)
+                    << QPointF(10.5, 14)
+                    << QPointF(13.5, 11) );
+
+                painter->drawPolyline( QPolygonF()
+                    << QPointF(7.5, 7)
+                    << QPointF(10.5, 10)
+                    << QPointF(13.5, 7) );
+
+                break;
+            }
 
             case KDecoration2::DecorationButtonType::Shade:
             if (!isChecked())
             {
 
                 // shade button
-                painter->drawLine(QPointF( 7.5, 7.5), QPointF(10.5,10.5));
-                painter->drawLine(QPointF(10.5,10.5), QPointF(13.5, 7.5));
+                painter->drawPolyline( QPolygonF()
+                        << QPointF(7.5, 7.5)
+                        << QPointF(10.5, 10.5)
+                        << QPointF(13.5, 7.5) );
+
                 painter->drawLine(QPointF( 7.5,13.0), QPointF(13.5,13.0));
 
             } else {
 
-                // unshade button
-                painter->drawLine(QPointF( 7.5,10.5), QPointF(10.5, 7.5));
-                painter->drawLine(QPointF(10.5, 7.5), QPointF(13.5,10.5));
+                painter->drawPolyline( QPolygonF()
+                    << QPointF(7.5, 10.5)
+                    << QPointF(10.5, 7.5)
+                    << QPointF(13.5, 10.5) );
+
                 painter->drawLine(QPointF( 7.5,13.0), QPointF(13.5,13.0));
 
             }
