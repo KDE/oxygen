@@ -73,7 +73,7 @@ if(NOT OXYGEN_USE_KDE4)
       install(TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS})
 
       # icon
-      ecm_install_icons(ICONS 256-apps-oxygen.png
+      ecm_install_icons(ICONS 256-apps-oxygen-settings.png
           DESTINATION ${ICON_INSTALL_DIR}
           THEME hicolor )
     endif()
