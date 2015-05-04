@@ -39,7 +39,44 @@ namespace Oxygen
         if (auto d = qobject_cast<Decoration*>(decoration))
         {
 
-            return new Button(type, d, parent);
+            Button *b = new Button(type, d, parent);
+            switch( type )
+            {
+
+                case KDecoration2::DecorationButtonType::Close:
+                b->setVisible( d->client().data()->isCloseable() );
+                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::closeableChanged, b, &Oxygen::Button::setVisible );
+                break;
+
+                case KDecoration2::DecorationButtonType::Maximize:
+                b->setVisible( d->client().data()->isMaximizeable() );
+                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::maximizeableChanged, b, &Oxygen::Button::setVisible );
+                break;
+
+                case KDecoration2::DecorationButtonType::Minimize:
+                b->setVisible( d->client().data()->isMinimizeable() );
+                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::minimizeableChanged, b, &Oxygen::Button::setVisible );
+                break;
+
+                case KDecoration2::DecorationButtonType::ContextHelp:
+                b->setVisible( d->client().data()->providesContextHelp() );
+                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::providesContextHelpChanged, b, &Oxygen::Button::setVisible );
+                break;
+
+                case KDecoration2::DecorationButtonType::Shade:
+                b->setVisible( d->client().data()->isShadeable() );
+                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::shadeableChanged, b, &Oxygen::Button::setVisible );
+                break;
+
+                case KDecoration2::DecorationButtonType::Menu:
+                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::iconChanged, b, [b]() { b->update(); });
+                break;
+
+                default: break;
+
+            }
+
+            return b;
 
         } else return nullptr;
     }
