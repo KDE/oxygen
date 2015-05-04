@@ -69,7 +69,7 @@ namespace Oxygen
             if( color.isValid() )
             {
                 p.save();
-                p.translate( 0, -0.4 );
+                p.translate( 0, -0.2 );
                 drawShadow( p, calcShadowColor( color ), 21 );
                 p.restore();
             }
@@ -78,7 +78,7 @@ namespace Oxygen
             if( glow.isValid() )
             {
                 p.save();
-                p.translate( 0, -0.4 );
+                p.translate( 0, -0.2 );
                 drawOuterGlow( p, glow, 21 );
                 p.restore();
             }
