@@ -161,6 +161,7 @@ namespace Oxygen
         Q_UNUSED(repaintRegion)
 
         if (!decoration()) return;
+        const int buttonHeight = qobject_cast<Decoration*>(decoration())->buttonHeight();
 
         painter->save();
 
@@ -172,9 +173,8 @@ namespace Oxygen
         if( isMenuButton() )
         {
 
-            const QSizeF iconSize( size().width()-m_offset.x(), size().height()-m_offset.y() );
-            const QRectF iconRect( geometry().topLeft(), iconSize );
-            const QPixmap pixmap = decoration()->client().data()->icon().pixmap( iconSize.toSize());
+            const QRectF iconRect( geometry().topLeft(), QSizeF(buttonHeight, buttonHeight)  );
+            const QPixmap pixmap = decoration()->client().data()->icon().pixmap( buttonHeight );
             painter->drawPixmap(iconRect.center() - QPoint(pixmap.width()/2, pixmap.height()/2), pixmap);
             return;
 
@@ -209,9 +209,8 @@ namespace Oxygen
 
         // draw button shape
         const bool sunken = isPressed() || ( isToggleButton() && isChecked() );
-        const QSizeF iconSize( size().width()-m_offset.x(), size().height()-m_offset.y() );
-        const QRectF iconRect( geometry().topLeft(), iconSize );
-        painter->drawPixmap(iconRect.topLeft(), SettingsProvider::self()->helper()->windecoButton( base, glow, sunken, iconSize.height()) );
+        const QRectF iconRect( geometry().topLeft(), QSizeF(buttonHeight, buttonHeight)  );
+        painter->drawPixmap(iconRect.topLeft(), SettingsProvider::self()->helper()->windecoButton( base, glow, sunken, buttonHeight ) );
 
         // Icon
         painter->setRenderHints(QPainter::Antialiasing);
