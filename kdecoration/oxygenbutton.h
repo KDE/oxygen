@@ -85,6 +85,10 @@ namespace Oxygen
         void setVerticalOffset( qreal value )
         { m_offset.setY( value ); }
 
+        //* set icon size
+        void setIconSize( const QSize& value )
+        { m_iconSize = value; }
+
         //*@name active state change animation
         //@{
         void setOpacity( qreal value )
@@ -158,6 +162,9 @@ namespace Oxygen
 
         //* vertical offset (for rendering)
         QPointF m_offset;
+
+        //* icon size
+        QSize m_iconSize;
 
         //* glow intensity
         qreal m_opacity;

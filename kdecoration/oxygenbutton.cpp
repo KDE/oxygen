@@ -98,6 +98,7 @@ namespace Oxygen
         // setup default geometry
         const int height = decoration->buttonHeight();
         setGeometry(QRect(0, 0, height, height));
+        setIconSize(QSize( height, height ));
 
         reconfigure();
 
@@ -161,7 +162,6 @@ namespace Oxygen
         Q_UNUSED(repaintRegion)
 
         if (!decoration()) return;
-        const int buttonHeight = qobject_cast<Decoration*>(decoration())->buttonHeight();
 
         painter->save();
 
@@ -173,8 +173,8 @@ namespace Oxygen
         if( isMenuButton() )
         {
 
-            const QRectF iconRect( geometry().topLeft(), QSizeF(buttonHeight, buttonHeight)  );
-            const QPixmap pixmap = decoration()->client().data()->icon().pixmap( buttonHeight );
+            const QRectF iconRect( geometry().topLeft(), m_iconSize  );
+            const QPixmap pixmap = decoration()->client().data()->icon().pixmap( m_iconSize.width() );
             painter->drawPixmap(iconRect.center() - QPoint(pixmap.width()/2, pixmap.height()/2), pixmap);
             return;
 
@@ -209,8 +209,8 @@ namespace Oxygen
 
         // draw button shape
         const bool sunken = isPressed() || ( isToggleButton() && isChecked() );
-        const QRectF iconRect( geometry().topLeft(), QSizeF(buttonHeight, buttonHeight)  );
-        painter->drawPixmap(iconRect.topLeft(), SettingsProvider::self()->helper()->windecoButton( base, glow, sunken, buttonHeight ) );
+        const QRectF iconRect( geometry().topLeft(), m_iconSize  );
+        painter->drawPixmap(iconRect.topLeft(), SettingsProvider::self()->helper()->windecoButton( base, glow, sunken, m_iconSize.width() ) );
 
         // Icon
         painter->setRenderHints(QPainter::Antialiasing);
@@ -238,7 +238,7 @@ namespace Oxygen
         painter->save();
 
         //keep all co-ordinates between 0 and 21
-        const qreal width( geometry().width() - m_offset.x() );
+        const qreal width( m_iconSize.width() );
         painter->scale( width/21, width/21 );
 
         // make sure pen width is always larger than 1.1 in "real" coordinates
