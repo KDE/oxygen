@@ -87,7 +87,10 @@ namespace Oxygen
         if( currentAction() )
         {
             if( currentAnimation().data()->isRunning() ) currentAnimation().data()->stop();
-            if( previousAnimation().data()->isRunning() ) previousAnimation().data()->stop();
+            if( previousAnimation().data()->isRunning() ) {
+                previousAnimation().data()->setCurrentTime(0);
+                previousAnimation().data()->stop();
+            }
 
             // only start fadeout effect if there is no new selected action
             //if( !activeActionValid )
