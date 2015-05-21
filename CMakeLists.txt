@@ -41,6 +41,8 @@ if(OXYGEN_USE_KDE4)
   ### XCB
   find_package(PkgConfig)
   pkg_check_modules(XCB xcb x11-xcb)
+  add_feature_info("x11-xcb" XCB_FOUND "Required to pass style properties to native Windows on X11 Platform")
+  set_feature_info("x11-xcb" "Required to pass style properties to native Windows on X11 Platform" "http://xcb.freedesktop.org")
   set(OXYGEN_HAVE_X11 ${XCB_FOUND})
 
   add_subdirectory(liboxygen)
