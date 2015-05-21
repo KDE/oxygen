@@ -1170,6 +1170,10 @@ namespace Oxygen
             flags |= Qt::TextHideMnemonic;
         }
 
+        // make sure vertical alignment is defined
+        // fallback on Align::VCenter if not
+        if( !(flags&Qt::AlignVertical_Mask) ) flags |= Qt::AlignVCenter;
+
         if( _animations->widgetEnabilityEngine().enabled() )
         {
 
@@ -2364,8 +2368,8 @@ namespace Oxygen
         if( !toolButtonOption ) return ParentStyleClass::subControlRect( CC_ToolButton, option, subControl, widget );
 
         const bool hasPopupMenu( toolButtonOption->features & QStyleOptionToolButton::MenuButtonPopup );
-        const bool hasInlineIndicator( 
-            toolButtonOption->features&QStyleOptionToolButton::HasMenu 
+        const bool hasInlineIndicator(
+            toolButtonOption->features&QStyleOptionToolButton::HasMenu
             && toolButtonOption->features&QStyleOptionToolButton::PopupDelay
             && !hasPopupMenu );
 
@@ -2903,8 +2907,8 @@ namespace Oxygen
         const State& state( option->state );
         const bool autoRaise( state & State_AutoRaise );
         const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
-        const bool hasInlineIndicator( 
-            toolButtonOption->features&QStyleOptionToolButton::HasMenu 
+        const bool hasInlineIndicator(
+            toolButtonOption->features&QStyleOptionToolButton::HasMenu
             && toolButtonOption->features&QStyleOptionToolButton::PopupDelay
             && !hasPopupMenu );
 
@@ -6792,8 +6796,8 @@ namespace Oxygen
         QStyleOptionToolButton copy( *toolButtonOption );
 
         const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
-        const bool hasInlineIndicator( 
-            toolButtonOption->features&QStyleOptionToolButton::HasMenu 
+        const bool hasInlineIndicator(
+            toolButtonOption->features&QStyleOptionToolButton::HasMenu
             && toolButtonOption->features&QStyleOptionToolButton::PopupDelay
             && !hasPopupMenu );
 
