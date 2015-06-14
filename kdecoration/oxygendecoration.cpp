@@ -305,8 +305,14 @@ namespace Oxygen
     //________________________________________________________________
     QRect Decoration::captionRect() const
     {
-        const int leftOffset = m_leftButtons->geometry().x() + m_leftButtons->geometry().width() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
-        const int rightOffset = size().width() - m_rightButtons->geometry().x() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
+        const int leftOffset = m_leftButtons->buttons().isEmpty() ?
+            Metrics::TitleBar_SideMargin*settings()->smallSpacing():
+            m_leftButtons->geometry().x() + m_leftButtons->geometry().width() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
+
+        const int rightOffset = m_rightButtons->buttons().isEmpty() ?
+            Metrics::TitleBar_SideMargin*settings()->smallSpacing() :
+            size().width() - m_rightButtons->geometry().x() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
+
         const int yOffset = isMaximized() ? 0 : settings()->smallSpacing()*Metrics::TitleBar_TopMargin;
 
         QRect boundingRect( settings()->fontMetrics().boundingRect( client().data()->caption()).toRect() );
