@@ -432,11 +432,11 @@ namespace Oxygen
         const int baseSize = settings()->gridUnit() + 2; //oxygen icons were always slightly larger
         switch( m_internalSettings->buttonSize() )
         {
-            case Oxygen::InternalSettings::ButtonSmall: return baseSize*1.5;
+            case InternalSettings::ButtonSmall: return baseSize*1.5;
             default:
-            case Oxygen::InternalSettings::ButtonDefault: return baseSize*2;
-            case Oxygen::InternalSettings::ButtonLarge: return baseSize*2.5;
-            case Oxygen::InternalSettings::ButtonVeryLarge: return baseSize*3.5;
+            case InternalSettings::ButtonDefault: return baseSize*2;
+            case InternalSettings::ButtonLarge: return baseSize*2.5;
+            case InternalSettings::ButtonVeryLarge: return baseSize*3.5;
         }
 
     }
@@ -448,39 +448,49 @@ namespace Oxygen
     //________________________________________________________________
     QPair<QRect,Qt::Alignment> Decoration::captionRect() const
     {
+        if( hideTitleBar() ) return qMakePair( QRect(), Qt::AlignCenter );
+        else {
 
-        const int leftOffset = m_leftButtons->geometry().x() + m_leftButtons->geometry().width() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
-        const int rightOffset = size().width() - m_rightButtons->geometry().x() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
-        const int yOffset = settings()->smallSpacing()*Metrics::TitleBar_TopMargin;
-        const QRect maxRect( leftOffset, yOffset, size().width() - leftOffset - rightOffset, captionHeight() );
+            const int leftOffset = m_leftButtons->buttons().isEmpty() ?
+                Metrics::TitleBar_SideMargin*settings()->smallSpacing():
+                m_leftButtons->geometry().x() + m_leftButtons->geometry().width() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
 
-        switch( m_internalSettings->titleAlignment() )
-        {
-            case InternalSettings::AlignLeft:
-            return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignLeft );
+            const int rightOffset = m_rightButtons->buttons().isEmpty() ?
+                Metrics::TitleBar_SideMargin*settings()->smallSpacing() :
+                size().width() - m_rightButtons->geometry().x() + Metrics::TitleBar_SideMargin*settings()->smallSpacing();
 
-            case InternalSettings::AlignRight:
-            return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignRight );
+            const int yOffset = settings()->smallSpacing()*Metrics::TitleBar_TopMargin;
+            const QRect maxRect( leftOffset, yOffset, size().width() - leftOffset - rightOffset, captionHeight() );
 
-            case InternalSettings::AlignCenter:
-            return qMakePair( maxRect, Qt::AlignCenter );
-
-            default:
-            case InternalSettings::AlignCenterFullWidth:
+            switch( m_internalSettings->titleAlignment() )
             {
+                case InternalSettings::AlignLeft:
+                return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignLeft );
 
-                // full caption rect
-                const QRect fullRect = QRect( 0, yOffset, size().width(), captionHeight() );
-                QRect boundingRect( settings()->fontMetrics().boundingRect( client().data()->caption()).toRect() );
+                case InternalSettings::AlignRight:
+                return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignRight );
 
-                // text bounding rect
-                boundingRect.setTop( yOffset );
-                boundingRect.setHeight( captionHeight() );
-                boundingRect.moveLeft( ( size().width() - boundingRect.width() )/2 );
+                case InternalSettings::AlignCenter:
+                return qMakePair( maxRect, Qt::AlignCenter );
 
-                if( boundingRect.left() < leftOffset ) return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignLeft );
-                else if( boundingRect.right() > size().width() - rightOffset ) return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignRight );
-                else return qMakePair(fullRect, Qt::AlignCenter);
+                default:
+                case InternalSettings::AlignCenterFullWidth:
+                {
+
+                    // full caption rect
+                    const QRect fullRect = QRect( 0, yOffset, size().width(), captionHeight() );
+                    QRect boundingRect( settings()->fontMetrics().boundingRect( client().data()->caption()).toRect() );
+
+                    // text bounding rect
+                    boundingRect.setTop( yOffset );
+                    boundingRect.setHeight( captionHeight() );
+                    boundingRect.moveLeft( ( size().width() - boundingRect.width() )/2 );
+
+                    if( boundingRect.left() < leftOffset ) return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignLeft );
+                    else if( boundingRect.right() > size().width() - rightOffset ) return qMakePair( maxRect, Qt::AlignVCenter|Qt::AlignRight );
+                    else return qMakePair(fullRect, Qt::AlignCenter);
+
+                }
 
             }
 
