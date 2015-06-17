@@ -2996,7 +2996,11 @@ namespace Oxygen
                     const int iconWidth( qMax( pixelMetric(PM_SmallIconSize, option, widget ), menuItemOption->maxIconWidth ) );
                     const int textHeight( menuItemOption->fontMetrics.height() );
                     if( !menuItemOption->icon.isNull() ) size.setHeight( qMax( size.height(), iconWidth ) );
-                    if( !menuItemOption->text.isEmpty() ) size.setHeight( qMax( size.height(), textHeight ) );
+                    if( !menuItemOption->text.isEmpty() )
+                    {
+                        size.setHeight( qMax( size.height(), textHeight ) );
+                        size.setWidth( qMax( size.width(), menuItemOption->fontMetrics.width( menuItemOption->text ) ) );
+                    }
 
                     return sizeFromContents( CT_ToolButton, &toolButtonOption, size, widget );
 
@@ -8511,7 +8515,7 @@ namespace Oxygen
         toolButtonOption.subControls = SC_ToolButton;
         toolButtonOption.icon =  menuItemOption->icon;
 
-        int iconWidth( pixelMetric( PM_SmallIconSize, menuItemOption, widget ) );
+        const int iconWidth( pixelMetric( PM_SmallIconSize, menuItemOption, widget ) );
         toolButtonOption.iconSize = QSize( iconWidth, iconWidth );
         toolButtonOption.text = menuItemOption->text;
 
