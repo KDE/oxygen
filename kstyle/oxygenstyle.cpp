@@ -1372,12 +1372,18 @@ namespace Oxygen
             QPainter painter( button );
             painter.setClipRegion( static_cast<QPaintEvent*>( event )->region() );
 
+            const bool isFlat = false;
+
             // option
             QStyleOptionButton option;
             option.initFrom( button );
             option.features |= QStyleOptionButton::CommandLinkButton;
+            if( isFlat ) option.features |= QStyleOptionButton::Flat;
             option.text = QString();
             option.icon = QIcon();
+
+            if( button->isChecked() ) option.state|=State_On;
+            if( button->isDown() ) option.state|=State_Sunken;
 
             // frame
             drawControl(QStyle::CE_PushButton, &option, &painter, button );
@@ -1389,8 +1395,6 @@ namespace Oxygen
             // state
             const State& state( option.state );
             const bool enabled( state & State_Enabled );
-            bool mouseOver( enabled && ( state & State_MouseOver ) );
-            bool hasFocus( enabled && ( state & State_HasFocus ) );
 
             // icon
             if( !button->icon().isNull() )
@@ -1409,7 +1413,7 @@ namespace Oxygen
 
             // text rect
             QRect textRect( offset, QSize( button->size().width() - offset.x() - margin, button->size().height() - 2*margin ) );
-            const QPalette::ColorRole textRole = (enabled && hasFocus && !mouseOver) ? QPalette::HighlightedText : QPalette::ButtonText;
+            const QPalette::ColorRole textRole = QPalette::ButtonText;
             if( !button->text().isEmpty() )
             {
 
