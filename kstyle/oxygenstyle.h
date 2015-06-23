@@ -69,6 +69,10 @@
 
 #include <QIcon>
 
+#if QT_VERSION >= 0x050000
+#include <QCommandLinkButton>
+#endif
+
 namespace OxygenPrivate
 {
     class TabBarData;
@@ -163,6 +167,11 @@ namespace Oxygen
         bool eventFilterComboBoxContainer( QWidget*, QEvent* );
         bool eventFilterDockWidget( QDockWidget*, QEvent* );
         bool eventFilterMdiSubWindow( QMdiSubWindow*, QEvent* );
+
+        #if QT_VERSION >= 0x050000
+        bool eventFilterCommandLinkButton( QCommandLinkButton*, QEvent* );
+        #endif
+
         bool eventFilterScrollBar( QWidget*, QEvent* );
         bool eventFilterTabBar( QWidget*, QEvent* );
         bool eventFilterToolBar( QToolBar*, QEvent* );
