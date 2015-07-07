@@ -1,4 +1,8 @@
 {
+    "KPlugin": {
+        "Id": "org.kde.oxygen",
+        "ServiceTypes": ["org.kde.kdecoration2"]
+    },
     "Type": "Service",
     "X-KDE-Library": "oxygendecoration",
     "X-KDE-PluginInfo-EnabledByDefault": true,
