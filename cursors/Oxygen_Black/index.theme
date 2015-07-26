@@ -1,6 +1,7 @@
 [Icon Theme]
 Name=Oxygen Black
 Name[ar]=أكسجين أسود
+Name[ast]=Oxygen prietu
 Name[ca]=Oxygen negre
 Name[cs]=Oxygen -  Černý
 Name[da]=Oxygen Black
@@ -32,6 +33,7 @@ Name[x-test]=xxOxygen Blackxx
 Name[zh_CN]=Oxygen 黑
 Name[zh_TW]=Oxygen 黑
 Comment=Oxygen mouse theme. Oxygenize your desktop!
+Comment[ast]=Tema del mur Oxygen. ¡Oxixeniza'l to escritoriu!
 Comment[ca]=Tema de ratolí Oxygen. Oxygenitza el teu escriptori!
 Comment[da]=Oxygen musetema. Oxygenisér din desktop!
 Comment[de]=Mausdesign für Oxygen.

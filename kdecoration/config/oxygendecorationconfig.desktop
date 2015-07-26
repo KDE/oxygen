@@ -10,6 +10,7 @@ X-KDE-ParentApp=kcontrol
 X-KDE-Weight=60
 
 Name=Window  Decoration
+Name[ast]=Decoración de ventanes
 Name[ca]=Decoració de les finestres
 Name[cs]=Dekorace oken
 Name[de]=Fensterdekoration
