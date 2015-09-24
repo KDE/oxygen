@@ -259,10 +259,8 @@ namespace Oxygen
         ,_widgetExplorer( new WidgetExplorer( this ) )
         ,_tabBarData( new OxygenPrivate::TabBarData( this ) )
         ,_splitterFactory( new SplitterFactory( this ) )
-        #if !OXYGEN_USE_KDE4
         ,SH_ArgbDndWindow( newStyleHint( QStringLiteral( "SH_ArgbDndWindow" ) ) )
         ,CE_CapacityBar( newControlElement( QStringLiteral( "CE_CapacityBar" ) ) )
-        #endif
     {
 
         // use DBus connection to update on oxygen configuration change
@@ -1077,14 +1075,12 @@ namespace Oxygen
     {
 
         StyleControl fcn( nullptr );
-        #if !OXYGEN_USE_KDE4
         if( element == CE_CapacityBar )
         {
 
             fcn = &Style::drawProgressBarControl;
 
         } else
-        #endif
         switch( element ) {
 
             case CE_ComboBoxLabel: break;
