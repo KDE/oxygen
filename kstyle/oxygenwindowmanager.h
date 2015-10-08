@@ -31,10 +31,6 @@
 #include <QString>
 #include <QWidget>
 
-#if OXYGEN_HAVE_X11
-#include <xcb/xcb.h>
-#endif
-
 namespace Oxygen
 {
 
@@ -259,10 +255,6 @@ namespace Oxygen
 
         //* application event filter
         QObject* _appEventFilter;
-
-        #if OXYGEN_HAVE_X11
-        xcb_atom_t _moveResizeAtom;
-        #endif
 
         //* allow access of all private members to the app event filter
         friend class AppEventFilter;
