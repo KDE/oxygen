@@ -81,6 +81,7 @@ namespace Oxygen
         connect( _menuHighlightSubtle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
 
+        connect( _animationConfigWidget, SIGNAL(layoutChanged()), SLOT(updateLayout()) );
 
     }
 
@@ -141,6 +142,34 @@ namespace Oxygen
         #endif
 
         load();
+    }
+
+    //__________________________________________________________________
+    bool StyleConfig::event( QEvent* event )
+    {
+        const bool result( QWidget::event( event ) );
+        switch( event->type() )
+        {
+            case QEvent::Show:
+            case QEvent::ShowToParent:
+
+            // explicitly update minimum size from hint
+            // this is needed to automatically resize the window to fit animations tab
+            setMinimumSize( minimumSizeHint() );
+            break;
+
+            default: break;
+        }
+
+        return result;
+
+    }
+
+    //__________________________________________________________________
+    void StyleConfig::updateLayout( void )
+    {
+        const int delta = _animationConfigWidget->minimumSizeHint().height() - _animationConfigWidget->size().height();
+        window()->setMinimumSize( QSize( window()->minimumSizeHint().width(), window()->size().height() + delta ) );
     }
 
     //__________________________________________________________________
