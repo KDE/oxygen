@@ -70,10 +70,17 @@ namespace Oxygen
 
         protected Q_SLOTS:
 
+        //* update layout
+        /** needed in expert mode to accommodate with animations config widget size changes */
+        void updateLayout( void );
+
         //* update modified state when option is checked/unchecked
         void updateChanged( void );
 
         protected:
+
+        //! event processing
+        virtual bool event( QEvent* );
 
         // menu mode from ui
         int menuMode( void ) const;
