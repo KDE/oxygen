@@ -1891,7 +1891,7 @@ namespace Oxygen
 
         // take out margins if there is enough room
         const int frameWidth( pixelMetric( PM_DefaultFrameWidth, option, widget ) );
-        if( rect.height() > option->fontMetrics.height() + 2*frameWidth ) return insideMargin( rect, frameWidth );
+        if( rect.height() >= option->fontMetrics.height() + 2*frameWidth ) return insideMargin( rect, frameWidth );
         else return rect;
     }
 
@@ -2555,7 +2555,7 @@ namespace Oxygen
                     rect.height() );
 
                 // remove margins
-                if( !flat && rect.height() > option->fontMetrics.height() + 2*frameWidth )
+                if( !flat && rect.height() >= option->fontMetrics.height() + 2*frameWidth )
                 { labelRect.adjust( frameWidth, frameWidth, 0, -frameWidth ); }
 
                 return visualRect( option, labelRect );
@@ -2620,7 +2620,7 @@ namespace Oxygen
 
                 // remove right side line editor margins
                 const int frameWidth( pixelMetric( PM_SpinBoxFrameWidth, option, widget ) );
-                if( !flat && labelRect.height() > option->fontMetrics.height() + 2*frameWidth )
+                if( !flat && labelRect.height() >= option->fontMetrics.height() + 2*frameWidth )
                 { labelRect.adjust( frameWidth, frameWidth, 0, -frameWidth ); }
 
                 return visualRect( option, labelRect );
@@ -3300,7 +3300,7 @@ namespace Oxygen
         const QPalette& palette( option->palette );
 
         // make sure there is enough room to render frame
-        if( rect.height() <= 2*Metrics::LineEdit_FrameWidth + option->fontMetrics.height() )
+        if( rect.height() < 2*Metrics::LineEdit_FrameWidth + option->fontMetrics.height() )
         {
 
             const QColor background( palette.color( QPalette::Base ) );
