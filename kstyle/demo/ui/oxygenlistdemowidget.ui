@@ -39,15 +39,24 @@
        <property name="text">
         <string>First Item</string>
        </property>
+       <property name="checkState">
+        <enum>Checked</enum>
+       </property>
       </item>
       <item>
        <property name="text">
         <string>Second Item</string>
        </property>
+       <property name="checkState">
+        <enum>Unchecked</enum>
+       </property>
       </item>
       <item>
        <property name="text">
         <string>Third Item</string>
+       </property>
+       <property name="checkState">
+        <enum>Unchecked</enum>
        </property>
       </item>
      </widget>
