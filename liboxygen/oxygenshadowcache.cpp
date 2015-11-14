@@ -95,11 +95,11 @@ namespace Oxygen
     //_______________________________________________________
     ShadowCache::ShadowCache( Helper& helper ):
         _helper( helper ),
+        _enabled( true ),
         _activeShadowSize( 40 ),
         _inactiveShadowSize( 40 )
     {
 
-        setEnabled( true );
         setMaxIndex( 256 );
 
     }
@@ -125,9 +125,6 @@ namespace Oxygen
 
         // invalidate caches
         invalidateCaches();
-
-        // for now, always return true (meaning that config has changed)
-        return;
 
     }
 
