@@ -8500,7 +8500,6 @@ namespace Oxygen
 
     }
 
-
     //______________________________________________________________
     void Style::polishScrollArea( QAbstractScrollArea* scrollArea ) const
     {
