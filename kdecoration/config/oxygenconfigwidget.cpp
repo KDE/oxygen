@@ -120,9 +120,6 @@ namespace Oxygen
         // save configuration
         m_internalSettings->save();
 
-        // save standard configuration
-        ExceptionList::writeConfig( m_internalSettings.data(), m_configuration.data() );
-
         // save shadows
         m_ui.activeShadowConfiguration->writeConfig( m_configuration.data() );
         m_ui.inactiveShadowConfiguration->writeConfig( m_configuration.data() );
