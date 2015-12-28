@@ -56,15 +56,15 @@ namespace Oxygen
         { _group = group; }
 
         //! read defaults
-        void readDefaults( KConfig* config )
-        { readConfig( config, true ); }
+        void setDefaults( void )
+        { load(true ); }
 
         //! read config
-        void readConfig( KConfig* config )
-        { readConfig( config, false ); }
+        void load( void )
+        { load( false ); }
 
         //! write config
-        void writeConfig( KConfig* ) const;
+        void save( void ) const;
 
         //! true if modified
         bool isChanged( void ) const
@@ -83,7 +83,7 @@ namespace Oxygen
         protected:
 
         //! read config
-        void readConfig( KConfig*, bool );
+        void load( bool );
 
         //! set changed state
         virtual void setChanged( bool value )
