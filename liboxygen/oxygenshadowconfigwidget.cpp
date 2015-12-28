@@ -28,7 +28,6 @@
 #include "oxygeninactiveshadowconfiguration.h"
 #include "ui_oxygenshadowconfigurationui.h"
 
-#include "oxygenutil.h"
 
 #include <KLocalizedString>
 #include <QLabel>
@@ -63,7 +62,7 @@ namespace Oxygen
     { delete ui; }
 
     //_________________________________________________________
-    void ShadowConfigWidget::writeConfig( KConfig* config ) const
+    void ShadowConfigWidget::save( void ) const
     {
 
         if( _group == QPalette::Active )
@@ -76,7 +75,7 @@ namespace Oxygen
             ActiveShadowConfiguration::setUseOuterColor( ui->useOuterColor->isChecked() );
 
             ActiveShadowConfiguration::setEnabled( isChecked() );
-            Util::writeConfig( ActiveShadowConfiguration::self(), config );
+            ActiveShadowConfiguration::self()->save();
 
         } else if( _group == QPalette::Inactive ) {
 
@@ -87,7 +86,7 @@ namespace Oxygen
             InactiveShadowConfiguration::setUseOuterColor( ui->useOuterColor->isChecked() );
 
             InactiveShadowConfiguration::setEnabled( isChecked() );
-            Util::writeConfig( InactiveShadowConfiguration::self(), config );
+            InactiveShadowConfiguration::self()->save();
 
         }
 
@@ -122,13 +121,13 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    void ShadowConfigWidget::readConfig( KConfig* config, bool defaults )
+    void ShadowConfigWidget::load( bool defaults )
     {
         if( _group == QPalette::Active )
         {
 
             if( defaults ) ActiveShadowConfiguration::self()->setDefaults();
-            else Util::readConfig( ActiveShadowConfiguration::self(), config );
+            else ActiveShadowConfiguration::self()->load();
 
             ui->shadowSize->setValue( ActiveShadowConfiguration::shadowSize() );
             ui->verticalOffset->setValue( 10*ActiveShadowConfiguration::verticalOffset() );
@@ -141,7 +140,7 @@ namespace Oxygen
         } else if( _group == QPalette::Inactive ) {
 
             if( defaults ) InactiveShadowConfiguration::self()->setDefaults();
-            else Util::readConfig( InactiveShadowConfiguration::self(), config );
+            else InactiveShadowConfiguration::self()->load();
 
             ui->shadowSize->setValue( InactiveShadowConfiguration::shadowSize() );
             ui->verticalOffset->setValue( 10*InactiveShadowConfiguration::verticalOffset() );

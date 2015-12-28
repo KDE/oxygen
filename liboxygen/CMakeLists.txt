@@ -9,8 +9,7 @@ set(oxygenstyle_LIB_SRCS
     oxygenhelper.cpp
     oxygenitemmodel.cpp
     oxygenshadowcache.cpp
-    oxygentileset.cpp
-    oxygenutil.cpp)
+    oxygentileset.cpp)
 
 if(OXYGEN_USE_KDE4)
 

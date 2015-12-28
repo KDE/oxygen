@@ -87,8 +87,8 @@ namespace Oxygen
         m_ui.animationConfigWidget->load();
 
         // load shadows
-        m_ui.activeShadowConfiguration->readConfig( m_configuration.data() );
-        m_ui.inactiveShadowConfiguration->readConfig( m_configuration.data() );
+        m_ui.activeShadowConfiguration->load();
+        m_ui.inactiveShadowConfiguration->load();
 
         // load exceptions
         ExceptionList exceptions;
@@ -121,8 +121,8 @@ namespace Oxygen
         m_internalSettings->save();
 
         // save shadows
-        m_ui.activeShadowConfiguration->writeConfig( m_configuration.data() );
-        m_ui.inactiveShadowConfiguration->writeConfig( m_configuration.data() );
+        m_ui.activeShadowConfiguration->save();
+        m_ui.inactiveShadowConfiguration->save();
 
         // get list of exceptions and write
         InternalSettingsList exceptions( m_ui.exceptions->exceptions() );
@@ -162,8 +162,8 @@ namespace Oxygen
         m_ui.drawSizeGrip->setChecked( m_internalSettings->drawSizeGrip() );
 
         // load shadows
-        m_ui.activeShadowConfiguration->readDefaults( m_configuration.data() );
-        m_ui.inactiveShadowConfiguration->readDefaults( m_configuration.data() );
+        m_ui.activeShadowConfiguration->setDefaults();
+        m_ui.inactiveShadowConfiguration->setDefaults();
 
         // load animations
         m_ui.animationConfigWidget->setInternalSettings( m_internalSettings );
