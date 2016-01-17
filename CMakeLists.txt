@@ -85,7 +85,7 @@ else()
   add_subdirectory(sounds)
   add_subdirectory(kdecoration)
 
-  install(DIRECTORY lookandfeel/ DESTINATION ${CMAKE_INSTALL_PREFIX}/share/plasma/look-and-feel/org.kde.oxygen
+  install(DIRECTORY lookandfeel/ DESTINATION ${KDE_INSTALL_DATADIR}/plasma/look-and-feel/org.kde.oxygen
           PATTERN "Messages.sh" EXCLUDE PATTERN "CMakeLists.txt" EXCLUDE)
 
   # po/ dir added by packaging scripts
