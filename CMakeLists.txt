@@ -76,7 +76,7 @@ else()
   include(ECMInstallIcons)
   include(KDEInstallDirs)
   include(KDECMakeSettings)
-  include(KDECompilerSettings)
+  include(KDECompilerSettings NO_POLICY_SCOPE)
 
   add_subdirectory(liboxygen)
   add_subdirectory(kstyle)
