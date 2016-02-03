@@ -40,11 +40,16 @@
       </choices>
       <default>BorderNoSides</default>
     </entry>
-    <entry name="DrawSizeGrip" type = "Bool">
+
+    <entry name="UseWindowColors" type="bool">
       <default>true</default>
     </entry>
 
-    <entry name="HideTitleBar" type = "Bool">
+    <entry name="DrawSizeGrip" type="Bool">
+      <default>true</default>
+    </entry>
+
+    <entry name="HideTitleBar" type="Bool">
        <default>false</default>
     </entry>
 

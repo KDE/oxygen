@@ -108,11 +108,16 @@ namespace Oxygen
         //* draw icon
         void drawIcon( QPainter* );
 
-        //* color
-        QColor buttonDetailColor( const QPalette& ) const;
+        //*@name colors
+        //@{
 
-        //* color
-        QColor buttonDetailColor( const QPalette& palette, bool active ) const;
+        QColor foregroundColor( const QPalette& ) const;
+        QColor foregroundColor( const QPalette& palette, bool active ) const;
+
+        QColor backgroundColor( const QPalette& ) const;
+        QColor backgroundColor( const QPalette& palette, bool active ) const;
+
+        //@}
 
         //* true if animation is in progress
         bool isAnimated( void ) const

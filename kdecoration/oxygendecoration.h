@@ -87,10 +87,14 @@ namespace Oxygen
         //*@name colors
         //@{
 
-        QColor titlebarTextColor(const QPalette&) const;
-        QColor titlebarTextColor(const QPalette& palette, bool active ) const;
-        QColor titlebarContrastColor(const QPalette& palette ) const;
-        QColor titlebarContrastColor(const QColor& color ) const;
+        QColor titleBarColor(const QPalette&) const;
+        QColor titleBarColor(const QPalette&, bool active) const;
+
+        QColor fontColor(const QPalette&) const;
+        QColor fontColor(const QPalette& palette, bool active ) const;
+
+        QColor contrastColor(const QPalette& palette ) const;
+        QColor contrastColor(const QColor& color ) const;
 
         //@}
 

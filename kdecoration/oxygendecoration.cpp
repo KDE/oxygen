@@ -60,6 +60,8 @@ K_PLUGIN_FACTORY_WITH_JSON(
 namespace Oxygen
 {
 
+    using KDecoration2::ColorRole;
+    using KDecoration2::ColorGroup;
 
     //________________________________________________________________
     using DecorationShadowPointer = QSharedPointer<KDecoration2::DecorationShadow>;
@@ -98,35 +100,92 @@ namespace Oxygen
     }
 
     //_________________________________________________________
-    QColor Decoration::titlebarTextColor(const QPalette &palette) const
+    QColor Decoration::titleBarColor(const QPalette &palette) const
     {
-        if( hideTitleBar() ) return titlebarTextColor( palette, false );
         if( m_animation->state() == QPropertyAnimation::Running )
         {
 
             return KColorUtils::mix(
-                titlebarTextColor( palette, false ),
-                titlebarTextColor( palette, true ),
+                titleBarColor( palette, false ),
+                titleBarColor( palette, true ),
                 m_opacity );
 
         } else {
 
-            return titlebarTextColor( palette, client().data()->isActive() );
+            return titleBarColor( palette, client().data()->isActive() );
 
         }
 
     }
 
     //_________________________________________________________
-    QColor Decoration::titlebarTextColor(const QPalette &palette, bool active ) const
-    { return palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText ); }
+    QColor Decoration::titleBarColor(const QPalette &palette, bool active) const
+    {
+        if( m_internalSettings->useWindowColors() )
+        {
+
+            return palette.color( active ? QPalette::Active : QPalette::Inactive, QPalette::Window );
+
+        } else {
+
+            auto c = client().data();
+            return  c->color( active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::TitleBar );
+
+        }
+
+    }
 
     //_________________________________________________________
-    QColor Decoration::titlebarContrastColor(const QPalette& palette) const
-    { return titlebarContrastColor( palette.color(QPalette::Background) ); }
+    QColor Decoration::fontColor(const QPalette &palette) const
+    {
+        if( hideTitleBar() ) return fontColor( palette, false );
+        if( m_animation->state() == QPropertyAnimation::Running )
+        {
+
+            return KColorUtils::mix(
+                fontColor( palette, false ),
+                fontColor( palette, true ),
+                m_opacity );
+
+        } else {
+
+            return fontColor( palette, client().data()->isActive() );
+
+        }
+
+    }
 
     //_________________________________________________________
-    QColor Decoration::titlebarContrastColor(const QColor& color) const
+    QColor Decoration::fontColor(const QPalette &palette, bool active ) const
+    {
+        if( m_internalSettings->useWindowColors() )
+        {
+
+            return palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText );
+
+        } else {
+
+            auto c = client().data();
+            return  c->color( active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::Foreground );
+
+        }
+
+    }
+
+    //_________________________________________________________
+    QColor Decoration::contrastColor(const QPalette& palette) const
+    {
+        if( m_internalSettings->useWindowColors() ) return contrastColor( palette.color(QPalette::Window) );
+        else {
+
+            auto c = client().data();
+            return  contrastColor( c->color( c->isActive() ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::TitleBar ) );
+
+        }
+    }
+
+    //_________________________________________________________
+    QColor Decoration::contrastColor(const QColor& color) const
     { return SettingsProvider::self()->helper()->calcLightColor( color ); }
 
     //________________________________________________________________
@@ -564,7 +623,7 @@ namespace Oxygen
     void Decoration::renderCorners( QPainter* painter, const QRect& frame, const QPalette& palette ) const
     {
 
-        const QColor color(palette.color(QPalette::Background));
+        const QColor color( titleBarColor( palette ) );
 
         QLinearGradient lg = QLinearGradient(0, -0.5, 0, qreal( frame.height() )+0.5);
         lg.setColorAt(0.0, SettingsProvider::self()->helper()->calcLightColor( SettingsProvider::self()->helper()->backgroundTopColor(color) ));
@@ -592,11 +651,11 @@ namespace Oxygen
         if( SettingsProvider::self()->helper()->hasBackgroundGradient( c->windowId() ) )
         {
 
-            SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), borderTop()-24 );
+            SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, titleBarColor( palette ), borderTop()-24 );
 
         } else {
 
-            painter->fillRect( innerClientRect, palette.color( QPalette::Window ) );
+            painter->fillRect( innerClientRect, titleBarColor( palette ) );
 
         }
 
@@ -635,7 +694,7 @@ namespace Oxygen
         const auto c = client().data();
         const QString caption = painter->fontMetrics().elidedText(c->caption(), Qt::ElideMiddle, cR.first.width());
 
-        const auto contrast( titlebarContrastColor( palette ) );
+        const auto contrast( contrastColor( palette ) );
         if( contrast.isValid() )
         {
             painter->setPen( contrast );
@@ -644,7 +703,7 @@ namespace Oxygen
             painter->translate( 0, -1 );
         }
 
-        const auto color( titlebarTextColor( palette ) );
+        const auto color( fontColor( palette ) );
         painter->setPen( color );
         painter->drawText( cR.first, cR.second | Qt::TextSingleLine, caption );
 

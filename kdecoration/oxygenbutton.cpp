@@ -119,28 +119,78 @@ namespace Oxygen
     {}
 
     //_______________________________________________
-    QColor Button::buttonDetailColor(const QPalette &palette) const
+    QColor Button::foregroundColor(const QPalette &palette) const
     {
         auto d( qobject_cast<Decoration*>( decoration().data() ) );
         if( d->isAnimated() )
         {
 
             return KColorUtils::mix(
-                buttonDetailColor( palette, false ),
-                buttonDetailColor( palette, true ),
+                foregroundColor( palette, false ),
+                foregroundColor( palette, true ),
                 d->opacity() );
 
         } else {
 
-            return buttonDetailColor( palette, isActive());
+            return foregroundColor( palette, isActive());
 
         }
 
     }
 
     //___________________________________________________
-    QColor Button::buttonDetailColor( const QPalette& palette, bool active ) const
-    { return palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::ButtonText ); }
+    QColor Button::foregroundColor( const QPalette& palette, bool active ) const
+    {
+        auto d( qobject_cast<Decoration*>( decoration().data() ) );
+        if( d->internalSettings()->useWindowColors() )
+        {
+
+            return palette.color( active ? QPalette::Active : QPalette::Disabled, QPalette::ButtonText );
+
+        } else {
+
+            return d->fontColor( palette, active );
+
+        }
+
+    }
+
+    //_______________________________________________
+    QColor Button::backgroundColor(const QPalette &palette) const
+    {
+        auto d( qobject_cast<Decoration*>( decoration().data() ) );
+        if( d->isAnimated() )
+        {
+
+            return KColorUtils::mix(
+                backgroundColor( palette, false ),
+                backgroundColor( palette, true ),
+                d->opacity() );
+
+        } else {
+
+            return backgroundColor( palette, isActive());
+
+        }
+
+    }
+
+    //___________________________________________________
+    QColor Button::backgroundColor( const QPalette& palette, bool active ) const
+    {
+        auto d( qobject_cast<Decoration*>( decoration().data() ) );
+        if( d->internalSettings()->useWindowColors() )
+        {
+
+            return palette.color( active ? QPalette::Active : QPalette::Inactive, QPalette::Button );
+
+        } else {
+
+            return d->titleBarColor( palette, active );
+
+        }
+
+    }
 
     //___________________________________________________
     bool Button::isActive( void ) const
@@ -188,10 +238,10 @@ namespace Oxygen
         palette.setCurrentColorGroup( isActive() ? QPalette::Active : QPalette::Inactive);
 
         // base button color
-        QColor base = palette.button().color();
+        QColor base = backgroundColor( palette );
 
         // text color
-        QColor color = buttonDetailColor( palette );
+        QColor color = foregroundColor( palette );
 
         // decide decoration color
         QColor glow;
