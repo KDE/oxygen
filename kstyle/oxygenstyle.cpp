@@ -15,7 +15,7 @@
 // Copyright ( C ) 2001-2002, Chris Lee <clee@kde.org>
 // Carsten Pfeiffer <pfeiffer@kde.org>
 // Karol Szwed <gallium@kde.org>
-// Drawing routines completely reimplemented from KDE3 HighColor, which was
+// Drawing routines completely reimplemented from KDE3 +HighColor, which was
 // originally based on some stuff from the KDE2 HighColor.
 //
 // based on drawing routines of the style "Keramik":
@@ -225,10 +225,7 @@ namespace Oxygen
             // cast to QWidget
             QWidget *widget = static_cast<QWidget*>( object );
             if( event->type() == QEvent::Show && _helper.hasDecoration( widget ) )
-            {
-                _helper.setHasBackgroundGradient( widget->winId(), true );
-                _helper.setHasBackgroundPixmap( widget->winId(), _helper.hasBackgroundPixmap() );
-            }
+            { _helper.setHasBackgroundGradient( widget->winId(), true ); }
 
             return false;
         }
@@ -1790,9 +1787,6 @@ namespace Oxygen
         // background gradient
         _helper->setUseBackgroundGradient( StyleConfigData::useBackgroundGradient() );
 
-        // background pixmap
-        _helper->setBackgroundPixmap( StyleConfigData::backgroundPixmap() );
-
         // update top level window hints
         foreach( QWidget* widget, qApp->topLevelWidgets() )
         {
@@ -1804,7 +1798,6 @@ namespace Oxygen
 
             // update flags
             _helper->setHasBackgroundGradient( widget->winId(), true );
-            _helper->setHasBackgroundPixmap( widget->winId(), _helper->hasBackgroundPixmap() );
         }
 
         // update caches size

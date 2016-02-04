@@ -119,9 +119,6 @@ namespace Oxygen
             painter->fillRect( widget->rect(), color );
         }
 
-        // background pixmap
-        Helper::renderBackgroundPixmap( painter, clipRect, widget, widget->window(), y_shift, gradientHeight );
-
     }
 
     //____________________________________________________________________

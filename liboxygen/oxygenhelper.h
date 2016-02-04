@@ -212,21 +212,6 @@ namespace Oxygen
 
         void renderWindowBackground( QPainter* p, const QRect& clipRect, const QRect& windowRect, const QColor& color, int y_shift, int gradientHeight = 20 );
 
-        //* background pixmap
-        bool hasBackgroundPixmap( void ) const
-        { return !_backgroundPixmap.isNull(); }
-
-        //* background pixmap
-        void setBackgroundPixmap( const QPixmap& pixmap )
-        { _backgroundPixmap = pixmap; }
-
-        //* offset
-        void setBackgroundPixmapOffset( const QPoint& offset )
-        { _backgroundPixmapOffset = offset; }
-
-        //* render window background using a given color as a reference
-        virtual void renderBackgroundPixmap( QPainter* p, const QRect& clipRect, const QWidget *, const QWidget *, int y_shift=-23, int gradientHeight = 20 );
-
         //@}
 
         //* dots
@@ -361,12 +346,6 @@ namespace Oxygen
         //* true if background gradient hint is set
         virtual bool hasBackgroundGradient( WId ) const;
 
-        //* set background pixmap hint to widget
-        virtual void setHasBackgroundPixmap( WId, bool ) const;
-
-        //* true if background pixmap hint is set
-        virtual bool hasBackgroundPixmap( WId ) const;
-
         //@}
 
         //@name high dpi utility functions
@@ -496,12 +475,6 @@ namespace Oxygen
         ColorMap _highThreshold;
         ColorMap _lowThreshold;
 
-        //* background pixmap
-        QPixmap _backgroundPixmap;
-
-        //* background pixmap offsets
-        QPoint _backgroundPixmapOffset;
-
         #if OXYGEN_HAVE_X11
 
         //* set value for given hint
@@ -512,9 +485,6 @@ namespace Oxygen
 
         //* background gradient hint atom
         xcb_atom_t _backgroundGradientAtom;
-
-        //* background gradient hint atom
-        xcb_atom_t _backgroundPixmapAtom;
 
         #endif
 

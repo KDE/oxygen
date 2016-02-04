@@ -10,12 +10,6 @@
     <entry name="UseBackgroundGradient" type = "Bool" >
        <default>true</default>
     </entry>
-
-    <!-- background pixmap -->
-    <entry name="BackgroundPixmap" type = "String" >
-       <default></default>
-    </entry>
-
   </group>
 
   <!-- widget style -->
