@@ -67,7 +67,7 @@ namespace Oxygen
         All the actual rendering is performed by the base class
         */
         using Helper::renderWindowBackground;
-        virtual void renderWindowBackground( QPainter*, const QRect&, const QWidget*, const QColor&, int y_shift=-23, int gradientHeight = 20 );
+        virtual void renderWindowBackground( QPainter*, const QRect&, const QWidget*, const QColor&, int y_shift=-23 );
 
         //* set background gradient hint to widget
         virtual void setHasBackgroundGradient( WId, bool ) const;

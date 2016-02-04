@@ -1294,7 +1294,7 @@ namespace Oxygen
                 if( dockWidget->isWindow() )
                 {
 
-                    _helper->renderWindowBackground( &painter, rect, dockWidget, color );
+                    _helper->renderWindowBackground( &painter, rect, dockWidget, color, 0 );
 
                     #ifndef Q_WS_WIN
                     _helper->drawFloatFrame( &painter, rect, color, !_helper->compositingActive() );
@@ -1342,7 +1342,7 @@ namespace Oxygen
                 tileSet->render( rect, &painter );
 
                 painter.setClipPath( _helper->roundedPath( insideMargin( rect, 1 ) ), Qt::IntersectClip );
-                _helper->renderWindowBackground( &painter, clip, subWindow, subWindow, subWindow->palette(), 0, 58 );
+                _helper->renderWindowBackground( &painter, clip, subWindow, subWindow, subWindow->palette(), 0 );
 
             }
 
@@ -1508,7 +1508,7 @@ namespace Oxygen
                     // background has to be rendered explicitly
                     // when one of the parent has autofillBackground set to true
                     if( _helper->checkAutoFillBackground( toolBar ) )
-                    { _helper->renderWindowBackground( &painter, rect, toolBar, color ); }
+                    { _helper->renderWindowBackground( &painter, rect, toolBar, color, 0 ); }
 
                     return false;
 

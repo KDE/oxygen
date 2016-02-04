@@ -101,14 +101,14 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    void StyleHelper::renderWindowBackground( QPainter* painter, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift, int gradientHeight)
+    void StyleHelper::renderWindowBackground( QPainter* painter, const QRect& clipRect, const QWidget* widget, const QColor& color, int y_shift)
     {
 
         if( _useBackgroundGradient )
         {
 
             // normal background gradient
-            Helper::renderWindowBackground( painter, clipRect, widget, widget->window(), color, y_shift, gradientHeight );
+            Helper::renderWindowBackground( painter, clipRect, widget, widget->window(), color, y_shift );
 
         } else {
 

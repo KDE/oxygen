@@ -118,10 +118,8 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& windowRect, const QColor& color, int yShift, int gradientHeight)
+    void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& windowRect, const QColor& color, int yShift)
     {
-
-        Q_UNUSED( yShift );
 
         if ( clipRect.isValid() )
         {
@@ -129,29 +127,30 @@ namespace Oxygen
             p->setClipRegion( clipRect,Qt::IntersectClip );
         }
 
-        // gradient offset
-        const int offset( gradientHeight - 20 );
-
         // draw upper linear gradient
-        const int splitY( offset + qMin( 300, ( 3*windowRect.height() )/4 ) );
+        const int splitY( qMin( 300, ( 3*windowRect.height() )/4 ) );
 
-        //
         QRect upperRect = windowRect;
-        upperRect.setHeight(splitY);
-        QPixmap tile( verticalGradient( color, splitY, offset ) );
-        p->drawTiledPixmap( upperRect, tile );
+        if( splitY+yShift>0 )
+        {
+            upperRect.setHeight(splitY+yShift);
+            QPixmap tile( verticalGradient( color, splitY+yShift, yShift ) );
+            p->drawTiledPixmap( upperRect, tile );
+        }
 
         // draw lower flat part
-        const QRect lowerRect = windowRect.adjusted(0, splitY, 0,  0);
-        p->fillRect( lowerRect, backgroundBottomColor( color ) );
+        const QRect lowerRect = windowRect.adjusted(0, splitY+yShift, 0,  0);
+        if( lowerRect.isValid() )
+        { p->fillRect( lowerRect, backgroundBottomColor( color ) ); }
 
         // draw upper radial gradient
         const int radialW( qMin( 600, windowRect.width() ) );
-        const QRect radialRect( ( windowRect.width() - radialW ) / 2 + windowRect.x(), windowRect.y(), radialW, offset + 64 );
-        if ( clipRect.intersects( radialRect ) )
+        const QRect radialRect( ( windowRect.width() - radialW ) / 2 + windowRect.x(), windowRect.y(), radialW, 64 + yShift );
+        if( clipRect.intersects( radialRect ) )
         {
-            tile = radialGradient( color, radialW, offset + 64 );
+            QPixmap tile = radialGradient( color, radialW, 64 + yShift );
             p->drawPixmap( radialRect, tile );
+
         }
 
         if ( clipRect.isValid() )
@@ -160,7 +159,7 @@ namespace Oxygen
 
 
     //____________________________________________________________________
-    void Helper::renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int yShift, int gradientHeight )
+    void Helper::renderWindowBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QWidget* window, const QColor& color, int yShift )
     {
 
         // get coordinates relative to the client area
@@ -168,7 +167,7 @@ namespace Oxygen
         // QWidget* as argument.
         const QWidget* w( widget );
         int x( 0 );
-        int y( -yShift );
+        int y( 0 );
 
         while ( w != window && !w->isWindow() && w != w->parentWidget() )
         {
@@ -177,43 +176,9 @@ namespace Oxygen
             w = w->parentWidget();
         }
 
-        if ( clipRect.isValid() )
-        {
-            p->save();
-            p->setClipRegion( clipRect,Qt::IntersectClip );
-        }
-
-        // calculate upper part height
-        // special tricks are needed
-        // to handle both window contents and window decoration
-        const QRect r = window->rect();
-        int height( window->frameGeometry().height() );
-        int width( window->frameGeometry().width() );
-
-        // gradient offset
-        const int offset( gradientHeight - 20 );
-
-        // draw upper linear gradient
-        const int splitY( offset + qMin( 300, ( 3*height )/4 ) );
-        const QRect upperRect( -x, -y, r.width(), splitY );
-        QPixmap tile( verticalGradient( color, splitY, offset ) );
-        p->drawTiledPixmap( upperRect, tile );
-
-        // draw lower flat part
-        const QRect lowerRect( -x, splitY-y, r.width(), r.height() - splitY-yShift );
-        p->fillRect( lowerRect, backgroundBottomColor( color ) );
-
-        // draw upper radial gradient
-        const int radialW( qMin( 600, width ) );
-        const QRect radialRect( ( r.width() - radialW ) / 2-x, -y, radialW, offset + 64 );
-        if ( clipRect.intersects( radialRect ) )
-        {
-            tile = radialGradient( color, radialW, offset + 64 );
-            p->drawPixmap( radialRect, tile );
-        }
-
-        if ( clipRect.isValid() )
-        { p->restore(); }
+        // translate and call the base method
+        const QRect r = window->rect().translated( -x, -y );
+        renderWindowBackground( p, clipRect, r, color, yShift );
     }
 
     //_____________________________________________________________

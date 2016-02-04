@@ -592,7 +592,7 @@ namespace Oxygen
         if( SettingsProvider::self()->helper()->hasBackgroundGradient( c->windowId() ) )
         {
 
-            SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), 0, 20 );
+            SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, palette.color(QPalette::Window), borderTop()-24 );
 
         } else {
 
