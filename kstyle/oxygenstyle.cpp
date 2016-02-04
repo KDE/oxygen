@@ -3680,8 +3680,7 @@ namespace Oxygen
 
                 // color
         QColor color;
-        if( mouseOver && !inToolButton ) color = _helper->hoverColor( palette );
-        else if( inTabBar && hasFocus ) {
+        if( inTabBar ) {
 
             // for tabbar arrows one uses animations to get the arrow color
             // get animation state
@@ -3694,6 +3693,10 @@ namespace Oxygen
             if( hasFocus ) styleOptions |= Focus;
 
             color = _helper->arrowColor( palette, styleOptions, opacity, mode );
+
+        } else if( mouseOver && !inToolButton ) {
+
+            color = _helper->hoverColor( palette );
 
         } else if( inToolButton ) {
 
