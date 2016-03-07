@@ -998,6 +998,16 @@ namespace Oxygen
 
     }
 
+    bool Helper::isWayland( void )
+    {
+        #if QT_VERSION >= 0x050000
+        static const bool s_isWayland = qApp->platformName().startsWith(QLatin1String("wayland"));
+        return s_isWayland;
+        #else
+        return false;
+        #endif
+    }
+
     #if OXYGEN_HAVE_X11
 
     //____________________________________________________________________
