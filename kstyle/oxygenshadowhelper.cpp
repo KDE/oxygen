@@ -31,6 +31,7 @@
 #include "oxygenstylehelper.h"
 
 #include <QDockWidget>
+#include <QMarginsF>
 #include <QMenu>
 #include <QPainter>
 #include <QToolBar>
@@ -39,6 +40,15 @@
 
 #if OXYGEN_HAVE_X11
 #include <QX11Info>
+#endif
+
+#if OXYGEN_HAVE_KWAYLAND
+#include <KWayland/Client/buffer.h>
+#include <KWayland/Client/connection_thread.h>
+#include <KWayland/Client/registry.h>
+#include <KWayland/Client/shadow.h>
+#include <KWayland/Client/shm_pool.h>
+#include <KWayland/Client/surface.h>
 #endif
 
 namespace Oxygen
@@ -56,7 +66,13 @@ namespace Oxygen
         ,_gc( 0 ),
         _atom( 0 )
         #endif
-    {}
+        #if OXYGEN_HAVE_KWAYLAND
+        , _shadowManager( Q_NULLPTR )
+        , _shmPool( Q_NULLPTR )
+        #endif
+    {
+        initializeWayland();
+    }
 
     //_______________________________________________________
     ShadowHelper::~ShadowHelper( void )
@@ -72,6 +88,36 @@ namespace Oxygen
 
         delete _shadowCache;
 
+    }
+
+    void ShadowHelper::initializeWayland()
+    {
+        #if OXYGEN_HAVE_KWAYLAND
+        if( !Helper::isWayland() ) return;
+
+        using namespace KWayland::Client;
+        auto connection = ConnectionThread::fromApplication( this );
+        if( !connection ) {
+            return;
+        }
+        Registry *registry = new Registry( this );
+        registry->create( connection );
+        connect(registry, &Registry::interfacesAnnounced, this,
+            [registry, this] {
+                const auto interface = registry->interface( Registry::Interface::Shadow );
+                if( interface.name != 0 ) {
+                    _shadowManager = registry->createShadowManager( interface.name, interface.version, this );
+                }
+                const auto shmInterface = registry->interface( Registry::Interface::Shm );
+                if( shmInterface.name != 0 ) {
+                    _shmPool = registry->createShmPool( shmInterface.name, shmInterface.version, this );
+                }
+            }
+        );
+
+        registry->setup();
+        connection->roundtrip();
+        #endif
     }
 
     //______________________________________________
@@ -109,7 +155,7 @@ namespace Oxygen
         { return false; }
 
         // try create shadow directly
-        if( installX11Shadows( widget ) ) _widgets.insert( widget, widget->winId() );
+        if( installShadows( widget ) ) _widgets.insert( widget, widget->winId() );
         else _widgets.insert( widget, 0 );
 
         // install event filter
@@ -127,7 +173,7 @@ namespace Oxygen
     void ShadowHelper::unregisterWidget( QWidget* widget )
     {
         if( _widgets.remove( widget ) )
-        { uninstallX11Shadows( widget ); }
+        { uninstallShadows( widget ); }
     }
 
     //_______________________________________________________
@@ -175,7 +221,7 @@ namespace Oxygen
 
         // update property for registered widgets
         for( QMap<QWidget*,WId>::const_iterator iter = _widgets.constBegin(); iter != _widgets.constEnd(); ++iter )
-        { installX11Shadows( iter.key() ); }
+        { installShadows( iter.key() ); }
 
     }
 
@@ -190,7 +236,7 @@ namespace Oxygen
         QWidget* widget( static_cast<QWidget*>( object ) );
 
         // install shadows and update winId
-        if( installX11Shadows( widget ) )
+        if( installShadows( widget ) )
         { _widgets.insert( widget, widget->winId() ); }
 
         return false;
@@ -339,15 +385,9 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    bool ShadowHelper::installX11Shadows( QWidget* widget )
+    bool ShadowHelper::installShadows( QWidget* widget )
     {
-
-        // check widget and shadow
         if( !widget ) return false;
-        if( !_helper.isX11() ) return false;
-
-        #if OXYGEN_HAVE_X11
-        #ifndef QT_NO_XRENDER
 
         /*
         From bespin code. Supposibly prevent playing with some 'pseudo-widgets'
@@ -355,6 +395,19 @@ namespace Oxygen
         */
         if( !(widget->testAttribute(Qt::WA_WState_Created) && widget->internalWinId() ))
         { return false; }
+
+        if( Helper::isX11() ) return installX11Shadows( widget );
+        if( Helper::isWayland() ) return installWaylandShadows( widget );
+
+        return false;
+    }
+
+    //_______________________________________________________
+    bool ShadowHelper::installX11Shadows( QWidget* widget )
+    {
+
+        #if OXYGEN_HAVE_X11
+        #ifndef QT_NO_XRENDER
 
         // create pixmap handles if needed
         const bool isDockWidget( this->isDockWidget( widget ) || this->isToolBar( widget ) );
@@ -367,41 +420,8 @@ namespace Oxygen
         foreach( const quint32& value, pixmaps )
         { data.append( value ); }
 
-        // get devicePixelRatio
-        // for testing purposes only
-        // const qreal devicePixelRatio( _helper.devicePixelRatio( isDockWidget ?
-        // _dockTiles.pixmap( 0 ):_tiles.pixmap( 0 ) ) );
-        const qreal devicePixelRatio( 1.0 );
-
-        // add padding
-        /*
-        in most cases all 4 paddings are identical, since offsets are handled when generating the pixmaps.
-        There is one extra pixel needed with respect to actual shadow size, to deal with how
-        menu backgrounds are rendered.
-        Some special care is needed for QBalloonTip, since the later have an arrow
-        */
-
-        if( isToolTip( widget ) && widget->inherits( "QBalloonTip" ) )
-        {
-
-            // balloon tip needs special margins to deal with the arrow
-            int top = 0;
-            int bottom = 0;
-            widget->getContentsMargins(nullptr, &top, nullptr, &bottom );
-
-            // also need to decrement default size further due to extra hard coded round corner
-            const int size = (_size - 2)*devicePixelRatio;
-
-            // it seems arrow can be either to the top or the bottom. Adjust margins accordingly
-            if( top > bottom ) data << size - (top - bottom) << size << size << size;
-            else data << size << size << size - (bottom - top) << size;
-
-        } else {
-
-            const int size = _size*devicePixelRatio;
-            data << size << size << size << size;
-
-        }
+        const QMarginsF margins = shadowMargins( widget );
+        data << int(margins.top()) << int(margins.right()) << int(margins.bottom()) << int(margins.left());
 
         xcb_change_property( _helper.connection(), XCB_PROP_MODE_REPLACE, widget->winId(), _atom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );
         xcb_flush( _helper.connection() );
@@ -420,13 +440,133 @@ namespace Oxygen
     {
 
         #if OXYGEN_HAVE_X11
-        if( !_helper.isX11() ) return;
-        if( !( widget && widget->testAttribute(Qt::WA_WState_Created) ) ) return;
         xcb_delete_property( _helper.connection(), widget->winId(), _atom);
         #else
         Q_UNUSED( widget )
         #endif
 
+    }
+
+    //_______________________________________________________
+    bool ShadowHelper::installWaylandShadows( QWidget* widget )
+    {
+        #if OXYGEN_HAVE_KWAYLAND
+        if( !_shadowManager || !_shmPool ) return false;
+
+        const bool isDockWidget( this->isDockWidget( widget ) || this->isToolBar( widget ) );
+        const TileSet &tiles = isDockWidget ? _dockTiles : _tiles;
+
+        if( !tiles.isValid() ) return false;
+
+        // create shadow
+        using namespace KWayland::Client;
+        auto s = Surface::fromWindow( widget->windowHandle() );
+        if( !s ) return false;
+
+        auto shadow = _shadowManager->createShadow( s, widget );
+        if( !shadow->isValid() ) return false;
+
+        // add the shadow elements
+        shadow->attachTop( _shmPool->createBuffer( tiles.pixmap( 1 ).toImage() ) );
+        shadow->attachTopRight( _shmPool->createBuffer( tiles.pixmap( 2 ).toImage() ) );
+        shadow->attachRight( _shmPool->createBuffer( tiles.pixmap( 5 ).toImage() ) );
+        shadow->attachBottomRight( _shmPool->createBuffer( tiles.pixmap( 8 ).toImage() ) );
+        shadow->attachBottom( _shmPool->createBuffer( tiles.pixmap( 7 ).toImage() ) );
+        shadow->attachBottomLeft( _shmPool->createBuffer( tiles.pixmap( 6 ).toImage() ) );
+        shadow->attachLeft( _shmPool->createBuffer( tiles.pixmap( 3 ).toImage() ) );
+        shadow->attachTopLeft( _shmPool->createBuffer( tiles.pixmap( 0 ).toImage() ) );
+
+        shadow->setOffsets( shadowMargins( widget ) );
+        shadow->commit();
+        s->commit( Surface::CommitFlag::None );
+
+        return true;
+        #endif
+
+        return false;
+    }
+
+    //_______________________________________________________
+    QMarginsF ShadowHelper::shadowMargins( QWidget* widget ) const
+    {
+        // const qreal devicePixelRatio( _helper.devicePixelRatio( isDockWidget ?
+        // _dockTiles.pixmap( 0 ):_tiles.pixmap( 0 ) ) );
+        const qreal devicePixelRatio( 1.0 );
+
+        // add padding
+        /*
+        in most cases all 4 paddings are identical, since offsets are handled when generating the pixmaps.
+        There is one extra pixel needed with respect to actual shadow size, to deal with how
+        menu backgrounds are rendered.
+        Some special care is needed for QBalloonTip, since the later have an arrow
+        */
+
+        int topSize = 0;
+        int rightSize = 0;
+        int bottomSize = 0;
+        int leftSize = 0;
+
+        if( isToolTip( widget ) && widget->inherits( "QBalloonTip" ) )
+        {
+
+            // balloon tip needs special margins to deal with the arrow
+            int top = 0;
+            int bottom = 0;
+            widget->getContentsMargins(nullptr, &top, nullptr, &bottom );
+
+            // also need to decrement default size further due to extra hard coded round corner
+            const int size = (_size - 2)*devicePixelRatio;
+
+            // it seems arrow can be either to the top or the bottom. Adjust margins accordingly
+            if( top > bottom )
+            {
+                topSize = size - (top - bottom);
+                rightSize = size;
+                bottomSize = size;
+                leftSize = size;
+            } else {
+                topSize = size;
+                rightSize = size;
+                bottomSize = size - (bottom - top);
+                leftSize = size;
+            }
+
+        } else {
+
+            const int size = _size*devicePixelRatio;
+            topSize = size;
+            rightSize = size;
+            bottomSize = size;
+            leftSize = size;
+
+        }
+
+        return QMarginsF( leftSize, topSize, rightSize, bottomSize );
+    }
+
+    //_______________________________________________________
+    void ShadowHelper::uninstallShadows( QWidget* widget ) const
+    {
+        if( !( widget && widget->testAttribute(Qt::WA_WState_Created) ) ) return;
+        if( Helper::isX11() ) uninstallX11Shadows( widget );
+        if( Helper::isWayland() ) uninstallWaylandShadows( widget );
+    }
+
+    //_______________________________________________________
+    void ShadowHelper::uninstallWaylandShadows( QWidget* widget ) const
+    {
+        #if OXYGEN_HAVE_KWAYLAND
+        if( !_shadowManager ) return;
+
+        using namespace KWayland::Client;
+        auto s = Surface::fromWindow( widget->windowHandle() );
+        if( !s ) return;
+
+        _shadowManager->removeShadow( s );
+        s->commit( Surface::CommitFlag::None );
+        #else
+        Q_UNUSED( widget )
+        #endif
     }
 
 }

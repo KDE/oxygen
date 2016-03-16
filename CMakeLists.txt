@@ -36,6 +36,7 @@ if(OXYGEN_USE_KDE4)
   add_feature_info("x11-xcb" XCB_FOUND "Required to pass style properties to native Windows on X11 Platform")
   set_feature_info("x11-xcb" "Required to pass style properties to native Windows on X11 Platform" "http://xcb.freedesktop.org")
   set(OXYGEN_HAVE_X11 ${XCB_FOUND})
+  set(OXYGEN_HAVE_KWAYLAND FALSE)
 
   add_subdirectory(liboxygen)
   add_subdirectory(kstyle)
@@ -63,6 +64,9 @@ else()
       TYPE OPTIONAL
       PURPOSE "Required to pass style properties to native Windows on X11 Platform"
   )
+
+  find_package(KF5Wayland CONFIG)
+  set(OXYGEN_HAVE_KWAYLAND ${KF5Wayland_FOUND})
 
   if(NOT APPLE)
 

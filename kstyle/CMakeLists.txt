@@ -94,6 +94,10 @@ else()
     target_link_libraries(oxygen Qt5::X11Extras)
   endif()
 
+  if(OXYGEN_HAVE_KWAYLAND)
+    target_link_libraries(oxygen KF5::WaylandClient)
+  endif()
+
   install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/)
 
 endif()
