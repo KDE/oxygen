@@ -33,6 +33,7 @@
 
 #include <QObject>
 #include <QMap>
+#include <QMargins>
 
 #if OXYGEN_HAVE_X11
 #include <xcb/xcb.h>
@@ -155,7 +156,7 @@ namespace Oxygen
         void initializeWayland();
 
         //* gets the shadow margins for the given widget
-        QMarginsF shadowMargins( QWidget* ) const;
+        QMargins shadowMargins( QWidget* ) const;
 
         private:
 

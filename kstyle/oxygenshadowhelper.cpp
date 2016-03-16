@@ -31,7 +31,6 @@
 #include "oxygenstylehelper.h"
 
 #include <QDockWidget>
-#include <QMarginsF>
 #include <QMenu>
 #include <QPainter>
 #include <QToolBar>
@@ -420,7 +419,7 @@ namespace Oxygen
         foreach( const quint32& value, pixmaps )
         { data.append( value ); }
 
-        const QMarginsF margins = shadowMargins( widget );
+        const QMargins margins = shadowMargins( widget );
         data << int(margins.top()) << int(margins.right()) << int(margins.bottom()) << int(margins.left());
 
         xcb_change_property( _helper.connection(), XCB_PROP_MODE_REPLACE, widget->winId(), _atom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );
@@ -487,7 +486,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    QMarginsF ShadowHelper::shadowMargins( QWidget* widget ) const
+    QMargins ShadowHelper::shadowMargins( QWidget* widget ) const
     {
         // const qreal devicePixelRatio( _helper.devicePixelRatio( isDockWidget ?
         // _dockTiles.pixmap( 0 ):_tiles.pixmap( 0 ) ) );
@@ -541,7 +540,7 @@ namespace Oxygen
 
         }
 
-        return QMarginsF( leftSize, topSize, rightSize, bottomSize );
+        return QMargins( leftSize, topSize, rightSize, bottomSize );
     }
 
     //_______________________________________________________
