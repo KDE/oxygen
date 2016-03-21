@@ -89,6 +89,7 @@ namespace Oxygen
 
     }
 
+    //_______________________________________________________
     void ShadowHelper::initializeWayland()
     {
         #if OXYGEN_HAVE_KWAYLAND
@@ -480,6 +481,8 @@ namespace Oxygen
         s->commit( Surface::CommitFlag::None );
 
         return true;
+        #else
+        Q_UNUSED( widget );
         #endif
 
         return false;
