@@ -33,19 +33,8 @@ namespace Oxygen
 
     //_______________________________________________
     BusyIndicatorEngine::BusyIndicatorEngine( QObject* object ):
-        BaseEngine( object ),
-        _animation( new Animation( duration(), this ) ),
-        _value( 0 )
-    {
-
-        // setup animation
-        _animation.data()->setStartValue( 0 );
-        _animation.data()->setEndValue( 1 );
-        _animation.data()->setTargetObject( this );
-        _animation.data()->setPropertyName( "value" );
-        _animation.data()->setLoopCount( -1 );
-
-    }
+        BaseEngine( object )
+    {}
 
     //_______________________________________________
     bool BusyIndicatorEngine::registerWidget( QObject* object )
@@ -84,7 +73,8 @@ namespace Oxygen
         BaseEngine::setDuration( value );
 
         // restart timer with specified time
-        _animation.data()->setDuration( value*100 );
+        if( _animation )
+        { _animation.data()->setDuration( value*100 ); }
 
     }
 
@@ -99,8 +89,29 @@ namespace Oxygen
             data.data()->setAnimated( value );
 
             // start timer if needed
-            if( value && !_animation.data()->isRunning() )
-            { _animation.data()->start(); }
+            if( value )
+            {
+                if( !_animation )
+                {
+
+                    // create animation if not already there
+                    _animation = new Animation( duration(), this );
+
+                    // setup
+                    _animation.data()->setStartValue( 0 );
+                    _animation.data()->setEndValue( 1 );
+                    _animation.data()->setTargetObject( this );
+                    _animation.data()->setPropertyName( "value" );
+                    _animation.data()->setLoopCount( -1 );
+                    _animation.data()->setDuration( duration()*100 );
+
+                }
+
+                // start if  not already running
+                if( !_animation.data()->isRunning() )
+                { _animation.data()->start(); }
+
+            }
 
         }
 
@@ -149,8 +160,27 @@ namespace Oxygen
 
         }
 
-        if( !animated ) _animation.data()->stop();
+        if( _animation && !animated )
+        {
+            _animation.data()->stop();
+            _animation.data()->deleteLater();
+            _animation.clear();
+        }
 
+    }
+
+    //__________________________________________________________
+    bool BusyIndicatorEngine::unregisterWidget( QObject* object )
+    {
+        const bool removed( _data.unregisterWidget( object ) );
+        if( _animation && _data.isEmpty() )
+        {
+            _animation.data()->stop();
+            _animation.data()->deleteLater();
+            _animation.clear();
+        }
+
+        return removed;
     }
 
 }

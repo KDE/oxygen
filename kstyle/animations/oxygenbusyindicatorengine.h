@@ -50,8 +50,7 @@ namespace Oxygen
         explicit BusyIndicatorEngine( QObject* );
 
         //* destructor
-        virtual ~BusyIndicatorEngine( void )
-        {}
+        virtual ~BusyIndicatorEngine( void ) = default;
 
         //*@name accessors
         //@{
@@ -85,8 +84,7 @@ namespace Oxygen
         public Q_SLOTS:
 
         //* remove widget from map
-        virtual bool unregisterWidget( QObject* object )
-        { return _data.unregisterWidget( object ); }
+        virtual bool unregisterWidget( QObject* );
 
         protected:
 
@@ -102,7 +100,7 @@ namespace Oxygen
         Animation::Pointer _animation;
 
         //* value
-        qreal _value;
+        qreal _value = 0;
 
     };
 
