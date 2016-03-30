@@ -32,6 +32,8 @@
 
 #include "oxygen_export.h"
 
+#include "liboxygen.h"
+
 namespace Oxygen
 {
 
@@ -43,7 +45,7 @@ namespace Oxygen
         public:
 
         //! TimeLine shared pointer
-        typedef QPointer<Animation> Pointer;
+        using Pointer = WeakPointer<Animation>;
 
         //! constructor
         Animation( int duration, QObject* parent ):
