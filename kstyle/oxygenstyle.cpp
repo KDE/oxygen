@@ -646,7 +646,7 @@ namespace Oxygen
             case PM_DefaultFrameWidth:
             if( qobject_cast<const QLineEdit*>( widget ) ) return Metrics::LineEdit_FrameWidth;
             #if QT_VERSION >= 0x050000
-            else if( option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" ) )
+            else if( isQtQuickControl( option, widget ) )
             {
                 const QString &elementType = option->styleObject->property( "elementType" ).toString();
                 if( elementType == QLatin1String( "edit" ) || elementType == QLatin1String( "spinbox" ) )
@@ -3029,12 +3029,7 @@ namespace Oxygen
             case QStyleOptionMenuItem::SubMenu:
             {
 
-                #if QT_VERSION >= 0x050000
-                const bool isQtQuickControl = !widget && option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" );
-                const int iconWidth( isQtQuickControl ? qMax( pixelMetric(PM_SmallIconSize, option, widget ), menuItemOption->maxIconWidth ) : menuItemOption->maxIconWidth );
-                #else
-                const int iconWidth( menuItemOption->maxIconWidth );
-                #endif
+                const int iconWidth( isQtQuickControl( option, widget ) ? qMax( pixelMetric(PM_SmallIconSize, option, widget ), menuItemOption->maxIconWidth ) : menuItemOption->maxIconWidth );
 
                 int leftColumnWidth( iconWidth );
 
@@ -3231,9 +3226,8 @@ namespace Oxygen
         const bool enabled( state & State_Enabled );
 
         #if QT_VERSION >= 0x050000
-        const bool isQtQuickControl = !widget && option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" );
         const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) ) ||
-            ( isQtQuickControl && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
+            ( isQtQuickControl( option, widget ) && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
         #else
         const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
         #endif
@@ -3367,12 +3361,10 @@ namespace Oxygen
             _helper->renderWindowBackground( painter, option->rect, widget, option->palette );
             _helper->drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
 
-        #if !OXYGEN_USE_KDE4
-        } else if( option->styleObject && option->styleObject->inherits( "QQuickItem" ) ) {
+        } else if( isQtQuickControl( option, widget ) ) {
 
             // QtQuick Control case
             _helper->drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
-        #endif
         }
 
         return true;
@@ -5205,12 +5197,7 @@ namespace Oxygen
         }
 
         // icon
-        #if QT_VERSION >= 0x050000
-        const bool isQtQuickControl = !widget && option && option->styleObject && option->styleObject->inherits( "QQuickStyleItem" );
-        const int iconWidth( isQtQuickControl ? qMax( pixelMetric(PM_SmallIconSize, option, widget ), menuItemOption->maxIconWidth ) : menuItemOption->maxIconWidth );
-        #else
-        const int iconWidth( menuItemOption->maxIconWidth );
-        #endif
+        const int iconWidth( isQtQuickControl( option, widget ) ? qMax( pixelMetric(PM_SmallIconSize, option, widget ), menuItemOption->maxIconWidth ) : menuItemOption->maxIconWidth );
 
         QRect iconRect( contentsRect.left(), contentsRect.top() + (contentsRect.height()-iconWidth)/2, iconWidth, iconWidth );
         contentsRect.setLeft( iconRect.right() + Metrics::MenuItem_ItemSpacing + 1 );
@@ -8620,6 +8607,18 @@ namespace Oxygen
 
         return toolButtonOption;
 
+    }
+
+    //____________________________________________________________________
+    bool Style::isQtQuickControl( const QStyleOption* option, const QWidget* widget ) const
+    {
+        #if QT_VERSION >= 0x050000
+        return (widget == nullptr) && option && option->styleObject && option->styleObject->inherits( "QQuickItem" );
+        #else
+        Q_UNUSED( widget );
+        Q_UNUSED( option );
+        return false;
+        #endif
     }
 
     //_____________________________________________________________

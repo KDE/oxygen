@@ -546,6 +546,9 @@ namespace Oxygen
         */
         QStyleOptionToolButton separatorMenuItemOption( const QStyleOptionMenuItem*, const QWidget* ) const;
 
+        //* return true if option corresponds to QtQuick control
+        bool isQtQuickControl( const QStyleOption*, const QWidget* ) const;
+
         //@}
 
         //* adjust rect based on provided margins
