@@ -451,6 +451,7 @@ namespace Oxygen
     bool ShadowHelper::installWaylandShadows( QWidget* widget )
     {
         #if OXYGEN_HAVE_KWAYLAND
+        if( widget->windowHandle()->parent() ) return false;
         if( !_shadowManager || !_shmPool ) return false;
 
         const bool isDockWidget( this->isDockWidget( widget ) || this->isToolBar( widget ) );
@@ -558,6 +559,7 @@ namespace Oxygen
     void ShadowHelper::uninstallWaylandShadows( QWidget* widget ) const
     {
         #if OXYGEN_HAVE_KWAYLAND
+        if( widget->windowHandle()->parent() ) return;
         if( !_shadowManager ) return;
 
         using namespace KWayland::Client;
