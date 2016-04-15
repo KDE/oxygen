@@ -1,5 +1,7 @@
 {
     "KPlugin": {
+        "Name": "Oxygen",
+        "Description": "Window decoration using the Oxygen visual style for the Plasma Desktop",
         "Id": "org.kde.oxygen", 
         "ServiceTypes": [
             "org.kde.kdecoration2"
