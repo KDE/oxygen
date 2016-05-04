@@ -53,82 +53,84 @@ namespace Oxygen
         Oxygen::Cache<QPixmap>::Value* cache( _windecoButtonCache.get( color ) );
 
         const quint64 key( ( colorKey(glow) << 32 ) | (sunken << 23 ) | size );
-        QPixmap *pixmap = cache->object( key );
 
-        if( !pixmap )
+        QPixmap *cachedPixmap = cache->object( key );
+        if( cachedPixmap )
         {
-            pixmap = new QPixmap(size, size);
-            pixmap->fill(Qt::transparent);
-
-            QPainter p( pixmap );
-            p.setRenderHints(QPainter::Antialiasing);
-            p.setPen(Qt::NoPen);
-            p.setWindow( 0, 0, 21, 21 );
-
-            // button shadow
-            if( color.isValid() )
-            {
-                p.save();
-                p.translate( 0, -0.2 );
-                drawShadow( p, calcShadowColor( color ), 21 );
-                p.restore();
-            }
-
-            // button glow
-            if( glow.isValid() )
-            {
-                p.save();
-                p.translate( 0, -0.2 );
-                drawOuterGlow( p, glow, 21 );
-                p.restore();
-            }
-
-            // button slab
-            p.translate( 0, 1 );
-            p.setWindow( 0, 0, 18, 18 );
-            if( color.isValid() )
-            {
-                p.translate( 0, (0.5-0.668) );
-
-                const QColor light( calcLightColor(color) );
-                const QColor dark( calcDarkColor(color) );
-
-                {
-                    //plain background
-                    QLinearGradient lg( 0, 1.665, 0, (12.33+1.665) );
-                    if( sunken )
-                    {
-                        lg.setColorAt( 1, light );
-                        lg.setColorAt( 0, dark );
-                    } else {
-                        lg.setColorAt( 0, light );
-                        lg.setColorAt( 1, dark );
-                    }
-
-                    const QRectF r( 0.5*(18-12.33), 1.665, 12.33, 12.33 );
-                    p.setBrush( lg );
-                    p.drawEllipse( r );
-                }
-
-                {
-                    // outline circle
-                    const qreal penWidth( 0.7 );
-                    QLinearGradient lg( 0, 1.665, 0, (2.0*12.33+1.665) );
-                    lg.setColorAt( 0, light );
-                    lg.setColorAt( 1, dark );
-                    const QRectF r( 0.5*(18-12.33+penWidth), (1.665+penWidth), (12.33-penWidth), (12.33-penWidth) );
-                    p.setPen( QPen( lg, penWidth ) );
-                    p.setBrush( Qt::NoBrush );
-                    p.drawEllipse( r );
-                }
-
-            }
-
-            p.end();
-            cache->insert( key, pixmap );
+            return *cachedPixmap;
         }
 
-        return *pixmap;
+        QPixmap pixmap( size, size );
+        pixmap.fill(Qt::transparent);
+
+        QPainter p( &pixmap );
+        p.setRenderHints(QPainter::Antialiasing);
+        p.setPen(Qt::NoPen);
+        p.setWindow( 0, 0, 21, 21 );
+
+        // button shadow
+        if( color.isValid() )
+        {
+            p.save();
+            p.translate( 0, -0.2 );
+            drawShadow( p, calcShadowColor( color ), 21 );
+            p.restore();
+        }
+
+        // button glow
+        if( glow.isValid() )
+        {
+            p.save();
+            p.translate( 0, -0.2 );
+            drawOuterGlow( p, glow, 21 );
+            p.restore();
+        }
+
+        // button slab
+        p.translate( 0, 1 );
+        p.setWindow( 0, 0, 18, 18 );
+        if( color.isValid() )
+        {
+            p.translate( 0, (0.5-0.668) );
+
+            const QColor light( calcLightColor(color) );
+            const QColor dark( calcDarkColor(color) );
+
+            {
+                //plain background
+                QLinearGradient lg( 0, 1.665, 0, (12.33+1.665) );
+                if( sunken )
+                {
+                    lg.setColorAt( 1, light );
+                    lg.setColorAt( 0, dark );
+                } else {
+                    lg.setColorAt( 0, light );
+                    lg.setColorAt( 1, dark );
+                }
+
+                const QRectF r( 0.5*(18-12.33), 1.665, 12.33, 12.33 );
+                p.setBrush( lg );
+                p.drawEllipse( r );
+            }
+
+            {
+                // outline circle
+                const qreal penWidth( 0.7 );
+                QLinearGradient lg( 0, 1.665, 0, (2.0*12.33+1.665) );
+                lg.setColorAt( 0, light );
+                lg.setColorAt( 1, dark );
+                const QRectF r( 0.5*(18-12.33+penWidth), (1.665+penWidth), (12.33-penWidth), (12.33-penWidth) );
+                p.setPen( QPen( lg, penWidth ) );
+                p.setBrush( Qt::NoBrush );
+                p.drawEllipse( r );
+            }
+
+        }
+
+        p.end();
+        cache->insert( key, new QPixmap(pixmap) );
+
+        return pixmap;
     }
 
 }
