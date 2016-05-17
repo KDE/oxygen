@@ -5211,7 +5211,8 @@ namespace Oxygen
 
             // icon mode
             QIcon::Mode mode;
-            if( selected ) mode = QIcon::Active;
+            if( (StyleConfigData::menuHighlightMode() != StyleConfigData::MM_DARK) && selected ) mode = QIcon::Selected;
+            else if( selected ) mode = QIcon::Active;
             else if( enabled ) mode = QIcon::Normal;
             else mode = QIcon::Disabled;
 
