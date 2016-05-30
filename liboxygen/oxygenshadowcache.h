@@ -143,10 +143,10 @@ namespace Oxygen
         };
 
         //* get shadow matching client
-        TileSet* tileSet( const Key& );
+        TileSet tileSet( const Key& );
 
         //* get shadow matching client and opacity
-        TileSet* tileSet( Key, qreal );
+        TileSet tileSet( Key, qreal );
 
         //* simple pixmap
         QPixmap pixmap( const Key& key ) const

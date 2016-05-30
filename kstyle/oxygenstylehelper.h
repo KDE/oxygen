@@ -122,16 +122,16 @@ namespace Oxygen
         virtual QPixmap dockWidgetButton( const QColor& color, bool pressed, int size = 21 );
 
         //* round corners( used for Menus, combobox drop-down, detached toolbars and dockwidgets
-        TileSet *roundCorner( const QColor&, int size = 5 );
+        TileSet roundCorner( const QColor&, int size = 5 );
 
         //* groupbox background
-        TileSet *slope( const QColor&, qreal shade, int size = TileSet::DefaultSize );
+        TileSet slope( const QColor&, qreal shade, int size = TileSet::DefaultSize );
 
         //*@name slabs
         //@{
 
         //* progressbar
-        TileSet *progressBarIndicator( const QPalette&, int );
+        TileSet progressBarIndicator( const QPalette&, int );
 
         //* dial
         QPixmap dialSlab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
@@ -167,24 +167,24 @@ namespace Oxygen
         //* generic hole (with animated glow)
         void renderHole( QPainter*, const QColor&, const QRect&, StyleOptions, qreal, Oxygen::AnimationMode, TileSet::Tiles = TileSet::Ring );
 
-        TileSet *holeFlat( const QColor&, qreal shade, bool fill = true, int size = TileSet::DefaultSize );
+        TileSet holeFlat( const QColor&, qreal shade, bool fill = true, int size = TileSet::DefaultSize );
 
         //* scrollbar hole
-        TileSet *scrollHole( const QColor&, Qt::Orientation orientation, bool smallShadow = false );
+        TileSet scrollHole( const QColor&, Qt::Orientation orientation, bool smallShadow = false );
 
         //* scrollbar handle
-        TileSet *scrollHandle( const QColor&, const QColor&, int size = TileSet::DefaultSize );
+        TileSet scrollHandle( const QColor&, const QColor&, int size = TileSet::DefaultSize );
 
         //@}
 
         //* focus rect for flat toolbuttons
-        TileSet *slitFocused( const QColor& );
+        TileSet slitFocused( const QColor& );
 
         //* dock frame
-        TileSet *dockFrame( const QColor&, const QColor& );
+        TileSet dockFrame( const QColor&, const QColor& );
 
         //* selection
-        TileSet *selection( const QColor&, int height, bool custom );
+        TileSet selection( const QColor&, int height, bool custom );
 
         //* inverse glow
         /** this method must be public because it is used directly by OxygenStyle to draw dials */
@@ -209,11 +209,11 @@ namespace Oxygen
         //@{
 
         //* holes
-        TileSet *hole( const QColor& color, int size = TileSet::DefaultSize, StyleOptions options = 0 )
+        TileSet hole( const QColor& color, int size = TileSet::DefaultSize, StyleOptions options = 0 )
         { return hole( color, QColor(), size, options ); }
 
         //* holes
-        TileSet *hole( const QColor&, const QColor& glow, int size = TileSet::DefaultSize, StyleOptions = 0 );
+        TileSet hole( const QColor&, const QColor& glow, int size = TileSet::DefaultSize, StyleOptions = 0 );
 
         //@}
 

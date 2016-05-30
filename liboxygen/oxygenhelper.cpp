@@ -758,87 +758,79 @@ namespace Oxygen
     }
 
     //________________________________________________________________________________________________________
-    TileSet *Helper::slab( const QColor& color, const QColor& glow, qreal shade, int size )
+    TileSet Helper::slab( const QColor& color, const QColor& glow, qreal shade, int size )
     {
         Oxygen::Cache<TileSet>::Value* cache( _slabCache.get( color ) );
 
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
-        TileSet *tileSet = cache->object( key );
+        if( TileSet *cachedTileSet = cache->object( key ) )
+        { return *cachedTileSet; }
 
-        if ( !tileSet )
-        {
-            QPixmap pixmap( highDpiPixmap( size*2 ) );
-            pixmap.fill( Qt::transparent );
+        QPixmap pixmap( highDpiPixmap( size*2 ) );
+        pixmap.fill( Qt::transparent );
 
-            QPainter painter( &pixmap );
-            painter.setRenderHints( QPainter::Antialiasing );
-            painter.setPen( Qt::NoPen );
+        QPainter painter( &pixmap );
+        painter.setRenderHints( QPainter::Antialiasing );
+        painter.setPen( Qt::NoPen );
 
-            const int fixedSize( 14*devicePixelRatio( pixmap ) );
-            painter.setWindow( 0, 0, fixedSize, fixedSize );
+        const int fixedSize( 14*devicePixelRatio( pixmap ) );
+        painter.setWindow( 0, 0, fixedSize, fixedSize );
 
-            // draw all components
-            if( color.isValid() ) drawShadow( painter, calcShadowColor( color ), 14 );
-            if( glow.isValid() ) drawOuterGlow( painter, glow, 14 );
-            if( color.isValid() ) drawSlab( painter, color, shade );
+        // draw all components
+        if( color.isValid() ) drawShadow( painter, calcShadowColor( color ), 14 );
+        if( glow.isValid() ) drawOuterGlow( painter, glow, 14 );
+        if( color.isValid() ) drawSlab( painter, color, shade );
 
-            painter.end();
+        painter.end();
 
-            tileSet = new TileSet( pixmap,
-                size, size,
-                size, size,
-                size-1, size,
-                2, 1 );
+        TileSet tileSet( pixmap,
+            size, size,
+            size, size,
+            size-1, size,
+            2, 1 );
 
-            cache->insert( key, tileSet );
-
-        }
+        cache->insert( key, new TileSet( tileSet ) );
         return tileSet;
     }
 
     //________________________________________________________________________________________________________
-    TileSet *Helper::slabSunken( const QColor& color, int size )
+    TileSet Helper::slabSunken( const QColor& color, int size )
     {
         const quint64 key( colorKey(color) << 32 | size );
-        TileSet *tileSet = _slabSunkenCache.object( key );
+        if( TileSet *cachedTileSet = _slabSunkenCache.object( key ) )
+        { return *cachedTileSet; }
 
-        if ( !tileSet )
+        QPixmap pixmap( highDpiPixmap( size*2 ) );
+        pixmap.fill( Qt::transparent );
+
+        QPainter painter( &pixmap );
+        painter.setRenderHints( QPainter::Antialiasing );
+        painter.setPen( Qt::NoPen );
+
+        const int fixedSize( 14*devicePixelRatio( pixmap ) );
+        painter.setWindow( 0, 0, fixedSize, fixedSize );
+
+        // shadow
+        painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
+        drawInverseShadow( painter, calcShadowColor( color ), 3, 8, 0.0 );
+
+        // contrast pixel
         {
-            QPixmap pixmap( highDpiPixmap( size*2 ) );
-            pixmap.fill( Qt::transparent );
+            QColor light( calcLightColor( color ) );
+            QLinearGradient blend( 0, 2, 0, 16 );
+            blend.setColorAt( 0.5, Qt::transparent );
+            blend.setColorAt( 1.0, light );
 
-            QPainter painter( &pixmap );
-            painter.setRenderHints( QPainter::Antialiasing );
+            painter.setBrush( Qt::NoBrush );
+            painter.setPen( QPen( blend, 1 ) );
+            painter.drawRoundedRect( QRectF( 2.5, 2.5, 9, 9 ), 4.0, 4.0 );
             painter.setPen( Qt::NoPen );
-
-            const int fixedSize( 14*devicePixelRatio( pixmap ) );
-            painter.setWindow( 0, 0, fixedSize, fixedSize );
-
-            // shadow
-            painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-            drawInverseShadow( painter, calcShadowColor( color ), 3, 8, 0.0 );
-
-            // contrast pixel
-            {
-                QColor light( calcLightColor( color ) );
-                QLinearGradient blend( 0, 2, 0, 16 );
-                blend.setColorAt( 0.5, Qt::transparent );
-                blend.setColorAt( 1.0, light );
-
-                painter.setBrush( Qt::NoBrush );
-                painter.setPen( QPen( blend, 1 ) );
-                painter.drawRoundedRect( QRectF( 2.5, 2.5, 9, 9 ), 4.0, 4.0 );
-                painter.setPen( Qt::NoPen );
-            }
-
-
-            painter.end();
-
-            tileSet = new TileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
-
-            _slabSunkenCache.insert( key, tileSet );
-
         }
+
+        painter.end();
+
+        TileSet tileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
+        _slabSunkenCache.insert( key, new TileSet( tileSet ) );
 
         return tileSet;
 

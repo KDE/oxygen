@@ -91,7 +91,7 @@ namespace Oxygen
         cache.setShadowSize( QPalette::Active, MdiWindowShadow::ShadowSize );
 
         // get tileset
-        _tileSet = *cache.tileSet( ShadowCache::Key() );
+        _tileSet = cache.tileSet( ShadowCache::Key() );
     }
 
     //____________________________________________________________________________________

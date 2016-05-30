@@ -213,7 +213,7 @@ namespace Oxygen
 
             // add round corners
             const QRect cornerRect( (pixmap.width()-10)/2, (pixmap.height()-10)/2, 10, 10 );
-            _helper.roundCorner( QPalette().color( QPalette::Window ) )->render( cornerRect, &painter );
+            _helper.roundCorner( QPalette().color( QPalette::Window ) ).render( cornerRect, &painter );
         }
 
         // recreate tileset

@@ -287,14 +287,14 @@ namespace Oxygen
         virtual void drawSeparator( QPainter*, const QRect&, const QColor&, Qt::Orientation );
 
         //* default slab
-        virtual TileSet* slab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
+        virtual TileSet slab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
         { return slab( color, QColor(), shade, size );  }
 
         //* default slab (with glow)
-        virtual TileSet* slab( const QColor&, const QColor& glow, qreal shade, int size = TileSet::DefaultSize );
+        virtual TileSet slab( const QColor&, const QColor& glow, qreal shade, int size = TileSet::DefaultSize );
 
         //* sunken slab
-        virtual TileSet *slabSunken( const QColor&, int size = TileSet::DefaultSize );
+        virtual TileSet slabSunken( const QColor&, int size = TileSet::DefaultSize );
 
         //* fill a slab of given size with brush set on painter
         void fillSlab( QPainter&, const QRect&, int size = TileSet::DefaultSize ) const;

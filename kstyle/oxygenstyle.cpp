@@ -1248,8 +1248,7 @@ namespace Oxygen
                 if( hasAlpha )
                 {
 
-                    TileSet *tileSet( _helper->roundCorner( color ) );
-                    tileSet->render( rect, &painter );
+                    _helper->roundCorner( color ).render( rect, &painter );
                     painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
                     painter.setClipPath( _helper->roundedPath( insideMargin( rect, 1 ) ), Qt::IntersectClip );
 
@@ -1309,8 +1308,7 @@ namespace Oxygen
                     // adjust color
                     QColor top( _helper->backgroundColor( color, dockWidget, rect.topLeft() ) );
                     QColor bottom( _helper->backgroundColor( color, dockWidget, rect.bottomLeft() ) );
-                    TileSet *tileSet = _helper->dockFrame( top, bottom );
-                    tileSet->render( rect, &painter );
+                    _helper->dockFrame( top, bottom ).render( rect, &painter );
 
                 }
 
@@ -1338,8 +1336,7 @@ namespace Oxygen
                 painter.setClipRect( clip );
 
                 const QRect rect( subWindow->rect() );
-                TileSet *tileSet( _helper->roundCorner( subWindow->palette().color( subWindow->backgroundRole() ) ) );
-                tileSet->render( rect, &painter );
+                _helper->roundCorner( subWindow->palette().color( subWindow->backgroundRole() ) ).render( rect, &painter );
 
                 painter.setClipPath( _helper->roundedPath( insideMargin( rect, 1 ) ), Qt::IntersectClip );
                 _helper->renderWindowBackground( &painter, clip, subWindow, subWindow, subWindow->palette(), 0 );
@@ -3401,7 +3398,7 @@ namespace Oxygen
         _helper->fillSlab( *painter, rect );
 
         painter->setClipping( false );
-        _helper->slope( base, 0 )->render( rect, painter );
+        _helper->slope( base, 0 ).render( rect, painter );
 
         painter->restore();
         return true;
@@ -3845,7 +3842,7 @@ namespace Oxygen
             {
 
                 const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, mode ) );
-                if( glow.isValid() ) _helper->slitFocused( glow )->render( rect, painter );
+                if( glow.isValid() ) _helper->slitFocused( glow ).render( rect, painter );
 
             } else {
 
@@ -3995,22 +3992,22 @@ namespace Oxygen
         } else {
 
             const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, mode ) );
-            if( mode != AnimationNone ) _helper->slitFocused( glow )->render( rect, painter );
+            if( mode != AnimationNone ) _helper->slitFocused( glow ).render( rect, painter );
             else if( toolBarAnimated ) {
 
                 if( enabled && animatedRect.isNull() && current )
                 {
                     QColor glow( _helper->alphaColor( _helper->hoverColor( palette ), toolBarOpacity ) );
-                    _helper->slitFocused( glow )->render( rect, painter );
+                    _helper->slitFocused( glow ).render( rect, painter );
                 }
 
             } else if( hasFocus || mouseOver ) {
 
-                _helper->slitFocused( glow )->render( rect, painter );
+                _helper->slitFocused( glow ).render( rect, painter );
 
             } else if( toolBarTimerActive && current ) {
 
-                _helper->slitFocused( _helper->hoverColor( palette ) )->render( rect, painter );
+                _helper->slitFocused( _helper->hoverColor( palette ) ).render( rect, painter );
 
             }
 
@@ -4095,8 +4092,7 @@ namespace Oxygen
         {
 
             painter->setCompositionMode( QPainter::CompositionMode_Source );
-            TileSet *tileSet( _helper->roundCorner( color ) );
-            tileSet->render( rect, painter );
+            _helper->roundCorner( color ).render( rect, painter );
 
             painter->setCompositionMode( QPainter::CompositionMode_SourceOver );
             painter->setClipPath( _helper->roundedPath( insideMargin( rect, 1 ) ), Qt::IntersectClip );
@@ -4240,7 +4236,7 @@ namespace Oxygen
         } else {
 
             // get selection tileset
-            TileSet *tileSet( _helper->selection( color, rect.height(), hasCustomBackground ) );
+            TileSet tileSet( _helper->selection( color, rect.height(), hasCustomBackground ) );
 
             bool roundedLeft  = false;
             bool roundedRight = false;
@@ -4267,8 +4263,8 @@ namespace Oxygen
             if( !reverseLayout ? roundedRight : roundedLeft ) tiles |= TileSet::Right;
 
             // adjust rect and render
-            rect = tileSet->adjust( rect, tiles );
-            if( rect.isValid() ) tileSet->render( rect, painter, tiles );
+            rect = tileSet.adjust( rect, tiles );
+            if( rect.isValid() ) tileSet.render( rect, painter, tiles );
 
         }
 
@@ -5045,20 +5041,20 @@ namespace Oxygen
                 if( animated && intersected )
                 {
 
-                    _helper->holeFlat( color, 0 )->render( insideMargin( animatedRect, 1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0 ).render( insideMargin( animatedRect, 1 ), painter, TileSet::Full );
 
                 } else if( timerIsActive && current ) {
 
-                    _helper->holeFlat( color, 0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0 ).render( insideMargin( rect, 1 ), painter, TileSet::Full );
 
                 } else if( animated && current ) {
 
                     color.setAlphaF( opacity );
-                    _helper->holeFlat( color, 0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0 ).render( insideMargin( rect, 1 ), painter, TileSet::Full );
 
                 } else if( active ) {
 
-                    _helper->holeFlat( color, 0 )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
+                    _helper->holeFlat( color, 0 ).render( insideMargin( rect, 1 ), painter, TileSet::Full );
 
                 }
 
@@ -5363,8 +5359,7 @@ namespace Oxygen
             // calculate dimension
             int dimension( 20 );
             if( progressBarOption2 ) dimension = qMax( 5, horizontal ? rect.height() : rect.width() );
-            TileSet* tileSet( _helper->progressBarIndicator( palette, dimension ) );
-            tileSet->render( rect, painter, TileSet::Full );
+            _helper->progressBarIndicator( palette, dimension ).render( rect, painter, TileSet::Full );
         }
 
         return true;
@@ -6828,7 +6823,7 @@ namespace Oxygen
         const QRect animatedRect( _animations->toolBarEngine().animatedRect( widget ) );
         const bool toolBarIntersected( toolBarAnimated && animatedRect.intersects( rect ) );
         if( toolBarIntersected )
-        { _helper->slitFocused( _helper->focusColor( palette ) )->render( animatedRect, painter ); }
+        { _helper->slitFocused( _helper->focusColor( palette ) ).render( animatedRect, painter ); }
 
         // draw nothing otherwise ( toolbars are transparent )
 
@@ -7045,7 +7040,7 @@ namespace Oxygen
                     {
                         // hover rect
                         const QColor glow( _helper->buttonGlowColor( palette, styleOptions, opacity, mode ) );
-                        if( glow.isValid() ) _helper->slitFocused( glow )->render( rect, painter );
+                        if( glow.isValid() ) _helper->slitFocused( glow ).render( rect, painter );
 
                     } else {
 
@@ -7273,7 +7268,7 @@ namespace Oxygen
             QRect grooveRect( subControlRect( CC_Slider, sliderOption, SC_SliderGroove, widget ) );
 
             // render
-            _helper->scrollHole( palette.color( QPalette::Window ), sliderOption->orientation, true )->render( grooveRect, painter, TileSet::Full );
+            _helper->scrollHole( palette.color( QPalette::Window ), sliderOption->orientation, true ).render( grooveRect, painter, TileSet::Full );
 
         }
 
@@ -7519,26 +7514,26 @@ namespace Oxygen
         // edges
         // for slabs, hover takes precedence over focus ( other way around for holes )
         // but in any case if the button is sunken we don't show focus nor hover
-        TileSet *tile(0L);
+        TileSet tileSet;
         if( options & Sunken )
         {
-            tile = _helper->slabSunken( color );
+            tileSet = _helper->slabSunken( color );
 
         } else {
 
             QColor glow = _helper->buttonGlowColor( QPalette::Active, options, opacity, mode );
-            tile = _helper->slab( color, glow, 0 );
+            tileSet = _helper->slab( color, glow, 0 );
 
         }
 
         // adjust rect to account for missing tiles
-        if( tile ) rect = tile->adjust( rect, tiles );
+        if( tileSet.isValid() ) rect = tileSet.adjust( rect, tiles );
 
         // fill
         if( !( options & NoFill ) ) _helper->fillButtonSlab( *painter, rect, color, options&Sunken );
 
         // render slab
-        if( tile ) tile->render( rect, painter, tiles );
+        if( tileSet.isValid() ) tileSet.render( rect, painter, tiles );
 
     }
 
@@ -7586,22 +7581,22 @@ namespace Oxygen
         // edges
         // for slabs, hover takes precedence over focus ( other way around for holes )
         // but in any case if the button is sunken we don't show focus nor hover
-        TileSet *tile( 0 );
+        TileSet tileSet;
         if( ( options & Sunken ) && color.isValid() )
         {
-            tile = _helper->slabSunken( color );
+            tileSet = _helper->slabSunken( color );
 
         } else {
 
             // calculate proper glow color based on current settings and opacity
             const QColor glow( _helper->buttonGlowColor( QPalette::Active, options, opacity, mode ) );
-            if( color.isValid() || glow.isValid() ) tile = _helper->slab( color, glow , 0 );
+            if( color.isValid() || glow.isValid() ) tileSet = _helper->slab( color, glow , 0 );
             else return;
 
         }
 
         // render tileset
-        if( tile ) tile->render( rect, painter, tiles );
+        if( tileSet.isValid() ) tileSet.render( rect, painter, tiles );
 
     }
 
@@ -8139,7 +8134,7 @@ namespace Oxygen
                 painter.setBrush( color );
                 _helper->fillHole( painter, pixmapRect );
 
-                _helper->holeFlat( color, 0 )->render( pixmapRect.adjusted( 1, 2, -2, -1 ), &painter );
+                _helper->holeFlat( color, 0 ).render( pixmapRect.adjusted( 1, 2, -2, -1 ), &painter );
 
                 QRect maskRect( visualRect( option->direction, pixmapRect, QRect( pixmapRect.width()-40, 0, 40, pixmapRect.height() ) ) );
                 QLinearGradient gradient(
@@ -8168,7 +8163,7 @@ namespace Oxygen
             if( opacity >= 0 && opacity < 1 )
             { color.setAlphaF( opacity ); }
 
-            _helper->holeFlat( color, 0 )->render( rect.adjusted( 1, 2, -2, -1 ), painter, TileSet::Full );
+            _helper->holeFlat( color, 0 ).render( rect.adjusted( 1, 2, -2, -1 ), painter, TileSet::Full );
 
         }
 
@@ -8187,7 +8182,7 @@ namespace Oxygen
 
         if( !( options & NoFill ) )
         {
-            if( options & Sunken ) _helper->holeFlat( palette.color( QPalette::Window ), 0, false )->render( insideMargin( rect, 1 ), painter, TileSet::Full );
+            if( options & Sunken ) _helper->holeFlat( palette.color( QPalette::Window ), 0, false ).render( insideMargin( rect, 1 ), painter, TileSet::Full );
             else renderSlab( painter, rect, palette.color( QPalette::Button ), options, opacity, mode, TileSet::Ring );
         }
 
@@ -8306,7 +8301,7 @@ namespace Oxygen
         // one need to make smaller shadow
         // notably on the size when rect height is too high
         const bool smallShadow( orientation == Qt::Horizontal ? rect.height() < 10 : rect.width() < 10 );
-        _helper->scrollHole( color, orientation, smallShadow )->render( rect, painter, tiles );
+        _helper->scrollHole( color, orientation, smallShadow ).render( rect, painter, tiles );
 
     }
 
@@ -8337,9 +8332,7 @@ namespace Oxygen
         else if( hover ) glow = hovered;
         else glow = shadow;
 
-        _helper->scrollHandle( color, glow )->
-            render( constRect,
-            painter, TileSet::Full );
+        _helper->scrollHandle( color, glow ).render( constRect, painter, TileSet::Full );
 
         // contents
         const QColor mid( _helper->calcMidColor( color ) );

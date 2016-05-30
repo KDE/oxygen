@@ -172,24 +172,28 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    TileSet* ShadowCache::tileSet( const Key& key )
+    TileSet ShadowCache::tileSet( const Key& key )
     {
 
         // check if tileSet already in cache
         int hash( key.hash() );
-        if( _enabled && _shadowCache.contains(hash) ) return _shadowCache.object(hash);
+        if( _enabled )
+        {
+            if( TileSet* cachedTileSet = _shadowCache.object( hash ) )
+            { return *cachedTileSet; }
+        }
 
         // create tileSet otherwise
         const qreal size( shadowSize() + overlap );
-        TileSet* tileSet = new TileSet( pixmap( key ), size, size, size, size, size, size, 1, 1);
-        _shadowCache.insert( hash, tileSet );
+        TileSet tileSet( pixmap( key ), size, size, size, size, size, size, 1, 1);
+        _shadowCache.insert( hash, new TileSet( tileSet ) );
 
         return tileSet;
 
     }
 
     //_______________________________________________________
-    TileSet* ShadowCache::tileSet( Key key, qreal opacity )
+    TileSet ShadowCache::tileSet( Key key, qreal opacity )
     {
 
         int index( opacity*_maxIndex );
@@ -200,12 +204,16 @@ namespace Oxygen
 
         // check if tileSet already in cache
         int hash( key.hash() );
-        if( _enabled && _animatedShadowCache.contains(hash) ) return _animatedShadowCache.object(hash);
+        if( _enabled )
+        {
+            if( TileSet* cachedTileSet = _animatedShadowCache.object(hash) )
+            { return *cachedTileSet; }
+        }
 
         // create shadow and tileset otherwise
         const qreal size( shadowSize() + overlap );
-        TileSet* tileSet = new TileSet( animatedPixmap( key, opacity ), size, size, 1, 1);
-        _animatedShadowCache.insert( hash, tileSet );
+        TileSet tileSet( animatedPixmap( key, opacity ), size, size, 1, 1);
+        _animatedShadowCache.insert( hash, new TileSet( tileSet ) );
         return tileSet;
 
     }
