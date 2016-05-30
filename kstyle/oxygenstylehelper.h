@@ -266,8 +266,8 @@ namespace Oxygen
     QColor StyleHelper::calcMidColor( const QColor& color )
     {
         const quint64 key( color.rgba() );
-        if( QColor* out = _midColorCache.object( key ) )
-        { return *out; }
+        if( QColor* cachedColor = _midColorCache.object( key ) )
+        { return *cachedColor; }
 
         QColor out = KColorScheme::shade( color, KColorScheme::MidShade, _contrast - 1.0 );
         _midColorCache.insert( key, new QColor( out ) );

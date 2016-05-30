@@ -271,38 +271,38 @@ namespace Oxygen
     QPixmap StyleHelper::dockWidgetButton( const QColor& color, bool pressed, int size )
     {
         const quint64 key( ( colorKey(color) << 32 ) | ( size << 1 ) | quint64( pressed ) );
-        QPixmap *pixmap = _dockWidgetButtonCache.object( key );
 
-        if ( !pixmap )
+        if( QPixmap *cachedPixmap = _dockWidgetButtonCache.object( key ) )
+        { return *cachedPixmap; }
+
+
+        QPixmap pixmap( highDpiPixmap( size, size ) );
+        pixmap.fill( Qt::transparent );
+
+        const QColor light( calcLightColor( color ) );
+        const QColor dark( calcDarkColor( color ) );
+
+        QPainter painter( &pixmap );
+        painter.setRenderHints( QPainter::Antialiasing );
+        painter.setPen( Qt::NoPen );
+        const qreal u( size/18.0 );
+        painter.translate( 0.5*u, ( 0.5-0.668 )*u );
+
         {
-            pixmap = new QPixmap( highDpiPixmap( size, size ) );
-            pixmap->fill( Qt::transparent );
-
-            const QColor light( calcLightColor( color ) );
-            const QColor dark( calcDarkColor( color ) );
-
-            QPainter painter( pixmap );
-            painter.setRenderHints( QPainter::Antialiasing );
-            painter.setPen( Qt::NoPen );
-            const qreal u( size/18.0 );
-            painter.translate( 0.5*u, ( 0.5-0.668 )*u );
-
-            {
-                // outline circle
-                qreal penWidth = 1.2;
-                QLinearGradient linearGradient( 0, u*( 1.665-penWidth ), 0, u*( 12.33+1.665-penWidth ) );
-                linearGradient.setColorAt( 0, dark );
-                linearGradient.setColorAt( 1, light );
-                QRectF r( u*0.5*( 17-12.33+penWidth ), u*( 1.665+penWidth ), u*( 12.33-penWidth ), u*( 12.33-penWidth ) );
-                painter.setPen( QPen( linearGradient, penWidth*u ) );
-                painter.drawEllipse( r );
-                painter.end();
-            }
-
-            _dockWidgetButtonCache.insert( key, pixmap );
+            // outline circle
+            qreal penWidth = 1.2;
+            QLinearGradient linearGradient( 0, u*( 1.665-penWidth ), 0, u*( 12.33+1.665-penWidth ) );
+            linearGradient.setColorAt( 0, dark );
+            linearGradient.setColorAt( 1, light );
+            QRectF r( u*0.5*( 17-12.33+penWidth ), u*( 1.665+penWidth ), u*( 12.33-penWidth ), u*( 12.33-penWidth ) );
+            painter.setPen( QPen( linearGradient, penWidth*u ) );
+            painter.drawEllipse( r );
+            painter.end();
         }
 
-        return *pixmap;
+        _dockWidgetButtonCache.insert( key, new QPixmap( pixmap ) );
+        return pixmap;
+
     }
 
     //________________________________________________________________________________________________________
@@ -502,61 +502,59 @@ namespace Oxygen
         Oxygen::Cache<QPixmap>::Value* cache =  _dialSlabCache.get( color );
 
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
-        QPixmap *pixmap = cache->object( key );
-        if ( !pixmap )
+        if( QPixmap* cachedPixmap = cache->object( key ) )
+        { return *cachedPixmap; }
+
+        QPixmap pixmap( highDpiPixmap( size ) );
+        pixmap.fill( Qt::transparent );
+
+        QRectF rect( 0, 0, size, size );
+
+        QPainter painter( &pixmap );
+        painter.setPen( Qt::NoPen );
+        painter.setRenderHints( QPainter::Antialiasing );
+
+        // colors
+        const QColor base( KColorUtils::shade( color, shade ) );
+        const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
+        const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
+        const QColor mid( KColorUtils::shade( calcMidColor( color ), shade ) );
+        const QColor shadow( calcShadowColor( color ) );
+
+        // shadow
+        drawShadow( painter, shadow, rect.width() );
+
+        if( glow.isValid() )
+        { drawOuterGlow( painter, glow, rect.width() ); }
+
+        const qreal baseOffset( 3.5 );
         {
-            pixmap = new QPixmap( highDpiPixmap( size ) );
-            pixmap->fill( Qt::transparent );
+            //plain background
+            QLinearGradient linearGradient( 0, baseOffset-0.5*rect.height(), 0, baseOffset+rect.height() );
+            linearGradient.setColorAt( 0, light );
+            linearGradient.setColorAt( 0.8, base );
 
-            QRectF rect( 0, 0, size, size );
-
-            QPainter painter( pixmap );
-            painter.setPen( Qt::NoPen );
-            painter.setRenderHints( QPainter::Antialiasing );
-
-            // colors
-            const QColor base( KColorUtils::shade( color, shade ) );
-            const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-            const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
-            const QColor mid( KColorUtils::shade( calcMidColor( color ), shade ) );
-            const QColor shadow( calcShadowColor( color ) );
-
-            // shadow
-            drawShadow( painter, shadow, rect.width() );
-
-            if( glow.isValid() )
-            { drawOuterGlow( painter, glow, rect.width() ); }
-
-            const qreal baseOffset( 3.5 );
-            {
-                //plain background
-                QLinearGradient linearGradient( 0, baseOffset-0.5*rect.height(), 0, baseOffset+rect.height() );
-                linearGradient.setColorAt( 0, light );
-                linearGradient.setColorAt( 0.8, base );
-
-                painter.setBrush( linearGradient );
-                const qreal offset( baseOffset );
-                painter.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
-            }
-
-            {
-                // outline circle
-                const qreal penWidth( 0.7 );
-                QLinearGradient linearGradient( 0, baseOffset, 0, baseOffset + 2*rect.height() );
-                linearGradient.setColorAt( 0, light );
-                linearGradient.setColorAt( 1, mid );
-                painter.setBrush( Qt::NoBrush );
-                painter.setPen( QPen( linearGradient, penWidth ) );
-                const qreal offset( baseOffset+0.5*penWidth );
-                painter.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
-            }
-
-
-            cache->insert( key, pixmap );
-
+            painter.setBrush( linearGradient );
+            const qreal offset( baseOffset );
+            painter.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
         }
 
-        return *pixmap;
+        {
+            // outline circle
+            const qreal penWidth( 0.7 );
+            QLinearGradient linearGradient( 0, baseOffset, 0, baseOffset + 2*rect.height() );
+            linearGradient.setColorAt( 0, light );
+            linearGradient.setColorAt( 1, mid );
+            painter.setBrush( Qt::NoBrush );
+            painter.setPen( QPen( linearGradient, penWidth ) );
+            const qreal offset( baseOffset+0.5*penWidth );
+            painter.drawEllipse( rect.adjusted( offset, offset, -offset, -offset ) );
+        }
+
+
+        cache->insert( key, new QPixmap( pixmap ) );
+
+        return pixmap;
 
     }
 
@@ -567,34 +565,32 @@ namespace Oxygen
         Oxygen::Cache<QPixmap>::Value* cache( _roundSlabCache.get( color ) );
 
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
-        QPixmap *pixmap = cache->object( key );
+        if( QPixmap* cachedPixmap = cache->object( key ) )
+        { return *cachedPixmap; }
 
-        if ( !pixmap )
-        {
-            pixmap = new QPixmap( highDpiPixmap( size*3 ) );
-            pixmap->fill( Qt::transparent );
+        QPixmap pixmap( highDpiPixmap( size*3 ) );
+        pixmap.fill( Qt::transparent );
 
-            QPainter painter( pixmap );
-            painter.setRenderHints( QPainter::Antialiasing );
-            painter.setPen( Qt::NoPen );
+        QPainter painter( &pixmap );
+        painter.setRenderHints( QPainter::Antialiasing );
+        painter.setPen( Qt::NoPen );
 
-            const int fixedSize( 21*devicePixelRatio( *pixmap ) );
-            painter.setWindow( 0, 0, fixedSize, fixedSize );
+        const int fixedSize( 21*devicePixelRatio( pixmap ) );
+        painter.setWindow( 0, 0, fixedSize, fixedSize );
 
-            // draw normal shadow
-            drawShadow( painter, calcShadowColor( color ), 21 );
+        // draw normal shadow
+        drawShadow( painter, calcShadowColor( color ), 21 );
 
-            // draw glow.
-            if( glow.isValid() )
-            { drawOuterGlow( painter, glow, 21 ); }
+        // draw glow.
+        if( glow.isValid() )
+        { drawOuterGlow( painter, glow, 21 ); }
 
-            drawRoundSlab( painter, color, shade );
+        drawRoundSlab( painter, color, shade );
 
-            painter.end();
-            cache->insert( key, pixmap );
+        painter.end();
+        cache->insert( key, new QPixmap( pixmap ) );
+        return pixmap;
 
-        }
-        return *pixmap;
     }
 
     //__________________________________________________________________________________________________________
@@ -604,28 +600,26 @@ namespace Oxygen
         Oxygen::Cache<QPixmap>::Value* cache( _sliderSlabCache.get( color ) );
 
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | (sunken << 23 ) | size );
-        QPixmap *pixmap = cache->object( key );
+        if( QPixmap *cachedPixmap = cache->object( key ) )
+        { return *cachedPixmap; }
 
-        if ( !pixmap )
-        {
-            pixmap = new QPixmap( highDpiPixmap( size*3 ) );
-            pixmap->fill( Qt::transparent );
+        QPixmap pixmap( highDpiPixmap( size*3 ) );
+        pixmap.fill( Qt::transparent );
 
-            QPainter painter( pixmap );
-            painter.setRenderHints( QPainter::Antialiasing );
-            painter.setPen( Qt::NoPen );
+        QPainter painter( &pixmap );
+        painter.setRenderHints( QPainter::Antialiasing );
+        painter.setPen( Qt::NoPen );
 
-            if( color.isValid() ) drawShadow( painter, alphaColor( calcShadowColor( color ), 0.8 ), 21 );
-            if( glow.isValid() ) drawOuterGlow( painter, glow, 21 );
+        if( color.isValid() ) drawShadow( painter, alphaColor( calcShadowColor( color ), 0.8 ), 21 );
+        if( glow.isValid() ) drawOuterGlow( painter, glow, 21 );
 
-            // draw slab
-            drawSliderSlab( painter, color, sunken, shade );
+        // draw slab
+        drawSliderSlab( painter, color, sunken, shade );
 
-            painter.end();
-            cache->insert( key, pixmap );
+        painter.end();
+        cache->insert( key, new QPixmap( pixmap ) );
+        return pixmap;
 
-        }
-        return *pixmap;
     }
 
     //______________________________________________________________________________
