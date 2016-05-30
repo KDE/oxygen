@@ -227,33 +227,33 @@ namespace Oxygen
         static QColor alphaColor( QColor color, qreal alpha );
 
         //* calculated light color from argument
-        virtual const QColor& calcLightColor( const QColor& color );
+        virtual QColor calcLightColor( const QColor& color );
 
         //* calculated dark color from argument
-        virtual const QColor& calcDarkColor( const QColor& color );
+        virtual QColor calcDarkColor( const QColor& color );
 
         //* calculated shadow color from argument
-        virtual const QColor& calcShadowColor( const QColor& color );
+        virtual QColor calcShadowColor( const QColor& color );
 
         //* returns menu background color matching position in a given top level widget
-        virtual const QColor& backgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
+        virtual QColor backgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
         {
             if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
             else return backgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
         }
 
         //* returns menu background color matching position in a top level widget of given height
-        virtual const QColor& backgroundColor( const QColor& color, int height, int y )
+        virtual QColor backgroundColor( const QColor& color, int height, int y )
         { return backgroundColor( color, qMin( qreal( 1.0 ), qreal( y )/qMin( 300, 3*height/4 ) ) ); }
 
         //* color used for background radial gradient
-        virtual const QColor& backgroundRadialColor( const QColor& color );
+        virtual QColor backgroundRadialColor( const QColor& color );
 
         //* color used at the top of window background
-        virtual const QColor& backgroundTopColor( const QColor& color );
+        virtual QColor backgroundTopColor( const QColor& color );
 
         //* color used at the bottom of window background
-        virtual const QColor& backgroundBottomColor( const QColor& color );
+        virtual QColor backgroundBottomColor( const QColor& color );
 
         //* vertical gradient for window background
         virtual QPixmap verticalGradient( const QColor& color, int height, int offset = 0 );
@@ -262,7 +262,7 @@ namespace Oxygen
         virtual QPixmap radialGradient( const QColor& color, int width, int height = 20 );
 
         //* merge background and front color for check marks, arrows, etc. using _contrast
-        virtual const QColor& decoColor( const QColor& background, const QColor& color );
+        virtual QColor decoColor( const QColor& background, const QColor& color );
 
         //* returns a region matching given rect, with rounded corners, based on the multipliers
         /** setting any of the multipliers to zero will result in no corners shown on the corresponding side */
@@ -407,7 +407,7 @@ namespace Oxygen
         virtual void drawOuterGlow( QPainter&, const QColor&, int size );
 
         //* return background adjusted color matching relative vertical position in window
-        const QColor& backgroundColor( const QColor&, qreal ratio );
+        QColor backgroundColor( const QColor&, qreal ratio );
 
         //*@name global configuration parameters
         //@{

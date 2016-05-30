@@ -100,18 +100,18 @@ namespace Oxygen
         QColor frameGlowColor( QPalette::ColorGroup, StyleOptions, qreal, AnimationMode ) const;
 
         //* returns menu background color matching position in a given menu widget
-        virtual const QColor& menuBackgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
+        virtual QColor menuBackgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
         {
             if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
             else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
         }
 
         //* returns menu background color matching position in a menu widget of given height
-        virtual const QColor& menuBackgroundColor( const QColor& color, int height, int y )
+        virtual QColor menuBackgroundColor( const QColor& color, int height, int y )
         { return backgroundColor( color, qMin( qreal( 1.0 ), qreal( y )/qMin( 200, 3*height/4 ) ) ); }
 
         //* color
-        inline const QColor& calcMidColor( const QColor& color );
+        inline QColor calcMidColor( const QColor& color );
 
         //* merge active and inactive palettes based on ratio, for smooth enable state change transition
         QPalette disabledPalette( const QPalette&, qreal ratio ) const;
@@ -263,17 +263,16 @@ namespace Oxygen
     };
 
     //____________________________________________________________________
-    const QColor& StyleHelper::calcMidColor( const QColor& color )
+    QColor StyleHelper::calcMidColor( const QColor& color )
     {
         const quint64 key( color.rgba() );
-        QColor* out( _midColorCache.object( key ) );
-        if( !out )
-        {
-            out = new QColor( KColorScheme::shade( color, KColorScheme::MidShade, _contrast - 1.0 ) );
-            _midColorCache.insert( key, out );
-        }
+        if( QColor* out = _midColorCache.object( key ) )
+        { return *out; }
 
-        return *out;
+        QColor out = KColorScheme::shade( color, KColorScheme::MidShade, _contrast - 1.0 );
+        _midColorCache.insert( key, new QColor( out ) );
+
+        return out;
     }
 
     //____________________________________________________________________
