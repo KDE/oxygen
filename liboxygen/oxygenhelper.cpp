@@ -186,15 +186,20 @@ namespace Oxygen
     {
 
         const quint64 key( colorKey(baseColor) );
-        QPixmap* pixmap( _dotCache.object( key ) );
+        QPixmap pixmap;
 
-        if( !pixmap )
+        if( QPixmap* cachedPixmap = _dotCache.object( key ) )
         {
-            pixmap = new QPixmap( highDpiPixmap( 4 ) );
-            pixmap->fill( Qt::transparent );
+
+            pixmap = *cachedPixmap;
+
+        } else {
+
+            pixmap = highDpiPixmap( 4 );
+            pixmap.fill( Qt::transparent );
             const qreal diameter( 1.8 );
 
-            QPainter painter( pixmap );
+            QPainter painter( &pixmap );
             painter.setRenderHint( QPainter::Antialiasing );
             painter.setPen( Qt::NoPen );
 
@@ -210,14 +215,14 @@ namespace Oxygen
             painter.end();
 
             // store in cache
-            _dotCache.insert( key, pixmap );
+            _dotCache.insert( key, new QPixmap( pixmap ) );
 
         }
 
         p->save();
         p->translate( point - QPoint( 1,1 ) );
         p->setRenderHint( QPainter::Antialiasing );
-        p->drawPixmap( QPoint( 0,0 ), *pixmap );
+        p->drawPixmap( QPoint( 0,0 ), pixmap );
         p->restore();
 
     }
@@ -267,8 +272,8 @@ namespace Oxygen
     QColor Helper::backgroundRadialColor( const QColor& color )
     {
         const quint64 key( colorKey(color) );
-        if( QColor* out = _backgroundRadialColorCache.object( key ) )
-        { return *out; }
+        if( QColor* cachedColor = _backgroundRadialColorCache.object( key ) )
+        { return *cachedColor; }
 
         QColor out;
         if( lowThreshold( color ) ) out = KColorScheme::shade( color, KColorScheme::LightShade, 0.0 );
@@ -284,8 +289,8 @@ namespace Oxygen
     QColor Helper::backgroundTopColor( const QColor& color )
     {
         const quint64 key( colorKey(color) );
-        if( QColor* out = _backgroundTopColorCache.object( key ) )
-        { return *out; }
+        if( QColor* cachedColor = _backgroundTopColorCache.object( key ) )
+        { return *cachedColor; }
 
         QColor out;
         if( lowThreshold( color ) ) out = KColorScheme::shade( color, KColorScheme::MidlightShade, 0.0 );
@@ -304,8 +309,8 @@ namespace Oxygen
     QColor Helper::backgroundBottomColor( const QColor& color )
     {
         const quint64 key( colorKey(color) );
-        if( QColor* out = _backgroundBottomColorCache.object( key ) )
-        { return *out; }
+        if( QColor* cachedColor = _backgroundBottomColorCache.object( key ) )
+        { return *cachedColor; }
 
         QColor out;
         const QColor midColor( KColorScheme::shade( color, KColorScheme::MidShade, 0.0 ) );
@@ -328,8 +333,8 @@ namespace Oxygen
     QColor Helper::calcLightColor( const QColor& color )
     {
         const quint64 key( colorKey(color) );
-        if( QColor* out = _lightColorCache.object( key ) )
-        { return *out; }
+        if( QColor* cachedColor = _lightColorCache.object( key ) )
+        { return *cachedColor; }
 
         QColor out = highThreshold( color ) ? color: KColorScheme::shade( color, KColorScheme::LightShade, _contrast );
         _lightColorCache.insert( key, new QColor( out ) );
@@ -342,8 +347,8 @@ namespace Oxygen
     QColor Helper::calcDarkColor( const QColor& color )
     {
         const quint64 key( colorKey(color) );
-        if( QColor* out = _darkColorCache.object( key ) )
-        { return *out; }
+        if( QColor* cachedColor = _darkColorCache.object( key ) )
+        { return *cachedColor; }
 
         QColor out = ( lowThreshold( color ) ) ?
             KColorUtils::mix( calcLightColor( color ), color, 0.3 + 0.7 * _contrast ):
@@ -358,8 +363,8 @@ namespace Oxygen
     {
 
         const quint64 key( colorKey(color) );
-        if( QColor* out = _shadowColorCache.object( key ) )
-        { return *out; }
+        if( QColor* cachedColor = _shadowColorCache.object( key ) )
+        { return *cachedColor; }
 
         QColor out = ( lowThreshold( color ) ) ?
             KColorUtils::mix( Qt::black, color, color.alphaF() ) :
@@ -383,8 +388,8 @@ namespace Oxygen
     {
 
         const quint64 key( ( colorKey(color) << 32 ) | int( ratio*512 ) );
-        if( QColor *out = _backgroundColorCache.object( key ) )
-        { return *out; }
+        if( QColor* cachedColor = _backgroundColorCache.object( key ) )
+        { return *cachedColor; }
 
         QColor out;
         if( ratio < 0.5 )
@@ -411,65 +416,62 @@ namespace Oxygen
     QPixmap Helper::verticalGradient( const QColor& color, int height, int offset )
     {
         const quint64 key( ( colorKey(color) << 32 ) | height | 0x8000 );
-        QPixmap* pixmap( _backgroundCache.object( key ) );
 
-        if ( !pixmap )
-        {
-            pixmap = new QPixmap( 1, height );
-            pixmap->fill( Qt::transparent );
+        if( QPixmap* cachedPixmap = _backgroundCache.object( key ) )
+        { return *cachedPixmap; }
 
-            QLinearGradient gradient( 0, offset, 0, height );
-            gradient.setColorAt( 0.0, backgroundTopColor( color ) );
-            gradient.setColorAt( 0.5, color );
-            gradient.setColorAt( 1.0, backgroundBottomColor( color ) );
+        QPixmap pixmap( 1, height );
+        pixmap.fill( Qt::transparent );
 
-            QPainter painter( pixmap );
-            painter.fillRect( pixmap->rect(), gradient );
+        QLinearGradient gradient( 0, offset, 0, height );
+        gradient.setColorAt( 0.0, backgroundTopColor( color ) );
+        gradient.setColorAt( 0.5, color );
+        gradient.setColorAt( 1.0, backgroundBottomColor( color ) );
 
-            painter.end();
+        QPainter painter( &pixmap );
+        painter.fillRect( pixmap.rect(), gradient );
 
-            _backgroundCache.insert( key, pixmap );
-        }
+        painter.end();
 
-        return *pixmap;
+        _backgroundCache.insert( key, new QPixmap( pixmap ) );
+        return pixmap;
     }
 
     //____________________________________________________________________
     QPixmap Helper::radialGradient( const QColor& color, int width, int height )
     {
         const quint64 key( ( colorKey(color) << 32 ) | width | 0xb000 );
-        QPixmap* pixmap( _backgroundCache.object( key ) );
 
-        if ( !pixmap )
-        {
-            pixmap = new QPixmap( width, height );
-            pixmap->fill( Qt::transparent );
+        if( QPixmap* cachedPixmap = _backgroundCache.object( key ) )
+        { return *cachedPixmap; }
 
-            QRadialGradient gradient( 64, height-64, 64 );
-            QColor radialColor = backgroundRadialColor( color );
-            radialColor.setAlpha( 255 ); gradient.setColorAt( 0, radialColor );
-            radialColor.setAlpha( 101 ); gradient.setColorAt( 0.5, radialColor );
-            radialColor.setAlpha( 37 );  gradient.setColorAt( 0.75, radialColor );
-            radialColor.setAlpha( 0 );   gradient.setColorAt( 1, radialColor );
+        QPixmap pixmap( width, height );
+        pixmap.fill( Qt::transparent );
 
-            QPainter painter( pixmap );
-            painter.setWindow( 0, 0, 128, height );
-            painter.fillRect( QRect( 0,0,128,height ), gradient );
+        QRadialGradient gradient( 64, height-64, 64 );
+        QColor radialColor = backgroundRadialColor( color );
+        radialColor.setAlpha( 255 ); gradient.setColorAt( 0, radialColor );
+        radialColor.setAlpha( 101 ); gradient.setColorAt( 0.5, radialColor );
+        radialColor.setAlpha( 37 );  gradient.setColorAt( 0.75, radialColor );
+        radialColor.setAlpha( 0 );   gradient.setColorAt( 1, radialColor );
 
-            painter.end();
+        QPainter painter( &pixmap );
+        painter.setWindow( 0, 0, 128, height );
+        painter.fillRect( QRect( 0,0,128,height ), gradient );
 
-            _backgroundCache.insert( key, pixmap );
-        }
+        painter.end();
 
-        return *pixmap;
+        _backgroundCache.insert( key, new QPixmap( pixmap ) );
+
+        return pixmap;
     }
 
     //____________________________________________________________________________________
     QColor Helper::decoColor( const QColor& background, const QColor& color )
     {
         const quint64 key( ( colorKey(background) << 32 ) | colorKey(color) );
-        if( QColor* out = _decoColorCache.object( key ) )
-        { return *out; }
+        if( QColor* cachedColor = _decoColorCache.object( key ) )
+        { return *cachedColor; }
 
         QColor out = KColorUtils::mix( background, color, 0.8*( 1.0 + _contrast ) );
         _decoColorCache.insert( key, new QColor( out ) );
