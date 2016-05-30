@@ -54,11 +54,8 @@ namespace Oxygen
 
         const quint64 key( ( colorKey(glow) << 32 ) | (sunken << 23 ) | size );
 
-        QPixmap *cachedPixmap = cache->object( key );
-        if( cachedPixmap )
-        {
-            return *cachedPixmap;
-        }
+        if( QPixmap *cachedPixmap = cache->object( key ) )
+        { return *cachedPixmap; }
 
         QPixmap pixmap( size, size );
         pixmap.fill(Qt::transparent);
