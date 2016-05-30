@@ -130,6 +130,26 @@ namespace Oxygen
         //*@name slabs
         //@{
 
+        //* inverse (inner-hole) shadow
+        /** this method must be public because it is used directly by OxygenStyle to draw dials */
+        void drawInverseShadow( QPainter&, const QColor&, int pad, int size, qreal fuzz ) const;
+
+        //* fill a slab of given size with brush set on painter
+        void fillSlab( QPainter&, const QRect&, int size = TileSet::DefaultSize ) const;
+
+        //* linear gradient used to fill buttons
+        virtual void fillButtonSlab( QPainter&, const QRect&, const QColor&, bool sunken );
+
+        //* default slab
+        virtual TileSet slab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
+        { return slab( color, QColor(), shade, size );  }
+
+        //* default slab (with glow)
+        virtual TileSet slab( const QColor&, const QColor& glow, qreal shade, int size = TileSet::DefaultSize );
+
+        //* sunken slab
+        virtual TileSet slabSunken( const QColor&, int size = TileSet::DefaultSize );
+
         //* progressbar
         TileSet progressBarIndicator( const QPalette&, int );
 
@@ -217,6 +237,9 @@ namespace Oxygen
 
         //@}
 
+        //* generic slab painting (to be stored in tilesets)
+        virtual void drawSlab( QPainter&, const QColor&, qreal shade );
+
         // round slabs
         void drawRoundSlab( QPainter&, const QColor&, qreal );
 
@@ -236,6 +259,7 @@ namespace Oxygen
         Cache<QPixmap> _sliderSlabCache;
         Cache<TileSet> _holeCache;
         Cache<TileSet> _scrollHandleCache;
+        Cache<TileSet> _slabCache;
 
         //* mid color cache
         ColorCache _midColorCache;
@@ -243,7 +267,9 @@ namespace Oxygen
         //* dock button cache
         PixmapCache _dockWidgetButtonCache;
 
+
         typedef BaseCache<TileSet> TileSetCache;
+        TileSetCache _slabSunkenCache;
         TileSetCache _cornerCache;
         TileSetCache _holeFlatCache;
         TileSetCache _slopeCache;

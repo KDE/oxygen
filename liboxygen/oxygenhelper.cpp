@@ -89,8 +89,6 @@ namespace Oxygen
         //____________________________________________________________________
     void Helper::invalidateCaches()
     {
-        _slabCache.clear();
-        _slabSunkenCache.clear();
         _decoColorCache.clear();
         _lightColorCache.clear();
         _darkColorCache.clear();
@@ -108,8 +106,6 @@ namespace Oxygen
     {
 
         // assign value
-        _slabCache.setMaxCacheSize( value );
-        _slabSunkenCache.setMaxCost( value );
         _backgroundCache.setMaxCost( value );
         _dotCache.setMaxCost( value );
 
@@ -757,155 +753,6 @@ namespace Oxygen
         p->restore();
     }
 
-    //________________________________________________________________________________________________________
-    TileSet Helper::slab( const QColor& color, const QColor& glow, qreal shade, int size )
-    {
-        Oxygen::Cache<TileSet>::Value* cache( _slabCache.get( color ) );
-
-        const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
-        if( TileSet *cachedTileSet = cache->object( key ) )
-        { return *cachedTileSet; }
-
-        QPixmap pixmap( highDpiPixmap( size*2 ) );
-        pixmap.fill( Qt::transparent );
-
-        QPainter painter( &pixmap );
-        painter.setRenderHints( QPainter::Antialiasing );
-        painter.setPen( Qt::NoPen );
-
-        const int fixedSize( 14*devicePixelRatio( pixmap ) );
-        painter.setWindow( 0, 0, fixedSize, fixedSize );
-
-        // draw all components
-        if( color.isValid() ) drawShadow( painter, calcShadowColor( color ), 14 );
-        if( glow.isValid() ) drawOuterGlow( painter, glow, 14 );
-        if( color.isValid() ) drawSlab( painter, color, shade );
-
-        painter.end();
-
-        TileSet tileSet( pixmap,
-            size, size,
-            size, size,
-            size-1, size,
-            2, 1 );
-
-        cache->insert( key, new TileSet( tileSet ) );
-        return tileSet;
-    }
-
-    //________________________________________________________________________________________________________
-    TileSet Helper::slabSunken( const QColor& color, int size )
-    {
-        const quint64 key( colorKey(color) << 32 | size );
-        if( TileSet *cachedTileSet = _slabSunkenCache.object( key ) )
-        { return *cachedTileSet; }
-
-        QPixmap pixmap( highDpiPixmap( size*2 ) );
-        pixmap.fill( Qt::transparent );
-
-        QPainter painter( &pixmap );
-        painter.setRenderHints( QPainter::Antialiasing );
-        painter.setPen( Qt::NoPen );
-
-        const int fixedSize( 14*devicePixelRatio( pixmap ) );
-        painter.setWindow( 0, 0, fixedSize, fixedSize );
-
-        // shadow
-        painter.setCompositionMode( QPainter::CompositionMode_SourceOver );
-        drawInverseShadow( painter, calcShadowColor( color ), 3, 8, 0.0 );
-
-        // contrast pixel
-        {
-            QColor light( calcLightColor( color ) );
-            QLinearGradient blend( 0, 2, 0, 16 );
-            blend.setColorAt( 0.5, Qt::transparent );
-            blend.setColorAt( 1.0, light );
-
-            painter.setBrush( Qt::NoBrush );
-            painter.setPen( QPen( blend, 1 ) );
-            painter.drawRoundedRect( QRectF( 2.5, 2.5, 9, 9 ), 4.0, 4.0 );
-            painter.setPen( Qt::NoPen );
-        }
-
-        painter.end();
-
-        TileSet tileSet( pixmap, size, size, size, size, size-1, size, 2, 1 );
-        _slabSunkenCache.insert( key, new TileSet( tileSet ) );
-
-        return tileSet;
-
-    }
-
-    //________________________________________________________________________________________________________
-    void Helper::fillSlab( QPainter& painter, const QRect& rect, int size ) const
-    {
-        const qreal s( qreal( size ) * ( 3.6 + ( 0.5 * _slabThickness ) ) / 7.0 );
-        const QRectF r( QRectF( rect ).adjusted( s, s, -s, -s ) );
-        if( !r.isValid() ) return;
-
-        painter.drawRoundedRect( r, s/2, s/2 );
-    }
-
-    //________________________________________________________________________________________________________
-    void Helper::fillButtonSlab( QPainter& painter, const QRect& r, const QColor& color, bool sunken )
-    {
-
-        painter.save();
-        painter.setRenderHint( QPainter::Antialiasing );
-        painter.setPen( Qt::NoPen );
-
-        if( sunken && calcShadowColor( color ).value() > color.value() )
-        {
-
-            QLinearGradient innerGradient( 0, r.top(), 0, r.bottom() + r.height() );
-            innerGradient.setColorAt( 0.0, color );
-            innerGradient.setColorAt( 1.0, calcLightColor( color ) );
-            painter.setBrush( innerGradient );
-
-        } else if( sunken ) {
-
-
-            QLinearGradient innerGradient( 0, r.top() - r.height(), 0, r.bottom() );
-            innerGradient.setColorAt( 0.0, calcLightColor( color ) );
-            innerGradient.setColorAt( 1.0, color );
-            painter.setBrush( innerGradient );
-
-        } else {
-
-            QLinearGradient innerGradient( 0, r.top()-0.2*r.height(), 0, r.bottom()+ 0.4*r.height() );
-            innerGradient.setColorAt( 0.0, calcLightColor( color ) );
-            innerGradient.setColorAt( 0.6, color );
-            painter.setBrush( innerGradient );
-
-        }
-
-        fillSlab( painter, r );
-        painter.restore();
-
-    }
-
-    //________________________________________________________________________________________________________
-    void Helper::drawInverseShadow(
-        QPainter& painter, const QColor& color,
-        int pad, int size, qreal fuzz ) const
-    {
-
-        const qreal m( qreal( size )*0.5 );
-        const qreal offset( 0.8 );
-        const qreal k0( ( m-2 ) / qreal( m+2.0 ) );
-        QRadialGradient shadowGradient( pad+m, pad+m+offset, m+2 );
-        for ( int i = 0; i < 8; i++ )
-        {
-            // sinusoidal gradient
-            const qreal k1( ( qreal( 8 - i ) + k0 * qreal( i ) ) * 0.125 );
-            const qreal a( ( cos( 3.14159 * i * 0.125 ) + 1.0 ) * 0.25 );
-            shadowGradient.setColorAt( k1, alphaColor( color, a * _shadowGain ) );
-        }
-        shadowGradient.setColorAt( k0, alphaColor( color, 0.0 ) );
-        painter.setBrush( shadowGradient );
-        painter.drawEllipse( QRectF( pad-fuzz, pad-fuzz, size+fuzz*2.0, size+fuzz*2.0 ) );
-    }
-
     //____________________________________________________________________
     const QWidget* Helper::checkAutoFillBackground( const QWidget* w ) const
     {
@@ -1026,53 +873,6 @@ namespace Oxygen
     }
 
     #endif
-
-    //______________________________________________________________________________________
-    void Helper::drawSlab( QPainter& painter, const QColor& color, qreal shade )
-    {
-
-        const QColor light( KColorUtils::shade( calcLightColor( color ), shade ) );
-        const QColor base( alphaColor( light, 0.85 ) );
-        const QColor dark( KColorUtils::shade( calcDarkColor( color ), shade ) );
-
-        // bevel, part 1
-        painter.save();
-        const qreal y( KColorUtils::luma( base ) );
-        const qreal yl( KColorUtils::luma( light ) );
-        const qreal yd( KColorUtils::luma( dark ) );
-        QLinearGradient bevelGradient1( 0, 7, 0, 11 );
-        bevelGradient1.setColorAt( 0.0, light );
-        if ( y < yl && y > yd )
-        {
-            // no middle when color is very light/dark
-            bevelGradient1.setColorAt( 0.5, base );
-        }
-
-        bevelGradient1.setColorAt( 0.9, base );
-        painter.setBrush( bevelGradient1 );
-        painter.drawRoundedRect( QRectF( 3.0,3.0,8.0,8.0 ), 3.5, 3.5 );
-
-        // bevel, part 2
-        if ( _slabThickness > 0.0 )
-        {
-
-            QLinearGradient bevelGradient2( 0, 6, 0, 19 );
-            bevelGradient2.setColorAt( 0.0, light );
-            bevelGradient2.setColorAt( 0.9, base );
-            painter.setBrush( bevelGradient2 );
-            painter.drawEllipse( QRectF( 3.6,3.6,6.8,6.8 ) );
-
-        }
-
-        // inside mask
-        painter.setCompositionMode( QPainter::CompositionMode_DestinationOut );
-        painter.setBrush( Qt::black );
-
-        const qreal ic( 3.6 + 0.5*_slabThickness );
-        const qreal is( 14.0 - 2.0*ic );
-        painter.drawEllipse( QRectF( ic, ic, is, is ) );
-        painter.restore();
-    }
 
     //___________________________________________________________________________________________
     void Helper::drawShadow( QPainter& painter, const QColor& color, int size )

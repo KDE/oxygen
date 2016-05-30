@@ -286,26 +286,6 @@ namespace Oxygen
         //* draw dividing line
         virtual void drawSeparator( QPainter*, const QRect&, const QColor&, Qt::Orientation );
 
-        //* default slab
-        virtual TileSet slab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
-        { return slab( color, QColor(), shade, size );  }
-
-        //* default slab (with glow)
-        virtual TileSet slab( const QColor&, const QColor& glow, qreal shade, int size = TileSet::DefaultSize );
-
-        //* sunken slab
-        virtual TileSet slabSunken( const QColor&, int size = TileSet::DefaultSize );
-
-        //* fill a slab of given size with brush set on painter
-        void fillSlab( QPainter&, const QRect&, int size = TileSet::DefaultSize ) const;
-
-        //* linear gradient used to fill buttons
-        virtual void fillButtonSlab( QPainter&, const QRect&, const QColor&, bool sunken );
-
-        //* inverse (inner-hole) shadow
-        /** this method must be public because it is used directly by OxygenStyle to draw dials */
-        void drawInverseShadow( QPainter&, const QColor&, int pad, int size, qreal fuzz ) const;
-
         //* focus color
         QColor focusColor( const QPalette& palette ) const
         { return _viewFocusBrush.brush( palette ).color(); }
@@ -397,9 +377,6 @@ namespace Oxygen
         quint64 colorKey( const QColor& color ) const
         { return color.isValid() ? color.rgba():0; }
 
-        //* generic slab painting (to be stored in tilesets)
-        virtual void drawSlab( QPainter&, const QColor&, qreal shade );
-
         //* generic outer shadow (to be stored in tilesets)
         virtual void drawShadow( QPainter&, const QColor&, int size );
 
@@ -439,17 +416,6 @@ namespace Oxygen
         //* configuration
         KSharedConfig::Ptr _config;
         qreal _bgcontrast;
-
-        //*@name tileset caches
-        //*@{
-
-        //* slabs
-        Oxygen::Cache<TileSet> _slabCache;
-
-        //* sunken slabs
-        BaseCache<TileSet> _slabSunkenCache;
-
-        //@}
 
         //*@name brushes
         //@{
