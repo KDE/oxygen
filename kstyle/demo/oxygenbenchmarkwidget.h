@@ -87,9 +87,9 @@ namespace Oxygen
         WeakPointer<KPageWidget> _pageWidget;
 
         //! map checkboxes to demo widgets
-        typedef WeakPointer<DemoWidget> DemoWidgetPointer;
-        typedef QPair<QCheckBox*, DemoWidgetPointer> WidgetPair;
-        typedef QVector<WidgetPair> WidgetList;
+        using DemoWidgetPointer = WeakPointer<DemoWidget>;
+        using WidgetPair = QPair<QCheckBox*, DemoWidgetPointer>;
+        using WidgetList = QVector<WidgetPair>;
         WidgetList _widgets;
 
     };

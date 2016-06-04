@@ -268,7 +268,7 @@ namespace Oxygen
         PixmapCache _dockWidgetButtonCache;
 
 
-        typedef BaseCache<TileSet> TileSetCache;
+        using TileSetCache = BaseCache<TileSet>;
         TileSetCache _slabSunkenCache;
         TileSetCache _cornerCache;
         TileSetCache _holeFlatCache;

@@ -48,7 +48,7 @@ namespace Oxygen
         public:
 
         //! shortcut to painter
-        typedef WeakPointer<TransitionWidget> Pointer;
+        using Pointer = WeakPointer<TransitionWidget>;
 
         //! constructor
         TransitionWidget( QWidget* parent, int duration );

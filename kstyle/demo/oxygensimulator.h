@@ -182,7 +182,7 @@ namespace Oxygen
 
         private:
 
-        typedef WeakPointer<QWidget> WidgetPointer;
+        using WidgetPointer = WeakPointer<QWidget>;
 
         //! event
         class Event
@@ -231,7 +231,7 @@ namespace Oxygen
         Qt::Key toKey( QChar ) const;
 
         //! list of events
-        typedef QList<Event> EventList;
+        using EventList = QList<Event>;
         EventList _events;
 
         //! previous position in global coordinates

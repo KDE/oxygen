@@ -149,8 +149,8 @@ namespace Oxygen
         bool _enabled;
 
         //! list of widgets for which blur region must be updated
-        typedef WeakPointer<QWidget> WidgetPointer;
-        typedef QHash<QWidget*, WidgetPointer> WidgetSet;
+        using WidgetPointer = WeakPointer<QWidget>;
+        using WidgetSet = QHash<QWidget*, WidgetPointer>;
         WidgetSet _pendingWidgets;
 
         //! set of registered widgets

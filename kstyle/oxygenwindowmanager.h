@@ -213,7 +213,7 @@ namespace Oxygen
         };
 
         //* exception set
-        typedef QSet<ExceptionId> ExceptionSet;
+        using ExceptionSet = QSet<ExceptionId>;
 
         //* list of white listed special widgets
         /**

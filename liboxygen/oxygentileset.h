@@ -143,7 +143,7 @@ namespace Oxygen
         protected:
 
         //* shortcut to pixmap list
-        typedef QVector<QPixmap> PixmapList;
+        using PixmapList = QVector<QPixmap>;
 
         //* initialize pixmap
         void initPixmap( PixmapList&, const QPixmap&, int w, int h, const QRect& );

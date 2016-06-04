@@ -44,7 +44,7 @@ namespace Oxygen
 
         public:
 
-        typedef WeakPointer<BaseEngine> Pointer;
+        using Pointer = WeakPointer<BaseEngine>;
 
         //! constructor
         explicit BaseEngine( QObject* parent ):
@@ -77,7 +77,7 @@ namespace Oxygen
         virtual bool unregisterWidget( QObject* object ) = 0;
 
         //! list of widgets
-        typedef QSet<QWidget*> WidgetList;
+        using WidgetList = QSet<QWidget*>;
 
         //! returns registered widgets
         virtual WidgetList registeredWidgets( void ) const

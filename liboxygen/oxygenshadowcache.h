@@ -189,7 +189,7 @@ namespace Oxygen
         int _maxIndex;
 
         //* cache
-        typedef QCache<int, TileSet> TileSetCache;
+        using TileSetCache = QCache<int, TileSet>;
 
         //* shadow cache
         TileSetCache _shadowCache;

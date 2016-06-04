@@ -178,7 +178,7 @@ namespace Oxygen
         //@{
 
         //! guarded action pointer
-        typedef WeakPointer<QAction> ActionPointer;
+        using ActionPointer = WeakPointer<QAction>;
 
         //! current action
         virtual const ActionPointer& currentAction( void ) const
@@ -365,7 +365,7 @@ namespace Oxygen
         //@{
 
         //! guarded action pointer
-        typedef WeakPointer<QAction> ActionPointer;
+        using ActionPointer = WeakPointer<QAction>;
 
         //! current action
         virtual const ActionPointer& currentAction( void ) const

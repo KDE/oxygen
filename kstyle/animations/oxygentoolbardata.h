@@ -122,7 +122,7 @@ namespace Oxygen
 
         //! object pointer
         /*! there is no need to guard it because the object contents is never accessed */
-        typedef const QObject* ObjectPointer;
+        using ObjectPointer = const QObject*;
 
         //! current object
         virtual const ObjectPointer& currentObject( void ) const

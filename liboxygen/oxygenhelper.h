@@ -120,8 +120,7 @@ namespace Oxygen
         {}
 
         //* return cache matching a given key
-        //typedef QCache<quint64, T> Value;
-        typedef BaseCache<T> Value;
+        using Value = BaseCache<T>;
         Value* get( const QColor& color )
         {
             const quint64 key = ( color.isValid() ? color.rgba():0 );
@@ -398,10 +397,10 @@ namespace Oxygen
 
         //* shortcut to color caches
         /** it is made protected because it is also used in the style helper */
-        typedef BaseCache<QColor> ColorCache;
+        using ColorCache = BaseCache<QColor>;
 
         //* shortcut to pixmap cache
-        typedef BaseCache<QPixmap> PixmapCache;
+        using PixmapCache = BaseCache<QPixmap>;
 
         private:
 
@@ -440,7 +439,7 @@ namespace Oxygen
         PixmapCache _dotCache;
 
         //* high threshold colors
-        typedef QMap<quint32, bool> ColorMap;
+        using ColorMap = QMap<quint32, bool>;
         ColorMap _highThreshold;
         ColorMap _lowThreshold;
 

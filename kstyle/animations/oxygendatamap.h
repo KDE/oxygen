@@ -44,8 +44,8 @@ namespace Oxygen
 
         public:
 
-        typedef const K* Key;
-        typedef WeakPointer<T> Value;
+        using Key = const K*;
+        using Value = WeakPointer<T>;
 
         //! constructor
         BaseDataMap( void ):

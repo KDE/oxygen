@@ -78,10 +78,10 @@ namespace Oxygen
         AddEventFilter _addEventFilter;
 
         //! pointer to SplitterProxy
-        typedef WeakPointer<SplitterProxy> SplitterProxyPointer;
+        using SplitterProxyPointer = WeakPointer<SplitterProxy>;
 
         //! registered widgets
-        typedef QMap<QWidget*, SplitterProxyPointer > WidgetMap;
+        using WidgetMap = QMap<QWidget*, SplitterProxyPointer >;
         WidgetMap _widgets;
 
     };
