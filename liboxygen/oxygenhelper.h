@@ -39,6 +39,7 @@
 #include <QCache>
 #include <QColor>
 #include <QPixmap>
+#include <QQueue>
 #include <QWidget>
 #include <QPainterPath>
 #include <QScopedPointer>
@@ -106,6 +107,70 @@ namespace Oxygen
 
     };
 
+    /**
+     * Holds up to a limited number of items keyed by quint64. If items must be
+     * removed to fall within limit, removes those added the earliest.
+     */
+    template<typename T>
+    class FIFOCache
+    {
+        using CachePair = QPair<quint64, T>;
+
+        public:
+
+        //* constructor
+        FIFOCache(size_t _limit = 256) : m_limit(_limit)
+        {}
+
+        //* insert
+        void insert(quint64 key, T value)
+        {
+            if (static_cast<size_t>(m_queue.size()) > m_limit)
+            { (void) m_queue.dequeue(); }
+            m_queue.enqueue( CachePair( key, value) );
+        }
+
+        //* find
+        T find(quint64 key) const
+        {
+            for(const auto &item : m_queue)
+            { if (item.first == key) return item.second; }
+            return T();
+        }
+
+        //* for_each
+        template<typename F>
+        void for_each(F f)
+        {
+            for(auto &item : m_queue)
+            { f(item.second); }
+        }
+
+        //* maxCost
+        void setMaxCost( size_t max )
+        {
+            m_limit = max;
+            while (static_cast<size_t>(m_queue.size()) > m_limit)
+            { (void) m_queue.dequeue(); }
+        }
+
+        //* maxCost
+        size_t maxCost() const
+        { return m_limit; }
+
+        //* clear
+        void clear()
+        { m_queue.clear(); }
+
+        private:
+
+        //* queue
+        QQueue<CachePair> m_queue;
+
+        //* max size
+        size_t m_limit;
+    };
+
     template<typename T> class Cache
     {
 
@@ -119,20 +184,21 @@ namespace Oxygen
         ~Cache()
         {}
 
+        using Value = QSharedPointer<BaseCache<T>>;
+
         //* return cache matching a given key
-        using Value = BaseCache<T>;
-        Value* get( const QColor& color )
+        Value get( const QColor& color )
         {
             const quint64 key = ( color.isValid() ? color.rgba():0 );
-            Value* cache = data_.object( key );
 
-            if ( !cache )
+            Value retValue = data_.find( key );
+            if ( !retValue )
             {
-                cache = new Value( data_.maxCost() );
-                data_.insert( key, cache );
+                retValue = Value( new BaseCache<T>( data_.maxCost() ) );
+                data_.insert( key, retValue );
             }
 
-            return cache;
+            return retValue;
         }
 
         //* clear
@@ -143,14 +209,13 @@ namespace Oxygen
         void setMaxCacheSize( int value )
         {
             data_.setMaxCost( value );
-            foreach( quint64 key, data_.keys() )
-            { data_.object( key )->setMaxCost( value ); }
+            data_.for_each( [value] (Value item) { item->setMaxCost( value );} );
         }
 
         private:
 
         //* data
-        BaseCache<Value> data_;
+        FIFOCache<Value> data_;
 
     };
 

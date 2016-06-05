@@ -50,7 +50,7 @@ namespace Oxygen
     QPixmap DecoHelper::windecoButton(const QColor &color, const QColor& glow, bool sunken, int size)
     {
 
-        Oxygen::Cache<QPixmap>::Value* cache( _windecoButtonCache.get( color ) );
+        Oxygen::Cache<QPixmap>::Value cache( _windecoButtonCache.get( color ) );
 
         const quint64 key( ( colorKey(glow) << 32 ) | (sunken << 23 ) | size );
 

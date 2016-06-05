@@ -461,7 +461,7 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     TileSet StyleHelper::slab( const QColor& color, const QColor& glow, qreal shade, int size )
     {
-        Oxygen::Cache<TileSet>::Value* cache( _slabCache.get( color ) );
+        Oxygen::Cache<TileSet>::Value cache( _slabCache.get( color ) );
 
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         if( TileSet *cachedTileSet = cache->object( key ) )
@@ -641,7 +641,7 @@ namespace Oxygen
     //______________________________________________________________________________
     QPixmap StyleHelper::dialSlab( const QColor& color, const QColor& glow, qreal shade, int size )
     {
-        Oxygen::Cache<QPixmap>::Value* cache =  _dialSlabCache.get( color );
+        Oxygen::Cache<QPixmap>::Value cache =  _dialSlabCache.get( color );
 
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         if( QPixmap* cachedPixmap = cache->object( key ) )
@@ -704,7 +704,7 @@ namespace Oxygen
     QPixmap StyleHelper::roundSlab( const QColor& color, const QColor& glow, qreal shade, int size )
     {
 
-        Oxygen::Cache<QPixmap>::Value* cache( _roundSlabCache.get( color ) );
+        Oxygen::Cache<QPixmap>::Value cache( _roundSlabCache.get( color ) );
 
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | size );
         if( QPixmap* cachedPixmap = cache->object( key ) )
@@ -739,7 +739,7 @@ namespace Oxygen
     QPixmap StyleHelper::sliderSlab( const QColor& color, const QColor& glow, bool sunken, qreal shade, int size )
     {
 
-        Oxygen::Cache<QPixmap>::Value* cache( _sliderSlabCache.get( color ) );
+        Oxygen::Cache<QPixmap>::Value cache( _sliderSlabCache.get( color ) );
 
         const quint64 key( ( colorKey(glow) << 32 ) | ( quint64( 256.0 * shade ) << 24 ) | (sunken << 23 ) | size );
         if( QPixmap *cachedPixmap = cache->object( key ) )
@@ -976,7 +976,7 @@ namespace Oxygen
     {
 
         // get key
-        Oxygen::Cache<TileSet>::Value* cache( _scrollHandleCache.get( glow ) );
+        Oxygen::Cache<TileSet>::Value cache( _scrollHandleCache.get( glow ) );
 
         const quint64 key( ( colorKey(color) << 32 ) | size );
         if( TileSet *cachedTileSet = cache->object( key ) )
@@ -1234,7 +1234,7 @@ namespace Oxygen
     {
 
         // get key
-        Oxygen::Cache<TileSet>::Value* cache( _holeCache.get( glow ) );
+        Oxygen::Cache<TileSet>::Value cache( _holeCache.get( glow ) );
 
         const quint64 key( ( colorKey(color) << 32 ) | (size << 4) | options );
         if( TileSet *cachedTileSet = cache->object( key ) )
