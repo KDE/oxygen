@@ -2,7 +2,8 @@
 #define oxygen_helper_h
 
 /*
- * Copyright 2009-2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+ * Copyright 2016 Michael Pyne <mpyne@kde.org>
+ * Copyright 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
  * Copyright 2008 Long Huynh Huu <long.upcase@googlemail.com>
  * Copyright 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
  * Copyright 2007 Casper Boemann <cbr@boemann.dk>
