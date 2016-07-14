@@ -862,6 +862,7 @@ namespace Oxygen
             case SH_ToolBox_SelectedPageTitleBold: return false;
 
             #if QT_VERSION >= 0x050000
+            case SH_Widget_Animate: return StyleConfigData::animationsEnabled();
             case SH_Menu_SupportsSections: return true;
             #endif
 
