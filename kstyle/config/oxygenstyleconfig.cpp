@@ -81,6 +81,7 @@ namespace Oxygen
         connect( _menuHighlightSubtle, SIGNAL(toggled(bool)), SLOT(updateChanged()) );
         connect( _windowDragMode, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()) );
 
+        connect( _animationConfigWidget, SIGNAL(changed(bool)), SLOT(updateChanged()) );
         connect( _animationConfigWidget, SIGNAL(layoutChanged()), SLOT(updateLayout()) );
 
     }
