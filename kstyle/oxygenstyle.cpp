@@ -3102,21 +3102,7 @@ namespace Oxygen
 
     //______________________________________________________________
     QSize Style::tabWidgetSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
-    {
-
-        // cast option and check
-        const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
-        if( !tabOption ) return expandSize( contentsSize, Metrics::Frame_FrameWidth );
-
-        // tab orientation
-        const bool verticalTabs( tabOption && isVerticalTab( tabOption->shape ) );
-
-        // need to reduce the size in the tabbar direction, due to a bug in QTabWidget::minimumSize
-        return verticalTabs ?
-            expandSize( contentsSize, Metrics::Frame_FrameWidth, Metrics::Frame_FrameWidth - 1 ):
-            expandSize( contentsSize, Metrics::Frame_FrameWidth - 1, Metrics::Frame_FrameWidth );
-
-    }
+    { return expandSize( contentsSize, Metrics::TabWidget_MarginWidth ); }
 
     //______________________________________________________________
     QSize Style::tabBarTabSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
