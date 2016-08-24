@@ -2992,7 +2992,7 @@ namespace Oxygen
         // get relevant state flags
         const State& state( option->state );
         const bool autoRaise( state & State_AutoRaise );
-        const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
+        const bool hasPopupMenu( toolButtonOption->features & QStyleOptionToolButton::MenuButtonPopup );
         const bool hasInlineIndicator(
             toolButtonOption->features&QStyleOptionToolButton::HasMenu
             && toolButtonOption->features&QStyleOptionToolButton::PopupDelay
@@ -6872,7 +6872,7 @@ namespace Oxygen
         // local copy of option
         QStyleOptionToolButton copy( *toolButtonOption );
 
-        const bool hasPopupMenu( toolButtonOption->subControls & SC_ToolButtonMenu );
+        const bool hasPopupMenu( toolButtonOption->features & QStyleOptionToolButton::MenuButtonPopup );
         const bool hasInlineIndicator(
             toolButtonOption->features&QStyleOptionToolButton::HasMenu
             && toolButtonOption->features&QStyleOptionToolButton::PopupDelay
