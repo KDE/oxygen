@@ -99,6 +99,11 @@
     </entry>
 
     <!-- window dragging -->
+    <entry name="WindowDragEnabled" type="Bool">
+      <!-- this option is obsolete. It is kept only for backward compatibility with oxygen-gtk -->
+      <default>true</default>
+    </entry>
+
     <entry name="WindowDragMode" type="Enum">
       <choices>
           <choice name="WD_NONE" />
