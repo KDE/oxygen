@@ -101,6 +101,7 @@ namespace Oxygen
         StyleConfigData::setScrollBarSubLineButtons( _scrollBarSubLineButtons->currentIndex() );
         StyleConfigData::setMenuHighlightMode( menuMode() );
         StyleConfigData::setWindowDragMode( _windowDragMode->currentIndex()  );
+        StyleConfigData::setWindowDragEnabled( _windowDragMode->currentIndex() != StyleConfigData::WD_NONE );
 
         _animationConfigWidget->save();
 
