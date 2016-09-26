@@ -559,7 +559,7 @@ namespace Oxygen
     void ShadowHelper::uninstallWaylandShadows( QWidget* widget ) const
     {
         #if OXYGEN_HAVE_KWAYLAND
-        if( widget->windowHandle()->parent() ) return;
+        if( widget->windowHandle() && widget->windowHandle()->parent() ) return;
         if( !_shadowManager ) return;
 
         using namespace KWayland::Client;
