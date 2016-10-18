@@ -93,6 +93,14 @@
 
 #endif
 
+#if OXYGEN_HAVE_KWAYLAND
+#include <KWayland/Client/connection_thread.h>
+#include <KWayland/Client/pointer.h>
+#include <KWayland/Client/registry.h>
+#include <KWayland/Client/shell.h>
+#include <KWayland/Client/seat.h>
+#endif
+
 namespace Oxygen
 {
 
@@ -203,6 +211,11 @@ namespace Oxygen
         _dragInProgress( false ),
         _locked( false ),
         _cursorOverride( false )
+        #if OXYGEN_HAVE_KWAYLAND
+        , _seat( Q_NULLPTR )
+        , _pointer( Q_NULLPTR )
+        , _waylandSerial( 0 )
+        #endif
     {
 
         // install application wise event filter
@@ -224,7 +237,62 @@ namespace Oxygen
 
         initializeWhiteList();
         initializeBlackList();
+        initializeWayland();
 
+    }
+
+    //_______________________________________________________
+    void WindowManager::initializeWayland()
+    {
+        #if OXYGEN_HAVE_KWAYLAND
+        if( !Helper::isWayland() ) return;
+
+        if( _seat ) {
+            // already initialized
+            return;
+        }
+
+        using namespace KWayland::Client;
+        auto connection = ConnectionThread::fromApplication( this );
+        if( !connection ) {
+            return;
+        }
+        Registry *registry = new Registry( this );
+        registry->create( connection );
+        connect(registry, &Registry::interfacesAnnounced, this,
+            [registry, this] {
+                const auto interface = registry->interface( Registry::Interface::Seat );
+                if( interface.name != 0 ) {
+                    _seat = registry->createSeat( interface.name, interface.version, this );
+                    connect(_seat, &Seat::hasPointerChanged, this, &WindowManager::waylandHasPointerChanged);
+                }
+            }
+        );
+
+        registry->setup();
+        connection->roundtrip();
+        #endif
+    }
+
+    //_______________________________________________________
+    void WindowManager::waylandHasPointerChanged(bool hasPointer)
+    {
+        #if OXYGEN_HAVE_KWAYLAND
+        Q_ASSERT( _seat );
+        if( hasPointer ) {
+            if( !_pointer ) {
+                _pointer = _seat->createPointer(this);
+                connect(_pointer, &KWayland::Client::Pointer::buttonStateChanged, this,
+                    [this] (quint32 serial) {
+                        _waylandSerial = serial;
+                    }
+                );
+            }
+        } else {
+            delete _pointer;
+            _pointer = nullptr;
+        }
+        #endif
     }
 
     //_____________________________________________________________
@@ -545,12 +613,6 @@ namespace Oxygen
     bool WindowManager::canDrag( QWidget* widget )
     {
 
-        // do not start drag on Wayland, this is not yet supported
-        // To implement integration with KWayland is required
-        // and QtWayland must support getting the wl_seat.
-        // Other option would be adding support to Qt for starting a move
-        if( Helper::isWayland() ) return false;
-
         // check if enabled
         if( !enabled() ) return false;
 
@@ -745,41 +807,11 @@ namespace Oxygen
         // ungrab pointer
         if( useWMMoveResize() )
         {
-
-            #if OXYGEN_HAVE_X11
-            // connection
-            xcb_connection_t* connection( Helper::connection() );
-
-            // window
-            const WId window( widget->window()->winId() );
-
-            #if QT_VERSION >= 0x050300
-            qreal dpiRatio = 1;
-            QWindow* windowHandle = widget->window()->windowHandle();
-            if( windowHandle ) dpiRatio = windowHandle->devicePixelRatio();
-            else dpiRatio = qApp->devicePixelRatio();
-            dpiRatio = qApp->devicePixelRatio();
-            #else
-            const qreal dpiRatio = 1;
-            #endif
-
-            #if OXYGEN_USE_KDE4
-            Display* net_connection = QX11Info::display();
-            #else
-            xcb_connection_t* net_connection = connection;
-            #endif
-
-            xcb_ungrab_pointer( connection, XCB_TIME_CURRENT_TIME );
-            NETRootInfo( net_connection, NET::WMMoveResize ).moveResizeRequest(
-                window, position.x() * dpiRatio,
-                position.y() * dpiRatio,
-                NET::Move );
-
-            #else
-
-            Q_UNUSED( position );
-
-            #endif
+            if( Helper::isX11() ) {
+                startDragX11( widget, position );
+            } else if( Helper::isWayland() ) {
+                startDragWayland( widget, position );
+            }
 
         } else if( !_cursorOverride ) {
 
@@ -794,9 +826,78 @@ namespace Oxygen
 
     }
 
+    //_______________________________________________________
+    void WindowManager::startDragX11( QWidget* widget, const QPoint& position )
+    {
+        #if OXYGEN_HAVE_X11
+        // connection
+        xcb_connection_t* connection( Helper::connection() );
+
+        // window
+        const WId window( widget->window()->winId() );
+
+        #if QT_VERSION >= 0x050300
+        qreal dpiRatio = 1;
+        QWindow* windowHandle = widget->window()->windowHandle();
+        if( windowHandle ) dpiRatio = windowHandle->devicePixelRatio();
+        else dpiRatio = qApp->devicePixelRatio();
+        dpiRatio = qApp->devicePixelRatio();
+        #else
+        const qreal dpiRatio = 1;
+        #endif
+
+        #if OXYGEN_USE_KDE4
+        Display* net_connection = QX11Info::display();
+        #else
+        xcb_connection_t* net_connection = connection;
+        #endif
+
+        xcb_ungrab_pointer( connection, XCB_TIME_CURRENT_TIME );
+        NETRootInfo( net_connection, NET::WMMoveResize ).moveResizeRequest(
+            window, position.x() * dpiRatio,
+            position.y() * dpiRatio,
+            NET::Move );
+
+        #else
+
+        Q_UNUSED( widget );
+        Q_UNUSED( position );
+
+        #endif
+    }
+
+    //_______________________________________________________
+    void WindowManager::startDragWayland( QWidget* widget, const QPoint& position )
+    {
+        #if OXYGEN_HAVE_KWAYLAND
+        if( !_seat ) {
+            return;
+        }
+
+        QWindow* windowHandle = widget->window()->windowHandle();
+        auto shellSurface = KWayland::Client::ShellSurface::fromWindow(windowHandle);
+        if( !shellSurface ) {
+            // TODO: also check for xdg-shell in future
+            return;
+        }
+
+        shellSurface->requestMove( _seat, _waylandSerial );
+        #else
+
+        Q_UNUSED( widget );
+        Q_UNUSED( position );
+
+        #endif
+    }
+
     //____________________________________________________________
     bool WindowManager::supportWMMoveResize( void ) const
     {
+        #if OXYGEN_HAVE_KWAYLAND
+        if( Helper::isWayland() ) {
+            return true;
+        }
+        #endif
 
         #if OXYGEN_HAVE_X11
         return Helper::isX11();
