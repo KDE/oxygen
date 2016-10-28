@@ -1,4 +1,4 @@
-File=oxygenactiveshadowconfigdata.kcfgc
+File=oxygenactiveshadowconfigdata.kcfg
 ClassName=ActiveShadowConfiguration
 NameSpace=Oxygen
 Singleton=true
