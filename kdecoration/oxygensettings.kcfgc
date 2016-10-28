@@ -1,4 +1,4 @@
-File=oxygensettingsdata.kcfgc
+File=oxygensettingsdata.kcfg
 ClassName=InternalSettings
 NameSpace=Oxygen
 Singleton=false
