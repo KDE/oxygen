@@ -3348,6 +3348,7 @@ namespace Oxygen
         } else if( isQtQuickControl( option, widget ) ) {
 
             // QtQuick Control case
+            painter->fillRect( option->rect, option->palette.window() );
             _helper->drawFloatFrame( painter, option->rect, option->palette.window().color(), true );
         }
 
@@ -5640,6 +5641,18 @@ namespace Oxygen
                 const QColor color( _helper->backgroundColor( option->palette.color( QPalette::Window ), widget, option->rect.center() ) );
                 _helper->drawSeparator( painter, option->rect, color, Qt::Vertical );
                 return true;
+            }
+
+            case QFrame::StyledPanel:
+            {
+                if( isQtQuickControl( option, widget ) )
+                {
+
+                    // ComboBox popup frame
+                    drawFrameMenuPrimitive( option, painter, widget );
+                    return true;
+
+                } else break;
             }
 
             default: break;
