@@ -89,6 +89,8 @@
 #include <NETRootInfo>
 #else
 #include <NETWM>
+#include <QQuickItem>
+#include <QQuickWindow>
 #endif
 
 #endif
@@ -315,6 +317,22 @@ namespace Oxygen
 
     }
 
+#if !OXYGEN_USE_KDE4
+    void WindowManager::registerQuickItem( QQuickItem* item )
+    {
+        if ( !item ) return;
+
+        QQuickWindow *window = item->window();
+        if (window) {
+            QQuickItem *contentItem = window->contentItem();
+            contentItem->setAcceptedMouseButtons( Qt::LeftButton );
+            contentItem->removeEventFilter( this );
+            contentItem->installEventFilter( this );
+        }
+
+    }
+#endif
+
     //_____________________________________________________________
     void WindowManager::unregisterWidget( QWidget* widget )
     {
@@ -370,11 +388,20 @@ namespace Oxygen
             break;
 
             case QEvent::MouseMove:
-            if ( object == _target.data() ) return mouseMoveEvent( object, event );
+            if ( object == _target.data()
+#if !OXYGEN_USE_KDE4
+                || object == _quickTarget.data()
+#endif
+               ) return mouseMoveEvent( object, event );
             break;
 
             case QEvent::MouseButtonRelease:
-            if ( _target ) return mouseReleaseEvent( object, event );
+            if ( _target
+#if !OXYGEN_USE_KDE4
+                || _quickTarget
+#endif
+               ) return mouseReleaseEvent( object, event );
+
             break;
 
             default:
@@ -394,8 +421,16 @@ namespace Oxygen
         {
 
             _dragTimer.stop();
+#if OXYGEN_USE_KDE4
             if( _target )
-            { startDrag( _target.data(), _globalDragPoint ); }
+            { startDrag( _target.data()->window(), _globalDragPoint ); }
+#else
+            if( _target )
+            { startDrag( _target.data()->window()->windowHandle(), _globalDragPoint ); }
+            else if( _quickTarget )
+            { startDrag( _quickTarget.data()->window(), _globalDragPoint ); }
+#endif
+
 
         } else {
 
@@ -417,6 +452,21 @@ namespace Oxygen
         // check lock
         if( isLocked() ) return false;
         else setLocked( true );
+
+#if !OXYGEN_USE_KDE4
+        // check QQuickItem - we can immediately start drag, because QQuickWindow's contentItem
+        // only receives mouse events that weren't handled by children
+        if ( QQuickItem *item = qobject_cast<QQuickItem*>( object ) ) {
+            _quickTarget = item;
+            _dragPoint = mouseEvent->pos();
+            _globalDragPoint = mouseEvent->globalPos();
+
+            if( _dragTimer.isActive() ) _dragTimer.stop();
+            _dragTimer.start( _dragDelay, this );
+
+            return true;
+        }
+#endif
 
         // cast to widget
         QWidget *widget = static_cast<QWidget*>( object );
@@ -481,7 +531,7 @@ namespace Oxygen
 
             return true;
 
-        } else if( !useWMMoveResize() ) {
+        } else if( !useWMMoveResize() && _target ) {
 
             // use QWidget::move for the grabbing
             /* this works only if the sending object and the target are identical */
@@ -789,6 +839,9 @@ namespace Oxygen
         }
 
         _target.clear();
+#if !OXYGEN_USE_KDE4
+        _quickTarget.clear();
+#endif
         if( _dragTimer.isActive() ) _dragTimer.stop();
         _dragPoint = QPoint();
         _globalDragPoint = QPoint();
@@ -798,19 +851,19 @@ namespace Oxygen
     }
 
     //____________________________________________________________
-    void WindowManager::startDrag( QWidget* widget, const QPoint& position )
+    void WindowManager::startDrag( Window* window, const QPoint& position )
     {
 
-        if( !( enabled() && widget ) ) return;
+        if( !( enabled() && window ) ) return;
         if( QWidget::mouseGrabber() ) return;
 
         // ungrab pointer
         if( useWMMoveResize() )
         {
             if( Helper::isX11() ) {
-                startDragX11( widget, position );
+                startDragX11( window, position );
             } else if( Helper::isWayland() ) {
-                startDragWayland( widget, position );
+                startDragWayland( window, position );
             }
 
         } else if( !_cursorOverride ) {
@@ -827,21 +880,14 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    void WindowManager::startDragX11( QWidget* widget, const QPoint& position )
+    void WindowManager::startDragX11( Window* window, const QPoint& position )
     {
         #if OXYGEN_HAVE_X11
         // connection
         xcb_connection_t* connection( Helper::connection() );
 
-        // window
-        const WId window( widget->window()->winId() );
-
         #if QT_VERSION >= 0x050300
-        qreal dpiRatio = 1;
-        QWindow* windowHandle = widget->window()->windowHandle();
-        if( windowHandle ) dpiRatio = windowHandle->devicePixelRatio();
-        else dpiRatio = qApp->devicePixelRatio();
-        dpiRatio = qApp->devicePixelRatio();
+        const qreal dpiRatio = qApp->devicePixelRatio();
         #else
         const qreal dpiRatio = 1;
         #endif
@@ -854,28 +900,27 @@ namespace Oxygen
 
         xcb_ungrab_pointer( connection, XCB_TIME_CURRENT_TIME );
         NETRootInfo( net_connection, NET::WMMoveResize ).moveResizeRequest(
-            window, position.x() * dpiRatio,
+            window->winId(), position.x() * dpiRatio,
             position.y() * dpiRatio,
             NET::Move );
 
         #else
 
-        Q_UNUSED( widget );
+        Q_UNUSED( window );
         Q_UNUSED( position );
 
         #endif
     }
 
     //_______________________________________________________
-    void WindowManager::startDragWayland( QWidget* widget, const QPoint& position )
+    void WindowManager::startDragWayland( Window* window, const QPoint& position )
     {
         #if OXYGEN_HAVE_KWAYLAND
         if( !_seat ) {
             return;
         }
 
-        QWindow* windowHandle = widget->window()->windowHandle();
-        auto shellSurface = KWayland::Client::ShellSurface::fromWindow(windowHandle);
+        auto shellSurface = KWayland::Client::ShellSurface::fromWindow(window);
         if( !shellSurface ) {
             // TODO: also check for xdg-shell in future
             return;
@@ -884,7 +929,7 @@ namespace Oxygen
         shellSurface->requestMove( _seat, _waylandSerial );
         #else
 
-        Q_UNUSED( widget );
+        Q_UNUSED( window );
         Q_UNUSED( position );
 
         #endif
