@@ -1,7 +1,6 @@
 [Icon Theme]
 Name=KDE Classic
 Name[ar]=كدي الكلاسيكيّة
-Name[ast]=KDE clásicu
 Name[ca]=KDE clàssic
 Name[ca@valencia]=KDE clàssic
 Name[cs]=Klasika KDE
@@ -41,7 +40,6 @@ Name[zh_CN]=KDE 经典
 Name[zh_TW]=KDE 經典
 Comment=The default cursor theme in KDE 2 and 3
 Comment[ar]=سمة المؤشّر الافتراضيّة في كدي 2 و 3
-Comment[ast]=El tema del mur por defeutu en KDE 2 y 3
 Comment[ca]=El tema de cursor per defecte en el KDE 2 i 3
 Comment[ca@valencia]=El tema de cursor per defecte en el KDE 2 i 3
 Comment[cs]=Výchozí motiv kurzorů pro KDE 2 a 3
