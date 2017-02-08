@@ -12,3 +12,6 @@ name=air
 
 [kcminputrc][Mouse]
 cursorTheme=Oxygen_Black
+
+[kwinrc][WindowDecoration]
+library=org.kde.oxygen
