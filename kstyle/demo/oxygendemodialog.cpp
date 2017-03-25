@@ -34,6 +34,9 @@
 #include "oxygensliderdemowidget.h"
 #include "oxygentabdemowidget.h"
 #include "config-liboxygen.h"
+#ifdef HAVE_SCHEME_CHOOSER
+#include "oxygenschemechooser.h"
+#endif
 
 #include <QTextStream>
 #include <QShortcut>
@@ -77,6 +80,12 @@ namespace Oxygen
         _rightToLeftCheckBox = new QCheckBox( i18n( "Right to left layout" ) );
         connect( _rightToLeftCheckBox, SIGNAL(toggled(bool)), SLOT(toggleRightToLeft(bool)) );
         buttonBox->addButton( _rightToLeftCheckBox, QDialogButtonBox::ResetRole );
+
+#ifdef HAVE_SCHEME_CHOOSER
+        ColorSchemeChooser *colChooser = new ColorSchemeChooser( this );
+        colChooser->setFlat( true );
+        buttonBox->addButton( colChooser, QDialogButtonBox::ResetRole );
+#endif
 
         // connections
         connect( pageWidget, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
