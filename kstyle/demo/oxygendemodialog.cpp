@@ -36,6 +36,7 @@
 #include "config-liboxygen.h"
 #ifdef HAVE_SCHEME_CHOOSER
 #include "oxygenschemechooser.h"
+#include "oxygenstylechooser.h"
 #endif
 
 #include <QTextStream>
@@ -82,6 +83,11 @@ namespace Oxygen
         buttonBox->addButton( _rightToLeftCheckBox, QDialogButtonBox::ResetRole );
 
 #ifdef HAVE_SCHEME_CHOOSER
+        WidgetStyleChooser *styleChooser = new WidgetStyleChooser(this);
+        styleChooser->setFlat( true );
+        styleChooser->createStyleSelectionMenu( i18n( "Style" ) );
+        buttonBox->addButton( styleChooser, QDialogButtonBox::ResetRole );
+
         ColorSchemeChooser *colChooser = new ColorSchemeChooser( this );
         colChooser->setFlat( true );
         buttonBox->addButton( colChooser, QDialogButtonBox::ResetRole );

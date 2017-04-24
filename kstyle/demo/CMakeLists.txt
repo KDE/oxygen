@@ -48,7 +48,7 @@ else()
 
   find_package(KF5ConfigWidgets CONFIG)
   if(KF5ConfigWidgets_FOUND)
-    set(oxygen_demo_SOURCES ${oxygen_demo_SOURCES} oxygenschemechooser.cpp)
+    set(oxygen_demo_SOURCES ${oxygen_demo_SOURCES} oxygenschemechooser.cpp oxygenstylechooser.cpp)
     add_definitions(-DHAVE_SCHEME_CHOOSER)
   endif()
 
