@@ -294,6 +294,8 @@ namespace Oxygen
             delete _pointer;
             _pointer = nullptr;
         }
+        #else
+        Q_UNUSED( hasPointer );
         #endif
     }
 
