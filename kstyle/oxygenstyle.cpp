@@ -3098,7 +3098,7 @@ namespace Oxygen
     }
 
     //______________________________________________________________
-    QSize Style::tabWidgetSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* ) const
+    QSize Style::tabWidgetSizeFromContents( const QStyleOption*, const QSize& contentsSize, const QWidget* ) const
     { return expandSize( contentsSize, Metrics::TabWidget_MarginWidth ); }
 
     //______________________________________________________________
