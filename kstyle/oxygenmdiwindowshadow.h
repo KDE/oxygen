@@ -44,7 +44,7 @@
 namespace Oxygen
 {
 
-    //! frame shadow
+    //* frame shadow
     /*! this allows the shadow to be painted over the widgets viewport */
     class MdiWindowShadow: public QWidget
     {
@@ -53,57 +53,45 @@ namespace Oxygen
 
         public:
 
-        //! shadow size (hard coded)
+        //* shadow size (hard coded)
         enum { ShadowSize = 10 };
 
-        //! constructor
-        explicit MdiWindowShadow( QWidget* parent, TileSet tileSet ):
-          QWidget( parent ),
-          _widget( 0L ),
-          _tileSet( tileSet )
-        {
-            setAttribute( Qt::WA_OpaquePaintEvent, false );
-            setAttribute( Qt::WA_TransparentForMouseEvents, true );
-            setFocusPolicy( Qt::NoFocus );
-        }
+        //* constructor
+        explicit MdiWindowShadow( QWidget*, TileSet );
 
-        //! destructor
-        virtual ~MdiWindowShadow( void )
-        {}
-
-        //! update geometry
+        //* update geometry
         void updateGeometry( void );
 
-        //! update ZOrder
+        //* update ZOrder
         void updateZOrder( void );
 
-        //! set associated window
+        //* set associated window
         void setWidget( QWidget* value )
         { _widget = value; }
 
-        //! associated window
+        //* associated window
         QWidget* widget( void ) const
         { return _widget; }
 
         protected:
 
-        //! painting
+        //* painting
         virtual void paintEvent(QPaintEvent *);
 
         private:
 
-        //! associated widget
+        //* associated widget
         QWidget* _widget;
 
-        //! tileset rect, used for painting
+        //* tileset rect, used for painting
         QRect _tileSetRect;
 
-        //! tileset used to draw shadow
+        //* tileset used to draw shadow
         TileSet _tileSet;
 
     };
 
-    //! shadow manager
+    //* shadow manager
     class MdiWindowShadowFactory: public QObject
     {
 
@@ -111,45 +99,45 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         MdiWindowShadowFactory( QObject*, StyleHelper& );
 
-        //! destructor
+        //* destructor
         virtual ~MdiWindowShadowFactory( void )
         {}
 
-        //! register widget
+        //* register widget
         bool registerWidget( QWidget* );
 
-        //! unregister
+        //* unregister
         void unregisterWidget( QWidget* );
 
-        //! true if widget is registered
+        //* true if widget is registered
         bool isRegistered( const QObject* widget ) const
         { return _registeredWidgets.contains( widget ); }
 
-        //! event filter
+        //* event filter
         virtual bool eventFilter( QObject*, QEvent*);
 
         protected:
 
-        //! find shadow matching a given object
+        //* find shadow matching a given object
         MdiWindowShadow* findShadow( QObject* ) const;
 
-        //! install shadows on given widget
+        //* install shadows on given widget
         void installShadow( QObject* );
 
-        //! remove shadows from widget
+        //* remove shadows from widget
         void removeShadow( QObject* );
 
-        //! hide shadows
+        //* hide shadows
         void hideShadows( QObject* object ) const
         {
             if( MdiWindowShadow* windowShadow = findShadow( object ) )
             { windowShadow->hide(); }
         }
 
-        //! update ZOrder
+        //* update ZOrder
         void updateShadowZOrder( QObject* object ) const
         {
             if( MdiWindowShadow* windowShadow = findShadow( object ) )
@@ -159,14 +147,14 @@ namespace Oxygen
             }
         }
 
-        //! update shadows geometry
+        //* update shadows geometry
         void updateShadowGeometry( QObject* object ) const
         {
             if( MdiWindowShadow* windowShadow = findShadow( object ) )
             { windowShadow->updateGeometry(); }
         }
 
-        //! update shadows
+        //* update shadows
         void update( QObject* object ) const
         {
             if( MdiWindowShadow* windowShadow = findShadow( object ) )
@@ -175,15 +163,15 @@ namespace Oxygen
 
         protected Q_SLOTS:
 
-        //! triggered by object destruction
+        //* triggered by object destruction
         void widgetDestroyed( QObject* );
 
         private:
 
-        //! set of registered widgets
+        //* set of registered widgets
         QSet<const QObject*> _registeredWidgets;
 
-        //! tileset used to draw shadow
+        //* tileset used to draw shadow
         TileSet _tileSet;
 
     };

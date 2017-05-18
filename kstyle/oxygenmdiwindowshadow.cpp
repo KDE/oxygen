@@ -39,24 +39,43 @@ namespace Oxygen
 {
 
     //____________________________________________________________________
+    MdiWindowShadow::MdiWindowShadow( QWidget* parent, TileSet tileSet ):
+        QWidget( parent ),
+        _widget( nullptr ),
+        _tileSet( tileSet )
+    {
+        setAttribute( Qt::WA_OpaquePaintEvent, false );
+        setAttribute( Qt::WA_TransparentForMouseEvents, true );
+        setFocusPolicy( Qt::NoFocus );
+    }
+
+    //____________________________________________________________________
     void MdiWindowShadow::updateGeometry( void )
     {
         if( !_widget ) return;
 
         // get tileSet rect
+        auto hole = _widget->frameGeometry().adjusted(1, 1, -1, -1 );;
         _tileSetRect = _widget->frameGeometry().adjusted( -ShadowSize, -ShadowSize, ShadowSize, ShadowSize );
 
         // get parent MDI area's viewport
         QWidget *parent( parentWidget() );
         if (parent && !qobject_cast<QMdiArea *>(parent) && qobject_cast<QMdiArea*>(parent->parentWidget()))
         { parent = parent->parentWidget(); }
+
         if( qobject_cast<QAbstractScrollArea *>( parent ) )
         { parent = qobject_cast<QAbstractScrollArea *>( parent )->viewport(); }
 
         // set geometry
         QRect geometry( _tileSetRect );
-        if( parent ) geometry &= parent->rect();
+        if( parent )
+        {
+            geometry &= parent->rect();
+            hole &= parent->rect();
+        }
+
         setGeometry( geometry );
+        setMask( QRegion( rect() ) - hole.translated( -geometry.topLeft() ) );
 
         // translate rendering rect
         _tileSetRect.translate( -geometry.topLeft() );
@@ -174,7 +193,7 @@ namespace Oxygen
     {
 
         // check object,
-        if( !object->parent() ) return 0L;
+        if( !object->parent() ) return nullptr;
 
         // find existing window shadows
         const QList<QObject* > children = object->parent()->children();
@@ -184,7 +203,7 @@ namespace Oxygen
             { if( shadow->widget() == object ) return shadow; }
         }
 
-        return 0L;
+        return nullptr;
 
     }
 
