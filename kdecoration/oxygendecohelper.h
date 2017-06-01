@@ -44,7 +44,7 @@ namespace Oxygen
         {}
 
         //* reset all caches
-        virtual void invalidateCaches();
+        void invalidateCaches() Q_DECL_OVERRIDE;
 
         //* windeco buttons
         virtual QPixmap windecoButton(const QColor &color, const QColor& glow, bool sunken, int size = 21);

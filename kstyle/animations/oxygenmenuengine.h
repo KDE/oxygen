@@ -74,10 +74,10 @@ namespace Oxygen
         { return false; }
 
         //! enability
-        virtual void setEnabled( bool value ) = 0;
+        void setEnabled( bool value ) Q_DECL_OVERRIDE = 0;
 
         //! duration
-        virtual void setDuration( int ) = 0;
+        void setDuration( int ) Q_DECL_OVERRIDE = 0;
 
         //! duration
         virtual void setFollowMouseDuration( int )
@@ -105,46 +105,46 @@ namespace Oxygen
         {}
 
         //! register menubar
-        virtual bool registerWidget( QWidget* );
+        bool registerWidget( QWidget* ) Q_DECL_OVERRIDE;
 
         //! true if widget is animated
-        virtual bool isAnimated( const QObject* object, WidgetIndex index );
+        bool isAnimated( const QObject* object, WidgetIndex index ) Q_DECL_OVERRIDE;
 
         //! animation opacity
-        virtual qreal opacity( const QObject* object, WidgetIndex index )
+        qreal opacity( const QObject* object, WidgetIndex index ) Q_DECL_OVERRIDE
         {
             if( !isAnimated( object, index ) ) return AnimationData::OpacityInvalid;
             else return _data.find(object).data()->opacity( index );
         }
 
         //! return 'hover' rect position when widget is animated
-        virtual QRect currentRect( const QObject* object, WidgetIndex index )
+        QRect currentRect( const QObject* object, WidgetIndex index ) Q_DECL_OVERRIDE
         {
             if( !isAnimated( object, index ) ) return QRect();
             else return _data.find(object).data()->currentRect( index );
         }
 
         //! enability
-        virtual void setEnabled( bool value )
+        void setEnabled( bool value ) Q_DECL_OVERRIDE
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
         //! duration
-        virtual void setDuration( int duration )
+        void setDuration( int duration ) Q_DECL_OVERRIDE
         {
             BaseEngine::setDuration( duration );
             _data.setDuration( duration );
         }
 
         //! return list of registered widgets
-        virtual WidgetList registeredWidgets( void ) const;
+        WidgetList registeredWidgets( void ) const Q_DECL_OVERRIDE;
 
         public Q_SLOTS:
 
         //! remove widget from map
-        virtual bool unregisterWidget( QObject* object )
+        bool unregisterWidget( QObject* object ) Q_DECL_OVERRIDE
         { return _data.unregisterWidget( object ); }
 
         private:
@@ -175,36 +175,36 @@ namespace Oxygen
         MenuEngineV2( QObject* parent, MenuBaseEngine* other );
 
         //! register menu
-        virtual bool registerWidget( QWidget* );
+        bool registerWidget( QWidget* ) Q_DECL_OVERRIDE;
 
         //! return timeLine associated to action at given position, if any
-        virtual bool isAnimated( const QObject*, WidgetIndex );
+        bool isAnimated( const QObject*, WidgetIndex ) Q_DECL_OVERRIDE;
 
         //! animation opacity
-        virtual qreal opacity( const QObject* object, WidgetIndex index )
+        qreal opacity( const QObject* object, WidgetIndex index ) Q_DECL_OVERRIDE
         {
             if( !isAnimated( object, index ) ) return AnimationData::OpacityInvalid;
             else return _data.find(object).data()->opacity();
         }
 
         //! return 'hover' rect position when widget is animated
-        virtual QRect currentRect( const QObject* object, WidgetIndex index );
+        QRect currentRect( const QObject* object, WidgetIndex index ) Q_DECL_OVERRIDE;
 
         //! return 'hover' rect position when widget is animated
-        virtual QRect animatedRect( const QObject* );
+        QRect animatedRect( const QObject* ) Q_DECL_OVERRIDE;
 
         //! timer associated to the data
-        virtual bool isTimerActive( const QObject* );
+        bool isTimerActive( const QObject* ) Q_DECL_OVERRIDE;
 
         //! enability
-        virtual void setEnabled( bool value )
+        void setEnabled( bool value ) Q_DECL_OVERRIDE
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
         //! duration
-        virtual void setDuration( int value )
+        void setDuration( int value ) Q_DECL_OVERRIDE
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
@@ -215,7 +215,7 @@ namespace Oxygen
         { return _followMouseDuration; }
 
         //! duration
-        virtual void setFollowMouseDuration( int duration )
+        void setFollowMouseDuration( int duration ) Q_DECL_OVERRIDE
         {
             _followMouseDuration = duration;
             foreach( const DataMap<MenuDataV2>::Value& value, _data )
@@ -223,12 +223,12 @@ namespace Oxygen
         }
 
         //! return list of registered widgets
-        virtual WidgetList registeredWidgets( void ) const;
+        WidgetList registeredWidgets( void ) const Q_DECL_OVERRIDE;
 
         protected Q_SLOTS:
 
         //! remove widget from map
-        virtual bool unregisterWidget( QObject* object )
+        bool unregisterWidget( QObject* object ) Q_DECL_OVERRIDE
         { return _data.unregisterWidget( object ); }
 
         private:

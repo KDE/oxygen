@@ -71,7 +71,7 @@ namespace Oxygen
         virtual bool registerWidget( QObject* );
 
         //* duration
-        virtual void setDuration( int );
+        void setDuration( int ) Q_DECL_OVERRIDE;
 
         //* set object as animated
         virtual void setAnimated( const QObject*, bool );
@@ -84,7 +84,7 @@ namespace Oxygen
         public Q_SLOTS:
 
         //* remove widget from map
-        virtual bool unregisterWidget( QObject* );
+        bool unregisterWidget( QObject* ) Q_DECL_OVERRIDE;
 
         protected:
 

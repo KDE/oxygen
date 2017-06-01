@@ -56,7 +56,7 @@ namespace Oxygen
         virtual void registerWidget( QWidget* );
 
         //! returns registered widgets
-        virtual WidgetList registeredWidgets( void ) const;
+        WidgetList registeredWidgets( void ) const Q_DECL_OVERRIDE;
 
         //! return true if object is animated
         virtual bool isAnimated( const QObject* );
@@ -78,14 +78,14 @@ namespace Oxygen
         virtual bool isTimerActive( const QObject* );
 
         //! enability
-        virtual void setEnabled( bool value )
+        void setEnabled( bool value ) Q_DECL_OVERRIDE
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
         //! duration
-        virtual void setDuration( int value )
+        void setDuration( int value ) Q_DECL_OVERRIDE
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
@@ -106,7 +106,7 @@ namespace Oxygen
         protected Q_SLOTS:
 
         //! remove widget from map
-        virtual bool unregisterWidget( QObject* object )
+        bool unregisterWidget( QObject* object ) Q_DECL_OVERRIDE
         { return _data.unregisterWidget( object ); }
 
         private:

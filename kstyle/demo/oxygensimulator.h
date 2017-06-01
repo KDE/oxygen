@@ -133,7 +133,7 @@ namespace Oxygen
         protected:
 
         //! timer event
-        void timerEvent( QTimerEvent* );
+        void timerEvent( QTimerEvent* ) Q_DECL_OVERRIDE;
 
         //!@name low level interface
         //@{

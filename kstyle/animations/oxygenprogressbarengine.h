@@ -64,14 +64,14 @@ namespace Oxygen
         { return isAnimated( object ) ? data( object ).data()->value():0 ; }
 
         //! enability
-        virtual void setEnabled( bool value )
+        void setEnabled( bool value ) Q_DECL_OVERRIDE
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
         //! duration
-        virtual void setDuration( int value )
+        void setDuration( int value ) Q_DECL_OVERRIDE
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
@@ -80,7 +80,7 @@ namespace Oxygen
         public Q_SLOTS:
 
         //! remove widget from map
-        virtual bool unregisterWidget( QObject* object )
+        bool unregisterWidget( QObject* object ) Q_DECL_OVERRIDE
         { return _data.unregisterWidget( object ); }
 
         protected:

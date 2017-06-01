@@ -52,7 +52,7 @@ namespace Oxygen
         {}
 
         //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
+        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
 
         //! returns true if animations are locked
         bool isLocked( void ) const
@@ -69,10 +69,10 @@ namespace Oxygen
         protected Q_SLOTS:
 
         //! initialize animation
-        virtual bool initializeAnimation( void );
+        bool initializeAnimation( void ) Q_DECL_OVERRIDE;
 
         //! animate
-        virtual bool animate( void );
+        bool animate( void ) Q_DECL_OVERRIDE;
 
         //! called when target is destroyed
         virtual void targetDestroyed( void );
@@ -84,7 +84,7 @@ namespace Oxygen
         { return transition() && transition().data()->testFlag( TransitionWidget::Transparent ); }
 
         //! timer event
-        virtual void timerEvent( QTimerEvent* );
+        void timerEvent( QTimerEvent* ) Q_DECL_OVERRIDE;
 
         private:
 

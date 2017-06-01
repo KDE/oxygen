@@ -92,7 +92,7 @@ namespace Oxygen
         void loadConfig( void );
 
         //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
+        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
 
         protected Q_SLOTS:
 

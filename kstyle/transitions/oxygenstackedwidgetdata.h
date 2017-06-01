@@ -52,10 +52,10 @@ namespace Oxygen
         protected Q_SLOTS:
 
         //! initialize animation
-        virtual bool initializeAnimation( void );
+        bool initializeAnimation( void ) Q_DECL_OVERRIDE;
 
         //! animate
-        virtual bool animate( void );
+        bool animate( void ) Q_DECL_OVERRIDE;
 
         //! finish animation
         virtual void finishAnimation( void );

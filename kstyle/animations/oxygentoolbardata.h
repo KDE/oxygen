@@ -51,7 +51,7 @@ namespace Oxygen
         {}
 
         //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
+        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
 
         //! return animation associated to action at given position, if any
         virtual const Animation::Pointer& animation( void ) const
@@ -62,7 +62,7 @@ namespace Oxygen
         { return _progressAnimation; }
 
         //! duration
-        virtual void setDuration( int duration )
+        void setDuration( int duration ) Q_DECL_OVERRIDE
         { animation().data()->setDuration( duration ); }
 
         //! duration
@@ -115,7 +115,7 @@ namespace Oxygen
         protected:
 
         //! timer event
-        virtual void timerEvent( QTimerEvent *);
+        void timerEvent( QTimerEvent *) Q_DECL_OVERRIDE;
 
         //!@name current object handling
         //@{

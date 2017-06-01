@@ -52,7 +52,7 @@ namespace Oxygen
         {}
 
         //! event filter
-        virtual bool eventFilter( QObject*, QEvent* );
+        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
 
         //! needed to avoid warning about virtual function being hidden
         using WidgetStateData::animation;
@@ -107,7 +107,7 @@ namespace Oxygen
         }
 
         //! duration
-        virtual void setDuration( int duration )
+        void setDuration( int duration ) Q_DECL_OVERRIDE
         {
             WidgetStateData::setDuration( duration );
             addLineAnimation().data()->setDuration( duration );

@@ -52,14 +52,14 @@ namespace Oxygen
         {}
 
         //* enability
-        virtual void setEnabled( bool value )
+        void setEnabled( bool value ) Q_DECL_OVERRIDE
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
         //* duration
-        virtual void setDuration( int value )
+        void setDuration( int value ) Q_DECL_OVERRIDE
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
@@ -81,7 +81,7 @@ namespace Oxygen
         public Q_SLOTS:
 
         //* remove widget from map
-        virtual bool unregisterWidget( QObject* data )
+        bool unregisterWidget( QObject* data ) Q_DECL_OVERRIDE
         {
 
             if( !data ) return false;
