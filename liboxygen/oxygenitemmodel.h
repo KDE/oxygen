@@ -36,80 +36,80 @@ namespace Oxygen
     //! Job model. Stores job information for display in lists
     class OXYGEN_EXPORT ItemModel : public QAbstractItemModel
     {
-        
+
         public:
-        
+
         //! constructor
         explicit ItemModel(QObject *parent = 0);
-        
+
         //! destructor
         virtual ~ItemModel()
         {}
-        
+
         //! return all indexes in model starting from parent [recursive]
         QModelIndexList indexes( int column = 0, const QModelIndex& parent = QModelIndex() ) const;
-        
+
         //!@name sorting
         //@{
-        
+
         //! sort
         virtual void sort( void )
         { sort( sortColumn(), sortOrder() ); }
-        
+
         //! sort
-        void sort( int column, Qt::SortOrder order = Qt::AscendingOrder ) Q_DECL_OVERRIDE;
-        
+        void sort( int column, Qt::SortOrder order = Qt::AscendingOrder ) ;
+
         //! current sorting column
         const int& sortColumn( void ) const
         { return _sortColumn; }
-        
+
         //! current sort order
         const Qt::SortOrder& sortOrder( void ) const
         { return _sortOrder; }
-        
+
         //@}
-        
+
         protected:
-        
+
         //! this sort columns without calling the layout changed callbacks
         void privateSort( void )
         { privateSort( sortColumn(), sortOrder() ); }
-        
+
         //! private sort, with no signals emmitted
         virtual void privateSort( int column, Qt::SortOrder order ) = 0;
-        
+
         //! used to sort items in list
         class SortFTor
         {
-            
+
             public:
-            
+
             //! constructor
             explicit SortFTor( const int& type, Qt::SortOrder order = Qt::AscendingOrder ):
                 _type( type ),
                 _order( order )
             {}
-            
+
             protected:
-            
+
             //! column
             int _type;
-            
+
             //! order
             Qt::SortOrder _order;
-            
+
         };
-        
+
         private:
-        
+
         //! sorting column
         int _sortColumn;
-        
+
         //! sorting order
         Qt::SortOrder _sortOrder;
-        
+
     };
-    
+
 }
 
 #endif

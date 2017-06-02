@@ -52,7 +52,7 @@ namespace Oxygen
         {}
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent* ) ;
 
         //! returns true if animations are locked
         bool isLocked( void ) const
@@ -78,10 +78,10 @@ namespace Oxygen
         virtual void textChanged( void );
 
         //! initialize animation
-        bool initializeAnimation( void ) Q_DECL_OVERRIDE;
+        bool initializeAnimation( void ) ;
 
         //! animate
-        bool animate( void ) Q_DECL_OVERRIDE;
+        bool animate( void ) ;
 
         //! called when target is destroyed
         virtual void targetDestroyed( void );
@@ -89,7 +89,7 @@ namespace Oxygen
         protected:
 
         //! timer event
-        void timerEvent( QTimerEvent* ) Q_DECL_OVERRIDE;
+        void timerEvent( QTimerEvent* ) ;
 
         //! target rect
         /*! return rect corresponding to the area to be updated when animating */

@@ -58,7 +58,7 @@ namespace Oxygen
         { _drawWidgetRects = value; }
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent* ) ;
 
         protected:
 

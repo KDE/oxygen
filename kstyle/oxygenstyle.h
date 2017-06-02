@@ -123,47 +123,47 @@ namespace Oxygen
         using  ParentStyleClass::unpolish;
 
         //* widget polishing
-        void polish( QWidget* ) Q_DECL_OVERRIDE;
+        void polish( QWidget* ) ;
 
         //* widget unpolishing
-        void unpolish( QWidget* ) Q_DECL_OVERRIDE;
+        void unpolish( QWidget* ) ;
 
         //* pixel metrics
-        int pixelMetric(PixelMetric, const QStyleOption* = nullptr, const QWidget* = nullptr) const Q_DECL_OVERRIDE;
+        int pixelMetric(PixelMetric, const QStyleOption* = nullptr, const QWidget* = nullptr) const ;
 
         //* style hints
-        int styleHint(StyleHint, const QStyleOption* = nullptr, const QWidget* = nullptr, QStyleHintReturn* = nullptr) const Q_DECL_OVERRIDE;
+        int styleHint(StyleHint, const QStyleOption* = nullptr, const QWidget* = nullptr, QStyleHintReturn* = nullptr) const ;
 
         //* returns rect corresponding to one widget's subelement
-        QRect subElementRect( SubElement, const QStyleOption*, const QWidget* ) const Q_DECL_OVERRIDE;
+        QRect subElementRect( SubElement, const QStyleOption*, const QWidget* ) const ;
 
         //* returns rect corresponding to one widget's subcontrol
-        QRect subControlRect( ComplexControl, const QStyleOptionComplex*, SubControl, const QWidget* ) const Q_DECL_OVERRIDE;
+        QRect subControlRect( ComplexControl, const QStyleOptionComplex*, SubControl, const QWidget* ) const ;
 
         //* returns size matching contents
-        QSize sizeFromContents( ContentsType, const QStyleOption*, const QSize&, const QWidget* ) const Q_DECL_OVERRIDE;
+        QSize sizeFromContents( ContentsType, const QStyleOption*, const QSize&, const QWidget* ) const ;
 
         //* returns which subcontrol given QPoint corresponds to
-        SubControl hitTestComplexControl( ComplexControl, const QStyleOptionComplex*, const QPoint&, const QWidget* ) const Q_DECL_OVERRIDE;
+        SubControl hitTestComplexControl( ComplexControl, const QStyleOptionComplex*, const QPoint&, const QWidget* ) const ;
 
         //* primitives
-        void drawPrimitive( PrimitiveElement, const QStyleOption*, QPainter*, const QWidget* ) const Q_DECL_OVERRIDE;
+        void drawPrimitive( PrimitiveElement, const QStyleOption*, QPainter*, const QWidget* ) const ;
 
         //* controls
-        void drawControl( ControlElement, const QStyleOption*, QPainter*, const QWidget* ) const Q_DECL_OVERRIDE;
+        void drawControl( ControlElement, const QStyleOption*, QPainter*, const QWidget* ) const ;
 
         //* complex controls
-        void drawComplexControl( ComplexControl, const QStyleOptionComplex*, QPainter*, const QWidget* ) const Q_DECL_OVERRIDE;
+        void drawComplexControl( ComplexControl, const QStyleOptionComplex*, QPainter*, const QWidget* ) const ;
 
         //* generic text rendering
         void drawItemText(
             QPainter*, const QRect&, int alignment, const QPalette&, bool enabled,
-            const QString&, QPalette::ColorRole = QPalette::NoRole) const Q_DECL_OVERRIDE;
+            const QString&, QPalette::ColorRole = QPalette::NoRole) const ;
 
         //*@name event filters
         //@{
 
-        bool eventFilter(QObject *, QEvent *) Q_DECL_OVERRIDE;
+        bool eventFilter(QObject *, QEvent *) ;
         bool eventFilterComboBoxContainer( QWidget*, QEvent* );
         bool eventFilterDockWidget( QDockWidget*, QEvent* );
         bool eventFilterMdiSubWindow( QMdiSubWindow*, QEvent* );
@@ -197,7 +197,7 @@ namespace Oxygen
         protected:
 
         //* standard icons
-        QIcon standardIcon( StandardPixmap pixmap, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const Q_DECL_OVERRIDE
+        QIcon standardIcon( StandardPixmap pixmap, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const
         { return standardIconImplementation( pixmap, option, widget ); }
 
         //* load configuration

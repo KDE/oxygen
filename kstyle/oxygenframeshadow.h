@@ -72,7 +72,7 @@ namespace Oxygen
         { return _registeredWidgets.contains( widget ); }
 
         //* event filter
-        bool eventFilter( QObject*, QEvent*) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent*) ;
 
         //* set contrast
         void setHasContrast( const QWidget* widget, bool ) const;
@@ -223,19 +223,19 @@ namespace Oxygen
 
         //* update geometry
         /** nothing is done. Rect must be passed explicitly */
-        void updateGeometry( void ) Q_DECL_OVERRIDE
+        void updateGeometry( void )
         {}
 
         //* update geometry
-        void updateGeometry( QRect ) Q_DECL_OVERRIDE;
+        void updateGeometry( QRect ) ;
 
         //* update state
-        void updateState( bool focus, bool hover, qreal opacity, AnimationMode ) Q_DECL_OVERRIDE;
+        void updateState( bool focus, bool hover, qreal opacity, AnimationMode ) ;
 
         protected:
 
         //* painting
-        void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+        void paintEvent(QPaintEvent *) ;
 
         private:
 
@@ -272,15 +272,15 @@ namespace Oxygen
         {}
 
         //* update geometry
-        void updateGeometry( void ) Q_DECL_OVERRIDE;
+        void updateGeometry( void ) ;
 
         //* update geometry
-        void updateGeometry( QRect ) Q_DECL_OVERRIDE;
+        void updateGeometry( QRect ) ;
 
         protected:
 
         //* painting
-        void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+        void paintEvent(QPaintEvent *) ;
 
         private:
 

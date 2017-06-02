@@ -59,7 +59,7 @@ namespace Oxygen
         { return _animation; }
 
         //! duration
-        void setDuration( int duration ) Q_DECL_OVERRIDE
+        void setDuration( int duration )
         { _animation.data()->setDuration( duration ); }
 
         //! opacity

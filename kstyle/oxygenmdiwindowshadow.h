@@ -76,7 +76,7 @@ namespace Oxygen
         protected:
 
         //* painting
-        void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+        void paintEvent(QPaintEvent *) ;
 
         private:
 
@@ -117,7 +117,7 @@ namespace Oxygen
         { return _registeredWidgets.contains( widget ); }
 
         //* event filter
-        bool eventFilter( QObject*, QEvent*) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent*) ;
 
         protected:
 

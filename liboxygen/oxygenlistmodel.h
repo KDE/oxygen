@@ -67,14 +67,14 @@ namespace Oxygen
         //@{
 
         //! flags
-        Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE
+        Qt::ItemFlags flags(const QModelIndex &index) const
         {
             if (!index.isValid()) return 0;
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
         }
 
         //! unique index for given row, column and parent index
-        QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE
+        QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const
         {
 
             // check if index is valid
@@ -89,11 +89,11 @@ namespace Oxygen
         }
 
         //! index of parent
-        QModelIndex parent(const QModelIndex &) const Q_DECL_OVERRIDE
+        QModelIndex parent(const QModelIndex &) const
         { return QModelIndex(); }
 
         //! number of rows below given index
-        int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE
+        int rowCount(const QModelIndex &parent = QModelIndex()) const
         { return parent.isValid() ? 0:_values.size(); }
 
         //@}

@@ -50,7 +50,7 @@ namespace Oxygen
         {}
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent* ) ;
 
     };
 

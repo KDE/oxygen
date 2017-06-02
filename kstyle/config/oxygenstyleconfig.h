@@ -80,7 +80,7 @@ namespace Oxygen
         protected:
 
         //! event processing
-        bool event( QEvent* ) Q_DECL_OVERRIDE;
+        bool event( QEvent* ) ;
 
         // menu mode from ui
         int menuMode( void ) const;

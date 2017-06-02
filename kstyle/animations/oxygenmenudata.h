@@ -57,19 +57,19 @@ namespace Oxygen
         protected:
 
         //! menubar enterEvent
-        void enterEvent( const QObject* object ) Q_DECL_OVERRIDE
+        void enterEvent( const QObject* object )
         { MenuBarDataV1::enterEvent<QMenu>( object ); }
 
         //! menubar enterEvent
-        void leaveEvent( const QObject* object ) Q_DECL_OVERRIDE
+        void leaveEvent( const QObject* object )
         { MenuBarDataV1::leaveEvent<QMenu>( object ); }
 
         //! menubar mouseMoveEvent
-        void mouseMoveEvent( const QObject* object ) Q_DECL_OVERRIDE
+        void mouseMoveEvent( const QObject* object )
         { MenuBarDataV1::mouseMoveEvent<QMenu>( object ); }
 
         //! menubar mousePressEvent
-        void mousePressEvent( const QObject* object ) Q_DECL_OVERRIDE
+        void mousePressEvent( const QObject* object )
         { MenuBarDataV1::mousePressEvent<QMenu>( object ); }
 
     };
@@ -97,15 +97,15 @@ namespace Oxygen
         protected:
 
         //! menubar enterEvent
-        void enterEvent( const QObject* object ) Q_DECL_OVERRIDE
+        void enterEvent( const QObject* object )
         { MenuBarDataV2::enterEvent<QMenu>( object ); }
 
         //! menubar enterEvent
-        void leaveEvent( const QObject* object ) Q_DECL_OVERRIDE
+        void leaveEvent( const QObject* object )
         { MenuBarDataV2::leaveEvent<QMenu>( object ); }
 
         //! menubar mouseMoveEvent
-        void mouseMoveEvent( const QObject* object ) Q_DECL_OVERRIDE
+        void mouseMoveEvent( const QObject* object )
         { MenuBarDataV2::mouseMoveEvent<QMenu>( object ); }
 
     };

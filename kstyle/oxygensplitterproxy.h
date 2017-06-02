@@ -99,7 +99,7 @@ namespace Oxygen
         virtual ~SplitterProxy( void );
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent* ) ;
 
         //! enable state
         void setEnabled( bool );
@@ -111,7 +111,7 @@ namespace Oxygen
         protected:
 
         //! event handler
-        bool event( QEvent* ) Q_DECL_OVERRIDE;
+        bool event( QEvent* ) ;
 
         protected:
 

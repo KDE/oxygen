@@ -51,7 +51,7 @@ namespace Oxygen
         void setMode( int );
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent* ) ;
 
         //! true if mnemonics are enabled
         const bool& enabled( void ) const

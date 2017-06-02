@@ -170,7 +170,7 @@ namespace OxygenPrivate
         {}
 
         //! paint
-        void paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+        void paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
         {
             // call either proxy or parent class
             if( _proxy ) _proxy.data()->paint( painter, option, index );
@@ -178,7 +178,7 @@ namespace OxygenPrivate
         }
 
         //! size hint for index
-        QSize sizeHint( const QStyleOptionViewItem& option, const QModelIndex& index ) const Q_DECL_OVERRIDE
+        QSize sizeHint( const QStyleOptionViewItem& option, const QModelIndex& index ) const
         {
 
             // get size from either proxy or parent class
@@ -219,7 +219,7 @@ namespace Oxygen
         {}
 
         //! event filter
-        bool eventFilter(QObject* object, QEvent* event ) Q_DECL_OVERRIDE
+        bool eventFilter(QObject* object, QEvent* event )
         {
 
             // cast to QWidget

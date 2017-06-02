@@ -54,12 +54,12 @@ namespace Oxygen
         {}
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent* ) ;
 
         protected:
 
         //! timer event
-        void timerEvent( QTimerEvent* ) Q_DECL_OVERRIDE;
+        void timerEvent( QTimerEvent* ) ;
 
         //! target rect
         /*! return rect corresponding to the area to be updated when animating */
@@ -72,10 +72,10 @@ namespace Oxygen
         virtual void  indexChanged( void );
 
         //! initialize animation
-        bool initializeAnimation( void ) Q_DECL_OVERRIDE;
+        bool initializeAnimation( void ) ;
 
         //! animate
-        bool animate( void ) Q_DECL_OVERRIDE;
+        bool animate( void ) ;
 
         //! called when target is destroyed
         virtual void targetDestroyed( void );

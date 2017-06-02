@@ -50,15 +50,15 @@ namespace Oxygen
         public Q_SLOTS:
 
         //! read current configuration
-        void load( void ) Q_DECL_OVERRIDE;
+        void load( void ) ;
 
         //! save current configuration
-        void save( void ) Q_DECL_OVERRIDE;
+        void save( void ) ;
 
         protected Q_SLOTS:
 
         //! check whether configuration is changed and emit appropriate signal if yes
-        void updateChanged() Q_DECL_OVERRIDE;
+        void updateChanged() ;
 
         private:
 

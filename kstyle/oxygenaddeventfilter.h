@@ -53,7 +53,7 @@ namespace Oxygen
 
         //! event filter
         /*! blocks all AddChild events */
-        bool eventFilter( QObject*, QEvent* event ) Q_DECL_OVERRIDE
+        bool eventFilter( QObject*, QEvent* event )
         { return event->type() == QEvent::ChildAdded; }
 
     };

@@ -73,7 +73,7 @@ namespace Oxygen
         }
 
         //! duration
-        void setDuration( int duration ) Q_DECL_OVERRIDE
+        void setDuration( int duration )
         {
             currentAnimation().data()->setDuration( duration );
             previousAnimation().data()->setDuration( duration );

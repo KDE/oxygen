@@ -69,7 +69,7 @@ namespace Oxygen
         { return orientation == Qt::Vertical ? verticalOpacity():horizontalOpacity(); }
 
         //! duration
-        void setDuration( int duration ) Q_DECL_OVERRIDE
+        void setDuration( int duration )
         {
             horizontalAnimation().data()->setDuration( duration );
             verticalAnimation().data()->setDuration( duration );

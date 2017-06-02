@@ -79,10 +79,10 @@ namespace Oxygen
         protected:
 
         //! close event
-        void closeEvent( QCloseEvent* ) Q_DECL_OVERRIDE;
+        void closeEvent( QCloseEvent* ) ;
 
         //! hide event
-        void hideEvent( QHideEvent* ) Q_DECL_OVERRIDE;
+        void hideEvent( QHideEvent* ) ;
 
         private:
 

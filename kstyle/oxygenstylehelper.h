@@ -52,10 +52,10 @@ namespace Oxygen
         virtual ~StyleHelper() {}
 
         //* clear cache
-        void invalidateCaches() Q_DECL_OVERRIDE;
+        void invalidateCaches() ;
 
         //* update maximum cache size
-        void setMaxCacheSize( int ) Q_DECL_OVERRIDE;
+        void setMaxCacheSize( int ) ;
 
         //* background gradient
         virtual void setUseBackgroundGradient( bool value )
@@ -67,10 +67,10 @@ namespace Oxygen
         All the actual rendering is performed by the base class
         */
         using Helper::renderWindowBackground;
-        void renderWindowBackground( QPainter*, const QRect&, const QWidget*, const QColor&, int y_shift=-23 ) Q_DECL_OVERRIDE;
+        void renderWindowBackground( QPainter*, const QRect&, const QWidget*, const QColor&, int y_shift=-23 ) ;
 
         //* set background gradient hint to widget
-        void setHasBackgroundGradient( WId, bool ) const Q_DECL_OVERRIDE;
+        void setHasBackgroundGradient( WId, bool ) const ;
 
         // render menu background
         void renderMenuBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette& pal )

@@ -75,10 +75,10 @@ namespace Oxygen
         {}
 
         //! configure
-        void initializeConfigurationWidget( QWidget* ) Q_DECL_OVERRIDE;
+        void initializeConfigurationWidget( QWidget* ) ;
 
         //! configuration widget
-        QWidget* configurationWidget( void ) const Q_DECL_OVERRIDE
+        QWidget* configurationWidget( void ) const
         {
             Q_CHECK_PTR( _configurationWidget );
             return _configurationWidget.data();

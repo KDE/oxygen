@@ -85,7 +85,7 @@ namespace Oxygen
         {}
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent* ) ;
 
         //! animations
         virtual const Animation::Pointer& currentAnimation( void ) const
@@ -132,7 +132,7 @@ namespace Oxygen
         { return index == Current ? currentRect():previousRect(); }
 
         //! duration
-        void setDuration( int duration ) Q_DECL_OVERRIDE
+        void setDuration( int duration )
         {
             currentAnimation().data()->setDuration( duration );
             previousAnimation().data()->setDuration( duration );
@@ -290,7 +290,7 @@ namespace Oxygen
         {}
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent* ) ;
 
         //! return animation associated to action at given position, if any
         virtual const Animation::Pointer& animation( void ) const
@@ -301,7 +301,7 @@ namespace Oxygen
         { return _progressAnimation; }
 
         //! duration
-        void setDuration( int duration ) Q_DECL_OVERRIDE
+        void setDuration( int duration )
         { animation().data()->setDuration( duration ); }
 
         //! duration
@@ -359,7 +359,7 @@ namespace Oxygen
         virtual void updateAnimatedRect( void );
 
         //! timer event
-        void timerEvent( QTimerEvent* ) Q_DECL_OVERRIDE;
+        void timerEvent( QTimerEvent* ) ;
 
         //!@name current action handling
         //@{

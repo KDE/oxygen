@@ -173,10 +173,10 @@ namespace Oxygen
         protected:
 
         //! generic event filter
-        bool event( QEvent* ) Q_DECL_OVERRIDE;
+        bool event( QEvent* ) ;
 
         //! paint event
-        void paintEvent( QPaintEvent* ) Q_DECL_OVERRIDE;
+        void paintEvent( QPaintEvent* ) ;
 
         //! grab widget background
         /*!

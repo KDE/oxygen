@@ -53,7 +53,7 @@ namespace Oxygen
         {}
 
         //! duration
-        void setDuration( int duration ) Q_DECL_OVERRIDE
+        void setDuration( int duration )
         {
             currentIndexAnimation().data()->setDuration( duration );
             previousIndexAnimation().data()->setDuration( duration );
@@ -131,7 +131,7 @@ namespace Oxygen
         protected:
 
         //! dirty
-        void setDirty( void ) const Q_DECL_OVERRIDE;
+        void setDirty( void ) const ;
 
         private:
 

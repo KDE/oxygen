@@ -79,13 +79,13 @@ namespace Oxygen
         void unregisterWidget( QWidget* );
 
         //! event filter
-        bool eventFilter( QObject*, QEvent* ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject*, QEvent* ) ;
 
         protected:
 
         //! timer event
         /*! used to perform delayed blur region update of pending widgets */
-        void timerEvent( QTimerEvent* event ) Q_DECL_OVERRIDE
+        void timerEvent( QTimerEvent* event )
         {
 
             if( event->timerId() == _timer.timerId() )

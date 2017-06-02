@@ -123,7 +123,7 @@ namespace Oxygen
         {}
 
         //* event filter
-        bool eventFilter( QObject* object, QEvent* event ) Q_DECL_OVERRIDE
+        bool eventFilter( QObject* object, QEvent* event )
         {
 
             if( event->type() == QEvent::MouseButtonRelease )

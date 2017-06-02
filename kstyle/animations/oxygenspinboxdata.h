@@ -78,7 +78,7 @@ namespace Oxygen
         }
 
         //! duration
-        void setDuration( int duration ) Q_DECL_OVERRIDE
+        void setDuration( int duration )
         {
             upArrowAnimation().data()->setDuration( duration );
             downArrowAnimation().data()->setDuration( duration );
