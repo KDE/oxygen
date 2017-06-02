@@ -55,7 +55,7 @@ namespace Oxygen
         static Button *create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
 
         //* render
-        virtual void paint(QPainter *painter, const QRect &repaintRegion) Q_DECL_OVERRIDE;
+        virtual void paint(QPainter *painter, const QRect &repaintRegion) override;
 
         //* flag
         enum Flag

@@ -55,7 +55,7 @@ namespace Oxygen
         { sort( sortColumn(), sortOrder() ); }
 
         //* sort
-        void sort( int column, Qt::SortOrder order = Qt::AscendingOrder ) Q_DECL_OVERRIDE;
+        void sort( int column, Qt::SortOrder order = Qt::AscendingOrder ) override;
 
         //* current sorting column
         const int& sortColumn( void ) const

@@ -53,13 +53,13 @@ namespace Oxygen
         //@{
 
         //* return data for a given index
-        QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
+        QVariant data(const QModelIndex &index, int role) const override;
 
         //* header data
-        QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+        QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
         //* number of columns for a given index
-        int columnCount(const QModelIndex& ) const Q_DECL_OVERRIDE
+        int columnCount(const QModelIndex& ) const override
         { return nColumns; }
 
         //@}
@@ -67,7 +67,7 @@ namespace Oxygen
         protected:
 
         //* sort
-        void privateSort( int, Qt::SortOrder ) Q_DECL_OVERRIDE
+        void privateSort( int, Qt::SortOrder ) override
         {}
 
         private:

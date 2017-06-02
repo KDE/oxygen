@@ -78,7 +78,7 @@ namespace Oxygen
 
         protected:
 
-        bool eventFilter( QObject* o, QEvent* e ) Q_DECL_OVERRIDE;
+        bool eventFilter( QObject* o, QEvent* e ) override;
 
         private:
 
