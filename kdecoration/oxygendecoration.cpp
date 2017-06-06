@@ -347,7 +347,7 @@ namespace Oxygen
     {
         auto s = settings();
         const auto c = client().data();
-        const Qt::Edges edges = c->adjacentScreenEdges();
+        const auto edges = c->adjacentScreenEdges();
 
         // left, right and bottom borders
         auto testFlag = [&]( Qt::Edge edge ) { return edges.testFlag(edge) && !m_internalSettings->drawBorderOnMaximizedWindows(); };
@@ -360,10 +360,10 @@ namespace Oxygen
         else {
 
             QFontMetrics fm(s->font());
-            top += qMax(fm.boundingRect(c->caption()).height(), buttonHeight() );
+            top += qMax(fm.height(), buttonHeight() );
 
             // padding below
-            const int baseSize = settings()->smallSpacing();
+            const int baseSize = s->smallSpacing();
             top += baseSize*Metrics::TitleBar_BottomMargin;
 
             // padding above
