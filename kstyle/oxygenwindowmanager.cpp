@@ -915,7 +915,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    void WindowManager::startDragWayland( Window* window, const QPoint& position )
+    void WindowManager::startDragWayland( Window* window, const QPoint& )
     {
         #if OXYGEN_HAVE_KWAYLAND
         if( !_seat ) {
@@ -932,7 +932,6 @@ namespace Oxygen
         #else
 
         Q_UNUSED( window );
-        Q_UNUSED( position );
 
         #endif
     }
