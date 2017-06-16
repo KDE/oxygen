@@ -55,7 +55,7 @@ namespace Oxygen
         if( !_widget ) return;
 
         // get tileSet rect
-        auto hole = _widget->frameGeometry().adjusted(1, 1, -1, -1 );;
+        auto hole = _widget->frameGeometry().adjusted(1, 1, -1, -1 );
         _tileSetRect = _widget->frameGeometry().adjusted( -ShadowSize, -ShadowSize, ShadowSize, ShadowSize );
 
         // get parent MDI area's viewport
