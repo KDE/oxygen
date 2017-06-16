@@ -81,13 +81,13 @@ namespace Oxygen
         private:
 
         //* associated widget
-        QWidget* _widget;
+        QWidget* _widget = nullptr;
 
         //* tileset rect, used for painting
-        QRect _tileSetRect;
+        QRect _shadowTilesRect;
 
         //* tileset used to draw shadow
-        TileSet _tileSet;
+        TileSet _shadowTiles;
 
     };
 
@@ -172,7 +172,7 @@ namespace Oxygen
         QSet<const QObject*> _registeredWidgets;
 
         //* tileset used to draw shadow
-        TileSet _tileSet;
+        TileSet _shadowTiles;
 
     };
 

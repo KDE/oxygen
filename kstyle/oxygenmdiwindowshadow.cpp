@@ -39,10 +39,9 @@ namespace Oxygen
 {
 
     //____________________________________________________________________
-    MdiWindowShadow::MdiWindowShadow( QWidget* parent, TileSet tileSet ):
+    MdiWindowShadow::MdiWindowShadow( QWidget* parent, TileSet shadowTiles ):
         QWidget( parent ),
-        _widget( nullptr ),
-        _tileSet( tileSet )
+        _shadowTiles( shadowTiles )
     {
         setAttribute( Qt::WA_OpaquePaintEvent, false );
         setAttribute( Qt::WA_TransparentForMouseEvents, true );
@@ -56,10 +55,10 @@ namespace Oxygen
 
         // get tileSet rect
         auto hole = _widget->frameGeometry().adjusted(1, 1, -1, -1 );
-        _tileSetRect = _widget->frameGeometry().adjusted( -ShadowSize, -ShadowSize, ShadowSize, ShadowSize );
+        _shadowTilesRect = _widget->frameGeometry().adjusted( -ShadowSize, -ShadowSize, ShadowSize, ShadowSize );
 
         // get parent MDI area's viewport
-        QWidget *parent( parentWidget() );
+        auto parent( parentWidget() );
         if (parent && !qobject_cast<QMdiArea *>(parent) && qobject_cast<QMdiArea*>(parent->parentWidget()))
         { parent = parent->parentWidget(); }
 
@@ -67,18 +66,26 @@ namespace Oxygen
         { parent = qobject_cast<QAbstractScrollArea *>( parent )->viewport(); }
 
         // set geometry
-        QRect geometry( _tileSetRect );
+        QRect geometry( _shadowTilesRect );
         if( parent )
         {
             geometry &= parent->rect();
             hole &= parent->rect();
         }
 
-        setGeometry( geometry );
-        setMask( QRegion( rect() ) - hole.translated( -geometry.topLeft() ) );
+        // update geometry and mask
+        const QRegion mask = QRegion( geometry ) - hole;
+        if( mask.isEmpty() ) hide();
+        else {
+
+            setGeometry( geometry );
+            setMask( mask.translated( -geometry.topLeft() ) );
+            show();
+
+        }
 
         // translate rendering rect
-        _tileSetRect.translate( -geometry.topLeft() );
+        _shadowTilesRect.translate( -geometry.topLeft() );
 
     }
 
@@ -90,12 +97,12 @@ namespace Oxygen
     void MdiWindowShadow::paintEvent( QPaintEvent* event )
     {
 
-        if( !_tileSet.isValid() ) return;
+        if( !_shadowTiles.isValid() ) return;
 
-        QPainter p( this );
-        p.setRenderHints( QPainter::Antialiasing );
-        p.setClipRegion( event->region() );
-        _tileSet.render( _tileSetRect, &p );
+        QPainter painter( this );
+        painter.setRenderHints( QPainter::Antialiasing );
+        painter.setClipRegion( event->region() );
+        _shadowTiles.render( _shadowTilesRect, &painter );
 
     }
 
@@ -110,7 +117,7 @@ namespace Oxygen
         cache.setShadowSize( QPalette::Active, MdiWindowShadow::ShadowSize );
 
         // get tileset
-        _tileSet = cache.tileSet( ShadowCache::Key() );
+        _shadowTiles = cache.tileSet( ShadowCache::Key() );
     }
 
     //____________________________________________________________________________________
@@ -118,7 +125,7 @@ namespace Oxygen
     {
 
         // check widget type
-        QMdiSubWindow* subwindow( qobject_cast<QMdiSubWindow*>( widget ) );
+        auto subwindow( qobject_cast<QMdiSubWindow*>( widget ) );
         if( !subwindow ) return false;
         if( subwindow->widget() && subwindow->widget()->inherits( "KMainWindow" ) ) return false;
 
@@ -127,6 +134,14 @@ namespace Oxygen
 
         // store in set
         _registeredWidgets.insert( widget );
+
+        // create shadow immediatly if widget is already visible
+        if( widget->isVisible() )
+        {
+            installShadow( widget );
+            updateShadowGeometry( widget );
+            updateShadowZOrder( widget );
+        }
 
         widget->installEventFilter( this );
 
@@ -196,7 +211,7 @@ namespace Oxygen
         if( !object->parent() ) return nullptr;
 
         // find existing window shadows
-        const QList<QObject* > children = object->parent()->children();
+        auto children = object->parent()->children();
         foreach( QObject *child, children )
         {
             if( MdiWindowShadow* shadow = qobject_cast<MdiWindowShadow*>(child) )
@@ -212,16 +227,15 @@ namespace Oxygen
     {
 
         // cast
-        QWidget* widget( static_cast<QWidget*>( object ) );
+        auto widget( static_cast<QWidget*>( object ) );
         if( !widget->parentWidget() ) return;
 
         // make sure shadow is not already installed
         if( findShadow( object ) ) return;
 
         // create new shadow
-        MdiWindowShadow* windowShadow( new MdiWindowShadow( widget->parentWidget(), _tileSet ) );
+        auto windowShadow( new MdiWindowShadow( widget->parentWidget(), _shadowTiles ) );
         windowShadow->setWidget( widget );
-        windowShadow->show();
         return;
 
     }
