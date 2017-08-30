@@ -9,7 +9,7 @@ X-KDE-PluginKeyword=kcmodule
 X-KDE-ParentApp=kcontrol
 X-KDE-Weight=60
 
-Name=Window  Decoration
+Name=Oxygen Window Decoration
 Name[ca]=Decoració de les finestres
 Name[ca@valencia]=Decoració de les finestres
 Name[cs]=Dekorace oken
