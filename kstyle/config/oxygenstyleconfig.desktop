@@ -10,6 +10,13 @@ X-KDE-ParentApp=kcontrol
 X-KDE-Weight=50
 
 Name=Oxygen Widget Style
+Name[ca]=Estil dels estris Oxygen
+Name[eu]=Oxygen trepeten estiloa
+Name[nl]=Oxygen widgetstijl
+Name[pt]=Estilo Gráfico Oxygen
+Name[sv]=Oxygen stil för grafiska komponenter
+Name[uk]=Стиль віджетів Oxygen
+Name[x-test]=xxOxygen Widget Stylexx
 Comment=Modify the appearance of widgets
 Comment[ar]=عدّل مظهر الودجات
 Comment[ca]=Modifica l'aparença dels estris

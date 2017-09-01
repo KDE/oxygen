@@ -10,6 +10,13 @@ X-KDE-ParentApp=kcontrol
 X-KDE-Weight=60
 
 Name=Oxygen Window Decoration
+Name[ca]=Decoració de les finestres Oxygen
+Name[eu]=Oxygen leihoen apaindura
+Name[nl]=Oxygen vensterdecoratie
+Name[pt]=Decoração de Janelas Oxygen
+Name[sv]=Oxygen fönsterdekoration
+Name[uk]=Декорації вікон Oxygen
+Name[x-test]=xxOxygen Window Decorationxx
 Comment=Modify the appearance of window decorations
 Comment[ca]=Modifica l'aparença de les decoracions de les finestres
 Comment[ca@valencia]=Modifica l'aparença de les decoracions de les finestres
