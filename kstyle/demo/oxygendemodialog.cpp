@@ -84,12 +84,10 @@ namespace Oxygen
 
 #ifdef HAVE_SCHEME_CHOOSER
         WidgetStyleChooser *styleChooser = new WidgetStyleChooser(this);
-        styleChooser->setFlat( true );
         styleChooser->createStyleSelectionMenu( i18n( "Style" ) );
         buttonBox->addButton( styleChooser, QDialogButtonBox::ResetRole );
 
         ColorSchemeChooser *colChooser = new ColorSchemeChooser( this );
-        colChooser->setFlat( true );
         buttonBox->addButton( colChooser, QDialogButtonBox::ResetRole );
 #endif
 
