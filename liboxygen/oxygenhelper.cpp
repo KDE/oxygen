@@ -25,6 +25,7 @@
 
 #include <KColorUtils>
 #include <KColorScheme>
+#include <KWindowSystem>
 
 #if OXYGEN_USE_KDE4
 #include <KGlobalSettings>
@@ -823,7 +824,7 @@ namespace Oxygen
     {
         #if OXYGEN_HAVE_X11
         #if QT_VERSION >= 0x050000
-        static const bool s_isX11 = QX11Info::isPlatformX11();
+        static const bool s_isX11 = KWindowSystem::isPlatformX11();
         return s_isX11;
         #else
         return true;
@@ -837,7 +838,7 @@ namespace Oxygen
     bool Helper::isWayland( void )
     {
         #if QT_VERSION >= 0x050000
-        static const bool s_isWayland = qApp->platformName().startsWith(QLatin1String("wayland"));
+        static const bool s_isWayland = KWindowSystem::isPlatformWayland();
         return s_isWayland;
         #else
         return false;
