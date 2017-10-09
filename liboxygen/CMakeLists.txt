@@ -58,6 +58,7 @@ else()
           Qt5::Widgets
           KF5::ConfigCore
           KF5::ConfigWidgets
+          KF5::WindowSystem
       PRIVATE
           KF5::GuiAddons
  )
