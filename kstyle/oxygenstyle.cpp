@@ -3267,7 +3267,7 @@ namespace Oxygen
         const QPalette& palette( option->palette );
 
         // make sure there is enough room to render frame
-        if( rect.height() <= 2*Metrics::LineEdit_FrameWidth + option->fontMetrics.height() )
+        if( rect.height() < 2*Metrics::LineEdit_FrameWidth + option->fontMetrics.height() )
         {
 
             const QColor background( palette.color( QPalette::Base ) );
