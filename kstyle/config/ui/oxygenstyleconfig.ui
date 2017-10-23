@@ -195,7 +195,7 @@
           <item>
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>&amp;Tree expander size</string>
+             <string>&amp;Tree expander size:</string>
             </property>
             <property name="buddy">
              <cstring>_viewTriangularExpanderSize</cstring>
