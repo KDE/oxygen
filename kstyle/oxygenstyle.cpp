@@ -4980,8 +4980,8 @@ namespace Oxygen
     {
 
         // cast option and check
-        const QStyleOptionMenuItem* menuOption = qstyleoption_cast<const QStyleOptionMenuItem*>( option );
-        if( !menuOption ) return true;
+        const QStyleOptionMenuItem* menuItemOption = qstyleoption_cast<const QStyleOptionMenuItem*>( option );
+        if( !menuItemOption ) return true;
 
         // copy rect and palette
         const QRect& rect( option->rect );
@@ -4990,6 +4990,9 @@ namespace Oxygen
         // store state
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
+        const bool selected( enabled && (state & State_Selected) );
+        const bool sunken( state & State_Sunken );
+        const bool useStrongFocus = StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG;
 
         if( enabled )
         {
@@ -5049,15 +5052,51 @@ namespace Oxygen
             }
 
         }
+        /*
+        check if item as an icon, in which case only the icon should be rendered
+        consistently with comment in QMenuBarPrivate::calcActionRects
+        */
+        if( !menuItemOption->icon.isNull() )
+        {
 
-        // text role
-        QPalette::ColorRole role( QPalette::WindowText );
-        if( StyleConfigData::menuHighlightMode() == StyleConfigData::MM_STRONG && ( state & State_Sunken ) && enabled )
-        { role = QPalette::HighlightedText; }
+            // icon size is forced to SmallIconSize
+            const auto iconSize = pixelMetric(QStyle::PM_SmallIconSize, nullptr, widget);
+            const auto iconRect = centerRect( rect, iconSize, iconSize );
 
-        // text flags
-        const int textFlags( Qt::AlignCenter|_mnemonics->textFlags() );
-        drawItemText( painter, rect, textFlags, palette, enabled, menuOption->text, role );
+            // decide icon mode and state
+            QIcon::Mode iconMode;
+            QIcon::State iconState;
+            if( !enabled )
+            {
+                iconMode = QIcon::Disabled;
+                iconState = QIcon::Off;
+
+            } else {
+
+                if( useStrongFocus && sunken ) iconMode = QIcon::Selected;
+                else if( selected ) iconMode = QIcon::Active;
+                else iconMode = QIcon::Normal;
+
+                iconState = sunken ? QIcon::On : QIcon::Off;
+
+            }
+
+            const auto pixmap = menuItemOption->icon.pixmap( iconSize, iconMode, iconState );
+            drawItemPixmap( painter, iconRect, Qt::AlignCenter, pixmap );
+
+
+        } else {
+
+            // text role
+            QPalette::ColorRole role( QPalette::WindowText );
+            if( useStrongFocus && sunken && enabled )
+            { role = QPalette::HighlightedText; }
+
+            // text flags
+            const int textFlags( Qt::AlignCenter|_mnemonics->textFlags() );
+            drawItemText( painter, rect, textFlags, palette, enabled, menuItemOption->text, role );
+
+        }
 
         return true;
 
