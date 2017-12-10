@@ -4910,7 +4910,10 @@ namespace Oxygen
 
             const bool leftAlign( widget && widget->property( PropertyNames::toolButtonAlignment ).toInt() == Qt::AlignLeft );
 
-            if( leftAlign ) iconRect = QRect( QPoint( rect.left(), rect.top() + (rect.height() - iconSize.height())/2 ), iconSize );
+            if( leftAlign ) {
+                  const int marginWidth( Metrics::Button_MarginWidth + Metrics::Frame_FrameWidth + 1 );
+                  iconRect = QRect( QPoint( rect.left() + marginWidth, rect.top() + (rect.height() - iconSize.height())/2 ), iconSize );
+            }
             else {
 
                 const int contentsWidth( iconSize.width() + textSize.width() + Metrics::ToolButton_ItemSpacing );
