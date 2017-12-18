@@ -89,10 +89,13 @@
 #include <NETRootInfo>
 #else
 #include <NETWM>
-#include <QQuickItem>
-#include <QQuickWindow>
 #endif
 
+#endif
+
+#if !OXYGEN_USE_KDE4
+#include <QQuickItem>
+#include <QQuickWindow>
 #endif
 
 #if OXYGEN_HAVE_KWAYLAND
