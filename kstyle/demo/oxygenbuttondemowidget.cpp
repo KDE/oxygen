@@ -39,8 +39,8 @@ namespace Oxygen
 
         ui.setupUi( this );
 
-        ui.pushButton_3->setIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
-        ui.pushButton_4->setIcon( QIcon::fromTheme( QStringLiteral( "oxygen") ) );
+        ui.pushButton_3->setIcon( QIcon::fromTheme( QStringLiteral( "im-user" ) ) );
+        ui.pushButton_4->setIcon( QIcon::fromTheme( QStringLiteral( "im-user") ) );
 
         installMenu( ui.pushButton_2 );
         installMenu( ui.pushButton_4 );
@@ -53,21 +53,21 @@ namespace Oxygen
 
         connect( ui.flatButtonCheckBox, SIGNAL(toggled(bool)), SLOT(toggleFlat(bool)) );
 
-        ui.kcombobox_2->addItem( QIcon::fromTheme( QStringLiteral( "oxygen" ) ), i18n( "Normal" ) );
+        ui.kcombobox_2->addItem( QIcon::fromTheme( QStringLiteral( "im-user" ) ), i18n( "Normal" ) );
         ui.kcombobox_2->addItem( QIcon::fromTheme( QStringLiteral( "document-new" ) ), i18n( "New" ) );
         ui.kcombobox_2->addItem( QIcon::fromTheme( QStringLiteral( "document-open" ) ), i18n( "Open" ) );
         ui.kcombobox_2->addItem( QIcon::fromTheme( QStringLiteral( "document-save" ) ), i18n( "Save" ) );
 
-        ui.toolButton_2->setIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
+        ui.toolButton_2->setIcon( QIcon::fromTheme( QStringLiteral( "im-user" ) ) );
         ui.toolButton_2->setIconSize( QSize(16,16 ) );
         ui.toolButton_2->setToolButtonStyle( Qt::ToolButtonTextBesideIcon	);
 
-        ui.toolButton_3->setIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
-        ui.toolButton_4->setIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
-        ui.toolButton_5->setIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
-        ui.toolButton_6->setIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
-        ui.toolButton_7->setIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
-        ui.toolButton_8->setIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
+        ui.toolButton_3->setIcon( QIcon::fromTheme( QStringLiteral( "im-user" ) ) );
+        ui.toolButton_4->setIcon( QIcon::fromTheme( QStringLiteral( "im-user" ) ) );
+        ui.toolButton_5->setIcon( QIcon::fromTheme( QStringLiteral( "im-user" ) ) );
+        ui.toolButton_6->setIcon( QIcon::fromTheme( QStringLiteral( "im-user" ) ) );
+        ui.toolButton_7->setIcon( QIcon::fromTheme( QStringLiteral( "im-user" ) ) );
+        ui.toolButton_8->setIcon( QIcon::fromTheme( QStringLiteral( "im-user" ) ) );
 
         // add toolbar
         ui.toolBarContainer->setLayout( new QVBoxLayout() );
