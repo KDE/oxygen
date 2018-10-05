@@ -453,6 +453,10 @@ namespace Oxygen
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
         if( !( mouseEvent->modifiers() == Qt::NoModifier && mouseEvent->button() == Qt::LeftButton ) )
         { return false; }
+#if !OXYGEN_USE_KDE4
+        if (mouseEvent->source() != Qt::MouseEventNotSynthesized)
+        { return false; }
+#endif
 
         // check lock
         if( isLocked() ) return false;
@@ -508,6 +512,10 @@ namespace Oxygen
     {
 
         Q_UNUSED( object );
+#if !OXYGEN_USE_KDE4
+        if (mouseEvent->source() != Qt::MouseEventNotSynthesized)
+        { return false; }
+#endif
 
         // stop timer
         if( _dragTimer.isActive() ) _dragTimer.stop();
