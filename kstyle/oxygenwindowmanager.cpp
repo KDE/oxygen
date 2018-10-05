@@ -512,6 +512,8 @@ namespace Oxygen
     {
 
         Q_UNUSED( object );
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
+
 #if !OXYGEN_USE_KDE4
         if (mouseEvent->source() != Qt::MouseEventNotSynthesized)
         { return false; }
@@ -521,7 +523,6 @@ namespace Oxygen
         if( _dragTimer.isActive() ) _dragTimer.stop();
 
         // cast event and check drag distance
-        QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
         if( !_dragInProgress )
         {
 
