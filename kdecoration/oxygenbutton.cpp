@@ -113,10 +113,13 @@ namespace Oxygen
 
     //_______________________________________________
     Button::Button(QObject *parent, const QVariantList &args)
-        : KDecoration2::DecorationButton(args.at(0).value<KDecoration2::DecorationButtonType>(), args.at(1).value<Decoration*>(), parent)
-        , m_flag(FlagStandalone)
-        , m_animation( new QPropertyAnimation( this ) )
-    {}
+        : Button(args.at(0).value<KDecoration2::DecorationButtonType>(), args.at(1).value<Decoration*>(), parent)
+    {
+        m_flag = FlagStandalone;
+        //! icon size must return to !valid because it was altered from the default constructor,
+        //! in Standalone mode the button is not using the decoration metrics but its geometry
+        m_iconSize = QSize(-1, -1);
+    }
 
     //_______________________________________________
     QColor Button::foregroundColor(const QPalette &palette) const
