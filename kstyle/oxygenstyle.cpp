@@ -3251,7 +3251,7 @@ namespace Oxygen
         } else if( state & State_Raised ) {
 
             const QRect local( rect );
-            renderSlab( painter, rect, palette.color( QPalette::Background ), NoFill );
+            renderSlab( painter, rect, palette.color( QPalette::Window ), NoFill );
 
         }
 
@@ -4565,8 +4565,8 @@ namespace Oxygen
             const int center( rect.left()+ rect.width()/2 );
             for( int j = rect.top()+2; j <= rect.bottom()-3; j+=3, ++counter )
             {
-                if( counter%2 == 0 ) _helper->renderDot( painter, QPoint( center+1, j ), palette.color( QPalette::Background ) );
-                else _helper->renderDot( painter, QPoint( center-2, j ), palette.color( QPalette::Background ) );
+                if( counter%2 == 0 ) _helper->renderDot( painter, QPoint( center+1, j ), palette.color( QPalette::Window ) );
+                else _helper->renderDot( painter, QPoint( center-2, j ), palette.color( QPalette::Window ) );
             }
 
         } else {
@@ -4574,8 +4574,8 @@ namespace Oxygen
             const int center( rect.top()+ rect.height()/2 );
             for( int j = rect.left()+2; j <= rect.right()-3; j+=3, ++counter )
             {
-                if( counter%2 == 0 ) _helper->renderDot( painter, QPoint( j, center+1 ), palette.color( QPalette::Background ) );
-                else _helper->renderDot( painter, QPoint( j, center-2 ), palette.color( QPalette::Background ) );
+                if( counter%2 == 0 ) _helper->renderDot( painter, QPoint( j, center+1 ), palette.color( QPalette::Window ) );
+                else _helper->renderDot( painter, QPoint( j, center-2 ), palette.color( QPalette::Window ) );
             }
         }
 
@@ -4681,7 +4681,7 @@ namespace Oxygen
         if( !StyleConfigData::viewDrawTreeBranchLines() ) return true;
 
         const QPoint center( rect.center() );
-        const QColor lineColor( KColorUtils::mix( palette.color( QPalette::Text ), palette.color( QPalette::Background ), 0.8 ) );
+        const QColor lineColor( KColorUtils::mix( palette.color( QPalette::Text ), palette.color( QPalette::Window ), 0.8 ) );
         painter->setRenderHint( QPainter::Antialiasing, false );
         painter->setPen( lineColor );
         if( state & ( State_Item | State_Children | State_Sibling ) )
@@ -7142,7 +7142,7 @@ namespace Oxygen
 
                 }
 
-                background = palette.color( QPalette::Background );
+                background = palette.color( QPalette::Window );
 
                 if( enabled ) drawContrast = false;
 
@@ -7754,7 +7754,7 @@ namespace Oxygen
         }
 
         const qreal penThickness = 1.6;
-        const QColor background = palette.color( QPalette::Background );
+        const QColor background = palette.color( QPalette::Window );
 
         const QPolygonF arrow( genericArrow( ( subControl == SC_SpinBoxUp ) ? ArrowUp:ArrowDown, ArrowNormal ) );
         const QRect arrowRect( subControlRect( CC_SpinBox, option, subControl, widget ) );
@@ -7813,7 +7813,7 @@ namespace Oxygen
         }
 
         // get base color
-        const QColor color = palette.color( QPalette::Background );
+        const QColor color = palette.color( QPalette::Window );
 
         if( horizontal )
         {

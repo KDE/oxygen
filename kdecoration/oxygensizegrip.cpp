@@ -139,7 +139,7 @@ namespace Oxygen
         if( !m_decoration ) return;
 
         // get relevant colors
-        const QColor backgroundColor( m_decoration->client().data()->palette().color(QPalette::Background) );
+        const QColor backgroundColor( m_decoration->client().data()->palette().color(QPalette::Window) );
 
         // create and configure painter
         QPainter painter(this);

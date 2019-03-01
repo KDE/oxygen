@@ -44,7 +44,7 @@ namespace Oxygen
     {
 
         ui->setupUi( this );
-        layout()->setMargin(0);
+        layout()->setContentsMargins(0, 0, 0, 0);
 
         ui->configurationButton->setIcon( QIcon::fromTheme( QStringLiteral("configure") ) );
         ui->descriptionButton->setIcon( QIcon::fromTheme( QStringLiteral( "dialog-information") ) );
