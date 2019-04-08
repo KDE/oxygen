@@ -36,7 +36,7 @@ if(OXYGEN_USE_KDE4)
       # when using MSVC if _USE_MATH_DEFINES is defined (this is needed for angle.cpp)
       target_compile_definitions(oxygenstyle PRIVATE _USE_MATH_DEFINES _GNU_SOURCE)
   endif()
-  install(TARGETS oxygenstyle ${INSTALL_TARGETS_DEFAULT_ARGS})
+  install(TARGETS oxygenstyle ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 else()
 
@@ -75,7 +75,7 @@ else()
       # when using MSVC if _USE_MATH_DEFINES is defined (this is needed for angle.cpp)
       target_compile_definitions(oxygenstyle5 PRIVATE _USE_MATH_DEFINES _GNU_SOURCE)
   endif()
-  install(TARGETS oxygenstyle5 ${INSTALL_TARGETS_DEFAULT_ARGS})
+  install(TARGETS oxygenstyle5 ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 endif()
 
@@ -111,7 +111,7 @@ if(OXYGEN_USE_KDE4)
   target_link_libraries(oxygenstyleconfig ${KDE4_KDEUI_LIBS})
 
   set_target_properties(oxygenstyleconfig PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
-  install(TARGETS oxygenstyleconfig ${INSTALL_TARGETS_DEFAULT_ARGS})
+  install(TARGETS oxygenstyleconfig ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
   # NB: although we install no headers, we still need to have a link
   #     interface, since other Oxygen targets link to this library
@@ -145,7 +145,7 @@ else()
  )
 
   set_target_properties(oxygenstyleconfig5 PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
-  install(TARGETS oxygenstyleconfig5 ${INSTALL_TARGETS_DEFAULT_ARGS})
+  install(TARGETS oxygenstyleconfig5 ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
   # Note: no headers installed
 
 endif()
