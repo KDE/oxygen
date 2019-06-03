@@ -37,13 +37,6 @@
 namespace Oxygen
 {
 
-    class ButtonDemoWidget;
-    class FrameDemoWidget;
-    class InputDemoWidget;
-    class ListDemoWidget;
-    class MdiDemoWidget;
-    class SliderDemoWidget;
-    class TabDemoWidget;
     class DemoDialog: public QDialog, Ui::OxygenDemoDialog
     {
         Q_OBJECT

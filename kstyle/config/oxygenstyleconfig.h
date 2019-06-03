@@ -31,7 +31,6 @@ DEALINGS IN THE SOFTWARE.
 
 namespace Oxygen
 {
-    class AnimationConfigWidget;
 
     class StyleConfig: public QWidget, Ui::OxygenStyleConfig
     {
