@@ -30,12 +30,13 @@
 #include "oxygenshadowcache.h"
 #include "oxygenstylehelper.h"
 
+#include <QApplication>
 #include <QDockWidget>
+#include <QEvent>
 #include <QMenu>
 #include <QPainter>
 #include <QToolBar>
 #include <QTextStream>
-#include <QEvent>
 
 #if OXYGEN_HAVE_X11
 #include <QX11Info>
@@ -494,7 +495,11 @@ namespace Oxygen
     {
         // const qreal devicePixelRatio( _helper.devicePixelRatio( isDockWidget ?
         // _dockTiles.pixmap( 0 ):_tiles.pixmap( 0 ) ) );
+        #if QT_VERSION >= 0x050300
+        const qreal devicePixelRatio( qApp->devicePixelRatio() );
+        #else
         const qreal devicePixelRatio( 1.0 );
+        #endif
 
         // add padding
         /*
