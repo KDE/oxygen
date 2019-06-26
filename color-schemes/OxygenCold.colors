@@ -101,6 +101,13 @@ ForegroundVisited=150,111,232
 
 [General]
 Name=Oxygen Cold
+Name[ca]=Oxygen Cold
+Name[es]=Oxígeno frío
+Name[nl]=Oxygen Cold
+Name[sv]=Oxygen kall
+Name[uk]=Холодна Oxygen
+Name[x-test]=xxOxygen Coldxx
+Name[zh_TW]=Oxygen 冷色調
 
 [WM]
 activeBackground=96,148,207
