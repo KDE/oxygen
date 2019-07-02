@@ -37,8 +37,8 @@
 namespace Oxygen
 {
 
-    //! data map
-    /*! it maps templatized data object to associated object */
+    //* data map
+    /** it maps templatized data object to associated object */
     template< typename K, typename T > class BaseDataMap: public QMap< const K*, WeakPointer<T> >
     {
 
@@ -47,25 +47,24 @@ namespace Oxygen
         using Key = const K*;
         using Value = WeakPointer<T>;
 
-        //! constructor
+        //* constructor
         BaseDataMap( void ):
             QMap<Key, Value>(),
             _enabled( true ),
             _lastKey( NULL )
         {}
 
-        //! destructor
-        virtual ~BaseDataMap( void )
-        {}
+        //* destructor
+        virtual ~BaseDataMap( void ) = default;
 
-        //! insertion
-        virtual typename QMap< Key, Value >::iterator insert( const Key& key, const Value& value, bool enabled = true )
+        //* insertion
+        typename QMap< Key, Value >::iterator insert( const Key& key, const Value& value, bool enabled = true )
         {
             if( value ) value.data()->setEnabled( enabled );
             return QMap< Key, Value >::insert( key, value );
         }
 
-        //! find value
+        //* find value
         Value find( Key key )
         {
             if( !( enabled() && key ) ) return Value();
@@ -80,7 +79,7 @@ namespace Oxygen
             }
         }
 
-        //! unregister widget
+        //* unregister widget
         bool unregisterWidget( Key key )
         {
 
@@ -108,7 +107,7 @@ namespace Oxygen
 
         }
 
-        //! maxFrame
+        //* maxFrame
         void setEnabled( bool enabled )
         {
             _enabled = enabled;
@@ -116,11 +115,11 @@ namespace Oxygen
             { if( value ) value.data()->setEnabled( enabled ); }
         }
 
-        //! enability
+        //* enability
         bool enabled( void ) const
         { return _enabled; }
 
-        //! duration
+        //* duration
         void setDuration( int duration ) const
         {
             foreach( const Value& value, *this )
@@ -129,44 +128,44 @@ namespace Oxygen
 
         private:
 
-        //! enability
+        //* enability
         bool _enabled;
 
-        //! last key
+        //* last key
         Key _lastKey;
 
-        //! last value
+        //* last value
         Value _lastValue;
 
     };
 
-    //! standard data map, using QObject as a key
+    //* standard data map, using QObject as a key
     template< typename T > class DataMap: public BaseDataMap< QObject, T >
     {
 
         public:
 
-        //! constructor
+        //* constructor
         DataMap( void )
         {}
 
-        //! destructor
+        //* destructor
         virtual ~DataMap( void )
         {}
 
     };
 
-    //! QPaintDevice based dataMap
+    //* QPaintDevice based dataMap
     template< typename T > class PaintDeviceDataMap: public BaseDataMap< QPaintDevice, T >
     {
 
         public:
 
-        //! constructor
+        //* constructor
         PaintDeviceDataMap( void )
         {}
 
-        //! destructor
+        //* destructor
         virtual ~PaintDeviceDataMap( void )
         {}
 

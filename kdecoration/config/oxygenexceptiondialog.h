@@ -47,10 +47,6 @@ namespace Oxygen
         //* constructor
         explicit ExceptionDialog( QWidget* parent );
 
-        //* destructor
-        virtual ~ExceptionDialog( void )
-        {}
-
         //* set exception
         void setException( InternalSettingsPtr );
 
@@ -58,7 +54,7 @@ namespace Oxygen
         void save( void );
 
         //* true if changed
-        virtual bool isChanged( void ) const
+        bool isChanged( void ) const
         { return m_changed; }
 
         Q_SIGNALS:
@@ -69,18 +65,16 @@ namespace Oxygen
         protected:
 
         //* set changed state
-        virtual void setChanged( bool value )
+        void setChanged( bool value )
         {
             m_changed = value;
             emit changed( value );
         }
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
         //* check whether configuration is changed and emit appropriate signal if yes
-        virtual void updateChanged();
-
-        private Q_SLOTS:
+        void updateChanged();
 
         //* select window properties from grabbed pointers
         void selectWindowProperties( void );

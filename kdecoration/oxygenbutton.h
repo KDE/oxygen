@@ -48,14 +48,11 @@ namespace Oxygen
         //* constructor
         explicit Button(QObject *parent, const QVariantList &args);
 
-        //* destructor
-        virtual ~Button() = default;
-
         //* button creation
         static Button *create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
 
         //* render
-        virtual void paint(QPainter *painter, const QRect &repaintRegion) override;
+        void paint(QPainter *painter, const QRect &repaintRegion) override;
 
         //* flag
         enum Flag
@@ -129,19 +126,19 @@ namespace Oxygen
         //*@name button properties
         //@{
 
-        //! true if button if of menu type
+        //* true if button if of menu type
         bool isMenuButton( void ) const
         { return type() == KDecoration2::DecorationButtonType::Menu || type() == KDecoration2::DecorationButtonType::ApplicationMenu; }
 
-        //! true if button is of toggle type
+        //* true if button is of toggle type
         bool isToggleButton( void ) const
         { return type() == KDecoration2::DecorationButtonType::OnAllDesktops || type() == KDecoration2::DecorationButtonType::KeepAbove || type() == KDecoration2::DecorationButtonType::KeepBelow; }
 
-        //! true if button if of close type
+        //* true if button if of close type
         bool isCloseButton( void ) const
         { return type() == KDecoration2::DecorationButtonType::Close; }
 
-        //! true if button has decoration
+        //* true if button has decoration
         bool hasDecoration( void ) const
         { return !isMenuButton();}
 

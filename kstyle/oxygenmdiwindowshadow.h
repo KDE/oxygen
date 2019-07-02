@@ -76,7 +76,7 @@ namespace Oxygen
         protected:
 
         //* painting
-        void paintEvent(QPaintEvent *) ;
+        void paintEvent(QPaintEvent *) override;
 
         private:
 
@@ -102,10 +102,6 @@ namespace Oxygen
         //* constructor
         MdiWindowShadowFactory( QObject*, StyleHelper& );
 
-        //* destructor
-        virtual ~MdiWindowShadowFactory( void )
-        {}
-
         //* register widget
         bool registerWidget( QWidget* );
 
@@ -117,9 +113,14 @@ namespace Oxygen
         { return _registeredWidgets.contains( widget ); }
 
         //* event filter
-        bool eventFilter( QObject*, QEvent*) ;
+        bool eventFilter( QObject*, QEvent*) override;
 
-        protected:
+        private Q_SLOTS:
+
+        //* triggered by object destruction
+        void widgetDestroyed( QObject* );
+
+        private:
 
         //* find shadow matching a given object
         MdiWindowShadow* findShadow( QObject* ) const;
@@ -160,13 +161,6 @@ namespace Oxygen
             if( MdiWindowShadow* windowShadow = findShadow( object ) )
             { windowShadow->update(); }
         }
-
-        protected Q_SLOTS:
-
-        //* triggered by object destruction
-        void widgetDestroyed( QObject* );
-
-        private:
 
         //* set of registered widgets
         QSet<const QObject*> _registeredWidgets;

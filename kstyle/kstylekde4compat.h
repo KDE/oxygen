@@ -36,9 +36,11 @@ class KStyleKDE4Compat : public QCommonStyle
 
     public:
 
+    //* constructor
     KStyleKDE4Compat();
-    ~KStyleKDE4Compat();
-    virtual int styleHint(StyleHint hint, const QStyleOption *opt, const QWidget *w, QStyleHintReturn *returnData) const;
+
+    //* style hint
+    int styleHint(StyleHint hint, const QStyleOption *opt, const QWidget *w, QStyleHintReturn *returnData) const override;
 
     protected:
 
@@ -49,9 +51,9 @@ class KStyleKDE4Compat : public QCommonStyle
     private:
 
     QHash<QString, int> styleElements;
-    int hintCounter;
-    int controlCounter;
-    int subElementCounter;
+    int hintCounter = 0;
+    int controlCounter = 0;
+    int subElementCounter = 0;
 
 };
 

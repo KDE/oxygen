@@ -57,7 +57,7 @@ namespace Oxygen
         explicit Decoration(QObject *parent = nullptr, const QVariantList &args = QVariantList());
 
         //* destructor
-        virtual ~Decoration();
+        ~Decoration() override;
 
         //* paint
         void paint(QPainter *painter, const QRect &repaintRegion) override;

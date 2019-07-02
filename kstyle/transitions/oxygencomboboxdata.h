@@ -38,7 +38,7 @@
 namespace Oxygen
 {
 
-    //! generic data
+    //* generic data
     class ComboBoxData: public TransitionData
     {
 
@@ -46,46 +46,44 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         ComboBoxData( QObject*, QComboBox*, int );
 
-        //! destructor
-        virtual ~ComboBoxData( void )
-        {}
-
-        //! event filter
-        bool eventFilter( QObject*, QEvent* ) ;
+        //* event filter
+        bool eventFilter( QObject*, QEvent* ) override;
 
         protected:
 
-        //! timer event
-        void timerEvent( QTimerEvent* ) ;
-
-        //! target rect
-        /*! return rect corresponding to the area to be updated when animating */
-        QRect targetRect( void ) const
-        { return _target ? _target.data()->rect().adjusted( 5, 5, -5, -5 ):QRect(); }
+        //* timer event
+        void timerEvent( QTimerEvent* ) override;
 
         protected Q_SLOTS:
 
-        //! triggered when item is activated in combobox
-        virtual void  indexChanged( void );
+        //* initialize animation
+        bool initializeAnimation( void ) override;
 
-        //! initialize animation
-        bool initializeAnimation( void ) ;
+        //* animate
+        bool animate( void ) override;
 
-        //! animate
-        bool animate( void ) ;
+        private Q_SLOTS:
 
-        //! called when target is destroyed
-        virtual void targetDestroyed( void );
+        //* triggered when item is activated in combobox
+        void  indexChanged( void );
+
+        //* called when target is destroyed
+        void targetDestroyed( void );
 
         private:
 
-        //! needed to start animations out of parent paintEvent
+        //* target rect
+        /** return rect corresponding to the area to be updated when animating */
+        QRect targetRect( void ) const
+        { return _target ? _target.data()->rect().adjusted( 5, 5, -5, -5 ):QRect(); }
+
+        //* needed to start animations out of parent paintEvent
         QBasicTimer _timer;
 
-        //! target
+        //* target
         WeakPointer<QComboBox> _target;
 
     };

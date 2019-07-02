@@ -41,7 +41,7 @@ namespace Oxygen
         public:
 
         //* constructor
-        explicit ExceptionListWidget( QWidget* = 0 );
+        explicit ExceptionListWidget( QWidget* = nullptr );
 
         //* set exceptions
         void setExceptions( const InternalSettingsList& );
@@ -50,7 +50,7 @@ namespace Oxygen
         InternalSettingsList exceptions( void );
 
         //* true if changed
-        virtual bool isChanged( void ) const
+        bool isChanged( void ) const
         { return m_changed; }
 
         Q_SIGNALS:
@@ -58,40 +58,30 @@ namespace Oxygen
         //* emitted when changed
         void changed( bool );
 
-        protected:
-
-        //* model
-        const ExceptionModel& model() const
-        { return m_model; }
-
-        //* model
-        ExceptionModel& model()
-        { return m_model; }
-
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
         //* update button states
-        virtual void updateButtons( void );
+        void updateButtons( void );
 
         //* add
-        virtual void add( void );
+        void add( void );
 
         //* edit
-        virtual void edit( void );
+        void edit( void );
 
         //* remove
-        virtual void remove( void );
+        void remove( void );
 
         //* toggle
-        virtual void toggle( const QModelIndex& );
+        void toggle( const QModelIndex& );
 
         //* move up
-        virtual void up( void );
+        void up( void );
 
         //* move down
-        virtual void down( void );
+        void down( void );
 
-        protected:
+        private:
 
         //* resize columns
         void resizeColumns( void ) const;
@@ -106,7 +96,13 @@ namespace Oxygen
             emit changed( value );
         }
 
-        private:
+        //* model
+        const ExceptionModel& model() const
+        { return m_model; }
+
+        //* model
+        ExceptionModel& model()
+        { return m_model; }
 
         //* model
         ExceptionModel m_model;

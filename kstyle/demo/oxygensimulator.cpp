@@ -65,10 +65,6 @@ namespace Oxygen
     int Simulator::_defaultDelay = 250;
 
     //_______________________________________________________________________
-    Simulator::~Simulator( void )
-    {}
-
-    //_______________________________________________________________________
     void Simulator::wait( int delay )
     { _events.append( Event( Event::Wait, 0, delay ) ); }
 

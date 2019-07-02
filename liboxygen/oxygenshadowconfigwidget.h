@@ -37,7 +37,7 @@ class Ui_ShadowConfiguraionUI;
 namespace Oxygen
 {
 
-    //! shadow configuration widget
+    //* shadow configuration widget
     class OXYGEN_CONFIG_EXPORT ShadowConfigWidget: public QGroupBox
     {
 
@@ -45,63 +45,61 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit ShadowConfigWidget( QWidget* );
 
-        //! destructor
-        virtual ~ShadowConfigWidget( void );
+        //* destructor
+        ~ShadowConfigWidget( void ) override;
 
-        //! group
+        //* group
         void setGroup( QPalette::ColorGroup group )
         { _group = group; }
 
-        //! read defaults
+        //* read defaults
         void setDefaults( void )
         { load(true ); }
 
-        //! read config
+        //* read config
         void load( void )
         { load( false ); }
 
-        //! write config
+        //* write config
         void save( void ) const;
 
-        //! true if modified
+        //* true if modified
         bool isChanged( void ) const
         { return _changed; }
 
         Q_SIGNALS:
 
-        //! emmitted when configuration is changed
+        //* emmitted when configuration is changed
         void changed( bool );
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
-        //! update changed state
-        virtual void updateChanged();
+        //* update changed state
+        void updateChanged();
 
-        protected:
+        private:
 
-        //! read config
+        //* read config
         void load( bool );
 
-        //! set changed state
-        virtual void setChanged( bool value )
+        //* set changed state
+        void setChanged( bool value )
         {
             _changed = value;
             emit changed( value );
         }
 
-        private:
+        //* ui
+        Ui_ShadowConfiguraionUI* ui = nullptr;
 
-        //! ui
-        Ui_ShadowConfiguraionUI* ui;
+        //* color group
+        QPalette::ColorGroup _group = QPalette::Inactive;
 
-        //! color group
-        QPalette::ColorGroup _group;
-
-        //! changed state
-        bool _changed;
+        //* changed state
+        bool _changed = false;
 
     };
 

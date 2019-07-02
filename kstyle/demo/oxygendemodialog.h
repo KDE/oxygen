@@ -51,42 +51,42 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit DemoDialog( QWidget* parent = nullptr );
 
         Q_SIGNALS:
 
-        //! emitted when dialog is closed
+        //* emitted when dialog is closed
         void abortSimulations( void );
 
         protected:
 
-        //! close event
+        //* close event
         void closeEvent( QCloseEvent* ) override;
 
-        //! hide event
+        //* hide event
         void hideEvent( QHideEvent* ) override;
 
         private Q_SLOTS:
 
-        //! update window title when page is changed
+        //* update window title when page is changed
         void updateWindowTitle( KPageWidgetItem* );
 
-        //! update page enability
+        //* update page enability
         void updateEnableState( KPageWidgetItem* );
 
-        //! toggle enable state
+        //* toggle enable state
         void toggleEnable( bool );
 
-        //! toggle RightToLeft
+        //* toggle RightToLeft
         void toggleRightToLeft( bool );
 
         private:
 
-        //! enable state checkbox
+        //* enable state checkbox
         QCheckBox* _enableCheckBox = nullptr;
 
-        //! reverse layout checkbox
+        //* reverse layout checkbox
         QCheckBox* _rightToLeftCheckBox = nullptr;
 
     };

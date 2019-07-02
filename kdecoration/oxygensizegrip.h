@@ -46,10 +46,20 @@ namespace Oxygen
         //* constructor
         explicit SizeGrip( Decoration* );
 
-        //* constructor
-        virtual ~SizeGrip( void );
+        protected:
 
-        protected Q_SLOTS:
+        //*@name event handlers
+        //@{
+
+        //* paint
+        void paintEvent( QPaintEvent* ) override;
+
+        //* mouse press
+        void mousePressEvent( QMouseEvent* ) override;
+
+        //@}
+
+        private Q_SLOTS:
 
         //* update background color
         void updateActiveState( void );
@@ -59,19 +69,6 @@ namespace Oxygen
 
         //* embed into parent widget
         void embed( void );
-
-        protected:
-
-        //*@name event handlers
-        //@{
-
-        //* paint
-        virtual void paintEvent( QPaintEvent* ) override;
-
-        //* mouse press
-        virtual void mousePressEvent( QMouseEvent* ) override;
-
-        //@}
 
         private:
 

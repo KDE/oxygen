@@ -42,21 +42,17 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit ListDemoWidget( QWidget* = 0 );
-
-        //! destructor
-        virtual ~ListDemoWidget( void )
-        {}
 
         public Q_SLOTS:
 
-        //! benchmark
+        //* benchmark
         void benchmark( void );
 
         private:
 
-        //! ui
+        //* ui
         Ui_ListDemoWidget ui;
 
     };

@@ -42,12 +42,8 @@ namespace Oxygen
         //* constructor
         TabBarData( QObject* parent, QWidget* target, int duration );
 
-        //* destructor
-        virtual ~TabBarData( void )
-        {}
-
         //* duration
-        void setDuration( int duration )
+        void setDuration( int duration ) override
         {
             currentIndexAnimation().data()->setDuration( duration );
             previousIndexAnimation().data()->setDuration( duration );
@@ -60,11 +56,11 @@ namespace Oxygen
         //@{
 
         //* current opacity
-        virtual qreal currentOpacity( void ) const
+        qreal currentOpacity( void ) const
         { return _current._opacity; }
 
         //* current opacity
-        virtual void setCurrentOpacity( qreal value )
+        void setCurrentOpacity( qreal value )
         {
             if( _current._opacity == value ) return;
             _current._opacity = value;
@@ -72,15 +68,15 @@ namespace Oxygen
         }
 
         //* current index
-        virtual int currentIndex( void ) const
+        int currentIndex( void ) const
         { return _current._index; }
 
         //* current index
-        virtual void setCurrentIndex( int index )
+        void setCurrentIndex( int index )
         { _current._index = index; }
 
         //* current index animation
-        virtual const Animation::Pointer& currentIndexAnimation( void ) const
+        const Animation::Pointer& currentIndexAnimation( void ) const
         { return _current._animation; }
 
         //@}
@@ -89,11 +85,11 @@ namespace Oxygen
         //@{
 
         //* previous opacity
-        virtual qreal previousOpacity( void ) const
+        qreal previousOpacity( void ) const
         { return _previous._opacity; }
 
         //* previous opacity
-        virtual void setPreviousOpacity( qreal value )
+        void setPreviousOpacity( qreal value )
         {
             if( _previous._opacity == value ) return;
             _previous._opacity = value;
@@ -101,24 +97,24 @@ namespace Oxygen
         }
 
         //* previous index
-        virtual int previousIndex( void ) const
+        int previousIndex( void ) const
         { return _previous._index; }
 
         //* previous index
-        virtual void setPreviousIndex( int index )
+        void setPreviousIndex( int index )
         { _previous._index = index; }
 
         //* previous index Animation
-        virtual const Animation::Pointer& previousIndexAnimation( void ) const
+        const Animation::Pointer& previousIndexAnimation( void ) const
         { return _previous._animation; }
 
         //@}
 
         //* return Animation associated to action at given position, if any
-        virtual Animation::Pointer animation( const QPoint& position ) const;
+        Animation::Pointer animation( const QPoint& position ) const;
 
         //* return opacity associated to action at given position, if any
-        virtual qreal opacity( const QPoint& position ) const;
+        qreal opacity( const QPoint& position ) const;
 
         private:
 

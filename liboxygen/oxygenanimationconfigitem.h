@@ -44,61 +44,61 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit AnimationConfigItem( QWidget* parent, const QString& title = QString(), const QString& description = QString() );
 
-        //! destructor
-        virtual ~AnimationConfigItem( void );
+        //* destructor
+        ~AnimationConfigItem( void ) override;
 
-        //! title
-        virtual void setTitle( const QString& );
+        //* title
+        void setTitle( const QString& );
 
-        //! title
-        virtual QString title( void ) const;
+        //* title
+        QString title( void ) const;
 
-        //! description
-        virtual void setDescription( const QString& );
+        //* description
+        void setDescription( const QString& );
 
-        //! description
-        virtual const QString& description( void ) const
+        //* description
+        const QString& description( void ) const
         { return _description; }
 
-        //! enability
-        virtual void setEnabled( const bool& );
+        //* enability
+        void setEnabled( const bool& );
 
-        //! enability
-        virtual bool enabled( void ) const;
+        //* enability
+        bool enabled( void ) const;
 
-        //! config widget
+        //* config widget
         virtual QWidget* configurationWidget( void ) const = 0;
 
-        //! initialize config widget
+        //* initialize config widget
         virtual void initializeConfigurationWidget( QWidget* ) = 0;
 
-        //! configuration button
+        //* configuration button
         QAbstractButton* configurationButton( void ) const;
 
         Q_SIGNALS:
 
-        //! emmited when changed
+        //* emmited when changed
         void changed( void );
 
         protected Q_SLOTS:
 
-        //! about info
+        //* about info
         virtual void about( void );
 
         protected:
 
-        //! set configuration widget
+        //* set configuration widget
         virtual void setConfigurationWidget( QWidget* widget );
 
         private:
 
-        //! description
+        //* description
         QString _description;
 
-        //! ui
+        //* ui
         Ui_AnimationConfigItem* ui;
 
     };

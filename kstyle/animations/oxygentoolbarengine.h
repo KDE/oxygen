@@ -34,7 +34,7 @@
 namespace Oxygen
 {
 
-    //! follow-mouse toolbar animation
+    //* follow-mouse toolbar animation
     class ToolBarEngine: public BaseEngine
     {
 
@@ -42,61 +42,57 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit ToolBarEngine( QObject* parent ):
             BaseEngine( parent ),
             _followMouseDuration( 150 )
         {}
 
-        //! destructor
-        virtual ~ToolBarEngine( void )
-        {}
+        //* register toolbar
+        void registerWidget( QWidget* );
 
-        //! register toolbar
-        virtual void registerWidget( QWidget* );
+        //* returns registered widgets
+        WidgetList registeredWidgets( void ) const override;
 
-        //! returns registered widgets
-        WidgetList registeredWidgets( void ) const ;
+        //* return true if object is animated
+        bool isAnimated( const QObject* );
 
-        //! return true if object is animated
-        virtual bool isAnimated( const QObject* );
+        //* return true if object is animated
+        bool isFollowMouseAnimated( const QObject* );
 
-        //! return true if object is animated
-        virtual bool isFollowMouseAnimated( const QObject* );
-
-        //! animation opacity
-        virtual qreal opacity( const QObject* object )
+        //* animation opacity
+        qreal opacity( const QObject* object )
         { return isAnimated( object ) ? _data.find( object ).data()->opacity(): AnimationData::OpacityInvalid; }
 
-        //! return 'hover' rect position when widget is animated
-        virtual QRect currentRect( const QObject* );
+        //* return 'hover' rect position when widget is animated
+        QRect currentRect( const QObject* );
 
-        //! return 'hover' rect position when widget is animated
-        virtual QRect animatedRect( const QObject* );
+        //* return 'hover' rect position when widget is animated
+        QRect animatedRect( const QObject* );
 
-        //! timer
-        virtual bool isTimerActive( const QObject* );
+        //* timer
+        bool isTimerActive( const QObject* );
 
-        //! enability
-        void setEnabled( bool value )
+        //* enable state
+        void setEnabled( bool value ) override
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
-        //! duration
-        void setDuration( int value )
+        //* duration
+        void setDuration( int value ) override
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
         }
 
-        //! duration
-        virtual int followMouseDuration( void ) const
+        //* duration
+        int followMouseDuration( void ) const
         { return _followMouseDuration; }
 
-        //! duration
-        virtual void setFollowMouseDuration( int duration )
+        //* duration
+        void setFollowMouseDuration( int duration )
         {
             _followMouseDuration = duration;
             foreach( const DataMap<ToolBarData>::Value& value, _data )
@@ -105,16 +101,16 @@ namespace Oxygen
 
         protected Q_SLOTS:
 
-        //! remove widget from map
-        bool unregisterWidget( QObject* object )
+        //* remove widget from map
+        bool unregisterWidget( QObject* object ) override
         { return _data.unregisterWidget( object ); }
 
         private:
 
-        //! follow mouse animation duration
-        int _followMouseDuration;
+        //* follow mouse animation duration
+        int _followMouseDuration = -1;
 
-        //! data map
+        //* data map
         DataMap<ToolBarData> _data;
 
     };

@@ -42,12 +42,8 @@ namespace Oxygen
 
         public:
 
-        //! constructor
-        explicit MdiDemoWidget( QWidget* = 0 );
-
-        //! destructor
-        virtual ~MdiDemoWidget( void )
-        {}
+        //* constructor
+        explicit MdiDemoWidget( QWidget* = nullptr );
 
         public Q_SLOTS:
 

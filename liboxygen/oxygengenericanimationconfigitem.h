@@ -46,22 +46,22 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit GenericAnimationConfigBox(QWidget*);
 
-        //! destructor
-        virtual ~GenericAnimationConfigBox( void );
+        //* destructor
+        virtual ~GenericAnimationConfigBox();
 
-        //! duration spin box
+        //* duration spin box
         QSpinBox* durationSpinBox( void ) const;
 
         private:
 
-        Ui_GenericAnimationConfigBox* ui;
+        Ui_GenericAnimationConfigBox* ui = nullptr;
 
     };
 
-    //! generic animation config item
+    //* generic animation config item
     class OXYGEN_CONFIG_EXPORT GenericAnimationConfigItem: public AnimationConfigItem
     {
 
@@ -69,28 +69,25 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit GenericAnimationConfigItem( QWidget* parent, const QString& title = QString(), const QString& description = QString() ):
             AnimationConfigItem( parent, title, description )
         {}
 
-        //! configure
-        void initializeConfigurationWidget( QWidget* ) ;
+        //* configure
+        void initializeConfigurationWidget( QWidget* ) override;
 
-        //! configuration widget
-        QWidget* configurationWidget( void ) const
-        {
-            Q_CHECK_PTR( _configurationWidget );
-            return _configurationWidget.data();
-        }
+        //* configuration widget
+        QWidget* configurationWidget( void ) const override
+        { return _configurationWidget.data(); }
 
-        //! duration
+        //* duration
         virtual int duration( void ) const
-        { return (_configurationWidget) ? _configurationWidget.data()->durationSpinBox()->value():0; }
+        { return _configurationWidget ? _configurationWidget.data()->durationSpinBox()->value():0; }
 
         public Q_SLOTS:
 
-        //! duration
+        //* duration
         virtual void setDuration( int value )
         {
             if( _configurationWidget )
@@ -99,7 +96,7 @@ namespace Oxygen
 
         private:
 
-        //! configuration widget
+        //* configuration widget
         QPointer<GenericAnimationConfigBox> _configurationWidget;
 
     };

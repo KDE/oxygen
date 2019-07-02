@@ -39,15 +39,11 @@ namespace Oxygen
         //* constructor
         explicit DecoHelper();
 
-        //* destructor
-        virtual ~DecoHelper()
-        {}
-
         //* reset all caches
         void invalidateCaches() override;
 
         //* windeco buttons
-        virtual QPixmap windecoButton(const QColor &color, const QColor& glow, bool sunken, int size = 21);
+        QPixmap windecoButton(const QColor &color, const QColor& glow, bool sunken, int size = 21);
 
         private:
 

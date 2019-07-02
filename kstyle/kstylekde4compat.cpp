@@ -34,10 +34,6 @@ KStyleKDE4Compat::KStyleKDE4Compat()
 }
 
 //_____________________________________________________________________
-KStyleKDE4Compat::~KStyleKDE4Compat()
-{}
-
-//_____________________________________________________________________
 static inline int newStyleElement(const QString &element, const char *check, int &counter, QHash<QString, int> *elements)
 {
     if (!element.contains(check)) return 0;

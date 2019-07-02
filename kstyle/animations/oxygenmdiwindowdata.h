@@ -34,59 +34,55 @@
 namespace Oxygen
 {
 
-    //! handles mdiwindow arrows hover
+    //* handles mdiwindow arrows hover
     class MdiWindowData: public AnimationData
     {
 
         Q_OBJECT
 
-        //! declare opacity property
+        //* declare opacity property
         Q_PROPERTY( qreal currentOpacity READ currentOpacity WRITE setCurrentOpacity )
         Q_PROPERTY( qreal previousOpacity READ previousOpacity WRITE setPreviousOpacity )
 
         public:
 
-        //! constructor
+        //* constructor
         MdiWindowData( QObject*, QWidget*, int );
 
-        //! destructor
-        virtual ~MdiWindowData( void )
-        {}
+        //* animation state
+        bool updateState( int primitive, bool value );
 
-        //! animation state
-        virtual bool updateState( int primitive, bool value );
-
-        //! animation state
-        virtual bool isAnimated( int primitive ) const
+        //* animation state
+        bool isAnimated( int primitive ) const
         {
             return(
                 ( primitive == _currentData._primitive && currentAnimation().data()->isRunning() ) ||
                 ( primitive == _previousData._primitive && previousAnimation().data()->isRunning() ) );
         }
 
-        //! opacity
-        virtual qreal opacity( int primitive ) const
+        //* opacity
+        qreal opacity( int primitive ) const
         {
             if( primitive == _currentData._primitive ) return currentOpacity();
             else if( primitive == _previousData._primitive ) return previousOpacity();
             else return OpacityInvalid;
         }
 
-        //! duration
-        void setDuration( int duration )
+        //* duration
+        void setDuration( int duration ) override
         {
             currentAnimation().data()->setDuration( duration );
             previousAnimation().data()->setDuration( duration );
         }
 
-        //!@name current animation
+        //*@name current animation
         //@{
 
-        //! opacity
+        //* opacity
         qreal currentOpacity( void ) const
         { return _currentData._opacity; }
 
-        //! opacity
+        //* opacity
         void setCurrentOpacity( qreal value )
         {
             value = digitize( value );
@@ -95,19 +91,19 @@ namespace Oxygen
             setDirty();
         }
 
-        //! animation
+        //* animation
         Animation::Pointer currentAnimation( void ) const
         { return _currentData._animation; }
 
         //@}
-        //!@name previous animation
+        //*@name previous animation
         //@{
 
-        //! opacity
+        //* opacity
         qreal previousOpacity( void ) const
         { return _previousData._opacity; }
 
-        //! opacity
+        //* opacity
         void setPreviousOpacity( qreal value )
         {
             value = digitize( value );
@@ -116,7 +112,7 @@ namespace Oxygen
             setDirty();
         }
 
-        //! animation
+        //* animation
         Animation::Pointer previousAnimation( void ) const
         { return _previousData._animation; }
 
@@ -124,36 +120,33 @@ namespace Oxygen
 
         private:
 
-        //! container for needed animation data
+        //* container for needed animation data
         class Data
         {
 
             public:
 
-            //! default constructor
-            Data( void ):
-                _primitive( 0 ),
-                _opacity(0)
-                {}
+            //* default constructor
+            Data() = default;
 
-            //! subcontrol
+            //* subcontrol
             bool updateSubControl( int );
 
-            //! subcontrol
-            int _primitive;
+            //* subcontrol
+            int _primitive = 0;
 
-            //! animation
+            //* animation
             Animation::Pointer _animation;
 
-            //! opacity
-            qreal _opacity;
+            //* opacity
+            qreal _opacity = 0;
 
         };
 
-        //! current data
+        //* current data
         Data _currentData;
 
-        //! previous data
+        //* previous data
         Data _previousData;
 
     };

@@ -59,10 +59,6 @@ namespace Oxygen
         //* constructor
         explicit WindowManager( QObject* );
 
-        //* destructor
-        virtual ~WindowManager( void )
-        {}
-
         //* initialize
         /** read relevant options from config */
         void initialize( void );
@@ -79,13 +75,15 @@ namespace Oxygen
         void unregisterWidget( QWidget* );
 
         //* event filter [reimplemented]
-        bool eventFilter( QObject*, QEvent* ) ;
+        bool eventFilter( QObject*, QEvent* ) override;
 
         protected:
 
         //* timer event,
         /** used to start drag if button is pressed for a long enough time */
-        void timerEvent( QTimerEvent* ) ;
+        void timerEvent( QTimerEvent* ) override;
+
+        private:
 
         //* mouse press event
         bool mousePressEvent( QObject*, QEvent* );
@@ -208,8 +206,6 @@ namespace Oxygen
 
         //* returns first widget matching given class, or 0L if none
         template<typename T> T findParent( const QWidget* ) const;
-
-        private:
 
         //* enability
         bool _enabled;

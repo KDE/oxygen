@@ -34,47 +34,43 @@
 
 namespace Oxygen
 {
-    //! Job model. Stores job information for display in lists
+    //* Job model. Stores job information for display in lists
     template<class T> class ListModel : public ItemModel
     {
 
         public:
 
-        //! value type
+        //* value type
         using ValueType = T;
 
-        //! reference
+        //* reference
         using Reference = T&;
 
-        //! pointer
+        //* pointer
         using Pointer = T*;
 
-        //! value list and iterators
+        //* value list and iterators
         using List = QList<ValueType>;
         using ListIterator = QListIterator<ValueType>;
         using MutableListIterator = QMutableListIterator<ValueType>;
 
-        //! constructor
-        ListModel(QObject *parent = 0):
+        //* constructor
+        ListModel(QObject *parent = nullptr):
             ItemModel( parent )
         {}
 
-        //! destructor
-        virtual ~ListModel()
-        {}
-
-        //!@name methods reimplemented from base class
+        //*@name methods reimplemented from base class
         //@{
 
-        //! flags
-        Qt::ItemFlags flags(const QModelIndex &index) const
+        //* flags
+        Qt::ItemFlags flags(const QModelIndex &index) const override
         {
             if (!index.isValid()) return 0;
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
         }
 
-        //! unique index for given row, column and parent index
-        QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const
+        //* unique index for given row, column and parent index
+        QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override
         {
 
             // check if index is valid
@@ -88,32 +84,32 @@ namespace Oxygen
 
         }
 
-        //! index of parent
-        QModelIndex parent(const QModelIndex &) const
+        //* index of parent
+        QModelIndex parent(const QModelIndex &) const override
         { return QModelIndex(); }
 
-        //! number of rows below given index
-        int rowCount(const QModelIndex &parent = QModelIndex()) const
+        //* number of rows below given index
+        int rowCount(const QModelIndex &parent = QModelIndex()) const override
         { return parent.isValid() ? 0:_values.size(); }
 
         //@}
 
-        //!@name selection
+        //*@name selection
         //@{
 
-        //! clear internal list selected items
-        virtual void clearSelectedIndexes( void )
+        //* clear internal list selected items
+        void clearSelectedIndexes( void )
         { _selection.clear(); }
 
-        //! store index internal selection state
-        virtual void setIndexSelected( const QModelIndex& index, bool value )
+        //* store index internal selection state
+        void setIndexSelected( const QModelIndex& index, bool value )
         {
             if( value ) _selection.push_back( get(index) );
             else _selection.erase( std::remove( _selection.begin(), _selection.end(), get(index) ), _selection.end() );
         }
 
-        //! get list of internal selected items
-        virtual QModelIndexList selectedIndexes( void ) const
+        //* get list of internal selected items
+        QModelIndexList selectedIndexes( void ) const
         {
 
             QModelIndexList out;
@@ -128,11 +124,11 @@ namespace Oxygen
 
         //@}
 
-        //!@name interface
+        //*@name interface
         //@{
 
-        //! add value
-        virtual void add( const ValueType& value )
+        //* add value
+        void add( const ValueType& value )
         {
 
             emit layoutAboutToBeChanged();
@@ -142,8 +138,8 @@ namespace Oxygen
 
         }
 
-        //! add values
-        virtual void add( const List& values )
+        //* add values
+        void add( const List& values )
         {
 
             // check if not empty
@@ -161,16 +157,16 @@ namespace Oxygen
         }
 
 
-        //! insert values
-        virtual void insert( const QModelIndex& index, const ValueType& value )
+        //* insert values
+        void insert( const QModelIndex& index, const ValueType& value )
         {
             emit layoutAboutToBeChanged();
             _insert( index, value );
             emit layoutChanged();
         }
 
-        //! insert values
-        virtual void insert( const QModelIndex& index, const List& values )
+        //* insert values
+        void insert( const QModelIndex& index, const List& values )
         {
             emit layoutAboutToBeChanged();
 
@@ -184,8 +180,8 @@ namespace Oxygen
 
         }
 
-        //! insert values
-        virtual void replace( const QModelIndex& index, const ValueType& value )
+        //* insert values
+        void replace( const QModelIndex& index, const ValueType& value )
         {
             if( !index.isValid() ) add( value );
             else {
@@ -197,8 +193,8 @@ namespace Oxygen
             }
         }
 
-        //! remove
-        virtual void remove( const ValueType& value )
+        //* remove
+        void remove( const ValueType& value )
         {
 
             emit layoutAboutToBeChanged();
@@ -208,8 +204,8 @@ namespace Oxygen
 
         }
 
-        //! remove
-        virtual void remove( const List& values )
+        //* remove
+        void remove( const List& values )
         {
 
             // check if not empty
@@ -224,17 +220,17 @@ namespace Oxygen
 
         }
 
-        //! clear
-        virtual void clear( void )
+        //* clear
+        void clear( void )
         { set( List() ); }
 
-        //! update values from list
-        /*!
+        //* update values from list
+        /**
         values that are not found in current are removed
         new values are set to the end.
         This is slower than the "set" method, but the selection is not cleared in the process
         */
-        virtual void update( List values )
+        void update( List values )
         {
 
             emit layoutAboutToBeChanged();
@@ -269,8 +265,8 @@ namespace Oxygen
 
         }
 
-        //! set all values
-        virtual void set( const List& values )
+        //* set all values
+        void set( const List& values )
         {
 
             emit layoutAboutToBeChanged();
@@ -282,22 +278,22 @@ namespace Oxygen
             return;
         }
 
-        //! return all values
+        //* return all values
         const List& get( void ) const
         { return _values; }
 
-        //! return value for given index
-        virtual ValueType get( const QModelIndex& index ) const
+        //* return value for given index
+        ValueType get( const QModelIndex& index ) const
         { return (index.isValid() && index.row() < int(_values.size()) ) ? _values[index.row()]:ValueType(); }
 
-        //! return value for given index
-        virtual ValueType& get( const QModelIndex& index )
+        //* return value for given index
+        ValueType& get( const QModelIndex& index )
         {
             Q_ASSERT( index.isValid() && index.row() < int( _values.size() ) );
             return _values[index.row()];
         }
 
-        //! return all values
+        //* return all values
         List get( const QModelIndexList& indexes ) const
         {
             List out;
@@ -306,8 +302,8 @@ namespace Oxygen
             return out;
         }
 
-        //! return index associated to a given value
-        virtual QModelIndex index( const ValueType& value, int column = 0 ) const
+        //* return index associated to a given value
+        QModelIndex index( const ValueType& value, int column = 0 ) const
         {
             for( int row = 0; row < _values.size(); ++row )
             { if( value == _values[row] ) return index( row, column ); }
@@ -316,26 +312,26 @@ namespace Oxygen
 
         //@}
 
-        //! return true if model contains given index
-        virtual bool contains( const QModelIndex& index ) const
+        //* return true if model contains given index
+        bool contains( const QModelIndex& index ) const
         { return index.isValid() && index.row() < _values.size(); }
 
-        protected:
+        private:
 
-        //! return all values
+        //* return all values
         List& _get( void )
         { return _values; }
 
-        //! add, without update
-        virtual void _add( const ValueType& value )
+        //* add, without update
+        void _add( const ValueType& value )
         {
             typename List::iterator iter = std::find( _values.begin(), _values.end(), value );
             if( iter == _values.end() ) _values.push_back( value );
             else *iter = value;
         }
 
-        //! add, without update
-        virtual void _insert( const QModelIndex& index, const ValueType& value )
+        //* add, without update
+        void _insert( const QModelIndex& index, const ValueType& value )
         {
             if( !index.isValid() ) add( value );
             int row = 0;
@@ -346,19 +342,17 @@ namespace Oxygen
             _values.insert( iter, value );
         }
 
-        //! remove, without update
-        virtual void _remove( const ValueType& value )
+        //* remove, without update
+        void _remove( const ValueType& value )
         {
             _values.erase( std::remove( _values.begin(), _values.end(), value ), _values.end() );
             _selection.erase( std::remove( _selection.begin(), _selection.end(), value ), _selection.end() );
         }
 
-        private:
-
-        //! values
+        //* values
         List _values;
 
-        //! selection
+        //* selection
         List _selection;
 
     };

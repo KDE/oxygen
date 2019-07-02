@@ -44,12 +44,8 @@ namespace Oxygen
 
         public:
 
-        //! constructor
-        explicit ButtonDemoWidget( QWidget* = 0 );
-
-        //! destructor
-        virtual ~ButtonDemoWidget( void )
-        {}
+        //* constructor
+        explicit ButtonDemoWidget( QWidget* = nullptr );
 
         public Q_SLOTS:
 
@@ -57,13 +53,13 @@ namespace Oxygen
 
         protected Q_SLOTS:
 
-        //! change text position in tool buttons
+        //* change text position in tool buttons
         void textPosition( int );
 
-        //! change tool button icon size
+        //* change tool button icon size
         void iconSize( int );
 
-        //! set buttons as flat
+        //* set buttons as flat
         void toggleFlat( bool );
 
         protected:
@@ -74,7 +70,7 @@ namespace Oxygen
         private:
 
         Ui_ButtonDemoWidget ui;
-        QToolBar* _toolBar;
+        QToolBar* _toolBar = nullptr;
         QList<QPushButton*> _pushButtons;
         QList<QToolButton*> _toolButtons;
     };

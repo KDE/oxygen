@@ -36,7 +36,7 @@
 namespace Oxygen
 {
 
-    //! handles progress bar animations
+    //* handles progress bar animations
     class ProgressBarEngine: public BaseEngine
     {
 
@@ -44,34 +44,30 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit ProgressBarEngine( QObject* object ):
             BaseEngine( object )
         {}
 
-        //! destructor
-        virtual ~ProgressBarEngine( void )
-        {}
+        //* register progressbar
+        bool registerWidget( QWidget* );
 
-        //! register progressbar
-        virtual bool registerWidget( QWidget* );
+        //* true if widget is animated
+        bool isAnimated( const QObject* );
 
-        //! true if widget is animated
-        virtual bool isAnimated( const QObject* );
-
-        //! animation opacity
-        virtual int value( const QObject* object )
+        //* animation opacity
+        int value( const QObject* object )
         { return isAnimated( object ) ? data( object ).data()->value():0 ; }
 
-        //! enability
-        void setEnabled( bool value )
+        //* enable state
+        void setEnabled( bool value ) override
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
-        //! duration
-        void setDuration( int value )
+        //* duration
+        void setDuration( int value ) override
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
@@ -79,18 +75,18 @@ namespace Oxygen
 
         public Q_SLOTS:
 
-        //! remove widget from map
-        bool unregisterWidget( QObject* object )
+        //* remove widget from map
+        bool unregisterWidget( QObject* object ) override
         { return _data.unregisterWidget( object ); }
 
         protected:
 
-        //! returns data associated to widget
+        //* returns data associated to widget
         DataMap<ProgressBarData>::Value data( const QObject* );
 
         private:
 
-        //! map widgets to progressbar data
+        //* map widgets to progressbar data
         DataMap<ProgressBarData> _data;
 
     };

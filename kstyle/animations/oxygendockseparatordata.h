@@ -33,24 +33,20 @@
 namespace Oxygen
 {
 
-    //! dock widget splitters hover effect
+    //* dock widget splitters hover effect
     class DockSeparatorData: public AnimationData
     {
 
         Q_OBJECT
 
-        //! declare opacity property
+        //* declare opacity property
         Q_PROPERTY( qreal verticalOpacity READ verticalOpacity WRITE setVerticalOpacity )
         Q_PROPERTY( qreal horizontalOpacity READ horizontalOpacity WRITE setHorizontalOpacity )
 
         public:
 
-        //! constructor
+        //* constructor
         DockSeparatorData( QObject* parent, QWidget* target, int duration );
-
-        //! destructor
-        virtual ~DockSeparatorData( void )
-        {}
 
         //@}
 
@@ -58,24 +54,24 @@ namespace Oxygen
         returns true if hover has Changed
         and starts timer accordingly
         */
-        virtual void updateRect( const QRect&, const Qt::Orientation&, bool hovered );
+        void updateRect( const QRect&, const Qt::Orientation&, bool hovered );
 
-        //! returns true if current splitter is animated
-        virtual bool isAnimated( QRect r, const Qt::Orientation& orientation ) const
+        //* returns true if current splitter is animated
+        bool isAnimated( QRect r, const Qt::Orientation& orientation ) const
         { return orientation == Qt::Vertical ? _verticalData.isAnimated( r ):_horizontalData.isAnimated( r ); }
 
-        //! opacity for given orientation
+        //* opacity for given orientation
         qreal opacity( const Qt::Orientation& orientation ) const
         { return orientation == Qt::Vertical ? verticalOpacity():horizontalOpacity(); }
 
-        //! duration
-        void setDuration( int duration )
+        //* duration
+        void setDuration( int duration ) override
         {
             horizontalAnimation().data()->setDuration( duration );
             verticalAnimation().data()->setDuration( duration );
         }
 
-        //!@name horizontal splitter data
+        //*@name horizontal splitter data
         //@{
 
         Animation::Pointer horizontalAnimation( void ) const
@@ -103,7 +99,7 @@ namespace Oxygen
         //@}
 
 
-        //!@name vertical splitter data
+        //*@name vertical splitter data
         //@{
 
         Animation::Pointer verticalAnimation( void ) const
@@ -131,36 +127,36 @@ namespace Oxygen
 
         private:
 
-        //! stores data needed for animation
+        //* stores data needed for animation
         class Data
         {
 
             public:
 
-            //! constructor
+            //* constructor
             Data( void ):
                 _opacity( AnimationData::OpacityInvalid )
                 {}
 
-            //! true if is animated
+            //* true if is animated
             bool isAnimated( QRect r ) const
             { return r == _rect && _animation.data()->isRunning(); }
 
-            //! animation pointer
+            //* animation pointer
             Animation::Pointer _animation;
 
-            //! opacity variable
+            //* opacity variable
             qreal _opacity;
 
-            //! stores active separator rect
+            //* stores active separator rect
             QRect _rect;
 
         };
 
-        //! horizontal
+        //* horizontal
         Data _horizontalData;
 
-        //! vertical
+        //* vertical
         Data _verticalData;
 
     };

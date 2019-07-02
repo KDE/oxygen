@@ -51,9 +51,6 @@ namespace Oxygen
         //* constructor
         explicit ConfigWidget( QWidget*, const QVariantList& );
 
-        //* destructor
-        virtual ~ConfigWidget( void ) = default;
-
         //* default
         void defaults() override;
 
@@ -64,28 +61,26 @@ namespace Oxygen
         void save( void ) override;
 
         //* true if changed
-        virtual bool isChanged( void ) const
+        bool isChanged( void ) const
         { return m_changed; }
 
         //* exceptions
         ExceptionListWidget* exceptionListWidget( void ) const
         { return m_ui.exceptions; }
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
         //* update changed state
-        virtual void updateChanged();
+        void updateChanged();
 
-        protected:
+        private:
 
         //* set changed state
-        virtual void setChanged( bool value )
+        void setChanged( bool value )
         {
             m_changed = value;
             emit changed( value );
         }
-
-        private:
 
         //* ui
         Ui_OxygenConfigurationUI m_ui;
@@ -97,7 +92,7 @@ namespace Oxygen
         InternalSettingsPtr m_internalSettings;
 
         //* changed state
-        bool m_changed;
+        bool m_changed = false;
 
     };
 

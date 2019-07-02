@@ -84,7 +84,7 @@ else()
 
   add_subdirectory(liboxygen)
   add_subdirectory(kstyle)
-  add_subdirectory(color-schemes)  
+  add_subdirectory(color-schemes)
   add_subdirectory(cursors)
   add_subdirectory(sounds)
   add_subdirectory(kdecoration)

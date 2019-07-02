@@ -55,7 +55,7 @@ namespace Oxygen
         QObject( parent )
     {
 
-        _widgetEnabilityEngine = new WidgetStateEngine( this );
+        _widgetEnableStateEngine = new WidgetStateEngine( this );
         _spinBoxEngine = new SpinBoxEngine( this );
         _comboBoxEngine = new WidgetStateEngine( this );
         _toolButtonEngine = new WidgetStateEngine( this );
@@ -88,7 +88,7 @@ namespace Oxygen
             bool animationsEnabled( StyleConfigData::animationsEnabled() );
 
             // enability
-            _widgetEnabilityEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
+            _widgetEnableStateEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _widgetStateEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _inputWidgetEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
             _comboBoxEngine->setEnabled( animationsEnabled &&  StyleConfigData::genericAnimationsEnabled() );
@@ -206,7 +206,7 @@ namespace Oxygen
         {
 
             // durations
-            _widgetEnabilityEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
+            _widgetEnableStateEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _widgetStateEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _inputWidgetEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
             _comboBoxEngine->setDuration( StyleConfigData::genericAnimationsDuration() );
@@ -252,7 +252,7 @@ namespace Oxygen
         if( widget->inherits( "QShapedPixmapWidget" ) ) return;
 
         // all widgets are registered to the enability engine.
-        _widgetEnabilityEngine->registerWidget( widget, AnimationEnable );
+        _widgetEnableStateEngine->registerWidget( widget, AnimationEnable );
 
         // install animation timers
         // for optimization, one should put with most used widgets here first
@@ -350,7 +350,7 @@ namespace Oxygen
         inside the list, because they can be register widgets in combination
         with other engines
         */
-        _widgetEnabilityEngine->unregisterWidget( widget );
+        _widgetEnableStateEngine->unregisterWidget( widget );
         _spinBoxEngine->unregisterWidget( widget );
         _comboBoxEngine->unregisterWidget( widget );
         _toolButtonEngine->unregisterWidget( widget );

@@ -34,7 +34,7 @@
 namespace Oxygen
 {
 
-    //! used for simple widgets
+    //* used for simple widgets
     class LabelEngine: public BaseEngine
     {
 
@@ -42,27 +42,23 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit LabelEngine( QObject* parent ):
             BaseEngine( parent )
         {}
 
-        //! destructor
-        virtual ~LabelEngine( void )
-        {}
+        //* register widget
+        bool registerWidget( QLabel* );
 
-        //! register widget
-        virtual bool registerWidget( QLabel* );
-
-        //! duration
-        void setEnabled( bool value )
+        //* duration
+        void setEnabled( bool value ) override
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
-        //! duration
-        void setDuration( int value )
+        //* duration
+        void setDuration( int value ) override
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
@@ -70,13 +66,13 @@ namespace Oxygen
 
         public Q_SLOTS:
 
-        //! remove widget from map
-        bool unregisterWidget( QObject* object )
+        //* remove widget from map
+        bool unregisterWidget( QObject* object ) override
         { return _data.unregisterWidget( object ); }
 
         private:
 
-        //! maps
+        //* maps
         DataMap<LabelData> _data;
 
     };

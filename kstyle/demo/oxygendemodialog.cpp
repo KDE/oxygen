@@ -193,7 +193,8 @@ namespace Oxygen
         QShortcut* shortcut( new QShortcut( Qt::CTRL + Qt::Key_X, this ) );
         for( auto item:items )
         {
-            connect( shortcut, SIGNAL(activated()), item->widget(), SLOT(benchmark()) );
+            if( item->widget()->metaObject()->indexOfSlot( "benchmark()" ) >= 0 )
+            { connect( shortcut, SIGNAL(activated()), item->widget(), SLOT(benchmark()) ); }
             connect( this, SIGNAL(abortSimulations()), &static_cast<DemoWidget*>(item->widget())->simulator(), SLOT(abort()) );
         }
 

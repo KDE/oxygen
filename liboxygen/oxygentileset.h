@@ -34,7 +34,7 @@ corner pixmaps are never stretched. center pixmaps are
 */
 namespace Oxygen
 {
-    class OXYGEN_EXPORT TileSet
+    class OXYGEN_EXPORT TileSet final
     {
         public:
 
@@ -76,10 +76,6 @@ namespace Oxygen
 
         //* empty constructor
         TileSet();
-
-        //* destructor
-        virtual ~TileSet()
-        {}
 
         /**
         Flags specifying what sides to draw in ::render. Corners are drawn when
@@ -140,15 +136,13 @@ namespace Oxygen
         QPixmap pixmap( int index ) const
         { return _pixmaps[index]; }
 
-        protected:
+        private:
 
         //* shortcut to pixmap list
         using PixmapList = QVector<QPixmap>;
 
         //* initialize pixmap
         void initPixmap( PixmapList&, const QPixmap&, int w, int h, const QRect& );
-
-        private:
 
         //* side extend
         /**
@@ -161,10 +155,10 @@ namespace Oxygen
         PixmapList _pixmaps;
 
         // dimensions
-        int _w1;
-        int _h1;
-        int _w3;
-        int _h3;
+        int _w1 = 0;
+        int _h1 = 0;
+        int _w3 = 0;
+        int _h3 = 0;
 
     };
 

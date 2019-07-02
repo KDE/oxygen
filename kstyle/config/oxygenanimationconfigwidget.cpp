@@ -109,10 +109,6 @@ namespace Oxygen
     }
 
     //_______________________________________________
-    AnimationConfigWidget::~AnimationConfigWidget( void )
-    {}
-
-    //_______________________________________________
     void AnimationConfigWidget::load( void )
     {
 

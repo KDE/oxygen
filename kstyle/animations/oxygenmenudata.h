@@ -33,7 +33,7 @@
 namespace Oxygen
 {
 
-    //! menubar data
+    //* menubar data
     /*!
     most members are identical to menubar data. The one that are not are
     using templatized versions, because QMenuBar and QMenu API are very similar
@@ -45,36 +45,32 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         MenuDataV1( QObject* parent, QWidget* target, int duration ):
         MenuBarDataV1( parent, target, duration )
         {}
 
-        //! destructor
-        virtual ~MenuDataV1( void )
-        {}
-
         protected:
 
-        //! menubar enterEvent
-        void enterEvent( const QObject* object )
+        //* menubar enterEvent
+        void enterEvent( const QObject* object ) override
         { MenuBarDataV1::enterEvent<QMenu>( object ); }
 
-        //! menubar enterEvent
-        void leaveEvent( const QObject* object )
+        //* menubar enterEvent
+        void leaveEvent( const QObject* object ) override
         { MenuBarDataV1::leaveEvent<QMenu>( object ); }
 
-        //! menubar mouseMoveEvent
-        void mouseMoveEvent( const QObject* object )
+        //* menubar mouseMoveEvent
+        void mouseMoveEvent( const QObject* object ) override
         { MenuBarDataV1::mouseMoveEvent<QMenu>( object ); }
 
-        //! menubar mousePressEvent
-        void mousePressEvent( const QObject* object )
+        //* menubar mousePressEvent
+        void mousePressEvent( const QObject* object ) override
         { MenuBarDataV1::mousePressEvent<QMenu>( object ); }
 
     };
 
-    //! menubar data
+    //* menubar data
     /*!
     most members are identical to menubar data. The one that are not are
     using templatized versions, because QMenuBar and QMenu API are very similar
@@ -85,27 +81,23 @@ namespace Oxygen
         Q_OBJECT
 
         public:
-        //! constructor
+        //* constructor
         MenuDataV2( QObject* parent, QWidget* target, int duration ):
         MenuBarDataV2( parent, target, duration )
         { setEntered( false ); }
 
-        //! destructor
-        virtual ~MenuDataV2( void )
-        {}
-
         protected:
 
-        //! menubar enterEvent
-        void enterEvent( const QObject* object )
+        //* menubar enterEvent
+        void enterEvent( const QObject* object ) override
         { MenuBarDataV2::enterEvent<QMenu>( object ); }
 
-        //! menubar enterEvent
-        void leaveEvent( const QObject* object )
+        //* menubar enterEvent
+        void leaveEvent( const QObject* object ) override
         { MenuBarDataV2::leaveEvent<QMenu>( object ); }
 
-        //! menubar mouseMoveEvent
-        void mouseMoveEvent( const QObject* object )
+        //* menubar mouseMoveEvent
+        void mouseMoveEvent( const QObject* object ) override
         { MenuBarDataV2::mouseMoveEvent<QMenu>( object ); }
 
     };

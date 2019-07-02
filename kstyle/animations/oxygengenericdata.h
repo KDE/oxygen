@@ -36,37 +36,33 @@ namespace Oxygen
 {
 
 
-    //! generic data
+    //* generic data
     class GenericData: public AnimationData
     {
 
         Q_OBJECT
 
-        //! declare opacity property
+        //* declare opacity property
         Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
 
         public:
 
-        //! constructor
+        //* constructor
         GenericData( QObject* parent, QWidget* widget, int duration );
 
-        //! destructor
-        virtual ~GenericData( void )
-        {}
-
-        //! return animation object
+        //* return animation object
         virtual const Animation::Pointer& animation() const
         { return _animation; }
 
-        //! duration
-        void setDuration( int duration )
-        { _animation.data()->setDuration( duration ); }
-
-        //! opacity
+        //* opacity
         virtual qreal opacity( void ) const
         { return _opacity; }
 
-        //! opacity
+        //* duration
+        void setDuration( int duration ) override
+        { _animation.data()->setDuration( duration ); }
+
+        //* opacity
         virtual void setOpacity( qreal value )
         {
 
@@ -80,11 +76,11 @@ namespace Oxygen
 
         private:
 
-        //! animation handling
+        //* animation handling
         Animation::Pointer _animation;
 
-        //! opacity variable
-        qreal _opacity;
+        //* opacity variable
+        qreal _opacity = 0;
 
     };
 

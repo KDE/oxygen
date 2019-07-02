@@ -36,7 +36,7 @@
 namespace Oxygen
 {
 
-    //! generic data
+    //* generic data
     class LineEditData: public TransitionData
     {
 
@@ -44,54 +44,54 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         LineEditData( QObject*, QLineEdit*, int );
 
-        //! destructor
-        virtual ~LineEditData( void )
-        {}
+        //* event filter
+        bool eventFilter( QObject*, QEvent* ) override;
 
-        //! event filter
-        bool eventFilter( QObject*, QEvent* ) ;
-
-        //! returns true if animations are locked
+        //* returns true if animations are locked
         bool isLocked( void ) const
         { return _animationLockTimer.isActive(); }
 
-        //! start lock animation timer
+        //* start lock animation timer
         void lockAnimations( void )
         { _animationLockTimer.start( _lockTime, this ); }
 
-        //! start lock animation timer
+        //* start lock animation timer
         void unlockAnimations( void )
         { _animationLockTimer.stop(); }
 
         protected Q_SLOTS:
 
-        //! text edited
-        virtual void textEdited( void );
+        //* initialize animation
+        bool initializeAnimation( void ) override;
 
-        //! selection changed
-        virtual void selectionChanged( void );
-
-        //! text changed
-        virtual void textChanged( void );
-
-        //! initialize animation
-        bool initializeAnimation( void ) ;
-
-        //! animate
-        bool animate( void ) ;
-
-        //! called when target is destroyed
-        virtual void targetDestroyed( void );
+        //* animate
+        bool animate( void ) override;
 
         protected:
 
-        //! timer event
-        void timerEvent( QTimerEvent* ) ;
+        //* timer event
+        void timerEvent( QTimerEvent* ) override;
 
-        //! target rect
+        private Q_SLOTS:
+
+        //* text edited
+        void textEdited( void );
+
+        //* selection changed
+        void selectionChanged( void );
+
+        //* text changed
+        void textChanged( void );
+
+        //* called when target is destroyed
+        void targetDestroyed( void );
+
+        private:
+        
+        //* target rect
         /*! return rect corresponding to the area to be updated when animating */
         QRect targetRect( void ) const
         {
@@ -103,37 +103,35 @@ namespace Oxygen
             return out;
         }
 
-        //! check if target has clear button
+        //* check if target has clear button
         void checkClearButton( void );
 
-        private:
-
-        //! lock time (milliseconds
+        //* lock time (milliseconds
         static const int _lockTime;
 
-        //! timer used to disable animations when triggered too early
+        //* timer used to disable animations when triggered too early
         QBasicTimer _animationLockTimer;
 
-        //! needed to start animations out of parent paintEvent
+        //* needed to start animations out of parent paintEvent
         QBasicTimer _timer;
 
-        //! target
+        //* target
         WeakPointer<QLineEdit> _target;
 
-        //! true if target has clean button
+        //* true if target has clean button
         bool _hasClearButton;
 
-        //! clear button rect
+        //* clear button rect
         QRect _clearButtonRect;
 
-        //! true if text was manually edited
+        //* true if text was manually edited
         /*! needed to trigger animation only on programatically enabled text */
         bool _edited;
 
-        //! old text
+        //* old text
         QString _text;
 
-        //! widget rect
+        //* widget rect
         /*! needed to properly handle QLabel geometry changes */
         QRect _widgetRect;
 

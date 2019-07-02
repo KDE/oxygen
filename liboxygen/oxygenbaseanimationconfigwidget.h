@@ -46,65 +46,65 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit BaseAnimationConfigWidget( QWidget* = 0 );
 
-        //! destructor
+        //* destructor
         virtual ~BaseAnimationConfigWidget( void );
 
-        //! true if changed
+        //* true if changed
         virtual bool isChanged( void ) const
         { return _changed; }
 
         Q_SIGNALS:
 
-        //! emmited when layout is changed
+        //* emmited when layout is changed
         void layoutChanged( void );
 
-        //! emmited when changed
+        //* emmited when changed
         void changed( bool );
 
         public Q_SLOTS:
 
-        //! read current configuration
+        //* read current configuration
         virtual void load( void ) = 0;
 
-        //! save current configuration
+        //* save current configuration
         virtual void save( void ) = 0;
 
         protected Q_SLOTS:
 
-        //! update visible ites
+        //* update visible ites
         virtual void updateItems( bool );
 
-        //! check whether configuration is changed and emit appropriate signal if yes
+        //* check whether configuration is changed and emit appropriate signal if yes
         virtual void updateChanged() = 0;
 
         protected:
 
-        //! get global animations enabled checkbox
+        //* get global animations enabled checkbox
         QCheckBox* animationsEnabled( void ) const;
 
-        //! add item to ui
+        //* add item to ui
         virtual void setupItem( QGridLayout*, AnimationConfigItem* );
 
-        //! set changed state
+        //* set changed state
         virtual void setChanged( bool value )
         {
             _changed = value;
             emit changed( value );
         }
 
-        //! user interface
-        Ui_AnimationConfigWidget* ui;
+        //* user interface
+        Ui_AnimationConfigWidget* ui = nullptr;
 
-        //! row index
-        int _row;
+        //* row index
+        int _row = 0;
 
         private:
 
-        //! changed state
-        bool _changed;
+        //* changed state
+        bool _changed = false;
 
     };
 

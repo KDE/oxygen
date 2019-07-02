@@ -47,41 +47,37 @@ namespace Oxygen
             BaseEngine( parent )
         {}
 
-        //* destructor
-        virtual ~ToolBoxEngine( void )
-        {}
-
         //* enability
-        void setEnabled( bool value )
+        void setEnabled( bool value ) override
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
         //* duration
-        void setDuration( int value )
+        void setDuration( int value ) override
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
         }
 
         //* register widget
-        virtual bool registerWidget( QWidget* );
+        bool registerWidget( QWidget* );
 
         //* true if widget hover state is changed
-        virtual bool updateState( const QPaintDevice*, bool );
+        bool updateState( const QPaintDevice*, bool );
 
         //* true if widget is animated
-        virtual bool isAnimated( const QPaintDevice* );
+        bool isAnimated( const QPaintDevice* );
 
         //* animation opacity
-        virtual qreal opacity( const QPaintDevice* object )
+        qreal opacity( const QPaintDevice* object )
         { return isAnimated( object ) ? data( object ).data()->opacity(): AnimationData::OpacityInvalid; }
 
         public Q_SLOTS:
 
         //* remove widget from map
-        bool unregisterWidget( QObject* data )
+        bool unregisterWidget( QObject* data ) override
         {
 
             if( !data ) return false;

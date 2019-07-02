@@ -34,7 +34,7 @@
 namespace Oxygen
 {
 
-    //! stores dockseparator hovered action and timeLine
+    //* stores dockseparator hovered action and timeLine
     class DockSeparatorEngine: public BaseEngine
     {
 
@@ -42,27 +42,23 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit DockSeparatorEngine( QObject* parent ):
             BaseEngine( parent )
         {}
 
-        //! destructor
-        virtual ~DockSeparatorEngine( void )
-        {}
+        //* register dockseparator
+        bool registerWidget( QWidget* );
 
-        //! register dockseparator
-        virtual bool registerWidget( QWidget* );
-
-        //! update rect and hover value for data matching widget
-        virtual void updateRect( const QObject* object, const QRect& r, const Qt::Orientation orientation, bool hovered )
+        //* update rect and hover value for data matching widget
+        void updateRect( const QObject* object, const QRect& r, const Qt::Orientation orientation, bool hovered )
         {
             if( DataMap<DockSeparatorData>::Value data = _data.find( object ) )
             { data.data()->updateRect( r, orientation, hovered ); }
         }
 
-        //! returns true if object is animated
-        virtual bool isAnimated( const QObject* object, const QRect& r, const Qt::Orientation orientation )
+        //* returns true if object is animated
+        bool isAnimated( const QObject* object, const QRect& r, const Qt::Orientation orientation )
         {
             if( DataMap<DockSeparatorData>::Value data = _data.find( object ) )
             {
@@ -71,8 +67,8 @@ namespace Oxygen
 
         }
 
-        //! returns true if object is animated
-        virtual qreal opacity( const QObject* object, const Qt::Orientation orientation )
+        //* returns true if object is animated
+        qreal opacity( const QObject* object, const Qt::Orientation orientation )
         {
             if( DataMap<DockSeparatorData>::Value data = _data.find( object ) )
             {
@@ -80,15 +76,15 @@ namespace Oxygen
             } else return AnimationData::OpacityInvalid;
         }
 
-        //! enability
-        void setEnabled( bool value )
+        //* enability
+        void setEnabled( bool value ) override
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
-        //! duration
-        void setDuration( int value )
+        //* duration
+        void setDuration( int value ) override
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
@@ -96,13 +92,13 @@ namespace Oxygen
 
         public Q_SLOTS:
 
-        //! remove widget from map
-        bool unregisterWidget( QObject* object )
+        //* remove widget from map
+        bool unregisterWidget( QObject* object ) override
         { return _data.unregisterWidget( object ); }
 
         private:
 
-        //! data map
+        //* data map
         DataMap<DockSeparatorData> _data;
 
     };

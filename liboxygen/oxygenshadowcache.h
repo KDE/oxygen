@@ -44,10 +44,6 @@ namespace Oxygen
         //* constructor
         explicit ShadowCache( Helper& );
 
-        //* destructor
-        virtual ~ShadowCache( void )
-        {}
-
         //* read configuration
         void readConfig( void );
 
@@ -155,7 +151,7 @@ namespace Oxygen
         //* simple pixmap, with opacity
         QPixmap animatedPixmap( const Key&, qreal opacity );
 
-        protected:
+        private:
 
         Helper& helper( void ) const
         { return _helper; }
@@ -166,8 +162,6 @@ namespace Oxygen
         //* draw gradient into rect
         /*! a separate method is used in order to properly account for corners */
         void renderGradient( QPainter&, const QRectF&, const QRadialGradient&, bool hasBorder = true ) const;
-
-        private:
 
         //* helper
         Helper& _helper;

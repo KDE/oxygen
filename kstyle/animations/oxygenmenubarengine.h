@@ -34,7 +34,7 @@
 namespace Oxygen
 {
 
-    //! stores menubar hovered action and timeLine
+    //* stores menubar hovered action and timeLine
     class MenuBarBaseEngine: public BaseEngine
     {
 
@@ -42,51 +42,47 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit MenuBarBaseEngine( QObject* parent ):
             BaseEngine( parent )
         {}
 
-        //! destructor
-        virtual ~MenuBarBaseEngine( void )
-        {}
-
-        //! register menubar
+        //* register menubar
         virtual bool registerWidget( QWidget* ) = 0;
 
-        //! true if widget is animated
+        //* true if widget is animated
         virtual bool isAnimated( const QObject*, const QPoint& )
         { return false; }
 
-        //! animation opacity
+        //* animation opacity
         virtual qreal opacity( const QObject*, const QPoint& )
         { return -1; }
 
-        //! return 'hover' rect position when widget is animated
+        //* return 'hover' rect position when widget is animated
         virtual QRect currentRect( const QObject*, const QPoint& )
         { return QRect(); }
 
-        //! animated rect
+        //* animated rect
         virtual QRect animatedRect( const QObject* )
         { return QRect(); }
 
-        //! timer
+        //* timer
         virtual bool isTimerActive( const QObject* )
         { return false; }
 
-        //! enability
-        void setEnabled( bool )  = 0;
+        //* enable state
+        void setEnabled( bool ) override = 0;
 
-        //! duration
-        void setDuration( int )  = 0;
+        //* duration
+        void setDuration( int ) override = 0;
 
-        //! duration
+        //* duration
         virtual void setFollowMouseDuration( int )
         {}
 
     };
 
-    //! fading menubar animation
+    //* fading menubar animation
     class MenuBarEngineV1: public MenuBarBaseEngine
     {
 
@@ -94,63 +90,59 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit MenuBarEngineV1( QObject* parent ):
             MenuBarBaseEngine( parent )
         {}
 
-        //! constructor
+        //* constructor
         MenuBarEngineV1( QObject* parent, MenuBarBaseEngine* other );
 
-        //! destructor
-        virtual ~MenuBarEngineV1( void )
-        {}
+        //* register menubar
+        bool registerWidget( QWidget* ) override;
 
-        //! register menubar
-        bool registerWidget( QWidget* ) ;
+        //* true if widget is animated
+        bool isAnimated( const QObject* object, const QPoint& point ) override;
 
-        //! true if widget is animated
-        bool isAnimated( const QObject* object, const QPoint& point ) ;
-
-        //! animation opacity
-        qreal opacity( const QObject* object, const QPoint& point )
+        //* animation opacity
+        qreal opacity( const QObject* object, const QPoint& point ) override
         { return isAnimated( object, point ) ? _data.find( object ).data()->opacity( point ): AnimationData::OpacityInvalid; }
 
-        //! return 'hover' rect position when widget is animated
-        QRect currentRect( const QObject* object, const QPoint& point)
+        //* return 'hover' rect position when widget is animated
+        QRect currentRect( const QObject* object, const QPoint& point) override
         { return isAnimated( object, point ) ? _data.find( object ).data()->currentRect( point ): QRect(); }
 
-        //! enability
-        void setEnabled( bool value )
+        //* enable state
+        void setEnabled( bool value ) override
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
-        //! duration
-        void setDuration( int duration )
+        //* duration
+        void setDuration( int duration ) override
         {
             BaseEngine::setDuration( duration );
             _data.setDuration( duration );
         }
 
-        //! return list of registered widgets
-        WidgetList registeredWidgets( void ) const ;
+        //* return list of registered widgets
+        WidgetList registeredWidgets( void ) const override;
 
-        public Q_SLOTS:
+        protected Q_SLOTS:
 
-        //! remove widget from map
-        bool unregisterWidget( QObject* object )
+        //* remove widget from map
+        bool unregisterWidget( QObject* object ) override
         { return _data.unregisterWidget( object ); }
 
         private:
 
-        //! data map
+        //* data map
         DataMap<MenuBarDataV1> _data;
 
     };
 
-        //! follow-mouse menubar animation
+        //* follow-mouse menubar animation
     class MenuBarEngineV2: public MenuBarBaseEngine
     {
 
@@ -158,79 +150,74 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit MenuBarEngineV2( QObject* parent ):
             MenuBarBaseEngine( parent )
         {}
 
-        //! constructor
+        //* constructor
         MenuBarEngineV2( QObject* parent, MenuBarBaseEngine* other );
 
-        //! destructor
-        virtual ~MenuBarEngineV2( void )
-        {}
+        //* register menubar
+        bool registerWidget( QWidget* ) override;
 
-        //! register menubar
-        bool registerWidget( QWidget* ) ;
+        //* true if widget is animated
+        bool isAnimated( const QObject* object, const QPoint& point ) override;
 
-
-        //! true if widget is animated
-        bool isAnimated( const QObject* object, const QPoint& point ) ;
-
-        //! animation opacity
-        qreal opacity( const QObject* object, const QPoint& point )
+        //* animation opacity
+        qreal opacity( const QObject* object, const QPoint& point ) override
         { return isAnimated( object, point ) ? _data.find( object ).data()->opacity(): AnimationData::OpacityInvalid; }
 
-        //! return 'hover' rect position when widget is animated
-        QRect currentRect( const QObject*, const QPoint& ) ;
+        //* return 'hover' rect position when widget is animated
+        QRect currentRect( const QObject*, const QPoint& ) override;
 
-        //! return 'hover' rect position when widget is animated
-        QRect animatedRect( const QObject* ) ;
+        //* return 'hover' rect position when widget is animated
+        QRect animatedRect( const QObject* ) override;
 
-        //! timer associated to the data
-        bool isTimerActive( const QObject* ) ;
+        //* timer associated to the data
+        bool isTimerActive( const QObject* ) override;
 
-        //! enability
-        void setEnabled( bool value )
+        //* enable state
+        void setEnabled( bool value ) override
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
-        //! duration
-        void setDuration( int value )
+        //* duration
+        void setDuration( int value ) override
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
         }
 
-        //! duration
-        virtual int followMouseDuration( void ) const
+        //* duration
+        int followMouseDuration( void ) const
         { return _followMouseDuration; }
 
-        //! duration
-        void setFollowMouseDuration( int duration )
+        //* duration
+        void setFollowMouseDuration( int duration ) override
         {
             _followMouseDuration = duration;
             foreach( const DataMap<MenuBarDataV2>::Value& value, _data )
             { if( value ) value.data()->setFollowMouseDuration( duration ); }
         }
 
-        //! return list of registered widgets
-        WidgetList registeredWidgets( void ) const ;
+        //* return list of registered widgets
+        WidgetList registeredWidgets( void ) const override;
 
         protected Q_SLOTS:
 
-        //! remove widget from map
-        bool unregisterWidget( QObject* object )
+        //* remove widget from map
+        bool unregisterWidget( QObject* object ) override
         { return _data.unregisterWidget( object ); }
 
         private:
 
-        //! follow mouse animation duration
+        //* follow mouse animation duration
         int _followMouseDuration;
 
-        //! data map
+        //* data map
         DataMap<MenuBarDataV2> _data;
 
     };

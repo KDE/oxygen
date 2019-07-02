@@ -36,7 +36,7 @@
 namespace Oxygen
 {
 
-    //! print widget's and parent's information on mouse click
+    //* print widget's and parent's information on mouse click
     class WidgetExplorer: public QObject
     {
 
@@ -44,39 +44,39 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit WidgetExplorer( QObject* );
 
-        //! enable
+        //* enable
         bool enabled( void ) const;
 
-        //! enable
+        //* enable
         void setEnabled( bool );
 
-        //! widget rects
+        //* widget rects
         void setDrawWidgetRects( bool value )
         { _drawWidgetRects = value; }
 
-        //! event filter
-        bool eventFilter( QObject*, QEvent* ) ;
+        //* event filter
+        bool eventFilter( QObject*, QEvent* ) override;
 
         protected:
 
-        //! event type
+        //* event type
         QString eventType( const QEvent::Type& ) const;
 
-        //! print widget information
+        //* print widget information
         QString widgetInformation( const QWidget* ) const;
 
         private:
 
-        //! enable state
-        bool _enabled;
+        //* enable state
+        bool _enabled = false;
 
-        //! widget rects
-        bool _drawWidgetRects;
+        //* widget rects
+        bool _drawWidgetRects = false;
 
-        //! map event types to string
+        //* map event types to string
         QMap<QEvent::Type, QString > _eventTypes;
 
     };

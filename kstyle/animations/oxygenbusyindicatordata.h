@@ -41,12 +41,7 @@ namespace Oxygen
 
         //* constructor
         explicit BusyIndicatorData( QObject* parent ):
-            QObject( parent ),
-            _animated( false )
-        {}
-
-        //* destructor
-        virtual ~BusyIndicatorData( void )
+            QObject( parent )
         {}
 
         //*@name accessors
@@ -78,7 +73,7 @@ namespace Oxygen
         private:
 
         //* animated
-        bool _animated;
+        bool _animated = false;
 
     };
 

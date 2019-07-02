@@ -43,32 +43,32 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         ProgressBar( QObject*, QProgressBar*, QCheckBox* );
 
-        //! set value
+        //* set value
         void setValue( int );
 
         public Q_SLOTS:
 
-        //! toggle invertex appearance
+        //* toggle invertex appearance
         void toggleInvertedAppearance( bool value )
         { _progressBar->setInvertedAppearance( value ); }
 
         protected Q_SLOTS:
 
-        //! toggle bussy state
+        //* toggle bussy state
         void toggleBusy( bool );
 
         private:
 
-        //! progressBar
+        //* progressBar
         QProgressBar* _progressBar;
 
-        //! checkbox
+        //* checkbox
         QCheckBox* _checkBox;
 
-        //! saved value
+        //* saved value
         int _value;
 
     };
@@ -80,19 +80,15 @@ namespace Oxygen
 
         public:
 
-        //! constructor
-        explicit SliderDemoWidget( QWidget* = 0 );
-
-        //! destructor
-        virtual ~SliderDemoWidget( void )
-        {}
+        //* constructor
+        explicit SliderDemoWidget( QWidget* = nullptr );
 
         public Q_SLOTS:
 
-        //! benchmark
+        //* benchmark
         void benchmark( void );
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
         void updateSliders( int );
 
@@ -100,11 +96,11 @@ namespace Oxygen
 
         private:
 
-        bool _locked;
+        bool _locked = false;
 
         Ui_SliderDemoWidget ui;
 
-        //! progressbars
+        //* progressbars
         ProgressBar* _horizontalProgressBar;
         ProgressBar* _verticalProgressBar;
 

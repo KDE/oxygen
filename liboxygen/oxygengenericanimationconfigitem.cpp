@@ -36,13 +36,11 @@ namespace Oxygen
     //_______________________________________________
     GenericAnimationConfigBox::GenericAnimationConfigBox(QWidget* parent):
         QFrame( parent ),
-        ui( new Ui_GenericAnimationConfigBox() )
-    {
-        ui->setupUi( this );
-    }
+        ui( new Ui_GenericAnimationConfigBox )
+    { ui->setupUi( this ); }
 
     //_______________________________________________
-    GenericAnimationConfigBox::~GenericAnimationConfigBox( void )
+    GenericAnimationConfigBox::~GenericAnimationConfigBox()
     { delete ui; }
 
     //_______________________________________________

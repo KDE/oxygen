@@ -33,44 +33,40 @@
 namespace Oxygen
 {
 
-    //! headerviews
+    //* headerviews
     class HeaderViewData: public AnimationData
     {
 
         Q_OBJECT
 
-        //! declare opacity property
+        //* declare opacity property
         Q_PROPERTY( qreal currentOpacity READ currentOpacity WRITE setCurrentOpacity )
         Q_PROPERTY( qreal previousOpacity READ previousOpacity WRITE setPreviousOpacity )
 
         public:
 
-        //! constructor
+        //* constructor
         HeaderViewData( QObject* parent, QWidget* target, int duration );
 
-        //! destructor
-        virtual ~HeaderViewData( void )
-        {}
-
-        //! duration
-        void setDuration( int duration )
+        //* duration
+        void setDuration( int duration ) override
         {
             currentIndexAnimation().data()->setDuration( duration );
             previousIndexAnimation().data()->setDuration( duration );
         }
 
-        //! update state
+        //* update state
         bool updateState( const QPoint&, bool );
 
-        //!@name current index handling
+        //*@name current index handling
         //@{
 
-        //! current opacity
-        virtual qreal currentOpacity( void ) const
+        //* current opacity
+        qreal currentOpacity( void ) const
         { return _current._opacity; }
 
-        //! current opacity
-        virtual void setCurrentOpacity( qreal value )
+        //* current opacity
+        void setCurrentOpacity( qreal value )
         {
             value = digitize( value );
             if( _current._opacity == value ) return;
@@ -78,29 +74,29 @@ namespace Oxygen
             setDirty();
         }
 
-        //! current index
-        virtual int currentIndex( void ) const
+        //* current index
+        int currentIndex( void ) const
         { return _current._index; }
 
-        //! current index
-        virtual void setCurrentIndex( int index )
+        //* current index
+        void setCurrentIndex( int index )
         { _current._index = index; }
 
-        //! current index animation
-        virtual const Animation::Pointer& currentIndexAnimation( void ) const
+        //* current index animation
+        const Animation::Pointer& currentIndexAnimation( void ) const
         { return _current._animation; }
 
         //@}
 
-        //!@name previous index handling
+        //*@name previous index handling
         //@{
 
-        //! previous opacity
-        virtual qreal previousOpacity( void ) const
+        //* previous opacity
+        qreal previousOpacity( void ) const
         { return _previous._opacity; }
 
-        //! previous opacity
-        virtual void setPreviousOpacity( qreal value )
+        //* previous opacity
+        void setPreviousOpacity( qreal value )
         {
             value = digitize( value );
             if( _previous._opacity == value ) return;
@@ -108,53 +104,50 @@ namespace Oxygen
             setDirty();
         }
 
-        //! previous index
-        virtual int previousIndex( void ) const
+        //* previous index
+        int previousIndex( void ) const
         { return _previous._index; }
 
-        //! previous index
-        virtual void setPreviousIndex( int index )
+        //* previous index
+        void setPreviousIndex( int index )
         { _previous._index = index; }
 
-        //! previous index Animation
-        virtual const Animation::Pointer& previousIndexAnimation( void ) const
+        //* previous index Animation
+        const Animation::Pointer& previousIndexAnimation( void ) const
         { return _previous._animation; }
 
         //@}
 
-        //! return Animation associated to action at given position, if any
-        virtual Animation::Pointer animation( const QPoint& position ) const;
+        //* return Animation associated to action at given position, if any
+        Animation::Pointer animation( const QPoint& position ) const;
 
-        //! return opacity associated to action at given position, if any
-        virtual qreal opacity( const QPoint& position ) const;
+        //* return opacity associated to action at given position, if any
+        qreal opacity( const QPoint& position ) const;
 
         protected:
 
-        //! dirty
-        void setDirty( void ) const ;
+        //* dirty
+        void setDirty( void ) const override;
 
         private:
 
-        //! container for needed animation data
+        //* container for needed animation data
         class Data
         {
             public:
 
-            //! default constructor
-            Data( void ):
-                _opacity(0),
-                _index(-1)
-            {}
+            //* default constructor
+            Data( void ) = default;
 
             Animation::Pointer _animation;
-            qreal _opacity;
-            int _index;
+            qreal _opacity = 0;
+            int _index = -1;
         };
 
-        //! current tab animation data (for hover enter animations)
+        //* current tab animation data (for hover enter animations)
         Data _current;
 
-        //! previous tab animations data (for hover leave animations)
+        //* previous tab animations data (for hover leave animations)
         Data _previous;
 
     };

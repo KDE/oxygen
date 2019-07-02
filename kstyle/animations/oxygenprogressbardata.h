@@ -35,7 +35,7 @@ namespace Oxygen
 {
 
 
-    //! generic data
+    //* generic data
     class ProgressBarData: public GenericData
     {
 
@@ -43,32 +43,28 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         ProgressBarData( QObject* parent, QWidget* widget, int duration );
 
-        //! destructor
-        virtual ~ProgressBarData( void )
-        {}
+        //* event filter
+        bool eventFilter( QObject*, QEvent* ) override;
 
-        //! event filter
-        bool eventFilter( QObject*, QEvent* ) ;
-
-        //! progressbar value (during animation)
-        virtual int value( void ) const
+        //* progressbar value (during animation)
+        int value( void ) const
         { return _startValue + opacity()*( _endValue - _startValue ); }
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
-        //! triggered by progressBar::valueChanged
+        //* triggered by progressBar::valueChanged
         void valueChanged( int );
 
         private:
 
-        //! animation starting value
-        int _startValue;
+        //* animation starting value
+        int _startValue = 0;
 
-        //! animation ending value
-        int _endValue;
+        //* animation ending value
+        int _endValue = 0;
 
     };
 

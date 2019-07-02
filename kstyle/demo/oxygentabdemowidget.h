@@ -43,27 +43,23 @@ namespace Oxygen
 
         public:
 
-        //! constructor
-        explicit TabDemoWidget( QWidget* = 0 );
-
-        //! destructor
-        virtual ~TabDemoWidget( void )
-        {}
+        //* constructor
+        explicit TabDemoWidget( QWidget* = nullptr );
 
         public Q_SLOTS:
 
-        //! benchmark
+        //* benchmark
         void benchmark( void );
 
         protected Q_SLOTS:
 
-        //! show/hide corner buttons
+        //* show/hide corner buttons
         void toggleCornerWidgets( bool );
 
-        //! change document mode
+        //* change document mode
         void toggleDocumentMode( bool );
 
-        //! show tab close buttons
+        //* show tab close buttons
         void toggleTabCloseButtons( bool );
 
         // change tab position
@@ -74,14 +70,14 @@ namespace Oxygen
 
         private:
 
-        //! ui
+        //* ui
         Ui_TabDemoWidget ui;
 
-        //! tabbar left button
-        QToolButton* _left;
+        //* tabbar left button
+        QToolButton* _left = nullptr;
 
-        //! tabbar right button
-        QToolButton* _right;
+        //* tabbar right button
+        QToolButton* _right = nullptr;
 
     };
 

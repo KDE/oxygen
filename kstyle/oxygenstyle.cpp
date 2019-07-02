@@ -109,76 +109,67 @@ namespace OxygenPrivate
 
         public:
 
-        //! constructor
+        //* constructor
         explicit TabBarData( Oxygen::Style* parent ):
             QObject( parent ),
-            _style( parent ),
-            _dirty( false )
+            _style( parent )
         {}
 
-        //! destructor
-        virtual ~TabBarData( void )
-        {}
-
-        //! assign target tabBar
+        //* assign target tabBar
         void lock( const QWidget* widget )
         { _tabBar = widget; }
 
-        //! true if tabbar is locked
+        //* true if tabbar is locked
         bool locks( const QWidget* widget ) const
         { return _tabBar && _tabBar.data() == widget; }
 
-        //! set dirty
+        //* set dirty
         void setDirty( const bool& value = true )
         { _dirty = value; }
 
-        //! release
+        //* release
         void release( void )
         { _tabBar.clear(); }
 
-        //! draw tabBarBase
+        //* draw tabBarBase
         virtual void drawTabBarBaseControl( const QStyleOptionTab*, QPainter*, const QWidget* );
 
         private:
 
-        //! pointer to parent style object
+        //* pointer to parent style object
         Oxygen::WeakPointer<const Oxygen::Style> _style;
 
-        //! pointer to target tabBar
+        //* pointer to target tabBar
         Oxygen::WeakPointer<const QWidget> _tabBar;
 
-        //! if true, will paint on next TabBarTabShapeControl call
-        bool _dirty;
+        //* if true, will paint on next TabBarTabShapeControl call
+        bool _dirty = false;
 
     };
 
-    //! needed to have spacing added to items in combobox
+    //* needed to have spacing added to items in combobox
     class ComboBoxItemDelegate: public QItemDelegate
     {
 
         public:
 
-        //! constructor
+        //* constructor
         ComboBoxItemDelegate( QAbstractItemView* parent ):
             QItemDelegate( parent ),
             _proxy( parent->itemDelegate() ),
             _itemMargin( Oxygen::Metrics::ItemView_ItemMarginWidth )
         {}
 
-        //! destructor
-        virtual ~ComboBoxItemDelegate( void )
-        {}
-
-        //! paint
-        void paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+        //* paint
+        void paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
         {
             // call either proxy or parent class
             if( _proxy ) _proxy.data()->paint( painter, option, index );
             else QItemDelegate::paint( painter, option, index );
         }
 
-        //! size hint for index
-        QSize sizeHint( const QStyleOptionViewItem& option, const QModelIndex& index ) const
+        //* size hint for index
+        QSize sizeHint( const QStyleOptionViewItem& option, const QModelIndex& index ) const override
         {
 
             // get size from either proxy or parent class
@@ -194,10 +185,10 @@ namespace OxygenPrivate
 
         private:
 
-        //! proxy
+        //* proxy
         Oxygen::WeakPointer<QAbstractItemDelegate> _proxy;
 
-        //! margin
+        //* margin
         int _itemMargin;
 
     };
@@ -207,19 +198,19 @@ namespace OxygenPrivate
 namespace Oxygen
 {
 
-    //! toplevel manager
+    //* toplevel manager
     class TopLevelManager: public QObject
     {
         public:
 
-        //! constructor
+        //* constructor
         TopLevelManager( QObject* parent, const StyleHelper& helper ):
             QObject( parent ),
             _helper( helper )
         {}
 
-        //! event filter
-        bool eventFilter(QObject* object, QEvent* event )
+        //* event filter
+        bool eventFilter(QObject* object, QEvent* event ) override
         {
 
             // cast to QWidget
@@ -232,7 +223,7 @@ namespace Oxygen
 
         private:
 
-        //! helper
+        //* helper
         const StyleHelper& _helper;
 
     };
@@ -1173,19 +1164,19 @@ namespace Oxygen
         // fallback on Align::VCenter if not
         if( !(flags&Qt::AlignVertical_Mask) ) flags |= Qt::AlignVCenter;
 
-        if( _animations->widgetEnabilityEngine().enabled() )
+        if( _animations->widgetEnableStateEngine().enabled() )
         {
 
             /*
-            check if painter engine is registered to WidgetEnabilityEngine, and animated
+            check if painter engine is registered to widgetEnableStateEngine, and animated
             if yes, merge the palettes. Note: a static_cast is safe here, since only the address
             of the pointer is used, not the actual content.
             */
             const QWidget* widget( static_cast<const QWidget*>( painter->device() ) );
-            if( _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
+            if( _animations->widgetEnableStateEngine().isAnimated( widget, AnimationEnable ) )
             {
 
-                const QPalette copy( _helper->disabledPalette( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable ) ) );
+                const QPalette copy( _helper->disabledPalette( palette, _animations->widgetEnableStateEngine().opacity( widget, AnimationEnable ) ) );
                 return ParentStyleClass::drawItemText( painter, rect, flags, copy, enabled, text, textRole );
 
             }
@@ -5786,8 +5777,8 @@ namespace Oxygen
         // use the same background as in drawHeaderPrimitive
         QPalette palette( option->palette );
 
-        if( widget && _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
-        { palette = _helper->disabledPalette( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
+        if( widget && _animations->widgetEnableStateEngine().isAnimated( widget, AnimationEnable ) )
+        { palette = _helper->disabledPalette( palette, _animations->widgetEnableStateEngine().opacity( widget, AnimationEnable )  ); }
 
         const bool horizontal( option->state & QStyle::State_Horizontal );
         const bool reverseLayout( option->direction == Qt::RightToLeft );
@@ -7421,13 +7412,13 @@ namespace Oxygen
             QRect textRect = subControlRect( CC_TitleBar, titleBarOption, SC_TitleBarLabel, widget );
 
             // enable state transition
-            _animations->widgetEnabilityEngine().updateState( widget, AnimationEnable, active );
+            _animations->widgetEnableStateEngine().updateState( widget, AnimationEnable, active );
 
             // make sure palette has the correct color group
             QPalette palette( option->palette );
 
-            if( _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
-            { palette = _helper->disabledPalette( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
+            if( _animations->widgetEnableStateEngine().isAnimated( widget, AnimationEnable ) )
+            { palette = _helper->disabledPalette( palette, _animations->widgetEnableStateEngine().opacity( widget, AnimationEnable )  ); }
 
             palette.setCurrentColorGroup( active ? QPalette::Active: QPalette::Disabled );
             ParentStyleClass::drawItemText( painter, textRect, Qt::AlignCenter, palette, active, titleBarOption->text, QPalette::WindowText );
@@ -7888,9 +7879,9 @@ namespace Oxygen
         const bool active( enabled && ( option->titleBarState & Qt::WindowActive ) );
 
         // enable state transition
-        _animations->widgetEnabilityEngine().updateState( widget, AnimationEnable, active );
-        if( _animations->widgetEnabilityEngine().isAnimated( widget, AnimationEnable ) )
-        { palette = _helper->disabledPalette( palette, _animations->widgetEnabilityEngine().opacity( widget, AnimationEnable )  ); }
+        _animations->widgetEnableStateEngine().updateState( widget, AnimationEnable, active );
+        if( _animations->widgetEnableStateEngine().isAnimated( widget, AnimationEnable ) )
+        { palette = _helper->disabledPalette( palette, _animations->widgetEnableStateEngine().opacity( widget, AnimationEnable )  ); }
 
         const bool sunken( state & State_Sunken );
         const bool mouseOver( ( !sunken ) && widget && rect.translated( widget->mapToGlobal( QPoint( 0,0 ) ) ).contains( QCursor::pos() ) );

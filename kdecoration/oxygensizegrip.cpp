@@ -19,7 +19,6 @@
 
 
 #include "oxygensizegrip.h"
-#include "oxygensizegrip.moc"
 
 #include <KDecoration2/DecoratedClient>
 
@@ -75,10 +74,6 @@ namespace Oxygen
         show();
 
     }
-
-    //_____________________________________________
-    SizeGrip::~SizeGrip( void )
-    {}
 
     //_____________________________________________
     void SizeGrip::updateActiveState( void )

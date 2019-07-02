@@ -127,10 +127,6 @@ namespace Oxygen
     }
 
     //____________________________________________________________________
-    SplitterProxy::~SplitterProxy( void )
-    {}
-
-    //____________________________________________________________________
     void SplitterProxy::setEnabled( bool value )
     {
         // make sure status has changed

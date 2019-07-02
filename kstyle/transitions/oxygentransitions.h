@@ -35,7 +35,7 @@
 namespace Oxygen
 {
 
-    //! stores engines
+    //* stores engines
     class Transitions: public QObject
     {
 
@@ -43,59 +43,55 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit Transitions( QObject* );
 
-        //! destructor
-        virtual ~Transitions( void )
-        {}
-
-        //! register animations corresponding to given widget, depending on its type.
+        //* register animations corresponding to given widget, depending on its type.
         void registerWidget( QWidget* widget ) const;
 
-        /*! unregister all animations associated to a widget */
+        /** unregister all animations associated to a widget */
         void unregisterWidget( QWidget* widget ) const;
 
-        //! qlabel engine
+        //* qlabel engine
         ComboBoxEngine& comboBoxEngine( void ) const
         { return *_comboBoxEngine; }
 
-        //! qlabel engine
+        //* qlabel engine
         LabelEngine& labelEngine( void ) const
         { return *_labelEngine; }
 
-        //! qlineedit engine
+        //* qlineedit engine
         LineEditEngine& lineEditEngine( void ) const
         { return *_lineEditEngine; }
 
-        //! stacked widget engine
+        //* stacked widget engine
         StackedWidgetEngine& stackedWidgetEngine( void ) const
         { return *_stackedWidgetEngine; }
 
         public Q_SLOTS:
 
-        //! setup engines
+        //* setup engines
         void setupEngines( void );
 
         private:
 
-        //! register new engine
+        //* register new engine
         void registerEngine( BaseEngine* engine )
         { _engines.push_back( engine ); }
 
-        //! qcombobox engine
+        //* qcombobox engine
         ComboBoxEngine* _comboBoxEngine;
 
-        //! qlabel engine
+        //* qlabel engine
         LabelEngine* _labelEngine;
 
-        //! qlineedit engine
+        //* qlineedit engine
         LineEditEngine* _lineEditEngine;
 
-        //! stacked widget engine
+        //* stacked widget engine
         StackedWidgetEngine* _stackedWidgetEngine;
 
-        //! keep list of existing engines
+        //* keep list of existing engines
         QList< BaseEngine::Pointer > _engines;
 
     };

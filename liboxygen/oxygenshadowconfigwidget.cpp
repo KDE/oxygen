@@ -40,9 +40,7 @@ namespace Oxygen
     //_________________________________________________________
     ShadowConfigWidget::ShadowConfigWidget( QWidget* parent ):
         QGroupBox( parent ),
-        ui( new Ui_ShadowConfiguraionUI() ),
-        _group( QPalette::Inactive ),
-        _changed( false )
+        ui( new Ui_ShadowConfiguraionUI() )
     {
 
         setCheckable( true );

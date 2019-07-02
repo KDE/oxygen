@@ -41,19 +41,14 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         AddEventFilter( void ):
             QObject()
             {}
 
-        //! destructor
-        virtual ~AddEventFilter( void )
-        {}
-
-
-        //! event filter
+        //* event filter
         /*! blocks all AddChild events */
-        bool eventFilter( QObject*, QEvent* event )
+        bool eventFilter( QObject*, QEvent* event ) override
         { return event->type() == QEvent::ChildAdded; }
 
     };

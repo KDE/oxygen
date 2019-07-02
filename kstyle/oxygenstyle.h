@@ -116,54 +116,54 @@ namespace Oxygen
         explicit Style( void );
 
         //* destructor
-        virtual ~Style( void );
+        ~Style( void ) override;
 
         //* needed to avoid warnings at compilation time
         using  ParentStyleClass::polish;
         using  ParentStyleClass::unpolish;
 
         //* widget polishing
-        void polish( QWidget* ) ;
+        void polish( QWidget* ) override;
 
         //* widget unpolishing
-        void unpolish( QWidget* ) ;
+        void unpolish( QWidget* ) override;
 
         //* pixel metrics
-        int pixelMetric(PixelMetric, const QStyleOption* = nullptr, const QWidget* = nullptr) const ;
+        int pixelMetric(PixelMetric, const QStyleOption* = nullptr, const QWidget* = nullptr) const override;
 
         //* style hints
-        int styleHint(StyleHint, const QStyleOption* = nullptr, const QWidget* = nullptr, QStyleHintReturn* = nullptr) const ;
+        int styleHint(StyleHint, const QStyleOption* = nullptr, const QWidget* = nullptr, QStyleHintReturn* = nullptr) const override;
 
         //* returns rect corresponding to one widget's subelement
-        QRect subElementRect( SubElement, const QStyleOption*, const QWidget* ) const ;
+        QRect subElementRect( SubElement, const QStyleOption*, const QWidget* ) const override;
 
         //* returns rect corresponding to one widget's subcontrol
-        QRect subControlRect( ComplexControl, const QStyleOptionComplex*, SubControl, const QWidget* ) const ;
+        QRect subControlRect( ComplexControl, const QStyleOptionComplex*, SubControl, const QWidget* ) const override;
 
         //* returns size matching contents
-        QSize sizeFromContents( ContentsType, const QStyleOption*, const QSize&, const QWidget* ) const ;
+        QSize sizeFromContents( ContentsType, const QStyleOption*, const QSize&, const QWidget* ) const override;
 
         //* returns which subcontrol given QPoint corresponds to
-        SubControl hitTestComplexControl( ComplexControl, const QStyleOptionComplex*, const QPoint&, const QWidget* ) const ;
+        SubControl hitTestComplexControl( ComplexControl, const QStyleOptionComplex*, const QPoint&, const QWidget* ) const override;
 
         //* primitives
-        void drawPrimitive( PrimitiveElement, const QStyleOption*, QPainter*, const QWidget* ) const ;
+        void drawPrimitive( PrimitiveElement, const QStyleOption*, QPainter*, const QWidget* ) const override;
 
         //* controls
-        void drawControl( ControlElement, const QStyleOption*, QPainter*, const QWidget* ) const ;
+        void drawControl( ControlElement, const QStyleOption*, QPainter*, const QWidget* ) const override;
 
         //* complex controls
-        void drawComplexControl( ComplexControl, const QStyleOptionComplex*, QPainter*, const QWidget* ) const ;
+        void drawComplexControl( ComplexControl, const QStyleOptionComplex*, QPainter*, const QWidget* ) const override;
 
         //* generic text rendering
         void drawItemText(
             QPainter*, const QRect&, int alignment, const QPalette&, bool enabled,
-            const QString&, QPalette::ColorRole = QPalette::NoRole) const ;
+            const QString&, QPalette::ColorRole = QPalette::NoRole) const override;
 
         //*@name event filters
         //@{
 
-        bool eventFilter(QObject *, QEvent *) ;
+        bool eventFilter(QObject *, QEvent *) override;
         bool eventFilterComboBoxContainer( QWidget*, QEvent* );
         bool eventFilterDockWidget( QDockWidget*, QEvent* );
         bool eventFilterMdiSubWindow( QMdiSubWindow*, QEvent* );
@@ -188,17 +188,21 @@ namespace Oxygen
 
         protected Q_SLOTS:
 
-        //* update configuration
-        void configurationChanged( void );
-
         //* standard icons
         virtual QIcon standardIconImplementation( StandardPixmap, const QStyleOption*, const QWidget* ) const;
 
         protected:
 
         //* standard icons
-        QIcon standardIcon( StandardPixmap pixmap, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const
+        QIcon standardIcon( StandardPixmap pixmap, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const override
         { return standardIconImplementation( pixmap, option, widget ); }
+
+        private Q_SLOTS:
+
+        //* update configuration
+        void configurationChanged( void );
+
+        private:
 
         //* load configuration
         void loadConfiguration();
@@ -363,30 +367,30 @@ namespace Oxygen
         bool emptyControl( const QStyleOption*, QPainter*, const QWidget* ) const
         { return true; }
 
-        virtual bool drawPushButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawToolButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawMenuBarItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawMenuItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawProgressBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawProgressBarContentsControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawProgressBarGrooveControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawProgressBarLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawScrollBarSliderControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawScrollBarAddLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawScrollBarSubLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawShapedFrameControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawRubberBandControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawHeaderSectionControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawHeaderEmptyAreaControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawTabBarTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawTabBarTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawTabBarTabShapeControl_selected( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawTabBarTabShapeControl_unselected( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawToolBoxTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawToolBoxTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawDockWidgetTitleControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawToolBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
-        virtual bool drawSplitterControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
+        bool drawPushButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawToolButtonLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawMenuBarItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawMenuItemControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawProgressBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawProgressBarContentsControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawProgressBarGrooveControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawProgressBarLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawScrollBarSliderControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawScrollBarAddLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawScrollBarSubLineControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawShapedFrameControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawRubberBandControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawHeaderSectionControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawHeaderEmptyAreaControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawTabBarTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawTabBarTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawTabBarTabShapeControl_selected( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawTabBarTabShapeControl_unselected( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawToolBoxTabLabelControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawToolBoxTabShapeControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawDockWidgetTitleControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawToolBarControl( const QStyleOption*, QPainter*, const QWidget* ) const;
+        bool drawSplitterControl( const QStyleOption* option, QPainter* painter, const QWidget* widget ) const
         {
             renderSplitter( option, painter, widget, option->state & State_Horizontal );
             return true;
@@ -503,7 +507,7 @@ namespace Oxygen
 
         //@}
 
-        //!*@name various utilty functions
+        //**@name various utilty functions
         //@{
 
         //* return dial angle based on option and value
@@ -605,13 +609,11 @@ namespace Oxygen
         //* adjusted slabRect
         inline void adjustSlabRect( SlabRect& slab, const QRect&, bool documentMode, bool vertical ) const;
 
-        //! return true if one of the widget's parent inherits requested type
+        //* return true if one of the widget's parent inherits requested type
         inline bool hasParent( const QWidget*, const char* ) const;
 
         //* return true if one of the widget's parent inherits requested type
         template<typename T> bool hasParent( const QWidget* ) const;
-
-        private:
 
         //*@name scrollbar button types (for addLine and subLine )
         //@{

@@ -52,10 +52,6 @@ namespace Oxygen
             QPropertyAnimation( parent )
         { setDuration( duration ); }
 
-        //! destructor
-        virtual ~Animation( void )
-        {}
-
         //! true if running
         bool isRunning( void ) const
         { return state() == Animation::Running; }

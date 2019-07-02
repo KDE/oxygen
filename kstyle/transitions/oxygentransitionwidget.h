@@ -36,27 +36,24 @@
 namespace Oxygen
 {
 
-    //! temporary widget used to perform smooth transition between one widget state and another
+    //* temporary widget used to perform smooth transition between one widget state and another
     class TransitionWidget: public QWidget
     {
 
         Q_OBJECT
 
-        //! declare opacity property
+        //* declare opacity property
         Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
 
         public:
 
-        //! shortcut to painter
+        //* shortcut to painter
         using Pointer = WeakPointer<TransitionWidget>;
 
-        //! constructor
+        //* constructor
         TransitionWidget( QWidget* parent, int duration );
 
-        //! destructor
-        virtual ~TransitionWidget( void ) = default;
-
-        //!@name flags
+        //*@name flags
         //@{
         enum Flag
         {
@@ -82,28 +79,28 @@ namespace Oxygen
 
         //@}
 
-        //! duration
+        //* duration
         void setDuration( int duration )
         {
             if( _animation )
             { _animation.data()->setDuration( duration ); }
         }
 
-        //! duration
+        //* duration
         int duration( void ) const
         { return ( _animation ) ? _animation.data()->duration() : 0; }
 
-        //! steps
+        //* steps
         static void setSteps( int value )
         { _steps = value; }
 
-        //!@name opacity
+        //*@name opacity
         //@{
 
-        virtual qreal opacity( void ) const
+        qreal opacity( void ) const
         { return _opacity; }
 
-        virtual void setOpacity( qreal value )
+        void setOpacity( qreal value )
         {
             value = digitize( value );
             if( _opacity == value ) return;
@@ -116,116 +113,116 @@ namespace Oxygen
         //@name pixmaps handling
         //@{
 
-        //! start
+        //* start
         void resetStartPixmap( void )
         { setStartPixmap( QPixmap() ); }
 
-        //! start
+        //* start
         void setStartPixmap( QPixmap pixmap )
         { _startPixmap = pixmap; }
 
-        //! start
+        //* start
         const QPixmap& startPixmap( void ) const
         { return _startPixmap; }
 
-        //! end
+        //* end
         void resetEndPixmap( void )
         { setEndPixmap( QPixmap() ); }
 
-        //! end
+        //* end
         void setEndPixmap( QPixmap pixmap )
         {
             _endPixmap = pixmap;
             _currentPixmap = pixmap;
         }
 
-        //! start
+        //* start
         const QPixmap& endPixmap( void ) const
         { return _endPixmap; }
 
-        //! current
+        //* current
         const QPixmap& currentPixmap( void ) const
         { return _currentPixmap; }
 
         //@}
 
-        //! grap pixmap
+        //* grap pixmap
         QPixmap grab( QWidget* = 0, QRect = QRect() );
 
-        //! true if animated
-        virtual bool isAnimated( void ) const
+        //* true if animated
+        bool isAnimated( void ) const
         { return _animation.data()->isRunning(); }
 
-        //! end animation
-        virtual void endAnimation( void )
+        //* end animation
+        void endAnimation( void )
         { if( _animation.data()->isRunning() ) _animation.data()->stop(); }
 
-        //! animate transition
-        virtual void animate( void )
+        //* animate transition
+        void animate( void )
         {
             if( _animation.data()->isRunning() ) _animation.data()->stop();
             _animation.data()->start();
         }
 
-        //! true if paint is enabled
+        //* true if paint is enabled
         static bool paintEnabled( void );
 
         protected:
 
-        //! generic event filter
-        bool event( QEvent* ) ;
+        //* generic event filter
+        bool event( QEvent* ) override;
 
-        //! paint event
-        void paintEvent( QPaintEvent* ) ;
+        //* paint event
+        void paintEvent( QPaintEvent* ) override;
 
-        //! grab widget background
+        private:
+
+        //* grab widget background
         /*!
         Background is not rendered properly using QWidget::render.
         Use home-made grabber instead. This is directly inspired from bespin.
         Copyright (C) 2007 Thomas Luebking <thomas.luebking@web.de>
         */
-        virtual void grabBackground( QPixmap&, QWidget*, QRect& ) const;
+        void grabBackground( QPixmap&, QWidget*, QRect& ) const;
 
-        //! grab widget
-        virtual void grabWidget( QPixmap&, QWidget*, QRect& ) const;
+        //* grab widget
+        void grabWidget( QPixmap&, QWidget*, QRect& ) const;
 
-        //! fade pixmap
-        virtual void fade( const QPixmap& source, QPixmap& target, qreal opacity, const QRect& ) const;
+        //* fade pixmap
+        void fade( const QPixmap& source, QPixmap& target, qreal opacity, const QRect& ) const;
 
-        //! apply step
-        virtual qreal digitize( const qreal& value ) const
+        //* apply step
+        qreal digitize( const qreal& value ) const
         {
             if( _steps > 0 ) return std::floor( value*_steps )/_steps;
             else return value;
         }
 
-        private:
-
-        //! Flags
+        //* Flags
         Flags _flags = None;
 
-        //! paint enabled
+        //* paint enabled
         static bool _paintEnabled;
 
-        //! internal transition animation
+        //* internal transition animation
         Animation::Pointer _animation;
 
-        //! animation starting pixmap
+        //* animation starting pixmap
         QPixmap _startPixmap;
 
-        //! animation starting pixmap
+        //* animation starting pixmap
         QPixmap _localStartPixmap;
 
-        //! animation starting pixmap
+        //* animation starting pixmap
         QPixmap _endPixmap;
 
-        //! current pixmap
+        //* current pixmap
         QPixmap _currentPixmap;
 
-        //! current state opacity
+        //* current state opacity
         qreal _opacity = 0;
 
-        //! steps
+        //* steps
         static int _steps;
 
     };

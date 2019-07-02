@@ -40,10 +40,6 @@ namespace Oxygen
         //* constructor
         explicit ItemModel(QObject *parent = 0);
 
-        //* destructor
-        virtual ~ItemModel()
-        {}
-
         //* return all indexes in model starting from parent [recursive]
         QModelIndexList indexes( int column = 0, const QModelIndex& parent = QModelIndex() ) const;
 

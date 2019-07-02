@@ -49,16 +49,14 @@ namespace Oxygen
         #endif
 
         //* destructor
-        virtual ~StyleHelper() {}
-
         //* clear cache
-        void invalidateCaches() ;
+        void invalidateCaches() override;
 
         //* update maximum cache size
-        void setMaxCacheSize( int ) ;
+        void setMaxCacheSize( int ) override;
 
         //* background gradient
-        virtual void setUseBackgroundGradient( bool value )
+        void setUseBackgroundGradient( bool value )
         { _useBackgroundGradient = value; }
 
         //* render window background using a given color as a reference
@@ -67,10 +65,10 @@ namespace Oxygen
         All the actual rendering is performed by the base class
         */
         using Helper::renderWindowBackground;
-        void renderWindowBackground( QPainter*, const QRect&, const QWidget*, const QColor&, int y_shift=-23 ) ;
+        void renderWindowBackground( QPainter*, const QRect&, const QWidget*, const QColor&, int y_shift=-23 ) override;
 
         //* set background gradient hint to widget
-        void setHasBackgroundGradient( WId, bool ) const ;
+        void setHasBackgroundGradient( WId, bool ) const override;
 
         // render menu background
         void renderMenuBackground( QPainter* p, const QRect& clipRect, const QWidget* widget, const QPalette& pal )
@@ -100,14 +98,14 @@ namespace Oxygen
         QColor frameGlowColor( QPalette::ColorGroup, StyleOptions, qreal, AnimationMode ) const;
 
         //* returns menu background color matching position in a given menu widget
-        virtual QColor menuBackgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
+        QColor menuBackgroundColor( const QColor& color, const QWidget* w, const QPoint& point )
         {
             if( !( w && w->window() ) || checkAutoFillBackground( w ) ) return color;
             else return menuBackgroundColor( color, w->window()->height(), w->mapTo( w->window(), point ).y() );
         }
 
         //* returns menu background color matching position in a menu widget of given height
-        virtual QColor menuBackgroundColor( const QColor& color, int height, int y )
+        QColor menuBackgroundColor( const QColor& color, int height, int y )
         { return backgroundColor( color, qMin( qreal( 1.0 ), qreal( y )/qMin( 200, 3*height/4 ) ) ); }
 
         //* color
@@ -119,7 +117,7 @@ namespace Oxygen
         //@}
 
         //* overloaded window decoration buttons for MDI windows
-        virtual QPixmap dockWidgetButton( const QColor& color, bool pressed, int size = 21 );
+        QPixmap dockWidgetButton( const QColor& color, bool pressed, int size = 21 );
 
         //* round corners( used for Menus, combobox drop-down, detached toolbars and dockwidgets
         TileSet roundCorner( const QColor&, int size = 5 );
@@ -138,17 +136,17 @@ namespace Oxygen
         void fillSlab( QPainter&, const QRect&, int size = TileSet::DefaultSize ) const;
 
         //* linear gradient used to fill buttons
-        virtual void fillButtonSlab( QPainter&, const QRect&, const QColor&, bool sunken );
+        void fillButtonSlab( QPainter&, const QRect&, const QColor&, bool sunken );
 
         //* default slab
-        virtual TileSet slab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
+        TileSet slab( const QColor& color, qreal shade, int size = TileSet::DefaultSize )
         { return slab( color, QColor(), shade, size );  }
 
         //* default slab (with glow)
-        virtual TileSet slab( const QColor&, const QColor& glow, qreal shade, int size = TileSet::DefaultSize );
+        TileSet slab( const QColor&, const QColor& glow, qreal shade, int size = TileSet::DefaultSize );
 
         //* sunken slab
-        virtual TileSet slabSunken( const QColor&, int size = TileSet::DefaultSize );
+        TileSet slabSunken( const QColor&, int size = TileSet::DefaultSize );
 
         //* progressbar
         TileSet progressBarIndicator( const QPalette&, int );
@@ -223,7 +221,7 @@ namespace Oxygen
 
         //@}
 
-        protected:
+        private:
 
         //*@name holes
         //@{
@@ -238,15 +236,13 @@ namespace Oxygen
         //@}
 
         //* generic slab painting (to be stored in tilesets)
-        virtual void drawSlab( QPainter&, const QColor&, qreal shade );
+        void drawSlab( QPainter&, const QColor&, qreal shade );
 
         // round slabs
         void drawRoundSlab( QPainter&, const QColor&, qreal );
 
         // slider slabs
         void drawSliderSlab( QPainter&, const QColor&, bool sunken, qreal );
-
-        private:
 
         //* initialize
         void init( void );

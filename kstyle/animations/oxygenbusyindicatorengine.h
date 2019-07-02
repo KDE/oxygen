@@ -49,17 +49,14 @@ namespace Oxygen
         //* constructor
         explicit BusyIndicatorEngine( QObject* );
 
-        //* destructor
-        virtual ~BusyIndicatorEngine( void ) = default;
-
         //*@name accessors
         //@{
 
         //* true if widget is animated
-        virtual bool isAnimated( const QObject* );
+        bool isAnimated( const QObject* );
 
         //* value
-        virtual qreal value( void ) const
+        qreal value( void ) const
         { return _value; }
 
         //@}
@@ -68,30 +65,28 @@ namespace Oxygen
         //@{
 
         //* register progressbar
-        virtual bool registerWidget( QObject* );
+        bool registerWidget( QObject* );
 
         //* duration
-        void setDuration( int ) ;
+        void setDuration( int ) override;
 
         //* set object as animated
-        virtual void setAnimated( const QObject*, bool );
+        void setAnimated( const QObject*, bool );
 
         //* opacity
-        virtual void setValue( qreal value );
+        void setValue( qreal value );
 
         //@}
 
         public Q_SLOTS:
 
         //* remove widget from map
-        bool unregisterWidget( QObject* ) ;
+        bool unregisterWidget( QObject* ) override;
 
-        protected:
+        private:
 
         //* returns data associated to widget
         DataMap<BusyIndicatorData>::Value data( const QObject* );
-
-        private:
 
         //* map widgets to progressbar data
         DataMap<BusyIndicatorData> _data;

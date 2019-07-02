@@ -34,7 +34,7 @@
 namespace Oxygen
 {
 
-    //! used for simple widgets
+    //* used for simple widgets
     class ComboBoxEngine: public BaseEngine
     {
 
@@ -42,27 +42,23 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit ComboBoxEngine( QObject* parent ):
             BaseEngine( parent )
         {}
 
-        //! destructor
-        virtual ~ComboBoxEngine( void )
-        {}
+        //* register widget
+        bool registerWidget( QComboBox* );
 
-        //! register widget
-        virtual bool registerWidget( QComboBox* );
-
-        //! duration
-        void setEnabled( bool value )
+        //* duration
+        void setEnabled( bool value ) override
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
-        //! duration
-        void setDuration( int value )
+        //* duration
+        void setDuration( int value ) override
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
@@ -70,13 +66,13 @@ namespace Oxygen
 
         public Q_SLOTS:
 
-        //! remove widget from map
-        bool unregisterWidget( QObject* object )
+        //* remove widget from map
+        bool unregisterWidget( QObject* object ) override
         { return _data.unregisterWidget( object ); }
 
         private:
 
-        //! maps
+        //* maps
         DataMap<ComboBoxData> _data;
 
     };

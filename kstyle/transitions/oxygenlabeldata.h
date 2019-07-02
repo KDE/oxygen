@@ -36,7 +36,7 @@
 namespace Oxygen
 {
 
-    //! generic data
+    //* generic data
     class LabelData: public TransitionData
     {
 
@@ -44,66 +44,66 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         LabelData( QObject*, QLabel*, int );
 
-        //! destructor
-        virtual ~LabelData( void )
-        {}
+        //* event filter
+        bool eventFilter( QObject*, QEvent* ) override;
 
-        //! event filter
-        bool eventFilter( QObject*, QEvent* ) ;
-
-        //! returns true if animations are locked
+        //* returns true if animations are locked
         bool isLocked( void ) const
         { return _animationLockTimer.isActive(); }
 
-        //! start lock animation timer
+        //* start lock animation timer
         void lockAnimations( void )
         { _animationLockTimer.start( _lockTime, this ); }
 
-        //! start lock animation timer
+        //* start lock animation timer
         void unlockAnimations( void )
         { _animationLockTimer.stop(); }
 
-        protected Q_SLOTS:
-
-        //! initialize animation
-        bool initializeAnimation( void ) ;
-
-        //! animate
-        bool animate( void ) ;
-
-        //! called when target is destroyed
-        virtual void targetDestroyed( void );
-
         protected:
 
-        //! true if transparent
-        bool transparent( void ) const
-        { return transition() && transition().data()->testFlag( TransitionWidget::Transparent ); }
+        //* timer event
+        void timerEvent( QTimerEvent* ) override;
 
-        //! timer event
-        void timerEvent( QTimerEvent* ) ;
+        protected Q_SLOTS:
+
+        //* initialize animation
+        bool initializeAnimation( void ) override;
+
+        //* animate
+        bool animate( void ) override;
+
+        private Q_SLOTS:
+        
+        //* called when target is destroyed
+        void targetDestroyed( void );
 
         private:
 
-        //! lock time (milliseconds
+        //* true if transparent
+        bool transparent( void ) const
+        { return transition() && transition().data()->testFlag( TransitionWidget::Transparent ); }
+
+        private:
+
+        //* lock time (milliseconds
         static const int _lockTime;
 
-        //! timer used to disable animations when triggered too early
+        //* timer used to disable animations when triggered too early
         QBasicTimer _animationLockTimer;
 
-        //! needed to start animations out of parent paintEvent
+        //* needed to start animations out of parent paintEvent
         QBasicTimer _timer;
 
-        //! target
+        //* target
         WeakPointer<QLabel> _target;
 
-        //! old text
+        //* old text
         QString _text;
 
-        //! widget rect
+        //* widget rect
         /*! needed to properly handle QLabel geometry changes */
         QRect _widgetRect;
 

@@ -48,7 +48,7 @@
 namespace Oxygen
 {
 
-    //! stores engines
+    //* stores engines
     class Animations: public QObject
     {
 
@@ -56,158 +56,155 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit Animations( QObject* );
 
-        //! destructor
-        virtual ~Animations( void )
-        {}
-
-        //! register animations corresponding to given widget, depending on its type.
+        //* register animations corresponding to given widget, depending on its type.
         void registerWidget( QWidget* widget ) const;
 
         /*! unregister all animations associated to a widget */
         void unregisterWidget( QWidget* widget ) const;
 
-        //! enability engine
-        WidgetStateEngine& widgetEnabilityEngine( void ) const
-        { return *_widgetEnabilityEngine; }
+        //* enable state engine
+        WidgetStateEngine& widgetEnableStateEngine( void ) const
+        { return *_widgetEnableStateEngine; }
 
-        //! abstractButton engine
+        //* abstractButton engine
         WidgetStateEngine& widgetStateEngine( void ) const
         { return *_widgetStateEngine; }
 
-        //! editable combobox arrow hover engine
+        //* editable combobox arrow hover engine
         WidgetStateEngine& comboBoxEngine( void ) const
         { return *_comboBoxEngine; }
 
-        //! Tool buttons arrow hover engine
+        //* Tool buttons arrow hover engine
         WidgetStateEngine& toolButtonEngine( void ) const
         { return *_toolButtonEngine; }
 
-        //! item view engine
+        //* item view engine
         WidgetStateEngine& inputWidgetEngine( void ) const
         { return *_inputWidgetEngine; }
 
-        //! splitter engine
+        //* splitter engine
         SplitterEngine& splitterEngine( void ) const
         { return *_splitterEngine; }
 
-        //! busy indicator
+        //* busy indicator
         BusyIndicatorEngine& busyIndicatorEngine( void ) const
         { return *_busyIndicatorEngine; }
 
-        //! dock separators engine
+        //* dock separators engine
         DockSeparatorEngine& dockSeparatorEngine( void ) const
         { return *_dockSeparatorEngine; }
 
-        //! header view engine
+        //* header view engine
         HeaderViewEngine& headerViewEngine( void ) const
         { return *_headerViewEngine; }
 
-        //! progressbar engine
+        //* progressbar engine
         ProgressBarEngine& progressBarEngine( void ) const
         { return *_progressBarEngine; }
 
-        //! menubar engine
+        //* menubar engine
         MenuBarBaseEngine& menuBarEngine( void ) const
         { return *_menuBarEngine; }
 
-        //! menu engine
+        //* menu engine
         MenuBaseEngine& menuEngine( void ) const
         { return *_menuEngine; }
 
-        //! scrollbar engine
+        //* scrollbar engine
         ScrollBarEngine& scrollBarEngine( void ) const
         { return *_scrollBarEngine; }
 
-        //! spinbox engine
+        //* spinbox engine
         SpinBoxEngine& spinBoxEngine( void ) const
         { return *_spinBoxEngine; }
 
-        //! tabbar
+        //* tabbar
         TabBarEngine& tabBarEngine( void ) const
         { return *_tabBarEngine; }
 
-        //! toolbar
+        //* toolbar
         ToolBarEngine& toolBarEngine( void ) const
         { return *_toolBarEngine; }
 
-        //! toolbox
+        //* toolbox
         ToolBoxEngine& toolBoxEngine( void ) const
         { return *_toolBoxEngine; }
 
-        //! mdi windows
+        //* mdi windows
         MdiWindowEngine& mdiWindowEngine( void ) const
         { return *_mdiWindowEngine; }
 
-        //! setup engines
+        //* setup engines
         void setupEngines( void );
 
         protected Q_SLOTS:
 
-        //! enregister engine
+        //* enregister engine
         void unregisterEngine( QObject* );
+
         private:
 
-        //! register new engine
+        //* register new engine
         void registerEngine( BaseEngine* engine );
 
-        //! busy indicator
+        //* busy indicator
         BusyIndicatorEngine* _busyIndicatorEngine;
 
-        //! dock separator handle hover effect
+        //* dock separator handle hover effect
         DockSeparatorEngine* _dockSeparatorEngine;
 
-        //! headerview hover effect
+        //* headerview hover effect
         HeaderViewEngine* _headerViewEngine;
 
-        //! widget enability engine
-        WidgetStateEngine* _widgetEnabilityEngine;
+        //* widget enable state engine
+        WidgetStateEngine* _widgetEnableStateEngine;
 
-        //! abstract button engine
+        //* abstract button engine
         WidgetStateEngine* _widgetStateEngine;
 
-        //! editable combobox arrow hover effect
+        //* editable combobox arrow hover effect
         WidgetStateEngine* _comboBoxEngine;
 
-        //! mennu toolbutton arrow hover effect
+        //* mennu toolbutton arrow hover effect
         WidgetStateEngine* _toolButtonEngine;
 
-        //! item view engine
+        //* item view engine
         WidgetStateEngine* _inputWidgetEngine;
 
-        //! QSplitter engine
+        //* QSplitter engine
         SplitterEngine* _splitterEngine;
 
-        //! progressbar engine
+        //* progressbar engine
         ProgressBarEngine* _progressBarEngine;
 
-        //! menubar engine
+        //* menubar engine
         MenuBarBaseEngine* _menuBarEngine;
 
-        //! menu engine
+        //* menu engine
         MenuBaseEngine* _menuEngine;
 
-        //! scrollbar engine
+        //* scrollbar engine
         ScrollBarEngine* _scrollBarEngine;
 
-        //! spinbox engine
+        //* spinbox engine
         SpinBoxEngine* _spinBoxEngine;
 
-        //! tabbar engine
+        //* tabbar engine
         TabBarEngine* _tabBarEngine;
 
-        //! toolbar engine
+        //* toolbar engine
         ToolBarEngine* _toolBarEngine;
 
-        //! toolbar engine
+        //* toolbar engine
         ToolBoxEngine* _toolBoxEngine;
 
-        //! mdi window
+        //* mdi window
         MdiWindowEngine* _mdiWindowEngine;
 
-        //! keep list of existing engines
+        //* keep list of existing engines
         QList< BaseEngine::Pointer > _engines;
 
     };

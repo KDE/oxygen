@@ -57,10 +57,6 @@ namespace Oxygen
         QObject( parent )
         {}
 
-        //* destructor
-        virtual ~FrameShadowFactory( void )
-        {}
-
         //* register widget
         bool registerWidget( QWidget*, StyleHelper& );
 
@@ -72,7 +68,7 @@ namespace Oxygen
         { return _registeredWidgets.contains( widget ); }
 
         //* event filter
-        bool eventFilter( QObject*, QEvent*) ;
+        bool eventFilter( QObject*, QEvent*) override;
 
         //* set contrast
         void setHasContrast( const QWidget* widget, bool ) const;
@@ -119,7 +115,7 @@ namespace Oxygen
     };
 
     //* frame shadow
-    /*! this allows the shadow to be painted over the widgets viewport */
+    /** this allows the shadow to be painted over the widgets viewport */
     class FrameShadowBase: public QWidget
     {
 
@@ -129,12 +125,7 @@ namespace Oxygen
 
         //* constructor
         explicit FrameShadowBase( ShadowArea area ):
-            _area( area ),
-            _contrast( false )
-        {}
-
-        //* destructor
-        virtual ~FrameShadowBase( void )
+            _area( area )
         {}
 
         //* shadow area
@@ -176,12 +167,12 @@ namespace Oxygen
 
         //* parent margins
         /** offsets between update rect and parent widget rect. It is set via updateGeometry */
-        virtual const QMargins& margins( void ) const
+        const QMargins& margins( void ) const
         { return _margins; }
 
         //* margins
         /** offsets between update rect and parent widget rect. It is set via updateGeometry */
-        virtual void setMargins( const QMargins& margins )
+        void setMargins( const QMargins& margins )
         { _margins = margins; }
 
         private:
@@ -194,12 +185,12 @@ namespace Oxygen
         QMargins _margins;
 
         //* contrast pixel
-        bool _contrast;
+        bool _contrast = false;
 
     };
 
     //* frame shadow
-    /*! this allows the shadow to be painted over the widgets viewport */
+    /** this allows the shadow to be painted over the widgets viewport */
     class SunkenFrameShadow : public FrameShadowBase
     {
         Q_OBJECT
@@ -209,33 +200,25 @@ namespace Oxygen
         //* constructor
         SunkenFrameShadow( ShadowArea area, StyleHelper& helper ):
             FrameShadowBase( area ),
-            _helper( helper ),
-            _hasFocus( false ),
-            _mouseOver( false ),
-            _opacity( -1 ),
-            _mode( AnimationNone )
+            _helper( helper )
         { init(); }
 
 
-        //* destructor
-        virtual ~SunkenFrameShadow()
-        {}
-
         //* update geometry
         /** nothing is done. Rect must be passed explicitly */
-        void updateGeometry( void )
+        void updateGeometry( void ) override
         {}
 
         //* update geometry
-        void updateGeometry( QRect ) ;
+        void updateGeometry( QRect ) override;
 
         //* update state
-        void updateState( bool focus, bool hover, qreal opacity, AnimationMode ) ;
+        void updateState( bool focus, bool hover, qreal opacity, AnimationMode ) override;
 
         protected:
 
         //* painting
-        void paintEvent(QPaintEvent *) ;
+        void paintEvent(QPaintEvent *) override;
 
         private:
 
@@ -244,16 +227,16 @@ namespace Oxygen
 
         //*@name widget state
         //@{
-        bool _hasFocus;
-        bool _mouseOver;
-        qreal _opacity;
-        AnimationMode _mode;
+        bool _hasFocus = false;
+        bool _mouseOver = false;
+        qreal _opacity = -1;
+        AnimationMode _mode = AnimationNone;
 
     };
 
 
     //* frame shadow
-    /*! this allows the shadow to be painted over the widgets viewport */
+    /** this allows the shadow to be painted over the widgets viewport */
     class FlatFrameShadow : public FrameShadowBase
     {
         Q_OBJECT
@@ -266,21 +249,16 @@ namespace Oxygen
             _helper( helper )
         { init(); }
 
-
-        //* destructor
-        virtual ~FlatFrameShadow()
-        {}
+        //* update geometry
+        void updateGeometry( void ) override;
 
         //* update geometry
-        void updateGeometry( void ) ;
-
-        //* update geometry
-        void updateGeometry( QRect ) ;
+        void updateGeometry( QRect ) override;
 
         protected:
 
         //* painting
-        void paintEvent(QPaintEvent *) ;
+        void paintEvent(QPaintEvent *) override;
 
         private:
 

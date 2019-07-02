@@ -34,7 +34,7 @@
 namespace Oxygen
 {
 
-    //! generic data
+    //* generic data
     class StackedWidgetData: public TransitionData
     {
 
@@ -42,33 +42,31 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         StackedWidgetData( QObject*, QStackedWidget*, int );
-
-        //! destructor
-        virtual ~StackedWidgetData( void )
-        {}
 
         protected Q_SLOTS:
 
-        //! initialize animation
-        bool initializeAnimation( void ) ;
+        //* initialize animation
+        bool initializeAnimation( void ) override;
 
-        //! animate
-        bool animate( void ) ;
+        //* animate
+        bool animate( void ) override;
 
-        //! finish animation
-        virtual void finishAnimation( void );
+        private Q_SLOTS:
 
-        //! called when target is destroyed
-        virtual void targetDestroyed( void );
+        //* finish animation
+        void finishAnimation( void );
+
+        //* called when target is destroyed
+        void targetDestroyed( void );
 
         private:
 
-        //! target
+        //* target
         WeakPointer<QStackedWidget> _target;
 
-        //! current index
+        //* current index
         int _index;
 
     };

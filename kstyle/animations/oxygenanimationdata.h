@@ -38,7 +38,7 @@
 namespace Oxygen
 {
 
-    //! base class
+    //* base class
     class AnimationData: public QObject
     {
 
@@ -46,64 +46,70 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         AnimationData( QObject* parent, QWidget* target ):
-        QObject( parent ),
-        _target( target ),
-        _enabled( true )
-        { Q_ASSERT( _target ); }
-
-        //! destructor
-        virtual ~AnimationData( void )
+            QObject( parent ),
+            _target( target )
         {}
 
-        //! duration
-        virtual void setDuration( int ) = 0;
+        //*@name accessors
+        //@{
 
-        //! steps
-        static void setSteps( int value )
-        { _steps = value; }
-
-        //! enability
+        //* enable state
         virtual bool enabled( void ) const
         { return _enabled; }
 
-        //! enability
-        virtual void setEnabled( bool value )
-        { _enabled = value; }
-
-        //! target
+        //* target
         const WeakPointer<QWidget>& target( void ) const
         { return _target; }
 
-        //! invalid opacity
+
+        //@}
+
+        //*@name modifiers
+        //@{
+
+        //* duration
+        virtual void setDuration( int ) = 0;
+
+        //* steps
+        static void setSteps( int value )
+        { _steps = value; }
+
+        //* enability
+        virtual void setEnabled( bool value )
+        { _enabled = value; }
+
+        //@}
+
+        //* invalid opacity
         static const qreal OpacityInvalid;
 
         protected:
 
-        //! setup animation
+        //* setup animation
         virtual void setupAnimation( const Animation::Pointer& animation, const QByteArray& property );
 
-        //! apply step
+        //* apply step
         virtual qreal digitize( const qreal& value ) const
         {
             if( _steps > 0 ) return std::floor( value*_steps )/_steps;
             else return value;
         }
 
-        //! trigger target update
+        //* trigger target update
         virtual void setDirty( void ) const
         { if( _target ) _target.data()->update(); }
 
         private:
 
-        //! guarded target
+        //* guarded target
         WeakPointer<QWidget> _target;
 
-        //! enability
-        bool _enabled;
+        //* enability
+        bool _enabled = true;
 
-        //! steps
+        //* steps
         static int _steps;
 
     };

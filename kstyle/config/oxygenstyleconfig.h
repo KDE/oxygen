@@ -42,10 +42,6 @@ namespace Oxygen
         //* constructor
         explicit StyleConfig(QWidget*);
 
-        //* destructor
-        virtual ~StyleConfig( void )
-        {}
-
         Q_SIGNALS:
 
         //* emmited whenever one option is changed.
@@ -78,8 +74,8 @@ namespace Oxygen
 
         protected:
 
-        //! event processing
-        bool event( QEvent* ) ;
+        //* event processing
+        bool event( QEvent* ) override;
 
         // menu mode from ui
         int menuMode( void ) const;

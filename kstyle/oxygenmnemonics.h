@@ -37,23 +37,18 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit Mnemonics( QObject* parent ):
-            QObject( parent ),
-            _enabled( true )
+            QObject( parent )
             {}
 
-        //! destructor
-        virtual ~Mnemonics( void )
-        {}
-
-        //! set mode
+        //* set mode
         void setMode( int );
 
-        //! event filter
-        bool eventFilter( QObject*, QEvent* ) ;
+        //* event filter
+        bool eventFilter( QObject*, QEvent* ) override;
 
-        //! true if mnemonics are enabled
+        //* true if mnemonics are enabled
         const bool& enabled( void ) const
         { return _enabled; }
 
@@ -61,15 +56,13 @@ namespace Oxygen
         int textFlags( void ) const
         { return _enabled ? Qt::TextShowMnemonic : Qt::TextHideMnemonic; }
 
-        protected:
-
-        //! set enable state
-        void setEnabled( bool );
-
         private:
 
-        //! enable state
-        bool _enabled;
+        //* set enable state
+        void setEnabled( bool );
+
+        //* enable state
+        bool _enabled = true;
 
     };
 

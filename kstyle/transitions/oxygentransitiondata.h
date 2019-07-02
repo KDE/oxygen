@@ -36,7 +36,7 @@
 namespace Oxygen
 {
 
-    //! generic data
+    //* generic data
     class TransitionData: public QObject
     {
 
@@ -44,87 +44,87 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         TransitionData( QObject* parent, QWidget* target, int );
 
-        //! destructor
-        virtual ~TransitionData( void );
+        //* destructor
+        ~TransitionData( void ) override;
 
-        //! enability
+        //* enability
         virtual void setEnabled( bool value )
         { _enabled = value; }
 
-        //! enability
+        //* enability
         virtual bool enabled( void ) const
         { return _enabled; }
 
-        //! duration
+        //* duration
         virtual void setDuration( int duration )
         {
             if( _transition )
             { _transition.data()->setDuration( duration ); }
         }
 
-        //! max render time
+        //* max render time
         void setMaxRenderTime( int value )
         { _maxRenderTime = value; }
 
-        //! max renderTime
+        //* max renderTime
         const int& maxRenderTime( void ) const
         { return _maxRenderTime; }
 
-        //! start clock
+        //* start clock
         void startClock( void )
         {
             if( _clock.isNull() ) _clock.start();
             else _clock.restart();
         }
 
-        //! check if rendering is two slow
+        //* check if rendering is two slow
         bool slow( void ) const
         { return !( _clock.isNull() || _clock.elapsed() <= maxRenderTime() ); }
 
         protected Q_SLOTS:
 
-        //! initialize animation
+        //* initialize animation
         virtual bool initializeAnimation( void ) = 0;
 
-        //! animate
+        //* animate
         virtual bool animate( void ) = 0;
 
         protected:
 
-        //! returns true if one parent matches given class name
+        //* returns true if one parent matches given class name
         inline bool hasParent( const QWidget*, const char* ) const;
 
-        //! transition widget
-        virtual const TransitionWidget::Pointer& transition( void ) const
+        //* transition widget
+        const TransitionWidget::Pointer& transition( void ) const
         { return _transition; }
 
-        //! used to avoid recursion when grabbing widgets
+        //* used to avoid recursion when grabbing widgets
         void setRecursiveCheck( bool value )
         { _recursiveCheck = value; }
 
-        //! used to avoid recursion when grabbing widgets
+        //* used to avoid recursion when grabbing widgets
         bool recursiveCheck( void ) const
         { return _recursiveCheck; }
 
         private:
 
-        //! enability
+        //* enability
         bool _enabled = true;
 
-        //! used to avoid recursion when grabbing widgets
+        //* used to avoid recursion when grabbing widgets
         bool _recursiveCheck = false;
 
-        //! timer used to detect slow rendering
+        //* timer used to detect slow rendering
         QTime _clock;
 
-        //! max render time
-        /*! used to detect slow rendering */
+        //* max render time
+        /** used to detect slow rendering */
         int _maxRenderTime = 200;
 
-        //! animation handling
+        //* animation handling
         TransitionWidget::Pointer _transition;
 
     };

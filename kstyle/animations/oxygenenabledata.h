@@ -32,7 +32,7 @@
 namespace Oxygen
 {
 
-    //! Enable data
+    //* Enable data
     class EnableData: public WidgetStateData
     {
 
@@ -40,17 +40,13 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         EnableData( QObject* parent, QWidget* target, int duration, bool state = true ):
         WidgetStateData( parent, target, duration, state )
         { target->installEventFilter( this ); }
 
-        //! destructor
-        virtual ~EnableData( void )
-        {}
-
-        //! event filter
-        bool eventFilter( QObject*, QEvent* ) ;
+        //* event filter
+        bool eventFilter( QObject*, QEvent* ) override;
 
     };
 

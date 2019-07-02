@@ -42,24 +42,20 @@ namespace Oxygen
 
         public:
 
-        //! constructor
-        explicit InputDemoWidget( QWidget* = 0 );
-
-        //! destructor
-        virtual ~InputDemoWidget( void )
-        {}
+        //* constructor
+        explicit InputDemoWidget( QWidget* = nullptr );
 
         public Q_SLOTS:
 
-        //! run benchmark
+        //* run benchmark
         void benchmark( void );
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
-        //! flat widgets
+        //* flat widgets
         void toggleFlatWidgets( bool );
 
-        //! wrap mode
+        //* wrap mode
         void toggleWrapMode( bool );
 
         private:

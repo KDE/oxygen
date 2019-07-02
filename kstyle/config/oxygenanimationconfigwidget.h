@@ -41,24 +41,21 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit AnimationConfigWidget( QWidget* = 0 );
-
-        //! destructor
-        virtual ~AnimationConfigWidget( void );
 
         public Q_SLOTS:
 
-        //! read current configuration
-        void load( void ) ;
+        //* read current configuration
+        void load( void ) override;
 
-        //! save current configuration
-        void save( void ) ;
+        //* save current configuration
+        void save( void ) override;
 
         protected Q_SLOTS:
 
-        //! check whether configuration is changed and emit appropriate signal if yes
-        void updateChanged() ;
+        //* check whether configuration is changed and emit appropriate signal if yes
+        void updateChanged() override;
 
         private:
 

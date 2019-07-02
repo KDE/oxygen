@@ -34,64 +34,60 @@
 namespace Oxygen
 {
 
-    //! handles spinbox arrows hover
+    //* handles spinbox arrows hover
     class SpinBoxData: public AnimationData
     {
 
         Q_OBJECT
 
-        //! declare opacity property
+        //* declare opacity property
         Q_PROPERTY( qreal upArrowOpacity READ upArrowOpacity WRITE setUpArrowOpacity )
         Q_PROPERTY( qreal downArrowOpacity READ downArrowOpacity WRITE setDownArrowOpacity )
 
         public:
 
-        //! constructor
+        //* constructor
         SpinBoxData( QObject*, QWidget*, int );
 
-        //! destructor
-        virtual ~SpinBoxData( void )
-        {}
-
-        //! animation state
-        virtual bool updateState( QStyle::SubControl subControl, bool value )
+        //* animation state
+        bool updateState( QStyle::SubControl subControl, bool value )
         {
             if( subControl == QStyle::SC_SpinBoxUp ) return _upArrowData.updateState( value );
             else if( subControl == QStyle::SC_SpinBoxDown ) return _downArrowData.updateState( value );
             else return false;
         }
 
-        //! animation state
-        virtual bool isAnimated( QStyle::SubControl subControl ) const
+        //* animation state
+        bool isAnimated( QStyle::SubControl subControl ) const
         {
             return(
                 ( subControl == QStyle::SC_SpinBoxUp && upArrowAnimation().data()->isRunning() ) ||
                 ( subControl == QStyle::SC_SpinBoxDown && downArrowAnimation().data()->isRunning() ) );
         }
 
-        //! opacity
-        virtual qreal opacity( QStyle::SubControl subControl ) const
+        //* opacity
+        qreal opacity( QStyle::SubControl subControl ) const
         {
             if( subControl == QStyle::SC_SpinBoxUp ) return upArrowOpacity();
             else if( subControl == QStyle::SC_SpinBoxDown ) return downArrowOpacity();
             else return OpacityInvalid;
         }
 
-        //! duration
-        void setDuration( int duration )
+        //* duration
+        void setDuration( int duration ) override
         {
             upArrowAnimation().data()->setDuration( duration );
             downArrowAnimation().data()->setDuration( duration );
         }
 
-        //!@name up arrow animation
+        //*@name up arrow animation
         //@{
 
-        //! opacity
+        //* opacity
         qreal upArrowOpacity( void ) const
         { return _upArrowData._opacity; }
 
-        //! opacity
+        //* opacity
         void setUpArrowOpacity( qreal value )
         {
             value = digitize( value );
@@ -100,20 +96,20 @@ namespace Oxygen
             setDirty();
         }
 
-        //! animation
+        //* animation
         Animation::Pointer upArrowAnimation( void ) const
         { return _upArrowData._animation; }
 
         //@}
 
-        //!@name down arrow animation
+        //*@name down arrow animation
         //@{
 
-        //! opacity
+        //* opacity
         qreal downArrowOpacity( void ) const
         { return _downArrowData._opacity; }
 
-        //! opacity
+        //* opacity
         void setDownArrowOpacity( qreal value )
         {
             value = digitize( value );
@@ -122,7 +118,7 @@ namespace Oxygen
             setDirty();
         }
 
-        //! animation
+        //* animation
         Animation::Pointer downArrowAnimation( void ) const
         { return _downArrowData._animation; }
 
@@ -130,36 +126,36 @@ namespace Oxygen
 
         private:
 
-        //! container for needed animation data
+        //* container for needed animation data
         class Data
         {
 
             public:
 
-            //! default constructor
+            //* default constructor
             Data( void ):
                 _state( false ),
                 _opacity(0)
                 {}
 
-            //! state
+            //* state
             bool updateState( bool );
 
-            //! arrow state
+            //* arrow state
             bool _state;
 
-            //! animation
+            //* animation
             Animation::Pointer _animation;
 
-            //! opacity
+            //* opacity
             qreal _opacity;
 
         };
 
-        //! up arrow data
+        //* up arrow data
         Data _upArrowData;
 
-        //! down arrow data
+        //* down arrow data
         Data _downArrowData;
 
     };

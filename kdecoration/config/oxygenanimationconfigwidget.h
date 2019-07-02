@@ -47,9 +47,6 @@ namespace Oxygen
         //* constructor
         explicit AnimationConfigWidget( QWidget* = nullptr );
 
-        //* destructor
-        virtual ~AnimationConfigWidget( void ) = default;
-
         //* configuration
         void setInternalSettings( InternalSettingsPtr internalSettings )
         { m_internalSettings = internalSettings; }

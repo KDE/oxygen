@@ -47,27 +47,27 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit FollowMouseAnimationConfigBox(QWidget*);
 
-        //! destructor
-        virtual ~FollowMouseAnimationConfigBox( void );
+        //* destructor
+        ~FollowMouseAnimationConfigBox( void ) override;
 
-        //! type ComboBox
+        //* type ComboBox
         KComboBox* typeComboBox( void ) const;
 
-        //! duration spin box
+        //* duration spin box
         QSpinBox* durationSpinBox( void ) const;
 
-        //! duration spin box
+        //* duration spin box
         QLabel* durationLabel( void ) const;
 
-        //! follow mouse duration spinbox
+        //* follow mouse duration spinbox
         QSpinBox* followMouseDurationSpinBox( void ) const;
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
-        //! type changed
+        //* type changed
         void typeChanged( int );
 
         private:
@@ -76,7 +76,7 @@ namespace Oxygen
 
     };
 
-    //! generic animation config item
+    //* generic animation config item
     class FollowMouseAnimationConfigItem: public AnimationConfigItem
     {
 
@@ -84,35 +84,32 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit FollowMouseAnimationConfigItem( QWidget* parent, const QString& title = QString(), const QString& description = QString() ):
             AnimationConfigItem( parent, title, description )
         {}
 
-        //! initialize configuration widget
-        void initializeConfigurationWidget( QWidget* ) ;
+        //* initialize configuration widget
+        void initializeConfigurationWidget( QWidget* ) override;
 
-        //! configuration widget
-        QWidget* configurationWidget( void ) const
-        {
-            Q_CHECK_PTR( _configurationWidget );
-            return _configurationWidget.data();
-        }
+        //* configuration widget
+        QWidget* configurationWidget( void ) const override
+        { return _configurationWidget.data(); }
 
-        //! type
-        virtual int type( void ) const
+        //* type
+        int type( void ) const
         { return (_configurationWidget) ? _configurationWidget.data()->typeComboBox()->currentIndex():0; }
 
-        //! duration
-        virtual int duration( void ) const
+        //* duration
+        int duration( void ) const
         { return (_configurationWidget) ? _configurationWidget.data()->durationSpinBox()->value():0; }
 
-        //! duration
-        virtual int followMouseDuration( void ) const
+        //* duration
+        int followMouseDuration( void ) const
         { return (_configurationWidget) ? _configurationWidget.data()->followMouseDurationSpinBox()->value():0; }
 
-        //! hide duration spinbox
-        virtual void hideDurationSpinBox( void )
+        //* hide duration spinbox
+        void hideDurationSpinBox( void )
         {
             if( _configurationWidget )
             {
@@ -123,22 +120,22 @@ namespace Oxygen
 
         public Q_SLOTS:
 
-        //! type
-        virtual void setType( int value )
+        //* type
+        void setType( int value )
         {
             if( _configurationWidget )
             { _configurationWidget.data()->typeComboBox()->setCurrentIndex( value ); }
         }
 
-        //! duration
-        virtual void setDuration( int value )
+        //* duration
+        void setDuration( int value )
         {
             if( _configurationWidget )
             { _configurationWidget.data()->durationSpinBox()->setValue( value ); }
         }
 
-        //! follow mouse duration
-        virtual void setFollowMouseDuration( int value )
+        //* follow mouse duration
+        void setFollowMouseDuration( int value )
         {
             if( _configurationWidget )
             { _configurationWidget.data()->followMouseDurationSpinBox()->setValue( value ); }
@@ -146,7 +143,7 @@ namespace Oxygen
 
         private:
 
-        //! configuration widget
+        //* configuration widget
         WeakPointer<FollowMouseAnimationConfigBox> _configurationWidget;
 
     };

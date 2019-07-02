@@ -34,7 +34,7 @@
 namespace Oxygen
 {
 
-    //! handle mdiwindow arrows hover effect
+    //* handle mdiwindow arrows hover effect
     class MdiWindowEngine: public BaseEngine
     {
 
@@ -42,20 +42,16 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit MdiWindowEngine( QObject* parent ):
             BaseEngine( parent )
         {}
 
-        //! destructor
-        virtual ~MdiWindowEngine( void )
-        {}
+        //* register widget
+        bool registerWidget( QWidget* );
 
-        //! register widget
-        virtual bool registerWidget( QWidget* );
-
-        //! state
-        virtual bool updateState( const QObject* object, int primitive, bool value )
+        //* state
+        bool updateState( const QObject* object, int primitive, bool value )
         {
             if( DataMap<MdiWindowData>::Value data = _data.find( object ) )
             {
@@ -63,8 +59,8 @@ namespace Oxygen
             } else return false;
         }
 
-        //! true if widget is animated
-        virtual bool isAnimated( const QObject* object, int primitive )
+        //* true if widget is animated
+        bool isAnimated( const QObject* object, int primitive )
         {
             if( DataMap<MdiWindowData>::Value data = _data.find( object ) )
             {
@@ -73,8 +69,8 @@ namespace Oxygen
 
         }
 
-        //! animation opacity
-        virtual qreal opacity( const QObject* object, int primitive )
+        //* animation opacity
+        qreal opacity( const QObject* object, int primitive )
         {
             if( DataMap<MdiWindowData>::Value data = _data.find( object ) )
             {
@@ -82,15 +78,15 @@ namespace Oxygen
             } else return AnimationData::OpacityInvalid;
         }
 
-        //! enability
-        void setEnabled( bool value )
+        //* enability
+        void setEnabled( bool value ) override
         {
             BaseEngine::setEnabled( value );
             _data.setEnabled( value );
         }
 
-        //! duration
-        void setDuration( int value )
+        //* duration
+        void setDuration( int value ) override
         {
             BaseEngine::setDuration( value );
             _data.setDuration( value );
@@ -99,13 +95,13 @@ namespace Oxygen
 
         public Q_SLOTS:
 
-        //! remove widget from map
-        bool unregisterWidget( QObject* object )
+        //* remove widget from map
+        bool unregisterWidget( QObject* object ) override
         { return _data.unregisterWidget( object ); }
 
         private:
 
-        //! data map
+        //* data map
         DataMap<MdiWindowData> _data;
 
     };

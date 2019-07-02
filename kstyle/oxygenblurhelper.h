@@ -57,35 +57,31 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         BlurHelper( QObject*, StyleHelper& );
 
-        //! destructor
-        virtual ~BlurHelper( void )
-        {}
-
-        //! enable state
+        //* enable state
         void setEnabled( bool value )
         { _enabled = value; }
 
-        //! enabled
+        //* enabled
         bool enabled( void ) const
         { return _enabled; }
 
-        //! register widget
+        //* register widget
         void registerWidget( QWidget* );
 
-        //! register widget
+        //* register widget
         void unregisterWidget( QWidget* );
 
-        //! event filter
-        bool eventFilter( QObject*, QEvent* ) ;
+        //* event filter
+        bool eventFilter( QObject*, QEvent* ) override;
 
         protected:
 
-        //! timer event
+        //* timer event
         /*! used to perform delayed blur region update of pending widgets */
-        void timerEvent( QTimerEvent* event )
+        void timerEvent( QTimerEvent* event ) override
         {
 
             if( event->timerId() == _timer.timerId() )
@@ -96,20 +92,28 @@ namespace Oxygen
 
         }
 
-        //! install event filter to object, in a unique way
+        private Q_SLOTS:
+
+        //* wiget destroyed
+        void widgetDestroyed( QObject* object )
+        { _widgets.remove( object ); }
+
+        private:
+
+        //* install event filter to object, in a unique way
         void addEventFilter( QObject* object )
         {
             object->removeEventFilter( this );
             object->installEventFilter( this );
         }
 
-        //! get list of blur-behind regions matching a given widget
+        //* get list of blur-behind regions matching a given widget
         QRegion blurRegion( QWidget* ) const;
 
-        //! trim blur region to remove unnecessary areas (recursive)
+        //* trim blur region to remove unnecessary areas (recursive)
         void trimBlurRegion( QWidget*, QWidget*, QRegion& ) const;
 
-        //! update blur region for all pending widgets
+        //* update blur region for all pending widgets
         void update( void )
         {
 
@@ -120,47 +124,39 @@ namespace Oxygen
 
         }
 
-        //! update blur regions for given widget
+        //* update blur regions for given widget
         void update( QWidget* ) const;
 
-        //! clear blur regions for given widget
+        //* clear blur regions for given widget
         void clear( QWidget* ) const;
 
-        //! returns true if a given widget is opaque
+        //* returns true if a given widget is opaque
         bool isOpaque( const QWidget* widget ) const;
 
-        //! true if widget is a transparent window
+        //* true if widget is a transparent window
         /*! some additional checks are performed to make sure stuff like plasma tooltips
         don't get their blur region overwritten */
         bool isTransparent( const QWidget* widget ) const;
 
-        protected Q_SLOTS:
-
-        //! wiget destroyed
-        void widgetDestroyed( QObject* object )
-        { _widgets.remove( object ); }
-
-        private:
-
-        //! helper
+        //* helper
         StyleHelper& _helper;
 
-        //! enability
+        //* enability
         bool _enabled;
 
-        //! list of widgets for which blur region must be updated
+        //* list of widgets for which blur region must be updated
         using WidgetPointer = WeakPointer<QWidget>;
         using WidgetSet = QHash<QWidget*, WidgetPointer>;
         WidgetSet _pendingWidgets;
 
-        //! set of registered widgets
+        //* set of registered widgets
         QSet<const QObject*> _widgets;
 
-        //! delayed update timer
+        //* delayed update timer
         QBasicTimer _timer;
 
         #if OXYGEN_HAVE_X11
-        //! blur atom
+        //* blur atom
         xcb_atom_t _blurAtom;
         xcb_atom_t _opaqueAtom;
         #endif

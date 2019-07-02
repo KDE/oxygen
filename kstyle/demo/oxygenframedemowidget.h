@@ -43,20 +43,21 @@ namespace Oxygen
 
         public:
 
-        //! constructor
+        //* constructor
         explicit FrameDemoWidget( QWidget* = 0 );
 
-        //! destructor
-        virtual ~FrameDemoWidget( void )
-        {}
+        public Q_SLOTS:
+
+        //* benchmarking
+        void benchmark( void );
 
         protected Q_SLOTS:
 
-        //! groupbox
+        //* groupbox
         void toggleFlatGroupBox( bool value )
         { ui.groupBox->setFlat( value ); }
 
-        //! frame style
+        //* frame style
         void toggleRaisedFrame( bool value )
         { if( value ) ui.frame->setFrameStyle( QFrame::StyledPanel|QFrame::Raised ); }
 
@@ -66,13 +67,8 @@ namespace Oxygen
         void toggleSunkenFrame( bool value )
         { if( value ) ui.frame->setFrameStyle( QFrame::StyledPanel|QFrame::Sunken ); }
 
-        //! layout direction
+        //* layout direction
         void updateLayoutDirection( int );
-
-        public Q_SLOTS:
-
-        // benchmarking
-        void benchmark( void );
 
         private:
 

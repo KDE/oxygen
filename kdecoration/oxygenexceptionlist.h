@@ -35,41 +35,41 @@
 namespace Oxygen
 {
 
-    //! oxygen exceptions list
+    //* oxygen exceptions list
     class ExceptionList
     {
 
         public:
 
-        //! constructor from list
+        //* constructor from list
         explicit ExceptionList( const InternalSettingsList& exceptions = InternalSettingsList() ):
             _exceptions( exceptions )
         {}
 
-        //! exceptions
+        //* exceptions
         const InternalSettingsList& get( void ) const
         { return _exceptions; }
 
-        //! read from KConfig
+        //* read from KConfig
         void readConfig( KSharedConfig::Ptr );
 
-        //! write to kconfig
+        //* write to kconfig
         void writeConfig( KSharedConfig::Ptr );
 
         protected:
 
-        //! generate exception group name for given exception index
+        //* generate exception group name for given exception index
         static QString exceptionGroupName( int index );
 
-        //! read configuration
+        //* read configuration
         static void readConfig( KCoreConfigSkeleton*, KConfig*, const QString& );
 
-        //! write configuration
+        //* write configuration
         static void writeConfig( KCoreConfigSkeleton*, KConfig*, const QString& );
 
         private:
 
-        //! exceptions
+        //* exceptions
         InternalSettingsList _exceptions;
 
     };

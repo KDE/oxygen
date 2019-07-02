@@ -53,11 +53,11 @@ namespace Client
 namespace Oxygen
 {
 
-    //! forward declaration
+    //* forward declaration
     class ShadowCache;
     class StyleHelper;
 
-    //! handle shadow pixmaps passed to window manager via X property
+    //* handle shadow pixmaps passed to window manager via X property
     class ShadowHelper: public QObject
     {
 
@@ -65,62 +65,62 @@ namespace Oxygen
 
         public:
 
-        //!@name property names
+        //*@name property names
         //@{
         static const char netWMShadowAtomName[];
         //@}
 
-        //! constructor
+        //* constructor
         ShadowHelper( QObject*, StyleHelper& );
 
-        //! destructor
-        virtual ~ShadowHelper( void );
+        //* destructor
+        ~ShadowHelper( void ) override;
 
-        //! reset
+        //* reset
         void reset( void );
 
-        //! register widget
+        //* register widget
         bool registerWidget( QWidget*, bool force = false );
 
-        //! unregister widget
+        //* unregister widget
         void unregisterWidget( QWidget* );
 
-        //! reparse cache config (must be followed by loadConfig)
+        //* reparse cache config (must be followed by loadConfig)
         void reparseCacheConfig( void );
 
-        //! load config
+        //* load config
         void loadConfig( void );
 
-        //! event filter
-        bool eventFilter( QObject*, QEvent* ) ;
+        //* event filter
+        bool eventFilter( QObject*, QEvent* ) override;
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
-        //! unregister widget
+        //* unregister widget
         void objectDeleted( QObject* );
 
-        protected:
+        private:
 
-        //! true if widget is a menu
+        //* true if widget is a menu
         bool isMenu( QWidget* ) const;
 
-        //! true if widget is a tooltip
+        //* true if widget is a tooltip
         bool isToolTip( QWidget* ) const;
 
-        //! dock widget
+        //* dock widget
         bool isDockWidget( QWidget* ) const;
 
-        //! toolbar
+        //* toolbar
         bool isToolBar( QWidget* ) const;
 
-        //! accept widget
+        //* accept widget
         bool acceptWidget( QWidget* ) const;
 
-        //! shadow cache
+        //* shadow cache
         const ShadowCache& shadowCache( void ) const
         { return *_shadowCache; }
 
-        //! shadow cache
+        //* shadow cache
         ShadowCache& shadowCache( void )
         { return *_shadowCache; }
 
@@ -136,14 +136,14 @@ namespace Oxygen
         //* uninstalls shadow on given widget in a platform independent way
         void uninstallShadows( QWidget * ) const;
 
-        //! install shadow X11 property on given widget
-        /*!
+        //* install shadow X11 property on given widget
+        /**
         shadow atom and property specification available at
         http://community.kde.org/KWin/Shadow
         */
         bool installX11Shadows( QWidget* );
 
-        //! uninstall shadow X11 property on given widget
+        //* uninstall shadow X11 property on given widget
         void uninstallX11Shadows( QWidget* ) const;
 
         //* install shadow on given widget for Wayland
@@ -158,41 +158,39 @@ namespace Oxygen
         //* gets the shadow margins for the given widget
         QMargins shadowMargins( QWidget* ) const;
 
-        private:
-
-        //! helper
+        //* helper
         StyleHelper& _helper;
 
-        //! cache
+        //* cache
         ShadowCache* _shadowCache;
 
-        //! set of registered widgets
+        //* set of registered widgets
         QMap<QWidget*, WId> _widgets;
 
-        //!@name shadow tilesets
+        //*@name shadow tilesets
         //@{
         TileSet _tiles;
         TileSet _dockTiles;
         //@}
 
-        //! number of pixmaps
+        //* number of pixmaps
         enum { numPixmaps = 8 };
 
-        //!@name pixmaps
+        //*@name pixmaps
         //@{
         QVector<quint32> _pixmaps;
         QVector<quint32> _dockPixmaps;
         //@}
 
-        //! shadow size
+        //* shadow size
         int _size;
 
         #if OXYGEN_HAVE_X11
 
-        //! graphical context
+        //* graphical context
         xcb_gcontext_t _gc;
 
-        //! shadow atom
+        //* shadow atom
         xcb_atom_t _atom;
 
         #endif
