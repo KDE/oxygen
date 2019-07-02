@@ -28,7 +28,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygendemowidget.h"
-#include "ui_oxygendemodialog.h"
+
+#include <KPageDialog>
 
 #include <QList>
 #include <QWidget>
@@ -37,59 +38,56 @@
 namespace Oxygen
 {
 
-    class DemoDialog: public QDialog, Ui::OxygenDemoDialog
+    class ButtonDemoWidget;
+    class FrameDemoWidget;
+    class InputDemoWidget;
+    class ListDemoWidget;
+    class MdiDemoWidget;
+    class SliderDemoWidget;
+    class TabDemoWidget;
+    class DemoDialog: public KPageDialog
     {
         Q_OBJECT
 
         public:
 
         //! constructor
-        explicit DemoDialog( QWidget* parent = 0 );
-
-        //! destructor
-        virtual ~DemoDialog( void )
-        {}
+        explicit DemoDialog( QWidget* parent = nullptr );
 
         Q_SIGNALS:
 
         //! emitted when dialog is closed
         void abortSimulations( void );
 
-        protected Q_SLOTS:
-
-        //! update window title when page is changed
-        virtual void updateWindowTitle( KPageWidgetItem* );
-
-        //! update page enability
-        virtual void updateEnableState( KPageWidgetItem* );
-
-        //! toggle enable state
-        virtual void toggleEnable( bool );
-
-        //! toggle RightToLeft
-        virtual void toggleRightToLeft( bool );
-
         protected:
 
         //! close event
-        void closeEvent( QCloseEvent* ) ;
+        void closeEvent( QCloseEvent* ) override;
 
         //! hide event
-        void hideEvent( QHideEvent* ) ;
+        void hideEvent( QHideEvent* ) override;
+
+        private Q_SLOTS:
+
+        //! update window title when page is changed
+        void updateWindowTitle( KPageWidgetItem* );
+
+        //! update page enability
+        void updateEnableState( KPageWidgetItem* );
+
+        //! toggle enable state
+        void toggleEnable( bool );
+
+        //! toggle RightToLeft
+        void toggleRightToLeft( bool );
 
         private:
 
-        //! set page icon
-        void setPageIcon( KPageWidgetItem*, const QString& ) const;
-
-        //! list of demo widget
-        QList<DemoWidget*> _widgets;
-
         //! enable state checkbox
-        QCheckBox* _enableCheckBox;
+        QCheckBox* _enableCheckBox = nullptr;
 
         //! reverse layout checkbox
-        QCheckBox* _rightToLeftCheckBox;
+        QCheckBox* _rightToLeftCheckBox = nullptr;
 
     };
 

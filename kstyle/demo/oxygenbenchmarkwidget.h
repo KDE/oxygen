@@ -35,7 +35,7 @@
 #include <QCheckBox>
 #include <QPair>
 #include <QVector>
-#include <KPageWidget>
+#include <KPageDialog>
 
 namespace Oxygen
 {
@@ -47,21 +47,16 @@ namespace Oxygen
         public:
 
         //! constructor
-        explicit BenchmarkWidget( QWidget* = 0 );
-
-        //! destructor
-        virtual ~BenchmarkWidget( void )
-        {}
-
+        explicit BenchmarkWidget( QWidget* = nullptr );
 
         //! setup widgets
-        void init( KPageWidget* );
+        void init( KPageDialog*, QVector<KPageWidgetItem*> );
 
         Q_SIGNALS:
 
         void runBenchmark( void );
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
         //! button state
         void updateButtonState( void );
@@ -73,24 +68,22 @@ namespace Oxygen
         //! run
         void run( void );
 
-        protected:
+        private:
 
         //! select page from index in parent page widget
         void selectPage( int ) const;
-
-        private:
 
         //! ui
         Ui_BenchmarkWidget ui;
 
         //! pointer to pagewidget
-        WeakPointer<KPageWidget> _pageWidget;
+        WeakPointer<KPageDialog> _pageDialog;
 
         //! map checkboxes to demo widgets
-        using DemoWidgetPointer = WeakPointer<DemoWidget>;
-        using WidgetPair = QPair<QCheckBox*, DemoWidgetPointer>;
-        using WidgetList = QVector<WidgetPair>;
-        WidgetList _widgets;
+        using ItemPointer = WeakPointer<KPageWidgetItem>;
+        using ItemPair = QPair<QCheckBox*, ItemPointer>;
+        using ItemList = QVector<ItemPair>;
+        ItemList _items;
 
     };
 

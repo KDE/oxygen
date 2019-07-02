@@ -47,10 +47,6 @@ namespace Oxygen
             _simulator( new Simulator( this ) )
         {}
 
-        //! destructor
-        virtual ~DemoWidget( void )
-        {}
-
         //! simulator
         Simulator& simulator( void ) const
         { return *_simulator; }

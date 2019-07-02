@@ -52,8 +52,7 @@ namespace Oxygen
         //! constructor
         explicit Simulator( QObject* parent ):
             QObject( parent ),
-            _previousPosition( -1, -1 ),
-            _aborted( false )
+            _previousPosition( -1, -1 )
             {}
 
         //! destructor
@@ -133,7 +132,7 @@ namespace Oxygen
         protected:
 
         //! timer event
-        void timerEvent( QTimerEvent* ) ;
+        void timerEvent( QTimerEvent* ) override;
 
         //!@name low level interface
         //@{
@@ -252,7 +251,7 @@ namespace Oxygen
         QList<QEvent*> _pendingEvents;
 
         //! true when simulations must be aborted
-        bool _aborted;
+        bool _aborted = false;
 
         //! true if simulations also grab mouse
         static bool _grabMouse;

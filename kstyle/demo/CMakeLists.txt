@@ -21,7 +21,6 @@ set(oxygen_demo_SOURCES
 set(oxygen_demo_FORMS
     ui/oxygenbenchmarkwidget.ui
     ui/oxygenbuttondemowidget.ui
-    ui/oxygendemodialog.ui
     ui/oxygenframedemowidget.ui
     ui/oxygeninputdemowidget.ui
     ui/oxygenlistdemowidget.ui

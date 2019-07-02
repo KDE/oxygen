@@ -47,28 +47,22 @@ namespace Oxygen
     }
 
     //_______________________________________________
-    void BenchmarkWidget::init( KPageWidget* pageWidget )
+    void BenchmarkWidget::init( KPageDialog* dialog, QVector<KPageWidgetItem*> items )
     {
 
-        _pageWidget = pageWidget;
+        _pageDialog = dialog;
 
-        // load widgets from pageWidget
-        const QAbstractItemModel* model( pageWidget->model() );
-        if( !model ) return;
+        for( auto&& item:items )
+        {
 
-        for( int i=0; i<model->rowCount(); ++i )
-        {;
-            QModelIndex index( model->index( i, 0 ) );
-            if( !index.isValid() ) continue;
 
             // get header and widget
-            QString header = model->data( index, Qt::DisplayRole ).toString();
-            QWidget* widget( qvariant_cast<QWidget*>( model->data( index, KPageModel::WidgetRole ) ) );
-            DemoWidget* demoWidget( qobject_cast<DemoWidget*>( widget ) );
+            auto header = item->header();
+            auto demoWidget( qobject_cast<DemoWidget*>( item->widget() ) );
             if( !demoWidget ) continue;
 
             // do not add oneself to the list
-            if( qobject_cast<BenchmarkWidget*>( widget ) ) continue;
+            if( qobject_cast<BenchmarkWidget*>( demoWidget ) ) continue;
 
             // add checkbox
             QCheckBox* checkbox( new QCheckBox( this ) );
@@ -83,7 +77,7 @@ namespace Oxygen
 
             ui.verticalLayout->addWidget( checkbox );
 
-            _widgets.append( WidgetPair(checkbox, demoWidget) );
+            _items.append( ItemPair(checkbox, item) );
 
             connect( checkbox, SIGNAL(toggled(bool)), SLOT(updateButtonState()) );
 
@@ -95,9 +89,9 @@ namespace Oxygen
     void BenchmarkWidget::updateButtonState( void )
     {
         bool enabled( false );
-        foreach( const WidgetPair& widget, _widgets )
+        for( auto&& item:_items )
         {
-            if( widget.first->isEnabled() && widget.first->isChecked() )
+            if( item.first->isEnabled() && item.first->isChecked() )
             {
                 enabled = true;
                 break;
@@ -111,29 +105,30 @@ namespace Oxygen
     void BenchmarkWidget::run( void )
     {
 
-        // check pagewidget
-        if( !_pageWidget ) return;
-
         // disable button and groupbox
         ui.runButton->setEnabled( false );
         Simulator::setGrabMouse( ui.grabMouseCheckBox->isChecked() );
-        for( int i=0; i < _widgets.size(); ++i )
+        for( int index = 0; index < _items.size(); ++index )
         {
 
+            auto item( _items[index] );
+
             // check state
-            if( !( _widgets[i].first->isEnabled() && _widgets[i].first->isChecked() ) )
+            if( !( item.first->isEnabled() && item.first->isChecked() ) )
             { continue; }
 
             if( simulator().aborted() ) return;
             else {
-                selectPage( i );
+
+                selectPage( index );
                 emit runBenchmark();
+
             }
 
         }
 
         // re-select last page
-        selectPage( _widgets.size() );
+        selectPage( _items.size() );
 
         // disable button and groupbox
         ui.runButton->setEnabled( true );
@@ -143,16 +138,11 @@ namespace Oxygen
     void BenchmarkWidget::selectPage( int index ) const
     {
 
-        // check pagewidget
-        if( !_pageWidget ) return;
+        // check dialog
+        if( !_pageDialog ) return;
 
         // try find item view from pageView
-        QAbstractItemView* view(0);
-        foreach( QObject* object, _pageWidget.data()->children() )
-        {
-            if( (view = qobject_cast<QAbstractItemView*>( object )) )
-            { break; }
-        }
+        auto view( _pageDialog.data()->findChild<QAbstractItemView*>() );
 
         // select in list
         if( view )
@@ -160,10 +150,6 @@ namespace Oxygen
 
             simulator().selectItem( view, index );
             simulator().run();
-
-        } else if( QAbstractItemModel* model = _pageWidget.data()->model() ) {
-
-            _pageWidget.data()->KPageView::setCurrentPage( model->index( index, 0 ) );
 
         }
 
