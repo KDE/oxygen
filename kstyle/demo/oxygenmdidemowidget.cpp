@@ -39,6 +39,7 @@ namespace Oxygen
         DemoWidget( parent )
     {
         setLayout( new QVBoxLayout() );
+        layout()->setMargin(0);
         QMenuBar* menuBar = new QMenuBar( this );
         layout()->addWidget( menuBar );
 
