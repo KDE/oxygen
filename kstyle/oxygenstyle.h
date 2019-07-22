@@ -193,8 +193,13 @@ namespace Oxygen
 
         protected:
 
+        #if OXYGEN_USE_KDE4
+        //* standard icons
+        QIcon standardIcon( StandardPixmap pixmap, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const
+        #else
         //* standard icons
         QIcon standardIcon( StandardPixmap pixmap, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const override
+        #endif
         { return standardIconImplementation( pixmap, option, widget ); }
 
         private Q_SLOTS:

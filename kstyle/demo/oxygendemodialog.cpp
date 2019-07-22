@@ -65,12 +65,17 @@ namespace Oxygen
         { connect( new QShortcut( sequence, this ), SIGNAL(activated()), SLOT(close()) ); }
         #endif
 
+        #if OXYGEN_USE_KDE4
+        setButtons( KDialog::Ok );
+        auto buttonBox = findChild<QDialogButtonBox*>();
+        #else
         // button box
         auto buttonBox = new QDialogButtonBox( QDialogButtonBox::Ok, Qt::Horizontal );
         setButtonBox( buttonBox );
 
         // connection
         connect( buttonBox->button( QDialogButtonBox::Ok ), SIGNAL(clicked()), SLOT(close()) );
+        #endif
 
         // customize button box
         _enableCheckBox = new QCheckBox( i18n( "Enabled" ) );
@@ -82,14 +87,14 @@ namespace Oxygen
         connect( _rightToLeftCheckBox, SIGNAL(toggled(bool)), SLOT(toggleRightToLeft(bool)) );
         buttonBox->addButton( _rightToLeftCheckBox, QDialogButtonBox::ResetRole );
 
-#ifdef HAVE_SCHEME_CHOOSER
+        #ifdef HAVE_SCHEME_CHOOSER
         auto styleChooser = new WidgetStyleChooser(this);
         styleChooser->createStyleSelectionMenu( i18n( "Style" ) );
         buttonBox->addButton( styleChooser, QDialogButtonBox::ResetRole );
 
         auto colChooser = new ColorSchemeChooser( this );
         buttonBox->addButton( colChooser, QDialogButtonBox::ResetRole );
-#endif
+        #endif
 
         // connections
         connect( this, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), SLOT(updateWindowTitle(KPageWidgetItem*)) );
