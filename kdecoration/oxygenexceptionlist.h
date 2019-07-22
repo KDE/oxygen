@@ -56,7 +56,7 @@ namespace Oxygen
         //* write to kconfig
         void writeConfig( KSharedConfig::Ptr );
 
-        protected:
+        private:
 
         //* generate exception group name for given exception index
         static QString exceptionGroupName( int index );
@@ -66,8 +66,6 @@ namespace Oxygen
 
         //* write configuration
         static void writeConfig( KCoreConfigSkeleton*, KConfig*, const QString& );
-
-        private:
 
         //* exceptions
         InternalSettingsList _exceptions;

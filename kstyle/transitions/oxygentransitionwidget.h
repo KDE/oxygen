@@ -178,7 +178,7 @@ namespace Oxygen
         private:
 
         //* grab widget background
-        /*!
+        /**
         Background is not rendered properly using QWidget::render.
         Use home-made grabber instead. This is directly inspired from bespin.
         Copyright (C) 2007 Thomas Luebking <thomas.luebking@web.de>

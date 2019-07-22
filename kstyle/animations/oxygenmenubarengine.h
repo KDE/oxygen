@@ -142,7 +142,7 @@ namespace Oxygen
 
     };
 
-        //* follow-mouse menubar animation
+    //* follow-mouse menubar animation
     class MenuBarEngineV2: public MenuBarBaseEngine
     {
 

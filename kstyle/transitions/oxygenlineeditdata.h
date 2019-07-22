@@ -90,9 +90,9 @@ namespace Oxygen
         void targetDestroyed( void );
 
         private:
-        
+
         //* target rect
-        /*! return rect corresponding to the area to be updated when animating */
+        /** return rect corresponding to the area to be updated when animating */
         QRect targetRect( void ) const
         {
             if( !_target ) return QRect();
@@ -125,14 +125,14 @@ namespace Oxygen
         QRect _clearButtonRect;
 
         //* true if text was manually edited
-        /*! needed to trigger animation only on programatically enabled text */
+        /** needed to trigger animation only on programatically enabled text */
         bool _edited;
 
         //* old text
         QString _text;
 
         //* widget rect
-        /*! needed to properly handle QLabel geometry changes */
+        /** needed to properly handle QLabel geometry changes */
         QRect _widgetRect;
 
     };

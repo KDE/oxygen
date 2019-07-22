@@ -79,12 +79,10 @@ namespace Oxygen
         bool unregisterWidget( QObject* object ) override
         { return _data.unregisterWidget( object ); }
 
-        protected:
+        private:
 
         //* returns data associated to widget
         DataMap<ProgressBarData>::Value data( const QObject* );
-
-        private:
 
         //* map widgets to progressbar data
         DataMap<ProgressBarData> _data;

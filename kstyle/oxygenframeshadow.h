@@ -79,7 +79,12 @@ namespace Oxygen
         //* update shadows geometry
         void updateShadowsGeometry( const QObject*, QRect ) const;
 
-        protected:
+        private Q_SLOTS:
+
+        //* triggered by object destruction
+        void widgetDestroyed( QObject* );
+
+        private:
 
         //* install shadows on given widget
         void installShadows( QWidget*, StyleHelper&, bool flat = false );
@@ -98,13 +103,6 @@ namespace Oxygen
 
         //* install shadow on given side
         void installShadow( QWidget*, StyleHelper&, ShadowArea, bool flat = false ) const;
-
-        protected Q_SLOTS:
-
-        //* triggered by object destruction
-        void widgetDestroyed( QObject* );
-
-        private:
 
         //* needed to block ChildAdded events when creating shadows
         AddEventFilter _addEventFilter;

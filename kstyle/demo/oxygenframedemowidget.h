@@ -51,7 +51,7 @@ namespace Oxygen
         //* benchmarking
         void benchmark( void );
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
         //* groupbox
         void toggleFlatGroupBox( bool value )

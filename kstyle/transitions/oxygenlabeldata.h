@@ -76,7 +76,7 @@ namespace Oxygen
         bool animate( void ) override;
 
         private Q_SLOTS:
-        
+
         //* called when target is destroyed
         void targetDestroyed( void );
 
@@ -104,7 +104,7 @@ namespace Oxygen
         QString _text;
 
         //* widget rect
-        /*! needed to properly handle QLabel geometry changes */
+        /** needed to properly handle QLabel geometry changes */
         QRect _widgetRect;
 
     };

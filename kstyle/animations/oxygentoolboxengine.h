@@ -88,7 +88,7 @@ namespace Oxygen
 
         }
 
-        protected:
+        private:
 
         //* returns data associated to widget
         PaintDeviceDataMap<WidgetStateData>::Value data( const QPaintDevice* object )

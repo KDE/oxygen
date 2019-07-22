@@ -103,15 +103,15 @@ namespace Oxygen
             updateAnimatedRect();
         }
 
-        protected Q_SLOTS:
-
-        //* updated animated rect
-        void updateAnimatedRect( void );
-
         protected:
 
         //* timer event
         void timerEvent( QTimerEvent *) override;
+
+        private Q_SLOTS:
+
+        //* updated animated rect
+        void updateAnimatedRect( void );
 
         private:
 
@@ -119,7 +119,7 @@ namespace Oxygen
         //@{
 
         //* object pointer
-        /*! there is no need to guard it because the object contents is never accessed */
+        /** there is no need to guard it because the object contents is never accessed */
         using ObjectPointer = const QObject*;
 
         //* current object
@@ -186,13 +186,13 @@ namespace Oxygen
         Animation::Pointer _progressAnimation;
 
         //* opacity
-        qreal _opacity;
+        qreal _opacity = 0;
 
         //* opacity
-        qreal _progress;
+        qreal _progress = 0;
 
         //* timer
-        /*! this allows to add some delay before starting leaveEvent animation */
+        /** this allows to add some delay before starting leaveEvent animation */
         QBasicTimer _timer;
 
         //* current object
@@ -208,7 +208,7 @@ namespace Oxygen
         QRect _animatedRect;
 
         //* true if toolbar was entered at least once (this prevents some initialization glitches)
-        bool _entered;
+        bool _entered = false;
 
     };
 

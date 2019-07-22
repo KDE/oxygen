@@ -62,15 +62,6 @@ namespace Oxygen
         //* emmited when changed
         void changed( bool );
 
-        protected:
-
-        //* set changed state
-        void setChanged( bool value )
-        {
-            m_changed = value;
-            emit changed( value );
-        }
-
         private Q_SLOTS:
 
         //* check whether configuration is changed and emit appropriate signal if yes
@@ -83,6 +74,13 @@ namespace Oxygen
         void readWindowProperties( bool );
 
         private:
+
+        //* set changed state
+        void setChanged( bool value )
+        {
+            m_changed = value;
+            emit changed( value );
+        }
 
         //* map mask and checkbox
         using CheckBoxMap=QMap< ExceptionMask, QCheckBox*>;

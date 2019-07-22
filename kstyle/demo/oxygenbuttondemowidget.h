@@ -51,7 +51,7 @@ namespace Oxygen
 
         void benchmark( void );
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
         //* change text position in tool buttons
         void textPosition( int );
@@ -62,12 +62,10 @@ namespace Oxygen
         //* set buttons as flat
         void toggleFlat( bool );
 
-        protected:
+        private:
 
         void installMenu( QPushButton* );
         void installMenu( QToolButton* );
-
-        private:
 
         Ui_ButtonDemoWidget ui;
         QToolBar* _toolBar = nullptr;

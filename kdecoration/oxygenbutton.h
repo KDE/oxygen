@@ -100,7 +100,15 @@ namespace Oxygen
 
         //@}
 
-        protected:
+        private Q_SLOTS:
+
+        //* apply configuration changes
+        void reconfigure();
+
+        //* animation state
+        void updateAnimationState(bool);
+
+        private:
 
         //* draw icon
         void drawIcon( QPainter* );
@@ -143,16 +151,6 @@ namespace Oxygen
         { return !isMenuButton();}
 
         //@}
-
-        private Q_SLOTS:
-
-        //* apply configuration changes
-        void reconfigure();
-
-        //* animation state
-        void updateAnimationState(bool);
-
-        private:
 
         //* private constructor
         explicit Button(KDecoration2::DecorationButtonType type, Decoration *decoration, QObject *parent);

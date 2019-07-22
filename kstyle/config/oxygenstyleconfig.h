@@ -63,12 +63,6 @@ namespace Oxygen
         //* reset to saved configuration
         void reset( void );
 
-        protected Q_SLOTS:
-
-        //* update layout
-        /** needed in expert mode to accommodate with animations config widget size changes */
-        void updateLayout( void );
-
         //* update modified state when option is checked/unchecked
         void updateChanged( void );
 
@@ -82,6 +76,12 @@ namespace Oxygen
 
         // expander size from ui
         int triangularExpanderSize( void ) const;
+
+        private Q_SLOTS:
+
+        //* update layout
+        /** needed in expert mode to accommodate with animations config widget size changes */
+        void updateLayout( void );
 
     };
 

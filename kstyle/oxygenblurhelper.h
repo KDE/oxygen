@@ -80,7 +80,7 @@ namespace Oxygen
         protected:
 
         //* timer event
-        /*! used to perform delayed blur region update of pending widgets */
+        /** used to perform delayed blur region update of pending widgets */
         void timerEvent( QTimerEvent* event ) override
         {
 
@@ -134,7 +134,7 @@ namespace Oxygen
         bool isOpaque( const QWidget* widget ) const;
 
         //* true if widget is a transparent window
-        /*! some additional checks are performed to make sure stuff like plasma tooltips
+        /** some additional checks are performed to make sure stuff like plasma tooltips
         don't get their blur region overwritten */
         bool isTransparent( const QWidget* widget ) const;
 

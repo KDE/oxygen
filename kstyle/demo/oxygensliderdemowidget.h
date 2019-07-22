@@ -55,7 +55,7 @@ namespace Oxygen
         void toggleInvertedAppearance( bool value )
         { _progressBar->setInvertedAppearance( value ); }
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
         //* toggle bussy state
         void toggleBusy( bool );

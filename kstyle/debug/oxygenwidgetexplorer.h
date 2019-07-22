@@ -60,15 +60,13 @@ namespace Oxygen
         //* event filter
         bool eventFilter( QObject*, QEvent* ) override;
 
-        protected:
+        private:
 
         //* event type
         QString eventType( const QEvent::Type& ) const;
 
         //* print widget information
         QString widgetInformation( const QWidget* ) const;
-
-        private:
 
         //* enable state
         bool _enabled = false;

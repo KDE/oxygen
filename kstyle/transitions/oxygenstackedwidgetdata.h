@@ -67,7 +67,7 @@ namespace Oxygen
         WeakPointer<QStackedWidget> _target;
 
         //* current index
-        int _index;
+        int _index = 0;
 
     };
 

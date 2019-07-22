@@ -59,16 +59,16 @@ namespace Oxygen
 
         private:
 
-        GenericAnimationConfigItem* _genericAnimations;
-        GenericAnimationConfigItem* _progressBarAnimations;
-        GenericAnimationConfigItem* _progressBarBusyAnimations;
-        GenericAnimationConfigItem* _stackedWidgetAnimations;
-        GenericAnimationConfigItem* _labelAnimations;
-        GenericAnimationConfigItem* _lineEditAnimations;
-        GenericAnimationConfigItem* _comboBoxAnimations;
-        FollowMouseAnimationConfigItem* _toolBarAnimations;
-        FollowMouseAnimationConfigItem* _menuBarAnimations;
-        FollowMouseAnimationConfigItem* _menuAnimations;
+        GenericAnimationConfigItem* _genericAnimations = nullptr;
+        GenericAnimationConfigItem* _progressBarAnimations = nullptr;
+        GenericAnimationConfigItem* _progressBarBusyAnimations = nullptr;
+        GenericAnimationConfigItem* _stackedWidgetAnimations = nullptr;
+        GenericAnimationConfigItem* _labelAnimations = nullptr;
+        GenericAnimationConfigItem* _lineEditAnimations = nullptr;
+        GenericAnimationConfigItem* _comboBoxAnimations = nullptr;
+        FollowMouseAnimationConfigItem* _toolBarAnimations = nullptr;
+        FollowMouseAnimationConfigItem* _menuBarAnimations = nullptr;
+        FollowMouseAnimationConfigItem* _menuAnimations = nullptr;
 
     };
 

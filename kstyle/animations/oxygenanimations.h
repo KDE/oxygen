@@ -62,7 +62,7 @@ namespace Oxygen
         //* register animations corresponding to given widget, depending on its type.
         void registerWidget( QWidget* widget ) const;
 
-        /*! unregister all animations associated to a widget */
+        /** unregister all animations associated to a widget */
         void unregisterWidget( QWidget* widget ) const;
 
         //* enable state engine
@@ -140,7 +140,7 @@ namespace Oxygen
         //* setup engines
         void setupEngines( void );
 
-        protected Q_SLOTS:
+        private Q_SLOTS:
 
         //* enregister engine
         void unregisterEngine( QObject* );
@@ -151,58 +151,58 @@ namespace Oxygen
         void registerEngine( BaseEngine* engine );
 
         //* busy indicator
-        BusyIndicatorEngine* _busyIndicatorEngine;
+        BusyIndicatorEngine* _busyIndicatorEngine = nullptr;
 
         //* dock separator handle hover effect
-        DockSeparatorEngine* _dockSeparatorEngine;
+        DockSeparatorEngine* _dockSeparatorEngine = nullptr;
 
         //* headerview hover effect
-        HeaderViewEngine* _headerViewEngine;
+        HeaderViewEngine* _headerViewEngine = nullptr;
 
         //* widget enable state engine
-        WidgetStateEngine* _widgetEnableStateEngine;
+        WidgetStateEngine* _widgetEnableStateEngine = nullptr;
 
         //* abstract button engine
-        WidgetStateEngine* _widgetStateEngine;
+        WidgetStateEngine* _widgetStateEngine = nullptr;
 
         //* editable combobox arrow hover effect
-        WidgetStateEngine* _comboBoxEngine;
+        WidgetStateEngine* _comboBoxEngine = nullptr;
 
         //* mennu toolbutton arrow hover effect
-        WidgetStateEngine* _toolButtonEngine;
+        WidgetStateEngine* _toolButtonEngine = nullptr;
 
         //* item view engine
-        WidgetStateEngine* _inputWidgetEngine;
+        WidgetStateEngine* _inputWidgetEngine = nullptr;
 
         //* QSplitter engine
-        SplitterEngine* _splitterEngine;
+        SplitterEngine* _splitterEngine = nullptr;
 
         //* progressbar engine
-        ProgressBarEngine* _progressBarEngine;
+        ProgressBarEngine* _progressBarEngine = nullptr;
 
         //* menubar engine
-        MenuBarBaseEngine* _menuBarEngine;
+        MenuBarBaseEngine* _menuBarEngine = nullptr;
 
         //* menu engine
-        MenuBaseEngine* _menuEngine;
+        MenuBaseEngine* _menuEngine = nullptr;
 
         //* scrollbar engine
-        ScrollBarEngine* _scrollBarEngine;
+        ScrollBarEngine* _scrollBarEngine = nullptr;
 
         //* spinbox engine
-        SpinBoxEngine* _spinBoxEngine;
+        SpinBoxEngine* _spinBoxEngine = nullptr;
 
         //* tabbar engine
-        TabBarEngine* _tabBarEngine;
+        TabBarEngine* _tabBarEngine = nullptr;
 
         //* toolbar engine
-        ToolBarEngine* _toolBarEngine;
+        ToolBarEngine* _toolBarEngine = nullptr;
 
         //* toolbar engine
-        ToolBoxEngine* _toolBoxEngine;
+        ToolBoxEngine* _toolBoxEngine = nullptr;
 
         //* mdi window
-        MdiWindowEngine* _mdiWindowEngine;
+        MdiWindowEngine* _mdiWindowEngine = nullptr;
 
         //* keep list of existing engines
         QList< BaseEngine::Pointer > _engines;
