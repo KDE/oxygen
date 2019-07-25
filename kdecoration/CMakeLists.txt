@@ -53,7 +53,6 @@ set(oxygendecoration_config_SRCS
     config/oxygenexceptiondialog.cpp
     config/oxygenexceptionlistwidget.cpp
     config/oxygenexceptionmodel.cpp
-    config/oxygenitemmodel.cpp
 )
 
 set(oxygendecoration_config_PART_FORMS
