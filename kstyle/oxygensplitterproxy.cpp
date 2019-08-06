@@ -225,7 +225,6 @@ namespace Oxygen
                     QMouseEvent mouseEvent2(
                         mouseEvent->type(),
                         _hook,
-                        _splitter.data()->mapToGlobal(_hook),
                         mouseEvent->button(),
                         mouseEvent->buttons(), mouseEvent->modifiers());
 
@@ -237,7 +236,6 @@ namespace Oxygen
                    QMouseEvent mouseEvent2(
                         mouseEvent->type(),
                         _splitter.data()->mapFromGlobal( mouseEvent->globalPos() ),
-                        mouseEvent->globalPos(),
                         mouseEvent->button(),
                         mouseEvent->buttons(), mouseEvent->modifiers());
 
