@@ -101,7 +101,7 @@
         <item>
          <widget class="QRadioButton" name="raisedFrameRadioButton">
           <property name="text">
-           <string>Raised</string>
+           <string>&amp;Raised</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -114,7 +114,7 @@
            <bool>true</bool>
           </property>
           <property name="text">
-           <string comment="Flat frame. No frame is actually drawn.">Flat</string>
+           <string comment="Flat frame. No frame is actually drawn.">&amp;Flat</string>
           </property>
          </widget>
         </item>
@@ -181,6 +181,19 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_4"/>
        </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="msgLayout" stretch="1">
+     <item>
+      <widget class="QFrame" name="msgFrame">
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+       </layout>
       </widget>
      </item>
     </layout>

@@ -29,13 +29,19 @@
 #include <QButtonGroup>
 
 #include <KComboBox>
+#include <KMessageWidget>
+#include <kwidgetsaddons_version.h>
 
 namespace Oxygen
 {
 
     //_____________________________________________________________
     FrameDemoWidget::FrameDemoWidget( QWidget* parent ):
-        DemoWidget( parent )
+        DemoWidget( parent ),
+        posMsg(nullptr),
+        infoMsg(nullptr),
+        warnMsg(nullptr),
+        errMsg(nullptr)
     {
 
         ui.setupUi( this );
@@ -51,6 +57,60 @@ namespace Oxygen
         connect( ui.directionComboBox, SIGNAL(currentIndexChanged(int)), SLOT(updateLayoutDirection(int)) );
         connect( ui.flatGroupBoxCheckBox, SIGNAL(toggled(bool)), SLOT(toggleFlatGroupBox(bool)) );
 
+        addMessages();
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 48, 0)
+        qApp->installEventFilter(this);
+#endif
+    }
+
+    void FrameDemoWidget::addMessages()
+    {
+        delete posMsg;
+        delete infoMsg;
+        delete warnMsg;
+        delete errMsg;
+
+        posMsg = new KMessageWidget(QStringLiteral("A positive message"), ui.msgFrame);
+        posMsg->setMessageType(KMessageWidget::Positive);
+        posMsg->setWordWrap(true);
+        posMsg->setIcon(QIcon::fromTheme("dialog-positive"));
+        ui.verticalLayout_5->addWidget(posMsg);
+
+        infoMsg = new KMessageWidget(QStringLiteral("An information message"), ui.msgFrame);
+        infoMsg->setMessageType(KMessageWidget::Information);
+        infoMsg->setWordWrap(true);
+        infoMsg->setIcon(QIcon::fromTheme("dialog-information"));
+        ui.verticalLayout_5->addWidget(infoMsg);
+
+        warnMsg = new KMessageWidget(QStringLiteral("A warning message"), ui.msgFrame);
+        warnMsg->setMessageType(KMessageWidget::Warning);
+        warnMsg->setWordWrap(true);
+        warnMsg->setIcon(QIcon::fromTheme("dialog-warning"));
+        ui.verticalLayout_5->addWidget(warnMsg);
+
+        errMsg = new KMessageWidget(QStringLiteral("An error message"), ui.msgFrame);
+        errMsg->setMessageType(KMessageWidget::Error);
+        errMsg->setWordWrap(true);
+        errMsg->setIcon(QIcon::fromTheme("dialog-error"));
+        ui.verticalLayout_5->addWidget(errMsg);
+
+        ui.verticalLayout_5->addStretch();
+    }
+
+    bool FrameDemoWidget::eventFilter( QObject *obj, QEvent *event )
+    {
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 48, 0)
+        if (event->type() == QEvent::DynamicPropertyChange && obj == qApp) {
+            QDynamicPropertyChangeEvent *e = dynamic_cast<QDynamicPropertyChangeEvent*>(event);
+            if (e->propertyName() == QByteArrayLiteral("KDE_COLOR_SCHEME_PATH")) {
+                addMessages();
+            }
+        }
+#else
+        Q_UNUSED(obj);
+        Q_UNUSED(event);
+#endif
+        return false;
     }
 
     //_____________________________________________________________

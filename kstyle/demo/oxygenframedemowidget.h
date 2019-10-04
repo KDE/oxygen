@@ -34,6 +34,8 @@
 #include "oxygendemowidget.h"
 #include "ui_oxygenframedemowidget.h"
 
+class KMessageWidget;
+
 namespace Oxygen
 {
     class FrameDemoWidget: public DemoWidget
@@ -45,6 +47,10 @@ namespace Oxygen
 
         //* constructor
         explicit FrameDemoWidget( QWidget* = 0 );
+
+        void addMessages();
+
+        bool eventFilter( QObject *obj, QEvent *event );
 
         public Q_SLOTS:
 
@@ -73,6 +79,7 @@ namespace Oxygen
         private:
 
         Ui_FrameDemoWidget ui;
+        KMessageWidget *posMsg, *infoMsg, *warnMsg, *errMsg;
 
     };
 
