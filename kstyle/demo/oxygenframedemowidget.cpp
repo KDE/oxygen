@@ -25,12 +25,15 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenframedemowidget.h"
+#include "config-liboxygen.h"
 
 #include <QButtonGroup>
 
 #include <KComboBox>
 #include <KMessageWidget>
+#if !OXYGEN_USE_KDE4
 #include <kwidgetsaddons_version.h>
+#endif
 
 namespace Oxygen
 {
@@ -58,7 +61,7 @@ namespace Oxygen
         connect( ui.flatGroupBoxCheckBox, SIGNAL(toggled(bool)), SLOT(toggleFlatGroupBox(bool)) );
 
         addMessages();
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 48, 0)
+#if !OXYGEN_USE_KDE4 && KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 48, 0)
         qApp->installEventFilter(this);
 #endif
     }
@@ -99,7 +102,7 @@ namespace Oxygen
 
     bool FrameDemoWidget::eventFilter( QObject *obj, QEvent *event )
     {
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 48, 0)
+#if !OXYGEN_USE_KDE4 && KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 48, 0)
         if (event->type() == QEvent::DynamicPropertyChange && obj == qApp) {
             QDynamicPropertyChangeEvent *e = dynamic_cast<QDynamicPropertyChangeEvent*>(event);
             if (e->propertyName() == QByteArrayLiteral("KDE_COLOR_SCHEME_PATH")) {
