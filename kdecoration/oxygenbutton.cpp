@@ -229,8 +229,7 @@ namespace Oxygen
         {
 
             const QRectF iconRect( geometry().topLeft(), m_iconSize  );
-            const QPixmap pixmap = decoration()->client().data()->icon().pixmap( m_iconSize.width() );
-            painter->drawPixmap(iconRect.center() - QPoint(pixmap.width()/2, pixmap.height()/2), pixmap);
+            decoration()->client().data()->icon().paint(painter, iconRect.toRect());
             painter->restore();
             return;
 
