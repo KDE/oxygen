@@ -419,25 +419,25 @@ namespace Oxygen
         //@{
 
         //* qdial slab
-        void renderDialSlab( QPainter* p, const QRect& r, const QColor& c, const QStyleOption* option, StyleOptions opts = 0 ) const
+        void renderDialSlab( QPainter* p, const QRect& r, const QColor& c, const QStyleOption* option, StyleOptions opts = {} ) const
         { renderDialSlab( p, r, c, option, opts, -1,  AnimationNone ); }
 
         //* qdial slab
         void renderDialSlab( QPainter*, const QRect&, const QColor&, const QStyleOption*, StyleOptions, qreal, AnimationMode ) const;
 
         //* generic button slab
-        void renderButtonSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opts = 0, TileSet::Tiles tiles = TileSet::Ring) const
+        void renderButtonSlab( QPainter* p, QRect r, const QColor& c, StyleOptions opts = {}, TileSet::Tiles tiles = TileSet::Ring) const
         { renderButtonSlab( p, r, c, opts, -1,  AnimationNone, tiles ); }
 
         //* generic button slab
         void renderButtonSlab( QPainter*, QRect, const QColor&, StyleOptions, qreal, AnimationMode, TileSet::Tiles ) const;
 
         //* generic slab
-        void renderSlab( QPainter* painter, const SlabRect& slab, const QColor& color, StyleOptions options = 0 ) const
+        void renderSlab( QPainter* painter, const SlabRect& slab, const QColor& color, StyleOptions options = {} ) const
         { renderSlab( painter, slab.rect, color, options, slab.tiles ); }
 
         //* generic slab
-        void renderSlab( QPainter* painter, QRect rect, const QColor& color, StyleOptions options = 0, TileSet::Tiles tiles = TileSet::Ring) const
+        void renderSlab( QPainter* painter, QRect rect, const QColor& color, StyleOptions options = {}, TileSet::Tiles tiles = TileSet::Ring) const
         { renderSlab( painter, rect, color, options, -1, AnimationNone, tiles ); }
 
         //* generic slab

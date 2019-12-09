@@ -179,7 +179,7 @@ namespace Oxygen
         void fillHole( QPainter&, const QRect&, int offset = 2 ) const;
 
         //* generic hole
-        void renderHole( QPainter *painter, const QColor& color, const QRect &rect, StyleOptions options = 0, TileSet::Tiles tiles = TileSet::Ring )
+        void renderHole( QPainter *painter, const QColor& color, const QRect &rect, StyleOptions options = {}, TileSet::Tiles tiles = TileSet::Ring )
         { renderHole( painter, color, rect, options, -1, Oxygen::AnimationNone, tiles ); }
 
         //* generic hole (with animated glow)
@@ -227,11 +227,11 @@ namespace Oxygen
         //@{
 
         //* holes
-        TileSet hole( const QColor& color, int size = TileSet::DefaultSize, StyleOptions options = 0 )
+        TileSet hole( const QColor& color, int size = TileSet::DefaultSize, StyleOptions options = {} )
         { return hole( color, QColor(), size, options ); }
 
         //* holes
-        TileSet hole( const QColor&, const QColor& glow, int size = TileSet::DefaultSize, StyleOptions = 0 );
+        TileSet hole( const QColor&, const QColor& glow, int size = TileSet::DefaultSize, StyleOptions = {} );
 
         //@}
 

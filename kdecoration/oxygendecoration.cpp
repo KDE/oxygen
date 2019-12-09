@@ -726,9 +726,9 @@ namespace Oxygen
         if( c->windowId() != 0 )
         {
             m_sizeGrip = new SizeGrip( this );
-            connect( client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility );
-            connect( client().data(), &KDecoration2::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility );
-            connect( client().data(), &KDecoration2::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility );
+            connect( client().toStrongRef().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility );
+            connect( client().toStrongRef().data(), &KDecoration2::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility );
+            connect( client().toStrongRef().data(), &KDecoration2::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility );
         }
         #endif
 
