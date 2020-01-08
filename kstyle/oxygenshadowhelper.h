@@ -7,6 +7,7 @@
 // -------------------
 //
 // Copyright (c) 2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+// Copyright (c) 2020 Vlad Zahorodnii <vlad.zahorodnii@kde.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -29,26 +30,13 @@
 
 #include "oxygen.h"
 #include "oxygentileset.h"
-#include "config-liboxygen.h"
+
+#include <KWindowShadow>
 
 #include <QObject>
 #include <QMap>
 #include <QMargins>
-
-#if OXYGEN_HAVE_X11
-#include <xcb/xcb.h>
-#endif
-
-#if OXYGEN_HAVE_KWAYLAND
-namespace KWayland
-{
-namespace Client
-{
-    class ShadowManager;
-    class ShmPool;
-}
-}
-#endif
+#include <QSet>
 
 namespace Oxygen
 {
@@ -64,11 +52,6 @@ namespace Oxygen
         Q_OBJECT
 
         public:
-
-        //*@name property names
-        //@{
-        static const char netWMShadowAtomName[];
-        //@}
 
         //* constructor
         ShadowHelper( QObject*, StyleHelper& );
@@ -124,36 +107,17 @@ namespace Oxygen
         ShadowCache& shadowCache( void )
         { return *_shadowCache; }
 
-        // create pixmap handles from tileset
-        const QVector<quint32>& createPixmapHandles( bool isDockWidget );
+        // create shadow tiles from tileset
+        const QVector<KWindowShadowTile::Ptr>& createPlatformTiles( bool isDockWidget );
 
-        // create pixmap handle from pixmap
-        quint32 createPixmap( const QPixmap& );
+        // create a shadow tile from pixmap
+        KWindowShadowTile::Ptr createPlatformTile( const QPixmap& );
 
         //* installs shadow on given widget in a platform independent way
-        bool installShadows( QWidget * );
+        void installShadows( QWidget * );
 
         //* uninstalls shadow on given widget in a platform independent way
-        void uninstallShadows( QWidget * ) const;
-
-        //* install shadow X11 property on given widget
-        /**
-        shadow atom and property specification available at
-        http://community.kde.org/KWin/Shadow
-        */
-        bool installX11Shadows( QWidget* );
-
-        //* uninstall shadow X11 property on given widget
-        void uninstallX11Shadows( QWidget* ) const;
-
-        //* install shadow on given widget for Wayland
-        bool installWaylandShadows( QWidget * );
-
-        //* uninstall shadow on given widget for Wayland
-        void uninstallWaylandShadows( QWidget* ) const;
-
-        //* initializes the Wayland specific parts
-        void initializeWayland();
+        void uninstallShadows( QWidget * );
 
         //* gets the shadow margins for the given widget
         QMargins shadowMargins( QWidget* ) const;
@@ -165,7 +129,10 @@ namespace Oxygen
         ShadowCache* _shadowCache;
 
         //* set of registered widgets
-        QMap<QWidget*, WId> _widgets;
+        QSet<QWidget*> _widgets;
+
+        //* map of managed shadows
+        QMap<QWidget*, KWindowShadow*> _shadows;
 
         //*@name shadow tilesets
         //@{
@@ -173,36 +140,17 @@ namespace Oxygen
         TileSet _dockTiles;
         //@}
 
-        //* number of pixmaps
-        enum { numPixmaps = 8 };
+        //* number of shadow tiles
+        enum { numTiles = 8 };
 
-        //*@name pixmaps
+        //*@name shared shadow tiles
         //@{
-        QVector<quint32> _pixmaps;
-        QVector<quint32> _dockPixmaps;
+        QVector<KWindowShadowTile::Ptr> _platformTiles;
+        QVector<KWindowShadowTile::Ptr> _platformDockTiles;
         //@}
 
         //* shadow size
         int _size;
-
-        #if OXYGEN_HAVE_X11
-
-        //* graphical context
-        xcb_gcontext_t _gc;
-
-        //* shadow atom
-        xcb_atom_t _atom;
-
-        #endif
-
-        #if OXYGEN_HAVE_KWAYLAND
-
-        //* The Wayland shadow manager to create Shadows for Surfaces (QWindow)
-        KWayland::Client::ShadowManager* _shadowManager;
-        //* The Wayland Shared memory pool to share the shadow pixmaps with compositor
-        KWayland::Client::ShmPool* _shmPool;
-
-        #endif
 
     };
 
