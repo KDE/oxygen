@@ -111,13 +111,8 @@ namespace Oxygen
         if( !_enabled ) setEnabled( true );
 
         // shadows
-        #if OXYGEN_USE_KDE4
-        ActiveShadowConfiguration::self()->readConfig();
-        InactiveShadowConfiguration::self()->readConfig();
-        #else
         ActiveShadowConfiguration::self()->load();
         InactiveShadowConfiguration::self()->load();
-        #endif
 
         // copy sizes to local
         _activeShadowSize = ActiveShadowConfiguration::shadowSize();

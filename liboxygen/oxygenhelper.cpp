@@ -27,10 +27,6 @@
 #include <KColorScheme>
 #include <KWindowSystem>
 
-#if OXYGEN_USE_KDE4
-#include <KGlobalSettings>
-#endif
-
 #include <QApplication>
 #include <QWidget>
 #include <QPainter>
@@ -39,10 +35,6 @@
 
 #if OXYGEN_HAVE_X11
 #include <QX11Info>
-#endif
-
-#if OXYGEN_HAVE_X11 && QT_VERSION < 0x050000
-#include <X11/Xlib-xcb.h>
 #endif
 
 namespace Oxygen
@@ -58,14 +50,6 @@ namespace Oxygen
     { init(); }
 
     //____________________________________________________________________
-    #if OXYGEN_USE_KDE4
-    Helper::Helper( const QByteArray& name ):
-        _componentData( name, 0, KComponentData::SkipMainComponentRegistration ),
-        _config( _componentData.config() )
-    { init(); }
-    #endif
-
-    //____________________________________________________________________
     KSharedConfig::Ptr Helper::config() const
     { return _config; }
 
@@ -73,11 +57,7 @@ namespace Oxygen
     void Helper::loadConfig()
     {
 
-        #if OXYGEN_USE_KDE4
-        _contrast = KGlobalSettings::contrastF( _config );
-        #else
         _contrast = KColorScheme::contrastF( _config );
-        #endif
 
         _bgcontrast = qMin( 1.0, 0.9*_contrast/0.7 );
 
@@ -798,37 +778,24 @@ namespace Oxygen
     //______________________________________________________________________________________
     QPixmap Helper::highDpiPixmap( int width, int height ) const
     {
-        #if QT_VERSION >= 0x050300
         const qreal dpiRatio( qApp->devicePixelRatio() );
         QPixmap pixmap( width*dpiRatio, height*dpiRatio );
         pixmap.setDevicePixelRatio( dpiRatio );
         return pixmap;
-        #else
-        return QPixmap( width, height );
-        #endif
     }
 
     //______________________________________________________________________________________
     qreal Helper::devicePixelRatio( const QPixmap& pixmap ) const
     {
-        #if QT_VERSION >= 0x050300
         return pixmap.devicePixelRatio();
-        #else
-        Q_UNUSED(pixmap);
-        return 1;
-        #endif
     }
 
     //______________________________________________________________________________
     bool Helper::isX11( void )
     {
         #if OXYGEN_HAVE_X11
-        #if QT_VERSION >= 0x050000
         static const bool s_isX11 = KWindowSystem::isPlatformX11();
         return s_isX11;
-        #else
-        return true;
-        #endif
         #endif
 
         return false;
@@ -837,12 +804,8 @@ namespace Oxygen
 
     bool Helper::isWayland( void )
     {
-        #if QT_VERSION >= 0x050000
         static const bool s_isWayland = KWindowSystem::isPlatformWayland();
         return s_isWayland;
-        #else
-        return false;
-        #endif
     }
 
     #if OXYGEN_HAVE_X11
@@ -851,17 +814,7 @@ namespace Oxygen
     xcb_connection_t* Helper::connection( void )
     {
 
-        #if QT_VERSION >= 0x050000
         return QX11Info::connection();
-        #else
-        static xcb_connection_t* connection = nullptr;
-        if( !connection )
-        {
-            Display* display = QX11Info::display();
-            if( display ) connection = XGetXCBConnection( display );
-        }
-        return connection;
-        #endif
     }
 
     //____________________________________________________________________
@@ -978,11 +931,7 @@ namespace Oxygen
     void Helper::init( void )
     {
 
-        #if OXYGEN_USE_KDE4
-        _contrast = KGlobalSettings::contrastF( _config );
-        #else
         _contrast = KColorScheme::contrastF( _config );
-        #endif
 
         // background contrast is calculated so that it is 0.9
         // when KGlobalSettings contrast value of 0.7

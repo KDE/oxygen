@@ -51,13 +51,10 @@
 #include "oxygentileset.h"
 #include "config-liboxygen.h"
 
-#if OXYGEN_USE_KDE4
-#include "kstylekde4compat.h"
-#else
 #include <KStyle>
-#endif
 
 #include <QAbstractScrollArea>
+#include <QCommandLinkButton>
 #include <QDockWidget>
 #include <QMdiSubWindow>
 #include <QStyleOption>
@@ -68,10 +65,6 @@
 #include <QWidget>
 
 #include <QIcon>
-
-#if QT_VERSION >= 0x050000
-#include <QCommandLinkButton>
-#endif
 
 namespace OxygenPrivate
 {
@@ -94,16 +87,9 @@ namespace Oxygen
     class WidgetExplorer;
     class BlurHelper;
 
-    //* convenience typedef for base class
-    #if OXYGEN_USE_KDE4
-    using ParentStyleClass = KStyleKDE4Compat;
-    #else
-    using ParentStyleClass = KStyle;
-    #endif
-
     //* base class for oxygen style
     /** it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */
-    class Style: public ParentStyleClass
+    class Style: public KStyle
     {
         Q_OBJECT
 
@@ -119,8 +105,8 @@ namespace Oxygen
         ~Style( void ) override;
 
         //* needed to avoid warnings at compilation time
-        using  ParentStyleClass::polish;
-        using  ParentStyleClass::unpolish;
+        using  KStyle::polish;
+        using  KStyle::unpolish;
 
         //* widget polishing
         void polish( QWidget* ) override;
@@ -167,10 +153,7 @@ namespace Oxygen
         bool eventFilterComboBoxContainer( QWidget*, QEvent* );
         bool eventFilterDockWidget( QDockWidget*, QEvent* );
         bool eventFilterMdiSubWindow( QMdiSubWindow*, QEvent* );
-
-        #if QT_VERSION >= 0x050000
         bool eventFilterCommandLinkButton( QCommandLinkButton*, QEvent* );
-        #endif
 
         bool eventFilterScrollBar( QWidget*, QEvent* );
         bool eventFilterTabBar( QWidget*, QEvent* );
@@ -193,13 +176,8 @@ namespace Oxygen
 
         protected:
 
-        #if OXYGEN_USE_KDE4
-        //* standard icons
-        QIcon standardIcon( StandardPixmap pixmap, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const
-        #else
         //* standard icons
         QIcon standardIcon( StandardPixmap pixmap, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const override
-        #endif
         { return standardIconImplementation( pixmap, option, widget ); }
 
         private Q_SLOTS:
@@ -590,9 +568,9 @@ namespace Oxygen
         }
 
         //* right to left alignment handling
-        using ParentStyleClass::visualRect;
+        using KStyle::visualRect;
         QRect visualRect(const QStyleOption* opt, const QRect& subRect) const
-        { return ParentStyleClass::visualRect(opt->direction, opt->rect, subRect); }
+        { return KStyle::visualRect(opt->direction, opt->rect, subRect); }
 
         //* centering
         QRect centerRect(const QRect &rect, const QSize& size ) const

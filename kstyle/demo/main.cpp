@@ -29,12 +29,8 @@
 #include "config-liboxygen.h"
 
 #include <QApplication>
-
-#if QT_VERSION >= 0x050200
 #include <QCommandLineOption>
 #include <QCommandLineParser>
-#endif
-
 #include <QIcon>
 
 #include <KLocalizedString>
@@ -46,14 +42,12 @@ namespace Oxygen
     {
         QApplication app( argc, argv );
 
-        #if QT_VERSION >= 0x050200
         QCommandLineParser commandLine;
         QCommandLineOption enableHighDpi( "highdpi", "Enable High DPI pixmaps" );
         commandLine.addOption( enableHighDpi );
         commandLine.process( app );
 
         app.setAttribute( Qt::AA_UseHighDpiPixmaps, commandLine.isSet( enableHighDpi ) );
-        #endif
 
         app.setApplicationName( i18n( "Oxygen Demo" ) );
         app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
@@ -68,9 +62,7 @@ namespace Oxygen
 //__________________________________________
 int main(int argc, char *argv[])
 {
-    #if !OXYGEN_USE_KDE4
     KLocalizedString::setApplicationDomain("oxygen_style_demo");
-    #endif
 
     return Oxygen::run( argc, argv );
 

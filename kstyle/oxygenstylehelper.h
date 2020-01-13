@@ -43,11 +43,6 @@ namespace Oxygen
         //* constructor
         explicit StyleHelper( KSharedConfigPtr config );
 
-        #if OXYGEN_USE_KDE4
-        //* constructor
-        explicit StyleHelper( const QByteArray& );
-        #endif
-
         //* destructor
         //* clear cache
         void invalidateCaches() override;

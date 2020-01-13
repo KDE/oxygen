@@ -40,9 +40,6 @@ DEALINGS IN THE SOFTWARE.
 #include <KLocalizedString>
 #include <KSharedConfig>
 #include <KConfigGroup>
-#if !OXYGEN_USE_KDE4
-#include <Kdelibs4Migration>
-#endif
 
 #define SCROLLBAR_DEFAULT_WIDTH 15
 #define SCROLLBAR_MINIMUM_WIDTH 10
@@ -105,20 +102,7 @@ namespace Oxygen
 
         _animationConfigWidget->save();
 
-        #if OXYGEN_USE_KDE4
-        StyleConfigData::self()->writeConfig();
-        #else
         StyleConfigData::self()->save();
-
-        //update the KDE4 config to match
-        Kdelibs4Migration migration;
-        const QString kde4ConfigDirPath = migration.saveLocation("config");
-
-        QScopedPointer<KConfig> kde4Config(new KConfig);
-        StyleConfigData::self()->config()->copyTo(kde4ConfigDirPath+"/oxygenrc", kde4Config.data());
-        kde4Config->sync();
-
-        #endif
 
         // emit dbus signal
         QDBusMessage message( QDBusMessage::createSignal( QStringLiteral( "/OxygenStyle" ),  QStringLiteral( "org.kde.Oxygen.Style" ), QStringLiteral( "reparseConfiguration" ) ) );
@@ -137,11 +121,7 @@ namespace Oxygen
     void StyleConfig::reset( void )
     {
         // reparse configuration
-        #if OXYGEN_USE_KDE4
-        StyleConfigData::self()->readConfig();
-        #else
         StyleConfigData::self()->load();
-        #endif
 
         load();
     }

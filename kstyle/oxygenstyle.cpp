@@ -230,11 +230,7 @@ namespace Oxygen
 
     //______________________________________________________________
     Style::Style( void ):
-        #if OXYGEN_USE_KDE4
-        _helper( new StyleHelper( "oxygen" ) )
-        #else
         _helper( new StyleHelper( StyleConfigData::self()->sharedConfig() ) )
-        #endif
         ,_shadowHelper( new ShadowHelper( this, *_helper ) )
         ,_animations( new Animations( this ) )
         ,_transitions( new Transitions( this ) )
@@ -481,11 +477,10 @@ namespace Oxygen
             widget->setWindowFlags( widget->windowFlags() | Qt::FramelessWindowHint );
             #endif
 
-        #if QT_VERSION >= 0x050000
         } else if( qobject_cast<QCommandLinkButton*>( widget ) ) {
 
             addEventFilter( widget );
-        #endif
+
         } else if( QComboBox *comboBox = qobject_cast<QComboBox*>( widget ) ) {
 
             if( !hasParent( widget, "QWebView" ) )
@@ -512,7 +507,7 @@ namespace Oxygen
         }
 
         // base class polishing
-        ParentStyleClass::polish( widget );
+        KStyle::polish( widget );
 
     }
 
@@ -622,7 +617,7 @@ namespace Oxygen
 
         } else if( widget->inherits( "QComboBoxPrivateContainer" ) ) widget->removeEventFilter( this );
 
-        ParentStyleClass::unpolish( widget );
+        KStyle::unpolish( widget );
 
     }
 
@@ -636,7 +631,6 @@ namespace Oxygen
 
             case PM_DefaultFrameWidth:
             if( qobject_cast<const QLineEdit*>( widget ) ) return Metrics::LineEdit_FrameWidth;
-            #if QT_VERSION >= 0x050000
             else if( isQtQuickControl( option, widget ) )
             {
                 const QString &elementType = option->styleObject->property( "elementType" ).toString();
@@ -652,7 +646,6 @@ namespace Oxygen
                 }
 
             }
-            #endif
 
             // fallback
             return Metrics::Frame_FrameWidth;
@@ -778,7 +771,7 @@ namespace Oxygen
             } else return -1;
 
             // fallback
-            default: return ParentStyleClass::pixelMetric( metric, option, widget );
+            default: return KStyle::pixelMetric( metric, option, widget );
 
         }
 
@@ -852,10 +845,8 @@ namespace Oxygen
             case SH_Menu_SloppySubMenus: return true;
             case SH_ToolBox_SelectedPageTitleBold: return false;
 
-            #if QT_VERSION >= 0x050000
             case SH_Widget_Animate: return StyleConfigData::animationsEnabled();
             case SH_Menu_SupportsSections: return true;
-            #endif
 
             case SH_TitleBar_NoBorder: return false;
             case SH_GroupBox_TextLabelVerticalAlignment: return Qt::AlignVCenter;
@@ -871,7 +862,7 @@ namespace Oxygen
             case SH_MessageBox_CenterButtons:
             return false;
 
-            default: return ParentStyleClass::styleHint( hint, option, widget, returnData );
+            default: return KStyle::styleHint( hint, option, widget, returnData );
         }
 
     }
@@ -901,7 +892,7 @@ namespace Oxygen
             case SE_TabWidgetRightCorner: return tabWidgetCornerRect( SE_TabWidgetRightCorner, option, widget );
             case SE_ToolBoxTabContents: return toolBoxTabContentsRect( option, widget );
 
-            default: return ParentStyleClass::subElementRect( element, option, widget );
+            default: return KStyle::subElementRect( element, option, widget );
 
         }
 
@@ -922,7 +913,7 @@ namespace Oxygen
             case CC_Slider: return sliderSubControlRect( option, subControl, widget );
 
             // fallback
-            default: return ParentStyleClass::subControlRect( element, option, subControl, widget );
+            default: return KStyle::subControlRect( element, option, subControl, widget );
 
         }
 
@@ -950,7 +941,7 @@ namespace Oxygen
             case CT_HeaderSection: return headerSectionSizeFromContents( option, size, widget );
             case CT_ItemViewItem: return itemViewItemSizeFromContents( option, size, widget );
 
-            default: return ParentStyleClass::sizeFromContents( element, option, size, widget );
+            default: return KStyle::sizeFromContents( element, option, size, widget );
         }
 
     }
@@ -998,7 +989,7 @@ namespace Oxygen
             }
 
             // fallback
-            default: return ParentStyleClass::hitTestComplexControl( control, option, point, widget );
+            default: return KStyle::hitTestComplexControl( control, option, point, widget );
 
         }
 
@@ -1053,7 +1044,7 @@ namespace Oxygen
 
         // call function if implemented
         if( !( fcn && ( this->*fcn )( option, painter, widget ) ) )
-        { ParentStyleClass::drawPrimitive( element, option, painter, widget ); }
+        { KStyle::drawPrimitive( element, option, painter, widget ); }
 
         painter->restore();
 
@@ -1110,7 +1101,7 @@ namespace Oxygen
 
         // call function if implemented
         if( !( fcn && ( this->*fcn )( option, painter, widget ) ) )
-        { ParentStyleClass::drawControl( element, option, painter, widget ); }
+        { KStyle::drawControl( element, option, painter, widget ); }
 
         painter->restore();
 
@@ -1140,7 +1131,7 @@ namespace Oxygen
 
         // call function if implemented
         if( !( fcn && ( this->*fcn )( option, painter, widget ) ) )
-        { ParentStyleClass::drawComplexControl( element, option, painter, widget ); }
+        { KStyle::drawComplexControl( element, option, painter, widget ); }
 
         painter->restore();
 
@@ -1177,14 +1168,14 @@ namespace Oxygen
             {
 
                 const QPalette copy( _helper->disabledPalette( palette, _animations->widgetEnableStateEngine().opacity( widget, AnimationEnable ) ) );
-                return ParentStyleClass::drawItemText( painter, rect, flags, copy, enabled, text, textRole );
+                return KStyle::drawItemText( painter, rect, flags, copy, enabled, text, textRole );
 
             }
 
         }
 
         // fallback
-        return ParentStyleClass::drawItemText( painter, rect, flags, palette, enabled, text, textRole );
+        return KStyle::drawItemText( painter, rect, flags, palette, enabled, text, textRole );
 
     }
 
@@ -1199,16 +1190,14 @@ namespace Oxygen
         else if( QToolBox* toolBox = qobject_cast<QToolBox*>( object ) ) { return eventFilterToolBox( toolBox, event ); }
         else if( QMdiSubWindow* subWindow = qobject_cast<QMdiSubWindow*>( object ) ) { return eventFilterMdiSubWindow( subWindow, event ); }
         else if( QScrollBar* scrollBar = qobject_cast<QScrollBar*>( object ) ) { return eventFilterScrollBar( scrollBar, event ); }
-        #if QT_VERSION >= 0x050000
         else if( QCommandLinkButton* commandLinkButton = qobject_cast<QCommandLinkButton*>( object ) ) { return eventFilterCommandLinkButton( commandLinkButton, event ); }
-        #endif
 
         // cast to QWidget
         QWidget *widget = static_cast<QWidget*>( object );
         if( widget->inherits( "QComboBoxPrivateContainer" ) ) { return eventFilterComboBoxContainer( widget, event ); }
 
         // fallback
-        return ParentStyleClass::eventFilter( object, event );
+        return KStyle::eventFilter( object, event );
 
     }
 
@@ -1343,7 +1332,6 @@ namespace Oxygen
     }
 
     //____________________________________________________________________________
-    #if QT_VERSION >= 0x050000
     bool Style::eventFilterCommandLinkButton( QCommandLinkButton* button, QEvent* event )
     {
 
@@ -1428,7 +1416,6 @@ namespace Oxygen
         return false;
 
     }
-    #endif
 
     //_________________________________________________________
     bool Style::eventFilterScrollBar( QWidget* widget, QEvent* event )
@@ -1571,11 +1558,7 @@ namespace Oxygen
     {
 
         // reload
-        #if OXYGEN_USE_KDE4
-        StyleConfigData::self()->readConfig();
-        #else
         StyleConfigData::self()->load();
-        #endif
 
         _shadowHelper->reparseCacheConfig();
 
@@ -1757,11 +1740,7 @@ namespace Oxygen
 
             default:
             // do not cache parent style icon, since it may change at runtime
-            #if QT_VERSION >= 0x050000
-            return  ParentStyleClass::standardIcon( standardPixmap, option, widget );
-            #else
-            return  ParentStyleClass::standardIconImplementation( standardPixmap, option, widget );
-            #endif
+            return  KStyle::standardIcon( standardPixmap, option, widget );
 
         }
     }
@@ -1878,11 +1857,7 @@ namespace Oxygen
     {
         const QRect rect( option->rect );
 
-        #if OXYGEN_USE_KDE4
-        const auto progressBarOption2( qstyleoption_cast<const QStyleOptionProgressBarV2*>( option ) );
-        #else
         const auto progressBarOption2( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
-        #endif
         const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
         if( horizontal ) return insideMargin( rect, 1, 0 );
         else return insideMargin( rect, 0, 1 );
@@ -1897,11 +1872,7 @@ namespace Oxygen
         if( !progressBarOption ) return QRect();
 
         // get orientation
-        #if OXYGEN_USE_KDE4
-        const auto progressBarOption2( qstyleoption_cast<const QStyleOptionProgressBarV2*>( option ) );
-        #else
         const auto progressBarOption2( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
-        #endif
         const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
 
         // check inverted appearance
@@ -2011,11 +1982,7 @@ namespace Oxygen
     {
 
         // cast option and check
-        #if OXYGEN_USE_KDE4
-        const auto tabOptionV3( qstyleoption_cast<const QStyleOptionTabV3*>( option ) );
-        #else
         const auto tabOptionV3( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-        #endif
         if( !tabOptionV3 || tabOptionV3->leftButtonSize.isEmpty() ) return QRect();
 
         const QRect rect( option->rect );
@@ -2059,11 +2026,7 @@ namespace Oxygen
     {
 
         // cast option and check
-        #if OXYGEN_USE_KDE4
-        const auto tabOptionV3( qstyleoption_cast<const QStyleOptionTabV3*>( option ) );
-        #else
         const auto tabOptionV3( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-        #endif
         if( !tabOptionV3 || tabOptionV3->rightButtonSize.isEmpty() ) return QRect();
 
         const QRect rect( option->rect );
@@ -2108,7 +2071,7 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionTabWidgetFrame* tabOption = qstyleoption_cast<const QStyleOptionTabWidgetFrame*>( option );
-        if( !tabOption ) return ParentStyleClass::subElementRect( SE_TabWidgetTabBar, option, widget );
+        if( !tabOption ) return KStyle::subElementRect( SE_TabWidgetTabBar, option, widget );
 
         // do nothing if tabbar is hidden
         const QSize tabBarSize( tabOption->tabBarSize );
@@ -2447,7 +2410,7 @@ namespace Oxygen
 
         }
 
-        return ParentStyleClass::subControlRect( CC_GroupBox, option, subControl, widget );
+        return KStyle::subControlRect( CC_GroupBox, option, subControl, widget );
     }
 
     //___________________________________________________________________________________________________________________
@@ -2456,7 +2419,7 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionToolButton* toolButtonOption = qstyleoption_cast<const QStyleOptionToolButton*>( option );
-        if( !toolButtonOption ) return ParentStyleClass::subControlRect( CC_ToolButton, option, subControl, widget );
+        if( !toolButtonOption ) return KStyle::subControlRect( CC_ToolButton, option, subControl, widget );
 
         const bool hasPopupMenu( toolButtonOption->features & QStyleOptionToolButton::MenuButtonPopup );
         const bool hasInlineIndicator(
@@ -2509,7 +2472,7 @@ namespace Oxygen
     {
         // cast option and check
         const QStyleOptionComboBox *comboBoxOption( qstyleoption_cast<const QStyleOptionComboBox*>( option ) );
-        if( !comboBoxOption ) return ParentStyleClass::subControlRect( CC_ComboBox, option, subControl, widget );
+        if( !comboBoxOption ) return KStyle::subControlRect( CC_ComboBox, option, subControl, widget );
 
         const bool editable( comboBoxOption->editable );
         const bool flat( editable && !comboBoxOption->frame );
@@ -2561,7 +2524,7 @@ namespace Oxygen
 
         }
 
-        return ParentStyleClass::subControlRect( CC_ComboBox, option, subControl, widget );
+        return KStyle::subControlRect( CC_ComboBox, option, subControl, widget );
 
     }
 
@@ -2571,7 +2534,7 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionSpinBox *spinBoxOption( qstyleoption_cast<const QStyleOptionSpinBox*>( option ) );
-        if( !spinBoxOption ) return ParentStyleClass::subControlRect( CC_SpinBox, option, subControl, widget );
+        if( !spinBoxOption ) return KStyle::subControlRect( CC_SpinBox, option, subControl, widget );
         const bool flat( !spinBoxOption->frame );
 
         // copy rect
@@ -2626,7 +2589,7 @@ namespace Oxygen
 
         }
 
-        return ParentStyleClass::subControlRect( CC_SpinBox, option, subControl, widget );
+        return KStyle::subControlRect( CC_SpinBox, option, subControl, widget );
 
     }
 
@@ -2665,7 +2628,7 @@ namespace Oxygen
     {
         // cast option and check
         const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
-        if( !sliderOption ) return ParentStyleClass::subControlRect( CC_ScrollBar, option, subControl, widget );
+        if( !sliderOption ) return KStyle::subControlRect( CC_ScrollBar, option, subControl, widget );
 
         // get relevant state
         const State& state( option->state );
@@ -2752,7 +2715,7 @@ namespace Oxygen
 
             }
 
-            default: return ParentStyleClass::subControlRect( CC_ScrollBar, option, subControl, widget );;
+            default: return KStyle::subControlRect( CC_ScrollBar, option, subControl, widget );;
         }
     }
 
@@ -2763,7 +2726,7 @@ namespace Oxygen
 
         // cast option and check
         const QStyleOptionSlider* sliderOption( qstyleoption_cast<const QStyleOptionSlider*>( option ) );
-        if( !sliderOption ) return ParentStyleClass::subControlRect( CC_Slider, option, subControl, widget );
+        if( !sliderOption ) return KStyle::subControlRect( CC_Slider, option, subControl, widget );
 
         switch( subControl )
         {
@@ -2774,7 +2737,7 @@ namespace Oxygen
                 const bool horizontal( sliderOption->orientation == Qt::Horizontal );
 
                 // get base class rect
-                QRect grooveRect( ParentStyleClass::subControlRect( CC_Slider, option, subControl, widget ) );
+                QRect grooveRect( KStyle::subControlRect( CC_Slider, option, subControl, widget ) );
                 grooveRect = insideMargin( grooveRect, pixelMetric( PM_DefaultFrameWidth, option, widget ) );
 
                 // centering
@@ -2798,13 +2761,13 @@ namespace Oxygen
             case SC_SliderHandle:
             {
 
-                QRect handleRect( ParentStyleClass::subControlRect( CC_Slider, option, subControl, widget ) );
+                QRect handleRect( KStyle::subControlRect( CC_Slider, option, subControl, widget ) );
                 handleRect = centerRect( handleRect, Metrics::Slider_ControlThickness, Metrics::Slider_ControlThickness );
                 return handleRect;
 
             }
 
-            default: return ParentStyleClass::subControlRect( CC_Slider, option, subControl, widget );
+            default: return KStyle::subControlRect( CC_Slider, option, subControl, widget );
         }
 
     }
@@ -3114,11 +3077,7 @@ namespace Oxygen
     {
 
         const auto tabOption( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-        #if OXYGEN_USE_KDE4
-        const auto tabOptionV3( qstyleoption_cast<const QStyleOptionTabV3*>( option ) );
-        #else
         const auto tabOptionV3( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-        #endif
         const bool hasText( tabOption && !tabOption->text.isEmpty() );
         const bool hasIcon( tabOption && !tabOption->icon.isNull() );
         const bool hasLeftButton( tabOptionV3 && !tabOptionV3->leftButtonSize.isEmpty() );
@@ -3202,7 +3161,7 @@ namespace Oxygen
     QSize Style::itemViewItemSizeFromContents( const QStyleOption* option, const QSize& contentsSize, const QWidget* widget ) const
     {
         // call base class
-        QSize size( ParentStyleClass::sizeFromContents( CT_ItemViewItem, option, contentsSize, widget ) );
+        QSize size( KStyle::sizeFromContents( CT_ItemViewItem, option, contentsSize, widget ) );
 
         // add margins
         return expandSize( size, Metrics::ItemView_ItemMarginWidth );
@@ -3221,12 +3180,8 @@ namespace Oxygen
         const State& state( option->state );
         const bool enabled( state & State_Enabled );
 
-        #if QT_VERSION >= 0x050000
         const bool isInputWidget( ( widget && widget->testAttribute( Qt::WA_Hover ) ) ||
             ( isQtQuickControl( option, widget ) && option->styleObject->property( "elementType" ).toString() == QStringLiteral( "edit") ) );
-        #else
-        const bool isInputWidget( widget && widget->testAttribute( Qt::WA_Hover ) );
-        #endif
 
         const bool mouseOver( enabled && isInputWidget && ( state & State_MouseOver ) );
         const bool hasFocus( enabled && isInputWidget && ( state & State_HasFocus ) );
@@ -3377,12 +3332,7 @@ namespace Oxygen
         if( !frameOption ) return true;
 
         // no frame for flat groupboxes
-        #if OXYGEN_USE_KDE4
-        QStyleOptionFrameV2 frameOption2( *frameOption );
-        if( frameOption2.features & QStyleOptionFrameV2::Flat ) return true;
-        #else
         if( frameOption->features & QStyleOptionFrame::Flat ) return true;
-        #endif
         // normal frame
         const QPalette& palette( option->palette );
         const QRect& rect( option->rect );
@@ -4184,11 +4134,7 @@ namespace Oxygen
     {
 
         // cast option and check
-        #if OXYGEN_USE_KDE4
-        const auto viewItemOption = qstyleoption_cast<const QStyleOptionViewItemV4*>( option );
-        #else
         const auto viewItemOption = qstyleoption_cast<const QStyleOptionViewItem*>( option );
-        #endif
 
         if( !viewItemOption ) return false;
 
@@ -4251,19 +4197,6 @@ namespace Oxygen
             if( viewItemOption )
             {
 
-                #if OXYGEN_USE_KDE4
-                roundedLeft  = ( viewItemOption->viewItemPosition == QStyleOptionViewItemV4::Beginning );
-                roundedRight = ( viewItemOption->viewItemPosition == QStyleOptionViewItemV4::End );
-
-                if( viewItemOption->viewItemPosition == QStyleOptionViewItemV4::OnlyOne ||
-                    viewItemOption->viewItemPosition == QStyleOptionViewItemV4::Invalid ||
-                    ( view && view->selectionBehavior() != QAbstractItemView::SelectRows ) )
-                {
-                    roundedLeft  = true;
-                    roundedRight = true;
-                }
-
-                #else
                 roundedLeft  = ( viewItemOption->viewItemPosition == QStyleOptionViewItem::Beginning );
                 roundedRight = ( viewItemOption->viewItemPosition == QStyleOptionViewItem::End );
 
@@ -4274,8 +4207,6 @@ namespace Oxygen
                     roundedLeft  = true;
                     roundedRight = true;
                 }
-
-                #endif
 
             }
 
@@ -4512,11 +4443,7 @@ namespace Oxygen
 
         // in fact with current version of Qt ( 4.6.0 ) the cast fails and document mode is always false
         // this will hopefully be fixed in later versions
-        #if OXYGEN_USE_KDE4
-        const auto tabOptionV3( qstyleoption_cast<const QStyleOptionTabV3*>( option ) );
-        #else
         const auto tabOptionV3( qstyleoption_cast<const QStyleOptionTab*>( option ) );
-        #endif
         bool documentMode( tabOptionV3 ? tabOptionV3->documentMode : false );
 
         const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : nullptr;
@@ -5363,30 +5290,20 @@ namespace Oxygen
         const QStyleOptionProgressBar* progressBarOption( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
         if( !progressBarOption ) return true;
 
-        #if OXYGEN_USE_KDE4
-        QStyleOptionProgressBarV2 progressBarOption2 = *progressBarOption;
-        #else
         QStyleOptionProgressBar progressBarOption2 = *progressBarOption;
-        #endif
 
         progressBarOption2.rect = subElementRect( SE_ProgressBarGroove, progressBarOption, widget );
         drawControl( CE_ProgressBarGroove, &progressBarOption2, painter, widget );
 
         // enable busy animations
-        #if QT_VERSION >= 0x050000
         const QObject* styleObject( widget ? widget:progressBarOption->styleObject );
-        #else
-        const QObject* styleObject( widget );
-        #endif
 
         if( styleObject && _animations->busyIndicatorEngine().enabled() )
         {
 
-            #if QT_VERSION >= 0x050000
             // register QML object if defined
             if( !widget && progressBarOption->styleObject )
             { _animations->busyIndicatorEngine().registerWidget( progressBarOption->styleObject ); }
-            #endif
 
             _animations->busyIndicatorEngine().setAnimated( styleObject, progressBarOption->maximum == 0 && progressBarOption->minimum == 0 );
 
@@ -5421,12 +5338,7 @@ namespace Oxygen
         if( !progressBarOption ) return true;
 
         // get orientation
-        #if OXYGEN_USE_KDE4
-        const auto progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
-        #else
         const auto progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
-        #endif
-
         const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
 
         // copy rect and palette
@@ -5450,11 +5362,7 @@ namespace Oxygen
     bool Style::drawProgressBarGrooveControl( const QStyleOption* option, QPainter* painter, const QWidget* ) const
     {
 
-        #if OXYGEN_USE_KDE4
-        const auto progressBarOption = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
-        #else
         const auto progressBarOption = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
-        #endif
         const Qt::Orientation orientation( progressBarOption? progressBarOption->orientation : Qt::Horizontal );
         renderScrollBarHole( painter, option->rect, option->palette.color( QPalette::Window ), orientation );
 
@@ -5479,12 +5387,7 @@ namespace Oxygen
         const bool reverseLayout = ( option->direction == Qt::RightToLeft );
 
         // get orientation
-        #if OXYGEN_USE_KDE4
-        const auto progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBarV2*>( option );
-        #else
         const auto progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
-        #endif
-
         const bool horizontal = !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal;
 
         // check inverted appearance
@@ -5718,11 +5621,7 @@ namespace Oxygen
     {
 
         // cast option and check
-        #if OXYGEN_USE_KDE4
-        const auto frameOption = qstyleoption_cast<const QStyleOptionFrameV3*>( option );
-        #else
         const auto frameOption = qstyleoption_cast<const QStyleOptionFrame*>( option );
-        #endif
         if( !frameOption ) return false;
 
         switch( frameOption->frameShape )
@@ -5865,7 +5764,7 @@ namespace Oxygen
     {
 
         // call parent style method
-        ParentStyleClass::drawControl( CE_TabBarTabLabel, option, painter, widget );
+        KStyle::drawControl( CE_TabBarTabLabel, option, painter, widget );
 
         // store rect and palette
         const QRect& rect( option->rect );
@@ -5985,11 +5884,7 @@ namespace Oxygen
         bool isLast( position == QStyleOptionTab::OnlyOneTab || position == QStyleOptionTab::End );
 
         // document mode
-        #if OXYGEN_USE_KDE4
-        const auto tabOptionV3 = qstyleoption_cast<const QStyleOptionTabV3*>( option );
-        #else
         const  auto tabOptionV3 = qstyleoption_cast<const QStyleOptionTab*>( option );
-        #endif
         bool documentMode = tabOptionV3 ? tabOptionV3->documentMode : false;
         const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : nullptr;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
@@ -6370,11 +6265,7 @@ namespace Oxygen
         bool isRightOfSelected( tabOption->selectedPosition == QStyleOptionTab::PreviousIsSelected );
 
         // document mode
-        #if OXYGEN_USE_KDE4
-        const auto tabOptV3 = qstyleoption_cast<const QStyleOptionTabV3*>( option );
-        #else
         const auto tabOptV3 = qstyleoption_cast<const QStyleOptionTab*>( option );
-        #endif
         bool documentMode = tabOptV3 ? tabOptV3->documentMode : false;
         const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : nullptr;
         documentMode |= ( tabWidget ? tabWidget->documentMode() : true );
@@ -6759,13 +6650,8 @@ namespace Oxygen
         const bool reverseLayout( option->direction == Qt::RightToLeft );
 
         // cast option and check
-        #if OXYGEN_USE_KDE4
-        const auto v2 = qstyleoption_cast<const QStyleOptionToolBoxV2 *>( option );
-        if( v2 && v2->position == QStyleOptionToolBoxV2::Beginning && selected ) return true;
-        #else
         const auto v2 = qstyleoption_cast<const QStyleOptionToolBox*>( option );
         if( v2 && v2->position == QStyleOptionToolBox::Beginning && selected ) return true;
-        #endif
 
         /*
         the proper widget ( the toolbox tab ) is not passed as argument by Qt.
@@ -6872,12 +6758,7 @@ namespace Oxygen
         const bool reverseLayout( option->direction == Qt::RightToLeft );
 
         // cast to v2 to check vertical bar
-        #if OXYGEN_USE_KDE4
-        const auto v2 = qstyleoption_cast<const QStyleOptionDockWidgetV2*>( option );
-        #else
         const auto v2 = qstyleoption_cast<const QStyleOptionDockWidget*>( option );
-        #endif
-
         const bool verticalTitleBar( v2 ? v2->verticalTitleBar : false );
 
         const QRect buttonRect( subElementRect( dockWidgetOption->floatable ? SE_DockWidgetFloatButton : SE_DockWidgetCloseButton, option, widget ) );
@@ -7482,7 +7363,7 @@ namespace Oxygen
         }
 
         // call base class primitive
-        ParentStyleClass::drawComplexControl( CC_ScrollBar, option, painter, widget );
+        KStyle::drawComplexControl( CC_ScrollBar, option, painter, widget );
         return true;
     }
 
@@ -7510,7 +7391,7 @@ namespace Oxygen
             { palette = _helper->disabledPalette( palette, _animations->widgetEnableStateEngine().opacity( widget, AnimationEnable )  ); }
 
             palette.setCurrentColorGroup( active ? QPalette::Active: QPalette::Disabled );
-            ParentStyleClass::drawItemText( painter, textRect, Qt::AlignCenter, palette, active, titleBarOption->text, QPalette::WindowText );
+            KStyle::drawItemText( painter, textRect, Qt::AlignCenter, palette, active, titleBarOption->text, QPalette::WindowText );
 
         }
 
@@ -8728,15 +8609,9 @@ namespace Oxygen
     //____________________________________________________________________
     bool Style::isQtQuickControl( const QStyleOption* option, const QWidget* widget ) const
     {
-        #if QT_VERSION >= 0x050000
         const bool is = (widget == nullptr) && option && option->styleObject && option->styleObject->inherits( "QQuickItem" );
         if ( is ) _windowManager->registerQuickItem( static_cast<QQuickItem*>( option->styleObject ) );
         return is;
-        #else
-        Q_UNUSED( widget );
-        Q_UNUSED( option );
-        return false;
-        #endif
     }
 
     //_____________________________________________________________
@@ -8798,11 +8673,7 @@ namespace OxygenPrivate
         const bool reverseLayout( tabOption->direction == Qt::RightToLeft );
 
         // get documentMode flag
-        #if OXYGEN_USE_KDE4
-        const auto tabOptionV3 = qstyleoption_cast<const QStyleOptionTabV3*>( tabOption );
-        #else
         const auto tabOptionV3 = qstyleoption_cast<const QStyleOptionTab*>( tabOption );
-        #endif
 
         bool documentMode = tabOptionV3 ? tabOptionV3->documentMode : false;
         const QTabWidget *tabWidget = ( widget && widget->parentWidget() ) ? qobject_cast<const QTabWidget *>( widget->parentWidget() ) : nullptr;

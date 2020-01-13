@@ -74,11 +74,7 @@ namespace Oxygen
             ActiveShadowConfiguration::setUseOuterColor( ui->useOuterColor->isChecked() );
 
             ActiveShadowConfiguration::setEnabled( isChecked() );
-            #if OXYGEN_USE_KDE4
-            ActiveShadowConfiguration::self()->writeConfig();
-            #else
             ActiveShadowConfiguration::self()->save();
-            #endif
 
         } else if( _group == QPalette::Inactive ) {
 
@@ -89,11 +85,7 @@ namespace Oxygen
             InactiveShadowConfiguration::setUseOuterColor( ui->useOuterColor->isChecked() );
 
             InactiveShadowConfiguration::setEnabled( isChecked() );
-            #if OXYGEN_USE_KDE4
-            InactiveShadowConfiguration::self()->writeConfig();
-            #else
             InactiveShadowConfiguration::self()->save();
-            #endif
 
         }
 
@@ -136,11 +128,7 @@ namespace Oxygen
             if( defaults ) ActiveShadowConfiguration::self()->setDefaults();
             else {
 
-                #if OXYGEN_USE_KDE4
-                ActiveShadowConfiguration::self()->readConfig();
-                #else
                 ActiveShadowConfiguration::self()->load();
-                #endif
 
             }
 
@@ -157,11 +145,7 @@ namespace Oxygen
             if( defaults ) InactiveShadowConfiguration::self()->setDefaults();
             else {
 
-                #if OXYGEN_USE_KDE4
-                InactiveShadowConfiguration::self()->readConfig();
-                #else
                 InactiveShadowConfiguration::self()->load();
-                #endif
 
             }
 

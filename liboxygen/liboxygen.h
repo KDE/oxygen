@@ -26,18 +26,8 @@
 namespace Oxygen
 {
 
-    #if QT_VERSION >= 0x050000
     //* scoped pointer convenience typedef
     template <typename T> using WeakPointer = QPointer<T>;
-    #else
-    //* scoped pointer convenience typedef
-    template <typename T> using WeakPointer = QWeakPointer<T>;
-    #endif
-
-    //* disable QStringLiteral for older Qt version
-    #if QT_VERSION < 0x050000
-    using QStringLiteral = QString;
-    #endif
 
     //* corners
     enum Corner

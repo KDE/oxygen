@@ -55,27 +55,16 @@ namespace Oxygen
 
         setWindowTitle( i18n( "Oxygen Demo" ) );
 
-        #if OXYGEN_USE_KDE4
-        // install Quit shortcut
-        connect( new QShortcut( KStandardShortcut::quit().primary(), this ), SIGNAL(activated()), SLOT(close()) );
-        connect( new QShortcut( KStandardShortcut::quit().alternate(), this ), SIGNAL(activated()), SLOT(close()) );
-        #else
         // install Quit shortcut
         foreach( const QKeySequence& sequence, KStandardShortcut::quit() )
         { connect( new QShortcut( sequence, this ), SIGNAL(activated()), SLOT(close()) ); }
-        #endif
 
-        #if OXYGEN_USE_KDE4
-        setButtons( KDialog::Ok );
-        auto buttonBox = findChild<QDialogButtonBox*>();
-        #else
         // button box
         auto buttonBox = new QDialogButtonBox( QDialogButtonBox::Ok, Qt::Horizontal );
         setButtonBox( buttonBox );
 
         // connection
         connect( buttonBox->button( QDialogButtonBox::Ok ), SIGNAL(clicked()), SLOT(close()) );
-        #endif
 
         // customize button box
         _enableCheckBox = new QCheckBox( i18n( "Enabled" ) );
@@ -102,11 +91,7 @@ namespace Oxygen
 
         auto setPageIcon = []( KPageWidgetItem* page, const QString& iconName )
         {
-            #if OXYGEN_USE_KDE4
-            page->setIcon( KIcon( iconName ) );
-            #else
             page->setIcon( QIcon::fromTheme( iconName ) );
-            #endif
         };
 
         KPageWidgetItem* page = nullptr;

@@ -32,10 +32,6 @@
 #include <KColorScheme>
 #include <KSharedConfig>
 
-#if OXYGEN_USE_KDE4
-#include <KComponentData>
-#endif
-
 #include <QBitmap>
 #include <QCache>
 #include <QColor>
@@ -228,11 +224,6 @@ namespace Oxygen
 
         //* constructor
         explicit Helper( KSharedConfig::Ptr config );
-
-        #if OXYGEN_USE_KDE4
-        //* constructor
-        explicit Helper( const QByteArray& );
-        #endif
 
         //* destructor
         virtual ~Helper()
@@ -472,11 +463,6 @@ namespace Oxygen
 
         //* initialize
         void init( void );
-
-        #if OXYGEN_USE_KDE4
-        //* component data
-        KComponentData _componentData;
-        #endif
 
         //* configuration
         KSharedConfig::Ptr _config;

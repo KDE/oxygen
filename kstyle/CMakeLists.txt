@@ -66,41 +66,23 @@ set(oxygen_PART_SRCS
     oxygenwindowmanager.cpp
 )
 
-if(OXYGEN_USE_KDE4)
+kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
+add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
-  kde4_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
-  kde4_add_plugin(oxygen ${oxygen_PART_SRCS} kstylekde4compat.cpp)
-  target_link_libraries(oxygen ${KDE4_KDEUI_LIBS})
-  target_link_libraries(oxygen oxygenstyle)
+target_link_libraries(oxygen Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus Qt5::Quick)
+target_link_libraries(oxygen KF5::GuiAddons KF5::Style KF5::WindowSystem)
+target_link_libraries(oxygen oxygenstyle5)
 
-  if(OXYGEN_HAVE_X11)
-    target_link_libraries(oxygen ${X11_XCB_LIBRARIES})
-    target_link_libraries(oxygen ${XCB_LIBRARIES})
-  endif()
-
-  install(TARGETS oxygen DESTINATION ${PLUGIN_INSTALL_DIR}/plugins/styles/)
-
-else()
-
-  kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
-  add_library(oxygen MODULE ${oxygen_PART_SRCS})
-
-  target_link_libraries(oxygen Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus Qt5::Quick)
-  target_link_libraries(oxygen KF5::GuiAddons KF5::Style KF5::WindowSystem)
-  target_link_libraries(oxygen oxygenstyle5)
-
-  if(OXYGEN_HAVE_X11)
+if(OXYGEN_HAVE_X11)
     target_link_libraries(oxygen XCB::XCB)
     target_link_libraries(oxygen Qt5::X11Extras)
-  endif()
-
-  if(OXYGEN_HAVE_KWAYLAND)
-    target_link_libraries(oxygen KF5::WaylandClient)
-  endif()
-
-  install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/)
-
 endif()
+
+if(OXYGEN_HAVE_KWAYLAND)
+    target_link_libraries(oxygen KF5::WaylandClient)
+endif()
+
+install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/)
 
 if(WIN32)
   # As stated in http://msdn.microsoft.com/en-us/library/4hwaceh6.aspx M_PI only gets defined

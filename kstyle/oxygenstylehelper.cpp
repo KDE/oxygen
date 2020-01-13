@@ -43,13 +43,6 @@ namespace Oxygen
     { init(); }
 
     //______________________________________________________________________________
-    #if OXYGEN_USE_KDE4
-    StyleHelper::StyleHelper( const QByteArray& name ):
-        Helper( name )
-    { init(); }
-    #endif
-
-    //______________________________________________________________________________
     void StyleHelper::invalidateCaches( void )
     {
 

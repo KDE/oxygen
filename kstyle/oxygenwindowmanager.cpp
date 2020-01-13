@@ -64,6 +64,8 @@
 #include <QMenuBar>
 #include <QMouseEvent>
 #include <QProgressBar>
+#include <QQuickItem>
+#include <QQuickWindow>
 #include <QScrollBar>
 #include <QStatusBar>
 #include <QStyle>
@@ -75,27 +77,15 @@
 #include <QTreeView>
 
 #include <QTextStream>
-
-#if QT_VERSION >= 0x050300
 // needed to deal with device pixel ratio
 #include <QWindow>
-#endif
 
 #if OXYGEN_HAVE_X11
 #include <QX11Info>
 #include <xcb/xcb.h>
 
-#if OXYGEN_USE_KDE4
-#include <NETRootInfo>
-#else
 #include <NETWM>
-#endif
 
-#endif
-
-#if !OXYGEN_USE_KDE4
-#include <QQuickItem>
-#include <QQuickWindow>
 #endif
 
 #if OXYGEN_HAVE_KWAYLAND
@@ -163,12 +153,7 @@ namespace Oxygen
         bool appMouseEvent( QObject*, QEvent* event )
         {
 
-            #if OXYGEN_USE_KDE4
-            // store target window (see later)
-            QWidget* window( _parent->_target.data()->window() );
-            #else
             Q_UNUSED( event );
-            #endif
 
             /*
             post some mouseRelease event to the target, in order to counter balance
@@ -176,22 +161,6 @@ namespace Oxygen
             */
             QMouseEvent mouseEvent( QEvent::MouseButtonRelease, _parent->_dragPoint, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
             qApp->sendEvent( _parent->_target.data(), &mouseEvent );
-
-            #if OXYGEN_USE_KDE4
-            if( event->type() == QEvent::MouseMove )
-            {
-                /*
-                HACK: quickly move the main cursor out of the window and back
-                this is needed to get the focus right for the window children
-                the origin of this issue is unknown at the moment.
-                This apparently got fixed with qt5
-                */
-                const QPoint cursor = QCursor::pos();
-                QCursor::setPos(window->mapToGlobal( window->rect().topRight() ) + QPoint(1, 0) );
-                QCursor::setPos(cursor);
-
-            }
-            #endif
 
             return false;
 
@@ -322,7 +291,6 @@ namespace Oxygen
 
     }
 
-#if !OXYGEN_USE_KDE4
     void WindowManager::registerQuickItem( QQuickItem* item )
     {
         if ( !item ) return;
@@ -336,7 +304,6 @@ namespace Oxygen
         }
 
     }
-#endif
 
     //_____________________________________________________________
     void WindowManager::unregisterWidget( QWidget* widget )
@@ -394,17 +361,13 @@ namespace Oxygen
 
             case QEvent::MouseMove:
             if ( object == _target.data()
-#if !OXYGEN_USE_KDE4
                 || object == _quickTarget.data()
-#endif
                ) return mouseMoveEvent( object, event );
             break;
 
             case QEvent::MouseButtonRelease:
             if ( _target
-#if !OXYGEN_USE_KDE4
                 || _quickTarget
-#endif
                ) return mouseReleaseEvent( object, event );
 
             break;
@@ -426,15 +389,10 @@ namespace Oxygen
         {
 
             _dragTimer.stop();
-#if OXYGEN_USE_KDE4
-            if( _target )
-            { startDrag( _target.data()->window(), _globalDragPoint ); }
-#else
             if( _target )
             { startDrag( _target.data()->window()->windowHandle(), _globalDragPoint ); }
             else if( _quickTarget )
             { startDrag( _quickTarget.data()->window(), _globalDragPoint ); }
-#endif
 
 
         } else {
@@ -453,16 +411,13 @@ namespace Oxygen
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
         if( !( mouseEvent->modifiers() == Qt::NoModifier && mouseEvent->button() == Qt::LeftButton ) )
         { return false; }
-#if !OXYGEN_USE_KDE4
         if (mouseEvent->source() != Qt::MouseEventNotSynthesized)
         { return false; }
-#endif
 
         // check lock
         if( isLocked() ) return false;
         else setLocked( true );
 
-#if !OXYGEN_USE_KDE4
         // check QQuickItem - we can immediately start drag, because QQuickWindow's contentItem
         // only receives mouse events that weren't handled by children
         if ( QQuickItem *item = qobject_cast<QQuickItem*>( object ) ) {
@@ -475,7 +430,6 @@ namespace Oxygen
 
             return true;
         }
-#endif
 
         // cast to widget
         QWidget *widget = static_cast<QWidget*>( object );
@@ -514,10 +468,8 @@ namespace Oxygen
         Q_UNUSED( object );
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>( event );
 
-#if !OXYGEN_USE_KDE4
         if (mouseEvent->source() != Qt::MouseEventNotSynthesized)
         { return false; }
-#endif
 
         // stop timer
         if( _dragTimer.isActive() ) _dragTimer.stop();
@@ -853,9 +805,7 @@ namespace Oxygen
         }
 
         _target.clear();
-#if !OXYGEN_USE_KDE4
         _quickTarget.clear();
-#endif
         if( _dragTimer.isActive() ) _dragTimer.stop();
         _dragPoint = QPoint();
         _globalDragPoint = QPoint();
@@ -865,7 +815,7 @@ namespace Oxygen
     }
 
     //____________________________________________________________
-    void WindowManager::startDrag( Window* window, const QPoint& position )
+    void WindowManager::startDrag( QWindow* window, const QPoint& position )
     {
 
         if( !( enabled() && window ) ) return;
@@ -894,26 +844,16 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    void WindowManager::startDragX11( Window* window, const QPoint& position )
+    void WindowManager::startDragX11( QWindow* window, const QPoint& position )
     {
         #if OXYGEN_HAVE_X11
         // connection
         xcb_connection_t* connection( Helper::connection() );
 
-        #if QT_VERSION >= 0x050300
         const qreal dpiRatio = qApp->devicePixelRatio();
-        #else
-        const qreal dpiRatio = 1;
-        #endif
-
-        #if OXYGEN_USE_KDE4
-        Display* net_connection = QX11Info::display();
-        #else
-        xcb_connection_t* net_connection = connection;
-        #endif
 
         xcb_ungrab_pointer( connection, XCB_TIME_CURRENT_TIME );
-        NETRootInfo( net_connection, NET::WMMoveResize ).moveResizeRequest(
+        NETRootInfo( connection, NET::WMMoveResize ).moveResizeRequest(
             window->winId(), position.x() * dpiRatio,
             position.y() * dpiRatio,
             NET::Move );
@@ -927,7 +867,7 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    void WindowManager::startDragWayland( Window* window, const QPoint& )
+    void WindowManager::startDragWayland( QWindow* window, const QPoint& )
     {
         #if OXYGEN_HAVE_KWAYLAND
         if( !_seat ) {

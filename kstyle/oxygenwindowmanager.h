@@ -27,13 +27,10 @@
 
 #include <QBasicTimer>
 #include <QObject>
+#include <QQuickItem>
 #include <QSet>
 #include <QString>
 #include <QWidget>
-
-#if !OXYGEN_USE_KDE4
-#include <QQuickItem>
-#endif
 
 #if OXYGEN_HAVE_KWAYLAND
 namespace KWayland
@@ -66,10 +63,8 @@ namespace Oxygen
         //* register widget
         void registerWidget( QWidget* );
 
-#if !OXYGEN_USE_KDE4
         //* register quick item
         void registerQuickItem( QQuickItem* );
-#endif
 
         //* unregister widget
         void unregisterWidget( QWidget* );
@@ -170,20 +165,14 @@ namespace Oxygen
         //* reset drag
         void resetDrag( void );
 
-#if QT_VERSION >= 0x050000
-        using Window = QWindow;
-#else
-        using Window = QWidget;
-#endif
-
         //* start drag
-        void startDrag( Window*, const QPoint& );
+        void startDrag( QWindow*, const QPoint& );
 
         //* X11 specific implementation for startDrag
-        void startDragX11( Window*, const QPoint& );
+        void startDragX11( QWindow*, const QPoint& );
 
         //* Wayland specific implementation for startDrag
-        void startDragWayland( Window*, const QPoint& );
+        void startDragWayland( QWindow*, const QPoint& );
 
         //* returns true if window manager is used for moving
         /** right now this is true only for X11 */
@@ -274,9 +263,7 @@ namespace Oxygen
         /** Weak pointer is used in case the target gets deleted while drag is in progress */
         WeakPointer<QWidget> _target;
 
-#if !OXYGEN_USE_KDE4
         WeakPointer<QQuickItem> _quickTarget;
-#endif
 
         //* true if drag is about to start
         bool _dragAboutToStart;
