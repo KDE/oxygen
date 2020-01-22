@@ -1,18 +1,22 @@
+cmake_minimum_required(VERSION 3.0)
 project(oxygen)
 set(PROJECT_VERSION "5.18.80")
 set(PROJECT_VERSION_MAJOR 5)
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 include(GenerateExportHeader)
 include(WriteBasicConfigVersionFile)
 include(FeatureSummary)
 
 ################# Qt/KDE #################
-find_package(ECM 0.0.9 REQUIRED NO_MODULE)
+set(QT_MIN_VERSION "5.12.0")
+set(KF5_MIN_VERSION "5.66.0")
+
+
+find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
-find_package(Qt5 REQUIRED CONFIG COMPONENTS Widgets DBus Quick)
-find_package(KF5 REQUIRED COMPONENTS
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED CONFIG COMPONENTS Widgets DBus Quick)
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     I18n
     Config
     GuiAddons
