@@ -339,10 +339,9 @@ namespace Oxygen
         {
 
             // balloon tip needs special margins to deal with the arrow
-            int top = 0;
-            int bottom = 0;
-            widget->getContentsMargins(nullptr, &top, nullptr, &bottom );
-
+            const QMargins margins = widget->contentsMargins();
+            const int top = margins.top();
+            const int bottom = margins.bottom();
             // also need to decrement default size further due to extra hard coded round corner
             const int size = (_size - 2)*devicePixelRatio;
 
