@@ -50,7 +50,7 @@ namespace Oxygen
 
         void addMessages();
 
-        bool eventFilter( QObject *obj, QEvent *event );
+        bool eventFilter( QObject *obj, QEvent *event ) override;
 
         public Q_SLOTS:
 
