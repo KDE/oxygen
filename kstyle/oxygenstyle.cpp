@@ -298,7 +298,7 @@ namespace Oxygen
         // FIXME: to be removed when fixed upstream
         if( widget->inherits( "K3b::ThemedHeader" ) && widget->layout() )
         {
-            widget->layout()->setMargin( 0 );
+            widget->layout()->setContentsMargins( 0, 0, 0, 0 );
             _frameShadowFactory->setHasContrast( widget, true );
         }
 

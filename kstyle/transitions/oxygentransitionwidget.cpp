@@ -258,7 +258,7 @@ namespace Oxygen
         for( int i = widgets.size() - 1; i>=0; i-- )
         {
             QWidget* w = widgets.at(i);
-            w->render( &p, -widget->mapTo( w, rect.topLeft() ), rect, 0 );
+            w->render( &p, -widget->mapTo( w, rect.topLeft() ), rect, {} );
         }
 
         // end

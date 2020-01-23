@@ -32,6 +32,8 @@
 #include <QMouseEvent>
 #include <QPainter>
 
+#include <iostream>
+
 namespace Oxygen
 {
 
@@ -79,8 +81,8 @@ namespace Oxygen
             QString type( _eventTypes[event->type()] );
             if( !type.isEmpty() )
             {
-                QTextStream( stdout ) << "Oxygen::WidgetExplorer::eventFilter - widget: " << object << " (" << object->metaObject()->className() << ")";
-                QTextStream( stdout ) << " type: " << type  << endl;
+                std::cout << "Oxygen::WidgetExplorer::eventFilter - widget: " << object << " (" << qPrintable(object->metaObject()->className()) << ")";
+                std::cout << " type: " << qPrintable(type)  << std::endl;
             }
         }
 
@@ -112,20 +114,20 @@ namespace Oxygen
                 QWidget* widget( qobject_cast<QWidget*>(object) );
                 if( !widget ) return false;
 
-                QTextStream( stdout )
+                std::cout
                     << "Oxygen::WidgetExplorer::eventFilter -"
-                    << " event: " << event << " type: " << eventType( event->type() )
-                    << " widget: " << widgetInformation( widget )
-                    << endl;
+                    << " event: " << event << " type: " << qPrintable(eventType( event->type() ))
+                    << " widget: " << qPrintable(widgetInformation( widget ))
+                    << std::endl;
 
                 // print parent information
                 QWidget* parent( widget->parentWidget() );
                 while( parent )
                 {
-                    QTextStream( stdout ) << "    parent: " << widgetInformation( parent ) << endl;
+                    std::cout << "    parent: " << qPrintable(widgetInformation( parent )) << std::endl;
                     parent = parent->parentWidget();
                 }
-                QTextStream( stdout ) << "" << endl;
+                std::cout << "" << std::endl;
 
             }
             break;
