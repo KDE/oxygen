@@ -39,11 +39,6 @@ class ColorSchemeChooser : public QPushButton
     Q_OBJECT
     public:
         explicit ColorSchemeChooser( QWidget* parent );
-
-        QString currentSchemeName() const;
-
-    private:
-        QString currentDesktopDefaultScheme() const;
 };
 
 }  // namespace Oxygen

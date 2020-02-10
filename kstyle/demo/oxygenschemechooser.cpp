@@ -42,40 +42,12 @@ ColorSchemeChooser::ColorSchemeChooser( QWidget* parent )
 {
     auto manager = new KColorSchemeManager( parent );
 
-    const auto scheme( currentSchemeName() );
-
-    auto selectionMenu = manager->createSchemeSelectionMenu( scheme, this );
-
-    manager->activateScheme(manager->indexForScheme(scheme));
+    auto selectionMenu = manager->createSchemeSelectionMenu(this);
 
     setMenu( selectionMenu->menu() );
-    menu()->setIcon( QIcon::fromTheme( QStringLiteral( "preferences-desktop-color" ) ) );
-    menu()->setTitle( i18n( "&Color Theme" ) );
+
     setIcon( menu()->icon() );
     setText( menu()->title() );
-}
-
-QString ColorSchemeChooser::currentDesktopDefaultScheme() const
-{
-    KSharedConfigPtr config = KSharedConfig::openConfig( QLatin1String( "kdeglobals" ) );
-    KConfigGroup group( config, "General" );
-    return group.readEntry( "ColorScheme", QStringLiteral( "Breeze" ) );
-}
-
-QString ColorSchemeChooser::currentSchemeName() const
-{
-    if ( !menu() )
-    {
-        return currentDesktopDefaultScheme();
-    }
-
-    QAction* const action = menu()->activeAction();
-
-    if ( action )
-    {
-        return KLocalizedString::removeAcceleratorMarker( action->text() );
-    }
-    return currentDesktopDefaultScheme();
 }
 
 }  // namespace Oxygen
