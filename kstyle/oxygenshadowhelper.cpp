@@ -104,7 +104,16 @@ namespace Oxygen
     void ShadowHelper::unregisterWidget( QWidget* widget )
     {
         if( _widgets.remove( widget ) )
-        { uninstallShadows( widget ); }
+        {
+            // uninstall the event filter
+            widget->removeEventFilter( this );
+
+            // disconnect all signals
+            disconnect( widget, nullptr, this, nullptr );
+
+            // uninstall the shadow
+            uninstallShadows( widget );
+        }
     }
 
     //_______________________________________________________
