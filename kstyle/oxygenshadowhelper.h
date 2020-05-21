@@ -80,7 +80,10 @@ namespace Oxygen
         private Q_SLOTS:
 
         //* unregister widget
-        void objectDeleted( QObject* );
+        void widgetDeleted( QObject* );
+
+        //* unregister window
+        void windowDeleted( QObject* );
 
         private:
 
@@ -132,7 +135,7 @@ namespace Oxygen
         QSet<QWidget*> _widgets;
 
         //* map of managed shadows
-        QMap<QWidget*, KWindowShadow*> _shadows;
+        QMap<QWindow*, KWindowShadow*> _shadows;
 
         //*@name shadow tilesets
         //@{

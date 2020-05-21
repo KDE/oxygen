@@ -94,7 +94,7 @@ namespace Oxygen
         widget->installEventFilter( this );
 
         // connect destroy signal
-        connect( widget, SIGNAL(destroyed(QObject*)), SLOT(objectDeleted(QObject*)) );
+        connect( widget, SIGNAL(destroyed(QObject*)), SLOT(widgetDeleted(QObject*)) );
 
         return true;
 
@@ -183,11 +183,17 @@ namespace Oxygen
     }
 
     //_______________________________________________________
-    void ShadowHelper::objectDeleted( QObject* object )
+    void ShadowHelper::widgetDeleted( QObject* object )
     {
         QWidget* widget( static_cast<QWidget*>( object ) );
         _widgets.remove( widget );
-        _shadows.remove( widget );
+    }
+
+    //_______________________________________________________
+    void ShadowHelper::windowDeleted( QObject* object )
+    {
+        QWindow* window( static_cast<QWindow*>( object ) );
+        _shadows.remove( window );
     }
 
     //_______________________________________________________
@@ -301,15 +307,19 @@ namespace Oxygen
         const QVector<KWindowShadowTile::Ptr>& tiles = createPlatformTiles( isDockWidget );
         if( tiles.count() != numTiles ) return;
 
-        // find a shadow associated with the widget
-        KWindowShadow*& shadow = _shadows[ widget ];
+        // get the underlying window for the widget
+        QWindow* window = widget->windowHandle();
 
-        // we want the shadow to be deleted after the decorated window is destroyed
+        // find a shadow associated with the widget
+        KWindowShadow*& shadow = _shadows[ window ];
+
         if( !shadow )
         {
-            shadow = new KWindowShadow( widget->windowHandle() );
+            // if there is no shadow yet, create one
+            shadow = new KWindowShadow( window );
 
-            connect( shadow, &QObject::destroyed, this, [this, widget] { _shadows.remove( widget ); } );
+            // connect destroy signal
+            connect( window, &QWindow::destroyed, this, &ShadowHelper::windowDeleted );
         }
 
         if( shadow->isCreated() )
@@ -323,7 +333,7 @@ namespace Oxygen
         shadow->setBottomLeftTile( tiles[5] );
         shadow->setLeftTile( tiles[6] );
         shadow->setTopLeftTile( tiles[7] );
-        shadow->setWindow( widget->windowHandle() );
+        shadow->setWindow( window );
         shadow->setPadding( shadowMargins( widget ) );
         shadow->create();
     }
@@ -388,7 +398,7 @@ namespace Oxygen
     //_______________________________________________________
     void ShadowHelper::uninstallShadows( QWidget* widget )
     {
-        delete _shadows.take( widget );
+        delete _shadows.take( widget->windowHandle() );
     }
 
 }
