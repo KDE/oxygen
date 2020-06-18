@@ -82,6 +82,7 @@ Name[uz]=Oxygen
 Name[uz@cyrillic]=Oxygen
 Name[vi]=Oxygen
 Name[wa]=Ocsidjinne
+Name[x-test]=xxOxygenxx
 Name[zh_CN]=Oxygen
 Name[zh_TW]=Oxygen
 ConfigPage=kstyle_oxygen_config
@@ -162,6 +163,7 @@ Comment[ug]=كېيىنكى ئەۋلاد ئۈستەلئۈستى ئۇسلۇبى
 Comment[uk]=Стиль стільниці наступного покоління
 Comment[vi]=Kiểu dáng của bàn làm việc thế hệ tiếp theo
 Comment[wa]=Stîle del novele djermêye di scribannes
+Comment[x-test]=xxStyling of the next generation desktopxx
 Comment[zh_CN]=下一代桌面的风格
 Comment[zh_TW]=下一代桌面的樣式
 [KDE]
