@@ -9,7 +9,7 @@ include(FeatureSummary)
 
 ################# Qt/KDE #################
 set(QT_MIN_VERSION "5.14.0")
-set(KF5_MIN_VERSION "5.66.0")
+set(KF5_MIN_VERSION "5.74")
 
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
