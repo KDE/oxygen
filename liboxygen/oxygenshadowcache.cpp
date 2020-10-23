@@ -28,7 +28,6 @@
 #include "oxygenactiveshadowconfiguration.h"
 #include "oxygeninactiveshadowconfiguration.h"
 
-#include <cmath>
 #include <KColorUtils>
 #include <QPainter>
 #include <QTextStream>

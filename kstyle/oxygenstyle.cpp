@@ -48,7 +48,6 @@
 
 #include "oxygenstyle.h"
 
-#include "oxygen.h"
 #include "oxygenanimations.h"
 #include "oxygenblurhelper.h"
 #include "oxygenframeshadow.h"
@@ -70,7 +69,6 @@
 #include <QDBusConnection>
 #include <QDial>
 #include <QDialogButtonBox>
-#include <QDockWidget>
 #include <QDoubleSpinBox>
 #include <QFormLayout>
 #include <QFrame>
@@ -80,16 +78,12 @@
 #include <QLayout>
 #include <QLineEdit>
 #include <QMainWindow>
-#include <QMdiSubWindow>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QScrollBar>
 #include <QSpinBox>
 #include <QSplitterHandle>
-#include <QStyleOption>
 #include <QTextEdit>
-#include <QToolBar>
-#include <QToolBox>
 #include <QToolButton>
 
 #include <KColorUtils>

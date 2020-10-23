@@ -24,7 +24,6 @@
 
 #include <QStringList>
 #include <QActionGroup>
-#include <QAction>
 #include <QMenu>
 #include <QModelIndex>
 

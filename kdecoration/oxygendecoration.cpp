@@ -22,7 +22,6 @@
 
 #include "oxygendecoration.h"
 
-#include "oxygen.h"
 #include "oxygensettingsprovider.h"
 #include "oxygenshadowcache.h"
 #include "config-oxygen.h"
@@ -31,9 +30,7 @@
 #include "oxygenbutton.h"
 #include "oxygensizegrip.h"
 
-#include <KDecoration2/DecoratedClient>
 #include <KDecoration2/DecorationButtonGroup>
-#include <KDecoration2/DecorationSettings>
 #include <KDecoration2/DecorationShadow>
 
 #include <KConfigGroup>

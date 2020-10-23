@@ -64,7 +64,6 @@
 #include <QMenuBar>
 #include <QMouseEvent>
 #include <QProgressBar>
-#include <QQuickItem>
 #include <QQuickWindow>
 #include <QScrollBar>
 #include <QStatusBar>

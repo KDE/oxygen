@@ -46,7 +46,6 @@
 #include "oxygentabbardata.h"
 
 #include <QHoverEvent>
-#include <QTabBar>
 
 namespace Oxygen
 {

@@ -21,14 +21,11 @@
  */
 
 #include "oxygenhelper.h"
-#include "liboxygen.h"
 
 #include <KColorUtils>
-#include <KColorScheme>
 #include <KWindowSystem>
 
 #include <QApplication>
-#include <QWidget>
 #include <QPainter>
 #include <QTextStream>
 #include <math.h>

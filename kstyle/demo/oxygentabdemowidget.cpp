@@ -26,7 +26,6 @@
 
 #include "oxygentabdemowidget.h"
 
-#include <QToolButton>
 #include <QIcon>
 
 namespace Oxygen

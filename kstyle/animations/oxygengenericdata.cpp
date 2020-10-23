@@ -26,7 +26,6 @@
 
 #include "oxygengenericdata.h"
 
-#include <QTextStream>
 
 namespace Oxygen
 {
