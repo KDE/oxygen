@@ -28,6 +28,7 @@
 
 #include <KWindowInfo>
 
+#include <QRegularExpression>
 #include <QTextStream>
 
 namespace Oxygen
@@ -132,7 +133,7 @@ namespace Oxygen
             }
 
             // check matching
-            if( QRegExp( internalSettings->exceptionPattern() ).indexIn( value ) >= 0 )
+            if(value.contains(QRegularExpression( internalSettings->exceptionPattern() )))
             { return internalSettings; }
 
         }
