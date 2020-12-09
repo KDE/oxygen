@@ -10,7 +10,7 @@ X-KDE-ParentApp=kcontrol
 X-KDE-Weight=50
 
 Name=Oxygen Widget Style
-Name[ca]=Estil Oxygen per als estris
+Name[ca]=Estil Oxygen per als ginys
 Name[ca@valencia]=Estil dels ginys («widgets») Oxygen
 Name[cs]=Styl widgetů Oxygen
 Name[da]=Oxygen kontrolstil
@@ -51,7 +51,7 @@ Name[zh_CN]=Oxygen 部件样式
 Name[zh_TW]=Oxygen 元件樣式
 Comment=Modify the appearance of widgets
 Comment[ar]=عدّل مظهر الودجات
-Comment[ca]=Modifica l'aparença dels estris
+Comment[ca]=Modifica l'aparença dels ginys
 Comment[ca@valencia]=Modifica l'aparença dels ginys («widgets»)
 Comment[cs]=Změnit vzhled widgetů
 Comment[da]=Ændr kontrollers udseende
@@ -92,7 +92,7 @@ Comment[zh_TW]=變更元件外觀
 
 X-KDE-Keywords=oxygen,widget,style
 X-KDE-Keywords[ar]=أكسجين,ودجة,نمط
-X-KDE-Keywords[ca]=oxygen,estri,estil
+X-KDE-Keywords[ca]=oxygen,giny,estil
 X-KDE-Keywords[ca@valencia]=oxygen,giny («widget»),estil
 X-KDE-Keywords[cs]=oxygen,widget,styl
 X-KDE-Keywords[da]=oxygen,kontrol,stil
