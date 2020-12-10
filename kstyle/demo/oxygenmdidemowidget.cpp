@@ -59,11 +59,11 @@ namespace Oxygen
         menu = menuBar->addMenu( i18n( "Tools" ) );
         QAction* action;
         connect( action = menu->addAction( QIcon::fromTheme( QStringLiteral( "arrow-right" ) ), i18n( "Select Next Window" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(activateNextSubWindow()) );
-        action->setShortcut( Qt::CTRL + Qt::Key_Tab );
+        action->setShortcut( Qt::CTRL | Qt::Key_Tab );
         addAction( action );
 
         connect( action = menu->addAction( QIcon::fromTheme( QStringLiteral( "arrow-left" ) ), i18n( "Select Previous Window" ) ), SIGNAL(triggered()), ui.mdiArea, SLOT(activatePreviousSubWindow()) );
-        action->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_Tab );
+        action->setShortcut( Qt::CTRL | Qt::SHIFT | Qt::Key_Tab );
         addAction( action );
 
     }

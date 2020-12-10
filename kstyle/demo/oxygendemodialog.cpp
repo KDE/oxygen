@@ -180,7 +180,7 @@ namespace Oxygen
         }
 
         // connections
-        QShortcut* shortcut( new QShortcut( Qt::CTRL + Qt::Key_X, this ) );
+        QShortcut* shortcut( new QShortcut( Qt::CTRL | Qt::Key_X, this ) );
         for( auto item:items )
         {
             if( item->widget()->metaObject()->indexOfSlot( "benchmark()" ) >= 0 )
