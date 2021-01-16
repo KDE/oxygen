@@ -1,5 +1,6 @@
 [Icon Theme]
 Name=Oxygen Zion
+Name[az]=Oxygen Zion
 Name[ca]=Oxygen Zion
 Name[ca@valencia]=Oxygen Zion
 Name[cs]=Oxygen Zion
@@ -41,6 +42,7 @@ Name[x-test]=xxOxygen Zionxx
 Name[zh_CN]=Oxygen Zion
 Name[zh_TW]=Oxygen Zion
 Comment=Oxygen mouse theme. Oxygenize your desktop!
+Comment[az]=Oxygen kursor görünüşü toplusu.
 Comment[ca]=Tema Oxygen per al ratolí. Oxigena el teu escriptori!
 Comment[ca@valencia]=Tema Oxygen per al ratolí. Oxygenitzeu el vostre escriptori.
 Comment[da]=Oxygen musetema. Oxygenisér din desktop!
