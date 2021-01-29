@@ -94,5 +94,5 @@ if(OXYGEN_HAVE_X11)
 endif()
 
 
-install(TARGETS oxygendecoration DESTINATION ${PLUGIN_INSTALL_DIR}/org.kde.kdecoration2)
+install(TARGETS oxygendecoration DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
 install(FILES config/oxygendecorationconfig.desktop DESTINATION  ${SERVICES_INSTALL_DIR})

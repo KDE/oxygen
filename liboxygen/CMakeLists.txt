@@ -46,7 +46,7 @@ if(WIN32)
     # when using MSVC if _USE_MATH_DEFINES is defined (this is needed for angle.cpp)
     target_compile_definitions(oxygenstyle5 PRIVATE _USE_MATH_DEFINES _GNU_SOURCE)
 endif()
-install(TARGETS oxygenstyle5 ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
+install(TARGETS oxygenstyle5 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 ################# liboxygenstyleconfig #################
 set(oxygenstyleconfig_LIB_SRCS
@@ -89,5 +89,5 @@ target_link_libraries(oxygenstyleconfig5
 )
 
 set_target_properties(oxygenstyleconfig5 PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
-install(TARGETS oxygenstyleconfig5 ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
+install(TARGETS oxygenstyleconfig5 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 # Note: no headers installed

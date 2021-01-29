@@ -48,7 +48,7 @@ if( KF5KCMUtils_FOUND )
     target_link_libraries(oxygen-settings5 Qt5::Core Qt5::Gui Qt5::Widgets )
     target_link_libraries(oxygen-settings5 KF5::I18n KF5::KCMUtils)
 
-    install(TARGETS oxygen-settings5 ${INSTALL_TARGETS_DEFAULT_ARGS})
+    install(TARGETS oxygen-settings5 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
     # icon
     ecm_install_icons(ICONS 256-apps-oxygen-settings.png

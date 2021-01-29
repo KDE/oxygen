@@ -49,4 +49,4 @@ if(KF5ConfigWidgets_FOUND)
 endif()
 
 ########### install files ###############
-install(TARGETS oxygen-demo5 ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS oxygen-demo5 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
