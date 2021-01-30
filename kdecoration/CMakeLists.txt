@@ -72,9 +72,9 @@ add_library(oxygendecoration MODULE
 
 target_link_libraries(oxygendecoration
     PUBLIC
-        Qt5::Core
-        Qt5::Gui
-        Qt5::DBus
+        Qt::Core
+        Qt::Gui
+        Qt::DBus
     PRIVATE
         oxygenstyle5
         oxygenstyleconfig5
@@ -89,7 +89,7 @@ target_link_libraries(oxygendecoration
 if(OXYGEN_HAVE_X11)
   target_link_libraries(oxygendecoration
     PUBLIC
-      Qt5::X11Extras
+      Qt::X11Extras
       XCB::XCB)
 endif()
 

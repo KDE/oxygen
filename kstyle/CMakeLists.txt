@@ -69,13 +69,13 @@ set(oxygen_PART_SRCS
 kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
-target_link_libraries(oxygen Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus Qt5::Quick)
+target_link_libraries(oxygen Qt::Core Qt::Gui Qt::Widgets Qt::DBus Qt::Quick)
 target_link_libraries(oxygen KF5::GuiAddons KF5::Style KF5::WindowSystem)
 target_link_libraries(oxygen oxygenstyle5)
 
 if(OXYGEN_HAVE_X11)
     target_link_libraries(oxygen XCB::XCB)
-    target_link_libraries(oxygen Qt5::X11Extras)
+    target_link_libraries(oxygen Qt::X11Extras)
 endif()
 
 if(OXYGEN_HAVE_KWAYLAND)

@@ -42,7 +42,7 @@ add_executable(oxygen-demo5
     ${oxygen_demo_FORMS_HEADERS}
 )
 
-target_link_libraries(oxygen-demo5 Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(oxygen-demo5 Qt::Core Qt::Gui Qt::Widgets)
 target_link_libraries(oxygen-demo5 KF5::Completion KF5::ConfigGui KF5::WidgetsAddons KF5::I18n)
 if(KF5ConfigWidgets_FOUND)
     target_link_libraries(oxygen-demo5 KF5::ConfigWidgets)

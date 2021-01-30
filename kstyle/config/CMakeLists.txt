@@ -27,7 +27,7 @@ add_library(kstyle_oxygen_config MODULE
     ${kstyle_oxygen_config_PART_FORMS_HEADERS}
 )
 
-target_link_libraries(kstyle_oxygen_config Qt5::Core Qt5::Gui Qt5::Widgets Qt5::DBus)
+target_link_libraries(kstyle_oxygen_config Qt::Core Qt::Gui Qt::Widgets Qt::DBus)
 target_link_libraries(kstyle_oxygen_config KF5::Completion KF5::I18n)
 target_link_libraries(kstyle_oxygen_config oxygenstyleconfig5)
 
@@ -45,7 +45,7 @@ set_package_properties(KF5KCMUtils PROPERTIES
 if( KF5KCMUtils_FOUND )
     set(oxygen_settings_SOURCES main.cpp)
     add_executable(oxygen-settings5 ${oxygen_settings_SOURCES} )
-    target_link_libraries(oxygen-settings5 Qt5::Core Qt5::Gui Qt5::Widgets )
+    target_link_libraries(oxygen-settings5 Qt::Core Qt::Gui Qt::Widgets )
     target_link_libraries(oxygen-settings5 KF5::I18n KF5::KCMUtils)
 
     install(TARGETS oxygen-settings5 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

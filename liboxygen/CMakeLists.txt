@@ -24,9 +24,9 @@ generate_export_header(oxygenstyle5 BASE_NAME oxygen EXPORT_FILE_NAME oxygen_exp
 #     interface, since other Oxygen targets link to this library
 target_link_libraries(oxygenstyle5
     PUBLIC
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Widgets
+        Qt::Core
+        Qt::Gui
+        Qt::Widgets
         KF5::ConfigCore
         KF5::ConfigWidgets
         KF5::WindowSystem
@@ -37,7 +37,7 @@ target_link_libraries(oxygenstyle5
 target_include_directories(oxygenstyle5 PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 
 if(OXYGEN_HAVE_X11)
-    target_link_libraries(oxygenstyle5 PRIVATE XCB::XCB Qt5::X11Extras)
+    target_link_libraries(oxygenstyle5 PRIVATE XCB::XCB Qt::X11Extras)
 endif()
 
 set_target_properties(oxygenstyle5 PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
@@ -81,9 +81,9 @@ generate_export_header(oxygenstyleconfig5 BASE_NAME oxygen_config EXPORT_FILE_NA
 target_link_libraries(oxygenstyleconfig5
     PUBLIC
         oxygenstyle5
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Widgets
+        Qt::Core
+        Qt::Gui
+        Qt::Widgets
     PRIVATE
         KF5::I18n
 )
