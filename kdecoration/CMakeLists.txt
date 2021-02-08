@@ -95,4 +95,4 @@ endif()
 
 
 install(TARGETS oxygendecoration DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
-install(FILES config/oxygendecorationconfig.desktop DESTINATION  ${SERVICES_INSTALL_DIR})
+install(FILES config/oxygendecorationconfig.desktop DESTINATION  ${KDE_INSTALL_KSERVICES5DIR})

@@ -31,8 +31,8 @@ target_link_libraries(kstyle_oxygen_config Qt::Core Qt::Gui Qt::Widgets Qt::DBus
 target_link_libraries(kstyle_oxygen_config KF5::Completion KF5::I18n)
 target_link_libraries(kstyle_oxygen_config oxygenstyleconfig5)
 
-install(TARGETS kstyle_oxygen_config DESTINATION ${QT_PLUGIN_INSTALL_DIR})
-install(FILES oxygenstyleconfig.desktop DESTINATION  ${SERVICES_INSTALL_DIR})
+install(TARGETS kstyle_oxygen_config DESTINATION ${KDE_INSTALL_QTPLUGINDIR})
+install(FILES oxygenstyleconfig.desktop DESTINATION  ${KDE_INSTALL_KSERVICES5DIR})
 
 ########### next target ###############
 find_package(KF5KCMUtils CONFIG)
@@ -52,6 +52,6 @@ if( KF5KCMUtils_FOUND )
 
     # icon
     ecm_install_icons(ICONS 256-apps-oxygen-settings.png
-        DESTINATION ${ICON_INSTALL_DIR}
+        DESTINATION ${KDE_INSTALL_ICONDIR}
         THEME hicolor )
 endif()

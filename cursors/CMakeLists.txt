@@ -8,6 +8,6 @@ set(cursors_folders
    )
 
 foreach(theme ${cursors_folders})
-    install(DIRECTORY ${theme} DESTINATION ${ICON_INSTALL_DIR})
+    install(DIRECTORY ${theme} DESTINATION ${KDE_INSTALL_ICONDIR})
 endforeach(theme)
 

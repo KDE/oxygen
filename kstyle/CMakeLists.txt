@@ -82,7 +82,7 @@ if(OXYGEN_HAVE_KWAYLAND)
     target_link_libraries(oxygen KF5::WaylandClient)
 endif()
 
-install(TARGETS oxygen DESTINATION ${QT_PLUGIN_INSTALL_DIR}/styles/)
+install(TARGETS oxygen DESTINATION ${KDE_INSTALL_QTPLUGINDIR}/styles/)
 
 if(WIN32)
   # As stated in http://msdn.microsoft.com/en-us/library/4hwaceh6.aspx M_PI only gets defined
@@ -91,7 +91,7 @@ if(WIN32)
 endif()
 
 ########### install files ###############
-install(FILES oxygen.themerc  DESTINATION  ${DATA_INSTALL_DIR}/kstyle/themes)
+install(FILES oxygen.themerc  DESTINATION  ${KDE_INSTALL_DATADIR}/kstyle/themes)
 
 ########### subdirectories ###############
 add_subdirectory(config)
