@@ -91,11 +91,11 @@ namespace Oxygen
     //___________________________________________________________
     void BlurHelper::unregisterWidget( QWidget* widget )
     {
+        // remove from widgets
+        if( !_widgets.remove( widget ) ) return;
+
         // remove event filter
         widget->removeEventFilter( this );
-
-        // remove from widgets
-        _widgets.remove( widget );
 
         if( isTransparent( widget ) ) clear( widget );
     }
