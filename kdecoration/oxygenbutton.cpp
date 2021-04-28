@@ -247,18 +247,30 @@ namespace Oxygen
 
         // decide decoration color
         QColor glow;
-        if( isAnimated() || isHovered() )
+        if( isAnimated() || isHovered() || ( isToggleButton() && isChecked() ) )
         {
-            glow = isCloseButton() ?
-                SettingsProvider::self()->helper()->negativeTextColor(palette):
-                SettingsProvider::self()->helper()->hoverColor(palette);
+
+            QColor toggleColor = SettingsProvider::self()->helper()->focusColor(palette);
+            QColor toggledHoverGlow = foregroundColor( palette, false );
+            QColor toggledHoverColor = KColorUtils::mix( toggledHoverColor, color, 0.6 );
+
+            if( isCloseButton() ) glow = SettingsProvider::self()->helper()->negativeTextColor(palette);    // Button is close button
+            else if( isHovered() && ( isToggleButton() && isChecked() ) ) glow = toggledHoverGlow;          // Button is checked and hovered
+            else if( isToggleButton() && isChecked() ) glow = toggleColor;                                  // Button is checked but not hovered
+            else glow = SettingsProvider::self()->helper()->hoverColor(palette);                            // Button is hovered but not checked
 
             if( isAnimated() )
             {
-                color = KColorUtils::mix( color, glow, m_opacity );
-                glow = SettingsProvider::self()->helper()->alphaColor( glow, m_opacity );
+                if( isToggleButton() && isChecked() ) {
+                    color = KColorUtils::mix( toggleColor, toggledHoverColor, m_opacity );
+                    glow = KColorUtils::mix( toggleColor, toggledHoverGlow, m_opacity );
+                } else {
+                    color = KColorUtils::mix( color, glow, m_opacity );
+                    glow = SettingsProvider::self()->helper()->alphaColor( glow, m_opacity );
+                }
 
-            } else if( isHovered() ) color = glow;
+            } else if ( ! isHovered() != !( isToggleButton() && isChecked() ) ) color = glow;               // If button is eigther hovered or checked, use glow color as text color
+            else if ( ( isToggleButton() && isChecked() ) ) color = toggledHoverColor;                      // If button is checked and hovered, use different color
 
         }
 
