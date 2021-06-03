@@ -6,45 +6,33 @@
 // Oxygen widget style for KDE 4
 // -------------------
 //
-// Copyright (C) 2009-2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
-// Copyright (C) 2008 Long Huynh Huu <long.upcase@googlemail.com>
-// Copyright (C) 2007-2008 Casper Boemann <cbr@boemann.dk>
-// Copyright (C) 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
-// Copyright (C) 2003-2005 Sandro Giessl <sandro@giessl.com>
+// SPDX-FileCopyrightText: 2009-2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+// SPDX-FileCopyrightText: 2008 Long Huynh Huu <long.upcase@googlemail.com>
+// SPDX-FileCopyrightText: 2007-2008 Casper Boemann <cbr@boemann.dk>
+// SPDX-FileCopyrightText: 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
+// SPDX-FileCopyrightText: 2003-2005 Sandro Giessl <sandro@giessl.com>
 //
 // based on the KDE style "dotNET":
-// Copyright (C) 2001-2002, Chris Lee <clee@kde.org>
+// SPDX-FileCopyrightText: 2001-2002 Chris Lee <clee@kde.org>
 // Carsten Pfeiffer <pfeiffer@kde.org>
 // Karol Szwed <gallium@kde.org>
 // Drawing routines completely reimplemented from KDE3 HighColor, which was
 // originally based on some stuff from the KDE2 HighColor.
 //
 // based on drawing routines of the style "Keramik":
-// Copyright (c) 2002 Malte Starostik <malte@kde.org>
-// (c) 2002,2003 Maksim Orlovich <mo002j@mail.rochester.edu>
+// SPDX-FileCopyrightText: 2002 Malte Starostik <malte@kde.org>
+// SPDX-FileCopyrightText: 2002, 2003 Maksim Orlovich <mo002j@mail.rochester.edu>
 // based on the KDE3 HighColor Style
-// Copyright (C) 2001-2002 Karol Szwed      <gallium@kde.org>
-// (C) 2001-2002 Fredrik H�glund  <fredrik@kde.org>
+// SPDX-FileCopyrightText: 2001-2002 Karol Szwed <gallium@kde.org>
+// SPDX-FileCopyrightText: 2001-2002 Fredrik H �glund  <fredrik@kde.org>
 // Drawing routines adapted from the KDE2 HCStyle,
-// Copyright (C) 2000 Daniel M. Duley       <mosfet@kde.org>
-// (C) 2000 Dirk Mueller          <mueller@kde.org>
-// (C) 2001 Martijn Klingens      <klingens@kde.org>
+// SPDX-FileCopyrightText: 2000 Daniel M. Duley <mosfet@kde.org>
+// SPDX-FileCopyrightText: 2000 Dirk Mueller <mueller@kde.org>
+// SPDX-FileCopyrightText: 2001 Martijn Klingens <klingens@kde.org>
 // Progressbar code based on KStyle,
-// Copyright (C) 2001-2002 Karol Szwed <gallium@kde.org>
+// SPDX-FileCopyrightText: 2001-2002 Karol Szwed <gallium@kde.org>
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License version 2 as published by the Free Software Foundation.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public License
-// along with this library; see the file COPYING.LIB.  If not, write to
-// the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-// Boston, MA 02110-1301, USA.
+// SPDX-License-Identifier: LGPL-2.0-only
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygen.h"

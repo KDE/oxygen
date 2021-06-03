@@ -1,29 +1,13 @@
 /*
-Copyright 2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
-Copyright 2009 Matthew Woehlke <mw.triad@users.sourceforge.net>
-Copyright 2009 Long Huynh Huu <long.upcase@googlemail.com>
-Copyright 2003 Sandro Giessl <ceebx@users.sourceforge.net>
+SPDX-FileCopyrightText: 2010 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+SPDX-FileCopyrightText: 2009 Matthew Woehlke <mw.triad@users.sourceforge.net>
+SPDX-FileCopyrightText: 2009 Long Huynh Huu <long.upcase@googlemail.com>
+SPDX-FileCopyrightText: 2003 Sandro Giessl <ceebx@users.sourceforge.net>
 
 originally based on the Keramik configuration dialog:
-Copyright 2003 Maksim Orlovich <maksim.orlovich@kdemail.net>
+SPDX-FileCopyrightText: 2003 Maksim Orlovich <maksim.orlovich@kdemail.net>
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
+SPDX-License-Identifier: MIT
 
 */
 
