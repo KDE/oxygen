@@ -1,0 +1,10 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: oxygen
+Upstream-Contact: KDE Community <community@kde.org>
+Source: https://invent.kde.org/plasma/oxygen
+
+Files: cursors/src/*
+Copyright: 2007-2008 by Riccardo Iaconelli <riccardo@kde.org>
+Copyright: 2007-2008 by David Miller <miller@oxygen-icons.org>
+Copyright: 2007-2008 by Matthew Woehlke <mw_triad@users.sourceforge.net>
+License: GPL-3.0-or-later
