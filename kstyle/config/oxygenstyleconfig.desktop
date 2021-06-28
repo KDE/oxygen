@@ -10,6 +10,7 @@ X-KDE-ParentApp=kcontrol
 X-KDE-Weight=50
 
 Name=Oxygen Widget Style
+Name[ar]=نمط أكسجين
 Name[az]=Oxygen vidjet üslubu
 Name[ca]=Estil Oxygen per als ginys
 Name[ca@valencia]=Estil dels ginys («widgets») Oxygen
