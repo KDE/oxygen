@@ -10,7 +10,7 @@
 
 K_PLUGIN_FACTORY(
     OxygenStyleConfigFactory,
-    registerPlugin<Oxygen::ConfigurationModule>(QStringLiteral("kcmodule"));
+    registerPlugin<Oxygen::ConfigurationModule>();
 )
 
 #include "oxygenstyleconfigmodule.moc"

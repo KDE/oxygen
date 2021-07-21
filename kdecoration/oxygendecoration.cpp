@@ -37,7 +37,7 @@ K_PLUGIN_FACTORY_WITH_JSON(
     "oxygen.json",
     registerPlugin<Oxygen::Decoration>();
     registerPlugin<Oxygen::Button>(QStringLiteral("button"));
-    registerPlugin<Oxygen::ConfigWidget>(QStringLiteral("kcmodule"));
+    registerPlugin<Oxygen::ConfigWidget>();
 )
 
 namespace Oxygen
