@@ -3035,7 +3035,7 @@ namespace Oxygen
                     if( !menuItemOption->text.isEmpty() )
                     {
                         size.setHeight( qMax( size.height(), textHeight ) );
-                        size.setWidth( qMax( size.width(), menuItemOption->fontMetrics.width( menuItemOption->text ) ) );
+                        size.setWidth( qMax( size.width(), menuItemOption->fontMetrics.horizontalAdvance( menuItemOption->text ) ) );
                     }
 
                     return sizeFromContents( CT_ToolButton, &toolButtonOption, size, widget );
@@ -4136,7 +4136,7 @@ namespace Oxygen
         const bool hasCustomBackground( viewItemOption->backgroundBrush.style() != Qt::NoBrush && !selected );
         const bool hasSolidBackground( !hasCustomBackground || viewItemOption->backgroundBrush.style() == Qt::SolidPattern );
 
-        if( !mouseOver && !selected && !hasCustomBackground && !( viewItemOption->features & QStyleOptionViewItemV2::Alternate ) )
+        if( !mouseOver && !selected && !hasCustomBackground && !( viewItemOption->features & QStyleOptionViewItem::Alternate ) )
         { return true; }
 
         QPalette::ColorGroup colorGroup;
@@ -4153,7 +4153,7 @@ namespace Oxygen
             else color = color.lighter( 110 );
         }
 
-        if( viewItemOption && ( viewItemOption->features & QStyleOptionViewItemV2::Alternate ) )
+        if( viewItemOption && ( viewItemOption->features & QStyleOptionViewItem::Alternate ) )
         { painter->fillRect( option->rect, palette.brush( colorGroup, QPalette::AlternateBase ) ); }
 
         if( !mouseOver && !selected && !hasCustomBackground )

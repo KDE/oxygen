@@ -682,7 +682,7 @@ namespace Oxygen
             // gather options to retrieve checkbox subcontrol rect
             QStyleOptionGroupBox opt;
             opt.initFrom( groupBox );
-            if( groupBox->isFlat() ) opt.features |= QStyleOptionFrameV2::Flat;
+            if( groupBox->isFlat() ) opt.features |= QStyleOptionFrame::Flat;
             opt.lineWidth = 1;
             opt.midLineWidth = 0;
             opt.text = groupBox->title();

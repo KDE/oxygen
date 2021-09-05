@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
 
     KCMultiDialog dialog;
     dialog.setWindowTitle( i18n( "Oxygen Settings" ) );
-    dialog.addModule( QStringLiteral( "oxygenstyleconfig" ) );
-    dialog.addModule( QStringLiteral( "oxygendecorationconfig" ) );
+    dialog.addModule( KPluginMetaData(QStringLiteral( "oxygenstyleconfig" )));
+    dialog.addModule( KPluginMetaData(QStringLiteral( "oxygendecorationconfig" )));
     dialog.show();
 
     foreach( auto child, dialog.findChildren<QAbstractScrollArea*>() )

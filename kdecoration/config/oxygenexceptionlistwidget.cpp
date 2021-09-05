@@ -33,7 +33,7 @@ namespace Oxygen
         m_ui.exceptionListView->setRootIsDecorated( false );
         m_ui.exceptionListView->setSortingEnabled( false );
         m_ui.exceptionListView->setModel( &model() );
-        m_ui.exceptionListView->sortByColumn( ExceptionModel::ColumnType );
+        m_ui.exceptionListView->sortByColumn( ExceptionModel::ColumnType, Qt::AscendingOrder );
         m_ui.exceptionListView->setSizePolicy( QSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Ignored ) );
 
         m_ui.moveUpButton->setIcon( QIcon::fromTheme( QStringLiteral( "arrow-up" ) ) );

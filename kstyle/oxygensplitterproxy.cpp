@@ -248,6 +248,7 @@ namespace Oxygen
             Fall through is intended.
             We somehow lost a QEvent::Leave before timeout. We fix it from here
             */
+            Q_FALLTHROUGH();
 
             case QEvent::HoverLeave:
             case QEvent::Leave:
