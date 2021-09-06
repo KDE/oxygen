@@ -55,7 +55,7 @@ KActionMenu *WidgetStyleChooser::createStyleSelectionMenu( const QString &text, 
         setStyle = true;
     }
 
-    foreach( const QString &style, availableStyles )
+    for ( const QString &style : std::as_const(availableStyles) )
     {
         QAction *a = new QAction( style, stylesGroup );
         a->setCheckable( true );

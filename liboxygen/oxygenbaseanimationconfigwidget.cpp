@@ -42,7 +42,8 @@ namespace Oxygen
     void BaseAnimationConfigWidget::updateItems( bool state )
     {
         if( !state ) return;
-        foreach( AnimationConfigItem* item, findChildren<AnimationConfigItem*>() )
+        const auto children = findChildren<AnimationConfigItem*>();
+        for ( AnimationConfigItem* item : children )
         { if( item->configurationWidget()->isVisible() ) item->configurationButton()->setChecked( false ); }
     }
 

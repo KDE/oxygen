@@ -62,7 +62,7 @@ namespace Oxygen
 
         // rewrite current exceptions
         int index = 0;
-        foreach( const InternalSettingsPtr& exception, _exceptions )
+        for ( const InternalSettingsPtr &exception : std::as_const(_exceptions) )
         {
 
             writeConfig( exception.data(), config.data(), exceptionGroupName( index ) );
@@ -81,10 +81,10 @@ namespace Oxygen
     {
 
         // list of items to be written
-        QStringList keys = { "Enabled", "ExceptionPattern", "ExceptionType", "HideTitleBar", "Mask", "BorderSize"};
+        static const QStringList keys = { "Enabled", "ExceptionPattern", "ExceptionType", "HideTitleBar", "Mask", "BorderSize"};
 
         // write all items
-        foreach( auto key, keys )
+        for ( const auto &key : keys )
         {
             KConfigSkeletonItem* item( skeleton->findItem( key ) );
             if( !item ) continue;
@@ -101,7 +101,8 @@ namespace Oxygen
     void ExceptionList::readConfig( KCoreConfigSkeleton* skeleton, KConfig* config, const QString& groupName )
     {
 
-        foreach( KConfigSkeletonItem* item, skeleton->items() )
+        const auto skelItems = skeleton->items();
+        for ( KConfigSkeletonItem *item : skelItems )
         {
             if( !groupName.isEmpty() ) item->setGroup( groupName );
             item->readConfig( config );

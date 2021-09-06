@@ -72,17 +72,17 @@ namespace Oxygen
         // checkboxes
         ui.checkBox_2->setCheckState( Qt::PartiallyChecked );
 
-        _toolButtons
-            << ui.toolButton_3
-            << ui.toolButton_4
-            << ui.toolButton_5
-            << ui.toolButton_6
-            << ui.toolButton_7
-            << ui.toolButton_8
-            << ui.toolButton_9
-            << ui.toolButton_10
-            << ui.toolButton_11
-            << ui.toolButton_12;
+        _toolButtons = {
+            ui.toolButton_3,
+            ui.toolButton_4,
+            ui.toolButton_5,
+            ui.toolButton_6,
+            ui.toolButton_7,
+            ui.toolButton_8,
+            ui.toolButton_9,
+            ui.toolButton_10,
+            ui.toolButton_11,
+            ui.toolButton_12 };
 
         connect( ui.textPosition, SIGNAL(currentIndexChanged(int)), SLOT(textPosition(int)) );
         connect( ui.iconSize, SIGNAL(currentIndexChanged(int)), SLOT(iconSize(int)) );
@@ -139,7 +139,8 @@ namespace Oxygen
 
             // TODO select menu item in toolbutton with separated arrow
 
-            foreach( QToolButton* button, _toolBar->findChildren<QToolButton*>() )
+            const auto children = _toolBar->findChildren<QToolButton*>();
+            for ( QToolButton *button : children )
             { simulator().click( button ); }
 
         }
@@ -176,7 +177,7 @@ namespace Oxygen
     //_____________________________________________________________
     void ButtonDemoWidget::toggleFlat( bool value )
     {
-        foreach( QPushButton* button, _pushButtons )
+        for ( QPushButton* button : std::as_const(_pushButtons) )
         { button->setFlat( value ); }
 
         ui.toolButton->setAutoRaise( value );
@@ -190,7 +191,7 @@ namespace Oxygen
     //_____________________________________________________________
     void ButtonDemoWidget::textPosition( int index)
     {
-        foreach( QToolButton* button, _toolButtons )
+        for ( QToolButton *button : std::as_const(_toolButtons) )
         {
             switch( index )
             {
@@ -217,7 +218,7 @@ namespace Oxygen
     void ButtonDemoWidget::iconSize( int index)
     {
         static QList<int> sizes( QList<int>() << 16 << 22 << 32 << 48 );
-        foreach( QToolButton* button, _toolButtons )
+        for ( QToolButton *button : std::as_const(_toolButtons) )
         { button->setIconSize( QSize( sizes[index], sizes[index] ) ); }
 
         _toolBar->setIconSize( QSize( sizes[index], sizes[index] ) );

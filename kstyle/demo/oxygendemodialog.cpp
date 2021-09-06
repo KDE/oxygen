@@ -40,7 +40,8 @@ namespace Oxygen
         setWindowTitle( i18n( "Oxygen Demo" ) );
 
         // install Quit shortcut
-        foreach( const QKeySequence& sequence, KStandardShortcut::quit() )
+        const auto shortcuts = KStandardShortcut::quit();
+        for ( const QKeySequence &sequence : shortcuts )
         { connect( new QShortcut( sequence, this ), SIGNAL(activated()), SLOT(close()) ); }
 
         // button box

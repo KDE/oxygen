@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
     dialog.addModule( KPluginMetaData(QStringLiteral( "oxygendecorationconfig" )));
     dialog.show();
 
-    foreach( auto child, dialog.findChildren<QAbstractScrollArea*>() )
+    const auto children = dialog.findChildren<QAbstractScrollArea*>();
+    for ( auto child : children )
     {
         child->adjustSize();
         child->viewport()->adjustSize();

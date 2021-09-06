@@ -101,7 +101,7 @@ namespace Oxygen
         void update( void )
         {
 
-            foreach( const WidgetPointer& widget, _pendingWidgets )
+            for ( const WidgetPointer &widget : std::as_const(_pendingWidgets) )
             { if( widget ) update( widget.data() ); }
 
             _pendingWidgets.clear();

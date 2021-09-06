@@ -85,7 +85,7 @@ namespace Oxygen
             are also used in non animated mode to store scrollbar arrows rect. However
             do disable all contains DATA object, in order to prevent actual animations
             */
-            foreach( const DataMap<ScrollBarData>::Value data, _data )
+            for ( const DataMap<ScrollBarData>::Value &data : std::as_const(_data) )
             { if( data ) data.data()->setEnabled( value ); }
 
         }

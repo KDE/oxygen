@@ -78,7 +78,7 @@ namespace Oxygen
         // get the client
         auto client = decoration->client().data();
 
-        foreach( auto internalSettings, m_exceptions )
+        for ( auto internalSettings : std::as_const(m_exceptions) )
         {
 
             // discard disabled exceptions

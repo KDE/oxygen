@@ -42,7 +42,7 @@ namespace Oxygen
 
         // the typedef is needed to make Krazy happy
         typedef DataMap<ToolBarData>::Value Value;
-        foreach( const Value& value, _data )
+        for ( const Value &value : std::as_const(_data) )
         { if( value ) out.insert( value.data()->target().data() ); }
         return out;
     }

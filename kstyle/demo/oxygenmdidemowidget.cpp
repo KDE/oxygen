@@ -78,7 +78,8 @@ namespace Oxygen
         if( true )
         {
             // slide windows
-            foreach( QMdiSubWindow* window, ui.mdiArea->findChildren<QMdiSubWindow*>() )
+            const auto children = ui.mdiArea->findChildren<QMdiSubWindow*>();
+            for ( QMdiSubWindow *window : children )
             {
                 simulator().click( window );
                 simulator().slide( window, QPoint( 20, 20 ) );
@@ -89,10 +90,12 @@ namespace Oxygen
 
         if( true )
         {
-            foreach( QAbstractButton* button, ui.toolBox->findChildren<QAbstractButton*>() )
+            const auto children = ui.toolBox->findChildren<QAbstractButton*>();
+
+            for ( QAbstractButton* button : children )
             { simulator().click( button ); }
 
-            foreach( QAbstractButton* button, ui.toolBox->findChildren<QAbstractButton*>() )
+            for ( QAbstractButton *button : children )
             { simulator().click( button ); }
         }
 

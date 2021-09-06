@@ -190,7 +190,7 @@ namespace Oxygen
         void setFollowMouseDuration( int duration ) override
         {
             _followMouseDuration = duration;
-            foreach( const DataMap<MenuDataV2>::Value& value, _data )
+            for ( const DataMap<MenuDataV2>::Value &value : std::as_const(_data) )
             { if( value ) value.data()->setFollowMouseDuration( duration ); }
         }
 

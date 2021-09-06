@@ -82,7 +82,8 @@ namespace Oxygen
         _enabled = value;
 
         // update all top level widgets
-        foreach( QWidget* widget, qApp->topLevelWidgets() )
+        const auto topWidgets = qApp->topLevelWidgets();
+        for ( QWidget* widget : topWidgets )
         { widget->update(); }
 
     }

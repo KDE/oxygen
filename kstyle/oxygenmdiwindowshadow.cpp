@@ -195,8 +195,8 @@ namespace Oxygen
         if( !object->parent() ) return nullptr;
 
         // find existing window shadows
-        auto children = object->parent()->children();
-        foreach( QObject *child, children )
+        const auto children = object->parent()->children();
+        for ( QObject *child : children )
         {
             if( MdiWindowShadow* shadow = qobject_cast<MdiWindowShadow*>(child) )
             { if( shadow->widget() == object ) return shadow; }

@@ -111,9 +111,9 @@ namespace Oxygen
     void LineEditData::checkClearButton( void )
     {
         if( !_target ) return;
-        QObjectList children( _target.data()->children() );
+        const QObjectList children = _target.data()->children();
         _hasClearButton = false;
-        foreach( QObject* child, children )
+        for ( QObject* child : children )
         {
             if( child->inherits( "KLineEditButton" ) )
             {

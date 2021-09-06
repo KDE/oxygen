@@ -139,7 +139,8 @@ namespace Oxygen
     //_______________________________________________________________________
     void Simulator::selectTab( QTabWidget* tabwidget, int index, int delay )
     {
-        foreach( QObject* child, tabwidget->children() )
+        const auto children = tabwidget->children();
+        for ( QObject* child : children )
         {
             if( QTabBar* tabbar = qobject_cast<QTabBar*>( child ) )
             {
@@ -179,7 +180,8 @@ namespace Oxygen
         _aborted = false;
 
         emit stateChanged( true );
-        foreach( const Event& event, _events )
+
+        for ( const Event& event : std::as_const(_events) )
         {
             if( _aborted )
             {
@@ -233,9 +235,7 @@ namespace Oxygen
 
             if( _aborted )
             {
-
-                foreach( QEvent* event, _pendingEvents )
-                { delete event; }
+                qDeleteAll(_pendingEvents );
 
                 _pendingEvents.clear();
                 _pendingWidget.clear();
@@ -243,7 +243,7 @@ namespace Oxygen
             } else if( _pendingWidget && _pendingWidget.data()->isVisible() ) {
 
                 _pendingEventsTimer.stop();
-                foreach( QEvent* event, _pendingEvents )
+                for ( QEvent* event : std::as_const(_pendingEvents) )
                 {
 
                     if( event->type() == QEvent::MouseMove )

@@ -149,7 +149,7 @@ namespace Oxygen
         widget->removeEventFilter( this );
 
         const QList<QObject* > children = widget->children();
-        foreach( QObject *child, children )
+        for ( QObject *child : children )
         {
             if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase*>(child) )
             {
@@ -166,7 +166,7 @@ namespace Oxygen
     {
 
         const QList<QObject *> children = object->children();
-        foreach( QObject *child, children )
+        for ( QObject *child : children )
         {
             if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->updateGeometry(); }
@@ -179,7 +179,7 @@ namespace Oxygen
     {
 
         const QList<QObject *> children = object->children();
-        foreach( QObject *child, children )
+        for ( QObject *child : children )
         {
             if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->updateGeometry( rect ); }
@@ -192,7 +192,7 @@ namespace Oxygen
     {
 
         const QList<QObject *> children = object->children();
-        foreach( QObject *child, children )
+        for ( QObject *child : children )
         {
             if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->raise(); }
@@ -205,7 +205,7 @@ namespace Oxygen
     {
 
         const QList<QObject* > children = object->children();
-        foreach( QObject *child, children )
+        for ( QObject *child : children )
         {
             if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->update();}
@@ -218,7 +218,7 @@ namespace Oxygen
     {
 
         const QList<QObject *> children = widget->children();
-        foreach( QObject *child, children )
+        for ( QObject *child : children )
         {
             if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->setHasContrast( value ); }
@@ -231,7 +231,7 @@ namespace Oxygen
     {
 
         const QList<QObject *> children = widget->children();
-        foreach( QObject *child, children )
+        for ( QObject *child : children )
         {
             if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase *>(child) )
             { shadow->updateState( focus, hover, opacity, mode ); }

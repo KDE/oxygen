@@ -395,15 +395,19 @@ namespace Oxygen
         const int bHeight = captionHeight() + (isMaximized() ? s->smallSpacing()*Metrics::TitleBar_TopMargin:0);
         const int bWidth = buttonHeight();
         const int verticalOffset = (isMaximized() ? s->smallSpacing()*Metrics::TitleBar_TopMargin:0) + (captionHeight()-buttonHeight())/2;
-        foreach( const QPointer<KDecoration2::DecorationButton>& button, m_leftButtons->buttons() + m_rightButtons->buttons() )
-        {
+
+        const QVector<QPointer<KDecoration2::DecorationButton>> leftButtons = m_leftButtons->buttons();
+        const QVector<QPointer<KDecoration2::DecorationButton>> rightButtons = m_rightButtons->buttons();
+
+        const auto allButtons = leftButtons + rightButtons;
+        for (const auto &button : allButtons) {
             button.data()->setGeometry( QRectF( QPoint( 0, 0 ), QSizeF( bWidth, bHeight ) ) );
             static_cast<Button*>( button.data() )->setOffset( QPointF( 0, verticalOffset ) );
             static_cast<Button*>( button.data() )->setIconSize( QSize( bWidth, bWidth ) );
         }
 
         // left buttons
-        if( !m_leftButtons->buttons().isEmpty() )
+        if( !leftButtons.isEmpty() )
         {
 
             // spacing
@@ -415,7 +419,7 @@ namespace Oxygen
             if( isMaximizedHorizontally() )
             {
                 // add offsets on the side buttons, to preserve padding, but satisfy Fitts law
-                auto button = static_cast<Button*>( m_leftButtons->buttons().front().data() );
+                auto button = static_cast<Button*>( leftButtons.front().data() );
                 button->setGeometry( QRectF( QPoint( 0, 0 ), QSizeF( bWidth + hPadding, bHeight ) ) );
                 button->setFlag( Button::FlagFirstInList );
                 button->setHorizontalOffset( hPadding );
@@ -427,7 +431,7 @@ namespace Oxygen
         }
 
         // right buttons
-        if( !m_rightButtons->buttons().isEmpty() )
+        if( !rightButtons.isEmpty() )
         {
 
             // spacing
@@ -439,7 +443,7 @@ namespace Oxygen
             if( isMaximizedHorizontally() )
             {
 
-                auto button = static_cast<Button*>( m_rightButtons->buttons().back().data() );
+                auto button = static_cast<Button*>( rightButtons.back().data() );
                 button->setGeometry( QRectF( QPoint( 0, 0 ), QSizeF( bWidth + hPadding, bHeight ) ) );
                 button->setFlag( Button::FlagLastInList );
 

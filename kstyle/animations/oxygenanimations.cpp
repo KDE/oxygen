@@ -159,7 +159,8 @@ namespace Oxygen
                 _toolBarEngine->setEnabled( animationsEnabled && toolBarAnimationType == StyleConfigData::TB_FOLLOW_MOUSE );
 
                 // unregister all toolbuttons that belong to a toolbar
-                foreach( QWidget* widget, _widgetStateEngine->registeredWidgets( AnimationHover|AnimationFocus ) )
+                const auto widgets = _widgetStateEngine->registeredWidgets( AnimationHover|AnimationFocus );
+                for ( QWidget *widget : widgets)
                 {
                     if( qobject_cast<QToolButton*>( widget ) && qobject_cast<QToolBar*>( widget->parentWidget() ) )
                     { _widgetStateEngine->unregisterWidget( widget ); }
@@ -171,11 +172,12 @@ namespace Oxygen
                 _toolBarEngine->setEnabled( false );
 
                 // retrieve all registered toolbars
-                BaseEngine::WidgetList widgets( _toolBarEngine->registeredWidgets() );
-                foreach( QWidget* widget, widgets )
+                const BaseEngine::WidgetList widgets( _toolBarEngine->registeredWidgets() );
+                for ( QWidget *widget : widgets )
                 {
                     // get all toolbuttons
-                    foreach( QObject* child, widget->children() )
+                    const auto children = widget->children();
+                    for ( QObject *child : children )
                     {
                         if( QToolButton* toolButton = qobject_cast<QToolButton*>( child ) )
                         { _widgetStateEngine->registerWidget( toolButton, AnimationHover ); }
@@ -344,7 +346,7 @@ namespace Oxygen
         // the following allows some optimization of widget unregistration
         // it assumes that a widget can be registered atmost in one of the
         // engines stored in the list.
-        foreach( const BaseEngine::Pointer& engine, _engines )
+        for ( const BaseEngine::Pointer &engine : std::as_const(_engines) )
         { if( engine && engine.data()->unregisterWidget( widget ) ) break; }
 
     }

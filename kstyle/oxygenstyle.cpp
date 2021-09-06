@@ -78,6 +78,8 @@
 
 #include <cmath>
 
+static const int s_iconSizes[] = { 8, 16, 22, 32, 48 };
+
 namespace OxygenPrivate
 {
 
@@ -1646,8 +1648,7 @@ namespace Oxygen
                 QIcon icon;
 
                 // default icon sizes
-                static const QList<int> iconSizes = { 8, 16, 22, 32, 48 };
-                foreach( const int& iconSize, iconSizes )
+                for ( const int iconSize : s_iconSizes )
                 {
 
                     QPixmap pixmap(  iconSize, iconSize );
@@ -1686,8 +1687,7 @@ namespace Oxygen
                 QIcon icon;
 
                 // default icon sizes
-                static const QList<int> iconSizes = { 8, 16, 22, 32, 48 };
-                foreach( const int& iconSize, iconSizes )
+                for ( const int iconSize : s_iconSizes )
                 {
                     QPixmap pixmap( iconSize, iconSize );
                     pixmap.fill( Qt::transparent );
@@ -1738,7 +1738,8 @@ namespace Oxygen
         _helper->setUseBackgroundGradient( StyleConfigData::useBackgroundGradient() );
 
         // update top level window hints
-        foreach( QWidget* widget, qApp->topLevelWidgets() )
+        const auto topWidgets = qApp->topLevelWidgets();
+        for ( QWidget *widget : topWidgets )
         {
             // make sure widget has a valid WId
             if( !(widget->testAttribute(Qt::WA_WState_Created) || widget->internalWinId() ) ) continue;
@@ -3505,7 +3506,7 @@ namespace Oxygen
         }
 
         // render registered slabs
-        foreach( const SlabRect& slab, slabs )
+        for ( const SlabRect &slab : std::as_const(slabs) )
         { renderSlab( painter, slab, palette.color( QPalette::Window ), NoFill ); }
 
         return true;
@@ -6195,7 +6196,7 @@ namespace Oxygen
         // extends beyond tabWidget frame, if any
         const QRect tabWidgetRect( tabWidget ? tabWidget->rect().translated( -widget->geometry().topLeft() ) : QRect() );
 
-        foreach( SlabRect slab, slabs ) // krazy:exclude=foreach
+        for ( SlabRect slab : std::as_const(slabs) )
         {
             adjustSlabRect( slab, tabWidgetRect, documentMode, verticalTabs );
             renderSlab( painter, slab, color, NoFill );
@@ -6712,7 +6713,7 @@ namespace Oxygen
         painter->setRenderHint( QPainter::Antialiasing, true );
         painter->translate(0.5, 0.5 );
         painter->translate( 0, 2 );
-        foreach( const QColor& color, colors )
+        for ( const QColor & color : std::as_const(colors) )
         {
             painter->setPen( color );
             painter->drawPath( path );
@@ -7233,7 +7234,7 @@ namespace Oxygen
 
                     // calculate positions and draw lines
                     int position( sliderPositionFromValue( sliderOption->minimum, sliderOption->maximum, current, available ) + fudge );
-                    foreach( const QLine& tickLine, tickLines )
+                    for ( const QLine &tickLine : std::as_const(tickLines) )
                     {
                         if( horizontal ) painter->drawLine( tickLine.translated( upsideDown ? (rect.width() - position) : position, 0 ) );
                         else painter->drawLine( tickLine.translated( 0, upsideDown ? (rect.height() - position):position ) );
@@ -8492,8 +8493,8 @@ namespace Oxygen
         // change viewport autoFill background.
         // do the same for children if the background role is QPalette::Window
         viewport->setAutoFillBackground( false );
-        QList<QWidget*> children( viewport->findChildren<QWidget*>() );
-        foreach( QWidget* child, children )
+        const QList<QWidget*> children = viewport->findChildren<QWidget*>();
+        for ( QWidget *child : children )
         {
             if( child->parent() == viewport && child->backgroundRole() == QPalette::Window )
             { child->setAutoFillBackground( false ); }
@@ -8506,7 +8507,8 @@ namespace Oxygen
     {
         // need to mask-out arrow buttons, if visible.
         QRegion mask( tabBar->rect() );
-        foreach( const QObject* child, tabBar->children() )
+        const auto children = tabBar->children();
+        for ( const QObject *child : children )
         {
             const QToolButton* toolButton( qobject_cast<const QToolButton*>( child ) );
             if( toolButton && toolButton->isVisible() ) mask -= toolButton->geometry();

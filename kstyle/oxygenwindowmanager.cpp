@@ -281,7 +281,8 @@ namespace Oxygen
         _whiteList.insert( ExceptionId( QStringLiteral( "ViewSliders@kmix" ) ) );
         _whiteList.insert( ExceptionId( QStringLiteral( "Sidebar_Widget@konqueror" ) ) );
 
-        foreach( const QString& exception, StyleConfigData::windowDragWhiteList() )
+        const QStringList whiteList = StyleConfigData::windowDragWhiteList();
+        for ( const QString &exception : whiteList )
         {
             ExceptionId id( exception );
             if( !id.className().isEmpty() )
@@ -297,7 +298,9 @@ namespace Oxygen
         _blackList.insert( ExceptionId( QStringLiteral( "CustomTrackView@kdenlive" ) ) );
         _blackList.insert( ExceptionId( QStringLiteral( "MuseScore" ) ) );
         _blackList.insert( ExceptionId( QStringLiteral( "KGameCanvasWidget" ) ) );
-        foreach( const QString& exception, StyleConfigData::windowDragBlackList() )
+
+        const QStringList blackList = StyleConfigData::windowDragBlackList();
+        for ( const QString &exception : blackList )
         {
             ExceptionId id( exception );
             if( !id.className().isEmpty() )
@@ -553,7 +556,7 @@ namespace Oxygen
 
         // list-based blacklisted widgets
         QString appName( qApp->applicationName() );
-        foreach( const ExceptionId& id, _blackList )
+        for ( const ExceptionId &id : std::as_const(_blackList) )
         {
             if( !id.appName().isEmpty() && id.appName() != appName ) continue;
             if( id.className() == QStringLiteral( "*" ) && !id.appName().isEmpty() )
@@ -574,7 +577,7 @@ namespace Oxygen
     {
 
         QString appName( qApp->applicationName() );
-        foreach( const ExceptionId& id, _whiteList )
+        for ( const ExceptionId &id : std::as_const(_whiteList) )
         {
             if( !id.appName().isEmpty() && id.appName() != appName ) continue;
             if( widget->inherits( id.className().toLatin1().data() ) ) return true;

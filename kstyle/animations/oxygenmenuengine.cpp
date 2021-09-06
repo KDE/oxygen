@@ -19,7 +19,8 @@ namespace Oxygen
     {
         if( other )
         {
-            foreach( QWidget* widget,  other->registeredWidgets() )
+            const auto otherWidgets = other->registeredWidgets();
+            for ( QWidget *widget :  otherWidgets )
             { registerWidget( widget ); }
         }
     }
@@ -62,7 +63,7 @@ namespace Oxygen
 
         // the typedef is needed to make Krazy happy
         typedef DataMap<MenuDataV1>::Value Value;
-        foreach( const Value& value, _data )
+        for ( const Value &value : std::as_const(_data) )
         { if( value ) out.insert( value.data()->target().data() ); }
 
         return out;
@@ -76,7 +77,8 @@ namespace Oxygen
     {
         if( other )
         {
-            foreach( QWidget* widget, other->registeredWidgets() )
+            const auto otherWidgets = other->registeredWidgets();
+            for ( QWidget *widget : otherWidgets )
             { registerWidget( widget ); }
         }
     }
@@ -167,7 +169,7 @@ namespace Oxygen
 
         // the typedef is needed to make Krazy happy
         typedef DataMap<MenuDataV2>::Value Value;
-        foreach( const Value& value, _data )
+        for ( const Value &value : std::as_const(_data) )
         { if( value ) out.insert( value.data()->target().data() ); }
 
         return out;

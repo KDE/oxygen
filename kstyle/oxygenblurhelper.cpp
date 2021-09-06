@@ -175,7 +175,8 @@ namespace Oxygen
 
 
         // loop over children
-        foreach( QObject* childObject, widget->children() )
+        const auto children = widget->children();
+        for ( QObject* childObject : children )
         {
             QWidget* child( qobject_cast<QWidget*>( childObject ) );
             if( !(child && child->isVisible()) ) continue;
@@ -222,13 +223,13 @@ namespace Oxygen
         } else {
 
             QVector<quint32> data;
-            foreach( const QRect& rect, blurRegion.rects() )
+            for ( const QRect &rect : blurRegion )
             { data << rect.x() << rect.y() << rect.width() << rect.height(); }
 
             xcb_change_property( _helper.connection(), XCB_PROP_MODE_REPLACE, widget->winId(), _blurAtom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );
 
             data.clear();
-            foreach( const QRect& rect, opaqueRegion.rects() )
+            for ( const QRect &rect : opaqueRegion )
             { data << rect.x() << rect.y() << rect.width() << rect.height(); }
 
             xcb_change_property( _helper.connection(), XCB_PROP_MODE_REPLACE, widget->winId(), _opaqueAtom, XCB_ATOM_CARDINAL, 32, data.size(), data.constData() );

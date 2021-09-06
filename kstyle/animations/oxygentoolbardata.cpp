@@ -43,7 +43,8 @@ namespace Oxygen
         progressAnimation().data()->setEasingCurve( QEasingCurve::Linear );
 
         // add all children widgets to event handler
-        foreach( QObject* child, target->children() )
+        const auto children = target->children();
+        for ( QObject *child : children )
         { if( qobject_cast<QToolButton*>( child ) ) childAddedEvent( child ); }
 
     }

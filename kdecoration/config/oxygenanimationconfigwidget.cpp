@@ -43,7 +43,9 @@ namespace Oxygen
         ++_row;
 
         connect( animationsEnabled(), SIGNAL(toggled(bool)), SLOT(updateChanged()) );
-        foreach( AnimationConfigItem* item, findChildren<AnimationConfigItem*>() )
+
+        const auto children = findChildren<AnimationConfigItem*>();
+        for ( AnimationConfigItem* item : children )
         {
             item->QWidget::setEnabled( false );
             connect( animationsEnabled(), SIGNAL(toggled(bool)), item, SLOT(setEnabled(bool)) );

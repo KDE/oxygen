@@ -92,10 +92,10 @@ namespace Oxygen
         }
 
         //* maxFrame
-        void setEnabled( bool enabled )
+        void setEnabled( bool enabled ) const
         {
             _enabled = enabled;
-            foreach( const Value& value, *this )
+            for ( const Value &value : *this )
             { if( value ) value.data()->setEnabled( enabled ); }
         }
 
@@ -106,14 +106,14 @@ namespace Oxygen
         //* duration
         void setDuration( int duration ) const
         {
-            foreach( const Value& value, *this )
+            for ( const Value& value : *this )
             { if( value ) value.data()->setDuration( duration ); }
         }
 
         private:
 
         //* enability
-        bool _enabled;
+        mutable bool _enabled;
 
         //* last key
         Key _lastKey;

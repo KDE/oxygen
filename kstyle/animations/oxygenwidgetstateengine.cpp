@@ -43,19 +43,19 @@ namespace Oxygen
 
         if( mode&AnimationHover )
         {
-            foreach( const Value& value, _hoverData )
+            for ( const Value &value : std::as_const(_hoverData) )
             { if( value ) out.insert( value.data()->target().data() ); }
         }
 
         if( mode&AnimationFocus )
         {
-            foreach( const Value& value, _focusData )
+            for ( const Value &value : std::as_const(_focusData) )
             { if( value ) out.insert( value.data()->target().data() ); }
         }
 
         if( mode&AnimationEnable )
         {
-            foreach( const Value& value, _enableData )
+            for ( const Value &value : std::as_const(_enableData) )
             { if( value ) out.insert( value.data()->target().data() ); }
         }
 
