@@ -438,9 +438,6 @@ namespace Oxygen
         //* menu item background
         void renderMenuItemBackground( const QStyleOption*, QPainter*, const QWidget* ) const;
 
-        void renderMenuItemRect( const QStyleOption* opt, const QRect& rect, const QPalette& pal, QPainter* p, qreal opacity = -1 ) const
-        { renderMenuItemRect( opt, rect, pal.color(QPalette::Window), p, opacity ); }
-
         void renderMenuItemRect( const QStyleOption*, const QRect&, const QColor&, const QPalette&, QPainter* p, qreal opacity = -1 ) const;
 
         //* checkbox state (used for checkboxes _and_ radio buttons)
