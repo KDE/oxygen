@@ -43,9 +43,6 @@ namespace Oxygen
         connect( ui.flatGroupBoxCheckBox, SIGNAL(toggled(bool)), SLOT(toggleFlatGroupBox(bool)) );
 
         addMessages();
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 48, 0)
-        qApp->installEventFilter(this);
-#endif
     }
 
     void FrameDemoWidget::addMessages()
@@ -84,17 +81,8 @@ namespace Oxygen
 
     bool FrameDemoWidget::eventFilter( QObject *obj, QEvent *event )
     {
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 48, 0)
-        if (event->type() == QEvent::DynamicPropertyChange && obj == qApp) {
-            QDynamicPropertyChangeEvent *e = dynamic_cast<QDynamicPropertyChangeEvent*>(event);
-            if (e->propertyName() == QByteArrayLiteral("KDE_COLOR_SCHEME_PATH")) {
-                addMessages();
-            }
-        }
-#else
         Q_UNUSED(obj);
         Q_UNUSED(event);
-#endif
         return false;
     }
 
