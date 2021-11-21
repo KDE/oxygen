@@ -19,4 +19,5 @@ Dependencies:
     'frameworks/kwayland': '@latest'
     'frameworks/kwidgetsaddons': '@latest'
     'frameworks/kwindowsystem': '@latest'
+    'frameworks/frameworkintegration': '@latest'
     'plasma/kdecoration': '@same'
