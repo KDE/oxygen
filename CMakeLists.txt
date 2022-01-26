@@ -56,7 +56,6 @@ add_subdirectory(liboxygen)
 add_subdirectory(kstyle)
 add_subdirectory(color-schemes)
 add_subdirectory(cursors)
-add_subdirectory(sounds)
 add_subdirectory(kdecoration)
 
 install(DIRECTORY lookandfeel/ DESTINATION ${KDE_INSTALL_DATADIR}/plasma/look-and-feel/org.kde.oxygen
