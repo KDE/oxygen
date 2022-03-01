@@ -17,6 +17,7 @@
 #include <QPainter>
 #include <QTextStream>
 #include <math.h>
+#include <random>
 
 #if OXYGEN_HAVE_X11
 #include <QX11Info>
@@ -82,6 +83,25 @@ namespace Oxygen
     //____________________________________________________________________
     void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& windowRect, const QColor& color, int yShift)
     {
+
+        std::default_random_engine eng{0};
+        std::uniform_int_distribution<int> urd(98, 102);
+
+        const auto dpr = p->device()->devicePixelRatio();
+        const auto width = windowRect.width() * dpr, height = windowRect.height() * dpr;
+        const auto size = width * height;
+        auto* arr = new QRgb[size];
+
+        for (int i = 0; i < size; i++) {
+            arr[i] = color.darker(urd(eng)).rgb();
+        }
+
+        QImage img((uchar *)arr, width, height, QImage::Format_ARGB32);
+        img.setDevicePixelRatio(dpr);
+
+        p->drawImage(0, 0, img);
+        delete[] arr;
+        return;
 
         if ( clipRect.isValid() )
         {
