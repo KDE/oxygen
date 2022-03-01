@@ -13,6 +13,7 @@
 
 #include "oxygentransitionwidget.h"
 
+#include <QElapsedTimer>
 #include <QObject>
 #include <QTime>
 #include <QWidget>
@@ -60,13 +61,16 @@ namespace Oxygen
         //* start clock
         void startClock( void )
         {
-            if( _clock.isNull() ) _clock.start();
-            else _clock.restart();
+            if( !_timer.isValid() ) {
+                _timer.start();
+            } else {
+                _timer.restart();
+            }
         }
 
-        //* check if rendering is two slow
+        //* check if rendering is too slow
         bool slow( void ) const
-        { return !( _clock.isNull() || _clock.elapsed() <= maxRenderTime() ); }
+        { return _timer.isValid() && _timer.elapsed() > maxRenderTime(); }
 
         protected Q_SLOTS:
 
@@ -102,7 +106,7 @@ namespace Oxygen
         bool _recursiveCheck = false;
 
         //* timer used to detect slow rendering
-        QTime _clock;
+        QElapsedTimer _timer;
 
         //* max render time
         /** used to detect slow rendering */

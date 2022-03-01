@@ -243,7 +243,7 @@ namespace Oxygen
     {
 
         QPalette out( source );
-        out.setColor( QPalette::Window, KColorUtils::mix( source.color( QPalette::Active, QPalette::Background ), source.color( QPalette::Disabled, QPalette::Background ), 1.0-ratio ) );
+        out.setColor( QPalette::Window, KColorUtils::mix( source.color( QPalette::Active, QPalette::Window ), source.color( QPalette::Disabled, QPalette::Window ), 1.0-ratio ) );
         out.setColor( QPalette::Highlight, KColorUtils::mix( source.color( QPalette::Active, QPalette::Highlight ), source.color( QPalette::Disabled, QPalette::Highlight ), 1.0-ratio ) );
         out.setColor( QPalette::WindowText, KColorUtils::mix( source.color( QPalette::Active, QPalette::WindowText ), source.color( QPalette::Disabled, QPalette::WindowText ), 1.0-ratio ) );
         out.setColor( QPalette::ButtonText, KColorUtils::mix( source.color( QPalette::Active, QPalette::ButtonText ), source.color( QPalette::Disabled, QPalette::ButtonText ), 1.0-ratio ) );
