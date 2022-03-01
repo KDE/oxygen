@@ -16,6 +16,8 @@
 #include <QApplication>
 #include <QPainter>
 #include <QTextStream>
+#include <QDebug>
+#include <QVariantAnimation>
 #include <math.h>
 #include <random>
 
@@ -84,8 +86,17 @@ namespace Oxygen
     void Helper::renderWindowBackground(QPainter* p, const QRect& clipRect, const QRect& windowRect, const QColor& color, int yShift)
     {
 
+        QVariantAnimation ani;
+        ani.setKeyValueAt(0.0, KColorUtils::mix( color, QColor(255, 164, 234), 0.5 ));
+        ani.setKeyValueAt(0.1, color);
+        ani.setKeyValueAt(0.9, color);
+        ani.setKeyValueAt(1.0, KColorUtils::mix( color, QColor(127, 255, 234), 0.5 ));
+        ani.setEasingCurve(QEasingCurve(QEasingCurve::OutInCirc));
+        ani.setDuration(1000);
+
         std::default_random_engine eng{0};
         std::uniform_int_distribution<int> urd(98, 102);
+        std::uniform_real_distribution<float> grd(0, 1);
 
         const auto dpr = p->device()->devicePixelRatio();
         const auto width = windowRect.width() * dpr, height = windowRect.height() * dpr;
@@ -93,7 +104,8 @@ namespace Oxygen
         auto* arr = new QRgb[size];
 
         for (int i = 0; i < size; i++) {
-            arr[i] = color.darker(urd(eng)).rgb();
+            ani.setCurrentTime(grd(eng) * 1000);
+            arr[i] = ani.currentValue().value<QColor>().darker(urd(eng)).rgb();
         }
 
         QImage img((uchar *)arr, width, height, QImage::Format_ARGB32);
