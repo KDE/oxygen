@@ -87,10 +87,13 @@ namespace Oxygen
     {
 
         QVariantAnimation ani;
-        ani.setKeyValueAt(0.0, KColorUtils::mix( color, QColor(255, 164, 234), 0.5 ));
-        ani.setKeyValueAt(0.1, color);
-        ani.setKeyValueAt(0.9, color);
-        ani.setKeyValueAt(1.0, KColorUtils::mix( color, QColor(127, 255, 234), 0.5 ));
+
+        /* this is a gradient */
+        /* position is 0.0 - 1.0 */
+        ani.setKeyValueAt(/* position */ 0.0, KColorUtils::mix( color, QColor(255, 164, 234), 0.5 /* 50-50 blend */ ) /* pink blended with the color scheme bg */);
+        ani.setKeyValueAt(/* position */ 0.1, color /* the color scheme bg */);
+        ani.setKeyValueAt(/* position */ 0.9, color /* the color scheme bg */);
+        ani.setKeyValueAt(/* position */ 1.0, KColorUtils::mix( color, QColor(127, 255, 234), 0.5 /* 50-50 blend */ ) /* cyan blended with the color scheme bg */);
         ani.setEasingCurve(QEasingCurve(QEasingCurve::OutInCirc));
         ani.setDuration(1000);
 
