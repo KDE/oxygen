@@ -168,10 +168,10 @@ namespace Oxygen
         else return settings()->borderSize() == KDecoration2::BorderSize::NoSides;
     }
 
-    bool Decoration::isMaximized( void ) const { return client().data()->isMaximized() && !m_internalSettings->drawBorderOnMaximizedWindows(); }
-    bool Decoration::isMaximizedHorizontally( void ) const { return client().data()->isMaximizedHorizontally() && !m_internalSettings->drawBorderOnMaximizedWindows(); }
-    bool Decoration::isMaximizedVertically( void ) const { return client().data()->isMaximizedVertically() && !m_internalSettings->drawBorderOnMaximizedWindows(); }
-    bool Decoration::hideTitleBar( void ) const { return m_internalSettings->hideTitleBar() && !client().data()->isShaded(); }
+    bool Decoration::isMaximized( void ) const { return client().toStrongRef()->isMaximized() && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+    bool Decoration::isMaximizedHorizontally( void ) const { return client().toStrongRef()->isMaximizedHorizontally() && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+    bool Decoration::isMaximizedVertically( void ) const { return client().toStrongRef()->isMaximizedVertically() && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+    bool Decoration::hideTitleBar( void ) const { return m_internalSettings->hideTitleBar() && !client().toStrongRef()->isShaded(); }
 
 }
 

@@ -25,37 +25,38 @@ namespace Oxygen
         if (auto d = qobject_cast<Decoration*>(decoration))
         {
 
+            const auto clientPtr = d->client().toStrongRef();
             Button *b = new Button(type, d, parent);
             switch( type )
             {
 
                 case KDecoration2::DecorationButtonType::Close:
-                b->setVisible( d->client().data()->isCloseable() );
-                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::closeableChanged, b, &Oxygen::Button::setVisible );
+                b->setVisible( clientPtr->isCloseable() );
+                QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::closeableChanged, b, &Oxygen::Button::setVisible );
                 break;
 
                 case KDecoration2::DecorationButtonType::Maximize:
-                b->setVisible( d->client().data()->isMaximizeable() );
-                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::maximizeableChanged, b, &Oxygen::Button::setVisible );
+                b->setVisible( clientPtr->isMaximizeable() );
+                QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::maximizeableChanged, b, &Oxygen::Button::setVisible );
                 break;
 
                 case KDecoration2::DecorationButtonType::Minimize:
-                b->setVisible( d->client().data()->isMinimizeable() );
-                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::minimizeableChanged, b, &Oxygen::Button::setVisible );
+                b->setVisible( clientPtr->isMinimizeable() );
+                QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::minimizeableChanged, b, &Oxygen::Button::setVisible );
                 break;
 
                 case KDecoration2::DecorationButtonType::ContextHelp:
-                b->setVisible( d->client().data()->providesContextHelp() );
-                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::providesContextHelpChanged, b, &Oxygen::Button::setVisible );
+                b->setVisible( clientPtr->providesContextHelp() );
+                QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::providesContextHelpChanged, b, &Oxygen::Button::setVisible );
                 break;
 
                 case KDecoration2::DecorationButtonType::Shade:
-                b->setVisible( d->client().data()->isShadeable() );
-                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::shadeableChanged, b, &Oxygen::Button::setVisible );
+                b->setVisible( clientPtr->isShadeable() );
+                QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::shadeableChanged, b, &Oxygen::Button::setVisible );
                 break;
 
                 case KDecoration2::DecorationButtonType::Menu:
-                QObject::connect(d->client().data(), &KDecoration2::DecoratedClient::iconChanged, b, [b]() { b->update(); });
+                QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::iconChanged, b, [b]() { b->update(); });
                 break;
 
                 default: break;
@@ -90,7 +91,7 @@ namespace Oxygen
 
         // setup connections
         if( isMenuButton() )
-        { connect(decoration->client().data(), SIGNAL(iconChanged(QIcon)), this, SLOT(update())); }
+        { connect(decoration->client().toStrongRef().data(), SIGNAL(iconChanged(QIcon)), this, SLOT(update())); }
 
         connect(decoration->settings().data(), &KDecoration2::DecorationSettings::reconfigured, this, &Button::reconfigure);
         connect( this, &KDecoration2::DecorationButton::hoveredChanged, this, &Button::updateAnimationState );
@@ -183,7 +184,7 @@ namespace Oxygen
 
     //___________________________________________________
     bool Button::isActive( void ) const
-    { return decoration().data()->client().data()->isActive(); }
+    { return decoration().data()->client().toStrongRef()->isActive(); }
 
     //___________________________________________________
     void Button::reconfigure( void )
@@ -210,19 +211,20 @@ namespace Oxygen
 
         if( !m_iconSize.isValid() || isStandAlone() ) m_iconSize = geometry().size().toSize();
 
+        const auto clientPtr = decoration()->client().toStrongRef();
         // menu buttons
         if( isMenuButton() )
         {
 
             const QRectF iconRect( geometry().topLeft(), m_iconSize  );
-            decoration()->client().data()->icon().paint(painter, iconRect.toRect());
+            clientPtr->icon().paint(painter, iconRect.toRect());
             painter->restore();
             return;
 
         }
 
         // palette
-        QPalette palette( decoration().data()->client().data()->palette() );
+        QPalette palette( clientPtr->palette() );
         palette.setCurrentColorGroup( isActive() ? QPalette::Active : QPalette::Inactive);
 
         // base button color
@@ -330,7 +332,7 @@ namespace Oxygen
             }
 
             case KDecoration2::DecorationButtonType::Maximize:
-            if(decoration()->client().data()->isMaximized())
+            if(decoration()->client().toStrongRef()->isMaximized())
             {
 
                 painter->drawPolygon( QPolygonF()

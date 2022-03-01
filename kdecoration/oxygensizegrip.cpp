@@ -52,10 +52,10 @@ namespace Oxygen
         updatePosition();
 
         // connections
-        auto c = decoration->client().data();
-        connect( c, &KDecoration2::DecoratedClient::widthChanged, this, &SizeGrip::updatePosition );
-        connect( c, &KDecoration2::DecoratedClient::heightChanged, this, &SizeGrip::updatePosition );
-        connect( c, &KDecoration2::DecoratedClient::activeChanged, this, &SizeGrip::updateActiveState );
+        const auto *clientP = decoration->client().toStrongRef().data();
+        connect( clientP, &KDecoration2::DecoratedClient::widthChanged, this, &SizeGrip::updatePosition );
+        connect( clientP, &KDecoration2::DecoratedClient::heightChanged, this, &SizeGrip::updatePosition );
+        connect( clientP, &KDecoration2::DecoratedClient::activeChanged, this, &SizeGrip::updateActiveState );
 
         // show
         show();
@@ -85,9 +85,8 @@ namespace Oxygen
         #if OXYGEN_HAVE_X11
 
         if( !QX11Info::isPlatformX11() ) return;
-        auto c = m_decoration.data()->client().data();
 
-        xcb_window_t windowId = c->windowId();
+        xcb_window_t windowId = m_decoration->client().toStrongRef()->windowId();
         if( windowId )
         {
 
@@ -121,7 +120,7 @@ namespace Oxygen
         if( !m_decoration ) return;
 
         // get relevant colors
-        const QColor backgroundColor( m_decoration->client().data()->palette().color(QPalette::Window) );
+        const QColor backgroundColor( m_decoration->client().toStrongRef()->palette().color(QPalette::Window) );
 
         // create and configure painter
         QPainter painter(this);
@@ -180,7 +179,7 @@ namespace Oxygen
         #if OXYGEN_HAVE_X11
         if( !QX11Info::isPlatformX11() ) return;
 
-        auto c = m_decoration.data()->client().data();
+        const auto c = m_decoration->client().toStrongRef();
         QPoint position(
             c->width() - GripSize - Offset,
             c->height() - GripSize - Offset );
@@ -200,9 +199,6 @@ namespace Oxygen
 
         // pointer to connection
         auto connection( QX11Info::connection() );
-
-        // client
-        auto c = m_decoration.data()->client().data();
 
         /*
         get root position matching position
@@ -272,7 +268,7 @@ namespace Oxygen
         clientMessageEvent.response_type = XCB_CLIENT_MESSAGE;
         clientMessageEvent.type = m_moveResizeAtom;
         clientMessageEvent.format = 32;
-        clientMessageEvent.window = c->windowId();
+        clientMessageEvent.window = m_decoration->client().toStrongRef()->windowId();
         clientMessageEvent.data.data32[0] = rootPosition.x();
         clientMessageEvent.data.data32[1] = rootPosition.y();
         clientMessageEvent.data.data32[2] = 4; // bottom right

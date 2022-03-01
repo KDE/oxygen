@@ -76,7 +76,7 @@ namespace Oxygen
         QString className;
 
         // get the client
-        auto client = decoration->client().data();
+        const auto clientPtr = decoration->client().toStrongRef();
 
         for ( auto internalSettings : std::as_const(m_exceptions) )
         {
@@ -96,7 +96,7 @@ namespace Oxygen
             {
                 case InternalSettings::ExceptionWindowTitle:
                 {
-                    value = windowTitle.isEmpty() ? (windowTitle = client->caption()):windowTitle;
+                    value = windowTitle.isEmpty() ? (windowTitle = clientPtr->caption()):windowTitle;
                     break;
                 }
 
@@ -106,7 +106,7 @@ namespace Oxygen
                     if( className.isEmpty() )
                     {
                         // retrieve class name
-                        KWindowInfo info( client->windowId(), 0, NET::WM2WindowClass );
+                        KWindowInfo info( clientPtr->windowId(), 0, NET::WM2WindowClass );
                         QString window_className( QString::fromUtf8(info.windowClassName()) );
                         QString window_class( QString::fromUtf8(info.windowClassClass()) );
                         className = window_className + QStringLiteral(" ") + window_class;

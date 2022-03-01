@@ -94,8 +94,7 @@ namespace Oxygen
                 m_opacity );
 
         } else {
-
-            return titleBarColor( palette, client().data()->isActive() );
+            return titleBarColor( palette, client().toStrongRef()->isActive() );
 
         }
 
@@ -111,8 +110,7 @@ namespace Oxygen
 
         } else {
 
-            auto c = client().data();
-            return  c->color( active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::TitleBar );
+            return  client().toStrongRef()->color( active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::TitleBar );
 
         }
 
@@ -132,7 +130,7 @@ namespace Oxygen
 
         } else {
 
-            return fontColor( palette, client().data()->isActive() );
+            return fontColor( palette, client().toStrongRef()->isActive() );
 
         }
 
@@ -148,8 +146,7 @@ namespace Oxygen
 
         } else {
 
-            auto c = client().data();
-            return  c->color( active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::Foreground );
+            return  client().toStrongRef()->color( active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::Foreground );
 
         }
 
@@ -161,8 +158,8 @@ namespace Oxygen
         if( m_internalSettings->useWindowColors() ) return contrastColor( palette.color(QPalette::Window) );
         else {
 
-            auto c = client().data();
-            return  contrastColor( c->color( c->isActive() ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::TitleBar ) );
+            const auto cl = client().toStrongRef();
+            return  contrastColor( cl->color( cl->isActive() ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::TitleBar ) );
 
         }
     }
@@ -200,10 +197,11 @@ namespace Oxygen
         connect(s.data(), &KDecoration2::DecorationSettings::reconfigured, this, &Decoration::reconfigure);
         connect(s.data(), &KDecoration2::DecorationSettings::reconfigured, SettingsProvider::self(), &SettingsProvider::reconfigure, Qt::UniqueConnection );
 
-        connect(client().data(), &KDecoration2::DecoratedClient::adjacentScreenEdgesChanged, this, &Decoration::recalculateBorders);
-        connect(client().data(), &KDecoration2::DecoratedClient::maximizedHorizontallyChanged, this, &Decoration::recalculateBorders);
-        connect(client().data(), &KDecoration2::DecoratedClient::maximizedVerticallyChanged, this, &Decoration::recalculateBorders);
-        connect(client().data(), &KDecoration2::DecoratedClient::captionChanged, this,
+        const auto *cl = client().toStrongRef().data();
+        connect(cl, &KDecoration2::DecoratedClient::adjacentScreenEdgesChanged, this, &Decoration::recalculateBorders);
+        connect(cl, &KDecoration2::DecoratedClient::maximizedHorizontallyChanged, this, &Decoration::recalculateBorders);
+        connect(cl, &KDecoration2::DecoratedClient::maximizedVerticallyChanged, this, &Decoration::recalculateBorders);
+        connect(cl, &KDecoration2::DecoratedClient::captionChanged, this,
             [this]()
             {
                 // update the caption area
@@ -211,19 +209,19 @@ namespace Oxygen
             }
         );
 
-        connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, &Decoration::updateAnimationState);
-        connect(client().data(), &KDecoration2::DecoratedClient::activeChanged, this, &Decoration::updateShadow);
+        connect(cl, &KDecoration2::DecoratedClient::activeChanged, this, &Decoration::updateAnimationState);
+        connect(cl, &KDecoration2::DecoratedClient::activeChanged, this, &Decoration::updateShadow);
 
         //decoration has an overloaded update function, force the compiler to choose the right one
-        connect(client().data(), &KDecoration2::DecoratedClient::paletteChanged,   this,  static_cast<void (Decoration::*)()>(&Decoration::update));
-        connect(client().data(), &KDecoration2::DecoratedClient::widthChanged,     this, &Decoration::updateTitleBar);
-        connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateTitleBar);
-        connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::setOpaque);
+        connect(cl, &KDecoration2::DecoratedClient::paletteChanged,   this,  static_cast<void (Decoration::*)()>(&Decoration::update));
+        connect(cl, &KDecoration2::DecoratedClient::widthChanged,     this, &Decoration::updateTitleBar);
+        connect(cl, &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateTitleBar);
+        connect(cl, &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::setOpaque);
 
-        connect(client().data(), &KDecoration2::DecoratedClient::widthChanged,     this, &Decoration::updateButtonsGeometry);
-        connect(client().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateButtonsGeometry);
-        connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::recalculateBorders);
-        connect(client().data(), &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::updateButtonsGeometry);
+        connect(cl, &KDecoration2::DecoratedClient::widthChanged,     this, &Decoration::updateButtonsGeometry);
+        connect(cl, &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateButtonsGeometry);
+        connect(cl, &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::recalculateBorders);
+        connect(cl, &KDecoration2::DecoratedClient::shadedChanged,    this, &Decoration::updateButtonsGeometry);
 
         createButtons();
         updateShadow();
@@ -235,7 +233,8 @@ namespace Oxygen
     {
         auto s = settings();
         const bool maximized = isMaximized();
-        const int width =  maximized ? client().data()->width() : client().data()->width() - 2*s->largeSpacing()*Metrics::TitleBar_SideMargin;
+        const auto clientPtr = client().toStrongRef();
+        const int width =  maximized ? clientPtr->width() : clientPtr->width() - 2*s->largeSpacing()*Metrics::TitleBar_SideMargin;
         const int height = maximized ? borderTop() : borderTop() - s->smallSpacing()*Metrics::TitleBar_TopMargin;
         const int x = maximized ? 0 : s->largeSpacing()*Metrics::TitleBar_SideMargin;
         const int y = maximized ? 0 : s->smallSpacing()*Metrics::TitleBar_TopMargin;
@@ -248,7 +247,7 @@ namespace Oxygen
         if( m_internalSettings->animationsEnabled() )
         {
 
-            m_animation->setDirection( client().data()->isActive() ? QPropertyAnimation::Forward : QPropertyAnimation::Backward );
+            m_animation->setDirection( client().toStrongRef()->isActive() ? QPropertyAnimation::Forward : QPropertyAnimation::Backward );
             if( m_animation->state() != QPropertyAnimation::Running ) m_animation->start();
 
         } else {
@@ -261,7 +260,7 @@ namespace Oxygen
     //________________________________________________________________
     void Decoration::updateSizeGripVisibility()
     {
-        auto c = client().data();
+        const auto c = client().toStrongRef();
         if( m_sizeGrip )
         { m_sizeGrip->setVisible( c->isResizeable() && !isMaximized() && !c->isShaded() ); }
     }
@@ -329,7 +328,7 @@ namespace Oxygen
     void Decoration::recalculateBorders()
     {
         auto s = settings();
-        const auto c = client().data();
+        const auto c = client().toStrongRef();
         const auto edges = c->adjacentScreenEdges();
 
         // left, right and bottom borders
@@ -460,7 +459,7 @@ namespace Oxygen
     //________________________________________________________________
     void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
     {
-        const auto c = client().data();
+        const auto c = client().toStrongRef();
         const auto palette = c->palette();
 
         const auto rect = c->isShaded() ? QRect( QPoint(0, 0), QSize(size().width(), borderTop()) ) : this->rect();
@@ -530,7 +529,7 @@ namespace Oxygen
 
                     // full caption rect
                     const QRect fullRect = QRect( 0, yOffset, size().width(), captionHeight() );
-                    QRect boundingRect( settings()->fontMetrics().boundingRect( client().data()->caption()).toRect() );
+                    QRect boundingRect( settings()->fontMetrics().boundingRect( client().toStrongRef()->caption()).toRect() );
 
                     // text bounding rect
                     boundingRect.setTop( yOffset );
@@ -568,8 +567,9 @@ namespace Oxygen
 
         // generate key
         ShadowCache::Key key;
-        key.active = SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Active ) && client().data()->isActive();
-        key.isShade = client().data()->isShaded();
+        const auto clientPtr = client().toStrongRef();
+        key.active = SettingsProvider::self()->shadowCache()->isEnabled( QPalette::Active ) && clientPtr->isActive();
+        key.isShade = clientPtr->isShaded();
         key.hasBorder = !hasNoBorders();
 
         if( animated )
@@ -626,7 +626,7 @@ namespace Oxygen
     void Decoration::renderWindowBackground( QPainter* painter, const QRect& clipRect, const QPalette& palette ) const
     {
 
-        const auto c = client().data();
+        const auto c = client().toStrongRef();
         auto innerClientRect = c->isShaded() ?
             QRect(QPoint(0, 0), QSize(size().width(), borderTop())):
             rect();
@@ -678,8 +678,7 @@ namespace Oxygen
         const auto cR = captionRect();
 
         // copy caption
-        const auto c = client().data();
-        const QString caption = painter->fontMetrics().elidedText(c->caption(), Qt::ElideMiddle, cR.first.width());
+        const QString caption = painter->fontMetrics().elidedText(client().toStrongRef()->caption(), Qt::ElideMiddle, cR.first.width());
 
         const auto contrast( contrastColor( palette ) );
         if( contrast.isValid() )
@@ -707,15 +706,16 @@ namespace Oxygen
         if( !QX11Info::isPlatformX11() ) return;
 
         // access client
-        KDecoration2::DecoratedClient *c( client().data() );
-        if( !c ) return;
+        const auto clientPtr = client().toStrongRef();
+        if( !clientPtr ) return;
 
-        if( c->windowId() != 0 )
+        if( clientPtr->windowId() != 0 )
         {
             m_sizeGrip = new SizeGrip( this );
-            connect( client().toStrongRef().data(), &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility );
-            connect( client().toStrongRef().data(), &KDecoration2::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility );
-            connect( client().toStrongRef().data(), &KDecoration2::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility );
+            const auto *clientP = clientPtr.data();
+            connect( clientP, &KDecoration2::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility );
+            connect( clientP, &KDecoration2::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility );
+            connect( clientP, &KDecoration2::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility );
         }
         #endif
 
