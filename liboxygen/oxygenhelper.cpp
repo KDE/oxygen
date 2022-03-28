@@ -10,6 +10,7 @@
 
 #include "oxygenhelper.h"
 
+#include <KColorScheme>
 #include <KColorUtils>
 #include <KWindowSystem>
 

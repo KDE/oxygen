@@ -17,8 +17,8 @@
 
 #include "liboxygen.h"
 
-#include <KColorScheme>
 #include <KSharedConfig>
+#include <KStatefulBrush>
 
 #include <QBitmap>
 #include <QCache>
