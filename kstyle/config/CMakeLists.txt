@@ -28,7 +28,7 @@ add_library(kstyle_oxygen_config MODULE
 )
 
 target_link_libraries(kstyle_oxygen_config Qt::Core Qt::Gui Qt::Widgets Qt::DBus)
-target_link_libraries(kstyle_oxygen_config KF5::Completion KF5::I18n)
+target_link_libraries(kstyle_oxygen_config KF5::Completion KF5::CoreAddons KF5::I18n)
 target_link_libraries(kstyle_oxygen_config oxygenstyleconfig5)
 
 install(TARGETS kstyle_oxygen_config DESTINATION ${KDE_INSTALL_QTPLUGINDIR})
