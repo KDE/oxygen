@@ -2,7 +2,7 @@ add_definitions(-DTRANSLATION_DOMAIN="oxygen_kdecoration")
 
 find_package(KDecoration2 REQUIRED)
 find_package(KF5 REQUIRED COMPONENTS CoreAddons ConfigWidgets WindowSystem)
-find_package(Qt5 CONFIG REQUIRED COMPONENTS DBus)
+find_package(Qt${QT_MAJOR_VERSION} CONFIG REQUIRED COMPONENTS DBus)
 
 ### XCB
 find_package(XCB COMPONENTS XCB)
@@ -95,4 +95,4 @@ endif()
 
 
 install(TARGETS oxygendecoration DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
-install(FILES config/oxygendecorationconfig.desktop DESTINATION  ${KDE_INSTALL_KSERVICES5DIR})
+install(FILES config/oxygendecorationconfig.desktop DESTINATION  ${KDE_INSTALL_KSERVICESDIR})

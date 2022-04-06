@@ -32,7 +32,7 @@ target_link_libraries(kstyle_oxygen_config KF5::Completion KF5::CoreAddons KF5::
 target_link_libraries(kstyle_oxygen_config oxygenstyleconfig5)
 
 install(TARGETS kstyle_oxygen_config DESTINATION ${KDE_INSTALL_QTPLUGINDIR})
-install(FILES oxygenstyleconfig.desktop DESTINATION  ${KDE_INSTALL_KSERVICES5DIR})
+install(FILES oxygenstyleconfig.desktop DESTINATION  ${KDE_INSTALL_KSERVICESDIR})
 
 ########### next target ###############
 find_package(KF5KCMUtils CONFIG)
