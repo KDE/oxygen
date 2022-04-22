@@ -826,7 +826,13 @@ namespace Oxygen
 
     //_______________________________________________________________________
     Qt::Key Simulator::toKey( QChar a ) const
-    { return (Qt::Key) QKeySequence( a )[0]; }
+    {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        return (Qt::Key) QKeySequence( a )[0];
+#else
+        return QKeySequence(a)[0].key();
+#endif
+    }
 
     //_______________________________________________________________________
     void Simulator::postQEvent( QWidget* receiver, QEvent* event ) const
