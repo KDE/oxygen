@@ -19,7 +19,7 @@ include_directories(${CMAKE_BINARY_DIR}/liboxygen)
 if(UNIX AND NOT APPLE)
 
   set(OXYGEN_HAVE_X11 ${XCB_XCB_FOUND})
-  if (XCB_XCB_FOUND)
+  if (XCB_XCB_FOUND AND QT_MAJOR_VERSION EQUAL "5")
     find_package(Qt5 REQUIRED CONFIG COMPONENTS X11Extras)
   endif()
 
@@ -87,10 +87,12 @@ target_link_libraries(oxygendecoration
         KF5::WindowSystem)
 
 if(OXYGEN_HAVE_X11)
-  target_link_libraries(oxygendecoration
-    PUBLIC
-      Qt::X11Extras
-      XCB::XCB)
+  target_link_libraries(oxygendecoration PUBLIC XCB::XCB)
+  if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(oxygendecoration PUBLIC Qt::X11Extras)
+  else()
+    target_link_libraries(oxygendecoration PUBLIC Qt::GuiPrivate)
+  endif()
 endif()
 
 

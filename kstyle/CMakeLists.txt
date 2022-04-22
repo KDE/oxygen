@@ -75,7 +75,11 @@ target_link_libraries(oxygen oxygenstyle5)
 
 if(OXYGEN_HAVE_X11)
     target_link_libraries(oxygen XCB::XCB)
-    target_link_libraries(oxygen Qt::X11Extras)
+    if (QT_MAJOR_VERSION EQUAL "5")
+        target_link_libraries(oxygen Qt::X11Extras)
+    else()
+        target_link_libraries(oxygen Qt::GuiPrivate)
+    endif()
 endif()
 
 if(OXYGEN_HAVE_KWAYLAND)

@@ -37,7 +37,12 @@ target_link_libraries(oxygenstyle5
 target_include_directories(oxygenstyle5 PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 
 if(OXYGEN_HAVE_X11)
-    target_link_libraries(oxygenstyle5 PRIVATE XCB::XCB Qt::X11Extras)
+    target_link_libraries(oxygenstyle5 PRIVATE XCB::XCB)
+    if (QT_MAJOR_VERSION EQUAL "5")
+        target_link_libraries(oxygenstyle5 PRIVATE Qt5::X11Extras)
+    else()
+        target_link_libraries(oxygenstyle5 PRIVATE Qt::GuiPrivate)
+    endif()
 endif()
 
 set_target_properties(oxygenstyle5 PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
