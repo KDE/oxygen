@@ -1841,7 +1841,7 @@ namespace Oxygen
         const QRect rect( option->rect );
 
         const auto progressBarOption2( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
-        const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
+        const bool horizontal( !progressBarOption2 || progressBarOption2->state & QStyle::State_Horizontal );
         if( horizontal ) return insideMargin( rect, 1, 0 );
         else return insideMargin( rect, 0, 1 );
     }
@@ -1856,7 +1856,7 @@ namespace Oxygen
 
         // get orientation
         const auto progressBarOption2( qstyleoption_cast<const QStyleOptionProgressBar*>( option ) );
-        const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
+        const bool horizontal( !progressBarOption2 || progressBarOption2->state & QStyle::State_Horizontal );
 
         // check inverted appearance
         const bool inverted( progressBarOption2 ? progressBarOption2->invertedAppearance : false );
@@ -5322,7 +5322,7 @@ namespace Oxygen
 
         // get orientation
         const auto progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
-        const bool horizontal( !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal );
+        const bool horizontal( !progressBarOption2 || progressBarOption2->state & QStyle::State_Horizontal );
 
         // copy rect and palette
         const QRect& rect( option->rect );
@@ -5346,7 +5346,7 @@ namespace Oxygen
     {
 
         const auto progressBarOption = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
-        const Qt::Orientation orientation( progressBarOption? progressBarOption->orientation : Qt::Horizontal );
+        const Qt::Orientation orientation( !progressBarOption || progressBarOption->state & QStyle::State_Horizontal ? Qt::Horizontal : Qt::Vertical);
         renderScrollBarHole( painter, option->rect, option->palette.color( QPalette::Window ), orientation );
 
         return true;
@@ -5371,7 +5371,7 @@ namespace Oxygen
 
         // get orientation
         const auto progressBarOption2 = qstyleoption_cast<const QStyleOptionProgressBar*>( option );
-        const bool horizontal = !progressBarOption2 || progressBarOption2->orientation == Qt::Horizontal;
+        const bool horizontal = !progressBarOption2 || progressBarOption2->state & QStyle::State_Horizontal;
 
         // check inverted appearance
         const bool inverted( progressBarOption2 ? progressBarOption2->invertedAppearance : false );
