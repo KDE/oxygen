@@ -27,12 +27,14 @@ namespace Oxygen
         QApplication app( argc, argv );
 
         QCommandLineParser commandLine;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QCommandLineOption enableHighDpi( "highdpi", "Enable High DPI pixmaps" );
         commandLine.addOption( enableHighDpi );
+#endif
         commandLine.process( app );
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         app.setAttribute( Qt::AA_UseHighDpiPixmaps, commandLine.isSet( enableHighDpi ) );
-
+#endif
         app.setApplicationName( i18n( "Oxygen Demo" ) );
         app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen" ) ) );
         DemoDialog dialog;
