@@ -20,7 +20,7 @@ namespace Oxygen
 
     //______________________________________________________________________________
     DecoHelper::DecoHelper():
-        Helper(KSharedConfig::openConfig("oxygenrc"))
+        Helper(KSharedConfig::openConfig(QStringLiteral("oxygenrc")))
     {}
 
     //______________________________________________________________________________

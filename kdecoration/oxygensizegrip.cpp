@@ -106,7 +106,7 @@ namespace Oxygen
 
             // reparent
             xcb_reparent_window( connection, winId(), current, 0, 0 );
-            setWindowTitle( "Oxygen::SizeGrip" );
+            setWindowTitle( QStringLiteral("Oxygen::SizeGrip") );
 
         } else {
 
@@ -236,7 +236,7 @@ namespace Oxygen
         {
 
             // create atom if not found
-            const QString atomName( "_NET_WM_MOVERESIZE" );
+            const QString atomName = QStringLiteral("_NET_WM_MOVERESIZE");
             xcb_intern_atom_cookie_t cookie( xcb_intern_atom( connection, false, atomName.size(), qPrintable( atomName ) ) );
             ScopedPointer<xcb_intern_atom_reply_t> reply( xcb_intern_atom_reply( connection, cookie, nullptr ) );
             m_moveResizeAtom = reply ? reply->atom:0;

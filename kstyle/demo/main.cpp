@@ -28,7 +28,7 @@ namespace Oxygen
 
         QCommandLineParser commandLine;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QCommandLineOption enableHighDpi( "highdpi", "Enable High DPI pixmaps" );
+        QCommandLineOption enableHighDpi( QStringLiteral("highdpi"), QStringLiteral("Enable High DPI pixmaps") );
         commandLine.addOption( enableHighDpi );
 #endif
         commandLine.process( app );

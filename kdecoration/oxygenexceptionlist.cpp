@@ -74,14 +74,21 @@ namespace Oxygen
 
     //_______________________________________________________________________
     QString ExceptionList::exceptionGroupName( int index )
-    { return QString( "Windeco Exception %1" ).arg( index ); }
+    { return QStringLiteral( "Windeco Exception %1" ).arg( index ); }
 
     //______________________________________________________________
     void ExceptionList::writeConfig( KCoreConfigSkeleton* skeleton, KConfig* config, const QString& groupName )
     {
 
         // list of items to be written
-        static const QStringList keys = { "Enabled", "ExceptionPattern", "ExceptionType", "HideTitleBar", "Mask", "BorderSize"};
+        static const QStringList keys = {
+            QStringLiteral("Enabled"),
+            QStringLiteral("ExceptionPattern"),
+            QStringLiteral("ExceptionType"),
+            QStringLiteral("HideTitleBar"),
+            QStringLiteral("Mask"),
+            QStringLiteral("BorderSize")
+        };
 
         // write all items
         for ( const auto &key : keys )

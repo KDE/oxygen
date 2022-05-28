@@ -55,25 +55,25 @@ namespace Oxygen
         posMsg = new KMessageWidget(QStringLiteral("A positive message"), ui.msgFrame);
         posMsg->setMessageType(KMessageWidget::Positive);
         posMsg->setWordWrap(true);
-        posMsg->setIcon(QIcon::fromTheme("dialog-positive"));
+        posMsg->setIcon(QIcon::fromTheme(QStringLiteral("dialog-positive")));
         ui.verticalLayout_5->addWidget(posMsg);
 
         infoMsg = new KMessageWidget(QStringLiteral("An information message"), ui.msgFrame);
         infoMsg->setMessageType(KMessageWidget::Information);
         infoMsg->setWordWrap(true);
-        infoMsg->setIcon(QIcon::fromTheme("dialog-information"));
+        infoMsg->setIcon(QIcon::fromTheme(QStringLiteral("dialog-information")));
         ui.verticalLayout_5->addWidget(infoMsg);
 
         warnMsg = new KMessageWidget(QStringLiteral("A warning message"), ui.msgFrame);
         warnMsg->setMessageType(KMessageWidget::Warning);
         warnMsg->setWordWrap(true);
-        warnMsg->setIcon(QIcon::fromTheme("dialog-warning"));
+        warnMsg->setIcon(QIcon::fromTheme(QStringLiteral("dialog-warning")));
         ui.verticalLayout_5->addWidget(warnMsg);
 
         errMsg = new KMessageWidget(QStringLiteral("An error message"), ui.msgFrame);
         errMsg->setMessageType(KMessageWidget::Error);
         errMsg->setWordWrap(true);
-        errMsg->setIcon(QIcon::fromTheme("dialog-error"));
+        errMsg->setIcon(QIcon::fromTheme(QStringLiteral("dialog-error")));
         ui.verticalLayout_5->addWidget(errMsg);
 
         ui.verticalLayout_5->addStretch();

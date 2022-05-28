@@ -65,7 +65,7 @@ namespace Oxygen
             QString type( _eventTypes[event->type()] );
             if( !type.isEmpty() )
             {
-                std::cout << "Oxygen::WidgetExplorer::eventFilter - widget: " << object << " (" << qPrintable(object->metaObject()->className()) << ")";
+                std::cout << "Oxygen::WidgetExplorer::eventFilter - widget: " << object << " (" << object->metaObject()->className() << ")";
                 std::cout << " type: " << qPrintable(type)  << std::endl;
             }
         }

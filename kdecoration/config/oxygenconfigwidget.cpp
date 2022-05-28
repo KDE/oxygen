@@ -121,13 +121,13 @@ namespace Oxygen
 
         // needed to tell kwin to reload when running from external kcmshell
         {
-            QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "reloadConfig");
+            QDBusMessage message = QDBusMessage::createSignal(QStringLiteral("/KWin"), QStringLiteral("org.kde.KWin"), QStringLiteral("reloadConfig"));
             QDBusConnection::sessionBus().send(message);
         }
 
         // needed for oxygen style to reload shadows
         {
-            QDBusMessage message( QDBusMessage::createSignal("/OxygenDecoration",  "org.kde.Oxygen.Style", "reparseConfiguration") );
+            QDBusMessage message( QDBusMessage::createSignal(QStringLiteral("/OxygenDecoration"),  QStringLiteral("org.kde.Oxygen.Style"), QStringLiteral("reparseConfiguration")) );
             QDBusConnection::sessionBus().send(message);
         }
 
