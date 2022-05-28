@@ -154,7 +154,7 @@ namespace Oxygen
             if( FrameShadowBase* shadow = qobject_cast<FrameShadowBase*>(child) )
             {
                 shadow->hide();
-                shadow->setParent(0);
+                shadow->setParent(nullptr);
                 shadow->deleteLater();
             }
         }
@@ -242,7 +242,7 @@ namespace Oxygen
     //____________________________________________________________________________________
     void FrameShadowFactory::installShadow( QWidget* widget, StyleHelper& helper, ShadowArea area, bool flat ) const
     {
-        FrameShadowBase *shadow(0);
+        FrameShadowBase *shadow(nullptr);
         if( flat ) shadow = new FlatFrameShadow( area, helper );
         else shadow = new SunkenFrameShadow( area, helper );
         shadow->setParent(widget);

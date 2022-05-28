@@ -729,9 +729,9 @@ namespace Oxygen
     {
         if( !w ) return nullptr;
         if( w->autoFillBackground() ) return w;
-        if( w->isWindow() ) return 0;
+        if( w->isWindow() ) return nullptr;
 
-        for( const QWidget* parent = w->parentWidget(); parent!=0; parent = parent->parentWidget() )
+        for( const QWidget* parent = w->parentWidget(); parent!=nullptr; parent = parent->parentWidget() )
         {
             if( parent->autoFillBackground() ) return parent;
             if( parent == w->window() ) break;

@@ -17,7 +17,7 @@ class WidgetStyleChooser : public QPushButton
 {
     Q_OBJECT
 public:
-    explicit WidgetStyleChooser( QWidget *parent = 0 );
+    explicit WidgetStyleChooser( QWidget *parent = nullptr );
 
     KActionMenu *createStyleSelectionMenu( const QString &text, const QString &selectedStyleName=QString() );
 

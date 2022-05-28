@@ -50,7 +50,7 @@ namespace Oxygen
 
     //_______________________________________________________________________
     void Simulator::wait( int delay )
-    { _events.append( Event( Event::Wait, 0, delay ) ); }
+    { _events.append( Event( Event::Wait, nullptr, delay ) ); }
 
     //_______________________________________________________________________
     void Simulator::click( QWidget* receiver, int delay  )
@@ -470,7 +470,7 @@ namespace Oxygen
             {
 
                 // retrieve menu
-                QMenu* menu( 0 );
+                QMenu* menu( nullptr );
                 if( const QToolButton* button = qobject_cast<QToolButton*>( receiver ) ) menu = button->menu();
                 else if( const QPushButton* button = qobject_cast<QPushButton*>( receiver ) ) menu = button->menu();
 

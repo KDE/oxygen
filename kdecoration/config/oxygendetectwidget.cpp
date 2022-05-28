@@ -98,7 +98,7 @@ namespace Oxygen
         // use a dialog, so that all user input is blocked
         // use WX11BypassWM and moving away so that it's not actually visible
         // grab only mouse, so that keyboard can be used e.g. for switching windows
-        m_grabber = new QDialog( 0, Qt::X11BypassWindowManagerHint );
+        m_grabber = new QDialog( nullptr, Qt::X11BypassWindowManagerHint );
         m_grabber->move( -1000, -1000 );
         m_grabber->setModal( true );
         m_grabber->show();
@@ -122,7 +122,7 @@ namespace Oxygen
 
         // delete old m_grabber
         delete m_grabber;
-        m_grabber = 0;
+        m_grabber = nullptr;
 
         // check button
         if( static_cast< QMouseEvent* >( e )->button() != Qt::LeftButton ) return true;

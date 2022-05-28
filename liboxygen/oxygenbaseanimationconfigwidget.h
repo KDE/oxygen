@@ -31,7 +31,7 @@ namespace Oxygen
         public:
 
         //* constructor
-        explicit BaseAnimationConfigWidget( QWidget* = 0 );
+        explicit BaseAnimationConfigWidget( QWidget* = nullptr );
 
         //* destructor
         virtual ~BaseAnimationConfigWidget( void );

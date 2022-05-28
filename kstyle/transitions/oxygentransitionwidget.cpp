@@ -192,7 +192,7 @@ namespace Oxygen
         if( widget->autoFillBackground() )
         { widgets.append( widget ); }
 
-        QWidget *parent(0);
+        QWidget *parent(nullptr);
 
         // get highest level parent
         for( parent = widget->parentWidget(); parent; parent = parent->parentWidget() )

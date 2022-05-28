@@ -20,7 +20,7 @@ namespace Oxygen
         AnimationData( parent, target ),
         _opacity( 0 ),
         _progress( 0 ),
-        _currentObject( 0 ),
+        _currentObject( nullptr ),
         _entered( false )
     {
 

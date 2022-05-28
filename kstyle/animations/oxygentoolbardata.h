@@ -116,7 +116,7 @@ namespace Oxygen
 
         //* current object
         void clearCurrentObject( void )
-        { _currentObject = NULL; }
+        { _currentObject = nullptr; }
 
         //@}
 

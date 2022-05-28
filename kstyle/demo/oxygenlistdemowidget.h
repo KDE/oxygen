@@ -27,7 +27,7 @@ namespace Oxygen
         public:
 
         //* constructor
-        explicit ListDemoWidget( QWidget* = 0 );
+        explicit ListDemoWidget( QWidget* = nullptr );
 
         public Q_SLOTS:
 

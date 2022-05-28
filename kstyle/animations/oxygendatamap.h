@@ -35,7 +35,7 @@ namespace Oxygen
         BaseDataMap( void ):
             QMap<Key, Value>(),
             _enabled( true ),
-            _lastKey( NULL )
+            _lastKey( nullptr )
         {}
 
         //* destructor
@@ -75,7 +75,7 @@ namespace Oxygen
             {
 
                 if( _lastValue ) _lastValue.clear();
-                _lastKey = NULL;
+                _lastKey = nullptr;
 
             }
 

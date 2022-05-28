@@ -66,7 +66,7 @@ namespace Oxygen
 
         //* access
         T* object( const quint64& key )
-        { return _enabled ? QCache<quint64, T>::object( key ) : 0; }
+        { return _enabled ? QCache<quint64, T>::object( key ) : nullptr; }
 
         //* max cost
         void setMaxCost( int cost )

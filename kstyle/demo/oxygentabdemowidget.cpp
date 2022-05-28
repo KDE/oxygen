@@ -18,8 +18,8 @@ namespace Oxygen
     //______________________________________________________________
     TabDemoWidget::TabDemoWidget( QWidget* parent ):
         DemoWidget( parent ),
-        _left( new QToolButton(0) ),
-        _right( new QToolButton(0) )
+        _left( new QToolButton(nullptr) ),
+        _right( new QToolButton(nullptr) )
     {
         ui.setupUi( this );
         connect( ui.tabPositionComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changeTabPosition(int)) );
@@ -48,8 +48,8 @@ namespace Oxygen
             ui.tabWidget->setCornerWidget( _left, Qt::TopLeftCorner );
             ui.tabWidget->setCornerWidget( _right, Qt::TopRightCorner );
         } else {
-            ui.tabWidget->setCornerWidget( 0, Qt::TopLeftCorner );
-            ui.tabWidget->setCornerWidget( 0, Qt::TopRightCorner );
+            ui.tabWidget->setCornerWidget( nullptr, Qt::TopLeftCorner );
+            ui.tabWidget->setCornerWidget( nullptr, Qt::TopRightCorner );
         }
 
         _left->setVisible( value );

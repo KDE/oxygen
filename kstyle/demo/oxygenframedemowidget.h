@@ -30,7 +30,7 @@ namespace Oxygen
         public:
 
         //* constructor
-        explicit FrameDemoWidget( QWidget* = 0 );
+        explicit FrameDemoWidget( QWidget* = nullptr );
 
         void addMessages();
 

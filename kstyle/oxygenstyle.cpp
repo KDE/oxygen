@@ -6850,7 +6850,7 @@ namespace Oxygen
         }
 
         // toolbar animation
-        QWidget* parent( widget ? widget->parentWidget():0 );
+        QWidget* parent( widget ? widget->parentWidget():nullptr );
         const bool toolBarAnimated( isInToolBar && _animations->toolBarEngine().isAnimated( parent ) );
         const QRect animatedRect( _animations->toolBarEngine().animatedRect( parent ) );
         const QRect currentRect( _animations->toolBarEngine().currentRect( parent ) );
