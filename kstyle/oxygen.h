@@ -79,11 +79,12 @@ namespace Oxygen
         ScrollBar_MinSliderHeight = 21,
 
         // toolbars
-        ToolBar_FrameWidth = 2,
+        ToolBar_FrameWidth = 0,
         ToolBar_HandleExtent = 10,
         ToolBar_HandleWidth = 6,
         ToolBar_SeparatorWidth = 8,
         ToolBar_ExtensionWidth = 20,
+        ToolBar_MarginSpacing = 2,
         ToolBar_ItemSpacing = 0,
 
         // progressbars
