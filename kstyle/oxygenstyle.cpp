@@ -699,7 +699,7 @@ namespace Oxygen
             case PM_ToolBarExtensionExtent:
             return pixelMetric( PM_SmallIconSize, option, widget ) + 2*Metrics::ToolButton_MarginWidth;
 
-            case PM_ToolBarItemMargin: return 0;
+            case PM_ToolBarItemMargin: return Metrics::ToolBar_MarginSpacing;
             case PM_ToolBarItemSpacing: return Metrics::ToolBar_ItemSpacing;
 
             // tabbars
