@@ -88,5 +88,12 @@ Name[zh_CN]=Oxygen 轻氧
 Name[zh_TW]=Oxygen
 ConfigPage=kstyle_oxygen_config
 Comment=Widget style for the Plasma desktop
+Comment[ca]=Estil dels ginys per a l'escriptori Plasma
+Comment[es]=Estilo de elementos gráficos para el escritorio Plasma
+Comment[nl]=Widgetstijl voor het Plasma-bureaublad
+Comment[sv]=Komponentstil för Plasma-skrivbordet
+Comment[tr]=Plasma masaüstü için araç takımı biçemi
+Comment[uk]=Стиль віджетів для стільниці Плазми
+Comment[x-test]=xxWidget style for the Plasma desktopxx
 [KDE]
 WidgetStyle=Oxygen
