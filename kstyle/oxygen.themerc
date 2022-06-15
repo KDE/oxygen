@@ -89,6 +89,7 @@ Name[zh_TW]=Oxygen
 ConfigPage=kstyle_oxygen_config
 Comment=Widget style for the Plasma desktop
 Comment[ar]=نمط الأدوات البرمجية لسطح مكتب بلازما
+Comment[az]=Plasma iş masası üçün vidjet üsulu
 Comment[ca]=Estil dels ginys per a l'escriptori Plasma
 Comment[ca@valencia]=Estil dels ginys per a l'escriptori Plasma
 Comment[es]=Estilo de elementos gráficos para el escritorio Plasma
