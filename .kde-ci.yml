@@ -21,3 +21,5 @@ Dependencies:
     'frameworks/kwindowsystem': '@latest'
     'frameworks/frameworkintegration': '@latest'
     'plasma/kdecoration': '@same'
+Options:
+  require-passing-tests-on: [ 'Linux', 'FreeBSD']
