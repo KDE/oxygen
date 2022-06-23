@@ -28,7 +28,7 @@ namespace Oxygen
         AllCorners = CornerTopLeft|CornerTopRight|CornerBottomLeft|CornerBottomRight
     };
 
-    Q_DECLARE_FLAGS( Corners, Corner );
+    Q_DECLARE_FLAGS( Corners, Corner )
 }
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( Oxygen::Corners );
