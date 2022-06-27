@@ -9,7 +9,7 @@ include(FeatureSummary)
 
 ################# Qt/KDE #################
 set(QT_MIN_VERSION "5.15.0")
-set(KF5_MIN_VERSION "5.90")
+set(KF5_MIN_VERSION "5.94")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 set(CMAKE_CXX_STANDARD 17)
