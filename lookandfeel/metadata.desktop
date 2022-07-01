@@ -2,6 +2,7 @@
 Comment=Oxygen Desktop Design Language
 Comment[ar]=لغة تصميم سطح مكتب أكسجين
 Comment[az]=Oxygen İş Masası görünüşü vasitəsi
+Comment[bg]=Oxygen Desktop Design Language
 Comment[bs]=Oxygen Desktop dizajnerski jezik
 Comment[ca]=Llenguatge de disseny per a l'escriptori Oxygen
 Comment[ca@valencia]=Llenguatge de disseny per a l'escriptori Oxygen
@@ -47,6 +48,7 @@ Comment[zh_TW]=Oxygen 桌面設計語言
 Keywords=Desktop;Workspace;Appearance;Look and Feel;Logout;Lock;Suspend;Shutdown;Hibernate;
 Keywords[ar]=سطح المكتب;مساحة العمل;المظهر;المظهر والملمس;الخروج;القفل;التّعليق;الإطفاء;الإسبات;
 Keywords[az]=iş masası;iş mühiti;iş mühiti;vizual təqdimat;çıxış;seansdan çıxış;kilidləmə;işi dayandırmaq;işin bitirilməsi;söndürmək;yuxu rejimi;gözləmə rejimi;
+Keywords[bg]=външен вид.работна среда,влизане,излизане,приспиване,хибернация
 Keywords[ca]=Escriptori;Espai de treball;Aparença;Aspecte i comportament;Sortida;Bloqueig;Suspensió;Aturada;Hibernació;
 Keywords[ca@valencia]=Escriptori;Espai de treball;Aparença;Aspecte i comportament;Eixida;Bloqueig;Suspensió;Parada;Hibernació;
 Keywords[da]=Skrivebord;Desktop;Arbejdsområde;Udseende;log ud;Lås;Suspendér;Nedlukning;dvale;
