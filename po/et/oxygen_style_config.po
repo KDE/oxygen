@@ -1,0 +1,997 @@
+# translation of kstyle_config.po to Estonian
+#
+# Marek Laane <bald@smail.ee>, 2005,2007.2009.
+# Marek Laane <bald@smail.ee>, 2009, 2010, 2011, 2012, 2016, 2019.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2019-10-30 23:35+0200\n"
+"Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
+"Language-Team: Estonian <kde-et@lists.linux.ee>\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 19.08.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Oxygeni seadistused"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Fookus, hiire all olek ja vidina oleku üleminek"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Vidinate fookuse, hiire alla sattudes esiletõstmise animatsiooni ning sisse-"
+"väljalülitatuse oleku ülemineku seadistamine"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Tööriistariba esiletõstmine"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "Hiire all olevate tööriistaribade animatsiooni seadistamine"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Menüüriba esiletõstmine"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "Hiire all olevate menüüribade animatsiooni seadistamine"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Menüü esiletõstmine"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Hiire all olevate menüüde animatsiooni seadistamine"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Edenemisriba animatsioon"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Edenemisriba sammude animatsiooni seadistamine"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Kaardilt kaardile üleminekud"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Kaartidevahelise hääbumisülemineku seadistamine"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Pealdiselt pealdisele üleminekud"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "Pealdise teksti muutmise hääbumisülemineku seadistamine"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Tekstiredaktori üleminekud"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "Redaktori teksti muutmise hääbumisülemineku seadistamine"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Liitkasti üleminekud"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr "Liitkasti valiku muutmise hääbumisülemineku seadistamine"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, kde-format
+msgid "Progress bar busy indicator"
+msgstr "Edenemisriba hõivatuse indikaator"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Edenemisribade hõivatuse indikaatori animatsiooni seadistamine"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Raam"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Animatsiooni tüüp:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Hääbumine"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Hiire järgimine"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Hääbumise kestus:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Hiire järgimise kestus:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " ms"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dialoog"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Üldine"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Akende lohistamine ainult tiitliribast"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Akende lohistamine tiitli-, menüü- ja tööriistaribadest"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Akende lohistamine kõigist tühjadest aladest"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Kiirklahvide näitamine:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Aken&de lohistamise režiim:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Tööriistariba elementide eraldajate näitamine"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Laiendatud suuruse muutmine pidemete lubamine"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Akna tausta ülemineku kujutamine"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animatsioonid"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Vaated"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Puuharude näitamine"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "&Puulaiendaja suurus:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Tilluke"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Väike"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normaalne"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Fookuse indikaatori näitamine loendites"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Kerimisribad"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Kerimisri&ba laius:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Noolega üles nupu tüüp:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Noolega alla nupu tüüp:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Nuppudeta"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Üks nupp"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Kaks nuppu"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Nupp puudub"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Menüü esiletõstmine"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Tumeda värvi &kasutamine"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Valik&u värvi (puhas) kasutamine"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Valiku värvi (õrn) kasu&tamine"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Kiirklahvid peidetakse alati"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Kiirklahve näidatakse vajaduse korral"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Kiirklahve näidatakse alati"
+
+#~ msgid "Widget Style"
+#~ msgstr "Vidina stiil"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Vidinate välimuse muutmine"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Akna dekoratsioonid"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Akna dekoratsioonide välimuse muutmine"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Oxygeni stiili seadistuste pluginat ei leitud"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Oxygeni dekoratsiooni seadistuste pluginat ei leitud"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Muude seadistusvalikute peitmine"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Muude seadistusvalikute näitamine"
+
+#~ msgid "Enable animations"
+#~ msgstr "Animatsioonide lubamine"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Pildipuhvri lubamine"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Hõivatuse indikaatori sammud"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Märkekastides X kasutamine linnukese asemel"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Aknahalduri kasutamine akende lohistamiseks"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Kolmnurkne puulaiendaja +/- asemel"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Kolmnurga suurus:"
+
+#~ msgid "Tabs"
+#~ msgstr "Kaardid"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Üksik"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Puhas"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Mitteaktiivsete kaartide stiil:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Oxygeni demo"
+
+#~ msgid "Normal"
+#~ msgstr "Normaalne"
+
+#~ msgid "New"
+#~ msgstr "Uus"
+
+#~ msgid "Open"
+#~ msgstr "Ava"
+
+#~ msgid "Save"
+#~ msgstr "Salvesta"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "Autentimise lülitamine"
+
+#~ msgid "Enabled"
+#~ msgstr "Lubatud"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Paremalt vasakule paigutus"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Sisendvidinad"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Tekstisisendi vidinate välimuse näitamine"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Kaardividinad"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Kaardividinate välimuse näitamine"
+
+#~ msgid "Buttons"
+#~ msgstr "Nupud"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Nuppude välimuse näitamine"
+
+#~ msgid "Lists"
+#~ msgstr "Loendid"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Loendite, puude ja tabelite välimuse näitamine"
+
+#~ msgid "Frames"
+#~ msgstr "Raamid"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Mitmesuguste raamis vidinate välimuse näitamine"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Kaardividinate välimuse näitamine"
+
+#~ msgid "Sliders"
+#~ msgstr "Liugurid"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "Liugurite, edenemisribade ja kerimisribade välimuse näitamine"
+
+#~ msgid "Benchmark"
+#~ msgstr "Võrdlustest"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr "Kasutaja ja vidinate suhtlemise matkimine võrdlustestiks"
+
+#~ msgid "Example text"
+#~ msgstr "Näidistekst"
+
+#~ msgid "password"
+#~ msgstr "parool"
+
+#~ msgid "Tile"
+#~ msgstr "Paanidena"
+
+#~ msgid "Cascade"
+#~ msgstr "Kaskaadis"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "Tööriistakast"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Vali järgmine aken"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Vali eelmine aken"
+
+#~ msgid "This is a sample text"
+#~ msgstr "See on näidistekst"
+
+#~ msgid "Modules"
+#~ msgstr "Moodulid"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "Moodulid, mille puhul simulatsioon ette võtta:"
+
+#~ msgid "Options"
+#~ msgstr "Valikud"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Hiire hõivamine"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Käivita simulatsioon"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Märkeruudud"
+
+#~ msgid "Off"
+#~ msgstr "Väljas"
+
+#~ msgid "Partial"
+#~ msgstr "Osaline"
+
+#~ msgid "On"
+#~ msgstr "Sees"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Raadionupud"
+
+#~ msgid "First Choice"
+#~ msgstr "Esimene valik"
+
+#~ msgid "Second Choice"
+#~ msgstr "Teine valik"
+
+#~ msgid "Third Choice"
+#~ msgstr "Kolmas valik"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Üldnupud"
+
+#~ msgid "Text only:"
+#~ msgstr "Ainult tekst:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "See on tavaline ainult tekstiga liitkast"
+
+#~ msgid "Small"
+#~ msgstr "Väike"
+
+#~ msgid "Large"
+#~ msgstr "Suur"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Tekst ja ikoon:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Lamedate nuppude kasutamine"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "See on tavaline teksti ja ikooniga liitkast"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "See on tavaline ainult tekstiga tööriistanupp"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "See on tavaline teksti ja ikooniga tööriistanupp"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "See on tavaline ainult tekstiga nupp"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "See on tavaline ainult tekstiga nupp koos menüüga"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "See on tavaline teksti ja ikooniga nupp"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "See on tavaline teksti ja ikooniga nupp koos menüüga"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Sisenupud"
+
+#~ msgid "Flat"
+#~ msgstr "Lamedad"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Nool üles"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Nool alla"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Nool vasakule"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Nool paremale"
+
+#~ msgid "Text position:"
+#~ msgstr "Teksti asukoht:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Ainult ikoonid"
+
+#~ msgid "Text Only"
+#~ msgstr "Ainult tekst"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Tekst ikoonide kõrval"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Tekst ikoonide all"
+
+#~ msgid "Icon size:"
+#~ msgstr "Ikooni suurus:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Väike (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Keskmine (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Suur (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Hiiglaslik (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Paigutuse suund:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Vasakult paremale"
+
+#~ msgid "Right to Left"
+#~ msgstr "Paremalt vasakule"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Ülalt alla"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Alt üles"
+
+#~ msgid "GroupBox"
+#~ msgstr "Grupikast"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Ühtlane"
+
+#~ msgid "Raised"
+#~ msgstr "Esiletõstetud"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Ühtlane"
+
+#~ msgid "Sunken"
+#~ msgstr "Sisselangenud"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Kaardividin"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Üherealine tekstiredaktor:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Parooliredaktor:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Redigeeritav liitkast"
+
+#~ msgid "First item"
+#~ msgstr "Esimene element"
+
+#~ msgid "Second item"
+#~ msgstr "Teine element"
+
+#~ msgid "Third item"
+#~ msgstr "Kolmas element"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Kerimiskast:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Mitmerealine tekstiredaktor:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Reamurdmine"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Lamedate vidinate kasutamine"
+
+#~ msgid "First Item"
+#~ msgstr "Esimene element"
+
+#~ msgid "Second Item"
+#~ msgstr "Teine element"
+
+#~ msgid "Third Item"
+#~ msgstr "Kolmas element"
+
+#~ msgid "Title"
+#~ msgstr "Pealkiri"
+
+#~ msgid "Description"
+#~ msgstr "Kirjeldus"
+
+#~ msgid "Third Description"
+#~ msgstr "Kolmas kirjeldus"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Kolmas alamelement"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Kolmanda alamelemendi kirjeldus"
+
+#~ msgid "Second Description"
+#~ msgstr "Teine kirjeldus"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Teine alamelement"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Teise alamelemendi kirjeldus"
+
+#~ msgid "First Subitem"
+#~ msgstr "Esimene alamelement"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Esimese alamelemendi kirjeldus"
+
+#~ msgid "First Description"
+#~ msgstr "Esimene kirjeldus"
+
+#~ msgid "New Row"
+#~ msgstr "Uus rida"
+
+#~ msgid "First Row"
+#~ msgstr "Esimene rida"
+
+#~ msgid "Third Row"
+#~ msgstr "Kolmas rida"
+
+#~ msgid "First Column"
+#~ msgstr "Esimene veerg"
+
+#~ msgid "Second Column"
+#~ msgstr "Teine veerg"
+
+#~ msgid "Third Column"
+#~ msgstr "Kolmas veerg"
+
+#~ msgid "Top-left"
+#~ msgstr "Ülal vasakul"
+
+#~ msgid "Top"
+#~ msgstr "Ülal"
+
+#~ msgid "Top-right"
+#~ msgstr "Ülal paremal"
+
+#~ msgid "Left "
+#~ msgstr "Vasakul "
+
+#~ msgid "Center"
+#~ msgstr "Keskel"
+
+#~ msgid "Right"
+#~ msgstr "Paremal"
+
+#~ msgid "Bottom-left"
+#~ msgstr "All vasakul"
+
+#~ msgid "Bottom"
+#~ msgstr "All"
+
+#~ msgid "Bottom-right"
+#~ msgstr "All paremal"
+
+#~ msgid "Editors"
+#~ msgstr "Redaktorid"
+
+#~ msgid "Title:"
+#~ msgstr "Pealkiri:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Tööriistakast"
+
+#~ msgid "First Page"
+#~ msgstr "Esimene lehekülg"
+
+#~ msgid "Second Page"
+#~ msgstr "Teine lehekülg"
+
+#~ msgid "First Label"
+#~ msgstr "Esimene pealdis"
+
+#~ msgid "Second Label"
+#~ msgstr "Teine pealdis"
+
+#~ msgid "Third Page"
+#~ msgstr "Kolmas lehekülg"
+
+#~ msgid "Horizontal"
+#~ msgstr "Rõhtne"
+
+#~ msgid "Busy"
+#~ msgstr "Hõivatud"
+
+#~ msgid "Vertical"
+#~ msgstr "Püstine"
+
+#~ msgid "Tab position:"
+#~ msgstr "Saki asukoht:"
+
+#~ msgid "North"
+#~ msgstr "Põhi"
+
+#~ msgid "South"
+#~ msgstr "Lõuna"
+
+#~ msgid "West"
+#~ msgstr "Lääs"
+
+#~ msgid "East"
+#~ msgstr "Ida"
+
+#~ msgid "Document mode"
+#~ msgstr "Dokumendi režiim"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Nurganuppude näitamine"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Kaardiriba peitmine"
+
+#~ msgid "Preview"
+#~ msgstr "Eelvaatlus"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Marek Laane"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "bald@smail.ee"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Oxygeni ekspertseadistuste tööriist"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010: Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Oxygeni stiili demo"
+
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Kiirklahvide näitamine"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Laiemate joonte kasutamine"
+
+#~ msgid "Highlight scroll bar handles"
+#~ msgstr "Kerimisriba sangad tõstetakse esile"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "Animeeritud edenemisribad"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Veebistiili plugin"
+
+#~ msgid "modified"
+#~ msgstr "muudetud"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "Oxygeni seadistused - teave"
+
+#~ msgid "CheckBox"
+#~ msgstr "Märkeruut"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Kestus (ms):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Animeeritud sakivahetused"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Kerimisriba süvistuse näitamine"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Värvilised kerimisribad hiire all"
+
+#~ msgid "Plain"
+#~ msgstr "Puhas"
+
+#, fuzzy
+#~| msgid "Frame"
+#~ msgid "Form"
+#~ msgstr "Raam"
+
+#~ msgid "Third Tab"
+#~ msgstr "Kolmas kaart"
+
+#~ msgid "Fourth Tab"
+#~ msgstr "Neljas kaart"
+
+#~ msgid "Width:"
+#~ msgstr "Laius:"
+
+#, fuzzy
+#~| msgid "Enable animations"
+#~ msgid "Enable title transition animations"
+#~ msgstr "Animatsioonide lubamine"
+
+#~ msgid "Dark"
+#~ msgstr "Tume"
+
+#~ msgid "Subtle"
+#~ msgstr "Vaevumärgatav"
+
+#~ msgid "Animate glow on widget hover"
+#~ msgstr "Animeeritud helendus hiire viimisel vidina kohale"
+
+#~ msgid "Animate toolbar hover"
+#~ msgstr "Animeeritud tööriistariba hiire viimisel selle kohale"
+
+#~ msgid "Animate menubar hover"
+#~ msgstr "Animeeritud menüüriba hiire viimisel selle kohale"
+
+#~ msgid "Animate menu hover"
+#~ msgstr "Animeeritud menüü hiire viimisel selle kohale"
+
+#~ msgid "Draw toolbar separator"
+#~ msgstr "Tööriistariba eraldaja näitamine"
+
+#~ msgid "Highlight focused text input fields"
+#~ msgstr "Fokuseeritud tekstisisendi väljade esiletõstmine"
+
+#~ msgid "Custom text input highlight color:"
+#~ msgstr "Kohandatud tekstisisendi esiletõstmise värv:"
+
+#~ msgid "Custom checkmark color:"
+#~ msgstr "Kohandatud märke värv:"

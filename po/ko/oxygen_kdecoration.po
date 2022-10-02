@@ -1,0 +1,407 @@
+# Translation of kwin_clients to Korean.
+# Copyright (C) 2007 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kdebase package.
+# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin_clients\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-06-28 00:21+0000\n"
+"PO-Revision-Date: 2018-08-14 15:38+0100\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"Language-Team: Korean <kde-kr@kde.org>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 2.0\n"
+
+#: config/oxygenanimationconfigwidget.cpp:31
+#, kde-format
+msgid "Button mouseover transition"
+msgstr "단추 마우스 지나감 전환"
+
+#: config/oxygenanimationconfigwidget.cpp:32
+#, kde-format
+msgid "Configure window buttons' mouseover highlight animation"
+msgstr "단추 위로 마우스가 지나갈 때 애니메이션 설정"
+
+#: config/oxygenanimationconfigwidget.cpp:35
+#, kde-format
+msgid "Window active state change transitions"
+msgstr "창 활성 상태 전환"
+
+#: config/oxygenanimationconfigwidget.cpp:36
+#, kde-format
+msgid ""
+"Configure fading between window shadow and glow when window's active state "
+"is changed"
+msgstr "창 활성 상태가 바뀌었을 때 창 그림자와 반짝임 페이드 효과 설정"
+
+#: config/oxygenexceptionlistwidget.cpp:96
+#, kde-format
+msgid "New Exception - Oxygen Settings"
+msgstr "새 예외 - Oxygen 설정"
+
+#: config/oxygenexceptionlistwidget.cpp:145
+#, kde-format
+msgid "Edit Exception - Oxygen Settings"
+msgstr "예외 편집 - Oxygen 설정"
+
+#: config/oxygenexceptionlistwidget.cpp:178
+#, kde-format
+msgid "Question - Oxygen Settings"
+msgstr "질문 - Oxygen 설정"
+
+#: config/oxygenexceptionlistwidget.cpp:178
+#, kde-format
+msgid "Remove selected exception?"
+msgstr "선택한 예외를 삭제하시겠습니까?"
+
+#. i18n: ectx: property (text), widget (QPushButton, removeButton)
+#: config/oxygenexceptionlistwidget.cpp:179
+#: config/ui/oxygenexceptionlistwidget.ui:79
+#, kde-format
+msgid "Remove"
+msgstr "삭제"
+
+#: config/oxygenexceptionlistwidget.cpp:323
+#, kde-format
+msgid "Warning - Oxygen Settings"
+msgstr "경고 - Oxygen 설정"
+
+#: config/oxygenexceptionlistwidget.cpp:323
+#, kde-format
+msgid "Regular Expression syntax is incorrect"
+msgstr "정규 표현식 문법이 올바르지 않습니다"
+
+#: config/oxygenexceptionmodel.cpp:21
+#, kde-format
+msgid "Exception Type"
+msgstr "예외 종류"
+
+#: config/oxygenexceptionmodel.cpp:22
+#, kde-format
+msgid "Regular Expression"
+msgstr "정규 표현식"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
+#: config/oxygenexceptionmodel.cpp:47 config/ui/oxygenexceptiondialog.ui:72
+#, kde-format
+msgid "Window Title"
+msgstr "창 제목"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
+#: config/oxygenexceptionmodel.cpp:51 config/ui/oxygenexceptiondialog.ui:67
+#, kde-format
+msgid "Window Class Name"
+msgstr "창 클래스 이름"
+
+#: config/oxygenexceptionmodel.cpp:67
+#, kde-format
+msgid "Enable/disable this exception"
+msgstr "이 예외 활성/비활성화"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: config/ui/oxygenconfigurationui.ui:24
+#, kde-format
+msgid "General"
+msgstr "일반"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:31
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Small"
+msgstr "작게"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:36
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "일반"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:41
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "크게"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:46
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "매우 크게"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: config/ui/oxygenconfigurationui.ui:67
+#, kde-format
+msgid "Tit&le alignment:"
+msgstr "제목 표시줄 정렬(&L):"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:81
+#, kde-format
+msgid "Left"
+msgstr "왼쪽"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:86
+#, kde-format
+msgid "Center"
+msgstr "가운데"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:91
+#, kde-format
+msgid "Center (Full Width)"
+msgstr "가운데 (전체 너비)"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:96
+#, kde-format
+msgid "Right"
+msgstr "오른쪽"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: config/ui/oxygenconfigurationui.ui:104
+#, kde-format
+msgid "B&utton size:"
+msgstr "단추 크기(&U):"
+
+#. i18n: ectx: property (text), widget (QCheckBox, drawSizeGrip)
+#: config/ui/oxygenconfigurationui.ui:117
+#, kde-format
+msgid "Add handle to resize windows with no border"
+msgstr "경계선이 없는 창에 크기 조절 핸들 추가"
+
+#. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
+#: config/ui/oxygenconfigurationui.ui:124
+#, kde-format
+msgid "Allow resizing maximized windows from window edges"
+msgstr "최대화된 창 경계선에서 크기 조정 허용"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
+#: config/ui/oxygenconfigurationui.ui:144
+#, kde-format
+msgid "Use the same colors for title bar and window content"
+msgstr "창 제목 표시줄과 창 내용에 같은 색 사용"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
+#: config/ui/oxygenconfigurationui.ui:152
+#, kde-format
+msgid "Animations"
+msgstr "애니메이션"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: config/ui/oxygenconfigurationui.ui:165
+#, kde-format
+msgid "Shadows"
+msgstr "그림자"
+
+#. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
+#: config/ui/oxygenconfigurationui.ui:171
+#, kde-format
+msgid "Active Window Glow"
+msgstr "활성 창 반짝이기"
+
+#. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
+#: config/ui/oxygenconfigurationui.ui:181
+#, kde-format
+msgid "Window Drop-Down Shadow"
+msgstr "창 드롭다운 그림자"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: config/ui/oxygenconfigurationui.ui:205
+#, kde-format
+msgid "Window-Specific Overrides"
+msgstr "창 지정 설정"
+
+#. i18n: ectx: property (windowTitle), widget (QDialog, OxygenExceptionDialog)
+#. i18n: ectx: property (windowTitle), widget (QDialog, OxygenDetectWidget)
+#: config/ui/oxygendetectwidget.ui:14 config/ui/oxygenexceptiondialog.ui:14
+#, kde-format
+msgid "Dialog"
+msgstr "대화 상자"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: config/ui/oxygendetectwidget.ui:20
+#, kde-format
+msgid "Information about Selected Window"
+msgstr "선택한 창 정보"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: config/ui/oxygendetectwidget.ui:26
+#, kde-format
+msgid "Class: "
+msgstr "클래스: "
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: config/ui/oxygendetectwidget.ui:43
+#, kde-format
+msgid "Title: "
+msgstr "제목: "
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: config/ui/oxygendetectwidget.ui:63
+#, kde-format
+msgid "Window Property Selection"
+msgstr "창 속성 선택"
+
+#. i18n: ectx: property (text), widget (QRadioButton, windowClassCheckBox)
+#: config/ui/oxygendetectwidget.ui:69
+#, kde-format
+msgid "Use window class (whole application)"
+msgstr "창 클래스 사용하기 (전체 프로그램)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, windowTitleCheckBox)
+#: config/ui/oxygendetectwidget.ui:79
+#, kde-format
+msgid "Use window title"
+msgstr "창 제목 사용하기"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: config/ui/oxygenexceptiondialog.ui:20
+#, kde-format
+msgid "Window Identification"
+msgstr "창 식별"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: config/ui/oxygenexceptiondialog.ui:26
+#, kde-format
+msgid "&Matching window property: "
+msgstr "일치하는 창 속성(&M): "
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: config/ui/oxygenexceptiondialog.ui:39
+#, kde-format
+msgid "Regular expression &to match: "
+msgstr "일치하는 정규 표현식(&T): "
+
+#. i18n: ectx: property (text), widget (QPushButton, detectDialogButton)
+#: config/ui/oxygenexceptiondialog.ui:52
+#, kde-format
+msgid "Detect Window Properties"
+msgstr "창 속성 가져오기"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: config/ui/oxygenexceptiondialog.ui:83
+#, kde-format
+msgid "Decoration Options"
+msgstr "장식 설정"
+
+#. i18n: ectx: property (text), widget (QCheckBox, borderSizeCheckBox)
+#: config/ui/oxygenexceptiondialog.ui:89
+#, kde-format
+msgid "Border size:"
+msgstr "경계 크기:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, hideTitleBar)
+#: config/ui/oxygenexceptiondialog.ui:96
+#, kde-format
+msgid "Hide window title bar"
+msgstr "창 제목 표시줄 숨기기"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:107
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr "경계선 없음"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:112
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Borders"
+msgstr "옆쪽 경계선 없음"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:117
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "작게"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:122
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "일반"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:127
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "크게"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:132
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "매우 매우 크게"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:137
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "매우 크게"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:142
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "매우 매우 매우 크게"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:147
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "과다하게 크게"
+
+#. i18n: ectx: property (text), widget (QPushButton, moveUpButton)
+#: config/ui/oxygenexceptionlistwidget.ui:58
+#, kde-format
+msgid "Move Up"
+msgstr "위로 이동"
+
+#. i18n: ectx: property (text), widget (QPushButton, moveDownButton)
+#: config/ui/oxygenexceptionlistwidget.ui:65
+#, kde-format
+msgid "Move Down"
+msgstr "아래로 이동"
+
+#. i18n: ectx: property (text), widget (QPushButton, addButton)
+#: config/ui/oxygenexceptionlistwidget.ui:72
+#, kde-format
+msgid "Add"
+msgstr "추가"
+
+#. i18n: ectx: property (text), widget (QPushButton, editButton)
+#: config/ui/oxygenexceptionlistwidget.ui:86
+#, kde-format
+msgid "Edit"
+msgstr "편집"
+
+#~ msgid "Display window borders for maximized windows"
+#~ msgstr "최대화된 창의 경계 표시"
+
+#~ msgid "&Animations duration:"
+#~ msgstr "애니메이션 시간(&A):"
+
+#~ msgid "ms"
+#~ msgstr "밀리초"
+
+#~ msgid "Enable animations"
+#~ msgstr "애니메이션 사용하기"

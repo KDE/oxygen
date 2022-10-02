@@ -1,0 +1,933 @@
+# translation of kstyle_config.po to marathi
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Sandeep Shedmake <sandeep.shedmake@gmail.com>, 2009.
+# Chetan Khona <chetan@kompkin.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2013-02-19 15:31+0530\n"
+"Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
+"Language: mr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "ऑक्सीजन संयोजना"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "लक्ष्य केंद्रीत, माऊस फिरवणे व विजेट स्थिती बदल"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"विजेटचे लक्ष्य केंद्रीत, माऊस फिरवल्यास स्पष्टता ऍनीमेशन व विजेट कार्यान्वित/अकार्यान्वित "
+"स्थिती बदल संयोजीत करा"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "साधनपट्टी स्पष्ट करा"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "साधनपट्टीवर माऊस नेण्याचे ऍनीमेशन संयोजीत करा"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "मेन्यूपट्टी स्पष्ट करा"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "मेन्यूपट्टीवर माऊस नेण्याचे ऍनीमेशन संयोजीत करा"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "मेन्यू स्पष्ट करा"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "मेन्यूवर माऊस नेण्याचे ऍनीमेशन संयोजीत करा"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "प्रगतीपट्टी ऍनीमेशन"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "प्रगतीपट्टी पायऱ्यांचे ऍनीमेशन संयोजीत करा"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "टॅब बदल"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "टॅब बदलताना फीकेपणा संयोजीत करा"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "लेबल बदल"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "लेबलचे पाठ्य बदलताना फीकेपणा संयोजीत करा"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "पाठ्य संपादक बदल"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "संपादकातील पाठ्य बदलताना फीकेपणा संयोजीत करा"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "कॉम्बोबॉक्स बदल"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr "कॉम्बोबॉक्सची निवड बदलताना फीकेपणा संयोजीत करा"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+#| msgid "Progress bar animation"
+msgid "Progress bar busy indicator"
+msgstr "प्रगतीपट्टी ऍनीमेशन"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "प्रगतीपट्टी व्यस्तता सूचकाचे ऍनीमेशन संयोजीत करा"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "फ्रेम"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr " ऍनीमेशन प्रकार :"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "फीके"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "माऊसचा मागोवा"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "फीके करण्याचा कालावधी :"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "माऊसचा मागोवा करण्याचा कालावधी :"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, fuzzy, kde-format
+#| msgid "ms"
+msgid " ms"
+msgstr "ms"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "संवाद"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "सामान्य"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "फक्त शिर्षकपट्टीने चौकटी खेचा"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "शिर्षकपट्टीने, मेन्यूपट्टीने व साधनपट्टीने चौकटी खेचा"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "सर्व रिकाम्या क्षेत्रातून चौकटी खेचा"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "कळफलक त्वरक दृश्यता :"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, fuzzy, kde-format
+#| msgid "Windows' drag mode:"
+msgid "Windows' &drag mode:"
+msgstr "चौकटी खेचण्याची पद्धत :"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "साधनपट्टी घटक विभाजक रेखांकीत करा"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "विस्तारीत आकार बदल मूठ कार्यान्वित करा"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "ऍनीमेशन्स"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "दृश्य"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "वृक्षाच्या फांद्याच्या ओळींचे रेखाटन करा"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "बारीक"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "लहान"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "सामान्य"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, fuzzy, kde-format
+#| msgid "Draw focus indicator"
+msgid "Draw focus indicator in lists"
+msgstr "लक्ष्य सूचकाचे रेखाटन करा"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "स्क्रोलपट्टी"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+#| msgid "Scrollbar width:"
+msgid "Scrollbar wi&dth:"
+msgstr "स्क्रोलपट्टी रूंदी :"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr " px"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "वरील बाणाच्या बटनाचा प्रकार :"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "खालील बाणाच्या बटनाचा प्रकार :"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "एकही बटन नाही"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "एक बटन"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "दोन बटने"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "एकही बटन नाही"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "मेन्यू स्पष्ट करा"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, fuzzy, kde-format
+#| msgid "Use dark color"
+msgid "Use dar&k color"
+msgstr "गडद रंग वापरा"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, fuzzy, kde-format
+#| msgid "Use selection color (plain)"
+msgid "&Use selection color (plain)"
+msgstr "निवडीचा रंग वापरा (साधा)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, fuzzy, kde-format
+#| msgid "Use selection color (subtle)"
+msgid "Use selec&tion color (subtle)"
+msgstr "निवडीचा रंग वापरा (सूक्ष्म)"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "कळफलक त्वरक नेहमी लपवा"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "कळफलक त्वरक गरजेप्रमाणे दर्शवा"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "कळफलक त्वरक नेहमी दर्शवा"
+
+#~ msgid "Widget Style"
+#~ msgstr "विजेट शैली"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "विजेट्सची दर्शनीयता बदला"
+
+#~ msgid "Window Decorations"
+#~ msgstr "चौकट सजावटी"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "चौकट सजावटींची दर्शनीयता बदला"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "ऑक्सीजन शैली संयोजना प्लगइन सापडत नाही"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "ऑक्सीजन सजावट संयोजना प्लगइन शोधू शकत नाही"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "प्रगत संयोजना पर्याय लपवा"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "प्रगत संयोजना पर्याय दर्शवा"
+
+#~ msgid "Enable animations"
+#~ msgstr "ऍनीमेशन कार्यान्वित करा"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "पिक्समॅप कॅशे कार्यान्वित करा"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "व्यस्तता सूचकाच्या पायऱ्या"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "चेकबॉक्सेस मध्ये बरोबर या चिन्हाऐवजी 'X' वापरा"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "चौकटी खेचण्याच्या क्रियेसाठी चौकट व्यवस्थापक वापरा"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "+/- ऐवजी त्रिकोण वृक्ष विस्तारक वापरा"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "त्रिकोण आकार :"
+
+#~ msgid "Tabs"
+#~ msgstr "टॅब्स"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "एकमेव"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "साधे"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "निष्क्रिय टॅब शैली :"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "ऑक्सीजन डेमो"
+
+#~ msgid "Normal"
+#~ msgstr "सामान्य"
+
+#~ msgid "New"
+#~ msgstr "नवीन"
+
+#~ msgid "Open"
+#~ msgstr "उघडा"
+
+#~ msgid "Save"
+#~ msgstr "साठवा"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "अधिप्रमाणन चालू/बंद करा"
+
+#~ msgid "Enabled"
+#~ msgstr "कार्यान्वित"
+
+#~ msgid "Right to left layout"
+#~ msgstr "उजवीकडुन डावीकडे रचना"
+
+#~ msgid "Input Widgets"
+#~ msgstr "इनपुट विजेट्स"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "पाठ्य इनपुट विजेट्सची दर्शनीयता दर्शवितो"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "टॅब विजेट्स"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "टॅब विजेट्सची दर्शनीयता दर्शवितो"
+
+#~ msgid "Buttons"
+#~ msgstr "बटन"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "बटनची दर्शनीयता दर्शवितो"
+
+#~ msgid "Lists"
+#~ msgstr "यादी"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "यादी, वृक्ष व कोष्टकांची दर्शनीयता दर्शवितो"
+
+#~ msgid "Frames"
+#~ msgstr "फ्रेम्स"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "विविध फ्रेम केलेल्या विजेट्सची ची दर्शनीयता दर्शवितो"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "टॅब विजेट्सची दर्शनीयता दर्शवितो"
+
+#~ msgid "Sliders"
+#~ msgstr "स्लाइडर"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "स्लाइडर, प्रगतीपट्टी व स्क्रोलपट्टी ची दर्शनीयता दर्शवितो"
+
+#~ msgid "Benchmark"
+#~ msgstr "बेंचमार्क"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr "बेंचमार्कींग च्या विजेट्स बरोबर वापरकर्ता संवाद एम्युलेट करतो"
+
+#~ msgid "Example text"
+#~ msgstr "उदाहरण पाठ्य"
+
+#~ msgid "password"
+#~ msgstr "गुप्तशब्द"
+
+#~ msgid "Tile"
+#~ msgstr "फरसबंद"
+
+#~ msgid "Cascade"
+#~ msgstr "श्रृंखला"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "साधन बॉक्स"
+
+#~ msgid "Select Next Window"
+#~ msgstr "पुढील चौकट निवडा"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "मागील चौकट निवडा"
+
+#~ msgid "This is a sample text"
+#~ msgstr "हे नमूना पाठ्य आहे"
+
+#~ msgid "Modules"
+#~ msgstr "विभाग"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "सिम्युलेशन करण्याकरिता चे विभाग निवडा :"
+
+#~ msgid "Options"
+#~ msgstr "पर्याय"
+
+#~ msgid "Grab mouse"
+#~ msgstr "माउस पकडा"
+
+#~ msgid "Run Simulation"
+#~ msgstr "सिम्युलेशन चालवा"
+
+#~ msgid "Checkboxes"
+#~ msgstr "चेकबॉक्सेस"
+
+#~ msgid "Off"
+#~ msgstr "बंद"
+
+#~ msgid "Partial"
+#~ msgstr "आंशिक"
+
+#~ msgid "On"
+#~ msgstr "चालू"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "रेडियोबटन"
+
+#~ msgid "First Choice"
+#~ msgstr "पहिली निवड"
+
+#~ msgid "Second Choice"
+#~ msgstr "दुसरी निवड"
+
+#~ msgid "Third Choice"
+#~ msgstr "तिसरी निवड"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "पुशबटन"
+
+#~ msgid "Text only:"
+#~ msgstr "फक्त पाठ्य :"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "हे सामान्य, फक्त पाठ्य कॉम्बोबॉक्स आहे"
+
+#~ msgid "Small"
+#~ msgstr "लहान"
+
+#~ msgid "Large"
+#~ msgstr "मोठा"
+
+#~ msgid "Text and icon:"
+#~ msgstr "पाठ्य व चिन्ह :"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "सपाट बटन वापरा"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "हे सामान्य, पाठ्य व चिन्ह कॉम्बोबॉक्स आहे"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "हे सामान्य, फक्त पाठ्य साधन बटन आहे"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "हे सामान्य, पाठ्य व चिन्ह साधन बटन आहे"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "हे सामान्य, फक्त पाठ्य बटन आहे"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "हे सामान्य, मेन्यू बरोबरचे फक्त पाठ्य बटन आहे"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "हे सामान्य, पाठ्य व चिन्ह बटन आहे"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "हे सामान्य, मेन्यू बरोबरचे पाठ्य व चिन्ह बटन आहे"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "साधन बटन"
+
+#~ msgid "Flat"
+#~ msgstr "सपाट"
+
+#~ msgid "Up Arrow"
+#~ msgstr "वरचा बाण"
+
+#~ msgid "Down Arrow"
+#~ msgstr "खालचा बाण"
+
+#~ msgid "Left Arrow"
+#~ msgstr "डावा बाण"
+
+#~ msgid "Right Arrow"
+#~ msgstr "उजवा बाण"
+
+#~ msgid "Text position:"
+#~ msgstr "पाठ्य स्थिती :"
+
+#~ msgid "Icons Only"
+#~ msgstr "फक्त चिन्ह"
+
+#~ msgid "Text Only"
+#~ msgstr "फक्त पाठ्य"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "चिन्ह बाजूचे पाठ्य"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "चिन्हा खालील पाठ्य"
+
+#~ msgid "Icon size:"
+#~ msgstr "चिन्ह आकार :"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "लहान (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "मध्यम (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "मोठे (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "खूप मोठे (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "रचना दिशा :"
+
+#~ msgid "Left to Right"
+#~ msgstr "डावीकडुन उजविकडे"
+
+#~ msgid "Right to Left"
+#~ msgstr "उजवीकडुन डावीकडे"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "वरुन खाली"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "खालून वर"
+
+#~ msgid "GroupBox"
+#~ msgstr "समूह बॉक्स"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "सपाट"
+
+#~ msgid "Raised"
+#~ msgstr "वर आलेले"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "सपाट"
+
+#~ msgid "Sunken"
+#~ msgstr "बुडलेले"
+
+#~ msgid "Tab Widget"
+#~ msgstr "टॅब विजेट"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "एक ओळ पाठ्य संपादक :"
+
+#~ msgid "Password editor:"
+#~ msgstr "गुप्तशब्द संपादक :"
+
+#~ msgid "Editable combobox"
+#~ msgstr "संपादनास योग्य कॉम्बोबॉक्स"
+
+#~ msgid "First item"
+#~ msgstr "पहिला घटक"
+
+#~ msgid "Second item"
+#~ msgstr "दुसरा घटक"
+
+#~ msgid "Third item"
+#~ msgstr "तिसरा धटक"
+
+#~ msgid "Spinbox:"
+#~ msgstr "स्पिनबॉक्स :"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "अनेक ओळ पाठ्य संपादक :"
+
+#~ msgid "Wrap words"
+#~ msgstr "शब्द लपेटा"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "सपाट विजेट्स वापरा"
+
+#~ msgid "First Item"
+#~ msgstr "पहिला घटक"
+
+#~ msgid "Second Item"
+#~ msgstr "दुसरा घटक"
+
+#~ msgid "Third Item"
+#~ msgstr "तिसरा धटक"
+
+#~ msgid "Title"
+#~ msgstr "शिर्षक"
+
+#~ msgid "Description"
+#~ msgstr "वर्णन"
+
+#~ msgid "Third Description"
+#~ msgstr "तिसरे वर्णन"
+
+#~ msgid "Third Subitem"
+#~ msgstr "तिसरे उपघटक"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "तिसरे उपघटक वर्णन"
+
+#~ msgid "Second Description"
+#~ msgstr "दुसरे वर्णन"
+
+#~ msgid "Second Subitem"
+#~ msgstr "दुसरे उपघटक"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "दुसरे उपघटक वर्णन"
+
+#~ msgid "First Subitem"
+#~ msgstr "पहिले उपघटक"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "पहिले उपघटक वर्णन"
+
+#~ msgid "First Description"
+#~ msgstr "पहिले वर्णन"
+
+#~ msgid "New Row"
+#~ msgstr "नवीन ओळ"
+
+#~ msgid "First Row"
+#~ msgstr "पहिली ओळ"
+
+#~ msgid "Third Row"
+#~ msgstr "तिसरी ओळ"
+
+#~ msgid "First Column"
+#~ msgstr "पहिला स्तंभ"
+
+#~ msgid "Second Column"
+#~ msgstr "दुसरा स्तंभ"
+
+#~ msgid "Third Column"
+#~ msgstr "तिसरा स्तंभ"
+
+#~ msgid "Top-left"
+#~ msgstr "वरील-डावे"
+
+#~ msgid "Top"
+#~ msgstr "वर"
+
+#~ msgid "Top-right"
+#~ msgstr "वरील-उजवे"
+
+#~ msgid "Left "
+#~ msgstr "डावे "
+
+#~ msgid "Center"
+#~ msgstr "मध्य"
+
+#~ msgid "Right"
+#~ msgstr "उजवे"
+
+#~ msgid "Bottom-left"
+#~ msgstr "खाली-डावे"
+
+#~ msgid "Bottom"
+#~ msgstr "खाली"
+
+#~ msgid "Bottom-right"
+#~ msgstr "खाली-उजवे"
+
+#~ msgid "Editors"
+#~ msgstr "संपादक"
+
+#~ msgid "Title:"
+#~ msgstr "शिर्षक :"
+
+#~ msgid "Toolbox"
+#~ msgstr "साधन बॉक्स"
+
+#~ msgid "First Page"
+#~ msgstr "पहिले पान"
+
+#~ msgid "Second Page"
+#~ msgstr "दुसरे पान"
+
+#~ msgid "First Label"
+#~ msgstr "पहिले लेबल"
+
+#~ msgid "Second Label"
+#~ msgstr "दुसरे लेबल"
+
+#~ msgid "Third Page"
+#~ msgstr "तिसरे पान"
+
+#~ msgid "Horizontal"
+#~ msgstr "आडवे"
+
+#~ msgid "Busy"
+#~ msgstr "कार्यरत"
+
+#~ msgid "Vertical"
+#~ msgstr "उभे"
+
+#~ msgid "Tab position:"
+#~ msgstr "टॅब स्थान :"
+
+#~ msgid "North"
+#~ msgstr "उत्तर"
+
+#~ msgid "South"
+#~ msgstr "दक्षिण"
+
+#~ msgid "West"
+#~ msgstr "पश्चिम"
+
+#~ msgid "East"
+#~ msgstr "पूर्व"
+
+#~ msgid "Document mode"
+#~ msgstr "दस्तऐवज पद्धत"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "कोपऱ्याची बटने दर्शवा"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "टॅबपट्टी लपवा"
+
+#~ msgid "Preview"
+#~ msgstr "पूर्वावलोकन"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "चेतन खोना"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "chetan@kompkin.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "ऑक्सीजन निष्णात संयोजना साधन"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010, हुगो परैरा दा कोस्टा"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "हुगो परैरा दा कोस्टा"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "ऑक्सीजन शैली डेमो"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "साधनपट्टी घटक विभाजक रेखांकीत करा"
+
+#~ msgid "Use wider lines"
+#~ msgstr "रूंद रेषांचा वापर करा"
+
+#~ msgid "Web style plugin"
+#~ msgstr "वेब शैली प्लगइन"
+
+#~ msgid "modified"
+#~ msgstr "संपादीत"

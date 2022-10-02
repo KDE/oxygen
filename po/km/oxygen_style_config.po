@@ -1,0 +1,920 @@
+# translation of kstyle_config.po to Khmer
+# Khoem Sokhem <khoemsokhem@khmeros.info>, 2007, 2008, 2009, 2010, 2012.
+# Eng Vannak <evannak@khmeros.info>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2012-06-14 13:44+0700\n"
+"Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
+"Language-Team: Khmer\n"
+"Language: km\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: KBabel 1.11.4\n"
+"X-Language: km-CM\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "ការ​កំណត់​អុកហ្សីសែន"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "ផ្ដោត កណ្ដុរលើ និង​ដំណើរការ​ផ្លាស់ប្ដូរ​ស្ថានភាព​ធាតុក្រាហ្វិក"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​ និង​ការ​ផ្ដោត​របស់​ធាតុក្រាហ្វិក ព្រមទាំង​ធាតុក្រាហ្វិក​បានបើក/បិទ​"
+"ដំណើរការ​ផ្លាស់ប្ដូរ​ស្ថានភាព"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "ការ​បន្លិច​របារ​ឧបករណ៍"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​របស់​របារ​ឧបករណ៍"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "កា​របន្លិច​របារ​ម៉ឺនុយ"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​របស់​របារ​ម៉ឺនុយ"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "ការ​បន្លិច​ម៉ឺនុយ"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​របស់​ម៉ឺនុយ"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "ចលនា​របារ​វឌ្ឍនភាព"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​ជំហាន​របស់​របារ​វឌ្ឍនភាព"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​ផ្ទាំង"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរការ​ផ្លាស់ប្ដូរ​លេច​ឡើង​រវាង​ផ្ទាំង"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​ស្លាក"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរការ​ផ្លាស់ប្ដូរ​លេច​ឡើង​ នៅពេល​អត្ថបទ​របស់​អ្នកស្លាក​ត្រូវ​បាន​ផ្លាស់ប្ដូរ"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​កម្មវិធី​និពន្ធ​អត្ថបទ"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរ​ផ្លាស់ប្ដូរ​លេច​ឡើង​ នៅពេល​អត្ថបទ​របស់​អ្នកនិពន្ធ​ត្រូវ​បាន​ផ្លាស់ប្ដូរ"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​ប្រអប់​ផ្សំ"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+"កំណត់​រចនាសម្ព័ន្ធ​ដំណើរការ​ផ្លាស់ប្ដូរ​លេច​ឡើង​ នៅពេល​ជម្រើស​ដែលបាន​ជ្រើស​របស់​ប្រអប់​ផ្សំ​ត្រូវ​បាន​ផ្លាស់ប្ដូរ"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+#| msgid "Progress bar animation"
+msgid "Progress bar busy indicator"
+msgstr "ចលនា​របារ​វឌ្ឍនភាព"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​ទ្រនិច​បង្ហាញ​រវល់​របស់​របារ​វឌ្ឍនភាព"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "ស៊ុម"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "ប្រភេទ​ចលនា ៖"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "លេចឡើង"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "តាមកណ្ដុរ"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "ថិរវេលា​លេច​ឡើង ៖​"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "តាម​ថិរវេលា​កណ្ដុរ ៖"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "ប្រអប់"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "ទូទៅ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "គូរ​បង្អួច​តែ​ពី​របារ​ចំណង​ជើង​ប៉ុណ្ណោះ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "អូស​បង្អួច​ពី​របារ​ចំណង​ជើង របារ​ម៉ឺនុយ និង​របារ​ឧបករណ៍"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "អូស​បង្អួច​ពី​ផ្ទៃ​ទំនេរ​ទាំង​អស់"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "ភាព​មើល​ឃើញ​នៃ​​កា​របង្កើន​ល្បឿន​ក្ដារចុច ៖"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, fuzzy, kde-format
+#| msgid "Windows' drag mode:"
+msgid "Windows' &drag mode:"
+msgstr "របៀប​អូស​របស់​បង្អួច ៖"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "បន្ទាត់​ខណ្ឌ​ចែក​វត្ថុ​របារ​ឧបករណ៍​គូរ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "បើក​ចំណុច​ទាញ​ផ្លាស់ប្ដូរ​ទំហំ​ដែល​បាន​ពង្រីក"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "ចលនា"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "មើល"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "គូរ​បន្ទាត់​មែកធាង​របស់​មែកធាង"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, fuzzy, kde-format
+#| msgid "Tiny"
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "ល្អិត"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, fuzzy, kde-format
+#| msgid "Small"
+msgctxt "triangle size"
+msgid "Small"
+msgstr "តូច"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, fuzzy, kde-format
+#| msgid "Normal"
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "ធម្មតា"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, fuzzy, kde-format
+#| msgid "Draw focus indicator"
+msgid "Draw focus indicator in lists"
+msgstr "គូរ​ឧបករណ៍​បង្ហាញ​ការ​ផ្ដោត"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "របាររមូរ"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+#| msgid "Scrollbar width:"
+msgid "Scrollbar wi&dth:"
+msgstr "ទំហំ​របាររមូរ ៖"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "ប្រភេទ​ប៊ូតុង​ព្រួញ​ខាង​លើ ៖"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "ប្រភេទ​ប៊ូតុង​ព្រួញ​ខាង​ក្រោម ៖"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "គ្មានប៊ូតុង"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "ប៊ូតុង​មួយ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "ប៊ូតុង​ពីរ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "គ្មាន​ប៊ូតុង"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "ការ​បន្លិច​ម៉ឺនុយ"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, fuzzy, kde-format
+#| msgid "Use dark color"
+msgid "Use dar&k color"
+msgstr "ប្រើ​ពណ៌​ងងឹត"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, fuzzy, kde-format
+#| msgid "Use selection color (plain)"
+msgid "&Use selection color (plain)"
+msgstr "ប្រើ​ពណ៌​ជម្រើស (ធម្មតា)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, fuzzy, kde-format
+#| msgid "Use selection color (subtle)"
+msgid "Use selec&tion color (subtle)"
+msgstr "ប្រើ​ពណ៌​ជម្រើស​ (ប្រសព្វ)"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "តែងតែ​លាក់​កា​របង្កើន​ល្បឿន​ក្ដារចុចជា​និច្ច"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "បង្ហាញ​ការ​បង្កើន​ល្បឿន​ក្ដារចុច​នៅ​ពេល​ដែល​ត្រូវការ"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "បង្ហាញ​​កា​របង្កើន​ល្បឿន​ក្ដារចុច​ជា​និច្ច"
+
+#~ msgid "Widget Style"
+#~ msgstr "រចនាប័ទ្ម​ធាតុក្រាហ្វិក"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "កែប្រែ​រូបរាង​របស់​ធាតុក្រាហ្វិក"
+
+#~ msgid "Window Decorations"
+#~ msgstr "ការ​តុបតែង​បង្អួច"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "កែប្រែ​រូបរាង​​នៃ​ការ​តុបតែង​បង្អួច"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "មិន​អាច​រក​កម្មវិធី​ជំនួយ​កំណត់​រចនាសម្ព័ន្ធ​រចនាប័ទ្ម​អុកហ្សីសែន​បាន​ទេ"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "មិន​អាច​រក​កម្មវិធី​ជំនួយ​កំណត់​រចនាសម្ព័ន្ធ​ការ​តុបតែង​អុកហ្សីសែន​បានទេ"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "លាក់​ជម្រើស​កំណត់​រចនាសម្ព័ន្ធ​កម្រិត​ខ្ពស់"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "បង្ហាញ​ជម្រើស​កំណត់​រចនាសម្ព័ន្ធ​កម្រិត​ខ្ពស់"
+
+#~ msgid "Enable animations"
+#~ msgstr "បើក​ចលនា"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "បើក​ឃ្លាំង​សម្ងាត់​ pixmap"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "ជំហាន​ទ្រនិច​បង្ហាញ​ការ​រវល់"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "ប្រើ 'X' ក្នុង​ប្រអប់​គូស​ធីក​ជំនួស​ឲ្យ​កា​រប្រើសញ្ញា​គូស​ធីក"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "ប្រើ​កម្មវិធី​គ្រប់គ្រង​បង្អួច ដើម្បីអនុវត្ត​ការ​អូស​របស់​បង្អួច"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "បើក​ឧបករណ៍​ពង្រីក​មែកធាង​រាង​ត្រីកោណ​ជំនួស​ឲ្យ +/-"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "ទំហំ​ត្រីកោណ ៖"
+
+#~ msgid "Tabs"
+#~ msgstr "ផ្ទាំង"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "តែ​មួយ"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "ធម្មតា"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "រចនាប័ទ្ម​ផ្ទាំង​អសកម្ម ៖"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "ការ​បង្ហាញ​អុកហ្សីសែន​សាកល្បង"
+
+#~ msgid "Normal"
+#~ msgstr "ធម្មតា"
+
+#~ msgid "New"
+#~ msgstr "ថ្មី"
+
+#~ msgid "Open"
+#~ msgstr "បើក"
+
+#~ msgid "Save"
+#~ msgstr "រក្សាទុក"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "បិទ​/​បើក​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ"
+
+#~ msgid "Enabled"
+#~ msgstr "បានបើក"
+
+#~ msgid "Right to left layout"
+#~ msgstr "ប្លង់​ស្ដាំទៅ​ប្លង់​ឆ្វេង"
+
+#~ msgid "Input Widgets"
+#~ msgstr "បញ្ចូល​ធាតុក្រាហ្វិក"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "បង្ហាញ​រូបរាង​​នៃ​ការ​បញ្ចូលធាតុក្រាហ្វិក​​"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "ធាតុក្រាហ្វិក​ផ្ទាំង"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "បង្ហាញ​រូបរាង​របស់​ធាតុក្រាហ្វិក​ផ្ទាំង"
+
+#~ msgid "Buttons"
+#~ msgstr "​ប៊ូតុង"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "បង្ហាញ​រូបរាង​របស់​ប៊ូតុង"
+
+#~ msgid "Lists"
+#~ msgstr "បញ្ជី"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "បង្ហាញ​រូបរាង​របស់​បញ្ជី មែកធាង និង​តារាង"
+
+#~ msgid "Frames"
+#~ msgstr "ស៊ុម"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "បង្ហាញ​រូបរាង​របស់​ធាតុ​ក្រាហ្វិក​​ដាក់​ស៊ុម​មុន​"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "បង្ហាញ​រូបរាង​របស់​ធាតុក្រាហ្វិក​ផ្ទាំង"
+
+#~ msgid "Sliders"
+#~ msgstr "គ្រាប់រំកិល"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "បង្ហាញ​រូបរាង​របស់​គ្រាប់រំកិល របារ​កម្មវិធី និង​របារ​រមូរ"
+
+#~ msgid "Benchmark"
+#~ msgstr "Benchmark"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr "ត្រាប់​តាម​អន្តរកម្ម​អ្នក​ប្រើ​ដែល​មាន​ធាតុក្រាហ្វិក​សម្រាប់ benchmarking"
+
+#~ msgid "Example text"
+#~ msgstr "អត្ថបទ​គំរូ"
+
+#~ msgid "password"
+#~ msgstr "ពាក្យ​សម្ងាត់"
+
+#~ msgid "Tile"
+#~ msgstr "ក្រឡា​ក្បឿង"
+
+#~ msgid "Cascade"
+#~ msgstr "ល្បាក់"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "ប្រអប់​ឧបករណ៍"
+
+#~ msgid "Select Next Window"
+#~ msgstr "ជ្រើស​បង្អួច​បន្ទាប់"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "ជ្រើស​បង្អួច​មុន"
+
+#~ msgid "This is a sample text"
+#~ msgstr "នេះ​ជា​អត្ថបទ​ធម្មតា"
+
+#~ msgid "Modules"
+#~ msgstr "ម៉ូឌុល"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "ខាង​ក្រោម​ សូម​ជ្រើស​ម៉ូឌុល​ដែល​អ្នក​ចង់​ដំណើរការ​ការ​ត្រាប់​តាម ៖"
+
+#~ msgid "Options"
+#~ msgstr "ជម្រើស"
+
+#~ msgid "Grab mouse"
+#~ msgstr "ចាប់កណ្ដុរ"
+
+#~ msgid "Run Simulation"
+#~ msgstr "ដំណើរការ​ការ​ត្រាប់តាម"
+
+#~ msgid "Checkboxes"
+#~ msgstr "ប្រអប់​គូស​ធីក"
+
+#~ msgid "Off"
+#~ msgstr "បិទ"
+
+#~ msgid "Partial"
+#~ msgstr "ដោយ​ផ្នែក"
+
+#~ msgid "On"
+#~ msgstr "បើក"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "ប៊ូតុង​មូល"
+
+#~ msgid "First Choice"
+#~ msgstr "ជម្រើស​ទីមួយ"
+
+#~ msgid "Second Choice"
+#~ msgstr "ជម្រើស​ទីពីរ"
+
+#~ msgid "Third Choice"
+#~ msgstr "ជម្រើស​ទីបី"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "ចុច​ប៊ូតុង"
+
+#~ msgid "Text only:"
+#~ msgstr "តែ​អត្ថបទ ៖"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "នេះ​ជា​កា​រធម្មតា ដាក់​តែ​អត្ថបទ​ក្នុង​ប្រអប់​ផ្សំ"
+
+#~ msgid "Small"
+#~ msgstr "តូច"
+
+#~ msgid "Large"
+#~ msgstr "ធំ"
+
+#~ msgid "Text and icon:"
+#~ msgstr "អត្ថបទ និង​រូបតំណាង ៖"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "ប្រើ​ប៊ូតុង​រាបស្មើ"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "នេះជា​ការ​ធម្មតា ដាក់​អត្ថបទ និង​រូបតំណាង​ក្នុង​ប្រអប់ផ្សំ"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "នេះ​ជា​កា​រធម្មតា ដាក់​តែ​អត្ថបទ​លើប៊ូតុង​ឧបករណ៍"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "នេះ​ជា​ការ​ធម្មតា ដាក់​អត្ថបទ និង​រូបតំណាង​លើប៊ូតុង​ឧបករណ៍"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "នេះ​ជា​ការ​ធម្មតា ដាក់​អត្ថបទ​តែ​លើប៊ូតុង"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "នេះ​ជា​ការ​ធម្មតា ដាក់​តែ​អត្ថបទ​លើ​ប៊ូតុង​ជា​មួយ​ម៉ឺនុយ"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "នេះ​ជា​ការ​ធម្មតា ដាក់​អត្ថបទ និង​រូបតំណាង​លើ​ប៊ូតុង"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "នេះ​​ជា​កា​រធម្មតា ដាក់​អត្ថបទ និង​រូបតំណាង​លើ​ប៊ូតុង​ជា​មួយ​ម៉ឺនុយ"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "របារ​ឧបករណ៍"
+
+#~ msgid "Flat"
+#~ msgstr "រាបស្នើ"
+
+#~ msgid "Up Arrow"
+#~ msgstr "ព្រួញ​ឡើង​លើ"
+
+#~ msgid "Down Arrow"
+#~ msgstr "ព្រួញ​ចុះក្រោម"
+
+#~ msgid "Left Arrow"
+#~ msgstr "ព្រួញ​ឆ្វេង"
+
+#~ msgid "Right Arrow"
+#~ msgstr "ព្រួញ​ស្ដាំ"
+
+#~ msgid "Text position:"
+#~ msgstr "ទីតាំង​អត្ថបទ ៖"
+
+#~ msgid "Icons Only"
+#~ msgstr "តែ​រូបតំណាង"
+
+#~ msgid "Text Only"
+#~ msgstr "តែអត្ថបទ"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "​អត្ថបទ​អែប​រូបតំណាង"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "អត្ថបទ​ក្រោម​រូបតំណាង"
+
+#~ msgid "Icon size:"
+#~ msgstr "ទំហំ​រូបតំណាង ៖"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "តូច (១៦x១៦)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "មធ្យម (២២x២២)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "ធំ (៣២x៣២)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "ធំ​សម្បើម (៤៨x៤៨)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "ទិស​ប្លង់ ៖​"
+
+#~ msgid "Left to Right"
+#~ msgstr "ឆ្វេង​ទៅ​ស្ដាំ"
+
+#~ msgid "Right to Left"
+#~ msgstr "ស្ដាំទៅ​ឆ្វេង"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "កំពូល​ទៅបាត"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "បាត​ទៅ​កំពូល"
+
+#~ msgid "GroupBox"
+#~ msgstr "ប្រអប់ក្រុម"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "រាបស្នើ"
+
+#~ msgid "Raised"
+#~ msgstr "បានលើកឡើង"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "រាបស្នើ"
+
+#~ msgid "Sunken"
+#~ msgstr "Sunken"
+
+#~ msgid "Tab Widget"
+#~ msgstr "ធាតុក្រាហ្វិក​ផ្ទាំង"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "កម្មវិធី​និពន្ធអត្ថបទ​តែ​មួយ​បន្ទាត់ ៖"
+
+#~ msgid "Password editor:"
+#~ msgstr "កម្មវិធី​និពន្ធ​ពាក្យ​សម្ងាត់ ៖"
+
+#~ msgid "Editable combobox"
+#~ msgstr "ប្រអប់​ផ្សំ​ដែល​អាចកែសម្រួល​បាន"
+
+#~ msgid "First item"
+#~ msgstr "ធាតុទីមួយ"
+
+#~ msgid "Second item"
+#~ msgstr "ធាតុទីពីរ"
+
+#~ msgid "Third item"
+#~ msgstr "ធាតុទីបី"
+
+#~ msgid "Spinbox:"
+#~ msgstr "ប្រអប់​បង្វិល៖"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "កម្មវិធី​និពន្ធ​អត្ថបទ​មាន​ច្រើនបន្ទាត់ ៖"
+
+#~ msgid "Wrap words"
+#~ msgstr "រុំពាក្យ"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "ប្រើធាតុក្រាហ្វិក​រាបស្មើ"
+
+#~ msgid "First Item"
+#~ msgstr "ធាតុ​ទីមួយ"
+
+#~ msgid "Second Item"
+#~ msgstr "ធាតុ​ទីពីរ"
+
+#~ msgid "Third Item"
+#~ msgstr "ធាតុ​ទីបី"
+
+#~ msgid "Title"
+#~ msgstr "ចំណង​ជើង"
+
+#~ msgid "Description"
+#~ msgstr "សេចក្ដី​ពិពណ៌នា"
+
+#~ msgid "Third Description"
+#~ msgstr "សេចក្ដី​ពិពណ៌នា​ទីបី"
+
+#~ msgid "Third Subitem"
+#~ msgstr "ធាតុរង​ទីបី"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "សេចក្ដី​ពិពណ៌នា​ធាតុរង​ទីបី"
+
+#~ msgid "Second Description"
+#~ msgstr "សេចក្ដី​ពិពណ៌នា​ទីពីរ"
+
+#~ msgid "Second Subitem"
+#~ msgstr "ធាតុរង​ទីពីរ"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "សេចក្ដី​ពិពណ៌នា​ធាតុរង​ទីពីរ"
+
+#~ msgid "First Subitem"
+#~ msgstr "ធាតុរង​ទីមួយ"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "សេចក្ដី​ពិពណ៌នា​ធាតុរង​ទីមួយ"
+
+#~ msgid "First Description"
+#~ msgstr "សេចក្ដី​ពិពណ៌នា​ទីមួយ"
+
+#~ msgid "New Row"
+#~ msgstr "ជួរដេក​ថ្មី"
+
+#~ msgid "First Row"
+#~ msgstr "ជួរដេក​​ទីមួយ"
+
+#~ msgid "Third Row"
+#~ msgstr "ជួរដេក​ទីបី"
+
+#~ msgid "First Column"
+#~ msgstr "ជួរឈរ​ទីមួយ"
+
+#~ msgid "Second Column"
+#~ msgstr "ជួរឈរ​ទីពីរ"
+
+#~ msgid "Third Column"
+#~ msgstr "ជួរឈរ​ទីបី"
+
+#~ msgid "Top-left"
+#~ msgstr "កំពូង​ខាង​ឆ្វេង"
+
+#~ msgid "Top"
+#~ msgstr "កំពូល"
+
+#~ msgid "Top-right"
+#~ msgstr "កំពូល​ខាង​ស្ដាំ"
+
+#~ msgid "Left "
+#~ msgstr "ឆ្វេង "
+
+#~ msgid "Center"
+#~ msgstr "កណ្ដាល"
+
+#~ msgid "Right"
+#~ msgstr "ស្ដាំ"
+
+#~ msgid "Bottom-left"
+#~ msgstr "បាត​ឆ្វេង"
+
+#~ msgid "Bottom"
+#~ msgstr "បាត"
+
+#~ msgid "Bottom-right"
+#~ msgstr "បាត​ស្ដាំ"
+
+#~ msgid "Editors"
+#~ msgstr "កម្មវិធីនិពន្ធ"
+
+#~ msgid "Title:"
+#~ msgstr "ចំណងជើង ៖"
+
+#~ msgid "Toolbox"
+#~ msgstr "ប្រអប់​ឧបករណ៍"
+
+#~ msgid "First Page"
+#~ msgstr "ទំព័រ​ទីមួយ"
+
+#~ msgid "Second Page"
+#~ msgstr "ទំព័រ​ទីពីរ"
+
+#~ msgid "First Label"
+#~ msgstr "ស្លាក​ដំបូង​"
+
+#~ msgid "Second Label"
+#~ msgstr "ស្លាក់​ទីពីរ​"
+
+#~ msgid "Third Page"
+#~ msgstr "ទំព័រ​ទីបី"
+
+#~ msgid "Horizontal"
+#~ msgstr "ផ្ដេក"
+
+#~ msgid "Busy"
+#~ msgstr "រវល់​"
+
+#~ msgid "Vertical"
+#~ msgstr "បញ្ឈរ"
+
+#~ msgid "Tab position:"
+#~ msgstr "ទីតាំង​ផ្ទាំង ៖"
+
+#~ msgid "North"
+#~ msgstr "ខាង​ជើង"
+
+#~ msgid "South"
+#~ msgstr "ខាង​ត្បូង"
+
+#~ msgid "West"
+#~ msgstr "ខាង​លិច"
+
+#~ msgid "East"
+#~ msgstr "ខាង​កើត"
+
+#~ msgid "Document mode"
+#~ msgstr "របៀប​ឯកសារ"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "បង្ហាញ​ប៊ូតុង​ជ្រុង"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "លាក់​របារ​ផ្ទាំង"
+
+#~ msgid "Preview"
+#~ msgstr "មើល​ជា​មុន"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "ខឹម សុខែម,ម៉ន ម៉េត, សេង សុត្ថា​"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "khoemsokhem@khmeros.info,mornmet@khmeros.info,sutha@khmeros.info"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "ឧបករណ៍​កំណត់​រចនាសម្ព័ន្ធ​អ្នក​ជំនាញ​អុកហ្សីសែន"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "រក្សាសិទ្ធិ​ឆ្នាំ ២០១០១ ដោយ Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "ការ​បង្ហាញ​រចនាប័ទ្ម​អុកហ្សីសែន"

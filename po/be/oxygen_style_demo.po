@@ -1,0 +1,1028 @@
+# translation of kstyle_config.po to Belarusian
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Darafei Praliaskouski <komzpa@licei2.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-25 00:48+0000\n"
+"PO-Revision-Date: 2007-08-22 14:08+0000\n"
+"Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
+"Language-Team: Belarusian <i18n@mova.org>\n"
+"Language: be\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n"
+"%100>=11 && n%100<=14 ? 2 : 3);\n"
+
+#: main.cpp:38 oxygendemodialog.cpp:40 oxygendemodialog.cpp:190
+#, kde-format
+msgid "Oxygen Demo"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_3)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
+#: oxygenbuttondemowidget.cpp:40 ui/oxygenbuttondemowidget.ui:154
+#: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
+#: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
+#: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
+#: ui/oxygenbuttondemowidget.ui:285 ui/oxygenbuttondemowidget.ui:295
+#: ui/oxygenbuttondemowidget.ui:305
+#, kde-format
+msgid "Normal"
+msgstr ""
+
+#: oxygenbuttondemowidget.cpp:41 oxygenbuttondemowidget.cpp:60
+#: oxygenbuttondemowidget.cpp:233 oxygenbuttondemowidget.cpp:243
+#, kde-format
+msgid "New"
+msgstr ""
+
+#: oxygenbuttondemowidget.cpp:42 oxygenbuttondemowidget.cpp:61
+#: oxygenbuttondemowidget.cpp:234 oxygenbuttondemowidget.cpp:244
+#, kde-format
+msgid "Open"
+msgstr ""
+
+#: oxygenbuttondemowidget.cpp:43 oxygenbuttondemowidget.cpp:62
+#: oxygenbuttondemowidget.cpp:235 oxygenbuttondemowidget.cpp:245
+#, kde-format
+msgid "Save"
+msgstr ""
+
+#: oxygenbuttondemowidget.cpp:63
+#, kde-format
+msgid "Toggle authentication"
+msgstr ""
+
+#: oxygendemodialog.cpp:55
+#, kde-format
+msgid "Enabled"
+msgstr ""
+
+#: oxygendemodialog.cpp:60
+#, kde-format
+msgid "Right to left layout"
+msgstr ""
+
+#: oxygendemodialog.cpp:66
+#, kde-format
+msgid "Style"
+msgstr ""
+
+#: oxygendemodialog.cpp:88
+#, kde-format
+msgid "Input Widgets"
+msgstr ""
+
+#: oxygendemodialog.cpp:90
+#, kde-format
+msgid "Shows the appearance of text input widgets"
+msgstr ""
+
+#: oxygendemodialog.cpp:98
+#, kde-format
+msgid "Tab Widgets"
+msgstr ""
+
+#: oxygendemodialog.cpp:100
+#, kde-format
+msgid "Shows the appearance of tab widgets"
+msgstr ""
+
+#: oxygendemodialog.cpp:108
+#, kde-format
+msgid "Buttons"
+msgstr ""
+
+#: oxygendemodialog.cpp:110
+#, kde-format
+msgid "Shows the appearance of buttons"
+msgstr ""
+
+#: oxygendemodialog.cpp:118
+#, kde-format
+msgid "Lists"
+msgstr ""
+
+#: oxygendemodialog.cpp:120
+#, kde-format
+msgid "Shows the appearance of lists, trees and tables"
+msgstr ""
+
+#: oxygendemodialog.cpp:128
+#, kde-format
+msgid "Frames"
+msgstr ""
+
+#: oxygendemodialog.cpp:130
+#, kde-format
+msgid "Shows the appearance of various framed widgets"
+msgstr ""
+
+#: oxygendemodialog.cpp:138
+#, kde-format
+msgid "MDI Windows"
+msgstr ""
+
+#: oxygendemodialog.cpp:140
+#, kde-format
+msgid "Shows the appearance of MDI windows"
+msgstr ""
+
+#: oxygendemodialog.cpp:148
+#, kde-format
+msgid "Sliders"
+msgstr ""
+
+#: oxygendemodialog.cpp:150
+#, kde-format
+msgid "Shows the appearance of sliders, progress bars and scrollbars"
+msgstr ""
+
+#: oxygendemodialog.cpp:159
+#, kde-format
+msgid "Benchmark"
+msgstr ""
+
+#: oxygendemodialog.cpp:161
+#, kde-format
+msgid "Emulates user interaction with widgets for benchmarking"
+msgstr ""
+
+#: oxygeninputdemowidget.cpp:22
+#, kde-format
+msgid "Example text"
+msgstr ""
+
+#: oxygeninputdemowidget.cpp:23
+#, kde-format
+msgid "password"
+msgstr ""
+
+#: oxygenmdidemowidget.cpp:34
+#, kde-format
+msgid "Layout"
+msgstr ""
+
+#: oxygenmdidemowidget.cpp:35
+#, kde-format
+msgid "Tile"
+msgstr ""
+
+#: oxygenmdidemowidget.cpp:36
+#, kde-format
+msgid "Cascade"
+msgstr ""
+
+#: oxygenmdidemowidget.cpp:37
+#, kde-format
+msgid "Tabs"
+msgstr ""
+
+#: oxygenmdidemowidget.cpp:39
+#, kde-format
+msgid "Tools"
+msgstr ""
+
+#: oxygenmdidemowidget.cpp:41
+#, kde-format
+msgid "Select Next Window"
+msgstr ""
+
+#: oxygenmdidemowidget.cpp:45
+#, kde-format
+msgid "Select Previous Window"
+msgstr ""
+
+#: oxygensimulator.h:71
+#, kde-format
+msgid "This is a sample text"
+msgstr ""
+
+#: oxygenstylechooser.cpp:40
+#, kde-format
+msgid "Select the application widget style"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbenchmarkwidget.ui:29
+#, kde-format
+msgid "Modules"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenbenchmarkwidget.ui:35
+#, kde-format
+msgid "Select below the modules for which you want to run the simulation:"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbenchmarkwidget.ui:48
+#, kde-format
+msgid "Options"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, grabMouseCheckBox)
+#: ui/oxygenbenchmarkwidget.ui:54
+#, kde-format
+msgid "Grab mouse"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, runButton)
+#: ui/oxygenbenchmarkwidget.ui:82
+#, kde-format
+msgid "Run Simulation"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: ui/oxygenbuttondemowidget.ui:20
+#, kde-format
+msgid "Checkboxes"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox)
+#: ui/oxygenbuttondemowidget.ui:28
+#, kde-format
+msgid "Off"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
+#: ui/oxygenbuttondemowidget.ui:35
+#, kde-format
+msgid "Partial"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
+#: ui/oxygenbuttondemowidget.ui:45
+#, kde-format
+msgid "On"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: ui/oxygenbuttondemowidget.ui:73
+#, kde-format
+msgid "Radiobuttons"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: ui/oxygenbuttondemowidget.ui:84
+#, kde-format
+msgid "F&irst Choice"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: ui/oxygenbuttondemowidget.ui:94
+#, kde-format
+msgid "Seco&nd Choice"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
+#: ui/oxygenbuttondemowidget.ui:101
+#, kde-format
+msgid "&Third Choice"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbuttondemowidget.ui:126
+#, kde-format
+msgid "Pushbuttons"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: ui/oxygenbuttondemowidget.ui:132
+#, kde-format
+msgid "Text only:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:142
+#, kde-format
+msgid "This is a normal, text only combo box"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:149
+#, kde-format
+msgid "Small"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:159
+#, kde-format
+msgid "Large"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: ui/oxygenbuttondemowidget.ui:180
+#, kde-format
+msgid "Text and icon:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
+#: ui/oxygenbuttondemowidget.ui:190
+#, kde-format
+msgid "Use flat buttons"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
+#: ui/oxygenbuttondemowidget.ui:197
+#, kde-format
+msgid "This is a normal, text and icon combo box"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
+#: ui/oxygenbuttondemowidget.ui:204
+#, kde-format
+msgid "This is a normal, text only tool button"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
+#: ui/oxygenbuttondemowidget.ui:214
+#, kde-format
+msgid "This is a normal, text and icon tool button"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
+#: ui/oxygenbuttondemowidget.ui:224
+#, kde-format
+msgid "This is a normal, text only button"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
+#: ui/oxygenbuttondemowidget.ui:234
+#, kde-format
+msgid "This is a normal, text only button with menu"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
+#: ui/oxygenbuttondemowidget.ui:244
+#, kde-format
+msgid "This is a normal, text and icon button"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
+#: ui/oxygenbuttondemowidget.ui:254
+#, kde-format
+msgid "This is a normal, text and icon button with menu"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbuttondemowidget.ui:267
+#, kde-format
+msgid "Toolbuttons"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
+#: ui/oxygenbuttondemowidget.ui:335 ui/oxygenbuttondemowidget.ui:348
+#: ui/oxygenbuttondemowidget.ui:361
+#, kde-format
+msgid "Flat"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
+#: ui/oxygenbuttondemowidget.ui:374
+#, kde-format
+msgid "Up Arrow"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
+#: ui/oxygenbuttondemowidget.ui:384
+#, kde-format
+msgid "Down Arrow"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
+#: ui/oxygenbuttondemowidget.ui:397
+#, kde-format
+msgid "Left Arrow"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
+#: ui/oxygenbuttondemowidget.ui:407
+#, kde-format
+msgid "Right Arrow"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
+#, kde-format
+msgid "Te&xt position:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:434 ui/oxygentabdemowidget.ui:95
+#, kde-format
+msgid "Icons Only"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
+#, kde-format
+msgid "Text Only"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
+#, kde-format
+msgid "Text Alongside Icons"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#: ui/oxygenbuttondemowidget.ui:449
+#, kde-format
+msgid "Text Under Icons"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: ui/oxygenbuttondemowidget.ui:470
+#, kde-format
+msgid "Icon si&ze:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:484
+#, kde-format
+msgid "Small (16x16)"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:489
+#, kde-format
+msgid "Medium (22x22)"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:494
+#, kde-format
+msgid "Large (32x32)"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:499
+#, kde-format
+msgid "Huge (48x48)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenframedemowidget.ui:31
+#, kde-format
+msgid "&Layout direction:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:45
+#, kde-format
+msgid "Left to Right"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:50
+#, kde-format
+msgid "Right to Left"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:55
+#, kde-format
+msgid "Top to Bottom"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:60
+#, kde-format
+msgid "Bottom to Top"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenframedemowidget.ui:94
+#, kde-format
+msgid "Frame"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:104
+#, kde-format
+msgid "&Raised"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:117
+#, kde-format
+msgctxt "Flat frame. No frame is actually drawn."
+msgid "&Flat"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:124
+#, kde-format
+msgid "S&unken"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenframedemowidget.ui:147
+#, kde-format
+msgid "GroupBox"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
+#: ui/oxygenframedemowidget.ui:153
+#, kde-format
+msgctxt "Flat group box. No frame is actually drawn"
+msgid "Flat"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenframedemowidget.ui:180
+#, kde-format
+msgid "Tab Widget"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygeninputdemowidget.ui:29
+#, kde-format
+msgid "Single line text editor:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygeninputdemowidget.ui:65
+#, kde-format
+msgid "Password editor:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygeninputdemowidget.ui:88
+#, kde-format
+msgid "Editable combobox"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:105
+#, kde-format
+msgid "First item"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:110
+#, kde-format
+msgid "Second item"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:115
+#, kde-format
+msgid "Third item"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygeninputdemowidget.ui:123
+#, kde-format
+msgid "Spinbox:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygeninputdemowidget.ui:146
+#, kde-format
+msgid "Multi-line text editor:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
+#: ui/oxygeninputdemowidget.ui:153
+#, kde-format
+msgid "Wrap words"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
+#: ui/oxygeninputdemowidget.ui:160
+#, kde-format
+msgid "Use flat widgets"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:40 ui/oxygenlistdemowidget.ui:119
+#, kde-format
+msgid "First Item"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:48 ui/oxygenlistdemowidget.ui:95
+#, kde-format
+msgid "Second Item"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:56 ui/oxygenlistdemowidget.ui:79
+#, kde-format
+msgid "Third Item"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:69
+#, kde-format
+msgid "Title"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:74
+#, kde-format
+msgid "Description"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:82
+#, kde-format
+msgid "Third Description"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:86
+#, kde-format
+msgid "Third Subitem"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:89
+#, kde-format
+msgid "Third Subitem Description"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:98
+#, kde-format
+msgid "Second Description"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:102
+#, kde-format
+msgid "Second Subitem"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:105
+#, kde-format
+msgid "Second Subitem Description"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:110
+#, kde-format
+msgid "First Subitem"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:113
+#, kde-format
+msgid "First Subitem Description"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:122
+#, kde-format
+msgid "First Description"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:132
+#, kde-format
+msgid "New Row"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:137
+#, kde-format
+msgid "First Row"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:142
+#, kde-format
+msgid "Third Row"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:147
+#, kde-format
+msgid "First Column"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:152
+#, kde-format
+msgid "Second Column"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:157
+#, kde-format
+msgid "Third Column"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:162
+#, kde-format
+msgid "Top-left"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:167
+#, kde-format
+msgid "Top"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:172
+#, kde-format
+msgid "Top-right"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:177
+#, kde-format
+msgid "Left "
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:182
+#, kde-format
+msgid "Center"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:187
+#, kde-format
+msgid "Right"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:192
+#, kde-format
+msgid "Bottom-left"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:197
+#, kde-format
+msgid "Bottom"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:202
+#, kde-format
+msgid "Bottom-right"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Editors)
+#: ui/oxygenmdidemowidget.ui:45
+#, kde-format
+msgid "Editors"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenmdidemowidget.ui:51
+#, kde-format
+msgid "Title:"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Toolbox)
+#: ui/oxygenmdidemowidget.ui:78
+#, kde-format
+msgid "Toolbox"
+msgstr ""
+
+#. i18n: ectx: attribute (label), widget (QWidget, page)
+#: ui/oxygenmdidemowidget.ui:96
+#, kde-format
+msgid "First Page"
+msgstr ""
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_2)
+#: ui/oxygenmdidemowidget.ui:110
+#, kde-format
+msgid "Second Page"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenmdidemowidget.ui:116
+#, kde-format
+msgid "First Label"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenmdidemowidget.ui:123
+#, kde-format
+msgid "Second Label"
+msgstr ""
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_3)
+#: ui/oxygenmdidemowidget.ui:152
+#, kde-format
+msgid "Third Page"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:29
+#, fuzzy, kde-format
+#| msgid "Animate progress bars"
+msgid "Animate Progress Bars"
+msgstr "Анімаваць індыкатары выканання"
+
+#. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:36
+#, fuzzy, kde-format
+#| msgid "Animate progress bars"
+msgid "Invert Progress Bars"
+msgstr "Анімаваць індыкатары выканання"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygensliderdemowidget.ui:43
+#, kde-format
+msgid "Horizontal"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygensliderdemowidget.ui:120
+#, kde-format
+msgid "Vertical"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygensliderdemowidget.ui:167
+#, kde-format
+msgid "Sliders tick marks position"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:178
+#, kde-format
+msgid "No Tick Marks"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:183
+#, kde-format
+msgid "Tick Marks Above Slider"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:188
+#, kde-format
+msgid "Tick Marks Below Slider"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:193
+#, kde-format
+msgid "Tick Marks On Both Sides"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygentabdemowidget.ui:31
+#, kde-format
+msgid "&Tab position:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:45
+#, kde-format
+msgid "North"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:50
+#, kde-format
+msgid "South"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:55
+#, kde-format
+msgid "West"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:60
+#, kde-format
+msgid "East"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, documentModeCheckBox)
+#: ui/oxygentabdemowidget.ui:115
+#, kde-format
+msgid "Document mode"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
+#: ui/oxygentabdemowidget.ui:122
+#, kde-format
+msgid "Show Corner Buttons"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
+#: ui/oxygentabdemowidget.ui:129
+#, kde-format
+msgid "Show Tab Close Buttons"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
+#: ui/oxygentabdemowidget.ui:136
+#, kde-format
+msgid "Hide tabbar"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygentabdemowidget.ui:143
+#, kde-format
+msgid "Preview"
+msgstr ""
+
+#, fuzzy
+#~| msgid "Custom mouseover highlight color:"
+#~ msgid "Configure toolbars' mouseover highlight animation"
+#~ msgstr "Адмысловы колер падсвечвання пад курсорам:"
+
+#, fuzzy
+#~| msgid "Custom mouseover highlight color:"
+#~ msgid "Configure menu bars' mouseover highlight animation"
+#~ msgstr "Адмысловы колер падсвечвання пад курсорам:"
+
+#, fuzzy
+#~| msgid "Custom mouseover highlight color:"
+#~ msgid "Configure menus' mouseover highlight animation"
+#~ msgstr "Адмысловы колер падсвечвання пад курсорам:"
+
+#~ msgid "Draw toolbar item separators"
+#~ msgstr "Паказваць падзельнікі на панелях начыння"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Keyboard accelerators visibility:"
+#~ msgstr "Паказваць падзельнікі на панелях начыння"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Паказваць падзельнікі на панелях начыння"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Паказваць падзельнікі на панелях начыння"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Паказваць падзельнікі на панелях начыння"
+
+#, fuzzy
+#~| msgid "Triangular tree expander"
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Трохкутны гузік разгортвання дрэва"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Паказваць падзельнікі на панелях начыння"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Выкарыстоўваць шырэйшыя радкі"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Утулка стылю Web"
+
+#~ msgid "modified"
+#~ msgstr "зменены"
+
+#~ msgid "Draw toolbar separator"
+#~ msgstr "Паказваць падзельнікі між панеляў начыння"
+
+#~ msgid "Highlight focused text input fields"
+#~ msgstr "Падсвечваць палі ўводу тэксту ў фокусе"
+
+#~ msgid "Custom text input highlight color:"
+#~ msgstr "Адмысловы колер падсвечвання ўводу тэксту:"
+
+#~ msgid "Custom checkmark color:"
+#~ msgstr "Адмысловы колер птушак-сцяжкоў:"

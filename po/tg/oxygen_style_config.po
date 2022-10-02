@@ -1,0 +1,486 @@
+# translation of kstyle_config.po to Tajik Language
+# Copyright (C) 2006, 2007 Free Software Foundation, Inc.
+# Victor Ibragimov <victor.ibragimov@gmail.com>, 2005, 2006, 2007, 2019.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2019-09-16 13:41+0500\n"
+"Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
+"Language-Team: English <kde-i18n-doc@kde.org>\n"
+"Language: tg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 19.04.3\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:73
+#, kde-format
+msgid "Progress bar busy indicator"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Умумӣ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Намудҳо"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Хурд"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Муқаррар"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr ""
+
+#~ msgid "Enable animations"
+#~ msgstr "Включить анимацию"
+
+#, fuzzy
+#~| msgid "Draw focus indicator"
+#~ msgid "Busy indicator steps"
+#~ msgstr "Размер выпадающего индикатора"
+
+#~ msgid "Tabs"
+#~ msgstr "Табуляторы"
+
+#, fuzzy
+#~| msgid "Single"
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Одна линия"
+
+#, fuzzy
+#~| msgid "Plain"
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Обычный текст"
+
+#, fuzzy
+#~| msgid "Tab style:"
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Стиль _вкладок"
+
+#, fuzzy
+#~| msgid "Enable animations"
+#~ msgid "Toggle authentication"
+#~ msgstr "Включить анимацию"
+
+#, fuzzy
+#~| msgid "Tabs"
+#~ msgid "Tile"
+#~ msgstr "Табуляторы"
+
+#, fuzzy
+#~| msgid "Enable animations"
+#~ msgid "Run Simulation"
+#~ msgstr "Включить анимацию"
+
+#, fuzzy
+#~| msgid "Animate tab transitions"
+#~ msgid "Text only:"
+#~ msgstr "список вкладок страницы"
+
+#, fuzzy
+#~| msgid "Animate tab transitions"
+#~ msgid "Text and icon:"
+#~ msgstr "список вкладок страницы"
+
+#, fuzzy
+#~| msgid "Animate tab transitions"
+#~ msgid "Text position:"
+#~ msgstr "список вкладок страницы"
+
+#, fuzzy
+#~| msgid "General"
+#~ msgid "Center"
+#~ msgstr "Общие"
+
+#, fuzzy
+#~| msgid "Animate tab transitions"
+#~ msgid "Tab position:"
+#~ msgstr "список вкладок страницы"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Показывать разделители элементов панели инструментов"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Истифодаи хатҳои васеъ"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "Иҷро кардани анимасияи пайраҳаҳо"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Услуби Интернетӣ"
+
+#~ msgid "modified"
+#~ msgstr "тағйиршуда"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "список вкладок страницы"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Высота скоса (резкость)"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Полосы прокрутки меняют цвет при наведении"
+
+#~ msgid "Plain"
+#~ msgstr "Обычный текст"
+
+#~ msgid "Width:"
+#~ msgstr "Ширина:"
+
+#, fuzzy
+#~| msgid "Enable animations"
+#~ msgid "Enable title transition animations"
+#~ msgstr "Включить анимацию"
+
+#~ msgid "Dark"
+#~ msgstr "Чёрные клетки"

@@ -1,0 +1,940 @@
+# Translation for oxygen_kstyle_config.po to Euskara/Basque (eu).
+# Copyright (C) 2005-2018 Free Software Foundation.
+# Copyright (C) 2019-2022, This file is copyright:
+# This file is distributed under the same license as the oxygen package.
+# KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
+#
+# Translators:
+# Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>
+# marcos <marcos@euskalgnu.org>, 2005, 2007.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2011, 2014, 2018, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: oxygen\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2022-07-11 08:34+0200\n"
+"Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
+"Language-Team: Basque <kde-i18n-eu@kde.org>\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 22.04.2\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Oxygen-en ezarpenak"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr ""
+"Fokuaren, sagua gainetik igarotzeko prozesuaren eta trepeten egoeren "
+"trantsizioa"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Konfiguratu trepeten fokua eta sagua gainetik igarotzean nabarmentzeko "
+"animazioa, bai eta trepeten gaituta/ezgaituta egoera-trantsizioa ere"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Tresna-barrak nabarmentzea"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr ""
+"Konfiguratu tresna-barren gainetik sagua igarotzean nabarmentzeko animazioa"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Menu-barrak nabarmentzea"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr ""
+"Konfiguratu menu-barren gainetik sagua igarotzean nabarmentzeko animazioa"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Menuak nabarmentzea"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Konfiguratu menuen gainetik sagua igarotzean nabarmentzeko animazioa"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Aurrerapen-barren animazioa"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Konfiguratu aurrerapen-barren urratsen animazioa"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Fitxen trantsizioak"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Konfiguratu fitxen arteko urtze-trantsizioa"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Etiketen trantsizioak"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "Konfiguratu urtze-trantsizioa, etiketa baten testua aldatzen denean"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Testu-editoreen trantsizioak"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "Konfiguratu urtze-trantsizioa editore baten testua aldatzen denean"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Konbinazio-koadroaren trantsizioa"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+"Konfiguratu urtze-trantsizioa konbinazio-koadro batean hautatutakoa aldatzen "
+"denean"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, kde-format
+msgid "Progress bar busy indicator"
+msgstr "Aurrerapen-barraren lanpetu adierazlea"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Konfiguratu aurrerapen-barraren lanpetu adierazle animazioa"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Markoa"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Animazio mota:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Iraungi"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Jarraitu saguari"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Iraungitzearen iraupena:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Jarraitu saguari iraupena:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " ms"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Elkarrizketa"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Orokorra"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Arrastatu leihoak titulu-barratik soilik"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Arrastatu leihoak titulu-barratik, menu-barratik eta tresna-barretatik"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Arrastatu leihoak eremu huts guztietatik"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Teklatuko azeleratzaileen ikusgarritasuna:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr "Ezkutatu beti"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr "Erakutsi Alt tekla sakatzean"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr "Erakutsi beti"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Leihoen arras&tatze modua:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Marraztu tresna-barrako elementuen bereizleak"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Gaitu tamaina aldatzeko heldulekuak"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Marraztu leiho-hondoko gradientea"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animazioak"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Ikuspegiak"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Marraztu zuhaitz-adarren marrak"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "&Zuhaitzak zabaltzeko ikurraren neurria:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Oso txikia"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Txikia"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Arrunta"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Marraztu foku-adierazlea zerrendetan"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Labaintzeko-barrak"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Labaintzeko-barraren za&balera:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Goiko geziaren botoi mota:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Beheko geziaren botoi mota:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Botoirik ez"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Botoi bat"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Bi botoi"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Botoirik ez"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Menuak nabarmentzekoa"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Erabili kolore i&luna"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "&Erabili hautapen-kolorea (xehea)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Erabili hauta&pen-kolorea (leuna)"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Ezkutatu beti teklatuko azeleratzaileak"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Erakutsi teklatuko azeleratzaileak, beharrezkoa denean"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Erakutsi beti teklatuko azeleratzaileak"
+
+#~ msgid "Widget Style"
+#~ msgstr "Trepeten estiloa"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Aldatu trepeten itxura"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Leiho-apaingarriak"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Aldatu leiho-apaingarrien itxura"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Ezin da aurkitu oxygenen estiloa konfiguratzeko plugina"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Ezin da aurkitu oxygenen apaingarriak konfiguratzeko plugina"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Ezkutatu konfiguratzeko aukera aurreratuak"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Erakutsi konfiguratzeko aukera aurreratuak"
+
+#~ msgid "Enable animations"
+#~ msgstr "Gaitu animazioak"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Gaitu pixmapen cachea"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Lanpetuta adierazlearen urratsak"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Erabili 'X' kontrol-laukietan, marka baten ordez"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Erabili leiho-kudeatzailea, leihoak arrastatzeko"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Erabili triangelu formako zuhaitz-zabalgailua, +/- ikurren ordez"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Triangeluaren neurria:"
+
+#~ msgid "Tabs"
+#~ msgstr "Fitxak"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Bakuna"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Arrunta"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Fitxa ez-aktiboen estiloa:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Oxygen-en erakusgaia"
+
+#~ msgid "Normal"
+#~ msgstr "Arrunta"
+
+#~ msgid "New"
+#~ msgstr "Berria"
+
+#~ msgid "Open"
+#~ msgstr "Ireki"
+
+#~ msgid "Save"
+#~ msgstr "Gorde"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "Aktibatu/desaktibatu autentifikazioa"
+
+#~ msgid "Enabled"
+#~ msgstr "Gaituta"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Eskuinetik ezkerrerako orri-diseinua"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Sarrera-trepetak"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Testua sartzeko trepeten itxura erakusten du"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Fitxa-trepetak"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Fitxa-trepeten itxura erakusten du"
+
+#~ msgid "Buttons"
+#~ msgstr "Botoiak"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Botoien itxura erakusten du"
+
+#~ msgid "Lists"
+#~ msgstr "Zerrendak"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Zerrenden, zuhaitzen eta taulen itxura erakusten du"
+
+#~ msgid "Frames"
+#~ msgstr "Markoak"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Hainbat trepeta markodunen itxura erakusten du"
+
+#~ msgid "MDI Windows"
+#~ msgstr "MDI leihoak"
+
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "MDI leihoen itxura erakusten du"
+
+#~ msgid "Sliders"
+#~ msgstr "Graduatzaileak"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr ""
+#~ "Graduatzaileen, aurrerapen-barren eta labaintzeko-barren itxura erakusten "
+#~ "du"
+
+# Wikipedia.org: In computing, a benchmark is the act of running a computer program, a set of programs, or other operations, in order to assess the relative performance of an object, normally by running a number of standard tests and trials against it. The term 'benchmark' is also mostly utilized for the purposes of elaborately-designed benchmarking programs themselves.
+#~ msgid "Benchmark"
+#~ msgstr "Saiakuntza-bankua"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr ""
+#~ "Erabiltzaileen trepetekiko elkarreragiketa emulatzen du saiakuntza-"
+#~ "bankurako"
+
+#~ msgid "Example text"
+#~ msgstr "Adibide-testua"
+
+#~ msgid "password"
+#~ msgstr "pasahitza"
+
+#~ msgid "Layout"
+#~ msgstr "Diseinua"
+
+#~ msgid "Tile"
+#~ msgstr "Mosaikoa"
+
+#~ msgid "Cascade"
+#~ msgstr "Turrustan"
+
+#~ msgid "Tools"
+#~ msgstr "Tresnak"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Hautatu hurrengo leihoa"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Hautatu aurreko leihoa"
+
+#~ msgid "This is a sample text"
+#~ msgstr "Hau lagin-testu bat da"
+
+#~ msgid "Modules"
+#~ msgstr "Moduluak"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "Hautatu behean zer modulutarako exekutatu nahi duzun simulazioa:"
+
+#~ msgid "Options"
+#~ msgstr "Aukerak"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Eutsi saguari"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Exekutatu simulazioa"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Kontrol-laukiak"
+
+#~ msgid "Off"
+#~ msgstr "Desaktibatuta"
+
+#~ msgid "Partial"
+#~ msgstr "Partziala"
+
+#~ msgid "On"
+#~ msgstr "Aktibatuta"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Aukera-botoiak"
+
+#~ msgid "First Choice"
+#~ msgstr "Lehen aukera"
+
+#~ msgid "Second Choice"
+#~ msgstr "Bigarren aukera"
+
+#~ msgid "Third Choice"
+#~ msgstr "Hirugarren aukera"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Sakatzeko botoiak"
+
+#~ msgid "Text only:"
+#~ msgstr "Testua soilik:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Testu hutseko konbinazio-koadro arrunta"
+
+#~ msgid "Small"
+#~ msgstr "Txikia"
+
+#~ msgid "Large"
+#~ msgstr "Handia"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Testua eta ikonoa:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Erabili botoi lauak"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "Testu eta ikonodun konbinazio-koadro arrunta"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Testu hutseko tresna-botoi arrunta"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Testu eta ikonodun tresna-botoi arrunta"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Testu hutseko botoi arrunta"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Testu hutseko botoi arrunta, menuarekin"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Testu eta ikonodun botoi arrunta"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Testu eta ikonodun botoi arrunta, menuarekin"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Tresna-botoiak"
+
+#~ msgid "Flat"
+#~ msgstr "Laua"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Gora gezia"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Behera gezia"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Ezkerrera gezia"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Eskuinera gezia"
+
+#~ msgid "Text position:"
+#~ msgstr "Testuaren kokalekua:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Ikonoak soilik"
+
+#~ msgid "Text Only"
+#~ msgstr "Testua soilik"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Testua ikonoen alboan"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Testua ikonoen azpian"
+
+#~ msgid "Icon size:"
+#~ msgstr "Ikono-neurria:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Txikia (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Ertaina (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Handia (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Oso handia (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Orri-antolaketaren norabidea:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Ezkerretik eskuinera"
+
+#~ msgid "Right to Left"
+#~ msgstr "Eskuinetik ezkerrera"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Goitik behera"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Behetik gora"
+
+#~ msgid "GroupBox"
+#~ msgstr "Talde-koadroa"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Laua"
+
+#~ msgid "Raised"
+#~ msgstr "Goratuta"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Laua"
+
+#~ msgid "Sunken"
+#~ msgstr "Hondoratuta"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Fitxa-trepeta"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Lerro bakarreko testu-editorea:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Pasahitz-editorea:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Konbinazio-koadro editagarria"
+
+#~ msgid "First item"
+#~ msgstr "Lehenengo elementua"
+
+#~ msgid "Second item"
+#~ msgstr "Bigarren elementua"
+
+#~ msgid "Third item"
+#~ msgstr "Hirugarren elementua"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Biratze-botoia:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Lerro askoko testu-editorea:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Egokitu hitzak ertzean"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Erabili trepeta lauak"
+
+#~ msgid "First Item"
+#~ msgstr "Lehenengo elementua"
+
+#~ msgid "Second Item"
+#~ msgstr "Bigarren elementua"
+
+#~ msgid "Third Item"
+#~ msgstr "Hirugarren elementua"
+
+#~ msgid "Title"
+#~ msgstr "Titulua"
+
+#~ msgid "Description"
+#~ msgstr "Deskribapena"
+
+#~ msgid "Third Description"
+#~ msgstr "Hirugarren deskribapena"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Hirugarren azpielementua"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Hirugarren azpielementuaren azalpena"
+
+#~ msgid "Second Description"
+#~ msgstr "Bigarren azalpena"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Bigarren azpielementua"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Bigarren azpielementuaren azalpena"
+
+#~ msgid "First Subitem"
+#~ msgstr "Lehenengo azpielementua"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Lehenengo azpielementuaren azalpena"
+
+#~ msgid "First Description"
+#~ msgstr "Lehenengo deskribapena"
+
+#~ msgid "New Row"
+#~ msgstr "Errenkada berria"
+
+#~ msgid "First Row"
+#~ msgstr "Lehen errenkada"
+
+#~ msgid "Third Row"
+#~ msgstr "Hirugarren errenkada"
+
+#~ msgid "First Column"
+#~ msgstr "Lehen zutabea"
+
+#~ msgid "Second Column"
+#~ msgstr "Bigarren zutabea"
+
+#~ msgid "Third Column"
+#~ msgstr "Hirugarren zutabea"
+
+#~ msgid "Top-left"
+#~ msgstr "Goian ezkerrean"
+
+#~ msgid "Top"
+#~ msgstr "Goian"
+
+#~ msgid "Top-right"
+#~ msgstr "Goian eskuinean"
+
+#~ msgid "Left "
+#~ msgstr "Ezkerrean"
+
+#~ msgid "Center"
+#~ msgstr "Erdian"
+
+#~ msgid "Right"
+#~ msgstr "Eskuinean"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Behean ezkerrean"
+
+#~ msgid "Bottom"
+#~ msgstr "Behean"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Behean eskuinean"
+
+#~ msgid "Editors"
+#~ msgstr "Editoreak"
+
+#~ msgid "Title:"
+#~ msgstr "Titulua:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Tresna-koadroa"
+
+#~ msgid "First Page"
+#~ msgstr "Lehen orria"
+
+#~ msgid "Second Page"
+#~ msgstr "Bigarren orria"
+
+#~ msgid "First Label"
+#~ msgstr "Lehenengo etiketa"
+
+#~ msgid "Second Label"
+#~ msgstr "Bigarren etiketa"
+
+#~ msgid "Third Page"
+#~ msgstr "Hirugarren orria"
+
+#~ msgid "Horizontal"
+#~ msgstr "Horizontala"
+
+#~ msgid "Busy"
+#~ msgstr "Lanpetuta"
+
+#~ msgid "Vertical"
+#~ msgstr "Bertikala"
+
+#~ msgid "Tab position:"
+#~ msgstr "Fitxen kokalekua:"
+
+#~ msgid "North"
+#~ msgstr "Iparraldea"
+
+#~ msgid "South"
+#~ msgstr "Hegoaldea"
+
+#~ msgid "West"
+#~ msgstr "Mendebaldea"
+
+#~ msgid "East"
+#~ msgstr "Ekialdea"
+
+#~ msgid "Document mode"
+#~ msgstr "Dokumentu modua"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Erakutsi izkinako botoiak"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Ezkutatu fitxa-barra"
+
+#~ msgid "Preview"
+#~ msgstr "Aurrebista"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Iñigo Salvador Azurmendi"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "Xalba@euskalnet.net"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Oxygen aditu konfigurazio tresna"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Oxygen estiloaren erakustaldia"
+
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Marraztu teklatuko azeleratzaileak"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Erabili linea zabalagoak"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Web estilo plugina"
+
+#~ msgid "modified"
+#~ msgstr "aldatua"

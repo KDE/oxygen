@@ -1,0 +1,95 @@
+# Bosnian translation for bosnianuniversetranslation
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
+# This file is distributed under the same license as the bosnianuniversetranslation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bosnianuniversetranslation\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-06-28 00:21+0000\n"
+"PO-Revision-Date: 2015-02-04 14:53+0000\n"
+"Last-Translator: Samir Ribić <Unknown>\n"
+"Language-Team: Bosnian <bs@li.org>\n"
+"Language: bs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-02-05 06:34+0000\n"
+"X-Generator: Launchpad (build 17331)\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: oxygenanimationconfigitem.cpp:87
+#, kde-format
+msgid "oxygen-settings - information"
+msgstr "oxygen-settings - informacije"
+
+#. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
+#: ui/oxygenanimationconfigitem.ui:29
+#, kde-format
+msgid "CheckBox"
+msgstr "Kućica"
+
+#. i18n: ectx: property (text), widget (QToolButton, configurationButton)
+#. i18n: ectx: property (text), widget (QToolButton, descriptionButton)
+#: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
+#, kde-format
+msgid "..."
+msgstr "..."
+
+#. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
+#: ui/oxygenanimationconfigwidget.ui:23
+#, kde-format
+msgid "Enable animations"
+msgstr "Omogući animacije"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, GenericAnimationConfigBox)
+#: ui/oxygengenericanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Okvir"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygengenericanimationconfigbox.ui:38
+#, kde-format
+msgid "Duration:"
+msgstr "Trajanje:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#: ui/oxygengenericanimationconfigbox.ui:64
+#, fuzzy, kde-format
+#| msgid "ms"
+msgid " ms"
+msgstr "ms"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenshadowconfigurationui.ui:23
+#, kde-format
+msgid "Inner Color:"
+msgstr "Unutrašnja boja:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenshadowconfigurationui.ui:42
+#, kde-format
+msgid "Outer Color:"
+msgstr "Vanjska boja:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenshadowconfigurationui.ui:69
+#, kde-format
+msgid "Vertical Offset:"
+msgstr "Vertikalni pomak:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenshadowconfigurationui.ui:82
+#, kde-format
+msgid "Size: "
+msgstr "Veličina: "
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, verticalOffset)
+#: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
+#, kde-format
+msgid "px"
+msgstr "px"

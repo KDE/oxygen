@@ -1,0 +1,92 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# Sergiu Bivol <sergiu@cip.md>, 2012, 2013, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-06-28 00:21+0000\n"
+"PO-Revision-Date: 2020-09-08 22:55+0100\n"
+"Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
+"Language-Team: Romanian\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Lokalize 19.12.3\n"
+
+#: oxygenanimationconfigitem.cpp:87
+#, kde-format
+msgid "oxygen-settings - information"
+msgstr "oxygen-settings - informații"
+
+#. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
+#: ui/oxygenanimationconfigitem.ui:29
+#, kde-format
+msgid "CheckBox"
+msgstr "Căsuță de bifare"
+
+#. i18n: ectx: property (text), widget (QToolButton, configurationButton)
+#. i18n: ectx: property (text), widget (QToolButton, descriptionButton)
+#: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
+#, kde-format
+msgid "..."
+msgstr "..."
+
+#. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
+#: ui/oxygenanimationconfigwidget.ui:23
+#, kde-format
+msgid "Enable animations"
+msgstr "Activează animații"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, GenericAnimationConfigBox)
+#: ui/oxygengenericanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Cadru"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygengenericanimationconfigbox.ui:38
+#, kde-format
+msgid "Duration:"
+msgstr "Durată:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#: ui/oxygengenericanimationconfigbox.ui:64
+#, kde-format
+msgid " ms"
+msgstr " ms"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenshadowconfigurationui.ui:23
+#, kde-format
+msgid "Inner Color:"
+msgstr "Culoare interioară:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenshadowconfigurationui.ui:42
+#, kde-format
+msgid "Outer Color:"
+msgstr "Culoare exterioară:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenshadowconfigurationui.ui:69
+#, kde-format
+msgid "Vertical Offset:"
+msgstr "Decalaj vertical:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenshadowconfigurationui.ui:82
+#, kde-format
+msgid "Size: "
+msgstr "Dimensiune: "
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, verticalOffset)
+#: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
+#, kde-format
+msgid "px"
+msgstr "px"

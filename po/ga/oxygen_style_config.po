@@ -1,0 +1,923 @@
+# Irish translation of kstyle_config
+# Copyright (C) 2009 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kstyle_config package.
+# Kevin Scannell <kscanne@gmail.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdebase/kstyle_config.po\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2007-08-22 12:11-0500\n"
+"Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
+"Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
+"Language: ga\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
+"3 : 4\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Socruithe Oxygen"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Aibhsiú an bharra uirlisí"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Aibhsiú barra roghchláir"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Aibhsiú roghchlár"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Beochan an bharra dul chun cinn"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Trasdulta cluaisíní"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Trasdulta lipéad"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Trasdulta eagarthóra téacs"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Trasdulta boscaí teaglama"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+#| msgid "Progress bar animation"
+msgid "Progress bar busy indicator"
+msgstr "Beochan an bharra dul chun cinn"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Fráma"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Cineál beochana:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Céimnigh"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Lean an Luch"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, fuzzy, kde-format
+#| msgid "Follow Mouse"
+msgid "Fade duration:"
+msgstr "Lean an Luch"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, fuzzy, kde-format
+#| msgid "Follow Mouse"
+msgid "Follow mouse duration:"
+msgstr "Lean an Luch"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, fuzzy, kde-format
+#| msgid "ms"
+msgid " ms"
+msgstr "ms"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dialóg"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Ginearálta"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Tarraing fuinneoga ón bharra teidil amháin"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr ""
+"Tarraing fuinneoga ón bharra teidil, ón bharra roghchlár, agus ó bharraí "
+"uirlisí"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Tarraing fuinneoga ó gach limistéar folamh"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, fuzzy, kde-format
+#| msgid "Windows' drag mode:"
+msgid "Windows' &drag mode:"
+msgstr "Mód tarraingthe fuinneog::"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Dear deighilteoirí sa bharra uirlisí idir míreanna"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Íomhánna Beo"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Amhairc"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Dear craobhlínte crainn"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "An-bheag"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Beag"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Gnách"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, fuzzy, kde-format
+#| msgid "Draw focus indicator"
+msgid "Draw focus indicator in lists"
+msgstr "Dear táscaire fócais"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Scrollbharraí"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+#| msgid "Scrollbar width:"
+msgid "Scrollbar wi&dth:"
+msgstr "Leithead an scrollbharra"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "pct"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Gan cnaipí"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Cnaipe amháin"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Dhá chnaipe"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Gan cnaipe"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Aibhsiú Roghchlár"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, fuzzy, kde-format
+#| msgid "Use dark color"
+msgid "Use dar&k color"
+msgstr "Úsáid dath dorcha"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, fuzzy, kde-format
+#| msgid "Use selection color (plain)"
+msgid "&Use selection color (plain)"
+msgstr "Úsáid dath roghnúcháin (simplí)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, fuzzy, kde-format
+#| msgid "Use selection color (subtle)"
+msgid "Use selec&tion color (subtle)"
+msgstr "Úsáid dath roghnúcháin (caol)"
+
+#~ msgid "Widget Style"
+#~ msgstr "Stíl na nGiuirléidí"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Athraigh an dealramh atá ar ghiuirléidí"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Maisiúcháin Fhuinneog"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Athraigh na maisiúcháin fhuinneog"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Ní féidir breiseán cumraíochta stíl Oxygen a aimsiú"
+
+#~ msgid "Enable animations"
+#~ msgstr "Cumasaigh beochan"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Úsáid 'X' i dticbhoscaí in ionad tic"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Úsáid bainisteoir na bhfuinneog chun fuinneoga a tharraingt"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Úsáid triantán in ionad +/- chun an crann a leathnú"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Méid an triantáin:"
+
+#~ msgid "Tabs"
+#~ msgstr "Cluaisíní"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Singil"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Simplí"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Stíl cluaisíní neamhghníomhacha:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Taispeántas Oxygen"
+
+#~ msgid "Normal"
+#~ msgstr "Gnách"
+
+#~ msgid "New"
+#~ msgstr "Nua"
+
+#~ msgid "Open"
+#~ msgstr "Oscail"
+
+#~ msgid "Save"
+#~ msgstr "Sábháil"
+
+#~ msgid "Enabled"
+#~ msgstr "Cumasaithe"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Leagan amach deas-go-clé"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Giuirléidí Ionchurtha"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Taispeánann sé dealreamh atá ar ghiuirléidí ionchurtha"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Giuirléidí Cluaisín"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Taispeánann sé dealramh atá ar ghiuirléidí cluaisín"
+
+#~ msgid "Buttons"
+#~ msgstr "Cnaipí"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Taispeáin cuma na gcnaipí"
+
+#~ msgid "Lists"
+#~ msgstr "Liostaí"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr ""
+#~ "Taispeánann sé an dealramh atá ar liostaí, ar chrainn, agus ar tháblaí"
+
+#~ msgid "Frames"
+#~ msgstr "Frámaí"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Taispeánann sé dealramh atá ar ghiuirléidí éagsúla frámaithe"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Taispeánann sé dealramh atá ar ghiuirléidí cluaisín"
+
+#~ msgid "Sliders"
+#~ msgstr "Barraí Sleamhnáin"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr ""
+#~ "Taispeánann sé an dealramh atá ar shleamhnáin, ar bharraí dul chun cinn, "
+#~ "agus ar scrollbharraí"
+
+#~ msgid "Benchmark"
+#~ msgstr "Tagarmharc"
+
+#~ msgid "Example text"
+#~ msgstr "Téacs samplach"
+
+#~ msgid "password"
+#~ msgstr "focal faire"
+
+#~ msgid "Tile"
+#~ msgstr "Tíligh"
+
+#~ msgid "Cascade"
+#~ msgstr "Cascáidigh"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "Bosca Uirlisí"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Roghnaigh an Chéad Fhuinneog Eile"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Roghnaigh an Fhuinneog Roimhe Seo"
+
+#~ msgid "Modules"
+#~ msgstr "Modúil"
+
+#~ msgid "Options"
+#~ msgstr "Roghanna"
+
+#, fuzzy
+#~| msgid "Animations"
+#~ msgid "Run Simulation"
+#~ msgstr "Íomhánna Beo"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Ticbhoscaí"
+
+#~ msgid "Off"
+#~ msgstr "As"
+
+#~ msgid "Partial"
+#~ msgstr "Neamhiomlán"
+
+#~ msgid "On"
+#~ msgstr "Ann"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Cnaipí raidió"
+
+#, fuzzy
+#~| msgid "First item"
+#~ msgid "First Choice"
+#~ msgstr "An chéad mhír"
+
+#, fuzzy
+#~| msgid "Second item"
+#~ msgid "Second Choice"
+#~ msgstr "An dara mír"
+
+#, fuzzy
+#~| msgid "Third item"
+#~ msgid "Third Choice"
+#~ msgstr "An tríú mír"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Brúchnaipí"
+
+#~ msgid "Text only:"
+#~ msgstr "Téacs amháin:"
+
+#~ msgid "Small"
+#~ msgstr "Beag"
+
+#~ msgid "Large"
+#~ msgstr "Mór"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Téacs agus deilbhín:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Úsáid cnaipí maola"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Cnaipí uirlise"
+
+#~ msgid "Flat"
+#~ msgstr "Maol"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Saighead Suas"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Saighead Síos"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Saighead Chlé"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Saighead Dheas"
+
+#~ msgid "Text position:"
+#~ msgstr "Ionad an téacs:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Deilbhíní Amháin"
+
+#~ msgid "Text Only"
+#~ msgstr "Téacs Amháin"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Téacs Taobh Leis na Deilbhíní"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Téacs Faoi na Deilbhíní"
+
+#~ msgid "Icon size:"
+#~ msgstr "Méid na ndeilbhíní:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Beag (16×16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Measartha (22×22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Mór (32×32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Ollmhór (48×48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Treo an leagain amach:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Clé-go-Deas"
+
+#~ msgid "Right to Left"
+#~ msgstr "Deas-go-Clé"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Barr go Bun"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Bun go Barr"
+
+#~ msgid "GroupBox"
+#~ msgstr "BoscaGrúpa"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Maol"
+
+#~ msgid "Raised"
+#~ msgstr "Ardaithe"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Maol"
+
+#~ msgid "Sunken"
+#~ msgstr "Íslithe"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Giuirléid Chluaisín"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Eagarthóir téacs líne amháin:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Eagarthóir focal faire:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Bosca teaglama ineagarthóireachta"
+
+#~ msgid "First item"
+#~ msgstr "An chéad mhír"
+
+#~ msgid "Second item"
+#~ msgstr "An dara mír"
+
+#~ msgid "Third item"
+#~ msgstr "An tríú mír"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Casbhosca:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Eagarthóir téacs il-líne:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Timfhill focail"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Úsáid giuirléidí maola"
+
+#~ msgid "First Item"
+#~ msgstr "An Chéad Mhír"
+
+#~ msgid "Second Item"
+#~ msgstr "An Dara Mír"
+
+#~ msgid "Third Item"
+#~ msgstr "An Tríú Mír"
+
+#~ msgid "Title"
+#~ msgstr "Teideal"
+
+#~ msgid "Description"
+#~ msgstr "Cur Síos"
+
+#~ msgid "Third Description"
+#~ msgstr "An Tríú Cur Síos"
+
+#~ msgid "Third Subitem"
+#~ msgstr "An Tríú Fomhír"
+
+#, fuzzy
+#~| msgid "Third Description"
+#~ msgid "Third Subitem Description"
+#~ msgstr "An Tríú Cur Síos"
+
+#~ msgid "Second Description"
+#~ msgstr "An Dara Cur Síos"
+
+#~ msgid "Second Subitem"
+#~ msgstr "An Dara Fomhír"
+
+#, fuzzy
+#~| msgid "Second Description"
+#~ msgid "Second Subitem Description"
+#~ msgstr "An Dara Cur Síos"
+
+#~ msgid "First Subitem"
+#~ msgstr "An Chéad Fhomhír"
+
+#, fuzzy
+#~| msgid "First Description"
+#~ msgid "First Subitem Description"
+#~ msgstr "An Chéad Chur Síos"
+
+#~ msgid "First Description"
+#~ msgstr "An Chéad Chur Síos"
+
+#~ msgid "New Row"
+#~ msgstr "Ró Nua"
+
+#~ msgid "First Row"
+#~ msgstr "An Chéad Ró"
+
+#~ msgid "Third Row"
+#~ msgstr "An Tríú Ró"
+
+#~ msgid "First Column"
+#~ msgstr "An Chéad Cholún"
+
+#~ msgid "Second Column"
+#~ msgstr "An Dara Colún"
+
+#~ msgid "Third Column"
+#~ msgstr "An Tríú Colún"
+
+#~ msgid "Top-left"
+#~ msgstr "Barr ar chlé"
+
+#~ msgid "Top"
+#~ msgstr "Barr"
+
+#~ msgid "Top-right"
+#~ msgstr "Barr ar dheis"
+
+#, fuzzy
+#~| msgid "Left Arrow"
+#~ msgid "Left "
+#~ msgstr "Saighead Chlé"
+
+#~ msgid "Center"
+#~ msgstr "Lár"
+
+#~ msgid "Right"
+#~ msgstr "Ar Dheis"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Bun ar chlé"
+
+#~ msgid "Bottom"
+#~ msgstr "Bun"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Bun ar dheis"
+
+#~ msgid "Editors"
+#~ msgstr "Eagarthóirí"
+
+#~ msgid "Title:"
+#~ msgstr "Teideal:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Bosca Uirlisí"
+
+#~ msgid "First Page"
+#~ msgstr "An Chéad Leathanach"
+
+#~ msgid "Second Page"
+#~ msgstr "An Dara Leathanach"
+
+#~ msgid "First Label"
+#~ msgstr "An Chéad Lipéad"
+
+#~ msgid "Second Label"
+#~ msgstr "An Dara Lipéad"
+
+#~ msgid "Third Page"
+#~ msgstr "An Tríú Leathanach"
+
+#~ msgid "Horizontal"
+#~ msgstr "Cothrománach"
+
+#~ msgid "Busy"
+#~ msgstr "Gafa"
+
+#~ msgid "Vertical"
+#~ msgstr "Ingearach"
+
+#~ msgid "Tab position:"
+#~ msgstr "Ionad an chluaisín:"
+
+#~ msgid "North"
+#~ msgstr "Tuaisceart"
+
+#~ msgid "South"
+#~ msgstr "Deisceart"
+
+#~ msgid "West"
+#~ msgstr "Iarthar"
+
+#~ msgid "East"
+#~ msgstr "Oirthear"
+
+#~ msgid "Document mode"
+#~ msgstr "Mód cáipéise"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Taispeáin Cnaipí Cúinne"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Folaigh barra na gcluaisíní"
+
+#~ msgid "Preview"
+#~ msgstr "Réamhamharc"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Kevin Scannell"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "kscanne@gmail.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Uirlis chumraíochta Oxygen do shaineolaithe"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "© 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Taispeántas stíl Oxygen"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Úsáid línte níos leithne"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "Beoigh na barraí dul chun cinn"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Breiseán stíle Gréasáin"
+
+#~ msgid "modified"
+#~ msgstr "athraithe"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "oxygen-settings - eolas"
+
+#~ msgid "CheckBox"
+#~ msgstr "Ticbhosca"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Fad ama (ms):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Beoigh gluaiseacht cluaisíní"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Dear beibheal scrollbharra"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Scrollbharraí ildathacha ainlithe"
+
+#~ msgid "Plain"
+#~ msgstr "Simplí"
+
+#~ msgid "Width:"
+#~ msgstr "Leithead:"
+
+#~ msgid "Draw toolbar separator"
+#~ msgstr "Dear deighilteoir sa bharra uirlisí"
+
+#~ msgid "Highlight focused text input fields"
+#~ msgstr "Aibhsigh réimsí ionchurtha ina bhfuil an fócas"
+
+#~ msgid "Custom text input highlight color:"
+#~ msgstr "Dath saincheaptha aibhsithe do théacs ionchurtha:"
+
+#~ msgid "Custom checkmark color:"
+#~ msgstr "Dath saincheaptha ticeanna:"

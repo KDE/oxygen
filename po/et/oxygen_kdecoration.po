@@ -1,0 +1,399 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Marek Laane <qiilaq69@gmail.com>, 2016, 2019.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-06-28 00:21+0000\n"
+"PO-Revision-Date: 2019-10-30 23:35+0200\n"
+"Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
+"Language-Team: Estonian <kde-et@lists.linux.ee>\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 19.08.1\n"
+
+#: config/oxygenanimationconfigwidget.cpp:31
+#, kde-format
+msgid "Button mouseover transition"
+msgstr "Nupu hiirealune üleminek"
+
+#: config/oxygenanimationconfigwidget.cpp:32
+#, kde-format
+msgid "Configure window buttons' mouseover highlight animation"
+msgstr "Aknanuppude hiirealuse esiletõstmise animatsiooni seadistamine"
+
+#: config/oxygenanimationconfigwidget.cpp:35
+#, kde-format
+msgid "Window active state change transitions"
+msgstr "Akna aktiivse oleku muutuse üleminekud"
+
+#: config/oxygenanimationconfigwidget.cpp:36
+#, kde-format
+msgid ""
+"Configure fading between window shadow and glow when window's active state "
+"is changed"
+msgstr ""
+"Hääbumise seadistamine akna varjamise ja esiletõstmise vahel akna aktiivse "
+"oleku muutumisel"
+
+#: config/oxygenexceptionlistwidget.cpp:96
+#, kde-format
+msgid "New Exception - Oxygen Settings"
+msgstr "Uus erand - Oxygeni seadistused"
+
+#: config/oxygenexceptionlistwidget.cpp:145
+#, kde-format
+msgid "Edit Exception - Oxygen Settings"
+msgstr "Erandi muutmine - Oxygeni seadistused"
+
+#: config/oxygenexceptionlistwidget.cpp:178
+#, kde-format
+msgid "Question - Oxygen Settings"
+msgstr "Küsimus - Oxygeni seadistused"
+
+#: config/oxygenexceptionlistwidget.cpp:178
+#, kde-format
+msgid "Remove selected exception?"
+msgstr "Kas eemaldada valitud erand?"
+
+#. i18n: ectx: property (text), widget (QPushButton, removeButton)
+#: config/oxygenexceptionlistwidget.cpp:179
+#: config/ui/oxygenexceptionlistwidget.ui:79
+#, kde-format
+msgid "Remove"
+msgstr "Eemalda"
+
+#: config/oxygenexceptionlistwidget.cpp:323
+#, kde-format
+msgid "Warning - Oxygen Settings"
+msgstr "Hoiatus - Oxygeni seadistused"
+
+#: config/oxygenexceptionlistwidget.cpp:323
+#, kde-format
+msgid "Regular Expression syntax is incorrect"
+msgstr "Regulaaravaldise süntaks on vigane"
+
+#: config/oxygenexceptionmodel.cpp:21
+#, kde-format
+msgid "Exception Type"
+msgstr "Erandi tüüp"
+
+#: config/oxygenexceptionmodel.cpp:22
+#, kde-format
+msgid "Regular Expression"
+msgstr "Regulaaravaldis"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
+#: config/oxygenexceptionmodel.cpp:47 config/ui/oxygenexceptiondialog.ui:72
+#, kde-format
+msgid "Window Title"
+msgstr "Akna tiitel"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
+#: config/oxygenexceptionmodel.cpp:51 config/ui/oxygenexceptiondialog.ui:67
+#, kde-format
+msgid "Window Class Name"
+msgstr "Aknaklassi nimi"
+
+#: config/oxygenexceptionmodel.cpp:67
+#, kde-format
+msgid "Enable/disable this exception"
+msgstr "Selle erandi lubamine/keelamine"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: config/ui/oxygenconfigurationui.ui:24
+#, kde-format
+msgid "General"
+msgstr "Üldine"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:31
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Small"
+msgstr "Väike"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:36
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Tavaline"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:41
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Suur"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:46
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Väga suur"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: config/ui/oxygenconfigurationui.ui:67
+#, kde-format
+msgid "Tit&le alignment:"
+msgstr "Tiitli joo&ndus:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:81
+#, kde-format
+msgid "Left"
+msgstr "Vasakul"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:86
+#, kde-format
+msgid "Center"
+msgstr "Keskel"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:91
+#, kde-format
+msgid "Center (Full Width)"
+msgstr "Keskel (täislaiuses)"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:96
+#, kde-format
+msgid "Right"
+msgstr "Paremal"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: config/ui/oxygenconfigurationui.ui:104
+#, kde-format
+msgid "B&utton size:"
+msgstr "N&upu suurus:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, drawSizeGrip)
+#: config/ui/oxygenconfigurationui.ui:117
+#, kde-format
+msgid "Add handle to resize windows with no border"
+msgstr "Pideme lisamine piireteta akende suuruse muutmiseks"
+
+#. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
+#: config/ui/oxygenconfigurationui.ui:124
+#, kde-format
+msgid "Allow resizing maximized windows from window edges"
+msgstr "Maksimeeritud akende suuruse muutmise lubamine akna servast"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
+#: config/ui/oxygenconfigurationui.ui:144
+#, kde-format
+msgid "Use the same colors for title bar and window content"
+msgstr "Tiitliribal ja akna sisus samade värvide kasutamine"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
+#: config/ui/oxygenconfigurationui.ui:152
+#, kde-format
+msgid "Animations"
+msgstr "Animatsioonid"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: config/ui/oxygenconfigurationui.ui:165
+#, kde-format
+msgid "Shadows"
+msgstr "Varjud"
+
+#. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
+#: config/ui/oxygenconfigurationui.ui:171
+#, kde-format
+msgid "Active Window Glow"
+msgstr "Aktiivse akna helendamine"
+
+#. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
+#: config/ui/oxygenconfigurationui.ui:181
+#, kde-format
+msgid "Window Drop-Down Shadow"
+msgstr "Akna heidetav vari"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: config/ui/oxygenconfigurationui.ui:205
+#, kde-format
+msgid "Window-Specific Overrides"
+msgstr "Akende spetsiifilised tühistavad sätted"
+
+#. i18n: ectx: property (windowTitle), widget (QDialog, OxygenExceptionDialog)
+#. i18n: ectx: property (windowTitle), widget (QDialog, OxygenDetectWidget)
+#: config/ui/oxygendetectwidget.ui:14 config/ui/oxygenexceptiondialog.ui:14
+#, kde-format
+msgid "Dialog"
+msgstr "Dialoog"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: config/ui/oxygendetectwidget.ui:20
+#, kde-format
+msgid "Information about Selected Window"
+msgstr "Valitud akna teave"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: config/ui/oxygendetectwidget.ui:26
+#, kde-format
+msgid "Class: "
+msgstr "Klass: "
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: config/ui/oxygendetectwidget.ui:43
+#, kde-format
+msgid "Title: "
+msgstr "Tiitel: "
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: config/ui/oxygendetectwidget.ui:63
+#, kde-format
+msgid "Window Property Selection"
+msgstr "Akna omaduse valik"
+
+#. i18n: ectx: property (text), widget (QRadioButton, windowClassCheckBox)
+#: config/ui/oxygendetectwidget.ui:69
+#, kde-format
+msgid "Use window class (whole application)"
+msgstr "Kasutatakse akna klassi (kogu rakendus)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, windowTitleCheckBox)
+#: config/ui/oxygendetectwidget.ui:79
+#, kde-format
+msgid "Use window title"
+msgstr "Kasutatakse akna tiitlit"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: config/ui/oxygenexceptiondialog.ui:20
+#, kde-format
+msgid "Window Identification"
+msgstr "Akna identifikaator"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: config/ui/oxygenexceptiondialog.ui:26
+#, kde-format
+msgid "&Matching window property: "
+msgstr "&Sobiv akna omadus: "
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: config/ui/oxygenexceptiondialog.ui:39
+#, kde-format
+msgid "Regular expression &to match: "
+msgstr "So&bivus regulaaravaldisega: "
+
+#. i18n: ectx: property (text), widget (QPushButton, detectDialogButton)
+#: config/ui/oxygenexceptiondialog.ui:52
+#, kde-format
+msgid "Detect Window Properties"
+msgstr "Tuvasta akna omadused"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: config/ui/oxygenexceptiondialog.ui:83
+#, kde-format
+msgid "Decoration Options"
+msgstr "Dekoratsiooni valikud"
+
+#. i18n: ectx: property (text), widget (QCheckBox, borderSizeCheckBox)
+#: config/ui/oxygenexceptiondialog.ui:89
+#, kde-format
+msgid "Border size:"
+msgstr "Piirde suurus:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, hideTitleBar)
+#: config/ui/oxygenexceptiondialog.ui:96
+#, kde-format
+msgid "Hide window title bar"
+msgstr "Akna tiitliriba peitmine"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:107
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr "Piireteta"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:112
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Borders"
+msgstr "Külgpiireteta"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:117
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Tilluke"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:122
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Tavaline"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:127
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Suur"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:132
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Väga suur"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:137
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Hiiglaslik"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:142
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "Superhiiglaslik"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:147
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Ülemõõduline"
+
+#. i18n: ectx: property (text), widget (QPushButton, moveUpButton)
+#: config/ui/oxygenexceptionlistwidget.ui:58
+#, kde-format
+msgid "Move Up"
+msgstr "Liiguta üles"
+
+#. i18n: ectx: property (text), widget (QPushButton, moveDownButton)
+#: config/ui/oxygenexceptionlistwidget.ui:65
+#, kde-format
+msgid "Move Down"
+msgstr "Liiguta alla"
+
+#. i18n: ectx: property (text), widget (QPushButton, addButton)
+#: config/ui/oxygenexceptionlistwidget.ui:72
+#, kde-format
+msgid "Add"
+msgstr "Lisa"
+
+#. i18n: ectx: property (text), widget (QPushButton, editButton)
+#: config/ui/oxygenexceptionlistwidget.ui:86
+#, kde-format
+msgid "Edit"
+msgstr "Muuda"
+
+#~ msgid "Display window borders for maximized windows"
+#~ msgstr "Maksimeeritud akende piirete näitamine"

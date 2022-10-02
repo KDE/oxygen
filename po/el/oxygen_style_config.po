@@ -1,0 +1,978 @@
+# translation of kstyle_config.po to Greek
+#
+# Spiros Georgaras <sngeorgaras@otenet.gr>, 2005.
+# Spiros Georgaras <sng@hellug.gr>, 2007.
+# Toussis Manolis <manolis@koppermind.homelinux.org>, 2009.
+# Dimitrios Glentadakis <dglent@gmail.com>, 2011, 2012.
+# Stelios <sstavra@gmail.com>, 2012, 2020.
+# Antonis Geralis <capoiosct@gmail.com>, 2013, 2014.
+# Dimitris Kardarakos <dimkard@gmail.com>, 2014, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2020-08-05 10:00+0300\n"
+"Last-Translator: Stelios <sstavra@gmail.com>\n"
+"Language-Team: Greek <kde-i18n-el@kde.org>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 20.04.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Ρυθμίσεις oxygen"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Εστίαση, πέρασμα δρομέα από πάνω και κατάσταση μετάβασης συστατικού"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Διαμόρφωση εφέ τονισμού συστατικών εστίασης και περάσματος δρομέα, καθώς και "
+"ενεργοποίησης της μετάβασης συστατικού σε ενεργή/ανενεργή κατάσταση"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Τονισμός γραμμής εργαλείων"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr ""
+"Διαμόρφωση γραμμής εργαλείων για το εφέ τονισμού στο πέρασμα του δρομέα"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Τονισμός γραμμής μενού"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "Διαμόρφωση γραμμής μενού για το εφέ τονισμού στο πέρασμα του δρομέα"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Τονισμός γραμμής μενού"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Διαμόρφωση μενού για το εφέ τονισμού στο πέρασμα του δρομέα"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Εφέ γραμμής προόδου"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Διαμόρφωση εφέ βημάτων γραμμής προόδου"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Μεταβάσεις καρτελών"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Διαμόρφωση μετάβασης με σβήσιμο ανάμεσα στις καρτέλες"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Μεταβάσεις ετικετών"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "Διαμόρφωση μετάβασης με σβήσιμο όταν ένα κείμενο ετικέτας αλλάζει"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Επεξεργαστής κειμένου μεταβάσεων"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr ""
+"Διαμόρφωση μετάβασης με σβήσιμο όταν ένα κείμενο επεξεργαστή έχει αλλάξει"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Μεταβάσεις πλαισίου συνδυασμών"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+"Διαμόρφωση μετάβασης με σβήσιμο όταν η επιλεγμένη τιμή ενός πλαισίου "
+"συνδυασμών έχει αλλάξει"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, kde-format
+msgid "Progress bar busy indicator"
+msgstr "Ένδειξη γραμμής προόδου"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Διαμόρφωση εφέ ένδειξης απασχολημένου για την γραμμή προόδου"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Πλαίσιο"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Τύπος κίνησης:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Ομαλή εμφάνιση"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Παρακολούθηση ποντικιού"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Διάρκεια ομαλής εμφάνιση:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Παρακολούθηση διάρκειας ποντικιού:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " ms"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Διάλογος"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Γενικά"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Έλξη παραθύρων μόνο από την μπάρα του τίτλου"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr ""
+"Έλξη παραθύρων από την μπάρα του τίτλου, από την μπάρα μενού και από την "
+"γραμμή εργαλείων"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Έλξη παραθύρων από όλες τις κενές επιφάνειες"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Ορατότητα επιταχυντών πληκτρολογίου:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Λειτουργία έλ&ξης παραθύρων:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Διαχωριστές αντικειμένων εργαλειοθήκης σχεδίασης"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Ενεργοποίηση εκτεταμένων χειριστηρίων αλλαγής μεγέθους"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Σχεδίαση διαβάθμισης φόντου παραθύρου"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Εφέ κίνησης"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Προβολές"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Σχεδίαση γραμμών κλάδων"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "Μέγεθος γραφικού &επέκτασης δέντρου:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Μικροσκοπικό"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Μικρό"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Κανονικό"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Σχεδίαση ένδειξης εστίασης στις λίστες"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Γραμμές κύλισης"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Πλάτος &γραμμής κύλισης:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Τύπος για το κουμπί άνω βέλους:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Τύπος για το κουμπί κάτω βέλους:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Χωρίς κουμπιά"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Ένα κουμπί"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Δύο κουμπιά"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Κανένα κουμπί"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Τονισμός γραμμής μενού"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Χρήση &σκοτεινού χρώματος"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Χρήση χρώματος επι&λογής (απλό)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Χρήση χρώματος ε&πιλογής (ήπιο)"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Πάντα να γίνεται απόκρυψη των επιταχυντών πληκτρολογίου"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Να εμφανίζονται οι επιταχυντές πληκτρολογίου όποτε απαιτείται"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Να εμφανίζονται πάντα οι επιταχυντές πληκτρολογίου"
+
+#~ msgid "Widget Style"
+#~ msgstr "Στυλ συστατικού"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Τροποποίηση εμφάνισης συστατικών"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Διακοσμήσεις παραθύρου"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Τροποποίηση εμφάνισης της διακόσμησης παραθύρου"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Αδυναμία εύρεσης πρόσθετου για τη διαμόρφωση του στιλ oxygen"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Αδυναμία εύρεσης πρόσθετου για τη διαμόρφωση διακόσμησης oxygen"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Απόκρυψη προηγμένων επιλογών διαμόρφωσης"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Εμφάνιση προηγμένων επιλογών διαμόρφωσης"
+
+#~ msgid "Enable animations"
+#~ msgstr "Ενεργοποίηση εφέ κίνησης"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Ενεργοποίηση λανθάνουσας pixmap μνήμης"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Ένδειξη απασχόλησης βημάτων"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Χρησιμοποίηση 'X' στα πλαίσια επιλογής αντί του σήματος επιλογής"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Χρήση διαχειριστή παραθύρων για το σύρσιμο των παραθύρων"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Χρήση διαστολέας τριγωνικού δέντρου αντί του +/-"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Μέγεθος τριγώνου:"
+
+#~ msgid "Tabs"
+#~ msgstr "Καρτέλες"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Μονό"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Απλό"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Ανενεργό στιλ καρτελών:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Επίδειξη Oxygen"
+
+#~ msgid "Normal"
+#~ msgstr "Κανονικό"
+
+#~ msgid "New"
+#~ msgstr "Νέο"
+
+#~ msgid "Open"
+#~ msgstr "Άνοιγμα"
+
+#~ msgid "Save"
+#~ msgstr "Αποθήκευση"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "Εναλλαγή ταυτοποίησης"
+
+#~ msgid "Enabled"
+#~ msgstr "Ενεργό"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Διάταξη δεξιά προς αριστερά"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Συστατικά εισόδου"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Δείχνει την εμφάνιση των κειμένων στα συστατικά εισόδου"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Καρτέλα συστατικών"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Δείχνει την εμφάνιση της καρτέλας συστατικών"
+
+#~ msgid "Buttons"
+#~ msgstr "Κουμπιά"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Δείχνει την εμφάνιση των κουμπιών"
+
+#~ msgid "Lists"
+#~ msgstr "Λίστες"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Δείχνει την εμφάνιση των λιστών, δέντρων και πινάκων"
+
+#~ msgid "Frames"
+#~ msgstr "Πλαίσια"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Παρουσιάζει την εμφάνιση διαφόρων πλαισιωμένων γραφικών συστατικών"
+
+#~ msgid "MDI Windows"
+#~ msgstr "Παράθυρα MDI"
+
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Δείχνει την εμφάνιση των παραθύρων MDI"
+
+#~ msgid "Sliders"
+#~ msgstr "Κυλίσεις"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "Δείχνει την εμφάνιση των κυλίσεων, των γραμμών προόδου και κύλισης"
+
+#~ msgid "Benchmark"
+#~ msgstr "Μέτρο σύγκρισης επιδόσεων"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr ""
+#~ "Εξομοιώνει τη διαδραστικότητα του χρήστη με γραφικά συστατικά για τη "
+#~ "σύγκριση επιδόσεων"
+
+#~ msgid "Example text"
+#~ msgstr "Παράδειγμα κειμένου"
+
+#~ msgid "password"
+#~ msgstr "κωδικός πρόσβασης"
+
+#~ msgid "Layout"
+#~ msgstr "Διάταξη"
+
+#~ msgid "Tile"
+#~ msgstr "Παράθεση"
+
+#~ msgid "Cascade"
+#~ msgstr "Διαδοχική"
+
+#~ msgid "Tools"
+#~ msgstr "Εργαλεία"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Επιλογή επόμενου παραθύρου"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Επιλογή προηγούμενου παραθύρου"
+
+#~ msgid "This is a sample text"
+#~ msgstr "Αυτό είναι ένα κείμενο δείγμα"
+
+#~ msgid "Modules"
+#~ msgstr "Αρθρώματα"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr ""
+#~ "Επιλέξτε παρακάτω τα αρθρώματα για τα οποία θέλετε να εκτελέσετε την "
+#~ "προσομοίωση:"
+
+#~ msgid "Options"
+#~ msgstr "Επιλογές"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Σύλληψη ποντικιού"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Εκτέλεση προσομοίωσης"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Πλαίσια επιλογής"
+
+#~ msgid "Off"
+#~ msgstr "Ανενεργό"
+
+#~ msgid "Partial"
+#~ msgstr "Μερικό"
+
+#~ msgid "On"
+#~ msgstr "Ενεργό"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Κουμπί επιλογής"
+
+#~ msgid "First Choice"
+#~ msgstr "Πρώτη επιλογή"
+
+#~ msgid "Second Choice"
+#~ msgstr "Δεύτερη επιλογή"
+
+#~ msgid "Third Choice"
+#~ msgstr "Τρίτη επιλογή"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Κουμπιά πίεσης"
+
+#~ msgid "Text only:"
+#~ msgstr "Μόνο κείμενο:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Αυτό είναι ένα κανονικό, για κείμενο μόνο πλαίσιο συνδυασμών"
+
+#~ msgid "Small"
+#~ msgstr "Μικρό"
+
+#~ msgid "Large"
+#~ msgstr "Μεγάλο"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Κείμενο και εικόνα:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Χρησιμοποίηση επίπεδων κουμπιών"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr ""
+#~ "Αυτό είναι ένα κανονικό, για κείμενο και εικονίδιο πλαίσιο συνδυασμών"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Αυτό είναι ένα κανονικό, για κείμενο μόνο κουμπί εργαλείων"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Αυτό είναι ένα κανονικό, για κείμενο και εικονίδιο κουμπί εργαλείων"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Αυτό είναι ένα κανονικό, μόνο για κείμενο κουμπί"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Αυτό είναι ένα κανονικό, μόνο για κείμενο κουμπί με μενού"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Αυτό είναι ένα κανονικό, για κείμενο και εικονίδιο κουμπί"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Αυτό είναι ένα κανονικό, για κείμενο και εικονίδιο κουμπί με μενού"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Κουμπιά εργαλείων"
+
+#~ msgid "Flat"
+#~ msgstr "Επίπεδο"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Πάνω βέλος"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Κάτω βέλος"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Αριστερό βέλος"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Δεξί βέλος"
+
+#~ msgid "Text position:"
+#~ msgstr "Θέση κειμένου:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Μόνο εικονίδια"
+
+#~ msgid "Text Only"
+#~ msgstr "Μόνο κείμενο"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Κείμενο δίπλα στα εικονίδια"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Κείμενο κάτω από τα εικονίδια"
+
+#~ msgid "Icon size:"
+#~ msgstr "Μέγεθος εικονιδίων:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Μικρό (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Μεσαίο (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Μεγάλο (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Τεράστιο (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Κατεύθυνση διάταξης:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Αριστερά προς δεξιά"
+
+#~ msgid "Right to Left"
+#~ msgstr "Δεξιά προς αριστερά"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Πάνω προς κάτω"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Κάτω προς επάνω"
+
+#~ msgid "GroupBox"
+#~ msgstr "ΠλαίσιοΟμάδας"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Επίπεδο"
+
+#~ msgid "Raised"
+#~ msgstr "Υψωμένο"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Επίπεδο"
+
+#~ msgid "Sunken"
+#~ msgstr "Βυθισμένο"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Καρτέλα συστατικού"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Μονή γραμμή επεξεργαστή κειμένου:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Επεξεργαστής κωδικού:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Επεξεργάσιμο πλαίσιο συνδυασμών"
+
+#~ msgid "First item"
+#~ msgstr "Πρώτο αντικείμενο"
+
+#~ msgid "Second item"
+#~ msgstr "Δεύτερο αντικείμενο"
+
+#~ msgid "Third item"
+#~ msgstr "Τρίτο αντικείμενο"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Περιστροφικό πλαίσιο:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Πολλαπλή γραμμή επεξεργαστή κειμένου:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Αναδίπλωση λέξεων"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Χρησιμοποίηση επίπεδων γραφικών συστατικών"
+
+#~ msgid "First Item"
+#~ msgstr "Πρώτο αντικείμενο"
+
+#~ msgid "Second Item"
+#~ msgstr "Δεύτερο αντικείμενο"
+
+#~ msgid "Third Item"
+#~ msgstr "Τρίτο αντικείμενο"
+
+#~ msgid "Title"
+#~ msgstr "Τίτλος"
+
+#~ msgid "Description"
+#~ msgstr "Περιγραφή"
+
+#~ msgid "Third Description"
+#~ msgstr "Τρίτη περιγραφή"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Τρίτο υποαντικείμενο"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Τρίτη περιγραφή υποαντικειμένου"
+
+#~ msgid "Second Description"
+#~ msgstr "Δεύτερη περιγραφή"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Δεύτερο υποαντικείμενο"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Δεύτερη περιγραφή υποαντικειμένου"
+
+#~ msgid "First Subitem"
+#~ msgstr "Πρώτο υποαντικείμενο"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Πρώτη περιγραφή υποαντικειμένου"
+
+#~ msgid "First Description"
+#~ msgstr "Πρώτη περιγραφή"
+
+#~ msgid "New Row"
+#~ msgstr "Νέα γραμμή"
+
+#~ msgid "First Row"
+#~ msgstr "Πρώτη γραμμή"
+
+#~ msgid "Third Row"
+#~ msgstr "Τρίτη γραμμή"
+
+#~ msgid "First Column"
+#~ msgstr "Πρώτη στήλη"
+
+#~ msgid "Second Column"
+#~ msgstr "Δεύτερη στήλη"
+
+#~ msgid "Third Column"
+#~ msgstr "Τρίτη στήλη"
+
+#~ msgid "Top-left"
+#~ msgstr "Πάνω-αριστερά"
+
+#~ msgid "Top"
+#~ msgstr "Πάνω"
+
+#~ msgid "Top-right"
+#~ msgstr "Πάνω-δεξιά"
+
+#~ msgid "Left "
+#~ msgstr "Αριστερά "
+
+#~ msgid "Center"
+#~ msgstr "Κέντρο"
+
+#~ msgid "Right"
+#~ msgstr "Δεξιά"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Κάτω-αριστερά"
+
+#~ msgid "Bottom"
+#~ msgstr "Κάτω"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Κάτω-δεξιά"
+
+#~ msgid "Editors"
+#~ msgstr "Επεξεργαστές"
+
+#~ msgid "Title:"
+#~ msgstr "Τίτλος:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Εργαλειοθήκη"
+
+#~ msgid "First Page"
+#~ msgstr "Πρώτη σελίδα"
+
+#~ msgid "Second Page"
+#~ msgstr "Δεύτερη σελίδα"
+
+#~ msgid "First Label"
+#~ msgstr "Πρώτη ετικέτα"
+
+#~ msgid "Second Label"
+#~ msgstr "Δεύτερη ετικέτα"
+
+#~ msgid "Third Page"
+#~ msgstr "Τρίτη σελίδα"
+
+#~ msgid "Horizontal"
+#~ msgstr "Οριζόντια"
+
+#~ msgid "Busy"
+#~ msgstr "Απασχολημένο"
+
+#~ msgid "Vertical"
+#~ msgstr "Κατακόρυφα"
+
+#~ msgid "Tab position:"
+#~ msgstr "Θέση καρτέλας:"
+
+#~ msgid "North"
+#~ msgstr "Βορράς"
+
+#~ msgid "South"
+#~ msgstr "Νότος"
+
+#~ msgid "West"
+#~ msgstr "Δύση"
+
+#~ msgid "East"
+#~ msgstr "Ανατολή"
+
+#~ msgid "Document mode"
+#~ msgstr "Κατάσταση εγγράφου"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Εμφάνιση γωνιακών κουμπιών"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Απόκρυψη γραμμής καρτελών"
+
+#~ msgid "Preview"
+#~ msgstr "Προεπισκόπηση"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Πέτρος Βιδάλης"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "p_vidalis@hotmail.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Εργαλείο διαμόρφωσης Oxygen για προχωρημένους"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Στυλ επίδειξης Oxygen"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Διαχωριστές αντικειμένων εργαλειοθήκης σχεδίασης"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Χρήση πιο πλατιών γραμμών"
+
+#~ msgid "Highlight scroll bar handles"
+#~ msgstr "Τονισμός χειριστηρίων γραμμής κύλισης"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "Εφέ κίνησης γραμμών προόδου"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Πρόσθετο στυλ ιστού"
+
+#~ msgid "modified"
+#~ msgstr "τροποποιήθηκε"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "ρυθμίσεις-oxygen - πληροφορίες"
+
+#~ msgid "CheckBox"
+#~ msgstr "Πλαίσιο επιλογής"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Διάρκεια (ms):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Εφέ κίνησης μετάβασης καρτελών"
+
+#, fuzzy
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Σχεδίαση γωνίας γραμμής κύλισης "
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Χρωματισμός κυλίσεων σε εστίαση"
+
+#~ msgid "Draw toolbar separator"
+#~ msgstr "Διαχωριστικό εργαλειοθήκης σχεδίασης"
+
+#~ msgid "Highlight focused text input fields"
+#~ msgstr "Επισήμανση εστιασμένων πεδίων εισαγωγής κειμένου"
+
+#~ msgid "Custom text input highlight color:"
+#~ msgstr "Προκαθορισμένο χρώμα επισήμανσης εισαγωγής κειμένου:"
+
+#~ msgid "Custom checkmark color:"
+#~ msgstr "Προκαθορισμένο χρώμα επιλογής μαρκαρίσματος:"

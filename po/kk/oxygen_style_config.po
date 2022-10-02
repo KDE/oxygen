@@ -1,0 +1,1099 @@
+# translation of kstyle_config.po to Kazakh
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Sairan Kikkarin <sairan@computer.org>, 2007, 2010.
+# Sairan Kikkarin <sairan@computer.org>, 2010, 2011.
+# Sairan Kikkarin <sairan(at)computer.org>, 2010, 2012, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2013-09-26 05:24+0600\n"
+"Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
+"Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
+"Language: kk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Oxygen баптауы"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Назар ауысуы, меңзеу және виджеттің күй-жайын ауыстыру"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Виджетке назар ауысуын, меңзегенде анимациялап белгілеуін баптау және "
+"виджетті көрсету/өшіру күйін ауыстыру"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Құрал панелінің белгілеуі"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "Құрал панелін меңзегенде анимациялап белгілеуін баптау"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Мәзір панелінің белгілеуі"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "Мәзір панелін меңзегенде анимациялап белгілеуін баптау"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Мәзірінің белгілеуі"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Мәзірін меңзегенде анимациялап белгілеуін баптау"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Барыс көрсеткішінің анимациясы"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Барыс көрсеткіші жүрісінің анимациясын баптау"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Қойындының ауысуы"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Қойындылар арасында біртіндеп ауысуын баптау"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Жарлықтар ауысуы"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "Жарлық жазуы өзгергенде, біртіндеп ауысуын баптау"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Мәтін өңдегіштегі ауысуы"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "Мәтін өңдегіштегі жазуы өзгергенде, біртіндеп ауысуын баптау"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Ашылмалы тізім ауысуы"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr "Ашылмалы тізімінің таңдауы өзгергенде, біртіндеп ауысуын баптау"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+#| msgid "Progress bar animation"
+msgid "Progress bar busy indicator"
+msgstr "Барыс көрсеткішінің анимациясы"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Барысы көрсеткіші бос емес индикаторынның анимациясын баптау"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Қоршау"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Анимациясының түрі:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Біртіндеу"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Тышқанға еру"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Біртіндеу ұзақтығы:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Тышқанға еру ұзақтығы:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, fuzzy, kde-format
+#| msgid "ms"
+msgid " ms"
+msgstr "мс"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Диалог"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Жалпы"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Терезелер айдарынан ғана сүйрелсін"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Терезелер айдары, мәзір, құрал панелінен сүйрелсін "
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Терезелер бүкіл бос жерінен сүйрелсін"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Пернетақта акселераторлардың көрсетілуі:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, fuzzy, kde-format
+#| msgid "Windows' drag mode:"
+msgid "Windows' &drag mode:"
+msgstr "Терезені сүйреу режімі:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Құрал панелінің элементтердің бөлгіші көрсетілсін"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Жетілдірген өлшем өзгерту тізгіндері болсын"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Анимациясы"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Көрінстер"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Бұтақ сызықтары көрсетілсін"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, fuzzy, kde-format
+#| msgid "Border size:"
+msgid "&Tree expander size:"
+msgstr "Жиек қалыңдығы:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Шағын"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Ықшам"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Қалыпты"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, fuzzy, kde-format
+#| msgid "Draw focus indicator"
+msgid "Draw focus indicator in lists"
+msgstr "Назар аудару индикаторы болсын"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Жүгірткілері"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+#| msgid "Scrollbar width:"
+msgid "Scrollbar wi&dth:"
+msgstr "Жүгірткінің ені:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "пкс"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Жоғарғы жебе батырмасының түрі:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Төменгі жебе батырмасының түрі:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Батырмалар жоқ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Бір батырма"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Екі батырма"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Батырма жоқ"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Мәзірді белгілеу"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, fuzzy, kde-format
+#| msgid "Use dark color"
+msgid "Use dar&k color"
+msgstr "Қою түсімен боялсын"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, fuzzy, kde-format
+#| msgid "Use selection color (plain)"
+msgid "&Use selection color (plain)"
+msgstr "Таңдау (кәдімгі) түсімен боялсын"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, fuzzy, kde-format
+#| msgid "Use selection color (subtle)"
+msgid "Use selec&tion color (subtle)"
+msgstr "Таңдау (селдір) түсімен боялсын"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Пернетақта акселераторлары көрсетілмесін"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Пернетақта акселераторлары керегінде көрсетілсін"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Пернетақта акселераторлары көрсетілсін"
+
+#~ msgid "Widget Style"
+#~ msgstr "Виджеттің стилі"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Виджеттерінің көрінісін өзгерту"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Терезе безендірулері"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Терезе безендірулерін өзгерту"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Oxygen стилін баптау плагині табылмады"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Oxygen безендіруін баптау плагині табылмады"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Жетелеп баптау параметрлері жасырылсын"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Жетелеп баптау параметрлері көрсетілсін"
+
+#~ msgid "Enable animations"
+#~ msgstr "Анимациясы болсын"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Растр кэші болсын"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Бос емес индикаторының жүрісі"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Құсбелгінің орнына 'X' белгісі болсын"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Терезелерді сүйреу үшін терезе менеджері қолданылсын"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "+/- орнына үшбұрышты бұтақ тарқатқыш пайдалансын"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Үшбұрыш өлшемі:"
+
+#~ msgid "Tabs"
+#~ msgstr "Қойындылар"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Бөлек"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Кәдімгі"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Незардан тыс қойындылар стилі:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Oxygen демо"
+
+#~ msgid "Normal"
+#~ msgstr "Қалыпты"
+
+#~ msgid "New"
+#~ msgstr "Жаңа"
+
+#~ msgid "Open"
+#~ msgstr "Ашу"
+
+#~ msgid "Save"
+#~ msgstr "Сақтау"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "Аутентификация керек/керегі жоқ"
+
+#~ msgid "Enabled"
+#~ msgstr "Рұқсат етілген"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Оңнан солға"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Енгізу виджеттері"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Мәтін енгізу виджеттерінің көрінісін көрсету"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Қойынды виджет"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Қойынды виджеттерінің көрінісін көрсету"
+
+#~ msgid "Buttons"
+#~ msgstr "Батырмалары"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Батырмалар көрінісін көрсету"
+
+#~ msgid "Lists"
+#~ msgstr "Тізімдер"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Тізім, бұтақ және кестелер көрінісін көрсету"
+
+#~ msgid "Frames"
+#~ msgstr "Қоршау"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Түрлі қоршау виджеттерінің көрінісін көрсету"
+
+#~ msgid "MDI Windows"
+#~ msgstr "Көпқұжатты терезелер"
+
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Көпқұжатты терезелер көрінісін көрсету"
+
+#~ msgid "Sliders"
+#~ msgstr "Жүгірткілер"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "Жүгірткі, барыс көрсеткіші және жүгірту жолақтар көрінісін көрсету"
+
+#~ msgid "Benchmark"
+#~ msgstr "Бағалау"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr "Бағалау үшін пайдаланушының виджетпен айналысуды эмуляциялау"
+
+#~ msgid "Example text"
+#~ msgstr "Мәтін үлгісі"
+
+#~ msgid "password"
+#~ msgstr "пароль"
+
+#~ msgid "Layout"
+#~ msgstr "Орналасуы"
+
+#~ msgid "Tile"
+#~ msgstr "Қатарлап"
+
+#~ msgid "Cascade"
+#~ msgstr "Кезектеп"
+
+#~ msgid "Tools"
+#~ msgstr "Құралдар"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Келесі терезені таңдау"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Алдыңғы терезені таңдау"
+
+#~ msgid "This is a sample text"
+#~ msgstr "Бұл үлгі мәтіні"
+
+#~ msgid "Modules"
+#~ msgstr "Модульдер"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "Эмуляциясын қалаған модульдерін төмендегілерінен таңдаңыз:"
+
+#~ msgid "Options"
+#~ msgstr "Параметрлері"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Тышқаны өзіне аударып алынсын"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Эмуляциясын бастау"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Белгі көздері"
+
+#~ msgid "Off"
+#~ msgstr "Ажыратулы"
+
+#~ msgid "Partial"
+#~ msgstr "Жарым-жарты"
+
+#~ msgid "On"
+#~ msgstr "Қосулы"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Қосқыш"
+
+#~ msgid "First Choice"
+#~ msgstr "Біріншісі"
+
+#~ msgid "Second Choice"
+#~ msgstr "Екіншісі"
+
+#~ msgid "Third Choice"
+#~ msgstr "Үшіншісі"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Батырмалары"
+
+#~ msgid "Text only:"
+#~ msgstr "Мәтін ғана:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Бұл кәдімгі мәтінді ашылмалы тізім"
+
+#~ msgid "Small"
+#~ msgstr "Ықшам"
+
+#~ msgid "Large"
+#~ msgstr "Үлкен"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Мәтін мен таңбаша"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Батырмалар жалпақ болсын"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "Бұл кәдімгі мәтіні және таңбашасы бар ашылмалы тізім"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Бұл кәдімгі мәтінді құрал батырмасы"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Бұл кәдімгі мәтіні және таңбашасы бар құрал батырмасы"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Бұл кәдімгі мәтінді батырма"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Бұл кәдімгі мәзірі бар мәтінді батырма"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Бұл кәдімгі мәтіні және таңбашасы бар батырма"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Бұл кәдімгі мәзірі бар мәтінді және таңбашалы батырма"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Құрал батырмалары"
+
+#~ msgid "Flat"
+#~ msgstr "Жалпақ"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Жоғары жебесі"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Төмен жебесі"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Сол жақ жебесі"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Оң жақ жебесі"
+
+#~ msgid "Text position:"
+#~ msgstr "Мәтін орналасуы:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Таңбашалар ғана"
+
+#~ msgid "Text Only"
+#~ msgstr "Мәтін ғана"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Таңбашамен қатар мәтін"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Таңбашаның астында мәтін"
+
+#~ msgid "Icon size:"
+#~ msgstr "Таңбаша өлшемі:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Шағын (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Орташа (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Үлкен (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Өте үлкен (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Орналасу бағыты:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Солдан оңға"
+
+#~ msgid "Right to Left"
+#~ msgstr "Оңнан солға"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Жоғардан төменге"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Төменнен жоғарға"
+
+#~ msgid "GroupBox"
+#~ msgstr "Топтама"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Жалпақ"
+
+#~ msgid "Raised"
+#~ msgstr "Алға шығарған"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Жалпақ"
+
+#~ msgid "Sunken"
+#~ msgstr "Батырылған"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Қойынды виджеті"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Жалғыз жол мәтін өңдегіші:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Пароль өңдегіші:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Өңдемелі ашылмалы тізім"
+
+#~ msgid "First item"
+#~ msgstr "Біріншісі"
+
+#~ msgid "Second item"
+#~ msgstr "Екіншісі"
+
+#~ msgid "Third item"
+#~ msgstr "Үшіншісі"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Сан тергіші:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Көп жол мәтін өңдегіші:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Сөздерді тасымалдау"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Виджеттер жалпақ болсын"
+
+#~ msgid "First Item"
+#~ msgstr "Біріншісі"
+
+#~ msgid "Second Item"
+#~ msgstr "Екіншісі"
+
+#~ msgid "Third Item"
+#~ msgstr "Үшіншісі"
+
+#~ msgid "Title"
+#~ msgstr "Айдары"
+
+#~ msgid "Description"
+#~ msgstr "Сипаттамасы"
+
+#~ msgid "Third Description"
+#~ msgstr "Үшінші сипаттамасы"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Үшінші ішіндегісі"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Үшінші ішіндегісінің сипаттамасы"
+
+#~ msgid "Second Description"
+#~ msgstr "Екінші сипаттамасы"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Екінші ішіндегісі"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Екінші ішіндегісінің сипаттамасы"
+
+#~ msgid "First Subitem"
+#~ msgstr "Бірінші ішіндегісі"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Бірінші ішіндегісінің сипаттамасы"
+
+#~ msgid "First Description"
+#~ msgstr "Бірінші сипаттамасы"
+
+#~ msgid "New Row"
+#~ msgstr "Жаңа жол"
+
+#~ msgid "First Row"
+#~ msgstr "Бірінші жолы"
+
+#~ msgid "Third Row"
+#~ msgstr "Үшінші жолы"
+
+#~ msgid "First Column"
+#~ msgstr "Бірінші бағаны"
+
+#~ msgid "Second Column"
+#~ msgstr "Екінші бағаны"
+
+#~ msgid "Third Column"
+#~ msgstr "Үшінші бағаны"
+
+#~ msgid "Top-left"
+#~ msgstr "Жоғарғы сол жақ"
+
+#~ msgid "Top"
+#~ msgstr "Жоғары"
+
+#~ msgid "Top-right"
+#~ msgstr "Жоғарғы оң жақ"
+
+#~ msgid "Left "
+#~ msgstr "Сол жақ "
+
+#~ msgid "Center"
+#~ msgstr "Орта"
+
+#~ msgid "Right"
+#~ msgstr "Оң жақ"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Төменгі сол жақ"
+
+#~ msgid "Bottom"
+#~ msgstr "Төмен"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Төменгі оң жақ"
+
+#~ msgid "Editors"
+#~ msgstr "Өңдегіштер"
+
+#~ msgid "Title:"
+#~ msgstr "Атауы:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Құралдар панелі"
+
+#~ msgid "First Page"
+#~ msgstr "Бірінші беті"
+
+#~ msgid "Second Page"
+#~ msgstr "Екінші беті"
+
+#~ msgid "First Label"
+#~ msgstr "Бірінші жарлық"
+
+#~ msgid "Second Label"
+#~ msgstr "Екінші жарлық"
+
+#~ msgid "Third Page"
+#~ msgstr "Үшінші беті"
+
+#~ msgid "Horizontal"
+#~ msgstr "Жатық"
+
+#~ msgid "Busy"
+#~ msgstr "Істе"
+
+#~ msgid "Vertical"
+#~ msgstr "Тік"
+
+#~ msgid "Tab position:"
+#~ msgstr "Қойындының орны:"
+
+#~ msgid "North"
+#~ msgstr "Солтүстік"
+
+#~ msgid "South"
+#~ msgstr "Оңтүстік"
+
+#~ msgid "West"
+#~ msgstr "Батыс"
+
+#~ msgid "East"
+#~ msgstr "Шығыс"
+
+#~ msgid "Document mode"
+#~ msgstr "Құжат режімі"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Бұрыш батырмалар көрсетілсін"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Қойынды панелі жасырылсын"
+
+#~ msgid "Preview"
+#~ msgstr "Қарап-шығу"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Сайран Киккарин"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "sairan@computer.org"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Oxygen-ді жетелеп баптау құралы"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Oxygen стилінің демонстрациясы"
+
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Пернетақта акселераторлары көрсетілсін"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Сызықтар қалыңдау болсын"
+
+#~ msgid "Highlight scroll bar handles"
+#~ msgstr "Жүгірткінің тізгіндерін белгілеу"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "Барыс көрсеткіштері анимациялансын"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Веб стилі плагині"
+
+#~ msgid "modified"
+#~ msgstr "өзгертілген"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "oxygen-баптауы - мәлімет"
+
+#~ msgid "CheckBox"
+#~ msgstr "Белгі көзі"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Ұзақтық (мс):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Қойынды ауысуы анимациялансын"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Жүгірткі дөңес қылып салынсын"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Меңзеген жүгірткі түсін өзгертсін"
+
+#~ msgid "Plain"
+#~ msgstr "Кәдімгі"
+
+#~ msgid "Form"
+#~ msgstr "Пішін"
+
+#~ msgid "Third Tab"
+#~ msgstr "Үшінші қойынды"
+
+#~ msgid "Fourth Tab"
+#~ msgstr "Төртінші қойынды"
+
+#~ msgid "Width:"
+#~ msgstr "Ені:"
+
+#~ msgid ""
+#~ "Note: changes to the scrollbar width will only apply to newly launched "
+#~ "applications"
+#~ msgstr ""
+#~ "Ескерту: Жүгірткінің ені тек қана жаңа басталған қолданбаларда өзгереді"
+
+#~ msgid "No Border"
+#~ msgstr "Жиегі жоқ"
+
+#~ msgid "No Side Border"
+#~ msgstr "Жақтау жиегі жоқ"
+
+#~ msgid "Very Large"
+#~ msgstr "Оте қалың"
+
+#~ msgid "Huge"
+#~ msgstr "Зор"
+
+#~ msgid "Very Huge"
+#~ msgstr "Өте зор"
+
+#~ msgid "Oversized"
+#~ msgstr "Зәулім"
+
+#~ msgid "Title Alignment:"
+#~ msgstr "Айдарын туралау:"
+
+#~ msgid "Left"
+#~ msgstr "Солға"
+
+#~ msgid "Button Size:"
+#~ msgstr "Батырманың өлшемі:"
+
+#~ msgid "Enable window grouping"
+#~ msgstr "Терезелердің топтасуы болсын"
+
+#~ msgid "Enable title transition animations"
+#~ msgstr "Айдары анимацияланып ауыссын"
+
+#~ msgid "Fine Tuning"
+#~ msgstr "Егжейлі лайықтау"
+
+#~ msgid "Background style: "
+#~ msgstr "Аясының стилі:"
+
+#~ msgid "Solid Color"
+#~ msgstr "Түтас бояу"
+
+#~ msgid "Radial Gradient"
+#~ msgstr "Радиалды градиент"
+
+#~ msgid "Extra size grip display: "
+#~ msgstr "Өлшем өзгерту тізгінің көрсету:"
+
+#~ msgid "Always Hide Extra Size Grip"
+#~ msgstr "Әрқашан жасыру"
+
+#~ msgid "Show Extra Size Grip When Needed"
+#~ msgstr "Керегінде көрсету"
+
+#~ msgid "Outline active window title"
+#~ msgstr "Белсенді терезенің айдары ерекше болсын"
+
+#~ msgid "Draw separator between title bar and active window content"
+#~ msgstr "Белсенді терезенің айдары мен беті арасында бөлгіші болсын"
+
+#~ msgid "Use narrow space between decoration buttons"
+#~ msgstr "Безендіру батырмалар арасында шамалы орын қалсын"
+
+#~ msgid "Shadows"
+#~ msgstr "Көлеңкелері"
+
+#, fuzzy
+#~| msgid "Shadows"
+#~ msgid "Shadow style:"
+#~ msgstr "Көлеңкелері"
+
+#, fuzzy
+#~| msgid "Window Drop Down Shadow "
+#~ msgid "Do Not Draw Shadows"
+#~ msgstr "Терезенің көлеңкесі бар "
+
+#~ msgid "Window Drop Down Shadow "
+#~ msgstr "Терезенің көлеңкесі бар "
+
+#~ msgid "Active Window Glow"
+#~ msgstr "Белсенді терезенің жарқырауы"
+
+#~ msgid "Inner Color:"
+#~ msgstr "Ішкі түсі:"
+
+#~ msgid "Outer Color:"
+#~ msgstr "Сыртқы түсі:"
+
+#~ msgid "Vertical Offset:"
+#~ msgstr "Тік шегінуі:"
+
+#~ msgid "Size: "
+#~ msgstr "Өлшемі:"
+
+#~ msgid "None"
+#~ msgstr "Жоқ"
+
+#~ msgid "Dark"
+#~ msgstr "Қою қылып"
+
+#~ msgid "Subtle"
+#~ msgstr "Селдірлетіп"
+
+#~ msgid "Draw toolbar separator"
+#~ msgstr "Құрал панелінің бөлгіші көрсетілсін"
+
+#~ msgid "Highlight focused text input fields"
+#~ msgstr "Назардағы енгізу өрістері бояулансын"
+
+#~ msgid "Custom text input highlight color:"
+#~ msgstr "Енгізу өрісті бояулау түсі:"
+
+#~ msgid "Custom mouseover highlight color:"
+#~ msgstr "Тышқан меңзегенде бояулау түсі:"
+
+#~ msgid "Custom checkmark color:"
+#~ msgstr "Белгінің түсі:"

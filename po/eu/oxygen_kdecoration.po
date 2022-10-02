@@ -1,0 +1,405 @@
+# Translation of oxygen_kdecoration.po to Euskara/Basque (eu).
+# Copyright (C) 2017-2018, Free Software Foundation, Inc.
+# This file is distributed under the same license as the kde-workspace package.
+# KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
+#
+# Translators:
+# Ander Elortondo <ander.elor@gmail.com>, 2017.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2018.
+msgid ""
+msgstr ""
+"Project-Id-Version: oxygen_kdecoration\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-06-28 00:21+0000\n"
+"PO-Revision-Date: 2018-07-20 22:07+0100\n"
+"Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
+"Language-Team: Basque <kde-i18n-doc@kde.org>\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 2.0\n"
+
+#: config/oxygenanimationconfigwidget.cpp:31
+#, kde-format
+msgid "Button mouseover transition"
+msgstr "Botoien sagua gainetik igaro trantsizioa"
+
+#: config/oxygenanimationconfigwidget.cpp:32
+#, kde-format
+msgid "Configure window buttons' mouseover highlight animation"
+msgstr ""
+"Konfiguratu leiho botoien sagua gainetik igarotzerakoan nabarmentzeko "
+"animazioa"
+
+#: config/oxygenanimationconfigwidget.cpp:35
+#, kde-format
+msgid "Window active state change transitions"
+msgstr "Leihoen egoera aktibo aldaketaren trantsizioak"
+
+#: config/oxygenanimationconfigwidget.cpp:36
+#, kde-format
+msgid ""
+"Configure fading between window shadow and glow when window's active state "
+"is changed"
+msgstr ""
+"Konfiguratu urtze-trantsizioa leihoaren itzala eta distiraren artean "
+"leihoaren aktibotasun egoera aldatzen denean"
+
+#: config/oxygenexceptionlistwidget.cpp:96
+#, kde-format
+msgid "New Exception - Oxygen Settings"
+msgstr "Salbuespen berria - Oxigen ezarpenak"
+
+#: config/oxygenexceptionlistwidget.cpp:145
+#, kde-format
+msgid "Edit Exception - Oxygen Settings"
+msgstr "Editatu salbuespena - Oxigen ezarpenak"
+
+#: config/oxygenexceptionlistwidget.cpp:178
+#, kde-format
+msgid "Question - Oxygen Settings"
+msgstr "Galdera - Oxigen ezarpenak"
+
+#: config/oxygenexceptionlistwidget.cpp:178
+#, kde-format
+msgid "Remove selected exception?"
+msgstr "Kendu hautatutako salbuespena?"
+
+#. i18n: ectx: property (text), widget (QPushButton, removeButton)
+#: config/oxygenexceptionlistwidget.cpp:179
+#: config/ui/oxygenexceptionlistwidget.ui:79
+#, kde-format
+msgid "Remove"
+msgstr "Kendu"
+
+#: config/oxygenexceptionlistwidget.cpp:323
+#, kde-format
+msgid "Warning - Oxygen Settings"
+msgstr "Abisua - Oxigen ezarpenak"
+
+#: config/oxygenexceptionlistwidget.cpp:323
+#, kde-format
+msgid "Regular Expression syntax is incorrect"
+msgstr "Adierazpen erregularraren sintaxia ez da zuzena"
+
+#: config/oxygenexceptionmodel.cpp:21
+#, kde-format
+msgid "Exception Type"
+msgstr "Salbuespen mota"
+
+#: config/oxygenexceptionmodel.cpp:22
+#, kde-format
+msgid "Regular Expression"
+msgstr "Adierazpen erregularra"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
+#: config/oxygenexceptionmodel.cpp:47 config/ui/oxygenexceptiondialog.ui:72
+#, kde-format
+msgid "Window Title"
+msgstr "Leihoaren titulua"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
+#: config/oxygenexceptionmodel.cpp:51 config/ui/oxygenexceptiondialog.ui:67
+#, kde-format
+msgid "Window Class Name"
+msgstr "Leiho-klasearen izena"
+
+#: config/oxygenexceptionmodel.cpp:67
+#, kde-format
+msgid "Enable/disable this exception"
+msgstr "Gaitu/desgaitu salbuespen hau"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: config/ui/oxygenconfigurationui.ui:24
+#, kde-format
+msgid "General"
+msgstr "Orokorra"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:31
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Small"
+msgstr "Txikia"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:36
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Normal"
+msgstr "Arrunta"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:41
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Large"
+msgstr "Handia"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:46
+#, kde-format
+msgctxt "@item:inlistbox Button size:"
+msgid "Very Large"
+msgstr "Oso handia"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: config/ui/oxygenconfigurationui.ui:67
+#, kde-format
+msgid "Tit&le alignment:"
+msgstr "Tit&uluaren lerrokatzea:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:81
+#, kde-format
+msgid "Left"
+msgstr "Ezkerrean"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:86
+#, kde-format
+msgid "Center"
+msgstr "Erdiratuta"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:91
+#, kde-format
+msgid "Center (Full Width)"
+msgstr "Erdiratuta (zabalera osoarekiko)"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
+#: config/ui/oxygenconfigurationui.ui:96
+#, kde-format
+msgid "Right"
+msgstr "Eskuinean"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: config/ui/oxygenconfigurationui.ui:104
+#, kde-format
+msgid "B&utton size:"
+msgstr "B&otoiaren neurria:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, drawSizeGrip)
+#: config/ui/oxygenconfigurationui.ui:117
+#, kde-format
+msgid "Add handle to resize windows with no border"
+msgstr "Erantsi heldulekua ertzik gabeko leihoen neurria aldatzeko"
+
+#. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
+#: config/ui/oxygenconfigurationui.ui:124
+#, kde-format
+msgid "Allow resizing maximized windows from window edges"
+msgstr "Utzi maximizatutako leihoei ertzetatik neurria aldatzen"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
+#: config/ui/oxygenconfigurationui.ui:144
+#, kde-format
+msgid "Use the same colors for title bar and window content"
+msgstr "Erabili kolore berdina titulu barran eta leiho edukian"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
+#: config/ui/oxygenconfigurationui.ui:152
+#, kde-format
+msgid "Animations"
+msgstr "Animazioak"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: config/ui/oxygenconfigurationui.ui:165
+#, kde-format
+msgid "Shadows"
+msgstr "Itzalak"
+
+#. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
+#: config/ui/oxygenconfigurationui.ui:171
+#, kde-format
+msgid "Active Window Glow"
+msgstr "Aktibatu leiho dirdira"
+
+#. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
+#: config/ui/oxygenconfigurationui.ui:181
+#, kde-format
+msgid "Window Drop-Down Shadow"
+msgstr "Leihoaren goitibeherako itzala"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: config/ui/oxygenconfigurationui.ui:205
+#, kde-format
+msgid "Window-Specific Overrides"
+msgstr " Leihoaren zuzenketa espezifikoak"
+
+#. i18n: ectx: property (windowTitle), widget (QDialog, OxygenExceptionDialog)
+#. i18n: ectx: property (windowTitle), widget (QDialog, OxygenDetectWidget)
+#: config/ui/oxygendetectwidget.ui:14 config/ui/oxygenexceptiondialog.ui:14
+#, kde-format
+msgid "Dialog"
+msgstr "Elkarrizketa-koadroa"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: config/ui/oxygendetectwidget.ui:20
+#, kde-format
+msgid "Information about Selected Window"
+msgstr "Hautatutako leihoari buruzko informazioa"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: config/ui/oxygendetectwidget.ui:26
+#, kde-format
+msgid "Class: "
+msgstr "Klasea: "
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: config/ui/oxygendetectwidget.ui:43
+#, kde-format
+msgid "Title: "
+msgstr "Titulua: "
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: config/ui/oxygendetectwidget.ui:63
+#, kde-format
+msgid "Window Property Selection"
+msgstr "Leiho-propietateen hautaketa"
+
+#. i18n: ectx: property (text), widget (QRadioButton, windowClassCheckBox)
+#: config/ui/oxygendetectwidget.ui:69
+#, kde-format
+msgid "Use window class (whole application)"
+msgstr "Erabili leiho klasea (aplikazio osoarekin)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, windowTitleCheckBox)
+#: config/ui/oxygendetectwidget.ui:79
+#, kde-format
+msgid "Use window title"
+msgstr "Erabili leiho-titulua"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: config/ui/oxygenexceptiondialog.ui:20
+#, kde-format
+msgid "Window Identification"
+msgstr "Leiho-identifikazioa"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: config/ui/oxygenexceptiondialog.ui:26
+#, kde-format
+msgid "&Matching window property: "
+msgstr "&Bat datorren leiho-propietatea: "
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: config/ui/oxygenexceptiondialog.ui:39
+#, kde-format
+msgid "Regular expression &to match: "
+msgstr "Bat etorri be&harreko adierazpen erregularra:"
+
+#. i18n: ectx: property (text), widget (QPushButton, detectDialogButton)
+#: config/ui/oxygenexceptiondialog.ui:52
+#, kde-format
+msgid "Detect Window Properties"
+msgstr "Detektatu leihoaren propietateak"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: config/ui/oxygenexceptiondialog.ui:83
+#, kde-format
+msgid "Decoration Options"
+msgstr "Apaingarrien aukerak"
+
+#. i18n: ectx: property (text), widget (QCheckBox, borderSizeCheckBox)
+#: config/ui/oxygenexceptiondialog.ui:89
+#, kde-format
+msgid "Border size:"
+msgstr "Ertzen neurria:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, hideTitleBar)
+#: config/ui/oxygenexceptiondialog.ui:96
+#, kde-format
+msgid "Hide window title bar"
+msgstr "Ezkutatu leihoaren titulu-barra"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:107
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "No Border"
+msgstr "Ertzik ez"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:112
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "No Side Borders"
+msgstr "Alboko ertzik ez"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:117
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Tiny"
+msgstr "Ttipia"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:122
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Normal"
+msgstr "Arrunta"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:127
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Large"
+msgstr "Handia"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:132
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Large"
+msgstr "Oso handia"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:137
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Huge"
+msgstr "Itzela"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:142
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Very Huge"
+msgstr "Erraldoia"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
+#: config/ui/oxygenexceptiondialog.ui:147
+#, kde-format
+msgctxt "@item:inlistbox Border size:"
+msgid "Oversized"
+msgstr "Neurriz kanpokoa"
+
+#. i18n: ectx: property (text), widget (QPushButton, moveUpButton)
+#: config/ui/oxygenexceptionlistwidget.ui:58
+#, kde-format
+msgid "Move Up"
+msgstr "Eraman gora"
+
+#. i18n: ectx: property (text), widget (QPushButton, moveDownButton)
+#: config/ui/oxygenexceptionlistwidget.ui:65
+#, kde-format
+msgid "Move Down"
+msgstr "Eraman behera"
+
+#. i18n: ectx: property (text), widget (QPushButton, addButton)
+#: config/ui/oxygenexceptionlistwidget.ui:72
+#, kde-format
+msgid "Add"
+msgstr "Gehitu"
+
+#. i18n: ectx: property (text), widget (QPushButton, editButton)
+#: config/ui/oxygenexceptionlistwidget.ui:86
+#, kde-format
+msgid "Edit"
+msgstr "Editatu"
+
+#~ msgid "Display window borders for maximized windows"
+#~ msgstr "Bistaratu leihoen ertzak maximizatutako leihoetan"

@@ -1,0 +1,988 @@
+# Traducerea kstyle_config.po în Română
+#
+# Claudiu Costin <claudiuc@kde.org>, 2006.
+# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2011, 2012, 2013, 2020, 2022.
+# Cristian Oneț <onet.cristian@gmail.com>, 2011, 2013.
+# Cristian Buzduga <cristianbzdg@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2022-02-27 20:45+0000\n"
+"Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
+"Language-Team: Romanian\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Lokalize 21.12.2\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Configurări Oxygen"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Tranziții la focalizare, planare și stări controale"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Configurează focalizare controale și animație de evidențiere șoricel-peste, "
+"ca și activare/dezactivare tranziții stări de controale"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Evidențiere bară de unelte"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr ""
+"Configurează animațiile de evidențiere șoricel-peste a barelor de unelte"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Evidențiere bară de meniu"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr ""
+"Configurează animațiile de evidențiere șoricel-peste a barelor de meniu"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Evidențiere meniu"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Configurează animațiile de evidențiere șoricel-peste a meniurilor"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Animație bară de progres"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Configurează animațiile pașilor barelor de progres"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Tranziții de file"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Configurează tranziția atenuată între file"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Tranziții de etichete"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "Configurează tranziția atenuată când textul unei etichete s-a schimbat"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Tranziții redactor de text"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "Configurează tranziția atenuată când textul unui editor s-a schimbat"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Tranziții listă de selecție"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+"Configurează tranziția atenuată când selecția aleasă a unei liste de "
+"selecție s-a schimbat"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, kde-format
+msgid "Progress bar busy indicator"
+msgstr "Indicator de ocupare în bara de progres"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Configurează animația indicatorului ocupat a barelor de progres"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Cadru"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Tip animație:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Atenuare"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Urmărește șoricelul"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Durata atenuării:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Durata urmăririi șoricelului"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " ms"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dialog"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "General"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Trage ferestrele doar de bara de titlu"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Trage ferestrele de barele de titlu, de meniu și de unelte"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Trage ferestrele de toate zonele goale"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Vizibilitate acceleratori de tastatură:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr "Ascunde întotdeauna"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr "Arată când tasta Alt e apăsată"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr "Arată întotdeauna"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Regimul &de tragere a ferestrelor:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Desenează separatorul elementelor barei de unelte"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Activează controalele de redimensionare extinse"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Desenează gradient de fundal al ferestrei"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animații"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Vizualizări"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Desenează linii pentru ramurile arborelui"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "&Dimensiune expandor arbore:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Minusculă"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Mică"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normală"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Desenează indicator de focalizare în liste"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Bare de derulare"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Lățime bare de &derulare:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Tip buton săgeată de sus:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Tip buton săgeată de jos:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Fără butoane"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Un buton"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Două butoane"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Niciun buton"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Evidențiere meniu"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "F&olosește culoare întunecată"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Folosește c&uloarea selecției (simplă)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Foloseș&te culoarea selecției (subtilă)"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Ascunde acceleratori de tastatură întotdeauna"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Arată acceleratori de tastatură când trebuie"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Arată acceleratori de tastatură întotdeauna"
+
+#~ msgid "Widget Style"
+#~ msgstr "Stil controale"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Modifică aspectul controalelor"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Decorații ferestre"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Modifică aspectul decorațiilor pentru ferestre"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Imposibil de găsit modulul de configurare a stilului oxygen"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Imposibil de găsit modulul de configurare a decorațiilor oxygen"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Ascunde opțiunile de configurare avansată"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Arată opțiunile de configurare avansată"
+
+#~ msgid "Enable animations"
+#~ msgstr "Activează animații"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Activează cache imagini pixmap"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Pașii indicatorului ocupat"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Utilizează „X” în casete în loc de bifare"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr ""
+#~ "Folosește administratorul de ferestre pentru a face tragerea ferestrelor"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Utilizează expandor triunghiular pentru arbori în loc de +/–"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Dimensiune triunghi:"
+
+#~ msgid "Tabs"
+#~ msgstr "File"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Singur"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Simplu"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Stil file inactive:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Demonstrație Oxygen"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgid "New"
+#~ msgstr "Nou"
+
+#~ msgid "Open"
+#~ msgstr "Deschide"
+
+#~ msgid "Save"
+#~ msgstr "Salvează"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "Comută autentificarea"
+
+#~ msgid "Enabled"
+#~ msgstr "Activat"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Aranjament de la dreapta la stânga"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Controale de intrare"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Arată aspectul controalelor de intrare text"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Controale File"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Arată aspectul controalelor file"
+
+#~ msgid "Buttons"
+#~ msgstr "Butoane"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Arată aspectul butoanelor"
+
+#~ msgid "Lists"
+#~ msgstr "Liste"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Arată aspectul listelor, arborilor și tabelelor"
+
+#~ msgid "Frames"
+#~ msgstr "Cadre"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Arată aspectul diferitelor controale încadrate"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Arată aspectul controalelor file"
+
+#~ msgid "Sliders"
+#~ msgstr "Glisori"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr ""
+#~ "Arată aspectul glisorilor, barelor de progress și barelor de alunecare"
+
+#~ msgid "Benchmark"
+#~ msgstr "Test performanță"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr ""
+#~ "Emulează interacțiunea utilizatorului cu controalele pentru testarea "
+#~ "performanței"
+
+#~ msgid "Example text"
+#~ msgstr "Text de exemplu"
+
+#~ msgid "password"
+#~ msgstr "parolă"
+
+#~ msgid "Layout"
+#~ msgstr "Aranjament"
+
+#~ msgid "Tile"
+#~ msgstr "Mozaic"
+
+#~ msgid "Cascade"
+#~ msgstr "Cascadă"
+
+#~ msgid "Tools"
+#~ msgstr "Unelte"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Alege fereastra următoare"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Alege fereastra precedentă"
+
+#~ msgid "This is a sample text"
+#~ msgstr "Acesta este un text exemplificativ"
+
+#~ msgid "Modules"
+#~ msgstr "Module"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "Selectați mai jos modulele pentru care vreți să rulați simularea."
+
+#~ msgid "Options"
+#~ msgstr "Opțiuni"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Trage șoricelul"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Rulează simularea"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Căsuțe de selecție"
+
+#~ msgid "Off"
+#~ msgstr "Dezactivat"
+
+#~ msgid "Partial"
+#~ msgstr "Parțial"
+
+#~ msgid "On"
+#~ msgstr "Deschis"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Butoane radio"
+
+#~ msgid "First Choice"
+#~ msgstr "Prima opțiune"
+
+#~ msgid "Second Choice"
+#~ msgstr "A doua opțiune"
+
+#~ msgid "Third Choice"
+#~ msgstr "A treia opțiune"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Butoane care se apasă"
+
+#~ msgid "Text only:"
+#~ msgstr "Numai text:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Acesta este o listă de selecție normală doar cu text"
+
+#~ msgid "Small"
+#~ msgstr "Mic"
+
+#~ msgid "Large"
+#~ msgstr "Mare"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Text și pictogramă:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Folosește butoane plate:"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "Acesta este o listă de selecție normală cu text și pictograme"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Acesta este un buton de unelte normal doar cu text"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Acesta este un buton de unelte normal cu text și pictogramă"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Acesta este un buton normal doar cu text"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Acesta este un buton normal doar cu text și meniu"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Acesta este un buton normal cu text și pictogramă"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Acesta este un buton normal cu text și pictogramă cu meniu"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Butoane de unelte"
+
+#~ msgid "Flat"
+#~ msgstr "Plat"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Săgeată sus"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Săgeată jos"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Săgeată stânga"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Săgeată dreapta"
+
+#~ msgid "Text position:"
+#~ msgstr "Poziția textului:ițiile de file"
+
+#~ msgid "Icons Only"
+#~ msgstr "Numai pictograme"
+
+#~ msgid "Text Only"
+#~ msgstr "Numai text"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Text lângă pictograme"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Text sub pictograme"
+
+#~ msgid "Icon size:"
+#~ msgstr "Dimensiune pictograme:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Mică (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Medie (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Mare (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Foarte mare (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Direcție aranjament:"
+
+#~ msgid "Left to Right"
+#~ msgstr "De la stânga la dreapta"
+
+#~ msgid "Right to Left"
+#~ msgstr "De la dreapta la stânga"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "De sus în jos"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "De jos în sus"
+
+#~ msgid "GroupBox"
+#~ msgstr "GroupBox"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Plat"
+
+#~ msgid "Raised"
+#~ msgstr "Ridicat"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Plat"
+
+#~ msgid "Sunken"
+#~ msgstr "Adâncit"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Control cu file"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Editor text de o singură linie:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Editor parole:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Listă de selecție editabilă"
+
+#~ msgid "First item"
+#~ msgstr "Primul element"
+
+#~ msgid "Second item"
+#~ msgstr "Al doilea element"
+
+#~ msgid "Third item"
+#~ msgstr "Al treilea element"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Buton de defilare:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Editor text multi-linie:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Aliniere rânduri"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Folosește controale plate"
+
+#~ msgid "First Item"
+#~ msgstr "Primul element"
+
+#~ msgid "Second Item"
+#~ msgstr "Al doilea element"
+
+#~ msgid "Third Item"
+#~ msgstr "Al treilea element"
+
+#~ msgid "Title"
+#~ msgstr "Titlu"
+
+#~ msgid "Description"
+#~ msgstr "Descriere"
+
+#~ msgid "Third Description"
+#~ msgstr "A treia descriere"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Al treilea sub-element"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Descrierea celui de al treilea sub-element"
+
+#~ msgid "Second Description"
+#~ msgstr "A doua descriere"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Al doilea sub-element"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Descrierea celui de al doilea sub-element"
+
+#~ msgid "First Subitem"
+#~ msgstr "Primul sub-element"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Descrierea primului sub-element"
+
+#~ msgid "First Description"
+#~ msgstr "Prima descriere"
+
+#~ msgid "New Row"
+#~ msgstr "Rând nou"
+
+#~ msgid "First Row"
+#~ msgstr "Primul rând"
+
+#~ msgid "Third Row"
+#~ msgstr "Al treilea rând"
+
+#~ msgid "First Column"
+#~ msgstr "Prima coloană"
+
+#~ msgid "Second Column"
+#~ msgstr "A doua coloană"
+
+#~ msgid "Third Column"
+#~ msgstr "A treia coloană"
+
+#~ msgid "Top-left"
+#~ msgstr "Stânga-sus"
+
+#~ msgid "Top"
+#~ msgstr "Sus"
+
+#~ msgid "Top-right"
+#~ msgstr "Drepta-sus"
+
+#~ msgid "Left "
+#~ msgstr "Stânga"
+
+#~ msgid "Center"
+#~ msgstr "Centru"
+
+#~ msgid "Right"
+#~ msgstr "Dreapta"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Stânga-jos"
+
+#~ msgid "Bottom"
+#~ msgstr "Jos"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Dreapta-jos"
+
+#~ msgid "Editors"
+#~ msgstr "Editoare"
+
+#~ msgid "Title:"
+#~ msgstr "Titlu:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Cutie unelte"
+
+#~ msgid "First Page"
+#~ msgstr "Prima pagină"
+
+#~ msgid "Second Page"
+#~ msgstr "A doua pagină"
+
+#~ msgid "First Label"
+#~ msgstr "Prima etichetă"
+
+#~ msgid "Second Label"
+#~ msgstr "A doua etichetă"
+
+#~ msgid "Third Page"
+#~ msgstr "A treia pagină"
+
+#~ msgid "Horizontal"
+#~ msgstr "Orizontal"
+
+#~ msgid "Busy"
+#~ msgstr "Ocupat"
+
+#~ msgid "Vertical"
+#~ msgstr "Vertical"
+
+#~ msgid "Tab position:"
+#~ msgstr "Poziția filei:zițiile de file"
+
+#~ msgid "North"
+#~ msgstr "Nord"
+
+#~ msgid "South"
+#~ msgstr "Sud"
+
+#~ msgid "West"
+#~ msgstr "Vest"
+
+#~ msgid "East"
+#~ msgstr "Est"
+
+#~ msgid "Document mode"
+#~ msgstr "Mod document"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Arată butoanele din colțuri"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Ascunde bara de file"
+
+#~ msgid "Preview"
+#~ msgstr "Previzualizare"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Sergiu Bivol"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "sergiu@ase.md"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Unealtă expertă de configurare Oxygen"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Demonstrație a stilului Oxygen"
+
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Desenează acceleratorii de tastatură"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Utilizează linii groase"
+
+#~ msgid "Highlight scroll bar handles"
+#~ msgstr "Evidențiază săgețile barei de defilare"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "Animează barele de progres"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Modul de stil Web"
+
+#~ msgid "modified"
+#~ msgstr "modificat"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "informații - configurări-oxygen"
+
+#~ msgid "CheckBox"
+#~ msgstr "CheckBox"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Durată (ms):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Animează tranzițiile de file"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Desenează relieful barei de derulare"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Bare de derulare colorate la planare"
+
+#~ msgid "Plain"
+#~ msgstr "Simplu"
+
+#, fuzzy
+#~| msgid "Frame"
+#~ msgid "Form"
+#~ msgstr "Cadru"
+
+#~ msgid "Width:"
+#~ msgstr "Lățime:"
+
+#, fuzzy
+#~| msgid "Enable animations"
+#~ msgid "Enable title transition animations"
+#~ msgstr "Activează animații"
+
+#~ msgid "Dark"
+#~ msgstr "Întunecat"
+
+#~ msgid "Subtle"
+#~ msgstr "Subtil"
+
+#~ msgid "Animate toolbar hover"
+#~ msgstr "Animează planarea pe bară de unelte"
+
+#~ msgid "Animate menubar hover"
+#~ msgstr "Animează planarea pe bară de meniu"
+
+#~ msgid "Animate menu hover"
+#~ msgstr "Animează planarea pe meniu"

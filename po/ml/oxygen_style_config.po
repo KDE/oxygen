@@ -1,0 +1,834 @@
+# translation of kstyle_config.po to Malayalam
+# Copyright (C) 2008, 2010 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kstyle_config package.
+#
+# ANI PETER|അനി പീറ്റര്‍ <peter.ani@gmail.com>, 2008.
+# Praveen Arimbrathodiyil <pravi.a@gmail.com>, 2008, 2010.
+# Ershad K <ershad92@gmail.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2010-06-20 23:01+0530\n"
+"Last-Translator: Ershad K <ershad92@gmail.com>\n"
+"Language-Team: SMC <smc.org.in>\n"
+"Language: ml\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "പുരോഗതി ബാറിന്റെ ആനിമേഷന്‍ "
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+msgid "Progress bar busy indicator"
+msgstr "പുരോഗതി ബാറിന്റെ ആനിമേഷന്‍ "
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "ഫ്രെയിം"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, fuzzy, kde-format
+msgid "Animation type:"
+msgstr "അനിമേഷനുകള്‍"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "മങ്ങുക"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "മൗസിനെ പിന്തുടരുക"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "മങ്ങാനുള്ള സമയദൈര്‍ഘ്യം"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, fuzzy, kde-format
+msgid "Follow mouse duration:"
+msgstr "മങ്ങാനുള്ള സമയദൈര്‍ഘ്യം"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "ഡയലോഗ്"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "സാധാരണമായ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, fuzzy, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "പണിയായുധപട്ടയിലെ ഇനങ്ങളെ വേര്‍ത്തിരിയ്ക്കുന്നതു് വരയ്ക്കുക"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "പണിയായുധപട്ടയിലെ ഇനങ്ങളെ വേര്‍ത്തിരിയ്ക്കുന്നതു് വരയ്ക്കുക"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "അനിമേഷനുകള്‍"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "പ്രദര്‍ശനരീതികള്‍"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, fuzzy, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "വളരെ ചെറുത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, fuzzy, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "ചെറുത്"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, fuzzy, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "സാധാരണ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "സ്ക്രോള്‍ബാറുകള്‍‌ "
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "സ്ക്രോള്‍ബാറുകള്‍‌ "
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, fuzzy, kde-format
+msgid "No buttons"
+msgstr "ബട്ടണുകള്‍"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, fuzzy, kde-format
+msgid "One button"
+msgstr "പരന്ന ബട്ടനുകള്‍ ഉപയോഗിക്കുക"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, fuzzy, kde-format
+msgid "Two buttons"
+msgstr "ബട്ടണുകള്‍"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, fuzzy, kde-format
+msgid "No button"
+msgstr "ബട്ടണുകള്‍"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "പണിയായുധപട്ടയിലെ ഇനങ്ങളെ വേര്‍ത്തിരിയ്ക്കുന്നതു് വരയ്ക്കുക"
+
+#, fuzzy
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "പണിയായുധപട്ടയിലെ ഇനങ്ങളെ വേര്‍ത്തിരിയ്ക്കുന്നതു് വരയ്ക്കുക"
+
+#, fuzzy
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "പണിയായുധപട്ടയിലെ ഇനങ്ങളെ വേര്‍ത്തിരിയ്ക്കുന്നതു് വരയ്ക്കുക"
+
+#~ msgid "Enable animations"
+#~ msgstr "ആനിമേഷനുകള്‍ പ്രവര്‍ത്തനസജ്ജമാക്കുക"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "+/- നു പകരം ട്രയാഗുലര്‍ ട്രീ ഉപയോഗിക്കുക"
+
+#, fuzzy
+#~ msgid "Triangle si&ze:"
+#~ msgstr "ത്രിഗോണ വലുപ്പം:"
+
+#~ msgid "Tabs"
+#~ msgstr "ടാബ്സ് "
+
+#, fuzzy
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "ഒറ്റ"
+
+#, fuzzy
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "പ്ളെയിന്‍"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "ഓക്സിജന്‍ മാതൃകാ പ്രദര്‍ശനം"
+
+#~ msgid "Normal"
+#~ msgstr "സാധാരണ"
+
+#~ msgid "New"
+#~ msgstr "പുതിയ"
+
+#~ msgid "Open"
+#~ msgstr "തുറക്കുക"
+
+#~ msgid "Save"
+#~ msgstr "സൂക്ഷിയ്ക്കുക"
+
+#~ msgid "Enabled"
+#~ msgstr "പ്രവര്‍ത്തന സജ്ജമാക്കിയിരിയ്ക്കുന്നു"
+
+#~ msgid "Buttons"
+#~ msgstr "ബട്ടണുകള്‍"
+
+#~ msgid "Lists"
+#~ msgstr "പട്ടികകള്‍"
+
+#~ msgid "Example text"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#~ msgid "password"
+#~ msgstr "രഹസ്യവാക്ക്"
+
+#~ msgid "Tile"
+#~ msgstr "ടൈല്‍"
+
+#~ msgid "Cascade"
+#~ msgstr "കാസ്കെയ്ഡ്"
+
+#, fuzzy
+#~ msgid "Tools"
+#~ msgstr "ബട്ടണുകള്‍"
+
+#~ msgid "Select Next Window"
+#~ msgstr "അടുത്ത ജാലകം തിരഞ്ഞെടുക്കുക"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "മുമ്പത്തെ ജാലകം തിരഞ്ഞെടുക്കുക"
+
+#, fuzzy
+#~ msgid "This is a sample text"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#, fuzzy
+#~ msgid "Run Simulation"
+#~ msgstr "അനിമേഷനുകള്‍"
+
+#, fuzzy
+#~ msgid "Checkboxes"
+#~ msgstr "ചെക്ക് ബോക്സ്"
+
+#~ msgid "Off"
+#~ msgstr "ഓണ്‍ "
+
+#~ msgid "Partial"
+#~ msgstr "ഭാഗികം"
+
+#~ msgid "On"
+#~ msgstr "ഓഫ്"
+
+#, fuzzy
+#~ msgid "Radiobuttons"
+#~ msgstr "ബട്ടണുകള്‍"
+
+#, fuzzy
+#~ msgid "First Choice"
+#~ msgstr "ഒന്നാമത്തെ സാധനം"
+
+#, fuzzy
+#~ msgid "Second Choice"
+#~ msgstr "രണ്ടാമത്തെ സാധനം"
+
+#, fuzzy
+#~ msgid "Third Choice"
+#~ msgstr "മൂന്നാമത്തെ സാധനം"
+
+#, fuzzy
+#~ msgid "Pushbuttons"
+#~ msgstr "ബട്ടണുകള്‍"
+
+#~ msgid "Text only:"
+#~ msgstr "വാചകം മാത്രം:"
+
+#, fuzzy
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#~ msgid "Small"
+#~ msgstr "ചെറുത്"
+
+#~ msgid "Large"
+#~ msgstr "വലുത്"
+
+#~ msgid "Text and icon:"
+#~ msgstr "വാചകങ്ങളും ചിഹ്നങ്ങളും:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "പരന്ന ബട്ടനുകള്‍ ഉപയോഗിക്കുക"
+
+#, fuzzy
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#, fuzzy
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#, fuzzy
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#, fuzzy
+#~ msgid "This is a normal, text only button"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#, fuzzy
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#, fuzzy
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#, fuzzy
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "ഉദാഹരണ വാചകം"
+
+#, fuzzy
+#~ msgid "Toolbuttons"
+#~ msgstr "ബട്ടണുകള്‍"
+
+#~ msgid "Flat"
+#~ msgstr "പരന്ന"
+
+#, fuzzy
+#~ msgid "Up Arrow"
+#~ msgstr "ഇടത്"
+
+#, fuzzy
+#~ msgid "Down Arrow"
+#~ msgstr "ഇടത്"
+
+#, fuzzy
+#~ msgid "Left Arrow"
+#~ msgstr "ഇടത്"
+
+#, fuzzy
+#~ msgid "Right Arrow"
+#~ msgstr "വലത്ത് "
+
+#, fuzzy
+#~ msgid "Text position:"
+#~ msgstr "ടാബിന്റെ സ്ഥാനം:"
+
+#~ msgid "Icons Only"
+#~ msgstr "ചിഹ്നങ്ങള്‍ മാത്രം"
+
+#~ msgid "Text Only"
+#~ msgstr "വാചകം മാത്രം"
+
+#, fuzzy
+#~ msgid "Text Alongside Icons"
+#~ msgstr "വാചകങ്ങളും ചിഹ്നങ്ങളും:"
+
+#, fuzzy
+#~ msgid "Text Under Icons"
+#~ msgstr "വാചകങ്ങളും ചിഹ്നങ്ങളും:"
+
+#~ msgid "Icon size:"
+#~ msgstr "ചിഹ്നങ്ങളുടെ വലുപ്പം:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "ചെറുത് (16x16)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "വലുത് (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr " വളരെ വലുത് (48x48)"
+
+#~ msgid "Left to Right"
+#~ msgstr "ഇടത് മുതല്‍ വലത്"
+
+#~ msgid "Right to Left"
+#~ msgstr "വലതില്‍ നിന്നും എടത്തേയ്ക്ക്"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "മുകളില്‍ നിന്നും താഴേയ്ക്ക്"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "താഴെ നിന്നും മുകളിലേക്ക്"
+
+#, fuzzy
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "പരന്ന"
+
+#, fuzzy
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "പരന്ന"
+
+#~ msgid "Tab Widget"
+#~ msgstr "ടാബ് വിട്ജറ്റ് "
+
+#~ msgid "Password editor:"
+#~ msgstr "‌രഹസ്യവാക്ക് എഴുത്തിടം"
+
+#~ msgid "First item"
+#~ msgstr "ഒന്നാമത്തെ സാധനം"
+
+#~ msgid "Second item"
+#~ msgstr "രണ്ടാമത്തെ സാധനം"
+
+#~ msgid "Third item"
+#~ msgstr "മൂന്നാമത്തെ സാധനം"
+
+#~ msgid "Spinbox:"
+#~ msgstr "സ്പിന്‍ബോക്സ്:"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "പരന്ന വിട്ജറ്റുകള്‍ ഉപയോഗിക്കുക"
+
+#~ msgid "First Item"
+#~ msgstr "ഒന്നാമത്തെ സാധനം"
+
+#~ msgid "Second Item"
+#~ msgstr "രണ്ടാമത്തെ സാധനം"
+
+#~ msgid "Third Item"
+#~ msgstr "മൂന്നാമത്തെ സാധനം"
+
+#~ msgid "Title"
+#~ msgstr "തലക്കെട്ട്"
+
+#~ msgid "Description"
+#~ msgstr "വിവരണം"
+
+#~ msgid "Third Description"
+#~ msgstr "മൂന്നാമത്തെ വിവരണം "
+
+#, fuzzy
+#~ msgid "Third Subitem"
+#~ msgstr "മൂന്നാമത്തെ സാധനം"
+
+#, fuzzy
+#~ msgid "Third Subitem Description"
+#~ msgstr "മൂന്നാമത്തെ വിവരണം "
+
+#~ msgid "Second Description"
+#~ msgstr "രണ്ടാമത്തെ വിവരണം"
+
+#, fuzzy
+#~ msgid "Second Subitem"
+#~ msgstr "രണ്ടാമത്തെ സാധനം"
+
+#, fuzzy
+#~ msgid "Second Subitem Description"
+#~ msgstr "രണ്ടാമത്തെ വിവരണം"
+
+#, fuzzy
+#~ msgid "First Subitem"
+#~ msgstr "ഒന്നാമത്തെ സാധനം"
+
+#, fuzzy
+#~ msgid "First Subitem Description"
+#~ msgstr "മൂന്നാമത്തെ വിവരണം "
+
+#, fuzzy
+#~ msgid "First Description"
+#~ msgstr "മൂന്നാമത്തെ വിവരണം "
+
+#~ msgid "New Row"
+#~ msgstr "പുതിയ നിര"
+
+#~ msgid "First Row"
+#~ msgstr "ഒന്നാമത്തെ നിര"
+
+#~ msgid "Third Row"
+#~ msgstr "മൂന്നമത്തെ നിര"
+
+#~ msgid "First Column"
+#~ msgstr "ഒന്നാമത്തെ വരി "
+
+#~ msgid "Second Column"
+#~ msgstr "രണ്ടാമത്തെ വരി "
+
+#~ msgid "Third Column"
+#~ msgstr "മൂന്നാമത്തെ വരി"
+
+#~ msgid "Top-left"
+#~ msgstr "മുകളില്‍ - ഇടത്ത്"
+
+#~ msgid "Top"
+#~ msgstr "മുകളില്‍ "
+
+#~ msgid "Top-right"
+#~ msgstr "മുകളില്‍-വലത്ത്"
+
+#~ msgid "Left "
+#~ msgstr "ഇടത്"
+
+#~ msgid "Center"
+#~ msgstr "നടുവില്‍"
+
+#~ msgid "Right"
+#~ msgstr "വലത്ത് "
+
+#~ msgid "Bottom-left"
+#~ msgstr "താഴെ-ഇടത്ത്"
+
+#~ msgid "Bottom"
+#~ msgstr "താഴെ"
+
+#~ msgid "Bottom-right"
+#~ msgstr "താഴെ-വലത്ത്"
+
+#~ msgid "Editors"
+#~ msgstr "എഴുത്തിടങ്ങള്‍ "
+
+#~ msgid "Title:"
+#~ msgstr "തലക്കെട്ട്:"
+
+#~ msgid "First Page"
+#~ msgstr "ഒന്നാമത്തെ പേജ്"
+
+#~ msgid "Second Page"
+#~ msgstr "രണ്ടാമത്തെ പേജ്"
+
+#, fuzzy
+#~ msgid "First Label"
+#~ msgstr "ഒന്നാമത്തെ ടാബ് "
+
+#, fuzzy
+#~ msgid "Second Label"
+#~ msgstr "രണ്ടാമത്തെ ടാബ് "
+
+#~ msgid "Third Page"
+#~ msgstr "മൂന്നാമത്തെ പേജ് "
+
+#~ msgid "Horizontal"
+#~ msgstr "കുറുകെയുള്ള"
+
+#~ msgid "Vertical"
+#~ msgstr "ലംബമായത്"
+
+#~ msgid "Tab position:"
+#~ msgstr "ടാബിന്റെ സ്ഥാനം:"
+
+#~ msgid "North"
+#~ msgstr "വടക്കു്"
+
+#~ msgid "South"
+#~ msgstr "തെക്കു്"
+
+#~ msgid "West"
+#~ msgstr "പടിഞ്ഞാറു്"
+
+#~ msgid "East"
+#~ msgstr "കിഴക്കു്"
+
+#, fuzzy
+#~ msgid "Show Corner Buttons"
+#~ msgstr "ബട്ടണുകള്‍"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "ടാബ് അദൃശ്യമാക്കുക"
+
+#~ msgid "Preview"
+#~ msgstr "തിരനോട്ടം"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "ഇര്‍ഷാദ് കെ"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "ershad92@gmail.com"
+
+#, fuzzy
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "പണിയായുധപട്ടയിലെ ഇനങ്ങളെ വേര്‍ത്തിരിയ്ക്കുന്നതു് വരയ്ക്കുക"
+
+#~ msgid "Use wider lines"
+#~ msgstr "വീതിയുള്ള വരകള്‍ ഉപയോഗിക്കുക"
+
+#~ msgid "Web style plugin"
+#~ msgstr "വെബ് രീതിയിലുള്ള പ്ലഗിന്‍"
+
+#~ msgid "modified"
+#~ msgstr "മാറ്റം വരുത്തിയിരിക്കുന്നു"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "സമയദൈര്‍ഘ്യം (മി.സെ):"
+
+#~ msgid "Plain"
+#~ msgstr "പ്ളെയിന്‍"
+
+#, fuzzy
+#~ msgid "Form"
+#~ msgstr "ഫ്രെയിം"
+
+#~ msgid "Third Tab"
+#~ msgstr "മൂന്നാമത്തെ ടാബ് "
+
+#~ msgid "Fourth Tab"
+#~ msgstr "നാലാമത്തെ ടാബ് "
+
+#~ msgid "Width:"
+#~ msgstr "വീതി:"

@@ -1,0 +1,94 @@
+# Copyright © 2012 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kde-workspace package.
+# Tommi Nieminen <translator@legisign.org>, 2012.
+# Lasse Liehu <lasse.liehu@gmail.com>, 2013, 2017.
+#
+# KDE Finnish translation sprint participants:
+msgid ""
+msgstr ""
+"Project-Id-Version: liboxygenstyleconfig\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-06-28 00:21+0000\n"
+"PO-Revision-Date: 2017-12-03 21:10+0900\n"
+"Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
+"Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 2.0\n"
+"X-POT-Import-Date: 2012-12-01 22:22:30+0000\n"
+
+#: oxygenanimationconfigitem.cpp:87
+#, kde-format
+msgid "oxygen-settings - information"
+msgstr "oxygen-settings – tietoa"
+
+#. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
+#: ui/oxygenanimationconfigitem.ui:29
+#, kde-format
+msgid "CheckBox"
+msgstr "Valintaruutu"
+
+#. i18n: ectx: property (text), widget (QToolButton, configurationButton)
+#. i18n: ectx: property (text), widget (QToolButton, descriptionButton)
+#: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
+#, kde-format
+msgid "..."
+msgstr "…"
+
+#. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
+#: ui/oxygenanimationconfigwidget.ui:23
+#, kde-format
+msgid "Enable animations"
+msgstr "Käytä animaatioita"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, GenericAnimationConfigBox)
+#: ui/oxygengenericanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Kehys"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygengenericanimationconfigbox.ui:38
+#, kde-format
+msgid "Duration:"
+msgstr "Kesto:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#: ui/oxygengenericanimationconfigbox.ui:64
+#, kde-format
+msgid " ms"
+msgstr " ms"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenshadowconfigurationui.ui:23
+#, kde-format
+msgid "Inner Color:"
+msgstr "Sisempi väri:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenshadowconfigurationui.ui:42
+#, kde-format
+msgid "Outer Color:"
+msgstr "Ulompi väri:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenshadowconfigurationui.ui:69
+#, kde-format
+msgid "Vertical Offset:"
+msgstr "Pystysiirtymä:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenshadowconfigurationui.ui:82
+#, kde-format
+msgid "Size: "
+msgstr "Koko: "
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, verticalOffset)
+#: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
+#, kde-format
+msgid "px"
+msgstr "px"

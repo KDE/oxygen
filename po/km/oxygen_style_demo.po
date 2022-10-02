@@ -1,0 +1,1237 @@
+# translation of kstyle_config.po to Khmer
+# Khoem Sokhem <khoemsokhem@khmeros.info>, 2007, 2008, 2009, 2010, 2012.
+# Eng Vannak <evannak@khmeros.info>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-25 00:48+0000\n"
+"PO-Revision-Date: 2012-06-14 13:44+0700\n"
+"Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
+"Language-Team: Khmer\n"
+"Language: km\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: KBabel 1.11.4\n"
+"X-Language: km-CM\n"
+
+#: main.cpp:38 oxygendemodialog.cpp:40 oxygendemodialog.cpp:190
+#, kde-format
+msgid "Oxygen Demo"
+msgstr "ការ​បង្ហាញ​អុកហ្សីសែន​សាកល្បង"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_3)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
+#: oxygenbuttondemowidget.cpp:40 ui/oxygenbuttondemowidget.ui:154
+#: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
+#: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
+#: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
+#: ui/oxygenbuttondemowidget.ui:285 ui/oxygenbuttondemowidget.ui:295
+#: ui/oxygenbuttondemowidget.ui:305
+#, kde-format
+msgid "Normal"
+msgstr "ធម្មតា"
+
+#: oxygenbuttondemowidget.cpp:41 oxygenbuttondemowidget.cpp:60
+#: oxygenbuttondemowidget.cpp:233 oxygenbuttondemowidget.cpp:243
+#, kde-format
+msgid "New"
+msgstr "ថ្មី"
+
+#: oxygenbuttondemowidget.cpp:42 oxygenbuttondemowidget.cpp:61
+#: oxygenbuttondemowidget.cpp:234 oxygenbuttondemowidget.cpp:244
+#, kde-format
+msgid "Open"
+msgstr "បើក"
+
+#: oxygenbuttondemowidget.cpp:43 oxygenbuttondemowidget.cpp:62
+#: oxygenbuttondemowidget.cpp:235 oxygenbuttondemowidget.cpp:245
+#, kde-format
+msgid "Save"
+msgstr "រក្សាទុក"
+
+#: oxygenbuttondemowidget.cpp:63
+#, kde-format
+msgid "Toggle authentication"
+msgstr "បិទ​/​បើក​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ"
+
+#: oxygendemodialog.cpp:55
+#, kde-format
+msgid "Enabled"
+msgstr "បានបើក"
+
+#: oxygendemodialog.cpp:60
+#, kde-format
+msgid "Right to left layout"
+msgstr "ប្លង់​ស្ដាំទៅ​ប្លង់​ឆ្វេង"
+
+#: oxygendemodialog.cpp:66
+#, kde-format
+msgid "Style"
+msgstr ""
+
+#: oxygendemodialog.cpp:88
+#, kde-format
+msgid "Input Widgets"
+msgstr "បញ្ចូល​ធាតុក្រាហ្វិក"
+
+#: oxygendemodialog.cpp:90
+#, kde-format
+msgid "Shows the appearance of text input widgets"
+msgstr "បង្ហាញ​រូបរាង​​នៃ​ការ​បញ្ចូលធាតុក្រាហ្វិក​​"
+
+#: oxygendemodialog.cpp:98
+#, kde-format
+msgid "Tab Widgets"
+msgstr "ធាតុក្រាហ្វិក​ផ្ទាំង"
+
+#: oxygendemodialog.cpp:100
+#, kde-format
+msgid "Shows the appearance of tab widgets"
+msgstr "បង្ហាញ​រូបរាង​របស់​ធាតុក្រាហ្វិក​ផ្ទាំង"
+
+#: oxygendemodialog.cpp:108
+#, kde-format
+msgid "Buttons"
+msgstr "​ប៊ូតុង"
+
+#: oxygendemodialog.cpp:110
+#, kde-format
+msgid "Shows the appearance of buttons"
+msgstr "បង្ហាញ​រូបរាង​របស់​ប៊ូតុង"
+
+#: oxygendemodialog.cpp:118
+#, kde-format
+msgid "Lists"
+msgstr "បញ្ជី"
+
+#: oxygendemodialog.cpp:120
+#, kde-format
+msgid "Shows the appearance of lists, trees and tables"
+msgstr "បង្ហាញ​រូបរាង​របស់​បញ្ជី មែកធាង និង​តារាង"
+
+#: oxygendemodialog.cpp:128
+#, kde-format
+msgid "Frames"
+msgstr "ស៊ុម"
+
+#: oxygendemodialog.cpp:130
+#, kde-format
+msgid "Shows the appearance of various framed widgets"
+msgstr "បង្ហាញ​រូបរាង​របស់​ធាតុ​ក្រាហ្វិក​​ដាក់​ស៊ុម​មុន​"
+
+#: oxygendemodialog.cpp:138
+#, kde-format
+msgid "MDI Windows"
+msgstr ""
+
+#: oxygendemodialog.cpp:140
+#, fuzzy, kde-format
+#| msgid "Shows the appearance of tab widgets"
+msgid "Shows the appearance of MDI windows"
+msgstr "បង្ហាញ​រូបរាង​របស់​ធាតុក្រាហ្វិក​ផ្ទាំង"
+
+#: oxygendemodialog.cpp:148
+#, kde-format
+msgid "Sliders"
+msgstr "គ្រាប់រំកិល"
+
+#: oxygendemodialog.cpp:150
+#, kde-format
+msgid "Shows the appearance of sliders, progress bars and scrollbars"
+msgstr "បង្ហាញ​រូបរាង​របស់​គ្រាប់រំកិល របារ​កម្មវិធី និង​របារ​រមូរ"
+
+#: oxygendemodialog.cpp:159
+#, kde-format
+msgid "Benchmark"
+msgstr "Benchmark"
+
+#: oxygendemodialog.cpp:161
+#, kde-format
+msgid "Emulates user interaction with widgets for benchmarking"
+msgstr "ត្រាប់​តាម​អន្តរកម្ម​អ្នក​ប្រើ​ដែល​មាន​ធាតុក្រាហ្វិក​សម្រាប់ benchmarking"
+
+#: oxygeninputdemowidget.cpp:22
+#, kde-format
+msgid "Example text"
+msgstr "អត្ថបទ​គំរូ"
+
+#: oxygeninputdemowidget.cpp:23
+#, kde-format
+msgid "password"
+msgstr "ពាក្យ​សម្ងាត់"
+
+#: oxygenmdidemowidget.cpp:34
+#, kde-format
+msgid "Layout"
+msgstr ""
+
+#: oxygenmdidemowidget.cpp:35
+#, kde-format
+msgid "Tile"
+msgstr "ក្រឡា​ក្បឿង"
+
+#: oxygenmdidemowidget.cpp:36
+#, kde-format
+msgid "Cascade"
+msgstr "ល្បាក់"
+
+#: oxygenmdidemowidget.cpp:37
+#, kde-format
+msgid "Tabs"
+msgstr "ផ្ទាំង"
+
+#: oxygenmdidemowidget.cpp:39
+#, fuzzy, kde-format
+#| msgid "Toolbox"
+msgid "Tools"
+msgstr "ប្រអប់​ឧបករណ៍"
+
+#: oxygenmdidemowidget.cpp:41
+#, kde-format
+msgid "Select Next Window"
+msgstr "ជ្រើស​បង្អួច​បន្ទាប់"
+
+#: oxygenmdidemowidget.cpp:45
+#, kde-format
+msgid "Select Previous Window"
+msgstr "ជ្រើស​បង្អួច​មុន"
+
+#: oxygensimulator.h:71
+#, kde-format
+msgid "This is a sample text"
+msgstr "នេះ​ជា​អត្ថបទ​ធម្មតា"
+
+#: oxygenstylechooser.cpp:40
+#, kde-format
+msgid "Select the application widget style"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbenchmarkwidget.ui:29
+#, kde-format
+msgid "Modules"
+msgstr "ម៉ូឌុល"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenbenchmarkwidget.ui:35
+#, kde-format
+msgid "Select below the modules for which you want to run the simulation:"
+msgstr "ខាង​ក្រោម​ សូម​ជ្រើស​ម៉ូឌុល​ដែល​អ្នក​ចង់​ដំណើរការ​ការ​ត្រាប់​តាម ៖"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbenchmarkwidget.ui:48
+#, kde-format
+msgid "Options"
+msgstr "ជម្រើស"
+
+#. i18n: ectx: property (text), widget (QCheckBox, grabMouseCheckBox)
+#: ui/oxygenbenchmarkwidget.ui:54
+#, kde-format
+msgid "Grab mouse"
+msgstr "ចាប់កណ្ដុរ"
+
+#. i18n: ectx: property (text), widget (QPushButton, runButton)
+#: ui/oxygenbenchmarkwidget.ui:82
+#, kde-format
+msgid "Run Simulation"
+msgstr "ដំណើរការ​ការ​ត្រាប់តាម"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: ui/oxygenbuttondemowidget.ui:20
+#, kde-format
+msgid "Checkboxes"
+msgstr "ប្រអប់​គូស​ធីក"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox)
+#: ui/oxygenbuttondemowidget.ui:28
+#, kde-format
+msgid "Off"
+msgstr "បិទ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
+#: ui/oxygenbuttondemowidget.ui:35
+#, kde-format
+msgid "Partial"
+msgstr "ដោយ​ផ្នែក"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
+#: ui/oxygenbuttondemowidget.ui:45
+#, kde-format
+msgid "On"
+msgstr "បើក"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: ui/oxygenbuttondemowidget.ui:73
+#, kde-format
+msgid "Radiobuttons"
+msgstr "ប៊ូតុង​មូល"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: ui/oxygenbuttondemowidget.ui:84
+#, fuzzy, kde-format
+#| msgid "First Choice"
+msgid "F&irst Choice"
+msgstr "ជម្រើស​ទីមួយ"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: ui/oxygenbuttondemowidget.ui:94
+#, fuzzy, kde-format
+#| msgid "Second Choice"
+msgid "Seco&nd Choice"
+msgstr "ជម្រើស​ទីពីរ"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
+#: ui/oxygenbuttondemowidget.ui:101
+#, fuzzy, kde-format
+#| msgid "Third Choice"
+msgid "&Third Choice"
+msgstr "ជម្រើស​ទីបី"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbuttondemowidget.ui:126
+#, kde-format
+msgid "Pushbuttons"
+msgstr "ចុច​ប៊ូតុង"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: ui/oxygenbuttondemowidget.ui:132
+#, kde-format
+msgid "Text only:"
+msgstr "តែ​អត្ថបទ ៖"
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:142
+#, kde-format
+msgid "This is a normal, text only combo box"
+msgstr "នេះ​ជា​កា​រធម្មតា ដាក់​តែ​អត្ថបទ​ក្នុង​ប្រអប់​ផ្សំ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:149
+#, kde-format
+msgid "Small"
+msgstr "តូច"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:159
+#, kde-format
+msgid "Large"
+msgstr "ធំ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: ui/oxygenbuttondemowidget.ui:180
+#, kde-format
+msgid "Text and icon:"
+msgstr "អត្ថបទ និង​រូបតំណាង ៖"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
+#: ui/oxygenbuttondemowidget.ui:190
+#, kde-format
+msgid "Use flat buttons"
+msgstr "ប្រើ​ប៊ូតុង​រាបស្មើ"
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
+#: ui/oxygenbuttondemowidget.ui:197
+#, kde-format
+msgid "This is a normal, text and icon combo box"
+msgstr "នេះជា​ការ​ធម្មតា ដាក់​អត្ថបទ និង​រូបតំណាង​ក្នុង​ប្រអប់ផ្សំ"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
+#: ui/oxygenbuttondemowidget.ui:204
+#, kde-format
+msgid "This is a normal, text only tool button"
+msgstr "នេះ​ជា​កា​រធម្មតា ដាក់​តែ​អត្ថបទ​លើប៊ូតុង​ឧបករណ៍"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
+#: ui/oxygenbuttondemowidget.ui:214
+#, kde-format
+msgid "This is a normal, text and icon tool button"
+msgstr "នេះ​ជា​ការ​ធម្មតា ដាក់​អត្ថបទ និង​រូបតំណាង​លើប៊ូតុង​ឧបករណ៍"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
+#: ui/oxygenbuttondemowidget.ui:224
+#, kde-format
+msgid "This is a normal, text only button"
+msgstr "នេះ​ជា​ការ​ធម្មតា ដាក់​អត្ថបទ​តែ​លើប៊ូតុង"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
+#: ui/oxygenbuttondemowidget.ui:234
+#, kde-format
+msgid "This is a normal, text only button with menu"
+msgstr "នេះ​ជា​ការ​ធម្មតា ដាក់​តែ​អត្ថបទ​លើ​ប៊ូតុង​ជា​មួយ​ម៉ឺនុយ"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
+#: ui/oxygenbuttondemowidget.ui:244
+#, kde-format
+msgid "This is a normal, text and icon button"
+msgstr "នេះ​ជា​ការ​ធម្មតា ដាក់​អត្ថបទ និង​រូបតំណាង​លើ​ប៊ូតុង"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
+#: ui/oxygenbuttondemowidget.ui:254
+#, kde-format
+msgid "This is a normal, text and icon button with menu"
+msgstr "នេះ​​ជា​កា​រធម្មតា ដាក់​អត្ថបទ និង​រូបតំណាង​លើ​ប៊ូតុង​ជា​មួយ​ម៉ឺនុយ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbuttondemowidget.ui:267
+#, kde-format
+msgid "Toolbuttons"
+msgstr "របារ​ឧបករណ៍"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
+#: ui/oxygenbuttondemowidget.ui:335 ui/oxygenbuttondemowidget.ui:348
+#: ui/oxygenbuttondemowidget.ui:361
+#, kde-format
+msgid "Flat"
+msgstr "រាបស្នើ"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
+#: ui/oxygenbuttondemowidget.ui:374
+#, kde-format
+msgid "Up Arrow"
+msgstr "ព្រួញ​ឡើង​លើ"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
+#: ui/oxygenbuttondemowidget.ui:384
+#, kde-format
+msgid "Down Arrow"
+msgstr "ព្រួញ​ចុះក្រោម"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
+#: ui/oxygenbuttondemowidget.ui:397
+#, kde-format
+msgid "Left Arrow"
+msgstr "ព្រួញ​ឆ្វេង"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
+#: ui/oxygenbuttondemowidget.ui:407
+#, kde-format
+msgid "Right Arrow"
+msgstr "ព្រួញ​ស្ដាំ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
+#, fuzzy, kde-format
+#| msgid "Text position:"
+msgid "Te&xt position:"
+msgstr "ទីតាំង​អត្ថបទ ៖"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:434 ui/oxygentabdemowidget.ui:95
+#, kde-format
+msgid "Icons Only"
+msgstr "តែ​រូបតំណាង"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
+#, kde-format
+msgid "Text Only"
+msgstr "តែអត្ថបទ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
+#, kde-format
+msgid "Text Alongside Icons"
+msgstr "​អត្ថបទ​អែប​រូបតំណាង"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#: ui/oxygenbuttondemowidget.ui:449
+#, kde-format
+msgid "Text Under Icons"
+msgstr "អត្ថបទ​ក្រោម​រូបតំណាង"
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: ui/oxygenbuttondemowidget.ui:470
+#, fuzzy, kde-format
+#| msgid "Icon size:"
+msgid "Icon si&ze:"
+msgstr "ទំហំ​រូបតំណាង ៖"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:484
+#, kde-format
+msgid "Small (16x16)"
+msgstr "តូច (១៦x១៦)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:489
+#, kde-format
+msgid "Medium (22x22)"
+msgstr "មធ្យម (២២x២២)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:494
+#, kde-format
+msgid "Large (32x32)"
+msgstr "ធំ (៣២x៣២)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:499
+#, kde-format
+msgid "Huge (48x48)"
+msgstr "ធំ​សម្បើម (៤៨x៤៨)"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenframedemowidget.ui:31
+#, fuzzy, kde-format
+#| msgid "Layout direction:"
+msgid "&Layout direction:"
+msgstr "ទិស​ប្លង់ ៖​"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:45
+#, kde-format
+msgid "Left to Right"
+msgstr "ឆ្វេង​ទៅ​ស្ដាំ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:50
+#, kde-format
+msgid "Right to Left"
+msgstr "ស្ដាំទៅ​ឆ្វេង"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:55
+#, kde-format
+msgid "Top to Bottom"
+msgstr "កំពូល​ទៅបាត"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:60
+#, kde-format
+msgid "Bottom to Top"
+msgstr "បាត​ទៅ​កំពូល"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenframedemowidget.ui:94
+#, kde-format
+msgid "Frame"
+msgstr "ស៊ុម"
+
+#. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:104
+#, fuzzy, kde-format
+#| msgid "Raised"
+msgid "&Raised"
+msgstr "បានលើកឡើង"
+
+#. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:117
+#, fuzzy, kde-format
+#| msgid "Flat"
+msgctxt "Flat frame. No frame is actually drawn."
+msgid "&Flat"
+msgstr "រាបស្នើ"
+
+#. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:124
+#, fuzzy, kde-format
+#| msgid "Sunken"
+msgid "S&unken"
+msgstr "Sunken"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenframedemowidget.ui:147
+#, kde-format
+msgid "GroupBox"
+msgstr "ប្រអប់ក្រុម"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
+#: ui/oxygenframedemowidget.ui:153
+#, kde-format
+msgctxt "Flat group box. No frame is actually drawn"
+msgid "Flat"
+msgstr "រាបស្នើ"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenframedemowidget.ui:180
+#, kde-format
+msgid "Tab Widget"
+msgstr "ធាតុក្រាហ្វិក​ផ្ទាំង"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygeninputdemowidget.ui:29
+#, kde-format
+msgid "Single line text editor:"
+msgstr "កម្មវិធី​និពន្ធអត្ថបទ​តែ​មួយ​បន្ទាត់ ៖"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygeninputdemowidget.ui:65
+#, kde-format
+msgid "Password editor:"
+msgstr "កម្មវិធី​និពន្ធ​ពាក្យ​សម្ងាត់ ៖"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygeninputdemowidget.ui:88
+#, kde-format
+msgid "Editable combobox"
+msgstr "ប្រអប់​ផ្សំ​ដែល​អាចកែសម្រួល​បាន"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:105
+#, kde-format
+msgid "First item"
+msgstr "ធាតុទីមួយ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:110
+#, kde-format
+msgid "Second item"
+msgstr "ធាតុទីពីរ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:115
+#, kde-format
+msgid "Third item"
+msgstr "ធាតុទីបី"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygeninputdemowidget.ui:123
+#, kde-format
+msgid "Spinbox:"
+msgstr "ប្រអប់​បង្វិល៖"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygeninputdemowidget.ui:146
+#, kde-format
+msgid "Multi-line text editor:"
+msgstr "កម្មវិធី​និពន្ធ​អត្ថបទ​មាន​ច្រើនបន្ទាត់ ៖"
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
+#: ui/oxygeninputdemowidget.ui:153
+#, kde-format
+msgid "Wrap words"
+msgstr "រុំពាក្យ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
+#: ui/oxygeninputdemowidget.ui:160
+#, kde-format
+msgid "Use flat widgets"
+msgstr "ប្រើធាតុក្រាហ្វិក​រាបស្មើ"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:40 ui/oxygenlistdemowidget.ui:119
+#, kde-format
+msgid "First Item"
+msgstr "ធាតុ​ទីមួយ"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:48 ui/oxygenlistdemowidget.ui:95
+#, kde-format
+msgid "Second Item"
+msgstr "ធាតុ​ទីពីរ"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:56 ui/oxygenlistdemowidget.ui:79
+#, kde-format
+msgid "Third Item"
+msgstr "ធាតុ​ទីបី"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:69
+#, kde-format
+msgid "Title"
+msgstr "ចំណង​ជើង"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:74
+#, kde-format
+msgid "Description"
+msgstr "សេចក្ដី​ពិពណ៌នា"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:82
+#, kde-format
+msgid "Third Description"
+msgstr "សេចក្ដី​ពិពណ៌នា​ទីបី"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:86
+#, kde-format
+msgid "Third Subitem"
+msgstr "ធាតុរង​ទីបី"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:89
+#, kde-format
+msgid "Third Subitem Description"
+msgstr "សេចក្ដី​ពិពណ៌នា​ធាតុរង​ទីបី"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:98
+#, kde-format
+msgid "Second Description"
+msgstr "សេចក្ដី​ពិពណ៌នា​ទីពីរ"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:102
+#, kde-format
+msgid "Second Subitem"
+msgstr "ធាតុរង​ទីពីរ"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:105
+#, kde-format
+msgid "Second Subitem Description"
+msgstr "សេចក្ដី​ពិពណ៌នា​ធាតុរង​ទីពីរ"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:110
+#, kde-format
+msgid "First Subitem"
+msgstr "ធាតុរង​ទីមួយ"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:113
+#, kde-format
+msgid "First Subitem Description"
+msgstr "សេចក្ដី​ពិពណ៌នា​ធាតុរង​ទីមួយ"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:122
+#, kde-format
+msgid "First Description"
+msgstr "សេចក្ដី​ពិពណ៌នា​ទីមួយ"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:132
+#, kde-format
+msgid "New Row"
+msgstr "ជួរដេក​ថ្មី"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:137
+#, kde-format
+msgid "First Row"
+msgstr "ជួរដេក​​ទីមួយ"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:142
+#, kde-format
+msgid "Third Row"
+msgstr "ជួរដេក​ទីបី"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:147
+#, kde-format
+msgid "First Column"
+msgstr "ជួរឈរ​ទីមួយ"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:152
+#, kde-format
+msgid "Second Column"
+msgstr "ជួរឈរ​ទីពីរ"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:157
+#, kde-format
+msgid "Third Column"
+msgstr "ជួរឈរ​ទីបី"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:162
+#, kde-format
+msgid "Top-left"
+msgstr "កំពូង​ខាង​ឆ្វេង"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:167
+#, kde-format
+msgid "Top"
+msgstr "កំពូល"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:172
+#, kde-format
+msgid "Top-right"
+msgstr "កំពូល​ខាង​ស្ដាំ"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:177
+#, kde-format
+msgid "Left "
+msgstr "ឆ្វេង "
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:182
+#, kde-format
+msgid "Center"
+msgstr "កណ្ដាល"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:187
+#, kde-format
+msgid "Right"
+msgstr "ស្ដាំ"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:192
+#, kde-format
+msgid "Bottom-left"
+msgstr "បាត​ឆ្វេង"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:197
+#, kde-format
+msgid "Bottom"
+msgstr "បាត"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:202
+#, kde-format
+msgid "Bottom-right"
+msgstr "បាត​ស្ដាំ"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Editors)
+#: ui/oxygenmdidemowidget.ui:45
+#, kde-format
+msgid "Editors"
+msgstr "កម្មវិធីនិពន្ធ"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenmdidemowidget.ui:51
+#, kde-format
+msgid "Title:"
+msgstr "ចំណងជើង ៖"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Toolbox)
+#: ui/oxygenmdidemowidget.ui:78
+#, kde-format
+msgid "Toolbox"
+msgstr "ប្រអប់​ឧបករណ៍"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page)
+#: ui/oxygenmdidemowidget.ui:96
+#, kde-format
+msgid "First Page"
+msgstr "ទំព័រ​ទីមួយ"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_2)
+#: ui/oxygenmdidemowidget.ui:110
+#, kde-format
+msgid "Second Page"
+msgstr "ទំព័រ​ទីពីរ"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenmdidemowidget.ui:116
+#, kde-format
+msgid "First Label"
+msgstr "ស្លាក​ដំបូង​"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenmdidemowidget.ui:123
+#, kde-format
+msgid "Second Label"
+msgstr "ស្លាក់​ទីពីរ​"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_3)
+#: ui/oxygenmdidemowidget.ui:152
+#, kde-format
+msgid "Third Page"
+msgstr "ទំព័រ​ទីបី"
+
+#. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:29
+#, kde-format
+msgid "Animate Progress Bars"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:36
+#, kde-format
+msgid "Invert Progress Bars"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygensliderdemowidget.ui:43
+#, kde-format
+msgid "Horizontal"
+msgstr "ផ្ដេក"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygensliderdemowidget.ui:120
+#, kde-format
+msgid "Vertical"
+msgstr "បញ្ឈរ"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygensliderdemowidget.ui:167
+#, kde-format
+msgid "Sliders tick marks position"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:178
+#, kde-format
+msgid "No Tick Marks"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:183
+#, kde-format
+msgid "Tick Marks Above Slider"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:188
+#, kde-format
+msgid "Tick Marks Below Slider"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:193
+#, kde-format
+msgid "Tick Marks On Both Sides"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygentabdemowidget.ui:31
+#, fuzzy, kde-format
+#| msgid "Tab position:"
+msgid "&Tab position:"
+msgstr "ទីតាំង​ផ្ទាំង ៖"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:45
+#, kde-format
+msgid "North"
+msgstr "ខាង​ជើង"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:50
+#, kde-format
+msgid "South"
+msgstr "ខាង​ត្បូង"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:55
+#, kde-format
+msgid "West"
+msgstr "ខាង​លិច"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:60
+#, kde-format
+msgid "East"
+msgstr "ខាង​កើត"
+
+#. i18n: ectx: property (text), widget (QCheckBox, documentModeCheckBox)
+#: ui/oxygentabdemowidget.ui:115
+#, kde-format
+msgid "Document mode"
+msgstr "របៀប​ឯកសារ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
+#: ui/oxygentabdemowidget.ui:122
+#, kde-format
+msgid "Show Corner Buttons"
+msgstr "បង្ហាញ​ប៊ូតុង​ជ្រុង"
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
+#: ui/oxygentabdemowidget.ui:129
+#, fuzzy, kde-format
+#| msgid "Show Corner Buttons"
+msgid "Show Tab Close Buttons"
+msgstr "បង្ហាញ​ប៊ូតុង​ជ្រុង"
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
+#: ui/oxygentabdemowidget.ui:136
+#, kde-format
+msgid "Hide tabbar"
+msgstr "លាក់​របារ​ផ្ទាំង"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygentabdemowidget.ui:143
+#, kde-format
+msgid "Preview"
+msgstr "មើល​ជា​មុន"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "រាបស្នើ"
+
+#~ msgid "Dialog"
+#~ msgstr "ប្រអប់"
+
+#~ msgid "Text position:"
+#~ msgstr "ទីតាំង​អត្ថបទ ៖"
+
+#~ msgid "Busy"
+#~ msgstr "រវល់​"
+
+#~ msgid "Oxygen Settings"
+#~ msgstr "ការ​កំណត់​អុកហ្សីសែន"
+
+#~ msgid "Focus, mouseover and widget state transition"
+#~ msgstr "ផ្ដោត កណ្ដុរលើ និង​ដំណើរការ​ផ្លាស់ប្ដូរ​ស្ថានភាព​ធាតុក្រាហ្វិក"
+
+#~ msgid ""
+#~ "Configure widgets' focus and mouseover highlight animation, as well as "
+#~ "widget enabled/disabled state transition"
+#~ msgstr ""
+#~ "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​ និង​ការ​ផ្ដោត​របស់​ធាតុក្រាហ្វិក ព្រមទាំង​ធាតុក្រាហ្វិក​បានបើក/បិទ​"
+#~ "ដំណើរការ​ផ្លាស់ប្ដូរ​ស្ថានភាព"
+
+#~ msgid "Toolbar highlight"
+#~ msgstr "ការ​បន្លិច​របារ​ឧបករណ៍"
+
+#~ msgid "Configure toolbars' mouseover highlight animation"
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​របស់​របារ​ឧបករណ៍"
+
+#~ msgid "Menu bar highlight"
+#~ msgstr "កា​របន្លិច​របារ​ម៉ឺនុយ"
+
+#~ msgid "Configure menu bars' mouseover highlight animation"
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​របស់​របារ​ម៉ឺនុយ"
+
+#~ msgid "Menu highlight"
+#~ msgstr "ការ​បន្លិច​ម៉ឺនុយ"
+
+#~ msgid "Configure menus' mouseover highlight animation"
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​របស់​ម៉ឺនុយ"
+
+#~ msgid "Progress bar animation"
+#~ msgstr "ចលនា​របារ​វឌ្ឍនភាព"
+
+#~ msgid "Configure progress bars' steps animation"
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​ជំហាន​របស់​របារ​វឌ្ឍនភាព"
+
+#~ msgid "Tab transitions"
+#~ msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​ផ្ទាំង"
+
+#~ msgid "Configure fading transition between tabs"
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរការ​ផ្លាស់ប្ដូរ​លេច​ឡើង​រវាង​ផ្ទាំង"
+
+#~ msgid "Label transitions"
+#~ msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​ស្លាក"
+
+#~ msgid "Configure fading transition when a label's text is changed"
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរការ​ផ្លាស់ប្ដូរ​លេច​ឡើង​ នៅពេល​អត្ថបទ​របស់​អ្នកស្លាក​ត្រូវ​បាន​ផ្លាស់ប្ដូរ"
+
+#~ msgid "Text editor transitions"
+#~ msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​កម្មវិធី​និពន្ធ​អត្ថបទ"
+
+#~ msgid "Configure fading transition when an editor's text is changed"
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរ​ផ្លាស់ប្ដូរ​លេច​ឡើង​ នៅពេល​អត្ថបទ​របស់​អ្នកនិពន្ធ​ត្រូវ​បាន​ផ្លាស់ប្ដូរ"
+
+#~ msgid "Combo box transitions"
+#~ msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​ប្រអប់​ផ្សំ"
+
+#~ msgid ""
+#~ "Configure fading transition when a combo box's selected choice is changed"
+#~ msgstr ""
+#~ "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរការ​ផ្លាស់ប្ដូរ​លេច​ឡើង​ នៅពេល​ជម្រើស​ដែលបាន​ជ្រើស​របស់​ប្រអប់​ផ្សំ​ត្រូវ​បាន​"
+#~ "ផ្លាស់ប្ដូរ"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "ជំហាន​ទ្រនិច​បង្ហាញ​ការ​រវល់"
+
+#~ msgid "Configure progress bars' busy indicator animation"
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​ទ្រនិច​បង្ហាញ​រវល់​របស់​របារ​វឌ្ឍនភាព"
+
+#~ msgid "Widget Style"
+#~ msgstr "រចនាប័ទ្ម​ធាតុក្រាហ្វិក"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "កែប្រែ​រូបរាង​របស់​ធាតុក្រាហ្វិក"
+
+#~ msgid "Window Decorations"
+#~ msgstr "ការ​តុបតែង​បង្អួច"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "កែប្រែ​រូបរាង​​នៃ​ការ​តុបតែង​បង្អួច"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "មិន​អាច​រក​កម្មវិធី​ជំនួយ​កំណត់​រចនាសម្ព័ន្ធ​រចនាប័ទ្ម​អុកហ្សីសែន​បាន​ទេ"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "មិន​អាច​រក​កម្មវិធី​ជំនួយ​កំណត់​រចនាសម្ព័ន្ធ​ការ​តុបតែង​អុកហ្សីសែន​បានទេ"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "លាក់​ជម្រើស​កំណត់​រចនាសម្ព័ន្ធ​កម្រិត​ខ្ពស់"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "បង្ហាញ​ជម្រើស​កំណត់​រចនាសម្ព័ន្ធ​កម្រិត​ខ្ពស់"
+
+#~ msgid "Animations"
+#~ msgstr "ចលនា"
+
+#~ msgid "Animation type:"
+#~ msgstr "ប្រភេទ​ចលនា ៖"
+
+#~ msgid "Fade"
+#~ msgstr "លេចឡើង"
+
+#~ msgid "Follow Mouse"
+#~ msgstr "តាមកណ្ដុរ"
+
+#~ msgid "Fade duration:"
+#~ msgstr "ថិរវេលា​លេច​ឡើង ៖​"
+
+#~ msgid "Follow mouse duration:"
+#~ msgstr "តាម​ថិរវេលា​កណ្ដុរ ៖"
+
+#~ msgid "General"
+#~ msgstr "ទូទៅ"
+
+#~ msgid "Draw toolbar item separators"
+#~ msgstr "បន្ទាត់​ខណ្ឌ​ចែក​វត្ថុ​របារ​ឧបករណ៍​គូរ"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "ប្រើ 'X' ក្នុង​ប្រអប់​គូស​ធីក​ជំនួស​ឲ្យ​កា​រប្រើសញ្ញា​គូស​ធីក"
+
+#~ msgid "Enable extended resize handles"
+#~ msgstr "បើក​ចំណុច​ទាញ​ផ្លាស់ប្ដូរ​ទំហំ​ដែល​បាន​ពង្រីក"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "បើក​ឃ្លាំង​សម្ងាត់​ pixmap"
+
+#~ msgid "Enable animations"
+#~ msgstr "បើក​ចលនា"
+
+#~ msgid "Windows' drag mode:"
+#~ msgstr "របៀប​អូស​របស់​បង្អួច ៖"
+
+#~ msgid "Drag windows from titlebar only"
+#~ msgstr "គូរ​បង្អួច​តែ​ពី​របារ​ចំណង​ជើង​ប៉ុណ្ណោះ"
+
+#~ msgid "Drag windows from titlebar, menubar and toolbars"
+#~ msgstr "អូស​បង្អួច​ពី​របារ​ចំណង​ជើង របារ​ម៉ឺនុយ និង​របារ​ឧបករណ៍"
+
+#~ msgid "Drag windows from all empty areas"
+#~ msgstr "អូស​បង្អួច​ពី​ផ្ទៃ​ទំនេរ​ទាំង​អស់"
+
+#~ msgid "Keyboard accelerators visibility:"
+#~ msgstr "ភាព​មើល​ឃើញ​នៃ​​កា​របង្កើន​ល្បឿន​ក្ដារចុច ៖"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "តែងតែ​លាក់​កា​របង្កើន​ល្បឿន​ក្ដារចុចជា​និច្ច"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "បង្ហាញ​ការ​បង្កើន​ល្បឿន​ក្ដារចុច​នៅ​ពេល​ដែល​ត្រូវការ"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "បង្ហាញ​​កា​របង្កើន​ល្បឿន​ក្ដារចុច​ជា​និច្ច"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "ប្រើ​កម្មវិធី​គ្រប់គ្រង​បង្អួច ដើម្បីអនុវត្ត​ការ​អូស​របស់​បង្អួច"
+
+#~ msgid "Views"
+#~ msgstr "មើល"
+
+#~ msgid "Draw focus indicator"
+#~ msgstr "គូរ​ឧបករណ៍​បង្ហាញ​ការ​ផ្ដោត"
+
+#~ msgid "Draw tree branch lines"
+#~ msgstr "គូរ​បន្ទាត់​មែកធាង​របស់​មែកធាង"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "បើក​ឧបករណ៍​ពង្រីក​មែកធាង​រាង​ត្រីកោណ​ជំនួស​ឲ្យ +/-"
+
+#~ msgid "Triangle size:"
+#~ msgstr "ទំហំ​ត្រីកោណ ៖"
+
+#, fuzzy
+#~| msgid "Tiny"
+#~ msgctxt "triangle size"
+#~ msgid "Tiny"
+#~ msgstr "ល្អិត"
+
+#, fuzzy
+#~| msgid "Small"
+#~ msgctxt "triangle size"
+#~ msgid "Small"
+#~ msgstr "តូច"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgctxt "triangle size"
+#~ msgid "Normal"
+#~ msgstr "ធម្មតា"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "តែ​មួយ"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "ធម្មតា"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "រចនាប័ទ្ម​ផ្ទាំង​អសកម្ម ៖"
+
+#~ msgid "Scrollbars"
+#~ msgstr "របាររមូរ"
+
+#~ msgid "Scrollbar width:"
+#~ msgstr "ទំហំ​របាររមូរ ៖"
+
+#~ msgid "Top arrow button type:"
+#~ msgstr "ប្រភេទ​ប៊ូតុង​ព្រួញ​ខាង​លើ ៖"
+
+#~ msgid "Bottom arrow button type:"
+#~ msgstr "ប្រភេទ​ប៊ូតុង​ព្រួញ​ខាង​ក្រោម ៖"
+
+#~ msgid "No buttons"
+#~ msgstr "គ្មានប៊ូតុង"
+
+#~ msgid "One button"
+#~ msgstr "ប៊ូតុង​មួយ"
+
+#~ msgid "Two buttons"
+#~ msgstr "ប៊ូតុង​ពីរ"
+
+#~ msgid "No button"
+#~ msgstr "គ្មាន​ប៊ូតុង"
+
+#~ msgid "Menu Highlight"
+#~ msgstr "ការ​បន្លិច​ម៉ឺនុយ"
+
+#~ msgid "Use dark color"
+#~ msgstr "ប្រើ​ពណ៌​ងងឹត"
+
+#~ msgid "Use selection color (plain)"
+#~ msgstr "ប្រើ​ពណ៌​ជម្រើស (ធម្មតា)"
+
+#~ msgid "Use selection color (subtle)"
+#~ msgstr "ប្រើ​ពណ៌​ជម្រើស​ (ប្រសព្វ)"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "ខឹម សុខែម,ម៉ន ម៉េត, សេង សុត្ថា​"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "khoemsokhem@khmeros.info,mornmet@khmeros.info,sutha@khmeros.info"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "ឧបករណ៍​កំណត់​រចនាសម្ព័ន្ធ​អ្នក​ជំនាញ​អុកហ្សីសែន"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "រក្សាសិទ្ធិ​ឆ្នាំ ២០១០១ ដោយ Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "ការ​បង្ហាញ​រចនាប័ទ្ម​អុកហ្សីសែន"

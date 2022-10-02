@@ -1,0 +1,1024 @@
+# translation of kstyle_config.po to Thai
+#
+# Thanomsub Noppaburana <donga_n@yahoo.com>, 2005.
+# Sahachart Anukulkitch <drrider@gmail.com>, 2007.
+# Thanomsub Noppaburana <donga.nb@gmail.com>, 2008, 2010.
+# Phuwanat Sakornsakolpat <narachai@gmail.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2010-12-17 20:18+0700\n"
+"Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
+"Language-Team: Thai <thai-l10n@googlegroups.com>\n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "ปรับแต่ง Oxygen"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "การโฟกัส การวางเมาส์เหนือและการเปลี่ยนผ่านสถานะวิดเจ็ต"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"ปรับแต่งการโฟกัสของวิดเจ็ตและการเคลื่อนไหวแบบเน้นเมื่อเมาส์อยู่เหนือ "
+"รวมถึงการเปิดหรือปิดการใช้งานการเปลี่ยนสถานะของวิดเจ็ต"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "การเน้นแถบเครื่องมือ"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "ปรับแต่งการเน้นแถบเครื่องมือเมื่อเมาส์อยู่เหนือแบบเคลื่อนไหว"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "การเน้นแถบเมนู"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "ปรับแต่งการเน้นแถบเมนูเมื่อมีเมาส์เหนือแบบเคลื่อนไหว"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "การเน้นเมนู"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "ปรับแต่งการเน้นเมนูเมื่อเมาส์อยู่เหนือ"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "การเคลื่อนไหวของแถบบอกความคืบหน้า"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "ปรับแต่งขั้นตอนการเคลื่อนไหวของแถบบอกความคืบหน้า"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "การเปลี่ยนแท็บแบบเคลื่อนไหว"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "ปรับแต่งการเปลี่ยนแท็บแบบจางหาย"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "การเปลี่ยนป้ายชื่อ"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "ปรับแต่งการเปลี่ยนไปแบบจางหายเมื่อข้อความป้ายชื่อเปลี่ยนไป"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "การเปลี่ยนตัวแก้ไขข้อความ"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "ปรับแต่งการเปลี่ยนไปแบบจางหายเมื่อตัวแก้ไขข้อความเปลี่ยนไป"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "การเปลี่ยนกล่องคอมโบ"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr "ปรับแต่งการเปลี่ยนแบบจางหายเมื่อเปลี่ยนตัวเลือกในกล่องคอมโบ"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+#| msgid "Progress bar animation"
+msgid "Progress bar busy indicator"
+msgstr "การเคลื่อนไหวของแถบบอกความคืบหน้า"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "ปรับแต่งการเคลื่อนไหวของตัวแสดงว่าไม่ว่างในแถบบอกความคืบหน้า"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "เฟรม"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "ชนิดการคลื่อนไหว:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "ค่อย ๆ ชัด/ค่อย ๆ จางหาย"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "ติดตามเมาส์"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "ระยะเวลาการจางหาย:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "ติดตามระยะของเมาส์:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "กล่องโต้ตอบ"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "ทั่วไป"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "ลากหน้าต่างจากแถบหัวเรื่องเท่านั้น"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "ลากหน้าต่างจากแถบหัวเรื่อง แถบเมนู และแถบเครื่องมือ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "ลากหน้าต่างจากพื้นที่ว่างทั้งหมด"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, fuzzy, kde-format
+#| msgid "Draw keyboard accelerators"
+msgid "Keyboard accelerators visibility:"
+msgstr "วาดตัวเรียกใช้งานลัดของแป้นพิมพ์"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, fuzzy, kde-format
+#| msgid "Windows' drag mode:"
+msgid "Windows' &drag mode:"
+msgstr "โหมดการลากหน้าต่าง:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "วาดตัวแบ่งรายการบนแถบเครื่องมือ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "การเคลื่อนไหว"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "มุมมองต่าง ๆ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "วาดเส้นสาขาของผังต้นไม้"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, fuzzy, kde-format
+#| msgid "Tiny"
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "เล็กมาก"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, fuzzy, kde-format
+#| msgid "Small"
+msgctxt "triangle size"
+msgid "Small"
+msgstr "เล็ก"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, fuzzy, kde-format
+#| msgid "Normal"
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "ปกติ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, fuzzy, kde-format
+#| msgid "Draw focus indicator"
+msgid "Draw focus indicator in lists"
+msgstr "วาดตัวแสดงการได้รับโฟกัส"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "แถบเลื่อน"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+#| msgid "Scrollbar width:"
+msgid "Scrollbar wi&dth:"
+msgstr "ความกว้างของแถบเลื่อน:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "ประเภทของปุ่มรูปลูกศรทางด้านบน:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "ประเภทของปุ่มรูปลูกศรทางด้านล่าง:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "ไม่มีปุ่มใดๆ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "หนึ่งปุ่ม"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "สองปุ่ม"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "ไม่มีปุ่ม"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "การเน้นเมนู"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, fuzzy, kde-format
+#| msgid "Use dark color"
+msgid "Use dar&k color"
+msgstr "ใช้สีโทนมืด"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, fuzzy, kde-format
+#| msgid "Use selection color (plain)"
+msgid "&Use selection color (plain)"
+msgstr "ใช้การเลือกสี (ธรรมดา)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, fuzzy, kde-format
+#| msgid "Use selection color (subtle)"
+msgid "Use selec&tion color (subtle)"
+msgstr "ใช้การเลือกสี (เบาบาง)"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "วาดตัวเรียกใช้งานลัดของแป้นพิมพ์"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "วาดตัวเรียกใช้งานลัดของแป้นพิมพ์"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "วาดตัวเรียกใช้งานลัดของแป้นพิมพ์"
+
+#~ msgid "Widget Style"
+#~ msgstr "รูปแบบของวิดเจ็ต"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "ปรับเปลี่ยนรูปลักษณ์ของวิดเจ็ตต่าง ๆ"
+
+#~ msgid "Window Decorations"
+#~ msgstr "ส่วนตกแต่งหน้าต่าง"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "ปรับเปลี่ยนรูปลักษณ์ของส่วนตกแต่งหน้าต่าง"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "ไม่สามารถจะหาปลั๊กอินการตั้งค่ารูปแบบของ oxygen ได้"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "ไม่สามารถหาปลั๊กอินการตั้งค่าของตกแต่ง oxygen ได้"
+
+#~ msgid "Enable animations"
+#~ msgstr "เปิดใช้การแสดงแบบเคลื่อนไหว"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "เปิดการใช้งานแคชของภาพพิกซ์แมป"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "ขั้นตอนตัวแสดงว่าไม่ว่าง"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "ใช้ 'X' ในกล่องกาแทนการใช้เครื่องหมายถูก"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "ใช้โปรแกรมจัดการหน้าต่างควบคุมการลากหน้าต่าง"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "ใช้ตัวขยายผังต้นไม้แบบสามเหลี่ยมแทนเครื่องหมาย +/-"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "ขนาดสามเหลี่ยม:"
+
+#~ msgid "Tabs"
+#~ msgstr "แท็บ"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "แยกเดี่ยว"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "ธรรมดา"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "รูปแบบแท็บที่ไม่ได้ทำงาน:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "สาธิต Oxygen"
+
+#~ msgid "Normal"
+#~ msgstr "ปกติ"
+
+#~ msgid "New"
+#~ msgstr "ใหม่"
+
+#~ msgid "Open"
+#~ msgstr "เปิด"
+
+#~ msgid "Save"
+#~ msgstr "บันทึก"
+
+#, fuzzy
+#~| msgid "Menu bar animation :"
+#~ msgid "Toggle authentication"
+#~ msgstr "แถบเมนูแบบเคลื่อนไหว :"
+
+#~ msgid "Enabled"
+#~ msgstr "เปิดใช้งาน"
+
+#~ msgid "Right to left layout"
+#~ msgstr "เค้าโครงแบบขวาไปซ้าย"
+
+#~ msgid "Input Widgets"
+#~ msgstr "วิดเจ็ตป้อนข้อมูล"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "แสดงรูปลักษณ์ของวิดเจ็ตป้อนข้อความ"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "วิดเจ็ตประเภทแท็บ"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "แสดงรูปลักษณ์ของวิดเจ็ตประเภทแท็บ"
+
+#~ msgid "Buttons"
+#~ msgstr "ปุ่มต่าง ๆ"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "แสดงรูปลักษณ์ของปุ่มกด"
+
+#~ msgid "Lists"
+#~ msgstr "ช่องรายการ"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "แสดงรูปลักษณ์ของช่องรายการ, ผังต้นไม้ และตาราง"
+
+#~ msgid "Frames"
+#~ msgstr "เฟรม"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "แสดงรูปลักษณ์ของวิดเจ็ตประเภทแท็บ"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "แสดงรูปลักษณ์ของวิดเจ็ตประเภทแท็บ"
+
+#~ msgid "Sliders"
+#~ msgstr "แถบเลื่อน"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "แสดงรูปลักษณ์ของแถบเลื่อน, แถบความคืบหน้า และแถบลาก"
+
+#~ msgid "Benchmark"
+#~ msgstr "เบนช์มาร์ก"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr "จำลองการใช้งานของผู้ใช้กับวิดเจ็ต เพื่อวัดค่าเบนช์มาร์ก"
+
+#~ msgid "Example text"
+#~ msgstr "ข้อความตัวอย่าง"
+
+#~ msgid "password"
+#~ msgstr "รหัสผ่าน"
+
+#~ msgid "Tile"
+#~ msgstr "ปูเรียง"
+
+#~ msgid "Cascade"
+#~ msgstr "เรียงลดหลั่น"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "กล่องเครื่องมือ"
+
+#~ msgid "Select Next Window"
+#~ msgstr "เลือกหน้าต่างถัดไป"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "เลือกหน้าต่างก่อนหน้า"
+
+#~ msgid "This is a sample text"
+#~ msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#~ msgid "Modules"
+#~ msgstr "มอดูล"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "เลือกทางด้านล่างมอดูลว่าต้องการจะให้ทำการจำลองสถานการณ์ใด:"
+
+#~ msgid "Options"
+#~ msgstr "ตัวเลือก"
+
+#~ msgid "Grab mouse"
+#~ msgstr "ดักจับเมาส์"
+
+#~ msgid "Run Simulation"
+#~ msgstr "เรียกใช้การจำลองสถานการณ์"
+
+#~ msgid "Checkboxes"
+#~ msgstr "กล่องกาเครื่องหมาย"
+
+#~ msgid "Off"
+#~ msgstr "ปิด"
+
+#~ msgid "Partial"
+#~ msgstr "บางส่วน"
+
+#~ msgid "On"
+#~ msgstr "เปิด"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "ปุ่มวิทยุ"
+
+#~ msgid "First Choice"
+#~ msgstr "ตัวเลือกแรก"
+
+#~ msgid "Second Choice"
+#~ msgstr "ตัวเลือกที่ 2"
+
+#~ msgid "Third Choice"
+#~ msgstr "ตัวเลือกที่ 3"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "ปุ่มกด"
+
+#~ msgid "Text only:"
+#~ msgstr "ข้อความเท่านั้น:"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#~ msgid "Small"
+#~ msgstr "เล็ก"
+
+#~ msgid "Large"
+#~ msgstr "ใหญ่"
+
+#~ msgid "Text and icon:"
+#~ msgstr "ข้อความและไอคอน:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "ใช้ปุ่มแบน"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only button"
+#~ msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "ปุ่มเครื่องมือ"
+
+#~ msgid "Flat"
+#~ msgstr "แบน"
+
+#~ msgid "Up Arrow"
+#~ msgstr "ปุ่มลูกศรขึ้น"
+
+#~ msgid "Down Arrow"
+#~ msgstr "ปุ่มลูกศรลง"
+
+#~ msgid "Left Arrow"
+#~ msgstr "ปุ่มลูกศรซ้าย"
+
+#~ msgid "Right Arrow"
+#~ msgstr "ปุ่มลูกศรขวา"
+
+#~ msgid "Text position:"
+#~ msgstr "ตำแหน่งข้อความ:"
+
+#~ msgid "Icons Only"
+#~ msgstr "ไอคอนเท่านั้น"
+
+#~ msgid "Text Only"
+#~ msgstr "ข้อความเท่านั้น"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "ข้อความข้างไอคอน"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "ข้อความใต้ไอคอน"
+
+#~ msgid "Icon size:"
+#~ msgstr "ขนาดไอคอน:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "เล็ก (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "กลาง (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "ใหญ่ (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "ใหญ่มาก (48x48)"
+
+#, fuzzy
+#~| msgid "Layout Direction:"
+#~ msgid "Layout direction:"
+#~ msgstr "ทิศทางเค้าโครง:"
+
+#~ msgid "Left to Right"
+#~ msgstr "ซ้ายไปขวา"
+
+#~ msgid "Right to Left"
+#~ msgstr "ขวาไปซ้าย"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "บนลงล่าง"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "ล่างขึ้นบน"
+
+#~ msgid "GroupBox"
+#~ msgstr "กล่องจัดกลุ่ม"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "แบน"
+
+#~ msgid "Raised"
+#~ msgstr "นูน"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "แบน"
+
+#~ msgid "Sunken"
+#~ msgstr "บุ๋มลง"
+
+#~ msgid "Tab Widget"
+#~ msgstr "แท็บวิดเจ็ต"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "ตัวแก้ไขข้อความแบบบรรทัดเดียว:"
+
+#~ msgid "Password editor:"
+#~ msgstr "ตัวแก้ไขรหัสผ่าน:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "กล่องคอมโบแบบแก้ไขได้"
+
+#~ msgid "First item"
+#~ msgstr "รายการแรก"
+
+#~ msgid "Second item"
+#~ msgstr "รายการที่ 2"
+
+#~ msgid "Third item"
+#~ msgstr "รายการที่ 3"
+
+#~ msgid "Spinbox:"
+#~ msgstr "กล่องปรับเลข:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "ตัวแก้ไขข้อความแบบหลายบรรทัด:"
+
+#~ msgid "Wrap words"
+#~ msgstr "ตัดคำ"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "ใช้วิดเจ็ตแบน"
+
+#~ msgid "First Item"
+#~ msgstr "รายการแรก"
+
+#~ msgid "Second Item"
+#~ msgstr "รายการที่ 2"
+
+#~ msgid "Third Item"
+#~ msgstr "รายการที่ 3"
+
+#~ msgid "Title"
+#~ msgstr "หัวเรื่อง"
+
+#~ msgid "Description"
+#~ msgstr "รายละเอียด"
+
+#~ msgid "Third Description"
+#~ msgstr "รายละเอียดที่ 3"
+
+#~ msgid "Third Subitem"
+#~ msgstr "รายการย่อยที่ 3"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "รายละเอียดรายการย่อยที่ 3"
+
+#~ msgid "Second Description"
+#~ msgstr "รายละเอียดที่ 2"
+
+#~ msgid "Second Subitem"
+#~ msgstr "รายการย่อยที่ 2"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "รายละเอียดรายการย่อยที่ 2"
+
+#~ msgid "First Subitem"
+#~ msgstr "รายการย่อยแรก"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "รายละเอียดรายการย่อยแรก"
+
+#~ msgid "First Description"
+#~ msgstr "รายละเอียดแรก"
+
+#~ msgid "New Row"
+#~ msgstr "แถวใหม่"
+
+#~ msgid "First Row"
+#~ msgstr "แถวแรก"
+
+#~ msgid "Third Row"
+#~ msgstr "แถวที่ 3"
+
+#~ msgid "First Column"
+#~ msgstr "คอลัมน์แรก"
+
+#~ msgid "Second Column"
+#~ msgstr "คอลัมน์ที่ 2"
+
+#~ msgid "Third Column"
+#~ msgstr "คอลัมน์ที่ 3"
+
+#~ msgid "Top-left"
+#~ msgstr "ซ้ายบน"
+
+#~ msgid "Top"
+#~ msgstr "บน"
+
+#~ msgid "Top-right"
+#~ msgstr "ขวาบน"
+
+#~ msgid "Left "
+#~ msgstr "ซ้าย "
+
+#~ msgid "Center"
+#~ msgstr "กลาง"
+
+#~ msgid "Right"
+#~ msgstr "ขวา"
+
+#~ msgid "Bottom-left"
+#~ msgstr "ซ้ายล่าง"
+
+#~ msgid "Bottom"
+#~ msgstr "ล่าง"
+
+#~ msgid "Bottom-right"
+#~ msgstr "ล่างขวา"
+
+#~ msgid "Editors"
+#~ msgstr "ตัวแก้ไข"
+
+#~ msgid "Title:"
+#~ msgstr "หัวเรื่อง:"
+
+#~ msgid "Toolbox"
+#~ msgstr "กล่องเครื่องมือ"
+
+#~ msgid "First Page"
+#~ msgstr "หน้าแรก"
+
+#~ msgid "Second Page"
+#~ msgstr "หน้าที่ 2"
+
+#, fuzzy
+#~| msgid "First Tab"
+#~ msgid "First Label"
+#~ msgstr "แท็บแรก "
+
+#, fuzzy
+#~| msgid "Second Tab"
+#~ msgid "Second Label"
+#~ msgstr "แท็บที่ 2"
+
+#~ msgid "Third Page"
+#~ msgstr "หน้าที่ 3"
+
+#~ msgid "Horizontal"
+#~ msgstr "แนวนอน"
+
+#~ msgid "Vertical"
+#~ msgstr "แนวตั้ง"
+
+#~ msgid "Tab position:"
+#~ msgstr "ตำแหน่งแท็บ:"
+
+#~ msgid "North"
+#~ msgstr "เหนือ"
+
+#~ msgid "South"
+#~ msgstr "ใต้"
+
+#~ msgid "West"
+#~ msgstr "ตะวันตก"
+
+#~ msgid "East"
+#~ msgstr "ตะวันออก"
+
+#~ msgid "Document mode"
+#~ msgstr "โหมดเอกสาร"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "แสดงปุ่มมุม"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "ซ่อนแถบแสดงแท็บ"
+
+#~ msgid "Preview"
+#~ msgstr "แสดงตัวอย่าง"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "ถนอมทรัพย์ นพบูรณ์, สหชาติ อนุกูลกิจ, ภูวณัฏฐ์ สาครสกลพัฒน์"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "donga.nb@gmail.com, drrider@gmail.com, narachai@gmail.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "เครื่องมือปรับแต่ง Oxygen แบบผู้เชี่ยวชาญ"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "สงวนลิขสิทธิ์ (c) 2553 โดย Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "การสาธิตรูปแบบ Oxygen"
+
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "วาดตัวเรียกใช้งานลัดของแป้นพิมพ์"
+
+#~ msgid "Use wider lines"
+#~ msgstr "ใช้บรรทัดแบบกว้างขึ้น"
+
+#~ msgid "Highlight scroll bar handles"
+#~ msgstr "เน้นสีส่วนจับแถบเลื่อน"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "แถบสถานะคืบหน้าแบบเคลื่อนไหว"
+
+#~ msgid "Web style plugin"
+#~ msgstr "ส่วนเสริมรูปแบบเว็บ"
+
+#~ msgid "modified"
+#~ msgstr "แก้ไข"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "oxygen-settings - information"
+
+#~ msgid "CheckBox"
+#~ msgstr "กล่องกาเครื่องหมาย"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "ระยะเวลา (มิลลิวินาที):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "ใช้การเปลี่ยนแท็บแบบเคลื่อนไหว"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "วาดแถบเลื่อนให้มีมิติ"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "แสดงแถบเลื่อนเป็นสีสันเมื่อเคลื่อนเมาส์เหนือมัน"
+
+#~ msgid "Plain"
+#~ msgstr "ธรรมดา"
+
+#, fuzzy
+#~| msgid "Fade"
+#~ msgid "Form"
+#~ msgstr "ค่อย ๆ ชัด/ค่อย ๆ จางหาย"
+
+#~ msgid "Third Tab"
+#~ msgstr "แท็บที่ 3"
+
+#~ msgid "Fourth Tab"
+#~ msgstr "แท็บที่ 4"
+
+#~ msgid "Width:"
+#~ msgstr "ความกว้าง:"
+
+#, fuzzy
+#~| msgid "Enable animations"
+#~ msgid "Enable title transition animations"
+#~ msgstr "เปิดใช้การแสดงแบบเคลื่อนไหว"
+
+#~ msgid "None"
+#~ msgstr "ไม่มี"
+
+#~ msgid "Dark"
+#~ msgstr "มืด"
+
+#~ msgid "Subtle"
+#~ msgstr "เบาบาง"
+
+#~ msgid "Draw toolbar separator"
+#~ msgstr "วาดตัวแบ่งแถบเครื่องมือ"
+
+#~ msgid "Highlight focused text input fields"
+#~ msgstr "ทำตัวเน้นข้อความในช่องข้อมูลที่ได้รับโฟกัส"
+
+#~ msgid "Custom text input highlight color:"
+#~ msgstr "กำหนดสีทำตัวเน้นข้อความเอง:"
+
+#~ msgid "Custom checkmark color:"
+#~ msgstr "กำหนดสีการทำเครื่องหมายเอง:"

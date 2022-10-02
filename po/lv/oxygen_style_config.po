@@ -1,0 +1,994 @@
+# translation of kstyle_config.po to Latvian
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Maris Nartiss <maris.kde@gmail.com>, 2007.
+# Kaspars Krampis <kaspars.krampis@linux.edu.lv>, 2007.
+# Viesturs Zarins <viesturs.zarins@mii.lu.lv>, 2008, 2009.
+# Viesturs Zariņš <viesturs.zarins@mii.lu.lv>, 2009.
+# Rūdofls Mazurs <rudolfs.mazurs@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2011-07-07 21:21+0300\n"
+"Last-Translator: Rūdofls Mazurs <rudolfs.mazurs@gmail.com>\n"
+"Language-Team: Latvian <locale@laka.lv>\n"
+"Language: lv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Oxygen iestatījumi"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Fokus, peles rādītājs virs un logdaļas stāvokļa pāreja"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Konfigurēt logdaļas fokusu un izcelšanas animāciju, kad peles rādītājs ir "
+"virs; kā arī logdaļas aktivēts/deaktivēts stāvokļa pāreju"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Rīkjoslas izcelšana"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "Konfigurēt rīkjoslu animāciju, kad peles rādītājs ir virs"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Izvēlnes joslas izcelšana"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr ""
+"Konfigurēt izvēļņu joslas izcelšanas animāciju, kad peles rādītājs ir virs"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Izvēlnes izcelšana"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Konfigurēt izvēļņu izcelšanas animāciju, kad peles rādītājs ir virs"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Progresa joslas animācija"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Konfigurēt progresa joslas soļu animāciju"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Ciļņu pārejas"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Konfigurēt plūstošo pāreju starp cilnēm"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Etiķešu pārejas"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "Konfigurēt plūstošo pāreju, kad tiek mainīts etiķetes teksts"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Teksta redaktora pāreja"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "Konfigurēt plūstošo pāreju, kad tiek mainīts redaktora teksts"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Kombinētā lodziņa pāreja"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr "Konfigurēt plūstošo pāreju, kad tiek mainīta kombinētā lodziņa izvēle"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+#| msgid "Progress bar animation"
+msgid "Progress bar busy indicator"
+msgstr "Progresa joslas animācija"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Konfigurēt progresa joslas aizņemtības indikatora animāciju"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Ietvars"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Animācijas veids:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Izgaist"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Sekot pelei"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Izgaišanas ilgums:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Sekot pelei ilgums:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dialogs"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Pamata"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Vilkt logus tikai no virsraksta joslas"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Vilkt logus no virsraksta joslas, izvēles joslas un rīkjoslām"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Vilkt logus no visiem tukšajiem laukumiem"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, fuzzy, kde-format
+#| msgid "Draw keyboard accelerators"
+msgid "Keyboard accelerators visibility:"
+msgstr "Zīmēt tastatūras paātrinātājus"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, fuzzy, kde-format
+#| msgid "Windows' drag mode:"
+msgid "Windows' &drag mode:"
+msgstr "Loga vilkšanas režīms:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Zīmēt rīkjoslu elementu atdalītājus"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animācijas"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Skati"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Zīmēt koka zaru līnijas"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, fuzzy, kde-format
+#| msgid "Tiny"
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Sīks"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, fuzzy, kde-format
+#| msgid "Small"
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Mazs"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, fuzzy, kde-format
+#| msgid "Normal"
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normāls"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, fuzzy, kde-format
+#| msgid "Draw focus indicator"
+msgid "Draw focus indicator in lists"
+msgstr "Zīmēt fokusa indikatoru"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Ritjoslas"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+#| msgid "Scrollbar width:"
+msgid "Scrollbar wi&dth:"
+msgstr "Ritjoslu platums:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Augšup bultas pogas veids:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Lejup bultas pogas veids:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Nav pogu"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Viena poga"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Divas pogas"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Nav pogas"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Izvēlnes izcelšana"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, fuzzy, kde-format
+#| msgid "Use dark color"
+msgid "Use dar&k color"
+msgstr "Lietot tumšu krāsu"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, fuzzy, kde-format
+#| msgid "Use selection color (plain)"
+msgid "&Use selection color (plain)"
+msgstr "Lietot iezīmēšanas krāsu (vienkārša)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, fuzzy, kde-format
+#| msgid "Use selection color (subtle)"
+msgid "Use selec&tion color (subtle)"
+msgstr "Lietot iezīmēšanas krāsu (neuzkrītoša)"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Zīmēt tastatūras paātrinātājus"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Zīmēt tastatūras paātrinātājus"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Zīmēt tastatūras paātrinātājus"
+
+#~ msgid "Widget Style"
+#~ msgstr "Logdaļu stils"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Mainīt logdaļu izskatu"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Logu dekorācijas"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Mainīt logu dekorāciju izskatu"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Nevar atrast oxygen stilu konfigurācijas spraudni"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Nevar atrast oxygen dekorāciju konfigurācijas spraudni"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Slēpt paplašinātās konfigurācijas opcijas"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Rādīt paplašinātās konfigurācijas opcijas"
+
+#~ msgid "Enable animations"
+#~ msgstr "Aktivēt animācijas"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Aktivēt pikseļu kartes kešu"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Aizņemtības indikatora soļi"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Izvēles rūtiņās lietot 'X' nevis ķeksīti"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Lietot logu pārvaldnieku, lai veiktu logu vilkšanu"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Trīsstūrveida koku paplašinātājs nevis +/-"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Trīsstūra izmērs:"
+
+#~ msgid "Tabs"
+#~ msgstr "Cilnes"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Viena"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Vienkārša"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Neaktīvo cilņu stils:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Oxygen demo."
+
+#~ msgid "Normal"
+#~ msgstr "Normāls"
+
+#~ msgid "New"
+#~ msgstr "Jauns"
+
+#~ msgid "Open"
+#~ msgstr "Atvērt"
+
+#~ msgid "Save"
+#~ msgstr "Saglabāt"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "Pārslēgt autentifikāciju"
+
+#~ msgid "Enabled"
+#~ msgstr "Aktivēts"
+
+#~ msgid "Right to left layout"
+#~ msgstr "No labās uz kreiso izkārtojums"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Ievades logdaļas"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Rāda teksta ievades logdaļu izskatu"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Cilnes logdaļas"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Rāda cilnes logdaļas izskatu"
+
+#~ msgid "Buttons"
+#~ msgstr "Pogas"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Rāda pogu izskatu"
+
+#~ msgid "Lists"
+#~ msgstr "Saraksti"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Rāda sarakstu, koku un tabulu izskatu"
+
+#~ msgid "Frames"
+#~ msgstr "Ietvari"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Rāda dažādu ierāmētu logdaļu izskatu"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Rāda cilnes logdaļas izskatu"
+
+#~ msgid "Sliders"
+#~ msgstr "Slīdņi"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "Rāda slīdņu, progresa joslu un ritjoslu izskatu"
+
+#~ msgid "Benchmark"
+#~ msgstr "Etalonuzdevums"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr "Simulē lietotāja mijiedarbību ar logdaļām, veiktspējas novērtēšanai"
+
+#~ msgid "Example text"
+#~ msgstr "Piemēra teksts"
+
+#~ msgid "password"
+#~ msgstr "parole"
+
+#~ msgid "Tile"
+#~ msgstr "Flīze"
+
+#~ msgid "Cascade"
+#~ msgstr "Kaskāde"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "Rīku kaste"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Izvēlēties nākamo logu"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Izvēlēties iepriekšējo logu"
+
+#~ msgid "This is a sample text"
+#~ msgstr "Šis ir parauga teksts"
+
+#~ msgid "Modules"
+#~ msgstr "Moduļi"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "Zemāk izvēlieties moduļus, uz kuriem vēlaties palaist simulāciju:"
+
+#~ msgid "Options"
+#~ msgstr "Opcijas"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Satvert peli"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Palaist simulāciju"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Izvēles rūtiņas"
+
+#~ msgid "Off"
+#~ msgstr "Izslēgts"
+
+#~ msgid "Partial"
+#~ msgstr "Daļējs"
+
+#~ msgid "On"
+#~ msgstr "Ieslēgts"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Radio pogas"
+
+#~ msgid "First Choice"
+#~ msgstr "Pirmā izvēle"
+
+#~ msgid "Second Choice"
+#~ msgstr "Otrā izvēle"
+
+#~ msgid "Third Choice"
+#~ msgstr "Trešā izvēle"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Spiedpogas"
+
+#~ msgid "Text only:"
+#~ msgstr "Tikai teksts:"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Šis ir parauga teksts"
+
+#~ msgid "Small"
+#~ msgstr "Mazs"
+
+#~ msgid "Large"
+#~ msgstr "Liels"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Teksts un ikonas:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Lietot plakanas pogas"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "Šis ir parauga teksts"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Šis ir parauga teksts"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Šis ir parauga teksts"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Šis ir parauga teksts"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Šis ir parauga teksts"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Šis ir parauga teksts"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Šis ir parauga teksts"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Rīku pogas"
+
+#~ msgid "Flat"
+#~ msgstr "Plakans"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Bulta augšup"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Bulta lejup"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Kreisā bulta"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Labā bulta"
+
+#~ msgid "Text position:"
+#~ msgstr "Teksta novietojums:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Tikai ikonas"
+
+#~ msgid "Text Only"
+#~ msgstr "Tikai Teksts"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Teksts pie ikonām"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Teksts zem ikonām"
+
+#~ msgid "Icon size:"
+#~ msgstr "Ikonu izmērs:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Mazs (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Vidējs (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Liels (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Milzīgs (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Izkārtojuma virziens:"
+
+#~ msgid "Left to Right"
+#~ msgstr "No kreisās uz labo"
+
+#~ msgid "Right to Left"
+#~ msgstr "No labās uz kreiso"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "No augšas un apakšu"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "No apakšas uz augšu"
+
+#~ msgid "GroupBox"
+#~ msgstr "Grupas kaste"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Plakans"
+
+#~ msgid "Raised"
+#~ msgstr "Pacelts"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Plakans"
+
+#~ msgid "Sunken"
+#~ msgstr "Iegrimis"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Cilnes logdaļa"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Vienas rindas teksta redaktors:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Paroles redaktors:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Rediģējams kombinētais lodziņš"
+
+#~ msgid "First item"
+#~ msgstr "Pirmais vienums"
+
+#~ msgid "Second item"
+#~ msgstr "Otrais vienums"
+
+#~ msgid "Third item"
+#~ msgstr "Trešais vienums"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Ritlodziņš:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Vairāku rindu teksta redaktors:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Aplauzt vārdus"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Lietot plakanas logdaļas"
+
+#~ msgid "First Item"
+#~ msgstr "Pirmais vienums"
+
+#~ msgid "Second Item"
+#~ msgstr "Otrais vienums"
+
+#~ msgid "Third Item"
+#~ msgstr "Trešais vienums"
+
+#~ msgid "Title"
+#~ msgstr "Virsraksts"
+
+#~ msgid "Description"
+#~ msgstr "Apraksts"
+
+#~ msgid "Third Description"
+#~ msgstr "Trešais apraksts"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Trešais apakšvienums"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Trešā apakšvienuma apraksts"
+
+#~ msgid "Second Description"
+#~ msgstr "Otrais apraksts"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Otrais apakšvienums"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Otrā apakšvienuma apraksts"
+
+#~ msgid "First Subitem"
+#~ msgstr "Pirmais apakšvienums"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Pirmā apakšvienuma apraksts"
+
+#~ msgid "First Description"
+#~ msgstr "Pirmais apraksts"
+
+#~ msgid "New Row"
+#~ msgstr "Jauna rinda"
+
+#~ msgid "First Row"
+#~ msgstr "Pirmā rinda"
+
+#~ msgid "Third Row"
+#~ msgstr "Trešā rinda"
+
+#~ msgid "First Column"
+#~ msgstr "Pirmā kolonna"
+
+#~ msgid "Second Column"
+#~ msgstr "Otrā kolonna"
+
+#~ msgid "Third Column"
+#~ msgstr "Trešā kolonna"
+
+#~ msgid "Top-left"
+#~ msgstr "Augšējais kreisais"
+
+#~ msgid "Top"
+#~ msgstr "Augšējais"
+
+#~ msgid "Top-right"
+#~ msgstr "Augšējais labais"
+
+#~ msgid "Left "
+#~ msgstr "Kreisais "
+
+#~ msgid "Center"
+#~ msgstr "Vidus"
+
+#~ msgid "Right"
+#~ msgstr "Labais"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Apakšējais kreisais"
+
+#~ msgid "Bottom"
+#~ msgstr "Apakšējais"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Apakšējais labais"
+
+#~ msgid "Editors"
+#~ msgstr "Redaktori"
+
+#~ msgid "Title:"
+#~ msgstr "Virsraksts:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Rīku kaste"
+
+#~ msgid "First Page"
+#~ msgstr "Pirmā lapa"
+
+#~ msgid "Second Page"
+#~ msgstr "Otrā lapa"
+
+#~ msgid "First Label"
+#~ msgstr "Pirmā etiķete"
+
+#~ msgid "Second Label"
+#~ msgstr "Otrā etiķete"
+
+#~ msgid "Third Page"
+#~ msgstr "Trešā lapa"
+
+#~ msgid "Horizontal"
+#~ msgstr "Horizontāli"
+
+#~ msgid "Busy"
+#~ msgstr "Aizņemts"
+
+#~ msgid "Vertical"
+#~ msgstr "Vertikāli"
+
+#~ msgid "Tab position:"
+#~ msgstr "Cilnes novietojums:"
+
+#~ msgid "North"
+#~ msgstr "Ziemeļi"
+
+#~ msgid "South"
+#~ msgstr "Dienvidi"
+
+#~ msgid "West"
+#~ msgstr "Rietumi"
+
+#~ msgid "East"
+#~ msgstr "Austrumi"
+
+#~ msgid "Document mode"
+#~ msgstr "Dokumenta režīms"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Rādīt stūra pogas"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Slēpt ciļņu joslu"
+
+#~ msgid "Preview"
+#~ msgstr "Priekšskatījums"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Rūdolfs Mazurs"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "rudolfs.mazurs@gmail.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Oxygen lietpratēju konfigurēšanas rīks"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Oxygen stila demonstrācija"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Lietot platākas līnijas"
+
+#~ msgid "Highlight scroll bar handles"
+#~ msgstr "Izcelt ritjoslas turus"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "Animēt progresa joslu"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "oxygen-settings — informācija"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Tīmekļa spraudņa stils"
+
+#~ msgid "modified"
+#~ msgstr "mainīts"
+
+#~ msgid "CheckBox"
+#~ msgstr "Izvēles rūtiņa"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Ilgums (ms):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Animēt ciļņu pārslēgšanu"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Zīmēt ritjoslas apmali"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Uzkavējoties krāsainas ritjoslas "
+
+#~ msgid "Plain"
+#~ msgstr "Vienkāršs"
+
+#~ msgid "Width:"
+#~ msgstr "Platums:"
+
+#~ msgid "Dark"
+#~ msgstr "Tumša"
+
+#~ msgid "Subtle"
+#~ msgstr "Maiga"

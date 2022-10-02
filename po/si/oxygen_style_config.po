@@ -1,0 +1,979 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Danishka Navin <danishka@gmail.com>, 2009.
+# W.H. Kalpa Pathum <callkalpa@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2011-07-20 12:23+0530\n"
+"Last-Translator: Danishka Navin <danishka@gmail.com>\n"
+"Language-Team: Sinhala <danishka@gmail.com>\n"
+"Language: si\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Oxygen සිටුවම්"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "එල්ලය, මූසිකය උඩින් යෑම සහ විජට්ටු තත්ව සංක්‍රමණය"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"විජට්ටුවේ එල්ලය සහ මූසිකය උඩින් ගෙනයාමේදී ඉස්මතු කරන සජීවනය සේම විජට්ටු සක්‍රිය/අක්‍රිය තත්ව සංක්‍"
+"රමණය වින්‍යාසගත කරන්න"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "මෙවලම් තීරු ඉස්මතුකරනය"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "මෙවලම් තීරුවේ මූසිකය උඩින් යාමේදී ඉස්මතු වීමේ සජීවනය වින්‍යාසගත කරන්න"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "මෙනු තීරු ඉස්මතුකරනය"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "මෙනු තීරුවේ මූසිකය උඩින් යාමේදී ඉස්මතු වීමේ සජීවනය වින්‍යාසගත කරන්න"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "මෙනු ඉස්මතුකරනය"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "මෙනුවේ මූසිකය උඩින් යාමේදී ඉස්මතු වීමේ සජීවනය වින්‍යාසගත කරන්න"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "ප්‍රගති තීරු සජීවනය"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "ප්‍රගති තීරුවේ පියවර සජීවනය වින්‍යාසගත කරන්න"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "ටැබ් සංක්‍රමණය"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "ටැබ් අතර විවර්ණ වීමේ සංක්‍රමණය වින්‍යාසත කරන්න"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "ලේබල සංක්‍රමණය"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "ලේබලයක පෙළ වෙනස් වූ විට විවර්ණ සංක්‍රමණය වින්‍යාගත කරන්න"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "පෙළ සංස්කාරක සංක්‍රමණ"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "සංස්කාරකයක පෙළ වෙනස් වූ විට විවර්ණ සංක්‍රමණය වින්‍යාගත කරන්න"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "සංයුක්ත කොටු සංක්‍රමණය"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr "සංයුක්ත කොටුවක තේරීම වෙනස් වූ විට විවර්ණ සංක්‍රමණය වින්‍යාසගත කරන්න"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+#| msgid "Progress bar animation"
+msgid "Progress bar busy indicator"
+msgstr "ප්‍රගති තීරු සජීවනය"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "ප්‍රගති තීරුවේ කාර්යබහුලබව දක්වන සජීවනය වින්‍යාසගත කරන්න"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "රාමුව"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "සජීවන ආකාරය:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "විවර්ණ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "මූසිකය ලුහුබදින්න"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "විවර්ණ කාලසීමාව:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "මූසික කාල සීමාව ලුහුබදින්න:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "සංවාදය"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "සාමාන්‍ය"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "කවුළු තේමා තීරුවෙන් පමණක් අදින්න"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "කවුළු තේමා තීරුවෙන්, මෙනු තීරුවෙන් සහ මෙවලම් තීරුවෙන් අදින්න"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "කවුළු සියළු හිස් ප්‍රදේශ වලින් අදින්න"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, fuzzy, kde-format
+#| msgid "Draw keyboard accelerators"
+msgid "Keyboard accelerators visibility:"
+msgstr "යතුරු පුවරු ත්වරක අදින්න"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, fuzzy, kde-format
+#| msgid "Windows' drag mode:"
+msgid "Windows' &drag mode:"
+msgstr "කවුළුවේ ඇදගෙනයාමේ ආකාරය:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "මෙවලම්තීරු අයිතම වෙන්කරන අඳින්න"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "සජීවන"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "දසුන්"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "රුක් ශාඛා රේඛා අඳින්න"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, fuzzy, kde-format
+#| msgid "Tiny"
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "ඉතා කුඩා"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, fuzzy, kde-format
+#| msgid "Small"
+msgctxt "triangle size"
+msgid "Small"
+msgstr "කුඩා"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, fuzzy, kde-format
+#| msgid "Normal"
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "සාමාන්‍යය"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, fuzzy, kde-format
+#| msgid "Draw focus indicator"
+msgid "Draw focus indicator in lists"
+msgstr "එල්ලය දක්වනය අදින්න"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "අනුචලන තීරු"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+#| msgid "Scrollbar width:"
+msgid "Scrollbar wi&dth:"
+msgstr "අනුචලන තීරුවේ පළල:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "ඉහළ ඊතල බොත්තම් වර්ගය:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "පහළ ඊතල බොත්තම් වර්ගය:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "බොත්තම් නැත"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "එක බොත්තම"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "බොත්තම් දෙකක්"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "බොත්තම නැත"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "මෙනු ඉස්මතුකරනය"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, fuzzy, kde-format
+#| msgid "Use dark color"
+msgid "Use dar&k color"
+msgstr "තද වර්ණය භාවිත කරන්න"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, fuzzy, kde-format
+#| msgid "Use selection color (plain)"
+msgid "&Use selection color (plain)"
+msgstr "තේරීම වර්ණය භාවිත කරන්න (සරල)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, fuzzy, kde-format
+#| msgid "Use selection color (subtle)"
+msgid "Use selec&tion color (subtle)"
+msgstr "තේරීම වර්ණය භාවිත කරන්න (සියුම්)"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "යතුරු පුවරු ත්වරක අදින්න"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "යතුරු පුවරු ත්වරක අදින්න"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "යතුරු පුවරු ත්වරක අදින්න"
+
+#~ msgid "Widget Style"
+#~ msgstr "විජට්ටු මෝස්තරය"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "විජට්ටුවල පෙනීම වෙනස් කරන්න"
+
+#~ msgid "Window Decorations"
+#~ msgstr "කවුළු සැරසිලි"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "කවුළු සැරසිලිවල පෙනීම වෙනස් කරන්න"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "oxygen මෝස්තර වින්‍යාසගත කිරීමේ ප්ලගිනය සොයාගැනීමට නොහැක"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "oxygen සැරසිලි වින්‍යාසගත කිරීමේ ප්ලගිනය සොයාගැනීමට නොහැක"
+
+#~ msgid "Enable animations"
+#~ msgstr "සජීවන සක්‍රිය කරන්න"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "පික්සල සිතියම් කෑච් සක්‍රිය කරන්න"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "කාර්යබහුලබව දක්වන පියවර"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "සලකුණු කොටු මත සලකුණු කිරීම වෙනුවට 'X' යොදන්න"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "කවුළු ඇදීම සිදු කිරීමට කවුළු කළමනාකරු භාවිතා කරන්න"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "+/- වෙනුවට ත්‍රිකෝණාකාර වෘක්‍ෂ විහිදීම භාවිත කරන්න "
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "ත්‍රිකෝණයේ ප්‍රමාණය:"
+
+#~ msgid "Tabs"
+#~ msgstr "ටැබ"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "තනි"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "පැතලි"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "අක්‍රිය ටැබ් මෝස්තරය:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "ඔක්සිජන් ප්‍රදර්ශනය"
+
+#~ msgid "Normal"
+#~ msgstr "සාමාන්‍යය"
+
+#~ msgid "New"
+#~ msgstr "නව"
+
+#~ msgid "Open"
+#~ msgstr "විවෘත කරන්න"
+
+#~ msgid "Save"
+#~ msgstr "සුරකින්න"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "අවසරදීම මාරු කරන්න"
+
+#~ msgid "Enabled"
+#~ msgstr "සක්‍රීය කල"
+
+#~ msgid "Right to left layout"
+#~ msgstr "දකුණේ සිට වමට පිරිසැලසුම"
+
+#~ msgid "Input Widgets"
+#~ msgstr "ආදාන විජට්ටු"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "පෙළ ආදාන විජට්ටුවල පෙනීම පෙන්වන්න"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "ටැබ් විජට්ටු"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "ටැබ් විජට්ටුවල පෙනීම පෙන්වන්න"
+
+#~ msgid "Buttons"
+#~ msgstr "බොත්තම්"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "බොත්තම්වල පෙනීම පෙන්වන්න"
+
+#~ msgid "Lists"
+#~ msgstr "ලැයිස්තු"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "ලැයිස්තු, රුක් සහ වගුවල පෙනීම පෙන්වන්න"
+
+#~ msgid "Frames"
+#~ msgstr "රාමු"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "නොයෙක් රාමුකල විජට්ටුවල පෙනීම පෙන්වන්න"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "ටැබ් විජට්ටුවල පෙනීම පෙන්වන්න"
+
+#~ msgid "Sliders"
+#~ msgstr "ස්ලයිඩර"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "ස්ලයිඩර, ප්‍රගති තීරු සහ අනුචලන තීරුවල පෙනීම පෙන්වන්න"
+
+#~ msgid "Benchmark"
+#~ msgstr "මිණුම් ලකුණ"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr "මිණුම් ලකුණු කිරීම සඳහා විජට්ටු සමඟ පරිශීලක අන්තර්ක්‍රියාව උසස් කරයි"
+
+#~ msgid "Example text"
+#~ msgstr "උදාහරණ පෙළ"
+
+#~ msgid "password"
+#~ msgstr "මුරපදය"
+
+#~ msgid "Tile"
+#~ msgstr "උළු"
+
+#~ msgid "Cascade"
+#~ msgstr "රැළි ආකාරයෙන්"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "මෙවලම් පෙට්ටිය"
+
+#~ msgid "Select Next Window"
+#~ msgstr "ඊළඟ කවුළුව තෝරන්න"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "පෙර කවුළුව තෝරන්න"
+
+#~ msgid "This is a sample text"
+#~ msgstr "මෙය උදාහරණ පෙළකි"
+
+#~ msgid "Modules"
+#~ msgstr "මොඩියුල "
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "ඔබට සමාකරණය ධාවනය කිරීමට අවශ්‍ය මොඩියුල පහතිත් තෝරන්න:"
+
+#~ msgid "Options"
+#~ msgstr "විකල්ප"
+
+#~ msgid "Grab mouse"
+#~ msgstr "මූසිකය අදින්න"
+
+#~ msgid "Run Simulation"
+#~ msgstr "සමාකරණය ධාවනය කරන්න"
+
+#~ msgid "Checkboxes"
+#~ msgstr "සළකුණු කොටු"
+
+#~ msgid "Off"
+#~ msgstr "අක්‍රීය"
+
+#~ msgid "Partial"
+#~ msgstr "කොටස් වශයෙන්"
+
+#~ msgid "On"
+#~ msgstr "සක්‍රීය"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "රේඩියෝ බොත්තම්"
+
+#~ msgid "First Choice"
+#~ msgstr "පළමු තේරීම"
+
+#~ msgid "Second Choice"
+#~ msgstr "දෙවැනි තේරීම"
+
+#~ msgid "Third Choice"
+#~ msgstr "තෙවැනි තේරීම"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "එබුම් බොත්තම්"
+
+#~ msgid "Text only:"
+#~ msgstr "පෙළ පමණයි:"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "මෙය උදාහරණ පෙළකි"
+
+#~ msgid "Small"
+#~ msgstr "කුඩා"
+
+#~ msgid "Large"
+#~ msgstr "විශාල"
+
+#~ msgid "Text and icon:"
+#~ msgstr "පෙළ සහ අයිකන"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "පැතලි බොත්තම් භාවිතා කරන්න"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "මෙය උදාහරණ පෙළකි"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "මෙය උදාහරණ පෙළකි"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "මෙය උදාහරණ පෙළකි"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only button"
+#~ msgstr "මෙය උදාහරණ පෙළකි"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "මෙය උදාහරණ පෙළකි"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "මෙය උදාහරණ පෙළකි"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "මෙය උදාහරණ පෙළකි"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "මෙවලමෙ බොත්තම්"
+
+#~ msgid "Flat"
+#~ msgstr "පැතලි"
+
+#~ msgid "Up Arrow"
+#~ msgstr "ඉහළ ඊතලය"
+
+#~ msgid "Down Arrow"
+#~ msgstr "පහළට ඊතලය"
+
+#~ msgid "Left Arrow"
+#~ msgstr "වම් ඊතලය"
+
+#~ msgid "Right Arrow"
+#~ msgstr "දකුණු ඊතලය"
+
+#~ msgid "Text position:"
+#~ msgstr "පෙළ පිහිටීම:"
+
+#~ msgid "Icons Only"
+#~ msgstr "අයිකන පමණයි"
+
+#~ msgid "Text Only"
+#~ msgstr "පෙළ පමණයි"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "අයිකනවලට පැත්තකින් පෙළ"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "අයිකන වලට යටින් පෙළ"
+
+#~ msgid "Icon size:"
+#~ msgstr "අයිකන ප්‍රමාණය:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "කුඩා (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "මධ්‍යම (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "විශාල (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "ඉතා විශාල (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "පිරිසැලසුම් දිශාව:"
+
+#~ msgid "Left to Right"
+#~ msgstr "වමේ සිට දකුණට"
+
+#~ msgid "Right to Left"
+#~ msgstr "දකුණේ සිට වමට"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "ඉහළ සිට පහළට"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "පහළ සිට ඉහළට"
+
+#~ msgid "GroupBox"
+#~ msgstr "සමූහ කොටුව"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "පැතලි"
+
+#~ msgid "Raised"
+#~ msgstr "එසවූ"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "පැතලි"
+
+#~ msgid "Sunken"
+#~ msgstr "ගිල්වූ"
+
+#~ msgid "Tab Widget"
+#~ msgstr "ටැබ් විජට්ටුව"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "තනි පෙළ පෙළ සංස්කාරක:"
+
+#~ msgid "Password editor:"
+#~ msgstr "මුරපද සංස්කාරක:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "සංයුක්ත කොටුව සක්‍රීය කරන්න"
+
+#~ msgid "First item"
+#~ msgstr "පළමු අයිතමය"
+
+#~ msgid "Second item"
+#~ msgstr "දෙවැනි අයිතමය"
+
+#~ msgid "Third item"
+#~ msgstr "තෙවැනි අයිතමය"
+
+#~ msgid "Spinbox:"
+#~ msgstr "බැමුම් කොටුව:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "බහු පෙළ පෙළ සංස්කාරක:"
+
+#~ msgid "Wrap words"
+#~ msgstr "වචන ඔතන්න"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "පැතලි විජට්ටු භාවිතා කරන්න"
+
+#~ msgid "First Item"
+#~ msgstr "පළමු අයිතමය"
+
+#~ msgid "Second Item"
+#~ msgstr "දෙවැනි අයිතමය"
+
+#~ msgid "Third Item"
+#~ msgstr "තෙවැනි අයිතමය"
+
+#~ msgid "Title"
+#~ msgstr "තේමාව"
+
+#~ msgid "Description"
+#~ msgstr "විස්තරය"
+
+#~ msgid "Third Description"
+#~ msgstr "තෙවැනි විස්තරය"
+
+#~ msgid "Third Subitem"
+#~ msgstr "තෙවැනි උප අයිතමය"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "තෙවැනි උප අයිතම විස්තරය"
+
+#~ msgid "Second Description"
+#~ msgstr "දෙවැනි විස්තරය"
+
+#~ msgid "Second Subitem"
+#~ msgstr "දෙවැනි උප අයිතමය"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "දෙවැනි උප අයිතම විස්තරය"
+
+#~ msgid "First Subitem"
+#~ msgstr "පළමු උප අයිතමය"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "පළමු උප අයිතම විස්තරය"
+
+#~ msgid "First Description"
+#~ msgstr "පළමු විස්තරය"
+
+#~ msgid "New Row"
+#~ msgstr "නව පේළිය"
+
+#~ msgid "First Row"
+#~ msgstr "පළමු පේළිය"
+
+#~ msgid "Third Row"
+#~ msgstr "තෙවැනි පේළිය"
+
+#~ msgid "First Column"
+#~ msgstr "පළමු තීරුව"
+
+#~ msgid "Second Column"
+#~ msgstr "දෙවැනි තීරුව"
+
+#~ msgid "Third Column"
+#~ msgstr "තෙවැනි තීරුව"
+
+#~ msgid "Top-left"
+#~ msgstr "ඉහළ වම"
+
+#~ msgid "Top"
+#~ msgstr "ඉහළ"
+
+#~ msgid "Top-right"
+#~ msgstr "ඉහළ දකුණ"
+
+#~ msgid "Left "
+#~ msgstr "වම"
+
+#~ msgid "Center"
+#~ msgstr "මැද"
+
+#~ msgid "Right"
+#~ msgstr "දකුණ"
+
+#~ msgid "Bottom-left"
+#~ msgstr "පහළ වම"
+
+#~ msgid "Bottom"
+#~ msgstr "පහළ"
+
+#~ msgid "Bottom-right"
+#~ msgstr "පහළ දකුණ"
+
+#~ msgid "Editors"
+#~ msgstr "සංස්කාරක"
+
+#~ msgid "Title:"
+#~ msgstr "තේමාව:"
+
+#~ msgid "Toolbox"
+#~ msgstr "මෙවලම් පෙට්ටිය"
+
+#~ msgid "First Page"
+#~ msgstr "පළමු පිටුව"
+
+#~ msgid "Second Page"
+#~ msgstr "දෙවැනි පිටුව"
+
+#~ msgid "First Label"
+#~ msgstr "පළමු ලේබලය"
+
+#~ msgid "Second Label"
+#~ msgstr "දෙවැනි ලේබලය"
+
+#~ msgid "Third Page"
+#~ msgstr "තෙවැනි පිටුව"
+
+#~ msgid "Horizontal"
+#~ msgstr "තිරස්"
+
+#~ msgid "Busy"
+#~ msgstr "කාර්යබහුලයි"
+
+#~ msgid "Vertical"
+#~ msgstr "සිරස්"
+
+#~ msgid "Tab position:"
+#~ msgstr "ටැබ් පිහිටීම:"
+
+#~ msgid "North"
+#~ msgstr "උතුර"
+
+#~ msgid "South"
+#~ msgstr "දකුණ"
+
+#~ msgid "West"
+#~ msgstr "බටහිර"
+
+#~ msgid "East"
+#~ msgstr "නැගෙනහිර"
+
+#~ msgid "Document mode"
+#~ msgstr "ලිපි ආකාරය"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "මුල්ලේ බොත්තම් පෙන්වන්න"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "ටැබ් තීරුව සඟවන්න "
+
+#~ msgid "Preview"
+#~ msgstr "පෙරදැක්ම"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "ඔබගේ නම්"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "danishka@gmail.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Oxygen ප්‍රවීණ වින්‍යාසගත කිරීමේ මෙවලම"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "c) 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Oxygen මෝස්තර ප්‍රදර්ශනය"
+
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "යතුරු පුවරු ත්වරක අදින්න"
+
+#~ msgid "Use wider lines"
+#~ msgstr "පුළුල් රේඛා භාවිත කරන්න"
+
+#~ msgid "Highlight scroll bar handles"
+#~ msgstr "අනුවලන තීරු අල්ලු ඉස්මතු කරන්න"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "ප්‍රගති තීරු සජීවනය කරන්න"
+
+#~ msgid "Web style plugin"
+#~ msgstr "වෙබ් මෝස්තර ප්ලගින"
+
+#~ msgid "modified"
+#~ msgstr "වෙනස් කළ"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "oxygen-සිටුවම් - තොරතුරු"
+
+#~ msgid "CheckBox"
+#~ msgstr "සළකුණු කොටුව"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "කාලසීමාව (මිලි තත්.):"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "වර්ණවත් ස්ක්‍රෝල් තීරුව"
+
+#~ msgid "Plain"
+#~ msgstr "සරල"
+
+#~ msgid "Width:"
+#~ msgstr "පළල:"
+
+#~ msgid "Dark"
+#~ msgstr "අඳුරු"
+
+#~ msgid "Subtle"
+#~ msgstr "අනු ප්‍රකාරය"

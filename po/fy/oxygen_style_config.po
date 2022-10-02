@@ -1,0 +1,989 @@
+# translation of kstyle_config.po to Frysk
+#
+# Rinse de Vries <rinsedevries@kde.nl>, 2005, 2006, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2010-07-13 13:55+0100\n"
+"Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
+"Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
+"Language: fy\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Oxygen ynstellings"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Fokus, mûsoer en tastânsoergong fan widget"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"De fokus en Mûsoer animearre aksint fan widgets ynstelle, ek tastânsoergong "
+"tusken yn- en útskeakelje"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Arkbalke aksint"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "Arkbalke mûsoer effekt animaasje ynstelle"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Menubalke aksint"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "Menubalken mûsoer effekt animaasje ynstelle"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Menu aksint"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Menu's mûsoer effekt animaasje ynstelle"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Fuortgongbalke animaasje"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Fuortgong stap effekt animaasje ynstelle"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Ljepperoergongen"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Ferfaach oergong tusken ljeppers ynstelle"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Label oergongen"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "Ferfaach oergong as in label tekst feroare is ynstelle"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Tekst bewurker oergongen"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "Ferfaach oergong as in bewurkerstekst is feroare ynstelle"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Kombinaasjefak oergongen"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr "Ferfaach oergong as in kombinaasjefakje selektearre is ynstelle"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+#| msgid "Progress bar animation"
+msgid "Progress bar busy indicator"
+msgstr "Fuortgongbalke animaasje"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Fuortgongs balke dwaan oantsjutter animaasje ynstelle"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Ramt"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Animaasjes type:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Ferfage"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Mûs folgje"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Ferfaach doer:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Mûs folgje doer:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dialooch"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Algemien"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Finsters allinne fan titelbalke slepe"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Finsters fan titelbalke, menubalke en arkbalken slepe"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Finsters fan alle iepen romtes slepe"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, fuzzy, kde-format
+#| msgid "Draw toolbar item separators"
+msgid "Keyboard accelerators visibility:"
+msgstr "Ofskieder tusken arkbalke items sjen litte"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, fuzzy, kde-format
+#| msgid "Windows' drag mode:"
+msgid "Windows' &drag mode:"
+msgstr "Finster sleep modus:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Ofskieder tusken arkbalke items sjen litte"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animaasjes"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Werjeften"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Trije branch linen tekenje"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, fuzzy, kde-format
+#| msgid "Tiny"
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Lyts"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, fuzzy, kde-format
+#| msgid "Small"
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Lyts"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, fuzzy, kde-format
+#| msgid "Normal"
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normaal"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, fuzzy, kde-format
+#| msgid "Draw focus indicator"
+msgid "Draw focus indicator in lists"
+msgstr "Fokus oantsjutter tekenje"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Skúfbalken"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+#| msgid "Scrollbars"
+msgid "Scrollbar wi&dth:"
+msgstr "Skúfbalken"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, fuzzy, kde-format
+#| msgid "Toolbuttons"
+msgid "No buttons"
+msgstr "Arkknoppen"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, fuzzy, kde-format
+#| msgid "Use flat buttons"
+msgid "One button"
+msgstr "Flakke knoppen brûke"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, fuzzy, kde-format
+#| msgid "Toolbuttons"
+msgid "Two buttons"
+msgstr "Arkknoppen"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, fuzzy, kde-format
+#| msgid "Toolbuttons"
+msgid "No button"
+msgstr "Arkknoppen"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Menu markearring"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, fuzzy, kde-format
+#| msgid "Use dark color"
+msgid "Use dar&k color"
+msgstr "Dûnkere kleur brûke"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, fuzzy, kde-format
+#| msgid "Use selection color (plain)"
+msgid "&Use selection color (plain)"
+msgstr "Seleksje kleur brûke (gewoan)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, fuzzy, kde-format
+#| msgid "Use selection color (subtle)"
+msgid "Use selec&tion color (subtle)"
+msgstr "Seleksje kleur brûke (subtiel)"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Ofskieder tusken arkbalke items sjen litte"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Ofskieder tusken arkbalke items sjen litte"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Ofskieder tusken arkbalke items sjen litte"
+
+#~ msgid "Widget Style"
+#~ msgstr "Widget-styl"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "It úterlik fan widgets oanpasse"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Finster fersierings"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "It úterlik fan finster fersierings oanpasse"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "De oxygen styl ynstellings plugin waard net fûn"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "De oxygen fersierings ynstellings plugin waard net fûn"
+
+#~ msgid "Enable animations"
+#~ msgstr "Animaasjes ynskeakelje"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Dwaande oantsjutter stappe"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Brûk 'X' yn karfakjes ynstee fan finkje"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "De finster behearder brûke foar it finster slepen"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Trijehoekige beamútwreider ynstee fan +/-"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Trijehoeks grutte:"
+
+#~ msgid "Tabs"
+#~ msgstr "Ljeppers"
+
+#, fuzzy
+#~| msgid "Single"
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Ienkele"
+
+#, fuzzy
+#~| msgid "Plain"
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Gewoane"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Net aktive ljepperstyl:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Oxygen Demo"
+
+#~ msgid "Normal"
+#~ msgstr "Normaal"
+
+#~ msgid "New"
+#~ msgstr "Nij"
+
+#~ msgid "Open"
+#~ msgstr "Iepenje"
+
+#~ msgid "Save"
+#~ msgstr "Bewarje"
+
+#~ msgid "Enabled"
+#~ msgstr "Ynskeakele"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Lofts nei rjochts opmaak"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Widgets faor ynfier"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "It úterlik fan widgets foar tekst ynfier sjen litte"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Widgets foar ljeppers"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "It úterlik fan ljepper widgets sjen litte"
+
+#~ msgid "Buttons"
+#~ msgstr "Knoppen"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "It úterlik fan knoppen sjen litte"
+
+#~ msgid "Lists"
+#~ msgstr "Opsomming"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Lit it úterlik fan listen, beamen en tafels sjen"
+
+#~ msgid "Frames"
+#~ msgstr "Ramten"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "It úterlik fan ljepper widgets sjen litte"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "It úterlik fan ljepper widgets sjen litte"
+
+#~ msgid "Sliders"
+#~ msgstr "Gliders"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "Lit it úterlik fan gliders, fuortgongs- en skowbalken sjen"
+
+#~ msgid "Example text"
+#~ msgstr "Foarbyldtekst"
+
+#~ msgid "password"
+#~ msgstr "wachtwurd"
+
+#~ msgid "Tile"
+#~ msgstr "Tegel"
+
+#~ msgid "Cascade"
+#~ msgstr "Trepfoarm"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "Arkbak"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Selektearje folgjend finster"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Selektearje foarich finster"
+
+#, fuzzy
+#~| msgid "Example text"
+#~ msgid "This is a sample text"
+#~ msgstr "Foarbyldtekst"
+
+#, fuzzy
+#~| msgid "Animations"
+#~ msgid "Run Simulation"
+#~ msgstr "Animaasjes"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Karfakjes"
+
+#~ msgid "Off"
+#~ msgstr "Ut"
+
+#~ msgid "Partial"
+#~ msgstr "Dieltelik"
+
+#~ msgid "On"
+#~ msgstr "Oan"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Radioknoppen"
+
+#~ msgid "First Choice"
+#~ msgstr "Earste kar"
+
+#~ msgid "Second Choice"
+#~ msgstr "Twadde kar"
+
+#~ msgid "Third Choice"
+#~ msgstr "Tredde kar"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Drukknoppen"
+
+#~ msgid "Text only:"
+#~ msgstr "Allinne tekst:"
+
+#, fuzzy
+#~| msgid "Example text"
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Foarbyldtekst"
+
+#~ msgid "Small"
+#~ msgstr "Lyts"
+
+#~ msgid "Large"
+#~ msgstr "Grut"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Tekst en byldkaike:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Flakke knoppen brûke"
+
+#, fuzzy
+#~| msgid "Example text"
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "Foarbyldtekst"
+
+#, fuzzy
+#~| msgid "Example text"
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Foarbyldtekst"
+
+#, fuzzy
+#~| msgid "Example text"
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Foarbyldtekst"
+
+#, fuzzy
+#~| msgid "Example text"
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Foarbyldtekst"
+
+#, fuzzy
+#~| msgid "Example text"
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Foarbyldtekst"
+
+#, fuzzy
+#~| msgid "Example text"
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Foarbyldtekst"
+
+#, fuzzy
+#~| msgid "Example text"
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Foarbyldtekst"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Arkknoppen"
+
+#~ msgid "Flat"
+#~ msgstr "Flak"
+
+#, fuzzy
+#~| msgid "Left "
+#~ msgid "Up Arrow"
+#~ msgstr "Lofts"
+
+#, fuzzy
+#~| msgid "Left "
+#~ msgid "Down Arrow"
+#~ msgstr "Lofts"
+
+#, fuzzy
+#~| msgid "Left "
+#~ msgid "Left Arrow"
+#~ msgstr "Lofts"
+
+#, fuzzy
+#~| msgid "Right"
+#~ msgid "Right Arrow"
+#~ msgstr "Rjochts"
+
+#~ msgid "Text position:"
+#~ msgstr "Tekst posysje:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Allinne byldkaikes"
+
+#~ msgid "Text Only"
+#~ msgstr "Allinne tekst"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Tekst njonken byldkaikes"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Tekst ûnder byldkaikes"
+
+#~ msgid "Icon size:"
+#~ msgstr "Byldkaikegrutte:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Lyts (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Middel (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Grut (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Mansk (48x48)"
+
+#, fuzzy
+#~| msgid "Layout Direction:"
+#~ msgid "Layout direction:"
+#~ msgstr "Opmaak rjochting:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Lofts-nei-rjochts"
+
+#~ msgid "Right to Left"
+#~ msgstr "Rjochts-nei-lofts"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Boppe nei ûnderen"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Under nei boppe"
+
+#~ msgid "GroupBox"
+#~ msgstr "Groepfak"
+
+#, fuzzy
+#~| msgid "Flat"
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Flak"
+
+#~ msgid "Raised"
+#~ msgstr "Nei foaren hele"
+
+#, fuzzy
+#~| msgid "Flat"
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Flak"
+
+#~ msgid "Sunken"
+#~ msgstr "Zonken"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Ljepper widget"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Tekst bewurker inkele-rigel:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Wachtwurd bewurker:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Te bewurkjen kombinaasjefak"
+
+#~ msgid "First item"
+#~ msgstr "Earste item"
+
+#~ msgid "Second item"
+#~ msgstr "Twadde item"
+
+#~ msgid "Third item"
+#~ msgstr "Tredde item"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Spinfak:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Tekstbewurker meardere-rigels:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Wurden omslaan"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Flakke widgets brûke"
+
+#~ msgid "First Item"
+#~ msgstr "Earste item"
+
+#~ msgid "Second Item"
+#~ msgstr "Twadde item"
+
+#~ msgid "Third Item"
+#~ msgstr "Tredde item"
+
+#~ msgid "Title"
+#~ msgstr "Titel"
+
+#~ msgid "Description"
+#~ msgstr "Beskriuwing"
+
+#~ msgid "Third Description"
+#~ msgstr "Tredde beskriuwing"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Tredde subitem"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Tredde subitem beskriuwing"
+
+#~ msgid "Second Description"
+#~ msgstr "Twadde beskriuwing"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Twadde subitem"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Twadde subitem beskriuwing"
+
+#~ msgid "First Subitem"
+#~ msgstr "Earste subitem"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Earste subitem beskriuwing"
+
+#~ msgid "First Description"
+#~ msgstr "Earste beskriuwing"
+
+#~ msgid "New Row"
+#~ msgstr "Nije rige"
+
+#~ msgid "First Row"
+#~ msgstr "Earste rige"
+
+#~ msgid "Third Row"
+#~ msgstr "Tredde rige"
+
+#~ msgid "First Column"
+#~ msgstr "Earste kolom"
+
+#~ msgid "Second Column"
+#~ msgstr "Twadde kolom"
+
+#~ msgid "Third Column"
+#~ msgstr "Tredde kolom"
+
+#~ msgid "Top-left"
+#~ msgstr "Lofts boppe"
+
+#~ msgid "Top"
+#~ msgstr "Boppe"
+
+#~ msgid "Top-right"
+#~ msgstr "Boppe rjochts"
+
+#~ msgid "Left "
+#~ msgstr "Lofts"
+
+#~ msgid "Center"
+#~ msgstr "Sintraal"
+
+#~ msgid "Right"
+#~ msgstr "Rjochts"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Lofts ûnder"
+
+#~ msgid "Bottom"
+#~ msgstr "Under"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Rjochts ûnder"
+
+#~ msgid "Editors"
+#~ msgstr "Bewurkers"
+
+#~ msgid "Title:"
+#~ msgstr "Titel:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Arkbak"
+
+#~ msgid "First Page"
+#~ msgstr "Earste side"
+
+#~ msgid "Second Page"
+#~ msgstr "Twadde side"
+
+#, fuzzy
+#~| msgid "First Tab"
+#~ msgid "First Label"
+#~ msgstr "Earste ljepper"
+
+#, fuzzy
+#~| msgid "Second Tab"
+#~ msgid "Second Label"
+#~ msgstr "Twadde ljepper"
+
+#~ msgid "Third Page"
+#~ msgstr "Tredde side"
+
+#~ msgid "Horizontal"
+#~ msgstr "Horizontaal"
+
+#~ msgid "Vertical"
+#~ msgstr "Fertikaal"
+
+#~ msgid "Tab position:"
+#~ msgstr "Ljepper posysje:"
+
+#~ msgid "North"
+#~ msgstr "Noard"
+
+#~ msgid "South"
+#~ msgstr "Sûd"
+
+#~ msgid "West"
+#~ msgstr "West"
+
+#~ msgid "East"
+#~ msgstr "East"
+
+#~ msgid "Document mode"
+#~ msgstr "Dokumint modus"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Râne knoppen sjen litte"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Ljepperbalke ferbergje"
+
+#~ msgid "Preview"
+#~ msgstr "Foarbyld"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Berend Ytsma"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "Berendy@gmail.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Oxygen ekspert ynstellings ark"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Oxygen styl demonstraasje"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Ofskieder tusken arkbalke items sjen litte"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Bredere rigels brûke"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Web styl-plugin"
+
+#~ msgid "modified"
+#~ msgstr "oanpast"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "oxygen-ynstellings - ynformaasje"
+
+#~ msgid "CheckBox"
+#~ msgstr "Karfakje"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Doer (ms):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Ljepper oergong animearje"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Skúfbalke riggel tekenje"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Kleurde skowbalken by't sweven"
+
+#~ msgid "Plain"
+#~ msgstr "Gewoane"
+
+#, fuzzy
+#~| msgid "Frame"
+#~ msgid "Form"
+#~ msgstr "Ramt"
+
+#~ msgid "Third Tab"
+#~ msgstr "Tredde ljepper"
+
+#~ msgid "Fourth Tab"
+#~ msgstr "Fjirde ljepper"
+
+#~ msgid "Width:"
+#~ msgstr "Breedte:"

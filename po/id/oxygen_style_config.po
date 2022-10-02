@@ -1,0 +1,966 @@
+# Indonesian translations for kstyle_config package.
+# Copyright (C) 2010 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kstyle_config package.
+# Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
+# Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019, 2020, 2021, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2022-09-27 18:12+0700\n"
+"Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
+"Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Pengaturan Oxygen"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Transisi kondisi fokus, mouse-melintasi dan widget"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Konfigurasikan widget fokus dan animasi sorot mouse-melintasi, begitu pula "
+"transisi kondisi widget difungsikan/dinonfungsikan"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Sorot bilah alat"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "Konfigurasikan animasi sorot mouse-melintasi bilah alat"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Sorot menubar"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "Konfigurasikan animasi sorot mouse-melintasi menubar"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Sorot menu"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Konfigurasikan animasi sorot mouse-melintasi menu"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Animasi bilah progres"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Konfigurasikan animasi langkah bilah proses"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Transisi tab"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Konfigurasikan transisi pelesapan antartab"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Transisi label"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "Konfigurasikan transisi pelesapan ketika label teks diubah"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Transisi penyunting teks"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "Konfigurasikan transisi pelesapan ketika editor teks telah diubah"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Transisi kotak kombo"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+"Konfigurasikan transisi pelesapan ketika pilihan kotak kombo terpilih telah "
+"diubah"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, kde-format
+msgid "Progress bar busy indicator"
+msgstr "Indikator bilah progres sibuk"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Konfigurasikan animasi indikator sibuk bilah proses"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Bingkai"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Tipe animasi:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Lesap"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Ikuti Mouse"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Durasi lesap:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Ikuti durasi mouse:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " md"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dialog"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Umum"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Tarik jendela hanya dari bilah judul"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Tarik jendela dari bilah judul, bilah menu dan bilah alat"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Tarik jendela dari semua area kosong"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Keterlihatan akselerator keyboard:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Mode &tarik jendela:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Gambar pemisah butir bilah alat"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Fungsikan penanganan ubah ukuran diperluas"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Gambar gradasi latar belakang jendela"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animasi"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Tampilan"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Gambar baris cabang ranting"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "&Ukuran pembentang pohon:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Mungil"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Kecil"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normal"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Gambar indikator fokus dalam daftar"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Bilah gulung"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Lebar bilah &gulung:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Tipe tombol panah atas:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Tipe tombol panah bawah:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Tak ada tombol"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Satu tombol"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Dua tombol"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Tak ada tombol"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Sorot Menu"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Gunakan warn&a gelap"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "&Gunakan warna pilihan (biasa)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Gunakan war&na pilihan (tipis)"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Selalu Sembunyikan Akselerator Keyboard"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Tampilkan Akselerator Keyboard Jika Dibutuhkan"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Selalu Tampilkan Akselerator Keyboard"
+
+#~ msgid "Widget Style"
+#~ msgstr "Gaya Widget"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Modifikasi tampilan widget"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Dekorasi Jendela"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Modifikasi tampilan dekorasi jendela"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Tak dapat menemukan plugin konfigurasi gaya oksigen"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Tak dapat menemukan plugin konfigurasi dekorasi oksigen"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Sembunyikan Opsi Konfigurasi Lanjutan"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Tampilkan Opsi Konfigurasi Lanjutan"
+
+#~ msgid "Enable animations"
+#~ msgstr "Aktifkan animasi"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Aktifkan tembolok pixmap"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Langkah indikator sibuk"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Gunakan 'X' di kotak cek ketimbang centang"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Gunakan manajer jendela untuk melakukan penarikan jendela"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Gunakan segitiga perluasan pohon ketimbang +/-"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Ukuran segitiga:"
+
+#~ msgid "Tabs"
+#~ msgstr "Tab"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Tunggal"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Biasa"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Gaya tab tidak aktif:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Demo Oksigen"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgid "New"
+#~ msgstr "Baru"
+
+#~ msgid "Open"
+#~ msgstr "Buka"
+
+#~ msgid "Save"
+#~ msgstr "Simpan"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "Ubah otentikasi"
+
+#~ msgid "Enabled"
+#~ msgstr "Diaktifkan"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Tata letak kanan ke kiri"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Widget Masukan"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Menampilkan tampilan dari teks widget masukan"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Widget Tab"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Menampilkan tampilan dari widget tab"
+
+#~ msgid "Buttons"
+#~ msgstr "Tombol"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Menampilkan tampilan dari tombol"
+
+#~ msgid "Lists"
+#~ msgstr "Senarai"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Menampilkan tampilan dari senarai, pohon dan tabel"
+
+#~ msgid "Frames"
+#~ msgstr "Bingkai"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Menampilkan tampilan dari beragam widget berbingkai"
+
+#~ msgid "MDI Windows"
+#~ msgstr "MDI Windows"
+
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Menampilkan tampilan dari MDI windows"
+
+#~ msgid "Sliders"
+#~ msgstr "Penggeser"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr ""
+#~ "Menampilkan tampilan dari penggeser, batang proses dan batang gulung"
+
+#~ msgid "Benchmark"
+#~ msgstr "Benchmark"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr "Emulasi interaksi pengguna dengan widget untuk benchmark"
+
+#~ msgid "Example text"
+#~ msgstr "Teks contoh"
+
+#~ msgid "password"
+#~ msgstr "sandi"
+
+#~ msgid "Layout"
+#~ msgstr "Tata Letak"
+
+#~ msgid "Tile"
+#~ msgstr "Ubin"
+
+#~ msgid "Cascade"
+#~ msgstr "Jatuh"
+
+#~ msgid "Tools"
+#~ msgstr "Alat"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Pilih Jendela Berikutnya"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Pilih Jendela Sebelumnya"
+
+#~ msgid "This is a sample text"
+#~ msgstr "Ini adalah teks contoh"
+
+#~ msgid "Modules"
+#~ msgstr "Modul"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr ""
+#~ "Pilih modul di bawah yang ingin anda gunakan untuk menjalankan simulasi:"
+
+#~ msgid "Options"
+#~ msgstr "Opsi"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Ambil tetikus"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Jalankan Simulasi"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Kotak Cek"
+
+#~ msgid "Off"
+#~ msgstr "Mati"
+
+#~ msgid "Partial"
+#~ msgstr "Parsial"
+
+#~ msgid "On"
+#~ msgstr "Hidup"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Tombol Radio"
+
+#~ msgid "First Choice"
+#~ msgstr "Pilihan Pertama"
+
+#~ msgid "Second Choice"
+#~ msgstr "Pilihan Kedua"
+
+#~ msgid "Third Choice"
+#~ msgstr "Pilihan Ketiga"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Tombol Tekan"
+
+#~ msgid "Text only:"
+#~ msgstr "Hanya teks:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Ini adalah kotak kombinasi normal, hanya teks"
+
+#~ msgid "Small"
+#~ msgstr "Kecil"
+
+#~ msgid "Large"
+#~ msgstr "Besar"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Teks dan ikon:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Gunakan tombol datar"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "Ini adalah kotak kombinasi normal, teks dan ikon"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Ini adalah tombol alat normal, hanya teks"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Ini adalah tombol alat normal, teks dan ikon"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Ini adalah tombol normal, hanya teks"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Ini adalah tombol dengan menu normal, hanya teks"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Ini adalah tombol normal, teks dan ikon"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Ini adalah tombol dengan menu normal, teks dan ikon"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Tombol alat"
+
+#~ msgid "Flat"
+#~ msgstr "Datar"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Panah Atas"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Panah Bawah"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Panah Kiri"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Panah Kanan"
+
+#~ msgid "Text position:"
+#~ msgstr "Posisi teks:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Hanya Ikon"
+
+#~ msgid "Text Only"
+#~ msgstr "Hanya Teks"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Teks Di Samping Ikon"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Teks Di Bawah Ikon"
+
+#~ msgid "Icon size:"
+#~ msgstr "Ukuran Ikon:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Kecil (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Sedang (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Besar (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Sangat Besar (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Arah tata letak:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Kiri ke Kanan"
+
+#~ msgid "Right to Left"
+#~ msgstr "Kanan ke Kiri"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Atas ke Bawah"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Bawah ke Atas"
+
+#~ msgid "GroupBox"
+#~ msgstr "Kotak Grup"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Datar"
+
+#~ msgid "Raised"
+#~ msgstr "Dinaikkan"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Datar"
+
+#~ msgid "Sunken"
+#~ msgstr "Tenggelam"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Widget Tab"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Penyunting teks baris tunggal:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Penyunting sandi:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Kotak kombo dapat disunting"
+
+#~ msgid "First item"
+#~ msgstr "Item pertama"
+
+#~ msgid "Second item"
+#~ msgstr "Item kedua"
+
+#~ msgid "Third item"
+#~ msgstr "Item ketiga"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Kotak putar:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Penyunting teks banyak baris:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Gulung kata"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Gunakan widget datar"
+
+#~ msgid "First Item"
+#~ msgstr "Item Pertama"
+
+#~ msgid "Second Item"
+#~ msgstr "Item Kedua"
+
+#~ msgid "Third Item"
+#~ msgstr "Item Ketiga"
+
+#~ msgid "Title"
+#~ msgstr "Judul"
+
+#~ msgid "Description"
+#~ msgstr "Deskripsi"
+
+#~ msgid "Third Description"
+#~ msgstr "Deskripsi Ketiga"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Subitem Ketiga"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Deskripsi Subitem Ketiga"
+
+#~ msgid "Second Description"
+#~ msgstr "Deskripsi Suara"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Subitem Kedua"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Deskripsi Subitem Kedua"
+
+#~ msgid "First Subitem"
+#~ msgstr "Subitem Pertama"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Deskripsi Subitem Pertama"
+
+#~ msgid "First Description"
+#~ msgstr "Deskripsi Pertama"
+
+#~ msgid "New Row"
+#~ msgstr "Baris Baru"
+
+#~ msgid "First Row"
+#~ msgstr "Baris Pertama"
+
+#~ msgid "Third Row"
+#~ msgstr "Baris Ketiga"
+
+#~ msgid "First Column"
+#~ msgstr "Kolom Pertama"
+
+#~ msgid "Second Column"
+#~ msgstr "Kolom Kedua"
+
+#~ msgid "Third Column"
+#~ msgstr "Kolom Ketiga"
+
+#~ msgid "Top-left"
+#~ msgstr "Kiri-atas"
+
+#~ msgid "Top"
+#~ msgstr "Atas"
+
+#~ msgid "Top-right"
+#~ msgstr "Kanan-atas"
+
+#~ msgid "Left "
+#~ msgstr "Kiri "
+
+#~ msgid "Center"
+#~ msgstr "Tengah"
+
+#~ msgid "Right"
+#~ msgstr "Kanan"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Kiri-bawah"
+
+#~ msgid "Bottom"
+#~ msgstr "Bawah"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Kanan-bawah"
+
+#~ msgid "Editors"
+#~ msgstr "Penyunting"
+
+#~ msgid "Title:"
+#~ msgstr "Judul:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Batang alat"
+
+#~ msgid "First Page"
+#~ msgstr "Halaman Pertama"
+
+#~ msgid "Second Page"
+#~ msgstr "Halaman Kedua"
+
+#~ msgid "First Label"
+#~ msgstr "Label Pertama"
+
+#~ msgid "Second Label"
+#~ msgstr "Label Kedua"
+
+#~ msgid "Third Page"
+#~ msgstr "Halaman Ketiga"
+
+#~ msgid "Horizontal"
+#~ msgstr "Horizontal"
+
+#~ msgid "Busy"
+#~ msgstr "Sibuk"
+
+#~ msgid "Vertical"
+#~ msgstr "Vertikal"
+
+#~ msgid "Tab position:"
+#~ msgstr "Posisi tab:"
+
+#~ msgid "North"
+#~ msgstr "Utara"
+
+#~ msgid "South"
+#~ msgstr "Selatan"
+
+#~ msgid "West"
+#~ msgstr "Barat"
+
+#~ msgid "East"
+#~ msgstr "Timur"
+
+#~ msgid "Document mode"
+#~ msgstr "Mode dokumen"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Tampilkan Pojok Tombol"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Sembunyikan batang tab"
+
+#~ msgid "Preview"
+#~ msgstr "Pratilik"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Andhika Padmawan"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "andhika.padmawan@gmail.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Alat konfigurasi ahli oksigen"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "(c) 2010, Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Demonstrasi gaya oksigen"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Gambar pemisah item batang alat"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Gunakan baris lebih lebar"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Plugin gaya web"
+
+#~ msgid "modified"
+#~ msgstr "dimodifikasi"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "oxygen-settings - informasi"
+
+#~ msgid "CheckBox"
+#~ msgstr "Kotak Cek"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Durasi (md):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Animasikan transisi tab"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Gambar bevel batang gulung"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Batang gulung dilayangkan penuh warna"
+
+#~ msgid "Plain"
+#~ msgstr "Biasa"
+
+#, fuzzy
+#~| msgid "Frame"
+#~ msgid "Form"
+#~ msgstr "Bingkai"
+
+#~ msgid "Third Tab"
+#~ msgstr "Tab Ketiga"
+
+#~ msgid "Fourth Tab"
+#~ msgstr "Tab Keempat"
+
+#~ msgid "Width:"
+#~ msgstr "Lebar:"

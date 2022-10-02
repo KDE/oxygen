@@ -1,0 +1,976 @@
+# Translation of kstyle_config to Croatian
+#
+# Andrej Dundović <adundovi@gmail.com>, 2009.
+# Andrej Dundovic <adundovi@gmail.com>, 2009, 2010.
+# Marko Dimjašević <marko@dimjasevic.net>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2011-03-18 18:29+0100\n"
+"Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
+"Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.2\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Postavke Oxygena"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Fokus, prijelaz miša i prijelazna stanja widgeta"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Konfiguriranje fokusa widgeta i animacije isticanja prijelaza miša kao i "
+"omogućena/onemogućena prijelazna stanja widgeta"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Isticanje alatne trake"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "Konfiguriranje animacije isticanja prijelaza miša u alatnoj traci"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Isticanje trake izbornika"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "Konfiguriranje animacije isticanja prijelaza miša u izborničkoj traci"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Isticanje izbornika"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Konfiguriranje animacije isticanja prijelaza miša u izbornicima"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Animacija trake napredovanja"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Konfiguriranje animacije koraka trake napredovanja"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Kartični prijelazi"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Konfiguriranje prijelaza izbljeđivanja između kartica"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Prijelazi natpisa"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr ""
+"Konfiguriranje prijelaza izbljeđivanja kada se promijeni tekst u natpisu"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Prijelazi uređivača teksta"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr ""
+"Konfiguriranje prijelaza izbljeđivanja kada se promijeni tekst u uređivaču"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, fuzzy, kde-format
+#| msgid "Animate tab transitions"
+msgid "Combo box transitions"
+msgstr "Animiranje kartičnog prijelaza"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+
+#: oxygenanimationconfigwidget.cpp:73
+#, fuzzy, kde-format
+#| msgid "Progress bar animation"
+msgid "Progress bar busy indicator"
+msgstr "Animacija trake napredovanja"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Konfiguriranje animacije indikatora zauzetosti u traci napredovanja"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Okvir"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Vrsta animacije:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Izblijedi"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Slijedi miša"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Trajanje izbljeđivanja:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Trajanje slijeđenja miša:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dijalog"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Opće"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Vuci prozore samo iz naslovne trake"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Vuci prozore iz naslovne trake, trake izbornika i alatne trake"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Vuci prozore iz svih praznih područja"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, fuzzy, kde-format
+#| msgid "Draw keyboard accelerators"
+msgid "Keyboard accelerators visibility:"
+msgstr "Nacrtaj tipkovničke ubrzivače"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, fuzzy, kde-format
+#| msgid "Windows' drag mode:"
+msgid "Windows' &drag mode:"
+msgstr "Način vučenja prozora:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Iscrtaj razdjelnik stavaka u alatnoj traci"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animacije"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Pogledi"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Iscrtavaj linijske grane stabla"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, fuzzy, kde-format
+#| msgid "Tiny"
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Sićušan"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, fuzzy, kde-format
+#| msgid "Small"
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Mali"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, fuzzy, kde-format
+#| msgid "Normal"
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normalan"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, fuzzy, kde-format
+#| msgid "Draw focus indicator"
+msgid "Draw focus indicator in lists"
+msgstr "Iscrtavaj indikator fokusa"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Klizači"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, fuzzy, kde-format
+#| msgid "Scrollbar width:"
+msgid "Scrollbar wi&dth:"
+msgstr "Širina klizača:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Vrsta tipke sa strelicom prema gore:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Vrsta tipke sa strelicom prema dolje:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Bez gumbiju"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Jedan gumb"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Dva gumba"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Bez gumba"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Osvjetljavanje izbornika"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, fuzzy, kde-format
+#| msgid "Use dark color"
+msgid "Use dar&k color"
+msgstr "Koristi tamnu boju"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, fuzzy, kde-format
+#| msgid "Use selection color (plain)"
+msgid "&Use selection color (plain)"
+msgstr "Koristi odabranu boju (očigledno)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, fuzzy, kde-format
+#| msgid "Use selection color (subtle)"
+msgid "Use selec&tion color (subtle)"
+msgstr "Koristi odabranu boju (suptilno)"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Nacrtaj tipkovničke ubrzivače"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Nacrtaj tipkovničke ubrzivače"
+
+#, fuzzy
+#~| msgid "Draw keyboard accelerators"
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Nacrtaj tipkovničke ubrzivače"
+
+#~ msgid "Widget Style"
+#~ msgstr "Stil widgeta"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Izmijeni izgled widgeta"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Dekoracije prozora"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Izmijeni izgled dekoracija prozora"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Ne mogu pronaći priključak za podešavanje stila oxygena"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Ne mogu pronaći priključak za podešavanje dekoracija oxygena"
+
+#~ msgid "Enable animations"
+#~ msgstr "Omogući animacije"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Omogući privremenu memoriju mape piksela"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Koraci indikatora zauzetosti"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Koristi 'X' u odabirnom okviru umjesto kvačice"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Koristi upravitelj prozora za radnju vučenja prozora"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Koristi trokut kod proširivača stabla umjesto+/-"
+
+#, fuzzy
+#~| msgid "Triangle size:"
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Veličina trokuta:"
+
+#~ msgid "Tabs"
+#~ msgstr "Kartice"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Jednostruka"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Obična"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Stil neaktivnih kartica:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Demonstracija Oxygena"
+
+#~ msgid "Normal"
+#~ msgstr "Normalan"
+
+#~ msgid "New"
+#~ msgstr "Novi"
+
+#~ msgid "Open"
+#~ msgstr "Otvori"
+
+#~ msgid "Save"
+#~ msgstr "Spremi"
+
+#, fuzzy
+#~| msgid "Enable animations"
+#~ msgid "Toggle authentication"
+#~ msgstr "Omogući animacije"
+
+#~ msgid "Enabled"
+#~ msgstr "Omogućeno"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Raspored s desna na lijevo"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Widgeti za unos"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Prikazuje izgled widgeta za unos teksta"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Kartični widgeti"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Prikazuje izgled kartičnih widgeta"
+
+#~ msgid "Buttons"
+#~ msgstr "Gumbi"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Prikazuje izgled gumbiju"
+
+#~ msgid "Lists"
+#~ msgstr "Liste"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Prikazuje izgled lista, stabala i tablica"
+
+#~ msgid "Frames"
+#~ msgstr "Okviri"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Prikazuje izgled kartičnih widgeta"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Prikazuje izgled kartičnih widgeta"
+
+#~ msgid "Sliders"
+#~ msgstr "Klizači"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "Prikazuje izgled klizača i trake napredovanja"
+
+#~ msgid "Benchmark"
+#~ msgstr "Test performansi"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr ""
+#~ "Oponaša interakciju korisnika s widgetima radi testiranja performansi"
+
+#~ msgid "Example text"
+#~ msgstr "Primjerni tekst"
+
+#~ msgid "password"
+#~ msgstr "zaporka"
+
+#~ msgid "Tile"
+#~ msgstr "Naslov"
+
+#~ msgid "Cascade"
+#~ msgstr "Kaskadno"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "Okvir s alatima"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Odaberi sljedeći prozor"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Odaberi prethodni prozor"
+
+#~ msgid "This is a sample text"
+#~ msgstr "Ovo je primjerni tekst"
+
+#~ msgid "Modules"
+#~ msgstr "Moduli"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "Niže odaberite module za koje želite pokrenuti simulaciju:"
+
+#~ msgid "Options"
+#~ msgstr "Opcije"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Pokreni simulaciju"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Odabirni okviri"
+
+#~ msgid "Off"
+#~ msgstr "Isključeno"
+
+#~ msgid "Partial"
+#~ msgstr "Djelomično"
+
+#~ msgid "On"
+#~ msgstr "Uključeno"
+
+#~ msgid "First Choice"
+#~ msgstr "Prvi izbor"
+
+#~ msgid "Second Choice"
+#~ msgstr "Drugi izbor"
+
+#~ msgid "Third Choice"
+#~ msgstr "Treći izbor"
+
+#~ msgid "Text only:"
+#~ msgstr "Samo tekst:"
+
+#~ msgid "Small"
+#~ msgstr "Mali"
+
+#~ msgid "Large"
+#~ msgstr "Veliki"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Tekst i ikona:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Koristi ravne gumbe"
+
+#, fuzzy
+#~| msgid "This is a sample text"
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Ovo je primjerni tekst"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Alatni gumbi"
+
+#~ msgid "Flat"
+#~ msgstr "Ravan"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Strelica prema gore"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Strelica prema dolje"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Strelica ulijevo"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Strelica udesno"
+
+#~ msgid "Text position:"
+#~ msgstr "Položaj teksta:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Samo ikone"
+
+#~ msgid "Text Only"
+#~ msgstr "Samo tekst"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Tekst uz ikone"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Tekst ispod ikona"
+
+#~ msgid "Icon size:"
+#~ msgstr "Veličina ikone:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Mala (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Srednja (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Velika (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Ogromna (48x48)"
+
+#, fuzzy
+#~| msgid "Layout Direction:"
+#~ msgid "Layout direction:"
+#~ msgstr "Smjer rasporeda:"
+
+#~ msgid "Left to Right"
+#~ msgstr "S lijeva na desno"
+
+#~ msgid "Right to Left"
+#~ msgstr "S desna na lijevo"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Od vrha prema dnu"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Od dna prema vrhu"
+
+#~ msgid "GroupBox"
+#~ msgstr "Skupna kućica"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Ravno"
+
+#~ msgid "Raised"
+#~ msgstr "Podignut"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Ravan"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Kartični widget"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Jednolinijski uređivač teksta:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Uređivač zaporki:"
+
+#~ msgid "First item"
+#~ msgstr "Prva stavka"
+
+#~ msgid "Second item"
+#~ msgstr "Druga stavka"
+
+#~ msgid "Third item"
+#~ msgstr "Treća stavka"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Višelinijski uređivač teksta:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Prelamaj riječi"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Koristi ravne gumbe"
+
+#~ msgid "First Item"
+#~ msgstr "Prva stavka"
+
+#~ msgid "Second Item"
+#~ msgstr "Druga stavka"
+
+#~ msgid "Third Item"
+#~ msgstr "Treća stavka"
+
+#~ msgid "Title"
+#~ msgstr "Naslov"
+
+#~ msgid "Description"
+#~ msgstr "Opis"
+
+#~ msgid "Third Description"
+#~ msgstr "Treći opis"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Treća podstavka"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Opis treće podstavke"
+
+#~ msgid "Second Description"
+#~ msgstr "Drugi opis"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Druga podstavka"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Opis druge podstavke"
+
+#~ msgid "First Subitem"
+#~ msgstr "Prva podstavka"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Opis prve podstavke"
+
+#~ msgid "First Description"
+#~ msgstr "Prvi opis"
+
+#~ msgid "New Row"
+#~ msgstr "Novi red"
+
+#~ msgid "First Row"
+#~ msgstr "Prvi red"
+
+#~ msgid "Third Row"
+#~ msgstr "Treći red"
+
+#~ msgid "First Column"
+#~ msgstr "Prvi stupac"
+
+#~ msgid "Second Column"
+#~ msgstr "Drugi stupac"
+
+#~ msgid "Third Column"
+#~ msgstr "Treći stupac"
+
+#~ msgid "Top-left"
+#~ msgstr "Gore lijevo"
+
+#~ msgid "Top"
+#~ msgstr "Vrh"
+
+#~ msgid "Top-right"
+#~ msgstr "Gore desno"
+
+#~ msgid "Left "
+#~ msgstr "Lijevo "
+
+#~ msgid "Center"
+#~ msgstr "Sredina"
+
+#~ msgid "Right"
+#~ msgstr "Desno"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Dolje lijevo"
+
+#~ msgid "Bottom"
+#~ msgstr "Dno"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Dolje desno"
+
+#~ msgid "Editors"
+#~ msgstr "Uređivači"
+
+#~ msgid "Title:"
+#~ msgstr "Naslov:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Okvir s alatima"
+
+#~ msgid "First Page"
+#~ msgstr "Prva stranica"
+
+#~ msgid "Second Page"
+#~ msgstr "Druga stranica"
+
+#, fuzzy
+#~| msgid "First Page"
+#~ msgid "First Label"
+#~ msgstr "Prva stranica"
+
+#, fuzzy
+#~| msgid "Second Page"
+#~ msgid "Second Label"
+#~ msgstr "Druga stranica"
+
+#~ msgid "Third Page"
+#~ msgstr "Treća stranica"
+
+#~ msgid "Horizontal"
+#~ msgstr "Horizontalni"
+
+#~ msgid "Vertical"
+#~ msgstr "Vertikalni"
+
+#~ msgid "Tab position:"
+#~ msgstr "Položaj kartice:"
+
+#~ msgid "North"
+#~ msgstr "Sjever"
+
+#~ msgid "South"
+#~ msgstr "Jug"
+
+#~ msgid "West"
+#~ msgstr "Zapad"
+
+#~ msgid "East"
+#~ msgstr "Istok"
+
+#~ msgid "Document mode"
+#~ msgstr "Način dokumenta"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Prikaži kutne gumbe"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Sakrij traku s karticama"
+
+#~ msgid "Preview"
+#~ msgstr "Pregled"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Napredni alat za konfiguraciju Oxygena"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "© 2010 Hugo Pereira Da Costa"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Demonstracija Oxygenovog stila"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Andrej Dundović, Marko Dimjašević"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "adundovi@gmail.com, marko@dimjasevic.net"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Upotrijebi šire linije"
+
+#, fuzzy
+#~ msgid "Animate progress bars"
+#~ msgstr "Animirana traka napredovanja"
+
+#~ msgid "Web style plugin"
+#~ msgstr "priključak za Web stilove"
+
+#~ msgid "modified"
+#~ msgstr "prilagođeno"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "oxygen-postavke – informacije"
+
+#~ msgid "CheckBox"
+#~ msgstr "Odabirni okvir"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Trajanje (ms):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Animiranje kartičnog prijelaza"
+
+#~ msgid "Draw scrollbar bevel"
+#~ msgstr "Iscrtavaj kosi klizač"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Šareni lebdeći klizači"
+
+#~ msgid "Plain"
+#~ msgstr "Običan"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "Normalno"
+
+#~ msgid "Width:"
+#~ msgstr "Širina:"
+
+#, fuzzy
+#~| msgid "Enable animations"
+#~ msgid "Enable title transition animations"
+#~ msgstr "Omogući animacije"
+
+#~ msgid "Dark"
+#~ msgstr "Tamno"
+
+#~ msgid "Subtle"
+#~ msgstr "Suptilan"
+
+#~ msgid "Animate glow on widget hover"
+#~ msgstr "Animiranje sjaja prilikom lebdjenja widgeta"
+
+#~ msgid "Animate toolbar hover"
+#~ msgstr "Animiranje lebdjenja trake s alatima"
+
+#~ msgid "Animate menubar hover"
+#~ msgstr "Animiranje lebdjenja trake s izbornikom"
+
+#~ msgid "Animate menu hover"
+#~ msgstr "Animiranje lebdjenja izbornika"
+
+#~ msgid "Draw toolbar separator"
+#~ msgstr "Isrctavanje razdjelnika alatnih traka"
+
+#~ msgid "Highlight focused text input fields"
+#~ msgstr "Naglašena fokusirana polja unosa teksta"
+
+#~ msgid "Custom text input highlight color:"
+#~ msgstr "Prilagođeni naglasak unosa teksta:"
+
+#~ msgid "Custom checkmark color:"
+#~ msgstr "Prilagođeni naglasak označavanja:"

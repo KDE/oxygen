@@ -1,0 +1,952 @@
+#
+# Tamas Szanto <tszanto@interware.hu>, 2005.
+# Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2014, 2015.
+# Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
+# Kiszel Kristóf <kiszel.kristof@gmail.com>, 2017.
+# Kristof Kiszel <ulysses@fsf.hu>, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: KDE 4.0\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2022-02-09 17:28+0100\n"
+"Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
+"Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.07.70\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Oxygen beállítások"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Fókusz, egéresemény és grafikai elem állapotátmenet"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Grafikai elemek fókuszának és az egérmutató alatti kiemelés animációjának "
+"beállítása, úgymint a grafikai elem engedélyezett/tiltott állapotának "
+"átmenete"
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Eszköztár kiemelés"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "Eszköztárak kiemelési animációjának beállítása az egérmutató alatt"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Menüsor kiemelés"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "Menüsorok kiemelési animációjának beállítása az egérmutató alatt"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Menü kiemelés"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Menük kiemelési animációjának beállítása az egérmutató alatt"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Folyamatjelző animáció"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "A folyamatjelző lépések animációjának beállítása"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Lap átmenetek"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Elhalványulási átmenetek beállítása a lapok között"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Címke átmenetek"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr ""
+"Elhalványulási átmenetek beállítása, amikor a címkék szövege megváltozik"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Szövegszerkesztő átmenetek"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr ""
+"Elhalványulási átmenetek beállítása, amikor a szerkesztők szövege megváltozik"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Lenyíló menü átmenetek"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr ""
+"Elhalványulási átmenetek beállítása, amikor a lenyíló menük választása "
+"megváltozik"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, kde-format
+msgid "Progress bar busy indicator"
+msgstr "Folyamatjelző foglaltságjelző"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "A folyamatjelzők foglaltságjelző animációjának beállítása"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Keret"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Animációtípus:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Elhalványodás"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Egérkövetés"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Elhalványulás időtartama:"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Egérkövetés időtartama:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " ms"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Párbeszédablak"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Általános"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Ablakok húzása csak a címsorral"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Ablakok húzása a címsorral, a menüsorral és az eszköztárakkal"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Ablakok húzása minden üres területtel"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Billentyűzetgyorsítók láthatósága:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr "Mindig rejtse el"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr "Megjelenítés az Alt megnyomásakor"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr "Mindig látszódjon"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Ablakok húzásának mó&dja:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Eszköztár-elválasztó elemek rajzolása"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Kiterjesztett átméretező fogantyú engedélyezése"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Ablakháttér színátmenet rajzolása"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animációk"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Nézetek"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Fastruktúra-vonalak rajzolása"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "Fakibon&tó mérete:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Apró"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Kicsi"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normál"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Fókuszjelző rajzolása a listákban"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Görgetősávok"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Gör&getősáv szélessége:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "képpont"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Felfelé nyíl gomb típusa:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Lefelé nyíl gomb típusa:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Nincsenek gombok"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Egy gomb"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Két gomb"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Nincs gomb"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Menü kiemelés"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Sö&tét szín használata"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Vála&sztott szín használata (egyszerű)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Válasz&tott szín használata (apró)"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Mindig rejtse el a billentyűzetgyorsítókat"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Akkor jelenítse meg a billentyűzetgyorsítókat, ha szükséges"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Mindig jelenítse meg a billentyűzetgyorsítókat"
+
+#~ msgid "Widget Style"
+#~ msgstr "Grafikai elemstílus"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Grafikai elemek megjelenésének módosítása"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Ablakdekorációk"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Ablakdekorációk megjelenésének módosítása"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Nem található az oxigén-stílus beállító bővítmény"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Nem található az oxigén dekoráció beállító bővítmény"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Speciális beállítási lehetőségek elrejtése"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Speciális beállítási lehetőségek megjelenítése"
+
+#~ msgid "Enable animations"
+#~ msgstr "Animációk engedélyezése"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Képgyorsítótár engedélyezése"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Foglaltságjelző lépések"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "„X” használata a jelölőnégyzetekben pipa helyett"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Az ablakkezelő használata az ablakok húzásának végrehajtására"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Háromszög alakú fakibontó használata a +/- helyett"
+
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Háromszög mé&rete:"
+
+#~ msgid "Tabs"
+#~ msgstr "Lapok"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Egyedüli"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Egyszerű"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Inaktív lapok stílusa:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Oxigén demó"
+
+#~ msgid "Normal"
+#~ msgstr "Normál"
+
+#~ msgid "New"
+#~ msgstr "Új"
+
+#~ msgid "Open"
+#~ msgstr "Megnyitás"
+
+#~ msgid "Save"
+#~ msgstr "Mentés"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "Hitelesítés ki-be kapcsolása"
+
+#~ msgid "Enabled"
+#~ msgstr "Engedélyezve"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Jobbról balra elrendezés"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Beviteli grafikai elemek"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Megjeleníti a szövegbeviteli grafikai elemek megjelenését"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Lap grafikai elemek"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Megjeleníti a lap grafikai elemek megjelenését"
+
+#~ msgid "Buttons"
+#~ msgstr "Gombok"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Megjeleníti a gombok megjelenését"
+
+#~ msgid "Lists"
+#~ msgstr "Listák"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Megjeleníti a listák, fák és táblázatok megjelenését"
+
+#~ msgid "Frames"
+#~ msgstr "Keretek"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Megjeleníti a különféle keretes grafikai elemek megjelenését"
+
+#~ msgid "MDI Windows"
+#~ msgstr "MDI ablakok"
+
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Megjeleníti az MDI ablakok megjelenését"
+
+#~ msgid "Sliders"
+#~ msgstr "Csúszkák"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr "Megjeleníti a csúszkák, folyamatjelzők és görgetősávok megjelenését"
+
+#~ msgid "Benchmark"
+#~ msgstr "Teljesítményteszt"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr ""
+#~ "Felhasználói interakciót emulál a grafikai elemekkel a "
+#~ "teljesítményméréshez"
+
+#~ msgid "Example text"
+#~ msgstr "Példaszöveg"
+
+#~ msgid "password"
+#~ msgstr "jelszó"
+
+#~ msgid "Layout"
+#~ msgstr "Elrendezés"
+
+#~ msgid "Tile"
+#~ msgstr "Mozaik"
+
+#~ msgid "Cascade"
+#~ msgstr "Lépcsőzetes"
+
+#~ msgid "Tools"
+#~ msgstr "Eszközök"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Következő ablak kijelölése"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Előző ablak kijelölése"
+
+#~ msgid "This is a sample text"
+#~ msgstr "Ez egy mintaszöveg"
+
+#~ msgid "Modules"
+#~ msgstr "Modulok"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr ""
+#~ "Válassza ki a lenti modulok közül, hogy melyiket szeretné futtatni a "
+#~ "szimulációhoz:"
+
+#~ msgid "Options"
+#~ msgstr "Beállítások"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Egér elkapása"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Szimuláció futtatása"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Jelölőnégyzetek"
+
+#~ msgid "Off"
+#~ msgstr "Ki"
+
+#~ msgid "Partial"
+#~ msgstr "Részleges"
+
+#~ msgid "On"
+#~ msgstr "Be"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Rádiógombok"
+
+#~ msgid "First Choice"
+#~ msgstr "Első választás"
+
+#~ msgid "Second Choice"
+#~ msgstr "Második választás"
+
+#~ msgid "Third Choice"
+#~ msgstr "Harmadik választás"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Nyomógombok"
+
+#~ msgid "Text only:"
+#~ msgstr "Csak szöveg:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Ez egy normál, csak szöveges lenyíló menü"
+
+#~ msgid "Small"
+#~ msgstr "Kicsi"
+
+#~ msgid "Large"
+#~ msgstr "Nagy"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Szöveg és ikon:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Lapos gombok használata"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "Ez egy normál, szöveg és ikon lenyíló menü"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Ez egy normál, csak szöveges eszközgomb"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Ez egy normál, szöveg és ikon eszközgomb"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Ez egy normál, csak szöveges gomb"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Ez egy normál, csak szöveges gomb menüvel"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Ez egy normál, szöveg és ikon gomb"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Ez egy normál, szöveg és ikon gomb menüvel"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Eszközgombok"
+
+#~ msgid "Flat"
+#~ msgstr "Lapos"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Felfelé nyíl"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Lefelé nyíl"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Balra nyíl"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Jobbra nyíl"
+
+#~ msgid "Text position:"
+#~ msgstr "Szövegpozíció:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Csak ikonok"
+
+#~ msgid "Text Only"
+#~ msgstr "Csak szöveg"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Szöveg az ikonok mellett"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Szöveg az ikonok alatt"
+
+#~ msgid "Icon size:"
+#~ msgstr "Ikonméret:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Kicsi (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Közepes (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Nagy (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Hatalmas (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Elrendezési irány:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Balról jobbra"
+
+#~ msgid "Right to Left"
+#~ msgstr "Jobbról balra"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Fentről le"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Lentről fel"
+
+#~ msgid "GroupBox"
+#~ msgstr "GroupBox"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Lapos"
+
+#~ msgid "Raised"
+#~ msgstr "Kiemelt"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Lapos"
+
+#~ msgid "Sunken"
+#~ msgstr "Süllyesztett"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Lap grafikai elem"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Egyszerű vonal szövegszerkesztő:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Jelszó szerkesztő:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Szerkeszthető lenyíló menü"
+
+#~ msgid "First item"
+#~ msgstr "Első elem"
+
+#~ msgid "Second item"
+#~ msgstr "Második elem"
+
+#~ msgid "Third item"
+#~ msgstr "Harmadik elem"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Spinbox:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Többsoros szövegszerkesztő:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Szavak tördelése"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Lapos grafikai elemek használata"
+
+#~ msgid "First Item"
+#~ msgstr "Első elem"
+
+#~ msgid "Second Item"
+#~ msgstr "Második elem"
+
+#~ msgid "Third Item"
+#~ msgstr "Harmadik elem"
+
+#~ msgid "Title"
+#~ msgstr "Cím"
+
+#~ msgid "Description"
+#~ msgstr "Leírás"
+
+#~ msgid "Third Description"
+#~ msgstr "Harmadik leírás"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Harmadik alárendelt elem"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Harmadik alárendelt elem leírás"
+
+#~ msgid "Second Description"
+#~ msgstr "Második leírás"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Második alárendelt elem"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Második alárendelt elem leírás"
+
+#~ msgid "First Subitem"
+#~ msgstr "Első alárendelt elem"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Első alárendelt elem leírás"
+
+#~ msgid "First Description"
+#~ msgstr "Első leírás"
+
+#~ msgid "New Row"
+#~ msgstr "Új sor"
+
+#~ msgid "First Row"
+#~ msgstr "Első sor"
+
+#~ msgid "Third Row"
+#~ msgstr "Harmadik sor"
+
+#~ msgid "First Column"
+#~ msgstr "Első oszlop"
+
+#~ msgid "Second Column"
+#~ msgstr "Második oszlop"
+
+#~ msgid "Third Column"
+#~ msgstr "Harmadik oszlop"
+
+#~ msgid "Top-left"
+#~ msgstr "Balra fent"
+
+#~ msgid "Top"
+#~ msgstr "Fent"
+
+#~ msgid "Top-right"
+#~ msgstr "Jobbra fent"
+
+#~ msgid "Left "
+#~ msgstr "Balra "
+
+#~ msgid "Center"
+#~ msgstr "Középen"
+
+#~ msgid "Right"
+#~ msgstr "Jobbra"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Balra lent"
+
+#~ msgid "Bottom"
+#~ msgstr "Lent"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Jobbra lent"
+
+#~ msgid "Editors"
+#~ msgstr "Szerkesztők"
+
+#~ msgid "Title:"
+#~ msgstr "Cím:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Eszközkészlet"
+
+#~ msgid "First Page"
+#~ msgstr "Első oldal"
+
+#~ msgid "Second Page"
+#~ msgstr "Második oldal"
+
+#~ msgid "First Label"
+#~ msgstr "Első címke"
+
+#~ msgid "Second Label"
+#~ msgstr "Második címke"
+
+#~ msgid "Third Page"
+#~ msgstr "Harmadik oldal"
+
+#~ msgid "Horizontal"
+#~ msgstr "Vízszintes"
+
+#~ msgid "Busy"
+#~ msgstr "Elfoglalt"
+
+#~ msgid "Vertical"
+#~ msgstr "Függőleges"
+
+#~ msgid "Tab position:"
+#~ msgstr "Lappozíció:"
+
+#~ msgid "North"
+#~ msgstr "Észak"
+
+#~ msgid "South"
+#~ msgstr "Dél"
+
+#~ msgid "West"
+#~ msgstr "Nyugat"
+
+#~ msgid "East"
+#~ msgstr "Kelet"
+
+#~ msgid "Document mode"
+#~ msgstr "Dokumentum mód"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Sarokgombok megjelenítése"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Lapsáv elrejtése"
+
+#~ msgid "Preview"
+#~ msgstr "Előnézet"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Kiszel Kristóf,Úr Balázs"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "ulysses@kubuntu.org,urbalazs@gmail.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Oxygen haladó beállító eszköz"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "© Hugo Pereira Da Costa, 2010."
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Oxigén-stílus bemutató"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Eszköztár-elválasztó elemek rajzolása"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Vastag vonalak használata"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "Az állapotjelző sávok animáltak legyenek"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Webes stílus"
+
+#~ msgid "modified"
+#~ msgstr "módosítva"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Időtartam (ms):"
+
+#~ msgid "Draw toolbar separator"
+#~ msgstr "Eszköztár-elválasztó rajzolása"
+
+#~ msgid "Highlight focused text input fields"
+#~ msgstr "A fókusszal rendelkező szövegmezők kiemelése"
+
+#~ msgid "Custom text input highlight color:"
+#~ msgstr "Egyedi kiemelési szín a szövegmezőkben:"
+
+#~ msgid "Custom checkmark color:"
+#~ msgstr "Egyedi színű jelölőelem:"

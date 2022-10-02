@@ -1,0 +1,977 @@
+# translation of kstyle_config.po into Russian
+#
+# Gregory Mokhin <mok@kde.ru>, 2005.
+# Andrey Cherepanov <skull@kde.ru>, 2009, 2011.
+# Alexander Potashev <aspotashev@gmail.com>, 2009, 2010, 2011, 2014, 2015, 2017, 2018.
+# Yuri Efremov <yur.arh@gmail.com>, 2013.
+# Julia Dronova <juliette.tux@gmail.com>, 2013.
+# Olesya Gerasimenko <translation-team@basealt.ru>, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: kstyle_config\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"PO-Revision-Date: 2022-09-05 11:56+0300\n"
+"Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
+"Language-Team: Basealt Translation Team\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 22.04.3\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+#: main.cpp:24 main.cpp:28
+#, kde-format
+msgid "Oxygen Settings"
+msgstr "Настройка Oxygen"
+
+#: oxygenanimationconfigwidget.cpp:33
+#, kde-format
+msgid "Focus, mouseover and widget state transition"
+msgstr "Фокус, подсветка и изменение состояния элементов"
+
+#: oxygenanimationconfigwidget.cpp:34
+#, kde-format
+msgid ""
+"Configure widgets' focus and mouseover highlight animation, as well as "
+"widget enabled/disabled state transition"
+msgstr ""
+"Настройка фокуса и подсвечивания при наведении курсора мыши на элементы "
+"интерфейса, а также изменение их состояния."
+
+#: oxygenanimationconfigwidget.cpp:37
+#, kde-format
+msgid "Toolbar highlight"
+msgstr "Подсветка панели инструментов"
+
+#: oxygenanimationconfigwidget.cpp:38
+#, kde-format
+msgid "Configure toolbars' mouseover highlight animation"
+msgstr "Анимация подсветки при наведении мыши на панель инструментов"
+
+#: oxygenanimationconfigwidget.cpp:42
+#, kde-format
+msgid "Menu bar highlight"
+msgstr "Подсветка полосы меню"
+
+#: oxygenanimationconfigwidget.cpp:43
+#, kde-format
+msgid "Configure menu bars' mouseover highlight animation"
+msgstr "Анимация подсветки при наведении мыши на полосу меню"
+
+#: oxygenanimationconfigwidget.cpp:46
+#, kde-format
+msgid "Menu highlight"
+msgstr "Подсветка меню"
+
+#: oxygenanimationconfigwidget.cpp:47
+#, kde-format
+msgid "Configure menus' mouseover highlight animation"
+msgstr "Анимация подсветки при наведении мыши на меню"
+
+#: oxygenanimationconfigwidget.cpp:50
+#, kde-format
+msgid "Progress bar animation"
+msgstr "Анимация индикатора выполнения задачи"
+
+#: oxygenanimationconfigwidget.cpp:51
+#, kde-format
+msgid "Configure progress bars' steps animation"
+msgstr "Настройка анимации индикатора выполнения задачи"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Tab transitions"
+msgstr "Переход между вкладками"
+
+#: oxygenanimationconfigwidget.cpp:54
+#, kde-format
+msgid "Configure fading transition between tabs"
+msgstr "Настройка перехода между вкладками"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Label transitions"
+msgstr "Изменение текста надписи"
+
+#: oxygenanimationconfigwidget.cpp:57
+#, kde-format
+msgid "Configure fading transition when a label's text is changed"
+msgstr "Настройка эффекта изменения текста надписи"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Text editor transitions"
+msgstr "Изменение текста поля ввода"
+
+#: oxygenanimationconfigwidget.cpp:60
+#, kde-format
+msgid "Configure fading transition when an editor's text is changed"
+msgstr "Настройка эффекта изменения текста в поле ввода"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid "Combo box transitions"
+msgstr "Изменение пункта в выпадающем списке"
+
+#: oxygenanimationconfigwidget.cpp:63
+#, kde-format
+msgid ""
+"Configure fading transition when a combo box's selected choice is changed"
+msgstr "Настройка эффекта изменения пункта в выпадающем списке"
+
+#: oxygenanimationconfigwidget.cpp:73
+#, kde-format
+msgid "Progress bar busy indicator"
+msgstr "Занятость в индикаторе выполнения задачи"
+
+#: oxygenanimationconfigwidget.cpp:74
+#, kde-format
+msgid "Configure progress bars' busy indicator animation"
+msgstr "Настройка анимации занятости в индикаторе выполнения задачи"
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Рамка"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Тип анимации:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Затухание"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Перемещение выделения"
+
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Продолжительность затухания (мс):"
+
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Продолжительность перемещения (мс):"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " мс"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Диалоговое окно"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Основное"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Только за заголовок окна"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "За заголовок, строку меню и панели инструментов"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "За все пустые области окна"
+
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Отображение клавиш быстрого доступа:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr "Всегда скрывать"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr "Показывать при нажатии клавиши Alt"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr "Всегда показывать"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Пере&таскивание окон:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Показывать разделители элементов панели инструментов"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Использовать расширенные элементы управления размером"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Рисовать градиентный фон окна"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Анимация"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Списки"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Рисовать линии в дереве"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "Р&азмер кнопки разворачивания дерева:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Крошечный"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Маленький"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Обычный"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Рисовать индикатор фокуса в списках"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Полосы прокрутки"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Ш&ирина полос прокрутки:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "пикс."
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Кнопки сверху:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Кнопки снизу:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Нет кнопок"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Одна кнопка"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Две кнопки"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Нет кнопок"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Пункты меню"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Выделение &тёмным цветом"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Выделение стандартным цветом (&яркое)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Выделение стандартным цветом (бл&едное)"
+
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "Всегда скрывать"
+
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "Показывать при необходимости"
+
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "Всегда показывать"
+
+#~ msgid "Widget Style"
+#~ msgstr "Стиль элементов интерфейса"
+
+#~ msgid "Modify the appearance of widgets"
+#~ msgstr "Настройка внешнего вида элементов интерфейса"
+
+#~ msgid "Window Decorations"
+#~ msgstr "Оформление окон"
+
+#~ msgid "Modify the appearance of window decorations"
+#~ msgstr "Изменение внешнего вида оформления окон"
+
+#~ msgid "Unable to find oxygen style configuration plugin"
+#~ msgstr "Не удалось найти модуль настройки стиля Oxygen"
+
+#~ msgid "Unable to find oxygen decoration configuration plugin"
+#~ msgstr "Не удалось найти модуль настройки оформления окон Oxygen"
+
+#~ msgid "Hide Advanced Configuration Options"
+#~ msgstr "Скрыть дополнительные параметры настройки"
+
+#~ msgid "Show Advanced Configuration Options"
+#~ msgstr "Показать дополнительные параметры настройки"
+
+#~ msgid "Enable animations"
+#~ msgstr "Использовать анимацию"
+
+#~ msgid "Enable pixmap cache"
+#~ msgstr "Включить кэширование изображений"
+
+#~ msgid "Busy indicator steps"
+#~ msgstr "Процесс выполнения"
+
+#~ msgid "Use 'X' in checkboxes instead of check"
+#~ msgstr "Использовать для флажков крестик вместо галочки"
+
+#~ msgid "Use window manager to perform windows' drag"
+#~ msgstr "Использовать диспетчер окон при перетаскивании"
+
+#~ msgid "Use triangle tree expander instead of +/-"
+#~ msgstr "Треугольная кнопка разворачивания дерева (вместо +/-)"
+
+#~ msgid "Triangle si&ze:"
+#~ msgstr "Размер &треугольника:"
+
+#~ msgid "Tabs"
+#~ msgstr "Вкладки"
+
+#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
+#~ msgid "Single"
+#~ msgstr "Отдельные"
+
+#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
+#~ msgid "Plain"
+#~ msgstr "Обычные"
+
+#~ msgid "Inactive tabs style:"
+#~ msgstr "Заголовки неактивных вкладок:"
+
+#~ msgid "Oxygen Demo"
+#~ msgstr "Демонстрация Oxygen"
+
+#~ msgid "Normal"
+#~ msgstr "Обычный"
+
+#~ msgid "New"
+#~ msgstr "Создать"
+
+#~ msgid "Open"
+#~ msgstr "Открыть"
+
+#~ msgid "Save"
+#~ msgstr "Сохранить"
+
+#~ msgid "Toggle authentication"
+#~ msgstr "Переключить аутентификацию"
+
+#~ msgid "Enabled"
+#~ msgstr "Включено"
+
+#~ msgid "Right to left layout"
+#~ msgstr "Размещение справа налево"
+
+#~ msgid "Input Widgets"
+#~ msgstr "Ввод информации"
+
+#~ msgid "Shows the appearance of text input widgets"
+#~ msgstr "Просмотр внешнего вида элементов интерфейса для ввода информации"
+
+#~ msgid "Tab Widgets"
+#~ msgstr "Вкладки"
+
+#~ msgid "Shows the appearance of tab widgets"
+#~ msgstr "Просмотр внешнего вида вкладок"
+
+#~ msgid "Buttons"
+#~ msgstr "Кнопки"
+
+#~ msgid "Shows the appearance of buttons"
+#~ msgstr "Просмотр внешнего вида кнопок"
+
+#~ msgid "Lists"
+#~ msgstr "Списки"
+
+#~ msgid "Shows the appearance of lists, trees and tables"
+#~ msgstr "Просмотр внешнего вида списков, таблиц и деревьев"
+
+#~ msgid "Frames"
+#~ msgstr "Рамки"
+
+#~ msgid "Shows the appearance of various framed widgets"
+#~ msgstr "Просмотр внешнего вида различных элементов интерфейса в рамке"
+
+#, fuzzy
+#~| msgid "Shows the appearance of tab widgets"
+#~ msgid "Shows the appearance of MDI windows"
+#~ msgstr "Просмотр внешнего вида вкладок"
+
+#~ msgid "Sliders"
+#~ msgstr "Ползунки"
+
+#~ msgid "Shows the appearance of sliders, progress bars and scrollbars"
+#~ msgstr ""
+#~ "Просмотр внешнего вида ползунков, индикаторов выполнения задач и полос "
+#~ "прокрутки"
+
+#~ msgid "Benchmark"
+#~ msgstr "Оценка производительности"
+
+#~ msgid "Emulates user interaction with widgets for benchmarking"
+#~ msgstr ""
+#~ "Эмуляция действий пользователя с элементами интерфейса для оценки "
+#~ "производительности"
+
+#~ msgid "Example text"
+#~ msgstr "Пример текста"
+
+#~ msgid "password"
+#~ msgstr "пароль"
+
+#~ msgid "Tile"
+#~ msgstr "Во фрейме"
+
+#~ msgid "Cascade"
+#~ msgstr "Каскадом"
+
+#, fuzzy
+#~| msgid "Toolbox"
+#~ msgid "Tools"
+#~ msgstr "Инструменты"
+
+#~ msgid "Select Next Window"
+#~ msgstr "Следующее окно"
+
+#~ msgid "Select Previous Window"
+#~ msgstr "Предыдущее окно"
+
+#~ msgid "This is a sample text"
+#~ msgstr "Пример текста"
+
+#~ msgid "Modules"
+#~ msgstr "Модули"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "Выберите модули, которые будут задействованы в эмуляции"
+
+#~ msgid "Options"
+#~ msgstr "Параметры"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Захват курсора мыши"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Запуск эмуляции"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Флажки"
+
+#~ msgid "Off"
+#~ msgstr "Выключенный"
+
+#~ msgid "Partial"
+#~ msgstr "Частично включённый"
+
+#~ msgid "On"
+#~ msgstr "Включённый"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Радиокнопки"
+
+#~ msgid "First Choice"
+#~ msgstr "Первая возможность"
+
+#~ msgid "Second Choice"
+#~ msgstr "Вторая возможность"
+
+#~ msgid "Third Choice"
+#~ msgstr "Третья возможность"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Кнопки"
+
+#~ msgid "Text only:"
+#~ msgstr "Только подписи:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Обычный выпадающий список с текстом"
+
+#~ msgid "Small"
+#~ msgstr "Маленький"
+
+#~ msgid "Large"
+#~ msgstr "Большой"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Подписи со значками:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Использовать кнопки без рамок"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "Обычный выпадающий список с текстом и значком"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Обычная кнопка инструментов с текстом"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Обычная кнопка инструментов с текстом и значком"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Обычная кнопка, только текст"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Обычная кнопка с текстом и меню"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Обычная кнопка с текстом и значком"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Обычная кнопка с текстом и значком с меню"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Кнопки на панелях инструментов"
+
+#~ msgid "Flat"
+#~ msgstr "Без рамки"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Стрелка вверх"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Стрелка вниз"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Стрелка влево"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Стрелка вправо"
+
+#~ msgid "Text position:"
+#~ msgstr "Положение текста:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Только значки"
+
+#~ msgid "Text Only"
+#~ msgstr "Только подписи"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Подписи сбоку от значков"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Подписи под значками"
+
+#~ msgid "Icon size:"
+#~ msgstr "Размер значков:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Маленькие (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Средние (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Большие (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Очень большие (48x48)"
+
+#~ msgid "Layout direction:"
+#~ msgstr "Направление размещения:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Слева направо"
+
+#~ msgid "Right to Left"
+#~ msgstr "Справа налево"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Сверху вниз"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Снизу вверх"
+
+#~ msgid "GroupBox"
+#~ msgstr "Группирующая рамка"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Без рамки"
+
+#~ msgid "Raised"
+#~ msgstr "Приподнятая"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "Flat"
+#~ msgstr "Без рамки"
+
+#~ msgid "Sunken"
+#~ msgstr "Вдавленная"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Вкладка"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Строка ввода текста:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Строка ввода пароля:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Редактируемый выпадающий список:"
+
+#~ msgid "First item"
+#~ msgstr "Первый пункт"
+
+#~ msgid "Second item"
+#~ msgstr "Второй пункт"
+
+#~ msgid "Third item"
+#~ msgstr "Третий пункт"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Счётчик:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Многострочный текстовый редактор:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Перенос строк"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Использовать элементы интерфейса без рамок"
+
+#~ msgid "First Item"
+#~ msgstr "Первый пункт"
+
+#~ msgid "Second Item"
+#~ msgstr "Второй пункт"
+
+#~ msgid "Third Item"
+#~ msgstr "Третий пункт"
+
+#~ msgid "Title"
+#~ msgstr "Название"
+
+#~ msgid "Description"
+#~ msgstr "Описание"
+
+#~ msgid "Third Description"
+#~ msgstr "Описание третьего пункта"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Третий подпункт"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Описание третьего подпункта"
+
+#~ msgid "Second Description"
+#~ msgstr "Описание второго пункта"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Второй подпункт"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Описание второго подпункта"
+
+#~ msgid "First Subitem"
+#~ msgstr "Первый подпункт"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Описание первого подпункта"
+
+#~ msgid "First Description"
+#~ msgstr "Описание первого пункта"
+
+#~ msgid "New Row"
+#~ msgstr "Первая строка"
+
+#~ msgid "First Row"
+#~ msgstr "Вторая строка"
+
+#~ msgid "Third Row"
+#~ msgstr "Третья строка"
+
+#~ msgid "First Column"
+#~ msgstr "Первый столбец"
+
+#~ msgid "Second Column"
+#~ msgstr "Второй столбец"
+
+#~ msgid "Third Column"
+#~ msgstr "Третий столбец"
+
+#~ msgid "Top-left"
+#~ msgstr "Вверху слева"
+
+#~ msgid "Top"
+#~ msgstr "Вверху"
+
+#~ msgid "Top-right"
+#~ msgstr "Вверху справа"
+
+#~ msgid "Left "
+#~ msgstr "Слева "
+
+#~ msgid "Center"
+#~ msgstr "По центру"
+
+#~ msgid "Right"
+#~ msgstr "Справа"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Внизу слева"
+
+#~ msgid "Bottom"
+#~ msgstr "Внизу"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Внизу справа"
+
+#~ msgid "Editors"
+#~ msgstr "Редакторы"
+
+#~ msgid "Title:"
+#~ msgstr "Заголовок:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Инструменты"
+
+#~ msgid "First Page"
+#~ msgstr "Первая страница"
+
+#~ msgid "Second Page"
+#~ msgstr "Вторая страница"
+
+#~ msgid "First Label"
+#~ msgstr "Первая метка"
+
+#~ msgid "Second Label"
+#~ msgstr "Вторая метка"
+
+#~ msgid "Third Page"
+#~ msgstr "Третья страница"
+
+#~ msgid "Horizontal"
+#~ msgstr "Горизонтальные"
+
+#~ msgid "Busy"
+#~ msgstr "Занят"
+
+#~ msgid "Vertical"
+#~ msgstr "Вертикальные"
+
+#~ msgid "Tab position:"
+#~ msgstr "Заголовки вкладок:"
+
+#~ msgid "North"
+#~ msgstr "Сверху"
+
+#~ msgid "South"
+#~ msgstr "Снизу"
+
+#~ msgid "West"
+#~ msgstr "Слева"
+
+#~ msgid "East"
+#~ msgstr "Справа"
+
+#~ msgid "Document mode"
+#~ msgstr "Режим документа"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Показать угловые кнопки"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Скрыть панель вкладок"
+
+#~ msgid "Preview"
+#~ msgstr "Предварительный просмотр"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Андрей Черепанов,Александр Поташев"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "skull@kde.ru,aspotashev@gmail.com"
+
+#~ msgid "Oxygen expert configuration tool"
+#~ msgstr "Экспертные параметры настройки Oxygen"
+
+#~ msgid "(c) 2010, Hugo Pereira Da Costa"
+#~ msgstr "© Hugo Pereira Da Costa, 2010"
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr "Hugo Pereira Da Costa"
+
+#~ msgid "Oxygen style demonstration"
+#~ msgstr "Демонстрация стиля Oxygen"
+
+#, fuzzy
+#~| msgid "Draw toolbar item separators"
+#~ msgid "Draw keyboard accelerators"
+#~ msgstr "Показывать разделители элементов панели инструментов"
+
+#~ msgid "Use wider lines"
+#~ msgstr "Использовать утолщённые линии"
+
+#~ msgid "Highlight scroll bar handles"
+#~ msgstr "Выделение ползунка на полосе прокрутки"
+
+#~ msgid "Animate progress bars"
+#~ msgstr "Анимировать индикаторы выполнения задачи"
+
+#~ msgid "Web style plugin"
+#~ msgstr "Настройка стиля Веб"
+
+#~ msgid "modified"
+#~ msgstr "изменён"
+
+#~ msgid "oxygen-settings - information"
+#~ msgstr "oxygen-settings - сведения"
+
+#~ msgid "CheckBox"
+#~ msgstr "Флажок"
+
+#~ msgid "Duration (ms):"
+#~ msgstr "Продолжительность (мс):"
+
+#~ msgid "Animate tab transitions"
+#~ msgstr "Плавное переключение между вкладками"
+
+#~ msgid "Colorful hovered scrollbars"
+#~ msgstr "Полосы прокрутки меняют цвет при наведении"
+
+#, fuzzy
+#~| msgid "Normal"
+#~ msgid "Form"
+#~ msgstr "Обычный"
+
+#~ msgid "Third Tab"
+#~ msgstr "Третья вкладка"
+
+#~ msgid "Fourth Tab"
+#~ msgstr "Четвёртая вкладка"
+
+#~ msgid "Draw toolbar separator"
+#~ msgstr "Показывать разделитель панели инструментов"
+
+#~ msgid "Highlight focused text input fields"
+#~ msgstr "Выделять активные поля ввода"
+
+#~ msgid "Custom text input highlight color:"
+#~ msgstr "Цвет выделения поля ввода:"
+
+#~ msgid "Custom checkmark color:"
+#~ msgstr "Цвет флажков переключателей:"
