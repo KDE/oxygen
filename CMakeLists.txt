@@ -63,10 +63,7 @@ add_subdirectory(kdecoration)
 install(DIRECTORY lookandfeel/ DESTINATION ${KDE_INSTALL_DATADIR}/plasma/look-and-feel/org.kde.oxygen
         PATTERN "Messages.sh" EXCLUDE PATTERN "CMakeLists.txt" EXCLUDE)
 
-# po/ dir added by packaging scripts
-if(EXISTS ${CMAKE_SOURCE_DIR}/po AND IS_DIRECTORY ${CMAKE_SOURCE_DIR}/po)
-    find_package(KF5I18n CONFIG REQUIRED)
-    ki18n_install(po)
-endif()
+find_package(KF5I18n CONFIG REQUIRED)
+ki18n_install(po)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
