@@ -62,7 +62,7 @@ msgstr "Ressaltat de la barra de menús"
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr ""
 "Configura l'animació del ressaltat en passar el ratolí sobre les barres de "
-"menús"
+"menú"
 
 #: oxygenanimationconfigwidget.cpp:46
 #, kde-format
@@ -387,7 +387,7 @@ msgstr "Utilitza un color &fosc"
 #: ui/oxygenstyleconfig.ui:440
 #, kde-format
 msgid "&Use selection color (plain)"
-msgstr "&Utilitza una selecció de color (senzill)"
+msgstr "Utilit&za una selecció de color (senzill)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
 #: ui/oxygenstyleconfig.ui:447
