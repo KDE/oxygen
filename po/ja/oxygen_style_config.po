@@ -392,18 +392,3 @@ msgstr "選択した色を使う (プレーン)"
 #| msgid "Use selection color (subtle)"
 msgid "Use selec&tion color (subtle)"
 msgstr "選択した色を使う (希薄)"
-
-#, fuzzy
-#~| msgid "Draw toolbar item separators"
-#~ msgid "Always Hide Keyboard Accelerators"
-#~ msgstr "ツールバーのアイテム間にセパレータを表示する"
-
-#, fuzzy
-#~| msgid "Draw toolbar item separators"
-#~ msgid "Show Keyboard Accelerators When Needed"
-#~ msgstr "ツールバーのアイテム間にセパレータを表示する"
-
-#, fuzzy
-#~| msgid "Draw toolbar item separators"
-#~ msgid "Always Show Keyboard Accelerators"
-#~ msgstr "ツールバーのアイテム間にセパレータを表示する"
