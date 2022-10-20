@@ -2,7 +2,6 @@
     "KPlugin": {
         "Description": "Window decoration using the Oxygen visual style for the Plasma Desktop",
         "Description[ar]": "زخرفة نوافذ تستخدم نمط «أكسجين» المرئيّ لسطح مكتب «بلازما»",
-        "Description[ast]": "Decoración pa ventanes qu'usa l'estilu visual Oxygen del escritoriu Plasma",
         "Description[az]": "Pəncərə dekorasiyası, Plasma İş masası üçün Oxygen vizual üslubundan istifadə edir",
         "Description[bg]": "Декорация на прозорци, използваща Oxygen визуален стил за Plasma работна среда",
         "Description[ca@valencia]": "Decoració de les finestres que utilitza l'estil visual Oxygen per a l'escriptori Plasma",
@@ -49,7 +48,6 @@
         "Id": "org.kde.oxygen",
         "Name": "Oxygen",
         "Name[ar]": "أكسجين",
-        "Name[ast]": "Oxygen",
         "Name[az]": "Oxygen",
         "Name[bg]": "Oxygen",
         "Name[ca@valencia]": "Oxygen",
