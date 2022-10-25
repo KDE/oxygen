@@ -898,7 +898,7 @@ msgstr "Les marques davall del control lliscant"
 #: ui/oxygensliderdemowidget.ui:193
 #, kde-format
 msgid "Tick Marks On Both Sides"
-msgstr "Les marques a ambdós costats"
+msgstr "Les marques en ambdós costats"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
