@@ -114,7 +114,7 @@ msgstr "Transicions de l'editor de text"
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr ""
-"Configura l'esvaïment de la transició quan es canvia un text en l'editor"
+"Configura l'esvaïment de la transició quan es canvia un text a l'editor"
 
 #: oxygenanimationconfigwidget.cpp:63
 #, kde-format
