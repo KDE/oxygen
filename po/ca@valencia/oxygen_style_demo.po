@@ -940,7 +940,7 @@ msgstr "Mode document"
 #: ui/oxygentabdemowidget.ui:122
 #, kde-format
 msgid "Show Corner Buttons"
-msgstr "Mostra els botons de les cantonades"
+msgstr "Mostra els botons dels cantons"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
 #: ui/oxygentabdemowidget.ui:129
