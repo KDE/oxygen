@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-02-07 00:45+0000\n"
-"PO-Revision-Date: 2022-04-25 14:00+0300\n"
+"PO-Revision-Date: 2022-11-14 13:21+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #: main.cpp:24 main.cpp:28
 #, kde-format
@@ -317,13 +317,13 @@ msgstr "Listelerdeki odak göstergesini çizin"
 #: ui/oxygenstyleconfig.ui:264
 #, kde-format
 msgid "Scrollbars"
-msgstr "Kaydırma çubukları"
+msgstr "Sarma Çubukları"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenstyleconfig.ui:272
 #, kde-format
 msgid "Scrollbar wi&dth:"
-msgstr "Kay&dırma çubuğu genişliği:"
+msgstr "&Sarma çubuğu genişliği:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
 #: ui/oxygenstyleconfig.ui:310

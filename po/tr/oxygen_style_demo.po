@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-04-25 00:48+0000\n"
-"PO-Revision-Date: 2022-05-02 14:30+0300\n"
+"PO-Revision-Date: 2022-11-14 14:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.04.0\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:40 oxygendemodialog.cpp:190
 #, kde-format
@@ -91,7 +91,7 @@ msgstr "Girdi Araç Takımları"
 #: oxygendemodialog.cpp:90
 #, kde-format
 msgid "Shows the appearance of text input widgets"
-msgstr "Metin girişi yapılan araç takımlarının görünümünü gösterir"
+msgstr "Metin girişi yapılan araç takımlarının görünüşünü gösterir"
 
 #: oxygendemodialog.cpp:98
 #, kde-format
@@ -101,7 +101,7 @@ msgstr "Sekme Araç Takımları"
 #: oxygendemodialog.cpp:100
 #, kde-format
 msgid "Shows the appearance of tab widgets"
-msgstr "Sekme araç takımlarının görünümünü gösterir"
+msgstr "Sekme araç takımlarının görünüşünü gösterir"
 
 #: oxygendemodialog.cpp:108
 #, kde-format
@@ -111,7 +111,7 @@ msgstr "Düğmeler"
 #: oxygendemodialog.cpp:110
 #, kde-format
 msgid "Shows the appearance of buttons"
-msgstr "Düğmelerin görünümünü gösterir"
+msgstr "Düğmelerin görünüşünü gösterir"
 
 #: oxygendemodialog.cpp:118
 #, kde-format
@@ -121,7 +121,7 @@ msgstr "Listeler"
 #: oxygendemodialog.cpp:120
 #, kde-format
 msgid "Shows the appearance of lists, trees and tables"
-msgstr "Listelerin,ağaç listelerin ve tabloların görünümünü gösterir"
+msgstr "Listelerin,ağaç listelerin ve tabloların görünüşünü gösterir"
 
 #: oxygendemodialog.cpp:128
 #, kde-format
@@ -131,7 +131,7 @@ msgstr "Çerçeveler"
 #: oxygendemodialog.cpp:130
 #, kde-format
 msgid "Shows the appearance of various framed widgets"
-msgstr "Çeşitli çerçeveli araç takımlarının görünümünü gösterir"
+msgstr "Çeşitli çerçeveli araç takımlarının görünüşünü gösterir"
 
 #: oxygendemodialog.cpp:138
 #, kde-format
@@ -141,7 +141,7 @@ msgstr "MDI Pencereleri"
 #: oxygendemodialog.cpp:140
 #, kde-format
 msgid "Shows the appearance of MDI windows"
-msgstr "MDI pencerelerinin görünümünü gösterir"
+msgstr "MDI pencerelerinin görünüşünü gösterir"
 
 #: oxygendemodialog.cpp:148
 #, kde-format
@@ -152,7 +152,7 @@ msgstr "Kaydırma Çubukları"
 #, kde-format
 msgid "Shows the appearance of sliders, progress bars and scrollbars"
 msgstr ""
-"Kaydırıcılar, ilerleme çubukları ve kaydırma çubuklarının görünümünü gösterir"
+"Kaydırıcılar, ilerleme çubukları ve sarma çubuklarının görünüşünü gösterir"
 
 #: oxygendemodialog.cpp:159
 #, kde-format
