@@ -15,7 +15,7 @@ Dependencies:
     'frameworks/kguiaddons': '@latest'
     'frameworks/ki18n': '@latest'
     'frameworks/kservice': '@latest'
-    'frameworks/kstyle': '@latest'
+    'frameworks/frameworkintegration': '@latest'
     'frameworks/kwayland': '@latest'
     'frameworks/kwidgetsaddons': '@latest'
     'frameworks/kwindowsystem': '@latest'
