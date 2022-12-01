@@ -1183,25 +1183,12 @@ namespace Oxygen
     //________________________________________________________________________________________________________
     bool StyleHelper::compositingActive( void ) const
     {
-        #if OXYGEN_HAVE_X11
-        if( isX11() )
-        {
-
-            // direct call to X
-            xcb_get_selection_owner_cookie_t cookie( xcb_get_selection_owner( connection(), _compositingManagerAtom ) );
-            ScopedPointer<xcb_get_selection_owner_reply_t> reply( xcb_get_selection_owner_reply( connection(), cookie, nullptr ) );
-            return reply && reply->owner;
-
-        } else {
-
-            // use KWindowSystem
-            return KWindowSystem::compositingActive();
-
+#if OXYGEN_HAVE_X11
+        if (isX11()) {
+            return QX11Info::isCompositingManagerRunning(QX11Info::appScreen());
         }
-        #else
-        // use KWindowSystem
-        return KWindowSystem::compositingActive();
-        #endif
+#endif
+        return true;
     }
 
     //________________________________________________________________________________________________________
