@@ -6,7 +6,6 @@
  */
 
 #include "oxygen.h"
-#include "config-liboxygen.h"
 
 #include <QEvent>
 
@@ -16,17 +15,6 @@
 #include <QSet>
 #include <QString>
 #include <QWidget>
-
-#if OXYGEN_HAVE_KWAYLAND
-namespace KWayland
-{
-namespace Client
-{
-    class Pointer;
-    class Seat;
-}
-}
-#endif
 
 namespace Oxygen
 {
@@ -87,7 +75,7 @@ namespace Oxygen
 
         //* returns true if window manager is used for moving
         bool useWMMoveResize( void ) const
-        { return supportWMMoveResize() && _useWMMoveResize; }
+        { return  _useWMMoveResize; }
 
         //* use window manager for moving, when available
         void setUseWMMoveResize( bool value )
@@ -123,12 +111,6 @@ namespace Oxygen
         */
         void initializeBlackList( void );
 
-        //* initializes the Wayland specific parts
-        void initializeWayland();
-
-        //* The Wayland Seat's hasPointer property changed
-        void waylandHasPointerChanged( bool hasPointer );
-
         //@}
 
         //* returns true if widget is dragable
@@ -151,17 +133,7 @@ namespace Oxygen
         void resetDrag( void );
 
         //* start drag
-        void startDrag( QWindow*, const QPoint& );
-
-        //* X11 specific implementation for startDrag
-        void startDragX11( QWindow*, const QPoint& );
-
-        //* Wayland specific implementation for startDrag
-        void startDragWayland( QWindow*, const QPoint& );
-
-        //* returns true if window manager is used for moving
-        /** right now this is true only for X11 */
-        bool supportWMMoveResize( void ) const;
+        void startDrag( QWindow* );
 
         //* utility function
         bool isDockWidgetTitle( const QWidget* ) const;
@@ -265,15 +237,6 @@ namespace Oxygen
 
         //* application event filter
         QObject* _appEventFilter;
-
-        #if OXYGEN_HAVE_KWAYLAND
-        //* The Wayland seat object which needs to be passed to move requests.
-        KWayland::Client::Seat* _seat;
-        //* The Wayland pointer object where we get pointer events on.
-        KWayland::Client::Pointer* _pointer;
-        //* latest searial which needs to be passed to the move requests.
-        quint32 _waylandSerial;
-        #endif
 
         //* allow access of all private members to the app event filter
         friend class AppEventFilter;

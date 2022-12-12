@@ -792,12 +792,6 @@ namespace Oxygen
 
     }
 
-    bool Helper::isWayland( void )
-    {
-        static const bool s_isWayland = KWindowSystem::isPlatformWayland();
-        return s_isWayland;
-    }
-
     #if OXYGEN_HAVE_X11
 
     //____________________________________________________________________

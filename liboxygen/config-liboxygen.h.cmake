@@ -10,6 +10,4 @@
 /* Define to 1 if you have XCB libraries */
 #cmakedefine01 OXYGEN_HAVE_X11
 
-#cmakedefine01 OXYGEN_HAVE_KWAYLAND
-
 #endif

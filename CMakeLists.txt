@@ -43,9 +43,6 @@ set_package_properties(XCB PROPERTIES
     PURPOSE "Required to pass style properties to native Windows on X11 Platform"
 )
 
-find_package(KF5Wayland CONFIG)
-set(OXYGEN_HAVE_KWAYLAND ${KF5Wayland_FOUND})
-
 if(NOT APPLE)
     set(OXYGEN_HAVE_X11 ${XCB_XCB_FOUND})
     if (XCB_XCB_FOUND AND QT_MAJOR_VERSION EQUAL "5")

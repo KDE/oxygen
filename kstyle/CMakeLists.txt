@@ -82,10 +82,6 @@ if(OXYGEN_HAVE_X11)
     endif()
 endif()
 
-if(OXYGEN_HAVE_KWAYLAND)
-    target_link_libraries(oxygen KF5::WaylandClient)
-endif()
-
 install(TARGETS oxygen DESTINATION ${KDE_INSTALL_QTPLUGINDIR}/styles/)
 
 if(WIN32)
