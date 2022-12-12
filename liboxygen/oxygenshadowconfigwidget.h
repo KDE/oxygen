@@ -21,72 +21,75 @@ class Ui_ShadowConfiguraionUI;
 namespace Oxygen
 {
 
-    //* shadow configuration widget
-    class OXYGEN_CONFIG_EXPORT ShadowConfigWidget: public QGroupBox
+//* shadow configuration widget
+class OXYGEN_CONFIG_EXPORT ShadowConfigWidget : public QGroupBox
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit ShadowConfigWidget(QWidget *);
+
+    //* destructor
+    ~ShadowConfigWidget(void) override;
+
+    //* group
+    void setGroup(QPalette::ColorGroup group)
     {
+        _group = group;
+    }
 
-        Q_OBJECT
+    //* read defaults
+    void setDefaults(void)
+    {
+        load(true);
+    }
 
-        public:
+    //* read config
+    void load(void)
+    {
+        load(false);
+    }
 
-        //* constructor
-        explicit ShadowConfigWidget( QWidget* );
+    //* write config
+    void save(void) const;
 
-        //* destructor
-        ~ShadowConfigWidget( void ) override;
+    //* true if modified
+    bool isChanged(void) const
+    {
+        return _changed;
+    }
 
-        //* group
-        void setGroup( QPalette::ColorGroup group )
-        { _group = group; }
+Q_SIGNALS:
 
-        //* read defaults
-        void setDefaults( void )
-        { load(true ); }
+    //* emmitted when configuration is changed
+    void changed(bool);
 
-        //* read config
-        void load( void )
-        { load( false ); }
+private Q_SLOTS:
 
-        //* write config
-        void save( void ) const;
+    //* update changed state
+    void updateChanged();
 
-        //* true if modified
-        bool isChanged( void ) const
-        { return _changed; }
+private:
+    //* read config
+    void load(bool);
 
-        Q_SIGNALS:
+    //* set changed state
+    void setChanged(bool value)
+    {
+        _changed = value;
+        emit changed(value);
+    }
 
-        //* emmitted when configuration is changed
-        void changed( bool );
+    //* ui
+    Ui_ShadowConfiguraionUI *ui = nullptr;
 
-        private Q_SLOTS:
+    //* color group
+    QPalette::ColorGroup _group = QPalette::Inactive;
 
-        //* update changed state
-        void updateChanged();
-
-        private:
-
-        //* read config
-        void load( bool );
-
-        //* set changed state
-        void setChanged( bool value )
-        {
-            _changed = value;
-            emit changed( value );
-        }
-
-        //* ui
-        Ui_ShadowConfiguraionUI* ui = nullptr;
-
-        //* color group
-        QPalette::ColorGroup _group = QPalette::Inactive;
-
-        //* changed state
-        bool _changed = false;
-
-    };
-
+    //* changed state
+    bool _changed = false;
+};
 }
 
 #endif

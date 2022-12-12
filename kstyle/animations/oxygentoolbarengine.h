@@ -18,87 +18,91 @@
 namespace Oxygen
 {
 
-    //* follow-mouse toolbar animation
-    class ToolBarEngine: public BaseEngine
+//* follow-mouse toolbar animation
+class ToolBarEngine : public BaseEngine
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit ToolBarEngine(QObject *parent)
+        : BaseEngine(parent)
+        , _followMouseDuration(150)
     {
+    }
 
-        Q_OBJECT
+    //* register toolbar
+    void registerWidget(QWidget *);
 
-        public:
+    //* returns registered widgets
+    WidgetList registeredWidgets(void) const override;
 
-        //* constructor
-        explicit ToolBarEngine( QObject* parent ):
-            BaseEngine( parent ),
-            _followMouseDuration( 150 )
-        {}
+    //* return true if object is animated
+    bool isAnimated(const QObject *);
 
-        //* register toolbar
-        void registerWidget( QWidget* );
+    //* return true if object is animated
+    bool isFollowMouseAnimated(const QObject *);
 
-        //* returns registered widgets
-        WidgetList registeredWidgets( void ) const override;
+    //* animation opacity
+    qreal opacity(const QObject *object)
+    {
+        return isAnimated(object) ? _data.find(object).data()->opacity() : AnimationData::OpacityInvalid;
+    }
 
-        //* return true if object is animated
-        bool isAnimated( const QObject* );
+    //* return 'hover' rect position when widget is animated
+    QRect currentRect(const QObject *);
 
-        //* return true if object is animated
-        bool isFollowMouseAnimated( const QObject* );
+    //* return 'hover' rect position when widget is animated
+    QRect animatedRect(const QObject *);
 
-        //* animation opacity
-        qreal opacity( const QObject* object )
-        { return isAnimated( object ) ? _data.find( object ).data()->opacity(): AnimationData::OpacityInvalid; }
+    //* timer
+    bool isTimerActive(const QObject *);
 
-        //* return 'hover' rect position when widget is animated
-        QRect currentRect( const QObject* );
+    //* enable state
+    void setEnabled(bool value) override
+    {
+        BaseEngine::setEnabled(value);
+        _data.setEnabled(value);
+    }
 
-        //* return 'hover' rect position when widget is animated
-        QRect animatedRect( const QObject* );
+    //* duration
+    void setDuration(int value) override
+    {
+        BaseEngine::setDuration(value);
+        _data.setDuration(value);
+    }
 
-        //* timer
-        bool isTimerActive( const QObject* );
+    //* duration
+    int followMouseDuration(void) const
+    {
+        return _followMouseDuration;
+    }
 
-        //* enable state
-        void setEnabled( bool value ) override
-        {
-            BaseEngine::setEnabled( value );
-            _data.setEnabled( value );
+    //* duration
+    void setFollowMouseDuration(int duration)
+    {
+        _followMouseDuration = duration;
+        for (const DataMap<ToolBarData>::Value &value : std::as_const(_data)) {
+            if (value)
+                value.data()->setFollowMouseDuration(duration);
         }
+    }
 
-        //* duration
-        void setDuration( int value ) override
-        {
-            BaseEngine::setDuration( value );
-            _data.setDuration( value );
-        }
+protected Q_SLOTS:
 
-        //* duration
-        int followMouseDuration( void ) const
-        { return _followMouseDuration; }
+    //* remove widget from map
+    bool unregisterWidget(QObject *object) override
+    {
+        return _data.unregisterWidget(object);
+    }
 
-        //* duration
-        void setFollowMouseDuration( int duration )
-        {
-            _followMouseDuration = duration;
-            for ( const DataMap<ToolBarData>::Value &value : std::as_const(_data) )
-            { if( value ) value.data()->setFollowMouseDuration( duration ); }
-        }
+private:
+    //* follow mouse animation duration
+    int _followMouseDuration = -1;
 
-        protected Q_SLOTS:
-
-        //* remove widget from map
-        bool unregisterWidget( QObject* object ) override
-        { return _data.unregisterWidget( object ); }
-
-        private:
-
-        //* follow mouse animation duration
-        int _followMouseDuration = -1;
-
-        //* data map
-        DataMap<ToolBarData> _data;
-
-    };
-
+    //* data map
+    DataMap<ToolBarData> _data;
+};
 }
 
 #endif

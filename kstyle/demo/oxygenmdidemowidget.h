@@ -11,38 +11,33 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QWidget>
 #include <QToolButton>
+#include <QWidget>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygenmdidemowidget.h"
 
 namespace Oxygen
 {
-    class MdiDemoWidget: public DemoWidget
-    {
+class MdiDemoWidget : public DemoWidget
+{
+    Q_OBJECT
 
-        Q_OBJECT
+public:
+    //* constructor
+    explicit MdiDemoWidget(QWidget * = nullptr);
 
-        public:
+public Q_SLOTS:
 
-        //* constructor
-        explicit MdiDemoWidget( QWidget* = nullptr );
+    void setLayoutTiled(void);
+    void setLayoutCascade(void);
+    void setLayoutTabbed(void);
 
-        public Q_SLOTS:
+    void benchmark(void);
 
-        void setLayoutTiled( void );
-        void setLayoutCascade( void );
-        void setLayoutTabbed( void );
-
-        void benchmark( void );
-
-        private:
-
-        Ui_MdiDemoWidget ui;
-
-    };
-
+private:
+    Ui_MdiDemoWidget ui;
+};
 }
 
 #endif

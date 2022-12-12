@@ -13,86 +13,81 @@
 
 #include "oxygen_config_export.h"
 
-#include <QWidget>
-#include <QLayout>
 #include <QCheckBox>
+#include <QLayout>
+#include <QWidget>
 
 class Ui_AnimationConfigWidget;
 
 namespace Oxygen
 {
-    class AnimationConfigItem;
+class AnimationConfigItem;
 
-    class OXYGEN_CONFIG_EXPORT BaseAnimationConfigWidget: public QWidget
+class OXYGEN_CONFIG_EXPORT BaseAnimationConfigWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit BaseAnimationConfigWidget(QWidget * = nullptr);
+
+    //* destructor
+    virtual ~BaseAnimationConfigWidget(void);
+
+    //* true if changed
+    virtual bool isChanged(void) const
     {
+        return _changed;
+    }
 
-        Q_OBJECT
+Q_SIGNALS:
 
-        public:
+    //* emmited when layout is changed
+    void layoutChanged(void);
 
-        //* constructor
-        explicit BaseAnimationConfigWidget( QWidget* = nullptr );
+    //* emmited when changed
+    void changed(bool);
 
-        //* destructor
-        virtual ~BaseAnimationConfigWidget( void );
+public Q_SLOTS:
 
-        //* true if changed
-        virtual bool isChanged( void ) const
-        { return _changed; }
+    //* read current configuration
+    virtual void load(void) = 0;
 
-        Q_SIGNALS:
+    //* save current configuration
+    virtual void save(void) = 0;
 
-        //* emmited when layout is changed
-        void layoutChanged( void );
+protected Q_SLOTS:
 
-        //* emmited when changed
-        void changed( bool );
+    //* update visible ites
+    virtual void updateItems(bool);
 
-        public Q_SLOTS:
+    //* check whether configuration is changed and emit appropriate signal if yes
+    virtual void updateChanged() = 0;
 
-        //* read current configuration
-        virtual void load( void ) = 0;
+protected:
+    //* get global animations enabled checkbox
+    QCheckBox *animationsEnabled(void) const;
 
-        //* save current configuration
-        virtual void save( void ) = 0;
+    //* add item to ui
+    virtual void setupItem(QGridLayout *, AnimationConfigItem *);
 
-        protected Q_SLOTS:
+    //* set changed state
+    virtual void setChanged(bool value)
+    {
+        _changed = value;
+        emit changed(value);
+    }
 
-        //* update visible ites
-        virtual void updateItems( bool );
+    //* user interface
+    Ui_AnimationConfigWidget *ui = nullptr;
 
-        //* check whether configuration is changed and emit appropriate signal if yes
-        virtual void updateChanged() = 0;
+    //* row index
+    int _row = 0;
 
-        protected:
-
-        //* get global animations enabled checkbox
-        QCheckBox* animationsEnabled( void ) const;
-
-        //* add item to ui
-        virtual void setupItem( QGridLayout*, AnimationConfigItem* );
-
-        //* set changed state
-        virtual void setChanged( bool value )
-        {
-            _changed = value;
-            emit changed( value );
-        }
-
-        //* user interface
-        Ui_AnimationConfigWidget* ui = nullptr;
-
-        //* row index
-        int _row = 0;
-
-        private:
-
-        //* changed state
-        bool _changed = false;
-
-    };
-
+private:
+    //* changed state
+    bool _changed = false;
+};
 }
-
 
 #endif

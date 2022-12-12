@@ -17,75 +17,84 @@
 namespace Oxygen
 {
 
-    //* menubar data
-    /*!
-    most members are identical to menubar data. The one that are not are
-    using templatized versions, because QMenuBar and QMenu API are very similar
-    */
-    class MenuDataV1: public MenuBarDataV1
+//* menubar data
+/*!
+most members are identical to menubar data. The one that are not are
+using templatized versions, because QMenuBar and QMenu API are very similar
+*/
+class MenuDataV1 : public MenuBarDataV1
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    MenuDataV1(QObject *parent, QWidget *target, int duration)
+        : MenuBarDataV1(parent, target, duration)
     {
+    }
 
-        Q_OBJECT
-
-        public:
-
-        //* constructor
-        MenuDataV1( QObject* parent, QWidget* target, int duration ):
-        MenuBarDataV1( parent, target, duration )
-        {}
-
-        protected:
-
-        //* menubar enterEvent
-        void enterEvent( const QObject* object ) override
-        { MenuBarDataV1::enterEvent<QMenu>( object ); }
-
-        //* menubar enterEvent
-        void leaveEvent( const QObject* object ) override
-        { MenuBarDataV1::leaveEvent<QMenu>( object ); }
-
-        //* menubar mouseMoveEvent
-        void mouseMoveEvent( const QObject* object ) override
-        { MenuBarDataV1::mouseMoveEvent<QMenu>( object ); }
-
-        //* menubar mousePressEvent
-        void mousePressEvent( const QObject* object ) override
-        { MenuBarDataV1::mousePressEvent<QMenu>( object ); }
-
-    };
-
-    //* menubar data
-    /*!
-    most members are identical to menubar data. The one that are not are
-    using templatized versions, because QMenuBar and QMenu API are very similar
-    */
-    class MenuDataV2: public MenuBarDataV2
+protected:
+    //* menubar enterEvent
+    void enterEvent(const QObject *object) override
     {
+        MenuBarDataV1::enterEvent<QMenu>(object);
+    }
 
-        Q_OBJECT
+    //* menubar enterEvent
+    void leaveEvent(const QObject *object) override
+    {
+        MenuBarDataV1::leaveEvent<QMenu>(object);
+    }
 
-        public:
-        //* constructor
-        MenuDataV2( QObject* parent, QWidget* target, int duration ):
-        MenuBarDataV2( parent, target, duration )
-        { setEntered( false ); }
+    //* menubar mouseMoveEvent
+    void mouseMoveEvent(const QObject *object) override
+    {
+        MenuBarDataV1::mouseMoveEvent<QMenu>(object);
+    }
 
-        protected:
+    //* menubar mousePressEvent
+    void mousePressEvent(const QObject *object) override
+    {
+        MenuBarDataV1::mousePressEvent<QMenu>(object);
+    }
+};
 
-        //* menubar enterEvent
-        void enterEvent( const QObject* object ) override
-        { MenuBarDataV2::enterEvent<QMenu>( object ); }
+//* menubar data
+/*!
+most members are identical to menubar data. The one that are not are
+using templatized versions, because QMenuBar and QMenu API are very similar
+*/
+class MenuDataV2 : public MenuBarDataV2
+{
+    Q_OBJECT
 
-        //* menubar enterEvent
-        void leaveEvent( const QObject* object ) override
-        { MenuBarDataV2::leaveEvent<QMenu>( object ); }
+public:
+    //* constructor
+    MenuDataV2(QObject *parent, QWidget *target, int duration)
+        : MenuBarDataV2(parent, target, duration)
+    {
+        setEntered(false);
+    }
 
-        //* menubar mouseMoveEvent
-        void mouseMoveEvent( const QObject* object ) override
-        { MenuBarDataV2::mouseMoveEvent<QMenu>( object ); }
+protected:
+    //* menubar enterEvent
+    void enterEvent(const QObject *object) override
+    {
+        MenuBarDataV2::enterEvent<QMenu>(object);
+    }
 
-    };
+    //* menubar enterEvent
+    void leaveEvent(const QObject *object) override
+    {
+        MenuBarDataV2::leaveEvent<QMenu>(object);
+    }
 
+    //* menubar mouseMoveEvent
+    void mouseMoveEvent(const QObject *object) override
+    {
+        MenuBarDataV2::mouseMoveEvent<QMenu>(object);
+    }
+};
 }
 
 #endif

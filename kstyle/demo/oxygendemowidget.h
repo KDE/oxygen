@@ -18,30 +18,28 @@
 namespace Oxygen
 {
 
-    class DemoWidget: public QWidget
+class DemoWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    //! constructo
+    explicit DemoWidget(QWidget *parent)
+        : QWidget(parent)
+        , _simulator(new Simulator(this))
     {
+    }
 
-        Q_OBJECT
+    //! simulator
+    Simulator &simulator(void) const
+    {
+        return *_simulator;
+    }
 
-        public:
-
-        //! constructo
-        explicit DemoWidget( QWidget* parent ):
-            QWidget( parent ),
-            _simulator( new Simulator( this ) )
-        {}
-
-        //! simulator
-        Simulator& simulator( void ) const
-        { return *_simulator; }
-
-        private:
-
-        //! simulator
-        Simulator* _simulator;
-
-    };
-
+private:
+    //! simulator
+    Simulator *_simulator;
+};
 }
 
 #endif

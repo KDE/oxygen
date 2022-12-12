@@ -11,49 +11,49 @@
 // SPDX-License-Identifier: LGPL-2.0-only
 //////////////////////////////////////////////////////////////////////////////
 
+#include <QApplication>
 #include <QEvent>
 #include <QObject>
-#include <QApplication>
 
 #include "oxygenstyleconfigdata.h"
 
 namespace Oxygen
 {
 
-    class Mnemonics: public QObject
+class Mnemonics : public QObject
+{
+public:
+    //* constructor
+    explicit Mnemonics(QObject *parent)
+        : QObject(parent)
     {
+    }
 
-        public:
+    //* set mode
+    void setMode(int);
 
-        //* constructor
-        explicit Mnemonics( QObject* parent ):
-            QObject( parent )
-            {}
+    //* event filter
+    bool eventFilter(QObject *, QEvent *) override;
 
-        //* set mode
-        void setMode( int );
+    //* true if mnemonics are enabled
+    const bool &enabled(void) const
+    {
+        return _enabled;
+    }
 
-        //* event filter
-        bool eventFilter( QObject*, QEvent* ) override;
+    //* alignment flag
+    int textFlags(void) const
+    {
+        return _enabled ? Qt::TextShowMnemonic : Qt::TextHideMnemonic;
+    }
 
-        //* true if mnemonics are enabled
-        const bool& enabled( void ) const
-        { return _enabled; }
+private:
+    //* set enable state
+    void setEnabled(bool);
 
-        //* alignment flag
-        int textFlags( void ) const
-        { return _enabled ? Qt::TextShowMnemonic : Qt::TextHideMnemonic; }
-
-        private:
-
-        //* set enable state
-        void setEnabled( bool );
-
-        //* enable state
-        bool _enabled = true;
-
-    };
-
+    //* enable state
+    bool _enabled = true;
+};
 }
 
 #endif

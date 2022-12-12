@@ -21,72 +21,68 @@ class Ui_AnimationConfigItem;
 namespace Oxygen
 {
 
-    class OXYGEN_CONFIG_EXPORT AnimationConfigItem: public QWidget
+class OXYGEN_CONFIG_EXPORT AnimationConfigItem : public QWidget
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit AnimationConfigItem(QWidget *parent, const QString &title = QString(), const QString &description = QString());
+
+    //* destructor
+    ~AnimationConfigItem(void) override;
+
+    //* title
+    void setTitle(const QString &);
+
+    //* title
+    QString title(void) const;
+
+    //* description
+    void setDescription(const QString &);
+
+    //* description
+    const QString &description(void) const
     {
+        return _description;
+    }
 
-        Q_OBJECT
+    //* enability
+    void setEnabled(const bool &);
 
-        public:
+    //* enability
+    bool enabled(void) const;
 
-        //* constructor
-        explicit AnimationConfigItem( QWidget* parent, const QString& title = QString(), const QString& description = QString() );
+    //* config widget
+    virtual QWidget *configurationWidget(void) const = 0;
 
-        //* destructor
-        ~AnimationConfigItem( void ) override;
+    //* initialize config widget
+    virtual void initializeConfigurationWidget(QWidget *) = 0;
 
-        //* title
-        void setTitle( const QString& );
+    //* configuration button
+    QAbstractButton *configurationButton(void) const;
 
-        //* title
-        QString title( void ) const;
+Q_SIGNALS:
 
-        //* description
-        void setDescription( const QString& );
+    //* emmited when changed
+    void changed(void);
 
-        //* description
-        const QString& description( void ) const
-        { return _description; }
+protected Q_SLOTS:
 
-        //* enability
-        void setEnabled( const bool& );
+    //* about info
+    virtual void about(void);
 
-        //* enability
-        bool enabled( void ) const;
+protected:
+    //* set configuration widget
+    virtual void setConfigurationWidget(QWidget *widget);
 
-        //* config widget
-        virtual QWidget* configurationWidget( void ) const = 0;
+private:
+    //* description
+    QString _description;
 
-        //* initialize config widget
-        virtual void initializeConfigurationWidget( QWidget* ) = 0;
-
-        //* configuration button
-        QAbstractButton* configurationButton( void ) const;
-
-        Q_SIGNALS:
-
-        //* emmited when changed
-        void changed( void );
-
-        protected Q_SLOTS:
-
-        //* about info
-        virtual void about( void );
-
-        protected:
-
-        //* set configuration widget
-        virtual void setConfigurationWidget( QWidget* widget );
-
-        private:
-
-        //* description
-        QString _description;
-
-        //* ui
-        Ui_AnimationConfigItem* ui;
-
-    };
-
+    //* ui
+    Ui_AnimationConfigItem *ui;
+};
 }
 
 #endif

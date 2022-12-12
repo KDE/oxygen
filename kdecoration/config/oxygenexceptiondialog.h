@@ -9,8 +9,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include "ui_oxygenexceptiondialog.h"
 #include "oxygen.h"
+#include "ui_oxygenexceptiondialog.h"
 
 #include <QCheckBox>
 #include <QMap>
@@ -18,73 +18,70 @@
 namespace Oxygen
 {
 
-    class DetectDialog;
+class DetectDialog;
 
-    //* oxygen exceptions list
-    class ExceptionDialog: public QDialog
+//* oxygen exceptions list
+class ExceptionDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit ExceptionDialog(QWidget *parent);
+
+    //* set exception
+    void setException(InternalSettingsPtr);
+
+    //* save exception
+    void save(void);
+
+    //* true if changed
+    bool isChanged(void) const
     {
+        return m_changed;
+    }
 
-        Q_OBJECT
+Q_SIGNALS:
 
-        public:
+    //* emmited when changed
+    void changed(bool);
 
-        //* constructor
-        explicit ExceptionDialog( QWidget* parent );
+private Q_SLOTS:
 
-        //* set exception
-        void setException( InternalSettingsPtr );
+    //* check whether configuration is changed and emit appropriate signal if yes
+    void updateChanged();
 
-        //* save exception
-        void save( void );
+    //* select window properties from grabbed pointers
+    void selectWindowProperties(void);
 
-        //* true if changed
-        bool isChanged( void ) const
-        { return m_changed; }
+    //* read properties of selected window
+    void readWindowProperties(bool);
 
-        Q_SIGNALS:
+private:
+    //* set changed state
+    void setChanged(bool value)
+    {
+        m_changed = value;
+        emit changed(value);
+    }
 
-        //* emmited when changed
-        void changed( bool );
+    //* map mask and checkbox
+    using CheckBoxMap = QMap<ExceptionMask, QCheckBox *>;
 
-        private Q_SLOTS:
+    Ui::OxygenExceptionDialog m_ui;
 
-        //* check whether configuration is changed and emit appropriate signal if yes
-        void updateChanged();
+    //* map mask and checkbox
+    CheckBoxMap m_checkboxes;
 
-        //* select window properties from grabbed pointers
-        void selectWindowProperties( void );
+    //* internal exception
+    InternalSettingsPtr m_exception;
 
-        //* read properties of selected window
-        void readWindowProperties( bool );
+    //* detection dialog
+    DetectDialog *m_detectDialog = nullptr;
 
-        private:
-
-        //* set changed state
-        void setChanged( bool value )
-        {
-            m_changed = value;
-            emit changed( value );
-        }
-
-        //* map mask and checkbox
-        using CheckBoxMap=QMap< ExceptionMask, QCheckBox*>;
-
-        Ui::OxygenExceptionDialog m_ui;
-
-        //* map mask and checkbox
-        CheckBoxMap m_checkboxes;
-
-        //* internal exception
-        InternalSettingsPtr m_exception;
-
-        //* detection dialog
-        DetectDialog* m_detectDialog = nullptr;
-
-        //* changed state
-        bool m_changed = false;
-
-    };
-
+    //* changed state
+    bool m_changed = false;
+};
 }
 
 #endif

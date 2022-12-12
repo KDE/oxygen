@@ -6,10 +6,9 @@
 
 #ifndef QWIDGETSTYLESELECTOR_H
 
-
-#include <QWidget>
 #include <QMenu>
 #include <QPushButton>
+#include <QWidget>
 
 #include <KActionMenu>
 
@@ -17,14 +16,14 @@ class WidgetStyleChooser : public QPushButton
 {
     Q_OBJECT
 public:
-    explicit WidgetStyleChooser( QWidget *parent = nullptr );
+    explicit WidgetStyleChooser(QWidget *parent = nullptr);
 
-    KActionMenu *createStyleSelectionMenu( const QString &text, const QString &selectedStyleName=QString() );
+    KActionMenu *createStyleSelectionMenu(const QString &text, const QString &selectedStyleName = QString());
 
     QString currentStyle() const;
 
 private Q_SLOTS:
-    void activateStyle( const QString &styleName );
+    void activateStyle(const QString &styleName);
 
 private:
     QString m_widgetStyle;

@@ -12,71 +12,75 @@
 
 #include "../oxygen.h"
 
-#include <QTabWidget>
-#include <QTabBar>
 #include <QIcon>
+#include <QTabBar>
+#include <QTabWidget>
 
 namespace Oxygen
 {
-    class TabWidget: public QTabWidget
+class TabWidget : public QTabWidget
+{
+    Q_OBJECT
+
+public:
+    //! constructor
+    explicit TabWidget(QWidget *parent)
+        : QTabWidget(parent)
     {
+        tabBar()->setMovable(true);
+    }
 
-        Q_OBJECT
+    // adjust tabbar size
+    void adjustTabBarSize(void)
+    {
+        if (tabBar())
+            tabBar()->adjustSize();
+    }
 
-        public:
+    //! show icons
+    void showIcons(void)
+    {
+        // add icons to tabs
+        tabBar()->setTabIcon(0, QIcon::fromTheme(QStringLiteral("document-open-folder")));
+        tabBar()->setTabIcon(1, QIcon::fromTheme(QStringLiteral("document-open-folder")));
+        tabBar()->setTabIcon(2, QIcon::fromTheme(QStringLiteral("document-open-folder")));
+        tabBar()->setTabIcon(3, QIcon::fromTheme(QStringLiteral("document-open-folder")));
+    }
 
-        //! constructor
-        explicit TabWidget( QWidget* parent ):
-            QTabWidget( parent )
-        { tabBar()->setMovable( true ); }
+    void hideIcons(void)
+    {
+        // add icons to tabs
+        tabBar()->setTabIcon(0, QIcon());
+        tabBar()->setTabIcon(1, QIcon());
+        tabBar()->setTabIcon(2, QIcon());
+        tabBar()->setTabIcon(3, QIcon());
+    }
 
-        // adjust tabbar size
-        void adjustTabBarSize( void )
-        {  if( tabBar() ) tabBar()->adjustSize(); }
+    void showText(void)
+    {
+        tabBar()->setTabText(0, QStringLiteral("First Tab"));
+        tabBar()->setTabText(1, QStringLiteral("Second Tab"));
+        tabBar()->setTabText(2, QStringLiteral("Third Tab"));
+        tabBar()->setTabText(3, QStringLiteral("Fourth Tab"));
+    }
 
-        //! show icons
-        void showIcons( void )
-        {
-            // add icons to tabs
-            tabBar()->setTabIcon( 0, QIcon::fromTheme( QStringLiteral( "document-open-folder" ) ) );
-            tabBar()->setTabIcon( 1, QIcon::fromTheme( QStringLiteral( "document-open-folder" ) ) );
-            tabBar()->setTabIcon( 2, QIcon::fromTheme( QStringLiteral( "document-open-folder" ) ) );
-            tabBar()->setTabIcon( 3, QIcon::fromTheme( QStringLiteral( "document-open-folder" ) ) );
-        }
+    void hideText(void)
+    {
+        tabBar()->setTabText(0, QString());
+        tabBar()->setTabText(1, QString());
+        tabBar()->setTabText(2, QString());
+        tabBar()->setTabText(3, QString());
+    }
 
-        void hideIcons( void )
-        {
-            // add icons to tabs
-            tabBar()->setTabIcon( 0, QIcon() );
-            tabBar()->setTabIcon( 1, QIcon() );
-            tabBar()->setTabIcon( 2, QIcon() );
-            tabBar()->setTabIcon( 3, QIcon() );
-        }
+public Q_SLOTS:
 
-        void showText( void )
-        {
-            tabBar()->setTabText( 0, QStringLiteral( "First Tab" ) );
-            tabBar()->setTabText( 1, QStringLiteral( "Second Tab" ) );
-            tabBar()->setTabText( 2, QStringLiteral( "Third Tab" ) );
-            tabBar()->setTabText( 3, QStringLiteral( "Fourth Tab" ) );
-        }
-
-        void hideText( void )
-        {
-            tabBar()->setTabText( 0, QString() );
-            tabBar()->setTabText( 1, QString() );
-            tabBar()->setTabText( 2, QString());
-            tabBar()->setTabText( 3, QString() );
-        }
-
-        public Q_SLOTS:
-
-        // toggle tabbar visibility
-        void toggleTabBarVisibility( bool value )
-        { if( tabBar() ) tabBar()->setVisible( !value ); }
-
-    };
-
+    // toggle tabbar visibility
+    void toggleTabBarVisibility(bool value)
+    {
+        if (tabBar())
+            tabBar()->setVisible(!value);
+    }
+};
 }
 
 #endif

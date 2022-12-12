@@ -18,49 +18,47 @@
 namespace Oxygen
 {
 
-    //* used for simple widgets
-    class LineEditEngine: public BaseEngine
+//* used for simple widgets
+class LineEditEngine : public BaseEngine
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit LineEditEngine(QObject *parent)
+        : BaseEngine(parent)
     {
+    }
 
-        Q_OBJECT
+    //* register widget
+    bool registerWidget(QLineEdit *);
 
-        public:
+    //* duration
+    void setEnabled(bool value) override
+    {
+        BaseEngine::setEnabled(value);
+        _data.setEnabled(value);
+    }
 
-        //* constructor
-        explicit LineEditEngine( QObject* parent ):
-            BaseEngine( parent )
-        {}
+    //* duration
+    void setDuration(int value) override
+    {
+        BaseEngine::setDuration(value);
+        _data.setDuration(value);
+    }
 
-        //* register widget
-        bool registerWidget( QLineEdit* );
+public Q_SLOTS:
 
-        //* duration
-        void setEnabled( bool value ) override
-        {
-            BaseEngine::setEnabled( value );
-            _data.setEnabled( value );
-        }
+    //* remove widget from map
+    bool unregisterWidget(QObject *object) override
+    {
+        return _data.unregisterWidget(object);
+    }
 
-        //* duration
-        void setDuration( int value ) override
-        {
-            BaseEngine::setDuration( value );
-            _data.setDuration( value );
-        }
-
-        public Q_SLOTS:
-
-        //* remove widget from map
-        bool unregisterWidget( QObject* object ) override
-        { return _data.unregisterWidget( object ); }
-
-        private:
-
-        //* maps
-        DataMap<LineEditData> _data;
-
-    };
-
+private:
+    //* maps
+    DataMap<LineEditData> _data;
+};
 }
 
 #endif

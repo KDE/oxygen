@@ -11,23 +11,23 @@
 namespace Oxygen
 {
 
-    //_________________________________________________
-    QStyle* StylePlugin::create( const QString &key )
-    {
-        if( key.toLower() == QStringLiteral( "oxygen" ) )
-        {
-            return new Style;
-        }
-        return nullptr;
+//_________________________________________________
+QStyle *StylePlugin::create(const QString &key)
+{
+    if (key.toLower() == QStringLiteral("oxygen")) {
+        return new Style;
     }
+    return nullptr;
+}
 
-    //_________________________________________________
-    StylePlugin::~StylePlugin()
-    {
-    }
+//_________________________________________________
+StylePlugin::~StylePlugin()
+{
+}
 
-    //_________________________________________________
-    QStringList StylePlugin::keys() const
-    { return QStringList( QStringLiteral( "Oxygen" ) ); }
-
+//_________________________________________________
+QStringList StylePlugin::keys() const
+{
+    return QStringList(QStringLiteral("Oxygen"));
+}
 }

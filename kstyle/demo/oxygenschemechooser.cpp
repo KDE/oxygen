@@ -8,31 +8,31 @@
 
 #include "oxygenschemechooser.h"
 
-#include <QStringList>
 #include <QActionGroup>
 #include <QMenu>
 #include <QModelIndex>
+#include <QStringList>
 
 #include <KActionMenu>
 #include <KColorSchemeManager>
+#include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
-#include <KConfigGroup>
 
 namespace Oxygen
 {
 
-ColorSchemeChooser::ColorSchemeChooser( QWidget* parent )
-    : QPushButton( parent )
+ColorSchemeChooser::ColorSchemeChooser(QWidget *parent)
+    : QPushButton(parent)
 {
-    auto manager = new KColorSchemeManager( parent );
+    auto manager = new KColorSchemeManager(parent);
 
     auto selectionMenu = manager->createSchemeSelectionMenu(this);
 
-    setMenu( selectionMenu->menu() );
+    setMenu(selectionMenu->menu());
 
-    setIcon( menu()->icon() );
-    setText( menu()->title() );
+    setIcon(menu()->icon());
+    setText(menu()->title());
 }
 
-}  // namespace Oxygen
+} // namespace Oxygen

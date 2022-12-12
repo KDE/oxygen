@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QWidget>
 #include <QBoxLayout>
 #include <QFrame>
+#include <QWidget>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygenframedemowidget.h"
@@ -22,51 +22,57 @@ class KMessageWidget;
 
 namespace Oxygen
 {
-    class FrameDemoWidget: public DemoWidget
+class FrameDemoWidget : public DemoWidget
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit FrameDemoWidget(QWidget * = nullptr);
+
+    void addMessages();
+
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
+public Q_SLOTS:
+
+    //* benchmarking
+    void benchmark(void);
+
+private Q_SLOTS:
+
+    //* groupbox
+    void toggleFlatGroupBox(bool value)
     {
+        ui.groupBox->setFlat(value);
+    }
 
-        Q_OBJECT
+    //* frame style
+    void toggleRaisedFrame(bool value)
+    {
+        if (value)
+            ui.frame->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+    }
 
-        public:
+    void togglePlainFrame(bool value)
+    {
+        if (value)
+            ui.frame->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
+    }
 
-        //* constructor
-        explicit FrameDemoWidget( QWidget* = nullptr );
+    void toggleSunkenFrame(bool value)
+    {
+        if (value)
+            ui.frame->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+    }
 
-        void addMessages();
+    //* layout direction
+    void updateLayoutDirection(int);
 
-        bool eventFilter( QObject *obj, QEvent *event ) override;
-
-        public Q_SLOTS:
-
-        //* benchmarking
-        void benchmark( void );
-
-        private Q_SLOTS:
-
-        //* groupbox
-        void toggleFlatGroupBox( bool value )
-        { ui.groupBox->setFlat( value ); }
-
-        //* frame style
-        void toggleRaisedFrame( bool value )
-        { if( value ) ui.frame->setFrameStyle( QFrame::StyledPanel|QFrame::Raised ); }
-
-        void togglePlainFrame( bool value )
-        { if( value ) ui.frame->setFrameStyle( QFrame::StyledPanel|QFrame::Plain ); }
-
-        void toggleSunkenFrame( bool value )
-        { if( value ) ui.frame->setFrameStyle( QFrame::StyledPanel|QFrame::Sunken ); }
-
-        //* layout direction
-        void updateLayoutDirection( int );
-
-        private:
-
-        Ui_FrameDemoWidget ui;
-        KMessageWidget *posMsg, *infoMsg, *warnMsg, *errMsg;
-
-    };
-
+private:
+    Ui_FrameDemoWidget ui;
+    KMessageWidget *posMsg, *infoMsg, *warnMsg, *errMsg;
+};
 }
 
 #endif

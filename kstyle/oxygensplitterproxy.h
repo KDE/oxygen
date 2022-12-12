@@ -18,9 +18,9 @@
 #include "oxygen.h"
 
 #include <QEvent>
-#include <QMap>
 #include <QHoverEvent>
 #include <QMainWindow>
+#include <QMap>
 #include <QMouseEvent>
 #include <QSplitterHandle>
 #include <QWidget>
@@ -30,91 +30,84 @@
 namespace Oxygen
 {
 
-    class SplitterProxy;
+class SplitterProxy;
 
-    //* factory
-    class SplitterFactory: public QObject
+//* factory
+class SplitterFactory : public QObject
+{
+public:
+    //* constructor
+    explicit SplitterFactory(QObject *parent)
+        : QObject(parent)
     {
+    }
 
-        public:
+    //* enabled state
+    void setEnabled(bool);
 
-        //* constructor
-        explicit SplitterFactory( QObject* parent ):
-            QObject( parent )
-            {}
+    //* register widget
+    bool registerWidget(QWidget *);
 
-        //* enabled state
-        void setEnabled( bool );
+    //* unregister widget
+    void unregisterWidget(QWidget *);
 
-        //* register widget
-        bool registerWidget( QWidget* );
+private:
+    //* enabled state
+    bool _enabled = false;
 
-        //* unregister widget
-        void unregisterWidget( QWidget* );
+    //* needed to block ChildAdded events when creating proxy
+    AddEventFilter _addEventFilter;
 
-        private:
+    //* pointer to SplitterProxy
+    using SplitterProxyPointer = WeakPointer<SplitterProxy>;
 
-        //* enabled state
-        bool _enabled = false;
+    //* registered widgets
+    using WidgetMap = QMap<QWidget *, SplitterProxyPointer>;
+    WidgetMap _widgets;
+};
 
-        //* needed to block ChildAdded events when creating proxy
-        AddEventFilter _addEventFilter;
+//* splitter 'proxy' widget, with extended hit area
+class SplitterProxy : public QWidget
+{
+public:
+    //* constructor
+    explicit SplitterProxy(QWidget *, bool = false);
 
-        //* pointer to SplitterProxy
-        using SplitterProxyPointer = WeakPointer<SplitterProxy>;
+    //* event filter
+    bool eventFilter(QObject *, QEvent *) override;
 
-        //* registered widgets
-        using WidgetMap = QMap<QWidget*, SplitterProxyPointer >;
-        WidgetMap _widgets;
+    //* enable state
+    void setEnabled(bool);
 
-    };
-
-    //* splitter 'proxy' widget, with extended hit area
-    class SplitterProxy : public QWidget
+    //* enable state
+    bool enabled(void) const
     {
+        return _enabled;
+    }
 
-        public:
+protected:
+    //* event handler
+    bool event(QEvent *) override;
 
-        //* constructor
-        explicit SplitterProxy( QWidget*, bool = false );
+private:
+    //* reset 'true' splitter widget
+    void clearSplitter(void);
 
-        //* event filter
-        bool eventFilter( QObject*, QEvent* ) override;
+    //* keep track of 'true' splitter widget
+    void setSplitter(QWidget *);
 
-        //* enable state
-        void setEnabled( bool );
+    //* enabled state
+    bool _enabled = false;
 
-        //* enable state
-        bool enabled( void ) const
-        { return _enabled; }
+    //* splitter object
+    WeakPointer<QWidget> _splitter;
 
-        protected:
+    //* hook
+    QPoint _hook;
 
-        //* event handler
-        bool event( QEvent* ) override;
-
-        private:
-
-        //* reset 'true' splitter widget
-        void clearSplitter( void );
-
-        //* keep track of 'true' splitter widget
-        void setSplitter( QWidget* );
-
-        //* enabled state
-        bool _enabled = false;
-
-        //* splitter object
-        WeakPointer<QWidget> _splitter;
-
-        //* hook
-        QPoint _hook;
-
-        //* timer id
-        int _timerId = 0;
-
-    };
-
+    //* timer id
+    int _timerId = 0;
+};
 }
 
 #endif

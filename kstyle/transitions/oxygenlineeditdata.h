@@ -13,114 +13,116 @@
 
 #include "oxygentransitiondata.h"
 
-#include <QString>
 #include <QBasicTimer>
 #include <QLineEdit>
+#include <QString>
 
 namespace Oxygen
 {
 
-    //* generic data
-    class LineEditData: public TransitionData
+//* generic data
+class LineEditData : public TransitionData
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    LineEditData(QObject *, QLineEdit *, int);
+
+    //* event filter
+    bool eventFilter(QObject *, QEvent *) override;
+
+    //* returns true if animations are locked
+    bool isLocked(void) const
     {
+        return _animationLockTimer.isActive();
+    }
 
-        Q_OBJECT
+    //* start lock animation timer
+    void lockAnimations(void)
+    {
+        _animationLockTimer.start(_lockTime, this);
+    }
 
-        public:
+    //* start lock animation timer
+    void unlockAnimations(void)
+    {
+        _animationLockTimer.stop();
+    }
 
-        //* constructor
-        LineEditData( QObject*, QLineEdit*, int );
+protected Q_SLOTS:
 
-        //* event filter
-        bool eventFilter( QObject*, QEvent* ) override;
+    //* initialize animation
+    bool initializeAnimation(void) override;
 
-        //* returns true if animations are locked
-        bool isLocked( void ) const
-        { return _animationLockTimer.isActive(); }
+    //* animate
+    bool animate(void) override;
 
-        //* start lock animation timer
-        void lockAnimations( void )
-        { _animationLockTimer.start( _lockTime, this ); }
+protected:
+    //* timer event
+    void timerEvent(QTimerEvent *) override;
 
-        //* start lock animation timer
-        void unlockAnimations( void )
-        { _animationLockTimer.stop(); }
+private Q_SLOTS:
 
-        protected Q_SLOTS:
+    //* text edited
+    void textEdited(void);
 
-        //* initialize animation
-        bool initializeAnimation( void ) override;
+    //* selection changed
+    void selectionChanged(void);
 
-        //* animate
-        bool animate( void ) override;
+    //* text changed
+    void textChanged(void);
 
-        protected:
+    //* called when target is destroyed
+    void targetDestroyed(void);
 
-        //* timer event
-        void timerEvent( QTimerEvent* ) override;
-
-        private Q_SLOTS:
-
-        //* text edited
-        void textEdited( void );
-
-        //* selection changed
-        void selectionChanged( void );
-
-        //* text changed
-        void textChanged( void );
-
-        //* called when target is destroyed
-        void targetDestroyed( void );
-
-        private:
-
-        //* target rect
-        /** return rect corresponding to the area to be updated when animating */
-        QRect targetRect( void ) const
-        {
-            if( !_target ) return QRect();
-            QRect out( _target.data()->rect() );
-            if( _hasClearButton && _clearButtonRect.isValid() )
-            { out.setRight( _clearButtonRect.left() ); }
-
-            return out;
+private:
+    //* target rect
+    /** return rect corresponding to the area to be updated when animating */
+    QRect targetRect(void) const
+    {
+        if (!_target)
+            return QRect();
+        QRect out(_target.data()->rect());
+        if (_hasClearButton && _clearButtonRect.isValid()) {
+            out.setRight(_clearButtonRect.left());
         }
 
-        //* check if target has clear button
-        void checkClearButton( void );
+        return out;
+    }
 
-        //* lock time (milliseconds
-        static const int _lockTime;
+    //* check if target has clear button
+    void checkClearButton(void);
 
-        //* timer used to disable animations when triggered too early
-        QBasicTimer _animationLockTimer;
+    //* lock time (milliseconds
+    static const int _lockTime;
 
-        //* needed to start animations out of parent paintEvent
-        QBasicTimer _timer;
+    //* timer used to disable animations when triggered too early
+    QBasicTimer _animationLockTimer;
 
-        //* target
-        WeakPointer<QLineEdit> _target;
+    //* needed to start animations out of parent paintEvent
+    QBasicTimer _timer;
 
-        //* true if target has clean button
-        bool _hasClearButton;
+    //* target
+    WeakPointer<QLineEdit> _target;
 
-        //* clear button rect
-        QRect _clearButtonRect;
+    //* true if target has clean button
+    bool _hasClearButton;
 
-        //* true if text was manually edited
-        /** needed to trigger animation only on programatically enabled text */
-        bool _edited;
+    //* clear button rect
+    QRect _clearButtonRect;
 
-        //* old text
-        QString _text;
+    //* true if text was manually edited
+    /** needed to trigger animation only on programatically enabled text */
+    bool _edited;
 
-        //* widget rect
-        /** needed to properly handle QLabel geometry changes */
-        QRect _widgetRect;
+    //* old text
+    QString _text;
 
-    };
-
+    //* widget rect
+    /** needed to properly handle QLabel geometry changes */
+    QRect _widgetRect;
+};
 }
 
 #endif

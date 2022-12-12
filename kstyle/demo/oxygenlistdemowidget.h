@@ -19,28 +19,23 @@
 namespace Oxygen
 {
 
-    class ListDemoWidget: public DemoWidget
-    {
+class ListDemoWidget : public DemoWidget
+{
+    Q_OBJECT
 
-        Q_OBJECT
+public:
+    //* constructor
+    explicit ListDemoWidget(QWidget * = nullptr);
 
-        public:
+public Q_SLOTS:
 
-        //* constructor
-        explicit ListDemoWidget( QWidget* = nullptr );
+    //* benchmark
+    void benchmark(void);
 
-        public Q_SLOTS:
-
-        //* benchmark
-        void benchmark( void );
-
-        private:
-
-        //* ui
-        Ui_ListDemoWidget ui;
-
-    };
-
+private:
+    //* ui
+    Ui_ListDemoWidget ui;
+};
 }
 
 #endif

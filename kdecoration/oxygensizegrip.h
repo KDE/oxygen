@@ -5,13 +5,13 @@
     SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "oxygendecoration.h"
 #include "config-oxygen.h"
+#include "oxygendecoration.h"
 
 #include <QMouseEvent>
 #include <QPaintEvent>
-#include <QWidget>
 #include <QPointer>
+#include <QWidget>
 
 #if OXYGEN_HAVE_X11
 #include <xcb/xcb.h>
@@ -20,63 +20,53 @@
 namespace Oxygen
 {
 
-    //* implements size grip for all widgets
-    class SizeGrip: public QWidget
-    {
+//* implements size grip for all widgets
+class SizeGrip : public QWidget
+{
+    Q_OBJECT
 
-        Q_OBJECT
+public:
+    //* constructor
+    explicit SizeGrip(Decoration *);
 
-        public:
+protected:
+    //*@name event handlers
+    //@{
 
-        //* constructor
-        explicit SizeGrip( Decoration* );
+    //* paint
+    void paintEvent(QPaintEvent *) override;
 
-        protected:
+    //* mouse press
+    void mousePressEvent(QMouseEvent *) override;
 
-        //*@name event handlers
-        //@{
+    //@}
 
-        //* paint
-        void paintEvent( QPaintEvent* ) override;
+private Q_SLOTS:
 
-        //* mouse press
-        void mousePressEvent( QMouseEvent* ) override;
+    //* update background color
+    void updateActiveState(void);
 
-        //@}
+    //* update position
+    void updatePosition(void);
 
-        private Q_SLOTS:
+    //* embed into parent widget
+    void embed(void);
 
-        //* update background color
-        void updateActiveState( void );
+private:
+    //* send resize event
+    void sendMoveResizeEvent(QPoint);
 
-        //* update position
-        void updatePosition( void );
+    //* grip size
+    enum { Offset = 0, GripSize = 14 };
 
-        //* embed into parent widget
-        void embed( void );
+    //* decoration
+    QPointer<Decoration> m_decoration;
 
-        private:
-
-        //* send resize event
-        void sendMoveResizeEvent( QPoint );
-
-        //* grip size
-        enum {
-            Offset = 0,
-            GripSize = 14
-        };
-
-        //* decoration
-        QPointer<Decoration> m_decoration;
-
-        //* move/resize atom
-        #if OXYGEN_HAVE_X11
-        xcb_atom_t m_moveResizeAtom = 0;
-        #endif
-
-    };
-
-
+//* move/resize atom
+#if OXYGEN_HAVE_X11
+    xcb_atom_t m_moveResizeAtom = 0;
+#endif
+};
 }
 
 #endif

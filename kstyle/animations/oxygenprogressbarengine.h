@@ -12,67 +12,67 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenbaseengine.h"
-#include "oxygenprogressbardata.h"
 #include "oxygendatamap.h"
+#include "oxygenprogressbardata.h"
 
 #include <QWidget>
 
 namespace Oxygen
 {
 
-    //* handles progress bar animations
-    class ProgressBarEngine: public BaseEngine
+//* handles progress bar animations
+class ProgressBarEngine : public BaseEngine
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit ProgressBarEngine(QObject *object)
+        : BaseEngine(object)
     {
+    }
 
-        Q_OBJECT
+    //* register progressbar
+    bool registerWidget(QWidget *);
 
-        public:
+    //* true if widget is animated
+    bool isAnimated(const QObject *);
 
-        //* constructor
-        explicit ProgressBarEngine( QObject* object ):
-            BaseEngine( object )
-        {}
+    //* animation opacity
+    int value(const QObject *object)
+    {
+        return isAnimated(object) ? data(object).data()->value() : 0;
+    }
 
-        //* register progressbar
-        bool registerWidget( QWidget* );
+    //* enable state
+    void setEnabled(bool value) override
+    {
+        BaseEngine::setEnabled(value);
+        _data.setEnabled(value);
+    }
 
-        //* true if widget is animated
-        bool isAnimated( const QObject* );
+    //* duration
+    void setDuration(int value) override
+    {
+        BaseEngine::setDuration(value);
+        _data.setDuration(value);
+    }
 
-        //* animation opacity
-        int value( const QObject* object )
-        { return isAnimated( object ) ? data( object ).data()->value():0 ; }
+public Q_SLOTS:
 
-        //* enable state
-        void setEnabled( bool value ) override
-        {
-            BaseEngine::setEnabled( value );
-            _data.setEnabled( value );
-        }
+    //* remove widget from map
+    bool unregisterWidget(QObject *object) override
+    {
+        return _data.unregisterWidget(object);
+    }
 
-        //* duration
-        void setDuration( int value ) override
-        {
-            BaseEngine::setDuration( value );
-            _data.setDuration( value );
-        }
+private:
+    //* returns data associated to widget
+    DataMap<ProgressBarData>::Value data(const QObject *);
 
-        public Q_SLOTS:
-
-        //* remove widget from map
-        bool unregisterWidget( QObject* object ) override
-        { return _data.unregisterWidget( object ); }
-
-        private:
-
-        //* returns data associated to widget
-        DataMap<ProgressBarData>::Value data( const QObject* );
-
-        //* map widgets to progressbar data
-        DataMap<ProgressBarData> _data;
-
-    };
-
+    //* map widgets to progressbar data
+    DataMap<ProgressBarData> _data;
+};
 }
 
 #endif

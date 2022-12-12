@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QWidget>
-#include <QProgressBar>
 #include <QCheckBox>
+#include <QProgressBar>
+#include <QWidget>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygensliderdemowidget.h"
@@ -21,75 +21,69 @@
 namespace Oxygen
 {
 
-    class ProgressBar: public QObject
+class ProgressBar : public QObject
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    ProgressBar(QObject *, QProgressBar *, QCheckBox *);
+
+    //* set value
+    void setValue(int);
+
+public Q_SLOTS:
+
+    //* toggle invertex appearance
+    void toggleInvertedAppearance(bool value)
     {
-        Q_OBJECT
+        _progressBar->setInvertedAppearance(value);
+    }
 
-        public:
+private Q_SLOTS:
 
-        //* constructor
-        ProgressBar( QObject*, QProgressBar*, QCheckBox* );
+    //* toggle bussy state
+    void toggleBusy(bool);
 
-        //* set value
-        void setValue( int );
+private:
+    //* progressBar
+    QProgressBar *_progressBar;
 
-        public Q_SLOTS:
+    //* checkbox
+    QCheckBox *_checkBox;
 
-        //* toggle invertex appearance
-        void toggleInvertedAppearance( bool value )
-        { _progressBar->setInvertedAppearance( value ); }
+    //* saved value
+    int _value;
+};
 
-        private Q_SLOTS:
+class SliderDemoWidget : public DemoWidget
+{
+    Q_OBJECT
 
-        //* toggle bussy state
-        void toggleBusy( bool );
+public:
+    //* constructor
+    explicit SliderDemoWidget(QWidget * = nullptr);
 
-        private:
+public Q_SLOTS:
 
-        //* progressBar
-        QProgressBar* _progressBar;
+    //* benchmark
+    void benchmark(void);
 
-        //* checkbox
-        QCheckBox* _checkBox;
+private Q_SLOTS:
 
-        //* saved value
-        int _value;
+    void updateSliders(int);
 
-    };
+    void updateTickPosition(int);
 
-    class SliderDemoWidget: public DemoWidget
-    {
+private:
+    bool _locked = false;
 
-        Q_OBJECT
+    Ui_SliderDemoWidget ui;
 
-        public:
-
-        //* constructor
-        explicit SliderDemoWidget( QWidget* = nullptr );
-
-        public Q_SLOTS:
-
-        //* benchmark
-        void benchmark( void );
-
-        private Q_SLOTS:
-
-        void updateSliders( int );
-
-        void updateTickPosition( int );
-
-        private:
-
-        bool _locked = false;
-
-        Ui_SliderDemoWidget ui;
-
-        //* progressbars
-        ProgressBar* _horizontalProgressBar;
-        ProgressBar* _verticalProgressBar;
-
-    };
-
+    //* progressbars
+    ProgressBar *_horizontalProgressBar;
+    ProgressBar *_verticalProgressBar;
+};
 }
 
 #endif

@@ -18,77 +18,76 @@
 namespace Oxygen
 {
 
-    //* QSplitter animation engine
-    class SplitterEngine: public BaseEngine
+//* QSplitter animation engine
+class SplitterEngine : public BaseEngine
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit SplitterEngine(QObject *parent)
+        : BaseEngine(parent)
     {
+    }
 
-        Q_OBJECT
+    //* enable state
+    void setEnabled(bool value) override
+    {
+        BaseEngine::setEnabled(value);
+        _data.setEnabled(value);
+    }
 
-        public:
+    //* duration
+    void setDuration(int value) override
+    {
+        BaseEngine::setDuration(value);
+        _data.setDuration(value);
+    }
 
-        //* constructor
-        explicit SplitterEngine( QObject* parent ):
-            BaseEngine( parent )
-        {}
+    //* register widget
+    bool registerWidget(QWidget *);
 
-        //* enable state
-        void setEnabled( bool value ) override
-        {
-            BaseEngine::setEnabled( value );
-            _data.setEnabled( value );
-        }
+    //* true if widget hover state is changed
+    bool updateState(const QPaintDevice *, bool);
 
-        //* duration
-        void setDuration( int value ) override
-        {
-            BaseEngine::setDuration( value );
-            _data.setDuration( value );
-        }
+    //* true if widget is animated
+    bool isAnimated(const QPaintDevice *);
 
-        //* register widget
-        bool registerWidget( QWidget* );
+    //* animation opacity
+    qreal opacity(const QPaintDevice *object)
+    {
+        return isAnimated(object) ? data(object).data()->opacity() : AnimationData::OpacityInvalid;
+    }
 
-        //* true if widget hover state is changed
-        bool updateState( const QPaintDevice*, bool );
+public Q_SLOTS:
 
-        //* true if widget is animated
-        bool isAnimated( const QPaintDevice* );
+    //* remove widget from map
+    bool unregisterWidget(QObject *data) override
+    {
+        if (!data)
+            return false;
 
-        //* animation opacity
-        qreal opacity( const QPaintDevice* object )
-        { return isAnimated( object ) ? data( object ).data()->opacity(): AnimationData::OpacityInvalid; }
+        // reinterpret_cast is safe here since only the address is used to find
+        // data in the map
+        return _data.unregisterWidget(reinterpret_cast<QPaintDevice *>(data));
+    }
 
-        public Q_SLOTS:
+private:
+    //* returns data associated to widget
+    PaintDeviceDataMap<WidgetStateData>::Value data(const QPaintDevice *object)
+    {
+        return _data.find(object).data();
+    }
 
-        //* remove widget from map
-        bool unregisterWidget( QObject* data ) override
-        {
+    //* engine enable state
+    bool _enabled;
 
-            if( !data ) return false;
+    //* animation duration
+    int _duration;
 
-            // reinterpret_cast is safe here since only the address is used to find
-            // data in the map
-            return _data.unregisterWidget( reinterpret_cast<QPaintDevice*>(data) );
-
-        }
-
-        private:
-
-        //* returns data associated to widget
-        PaintDeviceDataMap<WidgetStateData>::Value data( const QPaintDevice* object )
-        { return _data.find( object ).data(); }
-
-        //* engine enable state
-        bool _enabled;
-
-        //* animation duration
-        int _duration;
-
-        //* map
-        PaintDeviceDataMap<WidgetStateData> _data;
-
-    };
-
+    //* map
+    PaintDeviceDataMap<WidgetStateData> _data;
+};
 }
 
 #endif

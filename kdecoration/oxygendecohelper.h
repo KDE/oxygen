@@ -19,27 +19,22 @@
 namespace Oxygen
 {
 
-    class DecoHelper : public Helper
-    {
+class DecoHelper : public Helper
+{
+public:
+    //* constructor
+    explicit DecoHelper();
 
-        public:
+    //* reset all caches
+    void invalidateCaches() override;
 
-        //* constructor
-        explicit DecoHelper();
+    //* windeco buttons
+    QPixmap windecoButton(const QColor &color, const QColor &glow, bool sunken, int size = 21);
 
-        //* reset all caches
-        void invalidateCaches() override;
-
-        //* windeco buttons
-        QPixmap windecoButton(const QColor &color, const QColor& glow, bool sunken, int size = 21);
-
-        private:
-
-        //* windeco buttons
-        Cache<QPixmap> _windecoButtonCache;
-
-    };
-
+private:
+    //* windeco buttons
+    Cache<QPixmap> _windecoButtonCache;
+};
 }
 
 #endif // __OXYGEN_STYLE_HELPER_H

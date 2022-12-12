@@ -8,8 +8,8 @@
 #ifndef COLORSCHEMECHOOSER_H
 #define COLORSCHEMECHOOSER_H
 
-#include <QObject>
 #include <QAction>
+#include <QObject>
 #include <QPushButton>
 #include <QString>
 
@@ -23,10 +23,10 @@ namespace Oxygen
 class ColorSchemeChooser : public QPushButton
 {
     Q_OBJECT
-    public:
-        explicit ColorSchemeChooser( QWidget* parent );
+public:
+    explicit ColorSchemeChooser(QWidget *parent);
 };
 
-}  // namespace Oxygen
+} // namespace Oxygen
 
 #endif // COLORSCHEMECHOOSER_H

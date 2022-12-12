@@ -15,66 +15,61 @@
 
 #include <KPageDialog>
 
+#include <QCheckBox>
 #include <QList>
 #include <QWidget>
-#include <QCheckBox>
 
 namespace Oxygen
 {
 
-    class ButtonDemoWidget;
-    class FrameDemoWidget;
-    class InputDemoWidget;
-    class ListDemoWidget;
-    class MdiDemoWidget;
-    class SliderDemoWidget;
-    class TabDemoWidget;
-    class DemoDialog: public KPageDialog
-    {
-        Q_OBJECT
+class ButtonDemoWidget;
+class FrameDemoWidget;
+class InputDemoWidget;
+class ListDemoWidget;
+class MdiDemoWidget;
+class SliderDemoWidget;
+class TabDemoWidget;
+class DemoDialog : public KPageDialog
+{
+    Q_OBJECT
 
-        public:
+public:
+    //* constructor
+    explicit DemoDialog(QWidget *parent = nullptr);
 
-        //* constructor
-        explicit DemoDialog( QWidget* parent = nullptr );
+Q_SIGNALS:
 
-        Q_SIGNALS:
+    //* emitted when dialog is closed
+    void abortSimulations(void);
 
-        //* emitted when dialog is closed
-        void abortSimulations( void );
+protected:
+    //* close event
+    void closeEvent(QCloseEvent *) override;
 
-        protected:
+    //* hide event
+    void hideEvent(QHideEvent *) override;
 
-        //* close event
-        void closeEvent( QCloseEvent* ) override;
+private Q_SLOTS:
 
-        //* hide event
-        void hideEvent( QHideEvent* ) override;
+    //* update window title when page is changed
+    void updateWindowTitle(KPageWidgetItem *);
 
-        private Q_SLOTS:
+    //* update page enability
+    void updateEnableState(KPageWidgetItem *);
 
-        //* update window title when page is changed
-        void updateWindowTitle( KPageWidgetItem* );
+    //* toggle enable state
+    void toggleEnable(bool);
 
-        //* update page enability
-        void updateEnableState( KPageWidgetItem* );
+    //* toggle RightToLeft
+    void toggleRightToLeft(bool);
 
-        //* toggle enable state
-        void toggleEnable( bool );
+private:
+    //* enable state checkbox
+    QCheckBox *_enableCheckBox = nullptr;
 
-        //* toggle RightToLeft
-        void toggleRightToLeft( bool );
-
-        private:
-
-        //* enable state checkbox
-        QCheckBox* _enableCheckBox = nullptr;
-
-        //* reverse layout checkbox
-        QCheckBox* _rightToLeftCheckBox = nullptr;
-
-    };
-
+    //* reverse layout checkbox
+    QCheckBox *_rightToLeftCheckBox = nullptr;
+};
 }
 
 #endif

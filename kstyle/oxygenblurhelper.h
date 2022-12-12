@@ -14,8 +14,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenstylehelper.h"
 #include "oxygen.h"
+#include "oxygenstylehelper.h"
 
 #include <QBasicTimer>
 #include <QHash>
@@ -34,119 +34,117 @@
 
 namespace Oxygen
 {
-    class BlurHelper: public QObject
+class BlurHelper : public QObject
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    BlurHelper(QObject *, StyleHelper &);
+
+    //* enable state
+    void setEnabled(bool value)
     {
+        _enabled = value;
+    }
 
-        Q_OBJECT
+    //* enabled
+    bool enabled(void) const
+    {
+        return _enabled;
+    }
 
-        public:
+    //* register widget
+    void registerWidget(QWidget *);
 
-        //* constructor
-        BlurHelper( QObject*, StyleHelper& );
+    //* register widget
+    void unregisterWidget(QWidget *);
 
-        //* enable state
-        void setEnabled( bool value )
-        { _enabled = value; }
+    //* event filter
+    bool eventFilter(QObject *, QEvent *) override;
 
-        //* enabled
-        bool enabled( void ) const
-        { return _enabled; }
+protected:
+    //* timer event
+    /** used to perform delayed blur region update of pending widgets */
+    void timerEvent(QTimerEvent *event) override
+    {
+        if (event->timerId() == _timer.timerId()) {
+            _timer.stop();
+            update();
+        } else
+            QObject::timerEvent(event);
+    }
 
-        //* register widget
-        void registerWidget( QWidget* );
+private Q_SLOTS:
 
-        //* register widget
-        void unregisterWidget( QWidget* );
+    //* wiget destroyed
+    void widgetDestroyed(QObject *object)
+    {
+        _widgets.remove(object);
+    }
 
-        //* event filter
-        bool eventFilter( QObject*, QEvent* ) override;
+private:
+    //* install event filter to object, in a unique way
+    void addEventFilter(QObject *object)
+    {
+        object->removeEventFilter(this);
+        object->installEventFilter(this);
+    }
 
-        protected:
+    //* get list of blur-behind regions matching a given widget
+    QRegion blurRegion(QWidget *) const;
 
-        //* timer event
-        /** used to perform delayed blur region update of pending widgets */
-        void timerEvent( QTimerEvent* event ) override
-        {
+    //* trim blur region to remove unnecessary areas (recursive)
+    void trimBlurRegion(QWidget *, QWidget *, QRegion &) const;
 
-            if( event->timerId() == _timer.timerId() )
-            {
-                _timer.stop();
-                update();
-            } else QObject::timerEvent( event );
-
+    //* update blur region for all pending widgets
+    void update(void)
+    {
+        for (const WidgetPointer &widget : std::as_const(_pendingWidgets)) {
+            if (widget)
+                update(widget.data());
         }
 
-        private Q_SLOTS:
+        _pendingWidgets.clear();
+    }
 
-        //* wiget destroyed
-        void widgetDestroyed( QObject* object )
-        { _widgets.remove( object ); }
+    //* update blur regions for given widget
+    void update(QWidget *) const;
 
-        private:
+    //* clear blur regions for given widget
+    void clear(QWidget *) const;
 
-        //* install event filter to object, in a unique way
-        void addEventFilter( QObject* object )
-        {
-            object->removeEventFilter( this );
-            object->installEventFilter( this );
-        }
+    //* returns true if a given widget is opaque
+    bool isOpaque(const QWidget *widget) const;
 
-        //* get list of blur-behind regions matching a given widget
-        QRegion blurRegion( QWidget* ) const;
+    //* true if widget is a transparent window
+    /** some additional checks are performed to make sure stuff like plasma tooltips
+    don't get their blur region overwritten */
+    bool isTransparent(const QWidget *widget) const;
 
-        //* trim blur region to remove unnecessary areas (recursive)
-        void trimBlurRegion( QWidget*, QWidget*, QRegion& ) const;
+    //* helper
+    StyleHelper &_helper;
 
-        //* update blur region for all pending widgets
-        void update( void )
-        {
+    //* enability
+    bool _enabled;
 
-            for ( const WidgetPointer &widget : std::as_const(_pendingWidgets) )
-            { if( widget ) update( widget.data() ); }
+    //* list of widgets for which blur region must be updated
+    using WidgetPointer = WeakPointer<QWidget>;
+    using WidgetSet = QHash<QWidget *, WidgetPointer>;
+    WidgetSet _pendingWidgets;
 
-            _pendingWidgets.clear();
+    //* set of registered widgets
+    QSet<const QObject *> _widgets;
 
-        }
+    //* delayed update timer
+    QBasicTimer _timer;
 
-        //* update blur regions for given widget
-        void update( QWidget* ) const;
-
-        //* clear blur regions for given widget
-        void clear( QWidget* ) const;
-
-        //* returns true if a given widget is opaque
-        bool isOpaque( const QWidget* widget ) const;
-
-        //* true if widget is a transparent window
-        /** some additional checks are performed to make sure stuff like plasma tooltips
-        don't get their blur region overwritten */
-        bool isTransparent( const QWidget* widget ) const;
-
-        //* helper
-        StyleHelper& _helper;
-
-        //* enability
-        bool _enabled;
-
-        //* list of widgets for which blur region must be updated
-        using WidgetPointer = WeakPointer<QWidget>;
-        using WidgetSet = QHash<QWidget*, WidgetPointer>;
-        WidgetSet _pendingWidgets;
-
-        //* set of registered widgets
-        QSet<const QObject*> _widgets;
-
-        //* delayed update timer
-        QBasicTimer _timer;
-
-        #if OXYGEN_HAVE_X11
-        //* blur atom
-        xcb_atom_t _blurAtom;
-        xcb_atom_t _opaqueAtom;
-        #endif
-
-    };
-
+#if OXYGEN_HAVE_X11
+    //* blur atom
+    xcb_atom_t _blurAtom;
+    xcb_atom_t _opaqueAtom;
+#endif
+};
 }
 
 #endif

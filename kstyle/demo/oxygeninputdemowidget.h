@@ -11,43 +11,38 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QWidget>
 #include <QToolButton>
+#include <QWidget>
 
 #include "oxygendemowidget.h"
 #include "ui_oxygeninputdemowidget.h"
 
 namespace Oxygen
 {
-    class InputDemoWidget: public DemoWidget
-    {
+class InputDemoWidget : public DemoWidget
+{
+    Q_OBJECT
 
-        Q_OBJECT
+public:
+    //* constructor
+    explicit InputDemoWidget(QWidget * = nullptr);
 
-        public:
+public Q_SLOTS:
 
-        //* constructor
-        explicit InputDemoWidget( QWidget* = nullptr );
+    //* run benchmark
+    void benchmark(void);
 
-        public Q_SLOTS:
+private Q_SLOTS:
 
-        //* run benchmark
-        void benchmark( void );
+    //* flat widgets
+    void toggleFlatWidgets(bool);
 
-        private Q_SLOTS:
+    //* wrap mode
+    void toggleWrapMode(bool);
 
-        //* flat widgets
-        void toggleFlatWidgets( bool );
-
-        //* wrap mode
-        void toggleWrapMode( bool );
-
-        private:
-
-        Ui_InputDemoWidget ui;
-
-    };
-
+private:
+    Ui_InputDemoWidget ui;
+};
 }
 
 #endif

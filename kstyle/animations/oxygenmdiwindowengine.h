@@ -18,78 +18,74 @@
 namespace Oxygen
 {
 
-    //* handle mdiwindow arrows hover effect
-    class MdiWindowEngine: public BaseEngine
+//* handle mdiwindow arrows hover effect
+class MdiWindowEngine : public BaseEngine
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit MdiWindowEngine(QObject *parent)
+        : BaseEngine(parent)
     {
+    }
 
-        Q_OBJECT
+    //* register widget
+    bool registerWidget(QWidget *);
 
-        public:
+    //* state
+    bool updateState(const QObject *object, int primitive, bool value)
+    {
+        if (DataMap<MdiWindowData>::Value data = _data.find(object)) {
+            return data.data()->updateState(primitive, value);
+        } else
+            return false;
+    }
 
-        //* constructor
-        explicit MdiWindowEngine( QObject* parent ):
-            BaseEngine( parent )
-        {}
+    //* true if widget is animated
+    bool isAnimated(const QObject *object, int primitive)
+    {
+        if (DataMap<MdiWindowData>::Value data = _data.find(object)) {
+            return data.data()->isAnimated(primitive);
+        } else
+            return false;
+    }
 
-        //* register widget
-        bool registerWidget( QWidget* );
+    //* animation opacity
+    qreal opacity(const QObject *object, int primitive)
+    {
+        if (DataMap<MdiWindowData>::Value data = _data.find(object)) {
+            return data.data()->opacity(primitive);
+        } else
+            return AnimationData::OpacityInvalid;
+    }
 
-        //* state
-        bool updateState( const QObject* object, int primitive, bool value )
-        {
-            if( DataMap<MdiWindowData>::Value data = _data.find( object ) )
-            {
-                return data.data()->updateState( primitive, value );
-            } else return false;
-        }
+    //* enability
+    void setEnabled(bool value) override
+    {
+        BaseEngine::setEnabled(value);
+        _data.setEnabled(value);
+    }
 
-        //* true if widget is animated
-        bool isAnimated( const QObject* object, int primitive )
-        {
-            if( DataMap<MdiWindowData>::Value data = _data.find( object ) )
-            {
-                return data.data()->isAnimated( primitive );
-            } else return false;
+    //* duration
+    void setDuration(int value) override
+    {
+        BaseEngine::setDuration(value);
+        _data.setDuration(value);
+    }
 
-        }
+public Q_SLOTS:
 
-        //* animation opacity
-        qreal opacity( const QObject* object, int primitive )
-        {
-            if( DataMap<MdiWindowData>::Value data = _data.find( object ) )
-            {
-                return data.data()->opacity( primitive );
-            } else return AnimationData::OpacityInvalid;
-        }
+    //* remove widget from map
+    bool unregisterWidget(QObject *object) override
+    {
+        return _data.unregisterWidget(object);
+    }
 
-        //* enability
-        void setEnabled( bool value ) override
-        {
-            BaseEngine::setEnabled( value );
-            _data.setEnabled( value );
-        }
-
-        //* duration
-        void setDuration( int value ) override
-        {
-            BaseEngine::setDuration( value );
-            _data.setDuration( value );
-        }
-
-
-        public Q_SLOTS:
-
-        //* remove widget from map
-        bool unregisterWidget( QObject* object ) override
-        { return _data.unregisterWidget( object ); }
-
-        private:
-
-        //* data map
-        DataMap<MdiWindowData> _data;
-
-    };
-
+private:
+    //* data map
+    DataMap<MdiWindowData> _data;
+};
 }
 
 #endif

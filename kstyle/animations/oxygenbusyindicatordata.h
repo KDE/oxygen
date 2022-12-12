@@ -16,51 +16,53 @@
 namespace Oxygen
 {
 
-    class BusyIndicatorData: public QObject
+class BusyIndicatorData : public QObject
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit BusyIndicatorData(QObject *parent)
+        : QObject(parent)
     {
+    }
 
-        Q_OBJECT
+    //*@name accessors
+    //@{
 
-        public:
+    //* animated
+    bool isAnimated(void) const
+    {
+        return _animated;
+    }
 
-        //* constructor
-        explicit BusyIndicatorData( QObject* parent ):
-            QObject( parent )
-        {}
+    //@}
 
-        //*@name accessors
-        //@{
+    //*@name modifiers
+    //@{
 
-        //* animated
-        bool isAnimated( void ) const
-        { return _animated; }
+    //* enabled
+    void setEnabled(bool)
+    {
+    }
 
-        //@}
+    //* enabled
+    void setDuration(int)
+    {
+    }
 
-        //*@name modifiers
-        //@{
+    //* animated
+    void setAnimated(bool value)
+    {
+        _animated = value;
+    }
 
-        //* enabled
-        void setEnabled( bool )
-        {}
+    //@}
 
-        //* enabled
-        void setDuration( int )
-        {}
-
-        //* animated
-        void setAnimated( bool value )
-        { _animated = value; }
-
-        //@}
-
-        private:
-
-        //* animated
-        bool _animated = false;
-
-    };
-
+private:
+    //* animated
+    bool _animated = false;
+};
 }
 
 #endif

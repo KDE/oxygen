@@ -20,19 +20,18 @@ int main(int argc, char *argv[])
 {
     KLocalizedString::setApplicationDomain("oxygen_style_config");
 
-    QApplication app( argc, argv );
-    app.setApplicationName( i18n( "Oxygen Settings" ) );
-    app.setWindowIcon( QIcon::fromTheme( QStringLiteral( "oxygen-settings" ) ) );
+    QApplication app(argc, argv);
+    app.setApplicationName(i18n("Oxygen Settings"));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("oxygen-settings")));
 
     KCMultiDialog dialog;
-    dialog.setWindowTitle( i18n( "Oxygen Settings" ) );
-    dialog.addModule( KPluginMetaData(QStringLiteral( "oxygenstyleconfig" )));
-    dialog.addModule( KPluginMetaData(QStringLiteral( "oxygendecorationconfig" )));
+    dialog.setWindowTitle(i18n("Oxygen Settings"));
+    dialog.addModule(KPluginMetaData(QStringLiteral("oxygenstyleconfig")));
+    dialog.addModule(KPluginMetaData(QStringLiteral("oxygendecorationconfig")));
     dialog.show();
 
-    const auto children = dialog.findChildren<QAbstractScrollArea*>();
-    for ( auto child : children )
-    {
+    const auto children = dialog.findChildren<QAbstractScrollArea *>();
+    for (auto child : children) {
         child->adjustSize();
         child->viewport()->adjustSize();
     }

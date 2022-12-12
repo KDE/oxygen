@@ -11,66 +11,63 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+#include "../oxygen.h"
 #include "oxygendemowidget.h"
 #include "ui_oxygenbenchmarkwidget.h"
-#include "../oxygen.h"
 
-#include <QWidget>
+#include <KPageDialog>
 #include <QCheckBox>
 #include <QPair>
 #include <QVector>
-#include <KPageDialog>
+#include <QWidget>
 
 namespace Oxygen
 {
-    class BenchmarkWidget: public DemoWidget
+class BenchmarkWidget : public DemoWidget
+{
+    Q_OBJECT
+
+public:
+    //! constructor
+    explicit BenchmarkWidget(QWidget * = nullptr);
+
+    //! setup widgets
+    void init(KPageDialog *, QVector<KPageWidgetItem *>);
+
+Q_SIGNALS:
+
+    void runBenchmark(void);
+
+private Q_SLOTS:
+
+    //! button state
+    void updateButtonState(void);
+
+    //! grabMouse
+    void updateGrabMouse(bool value)
     {
+        Simulator::setGrabMouse(value);
+    }
 
-        Q_OBJECT
+    //! run
+    void run(void);
 
-        public:
+private:
+    //! select page from index in parent page widget
+    void selectPage(int) const;
 
-        //! constructor
-        explicit BenchmarkWidget( QWidget* = nullptr );
+    //! ui
+    Ui_BenchmarkWidget ui;
 
-        //! setup widgets
-        void init( KPageDialog*, QVector<KPageWidgetItem*> );
+    //! pointer to pagewidget
+    WeakPointer<KPageDialog> _pageDialog;
 
-        Q_SIGNALS:
-
-        void runBenchmark( void );
-
-        private Q_SLOTS:
-
-        //! button state
-        void updateButtonState( void );
-
-        //! grabMouse
-        void updateGrabMouse( bool value )
-        { Simulator::setGrabMouse( value ); }
-
-        //! run
-        void run( void );
-
-        private:
-
-        //! select page from index in parent page widget
-        void selectPage( int ) const;
-
-        //! ui
-        Ui_BenchmarkWidget ui;
-
-        //! pointer to pagewidget
-        WeakPointer<KPageDialog> _pageDialog;
-
-        //! map checkboxes to demo widgets
-        using ItemPointer = WeakPointer<KPageWidgetItem>;
-        using ItemPair = QPair<QCheckBox*, ItemPointer>;
-        using ItemList = QVector<ItemPair>;
-        ItemList _items;
-
-    };
-
+    //! map checkboxes to demo widgets
+    using ItemPointer = WeakPointer<KPageWidgetItem>;
+    using ItemPair = QPair<QCheckBox *, ItemPointer>;
+    using ItemList = QVector<ItemPair>;
+    ItemList _items;
+};
 }
 
 #endif

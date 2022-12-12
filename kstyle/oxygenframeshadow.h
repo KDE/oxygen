@@ -21,233 +21,235 @@
 #include <QObject>
 #include <QSet>
 
-#include <QWidget>
-#include <QPaintEvent>
 #include <KColorScheme>
+#include <QPaintEvent>
+#include <QWidget>
 
 namespace Oxygen
 {
 
-    //* shadow manager
-    class FrameShadowFactory: public QObject
+//* shadow manager
+class FrameShadowFactory : public QObject
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit FrameShadowFactory(QObject *parent)
+        : QObject(parent)
     {
+    }
 
-        Q_OBJECT
+    //* register widget
+    bool registerWidget(QWidget *, StyleHelper &);
 
-        public:
+    //* unregister
+    void unregisterWidget(QWidget *);
 
-        //* constructor
-        explicit FrameShadowFactory( QObject* parent ):
-        QObject( parent )
-        {}
-
-        //* register widget
-        bool registerWidget( QWidget*, StyleHelper& );
-
-        //* unregister
-        void unregisterWidget( QWidget* );
-
-        //* true if widget is registered
-        bool isRegistered( const QWidget* widget ) const
-        { return _registeredWidgets.contains( widget ); }
-
-        //* event filter
-        bool eventFilter( QObject*, QEvent*) override;
-
-        //* set contrast
-        void setHasContrast( const QWidget* widget, bool ) const;
-
-        //* update state
-        void updateState( const QWidget*, bool focus, bool hover, qreal opacity, AnimationMode ) const;
-
-        //* update shadows geometry
-        void updateShadowsGeometry( const QObject*, QRect ) const;
-
-        private Q_SLOTS:
-
-        //* triggered by object destruction
-        void widgetDestroyed( QObject* );
-
-        private:
-
-        //* install shadows on given widget
-        void installShadows( QWidget*, StyleHelper&, bool flat = false );
-
-        //* update shadows geometry
-        void updateShadowsGeometry( QObject* ) const;
-
-        //* remove shadows from widget
-        void removeShadows( QWidget* );
-
-        //* raise shadows
-        void raiseShadows( QObject* ) const;
-
-        //* update shadows
-        void update( QObject* ) const;
-
-        //* install shadow on given side
-        void installShadow( QWidget*, StyleHelper&, ShadowArea, bool flat = false ) const;
-
-        //* needed to block ChildAdded events when creating shadows
-        AddEventFilter _addEventFilter;
-
-        //* set of registered widgets
-        QSet<const QObject*> _registeredWidgets;
-
-    };
-
-    //* frame shadow
-    /** this allows the shadow to be painted over the widgets viewport */
-    class FrameShadowBase: public QWidget
+    //* true if widget is registered
+    bool isRegistered(const QWidget *widget) const
     {
+        return _registeredWidgets.contains(widget);
+    }
 
-        Q_OBJECT
+    //* event filter
+    bool eventFilter(QObject *, QEvent *) override;
 
-        public:
+    //* set contrast
+    void setHasContrast(const QWidget *widget, bool) const;
 
-        //* constructor
-        explicit FrameShadowBase( ShadowArea area ):
-            _area( area )
-        {}
+    //* update state
+    void updateState(const QWidget *, bool focus, bool hover, qreal opacity, AnimationMode) const;
 
-        //* shadow area
-        void setShadowArea(ShadowArea area)
-        { _area = area; }
+    //* update shadows geometry
+    void updateShadowsGeometry(const QObject *, QRect) const;
 
-        //* shadow area
-        const ShadowArea& shadowArea() const
-        { return _area; }
+private Q_SLOTS:
 
-        //* set contrast
-        void setHasContrast( bool value )
-        {
-            if( _contrast == value ) return;
-            _contrast = value;
-        }
+    //* triggered by object destruction
+    void widgetDestroyed(QObject *);
 
-        //* true if contrast pixel is enabled
-        bool hasContrast( void ) const
-        { return _contrast; }
+private:
+    //* install shadows on given widget
+    void installShadows(QWidget *, StyleHelper &, bool flat = false);
 
-        //* update geometry
-        virtual void updateGeometry( void ) = 0;
+    //* update shadows geometry
+    void updateShadowsGeometry(QObject *) const;
 
-        //* update geometry
-        virtual void updateGeometry( QRect ) = 0;
+    //* remove shadows from widget
+    void removeShadows(QWidget *);
 
-        //* update state
-        virtual void updateState( bool, bool, qreal, AnimationMode )
-        {}
+    //* raise shadows
+    void raiseShadows(QObject *) const;
 
-        protected:
+    //* update shadows
+    void update(QObject *) const;
 
-        //* initialization
-        virtual void init();
+    //* install shadow on given side
+    void installShadow(QWidget *, StyleHelper &, ShadowArea, bool flat = false) const;
 
-        //* return viewport associated to parent widget
-        virtual QWidget* viewport( void ) const;
+    //* needed to block ChildAdded events when creating shadows
+    AddEventFilter _addEventFilter;
 
-        //* parent margins
-        /** offsets between update rect and parent widget rect. It is set via updateGeometry */
-        const QMargins& margins( void ) const
-        { return _margins; }
+    //* set of registered widgets
+    QSet<const QObject *> _registeredWidgets;
+};
 
-        //* margins
-        /** offsets between update rect and parent widget rect. It is set via updateGeometry */
-        void setMargins( const QMargins& margins )
-        { _margins = margins; }
+//* frame shadow
+/** this allows the shadow to be painted over the widgets viewport */
+class FrameShadowBase : public QWidget
+{
+    Q_OBJECT
 
-        private:
-
-        //* shadow area
-        ShadowArea _area;
-
-        //* margins
-        /** offsets between update rect and parent widget rect. It is set via updateGeometry */
-        QMargins _margins;
-
-        //* contrast pixel
-        bool _contrast = false;
-
-    };
-
-    //* frame shadow
-    /** this allows the shadow to be painted over the widgets viewport */
-    class SunkenFrameShadow : public FrameShadowBase
+public:
+    //* constructor
+    explicit FrameShadowBase(ShadowArea area)
+        : _area(area)
     {
-        Q_OBJECT
+    }
 
-        public:
-
-        //* constructor
-        SunkenFrameShadow( ShadowArea area, StyleHelper& helper ):
-            FrameShadowBase( area ),
-            _helper( helper )
-        { init(); }
-
-
-        //* update geometry
-        /** nothing is done. Rect must be passed explicitly */
-        void updateGeometry( void ) override
-        {}
-
-        //* update geometry
-        void updateGeometry( QRect ) override;
-
-        //* update state
-        void updateState( bool focus, bool hover, qreal opacity, AnimationMode ) override;
-
-        protected:
-
-        //* painting
-        void paintEvent(QPaintEvent *) override;
-
-        private:
-
-        //* helper
-        StyleHelper& _helper;
-
-        //*@name widget state
-        //@{
-        bool _hasFocus = false;
-        bool _mouseOver = false;
-        qreal _opacity = -1;
-        AnimationMode _mode = AnimationNone;
-
-    };
-
-
-    //* frame shadow
-    /** this allows the shadow to be painted over the widgets viewport */
-    class FlatFrameShadow : public FrameShadowBase
+    //* shadow area
+    void setShadowArea(ShadowArea area)
     {
-        Q_OBJECT
+        _area = area;
+    }
 
-        public:
+    //* shadow area
+    const ShadowArea &shadowArea() const
+    {
+        return _area;
+    }
 
-        //* constructor
-        FlatFrameShadow( ShadowArea area, StyleHelper& helper ):
-            FrameShadowBase( area ),
-            _helper( helper )
-        { init(); }
+    //* set contrast
+    void setHasContrast(bool value)
+    {
+        if (_contrast == value)
+            return;
+        _contrast = value;
+    }
 
-        //* update geometry
-        void updateGeometry( void ) override;
+    //* true if contrast pixel is enabled
+    bool hasContrast(void) const
+    {
+        return _contrast;
+    }
 
-        //* update geometry
-        void updateGeometry( QRect ) override;
+    //* update geometry
+    virtual void updateGeometry(void) = 0;
 
-        protected:
+    //* update geometry
+    virtual void updateGeometry(QRect) = 0;
 
-        //* painting
-        void paintEvent(QPaintEvent *) override;
+    //* update state
+    virtual void updateState(bool, bool, qreal, AnimationMode)
+    {
+    }
 
-        private:
+protected:
+    //* initialization
+    virtual void init();
 
-        //* helper
-        StyleHelper& _helper;
+    //* return viewport associated to parent widget
+    virtual QWidget *viewport(void) const;
 
-    };
+    //* parent margins
+    /** offsets between update rect and parent widget rect. It is set via updateGeometry */
+    const QMargins &margins(void) const
+    {
+        return _margins;
+    }
+
+    //* margins
+    /** offsets between update rect and parent widget rect. It is set via updateGeometry */
+    void setMargins(const QMargins &margins)
+    {
+        _margins = margins;
+    }
+
+private:
+    //* shadow area
+    ShadowArea _area;
+
+    //* margins
+    /** offsets between update rect and parent widget rect. It is set via updateGeometry */
+    QMargins _margins;
+
+    //* contrast pixel
+    bool _contrast = false;
+};
+
+//* frame shadow
+/** this allows the shadow to be painted over the widgets viewport */
+class SunkenFrameShadow : public FrameShadowBase
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    SunkenFrameShadow(ShadowArea area, StyleHelper &helper)
+        : FrameShadowBase(area)
+        , _helper(helper)
+    {
+        init();
+    }
+
+    //* update geometry
+    /** nothing is done. Rect must be passed explicitly */
+    void updateGeometry(void) override
+    {
+    }
+
+    //* update geometry
+    void updateGeometry(QRect) override;
+
+    //* update state
+    void updateState(bool focus, bool hover, qreal opacity, AnimationMode) override;
+
+protected:
+    //* painting
+    void paintEvent(QPaintEvent *) override;
+
+private:
+    //* helper
+    StyleHelper &_helper;
+
+    //*@name widget state
+    //@{
+    bool _hasFocus = false;
+    bool _mouseOver = false;
+    qreal _opacity = -1;
+    AnimationMode _mode = AnimationNone;
+};
+
+//* frame shadow
+/** this allows the shadow to be painted over the widgets viewport */
+class FlatFrameShadow : public FrameShadowBase
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    FlatFrameShadow(ShadowArea area, StyleHelper &helper)
+        : FrameShadowBase(area)
+        , _helper(helper)
+    {
+        init();
+    }
+
+    //* update geometry
+    void updateGeometry(void) override;
+
+    //* update geometry
+    void updateGeometry(QRect) override;
+
+protected:
+    //* painting
+    void paintEvent(QPaintEvent *) override;
+
+private:
+    //* helper
+    StyleHelper &_helper;
+};
 }
 
 #endif

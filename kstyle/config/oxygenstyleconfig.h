@@ -16,58 +16,53 @@ SPDX-License-Identifier: MIT
 namespace Oxygen
 {
 
-    class StyleConfig: public QWidget, Ui::OxygenStyleConfig
-    {
+class StyleConfig : public QWidget, Ui::OxygenStyleConfig
+{
+    Q_OBJECT
 
-        Q_OBJECT
+public:
+    //* constructor
+    explicit StyleConfig(QWidget *);
 
-        public:
+Q_SIGNALS:
 
-        //* constructor
-        explicit StyleConfig(QWidget*);
+    //* emmited whenever one option is changed.
+    void changed(bool);
 
-        Q_SIGNALS:
+public Q_SLOTS:
 
-        //* emmited whenever one option is changed.
-        void changed(bool);
+    //* load setup from config data
+    void load(void);
 
-        public Q_SLOTS:
+    //* save current state
+    void save(void);
 
-        //* load setup from config data
-        void load( void );
+    //* restore all default values
+    void defaults(void);
 
-        //* save current state
-        void save( void );
+    // Everything below this is internal.
 
-        //* restore all default values
-        void defaults( void );
+    //* reset to saved configuration
+    void reset(void);
 
-        //Everything below this is internal.
+    //* update modified state when option is checked/unchecked
+    void updateChanged(void);
 
-        //* reset to saved configuration
-        void reset( void );
+protected:
+    //* event processing
+    bool event(QEvent *) override;
 
-        //* update modified state when option is checked/unchecked
-        void updateChanged( void );
+    // menu mode from ui
+    int menuMode(void) const;
 
-        protected:
+    // expander size from ui
+    int triangularExpanderSize(void) const;
 
-        //* event processing
-        bool event( QEvent* ) override;
+private Q_SLOTS:
 
-        // menu mode from ui
-        int menuMode( void ) const;
-
-        // expander size from ui
-        int triangularExpanderSize( void ) const;
-
-        private Q_SLOTS:
-
-        //* update layout
-        /** needed in expert mode to accommodate with animations config widget size changes */
-        void updateLayout( void );
-
-    };
-
+    //* update layout
+    /** needed in expert mode to accommodate with animations config widget size changes */
+    void updateLayout(void);
+};
 }
 #endif

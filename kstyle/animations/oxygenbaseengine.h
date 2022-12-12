@@ -19,69 +19,74 @@
 namespace Oxygen
 {
 
-    //* base class for all animation engines
-    /** it is used to store configuration values used by all animations stored in the engine */
-    class BaseEngine: public QObject
+//* base class for all animation engines
+/** it is used to store configuration values used by all animations stored in the engine */
+class BaseEngine : public QObject
+{
+    Q_OBJECT
+
+public:
+    using Pointer = WeakPointer<BaseEngine>;
+
+    //* constructor
+    explicit BaseEngine(QObject *parent)
+        : QObject(parent)
     {
+    }
 
-        Q_OBJECT
+    //*@name accessors
+    //@{
 
-        public:
+    //* enability
+    virtual bool enabled(void) const
+    {
+        return _enabled;
+    }
 
-        using Pointer = WeakPointer<BaseEngine>;
+    //* duration
+    virtual int duration(void) const
+    {
+        return _duration;
+    }
 
-        //* constructor
-        explicit BaseEngine( QObject* parent ):
-            QObject( parent )
-        {}
+    //* list of widgets
+    using WidgetList = QSet<QWidget *>;
 
+    //* returns registered widgets
+    virtual WidgetList registeredWidgets(void) const
+    {
+        return WidgetList();
+    }
 
-        //*@name accessors
-        //@{
+    //@}
 
-        //* enability
-        virtual bool enabled( void ) const
-        { return _enabled; }
+    //*@name modifiers
+    //@{
 
-        //* duration
-        virtual int duration( void ) const
-        { return _duration; }
+    //* enability
+    virtual void setEnabled(bool value)
+    {
+        _enabled = value;
+    }
 
-        //* list of widgets
-        using WidgetList = QSet<QWidget*>;
+    //* duration
+    virtual void setDuration(int value)
+    {
+        _duration = value;
+    }
 
-        //* returns registered widgets
-        virtual WidgetList registeredWidgets( void ) const
-        { return WidgetList(); }
+    //* unregister widget
+    virtual bool unregisterWidget(QObject *object) = 0;
 
-        //@}
+    //@}
 
-        //*@name modifiers
-        //@{
+private:
+    //* engine enability
+    bool _enabled = true;
 
-        //* enability
-        virtual void setEnabled( bool value )
-        { _enabled = value; }
-
-        //* duration
-        virtual void setDuration( int value )
-        { _duration = value; }
-
-        //* unregister widget
-        virtual bool unregisterWidget( QObject* object ) = 0;
-
-        //@}
-
-        private:
-
-        //* engine enability
-        bool _enabled = true;
-
-        //* animation duration
-        int _duration = 200;
-
-    };
-
+    //* animation duration
+    int _duration = 200;
+};
 }
 
 #endif

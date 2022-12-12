@@ -14,49 +14,45 @@
 #include "oxygendemowidget.h"
 #include "ui_oxygenbuttondemowidget.h"
 
-#include <QWidget>
 #include <QList>
 #include <QToolBar>
 #include <QToolButton>
+#include <QWidget>
 
 namespace Oxygen
 {
-    class ButtonDemoWidget: public DemoWidget
-    {
+class ButtonDemoWidget : public DemoWidget
+{
+    Q_OBJECT
 
-        Q_OBJECT
+public:
+    //* constructor
+    explicit ButtonDemoWidget(QWidget * = nullptr);
 
-        public:
+public Q_SLOTS:
 
-        //* constructor
-        explicit ButtonDemoWidget( QWidget* = nullptr );
+    void benchmark(void);
 
-        public Q_SLOTS:
+private Q_SLOTS:
 
-        void benchmark( void );
+    //* change text position in tool buttons
+    void textPosition(int);
 
-        private Q_SLOTS:
+    //* change tool button icon size
+    void iconSize(int);
 
-        //* change text position in tool buttons
-        void textPosition( int );
+    //* set buttons as flat
+    void toggleFlat(bool);
 
-        //* change tool button icon size
-        void iconSize( int );
+private:
+    void installMenu(QPushButton *);
+    void installMenu(QToolButton *);
 
-        //* set buttons as flat
-        void toggleFlat( bool );
-
-        private:
-
-        void installMenu( QPushButton* );
-        void installMenu( QToolButton* );
-
-        Ui_ButtonDemoWidget ui;
-        QToolBar* _toolBar = nullptr;
-        QList<QPushButton*> _pushButtons;
-        QList<QToolButton*> _toolButtons;
-    };
-
+    Ui_ButtonDemoWidget ui;
+    QToolBar *_toolBar = nullptr;
+    QList<QPushButton *> _pushButtons;
+    QList<QToolButton *> _toolButtons;
+};
 }
 
 #endif

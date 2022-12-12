@@ -19,70 +19,67 @@
 namespace Oxygen
 {
 
-    //* handles progress bar animations
-    class BusyIndicatorEngine: public BaseEngine
+//* handles progress bar animations
+class BusyIndicatorEngine : public BaseEngine
+{
+    Q_OBJECT
+
+    //* declare opacity property
+    Q_PROPERTY(qreal value READ value WRITE setValue)
+
+public:
+    //* constructor
+    explicit BusyIndicatorEngine(QObject *);
+
+    //*@name accessors
+    //@{
+
+    //* true if widget is animated
+    bool isAnimated(const QObject *);
+
+    //* value
+    qreal value(void) const
     {
+        return _value;
+    }
 
-        Q_OBJECT
+    //@}
 
-        //* declare opacity property
-        Q_PROPERTY( qreal value READ value WRITE setValue )
+    //*@name modifiers
+    //@{
 
-        public:
+    //* register progressbar
+    bool registerWidget(QObject *);
 
-        //* constructor
-        explicit BusyIndicatorEngine( QObject* );
+    //* duration
+    void setDuration(int) override;
 
-        //*@name accessors
-        //@{
+    //* set object as animated
+    void setAnimated(const QObject *, bool);
 
-        //* true if widget is animated
-        bool isAnimated( const QObject* );
+    //* opacity
+    void setValue(qreal value);
 
-        //* value
-        qreal value( void ) const
-        { return _value; }
+    //@}
 
-        //@}
+public Q_SLOTS:
 
-        //*@name modifiers
-        //@{
+    //* remove widget from map
+    bool unregisterWidget(QObject *) override;
 
-        //* register progressbar
-        bool registerWidget( QObject* );
+private:
+    //* returns data associated to widget
+    DataMap<BusyIndicatorData>::Value data(const QObject *);
 
-        //* duration
-        void setDuration( int ) override;
+    //* map widgets to progressbar data
+    DataMap<BusyIndicatorData> _data;
 
-        //* set object as animated
-        void setAnimated( const QObject*, bool );
+    //* animation
+    Animation::Pointer _animation;
 
-        //* opacity
-        void setValue( qreal value );
-
-        //@}
-
-        public Q_SLOTS:
-
-        //* remove widget from map
-        bool unregisterWidget( QObject* ) override;
-
-        private:
-
-        //* returns data associated to widget
-        DataMap<BusyIndicatorData>::Value data( const QObject* );
-
-        //* map widgets to progressbar data
-        DataMap<BusyIndicatorData> _data;
-
-        //* animation
-        Animation::Pointer _animation;
-
-        //* value
-        qreal _value = 0;
-
-    };
-
+    //* value
+    qreal _value = 0;
+};
 }
 
 #endif

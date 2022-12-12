@@ -2,162 +2,177 @@
 #define oxygenbutton_h
 
 /*
-* SPDX-FileCopyrightText: 2006, 2007 Riccardo Iaconelli <riccardo@kde.org>
-* SPDX-FileCopyrightText: 2006, 2007 Casper Boemann <cbr@boemann.dk>
-* SPDX-FileCopyrightText: 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
-* SPDX-FileCopyrightText: 2015 David Edmundson <davidedmundson@kde.org>
-*
-* SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
-*/
+ * SPDX-FileCopyrightText: 2006, 2007 Riccardo Iaconelli <riccardo@kde.org>
+ * SPDX-FileCopyrightText: 2006, 2007 Casper Boemann <cbr@boemann.dk>
+ * SPDX-FileCopyrightText: 2009 Hugo Pereira Da Costa <hugo.pereira@free.fr>
+ * SPDX-FileCopyrightText: 2015 David Edmundson <davidedmundson@kde.org>
+ *
+ * SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+ */
 
-#include "oxygenanimation.h"
 #include "oxygen.h"
+#include "oxygenanimation.h"
 #include "oxygendecohelper.h"
 #include "oxygendecoration.h"
-
 
 #include <KDecoration2/DecorationButton>
 
 namespace Oxygen
 {
 
-    class Button : public KDecoration2::DecorationButton
+class Button : public KDecoration2::DecorationButton
+{
+    Q_OBJECT
+
+    //* declare active state opacity
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
+
+public:
+    //* constructor
+    explicit Button(QObject *parent, const QVariantList &args);
+
+    //* button creation
+    static Button *create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
+
+    //* render
+    void paint(QPainter *painter, const QRect &repaintRegion) override;
+
+    //* flag
+    enum Flag { FlagNone, FlagStandalone, FlagFirstInList, FlagLastInList };
+
+    //* flag
+    void setFlag(Flag value)
     {
+        m_flag = value;
+    }
 
-        Q_OBJECT
+    //* standalone buttons
+    bool isStandAlone() const
+    {
+        return m_flag == FlagStandalone;
+    }
 
-        //* declare active state opacity
-        Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
+    //* offset
+    void setOffset(const QPointF &value)
+    {
+        m_offset = value;
+    }
 
-        public:
+    //* horizontal offset, for rendering
+    void setHorizontalOffset(qreal value)
+    {
+        m_offset.setX(value);
+    }
 
-        //* constructor
-        explicit Button(QObject *parent, const QVariantList &args);
+    //* vertical offset, for rendering
+    void setVerticalOffset(qreal value)
+    {
+        m_offset.setY(value);
+    }
 
-        //* button creation
-        static Button *create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
+    //* set icon size
+    void setIconSize(const QSize &value)
+    {
+        m_iconSize = value;
+    }
 
-        //* render
-        void paint(QPainter *painter, const QRect &repaintRegion) override;
+    //*@name active state change animation
+    //@{
+    void setOpacity(qreal value)
+    {
+        if (m_opacity == value)
+            return;
+        m_opacity = value;
+        update();
+    }
 
-        //* flag
-        enum Flag
-        {
-            FlagNone,
-            FlagStandalone,
-            FlagFirstInList,
-            FlagLastInList
-        };
+    qreal opacity(void) const
+    {
+        return m_opacity;
+    }
 
-        //* flag
-        void setFlag( Flag value )
-        { m_flag = value; }
+    //@}
 
-        //* standalone buttons
-        bool isStandAlone() const { return m_flag == FlagStandalone; }
+private Q_SLOTS:
 
-        //* offset
-        void setOffset( const QPointF& value )
-        { m_offset = value; }
+    //* apply configuration changes
+    void reconfigure();
 
-        //* horizontal offset, for rendering
-        void setHorizontalOffset( qreal value )
-        { m_offset.setX( value ); }
+    //* animation state
+    void updateAnimationState(bool);
 
-        //* vertical offset, for rendering
-        void setVerticalOffset( qreal value )
-        { m_offset.setY( value ); }
+private:
+    //* draw icon
+    void drawIcon(QPainter *);
 
-        //* set icon size
-        void setIconSize( const QSize& value )
-        { m_iconSize = value; }
+    //*@name colors
+    //@{
 
-        //*@name active state change animation
-        //@{
-        void setOpacity( qreal value )
-        {
-            if( m_opacity == value ) return;
-            m_opacity = value;
-            update();
-        }
+    QColor foregroundColor(const QPalette &) const;
+    QColor foregroundColor(const QPalette &palette, bool active) const;
 
-        qreal opacity( void ) const
-        { return m_opacity; }
+    QColor backgroundColor(const QPalette &) const;
+    QColor backgroundColor(const QPalette &palette, bool active) const;
 
-        //@}
+    //@}
 
-        private Q_SLOTS:
+    //* true if animation is in progress
+    bool isAnimated(void) const
+    {
+        return m_animation->state() == QPropertyAnimation::Running;
+    }
 
-        //* apply configuration changes
-        void reconfigure();
+    //* true if button is active
+    bool isActive(void) const;
 
-        //* animation state
-        void updateAnimationState(bool);
+    //*@name button properties
+    //@{
 
-        private:
+    //* true if button if of menu type
+    bool isMenuButton(void) const
+    {
+        return type() == KDecoration2::DecorationButtonType::Menu || type() == KDecoration2::DecorationButtonType::ApplicationMenu;
+    }
 
-        //* draw icon
-        void drawIcon( QPainter* );
+    //* true if button is of toggle type
+    bool isToggleButton(void) const
+    {
+        return type() == KDecoration2::DecorationButtonType::OnAllDesktops || type() == KDecoration2::DecorationButtonType::KeepAbove
+            || type() == KDecoration2::DecorationButtonType::KeepBelow;
+    }
 
-        //*@name colors
-        //@{
+    //* true if button if of close type
+    bool isCloseButton(void) const
+    {
+        return type() == KDecoration2::DecorationButtonType::Close;
+    }
 
-        QColor foregroundColor( const QPalette& ) const;
-        QColor foregroundColor( const QPalette& palette, bool active ) const;
+    //* true if button has decoration
+    bool hasDecoration(void) const
+    {
+        return !isMenuButton();
+    }
 
-        QColor backgroundColor( const QPalette& ) const;
-        QColor backgroundColor( const QPalette& palette, bool active ) const;
+    //@}
 
-        //@}
+    //* private constructor
+    explicit Button(KDecoration2::DecorationButtonType type, Decoration *decoration, QObject *parent);
 
-        //* true if animation is in progress
-        bool isAnimated( void ) const
-        { return m_animation->state() == QPropertyAnimation::Running; }
+    Flag m_flag = FlagNone;
 
-        //* true if button is active
-        bool isActive( void ) const;
+    //* glow animation
+    QPropertyAnimation *m_animation;
 
-        //*@name button properties
-        //@{
+    //* vertical offset (for rendering)
+    QPointF m_offset;
 
-        //* true if button if of menu type
-        bool isMenuButton( void ) const
-        { return type() == KDecoration2::DecorationButtonType::Menu || type() == KDecoration2::DecorationButtonType::ApplicationMenu; }
+    //* icon size
+    QSize m_iconSize;
 
-        //* true if button is of toggle type
-        bool isToggleButton( void ) const
-        { return type() == KDecoration2::DecorationButtonType::OnAllDesktops || type() == KDecoration2::DecorationButtonType::KeepAbove || type() == KDecoration2::DecorationButtonType::KeepBelow; }
+    //* glow intensity
+    qreal m_opacity;
+};
 
-        //* true if button if of close type
-        bool isCloseButton( void ) const
-        { return type() == KDecoration2::DecorationButtonType::Close; }
-
-        //* true if button has decoration
-        bool hasDecoration( void ) const
-        { return !isMenuButton();}
-
-        //@}
-
-        //* private constructor
-        explicit Button(KDecoration2::DecorationButtonType type, Decoration *decoration, QObject *parent);
-
-        Flag m_flag = FlagNone;
-
-        //* glow animation
-        QPropertyAnimation* m_animation;
-
-        //* vertical offset (for rendering)
-        QPointF m_offset;
-
-        //* icon size
-        QSize m_iconSize;
-
-        //* glow intensity
-        qreal m_opacity;
-
-
-    };
-
-} //namespace
+} // namespace
 
 #endif

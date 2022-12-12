@@ -15,47 +15,42 @@
 
 namespace Oxygen
 {
-    class GenericAnimationConfigItem;
-    class FollowMouseAnimationConfigItem;
+class GenericAnimationConfigItem;
+class FollowMouseAnimationConfigItem;
 
-    class AnimationConfigWidget: public BaseAnimationConfigWidget
-    {
+class AnimationConfigWidget : public BaseAnimationConfigWidget
+{
+    Q_OBJECT
 
-        Q_OBJECT
+public:
+    //* constructor
+    explicit AnimationConfigWidget(QWidget * = nullptr);
 
-        public:
+public Q_SLOTS:
 
-        //* constructor
-        explicit AnimationConfigWidget( QWidget* = nullptr );
+    //* read current configuration
+    void load(void) override;
 
-        public Q_SLOTS:
+    //* save current configuration
+    void save(void) override;
 
-        //* read current configuration
-        void load( void ) override;
+protected Q_SLOTS:
 
-        //* save current configuration
-        void save( void ) override;
+    //* check whether configuration is changed and emit appropriate signal if yes
+    void updateChanged() override;
 
-        protected Q_SLOTS:
-
-        //* check whether configuration is changed and emit appropriate signal if yes
-        void updateChanged() override;
-
-        private:
-
-        GenericAnimationConfigItem* _genericAnimations = nullptr;
-        GenericAnimationConfigItem* _progressBarAnimations = nullptr;
-        GenericAnimationConfigItem* _progressBarBusyAnimations = nullptr;
-        GenericAnimationConfigItem* _stackedWidgetAnimations = nullptr;
-        GenericAnimationConfigItem* _labelAnimations = nullptr;
-        GenericAnimationConfigItem* _lineEditAnimations = nullptr;
-        GenericAnimationConfigItem* _comboBoxAnimations = nullptr;
-        FollowMouseAnimationConfigItem* _toolBarAnimations = nullptr;
-        FollowMouseAnimationConfigItem* _menuBarAnimations = nullptr;
-        FollowMouseAnimationConfigItem* _menuAnimations = nullptr;
-
-    };
-
+private:
+    GenericAnimationConfigItem *_genericAnimations = nullptr;
+    GenericAnimationConfigItem *_progressBarAnimations = nullptr;
+    GenericAnimationConfigItem *_progressBarBusyAnimations = nullptr;
+    GenericAnimationConfigItem *_stackedWidgetAnimations = nullptr;
+    GenericAnimationConfigItem *_labelAnimations = nullptr;
+    GenericAnimationConfigItem *_lineEditAnimations = nullptr;
+    GenericAnimationConfigItem *_comboBoxAnimations = nullptr;
+    FollowMouseAnimationConfigItem *_toolBarAnimations = nullptr;
+    FollowMouseAnimationConfigItem *_menuBarAnimations = nullptr;
+    FollowMouseAnimationConfigItem *_menuAnimations = nullptr;
+};
 }
 
 #endif

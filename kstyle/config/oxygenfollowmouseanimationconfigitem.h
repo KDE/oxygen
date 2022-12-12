@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenanimationconfigitem.h"
 #include "../oxygen.h"
+#include "oxygenanimationconfigitem.h"
 
 #include <KComboBox>
 
@@ -25,113 +25,116 @@ class Ui_FollowMouseAnimationConfigBox;
 namespace Oxygen
 {
 
-    class FollowMouseAnimationConfigBox: public QFrame
+class FollowMouseAnimationConfigBox : public QFrame
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit FollowMouseAnimationConfigBox(QWidget *);
+
+    //* destructor
+    ~FollowMouseAnimationConfigBox(void) override;
+
+    //* type ComboBox
+    KComboBox *typeComboBox(void) const;
+
+    //* duration spin box
+    QSpinBox *durationSpinBox(void) const;
+
+    //* duration spin box
+    QLabel *durationLabel(void) const;
+
+    //* follow mouse duration spinbox
+    QSpinBox *followMouseDurationSpinBox(void) const;
+
+private Q_SLOTS:
+
+    //* type changed
+    void typeChanged(int);
+
+private:
+    Ui_FollowMouseAnimationConfigBox *ui;
+};
+
+//* generic animation config item
+class FollowMouseAnimationConfigItem : public AnimationConfigItem
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit FollowMouseAnimationConfigItem(QWidget *parent, const QString &title = QString(), const QString &description = QString())
+        : AnimationConfigItem(parent, title, description)
     {
-        Q_OBJECT
+    }
 
-        public:
+    //* initialize configuration widget
+    void initializeConfigurationWidget(QWidget *) override;
 
-        //* constructor
-        explicit FollowMouseAnimationConfigBox(QWidget*);
-
-        //* destructor
-        ~FollowMouseAnimationConfigBox( void ) override;
-
-        //* type ComboBox
-        KComboBox* typeComboBox( void ) const;
-
-        //* duration spin box
-        QSpinBox* durationSpinBox( void ) const;
-
-        //* duration spin box
-        QLabel* durationLabel( void ) const;
-
-        //* follow mouse duration spinbox
-        QSpinBox* followMouseDurationSpinBox( void ) const;
-
-        private Q_SLOTS:
-
-        //* type changed
-        void typeChanged( int );
-
-        private:
-
-        Ui_FollowMouseAnimationConfigBox* ui;
-
-    };
-
-    //* generic animation config item
-    class FollowMouseAnimationConfigItem: public AnimationConfigItem
+    //* configuration widget
+    QWidget *configurationWidget(void) const override
     {
+        return _configurationWidget.data();
+    }
 
-        Q_OBJECT
+    //* type
+    int type(void) const
+    {
+        return (_configurationWidget) ? _configurationWidget.data()->typeComboBox()->currentIndex() : 0;
+    }
 
-        public:
+    //* duration
+    int duration(void) const
+    {
+        return (_configurationWidget) ? _configurationWidget.data()->durationSpinBox()->value() : 0;
+    }
 
-        //* constructor
-        explicit FollowMouseAnimationConfigItem( QWidget* parent, const QString& title = QString(), const QString& description = QString() ):
-            AnimationConfigItem( parent, title, description )
-        {}
+    //* duration
+    int followMouseDuration(void) const
+    {
+        return (_configurationWidget) ? _configurationWidget.data()->followMouseDurationSpinBox()->value() : 0;
+    }
 
-        //* initialize configuration widget
-        void initializeConfigurationWidget( QWidget* ) override;
-
-        //* configuration widget
-        QWidget* configurationWidget( void ) const override
-        { return _configurationWidget.data(); }
-
-        //* type
-        int type( void ) const
-        { return (_configurationWidget) ? _configurationWidget.data()->typeComboBox()->currentIndex():0; }
-
-        //* duration
-        int duration( void ) const
-        { return (_configurationWidget) ? _configurationWidget.data()->durationSpinBox()->value():0; }
-
-        //* duration
-        int followMouseDuration( void ) const
-        { return (_configurationWidget) ? _configurationWidget.data()->followMouseDurationSpinBox()->value():0; }
-
-        //* hide duration spinbox
-        void hideDurationSpinBox( void )
-        {
-            if( _configurationWidget )
-            {
-                _configurationWidget.data()->durationLabel()->hide();
-                _configurationWidget.data()->durationSpinBox()->hide();
-            }
+    //* hide duration spinbox
+    void hideDurationSpinBox(void)
+    {
+        if (_configurationWidget) {
+            _configurationWidget.data()->durationLabel()->hide();
+            _configurationWidget.data()->durationSpinBox()->hide();
         }
+    }
 
-        public Q_SLOTS:
+public Q_SLOTS:
 
-        //* type
-        void setType( int value )
-        {
-            if( _configurationWidget )
-            { _configurationWidget.data()->typeComboBox()->setCurrentIndex( value ); }
+    //* type
+    void setType(int value)
+    {
+        if (_configurationWidget) {
+            _configurationWidget.data()->typeComboBox()->setCurrentIndex(value);
         }
+    }
 
-        //* duration
-        void setDuration( int value )
-        {
-            if( _configurationWidget )
-            { _configurationWidget.data()->durationSpinBox()->setValue( value ); }
+    //* duration
+    void setDuration(int value)
+    {
+        if (_configurationWidget) {
+            _configurationWidget.data()->durationSpinBox()->setValue(value);
         }
+    }
 
-        //* follow mouse duration
-        void setFollowMouseDuration( int value )
-        {
-            if( _configurationWidget )
-            { _configurationWidget.data()->followMouseDurationSpinBox()->setValue( value ); }
+    //* follow mouse duration
+    void setFollowMouseDuration(int value)
+    {
+        if (_configurationWidget) {
+            _configurationWidget.data()->followMouseDurationSpinBox()->setValue(value);
         }
+    }
 
-        private:
-
-        //* configuration widget
-        WeakPointer<FollowMouseAnimationConfigBox> _configurationWidget;
-
-    };
-
+private:
+    //* configuration widget
+    WeakPointer<FollowMouseAnimationConfigBox> _configurationWidget;
+};
 }
 
 #endif

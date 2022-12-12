@@ -14,29 +14,28 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
 #include <QEvent>
+#include <QObject>
 
 namespace Oxygen
 {
 
-    class AddEventFilter: public QObject
+class AddEventFilter : public QObject
+{
+public:
+    //* constructor
+    AddEventFilter(void)
+        : QObject()
     {
+    }
 
-        public:
-
-        //* constructor
-        AddEventFilter( void ):
-            QObject()
-            {}
-
-        //* event filter
-        /*! blocks all AddChild events */
-        bool eventFilter( QObject*, QEvent* event ) override
-        { return event->type() == QEvent::ChildAdded; }
-
-    };
-
+    //* event filter
+    /*! blocks all AddChild events */
+    bool eventFilter(QObject *, QEvent *event) override
+    {
+        return event->type() == QEvent::ChildAdded;
+    }
+};
 }
 
 #endif

@@ -9,77 +9,76 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include "ui_oxygenconfigurationui.h"
+#include "oxygen.h"
 #include "oxygenexceptionlistwidget.h"
 #include "oxygensettings.h"
 #include "oxygenshadowconfigwidget.h"
-#include "oxygen.h"
+#include "ui_oxygenconfigurationui.h"
 
 #include <KCModule>
 #include <KSharedConfig>
 
-#include <QWidget>
 #include <QSharedPointer>
+#include <QWidget>
 
 namespace Oxygen
 {
 
-    //_____________________________________________
-    class ConfigWidget: public KCModule
+//_____________________________________________
+class ConfigWidget : public KCModule
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit ConfigWidget(QWidget *, const QVariantList &);
+
+    //* default
+    void defaults() override;
+
+    //* load configuration
+    void load(void) override;
+
+    //* save configuration
+    void save(void) override;
+
+    //* true if changed
+    bool isChanged(void) const
     {
+        return m_changed;
+    }
 
-        Q_OBJECT
+    //* exceptions
+    ExceptionListWidget *exceptionListWidget(void) const
+    {
+        return m_ui.exceptions;
+    }
 
-        public:
+private Q_SLOTS:
 
-        //* constructor
-        explicit ConfigWidget( QWidget*, const QVariantList& );
+    //* update changed state
+    void updateChanged();
 
-        //* default
-        void defaults() override;
+private:
+    //* set changed state
+    void setChanged(bool value)
+    {
+        m_changed = value;
+        emit changed(value);
+    }
 
-        //* load configuration
-        void load( void ) override;
+    //* ui
+    Ui_OxygenConfigurationUI m_ui;
 
-        //* save configuration
-        void save( void ) override;
+    //* kconfiguration object
+    KSharedConfig::Ptr m_configuration;
 
-        //* true if changed
-        bool isChanged( void ) const
-        { return m_changed; }
+    //* internal exception
+    InternalSettingsPtr m_internalSettings;
 
-        //* exceptions
-        ExceptionListWidget* exceptionListWidget( void ) const
-        { return m_ui.exceptions; }
-
-        private Q_SLOTS:
-
-        //* update changed state
-        void updateChanged();
-
-        private:
-
-        //* set changed state
-        void setChanged( bool value )
-        {
-            m_changed = value;
-            emit changed( value );
-        }
-
-        //* ui
-        Ui_OxygenConfigurationUI m_ui;
-
-        //* kconfiguration object
-        KSharedConfig::Ptr m_configuration;
-
-        //* internal exception
-        InternalSettingsPtr m_internalSettings;
-
-        //* changed state
-        bool m_changed = false;
-
-    };
-
+    //* changed state
+    bool m_changed = false;
+};
 }
 
 #endif

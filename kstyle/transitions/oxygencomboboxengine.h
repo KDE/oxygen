@@ -12,55 +12,53 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "oxygenbaseengine.h"
-#include "oxygendatamap.h"
 #include "oxygencomboboxdata.h"
+#include "oxygendatamap.h"
 
 namespace Oxygen
 {
 
-    //* used for simple widgets
-    class ComboBoxEngine: public BaseEngine
+//* used for simple widgets
+class ComboBoxEngine : public BaseEngine
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit ComboBoxEngine(QObject *parent)
+        : BaseEngine(parent)
     {
+    }
 
-        Q_OBJECT
+    //* register widget
+    bool registerWidget(QComboBox *);
 
-        public:
+    //* duration
+    void setEnabled(bool value) override
+    {
+        BaseEngine::setEnabled(value);
+        _data.setEnabled(value);
+    }
 
-        //* constructor
-        explicit ComboBoxEngine( QObject* parent ):
-            BaseEngine( parent )
-        {}
+    //* duration
+    void setDuration(int value) override
+    {
+        BaseEngine::setDuration(value);
+        _data.setDuration(value);
+    }
 
-        //* register widget
-        bool registerWidget( QComboBox* );
+public Q_SLOTS:
 
-        //* duration
-        void setEnabled( bool value ) override
-        {
-            BaseEngine::setEnabled( value );
-            _data.setEnabled( value );
-        }
+    //* remove widget from map
+    bool unregisterWidget(QObject *object) override
+    {
+        return _data.unregisterWidget(object);
+    }
 
-        //* duration
-        void setDuration( int value ) override
-        {
-            BaseEngine::setDuration( value );
-            _data.setDuration( value );
-        }
-
-        public Q_SLOTS:
-
-        //* remove widget from map
-        bool unregisterWidget( QObject* object ) override
-        { return _data.unregisterWidget( object ); }
-
-        private:
-
-        //* maps
-        DataMap<ComboBoxData> _data;
-
-    };
-
+private:
+    //* maps
+    DataMap<ComboBoxData> _data;
+};
 }
 
 #endif

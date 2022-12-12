@@ -16,32 +16,28 @@
 namespace Oxygen
 {
 
-    //* handle widget state (hover/focus/enable) changes
-    class WidgetStateData: public GenericData
+//* handle widget state (hover/focus/enable) changes
+class WidgetStateData : public GenericData
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    WidgetStateData(QObject *parent, QWidget *target, int duration, bool state = false)
+        : GenericData(parent, target, duration)
+        , _state(state)
     {
+    }
 
-        Q_OBJECT
+    /**
+    returns true if hover has Changed
+    and starts timer accordingly
+    */
+    bool updateState(bool value);
 
-        public:
-
-        //* constructor
-        WidgetStateData( QObject* parent, QWidget* target, int duration, bool state = false ):
-            GenericData( parent, target, duration ),
-            _state( state )
-        {}
-
-        /**
-        returns true if hover has Changed
-        and starts timer accordingly
-        */
-        bool updateState( bool value );
-
-        private:
-
-        bool _state = false;
-
-    };
-
+private:
+    bool _state = false;
+};
 }
 
 #endif

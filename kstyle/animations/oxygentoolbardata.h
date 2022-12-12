@@ -17,185 +17,216 @@
 namespace Oxygen
 {
 
-    //* toolbar data
-    class ToolBarData: public AnimationData
+//* toolbar data
+class ToolBarData : public AnimationData
+{
+    Q_OBJECT
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
+    Q_PROPERTY(qreal progress READ progress WRITE setProgress)
+
+public:
+    //* constructor
+    ToolBarData(QObject *parent, QWidget *target, int duration);
+
+    //* event filter
+    bool eventFilter(QObject *, QEvent *) override;
+
+    //* return animation associated to action at given position, if any
+    const Animation::Pointer &animation(void) const
     {
+        return _animation;
+    }
 
-        Q_OBJECT
-        Q_PROPERTY( qreal opacity READ opacity WRITE setOpacity )
-        Q_PROPERTY( qreal progress READ progress  WRITE setProgress )
+    //* return animation associated to action at given position, if any
+    const Animation::Pointer &progressAnimation(void) const
+    {
+        return _progressAnimation;
+    }
 
-        public:
+    //* duration
+    void setDuration(int duration) override
+    {
+        animation().data()->setDuration(duration);
+    }
 
-        //* constructor
-        ToolBarData( QObject* parent, QWidget* target, int duration );
+    //* duration
+    void setFollowMouseDuration(int duration)
+    {
+        progressAnimation().data()->setDuration(duration);
+    }
 
-        //* event filter
-        bool eventFilter( QObject*, QEvent* ) override;
+    //* return 'hover' rect position when widget is animated
+    const QRect &animatedRect(void) const
+    {
+        return _animatedRect;
+    }
 
-        //* return animation associated to action at given position, if any
-        const Animation::Pointer& animation( void ) const
-        { return _animation; }
+    //* current rect
+    const QRect &currentRect(void) const
+    {
+        return _currentRect;
+    }
 
-        //* return animation associated to action at given position, if any
-        const Animation::Pointer& progressAnimation( void ) const
-        { return _progressAnimation; }
+    //* timer
+    const QBasicTimer &timer(void) const
+    {
+        return _timer;
+    }
 
-        //* duration
-        void setDuration( int duration ) override
-        { animation().data()->setDuration( duration ); }
+    //* animation opacity
+    qreal opacity(void) const
+    {
+        return _opacity;
+    }
 
-        //* duration
-        void setFollowMouseDuration( int duration )
-        { progressAnimation().data()->setDuration( duration ); }
+    //* animation opacity
+    void setOpacity(qreal value)
+    {
+        value = digitize(value);
+        if (_opacity == value)
+            return;
+        _opacity = value;
+        setDirty();
+    }
 
-        //* return 'hover' rect position when widget is animated
-        const QRect& animatedRect( void ) const
-        { return _animatedRect; }
+    //* animation progress
+    qreal progress(void) const
+    {
+        return _progress;
+    }
 
-        //* current rect
-        const QRect& currentRect( void ) const
-        { return _currentRect; }
+    //* animation progress
+    void setProgress(qreal value)
+    {
+        value = digitize(value);
+        if (_progress == value)
+            return;
+        _progress = value;
+        updateAnimatedRect();
+    }
 
-        //* timer
-        const QBasicTimer& timer( void ) const
-        { return _timer; }
+protected:
+    //* timer event
+    void timerEvent(QTimerEvent *) override;
 
-        //* animation opacity
-        qreal opacity( void ) const
-        { return _opacity; }
+private Q_SLOTS:
 
-        //* animation opacity
-        void setOpacity( qreal value )
-        {
-            value = digitize( value );
-            if( _opacity == value ) return;
-            _opacity = value;
-            setDirty();
-        }
+    //* updated animated rect
+    void updateAnimatedRect(void);
 
-        //* animation progress
-        qreal progress( void ) const
-        { return _progress; }
+private:
+    //*@name current object handling
+    //@{
 
-        //* animation progress
-        void setProgress( qreal value )
-        {
-            value = digitize( value );
-            if( _progress == value ) return;
-            _progress = value;
-            updateAnimatedRect();
-        }
+    //* object pointer
+    /** there is no need to guard it because the object contents is never accessed */
+    using ObjectPointer = const QObject *;
 
-        protected:
+    //* current object
+    const ObjectPointer &currentObject(void) const
+    {
+        return _currentObject;
+    }
 
-        //* timer event
-        void timerEvent( QTimerEvent *) override;
+    //* current object
+    void setCurrentObject(const QObject *object)
+    {
+        _currentObject = ObjectPointer(object);
+    }
 
-        private Q_SLOTS:
+    //* current object
+    void clearCurrentObject(void)
+    {
+        _currentObject = nullptr;
+    }
 
-        //* updated animated rect
-        void updateAnimatedRect( void );
+    //@}
 
-        private:
+    //*@name rect handling
+    //@{
 
-        //*@name current object handling
-        //@{
+    //* current rect
+    void setCurrentRect(const QRect &rect)
+    {
+        _currentRect = rect;
+    }
 
-        //* object pointer
-        /** there is no need to guard it because the object contents is never accessed */
-        using ObjectPointer = const QObject*;
+    //* current rect
+    void clearCurrentRect(void)
+    {
+        _currentRect = QRect();
+    }
 
-        //* current object
-        const ObjectPointer& currentObject( void ) const
-        { return _currentObject; }
+    //* previous rect
+    const QRect &previousRect(void) const
+    {
+        return _previousRect;
+    }
 
-        //* current object
-        void setCurrentObject( const QObject* object )
-        { _currentObject = ObjectPointer( object ); }
+    //* previous rect
+    void setPreviousRect(const QRect &rect)
+    {
+        _previousRect = rect;
+    }
 
-        //* current object
-        void clearCurrentObject( void )
-        { _currentObject = nullptr; }
+    //* previous rect
+    void clearPreviousRect(void)
+    {
+        _previousRect = QRect();
+    }
 
-        //@}
+    //* animated rect
+    void clearAnimatedRect(void)
+    {
+        _animatedRect = QRect();
+    }
 
-        //*@name rect handling
-        //@{
+    //@}
 
-        //* current rect
-        void setCurrentRect( const QRect& rect )
-        { _currentRect = rect; }
+    //* toolbar enterEvent
+    void enterEvent(const QObject *);
 
-        //* current rect
-        void clearCurrentRect( void )
-        { _currentRect = QRect(); }
+    //* toolbar enterEvent
+    void leaveEvent(const QObject *);
 
-        //* previous rect
-        const QRect& previousRect( void ) const
-        { return _previousRect; }
+    //* toolbutton added
+    void childAddedEvent(QObject *);
 
-        //* previous rect
-        void setPreviousRect( const QRect& rect )
-        { _previousRect = rect; }
+    //* toolbutton enter event
+    void childEnterEvent(const QObject *);
 
-        //* previous rect
-        void clearPreviousRect( void )
-        { _previousRect = QRect(); }
+private:
+    //* fade animation
+    Animation::Pointer _animation;
 
-        //* animated rect
-        void clearAnimatedRect( void )
-        { _animatedRect = QRect(); }
+    //* progress animation
+    Animation::Pointer _progressAnimation;
 
-        //@}
+    //* opacity
+    qreal _opacity = 0;
 
-        //* toolbar enterEvent
-        void enterEvent( const QObject* );
+    //* opacity
+    qreal _progress = 0;
 
-        //* toolbar enterEvent
-        void leaveEvent( const QObject* );
+    //* timer
+    /** this allows to add some delay before starting leaveEvent animation */
+    QBasicTimer _timer;
 
-        //* toolbutton added
-        void childAddedEvent( QObject* );
+    //* current object
+    ObjectPointer _currentObject;
 
-        //* toolbutton enter event
-        void childEnterEvent( const QObject* );
+    //* current rect
+    QRect _currentRect;
 
-        private:
+    //* previous rect
+    QRect _previousRect;
 
-        //* fade animation
-        Animation::Pointer _animation;
+    //* animated rect
+    QRect _animatedRect;
 
-        //* progress animation
-        Animation::Pointer _progressAnimation;
-
-        //* opacity
-        qreal _opacity = 0;
-
-        //* opacity
-        qreal _progress = 0;
-
-        //* timer
-        /** this allows to add some delay before starting leaveEvent animation */
-        QBasicTimer _timer;
-
-        //* current object
-        ObjectPointer _currentObject;
-
-        //* current rect
-        QRect _currentRect;
-
-        //* previous rect
-        QRect _previousRect;
-
-        //* animated rect
-        QRect _animatedRect;
-
-        //* true if toolbar was entered at least once (this prevents some initialization glitches)
-        bool _entered = false;
-
-    };
-
+    //* true if toolbar was entered at least once (this prevents some initialization glitches)
+    bool _entered = false;
+};
 }
 
 #endif

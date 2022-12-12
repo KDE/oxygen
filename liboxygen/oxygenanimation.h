@@ -21,34 +21,35 @@
 namespace Oxygen
 {
 
-    class OXYGEN_EXPORT Animation: public QPropertyAnimation
+class OXYGEN_EXPORT Animation : public QPropertyAnimation
+{
+    Q_OBJECT
+
+public:
+    //! TimeLine shared pointer
+    using Pointer = WeakPointer<Animation>;
+
+    //! constructor
+    Animation(int duration, QObject *parent)
+        : QPropertyAnimation(parent)
     {
+        setDuration(duration);
+    }
 
-        Q_OBJECT
+    //! true if running
+    bool isRunning(void) const
+    {
+        return state() == Animation::Running;
+    }
 
-        public:
-
-        //! TimeLine shared pointer
-        using Pointer = WeakPointer<Animation>;
-
-        //! constructor
-        Animation( int duration, QObject* parent ):
-            QPropertyAnimation( parent )
-        { setDuration( duration ); }
-
-        //! true if running
-        bool isRunning( void ) const
-        { return state() == Animation::Running; }
-
-        //! restart
-        void restart( void )
-        {
-            if( isRunning() ) stop();
-            start();
-        }
-
-    };
-
+    //! restart
+    void restart(void)
+    {
+        if (isRunning())
+            stop();
+        start();
+    }
+};
 }
 
 #endif

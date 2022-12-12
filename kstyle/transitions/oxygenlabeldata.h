@@ -13,86 +13,87 @@
 
 #include "oxygentransitiondata.h"
 
-#include <QString>
 #include <QBasicTimer>
 #include <QLabel>
+#include <QString>
 
 namespace Oxygen
 {
 
-    //* generic data
-    class LabelData: public TransitionData
+//* generic data
+class LabelData : public TransitionData
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    LabelData(QObject *, QLabel *, int);
+
+    //* event filter
+    bool eventFilter(QObject *, QEvent *) override;
+
+    //* returns true if animations are locked
+    bool isLocked(void) const
     {
+        return _animationLockTimer.isActive();
+    }
 
-        Q_OBJECT
+    //* start lock animation timer
+    void lockAnimations(void)
+    {
+        _animationLockTimer.start(_lockTime, this);
+    }
 
-        public:
+    //* start lock animation timer
+    void unlockAnimations(void)
+    {
+        _animationLockTimer.stop();
+    }
 
-        //* constructor
-        LabelData( QObject*, QLabel*, int );
+protected:
+    //* timer event
+    void timerEvent(QTimerEvent *) override;
 
-        //* event filter
-        bool eventFilter( QObject*, QEvent* ) override;
+protected Q_SLOTS:
 
-        //* returns true if animations are locked
-        bool isLocked( void ) const
-        { return _animationLockTimer.isActive(); }
+    //* initialize animation
+    bool initializeAnimation(void) override;
 
-        //* start lock animation timer
-        void lockAnimations( void )
-        { _animationLockTimer.start( _lockTime, this ); }
+    //* animate
+    bool animate(void) override;
 
-        //* start lock animation timer
-        void unlockAnimations( void )
-        { _animationLockTimer.stop(); }
+private Q_SLOTS:
 
-        protected:
+    //* called when target is destroyed
+    void targetDestroyed(void);
 
-        //* timer event
-        void timerEvent( QTimerEvent* ) override;
+private:
+    //* true if transparent
+    bool transparent(void) const
+    {
+        return transition() && transition().data()->testFlag(TransitionWidget::Transparent);
+    }
 
-        protected Q_SLOTS:
+private:
+    //* lock time (milliseconds
+    static const int _lockTime;
 
-        //* initialize animation
-        bool initializeAnimation( void ) override;
+    //* timer used to disable animations when triggered too early
+    QBasicTimer _animationLockTimer;
 
-        //* animate
-        bool animate( void ) override;
+    //* needed to start animations out of parent paintEvent
+    QBasicTimer _timer;
 
-        private Q_SLOTS:
+    //* target
+    WeakPointer<QLabel> _target;
 
-        //* called when target is destroyed
-        void targetDestroyed( void );
+    //* old text
+    QString _text;
 
-        private:
-
-        //* true if transparent
-        bool transparent( void ) const
-        { return transition() && transition().data()->testFlag( TransitionWidget::Transparent ); }
-
-        private:
-
-        //* lock time (milliseconds
-        static const int _lockTime;
-
-        //* timer used to disable animations when triggered too early
-        QBasicTimer _animationLockTimer;
-
-        //* needed to start animations out of parent paintEvent
-        QBasicTimer _timer;
-
-        //* target
-        WeakPointer<QLabel> _target;
-
-        //* old text
-        QString _text;
-
-        //* widget rect
-        /** needed to properly handle QLabel geometry changes */
-        QRect _widgetRect;
-
-    };
-
+    //* widget rect
+    /** needed to properly handle QLabel geometry changes */
+    QRect _widgetRect;
+};
 }
 
 #endif

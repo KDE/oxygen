@@ -19,67 +19,72 @@
 namespace Oxygen
 {
 
-    //* stores engines
-    class Transitions: public QObject
+//* stores engines
+class Transitions : public QObject
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit Transitions(QObject *);
+
+    //* register animations corresponding to given widget, depending on its type.
+    void registerWidget(QWidget *widget) const;
+
+    /** unregister all animations associated to a widget */
+    void unregisterWidget(QWidget *widget) const;
+
+    //* qlabel engine
+    ComboBoxEngine &comboBoxEngine(void) const
     {
+        return *_comboBoxEngine;
+    }
 
-        Q_OBJECT
+    //* qlabel engine
+    LabelEngine &labelEngine(void) const
+    {
+        return *_labelEngine;
+    }
 
-        public:
+    //* qlineedit engine
+    LineEditEngine &lineEditEngine(void) const
+    {
+        return *_lineEditEngine;
+    }
 
-        //* constructor
-        explicit Transitions( QObject* );
+    //* stacked widget engine
+    StackedWidgetEngine &stackedWidgetEngine(void) const
+    {
+        return *_stackedWidgetEngine;
+    }
 
-        //* register animations corresponding to given widget, depending on its type.
-        void registerWidget( QWidget* widget ) const;
+public Q_SLOTS:
 
-        /** unregister all animations associated to a widget */
-        void unregisterWidget( QWidget* widget ) const;
+    //* setup engines
+    void setupEngines(void);
 
-        //* qlabel engine
-        ComboBoxEngine& comboBoxEngine( void ) const
-        { return *_comboBoxEngine; }
+private:
+    //* register new engine
+    void registerEngine(BaseEngine *engine)
+    {
+        _engines.push_back(engine);
+    }
 
-        //* qlabel engine
-        LabelEngine& labelEngine( void ) const
-        { return *_labelEngine; }
+    //* qcombobox engine
+    ComboBoxEngine *_comboBoxEngine;
 
-        //* qlineedit engine
-        LineEditEngine& lineEditEngine( void ) const
-        { return *_lineEditEngine; }
+    //* qlabel engine
+    LabelEngine *_labelEngine;
 
-        //* stacked widget engine
-        StackedWidgetEngine& stackedWidgetEngine( void ) const
-        { return *_stackedWidgetEngine; }
+    //* qlineedit engine
+    LineEditEngine *_lineEditEngine;
 
-        public Q_SLOTS:
+    //* stacked widget engine
+    StackedWidgetEngine *_stackedWidgetEngine;
 
-        //* setup engines
-        void setupEngines( void );
-
-        private:
-
-        //* register new engine
-        void registerEngine( BaseEngine* engine )
-        { _engines.push_back( engine ); }
-
-        //* qcombobox engine
-        ComboBoxEngine* _comboBoxEngine;
-
-        //* qlabel engine
-        LabelEngine* _labelEngine;
-
-        //* qlineedit engine
-        LineEditEngine* _lineEditEngine;
-
-        //* stacked widget engine
-        StackedWidgetEngine* _stackedWidgetEngine;
-
-        //* keep list of existing engines
-        QList< BaseEngine::Pointer > _engines;
-
-    };
-
+    //* keep list of existing engines
+    QList<BaseEngine::Pointer> _engines;
+};
 }
 
 #endif

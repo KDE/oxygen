@@ -9,96 +9,97 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include "ui_oxygenexceptionlistwidget.h"
 #include "oxygenexceptionmodel.h"
+#include "ui_oxygenexceptionlistwidget.h"
 
 //* QDialog used to commit selected files
 namespace Oxygen
 {
 
-    class ExceptionListWidget: public QWidget
+class ExceptionListWidget : public QWidget
+{
+    //* Qt meta object
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit ExceptionListWidget(QWidget * = nullptr);
+
+    //* set exceptions
+    void setExceptions(const InternalSettingsList &);
+
+    //* get exceptions
+    InternalSettingsList exceptions(void);
+
+    //* true if changed
+    bool isChanged(void) const
     {
+        return m_changed;
+    }
 
-        //* Qt meta object
-        Q_OBJECT
+Q_SIGNALS:
 
-        public:
+    //* emitted when changed
+    void changed(bool);
 
-        //* constructor
-        explicit ExceptionListWidget( QWidget* = nullptr );
+private Q_SLOTS:
 
-        //* set exceptions
-        void setExceptions( const InternalSettingsList& );
+    //* update button states
+    void updateButtons(void);
 
-        //* get exceptions
-        InternalSettingsList exceptions( void );
+    //* add
+    void add(void);
 
-        //* true if changed
-        bool isChanged( void ) const
-        { return m_changed; }
+    //* edit
+    void edit(void);
 
-        Q_SIGNALS:
+    //* remove
+    void remove(void);
 
-        //* emitted when changed
-        void changed( bool );
+    //* toggle
+    void toggle(const QModelIndex &);
 
-        private Q_SLOTS:
+    //* move up
+    void up(void);
 
-        //* update button states
-        void updateButtons( void );
+    //* move down
+    void down(void);
 
-        //* add
-        void add( void );
+private:
+    //* resize columns
+    void resizeColumns(void) const;
 
-        //* edit
-        void edit( void );
+    //* check exception
+    bool checkException(InternalSettingsPtr);
 
-        //* remove
-        void remove( void );
+    //* set changed state
+    virtual void setChanged(bool value)
+    {
+        m_changed = value;
+        emit changed(value);
+    }
 
-        //* toggle
-        void toggle( const QModelIndex& );
+    //* model
+    const ExceptionModel &model() const
+    {
+        return m_model;
+    }
 
-        //* move up
-        void up( void );
+    //* model
+    ExceptionModel &model()
+    {
+        return m_model;
+    }
 
-        //* move down
-        void down( void );
+    //* model
+    ExceptionModel m_model;
 
-        private:
+    //* ui
+    Ui_OxygenExceptionListWidget m_ui;
 
-        //* resize columns
-        void resizeColumns( void ) const;
-
-        //* check exception
-        bool checkException( InternalSettingsPtr );
-
-        //* set changed state
-        virtual void setChanged( bool value )
-        {
-            m_changed = value;
-            emit changed( value );
-        }
-
-        //* model
-        const ExceptionModel& model() const
-        { return m_model; }
-
-        //* model
-        ExceptionModel& model()
-        { return m_model; }
-
-        //* model
-        ExceptionModel m_model;
-
-        //* ui
-        Ui_OxygenExceptionListWidget m_ui;
-
-        //* changed state
-        bool m_changed = false;
-
-    };
-
+    //* changed state
+    bool m_changed = false;
+};
 }
 
 #endif

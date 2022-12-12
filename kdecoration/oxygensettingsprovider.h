@@ -7,8 +7,8 @@
  * SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  */
 
-#include "oxygendecoration.h"
 #include "oxygen.h"
+#include "oxygendecoration.h"
 
 #include <KSharedConfig>
 #include <QObject>
@@ -16,63 +16,62 @@
 namespace Oxygen
 {
 
-    class DecoHelper;
-    class ShadowCache;
+class DecoHelper;
+class ShadowCache;
 
-    class SettingsProvider: public QObject
+class SettingsProvider : public QObject
+{
+    Q_OBJECT
+
+public:
+    //* destructor
+    ~SettingsProvider();
+
+    //* singleton
+    static SettingsProvider *self();
+
+    //* helper
+    DecoHelper *helper(void) const
     {
+        return m_decoHelper;
+    }
 
-        Q_OBJECT
+    //* shadow cache
+    ShadowCache *shadowCache(void) const
+    {
+        return m_shadowCache;
+    }
 
-        public:
+    //* internal settings for given decoration
+    InternalSettingsPtr internalSettings(const Decoration *) const;
 
-        //* destructor
-        ~SettingsProvider();
+public Q_SLOTS:
 
-        //* singleton
-        static SettingsProvider *self();
+    //* reconfigure
+    void reconfigure(void);
 
-        //* helper
-        DecoHelper* helper( void ) const
-        { return m_decoHelper; }
+private:
+    //* contructor
+    SettingsProvider(void);
 
-        //* shadow cache
-        ShadowCache* shadowCache( void ) const
-        { return m_shadowCache; }
+    //* default configuration
+    InternalSettingsPtr m_defaultSettings;
 
-        //* internal settings for given decoration
-        InternalSettingsPtr internalSettings(const Decoration *) const;
+    //* exceptions
+    InternalSettingsList m_exceptions;
 
-        public Q_SLOTS:
+    //* config object
+    KSharedConfigPtr m_config;
 
-        //* reconfigure
-        void reconfigure( void );
+    //* decoration helper
+    DecoHelper *m_decoHelper = nullptr;
 
-        private:
+    //* shadow cache
+    ShadowCache *m_shadowCache = nullptr;
 
-        //* contructor
-        SettingsProvider( void );
-
-        //* default configuration
-        InternalSettingsPtr m_defaultSettings;
-
-        //* exceptions
-        InternalSettingsList m_exceptions;
-
-        //* config object
-        KSharedConfigPtr m_config;
-
-        //* decoration helper
-        DecoHelper* m_decoHelper = nullptr;
-
-        //* shadow cache
-        ShadowCache* m_shadowCache = nullptr;
-
-        //* singleton
-        static SettingsProvider *s_self;
-
-    };
-
+    //* singleton
+    static SettingsProvider *s_self;
+};
 }
 
 #endif

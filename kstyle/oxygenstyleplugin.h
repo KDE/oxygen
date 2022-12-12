@@ -10,31 +10,28 @@
 namespace Oxygen
 {
 
-    class StylePlugin : public QStylePlugin
+class StylePlugin : public QStylePlugin
+{
+    Q_OBJECT
+
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QStyleFactoryInterface" FILE "oxygen.json")
+
+public:
+    //* constructor
+    explicit StylePlugin(QObject *parent = nullptr)
+        : QStylePlugin(parent)
     {
+    }
 
-        Q_OBJECT
+    //* destructor
+    ~StylePlugin();
 
-        Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QStyleFactoryInterface" FILE "oxygen.json" )
+    //* returns list of valid keys
+    QStringList keys() const;
 
-        public:
-
-        //* constructor
-        explicit StylePlugin(QObject *parent = nullptr):
-            QStylePlugin(parent)
-        {}
-
-        //* destructor
-        ~StylePlugin();
-
-        //* returns list of valid keys
-        QStringList keys() const;
-
-        //* create style
-        QStyle* create( const QString& ) override;
-
-    };
-
+    //* create style
+    QStyle *create(const QString &) override;
+};
 }
 
 #endif

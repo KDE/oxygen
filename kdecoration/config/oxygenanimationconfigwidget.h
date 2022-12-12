@@ -11,56 +11,53 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-#include "oxygenbaseanimationconfigwidget.h"
 #include "oxygen.h"
+#include "oxygenbaseanimationconfigwidget.h"
 
 namespace Oxygen
 {
 
-    // forward declaration
-    class GenericAnimationConfigItem;
+// forward declaration
+class GenericAnimationConfigItem;
 
-    //* container to configure animations individually
-    class AnimationConfigWidget: public BaseAnimationConfigWidget
+//* container to configure animations individually
+class AnimationConfigWidget : public BaseAnimationConfigWidget
+{
+    Q_OBJECT
+
+public:
+    //* constructor
+    explicit AnimationConfigWidget(QWidget * = nullptr);
+
+    //* configuration
+    void setInternalSettings(InternalSettingsPtr internalSettings)
     {
+        m_internalSettings = internalSettings;
+    }
 
-        Q_OBJECT
+public Q_SLOTS:
 
-        public:
+    //* read current configuration
+    void load(void) override;
 
-        //* constructor
-        explicit AnimationConfigWidget( QWidget* = nullptr );
+    //* save current configuration
+    void save(void) override;
 
-        //* configuration
-        void setInternalSettings( InternalSettingsPtr internalSettings )
-        { m_internalSettings = internalSettings; }
+protected Q_SLOTS:
 
-        public Q_SLOTS:
+    //* check whether configuration is changed and emit appropriate signal if yes
+    void updateChanged() override;
 
-        //* read current configuration
-        void load( void ) override;
+private:
+    //* internal exception
+    InternalSettingsPtr m_internalSettings;
 
-        //* save current configuration
-        void save( void ) override;
-
-        protected Q_SLOTS:
-
-        //* check whether configuration is changed and emit appropriate signal if yes
-        void updateChanged() override;
-
-        private:
-
-        //* internal exception
-        InternalSettingsPtr m_internalSettings;
-
-        //*@name animations
-        //@{
-        GenericAnimationConfigItem* m_buttonAnimations = nullptr;
-        GenericAnimationConfigItem* m_shadowAnimations = nullptr;
-        //@}
-
-    };
-
+    //*@name animations
+    //@{
+    GenericAnimationConfigItem *m_buttonAnimations = nullptr;
+    GenericAnimationConfigItem *m_shadowAnimations = nullptr;
+    //@}
+};
 }
 
 #endif
