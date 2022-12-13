@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2010-07-13 13:55+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -21,12 +21,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Oxygen ynstellings"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Fokus, mûsoer en tastânsoergong fan widget"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -35,27 +35,27 @@ msgstr ""
 "De fokus en Mûsoer animearre aksint fan widgets ynstelle, ek tastânsoergong "
 "tusken yn- en útskeakelje"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Arkbalke aksint"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Arkbalke mûsoer effekt animaasje ynstelle"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Menubalke aksint"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Menubalken mûsoer effekt animaasje ynstelle"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "Menu aksint"
@@ -70,17 +70,17 @@ msgstr "Menu's mûsoer effekt animaasje ynstelle"
 msgid "Progress bar animation"
 msgstr "Fuortgongbalke animaasje"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Fuortgong stap effekt animaasje ynstelle"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "Ljepperoergongen"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Ferfaach oergong tusken ljeppers ynstelle"
@@ -95,34 +95,34 @@ msgstr "Label oergongen"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Ferfaach oergong as in label tekst feroare is ynstelle"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Tekst bewurker oergongen"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "Ferfaach oergong as in bewurkerstekst is feroare ynstelle"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Kombinaasjefak oergongen"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr "Ferfaach oergong as in kombinaasjefakje selektearre is ynstelle"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, fuzzy, kde-format
 #| msgid "Progress bar animation"
 msgid "Progress bar busy indicator"
 msgstr "Fuortgongbalke animaasje"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Fuortgongs balke dwaan oantsjutter animaasje ynstelle"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2022-02-13 13:30+0400\n"
 "Last-Translator: Kheyyam Gojayev <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -22,12 +22,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Oxygen ayarları"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Fokus, kursorla işarələmə və vidjet rejiminə keçid"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -37,27 +37,27 @@ msgstr ""
 "tınzimləmək, həmçinin vidjetləri aktiv etmək/söndürmək vəziyyətləri arası "
 "keçid"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Alətlər panelinə diqqət çəkmək"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Alətlər panelinə kursorla diqqət çəkmək animasiaysını tənzimləmək"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Menyu çubuğuna diqqət çəkmək"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Menyu çubuğuna kursorla diqqət çəkmək animasiaysını tənzimləmək"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "Menyunu vurğulamaq"
@@ -72,17 +72,17 @@ msgstr "Manyuaya kursorla diqqət çəkmək animasiaysını tənzimləmək"
 msgid "Progress bar animation"
 msgstr "Gedişat paneli animasiyası"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Gedişat paneli mərhələləri animasiyasını tənzimləmək"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "Vərəqlər arası keçid"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Vərəqlər arası solma effektli keçidi tənzimləmək"
@@ -97,22 +97,22 @@ msgstr "Keçidlər etiketi"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Etiketin mətni dəyişdiyində solma effektli keçidi tənzimləmək"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Mətn redaktoru keçidləri"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "Redaktorun mətni dəyişdiyində solma effektli keçidi tənzimləmək"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Birləşik qeyd qutuları arası keçid"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
@@ -120,12 +120,12 @@ msgstr ""
 "Birləşik qeyd qutunun seçilmiş deçimi dəyişdiyində solma effektli keçidi "
 "tənzimləmək"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "İşlək gedişat paneli indikatoru"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "İşlək gedişat paneli indikatoru animasiyasını tənzimləmək"

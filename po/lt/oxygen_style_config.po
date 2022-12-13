@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2019-08-06 01:03+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -25,12 +25,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Oxygen nuostatos"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Fokusas, pelės užvedimas ir valdiklio būsenos perėjimas"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -39,27 +39,27 @@ msgstr ""
 "Konfigūruoti valdiklių fokusą ir paryškinimo animaciją užvedus pelę, o taip "
 "pat valdiklio įjungtos/išjungtos būsenos perėjimą"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Įrankių juostos paryškinimas"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Konfigūruoti įrankių juostos paryškinimo animaciją užvedus pelę"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Meniu juostos paryškinimas"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Konfigūruoti meniu juostų paryškinimo animaciją užvedus pelę"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "Meniu paryškinimas"
@@ -74,17 +74,17 @@ msgstr "Konfigūruoti meniu paryškinimo animaciją užvedus pelę"
 msgid "Progress bar animation"
 msgstr "Eigos juostos animacija"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Konfigūruoti eigos juostų žingsnių animaciją"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "Kortelių perėjimai"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Konfigūruoti išblukimo perėjimą tarp kortelių"
@@ -99,22 +99,22 @@ msgstr "Etikečių perėjimai"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Konfigūruoti išblukimo perėjimą pakeitus etiketės tekstą"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Tekstų redaktoriaus perėjimai"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "Konfigūruoti išblukimo perėjimą pakeitus redaktoriaus tekstą"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Jungtinio langelio perėjimai"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
@@ -122,12 +122,12 @@ msgstr ""
 "Konfigūruoti išblukimo perėjimą pakeitus jungtinio langelio pažymėtą "
 "pasirinkimą"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "Eigos juostos užimtumo indikatorius"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Konfigūruoti eigos juostų užimtumo indikatoriaus animaciją"

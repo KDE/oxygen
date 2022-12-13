@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2022-09-27 18:12+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -24,12 +24,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Pengaturan Oxygen"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Transisi kondisi fokus, mouse-melintasi dan widget"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -38,27 +38,27 @@ msgstr ""
 "Konfigurasikan widget fokus dan animasi sorot mouse-melintasi, begitu pula "
 "transisi kondisi widget difungsikan/dinonfungsikan"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Sorot bilah alat"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Konfigurasikan animasi sorot mouse-melintasi bilah alat"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Sorot menubar"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Konfigurasikan animasi sorot mouse-melintasi menubar"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "Sorot menu"
@@ -73,17 +73,17 @@ msgstr "Konfigurasikan animasi sorot mouse-melintasi menu"
 msgid "Progress bar animation"
 msgstr "Animasi bilah progres"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Konfigurasikan animasi langkah bilah proses"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "Transisi tab"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Konfigurasikan transisi pelesapan antartab"
@@ -98,22 +98,22 @@ msgstr "Transisi label"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Konfigurasikan transisi pelesapan ketika label teks diubah"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Transisi penyunting teks"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "Konfigurasikan transisi pelesapan ketika editor teks telah diubah"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Transisi kotak kombo"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
@@ -121,12 +121,12 @@ msgstr ""
 "Konfigurasikan transisi pelesapan ketika pilihan kotak kombo terpilih telah "
 "diubah"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "Indikator bilah progres sibuk"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Konfigurasikan animasi indikator sibuk bilah proses"

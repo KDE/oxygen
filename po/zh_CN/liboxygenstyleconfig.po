@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-06-28 00:21+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2022-12-01 06:53\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Crowdin-File: /kf5-trunk/messages/oxygen/liboxygenstyleconfig.pot\n"
 "X-Crowdin-File-ID: 4470\n"
 
-#: oxygenanimationconfigitem.cpp:87
+#: oxygenanimationconfigitem.cpp:98
 #, kde-format
 msgid "oxygen-settings - information"
 msgstr "Oxygen 轻氧-设置 - 信息"

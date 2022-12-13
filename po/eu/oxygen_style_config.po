@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2022-07-11 08:34+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -28,14 +28,14 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Oxygen-en ezarpenak"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr ""
 "Fokuaren, sagua gainetik igarotzeko prozesuaren eta trepeten egoeren "
 "trantsizioa"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -44,29 +44,29 @@ msgstr ""
 "Konfiguratu trepeten fokua eta sagua gainetik igarotzean nabarmentzeko "
 "animazioa, bai eta trepeten gaituta/ezgaituta egoera-trantsizioa ere"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Tresna-barrak nabarmentzea"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr ""
 "Konfiguratu tresna-barren gainetik sagua igarotzean nabarmentzeko animazioa"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Menu-barrak nabarmentzea"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr ""
 "Konfiguratu menu-barren gainetik sagua igarotzean nabarmentzeko animazioa"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "Menuak nabarmentzea"
@@ -81,17 +81,17 @@ msgstr "Konfiguratu menuen gainetik sagua igarotzean nabarmentzeko animazioa"
 msgid "Progress bar animation"
 msgstr "Aurrerapen-barren animazioa"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Konfiguratu aurrerapen-barren urratsen animazioa"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "Fitxen trantsizioak"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Konfiguratu fitxen arteko urtze-trantsizioa"
@@ -106,22 +106,22 @@ msgstr "Etiketen trantsizioak"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Konfiguratu urtze-trantsizioa, etiketa baten testua aldatzen denean"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Testu-editoreen trantsizioak"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "Konfiguratu urtze-trantsizioa editore baten testua aldatzen denean"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Konbinazio-koadroaren trantsizioa"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
@@ -129,12 +129,12 @@ msgstr ""
 "Konfiguratu urtze-trantsizioa konbinazio-koadro batean hautatutakoa aldatzen "
 "denean"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "Aurrerapen-barraren lanpetu adierazlea"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Konfiguratu aurrerapen-barraren lanpetu adierazle animazioa"

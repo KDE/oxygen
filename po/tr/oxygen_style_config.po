@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2022-11-14 13:21+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -25,12 +25,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Oksijen Ayarları"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Odaklama, fare ile üzerine gelme ve gereç durumu geçişi"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -39,31 +39,31 @@ msgstr ""
 "Parçacık odaklanması ve fare ile üzerine gelinmesinde kullanılacak "
 "canlandırmayı ve gereçlerin aktif/pasif geçişlerini yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Araç çubuğu vurgulaması"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr ""
 "Araç çubuklarının üzerine fare ile odaklanıldığında etkinleştirilecek "
 "canlandırmayı yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Menü çubuğu vurgulaması"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr ""
 "Menü çubuklarının üzerine fare ile odaklanıldığında etkinleştirilecek "
 "canlandırmayı yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "Menü vurgulaması"
@@ -80,17 +80,17 @@ msgstr ""
 msgid "Progress bar animation"
 msgstr "İlerleme çubuğu canlandırması"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "İlerleme çubuğu adım canlandırmasını yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "Sekme geçişleri"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Sekmeler arası geçişte kullanılan soldurmayı yapılandır"
@@ -105,23 +105,23 @@ msgstr "Etiket geçişleri"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Bir etiketin metni değiştirildiğinde kullanılan soldurmayı yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Metin düzenleyici geçişleri"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr ""
 "Bir düzenleyicinin metni değiştirildiğinde kullanılan soldurmayı yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Açılan kutu geçişleri"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
@@ -129,12 +129,12 @@ msgstr ""
 "Bir açılan kutunun seçili tercihi değiştiğinde kullanılan soldurma geçişini "
 "yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "İlerleme çubuğu meşgul göstergesi"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "İlerleme çubuğunun meşgul canlandırmasını yapılandır"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-25 00:48+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2019-11-02 09:32+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 19.08.2\n"
 
-#: main.cpp:38 oxygendemodialog.cpp:40 oxygendemodialog.cpp:190
+#: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
 msgid "Oxygen Demo"
 msgstr "Oxygen-en erakusgaia"
@@ -38,7 +38,7 @@ msgstr "Oxygen-en erakusgaia"
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
-#: oxygenbuttondemowidget.cpp:40 ui/oxygenbuttondemowidget.ui:154
+#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
 #: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
 #: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
 #: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
@@ -48,25 +48,25 @@ msgstr "Oxygen-en erakusgaia"
 msgid "Normal"
 msgstr "Arrunta"
 
-#: oxygenbuttondemowidget.cpp:41 oxygenbuttondemowidget.cpp:60
-#: oxygenbuttondemowidget.cpp:233 oxygenbuttondemowidget.cpp:243
+#: oxygenbuttondemowidget.cpp:36 oxygenbuttondemowidget.cpp:55
+#: oxygenbuttondemowidget.cpp:230 oxygenbuttondemowidget.cpp:240
 #, kde-format
 msgid "New"
 msgstr "Berria"
 
-#: oxygenbuttondemowidget.cpp:42 oxygenbuttondemowidget.cpp:61
-#: oxygenbuttondemowidget.cpp:234 oxygenbuttondemowidget.cpp:244
+#: oxygenbuttondemowidget.cpp:37 oxygenbuttondemowidget.cpp:56
+#: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
 #, kde-format
 msgid "Open"
 msgstr "Ireki"
 
-#: oxygenbuttondemowidget.cpp:43 oxygenbuttondemowidget.cpp:62
-#: oxygenbuttondemowidget.cpp:235 oxygenbuttondemowidget.cpp:245
+#: oxygenbuttondemowidget.cpp:38 oxygenbuttondemowidget.cpp:57
+#: oxygenbuttondemowidget.cpp:232 oxygenbuttondemowidget.cpp:242
 #, kde-format
 msgid "Save"
 msgstr "Gorde"
 
-#: oxygenbuttondemowidget.cpp:63
+#: oxygenbuttondemowidget.cpp:58
 #, kde-format
 msgid "Toggle authentication"
 msgstr "Aktibatu/desaktibatu autentifikazioa"
@@ -86,95 +86,95 @@ msgstr "Eskuinetik ezkerrerako orri-diseinua"
 msgid "Style"
 msgstr "Estiloa"
 
-#: oxygendemodialog.cpp:88
+#: oxygendemodialog.cpp:87
 #, kde-format
 msgid "Input Widgets"
 msgstr "Sarrera-trepetak"
 
-#: oxygendemodialog.cpp:90
+#: oxygendemodialog.cpp:89
 #, kde-format
 msgid "Shows the appearance of text input widgets"
 msgstr "Testua sartzeko trepeten itxura erakusten du"
 
-#: oxygendemodialog.cpp:98
+#: oxygendemodialog.cpp:97
 #, kde-format
 msgid "Tab Widgets"
 msgstr "Fitxa-trepetak"
 
-#: oxygendemodialog.cpp:100
+#: oxygendemodialog.cpp:99
 #, kde-format
 msgid "Shows the appearance of tab widgets"
 msgstr "Fitxa-trepeten itxura erakusten du"
 
-#: oxygendemodialog.cpp:108
+#: oxygendemodialog.cpp:107
 #, kde-format
 msgid "Buttons"
 msgstr "Botoiak"
 
-#: oxygendemodialog.cpp:110
+#: oxygendemodialog.cpp:109
 #, kde-format
 msgid "Shows the appearance of buttons"
 msgstr "Botoien itxura erakusten du"
 
-#: oxygendemodialog.cpp:118
+#: oxygendemodialog.cpp:117
 #, kde-format
 msgid "Lists"
 msgstr "Zerrendak"
 
-#: oxygendemodialog.cpp:120
+#: oxygendemodialog.cpp:119
 #, kde-format
 msgid "Shows the appearance of lists, trees and tables"
 msgstr "Zerrenden, zuhaitzen eta taulen itxura erakusten du"
 
-#: oxygendemodialog.cpp:128
+#: oxygendemodialog.cpp:127
 #, kde-format
 msgid "Frames"
 msgstr "Markoak"
 
-#: oxygendemodialog.cpp:130
+#: oxygendemodialog.cpp:129
 #, kde-format
 msgid "Shows the appearance of various framed widgets"
 msgstr "Hainbat trepeta markodunen itxura erakusten du"
 
-#: oxygendemodialog.cpp:138
+#: oxygendemodialog.cpp:137
 #, kde-format
 msgid "MDI Windows"
 msgstr "MDI leihoak"
 
-#: oxygendemodialog.cpp:140
+#: oxygendemodialog.cpp:139
 #, kde-format
 msgid "Shows the appearance of MDI windows"
 msgstr "MDI leihoen itxura erakusten du"
 
-#: oxygendemodialog.cpp:148
+#: oxygendemodialog.cpp:147
 #, kde-format
 msgid "Sliders"
 msgstr "Graduatzaileak"
 
-#: oxygendemodialog.cpp:150
+#: oxygendemodialog.cpp:149
 #, kde-format
 msgid "Shows the appearance of sliders, progress bars and scrollbars"
 msgstr ""
 "Graduatzaileen, aurrerapen-barren eta labaintzeko-barren itxura erakusten du"
 
 # Wikipedia.org: In computing, a benchmark is the act of running a computer program, a set of programs, or other operations, in order to assess the relative performance of an object, normally by running a number of standard tests and trials against it. The term 'benchmark' is also mostly utilized for the purposes of elaborately-designed benchmarking programs themselves.
-#: oxygendemodialog.cpp:159
+#: oxygendemodialog.cpp:158
 #, kde-format
 msgid "Benchmark"
 msgstr "Saiakuntza-bankua"
 
-#: oxygendemodialog.cpp:161
+#: oxygendemodialog.cpp:160
 #, kde-format
 msgid "Emulates user interaction with widgets for benchmarking"
 msgstr ""
 "Erabiltzaileen trepetekiko elkarreragiketa emulatzen du saiakuntza-bankurako"
 
-#: oxygeninputdemowidget.cpp:22
+#: oxygeninputdemowidget.cpp:21
 #, kde-format
 msgid "Example text"
 msgstr "Adibide-testua"
 
-#: oxygeninputdemowidget.cpp:23
+#: oxygeninputdemowidget.cpp:22
 #, kde-format
 msgid "password"
 msgstr "pasahitza"
@@ -209,17 +209,17 @@ msgstr "Tresnak"
 msgid "Select Next Window"
 msgstr "Hautatu hurrengo leihoa"
 
-#: oxygenmdidemowidget.cpp:45
+#: oxygenmdidemowidget.cpp:48
 #, kde-format
 msgid "Select Previous Window"
 msgstr "Hautatu aurreko leihoa"
 
-#: oxygensimulator.h:71
+#: oxygensimulator.h:72
 #, kde-format
 msgid "This is a sample text"
 msgstr "Hau lagin-testu bat da"
 
-#: oxygenstylechooser.cpp:40
+#: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
 msgstr "Hautatu aplikazioen trepeta-estiloa"

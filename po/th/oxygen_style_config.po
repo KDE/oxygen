@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2010-12-17 20:18+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -24,12 +24,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "ปรับแต่ง Oxygen"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "การโฟกัส การวางเมาส์เหนือและการเปลี่ยนผ่านสถานะวิดเจ็ต"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -38,27 +38,27 @@ msgstr ""
 "ปรับแต่งการโฟกัสของวิดเจ็ตและการเคลื่อนไหวแบบเน้นเมื่อเมาส์อยู่เหนือ "
 "รวมถึงการเปิดหรือปิดการใช้งานการเปลี่ยนสถานะของวิดเจ็ต"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "การเน้นแถบเครื่องมือ"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "ปรับแต่งการเน้นแถบเครื่องมือเมื่อเมาส์อยู่เหนือแบบเคลื่อนไหว"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "การเน้นแถบเมนู"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "ปรับแต่งการเน้นแถบเมนูเมื่อมีเมาส์เหนือแบบเคลื่อนไหว"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "การเน้นเมนู"
@@ -73,17 +73,17 @@ msgstr "ปรับแต่งการเน้นเมนูเมื่อ
 msgid "Progress bar animation"
 msgstr "การเคลื่อนไหวของแถบบอกความคืบหน้า"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "ปรับแต่งขั้นตอนการเคลื่อนไหวของแถบบอกความคืบหน้า"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "การเปลี่ยนแท็บแบบเคลื่อนไหว"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "ปรับแต่งการเปลี่ยนแท็บแบบจางหาย"
@@ -98,34 +98,34 @@ msgstr "การเปลี่ยนป้ายชื่อ"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "ปรับแต่งการเปลี่ยนไปแบบจางหายเมื่อข้อความป้ายชื่อเปลี่ยนไป"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "การเปลี่ยนตัวแก้ไขข้อความ"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "ปรับแต่งการเปลี่ยนไปแบบจางหายเมื่อตัวแก้ไขข้อความเปลี่ยนไป"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "การเปลี่ยนกล่องคอมโบ"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr "ปรับแต่งการเปลี่ยนแบบจางหายเมื่อเปลี่ยนตัวเลือกในกล่องคอมโบ"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, fuzzy, kde-format
 #| msgid "Progress bar animation"
 msgid "Progress bar busy indicator"
 msgstr "การเคลื่อนไหวของแถบบอกความคืบหน้า"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "ปรับแต่งการเคลื่อนไหวของตัวแสดงว่าไม่ว่างในแถบบอกความคืบหน้า"

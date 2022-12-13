@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-25 00:48+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2022-01-19 22:14+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -19,7 +19,7 @@ msgstr ""
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 "X-Generator: Lokalize 21.07.70\n"
 
-#: main.cpp:38 oxygendemodialog.cpp:40 oxygendemodialog.cpp:190
+#: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
 msgid "Oxygen Demo"
 msgstr "عرض أكسجين"
@@ -34,7 +34,7 @@ msgstr "عرض أكسجين"
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
-#: oxygenbuttondemowidget.cpp:40 ui/oxygenbuttondemowidget.ui:154
+#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
 #: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
 #: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
 #: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
@@ -44,25 +44,25 @@ msgstr "عرض أكسجين"
 msgid "Normal"
 msgstr "عادي"
 
-#: oxygenbuttondemowidget.cpp:41 oxygenbuttondemowidget.cpp:60
-#: oxygenbuttondemowidget.cpp:233 oxygenbuttondemowidget.cpp:243
+#: oxygenbuttondemowidget.cpp:36 oxygenbuttondemowidget.cpp:55
+#: oxygenbuttondemowidget.cpp:230 oxygenbuttondemowidget.cpp:240
 #, kde-format
 msgid "New"
 msgstr "جديد"
 
-#: oxygenbuttondemowidget.cpp:42 oxygenbuttondemowidget.cpp:61
-#: oxygenbuttondemowidget.cpp:234 oxygenbuttondemowidget.cpp:244
+#: oxygenbuttondemowidget.cpp:37 oxygenbuttondemowidget.cpp:56
+#: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
 #, kde-format
 msgid "Open"
 msgstr "افتح"
 
-#: oxygenbuttondemowidget.cpp:43 oxygenbuttondemowidget.cpp:62
-#: oxygenbuttondemowidget.cpp:235 oxygenbuttondemowidget.cpp:245
+#: oxygenbuttondemowidget.cpp:38 oxygenbuttondemowidget.cpp:57
+#: oxygenbuttondemowidget.cpp:232 oxygenbuttondemowidget.cpp:242
 #, kde-format
 msgid "Save"
 msgstr "احفظ"
 
-#: oxygenbuttondemowidget.cpp:63
+#: oxygenbuttondemowidget.cpp:58
 #, kde-format
 msgid "Toggle authentication"
 msgstr "بدل بين الاستيثاق وعدمه"
@@ -82,93 +82,93 @@ msgstr "تخطيط من اليمين إلى اليسار"
 msgid "Style"
 msgstr "النّمط"
 
-#: oxygendemodialog.cpp:88
+#: oxygendemodialog.cpp:87
 #, kde-format
 msgid "Input Widgets"
 msgstr "ودجات الإدخال"
 
-#: oxygendemodialog.cpp:90
+#: oxygendemodialog.cpp:89
 #, kde-format
 msgid "Shows the appearance of text input widgets"
 msgstr "يعرض مظهر ودجات إدخال النصوص"
 
-#: oxygendemodialog.cpp:98
+#: oxygendemodialog.cpp:97
 #, kde-format
 msgid "Tab Widgets"
 msgstr "ودجات الألسنة"
 
-#: oxygendemodialog.cpp:100
+#: oxygendemodialog.cpp:99
 #, kde-format
 msgid "Shows the appearance of tab widgets"
 msgstr "يعرض مظهر ودجات الألسنة"
 
-#: oxygendemodialog.cpp:108
+#: oxygendemodialog.cpp:107
 #, kde-format
 msgid "Buttons"
 msgstr "أزرار"
 
-#: oxygendemodialog.cpp:110
+#: oxygendemodialog.cpp:109
 #, kde-format
 msgid "Shows the appearance of buttons"
 msgstr "يعرض مظهر الأزرار"
 
-#: oxygendemodialog.cpp:118
+#: oxygendemodialog.cpp:117
 #, kde-format
 msgid "Lists"
 msgstr "لوائح"
 
 # حذفت الفاصلة هنا لكي لا يظن المستخدم أن الأشجار معطوفة على مظهر
-#: oxygendemodialog.cpp:120
+#: oxygendemodialog.cpp:119
 #, kde-format
 msgid "Shows the appearance of lists, trees and tables"
 msgstr "يعرض مظهر اللوائحِ والأشجارِ والجداول"
 
-#: oxygendemodialog.cpp:128
+#: oxygendemodialog.cpp:127
 #, kde-format
 msgid "Frames"
 msgstr "إطارات"
 
-#: oxygendemodialog.cpp:130
+#: oxygendemodialog.cpp:129
 #, kde-format
 msgid "Shows the appearance of various framed widgets"
 msgstr "يعرض مظهر الودجات المأطرة المختلفة"
 
-#: oxygendemodialog.cpp:138
+#: oxygendemodialog.cpp:137
 #, kde-format
 msgid "MDI Windows"
 msgstr "نوافذ MDI"
 
-#: oxygendemodialog.cpp:140
+#: oxygendemodialog.cpp:139
 #, kde-format
 msgid "Shows the appearance of MDI windows"
 msgstr "يعرض مظهر نوافذ MDI"
 
-#: oxygendemodialog.cpp:148
+#: oxygendemodialog.cpp:147
 #, kde-format
 msgid "Sliders"
 msgstr "مزالق"
 
-#: oxygendemodialog.cpp:150
+#: oxygendemodialog.cpp:149
 #, kde-format
 msgid "Shows the appearance of sliders, progress bars and scrollbars"
 msgstr "يعرض مظهر المزالق، شرائط التقدم وشرائط الزلق"
 
-#: oxygendemodialog.cpp:159
+#: oxygendemodialog.cpp:158
 #, kde-format
 msgid "Benchmark"
 msgstr "قياس الأداء"
 
-#: oxygendemodialog.cpp:161
+#: oxygendemodialog.cpp:160
 #, kde-format
 msgid "Emulates user interaction with widgets for benchmarking"
 msgstr "يحاكي تفاعل المستخدم مع الودجات لقياس الأداء"
 
-#: oxygeninputdemowidget.cpp:22
+#: oxygeninputdemowidget.cpp:21
 #, kde-format
 msgid "Example text"
 msgstr "مثال نص"
 
-#: oxygeninputdemowidget.cpp:23
+#: oxygeninputdemowidget.cpp:22
 #, kde-format
 msgid "password"
 msgstr "كلمة السر"
@@ -203,17 +203,17 @@ msgstr "أدوات"
 msgid "Select Next Window"
 msgstr "اختر النافذة التالية"
 
-#: oxygenmdidemowidget.cpp:45
+#: oxygenmdidemowidget.cpp:48
 #, kde-format
 msgid "Select Previous Window"
 msgstr "اختر النافذة السابقة"
 
-#: oxygensimulator.h:71
+#: oxygensimulator.h:72
 #, kde-format
 msgid "This is a sample text"
 msgstr "هذا نص كعينة"
 
-#: oxygenstylechooser.cpp:40
+#: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
 msgstr "اختر نمط التطبيقات"

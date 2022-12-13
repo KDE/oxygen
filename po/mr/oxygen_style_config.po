@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2013-02-19 15:31+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -24,12 +24,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "ऑक्सीजन संयोजना"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "लक्ष्य केंद्रीत, माऊस फिरवणे व विजेट स्थिती बदल"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -38,27 +38,27 @@ msgstr ""
 "विजेटचे लक्ष्य केंद्रीत, माऊस फिरवल्यास स्पष्टता ऍनीमेशन व विजेट कार्यान्वित/अकार्यान्वित "
 "स्थिती बदल संयोजीत करा"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "साधनपट्टी स्पष्ट करा"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "साधनपट्टीवर माऊस नेण्याचे ऍनीमेशन संयोजीत करा"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "मेन्यूपट्टी स्पष्ट करा"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "मेन्यूपट्टीवर माऊस नेण्याचे ऍनीमेशन संयोजीत करा"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "मेन्यू स्पष्ट करा"
@@ -73,17 +73,17 @@ msgstr "मेन्यूवर माऊस नेण्याचे ऍनी
 msgid "Progress bar animation"
 msgstr "प्रगतीपट्टी ऍनीमेशन"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "प्रगतीपट्टी पायऱ्यांचे ऍनीमेशन संयोजीत करा"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "टॅब बदल"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "टॅब बदलताना फीकेपणा संयोजीत करा"
@@ -98,34 +98,34 @@ msgstr "लेबल बदल"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "लेबलचे पाठ्य बदलताना फीकेपणा संयोजीत करा"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "पाठ्य संपादक बदल"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "संपादकातील पाठ्य बदलताना फीकेपणा संयोजीत करा"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "कॉम्बोबॉक्स बदल"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr "कॉम्बोबॉक्सची निवड बदलताना फीकेपणा संयोजीत करा"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, fuzzy, kde-format
 #| msgid "Progress bar animation"
 msgid "Progress bar busy indicator"
 msgstr "प्रगतीपट्टी ऍनीमेशन"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "प्रगतीपट्टी व्यस्तता सूचकाचे ऍनीमेशन संयोजीत करा"

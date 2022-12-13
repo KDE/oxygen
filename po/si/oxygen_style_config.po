@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2011-07-20 12:23+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -23,12 +23,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Oxygen සිටුවම්"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "එල්ලය, මූසිකය උඩින් යෑම සහ විජට්ටු තත්ව සංක්‍රමණය"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -37,27 +37,27 @@ msgstr ""
 "විජට්ටුවේ එල්ලය සහ මූසිකය උඩින් ගෙනයාමේදී ඉස්මතු කරන සජීවනය සේම විජට්ටු සක්‍රිය/අක්‍රිය තත්ව සංක්‍"
 "රමණය වින්‍යාසගත කරන්න"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "මෙවලම් තීරු ඉස්මතුකරනය"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "මෙවලම් තීරුවේ මූසිකය උඩින් යාමේදී ඉස්මතු වීමේ සජීවනය වින්‍යාසගත කරන්න"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "මෙනු තීරු ඉස්මතුකරනය"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "මෙනු තීරුවේ මූසිකය උඩින් යාමේදී ඉස්මතු වීමේ සජීවනය වින්‍යාසගත කරන්න"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "මෙනු ඉස්මතුකරනය"
@@ -72,17 +72,17 @@ msgstr "මෙනුවේ මූසිකය උඩින් යාමේදී
 msgid "Progress bar animation"
 msgstr "ප්‍රගති තීරු සජීවනය"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "ප්‍රගති තීරුවේ පියවර සජීවනය වින්‍යාසගත කරන්න"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "ටැබ් සංක්‍රමණය"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "ටැබ් අතර විවර්ණ වීමේ සංක්‍රමණය වින්‍යාසත කරන්න"
@@ -97,34 +97,34 @@ msgstr "ලේබල සංක්‍රමණය"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "ලේබලයක පෙළ වෙනස් වූ විට විවර්ණ සංක්‍රමණය වින්‍යාගත කරන්න"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "පෙළ සංස්කාරක සංක්‍රමණ"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "සංස්කාරකයක පෙළ වෙනස් වූ විට විවර්ණ සංක්‍රමණය වින්‍යාගත කරන්න"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "සංයුක්ත කොටු සංක්‍රමණය"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr "සංයුක්ත කොටුවක තේරීම වෙනස් වූ විට විවර්ණ සංක්‍රමණය වින්‍යාසගත කරන්න"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, fuzzy, kde-format
 #| msgid "Progress bar animation"
 msgid "Progress bar busy indicator"
 msgstr "ප්‍රගති තීරු සජීවනය"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "ප්‍රගති තීරුවේ කාර්යබහුලබව දක්වන සජීවනය වින්‍යාසගත කරන්න"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2010-11-27 03:57+0530\n"
 "Last-Translator: G Karunakar\n"
 "Language-Team: Hindi <en@li.org>\n"
@@ -23,41 +23,41 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "आक्सीजन विन्यास"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr ""
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
 "widget enabled/disabled state transition"
 msgstr ""
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "औज़ार पट्टी उभारें"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, fuzzy, kde-format
 #| msgid "Custom mouseover highlight color:"
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "माउस के ऊपर आने पर उभारने का अनुकूलित रंग:"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "मेन्यू पट्टी उभार"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, fuzzy, kde-format
 #| msgid "Custom mouseover highlight color:"
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "माउस के ऊपर आने पर उभारने का अनुकूलित रंग:"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "मेन्यू उभार"
@@ -73,17 +73,17 @@ msgstr "माउस के ऊपर आने पर उभारने का
 msgid "Progress bar animation"
 msgstr "प्रगति एनीमेशन"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, fuzzy, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "कॉन्फ़िगर एनीमेशन"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, fuzzy, kde-format
 msgid "Tab transitions"
 msgstr "टैब"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, fuzzy, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "कॉन्फ़िगर"
@@ -98,33 +98,33 @@ msgstr "लेबल"
 msgid "Configure fading transition when a label's text is changed"
 msgstr "कॉन्फ़िगर ए लेबल से. पाठ है बदला"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, fuzzy, kde-format
 msgid "Text editor transitions"
 msgstr "पाठ"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, fuzzy, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "कॉन्फ़िगर से. पाठ है बदला"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, fuzzy, kde-format
 msgid "Combo box transitions"
 msgstr "बक्सा"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, fuzzy, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr "कॉन्फ़िगर ए बक्सा से. चयनित है बदला"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, fuzzy, kde-format
 msgid "Progress bar busy indicator"
 msgstr "प्रगति एनीमेशन"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, fuzzy, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "कॉन्फ़िगर एनीमेशन"

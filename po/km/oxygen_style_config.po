@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2012-06-14 13:44+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -22,12 +22,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "ការ​កំណត់​អុកហ្សីសែន"
 
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "ផ្ដោត កណ្ដុរលើ និង​ដំណើរការ​ផ្លាស់ប្ដូរ​ស្ថានភាព​ធាតុក្រាហ្វិក"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -36,27 +36,27 @@ msgstr ""
 "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​ និង​ការ​ផ្ដោត​របស់​ធាតុក្រាហ្វិក ព្រមទាំង​ធាតុក្រាហ្វិក​បានបើក/បិទ​"
 "ដំណើរការ​ផ្លាស់ប្ដូរ​ស្ថានភាព"
 
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "ការ​បន្លិច​របារ​ឧបករណ៍"
 
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​របស់​របារ​ឧបករណ៍"
 
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "កា​របន្លិច​របារ​ម៉ឺនុយ"
 
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​បន្លិច​កណ្ដុរ​លើ​របស់​របារ​ម៉ឺនុយ"
 
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "ការ​បន្លិច​ម៉ឺនុយ"
@@ -71,17 +71,17 @@ msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​
 msgid "Progress bar animation"
 msgstr "ចលនា​របារ​វឌ្ឍនភាព"
 
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​ជំហាន​របស់​របារ​វឌ្ឍនភាព"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​ផ្ទាំង"
 
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរការ​ផ្លាស់ប្ដូរ​លេច​ឡើង​រវាង​ផ្ទាំង"
@@ -96,35 +96,35 @@ msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​ស្ល
 msgid "Configure fading transition when a label's text is changed"
 msgstr "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរការ​ផ្លាស់ប្ដូរ​លេច​ឡើង​ នៅពេល​អត្ថបទ​របស់​អ្នកស្លាក​ត្រូវ​បាន​ផ្លាស់ប្ដូរ"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​កម្មវិធី​និពន្ធ​អត្ថបទ"
 
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរ​ផ្លាស់ប្ដូរ​លេច​ឡើង​ នៅពេល​អត្ថបទ​របស់​អ្នកនិពន្ធ​ត្រូវ​បាន​ផ្លាស់ប្ដូរ"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "ដំណើរការ​ផ្លាស់ប្ដូរ​ប្រអប់​ផ្សំ"
 
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr ""
 "កំណត់​រចនាសម្ព័ន្ធ​ដំណើរការ​ផ្លាស់ប្ដូរ​លេច​ឡើង​ នៅពេល​ជម្រើស​ដែលបាន​ជ្រើស​របស់​ប្រអប់​ផ្សំ​ត្រូវ​បាន​ផ្លាស់ប្ដូរ"
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, fuzzy, kde-format
 #| msgid "Progress bar animation"
 msgid "Progress bar busy indicator"
 msgstr "ចលនា​របារ​វឌ្ឍនភាព"
 
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "កំណត់​រចនាសម្ព័ន្ធ​ចលនា​ទ្រនិច​បង្ហាញ​រវល់​របស់​របារ​វឌ្ឍនភាព"

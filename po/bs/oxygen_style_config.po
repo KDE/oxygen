@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-02-07 00:45+0000\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2015-02-15 14:46+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -29,14 +29,14 @@ msgid "Oxygen Settings"
 msgstr "Postavke programa Oxygen"
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:33
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Fokus, prelazak mišem i prelazi stanja grafičke kontrole"
 
 # rewrite-msgid: /highlight//
 # >> @info
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -46,33 +46,33 @@ msgstr ""
 "i prelaze grafičke kontrole u stanja uključenog i isključenog."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:37
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Isticanje trake alatki"
 
 # rewrite-msgid: /highlight//
 # >> @info
-#: oxygenanimationconfigwidget.cpp:38
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Podesite animaciju prelaska mišem preko trake alatki."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:42
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Isticanje trake menija"
 
 # rewrite-msgid: /highlight//
 # >> @info
-#: oxygenanimationconfigwidget.cpp:43
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Podesite animaciju prelaska mišem preko trake menija."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:46
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "Isticanje menija"
@@ -91,19 +91,19 @@ msgid "Progress bar animation"
 msgstr "Animacija trake napretka"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:51
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Podesite animaciju koraka u traci napretka."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "Prelazi jezičaka"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Podesite prijelazno pretapanje između jezičaka."
@@ -121,38 +121,38 @@ msgid "Configure fading transition when a label's text is changed"
 msgstr "Podesite prijelazno pretapanje kada se promijeni tekst etikete."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Prelazi u uređivaču teksta"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:60
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "Podesite prijelazno pretapanje kada se izmjeni tekst u uređivaču."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Prelazi padajućeg spiska"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr ""
 "Podesite prijelazno pretapanje kada se promijeni izbor u padajućem spisku."
 
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "Indikator zauzetosti progresne trake"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:74
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Podesite animaciju pokazatelja zauzetosti u traci napretka."
