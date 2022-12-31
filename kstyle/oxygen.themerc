@@ -118,5 +118,6 @@ Comment[sv]=Komponentstil för Plasma-skrivbordet
 Comment[tr]=Plasma masaüstü için araç takımı biçemi
 Comment[uk]=Стиль віджетів для стільниці Плазми
 Comment[x-test]=xxWidget style for the Plasma desktopxx
+Comment[zh_TW]=Plasma 桌面的元件樣式
 [KDE]
 WidgetStyle=Oxygen
