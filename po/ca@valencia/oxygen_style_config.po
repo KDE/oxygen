@@ -24,7 +24,7 @@ msgstr ""
 #: main.cpp:24 main.cpp:28
 #, kde-format
 msgid "Oxygen Settings"
-msgstr "Configuració d'Oxygen"
+msgstr "Configureu Oxygen"
 
 #: oxygenanimationconfigwidget.cpp:34
 #, kde-format

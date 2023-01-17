@@ -25,7 +25,7 @@ msgstr ""
 #: oxygenanimationconfigitem.cpp:98
 #, kde-format
 msgid "oxygen-settings - information"
-msgstr "Configuració d'Oxygen - informació"
+msgstr "Configureu Oxygen - informació"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
 #: ui/oxygenanimationconfigitem.ui:29
