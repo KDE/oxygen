@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-01-24 07:21+0100\n"
+"PO-Revision-Date: 2023-01-25 06:36+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 
 #: main.cpp:24 main.cpp:28
@@ -154,13 +154,13 @@ msgstr "თაგუნას მიყოლა"
 #: ui/oxygenfollowmouseanimationconfigbox.ui:59
 #, kde-format
 msgid "Fade duration:"
-msgstr ""
+msgstr "მინავლების ხანგრძლივობა:"
 
 #. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:72
 #, kde-format
 msgid "Follow mouse duration:"
-msgstr ""
+msgstr "თაგუნას მიყოლების ხანგრძლივობა:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
 #. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
@@ -309,7 +309,7 @@ msgstr "ჩოჩიები"
 #: ui/oxygenstyleconfig.ui:272
 #, kde-format
 msgid "Scrollbar wi&dth:"
-msgstr ""
+msgstr "ჩოჩიის &სიგანე:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
 #: ui/oxygenstyleconfig.ui:310
@@ -321,13 +321,13 @@ msgstr "px"
 #: ui/oxygenstyleconfig.ui:340
 #, kde-format
 msgid "Top arrow button type:"
-msgstr ""
+msgstr "ზედა ისრის ღილაკის ტიპი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ui/oxygenstyleconfig.ui:350
 #, kde-format
 msgid "Bottom arrow button type:"
-msgstr ""
+msgstr "ქვედა ისრის ღილაკის ტიპი:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #: ui/oxygenstyleconfig.ui:361
