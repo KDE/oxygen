@@ -959,19 +959,3 @@ msgstr "Oculta la barra de pestanyes"
 #, kde-format
 msgid "Preview"
 msgstr "Vista prèvia"
-
-#~ msgid "&Color Theme"
-#~ msgstr "Tema de &color"
-
-#~ msgctxt "Flat frame. No frame is actually drawn."
-#~ msgid "Flat"
-#~ msgstr "Pla"
-
-#~ msgid "Dialog"
-#~ msgstr "Diàleg"
-
-#~ msgid "Text position:"
-#~ msgstr "Posició del text:"
-
-#~ msgid "Busy"
-#~ msgstr "Ocupat"
