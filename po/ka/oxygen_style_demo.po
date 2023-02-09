@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2022-08-21 07:23+0200\n"
+"PO-Revision-Date: 2023-02-08 08:14+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -601,19 +601,19 @@ msgstr ""
 #: ui/oxygeninputdemowidget.ui:146
 #, kde-format
 msgid "Multi-line text editor:"
-msgstr ""
+msgstr "მრავალხაზიანი ტექსტის რედაქტორი:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
 #: ui/oxygeninputdemowidget.ui:153
 #, kde-format
 msgid "Wrap words"
-msgstr ""
+msgstr "სიტყვების გადატანა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
 #: ui/oxygeninputdemowidget.ui:160
 #, kde-format
 msgid "Use flat widgets"
-msgstr ""
+msgstr "ბრტყელი ვიჯეტების გამოყენება"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
@@ -844,7 +844,7 @@ msgstr "მესამე ჭდე"
 #: ui/oxygensliderdemowidget.ui:29
 #, kde-format
 msgid "Animate Progress Bars"
-msgstr ""
+msgstr "მიმდინარეობის ზოლის ანიმაცია"
 
 #. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:36
@@ -934,19 +934,19 @@ msgstr "დოკუმენტის რეჟიმი"
 #: ui/oxygentabdemowidget.ui:122
 #, kde-format
 msgid "Show Corner Buttons"
-msgstr ""
+msgstr "კუთხის ღილაკების ჩვენება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
 #: ui/oxygentabdemowidget.ui:129
 #, kde-format
 msgid "Show Tab Close Buttons"
-msgstr ""
+msgstr "ჩანართებზე დახურვის ღილაკის ჩვენება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
 #: ui/oxygentabdemowidget.ui:136
 #, kde-format
 msgid "Hide tabbar"
-msgstr ""
+msgstr "ჩანართის ზოლის დამალვა"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygentabdemowidget.ui:143
