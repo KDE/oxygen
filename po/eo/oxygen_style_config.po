@@ -1,32 +1,34 @@
-# translation of kstyle_config.po to Esperanto
+# translation of oxygen_style_config.pot to Esperanto
 # Copyright (C) 2003, 2007 Free Software Foundation, Inc.
+# This file is distributed under the same license as the oxygen package.
 # Heiko Evermann <heiko@evermann.de>, 2003.
 # Cindy McKee <cfmckee@gmail.com>, 2007.
+# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2007-12-01 11:52-0600\n"
-"Last-Translator: Cindy McKee <cfmckee@gmail.com>\n"
+"PO-Revision-Date: 2023-02-12 22:20+0100\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: translate-po (https://github.com/zcribe/translate-po)\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: main.cpp:24 main.cpp:28
 #, kde-format
 msgid "Oxygen Settings"
-msgstr ""
+msgstr "Oksigen-Agordoj"
 
 #: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
-msgstr ""
+msgstr "Fokusa, musuma kaj fenestraĵa statotransiro"
 
 #: oxygenanimationconfigwidget.cpp:35
 #, kde-format
@@ -34,141 +36,135 @@ msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
 "widget enabled/disabled state transition"
 msgstr ""
+"Agordi la fokuson de fenestraĵoj kaj la musuman emfaz-animacion, same kiel "
+"fenestraĵan ŝalt/malŝaltan stattransiron"
 
 #: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
-msgstr ""
+msgstr "Ilobreta elstarigo"
 
 #: oxygenanimationconfigwidget.cpp:39
-#, fuzzy, kde-format
-#| msgid "Animations"
+#, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
-msgstr "Animaciaĵoj"
+msgstr "Agordi la musuman emfaz-animacion de ilobretoj"
 
 #: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
-msgstr ""
+msgstr "Menubreta elstarigo"
 
 #: oxygenanimationconfigwidget.cpp:44
-#, fuzzy, kde-format
-#| msgid "Animations"
+#, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
-msgstr "Animaciaĵoj"
+msgstr "Agordi la musuman emfaz-animacion de menubretoj"
 
 #: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
-msgstr ""
+msgstr "Menua elstarigo"
 
 #: oxygenanimationconfigwidget.cpp:47
-#, fuzzy, kde-format
-#| msgid "Custom mouseover highlight color:"
+#, kde-format
 msgid "Configure menus' mouseover highlight animation"
-msgstr "Propra emfaza koloro dum musŝvebo:"
+msgstr "Agordi la musuman emfaz-animacion de menuoj"
 
 #: oxygenanimationconfigwidget.cpp:50
-#, fuzzy, kde-format
-#| msgid "Animations"
+#, kde-format
 msgid "Progress bar animation"
-msgstr "Animaciaĵoj"
+msgstr "Plenumskala animacio"
 
 #: oxygenanimationconfigwidget.cpp:50
-#, fuzzy, kde-format
-#| msgid "Animations"
+#, kde-format
 msgid "Configure progress bars' steps animation"
-msgstr "Animaciaĵoj"
+msgstr "Agordi la paŝ-animacion de plenumskaloj"
 
 #: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
-msgstr ""
+msgstr "Langet-transiroj"
 
 #: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
-msgstr ""
+msgstr "Agordi paliĝan transiron inter langetoj"
 
 #: oxygenanimationconfigwidget.cpp:57
 #, kde-format
 msgid "Label transitions"
-msgstr ""
+msgstr "Etikedaj transiroj"
 
 #: oxygenanimationconfigwidget.cpp:57
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
-msgstr ""
+msgstr "Agordi paliĝan transiron kiam la teksto de etikedo estas ŝanĝita"
 
 #: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
-msgstr ""
+msgstr "Transiroj de tekstoredaktilo"
 
 #: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
-msgstr ""
+msgstr "Agordi paliĝan transiron kiam la teksto de redaktisto estas ŝanĝita"
 
 #: oxygenanimationconfigwidget.cpp:65
-#, fuzzy, kde-format
-#| msgid "Animations"
+#, kde-format
 msgid "Combo box transitions"
-msgstr "Animaciaĵoj"
+msgstr "Kombokest-transiroj"
 
 #: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
-msgstr ""
+msgstr "Agordi paliĝan transiron kiam la kombokest-elekto estas ŝanĝita"
 
 #: oxygenanimationconfigwidget.cpp:77
-#, fuzzy, kde-format
-#| msgid "Animations"
+#, kde-format
 msgid "Progress bar busy indicator"
-msgstr "Animaciaĵoj"
+msgstr "Indikilo pri plenumskala okupateco"
 
 #: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
-msgstr ""
+msgstr "Agordi la okupatec-indikilan animacion de plenumskaloj"
 
 #. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:20
 #, kde-format
 msgid "Frame"
-msgstr "Framo"
+msgstr "Kadro"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:32
-#, fuzzy, kde-format
-#| msgid "Animations"
+#, kde-format
 msgid "Animation type:"
-msgstr "Animaciaĵoj"
+msgstr "Animacia tipo:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:46
 #, kde-format
 msgid "Fade"
-msgstr "Dissolvi"
+msgstr "Paliĝo"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:51
 #, kde-format
 msgid "Follow Mouse"
-msgstr ""
+msgstr "Sekvi Muson"
 
 #. i18n: ectx: property (text), widget (QLabel, durationLabel)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:59
 #, kde-format
 msgid "Fade duration:"
-msgstr ""
+msgstr "Daŭro de paliĝo:"
 
 #. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:72
 #, kde-format
 msgid "Follow mouse duration:"
-msgstr ""
+msgstr "Sekvi musan daŭron:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
 #. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
@@ -176,7 +172,7 @@ msgstr ""
 #: ui/oxygenfollowmouseanimationconfigbox.ui:114
 #, kde-format
 msgid " ms"
-msgstr ""
+msgstr "ms"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
 #: ui/oxygenstyleconfig.ui:26
@@ -194,68 +190,67 @@ msgstr "Ĝeneralo"
 #: ui/oxygenstyleconfig.ui:52
 #, kde-format
 msgid "Drag windows from titlebar only"
-msgstr ""
+msgstr "Treni fenestrojn nur el titolbreto"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
 #: ui/oxygenstyleconfig.ui:57
 #, kde-format
 msgid "Drag windows from titlebar, menubar and toolbars"
-msgstr ""
+msgstr "Treni fenestrojn el titolbreto, menubreto kaj ilobreto"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
 #: ui/oxygenstyleconfig.ui:62
 #, kde-format
 msgid "Drag windows from all empty areas"
-msgstr ""
+msgstr "Treni fenestrojn el ĉiuj malplenaj areoj"
 
 #. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
 #: ui/oxygenstyleconfig.ui:70
-#, fuzzy, kde-format
-#| msgid "Draw toolbar item separators"
+#, kde-format
 msgid "Keyboard accelerators visibility:"
-msgstr "Fari apartigilojn por la ilobretaj eroj"
+msgstr "Videbleco de klavaraj akceliloj:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:84
 #, kde-format
 msgid "Always hide"
-msgstr ""
+msgstr "Ĉiam kaŝi"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:89
 #, kde-format
 msgid "Show when Alt key is pressed"
-msgstr ""
+msgstr "Montri kiam Alt-klavo estas premata"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:94
 #, kde-format
 msgid "Always show"
-msgstr ""
+msgstr "Ĉiam montri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenstyleconfig.ui:108
 #, kde-format
 msgid "Windows' &drag mode:"
-msgstr ""
+msgstr "Tren-reĝimo &de fenestroj:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
 #: ui/oxygenstyleconfig.ui:134
 #, kde-format
 msgid "Draw toolbar item separators"
-msgstr "Fari apartigilojn por la ilobretaj eroj"
+msgstr "Desegni apartigilojn por ilbret-elementoj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
 #: ui/oxygenstyleconfig.ui:141
 #, kde-format
 msgid "Enable extended resize handles"
-msgstr ""
+msgstr "Ebligi plilongigitajn aligrandigtenilojn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
 #: ui/oxygenstyleconfig.ui:148
 #, kde-format
 msgid "Draw window background gradient"
-msgstr ""
+msgstr "Desegni fenestra fona gradiento"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ui/oxygenstyleconfig.ui:169
@@ -273,13 +268,13 @@ msgstr "Perspektivoj"
 #: ui/oxygenstyleconfig.ui:185
 #, kde-format
 msgid "Draw tree branch lines"
-msgstr ""
+msgstr "Desegni arbobranĉliniojn"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ui/oxygenstyleconfig.ui:198
 #, kde-format
 msgid "&Tree expander size:"
-msgstr ""
+msgstr "&Arba ekspansiogrando:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:209
@@ -306,463 +301,84 @@ msgstr "Normala"
 #: ui/oxygenstyleconfig.ui:256
 #, kde-format
 msgid "Draw focus indicator in lists"
-msgstr ""
+msgstr "Desegni fokusindikilon en listoj"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: ui/oxygenstyleconfig.ui:264
 #, kde-format
 msgid "Scrollbars"
-msgstr ""
+msgstr "Rulumskaloj"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenstyleconfig.ui:272
 #, kde-format
 msgid "Scrollbar wi&dth:"
-msgstr ""
+msgstr "Rulumskala &larĝeco:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
 #: ui/oxygenstyleconfig.ui:310
 #, kde-format
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ui/oxygenstyleconfig.ui:340
 #, kde-format
 msgid "Top arrow button type:"
-msgstr ""
+msgstr "Tipo de supra sagobutono:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ui/oxygenstyleconfig.ui:350
 #, kde-format
 msgid "Bottom arrow button type:"
-msgstr ""
+msgstr "Tipo de butono de malsupra sago:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #: ui/oxygenstyleconfig.ui:361
-#, fuzzy, kde-format
-#| msgid "Buttons"
+#, kde-format
 msgid "No buttons"
-msgstr "Butonoj"
+msgstr "Neniuj butonoj"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
 #: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
-#, fuzzy, kde-format
-#| msgid "Buttons"
+#, kde-format
 msgid "One button"
-msgstr "Butonoj"
+msgstr "Unu butono"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
 #: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
-#, fuzzy, kde-format
-#| msgid "Buttons"
+#, kde-format
 msgid "Two buttons"
-msgstr "Butonoj"
+msgstr "Du butonoj"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
 #: ui/oxygenstyleconfig.ui:393
-#, fuzzy, kde-format
-#| msgid "Buttons"
+#, kde-format
 msgid "No button"
-msgstr "Butonoj"
+msgstr "Neniu butono"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: ui/oxygenstyleconfig.ui:427
 #, kde-format
 msgid "Menu Highlight"
-msgstr ""
+msgstr "Menuo Highlight"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
 #: ui/oxygenstyleconfig.ui:433
 #, kde-format
 msgid "Use dar&k color"
-msgstr ""
+msgstr "Uzi malhelan &koloron"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
 #: ui/oxygenstyleconfig.ui:440
 #, kde-format
 msgid "&Use selection color (plain)"
-msgstr ""
+msgstr "&Uzi elektokoloron (plate)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
 #: ui/oxygenstyleconfig.ui:447
 #, kde-format
 msgid "Use selec&tion color (subtle)"
-msgstr ""
-
-#, fuzzy
-#~| msgid "Draw toolbar item separators"
-#~ msgid "Always Hide Keyboard Accelerators"
-#~ msgstr "Fari apartigilojn por la ilobretaj eroj"
-
-#, fuzzy
-#~| msgid "Draw toolbar item separators"
-#~ msgid "Show Keyboard Accelerators When Needed"
-#~ msgstr "Fari apartigilojn por la ilobretaj eroj"
-
-#, fuzzy
-#~| msgid "Draw toolbar item separators"
-#~ msgid "Always Show Keyboard Accelerators"
-#~ msgstr "Fari apartigilojn por la ilobretaj eroj"
-
-#, fuzzy
-#~| msgid "Animations"
-#~ msgid "Enable animations"
-#~ msgstr "Animaciaĵoj"
-
-#, fuzzy
-#~| msgid "Triangular tree expander"
-#~ msgid "Use triangle tree expander instead of +/-"
-#~ msgstr "Triangula malfaldilo de 'arbo'"
-
-#~ msgid "Tabs"
-#~ msgstr "Langetoj"
-
-#, fuzzy
-#~| msgid "single"
-#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
-#~ msgid "Single"
-#~ msgstr "unutrako"
-
-#, fuzzy
-#~| msgid "Plain"
-#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
-#~ msgid "Plain"
-#~ msgstr "Unukolora"
-
-#~ msgid "Normal"
-#~ msgstr "Normala"
-
-#~ msgid "New"
-#~ msgstr "Nova"
-
-#~ msgid "Open"
-#~ msgstr "Malfermi"
-
-#~ msgid "Save"
-#~ msgstr "Konservi"
-
-#~ msgid "Enabled"
-#~ msgstr "Ebligita"
-
-#~ msgid "Buttons"
-#~ msgstr "Butonoj"
-
-#~ msgid "Sliders"
-#~ msgstr "Ŝoviloj"
-
-#, fuzzy
-#~| msgid "Password:"
-#~ msgid "password"
-#~ msgstr "Pasvorto:"
-
-#, fuzzy
-#~| msgid "Tabs"
-#~ msgid "Tile"
-#~ msgstr "Langetoj"
-
-#~ msgid "Cascade"
-#~ msgstr "Kaskade"
-
-#, fuzzy
-#~| msgid "Buttons"
-#~ msgid "Tools"
-#~ msgstr "Butonoj"
-
-#, fuzzy
-#~| msgid "Animations"
-#~ msgid "Run Simulation"
-#~ msgstr "Animaciaĵoj"
-
-#, fuzzy
-#~| msgid "CheckBox"
-#~ msgid "Checkboxes"
-#~ msgstr "Markobutono"
-
-#~ msgid "Off"
-#~ msgstr "Neniam"
-
-#~ msgid "Partial"
-#~ msgstr "Parta"
-
-#, fuzzy
-#~| msgid "Open"
-#~ msgid "On"
-#~ msgstr "Malfermi"
-
-#, fuzzy
-#~| msgid "Buttons"
-#~ msgid "Radiobuttons"
-#~ msgstr "Butonoj"
-
-#, fuzzy
-#~| msgid "First Page"
-#~ msgid "First Choice"
-#~ msgstr "Unua paĝo"
-
-#, fuzzy
-#~| msgid "Buttons"
-#~ msgid "Pushbuttons"
-#~ msgstr "Butonoj"
-
-#, fuzzy
-#~| msgid "Text Only"
-#~ msgid "Text only:"
-#~ msgstr "Nur teksto"
-
-#~ msgid "Small"
-#~ msgstr "Malgranda"
-
-#~ msgid "Large"
-#~ msgstr "Granda"
-
-#, fuzzy
-#~| msgid "Text Under Icons"
-#~ msgid "Text and icon:"
-#~ msgstr "Teksto sub piktogramoj"
-
-#, fuzzy
-#~| msgid "Buttons"
-#~ msgid "Use flat buttons"
-#~ msgstr "Butonoj"
-
-#, fuzzy
-#~| msgid "Buttons"
-#~ msgid "Toolbuttons"
-#~ msgstr "Butonoj"
-
-#~ msgid "Flat"
-#~ msgstr "Plata"
-
-#, fuzzy
-#~| msgid "Right"
-#~ msgid "Up Arrow"
-#~ msgstr "Dekstra"
-
-#, fuzzy
-#~| msgid "Right"
-#~ msgid "Left Arrow"
-#~ msgstr "Dekstra"
-
-#, fuzzy
-#~| msgid "Right"
-#~ msgid "Right Arrow"
-#~ msgstr "Dekstra"
-
-#~ msgid "Icons Only"
-#~ msgstr "Nur piktogramoj"
-
-#~ msgid "Text Only"
-#~ msgstr "Nur teksto"
-
-#~ msgid "Text Alongside Icons"
-#~ msgstr "Teksto apud piktogramoj"
-
-#~ msgid "Text Under Icons"
-#~ msgstr "Teksto sub piktogramoj"
-
-#~ msgid "Icon size:"
-#~ msgstr "Piktogramgrandeco:"
-
-#~ msgid "Left to Right"
-#~ msgstr "Liva al Dekstra"
-
-#~ msgid "Right to Left"
-#~ msgstr "Dekstra al Liva"
-
-#, fuzzy
-#~| msgid "Bottom"
-#~ msgid "Top to Bottom"
-#~ msgstr "Malsupre"
-
-#, fuzzy
-#~| msgid "Bottom"
-#~ msgid "Bottom to Top"
-#~ msgstr "Malsupre"
-
-#~ msgid "GroupBox"
-#~ msgstr "GrupoSkatolo"
-
-#, fuzzy
-#~| msgid "Flat"
-#~ msgctxt "Flat group box. No frame is actually drawn"
-#~ msgid "Flat"
-#~ msgstr "Plata"
-
-#, fuzzy
-#~| msgid "Flat"
-#~ msgctxt "Flat frame. No frame is actually drawn."
-#~ msgid "Flat"
-#~ msgstr "Plata"
-
-#, fuzzy
-#~| msgid "First Page"
-#~ msgid "First item"
-#~ msgstr "Unua paĝo"
-
-#, fuzzy
-#~| msgid "First Page"
-#~ msgid "First Item"
-#~ msgstr "Unua paĝo"
-
-#~ msgid "Title"
-#~ msgstr "Titolo"
-
-#~ msgid "Description"
-#~ msgstr "Priskribo"
-
-#, fuzzy
-#~| msgid "Description"
-#~ msgid "Third Description"
-#~ msgstr "Priskribo"
-
-#, fuzzy
-#~| msgid "Description"
-#~ msgid "Third Subitem Description"
-#~ msgstr "Priskribo"
-
-#, fuzzy
-#~| msgid "Description"
-#~ msgid "Second Description"
-#~ msgstr "Priskribo"
-
-#, fuzzy
-#~| msgid "First Page"
-#~ msgid "First Subitem"
-#~ msgstr "Unua paĝo"
-
-#, fuzzy
-#~| msgid "Description"
-#~ msgid "First Subitem Description"
-#~ msgstr "Priskribo"
-
-#, fuzzy
-#~| msgid "Description"
-#~ msgid "First Description"
-#~ msgstr "Priskribo"
-
-#~ msgid "New Row"
-#~ msgstr "Nova vico"
-
-#, fuzzy
-#~| msgid "First Page"
-#~ msgid "First Row"
-#~ msgstr "Unua paĝo"
-
-#, fuzzy
-#~| msgid "First Page"
-#~ msgid "First Column"
-#~ msgstr "Unua paĝo"
-
-#~ msgid "Top"
-#~ msgstr "Supro"
-
-#, fuzzy
-#~| msgid "General"
-#~ msgid "Center"
-#~ msgstr "Ĝeneralo"
-
-#~ msgid "Right"
-#~ msgstr "Dekstra"
-
-#, fuzzy
-#~| msgid "Bottom"
-#~ msgid "Bottom-left"
-#~ msgstr "Malsupre"
-
-#~ msgid "Bottom"
-#~ msgstr "Malsupre"
-
-#, fuzzy
-#~| msgid "Bottom"
-#~ msgid "Bottom-right"
-#~ msgstr "Malsupre"
-
-#~ msgid "Title:"
-#~ msgstr "Titolo:"
-
-#~ msgid "First Page"
-#~ msgstr "Unua paĝo"
-
-#, fuzzy
-#~| msgid "First Page"
-#~ msgid "First Label"
-#~ msgstr "Unua paĝo"
-
-#, fuzzy
-#~| msgid "First Page"
-#~ msgid "Third Page"
-#~ msgstr "Unua paĝo"
-
-#~ msgid "Horizontal"
-#~ msgstr "Horizontala"
-
-#~ msgid "Vertical"
-#~ msgstr "Vertikala"
-
-#~ msgid "North"
-#~ msgstr "Nordo"
-
-#~ msgid "South"
-#~ msgstr "Sudo"
-
-#, fuzzy
-#~| msgid "Buttons"
-#~ msgid "Show Corner Buttons"
-#~ msgstr "Butonoj"
-
-#~ msgid "Preview"
-#~ msgstr "Antaŭrigardo"
-
-#~ msgctxt "NAME OF TRANSLATORS"
-#~ msgid "Your names"
-#~ msgstr "Axel Rousseau"
-
-#~ msgctxt "EMAIL OF TRANSLATORS"
-#~ msgid "Your emails"
-#~ msgstr "axel@esperanto-jeunes.org"
-
-#, fuzzy
-#~| msgid "Draw toolbar item separators"
-#~ msgid "Draw keyboard accelerators"
-#~ msgstr "Fari apartigilojn por la ilobretaj eroj"
-
-#~ msgid "Use wider lines"
-#~ msgstr "Uzi pli larĝajn liniojn"
-
-#~ msgid "Animate progress bars"
-#~ msgstr "Animigu plenumskalojn"
-
-#~ msgid "Web style plugin"
-#~ msgstr "Ret-stila kromprogrameto"
-
-#~ msgid "modified"
-#~ msgstr "ŝanĝita"
-
-#~ msgid "Plain"
-#~ msgstr "Unukolora"
-
-#, fuzzy
-#~| msgid "Frame"
-#~ msgid "Form"
-#~ msgstr "Framo"
-
-#~ msgid "Width:"
-#~ msgstr "Larĝeco:"
-
-#~ msgid "Dark"
-#~ msgstr "Malhela"
-
-#~ msgid "Draw toolbar separator"
-#~ msgstr "Fari ilobretan apartigilon"
-
-#~ msgid "Highlight focused text input fields"
-#~ msgstr "Emfazi tajpujon (tekstokampon) kiu ricevas la fokuson"
-
-#~ msgid "Custom text input highlight color:"
-#~ msgstr "Propra emfaza koloro de tajpujo:"
-
-#~ msgid "Custom checkmark color:"
-#~ msgstr "Propra koloro por hoksignoj:"
+msgstr "Uzu elek&tokoloron (subtile)"
