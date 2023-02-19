@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-02-08 08:14+0100\n"
+"PO-Revision-Date: 2023-02-18 07:43+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -26,7 +26,7 @@ msgstr "Oxygen-ის პარამეტრები"
 #: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
-msgstr ""
+msgstr "ელემენტების ფოკუსი, გამოკვეთა და მდგომარეობის ცვლილება"
 
 #: oxygenanimationconfigwidget.cpp:35
 #, kde-format
@@ -34,6 +34,8 @@ msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
 "widget enabled/disabled state transition"
 msgstr ""
+"ვიჯეტების ფოკუსის, გამოკვეთის და ჩართულ/გამორთულ მდგომარეობებს შორის "
+"გადასვლის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:39
 #, kde-format
@@ -43,7 +45,7 @@ msgstr "ხელსაწყოთა ზოლის გამოკვეთ�
 #: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
-msgstr ""
+msgstr "თაგუნას გადატარებისას პანელის გამოკვეთის ანიმაციის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:44
 #, kde-format
@@ -53,7 +55,7 @@ msgstr "მენიუს ზოლის გამოკვეთა"
 #: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
-msgstr ""
+msgstr "თაგუნას გადატარებისას მენიუს ზოლის გამოკვეთის ანიმაციის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:47
 #, kde-format
@@ -63,7 +65,7 @@ msgstr "მენიუს გამოკვეთა"
 #: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Configure menus' mouseover highlight animation"
-msgstr ""
+msgstr "თაგუნას გადატარებისას მენიუს გამოკვეთის ანიმაციის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:50
 #, kde-format
@@ -73,7 +75,7 @@ msgstr "მიმდინარეობის ზოლის ანიმა�
 #: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
-msgstr ""
+msgstr "მიმდევრობის ზოლის ბიჯების ანიმაციის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:53
 #, kde-format
@@ -83,7 +85,7 @@ msgstr "ჩანართის გადასვლები"
 #: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
-msgstr ""
+msgstr "ჩანართებს შორის მინავლებადი გადასვლის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:57
 #, kde-format
@@ -93,38 +95,38 @@ msgstr "ჭდის გადასვლები"
 #: oxygenanimationconfigwidget.cpp:57
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
-msgstr ""
+msgstr "ჭდის ტექსტის ცვლილებისას მინავლებადი გადასვლის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
-msgstr ""
+msgstr "შეყვანის ველის ტექსტის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
-msgstr ""
+msgstr "რედაქტორის ტექსტის ცვლილებისას მინავლებადი გადასვლის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
-msgstr ""
+msgstr "ჩამოსაშლელი სიის გადასვლები"
 
 #: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
-msgstr ""
+msgstr "ჩამოსაშლელი სიის არჩევანის შეცვლისას მინავლებადი გადასვლის მორგება"
 
 #: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Progress bar busy indicator"
-msgstr ""
+msgstr "მიმდინარეობის ზოლის დაკავებულობის მაჩვენებელი"
 
 #: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
-msgstr ""
+msgstr "მიმდევრობის ზოლის ბიჯების ანიმაციის მორგება"
 
 #. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:20
@@ -204,7 +206,7 @@ msgstr "ფანჯრების ყველა ცარიელი ად
 #: ui/oxygenstyleconfig.ui:70
 #, kde-format
 msgid "Keyboard accelerators visibility:"
-msgstr ""
+msgstr "კლავიატურის ამაჩქარებლის ხილვადობა:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:84
@@ -228,7 +230,7 @@ msgstr "ყოველთვის ჩვენება"
 #: ui/oxygenstyleconfig.ui:108
 #, kde-format
 msgid "Windows' &drag mode:"
-msgstr ""
+msgstr "ფანჯრის &გადათრევის რეჟმი:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
 #: ui/oxygenstyleconfig.ui:134
@@ -246,7 +248,7 @@ msgstr "გაფართოებული ზომის შეცვლი�
 #: ui/oxygenstyleconfig.ui:148
 #, kde-format
 msgid "Draw window background gradient"
-msgstr ""
+msgstr "ფანჯრის ფონის გრადიენტის გადათრევა"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ui/oxygenstyleconfig.ui:169
@@ -264,13 +266,13 @@ msgstr "ხედები"
 #: ui/oxygenstyleconfig.ui:185
 #, kde-format
 msgid "Draw tree branch lines"
-msgstr ""
+msgstr "ხეზე ხაზების დახატვა"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ui/oxygenstyleconfig.ui:198
 #, kde-format
 msgid "&Tree expander size:"
-msgstr ""
+msgstr "ხიის ჩამოსაშლელი &ღილაკის ზომა:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:209
@@ -377,4 +379,4 @@ msgstr "&არჩეული ფერის გამოყენება (�
 #: ui/oxygenstyleconfig.ui:447
 #, kde-format
 msgid "Use selec&tion color (subtle)"
-msgstr ""
+msgstr "&მონშნულის ფერის გამოყენება (სუბტიტრი)"

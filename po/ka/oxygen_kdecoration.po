@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-02-08 08:14+0100\n"
+"PO-Revision-Date: 2023-02-18 07:43+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -21,17 +21,17 @@ msgstr ""
 #: config/oxygenanimationconfigwidget.cpp:31
 #, kde-format
 msgid "Button mouseover transition"
-msgstr ""
+msgstr "ღილაკების გადასვლები თაგუნას გადატარებისას"
 
 #: config/oxygenanimationconfigwidget.cpp:31
 #, kde-format
 msgid "Configure window buttons' mouseover highlight animation"
-msgstr ""
+msgstr "თაგუნას გადატარებისას ფანჯრის ღილაკების გამოკვეთის ანიმაციის მორგება"
 
 #: config/oxygenanimationconfigwidget.cpp:36
 #, kde-format
 msgid "Window active state change transitions"
-msgstr ""
+msgstr "გადასვლები ფანჯრის აქტივობის მდგომარეობის შეცვლისას"
 
 #: config/oxygenanimationconfigwidget.cpp:37
 #, kde-format
@@ -39,6 +39,8 @@ msgid ""
 "Configure fading between window shadow and glow when window's active state "
 "is changed"
 msgstr ""
+"ფანჯრის აქტივობის მდგომარეობის შეცვლილსას ფანჯრის ჩრდილსა და ბზინვას შორის "
+"გადასვლის მორგება"
 
 #: config/oxygenexceptionlistwidget.cpp:88
 #, kde-format
