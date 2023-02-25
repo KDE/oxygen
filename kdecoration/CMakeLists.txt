@@ -70,6 +70,10 @@ add_library(oxygendecoration MODULE
     ${oxygendecoration_config_SRCS}
     ${oxygendecoration_config_PART_FORMS_HEADERS})
 
+set_target_properties(oxygendecoration PROPERTIES
+    OUTPUT_NAME org.kde.oxygen
+)
+
 target_link_libraries(oxygendecoration
     PUBLIC
         Qt::Core
