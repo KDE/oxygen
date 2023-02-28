@@ -78,13 +78,13 @@ InternalSettingsPtr SettingsProvider::internalSettings(const Decoration *decorat
     // get the client
     const auto clientPtr = decoration->client();
 
-    for (auto internalSettings : std::as_const(m_exceptions)) {
+    for (auto currentInternalSettings : std::as_const(m_exceptions)) {
         // discard disabled exceptions
-        if (!internalSettings->enabled())
+        if (!currentInternalSettings->enabled())
             continue;
 
         // discard exceptions with empty exception pattern
-        if (internalSettings->exceptionPattern().isEmpty())
+        if (currentInternalSettings->exceptionPattern().isEmpty())
             continue;
 
         /*
@@ -92,7 +92,7 @@ InternalSettingsPtr SettingsProvider::internalSettings(const Decoration *decorat
         to the regular expression, based on exception type
         */
         QString value;
-        switch (internalSettings->exceptionType()) {
+        switch (currentInternalSettings->exceptionType()) {
         case InternalSettings::ExceptionWindowTitle: {
             value = windowTitle.isEmpty() ? (windowTitle = clientPtr->caption()) : windowTitle;
             break;
@@ -114,8 +114,8 @@ InternalSettingsPtr SettingsProvider::internalSettings(const Decoration *decorat
         }
 
         // check matching
-        if (value.contains(QRegularExpression(internalSettings->exceptionPattern()))) {
-            return internalSettings;
+        if (value.contains(QRegularExpression(currentInternalSettings->exceptionPattern()))) {
+            return currentInternalSettings;
         }
     }
 
