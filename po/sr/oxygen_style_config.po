@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:25+0200\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
 "PO-Revision-Date: 2017-10-30 23:08+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -19,20 +19,20 @@ msgstr ""
 "X-Text-Markup: kde4\n"
 "X-Environment: kde\n"
 
-#: main.cpp:40 main.cpp:44
+#: main.cpp:24 main.cpp:28
 #, kde-format
 msgid "Oxygen Settings"
 msgstr "Поставке Кисеоника"
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:49
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Фокус, прелазак мишем и прелази стања виџета"
 
 # rewrite-msgid: /highlight//
 # >> @info
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -42,113 +42,113 @@ msgstr ""
 "виџета у стања укљученог и искљученог."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Истицање траке алатки"
 
 # rewrite-msgid: /highlight//
 # >> @info
-#: oxygenanimationconfigwidget.cpp:54
+#: oxygenanimationconfigwidget.cpp:39
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Подесите анимацију преласка мишем преко траке алатки."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:58
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Истицање траке менија"
 
 # rewrite-msgid: /highlight//
 # >> @info
-#: oxygenanimationconfigwidget.cpp:59
+#: oxygenanimationconfigwidget.cpp:44
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Подесите анимацију преласка мишем преко траке менија."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:62
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Menu highlight"
 msgstr "Истицање менија"
 
 # rewrite-msgid: /highlight//
 # >> @info
-#: oxygenanimationconfigwidget.cpp:63
+#: oxygenanimationconfigwidget.cpp:47
 #, kde-format
 msgid "Configure menus' mouseover highlight animation"
 msgstr "Подесите анимацију преласка мишем преко менија."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:66
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Progress bar animation"
 msgstr "Анимација траке напретка"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:67
+#: oxygenanimationconfigwidget.cpp:50
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Подесите анимацију корака у траци напретка."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:70
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Tab transitions"
 msgstr "Прелази језичака"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:70
+#: oxygenanimationconfigwidget.cpp:53
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Подесите прелазно претапање између језичака."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:57
 #, kde-format
 msgid "Label transitions"
 msgstr "Прелази етикета"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:73
+#: oxygenanimationconfigwidget.cpp:57
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Подесите прелазно претапање када се промени текст етикете."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:76
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Прелази у уређивачу текста"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:76
+#: oxygenanimationconfigwidget.cpp:61
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "Подесите прелазно претапање када се измени текст у уређивачу."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:79
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Прелази падајућег списка"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:79
+#: oxygenanimationconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr "Подесите прелазно претапање када се промени избор у падајућем списку."
 
 # >> @title
-#: oxygenanimationconfigwidget.cpp:89
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "Показатељ заузетости траке напретка"
 
 # >> @info
-#: oxygenanimationconfigwidget.cpp:90
+#: oxygenanimationconfigwidget.cpp:77
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Подесите анимацију показатеља заузетости у траци напретка."
@@ -233,29 +233,23 @@ msgstr "преко свих празних подручја"
 msgid "Keyboard accelerators visibility:"
 msgstr "Видљивост убрзиваче са тастатуре:"
 
-# >> @item:inlistbox Keyboard accelerators visibility:
-# rewrite-msgid: /Keyboard Accelerators//
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:84
 #, kde-format
-msgid "Always Hide Keyboard Accelerators"
-msgstr "стално скривени"
+msgid "Always hide"
+msgstr ""
 
-# >> @item:inlistbox Keyboard accelerators visibility:
-# rewrite-msgid: /Keyboard Accelerators//
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:89
 #, kde-format
-msgid "Show Keyboard Accelerators When Needed"
-msgstr "приказани кад је потребно"
+msgid "Show when Alt key is pressed"
+msgstr ""
 
-# >> @item:inlistbox Keyboard accelerators visibility:
-# rewrite-msgid: /Keyboard Accelerators//
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:94
 #, kde-format
-msgid "Always Show Keyboard Accelerators"
-msgstr "стално приказани"
+msgid "Always show"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenstyleconfig.ui:108
@@ -419,3 +413,18 @@ msgstr "Према &боји избора (обично)"
 #, kde-format
 msgid "Use selec&tion color (subtle)"
 msgstr "Према боји избора (&фино)"
+
+# >> @item:inlistbox Keyboard accelerators visibility:
+# rewrite-msgid: /Keyboard Accelerators//
+#~ msgid "Always Hide Keyboard Accelerators"
+#~ msgstr "стално скривени"
+
+# >> @item:inlistbox Keyboard accelerators visibility:
+# rewrite-msgid: /Keyboard Accelerators//
+#~ msgid "Show Keyboard Accelerators When Needed"
+#~ msgstr "приказани кад је потребно"
+
+# >> @item:inlistbox Keyboard accelerators visibility:
+# rewrite-msgid: /Keyboard Accelerators//
+#~ msgid "Always Show Keyboard Accelerators"
+#~ msgstr "стално приказани"
