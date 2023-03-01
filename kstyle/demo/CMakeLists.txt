@@ -29,8 +29,8 @@ set(oxygen_demo_FORMS
     ui/oxygentabdemowidget.ui
 )
 
-find_package(KF5ConfigWidgets CONFIG)
-if(KF5ConfigWidgets_FOUND)
+find_package(KF${QT_MAJOR_VERSION}ConfigWidgets CONFIG)
+if(KF${QT_MAJOR_VERSION}ConfigWidgets_FOUND)
     set(oxygen_demo_SOURCES ${oxygen_demo_SOURCES} oxygenschemechooser.cpp oxygenstylechooser.cpp)
     add_definitions(-DHAVE_SCHEME_CHOOSER)
 endif()
@@ -43,9 +43,9 @@ add_executable(oxygen-demo5
 )
 
 target_link_libraries(oxygen-demo5 Qt::Core Qt::Gui Qt::Widgets)
-target_link_libraries(oxygen-demo5 KF5::Completion KF5::ConfigGui KF5::WidgetsAddons KF5::I18n)
-if(KF5ConfigWidgets_FOUND)
-    target_link_libraries(oxygen-demo5 KF5::ConfigWidgets)
+target_link_libraries(oxygen-demo5 KF${QT_MAJOR_VERSION}::Completion KF${QT_MAJOR_VERSION}::ConfigGui KF${QT_MAJOR_VERSION}::WidgetsAddons KF${QT_MAJOR_VERSION}::I18n)
+if(KF${QT_MAJOR_VERSION}ConfigWidgets_FOUND)
+    target_link_libraries(oxygen-demo5 KF${QT_MAJOR_VERSION}::ConfigWidgets)
 endif()
 
 ########### install files ###############

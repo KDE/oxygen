@@ -1,7 +1,7 @@
 add_definitions(-DTRANSLATION_DOMAIN="oxygen_kdecoration")
 
 find_package(KDecoration2 REQUIRED)
-find_package(KF5 REQUIRED COMPONENTS CoreAddons ConfigWidgets WindowSystem)
+find_package(KF6 REQUIRED COMPONENTS CoreAddons ConfigWidgets WindowSystem)
 find_package(Qt${QT_MAJOR_VERSION} CONFIG REQUIRED COMPONENTS DBus)
 
 ### XCB
@@ -20,7 +20,7 @@ if(UNIX AND NOT APPLE)
 
   set(OXYGEN_HAVE_X11 ${XCB_XCB_FOUND})
   if (XCB_XCB_FOUND AND QT_MAJOR_VERSION EQUAL "5")
-    find_package(Qt5 REQUIRED CONFIG COMPONENTS X11Extras)
+    find_package(Qt6 REQUIRED CONFIG COMPONENTS X11Extras)
   endif()
 
 else()
@@ -83,12 +83,12 @@ target_link_libraries(oxygendecoration
         oxygenstyle5
         oxygenstyleconfig5
         KDecoration2::KDecoration
-        KF5::ConfigCore
-        KF5::CoreAddons
-        KF5::ConfigWidgets
-        KF5::GuiAddons
-        KF5::I18n
-        KF5::WindowSystem)
+        KF6::ConfigCore
+        KF6::CoreAddons
+        KF6::ConfigWidgets
+        KF6::GuiAddons
+        KF6::I18n
+        KF6::WindowSystem)
 
 if(OXYGEN_HAVE_X11)
   target_link_libraries(oxygendecoration PUBLIC XCB::XCB)

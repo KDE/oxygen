@@ -27,11 +27,11 @@ target_link_libraries(oxygenstyle5
         Qt::Core
         Qt::Gui
         Qt::Widgets
-        KF5::ConfigCore
-        KF5::ConfigWidgets
-        KF5::WindowSystem
+        KF${QT_MAJOR_VERSION}::ConfigCore
+        KF${QT_MAJOR_VERSION}::ConfigWidgets
+        KF${QT_MAJOR_VERSION}::WindowSystem
     PRIVATE
-        KF5::GuiAddons
+        KF${QT_MAJOR_VERSION}::GuiAddons
 )
 
 target_include_directories(oxygenstyle5 PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
@@ -90,7 +90,7 @@ target_link_libraries(oxygenstyleconfig5
         Qt::Gui
         Qt::Widgets
     PRIVATE
-        KF5::I18n
+        KF${QT_MAJOR_VERSION}::I18n
 )
 
 set_target_properties(oxygenstyleconfig5 PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})

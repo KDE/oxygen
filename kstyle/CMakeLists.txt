@@ -70,7 +70,7 @@ kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
 target_link_libraries(oxygen Qt::Core Qt::Gui Qt::Widgets Qt::DBus Qt::Quick)
-target_link_libraries(oxygen KF5::GuiAddons KF5::Style KF5::WindowSystem)
+target_link_libraries(oxygen KF${QT_MAJOR_VERSION}::GuiAddons KF${QT_MAJOR_VERSION}::Style KF${QT_MAJOR_VERSION}::WindowSystem)
 target_link_libraries(oxygen oxygenstyle5)
 
 if(OXYGEN_HAVE_X11)
