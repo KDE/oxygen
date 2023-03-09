@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-03-04 13:35+0100\n"
+"PO-Revision-Date: 2023-03-08 14:00+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -159,7 +159,7 @@ msgstr "ტესტირება"
 #: oxygendemodialog.cpp:160
 #, kde-format
 msgid "Emulates user interaction with widgets for benchmarking"
-msgstr ""
+msgstr "მომხმარებლის ვიჯეტებთან ურთიერთობის ემულაცია წარმადობის გასაზომად"
 
 #: oxygeninputdemowidget.cpp:21
 #, kde-format
