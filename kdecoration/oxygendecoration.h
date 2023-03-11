@@ -179,19 +179,19 @@ bool Decoration::hasNoSideBorders(void) const
 
 bool Decoration::isMaximized(void) const
 {
-    return client().toStrongRef()->isMaximized() && !m_internalSettings->drawBorderOnMaximizedWindows();
+    return client()->isMaximized() && !m_internalSettings->drawBorderOnMaximizedWindows();
 }
 bool Decoration::isMaximizedHorizontally(void) const
 {
-    return client().toStrongRef()->isMaximizedHorizontally() && !m_internalSettings->drawBorderOnMaximizedWindows();
+    return client()->isMaximizedHorizontally() && !m_internalSettings->drawBorderOnMaximizedWindows();
 }
 bool Decoration::isMaximizedVertically(void) const
 {
-    return client().toStrongRef()->isMaximizedVertically() && !m_internalSettings->drawBorderOnMaximizedWindows();
+    return client()->isMaximizedVertically() && !m_internalSettings->drawBorderOnMaximizedWindows();
 }
 bool Decoration::hideTitleBar(void) const
 {
-    return m_internalSettings->hideTitleBar() && !client().toStrongRef()->isShaded();
+    return m_internalSettings->hideTitleBar() && !client()->isShaded();
 }
 }
 

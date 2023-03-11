@@ -23,36 +23,36 @@ namespace Oxygen
 Button *Button::create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent)
 {
     if (auto d = qobject_cast<Decoration *>(decoration)) {
-        const auto clientPtr = d->client().toStrongRef();
+        const auto clientPtr = d->client();
         Button *b = new Button(type, d, parent);
         switch (type) {
         case KDecoration2::DecorationButtonType::Close:
             b->setVisible(clientPtr->isCloseable());
-            QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::closeableChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::closeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration2::DecorationButtonType::Maximize:
             b->setVisible(clientPtr->isMaximizeable());
-            QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::maximizeableChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::maximizeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration2::DecorationButtonType::Minimize:
             b->setVisible(clientPtr->isMinimizeable());
-            QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::minimizeableChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::minimizeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration2::DecorationButtonType::ContextHelp:
             b->setVisible(clientPtr->providesContextHelp());
-            QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::providesContextHelpChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::providesContextHelpChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration2::DecorationButtonType::Shade:
             b->setVisible(clientPtr->isShadeable());
-            QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::shadeableChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::shadeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration2::DecorationButtonType::Menu:
-            QObject::connect(clientPtr.data(), &KDecoration2::DecoratedClient::iconChanged, b, [b]() {
+            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::iconChanged, b, [b]() {
                 b->update();
             });
             break;
@@ -89,7 +89,7 @@ Button::Button(KDecoration2::DecorationButtonType type, Decoration *decoration, 
 
     // setup connections
     if (isMenuButton()) {
-        connect(decoration->client().toStrongRef().data(), SIGNAL(iconChanged(QIcon)), this, SLOT(update()));
+        connect(decoration->client(), SIGNAL(iconChanged(QIcon)), this, SLOT(update()));
     }
 
     connect(decoration->settings().data(), &KDecoration2::DecorationSettings::reconfigured, this, &Button::reconfigure);
@@ -109,7 +109,7 @@ Button::Button(QObject *parent, const QVariantList &args)
 //_______________________________________________
 QColor Button::foregroundColor(const QPalette &palette) const
 {
-    auto d(qobject_cast<Decoration *>(decoration().data()));
+    auto d(qobject_cast<Decoration *>(decoration()));
     if (d->isAnimated()) {
         return KColorUtils::mix(foregroundColor(palette, false), foregroundColor(palette, true), d->opacity());
 
@@ -121,7 +121,7 @@ QColor Button::foregroundColor(const QPalette &palette) const
 //___________________________________________________
 QColor Button::foregroundColor(const QPalette &palette, bool active) const
 {
-    auto d(qobject_cast<Decoration *>(decoration().data()));
+    auto d(qobject_cast<Decoration *>(decoration()));
     if (d->internalSettings()->useWindowColors()) {
         return palette.color(active ? QPalette::Active : QPalette::Disabled, QPalette::ButtonText);
 
@@ -133,7 +133,7 @@ QColor Button::foregroundColor(const QPalette &palette, bool active) const
 //_______________________________________________
 QColor Button::backgroundColor(const QPalette &palette) const
 {
-    auto d(qobject_cast<Decoration *>(decoration().data()));
+    auto d(qobject_cast<Decoration *>(decoration()));
     if (d->isAnimated()) {
         return KColorUtils::mix(backgroundColor(palette, false), backgroundColor(palette, true), d->opacity());
 
@@ -145,7 +145,7 @@ QColor Button::backgroundColor(const QPalette &palette) const
 //___________________________________________________
 QColor Button::backgroundColor(const QPalette &palette, bool active) const
 {
-    auto d(qobject_cast<Decoration *>(decoration().data()));
+    auto d(qobject_cast<Decoration *>(decoration()));
     if (d->internalSettings()->useWindowColors()) {
         return palette.color(active ? QPalette::Active : QPalette::Inactive, QPalette::Button);
 
@@ -157,7 +157,7 @@ QColor Button::backgroundColor(const QPalette &palette, bool active) const
 //___________________________________________________
 bool Button::isActive(void) const
 {
-    return decoration().data()->client().toStrongRef()->isActive();
+    return decoration()->client()->isActive();
 }
 
 //___________________________________________________
@@ -188,7 +188,7 @@ void Button::paint(QPainter *painter, const QRect &repaintRegion)
     if (!m_iconSize.isValid() || isStandAlone())
         m_iconSize = geometry().size().toSize();
 
-    const auto clientPtr = decoration()->client().toStrongRef();
+    const auto clientPtr = decoration()->client();
     // menu buttons
     if (isMenuButton()) {
         const QRectF iconRect(geometry().topLeft(), m_iconSize);
@@ -302,7 +302,7 @@ void Button::drawIcon(QPainter *painter)
     }
 
     case KDecoration2::DecorationButtonType::Maximize:
-        if (decoration()->client().toStrongRef()->isMaximized()) {
+        if (decoration()->client()->isMaximized()) {
             painter->drawPolygon(QPolygonF() << QPointF(7.5, 10.5) << QPointF(10.5, 7.5) << QPointF(13.5, 10.5) << QPointF(10.5, 13.5));
 
         } else {

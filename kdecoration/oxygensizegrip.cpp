@@ -53,7 +53,7 @@ SizeGrip::SizeGrip(Decoration *decoration)
     updatePosition();
 
     // connections
-    const auto *clientP = decoration->client().toStrongRef().data();
+    const auto *clientP = decoration->client();
     connect(clientP, &KDecoration2::DecoratedClient::widthChanged, this, &SizeGrip::updatePosition);
     connect(clientP, &KDecoration2::DecoratedClient::heightChanged, this, &SizeGrip::updatePosition);
     connect(clientP, &KDecoration2::DecoratedClient::activeChanged, this, &SizeGrip::updateActiveState);
@@ -84,7 +84,7 @@ void SizeGrip::embed(void)
     if (!QX11Info::isPlatformX11())
         return;
 
-    xcb_window_t windowId = m_decoration->client().toStrongRef()->windowId();
+    xcb_window_t windowId = m_decoration->client()->windowId();
     if (windowId) {
         /*
         find client's parent
@@ -115,7 +115,7 @@ void SizeGrip::paintEvent(QPaintEvent *)
         return;
 
     // get relevant colors
-    const QColor backgroundColor(m_decoration->client().toStrongRef()->palette().color(QPalette::Window));
+    const QColor backgroundColor(m_decoration->client()->palette().color(QPalette::Window));
 
     // create and configure painter
     QPainter painter(this);
@@ -165,7 +165,7 @@ void SizeGrip::updatePosition(void)
     if (!QX11Info::isPlatformX11())
         return;
 
-    const auto c = m_decoration->client().toStrongRef();
+    const auto c = m_decoration->client();
     QPoint position(c->width() - GripSize - Offset, c->height() - GripSize - Offset);
 
     quint32 values[2] = {quint32(position.x()), quint32(position.y())};
@@ -243,7 +243,7 @@ void SizeGrip::sendMoveResizeEvent(QPoint position)
     clientMessageEvent.response_type = XCB_CLIENT_MESSAGE;
     clientMessageEvent.type = m_moveResizeAtom;
     clientMessageEvent.format = 32;
-    clientMessageEvent.window = m_decoration->client().toStrongRef()->windowId();
+    clientMessageEvent.window = m_decoration->client()->windowId();
     clientMessageEvent.data.data32[0] = rootPosition.x();
     clientMessageEvent.data.data32[1] = rootPosition.y();
     clientMessageEvent.data.data32[2] = 4; // bottom right
