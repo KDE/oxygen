@@ -46,8 +46,7 @@ using KDecoration2::ColorGroup;
 using KDecoration2::ColorRole;
 
 //________________________________________________________________
-using DecorationShadowPointer = QSharedPointer<KDecoration2::DecorationShadow>;
-using ShadowMap = QHash<int, DecorationShadowPointer>;
+using ShadowMap = QHash<int, std::shared_ptr<KDecoration2::DecorationShadow>>;
 
 static int g_sDecoCount = 0;
 static ShadowMap g_sShadows;
@@ -158,20 +157,20 @@ void Decoration::init()
     reconfigure();
     updateTitleBar();
     auto s = settings();
-    connect(s.data(), &KDecoration2::DecorationSettings::borderSizeChanged, this, &Decoration::recalculateBorders);
+    connect(s.get(), &KDecoration2::DecorationSettings::borderSizeChanged, this, &Decoration::recalculateBorders);
 
     // a change in font might cause the borders to change
-    connect(s.data(), &KDecoration2::DecorationSettings::fontChanged, this, &Decoration::recalculateBorders);
-    connect(s.data(), &KDecoration2::DecorationSettings::spacingChanged, this, &Decoration::recalculateBorders);
+    connect(s.get(), &KDecoration2::DecorationSettings::fontChanged, this, &Decoration::recalculateBorders);
+    connect(s.get(), &KDecoration2::DecorationSettings::spacingChanged, this, &Decoration::recalculateBorders);
 
     // buttons
-    connect(s.data(), &KDecoration2::DecorationSettings::spacingChanged, this, &Decoration::updateButtonsGeometryDelayed);
-    connect(s.data(), &KDecoration2::DecorationSettings::decorationButtonsLeftChanged, this, &Decoration::updateButtonsGeometryDelayed);
-    connect(s.data(), &KDecoration2::DecorationSettings::decorationButtonsRightChanged, this, &Decoration::updateButtonsGeometryDelayed);
+    connect(s.get(), &KDecoration2::DecorationSettings::spacingChanged, this, &Decoration::updateButtonsGeometryDelayed);
+    connect(s.get(), &KDecoration2::DecorationSettings::decorationButtonsLeftChanged, this, &Decoration::updateButtonsGeometryDelayed);
+    connect(s.get(), &KDecoration2::DecorationSettings::decorationButtonsRightChanged, this, &Decoration::updateButtonsGeometryDelayed);
 
     // full reconfiguration
-    connect(s.data(), &KDecoration2::DecorationSettings::reconfigured, this, &Decoration::reconfigure);
-    connect(s.data(), &KDecoration2::DecorationSettings::reconfigured, SettingsProvider::self(), &SettingsProvider::reconfigure, Qt::UniqueConnection);
+    connect(s.get(), &KDecoration2::DecorationSettings::reconfigured, this, &Decoration::reconfigure);
+    connect(s.get(), &KDecoration2::DecorationSettings::reconfigured, SettingsProvider::self(), &SettingsProvider::reconfigure, Qt::UniqueConnection);
 
     const auto *cl = client();
     connect(cl, &KDecoration2::DecoratedClient::adjacentScreenEdgesChanged, this, &Decoration::recalculateBorders);
@@ -554,7 +553,7 @@ void Decoration::updateShadow()
     // find key in map
     auto iter = g_sShadows.find(hash);
     if (iter == g_sShadows.end()) {
-        auto decorationShadow = DecorationShadowPointer::create();
+        auto decorationShadow = std::make_shared<KDecoration2::DecorationShadow>();
         QPixmap shadowPixmap =
             animated ? SettingsProvider::self()->shadowCache()->animatedPixmap(key, m_opacity) : SettingsProvider::self()->shadowCache()->pixmap(key);
 
