@@ -404,15 +404,3 @@ msgstr "Afegeix"
 #, kde-format
 msgid "Edit"
 msgstr "Edita"
-
-#~ msgid "Display window borders for maximized windows"
-#~ msgstr "Mostra les vores de les finestres en les finestres maximitzades"
-
-#~ msgid "&Animations duration:"
-#~ msgstr "D&urada de les animacions:"
-
-#~ msgid "ms"
-#~ msgstr "ms"
-
-#~ msgid "Enable animations"
-#~ msgstr "Activa les animacions"

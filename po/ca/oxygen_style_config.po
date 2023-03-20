@@ -394,12 +394,3 @@ msgstr "&Usa una selecció de color (senzill)"
 #, kde-format
 msgid "Use selec&tion color (subtle)"
 msgstr "Usa una se&lecció de color (subtil)"
-
-#~ msgid "Always Hide Keyboard Accelerators"
-#~ msgstr "Oculta sempre els acceleradors de teclat"
-
-#~ msgid "Show Keyboard Accelerators When Needed"
-#~ msgstr "Mostra els acceleradors de teclat quan calguin"
-
-#~ msgid "Always Show Keyboard Accelerators"
-#~ msgstr "Mostra sempre els acceleradors de teclat"
