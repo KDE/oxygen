@@ -29,6 +29,9 @@ add_library(kstyle_oxygen_config MODULE
 
 target_link_libraries(kstyle_oxygen_config Qt::Core Qt::Gui Qt::Widgets Qt::DBus)
 target_link_libraries(kstyle_oxygen_config KF${QT_MAJOR_VERSION}::Completion KF${QT_MAJOR_VERSION}::CoreAddons KF${QT_MAJOR_VERSION}::I18n)
+if (QT_MAJOR_VERSION EQUAL 6)
+    target_link_libraries(kstyle_oxygen_config KF6::KCMUtils)
+endif()
 target_link_libraries(kstyle_oxygen_config oxygenstyleconfig5)
 
 install(TARGETS kstyle_oxygen_config DESTINATION ${KDE_INSTALL_QTPLUGINDIR})

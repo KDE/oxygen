@@ -31,7 +31,7 @@ class ConfigWidget : public KCModule
 
 public:
     //* constructor
-    explicit ConfigWidget(QWidget *, const QVariantList &);
+    explicit ConfigWidget(QObject *parent, const KPluginMetaData &metaData, const QVariantList &args);
 
     //* default
     void defaults() override;
@@ -64,7 +64,7 @@ private:
     void setChanged(bool value)
     {
         m_changed = value;
-        emit changed(value);
+        setNeedsSave(value);
     }
 
     //* ui

@@ -24,12 +24,12 @@ namespace Oxygen
 {
 
 //_________________________________________________________
-ConfigWidget::ConfigWidget(QWidget *parent, const QVariantList &args)
-    : KCModule(parent, args)
+ConfigWidget::ConfigWidget(QObject *parent, const KPluginMetaData &metaData, const QVariantList &args)
+    : KCModule(parent, metaData, args)
     , m_configuration(KSharedConfig::openConfig(QStringLiteral("oxygenrc")))
     , m_changed(false)
 {
-    m_ui.setupUi(this);
+    m_ui.setupUi(widget());
 
     // shadow configuration
     m_ui.activeShadowConfiguration->setGroup(QPalette::Active);

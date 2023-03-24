@@ -87,6 +87,7 @@ target_link_libraries(oxygendecoration
         KF6::CoreAddons
         KF6::ConfigWidgets
         KF6::GuiAddons
+        KF6::KCMUtils
         KF6::I18n
         KF6::WindowSystem)
 

@@ -31,6 +31,7 @@ find_package(KF${QT_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Config
     CoreAddons
     GuiAddons
+    KCMUtils
     WidgetsAddons
     Service
     Completion
