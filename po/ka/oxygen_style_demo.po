@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-02-08 08:14+0100\n"
+"PO-Revision-Date: 2023-03-25 02:46+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -149,7 +149,7 @@ msgstr "ჩოჩიები"
 #: oxygendemodialog.cpp:149
 #, kde-format
 msgid "Shows the appearance of sliders, progress bars and scrollbars"
-msgstr ""
+msgstr "სლაიდერების, მიმდინარეობის ზოლების და ჩოჩიების გარეგნობის ჩვენება"
 
 #: oxygendemodialog.cpp:158
 #, kde-format
@@ -159,7 +159,7 @@ msgstr "ტესტირება"
 #: oxygendemodialog.cpp:160
 #, kde-format
 msgid "Emulates user interaction with widgets for benchmarking"
-msgstr ""
+msgstr "მომხმარებლის ვიჯეტებთან ურთიერთობის ემულაცია წარმადობის გასაზომად"
 
 #: oxygeninputdemowidget.cpp:21
 #, kde-format
@@ -214,7 +214,7 @@ msgstr "ეს ტექსტის მაგალითია"
 #: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
-msgstr ""
+msgstr "აირჩიეთ აპლიკაციის ვიჯეტის სტილი"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbenchmarkwidget.ui:29
@@ -226,7 +226,7 @@ msgstr "მოდულები"
 #: ui/oxygenbenchmarkwidget.ui:35
 #, kde-format
 msgid "Select below the modules for which you want to run the simulation:"
-msgstr ""
+msgstr "ქვემოთ აირჩიეთ მოდულები, რომლებისთვისაც გნებავთ, სიმულაცია გაუშვათ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygenbenchmarkwidget.ui:48
@@ -540,7 +540,7 @@ msgstr "&დაწოლილი"
 #: ui/oxygenframedemowidget.ui:147
 #, kde-format
 msgid "GroupBox"
-msgstr ""
+msgstr "GroupBox"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
 #: ui/oxygenframedemowidget.ui:153
@@ -559,7 +559,7 @@ msgstr "ჩანართის ვიჯეტი"
 #: ui/oxygeninputdemowidget.ui:29
 #, kde-format
 msgid "Single line text editor:"
-msgstr ""
+msgstr "ერთი ხაზის ტექსტური რედაქტორი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygeninputdemowidget.ui:65
@@ -571,7 +571,7 @@ msgstr "პაროლის რედაქტორი:"
 #: ui/oxygeninputdemowidget.ui:88
 #, kde-format
 msgid "Editable combobox"
-msgstr ""
+msgstr "ჩასწორებადი კომბო ფანჯარა"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygeninputdemowidget.ui:105
@@ -595,7 +595,7 @@ msgstr "მესამე ჩანაწერი"
 #: ui/oxygeninputdemowidget.ui:123
 #, kde-format
 msgid "Spinbox:"
-msgstr ""
+msgstr "მთვლელი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ui/oxygeninputdemowidget.ui:146
@@ -850,7 +850,7 @@ msgstr "მიმდინარეობის ზოლის ანიმა�
 #: ui/oxygensliderdemowidget.ui:36
 #, kde-format
 msgid "Invert Progress Bars"
-msgstr ""
+msgstr "მიმდინარეობის ზოლის შებრუნება"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygensliderdemowidget.ui:43
@@ -868,31 +868,31 @@ msgstr "ვერტიკალური"
 #: ui/oxygensliderdemowidget.ui:167
 #, kde-format
 msgid "Sliders tick marks position"
-msgstr ""
+msgstr "გამყოფი ნიშანი ჩოჩიაზე"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:178
 #, kde-format
 msgid "No Tick Marks"
-msgstr ""
+msgstr "დაყოფის გარეშე"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:183
 #, kde-format
 msgid "Tick Marks Above Slider"
-msgstr ""
+msgstr "გაყოფა ჩოჩიის ზემოდან"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:188
 #, kde-format
 msgid "Tick Marks Below Slider"
-msgstr ""
+msgstr "გაყოფა ჩოჩიის ქვემოდან"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:193
 #, kde-format
 msgid "Tick Marks On Both Sides"
-msgstr ""
+msgstr "გაყოფა ორივე მხრიდან"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
