@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-03-28 17:49+0300\n"
+"PO-Revision-Date: 2023-03-29 16:15+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -28,7 +28,7 @@ msgstr "Oksijen Ayarları"
 #: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
-msgstr "Odaklama, fare ile üzerine gelme ve gereç durumu geçişi"
+msgstr "Odak, fare ile üzerine gelme ve araç takımı durumu geçişi"
 
 #: oxygenanimationconfigwidget.cpp:35
 #, kde-format
@@ -36,8 +36,8 @@ msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
 "widget enabled/disabled state transition"
 msgstr ""
-"Parçacık odaklanması ve fare ile üzerine gelinmesinde kullanılacak "
-"canlandırmayı ve gereçlerin aktif/pasif geçişlerini yapılandır"
+"Araç takımı odaklanması ve fare ile üzerine gelinmesinde kullanılacak "
+"canlandırmayı ve araç takımlarının etkin/devre dışı geçişlerini yapılandır"
 
 #: oxygenanimationconfigwidget.cpp:39
 #, kde-format
