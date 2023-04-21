@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-03-07 20:50+0300\n"
+"PO-Revision-Date: 2023-04-20 15:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.03.70\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -315,7 +315,7 @@ msgstr "Yalnızca metin:"
 #: ui/oxygenbuttondemowidget.ui:142
 #, kde-format
 msgid "This is a normal, text only combo box"
-msgstr "Bu, normal, yalnızca metin araç kutusudur"
+msgstr "Bu, normal, yalnızca metin çoklu kutusudur"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:149
@@ -345,7 +345,7 @@ msgstr "Düz düğmeleri kullan"
 #: ui/oxygenbuttondemowidget.ui:197
 #, kde-format
 msgid "This is a normal, text and icon combo box"
-msgstr "Bu, normal, metin ve simge araç kutusudur"
+msgstr "Bu, normal, metin ve simge çoklu kutusudur"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
 #: ui/oxygenbuttondemowidget.ui:204
@@ -576,7 +576,7 @@ msgstr "Parola düzenleyici:"
 #: ui/oxygeninputdemowidget.ui:88
 #, kde-format
 msgid "Editable combobox"
-msgstr "Düzenlenebilir açılan kutu"
+msgstr "Düzenlenebilir çoklu kutu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygeninputdemowidget.ui:105
