@@ -1,0 +1,91 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the oxygen package.
+#
+# Enol P. <enolp@softastur.org>, 2023.
+msgid ""
+msgstr ""
+"Project-Id-Version: oxygen\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"PO-Revision-Date: 2023-05-03 21:11+0200\n"
+"Last-Translator: Enol P. <enolp@softastur.org>\n"
+"Language-Team: \n"
+"Language: ast_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 23.04.0\n"
+
+#: oxygenanimationconfigitem.cpp:98
+#, kde-format
+msgid "oxygen-settings - information"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
+#: ui/oxygenanimationconfigitem.ui:29
+#, kde-format
+msgid "CheckBox"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, configurationButton)
+#. i18n: ectx: property (text), widget (QToolButton, descriptionButton)
+#: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
+#, kde-format
+msgid "..."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
+#: ui/oxygenanimationconfigwidget.ui:23
+#, kde-format
+msgid "Enable animations"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QFrame, GenericAnimationConfigBox)
+#: ui/oxygengenericanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygengenericanimationconfigbox.ui:38
+#, kde-format
+msgid "Duration:"
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#: ui/oxygengenericanimationconfigbox.ui:64
+#, kde-format
+msgid " ms"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenshadowconfigurationui.ui:23
+#, kde-format
+msgid "Inner Color:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenshadowconfigurationui.ui:42
+#, kde-format
+msgid "Outer Color:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenshadowconfigurationui.ui:69
+#, kde-format
+msgid "Vertical Offset:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenshadowconfigurationui.ui:82
+#, kde-format
+msgid "Size: "
+msgstr "Tamañu: "
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, verticalOffset)
+#: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
+#, kde-format
+msgid "px"
+msgstr ""
