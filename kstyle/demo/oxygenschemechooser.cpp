@@ -15,6 +15,9 @@
 
 #include <KActionMenu>
 #include <KColorSchemeManager>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <KColorSchemeMenu>
+#endif
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
@@ -27,7 +30,11 @@ ColorSchemeChooser::ColorSchemeChooser(QWidget *parent)
 {
     auto manager = new KColorSchemeManager(parent);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto selectionMenu = manager->createSchemeSelectionMenu(this);
+#else
+    auto selectionMenu = KColorSchemeMenu::createMenu(manager, this);
+#endif
 
     setMenu(selectionMenu->menu());
 
