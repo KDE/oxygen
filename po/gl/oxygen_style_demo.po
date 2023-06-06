@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-04-28 18:21+0200\n"
+"PO-Revision-Date: 2023-06-05 15:20+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -416,13 +416,13 @@ msgstr "Frecha cara abaixo"
 #: ui/oxygenbuttondemowidget.ui:397
 #, kde-format
 msgid "Left Arrow"
-msgstr "Frecha cara a esquerda"
+msgstr "Frecha cara á esquerda"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
 #: ui/oxygenbuttondemowidget.ui:407
 #, kde-format
 msgid "Right Arrow"
-msgstr "Frecha cara a dereita"
+msgstr "Frecha cara á dereita"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -498,13 +498,13 @@ msgstr "&Dirección da disposición:"
 #: ui/oxygenframedemowidget.ui:45
 #, kde-format
 msgid "Left to Right"
-msgstr "Da esquerda cara a dereita"
+msgstr "Da esquerda cara á dereita"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:50
 #, kde-format
 msgid "Right to Left"
-msgstr "Da dereita cara a esquerda"
+msgstr "Da dereita cara á esquerda"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:55
@@ -899,7 +899,7 @@ msgstr "Baixo o desprazador"
 #: ui/oxygensliderdemowidget.ui:193
 #, kde-format
 msgid "Tick Marks On Both Sides"
-msgstr "A ambos lados do desprazador"
+msgstr "Aos dous lados do desprazador"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
