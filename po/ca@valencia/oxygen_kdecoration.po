@@ -385,13 +385,13 @@ msgstr "Fora de mida"
 #: config/ui/oxygenexceptionlistwidget.ui:58
 #, kde-format
 msgid "Move Up"
-msgstr "Mou amunt"
+msgstr "Mou cap amunt"
 
 #. i18n: ectx: property (text), widget (QPushButton, moveDownButton)
 #: config/ui/oxygenexceptionlistwidget.ui:65
 #, kde-format
 msgid "Move Down"
-msgstr "Mou avall"
+msgstr "Mou cap avall"
 
 #. i18n: ectx: property (text), widget (QPushButton, addButton)
 #: config/ui/oxygenexceptionlistwidget.ui:72
