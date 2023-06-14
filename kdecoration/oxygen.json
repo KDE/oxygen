@@ -91,18 +91,8 @@
         "Name[uk]": "Oxygen",
         "Name[x-test]": "xxOxygenxx",
         "Name[zh_CN]": "Oxygen 轻氧",
-        "Name[zh_TW]": "Oxygen",
-        "ServiceTypes": [
-            "org.kde.kdecoration2"
-        ]
+        "Name[zh_TW]": "Oxygen"
     },
-    "Type": "Service",
-    "X-KDE-Library": "oxygendecoration",
-    "X-KDE-PluginInfo-EnabledByDefault": true,
-    "X-KDE-PluginInfo-Name": "org.kde.oxygen",
-    "X-KDE-ServiceTypes": [
-        "org.kde.kdecoration2"
-    ],
     "X-KDE-ConfigModule": "kcm_oxygendecoration",
     "org.kde.kdecoration2": {
         "blur": false
