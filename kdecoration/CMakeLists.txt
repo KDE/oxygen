@@ -44,32 +44,10 @@ set(oxygendecoration_SRCS
 
 kconfig_add_kcfg_files(oxygendecoration_SRCS oxygensettings.kcfgc)
 
-### config classes
-### they are kept separately because they might move in a separate library in the future
-set(oxygendecoration_config_SRCS
-    config/oxygenanimationconfigwidget.cpp
-    config/oxygenconfigwidget.cpp
-    config/oxygendetectwidget.cpp
-    config/oxygenexceptiondialog.cpp
-    config/oxygenexceptionlistwidget.cpp
-    config/oxygenexceptionmodel.cpp
-)
-
-set(oxygendecoration_config_PART_FORMS
-   config/ui/oxygenconfigurationui.ui
-   config/ui/oxygendetectwidget.ui
-   config/ui/oxygenexceptiondialog.ui
-   config/ui/oxygenexceptionlistwidget.ui
-)
-
-ki18n_wrap_ui(oxygendecoration_config_PART_FORMS_HEADERS ${oxygendecoration_config_PART_FORMS})
-
 ### build library
 add_library(oxygendecoration MODULE
     ${oxygendecoration_SRCS}
-    ${oxygendecoration_config_SRCS}
-    ${oxygendecoration_config_PART_FORMS_HEADERS})
-
+)
 set_target_properties(oxygendecoration PROPERTIES
     OUTPUT_NAME org.kde.oxygen
 )
@@ -100,6 +78,6 @@ if(OXYGEN_HAVE_X11)
   endif()
 endif()
 
+add_subdirectory(config)
 
 install(TARGETS oxygendecoration DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
-install(FILES config/oxygendecorationconfig.desktop DESTINATION  ${KDE_INSTALL_KSERVICESDIR})

@@ -103,8 +103,8 @@
     "X-KDE-ServiceTypes": [
         "org.kde.kdecoration2"
     ],
+    "X-KDE-ConfigModule": "kcm_oxygendecoration",
     "org.kde.kdecoration2": {
-        "blur": false,
-        "kcmodule": true
+        "blur": false
     }
 }

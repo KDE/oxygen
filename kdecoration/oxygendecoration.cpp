@@ -9,7 +9,6 @@
 #include "oxygendecoration.h"
 
 #include "config-oxygen.h"
-#include "config/oxygenconfigwidget.h"
 #include "oxygensettingsprovider.h"
 #include "oxygenshadowcache.h"
 
@@ -36,8 +35,7 @@
 #endif
 #endif
 
-K_PLUGIN_FACTORY_WITH_JSON(OxygenDecoFactory, "oxygen.json", registerPlugin<Oxygen::Decoration>(); registerPlugin<Oxygen::Button>();
-                           registerPlugin<Oxygen::ConfigWidget>();)
+K_PLUGIN_FACTORY_WITH_JSON(OxygenDecoFactory, "oxygen.json", registerPlugin<Oxygen::Decoration>(); registerPlugin<Oxygen::Button>();)
 
 namespace Oxygen
 {
