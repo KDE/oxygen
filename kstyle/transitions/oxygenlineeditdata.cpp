@@ -51,7 +51,7 @@ LineEditData::LineEditData(QObject *parent, QLineEdit *target, int duration)
     QLineEdit
     */
     if (qobject_cast<QSpinBox *>(_target.data()->parentWidget()) || qobject_cast<QDoubleSpinBox *>(_target.data()->parentWidget())) {
-        connect(_target.data()->parentWidget(), SIGNAL(valueChanged(QString)), SLOT(textChanged()));
+        connect(_target.data()->parentWidget(), SIGNAL(textChanged(QString)), SLOT(textChanged()));
 
     } else if (qobject_cast<QDateTimeEdit *>(_target.data()->parentWidget())) {
         connect(_target.data()->parentWidget(), SIGNAL(dateTimeChanged(QDateTime)), SLOT(textChanged()));
