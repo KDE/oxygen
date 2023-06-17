@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-04-20 15:02+0300\n"
+"PO-Revision-Date: 2023-06-16 11:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.03.70\n"
+"X-Generator: Lokalize 23.07.70\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -570,7 +570,7 @@ msgstr "Tek satırlı metin düzenleyici:"
 #: ui/oxygeninputdemowidget.ui:65
 #, kde-format
 msgid "Password editor:"
-msgstr "Parola düzenleyici:"
+msgstr "Parola düzenleyicisi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygeninputdemowidget.ui:88
@@ -606,7 +606,7 @@ msgstr "Değiştirme kutusu:"
 #: ui/oxygeninputdemowidget.ui:146
 #, kde-format
 msgid "Multi-line text editor:"
-msgstr "Çok satırlı metin düzenleyici:"
+msgstr "Çok satırlı metin düzenleyicisi:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
 #: ui/oxygeninputdemowidget.ui:153
