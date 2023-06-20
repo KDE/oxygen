@@ -231,13 +231,13 @@ msgstr "Agochar sempre"
 #: ui/oxygenstyleconfig.ui:89
 #, kde-format
 msgid "Show when Alt key is pressed"
-msgstr "Mostrar ao premer a tecla Alt"
+msgstr "Amosar ao premer a tecla Alt"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:94
 #, kde-format
 msgid "Always show"
-msgstr "Mostrar sempre"
+msgstr "Amosar sempre"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenstyleconfig.ui:108
@@ -380,19 +380,19 @@ msgstr "Realce do menú"
 #: ui/oxygenstyleconfig.ui:433
 #, kde-format
 msgid "Use dar&k color"
-msgstr "Empregar unha cor &escura"
+msgstr "Usar unha cor &escura"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
 #: ui/oxygenstyleconfig.ui:440
 #, kde-format
 msgid "&Use selection color (plain)"
-msgstr "Empregar a cor da escolla (&simple)"
+msgstr "Usar a cor da escolla (&simple)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
 #: ui/oxygenstyleconfig.ui:447
 #, kde-format
 msgid "Use selec&tion color (subtle)"
-msgstr "Empregar a cor da escolla (s&uave)"
+msgstr "Usar a cor da escolla (s&uave)"
 
 #~ msgid "Always Hide Keyboard Accelerators"
 #~ msgstr "Agochar sempre os aceleradores do teclado"
