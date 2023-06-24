@@ -94,7 +94,7 @@ msgstr "Trebellos de entrada"
 #: oxygendemodialog.cpp:89
 #, kde-format
 msgid "Shows the appearance of text input widgets"
-msgstr "Mostra a aparencia dos trebellos de entrada de texto"
+msgstr "Amosa a aparencia dos trebellos de entrada de texto"
 
 #: oxygendemodialog.cpp:97
 #, kde-format
@@ -104,7 +104,7 @@ msgstr "Trebellos de separadores"
 #: oxygendemodialog.cpp:99
 #, kde-format
 msgid "Shows the appearance of tab widgets"
-msgstr "Mostra a aparencia dos trebellos de separadores"
+msgstr "Amosa a aparencia dos trebellos de separadores"
 
 #: oxygendemodialog.cpp:107
 #, kde-format
@@ -114,7 +114,7 @@ msgstr "Botóns"
 #: oxygendemodialog.cpp:109
 #, kde-format
 msgid "Shows the appearance of buttons"
-msgstr "Mostra a aparencia os botóns"
+msgstr "Amosa a aparencia os botóns"
 
 #: oxygendemodialog.cpp:117
 #, kde-format
@@ -124,7 +124,7 @@ msgstr "Listas"
 #: oxygendemodialog.cpp:119
 #, kde-format
 msgid "Shows the appearance of lists, trees and tables"
-msgstr "Mostra as aparencias das listas, árbores e táboas"
+msgstr "Amosa as aparencias das listas, árbores e táboas"
 
 #: oxygendemodialog.cpp:127
 #, kde-format
@@ -134,7 +134,7 @@ msgstr "Marcos"
 #: oxygendemodialog.cpp:129
 #, kde-format
 msgid "Shows the appearance of various framed widgets"
-msgstr "Mostra a aparencia de varios trebellos que teñen marco"
+msgstr "Amosa a aparencia de varios trebellos que teñen marco"
 
 #: oxygendemodialog.cpp:137
 #, kde-format
@@ -144,7 +144,7 @@ msgstr "Xanelas MDI"
 #: oxygendemodialog.cpp:139
 #, kde-format
 msgid "Shows the appearance of MDI windows"
-msgstr "Mostra a aparencia das xanelas MDI"
+msgstr "Amosa a aparencia das xanelas MDI"
 
 #: oxygendemodialog.cpp:147
 #, kde-format
@@ -155,7 +155,7 @@ msgstr "Desprazadores"
 #, kde-format
 msgid "Shows the appearance of sliders, progress bars and scrollbars"
 msgstr ""
-"Mostra a aparencia dos desprazadores, das barras de progreso e das barras de "
+"Amosa a aparencia dos desprazadores, das barras de progreso e das barras de "
 "desprazamento"
 
 #: oxygendemodialog.cpp:158
