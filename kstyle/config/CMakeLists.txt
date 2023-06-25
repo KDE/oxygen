@@ -42,15 +42,17 @@ set_package_properties(KF${QT_MAJOR_VERSION}KCMUtils PROPERTIES
     DESCRIPTION "KF${QT_MAJOR_VERSION} KCM utils Framework"
     URL "https://projects.kde.org/projects/frameworks/kcmutils"
     TYPE OPTIONAL
-    PURPOSE "Required for oxygen-settings5 application to build")
+    PURPOSE "Required for oxygen-settings application to build")
 
 if( KF${QT_MAJOR_VERSION}KCMUtils_FOUND )
     set(oxygen_settings_SOURCES main.cpp)
-    add_executable(oxygen-settings5 ${oxygen_settings_SOURCES} )
-    target_link_libraries(oxygen-settings5 Qt::Core Qt::Gui Qt::Widgets )
-    target_link_libraries(oxygen-settings5 KF${QT_MAJOR_VERSION}::I18n KF${QT_MAJOR_VERSION}::KCMUtils)
+    add_executable(oxygen-settings ${oxygen_settings_SOURCES} )
+    target_link_libraries(oxygen-settings Qt::Core Qt::Gui Qt::Widgets )
+    target_link_libraries(oxygen-settings KF${QT_MAJOR_VERSION}::I18n KF${QT_MAJOR_VERSION}::KCMUtils)
 
-    install(TARGETS oxygen-settings5 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+    set_target_properties(oxygen-settings PROPERTIES OUTPUT_NAME oxygen-settings${QT_MAJOR_VERSION})
+
+    install(TARGETS oxygen-settings ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
     # icon
     ecm_install_icons(ICONS 256-apps-oxygen-settings.png
