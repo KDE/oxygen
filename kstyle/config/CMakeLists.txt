@@ -34,7 +34,7 @@ if (QT_MAJOR_VERSION EQUAL 6)
 endif()
 target_link_libraries(kstyle_oxygen_config oxygenstyleconfig5)
 
-install(TARGETS kstyle_oxygen_config DESTINATION ${KDE_INSTALL_QTPLUGINDIR})
+install(TARGETS kstyle_oxygen_config DESTINATION ${KDE_INSTALL_QTPLUGINDIR}/kstyle_config/)
 install(FILES oxygenstyleconfig.desktop DESTINATION  ${KDE_INSTALL_KSERVICESDIR})
 
 ########### next target ###############
