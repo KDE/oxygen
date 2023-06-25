@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
 
     KCMultiDialog dialog;
     dialog.setWindowTitle(i18n("Oxygen Settings"));
-    dialog.addModule(KPluginMetaData(QStringLiteral("oxygenstyleconfig")));
-    dialog.addModule(KPluginMetaData(QStringLiteral("oxygendecorationconfig")));
+    dialog.addModule(KPluginMetaData(QStringLiteral("kstyle_config/kstyle_oxygen_config")));
+    dialog.addModule(KPluginMetaData(QStringLiteral("org.kde.kdecoration2.kcm/kcm_oxygendecoration")));
     dialog.show();
 
     const auto children = dialog.findChildren<QAbstractScrollArea *>();
