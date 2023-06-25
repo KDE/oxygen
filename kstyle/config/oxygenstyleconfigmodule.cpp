@@ -7,7 +7,7 @@
 
 #include <KPluginFactory>
 
-K_PLUGIN_FACTORY(OxygenStyleConfigFactory, registerPlugin<Oxygen::ConfigurationModule>();)
+K_PLUGIN_FACTORY_WITH_JSON(OxygenStyleConfigFactory, "oxygenstyleconfig.json", registerPlugin<Oxygen::ConfigurationModule>();)
 
 #include "oxygenstyleconfigmodule.moc"
 
