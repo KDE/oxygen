@@ -149,14 +149,14 @@ msgstr "Amosa a aparencia das xanelas MDI"
 #: oxygendemodialog.cpp:147
 #, kde-format
 msgid "Sliders"
-msgstr "Desprazadores"
+msgstr "Controis esvaradíos"
 
 #: oxygendemodialog.cpp:149
 #, kde-format
 msgid "Shows the appearance of sliders, progress bars and scrollbars"
 msgstr ""
-"Amosa a aparencia dos desprazadores, das barras de progreso e das barras de "
-"desprazamento"
+"Amosa a aparencia dos controis esvaradíos, das barras de progreso e das "
+"barras de desprazamento"
 
 #: oxygendemodialog.cpp:158
 #, kde-format
@@ -875,7 +875,7 @@ msgstr "Vertical"
 #: ui/oxygensliderdemowidget.ui:167
 #, kde-format
 msgid "Sliders tick marks position"
-msgstr "Posición das marcas dos desprazadores"
+msgstr "Posición das marcas dos controis esvaradíos"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:178
@@ -887,13 +887,13 @@ msgstr "Se marcas"
 #: ui/oxygensliderdemowidget.ui:183
 #, kde-format
 msgid "Tick Marks Above Slider"
-msgstr "Sobre o desprazador"
+msgstr "Sobre o control esvaradío"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:188
 #, kde-format
 msgid "Tick Marks Below Slider"
-msgstr "Baixo o desprazador"
+msgstr "Baixo o control esvaradío"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:193
