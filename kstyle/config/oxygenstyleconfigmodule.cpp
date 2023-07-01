@@ -15,8 +15,8 @@ namespace Oxygen
 {
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-ConfigurationModule::ConfigurationModule(QObject *parent, const KPluginMetaData &metaData, const QVariantList &args)
-    : KCModule(parent, metaData, args)
+ConfigurationModule::ConfigurationModule(QObject *parent, const KPluginMetaData &metaData)
+    : KCModule(parent, metaData)
 {
     widget()->setLayout(new QVBoxLayout(widget()));
     widget()->layout()->addWidget(m_config = new StyleConfig(widget()));

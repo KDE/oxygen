@@ -25,7 +25,11 @@ namespace Oxygen
 
 //_________________________________________________________
 ConfigWidget::ConfigWidget(QObject *parent, const KPluginMetaData &metaData, const QVariantList &args)
+#if QT_VERSION_MAJOR < 6
     : KCModule(parent, metaData, args)
+#else
+    : KCModule(parent, metaData)
+#endif
     , m_configuration(KSharedConfig::openConfig(QStringLiteral("oxygenrc")))
     , m_changed(false)
 {
