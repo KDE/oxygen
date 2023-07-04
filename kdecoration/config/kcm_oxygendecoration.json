@@ -20,6 +20,7 @@
         "Description[tr]": "Pencere dekorasyonlarının görünüşünü değiştir",
         "Description[uk]": "Внесення змін до обрамлення вікон",
         "Description[x-test]": "xxModify the appearance of window decorationsxx",
+        "Description[zh_CN]": "调整窗口装饰外观",
         "Icon": "preferences-system-windows",
         "Name": "Oxygen Window Decoration",
         "Name[ar]": "زخارف النوافذ أكسجين",
@@ -40,7 +41,8 @@
         "Name[sl]": "Okraski oken Kisik",
         "Name[tr]": "Oksijen Pencere Dekorasyonu",
         "Name[uk]": "Декорації вікон Oxygen",
-        "Name[x-test]": "xxOxygen Window Decorationxx"
+        "Name[x-test]": "xxOxygen Window Decorationxx",
+        "Name[zh_CN]": "Oxygen 轻氧窗口装饰"
     },
     "X-KDE-Keywords": "oxygen,decoration",
     "X-KDE-Keywords[ar]": "زخارف النوافذ,أكسجين",
