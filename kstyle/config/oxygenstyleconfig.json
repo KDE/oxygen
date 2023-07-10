@@ -1,7 +1,33 @@
 {
     "KPlugin": {
         "Description": "Modify the appearance of widgets",
+        "Description[ca@valencia]": "Modifica l'aparença dels ginys",
+        "Description[ca]": "Modifica l'aparença dels ginys",
+        "Description[de]": "Das Erscheinungsbild der Bedienelemente ändern",
+        "Description[eo]": "Modifi la aspekton de fenestraĵoj",
+        "Description[es]": "Modificar el aspecto de los widgets",
+        "Description[ia]": "Modifica le apparentia de decorationes de widgets",
+        "Description[ka]": "ვიჯეტების გარეგნობის შეცვლა",
+        "Description[nl]": "Wijzig het uiterlijk van widgets",
+        "Description[pl]": "Zmień wygląd elementów interfejsu",
+        "Description[sl]": "Spremeni videz gradnikov",
+        "Description[tr]": "Araç takımlarının görünüşünü değiştir",
+        "Description[uk]": "Зміна вигляду віджетів",
+        "Description[x-test]": "xxModify the appearance of widgetsxx",
         "Icon": "preferences-desktop-theme",
-        "Name": "Oxygen Widget Style"
+        "Name": "Oxygen Widget Style",
+        "Name[ca@valencia]": "Estil Oxygen dels ginys",
+        "Name[ca]": "Estil Oxygen dels ginys",
+        "Name[de]": "Oxygen-Stil der Bedienelemente",
+        "Name[eo]": "Oxygen-Fenestraĵstilo",
+        "Name[es]": "Estilo de widgets Oxígeno",
+        "Name[ia]": "Stilo de Elemento Graphic de Fenestra (Widget) Oxygen",
+        "Name[ka]": "Oxygen ვიჯეტის სტილი",
+        "Name[nl]": "Oxygen widgetstijl",
+        "Name[pl]": "Tlen jako wygląd elementów interfejsu",
+        "Name[sl]": "Slog gradnikov Oxygen",
+        "Name[tr]": "Oksijen Araç Takımı Biçemi",
+        "Name[uk]": "Стиль віджетів Oxygen",
+        "Name[x-test]": "xxOxygen Widget Stylexx"
     }
 }
