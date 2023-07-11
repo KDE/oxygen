@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Modify the appearance of widgets",
+        "Description[bg]": "Настройване на външния изглед на уиджетите",
         "Description[ca@valencia]": "Modifica l'aparença dels ginys",
         "Description[ca]": "Modifica l'aparença dels ginys",
         "Description[de]": "Das Erscheinungsbild der Bedienelemente ändern",
@@ -16,6 +17,7 @@
         "Description[x-test]": "xxModify the appearance of widgetsxx",
         "Icon": "preferences-desktop-theme",
         "Name": "Oxygen Widget Style",
+        "Name[bg]": "Стил на уиджетите Oxygen",
         "Name[ca@valencia]": "Estil Oxygen dels ginys",
         "Name[ca]": "Estil Oxygen dels ginys",
         "Name[de]": "Oxygen-Stil der Bedienelemente",
