@@ -16,6 +16,7 @@
         "Description[tr]": "Araç takımlarının görünüşünü değiştir",
         "Description[uk]": "Зміна вигляду віджетів",
         "Description[x-test]": "xxModify the appearance of widgetsxx",
+        "Description[zh_CN]": "修改窗口部件外观",
         "Icon": "preferences-desktop-theme",
         "Name": "Oxygen Widget Style",
         "Name[bg]": "Стил на уиджетите Oxygen",
@@ -32,6 +33,7 @@
         "Name[sl]": "Slog gradnikov Oxygen",
         "Name[tr]": "Oksijen Araç Takımı Biçemi",
         "Name[uk]": "Стиль віджетів Oxygen",
-        "Name[x-test]": "xxOxygen Widget Stylexx"
+        "Name[x-test]": "xxOxygen Widget Stylexx",
+        "Name[zh_CN]": "Oxygen 轻氧窗口部件风格"
     }
 }
