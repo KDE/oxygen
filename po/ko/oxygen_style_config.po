@@ -1,14 +1,14 @@
 # Translation of kstyle_config to Korean.
 # Copyright (C) 2007 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdebase package.
-# Shinjo Park <kde@peremen.name>, 2007, 2009, 2010, 2011, 2012, 2014, 2015, 2017, 2020, 2021, 2022.
+# Shinjo Park <kde@peremen.name>, 2007, 2009, 2010, 2011, 2012, 2014, 2015, 2017, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2022-02-20 21:00+0100\n"
+"PO-Revision-Date: 2023-07-23 21:46+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 21.08.1\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: main.cpp:24 main.cpp:28
 #, kde-format
@@ -26,7 +26,7 @@ msgstr "Oxygen 설정"
 #: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
-msgstr "초점, 마우스 움직임, 위젯 상태 전환"
+msgstr "포커스, 마우스 움직임, 위젯 상태 전환"
 
 #: oxygenanimationconfigwidget.cpp:35
 #, kde-format
@@ -34,8 +34,8 @@ msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
 "widget enabled/disabled state transition"
 msgstr ""
-"위젯의 초점 및 마우스가 지나다닐 때 강조 애니메이션, 활성/비활성 상태 전환을 "
-"설정합니다"
+"위젯의 포커스 및 마우스가 지나다닐 때 강조 애니메이션, 활성/비활성 상태 전환"
+"을 설정합니다"
 
 #: oxygenanimationconfigwidget.cpp:39
 #, kde-format
@@ -299,7 +299,7 @@ msgstr "일반"
 #: ui/oxygenstyleconfig.ui:256
 #, kde-format
 msgid "Draw focus indicator in lists"
-msgstr "목록에 초점 표시기 그리기"
+msgstr "목록에 포커스 표시기 그리기"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: ui/oxygenstyleconfig.ui:264

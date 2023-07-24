@@ -257,7 +257,7 @@ msgstr "창 속성 선택"
 #: config/ui/oxygendetectwidget.ui:69
 #, kde-format
 msgid "Use window class (whole application)"
-msgstr "창 클래스 사용하기 (전체 프로그램)"
+msgstr "창 클래스 사용하기 (전체 앱)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, windowTitleCheckBox)
 #: config/ui/oxygendetectwidget.ui:79

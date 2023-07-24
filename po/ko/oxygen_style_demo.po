@@ -214,7 +214,7 @@ msgstr "이것은 예제 텍스트입니다"
 #: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
-msgstr "프로그램 위젯 스타일 선택"
+msgstr "앱 위젯 스타일 선택"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbenchmarkwidget.ui:29
