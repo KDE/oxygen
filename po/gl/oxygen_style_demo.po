@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-06-05 15:20+0200\n"
+"PO-Revision-Date: 2023-08-06 05:32+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -245,7 +245,7 @@ msgstr "Opcións"
 #: ui/oxygenbenchmarkwidget.ui:54
 #, kde-format
 msgid "Grab mouse"
-msgstr "Capturar o rato"
+msgstr "Capturar o rato."
 
 #. i18n: ectx: property (text), widget (QPushButton, runButton)
 #: ui/oxygenbenchmarkwidget.ui:82
@@ -263,19 +263,19 @@ msgstr "Caixas para marcar"
 #: ui/oxygenbuttondemowidget.ui:28
 #, kde-format
 msgid "Off"
-msgstr "Desactivado"
+msgstr "Desactivado."
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
 #: ui/oxygenbuttondemowidget.ui:35
 #, kde-format
 msgid "Partial"
-msgstr "Parcial"
+msgstr "Parcial."
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
 #: ui/oxygenbuttondemowidget.ui:45
 #, kde-format
 msgid "On"
-msgstr "Activado"
+msgstr "Activado."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ui/oxygenbuttondemowidget.ui:73
@@ -317,7 +317,7 @@ msgstr "Só texto:"
 #: ui/oxygenbuttondemowidget.ui:142
 #, kde-format
 msgid "This is a normal, text only combo box"
-msgstr "Isto é unha lista despregábel normal só con texto"
+msgstr "Isto é unha lista despregábel normal só con texto."
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:149
@@ -341,49 +341,49 @@ msgstr "Texto e icona:"
 #: ui/oxygenbuttondemowidget.ui:190
 #, kde-format
 msgid "Use flat buttons"
-msgstr "Usar botóns planos"
+msgstr "Usar botóns planos."
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
 #: ui/oxygenbuttondemowidget.ui:197
 #, kde-format
 msgid "This is a normal, text and icon combo box"
-msgstr "Isto é unha lista despregábel normal só con texto e icona"
+msgstr "Isto é unha lista despregábel normal só con texto e icona."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
 #: ui/oxygenbuttondemowidget.ui:204
 #, kde-format
 msgid "This is a normal, text only tool button"
-msgstr "Isto é un botón de barra normal só con texto"
+msgstr "Isto é un botón de barra normal só con texto."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
 #: ui/oxygenbuttondemowidget.ui:214
 #, kde-format
 msgid "This is a normal, text and icon tool button"
-msgstr "Isto é un botón de barra normal só con texto e icona"
+msgstr "Isto é un botón de barra normal só con texto e icona."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
 #: ui/oxygenbuttondemowidget.ui:224
 #, kde-format
 msgid "This is a normal, text only button"
-msgstr "Isto é un botón normal só con texto"
+msgstr "Isto é un botón normal só con texto."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
 #: ui/oxygenbuttondemowidget.ui:234
 #, kde-format
 msgid "This is a normal, text only button with menu"
-msgstr "Isto é un botón normal só con texto e menú"
+msgstr "Isto é un botón normal só con texto e menú."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
 #: ui/oxygenbuttondemowidget.ui:244
 #, kde-format
 msgid "This is a normal, text and icon button"
-msgstr "Isto é un botón normal só con texto e icona"
+msgstr "Isto é un botón normal só con texto e icona."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
 #: ui/oxygenbuttondemowidget.ui:254
 #, kde-format
 msgid "This is a normal, text and icon button with menu"
-msgstr "Isto é un botón normal con texto e icona e con menú"
+msgstr "Isto é un botón normal con texto e icona e con menú."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygenbuttondemowidget.ui:267
@@ -554,7 +554,7 @@ msgstr "Cadro de grupo"
 #, kde-format
 msgctxt "Flat group box. No frame is actually drawn"
 msgid "Flat"
-msgstr "Simple"
+msgstr "Simple."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ui/oxygenframedemowidget.ui:180
@@ -614,13 +614,13 @@ msgstr "Editor de texto de varias liñas:"
 #: ui/oxygeninputdemowidget.ui:153
 #, kde-format
 msgid "Wrap words"
-msgstr "Quebrar as liñas"
+msgstr "Quebrar as liñas."
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
 #: ui/oxygeninputdemowidget.ui:160
 #, kde-format
 msgid "Use flat widgets"
-msgstr "Usar trebellos planos"
+msgstr "Usar trebellos planos."
 
 #. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
@@ -851,13 +851,13 @@ msgstr "Terceira páxina"
 #: ui/oxygensliderdemowidget.ui:29
 #, kde-format
 msgid "Animate Progress Bars"
-msgstr "Animar as barras de progreso"
+msgstr "Animar as barras de progreso."
 
 #. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:36
 #, kde-format
 msgid "Invert Progress Bars"
-msgstr "Inverter as barras de progreso"
+msgstr "Inverter as barras de progreso."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygensliderdemowidget.ui:43
@@ -935,25 +935,25 @@ msgstr "Leste"
 #: ui/oxygentabdemowidget.ui:115
 #, kde-format
 msgid "Document mode"
-msgstr "Modo do documento"
+msgstr "Modo do documento."
 
 #. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
 #: ui/oxygentabdemowidget.ui:122
 #, kde-format
 msgid "Show Corner Buttons"
-msgstr "Amosar os botóns das esquinas"
+msgstr "Amosar os botóns das esquinas."
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
 #: ui/oxygentabdemowidget.ui:129
 #, kde-format
 msgid "Show Tab Close Buttons"
-msgstr "Amosar os botóns de pechar os separadores"
+msgstr "Amosar os botóns de pechar os separadores."
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
 #: ui/oxygentabdemowidget.ui:136
 #, kde-format
 msgid "Hide tabbar"
-msgstr "Agochar a barra de lapelas"
+msgstr "Agochar a barra de lapelas."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygentabdemowidget.ui:143
