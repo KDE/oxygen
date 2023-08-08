@@ -23,6 +23,7 @@
         "Description[uk]": "Зміна вигляду віджетів",
         "Description[x-test]": "xxModify the appearance of widgetsxx",
         "Description[zh_CN]": "修改窗口部件外观",
+        "Description[zh_TW]": "修改元件的外觀",
         "Icon": "preferences-desktop-theme",
         "Name": "Oxygen Widget Style",
         "Name[bg]": "Стил на уиджетите Oxygen",
@@ -46,6 +47,7 @@
         "Name[tr]": "Oksijen Araç Takımı Biçemi",
         "Name[uk]": "Стиль віджетів Oxygen",
         "Name[x-test]": "xxOxygen Widget Stylexx",
-        "Name[zh_CN]": "Oxygen 轻氧窗口部件风格"
+        "Name[zh_CN]": "Oxygen 轻氧窗口部件风格",
+        "Name[zh_TW]": "Oxygen 元件樣式"
     }
 }
