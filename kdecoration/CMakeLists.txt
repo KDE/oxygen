@@ -58,8 +58,8 @@ target_link_libraries(oxygendecoration
         Qt::Gui
         Qt::DBus
     PRIVATE
-        oxygenstyle5
-        oxygenstyleconfig5
+        oxygenstyle6
+        oxygenstyleconfig6
         KDecoration2::KDecoration
         KF6::ConfigCore
         KF6::CoreAddons

@@ -32,8 +32,8 @@ target_link_libraries(kcm_oxygendecoration
         KF6::IconThemes
         KF6::KCMUtils
         KF6::WindowSystem
-        oxygenstyle5
-        oxygenstyleconfig5
+        oxygenstyle6
+        oxygenstyleconfig6
 )
 
 if(OXYGEN_HAVE_X11)
