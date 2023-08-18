@@ -20,9 +20,9 @@ kconfig_add_kcfg_files(kcm_oxygendecoration ../oxygensettings.kcfgc)
 target_include_directories(kcm_oxygendecoration PRIVATE ${CMAKE_SOURCE_DIR}/kdecoration ${CMAKE_BINARY_DIR}/kdecoration/)
 target_link_libraries(kcm_oxygendecoration
     PUBLIC
-        Qt::Core
-        Qt::Gui
-        Qt::DBus
+        Qt6::Core
+        Qt6::Gui
+        Qt6::DBus
     PRIVATE
         KF6::ConfigCore
         KF6::CoreAddons
@@ -37,7 +37,7 @@ target_link_libraries(kcm_oxygendecoration
 )
 
 if(OXYGEN_HAVE_X11)
-  target_link_libraries(kcm_oxygendecoration PUBLIC Qt::GuiPrivate XCB::XCB)
+  target_link_libraries(kcm_oxygendecoration PUBLIC Qt6::GuiPrivate XCB::XCB)
 endif()
 
 kcmutils_generate_desktop_file(kcm_oxygendecoration)

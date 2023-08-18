@@ -24,9 +24,9 @@ generate_export_header(oxygenstyle${QT_MAJOR_VERSION} BASE_NAME oxygen EXPORT_FI
 #     interface, since other Oxygen targets link to this library
 target_link_libraries(oxygenstyle${QT_MAJOR_VERSION}
     PUBLIC
-        Qt::Core
-        Qt::Gui
-        Qt::Widgets
+        Qt${QT_MAJOR_VERSION}::Core
+        Qt${QT_MAJOR_VERSION}::Gui
+        Qt${QT_MAJOR_VERSION}::Widgets
         KF${QT_MAJOR_VERSION}::ConfigCore
         KF${QT_MAJOR_VERSION}::ConfigWidgets
         KF${QT_MAJOR_VERSION}::WindowSystem
@@ -41,7 +41,7 @@ if(OXYGEN_HAVE_X11)
     if (QT_MAJOR_VERSION EQUAL "5")
         target_link_libraries(oxygenstyle5 PRIVATE Qt5::X11Extras)
     else()
-        target_link_libraries(oxygenstyle6 PRIVATE Qt::GuiPrivate)
+        target_link_libraries(oxygenstyle6 PRIVATE Qt6::GuiPrivate)
     endif()
 endif()
 
@@ -86,9 +86,9 @@ generate_export_header(oxygenstyleconfig${QT_MAJOR_VERSION} BASE_NAME oxygen_con
 target_link_libraries(oxygenstyleconfig${QT_MAJOR_VERSION}
     PUBLIC
         oxygenstyle${QT_MAJOR_VERSION}
-        Qt::Core
-        Qt::Gui
-        Qt::Widgets
+        Qt${QT_MAJOR_VERSION}::Core
+        Qt${QT_MAJOR_VERSION}::Gui
+        Qt${QT_MAJOR_VERSION}::Widgets
     PRIVATE
         KF${QT_MAJOR_VERSION}::I18n
 )

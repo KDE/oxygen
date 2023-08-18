@@ -54,9 +54,9 @@ set_target_properties(oxygendecoration PROPERTIES
 
 target_link_libraries(oxygendecoration
     PUBLIC
-        Qt::Core
-        Qt::Gui
-        Qt::DBus
+        Qt6::Core
+        Qt6::Gui
+        Qt6::DBus
     PRIVATE
         oxygenstyle6
         oxygenstyleconfig6
@@ -70,7 +70,7 @@ target_link_libraries(oxygendecoration
         KF6::WindowSystem)
 
 if(OXYGEN_HAVE_X11)
-  target_link_libraries(oxygendecoration PUBLIC XCB::XCB  Qt::GuiPrivate)
+  target_link_libraries(oxygendecoration PUBLIC XCB::XCB  Qt6::GuiPrivate)
 endif()
 
 add_subdirectory(config)

@@ -69,16 +69,16 @@ set(oxygen_PART_SRCS
 kconfig_add_kcfg_files(oxygen_PART_SRCS oxygenstyleconfigdata.kcfgc)
 add_library(oxygen MODULE ${oxygen_PART_SRCS})
 
-target_link_libraries(oxygen Qt::Core Qt::Gui Qt::Widgets Qt::DBus Qt::Quick)
+target_link_libraries(oxygen Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Quick)
 target_link_libraries(oxygen KF${QT_MAJOR_VERSION}::GuiAddons KF${QT_MAJOR_VERSION}::Style KF${QT_MAJOR_VERSION}::WindowSystem)
 target_link_libraries(oxygen oxygenstyle${QT_MAJOR_VERSION})
 
 if(OXYGEN_HAVE_X11)
     target_link_libraries(oxygen XCB::XCB)
     if (QT_MAJOR_VERSION EQUAL "5")
-        target_link_libraries(oxygen Qt::X11Extras)
+        target_link_libraries(oxygen Qt5::X11Extras)
     else()
-        target_link_libraries(oxygen Qt::GuiPrivate)
+        target_link_libraries(oxygen Qt6::GuiPrivate)
     endif()
 endif()
 

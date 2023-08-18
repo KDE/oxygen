@@ -42,8 +42,10 @@ add_executable(oxygen-demo${QT_MAJOR_VERSION}
     ${oxygen_demo_FORMS_HEADERS}
 )
 
-target_link_libraries(oxygen-demo${QT_MAJOR_VERSION} Qt::Core Qt::Gui Qt::Widgets)
+
+target_link_libraries(oxygen-demo${QT_MAJOR_VERSION} Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Widgets)
 target_link_libraries(oxygen-demo${QT_MAJOR_VERSION} KF${QT_MAJOR_VERSION}::Completion KF${QT_MAJOR_VERSION}::ConfigGui KF${QT_MAJOR_VERSION}::WidgetsAddons KF${QT_MAJOR_VERSION}::I18n)
+
 if(KF${QT_MAJOR_VERSION}ConfigWidgets_FOUND)
     target_link_libraries(oxygen-demo${QT_MAJOR_VERSION} KF${QT_MAJOR_VERSION}::ConfigWidgets)
 endif()

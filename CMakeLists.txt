@@ -18,6 +18,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} )
 
+set(QT_NO_CREATE_VERSIONLESS_TARGETS ON)
+set(QT_NO_CREATE_VERSIONLESS_FUNCTIONS ON)
+
 include(ECMInstallIcons)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
@@ -39,6 +42,12 @@ find_package(KF${QT_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
 
 if(QT_MAJOR_VERSION EQUAL 6)
     find_package(KF6KCMUtils ${KF_MIN_VERSION} REQUIRED COMPONENTS)
+
+    # https://bugreports.qt.io/browse/QTBUG-114706
+    add_library(Qt::Core ALIAS Qt6::Core)
+    add_library(Qt::Gui ALIAS Qt6::Gui)
+    add_library(Qt::OpenGL ALIAS Qt6::OpenGL)
+    add_library(Qt::Network ALIAS Qt6::Network)
 endif()
 
 find_package(XCB COMPONENTS XCB)
