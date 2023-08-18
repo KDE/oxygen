@@ -28,31 +28,28 @@ add_library(kstyle_oxygen_config MODULE
 )
 
 target_link_libraries(kstyle_oxygen_config Qt::Core Qt::Gui Qt::Widgets Qt::DBus)
-target_link_libraries(kstyle_oxygen_config KF${QT_MAJOR_VERSION}::Completion KF${QT_MAJOR_VERSION}::CoreAddons KF${QT_MAJOR_VERSION}::I18n)
-if (QT_MAJOR_VERSION EQUAL 6)
-    target_link_libraries(kstyle_oxygen_config KF6::KCMUtils)
-endif()
+target_link_libraries(kstyle_oxygen_config KF6::Completion KF6::CoreAddons KF6::I18n)
+target_link_libraries(kstyle_oxygen_config KF6::KCMUtils)
 target_link_libraries(kstyle_oxygen_config oxygenstyleconfig5)
 
 install(TARGETS kstyle_oxygen_config DESTINATION ${KDE_INSTALL_QTPLUGINDIR}/kstyle_config/)
 
 ########### next target ###############
-find_package(KF${QT_MAJOR_VERSION}KCMUtils CONFIG)
-set_package_properties(KF${QT_MAJOR_VERSION}KCMUtils PROPERTIES
-    DESCRIPTION "KF${QT_MAJOR_VERSION} KCM utils Framework"
+find_package(KF6KCMUtils CONFIG)
+set_package_properties(KF6KCMUtils PROPERTIES
+    DESCRIPTION "KF6 KCM utils Framework"
     URL "https://projects.kde.org/projects/frameworks/kcmutils"
     TYPE OPTIONAL
     PURPOSE "Required for oxygen-settings application to build")
 
-if( KF${QT_MAJOR_VERSION}KCMUtils_FOUND )
+if(KF6KCMUtils_FOUND)
     set(oxygen_settings_SOURCES main.cpp)
-    add_executable(oxygen-settings ${oxygen_settings_SOURCES} )
-    target_link_libraries(oxygen-settings Qt::Core Qt::Gui Qt::Widgets )
-    target_link_libraries(oxygen-settings KF${QT_MAJOR_VERSION}::I18n KF${QT_MAJOR_VERSION}::KCMUtils)
+    add_executable(oxygen-settings6 ${oxygen_settings_SOURCES} )
+    target_link_libraries(oxygen-settings6 Qt::Core Qt::Gui Qt::Widgets )
+    target_link_libraries(oxygen-settings6 KF6::I18n KF6::KCMUtils)
 
-    set_target_properties(oxygen-settings PROPERTIES OUTPUT_NAME oxygen-settings${QT_MAJOR_VERSION})
 
-    install(TARGETS oxygen-settings ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+    install(TARGETS oxygen-settings6 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
     # icon
     ecm_install_icons(ICONS 256-apps-oxygen-settings.png

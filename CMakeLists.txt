@@ -31,12 +31,15 @@ find_package(KF${QT_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Config
     CoreAddons
     GuiAddons
-    KCMUtils
     WidgetsAddons
     Service
     Completion
     FrameworkIntegration
     WindowSystem)
+
+if(QT_MAJOR_VERSION EQUAL 6)
+    find_package(KF6KCMUtils ${KF_MIN_VERSION} REQUIRED COMPONENTS)
+endif()
 
 find_package(XCB COMPONENTS XCB)
 set_package_properties(XCB PROPERTIES
@@ -56,15 +59,15 @@ endif()
 
 add_subdirectory(liboxygen)
 add_subdirectory(kstyle)
-add_subdirectory(color-schemes)
-add_subdirectory(cursors)
-
 if (QT_MAJOR_VERSION STREQUAL "6")
+    add_subdirectory(color-schemes)
+    add_subdirectory(cursors)
     add_subdirectory(kdecoration)
+    install(DIRECTORY lookandfeel/ DESTINATION ${KDE_INSTALL_DATADIR}/plasma/look-and-feel/org.kde.oxygen
+        PATTERN "Messages.sh" EXCLUDE PATTERN "CMakeLists.txt" EXCLUDE)
 endif()
 
-install(DIRECTORY lookandfeel/ DESTINATION ${KDE_INSTALL_DATADIR}/plasma/look-and-feel/org.kde.oxygen
-        PATTERN "Messages.sh" EXCLUDE PATTERN "CMakeLists.txt" EXCLUDE)
+
 
 find_package(KF${QT_MAJOR_VERSION}I18n CONFIG REQUIRED)
 ki18n_install(po)

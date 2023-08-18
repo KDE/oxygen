@@ -94,5 +94,7 @@ endif()
 install(FILES oxygen.themerc  DESTINATION  ${KDE_INSTALL_DATADIR}/kstyle/themes)
 
 ########### subdirectories ###############
-add_subdirectory(config)
+if(QT_MAJOR_VERSION EQUAL 6)
+    add_subdirectory(config)
+endif()
 add_subdirectory(demo)
