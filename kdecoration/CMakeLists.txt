@@ -70,12 +70,7 @@ target_link_libraries(oxygendecoration
         KF6::WindowSystem)
 
 if(OXYGEN_HAVE_X11)
-  target_link_libraries(oxygendecoration PUBLIC XCB::XCB)
-  if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(oxygendecoration PUBLIC Qt::X11Extras)
-  else()
-    target_link_libraries(oxygendecoration PUBLIC Qt::GuiPrivate)
-  endif()
+  target_link_libraries(oxygendecoration PUBLIC XCB::XCB  Qt::GuiPrivate)
 endif()
 
 add_subdirectory(config)

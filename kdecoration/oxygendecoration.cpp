@@ -28,11 +28,7 @@
 #include <QTimer>
 
 #if OXYGEN_HAVE_X11
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QX11Info>
-#else
 #include <private/qtx11extras_p.h>
-#endif
 #endif
 
 K_PLUGIN_FACTORY_WITH_JSON(OxygenDecoFactory, "oxygen.json", registerPlugin<Oxygen::Decoration>(); registerPlugin<Oxygen::Button>();)
