@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.25)
 project(oxygen)
 set(PROJECT_VERSION "5.27.80")
 set(PROJECT_VERSION_MAJOR 5)
@@ -8,47 +8,38 @@ include(WriteBasicConfigVersionFile)
 include(FeatureSummary)
 
 ################# Qt/KDE #################
-set(QT_MIN_VERSION "5.15.2")
-set(KF_MIN_VERSION "5.102.0")
+set(QT5_MIN_VERSION "5.15.2")
+set(KF5_MIN_VERSION "5.102.0")
+set(QT_MIN_VERSION "6.5.0")
+set(KF6_MIN_VERSION "5.240.0")
+
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} )
 
 set(QT_NO_CREATE_VERSIONLESS_TARGETS ON)
 set(QT_NO_CREATE_VERSIONLESS_FUNCTIONS ON)
 
+option(BUILD_QT5 "Build Qt5 style" ON)
+option(BUILD_QT6 "Build with Qt6" ON)
+
+# For KDE CI only. As the current infrastructure doesn't allow us to set CMAKE options per build variant
+if($ENV{CI_JOB_NAME_SLUG} MATCHES "qt5")
+    set(BUILD_QT5 ON)
+    set(BUILD_QT6 OFF)
+elseif($ENV{CI_JOB_NAME_SLUG} MATCHES "qt6")
+    set(BUILD_QT5 OFF)
+    set(BUILD_QT6 ON)
+endif()
+
 include(ECMInstallIcons)
-include(KDEInstallDirs)
-include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEClangFormat)
 include(KDEGitCommitHooks)
-
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED CONFIG COMPONENTS Widgets DBus Quick)
-find_package(KF${QT_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
-    I18n
-    Config
-    CoreAddons
-    GuiAddons
-    WidgetsAddons
-    Service
-    Completion
-    FrameworkIntegration
-    WindowSystem)
-
-if(QT_MAJOR_VERSION EQUAL 6)
-    find_package(KF6KCMUtils ${KF_MIN_VERSION} REQUIRED COMPONENTS)
-
-    # https://bugreports.qt.io/browse/QTBUG-114706
-    add_library(Qt::Core ALIAS Qt6::Core)
-    add_library(Qt::Gui ALIAS Qt6::Gui)
-    add_library(Qt::OpenGL ALIAS Qt6::OpenGL)
-    add_library(Qt::Network ALIAS Qt6::Network)
-endif()
 
 find_package(XCB COMPONENTS XCB)
 set_package_properties(XCB PROPERTIES
@@ -60,26 +51,76 @@ set_package_properties(XCB PROPERTIES
 
 if(NOT APPLE)
     set(OXYGEN_HAVE_X11 ${XCB_XCB_FOUND})
-    if (XCB_XCB_FOUND AND QT_MAJOR_VERSION EQUAL "5")
-        find_package(Qt5 REQUIRED CONFIG COMPONENTS X11Extras)
-    endif()
 endif()
 
+if(BUILD_QT5)
+block(SCOPE_FOR VARIABLES)
+    set(QT_MAJOR_VERSION 5)
+    unset(QUERY_EXECUTABLE CACHE)
 
-add_subdirectory(liboxygen)
-add_subdirectory(kstyle)
-if (QT_MAJOR_VERSION STREQUAL "6")
+    include(KDEInstallDirs5)
+    include (KDECMakeSettings)
+
+    find_package(Qt5 ${QT5_MIN_VERSION} REQUIRED CONFIG COMPONENTS Widgets DBus Quick)
+    find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS
+    I18n
+    Config
+    CoreAddons
+    GuiAddons
+    WidgetsAddons
+    Service
+    Completion
+    FrameworkIntegration
+    WindowSystem)
+
+     if (XCB_XCB_FOUND)
+        find_package(Qt5 REQUIRED CONFIG COMPONENTS X11Extras)
+    endif()
+
+
+    add_subdirectory(liboxygen liboxygen5)
+    add_subdirectory(kstyle kstyle5)
+endblock()
+endif()
+
+if(BUILD_QT6)
+block(SCOPE_FOR VARIABLES)
+    set(QT_MAJOR_VERSION 6)
+    unset(QUERY_EXECUTABLE CACHE)
+
+    include(KDEInstallDirs6)
+    include (KDECMakeSettings)
+    find_package(Qt6 ${QT_MIN_VERSION} REQUIRED CONFIG COMPONENTS Widgets DBus Quick)
+    find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+    I18n
+    Config
+    CoreAddons
+    GuiAddons
+    KCMUtils
+    WidgetsAddons
+    Service
+    Completion
+    FrameworkIntegration
+    WindowSystem)
+
+    # https://bugreports.qt.io/browse/QTBUG-114706
+    add_library(Qt::Core ALIAS Qt6::Core)
+    add_library(Qt::Gui ALIAS Qt6::Gui)
+    add_library(Qt::OpenGL ALIAS Qt6::OpenGL)
+    add_library(Qt::Network ALIAS Qt6::Network)
+
+    add_subdirectory(liboxygen liboxygen6)
+    add_subdirectory(kstyle kstyle6)
+
     add_subdirectory(color-schemes)
     add_subdirectory(cursors)
     add_subdirectory(kdecoration)
     install(DIRECTORY lookandfeel/ DESTINATION ${KDE_INSTALL_DATADIR}/plasma/look-and-feel/org.kde.oxygen
-        PATTERN "Messages.sh" EXCLUDE PATTERN "CMakeLists.txt" EXCLUDE)
+    PATTERN "Messages.sh" EXCLUDE PATTERN "CMakeLists.txt" EXCLUDE)
+
+    ki18n_install(po)
+endblock()
 endif()
-
-
-
-find_package(KF${QT_MAJOR_VERSION}I18n CONFIG REQUIRED)
-ki18n_install(po)
 
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})

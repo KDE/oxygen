@@ -1,6 +1,5 @@
 add_definitions(-DTRANSLATION_DOMAIN=\"oxygen_style_demo\")
 
-include_directories(${CMAKE_BINARY_DIR}/liboxygen)
 
 ########### next target ###############
 set(oxygen_demo_SOURCES
@@ -42,6 +41,7 @@ add_executable(oxygen-demo${QT_MAJOR_VERSION}
     ${oxygen_demo_FORMS_HEADERS}
 )
 
+target_include_directories(oxygen-demo${QT_MAJOR_VERSION} PRIVATE ${CMAKE_BINARY_DIR}/liboxygen${QT_MAJOR_VERSION})
 
 target_link_libraries(oxygen-demo${QT_MAJOR_VERSION} Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Widgets)
 target_link_libraries(oxygen-demo${QT_MAJOR_VERSION} KF${QT_MAJOR_VERSION}::Completion KF${QT_MAJOR_VERSION}::ConfigGui KF${QT_MAJOR_VERSION}::WidgetsAddons KF${QT_MAJOR_VERSION}::I18n)
