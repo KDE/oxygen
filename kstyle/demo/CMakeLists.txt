@@ -37,16 +37,16 @@ endif()
 
 ki18n_wrap_ui(oxygen_demo_FORMS_HEADERS ${oxygen_demo_FORMS})
 
-add_executable(oxygen-demo5
+add_executable(oxygen-demo${QT_MAJOR_VERSION}
     ${oxygen_demo_SOURCES}
     ${oxygen_demo_FORMS_HEADERS}
 )
 
-target_link_libraries(oxygen-demo5 Qt::Core Qt::Gui Qt::Widgets)
-target_link_libraries(oxygen-demo5 KF${QT_MAJOR_VERSION}::Completion KF${QT_MAJOR_VERSION}::ConfigGui KF${QT_MAJOR_VERSION}::WidgetsAddons KF${QT_MAJOR_VERSION}::I18n)
+target_link_libraries(oxygen-demo${QT_MAJOR_VERSION} Qt::Core Qt::Gui Qt::Widgets)
+target_link_libraries(oxygen-demo${QT_MAJOR_VERSION} KF${QT_MAJOR_VERSION}::Completion KF${QT_MAJOR_VERSION}::ConfigGui KF${QT_MAJOR_VERSION}::WidgetsAddons KF${QT_MAJOR_VERSION}::I18n)
 if(KF${QT_MAJOR_VERSION}ConfigWidgets_FOUND)
-    target_link_libraries(oxygen-demo5 KF${QT_MAJOR_VERSION}::ConfigWidgets)
+    target_link_libraries(oxygen-demo${QT_MAJOR_VERSION} KF${QT_MAJOR_VERSION}::ConfigWidgets)
 endif()
 
 ########### install files ###############
-install(TARGETS oxygen-demo5 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS oxygen-demo${QT_MAJOR_VERSION} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
