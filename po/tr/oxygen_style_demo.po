@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-06-16 11:57+0300\n"
+"PO-Revision-Date: 2023-08-26 12:41+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.07.70\n"
+"X-Generator: Lokalize 23.11.70\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -873,31 +873,31 @@ msgstr "Dikey"
 #: ui/oxygensliderdemowidget.ui:167
 #, kde-format
 msgid "Sliders tick marks position"
-msgstr "Kaydırıcılar konumu işaretler"
+msgstr "Kaydırıcılar çentikleri konumu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:178
 #, kde-format
 msgid "No Tick Marks"
-msgstr "İşaret Yok"
+msgstr "Çentik yok"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:183
 #, kde-format
 msgid "Tick Marks Above Slider"
-msgstr "Kaydırıcı Üzerinde İşaretler"
+msgstr "Çentikler kaydırıcının üzerinde"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:188
 #, kde-format
 msgid "Tick Marks Below Slider"
-msgstr "Kaydırıcı Altında İşaretler"
+msgstr "Çentikler kaydırıcının altında"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:193
 #, kde-format
 msgid "Tick Marks On Both Sides"
-msgstr "İki Yanda İşaretler"
+msgstr "Çentikler her iki yanda"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
