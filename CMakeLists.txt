@@ -101,6 +101,7 @@ block(SCOPE_FOR VARIABLES)
     Service
     Completion
     FrameworkIntegration
+    Plasma
     WindowSystem)
 
     # https://bugreports.qt.io/browse/QTBUG-114706
@@ -115,8 +116,8 @@ block(SCOPE_FOR VARIABLES)
     add_subdirectory(color-schemes)
     add_subdirectory(cursors)
     add_subdirectory(kdecoration)
-    install(DIRECTORY lookandfeel/ DESTINATION ${KDE_INSTALL_DATADIR}/plasma/look-and-feel/org.kde.oxygen
-    PATTERN "Messages.sh" EXCLUDE PATTERN "CMakeLists.txt" EXCLUDE)
+
+    plasma_install_package(lookandfeel org.kde.oxygen look-and-feel lookandfeel)
 
     ki18n_install(po)
 endblock()

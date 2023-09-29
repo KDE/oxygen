@@ -8,7 +8,7 @@ ColorScheme=Oxygen
 Theme=oxygen
 
 [plasmarc][Theme]
-name=air
+name=oxygen
 
 [kcminputrc][Mouse]
 cursorTheme=Oxygen_Black

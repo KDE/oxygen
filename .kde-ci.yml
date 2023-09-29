@@ -33,6 +33,7 @@ Dependencies:
     'frameworks/kservice': '@latest-kf6'
     'frameworks/kwidgetsaddons': '@latest-kf6'
     'frameworks/kwindowsystem': '@latest-kf6'
+    'frameworks/plasma-framework': '@latest-kf6'
     'plasma/kdecoration': '@same'
 
 Options:
