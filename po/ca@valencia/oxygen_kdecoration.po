@@ -50,17 +50,17 @@ msgstr ""
 #: config/oxygenexceptionlistwidget.cpp:88
 #, kde-format
 msgid "New Exception - Oxygen Settings"
-msgstr "Excepció nova - Configuració d'Oxygen"
+msgstr "Excepció nova - Configureu Oxygen"
 
 #: config/oxygenexceptionlistwidget.cpp:135
 #, kde-format
 msgid "Edit Exception - Oxygen Settings"
-msgstr "Edita l'excepció - Configuració d'Oxygen"
+msgstr "Edita l'excepció - Configureu Oxygen"
 
 #: config/oxygenexceptionlistwidget.cpp:167
 #, kde-format
 msgid "Question - Oxygen Settings"
-msgstr "Pregunta - Configuració d'Oxygen"
+msgstr "Pregunta - Configureu Oxygen"
 
 #: config/oxygenexceptionlistwidget.cpp:168
 #, kde-format
@@ -77,7 +77,7 @@ msgstr "Elimina"
 #: config/oxygenexceptionlistwidget.cpp:302
 #, kde-format
 msgid "Warning - Oxygen Settings"
-msgstr "Avís - Configuració d'Oxygen"
+msgstr "Avís - Configureu Oxygen"
 
 #: config/oxygenexceptionlistwidget.cpp:302
 #, kde-format
