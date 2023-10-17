@@ -37,6 +37,7 @@
 #include <QTextStream>
 // needed to deal with device pixel ratio
 #include <QWindow>
+#include <qnamespace.h>
 
 namespace Oxygen
 {
@@ -317,7 +318,8 @@ bool WindowManager::mousePressEvent(QObject *object, QEvent *event)
         localPoint = child->mapFrom(widget, localPoint);
     else
         child = widget;
-    QMouseEvent localMouseEvent(QEvent::MouseMove, localPoint, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QMouseEvent localMouseEvent(QEvent::MouseMove, localPoint, Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    localMouseEvent.setTimestamp(mouseEvent->timestamp());
     qApp->sendEvent(child, &localMouseEvent);
 
     // never eat event
