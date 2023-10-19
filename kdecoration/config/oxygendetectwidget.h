@@ -23,6 +23,7 @@
 #include <QEvent>
 #include <QLabel>
 
+#include <KWindowInfo>
 #include <kwindowsystem.h>
 
 namespace Oxygen
