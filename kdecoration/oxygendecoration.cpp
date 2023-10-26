@@ -139,7 +139,7 @@ QColor Decoration::contrastColor(const QColor &color) const
 }
 
 //________________________________________________________________
-void Decoration::init()
+bool Decoration::init()
 {
     // active state change animation
     m_animation->setStartValue(0);
@@ -191,6 +191,7 @@ void Decoration::init()
 
     createButtons();
     updateShadow();
+    return true;
 }
 
 //________________________________________________________________
