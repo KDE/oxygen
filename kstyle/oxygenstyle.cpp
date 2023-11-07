@@ -705,6 +705,9 @@ int Style::pixelMetric(PixelMetric metric, const QStyleOption *option, const QWi
         return Metrics::ToolButton_MarginWidth;
 
     case PM_SplitterWidth:
+        if (widget && widget->inherits("KMultiTabBar")) {
+            return 0;
+        }
         return Metrics::Splitter_SplitterWidth;
     case PM_DockWidgetSeparatorExtent:
         return Metrics::Splitter_SplitterWidth;
