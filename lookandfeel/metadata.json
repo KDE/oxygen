@@ -3,11 +3,29 @@
         "Authors": [
             {
                 "Email": "plasma-devel@kde.org",
-                "Name": "The Oxygen team"
+                "Name": "The Oxygen team",
+                "Name[ca@valencia]": "L'equip d'Oxygen",
+                "Name[ca]": "L'equip de l'Oxygen",
+                "Name[gl]": "Equipo de Oxygen.",
+                "Name[ia]": "Le equipa de Oxygen",
+                "Name[nl]": "Het team van Oxygen",
+                "Name[sl]": "Skupina Oxygen",
+                "Name[tr]": "Oksijen takımı",
+                "Name[uk]": "Команда Oxygen",
+                "Name[x-test]": "xxThe Oxygen teamxx"
             }
         ],
         "Category": "",
         "Description": "Oxygen Desktop Design Language",
+        "Description[ca@valencia]": "Llenguatge de disseny de l'escriptori Oxygen",
+        "Description[ca]": "Llenguatge de disseny de l'escriptori Oxygen",
+        "Description[gl]": "Linguaxe de deseño do escritorio de Oxygen.",
+        "Description[ia]": "Oxygen Desktop Design Language (Linguage de designo de scriptorio de Oxygen)",
+        "Description[nl]": "Ontwerptaal van Oxygen bureaublad",
+        "Description[sl]": "Oxygen Desktop Design Language",
+        "Description[tr]": "Oksijen Masaüstü Tasarım Dili",
+        "Description[uk]": "Мова компонування стільниці Oxygen",
+        "Description[x-test]": "xxOxygen Desktop Design Languagexx",
         "Id": "org.kde.oxygen",
         "License": "GPLv2+",
         "Name": "Oxygen",
