@@ -590,7 +590,7 @@ void Decoration::renderWindowBackground(QPainter *painter, const QRect &clipRect
         innerClientRect.adjust(1, 1, -1, -1);
     }
 
-    if (SettingsProvider::self()->helper()->hasBackgroundGradient(c->windowId())) {
+    if (SettingsProvider::self()->helper()->hasBackgroundGradient(c->windowId()) || !SettingsProvider::self()->helper()->isX11()) {
         SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, titleBarColor(palette), borderTop() - 24);
 
     } else {
