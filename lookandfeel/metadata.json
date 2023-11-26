@@ -9,6 +9,7 @@
                 "Name[ca]": "L'equip de l'Oxygen",
                 "Name[eo]": "La Oxygen-teamo",
                 "Name[es]": "El equipo de Oxygen",
+                "Name[eu]": "Oxygen taldea",
                 "Name[fr]": "L'équipe de « Oxygen »",
                 "Name[gl]": "Equipo de Oxygen.",
                 "Name[ia]": "Le equipa de Oxygen",
@@ -18,7 +19,8 @@
                 "Name[sl]": "Skupina Oxygen",
                 "Name[tr]": "Oksijen takımı",
                 "Name[uk]": "Команда Oxygen",
-                "Name[x-test]": "xxThe Oxygen teamxx"
+                "Name[x-test]": "xxThe Oxygen teamxx",
+                "Name[zh_CN]": "Oxygen 轻氧团队"
             }
         ],
         "Category": "",
@@ -28,6 +30,7 @@
         "Description[ca]": "Llenguatge de disseny de l'escriptori Oxygen",
         "Description[eo]": "Oxygen-Labortabla Dezajnlingvo",
         "Description[es]": "Lenguaje de diseño de escritorio Oxygen",
+        "Description[eu]": "«Oxygen» mahaigaina diseinatzeko lengoaia",
         "Description[fr]": "Langage de conception pour le bureau « Oxygen »",
         "Description[gl]": "Linguaxe de deseño do escritorio de Oxygen.",
         "Description[ia]": "Oxygen Desktop Design Language (Linguage de designo de scriptorio de Oxygen)",
@@ -38,6 +41,7 @@
         "Description[tr]": "Oksijen Masaüstü Tasarım Dili",
         "Description[uk]": "Мова компонування стільниці Oxygen",
         "Description[x-test]": "xxOxygen Desktop Design Languagexx",
+        "Description[zh_CN]": "Oxygen 轻氧桌面设计语言",
         "Id": "org.kde.oxygen",
         "License": "GPLv2+",
         "Name": "Oxygen",
@@ -54,7 +58,7 @@
         "Name[eo]": "Oxygen",
         "Name[es]": "Oxígeno",
         "Name[et]": "Oxygen",
-        "Name[eu]": "Oxygen",
+        "Name[eu]": "«Oxygen»",
         "Name[fi]": "Oxygen",
         "Name[fr]": "Oxygen",
         "Name[gl]": "Oxygen",
