@@ -20,7 +20,8 @@
                 "Name[tr]": "Oksijen takımı",
                 "Name[uk]": "Команда Oxygen",
                 "Name[x-test]": "xxThe Oxygen teamxx",
-                "Name[zh_CN]": "Oxygen 轻氧团队"
+                "Name[zh_CN]": "Oxygen 轻氧团队",
+                "Name[zh_TW]": "Oxygen 開發團隊"
             }
         ],
         "Category": "",
@@ -42,6 +43,7 @@
         "Description[uk]": "Мова компонування стільниці Oxygen",
         "Description[x-test]": "xxOxygen Desktop Design Languagexx",
         "Description[zh_CN]": "Oxygen 轻氧桌面设计语言",
+        "Description[zh_TW]": "Oxygen 桌面設計語言",
         "Id": "org.kde.oxygen",
         "License": "GPLv2+",
         "Name": "Oxygen",
