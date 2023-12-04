@@ -4598,7 +4598,7 @@ bool Style::drawWidgetPrimitive(const QStyleOption *option, QPainter *painter, c
         return false;
     }
 
-    _helper->renderWindowBackground(painter, option->rect, widget, palette);
+    //_helper->renderWindowBackground(painter, option->rect, widget, palette);
     return true;
 }
 
