@@ -6,26 +6,27 @@
 # Meni Livne <livne@kde.org>, 2007.
 # elkana bardugo <ttv200@gmail.com>, 2016.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
+# SPDX-FileCopyrightText: 2023 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_demo\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2017-05-16 06:54-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2023-12-05 14:34+0200\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Lokalize 23.08.3\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
 msgid "Oxygen Demo"
-msgstr "הדגמה של Oxygen"
+msgstr "הדגמה של חמצן"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton)
@@ -78,12 +79,12 @@ msgstr "מופעל"
 #: oxygendemodialog.cpp:60
 #, kde-format
 msgid "Right to left layout"
-msgstr "מצג ימין לשמאל"
+msgstr "פריסה ימין לשמאל"
 
 #: oxygendemodialog.cpp:66
 #, kde-format
 msgid "Style"
-msgstr ""
+msgstr "סגנון"
 
 #: oxygendemodialog.cpp:87
 #, kde-format
@@ -93,7 +94,7 @@ msgstr "פקדים קלט"
 #: oxygendemodialog.cpp:89
 #, kde-format
 msgid "Shows the appearance of text input widgets"
-msgstr ""
+msgstr "מציג איך נראים יישומוני קלט טקסט"
 
 #: oxygendemodialog.cpp:97
 #, kde-format
@@ -148,22 +149,22 @@ msgstr "מציג את התצוגה של פקדי לשוניות"
 #: oxygendemodialog.cpp:147
 #, kde-format
 msgid "Sliders"
-msgstr ""
+msgstr "מחוונים"
 
 #: oxygendemodialog.cpp:149
 #, kde-format
 msgid "Shows the appearance of sliders, progress bars and scrollbars"
-msgstr ""
+msgstr "מציג איך יופיעו מחווני גלילה, פסי התקדמות ופסי גלילה"
 
 #: oxygendemodialog.cpp:158
 #, kde-format
 msgid "Benchmark"
-msgstr ""
+msgstr "בדיקת ביצועים"
 
 #: oxygendemodialog.cpp:160
 #, kde-format
 msgid "Emulates user interaction with widgets for benchmarking"
-msgstr ""
+msgstr "מדמה תפעול של היישומונים למדידת ביצועים"
 
 #: oxygeninputdemowidget.cpp:21
 #, kde-format
@@ -196,9 +197,9 @@ msgid "Tabs"
 msgstr "כרטיסיות"
 
 #: oxygenmdidemowidget.cpp:39
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tools"
-msgstr "ארגז־כלים"
+msgstr "כלים"
 
 #: oxygenmdidemowidget.cpp:41
 #, kde-format
@@ -218,7 +219,7 @@ msgstr "זהו כיתוב לדוגמה"
 #: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
-msgstr ""
+msgstr "נא לבחור את סגנון היישומונים של היישום"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbenchmarkwidget.ui:29
@@ -230,7 +231,7 @@ msgstr "מודולים"
 #: ui/oxygenbenchmarkwidget.ui:35
 #, kde-format
 msgid "Select below the modules for which you want to run the simulation:"
-msgstr ""
+msgstr "נא לבחור להלן את המודולים שעבורם להריץ את ההדמיה:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygenbenchmarkwidget.ui:48
@@ -282,21 +283,21 @@ msgstr "כפתורי רדיו"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: ui/oxygenbuttondemowidget.ui:84
-#, fuzzy, kde-format
+#, kde-format
 msgid "F&irst Choice"
-msgstr "בחירה ראשוניה"
+msgstr "אפשרות &ראשונה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: ui/oxygenbuttondemowidget.ui:94
-#, fuzzy, kde-format
+#, kde-format
 msgid "Seco&nd Choice"
-msgstr "בחירה שנייה"
+msgstr "אפשרות &שנייה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
 #: ui/oxygenbuttondemowidget.ui:101
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Third Choice"
-msgstr "בחירה שלישית"
+msgstr "אפשרות ש&לישית"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbuttondemowidget.ui:126
@@ -540,13 +541,13 @@ msgstr "שטוח"
 #: ui/oxygenframedemowidget.ui:124
 #, kde-format
 msgid "S&unken"
-msgstr ""
+msgstr "&שקוע"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenframedemowidget.ui:147
 #, kde-format
 msgid "GroupBox"
-msgstr ""
+msgstr "תיבה מקבצת"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
 #: ui/oxygenframedemowidget.ui:153
@@ -565,7 +566,7 @@ msgstr "פקדי לשוניות"
 #: ui/oxygeninputdemowidget.ui:29
 #, kde-format
 msgid "Single line text editor:"
-msgstr ""
+msgstr "עורך טקסט בשורה אחת:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygeninputdemowidget.ui:65
@@ -577,7 +578,7 @@ msgstr "עורך ססמאות:"
 #: ui/oxygeninputdemowidget.ui:88
 #, kde-format
 msgid "Editable combobox"
-msgstr ""
+msgstr "תיבת בחירה עם אפשרות עריכה"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygeninputdemowidget.ui:105
@@ -607,13 +608,13 @@ msgstr ""
 #: ui/oxygeninputdemowidget.ui:146
 #, kde-format
 msgid "Multi-line text editor:"
-msgstr ""
+msgstr "עורך טקסט למספר שורות:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
 #: ui/oxygeninputdemowidget.ui:153
 #, kde-format
 msgid "Wrap words"
-msgstr ""
+msgstr "גלישת שורות"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
 #: ui/oxygeninputdemowidget.ui:160
