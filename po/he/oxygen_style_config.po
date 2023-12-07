@@ -11,16 +11,16 @@ msgstr ""
 "Project-Id-Version: oxygen_style_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-12-05 14:29+0200\n"
+"PO-Revision-Date: 2023-12-06 10:30+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.3\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: main.cpp:24 main.cpp:28
 #, kde-format
@@ -30,7 +30,7 @@ msgstr "הגדרות של חמצן"
 #: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
-msgstr "מעברים של מיקוד, מעבר עכבר מעל ומצב יישומון"
+msgstr "מעברים של מיקוד, מעבר עכבר מעל ומצב פקד"
 
 #: oxygenanimationconfigwidget.cpp:35
 #, kde-format
@@ -173,7 +173,7 @@ msgstr "זמן עקיבה אחרי העכבר:"
 #: ui/oxygenfollowmouseanimationconfigbox.ui:114
 #, kde-format
 msgid " ms"
-msgstr "מ״ש"
+msgstr " מ״ש"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
 #: ui/oxygenstyleconfig.ui:26

@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: oxygen_style_demo\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-12-05 14:34+0200\n"
+"PO-Revision-Date: 2023-12-06 10:30+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.3\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -58,18 +58,18 @@ msgstr "חדש"
 #: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
 #, kde-format
 msgid "Open"
-msgstr "פתח"
+msgstr "פתיחה"
 
 #: oxygenbuttondemowidget.cpp:38 oxygenbuttondemowidget.cpp:57
 #: oxygenbuttondemowidget.cpp:232 oxygenbuttondemowidget.cpp:242
 #, kde-format
 msgid "Save"
-msgstr "שמור"
+msgstr "שמירה"
 
 #: oxygenbuttondemowidget.cpp:58
 #, kde-format
 msgid "Toggle authentication"
-msgstr ""
+msgstr "מתג אימות"
 
 #: oxygendemodialog.cpp:55
 #, kde-format
@@ -79,7 +79,7 @@ msgstr "מופעל"
 #: oxygendemodialog.cpp:60
 #, kde-format
 msgid "Right to left layout"
-msgstr "פריסה ימין לשמאל"
+msgstr "פריסה מימין לשמאל"
 
 #: oxygendemodialog.cpp:66
 #, kde-format
@@ -89,12 +89,12 @@ msgstr "סגנון"
 #: oxygendemodialog.cpp:87
 #, kde-format
 msgid "Input Widgets"
-msgstr "פקדים קלט"
+msgstr "פקדי קלט"
 
 #: oxygendemodialog.cpp:89
 #, kde-format
 msgid "Shows the appearance of text input widgets"
-msgstr "מציג איך נראים יישומוני קלט טקסט"
+msgstr "מציג איך נראים פקדי קלט טקסט"
 
 #: oxygendemodialog.cpp:97
 #, kde-format
@@ -104,7 +104,7 @@ msgstr "פקדי לשוניות"
 #: oxygendemodialog.cpp:99
 #, kde-format
 msgid "Shows the appearance of tab widgets"
-msgstr "מציג את התצוגה של פקדי לשוניות"
+msgstr "מציג איך נראים פקדי לשוניות"
 
 #: oxygendemodialog.cpp:107
 #, kde-format
@@ -114,7 +114,7 @@ msgstr "כפתורים"
 #: oxygendemodialog.cpp:109
 #, kde-format
 msgid "Shows the appearance of buttons"
-msgstr "מציג את התצוגה של כפתורים"
+msgstr "מציג איך נראים כפתורים"
 
 #: oxygendemodialog.cpp:117
 #, kde-format
@@ -124,7 +124,7 @@ msgstr "רשימות"
 #: oxygendemodialog.cpp:119
 #, kde-format
 msgid "Shows the appearance of lists, trees and tables"
-msgstr "מציג את התצוגה של פקדי רשימות, עצים וטבלאות"
+msgstr "מציג איך נראים פקדי רשימות, עצים וטבלאות"
 
 #: oxygendemodialog.cpp:127
 #, kde-format
@@ -139,12 +139,12 @@ msgstr "מציג את התצוגה של פקדים בעיל מסגרת"
 #: oxygendemodialog.cpp:137
 #, kde-format
 msgid "MDI Windows"
-msgstr ""
+msgstr "חלונות MDI"
 
 #: oxygendemodialog.cpp:139
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shows the appearance of MDI windows"
-msgstr "מציג את התצוגה של פקדי לשוניות"
+msgstr "מציג איך נראים חלונות MDI"
 
 #: oxygendemodialog.cpp:147
 #, kde-format
@@ -164,7 +164,7 @@ msgstr "בדיקת ביצועים"
 #: oxygendemodialog.cpp:160
 #, kde-format
 msgid "Emulates user interaction with widgets for benchmarking"
-msgstr "מדמה תפעול של היישומונים למדידת ביצועים"
+msgstr "מדמה תפעול של הפקדים למדידת ביצועים"
 
 #: oxygeninputdemowidget.cpp:21
 #, kde-format
@@ -174,7 +174,7 @@ msgstr "טקסט לדוגמה"
 #: oxygeninputdemowidget.cpp:22
 #, kde-format
 msgid "password"
-msgstr "ססמה"
+msgstr "סיסמה"
 
 #: oxygenmdidemowidget.cpp:34
 #, kde-format
@@ -204,22 +204,22 @@ msgstr "כלים"
 #: oxygenmdidemowidget.cpp:41
 #, kde-format
 msgid "Select Next Window"
-msgstr "בחר חלון הבא"
+msgstr "בחירת החלון הבא"
 
 #: oxygenmdidemowidget.cpp:48
 #, kde-format
 msgid "Select Previous Window"
-msgstr "בחר חלון קודם"
+msgstr "בחירת החלון הקודם"
 
 #: oxygensimulator.h:72
 #, kde-format
 msgid "This is a sample text"
-msgstr "זהו כיתוב לדוגמה"
+msgstr "זה כיתוב לדוגמה"
 
 #: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
-msgstr "נא לבחור את סגנון היישומונים של היישום"
+msgstr "נא לבחור את סגנון הפקדים של היישום"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbenchmarkwidget.ui:29
@@ -243,13 +243,13 @@ msgstr "אפשרויות"
 #: ui/oxygenbenchmarkwidget.ui:54
 #, kde-format
 msgid "Grab mouse"
-msgstr "תפוס עכבר"
+msgstr "לכידת העכבר"
 
 #. i18n: ectx: property (text), widget (QPushButton, runButton)
 #: ui/oxygenbenchmarkwidget.ui:82
 #, kde-format
 msgid "Run Simulation"
-msgstr "הפעל סימולציה"
+msgstr "הפעלת הדמיה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ui/oxygenbuttondemowidget.ui:20
@@ -261,7 +261,7 @@ msgstr "תיבות סימון"
 #: ui/oxygenbuttondemowidget.ui:28
 #, kde-format
 msgid "Off"
-msgstr "מקובל"
+msgstr "כבוי"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
 #: ui/oxygenbuttondemowidget.ui:35
@@ -273,7 +273,7 @@ msgstr "חלקי"
 #: ui/oxygenbuttondemowidget.ui:45
 #, kde-format
 msgid "On"
-msgstr "מופעל"
+msgstr "פעיל"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ui/oxygenbuttondemowidget.ui:73
@@ -309,13 +309,13 @@ msgstr "כפתורי לחיצה"
 #: ui/oxygenbuttondemowidget.ui:132
 #, kde-format
 msgid "Text only:"
-msgstr "טקסט בלבד"
+msgstr "כיתוב בלבד:"
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:142
-#, fuzzy, kde-format
+#, kde-format
 msgid "This is a normal, text only combo box"
-msgstr "זהו כפתור רגיל, בעל כיתוב בלבד"
+msgstr "זו תיבה משולבת רגילה, עם כיתוב בלבד"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:149
@@ -339,55 +339,55 @@ msgstr "כיתוב וסמל:"
 #: ui/oxygenbuttondemowidget.ui:190
 #, kde-format
 msgid "Use flat buttons"
-msgstr "השתמש בכפתורים שטוחים"
+msgstr "להשתמש בכפתורים שטוחים"
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
 #: ui/oxygenbuttondemowidget.ui:197
-#, fuzzy, kde-format
+#, kde-format
 msgid "This is a normal, text and icon combo box"
-msgstr "זהו כפתור רגיל, בעל כיתוב בלבד"
+msgstr "זו תיבה משולבת רגילה, עם כיתוב וסמל"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
 #: ui/oxygenbuttondemowidget.ui:204
-#, fuzzy, kde-format
+#, kde-format
 msgid "This is a normal, text only tool button"
-msgstr "זהו כפתור רגיל, בעל כיתוב בלבד"
+msgstr "זו תיבה משולבת רגילה, עם כפתור כלי עם כיתוב בלבד"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
 #: ui/oxygenbuttondemowidget.ui:214
-#, fuzzy, kde-format
+#, kde-format
 msgid "This is a normal, text and icon tool button"
-msgstr "זהו כפתור רגיל, בעל כיתוב בלבד"
+msgstr "זו תיבה משולבת רגילה, עם כפתור כלי עם כיתוב וסמל"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
 #: ui/oxygenbuttondemowidget.ui:224
 #, kde-format
 msgid "This is a normal, text only button"
-msgstr "זהו כפתור רגיל, בעל כיתוב בלבד"
+msgstr "זה כפתור רגיל, עם כיתוב בלבד"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
 #: ui/oxygenbuttondemowidget.ui:234
 #, kde-format
 msgid "This is a normal, text only button with menu"
-msgstr "זהו כפתור רגיל, בעל כיתוב ותפריט"
+msgstr "זהו כפתור רגיל, עם כיתוב בלבד ותפריט"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
 #: ui/oxygenbuttondemowidget.ui:244
 #, kde-format
 msgid "This is a normal, text and icon button"
-msgstr "זהו כפתור רגיל, בעל כיתוב וסמל"
+msgstr "זה כפתור רגיל, עם כיתוב וסמל"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
 #: ui/oxygenbuttondemowidget.ui:254
 #, kde-format
 msgid "This is a normal, text and icon button with menu"
-msgstr "זהו כפתור רגיל, בעל כיתוב וסמל עם תפריט"
+msgstr "זה כפתור רגיל, עם כיתוב וסמל עם תפריט"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygenbuttondemowidget.ui:267
-#, fuzzy, kde-format
+#, kde-format
 msgid "Toolbuttons"
-msgstr "שני כפתורים"
+msgstr "כפתורי כלים"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
@@ -425,9 +425,9 @@ msgstr "חץ ימינה"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
-#, fuzzy, kde-format
+#, kde-format
 msgid "Te&xt position:"
-msgstr "מיקום הכיתוב:"
+msgstr "מקום ה&כתב:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
@@ -458,9 +458,9 @@ msgstr "טקסט מתחת לסמלים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ui/oxygenbuttondemowidget.ui:470
-#, fuzzy, kde-format
+#, kde-format
 msgid "Icon si&ze:"
-msgstr "גודל הסמלים:"
+msgstr "&גודל הסמלים:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:484
@@ -488,9 +488,9 @@ msgstr "ענק (48 על 48)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenframedemowidget.ui:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Layout direction:"
-msgstr "כיווניות הממשק:"
+msgstr "&כיווניות הממשק:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:45
@@ -508,13 +508,13 @@ msgstr "מימין לשמאל"
 #: ui/oxygenframedemowidget.ui:55
 #, kde-format
 msgid "Top to Bottom"
-msgstr "מעלה למאה"
+msgstr "מלמעלה למטה"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:60
 #, kde-format
 msgid "Bottom to Top"
-msgstr "מטה למעלה"
+msgstr "מלמטה למעלה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenframedemowidget.ui:94
@@ -524,18 +524,16 @@ msgstr "מסגרת"
 
 #. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Raised"
+#, kde-format
 msgid "&Raised"
-msgstr "מוגבה"
+msgstr "מו&גבה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:117
-#, fuzzy, kde-format
-#| msgid "Flat"
+#, kde-format
 msgctxt "Flat frame. No frame is actually drawn."
 msgid "&Flat"
-msgstr "שטוח"
+msgstr "&שטוח"
 
 #. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:124
@@ -572,7 +570,7 @@ msgstr "עורך טקסט בשורה אחת:"
 #: ui/oxygeninputdemowidget.ui:65
 #, kde-format
 msgid "Password editor:"
-msgstr "עורך ססמאות:"
+msgstr "עורך סיסמאות:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygeninputdemowidget.ui:88
@@ -602,7 +600,7 @@ msgstr "פריט שלישי"
 #: ui/oxygeninputdemowidget.ui:123
 #, kde-format
 msgid "Spinbox:"
-msgstr ""
+msgstr "בורר טווח:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ui/oxygeninputdemowidget.ui:146
@@ -620,7 +618,7 @@ msgstr "גלישת שורות"
 #: ui/oxygeninputdemowidget.ui:160
 #, kde-format
 msgid "Use flat widgets"
-msgstr "השתמש בפקדים שטוחים"
+msgstr "להשתמש בפקדים שטוחים"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
@@ -689,7 +687,7 @@ msgstr "תת־פריט שני"
 #: ui/oxygenlistdemowidget.ui:105
 #, kde-format
 msgid "Second Subitem Description"
-msgstr "תיאור של תת־פריט שני"
+msgstr "תיאור תת־פריט שני"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:110
@@ -701,7 +699,7 @@ msgstr "תת־פריט ראשון"
 #: ui/oxygenlistdemowidget.ui:113
 #, kde-format
 msgid "First Subitem Description"
-msgstr "תיאור של תת־פריט ראשון"
+msgstr "תיאור תת־פריט ראשון"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:122
@@ -749,7 +747,7 @@ msgstr "עמודה שלישית"
 #: ui/oxygenlistdemowidget.ui:162
 #, kde-format
 msgid "Top-left"
-msgstr "למעמה משמאל"
+msgstr "למעלה משמאל"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:167
@@ -767,7 +765,7 @@ msgstr "למעלה מימין"
 #: ui/oxygenlistdemowidget.ui:177
 #, kde-format
 msgid "Left "
-msgstr "משמאל"
+msgstr "משמאל "
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:182
@@ -815,7 +813,7 @@ msgstr "כותרת:"
 #: ui/oxygenmdidemowidget.ui:78
 #, kde-format
 msgid "Toolbox"
-msgstr "ארגז־כלים"
+msgstr "סרגל כלים"
 
 #. i18n: ectx: attribute (label), widget (QWidget, page)
 #: ui/oxygenmdidemowidget.ui:96
@@ -831,15 +829,15 @@ msgstr "עמוד שני"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenmdidemowidget.ui:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "First Label"
-msgstr "עמוד ראשון"
+msgstr "תווית ראשונה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenmdidemowidget.ui:123
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second Label"
-msgstr "עמוד שני"
+msgstr "תווית שנייה"
 
 #. i18n: ectx: attribute (label), widget (QWidget, page_3)
 #: ui/oxygenmdidemowidget.ui:152
@@ -849,15 +847,15 @@ msgstr "עמוד שלישי"
 
 #. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Animate Progress Bars"
-msgstr "הנפש פסי התקדמות"
+msgstr "הנפשת פסי התקדמות"
 
 #. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:36
-#, fuzzy, kde-format
+#, kde-format
 msgid "Invert Progress Bars"
-msgstr "הנפש פסי התקדמות"
+msgstr "היפוך פסי התקדמות"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygensliderdemowidget.ui:43
@@ -875,37 +873,37 @@ msgstr "אופקי"
 #: ui/oxygensliderdemowidget.ui:167
 #, kde-format
 msgid "Sliders tick marks position"
-msgstr ""
+msgstr "מקום שנתות מחווני גלילה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:178
 #, kde-format
 msgid "No Tick Marks"
-msgstr ""
+msgstr "אין שנתות"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:183
 #, kde-format
 msgid "Tick Marks Above Slider"
-msgstr ""
+msgstr "שנתות מעל למחוון הגלילה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:188
 #, kde-format
 msgid "Tick Marks Below Slider"
-msgstr ""
+msgstr "שנתות מתחת למחוון הגלילה"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:193
 #, kde-format
 msgid "Tick Marks On Both Sides"
-msgstr ""
+msgstr "שנתות משני הצדדים"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Tab position:"
-msgstr "מיקום הכרטיסיות:"
+msgstr "מקום &לשוניות:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:45
@@ -941,19 +939,19 @@ msgstr "מצג מסמך"
 #: ui/oxygentabdemowidget.ui:122
 #, kde-format
 msgid "Show Corner Buttons"
-msgstr "הצג כפתורים בפינה"
+msgstr "הצגת כפתורים בפינה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
 #: ui/oxygentabdemowidget.ui:129
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show Tab Close Buttons"
-msgstr "הצג כפתורים בפינה"
+msgstr "הצגת כפתורי סגירת לשוניות"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
 #: ui/oxygentabdemowidget.ui:136
 #, kde-format
 msgid "Hide tabbar"
-msgstr "הסתר סרגל כלים"
+msgstr "הסתרת סרגל לשוניות"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygentabdemowidget.ui:143
