@@ -102,6 +102,7 @@ block(SCOPE_FOR VARIABLES)
     Completion
     FrameworkIntegration
     WindowSystem)
+    find_package(Plasma ${PROJECT_VERSION} REQUIRED)
 
     # https://bugreports.qt.io/browse/QTBUG-114706
     add_library(Qt::Core ALIAS Qt6::Core)
@@ -118,8 +119,8 @@ block(SCOPE_FOR VARIABLES)
     add_subdirectory(color-schemes)
     add_subdirectory(cursors)
     add_subdirectory(kdecoration)
-    install(DIRECTORY lookandfeel/ DESTINATION ${KDE_INSTALL_DATADIR}/plasma/look-and-feel/org.kde.oxygen
-    PATTERN "Messages.sh" EXCLUDE PATTERN "CMakeLists.txt" EXCLUDE)
+
+    plasma_install_package(lookandfeel org.kde.oxygen look-and-feel lookandfeel)
 
     ki18n_install(po)
 endblock()
