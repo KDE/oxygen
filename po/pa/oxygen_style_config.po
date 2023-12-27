@@ -1,26 +1,26 @@
 # translation of kstyle_config.po to Punjabi
 #
 # Amanpreet Singh Alam <aalam@redhat.com>, 2005.
-# A S Alam <aalam@users.sf.net>, 2007, 2008, 2010, 2011, 2012, 2014.
+# SPDX-FileCopyrightText: 2007, 2008, 2010, 2011, 2012, 2014, 2023 A S Alam <aalam@users.sf.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2014-03-29 18:56-0500\n"
-"Last-Translator: A S Alam <aalam@users.sf.net>\n"
-"Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
+"PO-Revision-Date: 2023-12-26 11:17-0600\n"
+"Last-Translator: A S Alam <aalam@punlinux.org>\n"
+"Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
 "Language: pa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: main.cpp:24 main.cpp:28
 #, kde-format
 msgid "Oxygen Settings"
-msgstr "ਆਕਸੀਜਨ ਸੈਟਿੰਗ"
+msgstr "ਆਕਸੀਜਨ ਸੈਟਿੰਗਾਂ"
 
 #: oxygenanimationconfigwidget.cpp:34
 #, kde-format
@@ -158,17 +158,15 @@ msgstr "ਫੇਡ ਅੰਤਰਾਲ:"
 
 #. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:72
-#, fuzzy, kde-format
-#| msgid "Fade duration:"
+#, kde-format
 msgid "Follow mouse duration:"
-msgstr "ਫੇਡ ਅੰਤਰਾਲ:"
+msgstr "ਮਾਊਂਸ ਫ਼ਾਲੋ ਅੰਤਰਾਲ:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
 #. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:98
 #: ui/oxygenfollowmouseanimationconfigbox.ui:114
-#, fuzzy, kde-format
-#| msgid "ms"
+#, kde-format
 msgid " ms"
 msgstr "ms"
 
@@ -214,7 +212,7 @@ msgstr "ਕੀਬੋਰਡ ਐਕਸਲੇਟਰ ਦਿੱਖ:"
 #: ui/oxygenstyleconfig.ui:84
 #, kde-format
 msgid "Always hide"
-msgstr ""
+msgstr "ਹਮੇਸ਼ਾ ਲੁਕਾਓ"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:89
@@ -226,7 +224,7 @@ msgstr ""
 #: ui/oxygenstyleconfig.ui:94
 #, kde-format
 msgid "Always show"
-msgstr ""
+msgstr "ਹਮੇਸ਼ਾ ਵੇਖਾਓ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenstyleconfig.ui:108
@@ -313,10 +311,9 @@ msgstr "ਸਕਰੋਲਬਾਰ"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenstyleconfig.ui:272
-#, fuzzy, kde-format
-#| msgid "Scrollbar width:"
+#, kde-format
 msgid "Scrollbar wi&dth:"
-msgstr "ਸਕਰੋਲਬਾਰ ਚੌੜਾਈ:"
+msgstr "ਸਕਰੋਲਬਾਰ ਚੌੜਾਈ(&d):"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
 #: ui/oxygenstyleconfig.ui:310
@@ -370,24 +367,21 @@ msgstr "ਮੇਨੂ ਹਾਈਲਾਈਟ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
 #: ui/oxygenstyleconfig.ui:433
-#, fuzzy, kde-format
-#| msgid "Use dark color"
+#, kde-format
 msgid "Use dar&k color"
-msgstr "ਗੂੜ੍ਹਾ ਰੰਗ ਵਰਤੋਂ"
+msgstr "ਗੂੜ੍ਹਾ ਰੰਗ ਵਰਤੋਂ(&k)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
 #: ui/oxygenstyleconfig.ui:440
-#, fuzzy, kde-format
-#| msgid "Use selection color (plain)"
+#, kde-format
 msgid "&Use selection color (plain)"
-msgstr "ਚੁਣਿਆ ਰੰਗ ਵਰਤੋਂ (ਇੱਕ)"
+msgstr "ਚੁਣਿਆ ਰੰਗ ਵਰਤੋਂ (ਇੱਕ)(&U)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
 #: ui/oxygenstyleconfig.ui:447
-#, fuzzy, kde-format
-#| msgid "Use selection color (subtle)"
+#, kde-format
 msgid "Use selec&tion color (subtle)"
-msgstr "ਚੁਣੋ ਰੰਗ ਵਰਤੋਂ (ਸਟਬਲ)"
+msgstr "ਚੁਣੋ ਰੰਗ ਵਰਤੋਂ (ਸਟਬਲ)(&t)"
 
 #~ msgid "Always Hide Keyboard Accelerators"
 #~ msgstr "ਹਮੇਸ਼ਾ ਕੀਬੋਰਡ ਐਕਸਲੇਟਰ ਓਹਲੇ ਕਰੋ"

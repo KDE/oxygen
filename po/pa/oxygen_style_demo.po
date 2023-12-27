@@ -1,20 +1,20 @@
 # translation of kstyle_config.po to Punjabi
 #
 # Amanpreet Singh Alam <aalam@redhat.com>, 2005.
-# A S Alam <aalam@users.sf.net>, 2007, 2008, 2010, 2011, 2012, 2014.
+# SPDX-FileCopyrightText: 2007, 2008, 2010, 2011, 2012, 2014, 2023 A S Alam <aalam@users.sf.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2014-03-29 18:56-0500\n"
-"Last-Translator: A S Alam <aalam@users.sf.net>\n"
-"Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
+"PO-Revision-Date: 2023-12-26 11:16-0600\n"
+"Last-Translator: A S Alam <aalam@punlinux.org>\n"
+"Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
 "Language: pa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
@@ -78,7 +78,7 @@ msgstr "ਸੱਜੇ ਤੋਂ ਖੱਬੇ ਲੇਆਉਟ"
 #: oxygendemodialog.cpp:66
 #, kde-format
 msgid "Style"
-msgstr ""
+msgstr "ਸਟਾਈਲ"
 
 #: oxygendemodialog.cpp:87
 #, kde-format
@@ -133,7 +133,7 @@ msgstr "ਕਈ ਫਰੇਮ ਕੀਤੇ ਵਿਦਜੈੱਟ ਦੀ ਦਿੱ�
 #: oxygendemodialog.cpp:137
 #, kde-format
 msgid "MDI Windows"
-msgstr ""
+msgstr "MDI ਵਿੰਡੋ"
 
 #: oxygendemodialog.cpp:139
 #, fuzzy, kde-format
@@ -278,24 +278,21 @@ msgstr "ਰੇਡੀਓ ਬਟਨ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: ui/oxygenbuttondemowidget.ui:84
-#, fuzzy, kde-format
-#| msgid "First Choice"
+#, kde-format
 msgid "F&irst Choice"
-msgstr "ਪਹਿਲੀ ਚੋਣ"
+msgstr "ਪਹਿਲੀ ਚੋਣ(&i)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: ui/oxygenbuttondemowidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Second Choice"
+#, kde-format
 msgid "Seco&nd Choice"
-msgstr "ਦੂਜੀ ਚੋਣ"
+msgstr "ਦੂਜੀ ਚੋਣ(&n)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
 #: ui/oxygenbuttondemowidget.ui:101
-#, fuzzy, kde-format
-#| msgid "Third Choice"
+#, kde-format
 msgid "&Third Choice"
-msgstr "ਤੀਜੀ ਚੋਣ"
+msgstr "ਤੀਜੀ ਚੋਣ(&T)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbuttondemowidget.ui:126
@@ -307,14 +304,13 @@ msgstr "ਪੁਸ਼ਬਟਨ"
 #: ui/oxygenbuttondemowidget.ui:132
 #, kde-format
 msgid "Text only:"
-msgstr "ਕੇਵਲ ਟੈਕਸਟ:"
+msgstr "ਸਿਰਫ਼ ਲਿਖਤ:"
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:142
-#, fuzzy, kde-format
-#| msgid "This is a normal, text only button"
+#, kde-format
 msgid "This is a normal, text only combo box"
-msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
+msgstr "ਇਹ ਸਧਾਰਨ, ਸਿਰਫ਼ ਲਿਖਤ ਕੰਬੋ ਡੱਬਾ ਹੈ"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:149
@@ -430,10 +426,9 @@ msgstr "ਸੱਜਾ ਤੀਰ"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
-#, fuzzy, kde-format
-#| msgid "Text position:"
+#, kde-format
 msgid "Te&xt position:"
-msgstr "ਟੈਕਸਟ ਸਥਿਤੀ:"
+msgstr "ਲਿਖਤ ਸਥਿਤੀ(&x):"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
@@ -464,10 +459,9 @@ msgstr "ਆਈਕਾਨ ਹੇਠ ਟੈਕਸਟ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ui/oxygenbuttondemowidget.ui:470
-#, fuzzy, kde-format
-#| msgid "Icon size:"
+#, kde-format
 msgid "Icon si&ze:"
-msgstr "ਆਈਕਾਨ ਆਕਾਰ:"
+msgstr "ਆਈਕਾਨ ਆਕਾਰ(&z):"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:484
@@ -495,10 +489,9 @@ msgstr "ਵਿਸ਼ਾਲ (48x48)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenframedemowidget.ui:31
-#, fuzzy, kde-format
-#| msgid "Layout direction:"
+#, kde-format
 msgid "&Layout direction:"
-msgstr "ਲੇਆਉਟ ਦਿਸ਼ਾ:"
+msgstr "ਲੇਆਉਟ ਦਿਸ਼ਾ(&L):"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:45
@@ -532,18 +525,16 @@ msgstr "ਫਰੇਮ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Raised"
+#, kde-format
 msgid "&Raised"
-msgstr "ਉਭਾਰੇ"
+msgstr "ਉਭਾਰੇ(&R)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:117
-#, fuzzy, kde-format
-#| msgid "Flat"
+#, kde-format
 msgctxt "Flat frame. No frame is actually drawn."
 msgid "&Flat"
-msgstr "ਸਮਤਲ"
+msgstr "ਸਮਤਲ(&F)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:124
@@ -857,29 +848,27 @@ msgstr "ਤੀਜਾ ਸਫ਼ਾ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Animate progress bars"
+#, kde-format
 msgid "Animate Progress Bars"
-msgstr "ਤਰੱਕੀ ਪੱਟੀ ਐਨੀਮੇਟ ਕਰੋ"
+msgstr "ਤਰੱਕੀ ਪੱਟੀ ਐਨੀਮੇਟ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:36
-#, fuzzy, kde-format
-#| msgid "Animate progress bars"
+#, kde-format
 msgid "Invert Progress Bars"
-msgstr "ਤਰੱਕੀ ਪੱਟੀ ਐਨੀਮੇਟ ਕਰੋ"
+msgstr "ਤਰੱਕੀ ਪੱਟੀ ਉਲਟ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygensliderdemowidget.ui:43
 #, kde-format
 msgid "Horizontal"
-msgstr "ਹਰੀਜੱਟਲ"
+msgstr "ਲੇਟਵਾਂ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygensliderdemowidget.ui:120
 #, kde-format
 msgid "Vertical"
-msgstr "ਵਰਟੀਕਲ"
+msgstr "ਖੜ੍ਹਵਾਂ"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygensliderdemowidget.ui:167
@@ -913,10 +902,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
-#, fuzzy, kde-format
-#| msgid "Tab position:"
+#, kde-format
 msgid "&Tab position:"
-msgstr "ਟੈਬ ਸਥਿਤੀ:"
+msgstr "ਟੈਬ ਸਥਿਤੀ(&T):"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:45
@@ -956,10 +944,9 @@ msgstr "ਕੋਨਾ ਬਟਨ ਵੇਖੋ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
 #: ui/oxygentabdemowidget.ui:129
-#, fuzzy, kde-format
-#| msgid "Show Corner Buttons"
+#, kde-format
 msgid "Show Tab Close Buttons"
-msgstr "ਕੋਨਾ ਬਟਨ ਵੇਖੋ"
+msgstr "ਟੈਬ ਉੱਤੇ ਬੰਦ ਕਰੋ ਬਟਨ ਵੇਖੋ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
 #: ui/oxygentabdemowidget.ui:136
