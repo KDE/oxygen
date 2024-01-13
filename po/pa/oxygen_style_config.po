@@ -1,13 +1,13 @@
 # translation of kstyle_config.po to Punjabi
 #
 # Amanpreet Singh Alam <aalam@redhat.com>, 2005.
-# SPDX-FileCopyrightText: 2007, 2008, 2010, 2011, 2012, 2014, 2023 A S Alam <aalam@users.sf.net>
+# SPDX-FileCopyrightText: 2007, 2008, 2010, 2011, 2012, 2014, 2023, 2024 A S Alam <aalam@users.sf.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-12-26 11:17-0600\n"
+"PO-Revision-Date: 2024-01-11 21:04-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
 "Language: pa\n"
@@ -228,10 +228,9 @@ msgstr "ਹਮੇਸ਼ਾ ਵੇਖਾਓ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenstyleconfig.ui:108
-#, fuzzy, kde-format
-#| msgid "Windows' drag mode:"
+#, kde-format
 msgid "Windows' &drag mode:"
-msgstr "ਵਿੰਡੋ ਦਾ ਡਰੈਗ ਮੋਡ:"
+msgstr "ਵਿੰਡੋ ਦਾ ਡਰੈਗ ਮੋਡ(&d):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
 #: ui/oxygenstyleconfig.ui:134
@@ -298,10 +297,9 @@ msgstr "ਸਧਾਰਨ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
 #: ui/oxygenstyleconfig.ui:256
-#, fuzzy, kde-format
-#| msgid "Draw focus indicator"
+#, kde-format
 msgid "Draw focus indicator in lists"
-msgstr "ਫੋਕਸ ਇੰਡੀਕੇਟਰ ਵੇਖੋ"
+msgstr "ਸੂਚੀਆਂ ਵਿੱਚ ਫੋਕਸ ਇੰਡੀਕੇਟਰ ਵਾਹੋ"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: ui/oxygenstyleconfig.ui:264
