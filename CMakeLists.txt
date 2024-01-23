@@ -8,6 +8,7 @@ include(WriteBasicConfigVersionFile)
 include(FeatureSummary)
 
 ################# Qt/KDE #################
+set(PROJECT_DEP_VERSION "6.0.80")
 set(QT5_MIN_VERSION "5.15.2")
 set(KF5_MIN_VERSION "5.102.0")
 set(QT_MIN_VERSION "6.6.0")
@@ -102,7 +103,7 @@ block(SCOPE_FOR VARIABLES)
     Completion
     FrameworkIntegration
     WindowSystem)
-    find_package(Plasma ${PROJECT_VERSION} REQUIRED)
+    find_package(Plasma ${PROJECT_DEP_VERSION} REQUIRED)
 
     # https://bugreports.qt.io/browse/QTBUG-114706
     add_library(Qt::Core ALIAS Qt6::Core)
