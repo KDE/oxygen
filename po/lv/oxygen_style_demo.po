@@ -7,26 +7,27 @@
 # Viesturs Zarins <viesturs.zarins@mii.lu.lv>, 2008, 2009.
 # Viesturs Zariņš <viesturs.zarins@mii.lu.lv>, 2009.
 # Rūdofls Mazurs <rudolfs.mazurs@gmail.com>, 2011.
+# SPDX-FileCopyrightText: 2024 Toms Trasuns <toms.trasuns@posteo.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2011-07-07 21:21+0300\n"
-"Last-Translator: Rūdofls Mazurs <rudolfs.mazurs@gmail.com>\n"
-"Language-Team: Latvian <locale@laka.lv>\n"
+"PO-Revision-Date: 2024-01-25 10:29+0200\n"
+"Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
+"Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.1\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
 msgid "Oxygen Demo"
-msgstr "Oxygen demo."
+msgstr "Oxygen demonstrācija"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton)
@@ -74,17 +75,17 @@ msgstr "Pārslēgt autentifikāciju"
 #: oxygendemodialog.cpp:55
 #, kde-format
 msgid "Enabled"
-msgstr "Aktivēts"
+msgstr "Ieslēgts"
 
 #: oxygendemodialog.cpp:60
 #, kde-format
 msgid "Right to left layout"
-msgstr "No labās uz kreiso izkārtojums"
+msgstr "Izkārtojums no labās uz kreiso"
 
 #: oxygendemodialog.cpp:66
 #, kde-format
 msgid "Style"
-msgstr ""
+msgstr "Stils"
 
 #: oxygendemodialog.cpp:87
 #, kde-format
@@ -139,13 +140,12 @@ msgstr "Rāda dažādu ierāmētu logdaļu izskatu"
 #: oxygendemodialog.cpp:137
 #, kde-format
 msgid "MDI Windows"
-msgstr ""
+msgstr "MDI logi"
 
 #: oxygendemodialog.cpp:139
-#, fuzzy, kde-format
-#| msgid "Shows the appearance of tab widgets"
+#, kde-format
 msgid "Shows the appearance of MDI windows"
-msgstr "Rāda cilnes logdaļas izskatu"
+msgstr "Rāda MDI logu izskatu"
 
 #: oxygendemodialog.cpp:147
 #, kde-format
@@ -165,7 +165,7 @@ msgstr "Etalonuzdevums"
 #: oxygendemodialog.cpp:160
 #, kde-format
 msgid "Emulates user interaction with widgets for benchmarking"
-msgstr "Simulē lietotāja mijiedarbību ar logdaļām, veiktspējas novērtēšanai"
+msgstr "Simulē lietotāja mijiedarbību ar logdaļām veiktspējas novērtēšanai"
 
 #: oxygeninputdemowidget.cpp:21
 #, kde-format
@@ -180,7 +180,7 @@ msgstr "parole"
 #: oxygenmdidemowidget.cpp:34
 #, kde-format
 msgid "Layout"
-msgstr ""
+msgstr "Izkārtojums"
 
 #: oxygenmdidemowidget.cpp:35
 #, kde-format
@@ -198,20 +198,19 @@ msgid "Tabs"
 msgstr "Cilnes"
 
 #: oxygenmdidemowidget.cpp:39
-#, fuzzy, kde-format
-#| msgid "Toolbox"
+#, kde-format
 msgid "Tools"
-msgstr "Rīku kaste"
+msgstr "Rīki"
 
 #: oxygenmdidemowidget.cpp:41
 #, kde-format
 msgid "Select Next Window"
-msgstr "Izvēlēties nākamo logu"
+msgstr "Atlasiet nākamo logu"
 
 #: oxygenmdidemowidget.cpp:48
 #, kde-format
 msgid "Select Previous Window"
-msgstr "Izvēlēties iepriekšējo logu"
+msgstr "Atlasiet iepriekšējo logu"
 
 #: oxygensimulator.h:72
 #, kde-format
@@ -221,7 +220,7 @@ msgstr "Šis ir parauga teksts"
 #: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
-msgstr ""
+msgstr "Atlasiet programmas logdaļas stilu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbenchmarkwidget.ui:29
@@ -233,7 +232,7 @@ msgstr "Moduļi"
 #: ui/oxygenbenchmarkwidget.ui:35
 #, kde-format
 msgid "Select below the modules for which you want to run the simulation:"
-msgstr "Zemāk izvēlieties moduļus, uz kuriem vēlaties palaist simulāciju:"
+msgstr "Izvēlieties moduļus, kurus vēlaties izmantot simulācijā:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygenbenchmarkwidget.ui:48
@@ -285,24 +284,21 @@ msgstr "Radio pogas"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: ui/oxygenbuttondemowidget.ui:84
-#, fuzzy, kde-format
-#| msgid "First Choice"
+#, kde-format
 msgid "F&irst Choice"
-msgstr "Pirmā izvēle"
+msgstr "&Pirmā izvēle"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: ui/oxygenbuttondemowidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Second Choice"
+#, kde-format
 msgid "Seco&nd Choice"
-msgstr "Otrā izvēle"
+msgstr "&Otrā izvēle"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
 #: ui/oxygenbuttondemowidget.ui:101
-#, fuzzy, kde-format
-#| msgid "Third Choice"
+#, kde-format
 msgid "&Third Choice"
-msgstr "Trešā izvēle"
+msgstr "&Trešā izvēle"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbuttondemowidget.ui:126
@@ -318,10 +314,9 @@ msgstr "Tikai teksts:"
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:142
-#, fuzzy, kde-format
-#| msgid "This is a sample text"
+#, kde-format
 msgid "This is a normal, text only combo box"
-msgstr "Šis ir parauga teksts"
+msgstr "Šis ir normāli, kombinētais lodziņš ar tikai tekstu"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:149
@@ -349,52 +344,45 @@ msgstr "Lietot plakanas pogas"
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
 #: ui/oxygenbuttondemowidget.ui:197
-#, fuzzy, kde-format
-#| msgid "This is a sample text"
+#, kde-format
 msgid "This is a normal, text and icon combo box"
-msgstr "Šis ir parauga teksts"
+msgstr "Šis ir normāli, kombinētais lodziņš ar tekstu un ikonām"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
 #: ui/oxygenbuttondemowidget.ui:204
-#, fuzzy, kde-format
-#| msgid "This is a sample text"
+#, kde-format
 msgid "This is a normal, text only tool button"
-msgstr "Šis ir parauga teksts"
+msgstr "Šis ir normāli, rīka poga ar tikai tekstu"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
 #: ui/oxygenbuttondemowidget.ui:214
-#, fuzzy, kde-format
-#| msgid "This is a sample text"
+#, kde-format
 msgid "This is a normal, text and icon tool button"
-msgstr "Šis ir parauga teksts"
+msgstr "Šis ir normāli, rīka poga ar tekstu un ikonu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
 #: ui/oxygenbuttondemowidget.ui:224
-#, fuzzy, kde-format
-#| msgid "This is a sample text"
+#, kde-format
 msgid "This is a normal, text only button"
-msgstr "Šis ir parauga teksts"
+msgstr "Šis ir normāli, poga ar tikai tekstu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
 #: ui/oxygenbuttondemowidget.ui:234
-#, fuzzy, kde-format
-#| msgid "This is a sample text"
+#, kde-format
 msgid "This is a normal, text only button with menu"
-msgstr "Šis ir parauga teksts"
+msgstr "Šis ir normāli, poga ar tikai tekstu un izvēlni"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
 #: ui/oxygenbuttondemowidget.ui:244
-#, fuzzy, kde-format
-#| msgid "This is a sample text"
+#, kde-format
 msgid "This is a normal, text and icon button"
-msgstr "Šis ir parauga teksts"
+msgstr "Šis ir normāli, poga ar tekstu un ikonām"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
 #: ui/oxygenbuttondemowidget.ui:254
-#, fuzzy, kde-format
-#| msgid "This is a sample text"
+#, kde-format
 msgid "This is a normal, text and icon button with menu"
-msgstr "Šis ir parauga teksts"
+msgstr "Šis ir normāli, poga ar tekstu, ikonām un izvēlni"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygenbuttondemowidget.ui:267
@@ -409,7 +397,7 @@ msgstr "Rīku pogas"
 #: ui/oxygenbuttondemowidget.ui:361
 #, kde-format
 msgid "Flat"
-msgstr "Plakans"
+msgstr "Plakana"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
 #: ui/oxygenbuttondemowidget.ui:374
@@ -427,21 +415,20 @@ msgstr "Bulta lejup"
 #: ui/oxygenbuttondemowidget.ui:397
 #, kde-format
 msgid "Left Arrow"
-msgstr "Kreisā bulta"
+msgstr "Bulta pa kreisi"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
 #: ui/oxygenbuttondemowidget.ui:407
 #, kde-format
 msgid "Right Arrow"
-msgstr "Labā bulta"
+msgstr "Bulta pa labi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
-#, fuzzy, kde-format
-#| msgid "Text position:"
+#, kde-format
 msgid "Te&xt position:"
-msgstr "Teksta novietojums:"
+msgstr "&Teksta novietojums:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
@@ -455,7 +442,7 @@ msgstr "Tikai ikonas"
 #: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
 #, kde-format
 msgid "Text Only"
-msgstr "Tikai Teksts"
+msgstr "Tikai teksts"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
@@ -472,41 +459,39 @@ msgstr "Teksts zem ikonām"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ui/oxygenbuttondemowidget.ui:470
-#, fuzzy, kde-format
-#| msgid "Icon size:"
+#, kde-format
 msgid "Icon si&ze:"
-msgstr "Ikonu izmērs:"
+msgstr "&Ikonu izmērs:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:484
 #, kde-format
 msgid "Small (16x16)"
-msgstr "Mazs (16x16)"
+msgstr "Mazs (16×16)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:489
 #, kde-format
 msgid "Medium (22x22)"
-msgstr "Vidējs (22x22)"
+msgstr "Vidējs (22×22)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:494
 #, kde-format
 msgid "Large (32x32)"
-msgstr "Liels (32x32)"
+msgstr "Liels (32×32)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:499
 #, kde-format
 msgid "Huge (48x48)"
-msgstr "Milzīgs (48x48)"
+msgstr "Milzīgs (48×48)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenframedemowidget.ui:31
-#, fuzzy, kde-format
-#| msgid "Layout direction:"
+#, kde-format
 msgid "&Layout direction:"
-msgstr "Izkārtojuma virziens:"
+msgstr "&Izkārtojuma virziens:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:45
@@ -540,25 +525,22 @@ msgstr "Ietvars"
 
 #. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Raised"
+#, kde-format
 msgid "&Raised"
-msgstr "Pacelts"
+msgstr "&Pacelts"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:117
-#, fuzzy, kde-format
-#| msgid "Flat"
+#, kde-format
 msgctxt "Flat frame. No frame is actually drawn."
 msgid "&Flat"
-msgstr "Plakans"
+msgstr "P&lakans"
 
 #. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:124
-#, fuzzy, kde-format
-#| msgid "Sunken"
+#, kde-format
 msgid "S&unken"
-msgstr "Iegrimis"
+msgstr "&Iegrimis"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenframedemowidget.ui:147
@@ -571,7 +553,7 @@ msgstr "Grupas kaste"
 #, kde-format
 msgctxt "Flat group box. No frame is actually drawn"
 msgid "Flat"
-msgstr "Plakans"
+msgstr "Plakana"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ui/oxygenframedemowidget.ui:180
@@ -866,17 +848,15 @@ msgstr "Trešā lapa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Animate progress bars"
+#, kde-format
 msgid "Animate Progress Bars"
-msgstr "Animēt progresa joslu"
+msgstr "Animēt progresa joslas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:36
-#, fuzzy, kde-format
-#| msgid "Animate progress bars"
+#, kde-format
 msgid "Invert Progress Bars"
-msgstr "Animēt progresa joslu"
+msgstr "Invertēt progresa joslas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygensliderdemowidget.ui:43
@@ -894,38 +874,37 @@ msgstr "Vertikāli"
 #: ui/oxygensliderdemowidget.ui:167
 #, kde-format
 msgid "Sliders tick marks position"
-msgstr ""
+msgstr "Pozīciju atzīmes uz slīdņiem"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:178
 #, kde-format
 msgid "No Tick Marks"
-msgstr ""
+msgstr "Bez atzīmēm"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:183
 #, kde-format
 msgid "Tick Marks Above Slider"
-msgstr ""
+msgstr "Atzīmes virs slīdņa"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:188
 #, kde-format
 msgid "Tick Marks Below Slider"
-msgstr ""
+msgstr "Atzīmes zem slīdņa"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:193
 #, kde-format
 msgid "Tick Marks On Both Sides"
-msgstr ""
+msgstr "Atzīmes abās pusēs"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
-#, fuzzy, kde-format
-#| msgid "Tab position:"
+#, kde-format
 msgid "&Tab position:"
-msgstr "Cilnes novietojums:"
+msgstr "&Cilnes novietojums:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:45
@@ -965,10 +944,9 @@ msgstr "Rādīt stūra pogas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
 #: ui/oxygentabdemowidget.ui:129
-#, fuzzy, kde-format
-#| msgid "Show Corner Buttons"
+#, kde-format
 msgid "Show Tab Close Buttons"
-msgstr "Rādīt stūra pogas"
+msgstr "Rādīt ciļņu aizvēršanas pogas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
 #: ui/oxygentabdemowidget.ui:136
