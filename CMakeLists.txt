@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 project(oxygen)
-set(PROJECT_VERSION "5.92.90")
+set(PROJECT_VERSION "5.93.0")
 set(PROJECT_VERSION_MAJOR 6)
 
 include(GenerateExportHeader)
@@ -8,7 +8,7 @@ include(WriteBasicConfigVersionFile)
 include(FeatureSummary)
 
 ################# Qt/KDE #################
-set(PROJECT_DEP_VERSION "5.92.90")
+set(PROJECT_DEP_VERSION "5.93.0")
 set(QT5_MIN_VERSION "5.15.2")
 set(KF5_MIN_VERSION "5.102.0")
 set(QT_MIN_VERSION "6.6.0")
