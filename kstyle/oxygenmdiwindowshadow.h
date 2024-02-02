@@ -27,7 +27,6 @@
 
 namespace Oxygen
 {
-
 //* frame shadow
 /** this allows the shadow to be painted over the widgets viewport */
 class MdiWindowShadow : public QWidget

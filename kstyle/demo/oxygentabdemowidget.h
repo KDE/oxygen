@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 class TabDemoWidget : public DemoWidget
 {
     Q_OBJECT

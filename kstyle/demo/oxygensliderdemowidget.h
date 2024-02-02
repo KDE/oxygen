@@ -20,7 +20,6 @@
 
 namespace Oxygen
 {
-
 class ProgressBar : public QObject
 {
     Q_OBJECT

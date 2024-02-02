@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 //* temporary widget used to perform smooth transition between one widget state and another
 class TransitionWidget : public QWidget
 {

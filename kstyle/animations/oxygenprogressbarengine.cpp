@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //_______________________________________________
 bool ProgressBarEngine::registerWidget(QWidget *widget)
 {

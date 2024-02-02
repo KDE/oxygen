@@ -24,7 +24,6 @@ class Ui_FollowMouseAnimationConfigBox;
 
 namespace Oxygen
 {
-
 class FollowMouseAnimationConfigBox : public QFrame
 {
     Q_OBJECT

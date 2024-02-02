@@ -21,7 +21,6 @@
 
 namespace Oxygen
 {
-
 //* generic data
 class ComboBoxData : public TransitionData
 {

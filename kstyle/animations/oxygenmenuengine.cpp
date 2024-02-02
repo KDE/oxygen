@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 MenuEngineV1::MenuEngineV1(QObject *parent, MenuBaseEngine *other)
     : MenuBaseEngine(parent)

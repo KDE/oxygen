@@ -16,7 +16,6 @@
 
 namespace Oxygen
 {
-
 // forward declaration
 class GenericAnimationConfigItem;
 

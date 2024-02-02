@@ -31,7 +31,6 @@
 
 namespace Oxygen
 {
-
 //* stores engines
 class Animations : public QObject
 {

@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* stores scrollbar hovered action and timeLine
 class ScrollBarEngine : public BaseEngine
 {

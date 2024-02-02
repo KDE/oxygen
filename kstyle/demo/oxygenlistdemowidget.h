@@ -18,7 +18,6 @@
 
 namespace Oxygen
 {
-
 class ListDemoWidget : public DemoWidget
 {
     Q_OBJECT

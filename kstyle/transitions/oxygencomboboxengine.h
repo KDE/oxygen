@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* used for simple widgets
 class ComboBoxEngine : public BaseEngine
 {

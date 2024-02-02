@@ -18,7 +18,6 @@
 
 namespace Oxygen
 {
-
 //* square utility function
 static qreal square(qreal x)
 {

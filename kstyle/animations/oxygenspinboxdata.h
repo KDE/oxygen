@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* handles spinbox arrows hover
 class SpinBoxData : public AnimationData
 {

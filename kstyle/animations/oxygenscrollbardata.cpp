@@ -18,7 +18,6 @@ Q_GUI_EXPORT QStyleOptionSlider qt_qscrollbarStyleOption(QScrollBar *);
 
 namespace Oxygen
 {
-
 //______________________________________________
 ScrollBarData::ScrollBarData(QObject *parent, QWidget *target, int duration)
     : WidgetStateData(parent, target, duration)

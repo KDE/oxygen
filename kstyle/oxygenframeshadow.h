@@ -27,7 +27,6 @@
 
 namespace Oxygen
 {
-
 //* shadow manager
 class FrameShadowFactory : public QObject
 {

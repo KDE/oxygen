@@ -9,7 +9,6 @@
 
 namespace Oxygen
 {
-
 class StylePlugin : public QStylePlugin
 {
     Q_OBJECT

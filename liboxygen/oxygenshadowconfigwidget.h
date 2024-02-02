@@ -20,7 +20,6 @@ class Ui_ShadowConfiguraionUI;
 
 namespace Oxygen
 {
-
 //* shadow configuration widget
 class OXYGEN_CONFIG_EXPORT ShadowConfigWidget : public QGroupBox
 {

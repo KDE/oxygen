@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool HeaderViewEngine::registerWidget(QWidget *widget)
 {

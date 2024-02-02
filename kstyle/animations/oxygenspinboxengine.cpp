@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool SpinBoxEngine::registerWidget(QWidget *widget)
 {

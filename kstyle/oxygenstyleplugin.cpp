@@ -10,7 +10,6 @@
 
 namespace Oxygen
 {
-
 //_________________________________________________
 QStyle *StylePlugin::create(const QString &key)
 {

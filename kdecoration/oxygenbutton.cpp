@@ -18,7 +18,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________________________________
 Button *Button::create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent)
 {

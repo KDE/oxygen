@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* follow-mouse toolbar animation
 class ToolBarEngine : public BaseEngine
 {

@@ -20,7 +20,6 @@
 
 namespace Oxygen
 {
-
 class OXYGEN_EXPORT ShadowCache
 {
 public:

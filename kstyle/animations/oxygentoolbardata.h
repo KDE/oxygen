@@ -16,7 +16,6 @@
 
 namespace Oxygen
 {
-
 //* toolbar data
 class ToolBarData : public AnimationData
 {

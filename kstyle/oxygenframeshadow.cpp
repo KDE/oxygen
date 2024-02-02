@@ -25,7 +25,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________________________________
 bool FrameShadowFactory::registerWidget(QWidget *widget, StyleHelper &helper)
 {

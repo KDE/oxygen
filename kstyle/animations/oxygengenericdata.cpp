@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________
 GenericData::GenericData(QObject *parent, QWidget *target, int duration)
     : AnimationData(parent, target)

@@ -42,7 +42,6 @@
 
 namespace Oxygen
 {
-
 //_______________________________________________________________________
 bool Simulator::_grabMouse = true;
 int Simulator::_defaultDelay = 250;

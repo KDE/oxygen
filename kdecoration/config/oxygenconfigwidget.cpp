@@ -22,7 +22,6 @@
 
 namespace Oxygen
 {
-
 //_________________________________________________________
 ConfigWidget::ConfigWidget(QObject *parent, const KPluginMetaData &metaData, const QVariantList &args)
 #if QT_VERSION_MAJOR < 6

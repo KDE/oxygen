@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool ComboBoxEngine::registerWidget(QComboBox *widget)
 {

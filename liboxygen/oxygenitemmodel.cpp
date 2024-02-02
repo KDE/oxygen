@@ -11,7 +11,6 @@
 
 namespace Oxygen
 {
-
 //_______________________________________________________________
 ItemModel::ItemModel(QObject *parent)
     : QAbstractItemModel(parent)

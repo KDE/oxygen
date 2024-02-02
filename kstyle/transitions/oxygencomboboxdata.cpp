@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________________
 ComboBoxData::ComboBoxData(QObject *parent, QComboBox *target, int duration)
     : TransitionData(parent, target, duration)

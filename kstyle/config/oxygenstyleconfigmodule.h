@@ -11,7 +11,6 @@
 
 namespace Oxygen
 {
-
 //* configuration module
 class ConfigurationModule : public KCModule
 {

@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 class DecoHelper;
 class ShadowCache;
 

@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 SettingsProvider *SettingsProvider::s_self = nullptr;
 
 //__________________________________________________________________

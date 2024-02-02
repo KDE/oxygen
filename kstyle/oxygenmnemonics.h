@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 class Mnemonics : public QObject
 {
 public:

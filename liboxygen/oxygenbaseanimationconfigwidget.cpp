@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 //_______________________________________________
 BaseAnimationConfigWidget::BaseAnimationConfigWidget(QWidget *parent)
     : QWidget(parent)

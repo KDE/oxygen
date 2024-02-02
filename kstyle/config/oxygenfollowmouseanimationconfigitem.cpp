@@ -13,7 +13,6 @@
 
 namespace Oxygen
 {
-
 //_______________________________________________
 FollowMouseAnimationConfigBox::FollowMouseAnimationConfigBox(QWidget *parent)
     : QFrame(parent)

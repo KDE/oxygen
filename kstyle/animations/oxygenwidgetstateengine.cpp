@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool WidgetStateEngine::registerWidget(QWidget *widget, AnimationModes mode)
 {

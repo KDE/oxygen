@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________
 HeaderViewData::HeaderViewData(QObject *parent, QWidget *target, int duration)
     : AnimationData(parent, target)

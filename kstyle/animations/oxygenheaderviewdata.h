@@ -16,7 +16,6 @@
 
 namespace Oxygen
 {
-
 //* headerviews
 class HeaderViewData : public AnimationData
 {

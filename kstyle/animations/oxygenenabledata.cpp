@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________
 bool EnableData::eventFilter(QObject *object, QEvent *event)
 {

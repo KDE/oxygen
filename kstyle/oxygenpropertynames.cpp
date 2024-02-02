@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 const char PropertyNames::noAnimations[] = "_kde_no_animations";
 const char PropertyNames::noWindowGrab[] = "_kde_no_window_grab";
 const char PropertyNames::toolButtonAlignment[] = "_kde_toolbutton_alignment";

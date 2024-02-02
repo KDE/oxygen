@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool MdiWindowEngine::registerWidget(QWidget *widget)
 {

@@ -35,7 +35,6 @@ K_PLUGIN_FACTORY_WITH_JSON(OxygenDecoFactory, "oxygen.json", registerPlugin<Oxyg
 
 namespace Oxygen
 {
-
 using KDecoration2::ColorGroup;
 using KDecoration2::ColorRole;
 

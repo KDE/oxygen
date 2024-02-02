@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //_______________________________________________
 BusyIndicatorEngine::BusyIndicatorEngine(QObject *object)
     : BaseEngine(object)

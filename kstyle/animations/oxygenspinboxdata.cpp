@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //________________________________________________
 SpinBoxData::SpinBoxData(QObject *parent, QWidget *target, int duration)
     : AnimationData(parent, target)

@@ -29,7 +29,6 @@
 
 namespace Oxygen
 {
-
 class SplitterProxy;
 
 //* factory

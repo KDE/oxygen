@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //_________________________________________________________________
 TransitionData::TransitionData(QObject *parent, QWidget *target, int duration)
     : QObject(parent)

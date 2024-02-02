@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 //* qlistview for object counters
 class ExceptionModel : public ListModel<InternalSettingsPtr>
 {

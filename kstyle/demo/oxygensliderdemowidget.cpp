@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 //_____________________________________________________________
 ProgressBar::ProgressBar(QObject *parent, QProgressBar *progressBar, QCheckBox *checkBox)
     : QObject(parent)

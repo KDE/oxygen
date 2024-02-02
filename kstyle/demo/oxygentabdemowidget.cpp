@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________________________
 TabDemoWidget::TabDemoWidget(QWidget *parent)
     : DemoWidget(parent)

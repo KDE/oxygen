@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 //* implements size grip for all widgets
 class SizeGrip : public QWidget
 {

@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 void ToolBarEngine::registerWidget(QWidget *widget)
 {

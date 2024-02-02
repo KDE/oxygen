@@ -11,7 +11,6 @@
 
 namespace Oxygen
 {
-
 //* tabbars
 class TabBarData : public AnimationData
 {

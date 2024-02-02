@@ -18,7 +18,6 @@
 
 namespace Oxygen
 {
-
 class WindowManager : public QObject
 {
     Q_OBJECT

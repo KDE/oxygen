@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 //_____________________________________________________________
 ButtonDemoWidget::ButtonDemoWidget(QWidget *parent)
     : DemoWidget(parent)

@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________________________
 void ExceptionList::readConfig(KSharedConfig::Ptr config)
 {

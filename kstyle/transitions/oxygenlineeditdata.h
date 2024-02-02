@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 //* generic data
 class LineEditData : public TransitionData
 {

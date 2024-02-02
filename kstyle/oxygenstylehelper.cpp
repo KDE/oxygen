@@ -28,7 +28,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________________________________________
 StyleHelper::StyleHelper(KSharedConfigPtr config)
     : Helper(config)

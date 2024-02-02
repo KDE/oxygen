@@ -24,7 +24,6 @@
 
 namespace Oxygen
 {
-
 ColorSchemeChooser::ColorSchemeChooser(QWidget *parent)
     : QPushButton(parent)
 {

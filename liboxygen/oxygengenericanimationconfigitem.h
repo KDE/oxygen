@@ -22,7 +22,6 @@ class Ui_GenericAnimationConfigBox;
 
 namespace Oxygen
 {
-
 class OXYGEN_CONFIG_EXPORT GenericAnimationConfigBox : public QFrame
 {
     Q_OBJECT

@@ -23,7 +23,6 @@
 /** contains utility functions used at multiple places in oxygen style */
 namespace Oxygen
 {
-
 class StyleHelper : public Helper
 {
 public:

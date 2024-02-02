@@ -20,7 +20,6 @@
 
 namespace Oxygen
 {
-
 //* generic data
 class TransitionData : public QObject
 {

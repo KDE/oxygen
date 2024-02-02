@@ -16,7 +16,6 @@
 
 namespace Oxygen
 {
-
 // use 300 milliseconds for animation lock
 const int LabelData::_lockTime = 300;
 

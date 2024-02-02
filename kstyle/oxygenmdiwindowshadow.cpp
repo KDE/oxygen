@@ -21,7 +21,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________________
 MdiWindowShadow::MdiWindowShadow(QWidget *parent, TileSet shadowTiles)
     : QWidget(parent)

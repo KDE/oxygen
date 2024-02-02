@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________
 ProgressBarData::ProgressBarData(QObject *parent, QWidget *target, int duration)
     : GenericData(parent, target, duration)

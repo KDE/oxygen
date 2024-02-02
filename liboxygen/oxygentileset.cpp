@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //___________________________________________________________
 inline bool bits(TileSet::Tiles flags, TileSet::Tiles testFlags)
 {

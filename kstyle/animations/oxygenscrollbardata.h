@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* scrollbar data
 class ScrollBarData : public WidgetStateData
 {

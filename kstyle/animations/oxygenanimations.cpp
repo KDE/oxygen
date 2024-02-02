@@ -33,7 +33,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 Animations::Animations(QObject *parent)
     : QObject(parent)

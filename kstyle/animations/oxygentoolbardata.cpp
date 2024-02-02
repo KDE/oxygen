@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //________________________________________________________________________
 ToolBarData::ToolBarData(QObject *parent, QWidget *target, int duration)
     : AnimationData(parent, target)

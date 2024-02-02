@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 class DetectDialog;
 
 //* oxygen exceptions list

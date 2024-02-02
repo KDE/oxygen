@@ -19,7 +19,6 @@
 //__________________________________________________________
 namespace Oxygen
 {
-
 //__________________________________________________________
 ExceptionListWidget::ExceptionListWidget(QWidget *parent)
     : QWidget(parent)

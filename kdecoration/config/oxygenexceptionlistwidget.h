@@ -15,7 +15,6 @@
 //* QDialog used to commit selected files
 namespace Oxygen
 {
-
 class ExceptionListWidget : public QWidget
 {
     //* Qt meta object

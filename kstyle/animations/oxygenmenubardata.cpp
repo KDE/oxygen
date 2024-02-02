@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________
 MenuBarData::MenuBarData(QObject *parent, QWidget *target)
     : AnimationData(parent, target)

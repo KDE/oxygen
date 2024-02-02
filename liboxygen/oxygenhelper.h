@@ -35,7 +35,6 @@
 
 namespace Oxygen
 {
-
 template<typename T>
 class BaseCache : public QCache<quint64, T>
 {

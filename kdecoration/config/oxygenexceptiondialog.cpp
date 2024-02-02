@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //___________________________________________
 ExceptionDialog::ExceptionDialog(QWidget *parent)
     : QDialog(parent)

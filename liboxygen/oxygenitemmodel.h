@@ -16,7 +16,6 @@
 
 namespace Oxygen
 {
-
 //* Job model. Stores job information for display in lists
 class OXYGEN_EXPORT ItemModel : public QAbstractItemModel
 {

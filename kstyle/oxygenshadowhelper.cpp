@@ -25,7 +25,6 @@
 
 namespace Oxygen
 {
-
 //_____________________________________________________
 ShadowHelper::ShadowHelper(QObject *parent, StyleHelper &helper)
     : QObject(parent)

@@ -15,7 +15,6 @@ SPDX-License-Identifier: MIT
 
 namespace Oxygen
 {
-
 class StyleConfig : public QWidget, Ui::OxygenStyleConfig
 {
     Q_OBJECT

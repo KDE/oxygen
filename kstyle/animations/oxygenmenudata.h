@@ -16,7 +16,6 @@
 
 namespace Oxygen
 {
-
 //* menubar data
 /*!
 most members are identical to menubar data. The one that are not are

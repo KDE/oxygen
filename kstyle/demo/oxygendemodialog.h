@@ -21,7 +21,6 @@
 
 namespace Oxygen
 {
-
 class ButtonDemoWidget;
 class FrameDemoWidget;
 class InputDemoWidget;

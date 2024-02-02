@@ -18,7 +18,6 @@
 
 namespace Oxygen
 {
-
 //* stores engines
 class Transitions : public QObject
 {

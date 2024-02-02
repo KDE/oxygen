@@ -21,7 +21,6 @@
 
 namespace Oxygen
 {
-
 //* base class
 class AnimationData : public QObject
 {

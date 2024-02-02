@@ -21,7 +21,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________________
 void SplitterFactory::setEnabled(bool value)
 {

@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________________________
 MdiDemoWidget::MdiDemoWidget(QWidget *parent)
     : DemoWidget(parent)

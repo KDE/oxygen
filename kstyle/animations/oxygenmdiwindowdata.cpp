@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //________________________________________________
 MdiWindowData::MdiWindowData(QObject *parent, QWidget *target, int duration)
     : AnimationData(parent, target)

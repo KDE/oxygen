@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 struct PropertyNames {
     static const char noAnimations[];
     static const char noWindowGrab[];

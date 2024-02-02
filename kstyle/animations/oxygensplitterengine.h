@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* QSplitter animation engine
 class SplitterEngine : public BaseEngine
 {

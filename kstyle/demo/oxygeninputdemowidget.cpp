@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //________________________________________________________________
 InputDemoWidget::InputDemoWidget(QWidget *parent)
     : DemoWidget(parent)

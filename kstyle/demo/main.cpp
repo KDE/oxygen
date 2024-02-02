@@ -21,7 +21,6 @@
 
 namespace Oxygen
 {
-
 int run(int argc, char *argv[])
 {
     QApplication app(argc, argv);

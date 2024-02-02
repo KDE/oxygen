@@ -9,7 +9,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________
 TabBarData::TabBarData(QObject *parent, QWidget *target, int duration)
     : AnimationData(parent, target)

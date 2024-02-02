@@ -20,7 +20,6 @@
 
 namespace Oxygen
 {
-
 //_______________________________________________
 AnimationConfigItem::AnimationConfigItem(QWidget *parent, const QString &title, const QString &description)
     : QWidget(parent)

@@ -18,7 +18,6 @@
 
 namespace Oxygen
 {
-
 //* handles progress bar animations
 class BusyIndicatorEngine : public BaseEngine
 {

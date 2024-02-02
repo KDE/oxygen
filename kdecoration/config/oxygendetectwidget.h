@@ -28,7 +28,6 @@
 
 namespace Oxygen
 {
-
 class DetectDialog : public QDialog
 {
     Q_OBJECT

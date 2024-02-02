@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool ScrollBarEngine::registerWidget(QWidget *widget)
 {

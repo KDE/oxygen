@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* stores headerview hovered action and timeLine
 class HeaderViewEngine : public BaseEngine
 {

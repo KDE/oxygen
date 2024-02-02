@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool SplitterEngine::registerWidget(QWidget *widget)
 {

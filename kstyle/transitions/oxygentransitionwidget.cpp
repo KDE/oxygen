@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //________________________________________________
 bool TransitionWidget::_paintEnabled = true;
 bool TransitionWidget::paintEnabled(void)

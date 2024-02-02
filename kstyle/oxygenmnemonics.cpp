@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________
 void Mnemonics::setMode(int mode)
 {

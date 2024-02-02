@@ -23,7 +23,6 @@
 
 namespace Oxygen
 {
-
 //_____________________________________________
 class ConfigWidget : public KCModule
 {

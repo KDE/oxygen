@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* handle mdiwindow arrows hover effect
 class MdiWindowEngine : public BaseEngine
 {

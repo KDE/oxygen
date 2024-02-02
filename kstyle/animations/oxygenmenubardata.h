@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 //* widget index
 enum WidgetIndex { Current, Previous };
 

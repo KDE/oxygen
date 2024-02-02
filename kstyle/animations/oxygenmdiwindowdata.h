@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* handles mdiwindow arrows hover
 class MdiWindowData : public AnimationData
 {

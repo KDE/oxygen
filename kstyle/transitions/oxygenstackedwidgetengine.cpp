@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool StackedWidgetEngine::registerWidget(QStackedWidget *widget)
 {

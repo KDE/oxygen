@@ -20,7 +20,6 @@ class Ui_AnimationConfigItem;
 
 namespace Oxygen
 {
-
 class OXYGEN_CONFIG_EXPORT AnimationConfigItem : public QWidget
 {
     Q_OBJECT

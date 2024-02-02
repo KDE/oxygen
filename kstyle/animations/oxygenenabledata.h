@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 //* Enable data
 class EnableData : public WidgetStateData
 {

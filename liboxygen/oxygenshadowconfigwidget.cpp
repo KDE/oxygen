@@ -20,7 +20,6 @@
 
 namespace Oxygen
 {
-
 //_________________________________________________________
 ShadowConfigWidget::ShadowConfigWidget(QWidget *parent)
     : QGroupBox(parent)

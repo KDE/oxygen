@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* stores menubar hovered action and timeLine
 class MenuBarBaseEngine : public BaseEngine
 {

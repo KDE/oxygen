@@ -10,7 +10,6 @@
 
 namespace Oxygen
 {
-
 //* scoped pointer convenience typedef
 template<typename T>
 using WeakPointer = QPointer<T>;

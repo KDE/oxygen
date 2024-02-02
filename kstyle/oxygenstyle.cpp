@@ -82,7 +82,6 @@ static const int s_iconSizes[] = {8, 16, 22, 32, 48};
 
 namespace OxygenPrivate
 {
-
 /*!
 tabBar data class needed for
 the rendering of tabbars when
@@ -182,7 +181,6 @@ private:
 
 namespace Oxygen
 {
-
 //* toplevel manager
 class TopLevelManager : public QObject
 {
@@ -8306,7 +8304,6 @@ Style::SlabRect Style::SlabRect::adjusted(int tileSize) const
 
 namespace OxygenPrivate
 {
-
 //_________________________________________________________________________________________________________
 void TabBarData::drawTabBarBaseControl(const QStyleOptionTab *tabOption, QPainter *painter, const QWidget *widget)
 {

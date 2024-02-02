@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 //* print widget's and parent's information on mouse click
 class WidgetExplorer : public QObject
 {

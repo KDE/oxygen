@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //*@name convenience typedef
 //@{
 

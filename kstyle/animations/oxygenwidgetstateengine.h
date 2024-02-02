@@ -18,7 +18,6 @@
 
 namespace Oxygen
 {
-
 //* used for simple widgets
 class WidgetStateEngine : public BaseEngine
 {

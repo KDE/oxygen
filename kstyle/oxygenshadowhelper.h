@@ -24,7 +24,6 @@
 
 namespace Oxygen
 {
-
 //* forward declaration
 class ShadowCache;
 class StyleHelper;

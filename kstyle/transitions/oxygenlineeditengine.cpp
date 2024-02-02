@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool LineEditEngine::registerWidget(QLineEdit *widget)
 {

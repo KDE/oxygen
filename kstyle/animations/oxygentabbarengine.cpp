@@ -10,7 +10,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool TabBarEngine::registerWidget(QWidget *widget)
 {

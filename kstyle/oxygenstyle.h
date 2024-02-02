@@ -61,7 +61,6 @@ class TabBarData;
 
 namespace Oxygen
 {
-
 class Animations;
 class FrameShadowFactory;
 class MdiWindowShadowFactory;

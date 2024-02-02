@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________________
 StackedWidgetData::StackedWidgetData(QObject *parent, QStackedWidget *target, int duration)
     : TransitionData(parent, target, duration)

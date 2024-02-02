@@ -22,7 +22,6 @@
 
 namespace Oxygen
 {
-
 //___________________________________________________________
 BlurHelper::BlurHelper(QObject *parent, StyleHelper &helper)
     : QObject(parent)

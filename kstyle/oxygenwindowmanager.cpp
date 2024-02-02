@@ -41,7 +41,6 @@
 
 namespace Oxygen
 {
-
 //* provide application-wise event filter
 /**
 it us used to unlock dragging and make sure event look is properly restored

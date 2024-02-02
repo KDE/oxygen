@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 class BusyIndicatorData : public QObject
 {
     Q_OBJECT

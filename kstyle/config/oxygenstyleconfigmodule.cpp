@@ -13,7 +13,6 @@ K_PLUGIN_FACTORY_WITH_JSON(OxygenStyleConfigFactory, "oxygenstyleconfig.json", r
 
 namespace Oxygen
 {
-
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 ConfigurationModule::ConfigurationModule(QObject *parent, const KPluginMetaData &metaData)
     : KCModule(parent, metaData)

@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 //* scoped pointer convenience typedef
 template<typename T>
 using ScopedPointer = QScopedPointer<T, QScopedPointerPodDeleter>;

@@ -20,7 +20,6 @@
 
 namespace Oxygen
 {
-
 //________________________________________________
 WidgetExplorer::WidgetExplorer(QObject *parent)
     : QObject(parent)

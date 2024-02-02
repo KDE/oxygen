@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* stores dockseparator hovered action and timeLine
 class DockSeparatorEngine : public BaseEngine
 {

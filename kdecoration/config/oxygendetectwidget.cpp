@@ -27,7 +27,6 @@
 
 namespace Oxygen
 {
-
 //_________________________________________________________
 DetectDialog::DetectDialog(QWidget *parent)
     : QDialog(parent)

@@ -18,7 +18,6 @@
 
 namespace Oxygen
 {
-
 //* oxygen exceptions list
 class ExceptionList
 {

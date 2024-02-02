@@ -26,7 +26,6 @@
 
 namespace Oxygen
 {
-
 // use 20 milliseconds for animation lock
 const int LineEditData::_lockTime = 20;
 

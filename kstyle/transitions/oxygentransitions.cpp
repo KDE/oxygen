@@ -16,7 +16,6 @@
 
 namespace Oxygen
 {
-
 //________________________________________________________--
 Transitions::Transitions(QObject *parent)
     : QObject(parent)

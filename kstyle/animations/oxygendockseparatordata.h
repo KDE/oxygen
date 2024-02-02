@@ -16,7 +16,6 @@
 
 namespace Oxygen
 {
-
 //* dock widget splitters hover effect
 class DockSeparatorData : public AnimationData
 {

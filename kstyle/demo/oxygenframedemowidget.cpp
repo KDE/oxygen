@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 //_____________________________________________________________
 FrameDemoWidget::FrameDemoWidget(QWidget *parent)
     : DemoWidget(parent)

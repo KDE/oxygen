@@ -16,7 +16,6 @@
 
 namespace Oxygen
 {
-
 //_______________________________________________
 GenericAnimationConfigBox::GenericAnimationConfigBox(QWidget *parent)
     : QFrame(parent)

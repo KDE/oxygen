@@ -18,7 +18,6 @@
 #include <QTextStream>
 namespace Oxygen
 {
-
 //* generic data
 class GenericData : public AnimationData
 {

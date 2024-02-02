@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool ToolBoxEngine::registerWidget(QWidget *widget)
 {

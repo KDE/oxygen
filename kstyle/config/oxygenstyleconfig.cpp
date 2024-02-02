@@ -38,7 +38,6 @@ Q_DECL_EXPORT QWidget *allocate_kstyle_config(QWidget *parent)
 
 namespace Oxygen
 {
-
 //__________________________________________________________________
 StyleConfig::StyleConfig(QWidget *parent)
     : QWidget(parent)

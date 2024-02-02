@@ -13,7 +13,6 @@
 
 namespace Oxygen
 {
-
 //________________________________________________________________________
 template<typename T>
 void MenuBarDataV1::enterEvent(const QObject *object)

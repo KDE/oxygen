@@ -13,7 +13,6 @@
 #include <QTextStream>
 namespace Oxygen
 {
-
 //______________________________________________
 DockSeparatorData::DockSeparatorData(QObject *parent, QWidget *target, int duration)
     : AnimationData(parent, target)

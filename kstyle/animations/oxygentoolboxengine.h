@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* QToolBox animation engine
 class ToolBoxEngine : public BaseEngine
 {

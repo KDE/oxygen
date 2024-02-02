@@ -20,7 +20,6 @@
 
 namespace Oxygen
 {
-
 class OXYGEN_EXPORT Animation : public QPropertyAnimation
 {
     Q_OBJECT

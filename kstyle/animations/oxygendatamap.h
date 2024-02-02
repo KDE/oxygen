@@ -20,7 +20,6 @@
 
 namespace Oxygen
 {
-
 //* data map
 /** it maps templatized data object to associated object */
 template<typename K, typename T>

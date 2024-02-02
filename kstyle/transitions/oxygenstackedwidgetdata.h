@@ -17,7 +17,6 @@
 
 namespace Oxygen
 {
-
 //* generic data
 class StackedWidgetData : public TransitionData
 {

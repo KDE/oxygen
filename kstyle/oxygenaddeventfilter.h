@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 class AddEventFilter : public QObject
 {
 public:

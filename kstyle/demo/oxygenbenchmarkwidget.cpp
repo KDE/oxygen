@@ -15,7 +15,6 @@
 
 namespace Oxygen
 {
-
 //_______________________________________________
 BenchmarkWidget::BenchmarkWidget(QWidget *parent)
     : DemoWidget(parent)

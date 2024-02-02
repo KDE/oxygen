@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //______________________________________________
 bool WidgetStateData::updateState(bool value)
 {

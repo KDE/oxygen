@@ -19,7 +19,6 @@
 
 namespace Oxygen
 {
-
 class Button : public KDecoration2::DecorationButton
 {
     Q_OBJECT

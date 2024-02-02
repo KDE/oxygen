@@ -12,7 +12,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool LabelEngine::registerWidget(QLabel *widget)
 {

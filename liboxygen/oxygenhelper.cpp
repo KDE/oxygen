@@ -29,7 +29,6 @@
 
 namespace Oxygen
 {
-
 const qreal Helper::_slabThickness = 0.45;
 const qreal Helper::_shadowGain = 1.5;
 const qreal Helper::_glowBias = 0.6;

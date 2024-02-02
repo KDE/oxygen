@@ -14,7 +14,6 @@
 
 namespace Oxygen
 {
-
 //____________________________________________________________
 bool DockSeparatorEngine::registerWidget(QWidget *widget)
 {
