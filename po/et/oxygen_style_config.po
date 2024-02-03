@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2019-10-30 23:35+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -22,12 +22,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Oxygeni seadistused"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:33
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Fookus, hiire all olek ja vidina oleku üleminek"
 
-#: oxygenanimationconfigwidget.cpp:35
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -36,93 +36,93 @@ msgstr ""
 "Vidinate fookuse, hiire alla sattudes esiletõstmise animatsiooni ning sisse-"
 "väljalülitatuse oleku ülemineku seadistamine"
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Tööriistariba esiletõstmine"
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Hiire all olevate tööriistaribade animatsiooni seadistamine"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Menüüriba esiletõstmine"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Hiire all olevate menüüribade animatsiooni seadistamine"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, kde-format
 msgid "Menu highlight"
 msgstr "Menüü esiletõstmine"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, kde-format
 msgid "Configure menus' mouseover highlight animation"
 msgstr "Hiire all olevate menüüde animatsiooni seadistamine"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Progress bar animation"
 msgstr "Edenemisriba animatsioon"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Edenemisriba sammude animatsiooni seadistamine"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Tab transitions"
 msgstr "Kaardilt kaardile üleminekud"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Kaartidevahelise hääbumisülemineku seadistamine"
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Label transitions"
 msgstr "Pealdiselt pealdisele üleminekud"
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Pealdise teksti muutmise hääbumisülemineku seadistamine"
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Tekstiredaktori üleminekud"
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "Redaktori teksti muutmise hääbumisülemineku seadistamine"
 
-#: oxygenanimationconfigwidget.cpp:65
+#: oxygenanimationconfigwidget.cpp:64
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Liitkasti üleminekud"
 
-#: oxygenanimationconfigwidget.cpp:66
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr "Liitkasti valiku muutmise hääbumisülemineku seadistamine"
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "Edenemisriba hõivatuse indikaator"
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Edenemisribade hõivatuse indikaatori animatsiooni seadistamine"

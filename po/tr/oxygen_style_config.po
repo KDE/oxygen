@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2023-06-16 11:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -25,12 +25,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Oksijen Ayarları"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:33
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Odak, fare ile üzerine gelme ve araç takımı durumu geçişi"
 
-#: oxygenanimationconfigwidget.cpp:35
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -39,88 +39,88 @@ msgstr ""
 "Araç takımı odaklanması ve fare ile üzerine gelinmesinde kullanılacak "
 "canlandırmayı ve araç takımlarının etkin/devre dışı geçişlerini yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Araç çubuğu vurgulaması"
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr ""
 "Araç çubuklarını yapılandır'ın fare üzerine gelindiğindeki canlandırması"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Menü çubuğu vurgulaması"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr ""
 "Menü çubuklarının üzerine fare ile odaklanıldığında etkinleştirilecek "
 "canlandırmayı yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, kde-format
 msgid "Menu highlight"
 msgstr "Menü vurgulaması"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, kde-format
 msgid "Configure menus' mouseover highlight animation"
 msgstr ""
 "Menülerin üzerine fare ile odaklanıldığında etkinleştirilecek canlandırmayı "
 "yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Progress bar animation"
 msgstr "İlerleme çubuğu canlandırması"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "İlerleme çubuğu adım canlandırmasını yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Tab transitions"
 msgstr "Sekme geçişleri"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Sekmeler arası geçişte kullanılan soldurmayı yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Label transitions"
 msgstr "Etiket geçişleri"
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Bir etiketin metni değiştirildiğinde kullanılan soldurmayı yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Metin düzenleyicisi geçişleri"
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr ""
 "Bir düzenleyicinin metni değiştirildiğinde kullanılan soldurmayı yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:65
+#: oxygenanimationconfigwidget.cpp:64
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Çoklu kutu geçişleri"
 
-#: oxygenanimationconfigwidget.cpp:66
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
@@ -128,12 +128,12 @@ msgstr ""
 "Bir çoklu kutunun seçili tercihi değiştiğinde kullanılan soldurma geçişini "
 "yapılandır"
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "İlerleme çubuğu meşgul göstergesi"
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "İlerleme çubuğunun meşgul canlandırmasını yapılandır"

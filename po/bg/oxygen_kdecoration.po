@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2022-02-20 15:22+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -17,24 +17,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 21.12.2\n"
 
-#: config/oxygenanimationconfigwidget.cpp:31
+#: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
 msgid "Button mouseover transition"
 msgstr "Преход с мишката върху бутона"
 
-#: config/oxygenanimationconfigwidget.cpp:31
+#: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
 msgid "Configure window buttons' mouseover highlight animation"
 msgstr ""
 "Конфигуриране на анимацията за подчертаване на мишката върху бутоните на "
 "прозореца"
 
-#: config/oxygenanimationconfigwidget.cpp:36
+#: config/oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid "Window active state change transitions"
 msgstr "Преходи на активна промяна на прозореца"
 
-#: config/oxygenanimationconfigwidget.cpp:37
+#: config/oxygenanimationconfigwidget.cpp:36
 #, kde-format
 msgid ""
 "Configure fading between window shadow and glow when window's active state "
@@ -43,66 +43,66 @@ msgstr ""
 "Конфигуриране на избледняване между сянката на прозореца и светеното при "
 "активно състояние на прозореца се променя"
 
-#: config/oxygenexceptionlistwidget.cpp:88
+#: config/oxygenexceptionlistwidget.cpp:87
 #, kde-format
 msgid "New Exception - Oxygen Settings"
 msgstr "Ново изключение - настройки за Oxygen"
 
-#: config/oxygenexceptionlistwidget.cpp:135
+#: config/oxygenexceptionlistwidget.cpp:134
 #, kde-format
 msgid "Edit Exception - Oxygen Settings"
 msgstr "Редактиране на изключение - настройки за Oxygen"
 
-#: config/oxygenexceptionlistwidget.cpp:167
+#: config/oxygenexceptionlistwidget.cpp:166
 #, kde-format
 msgid "Question - Oxygen Settings"
 msgstr "Въпрос - Настройки за Oxygen"
 
-#: config/oxygenexceptionlistwidget.cpp:168
+#: config/oxygenexceptionlistwidget.cpp:167
 #, kde-format
 msgid "Remove selected exception?"
 msgstr "Да се ​​премахне ли избраното изключение?"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeButton)
-#: config/oxygenexceptionlistwidget.cpp:170
+#: config/oxygenexceptionlistwidget.cpp:169
 #: config/ui/oxygenexceptionlistwidget.ui:79
 #, kde-format
 msgid "Remove"
 msgstr "Премахване"
 
-#: config/oxygenexceptionlistwidget.cpp:302
+#: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
 msgid "Warning - Oxygen Settings"
 msgstr "Предупреждение - Настройки за Oxygen"
 
-#: config/oxygenexceptionlistwidget.cpp:302
+#: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
 msgid "Regular Expression syntax is incorrect"
 msgstr "Синтаксисът на регулярния израз е неправилен"
 
-#: config/oxygenexceptionmodel.cpp:18
+#: config/oxygenexceptionmodel.cpp:17
 #, kde-format
 msgid "Exception Type"
 msgstr "Тип изключение"
 
-#: config/oxygenexceptionmodel.cpp:18
+#: config/oxygenexceptionmodel.cpp:17
 #, kde-format
 msgid "Regular Expression"
 msgstr "Регулярен израз"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
-#: config/oxygenexceptionmodel.cpp:36 config/ui/oxygenexceptiondialog.ui:72
+#: config/oxygenexceptionmodel.cpp:35 config/ui/oxygenexceptiondialog.ui:72
 #, kde-format
 msgid "Window Title"
 msgstr "Заглавие на прозореца"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
-#: config/oxygenexceptionmodel.cpp:40 config/ui/oxygenexceptiondialog.ui:67
+#: config/oxygenexceptionmodel.cpp:39 config/ui/oxygenexceptiondialog.ui:67
 #, kde-format
 msgid "Window Class Name"
 msgstr "Име на класа на прозореца"
 
-#: config/oxygenexceptionmodel.cpp:55
+#: config/oxygenexceptionmodel.cpp:54
 #, kde-format
 msgid "Enable/disable this exception"
 msgstr "Активиране/деактивиране на това изключение"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2022-02-07 09:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -25,12 +25,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Параметри Oxygen"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:33
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Фокусування, наведення вказівника та перемикання станів віджета"
 
-#: oxygenanimationconfigwidget.cpp:35
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -39,96 +39,96 @@ msgstr ""
 "Налаштувати фокусування віджетів і анімацію перемикання стану віджета "
 "(вмикання/вимикання)"
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Підсвічування панелі інструментів"
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr ""
 "Налаштувати анімацію підсвічування при наведенні вказівника на панелі "
 "інструментів"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Підсвічування смужки меню"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr ""
 "Налаштувати анімацію підсвічування при наведенні вказівника на смужку меню"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, kde-format
 msgid "Menu highlight"
 msgstr "Підсвічування меню"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, kde-format
 msgid "Configure menus' mouseover highlight animation"
 msgstr "Налаштувати анімацію підсвічування при наведенні вказівника на меню"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Progress bar animation"
 msgstr "Анімація смужки поступу"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Налаштування анімації кроків панелі поступу"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Tab transitions"
 msgstr "Перехід між вкладками"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Налаштування поступового переходу між вкладками"
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Label transitions"
 msgstr "Перехід між мітками"
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Налаштування поступового переходу при зміні тексту мітки"
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Переходи у текстовому редакторі"
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr "Налаштування поступового переходу при зміні тексту у редакторі"
 
-#: oxygenanimationconfigwidget.cpp:65
+#: oxygenanimationconfigwidget.cpp:64
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Переходи між спадними списками"
 
-#: oxygenanimationconfigwidget.cpp:66
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr "Налаштування поступового переходу при зміні позначення спадних списків"
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "Індикатор зайнятості смужки поступу"
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Налаштувати анімацію індикатора зайнятості панелі поступу"

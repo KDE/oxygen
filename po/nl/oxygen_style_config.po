@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2022-02-07 11:30+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -22,12 +22,12 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr "Oxygen-instellingen"
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:33
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr "Focus, muis-over en toestandsovergang van widget"
 
-#: oxygenanimationconfigwidget.cpp:35
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
@@ -36,83 +36,83 @@ msgstr ""
 "De focus en muis-over geanimeerde accentuering van widgets configureren, "
 "evenals toestandsovergang tussen in- en uitgeschakeld"
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, kde-format
 msgid "Toolbar highlight"
 msgstr "Accentuering van de werkbalk"
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Geanimeerde accentuering van muis-over van werkbalken configureren"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, kde-format
 msgid "Menu bar highlight"
 msgstr "Menubalk accentueren"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Geanimeerde accentuering van muis-over van menubalken configureren"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, kde-format
 msgid "Menu highlight"
 msgstr "Menu accentueren"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, kde-format
 msgid "Configure menus' mouseover highlight animation"
 msgstr "Geanimeerde accentuering van muis-over van menu's configureren"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Progress bar animation"
 msgstr "Animatie op voortgangsbalk"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Configure progress bars' steps animation"
 msgstr "Stapjes animatie op voortgangsbalk configureren"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Tab transitions"
 msgstr "Tabbladovergangen"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr "Vervagende overgangen tussen tabbladen configureren"
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Label transitions"
 msgstr "Labelovergangen"
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
 msgstr "Vervagende overgangen als de tekst van een label wijzigt configureren"
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Text editor transitions"
 msgstr "Tekstbewerkerovergangen"
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr ""
 "Vervagende overgangen als de tekst in een tekstbewerker wijzigt configureren"
 
-#: oxygenanimationconfigwidget.cpp:65
+#: oxygenanimationconfigwidget.cpp:64
 #, kde-format
 msgid "Combo box transitions"
 msgstr "Comboboxovergangen"
 
-#: oxygenanimationconfigwidget.cpp:66
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
@@ -120,12 +120,12 @@ msgstr ""
 "Vervagende overgangen als de geselecteerde keuze in een combobox wijzigt "
 "configureren"
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Progress bar busy indicator"
 msgstr "Indicatie van bezig op voortgangsbalk"
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Bezig-indicatie animatie op voortgangsbalk configureren"

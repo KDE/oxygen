@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2014-09-22 19:30+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
-#: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
+#: main.cpp:37 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
 msgid "Oxygen Demo"
 msgstr "Oxygen-demonstrasjon"
@@ -35,7 +35,7 @@ msgstr "Oxygen-demonstrasjon"
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
-#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
+#: oxygenbuttondemowidget.cpp:34 ui/oxygenbuttondemowidget.ui:154
 #: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
 #: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
 #: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
@@ -45,25 +45,25 @@ msgstr "Oxygen-demonstrasjon"
 msgid "Normal"
 msgstr "Normal"
 
-#: oxygenbuttondemowidget.cpp:36 oxygenbuttondemowidget.cpp:55
-#: oxygenbuttondemowidget.cpp:230 oxygenbuttondemowidget.cpp:240
+#: oxygenbuttondemowidget.cpp:35 oxygenbuttondemowidget.cpp:54
+#: oxygenbuttondemowidget.cpp:229 oxygenbuttondemowidget.cpp:239
 #, kde-format
 msgid "New"
 msgstr "Ny"
 
-#: oxygenbuttondemowidget.cpp:37 oxygenbuttondemowidget.cpp:56
-#: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
+#: oxygenbuttondemowidget.cpp:36 oxygenbuttondemowidget.cpp:55
+#: oxygenbuttondemowidget.cpp:230 oxygenbuttondemowidget.cpp:240
 #, kde-format
 msgid "Open"
 msgstr "Åpne"
 
-#: oxygenbuttondemowidget.cpp:38 oxygenbuttondemowidget.cpp:57
-#: oxygenbuttondemowidget.cpp:232 oxygenbuttondemowidget.cpp:242
+#: oxygenbuttondemowidget.cpp:37 oxygenbuttondemowidget.cpp:56
+#: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
 #, kde-format
 msgid "Save"
 msgstr "Lagre"
 
-#: oxygenbuttondemowidget.cpp:58
+#: oxygenbuttondemowidget.cpp:57
 #, kde-format
 msgid "Toggle authentication"
 msgstr "Slå autentisering av/på"
@@ -163,47 +163,47 @@ msgstr "Ytelsestest"
 msgid "Emulates user interaction with widgets for benchmarking"
 msgstr "Emulerer brukersamvirke med skjermelementer for ytelsestest"
 
-#: oxygeninputdemowidget.cpp:21
+#: oxygeninputdemowidget.cpp:20
 #, kde-format
 msgid "Example text"
 msgstr "Eksempeltekst"
 
-#: oxygeninputdemowidget.cpp:22
+#: oxygeninputdemowidget.cpp:21
 #, kde-format
 msgid "password"
 msgstr "passord"
 
-#: oxygenmdidemowidget.cpp:34
+#: oxygenmdidemowidget.cpp:33
 #, kde-format
 msgid "Layout"
 msgstr "Utforming"
 
-#: oxygenmdidemowidget.cpp:35
+#: oxygenmdidemowidget.cpp:34
 #, kde-format
 msgid "Tile"
 msgstr "Flis"
 
-#: oxygenmdidemowidget.cpp:36
+#: oxygenmdidemowidget.cpp:35
 #, kde-format
 msgid "Cascade"
 msgstr "Stabel"
 
-#: oxygenmdidemowidget.cpp:37
+#: oxygenmdidemowidget.cpp:36
 #, kde-format
 msgid "Tabs"
 msgstr "Faner"
 
-#: oxygenmdidemowidget.cpp:39
+#: oxygenmdidemowidget.cpp:38
 #, kde-format
 msgid "Tools"
 msgstr "Verktøy"
 
-#: oxygenmdidemowidget.cpp:41
+#: oxygenmdidemowidget.cpp:40
 #, kde-format
 msgid "Select Next Window"
 msgstr "Velg neste vindu"
 
-#: oxygenmdidemowidget.cpp:48
+#: oxygenmdidemowidget.cpp:47
 #, kde-format
 msgid "Select Previous Window"
 msgstr "Velg forrige vindu"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2023-02-12 22:20+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -18,22 +18,22 @@ msgstr ""
 "X-Generator: translate-po (https://github.com/zcribe/translate-po)\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: config/oxygenanimationconfigwidget.cpp:31
+#: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
 msgid "Button mouseover transition"
 msgstr "Buton-musuma transiro"
 
-#: config/oxygenanimationconfigwidget.cpp:31
+#: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
 msgid "Configure window buttons' mouseover highlight animation"
 msgstr "Agordi musuman emfaz-animacion de la fenestrobutonoj"
 
-#: config/oxygenanimationconfigwidget.cpp:36
+#: config/oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid "Window active state change transitions"
 msgstr "Aktivstataj ŝanĝotransiroj de Fenestroj"
 
-#: config/oxygenanimationconfigwidget.cpp:37
+#: config/oxygenanimationconfigwidget.cpp:36
 #, kde-format
 msgid ""
 "Configure fading between window shadow and glow when window's active state "
@@ -42,66 +42,66 @@ msgstr ""
 "Agordu velkadon inter fenestra ombro kaj brilo kiam la aktiva stato de "
 "fenestro estas ŝanĝita"
 
-#: config/oxygenexceptionlistwidget.cpp:88
+#: config/oxygenexceptionlistwidget.cpp:87
 #, kde-format
 msgid "New Exception - Oxygen Settings"
 msgstr "Nova Escepto - Oksigen-Agordoj"
 
-#: config/oxygenexceptionlistwidget.cpp:135
+#: config/oxygenexceptionlistwidget.cpp:134
 #, kde-format
 msgid "Edit Exception - Oxygen Settings"
 msgstr "Redakti Escepton - Oksigen-Agordoj"
 
-#: config/oxygenexceptionlistwidget.cpp:167
+#: config/oxygenexceptionlistwidget.cpp:166
 #, kde-format
 msgid "Question - Oxygen Settings"
 msgstr "Demando - Oksigen-Agordoj"
 
-#: config/oxygenexceptionlistwidget.cpp:168
+#: config/oxygenexceptionlistwidget.cpp:167
 #, kde-format
 msgid "Remove selected exception?"
 msgstr "Ĉu forigi elektitan escepton?"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeButton)
-#: config/oxygenexceptionlistwidget.cpp:170
+#: config/oxygenexceptionlistwidget.cpp:169
 #: config/ui/oxygenexceptionlistwidget.ui:79
 #, kde-format
 msgid "Remove"
 msgstr "Forigi"
 
-#: config/oxygenexceptionlistwidget.cpp:302
+#: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
 msgid "Warning - Oxygen Settings"
 msgstr "Averto - Oksigen-Agordoj"
 
-#: config/oxygenexceptionlistwidget.cpp:302
+#: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
 msgid "Regular Expression syntax is incorrect"
 msgstr "Regul-esprima sintakso estas malĝusta"
 
-#: config/oxygenexceptionmodel.cpp:18
+#: config/oxygenexceptionmodel.cpp:17
 #, kde-format
 msgid "Exception Type"
 msgstr "Escepto-Tipo"
 
-#: config/oxygenexceptionmodel.cpp:18
+#: config/oxygenexceptionmodel.cpp:17
 #, kde-format
 msgid "Regular Expression"
 msgstr "Regula Esprimo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
-#: config/oxygenexceptionmodel.cpp:36 config/ui/oxygenexceptiondialog.ui:72
+#: config/oxygenexceptionmodel.cpp:35 config/ui/oxygenexceptiondialog.ui:72
 #, kde-format
 msgid "Window Title"
 msgstr "Fenestra Titolo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
-#: config/oxygenexceptionmodel.cpp:40 config/ui/oxygenexceptiondialog.ui:67
+#: config/oxygenexceptionmodel.cpp:39 config/ui/oxygenexceptiondialog.ui:67
 #, kde-format
 msgid "Window Class Name"
 msgstr "Fenestra Klasnomo"
 
-#: config/oxygenexceptionmodel.cpp:55
+#: config/oxygenexceptionmodel.cpp:54
 #, kde-format
 msgid "Enable/disable this exception"
 msgstr "Ebligi/malŝalti ĉi tiun escepton"

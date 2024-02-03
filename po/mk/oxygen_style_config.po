@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2010-01-30 17:23+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -24,118 +24,118 @@ msgstr ""
 msgid "Oxygen Settings"
 msgstr ""
 
-#: oxygenanimationconfigwidget.cpp:34
+#: oxygenanimationconfigwidget.cpp:33
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
 msgstr ""
 
-#: oxygenanimationconfigwidget.cpp:35
+#: oxygenanimationconfigwidget.cpp:34
 #, kde-format
 msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
 "widget enabled/disabled state transition"
 msgstr ""
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, fuzzy, kde-format
 #| msgid "Menu Highlight"
 msgid "Toolbar highlight"
 msgstr "Осветлување на менито"
 
-#: oxygenanimationconfigwidget.cpp:39
+#: oxygenanimationconfigwidget.cpp:38
 #, fuzzy, kde-format
 #| msgid "Enable animations"
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Овозможи анимации"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, fuzzy, kde-format
 #| msgid "Menu Highlight"
 msgid "Menu bar highlight"
 msgstr "Осветлување на менито"
 
-#: oxygenanimationconfigwidget.cpp:44
+#: oxygenanimationconfigwidget.cpp:43
 #, fuzzy, kde-format
 #| msgid "Enable animations"
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Овозможи анимации"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, fuzzy, kde-format
 #| msgid "Menu Highlight"
 msgid "Menu highlight"
 msgstr "Осветлување на менито"
 
-#: oxygenanimationconfigwidget.cpp:47
+#: oxygenanimationconfigwidget.cpp:46
 #, fuzzy, kde-format
 #| msgid "Enable animations"
 msgid "Configure menus' mouseover highlight animation"
 msgstr "Овозможи анимации"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, fuzzy, kde-format
 #| msgid "Enable animations"
 msgid "Progress bar animation"
 msgstr "Овозможи анимации"
 
-#: oxygenanimationconfigwidget.cpp:50
+#: oxygenanimationconfigwidget.cpp:49
 #, fuzzy, kde-format
 #| msgid "Enable animations"
 msgid "Configure progress bars' steps animation"
 msgstr "Овозможи анимации"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, fuzzy, kde-format
 #| msgid "Animate tab transitions"
 msgid "Tab transitions"
 msgstr "Анимирај транзиција на ливчиња"
 
-#: oxygenanimationconfigwidget.cpp:53
+#: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Configure fading transition between tabs"
 msgstr ""
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, fuzzy, kde-format
 #| msgid "Enable animations"
 msgid "Label transitions"
 msgstr "Овозможи анимации"
 
-#: oxygenanimationconfigwidget.cpp:57
+#: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
 msgstr ""
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, fuzzy, kde-format
 #| msgid "Animate tab transitions"
 msgid "Text editor transitions"
 msgstr "Анимирај транзиција на ливчиња"
 
-#: oxygenanimationconfigwidget.cpp:61
+#: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
 msgstr ""
 
-#: oxygenanimationconfigwidget.cpp:65
+#: oxygenanimationconfigwidget.cpp:64
 #, fuzzy, kde-format
 #| msgid "Animate tab transitions"
 msgid "Combo box transitions"
 msgstr "Анимирај транзиција на ливчиња"
 
-#: oxygenanimationconfigwidget.cpp:66
+#: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr ""
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, fuzzy, kde-format
 #| msgid "Enable animations"
 msgid "Progress bar busy indicator"
 msgstr "Овозможи анимации"
 
-#: oxygenanimationconfigwidget.cpp:77
+#: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
 msgstr ""

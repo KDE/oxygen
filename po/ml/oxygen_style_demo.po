@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2010-06-20 23:01+0530\n"
 "Last-Translator: Ershad K <ershad92@gmail.com>\n"
 "Language-Team: SMC <smc.org.in>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
+#: main.cpp:37 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
 msgid "Oxygen Demo"
 msgstr "ഓക്സിജന്‍ മാതൃകാ പ്രദര്‍ശനം"
@@ -34,7 +34,7 @@ msgstr "ഓക്സിജന്‍ മാതൃകാ പ്രദര്‍ശ�
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
-#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
+#: oxygenbuttondemowidget.cpp:34 ui/oxygenbuttondemowidget.ui:154
 #: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
 #: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
 #: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
@@ -44,25 +44,25 @@ msgstr "ഓക്സിജന്‍ മാതൃകാ പ്രദര്‍ശ�
 msgid "Normal"
 msgstr "സാധാരണ"
 
-#: oxygenbuttondemowidget.cpp:36 oxygenbuttondemowidget.cpp:55
-#: oxygenbuttondemowidget.cpp:230 oxygenbuttondemowidget.cpp:240
+#: oxygenbuttondemowidget.cpp:35 oxygenbuttondemowidget.cpp:54
+#: oxygenbuttondemowidget.cpp:229 oxygenbuttondemowidget.cpp:239
 #, kde-format
 msgid "New"
 msgstr "പുതിയ"
 
-#: oxygenbuttondemowidget.cpp:37 oxygenbuttondemowidget.cpp:56
-#: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
+#: oxygenbuttondemowidget.cpp:36 oxygenbuttondemowidget.cpp:55
+#: oxygenbuttondemowidget.cpp:230 oxygenbuttondemowidget.cpp:240
 #, kde-format
 msgid "Open"
 msgstr "തുറക്കുക"
 
-#: oxygenbuttondemowidget.cpp:38 oxygenbuttondemowidget.cpp:57
-#: oxygenbuttondemowidget.cpp:232 oxygenbuttondemowidget.cpp:242
+#: oxygenbuttondemowidget.cpp:37 oxygenbuttondemowidget.cpp:56
+#: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
 #, kde-format
 msgid "Save"
 msgstr "സൂക്ഷിയ്ക്കുക"
 
-#: oxygenbuttondemowidget.cpp:58
+#: oxygenbuttondemowidget.cpp:57
 #, kde-format
 msgid "Toggle authentication"
 msgstr ""
@@ -162,47 +162,47 @@ msgstr ""
 msgid "Emulates user interaction with widgets for benchmarking"
 msgstr ""
 
-#: oxygeninputdemowidget.cpp:21
+#: oxygeninputdemowidget.cpp:20
 #, kde-format
 msgid "Example text"
 msgstr "ഉദാഹരണ വാചകം"
 
-#: oxygeninputdemowidget.cpp:22
+#: oxygeninputdemowidget.cpp:21
 #, kde-format
 msgid "password"
 msgstr "രഹസ്യവാക്ക്"
 
-#: oxygenmdidemowidget.cpp:34
+#: oxygenmdidemowidget.cpp:33
 #, kde-format
 msgid "Layout"
 msgstr ""
 
-#: oxygenmdidemowidget.cpp:35
+#: oxygenmdidemowidget.cpp:34
 #, kde-format
 msgid "Tile"
 msgstr "ടൈല്‍"
 
-#: oxygenmdidemowidget.cpp:36
+#: oxygenmdidemowidget.cpp:35
 #, kde-format
 msgid "Cascade"
 msgstr "കാസ്കെയ്ഡ്"
 
-#: oxygenmdidemowidget.cpp:37
+#: oxygenmdidemowidget.cpp:36
 #, kde-format
 msgid "Tabs"
 msgstr "ടാബ്സ് "
 
-#: oxygenmdidemowidget.cpp:39
+#: oxygenmdidemowidget.cpp:38
 #, fuzzy, kde-format
 msgid "Tools"
 msgstr "ബട്ടണുകള്‍"
 
-#: oxygenmdidemowidget.cpp:41
+#: oxygenmdidemowidget.cpp:40
 #, kde-format
 msgid "Select Next Window"
 msgstr "അടുത്ത ജാലകം തിരഞ്ഞെടുക്കുക"
 
-#: oxygenmdidemowidget.cpp:48
+#: oxygenmdidemowidget.cpp:47
 #, kde-format
 msgid "Select Previous Window"
 msgstr "മുമ്പത്തെ ജാലകം തിരഞ്ഞെടുക്കുക"

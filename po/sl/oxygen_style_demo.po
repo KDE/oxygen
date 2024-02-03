@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2020-02-15 09:17+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "%100==4 ? 3 : 0);\n"
 "X-Generator: Poedit 2.2.4\n"
 
-#: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
+#: main.cpp:37 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
 msgid "Oxygen Demo"
 msgstr "Predstavitev Kisika"
@@ -35,7 +35,7 @@ msgstr "Predstavitev Kisika"
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
-#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
+#: oxygenbuttondemowidget.cpp:34 ui/oxygenbuttondemowidget.ui:154
 #: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
 #: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
 #: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
@@ -45,25 +45,25 @@ msgstr "Predstavitev Kisika"
 msgid "Normal"
 msgstr "Običajno"
 
-#: oxygenbuttondemowidget.cpp:36 oxygenbuttondemowidget.cpp:55
-#: oxygenbuttondemowidget.cpp:230 oxygenbuttondemowidget.cpp:240
+#: oxygenbuttondemowidget.cpp:35 oxygenbuttondemowidget.cpp:54
+#: oxygenbuttondemowidget.cpp:229 oxygenbuttondemowidget.cpp:239
 #, kde-format
 msgid "New"
 msgstr "Novo"
 
-#: oxygenbuttondemowidget.cpp:37 oxygenbuttondemowidget.cpp:56
-#: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
+#: oxygenbuttondemowidget.cpp:36 oxygenbuttondemowidget.cpp:55
+#: oxygenbuttondemowidget.cpp:230 oxygenbuttondemowidget.cpp:240
 #, kde-format
 msgid "Open"
 msgstr "Odpri"
 
-#: oxygenbuttondemowidget.cpp:38 oxygenbuttondemowidget.cpp:57
-#: oxygenbuttondemowidget.cpp:232 oxygenbuttondemowidget.cpp:242
+#: oxygenbuttondemowidget.cpp:37 oxygenbuttondemowidget.cpp:56
+#: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
 #, kde-format
 msgid "Save"
 msgstr "Shrani"
 
-#: oxygenbuttondemowidget.cpp:58
+#: oxygenbuttondemowidget.cpp:57
 #, kde-format
 msgid "Toggle authentication"
 msgstr "Preklopi overitev"
@@ -163,47 +163,47 @@ msgstr "Primerjalni preizkus"
 msgid "Emulates user interaction with widgets for benchmarking"
 msgstr "Z namenom meritve hitrosti posnema uporabniški poseg v gradnike"
 
-#: oxygeninputdemowidget.cpp:21
+#: oxygeninputdemowidget.cpp:20
 #, kde-format
 msgid "Example text"
 msgstr "Primer besedila"
 
-#: oxygeninputdemowidget.cpp:22
+#: oxygeninputdemowidget.cpp:21
 #, kde-format
 msgid "password"
 msgstr "geslo"
 
-#: oxygenmdidemowidget.cpp:34
+#: oxygenmdidemowidget.cpp:33
 #, kde-format
 msgid "Layout"
 msgstr "Razporeditev"
 
-#: oxygenmdidemowidget.cpp:35
+#: oxygenmdidemowidget.cpp:34
 #, kde-format
 msgid "Tile"
 msgstr "Ploščica"
 
-#: oxygenmdidemowidget.cpp:36
+#: oxygenmdidemowidget.cpp:35
 #, kde-format
 msgid "Cascade"
 msgstr "Kaskada"
 
-#: oxygenmdidemowidget.cpp:37
+#: oxygenmdidemowidget.cpp:36
 #, kde-format
 msgid "Tabs"
 msgstr "Zavihki"
 
-#: oxygenmdidemowidget.cpp:39
+#: oxygenmdidemowidget.cpp:38
 #, kde-format
 msgid "Tools"
 msgstr "Orodja"
 
-#: oxygenmdidemowidget.cpp:41
+#: oxygenmdidemowidget.cpp:40
 #, kde-format
 msgid "Select Next Window"
 msgstr "Izberi naslednje okno"
 
-#: oxygenmdidemowidget.cpp:48
+#: oxygenmdidemowidget.cpp:47
 #, kde-format
 msgid "Select Previous Window"
 msgstr "Izberi predhodno okno"
