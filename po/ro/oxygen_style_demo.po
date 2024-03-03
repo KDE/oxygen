@@ -1215,22 +1215,8 @@ msgstr "Previzualizare"
 #~ msgid "Use selection color (subtle)"
 #~ msgstr "Utilizează culoarea selecției (subtil)"
 
-#~ msgctxt "NAME OF TRANSLATORS"
-#~ msgid "Your names"
-#~ msgstr "Sergiu Bivol"
-
-#~ msgctxt "EMAIL OF TRANSLATORS"
-#~ msgid "Your emails"
-#~ msgstr "sergiu@ase.md"
-
 #~ msgid "Oxygen expert configuration tool"
 #~ msgstr "Unealtă expertă de configurare Oxygen"
-
-#~ msgid "(c) 2010, Hugo Pereira Da Costa"
-#~ msgstr "(c) 2010, Hugo Pereira Da Costa"
-
-#~ msgid "Hugo Pereira Da Costa"
-#~ msgstr "Hugo Pereira Da Costa"
 
 #~ msgid "Oxygen style demonstration"
 #~ msgstr "Demonstrație a stilului Oxygen"
@@ -1271,18 +1257,8 @@ msgstr "Previzualizare"
 #~ msgid "Plain"
 #~ msgstr "Simplu"
 
-#, fuzzy
-#~| msgid "Frame"
-#~ msgid "Form"
-#~ msgstr "Cadru"
-
 #~ msgid "Width:"
 #~ msgstr "Lățime:"
-
-#, fuzzy
-#~| msgid "Enable animations"
-#~ msgid "Enable title transition animations"
-#~ msgstr "Activează animații"
 
 #~ msgid "Dark"
 #~ msgstr "Întunecat"
