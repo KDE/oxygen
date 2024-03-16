@@ -74,8 +74,8 @@ block(SCOPE_FOR VARIABLES)
     FrameworkIntegration
     WindowSystem)
 
-     if (XCB_XCB_FOUND)
-        find_package(Qt5 REQUIRED CONFIG COMPONENTS X11Extras)
+    if(OXYGEN_HAVE_X11)
+        find_package(Qt5X11Extras ${QT5_MIN_VERSION} REQUIRED CONFIG)
     endif()
 
 

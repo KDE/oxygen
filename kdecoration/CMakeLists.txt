@@ -4,30 +4,8 @@ find_package(KDecoration2 REQUIRED)
 find_package(KF6 REQUIRED COMPONENTS CoreAddons ConfigWidgets WindowSystem)
 find_package(Qt${QT_MAJOR_VERSION} CONFIG REQUIRED COMPONENTS DBus)
 
-### XCB
-find_package(XCB COMPONENTS XCB)
-set_package_properties(XCB PROPERTIES
-  DESCRIPTION "X protocol C-language Binding"
-  URL "http://xcb.freedesktop.org"
-  TYPE OPTIONAL
-  PURPOSE "Required to pass style properties to native Windows on X11 Platform"
-)
-
 include_directories(${CMAKE_SOURCE_DIR}/liboxygen)
 include_directories(${CMAKE_BINARY_DIR}/liboxygen)
-
-if(UNIX AND NOT APPLE)
-
-  set(OXYGEN_HAVE_X11 ${XCB_XCB_FOUND})
-  if (XCB_XCB_FOUND AND QT_MAJOR_VERSION EQUAL "5")
-    find_package(Qt6 REQUIRED CONFIG COMPONENTS X11Extras)
-  endif()
-
-else()
-
-  set(OXYGEN_HAVE_X11 FALSE)
-
-endif()
 
 ################# configuration #################
 configure_file(config-oxygen.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-oxygen.h )
