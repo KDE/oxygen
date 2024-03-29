@@ -1,32 +1,33 @@
+# translation of liboxygenstyleconfig.pot to Esperanto
+# Copyright (C) 2024 Free Software Foundation, Inc.
+# This file is distributed under the same license as the oxygen package.
+# Oliver Kellogg <okellogg@users.sourceforge.net>, 2024.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: kdeorg\n"
+"Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2024-03-28 19:24\n"
-"Last-Translator: \n"
-"Language-Team: Chinese Simplified\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2024-03-28 09:21+0100\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"Language-Team: Esperanto <kde-i18n-eo.org>\n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: kdeorg\n"
-"X-Crowdin-Project-ID: 269464\n"
-"X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/oxygen/liboxygenstyleconfig.pot\n"
-"X-Crowdin-File-ID: 2651\n"
+"X-Generator: translate-po (https://github.com/zcribe/translate-po)\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: oxygenanimationconfigitem.cpp:98
 #, kde-format
 msgid "oxygen-settings - information"
-msgstr "Oxygen 轻氧-设置 - 信息"
+msgstr "oxygen-agordo - informo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
 #: ui/oxygenanimationconfigitem.ui:29
 #, kde-format
 msgid "CheckBox"
-msgstr "复选框"
+msgstr "MarkButono"
 
 #. i18n: ectx: property (text), widget (QToolButton, configurationButton)
 #. i18n: ectx: property (text), widget (QToolButton, descriptionButton)
@@ -39,53 +40,53 @@ msgstr "..."
 #: ui/oxygenanimationconfigwidget.ui:23
 #, kde-format
 msgid "Enable animations"
-msgstr "启用动画"
+msgstr "Ebligi animaciojn"
 
 #. i18n: ectx: property (windowTitle), widget (QFrame, GenericAnimationConfigBox)
 #: ui/oxygengenericanimationconfigbox.ui:20
 #, kde-format
 msgid "Frame"
-msgstr "帧"
+msgstr "Kadro"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygengenericanimationconfigbox.ui:38
 #, kde-format
 msgid "Duration:"
-msgstr "持续时间："
+msgstr "Daŭro:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
 #: ui/oxygengenericanimationconfigbox.ui:64
 #, kde-format
 msgid " ms"
-msgstr " 毫秒"
+msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenshadowconfigurationui.ui:23
 #, kde-format
 msgid "Inner Color:"
-msgstr "内部颜色："
+msgstr "Ena Koloro:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ui/oxygenshadowconfigurationui.ui:42
 #, kde-format
 msgid "Outer Color:"
-msgstr "外部颜色："
+msgstr "Ekstera Koloro"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenshadowconfigurationui.ui:69
 #, kde-format
 msgid "Vertical Offset:"
-msgstr "垂直偏移："
+msgstr "Vertikala Deŝovo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenshadowconfigurationui.ui:82
 #, kde-format
 msgid "Size: "
-msgstr "大小："
+msgstr "Grandeco: "
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, verticalOffset)
 #: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
 #, kde-format
 msgid "px"
-msgstr "像素"
+msgstr "rm"
