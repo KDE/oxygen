@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
-"PO-Revision-Date: 2023-02-12 22:20+0100\n"
+"PO-Revision-Date: 2024-04-13 10:04+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -252,7 +252,7 @@ msgstr "Ruli Simuladon"
 #: ui/oxygenbuttondemowidget.ui:20
 #, kde-format
 msgid "Checkboxes"
-msgstr "Markobutonoj"
+msgstr "Elektokestoj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: ui/oxygenbuttondemowidget.ui:28
