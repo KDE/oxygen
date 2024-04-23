@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
-"PO-Revision-Date: 2024-01-03 23:03+0300\n"
+"PO-Revision-Date: 2024-04-23 00:36+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.01.85\n"
+"X-Generator: Lokalize 24.07.70\n"
 
 #: main.cpp:37 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -146,13 +146,12 @@ msgstr "MDI pencerelerinin görünüşünü gösterir"
 #: oxygendemodialog.cpp:147
 #, kde-format
 msgid "Sliders"
-msgstr "Kaydırma Çubukları"
+msgstr "Sürgüler"
 
 #: oxygendemodialog.cpp:149
 #, kde-format
 msgid "Shows the appearance of sliders, progress bars and scrollbars"
-msgstr ""
-"Kaydırıcılar, ilerleme çubukları ve sarma çubuklarının görünüşünü gösterir"
+msgstr "Sürgüler, ilerleme çubukları ve sarma çubuklarının görünüşünü gösterir"
 
 #: oxygendemodialog.cpp:158
 #, kde-format
@@ -873,7 +872,7 @@ msgstr "Dikey"
 #: ui/oxygensliderdemowidget.ui:167
 #, kde-format
 msgid "Sliders tick marks position"
-msgstr "Kaydırıcılar çentikleri konumu"
+msgstr "Sürgü çentikleri konumu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:178
@@ -885,13 +884,13 @@ msgstr "Çentik yok"
 #: ui/oxygensliderdemowidget.ui:183
 #, kde-format
 msgid "Tick Marks Above Slider"
-msgstr "Çentikler kaydırıcının üzerinde"
+msgstr "Çentikler sürgünün üstünde"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:188
 #, kde-format
 msgid "Tick Marks Below Slider"
-msgstr "Çentikler kaydırıcının altında"
+msgstr "Çentikler sürgünün altında"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:193
