@@ -176,6 +176,9 @@ void Button::paint(QPainter *painter, const QRect &repaintRegion)
     if (!decoration())
         return;
 
+    if (isSpacer())
+        return;
+
     painter->save();
 
     // translate from offset

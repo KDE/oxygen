@@ -127,6 +127,12 @@ private:
     //*@name button properties
     //@{
 
+    //* true if button if of close type
+    bool isSpacer(void) const
+    {
+        return type() == KDecoration2::DecorationButtonType::Spacer;
+    }
+
     //* true if button if of menu type
     bool isMenuButton(void) const
     {
