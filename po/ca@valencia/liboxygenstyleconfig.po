@@ -38,7 +38,7 @@ msgstr "Casella de selecció"
 #: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
 #: ui/oxygenanimationconfigwidget.ui:23
