@@ -1,15 +1,15 @@
 # translation of liboxygenstyleconfig.po to Esperanto
 # Copyright (C) 2014 Free Software Foundation, Inc.
 # This file is distributed under the same license as the oxygen package.
-# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
+# Oliver Kellogg <olivermkellogg@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: liboxygenstyleconfig\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-02-12 22:20+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"PO-Revision-Date: 2024-04-13 10:04+0100\n"
+"Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr "oxygen-agordo - informo"
 #: ui/oxygenanimationconfigitem.ui:29
 #, kde-format
 msgid "CheckBox"
-msgstr "MarkButono"
+msgstr "MarkKesto"
 
 #. i18n: ectx: property (text), widget (QToolButton, configurationButton)
 #. i18n: ectx: property (text), widget (QToolButton, descriptionButton)
@@ -89,4 +89,4 @@ msgstr "Grandeco:"
 #: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
 #, kde-format
 msgid "px"
-msgstr "rm"
+msgstr "px"

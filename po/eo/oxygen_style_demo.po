@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the oxygen package.
 # Heiko Evermann <heiko@evermann.de>, 2003.
 # Cindy McKee <cfmckee@gmail.com>, 2007.
-# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
+# Oliver Kellogg <olivermkellogg@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 00:58+0000\n"
-"PO-Revision-Date: 2023-02-12 22:20+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"PO-Revision-Date: 2024-04-13 10:04+0100\n"
+"Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -252,7 +252,7 @@ msgstr "Ruli Simuladon"
 #: ui/oxygenbuttondemowidget.ui:20
 #, kde-format
 msgid "Checkboxes"
-msgstr "Markobutonoj"
+msgstr "Elektokestoj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: ui/oxygenbuttondemowidget.ui:28
