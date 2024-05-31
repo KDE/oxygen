@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Modify the appearance of widgets",
         "Description[ar]": "عدّل مظهر الودجات",
+        "Description[az]": "Vidjetlərin görünüşünü dəyişmək",
         "Description[bg]": "Настройване на външния изглед на уиджетите",
         "Description[ca@valencia]": "Modifica l'aparença dels ginys",
         "Description[ca]": "Modifica l'aparença dels ginys",
@@ -40,6 +41,7 @@
         "Icon": "preferences-desktop-theme",
         "Name": "Oxygen Widget Style",
         "Name[ar]": "نمط أكسجين",
+        "Name[az]": "Oxygen vidjet görünüşü",
         "Name[bg]": "Стил на уиджетите Oxygen",
         "Name[ca@valencia]": "Estil Oxygen dels ginys",
         "Name[ca]": "Estil Oxygen dels ginys",

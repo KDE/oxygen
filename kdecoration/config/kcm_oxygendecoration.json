@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Modify the appearance of window decorations",
         "Description[ar]": "عدّل مظهر زخرفات النّوافذ",
+        "Description[az]": "Pəncərə tərtibatı görünüşünü dəyişmək",
         "Description[bg]": "Промяна на външния вид на декорацията на прозорците",
         "Description[ca@valencia]": "Modifica l'aparença de les decoracions de les finestres",
         "Description[ca]": "Modifica l'aparença de les decoracions de les finestres",
@@ -40,6 +41,7 @@
         "Icon": "preferences-system-windows",
         "Name": "Oxygen Window Decoration",
         "Name[ar]": "زخارف النوافذ أكسجين",
+        "Name[az]": "Oxygen pəncərə tərtibatı",
         "Name[bg]": "Декорация на прозорци Oxygen",
         "Name[ca@valencia]": "Decoració de les finestres Oxygen",
         "Name[ca]": "Decoració de les finestres Oxygen",
