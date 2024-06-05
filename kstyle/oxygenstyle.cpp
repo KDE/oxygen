@@ -448,7 +448,6 @@ void Style::polish(QWidget *widget)
 
     } else if (qobject_cast<QFrame *>(widget) && widget->parent() && widget->parent()->inherits("KTitleWidget")) {
         widget->setAutoFillBackground(false);
-        widget->setBackgroundRole(QPalette::Window);
     }
 
     // base class polishing
