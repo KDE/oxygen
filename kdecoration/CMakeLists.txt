@@ -4,9 +4,6 @@ find_package(KDecoration2 REQUIRED)
 find_package(KF6 REQUIRED COMPONENTS CoreAddons ConfigWidgets WindowSystem)
 find_package(Qt${QT_MAJOR_VERSION} CONFIG REQUIRED COMPONENTS DBus)
 
-include_directories(${CMAKE_SOURCE_DIR}/liboxygen)
-include_directories(${CMAKE_BINARY_DIR}/liboxygen)
-
 ################# configuration #################
 configure_file(config-oxygen.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-oxygen.h )
 

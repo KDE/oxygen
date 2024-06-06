@@ -5,9 +5,6 @@ include_directories(
     transitions
 )
 
-include_directories(${CMAKE_SOURCE_DIR}/liboxygen)
-include_directories(${CMAKE_BINARY_DIR}/liboxygen)
-
 ########### next target ###############
 set(oxygen_PART_SRCS
     animations/oxygenanimations.cpp
