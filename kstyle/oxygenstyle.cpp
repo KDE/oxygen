@@ -75,6 +75,7 @@
 #include <QToolButton>
 
 #include <KColorUtils>
+#include <kguiaddons_version.h>
 
 #include <cmath>
 
@@ -446,8 +447,12 @@ void Style::polish(QWidget *widget)
         widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
 #endif
 
+#if KGUIADDONS_VERSION < QT_VERSION_CHECK(6, 4, 0)
     } else if (qobject_cast<QFrame *>(widget) && widget->parent() && widget->parent()->inherits("KTitleWidget")) {
+        // Using available KGuiAddons version as reference, assuming KF6 modules all same version
+        // With KWidgetsAddons >= 6.4 the child QFrame is gone and all children default to sutoFillBackground == false.
         widget->setAutoFillBackground(false);
+#endif
     }
 
     // base class polishing
