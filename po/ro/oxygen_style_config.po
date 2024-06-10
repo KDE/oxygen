@@ -906,7 +906,7 @@ msgstr "Foloseș&te culoarea selecției (subtilă)"
 
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
-#~ msgstr "sergiu@ase.md"
+#~ msgstr "sergiu@cip.md"
 
 #~ msgid "Oxygen expert configuration tool"
 #~ msgstr "Unealtă expertă de configurare Oxygen"
