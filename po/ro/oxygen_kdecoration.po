@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: oxygen\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2020-10-04 13:25+0100\n"
