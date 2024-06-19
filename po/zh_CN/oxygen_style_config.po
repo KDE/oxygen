@@ -233,7 +233,7 @@ msgstr "窗口拖动模式(&D)："
 #: ui/oxygenstyleconfig.ui:134
 #, kde-format
 msgid "Draw toolbar item separators"
-msgstr "绘制工具栏项目分隔符"
+msgstr "绘制工具栏项目分隔线"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
 #: ui/oxygenstyleconfig.ui:141
