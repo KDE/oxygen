@@ -119,6 +119,7 @@ block(SCOPE_FOR VARIABLES)
 
     add_subdirectory(color-schemes)
     add_subdirectory(cursors)
+    add_subdirectory(desktoptheme)
     add_subdirectory(kdecoration)
 
     plasma_install_package(lookandfeel org.kde.oxygen look-and-feel lookandfeel)
