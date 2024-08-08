@@ -4,6 +4,8 @@
             {
                 "Email": "kde-artists@kde.org",
                 "Name": "The Oxygen Project",
+                "Name[bg]": "Екипът на Oxygen",
+                "Name[ca@valencia]": "El projecte Oxygen",
                 "Name[es]": "El proyecto Oxygen",
                 "Name[eu]": "Oxygen proiektua",
                 "Name[he]": "מיזם חמצן",
@@ -17,6 +19,8 @@
         ],
         "Category": "",
         "Description": "Theme done in the Oxygen style",
+        "Description[bg]": "Тема в стил Oxygen",
+        "Description[ca@valencia]": "Tema fet en l'estil Oxygen",
         "Description[ca]": "Tema fet en l'estil Oxygen",
         "Description[es]": "Tema creado con el estilo de Oxígeno",
         "Description[eu]": "Oxygen-en estilora egindako gaia",
