@@ -18,6 +18,7 @@
                 "Name[tr]": "Oksijen Projesi",
                 "Name[uk]": "Проєкт Oxygen",
                 "Name[x-test]": "xxThe Oxygen Projectxx",
+                "Name[zh_CN]": "Oxygen 轻氧项目",
                 "Name[zh_TW]": "Oxygen 專案"
             }
         ],
@@ -39,6 +40,7 @@
         "Description[tr]": "Oksijen biçeminde yapılmış tema",
         "Description[uk]": "Тему виконано у стилі Oxygen",
         "Description[x-test]": "xxTheme done in the Oxygen stylexx",
+        "Description[zh_CN]": "Oxygen 轻氧风格的主题",
         "Description[zh_TW]": "以 Oxygen 風格所做的主題",
         "EnabledByDefault": true,
         "Id": "oxygen",
