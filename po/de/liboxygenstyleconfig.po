@@ -1,7 +1,7 @@
 # Burkhard Lück <lueck@hube-lueck.de>, 2012, 2013, 2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: liboxygenstyleconfig\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
 "PO-Revision-Date: 2017-12-04 17:11+0100\n"
