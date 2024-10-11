@@ -448,7 +448,7 @@ msgstr "文字在图标一侧"
 #: ui/oxygenbuttondemowidget.ui:449
 #, kde-format
 msgid "Text Under Icons"
-msgstr "文本在图标下方"
+msgstr "文字在图标下方"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ui/oxygenbuttondemowidget.ui:470
