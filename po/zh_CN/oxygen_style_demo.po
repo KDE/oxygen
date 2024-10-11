@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/oxygen/oxygen_style_demo.pot\n"
-"X-Crowdin-File-ID: 42893\n"
+"X-Crowdin-File: /kf6-stable/messages/oxygen/oxygen_style_demo.pot\n"
+"X-Crowdin-File-ID: 50446\n"
 
 #: main.cpp:37 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -448,7 +448,7 @@ msgstr "文字在图标一侧"
 #: ui/oxygenbuttondemowidget.ui:449
 #, kde-format
 msgid "Text Under Icons"
-msgstr "文本在图标下方"
+msgstr "文字在图标下方"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ui/oxygenbuttondemowidget.ui:470
