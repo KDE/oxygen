@@ -15,11 +15,11 @@
 #include "oxygendecohelper.h"
 #include "oxygendecoration.h"
 
-#include <KDecoration2/DecorationButton>
+#include <KDecoration3/DecorationButton>
 
 namespace Oxygen
 {
-class Button : public KDecoration2::DecorationButton
+class Button : public KDecoration3::DecorationButton
 {
     Q_OBJECT
 
@@ -31,7 +31,7 @@ public:
     explicit Button(QObject *parent, const QVariantList &args);
 
     //* button creation
-    static Button *create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
+    static Button *create(KDecoration3::DecorationButtonType type, KDecoration3::Decoration *decoration, QObject *parent);
 
     //* render
     void paint(QPainter *painter, const QRect &repaintRegion) override;
@@ -130,26 +130,26 @@ private:
     //* true if button if of close type
     bool isSpacer(void) const
     {
-        return type() == KDecoration2::DecorationButtonType::Spacer;
+        return type() == KDecoration3::DecorationButtonType::Spacer;
     }
 
     //* true if button if of menu type
     bool isMenuButton(void) const
     {
-        return type() == KDecoration2::DecorationButtonType::Menu || type() == KDecoration2::DecorationButtonType::ApplicationMenu;
+        return type() == KDecoration3::DecorationButtonType::Menu || type() == KDecoration3::DecorationButtonType::ApplicationMenu;
     }
 
     //* true if button is of toggle type
     bool isToggleButton(void) const
     {
-        return type() == KDecoration2::DecorationButtonType::OnAllDesktops || type() == KDecoration2::DecorationButtonType::KeepAbove
-            || type() == KDecoration2::DecorationButtonType::KeepBelow;
+        return type() == KDecoration3::DecorationButtonType::OnAllDesktops || type() == KDecoration3::DecorationButtonType::KeepAbove
+            || type() == KDecoration3::DecorationButtonType::KeepBelow;
     }
 
     //* true if button if of close type
     bool isCloseButton(void) const
     {
-        return type() == KDecoration2::DecorationButtonType::Close;
+        return type() == KDecoration3::DecorationButtonType::Close;
     }
 
     //* true if button has decoration
@@ -161,7 +161,7 @@ private:
     //@}
 
     //* private constructor
-    explicit Button(KDecoration2::DecorationButtonType type, Decoration *decoration, QObject *parent);
+    explicit Button(KDecoration3::DecorationButtonType type, Decoration *decoration, QObject *parent);
 
     Flag m_flag = FlagNone;
 

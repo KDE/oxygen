@@ -100,7 +100,7 @@
         "Name[zh_TW]": "Oxygen"
     },
     "X-KDE-ConfigModule": "kcm_oxygendecoration",
-    "org.kde.kdecoration2": {
+    "org.kde.kdecoration3": {
         "blur": false
     }
 }

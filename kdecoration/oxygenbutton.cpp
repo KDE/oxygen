@@ -12,46 +12,46 @@
 
 #include <KColorScheme>
 #include <KColorUtils>
-#include <KDecoration2/DecoratedClient>
+#include <KDecoration3/DecoratedClient>
 
 #include <QPainter>
 
 namespace Oxygen
 {
 //____________________________________________________________________________________
-Button *Button::create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent)
+Button *Button::create(KDecoration3::DecorationButtonType type, KDecoration3::Decoration *decoration, QObject *parent)
 {
     if (auto d = qobject_cast<Decoration *>(decoration)) {
         const auto clientPtr = d->client();
         Button *b = new Button(type, d, parent);
         switch (type) {
-        case KDecoration2::DecorationButtonType::Close:
+        case KDecoration3::DecorationButtonType::Close:
             b->setVisible(clientPtr->isCloseable());
-            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::closeableChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::closeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
-        case KDecoration2::DecorationButtonType::Maximize:
+        case KDecoration3::DecorationButtonType::Maximize:
             b->setVisible(clientPtr->isMaximizeable());
-            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::maximizeableChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::maximizeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
-        case KDecoration2::DecorationButtonType::Minimize:
+        case KDecoration3::DecorationButtonType::Minimize:
             b->setVisible(clientPtr->isMinimizeable());
-            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::minimizeableChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::minimizeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
-        case KDecoration2::DecorationButtonType::ContextHelp:
+        case KDecoration3::DecorationButtonType::ContextHelp:
             b->setVisible(clientPtr->providesContextHelp());
-            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::providesContextHelpChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::providesContextHelpChanged, b, &Oxygen::Button::setVisible);
             break;
 
-        case KDecoration2::DecorationButtonType::Shade:
+        case KDecoration3::DecorationButtonType::Shade:
             b->setVisible(clientPtr->isShadeable());
-            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::shadeableChanged, b, &Oxygen::Button::setVisible);
+            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::shadeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
-        case KDecoration2::DecorationButtonType::Menu:
-            QObject::connect(clientPtr, &KDecoration2::DecoratedClient::iconChanged, b, [b]() {
+        case KDecoration3::DecorationButtonType::Menu:
+            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::iconChanged, b, [b]() {
                 b->update();
             });
             break;
@@ -67,8 +67,8 @@ Button *Button::create(KDecoration2::DecorationButtonType type, KDecoration2::De
 }
 
 //____________________________________________________________________________________
-Button::Button(KDecoration2::DecorationButtonType type, Decoration *decoration, QObject *parent)
-    : KDecoration2::DecorationButton(type, decoration, parent)
+Button::Button(KDecoration3::DecorationButtonType type, Decoration *decoration, QObject *parent)
+    : KDecoration3::DecorationButton(type, decoration, parent)
     , m_animation(new QPropertyAnimation(this))
     , m_opacity(0)
 {
@@ -91,13 +91,13 @@ Button::Button(KDecoration2::DecorationButtonType type, Decoration *decoration, 
         connect(decoration->client(), SIGNAL(iconChanged(QIcon)), this, SLOT(update()));
     }
 
-    connect(decoration->settings().get(), &KDecoration2::DecorationSettings::reconfigured, this, &Button::reconfigure);
-    connect(this, &KDecoration2::DecorationButton::hoveredChanged, this, &Button::updateAnimationState);
+    connect(decoration->settings().get(), &KDecoration3::DecorationSettings::reconfigured, this, &Button::reconfigure);
+    connect(this, &KDecoration3::DecorationButton::hoveredChanged, this, &Button::updateAnimationState);
 }
 
 //_______________________________________________
 Button::Button(QObject *parent, const QVariantList &args)
-    : Button(args.at(0).value<KDecoration2::DecorationButtonType>(), args.at(1).value<Decoration *>(), parent)
+    : Button(args.at(0).value<KDecoration3::DecorationButtonType>(), args.at(1).value<Decoration *>(), parent)
 {
     m_flag = FlagStandalone;
     //! icon size must return to !valid because it was altered from the default constructor,
@@ -280,11 +280,11 @@ void Button::drawIcon(QPainter *painter)
     painter->setPen(pen);
 
     switch (type()) {
-    case KDecoration2::DecorationButtonType::OnAllDesktops:
+    case KDecoration3::DecorationButtonType::OnAllDesktops:
         painter->drawPoint(QPointF(10.5, 10.5));
         break;
 
-    case KDecoration2::DecorationButtonType::ContextHelp:
+    case KDecoration3::DecorationButtonType::ContextHelp:
         painter->translate(1.5, 1.5);
         painter->drawArc(7, 5, 4, 4, 135 * 16, -180 * 16);
         painter->drawArc(9, 8, 4, 4, 135 * 16, 45 * 16);
@@ -292,18 +292,18 @@ void Button::drawIcon(QPainter *painter)
         painter->translate(-1.5, -1.5);
         break;
 
-    case KDecoration2::DecorationButtonType::ApplicationMenu:
+    case KDecoration3::DecorationButtonType::ApplicationMenu:
         painter->drawLine(QPointF(7.5, 7.5), QPointF(13.5, 7.5));
         painter->drawLine(QPointF(7.5, 10.5), QPointF(13.5, 10.5));
         painter->drawLine(QPointF(7.5, 13.5), QPointF(13.5, 13.5));
         break;
 
-    case KDecoration2::DecorationButtonType::Minimize: {
+    case KDecoration3::DecorationButtonType::Minimize: {
         painter->drawPolyline(QPolygonF() << QPointF(7.5, 9.5) << QPointF(10.5, 12.5) << QPointF(13.5, 9.5));
         break;
     }
 
-    case KDecoration2::DecorationButtonType::Maximize:
+    case KDecoration3::DecorationButtonType::Maximize:
         if (decoration()->client()->isMaximized()) {
             painter->drawPolygon(QPolygonF() << QPointF(7.5, 10.5) << QPointF(10.5, 7.5) << QPointF(13.5, 10.5) << QPointF(10.5, 13.5));
 
@@ -312,19 +312,19 @@ void Button::drawIcon(QPainter *painter)
         }
         break;
 
-    case KDecoration2::DecorationButtonType::Close:
+    case KDecoration3::DecorationButtonType::Close:
         painter->drawLine(QPointF(7.5, 7.5), QPointF(13.5, 13.5));
         painter->drawLine(QPointF(13.5, 7.5), QPointF(7.5, 13.5));
         break;
 
-    case KDecoration2::DecorationButtonType::KeepAbove: {
+    case KDecoration3::DecorationButtonType::KeepAbove: {
         painter->drawPolyline(QPolygonF() << QPointF(7.5, 14) << QPointF(10.5, 11) << QPointF(13.5, 14));
 
         painter->drawPolyline(QPolygonF() << QPointF(7.5, 10) << QPointF(10.5, 7) << QPointF(13.5, 10));
         break;
     }
 
-    case KDecoration2::DecorationButtonType::KeepBelow: {
+    case KDecoration3::DecorationButtonType::KeepBelow: {
         painter->drawPolyline(QPolygonF() << QPointF(7.5, 11) << QPointF(10.5, 14) << QPointF(13.5, 11));
 
         painter->drawPolyline(QPolygonF() << QPointF(7.5, 7) << QPointF(10.5, 10) << QPointF(13.5, 7));
@@ -332,7 +332,7 @@ void Button::drawIcon(QPainter *painter)
         break;
     }
 
-    case KDecoration2::DecorationButtonType::Shade:
+    case KDecoration3::DecorationButtonType::Shade:
         if (!isChecked()) {
             // shade button
             painter->drawPolyline(QPolygonF() << QPointF(7.5, 7.5) << QPointF(10.5, 10.5) << QPointF(13.5, 7.5));

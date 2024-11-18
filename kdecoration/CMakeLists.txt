@@ -1,6 +1,6 @@
 add_definitions(-DTRANSLATION_DOMAIN="oxygen_kdecoration")
 
-find_package(KDecoration2 REQUIRED)
+find_package(KDecoration3 REQUIRED)
 find_package(KF6 REQUIRED COMPONENTS CoreAddons ConfigWidgets WindowSystem)
 find_package(Qt${QT_MAJOR_VERSION} CONFIG REQUIRED COMPONENTS DBus)
 
@@ -35,7 +35,7 @@ target_link_libraries(oxygendecoration
     PRIVATE
         oxygenstyle6
         oxygenstyleconfig6
-        KDecoration2::KDecoration
+        KDecoration3::KDecoration
         KF6::ConfigCore
         KF6::CoreAddons
         KF6::ConfigWidgets
@@ -50,4 +50,4 @@ endif()
 
 add_subdirectory(config)
 
-install(TARGETS oxygendecoration DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
+install(TARGETS oxygendecoration DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration3)

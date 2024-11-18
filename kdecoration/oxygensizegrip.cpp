@@ -6,7 +6,7 @@
 
 #include "oxygensizegrip.h"
 
-#include <KDecoration2/DecoratedClient>
+#include <KDecoration3/DecoratedClient>
 
 #include <QPainter>
 #include <QPalette>
@@ -49,9 +49,9 @@ SizeGrip::SizeGrip(Decoration *decoration)
 
     // connections
     const auto *clientP = decoration->client();
-    connect(clientP, &KDecoration2::DecoratedClient::widthChanged, this, &SizeGrip::updatePosition);
-    connect(clientP, &KDecoration2::DecoratedClient::heightChanged, this, &SizeGrip::updatePosition);
-    connect(clientP, &KDecoration2::DecoratedClient::activeChanged, this, &SizeGrip::updateActiveState);
+    connect(clientP, &KDecoration3::DecoratedClient::widthChanged, this, &SizeGrip::updatePosition);
+    connect(clientP, &KDecoration3::DecoratedClient::heightChanged, this, &SizeGrip::updatePosition);
+    connect(clientP, &KDecoration3::DecoratedClient::activeChanged, this, &SizeGrip::updateActiveState);
 
     // show
     show();

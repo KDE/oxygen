@@ -12,15 +12,15 @@
 #include "oxygen.h"
 #include "oxygensettings.h"
 
-#include <KDecoration2/DecoratedClient>
-#include <KDecoration2/Decoration>
-#include <KDecoration2/DecorationSettings>
+#include <KDecoration3/DecoratedClient>
+#include <KDecoration3/Decoration>
+#include <KDecoration3/DecorationSettings>
 
 #include <QPalette>
 #include <QPropertyAnimation>
 #include <QVariant>
 
-namespace KDecoration2
+namespace KDecoration3
 {
 class DecorationButton;
 class DecorationButtonGroup;
@@ -30,7 +30,7 @@ namespace Oxygen
 {
 class SizeGrip;
 
-class Decoration : public KDecoration2::Decoration
+class Decoration : public KDecoration3::Decoration
 {
     Q_OBJECT
 
@@ -147,9 +147,9 @@ private:
 
     InternalSettingsPtr m_internalSettings;
 
-    QList<KDecoration2::DecorationButton *> m_buttons;
-    KDecoration2::DecorationButtonGroup *m_leftButtons = nullptr;
-    KDecoration2::DecorationButtonGroup *m_rightButtons = nullptr;
+    QList<KDecoration3::DecorationButton *> m_buttons;
+    KDecoration3::DecorationButtonGroup *m_leftButtons = nullptr;
+    KDecoration3::DecorationButtonGroup *m_rightButtons = nullptr;
 
     //* size grip widget
     SizeGrip *m_sizeGrip = nullptr;
@@ -166,7 +166,7 @@ bool Decoration::hasNoBorders(void) const
     if (m_internalSettings && m_internalSettings->mask() & BorderSize)
         return m_internalSettings->borderSize() == InternalSettings::BorderNone;
     else
-        return settings()->borderSize() == KDecoration2::BorderSize::None;
+        return settings()->borderSize() == KDecoration3::BorderSize::None;
 }
 
 bool Decoration::hasNoSideBorders(void) const
@@ -174,7 +174,7 @@ bool Decoration::hasNoSideBorders(void) const
     if (m_internalSettings && m_internalSettings->mask() & BorderSize)
         return m_internalSettings->borderSize() == InternalSettings::BorderNoSides;
     else
-        return settings()->borderSize() == KDecoration2::BorderSize::NoSides;
+        return settings()->borderSize() == KDecoration3::BorderSize::NoSides;
 }
 
 bool Decoration::isMaximized(void) const
