@@ -75,7 +75,7 @@ QColor Decoration::titleBarColor(const QPalette &palette) const
         return KColorUtils::mix(titleBarColor(palette, false), titleBarColor(palette, true), m_opacity);
 
     } else {
-        return titleBarColor(palette, client()->isActive());
+        return titleBarColor(palette, window()->isActive());
     }
 }
 
@@ -86,7 +86,7 @@ QColor Decoration::titleBarColor(const QPalette &palette, bool active) const
         return palette.color(active ? QPalette::Active : QPalette::Inactive, QPalette::Window);
 
     } else {
-        return client()->color(active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::TitleBar);
+        return window()->color(active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::TitleBar);
     }
 }
 
@@ -99,7 +99,7 @@ QColor Decoration::fontColor(const QPalette &palette) const
         return KColorUtils::mix(fontColor(palette, false), fontColor(palette, true), m_opacity);
 
     } else {
-        return fontColor(palette, client()->isActive());
+        return fontColor(palette, window()->isActive());
     }
 }
 
@@ -110,7 +110,7 @@ QColor Decoration::fontColor(const QPalette &palette, bool active) const
         return palette.color(active ? QPalette::Active : QPalette::Disabled, QPalette::WindowText);
 
     } else {
-        return client()->color(active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::Foreground);
+        return window()->color(active ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::Foreground);
     }
 }
 
@@ -120,7 +120,7 @@ QColor Decoration::contrastColor(const QPalette &palette) const
     if (m_internalSettings->useWindowColors())
         return contrastColor(palette.color(QPalette::Window));
     else {
-        const auto cl = client();
+        const auto cl = window();
         return contrastColor(cl->color(cl->isActive() ? ColorGroup::Active : ColorGroup::Inactive, ColorRole::TitleBar));
     }
 }
@@ -159,28 +159,28 @@ bool Decoration::init()
     connect(s.get(), &KDecoration3::DecorationSettings::reconfigured, this, &Decoration::reconfigure);
     connect(s.get(), &KDecoration3::DecorationSettings::reconfigured, SettingsProvider::self(), &SettingsProvider::reconfigure, Qt::UniqueConnection);
 
-    const auto *cl = client();
-    connect(cl, &KDecoration3::DecoratedClient::adjacentScreenEdgesChanged, this, &Decoration::recalculateBorders);
-    connect(cl, &KDecoration3::DecoratedClient::maximizedHorizontallyChanged, this, &Decoration::recalculateBorders);
-    connect(cl, &KDecoration3::DecoratedClient::maximizedVerticallyChanged, this, &Decoration::recalculateBorders);
-    connect(cl, &KDecoration3::DecoratedClient::captionChanged, this, [this]() {
+    const auto *cl = window();
+    connect(cl, &KDecoration3::DecoratedWindow::adjacentScreenEdgesChanged, this, &Decoration::recalculateBorders);
+    connect(cl, &KDecoration3::DecoratedWindow::maximizedHorizontallyChanged, this, &Decoration::recalculateBorders);
+    connect(cl, &KDecoration3::DecoratedWindow::maximizedVerticallyChanged, this, &Decoration::recalculateBorders);
+    connect(cl, &KDecoration3::DecoratedWindow::captionChanged, this, [this]() {
         // update the caption area
         update(titleBar());
     });
 
-    connect(cl, &KDecoration3::DecoratedClient::activeChanged, this, &Decoration::updateAnimationState);
-    connect(cl, &KDecoration3::DecoratedClient::activeChanged, this, &Decoration::updateShadow);
+    connect(cl, &KDecoration3::DecoratedWindow::activeChanged, this, &Decoration::updateAnimationState);
+    connect(cl, &KDecoration3::DecoratedWindow::activeChanged, this, &Decoration::updateShadow);
 
     // decoration has an overloaded update function, force the compiler to choose the right one
-    connect(cl, &KDecoration3::DecoratedClient::paletteChanged, this, static_cast<void (Decoration::*)()>(&Decoration::update));
-    connect(cl, &KDecoration3::DecoratedClient::widthChanged, this, &Decoration::updateTitleBar);
-    connect(cl, &KDecoration3::DecoratedClient::maximizedChanged, this, &Decoration::updateTitleBar);
-    connect(cl, &KDecoration3::DecoratedClient::maximizedChanged, this, &Decoration::setOpaque);
+    connect(cl, &KDecoration3::DecoratedWindow::paletteChanged, this, static_cast<void (Decoration::*)()>(&Decoration::update));
+    connect(cl, &KDecoration3::DecoratedWindow::widthChanged, this, &Decoration::updateTitleBar);
+    connect(cl, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Decoration::updateTitleBar);
+    connect(cl, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Decoration::setOpaque);
 
-    connect(cl, &KDecoration3::DecoratedClient::widthChanged, this, &Decoration::updateButtonsGeometry);
-    connect(cl, &KDecoration3::DecoratedClient::maximizedChanged, this, &Decoration::updateButtonsGeometry);
-    connect(cl, &KDecoration3::DecoratedClient::shadedChanged, this, &Decoration::recalculateBorders);
-    connect(cl, &KDecoration3::DecoratedClient::shadedChanged, this, &Decoration::updateButtonsGeometry);
+    connect(cl, &KDecoration3::DecoratedWindow::widthChanged, this, &Decoration::updateButtonsGeometry);
+    connect(cl, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Decoration::updateButtonsGeometry);
+    connect(cl, &KDecoration3::DecoratedWindow::shadedChanged, this, &Decoration::recalculateBorders);
+    connect(cl, &KDecoration3::DecoratedWindow::shadedChanged, this, &Decoration::updateButtonsGeometry);
 
     createButtons();
     updateShadow();
@@ -192,7 +192,7 @@ void Decoration::updateTitleBar()
 {
     auto s = settings();
     const bool maximized = isMaximized();
-    const auto clientPtr = client();
+    const auto clientPtr = window();
     const int width = maximized ? clientPtr->width() : clientPtr->width() - 2 * s->largeSpacing() * Metrics::TitleBar_SideMargin;
     const int height = maximized ? borderTop() : borderTop() - s->smallSpacing() * Metrics::TitleBar_TopMargin;
     const int x = maximized ? 0 : s->largeSpacing() * Metrics::TitleBar_SideMargin;
@@ -204,7 +204,7 @@ void Decoration::updateTitleBar()
 void Decoration::updateAnimationState()
 {
     if (m_internalSettings->animationsEnabled()) {
-        m_animation->setDirection(client()->isActive() ? QPropertyAnimation::Forward : QPropertyAnimation::Backward);
+        m_animation->setDirection(window()->isActive() ? QPropertyAnimation::Forward : QPropertyAnimation::Backward);
         if (m_animation->state() != QPropertyAnimation::Running)
             m_animation->start();
 
@@ -284,7 +284,7 @@ void Decoration::reconfigure()
 void Decoration::recalculateBorders()
 {
     auto s = settings();
-    const auto c = client();
+    const auto c = window();
     const auto edges = c->adjacentScreenEdges();
 
     // left, right and bottom borders
@@ -409,7 +409,7 @@ void Decoration::updateButtonsGeometry()
 //________________________________________________________________
 void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
 {
-    const auto c = client();
+    const auto c = window();
     const auto palette = c->palette();
 
     const auto rect = c->isShaded() ? QRect(QPoint(0, 0), QSize(size().width(), borderTop())) : this->rect();
@@ -479,7 +479,7 @@ QPair<QRect, Qt::Alignment> Decoration::captionRect() const
         case InternalSettings::AlignCenterFullWidth: {
             // full caption rect
             const QRect fullRect = QRect(0, yOffset, size().width(), captionHeight());
-            QRect boundingRect(settings()->fontMetrics().boundingRect(client()->caption()).toRect());
+            QRect boundingRect(settings()->fontMetrics().boundingRect(window()->caption()).toRect());
 
             // text bounding rect
             boundingRect.setTop(yOffset);
@@ -511,7 +511,7 @@ void Decoration::updateShadow()
 
     // generate key
     ShadowCache::Key key;
-    const auto clientPtr = client();
+    const auto clientPtr = window();
     key.active = SettingsProvider::self()->shadowCache()->isEnabled(QPalette::Active) && clientPtr->isActive();
     key.isShade = clientPtr->isShaded();
     key.hasBorder = !hasNoBorders();
@@ -560,7 +560,7 @@ void Decoration::renderCorners(QPainter *painter, const QRect &frame, const QPal
 //_________________________________________________________
 void Decoration::renderWindowBackground(QPainter *painter, const QRect &clipRect, const QPalette &palette) const
 {
-    const auto c = client();
+    const auto c = window();
     auto innerClientRect = c->isShaded() ? QRect(QPoint(0, 0), QSize(size().width(), borderTop())) : rect();
 
     // size of window minus the outlines for the rounded corners
@@ -599,7 +599,7 @@ void Decoration::renderTitleText(QPainter *painter, const QPalette &palette) con
     const auto cR = captionRect();
 
     // copy caption
-    const QString caption = painter->fontMetrics().elidedText(client()->caption(), Qt::ElideMiddle, cR.first.width());
+    const QString caption = painter->fontMetrics().elidedText(window()->caption(), Qt::ElideMiddle, cR.first.width());
 
     const auto contrast(contrastColor(palette));
     if (contrast.isValid()) {

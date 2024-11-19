@@ -12,7 +12,7 @@
 
 #include <KColorScheme>
 #include <KColorUtils>
-#include <KDecoration3/DecoratedClient>
+#include <KDecoration3/DecoratedWindow>
 
 #include <QPainter>
 
@@ -22,36 +22,35 @@ namespace Oxygen
 Button *Button::create(KDecoration3::DecorationButtonType type, KDecoration3::Decoration *decoration, QObject *parent)
 {
     if (auto d = qobject_cast<Decoration *>(decoration)) {
-        const auto clientPtr = d->client();
         Button *b = new Button(type, d, parent);
         switch (type) {
         case KDecoration3::DecorationButtonType::Close:
-            b->setVisible(clientPtr->isCloseable());
-            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::closeableChanged, b, &Oxygen::Button::setVisible);
+            b->setVisible(d->window()->isCloseable());
+            QObject::connect(d->window(), &KDecoration3::DecoratedWindow::closeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration3::DecorationButtonType::Maximize:
-            b->setVisible(clientPtr->isMaximizeable());
-            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::maximizeableChanged, b, &Oxygen::Button::setVisible);
+            b->setVisible(d->window()->isMaximizeable());
+            QObject::connect(d->window(), &KDecoration3::DecoratedWindow::maximizeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration3::DecorationButtonType::Minimize:
-            b->setVisible(clientPtr->isMinimizeable());
-            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::minimizeableChanged, b, &Oxygen::Button::setVisible);
+            b->setVisible(d->window()->isMinimizeable());
+            QObject::connect(d->window(), &KDecoration3::DecoratedWindow::minimizeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration3::DecorationButtonType::ContextHelp:
-            b->setVisible(clientPtr->providesContextHelp());
-            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::providesContextHelpChanged, b, &Oxygen::Button::setVisible);
+            b->setVisible(d->window()->providesContextHelp());
+            QObject::connect(d->window(), &KDecoration3::DecoratedWindow::providesContextHelpChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration3::DecorationButtonType::Shade:
-            b->setVisible(clientPtr->isShadeable());
-            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::shadeableChanged, b, &Oxygen::Button::setVisible);
+            b->setVisible(d->window()->isShadeable());
+            QObject::connect(d->window(), &KDecoration3::DecoratedWindow::shadeableChanged, b, &Oxygen::Button::setVisible);
             break;
 
         case KDecoration3::DecorationButtonType::Menu:
-            QObject::connect(clientPtr, &KDecoration3::DecoratedClient::iconChanged, b, [b]() {
+            QObject::connect(d->window(), &KDecoration3::DecoratedWindow::iconChanged, b, [b]() {
                 b->update();
             });
             break;
@@ -88,7 +87,7 @@ Button::Button(KDecoration3::DecorationButtonType type, Decoration *decoration, 
 
     // setup connections
     if (isMenuButton()) {
-        connect(decoration->client(), SIGNAL(iconChanged(QIcon)), this, SLOT(update()));
+        connect(decoration->window(), SIGNAL(iconChanged(QIcon)), this, SLOT(update()));
     }
 
     connect(decoration->settings().get(), &KDecoration3::DecorationSettings::reconfigured, this, &Button::reconfigure);
@@ -156,7 +155,7 @@ QColor Button::backgroundColor(const QPalette &palette, bool active) const
 //___________________________________________________
 bool Button::isActive(void) const
 {
-    return decoration()->client()->isActive();
+    return decoration()->window()->isActive();
 }
 
 //___________________________________________________
@@ -190,7 +189,7 @@ void Button::paint(QPainter *painter, const QRect &repaintRegion)
     if (!m_iconSize.isValid() || isStandAlone())
         m_iconSize = geometry().size().toSize();
 
-    const auto clientPtr = decoration()->client();
+    const auto clientPtr = decoration()->window();
     // menu buttons
     if (isMenuButton()) {
         const QRectF iconRect(geometry().topLeft(), m_iconSize);
@@ -304,7 +303,7 @@ void Button::drawIcon(QPainter *painter)
     }
 
     case KDecoration3::DecorationButtonType::Maximize:
-        if (decoration()->client()->isMaximized()) {
+        if (decoration()->window()->isMaximized()) {
             painter->drawPolygon(QPolygonF() << QPointF(7.5, 10.5) << QPointF(10.5, 7.5) << QPointF(13.5, 10.5) << QPointF(10.5, 13.5));
 
         } else {

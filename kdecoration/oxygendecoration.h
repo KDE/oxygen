@@ -12,7 +12,7 @@
 #include "oxygen.h"
 #include "oxygensettings.h"
 
-#include <KDecoration3/DecoratedClient>
+#include <KDecoration3/DecoratedWindow>
 #include <KDecoration3/Decoration>
 #include <KDecoration3/DecorationSettings>
 
@@ -164,19 +164,19 @@ bool Decoration::hasNoSideBorders(void) const
 
 bool Decoration::isMaximized(void) const
 {
-    return client()->isMaximized() && !m_internalSettings->drawBorderOnMaximizedWindows();
+    return window()->isMaximized() && !m_internalSettings->drawBorderOnMaximizedWindows();
 }
 bool Decoration::isMaximizedHorizontally(void) const
 {
-    return client()->isMaximizedHorizontally() && !m_internalSettings->drawBorderOnMaximizedWindows();
+    return window()->isMaximizedHorizontally() && !m_internalSettings->drawBorderOnMaximizedWindows();
 }
 bool Decoration::isMaximizedVertically(void) const
 {
-    return client()->isMaximizedVertically() && !m_internalSettings->drawBorderOnMaximizedWindows();
+    return window()->isMaximizedVertically() && !m_internalSettings->drawBorderOnMaximizedWindows();
 }
 bool Decoration::hideTitleBar(void) const
 {
-    return m_internalSettings->hideTitleBar() && !client()->isShaded();
+    return m_internalSettings->hideTitleBar() && !window()->isShaded();
 }
 }
 
