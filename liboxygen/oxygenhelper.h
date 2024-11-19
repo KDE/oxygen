@@ -398,17 +398,6 @@ public:
     */
     const QWidget *checkAutoFillBackground(const QWidget *) const;
 
-    //*@name background gradient XProperty
-    //@{
-
-    //* set background gradient hint to widget
-    virtual void setHasBackgroundGradient(WId, bool) const;
-
-    //* true if background gradient hint is set
-    virtual bool hasBackgroundGradient(WId) const;
-
-    //@}
-
     //@name high dpi utility functions
     //@{
 
@@ -529,9 +518,6 @@ private:
 
     //* value for given hint
     bool hasHint(xcb_window_t, xcb_atom_t) const;
-
-    //* background gradient hint atom
-    xcb_atom_t _backgroundGradientAtom;
 
 #endif
 

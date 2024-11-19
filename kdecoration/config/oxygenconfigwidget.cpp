@@ -42,7 +42,6 @@ ConfigWidget::ConfigWidget(QObject *parent, const KPluginMetaData &metaData, con
     connect(m_ui.titleAlignment, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()));
     connect(m_ui.buttonSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()));
     connect(m_ui.drawBorderOnMaximizedWindows, SIGNAL(clicked()), SLOT(updateChanged()));
-    connect(m_ui.drawSizeGrip, SIGNAL(clicked()), SLOT(updateChanged()));
     connect(m_ui.useWindowColors, SIGNAL(clicked()), SLOT(updateChanged()));
     connect(m_ui.animationConfigWidget, SIGNAL(changed(bool)), SLOT(updateChanged()));
 
@@ -65,7 +64,6 @@ void ConfigWidget::load(void)
     m_ui.titleAlignment->setCurrentIndex(m_internalSettings->titleAlignment());
     m_ui.buttonSize->setCurrentIndex(m_internalSettings->buttonSize());
     m_ui.drawBorderOnMaximizedWindows->setChecked(m_internalSettings->drawBorderOnMaximizedWindows());
-    m_ui.drawSizeGrip->setChecked(m_internalSettings->drawSizeGrip());
     m_ui.useWindowColors->setChecked(m_internalSettings->useWindowColors());
 
     // load animations
@@ -95,7 +93,6 @@ void ConfigWidget::save(void)
     m_internalSettings->setTitleAlignment(m_ui.titleAlignment->currentIndex());
     m_internalSettings->setButtonSize(m_ui.buttonSize->currentIndex());
     m_internalSettings->setDrawBorderOnMaximizedWindows(m_ui.drawBorderOnMaximizedWindows->isChecked());
-    m_internalSettings->setDrawSizeGrip(m_ui.drawSizeGrip->isChecked());
     m_internalSettings->setUseWindowColors(m_ui.useWindowColors->isChecked());
 
     // save animations
@@ -143,7 +140,6 @@ void ConfigWidget::defaults(void)
     m_ui.titleAlignment->setCurrentIndex(m_internalSettings->titleAlignment());
     m_ui.buttonSize->setCurrentIndex(m_internalSettings->buttonSize());
     m_ui.drawBorderOnMaximizedWindows->setChecked(m_internalSettings->drawBorderOnMaximizedWindows());
-    m_ui.drawSizeGrip->setChecked(m_internalSettings->drawSizeGrip());
     m_ui.useWindowColors->setChecked(m_internalSettings->useWindowColors());
 
     // load shadows
@@ -172,8 +168,6 @@ void ConfigWidget::updateChanged(void)
     else if (m_ui.buttonSize->currentIndex() != m_internalSettings->buttonSize())
         modified = true;
     else if (m_ui.drawBorderOnMaximizedWindows->isChecked() != m_internalSettings->drawBorderOnMaximizedWindows())
-        modified = true;
-    else if (m_ui.drawSizeGrip->isChecked() != m_internalSettings->drawSizeGrip())
         modified = true;
     else if (m_ui.useWindowColors->isChecked() != m_internalSettings->useWindowColors())
         modified = true;

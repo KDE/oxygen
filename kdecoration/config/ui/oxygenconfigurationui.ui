@@ -111,13 +111,6 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="3">
-        <widget class="QCheckBox" name="drawSizeGrip">
-         <property name="text">
-          <string>Add handle to resize windows with no border</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0" colspan="3">
         <widget class="QCheckBox" name="drawBorderOnMaximizedWindows">
          <property name="text">

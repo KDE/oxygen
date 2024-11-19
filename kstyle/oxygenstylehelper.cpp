@@ -104,12 +104,6 @@ void StyleHelper::renderWindowBackground(QPainter *painter, const QRect &clipRec
 }
 
 //____________________________________________________________________
-void StyleHelper::setHasBackgroundGradient(WId id, bool value) const
-{
-    Helper::setHasBackgroundGradient(id, value && _useBackgroundGradient);
-}
-
-//____________________________________________________________________
 void StyleHelper::renderMenuBackground(QPainter *painter, const QRect &clipRect, const QWidget *widget, const QColor &color)
 {
     // get coordinates relative to the client area

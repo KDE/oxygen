@@ -638,9 +638,6 @@ private:
     //* window manager
     WindowManager *_windowManager;
 
-    //* toplevel manager
-    TopLevelManager *_topLevelManager;
-
     //* frame shadows
     FrameShadowFactory *_frameShadowFactory;
 

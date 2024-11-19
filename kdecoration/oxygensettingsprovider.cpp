@@ -100,11 +100,7 @@ InternalSettingsPtr SettingsProvider::internalSettings(const Decoration *decorat
         default:
         case InternalSettings::ExceptionWindowClassName: {
             if (className.isEmpty()) {
-                // retrieve class name
-                KWindowInfo info(clientPtr->windowId(), {}, NET::WM2WindowClass);
-                QString window_className(QString::fromUtf8(info.windowClassName()));
-                QString window_class(QString::fromUtf8(info.windowClassClass()));
-                className = window_className + QStringLiteral(" ") + window_class;
+                className = clientPtr->windowClass();
             }
 
             value = className;

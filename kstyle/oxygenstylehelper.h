@@ -50,9 +50,6 @@ public:
     using Helper::renderWindowBackground;
     void renderWindowBackground(QPainter *, const QRect &, const QWidget *, const QColor &, int y_shift = -23) override;
 
-    //* set background gradient hint to widget
-    void setHasBackgroundGradient(WId, bool) const override;
-
     // render menu background
     void renderMenuBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette &pal)
     {

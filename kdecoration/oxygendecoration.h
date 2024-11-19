@@ -28,7 +28,6 @@ class DecorationButtonGroup;
 
 namespace Oxygen
 {
-class SizeGrip;
 
 class Decoration : public KDecoration3::Decoration
 {
@@ -99,7 +98,6 @@ private Q_SLOTS:
     void updateButtonsGeometryDelayed();
     void updateTitleBar();
     void updateAnimationState();
-    void updateSizeGripVisibility();
     void updateShadow();
 
 private:
@@ -135,24 +133,11 @@ private:
     inline bool hideTitleBar(void) const;
     //@}
 
-    //*@name size grip
-    //@{
-    void createSizeGrip(void);
-    void deleteSizeGrip(void);
-    SizeGrip *sizeGrip(void) const
-    {
-        return m_sizeGrip;
-    }
-    //@}
-
     InternalSettingsPtr m_internalSettings;
 
     QList<KDecoration3::DecorationButton *> m_buttons;
     KDecoration3::DecorationButtonGroup *m_leftButtons = nullptr;
     KDecoration3::DecorationButtonGroup *m_rightButtons = nullptr;
-
-    //* size grip widget
-    SizeGrip *m_sizeGrip = nullptr;
 
     //* active state change animation
     QPropertyAnimation *m_animation;

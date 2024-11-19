@@ -13,7 +13,6 @@
 #include "oxygenshadowcache.h"
 
 #include "oxygenbutton.h"
-#include "oxygensizegrip.h"
 
 #include <KDecoration3/DecorationButtonGroup>
 #include <KDecoration3/DecorationShadow>
@@ -57,8 +56,6 @@ Decoration::~Decoration()
     g_sDecoCount--;
     if (g_sDecoCount == 0)
         g_sShadows.clear();
-
-    deleteSizeGrip();
 }
 
 //________________________________________________________________
@@ -69,9 +66,6 @@ void Decoration::setOpacity(qreal value)
     m_opacity = value;
     updateShadow();
     update();
-
-    if (m_sizeGrip)
-        m_sizeGrip->update();
 }
 
 //_________________________________________________________
@@ -220,15 +214,6 @@ void Decoration::updateAnimationState()
 }
 
 //________________________________________________________________
-void Decoration::updateSizeGripVisibility()
-{
-    const auto c = client();
-    if (m_sizeGrip) {
-        m_sizeGrip->setVisible(c->isResizeable() && !isMaximized() && !c->isShaded());
-    }
-}
-
-//________________________________________________________________
 int Decoration::borderSize(bool bottom) const
 {
     const int baseSize = settings()->smallSpacing();
@@ -293,12 +278,6 @@ void Decoration::reconfigure()
 
     // clear shadows
     g_sShadows.clear();
-
-    // size grip
-    if (hasNoBorders() && m_internalSettings->drawSizeGrip())
-        createSizeGrip();
-    else
-        deleteSizeGrip();
 }
 
 //________________________________________________________________
@@ -589,12 +568,7 @@ void Decoration::renderWindowBackground(QPainter *painter, const QRect &clipRect
         innerClientRect.adjust(1, 1, -1, -1);
     }
 
-    if (SettingsProvider::self()->helper()->hasBackgroundGradient(c->windowId()) || !SettingsProvider::self()->helper()->isX11()) {
-        SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, titleBarColor(palette), borderTop() - 24);
-
-    } else {
-        painter->fillRect(innerClientRect, titleBarColor(palette));
-    }
+    SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, titleBarColor(palette), borderTop() - 24);
 }
 
 //_________________________________________________________
@@ -638,35 +612,6 @@ void Decoration::renderTitleText(QPainter *painter, const QPalette &palette) con
     const auto color(fontColor(palette));
     painter->setPen(color);
     painter->drawText(cR.first, cR.second | Qt::TextSingleLine, caption);
-}
-
-//_________________________________________________________________
-void Decoration::createSizeGrip(void)
-{
-    // do nothing if size grip already exist
-    if (m_sizeGrip)
-        return;
-
-#if OXYGEN_HAVE_X11
-    if (!QX11Info::isPlatformX11())
-        return;
-
-    if (client()->windowId() != 0) {
-        m_sizeGrip = new SizeGrip(this);
-        connect(client(), &KDecoration3::DecoratedClient::maximizedChanged, this, &Decoration::updateSizeGripVisibility);
-        connect(client(), &KDecoration3::DecoratedClient::shadedChanged, this, &Decoration::updateSizeGripVisibility);
-        connect(client(), &KDecoration3::DecoratedClient::resizeableChanged, this, &Decoration::updateSizeGripVisibility);
-    }
-#endif
-}
-
-//_________________________________________________________________
-void Decoration::deleteSizeGrip(void)
-{
-    if (m_sizeGrip) {
-        m_sizeGrip->deleteLater();
-        m_sizeGrip = nullptr;
-    }
 }
 
 } // namespace

@@ -182,33 +182,6 @@ private:
 
 namespace Oxygen
 {
-//* toplevel manager
-class TopLevelManager : public QObject
-{
-public:
-    //* constructor
-    TopLevelManager(QObject *parent, const StyleHelper &helper)
-        : QObject(parent)
-        , _helper(helper)
-    {
-    }
-
-    //* event filter
-    bool eventFilter(QObject *object, QEvent *event) override
-    {
-        // cast to QWidget
-        QWidget *widget = static_cast<QWidget *>(object);
-        if (event->type() == QEvent::Show && _helper.hasDecoration(widget)) {
-            _helper.setHasBackgroundGradient(widget->winId(), true);
-        }
-
-        return false;
-    }
-
-private:
-    //* helper
-    const StyleHelper &_helper;
-};
 
 //______________________________________________________________
 Style::Style(void)
@@ -217,7 +190,6 @@ Style::Style(void)
     , _animations(new Animations(this))
     , _transitions(new Transitions(this))
     , _windowManager(new WindowManager(this))
-    , _topLevelManager(new TopLevelManager(this, *_helper))
     , _frameShadowFactory(new FrameShadowFactory(this))
     , _mdiWindowShadowFactory(new MdiWindowShadowFactory(this, *_helper))
     , _mnemonics(new Mnemonics(this))
@@ -293,7 +265,6 @@ void Style::polish(QWidget *widget)
 
         // set background as styled
         widget->setAttribute(Qt::WA_StyledBackground);
-        widget->installEventFilter(_topLevelManager);
 
         break;
 
@@ -1785,9 +1756,6 @@ void Style::loadConfiguration()
         // make sure widget has a decoration
         if (!_helper->hasDecoration(widget))
             continue;
-
-        // update flags
-        _helper->setHasBackgroundGradient(widget->winId(), true);
     }
 
     // update caches size

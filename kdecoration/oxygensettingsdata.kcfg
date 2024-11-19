@@ -45,10 +45,6 @@
       <default>true</default>
     </entry>
 
-    <entry name="DrawSizeGrip" type="Bool">
-      <default>true</default>
-    </entry>
-
     <entry name="HideTitleBar" type="Bool">
        <default>false</default>
     </entry>

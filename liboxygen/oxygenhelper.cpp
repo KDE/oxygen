@@ -707,29 +707,6 @@ const QWidget *Helper::checkAutoFillBackground(const QWidget *w) const
     return nullptr;
 }
 
-//____________________________________________________________________
-void Helper::setHasBackgroundGradient(WId id, bool value) const
-{
-#if OXYGEN_HAVE_X11
-    setHasHint(id, _backgroundGradientAtom, value);
-#else
-    Q_UNUSED(id);
-    Q_UNUSED(value);
-#endif
-    return;
-}
-
-//____________________________________________________________________
-bool Helper::hasBackgroundGradient(WId id) const
-{
-#if OXYGEN_HAVE_X11
-    return hasHint(id, _backgroundGradientAtom);
-#else
-    Q_UNUSED(id);
-    return false;
-#endif
-}
-
 //______________________________________________________________________________________
 QPixmap Helper::highDpiPixmap(int width, int height) const
 {
@@ -878,15 +855,5 @@ void Helper::init(void)
     _bgcontrast = qMin(1.0, 0.9 * _contrast / 0.7);
 
     _backgroundCache.setMaxCost(64);
-
-#if OXYGEN_HAVE_X11
-    if (isX11()) {
-        _backgroundGradientAtom = createAtom(QStringLiteral("_KDE_OXYGEN_BACKGROUND_GRADIENT"));
-
-    } else {
-        _backgroundGradientAtom = 0;
-    }
-
-#endif
 }
 }
