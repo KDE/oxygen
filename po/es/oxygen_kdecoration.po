@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: breeze_kwin_deco\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-03 00:39+0000\n"
+"POT-Creation-Date: 2024-11-20 00:41+0000\n"
 "PO-Revision-Date: 2017-12-14 22:19+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -179,21 +179,15 @@ msgstr "Derecha"
 msgid "B&utton size:"
 msgstr "Ta&maño de los botones:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, drawSizeGrip)
-#: config/ui/oxygenconfigurationui.ui:117
-#, kde-format
-msgid "Add handle to resize windows with no border"
-msgstr "Añadir un asa para cambiar el tamaño de las ventanas sin borde"
-
 #. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
-#: config/ui/oxygenconfigurationui.ui:124
+#: config/ui/oxygenconfigurationui.ui:117
 #, kde-format
 msgid "Allow resizing maximized windows from window edges"
 msgstr ""
 "Permitir cambiar el tamaño de las ventanas maximizadas desde sus bordes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
-#: config/ui/oxygenconfigurationui.ui:144
+#: config/ui/oxygenconfigurationui.ui:137
 #, kde-format
 msgid "Use the same colors for title bar and window content"
 msgstr ""
@@ -201,31 +195,31 @@ msgstr ""
 "ventana"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: config/ui/oxygenconfigurationui.ui:152
+#: config/ui/oxygenconfigurationui.ui:145
 #, kde-format
 msgid "Animations"
 msgstr "Animaciones"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: config/ui/oxygenconfigurationui.ui:165
+#: config/ui/oxygenconfigurationui.ui:158
 #, kde-format
 msgid "Shadows"
 msgstr "Sombras"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:171
+#: config/ui/oxygenconfigurationui.ui:164
 #, kde-format
 msgid "Active Window Glow"
 msgstr "Resplandor de la ventana activa"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:181
+#: config/ui/oxygenconfigurationui.ui:174
 #, kde-format
 msgid "Window Drop-Down Shadow"
 msgstr "Sombra arrojada por la ventana"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: config/ui/oxygenconfigurationui.ui:205
+#: config/ui/oxygenconfigurationui.ui:198
 #, kde-format
 msgid "Window-Specific Overrides"
 msgstr "Sustituciones específicas de la ventana"
@@ -401,6 +395,9 @@ msgstr "Añadir"
 #, kde-format
 msgid "Edit"
 msgstr "Editar"
+
+#~ msgid "Add handle to resize windows with no border"
+#~ msgstr "Añadir un asa para cambiar el tamaño de las ventanas sin borde"
 
 #~ msgid "Display window borders for maximized windows"
 #~ msgstr "Mostrar los bordes de las ventanas cuando están maximizadas"

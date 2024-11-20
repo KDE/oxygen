@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-03 00:39+0000\n"
+"POT-Creation-Date: 2024-11-20 00:41+0000\n"
 "PO-Revision-Date: 2024-01-25 11:16+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -176,50 +176,44 @@ msgstr "Pa labi"
 msgid "B&utton size:"
 msgstr "&Pogas izmērs:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, drawSizeGrip)
-#: config/ui/oxygenconfigurationui.ui:117
-#, kde-format
-msgid "Add handle to resize windows with no border"
-msgstr "Pievienot lauku logu bez apmales izmēra mainīšanai"
-
 #. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
-#: config/ui/oxygenconfigurationui.ui:124
+#: config/ui/oxygenconfigurationui.ui:117
 #, kde-format
 msgid "Allow resizing maximized windows from window edges"
 msgstr "Atļaut mainīt maksimizētu logu izmēru no logu malām"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
-#: config/ui/oxygenconfigurationui.ui:144
+#: config/ui/oxygenconfigurationui.ui:137
 #, kde-format
 msgid "Use the same colors for title bar and window content"
 msgstr "Izmantot tās pašas krāsas virsrakstjoslai un loga saturam"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: config/ui/oxygenconfigurationui.ui:152
+#: config/ui/oxygenconfigurationui.ui:145
 #, kde-format
 msgid "Animations"
 msgstr "Animācijas"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: config/ui/oxygenconfigurationui.ui:165
+#: config/ui/oxygenconfigurationui.ui:158
 #, kde-format
 msgid "Shadows"
 msgstr "Ēnas"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:171
+#: config/ui/oxygenconfigurationui.ui:164
 #, kde-format
 msgid "Active Window Glow"
 msgstr "Aktīvā loga spīdums"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:181
+#: config/ui/oxygenconfigurationui.ui:174
 #, kde-format
 msgid "Window Drop-Down Shadow"
 msgstr "Loga ēna"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: config/ui/oxygenconfigurationui.ui:205
+#: config/ui/oxygenconfigurationui.ui:198
 #, kde-format
 msgid "Window-Specific Overrides"
 msgstr "Logam specifiski virsiestatījumi"
@@ -395,3 +389,6 @@ msgstr "Pievienot"
 #, kde-format
 msgid "Edit"
 msgstr "Rediģēt"
+
+#~ msgid "Add handle to resize windows with no border"
+#~ msgstr "Pievienot lauku logu bez apmales izmēra mainīšanai"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: breeze_kwin_deco\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-03 00:39+0000\n"
+"POT-Creation-Date: 2024-11-20 00:41+0000\n"
 "PO-Revision-Date: 2017-12-13 10:40+0000\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-pt@kde.org>\n"
@@ -177,50 +177,44 @@ msgstr "Direita"
 msgid "B&utton size:"
 msgstr "Tamanho dos &botões:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, drawSizeGrip)
-#: config/ui/oxygenconfigurationui.ui:117
-#, kde-format
-msgid "Add handle to resize windows with no border"
-msgstr "Adicionar uma pega para dimensionar as janelas sem contorno"
-
 #. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
-#: config/ui/oxygenconfigurationui.ui:124
+#: config/ui/oxygenconfigurationui.ui:117
 #, kde-format
 msgid "Allow resizing maximized windows from window edges"
 msgstr "Permitir dimensionar as janelas maximizadas nos extremos das janelas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
-#: config/ui/oxygenconfigurationui.ui:144
+#: config/ui/oxygenconfigurationui.ui:137
 #, kde-format
 msgid "Use the same colors for title bar and window content"
 msgstr "Usar as mesmas cores para o título e o conteúdo da janela"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: config/ui/oxygenconfigurationui.ui:152
+#: config/ui/oxygenconfigurationui.ui:145
 #, kde-format
 msgid "Animations"
 msgstr "Animações"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: config/ui/oxygenconfigurationui.ui:165
+#: config/ui/oxygenconfigurationui.ui:158
 #, kde-format
 msgid "Shadows"
 msgstr "Sombras"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:171
+#: config/ui/oxygenconfigurationui.ui:164
 #, kde-format
 msgid "Active Window Glow"
 msgstr "Brilho da Janela Activa"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:181
+#: config/ui/oxygenconfigurationui.ui:174
 #, kde-format
 msgid "Window Drop-Down Shadow"
 msgstr "Sombreado da Janela"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: config/ui/oxygenconfigurationui.ui:205
+#: config/ui/oxygenconfigurationui.ui:198
 #, kde-format
 msgid "Window-Specific Overrides"
 msgstr "Substituições Específicas da Janela"
@@ -396,3 +390,6 @@ msgstr "Adicionar"
 #, kde-format
 msgid "Edit"
 msgstr "Editar"
+
+#~ msgid "Add handle to resize windows with no border"
+#~ msgstr "Adicionar uma pega para dimensionar as janelas sem contorno"

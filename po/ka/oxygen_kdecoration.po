@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-03 00:39+0000\n"
+"POT-Creation-Date: 2024-11-20 00:41+0000\n"
 "PO-Revision-Date: 2023-02-14 06:39+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -176,50 +176,44 @@ msgstr "მარჯვნივ"
 msgid "B&utton size:"
 msgstr "&ღილაკის ზომა:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, drawSizeGrip)
-#: config/ui/oxygenconfigurationui.ui:117
-#, kde-format
-msgid "Add handle to resize windows with no border"
-msgstr "საზღვრის არმქონი ფანჯრების ზომის შესაცვლელი სახელურის დამატება"
-
 #. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
-#: config/ui/oxygenconfigurationui.ui:124
+#: config/ui/oxygenconfigurationui.ui:117
 #, kde-format
 msgid "Allow resizing maximized windows from window edges"
 msgstr "მთელ ეკრანზე გაშლილი ფანჯრების წიბოებიდან ზომის შეცვლის დაშვება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
-#: config/ui/oxygenconfigurationui.ui:144
+#: config/ui/oxygenconfigurationui.ui:137
 #, kde-format
 msgid "Use the same colors for title bar and window content"
 msgstr "სათაურისა ზოლისა და ფანჯრის შემცველობისთვის იგივე ფერების გამოყენება"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: config/ui/oxygenconfigurationui.ui:152
+#: config/ui/oxygenconfigurationui.ui:145
 #, kde-format
 msgid "Animations"
 msgstr "ანიმაციები"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: config/ui/oxygenconfigurationui.ui:165
+#: config/ui/oxygenconfigurationui.ui:158
 #, kde-format
 msgid "Shadows"
 msgstr "ჩრდილები"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:171
+#: config/ui/oxygenconfigurationui.ui:164
 #, kde-format
 msgid "Active Window Glow"
 msgstr "აქტიური ფანჯრის ნათება"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:181
+#: config/ui/oxygenconfigurationui.ui:174
 #, kde-format
 msgid "Window Drop-Down Shadow"
 msgstr "ფანჯრის ჩრდილი"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: config/ui/oxygenconfigurationui.ui:205
+#: config/ui/oxygenconfigurationui.ui:198
 #, kde-format
 msgid "Window-Specific Overrides"
 msgstr "ფანჯარაზე-დამოკიდებული გადაფარვები"
@@ -395,3 +389,6 @@ msgstr "დამატება"
 #, kde-format
 msgid "Edit"
 msgstr "ჩასწორება"
+
+#~ msgid "Add handle to resize windows with no border"
+#~ msgstr "საზღვრის არმქონი ფანჯრების ზომის შესაცვლელი სახელურის დამატება"
