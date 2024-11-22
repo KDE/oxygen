@@ -84,17 +84,17 @@ void Helper::setMaxCacheSize(int value)
 }
 
 //____________________________________________________________________
-void Helper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QRect &windowRect, const QColor &color, int yShift)
+void Helper::renderWindowBackground(QPainter *p, const QRectF &clipRect, const QRectF &windowRect, const QColor &color, int yShift)
 {
     if (clipRect.isValid()) {
         p->save();
-        p->setClipRegion(clipRect, Qt::IntersectClip);
+        p->setClipRect(clipRect, Qt::IntersectClip);
     }
 
     // draw upper linear gradient
-    const int splitY(qMin(300, (3 * windowRect.height()) / 4));
+    const int splitY(qMin(300.0, (3 * windowRect.height()) / 4));
 
-    QRect upperRect = windowRect;
+    QRectF upperRect = windowRect;
     if (splitY + yShift > 0) {
         upperRect.setHeight(splitY + yShift);
         QPixmap tile(verticalGradient(color, splitY + yShift, yShift));
@@ -102,13 +102,13 @@ void Helper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QR
     }
 
     // draw lower flat part
-    const QRect lowerRect = windowRect.adjusted(0, splitY + yShift, 0, 0);
+    const QRectF lowerRect = windowRect.adjusted(0, splitY + yShift, 0, 0);
     if (lowerRect.isValid()) {
         p->fillRect(lowerRect, backgroundBottomColor(color));
     }
 
     // draw upper radial gradient
-    const int radialW(qMin(600, windowRect.width()));
+    const int radialW(qMin(600.0, windowRect.width()));
     const QRect radialRect((windowRect.width() - radialW) / 2 + windowRect.x(), windowRect.y(), radialW, 64 + yShift);
     if (clipRect.intersects(radialRect)) {
         QPixmap tile = radialGradient(color, radialW, 64 + yShift);
@@ -121,7 +121,7 @@ void Helper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QR
 }
 
 //____________________________________________________________________
-void Helper::renderWindowBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QWidget *window, const QColor &color, int yShift)
+void Helper::renderWindowBackground(QPainter *p, const QRectF &clipRect, const QWidget *widget, const QWidget *window, const QColor &color, int yShift)
 {
     // get coordinates relative to the client area
     // this is stupid. One could use mapTo if this was taking const QWidget* and not

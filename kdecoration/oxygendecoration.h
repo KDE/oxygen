@@ -44,7 +44,7 @@ public:
     ~Decoration() override;
 
     //* paint
-    void paint(QPainter *painter, const QRect &repaintRegion) override;
+    void paint(QPainter *painter, const QRectF &repaintRegion) override;
 
     //* internal settings
     InternalSettingsPtr internalSettings() const
@@ -107,16 +107,16 @@ private:
     void createButtons();
 
     //* window background
-    void renderWindowBackground(QPainter *, const QRect &, const QPalette &) const;
+    void renderWindowBackground(QPainter *, const QRectF &, const QPalette &) const;
 
     //* window border
-    void renderWindowBorder(QPainter *, const QRect &, const QPalette &) const;
+    void renderWindowBorder(QPainter *, const QRectF &, const QPalette &) const;
 
     //* title text
     void renderTitleText(QPainter *, const QPalette &) const;
 
     //* corners
-    void renderCorners(QPainter *, const QRect &, const QPalette &) const;
+    void renderCorners(QPainter *, const QRectF &, const QPalette &) const;
 
     //*@name border size
     //@{

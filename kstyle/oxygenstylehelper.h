@@ -48,16 +48,16 @@ public:
     All the actual rendering is performed by the base class
     */
     using Helper::renderWindowBackground;
-    void renderWindowBackground(QPainter *, const QRect &, const QWidget *, const QColor &, int y_shift = -23) override;
+    void renderWindowBackground(QPainter *, const QRectF &, const QWidget *, const QColor &, int y_shift = -23) override;
 
     // render menu background
-    void renderMenuBackground(QPainter *p, const QRect &clipRect, const QWidget *widget, const QPalette &pal)
+    void renderMenuBackground(QPainter *p, const QRectF &clipRect, const QWidget *widget, const QPalette &pal)
     {
         renderMenuBackground(p, clipRect, widget, pal.color(widget->window()->backgroundRole()));
     }
 
     // render menu background
-    void renderMenuBackground(QPainter *, const QRect &, const QWidget *, const QColor &);
+    void renderMenuBackground(QPainter *, const QRectF &, const QWidget *, const QColor &);
 
     //*@name color utilities
     //@{

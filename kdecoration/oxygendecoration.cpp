@@ -407,7 +407,7 @@ void Decoration::updateButtonsGeometry()
 }
 
 //________________________________________________________________
-void Decoration::paint(QPainter *painter, const QRect &repaintRegion)
+void Decoration::paint(QPainter *painter, const QRectF &repaintRegion)
 {
     const auto c = window();
     const auto palette = c->palette();
@@ -543,22 +543,22 @@ void Decoration::updateShadow()
 }
 
 //_________________________________________________________
-void Decoration::renderCorners(QPainter *painter, const QRect &frame, const QPalette &palette) const
+void Decoration::renderCorners(QPainter *painter, const QRectF &frame, const QPalette &palette) const
 {
     const QColor color(titleBarColor(palette));
 
-    QLinearGradient lg = QLinearGradient(0, -0.5, 0, qreal(frame.height()) + 0.5);
+    QLinearGradient lg = QLinearGradient(0, -0.5, 0, frame.height() + 0.5);
     lg.setColorAt(0.0, SettingsProvider::self()->helper()->calcLightColor(SettingsProvider::self()->helper()->backgroundTopColor(color)));
     lg.setColorAt(0.51, SettingsProvider::self()->helper()->backgroundBottomColor(color));
     lg.setColorAt(1.0, SettingsProvider::self()->helper()->backgroundBottomColor(color));
 
     painter->setPen(QPen(lg, 1));
     painter->setBrush(Qt::NoBrush);
-    painter->drawRoundedRect(QRectF(frame).adjusted(0.5, 0.5, -0.5, -0.5), 3.5, 3.5);
+    painter->drawRoundedRect(frame.adjusted(0.5, 0.5, -0.5, -0.5), 3.5, 3.5);
 }
 
 //_________________________________________________________
-void Decoration::renderWindowBackground(QPainter *painter, const QRect &clipRect, const QPalette &palette) const
+void Decoration::renderWindowBackground(QPainter *painter, const QRectF &clipRect, const QPalette &palette) const
 {
     const auto c = window();
     auto innerClientRect = c->isShaded() ? QRect(QPoint(0, 0), QSize(size().width(), borderTop())) : rect();
@@ -572,12 +572,12 @@ void Decoration::renderWindowBackground(QPainter *painter, const QRect &clipRect
 }
 
 //_________________________________________________________
-void Decoration::renderWindowBorder(QPainter *painter, const QRect &clipRect, const QPalette &palette) const
+void Decoration::renderWindowBorder(QPainter *painter, const QRectF &clipRect, const QPalette &palette) const
 {
     // save painter
     if (clipRect.isValid()) {
         painter->save();
-        painter->setClipRegion(clipRect, Qt::IntersectClip);
+        painter->setClipRect(clipRect, Qt::IntersectClip);
     }
 
     // title height

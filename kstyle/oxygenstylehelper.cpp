@@ -87,7 +87,7 @@ void StyleHelper::setMaxCacheSize(int value)
 }
 
 //____________________________________________________________________
-void StyleHelper::renderWindowBackground(QPainter *painter, const QRect &clipRect, const QWidget *widget, const QColor &color, int y_shift)
+void StyleHelper::renderWindowBackground(QPainter *painter, const QRectF &clipRect, const QWidget *widget, const QColor &color, int y_shift)
 {
     if (_useBackgroundGradient) {
         // normal background gradient
@@ -96,7 +96,7 @@ void StyleHelper::renderWindowBackground(QPainter *painter, const QRect &clipRec
     } else {
         // if background gradient is disabled, simply render flat background
         if (clipRect.isValid()) {
-            painter->setClipRegion(clipRect, Qt::IntersectClip);
+            painter->setClipRect(clipRect, Qt::IntersectClip);
         }
 
         painter->fillRect(widget->rect(), color);
@@ -104,7 +104,7 @@ void StyleHelper::renderWindowBackground(QPainter *painter, const QRect &clipRec
 }
 
 //____________________________________________________________________
-void StyleHelper::renderMenuBackground(QPainter *painter, const QRect &clipRect, const QWidget *widget, const QColor &color)
+void StyleHelper::renderMenuBackground(QPainter *painter, const QRectF &clipRect, const QWidget *widget, const QColor &color)
 {
     // get coordinates relative to the client area
     // this is stupid. One could use mapTo if this was taking const QWidget* and not
@@ -121,7 +121,7 @@ void StyleHelper::renderMenuBackground(QPainter *painter, const QRect &clipRect,
 
     if (clipRect.isValid()) {
         painter->save();
-        painter->setClipRegion(clipRect, Qt::IntersectClip);
+        painter->setClipRect(clipRect, Qt::IntersectClip);
     }
 
     // calculate upper part height

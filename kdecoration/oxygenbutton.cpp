@@ -168,7 +168,7 @@ void Button::reconfigure(void)
 }
 
 //___________________________________________________
-void Button::paint(QPainter *painter, const QRect &repaintRegion)
+void Button::paint(QPainter *painter, const QRectF &repaintRegion)
 {
     Q_UNUSED(repaintRegion)
 
