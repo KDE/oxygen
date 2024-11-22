@@ -386,6 +386,3 @@ msgstr "添加"
 #, kde-format
 msgid "Edit"
 msgstr "编辑"
-
-#~ msgid "Add handle to resize windows with no border"
-#~ msgstr "添加缩放柄到无边框窗口"

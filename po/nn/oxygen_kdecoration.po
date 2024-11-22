@@ -392,7 +392,3 @@ msgstr "Legg til"
 #, kde-format
 msgid "Edit"
 msgstr "Rediger"
-
-#~ msgid "Add handle to resize windows with no border"
-#~ msgstr ""
-#~ "Legg til handtak for å endra storleik på vindauge som ikkje har rammer"
