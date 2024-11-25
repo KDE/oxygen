@@ -39,12 +39,10 @@ class Decoration : public KDecoration3::Decoration
 public:
     //* constructor
     explicit Decoration(QObject *parent = nullptr, const QVariantList &args = QVariantList());
-
-    //* destructor
     ~Decoration() override;
 
-    //* paint
     void paint(QPainter *painter, const QRectF &repaintRegion) override;
+    QMarginsF bordersFor(double scale) const override;
 
     //* internal settings
     InternalSettingsPtr internalSettings() const

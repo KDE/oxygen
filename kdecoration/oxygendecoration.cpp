@@ -425,6 +425,11 @@ void Decoration::paint(QPainter *painter, const QRectF &repaintRegion)
     }
 }
 
+QMarginsF Decoration::bordersFor(double scale) const
+{
+    return borders();
+}
+
 //________________________________________________________________
 int Decoration::buttonHeight() const
 {
