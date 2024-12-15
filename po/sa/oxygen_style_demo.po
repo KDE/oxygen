@@ -526,7 +526,7 @@ msgstr "&उन्नत"
 #, kde-format
 msgctxt "Flat frame. No frame is actually drawn."
 msgid "&Flat"
-msgstr ""
+msgstr "&समतलम्‌"
 
 #. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:124

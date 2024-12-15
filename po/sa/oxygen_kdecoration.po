@@ -115,28 +115,28 @@ msgstr "सामान्य"
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Small"
-msgstr ""
+msgstr "लघु"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:36
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
-msgstr ""
+msgstr "सामान्य"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:41
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
-msgstr ""
+msgstr "बृहत्‌"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:46
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr ""
+msgstr "अतीव विशालः"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: config/ui/oxygenconfigurationui.ui:67
@@ -306,63 +306,63 @@ msgstr "विण्डो शीर्षकपट्टिकां गोप�
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Border"
-msgstr ""
+msgstr "न सीमा"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:112
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr ""
+msgstr "न पार्श्वसीमाः"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:117
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
-msgstr ""
+msgstr "तुच्छ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:122
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
-msgstr ""
+msgstr "सामान्य"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:127
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
-msgstr ""
+msgstr "बृहत्‌"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:132
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
-msgstr ""
+msgstr "अतीव विशालः"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:137
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
-msgstr ""
+msgstr "विशालः"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:142
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
-msgstr ""
+msgstr "अतीव विशालः"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:147
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
-msgstr ""
+msgstr "अतिप्रमाणम्"
 
 #. i18n: ectx: property (text), widget (QPushButton, moveUpButton)
 #: config/ui/oxygenexceptionlistwidget.ui:58

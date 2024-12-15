@@ -277,21 +277,21 @@ msgstr "&वृक्षविस्तारकस्य आकारः : १.
 #, kde-format
 msgctxt "triangle size"
 msgid "Tiny"
-msgstr ""
+msgstr "तुच्छ"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:214
 #, kde-format
 msgctxt "triangle size"
 msgid "Small"
-msgstr ""
+msgstr "लघु"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:219
 #, kde-format
 msgctxt "triangle size"
 msgid "Normal"
-msgstr ""
+msgstr "सामान्य"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
 #: ui/oxygenstyleconfig.ui:256
