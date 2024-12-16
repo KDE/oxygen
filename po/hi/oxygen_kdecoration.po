@@ -1,4 +1,4 @@
-# Sanskrit translations for oxygen package.
+# Hindi translations for oxygen package.
 # Copyright (C) 2024 This file is copyright:
 # This file is distributed under the same license as the oxygen package.
 # Kali <EMAIL@ADDRESS>, 2024.
@@ -8,29 +8,28 @@ msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-20 00:41+0000\n"
-"PO-Revision-Date: 2024-12-13 19:09+0530\n"
+"PO-Revision-Date: 2024-12-15 15:57+0530\n"
 "Last-Translator: Kali <EMAIL@ADDRESS>\n"
-"Language-Team: Sanskrit\n"
-"Language: sa\n"
+"Language-Team: Hindi <fedora-trans-hi@redhat.com>\n"
+"Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n>2);\n"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
 msgid "Button mouseover transition"
-msgstr "बटन माउसओवर संक्रमण"
+msgstr ""
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
 msgid "Configure window buttons' mouseover highlight animation"
-msgstr "विण्डो बटन्स् इत्यस्य माउसओवर हाइलाइट् एनिमेशनं विन्यस्यताम्"
+msgstr ""
 
 #: config/oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid "Window active state change transitions"
-msgstr "विण्डो सक्रियस्थितिपरिवर्तनसंक्रमणानि"
+msgstr ""
 
 #: config/oxygenanimationconfigwidget.cpp:36
 #, kde-format
@@ -38,353 +37,351 @@ msgid ""
 "Configure fading between window shadow and glow when window's active state "
 "is changed"
 msgstr ""
-"यदा विण्डो इत्यस्य सक्रियस्थितिः परिवर्तिता भवति तदा विण्डो शैडो तथा ग्लो इत्येतयोः मध्ये "
-"फीडिंग् विन्यस्यताम्"
 
 #: config/oxygenexceptionlistwidget.cpp:87
 #, kde-format
 msgid "New Exception - Oxygen Settings"
-msgstr "नवीन अपवादः - आक्सीजन सेटिंग्स्"
+msgstr ""
 
 #: config/oxygenexceptionlistwidget.cpp:134
 #, kde-format
 msgid "Edit Exception - Oxygen Settings"
-msgstr "अपवाद सम्पादयतु - आक्सीजन सेटिंग्स्"
+msgstr ""
 
 #: config/oxygenexceptionlistwidget.cpp:166
 #, kde-format
 msgid "Question - Oxygen Settings"
-msgstr "प्रश्न - आक्सीजन सेटिंग्स"
+msgstr ""
 
 #: config/oxygenexceptionlistwidget.cpp:167
 #, kde-format
 msgid "Remove selected exception?"
-msgstr "चयनितं अपवादं निष्कासयन्तु?"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeButton)
 #: config/oxygenexceptionlistwidget.cpp:169
 #: config/ui/oxygenexceptionlistwidget.ui:79
 #, kde-format
 msgid "Remove"
-msgstr "अपाकरोति"
+msgstr ""
 
 #: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
 msgid "Warning - Oxygen Settings"
-msgstr "चेतावनी - आक्सीजन सेटिंग्स्"
+msgstr ""
 
 #: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
 msgid "Regular Expression syntax is incorrect"
-msgstr "Regular Expression वाक्यविन्यासः अशुद्धः अस्ति"
+msgstr ""
 
 #: config/oxygenexceptionmodel.cpp:17
 #, kde-format
 msgid "Exception Type"
-msgstr "अपवादप्रकारः"
+msgstr ""
 
 #: config/oxygenexceptionmodel.cpp:17
 #, kde-format
 msgid "Regular Expression"
-msgstr "नियमित अभिव्यक्ति"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
 #: config/oxygenexceptionmodel.cpp:35 config/ui/oxygenexceptiondialog.ui:72
 #, kde-format
 msgid "Window Title"
-msgstr "विण्डो शीर्षक"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
 #: config/oxygenexceptionmodel.cpp:39 config/ui/oxygenexceptiondialog.ui:67
 #, kde-format
 msgid "Window Class Name"
-msgstr "विण्डो वर्ग नाम"
+msgstr ""
 
 #: config/oxygenexceptionmodel.cpp:54
 #, kde-format
 msgid "Enable/disable this exception"
-msgstr "एतत् अपवादं सक्षमं/अक्षमं कुर्वन्तु"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: config/ui/oxygenconfigurationui.ui:24
 #, kde-format
 msgid "General"
-msgstr "सामान्य"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:31
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Small"
-msgstr "लघु"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:36
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
-msgstr "सामान्य"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:41
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
-msgstr "बृहत्‌"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:46
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr "अतीव विशालः"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: config/ui/oxygenconfigurationui.ui:67
 #, kde-format
 msgid "Tit&le alignment:"
-msgstr "शीर्षकम् & संरेखणम् : १."
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:81
 #, kde-format
 msgid "Left"
-msgstr "वामः"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:86
 #, kde-format
 msgid "Center"
-msgstr "केंद्र"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:91
 #, kde-format
 msgid "Center (Full Width)"
-msgstr "केन्द्र (पूर्ण चौड़ाई) २."
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:96
 #, kde-format
 msgid "Right"
-msgstr "दक्षिणः"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: config/ui/oxygenconfigurationui.ui:104
 #, kde-format
 msgid "B&utton size:"
-msgstr "B&utton आकारः : १."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
 #: config/ui/oxygenconfigurationui.ui:117
 #, kde-format
 msgid "Allow resizing maximized windows from window edges"
-msgstr "विण्डो-प्रान्तेभ्यः अधिकतम-विण्डो-आकारं परिवर्तयितुं अनुमन्यताम्"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
 #: config/ui/oxygenconfigurationui.ui:137
 #, kde-format
 msgid "Use the same colors for title bar and window content"
-msgstr "शीर्षकपट्टिकायाः विण्डोसामग्रीणां च कृते समानवर्णानां उपयोगं कुर्वन्तु"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: config/ui/oxygenconfigurationui.ui:145
 #, kde-format
 msgid "Animations"
-msgstr "एनिमेशन"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: config/ui/oxygenconfigurationui.ui:158
 #, kde-format
 msgid "Shadows"
-msgstr "छायाः"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
 #: config/ui/oxygenconfigurationui.ui:164
 #, kde-format
 msgid "Active Window Glow"
-msgstr "सक्रिय खिडकी चमक"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
 #: config/ui/oxygenconfigurationui.ui:174
 #, kde-format
 msgid "Window Drop-Down Shadow"
-msgstr "विण्डो ड्रॉप-डाउन छाया"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: config/ui/oxygenconfigurationui.ui:198
 #, kde-format
 msgid "Window-Specific Overrides"
-msgstr "विण्डो-विशिष्टं अधिलिखितम्"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OxygenExceptionDialog)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OxygenDetectWidget)
 #: config/ui/oxygendetectwidget.ui:14 config/ui/oxygenexceptiondialog.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr "संवादः"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: config/ui/oxygendetectwidget.ui:20
 #, kde-format
 msgid "Information about Selected Window"
-msgstr "चयनितविण्डो इत्यस्य विषये सूचना"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: config/ui/oxygendetectwidget.ui:26
 #, kde-format
 msgid "Class: "
-msgstr "श्रेणी: "
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: config/ui/oxygendetectwidget.ui:43
 #, kde-format
 msgid "Title: "
-msgstr "शीर्षक: "
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: config/ui/oxygendetectwidget.ui:63
 #, kde-format
 msgid "Window Property Selection"
-msgstr "विण्डो गुण चयन"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, windowClassCheckBox)
 #: config/ui/oxygendetectwidget.ui:69
 #, kde-format
 msgid "Use window class (whole application)"
-msgstr "विण्डो क्लास् (समग्रं अनुप्रयोगम्) उपयुज्यताम् ।"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, windowTitleCheckBox)
 #: config/ui/oxygendetectwidget.ui:79
 #, kde-format
 msgid "Use window title"
-msgstr "विण्डो शीर्षकस्य उपयोगं कुर्वन्तु"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: config/ui/oxygenexceptiondialog.ui:20
 #, kde-format
 msgid "Window Identification"
-msgstr "खिडकी पहिचान"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: config/ui/oxygenexceptiondialog.ui:26
 #, kde-format
 msgid "&Matching window property: "
-msgstr "&मेलनं विण्डो गुणः: "
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: config/ui/oxygenexceptiondialog.ui:39
 #, kde-format
 msgid "Regular expression &to match: "
-msgstr "नियमित अभिव्यक्ति &मेलनं कर्तुं : १. "
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, detectDialogButton)
 #: config/ui/oxygenexceptiondialog.ui:52
 #, kde-format
 msgid "Detect Window Properties"
-msgstr "Window Properties इत्यस्य अन्वेषणं कुर्वन्तु"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: config/ui/oxygenexceptiondialog.ui:83
 #, kde-format
 msgid "Decoration Options"
-msgstr "अलङ्कारविकल्पाः"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, borderSizeCheckBox)
 #: config/ui/oxygenexceptiondialog.ui:89
 #, kde-format
 msgid "Border size:"
-msgstr "सीमायाः आकारः : १."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideTitleBar)
 #: config/ui/oxygenexceptiondialog.ui:96
 #, kde-format
 msgid "Hide window title bar"
-msgstr "विण्डो शीर्षकपट्टिकां गोपयन्तु"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:107
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Border"
-msgstr "न सीमा"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:112
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr "न पार्श्वसीमाः"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:117
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
-msgstr "तुच्छ"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:122
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Normal"
-msgstr "सामान्य"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:127
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Large"
-msgstr "बृहत्‌"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:132
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
-msgstr "अतीव विशालः"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:137
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
-msgstr "विशालः"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:142
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
-msgstr "अतीव विशालः"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:147
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Oversized"
-msgstr "अतिप्रमाणम्"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, moveUpButton)
 #: config/ui/oxygenexceptionlistwidget.ui:58
 #, kde-format
 msgid "Move Up"
-msgstr "उपरि गच्छतु"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, moveDownButton)
 #: config/ui/oxygenexceptionlistwidget.ui:65
 #, kde-format
 msgid "Move Down"
-msgstr "अधः गच्छतु"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, addButton)
 #: config/ui/oxygenexceptionlistwidget.ui:72
 #, kde-format
 msgid "Add"
-msgstr "संयोजयति"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, editButton)
 #: config/ui/oxygenexceptionlistwidget.ui:86
 #, kde-format
 msgid "Edit"
-msgstr "सम्पादन"
+msgstr ""
