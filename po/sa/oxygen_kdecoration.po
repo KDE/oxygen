@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-20 00:41+0000\n"
-"PO-Revision-Date: 2024-12-19 21:41+0530\n"
+"PO-Revision-Date: 2024-12-20 21:53+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -145,7 +145,7 @@ msgstr "अतीव विशालः"
 #: config/ui/oxygenconfigurationui.ui:67
 #, kde-format
 msgid "Tit&le alignment:"
-msgstr "शीर्षकम् & संरेखणम् : १."
+msgstr "शीर्षकम् & संरेखणम् :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:81
@@ -163,7 +163,7 @@ msgstr "केंद्र"
 #: config/ui/oxygenconfigurationui.ui:91
 #, kde-format
 msgid "Center (Full Width)"
-msgstr "केन्द्र (पूर्ण चौड़ाई) २."
+msgstr "केन्द्र (पूर्ण चौड़ाई)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:96
@@ -175,7 +175,7 @@ msgstr "दक्षिणः"
 #: config/ui/oxygenconfigurationui.ui:104
 #, kde-format
 msgid "B&utton size:"
-msgstr "B&utton आकारः : १."
+msgstr "B&utton आकारः :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
 #: config/ui/oxygenconfigurationui.ui:117
@@ -296,7 +296,7 @@ msgstr "अलङ्कारविकल्पाः"
 #: config/ui/oxygenexceptiondialog.ui:89
 #, kde-format
 msgid "Border size:"
-msgstr "सीमायाः आकारः : १."
+msgstr "सीमायाः आकारः :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, hideTitleBar)
 #: config/ui/oxygenexceptiondialog.ui:96

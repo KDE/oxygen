@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the oxygen package.
 # Kali <EMAIL@ADDRESS>, 2024.
 #
+# SPDX-FileCopyrightText: 2024 kali <skkalwar999@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
-"PO-Revision-Date: 2024-12-13 19:09+0530\n"
-"Last-Translator: Kali <EMAIL@ADDRESS>\n"
-"Language-Team: Sanskrit\n"
+"PO-Revision-Date: 2024-12-20 21:53+0530\n"
+"Last-Translator: kali <skkalwar999@gmail.com>\n"
+"Language-Team: English <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n>2);\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #: main.cpp:37 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -303,7 +305,7 @@ msgstr "पुशबटन"
 #: ui/oxygenbuttondemowidget.ui:132
 #, kde-format
 msgid "Text only:"
-msgstr "पाठमात्रम् : १."
+msgstr "पाठमात्रम् :"
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:142
@@ -327,7 +329,7 @@ msgstr "बृहत्‌"
 #: ui/oxygenbuttondemowidget.ui:180
 #, kde-format
 msgid "Text and icon:"
-msgstr "पाठः चिह्नं च : १."
+msgstr "पाठः चिह्नं च :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
 #: ui/oxygenbuttondemowidget.ui:190
@@ -421,7 +423,7 @@ msgstr "दक्षिण बाण"
 #: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
 #, kde-format
 msgid "Te&xt position:"
-msgstr "Te&xt स्थितिः : १."
+msgstr "Te&xt स्थितिः :"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
@@ -460,31 +462,31 @@ msgstr "चिह्न si&ze:"
 #: ui/oxygenbuttondemowidget.ui:484
 #, kde-format
 msgid "Small (16x16)"
-msgstr "लघु (१६x१६) २."
+msgstr "लघु (१६x१६)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:489
 #, kde-format
 msgid "Medium (22x22)"
-msgstr "मध्यम (२२x२२) २."
+msgstr "मध्यम (२२x२२)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:494
 #, kde-format
 msgid "Large (32x32)"
-msgstr "बृहत् (३२x३२) २."
+msgstr "बृहत् (३२x३२)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:499
 #, kde-format
 msgid "Huge (48x48)"
-msgstr "विशाल (४८x४८) २."
+msgstr "विशाल (४८x४८)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenframedemowidget.ui:31
 #, kde-format
 msgid "&Layout direction:"
-msgstr "&लेआउट दिशा : १."
+msgstr "&लेआउट दिशा :"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:45
@@ -558,13 +560,13 @@ msgstr "ट्याब् विजेट्"
 #: ui/oxygeninputdemowidget.ui:29
 #, kde-format
 msgid "Single line text editor:"
-msgstr "एकपङ्क्तिपाठसम्पादकः : १."
+msgstr "एकपङ्क्तिपाठसम्पादकः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygeninputdemowidget.ui:65
 #, kde-format
 msgid "Password editor:"
-msgstr "गुप्तशब्द सम्पादकः : १."
+msgstr "गुप्तशब्द सम्पादकः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygeninputdemowidget.ui:88
@@ -594,13 +596,13 @@ msgstr "तृतीयः मदः"
 #: ui/oxygeninputdemowidget.ui:123
 #, kde-format
 msgid "Spinbox:"
-msgstr "स्पिनबॉक्स : १."
+msgstr "स्पिनबॉक्स :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ui/oxygeninputdemowidget.ui:146
 #, kde-format
 msgid "Multi-line text editor:"
-msgstr "बहुपङ्क्तिपाठसम्पादकः : १."
+msgstr "बहुपङ्क्तिपाठसम्पादकः :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
 #: ui/oxygeninputdemowidget.ui:153
@@ -897,7 +899,7 @@ msgstr "उभयतः चिह्नानि टिक् कुर्वन
 #: ui/oxygentabdemowidget.ui:31
 #, kde-format
 msgid "&Tab position:"
-msgstr "&टैब स्थितिः : १."
+msgstr "&टैब स्थितिः :"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:45
