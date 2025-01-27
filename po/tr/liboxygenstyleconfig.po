@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Volkan, 2013.
-# Emir SARI <emir_sari@icloud.com>, 2022.
+# SPDX-FileCopyrightText: 2022, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
-"PO-Revision-Date: 2022-04-25 14:01+0300\n"
+"PO-Revision-Date: 2025-01-26 13:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #: oxygenanimationconfigitem.cpp:97
 #, kde-format
 msgid "oxygen-settings - information"
-msgstr "oksijen-settings - bilgi"
+msgstr "oksijen-settings — bilgi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
 #: ui/oxygenanimationconfigitem.ui:29
@@ -34,7 +34,7 @@ msgstr "CheckBox"
 #: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
 #: ui/oxygenanimationconfigwidget.ui:23
@@ -64,19 +64,19 @@ msgstr " ms"
 #: ui/oxygenshadowconfigurationui.ui:23
 #, kde-format
 msgid "Inner Color:"
-msgstr "İç Renk:"
+msgstr "İç renk:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ui/oxygenshadowconfigurationui.ui:42
 #, kde-format
 msgid "Outer Color:"
-msgstr "Dış Renk:"
+msgstr "Dış renk:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenshadowconfigurationui.ui:69
 #, kde-format
 msgid "Vertical Offset:"
-msgstr "Dikey Ofset:"
+msgstr "Dikey ofset:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenshadowconfigurationui.ui:82
