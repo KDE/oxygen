@@ -173,6 +173,7 @@ bool Decoration::init()
 
     // decoration has an overloaded update function, force the compiler to choose the right one
     connect(cl, &KDecoration3::DecoratedWindow::paletteChanged, this, static_cast<void (Decoration::*)()>(&Decoration::update));
+    connect(this, &KDecoration3::Decoration::bordersChanged, this, &Decoration::updateTitleBar);
     connect(cl, &KDecoration3::DecoratedWindow::widthChanged, this, &Decoration::updateTitleBar);
     connect(cl, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Decoration::updateTitleBar);
     connect(cl, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Decoration::setOpaque);
