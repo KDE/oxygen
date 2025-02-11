@@ -388,6 +388,3 @@ msgstr "Přidat"
 #, kde-format
 msgid "Edit"
 msgstr "Upravit"
-
-#~ msgid "Add handle to resize windows with no border"
-#~ msgstr "Přidat úchytku pro změnu velikosti oken bez okrajů"
