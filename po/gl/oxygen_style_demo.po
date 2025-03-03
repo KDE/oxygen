@@ -953,7 +953,7 @@ msgstr "Amosar os botóns de pechar os separadores."
 #: ui/oxygentabdemowidget.ui:136
 #, kde-format
 msgid "Hide tabbar"
-msgstr "Agochar a barra de lapelas."
+msgstr "Agochar a barra de separadores."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygentabdemowidget.ui:143
