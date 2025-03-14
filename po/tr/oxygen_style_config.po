@@ -4,13 +4,13 @@
 # Serdar Soytetir <tulliana@gmail.com>, 2008, 2009, 2012.
 # H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2011, 2013.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2017.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
-"PO-Revision-Date: 2024-03-18 19:44+0300\n"
+"PO-Revision-Date: 2025-03-13 22:29+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #: main.cpp:24 main.cpp:28
 #, kde-format
@@ -48,7 +48,7 @@ msgstr "Araç çubuğu vurgulaması"
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr ""
-"Araç çubuklarını yapılandır'ın fare üzerine gelindiğindeki canlandırması"
+"“Araç çubuklarını yapılandır”ın fare üzerine gelindiğindeki canlandırması"
 
 #: oxygenanimationconfigwidget.cpp:43
 #, kde-format
