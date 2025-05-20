@@ -1,15 +1,15 @@
 # Spanish translations for oxygen_style_demo.po package.
-# Copyright (C) 2014 This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Copyright (C) 2014-2025 This file is copyright:
+# This file is distributed under the same license as the oxygen package.
 # Automatically generated, 2014.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2014, 2015, 2017, 2019, 2021.
+#
+# SPDX-FileCopyrightText: 2014, 2015, 2017, 2019, 2021, 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_demo\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
-"PO-Revision-Date: 2021-10-07 16:34+0200\n"
+"PO-Revision-Date: 2025-05-20 02:29+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -960,19 +960,3 @@ msgstr "Ocultar la barra de pestañas"
 #, kde-format
 msgid "Preview"
 msgstr "Vista previa"
-
-#~ msgid "&Color Theme"
-#~ msgstr "Tema de &color"
-
-#~ msgctxt "Flat frame. No frame is actually drawn."
-#~ msgid "Flat"
-#~ msgstr "Plano"
-
-#~ msgid "Dialog"
-#~ msgstr "Diálogo"
-
-#~ msgid "Text position:"
-#~ msgstr "Posición del texto:"
-
-#~ msgid "Busy"
-#~ msgstr "Ocupado"
