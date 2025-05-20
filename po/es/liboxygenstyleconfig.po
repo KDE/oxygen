@@ -1,13 +1,14 @@
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
+# Spanish translations for liboxygenstyleconfig.po package.
+# Copyright (C) 2012-2025 This file is copyright:
+# This file is distributed under the same license as the oxygen package.
 #
-# Eloy Cuadra <ecuadra@eloihr.net>, 2012, 2013, 2017.
+# SPDX-FileCopyrightText: 2012, 2013, 2017, 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: liboxygenstyleconfig\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
-"PO-Revision-Date: 2017-10-22 12:13+0100\n"
+"PO-Revision-Date: 2025-05-20 02:30+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -33,7 +34,7 @@ msgstr "CheckBox"
 #: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
 #: ui/oxygenanimationconfigwidget.ui:23

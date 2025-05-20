@@ -1,15 +1,15 @@
-# Spanish translations for breeze_kwin_deco.po package.
-# Copyright (C) 2014 This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Spanish translations for oxygen_kdecoration.po package.
+# Copyright (C) 2014-2025 This file is copyright:
+# This file is distributed under the same license as the oxygen package.
 # Automatically generated, 2014.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2014, 2015, 2016, 2017.
+#
+# SPDX-FileCopyrightText: 2014, 2015, 2016, 2017, 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
-"Project-Id-Version: breeze_kwin_deco\n"
+"Project-Id-Version: oxygen_kdecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-20 00:41+0000\n"
-"PO-Revision-Date: 2017-12-14 22:19+0100\n"
+"PO-Revision-Date: 2025-05-20 02:30+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -395,21 +395,3 @@ msgstr "Añadir"
 #, kde-format
 msgid "Edit"
 msgstr "Editar"
-
-#~ msgid "Add handle to resize windows with no border"
-#~ msgstr "Añadir un asa para cambiar el tamaño de las ventanas sin borde"
-
-#~ msgid "Display window borders for maximized windows"
-#~ msgstr "Mostrar los bordes de las ventanas cuando están maximizadas"
-
-#~ msgid "&Animations duration:"
-#~ msgstr "&Duración de las animaciones:"
-
-#~ msgid "ms"
-#~ msgstr "ms"
-
-#~ msgid "Enable animations"
-#~ msgstr "Activar animaciones"
-
-#~ msgid "Form"
-#~ msgstr "Formulario"
