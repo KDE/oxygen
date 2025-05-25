@@ -67,6 +67,29 @@ macro(add_x_cursor theme cursor dpi)
     endif(NOT WIN32)
 endmacro(add_x_cursor)
 
+macro(add_svg_cursor theme cursor)
+    # Prepare a list of the svg files that are necessary
+    set(inputs)
+    foreach(png ${${cursor}_inputs})
+        string(REPLACE ".png" ".svg" svg "${png}")
+        # add target to copy the svg from the build location
+        add_custom_command(
+            OUTPUT ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors_scalable/${cursor}/${svg}
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/oxy-${theme}/svg/${svg} ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors_scalable/${cursor}/${svg}
+            DEPENDS ${CMAKE_BINARY_DIR}/oxy-${theme}/svg/${svg}
+        )
+        list(APPEND inputs ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors_scalable/${cursor}/${svg})
+    endforeach(png)
+    
+    # convert the cursor.in to metadata.json and request the corresponding cursor.svg
+    add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors_scalable/${cursor}/metadata.json
+                       DEPENDS ${MAKE_SVG_METADATA_JSON} ${CONFIGDIR}/${cursor}.in ${inputs}
+                       COMMAND ${CMAKE_COMMAND} -Dconfig=${CONFIGDIR}/${cursor}.in
+                                                -Doutput=${CMAKE_BINARY_DIR}/oxy-${theme}/cursors_scalable/${cursor}/metadata.json
+                                                -P ${MAKE_SVG_METADATA_JSON}
+    )
+endmacro(add_svg_cursor)
+
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/packages)
 
 # Macro that adds a theme. You can specify more than one dpi value (overloaded macro).
@@ -82,6 +105,7 @@ macro(add_theme color theme dpi)
     file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/oxy-${theme}/svg)
     file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/oxy-${theme}/config)
     file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors)
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors_scalable)
     if(WIN32)
     file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/wincursors/oxy-${theme})
     endif(WIN32)
@@ -97,9 +121,15 @@ macro(add_theme color theme dpi)
         add_x_cursor(${theme} ${cursor} ${resolutions})
         list(APPEND ${theme}_cursors ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors/${cursor})
     endforeach(cursor)
+    # produce svg cursor file-structure from the svg files
+    foreach(cursor ${CURSORS})
+        add_svg_cursor(${theme} ${cursor})
+        list(APPEND ${theme}_cursors ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors_scalable/${cursor}/metadata.json)
+    endforeach(cursor)
     # add the symbolic links
     foreach(symlink ${SYMLINKS_PATHS})
         file(COPY ${symlink} DESTINATION ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors)
+        file(COPY ${symlink} DESTINATION ${CMAKE_BINARY_DIR}/oxy-${theme}/cursors_scalable)
     endforeach(symlink)
     # packaging
     add_custom_target(theme-${theme} ALL DEPENDS ${${theme}_cursors})
@@ -113,6 +143,7 @@ macro(add_theme color theme dpi)
                        DEPENDS ${${theme}_cursors} ${CMAKE_BINARY_DIR}/oxy-${theme}/index.theme
                        COMMAND ${TAR} cjf ${CMAKE_BINARY_DIR}/packages/oxy-${theme}.tar.bz2
                                       oxy-${theme}/cursors
+                                      oxy-${theme}/cursors_scalable
                                       oxy-${theme}/index.theme
                        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                       )

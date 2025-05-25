@@ -1,5 +1,7 @@
 How to generate all the pngs and the SVGs and the cursor files:
 
+# don't forget to install gcc and gcc-c++ or respective equivalents on ur distro
+
 mkdir build
 cd build
 cmake ../src
