@@ -393,6 +393,3 @@ msgstr "Добавяне"
 #, kde-format
 msgid "Edit"
 msgstr "Редактиране"
-
-#~ msgid "Add handle to resize windows with no border"
-#~ msgstr "Добавяне на манипулатор за преоразмеряване на прозорци без рамки"
