@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2021-06-27 22:29+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -62,9 +62,7 @@ msgstr "سؤال - إعدادات أكسجين"
 msgid "Remove selected exception?"
 msgstr "أأزيل الاستثناء المحدّد؟"
 
-#. i18n: ectx: property (text), widget (QPushButton, removeButton)
 #: config/oxygenexceptionlistwidget.cpp:170
-#: config/ui/oxygenexceptionlistwidget.ui:79
 #, kde-format
 msgid "Remove"
 msgstr "أزل"
@@ -89,14 +87,12 @@ msgstr "نوع الاستثناء"
 msgid "Regular Expression"
 msgstr "التّعبير النّمطيّ"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
-#: config/oxygenexceptionmodel.cpp:36 config/ui/oxygenexceptiondialog.ui:72
+#: config/oxygenexceptionmodel.cpp:36
 #, kde-format
 msgid "Window Title"
 msgstr "عنوان النّافذة"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, exceptionType)
-#: config/oxygenexceptionmodel.cpp:40 config/ui/oxygenexceptiondialog.ui:67
+#: config/oxygenexceptionmodel.cpp:40
 #, kde-format
 msgid "Window Class Name"
 msgstr "اسم صنف النّافذة"
@@ -106,295 +102,156 @@ msgstr "اسم صنف النّافذة"
 msgid "Enable/disable this exception"
 msgstr "مكّن/عطّل هذا الاستثناء"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: config/ui/oxygenconfigurationui.ui:24
-#, kde-format
-msgid "General"
-msgstr "عامّ"
+#~ msgid "General"
+#~ msgstr "عامّ"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
-#: config/ui/oxygenconfigurationui.ui:31
-#, kde-format
-msgctxt "@item:inlistbox Button size:"
-msgid "Small"
-msgstr "صغير"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Small"
+#~ msgstr "صغير"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
-#: config/ui/oxygenconfigurationui.ui:36
-#, kde-format
-msgctxt "@item:inlistbox Button size:"
-msgid "Normal"
-msgstr "عاديّ"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Normal"
+#~ msgstr "عاديّ"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
-#: config/ui/oxygenconfigurationui.ui:41
-#, kde-format
-msgctxt "@item:inlistbox Button size:"
-msgid "Large"
-msgstr "كبير"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Large"
+#~ msgstr "كبير"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
-#: config/ui/oxygenconfigurationui.ui:46
-#, kde-format
-msgctxt "@item:inlistbox Button size:"
-msgid "Very Large"
-msgstr "كبير جدًّا"
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Very Large"
+#~ msgstr "كبير جدًّا"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: config/ui/oxygenconfigurationui.ui:67
-#, kde-format
-msgid "Tit&le alignment:"
-msgstr "محاذاة الع&نوان:"
+#~ msgid "Tit&le alignment:"
+#~ msgstr "محاذاة الع&نوان:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
-#: config/ui/oxygenconfigurationui.ui:81
-#, kde-format
-msgid "Left"
-msgstr "اليسار"
+#~ msgid "Left"
+#~ msgstr "اليسار"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
-#: config/ui/oxygenconfigurationui.ui:86
-#, kde-format
-msgid "Center"
-msgstr "الوسط"
+#~ msgid "Center"
+#~ msgstr "الوسط"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
-#: config/ui/oxygenconfigurationui.ui:91
-#, kde-format
-msgid "Center (Full Width)"
-msgstr "الوسط (كامل العرض)"
+#~ msgid "Center (Full Width)"
+#~ msgstr "الوسط (كامل العرض)"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
-#: config/ui/oxygenconfigurationui.ui:96
-#, kde-format
-msgid "Right"
-msgstr "اليمين"
+#~ msgid "Right"
+#~ msgstr "اليمين"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: config/ui/oxygenconfigurationui.ui:104
-#, kde-format
-msgid "B&utton size:"
-msgstr "حجم الزّ&رّ:"
+#~ msgid "B&utton size:"
+#~ msgstr "حجم الزّ&رّ:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, drawSizeGrip)
-#: config/ui/oxygenconfigurationui.ui:117
-#, kde-format
-msgid "Add handle to resize windows with no border"
-msgstr "أضف مقبضًا لتغيير حجم النّافذة الّتي لا حدود لها"
+#~ msgid "Add handle to resize windows with no border"
+#~ msgstr "أضف مقبضًا لتغيير حجم النّافذة الّتي لا حدود لها"
 
-#. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
-#: config/ui/oxygenconfigurationui.ui:124
-#, kde-format
-msgid "Allow resizing maximized windows from window edges"
-msgstr "اسمح بتغيير حجم النوافذ المكبرة من حواف النوافذ"
+#~ msgid "Allow resizing maximized windows from window edges"
+#~ msgstr "اسمح بتغيير حجم النوافذ المكبرة من حواف النوافذ"
 
-#. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
-#: config/ui/oxygenconfigurationui.ui:144
-#, kde-format
-msgid "Use the same colors for title bar and window content"
-msgstr "استخدم نفس الألوان لشريط العنوان ومحتوى النافذة"
+#~ msgid "Use the same colors for title bar and window content"
+#~ msgstr "استخدم نفس الألوان لشريط العنوان ومحتوى النافذة"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: config/ui/oxygenconfigurationui.ui:152
-#, kde-format
-msgid "Animations"
-msgstr "التّحريكات"
+#~ msgid "Animations"
+#~ msgstr "التّحريكات"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: config/ui/oxygenconfigurationui.ui:165
-#, kde-format
-msgid "Shadows"
-msgstr "الظلال"
+#~ msgid "Shadows"
+#~ msgstr "الظلال"
 
-#. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:171
-#, kde-format
-msgid "Active Window Glow"
-msgstr "توهح النافذة المفعلة"
+#~ msgid "Active Window Glow"
+#~ msgstr "توهح النافذة المفعلة"
 
-#. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:181
-#, kde-format
-msgid "Window Drop-Down Shadow"
-msgstr "ظل النافذة المنسدل"
+#~ msgid "Window Drop-Down Shadow"
+#~ msgstr "ظل النافذة المنسدل"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: config/ui/oxygenconfigurationui.ui:205
-#, kde-format
-msgid "Window-Specific Overrides"
-msgstr "تجاوزات خاصّة بالنّافذة"
+#~ msgid "Window-Specific Overrides"
+#~ msgstr "تجاوزات خاصّة بالنّافذة"
 
-#. i18n: ectx: property (windowTitle), widget (QDialog, OxygenExceptionDialog)
-#. i18n: ectx: property (windowTitle), widget (QDialog, OxygenDetectWidget)
-#: config/ui/oxygendetectwidget.ui:14 config/ui/oxygenexceptiondialog.ui:14
-#, kde-format
-msgid "Dialog"
-msgstr "حواريّ"
+#~ msgid "Dialog"
+#~ msgstr "حواريّ"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: config/ui/oxygendetectwidget.ui:20
-#, kde-format
-msgid "Information about Selected Window"
-msgstr "معلومات عن النّافذة المحدّدة"
+#~ msgid "Information about Selected Window"
+#~ msgstr "معلومات عن النّافذة المحدّدة"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: config/ui/oxygendetectwidget.ui:26
-#, kde-format
-msgid "Class: "
-msgstr "الصّنف: "
+#~ msgid "Class: "
+#~ msgstr "الصّنف: "
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: config/ui/oxygendetectwidget.ui:43
-#, kde-format
-msgid "Title: "
-msgstr "العنوان: "
+#~ msgid "Title: "
+#~ msgstr "العنوان: "
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: config/ui/oxygendetectwidget.ui:63
-#, kde-format
-msgid "Window Property Selection"
-msgstr "تحديد خاصيّة النّافذة"
+#~ msgid "Window Property Selection"
+#~ msgstr "تحديد خاصيّة النّافذة"
 
-#. i18n: ectx: property (text), widget (QRadioButton, windowClassCheckBox)
-#: config/ui/oxygendetectwidget.ui:69
-#, kde-format
-msgid "Use window class (whole application)"
-msgstr "استخدم صنف النّافذة (التّطبيق بالكامل)"
+#~ msgid "Use window class (whole application)"
+#~ msgstr "استخدم صنف النّافذة (التّطبيق بالكامل)"
 
-#. i18n: ectx: property (text), widget (QRadioButton, windowTitleCheckBox)
-#: config/ui/oxygendetectwidget.ui:79
-#, kde-format
-msgid "Use window title"
-msgstr "استخدم عنوان النّافذة"
+#~ msgid "Use window title"
+#~ msgstr "استخدم عنوان النّافذة"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: config/ui/oxygenexceptiondialog.ui:20
-#, kde-format
-msgid "Window Identification"
-msgstr "تعريف النّافذة"
+#~ msgid "Window Identification"
+#~ msgstr "تعريف النّافذة"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: config/ui/oxygenexceptiondialog.ui:26
-#, kde-format
-msgid "&Matching window property: "
-msgstr "خاصيّة النّافذة ال&مطابقة: "
+#~ msgid "&Matching window property: "
+#~ msgstr "خاصيّة النّافذة ال&مطابقة: "
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: config/ui/oxygenexceptiondialog.ui:39
-#, kde-format
-msgid "Regular expression &to match: "
-msgstr "التّعبير النّمطي لم&طابقته: "
+#~ msgid "Regular expression &to match: "
+#~ msgstr "التّعبير النّمطي لم&طابقته: "
 
-#. i18n: ectx: property (text), widget (QPushButton, detectDialogButton)
-#: config/ui/oxygenexceptiondialog.ui:52
-#, kde-format
-msgid "Detect Window Properties"
-msgstr "اكتشف خاصيّات النّافذة"
+#~ msgid "Detect Window Properties"
+#~ msgstr "اكتشف خاصيّات النّافذة"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: config/ui/oxygenexceptiondialog.ui:83
-#, kde-format
-msgid "Decoration Options"
-msgstr "خيارات الزّخرفة"
+#~ msgid "Decoration Options"
+#~ msgstr "خيارات الزّخرفة"
 
-#. i18n: ectx: property (text), widget (QCheckBox, borderSizeCheckBox)
-#: config/ui/oxygenexceptiondialog.ui:89
-#, kde-format
-msgid "Border size:"
-msgstr "حجم الإطار:"
+#~ msgid "Border size:"
+#~ msgstr "حجم الإطار:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, hideTitleBar)
-#: config/ui/oxygenexceptiondialog.ui:96
-#, kde-format
-msgid "Hide window title bar"
-msgstr "أخفِ شريط عنوان النّافذة"
+#~ msgid "Hide window title bar"
+#~ msgstr "أخفِ شريط عنوان النّافذة"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
-#: config/ui/oxygenexceptiondialog.ui:107
-#, kde-format
-msgctxt "@item:inlistbox Border size:"
-msgid "No Border"
-msgstr "لا حدود"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Border"
+#~ msgstr "لا حدود"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
-#: config/ui/oxygenexceptiondialog.ui:112
-#, kde-format
-msgctxt "@item:inlistbox Border size:"
-msgid "No Side Borders"
-msgstr "لا حدود جانبيّة"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Side Borders"
+#~ msgstr "لا حدود جانبيّة"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
-#: config/ui/oxygenexceptiondialog.ui:117
-#, kde-format
-msgctxt "@item:inlistbox Border size:"
-msgid "Tiny"
-msgstr "ضئيل"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Tiny"
+#~ msgstr "ضئيل"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
-#: config/ui/oxygenexceptiondialog.ui:122
-#, kde-format
-msgctxt "@item:inlistbox Border size:"
-msgid "Normal"
-msgstr "عاديّ"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Normal"
+#~ msgstr "عاديّ"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
-#: config/ui/oxygenexceptiondialog.ui:127
-#, kde-format
-msgctxt "@item:inlistbox Border size:"
-msgid "Large"
-msgstr "كبير"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Large"
+#~ msgstr "كبير"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
-#: config/ui/oxygenexceptiondialog.ui:132
-#, kde-format
-msgctxt "@item:inlistbox Border size:"
-msgid "Very Large"
-msgstr "كبير جدًّا"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Very Large"
+#~ msgstr "كبير جدًّا"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
-#: config/ui/oxygenexceptiondialog.ui:137
-#, kde-format
-msgctxt "@item:inlistbox Border size:"
-msgid "Huge"
-msgstr "ضخم"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Huge"
+#~ msgstr "ضخم"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
-#: config/ui/oxygenexceptiondialog.ui:142
-#, kde-format
-msgctxt "@item:inlistbox Border size:"
-msgid "Very Huge"
-msgstr "ضخم جدًّا"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Very Huge"
+#~ msgstr "ضخم جدًّا"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
-#: config/ui/oxygenexceptiondialog.ui:147
-#, kde-format
-msgctxt "@item:inlistbox Border size:"
-msgid "Oversized"
-msgstr "فوق الطّبيعيّ"
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Oversized"
+#~ msgstr "فوق الطّبيعيّ"
 
-#. i18n: ectx: property (text), widget (QPushButton, moveUpButton)
-#: config/ui/oxygenexceptionlistwidget.ui:58
-#, kde-format
-msgid "Move Up"
-msgstr "انقل ﻷعلى"
+#~ msgid "Move Up"
+#~ msgstr "انقل ﻷعلى"
 
-#. i18n: ectx: property (text), widget (QPushButton, moveDownButton)
-#: config/ui/oxygenexceptionlistwidget.ui:65
-#, kde-format
-msgid "Move Down"
-msgstr "انقل لأسفل"
+#~ msgid "Move Down"
+#~ msgstr "انقل لأسفل"
 
-#. i18n: ectx: property (text), widget (QPushButton, addButton)
-#: config/ui/oxygenexceptionlistwidget.ui:72
-#, kde-format
-msgid "Add"
-msgstr "أضف"
+#~ msgid "Add"
+#~ msgstr "أضف"
 
-#. i18n: ectx: property (text), widget (QPushButton, editButton)
-#: config/ui/oxygenexceptionlistwidget.ui:86
-#, kde-format
-msgid "Edit"
-msgstr "حرّر"
+#~ msgid "Edit"
+#~ msgstr "حرّر"
 
 #~ msgid "Display window borders for maximized windows"
 #~ msgstr "اعرض حدود نوافذ النّوافذ المكبّرة"

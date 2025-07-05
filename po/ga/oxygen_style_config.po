@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/kstyle_config.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2007-08-22 12:11-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -126,269 +126,124 @@ msgstr "Beochan an bharra dul chun cinn"
 msgid "Configure progress bars' busy indicator animation"
 msgstr ""
 
-#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:20
-#, kde-format
-msgid "Frame"
-msgstr "Fráma"
+#~ msgid "Frame"
+#~ msgstr "Fráma"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:32
-#, kde-format
-msgid "Animation type:"
-msgstr "Cineál beochana:"
+#~ msgid "Animation type:"
+#~ msgstr "Cineál beochana:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:46
-#, kde-format
-msgid "Fade"
-msgstr "Céimnigh"
+#~ msgid "Fade"
+#~ msgstr "Céimnigh"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:51
-#, kde-format
-msgid "Follow Mouse"
-msgstr "Lean an Luch"
+#~ msgid "Follow Mouse"
+#~ msgstr "Lean an Luch"
 
-#. i18n: ectx: property (text), widget (QLabel, durationLabel)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:59
-#, fuzzy, kde-format
-#| msgid "Follow Mouse"
-msgid "Fade duration:"
-msgstr "Lean an Luch"
+#, fuzzy
+#~| msgid "Follow Mouse"
+#~ msgid "Fade duration:"
+#~ msgstr "Lean an Luch"
 
-#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:72
-#, fuzzy, kde-format
-#| msgid "Follow Mouse"
-msgid "Follow mouse duration:"
-msgstr "Lean an Luch"
+#, fuzzy
+#~| msgid "Follow Mouse"
+#~ msgid "Follow mouse duration:"
+#~ msgstr "Lean an Luch"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
-#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:98
-#: ui/oxygenfollowmouseanimationconfigbox.ui:114
-#, fuzzy, kde-format
-#| msgid "ms"
-msgid " ms"
-msgstr "ms"
+#, fuzzy
+#~| msgid "ms"
+#~ msgid " ms"
+#~ msgstr "ms"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
-#: ui/oxygenstyleconfig.ui:26
-#, kde-format
-msgid "Dialog"
-msgstr "Dialóg"
+#~ msgid "Dialog"
+#~ msgstr "Dialóg"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
-#: ui/oxygenstyleconfig.ui:45
-#, kde-format
-msgid "General"
-msgstr "Ginearálta"
+#~ msgid "General"
+#~ msgstr "Ginearálta"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
-#: ui/oxygenstyleconfig.ui:52
-#, kde-format
-msgid "Drag windows from titlebar only"
-msgstr "Tarraing fuinneoga ón bharra teidil amháin"
+#~ msgid "Drag windows from titlebar only"
+#~ msgstr "Tarraing fuinneoga ón bharra teidil amháin"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
-#: ui/oxygenstyleconfig.ui:57
-#, kde-format
-msgid "Drag windows from titlebar, menubar and toolbars"
-msgstr ""
-"Tarraing fuinneoga ón bharra teidil, ón bharra roghchlár, agus ó bharraí "
-"uirlisí"
+#~ msgid "Drag windows from titlebar, menubar and toolbars"
+#~ msgstr ""
+#~ "Tarraing fuinneoga ón bharra teidil, ón bharra roghchlár, agus ó bharraí "
+#~ "uirlisí"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
-#: ui/oxygenstyleconfig.ui:62
-#, kde-format
-msgid "Drag windows from all empty areas"
-msgstr "Tarraing fuinneoga ó gach limistéar folamh"
+#~ msgid "Drag windows from all empty areas"
+#~ msgstr "Tarraing fuinneoga ó gach limistéar folamh"
 
-#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
-#: ui/oxygenstyleconfig.ui:70
-#, kde-format
-msgid "Keyboard accelerators visibility:"
-msgstr ""
+#, fuzzy
+#~| msgid "Windows' drag mode:"
+#~ msgid "Windows' &drag mode:"
+#~ msgstr "Mód tarraingthe fuinneog::"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
-#: ui/oxygenstyleconfig.ui:84
-#, kde-format
-msgid "Always hide"
-msgstr ""
+#~ msgid "Draw toolbar item separators"
+#~ msgstr "Dear deighilteoirí sa bharra uirlisí idir míreanna"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
-#: ui/oxygenstyleconfig.ui:89
-#, kde-format
-msgid "Show when Alt key is pressed"
-msgstr ""
+#~ msgid "Animations"
+#~ msgstr "Íomhánna Beo"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
-#: ui/oxygenstyleconfig.ui:94
-#, kde-format
-msgid "Always show"
-msgstr ""
+#~ msgid "Views"
+#~ msgstr "Amhairc"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygenstyleconfig.ui:108
-#, fuzzy, kde-format
-#| msgid "Windows' drag mode:"
-msgid "Windows' &drag mode:"
-msgstr "Mód tarraingthe fuinneog::"
+#~ msgid "Draw tree branch lines"
+#~ msgstr "Dear craobhlínte crainn"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
-#: ui/oxygenstyleconfig.ui:134
-#, kde-format
-msgid "Draw toolbar item separators"
-msgstr "Dear deighilteoirí sa bharra uirlisí idir míreanna"
+#~ msgctxt "triangle size"
+#~ msgid "Tiny"
+#~ msgstr "An-bheag"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
-#: ui/oxygenstyleconfig.ui:141
-#, kde-format
-msgid "Enable extended resize handles"
-msgstr ""
+#~ msgctxt "triangle size"
+#~ msgid "Small"
+#~ msgstr "Beag"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
-#: ui/oxygenstyleconfig.ui:148
-#, kde-format
-msgid "Draw window background gradient"
-msgstr ""
+#~ msgctxt "triangle size"
+#~ msgid "Normal"
+#~ msgstr "Gnách"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: ui/oxygenstyleconfig.ui:169
-#, kde-format
-msgid "Animations"
-msgstr "Íomhánna Beo"
+#, fuzzy
+#~| msgid "Draw focus indicator"
+#~ msgid "Draw focus indicator in lists"
+#~ msgstr "Dear táscaire fócais"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: ui/oxygenstyleconfig.ui:179
-#, kde-format
-msgid "Views"
-msgstr "Amhairc"
+#~ msgid "Scrollbars"
+#~ msgstr "Scrollbharraí"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
-#: ui/oxygenstyleconfig.ui:185
-#, kde-format
-msgid "Draw tree branch lines"
-msgstr "Dear craobhlínte crainn"
+#, fuzzy
+#~| msgid "Scrollbar width:"
+#~ msgid "Scrollbar wi&dth:"
+#~ msgstr "Leithead an scrollbharra"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/oxygenstyleconfig.ui:198
-#, kde-format
-msgid "&Tree expander size:"
-msgstr ""
+#~ msgid "px"
+#~ msgstr "pct"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
-#: ui/oxygenstyleconfig.ui:209
-#, kde-format
-msgctxt "triangle size"
-msgid "Tiny"
-msgstr "An-bheag"
+#~ msgid "No buttons"
+#~ msgstr "Gan cnaipí"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
-#: ui/oxygenstyleconfig.ui:214
-#, kde-format
-msgctxt "triangle size"
-msgid "Small"
-msgstr "Beag"
+#~ msgid "One button"
+#~ msgstr "Cnaipe amháin"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
-#: ui/oxygenstyleconfig.ui:219
-#, kde-format
-msgctxt "triangle size"
-msgid "Normal"
-msgstr "Gnách"
+#~ msgid "Two buttons"
+#~ msgstr "Dhá chnaipe"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
-#: ui/oxygenstyleconfig.ui:256
-#, fuzzy, kde-format
-#| msgid "Draw focus indicator"
-msgid "Draw focus indicator in lists"
-msgstr "Dear táscaire fócais"
+#~ msgid "No button"
+#~ msgstr "Gan cnaipe"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: ui/oxygenstyleconfig.ui:264
-#, kde-format
-msgid "Scrollbars"
-msgstr "Scrollbharraí"
+#~ msgid "Menu Highlight"
+#~ msgstr "Aibhsiú Roghchlár"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenstyleconfig.ui:272
-#, fuzzy, kde-format
-#| msgid "Scrollbar width:"
-msgid "Scrollbar wi&dth:"
-msgstr "Leithead an scrollbharra"
+#, fuzzy
+#~| msgid "Use dark color"
+#~ msgid "Use dar&k color"
+#~ msgstr "Úsáid dath dorcha"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
-#: ui/oxygenstyleconfig.ui:310
-#, kde-format
-msgid "px"
-msgstr "pct"
+#, fuzzy
+#~| msgid "Use selection color (plain)"
+#~ msgid "&Use selection color (plain)"
+#~ msgstr "Úsáid dath roghnúcháin (simplí)"
 
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ui/oxygenstyleconfig.ui:340
-#, kde-format
-msgid "Top arrow button type:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ui/oxygenstyleconfig.ui:350
-#, kde-format
-msgid "Bottom arrow button type:"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
-#: ui/oxygenstyleconfig.ui:361
-#, kde-format
-msgid "No buttons"
-msgstr "Gan cnaipí"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
-#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
-#, kde-format
-msgid "One button"
-msgstr "Cnaipe amháin"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
-#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
-#, kde-format
-msgid "Two buttons"
-msgstr "Dhá chnaipe"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
-#: ui/oxygenstyleconfig.ui:393
-#, kde-format
-msgid "No button"
-msgstr "Gan cnaipe"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: ui/oxygenstyleconfig.ui:427
-#, kde-format
-msgid "Menu Highlight"
-msgstr "Aibhsiú Roghchlár"
-
-#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
-#: ui/oxygenstyleconfig.ui:433
-#, fuzzy, kde-format
-#| msgid "Use dark color"
-msgid "Use dar&k color"
-msgstr "Úsáid dath dorcha"
-
-#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
-#: ui/oxygenstyleconfig.ui:440
-#, fuzzy, kde-format
-#| msgid "Use selection color (plain)"
-msgid "&Use selection color (plain)"
-msgstr "Úsáid dath roghnúcháin (simplí)"
-
-#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
-#: ui/oxygenstyleconfig.ui:447
-#, fuzzy, kde-format
-#| msgid "Use selection color (subtle)"
-msgid "Use selec&tion color (subtle)"
-msgstr "Úsáid dath roghnúcháin (caol)"
+#, fuzzy
+#~| msgid "Use selection color (subtle)"
+#~ msgid "Use selec&tion color (subtle)"
+#~ msgstr "Úsáid dath roghnúcháin (caol)"
 
 #~ msgid "Widget Style"
 #~ msgstr "Stíl na nGiuirléidí"

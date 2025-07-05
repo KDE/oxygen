@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2021-11-14 19:10+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -23,22 +23,7 @@ msgstr ""
 msgid "Oxygen Demo"
 msgstr "Oxygen 데모"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_2)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_3)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_4)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
-#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
-#: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
-#: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
-#: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
-#: ui/oxygenbuttondemowidget.ui:285 ui/oxygenbuttondemowidget.ui:295
-#: ui/oxygenbuttondemowidget.ui:305
+#: oxygenbuttondemowidget.cpp:35
 #, kde-format
 msgid "Normal"
 msgstr "일반"
@@ -216,743 +201,370 @@ msgstr "이것은 예제 텍스트입니다"
 msgid "Select the application widget style"
 msgstr "앱 위젯 스타일 선택"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygenbenchmarkwidget.ui:29
-#, kde-format
-msgid "Modules"
-msgstr "모듈"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenbenchmarkwidget.ui:35
-#, kde-format
-msgid "Select below the modules for which you want to run the simulation:"
-msgstr "시뮬레이션을 실행할 모듈을 선택하십시오:"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ui/oxygenbenchmarkwidget.ui:48
-#, kde-format
-msgid "Options"
-msgstr "옵션"
-
-#. i18n: ectx: property (text), widget (QCheckBox, grabMouseCheckBox)
-#: ui/oxygenbenchmarkwidget.ui:54
-#, kde-format
-msgid "Grab mouse"
-msgstr "마우스 잡기"
-
-#. i18n: ectx: property (text), widget (QPushButton, runButton)
-#: ui/oxygenbenchmarkwidget.ui:82
-#, kde-format
-msgid "Run Simulation"
-msgstr "시뮬레이션 실행"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: ui/oxygenbuttondemowidget.ui:20
-#, kde-format
-msgid "Checkboxes"
-msgstr "체크 상자"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox)
-#: ui/oxygenbuttondemowidget.ui:28
-#, kde-format
-msgid "Off"
-msgstr "끔"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
-#: ui/oxygenbuttondemowidget.ui:35
-#, kde-format
-msgid "Partial"
-msgstr "부분적"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
-#: ui/oxygenbuttondemowidget.ui:45
-#, kde-format
-msgid "On"
-msgstr "켬"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ui/oxygenbuttondemowidget.ui:73
-#, kde-format
-msgid "Radiobuttons"
-msgstr "라디오 단추"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
-#: ui/oxygenbuttondemowidget.ui:84
-#, kde-format
-msgid "F&irst Choice"
-msgstr "첫째 선택(&I)"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
-#: ui/oxygenbuttondemowidget.ui:94
-#, kde-format
-msgid "Seco&nd Choice"
-msgstr "둘째 선택(&N)"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
-#: ui/oxygenbuttondemowidget.ui:101
-#, kde-format
-msgid "&Third Choice"
-msgstr "셋째 선택(&T)"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygenbuttondemowidget.ui:126
-#, kde-format
-msgid "Pushbuttons"
-msgstr "누름 단추"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ui/oxygenbuttondemowidget.ui:132
-#, kde-format
-msgid "Text only:"
-msgstr "텍스트만:"
-
-#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
-#: ui/oxygenbuttondemowidget.ui:142
-#, kde-format
-msgid "This is a normal, text only combo box"
-msgstr "이것은 텍스트만 있는 콤보 상자입니다"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygenbuttondemowidget.ui:149
-#, kde-format
-msgid "Small"
-msgstr "작게"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygenbuttondemowidget.ui:159
-#, kde-format
-msgid "Large"
-msgstr "크게"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ui/oxygenbuttondemowidget.ui:180
-#, kde-format
-msgid "Text and icon:"
-msgstr "텍스트와 아이콘:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
-#: ui/oxygenbuttondemowidget.ui:190
-#, kde-format
-msgid "Use flat buttons"
-msgstr "평면 단추 사용하기"
-
-#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
-#: ui/oxygenbuttondemowidget.ui:197
-#, kde-format
-msgid "This is a normal, text and icon combo box"
-msgstr "이것은 텍스트와 아이콘이 있는 콤보 상자입니다"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
-#: ui/oxygenbuttondemowidget.ui:204
-#, kde-format
-msgid "This is a normal, text only tool button"
-msgstr "이것은 텍스트만 있는 도구 단추입니다"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
-#: ui/oxygenbuttondemowidget.ui:214
-#, kde-format
-msgid "This is a normal, text and icon tool button"
-msgstr "이것은 텍스트와 아이콘이 있는 도구 단추입니다"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
-#: ui/oxygenbuttondemowidget.ui:224
-#, kde-format
-msgid "This is a normal, text only button"
-msgstr "이것은 텍스트만 있는 단추입니다"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
-#: ui/oxygenbuttondemowidget.ui:234
-#, kde-format
-msgid "This is a normal, text only button with menu"
-msgstr "이것은 메뉴가 붙어 있는 텍스트가 있는 단추입니다"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
-#: ui/oxygenbuttondemowidget.ui:244
-#, kde-format
-msgid "This is a normal, text and icon button"
-msgstr "이것은 텍스트와 아이콘이 있는 단추입니다"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
-#: ui/oxygenbuttondemowidget.ui:254
-#, kde-format
-msgid "This is a normal, text and icon button with menu"
-msgstr "이것은 텍스트와 아이콘이 있고 메뉴가 붙은 단추입니다"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ui/oxygenbuttondemowidget.ui:267
-#, kde-format
-msgid "Toolbuttons"
-msgstr "도구 단추"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
-#: ui/oxygenbuttondemowidget.ui:335 ui/oxygenbuttondemowidget.ui:348
-#: ui/oxygenbuttondemowidget.ui:361
-#, kde-format
-msgid "Flat"
-msgstr "평면"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
-#: ui/oxygenbuttondemowidget.ui:374
-#, kde-format
-msgid "Up Arrow"
-msgstr "위쪽 화살표"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
-#: ui/oxygenbuttondemowidget.ui:384
-#, kde-format
-msgid "Down Arrow"
-msgstr "아래쪽 화살표"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
-#: ui/oxygenbuttondemowidget.ui:397
-#, kde-format
-msgid "Left Arrow"
-msgstr "왼쪽 화살표"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
-#: ui/oxygenbuttondemowidget.ui:407
-#, kde-format
-msgid "Right Arrow"
-msgstr "오른쪽 화살표"
-
-#. i18n: ectx: property (text), widget (QLabel, label_11)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
-#, kde-format
-msgid "Te&xt position:"
-msgstr "텍스트 위치(&X):"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
-#: ui/oxygenbuttondemowidget.ui:434 ui/oxygentabdemowidget.ui:95
-#, kde-format
-msgid "Icons Only"
-msgstr "아이콘만"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
-#: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
-#, kde-format
-msgid "Text Only"
-msgstr "텍스트만"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
-#: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
-#, kde-format
-msgid "Text Alongside Icons"
-msgstr "아이콘 옆에 텍스트"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#: ui/oxygenbuttondemowidget.ui:449
-#, kde-format
-msgid "Text Under Icons"
-msgstr "아이콘 밑에 텍스트"
-
-#. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ui/oxygenbuttondemowidget.ui:470
-#, kde-format
-msgid "Icon si&ze:"
-msgstr "아이콘 크기(&Z):"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:484
-#, kde-format
-msgid "Small (16x16)"
-msgstr "작게 (16x16)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:489
-#, kde-format
-msgid "Medium (22x22)"
-msgstr "중간 (22x22)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:494
-#, kde-format
-msgid "Large (32x32)"
-msgstr "크게 (32x32)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:499
-#, kde-format
-msgid "Huge (48x48)"
-msgstr "매우 크게 (48x48)"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenframedemowidget.ui:31
-#, kde-format
-msgid "&Layout direction:"
-msgstr "레이아웃 방향(&L):"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:45
-#, kde-format
-msgid "Left to Right"
-msgstr "왼쪽에서 오른쪽으로"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:50
-#, kde-format
-msgid "Right to Left"
-msgstr "오른쪽에서 왼쪽으로"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:55
-#, kde-format
-msgid "Top to Bottom"
-msgstr "위에서 아래로"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:60
-#, kde-format
-msgid "Bottom to Top"
-msgstr "아래에서 위로"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenframedemowidget.ui:94
-#, kde-format
-msgid "Frame"
-msgstr "프레임"
-
-#. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
-#: ui/oxygenframedemowidget.ui:104
-#, kde-format
-msgid "&Raised"
-msgstr "떠오름(&R)"
-
-#. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
-#: ui/oxygenframedemowidget.ui:117
-#, kde-format
-msgctxt "Flat frame. No frame is actually drawn."
-msgid "&Flat"
-msgstr "평면(&F)"
-
-#. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
-#: ui/oxygenframedemowidget.ui:124
-#, kde-format
-msgid "S&unken"
-msgstr "가라앉음(&U)"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygenframedemowidget.ui:147
-#, kde-format
-msgid "GroupBox"
-msgstr "그룹 상자"
-
-#. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
-#: ui/oxygenframedemowidget.ui:153
-#, kde-format
-msgctxt "Flat group box. No frame is actually drawn"
-msgid "Flat"
-msgstr "평면"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: ui/oxygenframedemowidget.ui:180
-#, kde-format
-msgid "Tab Widget"
-msgstr "탭 위젯"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygeninputdemowidget.ui:29
-#, kde-format
-msgid "Single line text editor:"
-msgstr "한 줄 텍스트 편집기:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygeninputdemowidget.ui:65
-#, kde-format
-msgid "Password editor:"
-msgstr "암호 편집기:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygeninputdemowidget.ui:88
-#, kde-format
-msgid "Editable combobox"
-msgstr "편집 가능한 콤보 상자"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygeninputdemowidget.ui:105
-#, kde-format
-msgid "First item"
-msgstr "첫째 항목"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygeninputdemowidget.ui:110
-#, kde-format
-msgid "Second item"
-msgstr "둘째 항목"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygeninputdemowidget.ui:115
-#, kde-format
-msgid "Third item"
-msgstr "셋째 항목"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/oxygeninputdemowidget.ui:123
-#, kde-format
-msgid "Spinbox:"
-msgstr "스핀 상자:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ui/oxygeninputdemowidget.ui:146
-#, kde-format
-msgid "Multi-line text editor:"
-msgstr "여러 줄 텍스트 편집기:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
-#: ui/oxygeninputdemowidget.ui:153
-#, kde-format
-msgid "Wrap words"
-msgstr "워드랩 사용하기"
-
-#. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
-#: ui/oxygeninputdemowidget.ui:160
-#, kde-format
-msgid "Use flat widgets"
-msgstr "평면 위젯 사용하기"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:40 ui/oxygenlistdemowidget.ui:119
-#, kde-format
-msgid "First Item"
-msgstr "첫째 항목"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:48 ui/oxygenlistdemowidget.ui:95
-#, kde-format
-msgid "Second Item"
-msgstr "둘째 항목"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:56 ui/oxygenlistdemowidget.ui:79
-#, kde-format
-msgid "Third Item"
-msgstr "셋째 항목"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:69
-#, kde-format
-msgid "Title"
-msgstr "제목"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:74
-#, kde-format
-msgid "Description"
-msgstr "설명"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:82
-#, kde-format
-msgid "Third Description"
-msgstr "셋째 설명"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:86
-#, kde-format
-msgid "Third Subitem"
-msgstr "셋째 하위 항목"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:89
-#, kde-format
-msgid "Third Subitem Description"
-msgstr "셋째 하위 항목 설명"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:98
-#, kde-format
-msgid "Second Description"
-msgstr "둘째 설명"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:102
-#, kde-format
-msgid "Second Subitem"
-msgstr "둘째 하위 항목"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:105
-#, kde-format
-msgid "Second Subitem Description"
-msgstr "둘째 하위 항목 설명"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:110
-#, kde-format
-msgid "First Subitem"
-msgstr "첫째 하위 항목"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:113
-#, kde-format
-msgid "First Subitem Description"
-msgstr "첫째 하위 항목 설명"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:122
-#, kde-format
-msgid "First Description"
-msgstr "쳇째 설명"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:132
-#, kde-format
-msgid "New Row"
-msgstr "새 행"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:137
-#, kde-format
-msgid "First Row"
-msgstr "첫 행"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:142
-#, kde-format
-msgid "Third Row"
-msgstr "셋째 행"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:147
-#, kde-format
-msgid "First Column"
-msgstr "첫째 열"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:152
-#, kde-format
-msgid "Second Column"
-msgstr "둘째 열"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:157
-#, kde-format
-msgid "Third Column"
-msgstr "셋째 열"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:162
-#, kde-format
-msgid "Top-left"
-msgstr "왼쪽 위"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:167
-#, kde-format
-msgid "Top"
-msgstr "위"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:172
-#, kde-format
-msgid "Top-right"
-msgstr "오른쪽 위"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:177
-#, kde-format
-msgid "Left "
-msgstr "왼쪽 "
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:182
-#, kde-format
-msgid "Center"
-msgstr "가운데"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:187
-#, kde-format
-msgid "Right"
-msgstr "오른쪽"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:192
-#, kde-format
-msgid "Bottom-left"
-msgstr "왼쪽 아래"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:197
-#, kde-format
-msgid "Bottom"
-msgstr "아래"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:202
-#, kde-format
-msgid "Bottom-right"
-msgstr "오른쪽 아래"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, Editors)
-#: ui/oxygenmdidemowidget.ui:45
-#, kde-format
-msgid "Editors"
-msgstr "편집기"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenmdidemowidget.ui:51
-#, kde-format
-msgid "Title:"
-msgstr "제목:"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, Toolbox)
-#: ui/oxygenmdidemowidget.ui:78
-#, kde-format
-msgid "Toolbox"
-msgstr "도구 상자"
-
-#. i18n: ectx: attribute (label), widget (QWidget, page)
-#: ui/oxygenmdidemowidget.ui:96
-#, kde-format
-msgid "First Page"
-msgstr "첫 쪽"
-
-#. i18n: ectx: attribute (label), widget (QWidget, page_2)
-#: ui/oxygenmdidemowidget.ui:110
-#, kde-format
-msgid "Second Page"
-msgstr "둘째 쪽"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenmdidemowidget.ui:116
-#, kde-format
-msgid "First Label"
-msgstr "첫 이름표"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygenmdidemowidget.ui:123
-#, kde-format
-msgid "Second Label"
-msgstr "둘째 이름표"
-
-#. i18n: ectx: attribute (label), widget (QWidget, page_3)
-#: ui/oxygenmdidemowidget.ui:152
-#, kde-format
-msgid "Third Page"
-msgstr "셋째 쪽"
-
-#. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
-#: ui/oxygensliderdemowidget.ui:29
-#, kde-format
-msgid "Animate Progress Bars"
-msgstr "진행 표시기 애니메이션"
-
-#. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
-#: ui/oxygensliderdemowidget.ui:36
-#, kde-format
-msgid "Invert Progress Bars"
-msgstr "진행 표시기 반전"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygensliderdemowidget.ui:43
-#, kde-format
-msgid "Horizontal"
-msgstr "수평"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ui/oxygensliderdemowidget.ui:120
-#, kde-format
-msgid "Vertical"
-msgstr "수직"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygensliderdemowidget.ui:167
-#, kde-format
-msgid "Sliders tick marks position"
-msgstr "슬라이더 눈금 위치"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:178
-#, kde-format
-msgid "No Tick Marks"
-msgstr "눈금 없음"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:183
-#, kde-format
-msgid "Tick Marks Above Slider"
-msgstr "슬라이더 위에 눈금 표시"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:188
-#, kde-format
-msgid "Tick Marks Below Slider"
-msgstr "슬라이더 아래에 눈금 표시"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:193
-#, kde-format
-msgid "Tick Marks On Both Sides"
-msgstr "양쪽에 눈금 표시"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygentabdemowidget.ui:31
-#, kde-format
-msgid "&Tab position:"
-msgstr "탭 위치(&T):"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:45
-#, kde-format
-msgid "North"
-msgstr "북"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:50
-#, kde-format
-msgid "South"
-msgstr "남"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:55
-#, kde-format
-msgid "West"
-msgstr "서"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:60
-#, kde-format
-msgid "East"
-msgstr "동"
-
-#. i18n: ectx: property (text), widget (QCheckBox, documentModeCheckBox)
-#: ui/oxygentabdemowidget.ui:115
-#, kde-format
-msgid "Document mode"
-msgstr "문서 모드"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
-#: ui/oxygentabdemowidget.ui:122
-#, kde-format
-msgid "Show Corner Buttons"
-msgstr "모서리 단추 표시"
-
-#. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
-#: ui/oxygentabdemowidget.ui:129
-#, kde-format
-msgid "Show Tab Close Buttons"
-msgstr "탭 닫기 단추 표시"
-
-#. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
-#: ui/oxygentabdemowidget.ui:136
-#, kde-format
-msgid "Hide tabbar"
-msgstr "탭 표시줄 숨기기"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygentabdemowidget.ui:143
-#, kde-format
-msgid "Preview"
-msgstr "미리 보기"
+#~ msgid "Modules"
+#~ msgstr "모듈"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr "시뮬레이션을 실행할 모듈을 선택하십시오:"
+
+#~ msgid "Options"
+#~ msgstr "옵션"
+
+#~ msgid "Grab mouse"
+#~ msgstr "마우스 잡기"
+
+#~ msgid "Run Simulation"
+#~ msgstr "시뮬레이션 실행"
+
+#~ msgid "Checkboxes"
+#~ msgstr "체크 상자"
+
+#~ msgid "Off"
+#~ msgstr "끔"
+
+#~ msgid "Partial"
+#~ msgstr "부분적"
+
+#~ msgid "On"
+#~ msgstr "켬"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "라디오 단추"
+
+#~ msgid "F&irst Choice"
+#~ msgstr "첫째 선택(&I)"
+
+#~ msgid "Seco&nd Choice"
+#~ msgstr "둘째 선택(&N)"
+
+#~ msgid "&Third Choice"
+#~ msgstr "셋째 선택(&T)"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "누름 단추"
+
+#~ msgid "Text only:"
+#~ msgstr "텍스트만:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "이것은 텍스트만 있는 콤보 상자입니다"
+
+#~ msgid "Small"
+#~ msgstr "작게"
+
+#~ msgid "Large"
+#~ msgstr "크게"
+
+#~ msgid "Text and icon:"
+#~ msgstr "텍스트와 아이콘:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "평면 단추 사용하기"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "이것은 텍스트와 아이콘이 있는 콤보 상자입니다"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "이것은 텍스트만 있는 도구 단추입니다"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "이것은 텍스트와 아이콘이 있는 도구 단추입니다"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "이것은 텍스트만 있는 단추입니다"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "이것은 메뉴가 붙어 있는 텍스트가 있는 단추입니다"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "이것은 텍스트와 아이콘이 있는 단추입니다"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "이것은 텍스트와 아이콘이 있고 메뉴가 붙은 단추입니다"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "도구 단추"
+
+#~ msgid "Flat"
+#~ msgstr "평면"
+
+#~ msgid "Up Arrow"
+#~ msgstr "위쪽 화살표"
+
+#~ msgid "Down Arrow"
+#~ msgstr "아래쪽 화살표"
+
+#~ msgid "Left Arrow"
+#~ msgstr "왼쪽 화살표"
+
+#~ msgid "Right Arrow"
+#~ msgstr "오른쪽 화살표"
+
+#~ msgid "Te&xt position:"
+#~ msgstr "텍스트 위치(&X):"
+
+#~ msgid "Icons Only"
+#~ msgstr "아이콘만"
+
+#~ msgid "Text Only"
+#~ msgstr "텍스트만"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "아이콘 옆에 텍스트"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "아이콘 밑에 텍스트"
+
+#~ msgid "Icon si&ze:"
+#~ msgstr "아이콘 크기(&Z):"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "작게 (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "중간 (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "크게 (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "매우 크게 (48x48)"
+
+#~ msgid "&Layout direction:"
+#~ msgstr "레이아웃 방향(&L):"
+
+#~ msgid "Left to Right"
+#~ msgstr "왼쪽에서 오른쪽으로"
+
+#~ msgid "Right to Left"
+#~ msgstr "오른쪽에서 왼쪽으로"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "위에서 아래로"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "아래에서 위로"
+
+#~ msgid "Frame"
+#~ msgstr "프레임"
+
+#~ msgid "&Raised"
+#~ msgstr "떠오름(&R)"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "&Flat"
+#~ msgstr "평면(&F)"
+
+#~ msgid "S&unken"
+#~ msgstr "가라앉음(&U)"
+
+#~ msgid "GroupBox"
+#~ msgstr "그룹 상자"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "평면"
+
+#~ msgid "Tab Widget"
+#~ msgstr "탭 위젯"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "한 줄 텍스트 편집기:"
+
+#~ msgid "Password editor:"
+#~ msgstr "암호 편집기:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "편집 가능한 콤보 상자"
+
+#~ msgid "First item"
+#~ msgstr "첫째 항목"
+
+#~ msgid "Second item"
+#~ msgstr "둘째 항목"
+
+#~ msgid "Third item"
+#~ msgstr "셋째 항목"
+
+#~ msgid "Spinbox:"
+#~ msgstr "스핀 상자:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "여러 줄 텍스트 편집기:"
+
+#~ msgid "Wrap words"
+#~ msgstr "워드랩 사용하기"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "평면 위젯 사용하기"
+
+#~ msgid "First Item"
+#~ msgstr "첫째 항목"
+
+#~ msgid "Second Item"
+#~ msgstr "둘째 항목"
+
+#~ msgid "Third Item"
+#~ msgstr "셋째 항목"
+
+#~ msgid "Title"
+#~ msgstr "제목"
+
+#~ msgid "Description"
+#~ msgstr "설명"
+
+#~ msgid "Third Description"
+#~ msgstr "셋째 설명"
+
+#~ msgid "Third Subitem"
+#~ msgstr "셋째 하위 항목"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "셋째 하위 항목 설명"
+
+#~ msgid "Second Description"
+#~ msgstr "둘째 설명"
+
+#~ msgid "Second Subitem"
+#~ msgstr "둘째 하위 항목"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "둘째 하위 항목 설명"
+
+#~ msgid "First Subitem"
+#~ msgstr "첫째 하위 항목"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "첫째 하위 항목 설명"
+
+#~ msgid "First Description"
+#~ msgstr "쳇째 설명"
+
+#~ msgid "New Row"
+#~ msgstr "새 행"
+
+#~ msgid "First Row"
+#~ msgstr "첫 행"
+
+#~ msgid "Third Row"
+#~ msgstr "셋째 행"
+
+#~ msgid "First Column"
+#~ msgstr "첫째 열"
+
+#~ msgid "Second Column"
+#~ msgstr "둘째 열"
+
+#~ msgid "Third Column"
+#~ msgstr "셋째 열"
+
+#~ msgid "Top-left"
+#~ msgstr "왼쪽 위"
+
+#~ msgid "Top"
+#~ msgstr "위"
+
+#~ msgid "Top-right"
+#~ msgstr "오른쪽 위"
+
+#~ msgid "Left "
+#~ msgstr "왼쪽 "
+
+#~ msgid "Center"
+#~ msgstr "가운데"
+
+#~ msgid "Right"
+#~ msgstr "오른쪽"
+
+#~ msgid "Bottom-left"
+#~ msgstr "왼쪽 아래"
+
+#~ msgid "Bottom"
+#~ msgstr "아래"
+
+#~ msgid "Bottom-right"
+#~ msgstr "오른쪽 아래"
+
+#~ msgid "Editors"
+#~ msgstr "편집기"
+
+#~ msgid "Title:"
+#~ msgstr "제목:"
+
+#~ msgid "Toolbox"
+#~ msgstr "도구 상자"
+
+#~ msgid "First Page"
+#~ msgstr "첫 쪽"
+
+#~ msgid "Second Page"
+#~ msgstr "둘째 쪽"
+
+#~ msgid "First Label"
+#~ msgstr "첫 이름표"
+
+#~ msgid "Second Label"
+#~ msgstr "둘째 이름표"
+
+#~ msgid "Third Page"
+#~ msgstr "셋째 쪽"
+
+#~ msgid "Animate Progress Bars"
+#~ msgstr "진행 표시기 애니메이션"
+
+#~ msgid "Invert Progress Bars"
+#~ msgstr "진행 표시기 반전"
+
+#~ msgid "Horizontal"
+#~ msgstr "수평"
+
+#~ msgid "Vertical"
+#~ msgstr "수직"
+
+#~ msgid "Sliders tick marks position"
+#~ msgstr "슬라이더 눈금 위치"
+
+#~ msgid "No Tick Marks"
+#~ msgstr "눈금 없음"
+
+#~ msgid "Tick Marks Above Slider"
+#~ msgstr "슬라이더 위에 눈금 표시"
+
+#~ msgid "Tick Marks Below Slider"
+#~ msgstr "슬라이더 아래에 눈금 표시"
+
+#~ msgid "Tick Marks On Both Sides"
+#~ msgstr "양쪽에 눈금 표시"
+
+#~ msgid "&Tab position:"
+#~ msgstr "탭 위치(&T):"
+
+#~ msgid "North"
+#~ msgstr "북"
+
+#~ msgid "South"
+#~ msgstr "남"
+
+#~ msgid "West"
+#~ msgstr "서"
+
+#~ msgid "East"
+#~ msgstr "동"
+
+#~ msgid "Document mode"
+#~ msgstr "문서 모드"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "모서리 단추 표시"
+
+#~ msgid "Show Tab Close Buttons"
+#~ msgstr "탭 닫기 단추 표시"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "탭 표시줄 숨기기"
+
+#~ msgid "Preview"
+#~ msgstr "미리 보기"
 
 #~ msgid "&Color Theme"
 #~ msgstr "색 테마(&C)"

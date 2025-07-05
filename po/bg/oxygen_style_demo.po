@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2022-05-21 22:41+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -24,22 +24,7 @@ msgstr ""
 msgid "Oxygen Demo"
 msgstr "Демонстрация на Oxygen"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_2)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_3)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_4)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
-#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
-#: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
-#: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
-#: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
-#: ui/oxygenbuttondemowidget.ui:285 ui/oxygenbuttondemowidget.ui:295
-#: ui/oxygenbuttondemowidget.ui:305
+#: oxygenbuttondemowidget.cpp:35
 #, kde-format
 msgid "Normal"
 msgstr "Нормално"
@@ -219,740 +204,368 @@ msgstr "Това е примерен текст"
 msgid "Select the application widget style"
 msgstr "Избиране на стила за полетата на приложението"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygenbenchmarkwidget.ui:29
-#, kde-format
-msgid "Modules"
-msgstr "Модули"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenbenchmarkwidget.ui:35
-#, kde-format
-msgid "Select below the modules for which you want to run the simulation:"
-msgstr "Изберете по-долу модулите, за които искате да стартирате симулацията:"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ui/oxygenbenchmarkwidget.ui:48
-#, kde-format
-msgid "Options"
-msgstr "Настройки"
-
-#. i18n: ectx: property (text), widget (QCheckBox, grabMouseCheckBox)
-#: ui/oxygenbenchmarkwidget.ui:54
-#, kde-format
-msgid "Grab mouse"
-msgstr "Прихващане на мишката"
-
-#. i18n: ectx: property (text), widget (QPushButton, runButton)
-#: ui/oxygenbenchmarkwidget.ui:82
-#, kde-format
-msgid "Run Simulation"
-msgstr "Стартиране на симулация"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: ui/oxygenbuttondemowidget.ui:20
-#, kde-format
-msgid "Checkboxes"
-msgstr "Квадратчета за отметка"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox)
-#: ui/oxygenbuttondemowidget.ui:28
-#, kde-format
-msgid "Off"
-msgstr "Изключено"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
-#: ui/oxygenbuttondemowidget.ui:35
-#, kde-format
-msgid "Partial"
-msgstr "Частично"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
-#: ui/oxygenbuttondemowidget.ui:45
-#, kde-format
-msgid "On"
-msgstr "Включено"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ui/oxygenbuttondemowidget.ui:73
-#, kde-format
-msgid "Radiobuttons"
-msgstr "Радиобутони"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
-#: ui/oxygenbuttondemowidget.ui:84
-#, kde-format
-msgid "F&irst Choice"
-msgstr "&Първи избор"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
-#: ui/oxygenbuttondemowidget.ui:94
-#, kde-format
-msgid "Seco&nd Choice"
-msgstr "&Втори избор"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
-#: ui/oxygenbuttondemowidget.ui:101
-#, kde-format
-msgid "&Third Choice"
-msgstr "&Трети избор"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygenbuttondemowidget.ui:126
-#, kde-format
-msgid "Pushbuttons"
-msgstr "Бутони"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ui/oxygenbuttondemowidget.ui:132
-#, kde-format
-msgid "Text only:"
-msgstr "Само текст:"
-
-#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
-#: ui/oxygenbuttondemowidget.ui:142
-#, kde-format
-msgid "This is a normal, text only combo box"
-msgstr "Това е нормален падащ списък само с текст"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygenbuttondemowidget.ui:149
-#, kde-format
-msgid "Small"
-msgstr "Малък"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygenbuttondemowidget.ui:159
-#, kde-format
-msgid "Large"
-msgstr "Голям"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ui/oxygenbuttondemowidget.ui:180
-#, kde-format
-msgid "Text and icon:"
-msgstr "Текст и икона:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
-#: ui/oxygenbuttondemowidget.ui:190
-#, kde-format
-msgid "Use flat buttons"
-msgstr "Използване на плоски бутони"
-
-#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
-#: ui/oxygenbuttondemowidget.ui:197
-#, kde-format
-msgid "This is a normal, text and icon combo box"
-msgstr "Това е нормален падащ списък с текст и икони"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
-#: ui/oxygenbuttondemowidget.ui:204
-#, kde-format
-msgid "This is a normal, text only tool button"
-msgstr "Това е нормален бутон за инструмент само с текст"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
-#: ui/oxygenbuttondemowidget.ui:214
-#, kde-format
-msgid "This is a normal, text and icon tool button"
-msgstr "Това е нормален бутон за инструмент с текст и икона"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
-#: ui/oxygenbuttondemowidget.ui:224
-#, kde-format
-msgid "This is a normal, text only button"
-msgstr "Това е нормален бутон само с текст"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
-#: ui/oxygenbuttondemowidget.ui:234
-#, kde-format
-msgid "This is a normal, text only button with menu"
-msgstr "Това е нормален бутон само с текст и меню"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
-#: ui/oxygenbuttondemowidget.ui:244
-#, kde-format
-msgid "This is a normal, text and icon button"
-msgstr "Това е нормален бутон с текст и икона"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
-#: ui/oxygenbuttondemowidget.ui:254
-#, kde-format
-msgid "This is a normal, text and icon button with menu"
-msgstr "Това е нормален бутон с меню, текст и икона"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ui/oxygenbuttondemowidget.ui:267
-#, kde-format
-msgid "Toolbuttons"
-msgstr "Бутони за инструменти"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
-#: ui/oxygenbuttondemowidget.ui:335 ui/oxygenbuttondemowidget.ui:348
-#: ui/oxygenbuttondemowidget.ui:361
-#, kde-format
-msgid "Flat"
-msgstr "Равен"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
-#: ui/oxygenbuttondemowidget.ui:374
-#, kde-format
-msgid "Up Arrow"
-msgstr "Стрелка нагоре"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
-#: ui/oxygenbuttondemowidget.ui:384
-#, kde-format
-msgid "Down Arrow"
-msgstr "Стрелка надолу"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
-#: ui/oxygenbuttondemowidget.ui:397
-#, kde-format
-msgid "Left Arrow"
-msgstr "Стрелка наляво"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
-#: ui/oxygenbuttondemowidget.ui:407
-#, kde-format
-msgid "Right Arrow"
-msgstr "Стрелка надясно"
-
-#. i18n: ectx: property (text), widget (QLabel, label_11)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
-#, kde-format
-msgid "Te&xt position:"
-msgstr "По&зиция на текст:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
-#: ui/oxygenbuttondemowidget.ui:434 ui/oxygentabdemowidget.ui:95
-#, kde-format
-msgid "Icons Only"
-msgstr "Само икони"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
-#: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
-#, kde-format
-msgid "Text Only"
-msgstr "Само текст"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
-#: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
-#, kde-format
-msgid "Text Alongside Icons"
-msgstr "Текст до иконите"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#: ui/oxygenbuttondemowidget.ui:449
-#, kde-format
-msgid "Text Under Icons"
-msgstr "Текст под иконите"
-
-#. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ui/oxygenbuttondemowidget.ui:470
-#, kde-format
-msgid "Icon si&ze:"
-msgstr "&Размер на икони:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:484
-#, kde-format
-msgid "Small (16x16)"
-msgstr "Малки (16x16)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:489
-#, kde-format
-msgid "Medium (22x22)"
-msgstr "Средни (22x22)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:494
-#, kde-format
-msgid "Large (32x32)"
-msgstr "Големи (32x32)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:499
-#, kde-format
-msgid "Huge (48x48)"
-msgstr "Огромни (48x48)"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenframedemowidget.ui:31
-#, kde-format
-msgid "&Layout direction:"
-msgstr "&Посока на оформлението:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:45
-#, kde-format
-msgid "Left to Right"
-msgstr "Отляво надясно"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:50
-#, kde-format
-msgid "Right to Left"
-msgstr "Отдясно наляво"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:55
-#, kde-format
-msgid "Top to Bottom"
-msgstr "Отгоре надолу"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:60
-#, kde-format
-msgid "Bottom to Top"
-msgstr "Отдолу нагоре"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenframedemowidget.ui:94
-#, kde-format
-msgid "Frame"
-msgstr "Рамка"
-
-#. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
-#: ui/oxygenframedemowidget.ui:104
-#, kde-format
-msgid "&Raised"
-msgstr "&Повдигната"
-
-#. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
-#: ui/oxygenframedemowidget.ui:117
-#, kde-format
-msgctxt "Flat frame. No frame is actually drawn."
-msgid "&Flat"
-msgstr "П&лоска"
-
-#. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
-#: ui/oxygenframedemowidget.ui:124
-#, kde-format
-msgid "S&unken"
-msgstr "По&тънала"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygenframedemowidget.ui:147
-#, kde-format
-msgid "GroupBox"
-msgstr "Групираща рамка"
-
-#. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
-#: ui/oxygenframedemowidget.ui:153
-#, kde-format
-msgctxt "Flat group box. No frame is actually drawn"
-msgid "Flat"
-msgstr "Плоски"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: ui/oxygenframedemowidget.ui:180
-#, kde-format
-msgid "Tab Widget"
-msgstr "Раздели"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygeninputdemowidget.ui:29
-#, kde-format
-msgid "Single line text editor:"
-msgstr "Едноредов текстов редактор:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygeninputdemowidget.ui:65
-#, kde-format
-msgid "Password editor:"
-msgstr "Поле за пароли:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygeninputdemowidget.ui:88
-#, kde-format
-msgid "Editable combobox"
-msgstr "Падащ списък"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygeninputdemowidget.ui:105
-#, kde-format
-msgid "First item"
-msgstr "Първи елемент"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygeninputdemowidget.ui:110
-#, kde-format
-msgid "Second item"
-msgstr "Втори елемент"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygeninputdemowidget.ui:115
-#, kde-format
-msgid "Third item"
-msgstr "Трети елемент"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/oxygeninputdemowidget.ui:123
-#, kde-format
-msgid "Spinbox:"
-msgstr "Поле с превъртане :"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ui/oxygeninputdemowidget.ui:146
-#, kde-format
-msgid "Multi-line text editor:"
-msgstr "Многоредово текстово поле:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
-#: ui/oxygeninputdemowidget.ui:153
-#, kde-format
-msgid "Wrap words"
-msgstr "Пренасяне на редове"
-
-#. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
-#: ui/oxygeninputdemowidget.ui:160
-#, kde-format
-msgid "Use flat widgets"
-msgstr "Плоски полета"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:40 ui/oxygenlistdemowidget.ui:119
-#, kde-format
-msgid "First Item"
-msgstr "Първи елемент"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:48 ui/oxygenlistdemowidget.ui:95
-#, kde-format
-msgid "Second Item"
-msgstr "Втори елемент"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:56 ui/oxygenlistdemowidget.ui:79
-#, kde-format
-msgid "Third Item"
-msgstr "Трети елемент"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:69
-#, kde-format
-msgid "Title"
-msgstr "Заглавие"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:74
-#, kde-format
-msgid "Description"
-msgstr "Описание"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:82
-#, kde-format
-msgid "Third Description"
-msgstr "Трето описание"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:86
-#, kde-format
-msgid "Third Subitem"
-msgstr "Трета подточка"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:89
-#, kde-format
-msgid "Third Subitem Description"
-msgstr "Трета подточка описание"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:98
-#, kde-format
-msgid "Second Description"
-msgstr "Второ описание"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:102
-#, kde-format
-msgid "Second Subitem"
-msgstr "Втора подточка"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:105
-#, kde-format
-msgid "Second Subitem Description"
-msgstr "Втора подточка описание"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:110
-#, kde-format
-msgid "First Subitem"
-msgstr "Първа подточка"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:113
-#, kde-format
-msgid "First Subitem Description"
-msgstr "Първа подточка описание"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:122
-#, kde-format
-msgid "First Description"
-msgstr "Първо описание"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:132
-#, kde-format
-msgid "New Row"
-msgstr "Нов ред"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:137
-#, kde-format
-msgid "First Row"
-msgstr "Първи ред"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:142
-#, kde-format
-msgid "Third Row"
-msgstr "Трети ред"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:147
-#, kde-format
-msgid "First Column"
-msgstr "Първа колона"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:152
-#, kde-format
-msgid "Second Column"
-msgstr "Втора колона"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:157
-#, kde-format
-msgid "Third Column"
-msgstr "Трета колона"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:162
-#, kde-format
-msgid "Top-left"
-msgstr "Отгоре вляво"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:167
-#, kde-format
-msgid "Top"
-msgstr "Горе"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:172
-#, kde-format
-msgid "Top-right"
-msgstr "Отгоре вдясно"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:177
-#, kde-format
-msgid "Left "
-msgstr "Вляво"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:182
-#, kde-format
-msgid "Center"
-msgstr "Центрирано"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:187
-#, kde-format
-msgid "Right"
-msgstr "Вдясно"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:192
-#, kde-format
-msgid "Bottom-left"
-msgstr "Отдолу вляво"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:197
-#, kde-format
-msgid "Bottom"
-msgstr "Отдолу"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:202
-#, kde-format
-msgid "Bottom-right"
-msgstr "Отдолу вдясно"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, Editors)
-#: ui/oxygenmdidemowidget.ui:45
-#, kde-format
-msgid "Editors"
-msgstr "Редактори"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenmdidemowidget.ui:51
-#, kde-format
-msgid "Title:"
-msgstr "Заглавие:"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, Toolbox)
-#: ui/oxygenmdidemowidget.ui:78
-#, kde-format
-msgid "Toolbox"
-msgstr "Инструменти"
-
-#. i18n: ectx: attribute (label), widget (QWidget, page)
-#: ui/oxygenmdidemowidget.ui:96
-#, kde-format
-msgid "First Page"
-msgstr "Първа страница"
-
-#. i18n: ectx: attribute (label), widget (QWidget, page_2)
-#: ui/oxygenmdidemowidget.ui:110
-#, kde-format
-msgid "Second Page"
-msgstr "Втора страница"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenmdidemowidget.ui:116
-#, kde-format
-msgid "First Label"
-msgstr "Първи етикет"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygenmdidemowidget.ui:123
-#, kde-format
-msgid "Second Label"
-msgstr "Втори етикет"
-
-#. i18n: ectx: attribute (label), widget (QWidget, page_3)
-#: ui/oxygenmdidemowidget.ui:152
-#, kde-format
-msgid "Third Page"
-msgstr "Трета страница"
-
-#. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
-#: ui/oxygensliderdemowidget.ui:29
-#, kde-format
-msgid "Animate Progress Bars"
-msgstr "Анимирани ленти за прогрес"
-
-#. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
-#: ui/oxygensliderdemowidget.ui:36
-#, kde-format
-msgid "Invert Progress Bars"
-msgstr "Обърнати ленти за прогрес"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygensliderdemowidget.ui:43
-#, kde-format
-msgid "Horizontal"
-msgstr "Хоризонтално"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ui/oxygensliderdemowidget.ui:120
-#, kde-format
-msgid "Vertical"
-msgstr "Вертикално"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygensliderdemowidget.ui:167
-#, kde-format
-msgid "Sliders tick marks position"
-msgstr "Позиция на маркировка"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:178
-#, kde-format
-msgid "No Tick Marks"
-msgstr "Без маркировка"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:183
-#, kde-format
-msgid "Tick Marks Above Slider"
-msgstr "Маркировка над плъзгача"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:188
-#, kde-format
-msgid "Tick Marks Below Slider"
-msgstr "Маркировка под плъзгача"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:193
-#, kde-format
-msgid "Tick Marks On Both Sides"
-msgstr "Маркировка от двете страни"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygentabdemowidget.ui:31
-#, kde-format
-msgid "&Tab position:"
-msgstr "&Позиция на разделите:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:45
-#, kde-format
-msgid "North"
-msgstr "Север"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:50
-#, kde-format
-msgid "South"
-msgstr "Юг"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:55
-#, kde-format
-msgid "West"
-msgstr "Запад"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:60
-#, kde-format
-msgid "East"
-msgstr "Изток"
-
-#. i18n: ectx: property (text), widget (QCheckBox, documentModeCheckBox)
-#: ui/oxygentabdemowidget.ui:115
-#, kde-format
-msgid "Document mode"
-msgstr "Режим на документ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
-#: ui/oxygentabdemowidget.ui:122
-#, kde-format
-msgid "Show Corner Buttons"
-msgstr "Показване на ъгловите бутони"
-
-#. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
-#: ui/oxygentabdemowidget.ui:129
-#, kde-format
-msgid "Show Tab Close Buttons"
-msgstr "Показване на бутоните за затваряне на раздел"
-
-#. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
-#: ui/oxygentabdemowidget.ui:136
-#, kde-format
-msgid "Hide tabbar"
-msgstr "Скриване на лентата с раздели"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygentabdemowidget.ui:143
-#, kde-format
-msgid "Preview"
-msgstr "Преглед"
+#~ msgid "Modules"
+#~ msgstr "Модули"
+
+#~ msgid "Select below the modules for which you want to run the simulation:"
+#~ msgstr ""
+#~ "Изберете по-долу модулите, за които искате да стартирате симулацията:"
+
+#~ msgid "Options"
+#~ msgstr "Настройки"
+
+#~ msgid "Grab mouse"
+#~ msgstr "Прихващане на мишката"
+
+#~ msgid "Run Simulation"
+#~ msgstr "Стартиране на симулация"
+
+#~ msgid "Checkboxes"
+#~ msgstr "Квадратчета за отметка"
+
+#~ msgid "Off"
+#~ msgstr "Изключено"
+
+#~ msgid "Partial"
+#~ msgstr "Частично"
+
+#~ msgid "On"
+#~ msgstr "Включено"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "Радиобутони"
+
+#~ msgid "F&irst Choice"
+#~ msgstr "&Първи избор"
+
+#~ msgid "Seco&nd Choice"
+#~ msgstr "&Втори избор"
+
+#~ msgid "&Third Choice"
+#~ msgstr "&Трети избор"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "Бутони"
+
+#~ msgid "Text only:"
+#~ msgstr "Само текст:"
+
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "Това е нормален падащ списък само с текст"
+
+#~ msgid "Small"
+#~ msgstr "Малък"
+
+#~ msgid "Large"
+#~ msgstr "Голям"
+
+#~ msgid "Text and icon:"
+#~ msgstr "Текст и икона:"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "Използване на плоски бутони"
+
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "Това е нормален падащ списък с текст и икони"
+
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "Това е нормален бутон за инструмент само с текст"
+
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "Това е нормален бутон за инструмент с текст и икона"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "Това е нормален бутон само с текст"
+
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "Това е нормален бутон само с текст и меню"
+
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "Това е нормален бутон с текст и икона"
+
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "Това е нормален бутон с меню, текст и икона"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "Бутони за инструменти"
+
+#~ msgid "Flat"
+#~ msgstr "Равен"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Стрелка нагоре"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Стрелка надолу"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Стрелка наляво"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Стрелка надясно"
+
+#~ msgid "Te&xt position:"
+#~ msgstr "По&зиция на текст:"
+
+#~ msgid "Icons Only"
+#~ msgstr "Само икони"
+
+#~ msgid "Text Only"
+#~ msgstr "Само текст"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "Текст до иконите"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "Текст под иконите"
+
+#~ msgid "Icon si&ze:"
+#~ msgstr "&Размер на икони:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "Малки (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "Средни (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "Големи (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "Огромни (48x48)"
+
+#~ msgid "&Layout direction:"
+#~ msgstr "&Посока на оформлението:"
+
+#~ msgid "Left to Right"
+#~ msgstr "Отляво надясно"
+
+#~ msgid "Right to Left"
+#~ msgstr "Отдясно наляво"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Отгоре надолу"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Отдолу нагоре"
+
+#~ msgid "Frame"
+#~ msgstr "Рамка"
+
+#~ msgid "&Raised"
+#~ msgstr "&Повдигната"
+
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "&Flat"
+#~ msgstr "П&лоска"
+
+#~ msgid "S&unken"
+#~ msgstr "По&тънала"
+
+#~ msgid "GroupBox"
+#~ msgstr "Групираща рамка"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "Плоски"
+
+#~ msgid "Tab Widget"
+#~ msgstr "Раздели"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "Едноредов текстов редактор:"
+
+#~ msgid "Password editor:"
+#~ msgstr "Поле за пароли:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "Падащ списък"
+
+#~ msgid "First item"
+#~ msgstr "Първи елемент"
+
+#~ msgid "Second item"
+#~ msgstr "Втори елемент"
+
+#~ msgid "Third item"
+#~ msgstr "Трети елемент"
+
+#~ msgid "Spinbox:"
+#~ msgstr "Поле с превъртане :"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "Многоредово текстово поле:"
+
+#~ msgid "Wrap words"
+#~ msgstr "Пренасяне на редове"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "Плоски полета"
+
+#~ msgid "First Item"
+#~ msgstr "Първи елемент"
+
+#~ msgid "Second Item"
+#~ msgstr "Втори елемент"
+
+#~ msgid "Third Item"
+#~ msgstr "Трети елемент"
+
+#~ msgid "Title"
+#~ msgstr "Заглавие"
+
+#~ msgid "Description"
+#~ msgstr "Описание"
+
+#~ msgid "Third Description"
+#~ msgstr "Трето описание"
+
+#~ msgid "Third Subitem"
+#~ msgstr "Трета подточка"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "Трета подточка описание"
+
+#~ msgid "Second Description"
+#~ msgstr "Второ описание"
+
+#~ msgid "Second Subitem"
+#~ msgstr "Втора подточка"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "Втора подточка описание"
+
+#~ msgid "First Subitem"
+#~ msgstr "Първа подточка"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "Първа подточка описание"
+
+#~ msgid "First Description"
+#~ msgstr "Първо описание"
+
+#~ msgid "New Row"
+#~ msgstr "Нов ред"
+
+#~ msgid "First Row"
+#~ msgstr "Първи ред"
+
+#~ msgid "Third Row"
+#~ msgstr "Трети ред"
+
+#~ msgid "First Column"
+#~ msgstr "Първа колона"
+
+#~ msgid "Second Column"
+#~ msgstr "Втора колона"
+
+#~ msgid "Third Column"
+#~ msgstr "Трета колона"
+
+#~ msgid "Top-left"
+#~ msgstr "Отгоре вляво"
+
+#~ msgid "Top"
+#~ msgstr "Горе"
+
+#~ msgid "Top-right"
+#~ msgstr "Отгоре вдясно"
+
+#~ msgid "Left "
+#~ msgstr "Вляво"
+
+#~ msgid "Center"
+#~ msgstr "Центрирано"
+
+#~ msgid "Right"
+#~ msgstr "Вдясно"
+
+#~ msgid "Bottom-left"
+#~ msgstr "Отдолу вляво"
+
+#~ msgid "Bottom"
+#~ msgstr "Отдолу"
+
+#~ msgid "Bottom-right"
+#~ msgstr "Отдолу вдясно"
+
+#~ msgid "Editors"
+#~ msgstr "Редактори"
+
+#~ msgid "Title:"
+#~ msgstr "Заглавие:"
+
+#~ msgid "Toolbox"
+#~ msgstr "Инструменти"
+
+#~ msgid "First Page"
+#~ msgstr "Първа страница"
+
+#~ msgid "Second Page"
+#~ msgstr "Втора страница"
+
+#~ msgid "First Label"
+#~ msgstr "Първи етикет"
+
+#~ msgid "Second Label"
+#~ msgstr "Втори етикет"
+
+#~ msgid "Third Page"
+#~ msgstr "Трета страница"
+
+#~ msgid "Animate Progress Bars"
+#~ msgstr "Анимирани ленти за прогрес"
+
+#~ msgid "Invert Progress Bars"
+#~ msgstr "Обърнати ленти за прогрес"
+
+#~ msgid "Horizontal"
+#~ msgstr "Хоризонтално"
+
+#~ msgid "Vertical"
+#~ msgstr "Вертикално"
+
+#~ msgid "Sliders tick marks position"
+#~ msgstr "Позиция на маркировка"
+
+#~ msgid "No Tick Marks"
+#~ msgstr "Без маркировка"
+
+#~ msgid "Tick Marks Above Slider"
+#~ msgstr "Маркировка над плъзгача"
+
+#~ msgid "Tick Marks Below Slider"
+#~ msgstr "Маркировка под плъзгача"
+
+#~ msgid "Tick Marks On Both Sides"
+#~ msgstr "Маркировка от двете страни"
+
+#~ msgid "&Tab position:"
+#~ msgstr "&Позиция на разделите:"
+
+#~ msgid "North"
+#~ msgstr "Север"
+
+#~ msgid "South"
+#~ msgstr "Юг"
+
+#~ msgid "West"
+#~ msgstr "Запад"
+
+#~ msgid "East"
+#~ msgstr "Изток"
+
+#~ msgid "Document mode"
+#~ msgstr "Режим на документ"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "Показване на ъгловите бутони"
+
+#~ msgid "Show Tab Close Buttons"
+#~ msgstr "Показване на бутоните за затваряне на раздел"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "Скриване на лентата с раздели"
+
+#~ msgid "Preview"
+#~ msgstr "Преглед"

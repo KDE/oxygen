@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2014-03-29 18:56-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -22,22 +22,7 @@ msgstr ""
 msgid "Oxygen Demo"
 msgstr "ਆਕਸੀਜਨ ਡੈਮੋ"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_2)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_3)
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_4)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
-#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
-#: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
-#: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
-#: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
-#: ui/oxygenbuttondemowidget.ui:285 ui/oxygenbuttondemowidget.ui:295
-#: ui/oxygenbuttondemowidget.ui:305
+#: oxygenbuttondemowidget.cpp:35
 #, kde-format
 msgid "Normal"
 msgstr "ਸਧਾਰਨ"
@@ -216,762 +201,387 @@ msgstr "ਇਹ ਸਧਾਰਨ ਟੈਕਸਟ ਹੈ"
 msgid "Select the application widget style"
 msgstr ""
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygenbenchmarkwidget.ui:29
-#, kde-format
-msgid "Modules"
-msgstr "ਮੋਡੀਊਲ"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenbenchmarkwidget.ui:35
-#, kde-format
-msgid "Select below the modules for which you want to run the simulation:"
-msgstr ""
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ui/oxygenbenchmarkwidget.ui:48
-#, kde-format
-msgid "Options"
-msgstr "ਚੋਣਾਂ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, grabMouseCheckBox)
-#: ui/oxygenbenchmarkwidget.ui:54
-#, kde-format
-msgid "Grab mouse"
-msgstr "ਮਾਊਸ ਲਵੋ"
-
-#. i18n: ectx: property (text), widget (QPushButton, runButton)
-#: ui/oxygenbenchmarkwidget.ui:82
-#, kde-format
-msgid "Run Simulation"
-msgstr "ਸੀਮੂਲੇਸ਼ਨ ਚਲਾਓ"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: ui/oxygenbuttondemowidget.ui:20
-#, kde-format
-msgid "Checkboxes"
-msgstr "ਚੈਕਬਾਕਸ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox)
-#: ui/oxygenbuttondemowidget.ui:28
-#, kde-format
-msgid "Off"
-msgstr "ਬੰਦ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
-#: ui/oxygenbuttondemowidget.ui:35
-#, kde-format
-msgid "Partial"
-msgstr "ਅਧੂਰਾ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
-#: ui/oxygenbuttondemowidget.ui:45
-#, kde-format
-msgid "On"
-msgstr "ਚਾਲੂ"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ui/oxygenbuttondemowidget.ui:73
-#, kde-format
-msgid "Radiobuttons"
-msgstr "ਰੇਡੀਓ ਬਟਨ"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
-#: ui/oxygenbuttondemowidget.ui:84
-#, fuzzy, kde-format
-#| msgid "First Choice"
-msgid "F&irst Choice"
-msgstr "ਪਹਿਲੀ ਚੋਣ"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
-#: ui/oxygenbuttondemowidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Second Choice"
-msgid "Seco&nd Choice"
-msgstr "ਦੂਜੀ ਚੋਣ"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
-#: ui/oxygenbuttondemowidget.ui:101
-#, fuzzy, kde-format
-#| msgid "Third Choice"
-msgid "&Third Choice"
-msgstr "ਤੀਜੀ ਚੋਣ"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygenbuttondemowidget.ui:126
-#, kde-format
-msgid "Pushbuttons"
-msgstr "ਪੁਸ਼ਬਟਨ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ui/oxygenbuttondemowidget.ui:132
-#, kde-format
-msgid "Text only:"
-msgstr "ਕੇਵਲ ਟੈਕਸਟ:"
-
-#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
-#: ui/oxygenbuttondemowidget.ui:142
-#, fuzzy, kde-format
-#| msgid "This is a normal, text only button"
-msgid "This is a normal, text only combo box"
-msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygenbuttondemowidget.ui:149
-#, kde-format
-msgid "Small"
-msgstr "ਛੋਟਾ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygenbuttondemowidget.ui:159
-#, kde-format
-msgid "Large"
-msgstr "ਵੱਡਾ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ui/oxygenbuttondemowidget.ui:180
-#, kde-format
-msgid "Text and icon:"
-msgstr "ਟੈਕਸਟ ਤੇ ਆਈਕਾਨ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
-#: ui/oxygenbuttondemowidget.ui:190
-#, kde-format
-msgid "Use flat buttons"
-msgstr "ਸਮਤਲ ਬਟਨ ਵਰਤੋਂ"
-
-#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
-#: ui/oxygenbuttondemowidget.ui:197
-#, fuzzy, kde-format
-#| msgid "This is a normal, text only button"
-msgid "This is a normal, text and icon combo box"
-msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
-#: ui/oxygenbuttondemowidget.ui:204
-#, fuzzy, kde-format
-#| msgid "This is a normal, text only button"
-msgid "This is a normal, text only tool button"
-msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
-#: ui/oxygenbuttondemowidget.ui:214
-#, fuzzy, kde-format
-#| msgid "This is a normal, text only button"
-msgid "This is a normal, text and icon tool button"
-msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
-#: ui/oxygenbuttondemowidget.ui:224
-#, kde-format
-msgid "This is a normal, text only button"
-msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
-#: ui/oxygenbuttondemowidget.ui:234
-#, fuzzy, kde-format
-#| msgid "This is a normal, text only button"
-msgid "This is a normal, text only button with menu"
-msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
-#: ui/oxygenbuttondemowidget.ui:244
-#, fuzzy, kde-format
-#| msgid "This is a normal, text only button"
-msgid "This is a normal, text and icon button"
-msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
-#: ui/oxygenbuttondemowidget.ui:254
-#, fuzzy, kde-format
-#| msgid "This is a normal, text only button"
-msgid "This is a normal, text and icon button with menu"
-msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ui/oxygenbuttondemowidget.ui:267
-#, kde-format
-msgid "Toolbuttons"
-msgstr "ਟੂਲਬਟਨ"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
-#: ui/oxygenbuttondemowidget.ui:335 ui/oxygenbuttondemowidget.ui:348
-#: ui/oxygenbuttondemowidget.ui:361
-#, kde-format
-msgid "Flat"
-msgstr "ਸਮਤਲ"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
-#: ui/oxygenbuttondemowidget.ui:374
-#, kde-format
-msgid "Up Arrow"
-msgstr "ਉੱਤੇ ਤੀਰ"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
-#: ui/oxygenbuttondemowidget.ui:384
-#, kde-format
-msgid "Down Arrow"
-msgstr "ਹੇਠਾਂ ਤੀਰ"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
-#: ui/oxygenbuttondemowidget.ui:397
-#, kde-format
-msgid "Left Arrow"
-msgstr "ਖੱਬਾ ਤੀਰ"
-
-#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
-#: ui/oxygenbuttondemowidget.ui:407
-#, kde-format
-msgid "Right Arrow"
-msgstr "ਸੱਜਾ ਤੀਰ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_11)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
-#, fuzzy, kde-format
-#| msgid "Text position:"
-msgid "Te&xt position:"
-msgstr "ਟੈਕਸਟ ਸਥਿਤੀ:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
-#: ui/oxygenbuttondemowidget.ui:434 ui/oxygentabdemowidget.ui:95
-#, kde-format
-msgid "Icons Only"
-msgstr "ਸਿਰਫ਼ ਆਈਕਾਨ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
-#: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
-#, kde-format
-msgid "Text Only"
-msgstr "ਕੇਵਲ ਅੱਖਰ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
-#: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
-#, kde-format
-msgid "Text Alongside Icons"
-msgstr "ਆਈਕਾਨ ਨਾਲ ਟੈਕਸਟ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
-#: ui/oxygenbuttondemowidget.ui:449
-#, kde-format
-msgid "Text Under Icons"
-msgstr "ਆਈਕਾਨ ਹੇਠ ਟੈਕਸਟ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ui/oxygenbuttondemowidget.ui:470
-#, fuzzy, kde-format
-#| msgid "Icon size:"
-msgid "Icon si&ze:"
-msgstr "ਆਈਕਾਨ ਆਕਾਰ:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:484
-#, kde-format
-msgid "Small (16x16)"
-msgstr "ਛੋਟਾ (16x16)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:489
-#, kde-format
-msgid "Medium (22x22)"
-msgstr "ਮੱਧਮ (22x22)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:494
-#, kde-format
-msgid "Large (32x32)"
-msgstr "ਵੱਡਾ (32x32)"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
-#: ui/oxygenbuttondemowidget.ui:499
-#, kde-format
-msgid "Huge (48x48)"
-msgstr "ਵਿਸ਼ਾਲ (48x48)"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenframedemowidget.ui:31
-#, fuzzy, kde-format
-#| msgid "Layout direction:"
-msgid "&Layout direction:"
-msgstr "ਲੇਆਉਟ ਦਿਸ਼ਾ:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:45
-#, kde-format
-msgid "Left to Right"
-msgstr "ਖੱਬੇ ਤੋਂ ਸੱਜੇ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:50
-#, kde-format
-msgid "Right to Left"
-msgstr "ਸੱਜੇ ਤੋਂ ਖੱਬੇ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:55
-#, kde-format
-msgid "Top to Bottom"
-msgstr "ਉੱਤੇ ਤੋਂ ਹੇਠਾਂ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
-#: ui/oxygenframedemowidget.ui:60
-#, kde-format
-msgid "Bottom to Top"
-msgstr "ਤਲ ਤੋਂ ਉੱਤੇ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenframedemowidget.ui:94
-#, kde-format
-msgid "Frame"
-msgstr "ਫਰੇਮ"
-
-#. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
-#: ui/oxygenframedemowidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Raised"
-msgid "&Raised"
-msgstr "ਉਭਾਰੇ"
-
-#. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
-#: ui/oxygenframedemowidget.ui:117
-#, fuzzy, kde-format
-#| msgid "Flat"
-msgctxt "Flat frame. No frame is actually drawn."
-msgid "&Flat"
-msgstr "ਸਮਤਲ"
-
-#. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
-#: ui/oxygenframedemowidget.ui:124
-#, kde-format
-msgid "S&unken"
-msgstr ""
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygenframedemowidget.ui:147
-#, kde-format
-msgid "GroupBox"
-msgstr "ਗਰੁੱਪਬਾਕਸ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
-#: ui/oxygenframedemowidget.ui:153
-#, kde-format
-msgctxt "Flat group box. No frame is actually drawn"
-msgid "Flat"
-msgstr "ਸਮਤਲ"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: ui/oxygenframedemowidget.ui:180
-#, kde-format
-msgid "Tab Widget"
-msgstr "ਟੈਬ ਵਿਦਜੈੱਟ"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygeninputdemowidget.ui:29
-#, kde-format
-msgid "Single line text editor:"
-msgstr "ਇੱਕਲੀ ਲਾਈਨ ਟੈਕਸਟ ਐਡੀਟਰ:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygeninputdemowidget.ui:65
-#, kde-format
-msgid "Password editor:"
-msgstr "ਪਾਸਵਰਡ ਐਡੀਟਰ:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygeninputdemowidget.ui:88
-#, kde-format
-msgid "Editable combobox"
-msgstr "ਸੋਧਯੋਗ ਕੰਬੋਬਾਕਸ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygeninputdemowidget.ui:105
-#, kde-format
-msgid "First item"
-msgstr "ਪਹਿਲੀ ਆਈਟਮ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygeninputdemowidget.ui:110
-#, kde-format
-msgid "Second item"
-msgstr "ਦੂਜੀ ਆਈਟਮ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
-#: ui/oxygeninputdemowidget.ui:115
-#, kde-format
-msgid "Third item"
-msgstr "ਤੀਜੀ ਆਈਟਮ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/oxygeninputdemowidget.ui:123
-#, kde-format
-msgid "Spinbox:"
-msgstr "ਸਪਿੰਨਬਾਕਸ:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ui/oxygeninputdemowidget.ui:146
-#, kde-format
-msgid "Multi-line text editor:"
-msgstr "ਮਲਟੀ-ਲਾਈਨ ਟੈਕਸਟ ਐਡੀਟਰ:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
-#: ui/oxygeninputdemowidget.ui:153
-#, kde-format
-msgid "Wrap words"
-msgstr "ਸ਼ਬਦ ਸਮੇਟੋ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
-#: ui/oxygeninputdemowidget.ui:160
-#, kde-format
-msgid "Use flat widgets"
-msgstr "ਸਮਤਲ ਵਿਦਜੈੱਟ ਵਰਤੋਂ"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:40 ui/oxygenlistdemowidget.ui:119
-#, kde-format
-msgid "First Item"
-msgstr "ਪਹਿਲੀ ਆਈਟਮ"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:48 ui/oxygenlistdemowidget.ui:95
-#, kde-format
-msgid "Second Item"
-msgstr "ਦੂਜੀ ਆਈਟਮ"
-
-#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:56 ui/oxygenlistdemowidget.ui:79
-#, kde-format
-msgid "Third Item"
-msgstr "ਤੀਜੀ ਆਈਟਮ"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:69
-#, kde-format
-msgid "Title"
-msgstr "ਟਾਈਟਲ"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:74
-#, kde-format
-msgid "Description"
-msgstr "ਵੇਰਵਾ"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:82
-#, kde-format
-msgid "Third Description"
-msgstr "ਤੀਜਾ ਵੇਰਵਾ"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:86
-#, kde-format
-msgid "Third Subitem"
-msgstr "ਤੀਜੀ ਸਬ-ਆਈਟਮ"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:89
-#, kde-format
-msgid "Third Subitem Description"
-msgstr "ਤੀਜਾ ਸਬ-ਆਈਟਮ ਵੇਰਵਾ"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:98
-#, kde-format
-msgid "Second Description"
-msgstr "ਦੂਜਾ ਵੇਰਵਾ"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:102
-#, kde-format
-msgid "Second Subitem"
-msgstr "ਦੂਜੀ ਸਬ-ਆਈਟਮ"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:105
-#, kde-format
-msgid "Second Subitem Description"
-msgstr "ਦੂਜਾ ਸਬ-ਆਈਟਮ ਵੇਰਵਾ"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:110
-#, kde-format
-msgid "First Subitem"
-msgstr "ਪਹਿਲੀ ਸਬ-ਆਈਟਮ"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:113
-#, kde-format
-msgid "First Subitem Description"
-msgstr "ਪਹਿਲਾਂ ਸਬ-ਆਈਟਮ ਵੇਰਵਾ"
-
-#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
-#: ui/oxygenlistdemowidget.ui:122
-#, kde-format
-msgid "First Description"
-msgstr "ਪਹਿਲਾਂ ਵੇਰਵਾ"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:132
-#, kde-format
-msgid "New Row"
-msgstr "ਨਵੀਂ ਕਤਾਰ"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:137
-#, kde-format
-msgid "First Row"
-msgstr "ਪਹਿਲੀ ਕਤਾਰ"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:142
-#, kde-format
-msgid "Third Row"
-msgstr "ਤੀਜੀ ਕਤਾਰ"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:147
-#, kde-format
-msgid "First Column"
-msgstr "ਪਹਿਲਾਂ ਕਾਲਮ"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:152
-#, kde-format
-msgid "Second Column"
-msgstr "ਦੂਜਾ ਕਾਲਮ"
-
-#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:157
-#, kde-format
-msgid "Third Column"
-msgstr "ਤੀਜਾ ਕਾਲਮ"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:162
-#, kde-format
-msgid "Top-left"
-msgstr "ਉੱਤੇ-ਖੱਬੇ"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:167
-#, kde-format
-msgid "Top"
-msgstr "ਉੱਤੇ"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:172
-#, kde-format
-msgid "Top-right"
-msgstr "ਉੱਤੇ-ਸੱਜੇ"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:177
-#, kde-format
-msgid "Left "
-msgstr "ਖੱਬੇ "
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:182
-#, kde-format
-msgid "Center"
-msgstr "ਸੈਂਟਰ"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:187
-#, kde-format
-msgid "Right"
-msgstr "ਸੱਜੇ"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:192
-#, kde-format
-msgid "Bottom-left"
-msgstr "ਹੇਠਾਂ-ਖੱਬੇ"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:197
-#, kde-format
-msgid "Bottom"
-msgstr "ਥੱਲੇ"
-
-#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
-#: ui/oxygenlistdemowidget.ui:202
-#, kde-format
-msgid "Bottom-right"
-msgstr "ਹੇਠਾਂ-ਸੱਜੇ"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, Editors)
-#: ui/oxygenmdidemowidget.ui:45
-#, kde-format
-msgid "Editors"
-msgstr "ਐਡੀਟਰ"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenmdidemowidget.ui:51
-#, kde-format
-msgid "Title:"
-msgstr "ਟਾਈਟਲ:"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, Toolbox)
-#: ui/oxygenmdidemowidget.ui:78
-#, kde-format
-msgid "Toolbox"
-msgstr "ਟੂਲਬਾਕਸ"
-
-#. i18n: ectx: attribute (label), widget (QWidget, page)
-#: ui/oxygenmdidemowidget.ui:96
-#, kde-format
-msgid "First Page"
-msgstr "ਪਹਿਲਾਂ ਸਫ਼ਾ"
-
-#. i18n: ectx: attribute (label), widget (QWidget, page_2)
-#: ui/oxygenmdidemowidget.ui:110
-#, kde-format
-msgid "Second Page"
-msgstr "ਦੂਜਾ ਸਫ਼ਾ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenmdidemowidget.ui:116
-#, kde-format
-msgid "First Label"
-msgstr "ਪਹਿਲਾਂ ਲੇਬਲ"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygenmdidemowidget.ui:123
-#, kde-format
-msgid "Second Label"
-msgstr "ਦੂਜਾ ਲੇਬਲ"
-
-#. i18n: ectx: attribute (label), widget (QWidget, page_3)
-#: ui/oxygenmdidemowidget.ui:152
-#, kde-format
-msgid "Third Page"
-msgstr "ਤੀਜਾ ਸਫ਼ਾ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
-#: ui/oxygensliderdemowidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Animate progress bars"
-msgid "Animate Progress Bars"
-msgstr "ਤਰੱਕੀ ਪੱਟੀ ਐਨੀਮੇਟ ਕਰੋ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
-#: ui/oxygensliderdemowidget.ui:36
-#, fuzzy, kde-format
-#| msgid "Animate progress bars"
-msgid "Invert Progress Bars"
-msgstr "ਤਰੱਕੀ ਪੱਟੀ ਐਨੀਮੇਟ ਕਰੋ"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygensliderdemowidget.ui:43
-#, kde-format
-msgid "Horizontal"
-msgstr "ਹਰੀਜੱਟਲ"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ui/oxygensliderdemowidget.ui:120
-#, kde-format
-msgid "Vertical"
-msgstr "ਵਰਟੀਕਲ"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygensliderdemowidget.ui:167
-#, kde-format
-msgid "Sliders tick marks position"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:178
-#, kde-format
-msgid "No Tick Marks"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:183
-#, kde-format
-msgid "Tick Marks Above Slider"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:188
-#, kde-format
-msgid "Tick Marks Below Slider"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
-#: ui/oxygensliderdemowidget.ui:193
-#, kde-format
-msgid "Tick Marks On Both Sides"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygentabdemowidget.ui:31
-#, fuzzy, kde-format
-#| msgid "Tab position:"
-msgid "&Tab position:"
-msgstr "ਟੈਬ ਸਥਿਤੀ:"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:45
-#, kde-format
-msgid "North"
-msgstr "ਉੱਤਰ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:50
-#, kde-format
-msgid "South"
-msgstr "ਦੱਖਣ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:55
-#, kde-format
-msgid "West"
-msgstr "ਪੱਛਮ"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
-#: ui/oxygentabdemowidget.ui:60
-#, kde-format
-msgid "East"
-msgstr "ਪੂਰਬ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, documentModeCheckBox)
-#: ui/oxygentabdemowidget.ui:115
-#, kde-format
-msgid "Document mode"
-msgstr "ਡੌਕੂਮੈਂਟ ਮੋਡ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
-#: ui/oxygentabdemowidget.ui:122
-#, kde-format
-msgid "Show Corner Buttons"
-msgstr "ਕੋਨਾ ਬਟਨ ਵੇਖੋ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
-#: ui/oxygentabdemowidget.ui:129
-#, fuzzy, kde-format
-#| msgid "Show Corner Buttons"
-msgid "Show Tab Close Buttons"
-msgstr "ਕੋਨਾ ਬਟਨ ਵੇਖੋ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
-#: ui/oxygentabdemowidget.ui:136
-#, kde-format
-msgid "Hide tabbar"
-msgstr "ਟੈਬਬਾਰ ਓਹਲੇ"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ui/oxygentabdemowidget.ui:143
-#, kde-format
-msgid "Preview"
-msgstr "ਝਲਕ"
+#~ msgid "Modules"
+#~ msgstr "ਮੋਡੀਊਲ"
+
+#~ msgid "Options"
+#~ msgstr "ਚੋਣਾਂ"
+
+#~ msgid "Grab mouse"
+#~ msgstr "ਮਾਊਸ ਲਵੋ"
+
+#~ msgid "Run Simulation"
+#~ msgstr "ਸੀਮੂਲੇਸ਼ਨ ਚਲਾਓ"
+
+#~ msgid "Checkboxes"
+#~ msgstr "ਚੈਕਬਾਕਸ"
+
+#~ msgid "Off"
+#~ msgstr "ਬੰਦ"
+
+#~ msgid "Partial"
+#~ msgstr "ਅਧੂਰਾ"
+
+#~ msgid "On"
+#~ msgstr "ਚਾਲੂ"
+
+#~ msgid "Radiobuttons"
+#~ msgstr "ਰੇਡੀਓ ਬਟਨ"
+
+#, fuzzy
+#~| msgid "First Choice"
+#~ msgid "F&irst Choice"
+#~ msgstr "ਪਹਿਲੀ ਚੋਣ"
+
+#, fuzzy
+#~| msgid "Second Choice"
+#~ msgid "Seco&nd Choice"
+#~ msgstr "ਦੂਜੀ ਚੋਣ"
+
+#, fuzzy
+#~| msgid "Third Choice"
+#~ msgid "&Third Choice"
+#~ msgstr "ਤੀਜੀ ਚੋਣ"
+
+#~ msgid "Pushbuttons"
+#~ msgstr "ਪੁਸ਼ਬਟਨ"
+
+#~ msgid "Text only:"
+#~ msgstr "ਕੇਵਲ ਟੈਕਸਟ:"
+
+#, fuzzy
+#~| msgid "This is a normal, text only button"
+#~ msgid "This is a normal, text only combo box"
+#~ msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
+
+#~ msgid "Small"
+#~ msgstr "ਛੋਟਾ"
+
+#~ msgid "Large"
+#~ msgstr "ਵੱਡਾ"
+
+#~ msgid "Text and icon:"
+#~ msgstr "ਟੈਕਸਟ ਤੇ ਆਈਕਾਨ"
+
+#~ msgid "Use flat buttons"
+#~ msgstr "ਸਮਤਲ ਬਟਨ ਵਰਤੋਂ"
+
+#, fuzzy
+#~| msgid "This is a normal, text only button"
+#~ msgid "This is a normal, text and icon combo box"
+#~ msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
+
+#, fuzzy
+#~| msgid "This is a normal, text only button"
+#~ msgid "This is a normal, text only tool button"
+#~ msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
+
+#, fuzzy
+#~| msgid "This is a normal, text only button"
+#~ msgid "This is a normal, text and icon tool button"
+#~ msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
+
+#~ msgid "This is a normal, text only button"
+#~ msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
+
+#, fuzzy
+#~| msgid "This is a normal, text only button"
+#~ msgid "This is a normal, text only button with menu"
+#~ msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
+
+#, fuzzy
+#~| msgid "This is a normal, text only button"
+#~ msgid "This is a normal, text and icon button"
+#~ msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
+
+#, fuzzy
+#~| msgid "This is a normal, text only button"
+#~ msgid "This is a normal, text and icon button with menu"
+#~ msgstr "ਇਹ ਸਧਾਰਨ, ਟੈਕਸਟ ਬਟਨ ਹੈ"
+
+#~ msgid "Toolbuttons"
+#~ msgstr "ਟੂਲਬਟਨ"
+
+#~ msgid "Flat"
+#~ msgstr "ਸਮਤਲ"
+
+#~ msgid "Up Arrow"
+#~ msgstr "ਉੱਤੇ ਤੀਰ"
+
+#~ msgid "Down Arrow"
+#~ msgstr "ਹੇਠਾਂ ਤੀਰ"
+
+#~ msgid "Left Arrow"
+#~ msgstr "ਖੱਬਾ ਤੀਰ"
+
+#~ msgid "Right Arrow"
+#~ msgstr "ਸੱਜਾ ਤੀਰ"
+
+#, fuzzy
+#~| msgid "Text position:"
+#~ msgid "Te&xt position:"
+#~ msgstr "ਟੈਕਸਟ ਸਥਿਤੀ:"
+
+#~ msgid "Icons Only"
+#~ msgstr "ਸਿਰਫ਼ ਆਈਕਾਨ"
+
+#~ msgid "Text Only"
+#~ msgstr "ਕੇਵਲ ਅੱਖਰ"
+
+#~ msgid "Text Alongside Icons"
+#~ msgstr "ਆਈਕਾਨ ਨਾਲ ਟੈਕਸਟ"
+
+#~ msgid "Text Under Icons"
+#~ msgstr "ਆਈਕਾਨ ਹੇਠ ਟੈਕਸਟ"
+
+#, fuzzy
+#~| msgid "Icon size:"
+#~ msgid "Icon si&ze:"
+#~ msgstr "ਆਈਕਾਨ ਆਕਾਰ:"
+
+#~ msgid "Small (16x16)"
+#~ msgstr "ਛੋਟਾ (16x16)"
+
+#~ msgid "Medium (22x22)"
+#~ msgstr "ਮੱਧਮ (22x22)"
+
+#~ msgid "Large (32x32)"
+#~ msgstr "ਵੱਡਾ (32x32)"
+
+#~ msgid "Huge (48x48)"
+#~ msgstr "ਵਿਸ਼ਾਲ (48x48)"
+
+#, fuzzy
+#~| msgid "Layout direction:"
+#~ msgid "&Layout direction:"
+#~ msgstr "ਲੇਆਉਟ ਦਿਸ਼ਾ:"
+
+#~ msgid "Left to Right"
+#~ msgstr "ਖੱਬੇ ਤੋਂ ਸੱਜੇ"
+
+#~ msgid "Right to Left"
+#~ msgstr "ਸੱਜੇ ਤੋਂ ਖੱਬੇ"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "ਉੱਤੇ ਤੋਂ ਹੇਠਾਂ"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "ਤਲ ਤੋਂ ਉੱਤੇ"
+
+#~ msgid "Frame"
+#~ msgstr "ਫਰੇਮ"
+
+#, fuzzy
+#~| msgid "Raised"
+#~ msgid "&Raised"
+#~ msgstr "ਉਭਾਰੇ"
+
+#, fuzzy
+#~| msgid "Flat"
+#~ msgctxt "Flat frame. No frame is actually drawn."
+#~ msgid "&Flat"
+#~ msgstr "ਸਮਤਲ"
+
+#~ msgid "GroupBox"
+#~ msgstr "ਗਰੁੱਪਬਾਕਸ"
+
+#~ msgctxt "Flat group box. No frame is actually drawn"
+#~ msgid "Flat"
+#~ msgstr "ਸਮਤਲ"
+
+#~ msgid "Tab Widget"
+#~ msgstr "ਟੈਬ ਵਿਦਜੈੱਟ"
+
+#~ msgid "Single line text editor:"
+#~ msgstr "ਇੱਕਲੀ ਲਾਈਨ ਟੈਕਸਟ ਐਡੀਟਰ:"
+
+#~ msgid "Password editor:"
+#~ msgstr "ਪਾਸਵਰਡ ਐਡੀਟਰ:"
+
+#~ msgid "Editable combobox"
+#~ msgstr "ਸੋਧਯੋਗ ਕੰਬੋਬਾਕਸ"
+
+#~ msgid "First item"
+#~ msgstr "ਪਹਿਲੀ ਆਈਟਮ"
+
+#~ msgid "Second item"
+#~ msgstr "ਦੂਜੀ ਆਈਟਮ"
+
+#~ msgid "Third item"
+#~ msgstr "ਤੀਜੀ ਆਈਟਮ"
+
+#~ msgid "Spinbox:"
+#~ msgstr "ਸਪਿੰਨਬਾਕਸ:"
+
+#~ msgid "Multi-line text editor:"
+#~ msgstr "ਮਲਟੀ-ਲਾਈਨ ਟੈਕਸਟ ਐਡੀਟਰ:"
+
+#~ msgid "Wrap words"
+#~ msgstr "ਸ਼ਬਦ ਸਮੇਟੋ"
+
+#~ msgid "Use flat widgets"
+#~ msgstr "ਸਮਤਲ ਵਿਦਜੈੱਟ ਵਰਤੋਂ"
+
+#~ msgid "First Item"
+#~ msgstr "ਪਹਿਲੀ ਆਈਟਮ"
+
+#~ msgid "Second Item"
+#~ msgstr "ਦੂਜੀ ਆਈਟਮ"
+
+#~ msgid "Third Item"
+#~ msgstr "ਤੀਜੀ ਆਈਟਮ"
+
+#~ msgid "Title"
+#~ msgstr "ਟਾਈਟਲ"
+
+#~ msgid "Description"
+#~ msgstr "ਵੇਰਵਾ"
+
+#~ msgid "Third Description"
+#~ msgstr "ਤੀਜਾ ਵੇਰਵਾ"
+
+#~ msgid "Third Subitem"
+#~ msgstr "ਤੀਜੀ ਸਬ-ਆਈਟਮ"
+
+#~ msgid "Third Subitem Description"
+#~ msgstr "ਤੀਜਾ ਸਬ-ਆਈਟਮ ਵੇਰਵਾ"
+
+#~ msgid "Second Description"
+#~ msgstr "ਦੂਜਾ ਵੇਰਵਾ"
+
+#~ msgid "Second Subitem"
+#~ msgstr "ਦੂਜੀ ਸਬ-ਆਈਟਮ"
+
+#~ msgid "Second Subitem Description"
+#~ msgstr "ਦੂਜਾ ਸਬ-ਆਈਟਮ ਵੇਰਵਾ"
+
+#~ msgid "First Subitem"
+#~ msgstr "ਪਹਿਲੀ ਸਬ-ਆਈਟਮ"
+
+#~ msgid "First Subitem Description"
+#~ msgstr "ਪਹਿਲਾਂ ਸਬ-ਆਈਟਮ ਵੇਰਵਾ"
+
+#~ msgid "First Description"
+#~ msgstr "ਪਹਿਲਾਂ ਵੇਰਵਾ"
+
+#~ msgid "New Row"
+#~ msgstr "ਨਵੀਂ ਕਤਾਰ"
+
+#~ msgid "First Row"
+#~ msgstr "ਪਹਿਲੀ ਕਤਾਰ"
+
+#~ msgid "Third Row"
+#~ msgstr "ਤੀਜੀ ਕਤਾਰ"
+
+#~ msgid "First Column"
+#~ msgstr "ਪਹਿਲਾਂ ਕਾਲਮ"
+
+#~ msgid "Second Column"
+#~ msgstr "ਦੂਜਾ ਕਾਲਮ"
+
+#~ msgid "Third Column"
+#~ msgstr "ਤੀਜਾ ਕਾਲਮ"
+
+#~ msgid "Top-left"
+#~ msgstr "ਉੱਤੇ-ਖੱਬੇ"
+
+#~ msgid "Top"
+#~ msgstr "ਉੱਤੇ"
+
+#~ msgid "Top-right"
+#~ msgstr "ਉੱਤੇ-ਸੱਜੇ"
+
+#~ msgid "Left "
+#~ msgstr "ਖੱਬੇ "
+
+#~ msgid "Center"
+#~ msgstr "ਸੈਂਟਰ"
+
+#~ msgid "Right"
+#~ msgstr "ਸੱਜੇ"
+
+#~ msgid "Bottom-left"
+#~ msgstr "ਹੇਠਾਂ-ਖੱਬੇ"
+
+#~ msgid "Bottom"
+#~ msgstr "ਥੱਲੇ"
+
+#~ msgid "Bottom-right"
+#~ msgstr "ਹੇਠਾਂ-ਸੱਜੇ"
+
+#~ msgid "Editors"
+#~ msgstr "ਐਡੀਟਰ"
+
+#~ msgid "Title:"
+#~ msgstr "ਟਾਈਟਲ:"
+
+#~ msgid "Toolbox"
+#~ msgstr "ਟੂਲਬਾਕਸ"
+
+#~ msgid "First Page"
+#~ msgstr "ਪਹਿਲਾਂ ਸਫ਼ਾ"
+
+#~ msgid "Second Page"
+#~ msgstr "ਦੂਜਾ ਸਫ਼ਾ"
+
+#~ msgid "First Label"
+#~ msgstr "ਪਹਿਲਾਂ ਲੇਬਲ"
+
+#~ msgid "Second Label"
+#~ msgstr "ਦੂਜਾ ਲੇਬਲ"
+
+#~ msgid "Third Page"
+#~ msgstr "ਤੀਜਾ ਸਫ਼ਾ"
+
+#, fuzzy
+#~| msgid "Animate progress bars"
+#~ msgid "Animate Progress Bars"
+#~ msgstr "ਤਰੱਕੀ ਪੱਟੀ ਐਨੀਮੇਟ ਕਰੋ"
+
+#, fuzzy
+#~| msgid "Animate progress bars"
+#~ msgid "Invert Progress Bars"
+#~ msgstr "ਤਰੱਕੀ ਪੱਟੀ ਐਨੀਮੇਟ ਕਰੋ"
+
+#~ msgid "Horizontal"
+#~ msgstr "ਹਰੀਜੱਟਲ"
+
+#~ msgid "Vertical"
+#~ msgstr "ਵਰਟੀਕਲ"
+
+#, fuzzy
+#~| msgid "Tab position:"
+#~ msgid "&Tab position:"
+#~ msgstr "ਟੈਬ ਸਥਿਤੀ:"
+
+#~ msgid "North"
+#~ msgstr "ਉੱਤਰ"
+
+#~ msgid "South"
+#~ msgstr "ਦੱਖਣ"
+
+#~ msgid "West"
+#~ msgstr "ਪੱਛਮ"
+
+#~ msgid "East"
+#~ msgstr "ਪੂਰਬ"
+
+#~ msgid "Document mode"
+#~ msgstr "ਡੌਕੂਮੈਂਟ ਮੋਡ"
+
+#~ msgid "Show Corner Buttons"
+#~ msgstr "ਕੋਨਾ ਬਟਨ ਵੇਖੋ"
+
+#, fuzzy
+#~| msgid "Show Corner Buttons"
+#~ msgid "Show Tab Close Buttons"
+#~ msgstr "ਕੋਨਾ ਬਟਨ ਵੇਖੋ"
+
+#~ msgid "Hide tabbar"
+#~ msgstr "ਟੈਬਬਾਰ ਓਹਲੇ"
+
+#~ msgid "Preview"
+#~ msgstr "ਝਲਕ"
 
 #~ msgctxt "Flat frame. No frame is actually drawn."
 #~ msgid "Flat"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liboxygenstyleconfig\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2012-07-31 09:30-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -22,71 +22,37 @@ msgstr ""
 msgid "oxygen-settings - information"
 msgstr "oxygen-settings - eolas"
 
-#. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
-#: ui/oxygenanimationconfigitem.ui:29
-#, kde-format
-msgid "CheckBox"
-msgstr "Ticbhosca"
+#~ msgid "CheckBox"
+#~ msgstr "Ticbhosca"
 
-#. i18n: ectx: property (text), widget (QToolButton, configurationButton)
-#. i18n: ectx: property (text), widget (QToolButton, descriptionButton)
-#: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
-#, kde-format
-msgid "..."
-msgstr "..."
+#~ msgid "..."
+#~ msgstr "..."
 
-#. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
-#: ui/oxygenanimationconfigwidget.ui:23
-#, kde-format
-msgid "Enable animations"
-msgstr "Cumasaigh beochan"
+#~ msgid "Enable animations"
+#~ msgstr "Cumasaigh beochan"
 
-#. i18n: ectx: property (windowTitle), widget (QFrame, GenericAnimationConfigBox)
-#: ui/oxygengenericanimationconfigbox.ui:20
-#, kde-format
-msgid "Frame"
-msgstr "Fráma"
+#~ msgid "Frame"
+#~ msgstr "Fráma"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygengenericanimationconfigbox.ui:38
-#, kde-format
-msgid "Duration:"
-msgstr "Aga:"
+#~ msgid "Duration:"
+#~ msgstr "Aga:"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
-#: ui/oxygengenericanimationconfigbox.ui:64
-#, fuzzy, kde-format
-#| msgid "ms"
-msgid " ms"
-msgstr "ms"
+#, fuzzy
+#~| msgid "ms"
+#~ msgid " ms"
+#~ msgstr "ms"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygenshadowconfigurationui.ui:23
-#, kde-format
-msgid "Inner Color:"
-msgstr "Dath Istigh:"
+#~ msgid "Inner Color:"
+#~ msgstr "Dath Istigh:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/oxygenshadowconfigurationui.ui:42
-#, kde-format
-msgid "Outer Color:"
-msgstr "Dath Amuigh:"
+#~ msgid "Outer Color:"
+#~ msgstr "Dath Amuigh:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenshadowconfigurationui.ui:69
-#, kde-format
-msgid "Vertical Offset:"
-msgstr "Fritháireamh Ingearach:"
+#~ msgid "Vertical Offset:"
+#~ msgstr "Fritháireamh Ingearach:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenshadowconfigurationui.ui:82
-#, kde-format
-msgid "Size: "
-msgstr "Méid: "
+#~ msgid "Size: "
+#~ msgstr "Méid: "
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, verticalOffset)
-#: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
-#, kde-format
-msgid "px"
-msgstr "pct"
+#~ msgid "px"
+#~ msgstr "pct"

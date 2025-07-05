@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2023-07-23 21:46+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -128,258 +128,131 @@ msgstr "진행 표시줄 애니메이션"
 msgid "Configure progress bars' busy indicator animation"
 msgstr "진행 표시줄의 진행 중 애니메이션 설정"
 
-#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:20
-#, kde-format
-msgid "Frame"
-msgstr "프레임"
+#~ msgid "Frame"
+#~ msgstr "프레임"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:32
-#, kde-format
-msgid "Animation type:"
-msgstr "애니메이션 종류:"
+#~ msgid "Animation type:"
+#~ msgstr "애니메이션 종류:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:46
-#, kde-format
-msgid "Fade"
-msgstr "페이드"
+#~ msgid "Fade"
+#~ msgstr "페이드"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:51
-#, kde-format
-msgid "Follow Mouse"
-msgstr "마우스 따라가기"
+#~ msgid "Follow Mouse"
+#~ msgstr "마우스 따라가기"
 
-#. i18n: ectx: property (text), widget (QLabel, durationLabel)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:59
-#, kde-format
-msgid "Fade duration:"
-msgstr "페이드 시간:"
+#~ msgid "Fade duration:"
+#~ msgstr "페이드 시간:"
 
-#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:72
-#, kde-format
-msgid "Follow mouse duration:"
-msgstr "마우스를 따라갈 시간:"
+#~ msgid "Follow mouse duration:"
+#~ msgstr "마우스를 따라갈 시간:"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
-#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
-#: ui/oxygenfollowmouseanimationconfigbox.ui:98
-#: ui/oxygenfollowmouseanimationconfigbox.ui:114
-#, kde-format
-msgid " ms"
-msgstr "밀리초"
+#~ msgid " ms"
+#~ msgstr "밀리초"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
-#: ui/oxygenstyleconfig.ui:26
-#, kde-format
-msgid "Dialog"
-msgstr "대화 상자"
+#~ msgid "Dialog"
+#~ msgstr "대화 상자"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
-#: ui/oxygenstyleconfig.ui:45
-#, kde-format
-msgid "General"
-msgstr "일반"
+#~ msgid "General"
+#~ msgstr "일반"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
-#: ui/oxygenstyleconfig.ui:52
-#, kde-format
-msgid "Drag windows from titlebar only"
-msgstr "제목 표시줄로만 드래그하기"
+#~ msgid "Drag windows from titlebar only"
+#~ msgstr "제목 표시줄로만 드래그하기"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
-#: ui/oxygenstyleconfig.ui:57
-#, kde-format
-msgid "Drag windows from titlebar, menubar and toolbars"
-msgstr "제목 및 메뉴 표시줄, 도구 모음으로 드래그하기"
+#~ msgid "Drag windows from titlebar, menubar and toolbars"
+#~ msgstr "제목 및 메뉴 표시줄, 도구 모음으로 드래그하기"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
-#: ui/oxygenstyleconfig.ui:62
-#, kde-format
-msgid "Drag windows from all empty areas"
-msgstr "모든 빈 영역으로 드래그하기"
+#~ msgid "Drag windows from all empty areas"
+#~ msgstr "모든 빈 영역으로 드래그하기"
 
-#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
-#: ui/oxygenstyleconfig.ui:70
-#, kde-format
-msgid "Keyboard accelerators visibility:"
-msgstr "키보드 가속기 표시:"
+#~ msgid "Keyboard accelerators visibility:"
+#~ msgstr "키보드 가속기 표시:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
-#: ui/oxygenstyleconfig.ui:84
-#, kde-format
-msgid "Always hide"
-msgstr "항상 숨기기"
+#~ msgid "Always hide"
+#~ msgstr "항상 숨기기"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
-#: ui/oxygenstyleconfig.ui:89
-#, kde-format
-msgid "Show when Alt key is pressed"
-msgstr "Alt 키를 눌렀을 때 표시"
+#~ msgid "Show when Alt key is pressed"
+#~ msgstr "Alt 키를 눌렀을 때 표시"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
-#: ui/oxygenstyleconfig.ui:94
-#, kde-format
-msgid "Always show"
-msgstr "항상 표시"
+#~ msgid "Always show"
+#~ msgstr "항상 표시"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygenstyleconfig.ui:108
-#, kde-format
-msgid "Windows' &drag mode:"
-msgstr "창 드래그 모드(&D):"
+#~ msgid "Windows' &drag mode:"
+#~ msgstr "창 드래그 모드(&D):"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
-#: ui/oxygenstyleconfig.ui:134
-#, kde-format
-msgid "Draw toolbar item separators"
-msgstr "도구 모음 항목 구분선 그리기"
+#~ msgid "Draw toolbar item separators"
+#~ msgstr "도구 모음 항목 구분선 그리기"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
-#: ui/oxygenstyleconfig.ui:141
-#, kde-format
-msgid "Enable extended resize handles"
-msgstr "확장된 크기 조절 핸들 사용하기"
+#~ msgid "Enable extended resize handles"
+#~ msgstr "확장된 크기 조절 핸들 사용하기"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
-#: ui/oxygenstyleconfig.ui:148
-#, kde-format
-msgid "Draw window background gradient"
-msgstr "창 배경 그라데이션 그리기"
+#~ msgid "Draw window background gradient"
+#~ msgstr "창 배경 그라데이션 그리기"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: ui/oxygenstyleconfig.ui:169
-#, kde-format
-msgid "Animations"
-msgstr "애니메이션"
+#~ msgid "Animations"
+#~ msgstr "애니메이션"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: ui/oxygenstyleconfig.ui:179
-#, kde-format
-msgid "Views"
-msgstr "보기"
+#~ msgid "Views"
+#~ msgstr "보기"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
-#: ui/oxygenstyleconfig.ui:185
-#, kde-format
-msgid "Draw tree branch lines"
-msgstr "트리 가지 그리기"
+#~ msgid "Draw tree branch lines"
+#~ msgstr "트리 가지 그리기"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/oxygenstyleconfig.ui:198
-#, kde-format
-msgid "&Tree expander size:"
-msgstr "트리 확장 삼각형 크기(&T):"
+#~ msgid "&Tree expander size:"
+#~ msgstr "트리 확장 삼각형 크기(&T):"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
-#: ui/oxygenstyleconfig.ui:209
-#, kde-format
-msgctxt "triangle size"
-msgid "Tiny"
-msgstr "매우 작게"
+#~ msgctxt "triangle size"
+#~ msgid "Tiny"
+#~ msgstr "매우 작게"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
-#: ui/oxygenstyleconfig.ui:214
-#, kde-format
-msgctxt "triangle size"
-msgid "Small"
-msgstr "작게"
+#~ msgctxt "triangle size"
+#~ msgid "Small"
+#~ msgstr "작게"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
-#: ui/oxygenstyleconfig.ui:219
-#, kde-format
-msgctxt "triangle size"
-msgid "Normal"
-msgstr "일반"
+#~ msgctxt "triangle size"
+#~ msgid "Normal"
+#~ msgstr "일반"
 
-#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
-#: ui/oxygenstyleconfig.ui:256
-#, kde-format
-msgid "Draw focus indicator in lists"
-msgstr "목록에 포커스 표시기 그리기"
+#~ msgid "Draw focus indicator in lists"
+#~ msgstr "목록에 포커스 표시기 그리기"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: ui/oxygenstyleconfig.ui:264
-#, kde-format
-msgid "Scrollbars"
-msgstr "스크롤바"
+#~ msgid "Scrollbars"
+#~ msgstr "스크롤바"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenstyleconfig.ui:272
-#, kde-format
-msgid "Scrollbar wi&dth:"
-msgstr "스크롤바 폭(&D):"
+#~ msgid "Scrollbar wi&dth:"
+#~ msgstr "스크롤바 폭(&D):"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
-#: ui/oxygenstyleconfig.ui:310
-#, kde-format
-msgid "px"
-msgstr "픽셀"
+#~ msgid "px"
+#~ msgstr "픽셀"
 
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ui/oxygenstyleconfig.ui:340
-#, kde-format
-msgid "Top arrow button type:"
-msgstr "위쪽 화살표 단추 종류:"
+#~ msgid "Top arrow button type:"
+#~ msgstr "위쪽 화살표 단추 종류:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ui/oxygenstyleconfig.ui:350
-#, kde-format
-msgid "Bottom arrow button type:"
-msgstr "아래쪽 화살표 단추 종류:"
+#~ msgid "Bottom arrow button type:"
+#~ msgstr "아래쪽 화살표 단추 종류:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
-#: ui/oxygenstyleconfig.ui:361
-#, kde-format
-msgid "No buttons"
-msgstr "단추 없음"
+#~ msgid "No buttons"
+#~ msgstr "단추 없음"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
-#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
-#, kde-format
-msgid "One button"
-msgstr "단추 하나"
+#~ msgid "One button"
+#~ msgstr "단추 하나"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
-#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
-#, kde-format
-msgid "Two buttons"
-msgstr "단추 두개"
+#~ msgid "Two buttons"
+#~ msgstr "단추 두개"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
-#: ui/oxygenstyleconfig.ui:393
-#, kde-format
-msgid "No button"
-msgstr "단추 없음"
+#~ msgid "No button"
+#~ msgstr "단추 없음"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: ui/oxygenstyleconfig.ui:427
-#, kde-format
-msgid "Menu Highlight"
-msgstr "메뉴 강조"
+#~ msgid "Menu Highlight"
+#~ msgstr "메뉴 강조"
 
-#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
-#: ui/oxygenstyleconfig.ui:433
-#, kde-format
-msgid "Use dar&k color"
-msgstr "어두운 색상 사용하기(&K)"
+#~ msgid "Use dar&k color"
+#~ msgstr "어두운 색상 사용하기(&K)"
 
-#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
-#: ui/oxygenstyleconfig.ui:440
-#, kde-format
-msgid "&Use selection color (plain)"
-msgstr "단순한 선택 색상 사용하기(&U)"
+#~ msgid "&Use selection color (plain)"
+#~ msgstr "단순한 선택 색상 사용하기(&U)"
 
-#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
-#: ui/oxygenstyleconfig.ui:447
-#, kde-format
-msgid "Use selec&tion color (subtle)"
-msgstr "대체 선택 색상 사용하기(&T)"
+#~ msgid "Use selec&tion color (subtle)"
+#~ msgstr "대체 선택 색상 사용하기(&T)"
 
 #~ msgid "Always Hide Keyboard Accelerators"
 #~ msgstr "항상 키보드 가속기 숨기기"

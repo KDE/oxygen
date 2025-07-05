@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liboxygenstyleconfig\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2017-10-17 18:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -25,70 +25,35 @@ msgstr ""
 msgid "oxygen-settings - information"
 msgstr "Параметри oxygen — відомості"
 
-#. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
-#: ui/oxygenanimationconfigitem.ui:29
-#, kde-format
-msgid "CheckBox"
-msgstr "Кнопка варіанта"
+#~ msgid "CheckBox"
+#~ msgstr "Кнопка варіанта"
 
-#. i18n: ectx: property (text), widget (QToolButton, configurationButton)
-#. i18n: ectx: property (text), widget (QToolButton, descriptionButton)
-#: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
-#, kde-format
-msgid "..."
-msgstr "…"
+#~ msgid "..."
+#~ msgstr "…"
 
-#. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
-#: ui/oxygenanimationconfigwidget.ui:23
-#, kde-format
-msgid "Enable animations"
-msgstr "Увімкнути анімацію"
+#~ msgid "Enable animations"
+#~ msgstr "Увімкнути анімацію"
 
-#. i18n: ectx: property (windowTitle), widget (QFrame, GenericAnimationConfigBox)
-#: ui/oxygengenericanimationconfigbox.ui:20
-#, kde-format
-msgid "Frame"
-msgstr "Рамка"
+#~ msgid "Frame"
+#~ msgstr "Рамка"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygengenericanimationconfigbox.ui:38
-#, kde-format
-msgid "Duration:"
-msgstr "Тривалість:"
+#~ msgid "Duration:"
+#~ msgstr "Тривалість:"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
-#: ui/oxygengenericanimationconfigbox.ui:64
-#, kde-format
-msgid " ms"
-msgstr " мс"
+#~ msgid " ms"
+#~ msgstr " мс"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygenshadowconfigurationui.ui:23
-#, kde-format
-msgid "Inner Color:"
-msgstr "Внутрішній колір:"
+#~ msgid "Inner Color:"
+#~ msgstr "Внутрішній колір:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/oxygenshadowconfigurationui.ui:42
-#, kde-format
-msgid "Outer Color:"
-msgstr "Зовнішній колір:"
+#~ msgid "Outer Color:"
+#~ msgstr "Зовнішній колір:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenshadowconfigurationui.ui:69
-#, kde-format
-msgid "Vertical Offset:"
-msgstr "Вертикальний відступ:"
+#~ msgid "Vertical Offset:"
+#~ msgstr "Вертикальний відступ:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenshadowconfigurationui.ui:82
-#, kde-format
-msgid "Size: "
-msgstr "Розмір: "
+#~ msgid "Size: "
+#~ msgstr "Розмір: "
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, verticalOffset)
-#: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
-#, kde-format
-msgid "px"
-msgstr "пк"
+#~ msgid "px"
+#~ msgstr "пк"

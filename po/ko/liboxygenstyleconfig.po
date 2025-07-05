@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:58+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2017-12-02 23:31+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -22,70 +22,35 @@ msgstr ""
 msgid "oxygen-settings - information"
 msgstr "oxygen-settings - 정보"
 
-#. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
-#: ui/oxygenanimationconfigitem.ui:29
-#, kde-format
-msgid "CheckBox"
-msgstr "체크 상자"
+#~ msgid "CheckBox"
+#~ msgstr "체크 상자"
 
-#. i18n: ectx: property (text), widget (QToolButton, configurationButton)
-#. i18n: ectx: property (text), widget (QToolButton, descriptionButton)
-#: ui/oxygenanimationconfigitem.ui:36 ui/oxygenanimationconfigitem.ui:49
-#, kde-format
-msgid "..."
-msgstr "..."
+#~ msgid "..."
+#~ msgstr "..."
 
-#. i18n: ectx: property (text), widget (QCheckBox, animationsEnabled)
-#: ui/oxygenanimationconfigwidget.ui:23
-#, kde-format
-msgid "Enable animations"
-msgstr "애니메이션 사용"
+#~ msgid "Enable animations"
+#~ msgstr "애니메이션 사용"
 
-#. i18n: ectx: property (windowTitle), widget (QFrame, GenericAnimationConfigBox)
-#: ui/oxygengenericanimationconfigbox.ui:20
-#, kde-format
-msgid "Frame"
-msgstr "프레임"
+#~ msgid "Frame"
+#~ msgstr "프레임"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygengenericanimationconfigbox.ui:38
-#, kde-format
-msgid "Duration:"
-msgstr "지속 시간:"
+#~ msgid "Duration:"
+#~ msgstr "지속 시간:"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
-#: ui/oxygengenericanimationconfigbox.ui:64
-#, kde-format
-msgid " ms"
-msgstr "밀리초"
+#~ msgid " ms"
+#~ msgstr "밀리초"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygenshadowconfigurationui.ui:23
-#, kde-format
-msgid "Inner Color:"
-msgstr "내부 색:"
+#~ msgid "Inner Color:"
+#~ msgstr "내부 색:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/oxygenshadowconfigurationui.ui:42
-#, kde-format
-msgid "Outer Color:"
-msgstr "외부 색:"
+#~ msgid "Outer Color:"
+#~ msgstr "외부 색:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenshadowconfigurationui.ui:69
-#, kde-format
-msgid "Vertical Offset:"
-msgstr "수직 위치:"
+#~ msgid "Vertical Offset:"
+#~ msgstr "수직 위치:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenshadowconfigurationui.ui:82
-#, kde-format
-msgid "Size: "
-msgstr "크기: "
+#~ msgid "Size: "
+#~ msgstr "크기: "
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, verticalOffset)
-#: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
-#, kde-format
-msgid "px"
-msgstr "픽셀"
+#~ msgid "px"
+#~ msgstr "픽셀"
