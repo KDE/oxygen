@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:54+0000\n"
 "PO-Revision-Date: 2023-01-03 09:22+0200\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -136,133 +136,260 @@ msgstr "Ένδειξη γραμμής προόδου"
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Διαμόρφωση εφέ ένδειξης απασχολημένου για την γραμμή προόδου"
 
-#~ msgid "Frame"
-#~ msgstr "Πλαίσιο"
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Πλαίσιο"
 
-#~ msgid "Animation type:"
-#~ msgstr "Τύπος κίνησης:"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Τύπος κίνησης:"
 
-#~ msgid "Fade"
-#~ msgstr "Ομαλή εμφάνιση"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Ομαλή εμφάνιση"
 
-#~ msgid "Follow Mouse"
-#~ msgstr "Παρακολούθηση ποντικιού"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Παρακολούθηση ποντικιού"
 
-#~ msgid "Fade duration:"
-#~ msgstr "Διάρκεια ομαλής εμφάνιση:"
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Διάρκεια ομαλής εμφάνιση:"
 
-#~ msgid "Follow mouse duration:"
-#~ msgstr "Παρακολούθηση διάρκειας ποντικιού:"
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Παρακολούθηση διάρκειας ποντικιού:"
 
-#~ msgid " ms"
-#~ msgstr " ms"
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " ms"
 
-#~ msgid "Dialog"
-#~ msgstr "Διάλογος"
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Διάλογος"
 
-#~ msgid "General"
-#~ msgstr "Γενικά"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Γενικά"
 
-#~ msgid "Drag windows from titlebar only"
-#~ msgstr "Έλξη παραθύρων μόνο από την μπάρα του τίτλου"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Έλξη παραθύρων μόνο από την μπάρα του τίτλου"
 
-#~ msgid "Drag windows from titlebar, menubar and toolbars"
-#~ msgstr ""
-#~ "Έλξη παραθύρων από την μπάρα του τίτλου, από την μπάρα μενού και από την "
-#~ "γραμμή εργαλείων"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr ""
+"Έλξη παραθύρων από την μπάρα του τίτλου, από την μπάρα μενού και από την "
+"γραμμή εργαλείων"
 
-#~ msgid "Drag windows from all empty areas"
-#~ msgstr "Έλξη παραθύρων από όλες τις κενές επιφάνειες"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Έλξη παραθύρων από όλες τις κενές επιφάνειες"
 
-#~ msgid "Keyboard accelerators visibility:"
-#~ msgstr "Ορατότητα επιταχυντών πληκτρολογίου:"
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Ορατότητα επιταχυντών πληκτρολογίου:"
 
-#~ msgid "Always hide"
-#~ msgstr "Να γίνεται πάντα απόκρυψη"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr "Να γίνεται πάντα απόκρυψη"
 
-#~ msgid "Show when Alt key is pressed"
-#~ msgstr "Να γίνεται εμφάνιση όταν πιέζεται το πλήκτρο Alt"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr "Να γίνεται εμφάνιση όταν πιέζεται το πλήκτρο Alt"
 
-#~ msgid "Always show"
-#~ msgstr "Να γίνεται πάντα εμφάνιση"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr "Να γίνεται πάντα εμφάνιση"
 
-#~ msgid "Windows' &drag mode:"
-#~ msgstr "Λειτουργία έλ&ξης παραθύρων:"
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Λειτουργία έλ&ξης παραθύρων:"
 
-#~ msgid "Draw toolbar item separators"
-#~ msgstr "Διαχωριστές αντικειμένων εργαλειοθήκης σχεδίασης"
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Διαχωριστές αντικειμένων εργαλειοθήκης σχεδίασης"
 
-#~ msgid "Enable extended resize handles"
-#~ msgstr "Ενεργοποίηση εκτεταμένων χειριστηρίων αλλαγής μεγέθους"
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Ενεργοποίηση εκτεταμένων χειριστηρίων αλλαγής μεγέθους"
 
-#~ msgid "Draw window background gradient"
-#~ msgstr "Σχεδίαση διαβάθμισης φόντου παραθύρου"
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Σχεδίαση διαβάθμισης φόντου παραθύρου"
 
-#~ msgid "Animations"
-#~ msgstr "Εφέ κίνησης"
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Εφέ κίνησης"
 
-#~ msgid "Views"
-#~ msgstr "Προβολές"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Προβολές"
 
-#~ msgid "Draw tree branch lines"
-#~ msgstr "Σχεδίαση γραμμών κλάδων"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Σχεδίαση γραμμών κλάδων"
 
-#~ msgid "&Tree expander size:"
-#~ msgstr "Μέγεθος γραφικού &επέκτασης δέντρου:"
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "Μέγεθος γραφικού &επέκτασης δέντρου:"
 
-#~ msgctxt "triangle size"
-#~ msgid "Tiny"
-#~ msgstr "Μικροσκοπικό"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Μικροσκοπικό"
 
-#~ msgctxt "triangle size"
-#~ msgid "Small"
-#~ msgstr "Μικρό"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Μικρό"
 
-#~ msgctxt "triangle size"
-#~ msgid "Normal"
-#~ msgstr "Κανονικό"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Κανονικό"
 
-#~ msgid "Draw focus indicator in lists"
-#~ msgstr "Σχεδίαση ένδειξης εστίασης στις λίστες"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Σχεδίαση ένδειξης εστίασης στις λίστες"
 
-#~ msgid "Scrollbars"
-#~ msgstr "Γραμμές κύλισης"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Γραμμές κύλισης"
 
-#~ msgid "Scrollbar wi&dth:"
-#~ msgstr "Πλάτος &γραμμής κύλισης:"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Πλάτος &γραμμής κύλισης:"
 
-#~ msgid "px"
-#~ msgstr "px"
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
 
-#~ msgid "Top arrow button type:"
-#~ msgstr "Τύπος για το κουμπί άνω βέλους:"
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Τύπος για το κουμπί άνω βέλους:"
 
-#~ msgid "Bottom arrow button type:"
-#~ msgstr "Τύπος για το κουμπί κάτω βέλους:"
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Τύπος για το κουμπί κάτω βέλους:"
 
-#~ msgid "No buttons"
-#~ msgstr "Χωρίς κουμπιά"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Χωρίς κουμπιά"
 
-#~ msgid "One button"
-#~ msgstr "Ένα κουμπί"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Ένα κουμπί"
 
-#~ msgid "Two buttons"
-#~ msgstr "Δύο κουμπιά"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Δύο κουμπιά"
 
-#~ msgid "No button"
-#~ msgstr "Κανένα κουμπί"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Κανένα κουμπί"
 
-#~ msgid "Menu Highlight"
-#~ msgstr "Τονισμός γραμμής μενού"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Τονισμός γραμμής μενού"
 
-#~ msgid "Use dar&k color"
-#~ msgstr "Χρήση &σκοτεινού χρώματος"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Χρήση &σκοτεινού χρώματος"
 
-#~ msgid "&Use selection color (plain)"
-#~ msgstr "Χρήση χρώματος επι&λογής (απλό)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Χρήση χρώματος επι&λογής (απλό)"
 
-#~ msgid "Use selec&tion color (subtle)"
-#~ msgstr "Χρήση χρώματος ε&πιλογής (ήπιο)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Χρήση χρώματος ε&πιλογής (ήπιο)"
 
 #~ msgid "Always Hide Keyboard Accelerators"
 #~ msgstr "Πάντα να γίνεται απόκρυψη των επιταχυντών πληκτρολογίου"

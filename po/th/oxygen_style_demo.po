@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:54+0000\n"
 "PO-Revision-Date: 2010-12-17 20:18+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -24,7 +24,22 @@ msgstr ""
 msgid "Oxygen Demo"
 msgstr "สาธิต Oxygen"
 
-#: oxygenbuttondemowidget.cpp:35
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_3)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
+#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
+#: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
+#: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
+#: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
+#: ui/oxygenbuttondemowidget.ui:285 ui/oxygenbuttondemowidget.ui:295
+#: ui/oxygenbuttondemowidget.ui:305
 #, kde-format
 msgid "Normal"
 msgstr "ปกติ"
@@ -206,401 +221,766 @@ msgstr "นี่เป็นข้อความตัวอย่าง"
 msgid "Select the application widget style"
 msgstr ""
 
-#~ msgid "Modules"
-#~ msgstr "มอดูล"
-
-#~ msgid "Select below the modules for which you want to run the simulation:"
-#~ msgstr "เลือกทางด้านล่างมอดูลว่าต้องการจะให้ทำการจำลองสถานการณ์ใด:"
-
-#~ msgid "Options"
-#~ msgstr "ตัวเลือก"
-
-#~ msgid "Grab mouse"
-#~ msgstr "ดักจับเมาส์"
-
-#~ msgid "Run Simulation"
-#~ msgstr "เรียกใช้การจำลองสถานการณ์"
-
-#~ msgid "Checkboxes"
-#~ msgstr "กล่องกาเครื่องหมาย"
-
-#~ msgid "Off"
-#~ msgstr "ปิด"
-
-#~ msgid "Partial"
-#~ msgstr "บางส่วน"
-
-#~ msgid "On"
-#~ msgstr "เปิด"
-
-#~ msgid "Radiobuttons"
-#~ msgstr "ปุ่มวิทยุ"
-
-#, fuzzy
-#~| msgid "First Choice"
-#~ msgid "F&irst Choice"
-#~ msgstr "ตัวเลือกแรก"
-
-#, fuzzy
-#~| msgid "Second Choice"
-#~ msgid "Seco&nd Choice"
-#~ msgstr "ตัวเลือกที่ 2"
-
-#, fuzzy
-#~| msgid "Third Choice"
-#~ msgid "&Third Choice"
-#~ msgstr "ตัวเลือกที่ 3"
-
-#~ msgid "Pushbuttons"
-#~ msgstr "ปุ่มกด"
-
-#~ msgid "Text only:"
-#~ msgstr "ข้อความเท่านั้น:"
-
-#, fuzzy
-#~| msgid "This is a sample text"
-#~ msgid "This is a normal, text only combo box"
-#~ msgstr "นี่เป็นข้อความตัวอย่าง"
-
-#~ msgid "Small"
-#~ msgstr "เล็ก"
-
-#~ msgid "Large"
-#~ msgstr "ใหญ่"
-
-#~ msgid "Text and icon:"
-#~ msgstr "ข้อความและไอคอน:"
-
-#~ msgid "Use flat buttons"
-#~ msgstr "ใช้ปุ่มแบน"
-
-#, fuzzy
-#~| msgid "This is a sample text"
-#~ msgid "This is a normal, text and icon combo box"
-#~ msgstr "นี่เป็นข้อความตัวอย่าง"
-
-#, fuzzy
-#~| msgid "This is a sample text"
-#~ msgid "This is a normal, text only tool button"
-#~ msgstr "นี่เป็นข้อความตัวอย่าง"
-
-#, fuzzy
-#~| msgid "This is a sample text"
-#~ msgid "This is a normal, text and icon tool button"
-#~ msgstr "นี่เป็นข้อความตัวอย่าง"
-
-#, fuzzy
-#~| msgid "This is a sample text"
-#~ msgid "This is a normal, text only button"
-#~ msgstr "นี่เป็นข้อความตัวอย่าง"
-
-#, fuzzy
-#~| msgid "This is a sample text"
-#~ msgid "This is a normal, text only button with menu"
-#~ msgstr "นี่เป็นข้อความตัวอย่าง"
-
-#, fuzzy
-#~| msgid "This is a sample text"
-#~ msgid "This is a normal, text and icon button"
-#~ msgstr "นี่เป็นข้อความตัวอย่าง"
-
-#, fuzzy
-#~| msgid "This is a sample text"
-#~ msgid "This is a normal, text and icon button with menu"
-#~ msgstr "นี่เป็นข้อความตัวอย่าง"
-
-#~ msgid "Toolbuttons"
-#~ msgstr "ปุ่มเครื่องมือ"
-
-#~ msgid "Flat"
-#~ msgstr "แบน"
-
-#~ msgid "Up Arrow"
-#~ msgstr "ปุ่มลูกศรขึ้น"
-
-#~ msgid "Down Arrow"
-#~ msgstr "ปุ่มลูกศรลง"
-
-#~ msgid "Left Arrow"
-#~ msgstr "ปุ่มลูกศรซ้าย"
-
-#~ msgid "Right Arrow"
-#~ msgstr "ปุ่มลูกศรขวา"
-
-#, fuzzy
-#~| msgid "Text position:"
-#~ msgid "Te&xt position:"
-#~ msgstr "ตำแหน่งข้อความ:"
-
-#~ msgid "Icons Only"
-#~ msgstr "ไอคอนเท่านั้น"
-
-#~ msgid "Text Only"
-#~ msgstr "ข้อความเท่านั้น"
-
-#~ msgid "Text Alongside Icons"
-#~ msgstr "ข้อความข้างไอคอน"
-
-#~ msgid "Text Under Icons"
-#~ msgstr "ข้อความใต้ไอคอน"
-
-#, fuzzy
-#~| msgid "Icon size:"
-#~ msgid "Icon si&ze:"
-#~ msgstr "ขนาดไอคอน:"
-
-#~ msgid "Small (16x16)"
-#~ msgstr "เล็ก (16x16)"
-
-#~ msgid "Medium (22x22)"
-#~ msgstr "กลาง (22x22)"
-
-#~ msgid "Large (32x32)"
-#~ msgstr "ใหญ่ (32x32)"
-
-#~ msgid "Huge (48x48)"
-#~ msgstr "ใหญ่มาก (48x48)"
-
-#, fuzzy
-#~| msgid "Layout Direction:"
-#~ msgid "&Layout direction:"
-#~ msgstr "ทิศทางเค้าโครง:"
-
-#~ msgid "Left to Right"
-#~ msgstr "ซ้ายไปขวา"
-
-#~ msgid "Right to Left"
-#~ msgstr "ขวาไปซ้าย"
-
-#~ msgid "Top to Bottom"
-#~ msgstr "บนลงล่าง"
-
-#~ msgid "Bottom to Top"
-#~ msgstr "ล่างขึ้นบน"
-
-#~ msgid "Frame"
-#~ msgstr "เฟรม"
-
-#, fuzzy
-#~| msgid "Raised"
-#~ msgid "&Raised"
-#~ msgstr "นูน"
-
-#, fuzzy
-#~| msgid "Flat"
-#~ msgctxt "Flat frame. No frame is actually drawn."
-#~ msgid "&Flat"
-#~ msgstr "แบน"
-
-#, fuzzy
-#~| msgid "Sunken"
-#~ msgid "S&unken"
-#~ msgstr "บุ๋มลง"
-
-#~ msgid "GroupBox"
-#~ msgstr "กล่องจัดกลุ่ม"
-
-#~ msgctxt "Flat group box. No frame is actually drawn"
-#~ msgid "Flat"
-#~ msgstr "แบน"
-
-#~ msgid "Tab Widget"
-#~ msgstr "แท็บวิดเจ็ต"
-
-#~ msgid "Single line text editor:"
-#~ msgstr "ตัวแก้ไขข้อความแบบบรรทัดเดียว:"
-
-#~ msgid "Password editor:"
-#~ msgstr "ตัวแก้ไขรหัสผ่าน:"
-
-#~ msgid "Editable combobox"
-#~ msgstr "กล่องคอมโบแบบแก้ไขได้"
-
-#~ msgid "First item"
-#~ msgstr "รายการแรก"
-
-#~ msgid "Second item"
-#~ msgstr "รายการที่ 2"
-
-#~ msgid "Third item"
-#~ msgstr "รายการที่ 3"
-
-#~ msgid "Spinbox:"
-#~ msgstr "กล่องปรับเลข:"
-
-#~ msgid "Multi-line text editor:"
-#~ msgstr "ตัวแก้ไขข้อความแบบหลายบรรทัด:"
-
-#~ msgid "Wrap words"
-#~ msgstr "ตัดคำ"
-
-#~ msgid "Use flat widgets"
-#~ msgstr "ใช้วิดเจ็ตแบน"
-
-#~ msgid "First Item"
-#~ msgstr "รายการแรก"
-
-#~ msgid "Second Item"
-#~ msgstr "รายการที่ 2"
-
-#~ msgid "Third Item"
-#~ msgstr "รายการที่ 3"
-
-#~ msgid "Title"
-#~ msgstr "หัวเรื่อง"
-
-#~ msgid "Description"
-#~ msgstr "รายละเอียด"
-
-#~ msgid "Third Description"
-#~ msgstr "รายละเอียดที่ 3"
-
-#~ msgid "Third Subitem"
-#~ msgstr "รายการย่อยที่ 3"
-
-#~ msgid "Third Subitem Description"
-#~ msgstr "รายละเอียดรายการย่อยที่ 3"
-
-#~ msgid "Second Description"
-#~ msgstr "รายละเอียดที่ 2"
-
-#~ msgid "Second Subitem"
-#~ msgstr "รายการย่อยที่ 2"
-
-#~ msgid "Second Subitem Description"
-#~ msgstr "รายละเอียดรายการย่อยที่ 2"
-
-#~ msgid "First Subitem"
-#~ msgstr "รายการย่อยแรก"
-
-#~ msgid "First Subitem Description"
-#~ msgstr "รายละเอียดรายการย่อยแรก"
-
-#~ msgid "First Description"
-#~ msgstr "รายละเอียดแรก"
-
-#~ msgid "New Row"
-#~ msgstr "แถวใหม่"
-
-#~ msgid "First Row"
-#~ msgstr "แถวแรก"
-
-#~ msgid "Third Row"
-#~ msgstr "แถวที่ 3"
-
-#~ msgid "First Column"
-#~ msgstr "คอลัมน์แรก"
-
-#~ msgid "Second Column"
-#~ msgstr "คอลัมน์ที่ 2"
-
-#~ msgid "Third Column"
-#~ msgstr "คอลัมน์ที่ 3"
-
-#~ msgid "Top-left"
-#~ msgstr "ซ้ายบน"
-
-#~ msgid "Top"
-#~ msgstr "บน"
-
-#~ msgid "Top-right"
-#~ msgstr "ขวาบน"
-
-#~ msgid "Left "
-#~ msgstr "ซ้าย "
-
-#~ msgid "Center"
-#~ msgstr "กลาง"
-
-#~ msgid "Right"
-#~ msgstr "ขวา"
-
-#~ msgid "Bottom-left"
-#~ msgstr "ซ้ายล่าง"
-
-#~ msgid "Bottom"
-#~ msgstr "ล่าง"
-
-#~ msgid "Bottom-right"
-#~ msgstr "ล่างขวา"
-
-#~ msgid "Editors"
-#~ msgstr "ตัวแก้ไข"
-
-#~ msgid "Title:"
-#~ msgstr "หัวเรื่อง:"
-
-#~ msgid "Toolbox"
-#~ msgstr "กล่องเครื่องมือ"
-
-#~ msgid "First Page"
-#~ msgstr "หน้าแรก"
-
-#~ msgid "Second Page"
-#~ msgstr "หน้าที่ 2"
-
-#, fuzzy
-#~| msgid "First Tab"
-#~ msgid "First Label"
-#~ msgstr "แท็บแรก "
-
-#, fuzzy
-#~| msgid "Second Tab"
-#~ msgid "Second Label"
-#~ msgstr "แท็บที่ 2"
-
-#~ msgid "Third Page"
-#~ msgstr "หน้าที่ 3"
-
-#, fuzzy
-#~| msgid "Animate progress bars"
-#~ msgid "Animate Progress Bars"
-#~ msgstr "แถบสถานะคืบหน้าแบบเคลื่อนไหว"
-
-#, fuzzy
-#~| msgid "Animate progress bars"
-#~ msgid "Invert Progress Bars"
-#~ msgstr "แถบสถานะคืบหน้าแบบเคลื่อนไหว"
-
-#~ msgid "Horizontal"
-#~ msgstr "แนวนอน"
-
-#~ msgid "Vertical"
-#~ msgstr "แนวตั้ง"
-
-#, fuzzy
-#~| msgid "Tab position:"
-#~ msgid "&Tab position:"
-#~ msgstr "ตำแหน่งแท็บ:"
-
-#~ msgid "North"
-#~ msgstr "เหนือ"
-
-#~ msgid "South"
-#~ msgstr "ใต้"
-
-#~ msgid "West"
-#~ msgstr "ตะวันตก"
-
-#~ msgid "East"
-#~ msgstr "ตะวันออก"
-
-#~ msgid "Document mode"
-#~ msgstr "โหมดเอกสาร"
-
-#~ msgid "Show Corner Buttons"
-#~ msgstr "แสดงปุ่มมุม"
-
-#, fuzzy
-#~| msgid "Show Corner Buttons"
-#~ msgid "Show Tab Close Buttons"
-#~ msgstr "แสดงปุ่มมุม"
-
-#~ msgid "Hide tabbar"
-#~ msgstr "ซ่อนแถบแสดงแท็บ"
-
-#~ msgid "Preview"
-#~ msgstr "แสดงตัวอย่าง"
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbenchmarkwidget.ui:29
+#, kde-format
+msgid "Modules"
+msgstr "มอดูล"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenbenchmarkwidget.ui:35
+#, kde-format
+msgid "Select below the modules for which you want to run the simulation:"
+msgstr "เลือกทางด้านล่างมอดูลว่าต้องการจะให้ทำการจำลองสถานการณ์ใด:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbenchmarkwidget.ui:48
+#, kde-format
+msgid "Options"
+msgstr "ตัวเลือก"
+
+#. i18n: ectx: property (text), widget (QCheckBox, grabMouseCheckBox)
+#: ui/oxygenbenchmarkwidget.ui:54
+#, kde-format
+msgid "Grab mouse"
+msgstr "ดักจับเมาส์"
+
+#. i18n: ectx: property (text), widget (QPushButton, runButton)
+#: ui/oxygenbenchmarkwidget.ui:82
+#, kde-format
+msgid "Run Simulation"
+msgstr "เรียกใช้การจำลองสถานการณ์"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: ui/oxygenbuttondemowidget.ui:20
+#, kde-format
+msgid "Checkboxes"
+msgstr "กล่องกาเครื่องหมาย"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox)
+#: ui/oxygenbuttondemowidget.ui:28
+#, kde-format
+msgid "Off"
+msgstr "ปิด"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
+#: ui/oxygenbuttondemowidget.ui:35
+#, kde-format
+msgid "Partial"
+msgstr "บางส่วน"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
+#: ui/oxygenbuttondemowidget.ui:45
+#, kde-format
+msgid "On"
+msgstr "เปิด"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: ui/oxygenbuttondemowidget.ui:73
+#, kde-format
+msgid "Radiobuttons"
+msgstr "ปุ่มวิทยุ"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: ui/oxygenbuttondemowidget.ui:84
+#, fuzzy, kde-format
+#| msgid "First Choice"
+msgid "F&irst Choice"
+msgstr "ตัวเลือกแรก"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: ui/oxygenbuttondemowidget.ui:94
+#, fuzzy, kde-format
+#| msgid "Second Choice"
+msgid "Seco&nd Choice"
+msgstr "ตัวเลือกที่ 2"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
+#: ui/oxygenbuttondemowidget.ui:101
+#, fuzzy, kde-format
+#| msgid "Third Choice"
+msgid "&Third Choice"
+msgstr "ตัวเลือกที่ 3"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbuttondemowidget.ui:126
+#, kde-format
+msgid "Pushbuttons"
+msgstr "ปุ่มกด"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: ui/oxygenbuttondemowidget.ui:132
+#, kde-format
+msgid "Text only:"
+msgstr "ข้อความเท่านั้น:"
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:142
+#, fuzzy, kde-format
+#| msgid "This is a sample text"
+msgid "This is a normal, text only combo box"
+msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:149
+#, kde-format
+msgid "Small"
+msgstr "เล็ก"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:159
+#, kde-format
+msgid "Large"
+msgstr "ใหญ่"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: ui/oxygenbuttondemowidget.ui:180
+#, kde-format
+msgid "Text and icon:"
+msgstr "ข้อความและไอคอน:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
+#: ui/oxygenbuttondemowidget.ui:190
+#, kde-format
+msgid "Use flat buttons"
+msgstr "ใช้ปุ่มแบน"
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
+#: ui/oxygenbuttondemowidget.ui:197
+#, fuzzy, kde-format
+#| msgid "This is a sample text"
+msgid "This is a normal, text and icon combo box"
+msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
+#: ui/oxygenbuttondemowidget.ui:204
+#, fuzzy, kde-format
+#| msgid "This is a sample text"
+msgid "This is a normal, text only tool button"
+msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
+#: ui/oxygenbuttondemowidget.ui:214
+#, fuzzy, kde-format
+#| msgid "This is a sample text"
+msgid "This is a normal, text and icon tool button"
+msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
+#: ui/oxygenbuttondemowidget.ui:224
+#, fuzzy, kde-format
+#| msgid "This is a sample text"
+msgid "This is a normal, text only button"
+msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
+#: ui/oxygenbuttondemowidget.ui:234
+#, fuzzy, kde-format
+#| msgid "This is a sample text"
+msgid "This is a normal, text only button with menu"
+msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
+#: ui/oxygenbuttondemowidget.ui:244
+#, fuzzy, kde-format
+#| msgid "This is a sample text"
+msgid "This is a normal, text and icon button"
+msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
+#: ui/oxygenbuttondemowidget.ui:254
+#, fuzzy, kde-format
+#| msgid "This is a sample text"
+msgid "This is a normal, text and icon button with menu"
+msgstr "นี่เป็นข้อความตัวอย่าง"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbuttondemowidget.ui:267
+#, kde-format
+msgid "Toolbuttons"
+msgstr "ปุ่มเครื่องมือ"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
+#: ui/oxygenbuttondemowidget.ui:335 ui/oxygenbuttondemowidget.ui:348
+#: ui/oxygenbuttondemowidget.ui:361
+#, kde-format
+msgid "Flat"
+msgstr "แบน"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
+#: ui/oxygenbuttondemowidget.ui:374
+#, kde-format
+msgid "Up Arrow"
+msgstr "ปุ่มลูกศรขึ้น"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
+#: ui/oxygenbuttondemowidget.ui:384
+#, kde-format
+msgid "Down Arrow"
+msgstr "ปุ่มลูกศรลง"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
+#: ui/oxygenbuttondemowidget.ui:397
+#, kde-format
+msgid "Left Arrow"
+msgstr "ปุ่มลูกศรซ้าย"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
+#: ui/oxygenbuttondemowidget.ui:407
+#, kde-format
+msgid "Right Arrow"
+msgstr "ปุ่มลูกศรขวา"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
+#, fuzzy, kde-format
+#| msgid "Text position:"
+msgid "Te&xt position:"
+msgstr "ตำแหน่งข้อความ:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:434 ui/oxygentabdemowidget.ui:95
+#, kde-format
+msgid "Icons Only"
+msgstr "ไอคอนเท่านั้น"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
+#, kde-format
+msgid "Text Only"
+msgstr "ข้อความเท่านั้น"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
+#, kde-format
+msgid "Text Alongside Icons"
+msgstr "ข้อความข้างไอคอน"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#: ui/oxygenbuttondemowidget.ui:449
+#, kde-format
+msgid "Text Under Icons"
+msgstr "ข้อความใต้ไอคอน"
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: ui/oxygenbuttondemowidget.ui:470
+#, fuzzy, kde-format
+#| msgid "Icon size:"
+msgid "Icon si&ze:"
+msgstr "ขนาดไอคอน:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:484
+#, kde-format
+msgid "Small (16x16)"
+msgstr "เล็ก (16x16)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:489
+#, kde-format
+msgid "Medium (22x22)"
+msgstr "กลาง (22x22)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:494
+#, kde-format
+msgid "Large (32x32)"
+msgstr "ใหญ่ (32x32)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:499
+#, kde-format
+msgid "Huge (48x48)"
+msgstr "ใหญ่มาก (48x48)"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenframedemowidget.ui:31
+#, fuzzy, kde-format
+#| msgid "Layout Direction:"
+msgid "&Layout direction:"
+msgstr "ทิศทางเค้าโครง:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:45
+#, kde-format
+msgid "Left to Right"
+msgstr "ซ้ายไปขวา"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:50
+#, kde-format
+msgid "Right to Left"
+msgstr "ขวาไปซ้าย"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:55
+#, kde-format
+msgid "Top to Bottom"
+msgstr "บนลงล่าง"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:60
+#, kde-format
+msgid "Bottom to Top"
+msgstr "ล่างขึ้นบน"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenframedemowidget.ui:94
+#, kde-format
+msgid "Frame"
+msgstr "เฟรม"
+
+#. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:104
+#, fuzzy, kde-format
+#| msgid "Raised"
+msgid "&Raised"
+msgstr "นูน"
+
+#. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:117
+#, fuzzy, kde-format
+#| msgid "Flat"
+msgctxt "Flat frame. No frame is actually drawn."
+msgid "&Flat"
+msgstr "แบน"
+
+#. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:124
+#, fuzzy, kde-format
+#| msgid "Sunken"
+msgid "S&unken"
+msgstr "บุ๋มลง"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenframedemowidget.ui:147
+#, kde-format
+msgid "GroupBox"
+msgstr "กล่องจัดกลุ่ม"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
+#: ui/oxygenframedemowidget.ui:153
+#, kde-format
+msgctxt "Flat group box. No frame is actually drawn"
+msgid "Flat"
+msgstr "แบน"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenframedemowidget.ui:180
+#, kde-format
+msgid "Tab Widget"
+msgstr "แท็บวิดเจ็ต"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygeninputdemowidget.ui:29
+#, kde-format
+msgid "Single line text editor:"
+msgstr "ตัวแก้ไขข้อความแบบบรรทัดเดียว:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygeninputdemowidget.ui:65
+#, kde-format
+msgid "Password editor:"
+msgstr "ตัวแก้ไขรหัสผ่าน:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygeninputdemowidget.ui:88
+#, kde-format
+msgid "Editable combobox"
+msgstr "กล่องคอมโบแบบแก้ไขได้"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:105
+#, kde-format
+msgid "First item"
+msgstr "รายการแรก"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:110
+#, kde-format
+msgid "Second item"
+msgstr "รายการที่ 2"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:115
+#, kde-format
+msgid "Third item"
+msgstr "รายการที่ 3"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygeninputdemowidget.ui:123
+#, kde-format
+msgid "Spinbox:"
+msgstr "กล่องปรับเลข:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygeninputdemowidget.ui:146
+#, kde-format
+msgid "Multi-line text editor:"
+msgstr "ตัวแก้ไขข้อความแบบหลายบรรทัด:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
+#: ui/oxygeninputdemowidget.ui:153
+#, kde-format
+msgid "Wrap words"
+msgstr "ตัดคำ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
+#: ui/oxygeninputdemowidget.ui:160
+#, kde-format
+msgid "Use flat widgets"
+msgstr "ใช้วิดเจ็ตแบน"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:40 ui/oxygenlistdemowidget.ui:119
+#, kde-format
+msgid "First Item"
+msgstr "รายการแรก"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:48 ui/oxygenlistdemowidget.ui:95
+#, kde-format
+msgid "Second Item"
+msgstr "รายการที่ 2"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:56 ui/oxygenlistdemowidget.ui:79
+#, kde-format
+msgid "Third Item"
+msgstr "รายการที่ 3"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:69
+#, kde-format
+msgid "Title"
+msgstr "หัวเรื่อง"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:74
+#, kde-format
+msgid "Description"
+msgstr "รายละเอียด"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:82
+#, kde-format
+msgid "Third Description"
+msgstr "รายละเอียดที่ 3"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:86
+#, kde-format
+msgid "Third Subitem"
+msgstr "รายการย่อยที่ 3"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:89
+#, kde-format
+msgid "Third Subitem Description"
+msgstr "รายละเอียดรายการย่อยที่ 3"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:98
+#, kde-format
+msgid "Second Description"
+msgstr "รายละเอียดที่ 2"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:102
+#, kde-format
+msgid "Second Subitem"
+msgstr "รายการย่อยที่ 2"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:105
+#, kde-format
+msgid "Second Subitem Description"
+msgstr "รายละเอียดรายการย่อยที่ 2"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:110
+#, kde-format
+msgid "First Subitem"
+msgstr "รายการย่อยแรก"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:113
+#, kde-format
+msgid "First Subitem Description"
+msgstr "รายละเอียดรายการย่อยแรก"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:122
+#, kde-format
+msgid "First Description"
+msgstr "รายละเอียดแรก"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:132
+#, kde-format
+msgid "New Row"
+msgstr "แถวใหม่"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:137
+#, kde-format
+msgid "First Row"
+msgstr "แถวแรก"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:142
+#, kde-format
+msgid "Third Row"
+msgstr "แถวที่ 3"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:147
+#, kde-format
+msgid "First Column"
+msgstr "คอลัมน์แรก"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:152
+#, kde-format
+msgid "Second Column"
+msgstr "คอลัมน์ที่ 2"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:157
+#, kde-format
+msgid "Third Column"
+msgstr "คอลัมน์ที่ 3"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:162
+#, kde-format
+msgid "Top-left"
+msgstr "ซ้ายบน"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:167
+#, kde-format
+msgid "Top"
+msgstr "บน"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:172
+#, kde-format
+msgid "Top-right"
+msgstr "ขวาบน"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:177
+#, kde-format
+msgid "Left "
+msgstr "ซ้าย "
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:182
+#, kde-format
+msgid "Center"
+msgstr "กลาง"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:187
+#, kde-format
+msgid "Right"
+msgstr "ขวา"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:192
+#, kde-format
+msgid "Bottom-left"
+msgstr "ซ้ายล่าง"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:197
+#, kde-format
+msgid "Bottom"
+msgstr "ล่าง"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:202
+#, kde-format
+msgid "Bottom-right"
+msgstr "ล่างขวา"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Editors)
+#: ui/oxygenmdidemowidget.ui:45
+#, kde-format
+msgid "Editors"
+msgstr "ตัวแก้ไข"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenmdidemowidget.ui:51
+#, kde-format
+msgid "Title:"
+msgstr "หัวเรื่อง:"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Toolbox)
+#: ui/oxygenmdidemowidget.ui:78
+#, kde-format
+msgid "Toolbox"
+msgstr "กล่องเครื่องมือ"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page)
+#: ui/oxygenmdidemowidget.ui:96
+#, kde-format
+msgid "First Page"
+msgstr "หน้าแรก"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_2)
+#: ui/oxygenmdidemowidget.ui:110
+#, kde-format
+msgid "Second Page"
+msgstr "หน้าที่ 2"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenmdidemowidget.ui:116
+#, fuzzy, kde-format
+#| msgid "First Tab"
+msgid "First Label"
+msgstr "แท็บแรก "
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenmdidemowidget.ui:123
+#, fuzzy, kde-format
+#| msgid "Second Tab"
+msgid "Second Label"
+msgstr "แท็บที่ 2"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_3)
+#: ui/oxygenmdidemowidget.ui:152
+#, kde-format
+msgid "Third Page"
+msgstr "หน้าที่ 3"
+
+#. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:29
+#, fuzzy, kde-format
+#| msgid "Animate progress bars"
+msgid "Animate Progress Bars"
+msgstr "แถบสถานะคืบหน้าแบบเคลื่อนไหว"
+
+#. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:36
+#, fuzzy, kde-format
+#| msgid "Animate progress bars"
+msgid "Invert Progress Bars"
+msgstr "แถบสถานะคืบหน้าแบบเคลื่อนไหว"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygensliderdemowidget.ui:43
+#, kde-format
+msgid "Horizontal"
+msgstr "แนวนอน"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygensliderdemowidget.ui:120
+#, kde-format
+msgid "Vertical"
+msgstr "แนวตั้ง"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygensliderdemowidget.ui:167
+#, kde-format
+msgid "Sliders tick marks position"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:178
+#, kde-format
+msgid "No Tick Marks"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:183
+#, kde-format
+msgid "Tick Marks Above Slider"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:188
+#, kde-format
+msgid "Tick Marks Below Slider"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:193
+#, kde-format
+msgid "Tick Marks On Both Sides"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygentabdemowidget.ui:31
+#, fuzzy, kde-format
+#| msgid "Tab position:"
+msgid "&Tab position:"
+msgstr "ตำแหน่งแท็บ:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:45
+#, kde-format
+msgid "North"
+msgstr "เหนือ"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:50
+#, kde-format
+msgid "South"
+msgstr "ใต้"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:55
+#, kde-format
+msgid "West"
+msgstr "ตะวันตก"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:60
+#, kde-format
+msgid "East"
+msgstr "ตะวันออก"
+
+#. i18n: ectx: property (text), widget (QCheckBox, documentModeCheckBox)
+#: ui/oxygentabdemowidget.ui:115
+#, kde-format
+msgid "Document mode"
+msgstr "โหมดเอกสาร"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
+#: ui/oxygentabdemowidget.ui:122
+#, kde-format
+msgid "Show Corner Buttons"
+msgstr "แสดงปุ่มมุม"
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
+#: ui/oxygentabdemowidget.ui:129
+#, fuzzy, kde-format
+#| msgid "Show Corner Buttons"
+msgid "Show Tab Close Buttons"
+msgstr "แสดงปุ่มมุม"
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
+#: ui/oxygentabdemowidget.ui:136
+#, kde-format
+msgid "Hide tabbar"
+msgstr "ซ่อนแถบแสดงแท็บ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygentabdemowidget.ui:143
+#, kde-format
+msgid "Preview"
+msgstr "แสดงตัวอย่าง"
 
 #~ msgctxt "Flat frame. No frame is actually drawn."
 #~ msgid "Flat"

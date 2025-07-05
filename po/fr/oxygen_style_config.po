@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:54+0000\n"
 "PO-Revision-Date: 2022-02-07 19:35+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -146,132 +146,259 @@ msgstr "Indicateur d'état de la barre de progression"
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Configure l'animation de l'indicateur d'état des barres de progression"
 
-#~ msgid "Frame"
-#~ msgstr "Cadre"
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Cadre"
 
-#~ msgid "Animation type:"
-#~ msgstr "Type d'animations :"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Type d'animations :"
 
-#~ msgid "Fade"
-#~ msgstr "Fondu"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Fondu"
 
-#~ msgid "Follow Mouse"
-#~ msgstr "Suivre la souris"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Suivre la souris"
 
-#~ msgid "Fade duration:"
-#~ msgstr "Durée de fondu :"
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Durée de fondu :"
 
-#~ msgid "Follow mouse duration:"
-#~ msgstr "Durée du suivi de souris :"
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Durée du suivi de souris :"
 
-#~ msgid " ms"
-#~ msgstr " ms"
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " ms"
 
-#~ msgid "Dialog"
-#~ msgstr "Boîte de dialogue"
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Boîte de dialogue"
 
-#~ msgid "General"
-#~ msgstr "Général"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Général"
 
-#~ msgid "Drag windows from titlebar only"
-#~ msgstr "Déplacer les fenêtres uniquement à l'aide des barres de titres"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Déplacer les fenêtres uniquement à l'aide des barres de titres"
 
-#~ msgid "Drag windows from titlebar, menubar and toolbars"
-#~ msgstr ""
-#~ "Déplacer les fenêtres à l'aide des barres de titres, de menus et d'outils"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr ""
+"Déplacer les fenêtres à l'aide des barres de titres, de menus et d'outils"
 
-#~ msgid "Drag windows from all empty areas"
-#~ msgstr "Déplacer les fenêtres uniquement depuis toutes les zones vides"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Déplacer les fenêtres uniquement depuis toutes les zones vides"
 
-#~ msgid "Keyboard accelerators visibility:"
-#~ msgstr "Visibilité des accélérateurs du clavier : "
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Visibilité des accélérateurs du clavier : "
 
-#~ msgid "Always hide"
-#~ msgstr "Toujours masquer"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr "Toujours masquer"
 
-#~ msgid "Show when Alt key is pressed"
-#~ msgstr "Afficher lorsque la touche « ALT » est enfoncée"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr "Afficher lorsque la touche « ALT » est enfoncée"
 
-#~ msgid "Always show"
-#~ msgstr "Toujours afficher"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr "Toujours afficher"
 
-#~ msgid "Windows' &drag mode:"
-#~ msgstr "Mode de &déplacement des fenêtres :"
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Mode de &déplacement des fenêtres :"
 
-#~ msgid "Draw toolbar item separators"
-#~ msgstr "Dessiner les séparateurs des éléments de la barre d'outils"
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Dessiner les séparateurs des éléments de la barre d'outils"
 
-#~ msgid "Enable extended resize handles"
-#~ msgstr "Activer les poignées étendues de redimensionnement."
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Activer les poignées étendues de redimensionnement."
 
-#~ msgid "Draw window background gradient"
-#~ msgstr "Dessiner le dégradé d'arrière plan de la fenêtre"
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Dessiner le dégradé d'arrière plan de la fenêtre"
 
-#~ msgid "Animations"
-#~ msgstr "Animations"
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animations"
 
-#~ msgid "Views"
-#~ msgstr "Vues"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Vues"
 
-#~ msgid "Draw tree branch lines"
-#~ msgstr "Dessiner les lignes de l'arborescence"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Dessiner les lignes de l'arborescence"
 
-#~ msgid "&Tree expander size:"
-#~ msgstr "&Taille de l'icône de parcours de la hiérarchie :"
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "&Taille de l'icône de parcours de la hiérarchie :"
 
-#~ msgctxt "triangle size"
-#~ msgid "Tiny"
-#~ msgstr "Minuscule"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Minuscule"
 
-#~ msgctxt "triangle size"
-#~ msgid "Small"
-#~ msgstr "Petit"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Petit"
 
-#~ msgctxt "triangle size"
-#~ msgid "Normal"
-#~ msgstr "Normal"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normal"
 
-#~ msgid "Draw focus indicator in lists"
-#~ msgstr "Afficher l'indicateur de focus dans les listes"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Afficher l'indicateur de focus dans les listes"
 
-#~ msgid "Scrollbars"
-#~ msgstr "Barres de défilement"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Barres de défilement"
 
-#~ msgid "Scrollbar wi&dth:"
-#~ msgstr "Largeur des barres de &défilement :"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Largeur des barres de &défilement :"
 
-#~ msgid "px"
-#~ msgstr "px"
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
 
-#~ msgid "Top arrow button type:"
-#~ msgstr "Type de bouton pour la flèche du haut :"
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Type de bouton pour la flèche du haut :"
 
-#~ msgid "Bottom arrow button type:"
-#~ msgstr "Type de bouton pour la flèche du bas :"
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Type de bouton pour la flèche du bas :"
 
-#~ msgid "No buttons"
-#~ msgstr "Aucun bouton"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Aucun bouton"
 
-#~ msgid "One button"
-#~ msgstr "Un bouton"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Un bouton"
 
-#~ msgid "Two buttons"
-#~ msgstr "Deux boutons"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Deux boutons"
 
-#~ msgid "No button"
-#~ msgstr "Aucun bouton"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Aucun bouton"
 
-#~ msgid "Menu Highlight"
-#~ msgstr "Surbrillance de menu"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Surbrillance de menu"
 
-#~ msgid "Use dar&k color"
-#~ msgstr "Utiliser une couleur &sombre"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Utiliser une couleur &sombre"
 
-#~ msgid "&Use selection color (plain)"
-#~ msgstr "&Utiliser une couleur de sélection (unie)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "&Utiliser une couleur de sélection (unie)"
 
-#~ msgid "Use selec&tion color (subtle)"
-#~ msgstr "Utiliser une couleur de sélec&tion (imperceptible)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Utiliser une couleur de sélec&tion (imperceptible)"
 
 #~ msgid "Always Hide Keyboard Accelerators"
 #~ msgstr "Masquer toujours les accélérateurs du clavier"

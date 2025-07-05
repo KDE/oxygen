@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:54+0000\n"
 "PO-Revision-Date: 2022-04-09 20:18+0200\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -127,131 +127,258 @@ msgstr "Indikátor ukazovateľa priebehu"
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Nastavenie animácie krokov ukazovateľa priebehu"
 
-#~ msgid "Frame"
-#~ msgstr "Rámec"
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Rámec"
 
-#~ msgid "Animation type:"
-#~ msgstr "Typ animácie:"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Typ animácie:"
 
-#~ msgid "Fade"
-#~ msgstr "Blednutie"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Blednutie"
 
-#~ msgid "Follow Mouse"
-#~ msgstr "Nasledovať myš"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Nasledovať myš"
 
-#~ msgid "Fade duration:"
-#~ msgstr "Trvanie blednutia:"
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Trvanie blednutia:"
 
-#~ msgid "Follow mouse duration:"
-#~ msgstr "Trvanie nasledovania myši:"
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Trvanie nasledovania myši:"
 
-#~ msgid " ms"
-#~ msgstr " ms"
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " ms"
 
-#~ msgid "Dialog"
-#~ msgstr "Dialóg"
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dialóg"
 
-#~ msgid "General"
-#~ msgstr "Všeobecné"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Všeobecné"
 
-#~ msgid "Drag windows from titlebar only"
-#~ msgstr "Presúvať okná iba zo záhlavia"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Presúvať okná iba zo záhlavia"
 
-#~ msgid "Drag windows from titlebar, menubar and toolbars"
-#~ msgstr "Presúvať okná zo záhlavia, ponuky a panelov nástrojov"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Presúvať okná zo záhlavia, ponuky a panelov nástrojov"
 
-#~ msgid "Drag windows from all empty areas"
-#~ msgstr "Presúvať okná zo všetkých prázdnych miest"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Presúvať okná zo všetkých prázdnych miest"
 
-#~ msgid "Keyboard accelerators visibility:"
-#~ msgstr "Viditeľnosť akcelerátorov klávesnice:"
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Viditeľnosť akcelerátorov klávesnice:"
 
-#~ msgid "Always hide"
-#~ msgstr "Vždy skryť"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr "Vždy skryť"
 
-#~ msgid "Show when Alt key is pressed"
-#~ msgstr "Zobraziť keď je stlačený kláves Alt"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr "Zobraziť keď je stlačený kláves Alt"
 
-#~ msgid "Always show"
-#~ msgstr "Vždy zobraziť"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr "Vždy zobraziť"
 
-#~ msgid "Windows' &drag mode:"
-#~ msgstr "Režim ťahania okien:"
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Režim ťahania okien:"
 
-#~ msgid "Draw toolbar item separators"
-#~ msgstr "Kresliť oddeľovač položiek panelov nástrojov"
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Kresliť oddeľovač položiek panelov nástrojov"
 
-#~ msgid "Enable extended resize handles"
-#~ msgstr "Povoliť rozšírené spracovanie zmeny veľkosti"
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Povoliť rozšírené spracovanie zmeny veľkosti"
 
-#~ msgid "Draw window background gradient"
-#~ msgstr "Kresliť prechod pozadia okna"
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Kresliť prechod pozadia okna"
 
-#~ msgid "Animations"
-#~ msgstr "Animácie"
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animácie"
 
-#~ msgid "Views"
-#~ msgstr "Pohľady"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Pohľady"
 
-#~ msgid "Draw tree branch lines"
-#~ msgstr "Kresliť vetvy stromu pomocou čiar"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Kresliť vetvy stromu pomocou čiar"
 
-#~ msgid "&Tree expander size:"
-#~ msgstr "Veľkosť expandera stromu:"
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "Veľkosť expandera stromu:"
 
-#~ msgctxt "triangle size"
-#~ msgid "Tiny"
-#~ msgstr "Drobné"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Drobné"
 
-#~ msgctxt "triangle size"
-#~ msgid "Small"
-#~ msgstr "Malé"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Malé"
 
-#~ msgctxt "triangle size"
-#~ msgid "Normal"
-#~ msgstr "Normálne"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normálne"
 
-#~ msgid "Draw focus indicator in lists"
-#~ msgstr "Kresliť indikátor zamerania v zoznamoch"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Kresliť indikátor zamerania v zoznamoch"
 
-#~ msgid "Scrollbars"
-#~ msgstr "Posuvníky"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Posuvníky"
 
-#~ msgid "Scrollbar wi&dth:"
-#~ msgstr "Šírka posuvníka:"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Šírka posuvníka:"
 
-#~ msgid "px"
-#~ msgstr "px"
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
 
-#~ msgid "Top arrow button type:"
-#~ msgstr "Typ horného tlačidla so šípkou:"
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Typ horného tlačidla so šípkou:"
 
-#~ msgid "Bottom arrow button type:"
-#~ msgstr "Typ spodného tlačidla so šípkou:"
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Typ spodného tlačidla so šípkou:"
 
-#~ msgid "No buttons"
-#~ msgstr "Žiadne tlačidlá"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Žiadne tlačidlá"
 
-#~ msgid "One button"
-#~ msgstr "Jedno tlačidlo"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Jedno tlačidlo"
 
-#~ msgid "Two buttons"
-#~ msgstr "Dve tlačidlá"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Dve tlačidlá"
 
-#~ msgid "No button"
-#~ msgstr "Žiadne tlačidlo"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Žiadne tlačidlo"
 
-#~ msgid "Menu Highlight"
-#~ msgstr "Zvýraznenie ponuky"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Zvýraznenie ponuky"
 
-#~ msgid "Use dar&k color"
-#~ msgstr "Použiť tmavú farbu"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Použiť tmavú farbu"
 
-#~ msgid "&Use selection color (plain)"
-#~ msgstr "Použiť farbu výberu (obyčajnú)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Použiť farbu výberu (obyčajnú)"
 
-#~ msgid "Use selec&tion color (subtle)"
-#~ msgstr "Použiť farbu výberu (jemnú)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Použiť farbu výberu (jemnú)"
 
 #~ msgid "Always Hide Keyboard Accelerators"
 #~ msgstr "Vždy skryť akcelerátory klávesnice"

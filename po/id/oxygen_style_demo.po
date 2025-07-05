@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:54+0000\n"
 "PO-Revision-Date: 2023-12-27 18:16+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -24,7 +24,22 @@ msgstr ""
 msgid "Oxygen Demo"
 msgstr "Demo Oxygen"
 
-#: oxygenbuttondemowidget.cpp:35
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_3)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
+#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
+#: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
+#: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
+#: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
+#: ui/oxygenbuttondemowidget.ui:285 ui/oxygenbuttondemowidget.ui:295
+#: ui/oxygenbuttondemowidget.ui:305
 #, kde-format
 msgid "Normal"
 msgstr "Normal"
@@ -202,371 +217,744 @@ msgstr "Ini adalah teks contoh"
 msgid "Select the application widget style"
 msgstr "Pilih gaya widget aplikasi"
 
-#~ msgid "Modules"
-#~ msgstr "Modul"
-
-#~ msgid "Select below the modules for which you want to run the simulation:"
-#~ msgstr ""
-#~ "Pilih modul di bawah yang ingin anda gunakan untuk menjalankan simulasi:"
-
-#~ msgid "Options"
-#~ msgstr "Opsi"
-
-#~ msgid "Grab mouse"
-#~ msgstr "Ambil mouse"
-
-#~ msgid "Run Simulation"
-#~ msgstr "Jalankan Simulasi"
-
-#~ msgid "Checkboxes"
-#~ msgstr "Kotak Cek"
-
-#~ msgid "Off"
-#~ msgstr "Padam"
-
-#~ msgid "Partial"
-#~ msgstr "Parsial"
-
-#~ msgid "On"
-#~ msgstr "Nyala"
-
-#~ msgid "Radiobuttons"
-#~ msgstr "Tombol Radio"
-
-#~ msgid "F&irst Choice"
-#~ msgstr "P&ilihan Pertama"
-
-#~ msgid "Seco&nd Choice"
-#~ msgstr "Piliha&n Kedua"
-
-#~ msgid "&Third Choice"
-#~ msgstr "&Pilihan Ketiga"
-
-#~ msgid "Pushbuttons"
-#~ msgstr "Tombol Tekan"
-
-#~ msgid "Text only:"
-#~ msgstr "Hanya teks:"
-
-#~ msgid "This is a normal, text only combo box"
-#~ msgstr "Ini adalah kotak kombinasi normal, hanya teks"
-
-#~ msgid "Small"
-#~ msgstr "Kecil"
-
-#~ msgid "Large"
-#~ msgstr "Besar"
-
-#~ msgid "Text and icon:"
-#~ msgstr "Teks dan ikon:"
-
-#~ msgid "Use flat buttons"
-#~ msgstr "Gunakan tombol datar"
-
-#~ msgid "This is a normal, text and icon combo box"
-#~ msgstr "Ini adalah kotak kombinasi normal, teks dan ikon"
-
-#~ msgid "This is a normal, text only tool button"
-#~ msgstr "Ini adalah tombol alat normal, hanya teks"
-
-#~ msgid "This is a normal, text and icon tool button"
-#~ msgstr "Ini adalah tombol alat normal, teks dan ikon"
-
-#~ msgid "This is a normal, text only button"
-#~ msgstr "Ini adalah tombol normal, hanya teks"
-
-#~ msgid "This is a normal, text only button with menu"
-#~ msgstr "Ini adalah tombol dengan menu normal, hanya teks"
-
-#~ msgid "This is a normal, text and icon button"
-#~ msgstr "Ini adalah tombol normal, teks dan ikon"
-
-#~ msgid "This is a normal, text and icon button with menu"
-#~ msgstr "Ini adalah tombol dengan menu normal, teks dan ikon"
-
-#~ msgid "Toolbuttons"
-#~ msgstr "Tombol alat"
-
-#~ msgid "Flat"
-#~ msgstr "Datar"
-
-#~ msgid "Up Arrow"
-#~ msgstr "Panah Atas"
-
-#~ msgid "Down Arrow"
-#~ msgstr "Panah Bawah"
-
-#~ msgid "Left Arrow"
-#~ msgstr "Panah Kiri"
-
-#~ msgid "Right Arrow"
-#~ msgstr "Panah Kanan"
-
-#~ msgid "Te&xt position:"
-#~ msgstr "Posisi te&ks:"
-
-#~ msgid "Icons Only"
-#~ msgstr "Hanya Ikon"
-
-#~ msgid "Text Only"
-#~ msgstr "Hanya Teks"
-
-#~ msgid "Text Alongside Icons"
-#~ msgstr "Teks di Samping Ikon"
-
-#~ msgid "Text Under Icons"
-#~ msgstr "Teks di Bawah Ikon"
-
-#~ msgid "Icon si&ze:"
-#~ msgstr "Ukuran Ik&on:"
-
-#~ msgid "Small (16x16)"
-#~ msgstr "Kecil (16x16)"
-
-#~ msgid "Medium (22x22)"
-#~ msgstr "Sedang (22x22)"
-
-#~ msgid "Large (32x32)"
-#~ msgstr "Besar (32x32)"
-
-#~ msgid "Huge (48x48)"
-#~ msgstr "Besar Banget (48x48)"
-
-#~ msgid "&Layout direction:"
-#~ msgstr "&Arah tata letak:"
-
-#~ msgid "Left to Right"
-#~ msgstr "Kiri ke Kanan"
-
-#~ msgid "Right to Left"
-#~ msgstr "Kanan ke Kiri"
-
-#~ msgid "Top to Bottom"
-#~ msgstr "Atas ke Bawah"
-
-#~ msgid "Bottom to Top"
-#~ msgstr "Bawah ke Atas"
-
-#~ msgid "Frame"
-#~ msgstr "Bingkai"
-
-#~ msgid "&Raised"
-#~ msgstr "Di&naikkan"
-
-#~ msgctxt "Flat frame. No frame is actually drawn."
-#~ msgid "&Flat"
-#~ msgstr "Da&tar"
-
-#~ msgid "S&unken"
-#~ msgstr "T&enggelam"
-
-#~ msgid "GroupBox"
-#~ msgstr "Kotak Grup"
-
-#~ msgctxt "Flat group box. No frame is actually drawn"
-#~ msgid "Flat"
-#~ msgstr "Datar"
-
-#~ msgid "Tab Widget"
-#~ msgstr "Widget Tab"
-
-#~ msgid "Single line text editor:"
-#~ msgstr "Penyunting teks baris tunggal:"
-
-#~ msgid "Password editor:"
-#~ msgstr "Penyunting sandi:"
-
-#~ msgid "Editable combobox"
-#~ msgstr "Kotak kombo dapat diedit"
-
-#~ msgid "First item"
-#~ msgstr "Item pertama"
-
-#~ msgid "Second item"
-#~ msgstr "Item kedua"
-
-#~ msgid "Third item"
-#~ msgstr "Item ketiga"
-
-#~ msgid "Spinbox:"
-#~ msgstr "Kotak putar:"
-
-#~ msgid "Multi-line text editor:"
-#~ msgstr "Penyunting teks banyak baris:"
-
-#~ msgid "Wrap words"
-#~ msgstr "Kemaskan kata"
-
-#~ msgid "Use flat widgets"
-#~ msgstr "Gunakan widget datar"
-
-#~ msgid "First Item"
-#~ msgstr "Item Pertama"
-
-#~ msgid "Second Item"
-#~ msgstr "Item Kedua"
-
-#~ msgid "Third Item"
-#~ msgstr "Item Ketiga"
-
-#~ msgid "Title"
-#~ msgstr "Judul"
-
-#~ msgid "Description"
-#~ msgstr "Deskripsi"
-
-#~ msgid "Third Description"
-#~ msgstr "Deskripsi Ketiga"
-
-#~ msgid "Third Subitem"
-#~ msgstr "Subitem Ketiga"
-
-#~ msgid "Third Subitem Description"
-#~ msgstr "Deskripsi Subitem Ketiga"
-
-#~ msgid "Second Description"
-#~ msgstr "Deskripsi Suara"
-
-#~ msgid "Second Subitem"
-#~ msgstr "Subitem Kedua"
-
-#~ msgid "Second Subitem Description"
-#~ msgstr "Deskripsi Subitem Kedua"
-
-#~ msgid "First Subitem"
-#~ msgstr "Subitem Pertama"
-
-#~ msgid "First Subitem Description"
-#~ msgstr "Deskripsi Subitem Pertama"
-
-#~ msgid "First Description"
-#~ msgstr "Deskripsi Pertama"
-
-#~ msgid "New Row"
-#~ msgstr "Baris Baru"
-
-#~ msgid "First Row"
-#~ msgstr "Baris Pertama"
-
-#~ msgid "Third Row"
-#~ msgstr "Baris Ketiga"
-
-#~ msgid "First Column"
-#~ msgstr "Kolom Pertama"
-
-#~ msgid "Second Column"
-#~ msgstr "Kolom Kedua"
-
-#~ msgid "Third Column"
-#~ msgstr "Kolom Ketiga"
-
-#~ msgid "Top-left"
-#~ msgstr "Kiri-atas"
-
-#~ msgid "Top"
-#~ msgstr "Atas"
-
-#~ msgid "Top-right"
-#~ msgstr "Kanan-atas"
-
-#~ msgid "Left "
-#~ msgstr "Kiri "
-
-#~ msgid "Center"
-#~ msgstr "Tengah"
-
-#~ msgid "Right"
-#~ msgstr "Kanan"
-
-#~ msgid "Bottom-left"
-#~ msgstr "Kiri-bawah"
-
-#~ msgid "Bottom"
-#~ msgstr "Bawah"
-
-#~ msgid "Bottom-right"
-#~ msgstr "Kanan-bawah"
-
-#~ msgid "Editors"
-#~ msgstr "Pengedit"
-
-#~ msgid "Title:"
-#~ msgstr "Judul:"
-
-#~ msgid "Toolbox"
-#~ msgstr "Perkakas"
-
-#~ msgid "First Page"
-#~ msgstr "Halaman Pertama"
-
-#~ msgid "Second Page"
-#~ msgstr "Halaman Kedua"
-
-#~ msgid "First Label"
-#~ msgstr "Label Pertama"
-
-#~ msgid "Second Label"
-#~ msgstr "Label Kedua"
-
-#~ msgid "Third Page"
-#~ msgstr "Halaman Ketiga"
-
-#~ msgid "Animate Progress Bars"
-#~ msgstr "Animasikan Bilah Progres"
-
-#~ msgid "Invert Progress Bars"
-#~ msgstr "Kebalikan Bilah Progres"
-
-#~ msgid "Horizontal"
-#~ msgstr "Mendatar"
-
-#~ msgid "Vertical"
-#~ msgstr "Tegak"
-
-#~ msgid "Sliders tick marks position"
-#~ msgstr "Penggeser posisi tanda centang"
-
-#~ msgid "No Tick Marks"
-#~ msgstr "Tak Ada Tanda Centang"
-
-#~ msgid "Tick Marks Above Slider"
-#~ msgstr "Tanda Centang di Atas Penggeser"
-
-#~ msgid "Tick Marks Below Slider"
-#~ msgstr "Tanda Centang di Bawah Penggeser"
-
-#~ msgid "Tick Marks On Both Sides"
-#~ msgstr "Tanda Centang di Kedua Sisi"
-
-#~ msgid "&Tab position:"
-#~ msgstr "&Posisi tab:"
-
-#~ msgid "North"
-#~ msgstr "Utara"
-
-#~ msgid "South"
-#~ msgstr "Selatan"
-
-#~ msgid "West"
-#~ msgstr "Barat"
-
-#~ msgid "East"
-#~ msgstr "Timur"
-
-#~ msgid "Document mode"
-#~ msgstr "Mode dokumen"
-
-#~ msgid "Show Corner Buttons"
-#~ msgstr "Tampilkan Pojok Tombol"
-
-#~ msgid "Show Tab Close Buttons"
-#~ msgstr "Tampilkan Tombol Tutup Tab"
-
-#~ msgid "Hide tabbar"
-#~ msgstr "Sembunyikan bilah tab"
-
-#~ msgid "Preview"
-#~ msgstr "Pratinjau"
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbenchmarkwidget.ui:29
+#, kde-format
+msgid "Modules"
+msgstr "Modul"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenbenchmarkwidget.ui:35
+#, kde-format
+msgid "Select below the modules for which you want to run the simulation:"
+msgstr ""
+"Pilih modul di bawah yang ingin anda gunakan untuk menjalankan simulasi:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbenchmarkwidget.ui:48
+#, kde-format
+msgid "Options"
+msgstr "Opsi"
+
+#. i18n: ectx: property (text), widget (QCheckBox, grabMouseCheckBox)
+#: ui/oxygenbenchmarkwidget.ui:54
+#, kde-format
+msgid "Grab mouse"
+msgstr "Ambil mouse"
+
+#. i18n: ectx: property (text), widget (QPushButton, runButton)
+#: ui/oxygenbenchmarkwidget.ui:82
+#, kde-format
+msgid "Run Simulation"
+msgstr "Jalankan Simulasi"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: ui/oxygenbuttondemowidget.ui:20
+#, kde-format
+msgid "Checkboxes"
+msgstr "Kotak Cek"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox)
+#: ui/oxygenbuttondemowidget.ui:28
+#, kde-format
+msgid "Off"
+msgstr "Padam"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
+#: ui/oxygenbuttondemowidget.ui:35
+#, kde-format
+msgid "Partial"
+msgstr "Parsial"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
+#: ui/oxygenbuttondemowidget.ui:45
+#, kde-format
+msgid "On"
+msgstr "Nyala"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: ui/oxygenbuttondemowidget.ui:73
+#, kde-format
+msgid "Radiobuttons"
+msgstr "Tombol Radio"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: ui/oxygenbuttondemowidget.ui:84
+#, kde-format
+msgid "F&irst Choice"
+msgstr "P&ilihan Pertama"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: ui/oxygenbuttondemowidget.ui:94
+#, kde-format
+msgid "Seco&nd Choice"
+msgstr "Piliha&n Kedua"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
+#: ui/oxygenbuttondemowidget.ui:101
+#, kde-format
+msgid "&Third Choice"
+msgstr "&Pilihan Ketiga"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbuttondemowidget.ui:126
+#, kde-format
+msgid "Pushbuttons"
+msgstr "Tombol Tekan"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: ui/oxygenbuttondemowidget.ui:132
+#, kde-format
+msgid "Text only:"
+msgstr "Hanya teks:"
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:142
+#, kde-format
+msgid "This is a normal, text only combo box"
+msgstr "Ini adalah kotak kombinasi normal, hanya teks"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:149
+#, kde-format
+msgid "Small"
+msgstr "Kecil"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:159
+#, kde-format
+msgid "Large"
+msgstr "Besar"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: ui/oxygenbuttondemowidget.ui:180
+#, kde-format
+msgid "Text and icon:"
+msgstr "Teks dan ikon:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
+#: ui/oxygenbuttondemowidget.ui:190
+#, kde-format
+msgid "Use flat buttons"
+msgstr "Gunakan tombol datar"
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
+#: ui/oxygenbuttondemowidget.ui:197
+#, kde-format
+msgid "This is a normal, text and icon combo box"
+msgstr "Ini adalah kotak kombinasi normal, teks dan ikon"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
+#: ui/oxygenbuttondemowidget.ui:204
+#, kde-format
+msgid "This is a normal, text only tool button"
+msgstr "Ini adalah tombol alat normal, hanya teks"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
+#: ui/oxygenbuttondemowidget.ui:214
+#, kde-format
+msgid "This is a normal, text and icon tool button"
+msgstr "Ini adalah tombol alat normal, teks dan ikon"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
+#: ui/oxygenbuttondemowidget.ui:224
+#, kde-format
+msgid "This is a normal, text only button"
+msgstr "Ini adalah tombol normal, hanya teks"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
+#: ui/oxygenbuttondemowidget.ui:234
+#, kde-format
+msgid "This is a normal, text only button with menu"
+msgstr "Ini adalah tombol dengan menu normal, hanya teks"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
+#: ui/oxygenbuttondemowidget.ui:244
+#, kde-format
+msgid "This is a normal, text and icon button"
+msgstr "Ini adalah tombol normal, teks dan ikon"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
+#: ui/oxygenbuttondemowidget.ui:254
+#, kde-format
+msgid "This is a normal, text and icon button with menu"
+msgstr "Ini adalah tombol dengan menu normal, teks dan ikon"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbuttondemowidget.ui:267
+#, kde-format
+msgid "Toolbuttons"
+msgstr "Tombol alat"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
+#: ui/oxygenbuttondemowidget.ui:335 ui/oxygenbuttondemowidget.ui:348
+#: ui/oxygenbuttondemowidget.ui:361
+#, kde-format
+msgid "Flat"
+msgstr "Datar"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
+#: ui/oxygenbuttondemowidget.ui:374
+#, kde-format
+msgid "Up Arrow"
+msgstr "Panah Atas"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
+#: ui/oxygenbuttondemowidget.ui:384
+#, kde-format
+msgid "Down Arrow"
+msgstr "Panah Bawah"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
+#: ui/oxygenbuttondemowidget.ui:397
+#, kde-format
+msgid "Left Arrow"
+msgstr "Panah Kiri"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
+#: ui/oxygenbuttondemowidget.ui:407
+#, kde-format
+msgid "Right Arrow"
+msgstr "Panah Kanan"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
+#, kde-format
+msgid "Te&xt position:"
+msgstr "Posisi te&ks:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:434 ui/oxygentabdemowidget.ui:95
+#, kde-format
+msgid "Icons Only"
+msgstr "Hanya Ikon"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
+#, kde-format
+msgid "Text Only"
+msgstr "Hanya Teks"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
+#, kde-format
+msgid "Text Alongside Icons"
+msgstr "Teks di Samping Ikon"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#: ui/oxygenbuttondemowidget.ui:449
+#, kde-format
+msgid "Text Under Icons"
+msgstr "Teks di Bawah Ikon"
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: ui/oxygenbuttondemowidget.ui:470
+#, kde-format
+msgid "Icon si&ze:"
+msgstr "Ukuran Ik&on:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:484
+#, kde-format
+msgid "Small (16x16)"
+msgstr "Kecil (16x16)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:489
+#, kde-format
+msgid "Medium (22x22)"
+msgstr "Sedang (22x22)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:494
+#, kde-format
+msgid "Large (32x32)"
+msgstr "Besar (32x32)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:499
+#, kde-format
+msgid "Huge (48x48)"
+msgstr "Besar Banget (48x48)"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenframedemowidget.ui:31
+#, kde-format
+msgid "&Layout direction:"
+msgstr "&Arah tata letak:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:45
+#, kde-format
+msgid "Left to Right"
+msgstr "Kiri ke Kanan"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:50
+#, kde-format
+msgid "Right to Left"
+msgstr "Kanan ke Kiri"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:55
+#, kde-format
+msgid "Top to Bottom"
+msgstr "Atas ke Bawah"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:60
+#, kde-format
+msgid "Bottom to Top"
+msgstr "Bawah ke Atas"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenframedemowidget.ui:94
+#, kde-format
+msgid "Frame"
+msgstr "Bingkai"
+
+#. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:104
+#, kde-format
+msgid "&Raised"
+msgstr "Di&naikkan"
+
+#. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:117
+#, kde-format
+msgctxt "Flat frame. No frame is actually drawn."
+msgid "&Flat"
+msgstr "Da&tar"
+
+#. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:124
+#, kde-format
+msgid "S&unken"
+msgstr "T&enggelam"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenframedemowidget.ui:147
+#, kde-format
+msgid "GroupBox"
+msgstr "Kotak Grup"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
+#: ui/oxygenframedemowidget.ui:153
+#, kde-format
+msgctxt "Flat group box. No frame is actually drawn"
+msgid "Flat"
+msgstr "Datar"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenframedemowidget.ui:180
+#, kde-format
+msgid "Tab Widget"
+msgstr "Widget Tab"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygeninputdemowidget.ui:29
+#, kde-format
+msgid "Single line text editor:"
+msgstr "Penyunting teks baris tunggal:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygeninputdemowidget.ui:65
+#, kde-format
+msgid "Password editor:"
+msgstr "Penyunting sandi:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygeninputdemowidget.ui:88
+#, kde-format
+msgid "Editable combobox"
+msgstr "Kotak kombo dapat diedit"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:105
+#, kde-format
+msgid "First item"
+msgstr "Item pertama"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:110
+#, kde-format
+msgid "Second item"
+msgstr "Item kedua"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:115
+#, kde-format
+msgid "Third item"
+msgstr "Item ketiga"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygeninputdemowidget.ui:123
+#, kde-format
+msgid "Spinbox:"
+msgstr "Kotak putar:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygeninputdemowidget.ui:146
+#, kde-format
+msgid "Multi-line text editor:"
+msgstr "Penyunting teks banyak baris:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
+#: ui/oxygeninputdemowidget.ui:153
+#, kde-format
+msgid "Wrap words"
+msgstr "Kemaskan kata"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
+#: ui/oxygeninputdemowidget.ui:160
+#, kde-format
+msgid "Use flat widgets"
+msgstr "Gunakan widget datar"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:40 ui/oxygenlistdemowidget.ui:119
+#, kde-format
+msgid "First Item"
+msgstr "Item Pertama"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:48 ui/oxygenlistdemowidget.ui:95
+#, kde-format
+msgid "Second Item"
+msgstr "Item Kedua"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:56 ui/oxygenlistdemowidget.ui:79
+#, kde-format
+msgid "Third Item"
+msgstr "Item Ketiga"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:69
+#, kde-format
+msgid "Title"
+msgstr "Judul"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:74
+#, kde-format
+msgid "Description"
+msgstr "Deskripsi"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:82
+#, kde-format
+msgid "Third Description"
+msgstr "Deskripsi Ketiga"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:86
+#, kde-format
+msgid "Third Subitem"
+msgstr "Subitem Ketiga"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:89
+#, kde-format
+msgid "Third Subitem Description"
+msgstr "Deskripsi Subitem Ketiga"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:98
+#, kde-format
+msgid "Second Description"
+msgstr "Deskripsi Suara"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:102
+#, kde-format
+msgid "Second Subitem"
+msgstr "Subitem Kedua"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:105
+#, kde-format
+msgid "Second Subitem Description"
+msgstr "Deskripsi Subitem Kedua"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:110
+#, kde-format
+msgid "First Subitem"
+msgstr "Subitem Pertama"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:113
+#, kde-format
+msgid "First Subitem Description"
+msgstr "Deskripsi Subitem Pertama"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:122
+#, kde-format
+msgid "First Description"
+msgstr "Deskripsi Pertama"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:132
+#, kde-format
+msgid "New Row"
+msgstr "Baris Baru"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:137
+#, kde-format
+msgid "First Row"
+msgstr "Baris Pertama"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:142
+#, kde-format
+msgid "Third Row"
+msgstr "Baris Ketiga"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:147
+#, kde-format
+msgid "First Column"
+msgstr "Kolom Pertama"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:152
+#, kde-format
+msgid "Second Column"
+msgstr "Kolom Kedua"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:157
+#, kde-format
+msgid "Third Column"
+msgstr "Kolom Ketiga"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:162
+#, kde-format
+msgid "Top-left"
+msgstr "Kiri-atas"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:167
+#, kde-format
+msgid "Top"
+msgstr "Atas"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:172
+#, kde-format
+msgid "Top-right"
+msgstr "Kanan-atas"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:177
+#, kde-format
+msgid "Left "
+msgstr "Kiri "
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:182
+#, kde-format
+msgid "Center"
+msgstr "Tengah"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:187
+#, kde-format
+msgid "Right"
+msgstr "Kanan"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:192
+#, kde-format
+msgid "Bottom-left"
+msgstr "Kiri-bawah"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:197
+#, kde-format
+msgid "Bottom"
+msgstr "Bawah"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:202
+#, kde-format
+msgid "Bottom-right"
+msgstr "Kanan-bawah"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Editors)
+#: ui/oxygenmdidemowidget.ui:45
+#, kde-format
+msgid "Editors"
+msgstr "Pengedit"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenmdidemowidget.ui:51
+#, kde-format
+msgid "Title:"
+msgstr "Judul:"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Toolbox)
+#: ui/oxygenmdidemowidget.ui:78
+#, kde-format
+msgid "Toolbox"
+msgstr "Perkakas"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page)
+#: ui/oxygenmdidemowidget.ui:96
+#, kde-format
+msgid "First Page"
+msgstr "Halaman Pertama"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_2)
+#: ui/oxygenmdidemowidget.ui:110
+#, kde-format
+msgid "Second Page"
+msgstr "Halaman Kedua"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenmdidemowidget.ui:116
+#, kde-format
+msgid "First Label"
+msgstr "Label Pertama"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenmdidemowidget.ui:123
+#, kde-format
+msgid "Second Label"
+msgstr "Label Kedua"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_3)
+#: ui/oxygenmdidemowidget.ui:152
+#, kde-format
+msgid "Third Page"
+msgstr "Halaman Ketiga"
+
+#. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:29
+#, kde-format
+msgid "Animate Progress Bars"
+msgstr "Animasikan Bilah Progres"
+
+#. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:36
+#, kde-format
+msgid "Invert Progress Bars"
+msgstr "Kebalikan Bilah Progres"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygensliderdemowidget.ui:43
+#, kde-format
+msgid "Horizontal"
+msgstr "Mendatar"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygensliderdemowidget.ui:120
+#, kde-format
+msgid "Vertical"
+msgstr "Tegak"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygensliderdemowidget.ui:167
+#, kde-format
+msgid "Sliders tick marks position"
+msgstr "Penggeser posisi tanda centang"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:178
+#, kde-format
+msgid "No Tick Marks"
+msgstr "Tak Ada Tanda Centang"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:183
+#, kde-format
+msgid "Tick Marks Above Slider"
+msgstr "Tanda Centang di Atas Penggeser"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:188
+#, kde-format
+msgid "Tick Marks Below Slider"
+msgstr "Tanda Centang di Bawah Penggeser"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:193
+#, kde-format
+msgid "Tick Marks On Both Sides"
+msgstr "Tanda Centang di Kedua Sisi"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygentabdemowidget.ui:31
+#, kde-format
+msgid "&Tab position:"
+msgstr "&Posisi tab:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:45
+#, kde-format
+msgid "North"
+msgstr "Utara"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:50
+#, kde-format
+msgid "South"
+msgstr "Selatan"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:55
+#, kde-format
+msgid "West"
+msgstr "Barat"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:60
+#, kde-format
+msgid "East"
+msgstr "Timur"
+
+#. i18n: ectx: property (text), widget (QCheckBox, documentModeCheckBox)
+#: ui/oxygentabdemowidget.ui:115
+#, kde-format
+msgid "Document mode"
+msgstr "Mode dokumen"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
+#: ui/oxygentabdemowidget.ui:122
+#, kde-format
+msgid "Show Corner Buttons"
+msgstr "Tampilkan Pojok Tombol"
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
+#: ui/oxygentabdemowidget.ui:129
+#, kde-format
+msgid "Show Tab Close Buttons"
+msgstr "Tampilkan Tombol Tutup Tab"
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
+#: ui/oxygentabdemowidget.ui:136
+#, kde-format
+msgid "Hide tabbar"
+msgstr "Sembunyikan bilah tab"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygentabdemowidget.ui:143
+#, kde-format
+msgid "Preview"
+msgstr "Pratinjau"
 
 #~ msgid "&Color Theme"
 #~ msgstr "Tema &Warna"

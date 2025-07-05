@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:54+0000\n"
 "PO-Revision-Date: 2019-10-30 23:35+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -127,122 +127,258 @@ msgstr "Edenemisriba hõivatuse indikaator"
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Edenemisribade hõivatuse indikaatori animatsiooni seadistamine"
 
-#~ msgid "Frame"
-#~ msgstr "Raam"
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Raam"
 
-#~ msgid "Animation type:"
-#~ msgstr "Animatsiooni tüüp:"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Animatsiooni tüüp:"
 
-#~ msgid "Fade"
-#~ msgstr "Hääbumine"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Hääbumine"
 
-#~ msgid "Follow Mouse"
-#~ msgstr "Hiire järgimine"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Hiire järgimine"
 
-#~ msgid "Fade duration:"
-#~ msgstr "Hääbumise kestus:"
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Hääbumise kestus:"
 
-#~ msgid "Follow mouse duration:"
-#~ msgstr "Hiire järgimise kestus:"
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Hiire järgimise kestus:"
 
-#~ msgid " ms"
-#~ msgstr " ms"
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " ms"
 
-#~ msgid "Dialog"
-#~ msgstr "Dialoog"
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dialoog"
 
-#~ msgid "General"
-#~ msgstr "Üldine"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Üldine"
 
-#~ msgid "Drag windows from titlebar only"
-#~ msgstr "Akende lohistamine ainult tiitliribast"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Akende lohistamine ainult tiitliribast"
 
-#~ msgid "Drag windows from titlebar, menubar and toolbars"
-#~ msgstr "Akende lohistamine tiitli-, menüü- ja tööriistaribadest"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Akende lohistamine tiitli-, menüü- ja tööriistaribadest"
 
-#~ msgid "Drag windows from all empty areas"
-#~ msgstr "Akende lohistamine kõigist tühjadest aladest"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Akende lohistamine kõigist tühjadest aladest"
 
-#~ msgid "Keyboard accelerators visibility:"
-#~ msgstr "Kiirklahvide näitamine:"
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Kiirklahvide näitamine:"
 
-#~ msgid "Windows' &drag mode:"
-#~ msgstr "Aken&de lohistamise režiim:"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
 
-#~ msgid "Draw toolbar item separators"
-#~ msgstr "Tööriistariba elementide eraldajate näitamine"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
 
-#~ msgid "Enable extended resize handles"
-#~ msgstr "Laiendatud suuruse muutmine pidemete lubamine"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
 
-#~ msgid "Draw window background gradient"
-#~ msgstr "Akna tausta ülemineku kujutamine"
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Aken&de lohistamise režiim:"
 
-#~ msgid "Animations"
-#~ msgstr "Animatsioonid"
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Tööriistariba elementide eraldajate näitamine"
 
-#~ msgid "Views"
-#~ msgstr "Vaated"
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Laiendatud suuruse muutmine pidemete lubamine"
 
-#~ msgid "Draw tree branch lines"
-#~ msgstr "Puuharude näitamine"
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Akna tausta ülemineku kujutamine"
 
-#~ msgid "&Tree expander size:"
-#~ msgstr "&Puulaiendaja suurus:"
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animatsioonid"
 
-#~ msgctxt "triangle size"
-#~ msgid "Tiny"
-#~ msgstr "Tilluke"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Vaated"
 
-#~ msgctxt "triangle size"
-#~ msgid "Small"
-#~ msgstr "Väike"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Puuharude näitamine"
 
-#~ msgctxt "triangle size"
-#~ msgid "Normal"
-#~ msgstr "Normaalne"
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "&Puulaiendaja suurus:"
 
-#~ msgid "Draw focus indicator in lists"
-#~ msgstr "Fookuse indikaatori näitamine loendites"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Tilluke"
 
-#~ msgid "Scrollbars"
-#~ msgstr "Kerimisribad"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Väike"
 
-#~ msgid "Scrollbar wi&dth:"
-#~ msgstr "Kerimisri&ba laius:"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normaalne"
 
-#~ msgid "px"
-#~ msgstr "px"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Fookuse indikaatori näitamine loendites"
 
-#~ msgid "Top arrow button type:"
-#~ msgstr "Noolega üles nupu tüüp:"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Kerimisribad"
 
-#~ msgid "Bottom arrow button type:"
-#~ msgstr "Noolega alla nupu tüüp:"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Kerimisri&ba laius:"
 
-#~ msgid "No buttons"
-#~ msgstr "Nuppudeta"
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
 
-#~ msgid "One button"
-#~ msgstr "Üks nupp"
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Noolega üles nupu tüüp:"
 
-#~ msgid "Two buttons"
-#~ msgstr "Kaks nuppu"
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Noolega alla nupu tüüp:"
 
-#~ msgid "No button"
-#~ msgstr "Nupp puudub"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Nuppudeta"
 
-#~ msgid "Menu Highlight"
-#~ msgstr "Menüü esiletõstmine"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Üks nupp"
 
-#~ msgid "Use dar&k color"
-#~ msgstr "Tumeda värvi &kasutamine"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Kaks nuppu"
 
-#~ msgid "&Use selection color (plain)"
-#~ msgstr "Valik&u värvi (puhas) kasutamine"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Nupp puudub"
 
-#~ msgid "Use selec&tion color (subtle)"
-#~ msgstr "Valiku värvi (õrn) kasu&tamine"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Menüü esiletõstmine"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Tumeda värvi &kasutamine"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Valik&u värvi (puhas) kasutamine"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Valiku värvi (õrn) kasu&tamine"
 
 #~ msgid "Always Hide Keyboard Accelerators"
 #~ msgstr "Kiirklahvid peidetakse alati"

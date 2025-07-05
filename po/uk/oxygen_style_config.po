@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:54+0000\n"
 "PO-Revision-Date: 2022-02-07 09:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -133,132 +133,259 @@ msgstr "Індикатор зайнятості смужки поступу"
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Налаштувати анімацію індикатора зайнятості панелі поступу"
 
-#~ msgid "Frame"
-#~ msgstr "Рамка"
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Рамка"
 
-#~ msgid "Animation type:"
-#~ msgstr "Тип анімації:"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Тип анімації:"
 
-#~ msgid "Fade"
-#~ msgstr "Згасання"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Згасання"
 
-#~ msgid "Follow Mouse"
-#~ msgstr "Слідування за мишею"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Слідування за мишею"
 
-#~ msgid "Fade duration:"
-#~ msgstr "Тривалість переходу:"
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Тривалість переходу:"
 
-#~ msgid "Follow mouse duration:"
-#~ msgstr "Тривалість слідування за мишею:"
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Тривалість слідування за мишею:"
 
-#~ msgid " ms"
-#~ msgstr " мс"
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, kde-format
+msgid " ms"
+msgstr " мс"
 
-#~ msgid "Dialog"
-#~ msgstr "Діалогове вікно"
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Діалогове вікно"
 
-#~ msgid "General"
-#~ msgstr "Загальне"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Загальне"
 
-#~ msgid "Drag windows from titlebar only"
-#~ msgstr "Перетягувати вікна лише за смужку заголовка"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Перетягувати вікна лише за смужку заголовка"
 
-#~ msgid "Drag windows from titlebar, menubar and toolbars"
-#~ msgstr ""
-#~ "Перетягувати вікна за смужку заголовка, смужку меню і панелі інструментів."
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr ""
+"Перетягувати вікна за смужку заголовка, смужку меню і панелі інструментів."
 
-#~ msgid "Drag windows from all empty areas"
-#~ msgstr "Перетягувати вікна за будь-яку з порожніх областей"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Перетягувати вікна за будь-яку з порожніх областей"
 
-#~ msgid "Keyboard accelerators visibility:"
-#~ msgstr "Видимість клавіатурних акселераторів:"
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Видимість клавіатурних акселераторів:"
 
-#~ msgid "Always hide"
-#~ msgstr "Завжди ховати"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr "Завжди ховати"
 
-#~ msgid "Show when Alt key is pressed"
-#~ msgstr "Показувати, коли натиснуто клавішу Alt"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr "Показувати, коли натиснуто клавішу Alt"
 
-#~ msgid "Always show"
-#~ msgstr "Завжди показувати"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr "Завжди показувати"
 
-#~ msgid "Windows' &drag mode:"
-#~ msgstr "Режим п&еретягування вікон:"
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Режим п&еретягування вікон:"
 
-#~ msgid "Draw toolbar item separators"
-#~ msgstr "Показувати роздільник елементів у пеналах"
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Показувати роздільник елементів у пеналах"
 
-#~ msgid "Enable extended resize handles"
-#~ msgstr "Увімкнути розширені елементи керування розміром"
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Увімкнути розширені елементи керування розміром"
 
-#~ msgid "Draw window background gradient"
-#~ msgstr "Малювати градієнт тла вікон"
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Малювати градієнт тла вікон"
 
-#~ msgid "Animations"
-#~ msgstr "Анімація"
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Анімація"
 
-#~ msgid "Views"
-#~ msgstr "Перегляди"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Перегляди"
 
-#~ msgid "Draw tree branch lines"
-#~ msgstr "Малювати лінії гілок дерева"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Малювати лінії гілок дерева"
 
-#~ msgid "&Tree expander size:"
-#~ msgstr "Розмір елемента роз&гортання:"
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, kde-format
+msgid "&Tree expander size:"
+msgstr "Розмір елемента роз&гортання:"
 
-#~ msgctxt "triangle size"
-#~ msgid "Tiny"
-#~ msgstr "Крихітний"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Крихітний"
 
-#~ msgctxt "triangle size"
-#~ msgid "Small"
-#~ msgstr "Малий"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Малий"
 
-#~ msgctxt "triangle size"
-#~ msgid "Normal"
-#~ msgstr "Звичайний"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Звичайний"
 
-#~ msgid "Draw focus indicator in lists"
-#~ msgstr "Малювати позначку фокусування у списках"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr "Малювати позначку фокусування у списках"
 
-#~ msgid "Scrollbars"
-#~ msgstr "Смужки гортання"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Смужки гортання"
 
-#~ msgid "Scrollbar wi&dth:"
-#~ msgstr "Ширина сму&жки гортання:"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Ширина сму&жки гортання:"
 
-#~ msgid "px"
-#~ msgstr "пк"
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "пк"
 
-#~ msgid "Top arrow button type:"
-#~ msgstr "Тип кнопки для верхньої стрілки:"
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Тип кнопки для верхньої стрілки:"
 
-#~ msgid "Bottom arrow button type:"
-#~ msgstr "Тип кнопки для нижньої стрілки:"
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Тип кнопки для нижньої стрілки:"
 
-#~ msgid "No buttons"
-#~ msgstr "Без кнопок"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Без кнопок"
 
-#~ msgid "One button"
-#~ msgstr "Одна кнопка"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Одна кнопка"
 
-#~ msgid "Two buttons"
-#~ msgstr "Дві кнопки"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Дві кнопки"
 
-#~ msgid "No button"
-#~ msgstr "Без кнопок"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Без кнопок"
 
-#~ msgid "Menu Highlight"
-#~ msgstr "Підсвічування меню"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Підсвічування меню"
 
-#~ msgid "Use dar&k color"
-#~ msgstr "Використовувати &темний колір"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "Використовувати &темний колір"
 
-#~ msgid "&Use selection color (plain)"
-#~ msgstr "Ви&користовувати колір вибору (звичайний)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Ви&користовувати колір вибору (звичайний)"
 
-#~ msgid "Use selec&tion color (subtle)"
-#~ msgstr "Використовувати ко&лір вибору (відтінок)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Використовувати ко&лір вибору (відтінок)"
 
 #~ msgid "Always Hide Keyboard Accelerators"
 #~ msgstr "Завжди ховати клавіатурні акселератори"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:54+0000\n"
 "PO-Revision-Date: 2015-02-15 14:46+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -157,127 +157,264 @@ msgstr "Indikator zauzetosti progresne trake"
 msgid "Configure progress bars' busy indicator animation"
 msgstr "Podesite animaciju pokazatelja zauzetosti u traci napretka."
 
-#~ msgid "Frame"
-#~ msgstr "Okvir"
+#. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:20
+#, kde-format
+msgid "Frame"
+msgstr "Okvir"
 
-#~ msgid "Animation type:"
-#~ msgstr "Tip animacije:"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:32
+#, kde-format
+msgid "Animation type:"
+msgstr "Tip animacije:"
 
-#~ msgid "Fade"
-#~ msgstr "Pretapanje"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:46
+#, kde-format
+msgid "Fade"
+msgstr "Pretapanje"
 
-#~ msgid "Follow Mouse"
-#~ msgstr "Praćenje miša"
+#. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:51
+#, kde-format
+msgid "Follow Mouse"
+msgstr "Praćenje miša"
 
-#~ msgid "Fade duration:"
-#~ msgstr "Trajanje pretapanja:"
+#. i18n: ectx: property (text), widget (QLabel, durationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:59
+#, kde-format
+msgid "Fade duration:"
+msgstr "Trajanje pretapanja:"
 
-#~ msgid "Follow mouse duration:"
-#~ msgstr "Trajanje praćenja miša:"
+#. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:72
+#, kde-format
+msgid "Follow mouse duration:"
+msgstr "Trajanje praćenja miša:"
 
-#, fuzzy
-#~| msgid "ms"
-#~ msgid " ms"
-#~ msgstr "ms"
+#. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
+#. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
+#: ui/oxygenfollowmouseanimationconfigbox.ui:98
+#: ui/oxygenfollowmouseanimationconfigbox.ui:114
+#, fuzzy, kde-format
+#| msgid "ms"
+msgid " ms"
+msgstr "ms"
 
-#~ msgid "Dialog"
-#~ msgstr "Dijalog"
+#. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
+#: ui/oxygenstyleconfig.ui:26
+#, kde-format
+msgid "Dialog"
+msgstr "Dijalog"
 
-#~ msgid "General"
-#~ msgstr "Opšte"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: ui/oxygenstyleconfig.ui:45
+#, kde-format
+msgid "General"
+msgstr "Opšte"
 
-#~ msgid "Drag windows from titlebar only"
-#~ msgstr "Samo preko naslovne trake"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:52
+#, kde-format
+msgid "Drag windows from titlebar only"
+msgstr "Samo preko naslovne trake"
 
-#~ msgid "Drag windows from titlebar, menubar and toolbars"
-#~ msgstr "Preko naslovne trake, trake menija i alatki"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:57
+#, kde-format
+msgid "Drag windows from titlebar, menubar and toolbars"
+msgstr "Preko naslovne trake, trake menija i alatki"
 
-#~ msgid "Drag windows from all empty areas"
-#~ msgstr "Preko svih praznih područja"
+#. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
+#: ui/oxygenstyleconfig.ui:62
+#, kde-format
+msgid "Drag windows from all empty areas"
+msgstr "Preko svih praznih područja"
 
-#~ msgid "Keyboard accelerators visibility:"
-#~ msgstr "Vidljivost akceleratora tastature:"
+#. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
+#: ui/oxygenstyleconfig.ui:70
+#, kde-format
+msgid "Keyboard accelerators visibility:"
+msgstr "Vidljivost akceleratora tastature:"
 
-#~ msgid "Windows' &drag mode:"
-#~ msgstr "Režim &prevlačenja prozora:"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:84
+#, kde-format
+msgid "Always hide"
+msgstr ""
 
-#~ msgid "Draw toolbar item separators"
-#~ msgstr "Razdvajači stavki na traci alatki"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:89
+#, kde-format
+msgid "Show when Alt key is pressed"
+msgstr ""
 
-#~ msgid "Enable extended resize handles"
-#~ msgstr "Omogući proširene tučke za promjenu širine"
+#. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
+#: ui/oxygenstyleconfig.ui:94
+#, kde-format
+msgid "Always show"
+msgstr ""
 
-#~ msgid "Draw window background gradient"
-#~ msgstr "Crtaj gradijent pozadine prozora"
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenstyleconfig.ui:108
+#, kde-format
+msgid "Windows' &drag mode:"
+msgstr "Režim &prevlačenja prozora:"
 
-#~ msgid "Animations"
-#~ msgstr "Animacije"
+#. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
+#: ui/oxygenstyleconfig.ui:134
+#, kde-format
+msgid "Draw toolbar item separators"
+msgstr "Razdvajači stavki na traci alatki"
 
-#~ msgid "Views"
-#~ msgstr "Prikazi"
+#. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
+#: ui/oxygenstyleconfig.ui:141
+#, kde-format
+msgid "Enable extended resize handles"
+msgstr "Omogući proširene tučke za promjenu širine"
+
+#. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
+#: ui/oxygenstyleconfig.ui:148
+#, kde-format
+msgid "Draw window background gradient"
+msgstr "Crtaj gradijent pozadine prozora"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenstyleconfig.ui:169
+#, kde-format
+msgid "Animations"
+msgstr "Animacije"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ui/oxygenstyleconfig.ui:179
+#, kde-format
+msgid "Views"
+msgstr "Prikazi"
 
 # skip-rule: linije
-#~ msgid "Draw tree branch lines"
-#~ msgstr "Linije grane stabla"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
+#: ui/oxygenstyleconfig.ui:185
+#, kde-format
+msgid "Draw tree branch lines"
+msgstr "Linije grane stabla"
 
-#, fuzzy
-#~| msgid "&Tree expander size"
-#~ msgid "&Tree expander size:"
-#~ msgstr "Veličina &proširenja stabla"
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenstyleconfig.ui:198
+#, fuzzy, kde-format
+#| msgid "&Tree expander size"
+msgid "&Tree expander size:"
+msgstr "Veličina &proširenja stabla"
 
 # >> @item:inlistbox Triangle size:
-#~ msgctxt "triangle size"
-#~ msgid "Tiny"
-#~ msgstr "Sićušan"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:209
+#, kde-format
+msgctxt "triangle size"
+msgid "Tiny"
+msgstr "Sićušan"
 
 # >> @item:inlistbox Triangle size:
-#~ msgctxt "triangle size"
-#~ msgid "Small"
-#~ msgstr "Mali"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:214
+#, kde-format
+msgctxt "triangle size"
+msgid "Small"
+msgstr "Mali"
 
 # >! Contexts.
-#~ msgctxt "triangle size"
-#~ msgid "Normal"
-#~ msgstr "Normalan"
+#. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
+#: ui/oxygenstyleconfig.ui:219
+#, kde-format
+msgctxt "triangle size"
+msgid "Normal"
+msgstr "Normalan"
 
-#~ msgid "Scrollbars"
-#~ msgstr "Klizačke trake"
+#. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
+#: ui/oxygenstyleconfig.ui:256
+#, kde-format
+msgid "Draw focus indicator in lists"
+msgstr ""
 
-#~ msgid "Scrollbar wi&dth:"
-#~ msgstr "Širina &klizne trake:"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: ui/oxygenstyleconfig.ui:264
+#, kde-format
+msgid "Scrollbars"
+msgstr "Klizačke trake"
 
-#~ msgid "px"
-#~ msgstr "px"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenstyleconfig.ui:272
+#, kde-format
+msgid "Scrollbar wi&dth:"
+msgstr "Širina &klizne trake:"
 
-#~ msgid "Top arrow button type:"
-#~ msgstr "Vrsta dugmeta s strelicom na vrh:"
+#. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
+#: ui/oxygenstyleconfig.ui:310
+#, kde-format
+msgid "px"
+msgstr "px"
 
-#~ msgid "Bottom arrow button type:"
-#~ msgstr "Vrsta dugmeta s strelicom na dno:"
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygenstyleconfig.ui:340
+#, kde-format
+msgid "Top arrow button type:"
+msgstr "Vrsta dugmeta s strelicom na vrh:"
 
-#~ msgid "No buttons"
-#~ msgstr "Bez dugmadi"
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ui/oxygenstyleconfig.ui:350
+#, kde-format
+msgid "Bottom arrow button type:"
+msgstr "Vrsta dugmeta s strelicom na dno:"
 
-#~ msgid "One button"
-#~ msgstr "Jedno dugme"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#: ui/oxygenstyleconfig.ui:361
+#, kde-format
+msgid "No buttons"
+msgstr "Bez dugmadi"
 
-#~ msgid "Two buttons"
-#~ msgstr "Dva dugmeta"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
+#, kde-format
+msgid "One button"
+msgstr "Jedno dugme"
 
-#~ msgid "No button"
-#~ msgstr "Nema dugmeta"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
+#, kde-format
+msgid "Two buttons"
+msgstr "Dva dugmeta"
 
-#~ msgid "Menu Highlight"
-#~ msgstr "Isticanje menija"
+#. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
+#: ui/oxygenstyleconfig.ui:393
+#, kde-format
+msgid "No button"
+msgstr "Nema dugmeta"
 
-#~ msgid "Use dar&k color"
-#~ msgstr "&Koristi tamnu boju"
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: ui/oxygenstyleconfig.ui:427
+#, kde-format
+msgid "Menu Highlight"
+msgstr "Isticanje menija"
 
-#~ msgid "&Use selection color (plain)"
-#~ msgstr "Koristi boj&u izbora (osnovna)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
+#: ui/oxygenstyleconfig.ui:433
+#, kde-format
+msgid "Use dar&k color"
+msgstr "&Koristi tamnu boju"
 
-#~ msgid "Use selec&tion color (subtle)"
-#~ msgstr "Koris&ti boju izbora (suptilna)"
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
+#: ui/oxygenstyleconfig.ui:440
+#, kde-format
+msgid "&Use selection color (plain)"
+msgstr "Koristi boj&u izbora (osnovna)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
+#: ui/oxygenstyleconfig.ui:447
+#, kde-format
+msgid "Use selec&tion color (subtle)"
+msgstr "Koris&ti boju izbora (suptilna)"
 
 #~ msgid "Always Hide Keyboard Accelerators"
 #~ msgstr "Uvijek sakrij akceleratore tastature"

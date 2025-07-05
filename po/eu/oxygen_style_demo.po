@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:54+0000\n"
 "PO-Revision-Date: 2019-11-02 09:32+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -28,7 +28,22 @@ msgstr ""
 msgid "Oxygen Demo"
 msgstr "Oxygen-en erakusgaia"
 
-#: oxygenbuttondemowidget.cpp:35
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_2)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_3)
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
+#: oxygenbuttondemowidget.cpp:35 ui/oxygenbuttondemowidget.ui:154
+#: ui/oxygenbuttondemowidget.ui:207 ui/oxygenbuttondemowidget.ui:217
+#: ui/oxygenbuttondemowidget.ui:227 ui/oxygenbuttondemowidget.ui:237
+#: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
+#: ui/oxygenbuttondemowidget.ui:285 ui/oxygenbuttondemowidget.ui:295
+#: ui/oxygenbuttondemowidget.ui:305
 #, kde-format
 msgid "Normal"
 msgstr "Arrunta"
@@ -209,370 +224,743 @@ msgstr "Hau lagin-testu bat da"
 msgid "Select the application widget style"
 msgstr "Hautatu aplikazioen trepeta-estiloa"
 
-#~ msgid "Modules"
-#~ msgstr "Moduluak"
-
-#~ msgid "Select below the modules for which you want to run the simulation:"
-#~ msgstr "Hautatu behean zer modulutarako exekutatu nahi duzun simulazioa:"
-
-#~ msgid "Options"
-#~ msgstr "Aukerak"
-
-#~ msgid "Grab mouse"
-#~ msgstr "Eutsi saguari"
-
-#~ msgid "Run Simulation"
-#~ msgstr "Exekutatu simulazioa"
-
-#~ msgid "Checkboxes"
-#~ msgstr "Kontrol-laukiak"
-
-#~ msgid "Off"
-#~ msgstr "Desaktibatuta"
-
-#~ msgid "Partial"
-#~ msgstr "Partziala"
-
-#~ msgid "On"
-#~ msgstr "Aktibatuta"
-
-#~ msgid "Radiobuttons"
-#~ msgstr "Aukera-botoiak"
-
-#~ msgid "F&irst Choice"
-#~ msgstr "&Lehen aukera"
-
-#~ msgid "Seco&nd Choice"
-#~ msgstr "&Bigarren aukera"
-
-#~ msgid "&Third Choice"
-#~ msgstr "&Hirugarren aukera"
-
-#~ msgid "Pushbuttons"
-#~ msgstr "Sakatzeko botoiak"
-
-#~ msgid "Text only:"
-#~ msgstr "Testua soilik:"
-
-#~ msgid "This is a normal, text only combo box"
-#~ msgstr "Testu hutseko konbinazio-koadro arrunta"
-
-#~ msgid "Small"
-#~ msgstr "Txikia"
-
-#~ msgid "Large"
-#~ msgstr "Handia"
-
-#~ msgid "Text and icon:"
-#~ msgstr "Testua eta ikonoa:"
-
-#~ msgid "Use flat buttons"
-#~ msgstr "Erabili botoi lauak"
-
-#~ msgid "This is a normal, text and icon combo box"
-#~ msgstr "Testu eta ikonodun konbinazio-koadro arrunta"
-
-#~ msgid "This is a normal, text only tool button"
-#~ msgstr "Testu hutseko tresna-botoi arrunta"
-
-#~ msgid "This is a normal, text and icon tool button"
-#~ msgstr "Testu eta ikonodun tresna-botoi arrunta"
-
-#~ msgid "This is a normal, text only button"
-#~ msgstr "Testu hutseko botoi arrunta"
-
-#~ msgid "This is a normal, text only button with menu"
-#~ msgstr "Testu hutseko botoi arrunta, menuarekin"
-
-#~ msgid "This is a normal, text and icon button"
-#~ msgstr "Testu eta ikonodun botoi arrunta"
-
-#~ msgid "This is a normal, text and icon button with menu"
-#~ msgstr "Testu eta ikonodun botoi arrunta, menuarekin"
-
-#~ msgid "Toolbuttons"
-#~ msgstr "Tresna-botoiak"
-
-#~ msgid "Flat"
-#~ msgstr "Laua"
-
-#~ msgid "Up Arrow"
-#~ msgstr "Gora gezia"
-
-#~ msgid "Down Arrow"
-#~ msgstr "Behera gezia"
-
-#~ msgid "Left Arrow"
-#~ msgstr "Ezkerrera gezia"
-
-#~ msgid "Right Arrow"
-#~ msgstr "Eskuinera gezia"
-
-#~ msgid "Te&xt position:"
-#~ msgstr "Te&stuaren kokalekua:"
-
-#~ msgid "Icons Only"
-#~ msgstr "Ikonoak soilik"
-
-#~ msgid "Text Only"
-#~ msgstr "Testua soilik"
-
-#~ msgid "Text Alongside Icons"
-#~ msgstr "Testua ikonoen alboan"
-
-#~ msgid "Text Under Icons"
-#~ msgstr "Testua ikonoen azpian"
-
-#~ msgid "Icon si&ze:"
-#~ msgstr "Ikonoen ne&urria:"
-
-#~ msgid "Small (16x16)"
-#~ msgstr "Txikia (16x16)"
-
-#~ msgid "Medium (22x22)"
-#~ msgstr "Ertaina (22x22)"
-
-#~ msgid "Large (32x32)"
-#~ msgstr "Handia (32x32)"
-
-#~ msgid "Huge (48x48)"
-#~ msgstr "Oso handia (48x48)"
-
-#~ msgid "&Layout direction:"
-#~ msgstr "Anto&lamenduaren noranzkoa:"
-
-#~ msgid "Left to Right"
-#~ msgstr "Ezkerretik eskuinera"
-
-#~ msgid "Right to Left"
-#~ msgstr "Eskuinetik ezkerrera"
-
-#~ msgid "Top to Bottom"
-#~ msgstr "Goitik behera"
-
-#~ msgid "Bottom to Top"
-#~ msgstr "Behetik gora"
-
-#~ msgid "Frame"
-#~ msgstr "Markoa"
-
-#~ msgid "&Raised"
-#~ msgstr "&Goratuta"
-
-#~ msgctxt "Flat frame. No frame is actually drawn."
-#~ msgid "&Flat"
-#~ msgstr "&Laua"
-
-#~ msgid "S&unken"
-#~ msgstr "&Hondoratuta"
-
-#~ msgid "GroupBox"
-#~ msgstr "Talde-koadroa"
-
-#~ msgctxt "Flat group box. No frame is actually drawn"
-#~ msgid "Flat"
-#~ msgstr "Laua"
-
-#~ msgid "Tab Widget"
-#~ msgstr "Fitxa-trepeta"
-
-#~ msgid "Single line text editor:"
-#~ msgstr "Lerro bakarreko testu-editorea:"
-
-#~ msgid "Password editor:"
-#~ msgstr "Pasahitz-editorea:"
-
-#~ msgid "Editable combobox"
-#~ msgstr "Konbinazio-koadro editagarria"
-
-#~ msgid "First item"
-#~ msgstr "Lehenengo elementua"
-
-#~ msgid "Second item"
-#~ msgstr "Bigarren elementua"
-
-#~ msgid "Third item"
-#~ msgstr "Hirugarren elementua"
-
-#~ msgid "Spinbox:"
-#~ msgstr "Biratze-botoia:"
-
-#~ msgid "Multi-line text editor:"
-#~ msgstr "Lerro askoko testu-editorea:"
-
-#~ msgid "Wrap words"
-#~ msgstr "Egokitu hitzak ertzean"
-
-#~ msgid "Use flat widgets"
-#~ msgstr "Erabili trepeta lauak"
-
-#~ msgid "First Item"
-#~ msgstr "Lehenengo elementua"
-
-#~ msgid "Second Item"
-#~ msgstr "Bigarren elementua"
-
-#~ msgid "Third Item"
-#~ msgstr "Hirugarren elementua"
-
-#~ msgid "Title"
-#~ msgstr "Titulua"
-
-#~ msgid "Description"
-#~ msgstr "Deskribapena"
-
-#~ msgid "Third Description"
-#~ msgstr "Hirugarren deskribapena"
-
-#~ msgid "Third Subitem"
-#~ msgstr "Hirugarren azpielementua"
-
-#~ msgid "Third Subitem Description"
-#~ msgstr "Hirugarren azpielementuaren azalpena"
-
-#~ msgid "Second Description"
-#~ msgstr "Bigarren azalpena"
-
-#~ msgid "Second Subitem"
-#~ msgstr "Bigarren azpielementua"
-
-#~ msgid "Second Subitem Description"
-#~ msgstr "Bigarren azpielementuaren azalpena"
-
-#~ msgid "First Subitem"
-#~ msgstr "Lehenengo azpielementua"
-
-#~ msgid "First Subitem Description"
-#~ msgstr "Lehenengo azpielementuaren azalpena"
-
-#~ msgid "First Description"
-#~ msgstr "Lehenengo deskribapena"
-
-#~ msgid "New Row"
-#~ msgstr "Errenkada berria"
-
-#~ msgid "First Row"
-#~ msgstr "Lehen errenkada"
-
-#~ msgid "Third Row"
-#~ msgstr "Hirugarren errenkada"
-
-#~ msgid "First Column"
-#~ msgstr "Lehen zutabea"
-
-#~ msgid "Second Column"
-#~ msgstr "Bigarren zutabea"
-
-#~ msgid "Third Column"
-#~ msgstr "Hirugarren zutabea"
-
-#~ msgid "Top-left"
-#~ msgstr "Goian ezkerrean"
-
-#~ msgid "Top"
-#~ msgstr "Goian"
-
-#~ msgid "Top-right"
-#~ msgstr "Goian eskuinean"
-
-#~ msgid "Left "
-#~ msgstr "Ezkerrean"
-
-#~ msgid "Center"
-#~ msgstr "Erdian"
-
-#~ msgid "Right"
-#~ msgstr "Eskuinean"
-
-#~ msgid "Bottom-left"
-#~ msgstr "Behean ezkerrean"
-
-#~ msgid "Bottom"
-#~ msgstr "Behean"
-
-#~ msgid "Bottom-right"
-#~ msgstr "Behean eskuinean"
-
-#~ msgid "Editors"
-#~ msgstr "Editoreak"
-
-#~ msgid "Title:"
-#~ msgstr "Titulua:"
-
-#~ msgid "Toolbox"
-#~ msgstr "Tresna-koadroa"
-
-#~ msgid "First Page"
-#~ msgstr "Lehen orria"
-
-#~ msgid "Second Page"
-#~ msgstr "Bigarren orria"
-
-#~ msgid "First Label"
-#~ msgstr "Lehenengo etiketa"
-
-#~ msgid "Second Label"
-#~ msgstr "Bigarren etiketa"
-
-#~ msgid "Third Page"
-#~ msgstr "Hirugarren orria"
-
-#~ msgid "Animate Progress Bars"
-#~ msgstr "Animatu aurrerapen-barrak"
-
-#~ msgid "Invert Progress Bars"
-#~ msgstr "Alderantzikatu aurrerapen-barrak"
-
-#~ msgid "Horizontal"
-#~ msgstr "Horizontala"
-
-#~ msgid "Vertical"
-#~ msgstr "Bertikala"
-
-#~ msgid "Sliders tick marks position"
-#~ msgstr "Graduatzaileen tik marken kokalekua"
-
-#~ msgid "No Tick Marks"
-#~ msgstr "Tik markarik ez"
-
-#~ msgid "Tick Marks Above Slider"
-#~ msgstr "Tik markak graduatzailearen gainean"
-
-#~ msgid "Tick Marks Below Slider"
-#~ msgstr "Tik markak graduatzailearen azpian"
-
-#~ msgid "Tick Marks On Both Sides"
-#~ msgstr "Tik markak bi aldeetan"
-
-#~ msgid "&Tab position:"
-#~ msgstr "&Fitxen kokalekua:"
-
-#~ msgid "North"
-#~ msgstr "Iparraldea"
-
-#~ msgid "South"
-#~ msgstr "Hegoaldea"
-
-#~ msgid "West"
-#~ msgstr "Mendebaldea"
-
-#~ msgid "East"
-#~ msgstr "Ekialdea"
-
-#~ msgid "Document mode"
-#~ msgstr "Dokumentu modua"
-
-#~ msgid "Show Corner Buttons"
-#~ msgstr "Erakutsi izkinako botoiak"
-
-#~ msgid "Show Tab Close Buttons"
-#~ msgstr "Erakutsi fitxak ixteko botoiak"
-
-#~ msgid "Hide tabbar"
-#~ msgstr "Ezkutatu fitxa-barra"
-
-#~ msgid "Preview"
-#~ msgstr "Aurrebista"
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbenchmarkwidget.ui:29
+#, kde-format
+msgid "Modules"
+msgstr "Moduluak"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenbenchmarkwidget.ui:35
+#, kde-format
+msgid "Select below the modules for which you want to run the simulation:"
+msgstr "Hautatu behean zer modulutarako exekutatu nahi duzun simulazioa:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbenchmarkwidget.ui:48
+#, kde-format
+msgid "Options"
+msgstr "Aukerak"
+
+#. i18n: ectx: property (text), widget (QCheckBox, grabMouseCheckBox)
+#: ui/oxygenbenchmarkwidget.ui:54
+#, kde-format
+msgid "Grab mouse"
+msgstr "Eutsi saguari"
+
+#. i18n: ectx: property (text), widget (QPushButton, runButton)
+#: ui/oxygenbenchmarkwidget.ui:82
+#, kde-format
+msgid "Run Simulation"
+msgstr "Exekutatu simulazioa"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: ui/oxygenbuttondemowidget.ui:20
+#, kde-format
+msgid "Checkboxes"
+msgstr "Kontrol-laukiak"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox)
+#: ui/oxygenbuttondemowidget.ui:28
+#, kde-format
+msgid "Off"
+msgstr "Desaktibatuta"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
+#: ui/oxygenbuttondemowidget.ui:35
+#, kde-format
+msgid "Partial"
+msgstr "Partziala"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
+#: ui/oxygenbuttondemowidget.ui:45
+#, kde-format
+msgid "On"
+msgstr "Aktibatuta"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: ui/oxygenbuttondemowidget.ui:73
+#, kde-format
+msgid "Radiobuttons"
+msgstr "Aukera-botoiak"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: ui/oxygenbuttondemowidget.ui:84
+#, kde-format
+msgid "F&irst Choice"
+msgstr "&Lehen aukera"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: ui/oxygenbuttondemowidget.ui:94
+#, kde-format
+msgid "Seco&nd Choice"
+msgstr "&Bigarren aukera"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
+#: ui/oxygenbuttondemowidget.ui:101
+#, kde-format
+msgid "&Third Choice"
+msgstr "&Hirugarren aukera"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenbuttondemowidget.ui:126
+#, kde-format
+msgid "Pushbuttons"
+msgstr "Sakatzeko botoiak"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: ui/oxygenbuttondemowidget.ui:132
+#, kde-format
+msgid "Text only:"
+msgstr "Testua soilik:"
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:142
+#, kde-format
+msgid "This is a normal, text only combo box"
+msgstr "Testu hutseko konbinazio-koadro arrunta"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:149
+#, kde-format
+msgid "Small"
+msgstr "Txikia"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygenbuttondemowidget.ui:159
+#, kde-format
+msgid "Large"
+msgstr "Handia"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: ui/oxygenbuttondemowidget.ui:180
+#, kde-format
+msgid "Text and icon:"
+msgstr "Testua eta ikonoa:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
+#: ui/oxygenbuttondemowidget.ui:190
+#, kde-format
+msgid "Use flat buttons"
+msgstr "Erabili botoi lauak"
+
+#. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
+#: ui/oxygenbuttondemowidget.ui:197
+#, kde-format
+msgid "This is a normal, text and icon combo box"
+msgstr "Testu eta ikonodun konbinazio-koadro arrunta"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
+#: ui/oxygenbuttondemowidget.ui:204
+#, kde-format
+msgid "This is a normal, text only tool button"
+msgstr "Testu hutseko tresna-botoi arrunta"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
+#: ui/oxygenbuttondemowidget.ui:214
+#, kde-format
+msgid "This is a normal, text and icon tool button"
+msgstr "Testu eta ikonodun tresna-botoi arrunta"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
+#: ui/oxygenbuttondemowidget.ui:224
+#, kde-format
+msgid "This is a normal, text only button"
+msgstr "Testu hutseko botoi arrunta"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
+#: ui/oxygenbuttondemowidget.ui:234
+#, kde-format
+msgid "This is a normal, text only button with menu"
+msgstr "Testu hutseko botoi arrunta, menuarekin"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
+#: ui/oxygenbuttondemowidget.ui:244
+#, kde-format
+msgid "This is a normal, text and icon button"
+msgstr "Testu eta ikonodun botoi arrunta"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
+#: ui/oxygenbuttondemowidget.ui:254
+#, kde-format
+msgid "This is a normal, text and icon button with menu"
+msgstr "Testu eta ikonodun botoi arrunta, menuarekin"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygenbuttondemowidget.ui:267
+#, kde-format
+msgid "Toolbuttons"
+msgstr "Tresna-botoiak"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
+#: ui/oxygenbuttondemowidget.ui:335 ui/oxygenbuttondemowidget.ui:348
+#: ui/oxygenbuttondemowidget.ui:361
+#, kde-format
+msgid "Flat"
+msgstr "Laua"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
+#: ui/oxygenbuttondemowidget.ui:374
+#, kde-format
+msgid "Up Arrow"
+msgstr "Gora gezia"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
+#: ui/oxygenbuttondemowidget.ui:384
+#, kde-format
+msgid "Down Arrow"
+msgstr "Behera gezia"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
+#: ui/oxygenbuttondemowidget.ui:397
+#, kde-format
+msgid "Left Arrow"
+msgstr "Ezkerrera gezia"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
+#: ui/oxygenbuttondemowidget.ui:407
+#, kde-format
+msgid "Right Arrow"
+msgstr "Eskuinera gezia"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
+#, kde-format
+msgid "Te&xt position:"
+msgstr "Te&stuaren kokalekua:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:434 ui/oxygentabdemowidget.ui:95
+#, kde-format
+msgid "Icons Only"
+msgstr "Ikonoak soilik"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
+#, kde-format
+msgid "Text Only"
+msgstr "Testua soilik"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
+#: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
+#, kde-format
+msgid "Text Alongside Icons"
+msgstr "Testua ikonoen alboan"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
+#: ui/oxygenbuttondemowidget.ui:449
+#, kde-format
+msgid "Text Under Icons"
+msgstr "Testua ikonoen azpian"
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: ui/oxygenbuttondemowidget.ui:470
+#, kde-format
+msgid "Icon si&ze:"
+msgstr "Ikonoen ne&urria:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:484
+#, kde-format
+msgid "Small (16x16)"
+msgstr "Txikia (16x16)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:489
+#, kde-format
+msgid "Medium (22x22)"
+msgstr "Ertaina (22x22)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:494
+#, kde-format
+msgid "Large (32x32)"
+msgstr "Handia (32x32)"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
+#: ui/oxygenbuttondemowidget.ui:499
+#, kde-format
+msgid "Huge (48x48)"
+msgstr "Oso handia (48x48)"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenframedemowidget.ui:31
+#, kde-format
+msgid "&Layout direction:"
+msgstr "Anto&lamenduaren noranzkoa:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:45
+#, kde-format
+msgid "Left to Right"
+msgstr "Ezkerretik eskuinera"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:50
+#, kde-format
+msgid "Right to Left"
+msgstr "Eskuinetik ezkerrera"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:55
+#, kde-format
+msgid "Top to Bottom"
+msgstr "Goitik behera"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
+#: ui/oxygenframedemowidget.ui:60
+#, kde-format
+msgid "Bottom to Top"
+msgstr "Behetik gora"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenframedemowidget.ui:94
+#, kde-format
+msgid "Frame"
+msgstr "Markoa"
+
+#. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:104
+#, kde-format
+msgid "&Raised"
+msgstr "&Goratuta"
+
+#. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:117
+#, kde-format
+msgctxt "Flat frame. No frame is actually drawn."
+msgid "&Flat"
+msgstr "&Laua"
+
+#. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
+#: ui/oxygenframedemowidget.ui:124
+#, kde-format
+msgid "S&unken"
+msgstr "&Hondoratuta"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygenframedemowidget.ui:147
+#, kde-format
+msgid "GroupBox"
+msgstr "Talde-koadroa"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
+#: ui/oxygenframedemowidget.ui:153
+#, kde-format
+msgctxt "Flat group box. No frame is actually drawn"
+msgid "Flat"
+msgstr "Laua"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ui/oxygenframedemowidget.ui:180
+#, kde-format
+msgid "Tab Widget"
+msgstr "Fitxa-trepeta"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygeninputdemowidget.ui:29
+#, kde-format
+msgid "Single line text editor:"
+msgstr "Lerro bakarreko testu-editorea:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygeninputdemowidget.ui:65
+#, kde-format
+msgid "Password editor:"
+msgstr "Pasahitz-editorea:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygeninputdemowidget.ui:88
+#, kde-format
+msgid "Editable combobox"
+msgstr "Konbinazio-koadro editagarria"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:105
+#, kde-format
+msgid "First item"
+msgstr "Lehenengo elementua"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:110
+#, kde-format
+msgid "Second item"
+msgstr "Bigarren elementua"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
+#: ui/oxygeninputdemowidget.ui:115
+#, kde-format
+msgid "Third item"
+msgstr "Hirugarren elementua"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygeninputdemowidget.ui:123
+#, kde-format
+msgid "Spinbox:"
+msgstr "Biratze-botoia:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: ui/oxygeninputdemowidget.ui:146
+#, kde-format
+msgid "Multi-line text editor:"
+msgstr "Lerro askoko testu-editorea:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
+#: ui/oxygeninputdemowidget.ui:153
+#, kde-format
+msgid "Wrap words"
+msgstr "Egokitu hitzak ertzean"
+
+#. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
+#: ui/oxygeninputdemowidget.ui:160
+#, kde-format
+msgid "Use flat widgets"
+msgstr "Erabili trepeta lauak"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:40 ui/oxygenlistdemowidget.ui:119
+#, kde-format
+msgid "First Item"
+msgstr "Lehenengo elementua"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:48 ui/oxygenlistdemowidget.ui:95
+#, kde-format
+msgid "Second Item"
+msgstr "Bigarren elementua"
+
+#. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:56 ui/oxygenlistdemowidget.ui:79
+#, kde-format
+msgid "Third Item"
+msgstr "Hirugarren elementua"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:69
+#, kde-format
+msgid "Title"
+msgstr "Titulua"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:74
+#, kde-format
+msgid "Description"
+msgstr "Deskribapena"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:82
+#, kde-format
+msgid "Third Description"
+msgstr "Hirugarren deskribapena"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:86
+#, kde-format
+msgid "Third Subitem"
+msgstr "Hirugarren azpielementua"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:89
+#, kde-format
+msgid "Third Subitem Description"
+msgstr "Hirugarren azpielementuaren azalpena"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:98
+#, kde-format
+msgid "Second Description"
+msgstr "Bigarren azalpena"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:102
+#, kde-format
+msgid "Second Subitem"
+msgstr "Bigarren azpielementua"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:105
+#, kde-format
+msgid "Second Subitem Description"
+msgstr "Bigarren azpielementuaren azalpena"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:110
+#, kde-format
+msgid "First Subitem"
+msgstr "Lehenengo azpielementua"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:113
+#, kde-format
+msgid "First Subitem Description"
+msgstr "Lehenengo azpielementuaren azalpena"
+
+#. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
+#: ui/oxygenlistdemowidget.ui:122
+#, kde-format
+msgid "First Description"
+msgstr "Lehenengo deskribapena"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:132
+#, kde-format
+msgid "New Row"
+msgstr "Errenkada berria"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:137
+#, kde-format
+msgid "First Row"
+msgstr "Lehen errenkada"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:142
+#, kde-format
+msgid "Third Row"
+msgstr "Hirugarren errenkada"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:147
+#, kde-format
+msgid "First Column"
+msgstr "Lehen zutabea"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:152
+#, kde-format
+msgid "Second Column"
+msgstr "Bigarren zutabea"
+
+#. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:157
+#, kde-format
+msgid "Third Column"
+msgstr "Hirugarren zutabea"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:162
+#, kde-format
+msgid "Top-left"
+msgstr "Goian ezkerrean"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:167
+#, kde-format
+msgid "Top"
+msgstr "Goian"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:172
+#, kde-format
+msgid "Top-right"
+msgstr "Goian eskuinean"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:177
+#, kde-format
+msgid "Left "
+msgstr "Ezkerrean"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:182
+#, kde-format
+msgid "Center"
+msgstr "Erdian"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:187
+#, kde-format
+msgid "Right"
+msgstr "Eskuinean"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:192
+#, kde-format
+msgid "Bottom-left"
+msgstr "Behean ezkerrean"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:197
+#, kde-format
+msgid "Bottom"
+msgstr "Behean"
+
+#. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
+#: ui/oxygenlistdemowidget.ui:202
+#, kde-format
+msgid "Bottom-right"
+msgstr "Behean eskuinean"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Editors)
+#: ui/oxygenmdidemowidget.ui:45
+#, kde-format
+msgid "Editors"
+msgstr "Editoreak"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygenmdidemowidget.ui:51
+#, kde-format
+msgid "Title:"
+msgstr "Titulua:"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Toolbox)
+#: ui/oxygenmdidemowidget.ui:78
+#, kde-format
+msgid "Toolbox"
+msgstr "Tresna-koadroa"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page)
+#: ui/oxygenmdidemowidget.ui:96
+#, kde-format
+msgid "First Page"
+msgstr "Lehen orria"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_2)
+#: ui/oxygenmdidemowidget.ui:110
+#, kde-format
+msgid "Second Page"
+msgstr "Bigarren orria"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenmdidemowidget.ui:116
+#, kde-format
+msgid "First Label"
+msgstr "Lehenengo etiketa"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenmdidemowidget.ui:123
+#, kde-format
+msgid "Second Label"
+msgstr "Bigarren etiketa"
+
+#. i18n: ectx: attribute (label), widget (QWidget, page_3)
+#: ui/oxygenmdidemowidget.ui:152
+#, kde-format
+msgid "Third Page"
+msgstr "Hirugarren orria"
+
+#. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:29
+#, kde-format
+msgid "Animate Progress Bars"
+msgstr "Animatu aurrerapen-barrak"
+
+#. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
+#: ui/oxygensliderdemowidget.ui:36
+#, kde-format
+msgid "Invert Progress Bars"
+msgstr "Alderantzikatu aurrerapen-barrak"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygensliderdemowidget.ui:43
+#, kde-format
+msgid "Horizontal"
+msgstr "Horizontala"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: ui/oxygensliderdemowidget.ui:120
+#, kde-format
+msgid "Vertical"
+msgstr "Bertikala"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygensliderdemowidget.ui:167
+#, kde-format
+msgid "Sliders tick marks position"
+msgstr "Graduatzaileen tik marken kokalekua"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:178
+#, kde-format
+msgid "No Tick Marks"
+msgstr "Tik markarik ez"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:183
+#, kde-format
+msgid "Tick Marks Above Slider"
+msgstr "Tik markak graduatzailearen gainean"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:188
+#, kde-format
+msgid "Tick Marks Below Slider"
+msgstr "Tik markak graduatzailearen azpian"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
+#: ui/oxygensliderdemowidget.ui:193
+#, kde-format
+msgid "Tick Marks On Both Sides"
+msgstr "Tik markak bi aldeetan"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ui/oxygentabdemowidget.ui:31
+#, kde-format
+msgid "&Tab position:"
+msgstr "&Fitxen kokalekua:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:45
+#, kde-format
+msgid "North"
+msgstr "Iparraldea"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:50
+#, kde-format
+msgid "South"
+msgstr "Hegoaldea"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:55
+#, kde-format
+msgid "West"
+msgstr "Mendebaldea"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
+#: ui/oxygentabdemowidget.ui:60
+#, kde-format
+msgid "East"
+msgstr "Ekialdea"
+
+#. i18n: ectx: property (text), widget (QCheckBox, documentModeCheckBox)
+#: ui/oxygentabdemowidget.ui:115
+#, kde-format
+msgid "Document mode"
+msgstr "Dokumentu modua"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
+#: ui/oxygentabdemowidget.ui:122
+#, kde-format
+msgid "Show Corner Buttons"
+msgstr "Erakutsi izkinako botoiak"
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
+#: ui/oxygentabdemowidget.ui:129
+#, kde-format
+msgid "Show Tab Close Buttons"
+msgstr "Erakutsi fitxak ixteko botoiak"
+
+#. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
+#: ui/oxygentabdemowidget.ui:136
+#, kde-format
+msgid "Hide tabbar"
+msgstr "Ezkutatu fitxa-barra"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ui/oxygentabdemowidget.ui:143
+#, kde-format
+msgid "Preview"
+msgstr "Aurrebista"
 
 #~ msgid "&Color Theme"
 #~ msgstr "&Kolore gaia"
