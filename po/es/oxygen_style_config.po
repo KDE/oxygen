@@ -1,15 +1,15 @@
 # Spanish translations for oxygen_style_config.po package.
-# Copyright (C) 2014 This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Copyright (C) 2014-2025 This file is copyright:
+# This file is distributed under the same license as the oxygen package.
 # Automatically generated, 2014.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2014, 2017, 2022.
+#
+# SPDX-FileCopyrightText: 2014, 2017, 2022, 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-05 05:54+0000\n"
-"PO-Revision-Date: 2022-02-07 11:48+0100\n"
+"PO-Revision-Date: 2025-07-07 17:18+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -395,75 +395,3 @@ msgstr "&Usar el color de selección (plano)"
 #, kde-format
 msgid "Use selec&tion color (subtle)"
 msgstr "Usar el color de selección (&tenue)"
-
-#~ msgid "Always Hide Keyboard Accelerators"
-#~ msgstr "Ocultar siempre los aceleradores de teclado"
-
-#~ msgid "Show Keyboard Accelerators When Needed"
-#~ msgstr "Mostrar los aceleradores de teclado cuando sea necesario"
-
-#~ msgid "Always Show Keyboard Accelerators"
-#~ msgstr "Mostrar siempre los aceleradores de teclado"
-
-#~ msgid "Widget Style"
-#~ msgstr "Estilo de los elementos gráficos"
-
-#~ msgid "Modify the appearance of widgets"
-#~ msgstr "Modificar el aspecto de los elementos gráficos"
-
-#~ msgid "Window Decorations"
-#~ msgstr "Decoraciones de ventanas"
-
-#~ msgid "Modify the appearance of window decorations"
-#~ msgstr "Modificar el aspecto de las decoraciones de las ventanas"
-
-#~ msgid "Unable to find oxygen style configuration plugin"
-#~ msgstr ""
-#~ "No ha sido posible encontrar el complemento de configuración del estilo "
-#~ "de Oxígeno"
-
-#~ msgid "Unable to find oxygen decoration configuration plugin"
-#~ msgstr ""
-#~ "No ha sido posible encontrar el complemento de configuración de la "
-#~ "decoración de Oxígeno"
-
-#~ msgid "Hide Advanced Configuration Options"
-#~ msgstr "Ocultar las opciones de configuración avanzadas"
-
-#~ msgid "Show Advanced Configuration Options"
-#~ msgstr "Mostrar las opciones de configuración avanzadas"
-
-#~ msgid "Enable animations"
-#~ msgstr "Activar animaciones"
-
-#~ msgid "Enable pixmap cache"
-#~ msgstr "Activar caché de mapas de píxeles"
-
-#~ msgid "Busy indicator steps"
-#~ msgstr "Pasos del indicador de ocupado"
-
-#~ msgid "Use 'X' in checkboxes instead of check"
-#~ msgstr "Usar «X» en lugar de marcas en las casillas de verificación"
-
-#~ msgid "Use window manager to perform windows' drag"
-#~ msgstr "Usar el gestor de ventanas para realizar el arrastre de ventanas"
-
-#~ msgid "Use triangle tree expander instead of +/-"
-#~ msgstr "Usar triángulos para expandir árboles en lugar de +/-"
-
-#~ msgid "Triangle si&ze:"
-#~ msgstr "Ta&maño del triángulo:"
-
-#~ msgid "Tabs"
-#~ msgstr "Pestañas"
-
-#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
-#~ msgid "Single"
-#~ msgstr "Sencillo"
-
-#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
-#~ msgid "Plain"
-#~ msgstr "Plano"
-
-#~ msgid "Inactive tabs style:"
-#~ msgstr "Estilo de las pestañas inactivas:"
