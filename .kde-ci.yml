@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 Dependencies:
- - 'on': ['Linux/Qt5', 'FreeBSD/Qt5']
+ - 'on': ['Linux/Qt5']
    'require':
     'frameworks/extra-cmake-modules': '@latest'
     'frameworks/frameworkintegration': '@latest'
