@@ -1,14 +1,14 @@
 # Copyright (C) 2014 This_file_is_part_of_KDE
 # This file is distributed under the same license as the KDE-Workspace package.
-#
 # os_ <osmakh@linuxmail.org>, 2014.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2022.
+# SPDX-FileCopyrightText: 2021, 2022, 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:39+0000\n"
-"PO-Revision-Date: 2022-01-19 22:14+0400\n"
+"PO-Revision-Date: 2025-08-03 12:11+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #: main.cpp:37 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -869,31 +870,31 @@ msgstr "عمودي"
 #: ui/oxygensliderdemowidget.ui:167
 #, kde-format
 msgid "Sliders tick marks position"
-msgstr "موضع علامات التجزئة للمنزلقة"
+msgstr "موضع علامات الاختيار للمنزلقة"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:178
 #, kde-format
 msgid "No Tick Marks"
-msgstr "بدون علامات التجزئة"
+msgstr "بلا علامات اختيار"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:183
 #, kde-format
 msgid "Tick Marks Above Slider"
-msgstr "علامات التجزئة فوق المنزلقة"
+msgstr "علامات الاختيار فوق المنزلقة"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:188
 #, kde-format
 msgid "Tick Marks Below Slider"
-msgstr "علامات التجزئة تحت المنزلقة"
+msgstr "علامات الاختيار تحت المنزلقة"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:193
 #, kde-format
 msgid "Tick Marks On Both Sides"
-msgstr "علامات التجزئة على الجهتين"
+msgstr "علامات الاختيار على الجهتين"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
