@@ -262,7 +262,7 @@ msgstr "Títol: "
 #: config/ui/oxygendetectwidget.ui:63
 #, kde-format
 msgid "Window Property Selection"
-msgstr "Seleccioneu les propietats de la finestra"
+msgstr "Trieu les propietats de la finestra"
 
 #. i18n: ectx: property (text), widget (QRadioButton, windowClassCheckBox)
 #: config/ui/oxygendetectwidget.ui:69

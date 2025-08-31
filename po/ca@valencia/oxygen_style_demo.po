@@ -205,12 +205,12 @@ msgstr "Eines"
 #: oxygenmdidemowidget.cpp:41
 #, kde-format
 msgid "Select Next Window"
-msgstr "Selecciona la finestra següent"
+msgstr "Tria la finestra següent"
 
 #: oxygenmdidemowidget.cpp:48
 #, kde-format
 msgid "Select Previous Window"
-msgstr "Selecciona la finestra anterior"
+msgstr "Tria la finestra anterior"
 
 #: oxygensimulator.h:72
 #, kde-format
@@ -220,7 +220,7 @@ msgstr "Este és un text d'exemple"
 #: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
-msgstr "Selecciona l'estil de giny de l'aplicació"
+msgstr "Tria l'estil de giny de l'aplicació"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbenchmarkwidget.ui:29
@@ -232,7 +232,7 @@ msgstr "Mòduls"
 #: ui/oxygenbenchmarkwidget.ui:35
 #, kde-format
 msgid "Select below the modules for which you want to run the simulation:"
-msgstr "Seleccioneu els mòduls per als quals voleu executar la simulació:"
+msgstr "Trieu els mòduls per als quals voleu executar la simulació:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygenbenchmarkwidget.ui:48
