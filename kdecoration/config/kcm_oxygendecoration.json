@@ -37,7 +37,6 @@
         "Description[sv]": "Ändra utseende på fönsterdekorationer",
         "Description[tr]": "Pencere dekorasyonlarının görünüşünü değiştir",
         "Description[uk]": "Внесення змін до обрамлення вікон",
-        "Description[x-test]": "xxModify the appearance of window decorationsxx",
         "Description[zh_CN]": "调整窗口装饰外观",
         "Description[zh_TW]": "修改視窗裝飾的外觀",
         "Icon": "preferences-system-windows",
@@ -78,7 +77,6 @@
         "Name[sv]": "Oxygen-fönsterdekoration",
         "Name[tr]": "Oksijen Pencere Dekorasyonu",
         "Name[uk]": "Декорації вікон Oxygen",
-        "Name[x-test]": "xxOxygen Window Decorationxx",
         "Name[zh_CN]": "Oxygen 轻氧窗口装饰",
         "Name[zh_TW]": "Oxygen 視窗裝飾"
     },
@@ -115,7 +113,6 @@
     "X-KDE-Keywords[sv]": "oxygen,dekoration",
     "X-KDE-Keywords[tr]": "oksijen,oxygen,dekorasyon",
     "X-KDE-Keywords[uk]": "oxygen,decoration,декорація,обрамлення",
-    "X-KDE-Keywords[x-test]": "xxoxygenxx,xxdecorationxx",
     "X-KDE-Keywords[zh_CN]": "oxygen,decoration,qingyang,yangqi,zhuangshi,轻氧,氧气,装饰",
     "X-KDE-Keywords[zh_TW]": "oxygen,裝飾"
 }
