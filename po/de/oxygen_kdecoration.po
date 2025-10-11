@@ -1,5 +1,5 @@
-# Frederik Schwarzer <schwarzer@kde.org>, 2014, 2016.
-# Burkhard Lück <lueck@hube-lueck.de>, 2014, 2015, 2018, 2021.
+# SPDX-FileCopyrightText: 2014, 2016 Frederik Schwarzer <schwarzer@kde.org>
+# SPDX-FileCopyrightText: 2014, 2015, 2018, 2021 Burkhard Lück <lueck@hube-lueck.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_kdecoration\n"
