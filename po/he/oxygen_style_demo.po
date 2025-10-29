@@ -6,25 +6,26 @@
 # Meni Livne <livne@kde.org>, 2007.
 # elkana bardugo <ttv200@gmail.com>, 2016.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
+# SPDX-FileCopyrightText: 2025 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_demo\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-05 05:54+0000\n"
-"PO-Revision-Date: 2017-05-16 06:54-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2025-10-28 15:23+0200\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Lokalize 25.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: main.cpp:38 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
 msgid "Oxygen Demo"
-msgstr "הדגמה של Oxygen"
+msgstr "הדגמה של חמצן"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton)
@@ -56,13 +57,13 @@ msgstr "חדש"
 #: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
 #, kde-format
 msgid "Open"
-msgstr "פתח"
+msgstr "פתיחה"
 
 #: oxygenbuttondemowidget.cpp:38 oxygenbuttondemowidget.cpp:57
 #: oxygenbuttondemowidget.cpp:232 oxygenbuttondemowidget.cpp:242
 #, kde-format
 msgid "Save"
-msgstr "שמור"
+msgstr "שמירה"
 
 #: oxygenbuttondemowidget.cpp:58
 #, kde-format
@@ -77,7 +78,7 @@ msgstr "מופעל"
 #: oxygendemodialog.cpp:60
 #, kde-format
 msgid "Right to left layout"
-msgstr "מצג ימין לשמאל"
+msgstr "פריסה מימין לשמאל"
 
 #: oxygendemodialog.cpp:66
 #, kde-format
@@ -87,7 +88,7 @@ msgstr ""
 #: oxygendemodialog.cpp:87
 #, kde-format
 msgid "Input Widgets"
-msgstr "פקדים קלט"
+msgstr "פקדי קלט"
 
 #: oxygendemodialog.cpp:89
 #, kde-format
@@ -112,7 +113,7 @@ msgstr "כפתורים"
 #: oxygendemodialog.cpp:109
 #, kde-format
 msgid "Shows the appearance of buttons"
-msgstr "מציג את התצוגה של כפתורים"
+msgstr "מציג איך נראים כפתורים"
 
 #: oxygendemodialog.cpp:117
 #, kde-format
@@ -122,7 +123,7 @@ msgstr "רשימות"
 #: oxygendemodialog.cpp:119
 #, kde-format
 msgid "Shows the appearance of lists, trees and tables"
-msgstr "מציג את התצוגה של פקדי רשימות, עצים וטבלאות"
+msgstr "מציג איך נראים פקדי רשימות, עצים וטבלאות"
 
 #: oxygendemodialog.cpp:127
 #, kde-format
@@ -853,9 +854,9 @@ msgstr "הנפש פסי התקדמות"
 
 #. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:36
-#, fuzzy, kde-format
+#, kde-format
 msgid "Invert Progress Bars"
-msgstr "הנפש פסי התקדמות"
+msgstr "היפוך פסי התקדמות"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygensliderdemowidget.ui:43
@@ -901,9 +902,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Tab position:"
-msgstr "מיקום הכרטיסיות:"
+msgstr "מקום &לשונית:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:45
@@ -943,9 +944,9 @@ msgstr "הצג כפתורים בפינה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
 #: ui/oxygentabdemowidget.ui:129
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show Tab Close Buttons"
-msgstr "הצג כפתורים בפינה"
+msgstr "הצגת כפתורי סגירת לשוניות"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
 #: ui/oxygentabdemowidget.ui:136
