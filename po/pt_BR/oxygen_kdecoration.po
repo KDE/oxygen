@@ -4,20 +4,21 @@
 #
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2014, 2015, 2016.
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018.
+# SPDX-FileCopyrightText: 2025 Guilherme Marçal Silva <guimarcalsilva@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_kdecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-20 00:41+0000\n"
-"PO-Revision-Date: 2018-02-21 10:20-0300\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
+"PO-Revision-Date: 2025-11-16 02:49-0300\n"
+"Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
@@ -42,8 +43,8 @@ msgid ""
 "Configure fading between window shadow and glow when window's active state "
 "is changed"
 msgstr ""
-"Configura a transição com desaparecimento gradual entre a sombra e o brilho "
-"de uma janela, quando o estado de atividade é alterado"
+"Configura a transição com esmaecimento gradual entre a sombra e o brilho de "
+"uma janela, quando o estado de atividade é alterado"
 
 #: config/oxygenexceptionlistwidget.cpp:87
 #, kde-format
