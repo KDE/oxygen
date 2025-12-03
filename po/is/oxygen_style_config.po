@@ -1,19 +1,19 @@
 # translation of kstyle_config.po to Icelandic
 #
-# Sveinn í Felli <sveinki@nett.is>, 2009, 2010, 2011.
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2025 Sveinn í Felli <sveinki@nett.is>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2011-08-16 16:05+0000\n"
-"Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
-"Language-Team: Icelandic <kde-isl@molar.is>\n"
+"PO-Revision-Date: 2025-12-02 17:33+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
 "\n"
 "\n"
@@ -23,12 +23,12 @@ msgstr ""
 #: main.cpp:24 main.cpp:28
 #, kde-format
 msgid "Oxygen Settings"
-msgstr ""
+msgstr "Stillingar Oxygen"
 
 #: oxygenanimationconfigwidget.cpp:33
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
-msgstr ""
+msgstr "Fókus, yfirsvif bendils og millifærslur á stöðu viðmótshluta"
 
 #: oxygenanimationconfigwidget.cpp:34
 #, kde-format
@@ -38,10 +38,9 @@ msgid ""
 msgstr ""
 
 #: oxygenanimationconfigwidget.cpp:38
-#, fuzzy, kde-format
-#| msgid "Menu Highlight"
+#, kde-format
 msgid "Toolbar highlight"
-msgstr "Áherslustrikun valmynda"
+msgstr "Áherslulitun verkfærastiku"
 
 #: oxygenanimationconfigwidget.cpp:38
 #, fuzzy, kde-format
@@ -50,10 +49,9 @@ msgid "Configure toolbars' mouseover highlight animation"
 msgstr "Virkja hreyfingar"
 
 #: oxygenanimationconfigwidget.cpp:43
-#, fuzzy, kde-format
-#| msgid "Menu Highlight"
+#, kde-format
 msgid "Menu bar highlight"
-msgstr "Áherslustrikun valmynda"
+msgstr "Áherslulitun valmyndastiku"
 
 #: oxygenanimationconfigwidget.cpp:43
 #, fuzzy, kde-format
@@ -62,10 +60,9 @@ msgid "Configure menu bars' mouseover highlight animation"
 msgstr "Virkja hreyfingar"
 
 #: oxygenanimationconfigwidget.cpp:46
-#, fuzzy, kde-format
-#| msgid "Menu Highlight"
+#, kde-format
 msgid "Menu highlight"
-msgstr "Áherslustrikun valmynda"
+msgstr "Áherslulitun valmynda"
 
 #: oxygenanimationconfigwidget.cpp:46
 #, fuzzy, kde-format
@@ -74,10 +71,9 @@ msgid "Configure menus' mouseover highlight animation"
 msgstr "Virkja hreyfingar"
 
 #: oxygenanimationconfigwidget.cpp:49
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Progress bar animation"
-msgstr "Virkja hreyfingar"
+msgstr "Myndlífgun framvindustiku"
 
 #: oxygenanimationconfigwidget.cpp:49
 #, fuzzy, kde-format
@@ -86,49 +82,45 @@ msgid "Configure progress bars' steps animation"
 msgstr "Virkja hreyfingar"
 
 #: oxygenanimationconfigwidget.cpp:52
-#, fuzzy, kde-format
-#| msgid "Animate tab transitions"
+#, kde-format
 msgid "Tab transitions"
-msgstr "Virkja hreyfingar flipa"
+msgstr "Millifærslur flipa"
 
 #: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Configure fading transition between tabs"
-msgstr ""
+msgstr "Stilla dofnandi millifærslu á milli flipa"
 
 #: oxygenanimationconfigwidget.cpp:56
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Label transitions"
-msgstr "Virkja hreyfingar"
+msgstr "Millifærslur merkinga"
 
 #: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
-msgstr ""
+msgstr "Stilla dofnandi millifærslu þegar texta merkinga er breytt"
 
 #: oxygenanimationconfigwidget.cpp:60
-#, fuzzy, kde-format
-#| msgid "Animate tab transitions"
+#, kde-format
 msgid "Text editor transitions"
-msgstr "Virkja hreyfingar flipa"
+msgstr "Millifærslur textaritils"
 
 #: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
-msgstr ""
+msgstr "Stilla dofnandi millifærslu þegar texta ritils er breytt"
 
 #: oxygenanimationconfigwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid "Animate tab transitions"
+#, kde-format
 msgid "Combo box transitions"
-msgstr "Virkja hreyfingar flipa"
+msgstr "Millifærslur fjölvalsreita"
 
 #: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
-msgstr ""
+msgstr "Stilla dofnandi millifærslu þegar valkosti í fjölvalsreit er breytt"
 
 #: oxygenanimationconfigwidget.cpp:76
 #, fuzzy, kde-format
@@ -143,40 +135,39 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Frame"
 msgstr "Rammi"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:32
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Animation type:"
-msgstr "Virkja hreyfingar"
+msgstr "Gerð myndhreyfinga:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "Fade"
-msgstr "Þynna út"
+msgstr "Deyfa út"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:51
 #, kde-format
 msgid "Follow Mouse"
-msgstr ""
+msgstr "Fylgja mús"
 
 #. i18n: ectx: property (text), widget (QLabel, durationLabel)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:59
 #, kde-format
 msgid "Fade duration:"
-msgstr ""
+msgstr "Tímalengd deyfingar:"
 
 #. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:72
 #, kde-format
 msgid "Follow mouse duration:"
-msgstr ""
+msgstr "Tímalengd við að fylgja mús:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
 #. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
@@ -184,7 +175,7 @@ msgstr ""
 #: ui/oxygenfollowmouseanimationconfigbox.ui:114
 #, kde-format
 msgid " ms"
-msgstr ""
+msgstr " ms"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
 #: ui/oxygenstyleconfig.ui:26
@@ -202,75 +193,73 @@ msgstr "Almennt"
 #: ui/oxygenstyleconfig.ui:52
 #, kde-format
 msgid "Drag windows from titlebar only"
-msgstr ""
+msgstr "Draga glugga eingöngu frá titilstiku"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
 #: ui/oxygenstyleconfig.ui:57
 #, kde-format
 msgid "Drag windows from titlebar, menubar and toolbars"
-msgstr ""
+msgstr "Draga glugga frá titilstiku, valmyndastiku og tækjastikum"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _windowDragMode)
 #: ui/oxygenstyleconfig.ui:62
 #, kde-format
 msgid "Drag windows from all empty areas"
-msgstr ""
+msgstr "Draga glugga frá öllum auðum svæðum"
 
 #. i18n: ectx: property (text), widget (QLabel, _mnemonicsLabel)
 #: ui/oxygenstyleconfig.ui:70
-#, fuzzy, kde-format
-#| msgid "Draw toolbar item separators"
+#, kde-format
 msgid "Keyboard accelerators visibility:"
-msgstr "Teikna aðskiljara á innihald tækjasláar"
+msgstr "Sýnileiki flýtilykla:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:84
 #, kde-format
 msgid "Always hide"
-msgstr ""
+msgstr "Alltaf fela"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:89
 #, kde-format
 msgid "Show when Alt key is pressed"
-msgstr ""
+msgstr "Birta þegar ýtt er á Alt-lykil"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:94
 #, kde-format
 msgid "Always show"
-msgstr ""
+msgstr "Alltaf birta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenstyleconfig.ui:108
 #, kde-format
 msgid "Windows' &drag mode:"
-msgstr ""
+msgstr "&Dráttarhamur glugga:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
 #: ui/oxygenstyleconfig.ui:134
 #, kde-format
 msgid "Draw toolbar item separators"
-msgstr "Teikna aðskiljara á innihald tækjasláar"
+msgstr "Teikna skiltákn á milli atriða í verkstiku"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
 #: ui/oxygenstyleconfig.ui:141
 #, kde-format
 msgid "Enable extended resize handles"
-msgstr ""
+msgstr "Virkja stærri handföng til að breyta stærð"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
 #: ui/oxygenstyleconfig.ui:148
 #, kde-format
 msgid "Draw window background gradient"
-msgstr ""
+msgstr "Teikna litstigul á bakgrunn glugga"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ui/oxygenstyleconfig.ui:169
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Animations"
-msgstr "Virkja hreyfingar"
+msgstr "Myndhrefingar"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ui/oxygenstyleconfig.ui:179
@@ -282,41 +271,40 @@ msgstr "Sýnir"
 #: ui/oxygenstyleconfig.ui:185
 #, kde-format
 msgid "Draw tree branch lines"
-msgstr "Sýna tré og greinar."
+msgstr "Sýna greinar og kvíslar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ui/oxygenstyleconfig.ui:198
 #, kde-format
 msgid "&Tree expander size:"
-msgstr ""
+msgstr "S&tærð útþenjara greina"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:209
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "triangle size"
 msgid "Tiny"
-msgstr "Örsmátt"
+msgstr "Örlítið"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:214
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "triangle size"
 msgid "Small"
-msgstr "Lítil"
+msgstr "Lítið"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:219
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "triangle size"
 msgid "Normal"
 msgstr "Venjulegt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
 #: ui/oxygenstyleconfig.ui:256
-#, fuzzy, kde-format
-#| msgid "Draw focus indicator"
+#, kde-format
 msgid "Draw focus indicator in lists"
-msgstr "Sýna merki um fókus"
+msgstr "Teikna fókusvísa í listum"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: ui/oxygenstyleconfig.ui:264
@@ -326,54 +314,53 @@ msgstr "Skrunslár"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenstyleconfig.ui:272
-#, fuzzy, kde-format
-#| msgid "Scrollbars"
+#, kde-format
 msgid "Scrollbar wi&dth:"
-msgstr "Skrunslár"
+msgstr "Brei&dd skrunslár:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
 #: ui/oxygenstyleconfig.ui:310
 #, kde-format
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ui/oxygenstyleconfig.ui:340
 #, kde-format
 msgid "Top arrow button type:"
-msgstr ""
+msgstr "Hnappagerð fyrir efri ör:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ui/oxygenstyleconfig.ui:350
 #, kde-format
 msgid "Bottom arrow button type:"
-msgstr ""
+msgstr "Hna&ppagerð fyrir neðri ör:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #: ui/oxygenstyleconfig.ui:361
-#, fuzzy, kde-format
+#, kde-format
 msgid "No buttons"
-msgstr "Neðst"
+msgstr "Engir hnappar"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
 #: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
-#, fuzzy, kde-format
+#, kde-format
 msgid "One button"
-msgstr "Neðst"
+msgstr "Einn hnappur"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
 #: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
-#, fuzzy, kde-format
+#, kde-format
 msgid "Two buttons"
-msgstr "Neðst"
+msgstr "Tveir hnappar"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
 #: ui/oxygenstyleconfig.ui:393
-#, fuzzy, kde-format
+#, kde-format
 msgid "No button"
-msgstr "Neðst"
+msgstr "Enginn hnappur"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: ui/oxygenstyleconfig.ui:427
@@ -383,24 +370,21 @@ msgstr "Áherslustrikun valmynda"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
 #: ui/oxygenstyleconfig.ui:433
-#, fuzzy, kde-format
-#| msgid "Use selection color"
+#, kde-format
 msgid "Use dar&k color"
-msgstr "Nota lit úr vali"
+msgstr "Nota dö&kkan lit"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
 #: ui/oxygenstyleconfig.ui:440
-#, fuzzy, kde-format
-#| msgid "Use selection color"
+#, kde-format
 msgid "&Use selection color (plain)"
-msgstr "Nota lit úr vali"
+msgstr "Nota lit úr vali (venjulegt)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
 #: ui/oxygenstyleconfig.ui:447
-#, fuzzy, kde-format
-#| msgid "Use selection color"
+#, kde-format
 msgid "Use selec&tion color (subtle)"
-msgstr "Nota lit úr vali"
+msgstr "Nota lit úr vali (hógvært)"
 
 #, fuzzy
 #~| msgid "Draw toolbar item separators"
