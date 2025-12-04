@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2025-12-02 17:33+0000\n"
+"PO-Revision-Date: 2025-12-03 08:37+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -36,6 +36,8 @@ msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
 "widget enabled/disabled state transition"
 msgstr ""
+"Stillavirkni viðmótshluta og áherslulitun myndlífgunar við yfirsvif bendils, "
+"auk millifærslna á stöðu virkt/óvirkt í viðmótshlutum"
 
 #: oxygenanimationconfigwidget.cpp:38
 #, kde-format
@@ -43,10 +45,9 @@ msgid "Toolbar highlight"
 msgstr "Áherslulitun verkfærastiku"
 
 #: oxygenanimationconfigwidget.cpp:38
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
-msgstr "Virkja hreyfingar"
+msgstr "Stilla áherslulitun myndlífgunar við yfirsvif bendils á verkfærastiku"
 
 #: oxygenanimationconfigwidget.cpp:43
 #, kde-format
@@ -54,10 +55,9 @@ msgid "Menu bar highlight"
 msgstr "Áherslulitun valmyndastiku"
 
 #: oxygenanimationconfigwidget.cpp:43
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
-msgstr "Virkja hreyfingar"
+msgstr "Stilla áherslulitun myndlífgunar við yfirsvif bendils á valmyndastiku"
 
 #: oxygenanimationconfigwidget.cpp:46
 #, kde-format
@@ -65,10 +65,9 @@ msgid "Menu highlight"
 msgstr "Áherslulitun valmynda"
 
 #: oxygenanimationconfigwidget.cpp:46
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Configure menus' mouseover highlight animation"
-msgstr "Virkja hreyfingar"
+msgstr "Stilla áherslulitun myndlífgunar við yfirsvif bendils á valmyndum"
 
 #: oxygenanimationconfigwidget.cpp:49
 #, kde-format
@@ -76,10 +75,9 @@ msgid "Progress bar animation"
 msgstr "Myndlífgun framvindustiku"
 
 #: oxygenanimationconfigwidget.cpp:49
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Configure progress bars' steps animation"
-msgstr "Virkja hreyfingar"
+msgstr "Stilla myndlífgun þrepa í framvindustiku"
 
 #: oxygenanimationconfigwidget.cpp:52
 #, kde-format
@@ -123,15 +121,14 @@ msgid ""
 msgstr "Stilla dofnandi millifærslu þegar valkosti í fjölvalsreit er breytt"
 
 #: oxygenanimationconfigwidget.cpp:76
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Progress bar busy indicator"
-msgstr "Virkja hreyfingar"
+msgstr "Myndlífgun við vinnslu í framvindustiku"
 
 #: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
-msgstr ""
+msgstr "Stilla myndlífgun við vinnslu í framvindustiku"
 
 #. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:20
