@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 project(oxygen)
-set(PROJECT_VERSION "6.5.3")
+set(PROJECT_VERSION "6.5.4")
 set(PROJECT_VERSION_MAJOR 6)
 
 include(GenerateExportHeader)
