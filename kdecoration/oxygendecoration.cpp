@@ -178,6 +178,7 @@ bool Decoration::init()
     connect(cl, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Decoration::updateTitleBar);
     connect(cl, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Decoration::setOpaque);
 
+    connect(this, &KDecoration3::Decoration::bordersChanged, this, &Decoration::updateButtonsGeometry);
     connect(cl, &KDecoration3::DecoratedWindow::widthChanged, this, &Decoration::updateButtonsGeometry);
     connect(cl, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Decoration::updateButtonsGeometry);
     connect(cl, &KDecoration3::DecoratedWindow::shadedChanged, this, &Decoration::recalculateBorders);
