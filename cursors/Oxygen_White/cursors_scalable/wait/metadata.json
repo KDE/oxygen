@@ -1,108 +1,126 @@
 [
     {
         "filename": "busy17.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy16.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy15.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy14.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy13.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy12.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy11.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy10.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy9.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy8.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy7.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy6.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy5.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy4.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy3.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy2.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy1.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
     },
     {
         "filename": "busy.svg",
+        "delay": 40,
         "hotspot_x": 16,
         "hotspot_y": 16,
         "nominal_size": 24
