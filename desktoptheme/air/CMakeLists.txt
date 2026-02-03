@@ -28,6 +28,9 @@ plasma_install_desktoptheme_svgs(air SUBPATH translucent/widgets FILES ${translu
 FILE(GLOB translucent_dialogs translucent/dialogs/*.svg)
 plasma_install_desktoptheme_svgs(air SUBPATH translucent/dialogs FILES ${translucent_dialogs})
 
+FILE(GLOB solid_widgets solid/widgets/*.svg)
+plasma_install_desktoptheme_svgs(air SUBPATH solid/widgets FILES ${solid_widgets})
+
 FILE(GLOB icons icons/*.svg)
 plasma_install_desktoptheme_svgs(air SUBPATH icons FILES ${icons})
 

@@ -22,3 +22,5 @@ plasma_install_desktoptheme_svgs(oxygen SUBPATH opaque/widgets FILES ${opaque})
 FILE(GLOB opaque opaque/dialogs/*.svg)
 plasma_install_desktoptheme_svgs(oxygen SUBPATH opaque/dialogs FILES ${opaque})
 
+FILE(GLOB solid_widgets solid/widgets/*.svg)
+plasma_install_desktoptheme_svgs(oxygen SUBPATH solid/widgets FILES ${solid_widgets})
