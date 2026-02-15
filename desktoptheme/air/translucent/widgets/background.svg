@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="115.25841"
-     inkscape:cy="138.94648"
+     inkscape:zoom="2"
+     inkscape:cx="179.5"
+     inkscape:cy="29.5"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -61,7 +61,14 @@
        units="px" />
   </sodipodi:namedview>
   <defs
-     id="defs3644" />
+     id="defs3644">
+    <rect
+       x="173"
+       y="-41.24255"
+       width="65"
+       height="40"
+       id="rect1" />
+  </defs>
   <metadata
      id="metadata3647">
     <rdf:RDF>
@@ -897,5 +904,33 @@
        width="5"
        id="hint-stretch-borders"
        style="opacity:0.875;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       transform="translate(7,26.24255)"
+       id="text1"
+       style="font-size:26.6667px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono';writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect1);display:inline;opacity:1;fill:#1a1a1a;stroke-width:3.78;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.31795" />
+    <text
+       xml:space="preserve"
+       style="font-size:5.33333px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono';writing-mode:lr-tb;direction:ltr;opacity:1;fill:#1a1a1a;stroke-width:3.78;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.31795"
+       x="114.8"
+       y="33.920002"
+       id="text2"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         x="114.8"
+         y="33.920002"
+         style="font-size:5.33333px"><tspan
+   style="font-weight:bold"
+   id="tspan5">Note:</tspan> the mask has to be this way to </tspan><tspan
+         sodipodi:role="line"
+         x="114.8"
+         y="40.586662"
+         style="font-size:5.33333px"
+         id="tspan3">work around smudging the blur effect</tspan><tspan
+         sodipodi:role="line"
+         x="114.8"
+         y="47.253326"
+         style="font-size:5.33333px"
+         id="tspan4">has issues with it.</tspan></text>
   </g>
 </svg>
