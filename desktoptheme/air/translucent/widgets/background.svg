@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="2"
-     inkscape:cx="179.5"
-     inkscape:cy="29.5"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="180.13545"
+     inkscape:cy="65.937708"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -99,71 +99,71 @@
      transform="translate(-7,-26.24255)">
     <g
        id="blurred-mask-top"
-       style="fill:#a9a9a9;opacity:0.8;fill-opacity:1">
+       style="fill:#1a1a1a;opacity:1;fill-opacity:1">
       <path
-         style="opacity:1;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="opacity:1;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
          d="M 167,56.001866 V 69 h 26 V 56.001866 c -0.01,-0.0042 -0.0182,0 -0.028,0 h -25.94397 c -0.01,0 -0.0183,-0.0042 -0.028,0 z"
          id="path870"
          inkscape:connector-curvature="0" />
       <path
          id="path872"
          d="M 167,34.002972 V 55.99986 h 26 V 34.002972 c -0.01,-0.007 -0.0182,0 -0.028,0 h -25.94396 c -0.01,0 -0.0183,-0.007 -0.028,0 z"
-         style="opacity:0;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.69041"
+         style="opacity:0;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.69041"
          inkscape:connector-curvature="0" />
     </g>
     <path
-       style="opacity:0.8;fill:#a9a9a9;fill-opacity:1;stroke:none;stroke-width:0.581378"
+       style="opacity:1;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.581378"
        d="m 167,70.999987 v 26 h 26 v -26 z"
        id="blurred-mask-center"
        inkscape:connector-curvature="0" />
     <g
        id="blurred-mask-topright"
-       style="fill:#a9a9a9;opacity:0.8;fill-opacity:1">
+       style="fill:#1a1a1a;opacity:1;fill-opacity:1">
       <path
          sodipodi:nodetypes="cccccc"
          inkscape:connector-curvature="0"
          id="path896"
          d="m 208,60 c -0.0672,-2.182709 -1.8173,-3.932783 -4,-4 h -9 v 13 h 13 z"
-         style="opacity:1;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+         style="opacity:1;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          inkscape:connector-curvature="0"
-         style="opacity:0;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.31455"
+         style="opacity:0;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.31455"
          d="M 208,34.003112 V 56 h 22 V 34.003112 c -0.008,-0.007 -0.0154,0 -0.0237,0 h -21.95258 c -0.008,0 -0.0155,-0.007 -0.0237,0 z"
          id="path973" />
     </g>
     <g
        id="blurred-mask-bottom"
-       style="fill:#a9a9a9;opacity:0.8;fill-opacity:1">
+       style="fill:#1a1a1a;opacity:1;fill-opacity:1">
       <path
-         style="opacity:1;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="opacity:1;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
          d="M 193,111.99813 V 99 h -26 v 12.99813 c 0.01,0.004 0.0182,0 0.028,0 h 25.94397 c 0.01,0 0.0183,0.004 0.028,0 z"
          id="path928"
          inkscape:connector-curvature="0" />
       <path
          inkscape:connector-curvature="0"
-         style="opacity:0;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.69041"
+         style="opacity:0;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.69041"
          d="M 167,112.00311 V 134 h 26 v -21.99689 c -0.01,-0.007 -0.0182,0 -0.028,0 h -25.94396 c -0.01,0 -0.0183,-0.007 -0.028,0 z"
          id="path975" />
     </g>
     <g
        id="blurred-mask-left"
-       style="fill:#a9a9a9;opacity:0.8;fill-opacity:1">
+       style="fill:#1a1a1a;opacity:1;fill-opacity:1">
       <path
          inkscape:connector-curvature="0"
          id="path862"
          d="M 152.00187,96.999999 H 165 v -26 h -12.99813 c -0.004,0.0097 0,0.01822 0,0.02801 v 25.943968 c 0,0.0098 -0.004,0.01829 0,0.02802 z"
-         style="opacity:1;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+         style="opacity:1;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          id="path977"
          d="m 130.00187,71.003674 v 25.996323 h 22 V 71.003674 c -0.008,-0.0083 -0.0154,0 -0.0237,0 h -21.95258 c -0.008,0 -0.0155,-0.0083 -0.0237,0 z"
-         style="opacity:0;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.69041"
+         style="opacity:0;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.69041"
          inkscape:connector-curvature="0" />
     </g>
     <g
        id="blurred-mask-topleft"
-       style="fill:#a9a9a9;opacity:0.8;fill-opacity:1">
+       style="fill:#1a1a1a;opacity:1;fill-opacity:1">
       <path
-         style="opacity:1;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="opacity:1;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
          d="m 156,56 c -2.18271,0.0672 -3.93278,1.8173 -4,4 v 9 h 13 V 56 Z"
          id="path888"
          inkscape:connector-curvature="0"
@@ -171,29 +171,29 @@
       <path
          id="path979"
          d="M 130,34.003112 V 56 h 22 V 34.003112 c -0.008,-0.007 -0.0154,0 -0.0237,0 h -21.95258 c -0.008,0 -0.0155,-0.007 -0.0237,0 z"
-         style="opacity:0;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.31455"
+         style="opacity:0;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.31455"
          inkscape:connector-curvature="0" />
     </g>
     <g
        id="blurred-mask-bottomleft"
-       style="fill:#a9a9a9;opacity:0.8;fill-opacity:1">
+       style="fill:#1a1a1a;opacity:1;fill-opacity:1">
       <path
          sodipodi:nodetypes="cccccc"
          inkscape:connector-curvature="0"
          id="path904"
          d="m 156.02802,112 c -2.18271,-0.0672 -3.93278,-1.8173 -4,-4 v -9 h 13 v 13 z"
-         style="opacity:1;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+         style="opacity:1;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          inkscape:connector-curvature="0"
-         style="opacity:0;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.31455"
+         style="opacity:0;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.31455"
          d="M 130,112.00311 V 134 h 22 v -21.99689 c -0.008,-0.007 -0.0154,0 -0.0237,0 h -21.95258 c -0.008,0 -0.0155,-0.007 -0.0237,0 z"
          id="path981" />
     </g>
     <g
        id="blurred-mask-bottomright"
-       style="fill:#a9a9a9;opacity:0.8;fill-opacity:1">
+       style="fill:#1a1a1a;opacity:1;fill-opacity:1">
       <path
-         style="opacity:1;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="opacity:1;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
          d="m 208.02802,108 c -0.0672,2.18271 -1.8173,3.93278 -4,4 h -9 V 99 h 13 z"
          id="path912"
          inkscape:connector-curvature="0"
@@ -201,20 +201,20 @@
       <path
          id="path983"
          d="M 207.99998,112.00311 V 134 h 22 v -21.99689 c -0.008,-0.007 -0.0154,0 -0.0237,0 H 208.0237 c -0.008,0 -0.0155,-0.007 -0.0237,0 z"
-         style="opacity:0;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.31455"
+         style="opacity:0;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.31455"
          inkscape:connector-curvature="0" />
     </g>
     <g
        id="blurred-mask-right"
-       style="fill:#a9a9a9;opacity:0.8;fill-opacity:1">
+       style="fill:#1a1a1a;opacity:1;fill-opacity:1">
       <path
          inkscape:connector-curvature="0"
          id="path920"
          d="M 207.99813,71.000001 H 195 v 26 h 12.99813 c 0.004,-0.0097 0,-0.01822 0,-0.02801 V 71.028023 c 0,-0.0098 0.004,-0.01829 0,-0.02802 z"
-         style="opacity:1;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+         style="opacity:1;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          inkscape:connector-curvature="0"
-         style="opacity:0;fill:#a9a9a9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.69041"
+         style="opacity:0;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.69041"
          d="m 207.99813,71.000003 v 25.996323 h 22 V 71.000003 c -0.008,-0.0083 -0.0154,0 -0.0237,0 h -21.95258 c -0.008,0 -0.0155,-0.0083 -0.0237,0 z"
          id="path985" />
     </g>
@@ -904,33 +904,5 @@
        width="5"
        id="hint-stretch-borders"
        style="opacity:0.875;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    <text
-       xml:space="preserve"
-       transform="translate(7,26.24255)"
-       id="text1"
-       style="font-size:26.6667px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono';writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect1);display:inline;opacity:1;fill:#1a1a1a;stroke-width:3.78;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.31795" />
-    <text
-       xml:space="preserve"
-       style="font-size:5.33333px;font-family:'Adwaita Mono';-inkscape-font-specification:'Adwaita Mono';writing-mode:lr-tb;direction:ltr;opacity:1;fill:#1a1a1a;stroke-width:3.78;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.31795"
-       x="114.8"
-       y="33.920002"
-       id="text2"><tspan
-         sodipodi:role="line"
-         id="tspan2"
-         x="114.8"
-         y="33.920002"
-         style="font-size:5.33333px"><tspan
-   style="font-weight:bold"
-   id="tspan5">Note:</tspan> the mask has to be this way to </tspan><tspan
-         sodipodi:role="line"
-         x="114.8"
-         y="40.586662"
-         style="font-size:5.33333px"
-         id="tspan3">work around smudging the blur effect</tspan><tspan
-         sodipodi:role="line"
-         x="114.8"
-         y="47.253326"
-         style="font-size:5.33333px"
-         id="tspan4">has issues with it.</tspan></text>
   </g>
 </svg>
