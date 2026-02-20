@@ -55,10 +55,9 @@ msgstr "Aga:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
 #: ui/oxygengenericanimationconfigbox.ui:64
-#, fuzzy, kde-format
-#| msgid "ms"
+#, kde-format
 msgid " ms"
-msgstr "ms"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenshadowconfigurationui.ui:23
